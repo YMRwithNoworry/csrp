@@ -1,7 +1,6 @@
 {
-  "itemGroup.csrp": "Example Mod Tab",
+  "itemGroup.csrp": "CSRP",
   "block.csrp.example_block": "Example Block",
-  "item.csrp.example_item": "Example Item",
   "entity.csrp.buglin": "Buglin",
   "item.csrp.buglin_spawn_egg": "Buglin Spawn Egg",
   "effect.csrp.coth": "Call of the Hive",

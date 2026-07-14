@@ -18,6 +18,7 @@ function expect(content, pattern, description) {
 }
 
 const entity = read("src/main/java/alku/csrp/entity/BuglinEntity.java");
+const modEntry = read("src/main/java/alku/csrp/Csrp.java");
 const entities = read("src/main/java/alku/csrp/registry/ModEntities.java");
 const items = read("src/main/java/alku/csrp/registry/ModItems.java");
 const effects = read("src/main/java/alku/csrp/registry/ModMobEffects.java");
@@ -31,6 +32,12 @@ const animations = read("src/main/resources/assets/csrp/animations/buglin.animat
 expect(entities, /register\("buglin"/, "Buglin entity is not registered");
 expect(entities, /sized\(0\.5F,\s*0\.3F\)/, "legacy Buglin dimensions are missing");
 expect(items, /registerItem\(\s*"buglin_spawn_egg"/, "Buglin spawn egg is not registered");
+expect(modEntry, /CREATIVE_MODE_TABS\.register\("csrp_tab"/, "CSRP creative tab is not registered");
+expect(modEntry, /icon\(\(\) -> ModItems\.BUGLIN_SPAWN_EGG\.get\(\)\.getDefaultInstance\(\)\)/,
+        "CSRP creative tab does not use the Buglin spawn egg icon");
+expect(modEntry, /output\.accept\(ModItems\.BUGLIN_SPAWN_EGG\.get\(\)\)/,
+        "CSRP creative tab does not contain the Buglin spawn egg");
+if (/EXAMPLE_ITEM|"example_item"/.test(modEntry)) failures.push("example item is still registered or referenced");
 expect(effects, /register\("coth"/, "COTH contact effect is not registered");
 expect(entity, /MAX_HEALTH,\s*7\.0/, "legacy health is missing");
 expect(entity, /ARMOR,\s*1\.5/, "legacy armor is missing");
