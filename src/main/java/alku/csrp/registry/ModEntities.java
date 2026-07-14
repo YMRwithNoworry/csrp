@@ -2,6 +2,7 @@ package alku.csrp.registry;
 
 import alku.csrp.Csrp;
 import alku.csrp.entity.BuglinEntity;
+import alku.csrp.entity.RupterEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -18,6 +19,12 @@ public final class ModEntities {
                     .sized(0.5F, 0.3F)
                     .clientTrackingRange(8)
                     .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "buglin").toString()));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<RupterEntity>> RUPTER =
+            ENTITIES.register("rupter", () -> EntityType.Builder.of(RupterEntity::new, MobCategory.MONSTER)
+                    .sized(0.85F, 1.0F)
+                    .clientTrackingRange(8)
+                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "rupter").toString()));
 
     private ModEntities() {
     }

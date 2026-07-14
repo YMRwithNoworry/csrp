@@ -1,0 +1,7 @@
+{
+  "parent": "csrp:block/gore_base",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "texture": "csrp:block/tunnel"
+  }
+}

@@ -26,5 +26,38 @@
   "lodo.emerge": {
     "subtitle": "subtitles.csrp.buglin.emerge",
     "sounds": ["csrp:mob/pure/buglin/emerge"]
+  },
+  "rupter.living": {
+    "subtitle": "subtitles.csrp.rupter.living",
+    "sounds": [
+      "csrp:mob/pure/rupter/idle1",
+      "csrp:mob/pure/rupter/idle2",
+      "csrp:mob/pure/rupter/idle3"
+    ]
+  },
+  "rupter.hurt": {
+    "subtitle": "subtitles.csrp.rupter.hurt",
+    "sounds": [
+      "csrp:mob/pure/rupter/hurt1",
+      "csrp:mob/pure/rupter/hurt2",
+      "csrp:mob/pure/rupter/hurt3"
+    ]
+  },
+  "rupter.death": {
+    "subtitle": "subtitles.csrp.rupter.death",
+    "sounds": ["csrp:mob/pure/rupter/death"]
+  },
+  "rupter.step": {
+    "subtitle": "subtitles.csrp.rupter.step",
+    "sounds": [
+      "csrp:mob/step/small/step1",
+      "csrp:mob/step/small/step2",
+      "csrp:mob/step/small/step3",
+      "csrp:mob/step/small/step4"
+    ]
+  },
+  "rupter.cloud": {
+    "subtitle": "subtitles.csrp.rupter.cloud",
+    "sounds": ["csrp:mob/pure/rupter/cloud"]
   }
 }

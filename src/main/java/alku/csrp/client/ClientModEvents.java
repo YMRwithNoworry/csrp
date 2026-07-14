@@ -2,6 +2,7 @@ package alku.csrp.client;
 
 import alku.csrp.Csrp;
 import alku.csrp.client.renderer.BuglinRenderer;
+import alku.csrp.client.renderer.RupterRenderer;
 import alku.csrp.registry.ModEntities;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -16,5 +17,6 @@ public final class ClientModEvents {
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntities.BUGLIN.get(), BuglinRenderer::new);
+        event.registerEntityRenderer(ModEntities.RUPTER.get(), RupterRenderer::new);
     }
 }

@@ -1,11 +1,20 @@
 {
   "itemGroup.csrp": "CSRP",
   "entity.csrp.buglin": "虫灵",
+  "entity.csrp.rupter": "跃动兽",
   "item.csrp.buglin_spawn_egg": "虫灵刷怪蛋",
+  "item.csrp.rupter_spawn_egg": "跃动兽刷怪蛋",
+  "item.csrp.rupter_viscera": "跃动兽内脏",
+  "block.csrp.tunnel": "寄生隧道",
   "effect.csrp.coth": "召唤虫群",
   "subtitles.csrp.buglin.living": "虫灵：嘶嘶",
   "subtitles.csrp.buglin.hurt": "虫灵：被挤压",
   "subtitles.csrp.buglin.death": "虫灵：被碾碎",
   "subtitles.csrp.buglin.grow": "虫灵：成长",
-  "subtitles.csrp.buglin.emerge": "虫灵：出土"
+  "subtitles.csrp.buglin.emerge": "虫灵：出土",
+  "subtitles.csrp.rupter.living": "跃动兽：咔嗒",
+  "subtitles.csrp.rupter.hurt": "跃动兽：尖啸",
+  "subtitles.csrp.rupter.death": "跃动兽：死亡",
+  "subtitles.csrp.rupter.step": "昆虫足步",
+  "subtitles.csrp.rupter.cloud": "跃动兽：喷吐"
 }

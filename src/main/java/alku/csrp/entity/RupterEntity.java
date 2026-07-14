@@ -1,0 +1,391 @@
+package alku.csrp.entity;
+
+import alku.csrp.Config;
+import alku.csrp.registry.ModBlocks;
+import alku.csrp.registry.ModMobEffects;
+import alku.csrp.registry.ModSounds;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.AreaEffectCloud;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
+import software.bernie.geckolib.animatable.GeoEntity;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.AnimationState;
+import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.util.GeckoLibUtil;
+
+import java.util.Comparator;
+import java.util.EnumSet;
+
+public class RupterEntity extends Monster implements GeoEntity, Parasite {
+    public static final int TUNNEL_KILL_COST = 5;
+    private static final String KILL_COUNT_NBT_KEY = "rupter_kill_count";
+    private static final String VARIANT_NBT_KEY = "rupter_texture_variant";
+    private static final EntityDataAccessor<Byte> CLIMBING =
+            SynchedEntityData.defineId(RupterEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Byte> TEXTURE_VARIANT =
+            SynchedEntityData.defineId(RupterEntity.class, EntityDataSerializers.BYTE);
+    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
+    private static final RawAnimation WALK = RawAnimation.begin().thenLoop("walk");
+    private static final RawAnimation RUN = RawAnimation.begin().thenLoop("run");
+    private static final RawAnimation RUSH = RawAnimation.begin().thenPlay("rush");
+
+    private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
+    private int killCount;
+    private int cloudCooldown;
+
+    public RupterEntity(EntityType<? extends RupterEntity> entityType, Level level) {
+        super(entityType, level);
+        this.xpReward = 5;
+    }
+
+    public static AttributeSupplier.Builder createAttributes() {
+        return Monster.createMonsterAttributes()
+                .add(Attributes.MAX_HEALTH, 10.0)
+                .add(Attributes.ATTACK_DAMAGE, 5.0)
+                .add(Attributes.ARMOR, 5.0)
+                .add(Attributes.KNOCKBACK_RESISTANCE, 0.2)
+                .add(Attributes.MOVEMENT_SPEED, 0.3)
+                .add(Attributes.FOLLOW_RANGE, 32.0);
+    }
+
+    public static boolean checkRupterSpawnRules(EntityType<? extends Monster> type, ServerLevelAccessor level,
+                                                 MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+        int phase = Config.evolutionPhase();
+        return phase >= 1 && phase <= 5
+                && Monster.checkMonsterSpawnRules(type, level, spawnType, pos, random);
+    }
+
+    @Override
+    protected void registerGoals() {
+        goalSelector.addGoal(0, new FloatGoal(this));
+        goalSelector.addGoal(1, new RupterLeapGoal(this, 0.7F));
+        goalSelector.addGoal(2, new CothCloudGoal());
+        goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.3, false));
+        goalSelector.addGoal(4, new AvoidEntityGoal<>(this, LivingEntity.class, 8.0F, 1.0, 1.3,
+                this::shouldAvoid));
+        goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0));
+        goalSelector.addGoal(6, new RandomLookAroundGoal(this));
+        targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(
+                this, LivingEntity.class, 10, true, false, this::canTargetByPhase));
+    }
+
+    private boolean shouldAvoid(LivingEntity entity) {
+        return isLoneBelowPhaseTwo()
+                && !(entity instanceof Parasite)
+                && (entity instanceof Player || entity instanceof Monster);
+    }
+
+    private boolean canTargetByPhase(LivingEntity entity) {
+        return entity != this && entity.isAlive() && !(entity instanceof Parasite) && !isLoneBelowPhaseTwo();
+    }
+
+    private boolean isLoneBelowPhaseTwo() {
+        return Config.evolutionPhase() < 2 && nearbyRupters() == 0;
+    }
+
+    private int nearbyRupters() {
+        AABB searchArea = getBoundingBox().inflate(8.0);
+        return level().getEntitiesOfClass(RupterEntity.class, searchArea, rupter -> rupter != this).size();
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        if (level().isClientSide) {
+            return;
+        }
+
+        setClimbing(horizontalCollision);
+        if (cloudCooldown > 0) {
+            cloudCooldown--;
+        }
+        performLiquidLeap();
+        tryPlaceTunnel();
+    }
+
+    private void performLiquidLeap() {
+        if (!isInWaterOrBubble() || navigation.isDone() || tickCount % 10 != 0) {
+            return;
+        }
+
+        Vec3 movement = getDeltaMovement();
+        setDeltaMovement(movement.x * 1.15, Math.max(movement.y, 0.18), movement.z * 1.15);
+    }
+
+    private void tryPlaceTunnel() {
+        int phase = Config.evolutionPhase();
+        if (phase < -1 || phase > 3 || killCount < TUNNEL_KILL_COST || getTarget() != null
+                || tickCount % 10 != 0 || random.nextInt(30) != 0) {
+            return;
+        }
+
+        BlockPos pos = blockPosition();
+        BlockState below = level().getBlockState(pos.below());
+        if (level().getBlockState(pos).isAir() && below.isFaceSturdy(level(), pos.below(), Direction.UP)) {
+            level().setBlockAndUpdate(pos, ModBlocks.TUNNEL.get().defaultBlockState());
+            killCount -= TUNNEL_KILL_COST;
+        }
+    }
+
+    @Override
+    public boolean doHurtTarget(Entity entity) {
+        boolean hit = super.doHurtTarget(entity);
+        if (hit && entity instanceof LivingEntity living) {
+            living.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 1), this);
+            living.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, 0), this);
+        }
+        return hit;
+    }
+
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        return super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
+    }
+
+    @Override
+    public boolean killedEntity(ServerLevel level, LivingEntity victim) {
+        killCount++;
+        if (killCount >= 30) {
+            tryEvolve(level);
+        }
+        return true;
+    }
+
+    private void tryEvolve(ServerLevel level) {
+        ManglerEvolutionTarget.manglerType().ifPresent(type -> {
+            Mob mangler = type.create(level);
+            if (mangler == null) {
+                return;
+            }
+            mangler.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+            level.addFreshEntity(mangler);
+            discard();
+        });
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(CLIMBING, (byte) 0);
+        builder.define(TEXTURE_VARIANT, (byte) TextureVariant.NORMAL.ordinal());
+    }
+
+    @Override
+    public boolean onClimbable() {
+        return isClimbing();
+    }
+
+    public boolean isClimbing() {
+        return (entityData.get(CLIMBING) & 1) != 0;
+    }
+
+    public void setClimbing(boolean climbing) {
+        byte value = entityData.get(CLIMBING);
+        entityData.set(CLIMBING, climbing ? (byte) (value | 1) : (byte) (value & -2));
+    }
+
+    public TextureVariant getTextureVariant() {
+        int index = entityData.get(TEXTURE_VARIANT);
+        return index >= 0 && index < TextureVariant.values().length
+                ? TextureVariant.values()[index]
+                : TextureVariant.NORMAL;
+    }
+
+    private void setTextureVariant(TextureVariant variant) {
+        entityData.set(TEXTURE_VARIANT, (byte) variant.ordinal());
+    }
+
+    @Nullable
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
+                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
+        SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
+        float roll = random.nextFloat();
+        if (roll < 0.005F) {
+            setTextureVariant(TextureVariant.GOLDEN);
+        } else if (roll < 0.055F) {
+            setTextureVariant(TextureVariant.WEIRD);
+        } else if (roll < 0.305F) {
+            setTextureVariant(TextureVariant.FLUFFY);
+        } else if (roll < 0.705F) {
+            setTextureVariant(TextureVariant.STRIPED);
+        } else if (roll < 0.855F) {
+            setTextureVariant(TextureVariant.CLASSIC);
+        }
+        return data;
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putInt(KILL_COUNT_NBT_KEY, killCount);
+        tag.putByte(VARIANT_NBT_KEY, (byte) getTextureVariant().ordinal());
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        killCount = tag.getInt(KILL_COUNT_NBT_KEY);
+        int variant = tag.getByte(VARIANT_NBT_KEY);
+        if (variant >= 0 && variant < TextureVariant.values().length) {
+            setTextureVariant(TextureVariant.values()[variant]);
+        }
+    }
+
+    @Nullable
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return ModSounds.RUPTER_LIVING.get();
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource source) {
+        return ModSounds.RUPTER_HURT.get();
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return ModSounds.RUPTER_DEATH.get();
+    }
+
+    @Override
+    protected void playStepSound(BlockPos pos, BlockState state) {
+        playSound(ModSounds.RUPTER_STEP.get(), 0.15F, 1.0F);
+    }
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
+                .triggerableAnim("rush", RUSH));
+    }
+
+    private <T extends RupterEntity> PlayState movementAnimation(AnimationState<T> state) {
+        if (!state.isMoving()) {
+            return state.setAndContinue(IDLE);
+        }
+        return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() > 0.02 ? RUN : WALK);
+    }
+
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return animationCache;
+    }
+
+    public enum TextureVariant {
+        NORMAL(""),
+        CLASSIC("_classic"),
+        STRIPED("_striped"),
+        FLUFFY("_fluffy"),
+        WEIRD("_weird"),
+        GOLDEN("_golden");
+
+        private final String suffix;
+
+        TextureVariant(String suffix) {
+            this.suffix = suffix;
+        }
+
+        public String suffix() {
+            return suffix;
+        }
+    }
+
+    private static final class RupterLeapGoal extends LeapAtTargetGoal {
+        private final RupterEntity rupter;
+
+        private RupterLeapGoal(RupterEntity rupter, float verticalVelocity) {
+            super(rupter, verticalVelocity);
+            this.rupter = rupter;
+        }
+
+        @Override
+        public void start() {
+            super.start();
+            rupter.triggerAnim("attack_controller", "rush");
+        }
+    }
+
+    private final class CothCloudGoal extends Goal {
+        @Nullable
+        private Animal passiveTarget;
+
+        private CothCloudGoal() {
+            setFlags(EnumSet.of(Flag.LOOK));
+        }
+
+        @Override
+        public boolean canUse() {
+            if (cloudCooldown > 0 || !isLoneBelowPhaseTwo() || random.nextInt(reducedTickDelay(20)) != 0) {
+                return false;
+            }
+
+            passiveTarget = level().getEntitiesOfClass(Animal.class, getBoundingBox().inflate(10.0),
+                            animal -> animal.isAlive() && !(animal instanceof Parasite))
+                    .stream()
+                    .min(Comparator.comparingDouble(RupterEntity.this::distanceToSqr))
+                    .orElse(null);
+            return passiveTarget != null;
+        }
+
+        @Override
+        public void start() {
+            if (passiveTarget == null) {
+                return;
+            }
+
+            getLookControl().setLookAt(passiveTarget, 30.0F, 30.0F);
+            AreaEffectCloud cloud = new AreaEffectCloud(
+                    level(), passiveTarget.getX(), passiveTarget.getY(), passiveTarget.getZ());
+            cloud.setOwner(RupterEntity.this);
+            cloud.setRadius(2.5F);
+            cloud.setDuration(200);
+            cloud.setWaitTime(0);
+            cloud.setRadiusPerTick(-0.01F);
+            cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 600, 1));
+            level().addFreshEntity(cloud);
+            playSound(ModSounds.RUPTER_CLOUD.get(), 1.0F, 1.0F);
+            cloudCooldown = 200;
+        }
+    }
+}
