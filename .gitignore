@@ -1,0 +1,16 @@
+.gradle/
+build/
+run/
+src/generated/
+
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+
+.codex/
+codex/
+
+*.log
+hs_err_pid*
