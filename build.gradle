@@ -10,6 +10,7 @@ group = mod_group_id
 
 repositories {
     mavenLocal()
+    maven { url = "https://maven.firstdark.dev/snapshots" }
 }
 
 base {
@@ -96,6 +97,8 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 
 dependencies {
+    implementation("com.lowdragmc.ldlib2:ldlib2-neoforge-${minecraft_version}:${ldlib2_version}:all")
+
     // Example mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly "mezz.jei:jei-${mc_version}-common-api:${jei_version}"
@@ -130,6 +133,7 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
                              mod_name               : mod_name,
                              mod_license            : mod_license,
                              mod_version            : mod_version,
+                             ldlib2_version         : ldlib2_version,
                              mod_authors            : mod_authors,
                              mod_description        : mod_description]
     inputs.properties replaceProperties
