@@ -1,5 +1,9 @@
 package alku.csrp;
 
+import alku.csrp.registry.ModEntities;
+import alku.csrp.registry.ModItems;
+import alku.csrp.registry.ModMobEffects;
+import alku.csrp.registry.ModSounds;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -71,6 +75,10 @@ public class Csrp {
         ITEMS.register(modEventBus);
         // Register the Deferred Register to the mod event bus so tabs get registered
         CREATIVE_MODE_TABS.register(modEventBus);
+        ModEntities.ENTITIES.register(modEventBus);
+        ModItems.ITEMS.register(modEventBus);
+        ModMobEffects.EFFECTS.register(modEventBus);
+        ModSounds.SOUNDS.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (Csrp) to respond directly to events.
@@ -98,6 +106,7 @@ public class Csrp {
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) event.accept(EXAMPLE_BLOCK_ITEM);
+        if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) event.accept(ModItems.BUGLIN_SPAWN_EGG);
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call

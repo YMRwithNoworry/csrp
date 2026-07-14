@@ -1,0 +1,11 @@
+{
+  "itemGroup.csrp": "CSRP",
+  "entity.csrp.buglin": "虫灵",
+  "item.csrp.buglin_spawn_egg": "虫灵刷怪蛋",
+  "effect.csrp.coth": "召唤虫群",
+  "subtitles.csrp.buglin.living": "虫灵：嘶嘶",
+  "subtitles.csrp.buglin.hurt": "虫灵：被挤压",
+  "subtitles.csrp.buglin.death": "虫灵：被碾碎",
+  "subtitles.csrp.buglin.grow": "虫灵：成长",
+  "subtitles.csrp.buglin.emerge": "虫灵：出土"
+}

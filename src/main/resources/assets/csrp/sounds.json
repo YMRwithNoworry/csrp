@@ -1,0 +1,30 @@
+{
+  "lodo.death": {
+    "subtitle": "subtitles.csrp.buglin.death",
+    "sounds": ["csrp:mob/pure/buglin/death"]
+  },
+  "lodo.growl": {
+    "subtitle": "subtitles.csrp.buglin.living",
+    "sounds": [
+      "csrp:mob/pure/buglin/idle1",
+      "csrp:mob/pure/buglin/idle2",
+      "csrp:mob/pure/buglin/idle3"
+    ]
+  },
+  "lodo.hurt": {
+    "subtitle": "subtitles.csrp.buglin.hurt",
+    "sounds": [
+      "csrp:mob/pure/buglin/hurt1",
+      "csrp:mob/pure/buglin/hurt2",
+      "csrp:mob/pure/buglin/hurt3"
+    ]
+  },
+  "lodo.mudo": {
+    "subtitle": "subtitles.csrp.buglin.grow",
+    "sounds": ["csrp:mob/pure/buglin/lodo_mudo"]
+  },
+  "lodo.emerge": {
+    "subtitle": "subtitles.csrp.buglin.emerge",
+    "sounds": ["csrp:mob/pure/buglin/emerge"]
+  }
+}
