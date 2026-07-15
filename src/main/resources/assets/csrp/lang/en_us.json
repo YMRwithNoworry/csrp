@@ -16,5 +16,7 @@
   "subtitles.csrp.rupter.hurt": "Rupter screeches",
   "subtitles.csrp.rupter.death": "Rupter dies",
   "subtitles.csrp.rupter.step": "Insect steps",
-  "subtitles.csrp.rupter.cloud": "Rupter spits"
+  "subtitles.csrp.rupter.cloud": "Rupter spits",
+  "advancements.csrp.cut_roots.title": "Cut the Evil by Its Roots",
+  "advancements.csrp.cut_roots.description": "Defeat 1,000 Rupters"
 }

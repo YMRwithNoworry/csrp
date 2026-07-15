@@ -28,6 +28,8 @@ const model = read("src/main/java/alku/csrp/client/model/RupterModel.java");
 const modEntry = read("src/main/java/alku/csrp/Csrp.java");
 const evolution = read("src/main/java/alku/csrp/entity/ManglerEvolutionTarget.java");
 const buglinEvolution = read("src/main/java/alku/csrp/entity/BuglinEvolutionTarget.java");
+const killMilestone = read("src/main/java/alku/csrp/event/RupterKillMilestoneEvents.java");
+const advancement = read("src/main/resources/data/csrp/advancement/cut_roots.json");
 const biomeModifier = read("src/main/resources/data/csrp/neoforge/biome_modifier/rupter_spawns.json");
 const loot = read("src/main/resources/data/csrp/loot_table/entities/rupter.json");
 const geo = read("src/main/resources/assets/csrp/geo/rupter.geo.json");
@@ -71,6 +73,21 @@ for (const [pattern, description] of [
     [/DamageTypeTags\.IS_FIRE/, "fire weakness damage tag is missing"],
     [/amount\s*\*\s*4\.0F/, "quadrupled fire damage is missing"]
 ]) expect(entity, pattern, description);
+
+expect(entity, /RupterSpinGoal/, "Wiki random ground spinning behavior is missing");
+expect(entity, /setYRot\(/, "Rupter spin goal does not rotate the entity");
+expect(entity, /getJumpControl\(\)\.jump\(\)/, "Rupter cannot jump while spinning");
+expect(killMilestone, /RUPTER_KILL_COUNT_KEY\s*=\s*"csrpRupterKills"/,
+        "persistent Rupter kill counter is missing");
+expect(killMilestone, /RUPTER_KILL_TARGET\s*=\s*1000/,
+        "Wiki 1000-Rupter kill target is missing");
+expect(killMilestone, /LivingDeathEvent/, "Rupter kill milestone is not connected to entity deaths");
+expect(killMilestone, /CRITERION\s*=\s*"reached_1000_rupter_kills"/,
+        "Cut the evil by its roots criterion id is missing");
+expect(killMilestone, /award\([^,]+,\s*CRITERION\)/,
+        "Cut the evil by its roots criterion is not awarded");
+expect(advancement, /"trigger"\s*:\s*"minecraft:impossible"/,
+        "Cut the evil by its roots advancement criterion is missing");
 
 expect(config, /defineInRange\("evolutionPhase",\s*1,\s*-1,\s*10\)/,
         "runtime evolution phase config is missing");
@@ -131,7 +148,7 @@ if (geo && animations) {
     }
 }
 
-for (const resourceText of [geo, animations, biomeModifier, loot]) {
+for (const resourceText of [geo, animations, advancement, biomeModifier, loot]) {
     if (resourceText.includes("opensrp:") || resourceText.includes("srparasites:")) {
         failures.push("Rupter resource still references a foreign namespace");
     }

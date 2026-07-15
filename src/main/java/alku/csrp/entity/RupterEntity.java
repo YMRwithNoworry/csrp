@@ -104,7 +104,8 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
         goalSelector.addGoal(4, new AvoidEntityGoal<>(this, LivingEntity.class, 8.0F, 1.0, 1.3,
                 this::shouldAvoid));
         goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0));
-        goalSelector.addGoal(6, new RandomLookAroundGoal(this));
+        goalSelector.addGoal(6, new RupterSpinGoal());
+        goalSelector.addGoal(7, new RandomLookAroundGoal(this));
         targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(
                 this, LivingEntity.class, 10, true, false, this::canTargetByPhase));
     }
@@ -343,6 +344,51 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
         public void start() {
             super.start();
             rupter.triggerAnim("attack_controller", "rush");
+        }
+    }
+
+    private final class RupterSpinGoal extends Goal {
+        private static final int SPIN_CHANCE = 200;
+        private int spinTicks;
+        private int elapsedTicks;
+        private int jumpAtTick;
+        private float turnDirection;
+
+        private RupterSpinGoal() {
+            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK, Flag.JUMP));
+        }
+
+        @Override
+        public boolean canUse() {
+            return getTarget() == null && onGround() && navigation.isDone()
+                    && random.nextInt(reducedTickDelay(SPIN_CHANCE)) == 0;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return spinTicks > 0 && getTarget() == null;
+        }
+
+        @Override
+        public void start() {
+            navigation.stop();
+            spinTicks = 40 + random.nextInt(41);
+            elapsedTicks = 0;
+            jumpAtTick = random.nextInt(3) == 0 ? 8 + random.nextInt(spinTicks - 15) : -1;
+            turnDirection = random.nextBoolean() ? 24.0F : -24.0F;
+        }
+
+        @Override
+        public void tick() {
+            spinTicks--;
+            elapsedTicks++;
+            float yaw = getYRot() + turnDirection;
+            setYRot(yaw);
+            setYHeadRot(yaw);
+            yBodyRot = yaw;
+            if (elapsedTicks == jumpAtTick && onGround()) {
+                getJumpControl().jump();
+            }
         }
     }
 
