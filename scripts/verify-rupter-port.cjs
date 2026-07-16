@@ -30,6 +30,10 @@ const evolution = read("src/main/java/alku/csrp/entity/ManglerEvolutionTarget.ja
 const buglinEvolution = read("src/main/java/alku/csrp/entity/BuglinEvolutionTarget.java");
 const killMilestone = read("src/main/java/alku/csrp/event/RupterKillMilestoneEvents.java");
 const advancement = read("src/main/resources/data/csrp/advancement/cut_roots.json");
+const effects = read("src/main/java/alku/csrp/registry/ModMobEffects.java");
+const bleedEffect = read("src/main/java/alku/csrp/effect/BleedMobEffect.java");
+const viralEffect = read("src/main/java/alku/csrp/effect/ViralMobEffect.java");
+const effectEvents = read("src/main/java/alku/csrp/event/ViralDamageEvents.java");
 const biomeModifier = read("src/main/resources/data/csrp/neoforge/biome_modifier/rupter_spawns.json");
 const loot = read("src/main/resources/data/csrp/loot_table/entities/rupter.json");
 const geo = read("src/main/resources/assets/csrp/geo/rupter.geo.json");
@@ -77,6 +81,24 @@ for (const [pattern, description] of [
 expect(entity, /RupterSpinGoal/, "Wiki random ground spinning behavior is missing");
 expect(entity, /setYRot\(/, "Rupter spin goal does not rotate the entity");
 expect(entity, /getJumpControl\(\)\.jump\(\)/, "Rupter cannot jump while spinning");
+expect(entity, /BehaviorVariant/, "Rupter behavior variants are missing");
+expect(entity, /BERSERKER\("_bleeding"\)/, "Berserker variant texture is missing");
+expect(entity, /VIRULENT\("_virus"\)/, "Virulent variant texture is missing");
+expect(entity, /0\.165F/, "Berserker/Virulent 16.5% variant weight is missing");
+expect(entity, /getBehaviorVariant\(\)/, "Rupter behavior variant accessor is missing");
+expect(entity, /BEHAVIOR_VARIANT/, "Synced behavior variant state is missing");
+expect(entity, /behavior_variant/, "Behavior variant NBT persistence is missing");
+expect(entity, /ModMobEffects\.BLEED.*60,\s*0/s, "Berserker Bleed hit effect is missing");
+expect(entity, /ModMobEffects\.VIRAL.*80,\s*0/s, "Virulent leap Viral effect is missing");
+expect(entity, /ModMobEffects\.VIRAL.*40,\s*0/s, "Virulent contact Viral effect is missing");
+expect(effects, /register\("bleed",\s*BleedMobEffect::new\)/,
+        "Bleed effect is not registered");
+expect(effects, /register\("viral",\s*ViralMobEffect::new\)/,
+        "Viral effect is not registered");
+expect(bleedEffect, /applyEffectTick|shouldApplyEffectTickThisTick/,
+        "Bleed effect does not tick damage");
+expect(viralEffect, /class ViralMobEffect/, "Viral effect implementation is missing");
+expect(effectEvents, /LivingIncomingDamageEvent/, "Viral damage multiplier hook is missing");
 expect(killMilestone, /RUPTER_KILL_COUNT_KEY\s*=\s*"csrpRupterKills"/,
         "persistent Rupter kill counter is missing");
 expect(killMilestone, /RUPTER_KILL_TARGET\s*=\s*1000/,
@@ -101,6 +123,14 @@ for (const animation of ["idle", "walk", "run", "rush"]) {
 for (const variant of ["classic", "striped", "fluffy", "weird", "golden"]) {
     expect(entity, new RegExp(variant.toUpperCase()), `missing ${variant} texture variant`);
     read(`src/main/resources/assets/csrp/textures/entity/rupter_${variant}.png`);
+}
+for (const variant of ["bleeding", "virus"]) {
+    const behaviorName = variant === "bleeding" ? "BERSERKER" : "VIRULENT";
+    expect(entity, new RegExp(behaviorName), `missing ${variant} behavior variant`);
+    read(`src/main/resources/assets/csrp/textures/entity/rupter_${variant}.png`);
+}
+for (const effect of ["bleed", "viral"]) {
+    read(`src/main/resources/assets/csrp/textures/mob_effect/${effect}.png`);
 }
 expect(biomeModifier, /"type"\s*:\s*"neoforge:add_spawns"/, "Rupter biome modifier is missing");
 expect(biomeModifier, /"weight"\s*:\s*30/, "Wiki spawn weight 30 is missing");

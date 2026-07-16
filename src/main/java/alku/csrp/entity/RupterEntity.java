@@ -60,9 +60,13 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
     public static final int TUNNEL_KILL_COST = 5;
     private static final String KILL_COUNT_NBT_KEY = "rupter_kill_count";
     private static final String VARIANT_NBT_KEY = "rupter_texture_variant";
+    private static final String BEHAVIOR_VARIANT_NBT_KEY = "rupter_behavior_variant";
+    private static final float SPECIAL_VARIANT_CHANCE = 0.165F;
     private static final EntityDataAccessor<Byte> CLIMBING =
             SynchedEntityData.defineId(RupterEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Byte> TEXTURE_VARIANT =
+            SynchedEntityData.defineId(RupterEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Byte> BEHAVIOR_VARIANT =
             SynchedEntityData.defineId(RupterEntity.class, EntityDataSerializers.BYTE);
     private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
     private static final RawAnimation WALK = RawAnimation.begin().thenLoop("walk");
@@ -72,10 +76,15 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private int killCount;
     private int cloudCooldown;
+    private int leapAttackTicks;
+    private boolean variantsInitialized;
 
     public RupterEntity(EntityType<? extends RupterEntity> entityType, Level level) {
         super(entityType, level);
         this.xpReward = 5;
+        if (!level.isClientSide) {
+            initializeVariants();
+        }
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -140,6 +149,9 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
         if (cloudCooldown > 0) {
             cloudCooldown--;
         }
+        if (leapAttackTicks > 0) {
+            leapAttackTicks--;
+        }
         performLiquidLeap();
         tryPlaceTunnel();
     }
@@ -174,8 +186,30 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
         if (hit && entity instanceof LivingEntity living) {
             living.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 1), this);
             living.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, 0), this);
+            if (getBehaviorVariant() == BehaviorVariant.BERSERKER) {
+                living.addEffect(new MobEffectInstance(ModMobEffects.BLEED, 60, 0), this);
+            } else if (getBehaviorVariant() == BehaviorVariant.VIRULENT) {
+                applyVirulentAttackEffect(living);
+            }
         }
         return hit;
+    }
+
+    private void applyVirulentAttackEffect(LivingEntity target) {
+        if (leapAttackTicks > 0) {
+            target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 80, 0), this);
+        } else {
+            target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 40, 0), this);
+        }
+    }
+
+    @Override
+    public void push(Entity entity) {
+        if (!level().isClientSide && getBehaviorVariant() == BehaviorVariant.VIRULENT
+                && entity instanceof LivingEntity living && !(living instanceof Parasite)) {
+            living.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 40, 0), this);
+        }
+        super.push(entity);
     }
 
     @Override
@@ -209,6 +243,7 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
         super.defineSynchedData(builder);
         builder.define(CLIMBING, (byte) 0);
         builder.define(TEXTURE_VARIANT, (byte) TextureVariant.NORMAL.ordinal());
+        builder.define(BEHAVIOR_VARIANT, (byte) BehaviorVariant.NORMAL.ordinal());
     }
 
     @Override
@@ -236,11 +271,37 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
         entityData.set(TEXTURE_VARIANT, (byte) variant.ordinal());
     }
 
-    @Nullable
-    @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
-                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
-        SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
+    public BehaviorVariant getBehaviorVariant() {
+        int index = entityData.get(BEHAVIOR_VARIANT);
+        return index >= 0 && index < BehaviorVariant.values().length
+                ? BehaviorVariant.values()[index]
+                : BehaviorVariant.NORMAL;
+    }
+
+    private void setBehaviorVariant(BehaviorVariant variant) {
+        entityData.set(BEHAVIOR_VARIANT, (byte) variant.ordinal());
+    }
+
+    private void initializeVariants() {
+        if (variantsInitialized) {
+            return;
+        }
+
+        variantsInitialized = true;
+        float specialRoll = random.nextFloat();
+        if (specialRoll < SPECIAL_VARIANT_CHANCE) {
+            setBehaviorVariant(BehaviorVariant.BERSERKER);
+            setTextureVariant(TextureVariant.NORMAL);
+        } else if (specialRoll < SPECIAL_VARIANT_CHANCE * 2.0F) {
+            setBehaviorVariant(BehaviorVariant.VIRULENT);
+            setTextureVariant(TextureVariant.NORMAL);
+        } else {
+            setBehaviorVariant(BehaviorVariant.NORMAL);
+            rollTextureVariant();
+        }
+    }
+
+    private void rollTextureVariant() {
         float roll = random.nextFloat();
         if (roll < 0.005F) {
             setTextureVariant(TextureVariant.GOLDEN);
@@ -252,7 +313,17 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
             setTextureVariant(TextureVariant.STRIPED);
         } else if (roll < 0.855F) {
             setTextureVariant(TextureVariant.CLASSIC);
+        } else {
+            setTextureVariant(TextureVariant.NORMAL);
         }
+    }
+
+    @Nullable
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
+                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
+        SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
+        initializeVariants();
         return data;
     }
 
@@ -261,6 +332,7 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
         super.addAdditionalSaveData(tag);
         tag.putInt(KILL_COUNT_NBT_KEY, killCount);
         tag.putByte(VARIANT_NBT_KEY, (byte) getTextureVariant().ordinal());
+        tag.putByte(BEHAVIOR_VARIANT_NBT_KEY, (byte) getBehaviorVariant().ordinal());
     }
 
     @Override
@@ -271,6 +343,11 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
         if (variant >= 0 && variant < TextureVariant.values().length) {
             setTextureVariant(TextureVariant.values()[variant]);
         }
+        int behaviorVariant = tag.getByte(BEHAVIOR_VARIANT_NBT_KEY);
+        if (behaviorVariant >= 0 && behaviorVariant < BehaviorVariant.values().length) {
+            setBehaviorVariant(BehaviorVariant.values()[behaviorVariant]);
+        }
+        variantsInitialized = true;
     }
 
     @Nullable
@@ -332,6 +409,22 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
         }
     }
 
+    public enum BehaviorVariant {
+        NORMAL(""),
+        BERSERKER("_bleeding"),
+        VIRULENT("_virus");
+
+        private final String suffix;
+
+        BehaviorVariant(String suffix) {
+            this.suffix = suffix;
+        }
+
+        public String suffix() {
+            return suffix;
+        }
+    }
+
     private static final class RupterLeapGoal extends LeapAtTargetGoal {
         private final RupterEntity rupter;
 
@@ -344,6 +437,7 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
         public void start() {
             super.start();
             rupter.triggerAnim("attack_controller", "rush");
+            rupter.leapAttackTicks = 20;
         }
     }
 

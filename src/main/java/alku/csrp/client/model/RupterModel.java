@@ -16,7 +16,11 @@ public final class RupterModel extends GeoModel<RupterEntity> {
 
     @Override
     public ResourceLocation getTextureResource(RupterEntity animatable) {
-        return id("textures/entity/rupter" + animatable.getTextureVariant().suffix() + ".png");
+        RupterEntity.BehaviorVariant behaviorVariant = animatable.getBehaviorVariant();
+        String suffix = behaviorVariant == RupterEntity.BehaviorVariant.NORMAL
+                ? animatable.getTextureVariant().suffix()
+                : behaviorVariant.suffix();
+        return id("textures/entity/rupter" + suffix + ".png");
     }
 
     @Override
