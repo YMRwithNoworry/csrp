@@ -33,8 +33,16 @@ public final class Csrp {
                     .displayItems((parameters, output) -> {
                         output.accept(ModItems.BUGLIN_SPAWN_EGG.get());
                         output.accept(ModItems.RUPTER_SPAWN_EGG.get());
+                        output.accept(ModItems.PRI_LONGARMS_SPAWN_EGG.get());
+                        output.accept(ModItems.PRI_SUMMONER_SPAWN_EGG.get());
+                        output.accept(ModItems.PRI_VERMIN_SPAWN_EGG.get());
+                        output.accept(ModItems.PRI_VISCERA_SPAWN_EGG.get());
+                        output.accept(ModItems.GNAT_SPAWN_EGG.get());
                         ModItems.ITEMS.getEntries().stream()
-                                .filter(item -> item != ModItems.BUGLIN_SPAWN_EGG && item != ModItems.RUPTER_SPAWN_EGG)
+                                .filter(item -> item != ModItems.BUGLIN_SPAWN_EGG && item != ModItems.RUPTER_SPAWN_EGG
+                                        && item != ModItems.PRI_LONGARMS_SPAWN_EGG && item != ModItems.PRI_SUMMONER_SPAWN_EGG
+                                        && item != ModItems.PRI_VERMIN_SPAWN_EGG && item != ModItems.PRI_VISCERA_SPAWN_EGG
+                                        && item != ModItems.GNAT_SPAWN_EGG)
                                 .forEach(item -> output.accept(item.get()));
                     })
                     .build());
@@ -57,6 +65,11 @@ public final class Csrp {
         if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
             event.accept(ModItems.BUGLIN_SPAWN_EGG.get());
             event.accept(ModItems.RUPTER_SPAWN_EGG.get());
+            event.accept(ModItems.PRI_LONGARMS_SPAWN_EGG.get());
+            event.accept(ModItems.PRI_SUMMONER_SPAWN_EGG.get());
+            event.accept(ModItems.PRI_VERMIN_SPAWN_EGG.get());
+            event.accept(ModItems.PRI_VISCERA_SPAWN_EGG.get());
+            event.accept(ModItems.GNAT_SPAWN_EGG.get());
         }
     }
 }

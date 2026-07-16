@@ -11,6 +11,7 @@ src/generated/
 
 .codex/
 codex/
+杂物/
 
 *.log
 hs_err_pid*

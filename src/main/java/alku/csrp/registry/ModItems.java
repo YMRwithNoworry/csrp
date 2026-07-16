@@ -34,6 +34,16 @@ public final class ModItems {
     public static final DeferredItem<SpawnEggItem> RUPTER_SPAWN_EGG = ITEMS.registerItem(
             "rupter_spawn_egg", properties -> new SpawnEggItem(ModEntities.RUPTER.get(), 0x6E1717, 0xD8B45B, properties),
             new Item.Properties());
+    public static final DeferredItem<SpawnEggItem> PRI_LONGARMS_SPAWN_EGG = spawnEgg(
+            "pri_longarms_spawn_egg", ModEntities.PRI_LONGARMS, 0x551C1C, 0xC9A17B);
+    public static final DeferredItem<SpawnEggItem> PRI_SUMMONER_SPAWN_EGG = spawnEgg(
+            "pri_summoner_spawn_egg", ModEntities.PRI_SUMMONER, 0x321818, 0xA06D50);
+    public static final DeferredItem<SpawnEggItem> PRI_VERMIN_SPAWN_EGG = spawnEgg(
+            "pri_vermin_spawn_egg", ModEntities.PRI_VERMIN, 0x48151B, 0xD4B75C);
+    public static final DeferredItem<SpawnEggItem> PRI_VISCERA_SPAWN_EGG = spawnEgg(
+            "pri_viscera_spawn_egg", ModEntities.PRI_VISCERA, 0x421517, 0xA68B69);
+    public static final DeferredItem<SpawnEggItem> GNAT_SPAWN_EGG = spawnEgg(
+            "gnat_spawn_egg", ModEntities.GNAT, 0x4B1717, 0xB7A277);
     public static final DeferredItem<Item> RUPTER_VISCERA = simple("rupter_viscera");
     public static final DeferredItem<BlockItem> TUNNEL = ITEMS.registerSimpleBlockItem("tunnel", ModBlocks.TUNNEL);
     public static final DeferredItem<BlockItem> RESIDUE_PLANTS = ITEMS.registerSimpleBlockItem(
@@ -171,6 +181,12 @@ public final class ModItems {
                     DiggerItem.createAttributes(ModTiers.HIJACKED_IRON, -2.5F, -1.0F))), new Item.Properties());
 
     private static DeferredItem<Item> simple(String id) { return simple(id, new Item.Properties()); }
+    private static <T extends net.minecraft.world.entity.Mob> DeferredItem<SpawnEggItem> spawnEgg(String id,
+            net.neoforged.neoforge.registries.DeferredHolder<net.minecraft.world.entity.EntityType<?>,
+                    net.minecraft.world.entity.EntityType<T>> type, int primary, int secondary) {
+        return ITEMS.registerItem(id, properties -> new SpawnEggItem(type.get(), primary, secondary, properties),
+                new Item.Properties());
+    }
     private static DeferredItem<Item> simple(String id, Item.Properties properties) {
         return ITEMS.registerSimpleItem(id, properties);
     }

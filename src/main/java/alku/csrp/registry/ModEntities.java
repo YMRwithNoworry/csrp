@@ -2,7 +2,13 @@ package alku.csrp.registry;
 
 import alku.csrp.Csrp;
 import alku.csrp.entity.BuglinEntity;
+import alku.csrp.entity.GnatEntity;
+import alku.csrp.entity.LongarmsEntity;
 import alku.csrp.entity.RupterEntity;
+import alku.csrp.entity.ScaryOrbEntity;
+import alku.csrp.entity.SummonerEntity;
+import alku.csrp.entity.VerminEntity;
+import alku.csrp.entity.VisceraEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -25,6 +31,28 @@ public final class ModEntities {
                     .sized(0.85F, 1.0F)
                     .clientTrackingRange(8)
                     .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "rupter").toString()));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<LongarmsEntity>> PRI_LONGARMS =
+            monster("pri_longarms", LongarmsEntity::new, 1.0F, 3.0F);
+    public static final DeferredHolder<EntityType<?>, EntityType<SummonerEntity>> PRI_SUMMONER =
+            monster("pri_summoner", SummonerEntity::new, 1.3F, 2.3F);
+    public static final DeferredHolder<EntityType<?>, EntityType<VerminEntity>> PRI_VERMIN =
+            monster("pri_vermin", VerminEntity::new, 1.3F, 1.6F);
+    public static final DeferredHolder<EntityType<?>, EntityType<VisceraEntity>> PRI_VISCERA =
+            monster("pri_viscera", VisceraEntity::new, 1.3F, 2.3F);
+    public static final DeferredHolder<EntityType<?>, EntityType<GnatEntity>> GNAT =
+            monster("gnat", GnatEntity::new, 0.55F, 0.45F);
+    public static final DeferredHolder<EntityType<?>, EntityType<ScaryOrbEntity>> SCARY_ORB =
+            ENTITIES.register("scary_orb", () -> EntityType.Builder.<ScaryOrbEntity>of(ScaryOrbEntity::new, MobCategory.MISC)
+                    .sized(0.5F, 0.5F).clientTrackingRange(8).updateInterval(1)
+                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "scary_orb").toString()));
+
+    private static <T extends net.minecraft.world.entity.Mob> DeferredHolder<EntityType<?>, EntityType<T>> monster(
+            String id, EntityType.EntityFactory<T> factory, float width, float height) {
+        return ENTITIES.register(id, () -> EntityType.Builder.of(factory, MobCategory.MONSTER)
+                .sized(width, height).clientTrackingRange(8)
+                .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, id).toString()));
+    }
 
     private ModEntities() {
     }

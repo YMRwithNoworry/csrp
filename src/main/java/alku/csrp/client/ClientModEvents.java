@@ -3,6 +3,8 @@ package alku.csrp.client;
 import alku.csrp.Csrp;
 import alku.csrp.client.renderer.BuglinRenderer;
 import alku.csrp.client.renderer.RupterRenderer;
+import alku.csrp.client.renderer.PrimitiveParasiteRenderer;
+import alku.csrp.client.renderer.ScaryOrbRenderer;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModItems;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -22,6 +24,17 @@ public final class ClientModEvents {
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntities.BUGLIN.get(), BuglinRenderer::new);
         event.registerEntityRenderer(ModEntities.RUPTER.get(), RupterRenderer::new);
+        event.registerEntityRenderer(ModEntities.PRI_LONGARMS.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "pri_longarms", 0.65F));
+        event.registerEntityRenderer(ModEntities.PRI_SUMMONER.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "pri_summoner", 0.7F));
+        event.registerEntityRenderer(ModEntities.PRI_VERMIN.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "pri_vermin", 0.65F));
+        event.registerEntityRenderer(ModEntities.PRI_VISCERA.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "pri_viscera", 0.7F));
+        event.registerEntityRenderer(ModEntities.GNAT.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "gnat", 0.25F));
+        event.registerEntityRenderer(ModEntities.SCARY_ORB.get(), ScaryOrbRenderer::new);
     }
 
     @SubscribeEvent
