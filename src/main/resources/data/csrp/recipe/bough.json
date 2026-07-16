@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X",
+    "Y",
+    "Z"
+  ],
+  "key": {
+    "X": {
+      "tag": "minecraft:saplings"
+    },
+    "Y": {
+      "item": "csrp:assimilated_flesh"
+    },
+    "Z": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "csrp:bough"
+  },
+  "category": "equipment"
+}

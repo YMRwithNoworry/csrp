@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "I I",
+    "III",
+    "III"
+  ],
+  "key": {
+    "I": {
+      "item": "csrp:bloody_iron_ingot"
+    }
+  },
+  "result": {
+    "id": "csrp:hijacked_iron_chestpiece",
+    "count": 1
+  },
+  "category": "equipment"
+}

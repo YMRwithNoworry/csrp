@@ -1,0 +1,38 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "csrp:item/levelclock0"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "level": 0
+      },
+      "model": "csrp:item/levelclock0"
+    },
+    {
+      "predicate": {
+        "level": 1
+      },
+      "model": "csrp:item/levelclock1"
+    },
+    {
+      "predicate": {
+        "level": 2
+      },
+      "model": "csrp:item/levelclock2"
+    },
+    {
+      "predicate": {
+        "level": 3
+      },
+      "model": "csrp:item/levelclock3"
+    },
+    {
+      "predicate": {
+        "level": 4
+      },
+      "model": "csrp:item/levelclock4"
+    }
+  ]
+}

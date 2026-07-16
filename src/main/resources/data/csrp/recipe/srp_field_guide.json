@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:book"
+    },
+    {
+      "item": "csrp:assimilated_flesh"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "csrp:srp_field_guide"
+  },
+  "category": "misc"
+}

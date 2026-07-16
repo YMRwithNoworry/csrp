@@ -2,6 +2,7 @@ package alku.csrp;
 
 import alku.csrp.entity.BuglinEvolutionTarget;
 import alku.csrp.registry.ModBlocks;
+import alku.csrp.registry.ModArmorMaterials;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModItems;
 import alku.csrp.registry.ModMobEffects;
@@ -32,14 +33,16 @@ public final class Csrp {
                     .displayItems((parameters, output) -> {
                         output.accept(ModItems.BUGLIN_SPAWN_EGG.get());
                         output.accept(ModItems.RUPTER_SPAWN_EGG.get());
-                        output.accept(ModItems.RUPTER_VISCERA.get());
-                        output.accept(ModItems.TUNNEL.get());
+                        ModItems.ITEMS.getEntries().stream()
+                                .filter(item -> item != ModItems.BUGLIN_SPAWN_EGG && item != ModItems.RUPTER_SPAWN_EGG)
+                                .forEach(item -> output.accept(item.get()));
                     })
                     .build());
 
     public Csrp(IEventBus modEventBus, ModContainer modContainer) {
         ModBlocks.BLOCKS.register(modEventBus);
         ModEntities.ENTITIES.register(modEventBus);
+        ModArmorMaterials.MATERIALS.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
         ModMobEffects.EFFECTS.register(modEventBus);
         ModSounds.SOUNDS.register(modEventBus);

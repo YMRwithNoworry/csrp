@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "DCB",
+    " DB",
+    " E "
+  ],
+  "key": {
+    "B": {
+      "item": "csrp:infectious_blade_fragment"
+    },
+    "C": {
+      "item": "csrp:living_core"
+    },
+    "D": {
+      "item": "csrp:vile_shell"
+    },
+    "E": {
+      "item": "csrp:hardened_bone_handle"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "csrp:weapon_axe"
+  },
+  "category": "equipment"
+}

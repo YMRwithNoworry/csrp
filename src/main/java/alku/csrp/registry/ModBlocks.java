@@ -19,6 +19,14 @@ public final class ModBlocks {
                     .strength(0.5F)
                     .sound(SoundType.SCULK)));
 
+    public static final DeferredBlock<Block> RESIDUE_PLANTS = BLOCKS.register("residue_plants", () -> new Block(
+            BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED)
+                    .noCollission()
+                    .noOcclusion()
+                    .instabreak()
+                    .sound(SoundType.GRASS)));
+
     private ModBlocks() {
     }
 }

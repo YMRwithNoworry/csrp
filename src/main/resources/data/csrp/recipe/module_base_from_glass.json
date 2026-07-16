@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ZXZ",
+    "XYX",
+    "ZXZ"
+  ],
+  "key": {
+    "Z": {
+      "item": "minecraft:glass"
+    },
+    "X": {
+      "item": "csrp:tissue_spike"
+    },
+    "Y": {
+      "item": "csrp:organ_synth"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "csrp:module_base"
+  },
+  "category": "misc"
+}

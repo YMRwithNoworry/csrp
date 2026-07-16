@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": {
+    "item": "csrp:hardened_bone_handle"
+  },
+  "result": {
+    "count": 16,
+    "id": "csrp:infested_bonemeal"
+  },
+  "category": "misc"
+}

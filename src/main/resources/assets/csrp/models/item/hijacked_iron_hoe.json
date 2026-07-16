@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "csrp:item/hijacked_iron_hoe"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " XY",
+    "ZR ",
+    "Y  "
+  ],
+  "key": {
+    "X": {
+      "item": "csrp:living_core"
+    },
+    "Y": {
+      "item": "csrp:infectious_blade_fragment"
+    },
+    "Z": {
+      "item": "csrp:vile_shell"
+    },
+    "R": {
+      "item": "csrp:hardened_bone_handle"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "csrp:weapon_lance"
+  },
+  "category": "equipment"
+}

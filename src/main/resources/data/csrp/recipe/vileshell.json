@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " A ",
+    "CAC",
+    "   "
+  ],
+  "key": {
+    "A": {
+      "item": "csrp:ada_longarms_drop"
+    },
+    "C": {
+      "item": "csrp:assimilated_flesh"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "csrp:vile_shell"
+  },
+  "category": "misc"
+}

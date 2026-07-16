@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CA ",
+    "CA ",
+    "CA "
+  ],
+  "key": {
+    "A": {
+      "item": "csrp:ada_yelloweye_drop"
+    },
+    "C": {
+      "item": "csrp:assimilated_flesh"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "csrp:hardened_bone_handle"
+  },
+  "category": "misc"
+}

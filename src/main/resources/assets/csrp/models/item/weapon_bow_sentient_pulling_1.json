@@ -1,0 +1,6 @@
+{
+  "parent": "csrp:item/weapon_bow_sentient",
+  "textures": {
+    "layer0": "csrp:item/weapon_bow_sentient_pulling_1"
+  }
+}

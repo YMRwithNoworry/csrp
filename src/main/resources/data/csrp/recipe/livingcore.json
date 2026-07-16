@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " A ",
+    "CBC",
+    "   "
+  ],
+  "key": {
+    "A": {
+      "item": "csrp:ada_summoner_drop"
+    },
+    "B": {
+      "item": "csrp:ada_manducater_drop"
+    },
+    "C": {
+      "item": "csrp:assimilated_flesh"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "csrp:living_core"
+  },
+  "category": "misc"
+}

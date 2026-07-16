@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " Y ",
+    "YXY",
+    " Y "
+  ],
+  "key": {
+    "Y": {
+      "item": "csrp:beckon_drop"
+    },
+    "X": {
+      "item": "minecraft:diamond_boots"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "csrp:venkrol_boots"
+  },
+  "category": "equipment"
+}

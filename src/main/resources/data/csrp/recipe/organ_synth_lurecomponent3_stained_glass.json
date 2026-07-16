@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX",
+    "YUY",
+    "XZX"
+  ],
+  "key": {
+    "X": {
+      "item": "minecraft:iron_ingot"
+    },
+    "Y": {
+      "tag": "csrp:stained_glass"
+    },
+    "Z": {
+      "item": "minecraft:redstone"
+    },
+    "U": {
+      "item": "csrp:lurecomponent3"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "csrp:organ_synth"
+  },
+  "category": "misc"
+}

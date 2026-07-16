@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "III",
+    "I I",
+    "I I"
+  ],
+  "key": {
+    "I": {
+      "item": "csrp:bloody_iron_ingot"
+    }
+  },
+  "result": {
+    "id": "csrp:hijacked_iron_leggings",
+    "count": 1
+  },
+  "category": "equipment"
+}

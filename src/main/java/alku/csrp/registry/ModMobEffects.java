@@ -4,6 +4,9 @@ import alku.csrp.Csrp;
 import alku.csrp.effect.BleedMobEffect;
 import alku.csrp.effect.CothMobEffect;
 import alku.csrp.effect.ViralMobEffect;
+import alku.csrp.effect.CorrosionMobEffect;
+import alku.csrp.effect.NeedlerMobEffect;
+import alku.csrp.effect.RageMobEffect;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.effect.MobEffect;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -21,6 +24,15 @@ public final class ModMobEffects {
 
     public static final DeferredHolder<MobEffect, MobEffect> VIRAL =
             EFFECTS.register("viral", ViralMobEffect::new);
+
+    public static final DeferredHolder<MobEffect, MobEffect> CORROSION =
+            EFFECTS.register("corrosion", CorrosionMobEffect::new);
+
+    public static final DeferredHolder<MobEffect, MobEffect> RAGE =
+            EFFECTS.register("rage", RageMobEffect::new);
+
+    public static final DeferredHolder<MobEffect, MobEffect> NEEDLER =
+            EFFECTS.register("needler", NeedlerMobEffect::new);
 
     private ModMobEffects() {
     }
