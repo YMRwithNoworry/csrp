@@ -71,6 +71,7 @@ public final class EquipmentEvents {
         LivingEntity target = event.getEntity();
         LivingEntity attacker = event.getSource().getEntity() instanceof LivingEntity living ? living : null;
         ItemStack weapon = event.getSource().getWeaponItem();
+        if (weapon == null) weapon = ItemStack.EMPTY;
         if (attacker != null && !weapon.isEmpty() && isHijackedTool(weapon)) {
             HijackedHitEffects.apply(attacker, target);
         }

@@ -55,7 +55,8 @@ for (const marker of ["50_000", "WeaponKind", "ModMobEffects.CORROSION", "ModMob
 
 const equipmentEvents = read("src/main/java/alku/csrp/event/EquipmentEvents.java");
 for (const marker of ["0.0125F", "0.018F", "0.20F", "0.50F", "5.5F", "2400",
-    "LivingArmorItem.EVOLUTION_DAMAGE", "wearsFullHijackedSet"]) {
+    "LivingArmorItem.EVOLUTION_DAMAGE", "wearsFullHijackedSet",
+    "if (weapon == null) weapon = ItemStack.EMPTY;"]) {
     requireText(equipmentEvents, marker, "equipment event behavior");
 }
 
