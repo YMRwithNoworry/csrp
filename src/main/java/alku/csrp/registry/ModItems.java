@@ -54,6 +54,14 @@ public final class ModItems {
             "crux_spawn_egg", ModEntities.CRUX, 0x7F4000, 0xB70000);
     public static final DeferredItem<SpawnEggItem> CRUX_INCOMPLETE_SPAWN_EGG = spawnEgg(
             "crux_incomplete_spawn_egg", ModEntities.CRUX_INCOMPLETE, 0x7F4000, 0xB70000);
+    public static final DeferredItem<SpawnEggItem> AIRSCREW_SPAWN_EGG = spawnEgg(
+            "airscrew_spawn_egg", ModEntities.AIRSCREW, 0x7F4000, 0xB70000);
+    public static final DeferredItem<SpawnEggItem> HEED_SPAWN_EGG = spawnEgg(
+            "heed_spawn_egg", ModEntities.HEED, 0x7F6B80, 0x404040);
+    public static final DeferredItem<SpawnEggItem> DREDGE_SPAWN_EGG = spawnEgg(
+            "dredge_spawn_egg", ModEntities.DREDGE, 0x7F4000, 0xB70000);
+    public static final DeferredItem<SpawnEggItem> THRALL_SPAWN_EGG = spawnEgg(
+            "thrall_spawn_egg", ModEntities.THRALL, 0x7F4000, 0xB70000);
     public static final DeferredItem<Item> RUPTER_VISCERA = simple("rupter_viscera");
     public static final DeferredItem<BlockItem> TUNNEL = ITEMS.registerSimpleBlockItem("tunnel", ModBlocks.TUNNEL);
     public static final DeferredItem<BlockItem> RESIDUE_PLANTS = ITEMS.registerSimpleBlockItem(

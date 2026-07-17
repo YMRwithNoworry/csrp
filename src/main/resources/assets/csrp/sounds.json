@@ -59,5 +59,49 @@
   "rupter.cloud": {
     "subtitle": "subtitles.csrp.rupter.cloud",
     "sounds": ["csrp:mob/pure/rupter/cloud"]
+  },
+  "done.death": {
+    "subtitle": "subtitles.csrp.dredge.death",
+    "sounds": ["csrp:prim_dredge_death"]
+  },
+  "done.growl": {
+    "subtitle": "subtitles.csrp.dredge.living",
+    "sounds": [
+      "csrp:prim_dredge_living_1",
+      "csrp:prim_dredge_living_2",
+      "csrp:prim_dredge_living_3",
+      "csrp:prim_dredge_living_4"
+    ]
+  },
+  "done.hurt": {
+    "subtitle": "subtitles.csrp.dredge.hurt",
+    "sounds": [
+      "csrp:prim_dredge_hurt_1",
+      "csrp:prim_dredge_hurt_2",
+      "csrp:prim_dredge_hurt_3",
+      "csrp:prim_dredge_hurt_4"
+    ]
+  },
+  "mes.death": {
+    "subtitle": "subtitles.csrp.thrall.death",
+    "sounds": ["csrp:thrall_death"]
+  },
+  "mes.growl": {
+    "subtitle": "subtitles.csrp.thrall.living",
+    "sounds": [
+      "csrp:thrall_living_1",
+      "csrp:thrall_living_2",
+      "csrp:thrall_living_3",
+      "csrp:thrall_living_4",
+      "csrp:thrall_living_5"
+    ]
+  },
+  "mes.hurt": {
+    "subtitle": "subtitles.csrp.thrall.hurt",
+    "sounds": [
+      "csrp:thrall_hurt_1",
+      "csrp:thrall_hurt_2",
+      "csrp:thrall_hurt_3"
+    ]
   }
 }

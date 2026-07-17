@@ -77,6 +77,10 @@ public final class Csrp {
             event.accept(ModItems.CARRIER_HEAVY_SPAWN_EGG.get());
             event.accept(ModItems.CARRIER_LIGHT_SPAWN_EGG.get());
             event.accept(ModItems.CARRIER_FLYING_SPAWN_EGG.get());
+            event.accept(ModItems.AIRSCREW_SPAWN_EGG.get());
+            event.accept(ModItems.HEED_SPAWN_EGG.get());
+            event.accept(ModItems.DREDGE_SPAWN_EGG.get());
+            event.accept(ModItems.THRALL_SPAWN_EGG.get());
         }
     }
 }

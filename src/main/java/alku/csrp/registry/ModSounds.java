@@ -21,6 +21,12 @@ public final class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> RUPTER_DEATH = register("rupter.death");
     public static final DeferredHolder<SoundEvent, SoundEvent> RUPTER_STEP = register("rupter.step");
     public static final DeferredHolder<SoundEvent, SoundEvent> RUPTER_CLOUD = register("rupter.cloud");
+    public static final DeferredHolder<SoundEvent, SoundEvent> DREDGE_LIVING = register("done.growl");
+    public static final DeferredHolder<SoundEvent, SoundEvent> DREDGE_HURT = register("done.hurt");
+    public static final DeferredHolder<SoundEvent, SoundEvent> DREDGE_DEATH = register("done.death");
+    public static final DeferredHolder<SoundEvent, SoundEvent> THRALL_LIVING = register("mes.growl");
+    public static final DeferredHolder<SoundEvent, SoundEvent> THRALL_HURT = register("mes.hurt");
+    public static final DeferredHolder<SoundEvent, SoundEvent> THRALL_DEATH = register("mes.death");
 
     private ModSounds() {
     }

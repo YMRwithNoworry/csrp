@@ -1,18 +1,23 @@
 package alku.csrp.registry;
 
 import alku.csrp.Csrp;
+import alku.csrp.entity.AirscrewEntity;
 import alku.csrp.entity.BuglinEntity;
 import alku.csrp.entity.CarrierFlyingEntity;
 import alku.csrp.entity.CarrierHeavyEntity;
 import alku.csrp.entity.CarrierLightEntity;
 import alku.csrp.entity.CruxEntity;
 import alku.csrp.entity.CruxThrownBlockDamageEntity;
+import alku.csrp.entity.DredgeEntity;
 import alku.csrp.entity.GnatEntity;
+import alku.csrp.entity.HeedEntity;
 import alku.csrp.entity.IncompleteCruxEntity;
 import alku.csrp.entity.LongarmsEntity;
+import alku.csrp.entity.PullingBallEntity;
 import alku.csrp.entity.RupterEntity;
 import alku.csrp.entity.ScaryOrbEntity;
 import alku.csrp.entity.SummonerEntity;
+import alku.csrp.entity.ThrallEntity;
 import alku.csrp.entity.VerminEntity;
 import alku.csrp.entity.VisceraEntity;
 import net.minecraft.core.registries.Registries;
@@ -58,6 +63,19 @@ public final class ModEntities {
             monster("crux", CruxEntity::new, 1.13333F, 3.3F);
     public static final DeferredHolder<EntityType<?>, EntityType<IncompleteCruxEntity>> CRUX_INCOMPLETE =
             monster("crux_incomplete", IncompleteCruxEntity::new, 1.31F, 1.1F);
+    public static final DeferredHolder<EntityType<?>, EntityType<AirscrewEntity>> AIRSCREW =
+            monster("airscrew", AirscrewEntity::new, 2.1F, 7.1F);
+    public static final DeferredHolder<EntityType<?>, EntityType<HeedEntity>> HEED =
+            monster("heed", HeedEntity::new, 0.9F, 1.9F);
+    public static final DeferredHolder<EntityType<?>, EntityType<DredgeEntity>> DREDGE =
+            monster("dredge", DredgeEntity::new, 0.8F, 3.4F);
+    public static final DeferredHolder<EntityType<?>, EntityType<ThrallEntity>> THRALL =
+            monster("thrall", ThrallEntity::new, 0.8F, 3.05F);
+    public static final DeferredHolder<EntityType<?>, EntityType<PullingBallEntity>> PULLING_BALL =
+            ENTITIES.register("pulling_ball", () -> EntityType.Builder
+                    .<PullingBallEntity>of(PullingBallEntity::new, MobCategory.MISC)
+                    .sized(0.3F, 0.3F).clientTrackingRange(8).updateInterval(1)
+                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "pulling_ball").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<CruxThrownBlockDamageEntity>> CRUX_BLOCK_DAMAGE =
             ENTITIES.register("crux_block_damage", () -> EntityType.Builder
                     .<CruxThrownBlockDamageEntity>of(CruxThrownBlockDamageEntity::new, MobCategory.MISC)

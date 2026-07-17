@@ -4,6 +4,7 @@ import alku.csrp.Csrp;
 import alku.csrp.client.renderer.BuglinRenderer;
 import alku.csrp.client.renderer.RupterRenderer;
 import alku.csrp.client.renderer.PrimitiveParasiteRenderer;
+import alku.csrp.client.renderer.PullingBallRenderer;
 import alku.csrp.client.renderer.ScaryOrbRenderer;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModItems;
@@ -45,6 +46,15 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.CRUX_INCOMPLETE.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "crux_incomplete", 0.45F));
         event.registerEntityRenderer(ModEntities.SCARY_ORB.get(), ScaryOrbRenderer::new);
+        event.registerEntityRenderer(ModEntities.AIRSCREW.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "airscrew", 0.8F));
+        event.registerEntityRenderer(ModEntities.HEED.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "heed", 0.8F));
+        event.registerEntityRenderer(ModEntities.DREDGE.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "dredge", 0.8F));
+        event.registerEntityRenderer(ModEntities.THRALL.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "thrall", 0.7F));
+        event.registerEntityRenderer(ModEntities.PULLING_BALL.get(), PullingBallRenderer::new);
     }
 
     @SubscribeEvent
