@@ -8,10 +8,18 @@ import alku.csrp.entity.CarrierHeavyEntity;
 import alku.csrp.entity.CarrierLightEntity;
 import alku.csrp.entity.CruxEntity;
 import alku.csrp.entity.DredgeEntity;
+import alku.csrp.entity.DraconiteEntity;
 import alku.csrp.entity.GnatEntity;
 import alku.csrp.entity.HeedEntity;
+import alku.csrp.entity.HostEntity;
+import alku.csrp.entity.HostIIEntity;
 import alku.csrp.entity.IncompleteCruxEntity;
+import alku.csrp.entity.IncompleteFormMediumEntity;
+import alku.csrp.entity.IncompleteFormSmallEntity;
+import alku.csrp.entity.KirinEntity;
+import alku.csrp.entity.LiceEntity;
 import alku.csrp.entity.LongarmsEntity;
+import alku.csrp.entity.ManglerEntity;
 import alku.csrp.entity.RupterEntity;
 import alku.csrp.entity.SummonerEntity;
 import alku.csrp.entity.ThrallEntity;
@@ -47,6 +55,14 @@ public final class CommonModEvents {
         event.put(ModEntities.HEED.get(), HeedEntity.createAttributes().build());
         event.put(ModEntities.DREDGE.get(), DredgeEntity.createAttributes().build());
         event.put(ModEntities.THRALL.get(), ThrallEntity.createAttributes().build());
+        event.put(ModEntities.LICE.get(), LiceEntity.createAttributes().build());
+        event.put(ModEntities.MANGLER.get(), ManglerEntity.createAttributes().build());
+        event.put(ModEntities.HOST.get(), HostEntity.createAttributes().build());
+        event.put(ModEntities.HOSTII.get(), HostIIEntity.createAttributes().build());
+        event.put(ModEntities.INCOMPLETEFORM_SMALL.get(), IncompleteFormSmallEntity.createAttributes().build());
+        event.put(ModEntities.INCOMPLETEFORM_MEDIUM.get(), IncompleteFormMediumEntity.createAttributes().build());
+        event.put(ModEntities.DRACONITE.get(), DraconiteEntity.createAttributes().build());
+        event.put(ModEntities.KIRIN.get(), KirinEntity.createAttributes().build());
     }
 
     @SubscribeEvent

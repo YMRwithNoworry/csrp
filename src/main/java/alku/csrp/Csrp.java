@@ -1,6 +1,7 @@
 package alku.csrp;
 
 import alku.csrp.entity.BuglinEvolutionTarget;
+import alku.csrp.entity.ManglerEvolutionTarget;
 import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModArmorMaterials;
 import alku.csrp.registry.ModEntities;
@@ -61,6 +62,7 @@ public final class Csrp {
         CREATIVE_MODE_TABS.register(modEventBus);
 
         BuglinEvolutionTarget.registerRupter(ModEntities.RUPTER);
+        ManglerEvolutionTarget.registerMangler(ModEntities.MANGLER);
         modEventBus.addListener(this::addCreativeItems);
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
@@ -81,6 +83,14 @@ public final class Csrp {
             event.accept(ModItems.HEED_SPAWN_EGG.get());
             event.accept(ModItems.DREDGE_SPAWN_EGG.get());
             event.accept(ModItems.THRALL_SPAWN_EGG.get());
+            event.accept(ModItems.LICE_SPAWN_EGG.get());
+            event.accept(ModItems.MANGLER_SPAWN_EGG.get());
+            event.accept(ModItems.HOST_SPAWN_EGG.get());
+            event.accept(ModItems.HOSTII_SPAWN_EGG.get());
+            event.accept(ModItems.INCOMPLETEFORM_SMALL_SPAWN_EGG.get());
+            event.accept(ModItems.INCOMPLETEFORM_MEDIUM_SPAWN_EGG.get());
+            event.accept(ModItems.DRACONITE_SPAWN_EGG.get());
+            event.accept(ModItems.KIRIN_SPAWN_EGG.get());
         }
     }
 }

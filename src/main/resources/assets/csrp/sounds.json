@@ -103,5 +103,100 @@
       "csrp:thrall_hurt_2",
       "csrp:thrall_hurt_3"
     ]
+  },
+  "inhoos.growl": {
+    "subtitle": "subtitles.csrp.incomplete_small.living",
+    "sounds": [
+      "csrp:mob/crude/incomplete_form/small/idle1",
+      "csrp:mob/crude/incomplete_form/small/idle2",
+      "csrp:mob/crude/incomplete_form/small/idle3"
+    ]
+  },
+  "inhoos.hurt": {
+    "subtitle": "subtitles.csrp.incomplete_small.hurt",
+    "sounds": [
+      "csrp:mob/crude/incomplete_form/small/hurt1",
+      "csrp:mob/crude/incomplete_form/small/hurt2",
+      "csrp:mob/crude/incomplete_form/small/hurt3"
+    ]
+  },
+  "inhoos.death": {
+    "subtitle": "subtitles.csrp.incomplete_small.death",
+    "sounds": ["csrp:mob/crude/incomplete_form/small/death"]
+  },
+  "inhoom.growl": {
+    "subtitle": "subtitles.csrp.incomplete_medium.living",
+    "sounds": [
+      "csrp:mob/crude/incomplete_form/medium/idle1",
+      "csrp:mob/crude/incomplete_form/medium/idle2",
+      "csrp:mob/crude/incomplete_form/medium/idle3"
+    ]
+  },
+  "inhoom.hurt": {
+    "subtitle": "subtitles.csrp.incomplete_medium.hurt",
+    "sounds": [
+      "csrp:mob/crude/incomplete_form/medium/hurt1",
+      "csrp:mob/crude/incomplete_form/medium/hurt2",
+      "csrp:mob/crude/incomplete_form/medium/hurt3"
+    ]
+  },
+  "inhoom.death": {
+    "subtitle": "subtitles.csrp.incomplete_medium.death",
+    "sounds": ["csrp:mob/crude/incomplete_form/medium/death"]
+  },
+  "lite_flesh.slide": {
+    "subtitle": "subtitles.csrp.incomplete.step",
+    "sounds": [
+      "csrp:mob/step/lite_flesh/slide1",
+      "csrp:mob/step/lite_flesh/slide2",
+      "csrp:mob/step/lite_flesh/slide3",
+      "csrp:mob/step/lite_flesh/slide4"
+    ]
+  },
+  "host.growl": {
+    "subtitle": "subtitles.csrp.host.living",
+    "sounds": ["csrp:hostliving1", "csrp:hostliving2"]
+  },
+  "host.hurt": {
+    "subtitle": "subtitles.csrp.host.hurt",
+    "sounds": ["csrp:hosthurt1", "csrp:hosthurt2", "csrp:hosthurt3"]
+  },
+  "host.death": {
+    "subtitle": "subtitles.csrp.host.death",
+    "sounds": ["csrp:hostdeath"]
+  },
+  "draconite.living": {
+    "subtitle": "subtitles.csrp.draconite.living",
+    "sounds": [
+      "csrp:draconite_idle_1",
+      "csrp:draconite_idle_2",
+      "csrp:draconite_idle_3",
+      "csrp:draconite_idle_4",
+      "csrp:draconite_idle_5"
+    ]
+  },
+  "draconite.death": {
+    "subtitle": "subtitles.csrp.draconite.death",
+    "sounds": ["csrp:draconite_death"]
+  },
+  "draconite.fire_shoot": {
+    "subtitle": "subtitles.csrp.draconite.fire",
+    "sounds": ["csrp:draconite_fire_shoot"]
+  },
+  "kirin.living": {
+    "subtitle": "subtitles.csrp.kirin.living",
+    "sounds": ["csrp:kirin_idle_1", "csrp:kirin_idle_2", "csrp:kirin_idle_3"]
+  },
+  "kirin.hurt": {
+    "subtitle": "subtitles.csrp.kirin.hurt",
+    "sounds": ["csrp:kirin_hurt_1", "csrp:kirin_hurt_2", "csrp:kirin_hurt_3"]
+  },
+  "kirin.death": {
+    "subtitle": "subtitles.csrp.kirin.death",
+    "sounds": ["csrp:kirin_death"]
+  },
+  "kirin.black_hole": {
+    "subtitle": "subtitles.csrp.kirin.black_hole",
+    "sounds": ["csrp:kirin_black_hole"]
   }
 }

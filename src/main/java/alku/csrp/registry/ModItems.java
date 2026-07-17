@@ -62,6 +62,22 @@ public final class ModItems {
             "dredge_spawn_egg", ModEntities.DREDGE, 0x7F4000, 0xB70000);
     public static final DeferredItem<SpawnEggItem> THRALL_SPAWN_EGG = spawnEgg(
             "thrall_spawn_egg", ModEntities.THRALL, 0x7F4000, 0xB70000);
+    public static final DeferredItem<SpawnEggItem> LICE_SPAWN_EGG = spawnEgg(
+            "lice_spawn_egg", ModEntities.LICE, 0x4A171A, 0xD8A94E);
+    public static final DeferredItem<SpawnEggItem> MANGLER_SPAWN_EGG = spawnEgg(
+            "mangler_spawn_egg", ModEntities.MANGLER, 0x5A1E1E, 0xBA8D55);
+    public static final DeferredItem<SpawnEggItem> HOST_SPAWN_EGG = spawnEgg(
+            "host_spawn_egg", ModEntities.HOST, 0x5A3200, 0xFF00DC);
+    public static final DeferredItem<SpawnEggItem> HOSTII_SPAWN_EGG = spawnEgg(
+            "hostii_spawn_egg", ModEntities.HOSTII, 0x836000, 0xFF00DC);
+    public static final DeferredItem<SpawnEggItem> INCOMPLETEFORM_SMALL_SPAWN_EGG = spawnEgg(
+            "incompleteform_small_spawn_egg", ModEntities.INCOMPLETEFORM_SMALL, 0x641A1A, 0xA98B68);
+    public static final DeferredItem<SpawnEggItem> INCOMPLETEFORM_MEDIUM_SPAWN_EGG = spawnEgg(
+            "incompleteform_medium_spawn_egg", ModEntities.INCOMPLETEFORM_MEDIUM, 0x501313, 0xB99B74);
+    public static final DeferredItem<SpawnEggItem> DRACONITE_SPAWN_EGG = spawnEgg(
+            "draconite_spawn_egg", ModEntities.DRACONITE, 0x241414, 0xB80000);
+    public static final DeferredItem<SpawnEggItem> KIRIN_SPAWN_EGG = spawnEgg(
+            "kirin_spawn_egg", ModEntities.KIRIN, 0x17121F, 0xB650D8);
     public static final DeferredItem<Item> RUPTER_VISCERA = simple("rupter_viscera");
     public static final DeferredItem<BlockItem> TUNNEL = ITEMS.registerSimpleBlockItem("tunnel", ModBlocks.TUNNEL);
     public static final DeferredItem<BlockItem> RESIDUE_PLANTS = ITEMS.registerSimpleBlockItem(
@@ -98,6 +114,10 @@ public final class ModItems {
     public static final DeferredItem<Item> LIVING_CORE = simple("living_core");
     public static final DeferredItem<Item> VILE_SHELL = simple("vile_shell");
     public static final DeferredItem<Item> SEMIORGANIC_INGOT = simple("semiorganic_ingot");
+    public static final DeferredItem<Item> TROPHY_BOOM_ORB = simple("trophy_boom_orb",
+            new Item.Properties().rarity(Rarity.EPIC).stacksTo(1));
+    public static final DeferredItem<Item> TROPHY_VOID_ORB = simple("trophy_void_orb",
+            new Item.Properties().rarity(Rarity.EPIC).stacksTo(1));
 
     public static final DeferredItem<FalseAppleItem> FALSE_APPLE = ITEMS.registerItem(
             "false_apple", FalseAppleItem::new, new Item.Properties());

@@ -8,6 +8,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.UUID;
 
@@ -17,6 +18,10 @@ public final class ScaryOrbEntity extends Entity {
     private static final int DISCARD_TICKS = 45;
     private UUID ownerId;
     private int activeTicks;
+    private boolean anchored;
+    private double anchorX;
+    private double anchorY;
+    private double anchorZ;
 
     public ScaryOrbEntity(EntityType<? extends ScaryOrbEntity> type, Level level) {
         super(type, level);
@@ -29,11 +34,23 @@ public final class ScaryOrbEntity extends Entity {
         ownerId = owner.getUUID();
     }
 
+    public void setAnchor(Vec3 anchor) {
+        anchored = true;
+        anchorX = anchor.x;
+        anchorY = anchor.y;
+        anchorZ = anchor.z;
+        setPos(anchor);
+    }
+
     @Override public void tick() {
         super.tick();
         setDeltaMovement(0.0, 0.0, 0.0);
         PrimitiveParasiteEntity owner = owner();
-        if (owner != null && owner.isAlive()) setPos(owner.getX(), owner.getY() + owner.getBbHeight() * 0.5, owner.getZ());
+        if (anchored) {
+            setPos(anchorX, anchorY, anchorZ);
+        } else if (owner != null && owner.isAlive()) {
+            setPos(owner.getX(), owner.getY() + owner.getBbHeight() * 0.5, owner.getZ());
+        }
         if (level().isClientSide) {
             for (int i = 0; i < 3; i++) {
                 level().addParticle(ParticleTypes.SOUL_FIRE_FLAME, getRandomX(0.6), getRandomY(), getRandomZ(0.6),
@@ -69,10 +86,18 @@ public final class ScaryOrbEntity extends Entity {
     @Override protected void readAdditionalSaveData(CompoundTag tag) {
         if (tag.hasUUID("owner")) ownerId = tag.getUUID("owner");
         activeTicks = tag.getInt("active_ticks");
+        anchored = tag.getBoolean("anchored");
+        anchorX = tag.getDouble("anchor_x");
+        anchorY = tag.getDouble("anchor_y");
+        anchorZ = tag.getDouble("anchor_z");
     }
 
     @Override protected void addAdditionalSaveData(CompoundTag tag) {
         if (ownerId != null) tag.putUUID("owner", ownerId);
         tag.putInt("active_ticks", activeTicks);
+        tag.putBoolean("anchored", anchored);
+        tag.putDouble("anchor_x", anchorX);
+        tag.putDouble("anchor_y", anchorY);
+        tag.putDouble("anchor_z", anchorZ);
     }
 }

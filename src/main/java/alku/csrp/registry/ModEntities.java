@@ -9,10 +9,19 @@ import alku.csrp.entity.CarrierLightEntity;
 import alku.csrp.entity.CruxEntity;
 import alku.csrp.entity.CruxThrownBlockDamageEntity;
 import alku.csrp.entity.DredgeEntity;
+import alku.csrp.entity.DraconiteEntity;
 import alku.csrp.entity.GnatEntity;
 import alku.csrp.entity.HeedEntity;
+import alku.csrp.entity.HostEntity;
+import alku.csrp.entity.HostIIEntity;
 import alku.csrp.entity.IncompleteCruxEntity;
+import alku.csrp.entity.IncompleteFormMediumEntity;
+import alku.csrp.entity.IncompleteFormSmallEntity;
+import alku.csrp.entity.KirinEntity;
+import alku.csrp.entity.LiceEntity;
 import alku.csrp.entity.LongarmsEntity;
+import alku.csrp.entity.ManglerEntity;
+import alku.csrp.entity.ParasiteProjectileEntity;
 import alku.csrp.entity.PullingBallEntity;
 import alku.csrp.entity.RupterEntity;
 import alku.csrp.entity.ScaryOrbEntity;
@@ -71,6 +80,22 @@ public final class ModEntities {
             monster("dredge", DredgeEntity::new, 0.8F, 3.4F);
     public static final DeferredHolder<EntityType<?>, EntityType<ThrallEntity>> THRALL =
             monster("thrall", ThrallEntity::new, 0.8F, 3.05F);
+    public static final DeferredHolder<EntityType<?>, EntityType<LiceEntity>> LICE =
+            monster("lice", LiceEntity::new, 0.85F, 1.0F);
+    public static final DeferredHolder<EntityType<?>, EntityType<ManglerEntity>> MANGLER =
+            monster("mangler", ManglerEntity::new, 1.0F, 1.0F);
+    public static final DeferredHolder<EntityType<?>, EntityType<HostEntity>> HOST =
+            monster("host", HostEntity::new, 0.9F, 3.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<HostIIEntity>> HOSTII =
+            monster("hostii", HostIIEntity::new, 1.5F, 7.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<IncompleteFormSmallEntity>> INCOMPLETEFORM_SMALL =
+            monster("incompleteform_small", IncompleteFormSmallEntity::new, 0.6F, 0.85F);
+    public static final DeferredHolder<EntityType<?>, EntityType<IncompleteFormMediumEntity>> INCOMPLETEFORM_MEDIUM =
+            monster("incompleteform_medium", IncompleteFormMediumEntity::new, 0.6F, 1.95F);
+    public static final DeferredHolder<EntityType<?>, EntityType<DraconiteEntity>> DRACONITE =
+            monster("draconite", DraconiteEntity::new, 2.4F, 3.8F);
+    public static final DeferredHolder<EntityType<?>, EntityType<KirinEntity>> KIRIN =
+            monster("kirin", KirinEntity::new, 2.1271334F, 8.85F);
     public static final DeferredHolder<EntityType<?>, EntityType<PullingBallEntity>> PULLING_BALL =
             ENTITIES.register("pulling_ball", () -> EntityType.Builder
                     .<PullingBallEntity>of(PullingBallEntity::new, MobCategory.MISC)
@@ -85,6 +110,11 @@ public final class ModEntities {
             ENTITIES.register("scary_orb", () -> EntityType.Builder.<ScaryOrbEntity>of(ScaryOrbEntity::new, MobCategory.MISC)
                     .sized(0.5F, 0.5F).clientTrackingRange(8).updateInterval(1)
                     .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "scary_orb").toString()));
+    public static final DeferredHolder<EntityType<?>, EntityType<ParasiteProjectileEntity>> PARASITE_PROJECTILE =
+            ENTITIES.register("parasite_projectile", () -> EntityType.Builder
+                    .<ParasiteProjectileEntity>of(ParasiteProjectileEntity::new, MobCategory.MISC)
+                    .sized(0.35F, 0.35F).clientTrackingRange(8).updateInterval(1)
+                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "parasite_projectile").toString()));
 
     private static <T extends net.minecraft.world.entity.Mob> DeferredHolder<EntityType<?>, EntityType<T>> monster(
             String id, EntityType.EntityFactory<T> factory, float width, float height) {

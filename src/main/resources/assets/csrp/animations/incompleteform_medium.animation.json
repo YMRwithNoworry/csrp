@@ -1,0 +1,20 @@
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "animation": {
+      "loop": true
+    },
+    "misc.idle": {
+      "loop": true
+    },
+    "move.walk": {
+      "loop": true
+    },
+    "attack.swing": {
+      "loop": true
+    },
+    "attack.charge": {
+      "loop": true
+    }
+  }
+}

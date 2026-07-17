@@ -27,6 +27,23 @@ public final class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> THRALL_LIVING = register("mes.growl");
     public static final DeferredHolder<SoundEvent, SoundEvent> THRALL_HURT = register("mes.hurt");
     public static final DeferredHolder<SoundEvent, SoundEvent> THRALL_DEATH = register("mes.death");
+    public static final DeferredHolder<SoundEvent, SoundEvent> INCOMPLETE_SMALL_LIVING = register("inhoos.growl");
+    public static final DeferredHolder<SoundEvent, SoundEvent> INCOMPLETE_SMALL_HURT = register("inhoos.hurt");
+    public static final DeferredHolder<SoundEvent, SoundEvent> INCOMPLETE_SMALL_DEATH = register("inhoos.death");
+    public static final DeferredHolder<SoundEvent, SoundEvent> INCOMPLETE_MEDIUM_LIVING = register("inhoom.growl");
+    public static final DeferredHolder<SoundEvent, SoundEvent> INCOMPLETE_MEDIUM_HURT = register("inhoom.hurt");
+    public static final DeferredHolder<SoundEvent, SoundEvent> INCOMPLETE_MEDIUM_DEATH = register("inhoom.death");
+    public static final DeferredHolder<SoundEvent, SoundEvent> LITE_FLESH_SLIDE = register("lite_flesh.slide");
+    public static final DeferredHolder<SoundEvent, SoundEvent> HOST_LIVING = register("host.growl");
+    public static final DeferredHolder<SoundEvent, SoundEvent> HOST_HURT = register("host.hurt");
+    public static final DeferredHolder<SoundEvent, SoundEvent> HOST_DEATH = register("host.death");
+    public static final DeferredHolder<SoundEvent, SoundEvent> DRACONITE_LIVING = register("draconite.living");
+    public static final DeferredHolder<SoundEvent, SoundEvent> DRACONITE_DEATH = register("draconite.death");
+    public static final DeferredHolder<SoundEvent, SoundEvent> DRACONITE_FIRE_SHOOT = register("draconite.fire_shoot");
+    public static final DeferredHolder<SoundEvent, SoundEvent> KIRIN_LIVING = register("kirin.living");
+    public static final DeferredHolder<SoundEvent, SoundEvent> KIRIN_HURT = register("kirin.hurt");
+    public static final DeferredHolder<SoundEvent, SoundEvent> KIRIN_DEATH = register("kirin.death");
+    public static final DeferredHolder<SoundEvent, SoundEvent> KIRIN_BLACK_HOLE = register("kirin.black_hole");
 
     private ModSounds() {
     }

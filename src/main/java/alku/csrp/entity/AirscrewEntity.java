@@ -12,6 +12,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
@@ -118,8 +119,34 @@ public final class AirscrewEntity extends CrudeParasiteEntity {
                 Vec3 pull = direction.normalize().scale(PULL_STRENGTH);
                 target.push(pull.x, pull.y, pull.z);
             }
-            if (distanceToSqr(target) < 4.0 && tickCount % 20 == 0) doHurtTarget(target);
+            if (distanceToSqr(target) < 4.0 && tickCount % 20 == 0) {
+                float attackDamage = (float) getAttributeValue(Attributes.ATTACK_DAMAGE);
+                if (!(target instanceof Player) && (target.getHealth() <= attackDamage || pullTicks >= 100)) {
+                    convertConsumedTarget(target);
+                    iterator.remove();
+                    continue;
+                }
+                doHurtTarget(target);
+            }
         }
+    }
+
+    private void convertConsumedTarget(LivingEntity target) {
+        if (!(level() instanceof ServerLevel serverLevel)) {
+            return;
+        }
+        float consumedHealth = target.getHealth();
+        target.discard();
+        Mob incomplete = random.nextBoolean()
+                ? ModEntities.INCOMPLETEFORM_SMALL.get().create(serverLevel)
+                : ModEntities.INCOMPLETEFORM_MEDIUM.get().create(serverLevel);
+        if (incomplete == null) {
+            return;
+        }
+        incomplete.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        incomplete.setTarget(getTarget());
+        serverLevel.addFreshEntity(incomplete);
+        heal(Math.max(1.0F, consumedHealth * 0.2F));
     }
 
     private LivingEntity resolveTarget(UUID id) {
