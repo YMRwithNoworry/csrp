@@ -34,6 +34,12 @@ public final class ClientModEvents {
                 new PrimitiveParasiteRenderer<>(context, "pri_viscera", 0.7F));
         event.registerEntityRenderer(ModEntities.GNAT.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "gnat", 0.25F));
+        event.registerEntityRenderer(ModEntities.CARRIER_HEAVY.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "carrier_heavy", 0.8F));
+        event.registerEntityRenderer(ModEntities.CARRIER_LIGHT.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "carrier_light", 0.55F));
+        event.registerEntityRenderer(ModEntities.CARRIER_FLYING.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "carrier_flying", 0.7F));
         event.registerEntityRenderer(ModEntities.SCARY_ORB.get(), ScaryOrbRenderer::new);
     }
 

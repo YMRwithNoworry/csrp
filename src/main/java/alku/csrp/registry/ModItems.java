@@ -44,6 +44,12 @@ public final class ModItems {
             "pri_viscera_spawn_egg", ModEntities.PRI_VISCERA, 0x421517, 0xA68B69);
     public static final DeferredItem<SpawnEggItem> GNAT_SPAWN_EGG = spawnEgg(
             "gnat_spawn_egg", ModEntities.GNAT, 0x4B1717, 0xB7A277);
+    public static final DeferredItem<SpawnEggItem> CARRIER_HEAVY_SPAWN_EGG = spawnEgg(
+            "carrier_heavy_spawn_egg", ModEntities.CARRIER_HEAVY, 0x552525, 0xBE9D60);
+    public static final DeferredItem<SpawnEggItem> CARRIER_LIGHT_SPAWN_EGG = spawnEgg(
+            "carrier_light_spawn_egg", ModEntities.CARRIER_LIGHT, 0x6B2D27, 0xD0AE6C);
+    public static final DeferredItem<SpawnEggItem> CARRIER_FLYING_SPAWN_EGG = spawnEgg(
+            "carrier_flying_spawn_egg", ModEntities.CARRIER_FLYING, 0x4A2025, 0xB98555);
     public static final DeferredItem<Item> RUPTER_VISCERA = simple("rupter_viscera");
     public static final DeferredItem<BlockItem> TUNNEL = ITEMS.registerSimpleBlockItem("tunnel", ModBlocks.TUNNEL);
     public static final DeferredItem<BlockItem> RESIDUE_PLANTS = ITEMS.registerSimpleBlockItem(

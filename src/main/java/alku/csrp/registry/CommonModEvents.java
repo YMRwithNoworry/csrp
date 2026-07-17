@@ -2,6 +2,9 @@ package alku.csrp.registry;
 
 import alku.csrp.Csrp;
 import alku.csrp.entity.BuglinEntity;
+import alku.csrp.entity.CarrierFlyingEntity;
+import alku.csrp.entity.CarrierHeavyEntity;
+import alku.csrp.entity.CarrierLightEntity;
 import alku.csrp.entity.GnatEntity;
 import alku.csrp.entity.LongarmsEntity;
 import alku.csrp.entity.RupterEntity;
@@ -29,6 +32,9 @@ public final class CommonModEvents {
         event.put(ModEntities.PRI_VERMIN.get(), VerminEntity.createAttributes().build());
         event.put(ModEntities.PRI_VISCERA.get(), VisceraEntity.createAttributes().build());
         event.put(ModEntities.GNAT.get(), GnatEntity.createAttributes().build());
+        event.put(ModEntities.CARRIER_HEAVY.get(), CarrierHeavyEntity.createAttributes().build());
+        event.put(ModEntities.CARRIER_LIGHT.get(), CarrierLightEntity.createAttributes().build());
+        event.put(ModEntities.CARRIER_FLYING.get(), CarrierFlyingEntity.createAttributes().build());
     }
 
     @SubscribeEvent
