@@ -14,6 +14,9 @@ const read = (file) => {
 const expect = (text, pattern, message) => {
   if (!pattern.test(text)) failures.push(message);
 };
+const reject = (text, pattern, message) => {
+  if (pattern.test(text)) failures.push(message);
+};
 
 const entities = read("src/main/java/alku/csrp/registry/ModEntities.java");
 const items = read("src/main/java/alku/csrp/registry/ModItems.java");
@@ -24,6 +27,12 @@ const shared = read("src/main/java/alku/csrp/entity/CarrierEntity.java");
 
 expect(shared, /LOW_HEALTH_FUSE_THRESHOLD = 0\.05F/, "carrier low-health fuse threshold is missing");
 expect(shared, /level\(\)\.explode\(this, getX\(\), getY\(\), getZ\(\), 4\.0F/, "carrier explosion radius is missing");
+reject(shared, /public boolean hurt\(DamageSource source, float amount\)/,
+  "carrier must not turn lethal damage into a surviving fuse state");
+reject(shared, /survivableDamage|setHealth\(Math\.max\(1\.0F/,
+  "carrier lethal-damage health clamp is still present");
+expect(shared, /super\.die\(damageSources\(\)\.mobAttack\(this\)\);\s*discard\(\);/,
+  "carrier detonation must die and remove itself immediately");
 expect(shared, /AreaEffectCloud/, "carrier lingering cloud is missing");
 expect(shared, /ModMobEffects\.COTH/, "carrier COTH cloud effect is missing");
 expect(shared, /ModMobEffects\.VIRAL/, "carrier viral cloud effect is missing");

@@ -6,7 +6,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.AreaEffectCloud;
@@ -34,7 +33,6 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity {
     private final int cloudDuration;
     private int fuseTicks = -1;
     private boolean detonated;
-    private DamageSource detonationSource;
 
     protected CarrierEntity(EntityType<? extends CarrierEntity> type, Level level, int fuseTime, int residueRadius,
             double viralRadius, int viralAmplifier, int cloudDuration) {
@@ -82,25 +80,6 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity {
         }
     }
 
-    @Override
-    public boolean hurt(DamageSource source, float amount) {
-        if (detonated) {
-            return false;
-        }
-        if (!level().isClientSide && amount >= getHealth() && !isOnFire()) {
-            float survivableDamage = Math.max(0.0F, getHealth() - 1.0F);
-            if (survivableDamage > 0.0F) {
-                super.hurt(source, survivableDamage);
-            } else {
-                setHealth(Math.max(1.0F, getMaxHealth() * 0.01F));
-            }
-            detonationSource = source;
-            startFuse();
-            return true;
-        }
-        return super.hurt(source, amount);
-    }
-
     protected final void startFuse() {
         if (fuseTicks < 0) {
             fuseTicks = 0;
@@ -138,7 +117,8 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity {
         applyExplosionEffects();
         spreadResidue();
         spawnLingeringCloud();
-        super.die(detonationSource == null ? damageSources().mobAttack(this) : detonationSource);
+        super.die(damageSources().mobAttack(this));
+        discard();
     }
 
     private void applyExplosionEffects() {
