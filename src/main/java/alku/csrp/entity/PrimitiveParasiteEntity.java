@@ -55,6 +55,9 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
+        if (!usesDamageAdaptation()) {
+            return super.hurt(source, amount);
+        }
         String damageId = damageTypeId(source);
         int previousHits = damageAdaptations.getOrDefault(damageId, 0);
         float reduction = Math.min(MAX_ADAPTATION_HITS, previousHits) * ADAPTATION_PER_HIT;
@@ -63,6 +66,10 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
             damageAdaptations.put(damageId, Math.min(MAX_ADAPTATION_HITS, previousHits + 1));
         }
         return hurt;
+    }
+
+    protected boolean usesDamageAdaptation() {
+        return true;
     }
 
     private static String damageTypeId(DamageSource source) {

@@ -40,6 +40,10 @@ public final class ClientModEvents {
                 new PrimitiveParasiteRenderer<>(context, "carrier_light", 0.55F));
         event.registerEntityRenderer(ModEntities.CARRIER_FLYING.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "carrier_flying", 0.7F));
+        event.registerEntityRenderer(ModEntities.CRUX.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "crux", 0.7F));
+        event.registerEntityRenderer(ModEntities.CRUX_INCOMPLETE.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "crux_incomplete", 0.45F));
         event.registerEntityRenderer(ModEntities.SCARY_ORB.get(), ScaryOrbRenderer::new);
     }
 

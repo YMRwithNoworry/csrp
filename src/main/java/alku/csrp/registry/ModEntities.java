@@ -5,7 +5,9 @@ import alku.csrp.entity.BuglinEntity;
 import alku.csrp.entity.CarrierFlyingEntity;
 import alku.csrp.entity.CarrierHeavyEntity;
 import alku.csrp.entity.CarrierLightEntity;
+import alku.csrp.entity.CruxEntity;
 import alku.csrp.entity.GnatEntity;
+import alku.csrp.entity.IncompleteCruxEntity;
 import alku.csrp.entity.LongarmsEntity;
 import alku.csrp.entity.RupterEntity;
 import alku.csrp.entity.ScaryOrbEntity;
@@ -51,6 +53,10 @@ public final class ModEntities {
             monster("carrier_light", CarrierLightEntity::new, 0.85F, 2.3F);
     public static final DeferredHolder<EntityType<?>, EntityType<CarrierFlyingEntity>> CARRIER_FLYING =
             monster("carrier_flying", CarrierFlyingEntity::new, 1.4F, 2.4F);
+    public static final DeferredHolder<EntityType<?>, EntityType<CruxEntity>> CRUX =
+            monster("crux", CruxEntity::new, 1.13333F, 3.3F);
+    public static final DeferredHolder<EntityType<?>, EntityType<IncompleteCruxEntity>> CRUX_INCOMPLETE =
+            monster("crux_incomplete", IncompleteCruxEntity::new, 1.31F, 1.1F);
     public static final DeferredHolder<EntityType<?>, EntityType<ScaryOrbEntity>> SCARY_ORB =
             ENTITIES.register("scary_orb", () -> EntityType.Builder.<ScaryOrbEntity>of(ScaryOrbEntity::new, MobCategory.MISC)
                     .sized(0.5F, 0.5F).clientTrackingRange(8).updateInterval(1)

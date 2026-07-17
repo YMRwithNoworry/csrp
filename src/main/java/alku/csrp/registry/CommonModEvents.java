@@ -5,7 +5,9 @@ import alku.csrp.entity.BuglinEntity;
 import alku.csrp.entity.CarrierFlyingEntity;
 import alku.csrp.entity.CarrierHeavyEntity;
 import alku.csrp.entity.CarrierLightEntity;
+import alku.csrp.entity.CruxEntity;
 import alku.csrp.entity.GnatEntity;
+import alku.csrp.entity.IncompleteCruxEntity;
 import alku.csrp.entity.LongarmsEntity;
 import alku.csrp.entity.RupterEntity;
 import alku.csrp.entity.SummonerEntity;
@@ -35,6 +37,8 @@ public final class CommonModEvents {
         event.put(ModEntities.CARRIER_HEAVY.get(), CarrierHeavyEntity.createAttributes().build());
         event.put(ModEntities.CARRIER_LIGHT.get(), CarrierLightEntity.createAttributes().build());
         event.put(ModEntities.CARRIER_FLYING.get(), CarrierFlyingEntity.createAttributes().build());
+        event.put(ModEntities.CRUX.get(), CruxEntity.createAttributes().build());
+        event.put(ModEntities.CRUX_INCOMPLETE.get(), IncompleteCruxEntity.createAttributes().build());
     }
 
     @SubscribeEvent
