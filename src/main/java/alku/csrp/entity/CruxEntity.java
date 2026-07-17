@@ -1,8 +1,10 @@
 package alku.csrp.entity;
 
+import alku.csrp.registry.ModEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -29,6 +31,9 @@ public final class CruxEntity extends CrudeParasiteEntity {
     private static final double BASE_ATTACK_DAMAGE = 20.0;
     private static final int DAMAGE_STACK_CAP = 10;
     private static final double DAMAGE_GAIN_PER_KILL = 0.12;
+    private static final float THROW_BASE_DAMAGE = 10.0F;
+    private static final double FALLING_BLOCK_DRAG = 0.98;
+    private static final double FALLING_BLOCK_GRAVITY = 0.04;
     private static final String DAMAGE_STACKS_TAG = "crux_damage_stacks";
     private static final RawAnimation ANIMATION = RawAnimation.begin().thenLoop("animation");
 
@@ -132,16 +137,42 @@ public final class CruxEntity extends CrudeParasiteEntity {
         BlockState state = level().getBlockState(source);
         float hardness = state.getDestroySpeed(level(), source);
         FallingBlockEntity block = FallingBlockEntity.fall(level(), source, state);
+        Vec3 launchPosition = launchPosition(target);
+        block.setPos(launchPosition.x, launchPosition.y, launchPosition.z);
         block.disableDrop();
-        block.setHurtsEntities(10.0F + Math.max(0.0F, hardness), 40);
+        block.setDeltaMovement(throwVelocity(launchPosition, target));
 
-        Vec3 toTarget = target.getEyePosition().subtract(block.position());
-        double horizontalDistance = Math.max(0.001, Math.sqrt(toTarget.x * toTarget.x + toTarget.z * toTarget.z));
-        double verticalVelocity = Math.min(0.85, Math.max(-0.15,
-                toTarget.y * 0.05 + 0.22 + horizontalDistance * 0.016));
-        block.setDeltaMovement(toTarget.x / horizontalDistance * 0.75, verticalVelocity,
-                toTarget.z / horizontalDistance * 0.75);
+        float damage = THROW_BASE_DAMAGE + Math.max(0.0F, hardness);
+        CruxThrownBlockDamageEntity damageProxy = ModEntities.CRUX_BLOCK_DAMAGE.get().create(level());
+        if (damageProxy != null) {
+            damageProxy.configure(this, block, damage);
+            level().addFreshEntity(damageProxy);
+        }
         return true;
+    }
+
+    private Vec3 launchPosition(LivingEntity target) {
+        Vec3 toTarget = target.position().subtract(position());
+        Vec3 horizontalDirection = new Vec3(toTarget.x, 0.0, toTarget.z).normalize();
+        return getEyePosition().add(horizontalDirection.scale(1.25)).subtract(0.0, 0.7, 0.0);
+    }
+
+    private Vec3 throwVelocity(Vec3 launchPosition, LivingEntity target) {
+        Vec3 initialTargetPosition = target.getEyePosition();
+        Vec3 initialDelta = initialTargetPosition.subtract(launchPosition);
+        double initialHorizontalDistance = Math.max(0.001,
+                Math.sqrt(initialDelta.x * initialDelta.x + initialDelta.z * initialDelta.z));
+        double flightTicks = Mth.clamp(initialHorizontalDistance / 0.9, 12.0, 32.0);
+        Vec3 targetPosition = initialTargetPosition.add(target.getDeltaMovement().scale(flightTicks));
+        Vec3 toTarget = targetPosition.subtract(launchPosition);
+        double horizontalDistance = Math.max(0.001, Math.sqrt(toTarget.x * toTarget.x + toTarget.z * toTarget.z));
+        double dragDistance = (1.0 - Math.pow(FALLING_BLOCK_DRAG, flightTicks)) / (1.0 - FALLING_BLOCK_DRAG);
+        double horizontalSpeed = horizontalDistance / dragDistance;
+        double gravityDistance = FALLING_BLOCK_GRAVITY / (1.0 - FALLING_BLOCK_DRAG)
+                * (flightTicks - FALLING_BLOCK_DRAG * dragDistance);
+        double verticalSpeed = (toTarget.y + gravityDistance) / dragDistance;
+        return new Vec3(toTarget.x / horizontalDistance * horizontalSpeed, verticalSpeed,
+                toTarget.z / horizontalDistance * horizontalSpeed);
     }
 
     private BlockPos findThrowableBlock() {

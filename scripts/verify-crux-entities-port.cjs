@@ -14,6 +14,9 @@ const read = (file) => {
 const expect = (text, pattern, message) => {
   if (!pattern.test(text)) failures.push(message);
 };
+const reject = (text, pattern, message) => {
+  if (pattern.test(text)) failures.push(message);
+};
 
 const entities = read("src/main/java/alku/csrp/registry/ModEntities.java");
 const items = read("src/main/java/alku/csrp/registry/ModItems.java");
@@ -22,6 +25,7 @@ const client = read("src/main/java/alku/csrp/client/ClientModEvents.java");
 const crudeBase = read("src/main/java/alku/csrp/entity/CrudeParasiteEntity.java");
 const crux = read("src/main/java/alku/csrp/entity/CruxEntity.java");
 const incomplete = read("src/main/java/alku/csrp/entity/IncompleteCruxEntity.java");
+const thrownBlockDamage = read("src/main/java/alku/csrp/entity/CruxThrownBlockDamageEntity.java");
 
 expect(entities, /monster\("crux", CruxEntity::new, 1\.13333F, 3\.3F\)/,
   "Crux legacy entity registration is missing");
@@ -35,11 +39,23 @@ expect(attributes, /ModEntities\.CRUX_INCOMPLETE\.get\(\), IncompleteCruxEntity\
   "Incomplete Crux attributes are not registered");
 expect(client, /"crux", 0\.7F/, "Crux renderer is missing");
 expect(client, /"crux_incomplete", 0\.45F/, "Incomplete Crux renderer is missing");
+expect(entities, /CRUX_BLOCK_DAMAGE/, "Crux thrown-block damage entity is missing");
 expect(crudeBase, /usesDamageAdaptation\(\)[\s\S]*return false/, "Crude parasites still use primitive adaptation");
 expect(crux, /Attributes\.MAX_HEALTH, 70\.0/, "Crux legacy health is missing");
 expect(crux, /Attributes\.ATTACK_DAMAGE, BASE_ATTACK_DAMAGE/, "Crux legacy damage is missing");
 expect(crux, /performAoeAttack/, "Crux area melee behavior is missing");
 expect(crux, /FallingBlockEntity\.fall/, "Crux block throw behavior is missing");
+expect(crux, /block\.setPos\(launchPosition\.x, launchPosition\.y, launchPosition\.z\)/,
+  "Crux must launch blocks from its front instead of the removed ground position");
+expect(crux, /damageProxy\.configure\(this, block, damage\)/,
+  "Crux throw must create a follower damage hitbox");
+reject(crux, /block\.setHurtsEntities/, "Crux must not rely on falling damage for thrown-block hits");
+expect(thrownBlockDamage, /follower\.getBoundingBox\(\)\.inflate/,
+  "Crux thrown-block damage entity does not follow the projectile hitbox");
+expect(thrownBlockDamage, /owner::isValidParasiteTarget/,
+  "Crux thrown-block damage entity does not exclude parasite targets");
+expect(thrownBlockDamage, /target\.hurt\(damageSources\(\)\.mobAttack\(owner\), damage\)/,
+  "Crux thrown-block damage entity does not apply attributed impact damage");
 expect(crux, /DAMAGE_STACK_CAP = 10/, "Crux kill damage cap is missing");
 expect(crux, /DAMAGE_GAIN_PER_KILL = 0\.12/, "Crux kill damage gain is missing");
 expect(incomplete, /MIN_GROW_TICKS = 20 \* 20/, "Incomplete Crux minimum growth time is missing");

@@ -6,6 +6,7 @@ import alku.csrp.entity.CarrierFlyingEntity;
 import alku.csrp.entity.CarrierHeavyEntity;
 import alku.csrp.entity.CarrierLightEntity;
 import alku.csrp.entity.CruxEntity;
+import alku.csrp.entity.CruxThrownBlockDamageEntity;
 import alku.csrp.entity.GnatEntity;
 import alku.csrp.entity.IncompleteCruxEntity;
 import alku.csrp.entity.LongarmsEntity;
@@ -57,6 +58,11 @@ public final class ModEntities {
             monster("crux", CruxEntity::new, 1.13333F, 3.3F);
     public static final DeferredHolder<EntityType<?>, EntityType<IncompleteCruxEntity>> CRUX_INCOMPLETE =
             monster("crux_incomplete", IncompleteCruxEntity::new, 1.31F, 1.1F);
+    public static final DeferredHolder<EntityType<?>, EntityType<CruxThrownBlockDamageEntity>> CRUX_BLOCK_DAMAGE =
+            ENTITIES.register("crux_block_damage", () -> EntityType.Builder
+                    .<CruxThrownBlockDamageEntity>of(CruxThrownBlockDamageEntity::new, MobCategory.MISC)
+                    .sized(0.1F, 0.1F).clientTrackingRange(0).updateInterval(1)
+                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "crux_block_damage").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<ScaryOrbEntity>> SCARY_ORB =
             ENTITIES.register("scary_orb", () -> EntityType.Builder.<ScaryOrbEntity>of(ScaryOrbEntity::new, MobCategory.MISC)
                     .sized(0.5F, 0.5F).clientTrackingRange(8).updateInterval(1)
