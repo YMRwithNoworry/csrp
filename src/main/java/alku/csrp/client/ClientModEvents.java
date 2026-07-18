@@ -6,7 +6,9 @@ import alku.csrp.client.renderer.AirscrewRenderer;
 import alku.csrp.client.renderer.BuglinRenderer;
 import alku.csrp.client.renderer.MarauderRenderer;
 import alku.csrp.client.renderer.MarauderTendrilRenderer;
+import alku.csrp.client.renderer.MovingFleshRenderer;
 import alku.csrp.client.renderer.RupterRenderer;
+import alku.csrp.client.renderer.SimAdventurerRenderer;
 import alku.csrp.client.renderer.AssimilatedParasiteRenderer;
 import alku.csrp.client.renderer.PrimitiveParasiteRenderer;
 import alku.csrp.client.renderer.PullingBallRenderer;
@@ -79,6 +81,10 @@ public final class ClientModEvents {
                 new PrimitiveParasiteRenderer<>(context, "draconite", 1.2F));
         event.registerEntityRenderer(ModEntities.KIRIN.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "kirin", 1.1F));
+        event.registerEntityRenderer(ModEntities.SIM_ADVENTURER.get(), SimAdventurerRenderer::new);
+        event.registerEntityRenderer(ModEntities.SIM_ADVENTURER_HEAD.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "sim_adventurerhead", 0.6F));
+        event.registerEntityRenderer(ModEntities.MOVINGFLESH.get(), MovingFleshRenderer::new);
         event.registerEntityRenderer(ModEntities.SIM_BEAR.get(), context ->
                 new AssimilatedParasiteRenderer(context, 0.65F));
         event.registerEntityRenderer(ModEntities.SIM_COW.get(), context ->

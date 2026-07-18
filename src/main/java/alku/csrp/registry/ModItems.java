@@ -78,6 +78,12 @@ public final class ModItems {
             "draconite_spawn_egg", ModEntities.DRACONITE, 0x241414, 0xB80000);
     public static final DeferredItem<SpawnEggItem> KIRIN_SPAWN_EGG = spawnEgg(
             "kirin_spawn_egg", ModEntities.KIRIN, 0x17121F, 0xB650D8);
+    public static final DeferredItem<SpawnEggItem> SIM_ADVENTURER_SPAWN_EGG = spawnEgg(
+            "sim_adventurer_spawn_egg", ModEntities.SIM_ADVENTURER, 0x5E392D, 0xC58B68);
+    public static final DeferredItem<SpawnEggItem> SIM_ADVENTURER_HEAD_SPAWN_EGG = spawnEgg(
+            "sim_adventurerhead_spawn_egg", ModEntities.SIM_ADVENTURER_HEAD, 0x5A3228, 0xC48A68);
+    public static final DeferredItem<SpawnEggItem> MOVING_FLESH_SPAWN_EGG = spawnEgg(
+            "movingflesh_spawn_egg", ModEntities.MOVINGFLESH, 0x59201E, 0xB66B57);
     public static final DeferredItem<SpawnEggItem> SIM_BEAR_SPAWN_EGG = spawnEgg(
             "sim_bear_spawn_egg", ModEntities.SIM_BEAR, 0x3A211C, 0xA24A3C);
     public static final DeferredItem<SpawnEggItem> SIM_COW_SPAWN_EGG = spawnEgg(

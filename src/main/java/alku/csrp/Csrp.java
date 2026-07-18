@@ -93,6 +93,9 @@ public final class Csrp {
             event.accept(ModItems.INCOMPLETEFORM_MEDIUM_SPAWN_EGG.get());
             event.accept(ModItems.DRACONITE_SPAWN_EGG.get());
             event.accept(ModItems.KIRIN_SPAWN_EGG.get());
+            event.accept(ModItems.SIM_ADVENTURER_SPAWN_EGG.get());
+            event.accept(ModItems.SIM_ADVENTURER_HEAD_SPAWN_EGG.get());
+            event.accept(ModItems.MOVING_FLESH_SPAWN_EGG.get());
             event.accept(ModItems.SIM_BEAR_SPAWN_EGG.get());
             event.accept(ModItems.SIM_COW_SPAWN_EGG.get());
             event.accept(ModItems.SIM_PIG_SPAWN_EGG.get());

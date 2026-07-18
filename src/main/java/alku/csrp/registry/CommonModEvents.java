@@ -34,7 +34,10 @@ import alku.csrp.entity.MarauderizedEndermanEntity;
 import alku.csrp.entity.MarauderizedHumanEntity;
 import alku.csrp.entity.MarauderizedSheepEntity;
 import alku.csrp.entity.MarauderizedVillagerEntity;
+import alku.csrp.entity.MovingFleshEntity;
 import alku.csrp.entity.RupterEntity;
+import alku.csrp.entity.SimAdventurerEntity;
+import alku.csrp.entity.SimAdventurerHeadEntity;
 import alku.csrp.entity.SummonerEntity;
 import alku.csrp.entity.ThrallEntity;
 import alku.csrp.entity.VerminEntity;
@@ -77,6 +80,9 @@ public final class CommonModEvents {
         event.put(ModEntities.INCOMPLETEFORM_MEDIUM.get(), IncompleteFormMediumEntity.createAttributes().build());
         event.put(ModEntities.DRACONITE.get(), DraconiteEntity.createAttributes().build());
         event.put(ModEntities.KIRIN.get(), KirinEntity.createAttributes().build());
+        event.put(ModEntities.SIM_ADVENTURER.get(), SimAdventurerEntity.createAttributes().build());
+        event.put(ModEntities.SIM_ADVENTURER_HEAD.get(), SimAdventurerHeadEntity.createAttributes().build());
+        event.put(ModEntities.MOVINGFLESH.get(), MovingFleshEntity.createAttributes().build());
         event.put(ModEntities.SIM_BEAR.get(), AssimilatedParasiteEntity.createAttributes(
                 AssimilatedParasiteEntity.Kind.BEAR).build());
         event.put(ModEntities.SIM_COW.get(), AssimilatedParasiteEntity.createAttributes(

@@ -199,6 +199,81 @@
     "subtitle": "subtitles.csrp.kirin.black_hole",
     "sounds": ["csrp:kirin_black_hole"]
   },
+  "sim_adventurer.living": {
+    "subtitle": "subtitles.csrp.sim_adventurer.living",
+    "sounds": [
+      "csrp:mob/assimilated/adventurer/breath1",
+      "csrp:mob/assimilated/adventurer/breath2",
+      "csrp:mob/assimilated/adventurer/breath3"
+    ]
+  },
+  "sim_adventurer.hurt": {
+    "subtitle": "subtitles.csrp.sim_adventurer.hurt",
+    "sounds": [
+      "csrp:mob/assimilated/human/hurt1",
+      "csrp:mob/assimilated/human/hurt2",
+      "csrp:mob/assimilated/human/hurt3"
+    ]
+  },
+  "sim_adventurer.death": {
+    "subtitle": "subtitles.csrp.sim_adventurer.death",
+    "sounds": ["csrp:mob/assimilated/human/death"]
+  },
+  "sim_adventurer.melt": {
+    "subtitle": "subtitles.csrp.sim_adventurer.melt",
+    "sounds": ["csrp:mob/crude/moving_flesh/infected_melting"]
+  },
+  "sim_adventurer.explode": {
+    "subtitle": "subtitles.csrp.sim_adventurer.explode",
+    "sounds": ["csrp:misc/mob_explotion"]
+  },
+  "sim_adventurer_head.living": {
+    "subtitle": "subtitles.csrp.sim_adventurer_head.living",
+    "sounds": [
+      "csrp:mob/assimilated/adventurer_head/growl",
+      "csrp:mob/assimilated/adventurer_head/growl1",
+      "csrp:mob/assimilated/adventurer_head/growl2"
+    ]
+  },
+  "sim_adventurer_head.hurt": {
+    "subtitle": "subtitles.csrp.sim_adventurer_head.hurt",
+    "sounds": [
+      "csrp:mob/assimilated/adventurer_head/hurt",
+      "csrp:mob/assimilated/adventurer_head/hurt1"
+    ]
+  },
+  "sim_adventurer_head.death": {
+    "subtitle": "subtitles.csrp.sim_adventurer_head.death",
+    "sounds": ["csrp:mob/assimilated/adventurer_head/death"]
+  },
+  "moving_flesh.living": {
+    "subtitle": "subtitles.csrp.moving_flesh.living",
+    "sounds": [
+      "csrp:mob/crude/moving_flesh/idle1",
+      "csrp:mob/crude/moving_flesh/idle2",
+      "csrp:mob/crude/moving_flesh/idle3"
+    ]
+  },
+  "moving_flesh.hurt": {
+    "subtitle": "subtitles.csrp.moving_flesh.hurt",
+    "sounds": ["csrp:mob/crude/moving_flesh/hurt"]
+  },
+  "moving_flesh.death": {
+    "subtitle": "subtitles.csrp.moving_flesh.death",
+    "sounds": ["csrp:mob/crude/moving_flesh/death"]
+  },
+  "moving_flesh.eat": {
+    "subtitle": "subtitles.csrp.moving_flesh.eat",
+    "sounds": ["csrp:mob/crude/moving_flesh/eat"]
+  },
+  "moving_flesh.grow": {
+    "subtitle": "subtitles.csrp.moving_flesh.grow",
+    "sounds": ["csrp:mob/crude/moving_flesh/grow"]
+  },
+  "moving_flesh.primitive": {
+    "subtitle": "subtitles.csrp.moving_flesh.primitive",
+    "sounds": ["csrp:mob/crude/moving_flesh/primitive"]
+  },
   "marauder.living": {
     "subtitle": "subtitles.csrp.marauder.living",
     "sounds": [

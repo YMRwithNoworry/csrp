@@ -39,10 +39,13 @@ import alku.csrp.entity.ParasiteProjectileEntity;
 import alku.csrp.entity.PullingBallEntity;
 import alku.csrp.entity.RupterEntity;
 import alku.csrp.entity.ScaryOrbEntity;
+import alku.csrp.entity.SimAdventurerEntity;
+import alku.csrp.entity.SimAdventurerHeadEntity;
 import alku.csrp.entity.SummonerEntity;
 import alku.csrp.entity.ThrallEntity;
 import alku.csrp.entity.VerminEntity;
 import alku.csrp.entity.VisceraEntity;
+import alku.csrp.entity.MovingFleshEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -110,6 +113,12 @@ public final class ModEntities {
             monster("draconite", DraconiteEntity::new, 2.4F, 3.8F);
     public static final DeferredHolder<EntityType<?>, EntityType<KirinEntity>> KIRIN =
             monster("kirin", KirinEntity::new, 2.1271334F, 8.85F);
+    public static final DeferredHolder<EntityType<?>, EntityType<SimAdventurerEntity>> SIM_ADVENTURER =
+            monster("sim_adventurer", SimAdventurerEntity::new, 0.6F, 1.95F);
+    public static final DeferredHolder<EntityType<?>, EntityType<SimAdventurerHeadEntity>> SIM_ADVENTURER_HEAD =
+            monster("sim_adventurerhead", SimAdventurerHeadEntity::new, 0.7F, 0.9F);
+    public static final DeferredHolder<EntityType<?>, EntityType<MovingFleshEntity>> MOVINGFLESH =
+            monster("movingflesh", MovingFleshEntity::new, 0.7F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<AssimilatedParasiteEntity>> SIM_BEAR =
             monster("sim_bear", (type, level) -> new AssimilatedParasiteEntity(type, level,
                     AssimilatedParasiteEntity.Kind.BEAR), 1.3F, 1.4F);
