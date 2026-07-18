@@ -94,10 +94,16 @@ public final class ModItems {
             "fer_bear_spawn_egg", ModEntities.FER_BEAR, 0x5A2A20, 0xD86B44);
     public static final DeferredItem<SpawnEggItem> FER_COW_SPAWN_EGG = spawnEgg(
             "fer_cow_spawn_egg", ModEntities.FER_COW, 0x54231F, 0xC1583E);
+    public static final DeferredItem<SpawnEggItem> FER_HORSE_SPAWN_EGG = spawnEgg(
+            "fer_horse_spawn_egg", ModEntities.FER_HORSE, 0x836500, 0xFF00DC);
+    public static final DeferredItem<SpawnEggItem> FER_HUMAN_SPAWN_EGG = spawnEgg(
+            "fer_human_spawn_egg", ModEntities.FER_HUMAN, 0x836500, 0xFF00DC);
     public static final DeferredItem<SpawnEggItem> FER_PIG_SPAWN_EGG = spawnEgg(
             "fer_pig_spawn_egg", ModEntities.FER_PIG, 0x6E2527, 0xD76448);
     public static final DeferredItem<SpawnEggItem> FER_SHEEP_SPAWN_EGG = spawnEgg(
             "fer_sheep_spawn_egg", ModEntities.FER_SHEEP, 0x6B514A, 0xD26C46);
+    public static final DeferredItem<SpawnEggItem> FER_VILLAGER_SPAWN_EGG = spawnEgg(
+            "fer_villager_spawn_egg", ModEntities.FER_VILLAGER, 0x836500, 0xFF00DC);
     public static final DeferredItem<SpawnEggItem> FER_WOLF_SPAWN_EGG = spawnEgg(
             "fer_wolf_spawn_egg", ModEntities.FER_WOLF, 0x4D3535, 0xCA573D);
     public static final DeferredItem<Item> RUPTER_VISCERA = simple("rupter_viscera");

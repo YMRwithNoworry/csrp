@@ -99,8 +99,11 @@ public final class Csrp {
             event.accept(ModItems.SIM_SQUID_SPAWN_EGG.get());
             event.accept(ModItems.FER_BEAR_SPAWN_EGG.get());
             event.accept(ModItems.FER_COW_SPAWN_EGG.get());
+            event.accept(ModItems.FER_HORSE_SPAWN_EGG.get());
+            event.accept(ModItems.FER_HUMAN_SPAWN_EGG.get());
             event.accept(ModItems.FER_PIG_SPAWN_EGG.get());
             event.accept(ModItems.FER_SHEEP_SPAWN_EGG.get());
+            event.accept(ModItems.FER_VILLAGER_SPAWN_EGG.get());
             event.accept(ModItems.FER_WOLF_SPAWN_EGG.get());
         }
     }

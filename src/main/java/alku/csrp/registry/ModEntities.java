@@ -122,12 +122,21 @@ public final class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<FeralParasiteEntity>> FER_COW =
             monster("fer_cow", (type, level) -> new FeralParasiteEntity(type, level,
                     FeralParasiteEntity.Kind.COW), 0.9F, 1.4F);
+    public static final DeferredHolder<EntityType<?>, EntityType<FeralParasiteEntity>> FER_HORSE =
+            monster("fer_horse", (type, level) -> new FeralParasiteEntity(type, level,
+                    FeralParasiteEntity.Kind.HORSE), 1.3964844F, 1.75F);
+    public static final DeferredHolder<EntityType<?>, EntityType<FeralParasiteEntity>> FER_HUMAN =
+            monster("fer_human", (type, level) -> new FeralParasiteEntity(type, level,
+                    FeralParasiteEntity.Kind.HUMAN), 0.6F, 1.95F);
     public static final DeferredHolder<EntityType<?>, EntityType<FeralParasiteEntity>> FER_PIG =
             monster("fer_pig", (type, level) -> new FeralParasiteEntity(type, level,
                     FeralParasiteEntity.Kind.PIG), 0.9F, 0.9F);
     public static final DeferredHolder<EntityType<?>, EntityType<FeralParasiteEntity>> FER_SHEEP =
             monster("fer_sheep", (type, level) -> new FeralParasiteEntity(type, level,
                     FeralParasiteEntity.Kind.SHEEP), 0.9F, 1.3F);
+    public static final DeferredHolder<EntityType<?>, EntityType<FeralParasiteEntity>> FER_VILLAGER =
+            monster("fer_villager", (type, level) -> new FeralParasiteEntity(type, level,
+                    FeralParasiteEntity.Kind.VILLAGER), 0.6F, 1.95F);
     public static final DeferredHolder<EntityType<?>, EntityType<FeralParasiteEntity>> FER_WOLF =
             monster("fer_wolf", (type, level) -> new FeralParasiteEntity(type, level,
                     FeralParasiteEntity.Kind.WOLF), 0.6F, 1.95F);

@@ -89,10 +89,16 @@ public final class ClientModEvents {
                 new PrimitiveParasiteRenderer<>(context, "fer_bear", 0.65F));
         event.registerEntityRenderer(ModEntities.FER_COW.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "fer_cow", 0.55F));
+        event.registerEntityRenderer(ModEntities.FER_HORSE.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "fer_horse", 0.5F));
+        event.registerEntityRenderer(ModEntities.FER_HUMAN.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "fer_human", 0.5F));
         event.registerEntityRenderer(ModEntities.FER_PIG.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "fer_pig", 0.45F));
         event.registerEntityRenderer(ModEntities.FER_SHEEP.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "fer_sheep", 0.50F));
+        event.registerEntityRenderer(ModEntities.FER_VILLAGER.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "fer_villager", 0.5F));
         event.registerEntityRenderer(ModEntities.FER_WOLF.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "fer_wolf", 0.45F));
         event.registerEntityRenderer(ModEntities.PARASITE_PROJECTILE.get(), ParasiteProjectileRenderer::new);

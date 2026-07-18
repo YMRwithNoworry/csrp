@@ -5,7 +5,8 @@ const root = path.resolve(__dirname, "..");
 const failures = [];
 const ids = [
   "sim_bear", "sim_cow", "sim_pig", "sim_sheep", "sim_wolf", "sim_squid",
-  "fer_bear", "fer_cow", "fer_pig", "fer_sheep", "fer_wolf"
+  "fer_bear", "fer_cow", "fer_horse", "fer_human", "fer_pig", "fer_sheep", "fer_villager",
+  "fer_wolf"
 ];
 const read = (file) => {
   const full = path.join(root, file);
@@ -46,6 +47,22 @@ expect(assimilated, /setTamedWolfTexture\(random\.nextInt\(100\) == 0\)/,
 expect(feral, /REGEN_AMOUNT\s*=\s*3\.0F/, "Feral recovery amount is missing");
 expect(feral, /REGEN_KILL_INTERVAL\s*=\s*10/, "Feral recovery interval is missing");
 expect(feral, /DamageTypeTags\.IS_FIRE.*amount \* 4\.0F/, "Feral fire weakness is missing");
+expect(feral, /MeleeAttackGoal\(this, 1\.5D, false\)/, "Feral legacy melee speed is missing");
+expect(feral, /HORSE\(37\.0D, 16\.0D, 3\.0D, 0\.6D, 0\.2775D/,
+  "Feral Horse legacy attributes are missing");
+expect(feral, /HUMAN\(24\.0D, 15\.0D, 7\.0D, 0\.3D, 0\.26D/,
+  "Feral Human legacy attributes are missing");
+expect(feral, /VILLAGER\(27\.0D, 17\.0D, 8\.0D, 0\.9D, 0\.26D/,
+  "Feral Villager legacy attributes are missing");
+expect(entities, /"fer_horse"[\s\S]*?1\.3964844F, 1\.75F/,
+  "Feral Horse legacy dimensions are missing");
+expect(entities, /"fer_human"[\s\S]*?0\.6F, 1\.95F/,
+  "Feral Human legacy dimensions are missing");
+expect(entities, /"fer_villager"[\s\S]*?0\.6F, 1\.95F/,
+  "Feral Villager legacy dimensions are missing");
+for (const id of ["fer_horse", "fer_human", "fer_villager"]) {
+  expect(client, new RegExp(`"${id}", 0\\.5F`), `${id}: legacy shadow radius is missing`);
+}
 expect(model, /getTextureResource\(AssimilatedParasiteEntity/, "Assimilated dynamic texture model is missing");
 
 for (const id of ids) {
@@ -91,4 +108,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log("Assimilated and Feral entity port verification passed (11 entities).");
+console.log("Assimilated and Feral entity port verification passed (14 entities).");

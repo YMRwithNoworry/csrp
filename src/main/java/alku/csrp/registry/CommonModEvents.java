@@ -79,8 +79,11 @@ public final class CommonModEvents {
                 AssimilatedParasiteEntity.Kind.SQUID).build());
         event.put(ModEntities.FER_BEAR.get(), FeralParasiteEntity.createAttributes(FeralParasiteEntity.Kind.BEAR).build());
         event.put(ModEntities.FER_COW.get(), FeralParasiteEntity.createAttributes(FeralParasiteEntity.Kind.COW).build());
+        event.put(ModEntities.FER_HORSE.get(), FeralParasiteEntity.createAttributes(FeralParasiteEntity.Kind.HORSE).build());
+        event.put(ModEntities.FER_HUMAN.get(), FeralParasiteEntity.createAttributes(FeralParasiteEntity.Kind.HUMAN).build());
         event.put(ModEntities.FER_PIG.get(), FeralParasiteEntity.createAttributes(FeralParasiteEntity.Kind.PIG).build());
         event.put(ModEntities.FER_SHEEP.get(), FeralParasiteEntity.createAttributes(FeralParasiteEntity.Kind.SHEEP).build());
+        event.put(ModEntities.FER_VILLAGER.get(), FeralParasiteEntity.createAttributes(FeralParasiteEntity.Kind.VILLAGER).build());
         event.put(ModEntities.FER_WOLF.get(), FeralParasiteEntity.createAttributes(FeralParasiteEntity.Kind.WOLF).build());
     }
 
