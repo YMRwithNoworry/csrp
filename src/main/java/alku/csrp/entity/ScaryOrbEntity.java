@@ -1,6 +1,5 @@
 package alku.csrp.entity;
 
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
@@ -52,10 +51,6 @@ public final class ScaryOrbEntity extends Entity {
             setPos(owner.getX(), owner.getY() + owner.getBbHeight() * 0.5, owner.getZ());
         }
         if (level().isClientSide) {
-            for (int i = 0; i < 3; i++) {
-                level().addParticle(ParticleTypes.SOUL_FIRE_FLAME, getRandomX(0.6), getRandomY(), getRandomZ(0.6),
-                        random.nextGaussian() * 0.01, 0.02, random.nextGaussian() * 0.01);
-            }
             return;
         }
         if (tickCount <= START_TICKS) return;
