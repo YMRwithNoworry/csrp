@@ -1,25 +1,51 @@
 package alku.csrp.client.renderer;
 
+import alku.csrp.Csrp;
 import alku.csrp.client.model.PrimitiveParasiteModel;
 import alku.csrp.entity.AirscrewEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
-/** Renders a pulsing tether for each creature currently captured by an Airscrew. */
+/** Renders the legacy Guardian-style tether for every creature held by an Airscrew. */
 public final class AirscrewRenderer extends GeoEntityRenderer<AirscrewEntity> {
-    private static final int TETHER_SEGMENTS = 24;
-    private static final float TETHER_RADIUS = 0.045F;
+    private static final ResourceLocation TETHER_TEXTURE = ResourceLocation.fromNamespaceAndPath(
+            Csrp.MODID, "textures/entity/airscrew_tether.png");
+    private static final RenderType TETHER_RENDER_TYPE = RenderType.entityCutoutNoCull(TETHER_TEXTURE);
+    private static final int TETHER_SIDES = 8;
+    private static final float TETHER_RADIUS = 0.282F;
 
     public AirscrewRenderer(EntityRendererProvider.Context context) {
         super(context, new PrimitiveParasiteModel<>("airscrew"));
         shadowRadius = 0.8F;
+    }
+
+    @Override
+    public boolean shouldRender(AirscrewEntity airscrew, Frustum frustum, double cameraX, double cameraY,
+                                double cameraZ) {
+        if (super.shouldRender(airscrew, frustum, cameraX, cameraY, cameraZ)) {
+            return true;
+        }
+
+        Vec3 start = tetherStart(airscrew, 1.0F);
+        for (LivingEntity target : airscrew.getPullTargetsForRendering()) {
+            if (frustum.isVisible(new AABB(start, tetherEnd(target, 1.0F)).inflate(TETHER_RADIUS))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -34,67 +60,68 @@ public final class AirscrewRenderer extends GeoEntityRenderer<AirscrewEntity> {
 
     private static void renderTether(AirscrewEntity airscrew, LivingEntity target, float partialTick,
                                      PoseStack poseStack, MultiBufferSource bufferSource) {
-        Vec3 renderOrigin = airscrew.getPosition(partialTick);
-        Vec3 start = airscrew.getEyePosition(partialTick).subtract(renderOrigin);
-        Vec3 end = target.getEyePosition(partialTick).subtract(renderOrigin);
+        Vec3 start = tetherStart(airscrew, partialTick);
+        Vec3 end = tetherEnd(target, partialTick);
         Vec3 direction = end.subtract(start);
-        double length = direction.length();
-        if (length < 0.01D) {
+        double distance = direction.length();
+        if (distance < 0.01D) {
             return;
         }
 
-        Vec3 forward = direction.scale(1.0D / length);
-        Vec3 side = forward.cross(new Vec3(0.0D, 1.0D, 0.0D));
-        if (side.lengthSqr() < 0.0001D) {
-            side = forward.cross(new Vec3(1.0D, 0.0D, 0.0D));
-        }
-        side = side.normalize();
-        Vec3 up = forward.cross(side).normalize();
-
-        PoseStack.Pose pose = poseStack.last();
-        VertexConsumer consumer = bufferSource.getBuffer(RenderType.lightning());
+        Vec3 normalized = direction.scale(1.0D / distance);
+        float beamLength = (float) distance + 1.0F;
+        float pitch = (float) Math.acos(normalized.y);
+        float yaw = (float) Math.atan2(normalized.z, normalized.x);
         float age = airscrew.tickCount + partialTick;
-        Vec3 previous = start;
-        for (int segment = 1; segment <= TETHER_SEGMENTS; segment++) {
-            float progress = segment / (float) TETHER_SEGMENTS;
-            Vec3 current = tetherPoint(start, end, side, up, age, progress);
-            float radius = TETHER_RADIUS * (0.85F + 0.15F * Mth.sin(age * 0.35F + progress * 14.0F));
-            int red = (int) (236.0F - progress * 46.0F);
-            int green = (int) (30.0F + progress * 18.0F);
-            int blue = (int) (42.0F + progress * 22.0F);
-            renderRibbonSegment(pose, consumer, previous, current, side, up, radius, red, green, blue);
-            previous = current;
+        float scroll = age * 0.5F % 1.0F;
+        float startV = -1.0F + scroll;
+        float endV = beamLength * 2.5F + startV;
+        float pulse = (Mth.sin(age * 0.5F) + 1.0F) * 0.5F;
+        int red = 196 + (int) (pulse * 59.0F);
+        int green = 30 + (int) (pulse * 44.0F);
+        int blue = 42 + (int) (pulse * 36.0F);
+
+        poseStack.pushPose();
+        poseStack.translate(0.0D, airscrew.getEyeHeight(), 0.0D);
+        poseStack.mulPose(Axis.YP.rotationDegrees((1.5707964F - yaw) * 57.295776F));
+        poseStack.mulPose(Axis.XP.rotationDegrees(pitch * 57.295776F));
+
+        VertexConsumer consumer = bufferSource.getBuffer(TETHER_RENDER_TYPE);
+        PoseStack.Pose pose = poseStack.last();
+        float spin = age * -0.075F;
+        for (int side = 0; side < TETHER_SIDES; side++) {
+            float progress = side / (float) TETHER_SIDES;
+            float nextProgress = (side + 1) / (float) TETHER_SIDES;
+            float angle = spin + progress * Mth.TWO_PI;
+            float nextAngle = spin + nextProgress * Mth.TWO_PI;
+            float x = Mth.cos(angle) * TETHER_RADIUS;
+            float z = Mth.sin(angle) * TETHER_RADIUS;
+            float nextX = Mth.cos(nextAngle) * TETHER_RADIUS;
+            float nextZ = Mth.sin(nextAngle) * TETHER_RADIUS;
+
+            vertex(consumer, pose, x, beamLength, z, red, green, blue, progress, endV);
+            vertex(consumer, pose, x, 0.0F, z, red, green, blue, progress, startV);
+            vertex(consumer, pose, nextX, 0.0F, nextZ, red, green, blue, nextProgress, startV);
+            vertex(consumer, pose, nextX, beamLength, nextZ, red, green, blue, nextProgress, endV);
         }
+        poseStack.popPose();
     }
 
-    private static Vec3 tetherPoint(Vec3 start, Vec3 end, Vec3 side, Vec3 up, float age, float progress) {
-        float taper = Mth.sin((float) Math.PI * progress);
-        double lateral = Mth.sin(age * 0.55F + progress * 24.0F) * 0.075D * taper;
-        double vertical = Mth.cos(age * 0.42F + progress * 17.0F) * 0.045D * taper;
-        return start.lerp(end, progress).add(side.scale(lateral)).add(up.scale(vertical));
+    private static Vec3 tetherStart(AirscrewEntity airscrew, float partialTick) {
+        return airscrew.getPosition(partialTick).add(0.0D, airscrew.getEyeHeight(), 0.0D);
     }
 
-    private static void renderRibbonSegment(PoseStack.Pose pose, VertexConsumer consumer, Vec3 start, Vec3 end,
-                                            Vec3 side, Vec3 up, float radius, int red, int green, int blue) {
-        Vec3 sideOffset = side.scale(radius);
-        Vec3 upOffset = up.scale(radius);
-        emitQuad(pose, consumer, start.add(sideOffset), end.add(sideOffset), end.subtract(sideOffset),
-                start.subtract(sideOffset), red, green, blue);
-        emitQuad(pose, consumer, start.add(upOffset), end.add(upOffset), end.subtract(upOffset),
-                start.subtract(upOffset), red, green, blue);
+    private static Vec3 tetherEnd(LivingEntity target, float partialTick) {
+        return target.getPosition(partialTick).add(0.0D, target.getBbHeight() * 0.5D, 0.0D);
     }
 
-    private static void emitQuad(PoseStack.Pose pose, VertexConsumer consumer, Vec3 first, Vec3 second,
-                                 Vec3 third, Vec3 fourth, int red, int green, int blue) {
-        addVertex(pose, consumer, first, red, green, blue, 220);
-        addVertex(pose, consumer, second, red, green, blue, 185);
-        addVertex(pose, consumer, third, red, green, blue, 185);
-        addVertex(pose, consumer, fourth, red, green, blue, 220);
-    }
-
-    private static void addVertex(PoseStack.Pose pose, VertexConsumer consumer, Vec3 position,
-                                  int red, int green, int blue, int alpha) {
-        consumer.addVertex(pose, (float) position.x, (float) position.y, (float) position.z)
-                .setColor(red, green, blue, alpha);
+    private static void vertex(VertexConsumer consumer, PoseStack.Pose pose, float x, float y, float z,
+                               int red, int green, int blue, float u, float v) {
+        consumer.addVertex(pose, x, y, z)
+                .setColor(red, green, blue, 255)
+                .setUv(u, v)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(LightTexture.FULL_BRIGHT)
+                .setNormal(pose, 0.0F, 1.0F, 0.0F);
     }
 }
