@@ -39,6 +39,7 @@ import java.util.Set;
 import java.util.UUID;
 
 public final class AirscrewEntity extends CrudeParasiteEntity implements PullingBallOwner {
+    private static final float LEGACY_MOUTH_HEIGHT = 0.5F;
     private static final int MAX_PULL_TARGETS = 3;
     private static final int PULL_DURATION_TICKS = 600;
     private static final int VOLLEY_COOLDOWN_TICKS = 300;
@@ -62,6 +63,14 @@ public final class AirscrewEntity extends CrudeParasiteEntity implements Pulling
         moveControl = new FlyingMoveControl(this, 20, true);
         setNoGravity(true);
         xpReward = 36;
+    }
+
+    public float getTetherMouthHeight() {
+        return LEGACY_MOUTH_HEIGHT;
+    }
+
+    public Vec3 getTetherMouthPosition(float partialTick) {
+        return getPosition(partialTick).add(0.0D, LEGACY_MOUTH_HEIGHT, 0.0D);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -214,7 +223,7 @@ public final class AirscrewEntity extends CrudeParasiteEntity implements Pulling
         if (tickCount % 2 != 0) {
             return;
         }
-        Vec3 start = getEyePosition().add(getViewVector(1.0F).scale(0.25D));
+        Vec3 start = getTetherMouthPosition(1.0F).add(getViewVector(1.0F).scale(0.25D));
         for (LivingEntity target : getPullTargetsForRendering()) {
             Vec3 end = target.getEyePosition();
             Vec3 delta = end.subtract(start);
@@ -268,7 +277,7 @@ public final class AirscrewEntity extends CrudeParasiteEntity implements Pulling
     private void shootPullingBall(LivingEntity target) {
         PullingBallEntity ball = ModEntities.PULLING_BALL.get().create(level());
         if (ball == null) return;
-        Vec3 start = getEyePosition().add(getViewVector(1.0F).scale(0.5));
+        Vec3 start = getTetherMouthPosition(1.0F).add(getViewVector(1.0F).scale(0.5));
         Vec3 direction = target.getEyePosition().subtract(start).normalize();
         ball.setOwner(this);
         ball.setPos(start.x, start.y, start.z);

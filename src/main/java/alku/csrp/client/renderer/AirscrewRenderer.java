@@ -82,7 +82,7 @@ public final class AirscrewRenderer extends GeoEntityRenderer<AirscrewEntity> {
         int blue = 42 + (int) (pulse * 36.0F);
 
         poseStack.pushPose();
-        poseStack.translate(0.0D, airscrew.getEyeHeight(), 0.0D);
+        poseStack.translate(0.0D, airscrew.getTetherMouthHeight(), 0.0D);
         poseStack.mulPose(Axis.YP.rotationDegrees((1.5707964F - yaw) * 57.295776F));
         poseStack.mulPose(Axis.XP.rotationDegrees(pitch * 57.295776F));
 
@@ -108,7 +108,7 @@ public final class AirscrewRenderer extends GeoEntityRenderer<AirscrewEntity> {
     }
 
     private static Vec3 tetherStart(AirscrewEntity airscrew, float partialTick) {
-        return airscrew.getPosition(partialTick).add(0.0D, airscrew.getEyeHeight(), 0.0D);
+        return airscrew.getTetherMouthPosition(partialTick);
     }
 
     private static Vec3 tetherEnd(LivingEntity target, float partialTick) {

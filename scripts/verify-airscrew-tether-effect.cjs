@@ -15,12 +15,23 @@ for (const hook of ["PULL_TARGET_IDS", "syncPullTargets", "getPullTargetsForRend
 }
 
 for (const hook of [
+  "LEGACY_MOUTH_HEIGHT",
+  "getTetherMouthHeight()",
+  "getTetherMouthPosition(float partialTick)",
+  "return getPosition(partialTick).add(0.0D, LEGACY_MOUTH_HEIGHT, 0.0D);"
+]) {
+  if (!airscrew.includes(hook)) failures.push(`Airscrew legacy mouth tether anchor missing: ${hook}`);
+}
+
+for (const hook of [
   "TETHER_TEXTURE",
   "RenderType.entityCutoutNoCull(TETHER_TEXTURE)",
   "shouldRender(AirscrewEntity airscrew, Frustum frustum",
   "renderTether(airscrew, target, partialTick, poseStack, bufferSource)",
   "setUv(u, v)",
   "LightTexture.FULL_BRIGHT",
+  "airscrew.getTetherMouthHeight()",
+  "airscrew.getTetherMouthPosition(partialTick)",
   "getPullTargetsForRendering"
 ]) {
   if (!renderer.includes(hook)) failures.push(`Airscrew tether renderer missing: ${hook}`);
