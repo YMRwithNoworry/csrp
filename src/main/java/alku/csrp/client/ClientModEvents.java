@@ -10,6 +10,7 @@ import alku.csrp.client.renderer.PrimitiveParasiteRenderer;
 import alku.csrp.client.renderer.PullingBallRenderer;
 import alku.csrp.client.renderer.ParasiteProjectileRenderer;
 import alku.csrp.client.renderer.ScaryOrbRenderer;
+import alku.csrp.client.renderer.TetheredMarauderizedRenderer;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModItems;
 import alku.csrp.registry.ModParticles;
@@ -112,6 +113,18 @@ public final class ClientModEvents {
                 new PrimitiveParasiteRenderer<>(context, "hi_golem", 0.8F));
         event.registerEntityRenderer(ModEntities.HI_SKELETON.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "hi_skeleton", 0.5F));
+        event.registerEntityRenderer(ModEntities.MAR_BEAR.get(), context ->
+                new TetheredMarauderizedRenderer<>(context, "mar_bear", 0.65F));
+        event.registerEntityRenderer(ModEntities.MAR_COW.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "mar_cow", 0.55F));
+        event.registerEntityRenderer(ModEntities.MAR_ENDERMAN.get(), context ->
+                new TetheredMarauderizedRenderer<>(context, "mar_enderman", 0.5F));
+        event.registerEntityRenderer(ModEntities.MAR_HUMAN.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "mar_human", 0.5F));
+        event.registerEntityRenderer(ModEntities.MAR_SHEEP.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "mar_sheep", 0.5F));
+        event.registerEntityRenderer(ModEntities.MAR_VILLAGER.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "mar_villager", 0.5F));
         event.registerEntityRenderer(ModEntities.PARASITE_PROJECTILE.get(), ParasiteProjectileRenderer::new);
     }
 

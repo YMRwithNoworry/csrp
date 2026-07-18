@@ -8,12 +8,25 @@ if (process.argv.length < 6) {
 
 const [inputPath, outputPath, identifier, widthText, heightText = widthText] = process.argv.slice(2);
 const source = fs.readFileSync(inputPath, "utf8");
-const number = (value) => Number.parseFloat(value.replace(/[fFdD]$/u, ""));
+const number = (value) => {
+  const expression = value.trim().replace(/\((?:float|double)\)\s*/gu, "").replace(/[fFdD](?=\s*(?:[,)]|$))/gu, "");
+  if (!/^(?:(?:[0-9.\s()+\-*/]+)|(?:Math\.PI))+$/u.test(expression)) {
+    throw new Error(`Unsupported model number expression: ${value}`);
+  }
+  return Function(`"use strict"; return (${expression});`)();
+};
 const round = (value) => Math.round(value * 1_000_000) / 1_000_000;
 const fields = new Map();
 const parents = new Map();
 
-const declaration = /this\.(\w+)\s*=\s*new ModelRenderer\(\(ModelBase\)this,\s*(\d+),\s*(\d+)\);\s*\n\s*this\.\1\.func_78793_a\(([-\d.]+f?),\s*([-\d.]+f?),\s*([-\d.]+f?)\);\s*\n\s*this\.\1\.func_78790_a\(([-\d.]+f?),\s*([-\d.]+f?),\s*([-\d.]+f?),\s*(\d+),\s*(\d+),\s*(\d+),\s*([-\d.]+f?)\);(?:\s*\n\s*this\.setRotateAngle\(this\.\1,\s*([-\d.]+f?),\s*([-\d.]+f?),\s*([-\d.]+f?)\);)?/gu;
+const value = "([^,\\r\\n]+)";
+const declaration = new RegExp(
+  `this\\.(\\w+)\\s*=\\s*new ModelRenderer\\((?:\\(ModelBase\\))?this,\\s*(\\d+),\\s*(\\d+)\\);\\s*\\n\\s*`
+  + `this\\.\\1\\.func_78793_a\\(${value},\\s*${value},\\s*${value}\\);\\s*\\n\\s*`
+  + `this\\.\\1\\.func_78790_a\\(${value},\\s*${value},\\s*${value},\\s*(\\d+),\\s*(\\d+),\\s*(\\d+),\\s*${value}\\);`
+  + `(?:\\s*\\n\\s*this\\.setRotateAngle\\(this\\.\\1,\\s*${value},\\s*${value},\\s*${value}\\);)?`,
+  "gu"
+);
 for (const match of source.matchAll(declaration)) {
   const [, name, u, v, pivotX, pivotY, pivotZ, boxX, boxY, boxZ, sizeX, sizeY, sizeZ, inflate,
     rotationX = "0", rotationY = "0", rotationZ = "0"] = match;

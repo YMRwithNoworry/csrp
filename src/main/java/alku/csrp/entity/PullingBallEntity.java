@@ -26,7 +26,7 @@ public final class PullingBallEntity extends Entity {
         noPhysics = true;
     }
 
-    public void setOwner(AirscrewEntity owner) {
+    public void setOwner(Entity owner) {
         ownerId = owner.getUUID();
     }
 
@@ -49,7 +49,7 @@ public final class PullingBallEntity extends Entity {
             return;
         }
 
-        AirscrewEntity owner = owner();
+        PullingBallOwner owner = owner();
         if (owner == null || !owner.isAlive() || tickCount > 80) {
             discard();
             return;
@@ -57,7 +57,7 @@ public final class PullingBallEntity extends Entity {
         if (tickCount == 5) setDeltaMovement(getDeltaMovement().scale(2.0));
 
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(0.7),
-                owner::isValidParasiteTarget)) {
+                owner::isValidPullTarget)) {
             if (owner.captureTarget(target)) {
                 discard();
                 return;
@@ -65,10 +65,10 @@ public final class PullingBallEntity extends Entity {
         }
     }
 
-    private AirscrewEntity owner() {
+    private PullingBallOwner owner() {
         if (ownerId == null || !(level() instanceof ServerLevel serverLevel)) return null;
         Entity entity = serverLevel.getEntity(ownerId);
-        return entity instanceof AirscrewEntity airscrew ? airscrew : null;
+        return entity instanceof PullingBallOwner owner ? owner : null;
     }
 
     private void placeWebs(BlockPos center) {

@@ -26,6 +26,12 @@ import alku.csrp.entity.KirinEntity;
 import alku.csrp.entity.LiceEntity;
 import alku.csrp.entity.LongarmsEntity;
 import alku.csrp.entity.ManglerEntity;
+import alku.csrp.entity.MarauderizedBearEntity;
+import alku.csrp.entity.MarauderizedCowEntity;
+import alku.csrp.entity.MarauderizedEndermanEntity;
+import alku.csrp.entity.MarauderizedHumanEntity;
+import alku.csrp.entity.MarauderizedSheepEntity;
+import alku.csrp.entity.MarauderizedVillagerEntity;
 import alku.csrp.entity.RupterEntity;
 import alku.csrp.entity.SummonerEntity;
 import alku.csrp.entity.ThrallEntity;
@@ -93,6 +99,12 @@ public final class CommonModEvents {
         event.put(ModEntities.HI_BLAZE.get(), HiBlazeEntity.createAttributes().build());
         event.put(ModEntities.HI_GOLEM.get(), HiGolemEntity.createAttributes().build());
         event.put(ModEntities.HI_SKELETON.get(), HiSkeletonEntity.createAttributes().build());
+        event.put(ModEntities.MAR_BEAR.get(), MarauderizedBearEntity.createAttributes().build());
+        event.put(ModEntities.MAR_COW.get(), MarauderizedCowEntity.createAttributes().build());
+        event.put(ModEntities.MAR_ENDERMAN.get(), MarauderizedEndermanEntity.createAttributes().build());
+        event.put(ModEntities.MAR_HUMAN.get(), MarauderizedHumanEntity.createAttributes().build());
+        event.put(ModEntities.MAR_SHEEP.get(), MarauderizedSheepEntity.createAttributes().build());
+        event.put(ModEntities.MAR_VILLAGER.get(), MarauderizedVillagerEntity.createAttributes().build());
     }
 
     @SubscribeEvent

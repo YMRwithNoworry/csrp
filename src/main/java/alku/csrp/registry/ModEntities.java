@@ -27,6 +27,12 @@ import alku.csrp.entity.KirinEntity;
 import alku.csrp.entity.LiceEntity;
 import alku.csrp.entity.LongarmsEntity;
 import alku.csrp.entity.ManglerEntity;
+import alku.csrp.entity.MarauderizedBearEntity;
+import alku.csrp.entity.MarauderizedCowEntity;
+import alku.csrp.entity.MarauderizedEndermanEntity;
+import alku.csrp.entity.MarauderizedHumanEntity;
+import alku.csrp.entity.MarauderizedSheepEntity;
+import alku.csrp.entity.MarauderizedVillagerEntity;
 import alku.csrp.entity.ParasiteProjectileEntity;
 import alku.csrp.entity.PullingBallEntity;
 import alku.csrp.entity.RupterEntity;
@@ -152,6 +158,18 @@ public final class ModEntities {
             monster("hi_golem", HiGolemEntity::new, 1.1F, 2.7F);
     public static final DeferredHolder<EntityType<?>, EntityType<HiSkeletonEntity>> HI_SKELETON =
             monster("hi_skeleton", HiSkeletonEntity::new, 0.6F, 1.95F);
+    public static final DeferredHolder<EntityType<?>, EntityType<MarauderizedBearEntity>> MAR_BEAR =
+            monster("mar_bear", MarauderizedBearEntity::new, 1.3F, 1.4F);
+    public static final DeferredHolder<EntityType<?>, EntityType<MarauderizedCowEntity>> MAR_COW =
+            monster("mar_cow", MarauderizedCowEntity::new, 0.9F, 1.4F);
+    public static final DeferredHolder<EntityType<?>, EntityType<MarauderizedEndermanEntity>> MAR_ENDERMAN =
+            monster("mar_enderman", MarauderizedEndermanEntity::new, 0.6F, 2.9F);
+    public static final DeferredHolder<EntityType<?>, EntityType<MarauderizedHumanEntity>> MAR_HUMAN =
+            monster("mar_human", MarauderizedHumanEntity::new, 0.6F, 1.95F);
+    public static final DeferredHolder<EntityType<?>, EntityType<MarauderizedSheepEntity>> MAR_SHEEP =
+            monster("mar_sheep", MarauderizedSheepEntity::new, 0.7566F, 2.85F);
+    public static final DeferredHolder<EntityType<?>, EntityType<MarauderizedVillagerEntity>> MAR_VILLAGER =
+            monster("mar_villager", MarauderizedVillagerEntity::new, 0.6F, 2.75F);
     public static final DeferredHolder<EntityType<?>, EntityType<PullingBallEntity>> PULLING_BALL =
             ENTITIES.register("pulling_ball", () -> EntityType.Builder
                     .<PullingBallEntity>of(PullingBallEntity::new, MobCategory.MISC)

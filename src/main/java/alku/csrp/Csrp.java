@@ -111,6 +111,12 @@ public final class Csrp {
             event.accept(ModItems.HI_BLAZE_SPAWN_EGG.get());
             event.accept(ModItems.HI_GOLEM_SPAWN_EGG.get());
             event.accept(ModItems.HI_SKELETON_SPAWN_EGG.get());
+            event.accept(ModItems.MAR_BEAR_SPAWN_EGG.get());
+            event.accept(ModItems.MAR_COW_SPAWN_EGG.get());
+            event.accept(ModItems.MAR_ENDERMAN_SPAWN_EGG.get());
+            event.accept(ModItems.MAR_HUMAN_SPAWN_EGG.get());
+            event.accept(ModItems.MAR_SHEEP_SPAWN_EGG.get());
+            event.accept(ModItems.MAR_VILLAGER_SPAWN_EGG.get());
         }
     }
 }

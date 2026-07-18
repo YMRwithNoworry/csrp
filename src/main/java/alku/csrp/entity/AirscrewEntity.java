@@ -38,7 +38,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-public final class AirscrewEntity extends CrudeParasiteEntity {
+public final class AirscrewEntity extends CrudeParasiteEntity implements PullingBallOwner {
     private static final int MAX_PULL_TARGETS = 3;
     private static final int PULL_DURATION_TICKS = 600;
     private static final int VOLLEY_COOLDOWN_TICKS = 300;
@@ -123,6 +123,11 @@ public final class AirscrewEntity extends CrudeParasiteEntity {
             syncPullTargets();
         }
         return captured;
+    }
+
+    @Override
+    public boolean isValidPullTarget(LivingEntity target) {
+        return isValidParasiteTarget(target);
     }
 
     private void tickPullTargets() {

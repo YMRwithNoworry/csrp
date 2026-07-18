@@ -114,6 +114,18 @@ public final class ModItems {
             "hi_golem_spawn_egg", ModEntities.HI_GOLEM, 0x362421, 0xB86549);
     public static final DeferredItem<SpawnEggItem> HI_SKELETON_SPAWN_EGG = spawnEgg(
             "hi_skeleton_spawn_egg", ModEntities.HI_SKELETON, 0x463D38, 0xC7A17C);
+    public static final DeferredItem<SpawnEggItem> MAR_BEAR_SPAWN_EGG = spawnEgg(
+            "mar_bear_spawn_egg", ModEntities.MAR_BEAR, 0x5A2A20, 0xD86B44);
+    public static final DeferredItem<SpawnEggItem> MAR_COW_SPAWN_EGG = spawnEgg(
+            "mar_cow_spawn_egg", ModEntities.MAR_COW, 0x54231F, 0xC1583E);
+    public static final DeferredItem<SpawnEggItem> MAR_ENDERMAN_SPAWN_EGG = spawnEgg(
+            "mar_enderman_spawn_egg", ModEntities.MAR_ENDERMAN, 0x20182B, 0x7A355D);
+    public static final DeferredItem<SpawnEggItem> MAR_HUMAN_SPAWN_EGG = spawnEgg(
+            "mar_human_spawn_egg", ModEntities.MAR_HUMAN, 0x836500, 0xFF00DC);
+    public static final DeferredItem<SpawnEggItem> MAR_SHEEP_SPAWN_EGG = spawnEgg(
+            "mar_sheep_spawn_egg", ModEntities.MAR_SHEEP, 0x6B514A, 0xD26C46);
+    public static final DeferredItem<SpawnEggItem> MAR_VILLAGER_SPAWN_EGG = spawnEgg(
+            "mar_villager_spawn_egg", ModEntities.MAR_VILLAGER, 0x836500, 0xFF00DC);
     public static final DeferredItem<Item> RUPTER_VISCERA = simple("rupter_viscera");
     public static final DeferredItem<BlockItem> TUNNEL = ITEMS.registerSimpleBlockItem("tunnel", ModBlocks.TUNNEL);
     public static final DeferredItem<BlockItem> RESIDUE_PLANTS = ITEMS.registerSimpleBlockItem(

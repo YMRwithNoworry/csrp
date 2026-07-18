@@ -1,0 +1,6 @@
+{
+  "parent": "csrp:item/spawn_egg",
+  "textures": {
+    "layer0": "csrp:item/mar_sheep_spawn_egg"
+  }
+}
