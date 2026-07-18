@@ -23,7 +23,9 @@ import software.bernie.geckolib.renderer.GeoEntityRenderer;
 public final class AirscrewRenderer extends GeoEntityRenderer<AirscrewEntity> {
     private static final ResourceLocation TETHER_TEXTURE = ResourceLocation.fromNamespaceAndPath(
             Csrp.MODID, "textures/entity/airscrew_tether.png");
-    private static final RenderType TETHER_RENDER_TYPE = RenderType.entityCutoutNoCull(TETHER_TEXTURE);
+    // RenderLeer used a full-bright blended Guardian beam; the emissive translucent pass keeps
+    // the line visible over opaque entities and terrain in the 1.21 renderer.
+    private static final RenderType TETHER_RENDER_TYPE = RenderType.entityTranslucentEmissive(TETHER_TEXTURE);
     private static final int TETHER_SIDES = 8;
     private static final float TETHER_RADIUS = 0.282F;
 
@@ -76,10 +78,10 @@ public final class AirscrewRenderer extends GeoEntityRenderer<AirscrewEntity> {
         float scroll = age * 0.5F % 1.0F;
         float startV = -1.0F + scroll;
         float endV = beamLength * 2.5F + startV;
-        float pulse = (Mth.sin(age * 0.5F) + 1.0F) * 0.5F;
-        int red = 196 + (int) (pulse * 59.0F);
-        int green = 30 + (int) (pulse * 44.0F);
-        int blue = 42 + (int) (pulse * 36.0F);
+        float pulse = 0.82F + (Mth.sin(age * 0.5F) + 1.0F) * 0.09F;
+        int red = (int) (255.0F * pulse);
+        int green = (int) (223.0F * pulse);
+        int blue = (int) (64.0F * pulse);
 
         poseStack.pushPose();
         poseStack.translate(0.0D, airscrew.getTetherMouthHeight(), 0.0D);

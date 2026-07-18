@@ -10,8 +10,21 @@ const airscrew = read("src/main/java/alku/csrp/entity/AirscrewEntity.java");
 const renderer = read("src/main/java/alku/csrp/client/renderer/AirscrewRenderer.java");
 const clientEvents = read("src/main/java/alku/csrp/client/ClientModEvents.java");
 
-for (const hook of ["PULL_TARGET_IDS", "syncPullTargets", "getPullTargetsForRendering"]) {
+for (const hook of ["PULL_TARGET_IDS", "syncPullTargets", "getPullTargetsForRendering", "sendPullTetherParticles"]) {
   if (!airscrew.includes(hook)) failures.push(`Airscrew target sync missing: ${hook}`);
+}
+
+for (const hook of [
+  "sendPullTetherParticles(ServerLevel serverLevel)",
+  "serverLevel.sendParticles(ParticleTypes.CRIT",
+  "for (UUID targetId : pullTargets)",
+  "syncPullTargets();\n        if (level() instanceof ServerLevel serverLevel)"
+]) {
+  if (!airscrew.includes(hook)) failures.push(`Airscrew shared tether particle path missing: ${hook}`);
+}
+
+if (airscrew.includes("level().addParticle(ParticleTypes.CRIT")) {
+  failures.push("Airscrew tether particles are still local-only instead of server-broadcast");
 }
 
 for (const hook of [
@@ -25,7 +38,7 @@ for (const hook of [
 
 for (const hook of [
   "TETHER_TEXTURE",
-  "RenderType.entityCutoutNoCull(TETHER_TEXTURE)",
+  "RenderType.entityTranslucentEmissive(TETHER_TEXTURE)",
   "shouldRender(AirscrewEntity airscrew, Frustum frustum",
   "renderTether(airscrew, target, partialTick, poseStack, bufferSource)",
   "setUv(u, v)",
@@ -39,6 +52,10 @@ for (const hook of [
 
 if (renderer.includes("RenderType.lightning()")) {
   failures.push("Airscrew tether still uses the invisible lightning ribbon path");
+}
+
+if (renderer.includes("RenderType.entityCutoutNoCull(TETHER_TEXTURE)")) {
+  failures.push("Airscrew tether still uses the legacy-incompatible cutout render pass");
 }
 
 if (!clientEvents.includes("AirscrewRenderer::new")) {

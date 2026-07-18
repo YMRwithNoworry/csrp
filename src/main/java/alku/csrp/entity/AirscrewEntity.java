@@ -107,7 +107,6 @@ public final class AirscrewEntity extends CrudeParasiteEntity implements Pulling
         super.tick();
         setNoGravity(true);
         if (level().isClientSide) {
-            spawnPullTethers();
             return;
         }
         if (onGround()) getMoveControl().setWantedPosition(getX(), getY() + 5.0, getZ(), 0.5);
@@ -173,6 +172,9 @@ public final class AirscrewEntity extends CrudeParasiteEntity implements Pulling
             }
         }
         syncPullTargets();
+        if (level() instanceof ServerLevel serverLevel) {
+            sendPullTetherParticles(serverLevel);
+        }
     }
 
     private void convertConsumedTarget(LivingEntity target) {
@@ -219,12 +221,20 @@ public final class AirscrewEntity extends CrudeParasiteEntity implements Pulling
         }
     }
 
-    private void spawnPullTethers() {
-        if (tickCount % 2 != 0) {
+    /**
+     * Broadcast a tether trail so players tracking the target still see the pull when this
+     * entity itself is outside their view frustum.
+     */
+    private void sendPullTetherParticles(ServerLevel serverLevel) {
+        if (tickCount % 3 != 0) {
             return;
         }
         Vec3 start = getTetherMouthPosition(1.0F).add(getViewVector(1.0F).scale(0.25D));
-        for (LivingEntity target : getPullTargetsForRendering()) {
+        for (UUID targetId : pullTargets) {
+            LivingEntity target = resolveTarget(targetId);
+            if (target == null) {
+                continue;
+            }
             Vec3 end = target.getEyePosition();
             Vec3 delta = end.subtract(start);
             double length = delta.length();
@@ -233,15 +243,15 @@ public final class AirscrewEntity extends CrudeParasiteEntity implements Pulling
             }
             int segments = Mth.clamp((int) Math.ceil(length * 3.0D), 4, 36);
             Vec3 motion = delta.scale(-0.015D / length);
-            double offset = (tickCount / 2 % 2) * 0.5D;
+            double offset = (tickCount / 3 % 2) * 0.5D;
             for (int segment = 0; segment < segments; segment++) {
                 double progress = (segment + offset) / segments;
                 if (progress >= 1.0D) {
                     continue;
                 }
                 Vec3 point = start.lerp(end, progress);
-                level().addParticle(ParticleTypes.CRIT, point.x, point.y, point.z,
-                        motion.x, motion.y, motion.z);
+                serverLevel.sendParticles(ParticleTypes.CRIT, point.x, point.y, point.z,
+                        0, motion.x, motion.y, motion.z, 1.0D);
             }
         }
     }
