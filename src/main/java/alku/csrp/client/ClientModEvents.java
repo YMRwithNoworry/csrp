@@ -2,6 +2,7 @@ package alku.csrp.client;
 
 import alku.csrp.Csrp;
 import alku.csrp.client.particle.KirinWarningParticle;
+import alku.csrp.client.renderer.AirscrewRenderer;
 import alku.csrp.client.renderer.BuglinRenderer;
 import alku.csrp.client.renderer.RupterRenderer;
 import alku.csrp.client.renderer.AssimilatedParasiteRenderer;
@@ -51,8 +52,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.CRUX_INCOMPLETE.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "crux_incomplete", 0.45F));
         event.registerEntityRenderer(ModEntities.SCARY_ORB.get(), ScaryOrbRenderer::new);
-        event.registerEntityRenderer(ModEntities.AIRSCREW.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "airscrew", 0.8F));
+        event.registerEntityRenderer(ModEntities.AIRSCREW.get(), AirscrewRenderer::new);
         event.registerEntityRenderer(ModEntities.HEED.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "heed", 0.8F));
         event.registerEntityRenderer(ModEntities.DREDGE.get(), context ->
@@ -104,6 +104,14 @@ public final class ClientModEvents {
                 new PrimitiveParasiteRenderer<>(context, "fer_villager", 0.5F));
         event.registerEntityRenderer(ModEntities.FER_WOLF.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "fer_wolf", 0.45F));
+        event.registerEntityRenderer(ModEntities.FER_ENDERMAN.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "fer_enderman", 0.5F));
+        event.registerEntityRenderer(ModEntities.HI_BLAZE.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "hi_blaze", 0.5F));
+        event.registerEntityRenderer(ModEntities.HI_GOLEM.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "hi_golem", 0.8F));
+        event.registerEntityRenderer(ModEntities.HI_SKELETON.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "hi_skeleton", 0.5F));
         event.registerEntityRenderer(ModEntities.PARASITE_PROJECTILE.get(), ParasiteProjectileRenderer::new);
     }
 

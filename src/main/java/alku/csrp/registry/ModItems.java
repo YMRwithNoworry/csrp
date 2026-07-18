@@ -106,6 +106,14 @@ public final class ModItems {
             "fer_villager_spawn_egg", ModEntities.FER_VILLAGER, 0x836500, 0xFF00DC);
     public static final DeferredItem<SpawnEggItem> FER_WOLF_SPAWN_EGG = spawnEgg(
             "fer_wolf_spawn_egg", ModEntities.FER_WOLF, 0x4D3535, 0xCA573D);
+    public static final DeferredItem<SpawnEggItem> FER_ENDERMAN_SPAWN_EGG = spawnEgg(
+            "fer_enderman_spawn_egg", ModEntities.FER_ENDERMAN, 0x20182B, 0x7A355D);
+    public static final DeferredItem<SpawnEggItem> HI_BLAZE_SPAWN_EGG = spawnEgg(
+            "hi_blaze_spawn_egg", ModEntities.HI_BLAZE, 0x5E201E, 0xD77B32);
+    public static final DeferredItem<SpawnEggItem> HI_GOLEM_SPAWN_EGG = spawnEgg(
+            "hi_golem_spawn_egg", ModEntities.HI_GOLEM, 0x362421, 0xB86549);
+    public static final DeferredItem<SpawnEggItem> HI_SKELETON_SPAWN_EGG = spawnEgg(
+            "hi_skeleton_spawn_egg", ModEntities.HI_SKELETON, 0x463D38, 0xC7A17C);
     public static final DeferredItem<Item> RUPTER_VISCERA = simple("rupter_viscera");
     public static final DeferredItem<BlockItem> TUNNEL = ITEMS.registerSimpleBlockItem("tunnel", ModBlocks.TUNNEL);
     public static final DeferredItem<BlockItem> RESIDUE_PLANTS = ITEMS.registerSimpleBlockItem(

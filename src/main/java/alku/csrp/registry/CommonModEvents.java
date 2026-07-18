@@ -9,10 +9,14 @@ import alku.csrp.entity.CarrierHeavyEntity;
 import alku.csrp.entity.CarrierLightEntity;
 import alku.csrp.entity.CruxEntity;
 import alku.csrp.entity.DredgeEntity;
+import alku.csrp.entity.FeralEndermanEntity;
 import alku.csrp.entity.FeralParasiteEntity;
 import alku.csrp.entity.DraconiteEntity;
 import alku.csrp.entity.GnatEntity;
 import alku.csrp.entity.HeedEntity;
+import alku.csrp.entity.HiBlazeEntity;
+import alku.csrp.entity.HiGolemEntity;
+import alku.csrp.entity.HiSkeletonEntity;
 import alku.csrp.entity.HostEntity;
 import alku.csrp.entity.HostIIEntity;
 import alku.csrp.entity.IncompleteCruxEntity;
@@ -85,6 +89,10 @@ public final class CommonModEvents {
         event.put(ModEntities.FER_SHEEP.get(), FeralParasiteEntity.createAttributes(FeralParasiteEntity.Kind.SHEEP).build());
         event.put(ModEntities.FER_VILLAGER.get(), FeralParasiteEntity.createAttributes(FeralParasiteEntity.Kind.VILLAGER).build());
         event.put(ModEntities.FER_WOLF.get(), FeralParasiteEntity.createAttributes(FeralParasiteEntity.Kind.WOLF).build());
+        event.put(ModEntities.FER_ENDERMAN.get(), FeralEndermanEntity.createAttributes(FeralParasiteEntity.Kind.ENDERMAN).build());
+        event.put(ModEntities.HI_BLAZE.get(), HiBlazeEntity.createAttributes().build());
+        event.put(ModEntities.HI_GOLEM.get(), HiGolemEntity.createAttributes().build());
+        event.put(ModEntities.HI_SKELETON.get(), HiSkeletonEntity.createAttributes().build());
     }
 
     @SubscribeEvent

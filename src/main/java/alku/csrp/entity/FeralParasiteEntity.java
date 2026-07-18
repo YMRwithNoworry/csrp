@@ -24,7 +24,7 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 /** Shared legacy Feral behaviour: fire weakness and kill-fuelled recovery. */
-public final class FeralParasiteEntity extends Monster implements GeoEntity, Parasite {
+public class FeralParasiteEntity extends Monster implements GeoEntity, Parasite {
     private static final float REGEN_AMOUNT = 3.0F;
     private static final int REGEN_KILL_INTERVAL = 10;
     private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
@@ -124,6 +124,7 @@ public final class FeralParasiteEntity extends Monster implements GeoEntity, Par
     public enum Kind {
         BEAR(38.0D, 15.0D, 8.0D, 0.8D, 0.28D, 32.0D, 12),
         COW(38.0D, 15.0D, 8.0D, 0.8D, 0.28D, 32.0D, 12),
+        ENDERMAN(80.0D, 21.0D, 6.0D, 0.5D, 0.33D, 64.0D, 24),
         HORSE(37.0D, 16.0D, 3.0D, 0.6D, 0.2775D, 32.0D, 12),
         HUMAN(24.0D, 15.0D, 7.0D, 0.3D, 0.26D, 32.0D, 10),
         PIG(16.0D, 13.0D, 8.0D, 0.7D, 0.32D, 24.0D, 8),

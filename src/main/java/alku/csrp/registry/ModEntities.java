@@ -10,10 +10,14 @@ import alku.csrp.entity.CarrierLightEntity;
 import alku.csrp.entity.CruxEntity;
 import alku.csrp.entity.CruxThrownBlockDamageEntity;
 import alku.csrp.entity.DredgeEntity;
+import alku.csrp.entity.FeralEndermanEntity;
 import alku.csrp.entity.FeralParasiteEntity;
 import alku.csrp.entity.DraconiteEntity;
 import alku.csrp.entity.GnatEntity;
 import alku.csrp.entity.HeedEntity;
+import alku.csrp.entity.HiBlazeEntity;
+import alku.csrp.entity.HiGolemEntity;
+import alku.csrp.entity.HiSkeletonEntity;
 import alku.csrp.entity.HostEntity;
 import alku.csrp.entity.HostIIEntity;
 import alku.csrp.entity.IncompleteCruxEntity;
@@ -140,6 +144,14 @@ public final class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<FeralParasiteEntity>> FER_WOLF =
             monster("fer_wolf", (type, level) -> new FeralParasiteEntity(type, level,
                     FeralParasiteEntity.Kind.WOLF), 0.6F, 1.95F);
+    public static final DeferredHolder<EntityType<?>, EntityType<FeralEndermanEntity>> FER_ENDERMAN =
+            monster("fer_enderman", FeralEndermanEntity::new, 0.6F, 2.9F);
+    public static final DeferredHolder<EntityType<?>, EntityType<HiBlazeEntity>> HI_BLAZE =
+            monster("hi_blaze", HiBlazeEntity::new, 0.6F, 0.95F);
+    public static final DeferredHolder<EntityType<?>, EntityType<HiGolemEntity>> HI_GOLEM =
+            monster("hi_golem", HiGolemEntity::new, 1.1F, 2.7F);
+    public static final DeferredHolder<EntityType<?>, EntityType<HiSkeletonEntity>> HI_SKELETON =
+            monster("hi_skeleton", HiSkeletonEntity::new, 0.6F, 1.95F);
     public static final DeferredHolder<EntityType<?>, EntityType<PullingBallEntity>> PULLING_BALL =
             ENTITIES.register("pulling_ball", () -> EntityType.Builder
                     .<PullingBallEntity>of(PullingBallEntity::new, MobCategory.MISC)
