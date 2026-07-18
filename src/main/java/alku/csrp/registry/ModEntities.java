@@ -2,6 +2,7 @@ package alku.csrp.registry;
 
 import alku.csrp.Csrp;
 import alku.csrp.entity.AirscrewEntity;
+import alku.csrp.entity.AssimilatedParasiteEntity;
 import alku.csrp.entity.BuglinEntity;
 import alku.csrp.entity.CarrierFlyingEntity;
 import alku.csrp.entity.CarrierHeavyEntity;
@@ -9,6 +10,7 @@ import alku.csrp.entity.CarrierLightEntity;
 import alku.csrp.entity.CruxEntity;
 import alku.csrp.entity.CruxThrownBlockDamageEntity;
 import alku.csrp.entity.DredgeEntity;
+import alku.csrp.entity.FeralParasiteEntity;
 import alku.csrp.entity.DraconiteEntity;
 import alku.csrp.entity.GnatEntity;
 import alku.csrp.entity.HeedEntity;
@@ -96,6 +98,39 @@ public final class ModEntities {
             monster("draconite", DraconiteEntity::new, 2.4F, 3.8F);
     public static final DeferredHolder<EntityType<?>, EntityType<KirinEntity>> KIRIN =
             monster("kirin", KirinEntity::new, 2.1271334F, 8.85F);
+    public static final DeferredHolder<EntityType<?>, EntityType<AssimilatedParasiteEntity>> SIM_BEAR =
+            monster("sim_bear", (type, level) -> new AssimilatedParasiteEntity(type, level,
+                    AssimilatedParasiteEntity.Kind.BEAR), 1.3F, 1.4F);
+    public static final DeferredHolder<EntityType<?>, EntityType<AssimilatedParasiteEntity>> SIM_COW =
+            monster("sim_cow", (type, level) -> new AssimilatedParasiteEntity(type, level,
+                    AssimilatedParasiteEntity.Kind.COW), 0.9F, 1.4F);
+    public static final DeferredHolder<EntityType<?>, EntityType<AssimilatedParasiteEntity>> SIM_PIG =
+            monster("sim_pig", (type, level) -> new AssimilatedParasiteEntity(type, level,
+                    AssimilatedParasiteEntity.Kind.PIG), 0.9F, 0.9F);
+    public static final DeferredHolder<EntityType<?>, EntityType<AssimilatedParasiteEntity>> SIM_SHEEP =
+            monster("sim_sheep", (type, level) -> new AssimilatedParasiteEntity(type, level,
+                    AssimilatedParasiteEntity.Kind.SHEEP), 0.9F, 1.3F);
+    public static final DeferredHolder<EntityType<?>, EntityType<AssimilatedParasiteEntity>> SIM_WOLF =
+            monster("sim_wolf", (type, level) -> new AssimilatedParasiteEntity(type, level,
+                    AssimilatedParasiteEntity.Kind.WOLF), 0.6F, 0.85F);
+    public static final DeferredHolder<EntityType<?>, EntityType<AssimilatedParasiteEntity>> SIM_SQUID =
+            monster("sim_squid", (type, level) -> new AssimilatedParasiteEntity(type, level,
+                    AssimilatedParasiteEntity.Kind.SQUID), 0.9F, 0.9F);
+    public static final DeferredHolder<EntityType<?>, EntityType<FeralParasiteEntity>> FER_BEAR =
+            monster("fer_bear", (type, level) -> new FeralParasiteEntity(type, level,
+                    FeralParasiteEntity.Kind.BEAR), 1.3F, 1.4F);
+    public static final DeferredHolder<EntityType<?>, EntityType<FeralParasiteEntity>> FER_COW =
+            monster("fer_cow", (type, level) -> new FeralParasiteEntity(type, level,
+                    FeralParasiteEntity.Kind.COW), 0.9F, 1.4F);
+    public static final DeferredHolder<EntityType<?>, EntityType<FeralParasiteEntity>> FER_PIG =
+            monster("fer_pig", (type, level) -> new FeralParasiteEntity(type, level,
+                    FeralParasiteEntity.Kind.PIG), 0.9F, 0.9F);
+    public static final DeferredHolder<EntityType<?>, EntityType<FeralParasiteEntity>> FER_SHEEP =
+            monster("fer_sheep", (type, level) -> new FeralParasiteEntity(type, level,
+                    FeralParasiteEntity.Kind.SHEEP), 0.9F, 1.3F);
+    public static final DeferredHolder<EntityType<?>, EntityType<FeralParasiteEntity>> FER_WOLF =
+            monster("fer_wolf", (type, level) -> new FeralParasiteEntity(type, level,
+                    FeralParasiteEntity.Kind.WOLF), 0.6F, 1.95F);
     public static final DeferredHolder<EntityType<?>, EntityType<PullingBallEntity>> PULLING_BALL =
             ENTITIES.register("pulling_ball", () -> EntityType.Builder
                     .<PullingBallEntity>of(PullingBallEntity::new, MobCategory.MISC)

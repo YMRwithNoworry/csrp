@@ -2,12 +2,14 @@ package alku.csrp.registry;
 
 import alku.csrp.Csrp;
 import alku.csrp.entity.AirscrewEntity;
+import alku.csrp.entity.AssimilatedParasiteEntity;
 import alku.csrp.entity.BuglinEntity;
 import alku.csrp.entity.CarrierFlyingEntity;
 import alku.csrp.entity.CarrierHeavyEntity;
 import alku.csrp.entity.CarrierLightEntity;
 import alku.csrp.entity.CruxEntity;
 import alku.csrp.entity.DredgeEntity;
+import alku.csrp.entity.FeralParasiteEntity;
 import alku.csrp.entity.DraconiteEntity;
 import alku.csrp.entity.GnatEntity;
 import alku.csrp.entity.HeedEntity;
@@ -63,6 +65,23 @@ public final class CommonModEvents {
         event.put(ModEntities.INCOMPLETEFORM_MEDIUM.get(), IncompleteFormMediumEntity.createAttributes().build());
         event.put(ModEntities.DRACONITE.get(), DraconiteEntity.createAttributes().build());
         event.put(ModEntities.KIRIN.get(), KirinEntity.createAttributes().build());
+        event.put(ModEntities.SIM_BEAR.get(), AssimilatedParasiteEntity.createAttributes(
+                AssimilatedParasiteEntity.Kind.BEAR).build());
+        event.put(ModEntities.SIM_COW.get(), AssimilatedParasiteEntity.createAttributes(
+                AssimilatedParasiteEntity.Kind.COW).build());
+        event.put(ModEntities.SIM_PIG.get(), AssimilatedParasiteEntity.createAttributes(
+                AssimilatedParasiteEntity.Kind.PIG).build());
+        event.put(ModEntities.SIM_SHEEP.get(), AssimilatedParasiteEntity.createAttributes(
+                AssimilatedParasiteEntity.Kind.SHEEP).build());
+        event.put(ModEntities.SIM_WOLF.get(), AssimilatedParasiteEntity.createAttributes(
+                AssimilatedParasiteEntity.Kind.WOLF).build());
+        event.put(ModEntities.SIM_SQUID.get(), AssimilatedParasiteEntity.createAttributes(
+                AssimilatedParasiteEntity.Kind.SQUID).build());
+        event.put(ModEntities.FER_BEAR.get(), FeralParasiteEntity.createAttributes(FeralParasiteEntity.Kind.BEAR).build());
+        event.put(ModEntities.FER_COW.get(), FeralParasiteEntity.createAttributes(FeralParasiteEntity.Kind.COW).build());
+        event.put(ModEntities.FER_PIG.get(), FeralParasiteEntity.createAttributes(FeralParasiteEntity.Kind.PIG).build());
+        event.put(ModEntities.FER_SHEEP.get(), FeralParasiteEntity.createAttributes(FeralParasiteEntity.Kind.SHEEP).build());
+        event.put(ModEntities.FER_WOLF.get(), FeralParasiteEntity.createAttributes(FeralParasiteEntity.Kind.WOLF).build());
     }
 
     @SubscribeEvent

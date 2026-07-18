@@ -6,15 +6,15 @@ Unindexed bestiary JSON files and standalone internal effects are excluded.
 Projectiles, clouds, summons, and transition entities are included with the
 creature that requires them.
 
-Progress: **24 / 119** indexed creatures ported.
+Progress: **35 / 119** indexed creatures ported.
 
 | Batch | IDs | Status |
 | --- | --- | --- |
 | Current | `buglin`, `gnat`, `rupter`, three carriers, `crux`, `crux_incomplete`, four existing `pri_*` | 12 ported |
 | Crude | `airscrew`, `heed`, `dredge`, `thrall` | 4 ported |
 | Early lifecycle | `lice`, `mangler`, `host`, `hostii`, two incomplete forms, `draconite`, `kirin` | 8 ported |
-| Assimilated | All 22 indexed `sim_*` forms | 22 pending |
-| Hijacked and feral | Three `hi_*` and nine `fer_*` forms | 12 pending |
+| Assimilated | `sim_bear`, `sim_cow`, `sim_pig`, `sim_sheep`, `sim_squid`, `sim_wolf` | 6 ported; 16 pending |
+| Hijacked and feral | `fer_bear`, `fer_cow`, `fer_pig`, `fer_sheep`, `fer_wolf` | 5 ported; three `hi_*` and four `fer_*` pending |
 | Marauderized | Six `mar_*` forms and `marauder` | 7 pending |
 | Primitive | Remaining eight `pri_*` forms | 8 pending |
 | Adapted | All twelve `ada_*` forms | 12 pending |

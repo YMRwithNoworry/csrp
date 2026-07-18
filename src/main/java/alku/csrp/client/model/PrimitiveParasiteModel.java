@@ -1,11 +1,12 @@
 package alku.csrp.client.model;
 
 import alku.csrp.Csrp;
-import alku.csrp.entity.PrimitiveParasiteEntity;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Mob;
 import software.bernie.geckolib.model.GeoModel;
+import software.bernie.geckolib.animatable.GeoEntity;
 
-public final class PrimitiveParasiteModel<T extends PrimitiveParasiteEntity> extends GeoModel<T> {
+public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends GeoModel<T> {
     private final ResourceLocation model;
     private final ResourceLocation texture;
     private final ResourceLocation animation;

@@ -3,6 +3,7 @@ package alku.csrp.client;
 import alku.csrp.Csrp;
 import alku.csrp.client.renderer.BuglinRenderer;
 import alku.csrp.client.renderer.RupterRenderer;
+import alku.csrp.client.renderer.AssimilatedParasiteRenderer;
 import alku.csrp.client.renderer.PrimitiveParasiteRenderer;
 import alku.csrp.client.renderer.PullingBallRenderer;
 import alku.csrp.client.renderer.ParasiteProjectileRenderer;
@@ -72,6 +73,28 @@ public final class ClientModEvents {
                 new PrimitiveParasiteRenderer<>(context, "draconite", 1.2F));
         event.registerEntityRenderer(ModEntities.KIRIN.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "kirin", 1.1F));
+        event.registerEntityRenderer(ModEntities.SIM_BEAR.get(), context ->
+                new AssimilatedParasiteRenderer(context, 0.65F));
+        event.registerEntityRenderer(ModEntities.SIM_COW.get(), context ->
+                new AssimilatedParasiteRenderer(context, 0.55F));
+        event.registerEntityRenderer(ModEntities.SIM_PIG.get(), context ->
+                new AssimilatedParasiteRenderer(context, 0.45F));
+        event.registerEntityRenderer(ModEntities.SIM_SHEEP.get(), context ->
+                new AssimilatedParasiteRenderer(context, 0.50F));
+        event.registerEntityRenderer(ModEntities.SIM_WOLF.get(), context ->
+                new AssimilatedParasiteRenderer(context, 0.40F));
+        event.registerEntityRenderer(ModEntities.SIM_SQUID.get(), context ->
+                new AssimilatedParasiteRenderer(context, 0.45F));
+        event.registerEntityRenderer(ModEntities.FER_BEAR.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "fer_bear", 0.65F));
+        event.registerEntityRenderer(ModEntities.FER_COW.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "fer_cow", 0.55F));
+        event.registerEntityRenderer(ModEntities.FER_PIG.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "fer_pig", 0.45F));
+        event.registerEntityRenderer(ModEntities.FER_SHEEP.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "fer_sheep", 0.50F));
+        event.registerEntityRenderer(ModEntities.FER_WOLF.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "fer_wolf", 0.45F));
         event.registerEntityRenderer(ModEntities.PARASITE_PROJECTILE.get(), ParasiteProjectileRenderer::new);
     }
 

@@ -91,6 +91,17 @@ public final class Csrp {
             event.accept(ModItems.INCOMPLETEFORM_MEDIUM_SPAWN_EGG.get());
             event.accept(ModItems.DRACONITE_SPAWN_EGG.get());
             event.accept(ModItems.KIRIN_SPAWN_EGG.get());
+            event.accept(ModItems.SIM_BEAR_SPAWN_EGG.get());
+            event.accept(ModItems.SIM_COW_SPAWN_EGG.get());
+            event.accept(ModItems.SIM_PIG_SPAWN_EGG.get());
+            event.accept(ModItems.SIM_SHEEP_SPAWN_EGG.get());
+            event.accept(ModItems.SIM_WOLF_SPAWN_EGG.get());
+            event.accept(ModItems.SIM_SQUID_SPAWN_EGG.get());
+            event.accept(ModItems.FER_BEAR_SPAWN_EGG.get());
+            event.accept(ModItems.FER_COW_SPAWN_EGG.get());
+            event.accept(ModItems.FER_PIG_SPAWN_EGG.get());
+            event.accept(ModItems.FER_SHEEP_SPAWN_EGG.get());
+            event.accept(ModItems.FER_WOLF_SPAWN_EGG.get());
         }
     }
 }

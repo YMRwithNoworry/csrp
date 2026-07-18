@@ -78,6 +78,28 @@ public final class ModItems {
             "draconite_spawn_egg", ModEntities.DRACONITE, 0x241414, 0xB80000);
     public static final DeferredItem<SpawnEggItem> KIRIN_SPAWN_EGG = spawnEgg(
             "kirin_spawn_egg", ModEntities.KIRIN, 0x17121F, 0xB650D8);
+    public static final DeferredItem<SpawnEggItem> SIM_BEAR_SPAWN_EGG = spawnEgg(
+            "sim_bear_spawn_egg", ModEntities.SIM_BEAR, 0x3A211C, 0xA24A3C);
+    public static final DeferredItem<SpawnEggItem> SIM_COW_SPAWN_EGG = spawnEgg(
+            "sim_cow_spawn_egg", ModEntities.SIM_COW, 0x4A201D, 0xB24E3B);
+    public static final DeferredItem<SpawnEggItem> SIM_PIG_SPAWN_EGG = spawnEgg(
+            "sim_pig_spawn_egg", ModEntities.SIM_PIG, 0xB24F55, 0x52211D);
+    public static final DeferredItem<SpawnEggItem> SIM_SHEEP_SPAWN_EGG = spawnEgg(
+            "sim_sheep_spawn_egg", ModEntities.SIM_SHEEP, 0xD9D1C0, 0x732E2E);
+    public static final DeferredItem<SpawnEggItem> SIM_WOLF_SPAWN_EGG = spawnEgg(
+            "sim_wolf_spawn_egg", ModEntities.SIM_WOLF, 0x54545A, 0xA44137);
+    public static final DeferredItem<SpawnEggItem> SIM_SQUID_SPAWN_EGG = spawnEgg(
+            "sim_squid_spawn_egg", ModEntities.SIM_SQUID, 0x263A4D, 0x9E4254);
+    public static final DeferredItem<SpawnEggItem> FER_BEAR_SPAWN_EGG = spawnEgg(
+            "fer_bear_spawn_egg", ModEntities.FER_BEAR, 0x5A2A20, 0xD86B44);
+    public static final DeferredItem<SpawnEggItem> FER_COW_SPAWN_EGG = spawnEgg(
+            "fer_cow_spawn_egg", ModEntities.FER_COW, 0x54231F, 0xC1583E);
+    public static final DeferredItem<SpawnEggItem> FER_PIG_SPAWN_EGG = spawnEgg(
+            "fer_pig_spawn_egg", ModEntities.FER_PIG, 0x6E2527, 0xD76448);
+    public static final DeferredItem<SpawnEggItem> FER_SHEEP_SPAWN_EGG = spawnEgg(
+            "fer_sheep_spawn_egg", ModEntities.FER_SHEEP, 0x6B514A, 0xD26C46);
+    public static final DeferredItem<SpawnEggItem> FER_WOLF_SPAWN_EGG = spawnEgg(
+            "fer_wolf_spawn_egg", ModEntities.FER_WOLF, 0x4D3535, 0xCA573D);
     public static final DeferredItem<Item> RUPTER_VISCERA = simple("rupter_viscera");
     public static final DeferredItem<BlockItem> TUNNEL = ITEMS.registerSimpleBlockItem("tunnel", ModBlocks.TUNNEL);
     public static final DeferredItem<BlockItem> RESIDUE_PLANTS = ITEMS.registerSimpleBlockItem(
