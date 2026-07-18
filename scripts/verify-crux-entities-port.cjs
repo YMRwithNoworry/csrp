@@ -44,6 +44,17 @@ expect(crudeBase, /usesDamageAdaptation\(\)[\s\S]*return false/, "Crude parasite
 expect(crux, /Attributes\.MAX_HEALTH, 70\.0/, "Crux legacy health is missing");
 expect(crux, /Attributes\.ATTACK_DAMAGE, BASE_ATTACK_DAMAGE/, "Crux legacy damage is missing");
 expect(crux, /performAoeAttack/, "Crux area melee behavior is missing");
+expect(crux, /thenLoop\("idle"\)/, "Crux idle animation is not wired");
+expect(crux, /thenLoop\("walk"\)/, "Crux walk animation is not wired");
+expect(crux, /thenLoop\("run"\)/, "Crux run animation is not wired");
+expect(crux, /triggerableAnim\("attack", ATTACK\)/, "Crux attack animation is not registered");
+expect(crux, /triggerableAnim\("throw", THROW\)/, "Crux throw animation is not registered");
+expect(crux, /triggerAnim\("action_controller", "attack"\)/, "Crux melee does not trigger its attack animation");
+expect(crux, /triggerAnim\("action_controller", "throw"\)/, "Crux block throw does not trigger its animation");
+expect(crux, /throwSource = findThrowableBlock\(\);\s*return throwSource != null/,
+  "Crux throw animation is not gated by a cached throwable block");
+expect(crux, /throwBlockAt\(target, throwSource\)/,
+  "Crux throw does not use the block selected before its windup animation");
 expect(crux, /FallingBlockEntity\.fall/, "Crux block throw behavior is missing");
 expect(crux, /block\.setPos\(launchPosition\.x, launchPosition\.y, launchPosition\.z\)/,
   "Crux must launch blocks from its front instead of the removed ground position");
@@ -76,6 +87,31 @@ for (const id of ["crux", "crux_incomplete"]) {
   const geometry = JSON.parse(read(`src/main/resources/assets/csrp/geo/${id}.geo.json`));
   const animations = JSON.parse(read(`src/main/resources/assets/csrp/animations/${id}.animation.json`));
   const bones = new Set(geometry["minecraft:geometry"][0].bones.map((bone) => bone.name));
+  if (id === "crux") {
+    const expectedAnimations = {
+      attack: { length: 0.75, loop: false, bones: 19 },
+      throw: { length: 0.9, loop: false, bones: 7 },
+      idle: { length: 2, loop: true, bones: 15 },
+      run: { length: 2, loop: true, bones: 26 },
+      walk: { length: 2, loop: true, bones: 26 }
+    };
+    for (const [name, expected] of Object.entries(expectedAnimations)) {
+      const animation = animations.animations[name];
+      if (!animation) {
+        failures.push(`crux/${name} animation is missing`);
+        continue;
+      }
+      if (animation.animation_length !== expected.length) {
+        failures.push(`crux/${name} animation length must be ${expected.length}`);
+      }
+      if (Boolean(animation.loop) !== expected.loop) {
+        failures.push(`crux/${name} loop state must be ${expected.loop}`);
+      }
+      if (Object.keys(animation.bones ?? {}).length !== expected.bones) {
+        failures.push(`crux/${name} must animate ${expected.bones} bones`);
+      }
+    }
+  }
   for (const [name, animation] of Object.entries(animations.animations)) {
     for (const bone of Object.keys(animation.bones ?? {})) {
       if (!bones.has(bone)) failures.push(`${id}/${name} references missing bone ${bone}`);

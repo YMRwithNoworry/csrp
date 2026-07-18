@@ -20,6 +20,8 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.AnimationState;
+import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 
 import java.util.EnumSet;
@@ -35,7 +37,11 @@ public final class CruxEntity extends CrudeParasiteEntity {
     private static final double FALLING_BLOCK_DRAG = 0.98;
     private static final double FALLING_BLOCK_GRAVITY = 0.04;
     private static final String DAMAGE_STACKS_TAG = "crux_damage_stacks";
-    private static final RawAnimation ANIMATION = RawAnimation.begin().thenLoop("animation");
+    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
+    private static final RawAnimation WALK = RawAnimation.begin().thenLoop("walk");
+    private static final RawAnimation RUN = RawAnimation.begin().thenLoop("run");
+    private static final RawAnimation ATTACK = RawAnimation.begin().thenPlay("attack");
+    private static final RawAnimation THROW = RawAnimation.begin().thenPlay("throw");
 
     private int attackCooldown;
     private int throwCooldown;
@@ -109,11 +115,21 @@ public final class CruxEntity extends CrudeParasiteEntity {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> state.setAndContinue(ANIMATION)));
+        controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
+        controllers.add(new AnimationController<>(this, "action_controller", 0, state -> PlayState.STOP)
+                .triggerableAnim("attack", ATTACK)
+                .triggerableAnim("throw", THROW));
+    }
+
+    private PlayState movementAnimation(AnimationState<CruxEntity> state) {
+        if (!state.isMoving()) {
+            return state.setAndContinue(IDLE);
+        }
+        return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() > 0.02 ? RUN : WALK);
     }
 
     private boolean performAoeAttack(LivingEntity target) {
+        triggerAnim("action_controller", "attack");
         AABB attackArea = target.getBoundingBox().inflate(1.0);
         boolean hit = false;
         float damage = (float) getAttributeValue(Attributes.ATTACK_DAMAGE);
@@ -124,18 +140,17 @@ public final class CruxEntity extends CrudeParasiteEntity {
         return hit;
     }
 
-    private boolean throwBlockAt(LivingEntity target) {
+    private boolean throwBlockAt(LivingEntity target, BlockPos source) {
         if (level().isClientSide || !level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
-            return false;
-        }
-
-        BlockPos source = findThrowableBlock();
-        if (source == null) {
             return false;
         }
 
         BlockState state = level().getBlockState(source);
         float hardness = state.getDestroySpeed(level(), source);
+        if (!isThrowableBlock(state, hardness)) {
+            return false;
+        }
+
         FallingBlockEntity block = FallingBlockEntity.fall(level(), source, state);
         Vec3 launchPosition = launchPosition(target);
         block.setPos(launchPosition.x, launchPosition.y, launchPosition.z);
@@ -187,13 +202,17 @@ public final class CruxEntity extends CrudeParasiteEntity {
                 BlockPos candidate = origin.offset(offsetX, offsetY, offsetZ);
                 BlockState state = level().getBlockState(candidate);
                 float hardness = state.getDestroySpeed(level(), candidate);
-                if (!state.isAir() && state.getFluidState().isEmpty() && !state.hasBlockEntity()
-                        && hardness > 0.0F && hardness <= 50.0F) {
+                if (isThrowableBlock(state, hardness)) {
                     return candidate;
                 }
             }
         }
         return null;
+    }
+
+    private static boolean isThrowableBlock(BlockState state, float hardness) {
+        return !state.isAir() && state.getFluidState().isEmpty() && !state.hasBlockEntity()
+                && hardness > 0.0F && hardness <= 50.0F;
     }
 
     private final class CruxMeleeGoal extends Goal {
@@ -229,6 +248,7 @@ public final class CruxEntity extends CrudeParasiteEntity {
 
     private final class BlockThrowGoal extends Goal {
         private int windupTicks;
+        private BlockPos throwSource;
 
         private BlockThrowGoal() {
             setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
@@ -236,24 +256,31 @@ public final class CruxEntity extends CrudeParasiteEntity {
 
         @Override
         public boolean canUse() {
+            throwSource = null;
             LivingEntity target = getTarget();
-            if (target == null || throwCooldown > 0) {
+            if (target == null || throwCooldown > 0
+                    || !level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
                 return false;
             }
             double verticalOffset = target.getY() - getY();
             double distance = distanceToSqr(target);
-            return distance >= 144.0 && distance <= 1024.0 && verticalOffset >= 0.0 && verticalOffset <= 3.0;
+            if (distance < 144.0 || distance > 1024.0 || verticalOffset < 0.0 || verticalOffset > 3.0) {
+                return false;
+            }
+            throwSource = findThrowableBlock();
+            return throwSource != null;
         }
 
         @Override
         public boolean canContinueToUse() {
-            return windupTicks < 20 && getTarget() != null;
+            return windupTicks < 20 && getTarget() != null && throwSource != null;
         }
 
         @Override
         public void start() {
             windupTicks = 0;
             getNavigation().stop();
+            triggerAnim("action_controller", "throw");
         }
 
         @Override
@@ -264,13 +291,14 @@ public final class CruxEntity extends CrudeParasiteEntity {
             }
             getLookControl().setLookAt(target, 30.0F, 30.0F);
             if (++windupTicks == 12) {
-                throwBlockAt(target);
+                throwBlockAt(target, throwSource);
             }
         }
 
         @Override
         public void stop() {
             throwCooldown = 100;
+            throwSource = null;
         }
     }
 }
