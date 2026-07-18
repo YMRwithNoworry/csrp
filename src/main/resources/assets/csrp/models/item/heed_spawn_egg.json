@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:item/generated",
+  "parent": "csrp:item/spawn_egg",
   "textures": {
     "layer0": "csrp:item/heed_spawn_egg"
   }

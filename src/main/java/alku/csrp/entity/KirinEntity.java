@@ -1,10 +1,14 @@
 package alku.csrp.entity;
 
 import alku.csrp.registry.ModEntities;
+import alku.csrp.registry.ModParticles;
 import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
@@ -35,6 +39,10 @@ public final class KirinEntity extends PrimitiveParasiteEntity {
     public static final double BLINK_HEALTH_DRAIN_FRACTION = 0.5;
     private static final int VOID_ORB_INTERVAL_TICKS = 240;
     private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
+    private static final EntityDataAccessor<BlockPos> BLINK_POS = SynchedEntityData.defineId(
+            KirinEntity.class, EntityDataSerializers.BLOCK_POS);
+    private static final EntityDataAccessor<Integer> BLINK_TICKS = SynchedEntityData.defineId(
+            KirinEntity.class, EntityDataSerializers.INT);
 
     private int blinkCooldown;
     private int blinkCharge;
@@ -74,10 +82,19 @@ public final class KirinEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(BLINK_POS, BlockPos.ZERO);
+        builder.define(BLINK_TICKS, 0);
+    }
+
+    @Override
     public void tick() {
         super.tick();
         setNoGravity(true);
         if (level().isClientSide) {
+            spawnAmbientPortalParticles();
+            spawnBlinkWarningParticles();
             return;
         }
         if (blinkCooldown > 0) blinkCooldown--;
@@ -98,11 +115,54 @@ public final class KirinEntity extends PrimitiveParasiteEntity {
         }
     }
 
+    private void spawnAmbientPortalParticles() {
+        for (int i = 0; i < 4; i++) {
+            level().addParticle(ParticleTypes.PORTAL,
+                    getX() + (random.nextDouble() - 0.5D) * getBbWidth() * 3.0D,
+                    getY() + random.nextDouble() * getBbHeight() - 0.25D,
+                    getZ() + (random.nextDouble() - 0.5D) * getBbWidth() * 3.0D,
+                    (random.nextDouble() - 0.5D) * 0.4D, -random.nextDouble() * 0.2D,
+                    (random.nextDouble() - 0.5D) * 0.4D);
+        }
+    }
+
+    private void spawnBlinkWarningParticles() {
+        int remainingTicks = entityData.get(BLINK_TICKS);
+        BlockPos destination = entityData.get(BLINK_POS);
+        if (remainingTicks <= 0 || destination.equals(BlockPos.ZERO)) {
+            return;
+        }
+
+        float progress = 1.0F - remainingTicks / (float) BLINK_CHARGE_TICKS;
+        double x = destination.getX() + 0.5D;
+        double y = destination.getY() + 1.5D + progress;
+        double z = destination.getZ() + 0.5D;
+        double rotationSpeed = 0.35D + progress * 1.25D;
+        float clockwise = (float) ((tickCount * rotationSpeed) % (Math.PI * 2.0D));
+        float counterClockwise = (float) ((-tickCount * rotationSpeed) % (Math.PI * 2.0D));
+
+        level().addParticle(ModParticles.KIRIN_WARNING.get(), x, y, z, 5.5D, clockwise, 1.0D);
+        level().addParticle(ModParticles.KIRIN_WARNING.get(), x, y, z, 6.0D, counterClockwise, 1.0D);
+    }
+
     private void summonVoidOrb(LivingEntity target) {
         ScaryOrbEntity orb = new ScaryOrbEntity(ModEntities.SCARY_ORB.get(), level(), this);
         orb.setAnchor(target.position().add(0.0, target.getBbHeight() * 0.5, 0.0));
         level().addFreshEntity(orb);
         playSound(ModSounds.KIRIN_BLACK_HOLE.get(), 2.0F, 1.0F);
+    }
+
+    private void setBlinkCharge(BlockPos destination, int ticks) {
+        blinkDestination = destination == null ? BlockPos.ZERO : destination.immutable();
+        blinkCharge = Math.max(0, ticks);
+        entityData.set(BLINK_POS, blinkDestination);
+        entityData.set(BLINK_TICKS, blinkCharge);
+    }
+
+    private void clearBlinkCharge() {
+        blinkCharge = 0;
+        entityData.set(BLINK_POS, BlockPos.ZERO);
+        entityData.set(BLINK_TICKS, 0);
     }
 
     private void performBlink(LivingEntity target) {
@@ -184,6 +244,10 @@ public final class KirinEntity extends PrimitiveParasiteEntity {
         blinkCharge = tag.getInt("blink_charge");
         voidOrbCooldown = tag.getInt("void_orb_cooldown");
         blinkDestination = new BlockPos(tag.getInt("blink_x"), tag.getInt("blink_y"), tag.getInt("blink_z"));
+        if (!level().isClientSide) {
+            entityData.set(BLINK_POS, blinkDestination);
+            entityData.set(BLINK_TICKS, blinkCharge);
+        }
     }
 
     @Override
@@ -216,8 +280,7 @@ public final class KirinEntity extends PrimitiveParasiteEntity {
             if (target == null) {
                 return;
             }
-            blinkCharge = BLINK_CHARGE_TICKS;
-            blinkDestination = findBlinkDestination(target);
+            setBlinkCharge(findBlinkDestination(target), BLINK_CHARGE_TICKS);
             getNavigation().stop();
         }
 
@@ -235,15 +298,18 @@ public final class KirinEntity extends PrimitiveParasiteEntity {
                         8, 0.8, 1.2, 0.8, 0.05);
             }
             if (--blinkCharge <= 0) {
+                clearBlinkCharge();
                 performBlink(target);
                 blinkCooldown = BLINK_COOLDOWN_TICKS;
+            } else {
+                entityData.set(BLINK_TICKS, blinkCharge);
             }
         }
 
         @Override
         public void stop() {
             if (blinkCharge > 0) {
-                blinkCharge = 0;
+                clearBlinkCharge();
                 blinkCooldown = 40;
             }
         }

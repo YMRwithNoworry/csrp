@@ -19,10 +19,32 @@ function isPng(file) {
 }
 
 const itemSource = readText("src/main/java/alku/csrp/registry/ModItems.java");
+const sharedModelPath = "src/main/resources/assets/csrp/models/item/spawn_egg.json";
+const sharedModelText = readText(sharedModelPath);
 const spawnEggIds = [...new Set([...itemSource.matchAll(/"([a-z0-9_]+_spawn_egg)"/g)]
   .map((match) => match[1]))].sort();
 
 if (!spawnEggIds.length) failures.push("no registered spawn eggs found");
+
+if (sharedModelText) {
+  let sharedModel;
+  try {
+    sharedModel = JSON.parse(sharedModelText);
+  } catch (error) {
+    failures.push(`shared spawn-egg model has invalid JSON: ${error.message}`);
+  }
+  if (sharedModel) {
+    if (sharedModel.parent !== "minecraft:item/generated") {
+      failures.push("shared spawn-egg model must inherit minecraft:item/generated");
+    }
+    if (sharedModel.gui_light !== "front") {
+      failures.push("shared spawn-egg model must use front GUI light to preserve custom texture brightness");
+    }
+    if (sharedModel.ambientocclusion !== false) {
+      failures.push("shared spawn-egg model must disable ambient occlusion in the item GUI");
+    }
+  }
+}
 
 for (const id of spawnEggIds) {
   const modelPath = `src/main/resources/assets/csrp/models/item/${id}.json`;
@@ -38,8 +60,8 @@ for (const id of spawnEggIds) {
     continue;
   }
 
-  if (model.parent !== "minecraft:item/generated") {
-    failures.push(`${id} must use minecraft:item/generated instead of a vanilla spawn-egg template`);
+  if (model.parent !== "csrp:item/spawn_egg") {
+    failures.push(`${id} must inherit the front-lit csrp:item/spawn_egg model`);
   }
   if (model.textures?.layer0 !== `csrp:item/${id}`) {
     failures.push(`${id} does not bind its custom layer0 texture`);

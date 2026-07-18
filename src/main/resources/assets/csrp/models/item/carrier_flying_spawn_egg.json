@@ -1,1 +1,1 @@
-{"parent":"minecraft:item/generated","textures":{"layer0":"csrp:item/carrier_flying_spawn_egg"}}
+{"parent":"csrp:item/spawn_egg","textures":{"layer0":"csrp:item/carrier_flying_spawn_egg"}}
