@@ -45,7 +45,7 @@ for (const [source, checks] of [
   [hiSkeleton, ["SkeletonRangedGoal", "Mode.SPINE"]],
   [airscrew, ["PULL_TARGET_IDS", "syncPullTargets", "spawnPullTethers", "ParticleTypes.CRIT",
     "getPullTargetsForRendering"]],
-  [airscrewRenderer, ["renderLeash", "getPullTargetsForRendering"]]
+  [airscrewRenderer, ["renderTether", "RenderType.lightning()", "getPullTargetsForRendering"]]
 ]) {
   for (const check of checks) {
     if (!source.includes(check)) failures.push(`behavior hook missing: ${check}`);
