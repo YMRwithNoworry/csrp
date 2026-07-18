@@ -32,7 +32,7 @@ import software.bernie.geckolib.animation.RawAnimation;
 
 import java.util.EnumSet;
 
-public final class KirinEntity extends PrimitiveParasiteEntity {
+public final class KirinEntity extends DerivedParasiteEntity {
     public static final int BLINK_CHARGE_TICKS = 60;
     public static final int BLINK_COOLDOWN_TICKS = 200;
     public static final double BLINK_LIFE_STEAL_RADIUS = 5.0;

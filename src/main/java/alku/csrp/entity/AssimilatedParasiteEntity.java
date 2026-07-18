@@ -1,6 +1,7 @@
 package alku.csrp.entity;
 
 import alku.csrp.Csrp;
+import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.nbt.CompoundTag;
@@ -305,10 +306,7 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
     private void infectNearby() {
         for (LivingEntity nearby : level().getEntitiesOfClass(LivingEntity.class,
                 getBoundingBox().inflate(COTH_AURA_RADIUS), this::isValidParasiteTarget)) {
-            if (!nearby.hasEffect(ModMobEffects.COTH)) {
-                nearby.addEffect(new MobEffectInstance(ModMobEffects.COTH, COTH_DURATION_TICKS, 0,
-                        false, false), this);
-            }
+            InfectionMechanics.applyCoth(nearby, this, COTH_DURATION_TICKS);
         }
     }
 
