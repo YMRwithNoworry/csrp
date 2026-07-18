@@ -117,6 +117,7 @@ public final class Csrp {
             event.accept(ModItems.MAR_HUMAN_SPAWN_EGG.get());
             event.accept(ModItems.MAR_SHEEP_SPAWN_EGG.get());
             event.accept(ModItems.MAR_VILLAGER_SPAWN_EGG.get());
+            event.accept(ModItems.MARAUDER_SPAWN_EGG.get());
         }
     }
 }

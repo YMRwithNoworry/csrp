@@ -4,6 +4,8 @@ import alku.csrp.Csrp;
 import alku.csrp.client.particle.KirinWarningParticle;
 import alku.csrp.client.renderer.AirscrewRenderer;
 import alku.csrp.client.renderer.BuglinRenderer;
+import alku.csrp.client.renderer.MarauderRenderer;
+import alku.csrp.client.renderer.MarauderTendrilRenderer;
 import alku.csrp.client.renderer.RupterRenderer;
 import alku.csrp.client.renderer.AssimilatedParasiteRenderer;
 import alku.csrp.client.renderer.PrimitiveParasiteRenderer;
@@ -125,6 +127,8 @@ public final class ClientModEvents {
                 new PrimitiveParasiteRenderer<>(context, "mar_sheep", 0.5F));
         event.registerEntityRenderer(ModEntities.MAR_VILLAGER.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "mar_villager", 0.5F));
+        event.registerEntityRenderer(ModEntities.MARAUDER.get(), MarauderRenderer::new);
+        event.registerEntityRenderer(ModEntities.MARAUDER_TENDRIL.get(), MarauderTendrilRenderer::new);
         event.registerEntityRenderer(ModEntities.PARASITE_PROJECTILE.get(), ParasiteProjectileRenderer::new);
     }
 

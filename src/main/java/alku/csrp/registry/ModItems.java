@@ -126,6 +126,8 @@ public final class ModItems {
             "mar_sheep_spawn_egg", ModEntities.MAR_SHEEP, 0x6B514A, 0xD26C46);
     public static final DeferredItem<SpawnEggItem> MAR_VILLAGER_SPAWN_EGG = spawnEgg(
             "mar_villager_spawn_egg", ModEntities.MAR_VILLAGER, 0x836500, 0xFF00DC);
+    public static final DeferredItem<SpawnEggItem> MARAUDER_SPAWN_EGG = spawnEgg(
+            "marauder_spawn_egg", ModEntities.MARAUDER, 0x2F1111, 0xB64D32);
     public static final DeferredItem<Item> RUPTER_VISCERA = simple("rupter_viscera");
     public static final DeferredItem<BlockItem> TUNNEL = ITEMS.registerSimpleBlockItem("tunnel", ModBlocks.TUNNEL);
     public static final DeferredItem<BlockItem> RESIDUE_PLANTS = ITEMS.registerSimpleBlockItem(

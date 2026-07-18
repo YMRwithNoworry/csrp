@@ -27,6 +27,8 @@ import alku.csrp.entity.KirinEntity;
 import alku.csrp.entity.LiceEntity;
 import alku.csrp.entity.LongarmsEntity;
 import alku.csrp.entity.ManglerEntity;
+import alku.csrp.entity.MarauderEntity;
+import alku.csrp.entity.MarauderTendrilEntity;
 import alku.csrp.entity.MarauderizedBearEntity;
 import alku.csrp.entity.MarauderizedCowEntity;
 import alku.csrp.entity.MarauderizedEndermanEntity;
@@ -170,6 +172,10 @@ public final class ModEntities {
             monster("mar_sheep", MarauderizedSheepEntity::new, 0.7566F, 2.85F);
     public static final DeferredHolder<EntityType<?>, EntityType<MarauderizedVillagerEntity>> MAR_VILLAGER =
             monster("mar_villager", MarauderizedVillagerEntity::new, 0.6F, 2.75F);
+    public static final DeferredHolder<EntityType<?>, EntityType<MarauderEntity>> MARAUDER =
+            monster("marauder", MarauderEntity::new, 0.901F, 4.2F);
+    public static final DeferredHolder<EntityType<?>, EntityType<MarauderTendrilEntity>> MARAUDER_TENDRIL =
+            monster("marauder_tendril", MarauderTendrilEntity::new, 0.6F, 2.0F);
     public static final DeferredHolder<EntityType<?>, EntityType<PullingBallEntity>> PULLING_BALL =
             ENTITIES.register("pulling_ball", () -> EntityType.Builder
                     .<PullingBallEntity>of(PullingBallEntity::new, MobCategory.MISC)

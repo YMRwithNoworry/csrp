@@ -198,5 +198,25 @@
   "kirin.black_hole": {
     "subtitle": "subtitles.csrp.kirin.black_hole",
     "sounds": ["csrp:kirin_black_hole"]
+  },
+  "marauder.living": {
+    "subtitle": "subtitles.csrp.marauder.living",
+    "sounds": [
+      "csrp:mob/pure/marauder/living1",
+      "csrp:mob/pure/marauder/living2",
+      "csrp:mob/pure/marauder/living3"
+    ]
+  },
+  "marauder.hurt": {
+    "subtitle": "subtitles.csrp.marauder.hurt",
+    "sounds": [
+      "csrp:mob/pure/marauder/hurt1",
+      "csrp:mob/pure/marauder/hurt2",
+      "csrp:mob/pure/marauder/hurt3"
+    ]
+  },
+  "marauder.death": {
+    "subtitle": "subtitles.csrp.marauder.death",
+    "sounds": ["csrp:mob/pure/marauder/death"]
   }
 }

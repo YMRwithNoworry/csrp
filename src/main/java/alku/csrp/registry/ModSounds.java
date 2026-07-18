@@ -44,6 +44,9 @@ public final class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> KIRIN_HURT = register("kirin.hurt");
     public static final DeferredHolder<SoundEvent, SoundEvent> KIRIN_DEATH = register("kirin.death");
     public static final DeferredHolder<SoundEvent, SoundEvent> KIRIN_BLACK_HOLE = register("kirin.black_hole");
+    public static final DeferredHolder<SoundEvent, SoundEvent> MARAUDER_LIVING = register("marauder.living");
+    public static final DeferredHolder<SoundEvent, SoundEvent> MARAUDER_HURT = register("marauder.hurt");
+    public static final DeferredHolder<SoundEvent, SoundEvent> MARAUDER_DEATH = register("marauder.death");
 
     private ModSounds() {
     }

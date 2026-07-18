@@ -26,6 +26,8 @@ import alku.csrp.entity.KirinEntity;
 import alku.csrp.entity.LiceEntity;
 import alku.csrp.entity.LongarmsEntity;
 import alku.csrp.entity.ManglerEntity;
+import alku.csrp.entity.MarauderEntity;
+import alku.csrp.entity.MarauderTendrilEntity;
 import alku.csrp.entity.MarauderizedBearEntity;
 import alku.csrp.entity.MarauderizedCowEntity;
 import alku.csrp.entity.MarauderizedEndermanEntity;
@@ -105,6 +107,8 @@ public final class CommonModEvents {
         event.put(ModEntities.MAR_HUMAN.get(), MarauderizedHumanEntity.createAttributes().build());
         event.put(ModEntities.MAR_SHEEP.get(), MarauderizedSheepEntity.createAttributes().build());
         event.put(ModEntities.MAR_VILLAGER.get(), MarauderizedVillagerEntity.createAttributes().build());
+        event.put(ModEntities.MARAUDER.get(), MarauderEntity.createAttributes().build());
+        event.put(ModEntities.MARAUDER_TENDRIL.get(), MarauderTendrilEntity.createAttributes().build());
     }
 
     @SubscribeEvent
