@@ -36,6 +36,7 @@ import alku.csrp.entity.MarauderizedHumanEntity;
 import alku.csrp.entity.MarauderizedSheepEntity;
 import alku.csrp.entity.MarauderizedVillagerEntity;
 import alku.csrp.entity.ParasiteProjectileEntity;
+import alku.csrp.entity.PrimitiveVariantEntity;
 import alku.csrp.entity.PullingBallEntity;
 import alku.csrp.entity.RupterEntity;
 import alku.csrp.entity.ScaryOrbEntity;
@@ -77,6 +78,30 @@ public final class ModEntities {
             monster("pri_vermin", VerminEntity::new, 1.3F, 1.6F);
     public static final DeferredHolder<EntityType<?>, EntityType<VisceraEntity>> PRI_VISCERA =
             monster("pri_viscera", VisceraEntity::new, 1.3F, 2.3F);
+    public static final DeferredHolder<EntityType<?>, EntityType<PrimitiveVariantEntity>> PRI_ARACHNIDA =
+            monster("pri_arachnida", (type, level) -> new PrimitiveVariantEntity(type, level,
+                    PrimitiveVariantEntity.Kind.ARACHNIDA), 0.9F, 2.7F);
+    public static final DeferredHolder<EntityType<?>, EntityType<PrimitiveVariantEntity>> PRI_BOLSTER =
+            monster("pri_bolster", (type, level) -> new PrimitiveVariantEntity(type, level,
+                    PrimitiveVariantEntity.Kind.BOLSTER), 0.9F, 2.9F);
+    public static final DeferredHolder<EntityType<?>, EntityType<PrimitiveVariantEntity>> PRI_BURROWER =
+            monster("pri_burrower", (type, level) -> new PrimitiveVariantEntity(type, level,
+                    PrimitiveVariantEntity.Kind.BURROWER), 1.0F, 0.25F);
+    public static final DeferredHolder<EntityType<?>, EntityType<PrimitiveVariantEntity>> PRI_DEVOURER =
+            monster("pri_devourer", (type, level) -> new PrimitiveVariantEntity(type, level,
+                    PrimitiveVariantEntity.Kind.DEVOURER), 1.3F, 1.8F);
+    public static final DeferredHolder<EntityType<?>, EntityType<PrimitiveVariantEntity>> PRI_MANDUCATER =
+            monster("pri_manducater", (type, level) -> new PrimitiveVariantEntity(type, level,
+                    PrimitiveVariantEntity.Kind.MANDUCATER), 1.3F, 1.7F);
+    public static final DeferredHolder<EntityType<?>, EntityType<PrimitiveVariantEntity>> PRI_REEKER =
+            monster("pri_reeker", (type, level) -> new PrimitiveVariantEntity(type, level,
+                    PrimitiveVariantEntity.Kind.REEKER), 0.9F, 2.6F);
+    public static final DeferredHolder<EntityType<?>, EntityType<PrimitiveVariantEntity>> PRI_TOZOON =
+            monster("pri_tozoon", (type, level) -> new PrimitiveVariantEntity(type, level,
+                    PrimitiveVariantEntity.Kind.TOZOON), 0.978F, 1.2F);
+    public static final DeferredHolder<EntityType<?>, EntityType<PrimitiveVariantEntity>> PRI_YELLOWEYE =
+            monster("pri_yelloweye", (type, level) -> new PrimitiveVariantEntity(type, level,
+                    PrimitiveVariantEntity.Kind.YELLOWEYE), 0.4F, 1.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<GnatEntity>> GNAT =
             monster("gnat", GnatEntity::new, 0.55F, 0.45F);
     public static final DeferredHolder<EntityType<?>, EntityType<CarrierHeavyEntity>> CARRIER_HEAVY =

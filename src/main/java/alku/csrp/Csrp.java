@@ -39,6 +39,14 @@ public final class Csrp {
                         output.accept(ModItems.PRI_SUMMONER_SPAWN_EGG.get());
                         output.accept(ModItems.PRI_VERMIN_SPAWN_EGG.get());
                         output.accept(ModItems.PRI_VISCERA_SPAWN_EGG.get());
+                        output.accept(ModItems.PRI_ARACHNIDA_SPAWN_EGG.get());
+                        output.accept(ModItems.PRI_BOLSTER_SPAWN_EGG.get());
+                        output.accept(ModItems.PRI_BURROWER_SPAWN_EGG.get());
+                        output.accept(ModItems.PRI_DEVOURER_SPAWN_EGG.get());
+                        output.accept(ModItems.PRI_MANDUCATER_SPAWN_EGG.get());
+                        output.accept(ModItems.PRI_REEKER_SPAWN_EGG.get());
+                        output.accept(ModItems.PRI_TOZOON_SPAWN_EGG.get());
+                        output.accept(ModItems.PRI_YELLOWEYE_SPAWN_EGG.get());
                         output.accept(ModItems.GNAT_SPAWN_EGG.get());
                         output.accept(ModItems.CARRIER_HEAVY_SPAWN_EGG.get());
                         output.accept(ModItems.CARRIER_LIGHT_SPAWN_EGG.get());
@@ -47,6 +55,10 @@ public final class Csrp {
                                 .filter(item -> item != ModItems.BUGLIN_SPAWN_EGG && item != ModItems.RUPTER_SPAWN_EGG
                                         && item != ModItems.PRI_LONGARMS_SPAWN_EGG && item != ModItems.PRI_SUMMONER_SPAWN_EGG
                                         && item != ModItems.PRI_VERMIN_SPAWN_EGG && item != ModItems.PRI_VISCERA_SPAWN_EGG
+                                        && item != ModItems.PRI_ARACHNIDA_SPAWN_EGG && item != ModItems.PRI_BOLSTER_SPAWN_EGG
+                                        && item != ModItems.PRI_BURROWER_SPAWN_EGG && item != ModItems.PRI_DEVOURER_SPAWN_EGG
+                                        && item != ModItems.PRI_MANDUCATER_SPAWN_EGG && item != ModItems.PRI_REEKER_SPAWN_EGG
+                                        && item != ModItems.PRI_TOZOON_SPAWN_EGG && item != ModItems.PRI_YELLOWEYE_SPAWN_EGG
                                         && item != ModItems.GNAT_SPAWN_EGG && item != ModItems.CARRIER_HEAVY_SPAWN_EGG
                                         && item != ModItems.CARRIER_LIGHT_SPAWN_EGG && item != ModItems.CARRIER_FLYING_SPAWN_EGG)
                                 .forEach(item -> output.accept(item.get()));
@@ -77,6 +89,14 @@ public final class Csrp {
             event.accept(ModItems.PRI_SUMMONER_SPAWN_EGG.get());
             event.accept(ModItems.PRI_VERMIN_SPAWN_EGG.get());
             event.accept(ModItems.PRI_VISCERA_SPAWN_EGG.get());
+            event.accept(ModItems.PRI_ARACHNIDA_SPAWN_EGG.get());
+            event.accept(ModItems.PRI_BOLSTER_SPAWN_EGG.get());
+            event.accept(ModItems.PRI_BURROWER_SPAWN_EGG.get());
+            event.accept(ModItems.PRI_DEVOURER_SPAWN_EGG.get());
+            event.accept(ModItems.PRI_MANDUCATER_SPAWN_EGG.get());
+            event.accept(ModItems.PRI_REEKER_SPAWN_EGG.get());
+            event.accept(ModItems.PRI_TOZOON_SPAWN_EGG.get());
+            event.accept(ModItems.PRI_YELLOWEYE_SPAWN_EGG.get());
             event.accept(ModItems.GNAT_SPAWN_EGG.get());
             event.accept(ModItems.CARRIER_HEAVY_SPAWN_EGG.get());
             event.accept(ModItems.CARRIER_LIGHT_SPAWN_EGG.get());

@@ -42,6 +42,22 @@ public final class ModItems {
             "pri_vermin_spawn_egg", ModEntities.PRI_VERMIN, 0x48151B, 0xD4B75C);
     public static final DeferredItem<SpawnEggItem> PRI_VISCERA_SPAWN_EGG = spawnEgg(
             "pri_viscera_spawn_egg", ModEntities.PRI_VISCERA, 0x421517, 0xA68B69);
+    public static final DeferredItem<SpawnEggItem> PRI_ARACHNIDA_SPAWN_EGG = spawnEgg(
+            "pri_arachnida_spawn_egg", ModEntities.PRI_ARACHNIDA, 0x50181E, 0xC58B74);
+    public static final DeferredItem<SpawnEggItem> PRI_BOLSTER_SPAWN_EGG = spawnEgg(
+            "pri_bolster_spawn_egg", ModEntities.PRI_BOLSTER, 0x36191D, 0x9B6C5F);
+    public static final DeferredItem<SpawnEggItem> PRI_BURROWER_SPAWN_EGG = spawnEgg(
+            "pri_burrower_spawn_egg", ModEntities.PRI_BURROWER, 0x501D17, 0xC28E51);
+    public static final DeferredItem<SpawnEggItem> PRI_DEVOURER_SPAWN_EGG = spawnEgg(
+            "pri_devourer_spawn_egg", ModEntities.PRI_DEVOURER, 0x36161A, 0xA75F58);
+    public static final DeferredItem<SpawnEggItem> PRI_MANDUCATER_SPAWN_EGG = spawnEgg(
+            "pri_manducater_spawn_egg", ModEntities.PRI_MANDUCATER, 0x48241F, 0xBC855B);
+    public static final DeferredItem<SpawnEggItem> PRI_REEKER_SPAWN_EGG = spawnEgg(
+            "pri_reeker_spawn_egg", ModEntities.PRI_REEKER, 0x34241D, 0x8C9A63);
+    public static final DeferredItem<SpawnEggItem> PRI_TOZOON_SPAWN_EGG = spawnEgg(
+            "pri_tozoon_spawn_egg", ModEntities.PRI_TOZOON, 0x43272A, 0xB47864);
+    public static final DeferredItem<SpawnEggItem> PRI_YELLOWEYE_SPAWN_EGG = spawnEgg(
+            "pri_yelloweye_spawn_egg", ModEntities.PRI_YELLOWEYE, 0x544420, 0xD8C343);
     public static final DeferredItem<SpawnEggItem> GNAT_SPAWN_EGG = spawnEgg(
             "gnat_spawn_egg", ModEntities.GNAT, 0x4B1717, 0xB7A277);
     public static final DeferredItem<SpawnEggItem> CARRIER_HEAVY_SPAWN_EGG = spawnEgg(

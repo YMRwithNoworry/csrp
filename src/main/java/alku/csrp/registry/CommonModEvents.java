@@ -35,6 +35,7 @@ import alku.csrp.entity.MarauderizedHumanEntity;
 import alku.csrp.entity.MarauderizedSheepEntity;
 import alku.csrp.entity.MarauderizedVillagerEntity;
 import alku.csrp.entity.MovingFleshEntity;
+import alku.csrp.entity.PrimitiveVariantEntity;
 import alku.csrp.entity.RupterEntity;
 import alku.csrp.entity.SimAdventurerEntity;
 import alku.csrp.entity.SimAdventurerHeadEntity;
@@ -62,6 +63,22 @@ public final class CommonModEvents {
         event.put(ModEntities.PRI_SUMMONER.get(), SummonerEntity.createAttributes().build());
         event.put(ModEntities.PRI_VERMIN.get(), VerminEntity.createAttributes().build());
         event.put(ModEntities.PRI_VISCERA.get(), VisceraEntity.createAttributes().build());
+        event.put(ModEntities.PRI_ARACHNIDA.get(), PrimitiveVariantEntity.createAttributes(
+                PrimitiveVariantEntity.Kind.ARACHNIDA).build());
+        event.put(ModEntities.PRI_BOLSTER.get(), PrimitiveVariantEntity.createAttributes(
+                PrimitiveVariantEntity.Kind.BOLSTER).build());
+        event.put(ModEntities.PRI_BURROWER.get(), PrimitiveVariantEntity.createAttributes(
+                PrimitiveVariantEntity.Kind.BURROWER).build());
+        event.put(ModEntities.PRI_DEVOURER.get(), PrimitiveVariantEntity.createAttributes(
+                PrimitiveVariantEntity.Kind.DEVOURER).build());
+        event.put(ModEntities.PRI_MANDUCATER.get(), PrimitiveVariantEntity.createAttributes(
+                PrimitiveVariantEntity.Kind.MANDUCATER).build());
+        event.put(ModEntities.PRI_REEKER.get(), PrimitiveVariantEntity.createAttributes(
+                PrimitiveVariantEntity.Kind.REEKER).build());
+        event.put(ModEntities.PRI_TOZOON.get(), PrimitiveVariantEntity.createAttributes(
+                PrimitiveVariantEntity.Kind.TOZOON).build());
+        event.put(ModEntities.PRI_YELLOWEYE.get(), PrimitiveVariantEntity.createAttributes(
+                PrimitiveVariantEntity.Kind.YELLOWEYE).build());
         event.put(ModEntities.GNAT.get(), GnatEntity.createAttributes().build());
         event.put(ModEntities.CARRIER_HEAVY.get(), CarrierHeavyEntity.createAttributes().build());
         event.put(ModEntities.CARRIER_LIGHT.get(), CarrierLightEntity.createAttributes().build());

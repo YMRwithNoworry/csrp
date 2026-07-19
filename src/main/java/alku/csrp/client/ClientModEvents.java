@@ -44,6 +44,22 @@ public final class ClientModEvents {
                 new PrimitiveParasiteRenderer<>(context, "pri_vermin", 0.65F));
         event.registerEntityRenderer(ModEntities.PRI_VISCERA.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "pri_viscera", 0.7F));
+        event.registerEntityRenderer(ModEntities.PRI_ARACHNIDA.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "pri_arachnida", 0.65F));
+        event.registerEntityRenderer(ModEntities.PRI_BOLSTER.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "pri_bolster", 0.7F));
+        event.registerEntityRenderer(ModEntities.PRI_BURROWER.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "pri_burrower", 0.5F));
+        event.registerEntityRenderer(ModEntities.PRI_DEVOURER.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "pri_devourer", 0.7F));
+        event.registerEntityRenderer(ModEntities.PRI_MANDUCATER.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "pri_manducater", 0.75F));
+        event.registerEntityRenderer(ModEntities.PRI_REEKER.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "pri_reeker", 0.65F));
+        event.registerEntityRenderer(ModEntities.PRI_TOZOON.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "pri_tozoon", 0.65F));
+        event.registerEntityRenderer(ModEntities.PRI_YELLOWEYE.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "pri_yelloweye", 0.5F));
         event.registerEntityRenderer(ModEntities.GNAT.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "gnat", 0.25F));
         event.registerEntityRenderer(ModEntities.CARRIER_HEAVY.get(), context ->

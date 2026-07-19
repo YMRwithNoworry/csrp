@@ -26,7 +26,8 @@ public final class ParasiteProjectileEntity extends Entity {
         BOMB,
         SPINE,
         METEOR,
-        LIGHT
+        LIGHT,
+        ACID
     }
 
     private static final EntityDataAccessor<Integer> MODE = SynchedEntityData.defineId(
@@ -88,12 +89,13 @@ public final class ParasiteProjectileEntity extends Entity {
                 case BOMB, METEOR -> ParticleTypes.FLAME;
                 case LIGHT -> ParticleTypes.SOUL_FIRE_FLAME;
                 case SPINE -> ParticleTypes.CRIT;
+                case ACID -> ParticleTypes.WITCH;
             };
             level().addParticle(particle, getX(), getY(), getZ(), 0.0, 0.0, 0.0);
             return;
         }
 
-        if (mode == Mode.BOMB || mode == Mode.METEOR) {
+        if (mode == Mode.BOMB || mode == Mode.METEOR || mode == Mode.ACID) {
             setDeltaMovement(movement.add(0.0, -0.025, 0.0));
         }
 
@@ -125,7 +127,7 @@ public final class ParasiteProjectileEntity extends Entity {
             discard();
             return;
         }
-        boolean launch = mode == Mode.BOMB || mode == Mode.METEOR;
+        boolean launch = mode == Mode.BOMB || mode == Mode.METEOR || mode == Mode.ACID;
         owner.hurtNearby(this, radius, damage, launch);
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
                 getBoundingBox().inflate(radius), owner::isValidParasiteTarget)) {
@@ -138,14 +140,21 @@ public final class ParasiteProjectileEntity extends Entity {
                     target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 100, 0), owner);
                     target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 140, 0), owner);
                 }
+                case ACID -> {
+                    target.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 0), owner);
+                    target.addEffect(new MobEffectInstance(ModMobEffects.CORROSION, 180, 0), owner);
+                }
                 case BOMB, METEOR -> target.igniteForSeconds(4.0F);
             }
         }
         if (mode == Mode.BOMB || mode == Mode.METEOR) {
             spawnLingeringCothCloud(owner);
+        } else if (mode == Mode.ACID && radius >= 1.25D) {
+            spawnLingeringAcidCloud(owner);
         }
         if (level() instanceof ServerLevel serverLevel) {
-            serverLevel.sendParticles(mode == Mode.LIGHT ? ParticleTypes.SOUL_FIRE_FLAME : ParticleTypes.EXPLOSION,
+            serverLevel.sendParticles(mode == Mode.LIGHT ? ParticleTypes.SOUL_FIRE_FLAME
+                            : mode == Mode.ACID ? ParticleTypes.WITCH : ParticleTypes.EXPLOSION,
                     getX(), getY(), getZ(), 12, radius * 0.25, radius * 0.25, radius * 0.25, 0.02);
         }
         discard();
@@ -159,6 +168,18 @@ public final class ParasiteProjectileEntity extends Entity {
         cloud.setWaitTime(0);
         cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
         cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 300, 0, false, true));
+        level().addFreshEntity(cloud);
+    }
+
+    private void spawnLingeringAcidCloud(PrimitiveParasiteEntity owner) {
+        AreaEffectCloud cloud = new AreaEffectCloud(level(), getX(), getY(), getZ());
+        cloud.setOwner(owner);
+        cloud.setRadius((float) Math.max(2.0D, radius + 0.5D));
+        cloud.setDuration(60);
+        cloud.setWaitTime(0);
+        cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
+        cloud.addEffect(new MobEffectInstance(MobEffects.POISON, 120, 0, false, true));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.CORROSION, 180, 0, false, true));
         level().addFreshEntity(cloud);
     }
 

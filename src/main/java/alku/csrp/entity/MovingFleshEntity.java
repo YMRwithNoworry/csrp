@@ -244,11 +244,19 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
         if (!(level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        Mob primitive = switch (random.nextInt(4)) {
+        Mob primitive = switch (random.nextInt(12)) {
             case 0 -> ModEntities.PRI_LONGARMS.get().create(serverLevel);
             case 1 -> ModEntities.PRI_SUMMONER.get().create(serverLevel);
             case 2 -> ModEntities.PRI_VERMIN.get().create(serverLevel);
-            default -> ModEntities.PRI_VISCERA.get().create(serverLevel);
+            case 3 -> ModEntities.PRI_VISCERA.get().create(serverLevel);
+            case 4 -> ModEntities.PRI_ARACHNIDA.get().create(serverLevel);
+            case 5 -> ModEntities.PRI_BOLSTER.get().create(serverLevel);
+            case 6 -> ModEntities.PRI_BURROWER.get().create(serverLevel);
+            case 7 -> ModEntities.PRI_DEVOURER.get().create(serverLevel);
+            case 8 -> ModEntities.PRI_MANDUCATER.get().create(serverLevel);
+            case 9 -> ModEntities.PRI_REEKER.get().create(serverLevel);
+            case 10 -> ModEntities.PRI_TOZOON.get().create(serverLevel);
+            default -> ModEntities.PRI_YELLOWEYE.get().create(serverLevel);
         };
         if (primitive == null) {
             return;
