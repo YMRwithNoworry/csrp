@@ -16,6 +16,7 @@ import alku.csrp.entity.CarrierLightEntity;
 import alku.csrp.entity.CruxEntity;
 import alku.csrp.entity.CruxThrownBlockDamageEntity;
 import alku.csrp.entity.DredgeEntity;
+import alku.csrp.entity.DeterrentParasiteEntity;
 import alku.csrp.entity.FeralEndermanEntity;
 import alku.csrp.entity.FeralParasiteEntity;
 import alku.csrp.entity.DraconiteEntity;
@@ -294,6 +295,21 @@ public final class ModEntities {
             monster("marauder", MarauderEntity::new, 0.901F, 4.2F);
     public static final DeferredHolder<EntityType<?>, EntityType<MarauderTendrilEntity>> MARAUDER_TENDRIL =
             monster("marauder_tendril", MarauderTendrilEntity::new, 0.6F, 2.0F);
+    public static final DeferredHolder<EntityType<?>, EntityType<DeterrentParasiteEntity>> DISPATCHERTEN =
+            monster("dispatcherten", (type, level) -> new DeterrentParasiteEntity(type, level,
+                    DeterrentParasiteEntity.Kind.DISPATCHER_TENTACLE), 0.7F, 2.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<DeterrentParasiteEntity>> KYPHOSIS =
+            monster("kyphosis", (type, level) -> new DeterrentParasiteEntity(type, level,
+                    DeterrentParasiteEntity.Kind.KYPHOSIS), 0.7F, 4.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<DeterrentParasiteEntity>> SEIZER =
+            monster("seizer", (type, level) -> new DeterrentParasiteEntity(type, level,
+                    DeterrentParasiteEntity.Kind.SEIZER), 0.7F, 2.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<DeterrentParasiteEntity>> SENTRY =
+            monster("sentry", (type, level) -> new DeterrentParasiteEntity(type, level,
+                    DeterrentParasiteEntity.Kind.SENTRY), 0.7F, 4.1F);
+    public static final DeferredHolder<EntityType<?>, EntityType<DeterrentParasiteEntity>> WORM =
+            monster("worm", (type, level) -> new DeterrentParasiteEntity(type, level,
+                    DeterrentParasiteEntity.Kind.WORM), 1.5F, 4.6F);
     public static final DeferredHolder<EntityType<?>, EntityType<PullingBallEntity>> PULLING_BALL =
             ENTITIES.register("pulling_ball", () -> EntityType.Builder
                     .<PullingBallEntity>of(PullingBallEntity::new, MobCategory.MISC)

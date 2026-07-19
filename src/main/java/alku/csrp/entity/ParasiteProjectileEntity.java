@@ -136,6 +136,10 @@ public final class ParasiteProjectileEntity extends Entity {
                 case SPINE -> {
                     target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 120, 1), owner);
                     target.addEffect(new MobEffectInstance(MobEffects.POISON, 80, 0), owner);
+                    if (owner instanceof DeterrentParasiteEntity deterrent
+                            && deterrent.getKind() == DeterrentParasiteEntity.Kind.SENTRY) {
+                        deterrent.applySentrySpineEffects(target);
+                    }
                 }
                 case LIGHT -> {
                     target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 100, 0), owner);

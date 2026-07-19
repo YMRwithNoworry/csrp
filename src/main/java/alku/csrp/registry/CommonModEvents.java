@@ -15,6 +15,7 @@ import alku.csrp.entity.CarrierHeavyEntity;
 import alku.csrp.entity.CarrierLightEntity;
 import alku.csrp.entity.CruxEntity;
 import alku.csrp.entity.DredgeEntity;
+import alku.csrp.entity.DeterrentParasiteEntity;
 import alku.csrp.entity.FeralEndermanEntity;
 import alku.csrp.entity.FeralParasiteEntity;
 import alku.csrp.entity.DraconiteEntity;
@@ -189,6 +190,16 @@ public final class CommonModEvents {
         event.put(ModEntities.MAR_VILLAGER.get(), MarauderizedVillagerEntity.createAttributes().build());
         event.put(ModEntities.MARAUDER.get(), MarauderEntity.createAttributes().build());
         event.put(ModEntities.MARAUDER_TENDRIL.get(), MarauderTendrilEntity.createAttributes().build());
+        event.put(ModEntities.DISPATCHERTEN.get(), DeterrentParasiteEntity.createAttributes(
+                DeterrentParasiteEntity.Kind.DISPATCHER_TENTACLE).build());
+        event.put(ModEntities.KYPHOSIS.get(), DeterrentParasiteEntity.createAttributes(
+                DeterrentParasiteEntity.Kind.KYPHOSIS).build());
+        event.put(ModEntities.SEIZER.get(), DeterrentParasiteEntity.createAttributes(
+                DeterrentParasiteEntity.Kind.SEIZER).build());
+        event.put(ModEntities.SENTRY.get(), DeterrentParasiteEntity.createAttributes(
+                DeterrentParasiteEntity.Kind.SENTRY).build());
+        event.put(ModEntities.WORM.get(), DeterrentParasiteEntity.createAttributes(
+                DeterrentParasiteEntity.Kind.WORM).build());
     }
 
     @SubscribeEvent

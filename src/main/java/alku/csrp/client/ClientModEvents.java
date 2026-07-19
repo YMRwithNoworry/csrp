@@ -205,6 +205,16 @@ public final class ClientModEvents {
                 new PrimitiveParasiteRenderer<>(context, "mar_villager", 0.5F));
         event.registerEntityRenderer(ModEntities.MARAUDER.get(), MarauderRenderer::new);
         event.registerEntityRenderer(ModEntities.MARAUDER_TENDRIL.get(), MarauderTendrilRenderer::new);
+        event.registerEntityRenderer(ModEntities.DISPATCHERTEN.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "dispatcherten", 0.45F));
+        event.registerEntityRenderer(ModEntities.KYPHOSIS.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "kyphosis", 1.0F));
+        event.registerEntityRenderer(ModEntities.SEIZER.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "seizer", 0.55F));
+        event.registerEntityRenderer(ModEntities.SENTRY.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "sentry", 0.9F));
+        event.registerEntityRenderer(ModEntities.WORM.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "worm", 1.1F));
         event.registerEntityRenderer(ModEntities.PARASITE_PROJECTILE.get(), ParasiteProjectileRenderer::new);
     }
 

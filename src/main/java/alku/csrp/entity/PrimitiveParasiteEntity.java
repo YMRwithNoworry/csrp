@@ -33,6 +33,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     private static final String ADAPTATIONS_TAG = "damage_adaptations";
     private static final int MAX_ADAPTATION_HITS = 8;
     private static final float ADAPTATION_PER_HIT = 0.1F;
+    private static final int DEFAULT_MAX_LEARNABLE_DAMAGE_SOURCES = Integer.MAX_VALUE;
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private final Map<String, Integer> damageAdaptations = new HashMap<>();
@@ -63,16 +64,38 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         }
         String damageId = damageTypeId(source);
         int previousHits = damageAdaptations.getOrDefault(damageId, 0);
-        float reduction = Math.min(MAX_ADAPTATION_HITS, previousHits) * ADAPTATION_PER_HIT;
+        float reduction = Math.min(maxDamageAdaptationHits(), previousHits) * damageAdaptationPerHit();
         boolean hurt = super.hurt(source, amount * (1.0F - reduction));
-        if (hurt && !level().isClientSide) {
-            damageAdaptations.put(damageId, Math.min(MAX_ADAPTATION_HITS, previousHits + 1));
+        if (hurt && !level().isClientSide && (damageAdaptations.containsKey(damageId)
+                || damageAdaptations.size() < maxLearnableDamageSources())
+                && shouldLearnDamageSource(source, damageId, previousHits)) {
+            damageAdaptations.put(damageId, Math.min(maxDamageAdaptationHits(), previousHits + 1));
         }
         return hurt;
     }
 
     protected boolean usesDamageAdaptation() {
         return true;
+    }
+
+    /** Number of learned hits required to reach a damage source's reduction cap. */
+    protected int maxDamageAdaptationHits() {
+        return MAX_ADAPTATION_HITS;
+    }
+
+    /** Fraction of a source's damage removed by each learned hit. */
+    protected float damageAdaptationPerHit() {
+        return ADAPTATION_PER_HIT;
+    }
+
+    /** Caps the number of independent damage sources an entity can learn. */
+    protected int maxLearnableDamageSources() {
+        return DEFAULT_MAX_LEARNABLE_DAMAGE_SOURCES;
+    }
+
+    /** Allows entity tiers with legacy learning odds to reject an adaptation hit. */
+    protected boolean shouldLearnDamageSource(DamageSource source, String damageId, int previousHits) {
+        return previousHits < maxDamageAdaptationHits();
     }
 
     private static String damageTypeId(DamageSource source) {
