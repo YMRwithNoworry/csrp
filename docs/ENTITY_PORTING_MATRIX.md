@@ -6,7 +6,7 @@ Unindexed bestiary JSON files and standalone internal effects are excluded.
 Projectiles, clouds, summons, and transition entities are included with the
 creature that requires them.
 
-Progress: **90 / 119** indexed creatures ported.
+Progress: **96 / 119** indexed creatures ported.
 
 | Batch | IDs | Status |
 | --- | --- | --- |
@@ -19,7 +19,8 @@ Progress: **90 / 119** indexed creatures ported.
 | Primitive | All twelve `pri_*` forms | 12 ported |
 | Adapted | All twelve `ada_*` forms | 12 ported |
 | Deterrent | `dispatcherten`, `kyphosis`, `seizer`, `sentry`, `worm` | 5 ported |
-| Pure and preeminent | `grunt` through `succor`, excluding `marauder` | 12 pending |
+| Pure | `grunt`, `bomber_light`, `monarch`, `overseer`, `vigilante`, `warden` | 6 ported |
+| Preeminent | `bogle`, `carrier_colony`, `haunter`, `bomber_heavy`, `wraith`, `succor` | 6 pending |
 | Ancient | `anc_dreadnaut`, `anc_overlord` | 2 pending |
 | Nexus and aberrant | Four Beckons, Dispatchers, and Rooters, plus `rooterball`, `abo_bodies`, `abo_head` | 15 pending |
 

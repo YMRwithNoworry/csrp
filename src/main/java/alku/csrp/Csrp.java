@@ -83,6 +83,12 @@ public final class Csrp {
                         output.accept(ModItems.SEIZER_SPAWN_EGG.get());
                         output.accept(ModItems.SENTRY_SPAWN_EGG.get());
                         output.accept(ModItems.WORM_SPAWN_EGG.get());
+                        output.accept(ModItems.GRUNT_SPAWN_EGG.get());
+                        output.accept(ModItems.BOMBER_LIGHT_SPAWN_EGG.get());
+                        output.accept(ModItems.MONARCH_SPAWN_EGG.get());
+                        output.accept(ModItems.OVERSEER_SPAWN_EGG.get());
+                        output.accept(ModItems.VIGILANTE_SPAWN_EGG.get());
+                        output.accept(ModItems.WARDEN_SPAWN_EGG.get());
                         ModItems.ITEMS.getEntries().stream()
                                 .filter(item -> item != ModItems.BUGLIN_SPAWN_EGG && item != ModItems.RUPTER_SPAWN_EGG
                                         && item != ModItems.PRI_LONGARMS_SPAWN_EGG && item != ModItems.PRI_SUMMONER_SPAWN_EGG
@@ -109,7 +115,10 @@ public final class Csrp {
                                         && item != ModItems.SIM_WOLFHEAD_SPAWN_EGG
                                         && item != ModItems.DISPATCHERTEN_SPAWN_EGG && item != ModItems.KYPHOSIS_SPAWN_EGG
                                         && item != ModItems.SEIZER_SPAWN_EGG && item != ModItems.SENTRY_SPAWN_EGG
-                                        && item != ModItems.WORM_SPAWN_EGG)
+                                        && item != ModItems.WORM_SPAWN_EGG && item != ModItems.GRUNT_SPAWN_EGG
+                                        && item != ModItems.BOMBER_LIGHT_SPAWN_EGG && item != ModItems.MONARCH_SPAWN_EGG
+                                        && item != ModItems.OVERSEER_SPAWN_EGG && item != ModItems.VIGILANTE_SPAWN_EGG
+                                        && item != ModItems.WARDEN_SPAWN_EGG)
                                 .forEach(item -> output.accept(item.get()));
                     })
                     .build());
@@ -222,6 +231,12 @@ public final class Csrp {
             event.accept(ModItems.SEIZER_SPAWN_EGG.get());
             event.accept(ModItems.SENTRY_SPAWN_EGG.get());
             event.accept(ModItems.WORM_SPAWN_EGG.get());
+            event.accept(ModItems.GRUNT_SPAWN_EGG.get());
+            event.accept(ModItems.BOMBER_LIGHT_SPAWN_EGG.get());
+            event.accept(ModItems.MONARCH_SPAWN_EGG.get());
+            event.accept(ModItems.OVERSEER_SPAWN_EGG.get());
+            event.accept(ModItems.VIGILANTE_SPAWN_EGG.get());
+            event.accept(ModItems.WARDEN_SPAWN_EGG.get());
         }
     }
 }

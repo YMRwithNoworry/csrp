@@ -43,6 +43,7 @@ import alku.csrp.entity.MarauderizedSheepEntity;
 import alku.csrp.entity.MarauderizedVillagerEntity;
 import alku.csrp.entity.MovingFleshEntity;
 import alku.csrp.entity.PrimitiveVariantEntity;
+import alku.csrp.entity.PureParasiteEntity;
 import alku.csrp.entity.RupterEntity;
 import alku.csrp.entity.SimAdventurerEntity;
 import alku.csrp.entity.SimAdventurerHeadEntity;
@@ -200,6 +201,18 @@ public final class CommonModEvents {
                 DeterrentParasiteEntity.Kind.SENTRY).build());
         event.put(ModEntities.WORM.get(), DeterrentParasiteEntity.createAttributes(
                 DeterrentParasiteEntity.Kind.WORM).build());
+        event.put(ModEntities.GRUNT.get(), PureParasiteEntity.createAttributes(
+                PureParasiteEntity.Kind.GRUNT).build());
+        event.put(ModEntities.BOMBER_LIGHT.get(), PureParasiteEntity.createAttributes(
+                PureParasiteEntity.Kind.BOMBER_LIGHT).build());
+        event.put(ModEntities.MONARCH.get(), PureParasiteEntity.createAttributes(
+                PureParasiteEntity.Kind.MONARCH).build());
+        event.put(ModEntities.OVERSEER.get(), PureParasiteEntity.createAttributes(
+                PureParasiteEntity.Kind.OVERSEER).build());
+        event.put(ModEntities.VIGILANTE.get(), PureParasiteEntity.createAttributes(
+                PureParasiteEntity.Kind.VIGILANTE).build());
+        event.put(ModEntities.WARDEN.get(), PureParasiteEntity.createAttributes(
+                PureParasiteEntity.Kind.WARDEN).build());
     }
 
     @SubscribeEvent

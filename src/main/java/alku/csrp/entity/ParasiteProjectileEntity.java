@@ -15,6 +15,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -28,7 +29,8 @@ public final class ParasiteProjectileEntity extends Entity {
         METEOR,
         LIGHT,
         ACID,
-        VOMIT
+        VOMIT,
+        NEEDLE
     }
 
     private static final EntityDataAccessor<Integer> MODE = SynchedEntityData.defineId(
@@ -89,7 +91,7 @@ public final class ParasiteProjectileEntity extends Entity {
             ParticleOptions particle = switch (mode) {
                 case BOMB, METEOR -> ParticleTypes.FLAME;
                 case LIGHT -> ParticleTypes.SOUL_FIRE_FLAME;
-                case SPINE -> ParticleTypes.CRIT;
+                case SPINE, NEEDLE -> ParticleTypes.CRIT;
                 case ACID, VOMIT -> ParticleTypes.WITCH;
             };
             level().addParticle(particle, getX(), getY(), getZ(), 0.0, 0.0, 0.0);
@@ -141,6 +143,7 @@ public final class ParasiteProjectileEntity extends Entity {
                         deterrent.applySentrySpineEffects(target);
                     }
                 }
+                case NEEDLE -> target.addEffect(new MobEffectInstance(ModMobEffects.NEEDLER, 180, 0), owner);
                 case LIGHT -> {
                     target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 100, 0), owner);
                     target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 140, 0), owner);
@@ -156,11 +159,20 @@ public final class ParasiteProjectileEntity extends Entity {
                     target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 160, 1), owner);
                     target.addEffect(new MobEffectInstance(MobEffects.HUNGER, 160, 1), owner);
                 }
-                case BOMB, METEOR -> target.igniteForSeconds(4.0F);
+                case BOMB -> {
+                    target.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 0), owner);
+                    target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 160, 0), owner);
+                    target.igniteForSeconds(4.0F);
+                }
+                case METEOR -> target.igniteForSeconds(4.0F);
             }
         }
         if (mode == Mode.BOMB || mode == Mode.METEOR) {
             spawnLingeringCothCloud(owner);
+            if (mode == Mode.BOMB && level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+                level().explode(owner, getX(), getY(), getZ(), (float) Math.max(1.5D, radius),
+                        Level.ExplosionInteraction.MOB);
+            }
         } else if (mode == Mode.ACID && radius >= 1.25D) {
             spawnLingeringAcidCloud(owner);
         } else if (mode == Mode.VOMIT) {

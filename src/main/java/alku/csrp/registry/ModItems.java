@@ -214,6 +214,18 @@ public final class ModItems {
             "sentry_spawn_egg", ModEntities.SENTRY, 0x27322B, 0x8CB879);
     public static final DeferredItem<SpawnEggItem> WORM_SPAWN_EGG = spawnEgg(
             "worm_spawn_egg", ModEntities.WORM, 0x392E24, 0xB68658);
+    public static final DeferredItem<SpawnEggItem> GRUNT_SPAWN_EGG = spawnEgg(
+            "grunt_spawn_egg", ModEntities.GRUNT, 0x342E28, 0xB76648);
+    public static final DeferredItem<SpawnEggItem> BOMBER_LIGHT_SPAWN_EGG = spawnEgg(
+            "bomber_light_spawn_egg", ModEntities.BOMBER_LIGHT, 0x343834, 0xC7B56E);
+    public static final DeferredItem<SpawnEggItem> MONARCH_SPAWN_EGG = spawnEgg(
+            "monarch_spawn_egg", ModEntities.MONARCH, 0x3A332D, 0xB77B50);
+    public static final DeferredItem<SpawnEggItem> OVERSEER_SPAWN_EGG = spawnEgg(
+            "overseer_spawn_egg", ModEntities.OVERSEER, 0x343B31, 0xC2A570);
+    public static final DeferredItem<SpawnEggItem> VIGILANTE_SPAWN_EGG = spawnEgg(
+            "vigilante_spawn_egg", ModEntities.VIGILANTE, 0x39342D, 0xA58A61);
+    public static final DeferredItem<SpawnEggItem> WARDEN_SPAWN_EGG = spawnEgg(
+            "warden_spawn_egg", ModEntities.WARDEN, 0x302B29, 0xB26B4D);
     public static final DeferredItem<Item> RUPTER_VISCERA = simple("rupter_viscera");
     public static final DeferredItem<BlockItem> TUNNEL = ITEMS.registerSimpleBlockItem("tunnel", ModBlocks.TUNNEL);
     public static final DeferredItem<BlockItem> RESIDUE_PLANTS = ITEMS.registerSimpleBlockItem(

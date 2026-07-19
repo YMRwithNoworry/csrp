@@ -215,6 +215,18 @@ public final class ClientModEvents {
                 new PrimitiveParasiteRenderer<>(context, "sentry", 0.9F));
         event.registerEntityRenderer(ModEntities.WORM.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "worm", 1.1F));
+        event.registerEntityRenderer(ModEntities.GRUNT.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "grunt", 0.5F));
+        event.registerEntityRenderer(ModEntities.BOMBER_LIGHT.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "bomber_light", 0.85F));
+        event.registerEntityRenderer(ModEntities.MONARCH.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "monarch", 1.1F));
+        event.registerEntityRenderer(ModEntities.OVERSEER.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "overseer", 1.0F));
+        event.registerEntityRenderer(ModEntities.VIGILANTE.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "vigilante", 0.9F));
+        event.registerEntityRenderer(ModEntities.WARDEN.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "warden", 1.05F));
         event.registerEntityRenderer(ModEntities.PARASITE_PROJECTILE.get(), ParasiteProjectileRenderer::new);
     }
 
