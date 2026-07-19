@@ -238,6 +238,10 @@ public final class ModItems {
             "wraith_spawn_egg", ModEntities.WRAITH, 0x222A3B, 0x8B9DD2);
     public static final DeferredItem<SpawnEggItem> SUCCOR_SPAWN_EGG = spawnEgg(
             "succor_spawn_egg", ModEntities.SUCCOR, 0x313442, 0xA0B4D8);
+    public static final DeferredItem<SpawnEggItem> ANC_DREADNAUT_SPAWN_EGG = spawnEgg(
+            "anc_dreadnaut_spawn_egg", ModEntities.ANC_DREADNAUT, 0x283038, 0xAF6752);
+    public static final DeferredItem<SpawnEggItem> ANC_OVERLORD_SPAWN_EGG = spawnEgg(
+            "anc_overlord_spawn_egg", ModEntities.ANC_OVERLORD, 0x3A2E2E, 0xB37457);
     public static final DeferredItem<Item> RUPTER_VISCERA = simple("rupter_viscera");
     public static final DeferredItem<BlockItem> TUNNEL = ITEMS.registerSimpleBlockItem("tunnel", ModBlocks.TUNNEL);
     public static final DeferredItem<BlockItem> RESIDUE_PLANTS = ITEMS.registerSimpleBlockItem(

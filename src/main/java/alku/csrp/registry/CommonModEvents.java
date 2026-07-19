@@ -2,6 +2,7 @@ package alku.csrp.registry;
 
 import alku.csrp.Csrp;
 import alku.csrp.entity.AirscrewEntity;
+import alku.csrp.entity.AncientParasiteEntity;
 import alku.csrp.entity.AdaptedVariantEntity;
 import alku.csrp.entity.AssimilatedParasiteEntity;
 import alku.csrp.entity.AssimilatedDragonEntity;
@@ -226,6 +227,10 @@ public final class CommonModEvents {
                 PreeminentParasiteEntity.Kind.WRAITH).build());
         event.put(ModEntities.SUCCOR.get(), PreeminentParasiteEntity.createAttributes(
                 PreeminentParasiteEntity.Kind.SUCCOR).build());
+        event.put(ModEntities.ANC_DREADNAUT.get(), AncientParasiteEntity.createAttributes(
+                AncientParasiteEntity.Kind.DREADNAUT).build());
+        event.put(ModEntities.ANC_OVERLORD.get(), AncientParasiteEntity.createAttributes(
+                AncientParasiteEntity.Kind.OVERLORD).build());
     }
 
     @SubscribeEvent

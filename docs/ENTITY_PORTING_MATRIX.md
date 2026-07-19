@@ -6,7 +6,7 @@ Unindexed bestiary JSON files and standalone internal effects are excluded.
 Projectiles, clouds, summons, and transition entities are included with the
 creature that requires them.
 
-Progress: **102 / 119** indexed creatures ported.
+Progress: **104 / 119** indexed creatures ported.
 
 | Batch | IDs | Status |
 | --- | --- | --- |
@@ -21,7 +21,7 @@ Progress: **102 / 119** indexed creatures ported.
 | Deterrent | `dispatcherten`, `kyphosis`, `seizer`, `sentry`, `worm` | 5 ported |
 | Pure | `grunt`, `bomber_light`, `monarch`, `overseer`, `vigilante`, `warden` | 6 ported |
 | Preeminent | `bogle`, `carrier_colony`, `haunter`, `bomber_heavy`, `wraith`, `succor` | 6 ported |
-| Ancient | `anc_dreadnaut`, `anc_overlord` | 2 pending |
+| Ancient | `anc_dreadnaut`, `anc_overlord` | 2 ported |
 | Nexus and aberrant | Four Beckons, Dispatchers, and Rooters, plus `rooterball`, `abo_bodies`, `abo_head` | 15 pending |
 
 The machine-readable IDs live in `scripts/entity-port-manifest.cjs`. A creature

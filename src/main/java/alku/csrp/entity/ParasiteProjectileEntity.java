@@ -30,7 +30,8 @@ public final class ParasiteProjectileEntity extends Entity {
         LIGHT,
         ACID,
         VOMIT,
-        NEEDLE
+        NEEDLE,
+        WITHER
     }
 
     private static final EntityDataAccessor<Integer> MODE = SynchedEntityData.defineId(
@@ -90,7 +91,7 @@ public final class ParasiteProjectileEntity extends Entity {
         if (level().isClientSide) {
             ParticleOptions particle = switch (mode) {
                 case BOMB, METEOR -> ParticleTypes.FLAME;
-                case LIGHT -> ParticleTypes.SOUL_FIRE_FLAME;
+                case LIGHT, WITHER -> ParticleTypes.SOUL_FIRE_FLAME;
                 case SPINE, NEEDLE -> ParticleTypes.CRIT;
                 case ACID, VOMIT -> ParticleTypes.WITCH;
             };
@@ -144,6 +145,7 @@ public final class ParasiteProjectileEntity extends Entity {
                     }
                 }
                 case NEEDLE -> target.addEffect(new MobEffectInstance(ModMobEffects.NEEDLER, 180, 0), owner);
+                case WITHER -> target.addEffect(new MobEffectInstance(MobEffects.WITHER, 160, 1), owner);
                 case LIGHT -> {
                     target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 100, 0), owner);
                     target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 140, 0), owner);
@@ -177,9 +179,11 @@ public final class ParasiteProjectileEntity extends Entity {
             spawnLingeringAcidCloud(owner);
         } else if (mode == Mode.VOMIT) {
             spawnLingeringVomitCloud(owner);
+        } else if (mode == Mode.WITHER) {
+            spawnLingeringWitherCloud(owner);
         }
         if (level() instanceof ServerLevel serverLevel) {
-            serverLevel.sendParticles(mode == Mode.LIGHT ? ParticleTypes.SOUL_FIRE_FLAME
+            serverLevel.sendParticles(mode == Mode.LIGHT || mode == Mode.WITHER ? ParticleTypes.SOUL_FIRE_FLAME
                             : mode == Mode.ACID || mode == Mode.VOMIT ? ParticleTypes.WITCH : ParticleTypes.EXPLOSION,
                     getX(), getY(), getZ(), 12, radius * 0.25, radius * 0.25, radius * 0.25, 0.02);
         }
@@ -221,6 +225,17 @@ public final class ParasiteProjectileEntity extends Entity {
         cloud.addEffect(new MobEffectInstance(ModMobEffects.CORROSION, 160, 0, false, true));
         cloud.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 120, 1, false, true));
         cloud.addEffect(new MobEffectInstance(MobEffects.HUNGER, 120, 1, false, true));
+        level().addFreshEntity(cloud);
+    }
+
+    private void spawnLingeringWitherCloud(PrimitiveParasiteEntity owner) {
+        AreaEffectCloud cloud = new AreaEffectCloud(level(), getX(), getY(), getZ());
+        cloud.setOwner(owner);
+        cloud.setRadius((float) Math.max(2.0D, radius + 0.75D));
+        cloud.setDuration(100);
+        cloud.setWaitTime(0);
+        cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
+        cloud.addEffect(new MobEffectInstance(MobEffects.WITHER, 160, 1, false, true));
         level().addFreshEntity(cloud);
     }
 

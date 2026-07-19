@@ -1,6 +1,7 @@
 package alku.csrp.registry;
 
 import alku.csrp.Csrp;
+import alku.csrp.entity.AncientParasiteEntity;
 import alku.csrp.entity.AirscrewEntity;
 import alku.csrp.entity.AdaptedVariantEntity;
 import alku.csrp.entity.AssimilatedParasiteEntity;
@@ -348,6 +349,12 @@ public final class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<PreeminentParasiteEntity>> SUCCOR =
             monster("succor", (type, level) -> new PreeminentParasiteEntity(type, level,
                     PreeminentParasiteEntity.Kind.SUCCOR), 1.2F, 1.2F);
+    public static final DeferredHolder<EntityType<?>, EntityType<AncientParasiteEntity>> ANC_DREADNAUT =
+            monster("anc_dreadnaut", (type, level) -> new AncientParasiteEntity(type, level,
+                    AncientParasiteEntity.Kind.DREADNAUT), 4.0F, 4.0F);
+    public static final DeferredHolder<EntityType<?>, EntityType<AncientParasiteEntity>> ANC_OVERLORD =
+            monster("anc_overlord", (type, level) -> new AncientParasiteEntity(type, level,
+                    AncientParasiteEntity.Kind.OVERLORD), 2.4F, 2.9F);
     public static final DeferredHolder<EntityType<?>, EntityType<PullingBallEntity>> PULLING_BALL =
             ENTITIES.register("pulling_ball", () -> EntityType.Builder
                     .<PullingBallEntity>of(PullingBallEntity::new, MobCategory.MISC)
