@@ -3,9 +3,8 @@ package alku.csrp.client.model;
 import alku.csrp.Csrp;
 import alku.csrp.entity.RupterEntity;
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.geckolib.model.GeoModel;
 
-public final class RupterModel extends GeoModel<RupterEntity> {
+public final class RupterModel extends ParasiteGeoModel<RupterEntity> {
     private static final ResourceLocation MODEL = id("geo/rupter.geo.json");
     private static final ResourceLocation ANIMATIONS = id("animations/rupter.animation.json");
 

@@ -3,9 +3,8 @@ package alku.csrp.client.model;
 import alku.csrp.Csrp;
 import alku.csrp.entity.BuglinEntity;
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.geckolib.model.GeoModel;
 
-public final class BuglinModel extends GeoModel<BuglinEntity> {
+public final class BuglinModel extends ParasiteGeoModel<BuglinEntity> {
     private static final ResourceLocation MODEL = id("geo/buglin.geo.json");
     private static final ResourceLocation TEXTURE = id("textures/entity/buglin.png");
     private static final ResourceLocation ANIMATIONS = id("animations/buglin.animation.json");

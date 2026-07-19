@@ -3,10 +3,9 @@ package alku.csrp.client.model;
 import alku.csrp.Csrp;
 import alku.csrp.entity.AssimilatedParasiteEntity;
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.geckolib.model.GeoModel;
 
 /** Selects the correct assimilated resource set and legacy visual variants. */
-public final class AssimilatedParasiteModel extends GeoModel<AssimilatedParasiteEntity> {
+public final class AssimilatedParasiteModel extends ParasiteGeoModel<AssimilatedParasiteEntity> {
     @Override
     public ResourceLocation getModelResource(AssimilatedParasiteEntity animatable) {
         return ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
