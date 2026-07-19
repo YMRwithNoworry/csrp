@@ -242,6 +242,36 @@ public final class ModItems {
             "anc_dreadnaut_spawn_egg", ModEntities.ANC_DREADNAUT, 0x283038, 0xAF6752);
     public static final DeferredItem<SpawnEggItem> ANC_OVERLORD_SPAWN_EGG = spawnEgg(
             "anc_overlord_spawn_egg", ModEntities.ANC_OVERLORD, 0x3A2E2E, 0xB37457);
+    public static final DeferredItem<SpawnEggItem> BECKON_SI_SPAWN_EGG = spawnEgg(
+            "beckon_si_spawn_egg", ModEntities.BECKON_SI, 0x263526, 0x7A9E57);
+    public static final DeferredItem<SpawnEggItem> BECKON_SII_SPAWN_EGG = spawnEgg(
+            "beckon_sii_spawn_egg", ModEntities.BECKON_SII, 0x263526, 0x82A65D);
+    public static final DeferredItem<SpawnEggItem> BECKON_SIII_SPAWN_EGG = spawnEgg(
+            "beckon_siii_spawn_egg", ModEntities.BECKON_SIII, 0x263526, 0x8DAA60);
+    public static final DeferredItem<SpawnEggItem> BECKON_SIV_SPAWN_EGG = spawnEgg(
+            "beckon_siv_spawn_egg", ModEntities.BECKON_SIV, 0x263526, 0x9CB96A);
+    public static final DeferredItem<SpawnEggItem> DISPATCHER_SI_SPAWN_EGG = spawnEgg(
+            "dispatcher_si_spawn_egg", ModEntities.DISPATCHER_SI, 0x30372D, 0x91A968);
+    public static final DeferredItem<SpawnEggItem> DISPATCHER_SII_SPAWN_EGG = spawnEgg(
+            "dispatcher_sii_spawn_egg", ModEntities.DISPATCHER_SII, 0x30372D, 0x9CB371);
+    public static final DeferredItem<SpawnEggItem> DISPATCHER_SIII_SPAWN_EGG = spawnEgg(
+            "dispatcher_siii_spawn_egg", ModEntities.DISPATCHER_SIII, 0x30372D, 0xA9BB76);
+    public static final DeferredItem<SpawnEggItem> DISPATCHER_SIV_SPAWN_EGG = spawnEgg(
+            "dispatcher_siv_spawn_egg", ModEntities.DISPATCHER_SIV, 0x30372D, 0xB9CA82);
+    public static final DeferredItem<SpawnEggItem> ROOTER_SI_SPAWN_EGG = spawnEgg(
+            "rooter_si_spawn_egg", ModEntities.ROOTER_SI, 0x293426, 0x78965B);
+    public static final DeferredItem<SpawnEggItem> ROOTER_SII_SPAWN_EGG = spawnEgg(
+            "rooter_sii_spawn_egg", ModEntities.ROOTER_SII, 0x293426, 0x84A566);
+    public static final DeferredItem<SpawnEggItem> ROOTER_SIII_SPAWN_EGG = spawnEgg(
+            "rooter_siii_spawn_egg", ModEntities.ROOTER_SIII, 0x293426, 0x91B16F);
+    public static final DeferredItem<SpawnEggItem> ROOTER_SIV_SPAWN_EGG = spawnEgg(
+            "rooter_siv_spawn_egg", ModEntities.ROOTER_SIV, 0x293426, 0xA2C47D);
+    public static final DeferredItem<SpawnEggItem> ROOTERBALL_SPAWN_EGG = spawnEgg(
+            "rooterball_spawn_egg", ModEntities.ROOTERBALL, 0x30402D, 0xB5D483);
+    public static final DeferredItem<SpawnEggItem> ABO_BODIES_SPAWN_EGG = spawnEgg(
+            "abo_bodies_spawn_egg", ModEntities.ABO_BODIES, 0x4A2D2C, 0xB86C59);
+    public static final DeferredItem<SpawnEggItem> ABO_HEAD_SPAWN_EGG = spawnEgg(
+            "abo_head_spawn_egg", ModEntities.ABO_HEAD, 0x45322E, 0xB97D61);
     public static final DeferredItem<Item> RUPTER_VISCERA = simple("rupter_viscera");
     public static final DeferredItem<BlockItem> TUNNEL = ITEMS.registerSimpleBlockItem("tunnel", ModBlocks.TUNNEL);
     public static final DeferredItem<BlockItem> RESIDUE_PLANTS = ITEMS.registerSimpleBlockItem(

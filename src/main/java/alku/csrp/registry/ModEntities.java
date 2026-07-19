@@ -1,6 +1,7 @@
 package alku.csrp.registry;
 
 import alku.csrp.Csrp;
+import alku.csrp.entity.AbominationEntity;
 import alku.csrp.entity.AncientParasiteEntity;
 import alku.csrp.entity.AirscrewEntity;
 import alku.csrp.entity.AdaptedVariantEntity;
@@ -57,6 +58,7 @@ import alku.csrp.entity.ThrallEntity;
 import alku.csrp.entity.VerminEntity;
 import alku.csrp.entity.VisceraEntity;
 import alku.csrp.entity.MovingFleshEntity;
+import alku.csrp.entity.NexusParasiteEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -355,6 +357,51 @@ public final class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<AncientParasiteEntity>> ANC_OVERLORD =
             monster("anc_overlord", (type, level) -> new AncientParasiteEntity(type, level,
                     AncientParasiteEntity.Kind.OVERLORD), 2.4F, 2.9F);
+    public static final DeferredHolder<EntityType<?>, EntityType<NexusParasiteEntity>> BECKON_SI =
+            monster("beckon_si", (type, level) -> new NexusParasiteEntity(type, level,
+                    NexusParasiteEntity.Kind.BECKON_SI), 0.5F, 1.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<NexusParasiteEntity>> BECKON_SII =
+            monster("beckon_sii", (type, level) -> new NexusParasiteEntity(type, level,
+                    NexusParasiteEntity.Kind.BECKON_SII), 0.6F, 2.8F);
+    public static final DeferredHolder<EntityType<?>, EntityType<NexusParasiteEntity>> BECKON_SIII =
+            monster("beckon_siii", (type, level) -> new NexusParasiteEntity(type, level,
+                    NexusParasiteEntity.Kind.BECKON_SIII), 0.7F, 5.1F);
+    public static final DeferredHolder<EntityType<?>, EntityType<NexusParasiteEntity>> BECKON_SIV =
+            monster("beckon_siv", (type, level) -> new NexusParasiteEntity(type, level,
+                    NexusParasiteEntity.Kind.BECKON_SIV), 0.8F, 6.9F);
+    public static final DeferredHolder<EntityType<?>, EntityType<NexusParasiteEntity>> DISPATCHER_SI =
+            monster("dispatcher_si", (type, level) -> new NexusParasiteEntity(type, level,
+                    NexusParasiteEntity.Kind.DISPATCHER_SI), 2.7F, 2.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<NexusParasiteEntity>> DISPATCHER_SII =
+            monster("dispatcher_sii", (type, level) -> new NexusParasiteEntity(type, level,
+                    NexusParasiteEntity.Kind.DISPATCHER_SII), 3.2F, 3.6F);
+    public static final DeferredHolder<EntityType<?>, EntityType<NexusParasiteEntity>> DISPATCHER_SIII =
+            monster("dispatcher_siii", (type, level) -> new NexusParasiteEntity(type, level,
+                    NexusParasiteEntity.Kind.DISPATCHER_SIII), 3.9F, 4.8F);
+    public static final DeferredHolder<EntityType<?>, EntityType<NexusParasiteEntity>> DISPATCHER_SIV =
+            monster("dispatcher_siv", (type, level) -> new NexusParasiteEntity(type, level,
+                    NexusParasiteEntity.Kind.DISPATCHER_SIV), 4.7F, 5.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<NexusParasiteEntity>> ROOTER_SI =
+            monster("rooter_si", (type, level) -> new NexusParasiteEntity(type, level,
+                    NexusParasiteEntity.Kind.ROOTER_SI), 1.2F, 2.8F);
+    public static final DeferredHolder<EntityType<?>, EntityType<NexusParasiteEntity>> ROOTER_SII =
+            monster("rooter_sii", (type, level) -> new NexusParasiteEntity(type, level,
+                    NexusParasiteEntity.Kind.ROOTER_SII), 1.2F, 5.2F);
+    public static final DeferredHolder<EntityType<?>, EntityType<NexusParasiteEntity>> ROOTER_SIII =
+            monster("rooter_siii", (type, level) -> new NexusParasiteEntity(type, level,
+                    NexusParasiteEntity.Kind.ROOTER_SIII), 1.5F, 5.2F);
+    public static final DeferredHolder<EntityType<?>, EntityType<NexusParasiteEntity>> ROOTER_SIV =
+            monster("rooter_siv", (type, level) -> new NexusParasiteEntity(type, level,
+                    NexusParasiteEntity.Kind.ROOTER_SIV), 1.7F, 5.4F);
+    public static final DeferredHolder<EntityType<?>, EntityType<NexusParasiteEntity>> ROOTERBALL =
+            monster("rooterball", (type, level) -> new NexusParasiteEntity(type, level,
+                    NexusParasiteEntity.Kind.ROOTERBALL), 1.4F, 1.4F);
+    public static final DeferredHolder<EntityType<?>, EntityType<AbominationEntity>> ABO_BODIES =
+            monster("abo_bodies", (type, level) -> new AbominationEntity(type, level,
+                    AbominationEntity.Kind.BODIES), 1.95154F, 2.95F);
+    public static final DeferredHolder<EntityType<?>, EntityType<AbominationEntity>> ABO_HEAD =
+            monster("abo_head", (type, level) -> new AbominationEntity(type, level,
+                    AbominationEntity.Kind.HEAD), 1.954F, 2.73F);
     public static final DeferredHolder<EntityType<?>, EntityType<PullingBallEntity>> PULLING_BALL =
             ENTITIES.register("pulling_ball", () -> EntityType.Builder
                     .<PullingBallEntity>of(PullingBallEntity::new, MobCategory.MISC)

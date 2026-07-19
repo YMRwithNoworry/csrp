@@ -1,6 +1,7 @@
 package alku.csrp.registry;
 
 import alku.csrp.Csrp;
+import alku.csrp.entity.AbominationEntity;
 import alku.csrp.entity.AirscrewEntity;
 import alku.csrp.entity.AncientParasiteEntity;
 import alku.csrp.entity.AdaptedVariantEntity;
@@ -43,6 +44,7 @@ import alku.csrp.entity.MarauderizedHumanEntity;
 import alku.csrp.entity.MarauderizedSheepEntity;
 import alku.csrp.entity.MarauderizedVillagerEntity;
 import alku.csrp.entity.MovingFleshEntity;
+import alku.csrp.entity.NexusParasiteEntity;
 import alku.csrp.entity.PrimitiveVariantEntity;
 import alku.csrp.entity.PreeminentParasiteEntity;
 import alku.csrp.entity.PureParasiteEntity;
@@ -231,6 +233,36 @@ public final class CommonModEvents {
                 AncientParasiteEntity.Kind.DREADNAUT).build());
         event.put(ModEntities.ANC_OVERLORD.get(), AncientParasiteEntity.createAttributes(
                 AncientParasiteEntity.Kind.OVERLORD).build());
+        event.put(ModEntities.BECKON_SI.get(), NexusParasiteEntity.createAttributes(
+                NexusParasiteEntity.Kind.BECKON_SI).build());
+        event.put(ModEntities.BECKON_SII.get(), NexusParasiteEntity.createAttributes(
+                NexusParasiteEntity.Kind.BECKON_SII).build());
+        event.put(ModEntities.BECKON_SIII.get(), NexusParasiteEntity.createAttributes(
+                NexusParasiteEntity.Kind.BECKON_SIII).build());
+        event.put(ModEntities.BECKON_SIV.get(), NexusParasiteEntity.createAttributes(
+                NexusParasiteEntity.Kind.BECKON_SIV).build());
+        event.put(ModEntities.DISPATCHER_SI.get(), NexusParasiteEntity.createAttributes(
+                NexusParasiteEntity.Kind.DISPATCHER_SI).build());
+        event.put(ModEntities.DISPATCHER_SII.get(), NexusParasiteEntity.createAttributes(
+                NexusParasiteEntity.Kind.DISPATCHER_SII).build());
+        event.put(ModEntities.DISPATCHER_SIII.get(), NexusParasiteEntity.createAttributes(
+                NexusParasiteEntity.Kind.DISPATCHER_SIII).build());
+        event.put(ModEntities.DISPATCHER_SIV.get(), NexusParasiteEntity.createAttributes(
+                NexusParasiteEntity.Kind.DISPATCHER_SIV).build());
+        event.put(ModEntities.ROOTER_SI.get(), NexusParasiteEntity.createAttributes(
+                NexusParasiteEntity.Kind.ROOTER_SI).build());
+        event.put(ModEntities.ROOTER_SII.get(), NexusParasiteEntity.createAttributes(
+                NexusParasiteEntity.Kind.ROOTER_SII).build());
+        event.put(ModEntities.ROOTER_SIII.get(), NexusParasiteEntity.createAttributes(
+                NexusParasiteEntity.Kind.ROOTER_SIII).build());
+        event.put(ModEntities.ROOTER_SIV.get(), NexusParasiteEntity.createAttributes(
+                NexusParasiteEntity.Kind.ROOTER_SIV).build());
+        event.put(ModEntities.ROOTERBALL.get(), NexusParasiteEntity.createAttributes(
+                NexusParasiteEntity.Kind.ROOTERBALL).build());
+        event.put(ModEntities.ABO_BODIES.get(), AbominationEntity.createAttributes(
+                AbominationEntity.Kind.BODIES).build());
+        event.put(ModEntities.ABO_HEAD.get(), AbominationEntity.createAttributes(
+                AbominationEntity.Kind.HEAD).build());
     }
 
     @SubscribeEvent

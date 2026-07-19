@@ -97,6 +97,21 @@ public final class Csrp {
                         output.accept(ModItems.SUCCOR_SPAWN_EGG.get());
                         output.accept(ModItems.ANC_DREADNAUT_SPAWN_EGG.get());
                         output.accept(ModItems.ANC_OVERLORD_SPAWN_EGG.get());
+                        output.accept(ModItems.BECKON_SI_SPAWN_EGG.get());
+                        output.accept(ModItems.BECKON_SII_SPAWN_EGG.get());
+                        output.accept(ModItems.BECKON_SIII_SPAWN_EGG.get());
+                        output.accept(ModItems.BECKON_SIV_SPAWN_EGG.get());
+                        output.accept(ModItems.DISPATCHER_SI_SPAWN_EGG.get());
+                        output.accept(ModItems.DISPATCHER_SII_SPAWN_EGG.get());
+                        output.accept(ModItems.DISPATCHER_SIII_SPAWN_EGG.get());
+                        output.accept(ModItems.DISPATCHER_SIV_SPAWN_EGG.get());
+                        output.accept(ModItems.ROOTER_SI_SPAWN_EGG.get());
+                        output.accept(ModItems.ROOTER_SII_SPAWN_EGG.get());
+                        output.accept(ModItems.ROOTER_SIII_SPAWN_EGG.get());
+                        output.accept(ModItems.ROOTER_SIV_SPAWN_EGG.get());
+                        output.accept(ModItems.ROOTERBALL_SPAWN_EGG.get());
+                        output.accept(ModItems.ABO_BODIES_SPAWN_EGG.get());
+                        output.accept(ModItems.ABO_HEAD_SPAWN_EGG.get());
                         ModItems.ITEMS.getEntries().stream()
                                 .filter(item -> item != ModItems.BUGLIN_SPAWN_EGG && item != ModItems.RUPTER_SPAWN_EGG
                                         && item != ModItems.PRI_LONGARMS_SPAWN_EGG && item != ModItems.PRI_SUMMONER_SPAWN_EGG
@@ -130,7 +145,14 @@ public final class Csrp {
                                         && item != ModItems.CARRIER_COLONY_SPAWN_EGG && item != ModItems.HAUNTER_SPAWN_EGG
                                         && item != ModItems.BOMBER_HEAVY_SPAWN_EGG && item != ModItems.WRAITH_SPAWN_EGG
                                         && item != ModItems.SUCCOR_SPAWN_EGG && item != ModItems.ANC_DREADNAUT_SPAWN_EGG
-                                        && item != ModItems.ANC_OVERLORD_SPAWN_EGG)
+                                        && item != ModItems.ANC_OVERLORD_SPAWN_EGG && item != ModItems.BECKON_SI_SPAWN_EGG
+                                        && item != ModItems.BECKON_SII_SPAWN_EGG && item != ModItems.BECKON_SIII_SPAWN_EGG
+                                        && item != ModItems.BECKON_SIV_SPAWN_EGG && item != ModItems.DISPATCHER_SI_SPAWN_EGG
+                                        && item != ModItems.DISPATCHER_SII_SPAWN_EGG && item != ModItems.DISPATCHER_SIII_SPAWN_EGG
+                                        && item != ModItems.DISPATCHER_SIV_SPAWN_EGG && item != ModItems.ROOTER_SI_SPAWN_EGG
+                                        && item != ModItems.ROOTER_SII_SPAWN_EGG && item != ModItems.ROOTER_SIII_SPAWN_EGG
+                                        && item != ModItems.ROOTER_SIV_SPAWN_EGG && item != ModItems.ROOTERBALL_SPAWN_EGG
+                                        && item != ModItems.ABO_BODIES_SPAWN_EGG && item != ModItems.ABO_HEAD_SPAWN_EGG)
                                 .forEach(item -> output.accept(item.get()));
                     })
                     .build());
@@ -257,6 +279,21 @@ public final class Csrp {
             event.accept(ModItems.SUCCOR_SPAWN_EGG.get());
             event.accept(ModItems.ANC_DREADNAUT_SPAWN_EGG.get());
             event.accept(ModItems.ANC_OVERLORD_SPAWN_EGG.get());
+            event.accept(ModItems.BECKON_SI_SPAWN_EGG.get());
+            event.accept(ModItems.BECKON_SII_SPAWN_EGG.get());
+            event.accept(ModItems.BECKON_SIII_SPAWN_EGG.get());
+            event.accept(ModItems.BECKON_SIV_SPAWN_EGG.get());
+            event.accept(ModItems.DISPATCHER_SI_SPAWN_EGG.get());
+            event.accept(ModItems.DISPATCHER_SII_SPAWN_EGG.get());
+            event.accept(ModItems.DISPATCHER_SIII_SPAWN_EGG.get());
+            event.accept(ModItems.DISPATCHER_SIV_SPAWN_EGG.get());
+            event.accept(ModItems.ROOTER_SI_SPAWN_EGG.get());
+            event.accept(ModItems.ROOTER_SII_SPAWN_EGG.get());
+            event.accept(ModItems.ROOTER_SIII_SPAWN_EGG.get());
+            event.accept(ModItems.ROOTER_SIV_SPAWN_EGG.get());
+            event.accept(ModItems.ROOTERBALL_SPAWN_EGG.get());
+            event.accept(ModItems.ABO_BODIES_SPAWN_EGG.get());
+            event.accept(ModItems.ABO_HEAD_SPAWN_EGG.get());
         }
     }
 }

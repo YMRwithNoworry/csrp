@@ -243,6 +243,36 @@ public final class ClientModEvents {
                 new PrimitiveParasiteRenderer<>(context, "anc_dreadnaut", 1.3F));
         event.registerEntityRenderer(ModEntities.ANC_OVERLORD.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "anc_overlord", 1.1F));
+        event.registerEntityRenderer(ModEntities.BECKON_SI.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "beckon_si", 0.4F));
+        event.registerEntityRenderer(ModEntities.BECKON_SII.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "beckon_sii", 0.5F));
+        event.registerEntityRenderer(ModEntities.BECKON_SIII.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "beckon_siii", 0.6F));
+        event.registerEntityRenderer(ModEntities.BECKON_SIV.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "beckon_siv", 0.7F));
+        event.registerEntityRenderer(ModEntities.DISPATCHER_SI.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "dispatcher_si", 1.0F));
+        event.registerEntityRenderer(ModEntities.DISPATCHER_SII.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "dispatcher_sii", 1.1F));
+        event.registerEntityRenderer(ModEntities.DISPATCHER_SIII.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "dispatcher_siii", 1.2F));
+        event.registerEntityRenderer(ModEntities.DISPATCHER_SIV.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "dispatcher_siv", 1.4F));
+        event.registerEntityRenderer(ModEntities.ROOTER_SI.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "rooter_si", 0.8F));
+        event.registerEntityRenderer(ModEntities.ROOTER_SII.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "rooter_sii", 0.9F));
+        event.registerEntityRenderer(ModEntities.ROOTER_SIII.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "rooter_siii", 1.0F));
+        event.registerEntityRenderer(ModEntities.ROOTER_SIV.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "rooter_siv", 1.1F));
+        event.registerEntityRenderer(ModEntities.ROOTERBALL.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "rooterball", 0.7F));
+        event.registerEntityRenderer(ModEntities.ABO_BODIES.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "abo_bodies", 1.0F));
+        event.registerEntityRenderer(ModEntities.ABO_HEAD.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "abo_head", 1.0F));
         event.registerEntityRenderer(ModEntities.PARASITE_PROJECTILE.get(), ParasiteProjectileRenderer::new);
     }
 
