@@ -31,7 +31,7 @@ import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 
-import java.util.EnumSet;
+import java.util.List;
 
 /** Legacy Nexus families: stationary stage growth, reinforcement, and battlefield support. */
 public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
@@ -89,7 +89,6 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
 
         Kind activeKind = activeKind();
         if (activeKind.isRooterBall()) {
-            tickRooterBall();
             return;
         }
         if (growthDelayTicks > 0 && ++growthTicks >= growthDelayTicks && evolve()) {
@@ -114,18 +113,31 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        boolean hurt = super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
-        if (!hurt || level().isClientSide || activeKind().isRooterBall()) {
+        Kind activeKind = activeKind();
+        boolean damageRedirected = false;
+        if (activeKind.family == Family.ROOTER && !level().isClientSide) {
+            List<NexusParasiteEntity> cysts = rootmassCystsInRange(activeKind);
+            if (!cysts.isEmpty()) {
+                // Legacy Rooters split subsequent hits between nearby Rootmass Cysts.
+                float sharedDamage = amount / cysts.size();
+                for (NexusParasiteEntity cyst : cysts) {
+                    cyst.hurt(source, sharedDamage);
+                }
+                damageRedirected = true;
+            } else {
+                spawnRootmassCysts(activeKind.rootmassCystSpawnLimit());
+            }
+        }
+
+        float incomingDamage = damageRedirected ? 0.0F : amount;
+        boolean hurt = super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? incomingDamage * 4.0F : incomingDamage);
+        if (!hurt || level().isClientSide || activeKind.isRooterBall()) {
             return hurt;
         }
-        Kind activeKind = activeKind();
         attackFlashTicks = 12;
         if (bombCooldown <= 0) {
             spawnBombVolley(activeKind.bombCount, (float) activeKind.attackDamage);
             bombCooldown = 100;
-        }
-        if (activeKind.family == Family.ROOTER) {
-            spawnRooterBalls(Math.min(activeKind.stage + 1, 5));
         }
         return true;
     }
@@ -300,7 +312,14 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         level().addFreshEntity(projectile);
     }
 
-    private void spawnRooterBalls(int maximum) {
+    private List<NexusParasiteEntity> rootmassCystsInRange(Kind rooter) {
+        int range = rooter.rootmassCystRange();
+        return level().getEntitiesOfClass(NexusParasiteEntity.class,
+                getBoundingBox().inflate(range + 1.0D, range, range + 1.0D),
+                cyst -> cyst.isAlive() && cyst.activeKind().isRooterBall());
+    }
+
+    private void spawnRootmassCysts(int maximum) {
         if (!(level() instanceof ServerLevel serverLevel)) {
             return;
         }
@@ -311,8 +330,9 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
                 continue;
             }
             double angle = random.nextDouble() * Math.PI * 2.0D;
-            rooterBall.moveTo(getX() + Math.cos(angle) * (2.0D + random.nextDouble() * 2.0D), getY(),
-                    getZ() + Math.sin(angle) * (2.0D + random.nextDouble() * 2.0D), getYRot(), 0.0F);
+            double distance = 2.0D + random.nextDouble() * 3.0D;
+            rooterBall.moveTo(getX() + Math.cos(angle) * distance, getY(),
+                    getZ() + Math.sin(angle) * distance, getYRot(), 0.0F);
             rooterBall.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(rooterBall.blockPosition()),
                     MobSpawnType.MOB_SUMMONED, null);
             serverLevel.addFreshEntity(rooterBall);
@@ -434,12 +454,6 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
                 entity -> entity != this && entity instanceof Parasite).size();
     }
 
-    private void tickRooterBall() {
-        if (tickCount % 100 == 0) {
-            addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 120, 3, false, false), this);
-        }
-    }
-
     private int defaultGrowthDelay() {
         return activeKind().stage == 0 || activeKind().stage == 4 ? -1
                 : STAGE_ONE_MIN_GROWTH + random.nextInt(STAGE_ONE_GROWTH_VARIANCE);
@@ -543,6 +557,26 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
 
         private boolean isRooterBall() {
             return family == Family.ROOTERBALL;
+        }
+
+        private int rootmassCystRange() {
+            return switch (this) {
+                case ROOTER_SI -> 16;
+                case ROOTER_SII -> 32;
+                case ROOTER_SIII -> 48;
+                case ROOTER_SIV -> 128;
+                default -> 0;
+            };
+        }
+
+        private int rootmassCystSpawnLimit() {
+            return switch (this) {
+                case ROOTER_SI -> 3;
+                case ROOTER_SII -> 4;
+                case ROOTER_SIII -> 5;
+                case ROOTER_SIV -> 6;
+                default -> 0;
+            };
         }
     }
 }

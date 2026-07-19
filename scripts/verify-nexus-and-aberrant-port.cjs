@@ -33,10 +33,21 @@ const abomination = read("src/main/java/alku/csrp/entity/AbominationEntity.java"
 
 for (const feature of [
   "BECKON_SIV", "DISPATCHER_SIV", "ROOTER_SIV", "ROOTERBALL", "DamageTypeTags.IS_FIRE",
-  "spawnBombVolley", "spawnPodVolley", "spawnRooterBalls", "summonBeckonParasites",
+  "spawnBombVolley", "spawnPodVolley", "spawnRootmassCysts", "rootmassCystsInRange",
+  "rootmassCystRange", "rootmassCystSpawnLimit", "summonBeckonParasites",
   "summonDispatcherDefenses", "applyRooterSupport", "createStormVortex", "evolve"
 ]) {
   if (!nexus.includes(feature)) failures.push(`Nexus behavior is missing ${feature}`);
+}
+expect(nexus, /float sharedDamage = amount \/ cysts\.size\(\);/,
+  "Rootmass Cyst damage is not split across nearby cysts");
+expect(nexus, /else \{\s*spawnRootmassCysts\(activeKind\.rootmassCystSpawnLimit\(\)\);\s*\}/,
+  "Rooter does not create Rootmass Cysts before taking an unprotected hit");
+for (const [stage, range, limit] of [["SI", 16, 3], ["SII", 32, 4], ["SIII", 48, 5], ["SIV", 128, 6]]) {
+  expect(nexus, new RegExp(`ROOTER_${stage} -> ${range}`),
+    `Rooter stage ${stage} is missing its Rootmass Cyst range`);
+  expect(nexus, new RegExp(`ROOTER_${stage} -> ${limit}`),
+    `Rooter stage ${stage} is missing its Rootmass Cyst spawn limit`);
 }
 for (const feature of ["Kind.BODIES", "FastMeleeAttackGoal", "DamageTypeTags.IS_FIRE", "applyBodiesSupport"]) {
   if (!abomination.includes(feature)) failures.push(`Abomination behavior is missing ${feature}`);
