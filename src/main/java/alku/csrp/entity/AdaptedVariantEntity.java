@@ -342,7 +342,11 @@ public final class AdaptedVariantEntity extends PrimitiveParasiteEntity {
     }
 
     private PlayState movementAnimation(AnimationState<AdaptedVariantEntity> state) {
-        if (isFlying(activeKind())) {
+        Kind kind = activeKind();
+        if (kind == Kind.VERMIN) {
+            return state.setAndContinue(IDLE);
+        }
+        if (isFlying(kind)) {
             return state.setAndContinue(FLY);
         }
         if (!state.isMoving()) {

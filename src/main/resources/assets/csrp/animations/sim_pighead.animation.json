@@ -1,1 +1,353 @@
-{"format_version":"1.8.0","animations":{"idle":{"loop":true,"animation_length":1,"bones":{}},"walk":{"loop":true,"animation_length":0.8,"bones":{}},"run":{"loop":true,"animation_length":0.55,"bones":{}},"fly":{"loop":true,"animation_length":0.65,"bones":{}}}}
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"idle": {
+			"loop": true,
+			"animation_length": 2.08,
+			"bones": {
+				"jointM": {
+					"rotation": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"1.08": {
+							"post": [50, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"2.08": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"hair": {
+					"rotation": {
+						"0.0": {
+							"post": [10.2183, 3.7763, -4.3228],
+							"lerp_mode": "catmullrom"
+						},
+						"0.76": {
+							"post": [-25.1723, -5.4145, 12.5812],
+							"lerp_mode": "catmullrom"
+						},
+						"2.08": {
+							"post": [10.2183, 3.7763, -4.3228],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"hair_4": {
+					"rotation": {
+						"0.0": {
+							"post": [60, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"1.0": {
+							"post": [-35, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"2.08": {
+							"post": [60, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"hair_7": {
+					"rotation": {
+						"0.0": {
+							"post": [-25.1723, 5.4144, -12.5811],
+							"lerp_mode": "catmullrom"
+						},
+						"0.68": {
+							"post": [19.83, 5.41, -12.58],
+							"lerp_mode": "catmullrom"
+						},
+						"2.08": {
+							"post": [-25.1723, 5.4144, -12.5811],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"hair_11": {
+					"rotation": {
+						"0.0": {
+							"post": [-17.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"1.04": {
+							"post": [65, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"2.08": {
+							"post": [-17.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"bone": {
+					"rotation": {
+						"0.0": {
+							"post": [-5, -20, -15],
+							"lerp_mode": "catmullrom"
+						},
+						"0.96": {
+							"post": [0, 15, 20],
+							"lerp_mode": "catmullrom"
+						},
+						"2.08": {
+							"post": [-5, -20, -15],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				}
+			}
+		},
+		"walk": {
+			"loop": true,
+			"animation_length": 0.68,
+			"bones": {
+				"mainbody": {
+					"position": {
+						"0.0": {
+							"post": [0, 1, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.16": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.32": {
+							"post": [0, 1, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.52": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.68": {
+							"post": [0, 1, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"leg_8": {
+					"rotation": {
+						"0.0": {
+							"post": [39.2099, 21.8844, 20.359],
+							"lerp_mode": "catmullrom"
+						},
+						"0.32": {
+							"post": [-30.9081, -29.6172, -2.2376],
+							"lerp_mode": "catmullrom"
+						},
+						"0.52": {
+							"post": [48.4614, -1.8023, 24.9154],
+							"lerp_mode": "catmullrom"
+						},
+						"0.68": {
+							"post": [39.2099, 21.8844, 20.359],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"leg_16": {
+					"rotation": {
+						"0.0": {
+							"post": [32.7526, 31.3461, -1.8617],
+							"lerp_mode": "catmullrom"
+						},
+						"0.2": {
+							"post": [-29.4151, -4.2893, 13.473],
+							"lerp_mode": "catmullrom"
+						},
+						"0.4": {
+							"post": [-23.8739, -12.9997, 10.9167],
+							"lerp_mode": "catmullrom"
+						},
+						"0.68": {
+							"post": [32.7526, 31.3461, -1.8617],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"leg": {
+					"rotation": {
+						"0.0": {
+							"post": [32.7526, 31.3461, -1.8617],
+							"lerp_mode": "catmullrom"
+						},
+						"0.2": {
+							"post": [-29.4151, -4.2893, 13.473],
+							"lerp_mode": "catmullrom"
+						},
+						"0.4": {
+							"post": [-23.8739, -12.9997, 10.9167],
+							"lerp_mode": "catmullrom"
+						},
+						"0.68": {
+							"post": [32.7526, 31.3461, -1.8617],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"leg_12": {
+					"rotation": {
+						"0.0": {
+							"post": [32.7526, -31.3461, 1.8617],
+							"lerp_mode": "catmullrom"
+						},
+						"0.2": {
+							"post": [-29.4151, 4.2893, -13.473],
+							"lerp_mode": "catmullrom"
+						},
+						"0.4": {
+							"post": [-23.8739, 12.9997, -10.9167],
+							"lerp_mode": "catmullrom"
+						},
+						"0.68": {
+							"post": [32.7526, -31.3461, 1.8617],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"leg_4": {
+					"rotation": {
+						"0.0": {
+							"post": [39.2099, -21.8844, -20.359],
+							"lerp_mode": "catmullrom"
+						},
+						"0.32": {
+							"post": [-30.9081, 29.6172, 2.2376],
+							"lerp_mode": "catmullrom"
+						},
+						"0.52": {
+							"post": [48.4614, 1.8023, -24.9154],
+							"lerp_mode": "catmullrom"
+						},
+						"0.68": {
+							"post": [39.2099, -21.8844, -20.359],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"leg_20": {
+					"rotation": {
+						"0.0": {
+							"post": [39.2099, -21.8844, -20.359],
+							"lerp_mode": "catmullrom"
+						},
+						"0.32": {
+							"post": [-30.9081, 29.6172, 2.2376],
+							"lerp_mode": "catmullrom"
+						},
+						"0.52": {
+							"post": [48.4614, 1.8023, -24.9154],
+							"lerp_mode": "catmullrom"
+						},
+						"0.68": {
+							"post": [39.2099, -21.8844, -20.359],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"jointM": {
+					"rotation": {
+						"0.0": {
+							"post": [35, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.36": {
+							"post": [60, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.68": {
+							"post": [35, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"hair": {
+					"rotation": {
+						"0.0": {
+							"post": [-19.3553, -4.6389, 9.5079],
+							"lerp_mode": "catmullrom"
+						},
+						"0.28": {
+							"post": [54.5481, 29.0191, -12.9778],
+							"lerp_mode": "catmullrom"
+						},
+						"0.68": {
+							"post": [-19.3553, -4.6389, 9.5079],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"hair_4": {
+					"rotation": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.4": {
+							"post": [39.8905, -13.8735, 22.9413],
+							"lerp_mode": "catmullrom"
+						},
+						"0.68": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"hair_7": {
+					"rotation": {
+						"0.0": {
+							"post": [48.2553, -24.9362, 12.9931],
+							"lerp_mode": "catmullrom"
+						},
+						"0.28": {
+							"post": [-5.346, 1.6057, -2.4822],
+							"lerp_mode": "catmullrom"
+						},
+						"0.68": {
+							"post": [48.2553, -24.9362, 12.9931],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"hair_11": {
+					"rotation": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.4": {
+							"post": [-31.4838, 1.6843, 20.0976],
+							"lerp_mode": "catmullrom"
+						},
+						"0.68": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"bone": {
+					"rotation": {
+						"0.0": {
+							"post": [-7.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.32": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.68": {
+							"post": [-7.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				}
+			}
+		}
+	}
+}

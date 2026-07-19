@@ -3,7 +3,7 @@
 	"minecraft:geometry": [
 		{
 			"description": {
-				"identifier": "geometry.sim_adventurer",
+				"identifier": "geometry.inf_player",
 				"texture_width": 64,
 				"texture_height": 55,
 				"visible_bounds_width": 3,
