@@ -43,6 +43,7 @@ import alku.csrp.entity.MarauderizedSheepEntity;
 import alku.csrp.entity.MarauderizedVillagerEntity;
 import alku.csrp.entity.MovingFleshEntity;
 import alku.csrp.entity.PrimitiveVariantEntity;
+import alku.csrp.entity.PreeminentParasiteEntity;
 import alku.csrp.entity.PureParasiteEntity;
 import alku.csrp.entity.RupterEntity;
 import alku.csrp.entity.SimAdventurerEntity;
@@ -213,6 +214,18 @@ public final class CommonModEvents {
                 PureParasiteEntity.Kind.VIGILANTE).build());
         event.put(ModEntities.WARDEN.get(), PureParasiteEntity.createAttributes(
                 PureParasiteEntity.Kind.WARDEN).build());
+        event.put(ModEntities.BOGLE.get(), PreeminentParasiteEntity.createAttributes(
+                PreeminentParasiteEntity.Kind.BOGLE).build());
+        event.put(ModEntities.CARRIER_COLONY.get(), PreeminentParasiteEntity.createAttributes(
+                PreeminentParasiteEntity.Kind.CARRIER_COLONY).build());
+        event.put(ModEntities.HAUNTER.get(), PreeminentParasiteEntity.createAttributes(
+                PreeminentParasiteEntity.Kind.HAUNTER).build());
+        event.put(ModEntities.BOMBER_HEAVY.get(), PreeminentParasiteEntity.createAttributes(
+                PreeminentParasiteEntity.Kind.BOMBER_HEAVY).build());
+        event.put(ModEntities.WRAITH.get(), PreeminentParasiteEntity.createAttributes(
+                PreeminentParasiteEntity.Kind.WRAITH).build());
+        event.put(ModEntities.SUCCOR.get(), PreeminentParasiteEntity.createAttributes(
+                PreeminentParasiteEntity.Kind.SUCCOR).build());
     }
 
     @SubscribeEvent

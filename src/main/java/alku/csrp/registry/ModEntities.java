@@ -44,6 +44,7 @@ import alku.csrp.entity.MarauderizedSheepEntity;
 import alku.csrp.entity.MarauderizedVillagerEntity;
 import alku.csrp.entity.ParasiteProjectileEntity;
 import alku.csrp.entity.PrimitiveVariantEntity;
+import alku.csrp.entity.PreeminentParasiteEntity;
 import alku.csrp.entity.PureParasiteEntity;
 import alku.csrp.entity.PullingBallEntity;
 import alku.csrp.entity.RupterEntity;
@@ -329,6 +330,24 @@ public final class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<PureParasiteEntity>> WARDEN =
             monster("warden", (type, level) -> new PureParasiteEntity(type, level,
                     PureParasiteEntity.Kind.WARDEN), 0.901F, 4.2F);
+    public static final DeferredHolder<EntityType<?>, EntityType<PreeminentParasiteEntity>> BOGLE =
+            monster("bogle", (type, level) -> new PreeminentParasiteEntity(type, level,
+                    PreeminentParasiteEntity.Kind.BOGLE), 4.0F, 4.0F);
+    public static final DeferredHolder<EntityType<?>, EntityType<PreeminentParasiteEntity>> CARRIER_COLONY =
+            monster("carrier_colony", (type, level) -> new PreeminentParasiteEntity(type, level,
+                    PreeminentParasiteEntity.Kind.CARRIER_COLONY), 1.75F, 3.6F);
+    public static final DeferredHolder<EntityType<?>, EntityType<PreeminentParasiteEntity>> HAUNTER =
+            monster("haunter", (type, level) -> new PreeminentParasiteEntity(type, level,
+                    PreeminentParasiteEntity.Kind.HAUNTER), 2.0F, 3.6F);
+    public static final DeferredHolder<EntityType<?>, EntityType<PreeminentParasiteEntity>> BOMBER_HEAVY =
+            monster("bomber_heavy", (type, level) -> new PreeminentParasiteEntity(type, level,
+                    PreeminentParasiteEntity.Kind.BOMBER_HEAVY), 3.7F, 4.4F);
+    public static final DeferredHolder<EntityType<?>, EntityType<PreeminentParasiteEntity>> WRAITH =
+            monster("wraith", (type, level) -> new PreeminentParasiteEntity(type, level,
+                    PreeminentParasiteEntity.Kind.WRAITH), 4.0F, 4.0F);
+    public static final DeferredHolder<EntityType<?>, EntityType<PreeminentParasiteEntity>> SUCCOR =
+            monster("succor", (type, level) -> new PreeminentParasiteEntity(type, level,
+                    PreeminentParasiteEntity.Kind.SUCCOR), 1.2F, 1.2F);
     public static final DeferredHolder<EntityType<?>, EntityType<PullingBallEntity>> PULLING_BALL =
             ENTITIES.register("pulling_ball", () -> EntityType.Builder
                     .<PullingBallEntity>of(PullingBallEntity::new, MobCategory.MISC)

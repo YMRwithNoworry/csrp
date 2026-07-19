@@ -226,6 +226,18 @@ public final class ModItems {
             "vigilante_spawn_egg", ModEntities.VIGILANTE, 0x39342D, 0xA58A61);
     public static final DeferredItem<SpawnEggItem> WARDEN_SPAWN_EGG = spawnEgg(
             "warden_spawn_egg", ModEntities.WARDEN, 0x302B29, 0xB26B4D);
+    public static final DeferredItem<SpawnEggItem> BOGLE_SPAWN_EGG = spawnEgg(
+            "bogle_spawn_egg", ModEntities.BOGLE, 0x27312E, 0x6A98A3);
+    public static final DeferredItem<SpawnEggItem> CARRIER_COLONY_SPAWN_EGG = spawnEgg(
+            "carrier_colony_spawn_egg", ModEntities.CARRIER_COLONY, 0x483D36, 0xC08E5B);
+    public static final DeferredItem<SpawnEggItem> HAUNTER_SPAWN_EGG = spawnEgg(
+            "haunter_spawn_egg", ModEntities.HAUNTER, 0x3A3332, 0xBC6E55);
+    public static final DeferredItem<SpawnEggItem> BOMBER_HEAVY_SPAWN_EGG = spawnEgg(
+            "bomber_heavy_spawn_egg", ModEntities.BOMBER_HEAVY, 0x3B3B2D, 0xC8B04D);
+    public static final DeferredItem<SpawnEggItem> WRAITH_SPAWN_EGG = spawnEgg(
+            "wraith_spawn_egg", ModEntities.WRAITH, 0x222A3B, 0x8B9DD2);
+    public static final DeferredItem<SpawnEggItem> SUCCOR_SPAWN_EGG = spawnEgg(
+            "succor_spawn_egg", ModEntities.SUCCOR, 0x313442, 0xA0B4D8);
     public static final DeferredItem<Item> RUPTER_VISCERA = simple("rupter_viscera");
     public static final DeferredItem<BlockItem> TUNNEL = ITEMS.registerSimpleBlockItem("tunnel", ModBlocks.TUNNEL);
     public static final DeferredItem<BlockItem> RESIDUE_PLANTS = ITEMS.registerSimpleBlockItem(
