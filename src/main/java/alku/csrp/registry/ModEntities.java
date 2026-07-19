@@ -2,6 +2,7 @@ package alku.csrp.registry;
 
 import alku.csrp.Csrp;
 import alku.csrp.entity.AirscrewEntity;
+import alku.csrp.entity.AdaptedVariantEntity;
 import alku.csrp.entity.AssimilatedParasiteEntity;
 import alku.csrp.entity.BuglinEntity;
 import alku.csrp.entity.CarrierFlyingEntity;
@@ -102,6 +103,42 @@ public final class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<PrimitiveVariantEntity>> PRI_YELLOWEYE =
             monster("pri_yelloweye", (type, level) -> new PrimitiveVariantEntity(type, level,
                     PrimitiveVariantEntity.Kind.YELLOWEYE), 0.4F, 1.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<AdaptedVariantEntity>> ADA_ARACHNIDA =
+            monster("ada_arachnida", (type, level) -> new AdaptedVariantEntity(type, level,
+                    AdaptedVariantEntity.Kind.ARACHNIDA), 1.901F, 2.85F);
+    public static final DeferredHolder<EntityType<?>, EntityType<AdaptedVariantEntity>> ADA_BOLSTER =
+            monster("ada_bolster", (type, level) -> new AdaptedVariantEntity(type, level,
+                    AdaptedVariantEntity.Kind.BOLSTER), 1.3F, 3.8F);
+    public static final DeferredHolder<EntityType<?>, EntityType<AdaptedVariantEntity>> ADA_BURROWER =
+            monster("ada_burrower", (type, level) -> new AdaptedVariantEntity(type, level,
+                    AdaptedVariantEntity.Kind.BURROWER), 1.321F, 1.2F);
+    public static final DeferredHolder<EntityType<?>, EntityType<AdaptedVariantEntity>> ADA_DEVOURER =
+            monster("ada_devourer", (type, level) -> new AdaptedVariantEntity(type, level,
+                    AdaptedVariantEntity.Kind.DEVOURER), 0.901F, 3.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<AdaptedVariantEntity>> ADA_LONGARMS =
+            monster("ada_longarms", (type, level) -> new AdaptedVariantEntity(type, level,
+                    AdaptedVariantEntity.Kind.LONGARMS), 1.3F, 3.3F);
+    public static final DeferredHolder<EntityType<?>, EntityType<AdaptedVariantEntity>> ADA_MANDUCATER =
+            monster("ada_manducater", (type, level) -> new AdaptedVariantEntity(type, level,
+                    AdaptedVariantEntity.Kind.MANDUCATER), 1.4F, 2.7F);
+    public static final DeferredHolder<EntityType<?>, EntityType<AdaptedVariantEntity>> ADA_REEKER =
+            monster("ada_reeker", (type, level) -> new AdaptedVariantEntity(type, level,
+                    AdaptedVariantEntity.Kind.REEKER), 1.3F, 3.3F);
+    public static final DeferredHolder<EntityType<?>, EntityType<AdaptedVariantEntity>> ADA_SUMMONER =
+            monster("ada_summoner", (type, level) -> new AdaptedVariantEntity(type, level,
+                    AdaptedVariantEntity.Kind.SUMMONER), 0.901F, 3.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<AdaptedVariantEntity>> ADA_TOZOON =
+            monster("ada_tozoon", (type, level) -> new AdaptedVariantEntity(type, level,
+                    AdaptedVariantEntity.Kind.TOZOON), 1.321F, 1.2F);
+    public static final DeferredHolder<EntityType<?>, EntityType<AdaptedVariantEntity>> ADA_VERMIN =
+            monster("ada_vermin", (type, level) -> new AdaptedVariantEntity(type, level,
+                    AdaptedVariantEntity.Kind.VERMIN), 1.511F, 3.655F);
+    public static final DeferredHolder<EntityType<?>, EntityType<AdaptedVariantEntity>> ADA_VISCERA =
+            monster("ada_viscera", (type, level) -> new AdaptedVariantEntity(type, level,
+                    AdaptedVariantEntity.Kind.VISCERA), 1.1F, 1.4F);
+    public static final DeferredHolder<EntityType<?>, EntityType<AdaptedVariantEntity>> ADA_YELLOWEYE =
+            monster("ada_yelloweye", (type, level) -> new AdaptedVariantEntity(type, level,
+                    AdaptedVariantEntity.Kind.YELLOWEYE), 1.3F, 2.9F);
     public static final DeferredHolder<EntityType<?>, EntityType<GnatEntity>> GNAT =
             monster("gnat", GnatEntity::new, 0.55F, 0.45F);
     public static final DeferredHolder<EntityType<?>, EntityType<CarrierHeavyEntity>> CARRIER_HEAVY =

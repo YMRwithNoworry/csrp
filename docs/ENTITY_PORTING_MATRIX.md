@@ -6,7 +6,7 @@ Unindexed bestiary JSON files and standalone internal effects are excluded.
 Projectiles, clouds, summons, and transition entities are included with the
 creature that requires them.
 
-Progress: **58 / 119** indexed creatures ported.
+Progress: **70 / 119** indexed creatures ported.
 
 | Batch | IDs | Status |
 | --- | --- | --- |
@@ -17,7 +17,7 @@ Progress: **58 / 119** indexed creatures ported.
 | Hijacked and feral | `fer_bear`, `fer_cow`, `fer_enderman`, `fer_horse`, `fer_human`, `fer_pig`, `fer_sheep`, `fer_villager`, `fer_wolf`, `hi_blaze`, `hi_golem`, `hi_skeleton` | 12 ported |
 | Marauderized | `mar_bear`, `mar_cow`, `mar_enderman`, `mar_human`, `mar_sheep`, `mar_villager`, `marauder` | 7 ported |
 | Primitive | All twelve `pri_*` forms | 12 ported |
-| Adapted | All twelve `ada_*` forms | 12 pending |
+| Adapted | All twelve `ada_*` forms | 12 ported |
 | Pure and preeminent | `dispatcherten` through `succor`, excluding `marauder` | 17 pending |
 | Ancient | `anc_dreadnaut`, `anc_overlord` | 2 pending |
 | Nexus and aberrant | Four Beckons, Dispatchers, and Rooters, plus `rooterball`, `abo_bodies`, `abo_head` | 15 pending |

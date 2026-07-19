@@ -27,7 +27,8 @@ public final class ParasiteProjectileEntity extends Entity {
         SPINE,
         METEOR,
         LIGHT,
-        ACID
+        ACID,
+        VOMIT
     }
 
     private static final EntityDataAccessor<Integer> MODE = SynchedEntityData.defineId(
@@ -89,13 +90,13 @@ public final class ParasiteProjectileEntity extends Entity {
                 case BOMB, METEOR -> ParticleTypes.FLAME;
                 case LIGHT -> ParticleTypes.SOUL_FIRE_FLAME;
                 case SPINE -> ParticleTypes.CRIT;
-                case ACID -> ParticleTypes.WITCH;
+                case ACID, VOMIT -> ParticleTypes.WITCH;
             };
             level().addParticle(particle, getX(), getY(), getZ(), 0.0, 0.0, 0.0);
             return;
         }
 
-        if (mode == Mode.BOMB || mode == Mode.METEOR || mode == Mode.ACID) {
+        if (mode == Mode.BOMB || mode == Mode.METEOR || mode == Mode.ACID || mode == Mode.VOMIT) {
             setDeltaMovement(movement.add(0.0, -0.025, 0.0));
         }
 
@@ -144,6 +145,13 @@ public final class ParasiteProjectileEntity extends Entity {
                     target.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 0), owner);
                     target.addEffect(new MobEffectInstance(ModMobEffects.CORROSION, 180, 0), owner);
                 }
+                case VOMIT -> {
+                    target.addEffect(new MobEffectInstance(ModMobEffects.COTH, 160, 0), owner);
+                    target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 160, 0), owner);
+                    target.addEffect(new MobEffectInstance(ModMobEffects.CORROSION, 160, 0), owner);
+                    target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 160, 1), owner);
+                    target.addEffect(new MobEffectInstance(MobEffects.HUNGER, 160, 1), owner);
+                }
                 case BOMB, METEOR -> target.igniteForSeconds(4.0F);
             }
         }
@@ -151,10 +159,12 @@ public final class ParasiteProjectileEntity extends Entity {
             spawnLingeringCothCloud(owner);
         } else if (mode == Mode.ACID && radius >= 1.25D) {
             spawnLingeringAcidCloud(owner);
+        } else if (mode == Mode.VOMIT) {
+            spawnLingeringVomitCloud(owner);
         }
         if (level() instanceof ServerLevel serverLevel) {
             serverLevel.sendParticles(mode == Mode.LIGHT ? ParticleTypes.SOUL_FIRE_FLAME
-                            : mode == Mode.ACID ? ParticleTypes.WITCH : ParticleTypes.EXPLOSION,
+                            : mode == Mode.ACID || mode == Mode.VOMIT ? ParticleTypes.WITCH : ParticleTypes.EXPLOSION,
                     getX(), getY(), getZ(), 12, radius * 0.25, radius * 0.25, radius * 0.25, 0.02);
         }
         discard();
@@ -180,6 +190,21 @@ public final class ParasiteProjectileEntity extends Entity {
         cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
         cloud.addEffect(new MobEffectInstance(MobEffects.POISON, 120, 0, false, true));
         cloud.addEffect(new MobEffectInstance(ModMobEffects.CORROSION, 180, 0, false, true));
+        level().addFreshEntity(cloud);
+    }
+
+    private void spawnLingeringVomitCloud(PrimitiveParasiteEntity owner) {
+        AreaEffectCloud cloud = new AreaEffectCloud(level(), getX(), getY(), getZ());
+        cloud.setOwner(owner);
+        cloud.setRadius((float) Math.max(2.0D, radius));
+        cloud.setDuration(70);
+        cloud.setWaitTime(0);
+        cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 160, 0, false, true));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 160, 0, false, true));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.CORROSION, 160, 0, false, true));
+        cloud.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 120, 1, false, true));
+        cloud.addEffect(new MobEffectInstance(MobEffects.HUNGER, 120, 1, false, true));
         level().addFreshEntity(cloud);
     }
 

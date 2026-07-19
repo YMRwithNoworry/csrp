@@ -2,6 +2,7 @@ package alku.csrp.registry;
 
 import alku.csrp.Csrp;
 import alku.csrp.entity.AirscrewEntity;
+import alku.csrp.entity.AdaptedVariantEntity;
 import alku.csrp.entity.AssimilatedParasiteEntity;
 import alku.csrp.entity.BuglinEntity;
 import alku.csrp.entity.CarrierFlyingEntity;
@@ -79,6 +80,30 @@ public final class CommonModEvents {
                 PrimitiveVariantEntity.Kind.TOZOON).build());
         event.put(ModEntities.PRI_YELLOWEYE.get(), PrimitiveVariantEntity.createAttributes(
                 PrimitiveVariantEntity.Kind.YELLOWEYE).build());
+        event.put(ModEntities.ADA_ARACHNIDA.get(), AdaptedVariantEntity.createAttributes(
+                AdaptedVariantEntity.Kind.ARACHNIDA).build());
+        event.put(ModEntities.ADA_BOLSTER.get(), AdaptedVariantEntity.createAttributes(
+                AdaptedVariantEntity.Kind.BOLSTER).build());
+        event.put(ModEntities.ADA_BURROWER.get(), AdaptedVariantEntity.createAttributes(
+                AdaptedVariantEntity.Kind.BURROWER).build());
+        event.put(ModEntities.ADA_DEVOURER.get(), AdaptedVariantEntity.createAttributes(
+                AdaptedVariantEntity.Kind.DEVOURER).build());
+        event.put(ModEntities.ADA_LONGARMS.get(), AdaptedVariantEntity.createAttributes(
+                AdaptedVariantEntity.Kind.LONGARMS).build());
+        event.put(ModEntities.ADA_MANDUCATER.get(), AdaptedVariantEntity.createAttributes(
+                AdaptedVariantEntity.Kind.MANDUCATER).build());
+        event.put(ModEntities.ADA_REEKER.get(), AdaptedVariantEntity.createAttributes(
+                AdaptedVariantEntity.Kind.REEKER).build());
+        event.put(ModEntities.ADA_SUMMONER.get(), AdaptedVariantEntity.createAttributes(
+                AdaptedVariantEntity.Kind.SUMMONER).build());
+        event.put(ModEntities.ADA_TOZOON.get(), AdaptedVariantEntity.createAttributes(
+                AdaptedVariantEntity.Kind.TOZOON).build());
+        event.put(ModEntities.ADA_VERMIN.get(), AdaptedVariantEntity.createAttributes(
+                AdaptedVariantEntity.Kind.VERMIN).build());
+        event.put(ModEntities.ADA_VISCERA.get(), AdaptedVariantEntity.createAttributes(
+                AdaptedVariantEntity.Kind.VISCERA).build());
+        event.put(ModEntities.ADA_YELLOWEYE.get(), AdaptedVariantEntity.createAttributes(
+                AdaptedVariantEntity.Kind.YELLOWEYE).build());
         event.put(ModEntities.GNAT.get(), GnatEntity.createAttributes().build());
         event.put(ModEntities.CARRIER_HEAVY.get(), CarrierHeavyEntity.createAttributes().build());
         event.put(ModEntities.CARRIER_LIGHT.get(), CarrierLightEntity.createAttributes().build());

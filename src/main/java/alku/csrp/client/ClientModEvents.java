@@ -60,6 +60,30 @@ public final class ClientModEvents {
                 new PrimitiveParasiteRenderer<>(context, "pri_tozoon", 0.65F));
         event.registerEntityRenderer(ModEntities.PRI_YELLOWEYE.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "pri_yelloweye", 0.5F));
+        event.registerEntityRenderer(ModEntities.ADA_ARACHNIDA.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "ada_arachnida", 0.85F));
+        event.registerEntityRenderer(ModEntities.ADA_BOLSTER.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "ada_bolster", 0.9F));
+        event.registerEntityRenderer(ModEntities.ADA_BURROWER.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "ada_burrower", 0.7F));
+        event.registerEntityRenderer(ModEntities.ADA_DEVOURER.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "ada_devourer", 0.8F));
+        event.registerEntityRenderer(ModEntities.ADA_LONGARMS.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "ada_longarms", 0.9F));
+        event.registerEntityRenderer(ModEntities.ADA_MANDUCATER.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "ada_manducater", 0.85F));
+        event.registerEntityRenderer(ModEntities.ADA_REEKER.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "ada_reeker", 0.85F));
+        event.registerEntityRenderer(ModEntities.ADA_SUMMONER.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "ada_summoner", 0.8F));
+        event.registerEntityRenderer(ModEntities.ADA_TOZOON.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "ada_tozoon", 0.7F));
+        event.registerEntityRenderer(ModEntities.ADA_VERMIN.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "ada_vermin", 0.85F));
+        event.registerEntityRenderer(ModEntities.ADA_VISCERA.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "ada_viscera", 0.75F));
+        event.registerEntityRenderer(ModEntities.ADA_YELLOWEYE.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "ada_yelloweye", 0.8F));
         event.registerEntityRenderer(ModEntities.GNAT.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "gnat", 0.25F));
         event.registerEntityRenderer(ModEntities.CARRIER_HEAVY.get(), context ->

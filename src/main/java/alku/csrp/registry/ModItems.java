@@ -58,6 +58,30 @@ public final class ModItems {
             "pri_tozoon_spawn_egg", ModEntities.PRI_TOZOON, 0x43272A, 0xB47864);
     public static final DeferredItem<SpawnEggItem> PRI_YELLOWEYE_SPAWN_EGG = spawnEgg(
             "pri_yelloweye_spawn_egg", ModEntities.PRI_YELLOWEYE, 0x544420, 0xD8C343);
+    public static final DeferredItem<SpawnEggItem> ADA_ARACHNIDA_SPAWN_EGG = spawnEgg(
+            "ada_arachnida_spawn_egg", ModEntities.ADA_ARACHNIDA, 0x5A1E1D, 0xE3B567);
+    public static final DeferredItem<SpawnEggItem> ADA_BOLSTER_SPAWN_EGG = spawnEgg(
+            "ada_bolster_spawn_egg", ModEntities.ADA_BOLSTER, 0x3A2021, 0xB77162);
+    public static final DeferredItem<SpawnEggItem> ADA_BURROWER_SPAWN_EGG = spawnEgg(
+            "ada_burrower_spawn_egg", ModEntities.ADA_BURROWER, 0x53271B, 0xD38D55);
+    public static final DeferredItem<SpawnEggItem> ADA_DEVOURER_SPAWN_EGG = spawnEgg(
+            "ada_devourer_spawn_egg", ModEntities.ADA_DEVOURER, 0x29404A, 0x8DB9A9);
+    public static final DeferredItem<SpawnEggItem> ADA_LONGARMS_SPAWN_EGG = spawnEgg(
+            "ada_longarms_spawn_egg", ModEntities.ADA_LONGARMS, 0x54201E, 0xD47C59);
+    public static final DeferredItem<SpawnEggItem> ADA_MANDUCATER_SPAWN_EGG = spawnEgg(
+            "ada_manducater_spawn_egg", ModEntities.ADA_MANDUCATER, 0x421F29, 0xC26582);
+    public static final DeferredItem<SpawnEggItem> ADA_REEKER_SPAWN_EGG = spawnEgg(
+            "ada_reeker_spawn_egg", ModEntities.ADA_REEKER, 0x3A281F, 0x95A85A);
+    public static final DeferredItem<SpawnEggItem> ADA_SUMMONER_SPAWN_EGG = spawnEgg(
+            "ada_summoner_spawn_egg", ModEntities.ADA_SUMMONER, 0x45202A, 0xB9679C);
+    public static final DeferredItem<SpawnEggItem> ADA_TOZOON_SPAWN_EGG = spawnEgg(
+            "ada_tozoon_spawn_egg", ModEntities.ADA_TOZOON, 0x412F24, 0xA48C70);
+    public static final DeferredItem<SpawnEggItem> ADA_VERMIN_SPAWN_EGG = spawnEgg(
+            "ada_vermin_spawn_egg", ModEntities.ADA_VERMIN, 0x311E36, 0xA370C2);
+    public static final DeferredItem<SpawnEggItem> ADA_VISCERA_SPAWN_EGG = spawnEgg(
+            "ada_viscera_spawn_egg", ModEntities.ADA_VISCERA, 0x51231E, 0xC78662);
+    public static final DeferredItem<SpawnEggItem> ADA_YELLOWEYE_SPAWN_EGG = spawnEgg(
+            "ada_yelloweye_spawn_egg", ModEntities.ADA_YELLOWEYE, 0x5A4219, 0xE2D45B);
     public static final DeferredItem<SpawnEggItem> GNAT_SPAWN_EGG = spawnEgg(
             "gnat_spawn_egg", ModEntities.GNAT, 0x4B1717, 0xB7A277);
     public static final DeferredItem<SpawnEggItem> CARRIER_HEAVY_SPAWN_EGG = spawnEgg(

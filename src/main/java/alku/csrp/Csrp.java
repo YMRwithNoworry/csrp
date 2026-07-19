@@ -47,6 +47,18 @@ public final class Csrp {
                         output.accept(ModItems.PRI_REEKER_SPAWN_EGG.get());
                         output.accept(ModItems.PRI_TOZOON_SPAWN_EGG.get());
                         output.accept(ModItems.PRI_YELLOWEYE_SPAWN_EGG.get());
+                        output.accept(ModItems.ADA_ARACHNIDA_SPAWN_EGG.get());
+                        output.accept(ModItems.ADA_BOLSTER_SPAWN_EGG.get());
+                        output.accept(ModItems.ADA_BURROWER_SPAWN_EGG.get());
+                        output.accept(ModItems.ADA_DEVOURER_SPAWN_EGG.get());
+                        output.accept(ModItems.ADA_LONGARMS_SPAWN_EGG.get());
+                        output.accept(ModItems.ADA_MANDUCATER_SPAWN_EGG.get());
+                        output.accept(ModItems.ADA_REEKER_SPAWN_EGG.get());
+                        output.accept(ModItems.ADA_SUMMONER_SPAWN_EGG.get());
+                        output.accept(ModItems.ADA_TOZOON_SPAWN_EGG.get());
+                        output.accept(ModItems.ADA_VERMIN_SPAWN_EGG.get());
+                        output.accept(ModItems.ADA_VISCERA_SPAWN_EGG.get());
+                        output.accept(ModItems.ADA_YELLOWEYE_SPAWN_EGG.get());
                         output.accept(ModItems.GNAT_SPAWN_EGG.get());
                         output.accept(ModItems.CARRIER_HEAVY_SPAWN_EGG.get());
                         output.accept(ModItems.CARRIER_LIGHT_SPAWN_EGG.get());
@@ -59,6 +71,12 @@ public final class Csrp {
                                         && item != ModItems.PRI_BURROWER_SPAWN_EGG && item != ModItems.PRI_DEVOURER_SPAWN_EGG
                                         && item != ModItems.PRI_MANDUCATER_SPAWN_EGG && item != ModItems.PRI_REEKER_SPAWN_EGG
                                         && item != ModItems.PRI_TOZOON_SPAWN_EGG && item != ModItems.PRI_YELLOWEYE_SPAWN_EGG
+                                        && item != ModItems.ADA_ARACHNIDA_SPAWN_EGG && item != ModItems.ADA_BOLSTER_SPAWN_EGG
+                                        && item != ModItems.ADA_BURROWER_SPAWN_EGG && item != ModItems.ADA_DEVOURER_SPAWN_EGG
+                                        && item != ModItems.ADA_LONGARMS_SPAWN_EGG && item != ModItems.ADA_MANDUCATER_SPAWN_EGG
+                                        && item != ModItems.ADA_REEKER_SPAWN_EGG && item != ModItems.ADA_SUMMONER_SPAWN_EGG
+                                        && item != ModItems.ADA_TOZOON_SPAWN_EGG && item != ModItems.ADA_VERMIN_SPAWN_EGG
+                                        && item != ModItems.ADA_VISCERA_SPAWN_EGG && item != ModItems.ADA_YELLOWEYE_SPAWN_EGG
                                         && item != ModItems.GNAT_SPAWN_EGG && item != ModItems.CARRIER_HEAVY_SPAWN_EGG
                                         && item != ModItems.CARRIER_LIGHT_SPAWN_EGG && item != ModItems.CARRIER_FLYING_SPAWN_EGG)
                                 .forEach(item -> output.accept(item.get()));
@@ -97,6 +115,18 @@ public final class Csrp {
             event.accept(ModItems.PRI_REEKER_SPAWN_EGG.get());
             event.accept(ModItems.PRI_TOZOON_SPAWN_EGG.get());
             event.accept(ModItems.PRI_YELLOWEYE_SPAWN_EGG.get());
+            event.accept(ModItems.ADA_ARACHNIDA_SPAWN_EGG.get());
+            event.accept(ModItems.ADA_BOLSTER_SPAWN_EGG.get());
+            event.accept(ModItems.ADA_BURROWER_SPAWN_EGG.get());
+            event.accept(ModItems.ADA_DEVOURER_SPAWN_EGG.get());
+            event.accept(ModItems.ADA_LONGARMS_SPAWN_EGG.get());
+            event.accept(ModItems.ADA_MANDUCATER_SPAWN_EGG.get());
+            event.accept(ModItems.ADA_REEKER_SPAWN_EGG.get());
+            event.accept(ModItems.ADA_SUMMONER_SPAWN_EGG.get());
+            event.accept(ModItems.ADA_TOZOON_SPAWN_EGG.get());
+            event.accept(ModItems.ADA_VERMIN_SPAWN_EGG.get());
+            event.accept(ModItems.ADA_VISCERA_SPAWN_EGG.get());
+            event.accept(ModItems.ADA_YELLOWEYE_SPAWN_EGG.get());
             event.accept(ModItems.GNAT_SPAWN_EGG.get());
             event.accept(ModItems.CARRIER_HEAVY_SPAWN_EGG.get());
             event.accept(ModItems.CARRIER_LIGHT_SPAWN_EGG.get());

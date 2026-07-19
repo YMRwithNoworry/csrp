@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import alku.csrp.registry.ModEntities;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -10,6 +11,8 @@ import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
@@ -85,6 +88,39 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     }
 
     protected void onParasiteKill(ServerLevel level, LivingEntity victim, int kills) {
+        if (kills < 10) {
+            return;
+        }
+        Mob adapted = createAdaptedForm(level);
+        if (adapted == null) {
+            return;
+        }
+        adapted.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        adapted.finalizeSpawn(level, level.getCurrentDifficultyAt(blockPosition()), MobSpawnType.MOB_SUMMONED, null);
+        adapted.setCustomName(getCustomName());
+        adapted.setCustomNameVisible(isCustomNameVisible());
+        if (isPersistenceRequired()) {
+            adapted.setPersistenceRequired();
+        }
+        level.addFreshEntity(adapted);
+        discard();
+    }
+
+    private Mob createAdaptedForm(ServerLevel level) {
+        EntityType<?> type = getType();
+        if (type == ModEntities.PRI_LONGARMS.get()) return ModEntities.ADA_LONGARMS.get().create(level);
+        if (type == ModEntities.PRI_SUMMONER.get()) return ModEntities.ADA_SUMMONER.get().create(level);
+        if (type == ModEntities.PRI_VERMIN.get()) return ModEntities.ADA_VERMIN.get().create(level);
+        if (type == ModEntities.PRI_VISCERA.get()) return ModEntities.ADA_VISCERA.get().create(level);
+        if (type == ModEntities.PRI_ARACHNIDA.get()) return ModEntities.ADA_ARACHNIDA.get().create(level);
+        if (type == ModEntities.PRI_BOLSTER.get()) return ModEntities.ADA_BOLSTER.get().create(level);
+        if (type == ModEntities.PRI_BURROWER.get()) return ModEntities.ADA_BURROWER.get().create(level);
+        if (type == ModEntities.PRI_DEVOURER.get()) return ModEntities.ADA_DEVOURER.get().create(level);
+        if (type == ModEntities.PRI_MANDUCATER.get()) return ModEntities.ADA_MANDUCATER.get().create(level);
+        if (type == ModEntities.PRI_REEKER.get()) return ModEntities.ADA_REEKER.get().create(level);
+        if (type == ModEntities.PRI_TOZOON.get()) return ModEntities.ADA_TOZOON.get().create(level);
+        if (type == ModEntities.PRI_YELLOWEYE.get()) return ModEntities.ADA_YELLOWEYE.get().create(level);
+        return null;
     }
 
     protected void hurtNearby(Entity center, double radius, float damage, boolean launch) {
