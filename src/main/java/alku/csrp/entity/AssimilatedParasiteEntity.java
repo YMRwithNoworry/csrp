@@ -180,6 +180,34 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
         return super.killedEntity(level, victim);
     }
 
+    @Override
+    public void die(DamageSource source) {
+        super.die(source);
+        if (level().isClientSide || kind == Kind.BEAR || kind == Kind.SQUID || random.nextFloat() >= 0.5F
+                || !(level() instanceof ServerLevel serverLevel)) {
+            return;
+        }
+        AssimilatedHeadEntity head = switch (kind) {
+            case COW -> ModEntities.SIM_COW_HEAD.get().create(serverLevel);
+            case PIG -> ModEntities.SIM_PIG_HEAD.get().create(serverLevel);
+            case SHEEP -> ModEntities.SIM_SHEEP_HEAD.get().create(serverLevel);
+            case WOLF -> ModEntities.SIM_WOLF_HEAD.get().create(serverLevel);
+            case BEAR, SQUID -> null;
+        };
+        if (head == null) {
+            return;
+        }
+        head.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        head.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
+                MobSpawnType.MOB_SUMMONED, null);
+        head.setCustomName(getCustomName());
+        head.setCustomNameVisible(isCustomNameVisible());
+        if (isPersistenceRequired()) {
+            head.setPersistenceRequired();
+        }
+        serverLevel.addFreshEntity(head);
+    }
+
     private void transformToFeral(ServerLevel level) {
         FeralParasiteEntity feral = switch (kind) {
             case BEAR -> ModEntities.FER_BEAR.get().create(level);

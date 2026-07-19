@@ -63,6 +63,21 @@ public final class Csrp {
                         output.accept(ModItems.CARRIER_HEAVY_SPAWN_EGG.get());
                         output.accept(ModItems.CARRIER_LIGHT_SPAWN_EGG.get());
                         output.accept(ModItems.CARRIER_FLYING_SPAWN_EGG.get());
+                        output.accept(ModItems.SIM_BIGSPIDER_SPAWN_EGG.get());
+                        output.accept(ModItems.SIM_DRAGONE_SPAWN_EGG.get());
+                        output.accept(ModItems.SIM_DRAGONHEAD_SPAWN_EGG.get());
+                        output.accept(ModItems.SIM_ENDERMAN_SPAWN_EGG.get());
+                        output.accept(ModItems.SIM_ENDERMANHEAD_SPAWN_EGG.get());
+                        output.accept(ModItems.SIM_HORSE_SPAWN_EGG.get());
+                        output.accept(ModItems.SIM_HORSEHEAD_SPAWN_EGG.get());
+                        output.accept(ModItems.SIM_HUMAN_SPAWN_EGG.get());
+                        output.accept(ModItems.SIM_HUMANHEAD_SPAWN_EGG.get());
+                        output.accept(ModItems.SIM_COWHEAD_SPAWN_EGG.get());
+                        output.accept(ModItems.SIM_PIGHEAD_SPAWN_EGG.get());
+                        output.accept(ModItems.SIM_SHEEPHEAD_SPAWN_EGG.get());
+                        output.accept(ModItems.SIM_VILLAGER_SPAWN_EGG.get());
+                        output.accept(ModItems.SIM_VILLAGERHEAD_SPAWN_EGG.get());
+                        output.accept(ModItems.SIM_WOLFHEAD_SPAWN_EGG.get());
                         ModItems.ITEMS.getEntries().stream()
                                 .filter(item -> item != ModItems.BUGLIN_SPAWN_EGG && item != ModItems.RUPTER_SPAWN_EGG
                                         && item != ModItems.PRI_LONGARMS_SPAWN_EGG && item != ModItems.PRI_SUMMONER_SPAWN_EGG
@@ -78,7 +93,15 @@ public final class Csrp {
                                         && item != ModItems.ADA_TOZOON_SPAWN_EGG && item != ModItems.ADA_VERMIN_SPAWN_EGG
                                         && item != ModItems.ADA_VISCERA_SPAWN_EGG && item != ModItems.ADA_YELLOWEYE_SPAWN_EGG
                                         && item != ModItems.GNAT_SPAWN_EGG && item != ModItems.CARRIER_HEAVY_SPAWN_EGG
-                                        && item != ModItems.CARRIER_LIGHT_SPAWN_EGG && item != ModItems.CARRIER_FLYING_SPAWN_EGG)
+                                        && item != ModItems.CARRIER_LIGHT_SPAWN_EGG && item != ModItems.CARRIER_FLYING_SPAWN_EGG
+                                        && item != ModItems.SIM_BIGSPIDER_SPAWN_EGG && item != ModItems.SIM_DRAGONE_SPAWN_EGG
+                                        && item != ModItems.SIM_DRAGONHEAD_SPAWN_EGG && item != ModItems.SIM_ENDERMAN_SPAWN_EGG
+                                        && item != ModItems.SIM_ENDERMANHEAD_SPAWN_EGG && item != ModItems.SIM_HORSE_SPAWN_EGG
+                                        && item != ModItems.SIM_HORSEHEAD_SPAWN_EGG && item != ModItems.SIM_HUMAN_SPAWN_EGG
+                                        && item != ModItems.SIM_HUMANHEAD_SPAWN_EGG && item != ModItems.SIM_COWHEAD_SPAWN_EGG
+                                        && item != ModItems.SIM_PIGHEAD_SPAWN_EGG && item != ModItems.SIM_SHEEPHEAD_SPAWN_EGG
+                                        && item != ModItems.SIM_VILLAGER_SPAWN_EGG && item != ModItems.SIM_VILLAGERHEAD_SPAWN_EGG
+                                        && item != ModItems.SIM_WOLFHEAD_SPAWN_EGG)
                                 .forEach(item -> output.accept(item.get()));
                     })
                     .build());
@@ -152,6 +175,21 @@ public final class Csrp {
             event.accept(ModItems.SIM_SHEEP_SPAWN_EGG.get());
             event.accept(ModItems.SIM_WOLF_SPAWN_EGG.get());
             event.accept(ModItems.SIM_SQUID_SPAWN_EGG.get());
+            event.accept(ModItems.SIM_BIGSPIDER_SPAWN_EGG.get());
+            event.accept(ModItems.SIM_DRAGONE_SPAWN_EGG.get());
+            event.accept(ModItems.SIM_DRAGONHEAD_SPAWN_EGG.get());
+            event.accept(ModItems.SIM_ENDERMAN_SPAWN_EGG.get());
+            event.accept(ModItems.SIM_ENDERMANHEAD_SPAWN_EGG.get());
+            event.accept(ModItems.SIM_HORSE_SPAWN_EGG.get());
+            event.accept(ModItems.SIM_HORSEHEAD_SPAWN_EGG.get());
+            event.accept(ModItems.SIM_HUMAN_SPAWN_EGG.get());
+            event.accept(ModItems.SIM_HUMANHEAD_SPAWN_EGG.get());
+            event.accept(ModItems.SIM_COWHEAD_SPAWN_EGG.get());
+            event.accept(ModItems.SIM_PIGHEAD_SPAWN_EGG.get());
+            event.accept(ModItems.SIM_SHEEPHEAD_SPAWN_EGG.get());
+            event.accept(ModItems.SIM_VILLAGER_SPAWN_EGG.get());
+            event.accept(ModItems.SIM_VILLAGERHEAD_SPAWN_EGG.get());
+            event.accept(ModItems.SIM_WOLFHEAD_SPAWN_EGG.get());
             event.accept(ModItems.FER_BEAR_SPAWN_EGG.get());
             event.accept(ModItems.FER_COW_SPAWN_EGG.get());
             event.accept(ModItems.FER_HORSE_SPAWN_EGG.get());

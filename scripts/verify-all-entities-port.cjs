@@ -23,9 +23,20 @@ const english = read("src/main/resources/assets/csrp/lang/en_us.json");
 const chinese = read("src/main/resources/assets/csrp/lang/zh_cn.json");
 
 const escaped = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const constants = {
+  sim_cowhead: "SIM_COW_HEAD",
+  sim_dragonhead: "SIM_DRAGON_HEAD",
+  sim_endermanhead: "SIM_ENDERMAN_HEAD",
+  sim_horsehead: "SIM_HORSE_HEAD",
+  sim_humanhead: "SIM_HUMAN_HEAD",
+  sim_pighead: "SIM_PIG_HEAD",
+  sim_sheephead: "SIM_SHEEP_HEAD",
+  sim_villagerhead: "SIM_VILLAGER_HEAD",
+  sim_wolfhead: "SIM_WOLF_HEAD"
+};
 for (const id of all) {
   const literal = escaped(id);
-  const constant = id.toUpperCase();
+  const constant = constants[id] ?? id.toUpperCase();
   if (!new RegExp(`(?:monster\\(|register\\()\\s*"${literal}"`).test(entities)) {
     failures.push(`${id}: entity type is missing`);
   }

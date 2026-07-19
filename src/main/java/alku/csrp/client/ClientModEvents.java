@@ -137,6 +137,36 @@ public final class ClientModEvents {
                 new AssimilatedParasiteRenderer(context, 0.40F));
         event.registerEntityRenderer(ModEntities.SIM_SQUID.get(), context ->
                 new AssimilatedParasiteRenderer(context, 0.45F));
+        event.registerEntityRenderer(ModEntities.SIM_BIGSPIDER.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "sim_bigspider", 1.2F));
+        event.registerEntityRenderer(ModEntities.SIM_DRAGONE.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "sim_dragone", 1.2F));
+        event.registerEntityRenderer(ModEntities.SIM_DRAGON_HEAD.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "sim_dragonhead", 0.6F));
+        event.registerEntityRenderer(ModEntities.SIM_ENDERMAN.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "sim_enderman", 0.5F));
+        event.registerEntityRenderer(ModEntities.SIM_ENDERMAN_HEAD.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "sim_endermanhead", 0.6F));
+        event.registerEntityRenderer(ModEntities.SIM_HORSE.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "sim_horse", 0.75F));
+        event.registerEntityRenderer(ModEntities.SIM_HORSE_HEAD.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "sim_horsehead", 0.6F));
+        event.registerEntityRenderer(ModEntities.SIM_HUMAN.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "sim_human", 0.5F));
+        event.registerEntityRenderer(ModEntities.SIM_HUMAN_HEAD.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "sim_humanhead", 0.6F));
+        event.registerEntityRenderer(ModEntities.SIM_COW_HEAD.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "sim_cowhead", 0.6F));
+        event.registerEntityRenderer(ModEntities.SIM_PIG_HEAD.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "sim_pighead", 0.6F));
+        event.registerEntityRenderer(ModEntities.SIM_SHEEP_HEAD.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "sim_sheephead", 0.5F));
+        event.registerEntityRenderer(ModEntities.SIM_VILLAGER.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "sim_villager", 0.5F));
+        event.registerEntityRenderer(ModEntities.SIM_VILLAGER_HEAD.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "sim_villagerhead", 0.6F));
+        event.registerEntityRenderer(ModEntities.SIM_WOLF_HEAD.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "sim_wolfhead", 0.4F));
         event.registerEntityRenderer(ModEntities.FER_BEAR.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "fer_bear", 0.65F));
         event.registerEntityRenderer(ModEntities.FER_COW.get(), context ->

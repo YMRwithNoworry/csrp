@@ -4,6 +4,11 @@ import alku.csrp.Csrp;
 import alku.csrp.entity.AirscrewEntity;
 import alku.csrp.entity.AdaptedVariantEntity;
 import alku.csrp.entity.AssimilatedParasiteEntity;
+import alku.csrp.entity.AssimilatedDragonEntity;
+import alku.csrp.entity.AssimilatedDragonHeadEntity;
+import alku.csrp.entity.AssimilatedEndermanEntity;
+import alku.csrp.entity.AssimilatedHeadEntity;
+import alku.csrp.entity.AssimilatedVariantEntity;
 import alku.csrp.entity.BuglinEntity;
 import alku.csrp.entity.CarrierFlyingEntity;
 import alku.csrp.entity.CarrierHeavyEntity;
@@ -137,6 +142,33 @@ public final class CommonModEvents {
                 AssimilatedParasiteEntity.Kind.WOLF).build());
         event.put(ModEntities.SIM_SQUID.get(), AssimilatedParasiteEntity.createAttributes(
                 AssimilatedParasiteEntity.Kind.SQUID).build());
+        event.put(ModEntities.SIM_BIGSPIDER.get(), AssimilatedVariantEntity.createAttributes(
+                AssimilatedVariantEntity.Kind.BIGSPIDER).build());
+        event.put(ModEntities.SIM_DRAGONE.get(), AssimilatedDragonEntity.createAttributes().build());
+        event.put(ModEntities.SIM_DRAGON_HEAD.get(), AssimilatedDragonHeadEntity.createAttributes().build());
+        event.put(ModEntities.SIM_ENDERMAN.get(), AssimilatedEndermanEntity.createAttributes().build());
+        event.put(ModEntities.SIM_ENDERMAN_HEAD.get(), AssimilatedHeadEntity.createAttributes(
+                AssimilatedHeadEntity.Kind.ENDERMAN).build());
+        event.put(ModEntities.SIM_HORSE.get(), AssimilatedVariantEntity.createAttributes(
+                AssimilatedVariantEntity.Kind.HORSE).build());
+        event.put(ModEntities.SIM_HORSE_HEAD.get(), AssimilatedHeadEntity.createAttributes(
+                AssimilatedHeadEntity.Kind.HORSE).build());
+        event.put(ModEntities.SIM_HUMAN.get(), AssimilatedVariantEntity.createAttributes(
+                AssimilatedVariantEntity.Kind.HUMAN).build());
+        event.put(ModEntities.SIM_HUMAN_HEAD.get(), AssimilatedHeadEntity.createAttributes(
+                AssimilatedHeadEntity.Kind.HUMAN).build());
+        event.put(ModEntities.SIM_COW_HEAD.get(), AssimilatedHeadEntity.createAttributes(
+                AssimilatedHeadEntity.Kind.COW).build());
+        event.put(ModEntities.SIM_PIG_HEAD.get(), AssimilatedHeadEntity.createAttributes(
+                AssimilatedHeadEntity.Kind.PIG).build());
+        event.put(ModEntities.SIM_SHEEP_HEAD.get(), AssimilatedHeadEntity.createAttributes(
+                AssimilatedHeadEntity.Kind.SHEEP).build());
+        event.put(ModEntities.SIM_VILLAGER.get(), AssimilatedVariantEntity.createAttributes(
+                AssimilatedVariantEntity.Kind.VILLAGER).build());
+        event.put(ModEntities.SIM_VILLAGER_HEAD.get(), AssimilatedHeadEntity.createAttributes(
+                AssimilatedHeadEntity.Kind.VILLAGER).build());
+        event.put(ModEntities.SIM_WOLF_HEAD.get(), AssimilatedHeadEntity.createAttributes(
+                AssimilatedHeadEntity.Kind.WOLF).build());
         event.put(ModEntities.FER_BEAR.get(), FeralParasiteEntity.createAttributes(FeralParasiteEntity.Kind.BEAR).build());
         event.put(ModEntities.FER_COW.get(), FeralParasiteEntity.createAttributes(FeralParasiteEntity.Kind.COW).build());
         event.put(ModEntities.FER_HORSE.get(), FeralParasiteEntity.createAttributes(FeralParasiteEntity.Kind.HORSE).build());

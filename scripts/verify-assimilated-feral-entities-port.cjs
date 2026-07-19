@@ -8,6 +8,11 @@ const ids = [
   "fer_bear", "fer_cow", "fer_horse", "fer_human", "fer_pig", "fer_sheep", "fer_villager",
   "fer_wolf"
 ];
+const remainingAssimilatedIds = [
+  "sim_bigspider", "sim_dragone", "sim_dragonhead", "sim_enderman", "sim_endermanhead",
+  "sim_horse", "sim_horsehead", "sim_human", "sim_humanhead", "sim_cowhead", "sim_pighead",
+  "sim_sheephead", "sim_villager", "sim_villagerhead", "sim_wolfhead"
+];
 const read = (file) => {
   const full = path.join(root, file);
   if (!fs.existsSync(full)) {
@@ -30,6 +35,10 @@ const chinese = read("src/main/resources/assets/csrp/lang/zh_cn.json");
 const assimilated = read("src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java");
 const feral = read("src/main/java/alku/csrp/entity/FeralParasiteEntity.java");
 const model = read("src/main/java/alku/csrp/client/model/AssimilatedParasiteModel.java");
+const variants = read("src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java");
+const heads = read("src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java");
+const enderman = read("src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java");
+const dragon = read("src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java");
 const squidBreathingTag = read("src/main/resources/data/minecraft/tags/entity_type/can_breathe_under_water.json");
 
 expect(assimilated, /FERAL_KILL_THRESHOLD\s*=\s*60/, "Feral transformation threshold is missing");
@@ -64,6 +73,17 @@ for (const id of ["fer_horse", "fer_human", "fer_villager"]) {
   expect(client, new RegExp(`"${id}", 0\\.5F`), `${id}: legacy shadow radius is missing`);
 }
 expect(model, /getTextureResource\(AssimilatedParasiteEntity/, "Assimilated dynamic texture model is missing");
+expect(variants, /HEAD_SPAWN_CHANCE\s*=\s*0\.5F/, "Remaining assimilated head chance is missing");
+expect(variants, /parasiteKills\s*>\s*AssimilatedParasiteEntity\.FERAL_KILL_THRESHOLD/,
+  "Assimilated horse, human, and villager feral transition is missing");
+expect(heads, /IncompleteFormMediumEntity/, "Walking heads must rebuild from medium incomplete forms");
+expect(enderman, /TARGET_GRACE_TICKS\s*=\s*80/, "Assimilated Enderman target grace period is missing");
+expect(enderman, /teleportAllyToTarget/, "Assimilated Enderman ally teleport is missing");
+expect(enderman, /FeralEndermanEntity/, "Assimilated Enderman feral transition is missing");
+expect(dragon, /PART_HEALTH\s*=\s*52\.0F/, "Assimilated Dragon detachable-part health is missing");
+expect(dragon, /detachHead\(\)/, "Assimilated Dragon head detachment is missing");
+expect(dragon, /canFly\(\)/, "Assimilated Dragon wing-dependent flight is missing");
+expect(dragon, /isMultipartEntity\(\)/, "Assimilated Dragon multipart hitboxes are missing");
 
 for (const id of ids) {
   const constant = id.toUpperCase();
@@ -98,6 +118,32 @@ for (const id of ids) {
   }
 }
 
+for (const id of remainingAssimilatedIds) {
+  const constant = {
+    sim_dragonhead: "SIM_DRAGON_HEAD",
+    sim_endermanhead: "SIM_ENDERMAN_HEAD",
+    sim_horsehead: "SIM_HORSE_HEAD",
+    sim_humanhead: "SIM_HUMAN_HEAD",
+    sim_cowhead: "SIM_COW_HEAD",
+    sim_pighead: "SIM_PIG_HEAD",
+    sim_sheephead: "SIM_SHEEP_HEAD",
+    sim_villagerhead: "SIM_VILLAGER_HEAD",
+    sim_wolfhead: "SIM_WOLF_HEAD"
+  }[id] ?? id.toUpperCase();
+  expect(entities, new RegExp(`monster\\("${id}"`), `${id}: entity type is missing`);
+  expect(items, new RegExp(`"${id}_spawn_egg"`), `${id}: spawn egg is missing`);
+  expect(events, new RegExp(`ModEntities\\.${constant}`), `${id}: attributes are missing`);
+  expect(client, new RegExp(`ModEntities\\.${constant}`), `${id}: renderer is missing`);
+  expect(mod, new RegExp(`${id.toUpperCase()}_SPAWN_EGG`), `${id}: spawn egg is absent from the spawn-egg tab`);
+  expect(english, new RegExp(`"entity\\.csrp\\.${id}"`), `${id}: English name is missing`);
+  expect(chinese, new RegExp(`"entity\\.csrp\\.${id}"`), `${id}: Chinese name is missing`);
+  for (const resource of [
+    `geo/${id}.geo.json`, `animations/${id}.animation.json`, `textures/entity/${id}.png`,
+    `models/item/${id}_spawn_egg.json`, `textures/item/${id}_spawn_egg.png`
+  ]) read(`src/main/resources/assets/csrp/${resource}`);
+  read(`src/main/resources/data/csrp/loot_table/entities/${id}.json`);
+}
+
 for (const texture of ["sim_sheep_grey.png", "sim_sheep_black.png", "sim_wolf_tamed.png"]) {
   read(`src/main/resources/assets/csrp/textures/entity/${texture}`);
 }
@@ -108,4 +154,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log("Assimilated and Feral entity port verification passed (14 entities).");
+console.log(`Assimilated and Feral entity port verification passed (${ids.length + remainingAssimilatedIds.length} entities).`);

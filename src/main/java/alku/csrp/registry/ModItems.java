@@ -136,6 +136,36 @@ public final class ModItems {
             "sim_wolf_spawn_egg", ModEntities.SIM_WOLF, 0x54545A, 0xA44137);
     public static final DeferredItem<SpawnEggItem> SIM_SQUID_SPAWN_EGG = spawnEgg(
             "sim_squid_spawn_egg", ModEntities.SIM_SQUID, 0x263A4D, 0x9E4254);
+    public static final DeferredItem<SpawnEggItem> SIM_BIGSPIDER_SPAWN_EGG = spawnEgg(
+            "sim_bigspider_spawn_egg", ModEntities.SIM_BIGSPIDER, 0x341B20, 0x9C4E58);
+    public static final DeferredItem<SpawnEggItem> SIM_DRAGONE_SPAWN_EGG = spawnEgg(
+            "sim_dragone_spawn_egg", ModEntities.SIM_DRAGONE, 0x231C2B, 0x9B4050);
+    public static final DeferredItem<SpawnEggItem> SIM_DRAGONHEAD_SPAWN_EGG = spawnEgg(
+            "sim_dragonhead_spawn_egg", ModEntities.SIM_DRAGON_HEAD, 0x2D1E2B, 0xC05A66);
+    public static final DeferredItem<SpawnEggItem> SIM_ENDERMAN_SPAWN_EGG = spawnEgg(
+            "sim_enderman_spawn_egg", ModEntities.SIM_ENDERMAN, 0x20182B, 0x7A355D);
+    public static final DeferredItem<SpawnEggItem> SIM_ENDERMANHEAD_SPAWN_EGG = spawnEgg(
+            "sim_endermanhead_spawn_egg", ModEntities.SIM_ENDERMAN_HEAD, 0x291B31, 0x9B4D7D);
+    public static final DeferredItem<SpawnEggItem> SIM_HORSE_SPAWN_EGG = spawnEgg(
+            "sim_horse_spawn_egg", ModEntities.SIM_HORSE, 0x4F2B20, 0xB75A3E);
+    public static final DeferredItem<SpawnEggItem> SIM_HORSEHEAD_SPAWN_EGG = spawnEgg(
+            "sim_horsehead_spawn_egg", ModEntities.SIM_HORSE_HEAD, 0x593120, 0xCE6A49);
+    public static final DeferredItem<SpawnEggItem> SIM_HUMAN_SPAWN_EGG = spawnEgg(
+            "sim_human_spawn_egg", ModEntities.SIM_HUMAN, 0x49302A, 0xB97356);
+    public static final DeferredItem<SpawnEggItem> SIM_HUMANHEAD_SPAWN_EGG = spawnEgg(
+            "sim_humanhead_spawn_egg", ModEntities.SIM_HUMAN_HEAD, 0x59352D, 0xD48662);
+    public static final DeferredItem<SpawnEggItem> SIM_COWHEAD_SPAWN_EGG = spawnEgg(
+            "sim_cowhead_spawn_egg", ModEntities.SIM_COW_HEAD, 0x4A201D, 0xB24E3B);
+    public static final DeferredItem<SpawnEggItem> SIM_PIGHEAD_SPAWN_EGG = spawnEgg(
+            "sim_pighead_spawn_egg", ModEntities.SIM_PIG_HEAD, 0xB24F55, 0x52211D);
+    public static final DeferredItem<SpawnEggItem> SIM_SHEEPHEAD_SPAWN_EGG = spawnEgg(
+            "sim_sheephead_spawn_egg", ModEntities.SIM_SHEEP_HEAD, 0xD9D1C0, 0x732E2E);
+    public static final DeferredItem<SpawnEggItem> SIM_VILLAGER_SPAWN_EGG = spawnEgg(
+            "sim_villager_spawn_egg", ModEntities.SIM_VILLAGER, 0x4D3026, 0xA7523E);
+    public static final DeferredItem<SpawnEggItem> SIM_VILLAGERHEAD_SPAWN_EGG = spawnEgg(
+            "sim_villagerhead_spawn_egg", ModEntities.SIM_VILLAGER_HEAD, 0x5A3529, 0xC96A4F);
+    public static final DeferredItem<SpawnEggItem> SIM_WOLFHEAD_SPAWN_EGG = spawnEgg(
+            "sim_wolfhead_spawn_egg", ModEntities.SIM_WOLF_HEAD, 0x54545A, 0xA44137);
     public static final DeferredItem<SpawnEggItem> FER_BEAR_SPAWN_EGG = spawnEgg(
             "fer_bear_spawn_egg", ModEntities.FER_BEAR, 0x5A2A20, 0xD86B44);
     public static final DeferredItem<SpawnEggItem> FER_COW_SPAWN_EGG = spawnEgg(
