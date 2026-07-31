@@ -2,6 +2,8 @@ package alku.csrp.registry;
 
 import alku.csrp.Csrp;
 import alku.csrp.block.InfestedBlock;
+import alku.csrp.block.BiomeHeartBlock;
+import alku.csrp.block.ColonyHeartBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -34,6 +36,13 @@ public final class ModBlocks {
     public static final DeferredBlock<InfestedBlock> INFESTED_COBBLESTONE = infested("infested_cobblestone", MapColor.COLOR_RED, SoundType.STONE);
     public static final DeferredBlock<InfestedBlock> INFESTED_TRUNK = infested("infestedtrunk", MapColor.COLOR_RED, SoundType.WOOD);
     public static final DeferredBlock<InfestedBlock> INFESTED_PLANKS = infested("infested_planks", MapColor.COLOR_RED, SoundType.WOOD);
+
+    public static final DeferredBlock<BiomeHeartBlock> BIOMEHEART = BLOCKS.register("biomeheart", () ->
+            new BiomeHeartBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
+                    .strength(4.0F, 20.0F).sound(SoundType.SCULK).lightLevel(state -> 5)));
+    public static final DeferredBlock<ColonyHeartBlock> COLONYHEART = BLOCKS.register("colonyheart", () ->
+            new ColonyHeartBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
+                    .strength(4.0F, 20.0F).sound(SoundType.SCULK).lightLevel(state -> 3)));
 
     private static DeferredBlock<InfestedBlock> infested(String id, MapColor color, SoundType sound) {
         return BLOCKS.register(id, () -> new InfestedBlock(BlockBehaviour.Properties.of()

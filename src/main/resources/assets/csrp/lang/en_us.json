@@ -383,5 +383,7 @@
   "block.csrp.infestedsand": "Infested Sand",
   "block.csrp.infested_cobblestone": "Infested Cobblestone",
   "block.csrp.infestedtrunk": "Infested Trunk",
-  "block.csrp.infested_planks": "Infested Planks"
+  "block.csrp.infested_planks": "Infested Planks",
+  "block.csrp.biomeheart": "Node Core",
+  "block.csrp.colonyheart": "Colony Core"
 }

@@ -383,5 +383,7 @@
   "block.csrp.infestedsand": "寄生沙",
   "block.csrp.infested_cobblestone": "寄生圆石",
   "block.csrp.infestedtrunk": "寄生树干",
-  "block.csrp.infested_planks": "寄生木板"
+  "block.csrp.infested_planks": "寄生木板",
+  "block.csrp.biomeheart": "寄巢核心",
+  "block.csrp.colonyheart": "殖民地核心"
 }

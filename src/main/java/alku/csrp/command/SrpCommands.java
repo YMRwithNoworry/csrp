@@ -6,6 +6,7 @@ import alku.csrp.entity.Parasite;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.world.EvolutionSystem;
 import alku.csrp.world.SrpWorldData;
+import alku.csrp.world.SrpCoreSystems;
 import alku.csrp.world.SrpWorldData.ColonyEntry;
 import alku.csrp.world.SrpWorldData.DislodgmentCode;
 import alku.csrp.world.SrpWorldData.NodeEntry;
@@ -160,7 +161,7 @@ public final class SrpCommands {
         return admin("srpnodes")
                 .then(Commands.literal("viewall").executes(context -> showNodes(context.getSource())))
                 .then(Commands.literal("clearworld").executes(context -> {
-                    data(context.getSource()).clearNodes();
+                    SrpCoreSystems.clearNodes(context.getSource().getLevel());
                     return success(context.getSource(), "There are no longer nodes in this world");
                 }))
                 .then(Commands.literal("setnode")
@@ -168,14 +169,16 @@ public final class SrpCommands {
                                 .then(Commands.argument("type", IntegerArgumentType.integer(1, 4)).executes(context -> {
                                     BlockPos pos = BlockPosArgument.getBlockPos(context, "pos");
                                     int type = IntegerArgumentType.getInteger(context, "type");
-                                    data(context.getSource()).setNode(pos, 0, type);
+                                    if (!SrpCoreSystems.placeNode(context.getSource().getLevel(), pos, type)) {
+                                        return failure(context.getSource(), "Unable to place Node at " + format(pos));
+                                    }
                                     return success(context.getSource(), "Node placed at " + format(pos)
                                             + " with type " + type);
                                 }))))
                 .then(Commands.literal("removenode")
                         .then(Commands.argument("pos", BlockPosArgument.blockPos()).executes(context -> {
                             BlockPos pos = BlockPosArgument.getBlockPos(context, "pos");
-                            boolean removed = data(context.getSource()).removeNode(pos);
+                            boolean removed = SrpCoreSystems.removeNode(context.getSource().getLevel(), pos);
                             return success(context.getSource(), removed ? "Node removed at " + format(pos)
                                     : "Node cannot be removed at " + format(pos));
                         })));
@@ -185,19 +188,21 @@ public final class SrpCommands {
         return admin("srpcolonies")
                 .then(Commands.literal("viewall").executes(context -> showColonies(context.getSource())))
                 .then(Commands.literal("clearworld").executes(context -> {
-                    data(context.getSource()).clearColonies();
+                    SrpCoreSystems.clearColonies(context.getSource().getLevel());
                     return success(context.getSource(), "There are no longer colonies in this world");
                 }))
                 .then(Commands.literal("setcolony")
                         .then(Commands.argument("pos", BlockPosArgument.blockPos()).executes(context -> {
                             BlockPos pos = BlockPosArgument.getBlockPos(context, "pos");
-                            data(context.getSource()).setColony(pos);
+                            if (!SrpCoreSystems.placeColony(context.getSource().getLevel(), pos)) {
+                                return failure(context.getSource(), "Unable to place Colony at " + format(pos));
+                            }
                             return success(context.getSource(), "Colony placed at " + format(pos));
                         })))
                 .then(Commands.literal("removecolony")
                         .then(Commands.argument("pos", BlockPosArgument.blockPos()).executes(context -> {
                             BlockPos pos = BlockPosArgument.getBlockPos(context, "pos");
-                            boolean removed = data(context.getSource()).removeColony(pos);
+                            boolean removed = SrpCoreSystems.removeColony(context.getSource().getLevel(), pos);
                             return success(context.getSource(), removed ? "Colony removed at " + format(pos)
                                     : "Colony cannot be removed at " + format(pos));
                         })))
@@ -223,16 +228,26 @@ public final class SrpCommands {
                                                     BlockPos pos = BlockPosArgument.getBlockPos(context, "pos");
                                                     int health = IntegerArgumentType.getInteger(context, "health");
                                                     int radius = IntegerArgumentType.getInteger(context, "radius");
-                                                    data(context.getSource()).setVector(pos, health, radius);
+                                                    int result = SrpCoreSystems.placeVector(
+                                                            context.getSource().getLevel(), pos, health, radius);
+                                                    if (result == 6) {
+                                                        return failure(context.getSource(),
+                                                                "Emerging Infestation Vector is too close to another EIV");
+                                                    }
+                                                    if (result == 7) {
+                                                        return failure(context.getSource(),
+                                                                "Maximum number of Emerging Infestation Vectors reached");
+                                                    }
                                                     return success(context.getSource(),
-                                                            "Emerging Infestation Vector placed at " + format(pos)
+                                                            (result == 2 ? "Outbreak Infestation Vector placed at "
+                                                                    : "Emerging Infestation Vector placed at ") + format(pos)
                                                                     + " with " + health + " health and " + radius
                                                                     + " radius");
                                                 })))))
                 .then(Commands.literal("removevector")
                         .then(Commands.argument("pos", BlockPosArgument.blockPos()).executes(context -> {
                             BlockPos pos = BlockPosArgument.getBlockPos(context, "pos");
-                            boolean removed = data(context.getSource()).removeVector(pos);
+                            boolean removed = SrpCoreSystems.removeVector(context.getSource().getLevel(), pos);
                             return success(context.getSource(), removed
                                     ? "Emerging Infestation Vector removed at " + format(pos)
                                     : "Emerging Infestation Vector cannot be removed at " + format(pos));

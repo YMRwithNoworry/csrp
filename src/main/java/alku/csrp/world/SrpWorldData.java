@@ -214,6 +214,10 @@ public final class SrpWorldData extends SavedData {
         setDirty();
     }
 
+    public void updateNode(BlockPos pos, int age, int type) {
+        setNode(pos, Math.max(1, age), Math.max(1, Math.min(4, type)));
+    }
+
     public boolean removeNode(BlockPos pos) {
         boolean removed = nodes.removeIf(entry -> entry.pos().equals(pos));
         if (removed) {
@@ -233,7 +237,13 @@ public final class SrpWorldData extends SavedData {
 
     public void setColony(BlockPos pos) {
         colonies.removeIf(entry -> entry.pos().equals(pos));
-        colonies.add(new ColonyEntry(pos.immutable(), 0));
+        colonies.add(new ColonyEntry(pos.immutable(), 1));
+        setDirty();
+    }
+
+    public void updateColony(BlockPos pos, int points) {
+        colonies.removeIf(entry -> entry.pos().equals(pos));
+        colonies.add(new ColonyEntry(pos.immutable(), Math.max(1, Math.min(100, points))));
         setDirty();
     }
 
@@ -258,6 +268,10 @@ public final class SrpWorldData extends SavedData {
         vectors.removeIf(entry -> entry.pos().equals(pos));
         vectors.add(new VectorEntry(pos.immutable(), health, radius));
         setDirty();
+    }
+
+    public void updateVector(BlockPos pos, int health, int radius) {
+        setVector(pos, Math.max(1, health), Math.max(1, radius));
     }
 
     public boolean removeVector(BlockPos pos) {

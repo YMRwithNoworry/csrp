@@ -289,6 +289,8 @@ public final class ModItems {
             "infestedtrunk", ModBlocks.INFESTED_TRUNK);
     public static final DeferredItem<BlockItem> INFESTED_PLANKS = ITEMS.registerSimpleBlockItem(
             "infested_planks", ModBlocks.INFESTED_PLANKS);
+    public static final DeferredItem<BlockItem> BIOMEHEART = ITEMS.registerSimpleBlockItem("biomeheart", ModBlocks.BIOMEHEART);
+    public static final DeferredItem<BlockItem> COLONYHEART = ITEMS.registerSimpleBlockItem("colonyheart", ModBlocks.COLONYHEART);
 
     public static final DeferredItem<Item> ASSIMILATED_FLESH = simple("assimilated_flesh");
     public static final DeferredItem<Item> BONE = simple("bone");
