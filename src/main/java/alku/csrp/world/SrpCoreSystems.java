@@ -84,7 +84,7 @@ public final class SrpCoreSystems {
             BlockInfestation.infestAround(level, pos, 1);
             return true;
         }
-        data.removeColony(pos);
+        data.rollbackColony(pos);
         return false;
     }
 

@@ -25,20 +25,22 @@ import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /** Shared 1.12 primitive-parasite state: hostile targeting, kills, and repeated-damage adaptation. */
 public abstract class PrimitiveParasiteEntity extends Monster implements GeoEntity, Parasite {
     private static final String KILLS_TAG = "parasitekills";
     private static final String ADAPTATIONS_TAG = "damage_adaptations";
+    private static final String COLONY_SPAWNED_TAG = "colony_spawned";
     private static final int MAX_ADAPTATION_HITS = 8;
     private static final float ADAPTATION_PER_HIT = 0.1F;
     private static final int DEFAULT_MAX_LEARNABLE_DAMAGE_SOURCES = Integer.MAX_VALUE;
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
-    private final Map<String, Integer> damageAdaptations = new HashMap<>();
+    private final Map<String, Integer> damageAdaptations = new LinkedHashMap<>();
     private int parasiteKills;
+    private boolean colonySpawned;
 
     protected PrimitiveParasiteEntity(EntityType<? extends PrimitiveParasiteEntity> type, Level level) {
         super(type, level);
@@ -100,9 +102,43 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         return previousHits < maxDamageAdaptationHits();
     }
 
-    private static String damageTypeId(DamageSource source) {
+    public static String damageTypeId(DamageSource source) {
         return source.typeHolder().unwrapKey().map(ResourceKey<DamageType>::location)
                 .map(Object::toString).orElse("direct");
+    }
+
+    public void seedGlobalAdaptation(String damageId, int points) {
+        if (damageId == null || damageId.isBlank() || points <= 0) {
+            return;
+        }
+        // The legacy spawn loop calls addResistance repeatedly, but its new-source cooldown
+        // means only the first call is accepted during the same tick.
+        damageAdaptations.put(damageId, 1);
+        colonySpawned = true;
+    }
+
+    public void removeInheritedGlobalAdaptation(String damageId, int points) {
+        if (!colonySpawned || damageId == null || points <= 0) {
+            return;
+        }
+        int remaining = damageAdaptations.getOrDefault(damageId, 0) - points;
+        if (remaining > 0) {
+            damageAdaptations.put(damageId, remaining);
+        } else {
+            damageAdaptations.remove(damageId);
+        }
+    }
+
+    public String mostCommonAdaptedDamage() {
+        String damage = null;
+        int points = 0;
+        for (Map.Entry<String, Integer> entry : damageAdaptations.entrySet()) {
+            if (entry.getValue() > points) {
+                damage = entry.getKey();
+                points = entry.getValue();
+            }
+        }
+        return damage;
     }
 
     @Override
@@ -169,6 +205,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putInt(KILLS_TAG, parasiteKills);
+        tag.putBoolean(COLONY_SPAWNED_TAG, colonySpawned);
         ListTag adaptations = new ListTag();
         damageAdaptations.forEach((id, hits) -> {
             CompoundTag entry = new CompoundTag();
@@ -183,6 +220,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         parasiteKills = tag.getInt(KILLS_TAG);
+        colonySpawned = tag.getBoolean(COLONY_SPAWNED_TAG);
         damageAdaptations.clear();
         for (Tag raw : tag.getList(ADAPTATIONS_TAG, Tag.TAG_COMPOUND)) {
             CompoundTag entry = (CompoundTag) raw;

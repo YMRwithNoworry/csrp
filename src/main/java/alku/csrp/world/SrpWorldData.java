@@ -2,10 +2,14 @@ package alku.csrp.world;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
 
@@ -27,6 +31,7 @@ public final class SrpWorldData extends SavedData {
     private final List<ColonyEntry> colonies = new ArrayList<>();
     private final List<VectorEntry> vectors = new ArrayList<>();
     private final List<DislodgmentCode> dislodgmentCodes = new ArrayList<>();
+    private final Map<String, Integer> globalAdaptations = new LinkedHashMap<>();
 
     public static SrpWorldData get(ServerLevel level) {
         SrpWorldData data = level.getDataStorage().computeIfAbsent(FACTORY, DATA_NAME);
@@ -57,6 +62,7 @@ public final class SrpWorldData extends SavedData {
         readColonies(tag, data.colonies);
         readVectors(tag, data.vectors);
         readDislodgmentCodes(tag, data.dislodgmentCodes);
+        readGlobalAdaptations(tag, data.globalAdaptations);
         return data;
     }
 
@@ -76,6 +82,7 @@ public final class SrpWorldData extends SavedData {
         writeColonies(tag, colonies);
         writeVectors(tag, vectors);
         writeDislodgmentCodes(tag, dislodgmentCodes);
+        writeGlobalAdaptations(tag, globalAdaptations);
         return tag;
     }
 
@@ -250,13 +257,68 @@ public final class SrpWorldData extends SavedData {
     public boolean removeColony(BlockPos pos) {
         boolean removed = colonies.removeIf(entry -> entry.pos().equals(pos));
         if (removed) {
+            globalAdaptations.clear();
             setDirty();
         }
         return removed;
     }
 
+    void rollbackColony(BlockPos pos) {
+        if (colonies.removeIf(entry -> entry.pos().equals(pos))) {
+            setDirty();
+        }
+    }
+
     public void clearColonies() {
         colonies.clear();
+        globalAdaptations.clear();
+        setDirty();
+    }
+
+    public int totalColonyPoints() {
+        return Math.min(100_000, colonies.stream().mapToInt(ColonyEntry::points).sum());
+    }
+
+    public ColonyEntry nearestColonyInEffectRange(BlockPos pos) {
+        ColonyEntry closest = null;
+        double closestDistance = Double.MAX_VALUE;
+        for (ColonyEntry entry : colonies) {
+            int radius = 300 + entry.points() * 40;
+            double distance = entry.pos().distSqr(pos);
+            if (distance <= (double) radius * radius && distance < closestDistance) {
+                closest = entry;
+                closestDistance = distance;
+            }
+        }
+        return closest;
+    }
+
+    public Map<String, Integer> globalAdaptations() {
+        return Collections.unmodifiableMap(globalAdaptations);
+    }
+
+    public void addGlobalResistance(String damage) {
+        if (damage == null || damage.isBlank()) {
+            return;
+        }
+        globalAdaptations.merge(damage, 1, Integer::sum);
+        setDirty();
+    }
+
+    public GlobalAdaptation mostCommonGlobalAdaptation() {
+        String damage = null;
+        int points = 0;
+        for (Map.Entry<String, Integer> entry : globalAdaptations.entrySet()) {
+            if (entry.getValue() > points) {
+                damage = entry.getKey();
+                points = entry.getValue();
+            }
+        }
+        return new GlobalAdaptation(damage, points);
+    }
+
+    public void resetGlobalAdaptation() {
+        globalAdaptations.clear();
         setDirty();
     }
 
@@ -327,6 +389,7 @@ public final class SrpWorldData extends SavedData {
         colonies.clear();
         vectors.clear();
         dislodgmentCodes.clear();
+        globalAdaptations.clear();
         setDirty();
     }
 
@@ -399,6 +462,28 @@ public final class SrpWorldData extends SavedData {
         }
     }
 
+    private static void writeGlobalAdaptations(CompoundTag tag, Map<String, Integer> entries) {
+        ListTag list = new ListTag();
+        entries.forEach((damage, points) -> {
+            CompoundTag entry = new CompoundTag();
+            entry.putString("damage", damage);
+            entry.putInt("points", points);
+            list.add(entry);
+        });
+        tag.put("global_adaptations", list);
+    }
+
+    private static void readGlobalAdaptations(CompoundTag tag, Map<String, Integer> output) {
+        for (Tag raw : tag.getList("global_adaptations", Tag.TAG_COMPOUND)) {
+            CompoundTag entry = (CompoundTag) raw;
+            String damage = entry.getString("damage");
+            int points = entry.getInt("points");
+            if (!damage.isBlank() && points > 0) {
+                output.put(damage, points);
+            }
+        }
+    }
+
     public record NodeEntry(BlockPos pos, int age, int type) {
     }
 
@@ -409,5 +494,8 @@ public final class SrpWorldData extends SavedData {
     }
 
     public record DislodgmentCode(int code, int value, long expiresAt) {
+    }
+
+    public record GlobalAdaptation(String damage, int points) {
     }
 }

@@ -206,10 +206,16 @@ public final class SrpCommands {
                             return success(context.getSource(), removed ? "Colony removed at " + format(pos)
                                     : "Colony cannot be removed at " + format(pos));
                         })))
-                .then(Commands.literal("resetglobaladaptation").executes(context -> success(context.getSource(),
-                        "Global adaptation data is not present in the current port")))
-                .then(Commands.literal("viewallglobaladaptation").executes(context -> success(context.getSource(),
-                        "Current global adaptation: []")));
+                .then(Commands.literal("resetglobaladaptation").executes(context -> {
+                    data(context.getSource()).resetGlobalAdaptation();
+                    return success(context.getSource(), "Global adaptation has been reset");
+                }))
+                .then(Commands.literal("viewallglobaladaptation").executes(context -> {
+                    StringBuilder output = new StringBuilder("Current global adaptation (Damage type, points): ");
+                    data(context.getSource()).globalAdaptations().forEach((damage, points) ->
+                            output.append("[").append(damage).append(", ").append(points).append("] "));
+                    return success(context.getSource(), output.toString());
+                }));
     }
 
     private static LiteralArgumentBuilder<CommandSourceStack> srVectors() {
