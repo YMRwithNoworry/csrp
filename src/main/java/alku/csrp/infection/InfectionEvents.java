@@ -3,6 +3,8 @@ package alku.csrp.infection;
 import alku.csrp.Csrp;
 import alku.csrp.entity.Parasite;
 import alku.csrp.registry.ModMobEffects;
+import alku.csrp.world.EvolutionSystem;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -14,8 +16,6 @@ import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 /** Connects parasite attacks and terminal COTH stages to infection progression. */
 @EventBusSubscriber(modid = Csrp.MODID)
 public final class InfectionEvents {
-    private static final float PARASITE_HIT_INFECTION_CHANCE = 0.35F;
-
     private InfectionEvents() {
     }
 
@@ -26,8 +26,9 @@ public final class InfectionEvents {
             return;
         }
         Entity attacker = event.getSource().getEntity();
-        if (attacker instanceof Parasite && event.getEntity().getRandom().nextFloat()
-                < PARASITE_HIT_INFECTION_CHANCE) {
+        if (attacker instanceof Parasite && event.getEntity().level() instanceof ServerLevel level
+                && event.getEntity().getRandom().nextFloat()
+                < EvolutionSystem.generationProfile(level).cothChance()) {
             InfectionMechanics.applyCoth(event.getEntity(), attacker);
         }
     }

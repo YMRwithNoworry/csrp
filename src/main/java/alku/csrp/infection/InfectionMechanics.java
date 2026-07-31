@@ -4,6 +4,7 @@ import alku.csrp.entity.AssimilatedParasiteEntity;
 import alku.csrp.entity.Parasite;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
+import alku.csrp.world.EvolutionSystem;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
@@ -96,6 +97,7 @@ public final class InfectionMechanics {
         converted.setCustomNameVisible(host.isCustomNameVisible());
         converted.setPersistenceRequired();
         serverLevel.addFreshEntity(converted);
+        EvolutionSystem.addPoints(serverLevel, EvolutionSystem.VALUE_COTH, EvolutionSystem.PointSource.COTH);
         host.discard();
         return true;
     }

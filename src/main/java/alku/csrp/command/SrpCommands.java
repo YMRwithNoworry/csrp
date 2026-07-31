@@ -4,6 +4,7 @@ import alku.csrp.Csrp;
 import alku.csrp.entity.NexusParasiteEntity;
 import alku.csrp.entity.Parasite;
 import alku.csrp.registry.ModEntities;
+import alku.csrp.world.EvolutionSystem;
 import alku.csrp.world.SrpWorldData;
 import alku.csrp.world.SrpWorldData.ColonyEntry;
 import alku.csrp.world.SrpWorldData.DislodgmentCode;
@@ -63,7 +64,7 @@ public final class SrpCommands {
                     return success(context.getSource(), "Current Parasite Generation: " + data.generation());
                 }))
                 .then(Commands.literal("resetdatafile").executes(context -> {
-                    data(context.getSource()).reset();
+                    data(context.getSource()).reset(context.getSource().getLevel());
                     return success(context.getSource(), "Data file of this dimension has been reset");
                 }));
     }
@@ -76,13 +77,13 @@ public final class SrpCommands {
                                 .executes(context -> addEvolutionPoints(context.getSource(),
                                         IntegerArgumentType.getInteger(context, "points")))))
                 .then(Commands.literal("setcooldown")
-                        .then(Commands.argument("ticks", IntegerArgumentType.integer(0))
+                        .then(Commands.argument("seconds", IntegerArgumentType.integer(0))
                                 .executes(context -> setCooldown(context.getSource(),
-                                        IntegerArgumentType.getInteger(context, "ticks"), false))))
+                                        IntegerArgumentType.getInteger(context, "seconds"), false))))
                 .then(Commands.literal("addcooldown")
-                        .then(Commands.argument("ticks", IntegerArgumentType.integer(0))
+                        .then(Commands.argument("seconds", IntegerArgumentType.integer(0))
                                 .executes(context -> setCooldown(context.getSource(),
-                                        IntegerArgumentType.getInteger(context, "ticks"), true))))
+                                        IntegerArgumentType.getInteger(context, "seconds"), true))))
                 .then(Commands.literal("setphase")
                         .then(Commands.argument("phase", IntegerArgumentType.integer(-2, 10))
                                 .executes(context -> setPhase(context.getSource(),
@@ -138,11 +139,11 @@ public final class SrpCommands {
         return admin("srpudevelopment")
                 .then(Commands.literal("getlevel").executes(context -> success(context.getSource(),
                         "Current Ubiquitous Development Level: "
-                                + data(context.getSource()).ubiquitousDevelopment())))
+                                + EvolutionSystem.ubiquitousDevelopment(context.getSource().getServer()))))
                 .then(Commands.literal("setlevel")
                         .then(Commands.argument("level", IntegerArgumentType.integer(0, 4)).executes(context -> {
                             int level = IntegerArgumentType.getInteger(context, "level");
-                            data(context.getSource()).setUbiquitousDevelopment(level);
+                            EvolutionSystem.setUbiquitousDevelopmentOverride(context.getSource().getServer(), level);
                             return success(context.getSource(), "Changed Ubiquitous Development Level to " + level);
                         })))
                 .then(Commands.literal("viewalldims").executes(SrpCommands::showAllDimensions))
@@ -321,35 +322,34 @@ public final class SrpCommands {
         SrpWorldData data = SrpWorldData.get(level);
         success(source, "Evolution dimension: " + level.dimension().location());
         success(source, "Phase: " + data.evolutionPhase() + ", points: " + data.evolutionPoints()
-                + ", cooldown: " + data.cooldown(level));
+                + ", cooldown seconds: " + data.cooldown(level));
         success(source, "Gaining: " + data.canGain() + ", loss: " + data.canLose()
                 + ", generation: " + data.generation() + ", generation ticks: " + data.generationTicks()
-                + ", UD: " + data.ubiquitousDevelopment());
+                + ", UD: " + EvolutionSystem.ubiquitousDevelopment(source.getServer()));
         return Command.SINGLE_SUCCESS;
     }
 
     private static int addEvolutionPoints(CommandSourceStack source, int points) {
         SrpWorldData data = data(source);
-        if (!data.addEvolutionPoints(points)) {
-            return failure(source, points > 0 ? "Evolution point gaining is disabled"
-                    : "Evolution point loss is disabled");
+        if (!data.addEvolutionPoints(source.getLevel(), points, false)) {
+            return failure(source, "Evolution point change was blocked by phase, cooldown, or gain/loss settings");
         }
         return success(source, "Added " + points + " evolution points; total: " + data.evolutionPoints());
     }
 
-    private static int setCooldown(CommandSourceStack source, int ticks, boolean add) {
+    private static int setCooldown(CommandSourceStack source, int seconds, boolean add) {
         SrpWorldData data = data(source);
         if (add) {
-            data.addCooldown(source.getLevel(), ticks);
+            data.addCooldown(source.getLevel(), seconds);
         } else {
-            data.setCooldown(source.getLevel(), ticks);
+            data.setCooldown(source.getLevel(), seconds);
         }
-        return success(source, "Evolution cooldown: " + data.cooldown(source.getLevel()));
+        return success(source, "Evolution cooldown seconds: " + data.cooldown(source.getLevel()));
     }
 
     private static int setPhase(CommandSourceStack source, int phase, Integer generation) {
         SrpWorldData data = data(source);
-        data.setEvolutionPhase(phase);
+        data.forceEvolutionPhase(source.getLevel(), phase);
         if (generation != null) {
             data.setGeneration(generation);
         }
@@ -378,7 +378,7 @@ public final class SrpCommands {
         ServerLevel level = DimensionArgument.getDimension(context, "dimension");
         int phase = IntegerArgumentType.getInteger(context, "phase");
         SrpWorldData data = SrpWorldData.get(level);
-        data.setEvolutionPhase(phase);
+        data.forceEvolutionPhase(level, phase);
         if (generation != null) {
             data.setGeneration(generation);
         }

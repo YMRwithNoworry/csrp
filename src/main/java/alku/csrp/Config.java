@@ -9,7 +9,7 @@ public final class Config {
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
     private static final ModConfigSpec.IntValue EVOLUTION_PHASE = BUILDER
             .comment("Current parasite evolution phase used by phase-gated spawning and behavior.")
-            .defineInRange("evolutionPhase", 1, -1, 10);
+            .defineInRange("evolutionPhase", -1, -2, 10);
 
     static final ModConfigSpec SPEC = BUILDER.build();
 

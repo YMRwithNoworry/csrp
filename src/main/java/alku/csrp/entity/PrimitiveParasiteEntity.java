@@ -1,6 +1,7 @@
 package alku.csrp.entity;
 
 import alku.csrp.registry.ModEntities;
+import alku.csrp.world.EvolutionSystem;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -75,7 +76,8 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     }
 
     protected boolean usesDamageAdaptation() {
-        return true;
+        return level() instanceof ServerLevel serverLevel
+                && EvolutionSystem.generationProfile(serverLevel).adaptation();
     }
 
     /** Number of learned hits required to reach a damage source's reduction cap. */

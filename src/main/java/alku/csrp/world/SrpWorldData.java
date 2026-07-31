@@ -1,6 +1,5 @@
 package alku.csrp.world;
 
-import alku.csrp.Config;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,8 +13,9 @@ public final class SrpWorldData extends SavedData {
     private static final String DATA_NAME = "csrp_world_data";
     private static final Factory<SrpWorldData> FACTORY = new Factory<>(SrpWorldData::new, SrpWorldData::load);
 
-    private int evolutionPhase = Config.evolutionPhase();
-    private int evolutionPoints;
+    private boolean initialized;
+    private int evolutionPhase = -1;
+    private int evolutionPoints = -300;
     private long cooldownEnd;
     private boolean canGain = true;
     private boolean canLose = true;
@@ -29,11 +29,16 @@ public final class SrpWorldData extends SavedData {
     private final List<DislodgmentCode> dislodgmentCodes = new ArrayList<>();
 
     public static SrpWorldData get(ServerLevel level) {
-        return level.getDataStorage().computeIfAbsent(FACTORY, DATA_NAME);
+        SrpWorldData data = level.getDataStorage().computeIfAbsent(FACTORY, DATA_NAME);
+        if (!data.initialized) {
+            data.initialize(level);
+        }
+        return data;
     }
 
     private static SrpWorldData load(CompoundTag tag, HolderLookup.Provider registries) {
         SrpWorldData data = new SrpWorldData();
+        data.initialized = tag.contains("evolution_phase");
         if (tag.contains("evolution_phase")) {
             data.evolutionPhase = tag.getInt("evolution_phase");
         }
@@ -57,6 +62,7 @@ public final class SrpWorldData extends SavedData {
 
     @Override
     public CompoundTag save(CompoundTag tag, HolderLookup.Provider registries) {
+        tag.putBoolean("initialized", initialized);
         tag.putInt("evolution_phase", evolutionPhase);
         tag.putInt("evolution_points", evolutionPoints);
         tag.putLong("cooldown_end", cooldownEnd);
@@ -77,8 +83,14 @@ public final class SrpWorldData extends SavedData {
         return evolutionPhase;
     }
 
-    public void setEvolutionPhase(int phase) {
-        evolutionPhase = phase;
+    public void forceEvolutionPhase(ServerLevel level, int phase) {
+        int previous = evolutionPhase;
+        evolutionPhase = Math.max(-2, Math.min(10, phase));
+        evolutionPoints = EvolutionSystem.thresholdForPhase(evolutionPhase);
+        cooldownEnd = level.getGameTime() + EvolutionSystem.cooldownSecondsForPhase(evolutionPhase) * 20L;
+        if (previous != evolutionPhase) {
+            EvolutionSystem.announcePhaseChange(level, previous, evolutionPhase);
+        }
         setDirty();
     }
 
@@ -86,26 +98,41 @@ public final class SrpWorldData extends SavedData {
         return evolutionPoints;
     }
 
-    public boolean addEvolutionPoints(int points) {
-        if ((points > 0 && !canGain) || (points < 0 && !canLose)) {
+    public boolean addEvolutionPoints(ServerLevel level, int points, boolean bypassCooldown) {
+        if ((points > 0 && !canGain) || (points < 0 && !canLose) || evolutionPhase == -2
+                || (points < 0 && evolutionPhase < 0) || (!bypassCooldown && cooldown(level) > 0)) {
             return false;
         }
-        evolutionPoints += points;
+
+        long changed = (long) evolutionPoints + points;
+        if (evolutionPhase >= 0) {
+            changed = Math.max(0L, changed);
+        }
+        evolutionPoints = (int) Math.max(Integer.MIN_VALUE,
+                Math.min(EvolutionSystem.MAX_EVOLUTION_POINTS, changed));
+
+        int previous = evolutionPhase;
+        evolutionPhase = EvolutionSystem.phaseForPoints(evolutionPoints);
+        if (previous != evolutionPhase) {
+            cooldownEnd = level.getGameTime() + EvolutionSystem.cooldownSecondsForPhase(evolutionPhase) * 20L;
+            EvolutionSystem.announcePhaseChange(level, previous, evolutionPhase);
+        }
         setDirty();
         return true;
     }
 
     public int cooldown(ServerLevel level) {
-        return (int) Math.max(0L, cooldownEnd - level.getGameTime());
+        long ticks = Math.max(0L, cooldownEnd - level.getGameTime());
+        return (int) ((ticks + 19L) / 20L);
     }
 
-    public void setCooldown(ServerLevel level, int ticks) {
-        cooldownEnd = level.getGameTime() + ticks;
+    public void setCooldown(ServerLevel level, int seconds) {
+        cooldownEnd = level.getGameTime() + seconds * 20L;
         setDirty();
     }
 
-    public void addCooldown(ServerLevel level, int ticks) {
-        cooldownEnd = Math.max(cooldownEnd, level.getGameTime()) + ticks;
+    public void addCooldown(ServerLevel level, int seconds) {
+        cooldownEnd = Math.max(cooldownEnd, level.getGameTime()) + seconds * 20L;
         setDirty();
     }
 
@@ -132,7 +159,7 @@ public final class SrpWorldData extends SavedData {
     }
 
     public void setGeneration(int value) {
-        generation = value;
+        generation = Math.max(0, Math.min(5, value));
         generationTicks = 0;
         setDirty();
     }
@@ -146,7 +173,20 @@ public final class SrpWorldData extends SavedData {
         setDirty();
     }
 
-    public int ubiquitousDevelopment() {
+    public void tickGeneration(ServerLevel level, int ticks) {
+        if (generation >= 5) {
+            return;
+        }
+        generationTicks = Math.max(0, generationTicks + ticks);
+        int needed = EvolutionSystem.generationNeededTicks(generation, evolutionPhase);
+        if (needed > 0 && generationTicks > needed) {
+            generation++;
+            generationTicks = 0;
+        }
+        setDirty();
+    }
+
+    public int ubiquitousDevelopmentOverride() {
         return ubiquitousDevelopment;
     }
 
@@ -257,9 +297,11 @@ public final class SrpWorldData extends SavedData {
         setDirty();
     }
 
-    public void reset() {
-        evolutionPhase = Config.evolutionPhase();
-        evolutionPoints = 0;
+    public void reset(ServerLevel level) {
+        EvolutionSystem.InitialProgress initial = EvolutionSystem.initialProgress(level);
+        initialized = true;
+        evolutionPhase = initial.phase();
+        evolutionPoints = initial.points();
         cooldownEnd = 0L;
         canGain = true;
         canLose = true;
@@ -271,6 +313,17 @@ public final class SrpWorldData extends SavedData {
         colonies.clear();
         vectors.clear();
         dislodgmentCodes.clear();
+        setDirty();
+    }
+
+    private void initialize(ServerLevel level) {
+        EvolutionSystem.InitialProgress initial = EvolutionSystem.initialProgress(level);
+        initialized = true;
+        evolutionPhase = initial.phase();
+        evolutionPoints = initial.points();
+        generation = 0;
+        generationTicks = 0;
+        cooldownEnd = 0L;
         setDirty();
     }
 
