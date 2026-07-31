@@ -1,6 +1,7 @@
 package alku.csrp.registry;
 
 import alku.csrp.Csrp;
+import alku.csrp.block.InfestedBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -26,6 +27,18 @@ public final class ModBlocks {
                     .noOcclusion()
                     .instabreak()
                     .sound(SoundType.GRASS)));
+
+    public static final DeferredBlock<InfestedBlock> INFESTED_STAIN = infested("infestedstain", MapColor.COLOR_RED, SoundType.ROOTED_DIRT);
+    public static final DeferredBlock<InfestedBlock> INFESTED_RUBBLE = infested("infestedrubble", MapColor.COLOR_RED, SoundType.STONE);
+    public static final DeferredBlock<InfestedBlock> INFESTED_SAND = infested("infestedsand", MapColor.COLOR_RED, SoundType.SAND);
+    public static final DeferredBlock<InfestedBlock> INFESTED_COBBLESTONE = infested("infested_cobblestone", MapColor.COLOR_RED, SoundType.STONE);
+    public static final DeferredBlock<InfestedBlock> INFESTED_TRUNK = infested("infestedtrunk", MapColor.COLOR_RED, SoundType.WOOD);
+    public static final DeferredBlock<InfestedBlock> INFESTED_PLANKS = infested("infested_planks", MapColor.COLOR_RED, SoundType.WOOD);
+
+    private static DeferredBlock<InfestedBlock> infested(String id, MapColor color, SoundType sound) {
+        return BLOCKS.register(id, () -> new InfestedBlock(BlockBehaviour.Properties.of()
+                .mapColor(color).strength(1.5F, 6.0F).sound(sound)));
+    }
 
     private ModBlocks() {
     }

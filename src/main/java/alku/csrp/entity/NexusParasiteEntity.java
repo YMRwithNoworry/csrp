@@ -1,6 +1,7 @@
 package alku.csrp.entity;
 
 import alku.csrp.registry.ModEntities;
+import alku.csrp.infection.BlockInfestation;
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -105,6 +106,11 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         if (activeKind.family == Family.BECKON && activeKind.stage == 4 && level().isThundering()
                 && tickCount % 20 == 0) {
             createStormVortex();
+        }
+        if (activeKind.family == Family.BECKON && tickCount % Math.max(20, 100 - activeKind.stage * 15) == 0
+                && level() instanceof ServerLevel serverLevel) {
+            BlockInfestation.infestAround(serverLevel, blockPosition().below(),
+                    Math.max(0, Math.min(3, activeKind.stage - 1)));
         }
         if (tickCount % 10 == 0) {
             breakBlocksTowardsTarget(activeKind);

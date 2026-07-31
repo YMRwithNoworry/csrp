@@ -377,5 +377,11 @@
   "effect.csrp.rage": "狂暴",
   "effect.csrp.needler": "针刺",
   "block.csrp.residue_plants": "丛生残渣",
-  "item.csrp.residue_plants": "丛生残渣"
+  "item.csrp.residue_plants": "丛生残渣",
+  "block.csrp.infestedstain": "寄生污迹",
+  "block.csrp.infestedrubble": "寄生碎石",
+  "block.csrp.infestedsand": "寄生沙",
+  "block.csrp.infested_cobblestone": "寄生圆石",
+  "block.csrp.infestedtrunk": "寄生树干",
+  "block.csrp.infested_planks": "寄生木板"
 }

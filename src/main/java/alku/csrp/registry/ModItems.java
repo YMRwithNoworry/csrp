@@ -277,6 +277,18 @@ public final class ModItems {
     public static final DeferredItem<BlockItem> TUNNEL = ITEMS.registerSimpleBlockItem("tunnel", ModBlocks.TUNNEL);
     public static final DeferredItem<BlockItem> RESIDUE_PLANTS = ITEMS.registerSimpleBlockItem(
             "residue_plants", ModBlocks.RESIDUE_PLANTS);
+    public static final DeferredItem<BlockItem> INFESTED_STAIN = ITEMS.registerSimpleBlockItem(
+            "infestedstain", ModBlocks.INFESTED_STAIN);
+    public static final DeferredItem<BlockItem> INFESTED_RUBBLE = ITEMS.registerSimpleBlockItem(
+            "infestedrubble", ModBlocks.INFESTED_RUBBLE);
+    public static final DeferredItem<BlockItem> INFESTED_SAND = ITEMS.registerSimpleBlockItem(
+            "infestedsand", ModBlocks.INFESTED_SAND);
+    public static final DeferredItem<BlockItem> INFESTED_COBBLESTONE = ITEMS.registerSimpleBlockItem(
+            "infested_cobblestone", ModBlocks.INFESTED_COBBLESTONE);
+    public static final DeferredItem<BlockItem> INFESTED_TRUNK = ITEMS.registerSimpleBlockItem(
+            "infestedtrunk", ModBlocks.INFESTED_TRUNK);
+    public static final DeferredItem<BlockItem> INFESTED_PLANKS = ITEMS.registerSimpleBlockItem(
+            "infested_planks", ModBlocks.INFESTED_PLANKS);
 
     public static final DeferredItem<Item> ASSIMILATED_FLESH = simple("assimilated_flesh");
     public static final DeferredItem<Item> BONE = simple("bone");
