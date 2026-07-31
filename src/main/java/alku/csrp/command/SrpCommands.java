@@ -27,6 +27,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.EntityType;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -166,9 +167,11 @@ public final class SrpCommands {
                 }))
                 .then(Commands.literal("setnode")
                         .then(Commands.argument("pos", BlockPosArgument.blockPos())
-                                .then(Commands.argument("type", IntegerArgumentType.integer(1, 4)).executes(context -> {
+                                .then(Commands.argument("type", IntegerArgumentType.integer(-1, 4)).executes(context -> {
                                     BlockPos pos = BlockPosArgument.getBlockPos(context, "pos");
-                                    int type = IntegerArgumentType.getInteger(context, "type");
+                                    int requestedType = IntegerArgumentType.getInteger(context, "type");
+                                    int type = requestedType == -1 ? inferNodeType(context.getSource().getLevel(), pos)
+                                            : requestedType;
                                     if (!SrpCoreSystems.placeNode(context.getSource().getLevel(), pos, type)) {
                                         return failure(context.getSource(), "Unable to place Node at " + format(pos));
                                     }
@@ -344,10 +347,45 @@ public final class SrpCommands {
         success(source, "Evolution dimension: " + level.dimension().location());
         success(source, "Phase: " + data.evolutionPhase() + ", points: " + data.evolutionPoints()
                 + ", cooldown seconds: " + data.cooldown(level));
+        int phase = data.evolutionPhase();
+        int nextThreshold = phase >= 10 ? EvolutionSystem.thresholdForPhase(10)
+                : EvolutionSystem.thresholdForPhase(phase + 1);
+        int currentThreshold = EvolutionSystem.thresholdForPhase(phase);
+        int span = nextThreshold - currentThreshold;
+        int progress = span <= 0 ? 100
+                : Math.max(0, Math.min(100, (int) ((long) (data.evolutionPoints() - currentThreshold) * 100L / span)));
+        success(source, "Next phase points: " + nextThreshold + ", progress: " + progress + "%");
         success(source, "Gaining: " + data.canGain() + ", loss: " + data.canLose()
                 + ", generation: " + data.generation() + ", generation ticks: " + data.generationTicks()
                 + ", UD: " + EvolutionSystem.ubiquitousDevelopment(source.getServer()));
+        int parasites = 0;
+        int coth = 0;
+        for (Entity entity : level.getAllEntities()) {
+            if (entity instanceof Parasite) {
+                parasites++;
+            }
+            if (entity instanceof LivingEntity living && living.hasEffect(alku.csrp.registry.ModMobEffects.COTH)) {
+                coth++;
+            }
+        }
+        int eivCount = data.vectors().size();
+        boolean nearEiv = data.vectors().stream().anyMatch(vector ->
+                vector.pos().distSqr(BlockPos.containing(source.getPosition())) <= (double) vector.radius() * vector.radius());
+        success(source, "Parasite count: " + parasites + ", COTH count: " + coth
+                + ", EIV count: " + eivCount + ", near EIV: " + nearEiv);
         return Command.SINGLE_SUCCESS;
+    }
+
+    /** Matches the legacy type=-1 biome-derived node placement mode. */
+    private static int inferNodeType(ServerLevel level, BlockPos pos) {
+        float temperature = level.getBiome(pos).value().getBaseTemperature();
+        if (temperature >= 1.0F) {
+            return 1;
+        }
+        if (temperature <= 0.15F) {
+            return 4;
+        }
+        return 3;
     }
 
     private static int addEvolutionPoints(CommandSourceStack source, int points) {
