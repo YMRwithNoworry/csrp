@@ -37,6 +37,8 @@ import java.util.List;
 /** Legacy Nexus families: stationary stage growth, reinforcement, and battlefield support. */
 public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
+    private static final RawAnimation WALK = RawAnimation.begin().thenLoop("walk");
+    private static final RawAnimation FLY = RawAnimation.begin().thenLoop("fly");
     private static final RawAnimation ATTACK = RawAnimation.begin().thenPlay("attack");
     private static final int STAGE_ONE_MIN_GROWTH = 4_800;
     private static final int STAGE_ONE_GROWTH_VARIANCE = 1_201;
@@ -226,7 +228,13 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private PlayState movementAnimation(AnimationState<NexusParasiteEntity> state) {
-        return state.setAndContinue(attackFlashTicks > 0 ? ATTACK : IDLE);
+        if (attackFlashTicks > 0) {
+            return state.setAndContinue(ATTACK);
+        }
+        if (!state.isMoving()) {
+            return state.setAndContinue(IDLE);
+        }
+        return state.setAndContinue(!onGround() || Math.abs(getDeltaMovement().y) > 0.08D ? FLY : WALK);
     }
 
     private void decrementCooldowns() {

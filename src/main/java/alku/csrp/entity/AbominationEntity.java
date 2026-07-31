@@ -25,7 +25,7 @@ import software.bernie.geckolib.animation.RawAnimation;
 public final class AbominationEntity extends PrimitiveParasiteEntity {
     private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
     private static final RawAnimation WALK = RawAnimation.begin().thenLoop("walk");
-    private static final RawAnimation ATTACK = RawAnimation.begin().thenPlay("walk");
+    private static final RawAnimation ATTACK = RawAnimation.begin().thenPlay("attack");
 
     private final Kind kind;
     private int supportCooldown;
