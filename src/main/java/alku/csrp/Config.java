@@ -1,5 +1,8 @@
 package alku.csrp;
 
+import alku.csrp.world.SrpWorldData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 public final class Config {
@@ -15,5 +18,11 @@ public final class Config {
 
     public static int evolutionPhase() {
         return EVOLUTION_PHASE.get();
+    }
+
+    public static int evolutionPhase(Level level) {
+        return level instanceof ServerLevel serverLevel
+                ? SrpWorldData.get(serverLevel).evolutionPhase()
+                : evolutionPhase();
     }
 }

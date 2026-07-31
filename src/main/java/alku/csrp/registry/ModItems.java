@@ -10,6 +10,7 @@ import alku.csrp.item.LivingArmorItem;
 import alku.csrp.item.LivingBowItem;
 import alku.csrp.item.LivingWeaponItem;
 import alku.csrp.item.QuenchItem;
+import alku.csrp.item.TexturedSpawnEggItem;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.BlockItem;
@@ -29,10 +30,10 @@ public final class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Csrp.MODID);
 
     public static final DeferredItem<SpawnEggItem> BUGLIN_SPAWN_EGG = ITEMS.registerItem(
-            "buglin_spawn_egg", properties -> new SpawnEggItem(ModEntities.BUGLIN.get(), 0x8B1E1E, 0xE1B85B, properties),
+            "buglin_spawn_egg", properties -> new TexturedSpawnEggItem(ModEntities.BUGLIN.get(), 0x8B1E1E, 0xE1B85B, properties),
             new Item.Properties());
     public static final DeferredItem<SpawnEggItem> RUPTER_SPAWN_EGG = ITEMS.registerItem(
-            "rupter_spawn_egg", properties -> new SpawnEggItem(ModEntities.RUPTER.get(), 0x6E1717, 0xD8B45B, properties),
+            "rupter_spawn_egg", properties -> new TexturedSpawnEggItem(ModEntities.RUPTER.get(), 0x6E1717, 0xD8B45B, properties),
             new Item.Properties());
     public static final DeferredItem<SpawnEggItem> PRI_LONGARMS_SPAWN_EGG = spawnEgg(
             "pri_longarms_spawn_egg", ModEntities.PRI_LONGARMS, 0x551C1C, 0xC9A17B);
@@ -416,7 +417,8 @@ public final class ModItems {
     private static <T extends net.minecraft.world.entity.Mob> DeferredItem<SpawnEggItem> spawnEgg(String id,
             net.neoforged.neoforge.registries.DeferredHolder<net.minecraft.world.entity.EntityType<?>,
                     net.minecraft.world.entity.EntityType<T>> type, int primary, int secondary) {
-        return ITEMS.registerItem(id, properties -> new SpawnEggItem(type.get(), primary, secondary, properties),
+        return ITEMS.registerItem(id,
+                properties -> new TexturedSpawnEggItem(type.get(), primary, secondary, properties),
                 new Item.Properties());
     }
     private static DeferredItem<Item> simple(String id, Item.Properties properties) {

@@ -99,7 +99,7 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
 
     public static boolean checkRupterSpawnRules(EntityType<? extends Monster> type, ServerLevelAccessor level,
                                                  MobSpawnType spawnType, BlockPos pos, RandomSource random) {
-        int phase = Config.evolutionPhase();
+        int phase = Config.evolutionPhase(level.getLevel());
         return phase >= 1 && phase <= 5
                 && Monster.checkMonsterSpawnRules(type, level, spawnType, pos, random);
     }
@@ -130,7 +130,7 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
     }
 
     private boolean isLoneBelowPhaseTwo() {
-        return Config.evolutionPhase() < 2 && nearbyRupters() == 0;
+        return Config.evolutionPhase(level()) < 2 && nearbyRupters() == 0;
     }
 
     private int nearbyRupters() {
@@ -166,7 +166,7 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
     }
 
     private void tryPlaceTunnel() {
-        int phase = Config.evolutionPhase();
+        int phase = Config.evolutionPhase(level());
         if (phase < -1 || phase > 3 || killCount < TUNNEL_KILL_COST || getTarget() != null
                 || tickCount % 10 != 0 || random.nextInt(30) != 0) {
             return;

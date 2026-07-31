@@ -19,12 +19,20 @@ function isPng(file) {
 }
 
 const itemSource = readText("src/main/java/alku/csrp/registry/ModItems.java");
+const texturedEggSource = readText("src/main/java/alku/csrp/item/TexturedSpawnEggItem.java");
 const sharedModelPath = "src/main/resources/assets/csrp/models/item/spawn_egg.json";
 const sharedModelText = readText(sharedModelPath);
 const spawnEggIds = [...new Set([...itemSource.matchAll(/"([a-z0-9_]+_spawn_egg)"/g)]
   .map((match) => match[1]))].sort();
 
 if (!spawnEggIds.length) failures.push("no registered spawn eggs found");
+
+if (itemSource.includes("new SpawnEggItem(")) {
+  failures.push("spawn eggs must use TexturedSpawnEggItem to avoid vanilla color multiplication");
+}
+if (!/int getColor\(int tintIndex\)[\s\S]*?return 0xFFFFFF;/.test(texturedEggSource)) {
+  failures.push("TexturedSpawnEggItem must return a white tint for custom full-color textures");
+}
 
 if (sharedModelText) {
   let sharedModel;
@@ -66,8 +74,23 @@ for (const id of spawnEggIds) {
   if (model.textures?.layer0 !== `csrp:item/${id}`) {
     failures.push(`${id} does not bind its custom layer0 texture`);
   }
-  if (!isPng(path.join(root, texturePath))) {
+  const textureFile = path.join(root, texturePath);
+  if (!isPng(textureFile)) {
     failures.push(`${id} is missing a valid custom PNG texture`);
+    continue;
+  }
+
+  const texture = fs.readFileSync(textureFile);
+  if (texture.length <= 100) {
+    failures.push(`${id} texture is still a generated placeholder`);
+  }
+  const width = texture.readUInt32BE(16);
+  const height = texture.readUInt32BE(20);
+  if (width !== 16 || height !== 16) {
+    failures.push(`${id} texture must be 16x16, found ${width}x${height}`);
+  }
+  if (!texture.includes(Buffer.from("IDAT"))) {
+    failures.push(`${id} texture has no PNG image data`);
   }
 }
 
