@@ -176,7 +176,8 @@ public final class SrpWorldData extends SavedData {
     }
 
     public void addGenerationTicks(int ticks) {
-        generationTicks += ticks;
+        long next = (long) generationTicks + ticks;
+        generationTicks = (int) Math.max(0L, Math.min(Integer.MAX_VALUE, next));
         setDirty();
     }
 
@@ -186,7 +187,7 @@ public final class SrpWorldData extends SavedData {
         }
         generationTicks = Math.max(0, generationTicks + ticks);
         int needed = EvolutionSystem.generationNeededTicks(generation, evolutionPhase);
-        if (needed > 0 && generationTicks > needed) {
+        if (needed > 0 && generationTicks >= needed) {
             generation++;
             generationTicks = 0;
         }
@@ -198,7 +199,7 @@ public final class SrpWorldData extends SavedData {
     }
 
     public void setUbiquitousDevelopment(int level) {
-        ubiquitousDevelopment = level;
+        ubiquitousDevelopment = Math.max(0, Math.min(4, level));
         setDirty();
     }
 
