@@ -3,36 +3,245 @@
   "minecraft:geometry": [
     {
       "description": {
-        "identifier": "geometry.bomber_light",
-        "texture_width": 128,
-        "texture_height": 128,
-        "visible_bounds_width": 5,
-        "visible_bounds_height": 5,
+        "identifier": "geometry.srparasites.bomber_light",
+        "texture_width": 350,
+        "texture_height": 140,
+        "visible_bounds_width": 16,
+        "visible_bounds_height": 16,
         "visible_bounds_offset": [
           0,
-          2,
+          4,
           0
         ]
       },
       "bones": [
         {
-          "name": "mpop6",
+          "name": "taclejointFL3",
+          "parent": "tentacle_9",
           "pivot": [
-            4.5,
-            1.2,
-            -8.5
+            6,
+            12.5,
+            13
+          ],
+          "cubes": [
+            {
+              "origin": [
+                5.5,
+                12,
+                12.5
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                238,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "JD_3",
+          "parent": "jointp15",
+          "pivot": [
+            9,
+            18.5,
+            -12.1
           ],
           "rotation": [
-            -33.999997,
+            0,
+            -162,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                8.5,
+                18,
+                -12.6
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                335,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "taclejointBL1",
+          "parent": "bodytt",
+          "pivot": [
+            4,
+            28.5,
+            27
+          ],
+          "cubes": [
+            {
+              "origin": [
+                3.5,
+                28,
+                26.5
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                131,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "taclejointFR2",
+          "parent": "tentacle_12",
+          "pivot": [
+            -6,
+            12.5,
+            23
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -6.5,
+                12,
+                22.5
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                257,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "body_3",
+          "parent": "bodyt_1",
+          "pivot": [
+            14,
+            25,
+            8
+          ],
+          "rotation": [
+            0,
+            0,
+            42.99999894818919
+          ],
+          "cubes": [
+            {
+              "origin": [
+                9,
+                16,
+                -2
+              ],
+              "size": [
+                10,
+                18,
+                20
+              ],
+              "uv": [
+                284,
+                59
+              ]
+            }
+          ]
+        },
+        {
+          "name": "body_5",
+          "parent": "bodyt_2",
+          "pivot": [
+            -16,
+            25,
+            8
+          ],
+          "rotation": [
+            0,
+            0,
+            42.99999894818919
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -21,
+                16,
+                -2
+              ],
+              "size": [
+                10,
+                18,
+                20
+              ],
+              "uv": [
+                124,
+                101
+              ]
+            }
+          ]
+        },
+        {
+          "name": "spop",
+          "parent": "JD",
+          "pivot": [
+            -9,
+            18.5,
+            -11.1
+          ],
+          "rotation": [
+            0,
+            0,
+            -29.999999999999996
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -18.5,
+                17,
+                -12.6
+              ],
+              "size": [
+                10,
+                3,
+                3
+              ],
+              "uv": [
+                0,
+                18
+              ]
+            }
+          ]
+        },
+        {
+          "name": "mpop6",
+          "pivot": [
+            -4.5,
+            1.1999999999999993,
+            8.5
+          ],
+          "rotation": [
+            33.999997382839254,
             180,
             0
           ],
           "cubes": [
             {
               "origin": [
-                2.5,
-                -1.8,
-                -11
+                -12.5,
+                -1.8000000000000007,
+                4
               ],
               "size": [
                 10,
@@ -49,16 +258,16 @@
         {
           "name": "jointp7",
           "pivot": [
-            9,
+            -9,
             27.5,
-            13.1
+            -13.1
           ],
           "cubes": [
             {
               "origin": [
-                8.5,
+                -9.5,
                 27,
-                12.6
+                -13.6
               ],
               "size": [
                 1,
@@ -73,24 +282,19 @@
           ]
         },
         {
-          "name": "JD_1",
+          "name": "taclejointFR3",
+          "parent": "tentacle_13",
           "pivot": [
-            9,
-            27.5,
-            13.1
-          ],
-          "parent": "jointp7",
-          "rotation": [
-            0,
-            -14,
-            0
+            -6,
+            12.5,
+            13
           ],
           "cubes": [
             {
               "origin": [
-                8.5,
-                27,
-                12.6
+                -6.5,
+                12,
+                12.5
               ],
               "size": [
                 1,
@@ -98,58 +302,26 @@
                 1
               ],
               "uv": [
-                327,
+                261,
                 0
               ]
             }
           ]
         },
         {
-          "name": "spop_2",
-          "pivot": [
-            9,
-            27.5,
-            13.1
-          ],
-          "parent": "JD_1",
-          "rotation": [
-            0,
-            0,
-            25
-          ],
-          "cubes": [
-            {
-              "origin": [
-                8.5,
-                26,
-                11.6
-              ],
-              "size": [
-                10,
-                3,
-                3
-              ],
-              "uv": [
-                0,
-                24
-              ]
-            }
-          ]
-        },
-        {
           "name": "spop_3",
-          "pivot": [
-            10,
-            27.5,
-            13.1
-          ],
           "parent": "spop_2",
+          "pivot": [
+            -10,
+            27.5,
+            -13.1
+          ],
           "cubes": [
             {
               "origin": [
-                13.6,
+                -17.6,
                 25,
-                10.6
+                -15.6
               ],
               "size": [
                 4,
@@ -164,23 +336,55 @@
           ]
         },
         {
-          "name": "mpop8",
+          "name": "JD_4",
+          "parent": "jointp17",
           "pivot": [
-            -5.5,
-            19.6,
-            -30.3
+            9,
+            27.5,
+            -13.1
           ],
           "rotation": [
-            36.999999,
+            0,
+            -169.99999264377422,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                8.5,
+                27,
+                -13.6
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                339,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "mpop8",
+          "pivot": [
+            5.5,
+            19.6,
+            30.3
+          ],
+          "rotation": [
+            -36.9999986685663,
             180,
             0
           ],
           "cubes": [
             {
               "origin": [
-                -7.5,
+                -2.5,
                 16.6,
-                -32.8
+                25.799999999999997
               ],
               "size": [
                 10,
@@ -197,21 +401,21 @@
         {
           "name": "mpop16",
           "pivot": [
-            -2.5,
+            2.5,
             13.6,
-            -27.3
+            27.3
           ],
           "rotation": [
-            36.999999,
+            -36.9999986685663,
             180,
             0
           ],
           "cubes": [
             {
               "origin": [
-                -6.5,
-                10.6,
-                -29.8
+                -5.5,
+                10.600000000000001,
+                24.8
               ],
               "size": [
                 12,
@@ -230,7 +434,7 @@
           "pivot": [
             0,
             24,
-            -8
+            8
           ],
           "rotation": [
             0,
@@ -242,7 +446,7 @@
               "origin": [
                 -0.5,
                 23.5,
-                -8.5
+                7.5
               ],
               "size": [
                 1,
@@ -252,838 +456,24 @@
               "uv": [
                 0,
                 0
-              ]
-            }
-          ]
-        },
-        {
-          "name": "bodyh",
-          "pivot": [
-            0,
-            24,
-            -8
-          ],
-          "parent": "mainbody",
-          "cubes": [
-            {
-              "origin": [
-                -14,
-                12,
-                -24
-              ],
-              "size": [
-                28,
-                24,
-                32
-              ],
-              "uv": [
-                90,
-                13
-              ]
-            }
-          ]
-        },
-        {
-          "name": "body",
-          "pivot": [
-            0,
-            16.3,
-            -12.4
-          ],
-          "parent": "bodyh",
-          "rotation": [
-            -33.999997,
-            0,
-            0
-          ],
-          "cubes": [
-            {
-              "origin": [
-                -11.5,
-                7.3,
-                -19.4
-              ],
-              "size": [
-                23,
-                17,
-                25
-              ],
-              "uv": [
-                229,
-                17
-              ]
-            }
-          ]
-        },
-        {
-          "name": "jointLW",
-          "pivot": [
-            -13,
-            32,
-            -8
-          ],
-          "parent": "bodyh",
-          "cubes": [
-            {
-              "origin": [
-                -13.5,
-                31.5,
-                -8.5
-              ],
-              "size": [
-                1,
-                1,
-                1
-              ],
-              "uv": [
-                62,
-                0
-              ]
-            }
-          ]
-        },
-        {
-          "name": "bodyt_1",
-          "pivot": [
-            -15,
-            28,
-            -8
-          ],
-          "parent": "jointLW",
-          "rotation": [
-            0,
-            0,
-            -55.000001
-          ],
-          "cubes": [
-            {
-              "origin": [
-                -33,
-                28,
-                -20
-              ],
-              "size": [
-                25,
-                8,
-                24
-              ],
-              "uv": [
-                186,
-                59
-              ]
-            }
-          ]
-        },
-        {
-          "name": "body_3",
-          "pivot": [
-            -14,
-            25,
-            -8
-          ],
-          "parent": "bodyt_1",
-          "rotation": [
-            0,
-            0,
-            -42.999999
-          ],
-          "cubes": [
-            {
-              "origin": [
-                -19,
-                16,
-                -18
-              ],
-              "size": [
-                10,
-                18,
-                20
-              ],
-              "uv": [
-                284,
-                59
-              ]
-            }
-          ]
-        },
-        {
-          "name": "body_2",
-          "pivot": [
-            -15,
-            35,
-            -8
-          ],
-          "parent": "bodyt_1",
-          "rotation": [
-            0,
-            0,
-            42.000001
-          ],
-          "cubes": [
-            {
-              "origin": [
-                -26,
-                32,
-                -18
-              ],
-              "size": [
-                13,
-                6,
-                20
-              ],
-              "uv": [
-                52,
-                69
-              ]
-            }
-          ]
-        },
-        {
-          "name": "jointRW",
-          "pivot": [
-            13,
-            32,
-            -8
-          ],
-          "parent": "bodyh",
-          "cubes": [
-            {
-              "origin": [
-                12.5,
-                31.5,
-                -8.5
-              ],
-              "size": [
-                1,
-                1,
-                1
-              ],
-              "uv": [
-                87,
-                0
-              ]
-            }
-          ]
-        },
-        {
-          "name": "bodyt_2",
-          "pivot": [
-            15,
-            28,
-            -8
-          ],
-          "parent": "jointRW",
-          "rotation": [
-            0,
-            180,
-            55.000001
-          ],
-          "cubes": [
-            {
-              "origin": [
-                -3,
-                28,
-                -20
-              ],
-              "size": [
-                25,
-                8,
-                24
-              ],
-              "uv": [
-                26,
-                95
-              ]
-            }
-          ]
-        },
-        {
-          "name": "body_5",
-          "pivot": [
-            16,
-            25,
-            -8
-          ],
-          "parent": "bodyt_2",
-          "rotation": [
-            0,
-            0,
-            -42.999999
-          ],
-          "cubes": [
-            {
-              "origin": [
-                11,
-                16,
-                -18
-              ],
-              "size": [
-                10,
-                18,
-                20
-              ],
-              "uv": [
-                124,
-                101
-              ]
-            }
-          ]
-        },
-        {
-          "name": "body_4",
-          "pivot": [
-            15,
-            35,
-            -8
-          ],
-          "parent": "bodyt_2",
-          "rotation": [
-            0,
-            0,
-            42.000001
-          ],
-          "cubes": [
-            {
-              "origin": [
-                4,
-                32,
-                -18
-              ],
-              "size": [
-                13,
-                6,
-                20
-              ],
-              "uv": [
-                272,
-                97
-              ]
-            }
-          ]
-        },
-        {
-          "name": "body_1",
-          "pivot": [
-            0,
-            23,
-            7.5
-          ],
-          "parent": "bodyh",
-          "rotation": [
-            36.999999,
-            0,
-            0
-          ],
-          "cubes": [
-            {
-              "origin": [
-                -12,
-                15,
-                1.5
-              ],
-              "size": [
-                24,
-                16,
-                12
-              ],
-              "uv": [
-                0,
-                50
-              ]
-            }
-          ]
-        },
-        {
-          "name": "bodyt",
-          "pivot": [
-            0,
-            22.5,
-            -32
-          ],
-          "parent": "bodyh",
-          "rotation": [
-            10,
-            0,
-            0
-          ],
-          "cubes": [
-            {
-              "origin": [
-                -10,
-                12.5,
-                -39
-              ],
-              "size": [
-                20,
-                20,
-                17
-              ],
-              "uv": [
-                11,
-                13
-              ]
-            }
-          ]
-        },
-        {
-          "name": "bodytt",
-          "pivot": [
-            0,
-            22.5,
-            -37
-          ],
-          "parent": "bodyt",
-          "rotation": [
-            -163.000007,
-            0,
-            0
-          ],
-          "cubes": [
-            {
-              "origin": [
-                -7,
-                15.5,
-                -38
-              ],
-              "size": [
-                14,
-                14,
-                18
-              ],
-              "uv": [
-                118,
-                69
-              ]
-            }
-          ]
-        },
-        {
-          "name": "taclejointBL1",
-          "pivot": [
-            -4,
-            28.5,
-            -27
-          ],
-          "parent": "bodytt",
-          "cubes": [
-            {
-              "origin": [
-                -4.5,
-                28,
-                -27.5
-              ],
-              "size": [
-                1,
-                1,
-                1
-              ],
-              "uv": [
-                131,
-                0
-              ]
-            }
-          ]
-        },
-        {
-          "name": "tentacle",
-          "pivot": [
-            -4,
-            28.5,
-            -27
-          ],
-          "parent": "taclejointBL1",
-          "rotation": [
-            60.000003,
-            21,
-            -12.000001
-          ],
-          "cubes": [
-            {
-              "origin": [
-                -5.5,
-                27,
-                -27
-              ],
-              "size": [
-                3,
-                3,
-                11
-              ],
-              "uv": [
-                68,
-                13
-              ]
-            }
-          ]
-        },
-        {
-          "name": "taclejointBL2",
-          "pivot": [
-            -4,
-            28.5,
-            -18
-          ],
-          "parent": "tentacle",
-          "cubes": [
-            {
-              "origin": [
-                -4.5,
-                28,
-                -18.5
-              ],
-              "size": [
-                1,
-                1,
-                1
-              ],
-              "uv": [
-                161,
-                0
-              ]
-            }
-          ]
-        },
-        {
-          "name": "tentacle_1",
-          "pivot": [
-            -4,
-            28.5,
-            -17
-          ],
-          "parent": "taclejointBL2",
-          "rotation": [
-            28.000001,
-            0,
-            0
-          ],
-          "cubes": [
-            {
-              "origin": [
-                -6,
-                26.5,
-                -18
-              ],
-              "size": [
-                4,
-                4,
-                12
-              ],
-              "uv": [
-                178,
-                13
-              ]
-            }
-          ]
-        },
-        {
-          "name": "taclejointBL3",
-          "pivot": [
-            -4,
-            28.5,
-            -8
-          ],
-          "parent": "tentacle_1",
-          "cubes": [
-            {
-              "origin": [
-                -4.5,
-                28,
-                -8.5
-              ],
-              "size": [
-                1,
-                1,
-                1
-              ],
-              "uv": [
-                165,
-                0
-              ]
-            }
-          ]
-        },
-        {
-          "name": "tentacle_2",
-          "pivot": [
-            -4,
-            28.5,
-            -7
-          ],
-          "parent": "taclejointBL3",
-          "rotation": [
-            26,
-            0,
-            0
-          ],
-          "cubes": [
-            {
-              "origin": [
-                -5.5,
-                27,
-                -8
-              ],
-              "size": [
-                3,
-                3,
-                12
-              ],
-              "uv": [
-                198,
-                19
-              ]
-            }
-          ]
-        },
-        {
-          "name": "taclejointBL4",
-          "pivot": [
-            -4,
-            28.5,
-            2
-          ],
-          "parent": "tentacle_2",
-          "cubes": [
-            {
-              "origin": [
-                -4.5,
-                28,
-                1.5
-              ],
-              "size": [
-                1,
-                1,
-                1
-              ],
-              "uv": [
-                191,
-                0
-              ]
-            }
-          ]
-        },
-        {
-          "name": "tentacle_3",
-          "pivot": [
-            -4,
-            28.5,
-            3
-          ],
-          "parent": "taclejointBL4",
-          "rotation": [
-            -25,
-            0,
-            0
-          ],
-          "cubes": [
-            {
-              "origin": [
-                -5,
-                27.5,
-                2
-              ],
-              "size": [
-                2,
-                2,
-                14
-              ],
-              "uv": [
-                214,
-                20
-              ]
-            }
-          ]
-        },
-        {
-          "name": "taclejointBR1",
-          "pivot": [
-            4,
-            28.5,
-            -27
-          ],
-          "parent": "bodytt",
-          "cubes": [
-            {
-              "origin": [
-                3.5,
-                28,
-                -27.5
-              ],
-              "size": [
-                1,
-                1,
-                1
-              ],
-              "uv": [
-                157,
-                0
-              ]
-            }
-          ]
-        },
-        {
-          "name": "tentacle_4",
-          "pivot": [
-            4,
-            28.5,
-            -27
-          ],
-          "parent": "taclejointBR1",
-          "rotation": [
-            60.000003,
-            -21,
-            12.000001
-          ],
-          "cubes": [
-            {
-              "origin": [
-                2.5,
-                27,
-                -27
-              ],
-              "size": [
-                3,
-                3,
-                11
-              ],
-              "uv": [
-                85,
-                23
-              ]
-            }
-          ]
-        },
-        {
-          "name": "taclejointBR2",
-          "pivot": [
-            4,
-            28.5,
-            -18
-          ],
-          "parent": "tentacle_4",
-          "cubes": [
-            {
-              "origin": [
-                3.5,
-                28,
-                -18.5
-              ],
-              "size": [
-                1,
-                1,
-                1
-              ],
-              "uv": [
-                195,
-                0
-              ]
-            }
-          ]
-        },
-        {
-          "name": "tentacle_5",
-          "pivot": [
-            4,
-            28.5,
-            -17
-          ],
-          "parent": "taclejointBR2",
-          "rotation": [
-            28.000001,
-            0,
-            0
-          ],
-          "cubes": [
-            {
-              "origin": [
-                2,
-                26.5,
-                -18
-              ],
-              "size": [
-                4,
-                4,
-                12
-              ],
-              "uv": [
-                178,
-                29
-              ]
-            }
-          ]
-        },
-        {
-          "name": "taclejointBR3",
-          "pivot": [
-            4,
-            28.5,
-            -8
-          ],
-          "parent": "tentacle_5",
-          "cubes": [
-            {
-              "origin": [
-                3.5,
-                28,
-                -8.5
-              ],
-              "size": [
-                1,
-                1,
-                1
-              ],
-              "uv": [
-                199,
-                0
-              ]
-            }
-          ]
-        },
-        {
-          "name": "tentacle_6",
-          "pivot": [
-            4,
-            28.5,
-            -7
-          ],
-          "parent": "taclejointBR3",
-          "rotation": [
-            26,
-            0,
-            0
-          ],
-          "cubes": [
-            {
-              "origin": [
-                2.5,
-                27,
-                -8
-              ],
-              "size": [
-                3,
-                3,
-                12
-              ],
-              "uv": [
-                260,
-                59
               ]
             }
           ]
         },
         {
           "name": "taclejointBR4",
-          "pivot": [
-            4,
-            28.5,
-            2
-          ],
           "parent": "tentacle_6",
+          "pivot": [
+            -4,
+            28.5,
+            -2
+          ],
           "cubes": [
             {
               "origin": [
-                3.5,
+                -4.5,
                 28,
-                1.5
+                -2.5
               ],
               "size": [
                 1,
@@ -1098,83 +488,24 @@
           ]
         },
         {
-          "name": "tentacle_7",
+          "name": "JD_1",
+          "parent": "jointp7",
           "pivot": [
-            4,
-            28.5,
-            3
+            -9,
+            27.5,
+            -13.1
           ],
-          "parent": "taclejointBR4",
           "rotation": [
-            -25,
             0,
+            -14.000000270481566,
             0
           ],
           "cubes": [
             {
               "origin": [
-                3,
-                27.5,
-                2
-              ],
-              "size": [
-                2,
-                2,
-                14
-              ],
-              "uv": [
-                98,
-                69
-              ]
-            }
-          ]
-        },
-        {
-          "name": "bt",
-          "pivot": [
-            0,
-            22.5,
-            -22
-          ],
-          "parent": "bodytt",
-          "rotation": [
-            26,
-            0,
-            0
-          ],
-          "cubes": [
-            {
-              "origin": [
-                -4,
-                18.5,
-                -22
-              ],
-              "size": [
-                8,
-                8,
-                12
-              ],
-              "uv": [
-                300,
-                11
-              ]
-            }
-          ]
-        },
-        {
-          "name": "taclejointFL1",
-          "pivot": [
-            -6,
-            12.5,
-            -32
-          ],
-          "parent": "bodyt",
-          "cubes": [
-            {
-              "origin": [
-                -6.5,
-                12,
-                -32.5
+                -9.5,
+                27,
+                -13.6
               ],
               "size": [
                 1,
@@ -1182,453 +513,8 @@
                 1
               ],
               "uv": [
-                91,
+                327,
                 0
-              ]
-            }
-          ]
-        },
-        {
-          "name": "tentacle_8",
-          "pivot": [
-            -6,
-            12.5,
-            -32
-          ],
-          "parent": "taclejointFL1",
-          "rotation": [
-            -90.000004,
-            -21,
-            12.000001
-          ],
-          "cubes": [
-            {
-              "origin": [
-                -7.5,
-                11,
-                -32
-              ],
-              "size": [
-                3,
-                3,
-                11
-              ],
-              "uv": [
-                164,
-                69
-              ]
-            }
-          ]
-        },
-        {
-          "name": "taclejointFL2",
-          "pivot": [
-            -6,
-            12.5,
-            -23
-          ],
-          "parent": "tentacle_8",
-          "cubes": [
-            {
-              "origin": [
-                -6.5,
-                12,
-                -23.5
-              ],
-              "size": [
-                1,
-                1,
-                1
-              ],
-              "uv": [
-                222,
-                0
-              ]
-            }
-          ]
-        },
-        {
-          "name": "tentacle_9",
-          "pivot": [
-            -6,
-            12.5,
-            -22
-          ],
-          "parent": "taclejointFL2",
-          "rotation": [
-            28.000001,
-            0,
-            0
-          ],
-          "cubes": [
-            {
-              "origin": [
-                -8,
-                10.5,
-                -23
-              ],
-              "size": [
-                4,
-                4,
-                12
-              ],
-              "uv": [
-                0,
-                78
-              ]
-            }
-          ]
-        },
-        {
-          "name": "taclejointFL3",
-          "pivot": [
-            -6,
-            12.5,
-            -13
-          ],
-          "parent": "tentacle_9",
-          "cubes": [
-            {
-              "origin": [
-                -6.5,
-                12,
-                -13.5
-              ],
-              "size": [
-                1,
-                1,
-                1
-              ],
-              "uv": [
-                238,
-                0
-              ]
-            }
-          ]
-        },
-        {
-          "name": "tentacle_10",
-          "pivot": [
-            -6,
-            12.5,
-            -12
-          ],
-          "parent": "taclejointFL3",
-          "rotation": [
-            26,
-            0,
-            0
-          ],
-          "cubes": [
-            {
-              "origin": [
-                -7.5,
-                11,
-                -13
-              ],
-              "size": [
-                3,
-                3,
-                12
-              ],
-              "uv": [
-                20,
-                82
-              ]
-            }
-          ]
-        },
-        {
-          "name": "taclejointFL4",
-          "pivot": [
-            -6,
-            12.5,
-            -3
-          ],
-          "parent": "tentacle_10",
-          "cubes": [
-            {
-              "origin": [
-                -6.5,
-                12,
-                -3.5
-              ],
-              "size": [
-                1,
-                1,
-                1
-              ],
-              "uv": [
-                253,
-                0
-              ]
-            }
-          ]
-        },
-        {
-          "name": "tentacle_11",
-          "pivot": [
-            -6,
-            12.5,
-            -2
-          ],
-          "parent": "taclejointFL4",
-          "rotation": [
-            -25,
-            0,
-            0
-          ],
-          "cubes": [
-            {
-              "origin": [
-                -7,
-                11.5,
-                -3
-              ],
-              "size": [
-                2,
-                2,
-                16
-              ],
-              "uv": [
-                166,
-                85
-              ]
-            }
-          ]
-        },
-        {
-          "name": "taclejointFR1",
-          "pivot": [
-            6,
-            12.5,
-            -32
-          ],
-          "parent": "bodyt",
-          "cubes": [
-            {
-              "origin": [
-                5.5,
-                12,
-                -32.5
-              ],
-              "size": [
-                1,
-                1,
-                1
-              ],
-              "uv": [
-                127,
-                0
-              ]
-            }
-          ]
-        },
-        {
-          "name": "tentacle_12",
-          "pivot": [
-            6,
-            12.5,
-            -32
-          ],
-          "parent": "taclejointFR1",
-          "rotation": [
-            -90.000004,
-            21,
-            -12.000001
-          ],
-          "cubes": [
-            {
-              "origin": [
-                4.5,
-                11,
-                -32
-              ],
-              "size": [
-                3,
-                3,
-                11
-              ],
-              "uv": [
-                202,
-                91
-              ]
-            }
-          ]
-        },
-        {
-          "name": "taclejointFR2",
-          "pivot": [
-            6,
-            12.5,
-            -23
-          ],
-          "parent": "tentacle_12",
-          "cubes": [
-            {
-              "origin": [
-                5.5,
-                12,
-                -23.5
-              ],
-              "size": [
-                1,
-                1,
-                1
-              ],
-              "uv": [
-                257,
-                0
-              ]
-            }
-          ]
-        },
-        {
-          "name": "tentacle_13",
-          "pivot": [
-            6,
-            12.5,
-            -22
-          ],
-          "parent": "taclejointFR2",
-          "rotation": [
-            28.000001,
-            0,
-            0
-          ],
-          "cubes": [
-            {
-              "origin": [
-                4,
-                10.5,
-                -23
-              ],
-              "size": [
-                4,
-                4,
-                12
-              ],
-              "uv": [
-                230,
-                91
-              ]
-            }
-          ]
-        },
-        {
-          "name": "taclejointFR3",
-          "pivot": [
-            6,
-            12.5,
-            -13
-          ],
-          "parent": "tentacle_13",
-          "cubes": [
-            {
-              "origin": [
-                5.5,
-                12,
-                -13.5
-              ],
-              "size": [
-                1,
-                1,
-                1
-              ],
-              "uv": [
-                261,
-                0
-              ]
-            }
-          ]
-        },
-        {
-          "name": "tentacle_14",
-          "pivot": [
-            6,
-            12.5,
-            -12
-          ],
-          "parent": "taclejointFR3",
-          "rotation": [
-            26,
-            0,
-            0
-          ],
-          "cubes": [
-            {
-              "origin": [
-                4.5,
-                11,
-                -13
-              ],
-              "size": [
-                3,
-                3,
-                12
-              ],
-              "uv": [
-                262,
-                91
-              ]
-            }
-          ]
-        },
-        {
-          "name": "taclejointFR4",
-          "pivot": [
-            6,
-            12.5,
-            -3
-          ],
-          "parent": "tentacle_14",
-          "cubes": [
-            {
-              "origin": [
-                5.5,
-                12,
-                -3.5
-              ],
-              "size": [
-                1,
-                1,
-                1
-              ],
-              "uv": [
-                277,
-                0
-              ]
-            }
-          ]
-        },
-        {
-          "name": "tentacle_15",
-          "pivot": [
-            6,
-            12.5,
-            -2
-          ],
-          "parent": "taclejointFR4",
-          "rotation": [
-            -25,
-            0,
-            0
-          ],
-          "cubes": [
-            {
-              "origin": [
-                5,
-                11.5,
-                -3
-              ],
-              "size": [
-                2,
-                2,
-                16
-              ],
-              "uv": [
-                0,
-                94
               ]
             }
           ]
@@ -1636,21 +522,21 @@
         {
           "name": "mpop5",
           "pivot": [
-            5.5,
+            -5.5,
             1.5,
-            -16.4
+            16.4
           ],
           "rotation": [
-            -33.999997,
+            33.999997382839254,
             180,
             0
           ],
           "cubes": [
             {
               "origin": [
-                3.5,
+                -18.5,
                 -1.5,
-                -18.9
+                15.899999999999999
               ],
               "size": [
                 15,
@@ -1665,18 +551,82 @@
           ]
         },
         {
-          "name": "jointp11",
+          "name": "tentacle_4",
+          "parent": "taclejointBR1",
           "pivot": [
-            9,
-            20.5,
-            19.1
+            -4,
+            28.5,
+            27
+          ],
+          "rotation": [
+            -59.99999999999999,
+            -21.000000405722346,
+            -12
           ],
           "cubes": [
             {
               "origin": [
-                8.5,
+                -5.5,
+                27,
+                16
+              ],
+              "size": [
+                3,
+                3,
+                11
+              ],
+              "uv": [
+                85,
+                23
+              ]
+            }
+          ]
+        },
+        {
+          "name": "spop_6",
+          "parent": "JD_3",
+          "pivot": [
+            9,
+            18.5,
+            -12.1
+          ],
+          "rotation": [
+            0,
+            0,
+            -29.999999999999996
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -0.5,
+                17,
+                -13.6
+              ],
+              "size": [
+                10,
+                3,
+                3
+              ],
+              "uv": [
+                323,
+                34
+              ]
+            }
+          ]
+        },
+        {
+          "name": "jointp11",
+          "pivot": [
+            -9,
+            20.5,
+            -19.1
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -9.5,
                 20,
-                18.6
+                -19.6
               ],
               "size": [
                 1,
@@ -1691,83 +641,19 @@
           ]
         },
         {
-          "name": "JD_2",
-          "pivot": [
-            9,
-            20.5,
-            19.1
-          ],
-          "parent": "jointp11",
-          "rotation": [
-            0,
-            -27,
-            0
-          ],
-          "cubes": [
-            {
-              "origin": [
-                8.5,
-                20,
-                18.6
-              ],
-              "size": [
-                1,
-                1,
-                1
-              ],
-              "uv": [
-                331,
-                0
-              ]
-            }
-          ]
-        },
-        {
-          "name": "spop_4",
-          "pivot": [
-            9,
-            20.5,
-            19.1
-          ],
-          "parent": "JD_2",
-          "rotation": [
-            0,
-            0,
-            29.000001
-          ],
-          "cubes": [
-            {
-              "origin": [
-                8.5,
-                19,
-                17.6
-              ],
-              "size": [
-                10,
-                3,
-                3
-              ],
-              "uv": [
-                300,
-                31
-              ]
-            }
-          ]
-        },
-        {
           "name": "spop_5",
-          "pivot": [
-            10,
-            20.5,
-            19.1
-          ],
           "parent": "spop_4",
+          "pivot": [
+            -10,
+            20.5,
+            -19.1
+          ],
           "cubes": [
             {
               "origin": [
-                13.6,
+                -17.6,
                 18,
-                16.6
+                -21.6
               ],
               "size": [
                 4,
@@ -1784,21 +670,21 @@
         {
           "name": "mpop1",
           "pivot": [
-            11.5,
+            -11.5,
             2,
-            -11
+            11
           ],
           "rotation": [
-            -33.999997,
+            33.999997382839254,
             180,
             0
           ],
           "cubes": [
             {
               "origin": [
-                9.5,
+                -14.5,
                 -0.5,
-                -13.5
+                4.5
               ],
               "size": [
                 5,
@@ -1815,21 +701,21 @@
         {
           "name": "mpop13",
           "pivot": [
-            -11.5,
+            11.5,
             7.5,
-            -6.7
+            6.7
           ],
           "rotation": [
-            -33.999997,
+            33.999997382839254,
             180,
             0
           ],
           "cubes": [
             {
               "origin": [
-                -13.5,
+                7.5,
                 5.5,
-                -9.2
+                4.199999999999999
               ],
               "size": [
                 6,
@@ -1844,113 +730,174 @@
           ]
         },
         {
-          "name": "mpop19",
+          "name": "tentacle_13",
+          "parent": "taclejointFR2",
           "pivot": [
-            9.5,
-            15.6,
-            -30.3
+            -6,
+            12.5,
+            22
           ],
           "rotation": [
-            36.999999,
-            180,
+            -28.000000540963132,
+            0,
             0
           ],
           "cubes": [
             {
               "origin": [
-                5.5,
-                13.6,
-                -34.8
+                -8,
+                10.5,
+                11
+              ],
+              "size": [
+                4,
+                4,
+                12
+              ],
+              "uv": [
+                230,
+                91
+              ]
+            }
+          ]
+        },
+        {
+          "name": "body",
+          "parent": "bodyh",
+          "pivot": [
+            0,
+            16.3,
+            12.4
+          ],
+          "rotation": [
+            33.999997382839254,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -11.5,
+                7.300000000000001,
+                -5.600000000000001
+              ],
+              "size": [
+                23,
+                17,
+                25
+              ],
+              "uv": [
+                229,
+                17
+              ]
+            }
+          ]
+        },
+        {
+          "name": "taclejointBR1",
+          "parent": "bodytt",
+          "pivot": [
+            -4,
+            28.5,
+            27
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -4.5,
+                28,
+                26.5
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                157,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "jointLW",
+          "parent": "bodyh",
+          "pivot": [
+            13,
+            32,
+            8
+          ],
+          "cubes": [
+            {
+              "origin": [
+                12.5,
+                31.5,
+                7.5
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                62,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "spop_2",
+          "parent": "JD_1",
+          "pivot": [
+            -9,
+            27.5,
+            -13.1
+          ],
+          "rotation": [
+            0,
+            0,
+            -25.00000040115168
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -18.5,
+                26,
+                -14.6
               ],
               "size": [
                 10,
-                6,
-                8
+                3,
+                3
               ],
               "uv": [
-                86,
-                9
-              ]
-            }
-          ]
-        },
-        {
-          "name": "jointp17",
-          "pivot": [
-            -9,
-            27.5,
-            13.1
-          ],
-          "cubes": [
-            {
-              "origin": [
-                -9.5,
-                27,
-                12.6
-              ],
-              "size": [
-                1,
-                1,
-                1
-              ],
-              "uv": [
-                54,
-                0
-              ]
-            }
-          ]
-        },
-        {
-          "name": "JD_4",
-          "pivot": [
-            -9,
-            27.5,
-            13.1
-          ],
-          "parent": "jointp17",
-          "rotation": [
-            0,
-            -169.999993,
-            0
-          ],
-          "cubes": [
-            {
-              "origin": [
-                -9.5,
-                27,
-                12.6
-              ],
-              "size": [
-                1,
-                1,
-                1
-              ],
-              "uv": [
-                339,
-                0
+                0,
+                24
               ]
             }
           ]
         },
         {
           "name": "spop_8",
-          "pivot": [
-            -9,
-            27.5,
-            13.1
-          ],
           "parent": "JD_4",
+          "pivot": [
+            9,
+            27.5,
+            -13.1
+          ],
           "rotation": [
             0,
             0,
-            26
+            -25.99999968381177
           ],
           "cubes": [
             {
               "origin": [
-                -9.5,
+                -0.5,
                 26,
-                11.6
+                -14.6
               ],
               "size": [
                 10,
@@ -1965,136 +912,50 @@
           ]
         },
         {
-          "name": "spop_9",
+          "name": "mpop19",
           "pivot": [
-            -8,
-            27.5,
-            13.1
+            -9.5,
+            15.6,
+            30.3
           ],
-          "parent": "spop_8",
-          "cubes": [
-            {
-              "origin": [
-                -4.4,
-                25,
-                10.6
-              ],
-              "size": [
-                4,
-                5,
-                5
-              ],
-              "uv": [
-                325,
-                40
-              ]
-            }
-          ]
-        },
-        {
-          "name": "jointp18",
-          "pivot": [
-            -9,
-            22.5,
-            19.1
-          ],
-          "cubes": [
-            {
-              "origin": [
-                -9.5,
-                22,
-                18.6
-              ],
-              "size": [
-                1,
-                1,
-                1
-              ],
-              "uv": [
-                58,
-                0
-              ]
-            }
-          ]
-        },
-        {
-          "name": "JD_5",
-          "pivot": [
-            -9,
-            22.5,
-            19.1
-          ],
-          "parent": "jointp18",
           "rotation": [
-            0,
-            -156.000004,
+            -36.9999986685663,
+            180,
             0
           ],
           "cubes": [
             {
               "origin": [
-                -9.5,
-                22,
-                18.6
-              ],
-              "size": [
-                1,
-                1,
-                1
-              ],
-              "uv": [
-                343,
-                0
-              ]
-            }
-          ]
-        },
-        {
-          "name": "spop_10",
-          "pivot": [
-            -9,
-            22.5,
-            19.1
-          ],
-          "parent": "JD_5",
-          "rotation": [
-            0,
-            0,
-            27
-          ],
-          "cubes": [
-            {
-              "origin": [
-                -9.5,
-                21,
-                17.6
+                -15.5,
+                13.600000000000001,
+                26.799999999999997
               ],
               "size": [
                 10,
-                3,
-                3
+                6,
+                8
               ],
               "uv": [
-                85,
-                37
+                86,
+                9
               ]
             }
           ]
         },
         {
           "name": "spop_11",
-          "pivot": [
-            -8,
-            22.5,
-            19.1
-          ],
           "parent": "spop_10",
+          "pivot": [
+            8,
+            22.5,
+            -19.1
+          ],
           "cubes": [
             {
               "origin": [
-                -4.4,
+                0.40000000000000036,
                 20,
-                16.6
+                -21.6
               ],
               "size": [
                 4,
@@ -2109,49 +970,19 @@
           ]
         },
         {
-          "name": "mpop4",
+          "name": "jointRW",
+          "parent": "bodyh",
           "pivot": [
-            14.5,
-            6.6,
-            -3.3
-          ],
-          "rotation": [
-            -33.999997,
-            180,
-            0
+            -13,
+            32,
+            8
           ],
           "cubes": [
             {
               "origin": [
-                12.5,
-                3.6,
-                -5.8
-              ],
-              "size": [
-                10,
-                6,
-                7
-              ],
-              "uv": [
-                60,
-                0
-              ]
-            }
-          ]
-        },
-        {
-          "name": "jointp2",
-          "pivot": [
-            9,
-            18.5,
-            11.1
-          ],
-          "cubes": [
-            {
-              "origin": [
-                8.5,
-                18,
-                10.6
+                -13.5,
+                31.5,
+                7.5
               ],
               "size": [
                 1,
@@ -2159,7 +990,7 @@
                 1
               ],
               "uv": [
-                4,
+                87,
                 0
               ]
             }
@@ -2167,23 +998,23 @@
         },
         {
           "name": "JD",
-          "pivot": [
-            9,
-            18.5,
-            11.1
-          ],
           "parent": "jointp2",
+          "pivot": [
+            -9,
+            18.5,
+            -11.1
+          ],
           "rotation": [
             0,
-            -16,
+            -15.999999981717332,
             0
           ],
           "cubes": [
             {
               "origin": [
-                8.5,
+                -9.5,
                 18,
-                10.6
+                -11.6
               ],
               "size": [
                 1,
@@ -2198,24 +1029,211 @@
           ]
         },
         {
-          "name": "spop",
+          "name": "JD_2",
+          "parent": "jointp11",
           "pivot": [
-            9,
-            18.5,
-            11.1
+            -9,
+            20.5,
+            -19.1
           ],
-          "parent": "JD",
           "rotation": [
             0,
-            0,
-            30.000001
+            -27.00000011238745,
+            0
           ],
           "cubes": [
             {
               "origin": [
-                8.5,
-                17,
-                9.6
+                -9.5,
+                20,
+                -19.6
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                331,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentacle_2",
+          "parent": "taclejointBL3",
+          "pivot": [
+            4,
+            28.5,
+            7
+          ],
+          "rotation": [
+            -25.99999968381177,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                2.5,
+                27,
+                -4
+              ],
+              "size": [
+                3,
+                3,
+                12
+              ],
+              "uv": [
+                198,
+                19
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentacle_3",
+          "parent": "taclejointBL4",
+          "pivot": [
+            4,
+            28.5,
+            -3
+          ],
+          "rotation": [
+            25.00000040115168,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                3,
+                27.5,
+                -16
+              ],
+              "size": [
+                2,
+                2,
+                14
+              ],
+              "uv": [
+                214,
+                20
+              ]
+            }
+          ]
+        },
+        {
+          "name": "spop_9",
+          "parent": "spop_8",
+          "pivot": [
+            8,
+            27.5,
+            -13.1
+          ],
+          "cubes": [
+            {
+              "origin": [
+                0.40000000000000036,
+                25,
+                -15.6
+              ],
+              "size": [
+                4,
+                5,
+                5
+              ],
+              "uv": [
+                325,
+                40
+              ]
+            }
+          ]
+        },
+        {
+          "name": "bodyt_2",
+          "parent": "jointRW",
+          "pivot": [
+            -15,
+            28,
+            8
+          ],
+          "rotation": [
+            0,
+            180,
+            -55.00000065335058
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -22,
+                28,
+                -4
+              ],
+              "size": [
+                25,
+                8,
+                24
+              ],
+              "uv": [
+                26,
+                95
+              ]
+            }
+          ]
+        },
+        {
+          "name": "bodyt_1",
+          "parent": "jointLW",
+          "pivot": [
+            15,
+            28,
+            8
+          ],
+          "rotation": [
+            0,
+            0,
+            55.00000065335058
+          ],
+          "cubes": [
+            {
+              "origin": [
+                8,
+                28,
+                -4
+              ],
+              "size": [
+                25,
+                8,
+                24
+              ],
+              "uv": [
+                186,
+                59
+              ]
+            }
+          ]
+        },
+        {
+          "name": "spop_4",
+          "parent": "JD_2",
+          "pivot": [
+            -9,
+            20.5,
+            -19.1
+          ],
+          "rotation": [
+            0,
+            0,
+            -29.00000096953881
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -18.5,
+                19,
+                -20.6
               ],
               "size": [
                 10,
@@ -2223,26 +1241,232 @@
                 3
               ],
               "uv": [
-                0,
+                300,
+                31
+              ]
+            }
+          ]
+        },
+        {
+          "name": "jointp17",
+          "pivot": [
+            9,
+            27.5,
+            -13.1
+          ],
+          "cubes": [
+            {
+              "origin": [
+                8.5,
+                27,
+                -13.6
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                54,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "jointp18",
+          "pivot": [
+            9,
+            22.5,
+            -19.1
+          ],
+          "cubes": [
+            {
+              "origin": [
+                8.5,
+                22,
+                -19.6
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                58,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "bodytt",
+          "parent": "bodyt",
+          "pivot": [
+            0,
+            22.5,
+            37
+          ],
+          "rotation": [
+            163.0000068324783,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -7,
+                15.5,
+                20
+              ],
+              "size": [
+                14,
+                14,
                 18
+              ],
+              "uv": [
+                118,
+                69
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentacle_6",
+          "parent": "taclejointBR3",
+          "pivot": [
+            -4,
+            28.5,
+            7
+          ],
+          "rotation": [
+            -25.99999968381177,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -5.5,
+                27,
+                -4
+              ],
+              "size": [
+                3,
+                3,
+                12
+              ],
+              "uv": [
+                260,
+                59
+              ]
+            }
+          ]
+        },
+        {
+          "name": "JD_5",
+          "parent": "jointp18",
+          "pivot": [
+            9,
+            22.5,
+            -19.1
+          ],
+          "rotation": [
+            0,
+            -156.00000383244856,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                8.5,
+                22,
+                -19.6
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                343,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "mpop4",
+          "pivot": [
+            -14.5,
+            6.600000000000001,
+            3.3
+          ],
+          "rotation": [
+            33.999997382839254,
+            180,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -22.5,
+                3.6000000000000014,
+                -1.2000000000000002
+              ],
+              "size": [
+                10,
+                6,
+                7
+              ],
+              "uv": [
+                60,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "taclejointFL1",
+          "parent": "bodyt",
+          "pivot": [
+            6,
+            12.5,
+            32
+          ],
+          "cubes": [
+            {
+              "origin": [
+                5.5,
+                12,
+                31.5
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                91,
+                0
               ]
             }
           ]
         },
         {
           "name": "spop_1",
-          "pivot": [
-            10,
-            18.5,
-            11.1
-          ],
           "parent": "spop",
+          "pivot": [
+            -10,
+            18.5,
+            -11.1
+          ],
           "cubes": [
             {
               "origin": [
-                13.6,
+                -17.6,
                 16,
-                8.6
+                -13.6
               ],
               "size": [
                 4,
@@ -2257,23 +1481,558 @@
           ]
         },
         {
-          "name": "mpop3",
+          "name": "bt",
+          "parent": "bodytt",
           "pivot": [
-            8.5,
-            8.6,
-            -20.3
+            0,
+            22.5,
+            22
           ],
           "rotation": [
-            -33.999997,
+            -25.99999968381177,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -4,
+                18.5,
+                10
+              ],
+              "size": [
+                8,
+                8,
+                12
+              ],
+              "uv": [
+                300,
+                11
+              ]
+            }
+          ]
+        },
+        {
+          "name": "taclejointBL2",
+          "parent": "tentacle",
+          "pivot": [
+            4,
+            28.5,
+            18
+          ],
+          "cubes": [
+            {
+              "origin": [
+                3.5,
+                28,
+                17.5
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                161,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "taclejointFR4",
+          "parent": "tentacle_14",
+          "pivot": [
+            -6,
+            12.5,
+            3
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -6.5,
+                12,
+                2.5
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                277,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "body_4",
+          "parent": "bodyt_2",
+          "pivot": [
+            -15,
+            35,
+            8
+          ],
+          "rotation": [
+            0,
+            0,
+            -42.00000081144469
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -17,
+                32,
+                -2
+              ],
+              "size": [
+                13,
+                6,
+                20
+              ],
+              "uv": [
+                272,
+                97
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentacle_15",
+          "parent": "taclejointFR4",
+          "pivot": [
+            -6,
+            12.5,
+            2
+          ],
+          "rotation": [
+            25.00000040115168,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -7,
+                11.5,
+                -13
+              ],
+              "size": [
+                2,
+                2,
+                16
+              ],
+              "uv": [
+                0,
+                94
+              ]
+            }
+          ]
+        },
+        {
+          "name": "taclejointFL2",
+          "parent": "tentacle_8",
+          "pivot": [
+            6,
+            12.5,
+            23
+          ],
+          "cubes": [
+            {
+              "origin": [
+                5.5,
+                12,
+                22.5
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                222,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "taclejointBR2",
+          "parent": "tentacle_4",
+          "pivot": [
+            -4,
+            28.5,
+            18
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -4.5,
+                28,
+                17.5
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                195,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "jointp2",
+          "pivot": [
+            -9,
+            18.5,
+            -11.1
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -9.5,
+                18,
+                -11.6
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                4,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentacle_12",
+          "parent": "taclejointFR1",
+          "pivot": [
+            -6,
+            12.5,
+            32
+          ],
+          "rotation": [
+            90,
+            21.000000405722346,
+            12
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -7.5,
+                11,
+                21
+              ],
+              "size": [
+                3,
+                3,
+                11
+              ],
+              "uv": [
+                202,
+                91
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentacle_11",
+          "parent": "taclejointFL4",
+          "pivot": [
+            6,
+            12.5,
+            2
+          ],
+          "rotation": [
+            25.00000040115168,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                5,
+                11.5,
+                -13
+              ],
+              "size": [
+                2,
+                2,
+                16
+              ],
+              "uv": [
+                166,
+                85
+              ]
+            }
+          ]
+        },
+        {
+          "name": "spop_7",
+          "parent": "spop_6",
+          "pivot": [
+            8,
+            18.5,
+            -12.1
+          ],
+          "cubes": [
+            {
+              "origin": [
+                0.40000000000000036,
+                16,
+                -14.6
+              ],
+              "size": [
+                4,
+                5,
+                5
+              ],
+              "uv": [
+                210,
+                36
+              ]
+            }
+          ]
+        },
+        {
+          "name": "taclejointBL3",
+          "parent": "tentacle_1",
+          "pivot": [
+            4,
+            28.5,
+            8
+          ],
+          "cubes": [
+            {
+              "origin": [
+                3.5,
+                28,
+                7.5
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                165,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "body_2",
+          "parent": "bodyt_1",
+          "pivot": [
+            15,
+            35,
+            8
+          ],
+          "rotation": [
+            0,
+            0,
+            -42.00000081144469
+          ],
+          "cubes": [
+            {
+              "origin": [
+                13,
+                32,
+                -2
+              ],
+              "size": [
+                13,
+                6,
+                20
+              ],
+              "uv": [
+                52,
+                69
+              ]
+            }
+          ]
+        },
+        {
+          "name": "taclejointFR1",
+          "parent": "bodyt",
+          "pivot": [
+            -6,
+            12.5,
+            32
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -6.5,
+                12,
+                31.5
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                127,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentacle",
+          "parent": "taclejointBL1",
+          "pivot": [
+            4,
+            28.5,
+            27
+          ],
+          "rotation": [
+            -59.99999999999999,
+            21.000000405722346,
+            12
+          ],
+          "cubes": [
+            {
+              "origin": [
+                2.5,
+                27,
+                16
+              ],
+              "size": [
+                3,
+                3,
+                11
+              ],
+              "uv": [
+                68,
+                13
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentacle_8",
+          "parent": "taclejointFL1",
+          "pivot": [
+            6,
+            12.5,
+            32
+          ],
+          "rotation": [
+            90,
+            -21.000000405722346,
+            -12
+          ],
+          "cubes": [
+            {
+              "origin": [
+                4.5,
+                11,
+                21
+              ],
+              "size": [
+                3,
+                3,
+                11
+              ],
+              "uv": [
+                164,
+                69
+              ]
+            }
+          ]
+        },
+        {
+          "name": "body_1",
+          "parent": "bodyh",
+          "pivot": [
+            0,
+            23,
+            -7.5
+          ],
+          "rotation": [
+            -36.9999986685663,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -12,
+                15,
+                -13.5
+              ],
+              "size": [
+                24,
+                16,
+                12
+              ],
+              "uv": [
+                0,
+                50
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentacle_5",
+          "parent": "taclejointBR2",
+          "pivot": [
+            -4,
+            28.5,
+            17
+          ],
+          "rotation": [
+            -28.000000540963132,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -6,
+                26.5,
+                6
+              ],
+              "size": [
+                4,
+                4,
+                12
+              ],
+              "uv": [
+                178,
+                29
+              ]
+            }
+          ]
+        },
+        {
+          "name": "mpop3",
+          "pivot": [
+            -8.5,
+            8.6,
+            20.3
+          ],
+          "rotation": [
+            33.999997382839254,
             180,
             0
           ],
           "cubes": [
             {
               "origin": [
-                6.5,
+                -16.5,
                 5.6,
-                -22.8
+                16.8
               ],
               "size": [
                 10,
@@ -2288,23 +2047,50 @@
           ]
         },
         {
+          "name": "taclejointBL4",
+          "parent": "tentacle_2",
+          "pivot": [
+            4,
+            28.5,
+            -2
+          ],
+          "cubes": [
+            {
+              "origin": [
+                3.5,
+                28,
+                -2.5
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                191,
+                0
+              ]
+            }
+          ]
+        },
+        {
           "name": "mpop9",
           "pivot": [
-            -4.5,
+            4.5,
             8.6,
-            -20.3
+            20.3
           ],
           "rotation": [
-            -33.999997,
+            33.999997382839254,
             180,
             0
           ],
           "cubes": [
             {
               "origin": [
-                -6.5,
+                0.5,
                 5.6,
-                -22.8
+                14.8
               ],
               "size": [
                 6,
@@ -2321,21 +2107,21 @@
         {
           "name": "mpop12",
           "pivot": [
-            -11.5,
+            11.5,
             4.5,
-            -13.3
+            13.3
           ],
           "rotation": [
-            -33.999997,
+            33.999997382839254,
             180,
             0
           ],
           "cubes": [
             {
               "origin": [
-                -13.5,
+                9.5,
                 1.5,
-                -15.8
+                8.8
               ],
               "size": [
                 4,
@@ -2350,18 +2136,109 @@
           ]
         },
         {
-          "name": "jointp15",
+          "name": "tentacle_14",
+          "parent": "taclejointFR3",
           "pivot": [
-            -9,
-            18.5,
-            12.1
+            -6,
+            12.5,
+            12
+          ],
+          "rotation": [
+            -25.99999968381177,
+            0,
+            0
           ],
           "cubes": [
             {
               "origin": [
-                -9.5,
+                -7.5,
+                11,
+                1
+              ],
+              "size": [
+                3,
+                3,
+                12
+              ],
+              "uv": [
+                262,
+                91
+              ]
+            }
+          ]
+        },
+        {
+          "name": "spop_10",
+          "parent": "JD_5",
+          "pivot": [
+            9,
+            22.5,
+            -19.1
+          ],
+          "rotation": [
+            0,
+            0,
+            -27.00000011238745
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -0.5,
+                21,
+                -20.6
+              ],
+              "size": [
+                10,
+                3,
+                3
+              ],
+              "uv": [
+                85,
+                37
+              ]
+            }
+          ]
+        },
+        {
+          "name": "taclejointFL4",
+          "parent": "tentacle_10",
+          "pivot": [
+            6,
+            12.5,
+            3
+          ],
+          "cubes": [
+            {
+              "origin": [
+                5.5,
+                12,
+                2.5
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                253,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "jointp15",
+          "pivot": [
+            9,
+            18.5,
+            -12.1
+          ],
+          "cubes": [
+            {
+              "origin": [
+                8.5,
                 18,
-                11.6
+                -12.6
               ],
               "size": [
                 1,
@@ -2376,92 +2253,33 @@
           ]
         },
         {
-          "name": "JD_3",
+          "name": "tentacle_10",
+          "parent": "taclejointFL3",
           "pivot": [
-            -9,
-            18.5,
-            12.1
+            6,
+            12.5,
+            12
           ],
-          "parent": "jointp15",
           "rotation": [
+            -25.99999968381177,
             0,
-            -161.999995,
             0
           ],
           "cubes": [
             {
               "origin": [
-                -9.5,
-                18,
-                11.6
-              ],
-              "size": [
-                1,
-                1,
+                4.5,
+                11,
                 1
               ],
-              "uv": [
-                335,
-                0
-              ]
-            }
-          ]
-        },
-        {
-          "name": "spop_6",
-          "pivot": [
-            -9,
-            18.5,
-            12.1
-          ],
-          "parent": "JD_3",
-          "rotation": [
-            0,
-            0,
-            30.000001
-          ],
-          "cubes": [
-            {
-              "origin": [
-                -9.5,
-                17,
-                10.6
-              ],
               "size": [
-                10,
                 3,
-                3
+                3,
+                12
               ],
               "uv": [
-                323,
-                34
-              ]
-            }
-          ]
-        },
-        {
-          "name": "spop_7",
-          "pivot": [
-            -8,
-            18.5,
-            12.1
-          ],
-          "parent": "spop_6",
-          "cubes": [
-            {
-              "origin": [
-                -4.4,
-                16,
-                9.6
-              ],
-              "size": [
-                4,
-                5,
-                5
-              ],
-              "uv": [
-                210,
-                36
+                20,
+                82
               ]
             }
           ]
@@ -2469,21 +2287,21 @@
         {
           "name": "mpop10",
           "pivot": [
-            -7.5,
+            7.5,
             -1.5,
-            -11.4
+            11.4
           ],
           "rotation": [
-            -33.999997,
+            33.999997382839254,
             180,
             0
           ],
           "cubes": [
             {
               "origin": [
-                -10.5,
+                4.5,
                 -2,
-                -26.9
+                10.899999999999999
               ],
               "size": [
                 6,
@@ -2498,23 +2316,55 @@
           ]
         },
         {
-          "name": "mpop14",
+          "name": "tentacle_9",
+          "parent": "taclejointFL2",
           "pivot": [
-            2.5,
-            6.2,
-            -1.5
+            6,
+            12.5,
+            22
           ],
           "rotation": [
-            -33.999997,
+            -28.000000540963132,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                4,
+                10.5,
+                11
+              ],
+              "size": [
+                4,
+                4,
+                12
+              ],
+              "uv": [
+                0,
+                78
+              ]
+            }
+          ]
+        },
+        {
+          "name": "mpop14",
+          "pivot": [
+            -2.5,
+            6.199999999999999,
+            1.5
+          ],
+          "rotation": [
+            33.999997382839254,
             180,
             0
           ],
           "cubes": [
             {
               "origin": [
-                0.5,
-                2.2,
-                -8
+                -8.5,
+                2.1999999999999993,
+                -3
               ],
               "size": [
                 8,
@@ -2523,6 +2373,156 @@
               ],
               "uv": [
                 271,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentacle_1",
+          "parent": "taclejointBL2",
+          "pivot": [
+            4,
+            28.5,
+            17
+          ],
+          "rotation": [
+            -28.000000540963132,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                2,
+                26.5,
+                6
+              ],
+              "size": [
+                4,
+                4,
+                12
+              ],
+              "uv": [
+                178,
+                13
+              ]
+            }
+          ]
+        },
+        {
+          "name": "bodyh",
+          "parent": "mainbody",
+          "pivot": [
+            0,
+            24,
+            8
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -14,
+                12,
+                -8
+              ],
+              "size": [
+                28,
+                24,
+                32
+              ],
+              "uv": [
+                90,
+                13
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentacle_7",
+          "parent": "taclejointBR4",
+          "pivot": [
+            -4,
+            28.5,
+            -3
+          ],
+          "rotation": [
+            25.00000040115168,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -5,
+                27.5,
+                -16
+              ],
+              "size": [
+                2,
+                2,
+                14
+              ],
+              "uv": [
+                98,
+                69
+              ]
+            }
+          ]
+        },
+        {
+          "name": "bodyt",
+          "parent": "bodyh",
+          "pivot": [
+            0,
+            22.5,
+            32
+          ],
+          "rotation": [
+            -10,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -10,
+                12.5,
+                22
+              ],
+              "size": [
+                20,
+                20,
+                17
+              ],
+              "uv": [
+                11,
+                13
+              ]
+            }
+          ]
+        },
+        {
+          "name": "taclejointBR3",
+          "parent": "tentacle_5",
+          "pivot": [
+            -4,
+            28.5,
+            8
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -4.5,
+                28,
+                7.5
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                199,
                 0
               ]
             }

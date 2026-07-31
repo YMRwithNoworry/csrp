@@ -1,0 +1,1308 @@
+{
+  "format_version": "1.12.0",
+  "minecraft:geometry": [
+    {
+      "description": {
+        "identifier": "geometry.srparasites.anc_dreadnaut_ten",
+        "texture_width": 256,
+        "texture_height": 85,
+        "visible_bounds_width": 16,
+        "visible_bounds_height": 16,
+        "visible_bounds_offset": [
+          0,
+          4,
+          0
+        ]
+      },
+      "bones": [
+        {
+          "name": "tentacle_3",
+          "parent": "tacleJointUR2",
+          "pivot": [
+            0,
+            36.5,
+            -51.5
+          ],
+          "rotation": [
+            -19.00000012152878,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -4.5,
+                33,
+                -60.5
+              ],
+              "size": [
+                9,
+                7,
+                10
+              ],
+              "uv": [
+                126,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tacleJointUR4",
+          "parent": "tentacle_4",
+          "pivot": [
+            0,
+            36.5,
+            -68.5
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -0.5,
+                36,
+                -69
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                67,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentacle_5",
+          "parent": "tacleJointUR4",
+          "pivot": [
+            0,
+            36.5,
+            -68.5
+          ],
+          "rotation": [
+            -19.00000012152878,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -5.5,
+                32,
+                -79.5
+              ],
+              "size": [
+                11,
+                9,
+                12
+              ],
+              "uv": [
+                206,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentacle_1",
+          "parent": "tentacle",
+          "pivot": [
+            0,
+            36.5,
+            -39.5
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -3.5,
+                33,
+                -46.5
+              ],
+              "size": [
+                7,
+                7,
+                8
+              ],
+              "uv": [
+                68,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentacle_2",
+          "parent": "tacleJointUR1",
+          "pivot": [
+            0,
+            36.5,
+            -45.5
+          ],
+          "rotation": [
+            -19.00000012152878,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -3,
+                33.5,
+                -52.5
+              ],
+              "size": [
+                6,
+                6,
+                8
+              ],
+              "uv": [
+                98,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentacle_12",
+          "parent": "tacleJointURRF7",
+          "pivot": [
+            3.7,
+            36.5,
+            -169.5
+          ],
+          "rotation": [
+            -19.00000012152878,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                2.2,
+                35,
+                -187.5
+              ],
+              "size": [
+                3,
+                3,
+                19
+              ],
+              "uv": [
+                0,
+                41
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tacleJointURRF7",
+          "parent": "tentacle_11",
+          "pivot": [
+            3.7,
+            36.5,
+            -169.5
+          ],
+          "cubes": [
+            {
+              "origin": [
+                3.2,
+                36,
+                -170
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                130,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tacleJointURLF6",
+          "parent": "tentacle_17",
+          "pivot": [
+            -3.7,
+            36.5,
+            -146.5
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -4.2,
+                36,
+                -147
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                170,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "jointdont_2",
+          "parent": "jointdont_1",
+          "pivot": [
+            0,
+            36.5,
+            -40
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -0.5,
+                36,
+                -41
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                33,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentacle_4",
+          "parent": "tacleJointUR3",
+          "pivot": [
+            0,
+            36.5,
+            -59.5
+          ],
+          "rotation": [
+            -19.00000012152878,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -5,
+                32.5,
+                -69.5
+              ],
+              "size": [
+                10,
+                8,
+                11
+              ],
+              "uv": [
+                164,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tacleJointUR2",
+          "parent": "tentacle_2",
+          "pivot": [
+            0,
+            36.5,
+            -51.5
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -0.5,
+                36,
+                -52
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                59,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentacle",
+          "parent": "jointdont_2",
+          "pivot": [
+            0,
+            36.5,
+            -39.5
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -4,
+                32.5,
+                -41
+              ],
+              "size": [
+                8,
+                8,
+                9
+              ],
+              "uv": [
+                34,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "jointdont",
+          "parent": "bodytenbaseUR",
+          "pivot": [
+            0,
+            36.5,
+            -40
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -0.5,
+                36,
+                -40.5
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tacleJointURLF2",
+          "parent": "tentacle_13",
+          "pivot": [
+            -3.7,
+            36.5,
+            -104.5
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -4.2,
+                36,
+                -105
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                154,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tacleJointURRF1",
+          "parent": "tentaclesplit",
+          "pivot": [
+            3.7,
+            36.5,
+            -92.5
+          ],
+          "cubes": [
+            {
+              "origin": [
+                3.2,
+                36,
+                -93
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                90,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentacle_11",
+          "parent": "tacleJointURRF6",
+          "pivot": [
+            3.7,
+            36.5,
+            -156.5
+          ],
+          "rotation": [
+            -19.00000012152878,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                1.2000000000000002,
+                34,
+                -170.5
+              ],
+              "size": [
+                5,
+                5,
+                15
+              ],
+              "uv": [
+                215,
+                29
+              ]
+            }
+          ]
+        },
+        {
+          "name": "jointdont_1",
+          "parent": "jointdont",
+          "pivot": [
+            0,
+            36.5,
+            -40
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -0.5,
+                36,
+                -40.5
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                29,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tacleJointURRF4",
+          "parent": "tentacle_8",
+          "pivot": [
+            3.7,
+            36.5,
+            -130.5
+          ],
+          "cubes": [
+            {
+              "origin": [
+                3.2,
+                36,
+                -131
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                118,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentacle_9",
+          "parent": "tacleJointURRF4",
+          "pivot": [
+            3.7,
+            36.5,
+            -130.5
+          ],
+          "rotation": [
+            -19.00000012152878,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                0.20000000000000018,
+                33,
+                -144.5
+              ],
+              "size": [
+                7,
+                7,
+                15
+              ],
+              "uv": [
+                48,
+                25
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tacleJointURLF4",
+          "parent": "tentacle_15",
+          "pivot": [
+            -3.7,
+            36.5,
+            -124.5
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -4.2,
+                36,
+                -125
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                162,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentacle_19",
+          "parent": "tacleJointURLF7",
+          "pivot": [
+            -3.7,
+            36.5,
+            -157.5
+          ],
+          "rotation": [
+            -19.00000012152878,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -5.2,
+                35,
+                -173.5
+              ],
+              "size": [
+                3,
+                3,
+                17
+              ],
+              "uv": [
+                94,
+                63
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tacleJointUR3",
+          "parent": "tentacle_3",
+          "pivot": [
+            0,
+            36.5,
+            -59.5
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -0.5,
+                36,
+                -60
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                63,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentacle_14",
+          "parent": "tacleJointURLF2",
+          "pivot": [
+            -3.7,
+            36.5,
+            -104.5
+          ],
+          "rotation": [
+            -1,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -8.2,
+                32,
+                -114.5
+              ],
+              "size": [
+                9,
+                9,
+                11
+              ],
+              "uv": [
+                163,
+                44
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tacleJointURLF5",
+          "parent": "tentacle_16",
+          "pivot": [
+            -3.7,
+            36.5,
+            -135.5
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -4.2,
+                36,
+                -136
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                166,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentacle_7",
+          "parent": "tacleJointURRF2",
+          "pivot": [
+            3.7,
+            36.5,
+            -106.5
+          ],
+          "rotation": [
+            -1,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -0.8000000000000007,
+                32,
+                -118.5
+              ],
+              "size": [
+                9,
+                9,
+                13
+              ],
+              "uv": [
+                140,
+                19
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tacleJointURLF7",
+          "parent": "tentacle_18",
+          "pivot": [
+            -3.7,
+            36.5,
+            -157.5
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -4.2,
+                36,
+                -158
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                195,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tacleJointURLF1",
+          "parent": "tentaclesplit",
+          "pivot": [
+            -3.7,
+            36.5,
+            -92.5
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -4.2,
+                36,
+                -93
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                94,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentacle_10",
+          "parent": "tacleJointURRF5",
+          "pivot": [
+            3.7,
+            36.5,
+            -143.5
+          ],
+          "rotation": [
+            -19.00000012152878,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                0.7000000000000002,
+                33.5,
+                -157.5
+              ],
+              "size": [
+                6,
+                6,
+                15
+              ],
+              "uv": [
+                77,
+                40
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tacleJointUR5",
+          "parent": "tentacle_5",
+          "pivot": [
+            0,
+            36.5,
+            -78.5
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -0.5,
+                36,
+                -79
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                71,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentaclesplit",
+          "parent": "tacleJointUR5",
+          "pivot": [
+            0,
+            36.5,
+            -78.5
+          ],
+          "rotation": [
+            -19.00000012152878,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -6.5,
+                31.5,
+                -93.5
+              ],
+              "size": [
+                13,
+                10,
+                16
+              ],
+              "uv": [
+                82,
+                14
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tacleJointURRF5",
+          "parent": "tentacle_9",
+          "pivot": [
+            3.7,
+            36.5,
+            -143.5
+          ],
+          "cubes": [
+            {
+              "origin": [
+                3.2,
+                36,
+                -144
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                122,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentacle_16",
+          "parent": "tacleJointURLF4",
+          "pivot": [
+            -3.7,
+            36.5,
+            -124.5
+          ],
+          "rotation": [
+            -19.00000012152878,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -7.2,
+                33,
+                -136.5
+              ],
+              "size": [
+                7,
+                7,
+                13
+              ],
+              "uv": [
+                203,
+                49
+              ]
+            }
+          ]
+        },
+        {
+          "name": "bodytenbaseUR",
+          "pivot": [
+            0,
+            36.5,
+            -40
+          ],
+          "rotation": [
+            105.99999959239844,
+            180,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -6,
+                30.5,
+                -42.5
+              ],
+              "size": [
+                12,
+                12,
+                5
+              ],
+              "uv": [
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tacleJointURLF3",
+          "parent": "tentacle_14",
+          "pivot": [
+            -3.7,
+            36.5,
+            -113.5
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -4.2,
+                36,
+                -114
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                158,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentacle_13",
+          "parent": "tacleJointURLF1",
+          "pivot": [
+            -3.7,
+            36.5,
+            -92.5
+          ],
+          "rotation": [
+            -19.00000012152878,
+            12,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -7.7,
+                32.5,
+                -104.5
+              ],
+              "size": [
+                8,
+                8,
+                14
+              ],
+              "uv": [
+                119,
+                41
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentacle_17",
+          "parent": "tacleJointURLF5",
+          "pivot": [
+            -3.7,
+            36.5,
+            -135.5
+          ],
+          "rotation": [
+            -19.00000012152878,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -6.7,
+                33.5,
+                -147.5
+              ],
+              "size": [
+                6,
+                6,
+                13
+              ],
+              "uv": [
+                73,
+                61
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentacle_8",
+          "parent": "tacleJointURRF3",
+          "pivot": [
+            3.7,
+            36.5,
+            -117.5
+          ],
+          "rotation": [
+            -19.00000012152878,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -0.2999999999999998,
+                32.5,
+                -131.5
+              ],
+              "size": [
+                8,
+                8,
+                15
+              ],
+              "uv": [
+                184,
+                21
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentacle_15",
+          "parent": "tacleJointURLF3",
+          "pivot": [
+            -3.7,
+            36.5,
+            -113.5
+          ],
+          "rotation": [
+            -19.00000012152878,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -7.7,
+                32.5,
+                -125.5
+              ],
+              "size": [
+                8,
+                8,
+                13
+              ],
+              "uv": [
+                44,
+                48
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tacleJointUR1",
+          "parent": "tentacle_1",
+          "pivot": [
+            0,
+            36.5,
+            -45.5
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -0.5,
+                36,
+                -46
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                37,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tacleJointURRF3",
+          "parent": "tentacle_7",
+          "pivot": [
+            3.7,
+            36.5,
+            -117.5
+          ],
+          "cubes": [
+            {
+              "origin": [
+                3.2,
+                36,
+                -118
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                102,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentacle_18",
+          "parent": "tacleJointURLF6",
+          "pivot": [
+            -3.7,
+            36.5,
+            -146.5
+          ],
+          "rotation": [
+            -19.00000012152878,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -6.2,
+                34,
+                -158.5
+              ],
+              "size": [
+                5,
+                5,
+                13
+              ],
+              "uv": [
+                0,
+                63
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tacleJointURRF6",
+          "parent": "tentacle_10",
+          "pivot": [
+            3.7,
+            36.5,
+            -156.5
+          ],
+          "cubes": [
+            {
+              "origin": [
+                3.2,
+                36,
+                -157
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                126,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentacle_6",
+          "parent": "tacleJointURRF1",
+          "pivot": [
+            3.7,
+            36.5,
+            -92.5
+          ],
+          "rotation": [
+            -19.00000012152878,
+            -12,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -0.2999999999999998,
+                32.5,
+                -106.5
+              ],
+              "size": [
+                8,
+                8,
+                16
+              ],
+              "uv": [
+                0,
+                17
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tacleJointURRF2",
+          "parent": "tentacle_6",
+          "pivot": [
+            3.7,
+            36.5,
+            -106.5
+          ],
+          "cubes": [
+            {
+              "origin": [
+                3.2,
+                36,
+                -107
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                98,
+                0
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
