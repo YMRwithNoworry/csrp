@@ -44,9 +44,9 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 public final class AssimilatedVariantEntity extends Monster implements GeoEntity, Parasite {
     private static final float HEAD_SPAWN_CHANCE = 0.5F;
     private static final float EXPLOSION_CHANCE = 0.25F;
-    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
-    private static final RawAnimation WALK = RawAnimation.begin().thenLoop("walk");
-    private static final RawAnimation RUN = RawAnimation.begin().thenLoop("run");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private final Kind kind;

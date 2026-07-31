@@ -27,7 +27,7 @@ import software.bernie.geckolib.animation.RawAnimation;
 import java.util.EnumSet;
 
 public final class ManglerEntity extends PrimitiveParasiteEntity {
-    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private static final int NORMAL = 0;
     private static final int VIRAL = 1;
     private static final int BLEEDING = 2;

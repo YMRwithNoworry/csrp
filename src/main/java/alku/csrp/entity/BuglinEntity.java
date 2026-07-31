@@ -42,10 +42,10 @@ public class BuglinEntity extends Monster implements GeoEntity, Parasite {
 
     private static final String GROWTH_TARGET_NBT_KEY = "ruptergrow_target";
     private static final String EMERGENCE_NBT_KEY = "emergence_ticks";
-    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
-    private static final RawAnimation WALK = RawAnimation.begin().thenLoop("walk");
-    private static final RawAnimation RUN = RawAnimation.begin().thenLoop("run");
-    private static final RawAnimation SPAWN = RawAnimation.begin().thenPlay("spawn");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
+    private final RawAnimation SPAWN = ParasiteAnimations.play(this, "spawn");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private int growthSeconds;

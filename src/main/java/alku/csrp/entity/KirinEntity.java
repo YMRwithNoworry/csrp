@@ -38,7 +38,7 @@ public final class KirinEntity extends DerivedParasiteEntity {
     public static final double BLINK_LIFE_STEAL_RADIUS = 5.0;
     public static final double BLINK_HEALTH_DRAIN_FRACTION = 0.5;
     private static final int VOID_ORB_INTERVAL_TICKS = 240;
-    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private static final EntityDataAccessor<BlockPos> BLINK_POS = SynchedEntityData.defineId(
             KirinEntity.class, EntityDataSerializers.BLOCK_POS);
     private static final EntityDataAccessor<Integer> BLINK_TICKS = SynchedEntityData.defineId(

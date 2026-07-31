@@ -142,7 +142,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.SIM_DRAGONE.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "sim_dragone", 1.2F));
         event.registerEntityRenderer(ModEntities.SIM_DRAGON_HEAD.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "sim_dragonhead", 0.6F));
+                new PrimitiveParasiteRenderer<>(context, "sim_dragonehead", 0.6F));
         event.registerEntityRenderer(ModEntities.SIM_ENDERMAN.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "sim_enderman", 0.5F));
         event.registerEntityRenderer(ModEntities.SIM_ENDERMAN_HEAD.get(), context ->

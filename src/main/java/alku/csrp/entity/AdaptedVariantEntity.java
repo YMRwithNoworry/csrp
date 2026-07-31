@@ -34,10 +34,10 @@ import java.util.EnumSet;
 
 /** Shared implementation for the legacy adapted parasite tier. */
 public final class AdaptedVariantEntity extends PrimitiveParasiteEntity {
-    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
-    private static final RawAnimation WALK = RawAnimation.begin().thenLoop("walk");
-    private static final RawAnimation RUN = RawAnimation.begin().thenLoop("run");
-    private static final RawAnimation FLY = RawAnimation.begin().thenLoop("fly");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
+    private final RawAnimation FLY = ParasiteAnimations.loop(this, "fly");
 
     private final Kind kind;
     private int abilityCooldown;

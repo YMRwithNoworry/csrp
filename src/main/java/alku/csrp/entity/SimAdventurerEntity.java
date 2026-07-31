@@ -80,8 +80,8 @@ public final class SimAdventurerEntity extends Monster implements GeoEntity, Par
             SimAdventurerEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> MELT_TICKS = SynchedEntityData.defineId(
             SimAdventurerEntity.class, EntityDataSerializers.INT);
-    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("animation");
-    private static final RawAnimation WALK = RawAnimation.begin().thenLoop("animation");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private int parasiteKills;

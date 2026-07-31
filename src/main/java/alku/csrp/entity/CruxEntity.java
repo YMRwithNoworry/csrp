@@ -37,11 +37,11 @@ public final class CruxEntity extends CrudeParasiteEntity {
     private static final double FALLING_BLOCK_DRAG = 0.98;
     private static final double FALLING_BLOCK_GRAVITY = 0.04;
     private static final String DAMAGE_STACKS_TAG = "crux_damage_stacks";
-    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
-    private static final RawAnimation WALK = RawAnimation.begin().thenLoop("walk");
-    private static final RawAnimation RUN = RawAnimation.begin().thenLoop("run");
-    private static final RawAnimation ATTACK = RawAnimation.begin().thenPlay("attack");
-    private static final RawAnimation THROW = RawAnimation.begin().thenPlay("throw");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
+    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation THROW = ParasiteAnimations.play(this, "throw");
 
     private int attackCooldown;
     private int throwCooldown;

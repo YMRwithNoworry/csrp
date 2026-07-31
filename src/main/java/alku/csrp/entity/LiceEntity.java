@@ -29,7 +29,7 @@ public final class LiceEntity extends PrimitiveParasiteEntity {
     public static final int MAX_LIFESPAN_TICKS = 1200;
     public static final int VIRAL_DURATION_TICKS = 120;
     public static final int VIRAL_AMPLIFIER = 2;
-    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
 
     private int lifespan;
     private boolean charging;

@@ -19,7 +19,7 @@ import software.bernie.geckolib.animation.RawAnimation;
 import java.util.EnumSet;
 
 public final class VerminEntity extends PrimitiveParasiteEntity {
-    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private int bombCooldown = 160;
 
     public VerminEntity(EntityType<? extends VerminEntity> type, Level level) {

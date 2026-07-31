@@ -8,7 +8,7 @@ import net.minecraft.world.level.Level;
 import software.bernie.geckolib.animation.RawAnimation;
 
 public final class CarrierLightEntity extends CarrierEntity {
-    private static final RawAnimation ANIMATION = RawAnimation.begin().thenLoop("animation");
+    private final RawAnimation ANIMATION = ParasiteAnimations.loop(this, "idle");
 
     public CarrierLightEntity(EntityType<? extends CarrierLightEntity> type, Level level) {
         super(type, level, 70, 3, 7.0, 1, 300);

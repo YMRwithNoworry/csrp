@@ -74,10 +74,10 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
             SynchedEntityData.defineId(AssimilatedParasiteEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Float> MELT_HEIGHT =
             SynchedEntityData.defineId(AssimilatedParasiteEntity.class, EntityDataSerializers.FLOAT);
-    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
-    private static final RawAnimation WALK = RawAnimation.begin().thenLoop("walk");
-    private static final RawAnimation RUN = RawAnimation.begin().thenLoop("run");
-    private static final RawAnimation SWIM = RawAnimation.begin().thenLoop("animation");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
+    private final RawAnimation SWIM = ParasiteAnimations.loop(this, "walk");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private final Kind kind;

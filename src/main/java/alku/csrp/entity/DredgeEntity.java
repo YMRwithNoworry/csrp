@@ -23,7 +23,7 @@ import java.util.UUID;
 public final class DredgeEntity extends CrudeParasiteEntity {
     private static final int MAX_PULL_TICKS = 200;
     private static final double PULL_STRENGTH = 0.13;
-    private static final RawAnimation ANIMATION = RawAnimation.begin().thenLoop("animation");
+    private final RawAnimation ANIMATION = ParasiteAnimations.loop(this, "idle");
 
     private UUID pullTargetId;
     private int pullTicks;

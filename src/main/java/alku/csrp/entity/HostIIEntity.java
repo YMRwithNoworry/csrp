@@ -11,8 +11,8 @@ import software.bernie.geckolib.animation.RawAnimation;
 
 public final class HostIIEntity extends AbstractHostEntity {
     public static final int BURROW_DURATION_TICKS = 120;
-    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("animation.host_ii.idle");
-    private static final RawAnimation WALK = RawAnimation.begin().thenLoop("animation.host_ii.walk");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
 
     public HostIIEntity(EntityType<? extends HostIIEntity> type, Level level) {
         super(type, level, 0.12, 5.0, 5.0, BURROW_DURATION_TICKS, 20, 20);

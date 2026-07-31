@@ -68,10 +68,10 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
             SynchedEntityData.defineId(RupterEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Byte> BEHAVIOR_VARIANT =
             SynchedEntityData.defineId(RupterEntity.class, EntityDataSerializers.BYTE);
-    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
-    private static final RawAnimation WALK = RawAnimation.begin().thenLoop("walk");
-    private static final RawAnimation RUN = RawAnimation.begin().thenLoop("run");
-    private static final RawAnimation RUSH = RawAnimation.begin().thenPlay("rush");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
+    private final RawAnimation RUSH = ParasiteAnimations.play(this, "rush");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private int killCount;

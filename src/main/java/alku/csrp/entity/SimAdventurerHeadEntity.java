@@ -40,8 +40,8 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 /** Walking head companion that reforms an Assimilated Adventurer with a Medium Incomplete Form. */
 public final class SimAdventurerHeadEntity extends Monster implements GeoEntity, Parasite {
     private static final double COTH_AURA_RADIUS = 3.0D;
-    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("animation");
-    private static final RawAnimation WALK = RawAnimation.begin().thenLoop("animation");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
 

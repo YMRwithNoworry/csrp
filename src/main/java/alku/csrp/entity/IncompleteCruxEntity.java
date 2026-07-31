@@ -20,7 +20,7 @@ public final class IncompleteCruxEntity extends CrudeParasiteEntity {
     private static final int MIN_GROW_TICKS = 20 * 20;
     private static final int MAX_GROW_TICKS = 60 * 20;
     private static final int BURST_TICKS = 70;
-    private static final RawAnimation ANIMATION = RawAnimation.begin().thenLoop("animation");
+    private final RawAnimation ANIMATION = ParasiteAnimations.loop(this, "idle");
 
     private int growthDuration;
     private int growthTicks;

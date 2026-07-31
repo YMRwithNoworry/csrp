@@ -43,8 +43,8 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
     private static final int SELF_TELEPORT_COOLDOWN = 20;
     private static final int ALLY_TELEPORT_COOLDOWN = 40;
     private static final double MIN_TARGET_DISTANCE_SQR = 100.0D;
-    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("animation");
-    private static final RawAnimation WALK = RawAnimation.begin().thenLoop("animation");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private int targetTicks;

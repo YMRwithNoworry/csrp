@@ -18,7 +18,7 @@ public final class HeedEntity extends CrudeParasiteEntity {
     private static final int SIGNAL_COOLDOWN_TICKS = 1000;
     private static final int RAGE_COOLDOWN_TICKS = 200;
     private static final int RAGE_DURATION_TICKS = 1200;
-    private static final RawAnimation ANIMATION = RawAnimation.begin().thenLoop("animation");
+    private final RawAnimation ANIMATION = ParasiteAnimations.loop(this, "idle");
 
     private int signalCooldown = SIGNAL_COOLDOWN_TICKS;
     private int rageCooldown = RAGE_COOLDOWN_TICKS;

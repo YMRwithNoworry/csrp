@@ -55,8 +55,8 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
             MovingFleshEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Float> RENDER_SCALE = SynchedEntityData.defineId(
             MovingFleshEntity.class, EntityDataSerializers.FLOAT);
-    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
-    private static final RawAnimation WALK = RawAnimation.begin().thenLoop("walk");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
 
     private float targetScale = 1.0F;
     private int mergeCooldown;

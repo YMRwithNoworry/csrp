@@ -32,8 +32,8 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 /** Shared walking-head behavior: infect targets and rebuild a body with a medium incomplete form. */
 public final class AssimilatedHeadEntity extends Monster implements GeoEntity, Parasite {
-    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
-    private static final RawAnimation WALK = RawAnimation.begin().thenLoop("walk");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private final Kind kind;

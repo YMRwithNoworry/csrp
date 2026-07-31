@@ -44,10 +44,10 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
     private static final float ADAPTATION_PER_HIT = 0.10F;
     private static final float ADAPTATION_LEARN_CHANCE = 0.90F;
     private static final float BURNING_LEARN_CHANCE = 0.80F;
-    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
-    private static final RawAnimation WALK = RawAnimation.begin().thenLoop("walk");
-    private static final RawAnimation FLY = RawAnimation.begin().thenLoop("fly");
-    private static final RawAnimation ATTACK = RawAnimation.begin().thenPlay("attack");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation FLY = ParasiteAnimations.loop(this, "fly");
+    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
 
     private final Kind kind;
     private final ServerBossEvent bossEvent;

@@ -11,8 +11,8 @@ import software.bernie.geckolib.animation.RawAnimation;
 
 /** Shared hostile state for legacy hijacked mobs. */
 public abstract class HijackedParasiteEntity extends PrimitiveParasiteEntity {
-    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
-    private static final RawAnimation RUN = RawAnimation.begin().thenLoop("run");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
 
     protected HijackedParasiteEntity(EntityType<? extends HijackedParasiteEntity> type, Level level, int experience) {
         super(type, level);

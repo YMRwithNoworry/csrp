@@ -13,8 +13,8 @@ import software.bernie.geckolib.animation.RawAnimation;
 public final class HostEntity extends AbstractHostEntity {
     public static final int BURROW_DURATION_TICKS = 80;
     private static final int HOST_TO_HOSTII_KILLS = 40;
-    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("animation.host.idle");
-    private static final RawAnimation WALK = RawAnimation.begin().thenLoop("animation.host.walk");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
 
     public HostEntity(EntityType<? extends HostEntity> type, Level level) {
         super(type, level, 0.12, 3.0, 4.0, BURROW_DURATION_TICKS, 50, 40);

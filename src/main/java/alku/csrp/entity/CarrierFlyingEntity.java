@@ -17,7 +17,7 @@ import software.bernie.geckolib.animation.RawAnimation;
 import java.util.EnumSet;
 
 public final class CarrierFlyingEntity extends CarrierEntity {
-    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
 
     public CarrierFlyingEntity(EntityType<? extends CarrierFlyingEntity> type, Level level) {
         super(type, level, 30, 0, 4.0, 0, 300);

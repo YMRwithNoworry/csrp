@@ -45,8 +45,8 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     private static final float ADAPTATION_PER_HIT = 0.16F;
     private static final float ADAPTATION_LEARN_CHANCE = 0.85F;
     private static final float BURNING_LEARN_CHANCE = 0.425F;
-    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
-    private static final RawAnimation ATTACK = RawAnimation.begin().thenLoop("attack");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation ATTACK = ParasiteAnimations.loop(this, "attack");
 
     private final Kind kind;
     private int abilityCooldown;

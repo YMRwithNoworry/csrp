@@ -52,8 +52,8 @@ public final class MarauderTendrilEntity extends Monster implements GeoEntity, P
             MarauderTendrilEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Integer> REMAINING_TICKS = SynchedEntityData.defineId(
             MarauderTendrilEntity.class, EntityDataSerializers.INT);
-    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
-    private static final RawAnimation WALK = RawAnimation.begin().thenLoop("walk");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     @Nullable

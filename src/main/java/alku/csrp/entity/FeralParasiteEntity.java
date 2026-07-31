@@ -27,8 +27,8 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 public class FeralParasiteEntity extends Monster implements GeoEntity, Parasite {
     private static final float REGEN_AMOUNT = 3.0F;
     private static final int REGEN_KILL_INTERVAL = 10;
-    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
-    private static final RawAnimation RUN = RawAnimation.begin().thenLoop("run");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private final Kind kind;

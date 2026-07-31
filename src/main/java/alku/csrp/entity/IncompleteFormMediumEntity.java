@@ -13,7 +13,7 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
 
 public final class IncompleteFormMediumEntity extends IncompleteFormSmallEntity {
-    private static final RawAnimation ANIMATION = RawAnimation.begin().thenLoop("idle");
+    private final RawAnimation ANIMATION = ParasiteAnimations.loop(this, "idle");
 
     public IncompleteFormMediumEntity(EntityType<? extends IncompleteFormMediumEntity> type, Level level) {
         super(type, level);

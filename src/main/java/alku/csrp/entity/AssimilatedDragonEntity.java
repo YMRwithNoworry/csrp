@@ -44,9 +44,9 @@ import java.util.EnumSet;
 public final class AssimilatedDragonEntity extends Monster implements GeoEntity, Parasite {
     private static final float PART_HEALTH = 52.0F;
     private static final int RANGED_COOLDOWN = 40;
-    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("animation");
-    private static final RawAnimation WALK = RawAnimation.begin().thenLoop("animation");
-    private static final RawAnimation FLY = RawAnimation.begin().thenLoop("animation");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation FLY = ParasiteAnimations.loop(this, "fly");
     private static final EntityDataAccessor<Boolean> FLYING = SynchedEntityData.defineId(
             AssimilatedDragonEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> HEAD_ATTACHED = SynchedEntityData.defineId(

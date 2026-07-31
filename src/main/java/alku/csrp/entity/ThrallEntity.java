@@ -16,7 +16,7 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
 
 public final class ThrallEntity extends CrudeParasiteEntity {
-    private static final RawAnimation ANIMATION = RawAnimation.begin().thenLoop("animation");
+    private final RawAnimation ANIMATION = ParasiteAnimations.loop(this, "idle");
 
     public ThrallEntity(EntityType<? extends ThrallEntity> type, Level level) {
         super(type, level);

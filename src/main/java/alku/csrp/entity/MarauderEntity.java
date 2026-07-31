@@ -61,10 +61,10 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
             MarauderEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> HARDENED_VARIANT = SynchedEntityData.defineId(
             MarauderEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
-    private static final RawAnimation WALK = RawAnimation.begin().thenLoop("walk");
-    private static final RawAnimation SMASH = RawAnimation.begin().thenLoop("smash");
-    private static final RawAnimation SWIPE = RawAnimation.begin().thenPlay("swipe");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation SMASH = ParasiteAnimations.loop(this, "smash");
+    private final RawAnimation SWIPE = ParasiteAnimations.play(this, "swipe");
 
     @Nullable
     private UUID leftTendrilId;

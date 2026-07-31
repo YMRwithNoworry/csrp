@@ -31,8 +31,8 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 /** Detached dragon head retains its fireball attack after the body has been decapitated. */
 public final class AssimilatedDragonHeadEntity extends Monster implements GeoEntity, Parasite {
-    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("animation");
-    private static final RawAnimation WALK = RawAnimation.begin().thenLoop("animation");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private int fireballCooldown;
 

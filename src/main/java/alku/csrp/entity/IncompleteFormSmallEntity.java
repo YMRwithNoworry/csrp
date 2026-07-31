@@ -24,7 +24,7 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
 
 public class IncompleteFormSmallEntity extends CrudeParasiteEntity {
-    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
 
     public IncompleteFormSmallEntity(EntityType<? extends IncompleteFormSmallEntity> type, Level level) {
         super(type, level);

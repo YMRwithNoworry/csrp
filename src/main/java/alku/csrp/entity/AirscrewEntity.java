@@ -44,7 +44,7 @@ public final class AirscrewEntity extends CrudeParasiteEntity implements Pulling
     private static final int PULL_DURATION_TICKS = 600;
     private static final int VOLLEY_COOLDOWN_TICKS = 300;
     private static final double PULL_STRENGTH = 0.1;
-    private static final RawAnimation ANIMATION = RawAnimation.begin().thenLoop("animation");
+    private final RawAnimation ANIMATION = ParasiteAnimations.loop(this, "idle");
     private static final EntityDataAccessor<Integer> PULL_TARGET_0 = SynchedEntityData.defineId(
             AirscrewEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> PULL_TARGET_1 = SynchedEntityData.defineId(
