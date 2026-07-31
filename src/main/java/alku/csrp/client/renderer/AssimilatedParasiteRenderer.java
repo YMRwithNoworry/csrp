@@ -4,6 +4,7 @@ import alku.csrp.client.model.AssimilatedParasiteModel;
 import alku.csrp.entity.AssimilatedParasiteEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
@@ -19,6 +20,9 @@ public final class AssimilatedParasiteRenderer extends GeoEntityRenderer<Assimil
     public void preRender(PoseStack poseStack, AssimilatedParasiteEntity entity, BakedGeoModel model,
                           MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender,
                           float partialTick, int packedLight, int packedOverlay, int colour) {
+        if (entity.getKind() == AssimilatedParasiteEntity.Kind.SQUID) {
+            poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
+        }
         float baseHeight = entity.getBaseHeight();
         if (entity.isMelting() && baseHeight > 0.0F) {
             float scale = entity.getMeltHeight() / baseHeight;
