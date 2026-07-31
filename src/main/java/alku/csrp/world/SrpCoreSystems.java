@@ -1,6 +1,7 @@
 package alku.csrp.world;
 
 import alku.csrp.Csrp;
+import alku.csrp.Config;
 import alku.csrp.block.SrpCoreBlock;
 import alku.csrp.infection.BlockInfestation;
 import alku.csrp.registry.ModBlocks;
@@ -196,7 +197,7 @@ public final class SrpCoreSystems {
             updateActiveState(level, entry.pos(), ModBlocks.BIOMEHEART.get(), stage);
         }
         for (ColonyEntry entry : new ArrayList<>(data.colonies())) {
-            int points = Math.min(100, entry.points() + 1);
+            int points = Math.min(Config.colonyPointCap(), entry.points() + 1);
             data.updateColony(entry.pos(), points);
             updateActiveState(level, entry.pos(), ModBlocks.COLONYHEART.get(), colonyStage(points));
         }
@@ -245,8 +246,9 @@ public final class SrpCoreSystems {
     }
 
     private static int colonyStage(int points) {
-        if (points >= 67) return 3;
-        return points >= 34 ? 2 : 1;
+        int cap = Config.colonyPointCap();
+        if (points * 3 >= cap * 2) return 3;
+        return points * 3 >= cap ? 2 : 1;
     }
 
     private static boolean tooCloseToNode(SrpWorldData data, BlockPos pos, int distance) {

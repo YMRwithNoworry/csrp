@@ -1,5 +1,6 @@
 package alku.csrp.world;
 
+import alku.csrp.Config;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -251,7 +252,7 @@ public final class SrpWorldData extends SavedData {
 
     public void updateColony(BlockPos pos, int points) {
         colonies.removeIf(entry -> entry.pos().equals(pos));
-        colonies.add(new ColonyEntry(pos.immutable(), Math.max(1, Math.min(100, points))));
+        colonies.add(new ColonyEntry(pos.immutable(), Math.max(1, Math.min(Config.colonyPointCap(), points))));
         setDirty();
     }
 
@@ -277,7 +278,7 @@ public final class SrpWorldData extends SavedData {
     }
 
     public int totalColonyPoints() {
-        return Math.min(100_000, colonies.stream().mapToInt(ColonyEntry::points).sum());
+        return Math.min(Config.colonyTotalPointCap(), colonies.stream().mapToInt(ColonyEntry::points).sum());
     }
 
     public ColonyEntry nearestColonyInEffectRange(BlockPos pos) {

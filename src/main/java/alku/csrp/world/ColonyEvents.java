@@ -45,13 +45,18 @@ public final class ColonyEvents {
             return;
         }
 
-        multiplyBaseAttribute(entity, Attributes.MAX_HEALTH, points / 20.0D * 0.1D);
-        multiplyBaseAttribute(entity, Attributes.ARMOR, points / 20.0D * 0.1D);
-        multiplyBaseAttribute(entity, Attributes.ATTACK_DAMAGE, points / 20.0D * 0.1D);
-        multiplyBaseAttribute(entity, Attributes.KNOCKBACK_RESISTANCE, points / 20.0D * 0.1D);
+        multiplyBaseAttribute(entity, Attributes.MAX_HEALTH,
+                points / (double) Config.colonyExtraHealthPoint() * Config.colonyExtraHealthValue());
+        multiplyBaseAttribute(entity, Attributes.ARMOR,
+                points / (double) Config.colonyExtraArmorPoint() * Config.colonyExtraArmorValue());
+        multiplyBaseAttribute(entity, Attributes.ATTACK_DAMAGE,
+                points / (double) Config.colonyExtraDamagePoint() * Config.colonyExtraDamageValue());
+        multiplyBaseAttribute(entity, Attributes.KNOCKBACK_RESISTANCE,
+                points / (double) Config.colonyExtraKDPoint() * Config.colonyExtraKDValue());
         entity.setHealth(entity.getMaxHealth());
 
-        int damageCap = (int) (1.0D + points / 15.0D * 0.5D);
+        int damageCap = (int) (1.0D + points / (double) Config.colonyDamageCapPoint()
+                * Config.colonyDamageCapValue());
         entity.getPersistentData().putInt(DAMAGE_CAP, Math.max(1, damageCap));
         if (entity instanceof PrimitiveParasiteEntity adaptable) {
             GlobalAdaptation common = data.mostCommonGlobalAdaptation();
