@@ -7,6 +7,7 @@ import alku.csrp.entity.NexusParasiteEntity;
 import alku.csrp.entity.Parasite;
 import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModEntities;
+import alku.csrp.registry.ModItems;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
 import alku.csrp.world.SrpWorldData.DislodgmentCode;
@@ -15,16 +16,21 @@ import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -33,15 +39,20 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.PlayLevelSoundEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
 import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
 import net.neoforged.neoforge.event.entity.living.LivingExperienceDropEvent;
 import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.neoforged.neoforge.event.entity.living.LivingShieldBlockEvent;
+import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
 import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerContainerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
@@ -141,7 +152,8 @@ public final class DislodgmentSystem {
 
     @SubscribeEvent
     public static void consumeEquipmentDurability(LivingIncomingDamageEvent event) {
-        if (event.getAmount() <= 0.0F || !(event.getEntity().level() instanceof ServerLevel level)
+        if (event.isCanceled() || event.getAmount() <= 0.0F
+                || !(event.getEntity().level() instanceof ServerLevel level)
                 || !Config.useDislodgment() || !Config.disloItemDurability()) {
             return;
         }
@@ -162,6 +174,79 @@ public final class DislodgmentSystem {
         }
     }
 
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public static void preventUnburnedParasiteDamage(LivingIncomingDamageEvent event) {
+        if (!(event.getEntity() instanceof Parasite) || event.getEntity().isOnFire()
+                || event.getSource().is(DamageTypes.FELL_OUT_OF_WORLD)
+                || !(event.getEntity().level() instanceof ServerLevel level)
+                || !Config.useDislodgment() || !Config.disloBurningDeath()
+                || activeValue(SrpWorldData.get(level), 21) < 1) {
+            return;
+        }
+        event.setCanceled(true);
+    }
+
+    @SubscribeEvent
+    public static void rejectHarmfulEffects(MobEffectEvent.Applicable event) {
+        if (!(event.getEntity() instanceof Parasite)
+                || !(event.getEntity().level() instanceof ServerLevel level)
+                || event.getEffectInstance().getEffect().value().getCategory() != MobEffectCategory.HARMFUL
+                || !Config.useDislodgment() || !Config.disloParasiteNoPotion()
+                || activeValue(SrpWorldData.get(level), 11) < 1) {
+            return;
+        }
+        event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
+    }
+
+    @SubscribeEvent
+    public static void suppressParasiteNoise(PlayLevelSoundEvent.AtEntity event) {
+        if (!(event.getEntity() instanceof Parasite) || !(event.getLevel() instanceof ServerLevel level)
+                || event.getSound() == null || !Config.useDislodgment()) {
+            return;
+        }
+        ResourceLocation soundId = BuiltInRegistries.SOUND_EVENT.getKey(event.getSound().value());
+        String path = soundId.getPath();
+        SrpWorldData data = SrpWorldData.get(level);
+        if (Config.disloGrowlNoise() && activeValue(data, 15) > 0 && path.endsWith(".growl")
+                || Config.disloWalkNoise() && activeValue(data, 16) > 0 && path.endsWith(".step")) {
+            event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public static void disableShield(LivingShieldBlockEvent event) {
+        if (!event.getOriginalBlock() || !(event.getEntity() instanceof Player player)
+                || !(event.getDamageSource().getEntity() instanceof Parasite)
+                || !(player.level() instanceof ServerLevel level)
+                || !Config.useDislodgment() || !Config.disloShieldFood()
+                || activeValue(SrpWorldData.get(level), 17) < 1) {
+            return;
+        }
+        ItemStack shield = player.getUseItem();
+        if (!shield.isEmpty()) {
+            player.getCooldowns().addCooldown(shield.getItem(), 100);
+        }
+        player.stopUsingItem();
+        event.setBlocked(false);
+    }
+
+    @SubscribeEvent
+    public static void corruptFoodAfterHit(LivingDamageEvent.Post event) {
+        if (event.getNewDamage() <= 0.0F || !(event.getEntity() instanceof Player player)
+                || !(event.getSource().getEntity() instanceof Parasite)
+                || !(player.level() instanceof ServerLevel level)
+                || player.getAbilities().instabuild || !Config.useDislodgment() || !Config.disloShieldFood()
+                || activeValue(SrpWorldData.get(level), 17) < 1) {
+            return;
+        }
+        for (ItemStack stack : player.getInventory().items) {
+            if (corruptOneFood(player, stack)) {
+                return;
+            }
+        }
+        corruptOneFood(player, player.getOffhandItem());
+    }
+
     @SubscribeEvent
     public static void onParasiteDeath(LivingDeathEvent event) {
         LivingEntity dead = event.getEntity();
@@ -171,6 +256,7 @@ public final class DislodgmentSystem {
         }
 
         SrpWorldData data = SrpWorldData.get(level);
+        applyHighVersionDeath(level, dead, data);
         if (dead instanceof NexusParasiteEntity nexus) {
             int stage = nexusStage(nexus.getKind());
             if (stage > 0) {
@@ -188,7 +274,11 @@ public final class DislodgmentSystem {
         if (!(event.getLevel() instanceof ServerLevel level) || !Config.useDislodgment()) {
             return;
         }
-        for (DislodgmentCode expired : SrpWorldData.get(level).expireDislodgmentCodes(level)) {
+        SrpWorldData data = SrpWorldData.get(level);
+        if (level.getGameTime() % 40L == 0L) {
+            applyPeriodicCodes(level, data);
+        }
+        for (DislodgmentCode expired : data.expireDislodgmentCodes(level)) {
             onCodeEnded(level, expired);
         }
     }
@@ -310,11 +400,117 @@ public final class DislodgmentSystem {
             rules.add(new ActivationRule(9, Config.disloFoodDeathValue(),
                     Config.disloFoodDeathDuration(), Config.disloFoodDeathPointCost()));
         }
+        if (Config.disloDeathHighVersions()) {
+            rules.add(new ActivationRule(10, Config.disloDeathHighVersionsValue(),
+                    Config.disloDeathHighVersionsDuration(), Config.disloDeathHighVersionsPointCost()));
+        }
+        if (Config.disloParasiteNoPotion()) {
+            rules.add(new ActivationRule(11, 1, Config.disloParasiteNoPotionDuration(),
+                    Config.disloParasiteNoPotionPointCost()));
+        }
+        if (Config.disloHealthDraining()) {
+            rules.add(new ActivationRule(12, Config.disloHealthDrainingValue(),
+                    Config.disloHealthDrainingDuration(), Config.disloHealthDrainingPointCost()));
+        }
+        if (Config.disloFoodDraining()) {
+            rules.add(new ActivationRule(13, Config.disloFoodDrainingValue(),
+                    Config.disloFoodDrainingDuration(), Config.disloFoodDrainingPointCost()));
+        }
+        if (Config.disloGrowlNoise()) {
+            rules.add(new ActivationRule(15, 1, Config.disloGrowlNoiseDuration(),
+                    Config.disloGrowlNoisePointCost()));
+        }
+        if (Config.disloWalkNoise()) {
+            rules.add(new ActivationRule(16, 1, Config.disloWalkNoiseDuration(),
+                    Config.disloWalkNoisePointCost()));
+        }
+        if (Config.disloShieldFood()) {
+            rules.add(new ActivationRule(17, 1, Config.disloShieldFoodDuration(),
+                    Config.disloShieldFoodPointCost()));
+        }
         if (Config.disloLootXpCancel()) {
             rules.add(new ActivationRule(18, 1, Config.disloLootXpCancelDuration(),
                     Config.disloLootXpCancelPointCost()));
         }
+        if (Config.disloBurningDeath()) {
+            rules.add(new ActivationRule(21, 1, Config.disloBurningDeathDuration(),
+                    Config.disloBurningDeathPointCost()));
+        }
         return rules;
+    }
+
+    private static void applyPeriodicCodes(ServerLevel level, SrpWorldData data) {
+        int damage = Config.disloHealthDraining() ? activeValue(data, 12) : 0;
+        if (damage > 0) {
+            float amount = saturatingMultiply(damage, 2);
+            for (Entity entity : level.getAllEntities()) {
+                if (entity instanceof LivingEntity living && !(living instanceof Parasite)) {
+                    living.hurt(level.damageSources().magic(), amount);
+                }
+            }
+        }
+        int exhaustion = Config.disloFoodDraining() ? activeValue(data, 13) : 0;
+        if (exhaustion > 0) {
+            float amount = saturatingMultiply(exhaustion, 2);
+            for (Player player : level.players()) {
+                player.causeFoodExhaustion(amount);
+            }
+        }
+    }
+
+    private static void applyHighVersionDeath(ServerLevel level, LivingEntity dead, SrpWorldData data) {
+        int value = Config.disloDeathHighVersions() ? activeValue(data, 10) : 0;
+        ResourceLocation deadId = BuiltInRegistries.ENTITY_TYPE.getKey(dead.getType());
+        if (value < 1 || !Csrp.MODID.equals(deadId.getNamespace()) || !deadId.getPath().startsWith("sim_")
+                || level.getRandom().nextDouble() >= Config.disloDeathHighVersionsChance()) {
+            return;
+        }
+        List<EntityType<? extends Mob>> pool = value >= Config.disloDeathHighVersionsPure()
+                ? pureTypes()
+                : value >= Config.disloDeathHighVersionsAdapted() ? adaptedTypes() : primitiveTypes();
+        EntityType<? extends Mob> type = pool.get(level.getRandom().nextInt(pool.size()));
+        Mob spawned = type.create(level);
+        if (spawned == null) {
+            return;
+        }
+        spawned.moveTo(dead.getX(), dead.getY(), dead.getZ(), dead.getYRot(), dead.getXRot());
+        spawned.finalizeSpawn(level, level.getCurrentDifficultyAt(dead.blockPosition()),
+                MobSpawnType.MOB_SUMMONED, null);
+        spawned.addEffect(new MobEffectInstance(ModMobEffects.REPEL, 600, 0, false, false));
+        level.addFreshEntity(spawned);
+        level.levelEvent(null, 1026, spawned.blockPosition(), 0);
+    }
+
+    private static List<EntityType<? extends Mob>> primitiveTypes() {
+        return List.of(ModEntities.PRI_LONGARMS.get(), ModEntities.PRI_SUMMONER.get(),
+                ModEntities.PRI_REEKER.get(), ModEntities.PRI_MANDUCATER.get(),
+                ModEntities.PRI_ARACHNIDA.get(), ModEntities.PRI_BOLSTER.get(),
+                ModEntities.PRI_DEVOURER.get(), ModEntities.PRI_VISCERA.get(),
+                ModEntities.PRI_YELLOWEYE.get(), ModEntities.PRI_VERMIN.get(),
+                ModEntities.PRI_TOZOON.get());
+    }
+
+    private static List<EntityType<? extends Mob>> adaptedTypes() {
+        return List.of(ModEntities.ADA_LONGARMS.get(), ModEntities.ADA_SUMMONER.get(),
+                ModEntities.ADA_REEKER.get(), ModEntities.ADA_MANDUCATER.get(),
+                ModEntities.ADA_ARACHNIDA.get(), ModEntities.ADA_BOLSTER.get(),
+                ModEntities.ADA_DEVOURER.get(), ModEntities.ADA_YELLOWEYE.get(),
+                ModEntities.ADA_VERMIN.get(), ModEntities.ADA_TOZOON.get());
+    }
+
+    private static List<EntityType<? extends Mob>> pureTypes() {
+        return List.of(ModEntities.GRUNT.get(), ModEntities.BOMBER_LIGHT.get(), ModEntities.MONARCH.get(),
+                ModEntities.OVERSEER.get(), ModEntities.VIGILANTE.get(), ModEntities.WARDEN.get(),
+                ModEntities.CARRIER_HEAVY.get());
+    }
+
+    private static boolean corruptOneFood(Player player, ItemStack stack) {
+        if (stack.isEmpty() || stack.get(DataComponents.FOOD) == null) {
+            return false;
+        }
+        stack.shrink(1);
+        player.spawnAtLocation(new ItemStack(ModItems.ASSIMILATED_FLESH.get()));
+        return true;
     }
 
     private static boolean hasCothSpy(ServerLevel level, BlockPos position) {

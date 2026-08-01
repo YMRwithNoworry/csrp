@@ -261,6 +261,102 @@ public final class Config {
             .defineInRange("disloFoodDeathCooldown", 240, 0, Integer.MAX_VALUE);
     private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_FOOD_DEATH_TRIGGERS =
             dislodgmentTriggers("disloFoodDeathTriggers", List.of(3, 12, 13, 16));
+    private static final ModConfigSpec.BooleanValue DISLO_DEATH_HIGH_VERSIONS = BUILDER
+            .define("disloDeathHighVersions", true);
+    private static final ModConfigSpec.IntValue DISLO_DEATH_HIGH_VERSIONS_POINT_COST = BUILDER
+            .defineInRange("disloDeathHighVersionsPointCost", 300, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_DEATH_HIGH_VERSIONS_VALUE = BUILDER
+            .defineInRange("disloDeathHighVersionsValue", 1, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_DEATH_HIGH_VERSIONS_ADAPTED = BUILDER
+            .defineInRange("disloDeathHighVersionsAdapted", 12, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_DEATH_HIGH_VERSIONS_PURE = BUILDER
+            .defineInRange("disloDeathHighVersionsPure", 21, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_DEATH_HIGH_VERSIONS_DURATION = BUILDER
+            .defineInRange("disloDeathHighVersionsDuration", 120, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_DEATH_HIGH_VERSIONS_COOLDOWN = BUILDER
+            .defineInRange("disloDeathHighVersionsCooldown", 360, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.DoubleValue DISLO_DEATH_HIGH_VERSIONS_CHANCE = BUILDER
+            .defineInRange("disloDeathHighVersionsChance", 0.5D, 0.0D, 1.0D);
+    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_DEATH_HIGH_VERSIONS_TRIGGERS =
+            dislodgmentTriggers("disloDeathHighVersionsTriggers",
+                    List.of(0, 1, 2, 3, 4, 5, 10, 11, 12, 13, 14, 15, 16, 17, 18));
+    private static final ModConfigSpec.BooleanValue DISLO_PARASITE_NO_POTION = BUILDER
+            .define("disloParasiteNoPotion", true);
+    private static final ModConfigSpec.IntValue DISLO_PARASITE_NO_POTION_POINT_COST = BUILDER
+            .defineInRange("disloParasiteNoPotionPointCost", 100, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_PARASITE_NO_POTION_DURATION = BUILDER
+            .defineInRange("disloParasiteNoPotionDuration", 60, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_PARASITE_NO_POTION_COOLDOWN = BUILDER
+            .defineInRange("disloParasiteNoPotionCooldown", 240, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_PARASITE_NO_POTION_TRIGGERS =
+            dislodgmentTriggers("disloParasiteNoPotionTriggers", List.of(3, 4, 16));
+    private static final ModConfigSpec.BooleanValue DISLO_HEALTH_DRAINING = BUILDER
+            .define("disloHealthDraining", true);
+    private static final ModConfigSpec.IntValue DISLO_HEALTH_DRAINING_POINT_COST = BUILDER
+            .defineInRange("disloHealthDrainingPointCost", 50000, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_HEALTH_DRAINING_VALUE = BUILDER
+            .defineInRange("disloHealthDrainingValue", 10, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_HEALTH_DRAINING_DURATION = BUILDER
+            .defineInRange("disloHealthDrainingDuration", 3, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_HEALTH_DRAINING_COOLDOWN = BUILDER
+            .defineInRange("disloHealthDrainingCooldown", 300, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_HEALTH_DRAINING_TRIGGERS =
+            dislodgmentTriggers("disloHealthDrainingTriggers", List.of(14, 15, 17, 18));
+    private static final ModConfigSpec.BooleanValue DISLO_FOOD_DRAINING = BUILDER
+            .define("disloFoodDraining", true);
+    private static final ModConfigSpec.IntValue DISLO_FOOD_DRAINING_POINT_COST = BUILDER
+            .defineInRange("disloFoodDrainingPointCost", 500, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_FOOD_DRAINING_VALUE = BUILDER
+            .defineInRange("disloFoodDrainingValue", 200, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_FOOD_DRAINING_DURATION = BUILDER
+            .defineInRange("disloFoodDrainingDuration", 3, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_FOOD_DRAINING_COOLDOWN = BUILDER
+            .defineInRange("disloFoodDrainingCooldown", 300, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_FOOD_DRAINING_TRIGGERS =
+            dislodgmentTriggers("disloFoodDrainingTriggers", List.of(12, 13, 14, 15, 17, 18));
+    private static final ModConfigSpec.BooleanValue DISLO_NEXT_PHASE_LIST = BUILDER
+            .define("disloNextPhaseList", true);
+    private static final ModConfigSpec.IntValue DISLO_NEXT_PHASE_LIST_POINT_COST = BUILDER
+            .defineInRange("disloNextPhaseListPointCost", 50000, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_NEXT_PHASE_LIST_VALUE = BUILDER
+            .defineInRange("disloNextPhaseListValue", 1, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_NEXT_PHASE_LIST_DURATION = BUILDER
+            .defineInRange("disloNextPhaseListDuration", 30, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_NEXT_PHASE_LIST_COOLDOWN = BUILDER
+            .defineInRange("disloNextPhaseListCooldown", 240, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_NEXT_PHASE_LIST_TRIGGERS =
+            dislodgmentTriggers("disloNextPhaseListTriggers", List.of(15, 16, 17, 18));
+    private static final ModConfigSpec.BooleanValue DISLO_GROWL_NOISE = BUILDER
+            .define("disloGrowlNoise", true);
+    private static final ModConfigSpec.IntValue DISLO_GROWL_NOISE_POINT_COST = BUILDER
+            .defineInRange("disloGrowlNoisePointCost", 100, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_GROWL_NOISE_DURATION = BUILDER
+            .defineInRange("disloGrowlNoiseDuration", 60, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_GROWL_NOISE_COOLDOWN = BUILDER
+            .defineInRange("disloGrowlNoiseCooldown", 240, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_GROWL_NOISE_TRIGGERS =
+            dislodgmentTriggers("disloGrowlNoiseTriggers", List.of(0, 4, 10, 11));
+    private static final ModConfigSpec.BooleanValue DISLO_WALK_NOISE = BUILDER
+            .define("disloWalkNoise", true);
+    private static final ModConfigSpec.IntValue DISLO_WALK_NOISE_POINT_COST = BUILDER
+            .defineInRange("disloWalkNoisePointCost", 100, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_WALK_NOISE_DURATION = BUILDER
+            .defineInRange("disloWalkNoiseDuration", 60, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_WALK_NOISE_COOLDOWN = BUILDER
+            .defineInRange("disloWalkNoiseCooldown", 240, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_WALK_NOISE_TRIGGERS =
+            dislodgmentTriggers("disloWalkNoiseTriggers", List.of(0, 5, 10, 11));
+    private static final ModConfigSpec.BooleanValue DISLO_SHIELD_FOOD = BUILDER
+            .define("disloShieldFood", true);
+    private static final ModConfigSpec.IntValue DISLO_SHIELD_FOOD_POINT_COST = BUILDER
+            .defineInRange("disloShieldFoodPointCost", 180, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_SHIELD_FOOD_DURATION = BUILDER
+            .defineInRange("disloShieldFoodDuration", 400, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_SHIELD_FOOD_COOLDOWN = BUILDER
+            .defineInRange("disloShieldFoodCooldown", 550, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_SHIELD_FOOD_TRIGGERS =
+            dislodgmentTriggers("disloShieldFoodTriggers",
+                    List.of(0, 1, 2, 3, 4, 5, 10, 11, 12, 13, 14, 15, 16, 17, 18));
     private static final ModConfigSpec.BooleanValue DISLO_LOOT_XP_CANCEL = BUILDER
             .define("disloLootXpCancel", true);
     private static final ModConfigSpec.IntValue DISLO_LOOT_XP_CANCEL_POINT_COST = BUILDER
@@ -271,6 +367,17 @@ public final class Config {
             .defineInRange("disloLootXpCancelCooldown", 240, 0, Integer.MAX_VALUE);
     private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_LOOT_XP_CANCEL_TRIGGERS =
             dislodgmentTriggers("disloLootXpCancelTriggers", List.of(2, 10, 16));
+    private static final ModConfigSpec.BooleanValue DISLO_BURNING_DEATH = BUILDER
+            .define("disloBurningDeath", true);
+    private static final ModConfigSpec.IntValue DISLO_BURNING_DEATH_POINT_COST = BUILDER
+            .defineInRange("disloBurningDeathPointCost", 50000, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_BURNING_DEATH_DURATION = BUILDER
+            .defineInRange("disloBurningDeathDuration", 60, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_BURNING_DEATH_COOLDOWN = BUILDER
+            .defineInRange("disloBurningDeathCooldown", 180, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_BURNING_DEATH_TRIGGERS =
+            dislodgmentTriggers("disloBurningDeathTriggers",
+                    List.of(0, 1, 2, 3, 4, 5, 10, 11, 12, 13, 14, 15, 16, 17, 18));
 
     static final ModConfigSpec SPEC = BUILDER.build();
 
@@ -401,9 +508,43 @@ public final class Config {
     public static int disloFoodDeathPointCost() { return DISLO_FOOD_DEATH_POINT_COST.get(); }
     public static int disloFoodDeathValue() { return DISLO_FOOD_DEATH_VALUE.get(); }
     public static int disloFoodDeathDuration() { return DISLO_FOOD_DEATH_DURATION.get(); }
+    public static boolean disloDeathHighVersions() { return DISLO_DEATH_HIGH_VERSIONS.get(); }
+    public static int disloDeathHighVersionsPointCost() { return DISLO_DEATH_HIGH_VERSIONS_POINT_COST.get(); }
+    public static int disloDeathHighVersionsValue() { return DISLO_DEATH_HIGH_VERSIONS_VALUE.get(); }
+    public static int disloDeathHighVersionsAdapted() { return DISLO_DEATH_HIGH_VERSIONS_ADAPTED.get(); }
+    public static int disloDeathHighVersionsPure() { return DISLO_DEATH_HIGH_VERSIONS_PURE.get(); }
+    public static int disloDeathHighVersionsDuration() { return DISLO_DEATH_HIGH_VERSIONS_DURATION.get(); }
+    public static double disloDeathHighVersionsChance() { return DISLO_DEATH_HIGH_VERSIONS_CHANCE.get(); }
+    public static boolean disloParasiteNoPotion() { return DISLO_PARASITE_NO_POTION.get(); }
+    public static int disloParasiteNoPotionPointCost() { return DISLO_PARASITE_NO_POTION_POINT_COST.get(); }
+    public static int disloParasiteNoPotionDuration() { return DISLO_PARASITE_NO_POTION_DURATION.get(); }
+    public static boolean disloHealthDraining() { return DISLO_HEALTH_DRAINING.get(); }
+    public static int disloHealthDrainingPointCost() { return DISLO_HEALTH_DRAINING_POINT_COST.get(); }
+    public static int disloHealthDrainingValue() { return DISLO_HEALTH_DRAINING_VALUE.get(); }
+    public static int disloHealthDrainingDuration() { return DISLO_HEALTH_DRAINING_DURATION.get(); }
+    public static boolean disloFoodDraining() { return DISLO_FOOD_DRAINING.get(); }
+    public static int disloFoodDrainingPointCost() { return DISLO_FOOD_DRAINING_POINT_COST.get(); }
+    public static int disloFoodDrainingValue() { return DISLO_FOOD_DRAINING_VALUE.get(); }
+    public static int disloFoodDrainingDuration() { return DISLO_FOOD_DRAINING_DURATION.get(); }
+    public static boolean disloNextPhaseList() { return DISLO_NEXT_PHASE_LIST.get(); }
+    public static int disloNextPhaseListPointCost() { return DISLO_NEXT_PHASE_LIST_POINT_COST.get(); }
+    public static int disloNextPhaseListValue() { return DISLO_NEXT_PHASE_LIST_VALUE.get(); }
+    public static int disloNextPhaseListDuration() { return DISLO_NEXT_PHASE_LIST_DURATION.get(); }
+    public static boolean disloGrowlNoise() { return DISLO_GROWL_NOISE.get(); }
+    public static int disloGrowlNoisePointCost() { return DISLO_GROWL_NOISE_POINT_COST.get(); }
+    public static int disloGrowlNoiseDuration() { return DISLO_GROWL_NOISE_DURATION.get(); }
+    public static boolean disloWalkNoise() { return DISLO_WALK_NOISE.get(); }
+    public static int disloWalkNoisePointCost() { return DISLO_WALK_NOISE_POINT_COST.get(); }
+    public static int disloWalkNoiseDuration() { return DISLO_WALK_NOISE_DURATION.get(); }
+    public static boolean disloShieldFood() { return DISLO_SHIELD_FOOD.get(); }
+    public static int disloShieldFoodPointCost() { return DISLO_SHIELD_FOOD_POINT_COST.get(); }
+    public static int disloShieldFoodDuration() { return DISLO_SHIELD_FOOD_DURATION.get(); }
     public static boolean disloLootXpCancel() { return DISLO_LOOT_XP_CANCEL.get(); }
     public static int disloLootXpCancelPointCost() { return DISLO_LOOT_XP_CANCEL_POINT_COST.get(); }
     public static int disloLootXpCancelDuration() { return DISLO_LOOT_XP_CANCEL_DURATION.get(); }
+    public static boolean disloBurningDeath() { return DISLO_BURNING_DEATH.get(); }
+    public static int disloBurningDeathPointCost() { return DISLO_BURNING_DEATH_POINT_COST.get(); }
+    public static int disloBurningDeathDuration() { return DISLO_BURNING_DEATH_DURATION.get(); }
 
     public static List<? extends Integer> dislodgmentTriggers(int code) {
         return switch (code) {
@@ -417,7 +558,16 @@ public final class Config {
             case 7 -> DISLO_HEALING_DEATH_TRIGGERS.get();
             case 8 -> DISLO_DAMAGE_DEATH_TRIGGERS.get();
             case 9 -> DISLO_FOOD_DEATH_TRIGGERS.get();
+            case 10 -> DISLO_DEATH_HIGH_VERSIONS_TRIGGERS.get();
+            case 11 -> DISLO_PARASITE_NO_POTION_TRIGGERS.get();
+            case 12 -> DISLO_HEALTH_DRAINING_TRIGGERS.get();
+            case 13 -> DISLO_FOOD_DRAINING_TRIGGERS.get();
+            case 14 -> DISLO_NEXT_PHASE_LIST_TRIGGERS.get();
+            case 15 -> DISLO_GROWL_NOISE_TRIGGERS.get();
+            case 16 -> DISLO_WALK_NOISE_TRIGGERS.get();
+            case 17 -> DISLO_SHIELD_FOOD_TRIGGERS.get();
             case 18 -> DISLO_LOOT_XP_CANCEL_TRIGGERS.get();
+            case 21 -> DISLO_BURNING_DEATH_TRIGGERS.get();
             default -> List.of();
         };
     }
@@ -434,7 +584,16 @@ public final class Config {
             case 7 -> DISLO_HEALING_DEATH_COOLDOWN.get();
             case 8 -> DISLO_DAMAGE_DEATH_COOLDOWN.get();
             case 9 -> DISLO_FOOD_DEATH_COOLDOWN.get();
+            case 10 -> DISLO_DEATH_HIGH_VERSIONS_COOLDOWN.get();
+            case 11 -> DISLO_PARASITE_NO_POTION_COOLDOWN.get();
+            case 12 -> DISLO_HEALTH_DRAINING_COOLDOWN.get();
+            case 13 -> DISLO_FOOD_DRAINING_COOLDOWN.get();
+            case 14 -> DISLO_NEXT_PHASE_LIST_COOLDOWN.get();
+            case 15 -> DISLO_GROWL_NOISE_COOLDOWN.get();
+            case 16 -> DISLO_WALK_NOISE_COOLDOWN.get();
+            case 17 -> DISLO_SHIELD_FOOD_COOLDOWN.get();
             case 18 -> DISLO_LOOT_XP_CANCEL_COOLDOWN.get();
+            case 21 -> DISLO_BURNING_DEATH_COOLDOWN.get();
             default -> 0;
         };
     }
