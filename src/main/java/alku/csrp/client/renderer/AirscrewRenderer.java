@@ -17,10 +17,9 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
 /** Renders the legacy Guardian-style tether for every creature held by an Airscrew. */
-public final class AirscrewRenderer extends GeoEntityRenderer<AirscrewEntity> {
+public final class AirscrewRenderer extends ParasiteGeoRenderer<AirscrewEntity> {
     private static final ResourceLocation TETHER_TEXTURE = ResourceLocation.fromNamespaceAndPath(
             Csrp.MODID, "textures/entity/airscrew_tether.png");
     // RenderLeer used a full-bright blended Guardian beam; the emissive translucent pass keeps
@@ -37,6 +36,9 @@ public final class AirscrewRenderer extends GeoEntityRenderer<AirscrewEntity> {
     @Override
     public boolean shouldRender(AirscrewEntity airscrew, Frustum frustum, double cameraX, double cameraY,
                                 double cameraZ) {
+        if (isHiddenByBraining()) {
+            return false;
+        }
         if (super.shouldRender(airscrew, frustum, cameraX, cameraY, cameraZ)) {
             return true;
         }

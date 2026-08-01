@@ -7,9 +7,8 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
-import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
-public final class AssimilatedParasiteRenderer extends GeoEntityRenderer<AssimilatedParasiteEntity> {
+public final class AssimilatedParasiteRenderer extends ParasiteGeoRenderer<AssimilatedParasiteEntity> {
     public AssimilatedParasiteRenderer(EntityRendererProvider.Context context, float shadowRadius) {
         super(context, new AssimilatedParasiteModel());
         this.shadowRadius = shadowRadius;

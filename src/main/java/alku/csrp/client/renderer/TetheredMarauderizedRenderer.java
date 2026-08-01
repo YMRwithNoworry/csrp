@@ -10,10 +10,10 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
 /** Draws the animated guardian-style beam used by Marauderized bear and enderman tether attacks. */
-public final class TetheredMarauderizedRenderer<T extends TetheredMarauderizedEntity> extends GeoEntityRenderer<T> {
+public final class TetheredMarauderizedRenderer<T extends TetheredMarauderizedEntity>
+        extends ParasiteGeoRenderer<T> {
     private static final int TETHER_SEGMENTS = 24;
     private static final float TETHER_RADIUS = 0.045F;
 

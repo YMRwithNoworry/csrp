@@ -6,6 +6,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
@@ -32,6 +36,8 @@ import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 
 import java.util.EnumSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -54,6 +60,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     private int attackFlashTicks;
     private int wormMinimumPayload = 3;
     private int wormMaximumPayload = 3;
+    private final List<String> wormPayloadTypes = new ArrayList<>();
     private UUID dispatchTarget;
     private String dispatchEntityId;
     private UUID seizerTarget;
@@ -188,6 +195,11 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         tag.putInt("deterrent_attack_flash", attackFlashTicks);
         tag.putInt("deterrent_worm_minimum", wormMinimumPayload);
         tag.putInt("deterrent_worm_maximum", wormMaximumPayload);
+        ListTag payloadTypes = new ListTag();
+        for (String type : wormPayloadTypes) {
+            payloadTypes.add(StringTag.valueOf(type));
+        }
+        tag.put("deterrent_worm_types", payloadTypes);
         if (dispatchTarget != null) {
             tag.putUUID("deterrent_dispatch_target", dispatchTarget);
         }
@@ -207,6 +219,11 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         attackFlashTicks = tag.getInt("deterrent_attack_flash");
         wormMinimumPayload = tag.contains("deterrent_worm_minimum") ? tag.getInt("deterrent_worm_minimum") : 3;
         wormMaximumPayload = tag.contains("deterrent_worm_maximum") ? tag.getInt("deterrent_worm_maximum") : 3;
+        wormPayloadTypes.clear();
+        ListTag payloadTypes = tag.getList("deterrent_worm_types", Tag.TAG_STRING);
+        for (int index = 0; index < payloadTypes.size(); index++) {
+            wormPayloadTypes.add(payloadTypes.getString(index));
+        }
         dispatchTarget = tag.hasUUID("deterrent_dispatch_target") ? tag.getUUID("deterrent_dispatch_target") : null;
         dispatchEntityId = tag.contains("deterrent_dispatch_entity")
                 ? tag.getString("deterrent_dispatch_entity") : null;
@@ -238,6 +255,15 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         }
         wormMinimumPayload = Math.max(0, minPayload);
         wormMaximumPayload = Math.max(wormMinimumPayload, maxPayload);
+    }
+
+    /** Configures the exact registered parasite pool launched by this Worm. */
+    public void setWormPayloadTypes(List<ResourceLocation> types) {
+        if (activeKind() != Kind.WORM) {
+            return;
+        }
+        wormPayloadTypes.clear();
+        types.stream().map(ResourceLocation::toString).distinct().forEach(wormPayloadTypes::add);
     }
 
     public Kind getKind() {
@@ -409,23 +435,51 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         }
         int count = wormMinimumPayload + random.nextInt(wormMaximumPayload - wormMinimumPayload + 1);
         for (int index = 0; index < count; index++) {
-            Mob minion = switch (index % 3) {
-                case 0 -> ModEntities.PRI_ARACHNIDA.get().create(serverLevel);
-                case 1 -> ModEntities.PRI_REEKER.get().create(serverLevel);
-                default -> ModEntities.PRI_LONGARMS.get().create(serverLevel);
-            };
+            Mob minion = createWormMinion(serverLevel);
             if (minion == null) {
                 continue;
             }
-            double angle = Math.PI * 2.0D * index / 3.0D;
-            minion.moveTo(getX() + Math.cos(angle) * 2.0D, getY() + getBbHeight() * 0.5D,
-                    getZ() + Math.sin(angle) * 2.0D, getYRot(), 0.0F);
+            minion.moveTo(getX(), getY() + getBbHeight() + 0.5D, getZ(), getYRot(), 0.0F);
             minion.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(minion.blockPosition()),
                     MobSpawnType.MOB_SUMMONED, null);
             minion.setTarget(getTarget());
             minion.addEffect(new MobEffectInstance(ModMobEffects.RAGE, 1200, 1, false, false), this);
+            minion.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 100, 15, false, false), this);
+            minion.setDeltaMovement(wormLaunchVelocity());
             serverLevel.addFreshEntity(minion);
         }
+    }
+
+    private Mob createWormMinion(ServerLevel level) {
+        if (wormPayloadTypes.isEmpty()) {
+            return switch (random.nextInt(3)) {
+                case 0 -> ModEntities.PRI_ARACHNIDA.get().create(level);
+                case 1 -> ModEntities.PRI_REEKER.get().create(level);
+                default -> ModEntities.PRI_LONGARMS.get().create(level);
+            };
+        }
+        ResourceLocation id = ResourceLocation.tryParse(wormPayloadTypes.get(random.nextInt(wormPayloadTypes.size())));
+        if (id == null) {
+            return null;
+        }
+        EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.getOptional(id).orElse(null);
+        return type != null && type.create(level) instanceof Mob mob ? mob : null;
+    }
+
+    private Vec3 wormLaunchVelocity() {
+        double x = random.nextFloat();
+        double y = random.nextFloat();
+        double z = random.nextFloat();
+        double length = Math.sqrt(x * x + y * y + z * z);
+        if (length < 1.0E-6D) {
+            return new Vec3(0.0D, 0.6D, 0.0D);
+        }
+        double scale = 0.5D / (length / 4.0D + 0.1D);
+        scale *= random.nextFloat() * random.nextFloat() + 0.3F;
+        x = Math.min(x / length * scale, 0.03D) * (random.nextDouble() * 2.0D - 1.0D);
+        y = Math.min(y / length * scale * 6.0D, 1.2D);
+        z = Math.min(z / length * scale, 0.03D) * (random.nextDouble() * 2.0D - 1.0D);
+        return new Vec3(x, y, z);
     }
 
     private final class KyphosisWaveGoal extends Goal {

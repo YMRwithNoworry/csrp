@@ -7,10 +7,9 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
-import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
 /** Preserves the legacy shrink animation while an Assimilated Adventurer melts. */
-public final class SimAdventurerRenderer extends GeoEntityRenderer<SimAdventurerEntity> {
+public final class SimAdventurerRenderer extends ParasiteGeoRenderer<SimAdventurerEntity> {
     public SimAdventurerRenderer(EntityRendererProvider.Context context) {
         super(context, new PrimitiveParasiteModel<>("sim_adventurer"));
         shadowRadius = 0.5F;

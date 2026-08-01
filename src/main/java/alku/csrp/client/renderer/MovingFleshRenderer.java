@@ -7,10 +7,9 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
-import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
 /** Applies the accumulated merge scale to the high-version Moving Flesh model. */
-public final class MovingFleshRenderer extends GeoEntityRenderer<MovingFleshEntity> {
+public final class MovingFleshRenderer extends ParasiteGeoRenderer<MovingFleshEntity> {
     public MovingFleshRenderer(EntityRendererProvider.Context context) {
         super(context, new PrimitiveParasiteModel<>("movingflesh"));
         shadowRadius = 0.2F;

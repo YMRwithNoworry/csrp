@@ -8,10 +8,9 @@ import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
-import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
 /** Attached tendrils are hitboxes only; the body model already renders them. */
-public final class MarauderTendrilRenderer extends GeoEntityRenderer<MarauderTendrilEntity> {
+public final class MarauderTendrilRenderer extends ParasiteGeoRenderer<MarauderTendrilEntity> {
     public MarauderTendrilRenderer(EntityRendererProvider.Context context) {
         super(context, new MarauderTendrilModel());
         shadowRadius = 0.2F;

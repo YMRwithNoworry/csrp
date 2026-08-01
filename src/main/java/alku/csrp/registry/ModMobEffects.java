@@ -22,6 +22,7 @@ import alku.csrp.effect.EffectPosMobEffect;
 import alku.csrp.effect.EffectNegMobEffect;
 import alku.csrp.effect.IndeafMobEffect;
 import alku.csrp.effect.FosterMobEffect;
+import alku.csrp.effect.SpottedMobEffect;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -113,7 +114,7 @@ public final class ModMobEffects {
     public static final DeferredHolder<MobEffect, MobEffect> PARATE =
             EFFECTS.register("parate", () -> new MarkerMobEffect(false, 11753270));
     public static final DeferredHolder<MobEffect, MobEffect> SPOTTED =
-            EFFECTS.register("spotted", () -> new MarkerMobEffect(false, 8149607));
+            EFFECTS.register("spotted", SpottedMobEffect::new);
     public static final DeferredHolder<MobEffect, MobEffect> BRAINING =
             EFFECTS.register("braining", () -> new MarkerMobEffect(false, 7958149));
     public static final DeferredHolder<MobEffect, MobEffect> NOVISION =
