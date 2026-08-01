@@ -3,12 +3,14 @@ package alku.csrp.entity;
 import alku.csrp.registry.ModEntities;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.PlayState;
@@ -53,9 +55,13 @@ public final class SummonerEntity extends PrimitiveParasiteEntity {
             gnat.setTarget(getTarget());
             serverLevel.addFreshEntity(gnat);
         }
-        ScaryOrbEntity orb = new ScaryOrbEntity(ModEntities.SCARY_ORB.get(), serverLevel, this);
-        orb.moveTo(position());
-        serverLevel.addFreshEntity(orb);
+        LivingEntity target = getTarget();
+        if (target != null && target.isAlive()) {
+            ScaryOrbEntity orb = new ScaryOrbEntity(ModEntities.SCARY_ORB.get(), serverLevel, this);
+            Vec3 start = getEyePosition().add(getViewVector(1.0F).scale(0.75D));
+            orb.launch(start, target.getEyePosition(), target);
+            serverLevel.addFreshEntity(orb);
+        }
     }
 
     @Override public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
