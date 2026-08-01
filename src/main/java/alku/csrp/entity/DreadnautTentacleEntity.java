@@ -20,6 +20,10 @@ import software.bernie.geckolib.animation.RawAnimation;
 
 /** Legacy Ancient Dreadnaut ground tendril (EntityOroncoTen). */
 public final class DreadnautTentacleEntity extends PrimitiveParasiteEntity {
+    @Override
+    public boolean supportsDamageAdaptation() {
+        return false;
+    }
     private final RawAnimation idleAnimation = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation attackAnimation = ParasiteAnimations.play(this, "attack");
     private int groundTicks;

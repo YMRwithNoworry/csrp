@@ -58,6 +58,37 @@ public final class AdaptedVariantEntity extends PrimitiveParasiteEntity {
         }
     }
 
+    @Override
+    protected int maxDamageAdaptationHits() {
+        return 10;
+    }
+
+    @Override
+    protected float damageAdaptationPerHit() {
+        return 0.10F;
+    }
+
+    @Override
+    protected int maxLearnableDamageSources() {
+        return 8;
+    }
+
+    @Override
+    protected float damageAdaptationLearningChance() {
+        return 0.80F;
+    }
+
+    @Override
+    protected float fireAdaptationSuppressionChance() {
+        return 0.50F;
+    }
+
+    @Override
+    protected float damageAdaptationEffectiveness() {
+        Kind activeKind = activeKind();
+        return activeKind == Kind.MANDUCATER || activeKind == Kind.YELLOWEYE ? 0.95F : 1.0F;
+    }
+
     public static AttributeSupplier.Builder createAttributes(Kind kind) {
         double health;
         double armor;

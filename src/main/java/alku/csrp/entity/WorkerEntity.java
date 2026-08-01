@@ -29,6 +29,10 @@ import java.util.EnumSet;
 
 /** Legacy colony worker (EntityKol), including its 13/26-block construction grid. */
 public final class WorkerEntity extends PrimitiveParasiteEntity {
+    @Override
+    public boolean supportsDamageAdaptation() {
+        return false;
+    }
     private static final int BUILD_INTERVAL = 200;
     private static final int SEARCH_RANGE = 25;
     private static final int DEFENCE_GRID = 13;

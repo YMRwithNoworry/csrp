@@ -26,6 +26,10 @@ import software.bernie.geckolib.animation.RawAnimation;
 import java.util.EnumSet;
 
 public final class LiceEntity extends PrimitiveParasiteEntity {
+    @Override
+    public boolean supportsDamageAdaptation() {
+        return false;
+    }
     public static final int MAX_LIFESPAN_TICKS = 1200;
     public static final int VIRAL_DURATION_TICKS = 120;
     public static final int VIRAL_AMPLIFIER = 2;

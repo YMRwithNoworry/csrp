@@ -5,13 +5,13 @@ import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.world.EvolutionSystem;
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -27,6 +27,8 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -41,15 +43,19 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     private static final String LEGACY_KILLCOUNT_TAG = "legacy_killcount";
     private static final String ADAPTATIONS_TAG = "damage_adaptations";
     private static final String COLONY_SPAWNED_TAG = "colony_spawned";
-    private static final int MAX_ADAPTATION_HITS = 8;
-    private static final float ADAPTATION_PER_HIT = 0.1F;
-    private static final int DEFAULT_MAX_LEARNABLE_DAMAGE_SOURCES = Integer.MAX_VALUE;
+    private static final int MAX_ADAPTATION_HITS = 12;
+    private static final float ADAPTATION_PER_HIT = 0.05F;
+    private static final int DEFAULT_MAX_LEARNABLE_DAMAGE_SOURCES = 5;
+    private static final int NEW_DAMAGE_COOLDOWN_TICKS = 20;
+    private static final int FIRE_ADAPTATION_BLOCK_TICKS = 10;
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private final Map<String, Integer> damageAdaptations = new LinkedHashMap<>();
     private int parasiteKills;
     private double legacyKillCount;
     private boolean colonySpawned;
+    private int adaptationLearningCooldown;
+    private int fireAdaptationBlockTicks;
 
     protected PrimitiveParasiteEntity(EntityType<? extends PrimitiveParasiteEntity> type, Level level) {
         super(type, level);
@@ -73,6 +79,14 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         }
         if (!level().isClientSide && tickCount % 21 == 10 && hasEffect(ModMobEffects.ANTIMALL)) {
             reduceAllResistances(1);
+        }
+        if (!level().isClientSide) {
+            if (adaptationLearningCooldown > 0) {
+                adaptationLearningCooldown--;
+            }
+            if (fireAdaptationBlockTicks > 0) {
+                fireAdaptationBlockTicks--;
+            }
         }
     }
 
@@ -106,16 +120,25 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         if (!usesDamageAdaptation()) {
             return super.hurt(source, amount);
         }
+        if (source.is(DamageTypes.FALL) || source.is(DamageTypes.FELL_OUT_OF_WORLD)) {
+            return super.hurt(source, amount);
+        }
+        if (!level().isClientSide && (source.is(DamageTypes.IN_FIRE) || source.is(DamageTypes.ON_FIRE))
+                && random.nextFloat() < fireAdaptationSuppressionChance()) {
+            fireAdaptationBlockTicks = FIRE_ADAPTATION_BLOCK_TICKS;
+        }
         String damageId = damageTypeId(source);
         int previousHits = damageAdaptations.getOrDefault(damageId, 0);
-        float reduction = Math.min(maxDamageAdaptationHits(), previousHits) * damageAdaptationPerHit();
-        boolean hurt = super.hurt(source, amount * (1.0F - reduction));
-        if (hurt && !level().isClientSide && (damageAdaptations.containsKey(damageId)
+        float reduction = Math.min(1.0F, Math.min(maxDamageAdaptationHits(), previousHits)
+                * damageAdaptationPerHit() * damageAdaptationEffectiveness());
+        if (!level().isClientSide && adaptationLearningCooldown <= 0 && fireAdaptationBlockTicks <= 0
+                && (damageAdaptations.containsKey(damageId)
                 || damageAdaptations.size() < maxLearnableDamageSources())
                 && shouldLearnDamageSource(source, damageId, previousHits)) {
-            damageAdaptations.put(damageId, Math.min(maxDamageAdaptationHits(), previousHits + 1));
+            damageAdaptations.put(damageId, previousHits == Integer.MAX_VALUE ? previousHits : previousHits + 1);
+            adaptationLearningCooldown = NEW_DAMAGE_COOLDOWN_TICKS;
         }
-        return hurt;
+        return super.hurt(source, amount * (1.0F - reduction));
     }
 
     private Holder<MobEffect> killingResistanceEffect() {
@@ -142,9 +165,14 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     }
 
     protected boolean usesDamageAdaptation() {
-        return level() instanceof ServerLevel serverLevel
+        return supportsDamageAdaptation() && level() instanceof ServerLevel serverLevel
                 && !hasEffect(ModMobEffects.ANTIMALL)
                 && EvolutionSystem.generationProfile(serverLevel).adaptation();
+    }
+
+    /** Whether this legacy entity class owns the malleable damage-adaptation state. */
+    public boolean supportsDamageAdaptation() {
+        return true;
     }
 
     /** Number of learned hits required to reach a damage source's reduction cap. */
@@ -162,18 +190,45 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         return DEFAULT_MAX_LEARNABLE_DAMAGE_SOURCES;
     }
 
-    /** Allows entity tiers with legacy learning odds to reject an adaptation hit. */
+    protected float damageAdaptationLearningChance() {
+        return 0.70F;
+    }
+
+    /** Chance for fire damage to block all adaptation learning for the next ten ticks. */
+    protected float fireAdaptationSuppressionChance() {
+        return 0.70F;
+    }
+
+    /** Multiplier used by exceptional forms such as Host II. */
+    protected float damageAdaptationEffectiveness() {
+        return 1.0F;
+    }
+
     protected boolean shouldLearnDamageSource(DamageSource source, String damageId, int previousHits) {
-        return previousHits < maxDamageAdaptationHits();
+        return random.nextFloat() < damageAdaptationLearningChance();
     }
 
     public static String damageTypeId(DamageSource source) {
-        return source.typeHolder().unwrapKey().map(ResourceKey<DamageType>::location)
-                .map(Object::toString).orElse("direct");
+        Entity direct = source.getDirectEntity();
+        Entity attacker = source.getEntity();
+        LivingEntity livingSource = direct instanceof LivingEntity living ? living
+                : attacker instanceof LivingEntity living ? living : null;
+        if (livingSource instanceof Player player) {
+            ItemStack heldItem = player.getMainHandItem();
+            if (!heldItem.isEmpty()) {
+                return BuiltInRegistries.ITEM.getKey(heldItem.getItem()).toString();
+            }
+        }
+        if (livingSource != null) {
+            return BuiltInRegistries.ENTITY_TYPE.getKey(livingSource.getType()).toString();
+        }
+        return source.getMsgId();
     }
 
     public void seedGlobalAdaptation(String damageId, int points) {
-        if (damageId == null || damageId.isBlank() || points <= 0) {
+        if (!supportsDamageAdaptation() || damageId == null || damageId.isBlank() || points <= 0
+                || !damageAdaptations.containsKey(damageId)
+                && damageAdaptations.size() >= maxLearnableDamageSources()) {
             return;
         }
         // The legacy spawn loop calls addResistance repeatedly, but its new-source cooldown

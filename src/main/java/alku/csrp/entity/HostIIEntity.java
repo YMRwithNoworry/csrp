@@ -10,6 +10,40 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
 
 public final class HostIIEntity extends AbstractHostEntity {
+    @Override
+    public boolean supportsDamageAdaptation() {
+        return true;
+    }
+
+    @Override
+    protected int maxDamageAdaptationHits() {
+        return 10;
+    }
+
+    @Override
+    protected float damageAdaptationPerHit() {
+        return 0.10F;
+    }
+
+    @Override
+    protected int maxLearnableDamageSources() {
+        return 8;
+    }
+
+    @Override
+    protected float damageAdaptationLearningChance() {
+        return 0.80F;
+    }
+
+    @Override
+    protected float fireAdaptationSuppressionChance() {
+        return 0.50F;
+    }
+
+    @Override
+    protected float damageAdaptationEffectiveness() {
+        return 0.95F;
+    }
     public static final int BURROW_DURATION_TICKS = 120;
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");

@@ -99,6 +99,31 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
+    protected int maxDamageAdaptationHits() {
+        return 5;
+    }
+
+    @Override
+    protected float damageAdaptationPerHit() {
+        return 0.20F;
+    }
+
+    @Override
+    protected int maxLearnableDamageSources() {
+        return 30;
+    }
+
+    @Override
+    protected float damageAdaptationLearningChance() {
+        return 1.0F;
+    }
+
+    @Override
+    protected float fireAdaptationSuppressionChance() {
+        return 0.10F;
+    }
+
+    @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(SHADOWED, true);

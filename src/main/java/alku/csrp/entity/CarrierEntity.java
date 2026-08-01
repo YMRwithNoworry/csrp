@@ -23,6 +23,10 @@ import java.util.EnumSet;
 
 /** Shared detonation, residue, and toxic-cloud behavior of the original carrier parasites. */
 public abstract class CarrierEntity extends PrimitiveParasiteEntity {
+    @Override
+    public boolean supportsDamageAdaptation() {
+        return false;
+    }
     private static final float LOW_HEALTH_FUSE_THRESHOLD = 0.05F;
     private static final String FUSE_TICKS_TAG = "carrier_fuse_ticks";
 

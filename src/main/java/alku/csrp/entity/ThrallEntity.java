@@ -16,6 +16,10 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
 
 public final class ThrallEntity extends CrudeParasiteEntity {
+    @Override
+    public boolean supportsDamageAdaptation() {
+        return true;
+    }
     private final RawAnimation ANIMATION = ParasiteAnimations.loop(this, "idle");
 
     public ThrallEntity(EntityType<? extends ThrallEntity> type, Level level) {

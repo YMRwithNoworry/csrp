@@ -157,15 +157,21 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
 
     @Override
     protected int maxDamageAdaptationHits() {
-        return activeKind().stage == 4 ? 4 : 10;
+        return switch (activeKind().stage) {
+            case 1 -> 10;
+            case 2 -> 8;
+            case 3 -> 6;
+            case 4 -> 4;
+            default -> 0;
+        };
     }
 
     @Override
     protected float damageAdaptationPerHit() {
         return switch (activeKind().stage) {
             case 1 -> 0.07F;
-            case 2 -> 0.12F;
-            case 3 -> 0.18F;
+            case 2 -> 0.125F;
+            case 3 -> 0.17F;
             case 4 -> 0.25F;
             default -> 0.0F;
         };
@@ -183,19 +189,24 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    protected boolean shouldLearnDamageSource(DamageSource source, String damageId, int previousHits) {
-        if (previousHits >= maxDamageAdaptationHits()) {
-            return false;
-        }
-        int stage = activeKind().stage;
-        float chance = switch (stage) {
-            case 1 -> isOnFire() ? 0.30F : 0.70F;
-            case 2 -> isOnFire() ? 0.40F : 0.75F;
-            case 3 -> isOnFire() ? 0.50F : 0.80F;
-            case 4 -> 0.90F;
+    protected float damageAdaptationLearningChance() {
+        return switch (activeKind().stage) {
+            case 1 -> 0.70F;
+            case 2 -> 0.80F;
+            case 3, 4 -> 0.90F;
             default -> 0.0F;
         };
-        return random.nextFloat() < chance;
+    }
+
+    @Override
+    protected float fireAdaptationSuppressionChance() {
+        return switch (activeKind().stage) {
+            case 1 -> 0.70F;
+            case 2 -> 0.50F;
+            case 3 -> 0.30F;
+            case 4 -> 0.10F;
+            default -> 0.0F;
+        };
     }
 
     @Override

@@ -42,6 +42,30 @@ import java.util.UUID;
  * periodically performs the old charged smash sequence.
  */
 public final class MarauderEntity extends PrimitiveParasiteEntity {
+    @Override
+    protected int maxDamageAdaptationHits() {
+        return 8;
+    }
+
+    @Override
+    protected float damageAdaptationPerHit() {
+        return 0.125F;
+    }
+
+    @Override
+    protected int maxLearnableDamageSources() {
+        return 12;
+    }
+
+    @Override
+    protected float damageAdaptationLearningChance() {
+        return 0.95F;
+    }
+
+    @Override
+    protected float fireAdaptationSuppressionChance() {
+        return 0.30F;
+    }
     private static final float TENDRIL_HEALTH_FRACTION = 0.50F;
     private static final int SWEEP_COOLDOWN_TICKS = 20;
     private static final int SMASH_CHARGE_TICKS = 20;

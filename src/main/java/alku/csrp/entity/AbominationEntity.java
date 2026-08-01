@@ -23,6 +23,10 @@ import software.bernie.geckolib.animation.RawAnimation;
 
 /** Legacy Many Bodies and Giant Head close-combat abominations. */
 public final class AbominationEntity extends PrimitiveParasiteEntity {
+    @Override
+    public boolean supportsDamageAdaptation() {
+        return false;
+    }
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
     private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");

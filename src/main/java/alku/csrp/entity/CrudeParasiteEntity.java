@@ -11,7 +11,7 @@ public abstract class CrudeParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    protected boolean usesDamageAdaptation() {
+    public boolean supportsDamageAdaptation() {
         return false;
     }
 

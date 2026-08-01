@@ -27,6 +27,35 @@ import software.bernie.geckolib.animation.RawAnimation;
 import java.util.EnumSet;
 
 public final class ManglerEntity extends PrimitiveParasiteEntity {
+    @Override
+    protected int maxDamageAdaptationHits() {
+        return 8;
+    }
+
+    @Override
+    protected float damageAdaptationPerHit() {
+        return 0.125F;
+    }
+
+    @Override
+    protected int maxLearnableDamageSources() {
+        return 12;
+    }
+
+    @Override
+    protected float damageAdaptationLearningChance() {
+        return 0.95F;
+    }
+
+    @Override
+    protected float fireAdaptationSuppressionChance() {
+        return 0.30F;
+    }
+
+    @Override
+    protected float damageAdaptationEffectiveness() {
+        return 0.95F;
+    }
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private static final int NORMAL = 0;
     private static final int VIRAL = 1;

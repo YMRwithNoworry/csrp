@@ -11,6 +11,15 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
 
 public final class HostEntity extends AbstractHostEntity {
+    @Override
+    public boolean supportsDamageAdaptation() {
+        return true;
+    }
+
+    @Override
+    protected float damageAdaptationEffectiveness() {
+        return 0.95F;
+    }
     public static final int BURROW_DURATION_TICKS = 80;
     private static final int HOST_TO_HOSTII_KILLS = 40;
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");

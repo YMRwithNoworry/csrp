@@ -21,6 +21,10 @@ import software.bernie.geckolib.animation.RawAnimation;
 import java.util.UUID;
 
 public final class DredgeEntity extends CrudeParasiteEntity {
+    @Override
+    public boolean supportsDamageAdaptation() {
+        return true;
+    }
     private static final int MAX_PULL_TICKS = 200;
     private static final double PULL_STRENGTH = 0.13;
     private final RawAnimation ANIMATION = ParasiteAnimations.loop(this, "idle");

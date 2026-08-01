@@ -24,6 +24,10 @@ import software.bernie.geckolib.animation.RawAnimation;
 
 /** Legacy Ancient Drop Pod (EntityDropPod). */
 public final class AncientPodEntity extends PrimitiveParasiteEntity {
+    @Override
+    public boolean supportsDamageAdaptation() {
+        return false;
+    }
     private static final int DEFAULT_FUSE = 80;
 
     private final RawAnimation idleAnimation = ParasiteAnimations.loop(this, "idle");

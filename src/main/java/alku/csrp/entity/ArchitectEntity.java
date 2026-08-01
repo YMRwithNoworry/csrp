@@ -30,6 +30,35 @@ import java.util.EnumSet;
 
 /** Legacy flying colony architect (EntityTenn). */
 public final class ArchitectEntity extends PrimitiveParasiteEntity {
+    @Override
+    protected int maxDamageAdaptationHits() {
+        return 5;
+    }
+
+    @Override
+    protected float damageAdaptationPerHit() {
+        return 0.20F;
+    }
+
+    @Override
+    protected int maxLearnableDamageSources() {
+        return 20;
+    }
+
+    @Override
+    protected float damageAdaptationLearningChance() {
+        return 1.0F;
+    }
+
+    @Override
+    protected float fireAdaptationSuppressionChance() {
+        return 0.30F;
+    }
+
+    @Override
+    protected float damageAdaptationEffectiveness() {
+        return 0.95F;
+    }
     private final RawAnimation idleAnimation = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation flyAnimation = ParasiteAnimations.loop(this, "walk");
     private final RawAnimation attackAnimation = ParasiteAnimations.play(this, "attack");

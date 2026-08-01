@@ -6,7 +6,6 @@ import alku.csrp.entity.Parasite;
 import alku.csrp.entity.PrimitiveParasiteEntity;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.world.SrpWorldData.GlobalAdaptation;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -25,8 +24,6 @@ import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 public final class ColonyEvents {
     private static final String BONUSES_APPLIED = "csrp_colony_bonuses_applied";
     private static final String DAMAGE_CAP = "csrp_colony_damage_cap";
-    private static final String DAMAGE_ADAPTATIONS = "csrp_damage_adaptations";
-    private static final String COLONY_SPAWNED = "csrp_colony_spawned";
 
     private ColonyEvents() {
     }
@@ -60,12 +57,9 @@ public final class ColonyEvents {
         int damageCap = (int) (1.0D + points / (double) Config.colonyDamageCapPoint()
                 * Config.colonyDamageCapValue());
         entity.getPersistentData().putInt(DAMAGE_CAP, Math.max(1, damageCap));
-        if (entity instanceof PrimitiveParasiteEntity adaptable) {
+        if (entity instanceof PrimitiveParasiteEntity adaptable && adaptable.supportsDamageAdaptation()) {
             GlobalAdaptation common = data.mostCommonGlobalAdaptation();
             adaptable.seedGlobalAdaptation(common.damage(), common.points());
-        } else {
-            GlobalAdaptation common = data.mostCommonGlobalAdaptation();
-            seedGenericAdaptation(entity, common.damage(), common.points());
         }
     }
 
@@ -90,12 +84,6 @@ public final class ColonyEvents {
         if (!(event.getEntity() instanceof Parasite) || event.getAmount() <= 0.0F) {
             return;
         }
-        if (event.getEntity() instanceof LivingEntity entity
-                && !(entity instanceof PrimitiveParasiteEntity)
-                && entity.level() instanceof ServerLevel level
-                && EvolutionSystem.generationProfile(level).adaptation()) {
-            applyGenericAdaptation(entity, event);
-        }
         int cap = event.getEntity().getPersistentData().getInt(DAMAGE_CAP);
         if (cap <= 1) {
             return;
@@ -113,10 +101,9 @@ public final class ColonyEvents {
                 || parasiteEntity.isOnFire()) {
             return;
         }
-        if (parasiteEntity instanceof PrimitiveParasiteEntity parasite) {
+        if (parasiteEntity instanceof PrimitiveParasiteEntity parasite
+                && parasite.supportsDamageAdaptation()) {
             contributePrimitiveAdaptation(parasite, level);
-        } else if (parasiteEntity instanceof LivingEntity entity) {
-            contributeGenericAdaptation(entity, level);
         }
     }
 
@@ -133,61 +120,6 @@ public final class ColonyEvents {
         GlobalAdaptation common = data.mostCommonGlobalAdaptation();
         parasite.removeInheritedGlobalAdaptation(common.damage(), common.points());
         String damage = parasite.mostCommonAdaptedDamage();
-        if (damage != null) {
-            data.addGlobalResistance(damage);
-        }
-    }
-
-    private static void seedGenericAdaptation(LivingEntity entity, String damage, int points) {
-        if (damage == null || damage.isBlank() || points <= 0) {
-            return;
-        }
-        CompoundTag adaptations = entity.getPersistentData().getCompound(DAMAGE_ADAPTATIONS);
-        adaptations.putInt(damage, 1);
-        entity.getPersistentData().put(DAMAGE_ADAPTATIONS, adaptations);
-        entity.getPersistentData().putBoolean(COLONY_SPAWNED, true);
-    }
-
-    private static void applyGenericAdaptation(LivingEntity entity, LivingIncomingDamageEvent event) {
-        String damage = PrimitiveParasiteEntity.damageTypeId(event.getSource());
-        CompoundTag adaptations = entity.getPersistentData().getCompound(DAMAGE_ADAPTATIONS);
-        int hits = adaptations.getInt(damage);
-        float reduction = Math.min(8, hits) * 0.1F;
-        event.setAmount(event.getAmount() * (1.0F - reduction));
-        if (hits < 8) {
-            adaptations.putInt(damage, hits + 1);
-            entity.getPersistentData().put(DAMAGE_ADAPTATIONS, adaptations);
-        }
-    }
-
-    private static void contributeGenericAdaptation(LivingEntity entity, ServerLevel level) {
-        SrpWorldData data = SrpWorldData.get(level);
-        boolean inColonyRange = data.nearestColonyInEffectRange(entity.blockPosition()) != null;
-        MobEffectInstance link = entity.getEffect(ModMobEffects.LINK);
-        boolean linkedChance = link != null
-                && entity.getRandom().nextDouble() < Config.adaptationChance() * (link.getAmplifier() + 1);
-        if (!inColonyRange && !linkedChance) {
-            return;
-        }
-        CompoundTag adaptations = entity.getPersistentData().getCompound(DAMAGE_ADAPTATIONS);
-        GlobalAdaptation common = data.mostCommonGlobalAdaptation();
-        if (entity.getPersistentData().getBoolean(COLONY_SPAWNED) && common.damage() != null) {
-            int inherited = adaptations.getInt(common.damage());
-            if (inherited <= common.points()) {
-                adaptations.remove(common.damage());
-            } else {
-                adaptations.putInt(common.damage(), inherited - common.points());
-            }
-        }
-        String damage = null;
-        int points = 0;
-        for (String key : adaptations.getAllKeys()) {
-            int value = adaptations.getInt(key);
-            if (value > points) {
-                damage = key;
-                points = value;
-            }
-        }
         if (damage != null) {
             data.addGlobalResistance(damage);
         }

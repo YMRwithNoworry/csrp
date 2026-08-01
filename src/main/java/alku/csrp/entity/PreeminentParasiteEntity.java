@@ -44,7 +44,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
     private static final int MAX_LEARNABLE_DAMAGE_SOURCES = 20;
     private static final float ADAPTATION_PER_HIT = 0.20F;
     private static final float ADAPTATION_LEARN_CHANCE = 1.0F;
-    private static final float BURNING_LEARN_CHANCE = 0.70F;
+    private static final float FIRE_SUPPRESSION_CHANCE = 0.30F;
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
     private final RawAnimation FLY = ParasiteAnimations.loop(this, "fly");
@@ -180,9 +180,21 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    protected boolean shouldLearnDamageSource(DamageSource source, String damageId, int previousHits) {
-        float chance = isOnFire() ? BURNING_LEARN_CHANCE : ADAPTATION_LEARN_CHANCE;
-        return previousHits < MAX_ADAPTATION_HITS && random.nextFloat() < chance;
+    protected float damageAdaptationLearningChance() {
+        return ADAPTATION_LEARN_CHANCE;
+    }
+
+    @Override
+    protected float fireAdaptationSuppressionChance() {
+        return FIRE_SUPPRESSION_CHANCE;
+    }
+
+    @Override
+    protected float damageAdaptationEffectiveness() {
+        return switch (activeKind()) {
+            case BOGLE, WRAITH, BOMBER_HEAVY -> 0.95F;
+            default -> 1.0F;
+        };
     }
 
     @Override
