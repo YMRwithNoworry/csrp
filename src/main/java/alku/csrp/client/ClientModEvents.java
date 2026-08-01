@@ -3,6 +3,7 @@ package alku.csrp.client;
 import alku.csrp.Csrp;
 import alku.csrp.client.particle.KirinWarningParticle;
 import alku.csrp.client.renderer.AirscrewRenderer;
+import alku.csrp.client.renderer.AdaptedTozoonRenderer;
 import alku.csrp.client.renderer.BuglinRenderer;
 import alku.csrp.client.renderer.DerivedParasiteRenderer;
 import alku.csrp.client.renderer.MarauderRenderer;
@@ -79,8 +80,7 @@ public final class ClientModEvents {
                 new PrimitiveParasiteRenderer<>(context, "ada_reeker", 0.85F));
         event.registerEntityRenderer(ModEntities.ADA_SUMMONER.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "ada_summoner", 0.8F));
-        event.registerEntityRenderer(ModEntities.ADA_TOZOON.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "ada_tozoon", 0.7F));
+        event.registerEntityRenderer(ModEntities.ADA_TOZOON.get(), AdaptedTozoonRenderer::new);
         event.registerEntityRenderer(ModEntities.ADA_VERMIN.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "ada_vermin", 0.85F));
         event.registerEntityRenderer(ModEntities.ADA_VISCERA.get(), context ->
