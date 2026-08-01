@@ -34,8 +34,11 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
     @Override
     public RenderType getRenderType(T entity, ResourceLocation texture, MultiBufferSource bufferSource,
             float partialTick) {
+        // Iris cannot reliably map NeoForge's unlit translucent shader used by the shared model.
+        // The normal derived textures are binary-alpha, so keep the body on the vanilla entity
+        // cutout path while reserving translucency for the actual shadow clone/effect passes.
         return entity.isShadowClone() ? RenderType.entityTranslucent(shadowTexture)
-                : super.getRenderType(entity, texture, bufferSource, partialTick);
+                : RenderType.entityCutoutNoCull(texture);
     }
 
     @Override
