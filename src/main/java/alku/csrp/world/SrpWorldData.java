@@ -27,6 +27,7 @@ public final class SrpWorldData extends SavedData {
     private int generation;
     private int generationTicks;
     private int ubiquitousDevelopment;
+    private long dislodgmentTriggerCooldownEnd;
     private final List<Integer> lockedParasites = new ArrayList<>();
     private final List<NodeEntry> nodes = new ArrayList<>();
     private final List<ColonyEntry> colonies = new ArrayList<>();
@@ -55,6 +56,7 @@ public final class SrpWorldData extends SavedData {
         data.generation = tag.getInt("generation");
         data.generationTicks = tag.getInt("generation_ticks");
         data.ubiquitousDevelopment = tag.getInt("ubiquitous_development");
+        data.dislodgmentTriggerCooldownEnd = tag.getLong("dislodgment_trigger_cooldown_end");
 
         for (int id : tag.getIntArray("locked_parasites")) {
             data.lockedParasites.add(id);
@@ -78,6 +80,7 @@ public final class SrpWorldData extends SavedData {
         tag.putInt("generation", generation);
         tag.putInt("generation_ticks", generationTicks);
         tag.putInt("ubiquitous_development", ubiquitousDevelopment);
+        tag.putLong("dislodgment_trigger_cooldown_end", dislodgmentTriggerCooldownEnd);
         tag.putIntArray("locked_parasites", lockedParasites);
         writeNodes(tag, nodes);
         writeColonies(tag, colonies);
@@ -352,22 +355,68 @@ public final class SrpWorldData extends SavedData {
     }
 
     public List<DislodgmentCode> activeDislodgmentCodes(ServerLevel level) {
-        boolean removed = dislodgmentCodes.removeIf(code -> code.expiresAt() <= level.getGameTime());
-        if (removed) {
-            setDirty();
-        }
-        return Collections.unmodifiableList(dislodgmentCodes);
+        return Collections.unmodifiableList(new ArrayList<>(dislodgmentCodes));
     }
 
-    public boolean setDislodgmentCode(ServerLevel level, int code, int value, int duration) {
-        activeDislodgmentCodes(level);
-        if (code < 0 || code >= 30 || value < 1 || value > 6 || duration < 1
+    public boolean setDislodgmentCode(ServerLevel level, int code, int value, int durationSeconds) {
+        return startDislodgmentCode(level, code, value, durationSeconds, 0);
+    }
+
+    public boolean startDislodgmentCode(ServerLevel level, int code, int value, int durationSeconds,
+            int evolutionPointCost) {
+        if (code < 0 || code >= 30 || value < 0 || durationSeconds < 0 || evolutionPointCost < 0
                 || dislodgmentCodes.stream().anyMatch(entry -> entry.code() == code)) {
             return false;
         }
-        dislodgmentCodes.add(new DislodgmentCode(code, value, level.getGameTime() + duration));
+        if (Config.useEvolutionPhases() && evolutionPointCost > 0) {
+            long remaining = (long) evolutionPoints - evolutionPointCost;
+            if (remaining < EvolutionSystem.thresholdForPhase(evolutionPhase)) {
+                return false;
+            }
+            evolutionPoints = (int) remaining;
+        }
+        long durationTicks = Math.min(Long.MAX_VALUE - level.getGameTime(), (long) durationSeconds * 20L);
+        dislodgmentCodes.add(new DislodgmentCode(code, value, level.getGameTime() + durationTicks));
         setDirty();
         return true;
+    }
+
+    public DislodgmentCode dislodgmentCode(int code) {
+        return dislodgmentCodes.stream().filter(entry -> entry.code() == code).findFirst().orElse(null);
+    }
+
+    public boolean increaseDislodgmentValue(int code, int amount) {
+        for (int index = 0; index < dislodgmentCodes.size(); index++) {
+            DislodgmentCode entry = dislodgmentCodes.get(index);
+            if (entry.code() != code) {
+                continue;
+            }
+            long value = Math.max(0L, (long) entry.value() + amount);
+            dislodgmentCodes.set(index, new DislodgmentCode(code,
+                    (int) Math.min(Integer.MAX_VALUE, value), entry.expiresAt()));
+            setDirty();
+            return true;
+        }
+        return false;
+    }
+
+    public List<DislodgmentCode> expireDislodgmentCodes(ServerLevel level) {
+        List<DislodgmentCode> expired = dislodgmentCodes.stream()
+                .filter(code -> code.expiresAt() <= level.getGameTime()).toList();
+        if (!expired.isEmpty()) {
+            dislodgmentCodes.removeAll(expired);
+            setDirty();
+        }
+        return expired;
+    }
+
+    public boolean dislodgmentTriggerReady(ServerLevel level) {
+        return level.getGameTime() >= dislodgmentTriggerCooldownEnd;
+    }
+
+    public void setDislodgmentTriggerCooldown(ServerLevel level, int ticks) {
+        dislodgmentTriggerCooldownEnd = level.getGameTime() + Math.max(0, ticks);
+        setDirty();
     }
 
     public void clearDislodgmentCodes() {
@@ -386,6 +435,7 @@ public final class SrpWorldData extends SavedData {
         generation = 0;
         generationTicks = 0;
         ubiquitousDevelopment = 0;
+        dislodgmentTriggerCooldownEnd = 0L;
         lockedParasites.clear();
         nodes.clear();
         colonies.clear();

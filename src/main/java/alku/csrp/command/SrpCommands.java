@@ -5,6 +5,7 @@ import alku.csrp.entity.NexusParasiteEntity;
 import alku.csrp.entity.Parasite;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.world.EvolutionSystem;
+import alku.csrp.world.DislodgmentSystem;
 import alku.csrp.world.SrpWorldData;
 import alku.csrp.world.SrpCoreSystems;
 import alku.csrp.world.SrpWorldData.ColonyEntry;
@@ -266,18 +267,18 @@ public final class SrpCommands {
     private static LiteralArgumentBuilder<CommandSourceStack> srDislodgment() {
         return admin("srpdislodgment")
                 .then(Commands.literal("codes_reset").executes(context -> {
-                    data(context.getSource()).clearDislodgmentCodes();
+                    DislodgmentSystem.clearCodes(context.getSource().getLevel());
                     return success(context.getSource(), "Dislodgment codes back to 0");
                 }))
                 .then(Commands.literal("viewcodes").executes(context -> showDislodgmentCodes(context.getSource())))
                 .then(Commands.literal("random_code")
-                        .then(Commands.argument("duration", IntegerArgumentType.integer(1))
+                        .then(Commands.argument("duration", IntegerArgumentType.integer(0))
                                 .executes(context -> randomDislodgmentCode(context.getSource(),
                                         IntegerArgumentType.getInteger(context, "duration")))))
                 .then(Commands.literal("set_code")
-                        .then(Commands.argument("duration", IntegerArgumentType.integer(1))
+                        .then(Commands.argument("duration", IntegerArgumentType.integer(0))
                                 .then(Commands.argument("code", IntegerArgumentType.integer(0, 29))
-                                        .then(Commands.argument("value", IntegerArgumentType.integer(1, 6))
+                                        .then(Commands.argument("value", IntegerArgumentType.integer(0))
                                                 .executes(context -> setDislodgmentCode(context.getSource(),
                                                         IntegerArgumentType.getInteger(context, "duration"),
                                                         IntegerArgumentType.getInteger(context, "code"),
@@ -472,7 +473,8 @@ public final class SrpCommands {
         List<DislodgmentCode> entries = data(source).activeDislodgmentCodes(source.getLevel());
         success(source, "Active dislodgment codes: " + entries.size());
         entries.forEach(entry -> success(source, "[code=" + entry.code() + ", value=" + entry.value()
-                + ", remaining=" + Math.max(0L, entry.expiresAt() - source.getLevel().getGameTime()) + "]"));
+                + ", remaining=" + Math.max(0L,
+                        (entry.expiresAt() - source.getLevel().getGameTime() + 19L) / 20L) + "]"));
         return Command.SINGLE_SUCCESS;
     }
 

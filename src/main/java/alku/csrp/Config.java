@@ -70,6 +70,50 @@ public final class Config {
             .defineInRange("colonyPointCap", 100, 1, Integer.MAX_VALUE);
     private static final ModConfigSpec.IntValue COLONY_TOTAL_POINT_CAP = BUILDER
             .defineInRange("colonyTotalPointCap", 100000, 1, Integer.MAX_VALUE);
+    private static final ModConfigSpec.BooleanValue USE_DISLODGMENT = BUILDER
+            .comment("Enable the original parasite dislodgment system.")
+            .define("useDislodgment", true);
+    private static final ModConfigSpec.DoubleValue DISLODGMENT_DEATH_TRIGGER_CHANCE = BUILDER
+            .comment("Chance for a parasite death to activate an eligible dislodgment code.")
+            .defineInRange("dislodgmentDeathTriggerChance", 0.001D, 0.0D, 1.0D);
+    private static final ModConfigSpec.IntValue DISLODGMENT_GLOBAL_COOLDOWN = BUILDER
+            .comment("Global dislodgment trigger cooldown in ticks.")
+            .defineInRange("dislodgmentGlobalCooldown", 200, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.BooleanValue DISLO_SUMMON_BY_DEATH = BUILDER
+            .define("disloSummonByDeath", true);
+    private static final ModConfigSpec.IntValue DISLO_SUMMON_BY_DEATH_POINT_COST = BUILDER
+            .defineInRange("disloSummonByDeathPointCost", 200, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_SUMMON_BY_DEATH_VALUE = BUILDER
+            .defineInRange("disloSummonByDeathValue", 1, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_SUMMON_BY_DEATH_DURATION = BUILDER
+            .defineInRange("disloSummonByDeathDuration", 60, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_SUMMON_BY_DEATH_KILLING = BUILDER
+            .defineInRange("disloSummonByDeathKilling", 5, 0, 255);
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> DISLO_SUMMON_BY_DEATH_MOBS = BUILDER
+            .comment("Dislodgment 2 payload table formatted as minimum accumulated health;entity id.")
+            .defineList("disloSummonByDeathMobs", List.of(
+                    "1;csrp:sim_enderman",
+                    "50;csrp:fer_enderman",
+                    "100;csrp:warden"),
+                    value -> value instanceof String && ((String) value).split(";", -1).length == 2);
+    private static final ModConfigSpec.BooleanValue DISLO_HEALING_DEATH = BUILDER
+            .define("disloHealingDeath", true);
+    private static final ModConfigSpec.IntValue DISLO_HEALING_DEATH_POINT_COST = BUILDER
+            .defineInRange("disloHealingDeathPointCost", 500, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_HEALING_DEATH_VALUE = BUILDER
+            .defineInRange("disloHealingDeathValue", 100, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_HEALING_DEATH_DURATION = BUILDER
+            .defineInRange("disloHealingDeathDuration", 40, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.BooleanValue DISLO_DAMAGE_DEATH = BUILDER
+            .define("disloDamageDeath", true);
+    private static final ModConfigSpec.BooleanValue DISLO_FOOD_DEATH = BUILDER
+            .define("disloFoodDeath", true);
+    private static final ModConfigSpec.BooleanValue DISLO_LOOT_XP_CANCEL = BUILDER
+            .define("disloLootXpCancel", true);
+    private static final ModConfigSpec.IntValue DISLO_LOOT_XP_CANCEL_POINT_COST = BUILDER
+            .defineInRange("disloLootXpCancelPointCost", 100, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_LOOT_XP_CANCEL_DURATION = BUILDER
+            .defineInRange("disloLootXpCancelDuration", 60, 0, Integer.MAX_VALUE);
 
     static final ModConfigSpec SPEC = BUILDER.build();
 
@@ -109,4 +153,22 @@ public final class Config {
     public static double colonyDamageCapValue() { return COLONY_DAMAGE_CAP_VALUE.get(); }
     public static int colonyPointCap() { return COLONY_POINT_CAP.get(); }
     public static int colonyTotalPointCap() { return COLONY_TOTAL_POINT_CAP.get(); }
+    public static boolean useDislodgment() { return USE_DISLODGMENT.get(); }
+    public static double dislodgmentDeathTriggerChance() { return DISLODGMENT_DEATH_TRIGGER_CHANCE.get(); }
+    public static int dislodgmentGlobalCooldown() { return DISLODGMENT_GLOBAL_COOLDOWN.get(); }
+    public static boolean disloSummonByDeath() { return DISLO_SUMMON_BY_DEATH.get(); }
+    public static int disloSummonByDeathPointCost() { return DISLO_SUMMON_BY_DEATH_POINT_COST.get(); }
+    public static int disloSummonByDeathValue() { return DISLO_SUMMON_BY_DEATH_VALUE.get(); }
+    public static int disloSummonByDeathDuration() { return DISLO_SUMMON_BY_DEATH_DURATION.get(); }
+    public static int disloSummonByDeathKilling() { return DISLO_SUMMON_BY_DEATH_KILLING.get(); }
+    public static List<? extends String> disloSummonByDeathMobs() { return DISLO_SUMMON_BY_DEATH_MOBS.get(); }
+    public static boolean disloHealingDeath() { return DISLO_HEALING_DEATH.get(); }
+    public static int disloHealingDeathPointCost() { return DISLO_HEALING_DEATH_POINT_COST.get(); }
+    public static int disloHealingDeathValue() { return DISLO_HEALING_DEATH_VALUE.get(); }
+    public static int disloHealingDeathDuration() { return DISLO_HEALING_DEATH_DURATION.get(); }
+    public static boolean disloDamageDeath() { return DISLO_DAMAGE_DEATH.get(); }
+    public static boolean disloFoodDeath() { return DISLO_FOOD_DEATH.get(); }
+    public static boolean disloLootXpCancel() { return DISLO_LOOT_XP_CANCEL.get(); }
+    public static int disloLootXpCancelPointCost() { return DISLO_LOOT_XP_CANCEL_POINT_COST.get(); }
+    public static int disloLootXpCancelDuration() { return DISLO_LOOT_XP_CANCEL_DURATION.get(); }
 }

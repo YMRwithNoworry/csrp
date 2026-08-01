@@ -305,5 +305,9 @@
         "stream": true
       }
     ]
+  },
+  "rathol.boom": {
+    "subtitle": "subtitles.entity.generic.explode",
+    "sounds": ["csrp:rathol_explotion"]
   }
 }
