@@ -15,6 +15,7 @@ import alku.csrp.client.renderer.PullingBallRenderer;
 import alku.csrp.client.renderer.ParasiteProjectileRenderer;
 import alku.csrp.client.renderer.ScaryOrbRenderer;
 import alku.csrp.client.renderer.TetheredMarauderizedRenderer;
+import alku.csrp.client.renderer.ParasiticScentRenderer;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModItems;
 import alku.csrp.registry.ModParticles;
@@ -36,6 +37,7 @@ public final class ClientModEvents {
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntities.BUGLIN.get(), BuglinRenderer::new);
         event.registerEntityRenderer(ModEntities.RUPTER.get(), RupterRenderer::new);
+        event.registerEntityRenderer(ModEntities.SCENT.get(), ParasiticScentRenderer::new);
         event.registerEntityRenderer(ModEntities.PRI_LONGARMS.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "pri_longarms", 0.65F));
         event.registerEntityRenderer(ModEntities.PRI_SUMMONER.get(), context ->

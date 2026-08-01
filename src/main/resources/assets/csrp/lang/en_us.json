@@ -446,5 +446,10 @@
   "item.csrp.sim_sheephead_spawn_egg": "Walking Sheep Head Spawn Egg",
   "item.csrp.sim_villager_spawn_egg": "Assimilated Villager Spawn Egg",
   "item.csrp.sim_villagerhead_spawn_egg": "Walking Villager Head Spawn Egg",
-  "item.csrp.sim_wolfhead_spawn_egg": "Walking Wolf Head Spawn Egg"
+  "item.csrp.sim_wolfhead_spawn_egg": "Walking Wolf Head Spawn Egg",
+  "entity.csrp.scent": "Scent",
+  "srp.msg.scent.closest_notified": "Closest Scent was notified",
+  "srp.msg.scent.deployed_area": "A Scent has been deployed in this area",
+  "srp.msg.scent.active": "Scent is active",
+  "subtitles.csrp.scent.wave": "Scent wave pulses"
 }

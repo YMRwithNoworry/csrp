@@ -446,5 +446,10 @@
   "item.csrp.sim_sheephead_spawn_egg": "行走羊头刷怪蛋",
   "item.csrp.sim_villager_spawn_egg": "同化村民刷怪蛋",
   "item.csrp.sim_villagerhead_spawn_egg": "行走村民头刷怪蛋",
-  "item.csrp.sim_wolfhead_spawn_egg": "行走狼头刷怪蛋"
+  "item.csrp.sim_wolfhead_spawn_egg": "行走狼头刷怪蛋",
+  "entity.csrp.scent": "循质袭击",
+  "srp.msg.scent.closest_notified": "附近的循质已被通知",
+  "srp.msg.scent.deployed_area": "循质已部署于此区域",
+  "srp.msg.scent.active": "循质袭击启动",
+  "subtitles.csrp.scent.wave": "循质波动"
 }

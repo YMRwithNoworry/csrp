@@ -61,6 +61,8 @@ public final class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> MARAUDER_LIVING = register("marauder.living");
     public static final DeferredHolder<SoundEvent, SoundEvent> MARAUDER_HURT = register("marauder.hurt");
     public static final DeferredHolder<SoundEvent, SoundEvent> MARAUDER_DEATH = register("marauder.death");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SCENT_WAVE = register("scent.wave");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SCENT_MUSIC = register("scent.music");
 
     private ModSounds() {
     }

@@ -293,5 +293,17 @@
   "marauder.death": {
     "subtitle": "subtitles.csrp.marauder.death",
     "sounds": ["csrp:mob/pure/marauder/death"]
+  },
+  "scent.wave": {
+    "subtitle": "subtitles.csrp.scent.wave",
+    "sounds": ["csrp:misc/scent_wave"]
+  },
+  "scent.music": {
+    "sounds": [
+      {
+        "name": "csrp:music/grounded",
+        "stream": true
+      }
+    ]
   }
 }

@@ -23,6 +23,7 @@ import alku.csrp.effect.EffectNegMobEffect;
 import alku.csrp.effect.IndeafMobEffect;
 import alku.csrp.effect.FosterMobEffect;
 import alku.csrp.effect.SpottedMobEffect;
+import alku.csrp.effect.PreyMobEffect;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -102,7 +103,7 @@ public final class ModMobEffects {
             EFFECTS.register("senses", () -> new AttributeMobEffect(false, 9346775,
                     Attributes.FOLLOW_RANGE, ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "senses_follow_range"), 0.1D));
     public static final DeferredHolder<MobEffect, MobEffect> PREY =
-            EFFECTS.register("prey", () -> new MarkerMobEffect(true, 4800055));
+            EFFECTS.register("prey", PreyMobEffect::new);
     public static final DeferredHolder<MobEffect, MobEffect> DEBAR =
             EFFECTS.register("debar", () -> new MarkerMobEffect(false, 10359627));
     public static final DeferredHolder<MobEffect, MobEffect> FOSTER =

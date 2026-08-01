@@ -45,6 +45,7 @@ import alku.csrp.entity.MarauderizedHumanEntity;
 import alku.csrp.entity.MarauderizedSheepEntity;
 import alku.csrp.entity.MarauderizedVillagerEntity;
 import alku.csrp.entity.ParasiteProjectileEntity;
+import alku.csrp.entity.ParasiticScentEntity;
 import alku.csrp.entity.PrimitiveVariantEntity;
 import alku.csrp.entity.PreeminentParasiteEntity;
 import alku.csrp.entity.PureParasiteEntity;
@@ -428,6 +429,11 @@ public final class ModEntities {
             ENTITIES.register("scary_orb", () -> EntityType.Builder.<ScaryOrbEntity>of(ScaryOrbEntity::new, MobCategory.MISC)
                     .sized(0.5F, 0.5F).clientTrackingRange(8).updateInterval(1)
                     .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "scary_orb").toString()));
+    public static final DeferredHolder<EntityType<?>, EntityType<ParasiticScentEntity>> SCENT =
+            ENTITIES.register("scent", () -> EntityType.Builder
+                    .<ParasiticScentEntity>of(ParasiticScentEntity::new, MobCategory.MISC)
+                    .sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(3)
+                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "scent").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<ParasiteProjectileEntity>> PARASITE_PROJECTILE =
             ENTITIES.register("parasite_projectile", () -> EntityType.Builder
                     .<ParasiteProjectileEntity>of(ParasiteProjectileEntity::new, MobCategory.MISC)
