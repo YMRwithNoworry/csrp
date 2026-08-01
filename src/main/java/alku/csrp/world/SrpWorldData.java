@@ -2,6 +2,7 @@ package alku.csrp.world;
 
 import alku.csrp.Config;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -17,6 +18,7 @@ import net.minecraft.world.level.saveddata.SavedData;
 public final class SrpWorldData extends SavedData {
     private static final String DATA_NAME = "csrp_world_data";
     private static final Factory<SrpWorldData> FACTORY = new Factory<>(SrpWorldData::new, SrpWorldData::load);
+    private static final int[] DISLODGMENT_PHASE_COOLDOWN_MULTIPLIER = {1, 4, 3, 3, 4, 5, 6, 7, 8, 9, 10};
 
     private boolean initialized;
     private int evolutionPhase = -1;
@@ -33,6 +35,7 @@ public final class SrpWorldData extends SavedData {
     private final List<ColonyEntry> colonies = new ArrayList<>();
     private final List<VectorEntry> vectors = new ArrayList<>();
     private final List<DislodgmentCode> dislodgmentCodes = new ArrayList<>();
+    private final long[] dislodgmentCooldownEnds = new long[30];
     private final Map<String, Integer> globalAdaptations = new LinkedHashMap<>();
 
     public static SrpWorldData get(ServerLevel level) {
@@ -57,6 +60,9 @@ public final class SrpWorldData extends SavedData {
         data.generationTicks = tag.getInt("generation_ticks");
         data.ubiquitousDevelopment = tag.getInt("ubiquitous_development");
         data.dislodgmentTriggerCooldownEnd = tag.getLong("dislodgment_trigger_cooldown_end");
+        long[] dislodgmentCooldowns = tag.getLongArray("dislodgment_cooldown_ends");
+        System.arraycopy(dislodgmentCooldowns, 0, data.dislodgmentCooldownEnds, 0,
+                Math.min(dislodgmentCooldowns.length, data.dislodgmentCooldownEnds.length));
 
         for (int id : tag.getIntArray("locked_parasites")) {
             data.lockedParasites.add(id);
@@ -81,6 +87,7 @@ public final class SrpWorldData extends SavedData {
         tag.putInt("generation_ticks", generationTicks);
         tag.putInt("ubiquitous_development", ubiquitousDevelopment);
         tag.putLong("dislodgment_trigger_cooldown_end", dislodgmentTriggerCooldownEnd);
+        tag.putLongArray("dislodgment_cooldown_ends", dislodgmentCooldownEnds);
         tag.putIntArray("locked_parasites", lockedParasites);
         writeNodes(tag, nodes);
         writeColonies(tag, colonies);
@@ -365,7 +372,8 @@ public final class SrpWorldData extends SavedData {
     public boolean startDislodgmentCode(ServerLevel level, int code, int value, int durationSeconds,
             int evolutionPointCost) {
         if (code < 0 || code >= 30 || value < 0 || durationSeconds < 0 || evolutionPointCost < 0
-                || dislodgmentCodes.stream().anyMatch(entry -> entry.code() == code)) {
+                || dislodgmentCodes.stream().anyMatch(entry -> entry.code() == code)
+                || dislodgmentCooldownEnds[code] > level.getGameTime()) {
             return false;
         }
         if (Config.useEvolutionPhases() && evolutionPointCost > 0) {
@@ -378,6 +386,7 @@ public final class SrpWorldData extends SavedData {
         long durationTicks = Math.min(Long.MAX_VALUE - level.getGameTime(), (long) durationSeconds * 20L);
         dislodgmentCodes.add(new DislodgmentCode(code, value, level.getGameTime() + durationTicks));
         setDirty();
+        DislodgmentSystem.onCodeStarted(level, code, value, durationTicks);
         return true;
     }
 
@@ -404,10 +413,41 @@ public final class SrpWorldData extends SavedData {
         List<DislodgmentCode> expired = dislodgmentCodes.stream()
                 .filter(code -> code.expiresAt() <= level.getGameTime()).toList();
         if (!expired.isEmpty()) {
+            for (DislodgmentCode code : expired) {
+                startDislodgmentCodeCooldown(level, code.code());
+            }
             dislodgmentCodes.removeAll(expired);
             setDirty();
         }
         return expired;
+    }
+
+    public List<DislodgmentCode> endAllDislodgmentCodes(ServerLevel level) {
+        List<DislodgmentCode> ended = new ArrayList<>(dislodgmentCodes);
+        for (DislodgmentCode code : ended) {
+            startDislodgmentCodeCooldown(level, code.code());
+        }
+        dislodgmentCodes.clear();
+        setDirty();
+        return ended;
+    }
+
+    public long dislodgmentCooldown(ServerLevel level, int code) {
+        if (code < 0 || code >= dislodgmentCooldownEnds.length) {
+            return 0L;
+        }
+        return Math.max(0L, dislodgmentCooldownEnds[code] - level.getGameTime());
+    }
+
+    private void startDislodgmentCodeCooldown(ServerLevel level, int code) {
+        if (code < 0 || code >= dislodgmentCooldownEnds.length) {
+            return;
+        }
+        int phase = Math.max(0, Math.min(10, evolutionPhase));
+        long seconds = (long) Config.dislodgmentCodeCooldown(code)
+                * DISLODGMENT_PHASE_COOLDOWN_MULTIPLIER[phase];
+        long ticks = Math.min(Long.MAX_VALUE - level.getGameTime(), seconds * 20L);
+        dislodgmentCooldownEnds[code] = level.getGameTime() + ticks;
     }
 
     public boolean dislodgmentTriggerReady(ServerLevel level) {
@@ -421,6 +461,7 @@ public final class SrpWorldData extends SavedData {
 
     public void clearDislodgmentCodes() {
         dislodgmentCodes.clear();
+        Arrays.fill(dislodgmentCooldownEnds, 0L);
         setDirty();
     }
 
@@ -441,6 +482,7 @@ public final class SrpWorldData extends SavedData {
         colonies.clear();
         vectors.clear();
         dislodgmentCodes.clear();
+        Arrays.fill(dislodgmentCooldownEnds, 0L);
         globalAdaptations.clear();
         setDirty();
     }

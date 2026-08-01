@@ -1,6 +1,7 @@
 package alku.csrp;
 
 import alku.csrp.world.SrpWorldData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.ModConfigSpec;
@@ -9,6 +10,8 @@ import java.util.List;
 
 public final class Config {
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
+    private static final List<Integer> DEFAULT_DISLODGMENT_PHASE_CODES = List.of(
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25);
     private static final ModConfigSpec.IntValue EVOLUTION_PHASE = BUILDER
             .comment("Current parasite evolution phase used by phase-gated spawning and behavior.")
             .defineInRange("evolutionPhase", -1, -2, 10);
@@ -79,6 +82,79 @@ public final class Config {
     private static final ModConfigSpec.IntValue DISLODGMENT_GLOBAL_COOLDOWN = BUILDER
             .comment("Global dislodgment trigger cooldown in ticks.")
             .defineInRange("dislodgmentGlobalCooldown", 200, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLODGMENT_COTH_SPY = BUILDER
+            .comment("Nearby COTH carriers required for player-action dislodgment triggers.")
+            .defineInRange("dislodgmentCothSpy", 4, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLODGMENT_PHASE_ONE_CODES =
+            dislodgmentPhaseCodes("dislodgmentPhaseOneCodes");
+    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLODGMENT_PHASE_TWO_CODES =
+            dislodgmentPhaseCodes("dislodgmentPhaseTwoCodes");
+    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLODGMENT_PHASE_THREE_CODES =
+            dislodgmentPhaseCodes("dislodgmentPhaseThreeCodes");
+    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLODGMENT_PHASE_FOUR_CODES =
+            dislodgmentPhaseCodes("dislodgmentPhaseFourCodes");
+    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLODGMENT_PHASE_FIVE_CODES =
+            dislodgmentPhaseCodes("dislodgmentPhaseFiveCodes");
+    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLODGMENT_PHASE_SIX_CODES =
+            dislodgmentPhaseCodes("dislodgmentPhaseSixCodes");
+    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLODGMENT_PHASE_SEVEN_CODES =
+            dislodgmentPhaseCodes("dislodgmentPhaseSevenCodes");
+    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLODGMENT_PHASE_EIGHT_CODES =
+            dislodgmentPhaseCodes("dislodgmentPhaseEightCodes");
+    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLODGMENT_PHASE_NINE_CODES =
+            dislodgmentPhaseCodes("dislodgmentPhaseNineCodes");
+    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLODGMENT_PHASE_TEN_CODES =
+            dislodgmentPhaseCodes("dislodgmentPhaseTenCodes");
+    private static final ModConfigSpec.DoubleValue DISLODGMENT_RIGHT_CLICK_TRIGGER_CHANCE = BUILDER
+            .defineInRange("dislodgmentRightClickTriggerChance", 0.01D, 0.0D, 1.0D);
+    private static final ModConfigSpec.DoubleValue DISLODGMENT_XP_PICKUP_TRIGGER_CHANCE = BUILDER
+            .defineInRange("dislodgmentXpPickupTriggerChance", 0.03D, 0.0D, 1.0D);
+    private static final ModConfigSpec.DoubleValue DISLODGMENT_ITEM_PICKUP_TRIGGER_CHANCE = BUILDER
+            .defineInRange("dislodgmentItemPickupTriggerChance", 0.03D, 0.0D, 1.0D);
+    private static final ModConfigSpec.DoubleValue DISLODGMENT_HEALING_TRIGGER_CHANCE = BUILDER
+            .defineInRange("dislodgmentHealingTriggerChance", 0.001D, 0.0D, 1.0D);
+    private static final ModConfigSpec.DoubleValue DISLODGMENT_USE_ITEM_TRIGGER_CHANCE = BUILDER
+            .defineInRange("dislodgmentUseItemTriggerChance", 0.01D, 0.0D, 1.0D);
+    private static final ModConfigSpec.DoubleValue DISLODGMENT_MENU_CLOSE_TRIGGER_CHANCE = BUILDER
+            .defineInRange("dislodgmentMenuCloseTriggerChance", 0.001D, 0.0D, 1.0D);
+    private static final ModConfigSpec.DoubleValue DISLODGMENT_BLOCK_BREAK_TRIGGER_CHANCE = BUILDER
+            .defineInRange("dislodgmentBlockBreakTriggerChance", 0.1D, 0.0D, 1.0D);
+    private static final ModConfigSpec.DoubleValue DISLODGMENT_NEXUS_ONE_TRIGGER_CHANCE = BUILDER
+            .defineInRange("dislodgmentNexusOneTriggerChance", 0.05D, 0.0D, 1.0D);
+    private static final ModConfigSpec.DoubleValue DISLODGMENT_NEXUS_TWO_TRIGGER_CHANCE = BUILDER
+            .defineInRange("dislodgmentNexusTwoTriggerChance", 0.06D, 0.0D, 1.0D);
+    private static final ModConfigSpec.DoubleValue DISLODGMENT_NEXUS_THREE_TRIGGER_CHANCE = BUILDER
+            .defineInRange("dislodgmentNexusThreeTriggerChance", 0.07D, 0.0D, 1.0D);
+    private static final ModConfigSpec.DoubleValue DISLODGMENT_NEXUS_FOUR_TRIGGER_CHANCE = BUILDER
+            .defineInRange("dislodgmentNexusFourTriggerChance", 0.1D, 0.0D, 1.0D);
+    private static final ModConfigSpec.BooleanValue DISLO_COTH_IGNORE_AMPLIFIER = BUILDER
+            .define("disloCothIgnoreAmplifier", true);
+    private static final ModConfigSpec.IntValue DISLO_COTH_IGNORE_AMPLIFIER_POINT_COST = BUILDER
+            .defineInRange("disloCothIgnoreAmplifierPointCost", 100, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_COTH_IGNORE_AMPLIFIER_DURATION = BUILDER
+            .defineInRange("disloCothIgnoreAmplifierDuration", 60, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_COTH_IGNORE_AMPLIFIER_COOLDOWN = BUILDER
+            .defineInRange("disloCothIgnoreAmplifierCooldown", 240, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_COTH_IGNORE_AMPLIFIER_TRIGGERS =
+            dislodgmentTriggers("disloCothIgnoreAmplifierTriggers", List.of(1, 10, 14, 16));
+    private static final ModConfigSpec.BooleanValue DISLO_COTH_TIERS = BUILDER
+            .define("disloCothTiers", true);
+    private static final ModConfigSpec.IntValue DISLO_COTH_TIERS_POINT_COST = BUILDER
+            .defineInRange("disloCothTiersPointCost", 200, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_COTH_TIERS_VALUE = BUILDER
+            .defineInRange("disloCothTiersValue", 1, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_COTH_TIERS_DURATION = BUILDER
+            .defineInRange("disloCothTiersDuration", 40, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_COTH_TIERS_COOLDOWN = BUILDER
+            .defineInRange("disloCothTiersCooldown", 240, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_COTH_TIERS_PRIMITIVE = BUILDER
+            .defineInRange("disloCothTiersPrimitive", 9, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_COTH_TIERS_ADAPTED = BUILDER
+            .defineInRange("disloCothTiersAdapted", 15, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_COTH_TIERS_PURE = BUILDER
+            .defineInRange("disloCothTiersPure", 21, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_COTH_TIERS_TRIGGERS =
+            dislodgmentTriggers("disloCothTiersTriggers", List.of(12, 13, 14, 15, 16));
     private static final ModConfigSpec.BooleanValue DISLO_SUMMON_BY_DEATH = BUILDER
             .define("disloSummonByDeath", true);
     private static final ModConfigSpec.IntValue DISLO_SUMMON_BY_DEATH_POINT_COST = BUILDER
@@ -87,6 +163,8 @@ public final class Config {
             .defineInRange("disloSummonByDeathValue", 1, 0, Integer.MAX_VALUE);
     private static final ModConfigSpec.IntValue DISLO_SUMMON_BY_DEATH_DURATION = BUILDER
             .defineInRange("disloSummonByDeathDuration", 60, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_SUMMON_BY_DEATH_COOLDOWN = BUILDER
+            .defineInRange("disloSummonByDeathCooldown", 200, 0, Integer.MAX_VALUE);
     private static final ModConfigSpec.IntValue DISLO_SUMMON_BY_DEATH_KILLING = BUILDER
             .defineInRange("disloSummonByDeathKilling", 5, 0, 255);
     private static final ModConfigSpec.ConfigValue<List<? extends String>> DISLO_SUMMON_BY_DEATH_MOBS = BUILDER
@@ -96,6 +174,57 @@ public final class Config {
                     "50;csrp:fer_enderman",
                     "100;csrp:warden"),
                     value -> value instanceof String && ((String) value).split(";", -1).length == 2);
+    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_SUMMON_BY_DEATH_TRIGGERS =
+            dislodgmentTriggers("disloSummonByDeathTriggers", List.of(10, 15, 16));
+    private static final ModConfigSpec.BooleanValue DISLO_POTION_EFFECT = BUILDER
+            .define("disloPotionEffect", true);
+    private static final ModConfigSpec.IntValue DISLO_POTION_EFFECT_POINT_COST = BUILDER
+            .defineInRange("disloPotionEffectPointCost", 200, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_POTION_EFFECT_VALUE = BUILDER
+            .defineInRange("disloPotionEffectValue", 1, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_POTION_EFFECT_DURATION = BUILDER
+            .defineInRange("disloPotionEffectDuration", 120, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_POTION_EFFECT_COOLDOWN = BUILDER
+            .defineInRange("disloPotionEffectCooldown", 300, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> DISLO_POTION_EFFECTS = BUILDER
+            .defineList("disloPotionEffects", List.of(
+                    "minecraft:speed", "minecraft:fire_resistance", "minecraft:invisibility"),
+                    value -> value instanceof String && ResourceLocation.tryParse((String) value) != null);
+    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_POTION_EFFECT_TRIGGERS =
+            dislodgmentTriggers("disloPotionEffectTriggers", List.of(4, 13, 14, 15, 16));
+    private static final ModConfigSpec.BooleanValue DISLO_STATS = BUILDER.define("disloStats", true);
+    private static final ModConfigSpec.IntValue DISLO_STATS_POINT_COST = BUILDER
+            .defineInRange("disloStatsPointCost", 1000, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_STATS_VALUE = BUILDER
+            .defineInRange("disloStatsValue", 2, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_STATS_DURATION = BUILDER
+            .defineInRange("disloStatsDuration", 60, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_STATS_COOLDOWN = BUILDER
+            .defineInRange("disloStatsCooldown", 300, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_STATS_TRIGGERS =
+            dislodgmentTriggers("disloStatsTriggers", List.of(14, 15, 17, 18));
+    private static final ModConfigSpec.BooleanValue DISLO_DEATH_RAID = BUILDER.define("disloDeathRaid", true);
+    private static final ModConfigSpec.IntValue DISLO_DEATH_RAID_POINT_COST = BUILDER
+            .defineInRange("disloDeathRaidPointCost", 10, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_DEATH_RAID_VALUE = BUILDER
+            .defineInRange("disloDeathRaidValue", 10, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_DEATH_RAID_DURATION = BUILDER
+            .defineInRange("disloDeathRaidDuration", 10, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_DEATH_RAID_COOLDOWN = BUILDER
+            .defineInRange("disloDeathRaidCooldown", 10, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_DEATH_RAID_TRIGGERS =
+            dislodgmentTriggers("disloDeathRaidTriggers", List.of(0, 1, 2, 3, 4, 5, 10, 11, 12, 13, 14, 15, 16, 17, 18));
+    private static final ModConfigSpec.BooleanValue DISLO_ITEM_DURABILITY = BUILDER.define("disloItemDurability", true);
+    private static final ModConfigSpec.IntValue DISLO_ITEM_DURABILITY_POINT_COST = BUILDER
+            .defineInRange("disloItemDurabilityPointCost", 100, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_ITEM_DURABILITY_VALUE = BUILDER
+            .defineInRange("disloItemDurabilityValue", 2, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_ITEM_DURABILITY_DURATION = BUILDER
+            .defineInRange("disloItemDurabilityDuration", 120, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_ITEM_DURABILITY_COOLDOWN = BUILDER
+            .defineInRange("disloItemDurabilityCooldown", 240, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_ITEM_DURABILITY_TRIGGERS =
+            dislodgmentTriggers("disloItemDurabilityTriggers", List.of(4, 12, 13, 16));
     private static final ModConfigSpec.BooleanValue DISLO_HEALING_DEATH = BUILDER
             .define("disloHealingDeath", true);
     private static final ModConfigSpec.IntValue DISLO_HEALING_DEATH_POINT_COST = BUILDER
@@ -104,20 +233,59 @@ public final class Config {
             .defineInRange("disloHealingDeathValue", 100, 0, Integer.MAX_VALUE);
     private static final ModConfigSpec.IntValue DISLO_HEALING_DEATH_DURATION = BUILDER
             .defineInRange("disloHealingDeathDuration", 40, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_HEALING_DEATH_COOLDOWN = BUILDER
+            .defineInRange("disloHealingDeathCooldown", 240, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_HEALING_DEATH_TRIGGERS =
+            dislodgmentTriggers("disloHealingDeathTriggers", List.of(1, 3, 10, 12, 16));
     private static final ModConfigSpec.BooleanValue DISLO_DAMAGE_DEATH = BUILDER
             .define("disloDamageDeath", true);
+    private static final ModConfigSpec.IntValue DISLO_DAMAGE_DEATH_POINT_COST = BUILDER
+            .defineInRange("disloDamageDeathPointCost", 500, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_DAMAGE_DEATH_VALUE = BUILDER
+            .defineInRange("disloDamageDeathValue", 10, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_DAMAGE_DEATH_DURATION = BUILDER
+            .defineInRange("disloDamageDeathDuration", 60, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_DAMAGE_DEATH_COOLDOWN = BUILDER
+            .defineInRange("disloDamageDeathCooldown", 300, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_DAMAGE_DEATH_TRIGGERS =
+            dislodgmentTriggers("disloDamageDeathTriggers", List.of(0, 5, 13, 16));
     private static final ModConfigSpec.BooleanValue DISLO_FOOD_DEATH = BUILDER
             .define("disloFoodDeath", true);
+    private static final ModConfigSpec.IntValue DISLO_FOOD_DEATH_POINT_COST = BUILDER
+            .defineInRange("disloFoodDeathPointCost", 500, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_FOOD_DEATH_VALUE = BUILDER
+            .defineInRange("disloFoodDeathValue", 100, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_FOOD_DEATH_DURATION = BUILDER
+            .defineInRange("disloFoodDeathDuration", 60, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_FOOD_DEATH_COOLDOWN = BUILDER
+            .defineInRange("disloFoodDeathCooldown", 240, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_FOOD_DEATH_TRIGGERS =
+            dislodgmentTriggers("disloFoodDeathTriggers", List.of(3, 12, 13, 16));
     private static final ModConfigSpec.BooleanValue DISLO_LOOT_XP_CANCEL = BUILDER
             .define("disloLootXpCancel", true);
     private static final ModConfigSpec.IntValue DISLO_LOOT_XP_CANCEL_POINT_COST = BUILDER
             .defineInRange("disloLootXpCancelPointCost", 100, 0, Integer.MAX_VALUE);
     private static final ModConfigSpec.IntValue DISLO_LOOT_XP_CANCEL_DURATION = BUILDER
             .defineInRange("disloLootXpCancelDuration", 60, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue DISLO_LOOT_XP_CANCEL_COOLDOWN = BUILDER
+            .defineInRange("disloLootXpCancelCooldown", 240, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_LOOT_XP_CANCEL_TRIGGERS =
+            dislodgmentTriggers("disloLootXpCancelTriggers", List.of(2, 10, 16));
 
     static final ModConfigSpec SPEC = BUILDER.build();
 
     private Config() {
+    }
+
+    private static ModConfigSpec.ConfigValue<List<? extends Integer>> dislodgmentTriggers(
+            String name, List<Integer> defaults) {
+        return BUILDER.defineList(name, defaults,
+                value -> value instanceof Integer trigger && trigger >= 0 && trigger <= 18);
+    }
+
+    private static ModConfigSpec.ConfigValue<List<? extends Integer>> dislodgmentPhaseCodes(String name) {
+        return BUILDER.defineList(name, DEFAULT_DISLODGMENT_PHASE_CODES,
+                value -> value instanceof Integer code && code >= 0 && code <= 29);
     }
 
     public static int evolutionPhase() {
@@ -156,19 +324,118 @@ public final class Config {
     public static boolean useDislodgment() { return USE_DISLODGMENT.get(); }
     public static double dislodgmentDeathTriggerChance() { return DISLODGMENT_DEATH_TRIGGER_CHANCE.get(); }
     public static int dislodgmentGlobalCooldown() { return DISLODGMENT_GLOBAL_COOLDOWN.get(); }
+    public static int dislodgmentCothSpy() { return DISLODGMENT_COTH_SPY.get(); }
+    public static List<? extends Integer> dislodgmentPhaseCodes(int phase) {
+        return switch (phase) {
+            case 1 -> DISLODGMENT_PHASE_ONE_CODES.get();
+            case 2 -> DISLODGMENT_PHASE_TWO_CODES.get();
+            case 3 -> DISLODGMENT_PHASE_THREE_CODES.get();
+            case 4 -> DISLODGMENT_PHASE_FOUR_CODES.get();
+            case 5 -> DISLODGMENT_PHASE_FIVE_CODES.get();
+            case 6 -> DISLODGMENT_PHASE_SIX_CODES.get();
+            case 7 -> DISLODGMENT_PHASE_SEVEN_CODES.get();
+            case 8 -> DISLODGMENT_PHASE_EIGHT_CODES.get();
+            case 9 -> DISLODGMENT_PHASE_NINE_CODES.get();
+            case 10 -> DISLODGMENT_PHASE_TEN_CODES.get();
+            default -> List.of();
+        };
+    }
+    public static double dislodgmentRightClickTriggerChance() { return DISLODGMENT_RIGHT_CLICK_TRIGGER_CHANCE.get(); }
+    public static double dislodgmentXpPickupTriggerChance() { return DISLODGMENT_XP_PICKUP_TRIGGER_CHANCE.get(); }
+    public static double dislodgmentItemPickupTriggerChance() { return DISLODGMENT_ITEM_PICKUP_TRIGGER_CHANCE.get(); }
+    public static double dislodgmentHealingTriggerChance() { return DISLODGMENT_HEALING_TRIGGER_CHANCE.get(); }
+    public static double dislodgmentUseItemTriggerChance() { return DISLODGMENT_USE_ITEM_TRIGGER_CHANCE.get(); }
+    public static double dislodgmentMenuCloseTriggerChance() { return DISLODGMENT_MENU_CLOSE_TRIGGER_CHANCE.get(); }
+    public static double dislodgmentBlockBreakTriggerChance() { return DISLODGMENT_BLOCK_BREAK_TRIGGER_CHANCE.get(); }
+    public static double dislodgmentNexusTriggerChance(int stage) {
+        return switch (stage) {
+            case 1 -> DISLODGMENT_NEXUS_ONE_TRIGGER_CHANCE.get();
+            case 2 -> DISLODGMENT_NEXUS_TWO_TRIGGER_CHANCE.get();
+            case 3 -> DISLODGMENT_NEXUS_THREE_TRIGGER_CHANCE.get();
+            case 4 -> DISLODGMENT_NEXUS_FOUR_TRIGGER_CHANCE.get();
+            default -> 0.0D;
+        };
+    }
+    public static boolean disloCothIgnoreAmplifier() { return DISLO_COTH_IGNORE_AMPLIFIER.get(); }
+    public static int disloCothIgnoreAmplifierPointCost() { return DISLO_COTH_IGNORE_AMPLIFIER_POINT_COST.get(); }
+    public static int disloCothIgnoreAmplifierDuration() { return DISLO_COTH_IGNORE_AMPLIFIER_DURATION.get(); }
+    public static boolean disloCothTiers() { return DISLO_COTH_TIERS.get(); }
+    public static int disloCothTiersPointCost() { return DISLO_COTH_TIERS_POINT_COST.get(); }
+    public static int disloCothTiersValue() { return DISLO_COTH_TIERS_VALUE.get(); }
+    public static int disloCothTiersDuration() { return DISLO_COTH_TIERS_DURATION.get(); }
+    public static int disloCothTiersPrimitive() { return DISLO_COTH_TIERS_PRIMITIVE.get(); }
+    public static int disloCothTiersAdapted() { return DISLO_COTH_TIERS_ADAPTED.get(); }
+    public static int disloCothTiersPure() { return DISLO_COTH_TIERS_PURE.get(); }
     public static boolean disloSummonByDeath() { return DISLO_SUMMON_BY_DEATH.get(); }
     public static int disloSummonByDeathPointCost() { return DISLO_SUMMON_BY_DEATH_POINT_COST.get(); }
     public static int disloSummonByDeathValue() { return DISLO_SUMMON_BY_DEATH_VALUE.get(); }
     public static int disloSummonByDeathDuration() { return DISLO_SUMMON_BY_DEATH_DURATION.get(); }
     public static int disloSummonByDeathKilling() { return DISLO_SUMMON_BY_DEATH_KILLING.get(); }
     public static List<? extends String> disloSummonByDeathMobs() { return DISLO_SUMMON_BY_DEATH_MOBS.get(); }
+    public static boolean disloPotionEffect() { return DISLO_POTION_EFFECT.get(); }
+    public static int disloPotionEffectPointCost() { return DISLO_POTION_EFFECT_POINT_COST.get(); }
+    public static int disloPotionEffectValue() { return DISLO_POTION_EFFECT_VALUE.get(); }
+    public static int disloPotionEffectDuration() { return DISLO_POTION_EFFECT_DURATION.get(); }
+    public static List<? extends String> disloPotionEffects() { return DISLO_POTION_EFFECTS.get(); }
+    public static boolean disloStats() { return DISLO_STATS.get(); }
+    public static int disloStatsPointCost() { return DISLO_STATS_POINT_COST.get(); }
+    public static int disloStatsValue() { return DISLO_STATS_VALUE.get(); }
+    public static int disloStatsDuration() { return DISLO_STATS_DURATION.get(); }
+    public static boolean disloDeathRaid() { return DISLO_DEATH_RAID.get(); }
+    public static int disloDeathRaidPointCost() { return DISLO_DEATH_RAID_POINT_COST.get(); }
+    public static int disloDeathRaidValue() { return DISLO_DEATH_RAID_VALUE.get(); }
+    public static int disloDeathRaidDuration() { return DISLO_DEATH_RAID_DURATION.get(); }
+    public static boolean disloItemDurability() { return DISLO_ITEM_DURABILITY.get(); }
+    public static int disloItemDurabilityPointCost() { return DISLO_ITEM_DURABILITY_POINT_COST.get(); }
+    public static int disloItemDurabilityValue() { return DISLO_ITEM_DURABILITY_VALUE.get(); }
+    public static int disloItemDurabilityDuration() { return DISLO_ITEM_DURABILITY_DURATION.get(); }
     public static boolean disloHealingDeath() { return DISLO_HEALING_DEATH.get(); }
     public static int disloHealingDeathPointCost() { return DISLO_HEALING_DEATH_POINT_COST.get(); }
     public static int disloHealingDeathValue() { return DISLO_HEALING_DEATH_VALUE.get(); }
     public static int disloHealingDeathDuration() { return DISLO_HEALING_DEATH_DURATION.get(); }
     public static boolean disloDamageDeath() { return DISLO_DAMAGE_DEATH.get(); }
+    public static int disloDamageDeathPointCost() { return DISLO_DAMAGE_DEATH_POINT_COST.get(); }
+    public static int disloDamageDeathValue() { return DISLO_DAMAGE_DEATH_VALUE.get(); }
+    public static int disloDamageDeathDuration() { return DISLO_DAMAGE_DEATH_DURATION.get(); }
     public static boolean disloFoodDeath() { return DISLO_FOOD_DEATH.get(); }
+    public static int disloFoodDeathPointCost() { return DISLO_FOOD_DEATH_POINT_COST.get(); }
+    public static int disloFoodDeathValue() { return DISLO_FOOD_DEATH_VALUE.get(); }
+    public static int disloFoodDeathDuration() { return DISLO_FOOD_DEATH_DURATION.get(); }
     public static boolean disloLootXpCancel() { return DISLO_LOOT_XP_CANCEL.get(); }
     public static int disloLootXpCancelPointCost() { return DISLO_LOOT_XP_CANCEL_POINT_COST.get(); }
     public static int disloLootXpCancelDuration() { return DISLO_LOOT_XP_CANCEL_DURATION.get(); }
+
+    public static List<? extends Integer> dislodgmentTriggers(int code) {
+        return switch (code) {
+            case 0 -> DISLO_COTH_IGNORE_AMPLIFIER_TRIGGERS.get();
+            case 1 -> DISLO_COTH_TIERS_TRIGGERS.get();
+            case 2 -> DISLO_SUMMON_BY_DEATH_TRIGGERS.get();
+            case 3 -> DISLO_POTION_EFFECT_TRIGGERS.get();
+            case 4 -> DISLO_STATS_TRIGGERS.get();
+            case 5 -> DISLO_DEATH_RAID_TRIGGERS.get();
+            case 6 -> DISLO_ITEM_DURABILITY_TRIGGERS.get();
+            case 7 -> DISLO_HEALING_DEATH_TRIGGERS.get();
+            case 8 -> DISLO_DAMAGE_DEATH_TRIGGERS.get();
+            case 9 -> DISLO_FOOD_DEATH_TRIGGERS.get();
+            case 18 -> DISLO_LOOT_XP_CANCEL_TRIGGERS.get();
+            default -> List.of();
+        };
+    }
+
+    public static int dislodgmentCodeCooldown(int code) {
+        return switch (code) {
+            case 0 -> DISLO_COTH_IGNORE_AMPLIFIER_COOLDOWN.get();
+            case 1 -> DISLO_COTH_TIERS_COOLDOWN.get();
+            case 2 -> DISLO_SUMMON_BY_DEATH_COOLDOWN.get();
+            case 3 -> DISLO_POTION_EFFECT_COOLDOWN.get();
+            case 4 -> DISLO_STATS_COOLDOWN.get();
+            case 5 -> DISLO_DEATH_RAID_COOLDOWN.get();
+            case 6 -> DISLO_ITEM_DURABILITY_COOLDOWN.get();
+            case 7 -> DISLO_HEALING_DEATH_COOLDOWN.get();
+            case 8 -> DISLO_DAMAGE_DEATH_COOLDOWN.get();
+            case 9 -> DISLO_FOOD_DEATH_COOLDOWN.get();
+            case 18 -> DISLO_LOOT_XP_CANCEL_COOLDOWN.get();
+            default -> 0;
+        };
+    }
 }

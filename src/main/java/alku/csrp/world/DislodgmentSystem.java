@@ -3,7 +3,9 @@ package alku.csrp.world;
 import alku.csrp.Config;
 import alku.csrp.Csrp;
 import alku.csrp.entity.DeterrentParasiteEntity;
+import alku.csrp.entity.NexusParasiteEntity;
 import alku.csrp.entity.Parasite;
+import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
@@ -12,30 +14,152 @@ import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
+import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
 import net.neoforged.neoforge.event.entity.living.LivingExperienceDropEvent;
+import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerContainerEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerXpEvent;
+import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 
-/** Original death-bound dislodgment codes and the Jugg/Worm completion chain. */
+/** Original dislodgment triggers, code state, and code-bound gameplay effects. */
 @EventBusSubscriber(modid = Csrp.MODID)
 public final class DislodgmentSystem {
     private static final int DEATH_RADIUS = 7;
     private static final int[] PHASE_COST_MULTIPLIER = {0, 1, 3, 6, 8, 10, 13, 17, 20, 25, 30};
+    private static final String SPAWN_CODES_APPLIED = "csrp_dislodgment_spawn_codes_applied";
+    private static final EquipmentSlot[] ARMOR_SLOTS = {
+            EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET
+    };
 
     private DislodgmentSystem() {
+    }
+
+    @SubscribeEvent
+    public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
+        if (event.getHand() != InteractionHand.MAIN_HAND && event.getLevel() instanceof ServerLevel level) {
+            tryTrigger(level, 0, Config.dislodgmentRightClickTriggerChance(), event.getPos(), true);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onExperiencePickup(PlayerXpEvent.PickupXp event) {
+        if (event.getEntity().level() instanceof ServerLevel level) {
+            tryTrigger(level, 1, Config.dislodgmentXpPickupTriggerChance(),
+                    event.getEntity().blockPosition(), true);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onItemPickup(ItemEntityPickupEvent.Pre event) {
+        if (event.getPlayer().level() instanceof ServerLevel level) {
+            tryTrigger(level, 2, Config.dislodgmentItemPickupTriggerChance(),
+                    event.getPlayer().blockPosition(), true);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerHealing(LivingHealEvent event) {
+        if (event.getEntity() instanceof Player player && player.level() instanceof ServerLevel level) {
+            tryTrigger(level, 3, Config.dislodgmentHealingTriggerChance(), player.blockPosition(), true);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onItemUseFinished(LivingEntityUseItemEvent.Finish event) {
+        if (event.getEntity().level() instanceof ServerLevel level) {
+            tryTrigger(level, 4, Config.dislodgmentUseItemTriggerChance(),
+                    event.getEntity().blockPosition(), true);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onContainerClosed(PlayerContainerEvent.Close event) {
+        if (event.getEntity().level() instanceof ServerLevel level) {
+            tryTrigger(level, 5, Config.dislodgmentMenuCloseTriggerChance(),
+                    event.getEntity().blockPosition(), true);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onParasiteBlockBroken(BlockEvent.BreakEvent event) {
+        if (!(event.getLevel() instanceof ServerLevel level)) {
+            return;
+        }
+        if (event.getState().is(ModBlocks.BIOMEHEART.get())) {
+            tryTrigger(level, 17, 1.0D, event.getPos(), false);
+        } else if (event.getState().is(ModBlocks.COLONYHEART.get())) {
+            tryTrigger(level, 18, 1.0D, event.getPos(), false);
+        } else {
+            ResourceLocation blockId = BuiltInRegistries.BLOCK.getKey(event.getState().getBlock());
+            if (Csrp.MODID.equals(blockId.getNamespace())) {
+                tryTrigger(level, 11, Config.dislodgmentBlockBreakTriggerChance(), event.getPos(), false);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void applySpawnCodes(EntityJoinLevelEvent event) {
+        if (!(event.getLevel() instanceof ServerLevel level)
+                || !(event.getEntity() instanceof LivingEntity entity)
+                || !(entity instanceof Parasite)
+                || entity.getPersistentData().getBoolean(SPAWN_CODES_APPLIED)) {
+            return;
+        }
+        entity.getPersistentData().putBoolean(SPAWN_CODES_APPLIED, true);
+        SrpWorldData data = SrpWorldData.get(level);
+        applySpawnPotionCode(level, entity, data);
+        applySpawnStatCode(entity, data);
+    }
+
+    @SubscribeEvent
+    public static void consumeEquipmentDurability(LivingIncomingDamageEvent event) {
+        if (event.getAmount() <= 0.0F || !(event.getEntity().level() instanceof ServerLevel level)
+                || !Config.useDislodgment() || !Config.disloItemDurability()) {
+            return;
+        }
+        int amount = activeValue(SrpWorldData.get(level), 6);
+        if (amount < 1) {
+            return;
+        }
+        Entity source = event.getSource().getEntity();
+        if (event.getEntity() instanceof Parasite && source instanceof Player player) {
+            damageItem(player, EquipmentSlot.MAINHAND, amount);
+            damageItem(player, EquipmentSlot.OFFHAND, amount);
+        }
+        if (event.getEntity() instanceof Player player
+                && event.getSource().getDirectEntity() instanceof Parasite) {
+            for (EquipmentSlot slot : ARMOR_SLOTS) {
+                damageItem(player, slot, amount);
+            }
+        }
     }
 
     @SubscribeEvent
@@ -47,7 +171,14 @@ public final class DislodgmentSystem {
         }
 
         SrpWorldData data = SrpWorldData.get(level);
-        tryTriggerDeathCode(level, data);
+        if (dead instanceof NexusParasiteEntity nexus) {
+            int stage = nexusStage(nexus.getKind());
+            if (stage > 0) {
+                tryTrigger(level, 11 + stage, Config.dislodgmentNexusTriggerChance(stage),
+                        dead.blockPosition(), false);
+            }
+        }
+        tryTrigger(level, 10, Config.dislodgmentDeathTriggerChance(), dead.blockPosition(), false);
         applySummonByDeath(dead, event.getSource().getEntity(), data);
         applyDeathAreaCodes(level, dead, data);
     }
@@ -58,9 +189,7 @@ public final class DislodgmentSystem {
             return;
         }
         for (DislodgmentCode expired : SrpWorldData.get(level).expireDislodgmentCodes(level)) {
-            if (expired.code() == 2 && Config.disloSummonByDeath()) {
-                finishSummonByDeath(level, expired.value());
-            }
+            onCodeEnded(level, expired);
         }
     }
 
@@ -84,46 +213,179 @@ public final class DislodgmentSystem {
 
     public static void clearCodes(ServerLevel level) {
         SrpWorldData data = SrpWorldData.get(level);
-        List<DislodgmentCode> active = data.activeDislodgmentCodes(level);
-        data.clearDislodgmentCodes();
-        for (DislodgmentCode code : active) {
-            if (code.code() == 2 && Config.useDislodgment() && Config.disloSummonByDeath()) {
-                finishSummonByDeath(level, code.value());
-            }
+        for (DislodgmentCode code : data.endAllDislodgmentCodes(level)) {
+            onCodeEnded(level, code);
         }
     }
 
-    private static void tryTriggerDeathCode(ServerLevel level, SrpWorldData data) {
+    public static boolean tryTrigger(ServerLevel level, int triggerId, double chance,
+            BlockPos position, boolean requireCothSpy) {
+        if (!Config.useDislodgment()) {
+            return false;
+        }
+        SrpWorldData data = SrpWorldData.get(level);
         int phase = data.evolutionPhase();
         if (!data.dislodgmentTriggerReady(level) || phase < 1 || phase > 10
-                || EvolutionSystem.ubiquitousDevelopment(level.getServer()) < 1
-                || level.getRandom().nextDouble() > Config.dislodgmentDeathTriggerChance()) {
-            return;
+                || level.getRandom().nextDouble() > chance
+                || requireCothSpy && !hasCothSpy(level, position)) {
+            return false;
         }
 
-        List<ActivationRule> candidates = new ArrayList<>();
-        if (Config.disloSummonByDeath()) {
-            candidates.add(new ActivationRule(2, Config.disloSummonByDeathValue(),
-                    Config.disloSummonByDeathDuration(), Config.disloSummonByDeathPointCost()));
-        }
-        if (Config.disloHealingDeath()) {
-            candidates.add(new ActivationRule(7, Config.disloHealingDeathValue(),
-                    Config.disloHealingDeathDuration(), Config.disloHealingDeathPointCost()));
-        }
-        if (Config.disloLootXpCancel()) {
-            candidates.add(new ActivationRule(18, 1, Config.disloLootXpCancelDuration(),
-                    Config.disloLootXpCancelPointCost()));
-        }
-
-        while (!candidates.isEmpty()) {
-            ActivationRule rule = candidates.remove(level.getRandom().nextInt(candidates.size()));
+        List<ActivationRule> candidates = activationRules().stream()
+                .filter(rule -> Config.dislodgmentPhaseCodes(phase).contains(rule.code()))
+                .filter(rule -> Config.dislodgmentTriggers(rule.code()).contains(triggerId))
+                .toList();
+        boolean started = false;
+        for (int attempts = 0; attempts < 10 && !started && !candidates.isEmpty(); attempts++) {
+            ActivationRule rule = candidates.get(level.getRandom().nextInt(candidates.size()));
             int value = saturatingMultiply(rule.value(), phase);
             int duration = saturatingMultiply(rule.durationSeconds(), phase);
             int cost = saturatingMultiply(rule.pointCost(), PHASE_COST_MULTIPLIER[phase]);
-            if (data.startDislodgmentCode(level, rule.code(), value, duration, cost)) {
-                data.setDislodgmentTriggerCooldown(level, Config.dislodgmentGlobalCooldown());
-                return;
+            started = data.startDislodgmentCode(level, rule.code(), value, duration, cost);
+        }
+        if (!candidates.isEmpty()) {
+            data.setDislodgmentTriggerCooldown(level, Config.dislodgmentGlobalCooldown());
+        }
+        return started;
+    }
+
+    public static void onCodeStarted(ServerLevel level, int code, int value, long durationTicks) {
+        if (!Config.useDislodgment() || code != 5 || !Config.disloDeathRaid()) {
+            return;
+        }
+        List<LivingEntity> parasites = new ArrayList<>();
+        for (Entity entity : level.getAllEntities()) {
+            if (entity instanceof LivingEntity living && living instanceof Parasite) {
+                parasites.add(living);
             }
+        }
+        for (LivingEntity parasite : parasites) {
+            parasite.hurt(level.damageSources().fellOutOfWorld(), 10_000.0F);
+        }
+    }
+
+    public static int activeCodeValue(ServerLevel level, int code) {
+        return Config.useDislodgment() ? activeValue(SrpWorldData.get(level), code) : 0;
+    }
+
+    private static List<ActivationRule> activationRules() {
+        List<ActivationRule> rules = new ArrayList<>();
+        if (Config.disloCothIgnoreAmplifier()) {
+            rules.add(new ActivationRule(0, 1, Config.disloCothIgnoreAmplifierDuration(),
+                    Config.disloCothIgnoreAmplifierPointCost()));
+        }
+        if (Config.disloCothTiers()) {
+            rules.add(new ActivationRule(1, Config.disloCothTiersValue(), Config.disloCothTiersDuration(),
+                    Config.disloCothTiersPointCost()));
+        }
+        if (Config.disloSummonByDeath()) {
+            rules.add(new ActivationRule(2, Config.disloSummonByDeathValue(),
+                    Config.disloSummonByDeathDuration(), Config.disloSummonByDeathPointCost()));
+        }
+        if (Config.disloPotionEffect()) {
+            rules.add(new ActivationRule(3, Config.disloPotionEffectValue(),
+                    Config.disloPotionEffectDuration(), Config.disloPotionEffectPointCost()));
+        }
+        if (Config.disloStats()) {
+            rules.add(new ActivationRule(4, Config.disloStatsValue(),
+                    Config.disloStatsDuration(), Config.disloStatsPointCost()));
+        }
+        if (Config.disloDeathRaid()) {
+            rules.add(new ActivationRule(5, Config.disloDeathRaidValue(),
+                    Config.disloDeathRaidDuration(), Config.disloDeathRaidPointCost()));
+        }
+        if (Config.disloItemDurability()) {
+            rules.add(new ActivationRule(6, Config.disloItemDurabilityValue(),
+                    Config.disloItemDurabilityDuration(), Config.disloItemDurabilityPointCost()));
+        }
+        if (Config.disloHealingDeath()) {
+            rules.add(new ActivationRule(7, Config.disloHealingDeathValue(),
+                    Config.disloHealingDeathDuration(), Config.disloHealingDeathPointCost()));
+        }
+        if (Config.disloDamageDeath()) {
+            rules.add(new ActivationRule(8, Config.disloDamageDeathValue(),
+                    Config.disloDamageDeathDuration(), Config.disloDamageDeathPointCost()));
+        }
+        if (Config.disloFoodDeath()) {
+            rules.add(new ActivationRule(9, Config.disloFoodDeathValue(),
+                    Config.disloFoodDeathDuration(), Config.disloFoodDeathPointCost()));
+        }
+        if (Config.disloLootXpCancel()) {
+            rules.add(new ActivationRule(18, 1, Config.disloLootXpCancelDuration(),
+                    Config.disloLootXpCancelPointCost()));
+        }
+        return rules;
+    }
+
+    private static boolean hasCothSpy(ServerLevel level, BlockPos position) {
+        int required = Config.dislodgmentCothSpy();
+        if (required <= 1 || position == null) {
+            return true;
+        }
+        int count = level.getEntitiesOfClass(LivingEntity.class,
+                new AABB(position).inflate(5.0D, 3.0D, 5.0D),
+                entity -> entity.hasEffect(ModMobEffects.COTH)).size();
+        return count >= required;
+    }
+
+    private static void applySpawnPotionCode(ServerLevel level, LivingEntity entity, SrpWorldData data) {
+        DislodgmentCode code = data.dislodgmentCode(3);
+        List<? extends String> effects = Config.disloPotionEffects();
+        if (!Config.disloPotionEffect() || code == null || code.value() < 1 || effects.isEmpty()) {
+            return;
+        }
+        ResourceLocation effectId = ResourceLocation.tryParse(
+                effects.get(level.getRandom().nextInt(effects.size())));
+        if (effectId == null) {
+            return;
+        }
+        BuiltInRegistries.MOB_EFFECT.getOptional(effectId).ifPresent(effect -> {
+            int duration = (int) Math.min(Integer.MAX_VALUE,
+                    Math.max(0L, code.expiresAt() - level.getGameTime()) + 50L);
+            entity.addEffect(new MobEffectInstance(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect),
+                    duration, code.value()));
+        });
+    }
+
+    private static void applySpawnStatCode(LivingEntity entity, SrpWorldData data) {
+        DislodgmentCode code = data.dislodgmentCode(4);
+        if (!Config.disloStats() || code == null || code.value() < 1) {
+            return;
+        }
+        double multiplier = 1.0D + code.value();
+        multiplyBaseAttribute(entity, Attributes.MAX_HEALTH, multiplier);
+        multiplyBaseAttribute(entity, Attributes.ARMOR, multiplier);
+        multiplyBaseAttribute(entity, Attributes.ATTACK_DAMAGE, multiplier);
+        entity.setHealth(entity.getMaxHealth());
+    }
+
+    private static void multiplyBaseAttribute(LivingEntity entity, Holder<Attribute> attribute, double multiplier) {
+        AttributeInstance instance = entity.getAttribute(attribute);
+        if (instance != null) {
+            instance.setBaseValue(instance.getBaseValue() * multiplier);
+        }
+    }
+
+    private static void damageItem(Player player, EquipmentSlot slot, int amount) {
+        ItemStack stack = player.getItemBySlot(slot);
+        if (!stack.isEmpty() && stack.isDamageableItem()) {
+            stack.hurtAndBreak(amount, player, slot);
+        }
+    }
+
+    private static int nexusStage(NexusParasiteEntity.Kind kind) {
+        return switch (kind) {
+            case BECKON_SI, DISPATCHER_SI, ROOTER_SI -> 1;
+            case BECKON_SII, DISPATCHER_SII, ROOTER_SII -> 2;
+            case BECKON_SIII, DISPATCHER_SIII, ROOTER_SIII -> 3;
+            case BECKON_SIV, DISPATCHER_SIV, ROOTER_SIV -> 4;
+            default -> 0;
+        };
+    }
+
+    private static void onCodeEnded(ServerLevel level, DislodgmentCode code) {
+        if (code.code() == 2 && Config.useDislodgment() && Config.disloSummonByDeath()) {
+            finishSummonByDeath(level, code.value());
         }
     }
 

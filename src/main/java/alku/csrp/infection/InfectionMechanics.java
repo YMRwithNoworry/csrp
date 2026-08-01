@@ -1,8 +1,10 @@
 package alku.csrp.infection;
 
 import alku.csrp.Config;
+import alku.csrp.Csrp;
 import alku.csrp.entity.Parasite;
 import alku.csrp.registry.ModMobEffects;
+import alku.csrp.world.DislodgmentSystem;
 import alku.csrp.world.EvolutionSystem;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -22,6 +24,21 @@ public final class InfectionMechanics {
     public static final float COTH_CONVERSION_HEALTH_FRACTION = 0.35F;
     private static final int VIRAL_MIN_DURATION_TICKS = 100;
     private static final double VIRAL_SPREAD_RADIUS = 4.0D;
+    private static final String[] FERALS = {
+            "fer_bear", "fer_cow", "fer_enderman", "fer_horse", "fer_human",
+            "fer_pig", "fer_sheep", "fer_villager", "fer_wolf"
+    };
+    private static final String[] PRIMITIVES = {
+            "pri_longarms", "pri_summoner", "pri_devourer", "pri_reeker", "pri_arachnida",
+            "pri_bolster", "pri_burrower", "pri_vermin", "pri_manducater", "pri_viscera", "pri_yelloweye"
+    };
+    private static final String[] ADAPTED = {
+            "ada_longarms", "ada_summoner", "ada_devourer", "ada_reeker", "ada_arachnida",
+            "ada_bolster", "ada_burrower", "ada_manducater", "ada_viscera", "ada_yelloweye"
+    };
+    private static final String[] PURE = {
+            "grunt", "bomber_light", "monarch", "overseer", "vigilante", "warden", "marauder"
+    };
 
     private InfectionMechanics() {
     }
@@ -51,6 +68,12 @@ public final class InfectionMechanics {
         }
 
         int effectiveAmplifier = Math.min(COTH_MAX_AMPLIFIER, amplifier);
+        if (Config.disloCothIgnoreAmplifier() && amplifier <= 1 && entity.tickCount % 20 == 0
+                && entity.level() instanceof ServerLevel level
+                && DislodgmentSystem.activeCodeValue(level, 0) > 0) {
+            entity.addEffect(new MobEffectInstance(ModMobEffects.COTH, 6_666, 10, false, false));
+            effectiveAmplifier = COTH_MAX_AMPLIFIER;
+        }
         if (coth.getDuration() > 0 && coth.getDuration() <= COTH_REFRESH_THRESHOLD_TICKS) {
             effectiveAmplifier = Math.min(COTH_MAX_AMPLIFIER, effectiveAmplifier + 1);
             entity.addEffect(new MobEffectInstance(ModMobEffects.COTH, COTH_BASE_DURATION_TICKS,
@@ -76,7 +99,7 @@ public final class InfectionMechanics {
     }
 
     public static boolean convertInfectedHost(LivingEntity host) {
-        if (host.level().isClientSide || !isInfectable(host) || host instanceof Player
+        if (host.level().isClientSide || !isConvertible(host) || host instanceof Player
                 || !(host.level() instanceof ServerLevel serverLevel)) {
             return false;
         }
@@ -101,7 +124,7 @@ public final class InfectionMechanics {
     /** Applies the original SRP COTH-on-kill conversion chance. */
     public static boolean convertKilledHost(LivingEntity host, Entity attacker) {
         if (!(attacker instanceof Parasite) || host.level().isClientSide || host instanceof Parasite
-                || host instanceof Player || !host.isAlive() || host.getEffect(ModMobEffects.COTH) == null
+                || host instanceof Player || host.getEffect(ModMobEffects.COTH) == null
                 || host.hasEffect(ModMobEffects.REPEL)
                 || host.getRandom().nextDouble() >= Config.cothConvert()) {
             return false;
@@ -131,6 +154,14 @@ public final class InfectionMechanics {
     }
 
     private static Mob createAssimilatedHost(LivingEntity host, ServerLevel level) {
+        int dislodgmentTier = Config.disloCothTiers()
+                ? DislodgmentSystem.activeCodeValue(level, 1) : 0;
+        if (dislodgmentTier > 0) {
+            Mob tierParasite = createTierParasite(level, dislodgmentTier);
+            if (tierParasite != null) {
+                return tierParasite;
+            }
+        }
         ResourceLocation hostId = BuiltInRegistries.ENTITY_TYPE.getKey(host.getType());
         for (String mapping : Config.cothVictimParasites()) {
             String[] parts = mapping.split(";", -1);
@@ -150,8 +181,30 @@ public final class InfectionMechanics {
         return null;
     }
 
+    private static Mob createTierParasite(ServerLevel level, int value) {
+        String[] pool = FERALS;
+        if (value >= Config.disloCothTiersPrimitive()) {
+            pool = PRIMITIVES;
+        }
+        if (value >= Config.disloCothTiersAdapted()) {
+            pool = ADAPTED;
+        }
+        if (value >= Config.disloCothTiersPure()) {
+            pool = PURE;
+        }
+        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+                pool[level.getRandom().nextInt(pool.length)]);
+        Entity entity = BuiltInRegistries.ENTITY_TYPE.getOptional(id)
+                .map(type -> type.create(level)).orElse(null);
+        return entity instanceof Mob mob ? mob : null;
+    }
+
     private static boolean isInfectable(LivingEntity entity) {
-        return entity.isAlive() && !(entity instanceof Parasite) && !entity.hasEffect(ModMobEffects.REPEL)
+        return entity.isAlive() && isConvertible(entity);
+    }
+
+    private static boolean isConvertible(LivingEntity entity) {
+        return !(entity instanceof Parasite) && !entity.hasEffect(ModMobEffects.REPEL)
                 && !(entity instanceof Player player && player.getAbilities().invulnerable);
     }
 }
