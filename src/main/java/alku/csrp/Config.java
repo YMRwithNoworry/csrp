@@ -5,6 +5,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
+import java.util.List;
+
 public final class Config {
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
     private static final ModConfigSpec.IntValue EVOLUTION_PHASE = BUILDER
@@ -13,6 +15,34 @@ public final class Config {
     private static final ModConfigSpec.DoubleValue ADAPTATION_CHANCE = BUILDER
             .comment("Chance for a linked parasite outside a colony to share its adaptation on death.")
             .defineInRange("adaptationChance", 0.1D, 0.0D, 1.0D);
+    private static final ModConfigSpec.DoubleValue COTH_CONVERT = BUILDER
+            .comment("Chance for a parasite kill to convert a victim that has COTH.")
+            .defineInRange("cothConvert", 0.3D, 0.0D, 1.0D);
+    private static final ModConfigSpec.DoubleValue KILLCOUNT_PLUS = BUILDER
+            .comment("Killcount added every second on HARD or HARDCORE when evolution phases are disabled.")
+            .defineInRange("killcountPlus", 0.0D, 0.0D, 1000000.0D);
+    private static final ModConfigSpec.BooleanValue USE_EVOLUTION_PHASES = BUILDER
+            .comment("Use SRP evolution phases instead of the legacy difficulty killcount behavior.")
+            .define("useEvolutionPhases", true);
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> COTH_VICTIM_PARASITES = BUILDER
+            .comment("Victim entity id to parasite entity id mappings, formatted as victim;parasite.")
+            .defineList("cothVictimParasites", List.of(
+                    "minecraft:pig;csrp:sim_pig",
+                    "minecraft:sheep;csrp:sim_sheep",
+                    "minecraft:cow;csrp:sim_cow",
+                    "minecraft:wolf;csrp:sim_wolf",
+                    "minecraft:horse;csrp:sim_horse",
+                    "minecraft:zombie;csrp:sim_human",
+                    "minecraft:husk;csrp:sim_human",
+                    "minecraft:zombie_villager;csrp:sim_villager",
+                    "minecraft:villager;csrp:sim_villager",
+                    "minecraft:polar_bear;csrp:sim_bear",
+                    "minecraft:enderman;csrp:sim_enderman",
+                    "minecraft:squid;csrp:sim_squid",
+                    "wyrmsofnyrus:creepedhumanoid;csrp:sim_human",
+                    "wyrmsofnyrus:creepedbiter;csrp:sim_cow",
+                    "wyrmsofnyrus:crawler;csrp:sim_bigspider"),
+                    value -> value instanceof String && ((String) value).split(";", -1).length == 2);
     private static final ModConfigSpec.IntValue COLONY_EXTRA_HEALTH_POINT = BUILDER
             .defineInRange("colonyExtraHealthPoint", 20, 1, Integer.MAX_VALUE);
     private static final ModConfigSpec.DoubleValue COLONY_EXTRA_HEALTH_VALUE = BUILDER
@@ -56,6 +86,11 @@ public final class Config {
     public static double adaptationChance() {
         return ADAPTATION_CHANCE.get();
     }
+
+    public static double cothConvert() { return COTH_CONVERT.get(); }
+    public static double killcountPlus() { return KILLCOUNT_PLUS.get(); }
+    public static boolean useEvolutionPhases() { return USE_EVOLUTION_PHASES.get(); }
+    public static List<? extends String> cothVictimParasites() { return COTH_VICTIM_PARASITES.get(); }
 
     public static int colonyExtraHealthPoint() { return COLONY_EXTRA_HEALTH_POINT.get(); }
     public static double colonyExtraHealthValue() { return COLONY_EXTRA_HEALTH_VALUE.get(); }

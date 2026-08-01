@@ -39,6 +39,11 @@ public final class InfectionEvents {
         if (host.level().isClientSide) {
             return;
         }
+        Entity attacker = event.getSource().getEntity();
+        if (InfectionMechanics.convertKilledHost(host, attacker)) {
+            event.setCanceled(true);
+            return;
+        }
         MobEffectInstance coth = host.getEffect(ModMobEffects.COTH);
         if (coth != null && coth.getAmplifier() >= InfectionMechanics.COTH_MAX_AMPLIFIER
                 && InfectionMechanics.convertInfectedHost(host)) {

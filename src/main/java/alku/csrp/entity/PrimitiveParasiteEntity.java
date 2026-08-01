@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import alku.csrp.Config;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.world.EvolutionSystem;
 import net.minecraft.nbt.CompoundTag;
@@ -14,6 +15,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
@@ -31,6 +33,7 @@ import java.util.Map;
 /** Shared 1.12 primitive-parasite state: hostile targeting, kills, and repeated-damage adaptation. */
 public abstract class PrimitiveParasiteEntity extends Monster implements GeoEntity, Parasite {
     private static final String KILLS_TAG = "parasitekills";
+    private static final String LEGACY_KILLCOUNT_TAG = "legacy_killcount";
     private static final String ADAPTATIONS_TAG = "damage_adaptations";
     private static final String COLONY_SPAWNED_TAG = "colony_spawned";
     private static final int MAX_ADAPTATION_HITS = 8;
@@ -40,10 +43,29 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private final Map<String, Integer> damageAdaptations = new LinkedHashMap<>();
     private int parasiteKills;
+    private double legacyKillCount;
     private boolean colonySpawned;
 
     protected PrimitiveParasiteEntity(EntityType<? extends PrimitiveParasiteEntity> type, Level level) {
         super(type, level);
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        if (!level().isClientSide && tickCount % 20 == 0 && !Config.useEvolutionPhases()
+                && level().getDifficulty() == Difficulty.HARD && Config.killcountPlus() > 0.0D) {
+            double previous = legacyKillCount;
+            legacyKillCount += Config.killcountPlus();
+            int previousKills = (int) Math.floor(previous);
+            int currentKills = (int) Math.floor(legacyKillCount);
+            if (currentKills > previousKills) {
+                parasiteKills = Math.max(parasiteKills, currentKills);
+                if (previousKills < 10 && currentKills >= 10 && level() instanceof ServerLevel serverLevel) {
+                    onParasiteKill(serverLevel, this, parasiteKills);
+                }
+            }
+        }
     }
 
     @Override
@@ -155,6 +177,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     @Override
     public boolean killedEntity(ServerLevel level, LivingEntity victim) {
         parasiteKills++;
+        legacyKillCount = Math.max(legacyKillCount, parasiteKills);
         onParasiteKill(level, victim, parasiteKills);
         return super.killedEntity(level, victim);
     }
@@ -216,6 +239,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putInt(KILLS_TAG, parasiteKills);
+        tag.putDouble(LEGACY_KILLCOUNT_TAG, legacyKillCount);
         tag.putBoolean(COLONY_SPAWNED_TAG, colonySpawned);
         ListTag adaptations = new ListTag();
         damageAdaptations.forEach((id, hits) -> {
@@ -231,6 +255,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         parasiteKills = tag.getInt(KILLS_TAG);
+        legacyKillCount = tag.contains(LEGACY_KILLCOUNT_TAG) ? tag.getDouble(LEGACY_KILLCOUNT_TAG) : parasiteKills;
         colonySpawned = tag.getBoolean(COLONY_SPAWNED_TAG);
         damageAdaptations.clear();
         for (Tag raw : tag.getList(ADAPTATIONS_TAG, Tag.TAG_COMPOUND)) {

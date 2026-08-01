@@ -1,20 +1,16 @@
 package alku.csrp.infection;
 
-import alku.csrp.entity.AssimilatedParasiteEntity;
+import alku.csrp.Config;
 import alku.csrp.entity.Parasite;
-import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.world.EvolutionSystem;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.animal.Cow;
-import net.minecraft.world.entity.animal.Pig;
-import net.minecraft.world.entity.animal.PolarBear;
-import net.minecraft.world.entity.animal.Sheep;
-import net.minecraft.world.entity.animal.Squid;
-import net.minecraft.world.entity.animal.Wolf;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 
 /** Server-side COTH and Viral infection progression, spread, and host conversion. */
@@ -85,7 +81,7 @@ public final class InfectionMechanics {
             return false;
         }
 
-        AssimilatedParasiteEntity converted = createAssimilatedHost(host, serverLevel);
+        Mob converted = createAssimilatedHost(host, serverLevel);
         if (converted == null) {
             return false;
         }
@@ -100,6 +96,16 @@ public final class InfectionMechanics {
         EvolutionSystem.addPoints(serverLevel, EvolutionSystem.VALUE_COTH, EvolutionSystem.PointSource.COTH);
         host.discard();
         return true;
+    }
+
+    /** Applies the original SRP COTH-on-kill conversion chance. */
+    public static boolean convertKilledHost(LivingEntity host, Entity attacker) {
+        if (!(attacker instanceof Parasite) || host.level().isClientSide || host instanceof Parasite
+                || host instanceof Player || !host.isAlive() || host.getEffect(ModMobEffects.COTH) == null
+                || host.getRandom().nextDouble() >= Config.cothConvert()) {
+            return false;
+        }
+        return convertInfectedHost(host);
     }
 
     private static void spreadCoth(LivingEntity source) {
@@ -123,24 +129,22 @@ public final class InfectionMechanics {
         }
     }
 
-    private static AssimilatedParasiteEntity createAssimilatedHost(LivingEntity host, ServerLevel level) {
-        if (host instanceof Cow) {
-            return ModEntities.SIM_COW.get().create(level);
-        }
-        if (host instanceof Pig) {
-            return ModEntities.SIM_PIG.get().create(level);
-        }
-        if (host instanceof Sheep) {
-            return ModEntities.SIM_SHEEP.get().create(level);
-        }
-        if (host instanceof Wolf) {
-            return ModEntities.SIM_WOLF.get().create(level);
-        }
-        if (host instanceof Squid) {
-            return ModEntities.SIM_SQUID.get().create(level);
-        }
-        if (host instanceof PolarBear) {
-            return ModEntities.SIM_BEAR.get().create(level);
+    private static Mob createAssimilatedHost(LivingEntity host, ServerLevel level) {
+        ResourceLocation hostId = BuiltInRegistries.ENTITY_TYPE.getKey(host.getType());
+        for (String mapping : Config.cothVictimParasites()) {
+            String[] parts = mapping.split(";", -1);
+            if (parts.length != 2 || !parts[0].trim().equals(hostId.toString())) {
+                continue;
+            }
+            ResourceLocation targetId = ResourceLocation.tryParse(parts[1].trim());
+            if (targetId == null) {
+                continue;
+            }
+            Entity entity = BuiltInRegistries.ENTITY_TYPE.getOptional(targetId)
+                    .map(type -> type.create(level)).orElse(null);
+            if (entity instanceof Mob mob) {
+                return mob;
+            }
         }
         return null;
     }
