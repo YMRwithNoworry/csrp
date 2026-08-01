@@ -101,6 +101,9 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
     public MarauderEntity(EntityType<? extends MarauderEntity> type, Level level) {
         super(type, level);
         xpReward = 120;
+        float tendrilHealth = maxTendrilHealth();
+        entityData.set(LEFT_TENDRIL_HEALTH, tendrilHealth);
+        entityData.set(RIGHT_TENDRIL_HEALTH, tendrilHealth);
         if (!level.isClientSide) {
             initializeVariant();
         }
@@ -127,8 +130,8 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(CLIMBING, (byte) 0);
-        builder.define(LEFT_TENDRIL_HEALTH, maxTendrilHealth());
-        builder.define(RIGHT_TENDRIL_HEALTH, maxTendrilHealth());
+        builder.define(LEFT_TENDRIL_HEALTH, 0.0F);
+        builder.define(RIGHT_TENDRIL_HEALTH, 0.0F);
         builder.define(ATTACK_TICKS, 0);
         builder.define(SMASH_TICKS, 0);
         builder.define(HARDENED_VARIANT, false);
