@@ -10,6 +10,7 @@ import alku.csrp.effect.FeralMobEffect;
 import alku.csrp.effect.NeedlerMobEffect;
 import alku.csrp.effect.RageMobEffect;
 import alku.csrp.effect.LinkMobEffect;
+import alku.csrp.effect.RepelMobEffect;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.effect.MobEffect;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -45,6 +46,9 @@ public final class ModMobEffects {
 
     public static final DeferredHolder<MobEffect, MobEffect> FERAL =
             EFFECTS.register("feral", FeralMobEffect::new);
+
+    public static final DeferredHolder<MobEffect, MobEffect> REPEL =
+            EFFECTS.register("repel", RepelMobEffect::new);
 
     private ModMobEffects() {
     }

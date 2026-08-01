@@ -76,7 +76,7 @@ public final class InfectionMechanics {
     }
 
     public static boolean convertInfectedHost(LivingEntity host) {
-        if (host.level().isClientSide || host instanceof Parasite || host instanceof Player
+        if (host.level().isClientSide || !isInfectable(host) || host instanceof Player
                 || !(host.level() instanceof ServerLevel serverLevel)) {
             return false;
         }
@@ -102,6 +102,7 @@ public final class InfectionMechanics {
     public static boolean convertKilledHost(LivingEntity host, Entity attacker) {
         if (!(attacker instanceof Parasite) || host.level().isClientSide || host instanceof Parasite
                 || host instanceof Player || !host.isAlive() || host.getEffect(ModMobEffects.COTH) == null
+                || host.hasEffect(ModMobEffects.REPEL)
                 || host.getRandom().nextDouble() >= Config.cothConvert()) {
             return false;
         }
@@ -150,7 +151,7 @@ public final class InfectionMechanics {
     }
 
     private static boolean isInfectable(LivingEntity entity) {
-        return entity.isAlive() && !(entity instanceof Parasite)
+        return entity.isAlive() && !(entity instanceof Parasite) && !entity.hasEffect(ModMobEffects.REPEL)
                 && !(entity instanceof Player player && player.getAbilities().invulnerable);
     }
 }
