@@ -16,6 +16,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 
@@ -65,6 +66,14 @@ public final class ColonyEvents {
         } else {
             GlobalAdaptation common = data.mostCommonGlobalAdaptation();
             seedGenericAdaptation(entity, common.damage(), common.points());
+        }
+    }
+
+    @SubscribeEvent
+    public static void preventParasiteInfighting(LivingChangeTargetEvent event) {
+        if (event.getEntity() instanceof Parasite
+                && event.getNewAboutToBeSetTarget() instanceof Parasite) {
+            event.setNewAboutToBeSetTarget(null);
         }
     }
 
