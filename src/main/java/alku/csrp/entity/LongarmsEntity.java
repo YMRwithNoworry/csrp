@@ -17,15 +17,17 @@ import software.bernie.geckolib.animation.RawAnimation;
 import java.util.EnumSet;
 
 public final class LongarmsEntity extends PrimitiveParasiteEntity {
-    private static final int ATTACK_INTERVAL_TICKS = 20;
+    private static final int ATTACK_INTERVAL_TICKS = 10;
     private static final int ATTACKS_BEFORE_REST = 2;
-    private static final int ATTACK_REST_TICKS = 60;
+    private static final int ATTACK_REST_TICKS = 100;
 
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
     private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
     private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
     private int shockwaveCooldown = 100;
+    private int meleeAttacksSinceRest;
+    private int meleeRestUntilTick;
 
     public LongarmsEntity(EntityType<? extends LongarmsEntity> type, Level level) {
         super(type, level);
@@ -59,6 +61,10 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
         hurtNearby(center, 1.5, (float) getAttributeValue(Attributes.ATTACK_DAMAGE), random.nextFloat() < 0.1F);
     }
 
+    private boolean isRestingAfterMeleeAttacks() {
+        return tickCount < meleeRestUntilTick;
+    }
+
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
@@ -73,9 +79,6 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
 
     private final class LongarmsMeleeGoal extends Goal {
         private int cooldown;
-        private int attacksSinceRest;
-        private int restTicks;
-        private LivingEntity trackedTarget;
 
         LongarmsMeleeGoal() { setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK)); }
 
@@ -93,20 +96,10 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
         @Override public void tick() {
             var target = getTarget();
             if (target == null) return;
-            if (target != trackedTarget) {
-                trackedTarget = target;
-                cooldown = 0;
-                attacksSinceRest = 0;
-                restTicks = 0;
-            }
             getLookControl().setLookAt(target, 30.0F, 30.0F);
 
-            if (restTicks > 0) {
+            if (isRestingAfterMeleeAttacks()) {
                 getNavigation().stop();
-                restTicks--;
-                if (restTicks == 0) {
-                    attacksSinceRest = 0;
-                }
                 return;
             }
 
@@ -114,10 +107,11 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
             if (cooldown > 0) cooldown--;
             if (distanceToSqr(target) <= 8.0D && cooldown == 0) {
                 performAoeAttack(target);
-                attacksSinceRest++;
-                if (attacksSinceRest >= ATTACKS_BEFORE_REST) {
+                meleeAttacksSinceRest++;
+                if (meleeAttacksSinceRest >= ATTACKS_BEFORE_REST) {
+                    meleeAttacksSinceRest = 0;
                     getNavigation().stop();
-                    restTicks = ATTACK_REST_TICKS;
+                    meleeRestUntilTick = tickCount + ATTACK_REST_TICKS;
                 } else {
                     cooldown = ATTACK_INTERVAL_TICKS;
                 }
@@ -127,10 +121,7 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
         @Override
         public void stop() {
             if (getTarget() == null || !getTarget().isAlive()) {
-                trackedTarget = null;
                 cooldown = 0;
-                attacksSinceRest = 0;
-                restTicks = 0;
             }
         }
     }
@@ -138,7 +129,9 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
     private final class ShockwaveGoal extends Goal {
         private int charge;
         ShockwaveGoal() { setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK)); }
-        @Override public boolean canUse() { return shockwaveCooldown == 0 && getTarget() != null && onGround(); }
+        @Override public boolean canUse() {
+            return shockwaveCooldown == 0 && !isRestingAfterMeleeAttacks() && getTarget() != null && onGround();
+        }
         @Override public boolean canContinueToUse() { return charge < 80 && getTarget() != null; }
         @Override public void start() { charge = 0; getNavigation().stop(); }
         @Override public void tick() { if (++charge == 60) hurtNearby(LongarmsEntity.this, 12.0, 4.5F, true); }
