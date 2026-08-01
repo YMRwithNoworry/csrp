@@ -295,7 +295,8 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
 
     private void spawnCosmicOrb(LivingEntity target) {
         ScaryOrbEntity orb = new ScaryOrbEntity(ModEntities.SCARY_ORB.get(), level(), this);
-        orb.setAnchor(target.position().add(0.0D, target.getBbHeight() * 0.5D, 0.0D));
+        Vec3 start = getEyePosition().add(getViewVector(1.0F).scale(0.75D));
+        orb.launch(start, target.getEyePosition(), target);
         level().addFreshEntity(orb);
     }
 

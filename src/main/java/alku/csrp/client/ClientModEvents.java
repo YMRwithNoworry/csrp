@@ -243,6 +243,14 @@ public final class ClientModEvents {
                 new PrimitiveParasiteRenderer<>(context, "anc_dreadnaut", 1.3F));
         event.registerEntityRenderer(ModEntities.ANC_OVERLORD.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "anc_overlord", 1.1F));
+        event.registerEntityRenderer(ModEntities.WORKER.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "worker", 0.35F));
+        event.registerEntityRenderer(ModEntities.ARCHITECT.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "architect", 0.9F));
+        event.registerEntityRenderer(ModEntities.ANC_POD.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "anc_pod", 0.6F));
+        event.registerEntityRenderer(ModEntities.ANC_DREADNAUT_TEN.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "anc_dreadnaut_ten", 0.55F));
         event.registerEntityRenderer(ModEntities.BECKON_SI.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "beckon_si", 0.4F));
         event.registerEntityRenderer(ModEntities.BECKON_SII.get(), context ->

@@ -4,6 +4,10 @@ import alku.csrp.Csrp;
 import alku.csrp.entity.AbominationEntity;
 import alku.csrp.entity.AirscrewEntity;
 import alku.csrp.entity.AncientParasiteEntity;
+import alku.csrp.entity.WorkerEntity;
+import alku.csrp.entity.ArchitectEntity;
+import alku.csrp.entity.AncientPodEntity;
+import alku.csrp.entity.DreadnautTentacleEntity;
 import alku.csrp.entity.AdaptedVariantEntity;
 import alku.csrp.entity.AssimilatedParasiteEntity;
 import alku.csrp.entity.AssimilatedDragonEntity;
@@ -233,6 +237,10 @@ public final class CommonModEvents {
                 AncientParasiteEntity.Kind.DREADNAUT).build());
         event.put(ModEntities.ANC_OVERLORD.get(), AncientParasiteEntity.createAttributes(
                 AncientParasiteEntity.Kind.OVERLORD).build());
+        event.put(ModEntities.WORKER.get(), WorkerEntity.createAttributes().build());
+        event.put(ModEntities.ARCHITECT.get(), ArchitectEntity.createAttributes().build());
+        event.put(ModEntities.ANC_POD.get(), AncientPodEntity.createAttributes().build());
+        event.put(ModEntities.ANC_DREADNAUT_TEN.get(), DreadnautTentacleEntity.createAttributes().build());
         event.put(ModEntities.BECKON_SI.get(), NexusParasiteEntity.createAttributes(
                 NexusParasiteEntity.Kind.BECKON_SI).build());
         event.put(ModEntities.BECKON_SII.get(), NexusParasiteEntity.createAttributes(

@@ -8,6 +8,7 @@ import alku.csrp.registry.ModMobEffects;
 import alku.csrp.world.SrpWorldData.GlobalAdaptation;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -69,6 +70,14 @@ public final class ColonyEvents {
 
     @SubscribeEvent
     public static void capIncomingDamage(LivingIncomingDamageEvent event) {
+        Entity sourceEntity = event.getSource().getEntity();
+        Entity directEntity = event.getSource().getDirectEntity();
+        if (event.getEntity() instanceof Parasite
+                && ((sourceEntity instanceof Parasite && sourceEntity != event.getEntity())
+                || (directEntity instanceof Parasite && directEntity != event.getEntity()))) {
+            event.setCanceled(true);
+            return;
+        }
         if (!(event.getEntity() instanceof Parasite) || event.getAmount() <= 0.0F) {
             return;
         }

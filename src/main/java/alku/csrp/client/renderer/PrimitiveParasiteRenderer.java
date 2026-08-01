@@ -15,7 +15,7 @@ import java.util.Set;
 
 public final class PrimitiveParasiteRenderer<T extends Mob & GeoEntity> extends GeoEntityRenderer<T> {
     private static final Set<String> REVERSED_MODELS = Set.of(
-            "bomber_light", "haunter", "warden", "wraith"
+            "bomber_light", "haunter", "warden", "wraith", "anc_dreadnaut_ten"
     );
 
     private final boolean reverseFacing;

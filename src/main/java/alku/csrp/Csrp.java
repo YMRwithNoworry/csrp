@@ -97,6 +97,10 @@ public final class Csrp {
                         output.accept(ModItems.SUCCOR_SPAWN_EGG.get());
                         output.accept(ModItems.ANC_DREADNAUT_SPAWN_EGG.get());
                         output.accept(ModItems.ANC_OVERLORD_SPAWN_EGG.get());
+                        output.accept(ModItems.WORKER_SPAWN_EGG.get());
+                        output.accept(ModItems.ARCHITECT_SPAWN_EGG.get());
+                        output.accept(ModItems.ANC_POD_SPAWN_EGG.get());
+                        output.accept(ModItems.ANC_DREADNAUT_TEN_SPAWN_EGG.get());
                         output.accept(ModItems.BECKON_SI_SPAWN_EGG.get());
                         output.accept(ModItems.BECKON_SII_SPAWN_EGG.get());
                         output.accept(ModItems.BECKON_SIII_SPAWN_EGG.get());
@@ -145,7 +149,9 @@ public final class Csrp {
                                         && item != ModItems.CARRIER_COLONY_SPAWN_EGG && item != ModItems.HAUNTER_SPAWN_EGG
                                         && item != ModItems.BOMBER_HEAVY_SPAWN_EGG && item != ModItems.WRAITH_SPAWN_EGG
                                         && item != ModItems.SUCCOR_SPAWN_EGG && item != ModItems.ANC_DREADNAUT_SPAWN_EGG
-                                        && item != ModItems.ANC_OVERLORD_SPAWN_EGG && item != ModItems.BECKON_SI_SPAWN_EGG
+                                        && item != ModItems.ANC_OVERLORD_SPAWN_EGG && item != ModItems.WORKER_SPAWN_EGG
+                                        && item != ModItems.ARCHITECT_SPAWN_EGG && item != ModItems.ANC_POD_SPAWN_EGG
+                                        && item != ModItems.ANC_DREADNAUT_TEN_SPAWN_EGG && item != ModItems.BECKON_SI_SPAWN_EGG
                                         && item != ModItems.BECKON_SII_SPAWN_EGG && item != ModItems.BECKON_SIII_SPAWN_EGG
                                         && item != ModItems.BECKON_SIV_SPAWN_EGG && item != ModItems.DISPATCHER_SI_SPAWN_EGG
                                         && item != ModItems.DISPATCHER_SII_SPAWN_EGG && item != ModItems.DISPATCHER_SIII_SPAWN_EGG
@@ -279,6 +285,10 @@ public final class Csrp {
             event.accept(ModItems.SUCCOR_SPAWN_EGG.get());
             event.accept(ModItems.ANC_DREADNAUT_SPAWN_EGG.get());
             event.accept(ModItems.ANC_OVERLORD_SPAWN_EGG.get());
+            event.accept(ModItems.WORKER_SPAWN_EGG.get());
+            event.accept(ModItems.ARCHITECT_SPAWN_EGG.get());
+            event.accept(ModItems.ANC_POD_SPAWN_EGG.get());
+            event.accept(ModItems.ANC_DREADNAUT_TEN_SPAWN_EGG.get());
             event.accept(ModItems.BECKON_SI_SPAWN_EGG.get());
             event.accept(ModItems.BECKON_SII_SPAWN_EGG.get());
             event.accept(ModItems.BECKON_SIII_SPAWN_EGG.get());

@@ -59,6 +59,10 @@ import alku.csrp.entity.VerminEntity;
 import alku.csrp.entity.VisceraEntity;
 import alku.csrp.entity.MovingFleshEntity;
 import alku.csrp.entity.NexusParasiteEntity;
+import alku.csrp.entity.WorkerEntity;
+import alku.csrp.entity.ArchitectEntity;
+import alku.csrp.entity.AncientPodEntity;
+import alku.csrp.entity.DreadnautTentacleEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -357,6 +361,14 @@ public final class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<AncientParasiteEntity>> ANC_OVERLORD =
             monster("anc_overlord", (type, level) -> new AncientParasiteEntity(type, level,
                     AncientParasiteEntity.Kind.OVERLORD), 2.4F, 2.9F);
+    public static final DeferredHolder<EntityType<?>, EntityType<WorkerEntity>> WORKER =
+            monster("worker", WorkerEntity::new, 0.65F, 0.65F);
+    public static final DeferredHolder<EntityType<?>, EntityType<ArchitectEntity>> ARCHITECT =
+            monster("architect", ArchitectEntity::new, 1.9F, 2.6F);
+    public static final DeferredHolder<EntityType<?>, EntityType<AncientPodEntity>> ANC_POD =
+            monster("anc_pod", AncientPodEntity::new, 1.0F, 2.0F);
+    public static final DeferredHolder<EntityType<?>, EntityType<DreadnautTentacleEntity>> ANC_DREADNAUT_TEN =
+            monster("anc_dreadnaut_ten", DreadnautTentacleEntity::new, 1.0F, 0.7F);
     public static final DeferredHolder<EntityType<?>, EntityType<NexusParasiteEntity>> BECKON_SI =
             monster("beckon_si", (type, level) -> new NexusParasiteEntity(type, level,
                     NexusParasiteEntity.Kind.BECKON_SI), 0.5F, 1.5F);

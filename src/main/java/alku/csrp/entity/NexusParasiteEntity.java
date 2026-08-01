@@ -151,6 +151,11 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
+    public boolean isPushable() {
+        return false;
+    }
+
+    @Override
     protected int maxDamageAdaptationHits() {
         return activeKind().stage == 4 ? 4 : 10;
     }

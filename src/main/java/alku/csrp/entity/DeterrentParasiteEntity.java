@@ -135,6 +135,11 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
+    public boolean isPushable() {
+        return false;
+    }
+
+    @Override
     public boolean hurt(DamageSource source, float amount) {
         if (activeKind() == Kind.SEIZER && source.getDirectEntity() instanceof ParasiteProjectileEntity) {
             LivingEntity heldTarget = getSeizerTarget();

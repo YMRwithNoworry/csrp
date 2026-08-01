@@ -243,6 +243,14 @@ public final class ModItems {
             "anc_dreadnaut_spawn_egg", ModEntities.ANC_DREADNAUT, 0x283038, 0xAF6752);
     public static final DeferredItem<SpawnEggItem> ANC_OVERLORD_SPAWN_EGG = spawnEgg(
             "anc_overlord_spawn_egg", ModEntities.ANC_OVERLORD, 0x3A2E2E, 0xB37457);
+    public static final DeferredItem<SpawnEggItem> WORKER_SPAWN_EGG = spawnEgg(
+            "worker_spawn_egg", ModEntities.WORKER, 0x34251F, 0x9B6748);
+    public static final DeferredItem<SpawnEggItem> ARCHITECT_SPAWN_EGG = spawnEgg(
+            "architect_spawn_egg", ModEntities.ARCHITECT, 0x332B2B, 0xAD7960);
+    public static final DeferredItem<SpawnEggItem> ANC_POD_SPAWN_EGG = spawnEgg(
+            "anc_pod_spawn_egg", ModEntities.ANC_POD, 0x283038, 0x7C5145);
+    public static final DeferredItem<SpawnEggItem> ANC_DREADNAUT_TEN_SPAWN_EGG = spawnEgg(
+            "anc_dreadnaut_ten_spawn_egg", ModEntities.ANC_DREADNAUT_TEN, 0x242B31, 0x8E5546);
     public static final DeferredItem<SpawnEggItem> BECKON_SI_SPAWN_EGG = spawnEgg(
             "beckon_si_spawn_egg", ModEntities.BECKON_SI, 0x263526, 0x7A9E57);
     public static final DeferredItem<SpawnEggItem> BECKON_SII_SPAWN_EGG = spawnEgg(
@@ -291,6 +299,8 @@ public final class ModItems {
             "infested_planks", ModBlocks.INFESTED_PLANKS);
     public static final DeferredItem<BlockItem> BIOMEHEART = ITEMS.registerSimpleBlockItem("biomeheart", ModBlocks.BIOMEHEART);
     public static final DeferredItem<BlockItem> COLONYHEART = ITEMS.registerSimpleBlockItem("colonyheart", ModBlocks.COLONYHEART);
+    public static final DeferredItem<BlockItem> PARASITE_STRUCTURE = ITEMS.registerSimpleBlockItem(
+            "parasitestructure", ModBlocks.PARASITE_STRUCTURE);
 
     public static final DeferredItem<Item> ASSIMILATED_FLESH = simple("assimilated_flesh");
     public static final DeferredItem<Item> BONE = simple("bone");

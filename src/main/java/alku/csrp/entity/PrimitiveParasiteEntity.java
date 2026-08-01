@@ -62,6 +62,12 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
+        Entity attacker = source.getEntity();
+        Entity direct = source.getDirectEntity();
+        if ((attacker instanceof Parasite && attacker != this)
+                || (direct instanceof Parasite && direct != this)) {
+            return false;
+        }
         if (!usesDamageAdaptation()) {
             return super.hurt(source, amount);
         }
@@ -75,6 +81,11 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
             damageAdaptations.put(damageId, Math.min(maxDamageAdaptationHits(), previousHits + 1));
         }
         return hurt;
+    }
+
+    @Override
+    public boolean doHurtTarget(Entity target) {
+        return !(target instanceof Parasite) && super.doHurtTarget(target);
     }
 
     protected boolean usesDamageAdaptation() {
