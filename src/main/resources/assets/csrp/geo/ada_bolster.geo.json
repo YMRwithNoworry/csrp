@@ -16,6 +16,19 @@
       },
       "bones": [
         {
+          "name": "root",
+          "pivot": [
+            0,
+            24,
+            0
+          ],
+          "rotation": [
+            0,
+            -180,
+            0
+          ]
+        },
+        {
           "name": "tacle_51",
           "parent": "jointDFLT1",
           "pivot": [
@@ -2852,6 +2865,7 @@
         },
         {
           "name": "mainbody",
+          "parent": "root",
           "pivot": [
             0,
             16,

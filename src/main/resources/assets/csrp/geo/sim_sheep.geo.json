@@ -16,6 +16,19 @@
       },
       "bones": [
         {
+          "name": "root",
+          "pivot": [
+            0,
+            24,
+            0
+          ],
+          "rotation": [
+            0,
+            -180,
+            0
+          ]
+        },
+        {
           "name": "popX2",
           "parent": "body_2",
           "pivot": [
@@ -2304,6 +2317,7 @@
         },
         {
           "name": "mainbody",
+          "parent": "root",
           "pivot": [
             0,
             9.1,

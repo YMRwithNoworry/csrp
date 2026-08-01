@@ -16,6 +16,19 @@
       },
       "bones": [
         {
+          "name": "root",
+          "pivot": [
+            0,
+            24,
+            0
+          ],
+          "rotation": [
+            0,
+            -180,
+            0
+          ]
+        },
+        {
           "name": "arm_1",
           "parent": "arm",
           "pivot": [
@@ -359,6 +372,7 @@
         },
         {
           "name": "dec",
+          "parent": "root",
           "pivot": [
             0,
             24,
@@ -626,6 +640,7 @@
         },
         {
           "name": "mainbody",
+          "parent": "root",
           "pivot": [
             0,
             30,

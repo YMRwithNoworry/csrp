@@ -16,6 +16,19 @@
       },
       "bones": [
         {
+          "name": "root",
+          "pivot": [
+            0,
+            24,
+            0
+          ],
+          "rotation": [
+            0,
+            -180,
+            0
+          ]
+        },
+        {
           "name": "tentacle_3",
           "parent": "tacleJointUR2",
           "pivot": [
@@ -946,6 +959,7 @@
         },
         {
           "name": "bodytenbaseUR",
+          "parent": "root",
           "pivot": [
             0,
             36.5,

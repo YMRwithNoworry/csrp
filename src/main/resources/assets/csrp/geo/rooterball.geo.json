@@ -16,6 +16,19 @@
       },
       "bones": [
         {
+          "name": "root",
+          "pivot": [
+            0,
+            24,
+            0
+          ],
+          "rotation": [
+            0,
+            -180,
+            0
+          ]
+        },
+        {
           "name": "taclejoint_3",
           "parent": "tentacle_2",
           "pivot": [
@@ -135,6 +148,7 @@
         },
         {
           "name": "mainbody",
+          "parent": "root",
           "pivot": [
             0,
             2,
@@ -161,6 +175,7 @@
         },
         {
           "name": "jd_2",
+          "parent": "root",
           "pivot": [
             -9,
             11,
@@ -256,6 +271,7 @@
         },
         {
           "name": "joint",
+          "parent": "root",
           "pivot": [
             0,
             24,
@@ -523,6 +539,7 @@
         },
         {
           "name": "jd",
+          "parent": "root",
           "pivot": [
             0,
             24,
@@ -716,6 +733,7 @@
         },
         {
           "name": "jd_3",
+          "parent": "root",
           "pivot": [
             -6,
             9,
@@ -838,6 +856,7 @@
         },
         {
           "name": "jd_1",
+          "parent": "root",
           "pivot": [
             8,
             7,

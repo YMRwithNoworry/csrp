@@ -16,6 +16,19 @@
       },
       "bones": [
         {
+          "name": "root",
+          "pivot": [
+            0,
+            24,
+            0
+          ],
+          "rotation": [
+            0,
+            -180,
+            0
+          ]
+        },
+        {
           "name": "tentacle_20",
           "parent": "taclejointG_2",
           "pivot": [
@@ -4349,6 +4362,7 @@
         },
         {
           "name": "mainbody",
+          "parent": "root",
           "pivot": [
             3,
             4,

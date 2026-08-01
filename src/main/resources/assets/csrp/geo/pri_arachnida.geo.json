@@ -16,7 +16,21 @@
       },
       "bones": [
         {
+          "name": "root",
+          "pivot": [
+            0,
+            24,
+            0
+          ],
+          "rotation": [
+            0,
+            -180,
+            0
+          ]
+        },
+        {
           "name": "mainbody",
+          "parent": "root",
           "pivot": [
             0,
             26,

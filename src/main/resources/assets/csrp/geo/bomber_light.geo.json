@@ -16,6 +16,19 @@
       },
       "bones": [
         {
+          "name": "root",
+          "pivot": [
+            0,
+            24,
+            0
+          ],
+          "rotation": [
+            0,
+            -180,
+            0
+          ]
+        },
+        {
           "name": "taclejointFL3",
           "parent": "tentacle_9",
           "pivot": [
@@ -226,6 +239,7 @@
         },
         {
           "name": "mpop6",
+          "parent": "root",
           "pivot": [
             -4.5,
             1.1999999999999993,
@@ -257,6 +271,7 @@
         },
         {
           "name": "jointp7",
+          "parent": "root",
           "pivot": [
             -9,
             27.5,
@@ -369,6 +384,7 @@
         },
         {
           "name": "mpop8",
+          "parent": "root",
           "pivot": [
             5.5,
             19.6,
@@ -400,6 +416,7 @@
         },
         {
           "name": "mpop16",
+          "parent": "root",
           "pivot": [
             2.5,
             13.6,
@@ -431,6 +448,7 @@
         },
         {
           "name": "mainbody",
+          "parent": "root",
           "pivot": [
             0,
             24,
@@ -521,6 +539,7 @@
         },
         {
           "name": "mpop5",
+          "parent": "root",
           "pivot": [
             -5.5,
             1.5,
@@ -616,6 +635,7 @@
         },
         {
           "name": "jointp11",
+          "parent": "root",
           "pivot": [
             -9,
             20.5,
@@ -669,6 +689,7 @@
         },
         {
           "name": "mpop1",
+          "parent": "root",
           "pivot": [
             -11.5,
             2,
@@ -700,6 +721,7 @@
         },
         {
           "name": "mpop13",
+          "parent": "root",
           "pivot": [
             11.5,
             7.5,
@@ -913,6 +935,7 @@
         },
         {
           "name": "mpop19",
+          "parent": "root",
           "pivot": [
             -9.5,
             15.6,
@@ -1249,6 +1272,7 @@
         },
         {
           "name": "jointp17",
+          "parent": "root",
           "pivot": [
             9,
             27.5,
@@ -1275,6 +1299,7 @@
         },
         {
           "name": "jointp18",
+          "parent": "root",
           "pivot": [
             9,
             22.5,
@@ -1397,6 +1422,7 @@
         },
         {
           "name": "mpop4",
+          "parent": "root",
           "pivot": [
             -14.5,
             6.600000000000001,
@@ -1686,6 +1712,7 @@
         },
         {
           "name": "jointp2",
+          "parent": "root",
           "pivot": [
             -9,
             18.5,
@@ -2017,6 +2044,7 @@
         },
         {
           "name": "mpop3",
+          "parent": "root",
           "pivot": [
             -8.5,
             8.6,
@@ -2075,6 +2103,7 @@
         },
         {
           "name": "mpop9",
+          "parent": "root",
           "pivot": [
             4.5,
             8.6,
@@ -2106,6 +2135,7 @@
         },
         {
           "name": "mpop12",
+          "parent": "root",
           "pivot": [
             11.5,
             4.5,
@@ -2228,6 +2258,7 @@
         },
         {
           "name": "jointp15",
+          "parent": "root",
           "pivot": [
             9,
             18.5,
@@ -2286,6 +2317,7 @@
         },
         {
           "name": "mpop10",
+          "parent": "root",
           "pivot": [
             7.5,
             -1.5,
@@ -2349,6 +2381,7 @@
         },
         {
           "name": "mpop14",
+          "parent": "root",
           "pivot": [
             -2.5,
             6.199999999999999,

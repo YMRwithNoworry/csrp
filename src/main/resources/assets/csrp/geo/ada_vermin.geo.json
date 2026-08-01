@@ -16,6 +16,19 @@
       },
       "bones": [
         {
+          "name": "root",
+          "pivot": [
+            0,
+            24,
+            0
+          ],
+          "rotation": [
+            0,
+            -180,
+            0
+          ]
+        },
+        {
           "name": "t_4",
           "parent": "jointM",
           "pivot": [
@@ -898,6 +911,7 @@
         },
         {
           "name": "mainbody",
+          "parent": "root",
           "pivot": [
             0,
             23,
@@ -988,6 +1002,7 @@
         },
         {
           "name": "b",
+          "parent": "root",
           "pivot": [
             0,
             24,
@@ -1934,6 +1949,7 @@
         },
         {
           "name": "joint",
+          "parent": "root",
           "pivot": [
             0,
             24,

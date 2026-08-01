@@ -16,7 +16,21 @@
       },
       "bones": [
         {
+          "name": "root",
+          "pivot": [
+            0,
+            24,
+            0
+          ],
+          "rotation": [
+            0,
+            -180,
+            0
+          ]
+        },
+        {
           "name": "coatRL",
+          "parent": "root",
           "pivot": [
             0,
             13.6,
@@ -102,6 +116,7 @@
         },
         {
           "name": "coat",
+          "parent": "root",
           "pivot": [
             0,
             23,
@@ -844,6 +859,7 @@
         },
         {
           "name": "coat_1",
+          "parent": "root",
           "pivot": [
             0,
             13.6,
@@ -1116,6 +1132,7 @@
         },
         {
           "name": "coatLL",
+          "parent": "root",
           "pivot": [
             0,
             13.6,
@@ -1297,6 +1314,7 @@
         },
         {
           "name": "mainbody",
+          "parent": "root",
           "pivot": [
             0,
             21.4,
