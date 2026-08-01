@@ -4,6 +4,7 @@ import alku.csrp.Csrp;
 import alku.csrp.entity.DraconiteEntity;
 import alku.csrp.entity.Parasite;
 import alku.csrp.registry.ModMobEffects;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
@@ -35,6 +36,11 @@ public final class StatusEffectEvents {
 
     @SubscribeEvent
     public static void restoreGravity(MobEffectEvent.Remove event) {
+        if (event.getCure() != null
+                && Csrp.MODID.equals(BuiltInRegistries.MOB_EFFECT.getKey(event.getEffect().value()).getNamespace())) {
+            event.setCanceled(true);
+            return;
+        }
         if (event.getEffect().value() == ModMobEffects.DISTORTED_ENLIGHTENMENT.get()) {
             event.getEntity().setNoGravity(false);
         }
