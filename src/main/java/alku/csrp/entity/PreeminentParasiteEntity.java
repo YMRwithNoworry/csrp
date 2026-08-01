@@ -42,6 +42,12 @@ import java.util.UUID;
 public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
     private static final int MAX_ADAPTATION_HITS = 5;
     private static final int MAX_LEARNABLE_DAMAGE_SOURCES = 20;
+    private static final int MAX_SUMMONED_SUCCORS = 3;
+    private static final int SUCCOR_SUMMON_TIMER_MAX = 80;
+    private static final int SUCCOR_SUMMON_PHASE = 40;
+    private static final int SUCCOR_TRAVEL_TIMEOUT = 400;
+    private static final int SUCCOR_STATIONARY_TIMEOUT = 20;
+    private static final int SUCCOR_ACTIVATION_TICKS = 10;
     private static final float ADAPTATION_PER_HIT = 0.20F;
     private static final float ADAPTATION_LEARN_CHANCE = 1.0F;
     private static final float FIRE_SUPPRESSION_CHANCE = 0.30F;
@@ -56,6 +62,11 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
     private int supportCooldown;
     private int stealthCooldown;
     private int attackAnimationTicks;
+    private int succorActionType;
+    private int succorTravelTicks;
+    private int succorStationaryTicks;
+    private int succorActivationTicks;
+    private BlockPos succorTargetPos;
     private boolean succorActionConsumed;
 
     public PreeminentParasiteEntity(EntityType<? extends PreeminentParasiteEntity> type, Level level, Kind kind) {
@@ -124,8 +135,11 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         if (blockBreakCooldown > 0) {
             blockBreakCooldown--;
         }
-        if (supportCooldown > 0) {
-            supportCooldown--;
+        if (activeKind != Kind.SUCCOR) {
+            supportCooldown++;
+            if (supportCooldown > SUCCOR_SUMMON_TIMER_MAX) {
+                supportCooldown = 0;
+            }
         }
         if (stealthCooldown > 0) {
             stealthCooldown--;
@@ -145,7 +159,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
             return;
         }
         breakBlocksTowardsTarget(target, activeKind);
-        if (activeKind != Kind.SUCCOR && supportCooldown <= 0 && tickCount % 40 == 0) {
+        if (activeKind != Kind.SUCCOR && supportCooldown == SUCCOR_SUMMON_PHASE) {
             trySummonSuccor(target);
         }
         if ((activeKind == Kind.BOGLE || activeKind == Kind.WRAITH) && tickCount % 20 == 0) {
@@ -217,6 +231,13 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         tag.putInt("preeminent_support_cooldown", supportCooldown);
         tag.putInt("preeminent_stealth_cooldown", stealthCooldown);
         tag.putBoolean("preeminent_succor_action", succorActionConsumed);
+        tag.putInt("preeminent_succor_action_type", succorActionType);
+        tag.putInt("preeminent_succor_travel", succorTravelTicks);
+        tag.putInt("preeminent_succor_stationary", succorStationaryTicks);
+        tag.putInt("preeminent_succor_activation", succorActivationTicks);
+        if (succorTargetPos != null) {
+            tag.putLong("preeminent_succor_target", succorTargetPos.asLong());
+        }
         if (summonerId != null) {
             tag.putUUID("preeminent_summoner", summonerId);
         }
@@ -225,9 +246,16 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        supportCooldown = tag.getInt("preeminent_support_cooldown");
+        supportCooldown = Math.floorMod(tag.getInt("preeminent_support_cooldown"),
+                SUCCOR_SUMMON_TIMER_MAX + 1);
         stealthCooldown = tag.getInt("preeminent_stealth_cooldown");
         succorActionConsumed = tag.getBoolean("preeminent_succor_action");
+        succorActionType = tag.getInt("preeminent_succor_action_type");
+        succorTravelTicks = tag.getInt("preeminent_succor_travel");
+        succorStationaryTicks = tag.getInt("preeminent_succor_stationary");
+        succorActivationTicks = tag.getInt("preeminent_succor_activation");
+        succorTargetPos = tag.contains("preeminent_succor_target")
+                ? BlockPos.of(tag.getLong("preeminent_succor_target")) : null;
         summonerId = tag.hasUUID("preeminent_summoner") ? tag.getUUID("preeminent_summoner") : null;
     }
 
@@ -301,23 +329,45 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private void trySummonSuccor(LivingEntity target) {
-        supportCooldown = 200;
-        if (!(level() instanceof ServerLevel serverLevel) || random.nextInt(3) != 0) {
+        if (!(level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        int existingSuccors = level().getEntitiesOfClass(PreeminentParasiteEntity.class,
-                getBoundingBox().inflate(48.0D), entity -> entity.getKind() == Kind.SUCCOR && entity.isSummonedBy(this))
-                .size();
-        if (existingSuccors > 0) {
+        int existingSuccors = 0;
+        boolean teleportActionReserved = false;
+        for (Entity entity : serverLevel.getAllEntities()) {
+            if (!(entity instanceof PreeminentParasiteEntity succor) || succor.getKind() != Kind.SUCCOR
+                    || !succor.isAlive() || !succor.isSummonedBy(this)) {
+                continue;
+            }
+            existingSuccors++;
+            teleportActionReserved |= succor.succorActionType == 3;
+        }
+        if (existingSuccors >= MAX_SUMMONED_SUCCORS) {
             return;
         }
         PreeminentParasiteEntity succor = ModEntities.SUCCOR.get().create(serverLevel);
         if (succor == null) {
             return;
         }
-        succor.moveTo(getX(), getY() + getBbHeight() * 0.5D, getZ(), getYRot(), 0.0F);
+        Vec3 horizontalLook = getViewVector(1.0F).multiply(1.0D, 0.0D, 1.0D);
+        if (horizontalLook.lengthSqr() > 0.001D) {
+            horizontalLook = horizontalLook.normalize();
+        }
+        Vec3 spawn = position().subtract(horizontalLook.scale(4.0D)).add(0.0D, getEyeHeight(), 0.0D);
+        succor.moveTo(spawn.x, spawn.y, spawn.z, getYRot(), 0.0F);
         succor.setSummoner(this);
+        succor.succorTargetPos = target.blockPosition();
+        int actionType = random.nextInt(3) + 1;
+        if (actionType == 3 && (distanceToSqr(target) < 100.0D || !target.onGround()
+                || teleportActionReserved)) {
+            actionType = random.nextInt(2) + 1;
+        }
+        succor.succorActionType = actionType;
         succor.setTarget(target);
+        var attackDamage = succor.getAttribute(Attributes.ATTACK_DAMAGE);
+        if (attackDamage != null) {
+            attackDamage.setBaseValue(getAttributeValue(Attributes.ATTACK_DAMAGE) * 2.0D);
+        }
         if (isInvisible()) {
             succor.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 60, 0, false, false), this);
         }
@@ -365,44 +415,41 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         return entity instanceof PreeminentParasiteEntity preeminent && preeminent.isAlive() ? preeminent : null;
     }
 
-    private void completeSuccorAction(LivingEntity target) {
+    private void completeSuccorAction() {
         if (succorActionConsumed || level().isClientSide) {
             return;
         }
         succorActionConsumed = true;
-        int action = random.nextInt(3);
         PreeminentParasiteEntity summoner = resolveSummoner();
-        if (action == 2 && summoner != null) {
-            summoner.teleportTo(getX(), getY(), getZ());
-            summoner.setDeltaMovement(Vec3.ZERO);
-            discard();
-            return;
+        int action = succorActionType;
+        if (action == 3) {
+            boolean reachedTarget = succorTargetPos != null
+                    && distanceToSqr(Vec3.atCenterOf(succorTargetPos)) < 16.0D;
+            if (reachedTarget && summoner != null) {
+                summoner.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+                summoner.setDeltaMovement(Vec3.ZERO);
+                discard();
+                return;
+            }
+            action = random.nextInt(2) + 1;
         }
-        if (action == 1) {
-            AreaEffectCloud orb = new AreaEffectCloud(level(), getX(), getY(), getZ());
-            orb.setOwner(this);
-            orb.setRadius(4.0F);
-            orb.setDuration(80);
-            orb.setWaitTime(0);
-            orb.setRadiusPerTick(-orb.getRadius() / orb.getDuration());
-            orb.addEffect(new MobEffectInstance(MobEffects.HUNGER, 180, 2, false, true));
-            orb.addEffect(new MobEffectInstance(ModMobEffects.NEEDLER, 180, 1, false, true));
+        if (action == 2 && summoner != null) {
+            ScaryOrbEntity orb = new ScaryOrbEntity(ModEntities.SCARY_ORB.get(), level(), summoner);
+            orb.setAnchor(position().add(0.0D, -3.0D, 0.0D));
             level().addFreshEntity(orb);
             discard();
             return;
         }
-        Level.ExplosionInteraction interaction = level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
-                ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
-        level().explode(this, getX(), getY(), getZ(), 3.0F, interaction);
+        hurtNearby(this, 4.0D, (float) getAttributeValue(Attributes.ATTACK_DAMAGE), false);
         AreaEffectCloud cloud = new AreaEffectCloud(level(), getX(), getY(), getZ());
         cloud.setOwner(this);
-        cloud.setRadius(4.0F);
-        cloud.setDuration(90);
-        cloud.setWaitTime(0);
+        cloud.setRadius(4.2F);
+        cloud.setDuration(300);
+        cloud.setWaitTime(10);
         cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
-        cloud.addEffect(new MobEffectInstance(MobEffects.POISON, 200, 1, false, true));
-        cloud.addEffect(new MobEffectInstance(MobEffects.WITHER, 200, 1, false, true));
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 300, 1, false, true));
+        cloud.addEffect(new MobEffectInstance(MobEffects.POISON, 300, 2, false, true));
+        cloud.addEffect(new MobEffectInstance(MobEffects.WITHER, 300, 2, false, true));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, 2, false, false));
         level().addFreshEntity(cloud);
         discard();
     }
@@ -720,8 +767,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
 
         @Override
         public boolean canUse() {
-            LivingEntity target = getTarget();
-            return !succorActionConsumed && target != null && target.isAlive();
+            return !succorActionConsumed && succorTargetPos != null;
         }
 
         @Override
@@ -732,13 +778,34 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         @Override
         public void tick() {
             LivingEntity target = getTarget();
-            if (target == null) {
+            if (succorActionConsumed || succorTargetPos == null) {
                 return;
             }
-            getLookControl().setLookAt(target, 30.0F, 30.0F);
-            getMoveControl().setWantedPosition(target.getX(), target.getY() + 0.5D, target.getZ(), 1.20D);
-            if (distanceToSqr(target) <= 9.0D) {
-                completeSuccorAction(target);
+            if (succorActivationTicks > 0) {
+                setDeltaMovement(Vec3.ZERO);
+                succorActivationTicks++;
+                if (succorActivationTicks >= SUCCOR_ACTIVATION_TICKS) {
+                    completeSuccorAction();
+                }
+                return;
+            }
+            succorTravelTicks++;
+            if (getX() == xo && getZ() == zo) {
+                succorStationaryTicks++;
+            }
+            if (target != null) {
+                getLookControl().setLookAt(target, 30.0F, 30.0F);
+                getMoveControl().setWantedPosition(target.getX(), target.getY() + 0.5D, target.getZ(), 1.20D);
+            } else {
+                Vec3 targetCenter = Vec3.atCenterOf(succorTargetPos);
+                getMoveControl().setWantedPosition(targetCenter.x, targetCenter.y, targetCenter.z, 1.20D);
+            }
+            if (distanceToSqr(Vec3.atCenterOf(succorTargetPos)) < 4.0D
+                    || succorStationaryTicks > SUCCOR_STATIONARY_TIMEOUT
+                    || succorTravelTicks > SUCCOR_TRAVEL_TIMEOUT || resolveSummoner() == null) {
+                succorActivationTicks = 1;
+                getMoveControl().setWantedPosition(getX(), getY(), getZ(), 0.0D);
+                setDeltaMovement(Vec3.ZERO);
             }
         }
     }
