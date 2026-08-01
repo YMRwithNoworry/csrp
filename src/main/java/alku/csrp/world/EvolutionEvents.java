@@ -2,6 +2,7 @@ package alku.csrp.world;
 
 import alku.csrp.Csrp;
 import alku.csrp.entity.Parasite;
+import alku.csrp.registry.ModMobEffects;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -32,7 +33,14 @@ public final class EvolutionEvents {
         }
         Entity attacker = event.getSource().getEntity();
         if (attacker instanceof Parasite) {
-            EvolutionSystem.addPoints(level, EvolutionSystem.VALUE_KILL, EvolutionSystem.PointSource.KILL);
+            int points = EvolutionSystem.VALUE_KILL;
+            if (attacker instanceof LivingEntity living) {
+                var pivot = living.getEffect(ModMobEffects.PIVOT);
+                if (pivot != null) {
+                    points *= 2 * (pivot.getAmplifier() + 1);
+                }
+            }
+            EvolutionSystem.addPoints(level, points, EvolutionSystem.PointSource.KILL);
         }
     }
 

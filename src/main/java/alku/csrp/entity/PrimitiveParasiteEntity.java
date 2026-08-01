@@ -24,6 +24,8 @@ import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -69,6 +71,9 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
                 }
             }
         }
+        if (!level().isClientSide && tickCount % 21 == 10 && hasEffect(ModMobEffects.ANTIMALL)) {
+            reduceAllResistances(1);
+        }
     }
 
     @Override
@@ -82,7 +87,8 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     }
 
     protected boolean isValidParasiteTarget(LivingEntity target) {
-        return target != this && target.isAlive() && !(target instanceof Parasite);
+        return target != this && target.isAlive() && !(target instanceof Parasite)
+                && !target.hasEffect(ModMobEffects.THE_SIGN);
     }
 
     @Override
@@ -137,6 +143,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
 
     protected boolean usesDamageAdaptation() {
         return level() instanceof ServerLevel serverLevel
+                && !hasEffect(ModMobEffects.ANTIMALL)
                 && EvolutionSystem.generationProfile(serverLevel).adaptation();
     }
 
@@ -199,12 +206,46 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         return damage;
     }
 
+    public void increaseAllResistances() {
+        damageAdaptations.replaceAll((damage, points) -> points == Integer.MAX_VALUE
+                ? points : points + 1);
+    }
+
+    public void reduceAllResistances(int points) {
+        if (points <= 0) {
+            return;
+        }
+        damageAdaptations.replaceAll((damage, current) -> current - points);
+        damageAdaptations.values().removeIf(current -> current <= 0);
+    }
+
     @Override
     public boolean killedEntity(ServerLevel level, LivingEntity victim) {
         parasiteKills++;
         legacyKillCount = Math.max(legacyKillCount, parasiteKills);
+        applyParateGrowth(victim);
         onParasiteKill(level, victim, parasiteKills);
         return super.killedEntity(level, victim);
+    }
+
+    private void applyParateGrowth(LivingEntity victim) {
+        var parate = getEffect(ModMobEffects.PARATE);
+        if (parate == null) {
+            return;
+        }
+        double multiplier = 0.5D * (parate.getAmplifier() + 1);
+        stealBaseAttribute(victim, Attributes.MAX_HEALTH, multiplier);
+        stealBaseAttribute(victim, Attributes.ARMOR, multiplier);
+        stealBaseAttribute(victim, Attributes.ATTACK_DAMAGE, multiplier);
+    }
+
+    private void stealBaseAttribute(LivingEntity victim,
+            Holder<net.minecraft.world.entity.ai.attributes.Attribute> attribute, double multiplier) {
+        AttributeInstance own = getAttribute(attribute);
+        AttributeInstance prey = victim.getAttribute(attribute);
+        if (own != null && prey != null) {
+            own.setBaseValue(own.getBaseValue() + prey.getBaseValue() * multiplier);
+        }
     }
 
     protected void onParasiteKill(ServerLevel level, LivingEntity victim, int kills) {

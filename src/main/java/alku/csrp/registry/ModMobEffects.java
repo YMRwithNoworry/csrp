@@ -21,6 +21,7 @@ import alku.csrp.effect.ContaminationMobEffect;
 import alku.csrp.effect.EffectPosMobEffect;
 import alku.csrp.effect.EffectNegMobEffect;
 import alku.csrp.effect.IndeafMobEffect;
+import alku.csrp.effect.FosterMobEffect;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -104,7 +105,7 @@ public final class ModMobEffects {
     public static final DeferredHolder<MobEffect, MobEffect> DEBAR =
             EFFECTS.register("debar", () -> new MarkerMobEffect(false, 10359627));
     public static final DeferredHolder<MobEffect, MobEffect> FOSTER =
-            EFFECTS.register("foster", () -> new MarkerMobEffect(false, 5804908));
+            EFFECTS.register("foster", FosterMobEffect::new);
     public static final DeferredHolder<MobEffect, MobEffect> PIVOT =
             EFFECTS.register("pivot", () -> new MarkerMobEffect(false, 16757187));
     public static final DeferredHolder<MobEffect, MobEffect> JUGG =

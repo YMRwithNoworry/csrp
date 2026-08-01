@@ -11,6 +11,7 @@ import alku.csrp.item.LivingBowItem;
 import alku.csrp.item.LivingWeaponItem;
 import alku.csrp.item.QuenchItem;
 import alku.csrp.item.TexturedSpawnEggItem;
+import alku.csrp.item.TheSignCharmItem;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.BlockItem;
@@ -356,6 +357,8 @@ public final class ModItems {
             "origincompass", CompassItem::new, new Item.Properties().stacksTo(1));
     public static final DeferredItem<Item> SRP_FIELD_GUIDE = simple("srp_field_guide", new Item.Properties().stacksTo(1));
     public static final DeferredItem<Item> BOOK_OF_VENGEANCE = simple("book_of_vengeance", new Item.Properties().stacksTo(1));
+    public static final DeferredItem<TheSignCharmItem> THE_SIGN_CHARM = ITEMS.registerItem(
+            "the_sign_charm", TheSignCharmItem::new, new Item.Properties().stacksTo(1));
     public static final DeferredItem<QuenchItem> ITEMTHROW = ITEMS.registerItem(
             "itemthrow", QuenchItem::new, new Item.Properties().stacksTo(16));
     public static final DeferredItem<BoughItem> BOUGH = ITEMS.registerItem(
