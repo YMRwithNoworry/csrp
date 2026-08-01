@@ -153,7 +153,12 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
 
     @Override
     public boolean doHurtTarget(Entity entity) {
+        LivingEntity livingTarget = entity instanceof LivingEntity living ? living : null;
+        float healthBefore = livingTarget == null ? 0.0F : ParasiteCombatEffects.healthWithAbsorption(livingTarget);
         boolean hit = super.doHurtTarget(entity);
+        if (hit && livingTarget != null) {
+            ParasiteCombatEffects.applyFearFromDamage(livingTarget, healthBefore, this);
+        }
         if (hit && kind == Kind.SQUID) {
             float damage = (float) getAttributeValue(Attributes.ATTACK_DAMAGE);
             for (LivingEntity nearby : level().getEntitiesOfClass(LivingEntity.class,

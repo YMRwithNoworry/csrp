@@ -106,11 +106,14 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
 
     @Override
     public boolean doHurtTarget(Entity entity) {
+        LivingEntity livingTarget = entity instanceof LivingEntity living ? living : null;
+        float healthBefore = livingTarget == null ? 0.0F : ParasiteCombatEffects.healthWithAbsorption(livingTarget);
         boolean hit = super.doHurtTarget(entity);
-        if (hit && entity instanceof LivingEntity target) {
-            InfectionMechanics.applyCoth(target, this);
+        if (hit && livingTarget != null) {
+            ParasiteCombatEffects.applyFearFromDamage(livingTarget, healthBefore, this);
+            InfectionMechanics.applyCoth(livingTarget, this);
             if (random.nextFloat() < 0.2F) {
-                target.addEffect(new MobEffectInstance(MobEffects.WITHER, 100, 0), this);
+                livingTarget.addEffect(new MobEffectInstance(MobEffects.WITHER, 100, 0), this);
             }
         }
         return hit;

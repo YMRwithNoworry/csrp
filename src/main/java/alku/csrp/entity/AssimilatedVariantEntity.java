@@ -100,11 +100,14 @@ public final class AssimilatedVariantEntity extends Monster implements GeoEntity
 
     @Override
     public boolean doHurtTarget(Entity entity) {
+        LivingEntity livingTarget = entity instanceof LivingEntity living ? living : null;
+        float healthBefore = livingTarget == null ? 0.0F : ParasiteCombatEffects.healthWithAbsorption(livingTarget);
         boolean hit = super.doHurtTarget(entity);
-        if (hit && entity instanceof LivingEntity target) {
-            InfectionMechanics.applyCoth(target, this);
+        if (hit && livingTarget != null) {
+            ParasiteCombatEffects.applyFearFromDamage(livingTarget, healthBefore, this);
+            InfectionMechanics.applyCoth(livingTarget, this);
             if (kind == Kind.BIGSPIDER && random.nextInt(3) == 0) {
-                target.addEffect(new MobEffectInstance(MobEffects.POISON, 40, 0), this);
+                livingTarget.addEffect(new MobEffectInstance(MobEffects.POISON, 40, 0), this);
             }
         }
         return hit;

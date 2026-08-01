@@ -114,9 +114,12 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
             discard();
             return true;
         }
+        LivingEntity livingTarget = target instanceof LivingEntity living ? living : null;
+        float healthBefore = livingTarget == null ? 0.0F : ParasiteCombatEffects.healthWithAbsorption(livingTarget);
         boolean hit = super.doHurtTarget(target);
-        if (hit && target instanceof LivingEntity living) {
-            InfectionMechanics.applyCoth(living, this);
+        if (hit && livingTarget != null) {
+            ParasiteCombatEffects.applyFearFromDamage(livingTarget, healthBefore, this);
+            InfectionMechanics.applyCoth(livingTarget, this);
         }
         return hit;
     }

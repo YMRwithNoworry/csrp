@@ -32,7 +32,6 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 public class FeralParasiteEntity extends Monster implements GeoEntity, Parasite {
     private static final float REGEN_AMOUNT = 3.0F;
     private static final int REGEN_KILL_INTERVAL = 10;
-    private static final float FEAR_DAMAGE_THRESHOLD = 8.0F;
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
 
@@ -101,17 +100,10 @@ public class FeralParasiteEntity extends Monster implements GeoEntity, Parasite 
         if (!(target instanceof LivingEntity livingTarget)) {
             return super.doHurtTarget(target);
         }
-        float healthBefore = livingTarget.getHealth() + livingTarget.getAbsorptionAmount();
+        float healthBefore = ParasiteCombatEffects.healthWithAbsorption(livingTarget);
         boolean hit = super.doHurtTarget(target);
-        if (hit && !level().isClientSide) {
-            float dealt = Math.max(0.0F,
-                    healthBefore - livingTarget.getHealth() - livingTarget.getAbsorptionAmount());
-            if (dealt > FEAR_DAMAGE_THRESHOLD) {
-                int level = Math.min(3, 1 + Math.max(0, Mth.floor((dealt - FEAR_DAMAGE_THRESHOLD) / 4.0F)));
-                int duration = Mth.clamp(300 + 40 * (level - 1), 200, 500);
-                livingTarget.addEffect(new MobEffectInstance(ModMobEffects.FEAR,
-                        duration, level - 1, false, true), this);
-            }
+        if (hit) {
+            ParasiteCombatEffects.applyFearFromDamage(livingTarget, healthBefore, this);
         }
         return hit;
     }
