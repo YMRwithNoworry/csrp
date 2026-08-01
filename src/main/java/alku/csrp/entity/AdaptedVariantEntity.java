@@ -3,14 +3,7 @@ package alku.csrp.entity;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -40,25 +33,12 @@ import software.bernie.geckolib.animation.RawAnimation;
 import java.util.EnumSet;
 
 /** Shared implementation for the legacy adapted parasite tier. */
-public final class AdaptedVariantEntity extends PrimitiveParasiteEntity {
-    private static final byte BURROW_NONE = 0;
-    private static final byte BURROW_DIVING = 1;
-    private static final byte BURROW_UNDERGROUND = 2;
-    private static final byte BURROW_EMERGING = 3;
-    private static final int BURROW_DIVE_TICKS = 30;
-    private static final int BURROW_UNDERGROUND_TICKS = 20;
-    private static final int BURROW_EMERGE_TICKS = 30;
-    private static final EntityDataAccessor<Byte> BURROW_PHASE = SynchedEntityData.defineId(
-            AdaptedVariantEntity.class, EntityDataSerializers.BYTE);
-    private static final EntityDataAccessor<Float> BURROW_DEPTH = SynchedEntityData.defineId(
-            AdaptedVariantEntity.class, EntityDataSerializers.FLOAT);
-
+public final class AdaptedVariantEntity extends BurrowingVariantEntity {
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
     private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
     private final RawAnimation FLY = ParasiteAnimations.loop(this, "fly");
-    private final RawAnimation DIG = RawAnimation.begin()
-            .thenLoop("animation.ada_tozoon.func_78087_a.getDigging");
+    private final RawAnimation DIG = ParasiteAnimations.loop(this, "func_78087_a.getDigging");
 
     private final Kind kind;
     private int abilityCooldown;
@@ -68,8 +48,6 @@ public final class AdaptedVariantEntity extends PrimitiveParasiteEntity {
     private int rangedShots;
     private int cloakTicks;
     private boolean cloaked;
-    private int burrowTicks;
-    private float previousBurrowDepth;
 
     public AdaptedVariantEntity(EntityType<? extends AdaptedVariantEntity> type, Level level, Kind kind) {
         super(type, level);
@@ -245,13 +223,6 @@ public final class AdaptedVariantEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        super.defineSynchedData(builder);
-        builder.define(BURROW_PHASE, BURROW_NONE);
-        builder.define(BURROW_DEPTH, 0.0F);
-    }
-
-    @Override
     protected void registerGoals() {
         super.registerGoals();
         switch (activeKind()) {
@@ -265,11 +236,11 @@ public final class AdaptedVariantEntity extends PrimitiveParasiteEntity {
                 goalSelector.addGoal(3, new MeleeAttackGoal(this, 0.95D, false));
             }
             case BURROWER -> {
-                goalSelector.addGoal(1, new BurrowAmbushGoal());
+                goalSelector.addGoal(1, createBurrowMovementGoal());
                 goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.30D, false));
             }
             case TOZOON -> {
-                goalSelector.addGoal(1, new TozoonBurrowGoal());
+                goalSelector.addGoal(1, createBurrowMovementGoal());
                 goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.30D, false));
             }
             case DEVOURER -> goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.30D, false));
@@ -304,7 +275,6 @@ public final class AdaptedVariantEntity extends PrimitiveParasiteEntity {
 
     @Override
     public void tick() {
-        previousBurrowDepth = getBurrowDepth();
         super.tick();
         Kind activeKind = activeKind();
         if (isFlying(activeKind)) {
@@ -318,7 +288,6 @@ public final class AdaptedVariantEntity extends PrimitiveParasiteEntity {
         if (secondaryCooldown > 0) secondaryCooldown--;
         if (blockBreakCooldown > 0) blockBreakCooldown--;
         updateCloak();
-        updateTozoonBurrow();
 
         LivingEntity target = getTarget();
         if (target != null && breaksSoftBlocks(activeKind)) {
@@ -338,9 +307,6 @@ public final class AdaptedVariantEntity extends PrimitiveParasiteEntity {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (isFullyBurrowed()) {
-            return false;
-        }
         if (activeKind() == Kind.MANDUCATER && cloaked) {
             endCloak();
             abilityCooldown = 140;
@@ -359,9 +325,6 @@ public final class AdaptedVariantEntity extends PrimitiveParasiteEntity {
     @Override
     public boolean doHurtTarget(Entity entity) {
         Kind activeKind = activeKind();
-        if (isBurrowing()) {
-            return false;
-        }
         if (activeKind == Kind.DEVOURER && !isInWaterOrBubble()) {
             return false;
         }
@@ -410,30 +373,13 @@ public final class AdaptedVariantEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public void travel(Vec3 travelVector) {
-        super.travel(isBurrowing() ? Vec3.ZERO : travelVector);
-    }
-
-    @Override
-    public boolean isPushable() {
-        return !isBurrowing() && super.isPushable();
-    }
-
-    @Override
-    public void push(Entity entity) {
-        if (!isBurrowing()) {
-            super.push(entity);
-        }
-    }
-
-    @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
     }
 
     private PlayState movementAnimation(AnimationState<AdaptedVariantEntity> state) {
         Kind kind = activeKind();
-        if (kind == Kind.TOZOON && isBurrowing()) {
+        if (supportsBurrowing() && isBurrowing()) {
             return state.setAndContinue(DIG);
         }
         if (kind == Kind.VERMIN) {
@@ -468,160 +414,6 @@ public final class AdaptedVariantEntity extends PrimitiveParasiteEntity {
         cloaked = false;
         cloakTicks = 0;
         setInvisible(false);
-    }
-
-    private void beginTozoonBurrow() {
-        burrowTicks = 0;
-        setBurrowPhase(BURROW_DIVING);
-        setBurrowDepth(0.0F);
-        getNavigation().stop();
-        setDeltaMovement(Vec3.ZERO);
-        playSound(SoundEvents.GRAVEL_BREAK, 1.0F, 0.75F + random.nextFloat() * 0.2F);
-    }
-
-    private void updateTozoonBurrow() {
-        if (activeKind() != Kind.TOZOON || !isBurrowing()) {
-            return;
-        }
-        getNavigation().stop();
-        setDeltaMovement(Vec3.ZERO);
-
-        byte phase = getBurrowPhase();
-        burrowTicks++;
-        if (phase == BURROW_DIVING) {
-            setBurrowDepth(Math.min(1.0F, burrowTicks / (float) BURROW_DIVE_TICKS));
-            spawnBurrowParticles();
-            if (burrowTicks >= BURROW_DIVE_TICKS) {
-                burrowTicks = 0;
-                setBurrowDepth(1.0F);
-                setBurrowPhase(BURROW_UNDERGROUND);
-            }
-            return;
-        }
-        if (phase == BURROW_UNDERGROUND) {
-            setBurrowDepth(1.0F);
-            if (burrowTicks == BURROW_UNDERGROUND_TICKS / 2) {
-                moveUndergroundNearTarget();
-            }
-            if (burrowTicks >= BURROW_UNDERGROUND_TICKS) {
-                burrowTicks = 0;
-                setBurrowPhase(BURROW_EMERGING);
-                playSound(SoundEvents.GRAVEL_BREAK, 1.0F, 0.7F + random.nextFloat() * 0.2F);
-            }
-            return;
-        }
-
-        setBurrowDepth(Math.max(0.0F, 1.0F - burrowTicks / (float) BURROW_EMERGE_TICKS));
-        spawnBurrowParticles();
-        if (burrowTicks >= BURROW_EMERGE_TICKS) {
-            LivingEntity target = getTarget();
-            burrowTicks = 0;
-            setBurrowDepth(0.0F);
-            setBurrowPhase(BURROW_NONE);
-            abilityCooldown = 140;
-            if (target != null && target.isAlive() && distanceToSqr(target) <= 9.0D) {
-                doHurtTarget(target);
-            }
-        }
-    }
-
-    private void moveUndergroundNearTarget() {
-        LivingEntity target = getTarget();
-        if (target == null || !target.isAlive()) {
-            return;
-        }
-        BlockPos destination = findBurrowDestination(target);
-        if (destination != null) {
-            teleportTo(destination.getX() + 0.5D, destination.getY(), destination.getZ() + 0.5D);
-        }
-    }
-
-    private BlockPos findBurrowDestination(LivingEntity target) {
-        BlockPos targetPos = target.blockPosition();
-        for (int attempt = 0; attempt < 16; attempt++) {
-            double angle = random.nextDouble() * Math.PI * 2.0D;
-            double distance = 1.5D + random.nextDouble() * 2.5D;
-            int x = (int) Math.floor(target.getX() + Math.cos(angle) * distance);
-            int z = (int) Math.floor(target.getZ() + Math.sin(angle) * distance);
-            for (int yOffset = 3; yOffset >= -4; yOffset--) {
-                BlockPos candidate = new BlockPos(x, targetPos.getY() + yOffset, z);
-                if (isValidBurrowDestination(candidate)) {
-                    return candidate;
-                }
-            }
-        }
-        return null;
-    }
-
-    private boolean isValidBurrowDestination(BlockPos position) {
-        if (!hasBurrowableGround(position) || !level().getFluidState(position).isEmpty()) {
-            return false;
-        }
-        Vec3 offset = new Vec3(position.getX() + 0.5D - getX(), position.getY() - getY(),
-                position.getZ() + 0.5D - getZ());
-        return level().noCollision(this, getBoundingBox().move(offset));
-    }
-
-    private void spawnBurrowParticles() {
-        if (!(level() instanceof ServerLevel serverLevel) || tickCount % 2 != 0) {
-            return;
-        }
-        BlockPos groundPos = blockPosition().below();
-        BlockState ground = level().getBlockState(groundPos);
-        if (!ground.isAir()) {
-            serverLevel.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, ground),
-                    getX(), getY() + 0.05D, getZ(), 5,
-                    getBbWidth() * 0.55D, 0.08D, getBbWidth() * 0.55D, 0.04D);
-        }
-    }
-
-    public boolean isBurrowing() {
-        return getBurrowPhase() != BURROW_NONE;
-    }
-
-    public boolean isFullyBurrowed() {
-        return getBurrowPhase() == BURROW_UNDERGROUND;
-    }
-
-    public float getBurrowDepth(float partialTick) {
-        return previousBurrowDepth + (getBurrowDepth() - previousBurrowDepth) * partialTick;
-    }
-
-    private byte getBurrowPhase() {
-        return entityData.get(BURROW_PHASE);
-    }
-
-    private void setBurrowPhase(byte phase) {
-        entityData.set(BURROW_PHASE, phase);
-    }
-
-    private float getBurrowDepth() {
-        return entityData.get(BURROW_DEPTH);
-    }
-
-    private void setBurrowDepth(float depth) {
-        entityData.set(BURROW_DEPTH, depth);
-    }
-
-    @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putByte("tozoon_burrow_phase", getBurrowPhase());
-        tag.putInt("tozoon_burrow_ticks", burrowTicks);
-        tag.putFloat("tozoon_burrow_depth", getBurrowDepth());
-    }
-
-    @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        byte phase = tag.getByte("tozoon_burrow_phase");
-        if (phase < BURROW_NONE || phase > BURROW_EMERGING) {
-            phase = BURROW_NONE;
-        }
-        setBurrowPhase(phase);
-        burrowTicks = Math.max(0, tag.getInt("tozoon_burrow_ticks"));
-        setBurrowDepth(Math.max(0.0F, Math.min(1.0F, tag.getFloat("tozoon_burrow_depth"))));
-        previousBurrowDepth = getBurrowDepth();
     }
 
     private void breakSoftBlockTowards(LivingEntity target) {
@@ -722,20 +514,6 @@ public final class AdaptedVariantEntity extends PrimitiveParasiteEntity {
         serverLevel.addFreshEntity(lice);
     }
 
-    private boolean hasBurrowableGround(BlockPos position) {
-        float totalHardness = 0.0F;
-        for (int depth = 1; depth <= 3; depth++) {
-            BlockPos below = position.below(depth);
-            BlockState state = level().getBlockState(below);
-            float hardness = state.getDestroySpeed(level(), below);
-            if (state.isAir() || !state.isSolidRender(level(), below) || hardness < 0.0F) {
-                return false;
-            }
-            totalHardness += hardness;
-        }
-        return totalHardness < 10.0F;
-    }
-
     private Kind activeKind() {
         if (kind != null) {
             return kind;
@@ -753,6 +531,17 @@ public final class AdaptedVariantEntity extends PrimitiveParasiteEntity {
         if (type == ModEntities.ADA_VISCERA.get()) return Kind.VISCERA;
         if (type == ModEntities.ADA_YELLOWEYE.get()) return Kind.YELLOWEYE;
         return Kind.ARACHNIDA;
+    }
+
+    @Override
+    protected boolean supportsBurrowing() {
+        Kind activeKind = activeKind();
+        return activeKind == Kind.BURROWER || activeKind == Kind.TOZOON;
+    }
+
+    @Override
+    protected int burrowSkillCooldownTicks() {
+        return activeKind() == Kind.BURROWER ? 80 : 140;
     }
 
     private static boolean isFlying(Kind kind) {
@@ -862,81 +651,6 @@ public final class AdaptedVariantEntity extends PrimitiveParasiteEntity {
         @Override
         public void stop() {
             abilityCooldown = 300;
-        }
-    }
-
-    private final class BurrowAmbushGoal extends Goal {
-        private BurrowAmbushGoal() {
-            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
-        }
-
-        @Override
-        public boolean canUse() {
-            LivingEntity target = getTarget();
-            return abilityCooldown <= 0 && onGround() && target != null && target.isAlive()
-                    && distanceToSqr(target) >= 16.0D && distanceToSqr(target) <= 324.0D
-                    && hasBurrowableGround(blockPosition());
-        }
-
-        @Override
-        public boolean canContinueToUse() {
-            return false;
-        }
-
-        @Override
-        public void start() {
-            LivingEntity target = getTarget();
-            if (target == null) {
-                return;
-            }
-            getLookControl().setLookAt(target, 30.0F, 30.0F);
-            for (int attempt = 0; attempt < 8; attempt++) {
-                double angle = random.nextDouble() * Math.PI * 2.0D;
-                double distance = 1.5D + random.nextDouble() * 2.5D;
-                double x = target.getX() + Math.cos(angle) * distance;
-                double z = target.getZ() + Math.sin(angle) * distance;
-                BlockPos destination = BlockPos.containing(x, target.getY(), z);
-                if (!hasBurrowableGround(destination) || !level().getBlockState(destination).isAir()
-                        || !level().getBlockState(destination.above()).isAir()) {
-                    continue;
-                }
-                teleportTo(x, target.getY(), z);
-                setDeltaMovement(Vec3.ZERO);
-                abilityCooldown = 80;
-                return;
-            }
-            abilityCooldown = 30;
-        }
-    }
-
-    private final class TozoonBurrowGoal extends Goal {
-        private TozoonBurrowGoal() {
-            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
-        }
-
-        @Override
-        public boolean canUse() {
-            LivingEntity target = getTarget();
-            if (abilityCooldown > 0 || isBurrowing() || !onGround() || target == null || !target.isAlive()
-                    || !hasBurrowableGround(blockPosition())) {
-                return false;
-            }
-            double distance = distanceToSqr(target);
-            return distance > 196.0D || !hasLineOfSight(target) && distance > 49.0D;
-        }
-
-        @Override
-        public boolean canContinueToUse() {
-            return false;
-        }
-
-        @Override
-        public void start() {
-            LivingEntity target = getTarget();
-            if (target != null) {
-                getLookControl().setLookAt(target, 30.0F, 30.0F);
-                beginTozoonBurrow();
-            }
         }
     }
 

@@ -34,11 +34,12 @@ import java.util.EnumSet;
  * <p>Each registered entity keeps its own type, attributes, model, loot, and
  * combat branch while sharing the common primitive adaptation state.</p>
  */
-public final class PrimitiveVariantEntity extends PrimitiveParasiteEntity {
+public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
     private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
     private final RawAnimation FLY = ParasiteAnimations.loop(this, "fly");
+    private final RawAnimation DIG = ParasiteAnimations.loop(this, "func_78087_a.getDigging");
 
     private final Kind kind;
     private int abilityCooldown;
@@ -156,7 +157,7 @@ public final class PrimitiveVariantEntity extends PrimitiveParasiteEntity {
                 goalSelector.addGoal(2, new MeleeAttackGoal(this, 0.95D, false));
             }
             case BURROWER -> {
-                goalSelector.addGoal(1, new BurrowAmbushGoal());
+                goalSelector.addGoal(1, createBurrowMovementGoal());
                 goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.20D, false));
             }
             case DEVOURER -> goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.35D, false));
@@ -169,7 +170,7 @@ public final class PrimitiveVariantEntity extends PrimitiveParasiteEntity {
                 goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.30D, false));
             }
             case TOZOON -> {
-                goalSelector.addGoal(1, new BurrowAmbushGoal());
+                goalSelector.addGoal(1, createBurrowMovementGoal());
                 goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.00D, false));
             }
             case YELLOWEYE -> {
@@ -267,6 +268,9 @@ public final class PrimitiveVariantEntity extends PrimitiveParasiteEntity {
     }
 
     private PlayState movementAnimation(AnimationState<PrimitiveVariantEntity> state) {
+        if (supportsBurrowing() && isBurrowing()) {
+            return state.setAndContinue(DIG);
+        }
         if (activeKind() == Kind.YELLOWEYE) {
             return state.setAndContinue(FLY);
         }
@@ -334,6 +338,17 @@ public final class PrimitiveVariantEntity extends PrimitiveParasiteEntity {
         if (type == ModEntities.PRI_TOZOON.get()) return Kind.TOZOON;
         if (type == ModEntities.PRI_YELLOWEYE.get()) return Kind.YELLOWEYE;
         return Kind.ARACHNIDA;
+    }
+
+    @Override
+    protected boolean supportsBurrowing() {
+        Kind activeKind = activeKind();
+        return activeKind == Kind.BURROWER || activeKind == Kind.TOZOON;
+    }
+
+    @Override
+    protected int burrowSkillCooldownTicks() {
+        return activeKind() == Kind.BURROWER ? 140 : 200;
     }
 
     private final class WebPullGoal extends Goal {
@@ -477,64 +492,6 @@ public final class PrimitiveVariantEntity extends PrimitiveParasiteEntity {
             }
             chargeTicks++;
         }
-    }
-
-    private final class BurrowAmbushGoal extends Goal {
-        private BurrowAmbushGoal() {
-            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
-        }
-
-        @Override
-        public boolean canUse() {
-            LivingEntity target = getTarget();
-            return abilityCooldown <= 0 && onGround() && target != null && target.isAlive()
-                    && distanceToSqr(target) >= 16.0D && distanceToSqr(target) <= 256.0D
-                    && hasBurrowableGround(blockPosition());
-        }
-
-        @Override
-        public boolean canContinueToUse() {
-            return false;
-        }
-
-        @Override
-        public void start() {
-            LivingEntity target = getTarget();
-            if (target == null) {
-                return;
-            }
-            getLookControl().setLookAt(target, 30.0F, 30.0F);
-            for (int attempt = 0; attempt < 6; attempt++) {
-                double angle = random.nextDouble() * Math.PI * 2.0D;
-                double distance = 1.5D + random.nextDouble() * 2.0D;
-                double x = target.getX() + Math.cos(angle) * distance;
-                double z = target.getZ() + Math.sin(angle) * distance;
-                BlockPos destination = BlockPos.containing(x, target.getY(), z);
-                if (!hasBurrowableGround(destination) || !level().getBlockState(destination).isAir()
-                        || !level().getBlockState(destination.above()).isAir()) {
-                    continue;
-                }
-                teleportTo(x, target.getY(), z);
-                setDeltaMovement(Vec3.ZERO);
-                abilityCooldown = 100;
-                return;
-            }
-            abilityCooldown = 40;
-        }
-    }
-
-    private boolean hasBurrowableGround(BlockPos position) {
-        float totalHardness = 0.0F;
-        for (int depth = 1; depth <= 3; depth++) {
-            BlockPos below = position.below(depth);
-            BlockState state = level().getBlockState(below);
-            float hardness = state.getDestroySpeed(level(), below);
-            if (state.isAir() || !state.isSolidRender(level(), below) || hardness < 0.0F) {
-                return false;
-            }
-            totalHardness += hardness;
-        }
-        return totalHardness < 10.0F;
     }
 
     private final class YelloweyeRangedGoal extends Goal {

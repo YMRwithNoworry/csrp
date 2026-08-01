@@ -3,7 +3,7 @@ package alku.csrp.client;
 import alku.csrp.Csrp;
 import alku.csrp.client.particle.KirinWarningParticle;
 import alku.csrp.client.renderer.AirscrewRenderer;
-import alku.csrp.client.renderer.AdaptedTozoonRenderer;
+import alku.csrp.client.renderer.BurrowingParasiteRenderer;
 import alku.csrp.client.renderer.BuglinRenderer;
 import alku.csrp.client.renderer.DerivedParasiteRenderer;
 import alku.csrp.client.renderer.MarauderRenderer;
@@ -53,7 +53,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.PRI_BOLSTER.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "pri_bolster", 0.7F));
         event.registerEntityRenderer(ModEntities.PRI_BURROWER.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "pri_burrower", 0.5F));
+                new BurrowingParasiteRenderer<>(context, "pri_burrower", 0.5F, 0.8F));
         event.registerEntityRenderer(ModEntities.PRI_DEVOURER.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "pri_devourer", 0.7F));
         event.registerEntityRenderer(ModEntities.PRI_MANDUCATER.get(), context ->
@@ -61,7 +61,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.PRI_REEKER.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "pri_reeker", 0.65F));
         event.registerEntityRenderer(ModEntities.PRI_TOZOON.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "pri_tozoon", 0.65F));
+                new BurrowingParasiteRenderer<>(context, "pri_tozoon", 0.65F, 1.4F));
         event.registerEntityRenderer(ModEntities.PRI_YELLOWEYE.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "pri_yelloweye", 0.5F));
         event.registerEntityRenderer(ModEntities.ADA_ARACHNIDA.get(), context ->
@@ -69,7 +69,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.ADA_BOLSTER.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "ada_bolster", 0.9F));
         event.registerEntityRenderer(ModEntities.ADA_BURROWER.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "ada_burrower", 0.7F));
+                new BurrowingParasiteRenderer<>(context, "ada_burrower", 0.7F, 1.4F));
         event.registerEntityRenderer(ModEntities.ADA_DEVOURER.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "ada_devourer", 0.8F));
         event.registerEntityRenderer(ModEntities.ADA_LONGARMS.get(), context ->
@@ -80,7 +80,8 @@ public final class ClientModEvents {
                 new PrimitiveParasiteRenderer<>(context, "ada_reeker", 0.85F));
         event.registerEntityRenderer(ModEntities.ADA_SUMMONER.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "ada_summoner", 0.8F));
-        event.registerEntityRenderer(ModEntities.ADA_TOZOON.get(), AdaptedTozoonRenderer::new);
+        event.registerEntityRenderer(ModEntities.ADA_TOZOON.get(), context ->
+                new BurrowingParasiteRenderer<>(context, "ada_tozoon", 0.7F, 1.4F));
         event.registerEntityRenderer(ModEntities.ADA_VERMIN.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "ada_vermin", 0.85F));
         event.registerEntityRenderer(ModEntities.ADA_VISCERA.get(), context ->
