@@ -16,7 +16,7 @@
       },
       "bones": [
         {
-          "name": "root",
+          "name": "model_root",
           "pivot": [
             0,
             24,
@@ -1387,7 +1387,7 @@
         },
         {
           "name": "mainbody",
-          "parent": "root",
+          "parent": "model_root",
           "pivot": [
             0,
             -1,
