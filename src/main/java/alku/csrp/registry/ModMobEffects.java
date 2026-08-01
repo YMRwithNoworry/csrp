@@ -5,6 +5,8 @@ import alku.csrp.effect.BleedMobEffect;
 import alku.csrp.effect.CothMobEffect;
 import alku.csrp.effect.ViralMobEffect;
 import alku.csrp.effect.CorrosionMobEffect;
+import alku.csrp.effect.FearMobEffect;
+import alku.csrp.effect.FeralMobEffect;
 import alku.csrp.effect.NeedlerMobEffect;
 import alku.csrp.effect.RageMobEffect;
 import alku.csrp.effect.LinkMobEffect;
@@ -37,6 +39,12 @@ public final class ModMobEffects {
 
     public static final DeferredHolder<MobEffect, MobEffect> LINK =
             EFFECTS.register("link", LinkMobEffect::new);
+
+    public static final DeferredHolder<MobEffect, MobEffect> FEAR =
+            EFFECTS.register("fear", FearMobEffect::new);
+
+    public static final DeferredHolder<MobEffect, MobEffect> FERAL =
+            EFFECTS.register("feral", FeralMobEffect::new);
 
     private ModMobEffects() {
     }

@@ -15,6 +15,9 @@ public final class Config {
     private static final ModConfigSpec.DoubleValue ADAPTATION_CHANCE = BUILDER
             .comment("Chance for a linked parasite outside a colony to share its adaptation on death.")
             .defineInRange("adaptationChance", 0.1D, 0.0D, 1.0D);
+    private static final ModConfigSpec.DoubleValue PARASITE_KILLING_REDUCTION = BUILDER
+            .comment("Damage reduction per level of the matching parasite-killing status effect.")
+            .defineInRange("parasiteKillingReduction", 0.15D, 0.0D, 0.95D);
     private static final ModConfigSpec.DoubleValue COTH_CONVERT = BUILDER
             .comment("Chance for a parasite kill to convert a victim that has COTH.")
             .defineInRange("cothConvert", 0.3D, 0.0D, 1.0D);
@@ -86,6 +89,8 @@ public final class Config {
     public static double adaptationChance() {
         return ADAPTATION_CHANCE.get();
     }
+
+    public static double parasiteKillingReduction() { return PARASITE_KILLING_REDUCTION.get(); }
 
     public static double cothConvert() { return COTH_CONVERT.get(); }
     public static double killcountPlus() { return KILLCOUNT_PLUS.get(); }

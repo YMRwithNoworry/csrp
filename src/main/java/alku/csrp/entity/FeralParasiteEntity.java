@@ -1,10 +1,14 @@
 package alku.csrp.entity;
 
+import alku.csrp.Config;
+import alku.csrp.registry.ModMobEffects;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -16,6 +20,7 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
+import net.minecraft.util.Mth;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
@@ -27,6 +32,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 public class FeralParasiteEntity extends Monster implements GeoEntity, Parasite {
     private static final float REGEN_AMOUNT = 3.0F;
     private static final int REGEN_KILL_INTERVAL = 10;
+    private static final float FEAR_DAMAGE_THRESHOLD = 8.0F;
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
 
@@ -79,7 +85,35 @@ public class FeralParasiteEntity extends Monster implements GeoEntity, Parasite 
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
+        if (source.getEntity() instanceof LivingEntity attacker) {
+            MobEffectInstance feral = attacker.getEffect(ModMobEffects.FERAL);
+            if (feral != null) {
+                float reduction = Mth.clamp((float) Config.parasiteKillingReduction()
+                        * (feral.getAmplifier() + 1), 0.0F, 0.95F);
+                amount *= 1.0F - reduction;
+            }
+        }
         return super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
+    }
+
+    @Override
+    public boolean doHurtTarget(Entity target) {
+        if (!(target instanceof LivingEntity livingTarget)) {
+            return super.doHurtTarget(target);
+        }
+        float healthBefore = livingTarget.getHealth() + livingTarget.getAbsorptionAmount();
+        boolean hit = super.doHurtTarget(target);
+        if (hit && !level().isClientSide) {
+            float dealt = Math.max(0.0F,
+                    healthBefore - livingTarget.getHealth() - livingTarget.getAbsorptionAmount());
+            if (dealt > FEAR_DAMAGE_THRESHOLD) {
+                int level = Math.min(3, 1 + Math.max(0, Mth.floor((dealt - FEAR_DAMAGE_THRESHOLD) / 4.0F)));
+                int duration = Mth.clamp(300 + 40 * (level - 1), 200, 500);
+                livingTarget.addEffect(new MobEffectInstance(ModMobEffects.FEAR,
+                        duration, level - 1, false, true), this);
+            }
+        }
+        return hit;
     }
 
     @Override
