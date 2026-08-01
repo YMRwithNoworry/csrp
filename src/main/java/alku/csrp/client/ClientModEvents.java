@@ -4,6 +4,7 @@ import alku.csrp.Csrp;
 import alku.csrp.client.particle.KirinWarningParticle;
 import alku.csrp.client.renderer.AirscrewRenderer;
 import alku.csrp.client.renderer.BuglinRenderer;
+import alku.csrp.client.renderer.DerivedParasiteRenderer;
 import alku.csrp.client.renderer.MarauderRenderer;
 import alku.csrp.client.renderer.MarauderTendrilRenderer;
 import alku.csrp.client.renderer.MovingFleshRenderer;
@@ -120,9 +121,9 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.INCOMPLETEFORM_MEDIUM.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "incompleteform_medium", 0.45F));
         event.registerEntityRenderer(ModEntities.DRACONITE.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "draconite", 1.2F));
+                new DerivedParasiteRenderer<>(context, "draconite", "draconite_shadow", 1.2F));
         event.registerEntityRenderer(ModEntities.KIRIN.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "kirin", 1.1F));
+                new DerivedParasiteRenderer<>(context, "kirin", "kirin_shadow", 1.1F));
         event.registerEntityRenderer(ModEntities.SIM_ADVENTURER.get(), SimAdventurerRenderer::new);
         event.registerEntityRenderer(ModEntities.SIM_ADVENTURER_HEAD.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "sim_adventurerhead", 0.6F));

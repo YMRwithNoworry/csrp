@@ -21,6 +21,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.util.Mth;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -91,6 +92,9 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
     private int cosmicOrbBurstsRemaining;
     private int cosmicOrbInterval;
     private int shadowHitFlashTicks;
+    private float previousShadowRenderAlpha;
+    private float shadowRenderAlpha;
+    private int shadowRenderAlphaCooldown;
     private UUID cloneParent;
     private UUID activeClone;
 
@@ -139,6 +143,7 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
     public void tick() {
         super.tick();
         if (level().isClientSide) {
+            tickShadowRenderAlpha();
             spawnShadowParticles();
             spawnShadowHitParticles();
             spawnNeuralLinkParticles();
@@ -182,6 +187,9 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
     public void handleEntityEvent(byte id) {
         if (id == SHADOW_HIT_EVENT) {
             shadowHitFlashTicks = SHADOW_HIT_FLASH_TICKS;
+            previousShadowRenderAlpha = shadowRenderAlpha;
+            shadowRenderAlpha = 0.60F;
+            shadowRenderAlphaCooldown = 40;
             return;
         }
         super.handleEntityEvent(id);
@@ -458,6 +466,20 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
                 getZ() + (random.nextDouble() - 0.5D) * getBbWidth(), 0.0D, 0.01D, 0.0D);
     }
 
+    private void tickShadowRenderAlpha() {
+        previousShadowRenderAlpha = shadowRenderAlpha;
+        if (shadowRenderAlphaCooldown > 0) {
+            shadowRenderAlphaCooldown--;
+        } else if (shadowRenderAlpha > 0.0F) {
+            shadowRenderAlpha = Math.max(0.0F, shadowRenderAlpha - 0.01F);
+        }
+        if (tickCount % 21 == 10 && random.nextInt(10) == 0) {
+            previousShadowRenderAlpha = shadowRenderAlpha;
+            shadowRenderAlpha = 0.60F;
+            shadowRenderAlphaCooldown = 40;
+        }
+    }
+
     private void spawnShadowHitParticles() {
         if (shadowHitFlashTicks <= 0) {
             return;
@@ -505,6 +527,10 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
 
     public boolean isShadowClone() {
         return entityData.get(SHADOW_CLONE);
+    }
+
+    public float getShadowRenderAlpha(float partialTick) {
+        return Mth.lerp(partialTick, previousShadowRenderAlpha, shadowRenderAlpha);
     }
 
     public boolean isNeuralLinkActive() {
