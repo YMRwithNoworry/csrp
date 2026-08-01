@@ -16,7 +16,7 @@
       },
       "bones": [
         {
-          "name": "root",
+          "name": "orientation_root",
           "pivot": [
             0,
             24,
@@ -2127,7 +2127,7 @@
         },
         {
           "name": "mainbody",
-          "parent": "root",
+          "parent": "orientation_root",
           "pivot": [
             0,
             1.1999999999999993,
