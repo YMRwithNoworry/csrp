@@ -7,6 +7,7 @@ import alku.csrp.registry.ModArmorMaterials;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModItems;
 import alku.csrp.registry.ModMobEffects;
+import alku.csrp.registry.ModPotions;
 import alku.csrp.registry.ModParticles;
 import alku.csrp.registry.ModSounds;
 import net.minecraft.core.registries.Registries;
@@ -169,6 +170,7 @@ public final class Csrp {
         ModArmorMaterials.MATERIALS.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
         ModMobEffects.EFFECTS.register(modEventBus);
+        ModPotions.POTIONS.register(modEventBus);
         ModParticles.PARTICLES.register(modEventBus);
         ModSounds.SOUNDS.register(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
