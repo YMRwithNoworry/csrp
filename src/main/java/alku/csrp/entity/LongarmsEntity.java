@@ -2,6 +2,7 @@ package alku.csrp.entity;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -16,6 +17,10 @@ import software.bernie.geckolib.animation.RawAnimation;
 import java.util.EnumSet;
 
 public final class LongarmsEntity extends PrimitiveParasiteEntity {
+    private static final int ATTACK_INTERVAL_TICKS = 20;
+    private static final int ATTACKS_BEFORE_REST = 2;
+    private static final int ATTACK_REST_TICKS = 60;
+
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
     private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
@@ -68,15 +73,65 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
 
     private final class LongarmsMeleeGoal extends Goal {
         private int cooldown;
+        private int attacksSinceRest;
+        private int restTicks;
+        private LivingEntity trackedTarget;
+
         LongarmsMeleeGoal() { setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK)); }
-        @Override public boolean canUse() { return getTarget() != null; }
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = getTarget();
+            return target != null && target.isAlive();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return canUse();
+        }
+
         @Override public void tick() {
             var target = getTarget();
             if (target == null) return;
+            if (target != trackedTarget) {
+                trackedTarget = target;
+                cooldown = 0;
+                attacksSinceRest = 0;
+                restTicks = 0;
+            }
             getLookControl().setLookAt(target, 30.0F, 30.0F);
-            getNavigation().moveTo(target, 1.3);
+
+            if (restTicks > 0) {
+                getNavigation().stop();
+                restTicks--;
+                if (restTicks == 0) {
+                    attacksSinceRest = 0;
+                }
+                return;
+            }
+
+            getNavigation().moveTo(target, 1.3D);
             if (cooldown > 0) cooldown--;
-            if (distanceToSqr(target) <= 8.0 && cooldown == 0) { performAoeAttack(target); cooldown = 20; }
+            if (distanceToSqr(target) <= 8.0D && cooldown == 0) {
+                performAoeAttack(target);
+                attacksSinceRest++;
+                if (attacksSinceRest >= ATTACKS_BEFORE_REST) {
+                    getNavigation().stop();
+                    restTicks = ATTACK_REST_TICKS;
+                } else {
+                    cooldown = ATTACK_INTERVAL_TICKS;
+                }
+            }
+        }
+
+        @Override
+        public void stop() {
+            if (getTarget() == null || !getTarget().isAlive()) {
+                trackedTarget = null;
+                cooldown = 0;
+                attacksSinceRest = 0;
+                restTicks = 0;
+            }
         }
     }
 

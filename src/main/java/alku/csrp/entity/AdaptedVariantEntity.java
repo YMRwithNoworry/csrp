@@ -16,10 +16,14 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
+import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
+import net.minecraft.world.entity.ai.goal.TryFindWaterGoal;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -56,6 +60,8 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
         if (isFlying(kind)) {
             moveControl = new FlyingMoveControl(this, 20, true);
             setNoGravity(true);
+        } else if (kind == Kind.DEVOURER) {
+            moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.1F, 0.2F, true);
         }
     }
 
@@ -213,6 +219,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
 
     @Override
     protected PathNavigation createNavigation(Level level) {
+        if (isDevourerType(getType())) {
+            return new WaterBoundPathNavigation(this, level);
+        }
         if (!isFlyingType(getType())) {
             return super.createNavigation(level);
         }
@@ -243,7 +252,11 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
                 goalSelector.addGoal(1, createBurrowMovementGoal());
                 goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.30D, false));
             }
-            case DEVOURER -> goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.30D, false));
+            case DEVOURER -> {
+                goalSelector.addGoal(1, new TryFindWaterGoal(this));
+                goalSelector.addGoal(2, new DevourerMeleeGoal());
+                goalSelector.addGoal(6, new RandomSwimmingGoal(this, 1.0D, 20));
+            }
             case LONGARMS -> {
                 goalSelector.addGoal(1, new ShockwaveGoal());
                 goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.25D, false));
@@ -294,12 +307,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
             breakSoftBlockTowards(target);
         }
         if (activeKind == Kind.DEVOURER) {
-            if (target != null && isInWaterOrBubble()) {
-                Vec3 direction = target.getEyePosition().subtract(getEyePosition());
-                if (direction.lengthSqr() > 0.001D) {
-                    setDeltaMovement(getDeltaMovement().add(direction.normalize().scale(0.055D)));
-                }
-            } else if (!isInWaterOrBubble() && tickCount % 40 == 0) {
+            if (!isInWaterOrBubble() && tickCount % 40 == 0) {
                 hurt(damageSources().drown(), 3.0F);
             }
         }
@@ -550,6 +558,26 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
 
     private static boolean isFlyingType(EntityType<?> type) {
         return type == ModEntities.ADA_VERMIN.get() || type == ModEntities.ADA_YELLOWEYE.get();
+    }
+
+    private static boolean isDevourerType(EntityType<?> type) {
+        return type == ModEntities.ADA_DEVOURER.get();
+    }
+
+    private final class DevourerMeleeGoal extends MeleeAttackGoal {
+        private DevourerMeleeGoal() {
+            super(AdaptedVariantEntity.this, 1.30D, false);
+        }
+
+        @Override
+        public boolean canUse() {
+            return isInWaterOrBubble() && super.canUse();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return isInWaterOrBubble() && super.canContinueToUse();
+        }
     }
 
     private final class WebPullGoal extends Goal {
