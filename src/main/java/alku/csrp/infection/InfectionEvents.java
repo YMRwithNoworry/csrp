@@ -11,6 +11,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
+import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 
 /** Connects parasite attacks and terminal COTH stages to infection progression. */
@@ -21,6 +22,14 @@ public final class InfectionEvents {
 
     @SubscribeEvent
     public static void infectFromParasiteHit(LivingIncomingDamageEvent event) {
+        if (event.getEntity() instanceof Parasite) {
+            Entity attacker = event.getSource().getEntity();
+            Entity direct = event.getSource().getDirectEntity();
+            if (attacker instanceof Parasite || direct instanceof Parasite) {
+                event.setCanceled(true);
+                return;
+            }
+        }
         if (event.getAmount() <= 0.0F || event.getEntity().level().isClientSide
                 || event.getEntity() instanceof Parasite) {
             return;
@@ -30,6 +39,14 @@ public final class InfectionEvents {
                 && event.getEntity().getRandom().nextFloat()
                 < EvolutionSystem.generationProfile(level).cothChance()) {
             InfectionMechanics.applyCoth(event.getEntity(), attacker);
+        }
+    }
+
+    @SubscribeEvent
+    public static void preventParasiteTargeting(LivingChangeTargetEvent event) {
+        if (event.getEntity() instanceof Parasite
+                && event.getNewAboutToBeSetTarget() instanceof Parasite) {
+            event.setCanceled(true);
         }
     }
 
