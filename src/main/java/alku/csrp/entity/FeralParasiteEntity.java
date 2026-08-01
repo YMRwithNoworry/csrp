@@ -1,12 +1,10 @@
 package alku.csrp.entity;
 
-import alku.csrp.Config;
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -20,7 +18,6 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
-import net.minecraft.util.Mth;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
@@ -84,14 +81,7 @@ public class FeralParasiteEntity extends Monster implements GeoEntity, Parasite 
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (source.getEntity() instanceof LivingEntity attacker) {
-            MobEffectInstance feral = attacker.getEffect(ModMobEffects.FERAL);
-            if (feral != null) {
-                float reduction = Mth.clamp((float) Config.parasiteKillingReduction()
-                        * (feral.getAmplifier() + 1), 0.0F, 0.95F);
-                amount *= 1.0F - reduction;
-            }
-        }
+        amount = ParasiteCombatEffects.damageAfterKillingResistance(source, amount, ModMobEffects.FERAL);
         return super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
     }
 

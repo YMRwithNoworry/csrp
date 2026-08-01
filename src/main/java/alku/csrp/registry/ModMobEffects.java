@@ -11,6 +11,7 @@ import alku.csrp.effect.NeedlerMobEffect;
 import alku.csrp.effect.RageMobEffect;
 import alku.csrp.effect.LinkMobEffect;
 import alku.csrp.effect.RepelMobEffect;
+import alku.csrp.effect.ParasiteKillingMobEffect;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.effect.MobEffect;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -49,6 +50,21 @@ public final class ModMobEffects {
 
     public static final DeferredHolder<MobEffect, MobEffect> REPEL =
             EFFECTS.register("repel", RepelMobEffect::new);
+
+    public static final DeferredHolder<MobEffect, MobEffect> PRIMITIVE =
+            EFFECTS.register("primitive", () -> new ParasiteKillingMobEffect(9391173));
+
+    public static final DeferredHolder<MobEffect, MobEffect> ADAPTED =
+            EFFECTS.register("adapted", () -> new ParasiteKillingMobEffect(8345678));
+
+    public static final DeferredHolder<MobEffect, MobEffect> PURE =
+            EFFECTS.register("pure", () -> new ParasiteKillingMobEffect(894258));
+
+    public static final DeferredHolder<MobEffect, MobEffect> CRUDE =
+            EFFECTS.register("crude", () -> new ParasiteKillingMobEffect(894258));
+
+    public static final DeferredHolder<MobEffect, MobEffect> NEXUS =
+            EFFECTS.register("nexus", () -> new ParasiteKillingMobEffect(4749384));
 
     private ModMobEffects() {
     }

@@ -2,7 +2,9 @@ package alku.csrp.entity;
 
 import alku.csrp.Config;
 import alku.csrp.registry.ModEntities;
+import alku.csrp.registry.ModMobEffects;
 import alku.csrp.world.EvolutionSystem;
+import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -10,6 +12,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -90,6 +93,10 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
                 || (direct instanceof Parasite && direct != this)) {
             return false;
         }
+        Holder<MobEffect> resistanceEffect = killingResistanceEffect();
+        if (resistanceEffect != null) {
+            amount = ParasiteCombatEffects.damageAfterKillingResistance(source, amount, resistanceEffect);
+        }
         if (!usesDamageAdaptation()) {
             return super.hurt(source, amount);
         }
@@ -103,6 +110,24 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
             damageAdaptations.put(damageId, Math.min(maxDamageAdaptationHits(), previousHits + 1));
         }
         return hurt;
+    }
+
+    private Holder<MobEffect> killingResistanceEffect() {
+        if (this instanceof AdaptedVariantEntity) {
+            return ModMobEffects.ADAPTED;
+        }
+        if (this instanceof PureParasiteEntity || this instanceof MarauderEntity) {
+            return ModMobEffects.PURE;
+        }
+        if (this instanceof NexusParasiteEntity || this instanceof DeterrentParasiteEntity) {
+            return ModMobEffects.NEXUS;
+        }
+        if (this instanceof PrimitiveVariantEntity || this instanceof LongarmsEntity
+                || this instanceof SummonerEntity || this instanceof VerminEntity
+                || this instanceof VisceraEntity) {
+            return ModMobEffects.PRIMITIVE;
+        }
+        return null;
     }
 
     @Override

@@ -1,7 +1,11 @@
 package alku.csrp.entity;
 
+import alku.csrp.Config;
 import alku.csrp.registry.ModMobEffects;
+import net.minecraft.core.Holder;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -29,5 +33,18 @@ final class ParasiteCombatEffects {
         int duration = Mth.clamp(300 + 40 * (level - 1), 200, 500);
         target.addEffect(new MobEffectInstance(ModMobEffects.FEAR,
                 duration, level - 1, false, true), source);
+    }
+
+    static float damageAfterKillingResistance(DamageSource source, float amount, Holder<MobEffect> effect) {
+        if (!(source.getEntity() instanceof LivingEntity attacker)) {
+            return amount;
+        }
+        MobEffectInstance resistance = attacker.getEffect(effect);
+        if (resistance == null) {
+            return amount;
+        }
+        float reduction = Mth.clamp((float) Config.parasiteKillingReduction()
+                * (resistance.getAmplifier() + 1), 0.0F, 0.95F);
+        return Math.max(0.0F, amount * (1.0F - reduction));
     }
 }
