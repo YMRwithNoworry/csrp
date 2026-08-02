@@ -57,6 +57,7 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
     @Override
     protected void registerGoals() {
         super.registerGoals();
+        goalSelector.addGoal(0, new LongarmsRecoveryGoal());
         goalSelector.addGoal(1, new ShockwaveGoal());
         goalSelector.addGoal(2, new LongarmsMeleeGoal());
     }
@@ -77,7 +78,8 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
                 entityData.set(MELEE_RESTING, false);
             }
         }
-        if (!level().isClientSide && isInWaterOrBubble() && getTarget() != null && tickCount % 20 == 0) {
+        if (!level().isClientSide && !wasResting && !isRestingAfterMeleeAttacks()
+                && isInWaterOrBubble() && getTarget() != null && tickCount % 20 == 0) {
             setDeltaMovement(getDeltaMovement().add(0.0, 0.095, 0.0));
         }
         if (shockwaveCooldown > 0) shockwaveCooldown--;
@@ -95,6 +97,12 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
         return entityData.get(MELEE_RESTING);
     }
 
+    private void stopForMeleeRecovery() {
+        getNavigation().stop();
+        setJumping(false);
+        setAggressive(false);
+    }
+
     private void recordMeleeAttack() {
         meleeAttacksSinceRest++;
         if (meleeAttacksSinceRest < ATTACKS_BEFORE_REST) {
@@ -103,8 +111,7 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
         meleeAttacksSinceRest = 0;
         meleeRestTicks = ATTACK_REST_TICKS;
         entityData.set(MELEE_RESTING, true);
-        getNavigation().stop();
-        setAggressive(false);
+        stopForMeleeRecovery();
     }
 
     @Override
@@ -148,7 +155,7 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
         @Override
         public boolean canUse() {
             LivingEntity target = getTarget();
-            return target != null && target.isAlive();
+            return !isRestingAfterMeleeAttacks() && target != null && target.isAlive();
         }
 
         @Override
@@ -158,7 +165,7 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
 
         @Override
         public void start() {
-            setAggressive(!isRestingAfterMeleeAttacks());
+            setAggressive(true);
         }
 
         @Override public void tick() {
@@ -167,8 +174,7 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
             getLookControl().setLookAt(target, 30.0F, 30.0F);
 
             if (isRestingAfterMeleeAttacks()) {
-                getNavigation().stop();
-                setAggressive(false);
+                stopForMeleeRecovery();
                 return;
             }
 
@@ -177,10 +183,8 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
             if (cooldown > 0) cooldown--;
             if (distanceToSqr(target) <= 8.0D && cooldown == 0) {
                 performAoeAttack(target);
+                cooldown = ATTACK_INTERVAL_TICKS;
                 recordMeleeAttack();
-                if (!isRestingAfterMeleeAttacks()) {
-                    cooldown = ATTACK_INTERVAL_TICKS;
-                }
             }
         }
 
@@ -189,6 +193,38 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
             if (getTarget() == null || !getTarget().isAlive()) {
                 cooldown = 0;
             }
+        }
+    }
+
+    /** Mirrors the legacy base parasite wait goal by reserving all movement controls during recovery. */
+    private final class LongarmsRecoveryGoal extends Goal {
+        LongarmsRecoveryGoal() {
+            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK, Flag.JUMP));
+        }
+
+        @Override
+        public boolean canUse() {
+            return isRestingAfterMeleeAttacks();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return isRestingAfterMeleeAttacks();
+        }
+
+        @Override
+        public void start() {
+            stopForMeleeRecovery();
+        }
+
+        @Override
+        public void tick() {
+            stopForMeleeRecovery();
+        }
+
+        @Override
+        public void stop() {
+            setAggressive(false);
         }
     }
 
