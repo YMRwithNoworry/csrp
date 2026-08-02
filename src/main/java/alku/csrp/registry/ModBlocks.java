@@ -5,6 +5,7 @@ import alku.csrp.block.InfestedBlock;
 import alku.csrp.block.BiomeHeartBlock;
 import alku.csrp.block.ColonyHeartBlock;
 import alku.csrp.block.ColonyStructureBlock;
+import alku.csrp.block.ResidueBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -23,11 +24,12 @@ public final class ModBlocks {
                     .strength(0.5F)
                     .sound(SoundType.SCULK)));
 
-    public static final DeferredBlock<Block> RESIDUE_PLANTS = BLOCKS.register("residue_plants", () -> new Block(
+    public static final DeferredBlock<ResidueBlock> RESIDUE_PLANTS = BLOCKS.register("residue_plants", () -> new ResidueBlock(
             BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_RED)
                     .noCollission()
                     .noOcclusion()
+                    .randomTicks()
                     .instabreak()
                     .sound(SoundType.GRASS)));
 

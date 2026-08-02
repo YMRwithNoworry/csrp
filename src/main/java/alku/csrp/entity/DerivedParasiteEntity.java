@@ -5,7 +5,6 @@ import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModSounds;
 import alku.csrp.world.EvolutionSystem;
-import alku.csrp.world.SrpWorldData;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -69,7 +68,6 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
     private static final float DERIVED_MINIMUM_DAMAGE = 14.0F;
     private static final float DERIVED_REGENERATION = 25.0F;
     private static final int DERIVED_REGENERATION_USES = 10;
-    private static final int DERIVED_DEATH_EVOLUTION_PENALTY = 45_000;
     private static final int DERIVED_ORB_ITEM_COOLDOWN_TICKS = 20 * 20;
     private static final int DERIVED_ORB_EXPERIENCE_STEAL = 340;
     private static final List<Holder<MobEffect>> NEURAL_NEGATIVE_EFFECTS = List.of(
@@ -125,7 +123,6 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
     private int shadowRenderAlphaCooldown;
     private UUID cloneParent;
     private UUID activeClone;
-    private boolean deathPenaltyApplied;
 
     protected DerivedParasiteEntity(EntityType<? extends DerivedParasiteEntity> type, Level level) {
         super(type, level);
@@ -733,17 +730,6 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
             ids[index] = entityData.get(NEURAL_TARGETS.get(index));
         }
         return ids;
-    }
-
-    @Override
-    public void die(DamageSource source) {
-        if (!deathPenaltyApplied && !isShadowClone() && level() instanceof ServerLevel serverLevel
-                && !hasEffect(ModMobEffects.DEBAR)) {
-            deathPenaltyApplied = true;
-            SrpWorldData.get(serverLevel).addEvolutionPoints(
-                    serverLevel, -DERIVED_DEATH_EVOLUTION_PENALTY, true);
-        }
-        super.die(source);
     }
 
     @Override

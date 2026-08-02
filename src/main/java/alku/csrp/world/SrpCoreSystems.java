@@ -220,7 +220,7 @@ public final class SrpCoreSystems {
             double rate = phase == -1 ? 0.01D : 0.15D;
             int points = (int) Math.min(VECTOR_POINT_CAP[phaseIndex], Math.floor(totalHealth * rate));
             if (points > 0) {
-                data.addEvolutionPoints(level, points, true);
+                EvolutionSystem.addPoints(level, points, EvolutionSystem.PointSource.VECTOR_DAILY);
             }
         }
     }

@@ -3,6 +3,7 @@ package alku.csrp.registry;
 import alku.csrp.Csrp;
 import alku.csrp.item.BoughItem;
 import alku.csrp.item.CompendiumItem;
+import alku.csrp.item.EvolutionClockItem;
 import alku.csrp.item.FalseAppleItem;
 import alku.csrp.item.FishlinItem;
 import alku.csrp.item.HijackedArmorItem;
@@ -348,7 +349,8 @@ public final class ModItems {
     public static final DeferredItem<Item> ALVEOLIGROWTH = simple("alveoligrowth");
     public static final DeferredItem<BoneMealItem> INFESTED_BONEMEAL = ITEMS.registerItem(
             "infested_bonemeal", BoneMealItem::new, new Item.Properties());
-    public static final DeferredItem<Item> EVCLOCK = simple("evclock", new Item.Properties().stacksTo(1));
+    public static final DeferredItem<EvolutionClockItem> EVCLOCK = ITEMS.registerItem(
+            "evclock", EvolutionClockItem::new, new Item.Properties().stacksTo(1));
     public static final DeferredItem<Item> LEVELCLOCK = simple("levelclock", new Item.Properties().stacksTo(1));
     public static final DeferredItem<CompassItem> NODECOMPASS = ITEMS.registerItem(
             "nodecompass", CompassItem::new, new Item.Properties().stacksTo(1));

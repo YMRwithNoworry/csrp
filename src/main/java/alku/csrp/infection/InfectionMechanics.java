@@ -6,6 +6,7 @@ import alku.csrp.entity.Parasite;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.world.DislodgmentSystem;
 import alku.csrp.world.EvolutionSystem;
+import alku.csrp.world.SrpWorldData;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -171,6 +172,13 @@ public final class InfectionMechanics {
             ResourceLocation targetId = ResourceLocation.tryParse(parts[1].trim());
             if (targetId == null) {
                 continue;
+            }
+            if (SrpWorldData.get(level).evolutionPhase() >= 7 && targetId.getPath().startsWith("sim_")) {
+                ResourceLocation feralId = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+                        "fer_" + targetId.getPath().substring("sim_".length()));
+                if (BuiltInRegistries.ENTITY_TYPE.containsKey(feralId)) {
+                    targetId = feralId;
+                }
             }
             Entity entity = BuiltInRegistries.ENTITY_TYPE.getOptional(targetId)
                     .map(type -> type.create(level)).orElse(null);

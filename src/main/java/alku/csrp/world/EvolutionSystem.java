@@ -1,18 +1,29 @@
 package alku.csrp.world;
 
+import alku.csrp.entity.DerivedParasiteEntity;
+import alku.csrp.entity.NexusParasiteEntity;
+import alku.csrp.entity.Parasite;
+import alku.csrp.registry.ModMobEffects;
+import alku.csrp.registry.ModSounds;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 
 /** Original SRP evolution thresholds, generation timing, and point sources. */
 public final class EvolutionSystem {
     public static final int VALUE_KILL = 1;
+    public static final int VALUE_CYST = 2;
     public static final int VALUE_COTH = 6;
     public static final int VALUE_BLOCK = 6;
     public static final int VALUE_MERGE = 9;
     public static final int VALUE_EVOLUTION_DESPAWN = 100;
+    public static final int VALUE_NIDUS_FAILURE = 120;
     public static final int MAX_EVOLUTION_POINTS = 2_100_000_000;
 
     private static final int[] PHASE_THRESHOLDS = {
@@ -21,6 +32,16 @@ public final class EvolutionSystem {
     };
     private static final int[] PHASE_COOLDOWN_SECONDS = {
             0, 4_000, 4_800, 4_700, 4_500, 4_200, 3_800, 3_700, 3_700, 3_800, 6_000
+    };
+    private static final int[] SLEEP_POINTS = {3, 40, 50, 1_000, 100, 2_500, 8_500, 12_500, 15_000, 18_000, 1};
+    private static final double[] PASSIVE_POINTS_PER_SECOND = {
+            0.0D, 0.0D, 0.0D, 0.05D, 0.075D, 0.1D, 0.15D, 0.25D, 0.35D, 0.45D, 0.55D
+    };
+    private static final float[] PHASE_COTH_CHANCE = {
+            0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.20F, 0.40F, 0.60F, 0.90F, 1.0F
+    };
+    private static final float[] CROP_BLOCK_CHANCE = {
+            0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.10F, 0.30F, 0.60F, 1.0F, 1.0F
     };
     private static final int[] GENERATION_TIME_TICKS = {25_000, 45_000, 72_000, 72_000, 72_000};
     private static final int[][] GENERATION_PHASES = {
@@ -73,7 +94,7 @@ public final class EvolutionSystem {
             return -1;
         }
         int phase = 0;
-        while (phase < 10 && points > PHASE_THRESHOLDS[phase + 1]) {
+        while (phase < 10 && points >= PHASE_THRESHOLDS[phase + 1]) {
             phase++;
         }
         return phase;
@@ -111,7 +132,105 @@ public final class EvolutionSystem {
     }
 
     public static boolean addPoints(ServerLevel level, int points, PointSource source) {
-        return SrpWorldData.get(level).addEvolutionPoints(level, points, false);
+        SrpWorldData data = SrpWorldData.get(level);
+        int colonySteps = data.totalColonyPoints() / 10;
+        double modifier = colonySteps * 0.05D;
+        double scaled = points >= 0 ? points * (1.0D + modifier) : points * Math.max(0.0D, 1.0D - modifier);
+        int adjusted = scaled >= 0.0D ? (int) Math.floor(scaled) : (int) Math.ceil(scaled);
+        if (points != 0 && adjusted == 0) {
+            adjusted = Integer.signum(points);
+        }
+        return data.addEvolutionPoints(level, adjusted, source.bypassesCooldown());
+    }
+
+    public static int sleepPoints(int phase) {
+        return phase < 0 ? 0 : SLEEP_POINTS[Math.min(10, phase)];
+    }
+
+    public static double passivePointsPerSecond(int phase) {
+        return phase < 0 ? 0.0D : PASSIVE_POINTS_PER_SECOND[Math.min(10, phase)];
+    }
+
+    public static float phaseCothChance(int phase) {
+        return phase < 0 ? 0.0F : PHASE_COTH_CHANCE[Math.min(10, phase)];
+    }
+
+    public static float cropGrowthBlockChance(int phase) {
+        return phase < 0 ? 0.0F : CROP_BLOCK_CHANCE[Math.min(10, phase)];
+    }
+
+    public static boolean canNaturallySpawn(String path, int phase) {
+        NaturalPhase range = naturalPhase(path);
+        return phase >= range.minimum() && phase <= range.maximum();
+    }
+
+    public static boolean crossDimensionUnlocked(ServerLevel level, String path) {
+        net.minecraft.resources.ResourceKey<Level> requiredDimension;
+        int requiredPhase;
+        if (path.equals("sim_enderman") || path.equals("sim_dragone")) {
+            requiredDimension = null;
+            requiredPhase = 3;
+        } else if (path.equals("fer_enderman")) {
+            requiredDimension = null;
+            requiredPhase = 4;
+        } else if (path.equals("kirin")) {
+            requiredDimension = null;
+            requiredPhase = 7;
+        } else if (path.equals("draconite")) {
+            requiredDimension = Level.NETHER;
+            requiredPhase = 7;
+        } else {
+            return true;
+        }
+        ServerLevel source = level.getServer().getLevel(requiredDimension == null ? Level.END : requiredDimension);
+        return source != null && SrpWorldData.get(source).evolutionPhase() >= requiredPhase;
+    }
+
+    private static NaturalPhase naturalPhase(String path) {
+        if (path.equals("buglin")) return new NaturalPhase(0, 2);
+        if (path.equals("rupter")) return new NaturalPhase(1, 7);
+        if (path.equals("carrier_light")) return new NaturalPhase(1, 4);
+        if (path.equals("carrier_heavy")) return new NaturalPhase(2, 4);
+        if (path.equals("carrier_flying")) return new NaturalPhase(3, 4);
+        if (path.equals("sim_dragone")) return new NaturalPhase(9, 10);
+        if (path.startsWith("sim_")) return new NaturalPhase(2, 7);
+        if (path.equals("host") || path.equals("hostii")) return new NaturalPhase(3, 7);
+        if (path.equals("lice")) return new NaturalPhase(3, 10);
+        if (path.equals("heed") || path.startsWith("mar_")) return new NaturalPhase(4, 10);
+        if (path.equals("crux") || path.equals("dredge")) return new NaturalPhase(5, 10);
+        if (path.equals("mangler") || path.equals("abo_bodies")) return new NaturalPhase(6, 10);
+        if (path.equals("airscrew") || path.equals("thrall")) return new NaturalPhase(7, 10);
+        if (path.equals("draconite") || path.equals("kirin")) return new NaturalPhase(1, 10);
+        if (path.startsWith("fer_") || path.equals("bomber_light")) return new NaturalPhase(8, 10);
+        return new NaturalPhase(0, 10);
+    }
+
+    public static int parasiteDeathPenalty(LivingEntity entity) {
+        if (!(entity instanceof Parasite) || entity.hasEffect(ModMobEffects.DEBAR)
+                || entity instanceof DerivedParasiteEntity derived && derived.isShadowClone()) {
+            return 0;
+        }
+        if (entity instanceof NexusParasiteEntity nexus) {
+            return switch (nexus.getKind().stage()) {
+                case 1 -> 3;
+                case 2 -> 15;
+                case 3 -> 150;
+                case 4 -> 20_000;
+                default -> 0;
+            };
+        }
+        String id = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).toString();
+        return switch (EvolutionTierCatalog.tier(id).toUpperCase(java.util.Locale.ROOT)) {
+            case "ASSIMILATED" -> 1;
+            case "ASSIMARA", "FERAL" -> 5;
+            case "PRIMITIVE" -> 10;
+            case "ADAPTED" -> 200;
+            case "DETERRENT", "PURE" -> 1_000;
+            case "PREEMINENT" -> 30_000;
+            case "DERIVED" -> 45_000;
+            case "ANCIENT" -> 1;
+            default -> 0;
+        };
     }
 
     public static int ubiquitousDevelopment(MinecraftServer server) {
@@ -139,10 +258,21 @@ public final class EvolutionSystem {
     }
 
     public static void announcePhaseChange(ServerLevel level, int previous, int current) {
-        String direction = current > previous ? "advanced" : "decreased";
-        Component message = Component.literal("Parasite evolution phase " + direction + " to " + current);
+        boolean advanced = current > previous;
+        Component message = Component.translatable(advanced
+                ? "message.csrp.evolution.phase_advanced" : "message.csrp.evolution.phase_decreased", current);
         for (ServerPlayer player : level.players()) {
             player.sendSystemMessage(message);
+            if (advanced && current >= 1) {
+                player.playNotifySound(ModSounds.evolutionPhase(current), SoundSource.MUSIC, 1.0F, 1.0F);
+            }
+        }
+        if (!advanced) {
+            for (var rawEntity : level.getAllEntities()) {
+                if (rawEntity instanceof LivingEntity entity && entity instanceof Parasite) {
+                    entity.addEffect(new MobEffectInstance(ModMobEffects.RAGE, 1_200, 1, false, false));
+                }
+            }
         }
     }
 
@@ -161,10 +291,26 @@ public final class EvolutionSystem {
         BLOCK_CONVERSION,
         MERGE,
         EVOLUTION_DESPAWN,
+        CYST,
+        NIDUS_FAILURE,
+        VECTOR_DAILY,
+        SLEEP,
+        PASSIVE,
+        PARASITE_DEATH,
+        BLOCK_BREAK,
         COMMAND
+
+        ;
+
+        boolean bypassesCooldown() {
+            return this == COMMAND || this == VECTOR_DAILY || this == PARASITE_DEATH || this == BLOCK_BREAK;
+        }
     }
 
     public record InitialProgress(int phase, int points) {
+    }
+
+    private record NaturalPhase(int minimum, int maximum) {
     }
 
     public record GenerationProfile(float cothChance, boolean sprinting, boolean adaptation,

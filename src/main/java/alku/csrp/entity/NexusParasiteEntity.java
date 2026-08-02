@@ -3,6 +3,7 @@ package alku.csrp.entity;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.infection.BlockInfestation;
 import alku.csrp.registry.ModMobEffects;
+import alku.csrp.world.SrpWorldData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -94,8 +95,17 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         if (activeKind.isRooterBall()) {
             return;
         }
-        if (growthDelayTicks > 0 && ++growthTicks >= growthDelayTicks && evolve()) {
-            return;
+        if (activeKind.family == Family.BECKON && level() instanceof ServerLevel serverLevel
+                && SrpWorldData.get(serverLevel).evolutionPhase() >= 5) {
+            summonCooldown = 0;
+        }
+        if (growthDelayTicks > 0 && level() instanceof ServerLevel serverLevel) {
+            int phase = SrpWorldData.get(serverLevel).evolutionPhase();
+            int minimumPhase = activeKind.stage + 2;
+            if (phase >= minimumPhase && (phase > minimumPhase || tickCount % 4 == 0)
+                    && ++growthTicks >= growthDelayTicks && evolve()) {
+                return;
+            }
         }
 
         if (activeKind.family == Family.ROOTER && supportCooldown <= 0) {
@@ -587,6 +597,10 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
 
         private boolean isRooterBall() {
             return family == Family.ROOTERBALL;
+        }
+
+        public int stage() {
+            return stage;
         }
 
         private int rootmassCystRange() {

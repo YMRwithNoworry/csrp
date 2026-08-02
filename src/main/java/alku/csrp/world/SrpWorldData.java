@@ -28,6 +28,7 @@ public final class SrpWorldData extends SavedData {
     private boolean canLose = true;
     private int generation;
     private int generationTicks;
+    private double passivePointRemainder;
     private int ubiquitousDevelopment;
     private long dislodgmentTriggerCooldownEnd;
     private final List<Integer> lockedParasites = new ArrayList<>();
@@ -58,6 +59,7 @@ public final class SrpWorldData extends SavedData {
         data.canLose = !tag.contains("can_lose") || tag.getBoolean("can_lose");
         data.generation = tag.getInt("generation");
         data.generationTicks = tag.getInt("generation_ticks");
+        data.passivePointRemainder = tag.getDouble("passive_point_remainder");
         data.ubiquitousDevelopment = tag.getInt("ubiquitous_development");
         data.dislodgmentTriggerCooldownEnd = tag.getLong("dislodgment_trigger_cooldown_end");
         long[] dislodgmentCooldowns = tag.getLongArray("dislodgment_cooldown_ends");
@@ -85,6 +87,7 @@ public final class SrpWorldData extends SavedData {
         tag.putBoolean("can_lose", canLose);
         tag.putInt("generation", generation);
         tag.putInt("generation_ticks", generationTicks);
+        tag.putDouble("passive_point_remainder", passivePointRemainder);
         tag.putInt("ubiquitous_development", ubiquitousDevelopment);
         tag.putLong("dislodgment_trigger_cooldown_end", dislodgmentTriggerCooldownEnd);
         tag.putLongArray("dislodgment_cooldown_ends", dislodgmentCooldownEnds);
@@ -201,6 +204,19 @@ public final class SrpWorldData extends SavedData {
         if (needed > 0 && generationTicks >= needed) {
             generation++;
             generationTicks = 0;
+        }
+        setDirty();
+    }
+
+    public void tickPassivePoints(ServerLevel level) {
+        if (!canGain || evolutionPhase < 0 || cooldown(level) > 0) {
+            return;
+        }
+        passivePointRemainder += EvolutionSystem.passivePointsPerSecond(evolutionPhase);
+        int wholePoints = (int) Math.floor(passivePointRemainder);
+        if (wholePoints > 0
+                && EvolutionSystem.addPoints(level, wholePoints, EvolutionSystem.PointSource.PASSIVE)) {
+            passivePointRemainder -= wholePoints;
         }
         setDirty();
     }
@@ -475,6 +491,7 @@ public final class SrpWorldData extends SavedData {
         canLose = true;
         generation = 0;
         generationTicks = 0;
+        passivePointRemainder = 0.0D;
         ubiquitousDevelopment = 0;
         dislodgmentTriggerCooldownEnd = 0L;
         lockedParasites.clear();
@@ -494,6 +511,7 @@ public final class SrpWorldData extends SavedData {
         evolutionPoints = initial.points();
         generation = 0;
         generationTicks = 0;
+        passivePointRemainder = 0.0D;
         cooldownEnd = 0L;
         setDirty();
     }

@@ -2,6 +2,7 @@ package alku.csrp.entity;
 
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModSounds;
+import alku.csrp.world.EvolutionSystem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -228,6 +229,10 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
             setCustomNameVisible(other.isCustomNameVisible());
         }
         other.discard();
+        if (level() instanceof ServerLevel serverLevel) {
+            EvolutionSystem.addPoints(serverLevel, EvolutionSystem.VALUE_MERGE,
+                    EvolutionSystem.PointSource.MERGE);
+        }
         if (combined >= REQUIRED_MERGES) {
             startEvolution();
         }

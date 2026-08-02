@@ -35,10 +35,11 @@ public final class InfectionEvents {
             return;
         }
         Entity attacker = event.getSource().getEntity();
-        if (attacker instanceof Parasite && event.getEntity().level() instanceof ServerLevel level
-                && event.getEntity().getRandom().nextFloat()
-                < EvolutionSystem.generationProfile(level).cothChance()) {
-            InfectionMechanics.applyCoth(event.getEntity(), attacker);
+        if (attacker instanceof Parasite && event.getEntity().level() instanceof ServerLevel level) {
+            if (event.getEntity().getRandom().nextFloat()
+                    < EvolutionSystem.generationProfile(level).cothChance()) {
+                InfectionMechanics.applyCoth(event.getEntity(), attacker);
+            }
         }
     }
 

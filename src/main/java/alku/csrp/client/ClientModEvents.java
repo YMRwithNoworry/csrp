@@ -24,6 +24,8 @@ import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModItems;
 import alku.csrp.registry.ModParticles;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -308,6 +310,10 @@ public final class ClientModEvents {
         event.enqueueWork(() -> {
             registerBowProperties(ModItems.WEAPON_BOW.get());
             registerBowProperties(ModItems.WEAPON_BOW_SENTIENT.get());
+            ItemProperties.register(ModItems.EVCLOCK.get(), ResourceLocation.withDefaultNamespace("phase"),
+                    (stack, level, entity, seed) -> stack
+                            .getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
+                            .copyTag().getInt("evolution_phase"));
         });
     }
 

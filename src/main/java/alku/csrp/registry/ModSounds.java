@@ -78,8 +78,33 @@ public final class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> COMPENDIUM_UNLOCK_CELESTIAL = register("compendium.unlock_celestial");
     public static final DeferredHolder<SoundEvent, SoundEvent> COMPENDIUM_UNLOCK_EFFECT = register("compendium.unlock_effect");
     public static final DeferredHolder<SoundEvent, SoundEvent> COMPENDIUM_UNLOCK_ITEM = register("compendium.unlock_item");
+    public static final DeferredHolder<SoundEvent, SoundEvent> EVOLUTION_PHASE_1 = register("evolution.phase1");
+    public static final DeferredHolder<SoundEvent, SoundEvent> EVOLUTION_PHASE_2 = register("evolution.phase2");
+    public static final DeferredHolder<SoundEvent, SoundEvent> EVOLUTION_PHASE_3 = register("evolution.phase3");
+    public static final DeferredHolder<SoundEvent, SoundEvent> EVOLUTION_PHASE_4 = register("evolution.phase4");
+    public static final DeferredHolder<SoundEvent, SoundEvent> EVOLUTION_PHASE_5 = register("evolution.phase5");
+    public static final DeferredHolder<SoundEvent, SoundEvent> EVOLUTION_PHASE_6 = register("evolution.phase6");
+    public static final DeferredHolder<SoundEvent, SoundEvent> EVOLUTION_PHASE_7 = register("evolution.phase7");
+    public static final DeferredHolder<SoundEvent, SoundEvent> EVOLUTION_PHASE_8 = register("evolution.phase8");
+    public static final DeferredHolder<SoundEvent, SoundEvent> EVOLUTION_PHASE_9 = register("evolution.phase9");
+    public static final DeferredHolder<SoundEvent, SoundEvent> EVOLUTION_PHASE_10 = register("evolution.phase10");
 
     private ModSounds() {
+    }
+
+    public static SoundEvent evolutionPhase(int phase) {
+        return switch (phase) {
+            case 1 -> EVOLUTION_PHASE_1.get();
+            case 2 -> EVOLUTION_PHASE_2.get();
+            case 3 -> EVOLUTION_PHASE_3.get();
+            case 4 -> EVOLUTION_PHASE_4.get();
+            case 5 -> EVOLUTION_PHASE_5.get();
+            case 6 -> EVOLUTION_PHASE_6.get();
+            case 7 -> EVOLUTION_PHASE_7.get();
+            case 8 -> EVOLUTION_PHASE_8.get();
+            case 9 -> EVOLUTION_PHASE_9.get();
+            default -> EVOLUTION_PHASE_10.get();
+        };
     }
 
     private static DeferredHolder<SoundEvent, SoundEvent> register(String name) {

@@ -375,5 +375,35 @@
   },
   "compendium.unlock_item": {
     "sounds": ["csrp:bestiary/item/unlock1", "csrp:bestiary/item/unlock2", "csrp:bestiary/item/unlock3", "csrp:bestiary/item/unlock4", "csrp:bestiary/item/unlock5", "csrp:bestiary/item/unlock6", "csrp:bestiary/item/unlock7", "csrp:bestiary/item/unlock8"]
+  },
+  "evolution.phase1": {
+    "sounds": [{"name": "csrp:misc/evolution/phase1", "stream": true}]
+  },
+  "evolution.phase2": {
+    "sounds": [{"name": "csrp:misc/evolution/phase2", "stream": true}]
+  },
+  "evolution.phase3": {
+    "sounds": [{"name": "csrp:misc/evolution/phase3", "stream": true}]
+  },
+  "evolution.phase4": {
+    "sounds": [{"name": "csrp:misc/evolution/phase4", "stream": true}]
+  },
+  "evolution.phase5": {
+    "sounds": [{"name": "csrp:misc/evolution/phase5", "stream": true}]
+  },
+  "evolution.phase6": {
+    "sounds": [{"name": "csrp:misc/evolution/phase6", "stream": true}]
+  },
+  "evolution.phase7": {
+    "sounds": [{"name": "csrp:misc/evolution/phase7", "stream": true}]
+  },
+  "evolution.phase8": {
+    "sounds": [{"name": "csrp:misc/evolution/phase8", "stream": true}]
+  },
+  "evolution.phase9": {
+    "sounds": [{"name": "csrp:misc/evolution/phase9", "stream": true}]
+  },
+  "evolution.phase10": {
+    "sounds": [{"name": "csrp:misc/evolution/phase10", "stream": true}]
   }
 }
