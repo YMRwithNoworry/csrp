@@ -73,6 +73,7 @@ public class BuglinEntity extends Monster implements GeoEntity, Parasite {
         goalSelector.addGoal(0, new FloatGoal(this));
         goalSelector.addGoal(1, new AvoidEntityGoal<>(this, LivingEntity.class, 8.0F, 1.0, 1.2,
                 this::shouldAvoid));
+        goalSelector.addGoal(6, new ParasiteFollowGoal(this));
         goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 1.0));
         goalSelector.addGoal(4, new RandomLookAroundGoal(this));
     }

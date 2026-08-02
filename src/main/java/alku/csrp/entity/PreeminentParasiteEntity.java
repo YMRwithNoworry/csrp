@@ -1,21 +1,32 @@
 package alku.csrp.entity;
 
+import alku.csrp.Config;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
+import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.Mth;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
@@ -24,10 +35,12 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.util.Mth;
+import net.neoforged.neoforge.entity.PartEntity;
+import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.AnimationState;
@@ -42,6 +55,8 @@ import java.util.UUID;
  * uses stronger adaptation and delegates its battlefield support to Succors.
  */
 public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
+    private static final EntityDataAccessor<Boolean> CARRIER_VARIANT =
+            SynchedEntityData.defineId(PreeminentParasiteEntity.class, EntityDataSerializers.BOOLEAN);
     private static final int MAX_ADAPTATION_HITS = 5;
     private static final int MAX_LEARNABLE_DAMAGE_SOURCES = 20;
     private static final int MAX_SUMMONED_SUCCORS = 3;
@@ -57,6 +72,12 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
     private static final double STEALTH_HEALTH_THRESHOLD = 0.40D;
     private static final int MINIMUM_FLIGHT_HEIGHT = 10;
     private static final int MAXIMUM_FLIGHT_HEIGHT = 30;
+    private static final int CARRIER_BUFF_INITIAL_DELAY_TICKS = 60;
+    private static final int CARRIER_BUFF_COOLDOWN_TICKS = 600;
+    private static final double CARRIER_BUFF_RANGE = 60.0D;
+    private static final int CARRIER_RECRUIT_RANGE = 16;
+    private static final int CARRIER_MELEE_INTERVAL_TICKS = 10;
+    private static final int CARRIER_WATER_LEAP_COOLDOWN_TICKS = 20;
     private static final float ADAPTATION_PER_HIT = 0.20F;
     private static final float ADAPTATION_LEARN_CHANCE = 1.0F;
     private static final float FIRE_SUPPRESSION_CHANCE = 0.30F;
@@ -66,6 +87,8 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
     private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
 
     private final Kind kind;
+    private final CarrierHeadPart carrierHeadPart;
+    private final PartEntity<?>[] carrierParts;
     private UUID summonerId;
     private int blockBreakCooldown;
     private int supportCooldown;
@@ -84,6 +107,8 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
     public PreeminentParasiteEntity(EntityType<? extends PreeminentParasiteEntity> type, Level level, Kind kind) {
         super(type, level);
         this.kind = kind;
+        carrierHeadPart = kind == Kind.CARRIER_COLONY ? new CarrierHeadPart(this) : null;
+        carrierParts = carrierHeadPart == null ? new PartEntity<?>[0] : new PartEntity<?>[]{carrierHeadPart};
         xpReward = 75;
         if (kind.flying) {
             moveControl = kind == Kind.BOGLE || kind == Kind.WRAITH
@@ -104,7 +129,16 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         if (kind.flying) {
             attributes.add(Attributes.FLYING_SPEED, kind.movementSpeed);
         }
+        if (kind == Kind.CARRIER_COLONY) {
+            attributes.add(Attributes.STEP_HEIGHT, 1.0D);
+        }
         return attributes;
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(CARRIER_VARIANT, false);
     }
 
     @Override
@@ -117,8 +151,11 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
                 goalSelector.addGoal(6, new PreeminentRandomFlightGoal());
             }
             case CARRIER_COLONY -> {
-                goalSelector.addGoal(1, new ColonySupportGoal());
-                goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.05D, false));
+                goalSelector.addGoal(0, new CarrierSwimmingGoal());
+                goalSelector.addGoal(2, new CarrierWaterLeapGoal());
+                goalSelector.addGoal(3, new CarrierMeleeGoal());
+                goalSelector.addGoal(3, new CarrierBuffGoal());
+                goalSelector.addGoal(6, new CarrierRecruitGoal());
             }
             case HAUNTER -> {
                 goalSelector.addGoal(1, new HaunterHomingBurstGoal());
@@ -142,6 +179,9 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
     public void tick() {
         super.tick();
         Kind activeKind = activeKind();
+        if (carrierHeadPart != null) {
+            updateCarrierHeadPart();
+        }
         if (activeKind.flying) {
             setNoGravity(true);
         }
@@ -159,6 +199,9 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         }
         if (attackAnimationTicks > 0) {
             attackAnimationTicks--;
+        }
+        if (activeKind == Kind.CARRIER_COLONY && tickCount == 25) {
+            applyCarrierInitialLinks();
         }
         if (activeKind.flying && !isStealthKind() && onGround()) {
             getMoveControl().setWantedPosition(getX(), getY() + 5.0D, getZ(), 0.50D);
@@ -193,13 +236,28 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (source.is(DamageTypeTags.IS_FIRE)) {
-            amount *= 4.0F;
-        }
         if (!level().isClientSide && isStealthKind()) {
             revealStealth();
         }
         return super.hurt(source, amount);
+    }
+
+    @Override
+    protected int incomingDamageCapDivisor() {
+        return 18;
+    }
+
+    @Override
+    public boolean applyScaryOrbEffect(LivingEntity target, int nearbyEntities) {
+        boolean applied = super.applyScaryOrbEffect(target, nearbyEntities);
+        if (!applied || activeKind() != Kind.CARRIER_COLONY || target instanceof Parasite) {
+            return applied;
+        }
+        target.addEffect(new MobEffectInstance(MobEffects.HUNGER, 300, 4, false, false), this);
+        target.addEffect(new MobEffectInstance(ModMobEffects.NEEDLER, 2400, 4, false, false), this);
+        target.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 300, 4, false, false), this);
+        target.addEffect(new MobEffectInstance(MobEffects.WITHER, 200, 4, false, false), this);
+        return true;
     }
 
     @Override
@@ -249,9 +307,79 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         return false;
     }
 
+    @Nullable
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
+                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
+        SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
+        if (activeKind() == Kind.CARRIER_COLONY && (random.nextDouble() < Config.variantSpawnChance()
+                || Config.evolutionPhase(level.getLevel()) >= Config.alwaysVariantPhase())) {
+            setCarrierVariant(true);
+        }
+        return data;
+    }
+
+    public boolean isCarrierVariant() {
+        return activeKind() == Kind.CARRIER_COLONY && entityData.get(CARRIER_VARIANT);
+    }
+
+    private void setCarrierVariant(boolean variant) {
+        entityData.set(CARRIER_VARIANT, variant);
+        if (!variant) {
+            return;
+        }
+        var armor = getAttribute(Attributes.ARMOR);
+        if (armor != null) {
+            armor.setBaseValue(Kind.CARRIER_COLONY.armor * 1.5D);
+        }
+        var movementSpeed = getAttribute(Attributes.MOVEMENT_SPEED);
+        if (movementSpeed != null) {
+            movementSpeed.setBaseValue(0.1694D);
+        }
+    }
+
+    @Override
+    protected EntityDimensions getDefaultDimensions(Pose pose) {
+        EntityDimensions dimensions = super.getDefaultDimensions(pose);
+        return activeKind() == Kind.CARRIER_COLONY ? dimensions.withEyeHeight(1.5F) : dimensions;
+    }
+
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return activeKind() == Kind.CARRIER_COLONY ? ModSounds.CARRIER_COLONY_LIVING.get()
+                : super.getAmbientSound();
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource source) {
+        return activeKind() == Kind.CARRIER_COLONY ? ModSounds.CARRIER_COLONY_HURT.get()
+                : super.getHurtSound(source);
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return activeKind() == Kind.CARRIER_COLONY ? ModSounds.CARRIER_COLONY_DEATH.get()
+                : super.getDeathSound();
+    }
+
+    @Override
+    protected void playStepSound(BlockPos pos, BlockState state) {
+        if (activeKind() == Kind.CARRIER_COLONY) {
+            playSound(ModSounds.HEAVY_MULTIPLE_STEP.get(), 0.15F, 1.0F);
+        } else {
+            super.playStepSound(pos, state);
+        }
+    }
+
+    @Override
+    protected float getSoundVolume() {
+        return activeKind() == Kind.CARRIER_COLONY ? 5.0F : super.getSoundVolume();
+    }
+
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
+        tag.putBoolean("preeminent_carrier_variant", isCarrierVariant());
         tag.putInt("preeminent_support_cooldown", supportCooldown);
         tag.putBoolean("preeminent_succor_action", succorActionConsumed);
         tag.putInt("preeminent_succor_action_type", succorActionType);
@@ -269,6 +397,9 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
+        if (activeKind() == Kind.CARRIER_COLONY) {
+            setCarrierVariant(tag.getBoolean("preeminent_carrier_variant"));
+        }
         supportCooldown = Math.floorMod(tag.getInt("preeminent_support_cooldown"),
                 SUCCOR_SUMMON_TIMER_MAX + 1);
         succorActionConsumed = tag.getBoolean("preeminent_succor_action");
@@ -292,6 +423,50 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
 
     public void setSummoner(PreeminentParasiteEntity summoner) {
         summonerId = summoner == null ? null : summoner.getUUID();
+    }
+
+    @Override
+    public boolean isMultipartEntity() {
+        return carrierHeadPart != null;
+    }
+
+    @Override
+    public void setId(int id) {
+        super.setId(id);
+        if (carrierParts == null) {
+            return;
+        }
+        for (int index = 0; index < carrierParts.length; index++) {
+            carrierParts[index].setId(id + index + 1);
+        }
+    }
+
+    @Override
+    public PartEntity<?>[] getParts() {
+        return carrierParts == null ? new PartEntity<?>[0] : carrierParts;
+    }
+
+    private void updateCarrierHeadPart() {
+        float yaw = getYRot() * Mth.DEG_TO_RAD;
+        float forward = 3.1F * Mth.cos((float) Math.PI / 18.0F);
+        carrierHeadPart.setPos(getX() + Mth.sin(yaw) * forward, getY() + 1.6D,
+                getZ() - Mth.cos(yaw) * forward);
+        carrierHeadPart.setYRot(getYRot());
+    }
+
+    private boolean hurtCarrierHead(DamageSource source, float amount) {
+        if (random.nextBoolean()) {
+            addEffect(new MobEffectInstance(ModMobEffects.BLEED, 80, 0), this);
+        }
+        return hurt(source, amount * 3.0F);
+    }
+
+    private void applyCarrierInitialLinks() {
+        for (LivingEntity ally : level().getEntitiesOfClass(LivingEntity.class,
+                getBoundingBox().inflate(32.0D), entity -> entity instanceof Parasite && entity.isAlive())) {
+            ally.addEffect(new MobEffectInstance(ModMobEffects.LINK, 6666, 0, false, false), this);
+            ally.addEffect(new MobEffectInstance(ModMobEffects.FOSTER, 6666, 0, false, false), this);
+        }
     }
 
     public boolean isSummonedBy(PreeminentParasiteEntity summoner) {
@@ -438,8 +613,8 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         succor.setSummoner(this);
         succor.succorTargetPos = target.blockPosition();
         int actionType = random.nextInt(3) + 1;
-        if (actionType == 3 && (distanceToSqr(target) < 100.0D || !target.onGround()
-                || teleportActionReserved)) {
+        if (actionType == 3 && (activeKind() == Kind.CARRIER_COLONY || distanceToSqr(target) < 100.0D
+                || !target.onGround() || teleportActionReserved)) {
             actionType = random.nextInt(2) + 1;
         }
         succor.succorActionType = actionType;
@@ -833,20 +1008,174 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         }
     }
 
-    private final class ColonySupportGoal extends Goal {
-        private int cooldown;
-
-        private ColonySupportGoal() {
-            setFlags(EnumSet.of(Flag.LOOK));
+    private final class CarrierSwimmingGoal extends Goal {
+        private CarrierSwimmingGoal() {
+            setFlags(EnumSet.of(Flag.JUMP));
         }
 
         @Override
         public boolean canUse() {
-            if (cooldown > 0) {
-                cooldown--;
+            if (!isInWaterOrBubble() && !isInLava()) {
                 return false;
             }
-            return getTarget() != null;
+            LivingEntity target = getTarget();
+            if (target != null && (target.isInWaterOrBubble() || target.isInLava())
+                    && target.distanceToSqr(getX(), target.getY(), getZ()) < 25.0D
+                    && target.getY() - getY() < -1.0D) {
+                setDeltaMovement(getDeltaMovement().add(0.0D, -0.15D, 0.0D));
+                return false;
+            }
+            return true;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return canUse();
+        }
+
+        @Override
+        public void tick() {
+            if (random.nextFloat() < 0.8F) {
+                getJumpControl().jump();
+            }
+        }
+    }
+
+    private final class CarrierWaterLeapGoal extends Goal {
+        private int attackTimer;
+        private int attacking;
+        private double targetX;
+        private double targetZ;
+        private float targetHeight;
+
+        @Override
+        public boolean canUse() {
+            return isInWaterOrBubble() || isInLava() || attacking >= 1;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return canUse();
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = getTarget();
+            if (target != null && target.isAlive()) {
+                attackTimer++;
+                if (attackTimer >= CARRIER_WATER_LEAP_COOLDOWN_TICKS && attacking == 0) {
+                    attacking = 1;
+                    targetX = target.getX();
+                    targetZ = target.getZ();
+                    targetHeight = Math.max(0.0F, (float) (target.getY() - getY()) * 0.07F);
+                }
+            } else if (attackTimer > 0) {
+                attackTimer--;
+            }
+            if (attacking < 1) {
+                return;
+            }
+            attacking++;
+            if (attacking == 2 && onGround()) {
+                getNavigation().stop();
+                double x = targetX - getX();
+                double z = targetZ - getZ();
+                double horizontalDistance = Math.sqrt(x * x + z * z);
+                if (horizontalDistance > 0.001D) {
+                    Vec3 movement = getDeltaMovement();
+                    setDeltaMovement(movement.x + x / horizontalDistance * 1.35D + movement.x * 0.3D,
+                            0.7D + targetHeight,
+                            movement.z + z / horizontalDistance * 1.35D + movement.z * 0.3D);
+                }
+            }
+            if (attacking >= 3 && onGround()) {
+                attacking = 0;
+                attackTimer = 0;
+            }
+        }
+    }
+
+    private final class CarrierMeleeGoal extends Goal {
+        private int attackCooldown;
+
+        private CarrierMeleeGoal() {
+            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
+        }
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = getTarget();
+            return target != null && target.isAlive();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return canUse();
+        }
+
+        @Override
+        public void stop() {
+            getNavigation().stop();
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = getTarget();
+            if (target == null) {
+                return;
+            }
+            getLookControl().setLookAt(target, 30.0F, 30.0F);
+            double distance = distanceToSqr(target.getX(), target.getBoundingBox().minY, target.getZ());
+            getNavigation().moveTo(target, distance > 64.0D || attackCooldown == 0 ? 1.3D : 1.0D);
+            if (attackCooldown > 0) {
+                attackCooldown--;
+            }
+            double reach = Mth.square(getBbWidth() * 2.0F) + target.getBbWidth();
+            if (distance <= reach && attackCooldown <= 0 && hasLineOfSight(target)) {
+                attackCooldown = CARRIER_MELEE_INTERVAL_TICKS;
+                doHurtTarget(target);
+            }
+        }
+    }
+
+    private final class CarrierBuffGoal extends Goal {
+        private int buffTimer;
+
+        @Override
+        public boolean canUse() {
+            return true;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return true;
+        }
+
+        @Override
+        public void tick() {
+            buffTimer++;
+            if (buffTimer < CARRIER_BUFF_INITIAL_DELAY_TICKS) {
+                return;
+            }
+            for (LivingEntity ally : level().getEntitiesOfClass(LivingEntity.class,
+                    getBoundingBox().inflate(CARRIER_BUFF_RANGE), entity -> entity != PreeminentParasiteEntity.this
+                            && entity instanceof Parasite && entity.isAlive())) {
+                ally.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 600, 3, false, false),
+                        PreeminentParasiteEntity.this);
+                ally.addEffect(new MobEffectInstance(ModMobEffects.FOSTER, 1200, 2, false, false),
+                        PreeminentParasiteEntity.this);
+                ally.addEffect(new MobEffectInstance(ModMobEffects.LINK, 200, 1, false, false),
+                        PreeminentParasiteEntity.this);
+            }
+            buffTimer -= CARRIER_BUFF_COOLDOWN_TICKS;
+        }
+    }
+
+    private final class CarrierRecruitGoal extends Goal {
+        @Override
+        public boolean canUse() {
+            return tickCount % 20 == 0 && ParasiteFollowGoal.getLeader(PreeminentParasiteEntity.this) == null
+                    && getTarget() == null;
         }
 
         @Override
@@ -856,16 +1185,61 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
 
         @Override
         public void start() {
-            for (LivingEntity ally : level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(16.0D),
-                    entity -> entity instanceof Parasite && entity.isAlive())) {
-                ally.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 600, 2, false, false),
-                        PreeminentParasiteEntity.this);
-                ally.addEffect(new MobEffectInstance(ModMobEffects.RAGE, 1200, 1, false, false),
-                        PreeminentParasiteEntity.this);
-                ally.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 200, 0, false, false),
-                        PreeminentParasiteEntity.this);
+            AABB searchArea = new AABB(getX(), getY(), getZ(), getX() + 1.0D, getY() + 1.0D,
+                    getZ() + 1.0D).inflate(CARRIER_RECRUIT_RANGE, 2.0D, CARRIER_RECRUIT_RANGE);
+            for (Mob recruit : level().getEntitiesOfClass(Mob.class, searchArea,
+                    entity -> entity != PreeminentParasiteEntity.this && entity instanceof Parasite
+                            && entity.isAlive() && ParasiteFollowGoal.commandRank(entity) < 41
+                            && hasLineOfSight(entity))) {
+                Mob currentLeader = ParasiteFollowGoal.getLeader(recruit);
+                if (currentLeader == null || ParasiteFollowGoal.commandRank(currentLeader) <= 30) {
+                    ParasiteFollowGoal.setLeader(recruit, PreeminentParasiteEntity.this);
+                    return;
+                }
             }
-            cooldown = 200;
+        }
+    }
+
+    private static final class CarrierHeadPart extends PartEntity<PreeminentParasiteEntity> {
+        private CarrierHeadPart(PreeminentParasiteEntity parent) {
+            super(parent);
+        }
+
+        @Override
+        protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        }
+
+        @Override
+        protected void readAdditionalSaveData(CompoundTag tag) {
+        }
+
+        @Override
+        protected void addAdditionalSaveData(CompoundTag tag) {
+        }
+
+        @Override
+        public boolean isPickable() {
+            return getParent().isAlive();
+        }
+
+        @Override
+        public boolean hurt(DamageSource source, float amount) {
+            return getParent().hurtCarrierHead(source, amount);
+        }
+
+        @Override
+        public EntityDimensions getDimensions(Pose pose) {
+            return EntityDimensions.scalable(3.8F, 3.8F);
+        }
+
+        @Override
+        public boolean shouldBeSaved() {
+            return false;
+        }
+
+        @Override
+        public Component getName() {
+            return Component.literal("carrier_colony_head");
         }
     }
 

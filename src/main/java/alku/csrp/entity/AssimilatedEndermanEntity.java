@@ -72,6 +72,7 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
         goalSelector.addGoal(0, new FloatGoal(this));
         goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.2D, false));
         goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        goalSelector.addGoal(6, new ParasiteFollowGoal(this));
         goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
         targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,

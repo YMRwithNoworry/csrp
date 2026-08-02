@@ -113,6 +113,7 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
         goalSelector.addGoal(4, new AvoidEntityGoal<>(this, LivingEntity.class, 8.0F, 1.0, 1.3,
                 this::shouldAvoid));
         goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0));
+        goalSelector.addGoal(6, new ParasiteFollowGoal(this));
         goalSelector.addGoal(6, new RupterSpinGoal());
         goalSelector.addGoal(7, new RandomLookAroundGoal(this));
         targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(

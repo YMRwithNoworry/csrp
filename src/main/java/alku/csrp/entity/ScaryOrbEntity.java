@@ -9,6 +9,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.List;
 import java.util.UUID;
 
 public final class ScaryOrbEntity extends Entity {
@@ -108,9 +109,11 @@ public final class ScaryOrbEntity extends Entity {
     }
 
     private void applyOrbEffects(PrimitiveParasiteEntity owner) {
-        for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(2.5),
-                owner::isValidParasiteTarget)) {
-            target.hurt(damageSources().indirectMagic(this, owner), 2.0F);
+        List<LivingEntity> targets = level().getEntitiesOfClass(LivingEntity.class,
+                getBoundingBox().inflate(2.5D), LivingEntity::isAlive);
+        int nearbyEntities = targets.size();
+        for (LivingEntity target : targets) {
+            owner.applyScaryOrbEffect(target, nearbyEntities);
         }
     }
 

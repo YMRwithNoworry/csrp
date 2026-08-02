@@ -113,6 +113,7 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
         } else {
             goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         }
+        goalSelector.addGoal(6, new ParasiteFollowGoal(this));
         goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
         targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,

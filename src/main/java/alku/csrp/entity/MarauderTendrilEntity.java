@@ -79,6 +79,7 @@ public final class MarauderTendrilEntity extends Monster implements GeoEntity, P
     @Override
     protected void registerGoals() {
         goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, false));
+        goalSelector.addGoal(6, new ParasiteFollowGoal(this));
         targetSelector.addGoal(1, new HurtByTargetGoal(this));
         targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,
                 true, false, target -> target != this && target.isAlive() && !(target instanceof Parasite)));

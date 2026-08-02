@@ -313,5 +313,35 @@
   "nade.s": {
     "category": "hostile",
     "sounds": ["csrp:misc/nade_s"]
+  },
+  "vesta.growl": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:mob/preeminent/carrier_colony/living1",
+      "csrp:mob/preeminent/carrier_colony/living2",
+      "csrp:mob/preeminent/carrier_colony/living3"
+    ]
+  },
+  "vesta.hurt": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:mob/preeminent/carrier_colony/hurt1",
+      "csrp:mob/preeminent/carrier_colony/hurt2",
+      "csrp:mob/preeminent/carrier_colony/hurt3"
+    ]
+  },
+  "vesta.death": {
+    "category": "hostile",
+    "sounds": ["csrp:mob/preeminent/carrier_colony/death"]
+  },
+  "step.heavy_multiple": {
+    "category": "hostile",
+    "subtitle": "subtitles.block.generic.footsteps",
+    "sounds": [
+      "csrp:mob/step/heavy_multiple/step1",
+      "csrp:mob/step/heavy_multiple/step2",
+      "csrp:mob/step/heavy_multiple/step3",
+      "csrp:mob/step/heavy_multiple/step4"
+    ]
   }
 }

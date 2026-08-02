@@ -67,6 +67,7 @@ public final class SimAdventurerHeadEntity extends Monster implements GeoEntity,
         goalSelector.addGoal(2, new LeapAtTargetGoal(this, 0.4F));
         goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.3D, false));
         goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        goalSelector.addGoal(6, new ParasiteFollowGoal(this));
         goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         targetSelector.addGoal(1, new HurtByTargetGoal(this));
         targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,

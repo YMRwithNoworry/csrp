@@ -106,6 +106,7 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
     @Override
     protected void registerGoals() {
         goalSelector.addGoal(1, new DragonCombatGoal());
+        goalSelector.addGoal(6, new ParasiteFollowGoal(this));
         targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
         targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,
                 true, false, this::isValidParasiteTarget));

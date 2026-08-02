@@ -10,9 +10,12 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -51,6 +54,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private final Map<String, Integer> damageAdaptations = new LinkedHashMap<>();
+    private boolean bypassArmorForDamageCap;
     private int parasiteKills;
     private double legacyKillCount;
     private boolean colonySpawned;
@@ -92,7 +96,13 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
 
     @Override
     protected void registerGoals() {
-        goalSelector.addGoal(0, new FloatGoal(this));
+        if (!(this instanceof PreeminentParasiteEntity preeminent
+                && preeminent.getKind() == PreeminentParasiteEntity.Kind.CARRIER_COLONY)) {
+            goalSelector.addGoal(0, new FloatGoal(this));
+        }
+        if (!(this instanceof PreeminentParasiteEntity)) {
+            goalSelector.addGoal(6, new ParasiteFollowGoal(this));
+        }
         goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1.0));
         goalSelector.addGoal(8, new RandomLookAroundGoal(this));
         targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
@@ -118,10 +128,10 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
             amount = ParasiteCombatEffects.damageAfterKillingResistance(source, amount, resistanceEffect);
         }
         if (!usesDamageAdaptation()) {
-            return super.hurt(source, amount);
+            return hurtWithIncomingDamageCap(source, amount);
         }
         if (source.is(DamageTypes.FALL) || source.is(DamageTypes.FELL_OUT_OF_WORLD)) {
-            return super.hurt(source, amount);
+            return hurtWithIncomingDamageCap(source, amount);
         }
         if (!level().isClientSide && (source.is(DamageTypes.IN_FIRE) || source.is(DamageTypes.ON_FIRE))
                 && random.nextFloat() < fireAdaptationSuppressionChance()) {
@@ -138,7 +148,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
             damageAdaptations.put(damageId, previousHits == Integer.MAX_VALUE ? previousHits : previousHits + 1);
             adaptationLearningCooldown = NEW_DAMAGE_COOLDOWN_TICKS;
         }
-        return super.hurt(source, amount * (1.0F - reduction));
+        return hurtWithIncomingDamageCap(source, amount * (1.0F - reduction));
     }
 
     private Holder<MobEffect> killingResistanceEffect() {
@@ -162,6 +172,59 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     @Override
     public boolean doHurtTarget(Entity target) {
         return !(target instanceof Parasite) && super.doHurtTarget(target);
+    }
+
+    protected int incomingDamageCapDivisor() {
+        return 1;
+    }
+
+    private boolean hurtWithIncomingDamageCap(DamageSource source, float amount) {
+        int divisor = incomingDamageCapDivisor();
+        if (divisor <= 1 || source.is(DamageTypeTags.IS_FIRE) || source.is(DamageTypes.FELL_OUT_OF_WORLD)) {
+            return super.hurt(source, amount);
+        }
+        float maximumHealth = getMaxHealth();
+        float cappedDamage = maximumHealth / divisor + maximumHealth % divisor * 0.5F;
+        boolean reachedCap = amount >= cappedDamage;
+        if (reachedCap) {
+            if (!hasEffect(ModMobEffects.RAGE)) {
+                addEffect(new MobEffectInstance(ModMobEffects.RAGE, 200, 1, false, false), this);
+            }
+            if (random.nextDouble() < 0.3D && getHealth() > 0.0F) {
+                attackEntityFromEffects(1, 1);
+                attackEntityFromCap(1);
+            }
+        }
+        boolean previousBypass = bypassArmorForDamageCap;
+        bypassArmorForDamageCap = reachedCap;
+        try {
+            return super.hurt(source, Math.min(amount, cappedDamage));
+        } finally {
+            bypassArmorForDamageCap = previousBypass;
+        }
+    }
+
+    @Override
+    protected float getDamageAfterArmorAbsorb(DamageSource source, float amount) {
+        return bypassArmorForDamageCap ? amount : super.getDamageAfterArmorAbsorb(source, amount);
+    }
+
+    protected void attackEntityFromEffects(int range, int count) {
+    }
+
+    protected void attackEntityFromCap(int count) {
+    }
+
+    public boolean applyScaryOrbEffect(LivingEntity target, int nearbyEntities) {
+        if (target == this || target instanceof Player player && player.getAbilities().instabuild) {
+            return false;
+        }
+        target.addEffect(new MobEffectInstance(ModMobEffects.COTH, 1200, 3, false, false), this);
+        if (!(target instanceof Parasite)) {
+            target.hurt(damageSources().indirectMagic(this, this), 2.0F);
+        }
+        target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 0, false, false), this);
+        return true;
     }
 
     protected boolean usesDamageAdaptation() {
