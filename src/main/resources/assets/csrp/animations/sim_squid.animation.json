@@ -54451,6 +54451,14 @@
       "bones": {
         "jointBLT_2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -54935,6 +54943,14 @@
         },
         "jointULT_1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -55419,6 +55435,14 @@
         },
         "jointDLT": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -55903,6 +55927,14 @@
         },
         "jointBDT": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 1.4511229108176833,
@@ -56387,6 +56419,14 @@
         },
         "jointBLT": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -56871,6 +56911,14 @@
         },
         "jointBRT": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -57355,6 +57403,14 @@
         },
         "jointBUT_1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 1.4511229108176833,
@@ -57839,6 +57895,14 @@
         },
         "jointDRT_3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -58323,6 +58387,14 @@
         },
         "jointDRT_1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -58807,6 +58879,14 @@
         },
         "jointDLT_2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -59291,6 +59371,14 @@
         },
         "jointBRT_2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -59775,6 +59863,14 @@
         },
         "jointBLT_1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -60259,6 +60355,14 @@
         },
         "jointDRT": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -60743,6 +60847,14 @@
         },
         "jointBDT_2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -1.4433827163665751,
@@ -61227,6 +61339,14 @@
         },
         "jointULT_3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -61711,6 +61831,14 @@
         },
         "jointURT": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -62195,6 +62323,14 @@
         },
         "jointBRT_1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -62679,6 +62815,14 @@
         },
         "jointURT_1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -63163,6 +63307,14 @@
         },
         "jointBUT": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -1.4633466172652816,
@@ -63647,6 +63799,14 @@
         },
         "jointULT_2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -64131,6 +64291,14 @@
         },
         "jointURT_3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -64615,6 +64783,14 @@
         },
         "jointBDT_1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -1.4633466172652816,
@@ -65099,6 +65275,14 @@
         },
         "jointURT_2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -65583,6 +65767,14 @@
         },
         "jointDRT_2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -66067,6 +66259,14 @@
         },
         "jointDLT_1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -66551,6 +66751,14 @@
         },
         "jointULT": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -67035,6 +67243,14 @@
         },
         "jointDLT_3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -67519,6 +67735,14 @@
         },
         "jointBUT_2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 1.4433827163665751,
@@ -122453,6 +122677,14 @@
       "bones": {
         "jointBLT_2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -122937,6 +123169,14 @@
         },
         "jointULT_1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -123421,6 +123661,14 @@
         },
         "jointDLT": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -123905,6 +124153,14 @@
         },
         "jointBDT": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 1.4511229108176833,
@@ -124389,6 +124645,14 @@
         },
         "jointBLT": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -124873,6 +125137,14 @@
         },
         "jointBRT": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -125357,6 +125629,14 @@
         },
         "jointBUT_1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 1.4511229108176833,
@@ -125841,6 +126121,14 @@
         },
         "jointDRT_3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -126325,6 +126613,14 @@
         },
         "jointDRT_1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -126809,6 +127105,14 @@
         },
         "jointDLT_2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -127293,6 +127597,14 @@
         },
         "jointBRT_2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -127777,6 +128089,14 @@
         },
         "jointBLT_1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -128261,6 +128581,14 @@
         },
         "jointDRT": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -128745,6 +129073,14 @@
         },
         "jointBDT_2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -1.4433827163665751,
@@ -129229,6 +129565,14 @@
         },
         "jointULT_3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -129713,6 +130057,14 @@
         },
         "jointURT": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -130197,6 +130549,14 @@
         },
         "jointBRT_1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -130681,6 +131041,14 @@
         },
         "jointURT_1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -131165,6 +131533,14 @@
         },
         "jointBUT": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -1.4633466172652816,
@@ -131649,6 +132025,14 @@
         },
         "jointULT_2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -132133,6 +132517,14 @@
         },
         "jointURT_3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -132617,6 +133009,14 @@
         },
         "jointBDT_1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -1.4633466172652816,
@@ -133101,6 +133501,14 @@
         },
         "jointURT_2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -133585,6 +133993,14 @@
         },
         "jointDRT_2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -134069,6 +134485,14 @@
         },
         "jointDLT_1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -134553,6 +134977,14 @@
         },
         "jointULT": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -135037,6 +135469,14 @@
         },
         "jointDLT_3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -135521,6 +135961,14 @@
         },
         "jointBUT_2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 1.4433827163665751,

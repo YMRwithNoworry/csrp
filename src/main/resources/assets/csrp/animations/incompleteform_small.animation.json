@@ -38899,6 +38899,14 @@
       "bones": {
         "jointFRLY": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -39383,6 +39391,14 @@
         },
         "jointFLLX": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.7213373927223216,
@@ -39867,6 +39883,14 @@
         },
         "jointBRLY": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -40351,6 +40375,14 @@
         },
         "jointBLLY": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -40835,6 +40867,14 @@
         },
         "jointDM": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.7213373927223216,
@@ -41319,6 +41359,14 @@
         },
         "jointN": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.0763853188581559,
@@ -41803,6 +41851,14 @@
         },
         "jointFRLX": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.24445474933523711,
@@ -42287,6 +42343,14 @@
         },
         "jointUM": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.24445474933523711,
@@ -42771,6 +42835,14 @@
         },
         "jointRAX": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -43255,6 +43327,14 @@
         },
         "jointBLL1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -43739,6 +43819,14 @@
         },
         "jointRA1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -44223,6 +44311,14 @@
         },
         "jointFLL1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -44707,6 +44803,14 @@
         },
         "jointBLLX": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.3816889841688703,
@@ -45191,6 +45295,14 @@
         },
         "jointH": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.3816889841688703,
@@ -45675,6 +45787,14 @@
         },
         "jointLAX": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -46159,6 +46279,14 @@
         },
         "jointBRLX": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.1909770898917955,
@@ -46643,6 +46771,14 @@
         },
         "jointFRL1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -47127,6 +47263,14 @@
         },
         "jointBRL1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -47611,6 +47755,14 @@
         },
         "jointLA1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -48095,6 +48247,14 @@
         },
         "jointFLLY": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -48585,6 +48745,14 @@
       "bones": {
         "jointFRLY": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -49069,6 +49237,14 @@
         },
         "jointFLLX": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.7213373927223216,
@@ -49553,6 +49729,14 @@
         },
         "jointBRLY": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -50037,6 +50221,14 @@
         },
         "jointBLLY": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -50521,6 +50713,14 @@
         },
         "jointDM": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.7213373927223216,
@@ -51005,6 +51205,14 @@
         },
         "jointN": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.0763853188581559,
@@ -51489,6 +51697,14 @@
         },
         "jointFRLX": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.24445474933523711,
@@ -51973,6 +52189,14 @@
         },
         "jointUM": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.24445474933523711,
@@ -52457,6 +52681,14 @@
         },
         "jointRAX": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -52941,6 +53173,14 @@
         },
         "jointBLL1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -53425,6 +53665,14 @@
         },
         "jointRA1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -53909,6 +54157,14 @@
         },
         "jointFLL1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -54393,6 +54649,14 @@
         },
         "jointBLLX": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.3816889841688703,
@@ -54877,6 +55141,14 @@
         },
         "jointH": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.3816889841688703,
@@ -55361,6 +55633,14 @@
         },
         "jointLAX": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -55845,6 +56125,14 @@
         },
         "jointBRLX": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.1909770898917955,
@@ -56329,6 +56617,14 @@
         },
         "jointFRL1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -56813,6 +57109,14 @@
         },
         "jointBRL1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -57297,6 +57601,14 @@
         },
         "jointLA1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -57781,6 +58093,14 @@
         },
         "jointFLLY": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -97163,6 +97483,14 @@
       "bones": {
         "jointFRLY": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -97647,6 +97975,14 @@
         },
         "jointFLLX": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.7213373927223216,
@@ -98131,6 +98467,14 @@
         },
         "jointBRLY": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -98615,6 +98959,14 @@
         },
         "jointBLLY": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -99099,6 +99451,14 @@
         },
         "jointDM": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.7213373927223216,
@@ -99583,6 +99943,14 @@
         },
         "jointN": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.0763853188581559,
@@ -100067,6 +100435,14 @@
         },
         "jointFRLX": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.24445474933523711,
@@ -100551,6 +100927,14 @@
         },
         "jointUM": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.24445474933523711,
@@ -101035,6 +101419,14 @@
         },
         "jointRAX": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -101519,6 +101911,14 @@
         },
         "jointBLL1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -102003,6 +102403,14 @@
         },
         "jointRA1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -102487,6 +102895,14 @@
         },
         "jointFLL1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -102971,6 +103387,14 @@
         },
         "jointBLLX": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.3816889841688703,
@@ -103455,6 +103879,14 @@
         },
         "jointH": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.3816889841688703,
@@ -103939,6 +104371,14 @@
         },
         "jointLAX": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -104423,6 +104863,14 @@
         },
         "jointBRLX": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.1909770898917955,
@@ -104907,6 +105355,14 @@
         },
         "jointFRL1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -105391,6 +105847,14 @@
         },
         "jointBRL1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -105875,6 +106339,14 @@
         },
         "jointLA1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -106359,6 +106831,14 @@
         },
         "jointFLLY": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,

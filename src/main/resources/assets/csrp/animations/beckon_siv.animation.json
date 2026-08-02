@@ -110827,6 +110827,14 @@
       "bones": {
         "taclejointBL4": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -111311,6 +111319,14 @@
         },
         "taclejointBL2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.10427772343970815,
@@ -111795,6 +111811,14 @@
         },
         "taclejointFL5": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.04857774392128331,
@@ -112279,6 +112303,14 @@
         },
         "taclejointFR6": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -112763,6 +112795,14 @@
         },
         "jointDFL2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -113247,6 +113287,14 @@
         },
         "taclejointFL7": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.04857774392128331,
@@ -113731,6 +113779,14 @@
         },
         "jointDBL1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.16612699234167105,
@@ -114215,6 +114271,14 @@
         },
         "jointDBR2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -114699,6 +114763,14 @@
         },
         "taclejointBL6": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.10427772343970815,
@@ -115183,6 +115255,14 @@
         },
         "taclejointFL2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.10427772343970815,
@@ -115667,6 +115747,14 @@
         },
         "taclejointBR8": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -116151,6 +116239,14 @@
         },
         "jointDFR1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.20754613761750854,
@@ -116635,6 +116731,14 @@
         },
         "taclejointBL7": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -117119,6 +117223,14 @@
         },
         "jointMF1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.2234121621146611,
@@ -117603,6 +117715,14 @@
         },
         "taclejointFR8": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -118087,6 +118207,14 @@
         },
         "jointML3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -118571,6 +118699,14 @@
         },
         "taclejointBL8": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -119055,6 +119191,14 @@
         },
         "taclejointFL3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.04857774392128331,
@@ -119539,6 +119683,14 @@
         },
         "body3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.0032574935065860515,
@@ -120023,6 +120175,14 @@
         },
         "taclejointFL4": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -120507,6 +120667,14 @@
         },
         "taclejointFR2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -120991,6 +121159,14 @@
         },
         "jointMB1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.27449650459089836,
@@ -121475,6 +121651,14 @@
         },
         "jointML1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.27449650459089836,
@@ -121959,6 +122143,14 @@
         },
         "body5": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.0032574935065860515,
@@ -122443,6 +122635,14 @@
         },
         "taclejointFR7": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.04857774392128331,
@@ -122927,6 +123127,14 @@
         },
         "jointDFL3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -123411,6 +123619,14 @@
         },
         "jointMR1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.27449650459089836,
@@ -123895,6 +124111,14 @@
         },
         "taclejointBR2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.04857774392128331,
@@ -124379,6 +124603,14 @@
         },
         "taclejointBL3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -124863,6 +125095,14 @@
         },
         "taclejointBR1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -125347,6 +125587,14 @@
         },
         "body2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.0032574935065860515,
@@ -125831,6 +126079,14 @@
         },
         "taclejointFL6": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.10427772343970815,
@@ -126315,6 +126571,14 @@
         },
         "jointDFR2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -126799,6 +127063,14 @@
         },
         "jointDFR3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -127283,6 +127555,14 @@
         },
         "taclejointBR3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -127767,6 +128047,14 @@
         },
         "jointDBL3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -128251,6 +128539,14 @@
         },
         "jointDBR3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -128735,6 +129031,14 @@
         },
         "jointDBR1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.16612699234167105,
@@ -129219,6 +129523,14 @@
         },
         "taclejointFL1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.04857774392128331,
@@ -129703,6 +130015,14 @@
         },
         "taclejointFR4": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -130187,6 +130507,14 @@
         },
         "body1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.0032574935065860515,
@@ -130671,6 +130999,14 @@
         },
         "jointDBL2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -131155,6 +131491,14 @@
         },
         "taclejointFR5": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.10427772343970815,
@@ -131639,6 +131983,14 @@
         },
         "taclejointBR7": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -132123,6 +132475,14 @@
         },
         "jointMB3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -132607,6 +132967,14 @@
         },
         "taclejointFR3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.04857774392128331,
@@ -133091,6 +133459,14 @@
         },
         "taclejointBR4": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -133575,6 +133951,14 @@
         },
         "taclejointBL5": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -134059,6 +134443,14 @@
         },
         "jointMR3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -134543,6 +134935,14 @@
         },
         "jointMF3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -135027,6 +135427,14 @@
         },
         "taclejointBR5": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -135511,6 +135919,14 @@
         },
         "taclejointFL8": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -135995,6 +136411,14 @@
         },
         "taclejointBL1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -136479,6 +136903,14 @@
         },
         "taclejointBR6": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.04857774392128331,
@@ -136963,6 +137395,14 @@
         },
         "taclejointFR1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.10427772343970815,
@@ -137447,6 +137887,14 @@
         },
         "jointDFL1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.2925002347781046,
@@ -137931,6 +138379,14 @@
         },
         "body4": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.0032574935065860515,
@@ -138421,6 +138877,14 @@
       "bones": {
         "taclejointBL4": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -138905,6 +139369,14 @@
         },
         "taclejointBL2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.10427772343970815,
@@ -139389,6 +139861,14 @@
         },
         "taclejointFL5": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.04857774392128331,
@@ -139873,6 +140353,14 @@
         },
         "taclejointFR6": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -140357,6 +140845,14 @@
         },
         "jointDFL2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -140841,6 +141337,14 @@
         },
         "taclejointFL7": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.04857774392128331,
@@ -141325,6 +141829,14 @@
         },
         "jointDBL1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.16612699234167105,
@@ -141809,6 +142321,14 @@
         },
         "jointDBR2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -142293,6 +142813,14 @@
         },
         "taclejointBL6": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.10427772343970815,
@@ -142777,6 +143305,14 @@
         },
         "taclejointFL2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.10427772343970815,
@@ -143261,6 +143797,14 @@
         },
         "taclejointBR8": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -143745,6 +144289,14 @@
         },
         "jointDFR1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.20754613761750854,
@@ -144229,6 +144781,14 @@
         },
         "taclejointBL7": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -144713,6 +145273,14 @@
         },
         "jointMF1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.2234121621146611,
@@ -145197,6 +145765,14 @@
         },
         "taclejointFR8": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -145681,6 +146257,14 @@
         },
         "jointML3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -146165,6 +146749,14 @@
         },
         "taclejointBL8": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -146649,6 +147241,14 @@
         },
         "taclejointFL3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.04857774392128331,
@@ -147133,6 +147733,14 @@
         },
         "body3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.0032574935065860515,
@@ -147617,6 +148225,14 @@
         },
         "taclejointFL4": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -148101,6 +148717,14 @@
         },
         "taclejointFR2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -148585,6 +149209,14 @@
         },
         "jointMB1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.27449650459089836,
@@ -149069,6 +149701,14 @@
         },
         "jointML1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.27449650459089836,
@@ -149553,6 +150193,14 @@
         },
         "body5": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.0032574935065860515,
@@ -150037,6 +150685,14 @@
         },
         "taclejointFR7": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.04857774392128331,
@@ -150521,6 +151177,14 @@
         },
         "jointDFL3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -151005,6 +151669,14 @@
         },
         "jointMR1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.27449650459089836,
@@ -151489,6 +152161,14 @@
         },
         "taclejointBR2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.04857774392128331,
@@ -151973,6 +152653,14 @@
         },
         "taclejointBL3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -152457,6 +153145,14 @@
         },
         "taclejointBR1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -152941,6 +153637,14 @@
         },
         "body2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.0032574935065860515,
@@ -153425,6 +154129,14 @@
         },
         "taclejointFL6": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.10427772343970815,
@@ -153909,6 +154621,14 @@
         },
         "jointDFR2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -154393,6 +155113,14 @@
         },
         "jointDFR3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -154877,6 +155605,14 @@
         },
         "taclejointBR3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -155361,6 +156097,14 @@
         },
         "jointDBL3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -155845,6 +156589,14 @@
         },
         "jointDBR3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -156329,6 +157081,14 @@
         },
         "jointDBR1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.16612699234167105,
@@ -156813,6 +157573,14 @@
         },
         "taclejointFL1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.04857774392128331,
@@ -157297,6 +158065,14 @@
         },
         "taclejointFR4": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -157781,6 +158557,14 @@
         },
         "body1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.0032574935065860515,
@@ -158265,6 +159049,14 @@
         },
         "jointDBL2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -158749,6 +159541,14 @@
         },
         "taclejointFR5": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.10427772343970815,
@@ -159233,6 +160033,14 @@
         },
         "taclejointBR7": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -159717,6 +160525,14 @@
         },
         "jointMB3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -160201,6 +161017,14 @@
         },
         "taclejointFR3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.04857774392128331,
@@ -160685,6 +161509,14 @@
         },
         "taclejointBR4": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -161169,6 +162001,14 @@
         },
         "taclejointBL5": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -161653,6 +162493,14 @@
         },
         "jointMR3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -162137,6 +162985,14 @@
         },
         "jointMF3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -162621,6 +163477,14 @@
         },
         "taclejointBR5": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -163105,6 +163969,14 @@
         },
         "taclejointFL8": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -163589,6 +164461,14 @@
         },
         "taclejointBL1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -164073,6 +164953,14 @@
         },
         "taclejointBR6": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.04857774392128331,
@@ -164557,6 +165445,14 @@
         },
         "taclejointFR1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.10427772343970815,
@@ -165041,6 +165937,14 @@
         },
         "jointDFL1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.2925002347781046,
@@ -165525,6 +166429,14 @@
         },
         "body4": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.0032574935065860515,
@@ -166015,6 +166927,14 @@
       "bones": {
         "taclejointBL4": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -166499,6 +167419,14 @@
         },
         "taclejointBL2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.10427772343970815,
@@ -166983,6 +167911,14 @@
         },
         "taclejointFL5": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.04857774392128331,
@@ -167467,6 +168403,14 @@
         },
         "taclejointFR6": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -167951,6 +168895,14 @@
         },
         "jointDFL2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -168435,6 +169387,14 @@
         },
         "taclejointFL7": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.04857774392128331,
@@ -168919,6 +169879,14 @@
         },
         "jointDBL1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.16612699234167105,
@@ -169403,6 +170371,14 @@
         },
         "jointDBR2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -169887,6 +170863,14 @@
         },
         "taclejointBL6": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.10427772343970815,
@@ -170371,6 +171355,14 @@
         },
         "taclejointFL2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.10427772343970815,
@@ -170855,6 +171847,14 @@
         },
         "taclejointBR8": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -171339,6 +172339,14 @@
         },
         "jointDFR1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.20754613761750854,
@@ -171823,6 +172831,14 @@
         },
         "taclejointBL7": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -172307,6 +173323,14 @@
         },
         "jointMF1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.2234121621146611,
@@ -172791,6 +173815,14 @@
         },
         "taclejointFR8": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -173275,6 +174307,14 @@
         },
         "jointML3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -173759,6 +174799,14 @@
         },
         "taclejointBL8": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -174243,6 +175291,14 @@
         },
         "taclejointFL3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.04857774392128331,
@@ -174727,6 +175783,14 @@
         },
         "body3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.0032574935065860515,
@@ -175211,6 +176275,14 @@
         },
         "taclejointFL4": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -175695,6 +176767,14 @@
         },
         "taclejointFR2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -176179,6 +177259,14 @@
         },
         "jointMB1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.27449650459089836,
@@ -176663,6 +177751,14 @@
         },
         "jointML1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.27449650459089836,
@@ -177147,6 +178243,14 @@
         },
         "body5": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.0032574935065860515,
@@ -177631,6 +178735,14 @@
         },
         "taclejointFR7": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.04857774392128331,
@@ -178115,6 +179227,14 @@
         },
         "jointDFL3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -178599,6 +179719,14 @@
         },
         "jointMR1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.27449650459089836,
@@ -179083,6 +180211,14 @@
         },
         "taclejointBR2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.04857774392128331,
@@ -179567,6 +180703,14 @@
         },
         "taclejointBL3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -180051,6 +181195,14 @@
         },
         "taclejointBR1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -180535,6 +181687,14 @@
         },
         "body2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.0032574935065860515,
@@ -181019,6 +182179,14 @@
         },
         "taclejointFL6": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.10427772343970815,
@@ -181503,6 +182671,14 @@
         },
         "jointDFR2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -181987,6 +183163,14 @@
         },
         "jointDFR3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -182471,6 +183655,14 @@
         },
         "taclejointBR3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -182955,6 +184147,14 @@
         },
         "jointDBL3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -183439,6 +184639,14 @@
         },
         "jointDBR3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -183923,6 +185131,14 @@
         },
         "jointDBR1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.16612699234167105,
@@ -184407,6 +185623,14 @@
         },
         "taclejointFL1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.04857774392128331,
@@ -184891,6 +186115,14 @@
         },
         "taclejointFR4": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -185375,6 +186607,14 @@
         },
         "body1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.0032574935065860515,
@@ -185859,6 +187099,14 @@
         },
         "jointDBL2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -186343,6 +187591,14 @@
         },
         "taclejointFR5": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.10427772343970815,
@@ -186827,6 +188083,14 @@
         },
         "taclejointBR7": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -187311,6 +188575,14 @@
         },
         "jointMB3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -187795,6 +189067,14 @@
         },
         "taclejointFR3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.04857774392128331,
@@ -188279,6 +189559,14 @@
         },
         "taclejointBR4": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -188763,6 +190051,14 @@
         },
         "taclejointBL5": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -189247,6 +190543,14 @@
         },
         "jointMR3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -189731,6 +191035,14 @@
         },
         "jointMF3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -190215,6 +191527,14 @@
         },
         "taclejointBR5": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -190699,6 +192019,14 @@
         },
         "taclejointFL8": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -191183,6 +192511,14 @@
         },
         "taclejointBL1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -191667,6 +193003,14 @@
         },
         "taclejointBR6": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.04857774392128331,
@@ -192151,6 +193495,14 @@
         },
         "taclejointFR1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.10427772343970815,
@@ -192635,6 +193987,14 @@
         },
         "jointDFL1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.2925002347781046,
@@ -193119,6 +194479,14 @@
         },
         "body4": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.0032574935065860515,
@@ -304429,6 +305797,14 @@
       "bones": {
         "taclejointBL4": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -304913,6 +306289,14 @@
         },
         "taclejointBL2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.10427772343970815,
@@ -305397,6 +306781,14 @@
         },
         "taclejointFL5": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.04857774392128331,
@@ -305881,6 +307273,14 @@
         },
         "taclejointFR6": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -306365,6 +307765,14 @@
         },
         "jointDFL2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -306849,6 +308257,14 @@
         },
         "taclejointFL7": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.04857774392128331,
@@ -307333,6 +308749,14 @@
         },
         "jointDBL1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.16612699234167105,
@@ -307817,6 +309241,14 @@
         },
         "jointDBR2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -308301,6 +309733,14 @@
         },
         "taclejointBL6": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.10427772343970815,
@@ -308785,6 +310225,14 @@
         },
         "taclejointFL2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.10427772343970815,
@@ -309269,6 +310717,14 @@
         },
         "taclejointBR8": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -309753,6 +311209,14 @@
         },
         "jointDFR1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.20754613761750854,
@@ -310237,6 +311701,14 @@
         },
         "taclejointBL7": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -310721,6 +312193,14 @@
         },
         "jointMF1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.2234121621146611,
@@ -311205,6 +312685,14 @@
         },
         "taclejointFR8": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -311689,6 +313177,14 @@
         },
         "jointML3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -312173,6 +313669,14 @@
         },
         "taclejointBL8": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -312657,6 +314161,14 @@
         },
         "taclejointFL3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.04857774392128331,
@@ -313141,6 +314653,14 @@
         },
         "body3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.0032574935065860515,
@@ -313625,6 +315145,14 @@
         },
         "taclejointFL4": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -314109,6 +315637,14 @@
         },
         "taclejointFR2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -314593,6 +316129,14 @@
         },
         "jointMB1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.27449650459089836,
@@ -315077,6 +316621,14 @@
         },
         "jointML1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.27449650459089836,
@@ -315561,6 +317113,14 @@
         },
         "body5": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.0032574935065860515,
@@ -316045,6 +317605,14 @@
         },
         "taclejointFR7": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.04857774392128331,
@@ -316529,6 +318097,14 @@
         },
         "jointDFL3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -317013,6 +318589,14 @@
         },
         "jointMR1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.27449650459089836,
@@ -317497,6 +319081,14 @@
         },
         "taclejointBR2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.04857774392128331,
@@ -317981,6 +319573,14 @@
         },
         "taclejointBL3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -318465,6 +320065,14 @@
         },
         "taclejointBR1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -318949,6 +320557,14 @@
         },
         "body2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.0032574935065860515,
@@ -319433,6 +321049,14 @@
         },
         "taclejointFL6": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.10427772343970815,
@@ -319917,6 +321541,14 @@
         },
         "jointDFR2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -320401,6 +322033,14 @@
         },
         "jointDFR3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -320885,6 +322525,14 @@
         },
         "taclejointBR3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -321369,6 +323017,14 @@
         },
         "jointDBL3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -321853,6 +323509,14 @@
         },
         "jointDBR3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -322337,6 +324001,14 @@
         },
         "jointDBR1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.16612699234167105,
@@ -322821,6 +324493,14 @@
         },
         "taclejointFL1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.04857774392128331,
@@ -323305,6 +324985,14 @@
         },
         "taclejointFR4": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -323789,6 +325477,14 @@
         },
         "body1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.0032574935065860515,
@@ -324273,6 +325969,14 @@
         },
         "jointDBL2": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -324757,6 +326461,14 @@
         },
         "taclejointFR5": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.10427772343970815,
@@ -325241,6 +326953,14 @@
         },
         "taclejointBR7": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -325725,6 +327445,14 @@
         },
         "jointMB3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -326209,6 +327937,14 @@
         },
         "taclejointFR3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.04857774392128331,
@@ -326693,6 +328429,14 @@
         },
         "taclejointBR4": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -327177,6 +328921,14 @@
         },
         "taclejointBL5": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -327661,6 +329413,14 @@
         },
         "jointMR3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -328145,6 +329905,14 @@
         },
         "jointMF3": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0,
@@ -328629,6 +330397,14 @@
         },
         "taclejointBR5": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.13683495545168978,
@@ -329113,6 +330889,14 @@
         },
         "taclejointFL8": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -329597,6 +331381,14 @@
         },
         "taclejointBL1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.04485018354737321,
@@ -330081,6 +331873,14 @@
         },
         "taclejointBR6": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.04857774392128331,
@@ -330565,6 +332365,14 @@
         },
         "taclejointFR1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.10427772343970815,
@@ -331049,6 +332857,14 @@
         },
         "jointDFL1": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 -0.2925002347781046,
@@ -331533,6 +333349,14 @@
         },
         "body4": {
           "rotation": {
+            "0": {
+              "vector": [
+                0,
+                0,
+                0
+              ],
+              "easing": "linear"
+            },
             "0.016667": {
               "vector": [
                 0.0032574935065860515,
