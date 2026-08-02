@@ -405,5 +405,14 @@
   },
   "evolution.phase10": {
     "sounds": [{"name": "csrp:misc/evolution/phase10", "stream": true}]
+  },
+  "celestial.dark_days_start": {
+    "sounds": ["csrp:celestial/dark_days_start"]
+  },
+  "celestial.dark_days_rumble": {
+    "sounds": [{"name": "csrp:celestial/dark_days_rumble", "stream": true}]
+  },
+  "celestial.dark_days_ending": {
+    "sounds": ["csrp:celestial/dark_days_ending"]
   }
 }

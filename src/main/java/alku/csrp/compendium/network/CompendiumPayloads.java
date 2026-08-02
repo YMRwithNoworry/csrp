@@ -1,6 +1,7 @@
 package alku.csrp.compendium.network;
 
 import alku.csrp.Csrp;
+import alku.csrp.celestial.network.CelestialStatePayload;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -19,5 +20,7 @@ public final class CompendiumPayloads {
                 CompendiumOpenPayload::handle);
         registrar.playToClient(CompendiumUnlockPayload.TYPE, CompendiumUnlockPayload.STREAM_CODEC,
                 CompendiumUnlockPayload::handle);
+        registrar.playToClient(CelestialStatePayload.TYPE, CelestialStatePayload.STREAM_CODEC,
+                CelestialStatePayload::handle);
     }
 }

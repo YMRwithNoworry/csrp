@@ -498,5 +498,11 @@
   "command.csrp.compendium.stats_cleared": "已清除 %s 的图鉴统计",
   "command.csrp.compendium.restored": "已恢复图鉴解锁前快照",
   "command.csrp.compendium.no_snapshot": "没有可用的图鉴快照",
-  "command.csrp.compendium.category_cleared": "已清除 %s 的图鉴分类进度"
+  "command.csrp.compendium.category_cleared": "已清除 %s 的图鉴分类进度",
+  "command.csrp.celestial.list": "自然天体：%s；强制天体：%s",
+  "command.csrp.celestial.cleared": "已清除所有强制天体",
+  "command.csrp.celestial.all": "已强制显示所有普通天体",
+  "command.csrp.celestial.enabled": "已启用天体：%s",
+  "command.csrp.celestial.disabled": "已禁用天体：%s",
+  "command.csrp.celestial.dark_days_end": "黑暗时日正在结束"
 }

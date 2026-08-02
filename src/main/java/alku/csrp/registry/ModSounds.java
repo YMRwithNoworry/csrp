@@ -88,6 +88,9 @@ public final class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> EVOLUTION_PHASE_8 = register("evolution.phase8");
     public static final DeferredHolder<SoundEvent, SoundEvent> EVOLUTION_PHASE_9 = register("evolution.phase9");
     public static final DeferredHolder<SoundEvent, SoundEvent> EVOLUTION_PHASE_10 = register("evolution.phase10");
+    public static final DeferredHolder<SoundEvent, SoundEvent> DARK_DAYS_START = register("celestial.dark_days_start");
+    public static final DeferredHolder<SoundEvent, SoundEvent> DARK_DAYS_RUMBLE = register("celestial.dark_days_rumble");
+    public static final DeferredHolder<SoundEvent, SoundEvent> DARK_DAYS_ENDING = register("celestial.dark_days_ending");
 
     private ModSounds() {
     }

@@ -498,5 +498,11 @@
   "command.csrp.compendium.stats_cleared": "Cleared Compendium statistics for %s",
   "command.csrp.compendium.restored": "Restored the Compendium snapshot",
   "command.csrp.compendium.no_snapshot": "No Compendium snapshot is available",
-  "command.csrp.compendium.category_cleared": "Cleared Compendium category progress for %s"
+  "command.csrp.compendium.category_cleared": "Cleared Compendium category progress for %s",
+  "command.csrp.celestial.list": "Natural: %s; forced: %s",
+  "command.csrp.celestial.cleared": "Cleared all forced celestial events",
+  "command.csrp.celestial.all": "Forced all regular celestial events",
+  "command.csrp.celestial.enabled": "Enabled celestial event: %s",
+  "command.csrp.celestial.disabled": "Disabled celestial event: %s",
+  "command.csrp.celestial.dark_days_end": "Dark Days is ending"
 }
