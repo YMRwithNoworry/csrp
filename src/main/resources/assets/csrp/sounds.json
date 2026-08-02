@@ -347,5 +347,14 @@
       "csrp:mob/step/heavy_multiple/step3",
       "csrp:mob/step/heavy_multiple/step4"
     ]
+  },
+  "mob.explotion": {
+    "category": "hostile",
+    "subtitle": "subtitles.entity.generic.explode",
+    "sounds": ["csrp:misc/mob_explotion"]
+  },
+  "orb.s": {
+    "category": "hostile",
+    "sounds": ["csrp:misc/orb_s"]
   }
 }

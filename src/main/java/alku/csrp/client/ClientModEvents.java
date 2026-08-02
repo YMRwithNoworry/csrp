@@ -249,7 +249,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.WRAITH.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "wraith", 1.3F));
         event.registerEntityRenderer(ModEntities.SUCCOR.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "succor", 0.6F));
+                new PrimitiveParasiteRenderer<>(context, "succor", 0.4F));
         event.registerEntityRenderer(ModEntities.ANC_DREADNAUT.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "anc_dreadnaut", 1.3F));
         event.registerEntityRenderer(ModEntities.ANC_OVERLORD.get(), context ->

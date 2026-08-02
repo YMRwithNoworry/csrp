@@ -24,6 +24,7 @@ import alku.csrp.entity.DredgeEntity;
 import alku.csrp.entity.DeterrentParasiteEntity;
 import alku.csrp.entity.FeralEndermanEntity;
 import alku.csrp.entity.FeralParasiteEntity;
+import alku.csrp.entity.FlamEntity;
 import alku.csrp.entity.DraconiteEntity;
 import alku.csrp.entity.GnatEntity;
 import alku.csrp.entity.HeedEntity;
@@ -231,8 +232,7 @@ public final class CommonModEvents {
                 PreeminentParasiteEntity.Kind.BOMBER_HEAVY).build());
         event.put(ModEntities.WRAITH.get(), PreeminentParasiteEntity.createAttributes(
                 PreeminentParasiteEntity.Kind.WRAITH).build());
-        event.put(ModEntities.SUCCOR.get(), PreeminentParasiteEntity.createAttributes(
-                PreeminentParasiteEntity.Kind.SUCCOR).build());
+        event.put(ModEntities.SUCCOR.get(), FlamEntity.createAttributes().build());
         event.put(ModEntities.ANC_DREADNAUT.get(), AncientParasiteEntity.createAttributes(
                 AncientParasiteEntity.Kind.DREADNAUT).build());
         event.put(ModEntities.ANC_OVERLORD.get(), AncientParasiteEntity.createAttributes(

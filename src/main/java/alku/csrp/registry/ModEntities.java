@@ -23,6 +23,7 @@ import alku.csrp.entity.DredgeEntity;
 import alku.csrp.entity.DeterrentParasiteEntity;
 import alku.csrp.entity.FeralEndermanEntity;
 import alku.csrp.entity.FeralParasiteEntity;
+import alku.csrp.entity.FlamEntity;
 import alku.csrp.entity.DraconiteEntity;
 import alku.csrp.entity.GnatEntity;
 import alku.csrp.entity.HeedEntity;
@@ -355,9 +356,8 @@ public final class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<PreeminentParasiteEntity>> WRAITH =
             monster("wraith", (type, level) -> new PreeminentParasiteEntity(type, level,
                     PreeminentParasiteEntity.Kind.WRAITH), 4.0F, 4.0F);
-    public static final DeferredHolder<EntityType<?>, EntityType<PreeminentParasiteEntity>> SUCCOR =
-            monster("succor", (type, level) -> new PreeminentParasiteEntity(type, level,
-                    PreeminentParasiteEntity.Kind.SUCCOR), 1.2F, 1.2F);
+    public static final DeferredHolder<EntityType<?>, EntityType<FlamEntity>> SUCCOR =
+            monster("succor", FlamEntity::new, 1.2F, 1.2F);
     public static final DeferredHolder<EntityType<?>, EntityType<AncientParasiteEntity>> ANC_DREADNAUT =
             monster("anc_dreadnaut", (type, level) -> new AncientParasiteEntity(type, level,
                     AncientParasiteEntity.Kind.DREADNAUT), 4.0F, 4.0F);

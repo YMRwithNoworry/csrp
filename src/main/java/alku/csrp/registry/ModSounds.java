@@ -70,6 +70,8 @@ public final class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> CARRIER_COLONY_HURT = register("vesta.hurt");
     public static final DeferredHolder<SoundEvent, SoundEvent> CARRIER_COLONY_DEATH = register("vesta.death");
     public static final DeferredHolder<SoundEvent, SoundEvent> HEAVY_MULTIPLE_STEP = register("step.heavy_multiple");
+    public static final DeferredHolder<SoundEvent, SoundEvent> MOB_EXPLOSION = register("mob.explotion");
+    public static final DeferredHolder<SoundEvent, SoundEvent> ORB_START = register("orb.s");
 
     private ModSounds() {
     }

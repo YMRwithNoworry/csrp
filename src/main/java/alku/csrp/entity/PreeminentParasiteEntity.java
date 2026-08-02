@@ -19,7 +19,6 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
@@ -51,11 +50,10 @@ import software.bernie.geckolib.animation.RawAnimation;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 /**
- * Shared implementation for the six legacy preeminent parasites. This tier
- * uses stronger adaptation and delegates its battlefield support to Succors.
+ * Shared implementation for the legacy preeminent parasites. This tier
+ * uses stronger adaptation and delegates its battlefield support to Flams.
  */
 public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
     private static final EntityDataAccessor<Boolean> CARRIER_VARIANT =
@@ -64,12 +62,11 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
             SynchedEntityData.defineId(PreeminentParasiteEntity.class, EntityDataSerializers.BOOLEAN);
     private static final int MAX_ADAPTATION_HITS = 5;
     private static final int MAX_LEARNABLE_DAMAGE_SOURCES = 20;
-    private static final int MAX_SUMMONED_SUCCORS = 3;
-    private static final int SUCCOR_SUMMON_TIMER_MAX = 80;
-    private static final int SUCCOR_SUMMON_PHASE = 40;
-    private static final int SUCCOR_TRAVEL_TIMEOUT = 400;
-    private static final int SUCCOR_STATIONARY_TIMEOUT = 20;
-    private static final int SUCCOR_ACTIVATION_TICKS = 10;
+    private static final int MAX_SUMMONED_FLAMS = 3;
+    private static final int FLAM_SUMMON_TIMER_MAX = 80;
+    private static final int FLAM_SUMMON_PHASE = 40;
+    private static final int FLAM_SUMMON_SUCCESS_REWIND = 100;
+    private static final byte BIOMASS_EVENT = 8;
     private static final int STEALTH_CHECK_INTERVAL = 20;
     private static final int STEALTH_CHECK_OFFSET = 10;
     private static final int STEALTH_CHECKS_REQUIRED = 3;
@@ -104,19 +101,12 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
     private final HaunterBodyPart haunterHeadPart;
     private final HaunterBodyPart haunterMiddlePart;
     private final PartEntity<?>[] parts;
-    private UUID summonerId;
     private int blockBreakCooldown;
     private int haunterBlockBreakCooldown;
     private int supportCooldown;
     private int stealthChecks;
     private int attackAnimationTicks;
     private int wraithProjectileCount;
-    private int succorActionType;
-    private int succorTravelTicks;
-    private int succorStationaryTicks;
-    private int succorActivationTicks;
-    private BlockPos succorTargetPos;
-    private boolean succorActionConsumed;
     private boolean stealthActive;
     private boolean charging;
     private boolean haunterMeleeMode;
@@ -198,7 +188,6 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
                 goalSelector.addGoal(5, new LegacyProjectileAttackGoal(20, 10, 4));
                 goalSelector.addGoal(6, new PreeminentRandomFlightGoal());
             }
-            case SUCCOR -> goalSelector.addGoal(1, new SuccorActionGoal());
         }
     }
 
@@ -221,11 +210,9 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         if (blockBreakCooldown > 0) {
             blockBreakCooldown--;
         }
-        if (activeKind != Kind.SUCCOR && activeKind != Kind.HAUNTER) {
-            supportCooldown++;
-            if (supportCooldown > SUCCOR_SUMMON_TIMER_MAX) {
-                supportCooldown = 0;
-            }
+        supportCooldown++;
+        if (supportCooldown > FLAM_SUMMON_TIMER_MAX) {
+            supportCooldown = 0;
         }
         if (attackAnimationTicks > 0) {
             attackAnimationTicks--;
@@ -257,9 +244,8 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         if (activeKind != Kind.HAUNTER) {
             breakBlocksTowardsTarget(target, activeKind);
         }
-        if (activeKind != Kind.SUCCOR && activeKind != Kind.HAUNTER
-                && supportCooldown == SUCCOR_SUMMON_PHASE) {
-            trySummonSuccor(target);
+        if (supportCooldown == FLAM_SUMMON_PHASE && trySummonFlam(target)) {
+            supportCooldown -= FLAM_SUMMON_SUCCESS_REWIND;
         }
         if ((activeKind == Kind.BOGLE || activeKind == Kind.WRAITH)
                 && Math.floorMod(tickCount, STEALTH_CHECK_INTERVAL) == STEALTH_CHECK_OFFSET) {
@@ -471,17 +457,6 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         tag.putBoolean("preeminent_carrier_variant", isCarrierVariant());
         tag.putBoolean("preeminent_haunter_variant", isHaunterVariant());
         tag.putInt("preeminent_support_cooldown", supportCooldown);
-        tag.putBoolean("preeminent_succor_action", succorActionConsumed);
-        tag.putInt("preeminent_succor_action_type", succorActionType);
-        tag.putInt("preeminent_succor_travel", succorTravelTicks);
-        tag.putInt("preeminent_succor_stationary", succorStationaryTicks);
-        tag.putInt("preeminent_succor_activation", succorActivationTicks);
-        if (succorTargetPos != null) {
-            tag.putLong("preeminent_succor_target", succorTargetPos.asLong());
-        }
-        if (summonerId != null) {
-            tag.putUUID("preeminent_summoner", summonerId);
-        }
     }
 
     @Override
@@ -492,16 +467,8 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         } else if (activeKind() == Kind.HAUNTER) {
             setHaunterVariant(tag.getBoolean("preeminent_haunter_variant"));
         }
-        supportCooldown = Math.floorMod(tag.getInt("preeminent_support_cooldown"),
-                SUCCOR_SUMMON_TIMER_MAX + 1);
-        succorActionConsumed = tag.getBoolean("preeminent_succor_action");
-        succorActionType = tag.getInt("preeminent_succor_action_type");
-        succorTravelTicks = tag.getInt("preeminent_succor_travel");
-        succorStationaryTicks = tag.getInt("preeminent_succor_stationary");
-        succorActivationTicks = tag.getInt("preeminent_succor_activation");
-        succorTargetPos = tag.contains("preeminent_succor_target")
-                ? BlockPos.of(tag.getLong("preeminent_succor_target")) : null;
-        summonerId = tag.hasUUID("preeminent_summoner") ? tag.getUUID("preeminent_summoner") : null;
+        supportCooldown = Mth.clamp(tag.getInt("preeminent_support_cooldown"),
+                FLAM_SUMMON_PHASE - FLAM_SUMMON_SUCCESS_REWIND, FLAM_SUMMON_TIMER_MAX);
     }
 
     @Override
@@ -511,10 +478,6 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
 
     public Kind getKind() {
         return activeKind();
-    }
-
-    public void setSummoner(PreeminentParasiteEntity summoner) {
-        summonerId = summoner == null ? null : summoner.getUUID();
     }
 
     @Override
@@ -576,10 +539,6 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
             ally.addEffect(new MobEffectInstance(ModMobEffects.LINK, 6666, 0, false, false), this);
             ally.addEffect(new MobEffectInstance(ModMobEffects.FOSTER, 6666, 0, false, false), this);
         }
-    }
-
-    public boolean isSummonedBy(PreeminentParasiteEntity summoner) {
-        return summoner != null && summonerId != null && summonerId.equals(summoner.getUUID());
     }
 
     private PlayState movementAnimation(AnimationState<PreeminentParasiteEntity> state) {
@@ -692,50 +651,47 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         }
     }
 
-    private void trySummonSuccor(LivingEntity target) {
+    private boolean trySummonFlam(LivingEntity target) {
         if (!(level() instanceof ServerLevel serverLevel)) {
-            return;
+            return false;
         }
-        int existingSuccors = 0;
+        int existingFlams = 0;
         boolean teleportActionReserved = false;
         for (Entity entity : serverLevel.getAllEntities()) {
-            if (!(entity instanceof PreeminentParasiteEntity succor) || succor.getKind() != Kind.SUCCOR
-                    || !succor.isAlive() || !succor.isSummonedBy(this)) {
+            if (!(entity instanceof FlamEntity flam) || !flam.isAlive() || !flam.isSummonedBy(this)) {
                 continue;
             }
-            existingSuccors++;
-            teleportActionReserved |= succor.succorActionType == 3;
+            existingFlams++;
+            teleportActionReserved |= flam.reservesTeleportAction();
         }
-        if (existingSuccors >= MAX_SUMMONED_SUCCORS) {
-            return;
+        if (existingFlams >= MAX_SUMMONED_FLAMS) {
+            return false;
         }
-        PreeminentParasiteEntity succor = ModEntities.SUCCOR.get().create(serverLevel);
-        if (succor == null) {
-            return;
+        FlamEntity flam = ModEntities.SUCCOR.get().create(serverLevel);
+        if (flam == null) {
+            return false;
         }
-        Vec3 horizontalLook = getViewVector(1.0F).multiply(1.0D, 0.0D, 1.0D);
-        if (horizontalLook.lengthSqr() > 0.001D) {
-            horizontalLook = horizontalLook.normalize();
-        }
-        Vec3 spawn = position().subtract(horizontalLook.scale(4.0D)).add(0.0D, getEyeHeight(), 0.0D);
-        succor.moveTo(spawn.x, spawn.y, spawn.z, getYRot(), 0.0F);
-        succor.setSummoner(this);
-        succor.succorTargetPos = target.blockPosition();
+        float heading = getYRot() * Mth.DEG_TO_RAD - yBodyRot * 0.01F;
+        float spawnDistance = 4.0F * Mth.cos((float) Math.PI / 18.0F);
+        Vec3 spawn = position().add(-Mth.sin(heading) * spawnDistance, getEyeHeight(),
+                Mth.cos(heading) * spawnDistance);
+        flam.moveTo(spawn.x, spawn.y, spawn.z, getYRot(), 0.0F);
         int actionType = random.nextInt(3) + 1;
-        if (actionType == 3 && (activeKind() == Kind.CARRIER_COLONY || distanceToSqr(target) < 100.0D
+        if (actionType == FlamEntity.ACTION_TELEPORT && (distanceToSqr(target) < 100.0D
                 || !target.onGround() || teleportActionReserved)) {
             actionType = random.nextInt(2) + 1;
         }
-        succor.succorActionType = actionType;
-        succor.setTarget(target);
-        var attackDamage = succor.getAttribute(Attributes.ATTACK_DAMAGE);
-        if (attackDamage != null) {
-            attackDamage.setBaseValue(getAttributeValue(Attributes.ATTACK_DAMAGE) * 2.0D);
+        flam.configure(this, target, actionType);
+        if (hasEffect(MobEffects.INVISIBILITY)) {
+            flam.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 60, 0, false, false), this);
         }
-        if (isInvisible()) {
-            succor.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 60, 0, false, false), this);
+        if (!serverLevel.addFreshEntity(flam)) {
+            return false;
         }
-        serverLevel.addFreshEntity(succor);
+        for (int index = 0; index < 4; index++) {
+            serverLevel.broadcastEntityEvent(flam, BIOMASS_EVENT);
+        }
+        return true;
     }
 
     private void fireProjectile(LivingEntity target, ParasiteProjectileEntity.Mode mode, double speed,
@@ -790,53 +746,6 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         serverLevel.addFreshEntity(payload);
     }
 
-    private PreeminentParasiteEntity resolveSummoner() {
-        if (summonerId == null || !(level() instanceof ServerLevel serverLevel)) {
-            return null;
-        }
-        Entity entity = serverLevel.getEntity(summonerId);
-        return entity instanceof PreeminentParasiteEntity preeminent && preeminent.isAlive() ? preeminent : null;
-    }
-
-    private void completeSuccorAction() {
-        if (succorActionConsumed || level().isClientSide) {
-            return;
-        }
-        succorActionConsumed = true;
-        PreeminentParasiteEntity summoner = resolveSummoner();
-        int action = succorActionType;
-        if (action == 3) {
-            boolean reachedTarget = succorTargetPos != null
-                    && distanceToSqr(Vec3.atCenterOf(succorTargetPos)) < 16.0D;
-            if (reachedTarget && summoner != null) {
-                summoner.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
-                summoner.setDeltaMovement(Vec3.ZERO);
-                discard();
-                return;
-            }
-            action = random.nextInt(2) + 1;
-        }
-        if (action == 2 && summoner != null) {
-            ScaryOrbEntity orb = new ScaryOrbEntity(ModEntities.SCARY_ORB.get(), level(), summoner);
-            orb.setAnchor(position().add(0.0D, -3.0D, 0.0D));
-            level().addFreshEntity(orb);
-            discard();
-            return;
-        }
-        hurtNearby(this, 4.0D, (float) getAttributeValue(Attributes.ATTACK_DAMAGE), false);
-        AreaEffectCloud cloud = new AreaEffectCloud(level(), getX(), getY(), getZ());
-        cloud.setOwner(this);
-        cloud.setRadius(4.2F);
-        cloud.setDuration(300);
-        cloud.setWaitTime(10);
-        cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
-        cloud.addEffect(new MobEffectInstance(MobEffects.POISON, 300, 2, false, true));
-        cloud.addEffect(new MobEffectInstance(MobEffects.WITHER, 300, 2, false, true));
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, 2, false, false));
-        level().addFreshEntity(cloud);
-        discard();
-    }
-
     private Kind activeKind() {
         if (kind != null) {
             return kind;
@@ -846,7 +755,6 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         if (type == ModEntities.HAUNTER.get()) return Kind.HAUNTER;
         if (type == ModEntities.BOMBER_HEAVY.get()) return Kind.BOMBER_HEAVY;
         if (type == ModEntities.WRAITH.get()) return Kind.WRAITH;
-        if (type == ModEntities.SUCCOR.get()) return Kind.SUCCOR;
         return Kind.BOGLE;
     }
 
@@ -1836,63 +1744,12 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         }
     }
 
-    private final class SuccorActionGoal extends Goal {
-        private SuccorActionGoal() {
-            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
-        }
-
-        @Override
-        public boolean canUse() {
-            return !succorActionConsumed && succorTargetPos != null;
-        }
-
-        @Override
-        public boolean canContinueToUse() {
-            return canUse();
-        }
-
-        @Override
-        public void tick() {
-            LivingEntity target = getTarget();
-            if (succorActionConsumed || succorTargetPos == null) {
-                return;
-            }
-            if (succorActivationTicks > 0) {
-                setDeltaMovement(Vec3.ZERO);
-                succorActivationTicks++;
-                if (succorActivationTicks >= SUCCOR_ACTIVATION_TICKS) {
-                    completeSuccorAction();
-                }
-                return;
-            }
-            succorTravelTicks++;
-            if (getX() == xo && getZ() == zo) {
-                succorStationaryTicks++;
-            }
-            if (target != null) {
-                getLookControl().setLookAt(target, 30.0F, 30.0F);
-                getMoveControl().setWantedPosition(target.getX(), target.getY() + 0.5D, target.getZ(), 1.20D);
-            } else {
-                Vec3 targetCenter = Vec3.atCenterOf(succorTargetPos);
-                getMoveControl().setWantedPosition(targetCenter.x, targetCenter.y, targetCenter.z, 1.20D);
-            }
-            if (distanceToSqr(Vec3.atCenterOf(succorTargetPos)) < 4.0D
-                    || succorStationaryTicks > SUCCOR_STATIONARY_TIMEOUT
-                    || succorTravelTicks > SUCCOR_TRAVEL_TIMEOUT || resolveSummoner() == null) {
-                succorActivationTicks = 1;
-                getMoveControl().setWantedPosition(getX(), getY(), getZ(), 0.0D);
-                setDeltaMovement(Vec3.ZERO);
-            }
-        }
-    }
-
     public enum Kind {
         BOGLE(true, 310.0D, 15.5D, 70.0D, 0.28D, 2.0D, 80.0D, 5.0D),
         CARRIER_COLONY(false, 390.0D, 15.5D, 45.0D, 0.242D, 2.0D, 80.0D, 5.0D),
         HAUNTER(false, 360.0D, 15.5D, 110.0D, 0.283D, 2.0D, 80.0D, 5.0D),
         BOMBER_HEAVY(true, 420.0D, 15.5D, 33.0D, 0.25D, 0.15D, 80.0D, 5.0D),
-        WRAITH(true, 310.0D, 15.5D, 70.0D, 0.28D, 2.0D, 80.0D, 5.0D),
-        SUCCOR(true, 85.0D, 2.0D, 1.0D, 0.32D, 1.0D, 80.0D, 2.0D);
+        WRAITH(true, 310.0D, 15.5D, 70.0D, 0.28D, 2.0D, 80.0D, 5.0D);
 
         private final boolean flying;
         private final double maxHealth;
