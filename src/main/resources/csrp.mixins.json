@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "alku.csrp.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "client.ChatComponentMixin",
+    "client.FontMixin",
+    "client.GuiMixin",
+    "client.SignRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

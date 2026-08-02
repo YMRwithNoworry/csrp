@@ -1,8 +1,11 @@
 package alku.csrp.entity;
 
+import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModParticles;
 import alku.csrp.registry.ModSounds;
+import alku.csrp.world.EvolutionSystem;
+import alku.csrp.world.SrpWorldData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -10,75 +13,135 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.control.FlyingMoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
+import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 
 import java.util.EnumSet;
+import java.util.List;
 
 public final class KirinEntity extends DerivedParasiteEntity {
     public static final int BLINK_CHARGE_TICKS = 60;
     public static final int BLINK_COOLDOWN_TICKS = 200;
-    public static final double BLINK_LIFE_STEAL_RADIUS = 5.0;
-    public static final double BLINK_HEALTH_DRAIN_FRACTION = 0.5;
-    private static final int VOID_ORB_INTERVAL_TICKS = 240;
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    public static final double BLINK_LIFE_STEAL_RADIUS = 5.0D;
+    public static final double BLINK_HEALTH_DRAIN_FRACTION = 0.5D;
+
+    private static final int FLOAT_GROUND_SCAN = 24;
+    private static final double FLOAT_HOVER_HEIGHT = 0.35D;
+    private static final double FLOAT_BOB_AMPLITUDE = 0.06D;
+    private static final double FLOAT_UP_MAX = 0.16D;
+    private static final double FLOAT_DOWN_MAX = -0.16D;
+    private static final int FLOAT_RECOVERY_DELAY_TICKS = 40;
+    private static final int FLOAT_RECOVERY_HORIZONTAL_RANGE = 48;
+    private static final int FLOAT_RECOVERY_VERTICAL_RANGE = 20;
+
+    private static final int VOID_SKILL_CHARGE_TICKS = 80;
+    private static final int VOID_SKILL_RANGE = 35;
+    private static final int VOID_SKILL_STAGE_TICKS = 20;
+    private static final int VOID_SKILL_ORB_STAGE = 3;
+    private static final int VOID_SKILL_END_STAGE = 12;
+    private static final int VOID_ORB_FUSE_TICKS = 8;
+    private static final int VOID_ORB_START_TICKS = 80;
+    private static final double VOID_ORB_OFFSET = 10.0D;
+
+    private static final float BLOCK_BREAK_MAX_HARDNESS = 27.0F;
+    private static final int BLOCK_BREAK_COOLDOWN_TICKS = 60;
+    private static final int BLOCK_BREAK_RANGE = 3;
+
     private static final EntityDataAccessor<BlockPos> BLINK_POS = SynchedEntityData.defineId(
             KirinEntity.class, EntityDataSerializers.BLOCK_POS);
     private static final EntityDataAccessor<Integer> BLINK_TICKS = SynchedEntityData.defineId(
             KirinEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> VOID_CASTING = SynchedEntityData.defineId(
+            KirinEntity.class, EntityDataSerializers.BOOLEAN);
+
+    private final RawAnimation idleAnimation = RawAnimation.begin()
+            .thenLoop("animation.kirin.func_78087_a");
+    private final RawAnimation walkAnimation = RawAnimation.begin()
+            .thenLoop("animation.kirin.func_78087_a.walk");
+    private final RawAnimation attackAnimation = RawAnimation.begin()
+            .thenPlay("animation.kirin.func_78087_a.attack");
+    private final RawAnimation cloneAnimation = RawAnimation.begin()
+            .thenLoop("animation.kirin.func_78087_a.getCloneC");
+    private final RawAnimation shakingAnimation = RawAnimation.begin()
+            .thenLoop("animation.kirin.func_78087_a.shakingC");
+    private final RawAnimation revealAnimation = RawAnimation.begin()
+            .thenLoop("animation.kirin.func_78087_a.showC");
 
     private int blinkCooldown;
     private int blinkCharge;
-    private int voidOrbCooldown = 80;
     private BlockPos blinkDestination = BlockPos.ZERO;
+    private int voidSkillCharge;
+    private int voidSkillCastTicks;
+    private int voidSkillStage;
+    private int floatBob;
+    private int noGroundTicks;
+    private int blockBreakCooldown;
 
     public KirinEntity(EntityType<? extends KirinEntity> type, Level level) {
         super(type, level);
-        moveControl = new FlyingMoveControl(this, 20, true);
-        setNoGravity(true);
+        setNoGravity(false);
         xpReward = 350;
     }
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 410.0)
-                .add(Attributes.ARMOR, 30.0)
-                .add(Attributes.ATTACK_DAMAGE, 155.0)
-                .add(Attributes.MOVEMENT_SPEED, 0.24)
-                .add(Attributes.FLYING_SPEED, 0.24)
-                .add(Attributes.KNOCKBACK_RESISTANCE, 1.0)
-                .add(Attributes.FOLLOW_RANGE, 64.0);
+                .add(Attributes.MAX_HEALTH, 410.0D)
+                .add(Attributes.ARMOR, 30.0D)
+                .add(Attributes.ATTACK_DAMAGE, 155.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.24D)
+                .add(Attributes.STEP_HEIGHT, 1.0D)
+                .add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
+                .add(Attributes.FOLLOW_RANGE, 80.0D);
+    }
+
+    public static boolean checkKirinSpawnRules(EntityType<? extends Monster> type,
+            ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+        ServerLevel currentLevel = level.getLevel();
+        ServerLevel endLevel = currentLevel.getServer().getLevel(Level.END);
+        return endLevel != null
+                && SrpWorldData.get(endLevel).evolutionPhase() >= 7
+                && SrpWorldData.get(currentLevel).evolutionPhase() >= 1
+                && Monster.checkMonsterSpawnRules(type, level, spawnType, pos, random);
     }
 
     @Override
     protected PathNavigation createNavigation(Level level) {
-        FlyingPathNavigation navigation = new FlyingPathNavigation(this, level);
-        navigation.setCanFloat(true);
-        return navigation;
+        return new KirinGroundNavigation(this, level);
     }
 
     @Override
     protected void registerGoals() {
         super.registerGoals();
         goalSelector.addGoal(1, new KirinBlinkGoal());
-        goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.1, false));
+        goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.0D, true));
     }
 
     @Override
@@ -86,43 +149,56 @@ public final class KirinEntity extends DerivedParasiteEntity {
         super.defineSynchedData(builder);
         builder.define(BLINK_POS, BlockPos.ZERO);
         builder.define(BLINK_TICKS, 0);
+        builder.define(VOID_CASTING, false);
     }
 
     @Override
     public void tick() {
         super.tick();
-        setNoGravity(true);
+        setNoGravity(false);
         if (level().isClientSide) {
             spawnAmbientPortalParticles();
             spawnBlinkWarningParticles();
             return;
         }
-        if (blinkCooldown > 0) blinkCooldown--;
-        if (voidOrbCooldown > 0) voidOrbCooldown--;
 
-        LivingEntity target = getTarget();
-        if (target != null && target.isAlive()) {
-            if (blinkCharge <= 0 && distanceToSqr(target) > 36.0) {
-                getMoveControl().setWantedPosition(target.getX(), target.getY() + 1.5, target.getZ(), 0.8);
+        if (blinkCooldown > 0) {
+            blinkCooldown--;
+        }
+        if (blockBreakCooldown > 0) {
+            blockBreakCooldown--;
+        }
+
+        EvolutionSystem.GenerationProfile profile = EvolutionSystem.generationProfile((ServerLevel) level());
+        if (profile.specialMoves()) {
+            if (isVoidCasting()) {
+                tickVoidSkill();
+            } else {
+                chargeVoidSkill();
             }
-            if (voidOrbCooldown <= 0 && hasLineOfSight(target)) {
-                summonVoidOrb(target);
-                voidOrbCooldown = VOID_ORB_INTERVAL_TICKS;
+        } else {
+            voidSkillCharge = 0;
+            if (isVoidCasting()) {
+                finishVoidSkill();
             }
         }
-        if (onGround()) {
-            setDeltaMovement(getDeltaMovement().add(0.0, 0.08, 0.0));
+        if (blinkCharge <= 0 && !isVoidCasting()) {
+            updateFloating();
+        }
+        if (profile.blockSearch()) {
+            tryBreakBlocks();
         }
     }
 
     private void spawnAmbientPortalParticles() {
-        for (int i = 0; i < 4; i++) {
+        for (int index = 0; index < 4; index++) {
             level().addParticle(ParticleTypes.PORTAL,
                     getX() + (random.nextDouble() - 0.5D) * getBbWidth() * 3.0D,
                     getY() + random.nextDouble() * getBbHeight() - 0.25D,
                     getZ() + (random.nextDouble() - 0.5D) * getBbWidth() * 3.0D,
-                    (random.nextDouble() - 0.5D) * 0.4D, -random.nextDouble() * 0.2D,
-                    (random.nextDouble() - 0.5D) * 0.4D);
+                    (random.nextDouble() - 0.5D) * 2.0D,
+                    -random.nextDouble(),
+                    (random.nextDouble() - 0.5D) * 2.0D);
         }
     }
 
@@ -145,12 +221,146 @@ public final class KirinEntity extends DerivedParasiteEntity {
         level().addParticle(ModParticles.KIRIN_WARNING.get(), x, y, z, 6.0D, counterClockwise, 1.0D);
     }
 
-    private void summonVoidOrb(LivingEntity target) {
-        ScaryOrbEntity orb = new ScaryOrbEntity(ModEntities.SCARY_ORB.get(), level(), this);
-        Vec3 start = getEyePosition().add(getViewVector(1.0F).scale(0.75D));
-        orb.launch(start, target.getEyePosition(), target);
+    private void chargeVoidSkill() {
+        LivingEntity target = getTarget();
+        if (isShadowClone() || blinkCharge > 0 || isUsingDerivedSkill() || target == null || !target.isAlive()
+                || distanceToSqr(target) >= VOID_SKILL_RANGE * VOID_SKILL_RANGE
+                || !getSensing().hasLineOfSight(target)) {
+            return;
+        }
+        if (++voidSkillCharge >= VOID_SKILL_CHARGE_TICKS) {
+            voidSkillCharge = 0;
+            voidSkillCastTicks = 0;
+            voidSkillStage = 0;
+            entityData.set(VOID_CASTING, true);
+            getNavigation().stop();
+        }
+    }
+
+    private void tickVoidSkill() {
+        getNavigation().stop();
+        Vec3 motion = getDeltaMovement();
+        setDeltaMovement(motion.x * 0.5D, 0.0D, motion.z * 0.5D);
+        LivingEntity target = getTarget();
+        if (target != null) {
+            getLookControl().setLookAt(target, 30.0F, 30.0F);
+        }
+        if (++voidSkillCastTicks % VOID_SKILL_STAGE_TICKS != 0) {
+            return;
+        }
+
+        voidSkillStage++;
+        if (isShadowClone() || target == null || !target.isAlive()) {
+            finishVoidSkill();
+            return;
+        }
+        if (voidSkillStage == VOID_SKILL_ORB_STAGE) {
+            summonVoidOrb();
+        }
+        if (voidSkillStage > VOID_SKILL_END_STAGE) {
+            finishVoidSkill();
+        }
+    }
+
+    private void summonVoidOrb() {
+        VoidOrbEntity orb = ModEntities.VOID_ORB.get().create(level());
+        if (orb == null) {
+            return;
+        }
+        orb.configure(this, VOID_ORB_FUSE_TICKS, VOID_ORB_START_TICKS, true, VOID_ORB_OFFSET);
+        orb.moveTo(getX(), getY() + getBbHeight() + VOID_ORB_OFFSET, getZ());
         level().addFreshEntity(orb);
-        playSound(ModSounds.KIRIN_BLACK_HOLE.get(), 2.0F, 1.0F);
+        playSound(ModSounds.KIRIN_BLACK_HOLE.get(), getSoundVolume() * 2.0F,
+                (random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F);
+    }
+
+    private void finishVoidSkill() {
+        voidSkillCastTicks = 0;
+        voidSkillStage = 0;
+        entityData.set(VOID_CASTING, false);
+    }
+
+    private boolean isVoidCasting() {
+        return entityData.get(VOID_CASTING);
+    }
+
+    @Override
+    protected boolean hasExclusiveSkill() {
+        return blinkCharge > 0 || isVoidCasting();
+    }
+
+    private void updateFloating() {
+        fallDistance = 0.0F;
+        floatBob++;
+        double bob = Math.sin((tickCount + floatBob) * 0.12D) * FLOAT_BOB_AMPLITUDE;
+        BlockPos base = BlockPos.containing(getX(), getY() + 0.1D, getZ());
+        BlockPos ground = null;
+        for (int offset = 0; offset <= FLOAT_GROUND_SCAN; offset++) {
+            BlockPos candidate = base.below(offset);
+            if (level().getBlockState(candidate).isSolidRender(level(), candidate)) {
+                ground = candidate;
+                break;
+            }
+        }
+
+        if (ground == null) {
+            Vec3 motion = getDeltaMovement();
+            setDeltaMovement(motion.x, 0.0D, motion.z);
+            if (++noGroundTicks >= FLOAT_RECOVERY_DELAY_TICKS && tryBlinkToNearbyLand()) {
+                noGroundTicks = 0;
+            }
+            return;
+        }
+
+        noGroundTicks = 0;
+        double targetY = ground.getY() + 1.0D + FLOAT_HOVER_HEIGHT + bob;
+        double difference = targetY - getY();
+        double acceleration = difference > 0.0D ? difference * 0.12D : difference * 0.06D;
+        Vec3 motion = getDeltaMovement();
+        setDeltaMovement(motion.x,
+                Mth.clamp(motion.y + acceleration, FLOAT_DOWN_MAX, FLOAT_UP_MAX), motion.z);
+    }
+
+    private boolean tryBlinkToNearbyLand() {
+        BlockPos origin = blockPosition();
+        BlockPos best = null;
+        double bestDistance = Double.MAX_VALUE;
+        for (int xOffset = -FLOAT_RECOVERY_HORIZONTAL_RANGE;
+                xOffset <= FLOAT_RECOVERY_HORIZONTAL_RANGE; xOffset++) {
+            for (int zOffset = -FLOAT_RECOVERY_HORIZONTAL_RANGE;
+                    zOffset <= FLOAT_RECOVERY_HORIZONTAL_RANGE; zOffset++) {
+                for (int yOffset = FLOAT_RECOVERY_VERTICAL_RANGE;
+                        yOffset >= -FLOAT_RECOVERY_VERTICAL_RANGE; yOffset--) {
+                    BlockPos candidate = origin.offset(xOffset, yOffset, zOffset);
+                    if (!isRecoverySpotValid(candidate)) {
+                        continue;
+                    }
+                    double distance = candidate.distSqr(origin);
+                    if (distance < bestDistance) {
+                        bestDistance = distance;
+                        best = candidate;
+                    }
+                    break;
+                }
+            }
+        }
+        if (best == null) {
+            return false;
+        }
+        teleportTo(best.getX() + 0.5D, best.getY(), best.getZ() + 0.5D);
+        playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
+        return true;
+    }
+
+    private boolean isRecoverySpotValid(BlockPos position) {
+        if (!level().hasChunkAt(position)) {
+            return false;
+        }
+        BlockPos below = position.below();
+        return level().getBlockState(below).isSolidRender(level(), below)
+                && level().getBlockState(position).getCollisionShape(level(), position).isEmpty()
+                && level().getBlockState(position.above()).getCollisionShape(level(), position.above()).isEmpty()
+                && level().canSeeSky(position.above());
     }
 
     private void setBlinkCharge(BlockPos destination, int ticks) {
@@ -162,44 +372,121 @@ public final class KirinEntity extends DerivedParasiteEntity {
 
     private void clearBlinkCharge() {
         blinkCharge = 0;
+        blinkDestination = BlockPos.ZERO;
         entityData.set(BLINK_POS, BlockPos.ZERO);
         entityData.set(BLINK_TICKS, 0);
     }
 
-    private void performBlink(LivingEntity target) {
-        Vec3 destination = Vec3.atBottomCenterOf(blinkDestination);
-        teleportTo(destination.x, destination.y, destination.z);
-        float totalStolen = 0.0F;
-        for (LivingEntity victim : level().getEntitiesOfClass(LivingEntity.class,
-                getBoundingBox().inflate(BLINK_LIFE_STEAL_RADIUS), this::isValidParasiteTarget)) {
-            if (victim instanceof Player player && player.getAbilities().invulnerable) {
-                continue;
-            }
-            float stolen = Math.max(1.0F, victim.getHealth() * (float) BLINK_HEALTH_DRAIN_FRACTION);
-            if (victim.hurt(damageSources().indirectMagic(this, this), stolen)) {
-                totalStolen += Math.min(stolen, victim.getHealth() + stolen);
-            }
+    private void performBlink() {
+        teleportTo(blinkDestination.getX() + 0.5D, blinkDestination.getY(), blinkDestination.getZ() + 0.5D);
+        playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
+        List<LivingEntity> nearby = level().getEntitiesOfClass(LivingEntity.class,
+                getBoundingBox().inflate(BLINK_LIFE_STEAL_RADIUS),
+                entity -> entity != this && entity.isAlive() && !(entity instanceof Parasite));
+        if (nearby.isEmpty()) {
+            playSound(SoundEvents.ENDERMAN_HURT, 0.7F, 0.9F + random.nextFloat() * 0.2F);
+            return;
         }
-        heal(totalStolen);
-        target.hurt(damageSources().mobAttack(this),
-                (float) getAttributeValue(Attributes.ATTACK_DAMAGE) * 0.25F);
+
+        LivingEntity victim = nearby.getFirst();
+        float currentHealth = victim.getHealth();
+        if (currentHealth <= 0.0F) {
+            return;
+        }
+        float stolen = currentHealth * (float) BLINK_HEALTH_DRAIN_FRACTION;
+        victim.setHealth(Math.max(0.0F, currentHealth - stolen));
+        level().broadcastEntityEvent(victim, (byte) 2);
+        victim.playSound(SoundEvents.GENERIC_HURT, 1.0F, 0.8F + random.nextFloat() * 0.4F);
+        heal(stolen);
     }
 
     private BlockPos findBlinkDestination(LivingEntity target) {
-        for (int i = 0; i < 64; i++) {
-            int x = target.blockPosition().getX() + random.nextInt(49) - 24;
-            int z = target.blockPosition().getZ() + random.nextInt(49) - 24;
-            int y = target.blockPosition().getY() + random.nextInt(9) - 4;
-            BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(x, y, z);
-            for (int scan = 0; scan < 12; scan++) {
-                if (level().getBlockState(pos).isAir() && level().getBlockState(pos.above()).isAir()
-                        && level().getBlockState(pos.below()).isSolid()) {
-                    return pos.immutable();
+        BlockPos targetPosition = target.blockPosition();
+        int[] verticalOffsets = {0, 1, -1, 2, -2, 3, -3, 4, -4, 6, -6, 8, -8};
+        for (int attempt = 0; attempt < 64; attempt++) {
+            double radius = 1.5D + random.nextDouble() * 22.5D;
+            double angle = random.nextDouble() * Math.PI * 2.0D;
+            int x = Mth.floor(targetPosition.getX() + 0.5D + radius * Math.cos(angle));
+            int z = Mth.floor(targetPosition.getZ() + 0.5D + radius * Math.sin(angle));
+            for (int verticalOffset : verticalOffsets) {
+                BlockPos candidate = new BlockPos(x, targetPosition.getY() + verticalOffset, z);
+                if (isBlinkSpotValid(candidate) && level().canSeeSky(candidate.above())
+                        && hasBlinkLineOfSight(target, candidate)) {
+                    return candidate;
                 }
-                pos.move(0, -1, 0);
             }
         }
-        return target.blockPosition();
+        return null;
+    }
+
+    private boolean isBlinkSpotValid(BlockPos position) {
+        if (!level().hasChunkAt(position)) {
+            return false;
+        }
+        AABB collisionBox = new AABB(position).deflate(0.05D);
+        BlockPos below = position.below();
+        return level().noCollision(this, collisionBox)
+                && level().getBlockState(below).isSolidRender(level(), below);
+    }
+
+    private boolean hasBlinkLineOfSight(LivingEntity target, BlockPos destination) {
+        HitResult result = level().clip(new ClipContext(getEyePosition(), Vec3.atCenterOf(destination),
+                ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
+        return result.getType() == HitResult.Type.MISS && getSensing().hasLineOfSight(target);
+    }
+
+    private boolean isOutdoors(LivingEntity target) {
+        BlockPos head = BlockPos.containing(target.getX(), target.getY() + target.getEyeHeight(), target.getZ());
+        for (int offset = 0; offset < 3; offset++) {
+            if (level().canSeeSky(head.above(offset))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void tryBreakBlocks() {
+        LivingEntity target = getTarget();
+        if (blockBreakCooldown > 0 || target == null || !target.isAlive()
+                || !level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+            return;
+        }
+        int verticalOffset = 0;
+        if (target.distanceToSqr(getX(), target.getY(), getZ()) < 9.0D) {
+            if (target.getY() - getY() < -1.0D) {
+                verticalOffset = onGround() ? -2 : -3;
+            } else if (target.getY() - getY() > 2.0D) {
+                verticalOffset = 1;
+            }
+        }
+
+        int height = Math.max(1, Mth.ceil(getBbHeight()));
+        boolean brokeAny = false;
+        BlockPos origin = BlockPos.containing(getX(), getY() + 0.1D, getZ());
+        int activeRange = verticalOffset > 0 ? 0 : BLOCK_BREAK_RANGE;
+        for (int xOffset = -activeRange; xOffset <= activeRange; xOffset++) {
+            for (int zOffset = -activeRange; zOffset <= activeRange; zOffset++) {
+                for (int yOffset = 1 + verticalOffset; yOffset <= height + verticalOffset; yOffset++) {
+                    BlockPos candidate = origin.offset(xOffset, yOffset, zOffset);
+                    BlockState state = level().getBlockState(candidate);
+                    float hardness = state.getDestroySpeed(level(), candidate);
+                    if (state.isAir() || state.hasBlockEntity() || !state.getFluidState().isEmpty()
+                            || hardness < 0.0F || hardness > BLOCK_BREAK_MAX_HARDNESS
+                            || state.is(ModBlocks.BIOMEHEART.get()) || state.is(ModBlocks.COLONYHEART.get())
+                            || state.is(ModBlocks.PARASITE_STRUCTURE.get())) {
+                        continue;
+                    }
+                    brokeAny |= level().destroyBlock(candidate, true, this);
+                }
+            }
+        }
+        blockBreakCooldown = brokeAny ? BLOCK_BREAK_COOLDOWN_TICKS : 10;
+    }
+
+    @Override
+    public boolean doHurtTarget(Entity target) {
+        triggerAnim("action_controller", "attack");
+        return super.doHurtTarget(target);
     }
 
     @Override
@@ -228,33 +515,62 @@ public final class KirinEntity extends DerivedParasiteEntity {
     }
 
     @Override
+    protected float getSoundVolume() {
+        return 5.0F;
+    }
+
+    @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
-        tag.putInt("blink_cooldown", blinkCooldown);
-        tag.putInt("blink_charge", blinkCharge);
-        tag.putInt("void_orb_cooldown", voidOrbCooldown);
-        tag.putInt("blink_x", blinkDestination.getX());
-        tag.putInt("blink_y", blinkDestination.getY());
-        tag.putInt("blink_z", blinkDestination.getZ());
+        tag.putInt("kirin_blink_cooldown", blinkCooldown);
+        tag.putInt("kirin_blink_charge", blinkCharge);
+        tag.putLong("kirin_blink_destination", blinkDestination.asLong());
+        tag.putInt("kirin_void_charge", voidSkillCharge);
+        tag.putInt("kirin_void_cast_ticks", voidSkillCastTicks);
+        tag.putInt("kirin_void_stage", voidSkillStage);
+        tag.putInt("kirin_float_bob", floatBob);
+        tag.putInt("kirin_no_ground_ticks", noGroundTicks);
+        tag.putInt("kirin_block_break_cooldown", blockBreakCooldown);
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        blinkCooldown = tag.getInt("blink_cooldown");
-        blinkCharge = tag.getInt("blink_charge");
-        voidOrbCooldown = tag.getInt("void_orb_cooldown");
-        blinkDestination = new BlockPos(tag.getInt("blink_x"), tag.getInt("blink_y"), tag.getInt("blink_z"));
-        if (!level().isClientSide) {
-            entityData.set(BLINK_POS, blinkDestination);
-            entityData.set(BLINK_TICKS, blinkCharge);
-        }
+        blinkCooldown = tag.contains("kirin_blink_cooldown")
+                ? tag.getInt("kirin_blink_cooldown") : tag.getInt("blink_cooldown");
+        blinkCharge = tag.contains("kirin_blink_charge")
+                ? tag.getInt("kirin_blink_charge") : tag.getInt("blink_charge");
+        blinkDestination = tag.contains("kirin_blink_destination")
+                ? BlockPos.of(tag.getLong("kirin_blink_destination"))
+                : new BlockPos(tag.getInt("blink_x"), tag.getInt("blink_y"), tag.getInt("blink_z"));
+        voidSkillCharge = tag.contains("kirin_void_charge")
+                ? tag.getInt("kirin_void_charge") : Math.max(0, 80 - tag.getInt("void_orb_cooldown"));
+        voidSkillCastTicks = tag.getInt("kirin_void_cast_ticks");
+        voidSkillStage = tag.getInt("kirin_void_stage");
+        floatBob = tag.getInt("kirin_float_bob");
+        noGroundTicks = tag.getInt("kirin_no_ground_ticks");
+        blockBreakCooldown = tag.getInt("kirin_block_break_cooldown");
+        entityData.set(BLINK_POS, blinkCharge > 0 ? blinkDestination : BlockPos.ZERO);
+        entityData.set(BLINK_TICKS, blinkCharge);
+        entityData.set(VOID_CASTING, voidSkillCastTicks > 0);
     }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> state.setAndContinue(IDLE)));
+        controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
+            if (isShadowClone()) {
+                return state.setAndContinue(cloneAnimation);
+            }
+            if (isShadowHitFlashing()) {
+                return state.setAndContinue(shakingAnimation);
+            }
+            if (isShadowed() && getShadowRenderAlpha(0.0F) > 0.0F) {
+                return state.setAndContinue(revealAnimation);
+            }
+            return state.setAndContinue(state.isMoving() ? walkAnimation : idleAnimation);
+        }));
+        controllers.add(new AnimationController<>(this, "action_controller", 0, state -> PlayState.STOP)
+                .triggerableAnim("attack", attackAnimation));
     }
 
     private final class KirinBlinkGoal extends Goal {
@@ -265,8 +581,17 @@ public final class KirinEntity extends DerivedParasiteEntity {
         @Override
         public boolean canUse() {
             LivingEntity target = getTarget();
-            return blinkCooldown <= 0 && blinkCharge <= 0 && target != null && target.isAlive()
-                    && distanceToSqr(target) >= 256.0;
+            if (blinkCooldown > 0 || blinkCharge > 0 || isVoidCasting() || isUsingDerivedSkill()
+                    || target == null || !target.isAlive() || distanceToSqr(target) <= 256.0D
+                    || !getSensing().hasLineOfSight(target) || !isOutdoors(target)) {
+                return false;
+            }
+            BlockPos destination = findBlinkDestination(target);
+            if (destination == null) {
+                return false;
+            }
+            blinkDestination = destination;
+            return true;
         }
 
         @Override
@@ -276,13 +601,16 @@ public final class KirinEntity extends DerivedParasiteEntity {
         }
 
         @Override
+        public boolean isInterruptable() {
+            return false;
+        }
+
+        @Override
         public void start() {
-            LivingEntity target = getTarget();
-            if (target == null) {
-                return;
-            }
-            setBlinkCharge(findBlinkDestination(target), BLINK_CHARGE_TICKS);
+            setBlinkCharge(blinkDestination, BLINK_CHARGE_TICKS);
             getNavigation().stop();
+            setDeltaMovement(Vec3.ZERO);
+            playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 0.9F);
         }
 
         @Override
@@ -292,18 +620,20 @@ public final class KirinEntity extends DerivedParasiteEntity {
                 return;
             }
             getNavigation().stop();
+            setDeltaMovement(Vec3.ZERO);
             getLookControl().setLookAt(target, 30.0F, 30.0F);
-            if (level() instanceof ServerLevel serverLevel) {
+            if (level() instanceof ServerLevel serverLevel && blinkCharge % 10 == 0) {
                 Vec3 destination = Vec3.atCenterOf(blinkDestination);
                 serverLevel.sendParticles(ParticleTypes.PORTAL, destination.x, destination.y, destination.z,
-                        8, 0.8, 1.2, 0.8, 0.05);
+                        8, 0.8D, 1.2D, 0.8D, 0.05D);
+                playSound(SoundEvents.PORTAL_AMBIENT, 0.9F, 1.25F);
             }
-            if (--blinkCharge <= 0) {
+            blinkCharge--;
+            entityData.set(BLINK_TICKS, Math.max(0, blinkCharge));
+            if (blinkCharge <= 0) {
+                performBlink();
                 clearBlinkCharge();
-                performBlink(target);
                 blinkCooldown = BLINK_COOLDOWN_TICKS;
-            } else {
-                entityData.set(BLINK_TICKS, blinkCharge);
             }
         }
 
@@ -313,6 +643,17 @@ public final class KirinEntity extends DerivedParasiteEntity {
                 clearBlinkCharge();
                 blinkCooldown = 40;
             }
+        }
+    }
+
+    private static final class KirinGroundNavigation extends GroundPathNavigation {
+        private KirinGroundNavigation(Mob mob, Level level) {
+            super(mob, level);
+        }
+
+        @Override
+        protected boolean canUpdatePath() {
+            return true;
         }
     }
 }

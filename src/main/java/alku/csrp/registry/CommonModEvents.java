@@ -281,5 +281,11 @@ public final class CommonModEvents {
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 RupterEntity::checkRupterSpawnRules,
                 RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        event.register(
+                ModEntities.KIRIN.get(),
+                SpawnPlacementTypes.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                KirinEntity::checkKirinSpawnRules,
+                RegisterSpawnPlacementsEvent.Operation.REPLACE);
     }
 }

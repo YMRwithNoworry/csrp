@@ -55,6 +55,7 @@ import alku.csrp.entity.PureParasiteEntity;
 import alku.csrp.entity.PullingBallEntity;
 import alku.csrp.entity.RupterEntity;
 import alku.csrp.entity.ScaryOrbEntity;
+import alku.csrp.entity.VoidOrbEntity;
 import alku.csrp.entity.SimAdventurerEntity;
 import alku.csrp.entity.SimAdventurerHeadEntity;
 import alku.csrp.entity.SummonerEntity;
@@ -193,7 +194,9 @@ public final class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<DraconiteEntity>> DRACONITE =
             monster("draconite", DraconiteEntity::new, 2.4F, 3.8F);
     public static final DeferredHolder<EntityType<?>, EntityType<KirinEntity>> KIRIN =
-            monster("kirin", KirinEntity::new, 2.1271334F, 8.85F);
+            ENTITIES.register("kirin", () -> EntityType.Builder.of(KirinEntity::new, MobCategory.MONSTER)
+                    .sized(2.1271334F, 8.85F).eyeHeight(5.7F).clientTrackingRange(8)
+                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "kirin").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<SimAdventurerEntity>> SIM_ADVENTURER =
             monster("sim_adventurer", SimAdventurerEntity::new, 0.6F, 1.95F);
     public static final DeferredHolder<EntityType<?>, EntityType<SimAdventurerHeadEntity>> SIM_ADVENTURER_HEAD =
@@ -436,6 +439,10 @@ public final class ModEntities {
             ENTITIES.register("scary_orb", () -> EntityType.Builder.<ScaryOrbEntity>of(ScaryOrbEntity::new, MobCategory.MISC)
                     .sized(0.5F, 0.5F).clientTrackingRange(8).updateInterval(1)
                     .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "scary_orb").toString()));
+    public static final DeferredHolder<EntityType<?>, EntityType<VoidOrbEntity>> VOID_ORB =
+            ENTITIES.register("orbvoid", () -> EntityType.Builder.<VoidOrbEntity>of(VoidOrbEntity::new, MobCategory.MISC)
+                    .sized(0.5F, 0.5F).clientTrackingRange(64).updateInterval(1)
+                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "orbvoid").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<ParasiticScentEntity>> SCENT =
             ENTITIES.register("scent", () -> EntityType.Builder
                     .<ParasiticScentEntity>of(ParasiticScentEntity::new, MobCategory.MISC)

@@ -17,6 +17,7 @@ import alku.csrp.client.renderer.PrimitiveParasiteRenderer;
 import alku.csrp.client.renderer.PullingBallRenderer;
 import alku.csrp.client.renderer.ParasiteProjectileRenderer;
 import alku.csrp.client.renderer.ScaryOrbRenderer;
+import alku.csrp.client.renderer.VoidOrbRenderer;
 import alku.csrp.client.renderer.TetheredMarauderizedRenderer;
 import alku.csrp.client.renderer.ParasiticScentRenderer;
 import alku.csrp.registry.ModEntities;
@@ -108,6 +109,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.CRUX_INCOMPLETE.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "crux_incomplete", 0.45F));
         event.registerEntityRenderer(ModEntities.SCARY_ORB.get(), ScaryOrbRenderer::new);
+        event.registerEntityRenderer(ModEntities.VOID_ORB.get(), VoidOrbRenderer::new);
         event.registerEntityRenderer(ModEntities.AIRSCREW.get(), AirscrewRenderer::new);
         event.registerEntityRenderer(ModEntities.HEED.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "heed", 0.8F));

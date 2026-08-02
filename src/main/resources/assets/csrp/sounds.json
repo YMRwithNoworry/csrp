@@ -356,5 +356,9 @@
   "orb.s": {
     "category": "hostile",
     "sounds": ["csrp:misc/orb_s"]
+  },
+  "orb.e": {
+    "category": "hostile",
+    "sounds": ["csrp:misc/orb_e"]
   }
 }

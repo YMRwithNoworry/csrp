@@ -55,6 +55,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private final Map<String, Integer> damageAdaptations = new LinkedHashMap<>();
     private boolean bypassArmorForDamageCap;
+    private float lastDamageAdaptationReduction;
     private int parasiteKills;
     private double legacyKillCount;
     private boolean colonySpawned;
@@ -118,6 +119,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
+        lastDamageAdaptationReduction = 0.0F;
         Entity attacker = source.getEntity();
         Entity direct = source.getDirectEntity();
         if ((attacker instanceof Parasite && attacker != this)
@@ -149,7 +151,9 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
             damageAdaptations.put(damageId, previousHits == Integer.MAX_VALUE ? previousHits : previousHits + 1);
             adaptationLearningCooldown = NEW_DAMAGE_COOLDOWN_TICKS;
         }
-        return hurtWithIncomingDamageCap(source, amount * (1.0F - reduction));
+        float adaptedDamage = amount * (1.0F - reduction);
+        lastDamageAdaptationReduction = Math.max(0.0F, amount - adaptedDamage);
+        return hurtWithIncomingDamageCap(source, adaptedDamage);
     }
 
     private Holder<MobEffect> killingResistanceEffect() {
@@ -214,6 +218,10 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     }
 
     protected void attackEntityFromCap(int count) {
+    }
+
+    protected float lastDamageAdaptationReduction() {
+        return lastDamageAdaptationReduction;
     }
 
     public boolean applyScaryOrbEffect(LivingEntity target, int nearbyEntities) {
@@ -418,6 +426,15 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
 
     public int getParasiteKills() {
         return parasiteKills;
+    }
+
+    protected boolean consumeParasiteKill() {
+        if (parasiteKills <= 0) {
+            return false;
+        }
+        parasiteKills--;
+        legacyKillCount = Math.max(0.0D, legacyKillCount - 1.0D);
+        return true;
     }
 
     @Override

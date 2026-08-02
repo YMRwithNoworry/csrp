@@ -13,13 +13,16 @@ import java.util.List;
 import java.util.UUID;
 
 public final class ScaryOrbEntity extends Entity {
-    private static final int START_TICKS = 40;
+    private static final int DEFAULT_START_TICKS = 40;
+    private static final int DEFAULT_FUSE_TICKS = 7;
     private static final int BURST_TICKS = 35;
     private static final int DISCARD_TICKS = 45;
     private UUID ownerId;
     private UUID targetId;
     private int activeTicks;
     private int travelTicks;
+    private int startTicks = DEFAULT_START_TICKS;
+    private int fuseTicks = DEFAULT_FUSE_TICKS;
     private boolean launched;
     private boolean anchored;
     private double anchorX;
@@ -45,6 +48,11 @@ public final class ScaryOrbEntity extends Entity {
         anchorZ = anchor.z;
         setDeltaMovement(Vec3.ZERO);
         setPos(anchor);
+    }
+
+    public void setTimings(int startTicks, int fuseTicks) {
+        this.startTicks = Math.max(0, startTicks);
+        this.fuseTicks = Math.max(1, fuseTicks);
     }
 
     /** Starts the orb as a projectile and anchors it only after reaching its target. */
@@ -95,17 +103,17 @@ public final class ScaryOrbEntity extends Entity {
             return;
         }
         if (!anchored) return;
-        if (activeTicks < START_TICKS) {
+        if (activeTicks < startTicks) {
             activeTicks++;
             return;
         }
-        int elapsed = activeTicks - START_TICKS;
+        int elapsed = activeTicks - startTicks;
         activeTicks++;
         if (elapsed % 10 == 0 && owner != null) applyOrbEffects(owner);
-        if (elapsed == BURST_TICKS && owner != null) owner.hurtNearby(this, 3.0,
+        if (elapsed == fuseTicks + BURST_TICKS && owner != null) owner.hurtNearby(this, 3.0,
                 (float) owner.getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE) * 0.5F,
                 false);
-        if (elapsed >= DISCARD_TICKS || owner == null || !owner.isAlive()) discard();
+        if (elapsed >= fuseTicks + DISCARD_TICKS || owner == null || !owner.isAlive()) discard();
     }
 
     private void applyOrbEffects(PrimitiveParasiteEntity owner) {
@@ -137,6 +145,8 @@ public final class ScaryOrbEntity extends Entity {
         if (tag.hasUUID("target")) targetId = tag.getUUID("target");
         activeTicks = tag.getInt("active_ticks");
         travelTicks = tag.getInt("travel_ticks");
+        startTicks = tag.contains("start_ticks") ? tag.getInt("start_ticks") : DEFAULT_START_TICKS;
+        fuseTicks = tag.contains("fuse_ticks") ? tag.getInt("fuse_ticks") : DEFAULT_FUSE_TICKS;
         launched = tag.getBoolean("launched");
         anchored = tag.getBoolean("anchored");
         anchorX = tag.getDouble("anchor_x");
@@ -149,6 +159,8 @@ public final class ScaryOrbEntity extends Entity {
         if (targetId != null) tag.putUUID("target", targetId);
         tag.putInt("active_ticks", activeTicks);
         tag.putInt("travel_ticks", travelTicks);
+        tag.putInt("start_ticks", startTicks);
+        tag.putInt("fuse_ticks", fuseTicks);
         tag.putBoolean("launched", launched);
         tag.putBoolean("anchored", anchored);
         tag.putDouble("anchor_x", anchorX);

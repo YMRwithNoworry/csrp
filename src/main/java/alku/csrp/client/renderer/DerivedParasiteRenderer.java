@@ -5,16 +5,35 @@ import alku.csrp.client.model.PrimitiveParasiteModel;
 import alku.csrp.entity.DerivedParasiteEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
 import software.bernie.geckolib.util.Color;
 
 /** Restores the translucent cosmical shadow pass used by legacy derived parasites. */
 public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> extends ParasiteGeoRenderer<T> {
+    private static final ResourceLocation COSMIC_HACKING_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+            "textures/entity/layer/cosmichasking.png");
+    private static final ResourceLocation GUARDIAN_BEAM_TEXTURE = ResourceLocation.withDefaultNamespace(
+            "textures/entity/guardian_beam.png");
+    private static final RenderType GUARDIAN_BEAM_RENDER_TYPE = RenderType.entityTranslucentEmissive(
+            GUARDIAN_BEAM_TEXTURE);
+    private static final int BEAM_SIDES = 8;
+    private static final float BEAM_RADIUS = 0.282F;
+    private static final int BEAM_RED = 78;
+    private static final int BEAM_GREEN = 156;
+    private static final int BEAM_BLUE = 250;
+
     private final ResourceLocation shadowTexture;
 
     public DerivedParasiteRenderer(EntityRendererProvider.Context context, String id, String shadowTexture,
@@ -24,6 +43,7 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
                 "textures/entity/" + shadowTexture + ".png");
         this.shadowRadius = shadowRadius;
         addRenderLayer(new ShadowLayer<>(this, this.shadowTexture));
+        addRenderLayer(new CosmicHackingLayer<>(this));
     }
 
     @Override
@@ -56,6 +76,72 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
         }
         super.render(entity, entityYaw, partialTick, poseStack, bufferSource, packedLight);
         poseStack.popPose();
+
+        if (entity.isShadowed() && !entity.isShadowClone()) {
+            for (int targetId : entity.getNeuralTargetIds()) {
+                Entity target = entity.level().getEntity(targetId);
+                if (target instanceof LivingEntity living && living.isAlive()) {
+                    renderNeuralBeam(entity, living, partialTick, poseStack, bufferSource);
+                }
+            }
+        }
+    }
+
+    private static void renderNeuralBeam(DerivedParasiteEntity parasite, LivingEntity target, float partialTick,
+            PoseStack poseStack, MultiBufferSource bufferSource) {
+        Vec3 renderOrigin = parasite.getPosition(partialTick);
+        Vec3 start = parasite.getEyePosition(partialTick).subtract(renderOrigin);
+        Vec3 end = target.getPosition(partialTick).add(0.0D, target.getBbHeight() * 0.5D, 0.0D)
+                .subtract(renderOrigin);
+        Vec3 direction = end.subtract(start);
+        double distance = direction.length();
+        if (distance < 0.01D) {
+            return;
+        }
+
+        Vec3 normalized = direction.scale(1.0D / distance);
+        float beamLength = (float) distance + 1.0F;
+        float pitch = (float) Math.acos(normalized.y);
+        float yaw = (float) Math.atan2(normalized.z, normalized.x);
+        float age = parasite.tickCount + partialTick;
+        float textureOffset = age * 0.5F % 1.0F;
+        float startV = -1.0F + textureOffset;
+        float endV = beamLength * 2.5F + startV;
+
+        poseStack.pushPose();
+        poseStack.translate(start.x, start.y, start.z);
+        poseStack.mulPose(Axis.YP.rotationDegrees((Mth.HALF_PI - yaw) * Mth.RAD_TO_DEG));
+        poseStack.mulPose(Axis.XP.rotationDegrees(pitch * Mth.RAD_TO_DEG));
+
+        VertexConsumer consumer = bufferSource.getBuffer(GUARDIAN_BEAM_RENDER_TYPE);
+        PoseStack.Pose pose = poseStack.last();
+        float spin = age * -0.075F;
+        for (int side = 0; side < BEAM_SIDES; side++) {
+            float progress = side / (float) BEAM_SIDES;
+            float nextProgress = (side + 1) / (float) BEAM_SIDES;
+            float angle = spin + progress * Mth.TWO_PI;
+            float nextAngle = spin + nextProgress * Mth.TWO_PI;
+            float x = Mth.cos(angle) * BEAM_RADIUS;
+            float z = Mth.sin(angle) * BEAM_RADIUS;
+            float nextX = Mth.cos(nextAngle) * BEAM_RADIUS;
+            float nextZ = Mth.sin(nextAngle) * BEAM_RADIUS;
+
+            beamVertex(consumer, pose, x, beamLength, z, progress, endV);
+            beamVertex(consumer, pose, x, 0.0F, z, progress, startV);
+            beamVertex(consumer, pose, nextX, 0.0F, nextZ, nextProgress, startV);
+            beamVertex(consumer, pose, nextX, beamLength, nextZ, nextProgress, endV);
+        }
+        poseStack.popPose();
+    }
+
+    private static void beamVertex(VertexConsumer consumer, PoseStack.Pose pose, float x, float y, float z,
+            float u, float v) {
+        consumer.addVertex(pose, x, y, z)
+                .setColor(BEAM_RED, BEAM_GREEN, BEAM_BLUE, 255)
+                .setUv(u, v)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(LightTexture.FULL_BRIGHT)
+                .setNormal(pose, 0.0F, 1.0F, 0.0F);
     }
 
     private static final class ShadowLayer<T extends DerivedParasiteEntity> extends GeoRenderLayer<T> {
@@ -83,6 +169,28 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
             getRenderer().reRender(bakedModel, poseStack, bufferSource, entity, shadowRenderType,
                     bufferSource.getBuffer(shadowRenderType), partialTick, packedLight, packedOverlay, colour);
             poseStack.popPose();
+        }
+    }
+
+    private static final class CosmicHackingLayer<T extends DerivedParasiteEntity> extends GeoRenderLayer<T> {
+        private CosmicHackingLayer(DerivedParasiteRenderer<T> renderer) {
+            super(renderer);
+        }
+
+        @Override
+        public void render(PoseStack poseStack, T entity, BakedGeoModel bakedModel, RenderType renderType,
+                MultiBufferSource bufferSource, VertexConsumer buffer, float partialTick, int packedLight,
+                int packedOverlay) {
+            if (!entity.isShadowed() || entity.isShadowClone() || !entity.isNeuralLinkActive()) {
+                return;
+            }
+
+            float age = entity.tickCount + partialTick;
+            RenderType hackingRenderType = RenderType.energySwirl(COSMIC_HACKING_TEXTURE,
+                    age * 0.01F, age * 0.01F);
+            getRenderer().reRender(bakedModel, poseStack, bufferSource, entity, hackingRenderType,
+                    bufferSource.getBuffer(hackingRenderType), partialTick, LightTexture.FULL_BRIGHT,
+                    packedOverlay, 0xFFFF80FF);
         }
     }
 }

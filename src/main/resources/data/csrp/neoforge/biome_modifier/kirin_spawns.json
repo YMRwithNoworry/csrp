@@ -1,0 +1,10 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#csrp:kirin_spawns",
+  "spawners": {
+    "type": "csrp:kirin",
+    "weight": 1,
+    "minCount": 1,
+    "maxCount": 1
+  }
+}
