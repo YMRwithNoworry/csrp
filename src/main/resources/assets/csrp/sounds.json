@@ -309,5 +309,9 @@
   "rathol.boom": {
     "subtitle": "subtitles.entity.generic.explode",
     "sounds": ["csrp:rathol_explotion"]
+  },
+  "nade.s": {
+    "category": "hostile",
+    "sounds": ["csrp:misc/nade_s"]
   }
 }

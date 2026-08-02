@@ -1,6 +1,7 @@
 package alku.csrp.entity;
 
 import alku.csrp.registry.ModMobEffects;
+import alku.csrp.registry.ModSounds;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -14,15 +15,21 @@ import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.UUID;
 
 public final class ParasiteProjectileEntity extends Entity {
+    private static final int ELVIA_NADE_START_DELAY_TICKS = 3;
+    private static final int ELVIA_NADE_FUSE_TICKS = 4;
+    private static final int ELVIA_NADE_DURATION_TICKS = 60;
+
     public enum Mode {
         BOMB,
         SPINE,
@@ -31,18 +38,30 @@ public final class ParasiteProjectileEntity extends Entity {
         ACID,
         VOMIT,
         NEEDLE,
-        WITHER
+        WITHER,
+        LENCIA_BALL,
+        ELVIA_BALL,
+        ELVIA_NADE
     }
 
     private static final EntityDataAccessor<Integer> MODE = SynchedEntityData.defineId(
             ParasiteProjectileEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> HOMING_TARGET = SynchedEntityData.defineId(
             ParasiteProjectileEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> NADE_ARMED = SynchedEntityData.defineId(
+            ParasiteProjectileEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> NADE_FUSE_PROGRESS = SynchedEntityData.defineId(
+            ParasiteProjectileEntity.class, EntityDataSerializers.INT);
 
     private UUID ownerId;
     private float damage = 4.0F;
     private double radius = 1.0;
     private int maximumLifetime = 80;
+    private Vec3 acceleration = Vec3.ZERO;
+    private boolean accelerating;
+    private int nadeIgnitionTicks;
+    private int nadeFuseTicks;
+    private int nadeDamageTicks;
 
     public ParasiteProjectileEntity(EntityType<? extends ParasiteProjectileEntity> type, Level level) {
         super(type, level);
@@ -71,13 +90,35 @@ public final class ParasiteProjectileEntity extends Entity {
         }
     }
 
+    public void configureAccelerating(PrimitiveParasiteEntity owner, Mode mode, Vec3 start, Vec3 accelerationDirection,
+                                      float damage, double radius) {
+        ownerId = owner.getUUID();
+        entityData.set(MODE, mode.ordinal());
+        entityData.set(HOMING_TARGET, 0);
+        entityData.set(NADE_ARMED, false);
+        entityData.set(NADE_FUSE_PROGRESS, 0);
+        this.damage = damage;
+        this.radius = radius;
+        maximumLifetime = Integer.MAX_VALUE;
+        setPos(start);
+        acceleration = accelerationDirection.lengthSqr() > 0.001D
+                ? accelerationDirection.normalize().scale(0.1D) : Vec3.ZERO;
+        accelerating = true;
+        setDeltaMovement(Vec3.ZERO);
+    }
+
     @Override
     public void tick() {
         super.tick();
         Mode mode = getMode();
         PrimitiveParasiteEntity owner = owner();
-        if (!level().isClientSide && (owner == null || !owner.isAlive())) {
+        boolean armedNade = mode == Mode.ELVIA_NADE && entityData.get(NADE_ARMED);
+        if (!level().isClientSide && (owner == null || !owner.isAlive()) && !armedNade) {
             discard();
+            return;
+        }
+        if (armedNade) {
+            tickElviaNade(owner);
             return;
         }
 
@@ -94,6 +135,8 @@ public final class ParasiteProjectileEntity extends Entity {
                 case LIGHT, WITHER -> ParticleTypes.SOUL_FIRE_FLAME;
                 case SPINE, NEEDLE -> ParticleTypes.CRIT;
                 case ACID, VOMIT -> ParticleTypes.WITCH;
+                case LENCIA_BALL, ELVIA_BALL -> ParticleTypes.EXPLOSION;
+                case ELVIA_NADE -> ParticleTypes.ITEM_SLIME;
             };
             level().addParticle(particle, getX(), getY(), getZ(), 0.0, 0.0, 0.0);
             return;
@@ -101,14 +144,27 @@ public final class ParasiteProjectileEntity extends Entity {
 
         if (mode == Mode.BOMB || mode == Mode.METEOR || mode == Mode.ACID || mode == Mode.VOMIT) {
             setDeltaMovement(movement.add(0.0, -0.025, 0.0));
+        } else if (accelerating) {
+            setDeltaMovement(movement.add(acceleration).scale(0.95D));
         }
 
         LivingEntity hit = level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(0.65),
-                        target -> owner != null && owner.isValidParasiteTarget(target))
+                        target -> canCollideWith(owner, mode, target))
                 .stream().findFirst().orElse(null);
         if (blockHit.getType() != HitResult.Type.MISS || hit != null || tickCount >= maximumLifetime) {
-            impact(owner, mode);
+            impact(owner, mode, hit);
         }
+    }
+
+    private boolean canCollideWith(PrimitiveParasiteEntity owner, Mode mode, LivingEntity target) {
+        if (owner == null || target == owner || !target.isAlive()) {
+            return false;
+        }
+        return isLegacyProjectile(mode) || owner.isValidParasiteTarget(target);
+    }
+
+    private static boolean isLegacyProjectile(Mode mode) {
+        return mode == Mode.LENCIA_BALL || mode == Mode.ELVIA_BALL || mode == Mode.ELVIA_NADE;
     }
 
     private Vec3 steerTowardsHomingTarget(PrimitiveParasiteEntity owner, Vec3 movement, Mode mode) {
@@ -126,9 +182,13 @@ public final class ParasiteProjectileEntity extends Entity {
         return movement.scale(0.78D).add(direction.normalize().scale(0.42D));
     }
 
-    private void impact(PrimitiveParasiteEntity owner, Mode mode) {
+    private void impact(PrimitiveParasiteEntity owner, Mode mode, LivingEntity directHit) {
         if (owner == null) {
             discard();
+            return;
+        }
+        if (isLegacyProjectile(mode)) {
+            impactLegacyProjectile(owner, mode, directHit);
             return;
         }
         boolean launch = mode == Mode.BOMB || mode == Mode.METEOR || mode == Mode.ACID;
@@ -188,6 +248,74 @@ public final class ParasiteProjectileEntity extends Entity {
                     getX(), getY(), getZ(), 12, radius * 0.25, radius * 0.25, radius * 0.25, 0.02);
         }
         discard();
+    }
+
+    private void impactLegacyProjectile(PrimitiveParasiteEntity owner, Mode mode, LivingEntity directHit) {
+        if ((mode == Mode.LENCIA_BALL || mode == Mode.ELVIA_BALL) && isProtectedParasite(directHit)) {
+            discard();
+            return;
+        }
+        if (mode == Mode.ELVIA_NADE) {
+            accelerating = false;
+            acceleration = Vec3.ZERO;
+            setDeltaMovement(Vec3.ZERO);
+            entityData.set(NADE_ARMED, true);
+            entityData.set(NADE_FUSE_PROGRESS, 0);
+            return;
+        }
+        if (directHit != null) {
+            directHit.hurt(damageSources().mobProjectile(this, owner), damage);
+        }
+        if (mode == Mode.LENCIA_BALL) {
+            level().explode(owner, getX(), getY(), getZ(), 10.0F, Level.ExplosionInteraction.MOB);
+        }
+        discard();
+    }
+
+    private static boolean isProtectedParasite(LivingEntity target) {
+        return target instanceof Parasite
+                && (!(target instanceof DeterrentParasiteEntity deterrent)
+                || deterrent.getKind() != DeterrentParasiteEntity.Kind.SEIZER);
+    }
+
+    private void tickElviaNade(PrimitiveParasiteEntity owner) {
+        setDeltaMovement(Vec3.ZERO);
+        if (level().isClientSide) {
+            for (int index = 0; index < 5; index++) {
+                level().addParticle(ParticleTypes.SMOKE, getRandomX(1.0D), getRandomY(), getRandomZ(1.0D),
+                        0.0D, 0.0D, 0.0D);
+            }
+            for (int index = 0; index < 2; index++) {
+                level().addParticle(ParticleTypes.LARGE_SMOKE, getRandomX(1.0D), getRandomY(), getRandomZ(1.0D),
+                        0.0D, 0.0D, 0.0D);
+            }
+            return;
+        }
+        nadeIgnitionTicks++;
+        if (nadeIgnitionTicks == 2) {
+            playSound(ModSounds.NADE_IGNITE.get(), 1.0F, 1.0F);
+        }
+        if (nadeIgnitionTicks <= ELVIA_NADE_START_DELAY_TICKS) {
+            return;
+        }
+        nadeFuseTicks++;
+        entityData.set(NADE_FUSE_PROGRESS, Math.min(nadeFuseTicks, ELVIA_NADE_FUSE_TICKS - 1));
+        if (nadeFuseTicks < ELVIA_NADE_FUSE_TICKS) {
+            return;
+        }
+        nadeDamageTicks++;
+        if (owner != null && owner.isAlive()) {
+            AABB damageArea = new AABB(getX() - 1.45D, getY(), getZ() - 1.45D,
+                    getX() + 1.45D, getY() + 1.46D, getZ() + 1.45D);
+            float attackDamage = (float) owner.getAttributeValue(Attributes.ATTACK_DAMAGE);
+            for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, damageArea,
+                    owner::isValidParasiteTarget)) {
+                target.hurt(damageSources().mobAttack(owner), attackDamage);
+            }
+        }
+        if (nadeDamageTicks > ELVIA_NADE_DURATION_TICKS) {
+            discard();
+        }
     }
 
     private void spawnLingeringCothCloud(PrimitiveParasiteEntity owner) {
@@ -251,6 +379,8 @@ public final class ParasiteProjectileEntity extends Entity {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         builder.define(MODE, Mode.SPINE.ordinal());
         builder.define(HOMING_TARGET, 0);
+        builder.define(NADE_ARMED, false);
+        builder.define(NADE_FUSE_PROGRESS, 0);
     }
 
     @Override
@@ -260,9 +390,17 @@ public final class ParasiteProjectileEntity extends Entity {
         }
         entityData.set(MODE, sanitizeMode(tag.getInt("mode")));
         entityData.set(HOMING_TARGET, tag.getInt("homing_target"));
+        entityData.set(NADE_ARMED, tag.getBoolean("nade_armed"));
+        entityData.set(NADE_FUSE_PROGRESS, tag.getInt("nade_fuse_progress"));
         damage = tag.getFloat("damage");
         radius = tag.getDouble("radius");
         maximumLifetime = tag.getInt("maximum_lifetime");
+        acceleration = new Vec3(tag.getDouble("acceleration_x"), tag.getDouble("acceleration_y"),
+                tag.getDouble("acceleration_z"));
+        accelerating = tag.getBoolean("accelerating");
+        nadeIgnitionTicks = tag.getInt("nade_ignition_ticks");
+        nadeFuseTicks = tag.getInt("nade_fuse_ticks");
+        nadeDamageTicks = tag.getInt("nade_damage_ticks");
     }
 
     @Override
@@ -272,13 +410,40 @@ public final class ParasiteProjectileEntity extends Entity {
         }
         tag.putInt("mode", entityData.get(MODE));
         tag.putInt("homing_target", entityData.get(HOMING_TARGET));
+        tag.putBoolean("nade_armed", entityData.get(NADE_ARMED));
+        tag.putInt("nade_fuse_progress", entityData.get(NADE_FUSE_PROGRESS));
         tag.putFloat("damage", damage);
         tag.putDouble("radius", radius);
         tag.putInt("maximum_lifetime", maximumLifetime);
+        tag.putDouble("acceleration_x", acceleration.x);
+        tag.putDouble("acceleration_y", acceleration.y);
+        tag.putDouble("acceleration_z", acceleration.z);
+        tag.putBoolean("accelerating", accelerating);
+        tag.putInt("nade_ignition_ticks", nadeIgnitionTicks);
+        tag.putInt("nade_fuse_ticks", nadeFuseTicks);
+        tag.putInt("nade_damage_ticks", nadeDamageTicks);
     }
 
     public Mode getMode() {
         return Mode.values()[sanitizeMode(entityData.get(MODE))];
+    }
+
+    public boolean isLegacyProjectileMode() {
+        return isLegacyProjectile(getMode());
+    }
+
+    public float getRenderWidth() {
+        if (getMode() != Mode.ELVIA_NADE || !entityData.get(NADE_ARMED)) {
+            return 0.3F;
+        }
+        return 0.5F + entityData.get(NADE_FUSE_PROGRESS) * 0.8F;
+    }
+
+    public float getRenderHeight() {
+        if (getMode() != Mode.ELVIA_NADE || !entityData.get(NADE_ARMED)) {
+            return 0.3F;
+        }
+        return 0.5F + entityData.get(NADE_FUSE_PROGRESS) * 0.32F;
     }
 
     private static int sanitizeMode(int modeIndex) {

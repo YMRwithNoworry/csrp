@@ -19,6 +19,7 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
+import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.level.GameRules;
@@ -26,6 +27,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.util.Mth;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.AnimationState;
@@ -48,6 +50,13 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
     private static final int SUCCOR_TRAVEL_TIMEOUT = 400;
     private static final int SUCCOR_STATIONARY_TIMEOUT = 20;
     private static final int SUCCOR_ACTIVATION_TICKS = 10;
+    private static final int STEALTH_CHECK_INTERVAL = 20;
+    private static final int STEALTH_CHECK_OFFSET = 10;
+    private static final int STEALTH_CHECKS_REQUIRED = 3;
+    private static final int STEALTH_EFFECT_TICKS = 25;
+    private static final double STEALTH_HEALTH_THRESHOLD = 0.40D;
+    private static final int MINIMUM_FLIGHT_HEIGHT = 10;
+    private static final int MAXIMUM_FLIGHT_HEIGHT = 30;
     private static final float ADAPTATION_PER_HIT = 0.20F;
     private static final float ADAPTATION_LEARN_CHANCE = 1.0F;
     private static final float FIRE_SUPPRESSION_CHANCE = 0.30F;
@@ -60,21 +69,26 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
     private UUID summonerId;
     private int blockBreakCooldown;
     private int supportCooldown;
-    private int stealthCooldown;
+    private int stealthChecks;
     private int attackAnimationTicks;
+    private int wraithProjectileCount;
     private int succorActionType;
     private int succorTravelTicks;
     private int succorStationaryTicks;
     private int succorActivationTicks;
     private BlockPos succorTargetPos;
     private boolean succorActionConsumed;
+    private boolean stealthActive;
+    private boolean charging;
 
     public PreeminentParasiteEntity(EntityType<? extends PreeminentParasiteEntity> type, Level level, Kind kind) {
         super(type, level);
         this.kind = kind;
         xpReward = 75;
         if (kind.flying) {
-            moveControl = new FlyingMoveControl(this, 18, true);
+            moveControl = kind == Kind.BOGLE || kind == Kind.WRAITH
+                    ? new PreeminentFlyingMoveControl(this)
+                    : new FlyingMoveControl(this, 18, true);
             setNoGravity(true);
         }
     }
@@ -98,8 +112,9 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         super.registerGoals();
         switch (activeKind()) {
             case BOGLE -> {
-                goalSelector.addGoal(1, new BogleBombGoal());
-                goalSelector.addGoal(2, new FlightPursuitGoal(1.0D));
+                goalSelector.addGoal(4, new PreeminentChargeAttackGoal());
+                goalSelector.addGoal(5, new LegacyProjectileAttackGoal(60, 30, 3));
+                goalSelector.addGoal(6, new PreeminentRandomFlightGoal());
             }
             case CARRIER_COLONY -> {
                 goalSelector.addGoal(1, new ColonySupportGoal());
@@ -115,8 +130,9 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
                 goalSelector.addGoal(2, new FlightPursuitGoal(0.85D));
             }
             case WRAITH -> {
-                goalSelector.addGoal(1, new WraithNadeBurstGoal());
-                goalSelector.addGoal(2, new FlightPursuitGoal(1.0D));
+                goalSelector.addGoal(4, new PreeminentChargeAttackGoal());
+                goalSelector.addGoal(5, new LegacyProjectileAttackGoal(20, 10, 4));
+                goalSelector.addGoal(6, new PreeminentRandomFlightGoal());
             }
             case SUCCOR -> goalSelector.addGoal(1, new SuccorActionGoal());
         }
@@ -141,20 +157,27 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
                 supportCooldown = 0;
             }
         }
-        if (stealthCooldown > 0) {
-            stealthCooldown--;
-        }
         if (attackAnimationTicks > 0) {
             attackAnimationTicks--;
         }
-        if (activeKind.flying && onGround()) {
-            getMoveControl().setWantedPosition(getX(), getY() + 4.0D, getZ(), 0.60D);
+        if (activeKind.flying && !isStealthKind() && onGround()) {
+            getMoveControl().setWantedPosition(getX(), getY() + 5.0D, getZ(), 0.50D);
         }
-        if (isStealthKind() && stealthCooldown <= 0 && getHealth() >= getMaxHealth() * 0.40F) {
-            setInvisible(true);
+        LivingEntity target = getTarget();
+        if (activeKind.flying) {
+            applyFlightLimits(target);
+        }
+        if (isStealthKind()) {
+            if (Math.floorMod(tickCount, STEALTH_CHECK_INTERVAL) == STEALTH_CHECK_OFFSET) {
+                if (target != null && (!level().isEmptyBlock(blockPosition().below())
+                        || !level().isEmptyBlock(blockPosition().below(2)))) {
+                    Vec3 movement = getDeltaMovement();
+                    setDeltaMovement(movement.x, 0.5D, movement.z);
+                }
+                updateStealth();
+            }
         }
 
-        LivingEntity target = getTarget();
         if (target == null || !target.isAlive()) {
             return;
         }
@@ -162,7 +185,8 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         if (activeKind != Kind.SUCCOR && supportCooldown == SUCCOR_SUMMON_PHASE) {
             trySummonSuccor(target);
         }
-        if ((activeKind == Kind.BOGLE || activeKind == Kind.WRAITH) && tickCount % 20 == 0) {
+        if ((activeKind == Kind.BOGLE || activeKind == Kind.WRAITH)
+                && Math.floorMod(tickCount, STEALTH_CHECK_INTERVAL) == STEALTH_CHECK_OFFSET) {
             applyFlyingAura();
         }
     }
@@ -229,7 +253,6 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putInt("preeminent_support_cooldown", supportCooldown);
-        tag.putInt("preeminent_stealth_cooldown", stealthCooldown);
         tag.putBoolean("preeminent_succor_action", succorActionConsumed);
         tag.putInt("preeminent_succor_action_type", succorActionType);
         tag.putInt("preeminent_succor_travel", succorTravelTicks);
@@ -248,7 +271,6 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         super.readAdditionalSaveData(tag);
         supportCooldown = Math.floorMod(tag.getInt("preeminent_support_cooldown"),
                 SUCCOR_SUMMON_TIMER_MAX + 1);
-        stealthCooldown = tag.getInt("preeminent_stealth_cooldown");
         succorActionConsumed = tag.getBoolean("preeminent_succor_action");
         succorActionType = tag.getInt("preeminent_succor_action_type");
         succorTravelTicks = tag.getInt("preeminent_succor_travel");
@@ -291,16 +313,74 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private void revealStealth() {
-        setInvisible(false);
-        stealthCooldown = 100;
+        stealthActive = false;
+        stealthChecks = 0;
+    }
+
+    private void updateStealth() {
+        double healthRatio = getHealth() / getMaxHealth();
+        if (stealthActive) {
+            addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, STEALTH_EFFECT_TICKS, 1,
+                    false, false), this);
+            if (healthRatio < STEALTH_HEALTH_THRESHOLD) {
+                stealthActive = false;
+            }
+        } else if (healthRatio >= STEALTH_HEALTH_THRESHOLD) {
+            stealthChecks++;
+            if (stealthChecks >= STEALTH_CHECKS_REQUIRED) {
+                stealthActive = true;
+                stealthChecks = 0;
+                if (level() instanceof ServerLevel serverLevel) {
+                    serverLevel.sendParticles(ParticleTypes.POOF, getX(), getY() + getBbHeight() * 0.5D,
+                            getZ(), 12, getBbWidth() * 0.4D, getBbHeight() * 0.3D,
+                            getBbWidth() * 0.4D, 0.02D);
+                }
+            }
+        }
     }
 
     private void applyFlyingAura() {
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(3.0D),
                 this::isValidParasiteTarget)) {
-            target.hurt(damageSources().mobAttack(this),
-                    (float) getAttributeValue(Attributes.ATTACK_DAMAGE) * 0.25F);
+            Vec3 movement = target.getDeltaMovement();
+            Vec3 away = target.position().subtract(position()).multiply(1.0D, 0.0D, 1.0D);
+            if (away.lengthSqr() > 0.0001D) {
+                away = away.normalize().scale(2.5D);
+                double vertical = target.onGround() ? 0.4D : movement.y;
+                target.setDeltaMovement(movement.x * 0.5D + away.x, vertical,
+                        movement.z * 0.5D + away.z);
+                target.hurtMarked = true;
+            }
+            doHurtTarget(target);
         }
+    }
+
+    private void applyFlightLimits(LivingEntity target) {
+        double verticalAdjustment = 0.0D;
+        if (hasGroundWithin(MINIMUM_FLIGHT_HEIGHT)) {
+            verticalAdjustment += 0.04D;
+        }
+        if (target != null) {
+            if (target.getY() + MAXIMUM_FLIGHT_HEIGHT > getY()) {
+                verticalAdjustment -= 0.04D;
+            }
+        } else if (!hasGroundWithin(MAXIMUM_FLIGHT_HEIGHT)) {
+            verticalAdjustment -= 0.04D;
+        }
+        if (verticalAdjustment != 0.0D) {
+            setDeltaMovement(getDeltaMovement().add(0.0D, verticalAdjustment, 0.0D));
+        }
+    }
+
+    private boolean hasGroundWithin(int distance) {
+        BlockPos cursor = blockPosition().below();
+        for (int offset = 1; offset <= distance && cursor.getY() >= level().getMinBuildHeight(); offset++) {
+            if (!level().getBlockState(cursor).isAir()) {
+                return true;
+            }
+            cursor = cursor.below();
+        }
+        return false;
     }
 
     private void breakBlocksTowardsTarget(LivingEntity target, Kind activeKind) {
@@ -382,6 +462,25 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         }
         Vec3 start = getEyePosition().add(getViewVector(1.0F).scale(0.65D));
         projectile.configure(this, mode, start, target.getEyePosition(), speed, damage, radius, lifetime, target);
+        level().addFreshEntity(projectile);
+    }
+
+    private void fireLegacyProjectile(LivingEntity target, ParasiteProjectileEntity.Mode mode) {
+        ParasiteProjectileEntity projectile = ModEntities.PARASITE_PROJECTILE.get().create(level());
+        if (projectile == null) {
+            return;
+        }
+        Vec3 look = getViewVector(1.0F);
+        Vec3 start = new Vec3(getX() + look.x, getY() + getEyeHeight() - 0.2D, getZ() + look.z);
+        Vec3 accelerationDirection = new Vec3(
+                target.getX() - (getX() + look.x),
+                target.getBoundingBox().minY + target.getBbHeight() * 0.5D
+                        - (0.5D + getY() + getBbHeight() * 0.5D),
+                target.getZ() - (getZ() + look.z));
+        double radius = mode == ParasiteProjectileEntity.Mode.LENCIA_BALL ? 10.0D
+                : mode == ParasiteProjectileEntity.Mode.ELVIA_NADE ? 1.45D : 0.3D;
+        projectile.configureAccelerating(this, mode, start, accelerationDirection,
+                (float) getAttributeValue(Attributes.ATTACK_DAMAGE), radius);
         level().addFreshEntity(projectile);
     }
 
@@ -467,6 +566,37 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         return Kind.BOGLE;
     }
 
+    private static final class PreeminentFlyingMoveControl extends MoveControl {
+        private PreeminentFlyingMoveControl(PreeminentParasiteEntity mob) {
+            super(mob);
+        }
+
+        @Override
+        public void tick() {
+            if (operation != Operation.MOVE_TO) {
+                return;
+            }
+            double x = wantedX - mob.getX();
+            double y = wantedY - mob.getY();
+            double z = wantedZ - mob.getZ();
+            double distance = Math.sqrt(x * x + y * y + z * z);
+            if (distance < mob.getBoundingBox().getSize()) {
+                operation = Operation.WAIT;
+                mob.setDeltaMovement(mob.getDeltaMovement().scale(0.5D));
+                return;
+            }
+            mob.setDeltaMovement(mob.getDeltaMovement().add(
+                    x / distance * 0.05D * speedModifier,
+                    y / distance * 0.05D * speedModifier,
+                    z / distance * 0.05D * speedModifier));
+            LivingEntity target = mob.getTarget();
+            double lookX = target == null ? mob.getDeltaMovement().x : target.getX() - mob.getX();
+            double lookZ = target == null ? mob.getDeltaMovement().z : target.getZ() - mob.getZ();
+            mob.setYRot(-((float) Mth.atan2(lookX, lookZ)) * Mth.RAD_TO_DEG);
+            mob.yBodyRot = mob.getYRot();
+        }
+    }
+
     private final class FlightPursuitGoal extends Goal {
         private final double speed;
         private int contactCooldown;
@@ -504,21 +634,155 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         }
     }
 
-    private final class BogleBombGoal extends Goal {
-        private int cooldown;
+    private final class LegacyProjectileAttackGoal extends Goal {
+        private final int warmup;
+        private final int shotInterval;
+        private final int shotsPerCycle;
+        private int attackTimer;
+        private int shotsFired;
+        private int airborneTargetShots;
 
-        private BogleBombGoal() {
-            setFlags(EnumSet.of(Flag.LOOK));
+        private LegacyProjectileAttackGoal(int warmup, int shotInterval, int shotsPerCycle) {
+            this.warmup = warmup;
+            this.shotInterval = shotInterval;
+            this.shotsPerCycle = shotsPerCycle;
         }
 
         @Override
         public boolean canUse() {
-            if (cooldown > 0) {
-                cooldown--;
-                return false;
-            }
             LivingEntity target = getTarget();
-            return target != null && target.onGround() && hasLineOfSight(target) && distanceToSqr(target) <= 1600.0D;
+            return target != null && target.isAlive();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return canUse();
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = getTarget();
+            if (target == null || !target.isAlive()) {
+                attackTimer = 0;
+                return;
+            }
+            getLookControl().setLookAt(target, 30.0F, 30.0F);
+            if (distanceToSqr(target) >= 4225.0D || !hasLineOfSight(target)) {
+                if (attackTimer > 0) {
+                    attackTimer--;
+                }
+                return;
+            }
+            attackTimer += hasEffect(ModMobEffects.RAGE) ? 2 : 1;
+            if (attackTimer == warmup - 10) {
+                revealStealth();
+                if (activeKind() == Kind.WRAITH) {
+                    wraithProjectileCount++;
+                }
+            }
+            if (attackTimer <= warmup) {
+                return;
+            }
+            if (shotsFired >= shotsPerCycle) {
+                attackTimer = 0;
+                shotsFired = 0;
+                return;
+            }
+            if (Math.floorMod(attackTimer, shotInterval) != 0) {
+                return;
+            }
+            if (target.onGround()) {
+                airborneTargetShots = 0;
+            } else {
+                airborneTargetShots++;
+            }
+            if (airborneTargetShots <= 5) {
+                ParasiteProjectileEntity.Mode mode;
+                if (activeKind() == Kind.BOGLE) {
+                    mode = ParasiteProjectileEntity.Mode.LENCIA_BALL;
+                } else if (wraithProjectileCount >= 1) {
+                    wraithProjectileCount = 0;
+                    mode = ParasiteProjectileEntity.Mode.ELVIA_NADE;
+                } else {
+                    mode = ParasiteProjectileEntity.Mode.ELVIA_BALL;
+                }
+                fireLegacyProjectile(target, mode);
+            }
+            shotsFired++;
+        }
+
+        @Override
+        public void stop() {
+            attackTimer = 0;
+            shotsFired = 0;
+        }
+    }
+
+    private final class PreeminentChargeAttackGoal extends Goal {
+        private PreeminentChargeAttackGoal() {
+            setFlags(EnumSet.of(Flag.MOVE));
+        }
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = getTarget();
+            return target != null && target.isAlive() && random.nextInt(5) == 0
+                    && distanceToSqr(target) > 4.0D;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            LivingEntity target = getTarget();
+            return getMoveControl().hasWanted() && charging && target != null && target.isAlive();
+        }
+
+        @Override
+        public void start() {
+            LivingEntity target = getTarget();
+            if (target == null) {
+                return;
+            }
+            Vec3 eye = target.getEyePosition();
+            getMoveControl().setWantedPosition(eye.x, target.getY() + 20.0D, eye.z, 0.7D);
+            charging = true;
+        }
+
+        @Override
+        public void stop() {
+            charging = false;
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = getTarget();
+            if (target == null || !target.isAlive()) {
+                return;
+            }
+            if (getBoundingBox().intersects(target.getBoundingBox())) {
+                doHurtTarget(target);
+                charging = false;
+                return;
+            }
+            Vec3 eye = target.getEyePosition();
+            double distance = distanceToSqr(target);
+            if (distance < 9.0D) {
+                getMoveControl().setWantedPosition(eye.x,
+                        hasLineOfSight(target) ? eye.y + 20.0D : eye.y, eye.z,
+                        hasLineOfSight(target) ? 0.7D : 1.1D);
+            } else {
+                getMoveControl().setWantedPosition(eye.x, target.getY() + 20.0D, eye.z, 1.1D);
+            }
+        }
+    }
+
+    private final class PreeminentRandomFlightGoal extends Goal {
+        private PreeminentRandomFlightGoal() {
+            setFlags(EnumSet.of(Flag.MOVE));
+        }
+
+        @Override
+        public boolean canUse() {
+            return !getMoveControl().hasWanted() && random.nextInt(7) == 0;
         }
 
         @Override
@@ -527,13 +791,44 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         }
 
         @Override
-        public void start() {
+        public void tick() {
+            BlockPos origin = blockPosition();
+            int mode = 1;
+            double speed = 0.6D;
             LivingEntity target = getTarget();
             if (target != null) {
-                getLookControl().setLookAt(target, 30.0F, 30.0F);
-                revealStealth();
-                fireProjectile(target, ParasiteProjectileEntity.Mode.BOMB, 0.72D, 70.0F, 4.0D, 100);
-                cooldown = 100;
+                double distance = distanceToSqr(target);
+                if (distance > 100.0D) {
+                    origin = target.blockPosition();
+                    mode = 2;
+                    speed += 0.1D;
+                } else if (distance < 36.0D) {
+                    origin = target.blockPosition();
+                    mode = 3;
+                    speed += 0.15D;
+                }
+            }
+            for (int attempt = 0; attempt < 3; attempt++) {
+                BlockPos candidate;
+                if (mode == 2) {
+                    candidate = origin.offset(random.nextInt(6) - 2, random.nextInt(7) - 2,
+                            random.nextInt(6) - 2);
+                } else if (mode == 3) {
+                    candidate = origin.offset(random.nextInt(4) + 3, random.nextInt(5) + 4,
+                            random.nextInt(4) + 3);
+                } else {
+                    candidate = origin.offset(random.nextInt(15) - 7, random.nextInt(11) - 5,
+                            random.nextInt(15) - 7);
+                }
+                if (level().isEmptyBlock(candidate)) {
+                    getMoveControl().setWantedPosition(candidate.getX() + 0.5D, candidate.getY() + 1.0D,
+                            candidate.getZ() + 0.5D, speed);
+                    if (target == null) {
+                        getLookControl().setLookAt(candidate.getX() + 0.5D, candidate.getY() + 1.0D,
+                                candidate.getZ() + 0.5D, 180.0F, 20.0F);
+                    }
+                    return;
+                }
             }
         }
     }
@@ -660,60 +955,6 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
             fireProjectile(target, ParasiteProjectileEntity.Mode.BOMB, 0.62D, 55.0F, 5.0D, 120);
             spawnHeavyPayload(target);
             cooldown = 160;
-        }
-    }
-
-    private final class WraithNadeBurstGoal extends Goal {
-        private int cooldown;
-        private int shots;
-        private int delay;
-
-        private WraithNadeBurstGoal() {
-            setFlags(EnumSet.of(Flag.LOOK));
-        }
-
-        @Override
-        public boolean canUse() {
-            if (cooldown > 0) {
-                cooldown--;
-                return false;
-            }
-            LivingEntity target = getTarget();
-            return target != null && target.onGround() && hasLineOfSight(target) && distanceToSqr(target) <= 1600.0D;
-        }
-
-        @Override
-        public boolean canContinueToUse() {
-            LivingEntity target = getTarget();
-            return target != null && target.isAlive() && shots < 3;
-        }
-
-        @Override
-        public void start() {
-            shots = 0;
-            delay = 0;
-            revealStealth();
-        }
-
-        @Override
-        public void tick() {
-            LivingEntity target = getTarget();
-            if (target == null) {
-                return;
-            }
-            getLookControl().setLookAt(target, 30.0F, 30.0F);
-            if (delay > 0) {
-                delay--;
-                return;
-            }
-            fireProjectile(target, ParasiteProjectileEntity.Mode.BOMB, 0.82D, 35.0F, 2.5D, 90);
-            shots++;
-            delay = 5;
-        }
-
-        @Override
-        public void stop() {
-            cooldown = 100;
         }
     }
 
