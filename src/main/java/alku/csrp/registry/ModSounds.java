@@ -73,6 +73,11 @@ public final class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> MOB_EXPLOSION = register("mob.explotion");
     public static final DeferredHolder<SoundEvent, SoundEvent> ORB_START = register("orb.s");
     public static final DeferredHolder<SoundEvent, SoundEvent> ORB_END = register("orb.e");
+    public static final DeferredHolder<SoundEvent, SoundEvent> COMPENDIUM_UNLOCK_ENTITY = register("compendium.unlock_entity");
+    public static final DeferredHolder<SoundEvent, SoundEvent> COMPENDIUM_UNLOCK_BLOCK = register("compendium.unlock_block");
+    public static final DeferredHolder<SoundEvent, SoundEvent> COMPENDIUM_UNLOCK_CELESTIAL = register("compendium.unlock_celestial");
+    public static final DeferredHolder<SoundEvent, SoundEvent> COMPENDIUM_UNLOCK_EFFECT = register("compendium.unlock_effect");
+    public static final DeferredHolder<SoundEvent, SoundEvent> COMPENDIUM_UNLOCK_ITEM = register("compendium.unlock_item");
 
     private ModSounds() {
     }

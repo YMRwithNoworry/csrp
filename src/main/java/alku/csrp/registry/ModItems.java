@@ -2,6 +2,7 @@ package alku.csrp.registry;
 
 import alku.csrp.Csrp;
 import alku.csrp.item.BoughItem;
+import alku.csrp.item.CompendiumItem;
 import alku.csrp.item.FalseAppleItem;
 import alku.csrp.item.FishlinItem;
 import alku.csrp.item.HijackedArmorItem;
@@ -355,7 +356,8 @@ public final class ModItems {
             "colonycompass", CompassItem::new, new Item.Properties().stacksTo(1));
     public static final DeferredItem<CompassItem> ORIGINCOMPASS = ITEMS.registerItem(
             "origincompass", CompassItem::new, new Item.Properties().stacksTo(1));
-    public static final DeferredItem<Item> SRP_FIELD_GUIDE = simple("srp_field_guide", new Item.Properties().stacksTo(1));
+    public static final DeferredItem<CompendiumItem> SRP_FIELD_GUIDE = ITEMS.registerItem(
+            "srp_field_guide", CompendiumItem::new, new Item.Properties().stacksTo(1));
     public static final DeferredItem<Item> BOOK_OF_VENGEANCE = simple("book_of_vengeance", new Item.Properties().stacksTo(1));
     public static final DeferredItem<TheSignCharmItem> THE_SIGN_CHARM = ITEMS.registerItem(
             "the_sign_charm", TheSignCharmItem::new, new Item.Properties().stacksTo(1));

@@ -1,0 +1,23 @@
+package alku.csrp.compendium.network;
+
+import alku.csrp.Csrp;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+
+@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.MOD)
+public final class CompendiumPayloads {
+    private CompendiumPayloads() {
+    }
+
+    @SubscribeEvent
+    public static void register(RegisterPayloadHandlersEvent event) {
+        var registrar = event.registrar("1");
+        registrar.playToServer(CompendiumRequestPayload.TYPE, CompendiumRequestPayload.STREAM_CODEC,
+                CompendiumRequestPayload::handle);
+        registrar.playToClient(CompendiumOpenPayload.TYPE, CompendiumOpenPayload.STREAM_CODEC,
+                CompendiumOpenPayload::handle);
+        registrar.playToClient(CompendiumUnlockPayload.TYPE, CompendiumUnlockPayload.STREAM_CODEC,
+                CompendiumUnlockPayload::handle);
+    }
+}

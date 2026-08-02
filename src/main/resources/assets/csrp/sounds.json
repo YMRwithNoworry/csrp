@@ -360,5 +360,20 @@
   "orb.e": {
     "category": "hostile",
     "sounds": ["csrp:misc/orb_e"]
+  },
+  "compendium.unlock_entity": {
+    "sounds": ["csrp:bestiary/entity/unlock1", "csrp:bestiary/entity/unlock2", "csrp:bestiary/entity/unlock3", "csrp:bestiary/entity/unlock4", "csrp:bestiary/entity/unlock5", "csrp:bestiary/entity/unlock6", "csrp:bestiary/entity/unlock7", "csrp:bestiary/entity/unlock8"]
+  },
+  "compendium.unlock_block": {
+    "sounds": ["csrp:bestiary/block/unlock1", "csrp:bestiary/block/unlock2", "csrp:bestiary/block/unlock3", "csrp:bestiary/block/unlock4", "csrp:bestiary/block/unlock5", "csrp:bestiary/block/unlock6", "csrp:bestiary/block/unlock7", "csrp:bestiary/block/unlock8"]
+  },
+  "compendium.unlock_celestial": {
+    "sounds": ["csrp:bestiary/celestial/unlock1", "csrp:bestiary/celestial/unlock2", "csrp:bestiary/celestial/unlock3", "csrp:bestiary/celestial/unlock4", "csrp:bestiary/celestial/unlock5", "csrp:bestiary/celestial/unlock6", "csrp:bestiary/celestial/unlock7", "csrp:bestiary/celestial/unlock8"]
+  },
+  "compendium.unlock_effect": {
+    "sounds": ["csrp:bestiary/effect/unlock1", "csrp:bestiary/effect/unlock2", "csrp:bestiary/effect/unlock3", "csrp:bestiary/effect/unlock4", "csrp:bestiary/effect/unlock5", "csrp:bestiary/effect/unlock6", "csrp:bestiary/effect/unlock7", "csrp:bestiary/effect/unlock8"]
+  },
+  "compendium.unlock_item": {
+    "sounds": ["csrp:bestiary/item/unlock1", "csrp:bestiary/item/unlock2", "csrp:bestiary/item/unlock3", "csrp:bestiary/item/unlock4", "csrp:bestiary/item/unlock5", "csrp:bestiary/item/unlock6", "csrp:bestiary/item/unlock7", "csrp:bestiary/item/unlock8"]
   }
 }
