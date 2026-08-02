@@ -1,5 +1,9 @@
 package alku.csrp.entity;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -20,6 +24,10 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
     private static final int ATTACK_INTERVAL_TICKS = 10;
     private static final int ATTACKS_BEFORE_REST = 2;
     private static final int ATTACK_REST_TICKS = 100;
+    private static final String ATTACKS_SINCE_REST_TAG = "MeleeAttacksSinceRest";
+    private static final String REST_TICKS_TAG = "MeleeRestTicks";
+    private static final EntityDataAccessor<Boolean> MELEE_RESTING = SynchedEntityData.defineId(
+            LongarmsEntity.class, EntityDataSerializers.BOOLEAN);
 
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
@@ -27,7 +35,7 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
     private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
     private int shockwaveCooldown = 100;
     private int meleeAttacksSinceRest;
-    private int meleeRestUntilTick;
+    private int meleeRestTicks;
 
     public LongarmsEntity(EntityType<? extends LongarmsEntity> type, Level level) {
         super(type, level);
@@ -41,6 +49,12 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(MELEE_RESTING, false);
+    }
+
+    @Override
     protected void registerGoals() {
         super.registerGoals();
         goalSelector.addGoal(1, new LongarmsRestGoal());
@@ -50,6 +64,12 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
 
     @Override
     public void tick() {
+        if (!level().isClientSide && meleeRestTicks > 0) {
+            meleeRestTicks--;
+            if (meleeRestTicks == 0) {
+                entityData.set(MELEE_RESTING, false);
+            }
+        }
         super.tick();
         if (!level().isClientSide && isInWaterOrBubble() && getTarget() != null && tickCount % 20 == 0) {
             setDeltaMovement(getDeltaMovement().add(0.0, 0.095, 0.0));
@@ -66,7 +86,7 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
     }
 
     private boolean isRestingAfterMeleeAttacks() {
-        return tickCount < meleeRestUntilTick;
+        return entityData.get(MELEE_RESTING);
     }
 
     private void recordMeleeAttack() {
@@ -75,7 +95,8 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
             return;
         }
         meleeAttacksSinceRest = 0;
-        meleeRestUntilTick = tickCount + ATTACK_REST_TICKS;
+        meleeRestTicks = ATTACK_REST_TICKS;
+        entityData.set(MELEE_RESTING, true);
         getNavigation().stop();
         setAggressive(false);
     }
@@ -86,6 +107,21 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putInt(ATTACKS_SINCE_REST_TAG, meleeAttacksSinceRest);
+        tag.putInt(REST_TICKS_TAG, meleeRestTicks);
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        meleeAttacksSinceRest = Math.clamp(tag.getInt(ATTACKS_SINCE_REST_TAG), 0, ATTACKS_BEFORE_REST - 1);
+        meleeRestTicks = Math.max(0, tag.getInt(REST_TICKS_TAG));
+        entityData.set(MELEE_RESTING, meleeRestTicks > 0);
+    }
+
+    @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
         controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
@@ -93,6 +129,7 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
     }
 
     private PlayState movementAnimation(AnimationState<LongarmsEntity> state) {
+        if (isRestingAfterMeleeAttacks()) return state.setAndContinue(IDLE);
         if (!state.isMoving()) return state.setAndContinue(IDLE);
         return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() > 0.02 ? RUN : WALK);
     }
@@ -111,6 +148,11 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
         @Override
         public boolean canContinueToUse() {
             return canUse();
+        }
+
+        @Override
+        public void start() {
+            setAggressive(true);
         }
 
         @Override public void tick() {
@@ -171,6 +213,12 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
                 getLookControl().setLookAt(target, 30.0F, 30.0F);
             }
         }
+
+        @Override
+        public void stop() {
+            LivingEntity target = getTarget();
+            setAggressive(target != null && target.isAlive());
+        }
     }
 
     private final class ShockwaveGoal extends Goal {
@@ -179,7 +227,9 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
         @Override public boolean canUse() {
             return shockwaveCooldown == 0 && !isRestingAfterMeleeAttacks() && getTarget() != null && onGround();
         }
-        @Override public boolean canContinueToUse() { return charge < 80 && getTarget() != null; }
+        @Override public boolean canContinueToUse() {
+            return charge < 80 && !isRestingAfterMeleeAttacks() && getTarget() != null;
+        }
         @Override public void start() { charge = 0; getNavigation().stop(); }
         @Override public void tick() { if (++charge == 60) hurtNearby(LongarmsEntity.this, 12.0, 4.5F, true); }
         @Override public void stop() { shockwaveCooldown = 100; charge = 0; }
