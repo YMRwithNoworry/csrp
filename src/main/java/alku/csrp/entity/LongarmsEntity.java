@@ -43,6 +43,7 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
     @Override
     protected void registerGoals() {
         super.registerGoals();
+        goalSelector.addGoal(1, new LongarmsRestGoal());
         goalSelector.addGoal(1, new ShockwaveGoal());
         goalSelector.addGoal(2, new LongarmsMeleeGoal());
     }
@@ -57,12 +58,31 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
     }
 
     private void performAoeAttack(Entity center) {
+        if (isRestingAfterMeleeAttacks()) {
+            return;
+        }
         triggerAnim("attack_controller", "attack");
         hurtNearby(center, 1.5, (float) getAttributeValue(Attributes.ATTACK_DAMAGE), random.nextFloat() < 0.1F);
     }
 
     private boolean isRestingAfterMeleeAttacks() {
         return tickCount < meleeRestUntilTick;
+    }
+
+    private void recordMeleeAttack() {
+        meleeAttacksSinceRest++;
+        if (meleeAttacksSinceRest < ATTACKS_BEFORE_REST) {
+            return;
+        }
+        meleeAttacksSinceRest = 0;
+        meleeRestUntilTick = tickCount + ATTACK_REST_TICKS;
+        getNavigation().stop();
+        setAggressive(false);
+    }
+
+    @Override
+    public boolean doHurtTarget(Entity target) {
+        return !isRestingAfterMeleeAttacks() && super.doHurtTarget(target);
     }
 
     @Override
@@ -85,7 +105,7 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
         @Override
         public boolean canUse() {
             LivingEntity target = getTarget();
-            return target != null && target.isAlive();
+            return !isRestingAfterMeleeAttacks() && target != null && target.isAlive();
         }
 
         @Override
@@ -107,12 +127,8 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
             if (cooldown > 0) cooldown--;
             if (distanceToSqr(target) <= 8.0D && cooldown == 0) {
                 performAoeAttack(target);
-                meleeAttacksSinceRest++;
-                if (meleeAttacksSinceRest >= ATTACKS_BEFORE_REST) {
-                    meleeAttacksSinceRest = 0;
-                    getNavigation().stop();
-                    meleeRestUntilTick = tickCount + ATTACK_REST_TICKS;
-                } else {
+                recordMeleeAttack();
+                if (!isRestingAfterMeleeAttacks()) {
                     cooldown = ATTACK_INTERVAL_TICKS;
                 }
             }
@@ -122,6 +138,37 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
         public void stop() {
             if (getTarget() == null || !getTarget().isAlive()) {
                 cooldown = 0;
+            }
+        }
+    }
+
+    private final class LongarmsRestGoal extends Goal {
+        LongarmsRestGoal() {
+            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
+        }
+
+        @Override
+        public boolean canUse() {
+            return isRestingAfterMeleeAttacks();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return isRestingAfterMeleeAttacks();
+        }
+
+        @Override
+        public void start() {
+            getNavigation().stop();
+            setAggressive(false);
+        }
+
+        @Override
+        public void tick() {
+            getNavigation().stop();
+            LivingEntity target = getTarget();
+            if (target != null) {
+                getLookControl().setLookAt(target, 30.0F, 30.0F);
             }
         }
     }
