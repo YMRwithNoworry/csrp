@@ -314,6 +314,10 @@
     "category": "hostile",
     "sounds": ["csrp:misc/nade_s"]
   },
+  "dorpa.range": {
+    "category": "hostile",
+    "sounds": ["csrp:dorpa_rangea"]
+  },
   "vesta.growl": {
     "category": "hostile",
     "sounds": [

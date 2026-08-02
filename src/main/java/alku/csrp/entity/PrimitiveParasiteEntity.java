@@ -97,7 +97,8 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     @Override
     protected void registerGoals() {
         if (!(this instanceof PreeminentParasiteEntity preeminent
-                && preeminent.getKind() == PreeminentParasiteEntity.Kind.CARRIER_COLONY)) {
+                && (preeminent.getKind() == PreeminentParasiteEntity.Kind.CARRIER_COLONY
+                || preeminent.getKind() == PreeminentParasiteEntity.Kind.HAUNTER))) {
             goalSelector.addGoal(0, new FloatGoal(this));
         }
         if (!(this instanceof PreeminentParasiteEntity)) {

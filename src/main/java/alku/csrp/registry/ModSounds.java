@@ -65,6 +65,7 @@ public final class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> SCENT_MUSIC = register("scent.music");
     public static final DeferredHolder<SoundEvent, SoundEvent> RATHOL_BOOM = register("rathol.boom");
     public static final DeferredHolder<SoundEvent, SoundEvent> NADE_IGNITE = register("nade.s");
+    public static final DeferredHolder<SoundEvent, SoundEvent> DORPA_RANGE = register("dorpa.range");
     public static final DeferredHolder<SoundEvent, SoundEvent> CARRIER_COLONY_LIVING = register("vesta.growl");
     public static final DeferredHolder<SoundEvent, SoundEvent> CARRIER_COLONY_HURT = register("vesta.hurt");
     public static final DeferredHolder<SoundEvent, SoundEvent> CARRIER_COLONY_DEATH = register("vesta.death");

@@ -6,6 +6,7 @@ import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -32,7 +33,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -40,6 +40,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.PartEntity;
+import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
@@ -48,6 +49,8 @@ import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 
 import java.util.EnumSet;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -56,6 +59,8 @@ import java.util.UUID;
  */
 public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
     private static final EntityDataAccessor<Boolean> CARRIER_VARIANT =
+            SynchedEntityData.defineId(PreeminentParasiteEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> HAUNTER_VARIANT =
             SynchedEntityData.defineId(PreeminentParasiteEntity.class, EntityDataSerializers.BOOLEAN);
     private static final int MAX_ADAPTATION_HITS = 5;
     private static final int MAX_LEARNABLE_DAMAGE_SOURCES = 20;
@@ -78,6 +83,14 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
     private static final int CARRIER_RECRUIT_RANGE = 16;
     private static final int CARRIER_MELEE_INTERVAL_TICKS = 10;
     private static final int CARRIER_WATER_LEAP_COOLDOWN_TICKS = 20;
+    private static final int HAUNTER_BLOCK_BREAK_INTERVAL_TICKS = 60;
+    private static final double HAUNTER_BLOCK_BREAK_MAX_DISTANCE_SQR = 64.0D * 64.0D;
+    private static final float HAUNTER_BLOCK_BREAK_HARDNESS = 15.0F;
+    private static final int HAUNTER_BLOCK_BREAK_RANGE = 5;
+    private static final Set<String> HAUNTER_BLOCK_BREAK_BLACKLIST = Set.of(
+            "csrp:biome_heart", "csrp:colony_heart", "csrp:parasite_rubble_dense",
+            "csrp:parasite_canister_active", "srparasites:biomeheart", "srparasites:colonyheart",
+            "srparasites:parasiterubbledense", "srparasites:parasitecanisteractive");
     private static final float ADAPTATION_PER_HIT = 0.20F;
     private static final float ADAPTATION_LEARN_CHANCE = 1.0F;
     private static final float FIRE_SUPPRESSION_CHANCE = 0.30F;
@@ -88,9 +101,12 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
 
     private final Kind kind;
     private final CarrierHeadPart carrierHeadPart;
-    private final PartEntity<?>[] carrierParts;
+    private final HaunterBodyPart haunterHeadPart;
+    private final HaunterBodyPart haunterMiddlePart;
+    private final PartEntity<?>[] parts;
     private UUID summonerId;
     private int blockBreakCooldown;
+    private int haunterBlockBreakCooldown;
     private int supportCooldown;
     private int stealthChecks;
     private int attackAnimationTicks;
@@ -103,12 +119,17 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
     private boolean succorActionConsumed;
     private boolean stealthActive;
     private boolean charging;
+    private boolean haunterMeleeMode;
 
     public PreeminentParasiteEntity(EntityType<? extends PreeminentParasiteEntity> type, Level level, Kind kind) {
         super(type, level);
         this.kind = kind;
         carrierHeadPart = kind == Kind.CARRIER_COLONY ? new CarrierHeadPart(this) : null;
-        carrierParts = carrierHeadPart == null ? new PartEntity<?>[0] : new PartEntity<?>[]{carrierHeadPart};
+        haunterHeadPart = kind == Kind.HAUNTER ? new HaunterBodyPart(this, "haunter_head", 2.0F, 7.3F) : null;
+        haunterMiddlePart = kind == Kind.HAUNTER ? new HaunterBodyPart(this, "haunter_middle", 1.9F, 3.5F) : null;
+        parts = carrierHeadPart != null ? new PartEntity<?>[]{carrierHeadPart}
+                : haunterHeadPart != null ? new PartEntity<?>[]{haunterHeadPart, haunterMiddlePart}
+                : new PartEntity<?>[0];
         xpReward = 75;
         if (kind.flying) {
             moveControl = kind == Kind.BOGLE || kind == Kind.WRAITH
@@ -129,7 +150,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         if (kind.flying) {
             attributes.add(Attributes.FLYING_SPEED, kind.movementSpeed);
         }
-        if (kind == Kind.CARRIER_COLONY) {
+        if (kind == Kind.CARRIER_COLONY || kind == Kind.HAUNTER) {
             attributes.add(Attributes.STEP_HEIGHT, 1.0D);
         }
         return attributes;
@@ -139,6 +160,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(CARRIER_VARIANT, false);
+        builder.define(HAUNTER_VARIANT, false);
     }
 
     @Override
@@ -158,9 +180,14 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
                 goalSelector.addGoal(6, new CarrierRecruitGoal());
             }
             case HAUNTER -> {
-                goalSelector.addGoal(1, new HaunterHomingBurstGoal());
-                goalSelector.addGoal(2, new EvasiveDashGoal(100, 1.0D));
-                goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.05D, false));
+                goalSelector.addGoal(0, new HaunterSwimmingDivingGoal());
+                goalSelector.addGoal(2, new HaunterMeleeAoeGoal());
+                goalSelector.addGoal(2, new HaunterEvadeDashGoal());
+                goalSelector.addGoal(3, new HaunterTargetMaintenanceGoal());
+                goalSelector.addGoal(4, new HaunterRangedPositionGoal());
+                goalSelector.addGoal(6, new HaunterMeleeRangeSwitchGoal());
+                goalSelector.addGoal(6, new HaunterHomingBurstGoal());
+                goalSelector.addGoal(9, new HaunterBlockBreakGoal());
             }
             case BOMBER_HEAVY -> {
                 goalSelector.addGoal(1, new HeavyBomberBombGoal());
@@ -182,6 +209,9 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         if (carrierHeadPart != null) {
             updateCarrierHeadPart();
         }
+        if (haunterHeadPart != null) {
+            updateHaunterBodyParts();
+        }
         if (activeKind.flying) {
             setNoGravity(true);
         }
@@ -191,7 +221,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         if (blockBreakCooldown > 0) {
             blockBreakCooldown--;
         }
-        if (activeKind != Kind.SUCCOR) {
+        if (activeKind != Kind.SUCCOR && activeKind != Kind.HAUNTER) {
             supportCooldown++;
             if (supportCooldown > SUCCOR_SUMMON_TIMER_MAX) {
                 supportCooldown = 0;
@@ -224,8 +254,11 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         if (target == null || !target.isAlive()) {
             return;
         }
-        breakBlocksTowardsTarget(target, activeKind);
-        if (activeKind != Kind.SUCCOR && supportCooldown == SUCCOR_SUMMON_PHASE) {
+        if (activeKind != Kind.HAUNTER) {
+            breakBlocksTowardsTarget(target, activeKind);
+        }
+        if (activeKind != Kind.SUCCOR && activeKind != Kind.HAUNTER
+                && supportCooldown == SUCCOR_SUMMON_PHASE) {
             trySummonSuccor(target);
         }
         if ((activeKind == Kind.BOGLE || activeKind == Kind.WRAITH)
@@ -250,7 +283,8 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
     @Override
     public boolean applyScaryOrbEffect(LivingEntity target, int nearbyEntities) {
         boolean applied = super.applyScaryOrbEffect(target, nearbyEntities);
-        if (!applied || activeKind() != Kind.CARRIER_COLONY || target instanceof Parasite) {
+        if (!applied || (activeKind() != Kind.CARRIER_COLONY && activeKind() != Kind.HAUNTER)
+                || target instanceof Parasite) {
             return applied;
         }
         target.addEffect(new MobEffectInstance(MobEffects.HUNGER, 300, 4, false, false), this);
@@ -307,14 +341,37 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         return false;
     }
 
+    @Override
+    public boolean fireImmune() {
+        return activeKind() == Kind.HAUNTER || super.fireImmune();
+    }
+
+    @Override
+    public boolean canBeAffected(MobEffectInstance effect) {
+        if (activeKind() == Kind.HAUNTER && effect.is(MobEffects.POISON)) {
+            return false;
+        }
+        return super.canBeAffected(effect);
+    }
+
+    @Override
+    public int getMaxFallDistance() {
+        return activeKind() == Kind.HAUNTER ? 3 : super.getMaxFallDistance();
+    }
+
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
                                         MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
         SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
-        if (activeKind() == Kind.CARRIER_COLONY && (random.nextDouble() < Config.variantSpawnChance()
-                || Config.evolutionPhase(level.getLevel()) >= Config.alwaysVariantPhase())) {
-            setCarrierVariant(true);
+        if (random.nextDouble() < Config.variantSpawnChance()
+                || Config.evolutionPhase(level.getLevel()) >= Config.alwaysVariantPhase()) {
+            if (activeKind() == Kind.CARRIER_COLONY) {
+                setCarrierVariant(true);
+            } else if (activeKind() == Kind.HAUNTER) {
+                setHaunterVariant(true);
+                setHealth(getMaxHealth());
+            }
         }
         return data;
     }
@@ -338,26 +395,57 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         }
     }
 
+    public boolean isHaunterVariant() {
+        return activeKind() == Kind.HAUNTER && entityData.get(HAUNTER_VARIANT);
+    }
+
+    private void setHaunterVariant(boolean variant) {
+        entityData.set(HAUNTER_VARIANT, variant);
+        var maxHealth = getAttribute(Attributes.MAX_HEALTH);
+        if (maxHealth != null) {
+            maxHealth.setBaseValue(variant ? Kind.HAUNTER.maxHealth * 0.5D : Kind.HAUNTER.maxHealth);
+        }
+        var attackDamage = getAttribute(Attributes.ATTACK_DAMAGE);
+        if (attackDamage != null) {
+            attackDamage.setBaseValue(variant ? Kind.HAUNTER.attackDamage * 1.5D : Kind.HAUNTER.attackDamage);
+        }
+        if (getHealth() > getMaxHealth()) {
+            setHealth(getMaxHealth());
+        }
+    }
+
     @Override
     protected EntityDimensions getDefaultDimensions(Pose pose) {
         EntityDimensions dimensions = super.getDefaultDimensions(pose);
-        return activeKind() == Kind.CARRIER_COLONY ? dimensions.withEyeHeight(1.5F) : dimensions;
+        if (activeKind() == Kind.CARRIER_COLONY) {
+            return dimensions.withEyeHeight(1.5F);
+        }
+        return activeKind() == Kind.HAUNTER ? dimensions.withEyeHeight(4.7F) : dimensions;
     }
 
     @Override
     protected SoundEvent getAmbientSound() {
+        if (activeKind() == Kind.HAUNTER) {
+            return null;
+        }
         return activeKind() == Kind.CARRIER_COLONY ? ModSounds.CARRIER_COLONY_LIVING.get()
                 : super.getAmbientSound();
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
+        if (activeKind() == Kind.HAUNTER) {
+            return null;
+        }
         return activeKind() == Kind.CARRIER_COLONY ? ModSounds.CARRIER_COLONY_HURT.get()
                 : super.getHurtSound(source);
     }
 
     @Override
     protected SoundEvent getDeathSound() {
+        if (activeKind() == Kind.HAUNTER) {
+            return null;
+        }
         return activeKind() == Kind.CARRIER_COLONY ? ModSounds.CARRIER_COLONY_DEATH.get()
                 : super.getDeathSound();
     }
@@ -373,13 +461,15 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
 
     @Override
     protected float getSoundVolume() {
-        return activeKind() == Kind.CARRIER_COLONY ? 5.0F : super.getSoundVolume();
+        return activeKind() == Kind.CARRIER_COLONY || activeKind() == Kind.HAUNTER
+                ? 5.0F : super.getSoundVolume();
     }
 
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putBoolean("preeminent_carrier_variant", isCarrierVariant());
+        tag.putBoolean("preeminent_haunter_variant", isHaunterVariant());
         tag.putInt("preeminent_support_cooldown", supportCooldown);
         tag.putBoolean("preeminent_succor_action", succorActionConsumed);
         tag.putInt("preeminent_succor_action_type", succorActionType);
@@ -399,6 +489,8 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         super.readAdditionalSaveData(tag);
         if (activeKind() == Kind.CARRIER_COLONY) {
             setCarrierVariant(tag.getBoolean("preeminent_carrier_variant"));
+        } else if (activeKind() == Kind.HAUNTER) {
+            setHaunterVariant(tag.getBoolean("preeminent_haunter_variant"));
         }
         supportCooldown = Math.floorMod(tag.getInt("preeminent_support_cooldown"),
                 SUCCOR_SUMMON_TIMER_MAX + 1);
@@ -427,23 +519,30 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
 
     @Override
     public boolean isMultipartEntity() {
-        return carrierHeadPart != null;
+        return parts.length > 0;
     }
 
     @Override
     public void setId(int id) {
         super.setId(id);
-        if (carrierParts == null) {
-            return;
-        }
-        for (int index = 0; index < carrierParts.length; index++) {
-            carrierParts[index].setId(id + index + 1);
+        for (int index = 0; index < parts.length; index++) {
+            parts[index].setId(id + index + 1);
         }
     }
 
     @Override
     public PartEntity<?>[] getParts() {
-        return carrierParts == null ? new PartEntity<?>[0] : carrierParts;
+        return parts;
+    }
+
+    @Override
+    public void remove(RemovalReason reason) {
+        for (PartEntity<?> part : parts) {
+            if (!part.isRemoved()) {
+                part.remove(reason);
+            }
+        }
+        super.remove(reason);
     }
 
     private void updateCarrierHeadPart() {
@@ -452,6 +551,16 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         carrierHeadPart.setPos(getX() + Mth.sin(yaw) * forward, getY() + 1.6D,
                 getZ() - Mth.cos(yaw) * forward);
         carrierHeadPart.setYRot(getYRot());
+    }
+
+    private void updateHaunterBodyParts() {
+        float yaw = getYRot() * Mth.DEG_TO_RAD;
+        float forward = 2.5F * Mth.cos((float) Math.PI / 18.0F);
+        haunterHeadPart.setPos(getX() + Mth.sin(yaw) * forward, getY(),
+                getZ() - Mth.cos(yaw) * forward);
+        haunterHeadPart.setYRot(getYRot());
+        haunterMiddlePart.setPos(getX(), getY() + 3.7D, getZ());
+        haunterMiddlePart.setYRot(getYRot());
     }
 
     private boolean hurtCarrierHead(DamageSource source, float amount) {
@@ -1243,36 +1352,219 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         }
     }
 
-    private final class HaunterHomingBurstGoal extends Goal {
-        private int cooldown;
-        private int shots;
-        private int delay;
+    private static final class HaunterBodyPart extends PartEntity<PreeminentParasiteEntity> {
+        private final String name;
+        private final float width;
+        private final float height;
 
-        private HaunterHomingBurstGoal() {
-            setFlags(EnumSet.of(Flag.LOOK));
+        private HaunterBodyPart(PreeminentParasiteEntity parent, String name, float width, float height) {
+            super(parent);
+            this.name = name;
+            this.width = width;
+            this.height = height;
+        }
+
+        @Override
+        protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        }
+
+        @Override
+        protected void readAdditionalSaveData(CompoundTag tag) {
+        }
+
+        @Override
+        protected void addAdditionalSaveData(CompoundTag tag) {
+        }
+
+        @Override
+        public boolean isPickable() {
+            return getParent().isAlive();
+        }
+
+        @Override
+        public boolean hurt(DamageSource source, float amount) {
+            return getParent().hurt(source, amount);
+        }
+
+        @Override
+        public EntityDimensions getDimensions(Pose pose) {
+            return EntityDimensions.scalable(width, height).withEyeHeight(0.2F);
+        }
+
+        @Override
+        public boolean shouldBeSaved() {
+            return false;
+        }
+
+        @Override
+        public Component getName() {
+            return Component.literal(name);
+        }
+    }
+
+    private boolean performHaunterAoeAttack(LivingEntity center) {
+        AABB targetArea = new AABB(center.getX(), center.getY(), center.getZ(), center.getX() + 1.0D,
+                center.getY() + 1.0D, center.getZ() + 1.0D).inflate(5.0D, 2.0D, 5.0D);
+        List<LivingEntity> nearby = level().getEntitiesOfClass(LivingEntity.class, targetArea);
+        if (nearby.size() > 4) {
+            AABB damageArea = new AABB(getX(), getY(), getZ(), getX() + 1.0D, getY() + 1.0D,
+                    getZ() + 1.0D).inflate(5.0D, 3.0D, 5.0D);
+            for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, damageArea,
+                    this::isHaunterHostile)) {
+                HaunterDamageEntity damage = ModEntities.HAUNTER_DAMAGE.get().create(level());
+                if (damage != null) {
+                    damage.configure(this, target.position());
+                    level().addFreshEntity(damage);
+                }
+            }
+            return true;
+        }
+        boolean attacked = false;
+        for (LivingEntity target : nearby) {
+            if (isHaunterHostile(target)) {
+                attacked |= doHurtTarget(target);
+            }
+        }
+        return !nearby.isEmpty() || attacked;
+    }
+
+    private boolean isHaunterHostile(LivingEntity target) {
+        return target != this && target.isAlive() && !(target instanceof Parasite);
+    }
+
+    private void fireHaunterHomingProjectile(LivingEntity target) {
+        HaunterHomingProjectileEntity projectile = ModEntities.HAUNTER_HOMING.get().create(level());
+        if (projectile == null) {
+            return;
+        }
+        Vec3 look = getViewVector(1.0F);
+        Vec3 start = new Vec3(getX() + look.x, getY() + getEyeHeight() - 0.2D, getZ() + look.z);
+        projectile.configure(this, target, start);
+        playSound(ModSounds.DORPA_RANGE.get(), 2.0F, 1.0F);
+        level().addFreshEntity(projectile);
+    }
+
+    private void breakHaunterBlocks(LivingEntity target) {
+        if (!level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
+                || !EventHooks.canEntityGrief(level(), this)) {
+            return;
+        }
+        int baseY = Mth.floor(getY() + 0.1D);
+        int verticalOffset = 0;
+        int horizontalRange = HAUNTER_BLOCK_BREAK_RANGE;
+        if (target != null && target.distanceToSqr(getX(), target.getY(), getZ()) < 9.0D) {
+            double heightDifference = target.getY() - getY();
+            if (heightDifference < -1.0D) {
+                verticalOffset -= 2;
+                if (!onGround()) {
+                    verticalOffset--;
+                }
+            } else if (heightDifference > 2.0D) {
+                verticalOffset++;
+                horizontalRange = 0;
+            }
+        }
+        for (int offsetX = -horizontalRange; offsetX <= horizontalRange; offsetX++) {
+            for (int offsetZ = -horizontalRange; offsetZ <= horizontalRange; offsetZ++) {
+                for (int offsetY = 1 + verticalOffset; offsetY <= 8 + verticalOffset; offsetY++) {
+                    BlockPos candidate = new BlockPos(Mth.floor(getX() + offsetX), baseY + offsetY,
+                            Mth.floor(getZ() + offsetZ));
+                    BlockState state = level().getBlockState(candidate);
+                    if (!isHaunterBreakable(state, candidate)
+                            || !EventHooks.onEntityDestroyBlock(this, candidate, state)) {
+                        continue;
+                    }
+                    level().destroyBlock(candidate, true, this);
+                }
+            }
+        }
+    }
+
+    private boolean isHaunterBreakable(BlockState state, BlockPos pos) {
+        if (state.isAir() || state.hasBlockEntity()) {
+            return false;
+        }
+        float hardness = state.getDestroySpeed(level(), pos);
+        if (hardness < 0.0F || hardness > HAUNTER_BLOCK_BREAK_HARDNESS) {
+            return false;
+        }
+        String id = BuiltInRegistries.BLOCK.getKey(state.getBlock()).toString();
+        return !HAUNTER_BLOCK_BREAK_BLACKLIST.contains(id) && state.canEntityDestroy(level(), pos, this);
+    }
+
+    private final class HaunterSwimmingDivingGoal extends Goal {
+        private HaunterSwimmingDivingGoal() {
+            setFlags(EnumSet.of(Flag.JUMP));
         }
 
         @Override
         public boolean canUse() {
-            if (cooldown > 0) {
-                cooldown--;
+            if (!isInWaterOrBubble() && !isInLava()) {
                 return false;
             }
             LivingEntity target = getTarget();
-            return target != null && hasLineOfSight(target) && distanceToSqr(target) >= 25.0D
-                    && distanceToSqr(target) <= 1600.0D;
+            if (target != null && (target.isInWaterOrBubble() || target.isInLava())
+                    && target.distanceToSqr(getX(), target.getY(), getZ()) < 25.0D
+                    && target.getY() - getY() < -1.0D) {
+                setDeltaMovement(getDeltaMovement().add(0.0D, -0.15D, 0.0D));
+                return false;
+            }
+            return true;
         }
 
         @Override
         public boolean canContinueToUse() {
-            LivingEntity target = getTarget();
-            return target != null && target.isAlive() && shots < 3;
+            return canUse();
         }
 
         @Override
-        public void start() {
-            shots = 0;
-            delay = 0;
+        public void tick() {
+            if (random.nextFloat() < 0.8F) {
+                getJumpControl().jump();
+            }
+        }
+    }
+
+    private final class HaunterMeleeRangeSwitchGoal extends Goal {
+        @Override
+        public boolean canUse() {
+            LivingEntity target = getTarget();
+            return target != null && target.isAlive();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return canUse();
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = getTarget();
+            haunterMeleeMode = target != null && distanceToSqr(target) < 100.0D && hasLineOfSight(target);
+        }
+
+        @Override
+        public void stop() {
+            haunterMeleeMode = false;
+        }
+    }
+
+    private final class HaunterMeleeAoeGoal extends Goal {
+        private int attackCooldown;
+
+        private HaunterMeleeAoeGoal() {
+            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
+        }
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = getTarget();
+            return haunterMeleeMode && target != null && target.isAlive();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return canUse();
         }
 
         @Override
@@ -1282,18 +1574,230 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
                 return;
             }
             getLookControl().setLookAt(target, 30.0F, 30.0F);
-            if (delay > 0) {
-                delay--;
-                return;
+            if (attackCooldown > 0) {
+                attackCooldown--;
             }
-            fireProjectile(target, ParasiteProjectileEntity.Mode.LIGHT, 1.30D, 45.0F, 1.25D, 90);
-            shots++;
-            delay = 6;
+            if (distanceToSqr(target) <= 25.0D && hasLineOfSight(target)) {
+                getNavigation().stop();
+                if (attackCooldown == 0) {
+                    performHaunterAoeAttack(target);
+                    attackCooldown = 10;
+                }
+            } else {
+                getNavigation().moveTo(target, 1.0D);
+            }
         }
 
         @Override
         public void stop() {
-            cooldown = 90;
+            getNavigation().stop();
+        }
+    }
+
+    private final class HaunterTargetMaintenanceGoal extends Goal {
+        private int lostTargetTicks;
+
+        @Override
+        public boolean canUse() {
+            return true;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return true;
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = getTarget();
+            if (target == null) {
+                lostTargetTicks = 0;
+                return;
+            }
+            if (target instanceof Parasite || !target.isAlive()) {
+                setTarget(null);
+                haunterMeleeMode = false;
+                lostTargetTicks = 0;
+                return;
+            }
+            if (!hasLineOfSight(target) && (random.nextInt(5) == 0
+                    || distanceToSqr(target) >= getAttributeValue(Attributes.FOLLOW_RANGE)
+                    * getAttributeValue(Attributes.FOLLOW_RANGE))) {
+                lostTargetTicks++;
+            } else {
+                lostTargetTicks = 0;
+            }
+            if (lostTargetTicks >= 6) {
+                setTarget(null);
+                haunterMeleeMode = false;
+                lostTargetTicks = 0;
+            }
+        }
+    }
+
+    private final class HaunterRangedPositionGoal extends Goal {
+        private int seeTime;
+
+        private HaunterRangedPositionGoal() {
+            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
+        }
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = getTarget();
+            return !haunterMeleeMode && onGround() && target != null && target.isAlive();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            LivingEntity target = getTarget();
+            return !haunterMeleeMode && target != null && target.isAlive()
+                    && (onGround() || !getNavigation().isDone());
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = getTarget();
+            if (target == null) {
+                return;
+            }
+            double distance = distanceToSqr(target.getX(), target.getBoundingBox().minY, target.getZ());
+            if (distance > getAttributeValue(Attributes.FOLLOW_RANGE) * getAttributeValue(Attributes.FOLLOW_RANGE)) {
+                setTarget(null);
+                return;
+            }
+            boolean canSeeTarget = hasLineOfSight(target);
+            seeTime = canSeeTarget ? seeTime + 1 : 0;
+            if (distance <= 1600.0D && seeTime >= 10) {
+                getNavigation().stop();
+            } else {
+                getNavigation().moveTo(target, 1.0D);
+            }
+            getLookControl().setLookAt(target, 30.0F, 30.0F);
+        }
+
+        @Override
+        public void stop() {
+            seeTime = 0;
+        }
+    }
+
+    private final class HaunterHomingBurstGoal extends Goal {
+        private int attackTimer;
+        private int shotsFired;
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = getTarget();
+            return target != null && target.isAlive();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return canUse();
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = getTarget();
+            if (target == null) {
+                attackTimer = 0;
+                return;
+            }
+            if (distanceToSqr(target) >= 4225.0D || !hasLineOfSight(target)) {
+                if (attackTimer > 0) {
+                    attackTimer--;
+                }
+                return;
+            }
+            attackTimer++;
+            if (attackTimer <= 60) {
+                return;
+            }
+            if (shotsFired < 3) {
+                if (attackTimer % 10 == 0) {
+                    fireHaunterHomingProjectile(target);
+                    shotsFired++;
+                }
+            } else {
+                attackTimer = 0;
+                shotsFired = 0;
+            }
+        }
+
+        @Override
+        public void stop() {
+            attackTimer = 0;
+            shotsFired = 0;
+        }
+    }
+
+    private final class HaunterEvadeDashGoal extends Goal {
+        private int cooldown = 41;
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = getTarget();
+            return target != null && target.isAlive() && onGround();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return canUse();
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = getTarget();
+            if (target == null) {
+                return;
+            }
+            double distance = distanceToSqr(target);
+            if (distance > 16.0D && distance < 10_000.0D && hasLineOfSight(target) && cooldown < 40) {
+                cooldown++;
+            }
+            if (cooldown < 40) {
+                return;
+            }
+            double x = target.getX() - getX();
+            double z = target.getZ() - getZ();
+            double horizontalLength = Math.sqrt(x * x + z * z);
+            if (horizontalLength > 0.001D) {
+                Vec3 movement = getDeltaMovement();
+                double bonusX = random.nextBoolean() ? 5.0D : 0.0D;
+                double bonusZ = bonusX == 0.0D ? 5.0D : 0.0D;
+                setDeltaMovement(movement.x + x / horizontalLength * 4.0D + movement.x * 0.2D + bonusX,
+                        movement.y, movement.z + z / horizontalLength * 4.0D + movement.z * 0.2D + bonusZ);
+                hurtMarked = true;
+            }
+            getNavigation().stop();
+            cooldown = 0;
+        }
+    }
+
+    private final class HaunterBlockBreakGoal extends Goal {
+        @Override
+        public boolean canUse() {
+            return isInWall() || getTarget() != null;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return canUse();
+        }
+
+        @Override
+        public void tick() {
+            if (haunterBlockBreakCooldown > 0) {
+                haunterBlockBreakCooldown--;
+                return;
+            }
+            LivingEntity target = getTarget();
+            if (!isInWall() && (target == null || distanceToSqr(target) > HAUNTER_BLOCK_BREAK_MAX_DISTANCE_SQR)) {
+                return;
+            }
+            breakHaunterBlocks(target);
+            haunterBlockBreakCooldown = HAUNTER_BLOCK_BREAK_INTERVAL_TICKS;
         }
     }
 
@@ -1329,49 +1833,6 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
             fireProjectile(target, ParasiteProjectileEntity.Mode.BOMB, 0.62D, 55.0F, 5.0D, 120);
             spawnHeavyPayload(target);
             cooldown = 160;
-        }
-    }
-
-    private final class EvasiveDashGoal extends Goal {
-        private final int interval;
-        private final double speed;
-        private int cooldown;
-
-        private EvasiveDashGoal(int interval, double speed) {
-            this.interval = interval;
-            this.speed = speed;
-            setFlags(EnumSet.of(Flag.MOVE));
-        }
-
-        @Override
-        public boolean canUse() {
-            if (cooldown > 0) {
-                cooldown--;
-                return false;
-            }
-            LivingEntity target = getTarget();
-            return target != null && onGround() && distanceToSqr(target) >= 9.0D
-                    && distanceToSqr(target) <= 625.0D;
-        }
-
-        @Override
-        public boolean canContinueToUse() {
-            return false;
-        }
-
-        @Override
-        public void start() {
-            LivingEntity target = getTarget();
-            if (target == null) {
-                return;
-            }
-            Vec3 toTarget = target.position().subtract(position());
-            Vec3 strafe = new Vec3(-toTarget.z, 0.0D, toTarget.x);
-            if (strafe.lengthSqr() > 0.001D) {
-                strafe = strafe.normalize().scale(random.nextBoolean() ? speed : -speed);
-                setDeltaMovement(strafe.x, 0.35D, strafe.z);
-            }
-            cooldown = interval;
         }
     }
 

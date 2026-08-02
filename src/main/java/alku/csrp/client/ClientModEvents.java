@@ -6,6 +6,7 @@ import alku.csrp.client.renderer.AirscrewRenderer;
 import alku.csrp.client.renderer.BurrowingParasiteRenderer;
 import alku.csrp.client.renderer.BuglinRenderer;
 import alku.csrp.client.renderer.DerivedParasiteRenderer;
+import alku.csrp.client.renderer.HaunterHomingProjectileRenderer;
 import alku.csrp.client.renderer.MarauderRenderer;
 import alku.csrp.client.renderer.MarauderTendrilRenderer;
 import alku.csrp.client.renderer.MovingFleshRenderer;
@@ -33,6 +34,12 @@ import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 @EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public final class ClientModEvents {
     private ClientModEvents() {
+    }
+
+    @SubscribeEvent
+    public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
+        event.registerLayerDefinition(HaunterHomingProjectileRenderer.LAYER,
+                HaunterHomingProjectileRenderer::createBodyLayer);
     }
 
     @SubscribeEvent
@@ -285,6 +292,7 @@ public final class ClientModEvents {
                 new PrimitiveParasiteRenderer<>(context, "abo_bodies", 1.0F));
         event.registerEntityRenderer(ModEntities.ABO_HEAD.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "abo_head", 1.0F));
+        event.registerEntityRenderer(ModEntities.HAUNTER_HOMING.get(), HaunterHomingProjectileRenderer::new);
         event.registerEntityRenderer(ModEntities.PARASITE_PROJECTILE.get(), ParasiteProjectileRenderer::new);
     }
 

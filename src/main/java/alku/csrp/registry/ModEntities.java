@@ -17,6 +17,8 @@ import alku.csrp.entity.CarrierHeavyEntity;
 import alku.csrp.entity.CarrierLightEntity;
 import alku.csrp.entity.CruxEntity;
 import alku.csrp.entity.CruxThrownBlockDamageEntity;
+import alku.csrp.entity.HaunterDamageEntity;
+import alku.csrp.entity.HaunterHomingProjectileEntity;
 import alku.csrp.entity.DredgeEntity;
 import alku.csrp.entity.DeterrentParasiteEntity;
 import alku.csrp.entity.FeralEndermanEntity;
@@ -425,6 +427,11 @@ public final class ModEntities {
                     .<CruxThrownBlockDamageEntity>of(CruxThrownBlockDamageEntity::new, MobCategory.MISC)
                     .sized(0.1F, 0.1F).clientTrackingRange(0).updateInterval(1)
                     .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "crux_block_damage").toString()));
+    public static final DeferredHolder<EntityType<?>, EntityType<HaunterDamageEntity>> HAUNTER_DAMAGE =
+            ENTITIES.register("haunter_damage", () -> EntityType.Builder
+                    .<HaunterDamageEntity>of(HaunterDamageEntity::new, MobCategory.MISC)
+                    .sized(1.2F, 0.9F).clientTrackingRange(0).updateInterval(1)
+                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "haunter_damage").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<ScaryOrbEntity>> SCARY_ORB =
             ENTITIES.register("scary_orb", () -> EntityType.Builder.<ScaryOrbEntity>of(ScaryOrbEntity::new, MobCategory.MISC)
                     .sized(0.5F, 0.5F).clientTrackingRange(8).updateInterval(1)
@@ -439,6 +446,12 @@ public final class ModEntities {
                     .<ParasiteProjectileEntity>of(ParasiteProjectileEntity::new, MobCategory.MISC)
                     .sized(0.35F, 0.35F).clientTrackingRange(8).updateInterval(1)
                     .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "parasite_projectile").toString()));
+    public static final DeferredHolder<EntityType<?>, EntityType<HaunterHomingProjectileEntity>> HAUNTER_HOMING =
+            ENTITIES.register("haunter_homing", () -> EntityType.Builder
+                    .<HaunterHomingProjectileEntity>of(HaunterHomingProjectileEntity::new, MobCategory.MISC)
+                    .sized(0.3125F, 0.3125F).clientTrackingRange(64).updateInterval(3)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "haunter_homing").toString()));
 
     private static <T extends net.minecraft.world.entity.Mob> DeferredHolder<EntityType<?>, EntityType<T>> monster(
             String id, EntityType.EntityFactory<T> factory, float width, float height) {
