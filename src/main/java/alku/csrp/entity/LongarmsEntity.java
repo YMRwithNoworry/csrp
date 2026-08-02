@@ -57,20 +57,26 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        goalSelector.addGoal(1, new LongarmsRestGoal());
         goalSelector.addGoal(1, new ShockwaveGoal());
         goalSelector.addGoal(2, new LongarmsMeleeGoal());
     }
 
     @Override
     public void tick() {
-        if (!level().isClientSide && meleeRestTicks > 0) {
-            meleeRestTicks--;
-            if (meleeRestTicks == 0) {
+        boolean wasResting = !level().isClientSide && isRestingAfterMeleeAttacks();
+        if (wasResting) {
+            getNavigation().stop();
+            setAggressive(false);
+        }
+        super.tick();
+        if (wasResting) {
+            getNavigation().stop();
+            setAggressive(false);
+            if (--meleeRestTicks <= 0) {
+                meleeRestTicks = 0;
                 entityData.set(MELEE_RESTING, false);
             }
         }
-        super.tick();
         if (!level().isClientSide && isInWaterOrBubble() && getTarget() != null && tickCount % 20 == 0) {
             setDeltaMovement(getDeltaMovement().add(0.0, 0.095, 0.0));
         }
@@ -142,7 +148,7 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
         @Override
         public boolean canUse() {
             LivingEntity target = getTarget();
-            return !isRestingAfterMeleeAttacks() && target != null && target.isAlive();
+            return target != null && target.isAlive();
         }
 
         @Override
@@ -152,7 +158,7 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
 
         @Override
         public void start() {
-            setAggressive(true);
+            setAggressive(!isRestingAfterMeleeAttacks());
         }
 
         @Override public void tick() {
@@ -162,9 +168,11 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
 
             if (isRestingAfterMeleeAttacks()) {
                 getNavigation().stop();
+                setAggressive(false);
                 return;
             }
 
+            setAggressive(true);
             getNavigation().moveTo(target, 1.3D);
             if (cooldown > 0) cooldown--;
             if (distanceToSqr(target) <= 8.0D && cooldown == 0) {
@@ -181,43 +189,6 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
             if (getTarget() == null || !getTarget().isAlive()) {
                 cooldown = 0;
             }
-        }
-    }
-
-    private final class LongarmsRestGoal extends Goal {
-        LongarmsRestGoal() {
-            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
-        }
-
-        @Override
-        public boolean canUse() {
-            return isRestingAfterMeleeAttacks();
-        }
-
-        @Override
-        public boolean canContinueToUse() {
-            return isRestingAfterMeleeAttacks();
-        }
-
-        @Override
-        public void start() {
-            getNavigation().stop();
-            setAggressive(false);
-        }
-
-        @Override
-        public void tick() {
-            getNavigation().stop();
-            LivingEntity target = getTarget();
-            if (target != null) {
-                getLookControl().setLookAt(target, 30.0F, 30.0F);
-            }
-        }
-
-        @Override
-        public void stop() {
-            LivingEntity target = getTarget();
-            setAggressive(target != null && target.isAlive());
         }
     }
 
