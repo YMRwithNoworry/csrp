@@ -14,6 +14,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
@@ -258,7 +259,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         if (!level().isClientSide && isStealthKind()) {
             revealStealth();
         }
-        return super.hurt(source, amount);
+        return super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
     }
 
     @Override

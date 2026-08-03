@@ -24,18 +24,31 @@ const creative = read("src/main/java/alku/csrp/Csrp.java");
 const english = read("src/main/resources/assets/csrp/lang/en_us.json");
 const chinese = read("src/main/resources/assets/csrp/lang/zh_cn.json");
 const preeminent = read("src/main/java/alku/csrp/entity/PreeminentParasiteEntity.java");
+const succor = read("src/main/java/alku/csrp/entity/FlamEntity.java");
 
 expect(preeminent, /MAX_ADAPTATION_HITS\s*=\s*5/, "Preeminent damage-adaptation cap is missing");
 expect(preeminent, /ADAPTATION_PER_HIT\s*=\s*0\.20F/, "Preeminent adaptation reduction is missing");
 expect(preeminent, /MAX_LEARNABLE_DAMAGE_SOURCES\s*=\s*20/, "Preeminent learnable-source cap is missing");
 expect(preeminent, /DamageTypeTags\.IS_FIRE/, "Preeminent fire weakness is missing");
-expect(preeminent, /BogleBombGoal/, "Bogle bombardment is missing");
-expect(preeminent, /ColonySupportGoal/, "Colony Carrier support aura is missing");
+expect(preeminent, /amount\s*\*\s*4\.0F/, "Preeminent fire damage is not quadrupled");
+expect(preeminent, /LegacyProjectileAttackGoal\(60,\s*30,\s*3\)/, "Bogle bombardment cadence is missing");
+expect(preeminent, /Mode\.LENCIA_BALL/, "Bogle explosive projectile is missing");
+expect(preeminent, /CarrierBuffGoal/, "Colony Carrier support aura is missing");
 expect(preeminent, /HaunterHomingBurstGoal/, "Haunter homing burst is missing");
 expect(preeminent, /HeavyBomberBombGoal/, "Heavy Bomber payload is missing");
-expect(preeminent, /WraithNadeBurstGoal/, "Wraith nade burst is missing");
-expect(preeminent, /SuccorActionGoal/, "Succor utility action is missing");
-expect(preeminent, /trySummonSuccor/, "Preeminent Succor support is missing");
+expect(preeminent, /LegacyProjectileAttackGoal\(20,\s*10,\s*4\)/, "Wraith projectile cadence is missing");
+expect(preeminent, /Mode\.ELVIA_NADE/, "Wraith nade burst is missing");
+expect(preeminent, /trySummonFlam/, "Preeminent Succor support is missing");
+expect(preeminent, /ModEntities\.SUCCOR/, "Preeminent Succor entity creation is missing");
+expect(succor, /DamageTypeTags\.IS_FIRE/, "Succor fire weakness is missing");
+expect(succor, /amount\s*\*\s*4\.0F/, "Succor fire damage is not quadrupled");
+expect(succor, /ACTION_EXPLODE\s*=\s*1/, "Succor explosion action is missing");
+expect(succor, /ACTION_ORB\s*=\s*2/, "Succor orb action is missing");
+expect(succor, /ACTION_TELEPORT\s*=\s*3/, "Succor teleport action is missing");
+expect(succor, /completeAction\(\)/, "Succor utility action completion is missing");
+expect(succor, /performExplosion\(\)/, "Succor explosion behavior is missing");
+expect(succor, /spawnScaryOrb\(/, "Succor orb behavior is missing");
+expect(succor, /completeTeleportAction\(/, "Succor teleport behavior is missing");
 
 for (const id of ids) {
   const constant = id.toUpperCase();

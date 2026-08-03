@@ -11,6 +11,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -354,12 +355,18 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
+    public boolean hurt(DamageSource source, float amount) {
+        return super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
+    }
+
+    @Override
     protected EntityDimensions getDefaultDimensions(Pose pose) {
         return super.getDefaultDimensions(pose).withEyeHeight(0.5F);
     }
 
     @Override
     protected int incomingDamageCapDivisor() {
+        // SRP 1.10.7 inherits the shared preeminentCap (18); the Wiki lists 15 for Succor.
         return 18;
     }
 
