@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "A A",
+    "CCC",
+    "CCC"
+  ],
+  "key": {
+    "A": { "item": "csrp:lurecomponent5" },
+    "C": { "item": "minecraft:cobblestone" }
+  },
+  "result": {
+    "id": "csrp:evolutionlure_five",
+    "count": 1
+  }
+}

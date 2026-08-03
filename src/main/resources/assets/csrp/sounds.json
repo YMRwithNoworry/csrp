@@ -414,5 +414,16 @@
   },
   "celestial.dark_days_ending": {
     "sounds": ["csrp:celestial/dark_days_ending"]
+  },
+  "lure.use": {
+    "subtitle": "subtitles.csrp.lure.use",
+    "sounds": [
+      "csrp:block/lure/use1",
+      "csrp:block/lure/use2"
+    ]
+  },
+  "lure.carcass": {
+    "subtitle": "subtitles.csrp.lure.carcass",
+    "sounds": ["csrp:block/lure/carcass"]
   }
 }

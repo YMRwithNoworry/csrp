@@ -1,0 +1,130 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        { "condition": "minecraft:survives_explosion" }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "csrp:evolutionlure",
+                  "properties": { "tier": "one" }
+                }
+              ],
+              "name": "csrp:evolutionlure_one"
+            },
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "csrp:evolutionlure",
+                  "properties": { "tier": "two" }
+                }
+              ],
+              "name": "csrp:evolutionlure_two"
+            },
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "csrp:evolutionlure",
+                  "properties": { "tier": "three" }
+                }
+              ],
+              "name": "csrp:evolutionlure_three"
+            },
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "csrp:evolutionlure",
+                  "properties": { "tier": "four" }
+                }
+              ],
+              "name": "csrp:evolutionlure_four"
+            },
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "csrp:evolutionlure",
+                  "properties": { "tier": "five" }
+                }
+              ],
+              "name": "csrp:evolutionlure_five"
+            },
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "csrp:evolutionlure",
+                  "properties": { "tier": "six" }
+                }
+              ],
+              "name": "csrp:evolutionlure_six"
+            },
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "csrp:evolutionlure",
+                  "properties": { "tier": "seven" }
+                }
+              ],
+              "name": "csrp:evolutionlure_seven"
+            },
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "csrp:evolutionlure",
+                  "properties": { "tier": "eight" }
+                }
+              ],
+              "name": "csrp:evolutionlure_eight"
+            },
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "csrp:evolutionlure",
+                  "properties": { "tier": "nine" }
+                }
+              ],
+              "name": "csrp:evolutionlure_nine"
+            },
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "csrp:evolutionlure",
+                  "properties": { "tier": "ten" }
+                }
+              ],
+              "name": "csrp:evolutionlure_ten"
+            }
+          ]
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "csrp:blocks/evolutionlure"
+}

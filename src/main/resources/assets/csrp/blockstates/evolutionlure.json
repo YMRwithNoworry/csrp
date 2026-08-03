@@ -1,0 +1,14 @@
+{
+  "variants": {
+    "tier=one": { "model": "csrp:block/evolutionlure_one" },
+    "tier=two": { "model": "csrp:block/evolutionlure_two" },
+    "tier=three": { "model": "csrp:block/evolutionlure_three" },
+    "tier=four": { "model": "csrp:block/evolutionlure_four" },
+    "tier=five": { "model": "csrp:block/evolutionlure_five" },
+    "tier=six": { "model": "csrp:block/evolutionlure_six" },
+    "tier=seven": { "model": "csrp:block/evolutionlure_seven" },
+    "tier=eight": { "model": "csrp:block/evolutionlure_eight" },
+    "tier=nine": { "model": "csrp:block/evolutionlure_nine" },
+    "tier=ten": { "model": "csrp:block/evolutionlure_ten" }
+  }
+}

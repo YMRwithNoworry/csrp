@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "particle": "csrp:block/lure6",
+    "all": "csrp:block/lure6"
+  }
+}

@@ -7,6 +7,7 @@ import alku.csrp.block.ColonyHeartBlock;
 import alku.csrp.block.ColonyStructureBlock;
 import alku.csrp.block.ResidueBlock;
 import alku.csrp.block.InfestationPurifierBlock;
+import alku.csrp.block.EvolutionLureBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -53,6 +54,9 @@ public final class ModBlocks {
     public static final DeferredBlock<InfestationPurifierBlock> INFESTATION_PURIFIER = BLOCKS.register(
             "infestation_purifier", () -> new InfestationPurifierBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_LIGHT_GRAY).strength(5.0F).sound(SoundType.SPONGE)));
+    public static final DeferredBlock<EvolutionLureBlock> EVOLUTION_LURE = BLOCKS.register(
+            "evolutionlure", () -> new EvolutionLureBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(2.0F, 6.0F).sound(SoundType.STONE)));
 
     private static DeferredBlock<InfestedBlock> infested(String id, MapColor color, SoundType sound) {
         return BLOCKS.register(id, () -> new InfestedBlock(BlockBehaviour.Properties.of()

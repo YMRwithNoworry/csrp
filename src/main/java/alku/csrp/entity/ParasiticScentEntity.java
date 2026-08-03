@@ -430,6 +430,12 @@ public final class ParasiticScentEntity extends Entity {
         return danger;
     }
 
+    public void setScentLevel(int level) {
+        int clamped = Mth.clamp(level, 0, LEVEL_POINTS.length - 1);
+        danger = LEVEL_POINTS[clamped];
+        updateScentLevel();
+    }
+
     public void increaseActivity(int amount, boolean add) {
         if (amount <= 100) {
             activity = add ? activity + amount : amount;

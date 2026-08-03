@@ -6,7 +6,7 @@ Unindexed bestiary JSON files and standalone internal effects are excluded.
 Projectiles, clouds, summons, and transition entities are included with the
 creature that requires them.
 
-Progress: **104 / 119** indexed creatures ported.
+Registration/resource baseline: **119 / 119** indexed creatures covered.
 
 | Batch | IDs | Status |
 | --- | --- | --- |
@@ -22,9 +22,11 @@ Progress: **104 / 119** indexed creatures ported.
 | Pure | `grunt`, `bomber_light`, `monarch`, `overseer`, `vigilante`, `warden` | 6 ported |
 | Preeminent | `bogle`, `carrier_colony`, `haunter`, `bomber_heavy`, `wraith`, `succor` | 6 ported |
 | Ancient | `anc_dreadnaut`, `anc_overlord` | 2 ported |
-| Nexus and aberrant | Four Beckons, Dispatchers, and Rooters, plus `rooterball`, `abo_bodies`, `abo_head` | 15 pending |
+| Nexus and aberrant | Four Beckons, Dispatchers, and Rooters, plus `rooterball`, `abo_bodies`, `abo_head` | 15 ported |
 
-The machine-readable IDs live in `scripts/entity-port-manifest.cjs`. A creature
-is complete only when its legacy behavior and dependencies are implemented and
-`scripts/verify-all-entities-port.cjs` can find its registration, spawn egg,
-renderer, translations, GeckoLib resources, and loot table.
+The machine-readable IDs live in `scripts/entity-port-manifest.cjs`.
+`scripts/verify-all-entities-port.cjs` checks registration, spawn eggs,
+renderers, translations, GeckoLib resources, and loot tables. Passing this
+aggregate check establishes the porting baseline only; it does not prove that
+every legacy behavior, system interaction, animation, or visual detail has
+been reproduced.

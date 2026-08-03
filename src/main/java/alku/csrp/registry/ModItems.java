@@ -5,6 +5,8 @@ import alku.csrp.item.BoughItem;
 import alku.csrp.item.CompendiumItem;
 import alku.csrp.item.EvolutionClockItem;
 import alku.csrp.item.EvolutionDeviceItem;
+import alku.csrp.item.EvolutionLureItem;
+import alku.csrp.block.EvolutionLureBlock;
 import alku.csrp.item.FalseAppleItem;
 import alku.csrp.item.FishlinItem;
 import alku.csrp.item.HijackedArmorItem;
@@ -308,6 +310,26 @@ public final class ModItems {
     public static final DeferredItem<BlockItem> COLONYHEART = ITEMS.registerSimpleBlockItem("colonyheart", ModBlocks.COLONYHEART);
     public static final DeferredItem<BlockItem> PARASITE_STRUCTURE = ITEMS.registerSimpleBlockItem(
             "parasitestructure", ModBlocks.PARASITE_STRUCTURE);
+    public static final DeferredItem<EvolutionLureItem> EVOLUTION_LURE_ONE = evolutionLure(
+            "evolutionlure_one", EvolutionLureBlock.Tier.ONE);
+    public static final DeferredItem<EvolutionLureItem> EVOLUTION_LURE_TWO = evolutionLure(
+            "evolutionlure_two", EvolutionLureBlock.Tier.TWO);
+    public static final DeferredItem<EvolutionLureItem> EVOLUTION_LURE_THREE = evolutionLure(
+            "evolutionlure_three", EvolutionLureBlock.Tier.THREE);
+    public static final DeferredItem<EvolutionLureItem> EVOLUTION_LURE_FOUR = evolutionLure(
+            "evolutionlure_four", EvolutionLureBlock.Tier.FOUR);
+    public static final DeferredItem<EvolutionLureItem> EVOLUTION_LURE_FIVE = evolutionLure(
+            "evolutionlure_five", EvolutionLureBlock.Tier.FIVE);
+    public static final DeferredItem<EvolutionLureItem> EVOLUTION_LURE_SIX = evolutionLure(
+            "evolutionlure_six", EvolutionLureBlock.Tier.SIX);
+    public static final DeferredItem<EvolutionLureItem> EVOLUTION_LURE_SEVEN = evolutionLure(
+            "evolutionlure_seven", EvolutionLureBlock.Tier.SEVEN);
+    public static final DeferredItem<EvolutionLureItem> EVOLUTION_LURE_EIGHT = evolutionLure(
+            "evolutionlure_eight", EvolutionLureBlock.Tier.EIGHT);
+    public static final DeferredItem<EvolutionLureItem> EVOLUTION_LURE_NINE = evolutionLure(
+            "evolutionlure_nine", EvolutionLureBlock.Tier.NINE);
+    public static final DeferredItem<EvolutionLureItem> EVOLUTION_LURE_TEN = evolutionLure(
+            "evolutionlure_ten", EvolutionLureBlock.Tier.TEN);
 
     public static final DeferredItem<Item> ASSIMILATED_FLESH = simple("assimilated_flesh");
     public static final DeferredItem<Item> BONE = simple("bone");
@@ -484,6 +506,11 @@ public final class ModItems {
     }
     private static DeferredItem<Item> simple(String id, Item.Properties properties) {
         return ITEMS.registerSimpleItem(id, properties);
+    }
+
+    private static DeferredItem<EvolutionLureItem> evolutionLure(String id, EvolutionLureBlock.Tier tier) {
+        return ITEMS.registerItem(id, properties -> new EvolutionLureItem(ModBlocks.EVOLUTION_LURE.get(), tier,
+                properties), new Item.Properties());
     }
 
     private static DeferredItem<OverlastFoodItem> overlastFood(String id, OverlastFoodItem.Kind kind, int stackSize) {
