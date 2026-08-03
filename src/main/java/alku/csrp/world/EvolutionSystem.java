@@ -1,5 +1,6 @@
 package alku.csrp.world;
 
+import alku.csrp.Config;
 import alku.csrp.entity.DerivedParasiteEntity;
 import alku.csrp.entity.NexusParasiteEntity;
 import alku.csrp.entity.Parasite;
@@ -116,7 +117,12 @@ public final class EvolutionSystem {
     }
 
     public static GenerationProfile generationProfile(ServerLevel level) {
-        int generation = Math.max(0, Math.min(5, SrpWorldData.get(level).generation()));
+        int generation = Config.generationEnabled() ? SrpWorldData.get(level).generation() : 5;
+        return generationProfile(generation);
+    }
+
+    static GenerationProfile generationProfile(int requestedGeneration) {
+        int generation = Math.max(0, Math.min(5, requestedGeneration));
         return new GenerationProfile(
                 GENERATION_COTH_CHANCE[generation],
                 GENERATION_SPRINTING[generation],

@@ -1,5 +1,6 @@
 package alku.csrp.world;
 
+import alku.csrp.Config;
 import alku.csrp.Csrp;
 import alku.csrp.entity.Parasite;
 import alku.csrp.infection.InfectionMechanics;
@@ -45,7 +46,9 @@ public final class EvolutionEvents {
     public static void tickGeneration(LevelTickEvent.Post event) {
         if (event.getLevel() instanceof ServerLevel level && level.getGameTime() % 20L == 0L) {
             SrpWorldData data = SrpWorldData.get(level);
-            data.tickGeneration(level, 20);
+            if (Config.generationEnabled()) {
+                data.tickGeneration(level, 20);
+            }
             data.tickPassivePoints(level);
         }
     }

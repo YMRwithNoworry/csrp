@@ -1,5 +1,6 @@
 package alku.csrp.command;
 
+import alku.csrp.Config;
 import alku.csrp.Csrp;
 import alku.csrp.entity.NexusParasiteEntity;
 import alku.csrp.entity.Parasite;
@@ -62,10 +63,8 @@ public final class SrpCommands {
                         .then(Commands.argument("generation", IntegerArgumentType.integer(0, 5))
                                 .executes(context -> setGeneration(context.getSource(),
                                         IntegerArgumentType.getInteger(context, "generation")))))
-                .then(Commands.literal("getgeneration").executes(context -> {
-                    SrpWorldData data = data(context.getSource());
-                    return success(context.getSource(), "Current Parasite Generation: " + data.generation());
-                }))
+                .then(Commands.literal("getgeneration")
+                        .executes(context -> showGenerationStatus(context.getSource())))
                 .then(Commands.literal("resetdatafile").executes(context -> {
                     data(context.getSource()).reset(context.getSource().getLevel());
                     return success(context.getSource(), "Data file of this dimension has been reset");
@@ -125,10 +124,10 @@ public final class SrpCommands {
                         .then(Commands.argument("generation", IntegerArgumentType.integer(0, 5))
                                 .executes(context -> setGeneration(context.getSource(),
                                         IntegerArgumentType.getInteger(context, "generation")))))
-                .then(Commands.literal("getgeneration").executes(context -> {
-                    SrpWorldData data = data(context.getSource());
-                    return success(context.getSource(), "Current Generation of Parasites: " + data.generation());
-                }))
+                .then(Commands.literal("getgeneration")
+                        .executes(context -> showGenerationStatus(context.getSource())))
+                .then(Commands.literal("status")
+                        .executes(context -> showGenerationStatus(context.getSource())))
                 .then(Commands.literal("addticks")
                         .then(Commands.argument("ticks", IntegerArgumentType.integer())
                                 .executes(context -> {
@@ -337,7 +336,9 @@ public final class SrpCommands {
         }
         SrpWorldData data = SrpWorldData.get(level);
         return success(source, "Parasites: " + count + ", phase: " + data.evolutionPhase()
-                + ", generation: " + data.generation() + ", dislodgment codes: "
+                + ", generation: " + data.generation() + ", generation system: "
+                + (Config.generationEnabled() ? "enabled" : "disabled") + ", adaptation: "
+                + adaptationStatus(level) + ", dislodgment codes: "
                 + data.activeDislodgmentCodes(level).size());
     }
 
@@ -358,6 +359,8 @@ public final class SrpCommands {
         success(source, "Next phase points: " + nextThreshold + ", progress: " + progress + "%");
         success(source, "Gaining: " + data.canGain() + ", loss: " + data.canLose()
                 + ", generation: " + data.generation() + ", generation ticks: " + data.generationTicks()
+                + ", generation system: " + (Config.generationEnabled() ? "enabled" : "disabled")
+                + ", adaptation: " + adaptationStatus(level)
                 + ", UD: " + EvolutionSystem.ubiquitousDevelopment(source.getServer()));
         int parasites = 0;
         int coth = 0;
@@ -420,6 +423,24 @@ public final class SrpCommands {
     private static int setGeneration(CommandSourceStack source, int generation) {
         data(source).setGeneration(generation);
         return success(source, "Changed Generation of Parasites to " + generation);
+    }
+
+    private static int showGenerationStatus(CommandSourceStack source) {
+        ServerLevel level = source.getLevel();
+        SrpWorldData data = SrpWorldData.get(level);
+        if (!Config.generationEnabled()) {
+            return success(source, "Generation system: disabled, stored generation: " + data.generation()
+                    + ", generation ticks: " + data.generationTicks()
+                    + ", effective profile: full (generation 5), adaptation: active");
+        }
+        return success(source, "Generation system: enabled, generation: " + data.generation()
+                + ", generation ticks: " + data.generationTicks()
+                + ", adaptation: " + adaptationStatus(level));
+    }
+
+    private static String adaptationStatus(ServerLevel level) {
+        return EvolutionSystem.generationProfile(level).adaptation()
+                ? "active" : "locked (unlocks at generation 3)";
     }
 
     private static int showAllDimensions(CommandContext<CommandSourceStack> context) {

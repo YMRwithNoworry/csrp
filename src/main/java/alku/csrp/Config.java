@@ -37,6 +37,9 @@ public final class Config {
     private static final ModConfigSpec.BooleanValue USE_EVOLUTION_PHASES = BUILDER
             .comment("Use SRP evolution phases instead of the legacy difficulty killcount behavior.")
             .define("useEvolutionPhases", true);
+    private static final ModConfigSpec.BooleanValue GENERATION_ENABLED = BUILDER
+            .comment("Use parasite generations. When disabled, parasites retain their full gene abilities.")
+            .define("generationEnabled", true);
     private static final ModConfigSpec.DoubleValue OVERLAST_NATURAL_EVOLUTION_SCALE = BUILDER
             .comment("OverLast natural evolution points multiplier. Set to 0 to disable.")
             .defineInRange("overlastNaturalEvolutionScale", 1.0D, 0.0D, 10.0D);
@@ -434,6 +437,7 @@ public final class Config {
     public static double cothConvert() { return COTH_CONVERT.get(); }
     public static double killcountPlus() { return KILLCOUNT_PLUS.get(); }
     public static boolean useEvolutionPhases() { return USE_EVOLUTION_PHASES.get(); }
+    public static boolean generationEnabled() { return GENERATION_ENABLED.get(); }
     public static double overlastNaturalEvolutionScale() { return OVERLAST_NATURAL_EVOLUTION_SCALE.get(); }
     public static boolean overlastHudRequiresClock() { return OVERLAST_HUD_REQUIRES_CLOCK.get(); }
     public static String overlastHudPosition() { return OVERLAST_HUD_POSITION.get(); }
