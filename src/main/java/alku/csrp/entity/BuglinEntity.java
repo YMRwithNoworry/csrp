@@ -42,7 +42,6 @@ public class BuglinEntity extends Monster implements GeoEntity, Parasite {
 
     private static final String GROWTH_TARGET_NBT_KEY = "ruptergrow_target";
     private static final String EMERGENCE_NBT_KEY = "emergence_ticks";
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
     private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
     private final RawAnimation SPAWN = ParasiteAnimations.play(this, "spawn");
@@ -206,7 +205,7 @@ public class BuglinEntity extends Monster implements GeoEntity, Parasite {
             return PlayState.STOP;
         }
         if (!state.isMoving()) {
-            return state.setAndContinue(IDLE);
+            return PlayState.STOP;
         }
         return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() > 0.015 ? RUN : WALK);
     }
