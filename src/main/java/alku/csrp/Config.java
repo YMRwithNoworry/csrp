@@ -6,6 +6,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
+import java.util.Arrays;
 import java.util.List;
 
 public final class Config {
@@ -44,7 +45,7 @@ public final class Config {
             .define("overlastHudRequiresClock", false);
     private static final ModConfigSpec.ConfigValue<String> OVERLAST_HUD_POSITION = BUILDER
             .comment("OverLast HUD position: top left, top right, middle left, middle right, bottom left, bottom right.")
-            .defineInList("overlastHudPosition", "top left", List.of(
+            .defineInList("overlastHudPosition", "top left", Arrays.asList(
                     "top left", "top right", "middle left", "middle right", "bottom left", "bottom right"));
     private static final ModConfigSpec.ConfigValue<List<? extends String>> COTH_VICTIM_PARASITES = BUILDER
             .comment("Victim entity id to parasite entity id mappings, formatted as victim;parasite.")
