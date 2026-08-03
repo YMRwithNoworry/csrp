@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "": [
+      {"model": "csrp:block/parasiterubble_stonedebris"},
+      {"model": "csrp:block/parasiterubble_stonedebris", "y": 90},
+      {"model": "csrp:block/parasiterubble_stonedebris", "y": 180},
+      {"model": "csrp:block/parasiterubble_stonedebris", "y": 270}
+    ]
+  }
+}

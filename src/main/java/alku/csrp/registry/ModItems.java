@@ -298,6 +298,12 @@ public final class ModItems {
             "residue_block", ModBlocks.RESIDUE_BLOCK);
     public static final DeferredItem<BlockItem> INFESTED_REMAINS = ITEMS.registerSimpleBlockItem(
             "infestremain", ModBlocks.INFESTED_REMAINS);
+    public static final DeferredItem<BlockItem> BIOMASS_BLOCK = ITEMS.registerSimpleBlockItem(
+            "biomass_block", ModBlocks.BIOMASS_BLOCK);
+    public static final DeferredItem<BlockItem> PARASITE_MOUTH = ITEMS.registerSimpleBlockItem(
+            "parasitemouth", ModBlocks.PARASITE_MOUTH);
+    public static final DeferredItem<BlockItem> HIVESTONE_DEBRIS = ITEMS.registerSimpleBlockItem(
+            "parasiterubble_stonedebris", ModBlocks.HIVESTONE_DEBRIS);
     public static final DeferredItem<BlockItem> INFESTED_STAIN = ITEMS.registerSimpleBlockItem(
             "infestedstain", ModBlocks.INFESTED_STAIN);
     public static final DeferredItem<BlockItem> INFESTED_RUBBLE = ITEMS.registerSimpleBlockItem(

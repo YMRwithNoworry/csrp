@@ -10,6 +10,7 @@ import alku.csrp.block.ResidueBloomingBlock;
 import alku.csrp.block.InfestedResidueBlock;
 import alku.csrp.block.InfestationPurifierBlock;
 import alku.csrp.block.EvolutionLureBlock;
+import alku.csrp.block.ParasiteTrapBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -42,6 +43,16 @@ public final class ModBlocks {
     public static final DeferredBlock<InfestedResidueBlock> INFESTED_REMAINS = BLOCKS.register("infestremain", () ->
             new InfestedResidueBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
                     .noCollission().noOcclusion().randomTicks().instabreak().sound(SoundType.ROOTED_DIRT)));
+    public static final DeferredBlock<ParasiteTrapBlock> BIOMASS_BLOCK = BLOCKS.register("biomass_block", () ->
+            new ParasiteTrapBlock(ParasiteTrapBlock.Kind.BIOMASS, BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_GREEN).strength(0.6F).friction(0.8F)
+                    .lightLevel(state -> 6).sound(SoundType.SLIME_BLOCK)));
+    public static final DeferredBlock<ParasiteTrapBlock> PARASITE_MOUTH = BLOCKS.register("parasitemouth", () ->
+            new ParasiteTrapBlock(ParasiteTrapBlock.Kind.MAW, BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(1.4F).noOcclusion().sound(SoundType.ROOTED_DIRT)));
+    public static final DeferredBlock<Block> HIVESTONE_DEBRIS = BLOCKS.register("parasiterubble_stonedebris", () ->
+            new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY)
+                    .strength(2.3F, 6.0F).requiresCorrectToolForDrops().sound(SoundType.METAL)));
 
     public static final DeferredBlock<InfestedBlock> INFESTED_STAIN = infested("infestedstain", MapColor.COLOR_RED, SoundType.ROOTED_DIRT);
     public static final DeferredBlock<InfestedBlock> INFESTED_RUBBLE = infested("infestedrubble", MapColor.COLOR_RED, SoundType.STONE);
