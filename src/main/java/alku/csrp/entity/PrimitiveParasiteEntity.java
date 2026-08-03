@@ -9,6 +9,9 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
@@ -42,6 +45,8 @@ import java.util.Map;
 
 /** Shared 1.12 primitive-parasite state: hostile targeting, kills, and repeated-damage adaptation. */
 public abstract class PrimitiveParasiteEntity extends Monster implements GeoEntity, Parasite {
+    private static final EntityDataAccessor<Byte> ADAPTATION_HIT_STATUS = SynchedEntityData.defineId(
+            PrimitiveParasiteEntity.class, EntityDataSerializers.BYTE);
     private static final String KILLS_TAG = "parasitekills";
     private static final String LEGACY_KILLCOUNT_TAG = "legacy_killcount";
     private static final String ADAPTATIONS_TAG = "damage_adaptations";
@@ -64,6 +69,12 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
 
     protected PrimitiveParasiteEntity(EntityType<? extends PrimitiveParasiteEntity> type, Level level) {
         super(type, level);
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(ADAPTATION_HIT_STATUS, (byte) 0);
     }
 
     @Override
@@ -120,6 +131,9 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     @Override
     public boolean hurt(DamageSource source, float amount) {
         lastDamageAdaptationReduction = 0.0F;
+        if (!level().isClientSide) {
+            entityData.set(ADAPTATION_HIT_STATUS, (byte) 0);
+        }
         Entity attacker = source.getEntity();
         Entity direct = source.getDirectEntity();
         if ((attacker instanceof Parasite && attacker != this)
@@ -133,7 +147,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         if (!usesDamageAdaptation()) {
             return hurtWithIncomingDamageCap(source, amount);
         }
-        if (source.is(DamageTypes.FALL) || source.is(DamageTypes.FELL_OUT_OF_WORLD)) {
+        if (source.is(DamageTypes.IN_WALL) || source.is(DamageTypes.FELL_OUT_OF_WORLD)) {
             return hurtWithIncomingDamageCap(source, amount);
         }
         if (!level().isClientSide && (source.is(DamageTypes.IN_FIRE) || source.is(DamageTypes.ON_FIRE))
@@ -150,6 +164,10 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
                 && shouldLearnDamageSource(source, damageId, previousHits)) {
             damageAdaptations.put(damageId, previousHits == Integer.MAX_VALUE ? previousHits : previousHits + 1);
             adaptationLearningCooldown = NEW_DAMAGE_COOLDOWN_TICKS;
+        }
+        if (!level().isClientSide && damageAdaptations.containsKey(damageId)) {
+            entityData.set(ADAPTATION_HIT_STATUS,
+                    damageAdaptations.get(damageId) <= maxDamageAdaptationHits() ? (byte) 1 : (byte) 2);
         }
         float adaptedDamage = amount * (1.0F - reduction);
         lastDamageAdaptationReduction = Math.max(0.0F, amount - adaptedDamage);
@@ -295,6 +313,10 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
             return BuiltInRegistries.ENTITY_TYPE.getKey(livingSource.getType()).toString();
         }
         return source.getMsgId();
+    }
+
+    public byte getAdaptationHitStatus() {
+        return entityData.get(ADAPTATION_HIT_STATUS);
     }
 
     public void seedGlobalAdaptation(String damageId, int points) {

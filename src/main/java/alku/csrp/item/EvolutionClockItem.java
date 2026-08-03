@@ -25,7 +25,7 @@ public final class EvolutionClockItem extends Item {
             CustomData.update(DataComponents.CUSTOM_DATA, stack,
                     tag -> tag.putInt("evolution_phase", data.evolutionPhase()));
             player.sendSystemMessage(Component.translatable("message.csrp.evolution_clock",
-                    data.evolutionPhase(), data.evolutionPoints(), data.cooldown(serverLevel)));
+                    data.evolutionPhase(), data.generation(), data.evolutionPoints(), data.cooldown(serverLevel)));
         }
         return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
     }
