@@ -248,6 +248,10 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         dispatchEntityId = type == null ? null : BuiltInRegistries.ENTITY_TYPE.getKey(type).toString();
     }
 
+    public void setDispatchEntity(ResourceLocation type) {
+        dispatchEntityId = type == null ? null : type.toString();
+    }
+
     public void setLifetimeTicks(int lifetimeTicks) {
         this.lifetimeTicks = Math.max(0, lifetimeTicks);
     }

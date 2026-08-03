@@ -1,17 +1,22 @@
 package alku.csrp.entity;
 
+import alku.csrp.Csrp;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.infection.BlockInfestation;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.world.SrpWorldData;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -25,6 +30,7 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animation.AnimatableManager;
@@ -33,6 +39,7 @@ import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /** Legacy Nexus families: stationary stage growth, reinforcement, and battlefield support. */
@@ -43,8 +50,10 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
     private static final int STAGE_ONE_MIN_GROWTH = 4_800;
     private static final int STAGE_ONE_GROWTH_VARIANCE = 1_201;
+    private static final int TEMPORARY_BECKON_LIFETIME = 300;
 
     private final Kind kind;
+    private final List<String> storedParasiteIds = new ArrayList<>();
     private int growthTicks;
     private int growthDelayTicks;
     private int summonCooldown;
@@ -52,6 +61,8 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     private int supportCooldown;
     private int blockBreakCooldown;
     private int attackFlashTicks;
+    private int temporaryLifetimeTicks = -1;
+    private boolean canGrow = true;
 
     public NexusParasiteEntity(EntityType<? extends NexusParasiteEntity> type, Level level, Kind kind) {
         super(type, level);
@@ -95,11 +106,16 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         if (activeKind.isRooterBall()) {
             return;
         }
+        if (activeKind.family == Family.BECKON && temporaryLifetimeTicks > 0
+                && --temporaryLifetimeTicks <= 0) {
+            discard();
+            return;
+        }
         if (activeKind.family == Family.BECKON && level() instanceof ServerLevel serverLevel
                 && SrpWorldData.get(serverLevel).evolutionPhase() >= 5) {
             summonCooldown = 0;
         }
-        if (growthDelayTicks > 0 && level() instanceof ServerLevel serverLevel) {
+        if (canGrow && growthDelayTicks > 0 && level() instanceof ServerLevel serverLevel) {
             int phase = SrpWorldData.get(serverLevel).evolutionPhase();
             int minimumPhase = activeKind.stage + 2;
             if (phase >= minimumPhase && (phase > minimumPhase || tickCount % 4 == 0)
@@ -111,6 +127,9 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         if (activeKind.family == Family.ROOTER && supportCooldown <= 0) {
             applyRooterSupport(activeKind.stage);
             supportCooldown = 200;
+        }
+        if (activeKind.family == Family.DISPATCHER && tickCount % 40 == 0) {
+            storeNearbyParasite();
         }
         if (summonCooldown <= 0 && performFamilyAbility(activeKind)) {
             summonCooldown = activeKind.summonCooldown;
@@ -234,6 +253,11 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         tag.putInt("nexus_support_cooldown", supportCooldown);
         tag.putInt("nexus_block_break_cooldown", blockBreakCooldown);
         tag.putInt("nexus_attack_flash", attackFlashTicks);
+        tag.putInt("nexus_temporary_lifetime", temporaryLifetimeTicks);
+        tag.putBoolean("nexus_can_grow", canGrow);
+        ListTag storedParasites = new ListTag();
+        storedParasiteIds.forEach(id -> storedParasites.add(StringTag.valueOf(id)));
+        tag.put("nexus_dispatcher_stored", storedParasites);
     }
 
     @Override
@@ -247,6 +271,17 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         supportCooldown = tag.getInt("nexus_support_cooldown");
         blockBreakCooldown = tag.getInt("nexus_block_break_cooldown");
         attackFlashTicks = tag.getInt("nexus_attack_flash");
+        temporaryLifetimeTicks = tag.contains("nexus_temporary_lifetime")
+                ? tag.getInt("nexus_temporary_lifetime") : -1;
+        canGrow = !tag.contains("nexus_can_grow") || tag.getBoolean("nexus_can_grow");
+        storedParasiteIds.clear();
+        ListTag storedParasites = tag.getList("nexus_dispatcher_stored", Tag.TAG_STRING);
+        for (int index = 0; index < storedParasites.size(); index++) {
+            String id = storedParasites.getString(index);
+            if (ResourceLocation.tryParse(id) != null) {
+                storedParasiteIds.add(id);
+            }
+        }
     }
 
     public Kind getKind() {
@@ -286,6 +321,44 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         };
     }
 
+    private void storeNearbyParasite() {
+        double range = getAttributeValue(Attributes.FOLLOW_RANGE);
+        List<Mob> candidates = level().getEntitiesOfClass(Mob.class, getBoundingBox().inflate(range),
+                this::isStorableDispatcherParasite);
+        if (candidates.isEmpty()) {
+            return;
+        }
+        Mob candidate = candidates.get(random.nextInt(candidates.size()));
+        ResourceLocation id = BuiltInRegistries.ENTITY_TYPE.getKey(candidate.getType());
+        if (id == null || !Csrp.MODID.equals(id.getNamespace())) {
+            return;
+        }
+        storedParasiteIds.add(id.toString());
+        candidate.discard();
+        if (level() instanceof ServerLevel serverLevel) {
+            serverLevel.sendParticles(ParticleTypes.PORTAL, candidate.getX(),
+                    candidate.getY() + candidate.getBbHeight() * 0.5D, candidate.getZ(),
+                    12, 0.25D, 0.35D, 0.25D, 0.02D);
+        }
+    }
+
+    private boolean isStorableDispatcherParasite(Mob candidate) {
+        return candidate != this
+                && candidate instanceof Parasite
+                && candidate.getTarget() == null
+                && candidate.onGround()
+                && candidate.tickCount > 100
+                && !candidate.isPassenger()
+                && !candidate.isVehicle()
+                && !(candidate instanceof NexusParasiteEntity)
+                && !(candidate instanceof PreeminentParasiteEntity)
+                && !(candidate instanceof AncientParasiteEntity)
+                && !(candidate instanceof AbominationEntity)
+                && !(candidate instanceof ArchitectEntity)
+                && !(candidate instanceof DeterrentParasiteEntity)
+                && !(candidate instanceof MarauderTendrilEntity);
+    }
+
     private boolean summonBeckonParasites(Kind activeKind, LivingEntity target) {
         if (!(level() instanceof ServerLevel serverLevel) || nearbyParasiteCount(18.0D) >= activeKind.activeCap) {
             return false;
@@ -313,6 +386,9 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         if (nearbyParasiteCount(20.0D) >= activeKind.activeCap) {
             return false;
         }
+        if (deployStoredParasite(target)) {
+            return true;
+        }
         EntityType<? extends Mob> type = random.nextFloat() < (activeKind.stage == 1 ? 0.75F : 0.50F)
                 ? ModEntities.SEIZER.get() : ModEntities.SENTRY.get();
         boolean spawned = spawnMob(type, target, 5.0D);
@@ -320,6 +396,45 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
             spawnPodVolley(target);
         }
         return spawned;
+    }
+
+    private boolean deployStoredParasite(LivingEntity target) {
+        if (!(level() instanceof ServerLevel serverLevel)) {
+            return false;
+        }
+        while (!storedParasiteIds.isEmpty()) {
+            int index = random.nextInt(storedParasiteIds.size());
+            ResourceLocation id = ResourceLocation.tryParse(storedParasiteIds.get(index));
+            if (id == null || BuiltInRegistries.ENTITY_TYPE.getOptional(id).isEmpty()) {
+                storedParasiteIds.remove(index);
+                continue;
+            }
+            DeterrentParasiteEntity tentacle = ModEntities.DISPATCHERTEN.get().create(serverLevel);
+            if (tentacle == null) {
+                return false;
+            }
+            for (int attempt = 0; attempt < 6; attempt++) {
+                double angle = random.nextDouble() * Math.PI * 2.0D;
+                double distance = 3.0D + random.nextDouble() * 2.0D;
+                BlockPos requested = BlockPos.containing(target.getX() + Math.cos(angle) * distance,
+                        target.getY(), target.getZ() + Math.sin(angle) * distance);
+                BlockPos spawnPos = serverLevel.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, requested);
+                tentacle.moveTo(spawnPos.getX() + 0.5D, spawnPos.getY(), spawnPos.getZ() + 0.5D,
+                        getYRot(), 0.0F);
+                if (!serverLevel.noCollision(tentacle)) {
+                    continue;
+                }
+                tentacle.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(spawnPos),
+                        MobSpawnType.MOB_SUMMONED, null);
+                tentacle.setDispatchEntity(id);
+                tentacle.setTarget(target);
+                serverLevel.addFreshEntity(tentacle);
+                storedParasiteIds.remove(index);
+                return true;
+            }
+            return false;
+        }
+        return false;
     }
 
     private void spawnBombVolley(int count, float damage) {
@@ -383,12 +498,12 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         for (LivingEntity ally : level().getEntitiesOfClass(LivingEntity.class,
                 getBoundingBox().inflate(16.0D + stage * 4.0D),
                 entity -> entity != this && entity instanceof Parasite)) {
-            ally.addEffect(new MobEffectInstance(ModMobEffects.RAGE, 160, Math.max(0, stage - 1), false, false), this);
-            ally.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 160,
-                    Math.max(0, stage - 1), false, false), this);
-            if (stage >= 3) {
-                ally.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 100, 0, false, false), this);
+            if (ally instanceof NexusParasiteEntity nexus
+                    && (nexus.activeKind().family == Family.ROOTER || nexus.activeKind().isRooterBall())) {
+                continue;
             }
+            ally.addEffect(new MobEffectInstance(ModMobEffects.PIVOT, 300, Math.max(0, stage - 1), false, false), this);
+            ally.addEffect(new MobEffectInstance(ModMobEffects.PARATE, 300, Math.max(0, stage - 1), false, false), this);
         }
         if (level() instanceof ServerLevel serverLevel) {
             serverLevel.sendParticles(ParticleTypes.COMPOSTER, getX(), getY() + getBbHeight() * 0.55D, getZ(),
@@ -461,6 +576,9 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         if (spawned == null || !(level() instanceof ServerLevel serverLevel)) {
             return false;
         }
+        if (activeKind().family == Family.BECKON && spawned.activeKind().family == Family.BECKON) {
+            spawned.makeTemporaryBeckon();
+        }
         double angle = random.nextDouble() * Math.PI * 2.0D;
         spawned.moveTo(target.getX() + Math.cos(angle) * distance, target.getY(),
                 target.getZ() + Math.sin(angle) * distance, getYRot(), 0.0F);
@@ -469,6 +587,11 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         spawned.setTarget(target);
         serverLevel.addFreshEntity(spawned);
         return true;
+    }
+
+    private void makeTemporaryBeckon() {
+        temporaryLifetimeTicks = TEMPORARY_BECKON_LIFETIME;
+        canGrow = false;
     }
 
     private boolean spawnMob(EntityType<? extends Mob> type, LivingEntity target, double distance) {
