@@ -47,7 +47,7 @@ public final class SpottedMobEffect extends MobEffect {
             "overseer", "vigilante", "warden", "bomber_light", "marauder", "monarch", "grunt");
 
     public SpottedMobEffect() {
-        super(MobEffectCategory.BENEFICIAL, 8149607);
+        super(MobEffectCategory.HARMFUL, 8149607);
     }
 
     @Override

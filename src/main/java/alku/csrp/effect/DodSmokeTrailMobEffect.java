@@ -7,7 +7,7 @@ import net.minecraft.world.entity.LivingEntity;
 /** Emits the legacy concussion smoke trail until its final grounded ticks. */
 public final class DodSmokeTrailMobEffect extends MarkerMobEffect {
     public DodSmokeTrailMobEffect() {
-        super(false, 4210752);
+        super(true, 4210752);
     }
 
     @Override

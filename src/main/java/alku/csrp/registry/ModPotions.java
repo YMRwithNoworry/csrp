@@ -13,16 +13,19 @@ public final class ModPotions {
             DeferredRegister.create(Registries.POTION, Csrp.MODID);
 
     public static final DeferredHolder<Potion, Potion> COTH = potion("coth", "coth", ModMobEffects.COTH, 2400);
+    public static final DeferredHolder<Potion, Potion> BLEED = potion("bleed", "bleed", ModMobEffects.BLEED, 2400);
     public static final DeferredHolder<Potion, Potion> FEAR = potion("fear", "fear", ModMobEffects.FEAR, 2400);
     public static final DeferredHolder<Potion, Potion> RES = potion("res", "antimall", ModMobEffects.ANTIMALL, 2400);
     public static final DeferredHolder<Potion, Potion> CORRO = potion("corro", "corrosive", ModMobEffects.CORROSIVE, 2400);
     public static final DeferredHolder<Potion, Potion> VIRA = potion("vira", "viral", ModMobEffects.VIRAL, 2400);
+    public static final DeferredHolder<Potion, Potion> NEEDLER = potion("needler", "needler", ModMobEffects.NEEDLER, 2400);
     public static final DeferredHolder<Potion, Potion> VOMIT = potion("vomit", "vomit", ModMobEffects.VOMIT, 2400);
     public static final DeferredHolder<Potion, Potion> DISTORTED_ENLIGHTENMENT =
             potion("distorted_enlightenment", "distorted_enlightenment", ModMobEffects.DISTORTED_ENLIGHTENMENT, 900);
     public static final DeferredHolder<Potion, Potion> RAGE = potion("rage", "rage", ModMobEffects.RAGE, 2400);
     public static final DeferredHolder<Potion, Potion> REPEL = potion("repel", "repel", ModMobEffects.REPEL, 2400);
     public static final DeferredHolder<Potion, Potion> SENSES = potion("senses", "senses", ModMobEffects.SENSES, 2400);
+    public static final DeferredHolder<Potion, Potion> PREY = potion("prey", "prey", ModMobEffects.PREY, 2400);
     public static final DeferredHolder<Potion, Potion> DEBAR = potion("debar", "debar", ModMobEffects.DEBAR, 2400);
     public static final DeferredHolder<Potion, Potion> FOSTER = potion("foster", "foster", ModMobEffects.FOSTER, 2400);
     public static final DeferredHolder<Potion, Potion> LINK = potion("link", "link", ModMobEffects.LINK, 2400);
@@ -39,6 +42,14 @@ public final class ModPotions {
     public static final DeferredHolder<Potion, Potion> BRAINING = potion("braining", "braining", ModMobEffects.BRAINING, 2400);
     public static final DeferredHolder<Potion, Potion> NOVISION = potion("novision", "novision", ModMobEffects.NOVISION, 2400);
     public static final DeferredHolder<Potion, Potion> THE_SIGN = potion("the_sign", "the_sign", ModMobEffects.THE_SIGN, 2400);
+    public static final DeferredHolder<Potion, Potion> CAMOUFLAGE =
+            potion("camouflage", "camouflage", ModMobEffects.CAMOUFLAGE, 6000);
+    public static final DeferredHolder<Potion, Potion> WATER_PREDATION =
+            potion("water_predation", "water_predation", ModMobEffects.WATER_PREDATION, 2400);
+    public static final DeferredHolder<Potion, Potion> FROSTBITE =
+            potion("frostbite", "frostbite", ModMobEffects.FROSTBITE, 2400);
+    public static final DeferredHolder<Potion, Potion> DOD_SMOKE_TRAIL =
+            potion("dod_smoke_trail", "dod_smoke_trail", ModMobEffects.DOD_SMOKE_TRAIL, 200);
     public static final DeferredHolder<Potion, Potion> INDEAF = potion("indeaf", "indeaf", ModMobEffects.INDEAF, 2400);
     public static final DeferredHolder<Potion, Potion> OVERHEATING = potion("overheating", "overheating", ModMobEffects.OVERHEATING, 2400);
     public static final DeferredHolder<Potion, Potion> CONTA = potion("conta", "conta", ModMobEffects.CONTAMINATION, 2400);

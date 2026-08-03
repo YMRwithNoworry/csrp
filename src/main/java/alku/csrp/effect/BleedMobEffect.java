@@ -12,7 +12,11 @@ public final class BleedMobEffect extends MobEffect {
     @Override
     public boolean applyEffectTick(LivingEntity entity, int amplifier) {
         if (!entity.level().isClientSide) {
-            float damage = Math.min(entity.getMaxHealth() * 0.02F, 100.0F);
+            float damage = entity.getMaxHealth() * 0.06F;
+            if (entity.getDeltaMovement().horizontalDistanceSqr() > 1.0E-6D) {
+                damage *= 2.0F;
+            }
+            damage = Math.min(damage, 100.0F);
             entity.hurt(entity.damageSources().magic(), damage);
         }
         return true;
@@ -20,7 +24,7 @@ public final class BleedMobEffect extends MobEffect {
 
     @Override
     public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
-        int interval = amplifier >= 4 ? 10 : amplifier >= 2 ? 12 : 25;
-        return duration % interval == 0;
+        int interval = 25 >> amplifier;
+        return interval <= 0 || duration % interval == 0;
     }
 }

@@ -44,7 +44,8 @@ public final class DerivedTextDistortion {
             active = false;
             return;
         }
-        active = !minecraft.level.getEntitiesOfClass(KirinEntity.class,
+        active = player.hasEffect(ModMobEffects.DISTORTED_ENLIGHTENMENT)
+                || !minecraft.level.getEntitiesOfClass(KirinEntity.class,
                         player.getBoundingBox().inflate(RANGE),
                         entity -> entity.isAlive() && entity.distanceToSqr(player) <= RANGE * RANGE).isEmpty()
                 || !minecraft.level.getEntitiesOfClass(DraconiteEntity.class,

@@ -16,7 +16,8 @@ public final class EffectPosMobEffect extends MarkerMobEffect {
         if (!entity.level().isClientSide && entity.tickCount % 20 == 0) {
             for (MobEffectInstance active : new ArrayList<>(entity.getActiveEffects())) {
                 if (active.getEffect().value().getCategory() != MobEffectCategory.HARMFUL) {
-                    entity.hurt(entity.damageSources().magic(), 0.5F * (active.getAmplifier() + 1));
+                    entity.hurt(entity.damageSources().magic(), 0.5F * (active.getAmplifier() + 1)
+                            * (amplifier + 1));
                 }
             }
         }

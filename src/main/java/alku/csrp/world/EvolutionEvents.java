@@ -71,7 +71,7 @@ public final class EvolutionEvents {
             if (attacker instanceof LivingEntity living) {
                 var pivot = living.getEffect(ModMobEffects.PIVOT);
                 if (pivot != null) {
-                    points *= 2 * (pivot.getAmplifier() + 1);
+                    points *= 2;
                 }
             }
             EvolutionSystem.addPoints(level, points, EvolutionSystem.PointSource.KILL);

@@ -18,6 +18,7 @@ public final class StatusEffectOverlayEvents {
     private static final ResourceLocation BLEED = texture("screen_bleed.png");
     private static final ResourceLocation VOMIT = texture("screen_vomit.png");
     private static final ResourceLocation NOVISION = texture("screen_novision.png");
+    private static final ResourceLocation DISTORTED = texture("screen_distorted.png");
     private static int vomitY;
 
     private StatusEffectOverlayEvents() {
@@ -47,6 +48,13 @@ public final class StatusEffectOverlayEvents {
             }
             if (player.hasEffect(ModMobEffects.NOVISION)) {
                 drawFullScreen(graphics, NOVISION, width, height);
+            }
+            if (player.hasEffect(ModMobEffects.DISTORTED_ENLIGHTENMENT)) {
+                float pulse = 0.22F + 0.08F * (float) Math.sin(player.tickCount * 0.2F);
+                RenderSystem.setShaderColor(0.85F, 0.65F, 1.0F, pulse);
+                graphics.blit(DISTORTED, 0, 0, 0.0F, 0.0F,
+                        width, height, 32, 32);
+                RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             }
             if (player.hasEffect(ModMobEffects.VOMIT)) {
                 int textureHeight = height * 8;

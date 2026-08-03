@@ -25,6 +25,8 @@ import alku.csrp.effect.FosterMobEffect;
 import alku.csrp.effect.SpottedMobEffect;
 import alku.csrp.effect.PreyMobEffect;
 import alku.csrp.effect.OverlastMobEffect;
+import alku.csrp.effect.NoVisionMobEffect;
+import alku.csrp.effect.PivotMobEffect;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -99,8 +101,7 @@ public final class ModMobEffects {
     public static final DeferredHolder<MobEffect, MobEffect> DISTORTED_ENLIGHTENMENT =
             EFFECTS.register("distorted_enlightenment", DistortedEnlightenmentMobEffect::new);
     public static final DeferredHolder<MobEffect, MobEffect> VOMIT =
-            EFFECTS.register("vomit", () -> new AttributeMobEffect(false, 7498817,
-                    Attributes.FOLLOW_RANGE, ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "vomit_follow_range"), 0.9D));
+            EFFECTS.register("vomit", () -> new MarkerMobEffect(true, 7498817));
     public static final DeferredHolder<MobEffect, MobEffect> SENSES =
             EFFECTS.register("senses", () -> new AttributeMobEffect(false, 9346775,
                     Attributes.FOLLOW_RANGE, ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "senses_follow_range"), 0.1D));
@@ -111,7 +112,7 @@ public final class ModMobEffects {
     public static final DeferredHolder<MobEffect, MobEffect> FOSTER =
             EFFECTS.register("foster", FosterMobEffect::new);
     public static final DeferredHolder<MobEffect, MobEffect> PIVOT =
-            EFFECTS.register("pivot", () -> new MarkerMobEffect(false, 16757187));
+            EFFECTS.register("pivot", PivotMobEffect::new);
     public static final DeferredHolder<MobEffect, MobEffect> JUGG =
             EFFECTS.register("jugg", () -> new MarkerMobEffect(false, 12433541));
     public static final DeferredHolder<MobEffect, MobEffect> PARATE =
@@ -119,9 +120,9 @@ public final class ModMobEffects {
     public static final DeferredHolder<MobEffect, MobEffect> SPOTTED =
             EFFECTS.register("spotted", SpottedMobEffect::new);
     public static final DeferredHolder<MobEffect, MobEffect> BRAINING =
-            EFFECTS.register("braining", () -> new MarkerMobEffect(false, 7958149));
+            EFFECTS.register("braining", () -> new MarkerMobEffect(true, 7958149));
     public static final DeferredHolder<MobEffect, MobEffect> NOVISION =
-            EFFECTS.register("novision", () -> new MarkerMobEffect(false, 1582649));
+            EFFECTS.register("novision", NoVisionMobEffect::new);
     public static final DeferredHolder<MobEffect, MobEffect> INDEAF =
             EFFECTS.register("indeaf", IndeafMobEffect::new);
     public static final DeferredHolder<MobEffect, MobEffect> OVERHEATING =
@@ -129,13 +130,19 @@ public final class ModMobEffects {
     public static final DeferredHolder<MobEffect, MobEffect> CONTAMINATION =
             EFFECTS.register("conta", ContaminationMobEffect::new);
     public static final DeferredHolder<MobEffect, MobEffect> MUSCLEOUT =
-            EFFECTS.register("muscleout", () -> new MarkerMobEffect(true, 15499138));
+            EFFECTS.register("muscleout", () -> new MarkerMobEffect(false, 15499138));
     public static final DeferredHolder<MobEffect, MobEffect> EFFECTPOS =
             EFFECTS.register("effectpos", EffectPosMobEffect::new);
     public static final DeferredHolder<MobEffect, MobEffect> EFFECTNEG =
             EFFECTS.register("effectneg", EffectNegMobEffect::new);
     public static final DeferredHolder<MobEffect, MobEffect> THE_SIGN =
             EFFECTS.register("the_sign", () -> new MarkerMobEffect(false, 8970751));
+    public static final DeferredHolder<MobEffect, MobEffect> CAMOUFLAGE =
+            EFFECTS.register("camouflage", () -> new MarkerMobEffect(false, 0x68865F));
+    public static final DeferredHolder<MobEffect, MobEffect> WATER_PREDATION =
+            EFFECTS.register("water_predation", () -> new MarkerMobEffect(true, 0x2D7FA7));
+    public static final DeferredHolder<MobEffect, MobEffect> FROSTBITE =
+            EFFECTS.register("frostbite", () -> new MarkerMobEffect(true, 0xA8D8EA));
     public static final DeferredHolder<MobEffect, MobEffect> PARASITES_PURIFY =
             EFFECTS.register("parasites_purify", () -> new OverlastMobEffect(MobEffectCategory.BENEFICIAL, 0xFFFACD));
     public static final DeferredHolder<MobEffect, MobEffect> PARASITES_INFECT =

@@ -36,8 +36,6 @@ import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -210,6 +208,9 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     }
 
     private Holder<MobEffect> killingResistanceEffect() {
+        if (this instanceof CrudeParasiteEntity) {
+            return ModMobEffects.CRUDE;
+        }
         if (this instanceof AdaptedVariantEntity) {
             return ModMobEffects.ADAPTED;
         }
@@ -473,29 +474,8 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     public boolean killedEntity(ServerLevel level, LivingEntity victim) {
         parasiteKills++;
         legacyKillCount = Math.max(legacyKillCount, parasiteKills);
-        applyParateGrowth(victim);
         onParasiteKill(level, victim, parasiteKills);
         return super.killedEntity(level, victim);
-    }
-
-    private void applyParateGrowth(LivingEntity victim) {
-        var parate = getEffect(ModMobEffects.PARATE);
-        if (parate == null) {
-            return;
-        }
-        double multiplier = 0.5D * (parate.getAmplifier() + 1);
-        stealBaseAttribute(victim, Attributes.MAX_HEALTH, multiplier);
-        stealBaseAttribute(victim, Attributes.ARMOR, multiplier);
-        stealBaseAttribute(victim, Attributes.ATTACK_DAMAGE, multiplier);
-    }
-
-    private void stealBaseAttribute(LivingEntity victim,
-            Holder<net.minecraft.world.entity.ai.attributes.Attribute> attribute, double multiplier) {
-        AttributeInstance own = getAttribute(attribute);
-        AttributeInstance prey = victim.getAttribute(attribute);
-        if (own != null && prey != null) {
-            own.setBaseValue(own.getBaseValue() + prey.getBaseValue() * multiplier);
-        }
     }
 
     protected void onParasiteKill(ServerLevel level, LivingEntity victim, int kills) {

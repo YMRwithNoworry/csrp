@@ -26,8 +26,7 @@ public final class InfectionMechanics {
     public static final int COTH_MAX_AMPLIFIER = 2;
     public static final double COTH_SPREAD_RADIUS = 4.0D;
     public static final float COTH_CONVERSION_HEALTH_FRACTION = 0.35F;
-    private static final int VIRAL_MIN_DURATION_TICKS = 100;
-    private static final double VIRAL_SPREAD_RADIUS = 4.0D;
+    private static final float CAMOUFLAGE_RESIST_CHANCE = 0.70F;
     private static final String[] FERALS = {
             "fer_bear", "fer_cow", "fer_enderman", "fer_horse", "fer_human",
             "fer_pig", "fer_sheep", "fer_villager", "fer_wolf"
@@ -52,7 +51,9 @@ public final class InfectionMechanics {
     }
 
     public static void applyCoth(LivingEntity target, Entity source, int minimumDurationTicks) {
-        if (!isInfectable(target)) {
+        if (!isInfectable(target)
+                || target.hasEffect(ModMobEffects.CAMOUFLAGE)
+                && target.getRandom().nextFloat() < CAMOUFLAGE_RESIST_CHANCE) {
             return;
         }
         int durationFloor = Math.max(COTH_BASE_DURATION_TICKS, minimumDurationTicks);
@@ -89,16 +90,6 @@ public final class InfectionMechanics {
         if (effectiveAmplifier >= COTH_MAX_AMPLIFIER
                 && entity.getHealth() <= entity.getMaxHealth() * COTH_CONVERSION_HEALTH_FRACTION) {
             convertInfectedHost(entity);
-        }
-    }
-
-    public static void tickViral(LivingEntity entity, int amplifier) {
-        if (entity.level().isClientSide || !isInfectable(entity)) {
-            return;
-        }
-        entity.hurt(entity.damageSources().magic(), 1.0F + amplifier);
-        if (entity.isAlive()) {
-            spreadViral(entity, amplifier);
         }
     }
 
@@ -181,20 +172,8 @@ public final class InfectionMechanics {
     private static void spreadCoth(LivingEntity source) {
         for (LivingEntity target : source.level().getEntitiesOfClass(LivingEntity.class,
                 source.getBoundingBox().inflate(COTH_SPREAD_RADIUS), InfectionMechanics::isInfectable)) {
-            if (target != source) {
+            if (target != source && source.hasLineOfSight(target)) {
                 applyCoth(target, source);
-            }
-        }
-    }
-
-    private static void spreadViral(LivingEntity source, int amplifier) {
-        MobEffectInstance viral = source.getEffect(ModMobEffects.VIRAL);
-        int duration = viral == null ? VIRAL_MIN_DURATION_TICKS
-                : Math.max(VIRAL_MIN_DURATION_TICKS, viral.getDuration() / 2);
-        for (LivingEntity target : source.level().getEntitiesOfClass(LivingEntity.class,
-                source.getBoundingBox().inflate(VIRAL_SPREAD_RADIUS), InfectionMechanics::isInfectable)) {
-            if (target != source) {
-                target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, duration, amplifier, false, false), source);
             }
         }
     }

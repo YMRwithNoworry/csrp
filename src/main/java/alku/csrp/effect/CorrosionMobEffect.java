@@ -15,8 +15,13 @@ public final class CorrosionMobEffect extends MobEffect {
                     EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET
             }) {
                 var stack = entity.getItemBySlot(slot);
-                if (stack.isDamageableItem() && stack.getMaxDamage() - stack.getDamageValue() > stack.getMaxDamage() * 0.1F) {
-                    stack.hurtAndBreak(3, entity, slot);
+                if (stack.isDamageableItem()) {
+                    int minimumRemaining = Math.max(1, (int) Math.ceil(stack.getMaxDamage() * 0.1D));
+                    int remaining = stack.getMaxDamage() - stack.getDamageValue();
+                    int damage = Math.min(3 * (amplifier + 1), remaining - minimumRemaining);
+                    if (damage > 0) {
+                        stack.hurtAndBreak(damage, entity, slot);
+                    }
                 }
             }
         }
@@ -25,7 +30,6 @@ public final class CorrosionMobEffect extends MobEffect {
 
     @Override
     public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
-        int interval = 25 >> amplifier;
-        return interval <= 0 || duration % interval == 0;
+        return duration % 20 == 0;
     }
 }

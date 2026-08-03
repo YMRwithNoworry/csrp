@@ -6,7 +6,7 @@ import net.minecraft.world.entity.player.Player;
 /** Legacy Indeaf status suppresses horizontal movement. */
 public final class IndeafMobEffect extends MarkerMobEffect {
     public IndeafMobEffect() {
-        super(false, 16768256);
+        super(true, 16768256);
     }
 
     @Override

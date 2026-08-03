@@ -16,6 +16,9 @@ public final class EffectNegMobEffect extends MarkerMobEffect {
         if (!entity.level().isClientSide && entity.tickCount % 20 == 0) {
             for (MobEffectInstance active : new ArrayList<>(entity.getActiveEffects())) {
                 if (active.getEffect().value().getCategory() == MobEffectCategory.HARMFUL) {
+                    if (active.getEffect().is(alku.csrp.registry.ModMobEffects.EFFECTNEG)) {
+                        continue;
+                    }
                     EffectStacking.apply(entity, active.getEffect(), 20, amplifier);
                 }
             }
