@@ -1,4 +1,14 @@
 {
   "replace": false,
-  "values": ["csrp:parasiterubble_stonedebris"]
+  "values": [
+    "csrp:parasiterubble_stonedebris",
+    "csrp:infested_stone_bricks",
+    "csrp:infested_terracotta",
+    "csrp:infested_stone_polished",
+    "csrp:residue_bricks",
+    "csrp:infested_column",
+    "csrp:inf_ss",
+    "csrp:inf_ss_chiseled",
+    "csrp:inf_ss_cut"
+  ]
 }

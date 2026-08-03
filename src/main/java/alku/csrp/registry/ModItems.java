@@ -316,6 +316,22 @@ public final class ModItems {
             "infestedtrunk", ModBlocks.INFESTED_TRUNK);
     public static final DeferredItem<BlockItem> INFESTED_PLANKS = ITEMS.registerSimpleBlockItem(
             "infested_planks", ModBlocks.INFESTED_PLANKS);
+    public static final DeferredItem<BlockItem> INFESTED_STONE_BRICKS = ITEMS.registerSimpleBlockItem(
+            "infested_stone_bricks", ModBlocks.INFESTED_STONE_BRICKS);
+    public static final DeferredItem<BlockItem> INFESTED_TERRACOTTA = ITEMS.registerSimpleBlockItem(
+            "infested_terracotta", ModBlocks.INFESTED_TERRACOTTA);
+    public static final DeferredItem<BlockItem> POLISHED_INFESTED_STONE = ITEMS.registerSimpleBlockItem(
+            "infested_stone_polished", ModBlocks.POLISHED_INFESTED_STONE);
+    public static final DeferredItem<BlockItem> RESIDUE_BRICKS = ITEMS.registerSimpleBlockItem(
+            "residue_bricks", ModBlocks.RESIDUE_BRICKS);
+    public static final DeferredItem<BlockItem> INFESTED_COLUMN = ITEMS.registerSimpleBlockItem(
+            "infested_column", ModBlocks.INFESTED_COLUMN);
+    public static final DeferredItem<BlockItem> INFESTED_SANDSTONE = ITEMS.registerSimpleBlockItem(
+            "inf_ss", ModBlocks.INFESTED_SANDSTONE);
+    public static final DeferredItem<BlockItem> CHISELED_INFESTED_SANDSTONE = ITEMS.registerSimpleBlockItem(
+            "inf_ss_chiseled", ModBlocks.CHISELED_INFESTED_SANDSTONE);
+    public static final DeferredItem<BlockItem> CUT_INFESTED_SANDSTONE = ITEMS.registerSimpleBlockItem(
+            "inf_ss_cut", ModBlocks.CUT_INFESTED_SANDSTONE);
     public static final DeferredItem<BlockItem> BIOMEHEART = ITEMS.registerSimpleBlockItem("biomeheart", ModBlocks.BIOMEHEART);
     public static final DeferredItem<BlockItem> COLONYHEART = ITEMS.registerSimpleBlockItem("colonyheart", ModBlocks.COLONYHEART);
     public static final DeferredItem<BlockItem> PARASITE_STRUCTURE = ITEMS.registerSimpleBlockItem(

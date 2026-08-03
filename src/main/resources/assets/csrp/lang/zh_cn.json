@@ -560,5 +560,13 @@
   "message.csrp.lure_dormant": "当前进化阶段下，诱饵没有反应。",
   "message.csrp.lure_inactive": "尸骸还需等待 %s 秒才能激活。",
   "subtitles.csrp.lure.use": "诱饵消散",
-  "subtitles.csrp.lure.carcass": "尸骸激活"
+  "subtitles.csrp.lure.carcass": "尸骸激活",
+  "block.csrp.infested_stone_bricks": "寄染石砖",
+  "block.csrp.infested_terracotta": "寄染陶瓦",
+  "block.csrp.infested_stone_polished": "磨制寄染石头",
+  "block.csrp.residue_bricks": "残渣砖",
+  "block.csrp.infested_column": "寄染石柱",
+  "block.csrp.inf_ss": "寄染砂岩",
+  "block.csrp.inf_ss_chiseled": "雕纹寄染砂岩",
+  "block.csrp.inf_ss_cut": "切制寄染砂岩"
 }

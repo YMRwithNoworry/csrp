@@ -12,6 +12,7 @@ import alku.csrp.block.InfestationPurifierBlock;
 import alku.csrp.block.EvolutionLureBlock;
 import alku.csrp.block.ParasiteTrapBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
@@ -60,6 +61,23 @@ public final class ModBlocks {
     public static final DeferredBlock<InfestedBlock> INFESTED_COBBLESTONE = infested("infested_cobblestone", MapColor.COLOR_RED, SoundType.STONE);
     public static final DeferredBlock<InfestedBlock> INFESTED_TRUNK = infested("infestedtrunk", MapColor.COLOR_RED, SoundType.WOOD);
     public static final DeferredBlock<InfestedBlock> INFESTED_PLANKS = infested("infested_planks", MapColor.COLOR_RED, SoundType.WOOD);
+    public static final DeferredBlock<InfestedBlock> INFESTED_STONE_BRICKS = infested(
+            "infested_stone_bricks", 1.5F, 10.0F, MapColor.COLOR_RED, SoundType.ROOTED_DIRT);
+    public static final DeferredBlock<InfestedBlock> INFESTED_TERRACOTTA = infested(
+            "infested_terracotta", 1.25F, 4.2F, MapColor.COLOR_RED, SoundType.ROOTED_DIRT);
+    public static final DeferredBlock<InfestedBlock> POLISHED_INFESTED_STONE = infested(
+            "infested_stone_polished", 1.5F, 10.0F, MapColor.COLOR_RED, SoundType.ROOTED_DIRT);
+    public static final DeferredBlock<InfestedBlock> RESIDUE_BRICKS = infested(
+            "residue_bricks", 1.5F, 10.0F, MapColor.COLOR_RED, SoundType.ROOTED_DIRT);
+    public static final DeferredBlock<RotatedPillarBlock> INFESTED_COLUMN = BLOCKS.register(
+            "infested_column", () -> new RotatedPillarBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(1.5F, 10.0F).sound(SoundType.STONE)));
+    public static final DeferredBlock<InfestedBlock> INFESTED_SANDSTONE = infested(
+            "inf_ss", 0.8F, 4.0F, MapColor.COLOR_RED, SoundType.ROOTED_DIRT);
+    public static final DeferredBlock<InfestedBlock> CHISELED_INFESTED_SANDSTONE = infested(
+            "inf_ss_chiseled", 0.8F, 4.0F, MapColor.COLOR_RED, SoundType.ROOTED_DIRT);
+    public static final DeferredBlock<InfestedBlock> CUT_INFESTED_SANDSTONE = infested(
+            "inf_ss_cut", 0.8F, 4.0F, MapColor.COLOR_RED, SoundType.ROOTED_DIRT);
 
     public static final DeferredBlock<BiomeHeartBlock> BIOMEHEART = BLOCKS.register("biomeheart", () ->
             new BiomeHeartBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
@@ -80,6 +98,12 @@ public final class ModBlocks {
     private static DeferredBlock<InfestedBlock> infested(String id, MapColor color, SoundType sound) {
         return BLOCKS.register(id, () -> new InfestedBlock(BlockBehaviour.Properties.of()
                 .mapColor(color).strength(1.5F, 6.0F).sound(sound)));
+    }
+
+    private static DeferredBlock<InfestedBlock> infested(
+            String id, float hardness, float resistance, MapColor color, SoundType sound) {
+        return BLOCKS.register(id, () -> new InfestedBlock(BlockBehaviour.Properties.of()
+                .mapColor(color).strength(hardness, resistance).requiresCorrectToolForDrops().sound(sound)));
     }
 
     private ModBlocks() {

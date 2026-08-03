@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "axis=y": {"model": "csrp:block/infested_column"},
+    "axis=z": {"model": "csrp:block/infested_column", "x": 90},
+    "axis=x": {"model": "csrp:block/infested_column", "x": 90, "y": 90}
+  }
+}

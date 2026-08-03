@@ -560,5 +560,13 @@
   "message.csrp.lure_dormant": "The lure remains dormant at the current evolution phase.",
   "message.csrp.lure_inactive": "The Carcass cannot activate for another %s seconds.",
   "subtitles.csrp.lure.use": "Lure decays",
-  "subtitles.csrp.lure.carcass": "Carcass activates"
+  "subtitles.csrp.lure.carcass": "Carcass activates",
+  "block.csrp.infested_stone_bricks": "Infested Stone Bricks",
+  "block.csrp.infested_terracotta": "Infested Terracotta",
+  "block.csrp.infested_stone_polished": "Polished Infested Stone",
+  "block.csrp.residue_bricks": "Residue Bricks",
+  "block.csrp.infested_column": "Infested Column",
+  "block.csrp.inf_ss": "Infested Sandstone",
+  "block.csrp.inf_ss_chiseled": "Chiseled Infested Sandstone",
+  "block.csrp.inf_ss_cut": "Chiseled Cut Sandstone"
 }

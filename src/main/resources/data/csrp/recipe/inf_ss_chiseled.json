@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": ["##", "##"],
+  "key": {"#": {"item": "csrp:inf_ss_cut"}},
+  "result": {"id": "csrp:inf_ss_chiseled", "count": 4}
+}
