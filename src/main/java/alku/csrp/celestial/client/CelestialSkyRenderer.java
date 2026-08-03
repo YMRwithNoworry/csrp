@@ -35,7 +35,8 @@ public final class CelestialSkyRenderer {
     public static void render(RenderLevelStageEvent event) {
         if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_SKY
                 || Minecraft.getInstance().level == null || CelestialClientState.active().isEmpty()) return;
-        PoseStack poseStack = event.getPoseStack();
+        PoseStack poseStack = new PoseStack();
+        poseStack.mulPose(event.getModelViewMatrix());
         if (CelestialClientState.isActive("dark_days")) {
             renderDarkSky(poseStack);
             return;
