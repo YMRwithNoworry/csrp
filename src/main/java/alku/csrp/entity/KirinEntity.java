@@ -227,7 +227,7 @@ public final class KirinEntity extends DerivedParasiteEntity {
 
         float progress = 1.0F - remainingTicks / (float) BLINK_CHARGE_TICKS;
         double x = destination.getX() + 0.5D;
-        double y = destination.getY() + 1.5D + progress;
+        double y = destination.getY() + 0.05D + progress * 0.15D;
         double z = destination.getZ() + 0.5D;
         double rotationSpeed = 0.35D + progress * 1.25D;
         float clockwise = (float) ((tickCount * rotationSpeed) % (Math.PI * 2.0D));

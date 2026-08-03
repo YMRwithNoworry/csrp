@@ -12,7 +12,7 @@ public final class ModParticles {
             DeferredRegister.create(Registries.PARTICLE_TYPE, Csrp.MODID);
 
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> KIRIN_WARNING =
-            PARTICLES.register("kirin_warning", () -> new SimpleParticleType(false));
+            PARTICLES.register("kirin_warning", () -> new SimpleParticleType(true));
 
     private ModParticles() {
     }

@@ -1,5 +1,11 @@
 package alku.csrp.client.particle;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -8,10 +14,30 @@ import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
 
 public final class KirinWarningParticle extends TextureSheetParticle {
+    private static final ParticleRenderType ADDITIVE_RENDER_TYPE = new ParticleRenderType() {
+        @Override
+        public BufferBuilder begin(Tesselator tesselator, TextureManager textureManager) {
+            RenderSystem.depthMask(false);
+            RenderSystem.setShader(GameRenderer::getParticleShader);
+            RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
+            RenderSystem.enableBlend();
+            RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
+            return tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
+        }
+
+        @Override
+        public String toString() {
+            return "csrp:kirin_warning_additive";
+        }
+    };
+
     private final float sizeBlocks;
     private final float yaw;
 
@@ -20,7 +46,7 @@ public final class KirinWarningParticle extends TextureSheetParticle {
         super(level, x, y, z);
         this.sizeBlocks = Math.max(0.0F, sizeBlocks);
         this.yaw = yaw;
-        lifetime = 1;
+        lifetime = 3;
         hasPhysics = false;
         gravity = 0.0F;
         setSize(this.sizeBlocks, this.sizeBlocks);
@@ -60,7 +86,7 @@ public final class KirinWarningParticle extends TextureSheetParticle {
 
     @Override
     public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+        return ADDITIVE_RENDER_TYPE;
     }
 
     public static final class Provider implements ParticleProvider<SimpleParticleType> {
