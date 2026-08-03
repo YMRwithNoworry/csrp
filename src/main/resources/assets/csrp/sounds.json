@@ -1875,50 +1875,50 @@
     "category": "hostile",
     "subtitle": "subtitles.bogledeath",
     "sounds": [
-      "csrp:elviaDeath"
+      "csrp:elviadeath"
     ]
   },
   "elvia.growl": {
     "category": "hostile",
     "subtitle": "subtitles.bogleliving",
     "sounds": [
-      "csrp:elviaLiving1",
-      "csrp:elviaLiving2",
-      "csrp:elviaLiving3"
+      "csrp:elvialiving1",
+      "csrp:elvialiving2",
+      "csrp:elvialiving3"
     ]
   },
   "elvia.hurt": {
     "category": "hostile",
     "subtitle": "subtitles.boglehurt",
     "sounds": [
-      "csrp:elviaHurt1",
-      "csrp:elviaHurt2",
-      "csrp:elviaHurt3"
+      "csrp:elviahurt1",
+      "csrp:elviahurt2",
+      "csrp:elviahurt3"
     ]
   },
   "lencia.death": {
     "category": "hostile",
     "subtitle": "subtitles.bogledeath",
     "sounds": [
-      "csrp:lenciaDeath"
+      "csrp:lenciadeath"
     ]
   },
   "lencia.growl": {
     "category": "hostile",
     "subtitle": "subtitles.bogleliving",
     "sounds": [
-      "csrp:lenciaLiving1",
-      "csrp:lenciaLiving2",
-      "csrp:lenciaLiving3"
+      "csrp:lencialiving1",
+      "csrp:lencialiving2",
+      "csrp:lencialiving3"
     ]
   },
   "lencia.hurt": {
     "category": "hostile",
     "subtitle": "subtitles.boglehurt",
     "sounds": [
-      "csrp:lenciaHurt1",
-      "csrp:lenciaHurt2",
-      "csrp:lenciaHurt3"
+      "csrp:lenciahurt1",
+      "csrp:lenciahurt2",
+      "csrp:lenciahurt3"
     ]
   },
   "jinjo.death": {

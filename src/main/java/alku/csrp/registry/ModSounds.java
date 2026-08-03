@@ -99,6 +99,10 @@ public final class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> CARCASS_USE = register("lure.carcass");
     public static final DeferredHolder<SoundEvent, SoundEvent> ADAPTATION_PARTIAL = register("adaptation.parcial");
     public static final DeferredHolder<SoundEvent, SoundEvent> ADAPTATION_FULL = register("adaptation.full");
+    public static final DeferredHolder<SoundEvent, SoundEvent> PRIMITIVE_BURROWER_DIG = register("zaa.dig");
+    public static final DeferredHolder<SoundEvent, SoundEvent> PRIMITIVE_TOZOON_DIG = register("wymo.dig");
+    public static final DeferredHolder<SoundEvent, SoundEvent> ADAPTED_BURROWER_DIG = register("azaa.dig");
+    public static final DeferredHolder<SoundEvent, SoundEvent> ADAPTED_TOZOON_DIG = register("awymo.dig");
 
     static {
         SoundEventCatalog.EVENTS.forEach(ModSounds::register);

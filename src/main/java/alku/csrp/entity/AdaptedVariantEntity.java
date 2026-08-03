@@ -2,8 +2,10 @@ package alku.csrp.entity;
 
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
+import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -550,6 +552,13 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
     @Override
     protected int burrowSkillCooldownTicks() {
         return activeKind() == Kind.BURROWER ? 80 : 140;
+    }
+
+    @Override
+    protected SoundEvent burrowSound() {
+        return activeKind() == Kind.BURROWER
+                ? ModSounds.ADAPTED_BURROWER_DIG.get()
+                : ModSounds.ADAPTED_TOZOON_DIG.get();
     }
 
     private static boolean isFlying(Kind kind) {

@@ -50,7 +50,7 @@ final class ParasiteSoundProfiles {
         register("emana", "pri_yelloweye");
         register("canra", "pri_summoner");
         register("zetmo", "pri_bolster");
-        register("lum", "pri_devourer");
+        register("lum", "pri_devourer", "ada_devourer");
         register("iki", "pri_vermin");
         register("gim", "pri_viscera");
         register("ashyco", "ada_longarms");

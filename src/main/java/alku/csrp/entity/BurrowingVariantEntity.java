@@ -8,7 +8,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -68,6 +68,8 @@ public abstract class BurrowingVariantEntity extends PrimitiveParasiteEntity {
 
     protected abstract int burrowSkillCooldownTicks();
 
+    protected abstract SoundEvent burrowSound();
+
     protected final Goal createBurrowMovementGoal() {
         return new BurrowMovementGoal();
     }
@@ -89,7 +91,7 @@ public abstract class BurrowingVariantEntity extends PrimitiveParasiteEntity {
         entityData.set(BURROW_DEPTH, 0.0F);
         getNavigation().stop();
         setDeltaMovement(Vec3.ZERO);
-        playSound(SoundEvents.GRAVEL_BREAK, 1.0F, 0.75F + random.nextFloat() * 0.2F);
+        playSound(burrowSound(), 2.0F, getVoicePitch());
     }
 
     private void updateBurrowMovement() {
@@ -116,7 +118,6 @@ public abstract class BurrowingVariantEntity extends PrimitiveParasiteEntity {
             if (burrowTicks >= UNDERGROUND_TICKS) {
                 burrowTicks = 0;
                 entityData.set(BURROW_PHASE, BURROW_EMERGING);
-                playSound(SoundEvents.GRAVEL_BREAK, 1.0F, 0.7F + random.nextFloat() * 0.2F);
             }
             return;
         }

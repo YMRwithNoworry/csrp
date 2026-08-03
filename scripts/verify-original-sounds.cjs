@@ -30,12 +30,27 @@ const rewriteNamespace = (value) => {
   return value;
 };
 const stable = (value) => JSON.stringify(value);
+const namespacePattern = /^[a-z0-9._-]+$/;
+const pathPattern = /^[a-z0-9/._-]+$/;
+const normalizeSoundReferences = (definitions) => Object.fromEntries(
+  Object.entries(definitions).map(([event, definition]) => [event, {
+    ...definition,
+    sounds: definition.sounds?.map((entry) => {
+      if (typeof entry === "string") return entry.toLowerCase();
+      return entry && typeof entry === "object" && typeof entry.name === "string"
+        ? { ...entry, name: entry.name.toLowerCase() }
+        : entry;
+    }),
+  }]),
+);
 
 let sourceDefinitions;
 let targetDefinitions;
 let report;
 try {
-  sourceDefinitions = rewriteNamespace(readJson(path.join(sourceAssetsRoot, "sounds.json")));
+  sourceDefinitions = normalizeSoundReferences(
+    rewriteNamespace(readJson(path.join(sourceAssetsRoot, "sounds.json"))),
+  );
   targetDefinitions = readJson(path.join(targetAssetsRoot, "sounds.json"));
   report = readJson(reportPath);
 } catch (error) {
@@ -45,6 +60,11 @@ try {
 
 const sourceOggFiles = walkFiles(sourceSoundsRoot)
   .filter((file) => path.extname(file).toLowerCase() === ".ogg");
+for (const target of walkFiles(targetSoundsRoot)
+  .filter((file) => path.extname(file).toLowerCase() === ".ogg")) {
+  const relative = path.relative(targetSoundsRoot, target).replaceAll(path.sep, "/");
+  if (!pathPattern.test(relative)) failures.push(`invalid OGG resource path: ${relative}`);
+}
 for (const source of sourceOggFiles) {
   const relative = path.relative(sourceSoundsRoot, source);
   const target = path.join(targetSoundsRoot, relative);
@@ -75,6 +95,7 @@ const resolveSound = (name) => {
   return { namespace, soundPath };
 };
 for (const [event, definition] of Object.entries(targetDefinitions)) {
+  if (!pathPattern.test(event)) failures.push(`invalid sound event path: ${event}`);
   if (!Array.isArray(definition.sounds)) {
     failures.push(`${event}: sounds is not an array`);
     continue;
@@ -87,6 +108,10 @@ for (const [event, definition] of Object.entries(targetDefinitions)) {
       continue;
     }
     const { namespace, soundPath } = resolveSound(name);
+    if (!namespacePattern.test(namespace) || !pathPattern.test(soundPath)) {
+      failures.push(`${event}: invalid sound resource location ${name}`);
+      continue;
+    }
     if (type === "event") {
       if (namespace === "csrp" && !Object.hasOwn(targetDefinitions, soundPath)) {
         failures.push(`${event}: missing referenced event ${name}`);
@@ -112,6 +137,7 @@ if (catalogEntries.length !== Object.keys(targetDefinitions).length) {
 
 const profileSource = fs.readFileSync(profilesPath, "utf8");
 const profileEntityIds = new Set();
+const profileByEntity = new Map();
 const profileRegistrations = [...profileSource.matchAll(/register\("([^"]+)",\s*([\s\S]*?)\);/g)];
 for (const [, prefix, rawEntityIds] of profileRegistrations) {
   for (const suffix of ["growl", "hurt", "death"]) {
@@ -123,6 +149,51 @@ for (const [, prefix, rawEntityIds] of profileRegistrations) {
   for (const [, entityId] of rawEntityIds.matchAll(/"([^"]+)"/g)) {
     if (profileEntityIds.has(entityId)) failures.push(`duplicate entity sound profile: ${entityId}`);
     profileEntityIds.add(entityId);
+    profileByEntity.set(entityId, prefix);
+  }
+}
+
+const expectedTierProfiles = {
+  pri_longarms: "shyco", pri_summoner: "canra", pri_vermin: "iki", pri_viscera: "gim",
+  pri_bolster: "zetmo", pri_devourer: "lum", pri_manducater: "hull", pri_reeker: "nogla",
+  pri_yelloweye: "emana",
+  ada_arachnida: "aranrac", ada_bolster: "azetmo", ada_devourer: "lum",
+  ada_longarms: "ashyco", ada_manducater: "ahull", ada_reeker: "anogla",
+  ada_summoner: "acanra", ada_tozoon: "awymo", ada_vermin: "aiki",
+  ada_viscera: "agim", ada_yelloweye: "aemana",
+};
+for (const [entityId, expectedPrefix] of Object.entries(expectedTierProfiles)) {
+  if (profileByEntity.get(entityId) !== expectedPrefix) {
+    failures.push(`${entityId}: expected ${expectedPrefix} ambient/hurt/death profile`);
+  }
+}
+const intentionallyNoVoiceProfile = ["pri_arachnida", "pri_burrower", "pri_tozoon", "ada_burrower"];
+for (const entityId of intentionallyNoVoiceProfile) {
+  if (profileByEntity.has(entityId)) {
+    failures.push(`${entityId}: original SRP has no ambient/hurt/death profile`);
+  }
+}
+if (Object.keys(expectedTierProfiles).length + intentionallyNoVoiceProfile.length !== 24) {
+  failures.push("primitive/adapted sound audit must cover all 24 tier entities");
+}
+
+const burrowingSource = fs.readFileSync(path.join(projectRoot,
+  "src/main/java/alku/csrp/entity/BurrowingVariantEntity.java"), "utf8");
+const primitiveVariantSource = fs.readFileSync(path.join(projectRoot,
+  "src/main/java/alku/csrp/entity/PrimitiveVariantEntity.java"), "utf8");
+const adaptedVariantSource = fs.readFileSync(path.join(projectRoot,
+  "src/main/java/alku/csrp/entity/AdaptedVariantEntity.java"), "utf8");
+if (!/playSound\(burrowSound\(\), 2\.0F, getVoicePitch\(\)\)/.test(burrowingSource)) {
+  failures.push("burrowing variants do not play their original digging event");
+}
+for (const [source, constants] of [
+  [primitiveVariantSource, ["PRIMITIVE_BURROWER_DIG", "PRIMITIVE_TOZOON_DIG"]],
+  [adaptedVariantSource, ["ADAPTED_BURROWER_DIG", "ADAPTED_TOZOON_DIG"]],
+]) {
+  for (const constant of constants) {
+    if (!source.includes(`ModSounds.${constant}.get()`)) {
+      failures.push(`missing digging sound binding: ${constant}`);
+    }
   }
 }
 for (const sourceFile of [

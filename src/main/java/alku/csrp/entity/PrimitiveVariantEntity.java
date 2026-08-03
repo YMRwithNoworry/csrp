@@ -2,7 +2,9 @@ package alku.csrp.entity;
 
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
+import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -349,6 +351,13 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
     @Override
     protected int burrowSkillCooldownTicks() {
         return activeKind() == Kind.BURROWER ? 140 : 200;
+    }
+
+    @Override
+    protected SoundEvent burrowSound() {
+        return activeKind() == Kind.BURROWER
+                ? ModSounds.PRIMITIVE_BURROWER_DIG.get()
+                : ModSounds.PRIMITIVE_TOZOON_DIG.get();
     }
 
     private final class WebPullGoal extends Goal {
