@@ -7,6 +7,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 import java.util.Locale;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -26,6 +27,13 @@ public final class EvolutionHudEvents {
     private static final int BAR_TEXTURE_X = 23;
     private static final int BAR_TEXTURE_Y = 32;
     private static final int TEXTURE_SIZE = 256;
+    private static final int POINT_TEXT_MAX_WIDTH = 48;
+    private static final int SCREEN_MARGIN = 2;
+    private static final int PHASE_BADGE_WIDTH = 11;
+    private static final int PHASE_BADGE_HEIGHT = 10;
+    private static final int PHASE_TEXT_MAX_WIDTH = 8;
+    private static final int PHASE_BADGE_BORDER = 0xFF6B174F;
+    private static final int PHASE_BADGE_BACKGROUND = 0xFF090008;
 
     public static final KeyMapping TOGGLE = new KeyMapping("key.csrp.overlast_hud",
             InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_COMMA, "key.categories.csrp");
@@ -65,8 +73,33 @@ public final class EvolutionHudEvents {
         }
         graphics.blit(texture, x - FULL_WIDTH, y, 0, 0,
                 FULL_WIDTH, FULL_HEIGHT, TEXTURE_SIZE, TEXTURE_SIZE);
-        graphics.drawCenteredString(minecraft.font, Component.literal(formatPoints(state.points())),
-                x - FULL_WIDTH - 15, y + 13, 0xFFFFFFFF);
+        drawPhaseBadge(graphics, minecraft.font, state.phase(), x - FULL_WIDTH, y);
+
+        int pointsCenterX = x - FULL_WIDTH - 15;
+        int safeHalfWidth = Math.max(1, Math.min(pointsCenterX - SCREEN_MARGIN,
+                screenWidth - SCREEN_MARGIN - pointsCenterX));
+        int pointTextMaxWidth = Math.min(POINT_TEXT_MAX_WIDTH, safeHalfWidth * 2);
+        drawFittedCenteredString(graphics, minecraft.font, Component.literal(formatPoints(state.points())),
+                pointsCenterX, y + 13, pointTextMaxWidth, 0xFFFFFFFF);
+    }
+
+    private static void drawPhaseBadge(GuiGraphics graphics, Font font, int phase, int x, int y) {
+        graphics.fill(x, y, x + PHASE_BADGE_WIDTH, y + PHASE_BADGE_HEIGHT, PHASE_BADGE_BORDER);
+        graphics.fill(x + 1, y + 1, x + PHASE_BADGE_WIDTH - 1, y + PHASE_BADGE_HEIGHT - 1,
+                PHASE_BADGE_BACKGROUND);
+        drawFittedCenteredString(graphics, font, Component.literal(Integer.toString(phase)),
+                x + PHASE_BADGE_WIDTH / 2, y + 1, PHASE_TEXT_MAX_WIDTH, 0xFFFFB6E6);
+    }
+
+    private static void drawFittedCenteredString(GuiGraphics graphics, Font font, Component text,
+            int centerX, int y, int maxWidth, int color) {
+        int textWidth = Math.max(1, font.width(text));
+        float scale = Math.min(1.0F, Math.max(1, maxWidth) / (float) textWidth);
+        graphics.pose().pushPose();
+        graphics.pose().translate(centerX, y, 0.0F);
+        graphics.pose().scale(scale, scale, 1.0F);
+        graphics.drawCenteredString(font, text, 0, 0, color);
+        graphics.pose().popPose();
     }
 
     private static int progressWidth(EvolutionHudPayload state) {
