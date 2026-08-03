@@ -1,1 +1,1 @@
-{"format_version":"1.8.0","animations":{"animation.architect.idle":{"loop":true,"animation_length":4,"bones":{}},"animation.architect.walk":{"loop":true,"animation_length":4,"bones":{}},"animation.architect.attack":{"loop":false,"animation_length":1,"bones":{}}}}
+{"format_version":"1.8.0","animations":{"animation.architect.idle":{"loop":true,"animation_length":4,"bones":{}},"animation.architect.walk":{"loop":true,"animation_length":4,"bones":{}},"animation.architect.attack":{"loop":true,"animation_length":4,"bones":{}}}}
