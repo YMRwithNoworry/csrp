@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "csrp:block/infested_stone_brick_slab"
+    },
+    "type=double": {
+      "model": "csrp:block/infested_stone_bricks"
+    },
+    "type=top": {
+      "model": "csrp:block/infested_stone_brick_slab_top"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "csrp:infested_cobblestone"
+    }
+  },
+  "result": {
+    "id": "csrp:infested_cobblestone_slab",
+    "count": 6
+  }
+}

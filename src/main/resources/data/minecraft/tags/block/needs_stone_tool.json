@@ -8,6 +8,13 @@
     "csrp:residue_bricks",
     "csrp:inf_ss",
     "csrp:inf_ss_chiseled",
-    "csrp:inf_ss_cut"
+    "csrp:inf_ss_cut",
+    "csrp:infested_cobblestone_slab",
+    "csrp:infested_stone_slab",
+    "csrp:infested_stone_brick_slab",
+    "csrp:infested_terracotta_slab",
+    "csrp:polished_infested_stone_slab",
+    "csrp:residue_brick_slab",
+    "csrp:infested_sandstone_slab"
   ]
 }

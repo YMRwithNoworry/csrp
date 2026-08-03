@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "csrp:infested_plank_slab",
+    "csrp:infested_planks_stairs",
+    "csrp:residue_wall",
+    "csrp:infested_plank_wall"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "csrp:infested_sandstone_stairs",
+    "csrp:residue_stairs",
+    "csrp:infested_planks_stairs",
+    "csrp:infested_stone_bricks_stairs",
+    "csrp:infested_polished_stone_bricks_stairs",
+    "csrp:infested_stone_stairs"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "csrp:infested_stone_bricks"
+    }
+  },
+  "result": {
+    "id": "csrp:infested_stone_brick_slab",
+    "count": 6
+  }
+}

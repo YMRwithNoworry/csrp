@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "csrp:inf_ss"
+    }
+  },
+  "result": {
+    "id": "csrp:infested_sandstone_wall",
+    "count": 6
+  }
+}

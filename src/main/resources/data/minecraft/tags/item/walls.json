@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "csrp:residue_wall",
+    "csrp:infested_plank_wall",
+    "csrp:polished_infested_stone_wall",
+    "csrp:infested_stone_brick_wall",
+    "csrp:infested_sandstone_wall",
+    "csrp:infestedrubble_wall",
+    "csrp:infestedstain_wall"
+  ]
+}

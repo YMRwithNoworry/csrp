@@ -332,6 +332,50 @@ public final class ModItems {
             "inf_ss_chiseled", ModBlocks.CHISELED_INFESTED_SANDSTONE);
     public static final DeferredItem<BlockItem> CUT_INFESTED_SANDSTONE = ITEMS.registerSimpleBlockItem(
             "inf_ss_cut", ModBlocks.CUT_INFESTED_SANDSTONE);
+    public static final DeferredItem<BlockItem> INFESTED_COBBLESTONE_SLAB = ITEMS.registerSimpleBlockItem(
+            "infested_cobblestone_slab", ModBlocks.INFESTED_COBBLESTONE_SLAB);
+    public static final DeferredItem<BlockItem> INFESTED_STONE_SLAB = ITEMS.registerSimpleBlockItem(
+            "infested_stone_slab", ModBlocks.INFESTED_STONE_SLAB);
+    public static final DeferredItem<BlockItem> INFESTED_DIRT_SLAB = ITEMS.registerSimpleBlockItem(
+            "infested_dirt_slab", ModBlocks.INFESTED_DIRT_SLAB);
+    public static final DeferredItem<BlockItem> INFESTED_STONE_BRICK_SLAB = ITEMS.registerSimpleBlockItem(
+            "infested_stone_brick_slab", ModBlocks.INFESTED_STONE_BRICK_SLAB);
+    public static final DeferredItem<BlockItem> INFESTED_TERRACOTTA_SLAB = ITEMS.registerSimpleBlockItem(
+            "infested_terracotta_slab", ModBlocks.INFESTED_TERRACOTTA_SLAB);
+    public static final DeferredItem<BlockItem> POLISHED_INFESTED_STONE_SLAB = ITEMS.registerSimpleBlockItem(
+            "polished_infested_stone_slab", ModBlocks.POLISHED_INFESTED_STONE_SLAB);
+    public static final DeferredItem<BlockItem> RESIDUE_BRICK_SLAB = ITEMS.registerSimpleBlockItem(
+            "residue_brick_slab", ModBlocks.RESIDUE_BRICK_SLAB);
+    public static final DeferredItem<BlockItem> INFESTED_SANDSTONE_SLAB = ITEMS.registerSimpleBlockItem(
+            "infested_sandstone_slab", ModBlocks.INFESTED_SANDSTONE_SLAB);
+    public static final DeferredItem<BlockItem> INFESTED_PLANK_SLAB = ITEMS.registerSimpleBlockItem(
+            "infested_plank_slab", ModBlocks.INFESTED_PLANK_SLAB);
+    public static final DeferredItem<BlockItem> INFESTED_SANDSTONE_STAIRS = ITEMS.registerSimpleBlockItem(
+            "infested_sandstone_stairs", ModBlocks.INFESTED_SANDSTONE_STAIRS);
+    public static final DeferredItem<BlockItem> RESIDUE_STAIRS = ITEMS.registerSimpleBlockItem(
+            "residue_stairs", ModBlocks.RESIDUE_STAIRS);
+    public static final DeferredItem<BlockItem> INFESTED_PLANKS_STAIRS = ITEMS.registerSimpleBlockItem(
+            "infested_planks_stairs", ModBlocks.INFESTED_PLANKS_STAIRS);
+    public static final DeferredItem<BlockItem> INFESTED_STONE_BRICKS_STAIRS = ITEMS.registerSimpleBlockItem(
+            "infested_stone_bricks_stairs", ModBlocks.INFESTED_STONE_BRICKS_STAIRS);
+    public static final DeferredItem<BlockItem> INFESTED_POLISHED_STONE_BRICKS_STAIRS = ITEMS.registerSimpleBlockItem(
+            "infested_polished_stone_bricks_stairs", ModBlocks.INFESTED_POLISHED_STONE_BRICKS_STAIRS);
+    public static final DeferredItem<BlockItem> INFESTED_STONE_STAIRS = ITEMS.registerSimpleBlockItem(
+            "infested_stone_stairs", ModBlocks.INFESTED_STONE_STAIRS);
+    public static final DeferredItem<BlockItem> RESIDUE_WALL = ITEMS.registerSimpleBlockItem(
+            "residue_wall", ModBlocks.RESIDUE_WALL);
+    public static final DeferredItem<BlockItem> INFESTED_PLANK_WALL = ITEMS.registerSimpleBlockItem(
+            "infested_plank_wall", ModBlocks.INFESTED_PLANK_WALL);
+    public static final DeferredItem<BlockItem> POLISHED_INFESTED_STONE_WALL = ITEMS.registerSimpleBlockItem(
+            "polished_infested_stone_wall", ModBlocks.POLISHED_INFESTED_STONE_WALL);
+    public static final DeferredItem<BlockItem> INFESTED_STONE_BRICK_WALL = ITEMS.registerSimpleBlockItem(
+            "infested_stone_brick_wall", ModBlocks.INFESTED_STONE_BRICK_WALL);
+    public static final DeferredItem<BlockItem> INFESTED_SANDSTONE_WALL = ITEMS.registerSimpleBlockItem(
+            "infested_sandstone_wall", ModBlocks.INFESTED_SANDSTONE_WALL);
+    public static final DeferredItem<BlockItem> INFESTED_RUBBLE_WALL = ITEMS.registerSimpleBlockItem(
+            "infestedrubble_wall", ModBlocks.INFESTED_RUBBLE_WALL);
+    public static final DeferredItem<BlockItem> INFESTED_STAIN_WALL = ITEMS.registerSimpleBlockItem(
+            "infestedstain_wall", ModBlocks.INFESTED_STAIN_WALL);
     public static final DeferredItem<BlockItem> BIOMEHEART = ITEMS.registerSimpleBlockItem("biomeheart", ModBlocks.BIOMEHEART);
     public static final DeferredItem<BlockItem> COLONYHEART = ITEMS.registerSimpleBlockItem("colonyheart", ModBlocks.COLONYHEART);
     public static final DeferredItem<BlockItem> PARASITE_STRUCTURE = ITEMS.registerSimpleBlockItem(

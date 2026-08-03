@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "csrp:block/infested_terracotta",
+    "top": "csrp:block/infested_terracotta",
+    "side": "csrp:block/infested_terracotta"
+  }
+}

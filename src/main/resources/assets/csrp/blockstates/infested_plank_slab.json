@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "csrp:block/infested_plank_slab"
+    },
+    "type=double": {
+      "model": "csrp:block/infested_planks"
+    },
+    "type=top": {
+      "model": "csrp:block/infested_plank_slab_top"
+    }
+  }
+}

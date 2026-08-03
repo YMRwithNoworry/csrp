@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "csrp:block/infested_dirt_slab"
+    },
+    "type=double": {
+      "model": "csrp:block/infestedstain"
+    },
+    "type=top": {
+      "model": "csrp:block/infested_dirt_slab_top"
+    }
+  }
+}

@@ -9,6 +9,22 @@
     "csrp:infested_column",
     "csrp:inf_ss",
     "csrp:inf_ss_chiseled",
-    "csrp:inf_ss_cut"
+    "csrp:inf_ss_cut",
+    "csrp:infested_cobblestone_slab",
+    "csrp:infested_stone_slab",
+    "csrp:infested_stone_brick_slab",
+    "csrp:infested_terracotta_slab",
+    "csrp:polished_infested_stone_slab",
+    "csrp:residue_brick_slab",
+    "csrp:infested_sandstone_slab",
+    "csrp:infested_sandstone_stairs",
+    "csrp:residue_stairs",
+    "csrp:infested_stone_bricks_stairs",
+    "csrp:infested_polished_stone_bricks_stairs",
+    "csrp:infested_stone_stairs",
+    "csrp:polished_infested_stone_wall",
+    "csrp:infested_stone_brick_wall",
+    "csrp:infested_sandstone_wall",
+    "csrp:infestedrubble_wall"
   ]
 }

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "csrp:block/infestedrubble",
+    "top": "csrp:block/infestedrubble",
+    "side": "csrp:block/infestedrubble"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "csrp:infested_stone_polished"
+    }
+  },
+  "result": {
+    "id": "csrp:polished_infested_stone_wall",
+    "count": 6
+  }
+}

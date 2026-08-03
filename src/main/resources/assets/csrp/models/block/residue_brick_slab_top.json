@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "csrp:block/residue_bricks",
+    "top": "csrp:block/residue_bricks",
+    "side": "csrp:block/residue_bricks"
+  }
+}

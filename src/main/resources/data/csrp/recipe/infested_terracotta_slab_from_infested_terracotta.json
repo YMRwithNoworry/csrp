@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "csrp:infested_terracotta"
+    }
+  },
+  "result": {
+    "id": "csrp:infested_terracotta_slab",
+    "count": 6
+  }
+}

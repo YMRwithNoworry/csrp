@@ -2,6 +2,8 @@ package alku.csrp.registry;
 
 import alku.csrp.Csrp;
 import alku.csrp.block.InfestedBlock;
+import alku.csrp.block.InfestedStairBlock;
+import alku.csrp.block.InfestedWallBlock;
 import alku.csrp.block.BiomeHeartBlock;
 import alku.csrp.block.ColonyHeartBlock;
 import alku.csrp.block.ColonyStructureBlock;
@@ -14,6 +16,7 @@ import alku.csrp.block.ParasiteTrapBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import net.neoforged.neoforge.registries.DeferredBlock;
@@ -79,6 +82,53 @@ public final class ModBlocks {
     public static final DeferredBlock<InfestedBlock> CUT_INFESTED_SANDSTONE = infested(
             "inf_ss_cut", 0.8F, 4.0F, MapColor.COLOR_RED, SoundType.ROOTED_DIRT);
 
+    public static final DeferredBlock<SlabBlock> INFESTED_COBBLESTONE_SLAB = slab(
+            "infested_cobblestone_slab", 2.0F, 3.0F, SoundType.STONE);
+    public static final DeferredBlock<SlabBlock> INFESTED_STONE_SLAB = slab(
+            "infested_stone_slab", 2.0F, 3.0F, SoundType.STONE);
+    public static final DeferredBlock<SlabBlock> INFESTED_DIRT_SLAB = slab(
+            "infested_dirt_slab", 0.5F, 0.5F, SoundType.ROOTED_DIRT);
+    public static final DeferredBlock<SlabBlock> INFESTED_STONE_BRICK_SLAB = slab(
+            "infested_stone_brick_slab", 2.0F, 6.0F, SoundType.STONE);
+    public static final DeferredBlock<SlabBlock> INFESTED_TERRACOTTA_SLAB = slab(
+            "infested_terracotta_slab", 1.25F, 4.2F, SoundType.STONE);
+    public static final DeferredBlock<SlabBlock> POLISHED_INFESTED_STONE_SLAB = slab(
+            "polished_infested_stone_slab", 2.0F, 6.0F, SoundType.STONE);
+    public static final DeferredBlock<SlabBlock> RESIDUE_BRICK_SLAB = slab(
+            "residue_brick_slab", 2.0F, 6.0F, SoundType.STONE);
+    public static final DeferredBlock<SlabBlock> INFESTED_SANDSTONE_SLAB = slab(
+            "infested_sandstone_slab", 0.8F, 4.0F, SoundType.STONE);
+    public static final DeferredBlock<SlabBlock> INFESTED_PLANK_SLAB = slab(
+            "infested_plank_slab", 2.0F, 3.0F, SoundType.WOOD);
+
+    public static final DeferredBlock<InfestedStairBlock> INFESTED_SANDSTONE_STAIRS = infestedStairs(
+            "infested_sandstone_stairs", INFESTED_SANDSTONE);
+    public static final DeferredBlock<InfestedStairBlock> RESIDUE_STAIRS = infestedStairs(
+            "residue_stairs", RESIDUE_BRICKS);
+    public static final DeferredBlock<InfestedStairBlock> INFESTED_PLANKS_STAIRS = infestedStairs(
+            "infested_planks_stairs", INFESTED_PLANKS);
+    public static final DeferredBlock<InfestedStairBlock> INFESTED_STONE_BRICKS_STAIRS = infestedStairs(
+            "infested_stone_bricks_stairs", INFESTED_STONE_BRICKS);
+    public static final DeferredBlock<InfestedStairBlock> INFESTED_POLISHED_STONE_BRICKS_STAIRS = infestedStairs(
+            "infested_polished_stone_bricks_stairs", POLISHED_INFESTED_STONE);
+    public static final DeferredBlock<InfestedStairBlock> INFESTED_STONE_STAIRS = infestedStairs(
+            "infested_stone_stairs", INFESTED_RUBBLE);
+
+    public static final DeferredBlock<InfestedWallBlock> RESIDUE_WALL = infestedWall(
+            "residue_wall", INFESTED_PLANKS);
+    public static final DeferredBlock<InfestedWallBlock> INFESTED_PLANK_WALL = infestedWall(
+            "infested_plank_wall", INFESTED_PLANKS);
+    public static final DeferredBlock<InfestedWallBlock> POLISHED_INFESTED_STONE_WALL = infestedWall(
+            "polished_infested_stone_wall", INFESTED_RUBBLE);
+    public static final DeferredBlock<InfestedWallBlock> INFESTED_STONE_BRICK_WALL = infestedWall(
+            "infested_stone_brick_wall", INFESTED_RUBBLE);
+    public static final DeferredBlock<InfestedWallBlock> INFESTED_SANDSTONE_WALL = infestedWall(
+            "infested_sandstone_wall", INFESTED_RUBBLE);
+    public static final DeferredBlock<InfestedWallBlock> INFESTED_RUBBLE_WALL = infestedWall(
+            "infestedrubble_wall", INFESTED_RUBBLE);
+    public static final DeferredBlock<InfestedWallBlock> INFESTED_STAIN_WALL = infestedWall(
+            "infestedstain_wall", INFESTED_STAIN);
+
     public static final DeferredBlock<BiomeHeartBlock> BIOMEHEART = BLOCKS.register("biomeheart", () ->
             new BiomeHeartBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
                     .strength(4.0F, 20.0F).sound(SoundType.SCULK).lightLevel(state -> 5)));
@@ -104,6 +154,25 @@ public final class ModBlocks {
             String id, float hardness, float resistance, MapColor color, SoundType sound) {
         return BLOCKS.register(id, () -> new InfestedBlock(BlockBehaviour.Properties.of()
                 .mapColor(color).strength(hardness, resistance).requiresCorrectToolForDrops().sound(sound)));
+    }
+
+    private static DeferredBlock<SlabBlock> slab(String id, float hardness, float resistance, SoundType sound) {
+        return BLOCKS.register(id, () -> new SlabBlock(BlockBehaviour.Properties.of()
+                .mapColor(MapColor.COLOR_RED).strength(hardness, resistance)
+                .requiresCorrectToolForDrops().sound(sound)));
+    }
+
+    private static DeferredBlock<InfestedStairBlock> infestedStairs(
+            String id, DeferredBlock<? extends Block> baseBlock) {
+        return BLOCKS.register(id, () -> new InfestedStairBlock(baseBlock.get().defaultBlockState(),
+                BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.5F, 10.0F)
+                        .sound(SoundType.ROOTED_DIRT)));
+    }
+
+    private static DeferredBlock<InfestedWallBlock> infestedWall(
+            String id, DeferredBlock<? extends Block> baseBlock) {
+        return BLOCKS.register(id, () -> new InfestedWallBlock(
+                BlockBehaviour.Properties.ofFullCopy(baseBlock.get())));
     }
 
     private ModBlocks() {
