@@ -100,7 +100,7 @@ public final class InfectionMechanics {
     }
 
     public static boolean convertInfectedHost(LivingEntity host) {
-        if (host.level().isClientSide || !isConvertible(host) || host instanceof Player
+        if (host.level().isClientSide || host.isRemoved() || !isConvertible(host) || host instanceof Player
                 || !(host.level() instanceof ServerLevel serverLevel)) {
             return false;
         }
@@ -110,6 +110,30 @@ public final class InfectionMechanics {
             return false;
         }
 
+        replaceHost(host, converted, serverLevel);
+        return true;
+    }
+
+    /** Gnat conversion always prefers a Feral form, then an assimilated or hijacked form. */
+    public static boolean convertGnatHost(LivingEntity host) {
+        if (host.level().isClientSide || host.isRemoved() || !isConvertible(host) || host instanceof Player
+                || !(host.level() instanceof ServerLevel serverLevel)) {
+            return false;
+        }
+
+        Mob converted = createMappedHost(host, serverLevel, true);
+        if (converted == null) {
+            converted = createHijackedHost(host, serverLevel);
+        }
+        if (converted == null) {
+            return false;
+        }
+
+        replaceHost(host, converted, serverLevel);
+        return true;
+    }
+
+    private static void replaceHost(LivingEntity host, Mob converted, ServerLevel serverLevel) {
         float healthFraction = host.getMaxHealth() <= 0.0F ? 1.0F : host.getHealth() / host.getMaxHealth();
         converted.moveTo(host.getX(), host.getY(), host.getZ(), host.getYRot(), host.getXRot());
         converted.setHealth(Math.max(1.0F, converted.getMaxHealth() * Math.max(0.1F, healthFraction)));
@@ -119,7 +143,6 @@ public final class InfectionMechanics {
         serverLevel.addFreshEntity(converted);
         EvolutionSystem.addPoints(serverLevel, EvolutionSystem.VALUE_COTH, EvolutionSystem.PointSource.COTH);
         host.discard();
-        return true;
     }
 
     /** Applies the original SRP COTH-on-kill conversion chance. */
@@ -163,6 +186,10 @@ public final class InfectionMechanics {
                 return tierParasite;
             }
         }
+        return createMappedHost(host, level, SrpWorldData.get(level).evolutionPhase() >= 7);
+    }
+
+    private static Mob createMappedHost(LivingEntity host, ServerLevel level, boolean preferFeral) {
         ResourceLocation hostId = BuiltInRegistries.ENTITY_TYPE.getKey(host.getType());
         for (String mapping : Config.cothVictimParasites()) {
             String[] parts = mapping.split(";", -1);
@@ -173,7 +200,7 @@ public final class InfectionMechanics {
             if (targetId == null) {
                 continue;
             }
-            if (SrpWorldData.get(level).evolutionPhase() >= 7 && targetId.getPath().startsWith("sim_")) {
+            if (preferFeral && targetId.getPath().startsWith("sim_")) {
                 ResourceLocation feralId = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
                         "fer_" + targetId.getPath().substring("sim_".length()));
                 if (BuiltInRegistries.ENTITY_TYPE.containsKey(feralId)) {
@@ -187,6 +214,24 @@ public final class InfectionMechanics {
             }
         }
         return null;
+    }
+
+    private static Mob createHijackedHost(LivingEntity host, ServerLevel level) {
+        String hostId = BuiltInRegistries.ENTITY_TYPE.getKey(host.getType()).toString();
+        String targetPath = switch (hostId) {
+            case "minecraft:blaze" -> "hi_blaze";
+            case "minecraft:iron_golem" -> "hi_golem";
+            case "minecraft:skeleton", "minecraft:stray", "minecraft:bogged",
+                    "minecraft:wither_skeleton" -> "hi_skeleton";
+            default -> null;
+        };
+        if (targetPath == null) {
+            return null;
+        }
+        ResourceLocation targetId = ResourceLocation.fromNamespaceAndPath(Csrp.MODID, targetPath);
+        Entity entity = BuiltInRegistries.ENTITY_TYPE.getOptional(targetId)
+                .map(type -> type.create(level)).orElse(null);
+        return entity instanceof Mob mob ? mob : null;
     }
 
     private static Mob createTierParasite(ServerLevel level, int value) {

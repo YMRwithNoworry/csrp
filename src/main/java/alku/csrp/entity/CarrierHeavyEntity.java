@@ -25,4 +25,9 @@ public final class CarrierHeavyEntity extends CarrierEntity {
     protected RawAnimation idleAnimation() {
         return ANIMATION;
     }
+
+    @Override
+    protected int gnatSpawnCount() {
+        return 6;
+    }
 }

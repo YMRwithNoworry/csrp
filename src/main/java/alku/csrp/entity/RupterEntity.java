@@ -105,6 +105,11 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
     }
 
     @Override
+    public int getMaxSpawnClusterSize() {
+        return 8;
+    }
+
+    @Override
     protected void registerGoals() {
         goalSelector.addGoal(0, new FloatGoal(this));
         goalSelector.addGoal(1, new RupterLeapGoal(this, 0.7F));

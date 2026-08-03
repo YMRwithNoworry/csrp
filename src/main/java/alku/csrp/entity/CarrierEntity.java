@@ -1,6 +1,7 @@
 package alku.csrp.entity;
 
 import alku.csrp.registry.ModBlocks;
+import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -11,6 +12,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.level.GameRules;
@@ -121,8 +123,34 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity {
         applyExplosionEffects();
         spreadResidue();
         spawnLingeringCloud();
+        spawnGnats();
         super.die(damageSources().mobAttack(this));
         discard();
+    }
+
+    protected int gnatSpawnCount() {
+        return 0;
+    }
+
+    private void spawnGnats() {
+        if (!(level() instanceof ServerLevel serverLevel)) {
+            return;
+        }
+        for (int index = 0; index < gnatSpawnCount(); index++) {
+            GnatEntity gnat = ModEntities.GNAT.get().create(serverLevel, null, blockPosition(),
+                    MobSpawnType.MOB_SUMMONED, false, false);
+            if (gnat == null) {
+                continue;
+            }
+            gnat.moveTo(getX() + (random.nextDouble() - 0.5D) * getBbWidth(),
+                    getY() + 0.2D, getZ() + (random.nextDouble() - 0.5D) * getBbWidth(),
+                    random.nextFloat() * 360.0F, 0.0F);
+            gnat.setDeltaMovement((random.nextDouble() - 0.5D) * 0.35D,
+                    0.2D + random.nextDouble() * 0.2D,
+                    (random.nextDouble() - 0.5D) * 0.35D);
+            gnat.setTarget(getTarget());
+            serverLevel.addFreshEntity(gnat);
+        }
     }
 
     private void applyExplosionEffects() {

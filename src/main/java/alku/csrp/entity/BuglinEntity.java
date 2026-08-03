@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import alku.csrp.Config;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
@@ -7,12 +8,14 @@ import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
@@ -24,6 +27,7 @@ import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -65,6 +69,18 @@ public class BuglinEntity extends Monster implements GeoEntity, Parasite {
                 .add(Attributes.ATTACK_DAMAGE, 3.0)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.05)
                 .add(Attributes.MOVEMENT_SPEED, 0.2);
+    }
+
+    public static boolean checkBuglinSpawnRules(EntityType<? extends Monster> type, ServerLevelAccessor level,
+                                                 MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+        int phase = Config.evolutionPhase(level.getLevel());
+        return phase >= 0 && phase <= 2
+                && Monster.checkAnyLightMonsterSpawnRules(type, level, spawnType, pos, random);
+    }
+
+    @Override
+    public int getMaxSpawnClusterSize() {
+        return 9;
     }
 
     @Override
