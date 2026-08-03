@@ -51,7 +51,8 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
             SynchedEntityData.defineId(DraconiteEntity.class, EntityDataSerializers.BLOCK_POS);
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation FLY = ParasiteAnimations.loop(this, "fly");
+    private final RawAnimation FLY = RawAnimation.begin()
+            .thenLoop("animation.draconite.idle.get_flying_state_1");
 
     private int salivaCooldown = 40;
     private int meteorCooldown = 80;

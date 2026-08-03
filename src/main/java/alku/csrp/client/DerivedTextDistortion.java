@@ -40,8 +40,7 @@ public final class DerivedTextDistortion {
         RENDER_SCOPE_DEPTH.remove();
         Minecraft minecraft = Minecraft.getInstance();
         LocalPlayer player = minecraft.player;
-        if (player == null || minecraft.level == null || player.isCreative() || player.isSpectator()
-                || player.hasEffect(ModMobEffects.THE_SIGN)) {
+        if (player == null || minecraft.level == null || player.hasEffect(ModMobEffects.THE_SIGN)) {
             active = false;
             return;
         }

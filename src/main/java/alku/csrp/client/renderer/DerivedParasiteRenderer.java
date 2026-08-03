@@ -3,6 +3,7 @@ package alku.csrp.client.renderer;
 import alku.csrp.Csrp;
 import alku.csrp.client.model.PrimitiveParasiteModel;
 import alku.csrp.entity.DerivedParasiteEntity;
+import alku.csrp.entity.KirinEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -33,6 +34,9 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
     private static final int BEAM_RED = 78;
     private static final int BEAM_GREEN = 156;
     private static final int BEAM_BLUE = 250;
+    private static final int KIRIN_BEAM_RED = 255;
+    private static final int KIRIN_BEAM_GREEN = 72;
+    private static final int KIRIN_BEAM_BLUE = 196;
 
     private final ResourceLocation shadowTexture;
 
@@ -44,6 +48,7 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
         this.shadowRadius = shadowRadius;
         addRenderLayer(new ShadowLayer<>(this, this.shadowTexture));
         addRenderLayer(new CosmicHackingLayer<>(this));
+        addRenderLayer(new KirinLaserChargeLayer<>(this));
     }
 
     @Override
@@ -85,10 +90,23 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
                 }
             }
         }
+        if (entity instanceof KirinEntity kirin && kirin.isLaserFiring()) {
+            Entity target = entity.level().getEntity(kirin.getLaserTargetId());
+            if (target instanceof LivingEntity living && living.isAlive()) {
+                renderBeam(entity, living, partialTick, poseStack, bufferSource,
+                        KIRIN_BEAM_RED, KIRIN_BEAM_GREEN, KIRIN_BEAM_BLUE, BEAM_RADIUS * 1.35F);
+            }
+        }
     }
 
     private static void renderNeuralBeam(DerivedParasiteEntity parasite, LivingEntity target, float partialTick,
             PoseStack poseStack, MultiBufferSource bufferSource) {
+        renderBeam(parasite, target, partialTick, poseStack, bufferSource,
+                BEAM_RED, BEAM_GREEN, BEAM_BLUE, BEAM_RADIUS);
+    }
+
+    private static void renderBeam(DerivedParasiteEntity parasite, LivingEntity target, float partialTick,
+            PoseStack poseStack, MultiBufferSource bufferSource, int red, int green, int blue, float radius) {
         Vec3 renderOrigin = parasite.getPosition(partialTick);
         Vec3 start = parasite.getEyePosition(partialTick).subtract(renderOrigin);
         Vec3 end = target.getPosition(partialTick).add(0.0D, target.getBbHeight() * 0.5D, 0.0D)
@@ -121,23 +139,23 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
             float nextProgress = (side + 1) / (float) BEAM_SIDES;
             float angle = spin + progress * Mth.TWO_PI;
             float nextAngle = spin + nextProgress * Mth.TWO_PI;
-            float x = Mth.cos(angle) * BEAM_RADIUS;
-            float z = Mth.sin(angle) * BEAM_RADIUS;
-            float nextX = Mth.cos(nextAngle) * BEAM_RADIUS;
-            float nextZ = Mth.sin(nextAngle) * BEAM_RADIUS;
+            float x = Mth.cos(angle) * radius;
+            float z = Mth.sin(angle) * radius;
+            float nextX = Mth.cos(nextAngle) * radius;
+            float nextZ = Mth.sin(nextAngle) * radius;
 
-            beamVertex(consumer, pose, x, beamLength, z, progress, endV);
-            beamVertex(consumer, pose, x, 0.0F, z, progress, startV);
-            beamVertex(consumer, pose, nextX, 0.0F, nextZ, nextProgress, startV);
-            beamVertex(consumer, pose, nextX, beamLength, nextZ, nextProgress, endV);
+            beamVertex(consumer, pose, x, beamLength, z, progress, endV, red, green, blue);
+            beamVertex(consumer, pose, x, 0.0F, z, progress, startV, red, green, blue);
+            beamVertex(consumer, pose, nextX, 0.0F, nextZ, nextProgress, startV, red, green, blue);
+            beamVertex(consumer, pose, nextX, beamLength, nextZ, nextProgress, endV, red, green, blue);
         }
         poseStack.popPose();
     }
 
     private static void beamVertex(VertexConsumer consumer, PoseStack.Pose pose, float x, float y, float z,
-            float u, float v) {
+            float u, float v, int red, int green, int blue) {
         consumer.addVertex(pose, x, y, z)
-                .setColor(BEAM_RED, BEAM_GREEN, BEAM_BLUE, 255)
+                .setColor(red, green, blue, 255)
                 .setUv(u, v)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setLight(LightTexture.FULL_BRIGHT)
@@ -191,6 +209,26 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
             getRenderer().reRender(bakedModel, poseStack, bufferSource, entity, hackingRenderType,
                     bufferSource.getBuffer(hackingRenderType), partialTick, LightTexture.FULL_BRIGHT,
                     packedOverlay, 0xFFFF80FF);
+        }
+    }
+
+    private static final class KirinLaserChargeLayer<T extends DerivedParasiteEntity> extends GeoRenderLayer<T> {
+        private KirinLaserChargeLayer(DerivedParasiteRenderer<T> renderer) {
+            super(renderer);
+        }
+
+        @Override
+        public void render(PoseStack poseStack, T entity, BakedGeoModel bakedModel, RenderType renderType,
+                MultiBufferSource bufferSource, VertexConsumer buffer, float partialTick, int packedLight,
+                int packedOverlay) {
+            if (!(entity instanceof KirinEntity kirin) || !kirin.isLaserCharging()) {
+                return;
+            }
+            ResourceLocation texture = getRenderer().getTextureLocation(entity);
+            RenderType glowType = RenderType.entityTranslucentEmissive(texture);
+            getRenderer().reRender(bakedModel, poseStack, bufferSource, entity, glowType,
+                    bufferSource.getBuffer(glowType), partialTick, LightTexture.FULL_BRIGHT,
+                    packedOverlay, 0x99FF48C4);
         }
     }
 }

@@ -2,6 +2,7 @@ package alku.csrp.entity;
 
 import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModEntities;
+import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModParticles;
 import alku.csrp.registry.ModSounds;
 import alku.csrp.world.EvolutionSystem;
@@ -20,6 +21,8 @@ import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -63,13 +66,18 @@ public final class KirinEntity extends DerivedParasiteEntity {
     private static final int FLOAT_RECOVERY_VERTICAL_RANGE = 20;
 
     private static final int VOID_SKILL_CHARGE_TICKS = 80;
-    private static final int VOID_SKILL_RANGE = 35;
+    private static final int VOID_SKILL_RANGE = 42;
     private static final int VOID_SKILL_STAGE_TICKS = 20;
-    private static final int VOID_SKILL_ORB_STAGE = 3;
     private static final int VOID_SKILL_END_STAGE = 12;
     private static final int VOID_ORB_FUSE_TICKS = 8;
     private static final int VOID_ORB_START_TICKS = 80;
     private static final double VOID_ORB_OFFSET = 10.0D;
+
+    private static final int LASER_CHARGE_TICKS = 40;
+    private static final int LASER_FIRE_TICKS = 20;
+    private static final int LASER_COOLDOWN_TICKS = 160;
+    private static final double LASER_RANGE = 48.0D;
+    private static final int LASER_EFFECT_DURATION_TICKS = 7 * 20;
 
     private static final float BLOCK_BREAK_MAX_HARDNESS = 27.0F;
     private static final int BLOCK_BREAK_COOLDOWN_TICKS = 60;
@@ -81,6 +89,10 @@ public final class KirinEntity extends DerivedParasiteEntity {
             KirinEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> VOID_CASTING = SynchedEntityData.defineId(
             KirinEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> LASER_TICKS = SynchedEntityData.defineId(
+            KirinEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> LASER_TARGET_ID = SynchedEntityData.defineId(
+            KirinEntity.class, EntityDataSerializers.INT);
 
     private final RawAnimation idleAnimation = RawAnimation.begin()
             .thenLoop("animation.kirin.func_78087_a");
@@ -101,6 +113,7 @@ public final class KirinEntity extends DerivedParasiteEntity {
     private int voidSkillCharge;
     private int voidSkillCastTicks;
     private int voidSkillStage;
+    private int laserCooldown;
     private int floatBob;
     private int noGroundTicks;
     private int blockBreakCooldown;
@@ -150,6 +163,8 @@ public final class KirinEntity extends DerivedParasiteEntity {
         builder.define(BLINK_POS, BlockPos.ZERO);
         builder.define(BLINK_TICKS, 0);
         builder.define(VOID_CASTING, false);
+        builder.define(LASER_TICKS, 0);
+        builder.define(LASER_TARGET_ID, 0);
     }
 
     @Override
@@ -170,7 +185,8 @@ public final class KirinEntity extends DerivedParasiteEntity {
         }
 
         EvolutionSystem.GenerationProfile profile = EvolutionSystem.generationProfile((ServerLevel) level());
-        if (profile.specialMoves()) {
+        tickLaserSkill();
+        if (!isLaserCasting()) {
             if (isVoidCasting()) {
                 tickVoidSkill();
             } else {
@@ -182,7 +198,7 @@ public final class KirinEntity extends DerivedParasiteEntity {
                 finishVoidSkill();
             }
         }
-        if (blinkCharge <= 0 && !isVoidCasting()) {
+        if (blinkCharge <= 0 && !isVoidCasting() && !isLaserCasting()) {
             updateFloating();
         }
         if (profile.blockSearch()) {
@@ -223,7 +239,8 @@ public final class KirinEntity extends DerivedParasiteEntity {
 
     private void chargeVoidSkill() {
         LivingEntity target = getTarget();
-        if (isShadowClone() || blinkCharge > 0 || isUsingDerivedSkill() || target == null || !target.isAlive()
+        if (isShadowClone() || blinkCharge > 0 || isLaserCasting() || isUsingDerivedSkill()
+                || target == null || !target.isAlive()
                 || distanceToSqr(target) >= VOID_SKILL_RANGE * VOID_SKILL_RANGE
                 || !getSensing().hasLineOfSight(target)) {
             return;
@@ -234,6 +251,7 @@ public final class KirinEntity extends DerivedParasiteEntity {
             voidSkillStage = 0;
             entityData.set(VOID_CASTING, true);
             getNavigation().stop();
+            summonVoidOrb();
         }
     }
 
@@ -253,9 +271,6 @@ public final class KirinEntity extends DerivedParasiteEntity {
         if (isShadowClone() || target == null || !target.isAlive()) {
             finishVoidSkill();
             return;
-        }
-        if (voidSkillStage == VOID_SKILL_ORB_STAGE) {
-            summonVoidOrb();
         }
         if (voidSkillStage > VOID_SKILL_END_STAGE) {
             finishVoidSkill();
@@ -284,9 +299,99 @@ public final class KirinEntity extends DerivedParasiteEntity {
         return entityData.get(VOID_CASTING);
     }
 
+    private void tickLaserSkill() {
+        if (laserCooldown > 0) {
+            laserCooldown--;
+        }
+        int ticks = entityData.get(LASER_TICKS);
+        if (ticks <= 0) {
+            tryStartLaserSkill();
+            return;
+        }
+
+        Entity entity = level().getEntity(entityData.get(LASER_TARGET_ID));
+        if (!(entity instanceof LivingEntity target) || !target.isAlive()) {
+            finishLaserSkill();
+            return;
+        }
+        getNavigation().stop();
+        setDeltaMovement(getDeltaMovement().scale(0.35D));
+        getLookControl().setLookAt(target, 45.0F, 45.0F);
+
+        if (ticks == LASER_FIRE_TICKS) {
+            applyLaserDebuffs(target);
+            triggerAnim("action_controller", "attack");
+            playSound(SoundEvents.GUARDIAN_ATTACK, 2.0F, 0.75F);
+        }
+        if (ticks <= LASER_FIRE_TICKS && getSensing().hasLineOfSight(target)) {
+            target.invulnerableTime = 0;
+            target.hurt(damageSources().mobAttack(this), 2.0F);
+            target.invulnerableTime = 0;
+            target.igniteForSeconds(5.0F);
+        }
+
+        entityData.set(LASER_TICKS, ticks - 1);
+        if (ticks <= 1) {
+            finishLaserSkill();
+        }
+    }
+
+    private void tryStartLaserSkill() {
+        LivingEntity target = getTarget();
+        if (laserCooldown > 0 || isShadowClone() || blinkCharge > 0 || isVoidCasting()
+                || isUsingDerivedSkill() || target == null || !target.isAlive()
+                || distanceToSqr(target) > LASER_RANGE * LASER_RANGE
+                || !getSensing().hasLineOfSight(target)) {
+            return;
+        }
+        entityData.set(LASER_TICKS, LASER_CHARGE_TICKS + LASER_FIRE_TICKS);
+        entityData.set(LASER_TARGET_ID, target.getId());
+        getNavigation().stop();
+        playSound(ModSounds.KIRIN_LIVING.get(), 2.0F, 0.75F);
+    }
+
+    private void applyLaserDebuffs(LivingEntity target) {
+        target.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, LASER_EFFECT_DURATION_TICKS, 1), this);
+        target.addEffect(new MobEffectInstance(MobEffects.CONFUSION, LASER_EFFECT_DURATION_TICKS, 0), this);
+        target.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, LASER_EFFECT_DURATION_TICKS, 0), this);
+        target.addEffect(new MobEffectInstance(MobEffects.HUNGER, LASER_EFFECT_DURATION_TICKS, 1), this);
+        target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, LASER_EFFECT_DURATION_TICKS, 1), this);
+        target.addEffect(new MobEffectInstance(ModMobEffects.BLEED, LASER_EFFECT_DURATION_TICKS, 1), this);
+        target.addEffect(new MobEffectInstance(ModMobEffects.EFFECTPOS, LASER_EFFECT_DURATION_TICKS, 0), this);
+        target.addEffect(new MobEffectInstance(ModMobEffects.EFFECTNEG, LASER_EFFECT_DURATION_TICKS, 0), this);
+        target.addEffect(new MobEffectInstance(ModMobEffects.INDEAF, LASER_EFFECT_DURATION_TICKS, 0), this);
+        target.addEffect(new MobEffectInstance(ModMobEffects.OVERHEATING, LASER_EFFECT_DURATION_TICKS, 0), this);
+        target.addEffect(new MobEffectInstance(ModMobEffects.NOVISION, LASER_EFFECT_DURATION_TICKS, 0), this);
+        target.addEffect(new MobEffectInstance(ModMobEffects.BRAINING, LASER_EFFECT_DURATION_TICKS, 0), this);
+        target.addEffect(new MobEffectInstance(ModMobEffects.MUSCLEOUT, LASER_EFFECT_DURATION_TICKS, 0), this);
+    }
+
+    private void finishLaserSkill() {
+        entityData.set(LASER_TICKS, 0);
+        entityData.set(LASER_TARGET_ID, 0);
+        laserCooldown = LASER_COOLDOWN_TICKS;
+    }
+
+    public boolean isLaserCharging() {
+        return entityData.get(LASER_TICKS) > LASER_FIRE_TICKS;
+    }
+
+    public boolean isLaserFiring() {
+        int ticks = entityData.get(LASER_TICKS);
+        return ticks > 0 && ticks <= LASER_FIRE_TICKS;
+    }
+
+    public int getLaserTargetId() {
+        return entityData.get(LASER_TARGET_ID);
+    }
+
+    private boolean isLaserCasting() {
+        return entityData.get(LASER_TICKS) > 0;
+    }
+
     @Override
     protected boolean hasExclusiveSkill() {
-        return blinkCharge > 0 || isVoidCasting();
+        return blinkCharge > 0 || isVoidCasting() || isLaserCasting();
     }
 
     private void updateFloating() {
@@ -528,6 +633,7 @@ public final class KirinEntity extends DerivedParasiteEntity {
         tag.putInt("kirin_void_charge", voidSkillCharge);
         tag.putInt("kirin_void_cast_ticks", voidSkillCastTicks);
         tag.putInt("kirin_void_stage", voidSkillStage);
+        tag.putInt("kirin_laser_cooldown", laserCooldown);
         tag.putInt("kirin_float_bob", floatBob);
         tag.putInt("kirin_no_ground_ticks", noGroundTicks);
         tag.putInt("kirin_block_break_cooldown", blockBreakCooldown);
@@ -547,12 +653,15 @@ public final class KirinEntity extends DerivedParasiteEntity {
                 ? tag.getInt("kirin_void_charge") : Math.max(0, 80 - tag.getInt("void_orb_cooldown"));
         voidSkillCastTicks = tag.getInt("kirin_void_cast_ticks");
         voidSkillStage = tag.getInt("kirin_void_stage");
+        laserCooldown = tag.getInt("kirin_laser_cooldown");
         floatBob = tag.getInt("kirin_float_bob");
         noGroundTicks = tag.getInt("kirin_no_ground_ticks");
         blockBreakCooldown = tag.getInt("kirin_block_break_cooldown");
         entityData.set(BLINK_POS, blinkCharge > 0 ? blinkDestination : BlockPos.ZERO);
         entityData.set(BLINK_TICKS, blinkCharge);
         entityData.set(VOID_CASTING, voidSkillCastTicks > 0);
+        entityData.set(LASER_TICKS, 0);
+        entityData.set(LASER_TARGET_ID, 0);
     }
 
     @Override
@@ -562,6 +671,9 @@ public final class KirinEntity extends DerivedParasiteEntity {
                 return state.setAndContinue(cloneAnimation);
             }
             if (isShadowHitFlashing()) {
+                return state.setAndContinue(shakingAnimation);
+            }
+            if (isLaserCharging()) {
                 return state.setAndContinue(shakingAnimation);
             }
             if (isShadowed() && getShadowRenderAlpha(0.0F) > 0.0F) {

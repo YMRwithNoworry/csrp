@@ -11,8 +11,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.UUID;
@@ -20,9 +22,10 @@ import java.util.UUID;
 public final class VoidOrbEntity extends Entity {
     private static final int DEFAULT_START_TICKS = 40;
     private static final int DEFAULT_FUSE_TICKS = 7;
-    private static final int SHRINK_START_TICKS = 80;
-    private static final int DISCARD_TICKS = 90;
-    private static final double PULL_RADIUS = 40.0D;
+    private static final int ACTIVE_DURATION_TICKS = 150;
+    private static final int SHRINK_DURATION_TICKS = 10;
+    private static final int SHRINK_START_TICKS = ACTIVE_DURATION_TICKS - SHRINK_DURATION_TICKS;
+    private static final double PULL_RADIUS = 42.0D;
     private static final double PULL_STRENGTH = 0.2D;
     private static final double CENTER_DISTANCE_SQR = 2.0D * 2.0D;
     private static final double DAMAGE_DISTANCE_SQR = 5.0D * 5.0D;
@@ -104,18 +107,18 @@ public final class VoidOrbEntity extends Entity {
         }
 
         pullNearbyEntities(owner);
+        int activeTicks = lifetimeTicks - getStartTicks();
         if (fuseProgress < getFuseTicks()) {
             fuseProgress++;
-            if (fuseProgress < getFuseTicks()) {
-                return;
+        }
+        collapseTicks = Math.max(0, activeTicks - getFuseTicks());
+        if (activeTicks > SHRINK_START_TICKS) {
+            damageDuringCollapse(owner, activeTicks - SHRINK_START_TICKS);
+            if (activeTicks == SHRINK_START_TICKS + 1) {
+                playSound(ModSounds.ORB_END.get(), 1.0F, 1.0F);
             }
         }
-        collapseTicks++;
-        if (collapseTicks > SHRINK_START_TICKS) {
-            damageDuringCollapse(owner);
-            playSound(ModSounds.ORB_END.get(), 1.0F, 1.0F);
-        }
-        if (collapseTicks > DISCARD_TICKS) {
+        if (activeTicks >= ACTIVE_DURATION_TICKS) {
             discard();
         }
     }
@@ -123,6 +126,9 @@ public final class VoidOrbEntity extends Entity {
     private void pullNearbyEntities(DerivedParasiteEntity owner) {
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
                 getBoundingBox().inflate(PULL_RADIUS), this::canPull)) {
+            if (!isUncovered(target)) {
+                continue;
+            }
             target.stopRiding();
             double distanceSqr = target.distanceToSqr(this);
             if (distanceSqr < CENTER_DISTANCE_SQR) {
@@ -136,18 +142,19 @@ public final class VoidOrbEntity extends Entity {
                 }
             }
             if (distanceSqr < DAMAGE_DISTANCE_SQR && owner != null) {
+                target.invulnerableTime = 0;
                 owner.applyMinimumDamage(target, 14.0F / 10.0F);
                 target.hurt(damageSources().fellOutOfWorld(), 10.0F);
+                target.invulnerableTime = 0;
             }
         }
     }
 
-    private void damageDuringCollapse(DerivedParasiteEntity owner) {
+    private void damageDuringCollapse(DerivedParasiteEntity owner, int shrinkTicks) {
         if (owner == null) {
             return;
         }
         int growthTicks = Math.max(0, getFuseTicks() - 1);
-        int shrinkTicks = collapseTicks - SHRINK_START_TICKS;
         float width = Math.max(0.1F,
                 INITIAL_WIDTH + growthTicks * FUSE_WIDTH_GROWTH - shrinkTicks * FUSE_WIDTH_GROWTH);
         float height = Math.max(0.1F,
@@ -156,19 +163,25 @@ public final class VoidOrbEntity extends Entity {
                 getX() - width * 0.5D, getY() - height, getZ() - width * 0.5D,
                 getX() + width * 0.5D, getY() + height, getZ() + width * 0.5D);
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, damageBox,
-                target -> target.isAlive() && !(target instanceof Parasite))) {
+                target -> canPull(target) && isUncovered(target))) {
+            target.invulnerableTime = 0;
             owner.applyMinimumDamage(target, 70.0F);
+            target.invulnerableTime = 0;
         }
     }
 
     private boolean canPull(LivingEntity target) {
-        if (!target.isAlive() || target.getUUID().equals(ownerId)
-                || target instanceof DerivedParasiteEntity
-                || target instanceof PreeminentParasiteEntity
-                || !target.isPushable()) {
+        if (!target.isAlive() || target.getUUID().equals(ownerId) || !target.isPushable()) {
             return false;
         }
         return !(target instanceof Player player && player.getAbilities().invulnerable);
+    }
+
+    private boolean isUncovered(LivingEntity target) {
+        Vec3 targetCenter = target.position().add(0.0D, target.getBbHeight() * 0.5D, 0.0D);
+        HitResult hit = level().clip(new ClipContext(position(), targetCenter,
+                ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
+        return hit.getType() == HitResult.Type.MISS;
     }
 
     private void spawnPortalParticles() {
@@ -215,11 +228,11 @@ public final class VoidOrbEntity extends Entity {
         if (activeAge <= getFuseTicks()) {
             return 1.0F + activeAge / Math.max(1.0F, getFuseTicks()) * 2.0F;
         }
-        float collapseAge = activeAge - getFuseTicks() + 1.0F;
-        if (collapseAge <= SHRINK_START_TICKS) {
+        if (activeAge <= SHRINK_START_TICKS) {
             return 3.0F;
         }
-        return Math.max(0.1F, 3.0F - (collapseAge - SHRINK_START_TICKS) * 0.33F);
+        float shrinkProgress = (activeAge - SHRINK_START_TICKS) / SHRINK_DURATION_TICKS;
+        return Math.max(0.1F, 3.0F * (1.0F - shrinkProgress));
     }
 
     @Override

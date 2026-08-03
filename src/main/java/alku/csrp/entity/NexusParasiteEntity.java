@@ -19,6 +19,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
@@ -60,6 +61,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     private int bombCooldown;
     private int supportCooldown;
     private int blockBreakCooldown;
+    private int forcedEvolutionCooldown;
     private int attackFlashTicks;
     private int temporaryLifetimeTicks = -1;
     private boolean canGrow = true;
@@ -111,10 +113,6 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
             discard();
             return;
         }
-        if (activeKind.family == Family.BECKON && level() instanceof ServerLevel serverLevel
-                && SrpWorldData.get(serverLevel).evolutionPhase() >= 5) {
-            summonCooldown = 0;
-        }
         if (canGrow && growthDelayTicks > 0 && level() instanceof ServerLevel serverLevel) {
             int phase = SrpWorldData.get(serverLevel).evolutionPhase();
             int minimumPhase = activeKind.stage + 2;
@@ -133,6 +131,10 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         }
         if (summonCooldown <= 0 && performFamilyAbility(activeKind)) {
             summonCooldown = activeKind.summonCooldown;
+        }
+        if (activeKind.family == Family.BECKON && activeKind.stage == 4
+                && forcedEvolutionCooldown <= 0 && forceEvolveNearbyParasite()) {
+            forcedEvolutionCooldown = 100;
         }
         if (activeKind.family == Family.BECKON && activeKind.stage == 4 && level().isThundering()
                 && tickCount % 20 == 0) {
@@ -252,6 +254,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         tag.putInt("nexus_bomb_cooldown", bombCooldown);
         tag.putInt("nexus_support_cooldown", supportCooldown);
         tag.putInt("nexus_block_break_cooldown", blockBreakCooldown);
+        tag.putInt("nexus_forced_evolution_cooldown", forcedEvolutionCooldown);
         tag.putInt("nexus_attack_flash", attackFlashTicks);
         tag.putInt("nexus_temporary_lifetime", temporaryLifetimeTicks);
         tag.putBoolean("nexus_can_grow", canGrow);
@@ -270,6 +273,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         bombCooldown = tag.getInt("nexus_bomb_cooldown");
         supportCooldown = tag.getInt("nexus_support_cooldown");
         blockBreakCooldown = tag.getInt("nexus_block_break_cooldown");
+        forcedEvolutionCooldown = tag.getInt("nexus_forced_evolution_cooldown");
         attackFlashTicks = tag.getInt("nexus_attack_flash");
         temporaryLifetimeTicks = tag.contains("nexus_temporary_lifetime")
                 ? tag.getInt("nexus_temporary_lifetime") : -1;
@@ -303,6 +307,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         if (bombCooldown > 0) bombCooldown--;
         if (supportCooldown > 0) supportCooldown--;
         if (blockBreakCooldown > 0) blockBreakCooldown--;
+        if (forcedEvolutionCooldown > 0) forcedEvolutionCooldown--;
         if (attackFlashTicks > 0) attackFlashTicks--;
     }
 
@@ -364,10 +369,25 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
             return false;
         }
         if (activeKind.stage == 4) {
-            float roll = random.nextFloat();
-            int stage = roll < 0.30F ? 1 : roll < 0.70F ? 2 : 3;
-            NexusParasiteEntity spawned = createNexus(serverLevel, Family.BECKON, stage);
-            return spawnNexus(spawned, target, 5.0D);
+            int points = 12;
+            int spawnedCount = 0;
+            int availableSlots = Math.max(0, activeKind.activeCap - nearbyParasiteCount(18.0D));
+            while (points >= 3 && spawnedCount < 4 && spawnedCount < availableSlots) {
+                float roll = random.nextFloat();
+                int stage = roll < 0.30F ? 1 : roll < 0.70F ? 2 : 3;
+                int cost = stage == 3 ? 4 : 3;
+                if (cost > points) {
+                    stage = random.nextBoolean() ? 1 : 2;
+                    cost = 3;
+                }
+                NexusParasiteEntity spawned = createNexus(serverLevel, Family.BECKON, stage);
+                if (!spawnNexus(spawned, target, 5.0D + spawnedCount)) {
+                    break;
+                }
+                points -= cost;
+                spawnedCount++;
+            }
+            return spawnedCount > 0;
         }
         EntityType<? extends Mob> type = switch (activeKind.stage) {
             case 1 -> ModEntities.RUPTER.get();
@@ -380,6 +400,101 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
             };
         };
         return spawnMob(type, target, 4.0D);
+    }
+
+    private boolean forceEvolveNearbyParasite() {
+        if (!(level() instanceof ServerLevel serverLevel)) {
+            return false;
+        }
+        List<LivingEntity> candidates = level().getEntitiesOfClass(LivingEntity.class,
+                getBoundingBox().inflate(16.0D), this::canForceEvolve);
+        if (candidates.isEmpty()) {
+            return false;
+        }
+
+        LivingEntity source = candidates.get(random.nextInt(candidates.size()));
+        EntityType<?> targetType = forcedEvolutionType(source);
+        Entity created = targetType == null ? null : targetType.create(serverLevel);
+        if (!(created instanceof Mob replacement)) {
+            return false;
+        }
+
+        replacement.moveTo(source.getX(), source.getY(), source.getZ(), source.getYRot(), source.getXRot());
+        replacement.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(replacement.blockPosition()),
+                MobSpawnType.MOB_SUMMONED, null);
+        replacement.setCustomName(source.getCustomName());
+        replacement.setCustomNameVisible(source.isCustomNameVisible());
+        if (source instanceof Mob sourceMob) {
+            replacement.setTarget(sourceMob.getTarget());
+        }
+        replacement.setHealth(Math.max(1.0F,
+                replacement.getMaxHealth() * source.getHealth() / Math.max(1.0F, source.getMaxHealth())));
+        serverLevel.addFreshEntity(replacement);
+
+        LightningBolt lightning = EntityType.LIGHTNING_BOLT.create(serverLevel);
+        if (lightning != null) {
+            lightning.moveTo(source.position());
+            lightning.setVisualOnly(true);
+            serverLevel.addFreshEntity(lightning);
+        }
+        source.discard();
+        return true;
+    }
+
+    private boolean canForceEvolve(LivingEntity candidate) {
+        if (candidate == this || !candidate.isAlive()) {
+            return false;
+        }
+        ResourceLocation id = BuiltInRegistries.ENTITY_TYPE.getKey(candidate.getType());
+        if (id.getNamespace().equals(Csrp.MODID) && id.getPath().startsWith("pri_")) {
+            ResourceLocation adaptedId = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+                    "ada_" + id.getPath().substring("pri_".length()));
+            return BuiltInRegistries.ENTITY_TYPE.containsKey(adaptedId);
+        }
+        return isAssimilatedTier(candidate);
+    }
+
+    private EntityType<?> forcedEvolutionType(LivingEntity candidate) {
+        if (!canForceEvolve(candidate)) {
+            return null;
+        }
+        ResourceLocation id = BuiltInRegistries.ENTITY_TYPE.getKey(candidate.getType());
+        String path = id.getPath();
+        if (id.getNamespace().equals(Csrp.MODID) && path.startsWith("pri_")) {
+            ResourceLocation adaptedId = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+                    "ada_" + path.substring("pri_".length()));
+            return BuiltInRegistries.ENTITY_TYPE.containsKey(adaptedId)
+                    ? BuiltInRegistries.ENTITY_TYPE.get(adaptedId) : null;
+        }
+        if (!isAssimilatedTier(candidate)) {
+            return null;
+        }
+        return switch (random.nextInt(12)) {
+            case 0 -> ModEntities.PRI_LONGARMS.get();
+            case 1 -> ModEntities.PRI_SUMMONER.get();
+            case 2 -> ModEntities.PRI_VERMIN.get();
+            case 3 -> ModEntities.PRI_VISCERA.get();
+            case 4 -> ModEntities.PRI_ARACHNIDA.get();
+            case 5 -> ModEntities.PRI_BOLSTER.get();
+            case 6 -> ModEntities.PRI_BURROWER.get();
+            case 7 -> ModEntities.PRI_DEVOURER.get();
+            case 8 -> ModEntities.PRI_MANDUCATER.get();
+            case 9 -> ModEntities.PRI_REEKER.get();
+            case 10 -> ModEntities.PRI_TOZOON.get();
+            default -> ModEntities.PRI_YELLOWEYE.get();
+        };
+    }
+
+    private static boolean isAssimilatedTier(LivingEntity candidate) {
+        return candidate instanceof AssimilatedParasiteEntity
+                || candidate instanceof AssimilatedVariantEntity
+                || candidate instanceof AssimilatedEndermanEntity
+                || candidate instanceof AssimilatedHeadEntity
+                || candidate instanceof AssimilatedDragonEntity
+                || candidate instanceof AssimilatedDragonHeadEntity
+                || candidate instanceof SimAdventurerEntity
+                || candidate instanceof SimAdventurerHeadEntity
+                || candidate instanceof FeralParasiteEntity;
     }
 
     private boolean summonDispatcherDefenses(Kind activeKind, LivingEntity target) {
