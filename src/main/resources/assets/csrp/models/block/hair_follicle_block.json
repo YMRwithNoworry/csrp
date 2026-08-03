@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "csrp:block/hair_follicle",
+    "side": "csrp:block/hair_follicle_side"
+  }
+}

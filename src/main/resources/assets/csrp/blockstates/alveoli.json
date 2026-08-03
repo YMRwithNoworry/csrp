@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "active=true,depleted=false": { "model": "csrp:block/alveoli_active" },
+    "active=true,depleted=true": { "model": "csrp:block/alveoli_active" },
+    "active=false,depleted=false": { "model": "csrp:block/alveoli_inactive" },
+    "active=false,depleted=true": { "model": "csrp:block/alveoli_inactive" }
+  }
+}

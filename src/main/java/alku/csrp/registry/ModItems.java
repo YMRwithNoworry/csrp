@@ -20,6 +20,8 @@ import alku.csrp.item.TheSignCharmItem;
 import alku.csrp.item.InjectedPurifierItem;
 import alku.csrp.item.OverlastCanteenItem;
 import alku.csrp.item.OverlastFoodItem;
+import alku.csrp.item.AlveolarFluidItem;
+import alku.csrp.item.AlveoliItem;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.BlockItem;
@@ -380,6 +382,16 @@ public final class ModItems {
     public static final DeferredItem<BlockItem> COLONYHEART = ITEMS.registerSimpleBlockItem("colonyheart", ModBlocks.COLONYHEART);
     public static final DeferredItem<BlockItem> PARASITE_STRUCTURE = ITEMS.registerSimpleBlockItem(
             "parasitestructure", ModBlocks.PARASITE_STRUCTURE);
+    public static final DeferredItem<BlockItem> ALVEOLI = ITEMS.registerSimpleBlockItem(
+            "alveoli", ModBlocks.ALVEOLI);
+    public static final DeferredItem<BlockItem> SICK_ALVEOLI = ITEMS.registerSimpleBlockItem(
+            "sick_alveoli", ModBlocks.SICK_ALVEOLI);
+    public static final DeferredItem<BlockItem> ALVEOLI_GROWTH = ITEMS.registerSimpleBlockItem(
+            "alveoli_growth", ModBlocks.ALVEOLI_GROWTH);
+    public static final DeferredItem<BlockItem> SOLID_ALVEOLI_BLOCK = ITEMS.registerSimpleBlockItem(
+            "solid_alveoli_block", ModBlocks.SOLID_ALVEOLI_BLOCK);
+    public static final DeferredItem<BlockItem> HAIR_FOLLICLE_BLOCK = ITEMS.registerSimpleBlockItem(
+            "hair_follicle_block", ModBlocks.HAIR_FOLLICLE_BLOCK);
     public static final DeferredItem<EvolutionLureItem> EVOLUTION_LURE_ONE = evolutionLure(
             "evolutionlure_one", EvolutionLureBlock.Tier.ONE);
     public static final DeferredItem<EvolutionLureItem> EVOLUTION_LURE_TWO = evolutionLure(
@@ -442,7 +454,10 @@ public final class ModItems {
     public static final DeferredItem<FishlinItem> FISHLIN = ITEMS.registerItem(
             "fishlin", FishlinItem::new, new Item.Properties());
     public static final DeferredItem<Item> SHRIMP = simple("shrimp");
-    public static final DeferredItem<Item> ALVEOLIGROWTH = simple("alveoligrowth");
+    public static final DeferredItem<AlveoliItem> ALVEOLIGROWTH = ITEMS.registerItem(
+            "alveoligrowth", AlveoliItem::new, new Item.Properties());
+    public static final DeferredItem<AlveolarFluidItem> ALVEOLAR_FLUID = ITEMS.registerItem(
+            "alveolar_fluid", AlveolarFluidItem::new, new Item.Properties().stacksTo(1));
     public static final DeferredItem<BoneMealItem> INFESTED_BONEMEAL = ITEMS.registerItem(
             "infested_bonemeal", BoneMealItem::new, new Item.Properties());
     public static final DeferredItem<EvolutionClockItem> EVCLOCK = ITEMS.registerItem(

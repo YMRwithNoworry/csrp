@@ -13,6 +13,9 @@ import alku.csrp.block.InfestedResidueBlock;
 import alku.csrp.block.InfestationPurifierBlock;
 import alku.csrp.block.EvolutionLureBlock;
 import alku.csrp.block.ParasiteTrapBlock;
+import alku.csrp.block.AlveoliBlock;
+import alku.csrp.block.AlveoliGrowthBlock;
+import alku.csrp.block.SickAlveoliBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SoundType;
@@ -144,6 +147,21 @@ public final class ModBlocks {
     public static final DeferredBlock<EvolutionLureBlock> EVOLUTION_LURE = BLOCKS.register(
             "evolutionlure", () -> new EvolutionLureBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_RED).strength(2.0F, 6.0F).sound(SoundType.STONE)));
+    public static final DeferredBlock<AlveoliBlock> ALVEOLI = BLOCKS.register("alveoli", () ->
+            new AlveoliBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
+                    .strength(1.0F).noOcclusion().sound(SoundType.SLIME_BLOCK)));
+    public static final DeferredBlock<SickAlveoliBlock> SICK_ALVEOLI = BLOCKS.register("sick_alveoli", () ->
+            new SickAlveoliBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
+                    .strength(1.0F).noOcclusion().sound(SoundType.SLIME_BLOCK)));
+    public static final DeferredBlock<AlveoliGrowthBlock> ALVEOLI_GROWTH = BLOCKS.register("alveoli_growth", () ->
+            new AlveoliGrowthBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
+                    .instabreak().noCollission().noOcclusion().sound(SoundType.GRASS)));
+    public static final DeferredBlock<Block> SOLID_ALVEOLI_BLOCK = BLOCKS.register("solid_alveoli_block", () ->
+            new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
+                    .strength(1.0F).noOcclusion().sound(SoundType.SLIME_BLOCK)));
+    public static final DeferredBlock<RotatedPillarBlock> HAIR_FOLLICLE_BLOCK = BLOCKS.register(
+            "hair_follicle_block", () -> new RotatedPillarBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(1.0F).sound(SoundType.ROOTED_DIRT)));
 
     private static DeferredBlock<InfestedBlock> infested(String id, MapColor color, SoundType sound) {
         return BLOCKS.register(id, () -> new InfestedBlock(BlockBehaviour.Properties.of()
