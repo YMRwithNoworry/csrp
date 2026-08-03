@@ -21,6 +21,7 @@ const events = read("src/main/java/alku/csrp/world/EvolutionEvents.java");
 const commands = read("src/main/java/alku/csrp/command/SrpCommands.java");
 const primitive = read("src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java");
 const renderer = read("src/main/java/alku/csrp/client/renderer/ParasiteGeoRenderer.java");
+const sounds = read("src/main/java/alku/csrp/registry/ModSounds.java");
 
 expect(config, /define\("generationEnabled", true\)/,
   "original-default generationEnabled config is missing");
@@ -43,11 +44,13 @@ expect(primitive, /source\.is\(DamageTypes\.IN_WALL\)[\s\S]{0,100}source\.is\(Da
   "suffocation and void adaptation exclusions are missing");
 expect(primitive, /livingSource instanceof Player[\s\S]{0,220}BuiltInRegistries\.ITEM/,
   "player-held-item damage classification is missing");
+expect(primitive, /livingSource instanceof Player[\s\S]{0,300}return source\.getMsgId\(\)/,
+  "empty-handed player damage must use the DamageType instead of the player entity type");
 expect(primitive, /BuiltInRegistries\.ENTITY_TYPE\.getKey\(livingSource\.getType\(\)\)/,
   "living-entity damage classification is missing");
 expect(primitive, /source\.getMsgId\(\)/,
   "non-living DamageType classification is missing");
-expect(primitive, /fireAdaptationSuppressionChance\(\)[\s\S]{0,120}fireAdaptationBlockTicks\s*=\s*FIRE_ADAPTATION_BLOCK_TICKS/,
+expect(primitive, /isOnFire\(\)[\s\S]{0,80}source\.is\(DamageTypeTags\.IS_FIRE\)[\s\S]{0,160}fireAdaptationBlockTicks\s*=\s*FIRE_ADAPTATION_BLOCK_TICKS/,
   "fire adaptation suppression window is missing");
 expect(primitive, /tag\.put\(ADAPTATIONS_TAG, adaptations\)/,
   "adaptation NBT persistence is missing");
@@ -55,6 +58,14 @@ expect(primitive, /tag\.getList\(ADAPTATIONS_TAG, Tag\.TAG_COMPOUND\)/,
   "adaptation NBT loading is missing");
 expect(primitive, /EvolutionSystem\.generationProfile\(serverLevel\)\.adaptation\(\)/,
   "entity adaptation is not connected to the generation profile");
+expect(primitive, /damageAdaptations\.put\(damageId, adaptationHits\)[\s\S]{0,500}Math\.min\(maxDamageAdaptationHits\(\), adaptationHits\)/,
+  "newly learned adaptation points must reduce the current hit like SRP");
+expect(primitive, /ModSounds\.ADAPTATION_FULL[\s\S]{0,100}ModSounds\.ADAPTATION_PARTIAL/,
+  "partial/full adaptation feedback sounds are not played");
+expect(sounds, /ADAPTATION_PARTIAL\s*=\s*register\("adaptation\.parcial"\)/,
+  "partial adaptation sound event is not exposed");
+expect(sounds, /ADAPTATION_FULL\s*=\s*register\("adaptation\.full"\)/,
+  "full adaptation sound event is not exposed");
 expect(renderer, /Color\.ofRGBA\(64, 255, 64, 255\)/,
   "green partial-adaptation feedback is missing");
 expect(renderer, /Color\.ofRGBA\(255, 64, 255, 255\)/,

@@ -97,6 +97,8 @@ public final class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> DARK_DAYS_ENDING = register("celestial.dark_days_ending");
     public static final DeferredHolder<SoundEvent, SoundEvent> LURE_USE = register("lure.use");
     public static final DeferredHolder<SoundEvent, SoundEvent> CARCASS_USE = register("lure.carcass");
+    public static final DeferredHolder<SoundEvent, SoundEvent> ADAPTATION_PARTIAL = register("adaptation.parcial");
+    public static final DeferredHolder<SoundEvent, SoundEvent> ADAPTATION_FULL = register("adaptation.full");
 
     static {
         SoundEventCatalog.EVENTS.forEach(ModSounds::register);

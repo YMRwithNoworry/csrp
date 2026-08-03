@@ -3,6 +3,7 @@ package alku.csrp.entity;
 import alku.csrp.Config;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
+import alku.csrp.registry.ModSounds;
 import alku.csrp.world.EvolutionSystem;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -166,28 +167,35 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         if (source.is(DamageTypes.IN_WALL) || source.is(DamageTypes.FELL_OUT_OF_WORLD)) {
             return hurtWithIncomingDamageCap(source, amount);
         }
-        if (!level().isClientSide && (source.is(DamageTypes.IN_FIRE) || source.is(DamageTypes.ON_FIRE))
+        if (!level().isClientSide && (isOnFire() || source.is(DamageTypeTags.IS_FIRE))
                 && random.nextFloat() < fireAdaptationSuppressionChance()) {
             fireAdaptationBlockTicks = FIRE_ADAPTATION_BLOCK_TICKS;
         }
         String damageId = damageTypeId(source);
-        int previousHits = damageAdaptations.getOrDefault(damageId, 0);
-        float reduction = Math.min(1.0F, Math.min(maxDamageAdaptationHits(), previousHits)
-                * damageAdaptationPerHit() * damageAdaptationEffectiveness());
+        int adaptationHits = damageAdaptations.getOrDefault(damageId, 0);
         if (!level().isClientSide && adaptationLearningCooldown <= 0 && fireAdaptationBlockTicks <= 0
                 && (damageAdaptations.containsKey(damageId)
                 || damageAdaptations.size() < maxLearnableDamageSources())
-                && shouldLearnDamageSource(source, damageId, previousHits)) {
-            damageAdaptations.put(damageId, previousHits == Integer.MAX_VALUE ? previousHits : previousHits + 1);
+                && shouldLearnDamageSource(source, damageId, adaptationHits)) {
+            adaptationHits = adaptationHits == Integer.MAX_VALUE ? adaptationHits : adaptationHits + 1;
+            damageAdaptations.put(damageId, adaptationHits);
             adaptationLearningCooldown = NEW_DAMAGE_COOLDOWN_TICKS;
         }
-        if (!level().isClientSide && damageAdaptations.containsKey(damageId)) {
-            entityData.set(ADAPTATION_HIT_STATUS,
-                    damageAdaptations.get(damageId) <= maxDamageAdaptationHits() ? (byte) 1 : (byte) 2);
+        byte hitStatus = 0;
+        if (!level().isClientSide && adaptationHits > 0) {
+            hitStatus = adaptationHits <= maxDamageAdaptationHits() ? (byte) 1 : (byte) 2;
+            entityData.set(ADAPTATION_HIT_STATUS, hitStatus);
         }
+        float reduction = Math.min(1.0F, Math.min(maxDamageAdaptationHits(), adaptationHits)
+                * damageAdaptationPerHit() * damageAdaptationEffectiveness());
         float adaptedDamage = amount * (1.0F - reduction);
         lastDamageAdaptationReduction = Math.max(0.0F, amount - adaptedDamage);
-        return hurtWithIncomingDamageCap(source, adaptedDamage);
+        boolean hurt = hurtWithIncomingDamageCap(source, adaptedDamage);
+        if (hurt && !level().isClientSide && hitStatus != 0) {
+            playSound(hitStatus == 2 ? ModSounds.ADAPTATION_FULL.get() : ModSounds.ADAPTATION_PARTIAL.get(),
+                    getSoundVolume(), getVoicePitch());
+        }
+        return hurt;
     }
 
     private Holder<MobEffect> killingResistanceEffect() {
@@ -324,6 +332,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
             if (!heldItem.isEmpty()) {
                 return BuiltInRegistries.ITEM.getKey(heldItem.getItem()).toString();
             }
+            return source.getMsgId();
         }
         if (livingSource != null) {
             return BuiltInRegistries.ENTITY_TYPE.getKey(livingSource.getType()).toString();
