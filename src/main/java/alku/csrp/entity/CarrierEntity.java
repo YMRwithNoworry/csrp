@@ -151,7 +151,7 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity {
         for (int y = 0; y <= 6; y++) {
             BlockPos candidate = start.below(y);
             if (level().isEmptyBlock(candidate) && !level().isEmptyBlock(candidate.below())) {
-                level().setBlock(candidate, ModBlocks.RESIDUE_PLANTS.get().defaultBlockState(), 3);
+                level().setBlock(candidate, ModBlocks.INFESTED_REMAINS.get().defaultBlockState(), 3);
                 return;
             }
         }

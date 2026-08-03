@@ -1,7 +1,10 @@
 {
   "variants": {
-    "": {
-      "model": "csrp:block/residue_plant_cross_1"
-    }
+    "facing=down": [{"model":"csrp:block/residue_plant_cross_1","x":180},{"model":"csrp:block/residue_plant_cross_2","x":180},{"model":"csrp:block/residue_plant_cross_3","x":180}],
+    "facing=up": [{"model":"csrp:block/residue_plant_cross_1"},{"model":"csrp:block/residue_plant_cross_2"},{"model":"csrp:block/residue_plant_cross_3"}],
+    "facing=north": [{"model":"csrp:block/residue_plant_cross_1","x":270,"y":180},{"model":"csrp:block/residue_plant_cross_2","x":270,"y":180},{"model":"csrp:block/residue_plant_cross_3","x":270,"y":180}],
+    "facing=south": [{"model":"csrp:block/residue_plant_cross_1","x":270},{"model":"csrp:block/residue_plant_cross_2","x":270},{"model":"csrp:block/residue_plant_cross_3","x":270}],
+    "facing=west": [{"model":"csrp:block/residue_plant_cross_1","x":270,"y":90},{"model":"csrp:block/residue_plant_cross_2","x":270,"y":90},{"model":"csrp:block/residue_plant_cross_3","x":270,"y":90}],
+    "facing=east": [{"model":"csrp:block/residue_plant_cross_1","x":270,"y":270},{"model":"csrp:block/residue_plant_cross_2","x":270,"y":270},{"model":"csrp:block/residue_plant_cross_3","x":270,"y":270}]
   }
 }

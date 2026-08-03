@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": {"model": "csrp:block/residue_block_base"}
+  }
+}

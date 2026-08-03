@@ -294,6 +294,10 @@ public final class ModItems {
     public static final DeferredItem<BlockItem> TUNNEL = ITEMS.registerSimpleBlockItem("tunnel", ModBlocks.TUNNEL);
     public static final DeferredItem<BlockItem> RESIDUE_PLANTS = ITEMS.registerSimpleBlockItem(
             "residue_plants", ModBlocks.RESIDUE_PLANTS);
+    public static final DeferredItem<BlockItem> RESIDUE_BLOCK = ITEMS.registerSimpleBlockItem(
+            "residue_block", ModBlocks.RESIDUE_BLOCK);
+    public static final DeferredItem<BlockItem> INFESTED_REMAINS = ITEMS.registerSimpleBlockItem(
+            "infestremain", ModBlocks.INFESTED_REMAINS);
     public static final DeferredItem<BlockItem> INFESTED_STAIN = ITEMS.registerSimpleBlockItem(
             "infestedstain", ModBlocks.INFESTED_STAIN);
     public static final DeferredItem<BlockItem> INFESTED_RUBBLE = ITEMS.registerSimpleBlockItem(

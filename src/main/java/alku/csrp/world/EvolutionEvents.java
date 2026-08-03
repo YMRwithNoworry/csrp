@@ -4,7 +4,6 @@ import alku.csrp.Csrp;
 import alku.csrp.entity.Parasite;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModBlocks;
-import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -38,9 +37,6 @@ public final class EvolutionEvents {
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "phase_ten_health");
     private static final ResourceLocation PHASE_TEN_DAMAGE =
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "phase_ten_damage");
-    private static final float[] REINFORCEMENT_CHANCE = {
-            0.0F, 0.0F, 0.0F, 0.04F, 0.06F, 0.08F, 0.10F, 0.14F, 0.16F, 0.18F, 0.20F
-    };
 
     private EvolutionEvents() {
     }
@@ -63,15 +59,6 @@ public final class EvolutionEvents {
             int penalty = EvolutionSystem.parasiteDeathPenalty(event.getEntity());
             if (penalty > 0) {
                 EvolutionSystem.addPoints(level, -penalty, EvolutionSystem.PointSource.PARASITE_DEATH);
-            }
-            int phase = SrpWorldData.get(level).evolutionPhase();
-            if (phase >= 3 && level.random.nextFloat() < REINFORCEMENT_CHANCE[Math.min(10, phase)]) {
-                var reinforcement = ModEntities.BECKON_SI.get().create(level);
-                if (reinforcement != null) {
-                    reinforcement.moveTo(event.getEntity().getX(), event.getEntity().getY(),
-                            event.getEntity().getZ(), level.random.nextFloat() * 360.0F, 0.0F);
-                    level.addFreshEntity(reinforcement);
-                }
             }
             return;
         }

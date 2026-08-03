@@ -6,6 +6,8 @@ import alku.csrp.block.BiomeHeartBlock;
 import alku.csrp.block.ColonyHeartBlock;
 import alku.csrp.block.ColonyStructureBlock;
 import alku.csrp.block.ResidueBlock;
+import alku.csrp.block.ResidueBloomingBlock;
+import alku.csrp.block.InfestedResidueBlock;
 import alku.csrp.block.InfestationPurifierBlock;
 import alku.csrp.block.EvolutionLureBlock;
 import net.minecraft.world.level.block.Block;
@@ -26,7 +28,7 @@ public final class ModBlocks {
                     .strength(0.5F)
                     .sound(SoundType.SCULK)));
 
-    public static final DeferredBlock<ResidueBlock> RESIDUE_PLANTS = BLOCKS.register("residue_plants", () -> new ResidueBlock(
+    public static final DeferredBlock<ResidueBloomingBlock> RESIDUE_PLANTS = BLOCKS.register("residue_plants", () -> new ResidueBloomingBlock(
             BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_RED)
                     .noCollission()
@@ -34,6 +36,12 @@ public final class ModBlocks {
                     .randomTicks()
                     .instabreak()
                     .sound(SoundType.GRASS)));
+    public static final DeferredBlock<ResidueBlock> RESIDUE_BLOCK = BLOCKS.register("residue_block", () -> new ResidueBlock(
+            BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.5F, 6.0F)
+                    .sound(SoundType.ROOTED_DIRT)));
+    public static final DeferredBlock<InfestedResidueBlock> INFESTED_REMAINS = BLOCKS.register("infestremain", () ->
+            new InfestedResidueBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
+                    .noCollission().noOcclusion().randomTicks().instabreak().sound(SoundType.ROOTED_DIRT)));
 
     public static final DeferredBlock<InfestedBlock> INFESTED_STAIN = infested("infestedstain", MapColor.COLOR_RED, SoundType.ROOTED_DIRT);
     public static final DeferredBlock<InfestedBlock> INFESTED_RUBBLE = infested("infestedrubble", MapColor.COLOR_RED, SoundType.STONE);

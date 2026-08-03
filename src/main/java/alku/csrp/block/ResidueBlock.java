@@ -1,56 +1,39 @@
 package alku.csrp.block;
 
-import alku.csrp.registry.ModEntities;
-import alku.csrp.world.SrpWorldData;
+import alku.csrp.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
-/** Residue periodically attempts to create the phase-dependent reinforcement nexus. */
+/** Solid residue grows residue bloomings on exposed faces. */
 public final class ResidueBlock extends Block {
-    private static final int[] REINFORCEMENT_INTERVAL = {
-            0, 0, 0, 5_500, 4_000, 1_000, 500, 400, 300, 250, 150
-    };
-
     public ResidueBlock(Properties properties) {
-        super(properties);
-    }
-
-    @Override
-    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
-        super.onPlace(state, level, pos, oldState, movedByPiston);
-        if (!level.isClientSide && !state.is(oldState.getBlock())) {
-            level.scheduleTick(pos, this, 1);
-        }
-    }
-
-    @Override
-    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-        int phase = SrpWorldData.get(level).evolutionPhase();
-        if (phase >= 3 && random.nextInt(REINFORCEMENT_INTERVAL[Math.min(10, phase)]) == 0) {
-            var reinforcement = ModEntities.BECKON_SI.get().create(level);
-            BlockPos spawnPos = pos.above();
-            if (reinforcement != null && level.getBlockState(spawnPos).isAir()) {
-                reinforcement.moveTo(spawnPos.getX() + 0.5D, spawnPos.getY(), spawnPos.getZ() + 0.5D,
-                        random.nextFloat() * 360.0F, 0.0F);
-                reinforcement.finalizeSpawn(level, level.getCurrentDifficultyAt(spawnPos),
-                        MobSpawnType.MOB_SUMMONED, null);
-                if (!level.noCollision(reinforcement)) {
-                    reinforcement.discard();
-                } else {
-                    level.addFreshEntity(reinforcement);
-                }
-            }
-        }
-        level.scheduleTick(pos, this, 1);
+        super(properties.randomTicks());
     }
 
     @Override
     protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-        level.scheduleTick(pos, this, 1);
+        if (random.nextInt(16) != 0) {
+            return;
+        }
+        Direction[] directions = Direction.values();
+        for (int attempt = 0; attempt < 3; attempt++) {
+            Direction direction = directions[random.nextInt(directions.length)];
+            BlockPos target = pos.relative(direction);
+            BlockState blooming = ModBlocks.RESIDUE_PLANTS.get().defaultBlockState()
+                    .setValue(ResidueBloomingBlock.FACING, direction);
+            if (level.getBlockState(target).isAir() && blooming.canSurvive(level, target)) {
+                level.setBlock(target, blooming, Block.UPDATE_CLIENTS);
+            }
+        }
+    }
+
+    @Override
+    protected void entityInside(BlockState state, net.minecraft.world.level.Level level, BlockPos pos, Entity entity) {
+        entity.setDeltaMovement(entity.getDeltaMovement().multiply(0.5D, 1.0D, 0.5D));
     }
 }

@@ -1,6 +1,7 @@
 package alku.csrp.block;
 
 import alku.csrp.infection.BlockInfestation;
+import alku.csrp.world.ReinforcementSystem;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -33,5 +34,6 @@ public final class InfestedBlock extends Block {
     @Override
     protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         BlockInfestation.spread(level, pos, state.getValue(STAGE), random);
+        ReinforcementSystem.tryFromInfestedBlock(level, pos, random);
     }
 }

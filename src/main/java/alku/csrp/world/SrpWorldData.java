@@ -31,6 +31,7 @@ public final class SrpWorldData extends SavedData {
     private double passivePointRemainder;
     private int ubiquitousDevelopment;
     private long dislodgmentTriggerCooldownEnd;
+    private long reinforcementCooldownEnd;
     private final List<Integer> lockedParasites = new ArrayList<>();
     private final List<NodeEntry> nodes = new ArrayList<>();
     private final List<ColonyEntry> colonies = new ArrayList<>();
@@ -62,6 +63,7 @@ public final class SrpWorldData extends SavedData {
         data.passivePointRemainder = tag.getDouble("passive_point_remainder");
         data.ubiquitousDevelopment = tag.getInt("ubiquitous_development");
         data.dislodgmentTriggerCooldownEnd = tag.getLong("dislodgment_trigger_cooldown_end");
+        data.reinforcementCooldownEnd = tag.getLong("reinforcement_cooldown_end");
         long[] dislodgmentCooldowns = tag.getLongArray("dislodgment_cooldown_ends");
         System.arraycopy(dislodgmentCooldowns, 0, data.dislodgmentCooldownEnds, 0,
                 Math.min(dislodgmentCooldowns.length, data.dislodgmentCooldownEnds.length));
@@ -90,6 +92,7 @@ public final class SrpWorldData extends SavedData {
         tag.putDouble("passive_point_remainder", passivePointRemainder);
         tag.putInt("ubiquitous_development", ubiquitousDevelopment);
         tag.putLong("dislodgment_trigger_cooldown_end", dislodgmentTriggerCooldownEnd);
+        tag.putLong("reinforcement_cooldown_end", reinforcementCooldownEnd);
         tag.putLongArray("dislodgment_cooldown_ends", dislodgmentCooldownEnds);
         tag.putIntArray("locked_parasites", lockedParasites);
         writeNodes(tag, nodes);
@@ -305,6 +308,15 @@ public final class SrpWorldData extends SavedData {
 
     public int totalColonyPoints() {
         return Math.min(Config.colonyTotalPointCap(), colonies.stream().mapToInt(ColonyEntry::points).sum());
+    }
+
+    public boolean reinforcementReady(ServerLevel level) {
+        return level.getGameTime() >= reinforcementCooldownEnd;
+    }
+
+    public void startReinforcementCooldown(ServerLevel level, int ticks) {
+        reinforcementCooldownEnd = level.getGameTime() + ticks;
+        setDirty();
     }
 
     public ColonyEntry nearestColonyInEffectRange(BlockPos pos) {

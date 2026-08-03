@@ -1,0 +1,18 @@
+{
+  "textures": {
+    "particle": "csrp:block/infestremain",
+    "texture": "csrp:block/infestremain"
+  },
+  "elements": [{
+    "from": [0, 0, 0],
+    "to": [16, 2, 16],
+    "faces": {
+      "down": {"texture":"#texture","cullface":"down"},
+      "up": {"texture":"#texture"},
+      "north": {"uv":[0,14,16,16],"texture":"#texture"},
+      "south": {"uv":[0,14,16,16],"texture":"#texture"},
+      "west": {"uv":[0,14,16,16],"texture":"#texture"},
+      "east": {"uv":[0,14,16,16],"texture":"#texture"}
+    }
+  }]
+}
