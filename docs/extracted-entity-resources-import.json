@@ -1939,6 +1939,11 @@
       "source": "textures/entity/monster/dragoneh.png"
     },
     {
+      "target": "sim_dragonhead.png",
+      "entity": "sim_dragonehead",
+      "source": "textures/entity/monster/dragoneh.png"
+    },
+    {
       "target": "sim_enderman.png",
       "entity": "sim_enderman",
       "source": "textures/entity/monster/infenderman.png"
@@ -2072,6 +2077,11 @@
       "target": "terla.png",
       "entity": "anc_overlord",
       "source": "textures/entity/monster/terla.png"
+    },
+    {
+      "target": "test.png",
+      "entity": "mar_bear",
+      "source": "textures/entity/monster/test.png"
     },
     {
       "target": "testb.png",
