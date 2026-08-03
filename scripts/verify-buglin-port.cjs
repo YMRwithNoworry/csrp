@@ -26,6 +26,7 @@ const sounds = read("src/main/java/alku/csrp/registry/ModSounds.java");
 const evolution = read("src/main/java/alku/csrp/entity/BuglinEvolutionTarget.java");
 const client = read("src/main/java/alku/csrp/client/ClientModEvents.java");
 const model = read("src/main/java/alku/csrp/client/model/BuglinModel.java");
+const animationResolver = read("src/main/java/alku/csrp/entity/ParasiteAnimations.java");
 const geo = read("src/main/resources/assets/csrp/geo/buglin.geo.json");
 const animations = read("src/main/resources/assets/csrp/animations/buglin.animation.json");
 
@@ -57,10 +58,14 @@ expect(evolution, /registerRupter/, "Rupter evolution registration contract is m
 expect(client, /BuglinRenderer/, "Buglin renderer is not registered");
 expect(model, /geo\/buglin\.geo\.json/, "Buglin geometry is not wired");
 expect(model, /animations\/buglin\.animation\.json/, "Buglin animations are not wired");
-expect(geo, /"identifier"\s*:\s*"geometry\.buglin"/, "Buglin geometry identifier is wrong");
-for (const animation of ["idle", "walk", "run", "spawn"]) {
-    expect(animations, new RegExp(`"${animation}"\\s*:`), `missing ${animation} animation`);
+expect(geo, /"identifier"\s*:\s*"geometry\.srparasites\.buglin"/, "Buglin geometry identifier is wrong");
+for (const animation of ["idle", "walk", "attack"]) {
+    expect(animations, new RegExp(`"animation\\.buglin\\.${animation}"\\s*:`),
+            `missing extracted ${animation} animation`);
 }
+expect(animationResolver, /case "run", "fly" -> "walk"/, "run animation is not mapped to extracted walk");
+expect(animationResolver, /case "spawn", "rush", "throw", "smash", "swipe" -> "attack"/,
+        "spawn animation is not mapped to extracted attack");
 for (const sound of ["lodo.growl", "lodo.hurt", "lodo.death", "lodo.mudo", "lodo.emerge"]) {
     expect(sounds, new RegExp(`register\\("${sound.replace(".", "\\.")}"\\)`), `missing ${sound} sound registration`);
 }

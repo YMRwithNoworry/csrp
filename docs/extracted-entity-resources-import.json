@@ -1,0 +1,2240 @@
+{
+  "source_jar": "SRParasites-1.10.7.jar",
+  "source_sha256": "de0a4cabde5f819c1f484e05a62ac0587546aa194ca68ac70ebe438028b0ebee",
+  "animation_mode": "molang_source_transcription",
+  "exported_entities": 124,
+  "copied_extracted_textures": 212,
+  "skipped_entities": [
+    {
+      "registry_id": "abo_head",
+      "diagnostics": [
+        "No registered renderer found"
+      ]
+    },
+    {
+      "registry_id": "carrier_worm",
+      "diagnostics": [
+        "No registered renderer found"
+      ]
+    },
+    {
+      "registry_id": "seeker",
+      "diagnostics": [
+        "No registered renderer found"
+      ]
+    }
+  ],
+  "primary_textures": [
+    {
+      "entity": "sim_bigspider",
+      "source": "textures/entity/monster/dorpa.png"
+    },
+    {
+      "entity": "sim_squid",
+      "source": "textures/entity/monster/squid.png"
+    },
+    {
+      "entity": "sim_human",
+      "source": "textures/entity/monster/human.png"
+    },
+    {
+      "entity": "sim_cow",
+      "source": "textures/entity/monster/cow.png"
+    },
+    {
+      "entity": "sim_sheep",
+      "source": "textures/entity/monster/sheep.png"
+    },
+    {
+      "entity": "sim_wolf",
+      "source": "textures/entity/monster/wolf.png"
+    },
+    {
+      "entity": "sim_pig",
+      "source": "textures/entity/monster/pig.png"
+    },
+    {
+      "entity": "sim_villager",
+      "source": "textures/entity/monster/villager.png"
+    },
+    {
+      "entity": "sim_adventurer",
+      "source": "textures/entity/monster/infplayer.png"
+    },
+    {
+      "entity": "sim_horse",
+      "source": "textures/entity/monster/infhorse.png"
+    },
+    {
+      "entity": "sim_bear",
+      "source": "textures/entity/monster/infbear.png"
+    },
+    {
+      "entity": "sim_enderman",
+      "source": "textures/entity/monster/infenderman.png"
+    },
+    {
+      "entity": "sim_dragone",
+      "source": "textures/entity/monster/infdragone.png"
+    },
+    {
+      "entity": "sim_sheephead",
+      "source": "textures/entity/monster/sheeph.png"
+    },
+    {
+      "entity": "sim_wolfhead",
+      "source": "textures/entity/monster/wolfh.png"
+    },
+    {
+      "entity": "sim_cowhead",
+      "source": "textures/entity/monster/cowh.png"
+    },
+    {
+      "entity": "sim_pighead",
+      "source": "textures/entity/monster/pigh.png"
+    },
+    {
+      "entity": "sim_villagerhead",
+      "source": "textures/entity/monster/villagerh.png"
+    },
+    {
+      "entity": "sim_horsehead",
+      "source": "textures/entity/monster/horseh.png"
+    },
+    {
+      "entity": "sim_humanhead",
+      "source": "textures/entity/monster/humanh.png"
+    },
+    {
+      "entity": "sim_endermanhead",
+      "source": "textures/entity/monster/endermanh.png"
+    },
+    {
+      "entity": "sim_dragonehead",
+      "source": "textures/entity/monster/dragoneh.png"
+    },
+    {
+      "entity": "sim_adventurerhead",
+      "source": "textures/entity/monster/playerh.png"
+    },
+    {
+      "entity": "mar_enderman",
+      "source": "textures/entity/monster/speenderman.png"
+    },
+    {
+      "entity": "mar_cow",
+      "source": "textures/entity/monster/specow.png"
+    },
+    {
+      "entity": "mar_villager",
+      "source": "textures/entity/monster/spevillager.png"
+    },
+    {
+      "entity": "mar_human",
+      "source": "textures/entity/monster/spehuman.png"
+    },
+    {
+      "entity": "mar_sheep",
+      "source": "textures/entity/monster/spesheep.png"
+    },
+    {
+      "entity": "mar_bear",
+      "source": "textures/entity/monster/spebear.png"
+    },
+    {
+      "entity": "fer_bear",
+      "source": "textures/entity/monster/ferbear.png"
+    },
+    {
+      "entity": "fer_cow",
+      "source": "textures/entity/monster/fercow.png"
+    },
+    {
+      "entity": "fer_enderman",
+      "source": "textures/entity/monster/ferenderman.png"
+    },
+    {
+      "entity": "fer_horse",
+      "source": "textures/entity/monster/ferhorse.png"
+    },
+    {
+      "entity": "fer_human",
+      "source": "textures/entity/monster/ferhuman.png"
+    },
+    {
+      "entity": "fer_pig",
+      "source": "textures/entity/monster/ferpig.png"
+    },
+    {
+      "entity": "fer_sheep",
+      "source": "textures/entity/monster/fersheep.png"
+    },
+    {
+      "entity": "fer_villager",
+      "source": "textures/entity/monster/fervillager.png"
+    },
+    {
+      "entity": "fer_wolf",
+      "source": "textures/entity/monster/ferwolf.png"
+    },
+    {
+      "entity": "abo_bodies",
+      "source": "textures/entity/monster/abobodies.png"
+    },
+    {
+      "entity": "hi_blaze",
+      "source": "textures/entity/monster/hiblaze.png"
+    },
+    {
+      "entity": "hi_golem",
+      "source": "textures/entity/monster/higolem.png"
+    },
+    {
+      "entity": "hi_skeleton",
+      "source": "textures/entity/monster/hiskeleton.png"
+    },
+    {
+      "entity": "carrier_heavy",
+      "source": "textures/entity/monster/rathol.png"
+    },
+    {
+      "entity": "carrier_light",
+      "source": "textures/entity/monster/gothol.png"
+    },
+    {
+      "entity": "buglin",
+      "source": "textures/entity/monster/lodo.png"
+    },
+    {
+      "entity": "carrier_flying",
+      "source": "textures/entity/monster/buthol.png"
+    },
+    {
+      "entity": "rupter",
+      "source": "textures/entity/monster/mudo.png"
+    },
+    {
+      "entity": "movingflesh",
+      "source": "textures/entity/monster/lesh.png"
+    },
+    {
+      "entity": "worker",
+      "source": "textures/entity/monster/kol.png"
+    },
+    {
+      "entity": "mangler",
+      "source": "textures/entity/monster/nuuh.png"
+    },
+    {
+      "entity": "gnat",
+      "source": "textures/entity/monster/gnat.png"
+    },
+    {
+      "entity": "lice",
+      "source": "textures/entity/monster/lice.png"
+    },
+    {
+      "entity": "beckon_si",
+      "source": "textures/entity/monster/venkrol.png"
+    },
+    {
+      "entity": "beckon_sii",
+      "source": "textures/entity/monster/venkrolsii.png"
+    },
+    {
+      "entity": "beckon_siii",
+      "source": "textures/entity/monster/venkrolsiii.png"
+    },
+    {
+      "entity": "beckon_siv",
+      "source": "textures/entity/monster/venkrolsiv.png"
+    },
+    {
+      "entity": "dispatcherten",
+      "source": "textures/entity/monster/dodt.png"
+    },
+    {
+      "entity": "dispatcher_si",
+      "source": "textures/entity/monster/dod.png"
+    },
+    {
+      "entity": "dispatcher_sii",
+      "source": "textures/entity/monster/dodsii.png"
+    },
+    {
+      "entity": "dispatcher_siii",
+      "source": "textures/entity/monster/dodsiii.png"
+    },
+    {
+      "entity": "dispatcher_siv",
+      "source": "textures/entity/monster/dodsiv.png"
+    },
+    {
+      "entity": "rooterball",
+      "source": "textures/entity/monster/leemb.png"
+    },
+    {
+      "entity": "rooter_si",
+      "source": "textures/entity/monster/leem.png"
+    },
+    {
+      "entity": "rooter_sii",
+      "source": "textures/entity/monster/leemsii.png"
+    },
+    {
+      "entity": "rooter_siii",
+      "source": "textures/entity/monster/leemsiii.png"
+    },
+    {
+      "entity": "rooter_siv",
+      "source": "textures/entity/monster/leemsiv.png"
+    },
+    {
+      "entity": "kyphosis",
+      "source": "textures/entity/monster/tonro.png"
+    },
+    {
+      "entity": "sentry",
+      "source": "textures/entity/monster/unvo.png"
+    },
+    {
+      "entity": "seizer",
+      "source": "textures/entity/monster/nak.png"
+    },
+    {
+      "entity": "worm",
+      "source": "textures/entity/monster/rof.png"
+    },
+    {
+      "entity": "incompleteform_small",
+      "source": "textures/entity/monster/inhoos.png"
+    },
+    {
+      "entity": "incompleteform_medium",
+      "source": "textures/entity/monster/inhoom.png"
+    },
+    {
+      "entity": "host",
+      "source": "textures/entity/monster/host.png"
+    },
+    {
+      "entity": "hostii",
+      "source": "textures/entity/monster/hostii.png"
+    },
+    {
+      "entity": "heed",
+      "source": "textures/entity/monster/heed.png"
+    },
+    {
+      "entity": "crux",
+      "source": "textures/entity/monster/cruxa.png"
+    },
+    {
+      "entity": "crux_incomplete",
+      "source": "textures/entity/monster/cruxb.png"
+    },
+    {
+      "entity": "thrall",
+      "source": "textures/entity/monster/mes.png"
+    },
+    {
+      "entity": "dredge",
+      "source": "textures/entity/monster/done.png"
+    },
+    {
+      "entity": "airscrew",
+      "source": "textures/entity/monster/leer.png"
+    },
+    {
+      "entity": "pri_longarms",
+      "source": "textures/entity/monster/shyco.png"
+    },
+    {
+      "entity": "pri_manducater",
+      "source": "textures/entity/monster/hull.png"
+    },
+    {
+      "entity": "pri_reeker",
+      "source": "textures/entity/monster/nogla.png"
+    },
+    {
+      "entity": "pri_yelloweye",
+      "source": "textures/entity/monster/emana.png"
+    },
+    {
+      "entity": "pri_summoner",
+      "source": "textures/entity/monster/canra.png"
+    },
+    {
+      "entity": "pri_bolster",
+      "source": "textures/entity/monster/bano.png"
+    },
+    {
+      "entity": "pri_tozoon",
+      "source": "textures/entity/monster/wymo.png"
+    },
+    {
+      "entity": "pri_arachnida",
+      "source": "textures/entity/monster/ranrac.png"
+    },
+    {
+      "entity": "pri_devourer",
+      "source": "textures/entity/monster/lum.png"
+    },
+    {
+      "entity": "pri_vermin",
+      "source": "textures/entity/monster/vermin.png"
+    },
+    {
+      "entity": "pri_viscera",
+      "source": "textures/entity/monster/gim.png"
+    },
+    {
+      "entity": "pri_burrower",
+      "source": "textures/entity/monster/zaa.png"
+    },
+    {
+      "entity": "ada_longarms",
+      "source": "textures/entity/monster/shycoa.png"
+    },
+    {
+      "entity": "ada_manducater",
+      "source": "textures/entity/monster/hulla_old.png"
+    },
+    {
+      "entity": "ada_reeker",
+      "source": "textures/entity/monster/noglaa.png"
+    },
+    {
+      "entity": "ada_yelloweye",
+      "source": "textures/entity/monster/emanaa.png"
+    },
+    {
+      "entity": "ada_summoner",
+      "source": "textures/entity/monster/canraa.png"
+    },
+    {
+      "entity": "ada_bolster",
+      "source": "textures/entity/monster/banoa.png"
+    },
+    {
+      "entity": "ada_tozoon",
+      "source": "textures/entity/monster/wymoa.png"
+    },
+    {
+      "entity": "ada_arachnida",
+      "source": "textures/entity/monster/ranraca.png"
+    },
+    {
+      "entity": "ada_devourer",
+      "source": "textures/entity/monster/luma.png"
+    },
+    {
+      "entity": "ada_vermin",
+      "source": "textures/entity/monster/ikia.png"
+    },
+    {
+      "entity": "ada_viscera",
+      "source": "textures/entity/monster/gima.png"
+    },
+    {
+      "entity": "ada_burrower",
+      "source": "textures/entity/monster/zaaa.png"
+    },
+    {
+      "entity": "overseer",
+      "source": "textures/entity/monster/alafha.png"
+    },
+    {
+      "entity": "vigilante",
+      "source": "textures/entity/monster/anged.png"
+    },
+    {
+      "entity": "warden",
+      "source": "textures/entity/monster/ganro.png"
+    },
+    {
+      "entity": "bomber_light",
+      "source": "textures/entity/monster/omboo.png"
+    },
+    {
+      "entity": "marauder",
+      "source": "textures/entity/monster/esor.png"
+    },
+    {
+      "entity": "monarch",
+      "source": "textures/entity/monster/orch.png"
+    },
+    {
+      "entity": "grunt",
+      "source": "textures/entity/monster/flog.png"
+    },
+    {
+      "entity": "bomber_heavy",
+      "source": "textures/entity/monster/jinjo.png"
+    },
+    {
+      "entity": "wraith",
+      "source": "textures/entity/monster/elvia.png"
+    },
+    {
+      "entity": "bogle",
+      "source": "textures/entity/monster/lencia.png"
+    },
+    {
+      "entity": "haunter",
+      "source": "textures/entity/monster/pheon.png"
+    },
+    {
+      "entity": "carrier_colony",
+      "source": "textures/entity/monster/vesta.png"
+    },
+    {
+      "entity": "succor",
+      "source": "textures/entity/monster/flam.png"
+    },
+    {
+      "entity": "architect",
+      "source": "textures/entity/monster/test.png"
+    },
+    {
+      "entity": "anc_dreadnaut",
+      "source": "textures/entity/monster/oronco.png"
+    },
+    {
+      "entity": "anc_overlord",
+      "source": "textures/entity/monster/terla.png"
+    },
+    {
+      "entity": "anc_pod",
+      "source": "textures/entity/monster/ancientpod.png"
+    },
+    {
+      "entity": "anc_dreadnaut_ten",
+      "source": "textures/entity/monster/oroncoten0.png"
+    },
+    {
+      "entity": "kirin",
+      "source": "textures/entity/monster/kirin.png"
+    },
+    {
+      "entity": "draconite",
+      "source": "textures/entity/monster/heblu.png"
+    }
+  ],
+  "preserved_flat_aliases": [
+    {
+      "target": "abobodies.png",
+      "entity": "abo_bodies",
+      "source": "textures/entity/monster/abobodies.png"
+    },
+    {
+      "target": "abo_bodies.png",
+      "entity": "abo_bodies",
+      "source": "textures/entity/monster/abobodies.png"
+    },
+    {
+      "target": "ada_arachnida.png",
+      "entity": "ada_arachnida",
+      "source": "textures/entity/monster/ranraca.png"
+    },
+    {
+      "target": "ada_bolster.png",
+      "entity": "ada_bolster",
+      "source": "textures/entity/monster/banoa.png"
+    },
+    {
+      "target": "ada_burrower.png",
+      "entity": "ada_burrower",
+      "source": "textures/entity/monster/zaaa.png"
+    },
+    {
+      "target": "ada_devourer.png",
+      "entity": "ada_devourer",
+      "source": "textures/entity/monster/luma.png"
+    },
+    {
+      "target": "ada_longarms.png",
+      "entity": "ada_longarms",
+      "source": "textures/entity/monster/shycoa.png"
+    },
+    {
+      "target": "ada_manducater.png",
+      "entity": "ada_manducater",
+      "source": "textures/entity/monster/hulla_old.png"
+    },
+    {
+      "target": "ada_reeker.png",
+      "entity": "ada_reeker",
+      "source": "textures/entity/monster/noglaa.png"
+    },
+    {
+      "target": "ada_summoner.png",
+      "entity": "ada_summoner",
+      "source": "textures/entity/monster/canraa.png"
+    },
+    {
+      "target": "ada_tozoon.png",
+      "entity": "ada_tozoon",
+      "source": "textures/entity/monster/wymoa.png"
+    },
+    {
+      "target": "ada_vermin.png",
+      "entity": "ada_vermin",
+      "source": "textures/entity/monster/ikia.png"
+    },
+    {
+      "target": "ada_viscera.png",
+      "entity": "ada_viscera",
+      "source": "textures/entity/monster/gima.png"
+    },
+    {
+      "target": "ada_yelloweye.png",
+      "entity": "ada_yelloweye",
+      "source": "textures/entity/monster/emanaa.png"
+    },
+    {
+      "target": "airscrew.png",
+      "entity": "airscrew",
+      "source": "textures/entity/monster/leer.png"
+    },
+    {
+      "target": "airscrew_tether.png",
+      "entity": "mar_bear",
+      "source": "textures/entity/monster/test.png"
+    },
+    {
+      "target": "alafha.png",
+      "entity": "overseer",
+      "source": "textures/entity/monster/alafha.png"
+    },
+    {
+      "target": "alafhah.png",
+      "entity": "overseer",
+      "source": "textures/entity/monster/alafhah.png"
+    },
+    {
+      "target": "ancientpod.png",
+      "entity": "anc_pod",
+      "source": "textures/entity/monster/ancientpod.png"
+    },
+    {
+      "target": "anc_dreadnaut.png",
+      "entity": "anc_dreadnaut",
+      "source": "textures/entity/monster/oronco.png"
+    },
+    {
+      "target": "anc_dreadnaut_ten.png",
+      "entity": "anc_dreadnaut_ten",
+      "source": "textures/entity/monster/oroncoten0.png"
+    },
+    {
+      "target": "anc_overlord.png",
+      "entity": "anc_overlord",
+      "source": "textures/entity/monster/terla.png"
+    },
+    {
+      "target": "anc_pod.png",
+      "entity": "anc_pod",
+      "source": "textures/entity/monster/ancientpod.png"
+    },
+    {
+      "target": "anged.png",
+      "entity": "vigilante",
+      "source": "textures/entity/monster/anged.png"
+    },
+    {
+      "target": "angedh.png",
+      "entity": "vigilante",
+      "source": "textures/entity/monster/angedh.png"
+    },
+    {
+      "target": "architect.png",
+      "entity": "mar_bear",
+      "source": "textures/entity/monster/test.png"
+    },
+    {
+      "target": "bano.png",
+      "entity": "pri_bolster",
+      "source": "textures/entity/monster/bano.png"
+    },
+    {
+      "target": "banoa.png",
+      "entity": "ada_bolster",
+      "source": "textures/entity/monster/banoa.png"
+    },
+    {
+      "target": "banoab.png",
+      "entity": "ada_bolster",
+      "source": "textures/entity/monster/banoab.png"
+    },
+    {
+      "target": "banoah.png",
+      "entity": "ada_bolster",
+      "source": "textures/entity/monster/banoah.png"
+    },
+    {
+      "target": "banoav.png",
+      "entity": "ada_bolster",
+      "source": "textures/entity/monster/banoav.png"
+    },
+    {
+      "target": "banoh.png",
+      "entity": "pri_bolster",
+      "source": "textures/entity/monster/banoh.png"
+    },
+    {
+      "target": "banov.png",
+      "entity": "pri_bolster",
+      "source": "textures/entity/monster/banov.png"
+    },
+    {
+      "target": "beckon_si.png",
+      "entity": "beckon_si",
+      "source": "textures/entity/monster/venkrol.png"
+    },
+    {
+      "target": "beckon_sii.png",
+      "entity": "beckon_sii",
+      "source": "textures/entity/monster/venkrolsii.png"
+    },
+    {
+      "target": "beckon_siii.png",
+      "entity": "beckon_siii",
+      "source": "textures/entity/monster/venkrolsiii.png"
+    },
+    {
+      "target": "beckon_siv.png",
+      "entity": "beckon_siv",
+      "source": "textures/entity/monster/venkrolsiv.png"
+    },
+    {
+      "target": "bogle.png",
+      "entity": "bogle",
+      "source": "textures/entity/monster/lencia.png"
+    },
+    {
+      "target": "bomber_heavy.png",
+      "entity": "bomber_heavy",
+      "source": "textures/entity/monster/jinjo.png"
+    },
+    {
+      "target": "bomber_light.png",
+      "entity": "bomber_light",
+      "source": "textures/entity/monster/omboo.png"
+    },
+    {
+      "target": "buglin.png",
+      "entity": "buglin",
+      "source": "textures/entity/monster/lodo.png"
+    },
+    {
+      "target": "buthol.png",
+      "entity": "carrier_flying",
+      "source": "textures/entity/monster/buthol.png"
+    },
+    {
+      "target": "butholone.png",
+      "entity": "carrier_flying",
+      "source": "textures/entity/monster/buthol.png"
+    },
+    {
+      "target": "canra.png",
+      "entity": "pri_summoner",
+      "source": "textures/entity/monster/canra.png"
+    },
+    {
+      "target": "canraa.png",
+      "entity": "ada_summoner",
+      "source": "textures/entity/monster/canraa.png"
+    },
+    {
+      "target": "canraab.png",
+      "entity": "ada_summoner",
+      "source": "textures/entity/monster/canraab.png"
+    },
+    {
+      "target": "canraah.png",
+      "entity": "ada_summoner",
+      "source": "textures/entity/monster/canraah.png"
+    },
+    {
+      "target": "canraav.png",
+      "entity": "ada_summoner",
+      "source": "textures/entity/monster/canraav.png"
+    },
+    {
+      "target": "canrab.png",
+      "entity": "pri_summoner",
+      "source": "textures/entity/monster/canrab.png"
+    },
+    {
+      "target": "canrah.png",
+      "entity": "pri_summoner",
+      "source": "textures/entity/monster/canrah.png"
+    },
+    {
+      "target": "canrav.png",
+      "entity": "pri_summoner",
+      "source": "textures/entity/monster/canrav.png"
+    },
+    {
+      "target": "carrier_colony.png",
+      "entity": "carrier_colony",
+      "source": "textures/entity/monster/vesta.png"
+    },
+    {
+      "target": "carrier_flying.png",
+      "entity": "carrier_flying",
+      "source": "textures/entity/monster/buthol.png"
+    },
+    {
+      "target": "carrier_heavy.png",
+      "entity": "carrier_heavy",
+      "source": "textures/entity/monster/rathol.png"
+    },
+    {
+      "target": "carrier_light.png",
+      "entity": "carrier_light",
+      "source": "textures/entity/monster/gothol.png"
+    },
+    {
+      "target": "cow.png",
+      "entity": "sim_cow",
+      "source": "textures/entity/monster/cow.png"
+    },
+    {
+      "target": "cowh.png",
+      "entity": "sim_cowhead",
+      "source": "textures/entity/monster/cowh.png"
+    },
+    {
+      "target": "crux.png",
+      "entity": "crux",
+      "source": "textures/entity/monster/cruxa.png"
+    },
+    {
+      "target": "cruxa.png",
+      "entity": "crux",
+      "source": "textures/entity/monster/cruxa.png"
+    },
+    {
+      "target": "cruxb.png",
+      "entity": "crux_incomplete",
+      "source": "textures/entity/monster/cruxb.png"
+    },
+    {
+      "target": "crux_incomplete.png",
+      "entity": "crux_incomplete",
+      "source": "textures/entity/monster/cruxb.png"
+    },
+    {
+      "target": "dispatcherten.png",
+      "entity": "dispatcherten",
+      "source": "textures/entity/monster/dodt.png"
+    },
+    {
+      "target": "dispatcher_si.png",
+      "entity": "dispatcher_si",
+      "source": "textures/entity/monster/dod.png"
+    },
+    {
+      "target": "dispatcher_sii.png",
+      "entity": "dispatcher_sii",
+      "source": "textures/entity/monster/dodsii.png"
+    },
+    {
+      "target": "dispatcher_siii.png",
+      "entity": "dispatcher_siii",
+      "source": "textures/entity/monster/dodsiii.png"
+    },
+    {
+      "target": "dispatcher_siv.png",
+      "entity": "dispatcher_siv",
+      "source": "textures/entity/monster/dodsiv.png"
+    },
+    {
+      "target": "dod.png",
+      "entity": "dispatcher_si",
+      "source": "textures/entity/monster/dod.png"
+    },
+    {
+      "target": "dodsii.png",
+      "entity": "dispatcher_sii",
+      "source": "textures/entity/monster/dodsii.png"
+    },
+    {
+      "target": "dodsiii.png",
+      "entity": "dispatcher_siii",
+      "source": "textures/entity/monster/dodsiii.png"
+    },
+    {
+      "target": "dodsiv.png",
+      "entity": "dispatcher_siv",
+      "source": "textures/entity/monster/dodsiv.png"
+    },
+    {
+      "target": "dodt.png",
+      "entity": "dispatcherten",
+      "source": "textures/entity/monster/dodt.png"
+    },
+    {
+      "target": "done.png",
+      "entity": "dredge",
+      "source": "textures/entity/monster/done.png"
+    },
+    {
+      "target": "dorpa.png",
+      "entity": "sim_bigspider",
+      "source": "textures/entity/monster/dorpa.png"
+    },
+    {
+      "target": "dorpa2.png",
+      "entity": "sim_bigspider",
+      "source": "textures/entity/monster/dorpa2.png"
+    },
+    {
+      "target": "draconite.png",
+      "entity": "draconite",
+      "source": "textures/entity/monster/heblu.png"
+    },
+    {
+      "target": "draconite_shadow.png",
+      "entity": "draconite",
+      "source": "textures/entity/monster/heblumc.png"
+    },
+    {
+      "target": "dragoneh.png",
+      "entity": "sim_dragonehead",
+      "source": "textures/entity/monster/dragoneh.png"
+    },
+    {
+      "target": "dredge.png",
+      "entity": "dredge",
+      "source": "textures/entity/monster/done.png"
+    },
+    {
+      "target": "elvia.png",
+      "entity": "wraith",
+      "source": "textures/entity/monster/elvia.png"
+    },
+    {
+      "target": "emana.png",
+      "entity": "pri_yelloweye",
+      "source": "textures/entity/monster/emana.png"
+    },
+    {
+      "target": "emanaa.png",
+      "entity": "ada_yelloweye",
+      "source": "textures/entity/monster/emanaa.png"
+    },
+    {
+      "target": "emanaah.png",
+      "entity": "ada_yelloweye",
+      "source": "textures/entity/monster/emanaah.png"
+    },
+    {
+      "target": "emanah.png",
+      "entity": "pri_yelloweye",
+      "source": "textures/entity/monster/emanah.png"
+    },
+    {
+      "target": "endermanh.png",
+      "entity": "sim_endermanhead",
+      "source": "textures/entity/monster/endermanh.png"
+    },
+    {
+      "target": "esor.png",
+      "entity": "marauder",
+      "source": "textures/entity/monster/esor.png"
+    },
+    {
+      "target": "esorh.png",
+      "entity": "marauder",
+      "source": "textures/entity/monster/esorh.png"
+    },
+    {
+      "target": "ferbear.png",
+      "entity": "fer_bear",
+      "source": "textures/entity/monster/ferbear.png"
+    },
+    {
+      "target": "fercow.png",
+      "entity": "fer_cow",
+      "source": "textures/entity/monster/fercow.png"
+    },
+    {
+      "target": "ferenderman.png",
+      "entity": "fer_enderman",
+      "source": "textures/entity/monster/ferenderman.png"
+    },
+    {
+      "target": "ferhorse.png",
+      "entity": "fer_horse",
+      "source": "textures/entity/monster/ferhorse.png"
+    },
+    {
+      "target": "ferhuman.png",
+      "entity": "fer_human",
+      "source": "textures/entity/monster/ferhuman.png"
+    },
+    {
+      "target": "ferpig.png",
+      "entity": "fer_pig",
+      "source": "textures/entity/monster/ferpig.png"
+    },
+    {
+      "target": "fersheep.png",
+      "entity": "fer_sheep",
+      "source": "textures/entity/monster/fersheep.png"
+    },
+    {
+      "target": "fervillager.png",
+      "entity": "fer_villager",
+      "source": "textures/entity/monster/fervillager.png"
+    },
+    {
+      "target": "ferwolf.png",
+      "entity": "fer_wolf",
+      "source": "textures/entity/monster/ferwolf.png"
+    },
+    {
+      "target": "fer_bear.png",
+      "entity": "fer_bear",
+      "source": "textures/entity/monster/ferbear.png"
+    },
+    {
+      "target": "fer_cow.png",
+      "entity": "fer_cow",
+      "source": "textures/entity/monster/fercow.png"
+    },
+    {
+      "target": "fer_enderman.png",
+      "entity": "fer_enderman",
+      "source": "textures/entity/monster/ferenderman.png"
+    },
+    {
+      "target": "fer_horse.png",
+      "entity": "fer_horse",
+      "source": "textures/entity/monster/ferhorse.png"
+    },
+    {
+      "target": "fer_human.png",
+      "entity": "fer_human",
+      "source": "textures/entity/monster/ferhuman.png"
+    },
+    {
+      "target": "fer_pig.png",
+      "entity": "fer_pig",
+      "source": "textures/entity/monster/ferpig.png"
+    },
+    {
+      "target": "fer_sheep.png",
+      "entity": "fer_sheep",
+      "source": "textures/entity/monster/fersheep.png"
+    },
+    {
+      "target": "fer_villager.png",
+      "entity": "fer_villager",
+      "source": "textures/entity/monster/fervillager.png"
+    },
+    {
+      "target": "fer_wolf.png",
+      "entity": "fer_wolf",
+      "source": "textures/entity/monster/ferwolf.png"
+    },
+    {
+      "target": "flam.png",
+      "entity": "succor",
+      "source": "textures/entity/monster/flam.png"
+    },
+    {
+      "target": "flog.png",
+      "entity": "grunt",
+      "source": "textures/entity/monster/flog.png"
+    },
+    {
+      "target": "flogb.png",
+      "entity": "grunt",
+      "source": "textures/entity/monster/flogb.png"
+    },
+    {
+      "target": "flogh.png",
+      "entity": "grunt",
+      "source": "textures/entity/monster/flogh.png"
+    },
+    {
+      "target": "flogv.png",
+      "entity": "grunt",
+      "source": "textures/entity/monster/flogv.png"
+    },
+    {
+      "target": "ganro.png",
+      "entity": "warden",
+      "source": "textures/entity/monster/ganro.png"
+    },
+    {
+      "target": "ganroh.png",
+      "entity": "warden",
+      "source": "textures/entity/monster/ganroh.png"
+    },
+    {
+      "target": "gim.png",
+      "entity": "pri_viscera",
+      "source": "textures/entity/monster/gim.png"
+    },
+    {
+      "target": "gima.png",
+      "entity": "ada_viscera",
+      "source": "textures/entity/monster/gima.png"
+    },
+    {
+      "target": "gnat.png",
+      "entity": "gnat",
+      "source": "textures/entity/monster/gnat.png"
+    },
+    {
+      "target": "gothol.png",
+      "entity": "carrier_light",
+      "source": "textures/entity/monster/gothol.png"
+    },
+    {
+      "target": "grunt.png",
+      "entity": "grunt",
+      "source": "textures/entity/monster/flog.png"
+    },
+    {
+      "target": "haunter.png",
+      "entity": "haunter",
+      "source": "textures/entity/monster/pheon.png"
+    },
+    {
+      "target": "heblu.png",
+      "entity": "draconite",
+      "source": "textures/entity/monster/heblu.png"
+    },
+    {
+      "target": "heblumc.png",
+      "entity": "draconite",
+      "source": "textures/entity/monster/heblumc.png"
+    },
+    {
+      "target": "heed.png",
+      "entity": "heed",
+      "source": "textures/entity/monster/heed.png"
+    },
+    {
+      "target": "hiblaze.png",
+      "entity": "hi_blaze",
+      "source": "textures/entity/monster/hiblaze.png"
+    },
+    {
+      "target": "higolem.png",
+      "entity": "hi_golem",
+      "source": "textures/entity/monster/higolem.png"
+    },
+    {
+      "target": "hiskeleton.png",
+      "entity": "hi_skeleton",
+      "source": "textures/entity/monster/hiskeleton.png"
+    },
+    {
+      "target": "hi_blaze.png",
+      "entity": "hi_blaze",
+      "source": "textures/entity/monster/hiblaze.png"
+    },
+    {
+      "target": "hi_golem.png",
+      "entity": "hi_golem",
+      "source": "textures/entity/monster/higolem.png"
+    },
+    {
+      "target": "hi_skeleton.png",
+      "entity": "hi_skeleton",
+      "source": "textures/entity/monster/hiskeleton.png"
+    },
+    {
+      "target": "horseh.png",
+      "entity": "sim_horsehead",
+      "source": "textures/entity/monster/horseh.png"
+    },
+    {
+      "target": "host.png",
+      "entity": "host",
+      "source": "textures/entity/monster/host.png"
+    },
+    {
+      "target": "hostii.png",
+      "entity": "hostii",
+      "source": "textures/entity/monster/hostii.png"
+    },
+    {
+      "target": "hull.png",
+      "entity": "pri_manducater",
+      "source": "textures/entity/monster/hull.png"
+    },
+    {
+      "target": "hullah_old.png",
+      "entity": "ada_manducater",
+      "source": "textures/entity/monster/hullah_old.png"
+    },
+    {
+      "target": "hulla_old.png",
+      "entity": "ada_manducater",
+      "source": "textures/entity/monster/hulla_old.png"
+    },
+    {
+      "target": "hullh.png",
+      "entity": "pri_manducater",
+      "source": "textures/entity/monster/hullh.png"
+    },
+    {
+      "target": "human.png",
+      "entity": "sim_human",
+      "source": "textures/entity/monster/human.png"
+    },
+    {
+      "target": "human1.png",
+      "entity": "sim_human",
+      "source": "textures/entity/monster/human1.png"
+    },
+    {
+      "target": "humaneaten.png",
+      "entity": "sim_human",
+      "source": "textures/entity/monster/humaneaten.png"
+    },
+    {
+      "target": "humanflood.png",
+      "entity": "sim_human",
+      "source": "textures/entity/monster/humanflood.png"
+    },
+    {
+      "target": "humanforge.png",
+      "entity": "sim_human",
+      "source": "textures/entity/monster/humanforge.png"
+    },
+    {
+      "target": "humanh.png",
+      "entity": "sim_humanhead",
+      "source": "textures/entity/monster/humanh.png"
+    },
+    {
+      "target": "humanh1.png",
+      "entity": "sim_humanhead",
+      "source": "textures/entity/monster/humanh1.png"
+    },
+    {
+      "target": "humanh2.png",
+      "entity": "sim_humanhead",
+      "source": "textures/entity/monster/humanh2.png"
+    },
+    {
+      "target": "humanhnocturn.png",
+      "entity": "sim_humanhead",
+      "source": "textures/entity/monster/humanhnocturn.png"
+    },
+    {
+      "target": "ikia.png",
+      "entity": "ada_vermin",
+      "source": "textures/entity/monster/ikia.png"
+    },
+    {
+      "target": "incompleteform_medium.png",
+      "entity": "incompleteform_medium",
+      "source": "textures/entity/monster/inhoom.png"
+    },
+    {
+      "target": "incompleteform_small.png",
+      "entity": "incompleteform_small",
+      "source": "textures/entity/monster/inhoos.png"
+    },
+    {
+      "target": "infbear.png",
+      "entity": "sim_bear",
+      "source": "textures/entity/monster/infbear.png"
+    },
+    {
+      "target": "infdragone.png",
+      "entity": "sim_dragone",
+      "source": "textures/entity/monster/infdragone.png"
+    },
+    {
+      "target": "infenderman.png",
+      "entity": "sim_enderman",
+      "source": "textures/entity/monster/infenderman.png"
+    },
+    {
+      "target": "infenderman1.png",
+      "entity": "sim_enderman",
+      "source": "textures/entity/monster/infenderman1.png"
+    },
+    {
+      "target": "infenderman_ariral.png",
+      "entity": "sim_enderman",
+      "source": "textures/entity/monster/infenderman_ariral.png"
+    },
+    {
+      "target": "infhorse.png",
+      "entity": "sim_horse",
+      "source": "textures/entity/monster/infhorse.png"
+    },
+    {
+      "target": "infplayer.png",
+      "entity": "sim_adventurer",
+      "source": "textures/entity/monster/infplayer.png"
+    },
+    {
+      "target": "inhoom.png",
+      "entity": "incompleteform_medium",
+      "source": "textures/entity/monster/inhoom.png"
+    },
+    {
+      "target": "inhoos.png",
+      "entity": "incompleteform_small",
+      "source": "textures/entity/monster/inhoos.png"
+    },
+    {
+      "target": "jinjo.png",
+      "entity": "bomber_heavy",
+      "source": "textures/entity/monster/jinjo.png"
+    },
+    {
+      "target": "kirin.png",
+      "entity": "kirin",
+      "source": "textures/entity/monster/kirin.png"
+    },
+    {
+      "target": "kirin_shadow.png",
+      "entity": "kirin",
+      "source": "textures/entity/monster/testb.png"
+    },
+    {
+      "target": "kol.png",
+      "entity": "worker",
+      "source": "textures/entity/monster/kol.png"
+    },
+    {
+      "target": "kyphosis.png",
+      "entity": "kyphosis",
+      "source": "textures/entity/monster/tonro.png"
+    },
+    {
+      "target": "leem.png",
+      "entity": "rooter_si",
+      "source": "textures/entity/monster/leem.png"
+    },
+    {
+      "target": "leemb.png",
+      "entity": "rooterball",
+      "source": "textures/entity/monster/leemb.png"
+    },
+    {
+      "target": "leemsii.png",
+      "entity": "rooter_sii",
+      "source": "textures/entity/monster/leemsii.png"
+    },
+    {
+      "target": "leemsiii.png",
+      "entity": "rooter_siii",
+      "source": "textures/entity/monster/leemsiii.png"
+    },
+    {
+      "target": "leemsiv.png",
+      "entity": "rooter_siv",
+      "source": "textures/entity/monster/leemsiv.png"
+    },
+    {
+      "target": "leer.png",
+      "entity": "airscrew",
+      "source": "textures/entity/monster/leer.png"
+    },
+    {
+      "target": "lencia.png",
+      "entity": "bogle",
+      "source": "textures/entity/monster/lencia.png"
+    },
+    {
+      "target": "lesh.png",
+      "entity": "movingflesh",
+      "source": "textures/entity/monster/lesh.png"
+    },
+    {
+      "target": "lice.png",
+      "entity": "lice",
+      "source": "textures/entity/monster/lice.png"
+    },
+    {
+      "target": "lodo.png",
+      "entity": "buglin",
+      "source": "textures/entity/monster/lodo.png"
+    },
+    {
+      "target": "lum.png",
+      "entity": "pri_devourer",
+      "source": "textures/entity/monster/lum.png"
+    },
+    {
+      "target": "luma.png",
+      "entity": "ada_devourer",
+      "source": "textures/entity/monster/luma.png"
+    },
+    {
+      "target": "lumh.png",
+      "entity": "pri_devourer",
+      "source": "textures/entity/monster/lumh.png"
+    },
+    {
+      "target": "mangler.png",
+      "entity": "mangler",
+      "source": "textures/entity/monster/nuuh.png"
+    },
+    {
+      "target": "marauder.png",
+      "entity": "marauder",
+      "source": "textures/entity/monster/esor.png"
+    },
+    {
+      "target": "marauder_hardened.png",
+      "entity": "marauder",
+      "source": "textures/entity/monster/esorh.png"
+    },
+    {
+      "target": "mar_bear.png",
+      "entity": "mar_bear",
+      "source": "textures/entity/monster/spebear.png"
+    },
+    {
+      "target": "mar_cow.png",
+      "entity": "mar_cow",
+      "source": "textures/entity/monster/specow.png"
+    },
+    {
+      "target": "mar_enderman.png",
+      "entity": "mar_enderman",
+      "source": "textures/entity/monster/speenderman.png"
+    },
+    {
+      "target": "mar_human.png",
+      "entity": "mar_human",
+      "source": "textures/entity/monster/spehuman.png"
+    },
+    {
+      "target": "mar_sheep.png",
+      "entity": "mar_sheep",
+      "source": "textures/entity/monster/spesheep.png"
+    },
+    {
+      "target": "mar_villager.png",
+      "entity": "mar_villager",
+      "source": "textures/entity/monster/spevillager.png"
+    },
+    {
+      "target": "mes.png",
+      "entity": "thrall",
+      "source": "textures/entity/monster/mes.png"
+    },
+    {
+      "target": "mes1.png",
+      "entity": "thrall",
+      "source": "textures/entity/monster/mes.png"
+    },
+    {
+      "target": "messnow.png",
+      "entity": "thrall",
+      "source": "textures/entity/layer/messnow.png"
+    },
+    {
+      "target": "monarch.png",
+      "entity": "monarch",
+      "source": "textures/entity/monster/orch.png"
+    },
+    {
+      "target": "movingflesh.png",
+      "entity": "movingflesh",
+      "source": "textures/entity/monster/lesh.png"
+    },
+    {
+      "target": "mudo.png",
+      "entity": "rupter",
+      "source": "textures/entity/monster/mudo.png"
+    },
+    {
+      "target": "mudob.png",
+      "entity": "rupter",
+      "source": "textures/entity/monster/mudob.png"
+    },
+    {
+      "target": "mudov.png",
+      "entity": "rupter",
+      "source": "textures/entity/monster/mudov.png"
+    },
+    {
+      "target": "mudo_classic.png",
+      "entity": "rupter",
+      "source": "textures/entity/monster/mudo_classic.png"
+    },
+    {
+      "target": "mudo_fluffy.png",
+      "entity": "rupter",
+      "source": "textures/entity/monster/mudo_fluffy.png"
+    },
+    {
+      "target": "mudo_golden.png",
+      "entity": "rupter",
+      "source": "textures/entity/monster/mudo_golden.png"
+    },
+    {
+      "target": "mudo_snowy.png",
+      "entity": "rupter",
+      "source": "textures/entity/monster/mudo_snowy.png"
+    },
+    {
+      "target": "mudo_striped.png",
+      "entity": "rupter",
+      "source": "textures/entity/monster/mudo_striped.png"
+    },
+    {
+      "target": "mudo_weird.png",
+      "entity": "rupter",
+      "source": "textures/entity/monster/mudo_weird.png"
+    },
+    {
+      "target": "nak.png",
+      "entity": "seizer",
+      "source": "textures/entity/monster/nak.png"
+    },
+    {
+      "target": "nogla.png",
+      "entity": "pri_reeker",
+      "source": "textures/entity/monster/nogla.png"
+    },
+    {
+      "target": "noglaa.png",
+      "entity": "ada_reeker",
+      "source": "textures/entity/monster/noglaa.png"
+    },
+    {
+      "target": "noglaab.png",
+      "entity": "ada_reeker",
+      "source": "textures/entity/monster/noglaab.png"
+    },
+    {
+      "target": "noglaah.png",
+      "entity": "ada_reeker",
+      "source": "textures/entity/monster/noglaah.png"
+    },
+    {
+      "target": "noglaav.png",
+      "entity": "ada_reeker",
+      "source": "textures/entity/monster/noglaav.png"
+    },
+    {
+      "target": "noglab.png",
+      "entity": "pri_reeker",
+      "source": "textures/entity/monster/noglab.png"
+    },
+    {
+      "target": "noglah.png",
+      "entity": "pri_reeker",
+      "source": "textures/entity/monster/noglah.png"
+    },
+    {
+      "target": "noglasp1.png",
+      "entity": "pri_reeker",
+      "source": "textures/entity/monster/noglasp1.png"
+    },
+    {
+      "target": "noglav.png",
+      "entity": "pri_reeker",
+      "source": "textures/entity/monster/noglav.png"
+    },
+    {
+      "target": "nuuh.png",
+      "entity": "mangler",
+      "source": "textures/entity/monster/nuuh.png"
+    },
+    {
+      "target": "nuuhb.png",
+      "entity": "mangler",
+      "source": "textures/entity/monster/nuuhb.png"
+    },
+    {
+      "target": "nuuhv.png",
+      "entity": "mangler",
+      "source": "textures/entity/monster/nuuhv.png"
+    },
+    {
+      "target": "omboo.png",
+      "entity": "bomber_light",
+      "source": "textures/entity/monster/omboo.png"
+    },
+    {
+      "target": "ombooh.png",
+      "entity": "bomber_light",
+      "source": "textures/entity/monster/ombooh.png"
+    },
+    {
+      "target": "orch.png",
+      "entity": "monarch",
+      "source": "textures/entity/monster/orch.png"
+    },
+    {
+      "target": "orchh.png",
+      "entity": "monarch",
+      "source": "textures/entity/monster/orchh.png"
+    },
+    {
+      "target": "orchsp1.png",
+      "entity": "monarch",
+      "source": "textures/entity/monster/orchsp1.png"
+    },
+    {
+      "target": "oronco.png",
+      "entity": "anc_dreadnaut",
+      "source": "textures/entity/monster/oronco.png"
+    },
+    {
+      "target": "oroncoten0.png",
+      "entity": "anc_dreadnaut_ten",
+      "source": "textures/entity/monster/oroncoten0.png"
+    },
+    {
+      "target": "oroncoten1.png",
+      "entity": "anc_dreadnaut_ten",
+      "source": "textures/entity/monster/oroncoten1.png"
+    },
+    {
+      "target": "overseer.png",
+      "entity": "overseer",
+      "source": "textures/entity/monster/alafha.png"
+    },
+    {
+      "target": "pheon.png",
+      "entity": "haunter",
+      "source": "textures/entity/monster/pheon.png"
+    },
+    {
+      "target": "pheonsp1.png",
+      "entity": "haunter",
+      "source": "textures/entity/monster/pheonsp1.png"
+    },
+    {
+      "target": "pig.png",
+      "entity": "sim_pig",
+      "source": "textures/entity/monster/pig.png"
+    },
+    {
+      "target": "pigh.png",
+      "entity": "sim_pighead",
+      "source": "textures/entity/monster/pigh.png"
+    },
+    {
+      "target": "playerh.png",
+      "entity": "sim_adventurerhead",
+      "source": "textures/entity/monster/playerh.png"
+    },
+    {
+      "target": "pri_arachnida.png",
+      "entity": "pri_arachnida",
+      "source": "textures/entity/monster/ranrac.png"
+    },
+    {
+      "target": "pri_bolster.png",
+      "entity": "pri_bolster",
+      "source": "textures/entity/monster/bano.png"
+    },
+    {
+      "target": "pri_burrower.png",
+      "entity": "pri_burrower",
+      "source": "textures/entity/monster/zaa.png"
+    },
+    {
+      "target": "pri_devourer.png",
+      "entity": "pri_devourer",
+      "source": "textures/entity/monster/lum.png"
+    },
+    {
+      "target": "pri_longarms.png",
+      "entity": "pri_longarms",
+      "source": "textures/entity/monster/shyco.png"
+    },
+    {
+      "target": "pri_manducater.png",
+      "entity": "pri_manducater",
+      "source": "textures/entity/monster/hull.png"
+    },
+    {
+      "target": "pri_reeker.png",
+      "entity": "pri_reeker",
+      "source": "textures/entity/monster/nogla.png"
+    },
+    {
+      "target": "pri_summoner.png",
+      "entity": "pri_summoner",
+      "source": "textures/entity/monster/canra.png"
+    },
+    {
+      "target": "pri_tozoon.png",
+      "entity": "pri_tozoon",
+      "source": "textures/entity/monster/wymo.png"
+    },
+    {
+      "target": "pri_vermin.png",
+      "entity": "pri_vermin",
+      "source": "textures/entity/monster/vermin.png"
+    },
+    {
+      "target": "pri_viscera.png",
+      "entity": "pri_viscera",
+      "source": "textures/entity/monster/gim.png"
+    },
+    {
+      "target": "pri_yelloweye.png",
+      "entity": "pri_yelloweye",
+      "source": "textures/entity/monster/emana.png"
+    },
+    {
+      "target": "ranrac.png",
+      "entity": "pri_arachnida",
+      "source": "textures/entity/monster/ranrac.png"
+    },
+    {
+      "target": "ranraca.png",
+      "entity": "ada_arachnida",
+      "source": "textures/entity/monster/ranraca.png"
+    },
+    {
+      "target": "ranracab.png",
+      "entity": "ada_arachnida",
+      "source": "textures/entity/monster/ranracab.png"
+    },
+    {
+      "target": "ranracah.png",
+      "entity": "ada_arachnida",
+      "source": "textures/entity/monster/ranracah.png"
+    },
+    {
+      "target": "ranracav.png",
+      "entity": "ada_arachnida",
+      "source": "textures/entity/monster/ranracav.png"
+    },
+    {
+      "target": "ranracb.png",
+      "entity": "pri_arachnida",
+      "source": "textures/entity/monster/ranracb.png"
+    },
+    {
+      "target": "ranrach.png",
+      "entity": "pri_arachnida",
+      "source": "textures/entity/monster/ranrach.png"
+    },
+    {
+      "target": "ranracv.png",
+      "entity": "pri_arachnida",
+      "source": "textures/entity/monster/ranracv.png"
+    },
+    {
+      "target": "rathol.png",
+      "entity": "carrier_heavy",
+      "source": "textures/entity/monster/rathol.png"
+    },
+    {
+      "target": "ratholone.png",
+      "entity": "carrier_heavy",
+      "source": "textures/entity/monster/ratholone.png"
+    },
+    {
+      "target": "ricardo.png",
+      "entity": "pri_reeker",
+      "source": "textures/entity/monster/ricardo.png"
+    },
+    {
+      "target": "ricardo_bald.png",
+      "entity": "pri_reeker",
+      "source": "textures/entity/monster/ricardo_bald.png"
+    },
+    {
+      "target": "rof.png",
+      "entity": "worm",
+      "source": "textures/entity/monster/rof.png"
+    },
+    {
+      "target": "rooterball.png",
+      "entity": "rooterball",
+      "source": "textures/entity/monster/leemb.png"
+    },
+    {
+      "target": "rooter_si.png",
+      "entity": "rooter_si",
+      "source": "textures/entity/monster/leem.png"
+    },
+    {
+      "target": "rooter_sii.png",
+      "entity": "rooter_sii",
+      "source": "textures/entity/monster/leemsii.png"
+    },
+    {
+      "target": "rooter_siii.png",
+      "entity": "rooter_siii",
+      "source": "textures/entity/monster/leemsiii.png"
+    },
+    {
+      "target": "rooter_siv.png",
+      "entity": "rooter_siv",
+      "source": "textures/entity/monster/leemsiv.png"
+    },
+    {
+      "target": "rupter.png",
+      "entity": "rupter",
+      "source": "textures/entity/monster/mudo.png"
+    },
+    {
+      "target": "rupter_classic.png",
+      "entity": "rupter",
+      "source": "textures/entity/monster/mudo_classic.png"
+    },
+    {
+      "target": "rupter_fluffy.png",
+      "entity": "rupter",
+      "source": "textures/entity/monster/mudo_fluffy.png"
+    },
+    {
+      "target": "rupter_golden.png",
+      "entity": "rupter",
+      "source": "textures/entity/monster/mudo_golden.png"
+    },
+    {
+      "target": "rupter_striped.png",
+      "entity": "rupter",
+      "source": "textures/entity/monster/mudo_striped.png"
+    },
+    {
+      "target": "rupter_weird.png",
+      "entity": "rupter",
+      "source": "textures/entity/monster/mudo_weird.png"
+    },
+    {
+      "target": "seizer.png",
+      "entity": "seizer",
+      "source": "textures/entity/monster/nak.png"
+    },
+    {
+      "target": "sentry.png",
+      "entity": "sentry",
+      "source": "textures/entity/monster/unvo.png"
+    },
+    {
+      "target": "sheep.png",
+      "entity": "sim_sheep",
+      "source": "textures/entity/monster/sheep.png"
+    },
+    {
+      "target": "sheeph.png",
+      "entity": "sim_sheephead",
+      "source": "textures/entity/monster/sheeph.png"
+    },
+    {
+      "target": "sheep_black.png",
+      "entity": "sim_sheep",
+      "source": "textures/entity/monster/sheep_black.png"
+    },
+    {
+      "target": "sheep_grey.png",
+      "entity": "sim_sheep",
+      "source": "textures/entity/monster/sheep_grey.png"
+    },
+    {
+      "target": "shyco.png",
+      "entity": "pri_longarms",
+      "source": "textures/entity/monster/shyco.png"
+    },
+    {
+      "target": "shycoa.png",
+      "entity": "ada_longarms",
+      "source": "textures/entity/monster/shycoa.png"
+    },
+    {
+      "target": "shycoaabyss.png",
+      "entity": "ada_longarms",
+      "source": "textures/entity/monster/shycoaabyss.png"
+    },
+    {
+      "target": "shycoab.png",
+      "entity": "ada_longarms",
+      "source": "textures/entity/monster/shycoab.png"
+    },
+    {
+      "target": "shycoah.png",
+      "entity": "ada_longarms",
+      "source": "textures/entity/monster/shycoah.png"
+    },
+    {
+      "target": "shycoalovecraft.png",
+      "entity": "ada_longarms",
+      "source": "textures/entity/monster/shycoalovecraft.png"
+    },
+    {
+      "target": "shycoatyrant.png",
+      "entity": "ada_longarms",
+      "source": "textures/entity/monster/shycoatyrant.png"
+    },
+    {
+      "target": "shycoav.png",
+      "entity": "ada_longarms",
+      "source": "textures/entity/monster/shycoav.png"
+    },
+    {
+      "target": "shycob.png",
+      "entity": "pri_longarms",
+      "source": "textures/entity/monster/shycob.png"
+    },
+    {
+      "target": "shycoh.png",
+      "entity": "pri_longarms",
+      "source": "textures/entity/monster/shycoh.png"
+    },
+    {
+      "target": "shycov.png",
+      "entity": "pri_longarms",
+      "source": "textures/entity/monster/shycov.png"
+    },
+    {
+      "target": "sim_adventurer.png",
+      "entity": "sim_adventurer",
+      "source": "textures/entity/monster/infplayer.png"
+    },
+    {
+      "target": "sim_adventurerhead.png",
+      "entity": "sim_adventurerhead",
+      "source": "textures/entity/monster/playerh.png"
+    },
+    {
+      "target": "sim_bear.png",
+      "entity": "sim_bear",
+      "source": "textures/entity/monster/infbear.png"
+    },
+    {
+      "target": "sim_bigspider.png",
+      "entity": "sim_bigspider",
+      "source": "textures/entity/monster/dorpa.png"
+    },
+    {
+      "target": "sim_cow.png",
+      "entity": "sim_cow",
+      "source": "textures/entity/monster/cow.png"
+    },
+    {
+      "target": "sim_cowhead.png",
+      "entity": "sim_cowhead",
+      "source": "textures/entity/monster/cowh.png"
+    },
+    {
+      "target": "sim_dragone.png",
+      "entity": "sim_dragone",
+      "source": "textures/entity/monster/infdragone.png"
+    },
+    {
+      "target": "sim_dragonehead.png",
+      "entity": "sim_dragonehead",
+      "source": "textures/entity/monster/dragoneh.png"
+    },
+    {
+      "target": "sim_enderman.png",
+      "entity": "sim_enderman",
+      "source": "textures/entity/monster/infenderman.png"
+    },
+    {
+      "target": "sim_endermanhead.png",
+      "entity": "sim_endermanhead",
+      "source": "textures/entity/monster/endermanh.png"
+    },
+    {
+      "target": "sim_horse.png",
+      "entity": "sim_horse",
+      "source": "textures/entity/monster/infhorse.png"
+    },
+    {
+      "target": "sim_horsehead.png",
+      "entity": "sim_horsehead",
+      "source": "textures/entity/monster/horseh.png"
+    },
+    {
+      "target": "sim_human.png",
+      "entity": "sim_human",
+      "source": "textures/entity/monster/human.png"
+    },
+    {
+      "target": "sim_humanhead.png",
+      "entity": "sim_humanhead",
+      "source": "textures/entity/monster/humanh.png"
+    },
+    {
+      "target": "sim_pig.png",
+      "entity": "sim_pig",
+      "source": "textures/entity/monster/pig.png"
+    },
+    {
+      "target": "sim_pighead.png",
+      "entity": "sim_pighead",
+      "source": "textures/entity/monster/pigh.png"
+    },
+    {
+      "target": "sim_sheep.png",
+      "entity": "sim_sheep",
+      "source": "textures/entity/monster/sheep.png"
+    },
+    {
+      "target": "sim_sheephead.png",
+      "entity": "sim_sheephead",
+      "source": "textures/entity/monster/sheeph.png"
+    },
+    {
+      "target": "sim_sheep_black.png",
+      "entity": "sim_sheep",
+      "source": "textures/entity/monster/sheep_black.png"
+    },
+    {
+      "target": "sim_sheep_grey.png",
+      "entity": "sim_sheep",
+      "source": "textures/entity/monster/sheep_grey.png"
+    },
+    {
+      "target": "sim_squid.png",
+      "entity": "sim_squid",
+      "source": "textures/entity/monster/squid.png"
+    },
+    {
+      "target": "sim_villager.png",
+      "entity": "sim_villager",
+      "source": "textures/entity/monster/villager.png"
+    },
+    {
+      "target": "sim_villagerhead.png",
+      "entity": "sim_villagerhead",
+      "source": "textures/entity/monster/villagerh.png"
+    },
+    {
+      "target": "sim_wolf.png",
+      "entity": "sim_wolf",
+      "source": "textures/entity/monster/wolf.png"
+    },
+    {
+      "target": "sim_wolfhead.png",
+      "entity": "sim_wolfhead",
+      "source": "textures/entity/monster/wolfh.png"
+    },
+    {
+      "target": "sim_wolf_tamed.png",
+      "entity": "sim_wolf",
+      "source": "textures/entity/monster/wolftamed.png"
+    },
+    {
+      "target": "spebear.png",
+      "entity": "mar_bear",
+      "source": "textures/entity/monster/spebear.png"
+    },
+    {
+      "target": "specow.png",
+      "entity": "mar_cow",
+      "source": "textures/entity/monster/specow.png"
+    },
+    {
+      "target": "speenderman.png",
+      "entity": "mar_enderman",
+      "source": "textures/entity/monster/speenderman.png"
+    },
+    {
+      "target": "spehuman.png",
+      "entity": "mar_human",
+      "source": "textures/entity/monster/spehuman.png"
+    },
+    {
+      "target": "spesheep.png",
+      "entity": "mar_sheep",
+      "source": "textures/entity/monster/spesheep.png"
+    },
+    {
+      "target": "spevillager.png",
+      "entity": "mar_villager",
+      "source": "textures/entity/monster/spevillager.png"
+    },
+    {
+      "target": "squid.png",
+      "entity": "sim_squid",
+      "source": "textures/entity/monster/squid.png"
+    },
+    {
+      "target": "succor.png",
+      "entity": "succor",
+      "source": "textures/entity/monster/flam.png"
+    },
+    {
+      "target": "terla.png",
+      "entity": "anc_overlord",
+      "source": "textures/entity/monster/terla.png"
+    },
+    {
+      "target": "testb.png",
+      "entity": "kirin",
+      "source": "textures/entity/monster/testb.png"
+    },
+    {
+      "target": "thrall.png",
+      "entity": "thrall",
+      "source": "textures/entity/monster/mes.png"
+    },
+    {
+      "target": "tonro.png",
+      "entity": "kyphosis",
+      "source": "textures/entity/monster/tonro.png"
+    },
+    {
+      "target": "unvo.png",
+      "entity": "sentry",
+      "source": "textures/entity/monster/unvo.png"
+    },
+    {
+      "target": "venkrol.png",
+      "entity": "beckon_si",
+      "source": "textures/entity/monster/venkrol.png"
+    },
+    {
+      "target": "venkrolsii.png",
+      "entity": "beckon_sii",
+      "source": "textures/entity/monster/venkrolsii.png"
+    },
+    {
+      "target": "venkrolsiii.png",
+      "entity": "beckon_siii",
+      "source": "textures/entity/monster/venkrolsiii.png"
+    },
+    {
+      "target": "venkrolsiv.png",
+      "entity": "beckon_siv",
+      "source": "textures/entity/monster/venkrolsiv.png"
+    },
+    {
+      "target": "vermin.png",
+      "entity": "pri_vermin",
+      "source": "textures/entity/monster/vermin.png"
+    },
+    {
+      "target": "vesta.png",
+      "entity": "carrier_colony",
+      "source": "textures/entity/monster/vesta.png"
+    },
+    {
+      "target": "vestare.png",
+      "entity": "carrier_colony",
+      "source": "textures/entity/monster/vestare.png"
+    },
+    {
+      "target": "vestasnow.png",
+      "entity": "carrier_colony",
+      "source": "textures/entity/layer/vestasnow.png"
+    },
+    {
+      "target": "vigilante.png",
+      "entity": "vigilante",
+      "source": "textures/entity/monster/anged.png"
+    },
+    {
+      "target": "villager.png",
+      "entity": "sim_villager",
+      "source": "textures/entity/monster/villager.png"
+    },
+    {
+      "target": "villager1.png",
+      "entity": "sim_villager",
+      "source": "textures/entity/monster/villager1.png"
+    },
+    {
+      "target": "villagerh.png",
+      "entity": "sim_villagerhead",
+      "source": "textures/entity/monster/villagerh.png"
+    },
+    {
+      "target": "villagerh1.png",
+      "entity": "sim_villagerhead",
+      "source": "textures/entity/monster/villagerh1.png"
+    },
+    {
+      "target": "warden.png",
+      "entity": "warden",
+      "source": "textures/entity/monster/ganro.png"
+    },
+    {
+      "target": "wolf.png",
+      "entity": "sim_wolf",
+      "source": "textures/entity/monster/wolf.png"
+    },
+    {
+      "target": "wolfh.png",
+      "entity": "sim_wolfhead",
+      "source": "textures/entity/monster/wolfh.png"
+    },
+    {
+      "target": "wolftamed.png",
+      "entity": "sim_wolf",
+      "source": "textures/entity/monster/wolftamed.png"
+    },
+    {
+      "target": "worker.png",
+      "entity": "worker",
+      "source": "textures/entity/monster/kol.png"
+    },
+    {
+      "target": "worm.png",
+      "entity": "worm",
+      "source": "textures/entity/monster/rof.png"
+    },
+    {
+      "target": "wraith.png",
+      "entity": "wraith",
+      "source": "textures/entity/monster/elvia.png"
+    },
+    {
+      "target": "wymo.png",
+      "entity": "pri_tozoon",
+      "source": "textures/entity/monster/wymo.png"
+    },
+    {
+      "target": "wymoa.png",
+      "entity": "ada_tozoon",
+      "source": "textures/entity/monster/wymoa.png"
+    },
+    {
+      "target": "zaa.png",
+      "entity": "pri_burrower",
+      "source": "textures/entity/monster/zaa.png"
+    },
+    {
+      "target": "zaaa.png",
+      "entity": "ada_burrower",
+      "source": "textures/entity/monster/zaaa.png"
+    }
+  ],
+  "explicit_aliases": [
+    {
+      "target": "sim_sheep_grey.png",
+      "entity": "sim_sheep",
+      "source": "textures/entity/monster/sheep_grey.png"
+    },
+    {
+      "target": "sim_sheep_black.png",
+      "entity": "sim_sheep",
+      "source": "textures/entity/monster/sheep_black.png"
+    },
+    {
+      "target": "sim_wolf_tamed.png",
+      "entity": "sim_wolf",
+      "source": "textures/entity/monster/wolftamed.png"
+    }
+  ],
+  "resource_id_aliases": [
+    {
+      "target": "sim_dragonhead",
+      "source": "sim_dragonehead"
+    }
+  ]
+}
