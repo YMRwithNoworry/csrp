@@ -7,9 +7,13 @@ import net.minecraft.sounds.SoundEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public final class ModSounds {
     public static final DeferredRegister<SoundEvent> SOUNDS =
             DeferredRegister.create(Registries.SOUND_EVENT, Csrp.MODID);
+    private static final Map<String, DeferredHolder<SoundEvent, SoundEvent>> REGISTERED = new LinkedHashMap<>();
 
     public static final DeferredHolder<SoundEvent, SoundEvent> BUGLIN_GROWL = register("lodo.growl");
     public static final DeferredHolder<SoundEvent, SoundEvent> BUGLIN_HURT = register("lodo.hurt");
@@ -94,6 +98,10 @@ public final class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> LURE_USE = register("lure.use");
     public static final DeferredHolder<SoundEvent, SoundEvent> CARCASS_USE = register("lure.carcass");
 
+    static {
+        SoundEventCatalog.EVENTS.forEach(ModSounds::register);
+    }
+
     private ModSounds() {
     }
 
@@ -113,7 +121,14 @@ public final class ModSounds {
     }
 
     private static DeferredHolder<SoundEvent, SoundEvent> register(String name) {
+        DeferredHolder<SoundEvent, SoundEvent> existing = REGISTERED.get(name);
+        if (existing != null) {
+            return existing;
+        }
         ResourceLocation id = ResourceLocation.fromNamespaceAndPath(Csrp.MODID, name);
-        return SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(id));
+        DeferredHolder<SoundEvent, SoundEvent> sound =
+                SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(id));
+        REGISTERED.put(name, sound);
+        return sound;
     }
 }

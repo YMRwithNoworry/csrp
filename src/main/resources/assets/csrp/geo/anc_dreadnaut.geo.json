@@ -16,7 +16,7 @@
       },
       "bones": [
         {
-          "name": "root",
+          "name": "srp_coordinate_root",
           "pivot": [
             0,
             24,
@@ -1605,7 +1605,7 @@
         },
         {
           "name": "bodytenbaseDL",
-          "parent": "root",
+          "parent": "srp_coordinate_root",
           "pivot": [
             -21,
             66.5,
@@ -2140,7 +2140,7 @@
         },
         {
           "name": "jointH",
-          "parent": "root",
+          "parent": "srp_coordinate_root",
           "pivot": [
             0,
             42,
@@ -2580,7 +2580,7 @@
         },
         {
           "name": "bodytenbaseLA",
-          "parent": "root",
+          "parent": "srp_coordinate_root",
           "pivot": [
             -13,
             61,
@@ -6960,7 +6960,7 @@
         },
         {
           "name": "mainbody",
-          "parent": "root",
+          "parent": "srp_coordinate_root",
           "pivot": [
             0,
             57,
@@ -17925,7 +17925,7 @@
         },
         {
           "name": "bodytenbaseRA",
-          "parent": "root",
+          "parent": "srp_coordinate_root",
           "pivot": [
             13,
             61,
@@ -19520,7 +19520,7 @@
         },
         {
           "name": "bodytenbaseML",
-          "parent": "root",
+          "parent": "srp_coordinate_root",
           "pivot": [
             -27,
             79.5,
@@ -27075,7 +27075,7 @@
         },
         {
           "name": "bodytenbaseMR",
-          "parent": "root",
+          "parent": "srp_coordinate_root",
           "pivot": [
             27,
             79.5,
@@ -28630,7 +28630,7 @@
         },
         {
           "name": "bodytenbaseUR",
-          "parent": "root",
+          "parent": "srp_coordinate_root",
           "pivot": [
             34,
             97.4,
@@ -40020,7 +40020,7 @@
         },
         {
           "name": "bodytenbaseDR",
-          "parent": "root",
+          "parent": "srp_coordinate_root",
           "pivot": [
             21,
             66.5,
@@ -40200,7 +40200,7 @@
         },
         {
           "name": "bodytenbaseUL",
-          "parent": "root",
+          "parent": "srp_coordinate_root",
           "pivot": [
             -34,
             97.4,

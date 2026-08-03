@@ -1,10 +1,1415 @@
 {
+  "effect.rage": {
+    "category": "hostile",
+    "sounds": [
+      {
+        "name": "csrp:misc/rage1"
+      },
+      {
+        "name": "csrp:misc/rage2"
+      },
+      {
+        "name": "csrp:misc/rage3"
+      },
+      {
+        "name": "csrp:misc/rage1",
+        "pitch": 0.95
+      },
+      {
+        "name": "csrp:misc/rage2",
+        "pitch": 0.95
+      },
+      {
+        "name": "csrp:misc/rage3",
+        "pitch": 0.95
+      },
+      {
+        "name": "csrp:misc/rage1",
+        "pitch": 1.05
+      },
+      {
+        "name": "csrp:misc/rage2",
+        "pitch": 1.05
+      },
+      {
+        "name": "csrp:misc/rage3",
+        "pitch": 1.05
+      }
+    ]
+  },
+  "celestial.dark_days.start": {
+    "category": "ambient",
+    "sounds": [
+      "csrp:celestial/dark_days_start"
+    ]
+  },
+  "celestial.dark_days.ending": {
+    "category": "ambient",
+    "sounds": [
+      "csrp:celestial/dark_days_ending"
+    ]
+  },
+  "celestial.dark_days.rumble": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "csrp:celestial/dark_days_rumble",
+        "stream": true
+      }
+    ]
+  },
+  "summoner.resurrect": {
+    "category": "hostile",
+    "subtitle": "subtitles.summoner.resurrect",
+    "sounds": [
+      {
+        "name": "csrp:misc/resurrect1"
+      },
+      {
+        "name": "csrp:misc/resurrect2"
+      },
+      {
+        "name": "csrp:misc/resurrect3"
+      },
+      {
+        "name": "csrp:misc/resurrect1",
+        "pitch": 0.95
+      },
+      {
+        "name": "csrp:misc/resurrect2",
+        "pitch": 0.95
+      },
+      {
+        "name": "csrp:misc/resurrect3",
+        "pitch": 0.95
+      },
+      {
+        "name": "csrp:misc/resurrect1",
+        "pitch": 1.05
+      },
+      {
+        "name": "csrp:misc/resurrect2",
+        "pitch": 1.05
+      },
+      {
+        "name": "csrp:misc/resurrect3",
+        "pitch": 1.05
+      }
+    ]
+  },
+  "compendium.unlock.item": {
+    "category": "player",
+    "subtitle": "subtitles.compendium.unlocked",
+    "sounds": [
+      "csrp:bestiary/item/unlock1",
+      "csrp:bestiary/item/unlock2",
+      "csrp:bestiary/item/unlock3",
+      "csrp:bestiary/item/unlock4",
+      "csrp:bestiary/item/unlock5",
+      "csrp:bestiary/item/unlock6",
+      "csrp:bestiary/item/unlock7",
+      "csrp:bestiary/item/unlock8"
+    ]
+  },
+  "compendium.unlock.block": {
+    "category": "player",
+    "subtitle": "subtitles.compendium.unlocked",
+    "sounds": [
+      "csrp:bestiary/block/unlock1",
+      "csrp:bestiary/block/unlock2",
+      "csrp:bestiary/block/unlock3",
+      "csrp:bestiary/block/unlock4",
+      "csrp:bestiary/block/unlock5",
+      "csrp:bestiary/block/unlock6",
+      "csrp:bestiary/block/unlock7",
+      "csrp:bestiary/block/unlock8"
+    ]
+  },
+  "compendium.unlock.celestial": {
+    "category": "player",
+    "subtitle": "subtitles.compendium.unlocked",
+    "sounds": [
+      "csrp:bestiary/celestial/unlock1",
+      "csrp:bestiary/celestial/unlock2",
+      "csrp:bestiary/celestial/unlock3",
+      "csrp:bestiary/celestial/unlock4",
+      "csrp:bestiary/celestial/unlock5",
+      "csrp:bestiary/celestial/unlock6",
+      "csrp:bestiary/celestial/unlock7",
+      "csrp:bestiary/celestial/unlock8"
+    ]
+  },
+  "compendium.unlock.entity": {
+    "category": "player",
+    "subtitle": "subtitles.compendium.unlocked",
+    "sounds": [
+      "csrp:bestiary/entity/unlock1",
+      "csrp:bestiary/entity/unlock2",
+      "csrp:bestiary/entity/unlock3",
+      "csrp:bestiary/entity/unlock4",
+      "csrp:bestiary/entity/unlock5",
+      "csrp:bestiary/entity/unlock6",
+      "csrp:bestiary/entity/unlock7",
+      "csrp:bestiary/entity/unlock8"
+    ]
+  },
+  "relay.paper.output": {
+    "category": "player",
+    "subtitle": "subtitles.entity.relaypaper",
+    "sounds": [
+      "csrp:relay_paper_output"
+    ]
+  },
+  "relay.scan.activate": {
+    "category": "player",
+    "subtitle": "subtitles.entity.relayscan",
+    "sounds": [
+      "csrp:relay_signal_activation"
+    ]
+  },
+  "shrimp.eat": {
+    "category": "player",
+    "subtitle": "subtitles.shrimp.eat",
+    "sounds": [
+      {
+        "name": "csrp:item/shrimp_eat1",
+        "pitch": 1
+      },
+      {
+        "name": "csrp:item/shrimp_eat2",
+        "pitch": 1
+      },
+      {
+        "name": "csrp:item/shrimp_eat3",
+        "pitch": 1
+      },
+      {
+        "name": "csrp:item/shrimp_eat1",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:item/shrimp_eat2",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:item/shrimp_eat3",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:item/shrimp_eat1",
+        "pitch": 0.9
+      },
+      {
+        "name": "csrp:item/shrimp_eat2",
+        "pitch": 0.9
+      },
+      {
+        "name": "csrp:item/shrimp_eat3",
+        "pitch": 0.9
+      }
+    ]
+  },
+  "vengeance.attack.impact": {
+    "category": "player",
+    "subtitle": "subtitles.vengeance.impact",
+    "sounds": [
+      "csrp:item/vengeance_impact_hit"
+    ]
+  },
+  "vengeance.attack.paper": {
+    "category": "player",
+    "subtitle": "subtitles.vengeance.paper",
+    "sounds": [
+      "csrp:item/vengeance_paper_rub"
+    ]
+  },
+  "vengeance.attack.chain": {
+    "category": "player",
+    "subtitle": "subtitles.vengeance.chain",
+    "sounds": [
+      "csrp:item/vengeance_chain_impact"
+    ]
+  },
+  "vengeance.attack.whoosh": {
+    "category": "player",
+    "subtitle": "subtitles.vengeance.whoosh",
+    "sounds": [
+      "csrp:item/whoosh"
+    ]
+  },
+  "vengeance.attack.rock": {
+    "category": "player",
+    "subtitle": "subtitles.vengeance.impact",
+    "sounds": [
+      "csrp:item/vengeance_rock_impact"
+    ]
+  },
+  "orb.attack.summon": {
+    "category": "player",
+    "subtitle": "subtitles.orb.summon",
+    "distance": 30,
+    "sounds": [
+      "csrp:misc/orb_attack_summon"
+    ]
+  },
+  "orb.attack.idle": {
+    "category": "player",
+    "subtitle": "subtitles.orb.idle",
+    "distance": 30,
+    "sounds": [
+      {
+        "name": "csrp:misc/orb_attack_idle",
+        "volume": 0.8
+      }
+    ]
+  },
+  "attack.ranrac": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:ada_arachnida_special"
+    ]
+  },
+  "attack.bano": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:ada_bolster_special"
+    ]
+  },
+  "attack.shyco": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:ada_longarm_special"
+    ]
+  },
+  "attack.nogla": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:ada_reeker_special"
+    ]
+  },
+  "attack.wymo": {
+    "subtitle": "subtitles.tozoon.special",
+    "category": "hostile",
+    "sounds": [
+      "csrp:adapted/tozoon/special"
+    ]
+  },
+  "attack.gim": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:ada_viscera_special"
+    ]
+  },
+  "attack.emana": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:ada_yelloweye_special"
+    ]
+  },
+  "lum.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.devourerdeath",
+    "sounds": [
+      "csrp:devourerdeath"
+    ]
+  },
+  "lum.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.devourerhurt",
+    "sounds": [
+      "csrp:devourerhurt1",
+      "csrp:devourerhurt2",
+      "csrp:devourerhurt3"
+    ]
+  },
+  "lum.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.devourerliving",
+    "sounds": [
+      "csrp:devourerliving1",
+      "csrp:devourerliving2",
+      "csrp:devourerliving3",
+      "csrp:devourerliving4"
+    ]
+  },
+  "gim.death": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:prim_viscera_death"
+    ]
+  },
+  "gim.hurt": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:prim_viscera_hurt_1",
+      "csrp:prim_viscera_hurt_2",
+      "csrp:prim_viscera_hurt_3"
+    ]
+  },
+  "gim.growl": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:prim_viscera_living_1",
+      "csrp:prim_viscera_living_2",
+      "csrp:prim_viscera_living_3"
+    ]
+  },
+  "zaa.death": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:prim_burrower_death"
+    ]
+  },
+  "zaa.hurt": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:prim_burrower_hurt_1",
+      "csrp:prim_burrower_hurt_2",
+      "csrp:prim_burrower_hurt_3"
+    ]
+  },
+  "zaa.growl": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:prim_burrower_living_1",
+      "csrp:prim_burrower_living_2",
+      "csrp:prim_burrower_living_3"
+    ]
+  },
+  "zaa.dig": {
+    "subtitle": "subtitles.dig",
+    "category": "hostile",
+    "sounds": [
+      "csrp:mob/dig/digging1",
+      "csrp:mob/dig/digging2",
+      "csrp:mob/dig/digging3"
+    ]
+  },
+  "wymo.death": {
+    "subtitle": "subtitles.tozoon.death",
+    "category": "hostile",
+    "sounds": [
+      "csrp:prim_tozoon_death"
+    ]
+  },
+  "wymo.hurt": {
+    "subtitle": "subtitles.tozoon.hurt",
+    "category": "hostile",
+    "sounds": [
+      "csrp:primitive/tozoon/hurt1",
+      "csrp:primitive/tozoon/hurt2",
+      "csrp:primitive/tozoon/hurt3"
+    ]
+  },
+  "wymo.growl": {
+    "subtitle": "subtitles.tozoon.idle",
+    "category": "hostile",
+    "sounds": [
+      "csrp:primitive/tozoon/idle1",
+      "csrp:primitive/tozoon/idle2",
+      "csrp:primitive/tozoon/idle3"
+    ]
+  },
+  "wymo.dig": {
+    "subtitle": "subtitles.dig",
+    "category": "hostile",
+    "sounds": [
+      "csrp:mob/dig/digging1",
+      "csrp:mob/dig/digging2",
+      "csrp:mob/dig/digging3"
+    ]
+  },
+  "infectedhuman.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.assimhumandeath",
+    "sounds": [
+      "csrp:mob/assimilated/human/death"
+    ]
+  },
+  "infectedhuman.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.assimhumanliving",
+    "sounds": [
+      {
+        "name": "csrp:mob/assimilated/human/idle1",
+        "weight": 1000
+      },
+      {
+        "name": "csrp:mob/assimilated/human/idle2",
+        "weight": 1000
+      },
+      {
+        "name": "csrp:mob/assimilated/human/idle3",
+        "weight": 1000
+      },
+      {
+        "name": "csrp:mob/assimilated/human/idle4",
+        "weight": 1000
+      },
+      {
+        "name": "csrp:mob/assimilated/human/idle5",
+        "weight": 1000
+      },
+      {
+        "name": "csrp:mob/assimilated/human/old_idle",
+        "weight": 1
+      }
+    ]
+  },
+  "infectedhuman.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.assimhumanhurt",
+    "sounds": [
+      "csrp:mob/assimilated/human/hurt1",
+      "csrp:mob/assimilated/human/hurt2",
+      "csrp:mob/assimilated/human/hurt3",
+      "csrp:mob/assimilated/human/hurt4",
+      "csrp:mob/assimilated/human/hurt5"
+    ]
+  },
+  "assimadventurer.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.assimhumandeath",
+    "sounds": [
+      "csrp:mob/assimilated/human/death"
+    ]
+  },
+  "assimadventurer.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.assimadvliving",
+    "sounds": [
+      "csrp:mob/assimilated/adventurer/breath1",
+      "csrp:mob/assimilated/adventurer/breath2",
+      "csrp:mob/assimilated/adventurer/breath3"
+    ]
+  },
+  "assimadventurer.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.assimhumanhurt",
+    "sounds": [
+      "csrp:mob/assimilated/human/hurt1",
+      "csrp:mob/assimilated/human/hurt2",
+      "csrp:mob/assimilated/human/hurt3"
+    ]
+  },
+  "ancient": {
+    "category": "record",
+    "sounds": [
+      {
+        "name": "csrp:misc/ancient",
+        "stream": true
+      }
+    ]
+  },
+  "assenderman.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.assendermandeath",
+    "sounds": [
+      "csrp:mob/assimara/enderman/death"
+    ]
+  },
+  "assenderman.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.assendermanliving",
+    "sounds": [
+      "csrp:mob/assimara/enderman/idle1",
+      "csrp:mob/assimara/enderman/idle2",
+      "csrp:mob/assimara/enderman/idle3",
+      "csrp:mob/assimara/enderman/idle4",
+      "csrp:mob/assimara/enderman/idle5"
+    ]
+  },
+  "assenderman.portal": {
+    "category": "hostile",
+    "subtitle": "subtitles.assendermanteleports",
+    "sounds": [
+      "csrp:mob/assimara/enderman/portal1",
+      "csrp:mob/assimara/enderman/portal2"
+    ]
+  },
+  "assenderman.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.assendermanhurt",
+    "sounds": [
+      "csrp:mob/assimara/enderman/hurt1",
+      "csrp:mob/assimara/enderman/hurt2",
+      "csrp:mob/assimara/enderman/hurt3",
+      "csrp:mob/assimara/enderman/hurt4"
+    ]
+  },
+  "infected.death": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:infectedanimal_death",
+      "csrp:infected_death"
+    ]
+  },
+  "infected.growl": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:infectedanimal_growl",
+      "csrp:infected_ambient"
+    ]
+  },
+  "infected.hurt": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:infectedanimal_hurt",
+      "csrp:infected_hurt"
+    ]
+  },
+  "infectedpig.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.assimpigdeath",
+    "sounds": [
+      "csrp:assimilatedpigdeath"
+    ]
+  },
+  "infectedpig.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.assimpigliving",
+    "sounds": [
+      "csrp:assimilatedpigliving1",
+      "csrp:assimilatedpigliving2",
+      "csrp:assimilatedpigliving3"
+    ]
+  },
+  "infectedpig.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.assimpighurt",
+    "sounds": [
+      "csrp:assimilatedpighurt1",
+      "csrp:assimilatedpighurt2",
+      "csrp:assimilatedpighurt3"
+    ]
+  },
+  "infectedcow.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.assimcowdeath",
+    "sounds": [
+      "csrp:assimilatedcowdeath"
+    ]
+  },
+  "infectedcow.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.assimcowliving",
+    "sounds": [
+      "csrp:assimilatedcowliving1",
+      "csrp:assimilatedcowliving2",
+      "csrp:assimilatedcowliving3"
+    ]
+  },
+  "infectedcow.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.assimcowhurt",
+    "sounds": [
+      "csrp:assimilatedcowhurt1",
+      "csrp:assimilatedcowhurt2",
+      "csrp:assimilatedcowhurt3"
+    ]
+  },
+  "infectedhorse.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.assimhorsedeath",
+    "sounds": [
+      "csrp:assimilatedhorsedeath"
+    ]
+  },
+  "infectedhorse.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.assimhorseliving",
+    "sounds": [
+      "csrp:assimilatedhorseliving1",
+      "csrp:assimilatedhorseliving2",
+      "csrp:assimilatedhorseliving3"
+    ]
+  },
+  "infectedhorse.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.assimhorsehurt",
+    "sounds": [
+      "csrp:assimilatedhorsehurt1",
+      "csrp:assimilatedhorsehurt2",
+      "csrp:assimilatedhorsehurt3"
+    ]
+  },
+  "infectedhorse.sa1": {
+    "category": "hostile",
+    "subtitle": "subtitles.assimhorsecharge",
+    "sounds": [
+      "csrp:assimilatedhorsecharge"
+    ]
+  },
+  "infectedhorse.sa2": {
+    "category": "hostile",
+    "subtitle": "subtitles.entity.generic.explode",
+    "sounds": [
+      "csrp:assimilatedhorseexplode"
+    ]
+  },
+  "infectedsheep.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.assimsheepdeath",
+    "sounds": [
+      "csrp:assimilatedsheepdeath"
+    ]
+  },
+  "infectedsheep.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.assimsheepliving",
+    "sounds": [
+      "csrp:assimilatedsheepliving1",
+      "csrp:assimilatedsheepliving2",
+      "csrp:assimilatedsheepliving3"
+    ]
+  },
+  "infectedsheep.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.assimsheephurt",
+    "sounds": [
+      "csrp:assimilatedsheephurt1",
+      "csrp:assimilatedsheephurt2",
+      "csrp:assimilatedsheephurt3"
+    ]
+  },
+  "infectedwolf.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.assimwolfdeath",
+    "sounds": [
+      "csrp:assimilatedwolfdeath"
+    ]
+  },
+  "infectedwolf.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.assimwolfliving",
+    "sounds": [
+      "csrp:assimilatedwolfliving1",
+      "csrp:assimilatedwolfliving2",
+      "csrp:assimilatedwolfliving3"
+    ]
+  },
+  "infectedwolf.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.assimwolfhurt",
+    "sounds": [
+      "csrp:assimilatedwolfhurt1",
+      "csrp:assimilatedwolfhurt2",
+      "csrp:assimilatedwolfhurt3"
+    ]
+  },
+  "infectedsquid.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.assimsquiddeath",
+    "sounds": [
+      "csrp:as_squid_death"
+    ]
+  },
+  "infectedsquid.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.assimsquidfliving",
+    "sounds": [
+      "csrp:as_squid_idle_1",
+      "csrp:as_squid_idle_2",
+      "csrp:as_squid_idle_3"
+    ]
+  },
+  "infectedsquid.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.assimsquidhurt",
+    "sounds": [
+      "csrp:as_squid_hurt_1",
+      "csrp:as_squid_hurt_2",
+      "csrp:as_squid_hurt_3"
+    ]
+  },
+  "infectedbear.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.assimbeardeath",
+    "sounds": [
+      "csrp:assimilatedbeardeath"
+    ]
+  },
+  "infectedbear.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.assimbearliving",
+    "sounds": [
+      "csrp:assimilatedbearliving1",
+      "csrp:assimilatedbearliving2",
+      "csrp:assimilatedbearliving3"
+    ]
+  },
+  "infectedbear.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.assimbearhurt",
+    "sounds": [
+      "csrp:assimilatedbearhurt1",
+      "csrp:assimilatedbearhurt2",
+      "csrp:assimilatedbearhurt3"
+    ]
+  },
+  "infectedspider.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.assimspiderdeath",
+    "sounds": [
+      "csrp:assimilatedspiderdeath"
+    ]
+  },
+  "iki.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.vermindeath",
+    "sounds": [
+      "csrp:vermindeath"
+    ]
+  },
+  "iki.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.verminhurt",
+    "sounds": [
+      "csrp:verminhurt1",
+      "csrp:verminhurt2"
+    ]
+  },
+  "iki.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.verminliving",
+    "sounds": [
+      "csrp:verminliving1",
+      "csrp:verminliving2",
+      "csrp:verminliving3"
+    ]
+  },
+  "infectedspider.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.assimspiderliving",
+    "sounds": [
+      "csrp:assimilatedspidersay1",
+      "csrp:assimilatedspidersay2",
+      "csrp:assimilatedspidersay3",
+      "csrp:assimilatedspidersay4"
+    ]
+  },
+  "lite_flesh.slide": {
+    "category": "hostile",
+    "subtitle": "subtitles.litefleshslide",
+    "sounds": [
+      "csrp:mob/step/lite_flesh/slide1",
+      "csrp:mob/step/lite_flesh/slide2",
+      "csrp:mob/step/lite_flesh/slide3",
+      "csrp:mob/step/lite_flesh/slide4"
+    ]
+  },
+  "small.step": {
+    "category": "hostile",
+    "subtitle": "subtitles.block.generic.footsteps",
+    "sounds": [
+      "csrp:mob/step/small/step1",
+      "csrp:mob/step/small/step2",
+      "csrp:mob/step/small/step3",
+      "csrp:mob/step/small/step4"
+    ]
+  },
+  "infectedspider.step": {
+    "category": "hostile",
+    "subtitle": "subtitles.assimspidersteps",
+    "sounds": [
+      "csrp:assimilatedspiderstep1",
+      "csrp:assimilatedspiderstep2",
+      "csrp:assimilatedspiderstep3",
+      "csrp:assimilatedspiderstep4"
+    ]
+  },
+  "infectedspider.hurt": {
+    "category": "hostile",
+    "sounds": []
+  },
+  "infectedenderman.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.simmermandeath",
+    "sounds": [
+      "csrp:mob/assimilated/enderman/death"
+    ]
+  },
+  "infectedenderman.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.simmermanliving",
+    "sounds": [
+      "csrp:mob/assimilated/enderman/idle1",
+      "csrp:mob/assimilated/enderman/idle2",
+      "csrp:mob/assimilated/enderman/idle3",
+      "csrp:mob/assimilated/enderman/idle4",
+      "csrp:mob/assimilated/enderman/idle5",
+      "csrp:mob/assimilated/enderman/idle6"
+    ]
+  },
+  "infectedenderman.portal": {
+    "category": "hostile",
+    "subtitle": "subtitles.simmermanteleports",
+    "sounds": [
+      "csrp:mob/assimilated/enderman/portal1",
+      "csrp:mob/assimilated/enderman/portal2"
+    ]
+  },
+  "infectedenderman.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.simmermanhurt",
+    "sounds": [
+      "csrp:mob/assimilated/enderman/hurt1",
+      "csrp:mob/assimilated/enderman/hurt2",
+      "csrp:mob/assimilated/enderman/hurt3",
+      "csrp:mob/assimilated/enderman/hurt4"
+    ]
+  },
+  "infectedhead.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.headdeath",
+    "sounds": [
+      "csrp:infectedhead_death"
+    ]
+  },
+  "infectedhead.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.headliving",
+    "sounds": [
+      "csrp:infectedhead_growl",
+      "csrp:infectedhead_growl1",
+      "csrp:infectedhead_growl2"
+    ]
+  },
+  "infectedhead.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.headhurt",
+    "sounds": [
+      "csrp:infectedhead_hurt",
+      "csrp:infectedhead_hurt1"
+    ]
+  },
+  "infected.melt": {
+    "category": "hostile",
+    "subtitle": "subtitles.infectedfleshmelt",
+    "sounds": [
+      "csrp:mob/crude/flesh/infected_melting"
+    ]
+  },
+  "hiblaze.fire": {
+    "category": "hostile",
+    "subtitle": "subtitles.hi_blaze.shoot",
+    "sounds": [
+      "csrp:mob/hijacked/blaze/shoot"
+    ]
+  },
+  "hiblaze.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.hi_blaze.death",
+    "sounds": [
+      "csrp:mob/hijacked/blaze/death"
+    ]
+  },
+  "hiblaze.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.hi_blaze.idle",
+    "sounds": [
+      "csrp:mob/hijacked/blaze/idle1",
+      "csrp:mob/hijacked/blaze/idle2",
+      "csrp:mob/hijacked/blaze/idle3"
+    ]
+  },
+  "hiblaze.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.hi_blaze.hurt",
+    "sounds": [
+      "csrp:mob/hijacked/blaze/hurt1",
+      "csrp:mob/hijacked/blaze/hurt2",
+      "csrp:mob/hijacked/blaze/hurt3",
+      "csrp:mob/hijacked/blaze/hurt4"
+    ]
+  },
+  "higolem.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.hi_golem.death",
+    "sounds": [
+      "csrp:mob/hijacked/golem/death"
+    ]
+  },
+  "higolem.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.hi_golem.idle",
+    "sounds": [
+      "csrp:mob/hijacked/golem/idle1",
+      "csrp:mob/hijacked/golem/idle2",
+      "csrp:mob/hijacked/golem/idle3"
+    ]
+  },
+  "higolem.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.hi_golem.hurt",
+    "sounds": [
+      "csrp:mob/hijacked/golem/hurt1",
+      "csrp:mob/hijacked/golem/hurt2",
+      "csrp:mob/hijacked/golem/hurt3"
+    ]
+  },
+  "canra.death": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:canra_death"
+    ]
+  },
+  "canra.growl": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:canra_growl"
+    ]
+  },
+  "canra.hurt": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:canra_hurt"
+    ]
+  },
+  "canra.special": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:canra_special"
+    ]
+  },
+  "emana.death": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:emana_death"
+    ]
+  },
+  "emana.growl": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:emana_growl"
+    ]
+  },
+  "emana.hurt": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:emana_hurt"
+    ]
+  },
+  "emana.shooting": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:emana_shooting"
+    ]
+  },
+  "emana.shootingpost": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:emana_shootingpost"
+    ]
+  },
+  "nogla.death": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:nogla_death"
+    ]
+  },
+  "nogla.growl": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:nogla_growl"
+    ]
+  },
+  "nogla.hurt": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:nogla_hurt"
+    ]
+  },
+  "hull.death": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:hull_death"
+    ]
+  },
+  "hull.growl": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:hull_growl"
+    ]
+  },
+  "hull.hurt": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:hull_hurt"
+    ]
+  },
+  "shyco.death": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:shyco_death"
+    ]
+  },
+  "shyco.growl": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:shyco_growl"
+    ]
+  },
+  "shyco.hurt": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:shyco_hurt"
+    ]
+  },
+  "zetmo.death": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:zetmo_death"
+    ]
+  },
+  "zetmo.growl": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:zetmo_growl"
+    ]
+  },
+  "zetmo.hurt": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:zetmo_hurt"
+    ]
+  },
+  "acanra.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.adasummonerdeath",
+    "sounds": [
+      "csrp:adaptedsummonerdeath"
+    ]
+  },
+  "acanra.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.adasummonerliving",
+    "sounds": [
+      "csrp:adaptedsummonerliving1",
+      "csrp:adaptedsummonerliving2",
+      "csrp:adaptedsummonerliving3",
+      "csrp:adaptedsummonerliving4",
+      "csrp:adaptedsummonerliving5"
+    ]
+  },
+  "acanra.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.adasummonerhurt",
+    "sounds": [
+      "csrp:adaptedsummonerhurt1",
+      "csrp:adaptedsummonerhurt2",
+      "csrp:adaptedsummonerhurt3"
+    ]
+  },
+  "acanra.special": {
+    "category": "hostile",
+    "subtitle": "subtitles.adasummonersummon",
+    "sounds": [
+      "csrp:adaptedsummonerscream"
+    ]
+  },
+  "aiki.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.adaverminhurt",
+    "sounds": [
+      "csrp:adapted_vermin_death"
+    ]
+  },
+  "aiki.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.adaverminidle",
+    "sounds": [
+      "csrp:adapted_vermin_idle_1",
+      "csrp:adapted_vermin_idle_2",
+      "csrp:adapted_vermin_idle_3"
+    ]
+  },
+  "aiki.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.adaverminhurt",
+    "sounds": [
+      "csrp:adapted_vermin_hurt_1",
+      "csrp:adapted_vermin_hurt_2",
+      "csrp:adapted_vermin_hurt_3"
+    ]
+  },
+  "aemana.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.adayelloweyehurt",
+    "sounds": [
+      "csrp:adaptedyelloweyedeath"
+    ]
+  },
+  "aemana.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.adayelloweyeliving",
+    "sounds": [
+      "csrp:adaptedyelloweyeliving1",
+      "csrp:adaptedyelloweyeliving2",
+      "csrp:adaptedyelloweyeliving3"
+    ]
+  },
+  "aemana.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.adayelloweyehurt",
+    "sounds": [
+      "csrp:adaptedyelloweyehurt1",
+      "csrp:adaptedyelloweyehurt2",
+      "csrp:adaptedyelloweyehurt3"
+    ]
+  },
+  "aemana.shootingpost": {
+    "category": "hostile",
+    "subtitle": "subtitles.adayelloweyeshoot",
+    "sounds": [
+      "csrp:adaptedyelloweyeshooting"
+    ]
+  },
+  "anogla.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.adareekerdeath",
+    "sounds": [
+      "csrp:adaptedreekerdeath"
+    ]
+  },
+  "anogla.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.adareekerliving",
+    "sounds": [
+      "csrp:adaptedreekerliving1",
+      "csrp:adaptedreekerliving2",
+      "csrp:adaptedreekerliving3",
+      "csrp:adaptedreekerliving4",
+      "csrp:adaptedreekerliving5"
+    ]
+  },
+  "anogla.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.adareekerhurt",
+    "sounds": [
+      "csrp:adaptedreekerhurt1",
+      "csrp:adaptedreekerhurt2",
+      "csrp:adaptedreekerhurt3",
+      "csrp:adaptedreekerhurt4"
+    ]
+  },
+  "ahull.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.adamandudeath",
+    "sounds": [
+      "csrp:adaptedmanducatordeath"
+    ]
+  },
+  "ahull.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.adamanduliving",
+    "sounds": [
+      "csrp:adaptedmanducatorliving1",
+      "csrp:adaptedmanducatorliving2",
+      "csrp:adaptedmanducatorliving3",
+      "csrp:adaptedmanducatorliving4"
+    ]
+  },
+  "ahull.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.adamanduhurt",
+    "sounds": [
+      "csrp:adaptedmanducatorhurt1",
+      "csrp:adaptedmanducatorhurt2",
+      "csrp:adaptedmanducatorhurt3"
+    ]
+  },
+  "ashyco.death": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:adaptedlongarmsdeath"
+    ]
+  },
+  "ashyco.growl": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:adaptedlongarmsliving1",
+      "csrp:adaptedlongarmsliving2",
+      "csrp:adaptedlongarmsliving3",
+      "csrp:adaptedlongarmsliving4",
+      "csrp:adaptedlongarmsliving5"
+    ]
+  },
+  "ashyco.hurt": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:adaptedlongarmshurt1",
+      "csrp:adaptedlongarmshurt2",
+      "csrp:adaptedlongarmshurt3"
+    ]
+  },
+  "agim.death": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:ada_viscera_death"
+    ]
+  },
+  "agim.growl": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:ada_viscera_living_1",
+      "csrp:ada_viscera_living_2",
+      "csrp:ada_viscera_living_3",
+      "csrp:ada_viscera_living_4"
+    ]
+  },
+  "agim.hurt": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:ada_viscera_hurt_1",
+      "csrp:ada_viscera_hurt_2",
+      "csrp:ada_viscera_hurt_3"
+    ]
+  },
+  "awymo.death": {
+    "subtitle": "subtitles.tozoon.death",
+    "category": "hostile",
+    "sounds": [
+      "csrp:mob/adapted/tozoon/death"
+    ]
+  },
+  "awymo.growl": {
+    "subtitle": "subtitles.tozoon.idle",
+    "category": "hostile",
+    "sounds": [
+      "csrp:mob/adapted/tozoon/idle1",
+      "csrp:mob/adapted/tozoon/idle2",
+      "csrp:mob/adapted/tozoon/idle3",
+      "csrp:mob/adapted/tozoon/idle4"
+    ]
+  },
+  "awymo.hurt": {
+    "subtitle": "subtitles.tozoon.hurt",
+    "category": "hostile",
+    "sounds": [
+      "csrp:mob/adapted/tozoon/hurt1",
+      "csrp:mob/adapted/tozoon/hurt2",
+      "csrp:mob/adapted/tozoon/hurt3"
+    ]
+  },
+  "awymo.dig": {
+    "subtitle": "subtitles.dig",
+    "category": "hostile",
+    "sounds": [
+      "csrp:mob/dig/digging1",
+      "csrp:mob/dig/digging2",
+      "csrp:mob/dig/digging3"
+    ]
+  },
+  "azaa.death": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:ada_burrower_death"
+    ]
+  },
+  "azaa.growl": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:ada_burrower_living_1",
+      "csrp:ada_burrower_living_2",
+      "csrp:ada_burrower_living_3",
+      "csrp:ada_burrower_living_4"
+    ]
+  },
+  "azaa.hurt": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:ada_burrower_hurt_1",
+      "csrp:ada_burrower_hurt_2",
+      "csrp:ada_burrower_hurt_3"
+    ]
+  },
+  "azaa.dig": {
+    "subtitle": "subtitles.dig",
+    "category": "hostile",
+    "sounds": [
+      "csrp:mob/dig/digging1",
+      "csrp:mob/dig/digging2",
+      "csrp:mob/dig/digging3"
+    ]
+  },
+  "azetmo.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.adabolsterdeath",
+    "sounds": [
+      "csrp:adaptedbolsterdeath"
+    ]
+  },
+  "azetmo.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.adabolsterliving",
+    "sounds": [
+      "csrp:adaptedbolsterliving1",
+      "csrp:adaptedbolsterliving2",
+      "csrp:adaptedbolsterliving3"
+    ]
+  },
+  "azetmo.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.adabolsterhurt",
+    "sounds": [
+      "csrp:adaptedbolsterhurt1",
+      "csrp:adaptedbolsterhurt2",
+      "csrp:adaptedbolsterhurt3"
+    ]
+  },
+  "aranrac.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.adaarachdeath",
+    "sounds": [
+      "csrp:adaptedarachnidadeath"
+    ]
+  },
+  "aranrac.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.adaarachliving",
+    "sounds": [
+      "csrp:adaptedarachnidaliving1",
+      "csrp:adaptedarachnidaliving2",
+      "csrp:adaptedarachnidaliving3",
+      "csrp:adaptedarachnidaliving4"
+    ]
+  },
+  "aranrac.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.adaarachhurt",
+    "sounds": [
+      "csrp:adaptedarachnidahurt1",
+      "csrp:adaptedarachnidahurt2",
+      "csrp:adaptedarachnidahurt3"
+    ]
+  },
+  "aranrac.step": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:adaptedarachnidastep1",
+      "csrp:adaptedarachnidastep2",
+      "csrp:adaptedarachnidastep4",
+      "csrp:adaptedarachnidastep3"
+    ]
+  },
+  "adapted.v": {
+    "category": "hostile",
+    "subtitle": "subtitles.adavomit",
+    "sounds": [
+      "csrp:misc/vomit"
+    ]
+  },
   "lodo.death": {
-    "subtitle": "subtitles.csrp.buglin.death",
-    "sounds": ["csrp:mob/pure/buglin/death"]
+    "category": "hostile",
+    "subtitle": "subtitles.buglindeath",
+    "sounds": [
+      "csrp:mob/pure/buglin/death"
+    ]
   },
   "lodo.growl": {
-    "subtitle": "subtitles.csrp.buglin.living",
+    "category": "hostile",
+    "subtitle": "subtitles.buglinliving",
     "sounds": [
       "csrp:mob/pure/buglin/idle1",
       "csrp:mob/pure/buglin/idle2",
@@ -12,7 +1417,8 @@
     ]
   },
   "lodo.hurt": {
-    "subtitle": "subtitles.csrp.buglin.hurt",
+    "category": "hostile",
+    "subtitle": "subtitles.buglinhurt",
     "sounds": [
       "csrp:mob/pure/buglin/hurt1",
       "csrp:mob/pure/buglin/hurt2",
@@ -20,12 +1426,4650 @@
     ]
   },
   "lodo.mudo": {
-    "subtitle": "subtitles.csrp.buglin.grow",
-    "sounds": ["csrp:mob/pure/buglin/lodo_mudo"]
+    "category": "hostile",
+    "subtitle": "subtitles.buglingrow",
+    "sounds": [
+      "csrp:mob/pure/buglin/lodo_mudo"
+    ]
   },
   "lodo.emerge": {
-    "subtitle": "subtitles.csrp.buglin.emerge",
-    "sounds": ["csrp:mob/pure/buglin/emerge"]
+    "category": "block",
+    "subtitle": "subtitles.buglinemerge",
+    "sounds": [
+      "csrp:mob/pure/buglin/emerge"
+    ]
+  },
+  "carrier.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.carrierdeath",
+    "sounds": [
+      "csrp:carrierdeath"
+    ]
+  },
+  "carrier.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.carrierliving",
+    "sounds": [
+      "csrp:carrierliving1",
+      "csrp:carrierliving2"
+    ]
+  },
+  "carrier.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.carrierhurt",
+    "sounds": [
+      "csrp:carrierhurt1",
+      "csrp:carrierhurt2"
+    ]
+  },
+  "monarch.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.monarchdeath",
+    "sounds": [
+      "csrp:monarchdeath"
+    ]
+  },
+  "monarch.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.monarchliving",
+    "sounds": [
+      "csrp:monarchliving1",
+      "csrp:monarchliving2",
+      "csrp:monarchliving3"
+    ]
+  },
+  "monarch.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.monarchhurt",
+    "sounds": [
+      "csrp:monarchhurt1",
+      "csrp:monarchhurt2",
+      "csrp:monarchhurt3"
+    ]
+  },
+  "inhoos.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.inhoosdeath",
+    "sounds": [
+      "csrp:mob/crude/incomplete_form/small/death"
+    ]
+  },
+  "inhoos.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.inhoosliving",
+    "sounds": [
+      "csrp:mob/crude/incomplete_form/small/idle1",
+      "csrp:mob/crude/incomplete_form/small/idle2",
+      "csrp:mob/crude/incomplete_form/small/idle3"
+    ]
+  },
+  "inhoos.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.inhooshurt",
+    "sounds": [
+      "csrp:mob/crude/incomplete_form/small/hurt1",
+      "csrp:mob/crude/incomplete_form/small/hurt2",
+      "csrp:mob/crude/incomplete_form/small/hurt3"
+    ]
+  },
+  "inhoom.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.inhoomdeath",
+    "sounds": [
+      "csrp:mob/crude/incomplete_form/medium/death"
+    ]
+  },
+  "inhoom.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.inhoomliving",
+    "sounds": [
+      "csrp:mob/crude/incomplete_form/medium/idle1",
+      "csrp:mob/crude/incomplete_form/medium/idle2",
+      "csrp:mob/crude/incomplete_form/medium/idle3"
+    ]
+  },
+  "inhoom.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.inhoomhurt",
+    "sounds": [
+      "csrp:mob/crude/incomplete_form/medium/hurt1",
+      "csrp:mob/crude/incomplete_form/medium/hurt2",
+      "csrp:mob/crude/incomplete_form/medium/hurt3"
+    ]
+  },
+  "host.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.hostdeath",
+    "sounds": [
+      "csrp:mob/crude/host/death"
+    ]
+  },
+  "host.underground": {
+    "category": "hostile",
+    "subtitle": "subtitles.hostidle",
+    "sounds": [
+      "csrp:mob/crude/host/burrow1",
+      "csrp:mob/crude/host/burrow2",
+      "csrp:mob/crude/host/burrow3"
+    ]
+  },
+  "host.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.hostidle",
+    "sounds": [
+      "csrp:mob/crude/host/idle1",
+      "csrp:mob/crude/host/idle2"
+    ]
+  },
+  "host.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.hosthurt",
+    "sounds": [
+      "csrp:mob/crude/host/hurt1",
+      "csrp:mob/crude/host/hurt2",
+      "csrp:mob/crude/host/hurt3"
+    ]
+  },
+  "host.em": {
+    "category": "hostile",
+    "subtitle": "subtitles.hostemerge",
+    "sounds": [
+      "csrp:mob/crude/host/reveal1",
+      "csrp:mob/crude/host/reveal2",
+      "csrp:mob/crude/host/reveal3"
+    ]
+  },
+  "done.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.dredgedeath",
+    "sounds": [
+      "csrp:prim_dredge_death"
+    ]
+  },
+  "done.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.dredgeliving",
+    "sounds": [
+      "csrp:prim_dredge_living_1",
+      "csrp:prim_dredge_living_2",
+      "csrp:prim_dredge_living_3",
+      "csrp:prim_dredge_living_4"
+    ]
+  },
+  "done.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.dredgehurt",
+    "sounds": [
+      "csrp:prim_dredge_hurt_1",
+      "csrp:prim_dredge_hurt_2",
+      "csrp:prim_dredge_hurt_3",
+      "csrp:prim_dredge_hurt_4"
+    ]
+  },
+  "quac.death": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:worm_carrier_death"
+    ]
+  },
+  "quac.hurt": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:worm_carrier_hurt_1",
+      "csrp:worm_carrier_hurt_2",
+      "csrp:worm_carrier_hurt_3"
+    ]
+  },
+  "quac.growl": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:worm_carrier_living_1",
+      "csrp:worm_carrier_living_2",
+      "csrp:worm_carrier_living_3"
+    ]
+  },
+  "quac.dig": {
+    "subtitle": "subtitles.dig",
+    "category": "hostile",
+    "sounds": [
+      "csrp:mob/dig/emerge_huge1",
+      "csrp:mob/dig/emerge_huge2",
+      "csrp:mob/dig/emerge_huge3"
+    ]
+  },
+  "mes.death": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:thrall_death"
+    ]
+  },
+  "mes.growl": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:thrall_living_1",
+      "csrp:thrall_living_2",
+      "csrp:thrall_living_3",
+      "csrp:thrall_living_4",
+      "csrp:thrall_living_5"
+    ]
+  },
+  "mes.hurt": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:thrall_hurt_1",
+      "csrp:thrall_hurt_2",
+      "csrp:thrall_hurt_3"
+    ]
+  },
+  "crux.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.cruxdeath",
+    "sounds": [
+      "csrp:crux_death"
+    ]
+  },
+  "crux.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.cruxliving",
+    "sounds": [
+      "csrp:crux_living_1",
+      "csrp:crux_living_2",
+      "csrp:crux_living_3",
+      "csrp:crux_living_4",
+      "csrp:crux_living_5",
+      "csrp:crux_living_6"
+    ]
+  },
+  "crux.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.cruxhurt",
+    "sounds": [
+      "csrp:crux_hurt_1",
+      "csrp:crux_hurt_2",
+      "csrp:crux_hurt_3",
+      "csrp:crux_hurt_4"
+    ]
+  },
+  "mudo.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.rupterdies",
+    "sounds": [
+      "csrp:mob/pure/rupter/death"
+    ]
+  },
+  "mudo.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.rupterliving",
+    "sounds": [
+      "csrp:mob/pure/rupter/idle1",
+      "csrp:mob/pure/rupter/idle2",
+      "csrp:mob/pure/rupter/idle3"
+    ]
+  },
+  "mudo.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.rupterhurt",
+    "sounds": [
+      "csrp:mob/pure/rupter/hurt1",
+      "csrp:mob/pure/rupter/hurt2",
+      "csrp:mob/pure/rupter/hurt3"
+    ]
+  },
+  "mudo.cloud": {
+    "category": "hostile",
+    "subtitle": "subtitles.rupterinfect",
+    "sounds": [
+      "csrp:mob/pure/rupter/cloud"
+    ]
+  },
+  "nuuh.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.mangler_dies",
+    "sounds": [
+      "csrp:mob/pure/mangler/death"
+    ]
+  },
+  "nuuh.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.mangler_idle",
+    "sounds": [
+      "csrp:mob/pure/mangler/idle1",
+      "csrp:mob/pure/mangler/idle2",
+      "csrp:mob/pure/mangler/idle3"
+    ]
+  },
+  "nuuh.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.mangler_hurt",
+    "sounds": [
+      "csrp:mob/pure/mangler/hurt1",
+      "csrp:mob/pure/mangler/hurt2",
+      "csrp:mob/pure/mangler/hurt3"
+    ]
+  },
+  "ganro.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.wardendeath",
+    "sounds": [
+      "csrp:wardendeath"
+    ]
+  },
+  "ganro.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.wardenliving",
+    "sounds": [
+      "csrp:wardenliving1",
+      "csrp:wardenliving2",
+      "csrp:wardenliving3"
+    ]
+  },
+  "ganro.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.wardenhurt",
+    "sounds": [
+      "csrp:wardenhurt1",
+      "csrp:wardenhurt2",
+      "csrp:wardenhurt3"
+    ]
+  },
+  "esor.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.marauderdeath",
+    "sounds": [
+      "csrp:marauderdeath"
+    ]
+  },
+  "esor.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.marauderliving",
+    "sounds": [
+      "csrp:marauderliving1",
+      "csrp:marauderliving2",
+      "csrp:marauderliving3"
+    ]
+  },
+  "esor.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.marauderhurt",
+    "sounds": [
+      "csrp:marauderhurt1",
+      "csrp:marauderhurt2",
+      "csrp:marauderhurt3"
+    ]
+  },
+  "omboo.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.lightbomberdeath",
+    "sounds": [
+      "csrp:light_bomber_death"
+    ]
+  },
+  "omboo.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.lightbomberliving",
+    "sounds": [
+      "csrp:light_bomber_living_1",
+      "csrp:light_bomber_living_2",
+      "csrp:light_bomber_living_3"
+    ]
+  },
+  "omboo.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.lightbomberhurt",
+    "sounds": [
+      "csrp:light_bomber_hurt_1",
+      "csrp:light_bomber_hurt_2",
+      "csrp:light_bomber_hurt_3"
+    ]
+  },
+  "alafha.death": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:alafha_death"
+    ]
+  },
+  "alafha.growl": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:alafha_growl",
+      "csrp:alafha_growl1",
+      "csrp:alafha_growl2"
+    ]
+  },
+  "alafha.hurt": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:alafha_hurt",
+      "csrp:alafha_hurt1",
+      "csrp:alafha_hurt2"
+    ]
+  },
+  "anged.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.vigideath",
+    "sounds": [
+      "csrp:vigilantedeath"
+    ]
+  },
+  "anged.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.vigiliving",
+    "sounds": [
+      "csrp:vigilanteliving1",
+      "csrp:vigilanteliving2",
+      "csrp:vigilanteliving3",
+      "csrp:vigilanteliving4"
+    ]
+  },
+  "anged.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.vigihurt",
+    "sounds": [
+      "csrp:vigilantehurt1",
+      "csrp:vigilantehurt2",
+      "csrp:vigilantehurt3",
+      "csrp:vigilantehurt4"
+    ]
+  },
+  "elvia.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.bogledeath",
+    "sounds": [
+      "csrp:elviaDeath"
+    ]
+  },
+  "elvia.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.bogleliving",
+    "sounds": [
+      "csrp:elviaLiving1",
+      "csrp:elviaLiving2",
+      "csrp:elviaLiving3"
+    ]
+  },
+  "elvia.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.boglehurt",
+    "sounds": [
+      "csrp:elviaHurt1",
+      "csrp:elviaHurt2",
+      "csrp:elviaHurt3"
+    ]
+  },
+  "lencia.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.bogledeath",
+    "sounds": [
+      "csrp:lenciaDeath"
+    ]
+  },
+  "lencia.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.bogleliving",
+    "sounds": [
+      "csrp:lenciaLiving1",
+      "csrp:lenciaLiving2",
+      "csrp:lenciaLiving3"
+    ]
+  },
+  "lencia.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.boglehurt",
+    "sounds": [
+      "csrp:lenciaHurt1",
+      "csrp:lenciaHurt2",
+      "csrp:lenciaHurt3"
+    ]
+  },
+  "jinjo.death": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:heavy_bomber_death"
+    ]
+  },
+  "jinjo.growl": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:heavy_bomber_living_1",
+      "csrp:heavy_bomber_living_2",
+      "csrp:heavy_bomber_living_3"
+    ]
+  },
+  "jinjo.hurt": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:heavy_bomber_hurt_1",
+      "csrp:heavy_bomber_hurt_2",
+      "csrp:heavy_bomber_hurt_3"
+    ]
+  },
+  "vesta.death": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:colony_carrier_death"
+    ]
+  },
+  "vesta.growl": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:colony_carrier_living_1",
+      "csrp:colony_carrier_living_2",
+      "csrp:colony_carrier_living_3"
+    ]
+  },
+  "vesta.hurt": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:colony_carrier_hurt_1",
+      "csrp:colony_carrier_hurt_2",
+      "csrp:colony_carrier_hurt_3"
+    ]
+  },
+  "flesh.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.fleshdeath",
+    "sounds": [
+      "csrp:mob/crude/moving_flesh/death"
+    ]
+  },
+  "flesh.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.fleshliving",
+    "sounds": [
+      "csrp:mob/crude/moving_flesh/idle1",
+      "csrp:mob/crude/moving_flesh/idle2",
+      "csrp:mob/crude/moving_flesh/idle3"
+    ]
+  },
+  "flesh.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.fleshhurt",
+    "sounds": [
+      "csrp:mob/crude/moving_flesh/hurt"
+    ]
+  },
+  "flesh.grow": {
+    "category": "hostile",
+    "subtitle": "subtitles.fleshgrow",
+    "sounds": [
+      "csrp:mob/crude/moving_flesh/grow"
+    ]
+  },
+  "flesh.eat": {
+    "category": "hostile",
+    "subtitle": "subtitles.flesheat",
+    "sounds": [
+      "csrp:mob/crude/moving_flesh/eat"
+    ]
+  },
+  "flesh.primitive": {
+    "category": "hostile",
+    "subtitle": "subtitles.fleshprimitive",
+    "sounds": [
+      "csrp:mob/crude/moving_flesh/primitive"
+    ]
+  },
+  "anged.shooting": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:anged_shooting"
+    ]
+  },
+  "anged.shootingpost": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:anged_shootingpost"
+    ]
+  },
+  "bodies.death": {
+    "subtitle": "subtitles.abobodies.death",
+    "category": "hostile",
+    "sounds": []
+  },
+  "bodies.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.abobodies.idle",
+    "sounds": [
+      "csrp:mob/abomination/body/idle1",
+      "csrp:mob/abomination/body/idle2"
+    ]
+  },
+  "bodies.hurt": {
+    "subtitle": "subtitles.abobodies.hurt",
+    "category": "hostile",
+    "sounds": [
+      {
+        "name": "csrp:assimilatedsheephurt1",
+        "pitch": 0.4
+      },
+      {
+        "name": "csrp:assimilatedsheephurt2",
+        "pitch": 0.4
+      },
+      {
+        "name": "csrp:assimilatedsheephurt3",
+        "pitch": 0.4
+      },
+      {
+        "name": "csrp:assimilatedcowhurt1",
+        "pitch": 0.4
+      },
+      {
+        "name": "csrp:assimilatedcowhurt2",
+        "pitch": 0.4
+      },
+      {
+        "name": "csrp:assimilatedcowhurt3",
+        "pitch": 0.4
+      },
+      {
+        "name": "csrp:assimilatedpighurt1",
+        "pitch": 0.4
+      },
+      {
+        "name": "csrp:assimilatedpighurt2",
+        "pitch": 0.4
+      },
+      {
+        "name": "csrp:assimilatedpighurt3",
+        "pitch": 0.4
+      },
+      {
+        "name": "csrp:assimilatedhorsehurt1",
+        "pitch": 0.4
+      },
+      {
+        "name": "csrp:assimilatedhorsehurt2",
+        "pitch": 0.4
+      },
+      {
+        "name": "csrp:assimilatedhorsehurt3",
+        "pitch": 0.4
+      },
+      {
+        "name": "csrp:assimilatedwolfhurt1",
+        "pitch": 0.4
+      },
+      {
+        "name": "csrp:assimilatedwolfhurt2",
+        "pitch": 0.4
+      },
+      {
+        "name": "csrp:assimilatedwolfhurt3",
+        "pitch": 0.4
+      }
+    ]
+  },
+  "oronco.death": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:oronco_death"
+    ]
+  },
+  "oronco.growl": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:oronco_growl"
+    ]
+  },
+  "oronco.hurt": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:oronco_hurt"
+    ]
+  },
+  "oronco.shooting": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:oronco_shooting"
+    ]
+  },
+  "oronco.shootingreal": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:oronco_shootingreal"
+    ]
+  },
+  "terla.death": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:terla_death"
+    ]
+  },
+  "terla.growl": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:terla_growl"
+    ]
+  },
+  "terla.hurt": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:terla_hurt"
+    ]
+  },
+  "kirin.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.kirin.death",
+    "sounds": [
+      "csrp:mob/derived/kirin/death"
+    ]
+  },
+  "kirin.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.kirin.idle",
+    "sounds": [
+      "csrp:mob/derived/kirin/idle1",
+      "csrp:mob/derived/kirin/idle2",
+      "csrp:mob/derived/kirin/idle3"
+    ]
+  },
+  "kirin.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.kirin.hurt",
+    "sounds": [
+      "csrp:mob/derived/kirin/hurt1",
+      "csrp:mob/derived/kirin/hurt2",
+      "csrp:mob/derived/kirin/hurt3"
+    ]
+  },
+  "kirin.shoot": {
+    "category": "hostile",
+    "subtitle": "subtitles.kirin.blackhole",
+    "sounds": [
+      "csrp:mob/derived/kirin/black_hole"
+    ]
+  },
+  "heblu.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.draconite.death",
+    "sounds": [
+      "csrp:mob/derived/draconite/death"
+    ]
+  },
+  "heblu.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.draconite.idle",
+    "sounds": [
+      "csrp:mob/derived/draconite/idle1",
+      "csrp:mob/derived/draconite/idle2",
+      "csrp:mob/derived/draconite/idle3",
+      "csrp:mob/derived/draconite/idle4",
+      "csrp:mob/derived/draconite/idle5"
+    ]
+  },
+  "heblu.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.draconite.hurt",
+    "sounds": [
+      "csrp:mob/derived/draconite/idle3",
+      "csrp:mob/derived/draconite/idle4",
+      "csrp:mob/derived/draconite/idle5"
+    ]
+  },
+  "heblu.shoot": {
+    "category": "hostile",
+    "subtitle": "subtitles.draconite.shoot",
+    "sounds": [
+      "csrp:mob/derived/draconite/fire_shoot"
+    ]
+  },
+  "heblu.light_impact": {
+    "category": "hostile",
+    "subtitle": "subtitles.draconite.light_impact",
+    "sounds": [
+      "csrp:mob/derived/draconite/heblu_light_impact",
+      "csrp:mob/derived/draconite/heblu_light_impact_1"
+    ]
+  },
+  "heblu.parry": {
+    "category": "hostile",
+    "subtitle": "subtitles.draconite.parry",
+    "sounds": [
+      "csrp:mob/derived/draconite/parry1",
+      "csrp:mob/derived/draconite/parry2",
+      "csrp:mob/derived/draconite/parry3"
+    ]
+  },
+  "heblu.bell_chargeup": {
+    "category": "hostile",
+    "subtitle": "subtitles.draconite.bell_chargeup",
+    "distance": 64,
+    "sounds": [
+      {
+        "name": "csrp:mob/derived/draconite/heblu_bell_chargup",
+        "volume": 1
+      }
+    ]
+  },
+  "ancient.pod": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/ancient_pods"
+    ]
+  },
+  "dorpa.range": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:dorpa_rangea"
+    ]
+  },
+  "hull.c": {
+    "category": "hostile",
+    "subtitle": "subtitles.adamaducamo",
+    "sounds": [
+      "csrp:adaptedmanducatorcamouflaging"
+    ]
+  },
+  "monster.step": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:monster_step"
+    ]
+  },
+  "rathol.boom": {
+    "category": "hostile",
+    "subtitle": "subtitles.entity.generic.explode",
+    "sounds": [
+      "csrp:rathol_explotion"
+    ]
+  },
+  "buthol.boom": {
+    "category": "hostile",
+    "subtitle": "subtitles.entity.generic.explode",
+    "sounds": [
+      "csrp:buthol_explotion"
+    ]
+  },
+  "shyco.special": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:shyco_special"
+    ]
+  },
+  "unvo.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.sentrydeath",
+    "sounds": [
+      "csrp:sentrydeath"
+    ]
+  },
+  "unvo.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.sentryliving",
+    "sounds": [
+      "csrp:sentryliving1",
+      "csrp:sentryliving2",
+      "csrp:sentryliving3"
+    ]
+  },
+  "unvo.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.sentryhurt",
+    "sounds": [
+      "csrp:sentryhurt1",
+      "csrp:sentryhurt2",
+      "csrp:sentryhurt3"
+    ]
+  },
+  "unvo.dig": {
+    "subtitle": "subtitles.dig",
+    "category": "hostile",
+    "sounds": [
+      "csrp:mob/dig/emerge1",
+      "csrp:mob/dig/emerge2",
+      "csrp:mob/dig/emerge3"
+    ]
+  },
+  "unvo.shooting": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:sentryshoot"
+    ]
+  },
+  "tonro.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.kyphosisdeath",
+    "sounds": [
+      "csrp:kyphosis_death"
+    ]
+  },
+  "tonro.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.kyphosisliving",
+    "sounds": [
+      "csrp:kyphosis_living_1",
+      "csrp:kyphosis_living_2"
+    ]
+  },
+  "tonro.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.kyphosishurt",
+    "sounds": [
+      "csrp:kyphosis_hurt_1",
+      "csrp:kyphosis_hurt_2"
+    ]
+  },
+  "tonro.dig": {
+    "subtitle": "subtitles.dig",
+    "category": "hostile",
+    "sounds": [
+      "csrp:mob/dig/emerge_alt1",
+      "csrp:mob/dig/emerge_alt2",
+      "csrp:mob/dig/emerge_alt3"
+    ]
+  },
+  "venkrol.si": {
+    "category": "hostile",
+    "subtitle": "subtitles.beckon.appear",
+    "sounds": [
+      "csrp:mob/nexus/stage1/beckon/appear"
+    ]
+  },
+  "venkrol.sii": {
+    "category": "hostile",
+    "subtitle": "subtitles.beckon.appear",
+    "sounds": [
+      "csrp:mob/nexus/stage2/beckon/appear"
+    ]
+  },
+  "venkrol.siii": {
+    "category": "hostile",
+    "subtitle": "subtitles.beckon.appear",
+    "sounds": [
+      "csrp:mob/nexus/stage3/beckon/appear"
+    ]
+  },
+  "venkrol.siv": {
+    "category": "hostile",
+    "subtitle": "subtitles.beckon.appear",
+    "sounds": [
+      "csrp:mob/nexus/stage4/beckon/appear"
+    ]
+  },
+  "dod.si": {
+    "category": "hostile",
+    "subtitle": "subtitles.dispatcher.appear",
+    "sounds": [
+      "csrp:mob/nexus/stage1/dispatcher/appear"
+    ]
+  },
+  "dod.sii": {
+    "category": "hostile",
+    "subtitle": "subtitles.dispatcher.appear",
+    "sounds": [
+      "csrp:mob/nexus/stage2/dispatcher/appear"
+    ]
+  },
+  "dod.siii": {
+    "category": "hostile",
+    "subtitle": "subtitles.dispatcher.appear",
+    "sounds": [
+      "csrp:mob/nexus/stage3/dispatcher/appear"
+    ]
+  },
+  "dod.siv": {
+    "category": "hostile",
+    "subtitle": "subtitles.dispatcher.appear",
+    "sounds": [
+      "csrp:mob/nexus/stage4/dispatcher/appear"
+    ]
+  },
+  "leem.si": {
+    "category": "hostile",
+    "subtitle": "subtitles.rooter.appear",
+    "sounds": [
+      "csrp:mob/nexus/stage1/rooter/appear"
+    ]
+  },
+  "leem.sii": {
+    "category": "hostile",
+    "subtitle": "subtitles.rooter.appear",
+    "sounds": [
+      "csrp:mob/nexus/stage2/rooter/appear"
+    ]
+  },
+  "leem.siii": {
+    "category": "hostile",
+    "subtitle": "subtitles.rooter.appear",
+    "sounds": [
+      "csrp:mob/nexus/stage3/rooter/appear"
+    ]
+  },
+  "leem.siv": {
+    "category": "hostile",
+    "subtitle": "subtitles.rooter.appear",
+    "sounds": [
+      "csrp:mob/nexus/stage4/rooter/appear"
+    ]
+  },
+  "venkrolsi.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.beckonliving",
+    "sounds": [
+      "csrp:mob/nexus/stage1/beckon/idle1",
+      "csrp:mob/nexus/stage1/beckon/idle2"
+    ]
+  },
+  "venkrolsi.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.beckonhurt",
+    "sounds": [
+      "csrp:mob/nexus/stage1/beckon/hurt1",
+      "csrp:mob/nexus/stage1/beckon/hurt2"
+    ]
+  },
+  "venkrolsi.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.beckondeath",
+    "sounds": [
+      "csrp:mob/nexus/stage1/beckon/death1",
+      "csrp:mob/nexus/stage1/beckon/death2"
+    ]
+  },
+  "venkrolsii.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.beckonliving",
+    "sounds": [
+      "csrp:mob/nexus/stage2/beckon/idle1",
+      "csrp:mob/nexus/stage2/beckon/idle2"
+    ]
+  },
+  "venkrolsii.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.beckonhurt",
+    "sounds": [
+      "csrp:mob/nexus/stage2/beckon/hurt1",
+      "csrp:mob/nexus/stage2/beckon/hurt2"
+    ]
+  },
+  "venkrolsii.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.beckondeath",
+    "sounds": [
+      "csrp:mob/nexus/stage2/beckon/death1",
+      "csrp:mob/nexus/stage2/beckon/death2"
+    ]
+  },
+  "venkrolsiii.growl": {
+    "category": "hostile",
+    "subtitle": "subtitles.beckonliving",
+    "sounds": [
+      "csrp:mob/nexus/stage3/beckon/idle1",
+      "csrp:mob/nexus/stage3/beckon/idle2"
+    ]
+  },
+  "venkrolsiii.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.beckonhurt",
+    "sounds": [
+      "csrp:mob/nexus/stage3/beckon/hurt1",
+      "csrp:mob/nexus/stage3/beckon/hurt2"
+    ]
+  },
+  "venkrolsiii.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.beckondeath",
+    "sounds": [
+      "csrp:mob/nexus/stage3/beckon/death1",
+      "csrp:mob/nexus/stage3/beckon/death2"
+    ]
+  },
+  "venkrolsiii.tornado": {
+    "category": "weather",
+    "sounds": [
+      "csrp:mob/nexus/stage4/beckon/vortex"
+    ]
+  },
+  "rof.spit_out": {
+    "category": "hostile",
+    "subtitle": "subtitles.rof.spitout",
+    "sounds": []
+  },
+  "rof.emerge": {
+    "category": "hostile",
+    "subtitle": "subtitles.rof.emerge",
+    "sounds": []
+  },
+  "ancient.mob": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:ancient"
+    ]
+  },
+  "alafha.shooting": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:alafha_shooting"
+    ]
+  },
+  "alafha.shootingpost": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:alafha_shootingpost"
+    ]
+  },
+  "mob.silence": {
+    "sounds": [
+      "csrp:misc/mob_silence"
+    ]
+  },
+  "mob.explotion": {
+    "category": "hostile",
+    "subtitle": "subtitles.entity.generic.explode",
+    "sounds": [
+      "csrp:misc/mob_explotion"
+    ]
+  },
+  "mob.swipe": {
+    "category": "hostile",
+    "subtitle": "subtitles.mobswipe",
+    "sounds": [
+      "csrp:misc/mob_swipe"
+    ]
+  },
+  "mob.hitground": {
+    "category": "hostile",
+    "subtitle": "subtitles.block.generic.fall",
+    "sounds": [
+      "csrp:misc/mob_hitground"
+    ]
+  },
+  "mob.tendril": {
+    "category": "hostile",
+    "subtitle": "subtitles.mobtendril",
+    "sounds": [
+      "csrp:misc/mob_tendril"
+    ]
+  },
+  "cyst.eating": {
+    "category": "hostile",
+    "subtitle": "subtitles.cysteats",
+    "sounds": [
+      "csrp:block/flesh/cyst/eating"
+    ]
+  },
+  "adaptation.parcial": {
+    "category": "hostile",
+    "subtitle": "subtitles.adaptationpart",
+    "sounds": [
+      "csrp:misc/adaptating1",
+      "csrp:misc/adaptating2",
+      "csrp:misc/adaptating3"
+    ]
+  },
+  "adaptation.full": {
+    "category": "hostile",
+    "subtitle": "subtitles.adaptationfull",
+    "sounds": [
+      "csrp:misc/adapted1",
+      "csrp:misc/adapted2",
+      "csrp:misc/adapted3"
+    ]
+  },
+  "orb.s": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/orb_s"
+    ]
+  },
+  "orb.e": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/orb_e"
+    ]
+  },
+  "nade.s": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/nade_s"
+    ]
+  },
+  "dod.ten": {
+    "subtitle": "subtitles.dig",
+    "category": "hostile",
+    "sounds": [
+      "csrp:mob/dig/emerge_alt1",
+      "csrp:mob/dig/emerge_alt2",
+      "csrp:mob/dig/emerge_alt3"
+    ]
+  },
+  "dod.nak": {
+    "subtitle": "subtitles.dig",
+    "category": "hostile",
+    "sounds": [
+      "csrp:mob/dig/emerge_alt1",
+      "csrp:mob/dig/emerge_alt2",
+      "csrp:mob/dig/emerge_alt3"
+    ]
+  },
+  "scent.wave": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/scent_wave"
+    ]
+  },
+  "biome.heart": {
+    "category": "hostile",
+    "subtitle": "subtitles.biomeheart",
+    "sounds": [
+      "csrp:misc/biome_heart"
+    ]
+  },
+  "evolution.phaseone": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/evolution/phase1"
+    ]
+  },
+  "evolution.phasetwo": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/evolution/phase2"
+    ]
+  },
+  "evolution.phasethree": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/evolution/phase3"
+    ]
+  },
+  "evolution.phasefour": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/evolution/phase4"
+    ]
+  },
+  "evolution.phasefive": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/evolution/phase5"
+    ]
+  },
+  "evolution.phasesix": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/evolution/phase6"
+    ]
+  },
+  "evolution.phaseseven": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/evolution/phase7"
+    ]
+  },
+  "evolution.phaseeight": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/evolution/phase8"
+    ]
+  },
+  "evolution.phasenine": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/evolution/phase9"
+    ]
+  },
+  "evolution.phaseten": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/evolution/phase10"
+    ]
+  },
+  "dislo.s0": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/dislo/dislo_1"
+    ]
+  },
+  "dislo.s1": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/dislo/dislo_2"
+    ]
+  },
+  "dislo.s2": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/dislo/dislo_3"
+    ]
+  },
+  "dislo.s3": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/dislo/dislo_4"
+    ]
+  },
+  "dislo.s4": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/dislo/dislo_5"
+    ]
+  },
+  "dislo.s5": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/dislo/dislo_6"
+    ]
+  },
+  "dislo.s6": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/dislo/dislo_7"
+    ]
+  },
+  "dislo.s7": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/dislo/dislo_8"
+    ]
+  },
+  "dislo.s8": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/dislo/dislo_9"
+    ]
+  },
+  "dislo.s9": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/dislo/dislo_10"
+    ]
+  },
+  "dislo.s10": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/dislo/dislo_11"
+    ]
+  },
+  "dislo.s11": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/dislo/dislo_12"
+    ]
+  },
+  "dislo.s12": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/dislo/dislo_13"
+    ]
+  },
+  "dislo.s13": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/dislo/dislo_14"
+    ]
+  },
+  "dislo.s14": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/dislo/dislo_15"
+    ]
+  },
+  "dislo.s15": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/dislo/dislo_16"
+    ]
+  },
+  "dislo.s16": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/dislo/dislo_17"
+    ]
+  },
+  "dislo.s17": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/dislo/dislo_18"
+    ]
+  },
+  "dislo.s18": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/dislo/dislo_19"
+    ]
+  },
+  "dislo.s19": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/dislo/dislo_20"
+    ]
+  },
+  "dislo.s20": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/dislo/dislo_21"
+    ]
+  },
+  "dislo.s21": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/dislo/dislo_22"
+    ]
+  },
+  "dislo.s22": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/dislo/dislo_23"
+    ]
+  },
+  "dislo.s23": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/dislo/dislo_24"
+    ]
+  },
+  "dislo.s24": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/dislo/dislo_25"
+    ]
+  },
+  "dislo.s25": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/dislo/dislo_26"
+    ]
+  },
+  "dislo.s26": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/dislo/dislo_27"
+    ]
+  },
+  "dislo.s27": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/dislo/dislo_28"
+    ]
+  },
+  "dislo.s28": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/dislo/dislo_29"
+    ]
+  },
+  "dislo.s29": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/dislo/dislo_30"
+    ]
+  },
+  "node.one": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/node1"
+    ]
+  },
+  "node.two": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/node2"
+    ]
+  },
+  "colony.one": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/colony1"
+    ]
+  },
+  "blockinfest.place": {
+    "category": "block",
+    "sounds": [
+      "csrp:blockinfest_place"
+    ]
+  },
+  "blockinfest.break": {
+    "category": "block",
+    "sounds": [
+      "csrp:blockinfest_break"
+    ]
+  },
+  "blockinfest.step": {
+    "category": "block",
+    "sounds": [
+      "csrp:blockinfest_step"
+    ]
+  },
+  "blockinfest.hit": {
+    "category": "block",
+    "sounds": [
+      "csrp:blockinfest_hit"
+    ]
+  },
+  "srparasites.phaseone": {
+    "sounds": [
+      {
+        "name": "csrp:music/the_call",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/prey",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/relentless",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/parasite",
+        "stream": true
+      }
+    ]
+  },
+  "srparasites.phasetwo": {
+    "sounds": [
+      {
+        "name": "csrp:music/the_call",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/prey",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/relentless",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/parasite",
+        "stream": true
+      }
+    ]
+  },
+  "srparasites.phasethree": {
+    "sounds": [
+      {
+        "name": "csrp:music/the_call",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/prey",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/relentless",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/adaptation",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/from_below",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/parasite",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/coagulation",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/unsteady",
+        "stream": true
+      }
+    ]
+  },
+  "srparasites.phasefour": {
+    "sounds": [
+      {
+        "name": "csrp:music/the_call",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/prey",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/relentless",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/adaptation",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/insanity",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/irreversible",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/from_below",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/parasite",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/coagulation",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/unsteady",
+        "stream": true
+      }
+    ]
+  },
+  "srparasites.phasefive": {
+    "sounds": [
+      {
+        "name": "csrp:music/the_call",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/prey",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/relentless",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/adaptation",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/insanity",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/irreversible",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/from_below",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/parasite",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/coagulation",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/unsteady",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/chants_of_the_beckons",
+        "stream": true
+      }
+    ]
+  },
+  "srparasites.phasesix": {
+    "sounds": [
+      {
+        "name": "csrp:music/the_call",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/prey",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/relentless",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/adaptation",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/insanity",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/irreversible",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/from_below",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/parasite",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/coagulation",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/unsteady",
+        "stream": true
+      }
+    ]
+  },
+  "srparasites.phaseseven": {
+    "sounds": [
+      {
+        "name": "csrp:music/the_call",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/prey",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/relentless",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/adaptation",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/insanity",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/irreversible",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/from_below",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/parasite",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/coagulation",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/unsteady",
+        "stream": true
+      }
+    ]
+  },
+  "srparasites.phaseeight": {
+    "sounds": [
+      {
+        "name": "csrp:music/the_call",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/prey",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/relentless",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/adaptation",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/insanity",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/irreversible",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/from_below",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/parasite",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/coagulation",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/unsteady",
+        "stream": true
+      }
+    ]
+  },
+  "srparasites.phasenine": {
+    "sounds": [
+      {
+        "name": "csrp:music/the_call",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/prey",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/relentless",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/adaptation",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/insanity",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/irreversible",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/from_below",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/parasite",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/coagulation",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/unsteady",
+        "stream": true
+      }
+    ]
+  },
+  "srparasites.phaseten": {
+    "sounds": [
+      {
+        "name": "csrp:music/the_call",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/prey",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/relentless",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/adaptation",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/insanity",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/irreversible",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/from_below",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/parasite",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/coagulation",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/unsteady",
+        "stream": true
+      }
+    ]
+  },
+  "srparasites.biome": {
+    "sounds": [
+      {
+        "name": "csrp:music/tying_veins",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/hivemind",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/fathomless",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/chants_of_the_beckons",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/sorrow",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/anguish",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/dominion",
+        "stream": true
+      },
+      {
+        "name": "csrp:music/restless",
+        "stream": true
+      }
+    ]
+  },
+  "srparasites.scent": {
+    "sounds": [
+      {
+        "name": "csrp:music/grounded",
+        "stream": true
+      }
+    ]
+  },
+  "srparasites.discone": {
+    "sounds": [
+      {
+        "name": "csrp:music/well_meet_again",
+        "stream": true
+      }
+    ]
+  },
+  "srparasites.disctwo": {
+    "sounds": [
+      {
+        "name": "csrp:music/well_meet_again",
+        "stream": true
+      }
+    ]
+  },
+  "srparasites.discthree": {
+    "sounds": [
+      {
+        "name": "csrp:music/serenity",
+        "stream": true
+      }
+    ]
+  },
+  "origin.new": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/vector_creation"
+    ]
+  },
+  "origin.newoutbreak": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/vector_outbreak"
+    ]
+  },
+  "origin.deleted": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/vector_removed"
+    ]
+  },
+  "step.heavy": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.footsteps",
+    "sounds": [
+      {
+        "name": "csrp:mob/step/heavy/step1",
+        "pitch": 1
+      },
+      {
+        "name": "csrp:mob/step/heavy/step2",
+        "pitch": 1
+      },
+      {
+        "name": "csrp:mob/step/heavy/step3",
+        "pitch": 1
+      },
+      {
+        "name": "csrp:mob/step/heavy/step4",
+        "pitch": 1
+      },
+      {
+        "name": "csrp:mob/step/heavy/step5",
+        "pitch": 1
+      }
+    ]
+  },
+  "step.heavy_two": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.footsteps",
+    "sounds": [
+      {
+        "name": "csrp:mob/step/heavy/two_steps1",
+        "pitch": 1
+      },
+      {
+        "name": "csrp:mob/step/heavy/two_steps2",
+        "pitch": 1
+      },
+      {
+        "name": "csrp:mob/step/heavy/two_steps3",
+        "pitch": 1
+      },
+      {
+        "name": "csrp:mob/step/heavy/two_steps4",
+        "pitch": 1
+      },
+      {
+        "name": "csrp:mob/step/heavy/two_steps5",
+        "pitch": 1
+      }
+    ]
+  },
+  "step.heavy_multiple": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.footsteps",
+    "sounds": [
+      {
+        "name": "csrp:mob/step/heavy_multiple/step1",
+        "pitch": 1
+      },
+      {
+        "name": "csrp:mob/step/heavy_multiple/step2",
+        "pitch": 1
+      },
+      {
+        "name": "csrp:mob/step/heavy_multiple/step3",
+        "pitch": 1
+      },
+      {
+        "name": "csrp:mob/step/heavy_multiple/step4",
+        "pitch": 1
+      }
+    ]
+  },
+  "block.flesh.dig": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.break",
+    "sounds": [
+      {
+        "name": "csrp:block/flesh/dig1",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/dig1",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/dig1",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/dig2",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/dig2",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/dig2",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/dig3",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/dig3",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/dig3",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/dig4",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/dig4",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/dig4",
+        "pitch": 1.3
+      }
+    ]
+  },
+  "block.flesh.step": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.footsteps",
+    "sounds": [
+      {
+        "name": "csrp:block/flesh/step1",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/step1",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/step1",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/step2",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/step2",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/step2",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/step3",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/step3",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/step3",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/step4",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/step4",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/step4",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/step5",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/step5",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/step5",
+        "pitch": 1.3
+      }
+    ]
+  },
+  "block.flesh.place": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.place",
+    "sounds": [
+      {
+        "name": "csrp:block/flesh/dig1",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/dig1",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/dig1",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/dig2",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/dig2",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/dig2",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/dig3",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/dig3",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/dig3",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/dig4",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/dig4",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/dig4",
+        "pitch": 1.3
+      }
+    ]
+  },
+  "block.flesh.hit": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.hit",
+    "sounds": [
+      {
+        "name": "csrp:block/flesh/step1",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/step1",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/step1",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/step2",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/step2",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/step2",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/step3",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/step3",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/step3",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/step4",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/step4",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/step4",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/step5",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/step5",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/step5",
+        "pitch": 1.3
+      }
+    ]
+  },
+  "block.flesh.fall": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.fall",
+    "sounds": [
+      {
+        "name": "csrp:block/flesh/step1",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/step1",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/step1",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/step2",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/step2",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/step2",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/step3",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/step3",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/step3",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/step4",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/step4",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/step4",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/step5",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/step5",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/step5",
+        "pitch": 1.3
+      }
+    ]
+  },
+  "block.flesh_light.dig": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.break",
+    "sounds": [
+      {
+        "name": "csrp:block/flesh/light/dig1",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/light/dig1",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/light/dig1",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/light/dig2",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/light/dig2",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/light/dig2",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/light/dig3",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/light/dig3",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/light/dig3",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/light/dig4",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/light/dig4",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/light/dig4",
+        "pitch": 1.3
+      }
+    ]
+  },
+  "block.flesh_light.step": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.footsteps",
+    "sounds": [
+      {
+        "name": "csrp:block/flesh/light/step1",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/light/step1",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/light/step1",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/light/step2",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/light/step2",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/light/step2",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/light/step3",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/light/step3",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/light/step3",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/light/step4",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/light/step4",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/light/step4",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/light/step5",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/light/step5",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/light/step5",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/light/step6",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/light/step6",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/light/step6",
+        "pitch": 1.3
+      }
+    ]
+  },
+  "block.flesh_light.place": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.place",
+    "sounds": [
+      {
+        "name": "csrp:block/flesh/light/dig1",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/light/dig1",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/light/dig1",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/light/dig2",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/light/dig2",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/light/dig2",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/light/dig3",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/light/dig3",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/light/dig3",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/light/dig4",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/light/dig4",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/light/dig4",
+        "pitch": 1.3
+      }
+    ]
+  },
+  "block.flesh_light.hit": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.hit",
+    "sounds": [
+      {
+        "name": "csrp:block/flesh/light/step1",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/light/step1",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/light/step1",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/light/step2",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/light/step2",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/light/step2",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/light/step3",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/light/step3",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/light/step3",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/light/step4",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/light/step4",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/light/step4",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/light/step5",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/light/step5",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/light/step5",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/light/step6",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/light/step6",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/light/step6",
+        "pitch": 1.3
+      }
+    ]
+  },
+  "block.flesh_light.fall": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.fall",
+    "sounds": [
+      {
+        "name": "csrp:block/flesh/light/step1",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/light/step1",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/light/step1",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/light/step2",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/light/step2",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/light/step2",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/light/step3",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/light/step3",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/light/step3",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/light/step4",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/light/step4",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/light/step4",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/light/step5",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/light/step5",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/light/step5",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/light/step6",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/light/step6",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/light/step6",
+        "pitch": 1.3
+      }
+    ]
+  },
+  "block.heart.dig": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.break",
+    "sounds": [
+      {
+        "name": "csrp:block/flesh/heart/dig1",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/heart/dig1",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/heart/dig1",
+        "pitch": 1.3
+      }
+    ]
+  },
+  "block.heart.hit": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.hit",
+    "sounds": [
+      {
+        "name": "csrp:block/flesh/heart/step1",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/heart/step1",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/heart/step1",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/heart/step2",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/heart/step2",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/heart/step2",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/heart/step3",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/heart/step3",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/heart/step3",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/heart/step4",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/heart/step4",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/heart/step4",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/heart/step5",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/heart/step5",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/heart/step5",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/flesh/heart/step6",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/flesh/heart/step6",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/flesh/heart/step6",
+        "pitch": 1.3
+      }
+    ]
+  },
+  "block.purifier.dig": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.break",
+    "sounds": [
+      {
+        "name": "csrp:block/purifier/dig1",
+        "pitch": 1.15
+      },
+      {
+        "name": "csrp:block/purifier/dig1",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/purifier/dig1",
+        "pitch": 1.25
+      },
+      {
+        "name": "csrp:block/purifier/dig2",
+        "pitch": 1.15
+      },
+      {
+        "name": "csrp:block/purifier/dig2",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/purifier/dig2",
+        "pitch": 1.25
+      },
+      {
+        "name": "csrp:block/purifier/dig3",
+        "pitch": 1.15
+      },
+      {
+        "name": "csrp:block/purifier/dig3",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/purifier/dig3",
+        "pitch": 1.25
+      }
+    ]
+  },
+  "block.purifier.step": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.footsteps",
+    "sounds": [
+      {
+        "name": "csrp:block/purifier/step1",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/purifier/step1",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/purifier/step1",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/purifier/step2",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/purifier/step2",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/purifier/step2",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/purifier/step3",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/purifier/step3",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/purifier/step3",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/purifier/step4",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/purifier/step4",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/purifier/step4",
+        "pitch": 1.3
+      }
+    ]
+  },
+  "block.purifier.place": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.place",
+    "sounds": [
+      {
+        "name": "csrp:block/purifier/place1",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/purifier/place1",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/purifier/place1",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/purifier/place2",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/purifier/place2",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/purifier/place2",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/purifier/place3",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/purifier/place3",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/purifier/place3",
+        "pitch": 1.3
+      }
+    ]
+  },
+  "block.purifier.hit": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.hit",
+    "sounds": [
+      {
+        "name": "csrp:block/purifier/step1",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/purifier/step1",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/purifier/step1",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/purifier/step2",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/purifier/step2",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/purifier/step2",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/purifier/step3",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/purifier/step3",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/purifier/step3",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/purifier/step4",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/purifier/step4",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/purifier/step4",
+        "pitch": 1.3
+      }
+    ]
+  },
+  "block.purifier.fall": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.fall",
+    "sounds": [
+      {
+        "name": "csrp:block/purifier/step1",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/purifier/step1",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/purifier/step1",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/purifier/step2",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/purifier/step2",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/purifier/step2",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/purifier/step3",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/purifier/step3",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/purifier/step3",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/purifier/step4",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/purifier/step4",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/purifier/step4",
+        "pitch": 1.3
+      }
+    ]
+  },
+  "block.purifier.use": {
+    "category": "block",
+    "subtitle": "subtitles.purifier.use",
+    "sounds": [
+      {
+        "name": "csrp:block/purifier/use1",
+        "pitch": 1.05
+      },
+      {
+        "name": "csrp:block/purifier/use1",
+        "pitch": 1
+      },
+      {
+        "name": "csrp:block/purifier/use1",
+        "pitch": 0.95
+      },
+      {
+        "name": "csrp:block/purifier/use2",
+        "pitch": 1.05
+      },
+      {
+        "name": "csrp:block/purifier/use2",
+        "pitch": 1
+      },
+      {
+        "name": "csrp:block/purifier/use2",
+        "pitch": 0.95
+      },
+      {
+        "name": "csrp:block/purifier/use3",
+        "pitch": 1.05
+      },
+      {
+        "name": "csrp:block/purifier/use3",
+        "pitch": 1
+      },
+      {
+        "name": "csrp:block/purifier/use3",
+        "pitch": 0.95
+      },
+      {
+        "name": "csrp:block/purifier/use4",
+        "pitch": 1.05
+      },
+      {
+        "name": "csrp:block/purifier/use4",
+        "pitch": 1
+      },
+      {
+        "name": "csrp:block/purifier/use4",
+        "pitch": 0.95
+      }
+    ]
+  },
+  "block.lure.dig": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.break",
+    "sounds": [
+      {
+        "name": "csrp:block/lure/dig1",
+        "pitch": 1.15
+      },
+      {
+        "name": "csrp:block/lure/dig1",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/lure/dig1",
+        "pitch": 1.25
+      },
+      {
+        "name": "csrp:block/lure/dig2",
+        "pitch": 1.15
+      },
+      {
+        "name": "csrp:block/lure/dig2",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/lure/dig2",
+        "pitch": 1.25
+      },
+      {
+        "name": "csrp:block/lure/dig3",
+        "pitch": 1.15
+      },
+      {
+        "name": "csrp:block/lure/dig3",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/lure/dig3",
+        "pitch": 1.25
+      },
+      {
+        "name": "csrp:block/lure/dig4",
+        "pitch": 1.15
+      },
+      {
+        "name": "csrp:block/lure/dig4",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/lure/dig4",
+        "pitch": 1.25
+      }
+    ]
+  },
+  "block.lure.step": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.footsteps",
+    "sounds": [
+      {
+        "name": "csrp:block/lure/step1",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/lure/step1",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/lure/step1",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/lure/step2",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/lure/step2",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/lure/step2",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/lure/step3",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/lure/step3",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/lure/step3",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/lure/step4",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/lure/step4",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/lure/step4",
+        "pitch": 1.3
+      }
+    ]
+  },
+  "block.lure.place": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.place",
+    "sounds": [
+      {
+        "name": "csrp:block/lure/place1",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/lure/place1",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/lure/place1",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/lure/place2",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/lure/place2",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/lure/place2",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/lure/place3",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/lure/place3",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/lure/place3",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/lure/place4",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/lure/place4",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/lure/place4",
+        "pitch": 1.3
+      }
+    ]
+  },
+  "block.lure.hit": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.hit",
+    "sounds": [
+      {
+        "name": "csrp:block/lure/step1",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/lure/step1",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/lure/step1",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/lure/step2",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/lure/step2",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/lure/step2",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/lure/step3",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/lure/step3",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/lure/step3",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/lure/step4",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/lure/step4",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/lure/step4",
+        "pitch": 1.3
+      }
+    ]
+  },
+  "block.lure.fall": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.fall",
+    "sounds": [
+      {
+        "name": "csrp:block/lure/step1",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/lure/step1",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/lure/step1",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/lure/step2",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/lure/step2",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/lure/step2",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/lure/step3",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/lure/step3",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/lure/step3",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/lure/step4",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/lure/step4",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/lure/step4",
+        "pitch": 1.3
+      }
+    ]
+  },
+  "block.lure.use": {
+    "category": "block",
+    "subtitle": "subtitles.lure.use",
+    "sounds": [
+      {
+        "name": "csrp:block/lure/use1",
+        "pitch": 1.05
+      },
+      {
+        "name": "csrp:block/lure/use1",
+        "pitch": 1
+      },
+      {
+        "name": "csrp:block/lure/use1",
+        "pitch": 0.95
+      },
+      {
+        "name": "csrp:block/lure/use2",
+        "pitch": 1.05
+      },
+      {
+        "name": "csrp:block/lure/use2",
+        "pitch": 1
+      },
+      {
+        "name": "csrp:block/lure/use2",
+        "pitch": 0.95
+      }
+    ]
+  },
+  "block.carcass.use": {
+    "category": "block",
+    "subtitle": "subtitles.carcass.use",
+    "sounds": [
+      {
+        "name": "csrp:block/lure/carcass",
+        "pitch": 1.05
+      },
+      {
+        "name": "csrp:block/lure/carcass",
+        "pitch": 1
+      },
+      {
+        "name": "csrp:block/lure/carcass",
+        "pitch": 0.95
+      }
+    ]
+  },
+  "block.beckon.dig": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.break",
+    "sounds": [
+      {
+        "name": "csrp:block/beckon/dig1",
+        "pitch": 1.1,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/dig1",
+        "pitch": 1.2,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/dig1",
+        "pitch": 1.3,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/dig2",
+        "pitch": 1.1,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/dig2",
+        "pitch": 1.2,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/dig2",
+        "pitch": 1.3,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/dig3",
+        "pitch": 1.1,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/dig3",
+        "pitch": 1.2,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/dig3",
+        "pitch": 1.3,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/dig4",
+        "pitch": 1.1,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/dig4",
+        "pitch": 1.2,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/dig4",
+        "pitch": 1.3,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/dig5",
+        "pitch": 1.1,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/dig5",
+        "pitch": 1.2,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/dig5",
+        "pitch": 1.3,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/dig6",
+        "pitch": 1.1,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/dig6",
+        "pitch": 1.2,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/dig6",
+        "pitch": 1.3,
+        "volume": 1.5
+      }
+    ]
+  },
+  "block.beckon.step": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.footsteps",
+    "sounds": [
+      {
+        "name": "csrp:block/beckon/step1",
+        "pitch": 1.1,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step1",
+        "pitch": 1.2,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step1",
+        "pitch": 1.3,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step2",
+        "pitch": 1.1,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step2",
+        "pitch": 1.2,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step2",
+        "pitch": 1.3,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step3",
+        "pitch": 1.1,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step3",
+        "pitch": 1.2,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step3",
+        "pitch": 1.3,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step4",
+        "pitch": 1.1,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step4",
+        "pitch": 1.2,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step4",
+        "pitch": 1.3,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step5",
+        "pitch": 1.1,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step5",
+        "pitch": 1.2,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step5",
+        "pitch": 1.3,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step6",
+        "pitch": 1.1,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step6",
+        "pitch": 1.2,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step6",
+        "pitch": 1.3,
+        "volume": 1.5
+      }
+    ]
+  },
+  "block.beckon.place": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.place",
+    "sounds": [
+      {
+        "name": "csrp:block/beckon/dig1",
+        "pitch": 1.1,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/dig1",
+        "pitch": 1.2,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/dig1",
+        "pitch": 1.3,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/dig2",
+        "pitch": 1.1,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/dig2",
+        "pitch": 1.2,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/dig2",
+        "pitch": 1.3,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/dig3",
+        "pitch": 1.1,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/dig3",
+        "pitch": 1.2,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/dig3",
+        "pitch": 1.3,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/dig4",
+        "pitch": 1.1,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/dig4",
+        "pitch": 1.2,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/dig4",
+        "pitch": 1.3,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/dig5",
+        "pitch": 1.1,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/dig5",
+        "pitch": 1.2,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/dig5",
+        "pitch": 1.3,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/dig6",
+        "pitch": 1.1,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/dig6",
+        "pitch": 1.2,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/dig6",
+        "pitch": 1.3,
+        "volume": 1.5
+      }
+    ]
+  },
+  "block.beckon.hit": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.hit",
+    "sounds": [
+      {
+        "name": "csrp:block/beckon/step1",
+        "pitch": 1.1,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step1",
+        "pitch": 1.2,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step1",
+        "pitch": 1.3,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step2",
+        "pitch": 1.1,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step2",
+        "pitch": 1.2,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step2",
+        "pitch": 1.3,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step3",
+        "pitch": 1.1,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step3",
+        "pitch": 1.2,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step3",
+        "pitch": 1.3,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step4",
+        "pitch": 1.1,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step4",
+        "pitch": 1.2,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step4",
+        "pitch": 1.3,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step5",
+        "pitch": 1.1,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step5",
+        "pitch": 1.2,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step5",
+        "pitch": 1.3,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step6",
+        "pitch": 1.1,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step6",
+        "pitch": 1.2,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step6",
+        "pitch": 1.3,
+        "volume": 1.5
+      }
+    ]
+  },
+  "block.beckon.fall": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.fall",
+    "sounds": [
+      {
+        "name": "csrp:block/beckon/step1",
+        "pitch": 1.1,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step1",
+        "pitch": 1.2,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step1",
+        "pitch": 1.3,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step2",
+        "pitch": 1.1,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step2",
+        "pitch": 1.2,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step2",
+        "pitch": 1.3,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step3",
+        "pitch": 1.1,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step3",
+        "pitch": 1.2,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step3",
+        "pitch": 1.3,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step4",
+        "pitch": 1.1,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step4",
+        "pitch": 1.2,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step4",
+        "pitch": 1.3,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step5",
+        "pitch": 1.1,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step5",
+        "pitch": 1.2,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step5",
+        "pitch": 1.3,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step6",
+        "pitch": 1.1,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step6",
+        "pitch": 1.2,
+        "volume": 1.5
+      },
+      {
+        "name": "csrp:block/beckon/step6",
+        "pitch": 1.3,
+        "volume": 1.5
+      }
+    ]
+  },
+  "block.soil.dig": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.break",
+    "sounds": [
+      {
+        "name": "csrp:block/soil/dig1",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/soil/dig1",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/soil/dig1",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/soil/dig2",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/soil/dig2",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/soil/dig2",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/soil/dig3",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/soil/dig3",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/soil/dig3",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/soil/dig4",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/soil/dig4",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/soil/dig4",
+        "pitch": 1.3
+      }
+    ]
+  },
+  "block.soil.step": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.footsteps",
+    "sounds": [
+      {
+        "name": "csrp:block/soil/step1",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/soil/step1",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/soil/step1",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/soil/step2",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/soil/step2",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/soil/step2",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/soil/step3",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/soil/step3",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/soil/step3",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/soil/step4",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/soil/step4",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/soil/step4",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/soil/step5",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/soil/step5",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/soil/step5",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/soil/step6",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/soil/step6",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/soil/step6",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/soil/step7",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/soil/step7",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/soil/step7",
+        "pitch": 1.3
+      }
+    ]
+  },
+  "block.soil.place": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.place",
+    "sounds": [
+      {
+        "name": "csrp:block/soil/dig1",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/soil/dig1",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/soil/dig1",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/soil/dig2",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/soil/dig2",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/soil/dig2",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/soil/dig3",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/soil/dig3",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/soil/dig3",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/soil/dig4",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/soil/dig4",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/soil/dig4",
+        "pitch": 1.3
+      }
+    ]
+  },
+  "block.soil.hit": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.hit",
+    "sounds": [
+      {
+        "name": "csrp:block/soil/step1",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/soil/step1",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/soil/step1",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/soil/step2",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/soil/step2",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/soil/step2",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/soil/step3",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/soil/step3",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/soil/step3",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/soil/step4",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/soil/step4",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/soil/step4",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/soil/step5",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/soil/step5",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/soil/step5",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/soil/step6",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/soil/step6",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/soil/step6",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/soil/step7",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/soil/step7",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/soil/step7",
+        "pitch": 1.3
+      }
+    ]
+  },
+  "block.soil.fall": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.fall",
+    "sounds": [
+      {
+        "name": "csrp:block/soil/step1",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/soil/step1",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/soil/step1",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/soil/step2",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/soil/step2",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/soil/step2",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/soil/step3",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/soil/step3",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/soil/step3",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/soil/step4",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/soil/step4",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/soil/step4",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/soil/step5",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/soil/step5",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/soil/step5",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/soil/step6",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/soil/step6",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/soil/step6",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/soil/step7",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/soil/step7",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/soil/step7",
+        "pitch": 1.3
+      }
+    ]
+  },
+  "block.vomit.dig": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.break",
+    "sounds": [
+      {
+        "name": "csrp:block/vomit/dig1",
+        "pitch": 1.15
+      },
+      {
+        "name": "csrp:block/vomit/dig1",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/vomit/dig1",
+        "pitch": 1.25
+      },
+      {
+        "name": "csrp:block/vomit/dig2",
+        "pitch": 1.15
+      },
+      {
+        "name": "csrp:block/vomit/dig2",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/vomit/dig2",
+        "pitch": 1.25
+      },
+      {
+        "name": "csrp:block/vomit/dig3",
+        "pitch": 1.15
+      },
+      {
+        "name": "csrp:block/vomit/dig3",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/vomit/dig3",
+        "pitch": 1.25
+      },
+      {
+        "name": "csrp:block/vomit/dig4",
+        "pitch": 1.15
+      },
+      {
+        "name": "csrp:block/vomit/dig4",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/vomit/dig4",
+        "pitch": 1.25
+      }
+    ]
+  },
+  "block.vomit.step": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.footsteps",
+    "sounds": [
+      {
+        "name": "csrp:block/vomit/step1",
+        "pitch": 1.1,
+        "volume": 4
+      },
+      {
+        "name": "csrp:block/vomit/step1",
+        "pitch": 1.2,
+        "volume": 4
+      },
+      {
+        "name": "csrp:block/vomit/step1",
+        "pitch": 1.3,
+        "volume": 4
+      },
+      {
+        "name": "csrp:block/vomit/step2",
+        "pitch": 1.1,
+        "volume": 4
+      },
+      {
+        "name": "csrp:block/vomit/step2",
+        "pitch": 1.2,
+        "volume": 4
+      },
+      {
+        "name": "csrp:block/vomit/step2",
+        "pitch": 1.3,
+        "volume": 4
+      },
+      {
+        "name": "csrp:block/vomit/step3",
+        "pitch": 1.1,
+        "volume": 4
+      },
+      {
+        "name": "csrp:block/vomit/step3",
+        "pitch": 1.2,
+        "volume": 4
+      },
+      {
+        "name": "csrp:block/vomit/step3",
+        "pitch": 1.3,
+        "volume": 4
+      },
+      {
+        "name": "csrp:block/vomit/step4",
+        "pitch": 1.1,
+        "volume": 4
+      },
+      {
+        "name": "csrp:block/vomit/step4",
+        "pitch": 1.2,
+        "volume": 4
+      },
+      {
+        "name": "csrp:block/vomit/step4",
+        "pitch": 1.3,
+        "volume": 4
+      }
+    ]
+  },
+  "block.vomit.place": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.place",
+    "sounds": [
+      {
+        "name": "csrp:block/vomit/dig1",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/vomit/dig1",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/vomit/dig1",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/vomit/dig2",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/vomit/dig2",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/vomit/dig2",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/vomit/dig3",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/vomit/dig3",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/vomit/dig3",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/vomit/dig4",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/vomit/dig4",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/vomit/dig4",
+        "pitch": 1.3
+      }
+    ]
+  },
+  "block.vomit.hit": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.hit",
+    "sounds": [
+      {
+        "name": "csrp:block/vomit/step1",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/vomit/step1",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/vomit/step1",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/vomit/step2",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/vomit/step2",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/vomit/step2",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/vomit/step3",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/vomit/step3",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/vomit/step3",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/vomit/step4",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/vomit/step4",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/vomit/step4",
+        "pitch": 1.3
+      }
+    ]
+  },
+  "block.vomit.fall": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.fall",
+    "sounds": [
+      {
+        "name": "csrp:block/vomit/step1",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/vomit/step1",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/vomit/step1",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/vomit/step2",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/vomit/step2",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/vomit/step2",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/vomit/step3",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/vomit/step3",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/vomit/step3",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/vomit/step4",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/vomit/step4",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/vomit/step4",
+        "pitch": 1.3
+      }
+    ]
+  },
+  "block.fog": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "csrp:block/fog/fog1",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/fog/fog2",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/fog/fog3",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/fog/fog1",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/fog/fog2",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/fog/fog3",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/fog/fog1",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/fog/fog2",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/fog/fog3",
+        "pitch": 1.3
+      }
+    ]
+  },
+  "block.tunnel.dig": {
+    "category": "block",
+    "subtitle": "subtitles.block.generic.break",
+    "sounds": [
+      {
+        "name": "csrp:block/tunnel/dig1",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/tunnel/dig1",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/tunnel/dig1",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/tunnel/dig2",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/tunnel/dig2",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/tunnel/dig2",
+        "pitch": 1.3
+      },
+      {
+        "name": "csrp:block/tunnel/dig3",
+        "pitch": 1.1
+      },
+      {
+        "name": "csrp:block/tunnel/dig3",
+        "pitch": 1.2
+      },
+      {
+        "name": "csrp:block/tunnel/dig3",
+        "pitch": 1.3
+      }
+    ]
   },
   "rupter.living": {
     "subtitle": "subtitles.csrp.rupter.living",
@@ -45,7 +6089,9 @@
   },
   "rupter.death": {
     "subtitle": "subtitles.csrp.rupter.death",
-    "sounds": ["csrp:mob/pure/rupter/death"]
+    "sounds": [
+      "csrp:mob/pure/rupter/death"
+    ]
   },
   "rupter.step": {
     "subtitle": "subtitles.csrp.rupter.step",
@@ -58,112 +6104,9 @@
   },
   "rupter.cloud": {
     "subtitle": "subtitles.csrp.rupter.cloud",
-    "sounds": ["csrp:mob/pure/rupter/cloud"]
-  },
-  "done.death": {
-    "subtitle": "subtitles.csrp.dredge.death",
-    "sounds": ["csrp:prim_dredge_death"]
-  },
-  "done.growl": {
-    "subtitle": "subtitles.csrp.dredge.living",
     "sounds": [
-      "csrp:prim_dredge_living_1",
-      "csrp:prim_dredge_living_2",
-      "csrp:prim_dredge_living_3",
-      "csrp:prim_dredge_living_4"
+      "csrp:mob/pure/rupter/cloud"
     ]
-  },
-  "done.hurt": {
-    "subtitle": "subtitles.csrp.dredge.hurt",
-    "sounds": [
-      "csrp:prim_dredge_hurt_1",
-      "csrp:prim_dredge_hurt_2",
-      "csrp:prim_dredge_hurt_3",
-      "csrp:prim_dredge_hurt_4"
-    ]
-  },
-  "mes.death": {
-    "subtitle": "subtitles.csrp.thrall.death",
-    "sounds": ["csrp:thrall_death"]
-  },
-  "mes.growl": {
-    "subtitle": "subtitles.csrp.thrall.living",
-    "sounds": [
-      "csrp:thrall_living_1",
-      "csrp:thrall_living_2",
-      "csrp:thrall_living_3",
-      "csrp:thrall_living_4",
-      "csrp:thrall_living_5"
-    ]
-  },
-  "mes.hurt": {
-    "subtitle": "subtitles.csrp.thrall.hurt",
-    "sounds": [
-      "csrp:thrall_hurt_1",
-      "csrp:thrall_hurt_2",
-      "csrp:thrall_hurt_3"
-    ]
-  },
-  "inhoos.growl": {
-    "subtitle": "subtitles.csrp.incomplete_small.living",
-    "sounds": [
-      "csrp:mob/crude/incomplete_form/small/idle1",
-      "csrp:mob/crude/incomplete_form/small/idle2",
-      "csrp:mob/crude/incomplete_form/small/idle3"
-    ]
-  },
-  "inhoos.hurt": {
-    "subtitle": "subtitles.csrp.incomplete_small.hurt",
-    "sounds": [
-      "csrp:mob/crude/incomplete_form/small/hurt1",
-      "csrp:mob/crude/incomplete_form/small/hurt2",
-      "csrp:mob/crude/incomplete_form/small/hurt3"
-    ]
-  },
-  "inhoos.death": {
-    "subtitle": "subtitles.csrp.incomplete_small.death",
-    "sounds": ["csrp:mob/crude/incomplete_form/small/death"]
-  },
-  "inhoom.growl": {
-    "subtitle": "subtitles.csrp.incomplete_medium.living",
-    "sounds": [
-      "csrp:mob/crude/incomplete_form/medium/idle1",
-      "csrp:mob/crude/incomplete_form/medium/idle2",
-      "csrp:mob/crude/incomplete_form/medium/idle3"
-    ]
-  },
-  "inhoom.hurt": {
-    "subtitle": "subtitles.csrp.incomplete_medium.hurt",
-    "sounds": [
-      "csrp:mob/crude/incomplete_form/medium/hurt1",
-      "csrp:mob/crude/incomplete_form/medium/hurt2",
-      "csrp:mob/crude/incomplete_form/medium/hurt3"
-    ]
-  },
-  "inhoom.death": {
-    "subtitle": "subtitles.csrp.incomplete_medium.death",
-    "sounds": ["csrp:mob/crude/incomplete_form/medium/death"]
-  },
-  "lite_flesh.slide": {
-    "subtitle": "subtitles.csrp.incomplete.step",
-    "sounds": [
-      "csrp:mob/step/lite_flesh/slide1",
-      "csrp:mob/step/lite_flesh/slide2",
-      "csrp:mob/step/lite_flesh/slide3",
-      "csrp:mob/step/lite_flesh/slide4"
-    ]
-  },
-  "host.growl": {
-    "subtitle": "subtitles.csrp.host.living",
-    "sounds": ["csrp:hostliving1", "csrp:hostliving2"]
-  },
-  "host.hurt": {
-    "subtitle": "subtitles.csrp.host.hurt",
-    "sounds": ["csrp:hosthurt1", "csrp:hosthurt2", "csrp:hosthurt3"]
-  },
-  "host.death": {
-    "subtitle": "subtitles.csrp.host.death",
-    "sounds": ["csrp:hostdeath"]
   },
   "draconite.living": {
     "subtitle": "subtitles.csrp.draconite.living",
@@ -177,27 +6120,29 @@
   },
   "draconite.death": {
     "subtitle": "subtitles.csrp.draconite.death",
-    "sounds": ["csrp:draconite_death"]
+    "sounds": [
+      "csrp:draconite_death"
+    ]
   },
   "draconite.fire_shoot": {
     "subtitle": "subtitles.csrp.draconite.fire",
-    "sounds": ["csrp:draconite_fire_shoot"]
+    "sounds": [
+      "csrp:draconite_fire_shoot"
+    ]
   },
   "kirin.living": {
     "subtitle": "subtitles.csrp.kirin.living",
-    "sounds": ["csrp:kirin_idle_1", "csrp:kirin_idle_2", "csrp:kirin_idle_3"]
-  },
-  "kirin.hurt": {
-    "subtitle": "subtitles.csrp.kirin.hurt",
-    "sounds": ["csrp:kirin_hurt_1", "csrp:kirin_hurt_2", "csrp:kirin_hurt_3"]
-  },
-  "kirin.death": {
-    "subtitle": "subtitles.csrp.kirin.death",
-    "sounds": ["csrp:kirin_death"]
+    "sounds": [
+      "csrp:kirin_idle_1",
+      "csrp:kirin_idle_2",
+      "csrp:kirin_idle_3"
+    ]
   },
   "kirin.black_hole": {
     "subtitle": "subtitles.csrp.kirin.black_hole",
-    "sounds": ["csrp:kirin_black_hole"]
+    "sounds": [
+      "csrp:kirin_black_hole"
+    ]
   },
   "sim_adventurer.living": {
     "subtitle": "subtitles.csrp.sim_adventurer.living",
@@ -217,15 +6162,21 @@
   },
   "sim_adventurer.death": {
     "subtitle": "subtitles.csrp.sim_adventurer.death",
-    "sounds": ["csrp:mob/assimilated/human/death"]
+    "sounds": [
+      "csrp:mob/assimilated/human/death"
+    ]
   },
   "sim_adventurer.melt": {
     "subtitle": "subtitles.csrp.sim_adventurer.melt",
-    "sounds": ["csrp:mob/crude/moving_flesh/infected_melting"]
+    "sounds": [
+      "csrp:mob/crude/moving_flesh/infected_melting"
+    ]
   },
   "sim_adventurer.explode": {
     "subtitle": "subtitles.csrp.sim_adventurer.explode",
-    "sounds": ["csrp:misc/mob_explotion"]
+    "sounds": [
+      "csrp:misc/mob_explotion"
+    ]
   },
   "sim_adventurer_head.living": {
     "subtitle": "subtitles.csrp.sim_adventurer_head.living",
@@ -244,7 +6195,9 @@
   },
   "sim_adventurer_head.death": {
     "subtitle": "subtitles.csrp.sim_adventurer_head.death",
-    "sounds": ["csrp:mob/assimilated/adventurer_head/death"]
+    "sounds": [
+      "csrp:mob/assimilated/adventurer_head/death"
+    ]
   },
   "moving_flesh.living": {
     "subtitle": "subtitles.csrp.moving_flesh.living",
@@ -256,23 +6209,33 @@
   },
   "moving_flesh.hurt": {
     "subtitle": "subtitles.csrp.moving_flesh.hurt",
-    "sounds": ["csrp:mob/crude/moving_flesh/hurt"]
+    "sounds": [
+      "csrp:mob/crude/moving_flesh/hurt"
+    ]
   },
   "moving_flesh.death": {
     "subtitle": "subtitles.csrp.moving_flesh.death",
-    "sounds": ["csrp:mob/crude/moving_flesh/death"]
+    "sounds": [
+      "csrp:mob/crude/moving_flesh/death"
+    ]
   },
   "moving_flesh.eat": {
     "subtitle": "subtitles.csrp.moving_flesh.eat",
-    "sounds": ["csrp:mob/crude/moving_flesh/eat"]
+    "sounds": [
+      "csrp:mob/crude/moving_flesh/eat"
+    ]
   },
   "moving_flesh.grow": {
     "subtitle": "subtitles.csrp.moving_flesh.grow",
-    "sounds": ["csrp:mob/crude/moving_flesh/grow"]
+    "sounds": [
+      "csrp:mob/crude/moving_flesh/grow"
+    ]
   },
   "moving_flesh.primitive": {
     "subtitle": "subtitles.csrp.moving_flesh.primitive",
-    "sounds": ["csrp:mob/crude/moving_flesh/primitive"]
+    "sounds": [
+      "csrp:mob/crude/moving_flesh/primitive"
+    ]
   },
   "marauder.living": {
     "subtitle": "subtitles.csrp.marauder.living",
@@ -292,11 +6255,9 @@
   },
   "marauder.death": {
     "subtitle": "subtitles.csrp.marauder.death",
-    "sounds": ["csrp:mob/pure/marauder/death"]
-  },
-  "scent.wave": {
-    "subtitle": "subtitles.csrp.scent.wave",
-    "sounds": ["csrp:misc/scent_wave"]
+    "sounds": [
+      "csrp:mob/pure/marauder/death"
+    ]
   },
   "scent.music": {
     "sounds": [
@@ -306,114 +6267,163 @@
       }
     ]
   },
-  "rathol.boom": {
-    "subtitle": "subtitles.entity.generic.explode",
-    "sounds": ["csrp:rathol_explotion"]
-  },
-  "nade.s": {
-    "category": "hostile",
-    "sounds": ["csrp:misc/nade_s"]
-  },
-  "dorpa.range": {
-    "category": "hostile",
-    "sounds": ["csrp:dorpa_rangea"]
-  },
-  "vesta.growl": {
-    "category": "hostile",
-    "sounds": [
-      "csrp:mob/preeminent/carrier_colony/living1",
-      "csrp:mob/preeminent/carrier_colony/living2",
-      "csrp:mob/preeminent/carrier_colony/living3"
-    ]
-  },
-  "vesta.hurt": {
-    "category": "hostile",
-    "sounds": [
-      "csrp:mob/preeminent/carrier_colony/hurt1",
-      "csrp:mob/preeminent/carrier_colony/hurt2",
-      "csrp:mob/preeminent/carrier_colony/hurt3"
-    ]
-  },
-  "vesta.death": {
-    "category": "hostile",
-    "sounds": ["csrp:mob/preeminent/carrier_colony/death"]
-  },
-  "step.heavy_multiple": {
-    "category": "hostile",
-    "subtitle": "subtitles.block.generic.footsteps",
-    "sounds": [
-      "csrp:mob/step/heavy_multiple/step1",
-      "csrp:mob/step/heavy_multiple/step2",
-      "csrp:mob/step/heavy_multiple/step3",
-      "csrp:mob/step/heavy_multiple/step4"
-    ]
-  },
-  "mob.explotion": {
-    "category": "hostile",
-    "subtitle": "subtitles.entity.generic.explode",
-    "sounds": ["csrp:misc/mob_explotion"]
-  },
-  "orb.s": {
-    "category": "hostile",
-    "sounds": ["csrp:misc/orb_s"]
-  },
-  "orb.e": {
-    "category": "hostile",
-    "sounds": ["csrp:misc/orb_e"]
-  },
   "compendium.unlock_entity": {
-    "sounds": ["csrp:bestiary/entity/unlock1", "csrp:bestiary/entity/unlock2", "csrp:bestiary/entity/unlock3", "csrp:bestiary/entity/unlock4", "csrp:bestiary/entity/unlock5", "csrp:bestiary/entity/unlock6", "csrp:bestiary/entity/unlock7", "csrp:bestiary/entity/unlock8"]
+    "sounds": [
+      "csrp:bestiary/entity/unlock1",
+      "csrp:bestiary/entity/unlock2",
+      "csrp:bestiary/entity/unlock3",
+      "csrp:bestiary/entity/unlock4",
+      "csrp:bestiary/entity/unlock5",
+      "csrp:bestiary/entity/unlock6",
+      "csrp:bestiary/entity/unlock7",
+      "csrp:bestiary/entity/unlock8"
+    ]
   },
   "compendium.unlock_block": {
-    "sounds": ["csrp:bestiary/block/unlock1", "csrp:bestiary/block/unlock2", "csrp:bestiary/block/unlock3", "csrp:bestiary/block/unlock4", "csrp:bestiary/block/unlock5", "csrp:bestiary/block/unlock6", "csrp:bestiary/block/unlock7", "csrp:bestiary/block/unlock8"]
+    "sounds": [
+      "csrp:bestiary/block/unlock1",
+      "csrp:bestiary/block/unlock2",
+      "csrp:bestiary/block/unlock3",
+      "csrp:bestiary/block/unlock4",
+      "csrp:bestiary/block/unlock5",
+      "csrp:bestiary/block/unlock6",
+      "csrp:bestiary/block/unlock7",
+      "csrp:bestiary/block/unlock8"
+    ]
   },
   "compendium.unlock_celestial": {
-    "sounds": ["csrp:bestiary/celestial/unlock1", "csrp:bestiary/celestial/unlock2", "csrp:bestiary/celestial/unlock3", "csrp:bestiary/celestial/unlock4", "csrp:bestiary/celestial/unlock5", "csrp:bestiary/celestial/unlock6", "csrp:bestiary/celestial/unlock7", "csrp:bestiary/celestial/unlock8"]
+    "sounds": [
+      "csrp:bestiary/celestial/unlock1",
+      "csrp:bestiary/celestial/unlock2",
+      "csrp:bestiary/celestial/unlock3",
+      "csrp:bestiary/celestial/unlock4",
+      "csrp:bestiary/celestial/unlock5",
+      "csrp:bestiary/celestial/unlock6",
+      "csrp:bestiary/celestial/unlock7",
+      "csrp:bestiary/celestial/unlock8"
+    ]
   },
   "compendium.unlock_effect": {
-    "sounds": ["csrp:bestiary/effect/unlock1", "csrp:bestiary/effect/unlock2", "csrp:bestiary/effect/unlock3", "csrp:bestiary/effect/unlock4", "csrp:bestiary/effect/unlock5", "csrp:bestiary/effect/unlock6", "csrp:bestiary/effect/unlock7", "csrp:bestiary/effect/unlock8"]
+    "sounds": [
+      "csrp:bestiary/effect/unlock1",
+      "csrp:bestiary/effect/unlock2",
+      "csrp:bestiary/effect/unlock3",
+      "csrp:bestiary/effect/unlock4",
+      "csrp:bestiary/effect/unlock5",
+      "csrp:bestiary/effect/unlock6",
+      "csrp:bestiary/effect/unlock7",
+      "csrp:bestiary/effect/unlock8"
+    ]
   },
   "compendium.unlock_item": {
-    "sounds": ["csrp:bestiary/item/unlock1", "csrp:bestiary/item/unlock2", "csrp:bestiary/item/unlock3", "csrp:bestiary/item/unlock4", "csrp:bestiary/item/unlock5", "csrp:bestiary/item/unlock6", "csrp:bestiary/item/unlock7", "csrp:bestiary/item/unlock8"]
+    "sounds": [
+      "csrp:bestiary/item/unlock1",
+      "csrp:bestiary/item/unlock2",
+      "csrp:bestiary/item/unlock3",
+      "csrp:bestiary/item/unlock4",
+      "csrp:bestiary/item/unlock5",
+      "csrp:bestiary/item/unlock6",
+      "csrp:bestiary/item/unlock7",
+      "csrp:bestiary/item/unlock8"
+    ]
   },
   "evolution.phase1": {
-    "sounds": [{"name": "csrp:misc/evolution/phase1", "stream": true}]
+    "sounds": [
+      {
+        "name": "csrp:misc/evolution/phase1",
+        "stream": true
+      }
+    ]
   },
   "evolution.phase2": {
-    "sounds": [{"name": "csrp:misc/evolution/phase2", "stream": true}]
+    "sounds": [
+      {
+        "name": "csrp:misc/evolution/phase2",
+        "stream": true
+      }
+    ]
   },
   "evolution.phase3": {
-    "sounds": [{"name": "csrp:misc/evolution/phase3", "stream": true}]
+    "sounds": [
+      {
+        "name": "csrp:misc/evolution/phase3",
+        "stream": true
+      }
+    ]
   },
   "evolution.phase4": {
-    "sounds": [{"name": "csrp:misc/evolution/phase4", "stream": true}]
+    "sounds": [
+      {
+        "name": "csrp:misc/evolution/phase4",
+        "stream": true
+      }
+    ]
   },
   "evolution.phase5": {
-    "sounds": [{"name": "csrp:misc/evolution/phase5", "stream": true}]
+    "sounds": [
+      {
+        "name": "csrp:misc/evolution/phase5",
+        "stream": true
+      }
+    ]
   },
   "evolution.phase6": {
-    "sounds": [{"name": "csrp:misc/evolution/phase6", "stream": true}]
+    "sounds": [
+      {
+        "name": "csrp:misc/evolution/phase6",
+        "stream": true
+      }
+    ]
   },
   "evolution.phase7": {
-    "sounds": [{"name": "csrp:misc/evolution/phase7", "stream": true}]
+    "sounds": [
+      {
+        "name": "csrp:misc/evolution/phase7",
+        "stream": true
+      }
+    ]
   },
   "evolution.phase8": {
-    "sounds": [{"name": "csrp:misc/evolution/phase8", "stream": true}]
+    "sounds": [
+      {
+        "name": "csrp:misc/evolution/phase8",
+        "stream": true
+      }
+    ]
   },
   "evolution.phase9": {
-    "sounds": [{"name": "csrp:misc/evolution/phase9", "stream": true}]
+    "sounds": [
+      {
+        "name": "csrp:misc/evolution/phase9",
+        "stream": true
+      }
+    ]
   },
   "evolution.phase10": {
-    "sounds": [{"name": "csrp:misc/evolution/phase10", "stream": true}]
+    "sounds": [
+      {
+        "name": "csrp:misc/evolution/phase10",
+        "stream": true
+      }
+    ]
   },
   "celestial.dark_days_start": {
-    "sounds": ["csrp:celestial/dark_days_start"]
+    "sounds": [
+      "csrp:celestial/dark_days_start"
+    ]
   },
   "celestial.dark_days_rumble": {
-    "sounds": [{"name": "csrp:celestial/dark_days_rumble", "stream": true}]
+    "sounds": [
+      {
+        "name": "csrp:celestial/dark_days_rumble",
+        "stream": true
+      }
+    ]
   },
   "celestial.dark_days_ending": {
-    "sounds": ["csrp:celestial/dark_days_ending"]
+    "sounds": [
+      "csrp:celestial/dark_days_ending"
+    ]
   },
   "lure.use": {
     "subtitle": "subtitles.csrp.lure.use",
@@ -424,6 +6434,8 @@
   },
   "lure.carcass": {
     "subtitle": "subtitles.csrp.lure.carcass",
-    "sounds": ["csrp:block/lure/carcass"]
+    "sounds": [
+      "csrp:block/lure/carcass"
+    ]
   }
 }

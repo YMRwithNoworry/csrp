@@ -16,7 +16,7 @@
       },
       "bones": [
         {
-          "name": "root",
+          "name": "srp_coordinate_root",
           "pivot": [
             0,
             24,
@@ -5390,7 +5390,7 @@
         },
         {
           "name": "mainmodel",
-          "parent": "root",
+          "parent": "srp_coordinate_root",
           "pivot": [
             0,
             8,

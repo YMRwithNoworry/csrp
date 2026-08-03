@@ -16,7 +16,7 @@
       },
       "bones": [
         {
-          "name": "root",
+          "name": "srp_coordinate_root",
           "pivot": [
             0,
             24,
@@ -30,7 +30,7 @@
         },
         {
           "name": "coatRL",
-          "parent": "root",
+          "parent": "srp_coordinate_root",
           "pivot": [
             0,
             13.6,
@@ -290,7 +290,7 @@
         },
         {
           "name": "coat",
-          "parent": "root",
+          "parent": "srp_coordinate_root",
           "pivot": [
             0,
             23,
@@ -2425,7 +2425,7 @@
         },
         {
           "name": "coat_1",
-          "parent": "root",
+          "parent": "srp_coordinate_root",
           "pivot": [
             0,
             13.6,
@@ -3220,7 +3220,7 @@
         },
         {
           "name": "coatLL",
-          "parent": "root",
+          "parent": "srp_coordinate_root",
           "pivot": [
             0,
             13.6,
@@ -3750,7 +3750,7 @@
         },
         {
           "name": "mainbody",
-          "parent": "root",
+          "parent": "srp_coordinate_root",
           "pivot": [
             0,
             21.4,

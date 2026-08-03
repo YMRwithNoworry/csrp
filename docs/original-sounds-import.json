@@ -1,0 +1,3952 @@
+{
+  "source_assets": "D:/code/MC模组/csrp/.firecrawl/srp-jar/assets/srparasites",
+  "source_events": 428,
+  "preserved_modern_events": [
+    "celestial.dark_days_ending",
+    "celestial.dark_days_rumble",
+    "celestial.dark_days_start",
+    "compendium.unlock_block",
+    "compendium.unlock_celestial",
+    "compendium.unlock_effect",
+    "compendium.unlock_entity",
+    "compendium.unlock_item",
+    "draconite.death",
+    "draconite.fire_shoot",
+    "draconite.living",
+    "evolution.phase1",
+    "evolution.phase10",
+    "evolution.phase2",
+    "evolution.phase3",
+    "evolution.phase4",
+    "evolution.phase5",
+    "evolution.phase6",
+    "evolution.phase7",
+    "evolution.phase8",
+    "evolution.phase9",
+    "kirin.black_hole",
+    "kirin.living",
+    "lure.carcass",
+    "lure.use",
+    "marauder.death",
+    "marauder.hurt",
+    "marauder.living",
+    "moving_flesh.death",
+    "moving_flesh.eat",
+    "moving_flesh.grow",
+    "moving_flesh.hurt",
+    "moving_flesh.living",
+    "moving_flesh.primitive",
+    "rupter.cloud",
+    "rupter.death",
+    "rupter.hurt",
+    "rupter.living",
+    "rupter.step",
+    "scent.music",
+    "sim_adventurer.death",
+    "sim_adventurer.explode",
+    "sim_adventurer.hurt",
+    "sim_adventurer.living",
+    "sim_adventurer.melt",
+    "sim_adventurer_head.death",
+    "sim_adventurer_head.hurt",
+    "sim_adventurer_head.living"
+  ],
+  "merged_events": 476,
+  "copied_ogg_files": [
+    {
+      "relative": "adaptedarachnidadeath.ogg",
+      "sha256": "fd4dbbc1be3e1d9e801d61ad9eef46589ba606359f5196f3696599a4ed218ba9"
+    },
+    {
+      "relative": "adaptedarachnidahurt1.ogg",
+      "sha256": "2c9dbc2a1f40a44b98ba7615609e48ee1b5249f64cd36dd6014493f82407edb4"
+    },
+    {
+      "relative": "adaptedarachnidahurt2.ogg",
+      "sha256": "2a4eee279ad074e812f9f33e8768aa9b7a1925a941b80bfef757213a483fd483"
+    },
+    {
+      "relative": "adaptedarachnidahurt3.ogg",
+      "sha256": "cba57f3bc608d507ef1061603bcb39883e499f7bb06f344f8f06b30e35ebecbb"
+    },
+    {
+      "relative": "adaptedarachnidaliving1.ogg",
+      "sha256": "34ccb48304167dfb0b099d251a88563878a13be9071c06b9de03b27d7c7b8655"
+    },
+    {
+      "relative": "adaptedarachnidaliving2.ogg",
+      "sha256": "cb18c1b76baed99e3ebd836c023f3d199bca052c2a9c5a90aae54113ebccb089"
+    },
+    {
+      "relative": "adaptedarachnidaliving3.ogg",
+      "sha256": "dda2f7d4a9f7388be6e36700494e36a87b7c6bf8ace236af10bb6853788ba1de"
+    },
+    {
+      "relative": "adaptedarachnidaliving4.ogg",
+      "sha256": "9d1634788870b2af8c2526328c065ef5cabd8532594a05567fcb34d0a81b3273"
+    },
+    {
+      "relative": "adaptedarachnidastep1.ogg",
+      "sha256": "8715c99487ffda7676bf8f1fa98654f6de6a6b8b73855fb9ede0f2f42730d8ea"
+    },
+    {
+      "relative": "adaptedarachnidastep2.ogg",
+      "sha256": "3b91a8ea04070bec19f41d54015886497c77fc729ce36e5553d4ab51eea62d35"
+    },
+    {
+      "relative": "adaptedarachnidastep3.ogg",
+      "sha256": "bbad3a2083b1aff4287615c52258d522c4d04f17229558ec3cd48918abf875b0"
+    },
+    {
+      "relative": "adaptedarachnidastep4.ogg",
+      "sha256": "704e7ae26d0f1a9aa9fe1516383fed66faa83227b0ac6dae6b29ceb5e443ad24"
+    },
+    {
+      "relative": "adaptedbolsterdeath.ogg",
+      "sha256": "8c9b0f52d05aa96eb583e4b5e5a71a4a8bc90238b6bf8ba4a82adc79149e8f7a"
+    },
+    {
+      "relative": "adaptedbolsterhurt1.ogg",
+      "sha256": "94e7be80cd2423a8dbb27cce72592a9eae7416b116b5210758a959edb257a0c7"
+    },
+    {
+      "relative": "adaptedbolsterhurt2.ogg",
+      "sha256": "78156b2b399e9795ce231b962badd3a26778ab4cc410304c5931a639a07ce5ed"
+    },
+    {
+      "relative": "adaptedbolsterhurt3.ogg",
+      "sha256": "085905b40ef0aca9f1c939a627a60ca8e24594f8a08ce25ca8c7adf2aa1f88e1"
+    },
+    {
+      "relative": "adaptedbolsterliving1.ogg",
+      "sha256": "9827207806c60e5c9b14507b5a390f65d53664d08f13e7105a77d732980715eb"
+    },
+    {
+      "relative": "adaptedbolsterliving2.ogg",
+      "sha256": "6cce7cb729f9ce21bfa7440f29fd44736a914252321ac0b337fd62c5c5a821dd"
+    },
+    {
+      "relative": "adaptedbolsterliving3.ogg",
+      "sha256": "6219768bf3baed898e46fd0ed0a3248f0733880e5683858ce741856f89585042"
+    },
+    {
+      "relative": "adaptedlongarmsdeath.ogg",
+      "sha256": "d912a92f61a74eac8657141a29e9b3eb6739d97833f44b7bd45313e70f9e7be1"
+    },
+    {
+      "relative": "adaptedlongarmshurt1.ogg",
+      "sha256": "7ba97a8068211ba872788184d61a2bd395820f3ad87f104bb3cbf90386b663d8"
+    },
+    {
+      "relative": "adaptedlongarmshurt2.ogg",
+      "sha256": "9765fa0bf4a1ce21e6a8bc9897ca9ae2412ae1d60b6dd16c9e7b28a131d8e76b"
+    },
+    {
+      "relative": "adaptedlongarmshurt3.ogg",
+      "sha256": "3af98c77c16b166ee99d7c22e6cb8d9ff87f27c0e89bd012b9f780451696c946"
+    },
+    {
+      "relative": "adaptedlongarmsliving1.ogg",
+      "sha256": "428c9aad05bfec101b1b9c057065ce06c414e7c77625679ca7295151fcc4d7c5"
+    },
+    {
+      "relative": "adaptedlongarmsliving2.ogg",
+      "sha256": "c9e09b6cae68bdb863f66bbdeea15c280f9033709ca99dae486159fa3ddebd3a"
+    },
+    {
+      "relative": "adaptedlongarmsliving3.ogg",
+      "sha256": "529984de58417886e872985a959c133fee6a4da81b8f93fdb9fa4bfedc99e3b7"
+    },
+    {
+      "relative": "adaptedlongarmsliving4.ogg",
+      "sha256": "2fdb261b33bcc3a7517f3151d4cfc0fb9a482a724e785d1490deeea0b83c8d8b"
+    },
+    {
+      "relative": "adaptedlongarmsliving5.ogg",
+      "sha256": "dbbd03d4d0a272a0ab31a94a9c26e9b143c9b623faa2d4056345ce2fba92245b"
+    },
+    {
+      "relative": "adaptedmanducatorcamouflaging.ogg",
+      "sha256": "3bb0c330f08284c0c373ef457f52a76b155d789d06aa9279a0233df2378c2249"
+    },
+    {
+      "relative": "adaptedmanducatordeath.ogg",
+      "sha256": "96b499d3bbde94ba720c60c5dfd69443e8518a731a4605466bbd834e272ea077"
+    },
+    {
+      "relative": "adaptedmanducatorhurt1.ogg",
+      "sha256": "cbc9b97719c2d4656cfed0a051f746c5002df7e988bfcf6902ad8ecfc5898a54"
+    },
+    {
+      "relative": "adaptedmanducatorhurt2.ogg",
+      "sha256": "315b7f9db708f13d7106a361ecd7ae758cfa7a34340f05fa19d5b9804e326ced"
+    },
+    {
+      "relative": "adaptedmanducatorhurt3.ogg",
+      "sha256": "77d06f761b71b317d71523865f235afeb507270d7490fcf43d81a3554cb0f538"
+    },
+    {
+      "relative": "adaptedmanducatorliving1.ogg",
+      "sha256": "492fe2d56bf7043ee43f26b9f7262841ba253fefc03b8aefbed6b37c3dfaed2f"
+    },
+    {
+      "relative": "adaptedmanducatorliving2.ogg",
+      "sha256": "b1f8f60b198c036fd8aa13eee526834572e55c427e46b17fc41134614066dcde"
+    },
+    {
+      "relative": "adaptedmanducatorliving3.ogg",
+      "sha256": "e9b332033929bf30a91725342c13bb9a9376ef3c5d1eca749639f3cda1387399"
+    },
+    {
+      "relative": "adaptedmanducatorliving4.ogg",
+      "sha256": "b4cc2b9b9e4eb86b1fc9c084f23b9bb1db8dc91c2556456c87b73e339c99ffb6"
+    },
+    {
+      "relative": "adaptedreekerdeath.ogg",
+      "sha256": "20444bed3e0ca5f151ceade1dffcc90cfcd33321f80cdb6128c5f4133c297a34"
+    },
+    {
+      "relative": "adaptedreekerhurt1.ogg",
+      "sha256": "f273bfe1d80d1728c47e8957a88db70381023e737494d68f560718a6faca1576"
+    },
+    {
+      "relative": "adaptedreekerhurt2.ogg",
+      "sha256": "b7898743f44b1a7d9c082038a42a9135863a509f90308c7fc4e3836b3751400c"
+    },
+    {
+      "relative": "adaptedreekerhurt3.ogg",
+      "sha256": "9dc0c37fe42f292881f234500d93f2d36fdb4d6cb6e21cc428fd1c8ecc044a74"
+    },
+    {
+      "relative": "adaptedreekerhurt4.ogg",
+      "sha256": "898b15c963fc47513849fcfc27f26096644ef6f1bcff5c3a9d787264ebee1a1d"
+    },
+    {
+      "relative": "adaptedreekerliving1.ogg",
+      "sha256": "367e6b8ddb2079439268e285b56475fb3916901af5ff47bf8ca37eb2cf2fdf19"
+    },
+    {
+      "relative": "adaptedreekerliving2.ogg",
+      "sha256": "ac33f02a657e8a372c71da3253d006044d270cfd29ecdc252c746a1e7d8ddbe6"
+    },
+    {
+      "relative": "adaptedreekerliving3.ogg",
+      "sha256": "303614b19654daae905db09e6562e6faddf7b299ca5d170aa3ca4afcd3f7c90f"
+    },
+    {
+      "relative": "adaptedreekerliving4.ogg",
+      "sha256": "0f7eb004735837019b080a6f22b50fe047451a45948c49a857004c065f409b99"
+    },
+    {
+      "relative": "adaptedreekerliving5.ogg",
+      "sha256": "7e6e614aa71ae2c953ec34139d04f72244825db9f89b357eac66724f4a6d337c"
+    },
+    {
+      "relative": "adaptedsummonerdeath.ogg",
+      "sha256": "2509010f914120e7256a902375ee3a5143203d8f60a9d370e7dc59193a211e82"
+    },
+    {
+      "relative": "adaptedsummonerhurt1.ogg",
+      "sha256": "3c29742668eb8f6bebf55ac4ac9f2754979e35ad182b9543f71403844acbafca"
+    },
+    {
+      "relative": "adaptedsummonerhurt2.ogg",
+      "sha256": "b1a011d84da6132ff7a17f893c998815e3edb40ca8c8041cc2e022054fd2a0e7"
+    },
+    {
+      "relative": "adaptedsummonerhurt3.ogg",
+      "sha256": "96b96c853a8d3f37daffb2d1358a694699235439087420d485cf91c1020e1b6a"
+    },
+    {
+      "relative": "adaptedsummonerliving1.ogg",
+      "sha256": "8d550f6c5ce8cd4d70820a2dfc8f5992deb669bdb1bcf5ffb4703c79f18a9f77"
+    },
+    {
+      "relative": "adaptedsummonerliving2.ogg",
+      "sha256": "1d48f9f9c751bf74467cd25a2deab255229252b0bb8964bd5079cbd63577c0a4"
+    },
+    {
+      "relative": "adaptedsummonerliving3.ogg",
+      "sha256": "899fbf2f813b93aeabb86077c10dc081dcdf209a65ebb2571577efc5fc963c74"
+    },
+    {
+      "relative": "adaptedsummonerliving4.ogg",
+      "sha256": "4f6ed6a94e09e9ab2fb365e51bb2ef97b68866d249d6974ae6dea3c74223ee24"
+    },
+    {
+      "relative": "adaptedsummonerliving5.ogg",
+      "sha256": "0b2f09eabeeb0250d8e62bed5fcdbb6f3dc32c6abf55b58e32f7ba8b3d0465be"
+    },
+    {
+      "relative": "adaptedsummonerscream.ogg",
+      "sha256": "28619c6a57c60984053f29f52c80173965059e8f711657fd8846ba4f7cbc38a4"
+    },
+    {
+      "relative": "adaptedyelloweyedeath.ogg",
+      "sha256": "45f984c73971a464db421da35062739ed1516a1085e7ea91fa0d9ab06669b0fa"
+    },
+    {
+      "relative": "adaptedyelloweyehurt1.ogg",
+      "sha256": "6630470ce9bee71f9e44afb79dbf9005a5388abf9559150ad0ff3939a5c2ca11"
+    },
+    {
+      "relative": "adaptedyelloweyehurt2.ogg",
+      "sha256": "e986b2d38a2a2bff55e035a99c4d5188a21e031bcb3f7e5b8865470269d82b8a"
+    },
+    {
+      "relative": "adaptedyelloweyehurt3.ogg",
+      "sha256": "bb22f6fa9122e3cc2210b22f51537a6a048ef2b6e45b818536c6a052d9974854"
+    },
+    {
+      "relative": "adaptedyelloweyeliving1.ogg",
+      "sha256": "0059a23ae894e1c101e715d7d442ac98909d181031ae61df948da69d7abbc37c"
+    },
+    {
+      "relative": "adaptedyelloweyeliving2.ogg",
+      "sha256": "a6439409aa77dfbe63f7cc2f72574d827422c343df40efc3ea3d8d6a1a29fc89"
+    },
+    {
+      "relative": "adaptedyelloweyeliving3.ogg",
+      "sha256": "55c9596a6b74565a503191de36462ee203e1ee8f2e994675e69d013de47b8d32"
+    },
+    {
+      "relative": "adaptedyelloweyeshooting.ogg",
+      "sha256": "dea37cf00354ce78541a4a42e92eea11b867383e8cc16df8161a5f8bd2b3be7d"
+    },
+    {
+      "relative": "adapted_vermin_death.ogg",
+      "sha256": "e80690d9d01d5642876e5569cd9be7d2aa2d895b17d817026c14498cbad6cbea"
+    },
+    {
+      "relative": "adapted_vermin_hurt_1.ogg",
+      "sha256": "a90f3d5980b8d5e06a580a6fe7ef8fe94fa8e23e8c412c967aa799c49bde95d3"
+    },
+    {
+      "relative": "adapted_vermin_hurt_2.ogg",
+      "sha256": "82858f68d5fa328deb22072261bc2856cbe3623d164df74bf29d3e28917f8ace"
+    },
+    {
+      "relative": "adapted_vermin_hurt_3.ogg",
+      "sha256": "44cef214b02ed88710a703583b859a9186f201c2f24efbb1f2c418a59526ef38"
+    },
+    {
+      "relative": "adapted_vermin_idle_1.ogg",
+      "sha256": "c6721b031c78d2ecd812ecc7d5dd666f76110b28c183dcbf043c848305798b0a"
+    },
+    {
+      "relative": "adapted_vermin_idle_2.ogg",
+      "sha256": "5ae1111bc0e8bbb8b25bc4f4b9d0f2c66ba2c0d99363fb2bf125060dd001f001"
+    },
+    {
+      "relative": "adapted_vermin_idle_3.ogg",
+      "sha256": "a28bbc8ca80ef3f82d9510f9ad0bd130b20fb1e84aa66ec414ca9e503e61092b"
+    },
+    {
+      "relative": "ada_arachnida_special.ogg",
+      "sha256": "d18fd9a35dc8294968d6a8f909d9c0d7617829bd62b36c983b3e3388bdc7a888"
+    },
+    {
+      "relative": "ada_bolster_special.ogg",
+      "sha256": "17aa783c904c448baad7c128bf519f70abecbb73dd65e7b90dbad62dc0defde2"
+    },
+    {
+      "relative": "ada_longarm_special.ogg",
+      "sha256": "6b5149fade87c6087b202583e8c6d6c3dcb0bf2a71028866d9b9f505f581c4de"
+    },
+    {
+      "relative": "ada_reeker_special.ogg",
+      "sha256": "bfd7d008177d07ecd9c2fcbdd3427283ea23cb9161e36ca8009e2665e6fa2ef3"
+    },
+    {
+      "relative": "ada_viscera_death.ogg",
+      "sha256": "1fab4b6a0383ac2b2bf2943937105632e29e494e5730b3f08924df2f9e2d94fd"
+    },
+    {
+      "relative": "ada_viscera_hurt_1.ogg",
+      "sha256": "258b47a0193ee8d50422d4041c7847071c812a7df76ea108823a0ecbb6c27495"
+    },
+    {
+      "relative": "ada_viscera_hurt_2.ogg",
+      "sha256": "8207947b9936df32e855032c8e1777e4137da9c363cae21313657b615c2f7aa1"
+    },
+    {
+      "relative": "ada_viscera_hurt_3.ogg",
+      "sha256": "e9f88e54362e8044c05bacf3545a83962c0203193e7a14e4bbcf0997319c62b3"
+    },
+    {
+      "relative": "ada_viscera_living_1.ogg",
+      "sha256": "85d4ee7e41ec1a4d94082e0b2545e4c20fedc4558f05b21ab5eb3aeacfdf406c"
+    },
+    {
+      "relative": "ada_viscera_living_2.ogg",
+      "sha256": "bc8477e1010462bff39c3b7d07e76adef9a827d64f9a5615342822d8aff24e8f"
+    },
+    {
+      "relative": "ada_viscera_living_3.ogg",
+      "sha256": "ee551831b611a1dc39b554184171a205b5b4cccfcad22bd679b93e744fa32811"
+    },
+    {
+      "relative": "ada_viscera_living_4.ogg",
+      "sha256": "f002e50c00815e89c314cbb8b8a2b169074d19ba0dbf6937fb41b4d871ed3f68"
+    },
+    {
+      "relative": "ada_viscera_special.ogg",
+      "sha256": "6d6a7caac94cfbe2cee06c7f64efd2a6fc048767181dcf3615a71863c68488a4"
+    },
+    {
+      "relative": "ada_yelloweye_special.ogg",
+      "sha256": "a996921c9e42fe212861f16739860b25bca5c59e78aece33975cd5202474298c"
+    },
+    {
+      "relative": "alafha_death.ogg",
+      "sha256": "133036ef8a71b2b5d8c59bfc80fbacda9e6960975232912e65928c367706dd45"
+    },
+    {
+      "relative": "alafha_growl.ogg",
+      "sha256": "b6d049d156b62346724326c46b30cfc9984b29d34e2a61cdb2be0d976f346751"
+    },
+    {
+      "relative": "alafha_growl1.ogg",
+      "sha256": "4bb9e367dc76d46ba52e0ecad1aabf49e63d4389a3f3f41b337e93e52a525ecb"
+    },
+    {
+      "relative": "alafha_growl2.ogg",
+      "sha256": "93dad892e08aa5602dcf1c5e2a9821c7f9be205b89f52e745c4df7719835d173"
+    },
+    {
+      "relative": "alafha_hurt.ogg",
+      "sha256": "be2ff9db727c78f180761abf35dcd37a62efbe4c0bcc8560268b164a000f40ac"
+    },
+    {
+      "relative": "alafha_hurt1.ogg",
+      "sha256": "38580e9271144a6358e32819a3fb0ba0eab4ac762b5f458cffa4e68968bccf22"
+    },
+    {
+      "relative": "alafha_hurt2.ogg",
+      "sha256": "a0e43dbe6c895f66a339df9c68819f85c0db0183cb77fe6af35ec9614f370cd8"
+    },
+    {
+      "relative": "alafha_shooting.ogg",
+      "sha256": "34e07afea0b61d02f7ea36cea333686162ec5d13701e4d13e9dbba0f6681f114"
+    },
+    {
+      "relative": "alafha_shootingpost.ogg",
+      "sha256": "41efdb73926a92000134fcd84f76b0b0e9fb43658ac7e15000e304130cd2447a"
+    },
+    {
+      "relative": "anged_shooting.ogg",
+      "sha256": "76726ce5b3c99aa097ef8f19b219026f851a8429fb96de6262afdd97609f76e7"
+    },
+    {
+      "relative": "anged_shootingpost.ogg",
+      "sha256": "e367d1846d786a0fb234279d3bdbe73350c0b7c89772e093bfeeba69fd5ee93b"
+    },
+    {
+      "relative": "assimilatedbeardeath.ogg",
+      "sha256": "60e2e594d7a8cc7967d99da340e6ab16ab5f20c5bc2158af39ef36d6c82b1231"
+    },
+    {
+      "relative": "assimilatedbearhurt1.ogg",
+      "sha256": "e96bb65f52d435a24075084001020671ccd8298d4d17b0ed155439d6aac9f423"
+    },
+    {
+      "relative": "assimilatedbearhurt2.ogg",
+      "sha256": "b80753fdfc9aca30d85f68258d1d708fcd08597c6143b5f38746092cf63b11d0"
+    },
+    {
+      "relative": "assimilatedbearhurt3.ogg",
+      "sha256": "3464d5fc0dbb9295f0ad4b082484ac7505e1318f9f7d6564c2bdc27837666c09"
+    },
+    {
+      "relative": "assimilatedbearliving1.ogg",
+      "sha256": "f2d62415199813287b5ba03c6228ae02cf96550d95b3c0872a8e1fc816370a5d"
+    },
+    {
+      "relative": "assimilatedbearliving2.ogg",
+      "sha256": "ea6430abc97910007dd1b7598bba4599455d067ed9f5c03bc4ffab7f0f55e4d8"
+    },
+    {
+      "relative": "assimilatedbearliving3.ogg",
+      "sha256": "3cac2212582823049bacfd79f0bc337c7612a21a9be488f21ec47e8efa4e82d9"
+    },
+    {
+      "relative": "assimilatedcowdeath.ogg",
+      "sha256": "7e92572ea6a91008613536f2f962f0f89edf6a5411400066796ea41452e8989d"
+    },
+    {
+      "relative": "assimilatedcowhurt1.ogg",
+      "sha256": "aa4634fd2db2a2fd187639c4d9c07b2ecdcbd2c61c3c66d8e5cc15b14ee66a57"
+    },
+    {
+      "relative": "assimilatedcowhurt2.ogg",
+      "sha256": "faff1b8fc39bcfb5b77235cc0eb728a8722d482942a95e61b8d3ae1ad43cc4f0"
+    },
+    {
+      "relative": "assimilatedcowhurt3.ogg",
+      "sha256": "2d9c0df5c3df9d9fc8b80aad07dbf27f62a9a71f0db6a02c453eaec4bc5488af"
+    },
+    {
+      "relative": "assimilatedcowliving1.ogg",
+      "sha256": "f646f20c80cbb4c9e223b2464716deeaf674a9b11fe2d2d6b99cbdcacbd31362"
+    },
+    {
+      "relative": "assimilatedcowliving2.ogg",
+      "sha256": "ebfcff9af26d11250eb8d70f3d3484149b9ed71110c6acc2dd8bde715d4888b1"
+    },
+    {
+      "relative": "assimilatedcowliving3.ogg",
+      "sha256": "7487371370150112c259d77d4e8b3dea31b12283f693c7063cfbb1d04b3a7049"
+    },
+    {
+      "relative": "assimilatedhorsecharge.ogg",
+      "sha256": "29c3704d44ca1b67610a7c06490798dd2396ed01acedc6f2fbb459e5f963a9bb"
+    },
+    {
+      "relative": "assimilatedhorsedeath.ogg",
+      "sha256": "c9b75799d79c3305823f9da48344866f49f60b620d74191c25156dae56abcdf3"
+    },
+    {
+      "relative": "assimilatedhorseexplode.ogg",
+      "sha256": "96dd51362ac655fb8185848925a944697941fc28e60ce4d374df37903ddd95b6"
+    },
+    {
+      "relative": "assimilatedhorsehurt1.ogg",
+      "sha256": "b848077da8cca6b6a162dc3c6bae50f94cbf033477acaff62e6b3e5454d099d4"
+    },
+    {
+      "relative": "assimilatedhorsehurt2.ogg",
+      "sha256": "7eda82f206f5474396bd32e52a6943cc5092b9858528db201885c8d9bcd855bb"
+    },
+    {
+      "relative": "assimilatedhorsehurt3.ogg",
+      "sha256": "25bd6aaaec8d013bd3632eb9dcb214e86058e877ac1ef34cf7e7a96bc6ae3913"
+    },
+    {
+      "relative": "assimilatedhorseliving1.ogg",
+      "sha256": "5753226788403c8c39572e1124f911c182967ee873e5f4d190a79d75fdfd398a"
+    },
+    {
+      "relative": "assimilatedhorseliving2.ogg",
+      "sha256": "1025f2449f4405724a693e36f043448fa91b87efa8f889054a338243944d48d1"
+    },
+    {
+      "relative": "assimilatedhorseliving3.ogg",
+      "sha256": "0a5c1cb043a388250151886e8e406d7ed03b87286fdcf7c392813d5fb3ea9da1"
+    },
+    {
+      "relative": "assimilatedpigdeath.ogg",
+      "sha256": "903d5bda7449b3187692a5b9ce3f7d6b19ddd52865ddd5e4c3b288d008cbcb1b"
+    },
+    {
+      "relative": "assimilatedpighurt1.ogg",
+      "sha256": "d165a7fe31163a3f731a0a1618c267ec1c6409cd8896fd4c273108ec72316618"
+    },
+    {
+      "relative": "assimilatedpighurt2.ogg",
+      "sha256": "13fb1cf5869ac5b9324e7b5ec9a03fb33764b4cdfa641f077ed7ccd71dff1117"
+    },
+    {
+      "relative": "assimilatedpighurt3.ogg",
+      "sha256": "fcac09f4a5d27764f40755984751fe64ce1c084be2059919fbf63a6cf1965648"
+    },
+    {
+      "relative": "assimilatedpigliving1.ogg",
+      "sha256": "ac05c7f0b3bde1045fbf679d9883aa12c801a77fcff211e07c764d9d0cdacf36"
+    },
+    {
+      "relative": "assimilatedpigliving2.ogg",
+      "sha256": "56b139d5311d5b16793f9e336110119a52d010fcd2278f44a1af3c6b19634bf2"
+    },
+    {
+      "relative": "assimilatedpigliving3.ogg",
+      "sha256": "e79e73970e590e23c6456702d57fce71bc154593c93ee62a8a1ccc6760302f9c"
+    },
+    {
+      "relative": "assimilatedsheepdeath.ogg",
+      "sha256": "e710cafd2a886bc651ab4fa169c4609a90354f3a570eb2fd5a1b49724796f6eb"
+    },
+    {
+      "relative": "assimilatedsheephurt1.ogg",
+      "sha256": "7da9f75767573d1cf0e34b760ac7126d7c6b0e8919eb102ca5f12d4e7df13439"
+    },
+    {
+      "relative": "assimilatedsheephurt2.ogg",
+      "sha256": "2a9cf029bc2729c7e8f27d64c688b2282f015a0a9928cd19a1d1d01d7d079314"
+    },
+    {
+      "relative": "assimilatedsheephurt3.ogg",
+      "sha256": "25892832584a766f6f921ee4d3465ffb0892f73b4c7015151db4c294dbd3c682"
+    },
+    {
+      "relative": "assimilatedsheepliving1.ogg",
+      "sha256": "e7b7d3dd11ae015e430b0c01e1550a76d6e720ac35b3275d9befd1e394495ce0"
+    },
+    {
+      "relative": "assimilatedsheepliving2.ogg",
+      "sha256": "114e3f44614613b05e39a95077e855d174ce8da70a8d5b5861c4ba82fc4c45f7"
+    },
+    {
+      "relative": "assimilatedsheepliving3.ogg",
+      "sha256": "f1ad4e22810e45851d019830845bb9eb64f4c531f5cadf6d21812d47ad5a3737"
+    },
+    {
+      "relative": "assimilatedspiderdeath.ogg",
+      "sha256": "88ae779ce02d80f1f3ad563f8e0dfea5bc3f11228353d8e30ec2b0cdc26a0b16"
+    },
+    {
+      "relative": "assimilatedspidersay1.ogg",
+      "sha256": "d52a9868f84b30f1bee961c5c7ac29c853dfee36d8f37b470dd04636ece8bfae"
+    },
+    {
+      "relative": "assimilatedspidersay2.ogg",
+      "sha256": "b36c90835860e47bb155cc6753fcec403acefa53d8d47166400796197aadd503"
+    },
+    {
+      "relative": "assimilatedspidersay3.ogg",
+      "sha256": "bf73487a09b43f505f7ceb04e0fcc81f5ae1bc21422be7af08f58652985ceb5d"
+    },
+    {
+      "relative": "assimilatedspidersay4.ogg",
+      "sha256": "e75e560e728316074f9e3fbb17469f4ee1f3a88d1c394515f11047e631e1b221"
+    },
+    {
+      "relative": "assimilatedspiderstep1.ogg",
+      "sha256": "d5b5140d683414db6b8b69595ac51aa8a2f88d714a6d5c874ee35cd19dc06e0d"
+    },
+    {
+      "relative": "assimilatedspiderstep2.ogg",
+      "sha256": "8c271a855cff37811a3a2567ea39d565ee30d8f9759b3110c09958cce5a80d35"
+    },
+    {
+      "relative": "assimilatedspiderstep3.ogg",
+      "sha256": "9ed7d8d61b1a9f4a78cc520c58f3abf5ae41798029cd2cccc58262558edc4293"
+    },
+    {
+      "relative": "assimilatedspiderstep4.ogg",
+      "sha256": "42d1f935b70b65a77e26ad78793cffee332bfcc8e58074c9b09a1bf852505b7a"
+    },
+    {
+      "relative": "assimilatedwolfdeath.ogg",
+      "sha256": "a3fc93d9f0f8a46cb2572c38b99384c7ffff3de20f8d4f60d69066c3679f7734"
+    },
+    {
+      "relative": "assimilatedwolfhurt1.ogg",
+      "sha256": "e97a93312c48209dea340060185f76cfa6edb725842f1c8a49f401215ce82fb8"
+    },
+    {
+      "relative": "assimilatedwolfhurt2.ogg",
+      "sha256": "db3e1b3bf9f7a2fd0f5f163f4a8453f6e70f5ccb2e5aaa33f38be04423b68fdd"
+    },
+    {
+      "relative": "assimilatedwolfhurt3.ogg",
+      "sha256": "047be19a1cc84a2fb8f492eb9577bf4a93e0b93ed9988be40667fd96dfd58062"
+    },
+    {
+      "relative": "assimilatedwolfliving1.ogg",
+      "sha256": "40f2a851334791cda26b393fb1f529dd38df8e96fc2a9f43f3d21ba7d9facf0c"
+    },
+    {
+      "relative": "assimilatedwolfliving2.ogg",
+      "sha256": "a92c4de6b553f95d34bd11c41c45a50ee6a66f7e0e573c873e5f7c654f05468a"
+    },
+    {
+      "relative": "assimilatedwolfliving3.ogg",
+      "sha256": "d3918ebb9ced0f5b385c7d8005956849f77524b9b221e3cdb01215caa79a9a25"
+    },
+    {
+      "relative": "as_squid_death.ogg",
+      "sha256": "843ed5387ecfe46c1d98d2b91de4ba6479e1e355e00acb11839bf376bcf75c66"
+    },
+    {
+      "relative": "as_squid_hurt_1.ogg",
+      "sha256": "7269ae8c4904a8608105d39dcfa232fd85d02b4653143c1debcbe8ae062dd693"
+    },
+    {
+      "relative": "as_squid_hurt_2.ogg",
+      "sha256": "d4d994ad41a0666dc65c9e25834c028f322890543836b52ad99ebf402670d413"
+    },
+    {
+      "relative": "as_squid_hurt_3.ogg",
+      "sha256": "1feb6122cb589b0e3e16a89aac4af0668dffaca6cfad94e1f92f33ed321014d0"
+    },
+    {
+      "relative": "as_squid_idle_1.ogg",
+      "sha256": "fc72b36a533e76cd369a62a88407e345074400402890804b90230c962322c6e6"
+    },
+    {
+      "relative": "as_squid_idle_2.ogg",
+      "sha256": "16b3f5a1dd8d812332a91af48c44223f824b72fbf328d0c7dfdb7e29150bcf76"
+    },
+    {
+      "relative": "as_squid_idle_3.ogg",
+      "sha256": "63f9b5f00b08c5db440cf94cb80f434db83d783d7870433878cd1d90dba9066b"
+    },
+    {
+      "relative": "bestiary/block/unlock1.ogg",
+      "sha256": "dbada0d3650a16f31f7505b72b18d9d2e373975a57581ae4f0f37a6ff635210d"
+    },
+    {
+      "relative": "bestiary/block/unlock2.ogg",
+      "sha256": "21853a3294634ee08bb6f94bc71c8b0eb49b8926ce07a4b24b5ac70fe1604239"
+    },
+    {
+      "relative": "bestiary/block/unlock3.ogg",
+      "sha256": "483c678076bc0f672ece3f700968ea496c1bf6601a4635041dae0018cee4600a"
+    },
+    {
+      "relative": "bestiary/block/unlock4.ogg",
+      "sha256": "98f262748b4bf77193315c6fff13aab58207c5b99ad41b008a053555d14c104c"
+    },
+    {
+      "relative": "bestiary/block/unlock5.ogg",
+      "sha256": "768b292e37be671c80e618551097adb5f55fbd4dd48b502096aac74f3a261870"
+    },
+    {
+      "relative": "bestiary/block/unlock6.ogg",
+      "sha256": "71618b75712748a72e9f878a3f2d99a20fcf2479179bdc62ca62a1a87ce10ba7"
+    },
+    {
+      "relative": "bestiary/block/unlock7.ogg",
+      "sha256": "3042aa73d01cd6564124a0920f2bef519e578ceb9cda2b8f1f9f272975c21550"
+    },
+    {
+      "relative": "bestiary/block/unlock8.ogg",
+      "sha256": "9d6eb5a2cd665e7c72e5689ae5bd67e0552c647d2a5cb7ee952833676f0b3f58"
+    },
+    {
+      "relative": "bestiary/celestial/unlock1.ogg",
+      "sha256": "63b245fdb44d0df59e08ae53e4b3d94bdf950298e5093d6577cd48831b9eabb2"
+    },
+    {
+      "relative": "bestiary/celestial/unlock2.ogg",
+      "sha256": "5f61a7a24f0e7ae0873b976151e72b6f4e923547316f021492c062658a30347a"
+    },
+    {
+      "relative": "bestiary/celestial/unlock3.ogg",
+      "sha256": "a6a8e0ae019185a9ab70272020ac7eb8622394a0cc7075768d9429170c911b04"
+    },
+    {
+      "relative": "bestiary/celestial/unlock4.ogg",
+      "sha256": "d9bb9483e37ff94061f555bab33f7155d4596e30737b39a801e5fa6bf44baa50"
+    },
+    {
+      "relative": "bestiary/celestial/unlock5.ogg",
+      "sha256": "7e01838d524f740875363584f6a654785bc7143841eb853c234de9fc7f613c0d"
+    },
+    {
+      "relative": "bestiary/celestial/unlock6.ogg",
+      "sha256": "74c7cf6adb8becff0a7b54d16a1c13777eb29acfc7774f9c7d1edbb6d818f8fb"
+    },
+    {
+      "relative": "bestiary/celestial/unlock7.ogg",
+      "sha256": "ab0bb83cf0c4eceb09d5135c1ed92d31fca773a91f9dc95247f95af2527d7ab8"
+    },
+    {
+      "relative": "bestiary/celestial/unlock8.ogg",
+      "sha256": "ff85578e342783f58a4d31b5a4041c8d3475b8fe71dd280034607e4b79b601f7"
+    },
+    {
+      "relative": "bestiary/effect/unlock1.ogg",
+      "sha256": "71035549c0a655534faef60a3b1b8d79917a73a543bb85376bfeabaa9aac2ad5"
+    },
+    {
+      "relative": "bestiary/effect/unlock2.ogg",
+      "sha256": "399dab5844fb3f125316e6471928c8f6f80924c2a2fffad694eb2120ea647afb"
+    },
+    {
+      "relative": "bestiary/effect/unlock3.ogg",
+      "sha256": "d5505f82c2313a819d2474a396d4f45493a528792d3d784aa804050d1301852f"
+    },
+    {
+      "relative": "bestiary/effect/unlock4.ogg",
+      "sha256": "37460940e96dabf56dee8d152925ef1bc2d2efd9b7ca8f4800e2eac4688fa374"
+    },
+    {
+      "relative": "bestiary/effect/unlock5.ogg",
+      "sha256": "354fc51408d1bf380ab22a0d0dcf5f6672bc8237844569e22b6ede24d5377c63"
+    },
+    {
+      "relative": "bestiary/effect/unlock6.ogg",
+      "sha256": "48e4a26e7975edc3f74352ed7766620f23d4a3e043a8ab0a75a45a8bb69d3f30"
+    },
+    {
+      "relative": "bestiary/effect/unlock7.ogg",
+      "sha256": "53561f919453375847c67dfd6fe5f4b4a48699d70b1e33f9032dd64ccd2dd248"
+    },
+    {
+      "relative": "bestiary/effect/unlock8.ogg",
+      "sha256": "560cafba1265dc7c1e388e4a61f24ba5e05b5ba2bc93faeda936318210a5abbe"
+    },
+    {
+      "relative": "bestiary/entity/unlock1.ogg",
+      "sha256": "ad1e7ceb4df8e1dbe47bfa307a535e1727efce3d04b63603fe31a26115203f3e"
+    },
+    {
+      "relative": "bestiary/entity/unlock2.ogg",
+      "sha256": "5d9a68466f793fd1e824bd51504495094cb7a54bce364dcc7c7b338eb4dee8ea"
+    },
+    {
+      "relative": "bestiary/entity/unlock3.ogg",
+      "sha256": "f0c59b7405c10126da75dc79f3421732b0d784aafe6025de5e92e11cd6a2fd90"
+    },
+    {
+      "relative": "bestiary/entity/unlock4.ogg",
+      "sha256": "1d7caebcff8f8985f996701933365890277bb1a3e5c44f36b9e2fd79248055de"
+    },
+    {
+      "relative": "bestiary/entity/unlock5.ogg",
+      "sha256": "df8f41ae52047c649f5fdab68e10c9bf2f944f85e4ccbdb5114bca59cf20d5d3"
+    },
+    {
+      "relative": "bestiary/entity/unlock6.ogg",
+      "sha256": "bbf113524455217c554402feef0652c1e5d689ae712ae12d4b4d72a1c1937275"
+    },
+    {
+      "relative": "bestiary/entity/unlock7.ogg",
+      "sha256": "b7829e3082f0822667bfcc7054104c373d10e035e89ca1e51289212401469167"
+    },
+    {
+      "relative": "bestiary/entity/unlock8.ogg",
+      "sha256": "c181330887023064a8dd06387414ebd7e54f914b8de83c44cfefb10711cfc840"
+    },
+    {
+      "relative": "bestiary/item/unlock1.ogg",
+      "sha256": "7ed0405e9a69453d98f62cb3856306a71aa14fe63d7c6dd2e379d07ad7be89a0"
+    },
+    {
+      "relative": "bestiary/item/unlock2.ogg",
+      "sha256": "b546f1af385000a1ce6e088cae002149dc179d3b06d0ed47b400572c5c243727"
+    },
+    {
+      "relative": "bestiary/item/unlock3.ogg",
+      "sha256": "4204f88be38fefabc63bb4df57aa30a437e8a9e1cd871826fe2c8fdeab93dd26"
+    },
+    {
+      "relative": "bestiary/item/unlock4.ogg",
+      "sha256": "900d9dfd364061138137a222989e5ad3c633da5a6e2db6095bf84938d34b9bc4"
+    },
+    {
+      "relative": "bestiary/item/unlock5.ogg",
+      "sha256": "6fbd6bc923015144dc45635a2096e45a48520a888c072acc6f37225b9c633345"
+    },
+    {
+      "relative": "bestiary/item/unlock6.ogg",
+      "sha256": "11d1687d7da8ce1014eff065855386b5378ff3cca11f8dd1292cf6d81b193f64"
+    },
+    {
+      "relative": "bestiary/item/unlock7.ogg",
+      "sha256": "611c9707a169947cb04f2fa2b5da4d90bac132985c749726aa36df70a62be5c8"
+    },
+    {
+      "relative": "bestiary/item/unlock8.ogg",
+      "sha256": "b620b95e4ac4f7f82df45f8475001596d132399ed0c006760123d703a7bd73d0"
+    },
+    {
+      "relative": "biome_heart.ogg",
+      "sha256": "8c2095b7a7d38268c974c36b06a0c0383e4ae39ff21c834ea2aea9ee53f9b769"
+    },
+    {
+      "relative": "block/alt_wood/dig1.ogg",
+      "sha256": "ee591882f80e51d4df4f1fce12aeedfe1e5f6302e42b0d86fcd888baef0c56c3"
+    },
+    {
+      "relative": "block/alt_wood/dig2.ogg",
+      "sha256": "c6a36b754012f48afdd6d42920023130c7a74a9faf37ea505823e12161fc570a"
+    },
+    {
+      "relative": "block/alt_wood/dig3.ogg",
+      "sha256": "da08c20b52b7c49cc105272fa01c3de7900492f002905ad4f013cd95d43163f2"
+    },
+    {
+      "relative": "block/alt_wood/dig4.ogg",
+      "sha256": "d8f14a88b1318201834a954d951d6b9c018d7ce3abc5a4cd9310fcab386ac9de"
+    },
+    {
+      "relative": "block/alt_wood/step1.ogg",
+      "sha256": "8eafe46d82d612c16568d67542524f9f3270fcf3c9648709cd89fc3e12366ed8"
+    },
+    {
+      "relative": "block/alt_wood/step2.ogg",
+      "sha256": "620b14d3e5aaaf045ece47b9de2a8a6effaf24097c9b1e1590d46347af402d32"
+    },
+    {
+      "relative": "block/alt_wood/step3.ogg",
+      "sha256": "0b39ba2532a975048d51ea89477807ec11c2207e606c6314c21f98070b2e3877"
+    },
+    {
+      "relative": "block/alt_wood/step4.ogg",
+      "sha256": "747585d54936b0ad7fb8b0054ec380c2e848cc50e98f9a13b4b4242d93053378"
+    },
+    {
+      "relative": "block/beckon/dig1.ogg",
+      "sha256": "d64b75897cdabe6fb76f38d2e44ebebfa604ec9029aa02cbad6e303b643c330d"
+    },
+    {
+      "relative": "block/beckon/dig2.ogg",
+      "sha256": "fcb9f3bbc5651044fdebd83e56219f643376c3c2ceae84995846bdd2d53e79d4"
+    },
+    {
+      "relative": "block/beckon/dig3.ogg",
+      "sha256": "5256f7684cb95841d4ed15bed81299d8c41ce0bbf1c661ff1830fdee6a4c70eb"
+    },
+    {
+      "relative": "block/beckon/dig4.ogg",
+      "sha256": "476670391f76c2450c3afa0a972797d2f2684a4fb6663aeebd01da81d3694564"
+    },
+    {
+      "relative": "block/beckon/dig5.ogg",
+      "sha256": "2c994e3596cfdfee1a8e26fed4e593466404088bf4975ae1fc3596ab73bb9848"
+    },
+    {
+      "relative": "block/beckon/dig6.ogg",
+      "sha256": "c856856a7daa2381f8e3bf76ea7957dc9fecb6497059cff2b4f4474b92aff63f"
+    },
+    {
+      "relative": "block/beckon/step1.ogg",
+      "sha256": "42567269d07e77454359f4e96281fe170b84bc026b5e56cf8ccea368c7a2428a"
+    },
+    {
+      "relative": "block/beckon/step2.ogg",
+      "sha256": "89d12aaba01bd6054290002b4b3b5c65987aa3993b25d9f130b21ed3f31ac19d"
+    },
+    {
+      "relative": "block/beckon/step3.ogg",
+      "sha256": "5d0651da2467915307d13dc6f5ed394ad7cf8459add94836f38a6cbb7b7ed6bb"
+    },
+    {
+      "relative": "block/beckon/step4.ogg",
+      "sha256": "27ffdac183fe0642930b67a690b9aa799053feed9dd92f54642d2de6dc46c5f5"
+    },
+    {
+      "relative": "block/beckon/step5.ogg",
+      "sha256": "8fbbcbb45d4dc2aa9816f657403535136b9b406a7e3b639beb4b83c04f1a85cc"
+    },
+    {
+      "relative": "block/beckon/step6.ogg",
+      "sha256": "7adea5a082cec0efd29f81acf1cfaebde5393e54c094045b007f82203c96f424"
+    },
+    {
+      "relative": "block/bone/dig1.ogg",
+      "sha256": "a5a7fa10dc02f0931cc380279c8d3bece61d38d01ff04ef45c776d9d46d2d8b7"
+    },
+    {
+      "relative": "block/bone/dig2.ogg",
+      "sha256": "3879064193a148bab98e2fc51f9638a434d616023bdc1062c02a7f2a5d350800"
+    },
+    {
+      "relative": "block/bone/dig3.ogg",
+      "sha256": "647275d16c8a475562db84a5efc19059c84a97d2e79069cf51868862863d7391"
+    },
+    {
+      "relative": "block/bone/dig4.ogg",
+      "sha256": "117613d59b6eb2fb719d55238dc1ca10ab3188c67160b3e92f43f616045a81c0"
+    },
+    {
+      "relative": "block/bone/step1.ogg",
+      "sha256": "565a4265b268c7e6f966178115e319fd2f95d2bb5f716e9c5090a8a041c5b04e"
+    },
+    {
+      "relative": "block/bone/step2.ogg",
+      "sha256": "e906e5d79f9e7f9c75ba7e5dac394f912cebb99bc890e1e2932083f8bd4685f4"
+    },
+    {
+      "relative": "block/bone/step3.ogg",
+      "sha256": "9d9bc1410f617dda4de2f743d7794a2a53c7d9f03b4c730ae739bea5b43d944e"
+    },
+    {
+      "relative": "block/bone/step4.ogg",
+      "sha256": "ea8c647e05ed1862ed23fdb378442d5f51dd5eafd6833a4517b543e540657059"
+    },
+    {
+      "relative": "block/debris/dig1.ogg",
+      "sha256": "87ffbaa6df48dcfd5c5303424cdcb874e1bd201af0d7dd78efb7bd821bc294b1"
+    },
+    {
+      "relative": "block/debris/dig2.ogg",
+      "sha256": "f7b4caa6d6f4962e47b0241227d63a268bd536e6ae877f51ff9ba358da4edfe6"
+    },
+    {
+      "relative": "block/debris/dig3.ogg",
+      "sha256": "641e8240440f9de3130d64800890eeda7f138a72529f95e2a0efc7357ff8c46e"
+    },
+    {
+      "relative": "block/debris/dig4.ogg",
+      "sha256": "d5449b3329ae079a966e0d235db832dd1bdb9349cb8330202d1ddb78f0f576b9"
+    },
+    {
+      "relative": "block/debris/dig5.ogg",
+      "sha256": "b36628762eb6352f2363626d5f0b36ab4469bb4c3458e6a9e491ba979ea98d94"
+    },
+    {
+      "relative": "block/debris/step1.ogg",
+      "sha256": "96ce2a318509f807d44dc2b86159f779afdf612c672e57dce8037e47306edec3"
+    },
+    {
+      "relative": "block/debris/step2.ogg",
+      "sha256": "c46fec940647025033f50574e73e4de962a1f3f010a223c8fac06355aca9cbf2"
+    },
+    {
+      "relative": "block/debris/step3.ogg",
+      "sha256": "2e34f34e5a9c6f99d0e161930b72daf9e06b4574ed4d7c48045cedc43c437d75"
+    },
+    {
+      "relative": "block/debris/step4.ogg",
+      "sha256": "ea7a54272a92c68e8d9305c1ded07f0e5da6e0c2ecbb09ecfd4e6262780ac476"
+    },
+    {
+      "relative": "block/debris/step5.ogg",
+      "sha256": "746fd66f4155dc2073591e0f5fa77ef5eee5dba0fa4de7491cfcf6baf1bf4ed2"
+    },
+    {
+      "relative": "block/door/close1.ogg",
+      "sha256": "27128e274e522e6f7d72ae824a8b7551ae01db784e48f710be162b9ed0ebd26f"
+    },
+    {
+      "relative": "block/door/close2.ogg",
+      "sha256": "c72f5d830d5d1b0a1eca6f3103f6e739c1c9cfa70f3f4cccc451b1ad422a5a75"
+    },
+    {
+      "relative": "block/door/close3.ogg",
+      "sha256": "09003472e2d175593dcd8b0d34f325f002d1a11b58615ed31bfa2892d520f9b5"
+    },
+    {
+      "relative": "block/door/close4.ogg",
+      "sha256": "6a3d96c250f027def88c0de2431feba75e3db69921605f12be745316a8db5122"
+    },
+    {
+      "relative": "block/door/close5.ogg",
+      "sha256": "f25d1b836a32fbda8640d3ff9b3c24e8ddb3e01a4a61bd8c62604c279070d113"
+    },
+    {
+      "relative": "block/door/close6.ogg",
+      "sha256": "2a9ccd35cdf98cc9aa2ded41ce8d27ed4c92e46bb1e1b983bc673c1baadaba22"
+    },
+    {
+      "relative": "block/door/open1.ogg",
+      "sha256": "597b7df6f4fbede9a962212ae964a9a665ff4d24e28a19176eb390a5863b80c8"
+    },
+    {
+      "relative": "block/door/open2.ogg",
+      "sha256": "fc97aa7812f32c6fe0e705eb425c542c3a680264fdf98bf50772d40c401f2f59"
+    },
+    {
+      "relative": "block/door/open3.ogg",
+      "sha256": "04271f82f05678f6eecb584b5733c3b71bf5ce46a0050286101c36a90dbe8f24"
+    },
+    {
+      "relative": "block/door/open4.ogg",
+      "sha256": "c679073da392d9f6425753aed4ab7ee3c9f20d9fb041de2d3a19e3791772641c"
+    },
+    {
+      "relative": "block/flesh/cyst/close.ogg",
+      "sha256": "3d5324d4a8c52e880758873ef74fc2f45f4fdc992dba310a00499d8da68c1021"
+    },
+    {
+      "relative": "block/flesh/cyst/eating.ogg",
+      "sha256": "35d7b1053df10b25197b8c46d31957929eafd041c1518c469f03293513bcbfc0"
+    },
+    {
+      "relative": "block/flesh/cyst/open.ogg",
+      "sha256": "ffe4143062f00dcff59f508f47cadf26646384a2de29eb64c8dc534e06a6c53f"
+    },
+    {
+      "relative": "block/flesh/dig1.ogg",
+      "sha256": "622efde78ee4723a0676a7f10509875927cef916ed6e1ae42c960ba90df1ca0c"
+    },
+    {
+      "relative": "block/flesh/dig2.ogg",
+      "sha256": "d99952ae06f0dea712817bf98ede6fa64c54782e3b346728a7b39b5084688f57"
+    },
+    {
+      "relative": "block/flesh/dig3.ogg",
+      "sha256": "076d0c7954bbeb9645d020796195656057b76204386cfce7325e1f530cb65254"
+    },
+    {
+      "relative": "block/flesh/dig4.ogg",
+      "sha256": "c96a5f29d97f8f44a973942f91f16f36cb7cff6fbb76566c206be49cb78431e6"
+    },
+    {
+      "relative": "block/flesh/heart/dig1.ogg",
+      "sha256": "dac1b512f8149a63b08f822c977baf2549f263f8b2acb068bd3ce20e1d095a05"
+    },
+    {
+      "relative": "block/flesh/heart/heart_death.ogg",
+      "sha256": "f1f1f2fc61b4b087c2e95304e6450dd57dc72723ee90a9e624f1d31f3f087f54"
+    },
+    {
+      "relative": "block/flesh/heart/step1.ogg",
+      "sha256": "3feb0f90e617adfeace0f7b5f8b952e41ec34d31366441059ee3e2e8d5379873"
+    },
+    {
+      "relative": "block/flesh/heart/step2.ogg",
+      "sha256": "6afecf6b6c11610ec1dc558b7bc04c7e2be194220c050b75cfac2ce8d3a671df"
+    },
+    {
+      "relative": "block/flesh/heart/step3.ogg",
+      "sha256": "1a1d5a71f53b373d34cc32450798774c3e1cdfc4619c3f9efd9551dc18d14ee3"
+    },
+    {
+      "relative": "block/flesh/heart/step4.ogg",
+      "sha256": "3ac76680b9f375d5335f02bf64876d570b0c213145c7af2c145dd9ce780308b2"
+    },
+    {
+      "relative": "block/flesh/heart/step5.ogg",
+      "sha256": "62a73d9c1036f9c4542447e488bf0c4491ae7588f842697da80b0f95a49d42a4"
+    },
+    {
+      "relative": "block/flesh/heart/step6.ogg",
+      "sha256": "8c5cbc1f2ec91ba591fed29987f5e17ba2fffa9b37e6bb162a73380c29c0a6a1"
+    },
+    {
+      "relative": "block/flesh/light/dig1.ogg",
+      "sha256": "74b6f325fa1edbb3bf77491bd4208f1d1b78d1dbd7aed44e4df2d7b236c9f023"
+    },
+    {
+      "relative": "block/flesh/light/dig2.ogg",
+      "sha256": "e6ad3608c139d7804c2ab4001d8649a009874b73de7d04dfb2380cb137ea2356"
+    },
+    {
+      "relative": "block/flesh/light/dig3.ogg",
+      "sha256": "feb8162672498720823d901abdcf09eb3ff2388db2e4b61b8624c1ecd31611e0"
+    },
+    {
+      "relative": "block/flesh/light/dig4.ogg",
+      "sha256": "45b96e78a9221867b4550bbb09136f6e804f3d7f543b30458dbb54dd1368a33f"
+    },
+    {
+      "relative": "block/flesh/light/step1.ogg",
+      "sha256": "2f6d200f4dfe1e17c81f0a8ae617fd8402e27ef80e2162f9ebb224f424828323"
+    },
+    {
+      "relative": "block/flesh/light/step2.ogg",
+      "sha256": "81b5ec8e4da2339259b49d7b2cf30a8fc3c9d807591d87cd78962efca85cc6c7"
+    },
+    {
+      "relative": "block/flesh/light/step3.ogg",
+      "sha256": "3e3a42a0b0c08e1f83a2aa1dbb0a6b86b4ebb0a5ddadfcd972688a2429487015"
+    },
+    {
+      "relative": "block/flesh/light/step4.ogg",
+      "sha256": "caac539cbb80c721bfb6c9a0941983e878f3e75d9d3e9ce8a22a7bd75d16d59a"
+    },
+    {
+      "relative": "block/flesh/light/step5.ogg",
+      "sha256": "eb82520d447025caab6b072f125001190fe879b8a7056125d9f4bc5a3b27355c"
+    },
+    {
+      "relative": "block/flesh/light/step6.ogg",
+      "sha256": "c0a3038084c273d412caa9976191d37388760890720558033c7f8e8bde46f32c"
+    },
+    {
+      "relative": "block/flesh/step1.ogg",
+      "sha256": "31cd78f2876468ffdec186e3dfaff600a7676005aa7667b3c6b4386b538f2752"
+    },
+    {
+      "relative": "block/flesh/step2.ogg",
+      "sha256": "c1eaeb52ceea8cb05bc6f22d93430ff0da4031b3dc164809a99b491e8069267d"
+    },
+    {
+      "relative": "block/flesh/step3.ogg",
+      "sha256": "d1dc0215e4b945319d6d7add14668f03a97343ec0b48b40390528bec2267713f"
+    },
+    {
+      "relative": "block/flesh/step4.ogg",
+      "sha256": "f73cffa2584d11e321ea0ef506a82965250c7b9190ea973928268bd24c91cd95"
+    },
+    {
+      "relative": "block/flesh/step5.ogg",
+      "sha256": "d5cd21a62f64f2b20e026a57d593b5bec44f60172ba4d9d58de00f709ce4d2c9"
+    },
+    {
+      "relative": "block/fog/fog1.ogg",
+      "sha256": "b7b473927663a2215b94605357c142926768d3395648e356938b60b8fd5178aa"
+    },
+    {
+      "relative": "block/fog/fog2.ogg",
+      "sha256": "762949d892f8944362c519eda3c2eab981a6bd4b176c22c22ad44295c097fb23"
+    },
+    {
+      "relative": "block/fog/fog3.ogg",
+      "sha256": "f98d534f3e85b2d480d261fe50a402109291762c1195d8ff05ff3da47d25485b"
+    },
+    {
+      "relative": "block/heavy_stone/dig1.ogg",
+      "sha256": "4a5b2825344573237fc428b1807886d633ed85c09991b870c9889cb1fdfd79f2"
+    },
+    {
+      "relative": "block/heavy_stone/dig2.ogg",
+      "sha256": "d665f4ffcb31d120b32186feb29e90d1f7b4aa8e2c838592cbecc784dbcb6f5d"
+    },
+    {
+      "relative": "block/heavy_stone/dig3.ogg",
+      "sha256": "c65d55535dbfab1b2bc6c90ef5ab54ddae294d8bad91b42c15e8c091355aa89b"
+    },
+    {
+      "relative": "block/heavy_stone/dig4.ogg",
+      "sha256": "1a9f9c43abc27502a640c8a68440457053e91ec91b50ec7f9926848d7f9a231e"
+    },
+    {
+      "relative": "block/heavy_stone/step1.ogg",
+      "sha256": "3fe98cc32a9078296ec55bd9373d0ab4e39069a3260b00401bee3a6d85fc2008"
+    },
+    {
+      "relative": "block/heavy_stone/step2.ogg",
+      "sha256": "ddf25220824c8ce7b7ef711aeebea1418e80d988cfbcb9f6d03fbd739109d9b0"
+    },
+    {
+      "relative": "block/heavy_stone/step3.ogg",
+      "sha256": "ac67edb10d84edd8050aee97342e7416225167bfbc362d248775fcd7ae7ca2bf"
+    },
+    {
+      "relative": "block/heavy_stone/step4.ogg",
+      "sha256": "3966c9a46f3e6ee57cc45a988fe16b9149b009f1cfaf7f40aba5acff3be54f87"
+    },
+    {
+      "relative": "block/ice/dig1.ogg",
+      "sha256": "1742d70bc11f997108121a6a86275decce895f749dadd044c8d453d99239af0e"
+    },
+    {
+      "relative": "block/ice/dig2.ogg",
+      "sha256": "e09ed0636ce09b55ec757cf93ad5b88bf235856d40805738c430c6dfc06603eb"
+    },
+    {
+      "relative": "block/ice/dig3.ogg",
+      "sha256": "df719030ee5747caecd49f2bf1a67403f88eaf48feef08cd521d227b4205ad52"
+    },
+    {
+      "relative": "block/ice/dig4.ogg",
+      "sha256": "0849573e6b2cb73fa5b98c6f624b7f8615ec164395894da9c778858afee73cb3"
+    },
+    {
+      "relative": "block/ice/dig5.ogg",
+      "sha256": "8ef7769b4f614c845539836adc89bd7186cc7d65ee2912f2c5400d69f0c8b3a3"
+    },
+    {
+      "relative": "block/ice/dig6.ogg",
+      "sha256": "8de8fd4fcfef9aab98c05ad15aae16079e845f333f654ed3056a9d1a89c9a1da"
+    },
+    {
+      "relative": "block/ice/step1.ogg",
+      "sha256": "7723acaf99830693fc52acd172af04d9aff78dd743fec07a5dda232a6fa8edce"
+    },
+    {
+      "relative": "block/ice/step2.ogg",
+      "sha256": "80a5014540c3150dff7817178ac1106ef2cfaaf5bc7bb9ee38beac8fccfbadff"
+    },
+    {
+      "relative": "block/ice/step3.ogg",
+      "sha256": "e6c407fd325c1ebee2cc9445754359d73c9570668fb1efb262f55abcbdc6e6ab"
+    },
+    {
+      "relative": "block/ice/step4.ogg",
+      "sha256": "fcbf3baca5db534bbcddf36d87a5c26a13ac7e6ecb4d5ab94e99310d6c61cc3d"
+    },
+    {
+      "relative": "block/ice/step5.ogg",
+      "sha256": "1551b12409ce3d1d26d812cb0f1f0320251984881ede505709ca3837c01e626b"
+    },
+    {
+      "relative": "block/ice/step6.ogg",
+      "sha256": "4fc720e280a7bcb7764f8684635dadd797bdea43c7669488ffad4bf25f8baa62"
+    },
+    {
+      "relative": "block/ice/step7.ogg",
+      "sha256": "2d559f05512467c2638089a014189c3c5831a69c157151c622fc13841bde5cd0"
+    },
+    {
+      "relative": "block/lure/carcass.ogg",
+      "sha256": "3eed6a1ab2f342ba3b01a11324a3d2a1d2937f0bf384d6d79888329297c031f3"
+    },
+    {
+      "relative": "block/lure/dig1.ogg",
+      "sha256": "64678efd2f877cd3ea61eb7db4b942c966992427065113075c3638ddc7916afb"
+    },
+    {
+      "relative": "block/lure/dig2.ogg",
+      "sha256": "97d676e52c2e844ab510183726b21044058290b41dfd10c058ad61d807312b77"
+    },
+    {
+      "relative": "block/lure/dig3.ogg",
+      "sha256": "07d567a4de5ed5ea7f5ac3f11e3bbcdd2958dc68172991bcc872ba518209f994"
+    },
+    {
+      "relative": "block/lure/dig4.ogg",
+      "sha256": "d32e76df9fb6319c30262b65afb5345b37f92870a40330a9e4eec0a558f7b313"
+    },
+    {
+      "relative": "block/lure/place1.ogg",
+      "sha256": "dd83014fe8f9296a43a1444b5f3c26d3cf9eecdbf1dd53c955a806d66a9e7cf6"
+    },
+    {
+      "relative": "block/lure/place2.ogg",
+      "sha256": "7a28950b199d05977fadba87758cc65ba2e04432eab1acc6d11e0da8d051ca6a"
+    },
+    {
+      "relative": "block/lure/place3.ogg",
+      "sha256": "4c5fabf0f89ee462864224a28aa499d1f776fa56598a08232bd57039ffff807c"
+    },
+    {
+      "relative": "block/lure/place4.ogg",
+      "sha256": "b3751dbcfaf88d373d4a82ac9a475366767d654c692a0f233e2bef32d60d9c70"
+    },
+    {
+      "relative": "block/lure/step1.ogg",
+      "sha256": "d661dbb960c26a7e5e4cdc809429c1eb0351930ec3b704f5711cdd072937730b"
+    },
+    {
+      "relative": "block/lure/step2.ogg",
+      "sha256": "3b3b2530788fd158cb8efbcebe66614e06fd72862a3cf171bc893e29f794ed74"
+    },
+    {
+      "relative": "block/lure/step3.ogg",
+      "sha256": "0ec0fc81484cf361c3a411823df52d597a812b755c63ca7b634dde3de3413dd2"
+    },
+    {
+      "relative": "block/lure/step4.ogg",
+      "sha256": "68d4147ad6e888ec9655d1e2f123330c65e206cae7fc160160fbe7789bc696a9"
+    },
+    {
+      "relative": "block/lure/use1.ogg",
+      "sha256": "ff37bed0fcb5eb4023ebfb7db56eacca5774a95299bf3d91a7bb44338dad6cb0"
+    },
+    {
+      "relative": "block/lure/use2.ogg",
+      "sha256": "92fd4f83147850f15010d568deec159df85d183e45d1f7a5a8ecdd378c040198"
+    },
+    {
+      "relative": "block/plant/dig1.ogg",
+      "sha256": "7088aeb988da3ec4eae3fdc8d14bfee8a42881c23df62c183648dd098865eeea"
+    },
+    {
+      "relative": "block/plant/dig2.ogg",
+      "sha256": "58901aaaf0d3ee745f23e4f145d9a40f7a600ea422f9c41d7a8c80b66b8097de"
+    },
+    {
+      "relative": "block/plant/dig3.ogg",
+      "sha256": "caf6f30a15cbdcbe2e143cc69815e45c6ef4565c501a128d676a1808e7c927cd"
+    },
+    {
+      "relative": "block/plant/dig4.ogg",
+      "sha256": "0d6ab0cdb8c0ad27a40fc53a012fc4383405b35f891b15d617dc0939c87e68b9"
+    },
+    {
+      "relative": "block/plant/pop1.ogg",
+      "sha256": "d2cf65b66f32be354a8de48701f8167261b7e9de5f93ab8a52c2de548fe4cb4a"
+    },
+    {
+      "relative": "block/plant/pop2.ogg",
+      "sha256": "3da34cbe3ad7c7950cf7f21f35be7ee33d273a2eaebb703718ebc5dc705505b3"
+    },
+    {
+      "relative": "block/plant/pop3.ogg",
+      "sha256": "9d9675110812f449a451633de913f381ee5a30c98b8fa5d1a02358c8f2f8b6e6"
+    },
+    {
+      "relative": "block/plant/step1.ogg",
+      "sha256": "318363b65ad8ab61a4a7b0d3afee45c434f675a8ea0acddf3f567791d37e7a62"
+    },
+    {
+      "relative": "block/plant/step2.ogg",
+      "sha256": "38151ce352760d4aa454e24441d5258c8b9e65a2d4edc372fc456b8862b7fe89"
+    },
+    {
+      "relative": "block/plant/step3.ogg",
+      "sha256": "85a9cab7c77187d923251320454f8b81697418c6f27acd106e3b52ff6059e158"
+    },
+    {
+      "relative": "block/plant/step4.ogg",
+      "sha256": "a32b99b2fd36935cd5f84e9db4ddae470d533d19de8bb0b7cae84370e52fec96"
+    },
+    {
+      "relative": "block/purifier/dig1.ogg",
+      "sha256": "0a2bd872fa599e019792a91c75049d933da6f2643e51239594b8b38d79d72e67"
+    },
+    {
+      "relative": "block/purifier/dig2.ogg",
+      "sha256": "38fd28876d141e4ecc7edda3d4799f0a4060c61163c10c81380be55d10b6ded6"
+    },
+    {
+      "relative": "block/purifier/dig3.ogg",
+      "sha256": "a0650e97cdf689662e5162ae3037bb22a9b9c668dc43a1f4db64ab074db4d5e0"
+    },
+    {
+      "relative": "block/purifier/place1.ogg",
+      "sha256": "57586187791dc264f9c3fd87e536d7c38c54b44cc04c716ceecc76346fe6ab9d"
+    },
+    {
+      "relative": "block/purifier/place2.ogg",
+      "sha256": "7dfa04a2c6ff4c9cb6c7c22e3bb3d2d3fc2d6ab0b51ce6db7e132ad698b6ebed"
+    },
+    {
+      "relative": "block/purifier/place3.ogg",
+      "sha256": "4049cdcc152e1f541e98450662ea47e3e298603d253b77dea5b255b20d6690e0"
+    },
+    {
+      "relative": "block/purifier/step1.ogg",
+      "sha256": "4543057e5b21d3cd39937763bd4f7cef791782fcc88b984e01b68fe85b8282e1"
+    },
+    {
+      "relative": "block/purifier/step2.ogg",
+      "sha256": "d2f553ef3a014b76039247d59450842c3b30217cf5436b7a513515dd412fbba7"
+    },
+    {
+      "relative": "block/purifier/step3.ogg",
+      "sha256": "975e0fc71fec7da19033d96da3981c60694ff513f04caf084bef6da631b1c5d2"
+    },
+    {
+      "relative": "block/purifier/step4.ogg",
+      "sha256": "0a15b6fee58d8fa7b37f8e491c759d74e06d387c7ab5351ca7405d2e78a97755"
+    },
+    {
+      "relative": "block/purifier/use1.ogg",
+      "sha256": "50dfeaa3db41fdb9c8f2a845457a83b39dc0d71cfeb1dbe7cc6311062338d73d"
+    },
+    {
+      "relative": "block/purifier/use2.ogg",
+      "sha256": "1c3eca0ad51c1a511b12ffbdea9bd09762fa9515be48810947445a60087313d3"
+    },
+    {
+      "relative": "block/purifier/use3.ogg",
+      "sha256": "1b1ebbb159335e6afa891a8f838b4d12eced826cd9d7684850c0780e2ddf26e4"
+    },
+    {
+      "relative": "block/purifier/use4.ogg",
+      "sha256": "c499f5f05d51d0dd051d4386f90a5eb374bbf98e7bfd3e95c4ff8fe7264eb62f"
+    },
+    {
+      "relative": "block/sand/dig1.ogg",
+      "sha256": "e2d39e71eb1b1b4843982a687902cc72bcea7c57a873192b93b6d9ba989eafb1"
+    },
+    {
+      "relative": "block/sand/dig2.ogg",
+      "sha256": "dca4e5a895e5e69d3ff5a7ff54767f2f780f23a95a79a54220003fc2de470021"
+    },
+    {
+      "relative": "block/sand/dig3.ogg",
+      "sha256": "2d94316e3012f178893406795d74c7d9fd94ffd060464406cc3af0d0c868ca51"
+    },
+    {
+      "relative": "block/sand/dig4.ogg",
+      "sha256": "200d92afcd05b63b45ce61c0826508e8cb316dec27fc6ba343008c0ad66851f7"
+    },
+    {
+      "relative": "block/sand/step1.ogg",
+      "sha256": "ba591a06cbd58ac4d17edd543a5061e10558acc4e40cb8298662efab95dc6a62"
+    },
+    {
+      "relative": "block/sand/step2.ogg",
+      "sha256": "e488a6198181394ca01cbd7053b327bcf055c5f6bba8221254a3f20ea71c9e2f"
+    },
+    {
+      "relative": "block/sand/step3.ogg",
+      "sha256": "b058dd2e63b8068a19336858ffd34d2a96455360e8e5ee29444c5eca8bdf589c"
+    },
+    {
+      "relative": "block/sand/step4.ogg",
+      "sha256": "5e76dc7261d64425dbf974bf5b1840dc13b01976ee7552164962cd6a68b2f104"
+    },
+    {
+      "relative": "block/snow/dig1.ogg",
+      "sha256": "8324a12a28aa0b46e8e2223f5d3894d6a82f17ca920680d8634e5113a37589b5"
+    },
+    {
+      "relative": "block/snow/dig2.ogg",
+      "sha256": "0d784089afb6244aa80537f91a2befc2695429f9a9e1e6e5f19a5b2a3b34033a"
+    },
+    {
+      "relative": "block/snow/dig3.ogg",
+      "sha256": "7be4e840674e0302072ff748c79b469b0f08cb8dc844eacb1dd83cf0d789ebc9"
+    },
+    {
+      "relative": "block/snow/dig4.ogg",
+      "sha256": "cba56ffc3d722a50244917f5a23231ff97b1096b5710228beb6e810e2d03251e"
+    },
+    {
+      "relative": "block/snow/step1.ogg",
+      "sha256": "0db40c191b3992952017c536ccd0e73b033ddc12be494b7fc6cbd26a4f88f07a"
+    },
+    {
+      "relative": "block/snow/step2.ogg",
+      "sha256": "885deabf8f4ec2b047f5ad2a52e8d9eb96f39542196b2058253a3bf344c3e11c"
+    },
+    {
+      "relative": "block/snow/step3.ogg",
+      "sha256": "8693e05bc32eea1b192b1861b4339d1c313ba5161e460ed61987163c13f7f577"
+    },
+    {
+      "relative": "block/snow/step4.ogg",
+      "sha256": "4f87a7d230b52d3af5998576edafd0e84ce75f45b81a007ff8bfdf5f416c22ac"
+    },
+    {
+      "relative": "block/soil/dig1.ogg",
+      "sha256": "875548fc501a2c7ef9a1b54ac4ac9bad24a8f62c0f0f3e70121207be085e738a"
+    },
+    {
+      "relative": "block/soil/dig2.ogg",
+      "sha256": "4f9772a6c690c9aad022417f0671ec0d3ce51b9f08d06dd6f3c544aeecb405cd"
+    },
+    {
+      "relative": "block/soil/dig3.ogg",
+      "sha256": "e1b4b3eb0bdfc0a00093dfa30202c981351adfb07b087b632a9e08ad6dcd8e10"
+    },
+    {
+      "relative": "block/soil/dig4.ogg",
+      "sha256": "5ee8bae14d7ffff3d869411b9e73a0338c5067ddb864b1d1e3ffbd4ddbe028da"
+    },
+    {
+      "relative": "block/soil/step1.ogg",
+      "sha256": "0748cfb1c3565202388b5a4a4a7212a60bd831032bc6ebf3767a1e72f1fcbc2e"
+    },
+    {
+      "relative": "block/soil/step2.ogg",
+      "sha256": "b72094f5ec46961dc67a34bad0c5bffbc44d7a94f2ced875440952c94292272d"
+    },
+    {
+      "relative": "block/soil/step3.ogg",
+      "sha256": "bd6d06895004f7ecc277904db7cabda9cbbe59dbc6eb46e740a7f8c264fbcb0c"
+    },
+    {
+      "relative": "block/soil/step4.ogg",
+      "sha256": "9d6efddb90d12c6ddda7bcea7d301845222da367f1c84f76c0501930b1d5d0a8"
+    },
+    {
+      "relative": "block/soil/step5.ogg",
+      "sha256": "54d1fd2532a4644708592c075a361c4644bc64a9b60e1509d5b6dcff45cbac4d"
+    },
+    {
+      "relative": "block/soil/step6.ogg",
+      "sha256": "82c6b6e8955558760287b4234c4115473fc5f9bb2e8abf70e6b10a686db911e5"
+    },
+    {
+      "relative": "block/soil/step7.ogg",
+      "sha256": "280aaf1094520d6cc4def313650437e5a491204bc2e5374f7cb1cc381593e765"
+    },
+    {
+      "relative": "block/trapdoor/close1.ogg",
+      "sha256": "97a87f6a70e17f3a2d89306ddf5321faac16022bba31b3e9b5c20e3659b9c70b"
+    },
+    {
+      "relative": "block/trapdoor/close2.ogg",
+      "sha256": "66a93c96b33ecf06e99feacf153d86d6872979ca7f672e1b7806298576b473d5"
+    },
+    {
+      "relative": "block/trapdoor/close3.ogg",
+      "sha256": "a6b2a76042f4b01ce8a02be5459ad084caab7df8de86be176100196e7a9f65f1"
+    },
+    {
+      "relative": "block/trapdoor/open1.ogg",
+      "sha256": "1f9578d317e7c2602ecd57c361c1ac01bd1c16aba691a52817004a8caf0168bc"
+    },
+    {
+      "relative": "block/trapdoor/open2.ogg",
+      "sha256": "de2d28253b58d4fbf048cd5a14718338937024ead1f49c1e76904bbdf05fecfa"
+    },
+    {
+      "relative": "block/trapdoor/open3.ogg",
+      "sha256": "4d268382e9d55c468de66d032d4e37f3829e477c23abc8d99f488318c1e8e9fd"
+    },
+    {
+      "relative": "block/trapdoor/open4.ogg",
+      "sha256": "73519f6d72ce7bb784f915e4f9ca019a7a27cfbd60594f5c75787e691ed86f7a"
+    },
+    {
+      "relative": "block/trapdoor/open5.ogg",
+      "sha256": "354c69cf0e505c1003788cfa805a6a7152a88303ea9399e52f972f9b261f99fe"
+    },
+    {
+      "relative": "block/tunnel/dig1.ogg",
+      "sha256": "8257085aa65caab61adc7a983ad48be9def917d400bc620317666f6593b8b1ce"
+    },
+    {
+      "relative": "block/tunnel/dig2.ogg",
+      "sha256": "69faf80aa1b58489255260bdbc9091c1057258782206c8fe83925edebf6f7d16"
+    },
+    {
+      "relative": "block/tunnel/dig3.ogg",
+      "sha256": "693e20d5bc5261b9170816bd2c4a8614d2176abf98b626029ca9f6f165430eec"
+    },
+    {
+      "relative": "block/vomit/dig1.ogg",
+      "sha256": "a22ccec8039187407f0b44ed5b272b1dc1e104e09a7812e420ba81d35f704a85"
+    },
+    {
+      "relative": "block/vomit/dig2.ogg",
+      "sha256": "972601beafd607efd996c70c9f73792c114bc19a2e430914acb051a2038445e3"
+    },
+    {
+      "relative": "block/vomit/dig3.ogg",
+      "sha256": "2ff1c38749bdb6531c516b410bc35e74d7c0f47237c47ab904da62e9ee0122a0"
+    },
+    {
+      "relative": "block/vomit/dig4.ogg",
+      "sha256": "43e130f18d9b1dd3bff9c06a79951c91e348bc2614dab7248e63b012b7526dcb"
+    },
+    {
+      "relative": "block/vomit/step1.ogg",
+      "sha256": "8a3a5682ee089dfc6425b14b3cca17031f41f7efef5fac5a5e4cefdfbe0c9b0d"
+    },
+    {
+      "relative": "block/vomit/step2.ogg",
+      "sha256": "675425b5347450a815ca742840e17353a394b8053bfe4a90058f65d6b2c82b54"
+    },
+    {
+      "relative": "block/vomit/step3.ogg",
+      "sha256": "44480ddfdce035af46315ce819b425aacbad0bd27ce9bba9439d896ded47a087"
+    },
+    {
+      "relative": "block/vomit/step4.ogg",
+      "sha256": "26af5e0f685d6c9b1a12199904e2e60866fd66c4c768a242d48ead3e2a93a3ec"
+    },
+    {
+      "relative": "block/wood/dig1.ogg",
+      "sha256": "52c5ee280c40efc365936d7996b9e35b0db7af3c92fb0d14d327e5e01bd49099"
+    },
+    {
+      "relative": "block/wood/dig2.ogg",
+      "sha256": "b830d1e44c4a62f8755493648d1e9202df382670c9ed4fe9c047d5ef2d4ed95a"
+    },
+    {
+      "relative": "block/wood/dig3.ogg",
+      "sha256": "7358284e2be9a24ac5af919e32982e3008d379a3f57a978518dc4c259d15fc0a"
+    },
+    {
+      "relative": "block/wood/dig4.ogg",
+      "sha256": "6a2e790ba1c4012d32872d04db360551cce6be0b1485c13cc90cfa5f21566691"
+    },
+    {
+      "relative": "block/wood/dig5.ogg",
+      "sha256": "5d34f767a320ffa52a1ffe43d068d6c3e8700cb128504a1c6b47c6390582062c"
+    },
+    {
+      "relative": "block/wood/dig6.ogg",
+      "sha256": "a893594c67d61bd3fbb202b1b0a0e3ef5d9c5fa1e726892e4b624970bcc1b3ce"
+    },
+    {
+      "relative": "block/wood/step1.ogg",
+      "sha256": "f35981bb6b9bd4a21f21e8d7dd46cd8b1c163ea074c470cb50ef22e15c9ab3b1"
+    },
+    {
+      "relative": "block/wood/step2.ogg",
+      "sha256": "7808dab6cdab776c4963cbc2c55c2cc2094485f674ab4323d5c801b3cecb726a"
+    },
+    {
+      "relative": "block/wood/step3.ogg",
+      "sha256": "e620126bb43b7651cf22930453f742b68f71b44e2187aabf8caf246b26327dc8"
+    },
+    {
+      "relative": "block/wood/step4.ogg",
+      "sha256": "2434d83ac1cc4a1639613b4bd8ff1b96e487a73aefd2bd9d0d686abe2c2c0800"
+    },
+    {
+      "relative": "block/wood/step5.ogg",
+      "sha256": "ee6e9f9f5df623a7fb35061d75280aea29aa4443019bbc1abc2624162b609e4e"
+    },
+    {
+      "relative": "block/wood/step6.ogg",
+      "sha256": "df1ebb7ba145fc1274a36090e295c6ec4cf42e6387ac6cfb5c518b9eb44f090a"
+    },
+    {
+      "relative": "blockinfest_break.ogg",
+      "sha256": "038ac302ed7d13aaa2b1183d814a948a8bf76b639a35b9edd2c419829e35f9c3"
+    },
+    {
+      "relative": "blockinfest_hit.ogg",
+      "sha256": "646fdfc1cd418b9bbae9c3a4b6d58f0e53285f3db720b4e68577135f32182908"
+    },
+    {
+      "relative": "blockinfest_place.ogg",
+      "sha256": "3dcd472c345da4a59f2d970c65526b67635341e8f182e9090e159c88df779ccf"
+    },
+    {
+      "relative": "blockinfest_step.ogg",
+      "sha256": "ec19486b6da57035360fd818302564cde1cac8373778c65aae20101df8299f24"
+    },
+    {
+      "relative": "buthol_explotion.ogg",
+      "sha256": "efe6d01e6a40893347e7d9ff9c6c71b6259b2e86fdc4e29bb1e91f132c619b62"
+    },
+    {
+      "relative": "canra_death.ogg",
+      "sha256": "76b53b05a71a3c151c7b0af2416503f3498bb5b512ee23f54ef52345713d831b"
+    },
+    {
+      "relative": "canra_growl.ogg",
+      "sha256": "ef7438297569665d6a296c330d65982170584fbf1bb0c121b4b38826719e4683"
+    },
+    {
+      "relative": "canra_hurt.ogg",
+      "sha256": "a9ef03d23514bb1b1195f29c9848a611e2d252d85838683b7cba9feb706ba031"
+    },
+    {
+      "relative": "canra_special.ogg",
+      "sha256": "498aeda02666425f6be803ce73e3a2e754e7610a831c2eeb3b6a4062ab890db3"
+    },
+    {
+      "relative": "carrierdeath.ogg",
+      "sha256": "716486e775b681b9c115bf78487a3359d60501a00451c963e00b5689931bf796"
+    },
+    {
+      "relative": "carrierhurt1.ogg",
+      "sha256": "27b0b7932b8521764e036b217628fa3f0a263e8e6d59f6eb3b5303abd2f1d6f7"
+    },
+    {
+      "relative": "carrierhurt2.ogg",
+      "sha256": "7ca3e61e4538df3f605859e3d1b3f27597c62b320c1342c2c32299996ca266cf"
+    },
+    {
+      "relative": "carrierliving1.ogg",
+      "sha256": "71c1974218f02714d2cbe3323582c80424a5052866f9dcbafb1e01b2c714d919"
+    },
+    {
+      "relative": "carrierliving2.ogg",
+      "sha256": "0b62b6683d5e5c13e3d7a1cf0e3006ac9c627eee0fd918ffad197a9110c77acb"
+    },
+    {
+      "relative": "celestial/dark_days_ending.ogg",
+      "sha256": "965adac73fc18f05a3b24c0ecafb14e672c43a1cbdc46f4236bf61ae1bed864c"
+    },
+    {
+      "relative": "celestial/dark_days_rumble.ogg",
+      "sha256": "640ead394c5847a25ae78b1725cd9bb216db4f775db52c6bbdd836372e3c64a2"
+    },
+    {
+      "relative": "celestial/dark_days_start.ogg",
+      "sha256": "3925b88826b9c736b627b7a885846713eb549ab4eccec510093f2c42f25f613c"
+    },
+    {
+      "relative": "colony_carrier_death.ogg",
+      "sha256": "a49fe9c4dfb672e181019420a579015459e95c9949aaabbb757a8a829a09e72f"
+    },
+    {
+      "relative": "colony_carrier_hurt_1.ogg",
+      "sha256": "e4994f20e36c6673133945bfa21c525045721c06f5c3008001999c6571b3a637"
+    },
+    {
+      "relative": "colony_carrier_hurt_2.ogg",
+      "sha256": "92dc89e994e4585559eda0a174246b8a3faeda659cce2d89b4886340b822fecd"
+    },
+    {
+      "relative": "colony_carrier_hurt_3.ogg",
+      "sha256": "ff8f400624702be60f5badc82bd56fea4c26f559258864de3422e8dd9f638dcc"
+    },
+    {
+      "relative": "colony_carrier_living_1.ogg",
+      "sha256": "8b3439f18c8c07e59ad76833ca99c3817e8bb2e73564ee2f5690e3ddfc275041"
+    },
+    {
+      "relative": "colony_carrier_living_2.ogg",
+      "sha256": "014d7d41aa8471fccf5206b66262b96067fdf32957f185f8733d5fdbaf42c338"
+    },
+    {
+      "relative": "colony_carrier_living_3.ogg",
+      "sha256": "dd943fa96c1bce979e8d59edb9410c514a356fa0f08f051f348ed03305cfdc9d"
+    },
+    {
+      "relative": "crux_death.ogg",
+      "sha256": "ea00e7498fc33ea4cb42a4b8f3d10d82d991dd2652d76b78dc282bfaa778a7cc"
+    },
+    {
+      "relative": "crux_hurt_1.ogg",
+      "sha256": "9a7b60d6568ce7d2edffe6948acbc27f6e6cc9fd64e072dc9ca21c46636ddc15"
+    },
+    {
+      "relative": "crux_hurt_2.ogg",
+      "sha256": "c31f6a8c54d1141802cde0c0921c121add364f91a639eb1d6b1443d2ba7e9972"
+    },
+    {
+      "relative": "crux_hurt_3.ogg",
+      "sha256": "a72e0b33b10c768d17896417cc2c8f14f1ab87c2b0d83bffbf7ba5790b76192c"
+    },
+    {
+      "relative": "crux_hurt_4.ogg",
+      "sha256": "909916dea5ca684eeb4d6cdac1cab205a4eed336bf45ef4f6366d918c313333c"
+    },
+    {
+      "relative": "crux_living_1.ogg",
+      "sha256": "72a02b4fcbc1a6a9bfd42afcc617652b95ab343ee0ddfbc010ec5b5d7d8a0f5a"
+    },
+    {
+      "relative": "crux_living_2.ogg",
+      "sha256": "f68527b5c11627fe9ca23f4e96b08923c17ab313960a7e2f657390d7e1037261"
+    },
+    {
+      "relative": "crux_living_3.ogg",
+      "sha256": "9782f0eea3b8b612eacfd05dd98963a8afaa5ffaaa0967bebaa93185983e5e53"
+    },
+    {
+      "relative": "crux_living_4.ogg",
+      "sha256": "8be25cb369c62f5445c6a20fa718664f8fcd0bd2a658c12fb631691dbe8bde6d"
+    },
+    {
+      "relative": "crux_living_5.ogg",
+      "sha256": "c57c35645aa37563c0fc2919c392c310fbb57fdc78d81adaf19ae05ec5e3e307"
+    },
+    {
+      "relative": "crux_living_6.ogg",
+      "sha256": "ac47b67788160020a6a35e435a731c9f9af5a7bf6a3a41cbbcbfe15fe2d08b6c"
+    },
+    {
+      "relative": "devourerdeath.ogg",
+      "sha256": "984d0334329407f29c703968f0d526c3259122b0a47a1064c743f9138b560e4a"
+    },
+    {
+      "relative": "devourerhurt1.ogg",
+      "sha256": "86707d48dfda305370dff9d72336ee55e2f283f14cf96d03366b422f63e356e5"
+    },
+    {
+      "relative": "devourerhurt2.ogg",
+      "sha256": "768f117a019f1c98da4c2c47f495e117a4c503b00910646895ae4c1473661954"
+    },
+    {
+      "relative": "devourerhurt3.ogg",
+      "sha256": "e902b6d8c69c5427549e79af6e2d64a583bb25cc84073b65e846c88f1a61b541"
+    },
+    {
+      "relative": "devourerliving1.ogg",
+      "sha256": "276bf37a451797ef6dc33976861d47bdc7c4736f885e19803672b5f01633cc8d"
+    },
+    {
+      "relative": "devourerliving2.ogg",
+      "sha256": "4491b03b82e372623e080b4e8a3f03ab5002c1cbbc54f75a8b32055fc4d1288e"
+    },
+    {
+      "relative": "devourerliving3.ogg",
+      "sha256": "9fb7e04d89111f68a84dcda27fe9c592bf929481f2dd64c304e15009ee7bd212"
+    },
+    {
+      "relative": "devourerliving4.ogg",
+      "sha256": "f110d778973da7c05d09d6a2fc094928cd65ac97b1f79b88eda30aab42a0d47e"
+    },
+    {
+      "relative": "dispatcher_tentacles_emerge_1.ogg",
+      "sha256": "19d93e245929be12a4b445d32faca5c3fcca0530f7f23c6f80e366cbc040db91"
+    },
+    {
+      "relative": "dispatcher_tentacles_emerge_2.ogg",
+      "sha256": "dd280e53dd5a40f9538fa4a18b691f4e454e63a4177db6dbca22fae6ea3930c0"
+    },
+    {
+      "relative": "dispatcher_tentacles_emerge_3.ogg",
+      "sha256": "6ab2313ca3cf0563f55f24a672bddb2e810ae985986e831f7ae127aa0cc00b4f"
+    },
+    {
+      "relative": "dorpa_rangea.ogg",
+      "sha256": "512bf32587edfd862b7d20789a0c2f73a464664f1be07cd8352f3fa6ae2cc32f"
+    },
+    {
+      "relative": "elviadeath.ogg",
+      "sha256": "6d71a8cf981a60ff692591afed60115e12fc9136793f6e617741940bc2c9b5ff"
+    },
+    {
+      "relative": "elviahurt1.ogg",
+      "sha256": "a0863886b6484a29211ba36a9f008b9a44f8aee294e70e61c0360af95e7035e1"
+    },
+    {
+      "relative": "elviahurt2.ogg",
+      "sha256": "428c62c01ff622bed7cfeb454687aadfc4de053357b43103be7aabb131b5d457"
+    },
+    {
+      "relative": "elviahurt3.ogg",
+      "sha256": "782daa95a4bbb99494b28ac4c51556e3ee05db239664a41abf2580cd6724fa09"
+    },
+    {
+      "relative": "elvialiving1.ogg",
+      "sha256": "032e17c7545c29cd9026221c5f0b79f568151ce27178e95b723dcbb8bca56ef7"
+    },
+    {
+      "relative": "elvialiving2.ogg",
+      "sha256": "a95c0f1166c022ea730fc20bcedf412b7e27f59cdd4390d09dece4dfae56672f"
+    },
+    {
+      "relative": "elvialiving3.ogg",
+      "sha256": "addecf1ad220c9d23857c3d9f3acf9cf3810498a528e97ccd2eef9c61e6ce22c"
+    },
+    {
+      "relative": "emana_death.ogg",
+      "sha256": "aed9e58375a2e2bcbed6bfada1b8434b290802fb9f93b35e71a3a848db5c1946"
+    },
+    {
+      "relative": "emana_growl.ogg",
+      "sha256": "88d237c959162b1bf16bfcde222b41e1275e1f6eef767842547012e35b147be6"
+    },
+    {
+      "relative": "emana_hurt.ogg",
+      "sha256": "26e3ebe7234156e4e8e71a804322306c40b89819a412db7e01666c95ab4a5009"
+    },
+    {
+      "relative": "emana_shooting.ogg",
+      "sha256": "61e2113417f3414b15cc02dc8ca82d6cfde1bb2de745807081a335817350d8a6"
+    },
+    {
+      "relative": "emana_shootingpost.ogg",
+      "sha256": "4d45443abe47adef4b3d0bd82a8ba74603a10a7afb6dd7bb0074ddb9113b99f1"
+    },
+    {
+      "relative": "ganro_death.ogg",
+      "sha256": "d237d7334f7b8b236dfef96b2a7d52b33d484f507580cc4710425aa848434f80"
+    },
+    {
+      "relative": "ganro_growl.ogg",
+      "sha256": "538fa02c44cb6584f05f7855b6c8aea0f8f8fa4ddaf2adb5a5688badd24b1b39"
+    },
+    {
+      "relative": "ganro_hurt.ogg",
+      "sha256": "913be527e8aa312ee58070f4f334f2b7e831996ca818914b3e5aed0fbe877508"
+    },
+    {
+      "relative": "heavy_bomber_death.ogg",
+      "sha256": "a1d6b6778d96cf9d3a1b63c5782f4866e4ebaf91eb70c68f451c958881472bda"
+    },
+    {
+      "relative": "heavy_bomber_hurt_1.ogg",
+      "sha256": "8e5cebc227c8037b9c42c9f964dbf404bf2593aec73f0399bac7187282171e44"
+    },
+    {
+      "relative": "heavy_bomber_hurt_2.ogg",
+      "sha256": "818cad0b7e68d41301c8fde6750c912c6dafe7ed6c05aa2485c8a104db6a8249"
+    },
+    {
+      "relative": "heavy_bomber_hurt_3.ogg",
+      "sha256": "692e43638d839f24830079a41fdd85030ee7a363567b62da7c5af0ed0087bdf5"
+    },
+    {
+      "relative": "heavy_bomber_living_1.ogg",
+      "sha256": "4eef4523d9bfd96514ca99c17967916bb28114d6cd988a0ee3d472838b3a152f"
+    },
+    {
+      "relative": "heavy_bomber_living_2.ogg",
+      "sha256": "7985839d286de75e7c452b33a225e23124bb8395a7c9179e030312f0a2ed3035"
+    },
+    {
+      "relative": "heavy_bomber_living_3.ogg",
+      "sha256": "b33736aa19efdc20915fe2d9884e9b1bf4328277c22aa6810cfcd962d4d2281d"
+    },
+    {
+      "relative": "hull_death.ogg",
+      "sha256": "10022a581a6cd1800d58e788948ffdb1e15d9c910b7c29c43ac2d278b7160ea6"
+    },
+    {
+      "relative": "hull_growl.ogg",
+      "sha256": "54cbae4dd8ed895feacba76f55b4a8f6e557251db69df0a985fa6b95de746ef8"
+    },
+    {
+      "relative": "hull_hurt.ogg",
+      "sha256": "272551e0f33fd5b18a4b9579e1116459372298c2e9670f47fea0d1cb6daa1252"
+    },
+    {
+      "relative": "infectedanimal_death.ogg",
+      "sha256": "cb58391321024d7152aa6f888f55f3706627ffdcae6d743f37763baa61db5e1b"
+    },
+    {
+      "relative": "infectedanimal_growl.ogg",
+      "sha256": "e50d28e103ae916b2cbc5da4db8ed92275983c265e89a17298af0636e0dcda46"
+    },
+    {
+      "relative": "infectedanimal_hurt.ogg",
+      "sha256": "80a9dfe1013e1002bb1627a08b724794f7f31359ee00bcb34faf604892944f76"
+    },
+    {
+      "relative": "infectedhead_death.ogg",
+      "sha256": "e5bf1119f3c5d53f69bee1dc850a908a5e7b3011b4e329fce774084a33dcd0e7"
+    },
+    {
+      "relative": "infectedhead_growl.ogg",
+      "sha256": "c7fde28948f764ac793ee96fb818bd74f116cd8d130e4ddcb6118c7fa21acba0"
+    },
+    {
+      "relative": "infectedhead_growl1.ogg",
+      "sha256": "4d2d6cf1b9a8e91b330818b430d0660f6d8fbf65bc8e00e968d72bcf17ba6638"
+    },
+    {
+      "relative": "infectedhead_growl2.ogg",
+      "sha256": "7797b5be863a53a67ee70cf7e30ddaf8fea83285734ba69f154c22d05e014313"
+    },
+    {
+      "relative": "infectedhead_hurt.ogg",
+      "sha256": "ebfcd913639b68cdf51ee9b19d87b1c955136d36334eeac432ad76e302f93444"
+    },
+    {
+      "relative": "infectedhead_hurt1.ogg",
+      "sha256": "36ba0ad624446092bda9ef724d581132495306ccc1da73bb524e488cc8048bcc"
+    },
+    {
+      "relative": "infected_ambient.ogg",
+      "sha256": "926778fc3eec84fce869302e8ef46eb75a0a16a5aa37dd5624425dd06d73c1b8"
+    },
+    {
+      "relative": "infected_death.ogg",
+      "sha256": "4aaa50d9e8eb3730b956dc86bab75a5fe1b74ae56b6aa456dac5172b546de2b0"
+    },
+    {
+      "relative": "infected_hurt.ogg",
+      "sha256": "cc8ab1b26468520a3ac28fb2949f7ec4534bdd8328907b14c2fe14e44a3957b7"
+    },
+    {
+      "relative": "item/shrimp_eat1.ogg",
+      "sha256": "b6c77ba2025247364ebe2348aee3a836f9f76271aeea173d002b2806ce5b4242"
+    },
+    {
+      "relative": "item/shrimp_eat2.ogg",
+      "sha256": "adf60e29f622c49d169fac208f0b56da44b33364a49158b4ed0d1ab8bfd39d13"
+    },
+    {
+      "relative": "item/shrimp_eat3.ogg",
+      "sha256": "7580ff9486007dd986eb50baffbedf5c98f04a39eb725617caba4be336910419"
+    },
+    {
+      "relative": "item/vengeance_chain_impact.ogg",
+      "sha256": "f3d13dc0127a237ec6a729e0e23708a71bb3890bfcc66aa35499c026771249d6"
+    },
+    {
+      "relative": "item/vengeance_impact_hit.ogg",
+      "sha256": "d82d828b5649a7be3807f88f78e7b50558a129ec0037cd3b61eadf54423fd96d"
+    },
+    {
+      "relative": "item/vengeance_paper_rub.ogg",
+      "sha256": "148e91d8ae5b1f38c65ca2bea9b17f68f5c80cf4fa56ebcf51ea976e90f5dedc"
+    },
+    {
+      "relative": "item/vengeance_rock_impact.ogg",
+      "sha256": "c4c29b5cd3e8d00f0cb775b056d7017b725fb10c051adcb5327491995f9ab450"
+    },
+    {
+      "relative": "item/whoosh.ogg",
+      "sha256": "db0afa3347b21680cacfe0ca20b60b871381fdc5d7fcefb091dc1886fed9eed7"
+    },
+    {
+      "relative": "kyphosis_death.ogg",
+      "sha256": "489799bc92906c070ba5709b266ecd5e319a49a18c28a899bcdc446f04c12d0f"
+    },
+    {
+      "relative": "kyphosis_emerge_1.ogg",
+      "sha256": "19d93e245929be12a4b445d32faca5c3fcca0530f7f23c6f80e366cbc040db91"
+    },
+    {
+      "relative": "kyphosis_emerge_2.ogg",
+      "sha256": "dd280e53dd5a40f9538fa4a18b691f4e454e63a4177db6dbca22fae6ea3930c0"
+    },
+    {
+      "relative": "kyphosis_emerge_3.ogg",
+      "sha256": "6ab2313ca3cf0563f55f24a672bddb2e810ae985986e831f7ae127aa0cc00b4f"
+    },
+    {
+      "relative": "kyphosis_hurt_1.ogg",
+      "sha256": "672126ecb01b7457aac848a862cce167045ee3735012d6a2f9ff4e531893bf80"
+    },
+    {
+      "relative": "kyphosis_hurt_2.ogg",
+      "sha256": "4f1960df603109cb33f5ef5559ac9d47cf62e47421aa9724161c972b180f632d"
+    },
+    {
+      "relative": "kyphosis_living_1.ogg",
+      "sha256": "cf35d2de0df15db227fd2f31400d0f0703cab45d7bd526d62e0a25916b7ca02a"
+    },
+    {
+      "relative": "kyphosis_living_2.ogg",
+      "sha256": "d64aefd45f5620b1f2fa48062a1a5444ba3af7dc4ac365ef3fd3ef7b4195bea0"
+    },
+    {
+      "relative": "lenciadeath.ogg",
+      "sha256": "8cbfd77907e680a69169cfc84e938a8561dfa923ef7867e4d8941fa6e516b284"
+    },
+    {
+      "relative": "lenciahurt1.ogg",
+      "sha256": "a0863886b6484a29211ba36a9f008b9a44f8aee294e70e61c0360af95e7035e1"
+    },
+    {
+      "relative": "lenciahurt2.ogg",
+      "sha256": "428c62c01ff622bed7cfeb454687aadfc4de053357b43103be7aabb131b5d457"
+    },
+    {
+      "relative": "lenciahurt3.ogg",
+      "sha256": "782daa95a4bbb99494b28ac4c51556e3ee05db239664a41abf2580cd6724fa09"
+    },
+    {
+      "relative": "lencialiving1.ogg",
+      "sha256": "032e17c7545c29cd9026221c5f0b79f568151ce27178e95b723dcbb8bca56ef7"
+    },
+    {
+      "relative": "lencialiving2.ogg",
+      "sha256": "a95c0f1166c022ea730fc20bcedf412b7e27f59cdd4390d09dece4dfae56672f"
+    },
+    {
+      "relative": "lencialiving3.ogg",
+      "sha256": "addecf1ad220c9d23857c3d9f3acf9cf3810498a528e97ccd2eef9c61e6ce22c"
+    },
+    {
+      "relative": "light_bomber_death.ogg",
+      "sha256": "24d7162ac6cf8320f8f72c0e96abc9afae5269e7125ae22c36446e3d7ca0645a"
+    },
+    {
+      "relative": "light_bomber_hurt_1.ogg",
+      "sha256": "a7b06b8e44ff116da6c12a050f8a6e92c84804aa6f9533877f0d9ca1775c7cd9"
+    },
+    {
+      "relative": "light_bomber_hurt_2.ogg",
+      "sha256": "6ae29d303769e14cc8d2132c526a853f0b54fc50754511abb3a9a2ae195f792f"
+    },
+    {
+      "relative": "light_bomber_hurt_3.ogg",
+      "sha256": "ab5e173a5bda57855f5fbf77549372a0de2d6cbdb857310cc22828dd48260991"
+    },
+    {
+      "relative": "light_bomber_living_1.ogg",
+      "sha256": "47c12dcf1dd35ffac6383f9a18738ef957a86fab6e91ff2a1c9f8d28591e407e"
+    },
+    {
+      "relative": "light_bomber_living_2.ogg",
+      "sha256": "52327ed5814abdd98cbe7e973f76985b075147ddb6957e86ecdd7168182bc2f4"
+    },
+    {
+      "relative": "light_bomber_living_3.ogg",
+      "sha256": "35325387cc6b35d7e99ee68b5b7c6d5f1e46cfc05eedc0aef88e14f0e7db3b3d"
+    },
+    {
+      "relative": "marauderdeath.ogg",
+      "sha256": "271196b5bcdd9fa27abcc41f4dddf6a8d585f57bb3bd3b13a70b66933de922ee"
+    },
+    {
+      "relative": "marauderhurt1.ogg",
+      "sha256": "e73547786e5ea2f5eb28b555339f6605dbafce20ed0eb70d386c7b9ca4d2d7d1"
+    },
+    {
+      "relative": "marauderhurt2.ogg",
+      "sha256": "098caf048e94e4290bd9f90d4ce9460dfb6aed510ad3b24f60a650b4ac06afe0"
+    },
+    {
+      "relative": "marauderhurt3.ogg",
+      "sha256": "ff73c816f9c59531f8e3bc2b454fae6265b0472c8291b0404e80a8d669849cc8"
+    },
+    {
+      "relative": "marauderliving1.ogg",
+      "sha256": "4dc5a54267033b3e611c9f9263891d4039a308949dff4bf1b336a216ded30c78"
+    },
+    {
+      "relative": "marauderliving2.ogg",
+      "sha256": "385813f8ee0f7ac42f0f9bca5cabdb8e95f81740ef60c635e10e2cde00f9e90a"
+    },
+    {
+      "relative": "marauderliving3.ogg",
+      "sha256": "718eb4b9cccd67b5b8eeacca59eba572688bb0e4dcb9e84a300ce98204bb0243"
+    },
+    {
+      "relative": "misc/adaptating1.ogg",
+      "sha256": "75290f7925b36831f00a0e8fcf350c72a90038e6466926fa18d99a753e66a8b6"
+    },
+    {
+      "relative": "misc/adaptating2.ogg",
+      "sha256": "86aabd89647ae1cd1d390a2a2cfc9dc16a3735ca678fa08c1194d90ed35e87ab"
+    },
+    {
+      "relative": "misc/adaptating3.ogg",
+      "sha256": "552f1ee9ce69c574c9b505ba04279b8df667bcb2bb67faccbd75cf22f772fb82"
+    },
+    {
+      "relative": "misc/adapted1.ogg",
+      "sha256": "1a8ad5b21d28dafc48730e4fe45498e52c054cc922def3ebec1deb95a8223d47"
+    },
+    {
+      "relative": "misc/adapted2.ogg",
+      "sha256": "7023a09c2c003438cd7b9796010fb357a7bbe2cbb716cd9ac5429f6d3fe5d7c6"
+    },
+    {
+      "relative": "misc/adapted3.ogg",
+      "sha256": "7abbf6912be9fe9a7cdde1f4ed4a3145d9566e0f538b32e5a4791aaef9d3b396"
+    },
+    {
+      "relative": "misc/ancient.ogg",
+      "sha256": "dd7f5add57940878238c8440efdd3872fc32a6358da1e4bf90ce9994f241270a"
+    },
+    {
+      "relative": "misc/ancient_pods.ogg",
+      "sha256": "d7063d6d3492485d7d79d4b7b6809bd69f408d7c8fa7185e56bdaafb75b45a7b"
+    },
+    {
+      "relative": "misc/colony1.ogg",
+      "sha256": "16b55a0a5116f940dd3d51487a74b91a1e8bfbdc06bd2d2a5986bc222ac6c5f9"
+    },
+    {
+      "relative": "misc/dislo/dislo_1.ogg",
+      "sha256": "0b8b37cc9d6d37673b316d7b34a6bead44299657dc6d5e58a0e8bd6557262fde"
+    },
+    {
+      "relative": "misc/dislo/dislo_10.ogg",
+      "sha256": "9bc5e8230289fcda8b6c9233606a689837020048f8ae32663b2c8f25d13862bb"
+    },
+    {
+      "relative": "misc/dislo/dislo_11.ogg",
+      "sha256": "614acbdf0f48a38108ede466f04e8b1ad90d1769c6b400566b3354a85d2918fb"
+    },
+    {
+      "relative": "misc/dislo/dislo_12.ogg",
+      "sha256": "bc8885facbc564d567ef0997a2abceb0db59d319eaaf242c4dd300ad09bf53ac"
+    },
+    {
+      "relative": "misc/dislo/dislo_13.ogg",
+      "sha256": "806192e38c788a4a6cdabbbf50d7ab1ed82e360d9daba8a61f795fc65bbf941d"
+    },
+    {
+      "relative": "misc/dislo/dislo_14.ogg",
+      "sha256": "e466bd8c845ffdcb03beca8cd71d87934dbbf3acc6332693e6530c5a50b574f9"
+    },
+    {
+      "relative": "misc/dislo/dislo_15.ogg",
+      "sha256": "d4a6d2eb8c8a92395cec7896bfcf0d105e03625585d98fc100a67dac68788c4a"
+    },
+    {
+      "relative": "misc/dislo/dislo_16.ogg",
+      "sha256": "3ef3c9c6d5405b862bb40cc3737851afee280b147439f76e8e37bb05814597d5"
+    },
+    {
+      "relative": "misc/dislo/dislo_17.ogg",
+      "sha256": "2af092a8354d85dde407efb27b781b6dbf69bf066ca098c15709ea4721c372be"
+    },
+    {
+      "relative": "misc/dislo/dislo_18.ogg",
+      "sha256": "b177f0a17ad7711688d2875ebe94544893bff9ee9fc3dfa5da784fe88afe0ddd"
+    },
+    {
+      "relative": "misc/dislo/dislo_19.ogg",
+      "sha256": "ce49e9b3ab8de306777002cedde41038c0d84e799b3c1724da49e04bfd37c89f"
+    },
+    {
+      "relative": "misc/dislo/dislo_2.ogg",
+      "sha256": "7e8bef45091e1587cbd7d477359bb781467450824dad92c731257076a57f41cc"
+    },
+    {
+      "relative": "misc/dislo/dislo_20.ogg",
+      "sha256": "baeb818a60e04e28b654ee158ae4ed4c9183b7df113c3c96399999cecd478c6e"
+    },
+    {
+      "relative": "misc/dislo/dislo_21.ogg",
+      "sha256": "df4a35aaa83fc8cf369e06e4dc2246c77179745cb63f8a34395666f3e0e37902"
+    },
+    {
+      "relative": "misc/dislo/dislo_22.ogg",
+      "sha256": "3cf8d93dfcb261ee06b9d5592febfbee246a2b94a1010cec0c115ec468327dbf"
+    },
+    {
+      "relative": "misc/dislo/dislo_23.ogg",
+      "sha256": "df4a35aaa83fc8cf369e06e4dc2246c77179745cb63f8a34395666f3e0e37902"
+    },
+    {
+      "relative": "misc/dislo/dislo_24.ogg",
+      "sha256": "76cd105a571ca4904ceda48e0ca5bf0204bb084d820aaccd9a76a81483220bfc"
+    },
+    {
+      "relative": "misc/dislo/dislo_25.ogg",
+      "sha256": "1671d59239a031dd3a4c47d172a9773f1dd172963b39b7dfada09705101888bb"
+    },
+    {
+      "relative": "misc/dislo/dislo_26.ogg",
+      "sha256": "3b65cd538f3a5c6cb28b6c0dd6a1c6662041ef97bdf52675de54191f8db2201f"
+    },
+    {
+      "relative": "misc/dislo/dislo_27.ogg",
+      "sha256": "3823276d373db900c0076161a580321cc2a435ae21980cc0f36c715812ae4b09"
+    },
+    {
+      "relative": "misc/dislo/dislo_28.ogg",
+      "sha256": "199f51718be52be013c58e8bf074377d01a3dd610f6e80b3de9c7a62183e1dd2"
+    },
+    {
+      "relative": "misc/dislo/dislo_29.ogg",
+      "sha256": "b0d2b9618db19c51e7fbba5d8f2619a81dac60f694a5036172e30a1f3592eba9"
+    },
+    {
+      "relative": "misc/dislo/dislo_3.ogg",
+      "sha256": "ce81a1526296294ab0fafd8f52b0ecb31a0362ceafef3e4fe37d5fdafe40dee2"
+    },
+    {
+      "relative": "misc/dislo/dislo_30.ogg",
+      "sha256": "806192e38c788a4a6cdabbbf50d7ab1ed82e360d9daba8a61f795fc65bbf941d"
+    },
+    {
+      "relative": "misc/dislo/dislo_4.ogg",
+      "sha256": "3a06929cd29187e62febfe8cad63dd63d1536c83c50d2f3786c9944bce8f9222"
+    },
+    {
+      "relative": "misc/dislo/dislo_5.ogg",
+      "sha256": "b0d2b9618db19c51e7fbba5d8f2619a81dac60f694a5036172e30a1f3592eba9"
+    },
+    {
+      "relative": "misc/dislo/dislo_6.ogg",
+      "sha256": "ce81a1526296294ab0fafd8f52b0ecb31a0362ceafef3e4fe37d5fdafe40dee2"
+    },
+    {
+      "relative": "misc/dislo/dislo_7.ogg",
+      "sha256": "9cf3def064b3b89f7909649c1a7b0824fa524d428ddf68f7d4707d45c6599fdc"
+    },
+    {
+      "relative": "misc/dislo/dislo_8.ogg",
+      "sha256": "199f51718be52be013c58e8bf074377d01a3dd610f6e80b3de9c7a62183e1dd2"
+    },
+    {
+      "relative": "misc/dislo/dislo_9.ogg",
+      "sha256": "76cd105a571ca4904ceda48e0ca5bf0204bb084d820aaccd9a76a81483220bfc"
+    },
+    {
+      "relative": "misc/evolution/phase1.ogg",
+      "sha256": "9f2e2c5c46b30c8f3c22a66e8653dbb2166d9ffaa72f350ef5c08223249a74fb"
+    },
+    {
+      "relative": "misc/evolution/phase10.ogg",
+      "sha256": "505f7aea67b6bc03f1af62eed6682696f537314a48812e8f9bae499f8eed0f59"
+    },
+    {
+      "relative": "misc/evolution/phase2.ogg",
+      "sha256": "efb18424beb5c17dd809f1e88b416138349736621df7ae2f03bde7ac17babc70"
+    },
+    {
+      "relative": "misc/evolution/phase3.ogg",
+      "sha256": "b7666a9c5607eaee5af7aab5d53224f3eb5c43105f6b75bf542f176d84a62533"
+    },
+    {
+      "relative": "misc/evolution/phase4.ogg",
+      "sha256": "ddd4cde1061eaefc9b2b4fdae68dd7cf5042e7ae8f4030a49cdfc9bb7eef07b6"
+    },
+    {
+      "relative": "misc/evolution/phase5.ogg",
+      "sha256": "70aa3ad963013ded9e308a9ca16601c9669b42752fad16783633afd6a51559d3"
+    },
+    {
+      "relative": "misc/evolution/phase6.ogg",
+      "sha256": "a51a4a9f66cc761fba18ff81634c4c7ad689827c98f44e5a9c246ad64d5108b4"
+    },
+    {
+      "relative": "misc/evolution/phase7.ogg",
+      "sha256": "478b36f84d3ae848c54f66624e00537071115ef8bbbd4760fbc03c3b3237c516"
+    },
+    {
+      "relative": "misc/evolution/phase8.ogg",
+      "sha256": "e0569ed169336f5bf464d059e66c681c91a69328bb9a40770f17190331aa5d43"
+    },
+    {
+      "relative": "misc/evolution/phase9.ogg",
+      "sha256": "1bdaadc4f9e94c4d734af37019b8c83a9a59450eb736b0dadebeaa3f0fcf9e6a"
+    },
+    {
+      "relative": "misc/meteor.ogg",
+      "sha256": "62ff0ac189e1bf9594951ced048ab388ce71dc88d0dd3aaa271cb0fd5616fa2b"
+    },
+    {
+      "relative": "misc/mob_explotion.ogg",
+      "sha256": "5bc2f25f20ed606a54af3ed809a1394a54b46a54f77b419f59a76c643693e55d"
+    },
+    {
+      "relative": "misc/mob_hitground.ogg",
+      "sha256": "c2e03b77f59b1167f7b7ec9a43e32e0140c86d3e05ea5db94038fa2a8f414bbf"
+    },
+    {
+      "relative": "misc/mob_silence.ogg",
+      "sha256": "9509f907ad294ee5fc8056f2a9f93dd4dcfa7f5526f527d50f4cdcfe7daa9022"
+    },
+    {
+      "relative": "misc/mob_swipe.ogg",
+      "sha256": "d0629130c739519e9db1cb8c887ac6e4d631f6e18ace52651d7f845d1217bb18"
+    },
+    {
+      "relative": "misc/mob_tendril.ogg",
+      "sha256": "41fe0e86acc025f5f8d18c1583b0aedd61652be46eb5b942adc3a104304ea873"
+    },
+    {
+      "relative": "misc/nade_s.ogg",
+      "sha256": "8fdae55685d811a337c9e482802119af4c7d50dc8f0436be4a6be1fad59ba0a3"
+    },
+    {
+      "relative": "misc/node1.ogg",
+      "sha256": "a8a619642cdec3fd5badf82e93405310e5c097e703163de3bfbff1e9a469b662"
+    },
+    {
+      "relative": "misc/node2.ogg",
+      "sha256": "4cdd23ff8ecb0818c286e3c2561755ceab85fdf8a7e578f4b9feae1706f3a670"
+    },
+    {
+      "relative": "misc/orb_attack_idle.ogg",
+      "sha256": "5d8e6ae3e4b12046a63e2f148e61b86657c75319360283fbad0107214942c498"
+    },
+    {
+      "relative": "misc/orb_attack_summon.ogg",
+      "sha256": "c40e17ff52fe13024365dda1d93e1989bda55cd9b7012e46e4fffac172a89e50"
+    },
+    {
+      "relative": "misc/orb_e.ogg",
+      "sha256": "66f4ed82ac5b8ef2bd7e1c98a54f24c6f22690e426c9683407ef58a22b6c6b0a"
+    },
+    {
+      "relative": "misc/orb_s.ogg",
+      "sha256": "f4f2cc5ca8168ea79bac48956569278d871ec3730d3a677ec8982628da2395fd"
+    },
+    {
+      "relative": "misc/rage1.ogg",
+      "sha256": "dd18bd1a821cc1d105b6c2436d6b3ac5479c707406541ce57a07b7735f4d76a9"
+    },
+    {
+      "relative": "misc/rage2.ogg",
+      "sha256": "645893416a9a2f596c907a5cefcd0fc1e6d4264492862432dd05403b8988c29b"
+    },
+    {
+      "relative": "misc/rage3.ogg",
+      "sha256": "dad598fbcaf1854da6d88fc721eaf519bd9d9d4a251bbd0b5f4d31deb210b927"
+    },
+    {
+      "relative": "misc/resurrect1.ogg",
+      "sha256": "c3208821b6451945f05b1afcd71f7a9dbcff53a99cd7810a0b6238afcc53f070"
+    },
+    {
+      "relative": "misc/resurrect2.ogg",
+      "sha256": "0011f8d24c3e0b89a34f44f73bfc621a58054772527048cfdbce38c54f24d1e5"
+    },
+    {
+      "relative": "misc/resurrect3.ogg",
+      "sha256": "4baea6d0ebd417179e08a28d32c2adf34dc1afba8c611db553fdc97afe344b1e"
+    },
+    {
+      "relative": "misc/scent_wave.ogg",
+      "sha256": "eedf509b2ab42dcee89fc95c041a697ce75f812971963b5dabcb7db338d8b721"
+    },
+    {
+      "relative": "misc/vector_creation.ogg",
+      "sha256": "c1da0b2fe49ae1300e2f6b19c9736b8515d8243a8cdb21d893a10c53966121a5"
+    },
+    {
+      "relative": "misc/vector_outbreak.ogg",
+      "sha256": "f648dfcaeafa1a5996ebef8541a0f9ac46bb8eac58595ec15cc63ae15c3851a4"
+    },
+    {
+      "relative": "misc/vomit.ogg",
+      "sha256": "53549350a986ff6c50587050885ff53efa3a394188ac8098654e6fb94b342b5a"
+    },
+    {
+      "relative": "mob/abomination/body/idle1.ogg",
+      "sha256": "1902b9e2e34b3d105c4b9ef8993a9ff2ccf765d29b3ed267b3560c951dc3c578"
+    },
+    {
+      "relative": "mob/abomination/body/idle2.ogg",
+      "sha256": "85b8fb2f7a2341620f6a78c0e9df705c6598fd93f575ab39b877abb8f898cdd5"
+    },
+    {
+      "relative": "mob/adapted/tozoon/death.ogg",
+      "sha256": "6303611c597e5b623ef4f88048a034d9b0a09c4891051f70c0f41510472acc83"
+    },
+    {
+      "relative": "mob/adapted/tozoon/hurt1.ogg",
+      "sha256": "cc51a79b11fbf3774a3618ee0da68df0844874bb04bca74ac91e67c0aaac9476"
+    },
+    {
+      "relative": "mob/adapted/tozoon/hurt2.ogg",
+      "sha256": "879a0499d7d0996a962880c3945a28447deef2ef8f0a6b60a7e049e5215c8511"
+    },
+    {
+      "relative": "mob/adapted/tozoon/hurt3.ogg",
+      "sha256": "d54352778afe6dd29ae12f4b6b29e435e427f3646a74874ef3c2acd319429c53"
+    },
+    {
+      "relative": "mob/adapted/tozoon/idle1.ogg",
+      "sha256": "6c5eaf2ca68d7847e78927ca6df809ba2f36cb90b4dbe731dcbd994762469e79"
+    },
+    {
+      "relative": "mob/adapted/tozoon/idle2.ogg",
+      "sha256": "cbedbc27775411dd3024cbdb03fe63820761ffd1410e0f6da3a24a3b9fc4118d"
+    },
+    {
+      "relative": "mob/adapted/tozoon/idle3.ogg",
+      "sha256": "1d236f83a10172f0a14c69856c633bcd3e98c6bb21f78c3ae3fce429806d4884"
+    },
+    {
+      "relative": "mob/adapted/tozoon/idle4.ogg",
+      "sha256": "8393defbc845a7ab03432ac33a92b62ef96d5433ea3b98837312c5444ac776fd"
+    },
+    {
+      "relative": "mob/adapted/tozoon/special.ogg",
+      "sha256": "d3fce0fa5aa570f19f9ab38451598c11f50cb7aaa31aac0471eef424d5f86dfe"
+    },
+    {
+      "relative": "mob/assimara/enderman/death.ogg",
+      "sha256": "9b5b001cdb1d371b0a9c4871dbf84365e0f0e486322292033cba959d92157899"
+    },
+    {
+      "relative": "mob/assimara/enderman/hurt1.ogg",
+      "sha256": "73262131315d696289fbe9ac19ca598c035bd00630c6e2ee2b1989b70d6465bc"
+    },
+    {
+      "relative": "mob/assimara/enderman/hurt2.ogg",
+      "sha256": "e91188194d2e8c44e57096ecb5fcfb9e3016887ef7c1df6297cff03dbe107fcf"
+    },
+    {
+      "relative": "mob/assimara/enderman/hurt3.ogg",
+      "sha256": "f2957cf868858a392ee888dd5a9a0fba6eb70f4f564de115e8b6deda6a99d298"
+    },
+    {
+      "relative": "mob/assimara/enderman/hurt4.ogg",
+      "sha256": "fc30778aecc978bb90c175d7a5fd34ac4f5a415bc1283cdfc4055aa495fa5666"
+    },
+    {
+      "relative": "mob/assimara/enderman/idle1.ogg",
+      "sha256": "8bfc190b06851a03d13f4b768ce52992cb7e59753f91e9270a51d3b3b2d46d70"
+    },
+    {
+      "relative": "mob/assimara/enderman/idle2.ogg",
+      "sha256": "695dedb5a97d56afdaaedafe6fe56fdd0d38571481ee2b41b16668874e2e3668"
+    },
+    {
+      "relative": "mob/assimara/enderman/idle3.ogg",
+      "sha256": "27905821cdc241c1bbdc2d5f24248ad1d1cd57a1527407f599a6eea463f3ffa9"
+    },
+    {
+      "relative": "mob/assimara/enderman/idle4.ogg",
+      "sha256": "8ad1c7cae668bbfa9870e285100465e336c5cefe0687dd9136748356fab5481c"
+    },
+    {
+      "relative": "mob/assimara/enderman/idle5.ogg",
+      "sha256": "69c801f26cbdcd58e3d7f9f00090e75879589f0433f05479061d0b27b0834545"
+    },
+    {
+      "relative": "mob/assimara/enderman/portal1.ogg",
+      "sha256": "731c1051eadd6fab3a55d3fb1822f0167b39107988f534c385fb7cb281eb9804"
+    },
+    {
+      "relative": "mob/assimara/enderman/portal2.ogg",
+      "sha256": "6ec494cfb9e1fe0d3851508eea3f500fea8e347ed3d897ca3be8e5b83bfdc0b1"
+    },
+    {
+      "relative": "mob/assimilated/adventurer/breath1.ogg",
+      "sha256": "a837cd547f60533677e54d2ba3363441bfa73f024eca923f971432fd64aa9fb2"
+    },
+    {
+      "relative": "mob/assimilated/adventurer/breath2.ogg",
+      "sha256": "cd00049c020d4c5e23e5efdf4d2790a4973f5b32bcbcbc723d7ce9e6ef6ec161"
+    },
+    {
+      "relative": "mob/assimilated/adventurer/breath3.ogg",
+      "sha256": "829b4ecaf50109e4344d7a250b78048a646804593d4b71ad8d594dea4f085175"
+    },
+    {
+      "relative": "mob/assimilated/enderman/death.ogg",
+      "sha256": "796fce4bfef5f23a02a5d67e9ac498cbe4ae920062c80ce7b81e55b867467cb8"
+    },
+    {
+      "relative": "mob/assimilated/enderman/hurt1.ogg",
+      "sha256": "59105d8e15df6d83174d959151a86ffe949de156a01e21c83566f066b0cce083"
+    },
+    {
+      "relative": "mob/assimilated/enderman/hurt2.ogg",
+      "sha256": "7097d5e1b8cb1eff0699c12c122bcb06eed83c970717d4e1c876ee1c11a1fcc6"
+    },
+    {
+      "relative": "mob/assimilated/enderman/hurt3.ogg",
+      "sha256": "5d9513f6cb1d5b9c7b3d7fb4c974acb1230fefd1cd258aea8ad0ef4882bc9425"
+    },
+    {
+      "relative": "mob/assimilated/enderman/hurt4.ogg",
+      "sha256": "d86855df42ec15ba8885a9c24aa71111f5b2a7b6ddb7dd0beea8d69f1278febc"
+    },
+    {
+      "relative": "mob/assimilated/enderman/idle1.ogg",
+      "sha256": "a992898ab3fec3b076f5579764f5de842e200b29cea5729a7052b215015b19e3"
+    },
+    {
+      "relative": "mob/assimilated/enderman/idle2.ogg",
+      "sha256": "b389721f052ae4306c9210f9e2fef7b2c420c537a2c4274c661a1702d7ab2ae5"
+    },
+    {
+      "relative": "mob/assimilated/enderman/idle3.ogg",
+      "sha256": "ef70d32acf384bc271ba69b83c8adb370018c0fa2d76e4440217eaf19acfe83c"
+    },
+    {
+      "relative": "mob/assimilated/enderman/idle4.ogg",
+      "sha256": "2ea27254af545a07b5c6d7e85581d533280bb527e853007353c14d0e2021000f"
+    },
+    {
+      "relative": "mob/assimilated/enderman/idle5.ogg",
+      "sha256": "5a554cbd8e62ae2c9fecd2d4c845482eceac4eaaa75a571f3ecbb436c90be14e"
+    },
+    {
+      "relative": "mob/assimilated/enderman/idle6.ogg",
+      "sha256": "7d84d84aec0e6573511a1ed6e7a02c82d0b0f7874a34fe8ff9ac63687d2bcb74"
+    },
+    {
+      "relative": "mob/assimilated/enderman/portal1.ogg",
+      "sha256": "b6692b01f996814c966ea432fb778eac164cbade8aa34f0794f33641e2bf2e67"
+    },
+    {
+      "relative": "mob/assimilated/enderman/portal2.ogg",
+      "sha256": "9c3df74e59190f3dba2389c0c4ed9db47926333cd395f5025c10327a8fd7178c"
+    },
+    {
+      "relative": "mob/assimilated/human/death.ogg",
+      "sha256": "0b24d6dac8a18e2e64804f80dc99b4cb08a1393fa08d177bf6d119a4bb3a9d6e"
+    },
+    {
+      "relative": "mob/assimilated/human/hurt1.ogg",
+      "sha256": "71c7b92ed1ac766a1d0485c52fddff639dd9f0b140547819b934544f11957370"
+    },
+    {
+      "relative": "mob/assimilated/human/hurt2.ogg",
+      "sha256": "3893374725c32bdb1d9326108dcf3b42288d75b60201349f3e2e91bdc927efe1"
+    },
+    {
+      "relative": "mob/assimilated/human/hurt3.ogg",
+      "sha256": "8f77518058e1da3f68492714333538d64bf33416f0cb903ce5774245d752847f"
+    },
+    {
+      "relative": "mob/assimilated/human/hurt4.ogg",
+      "sha256": "c5ec6518d9eb4364be06231d1032e9ab5b08bdd2f2999507e70d87887edf8d21"
+    },
+    {
+      "relative": "mob/assimilated/human/hurt5.ogg",
+      "sha256": "c6600b04df75257d017e1c89dc4c73efb9b04a76d0d4f93d2f525b233eb22c55"
+    },
+    {
+      "relative": "mob/assimilated/human/idle1.ogg",
+      "sha256": "14bd552dc0ab05561c33229332aca6dff2e09c828b70242c036106ce3706ff73"
+    },
+    {
+      "relative": "mob/assimilated/human/idle2.ogg",
+      "sha256": "14a66e761c00cabe8e3de62c863afc49f850b36ed7b0a72ecc2f201e8f3118bd"
+    },
+    {
+      "relative": "mob/assimilated/human/idle3.ogg",
+      "sha256": "8ceef21dca72a523fea7c9a2f6fc2b6358e735337e3341e3ae7c6011d9e1d50c"
+    },
+    {
+      "relative": "mob/assimilated/human/idle4.ogg",
+      "sha256": "1826d7c779e81780692f1c9ab191a7eb0c6cf3f85edbb3a15b87fe9a6130f27d"
+    },
+    {
+      "relative": "mob/assimilated/human/idle5.ogg",
+      "sha256": "987b0af44207120f3db3d111aec5c82cbedccbbc4b55ccbe26d5acb3bb7908c2"
+    },
+    {
+      "relative": "mob/assimilated/human/old_death.ogg",
+      "sha256": "db26a6db22d14856d53260c911e2245cb3b1b1b5fd0f40eaee3fe175b1f7ab57"
+    },
+    {
+      "relative": "mob/assimilated/human/old_hurt.ogg",
+      "sha256": "563584d08e3caa85c944511b3c0552b902f81cb9e1b8747c0a750f0d831e57ba"
+    },
+    {
+      "relative": "mob/assimilated/human/old_idle.ogg",
+      "sha256": "9cf5d81341908298ba09ddb394bda73b9ae6c735ae87559f51bf5b6b1564a8fc"
+    },
+    {
+      "relative": "mob/crude/host/burrow1.ogg",
+      "sha256": "b063691879085c955a40389376dc45fdc148144e5f3111ff424f8b40fbcca551"
+    },
+    {
+      "relative": "mob/crude/host/burrow2.ogg",
+      "sha256": "fd47d09f48056d8f0f6609f2fcacdc2d58d2aaadd04b363886fb4b771208b148"
+    },
+    {
+      "relative": "mob/crude/host/burrow3.ogg",
+      "sha256": "ab3e8fd08b69f7aa4b90b01e07713d816bc23496338b422829c90d126cd2ea66"
+    },
+    {
+      "relative": "mob/crude/host/death.ogg",
+      "sha256": "fe819085e05001e7c7d133e4400dcfa29a329215fa7d321f89487e17e1156ce3"
+    },
+    {
+      "relative": "mob/crude/host/hurt1.ogg",
+      "sha256": "e0c5a4bfb7c4ae7f4d5f594a9c0836fe53f503874a2156c0bc0404704974a157"
+    },
+    {
+      "relative": "mob/crude/host/hurt2.ogg",
+      "sha256": "c9e4728ec3f45a2e1a439f5ef1b7441f25f65584d3cee50c7c3f7943d1932b1f"
+    },
+    {
+      "relative": "mob/crude/host/hurt3.ogg",
+      "sha256": "fbc2d5ff866f28192f50fd3f3a2f12a97fe6333a909ea356072a0d9b1f6a18bd"
+    },
+    {
+      "relative": "mob/crude/host/idle1.ogg",
+      "sha256": "a4fa8824e37641bc4d5b5865647526172e5c1742d43f90edc94b2b1fa94755bd"
+    },
+    {
+      "relative": "mob/crude/host/idle2.ogg",
+      "sha256": "43fe27aa801a90ec39b6e41f014a5547acb6f7c9f8956cf59b287c5d9354ba0f"
+    },
+    {
+      "relative": "mob/crude/host/reveal1.ogg",
+      "sha256": "f09259489ba1d73b1bfbcf5298c4b062840b6a25b557ce9b93f05cd0eeef1219"
+    },
+    {
+      "relative": "mob/crude/host/reveal2.ogg",
+      "sha256": "e5b81fb66a12fb2db8b9b7f692c564a8a207de8bbe5698a85d954003473036c3"
+    },
+    {
+      "relative": "mob/crude/host/reveal3.ogg",
+      "sha256": "193f30c5e8ced8d31a1fde776d2a17bc401e7f492385c3ffbf608eb682c105d4"
+    },
+    {
+      "relative": "mob/crude/incomplete_form/medium/death.ogg",
+      "sha256": "137e1567dc21e83eb45433ebff8817e8aa8673a48a7f76e18642c6c7f80c5a65"
+    },
+    {
+      "relative": "mob/crude/incomplete_form/medium/hurt1.ogg",
+      "sha256": "f5b42994957bad123f069ea45d3be41f38b0ec06a5d44f9ae949b595c2f3f019"
+    },
+    {
+      "relative": "mob/crude/incomplete_form/medium/hurt2.ogg",
+      "sha256": "8e29c370ef756dc89f0d84a707ee2edfa40a0770d362944ab49a1359d602d9d7"
+    },
+    {
+      "relative": "mob/crude/incomplete_form/medium/hurt3.ogg",
+      "sha256": "2163e3f0a9aa7da9a6cb200cdd67ea27ec543ab27546ea8c4cbddfcb6de8e464"
+    },
+    {
+      "relative": "mob/crude/incomplete_form/medium/idle1.ogg",
+      "sha256": "f281932368b2b64272857ff46bd97e875bf8d5fa32953cc9ebc0ee8e790baab2"
+    },
+    {
+      "relative": "mob/crude/incomplete_form/medium/idle2.ogg",
+      "sha256": "e00affeebdbd1eac18968923bc2070a0b25585bf6bc19817d85dc3d75e0fa244"
+    },
+    {
+      "relative": "mob/crude/incomplete_form/medium/idle3.ogg",
+      "sha256": "8c11fed117a59cb132114bc5c6939a4fd26eda57b8498d7aa075471e4761c33a"
+    },
+    {
+      "relative": "mob/crude/incomplete_form/small/death.ogg",
+      "sha256": "137e1567dc21e83eb45433ebff8817e8aa8673a48a7f76e18642c6c7f80c5a65"
+    },
+    {
+      "relative": "mob/crude/incomplete_form/small/hurt1.ogg",
+      "sha256": "f5b42994957bad123f069ea45d3be41f38b0ec06a5d44f9ae949b595c2f3f019"
+    },
+    {
+      "relative": "mob/crude/incomplete_form/small/hurt2.ogg",
+      "sha256": "8e29c370ef756dc89f0d84a707ee2edfa40a0770d362944ab49a1359d602d9d7"
+    },
+    {
+      "relative": "mob/crude/incomplete_form/small/hurt3.ogg",
+      "sha256": "2163e3f0a9aa7da9a6cb200cdd67ea27ec543ab27546ea8c4cbddfcb6de8e464"
+    },
+    {
+      "relative": "mob/crude/incomplete_form/small/idle1.ogg",
+      "sha256": "f281932368b2b64272857ff46bd97e875bf8d5fa32953cc9ebc0ee8e790baab2"
+    },
+    {
+      "relative": "mob/crude/incomplete_form/small/idle2.ogg",
+      "sha256": "e00affeebdbd1eac18968923bc2070a0b25585bf6bc19817d85dc3d75e0fa244"
+    },
+    {
+      "relative": "mob/crude/incomplete_form/small/idle3.ogg",
+      "sha256": "8c11fed117a59cb132114bc5c6939a4fd26eda57b8498d7aa075471e4761c33a"
+    },
+    {
+      "relative": "mob/crude/moving_flesh/death.ogg",
+      "sha256": "29b3c75ce8d05ccfb2d115154b10e23fce8554e8deb5baff90cd20192db966d4"
+    },
+    {
+      "relative": "mob/crude/moving_flesh/eat.ogg",
+      "sha256": "cc3b7f67bcc0ed983b7c939a76dc96fdf44bd460f9a65e5f04b7b1837729eb2d"
+    },
+    {
+      "relative": "mob/crude/moving_flesh/grow.ogg",
+      "sha256": "805966da58158fcc03336f5defcc64d9260007c2851bd7e09b4cd8c04a871de3"
+    },
+    {
+      "relative": "mob/crude/moving_flesh/hurt.ogg",
+      "sha256": "cf7ea387b3e9e1d506af1ad7f443a7a59cdb5278f050341dce9a87630f212e4f"
+    },
+    {
+      "relative": "mob/crude/moving_flesh/idle1.ogg",
+      "sha256": "b35d2f6dcddb75a577d304e1ac0eefa7e6de2b62c3b69ca41ff2b17b4558f94f"
+    },
+    {
+      "relative": "mob/crude/moving_flesh/idle2.ogg",
+      "sha256": "d6d6ba4680e72030f8b0e0f32f8dd585d1bbb09d6b8a22374ac297a34ea64623"
+    },
+    {
+      "relative": "mob/crude/moving_flesh/idle3.ogg",
+      "sha256": "3ad0c9bcf48de2b36db94fcc6bfff0c399085eba53061b70f62f0edf76372a1e"
+    },
+    {
+      "relative": "mob/crude/moving_flesh/infected_melting.ogg",
+      "sha256": "9d2090be804f001faf9d70f36e0a2f7076b9c06b2428f5f881e21c94c5c214c9"
+    },
+    {
+      "relative": "mob/crude/moving_flesh/primitive.ogg",
+      "sha256": "c4ad6db14c185bccaaace1d92ddf3101c9625f8288c35098d1196a391a742bff"
+    },
+    {
+      "relative": "mob/derived/draconite/fire_shoot.ogg",
+      "sha256": "d5136ed7c11f62b8ea62bf56cc70b4d73da38e8056305f3a5b0446c6c9587398"
+    },
+    {
+      "relative": "mob/derived/draconite/heblu_bell_chargup.ogg",
+      "sha256": "0935b2d8304ac2bea9c54b14978a641d4de3577508c6b2a98b16b270d237d5b8"
+    },
+    {
+      "relative": "mob/derived/draconite/heblu_bell_chargup_original.ogg",
+      "sha256": "d8bc720fac0df19e2d6df62c928b6bb3d0fd0a8e90cbfae7786dae4d91bb227c"
+    },
+    {
+      "relative": "mob/derived/draconite/heblu_light_impact.ogg",
+      "sha256": "a0ff08fec8da96ac6482bfbd56d384f2b6bf529968f56bcca3b3fd04222a450e"
+    },
+    {
+      "relative": "mob/derived/draconite/heblu_light_impact_1.ogg",
+      "sha256": "9c3afb935bfd3a450f7b02383d5de56932692f50944716f174563e85d1b56d0c"
+    },
+    {
+      "relative": "mob/derived/draconite/idle1.ogg",
+      "sha256": "1717681153085c72e481ab52a6c558be66122972700a542dc824e65cc2bf2703"
+    },
+    {
+      "relative": "mob/derived/draconite/idle2.ogg",
+      "sha256": "fa2b19d8ecc7ef6a8cc1309d8c45f579bde64b7240d8c76ed81b3785bd5e598e"
+    },
+    {
+      "relative": "mob/derived/draconite/idle3.ogg",
+      "sha256": "815d858be98d44c843a75bfda01386a64722dab9565ed621f8a698f3fd7b1826"
+    },
+    {
+      "relative": "mob/derived/draconite/idle4.ogg",
+      "sha256": "dce40fd1e31f14618c4c80c127ed47ddee40b2a3501634bc86165d7958dbbe42"
+    },
+    {
+      "relative": "mob/derived/draconite/idle5.ogg",
+      "sha256": "17d9048bfa0b9e99ad337be9f65641bbe6289446881245535585dfb20aaf9edb"
+    },
+    {
+      "relative": "mob/derived/draconite/parry1.ogg",
+      "sha256": "3f230939e05e0207c7362f668930c57ef2c5b3d692944df945c1172aa522932c"
+    },
+    {
+      "relative": "mob/derived/draconite/parry2.ogg",
+      "sha256": "34fbc681b069fa4f4633bbf8314300d3eee04de4ce3575171bcf71ac1284e6a6"
+    },
+    {
+      "relative": "mob/derived/draconite/parry3.ogg",
+      "sha256": "db9c9f38405d71106b3e3b4e27d68dbe3729190aeb8be6a57420edfb9c8451df"
+    },
+    {
+      "relative": "mob/derived/kirin/black_hole.ogg",
+      "sha256": "55d5bd982a0efa6b163ae40259fcca196f23aa56a9316f7a57c9ad1a4a78f62e"
+    },
+    {
+      "relative": "mob/derived/kirin/death.ogg",
+      "sha256": "c1766b379273030d25d945993dac041304c938a8c0604511ce4233761e1f98bd"
+    },
+    {
+      "relative": "mob/derived/kirin/hurt1.ogg",
+      "sha256": "96470082557977c81f1724706d3d9582147d9cd682a87bea0c7b047fc02b7052"
+    },
+    {
+      "relative": "mob/derived/kirin/hurt2.ogg",
+      "sha256": "5841f202105d1db3b139842ff3511bf19fdfd1fef149a989e99869c3e5193b55"
+    },
+    {
+      "relative": "mob/derived/kirin/hurt3.ogg",
+      "sha256": "2a1f113a5cb314f612e9b82030a0ef04dfcb099acb50c1c3c09576f70973572a"
+    },
+    {
+      "relative": "mob/derived/kirin/idle1.ogg",
+      "sha256": "b95cdd299c31cddadfbb83cafa0e989eda5daf0836a7dc3cb8bff8da2ef02efb"
+    },
+    {
+      "relative": "mob/derived/kirin/idle2.ogg",
+      "sha256": "fdac20d1c02b380bbe871dd8697e9b994769f356dba8a738f2f192266f5b8851"
+    },
+    {
+      "relative": "mob/derived/kirin/idle3.ogg",
+      "sha256": "103dc7a22c831576f8c249fa554402219a04ee62294b68a8e3cc5436e69728c7"
+    },
+    {
+      "relative": "mob/dig/digging1.ogg",
+      "sha256": "1ee4dc1db2dd41eed15823159c2a50ee0018cd23af5b26653839dc7cfc17b899"
+    },
+    {
+      "relative": "mob/dig/digging2.ogg",
+      "sha256": "410300710e7e4b2357a3943f0a0b78b842593e530187738155b7eef996f88f2d"
+    },
+    {
+      "relative": "mob/dig/digging3.ogg",
+      "sha256": "52a211b5290fb4001b1df39701a9b4e1f8eaebdd94fd0a861ddb7982e003dba5"
+    },
+    {
+      "relative": "mob/dig/emerge1.ogg",
+      "sha256": "1ee4dc1db2dd41eed15823159c2a50ee0018cd23af5b26653839dc7cfc17b899"
+    },
+    {
+      "relative": "mob/dig/emerge2.ogg",
+      "sha256": "410300710e7e4b2357a3943f0a0b78b842593e530187738155b7eef996f88f2d"
+    },
+    {
+      "relative": "mob/dig/emerge3.ogg",
+      "sha256": "52a211b5290fb4001b1df39701a9b4e1f8eaebdd94fd0a861ddb7982e003dba5"
+    },
+    {
+      "relative": "mob/dig/emerge_alt1.ogg",
+      "sha256": "19d93e245929be12a4b445d32faca5c3fcca0530f7f23c6f80e366cbc040db91"
+    },
+    {
+      "relative": "mob/dig/emerge_alt2.ogg",
+      "sha256": "dd280e53dd5a40f9538fa4a18b691f4e454e63a4177db6dbca22fae6ea3930c0"
+    },
+    {
+      "relative": "mob/dig/emerge_alt3.ogg",
+      "sha256": "6ab2313ca3cf0563f55f24a672bddb2e810ae985986e831f7ae127aa0cc00b4f"
+    },
+    {
+      "relative": "mob/dig/emerge_huge1.ogg",
+      "sha256": "320ac3519a4fd77d3e1540bdc3bdd0d65582483ecba5b462cb47e9f7f0523e4a"
+    },
+    {
+      "relative": "mob/dig/emerge_huge2.ogg",
+      "sha256": "d681909924c7c1d2623000a81b468fc8d46b1a2bb215fb411e7c6884162e4aed"
+    },
+    {
+      "relative": "mob/dig/emerge_huge3.ogg",
+      "sha256": "6a91f1ee8b118df1896fb8badeb3485b557e3203a8b40a1cec61c2e3234dff70"
+    },
+    {
+      "relative": "mob/hijacked/blaze/death.ogg",
+      "sha256": "29b4e96200652105aa3b902a56056337367936231b1e1e3de479ed7cce826989"
+    },
+    {
+      "relative": "mob/hijacked/blaze/hurt1.ogg",
+      "sha256": "33e1ab185a2366e39b521b508b40e0fe7bba02f8ca3059308f68351106872d14"
+    },
+    {
+      "relative": "mob/hijacked/blaze/hurt2.ogg",
+      "sha256": "dc956340dadfcab8e048209ce09ac6c86b96c7a0d302d53d23c4974d74ec48cf"
+    },
+    {
+      "relative": "mob/hijacked/blaze/hurt3.ogg",
+      "sha256": "b126025c871769271b7b3581b592462f2932dc8c3eb6d762a51bf5bbaf3777e4"
+    },
+    {
+      "relative": "mob/hijacked/blaze/hurt4.ogg",
+      "sha256": "c2a5f7f0a0abd259a1bd14313bd4ad44659c8e9e22f47a7f55d38d045466f8a1"
+    },
+    {
+      "relative": "mob/hijacked/blaze/idle1.ogg",
+      "sha256": "99bfa7d37faffeac46d6fd4d43966f72a33a56fe0a9ec3ff437115138e3f36cf"
+    },
+    {
+      "relative": "mob/hijacked/blaze/idle2.ogg",
+      "sha256": "9a50f1155b0f73d1fcc2e7d56b7df3273f128c9f367a0a7df0c1d1297948c7eb"
+    },
+    {
+      "relative": "mob/hijacked/blaze/idle3.ogg",
+      "sha256": "db4a2801e05dc447694ee63d07776d6634d6e9840d5ffcea126f2461f329ef01"
+    },
+    {
+      "relative": "mob/hijacked/blaze/shoot.ogg",
+      "sha256": "e261095fbb239a0250e69892365b231344e52133e9cf5f4f294572bc047597d5"
+    },
+    {
+      "relative": "mob/hijacked/golem/death.ogg",
+      "sha256": "398406f8506f75d1b311364a2f42cb863edfde346c400a1adc582e980a85d403"
+    },
+    {
+      "relative": "mob/hijacked/golem/hurt1.ogg",
+      "sha256": "11769a70b9433d6869f4220530bdd9f0c9e9d9fcb2e8ff6db71aaf8444f54b81"
+    },
+    {
+      "relative": "mob/hijacked/golem/hurt2.ogg",
+      "sha256": "104defb4523e073273fcbcb5a414c949b7988624826334bb1920a51ac01c0b8a"
+    },
+    {
+      "relative": "mob/hijacked/golem/hurt3.ogg",
+      "sha256": "da0e8a3037ce1458eeb5bf419cef5de747fe6177ff68626034dbedc0ffc2fd80"
+    },
+    {
+      "relative": "mob/hijacked/golem/idle1.ogg",
+      "sha256": "5603b688aa834401c732c07d98599d6bfabfa495917bbf661fb7d7e97b8625f4"
+    },
+    {
+      "relative": "mob/hijacked/golem/idle2.ogg",
+      "sha256": "9540e86ea3895bdc4d745454097b88393f1aabf0b67aa9653f11e13952a0173e"
+    },
+    {
+      "relative": "mob/hijacked/golem/idle3.ogg",
+      "sha256": "77e3f2feb698f93feeba18b5f0619a50a5cba2bb509fc015601f919900d2b849"
+    },
+    {
+      "relative": "mob/nexus/stage1/beckon/appear.ogg",
+      "sha256": "1282ddb3d73404dff85c74bd8077997a816411dec95b0b26a8302b85a912d21d"
+    },
+    {
+      "relative": "mob/nexus/stage1/beckon/death1.ogg",
+      "sha256": "814ea6c79aeeab8626c21f9103e18ea1cb6b3e041fb2bbcfcdd529590e46c9fc"
+    },
+    {
+      "relative": "mob/nexus/stage1/beckon/death2.ogg",
+      "sha256": "64a741be782b6988a9dd67c9614dadba6f56d5aa521709f978705193e6dfbc16"
+    },
+    {
+      "relative": "mob/nexus/stage1/beckon/hurt1.ogg",
+      "sha256": "629d06b336a3952b158af7ae034f249f4c2472132de61f04ca1cb7faebf71143"
+    },
+    {
+      "relative": "mob/nexus/stage1/beckon/hurt2.ogg",
+      "sha256": "ac4773d1a1a18444a47f1591c9b00abe4d5f87258263533fe5e1270a7aee3272"
+    },
+    {
+      "relative": "mob/nexus/stage1/beckon/idle1.ogg",
+      "sha256": "a264910f5a2ad6616337bb57b7bc080df54aa1dc1d8caf7ae7ad026ffeed1f82"
+    },
+    {
+      "relative": "mob/nexus/stage1/beckon/idle2.ogg",
+      "sha256": "cd13f2199f508436b932c2db6bd9a85a3012b081ddb4bf401e5146797a473fe2"
+    },
+    {
+      "relative": "mob/nexus/stage1/dispatcher/appear.ogg",
+      "sha256": "3b7bd2bcfb55de69b8d9a523ba5d4a59b1af1e04e69439699deb5982fe93ed94"
+    },
+    {
+      "relative": "mob/nexus/stage1/rooter/appear.ogg",
+      "sha256": "e42933bd1ba032de1eceed8163a96c196d46df20ddd962536b4ef58e80b87090"
+    },
+    {
+      "relative": "mob/nexus/stage2/beckon/appear.ogg",
+      "sha256": "0ccb160c55c3b992ebbdc6746003299f5f3b9ea876b797bb71b0806b86ee6da8"
+    },
+    {
+      "relative": "mob/nexus/stage2/beckon/death1.ogg",
+      "sha256": "775b7188e1cc21fb17196261a16b78b995d39adf053c9a8e84e4409bb6f79160"
+    },
+    {
+      "relative": "mob/nexus/stage2/beckon/death2.ogg",
+      "sha256": "34feb1fc23f6087ad1c5559ccda82019878b6e13cb8f1c098b02fa103fab9de2"
+    },
+    {
+      "relative": "mob/nexus/stage2/beckon/hurt1.ogg",
+      "sha256": "3ec4acf86094e56bc3bde585222a3faa8555754861c61810bb6a680e1b8def95"
+    },
+    {
+      "relative": "mob/nexus/stage2/beckon/hurt2.ogg",
+      "sha256": "c5e234742afd5ea8711ed9590ac3698c652de95c0c135ca1e7db4aeee0e7234d"
+    },
+    {
+      "relative": "mob/nexus/stage2/beckon/idle1.ogg",
+      "sha256": "c6119610b0024459d5b86b0af4455418562f82ee4b16c8cc33e250630ac211b1"
+    },
+    {
+      "relative": "mob/nexus/stage2/beckon/idle2.ogg",
+      "sha256": "941923efbc7299a53c7a63c848bc73c72ba1b20f24fd19e11612d0e9fd013463"
+    },
+    {
+      "relative": "mob/nexus/stage2/dispatcher/appear.ogg",
+      "sha256": "5189194296068c78ce82e334bbe32c59f5041af2cd6e6018d68ca67dbef92e79"
+    },
+    {
+      "relative": "mob/nexus/stage2/rooter/appear.ogg",
+      "sha256": "dd56ef98c7f74de7340d9a83bc5491aad9a065a08b5d36f4c77c03bcf1ad1571"
+    },
+    {
+      "relative": "mob/nexus/stage3/beckon/appear.ogg",
+      "sha256": "b089e57940b1745fd2ee59cbce4a72698783f05a7d066f4edc522c625b7b2351"
+    },
+    {
+      "relative": "mob/nexus/stage3/beckon/death1.ogg",
+      "sha256": "13a282aea721a4c0ea546af1adf0118b1621c1689f474ec8a5e1f7af822f1e07"
+    },
+    {
+      "relative": "mob/nexus/stage3/beckon/death2.ogg",
+      "sha256": "fcfd1182bc74c8d125d27ec4100f6c4bd88e4311c8902bf7d6bdb931e8ac997d"
+    },
+    {
+      "relative": "mob/nexus/stage3/beckon/hurt1.ogg",
+      "sha256": "cd70f85c55ef6cd16369cb5fddd97c7e98618c9bdd318c3ccce4d086e65a454d"
+    },
+    {
+      "relative": "mob/nexus/stage3/beckon/hurt2.ogg",
+      "sha256": "d66f8d301100cf5b192a1f8245b2b9fc171a65eb9c45174fd0198420c15d7a44"
+    },
+    {
+      "relative": "mob/nexus/stage3/beckon/idle1.ogg",
+      "sha256": "5d4f10c664e14f9d28662a708b591bcfe6100b4b52f7c9b479631fe46fbc7337"
+    },
+    {
+      "relative": "mob/nexus/stage3/beckon/idle2.ogg",
+      "sha256": "fa4323c444537bc353dd3eaad96b29701cadf4c49233b50c0773d415f5ee790c"
+    },
+    {
+      "relative": "mob/nexus/stage3/dispatcher/appear.ogg",
+      "sha256": "c2415e8c84079ce6e20957f81141dfdced50dbe9b1ccc21415485b129f67c4fb"
+    },
+    {
+      "relative": "mob/nexus/stage3/rooter/appear.ogg",
+      "sha256": "4fa3bd6f374d35b21f08115f8fd35fb30eb8d20fcfd1428a58ff4391fb817315"
+    },
+    {
+      "relative": "mob/nexus/stage4/beckon/appear.ogg",
+      "sha256": "02af2ebea436e7cf1cd0859a635334eedb2142650d21302b6d4c79c1a84864d4"
+    },
+    {
+      "relative": "mob/nexus/stage4/beckon/vortex.ogg",
+      "sha256": "8291f90bf0db43d27276e0f4f7c2e83d34fbc0e6cfec89f74417bc6fed0075ad"
+    },
+    {
+      "relative": "mob/nexus/stage4/dispatcher/appear.ogg",
+      "sha256": "3607ffdfce9201aba6d6c9d4f737d0b61a260f2b7c15ce8b8cfd93ff76fd45f3"
+    },
+    {
+      "relative": "mob/nexus/stage4/rooter/appear.ogg",
+      "sha256": "0835f2db6b68e838ae5f9e3c2b38f9a8e90fd8d8d7a80a952de5412de179ae2d"
+    },
+    {
+      "relative": "mob/pure/buglin/death.ogg",
+      "sha256": "fef2017c1ab04b1b66e39339a78002cf0c274d07dca7e7a87bb4478c102f59a9"
+    },
+    {
+      "relative": "mob/pure/buglin/death_old.ogg",
+      "sha256": "f3722fde9fd61513a91a8f7da3c55571acf21a5d67eed0ad8b7ac6416e9b67bf"
+    },
+    {
+      "relative": "mob/pure/buglin/emerge.ogg",
+      "sha256": "66d09394dd486b56f6f4b0331694f140511123861d93a7729038238d52244d4c"
+    },
+    {
+      "relative": "mob/pure/buglin/hurt1.ogg",
+      "sha256": "851ba8a660c1aac2817b32818d222d1092bc21da2ed07dd8fa16730ccc61c9d0"
+    },
+    {
+      "relative": "mob/pure/buglin/hurt2.ogg",
+      "sha256": "95b44efd391c6f6efc4f0505e8f72ea3338b3fc97437d1931ed67ccbb82bd64b"
+    },
+    {
+      "relative": "mob/pure/buglin/hurt3.ogg",
+      "sha256": "04ce722f77adb036f95b5c7e83422ef1d22fc3a23af2381f3007bf40ee079c75"
+    },
+    {
+      "relative": "mob/pure/buglin/hurt_old.ogg",
+      "sha256": "a986fc8b39979143a8aabbcc296f90e8e49998bb01b2eff6080f9b79445bc97c"
+    },
+    {
+      "relative": "mob/pure/buglin/idle1.ogg",
+      "sha256": "37cafa671cdfab58259f8d1595dbaa8d6e0a42d6df835eb3a0a72054b96009ef"
+    },
+    {
+      "relative": "mob/pure/buglin/idle2.ogg",
+      "sha256": "bb4c6e2c20cd4f70d1beff5f48850bcc3ffc164450e6f97484e44b26cc9199ce"
+    },
+    {
+      "relative": "mob/pure/buglin/idle3.ogg",
+      "sha256": "02a37aaa76536b3cf03fc82b14c1afdc79ba849c437e08acb6045de08c177898"
+    },
+    {
+      "relative": "mob/pure/buglin/idle_old.ogg",
+      "sha256": "07bbd8bc1340d30ee50b9c2d236d04c804b81561d437d7e2387bb6e65cb8fef3"
+    },
+    {
+      "relative": "mob/pure/buglin/lodo_mudo.ogg",
+      "sha256": "765702c086ce84064db3689cb1f1871b19fcaae41c0e935bacf0773b5944312a"
+    },
+    {
+      "relative": "mob/pure/mangler/death.ogg",
+      "sha256": "a8a061e1aacba8bcd7377c90587acae0a425212ee1a24672370c7b455124db0c"
+    },
+    {
+      "relative": "mob/pure/mangler/hurt1.ogg",
+      "sha256": "a844c4599faa9648d7dc6df6b4f33b95c213c9347dd7f34dd0169dedc99d945b"
+    },
+    {
+      "relative": "mob/pure/mangler/hurt2.ogg",
+      "sha256": "44276cb790ee727c5a0105e351172e1e13a4eb7c57cbf645a7be6063266995e5"
+    },
+    {
+      "relative": "mob/pure/mangler/hurt3.ogg",
+      "sha256": "f5b1275753dfa47e9c4a8ee867c8db9ceae7787e7853683351abc298448fdc08"
+    },
+    {
+      "relative": "mob/pure/mangler/idle1.ogg",
+      "sha256": "3d2a59944d10cfdc9d75215ad01ca6695c321fa1827ecbe90c0b535c6ed84867"
+    },
+    {
+      "relative": "mob/pure/mangler/idle2.ogg",
+      "sha256": "11717ead4ce47ba969f9a041dceadcf98fff0b2f648f652a32d4145bda7a9eaa"
+    },
+    {
+      "relative": "mob/pure/mangler/idle3.ogg",
+      "sha256": "7d45891bbc8f94a241cf55ee80c615a7f84950e2cc88738361ee3ab528fc7ab1"
+    },
+    {
+      "relative": "mob/pure/rupter/cloud.ogg",
+      "sha256": "a2d0c7a8213ec4a8ad328c24ad6a2c6c52fef0f6237ec288cea24d65ac2f7598"
+    },
+    {
+      "relative": "mob/pure/rupter/death.ogg",
+      "sha256": "69e873508d4a15035d1163ebd4752b73a00ee0aafe712b13e4f555e8e67d37a1"
+    },
+    {
+      "relative": "mob/pure/rupter/hurt1.ogg",
+      "sha256": "35391c08a59503184d8b1e59866aac0971ef0f29031efdf9f3086e747b645bee"
+    },
+    {
+      "relative": "mob/pure/rupter/hurt2.ogg",
+      "sha256": "439fa0155494a8c88141de29f10a328e72bb7931aed897eb5541bae2db8190ab"
+    },
+    {
+      "relative": "mob/pure/rupter/hurt3.ogg",
+      "sha256": "31d91674621225b9ef21b928d0ca05bb3ccb0b475d9dcc3af3740add5939fc0a"
+    },
+    {
+      "relative": "mob/pure/rupter/idle1.ogg",
+      "sha256": "e84e3f016dc0d671607c4bc2878f945395fbb4dcf1fb5b7c9e01ad6aaf2d1f9f"
+    },
+    {
+      "relative": "mob/pure/rupter/idle2.ogg",
+      "sha256": "b40c91c885814051d2458f20dc0b36d8c0681b951b29823c42b73697d1f12b01"
+    },
+    {
+      "relative": "mob/pure/rupter/idle3.ogg",
+      "sha256": "f0dce70593f322ea03b2d8427fa2e3e185bfff1e52ea8f4a5c5039bc7d137df5"
+    },
+    {
+      "relative": "mob/pure/rupter/old_death.ogg",
+      "sha256": "cff09deb903103473259a613a767c7acc2fa525154f18f0e372d304731a47141"
+    },
+    {
+      "relative": "mob/pure/rupter/old_growl.ogg",
+      "sha256": "473c261833f7b620dbe5bd3aef8ffed622224d37f51edadef9cfecbc60442334"
+    },
+    {
+      "relative": "mob/pure/rupter/old_hurt.ogg",
+      "sha256": "875bd1fff57f0b06abb98b758874f03da213a489ca3dcbc9b4bd59468a8e7c05"
+    },
+    {
+      "relative": "mob/step/heavy/step1.ogg",
+      "sha256": "3060f055005049083eebfe09611c4a13c12f0bb8ccd40da26abba20c4f7a8879"
+    },
+    {
+      "relative": "mob/step/heavy/step2.ogg",
+      "sha256": "874c05b815df9e9ab3c8004b7298da055bf69bd41077c11ccc4ca9d0f9d82dd9"
+    },
+    {
+      "relative": "mob/step/heavy/step3.ogg",
+      "sha256": "e34b91fe377f546ca5bd86e70b3592f2626bb66bd2486a88e8222dc407118023"
+    },
+    {
+      "relative": "mob/step/heavy/step4.ogg",
+      "sha256": "d8341258a0003d14a482753889e66eb6b2471fb8be75107dc934ef542852a26e"
+    },
+    {
+      "relative": "mob/step/heavy/step5.ogg",
+      "sha256": "8fcbcfb6a4f73a77f2aadb43355dd42afdca07f0a8e0e70297b80c86b13533bf"
+    },
+    {
+      "relative": "mob/step/heavy/two_steps1.ogg",
+      "sha256": "f22f644ffb38896c1946162e591564c476efedf959060819eeb2d612b591264d"
+    },
+    {
+      "relative": "mob/step/heavy/two_steps2.ogg",
+      "sha256": "7dfc26db47fd142698d3d199e4f3c600df33fb37dc5a144f30ef8f16a54c410b"
+    },
+    {
+      "relative": "mob/step/heavy/two_steps3.ogg",
+      "sha256": "9339e99a7292439593b7a41e841eb00a63d40650c2742c0cf1296e85711a1f73"
+    },
+    {
+      "relative": "mob/step/heavy/two_steps4.ogg",
+      "sha256": "9af3544ef144eda3322797495079a6e658b11d3471ddac5c29090f1d7369c4aa"
+    },
+    {
+      "relative": "mob/step/heavy/two_steps5.ogg",
+      "sha256": "9f6dfcf6f8eb4eb8ac226500b547b07e5293fcc554563c55e063e292adc7e0df"
+    },
+    {
+      "relative": "mob/step/heavy_multiple/step1.ogg",
+      "sha256": "63d26eab93103032f1b86f0aca5bcb683866c5b26240d2dc33e6f16d8571db1a"
+    },
+    {
+      "relative": "mob/step/heavy_multiple/step2.ogg",
+      "sha256": "f8d501a640f4956993feea79b9815cc74a0c74bfe5056c5044b1291e7d592f10"
+    },
+    {
+      "relative": "mob/step/heavy_multiple/step3.ogg",
+      "sha256": "e08d8e6b3191cd19322e6ec7098e97107d1d2d1ecf7771c0f6fa1edc8f0f28b1"
+    },
+    {
+      "relative": "mob/step/heavy_multiple/step4.ogg",
+      "sha256": "9a203fba3397a1c52b40eefabd40d00ee94ee155593078387f993b93248d3663"
+    },
+    {
+      "relative": "mob/step/lite_flesh/slide1.ogg",
+      "sha256": "57a1ea7e436bac6c4847d5eb6eff0bb45bb4d7b3e51e06e0e40e4d051e889eab"
+    },
+    {
+      "relative": "mob/step/lite_flesh/slide2.ogg",
+      "sha256": "3817f5990a01c774ee15f38db0435ea1d4181df822d23e7a707becdb9a01fb7e"
+    },
+    {
+      "relative": "mob/step/lite_flesh/slide3.ogg",
+      "sha256": "3697aee80938661f86106601cc19fbf0e6f5ae2f4cd2893a72211a0474131b14"
+    },
+    {
+      "relative": "mob/step/lite_flesh/slide4.ogg",
+      "sha256": "d0cdbc9f2f45b3d4583f2a802901c093c9a96e8fe46ab893e8b6e28e73e59f34"
+    },
+    {
+      "relative": "mob/step/lite_flesh/step1.ogg",
+      "sha256": "d1da1b6d9c88d71975c285f9c302478447b214372a5334c07b116d25122408ca"
+    },
+    {
+      "relative": "mob/step/lite_flesh/step2.ogg",
+      "sha256": "b94e358d4027238ee25f7c252c3297a6a371817198b853bb4ab35a431cc1d373"
+    },
+    {
+      "relative": "mob/step/lite_flesh/step3.ogg",
+      "sha256": "e447731a9764460d6e0693a866f3290a89df43b112c48a280d134ebb0d499269"
+    },
+    {
+      "relative": "mob/step/lite_flesh/step4.ogg",
+      "sha256": "b3b8c48f1a095afe3dd1ff5550e6b6b459c8c929b578091d2cf84ee0a4ac122e"
+    },
+    {
+      "relative": "mob/step/small/step1.ogg",
+      "sha256": "c20bfabe2c6d4260850197364e3454b75df0729cdbe0e604e014a75e26508bf2"
+    },
+    {
+      "relative": "mob/step/small/step2.ogg",
+      "sha256": "ed0b2565b4f54c9ac8f416acc8d88f8e756694f0ed07dea5ddc7b1b3881eb0b1"
+    },
+    {
+      "relative": "mob/step/small/step3.ogg",
+      "sha256": "9adc320b8d2adb7927317ba0156c59902176ea34e312e060bf88eb2d1ca13e87"
+    },
+    {
+      "relative": "mob/step/small/step4.ogg",
+      "sha256": "ec1dc30da562c96c07660dfc8abee2c69fe9be875ed28be56126cd173524fee2"
+    },
+    {
+      "relative": "monarchdeath.ogg",
+      "sha256": "7bc1d9b13c45220848ca46e13903d860d5980ea748eb194fe3f2bccc47d699ba"
+    },
+    {
+      "relative": "monarchhurt1.ogg",
+      "sha256": "2bc215102d7075ce0353890aa745264bdefb933bfff299af9a11a644c8fd9a16"
+    },
+    {
+      "relative": "monarchhurt2.ogg",
+      "sha256": "9f99e96a821eaebe2234336ae5d971bd6af725943eb93af40db7949b256bb5a5"
+    },
+    {
+      "relative": "monarchhurt3.ogg",
+      "sha256": "ccdcb8f058c396b4ea9665413f38653fe9105bb9a507c0080acb00502fdadd20"
+    },
+    {
+      "relative": "monarchliving1.ogg",
+      "sha256": "eb3fabc23656bf505c869fe99ea637f8d52756058fb2594494c4f6f2130c2ed8"
+    },
+    {
+      "relative": "monarchliving2.ogg",
+      "sha256": "d886e88680e9046b882b78920239ad8bb6e4d7830f274186e785b3b1c3ddf68e"
+    },
+    {
+      "relative": "monarchliving3.ogg",
+      "sha256": "265f0f52519c9997b2c3b77d4ed449c904aede81489d30ac9ebf40ef00a02816"
+    },
+    {
+      "relative": "monster_step.ogg",
+      "sha256": "1eaf8b083bef78e848029a9b8f7c6bc19d1bc9f131ad78b011e8cfd3dcbfdd8b"
+    },
+    {
+      "relative": "music/adaptation.ogg",
+      "sha256": "af55640f304c0fcd45e9eaa74f3ba26551f4eee75756b63f32ecfcf7c9498e63"
+    },
+    {
+      "relative": "music/anguish.ogg",
+      "sha256": "e023279f33b3a954d3e814e7b2ae0a05a6544c3147f5e80d0a4a30a2d9c48319"
+    },
+    {
+      "relative": "music/chants_of_the_beckons.ogg",
+      "sha256": "2af7cce4becd82ff7944ab15d48c43f9b10a0036e123727652b583624be6fada"
+    },
+    {
+      "relative": "music/coagulation.ogg",
+      "sha256": "7d4b79fc112f87c60d8c3e567b933e77baa758f1c48cfc6f011963bfecfe0829"
+    },
+    {
+      "relative": "music/dominion.ogg",
+      "sha256": "25defc0356c35d6059f424e6cb0cf09199a8caadbc3ab391508acc530251d3c2"
+    },
+    {
+      "relative": "music/fathomless.ogg",
+      "sha256": "e3c8ca027e46f05d839b9535f0b6722f818356f394973eca6512894f6f61c4d8"
+    },
+    {
+      "relative": "music/from_below.ogg",
+      "sha256": "038f0100cd37c59d81a194d85ed012a87bcd959dae30cd46b9e309b656d6b7b8"
+    },
+    {
+      "relative": "music/grounded.ogg",
+      "sha256": "14804f690d1a52bbabd7492ed92792c8b1cc1d2edc2f49c3c9d05347233e3a6f"
+    },
+    {
+      "relative": "music/hivemind.ogg",
+      "sha256": "02bbe614e2ba5ae8e66fd84b8366103ba20275d9e10d2ca8bcfe6ce576fd8fb9"
+    },
+    {
+      "relative": "music/insanity.ogg",
+      "sha256": "17ce28847a3424eda9f04476b716d52a86d7918ff457c12b00b12e57e0e9858c"
+    },
+    {
+      "relative": "music/irreversible.ogg",
+      "sha256": "34eeaca8b8a7ad9819c4ffa8cba89d94e4f344239d06bdffeb887cdb07afa536"
+    },
+    {
+      "relative": "music/parasite.ogg",
+      "sha256": "e5455600c703f1405ef51442786db3fbd1565fedf985d1a767fe584de0fbe29b"
+    },
+    {
+      "relative": "music/prey.ogg",
+      "sha256": "b3b5a62e2ac73d6a383b9f9bbbadfe5de80be41a6c60e9f4667751c1b7d44e5f"
+    },
+    {
+      "relative": "music/relentless.ogg",
+      "sha256": "77d843ebd4738744b75ca0d73c8cf8233689aaa2b2194973ff582817858e4e00"
+    },
+    {
+      "relative": "music/restless.ogg",
+      "sha256": "0dfdf279f3fe210564245f86acbe69c0c53f20b14720d1424fbd06b9d92de28c"
+    },
+    {
+      "relative": "music/serenity.ogg",
+      "sha256": "50c4367ce6d2109c3448ca41b2efa46e1252bd1e6500d6029be10b953980fcc5"
+    },
+    {
+      "relative": "music/sorrow.ogg",
+      "sha256": "b80df1ee62ef1add1e3d78b945789ae38280c31984f98acf69631ca2147faaca"
+    },
+    {
+      "relative": "music/the_call.ogg",
+      "sha256": "32f3e480705ecc940a8f709fe9253ab0a8247e9f80fae80bfc5286c98309938f"
+    },
+    {
+      "relative": "music/tyingveins.ogg",
+      "sha256": "c818f858fe3e1ba519df7cf391b590b64b29ebd8c6746247275ae658e05399d2"
+    },
+    {
+      "relative": "music/unsteady.ogg",
+      "sha256": "12ed8b109512797e742a0b465011de0c227afb14baa3c1b35be79015f3603836"
+    },
+    {
+      "relative": "nogla_death.ogg",
+      "sha256": "a2799d9639936fad91f1519a4edb5d8819d783c40ee0ce8f8215c0c04632d215"
+    },
+    {
+      "relative": "nogla_growl.ogg",
+      "sha256": "5ffb8629ce687bf46fe00af43e1b6517c2ed26291b2f5c9d14126fa1edf2fa54"
+    },
+    {
+      "relative": "nogla_hurt.ogg",
+      "sha256": "e00bb5c40b3d7fc7abb77beb9ef5c73883dcc3a48516bc1a2c615808796eec44"
+    },
+    {
+      "relative": "oronco_death.ogg",
+      "sha256": "1c986879b9a1b9e19ed63bf58b7b293c276a2bfea8ae092596d66b8b58a768e1"
+    },
+    {
+      "relative": "oronco_growl.ogg",
+      "sha256": "8d4177d7eaac048f881b147da5fd61ed8ecb1a7b0aa88297f2f44b9ba913e22d"
+    },
+    {
+      "relative": "oronco_hurt.ogg",
+      "sha256": "c78b3b0994dcd2a01c68ffc74fbad2379f0f34cedaf045c7a3fb0fe991baf4c7"
+    },
+    {
+      "relative": "oronco_shooting.ogg",
+      "sha256": "22a3829f5fbccbf93fca06d55df17d5b7534d3f692f1453226bb1d5059a01b22"
+    },
+    {
+      "relative": "oronco_shootingreal.ogg",
+      "sha256": "2857f51ef71b912e448d1c9d22e9bc1872119b71f78b913a7f15dfea9b43640e"
+    },
+    {
+      "relative": "prim_burrower_digging_1.ogg",
+      "sha256": "1ee4dc1db2dd41eed15823159c2a50ee0018cd23af5b26653839dc7cfc17b899"
+    },
+    {
+      "relative": "prim_burrower_digging_2.ogg",
+      "sha256": "410300710e7e4b2357a3943f0a0b78b842593e530187738155b7eef996f88f2d"
+    },
+    {
+      "relative": "prim_burrower_digging_3.ogg",
+      "sha256": "52a211b5290fb4001b1df39701a9b4e1f8eaebdd94fd0a861ddb7982e003dba5"
+    },
+    {
+      "relative": "prim_dredge_death.ogg",
+      "sha256": "8ec99a3ec896870a8384b724ebd5857075271748f0878576c2a692a566e3bcad"
+    },
+    {
+      "relative": "prim_dredge_hurt_1.ogg",
+      "sha256": "a3e1d0ac8d7b7e9d9f7272a931943fb842144a27daa6176ba0c555a933ad5daa"
+    },
+    {
+      "relative": "prim_dredge_hurt_2.ogg",
+      "sha256": "33a956207fb5ee7ce41ade094de732209f60c21504df1517c82d748784ce745a"
+    },
+    {
+      "relative": "prim_dredge_hurt_3.ogg",
+      "sha256": "0acf781b3585598ced341a1f345590aa849c765fbd477bd5738263337be6a23a"
+    },
+    {
+      "relative": "prim_dredge_hurt_4.ogg",
+      "sha256": "03e6af9faa6216b20c5d87e053a88dc1cde9dbdaa64c10d4496fdb889dbd9b88"
+    },
+    {
+      "relative": "prim_dredge_living_1.ogg",
+      "sha256": "1f25bfdf2e560b67de2c291bf1815df8472851a331f7605464a014fae7342588"
+    },
+    {
+      "relative": "prim_dredge_living_2.ogg",
+      "sha256": "ef663fb88d2bc7cad5d5935ca8df756137d9987c365dc8c32a253bdaa85ce8b8"
+    },
+    {
+      "relative": "prim_dredge_living_3.ogg",
+      "sha256": "e7dd0cea3f5bdd977ac45b8fac1994576130d07a5e95954bc4ed807260ed6636"
+    },
+    {
+      "relative": "prim_dredge_living_4.ogg",
+      "sha256": "ea11f8f13c4ec22f1bd53a290aedbfd9363b2d8ec8f7edb80a8eec01756d98b8"
+    },
+    {
+      "relative": "prim_viscera_death.ogg",
+      "sha256": "3809fd9c07038d2fb73c8564d67e67a119654b777eec7016455d9dbf15e74fdc"
+    },
+    {
+      "relative": "prim_viscera_hurt_1.ogg",
+      "sha256": "6a3ffa9988c9c0d9a2f832ea973e0867e50ffa86eabca8df5df8f8fcb55cb853"
+    },
+    {
+      "relative": "prim_viscera_hurt_2.ogg",
+      "sha256": "58fc16b38afa268737434fd1001d1292917d1b6b7f3c7001b18d84ceb99d272e"
+    },
+    {
+      "relative": "prim_viscera_hurt_3.ogg",
+      "sha256": "9ee866c74599982907ddce19490bcf5ea40d2387dd5ae2b8ae376748cf4f1b88"
+    },
+    {
+      "relative": "prim_viscera_living_1.ogg",
+      "sha256": "0d25c00ac63a8a266916105370f6c910549dd786446cbd5cd861cc43b922ecd0"
+    },
+    {
+      "relative": "prim_viscera_living_2.ogg",
+      "sha256": "4699137442190e50d644e4369bbcc84a7a966469db8dc335e65753b2ca34c526"
+    },
+    {
+      "relative": "prim_viscera_living_3.ogg",
+      "sha256": "d1e937018f602df02b84f3292da28b3848d8a9755b111ac2f7b0af2eb9276d32"
+    },
+    {
+      "relative": "rathol_explotion.ogg",
+      "sha256": "f6d602499b93672cc7420fe555a03124c79057198338c66156d3004d22d6fdb2"
+    },
+    {
+      "relative": "relay_paper_output.ogg",
+      "sha256": "1823fc257e1999b75520f690280687858e3b528195dd42291a731bf8f5bd6cdb"
+    },
+    {
+      "relative": "relay_signal_activation.ogg",
+      "sha256": "15938b58c1a107b2118b842453a5233e1bb626c0c7c4934de1630df49779dddd"
+    },
+    {
+      "relative": "sentrydeath.ogg",
+      "sha256": "d371621ca00e37137cbb631f9fc4cdc3ef25098d2fb2e3178e36a4d75bd77618"
+    },
+    {
+      "relative": "sentryhurt1.ogg",
+      "sha256": "971c54f9a41135425767d2e03ed97dd4aba572cdcf97dcf1d6f2dda34c6d28b1"
+    },
+    {
+      "relative": "sentryhurt2.ogg",
+      "sha256": "cdaf5c1a599adeaed98b2e9ff86ea4b53b6cfc9b25e73b8a33ff2d40cb628f71"
+    },
+    {
+      "relative": "sentryhurt3.ogg",
+      "sha256": "ba6003c729ac2da119a5803f53f8da25add689e83ba93c18aec141933c1f2c29"
+    },
+    {
+      "relative": "sentryliving1.ogg",
+      "sha256": "56d362b2ad39505e47b93560379c8ffc045a52309a1cd6d8e1673099f0425de7"
+    },
+    {
+      "relative": "sentryliving2.ogg",
+      "sha256": "1cbe21b5bc3371a2115f5e3eadb90dafbc9442d9c2f742a4046f674224ea358a"
+    },
+    {
+      "relative": "sentryliving3.ogg",
+      "sha256": "070be52ded1b1a803726c890b0fb31cdb4d3e6c7bc4d090ffa9b8a03378eafb3"
+    },
+    {
+      "relative": "sentryshoot.ogg",
+      "sha256": "f163670f6109607d20a8d6356b12072148b460149228983c193a6ec884cb99fd"
+    },
+    {
+      "relative": "shyco_death.ogg",
+      "sha256": "8b37c36c8d03a71023111b5528ed1e0f59fdd463ea2fc5581bf565d4dc6f580f"
+    },
+    {
+      "relative": "shyco_growl.ogg",
+      "sha256": "3098ad4c80f7afce6f16a7811ac55ab19ea3224de8e7ca5a546a172da6303a94"
+    },
+    {
+      "relative": "shyco_hurt.ogg",
+      "sha256": "a1677ab7619f3d1a6339bd32d4fe7e256dc76c03f6da2e8ac44608a448f253ac"
+    },
+    {
+      "relative": "shyco_special.ogg",
+      "sha256": "3c93ace8d7358df255fbe4892d30f276fc9985dec288fc8ee836d145824c2e0a"
+    },
+    {
+      "relative": "terla_death.ogg",
+      "sha256": "f124795ae3eb85beedc71b94a4030c2d609f1ac7901e4325a920912f630a8033"
+    },
+    {
+      "relative": "terla_growl.ogg",
+      "sha256": "46a6dd2fe26e650822ce00569c631a5623321f04041f163c28d3cb20dbe74e1b"
+    },
+    {
+      "relative": "terla_hurt.ogg",
+      "sha256": "ae801e4e30edb0eaf1507c8e6eaac42bff31c74069aface4387e857a9234a512"
+    },
+    {
+      "relative": "thrall_death.ogg",
+      "sha256": "48b2269b7b8ce43eac30ac1400742743324b7e2b7bcb609895aaaf4882107830"
+    },
+    {
+      "relative": "thrall_hurt_1.ogg",
+      "sha256": "3a9f22293653e76345629c07434102dc09666351425c7593faab108bd1e589dd"
+    },
+    {
+      "relative": "thrall_hurt_2.ogg",
+      "sha256": "97f4fc86f3ddec51884b4c8c1daeb76b9f9703b4bd8a442549ad6b85916bfcac"
+    },
+    {
+      "relative": "thrall_hurt_3.ogg",
+      "sha256": "f677b06b620a1a10e0ba9b4bea8011bd12b56f5548c2b9c9a8181c5bac0ee9de"
+    },
+    {
+      "relative": "thrall_living_1.ogg",
+      "sha256": "a621700adda28b6963a86703c0995376be74e7f633eae7c253b879c90a261edc"
+    },
+    {
+      "relative": "thrall_living_2.ogg",
+      "sha256": "75a6d95866ab8c1a54882b1239f2e8ffda300acf81467653fac099fab6d725d4"
+    },
+    {
+      "relative": "thrall_living_3.ogg",
+      "sha256": "1aa838aa93144619ac5c00c5271cfc2a008969d0ca694731e66d6e2ef98ef987"
+    },
+    {
+      "relative": "thrall_living_4.ogg",
+      "sha256": "80b6265a84e7ae8923680a978108aaf71c9341902ddd5f57dee77dac38508560"
+    },
+    {
+      "relative": "thrall_living_5.ogg",
+      "sha256": "417483f6ed0e87b6019ad2b2d3cd6a4f2f2184bf6ac94f88860cda70e3b0aff0"
+    },
+    {
+      "relative": "unvo_death.ogg",
+      "sha256": "be9cad179d8d57b8d162f552dddf5015636359da3cf3c45f35656f9fa8108ecc"
+    },
+    {
+      "relative": "unvo_growl.ogg",
+      "sha256": "3a51b4bea88c0e25c01110adc92b77b91a19cc3ed34d559f7aeb5711abad6c86"
+    },
+    {
+      "relative": "unvo_hurt.ogg",
+      "sha256": "2fd5d0b56f36a61f92322dff75cd19e5dc09a57e045f291206efb1c24636da5f"
+    },
+    {
+      "relative": "unvo_shooting.ogg",
+      "sha256": "dee6d43ab33f3cc4812c5151f4569602532863c4a3ef8f19c15f6019cee66a85"
+    },
+    {
+      "relative": "vermindeath.ogg",
+      "sha256": "a7060b2e4c955114bab30f4d5392a8a6f5cff96f845859c68fd7020b5a0cb05e"
+    },
+    {
+      "relative": "verminhurt1.ogg",
+      "sha256": "f9b6a491ba5fae9d8fd33328c2c761c1f4bdf81d781bc104be317cc8f6cedcb9"
+    },
+    {
+      "relative": "verminhurt2.ogg",
+      "sha256": "5a3e057eb098979977327772f6067e4f98616d2c335a0866fca2d127e80f07a7"
+    },
+    {
+      "relative": "verminliving1.ogg",
+      "sha256": "7727e770c9674f6f778541ee37d666033c9a5d9ebdd0d0202d75def596c83f05"
+    },
+    {
+      "relative": "verminliving2.ogg",
+      "sha256": "4f61c9601ea1139c171128951a405ec8e870d8ea2baad7ea53c87f08c8acf2ce"
+    },
+    {
+      "relative": "verminliving3.ogg",
+      "sha256": "a60ec195061b35ca6d87e579476d986cc4218010a2b90dcd50a80ce8099db52b"
+    },
+    {
+      "relative": "vigilantedeath.ogg",
+      "sha256": "efa0a3eb84d1e15344e5deaee16c768d6eaea46523486748523f5e171aaf40b8"
+    },
+    {
+      "relative": "vigilantehurt1.ogg",
+      "sha256": "034ca53198ac97fcc4576c5620c1ce020f4155032a7dbe6f1c513d7f5c7daffe"
+    },
+    {
+      "relative": "vigilantehurt2.ogg",
+      "sha256": "7f0dedd57bc94daccaabdc2dea5e8610e0f968832d602e8026f51804448d0787"
+    },
+    {
+      "relative": "vigilantehurt3.ogg",
+      "sha256": "8ebaa572e0d9a13a37a628b25ae7c05802351b73c7d1e574af63ee4df0112e53"
+    },
+    {
+      "relative": "vigilantehurt4.ogg",
+      "sha256": "1c1e8d0badddaabeeebd7e3ed649c4fb6805583b55bd1930da29ba04c1648e89"
+    },
+    {
+      "relative": "vigilanteliving1.ogg",
+      "sha256": "348ebb920495a69d0c69b89f6e3f5d38a6125ec9af075113d46dde1db5294329"
+    },
+    {
+      "relative": "vigilanteliving2.ogg",
+      "sha256": "75f76f1ffc89b0a6dc3f18cbe50d6c69694d6aa93219f99134698651370502fd"
+    },
+    {
+      "relative": "vigilanteliving3.ogg",
+      "sha256": "5ebef05afa5d9e4f0b969a3319eebdc8a316bef552d5cd1189c6cac9d40c1bc5"
+    },
+    {
+      "relative": "vigilanteliving4.ogg",
+      "sha256": "d2d6fd1be7b6862a13513914deb417f48ae94f7a611437713dfb3b93d0b0a6d3"
+    },
+    {
+      "relative": "wardendeath.ogg",
+      "sha256": "706bc2d97beded96d47f97c5cfacf64236e8acb8b61f10ee8d37726608546dbd"
+    },
+    {
+      "relative": "wardenhurt1.ogg",
+      "sha256": "6eb8a98493cd116e955bb4cb8e3e17fd967a8e9f432d946954210333ef7a048c"
+    },
+    {
+      "relative": "wardenhurt2.ogg",
+      "sha256": "bad14c2b4e8bc0732fdab5ab0ce0e478eddd6296b15dcf30cd0ea3a86e75a82c"
+    },
+    {
+      "relative": "wardenhurt3.ogg",
+      "sha256": "140ece7198fc861b06a7719953192f11cc96daf744886092ab7d1224587c451a"
+    },
+    {
+      "relative": "wardenliving1.ogg",
+      "sha256": "89032fe2920c2d880397fa5db08c334adbd4df84d6d2840fbf111a03cffa4689"
+    },
+    {
+      "relative": "wardenliving2.ogg",
+      "sha256": "5ef797a90b5536ebdceb36d09a9dd28f3cb1de6dab009c388b109eab2e9eba13"
+    },
+    {
+      "relative": "wardenliving3.ogg",
+      "sha256": "7f0ea6767f9dcf93ea994bfd8ddb92ccc9e393ea4f7bc3d5e28789e5d7fa1d52"
+    },
+    {
+      "relative": "zetmo_death.ogg",
+      "sha256": "43f3a183ff4a474340d048df81dcd86904704529cf4f9072b3e5ef4903a0e5d1"
+    },
+    {
+      "relative": "zetmo_growl.ogg",
+      "sha256": "884e4800659c052e4bbf438f2e58018125b7c03ee797b17852a980fad9a30c52"
+    },
+    {
+      "relative": "zetmo_hurt.ogg",
+      "sha256": "41626b4a20a155e0c60825a9bf2f38be1a07a0993cb78da95b43b4bbf26b98e7"
+    }
+  ],
+  "compatibility_aliases": [
+    {
+      "target": "adapted/tozoon/special",
+      "source": "mob/adapted/tozoon/special",
+      "sha256": "d3fce0fa5aa570f19f9ab38451598c11f50cb7aaa31aac0471eef424d5f86dfe"
+    },
+    {
+      "target": "prim_burrower_death",
+      "source": "prim_burrower_digging_3",
+      "sha256": "52a211b5290fb4001b1df39701a9b4e1f8eaebdd94fd0a861ddb7982e003dba5"
+    },
+    {
+      "target": "prim_burrower_hurt_1",
+      "source": "prim_burrower_digging_1",
+      "sha256": "1ee4dc1db2dd41eed15823159c2a50ee0018cd23af5b26653839dc7cfc17b899"
+    },
+    {
+      "target": "prim_burrower_hurt_2",
+      "source": "prim_burrower_digging_2",
+      "sha256": "410300710e7e4b2357a3943f0a0b78b842593e530187738155b7eef996f88f2d"
+    },
+    {
+      "target": "prim_burrower_hurt_3",
+      "source": "prim_burrower_digging_3",
+      "sha256": "52a211b5290fb4001b1df39701a9b4e1f8eaebdd94fd0a861ddb7982e003dba5"
+    },
+    {
+      "target": "prim_burrower_living_1",
+      "source": "prim_burrower_digging_1",
+      "sha256": "1ee4dc1db2dd41eed15823159c2a50ee0018cd23af5b26653839dc7cfc17b899"
+    },
+    {
+      "target": "prim_burrower_living_2",
+      "source": "prim_burrower_digging_2",
+      "sha256": "410300710e7e4b2357a3943f0a0b78b842593e530187738155b7eef996f88f2d"
+    },
+    {
+      "target": "prim_burrower_living_3",
+      "source": "prim_burrower_digging_3",
+      "sha256": "52a211b5290fb4001b1df39701a9b4e1f8eaebdd94fd0a861ddb7982e003dba5"
+    },
+    {
+      "target": "prim_tozoon_death",
+      "source": "mob/adapted/tozoon/death",
+      "sha256": "6303611c597e5b623ef4f88048a034d9b0a09c4891051f70c0f41510472acc83"
+    },
+    {
+      "target": "primitive/tozoon/hurt1",
+      "source": "mob/adapted/tozoon/hurt1",
+      "sha256": "cc51a79b11fbf3774a3618ee0da68df0844874bb04bca74ac91e67c0aaac9476"
+    },
+    {
+      "target": "primitive/tozoon/hurt2",
+      "source": "mob/adapted/tozoon/hurt2",
+      "sha256": "879a0499d7d0996a962880c3945a28447deef2ef8f0a6b60a7e049e5215c8511"
+    },
+    {
+      "target": "primitive/tozoon/hurt3",
+      "source": "mob/adapted/tozoon/hurt3",
+      "sha256": "d54352778afe6dd29ae12f4b6b29e435e427f3646a74874ef3c2acd319429c53"
+    },
+    {
+      "target": "primitive/tozoon/idle1",
+      "source": "mob/adapted/tozoon/idle1",
+      "sha256": "6c5eaf2ca68d7847e78927ca6df809ba2f36cb90b4dbe731dcbd994762469e79"
+    },
+    {
+      "target": "primitive/tozoon/idle2",
+      "source": "mob/adapted/tozoon/idle2",
+      "sha256": "cbedbc27775411dd3024cbdb03fe63820761ffd1410e0f6da3a24a3b9fc4118d"
+    },
+    {
+      "target": "primitive/tozoon/idle3",
+      "source": "mob/adapted/tozoon/idle3",
+      "sha256": "1d236f83a10172f0a14c69856c633bcd3e98c6bb21f78c3ae3fce429806d4884"
+    },
+    {
+      "target": "mob/crude/flesh/infected_melting",
+      "source": "mob/crude/moving_flesh/infected_melting",
+      "sha256": "9d2090be804f001faf9d70f36e0a2f7076b9c06b2428f5f881e21c94c5c214c9"
+    },
+    {
+      "target": "ada_burrower_death",
+      "source": "prim_burrower_digging_3",
+      "sha256": "52a211b5290fb4001b1df39701a9b4e1f8eaebdd94fd0a861ddb7982e003dba5"
+    },
+    {
+      "target": "ada_burrower_living_1",
+      "source": "prim_burrower_digging_1",
+      "sha256": "1ee4dc1db2dd41eed15823159c2a50ee0018cd23af5b26653839dc7cfc17b899"
+    },
+    {
+      "target": "ada_burrower_living_2",
+      "source": "prim_burrower_digging_2",
+      "sha256": "410300710e7e4b2357a3943f0a0b78b842593e530187738155b7eef996f88f2d"
+    },
+    {
+      "target": "ada_burrower_living_3",
+      "source": "prim_burrower_digging_3",
+      "sha256": "52a211b5290fb4001b1df39701a9b4e1f8eaebdd94fd0a861ddb7982e003dba5"
+    },
+    {
+      "target": "ada_burrower_living_4",
+      "source": "prim_burrower_digging_1",
+      "sha256": "1ee4dc1db2dd41eed15823159c2a50ee0018cd23af5b26653839dc7cfc17b899"
+    },
+    {
+      "target": "ada_burrower_hurt_1",
+      "source": "prim_burrower_digging_1",
+      "sha256": "1ee4dc1db2dd41eed15823159c2a50ee0018cd23af5b26653839dc7cfc17b899"
+    },
+    {
+      "target": "ada_burrower_hurt_2",
+      "source": "prim_burrower_digging_2",
+      "sha256": "410300710e7e4b2357a3943f0a0b78b842593e530187738155b7eef996f88f2d"
+    },
+    {
+      "target": "ada_burrower_hurt_3",
+      "source": "prim_burrower_digging_3",
+      "sha256": "52a211b5290fb4001b1df39701a9b4e1f8eaebdd94fd0a861ddb7982e003dba5"
+    },
+    {
+      "target": "worm_carrier_death",
+      "source": "carrierdeath",
+      "sha256": "716486e775b681b9c115bf78487a3359d60501a00451c963e00b5689931bf796"
+    },
+    {
+      "target": "worm_carrier_hurt_1",
+      "source": "carrierhurt1",
+      "sha256": "27b0b7932b8521764e036b217628fa3f0a263e8e6d59f6eb3b5303abd2f1d6f7"
+    },
+    {
+      "target": "worm_carrier_hurt_2",
+      "source": "carrierhurt2",
+      "sha256": "7ca3e61e4538df3f605859e3d1b3f27597c62b320c1342c2c32299996ca266cf"
+    },
+    {
+      "target": "worm_carrier_hurt_3",
+      "source": "carrierhurt2",
+      "sha256": "7ca3e61e4538df3f605859e3d1b3f27597c62b320c1342c2c32299996ca266cf"
+    },
+    {
+      "target": "worm_carrier_living_1",
+      "source": "carrierliving1",
+      "sha256": "71c1974218f02714d2cbe3323582c80424a5052866f9dcbafb1e01b2c714d919"
+    },
+    {
+      "target": "worm_carrier_living_2",
+      "source": "carrierliving2",
+      "sha256": "0b62b6683d5e5c13e3d7a1cf0e3006ac9c627eee0fd918ffad197a9110c77acb"
+    },
+    {
+      "target": "worm_carrier_living_3",
+      "source": "carrierliving2",
+      "sha256": "0b62b6683d5e5c13e3d7a1cf0e3006ac9c627eee0fd918ffad197a9110c77acb"
+    },
+    {
+      "target": "mob/derived/draconite/death",
+      "source": "mob/derived/draconite/idle5",
+      "sha256": "17d9048bfa0b9e99ad337be9f65641bbe6289446881245535585dfb20aaf9edb"
+    },
+    {
+      "target": "ancient",
+      "source": "misc/ancient",
+      "sha256": "dd7f5add57940878238c8440efdd3872fc32a6358da1e4bf90ce9994f241270a"
+    },
+    {
+      "target": "misc/biome_heart",
+      "source": "biome_heart",
+      "sha256": "8c2095b7a7d38268c974c36b06a0c0383e4ae39ff21c834ea2aea9ee53f9b769"
+    },
+    {
+      "target": "music/tying_veins",
+      "source": "music/tyingveins",
+      "sha256": "c818f858fe3e1ba519df7cf391b590b64b29ebd8c6746247275ae658e05399d2"
+    },
+    {
+      "target": "music/well_meet_again",
+      "source": "music/parasite",
+      "sha256": "e5455600c703f1405ef51442786db3fbd1565fedf985d1a767fe584de0fbe29b"
+    },
+    {
+      "target": "misc/vector_removed",
+      "source": "misc/vector_outbreak",
+      "sha256": "f648dfcaeafa1a5996ebef8541a0f9ac46bb8eac58595ec15cc63ae15c3851a4"
+    }
+  ],
+  "imported_subtitle_keys": {
+    "en_us": 0,
+    "zh_cn": 0
+  }
+}

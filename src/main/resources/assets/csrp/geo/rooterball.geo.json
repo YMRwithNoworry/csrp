@@ -16,7 +16,7 @@
       },
       "bones": [
         {
-          "name": "root",
+          "name": "srp_coordinate_root",
           "pivot": [
             0,
             24,
@@ -380,7 +380,7 @@
         },
         {
           "name": "mainbody",
-          "parent": "root",
+          "parent": "srp_coordinate_root",
           "pivot": [
             0,
             2,
@@ -465,7 +465,7 @@
         },
         {
           "name": "jd_2",
-          "parent": "root",
+          "parent": "srp_coordinate_root",
           "pivot": [
             -9,
             11,
@@ -735,7 +735,7 @@
         },
         {
           "name": "joint",
-          "parent": "root",
+          "parent": "srp_coordinate_root",
           "pivot": [
             0,
             24,
@@ -1525,7 +1525,7 @@
         },
         {
           "name": "jd",
-          "parent": "root",
+          "parent": "srp_coordinate_root",
           "pivot": [
             0,
             24,
@@ -2125,7 +2125,7 @@
         },
         {
           "name": "jd_3",
-          "parent": "root",
+          "parent": "srp_coordinate_root",
           "pivot": [
             -6,
             9,
@@ -2480,7 +2480,7 @@
         },
         {
           "name": "jd_1",
-          "parent": "root",
+          "parent": "srp_coordinate_root",
           "pivot": [
             8,
             7,
