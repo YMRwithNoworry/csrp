@@ -1,0 +1,200 @@
+package alku.csrp.event;
+
+import alku.csrp.Config;
+import alku.csrp.Csrp;
+import alku.csrp.entity.Parasite;
+import alku.csrp.registry.ModMobEffects;
+import alku.csrp.registry.ModItems;
+import alku.csrp.overlast.network.EvolutionHudPayload;
+import alku.csrp.world.EvolutionSystem;
+import alku.csrp.world.SrpWorldData;
+import java.util.List;
+import java.util.Map;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.level.BlockDropsEvent;
+import net.neoforged.neoforge.event.tick.EntityTickEvent;
+import net.neoforged.neoforge.event.tick.LevelTickEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
+
+@EventBusSubscriber(modid = Csrp.MODID)
+public final class OverlastEvents {
+    public static final ResourceKey<Enchantment> PARASITE_KILLER = ResourceKey.create(
+            Registries.ENCHANTMENT, ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "parasite_killer"));
+    private static final Map<String, EntityType<?>> CURED_FORMS = Map.ofEntries(
+            Map.entry("sim_bigspider", EntityType.SPIDER),
+            Map.entry("sim_bear", EntityType.POLAR_BEAR),
+            Map.entry("sim_cow", EntityType.COW),
+            Map.entry("sim_enderman", EntityType.ENDERMAN),
+            Map.entry("sim_horse", EntityType.HORSE),
+            Map.entry("sim_human", EntityType.ZOMBIE),
+            Map.entry("sim_adventurer", EntityType.ZOMBIE),
+            Map.entry("sim_pig", EntityType.PIG),
+            Map.entry("sim_sheep", EntityType.SHEEP),
+            Map.entry("sim_villager", EntityType.VILLAGER),
+            Map.entry("sim_wolf", EntityType.WOLF));
+    private static final List<Holder<MobEffect>> PURIFIED_EFFECTS = List.of(
+            ModMobEffects.COTH, ModMobEffects.FEAR, ModMobEffects.BLEED,
+            ModMobEffects.CORROSIVE, ModMobEffects.VIRAL, ModMobEffects.REPEL);
+
+    private OverlastEvents() {
+    }
+
+    @SubscribeEvent
+    public static void tickNaturalEvolution(LevelTickEvent.Post event) {
+        if (!(event.getLevel() instanceof ServerLevel level)) {
+            return;
+        }
+        if (level.getGameTime() % 20L == 0L) {
+            level.players().forEach(OverlastEvents::syncHud);
+        }
+        if (level.getGameTime() % 1_200L != 0L) return;
+        int phase = SrpWorldData.get(level).evolutionPhase();
+        if (phase < 3 || phase > 7 || Config.overlastNaturalEvolutionScale() <= 0.0D) {
+            return;
+        }
+        int span = EvolutionSystem.thresholdForPhase(phase + 1) - EvolutionSystem.thresholdForPhase(phase);
+        int points = (int) Math.floor((span / 4_000.0D) * Config.overlastNaturalEvolutionScale());
+        if (points > 0) {
+            EvolutionSystem.addPoints(level, points, EvolutionSystem.PointSource.PASSIVE);
+        }
+    }
+
+    @SubscribeEvent
+    public static void tickEffects(EntityTickEvent.Post event) {
+        if (!(event.getEntity() instanceof LivingEntity living)
+                || !(living.level() instanceof ServerLevel level) || living.tickCount % 20 != 0) {
+            return;
+        }
+        MobEffectInstance purify = living.getEffect(ModMobEffects.PARASITES_PURIFY);
+        if (purify != null) {
+            PURIFIED_EFFECTS.forEach(living::removeEffect);
+            if (living instanceof Parasite && purify.getDuration() <= 40) {
+                restoreHost(level, living);
+                return;
+            }
+        }
+        if (living instanceof Player) {
+            applyInfection(living);
+        }
+    }
+
+    private static void applyInfection(LivingEntity living) {
+        MobEffectInstance infection = living.getEffect(ModMobEffects.PARASITES_INFECT);
+        if (infection == null) {
+            return;
+        }
+        int strength = Math.min(1, infection.getAmplifier());
+        if (!living.hasEffect(ModMobEffects.PARASITES_PURIFY)) {
+            living.addEffect(new MobEffectInstance(ModMobEffects.COTH, 60, strength == 0 ? 1 : 3, false, false));
+        }
+        living.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 60, strength == 0 ? 2 : 3, false, false));
+        living.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 60, 2, false, false));
+        living.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 60, strength == 0 ? 1 : 2, false, false));
+        living.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 60, 0, false, false));
+    }
+
+    private static void restoreHost(ServerLevel level, LivingEntity parasite) {
+        String path = BuiltInRegistries.ENTITY_TYPE.getKey(parasite.getType()).getPath();
+        EntityType<?> restoredType = CURED_FORMS.get(path);
+        if (restoredType == null) {
+            return;
+        }
+        Entity restored = restoredType.create(level);
+        if (restored != null) {
+            restored.moveTo(parasite.getX(), parasite.getY(), parasite.getZ(), parasite.getYRot(), parasite.getXRot());
+            level.addFreshEntity(restored);
+            parasite.discard();
+            level.levelEvent(2001, parasite.blockPosition(), 0);
+        }
+    }
+
+    @SubscribeEvent
+    public static void fortunateOreDrops(BlockDropsEvent event) {
+        if (!(event.getBreaker() instanceof Player player) || !player.hasEffect(ModMobEffects.FORTUNATE)
+                || !event.getState().is(Tags.Blocks.ORES) || event.getDrops().isEmpty()) {
+            return;
+        }
+        ItemEntity first = event.getDrops().getFirst();
+        if (first.getItem().is(event.getState().getBlock().asItem())) {
+            return;
+        }
+        ItemStack bonus = first.getItem().copyWithCount(1);
+        event.getDrops().add(new ItemEntity(event.getLevel(), first.getX(), first.getY(), first.getZ(), bonus));
+    }
+
+    @SubscribeEvent
+    public static void parasiteKillerDamage(LivingIncomingDamageEvent event) {
+        if (!(event.getEntity() instanceof Parasite) || !(event.getSource().getEntity() instanceof LivingEntity attacker)
+                || !(attacker.level() instanceof ServerLevel level)) {
+            return;
+        }
+        Holder<Enchantment> enchantment = level.registryAccess().registryOrThrow(Registries.ENCHANTMENT)
+                .getHolder(PARASITE_KILLER).orElse(null);
+        if (enchantment == null) {
+            return;
+        }
+        int enchantmentLevel = EnchantmentHelper.getItemEnchantmentLevel(enchantment, attacker.getMainHandItem());
+        if (enchantmentLevel <= 0 || level.random.nextFloat() > 0.3F + 0.1F * enchantmentLevel) {
+            return;
+        }
+        event.setAmount(event.getAmount() * 1.2F + 1.25F + 0.75F * enchantmentLevel);
+        List<MobEffectInstance> effects = List.copyOf(event.getEntity().getActiveEffects());
+        if (!effects.isEmpty()) {
+            event.getEntity().removeEffect(effects.get(level.random.nextInt(effects.size())).getEffect());
+        }
+    }
+
+    @SubscribeEvent
+    public static void loginMessage(PlayerEvent.PlayerLoggedInEvent event) {
+        if (!(event.getEntity() instanceof ServerPlayer player)) {
+            return;
+        }
+        SrpWorldData data = SrpWorldData.get(player.serverLevel());
+        int phase = data.evolutionPhase();
+        int minutePoints = 0;
+        if (phase >= 3 && phase <= 7) {
+            int span = EvolutionSystem.thresholdForPhase(phase + 1) - EvolutionSystem.thresholdForPhase(phase);
+            minutePoints = (int) Math.floor((span / 4_000.0D) * Config.overlastNaturalEvolutionScale());
+        }
+        player.sendSystemMessage(Component.translatable("message.csrp.overlast.login", phase, minutePoints));
+        if (phase >= 8) {
+            player.sendSystemMessage(Component.translatable("message.csrp.overlast.phase_eight"));
+        }
+        syncHud(player);
+    }
+
+    private static void syncHud(ServerPlayer player) {
+        SrpWorldData data = SrpWorldData.get(player.serverLevel());
+        int phase = data.evolutionPhase();
+        int current = EvolutionSystem.thresholdForPhase(phase);
+        int next = phase >= 10 ? EvolutionSystem.thresholdForPhase(10)
+                : EvolutionSystem.thresholdForPhase(phase + 1);
+        boolean holdingClock = player.getMainHandItem().is(ModItems.EVCLOCK)
+                || player.getOffhandItem().is(ModItems.EVCLOCK);
+        PacketDistributor.sendToPlayer(player, new EvolutionHudPayload(phase, data.evolutionPoints(), current, next,
+                !Config.overlastHudRequiresClock() || holdingClock));
+    }
+}

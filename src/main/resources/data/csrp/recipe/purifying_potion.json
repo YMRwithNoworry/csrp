@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    { "item": "csrp:drinking_potion" }, { "item": "csrp:lurecomponent2" },
+    { "item": "csrp:ada_manducater_drop" }, { "item": "csrp:biomeheart" }
+  ],
+  "result": { "count": 1, "id": "csrp:purifying_potion" }
+}

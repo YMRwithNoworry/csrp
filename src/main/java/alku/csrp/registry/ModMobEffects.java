@@ -24,10 +24,12 @@ import alku.csrp.effect.IndeafMobEffect;
 import alku.csrp.effect.FosterMobEffect;
 import alku.csrp.effect.SpottedMobEffect;
 import alku.csrp.effect.PreyMobEffect;
+import alku.csrp.effect.OverlastMobEffect;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectCategory;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -134,6 +136,12 @@ public final class ModMobEffects {
             EFFECTS.register("effectneg", EffectNegMobEffect::new);
     public static final DeferredHolder<MobEffect, MobEffect> THE_SIGN =
             EFFECTS.register("the_sign", () -> new MarkerMobEffect(false, 8970751));
+    public static final DeferredHolder<MobEffect, MobEffect> PARASITES_PURIFY =
+            EFFECTS.register("parasites_purify", () -> new OverlastMobEffect(MobEffectCategory.BENEFICIAL, 0xFFFACD));
+    public static final DeferredHolder<MobEffect, MobEffect> PARASITES_INFECT =
+            EFFECTS.register("parasites_infect", () -> new OverlastMobEffect(MobEffectCategory.HARMFUL, 0xC71585));
+    public static final DeferredHolder<MobEffect, MobEffect> FORTUNATE =
+            EFFECTS.register("fortunate", () -> new OverlastMobEffect(MobEffectCategory.BENEFICIAL, 0xDC143C));
 
     private ModMobEffects() {
     }

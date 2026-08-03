@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    { "item": "csrp:biomeheart" },
+    { "item": "csrp:colonyheart" }
+  ],
+  "result": { "count": 1, "id": "csrp:infestation_purifier" }
+}

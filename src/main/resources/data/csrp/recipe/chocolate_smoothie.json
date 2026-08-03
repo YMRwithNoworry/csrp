@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "food",
+  "ingredients": [
+    { "item": "minecraft:ice" }, { "item": "minecraft:ice" }, { "item": "minecraft:ice" },
+    { "item": "minecraft:cocoa_beans" }, { "item": "minecraft:cocoa_beans" }, { "item": "minecraft:cocoa_beans" }
+  ],
+  "result": { "count": 1, "id": "csrp:chocolate_smoothie" }
+}

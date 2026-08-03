@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": ["HHH", "LML", "GEG"],
+  "key": {
+    "H": { "item": "csrp:biomeheart" },
+    "L": { "item": "csrp:lurecomponent2" },
+    "M": { "item": "csrp:ada_manducater_drop" },
+    "G": { "item": "minecraft:gunpowder" },
+    "E": { "item": "csrp:drinking_potion" }
+  },
+  "result": { "count": 6, "id": "csrp:injected_purifier" }
+}

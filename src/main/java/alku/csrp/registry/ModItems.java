@@ -4,6 +4,7 @@ import alku.csrp.Csrp;
 import alku.csrp.item.BoughItem;
 import alku.csrp.item.CompendiumItem;
 import alku.csrp.item.EvolutionClockItem;
+import alku.csrp.item.EvolutionDeviceItem;
 import alku.csrp.item.FalseAppleItem;
 import alku.csrp.item.FishlinItem;
 import alku.csrp.item.HijackedArmorItem;
@@ -14,6 +15,9 @@ import alku.csrp.item.LivingWeaponItem;
 import alku.csrp.item.QuenchItem;
 import alku.csrp.item.TexturedSpawnEggItem;
 import alku.csrp.item.TheSignCharmItem;
+import alku.csrp.item.InjectedPurifierItem;
+import alku.csrp.item.OverlastCanteenItem;
+import alku.csrp.item.OverlastFoodItem;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.BlockItem;
@@ -374,6 +378,32 @@ public final class ModItems {
     public static final DeferredItem<Item> MODULE_BASE = simple("module_base", new Item.Properties().stacksTo(1));
     public static final DeferredItem<Item> TISSUE_SPIKE = simple("tissue_spike", new Item.Properties().stacksTo(1));
     public static final DeferredItem<Item> ORGAN_SYNTH = simple("organ_synth", new Item.Properties().stacksTo(1));
+    public static final DeferredItem<BlockItem> INFESTATION_PURIFIER = ITEMS.registerSimpleBlockItem(
+            "infestation_purifier", ModBlocks.INFESTATION_PURIFIER);
+    public static final DeferredItem<OverlastFoodItem> CHOCOLATE_SMOOTHIE = overlastFood(
+            "chocolate_smoothie", OverlastFoodItem.Kind.CHOCOLATE_SMOOTHIE, 8);
+    public static final DeferredItem<OverlastFoodItem> POLLUTED_HERBAL_BOWL = overlastFood(
+            "polluted_herbal_bowl", OverlastFoodItem.Kind.POLLUTED_HERBAL_BOWL, 8);
+    public static final DeferredItem<OverlastFoodItem> HERBAL_BOWL = overlastFood(
+            "herbal_bowl", OverlastFoodItem.Kind.HERBAL_BOWL, 8);
+    public static final DeferredItem<OverlastFoodItem> MELON_ICE = overlastFood(
+            "melon_ice", OverlastFoodItem.Kind.MELON_ICE, 32);
+    public static final DeferredItem<OverlastFoodItem> ICE_SUCKER = overlastFood(
+            "ice_sucker", OverlastFoodItem.Kind.ICE_SUCKER, 32);
+    public static final DeferredItem<OverlastFoodItem> DUMPLING = overlastFood(
+            "dumpling", OverlastFoodItem.Kind.DUMPLING, 64);
+    public static final DeferredItem<OverlastCanteenItem> DRINKING_POTION = canteen(
+            "drinking_potion", OverlastCanteenItem.Dose.EMPTY);
+    public static final DeferredItem<OverlastCanteenItem> PURIFYING_POTION = canteen(
+            "purifying_potion", OverlastCanteenItem.Dose.PURIFY);
+    public static final DeferredItem<OverlastCanteenItem> INFECTING_POTION = canteen(
+            "infecting_potion", OverlastCanteenItem.Dose.INFECT);
+    public static final DeferredItem<OverlastCanteenItem> STRONG_INFECTING_POTION = canteen(
+            "strong_infecting_potion", OverlastCanteenItem.Dose.STRONG_INFECT);
+    public static final DeferredItem<InjectedPurifierItem> INJECTED_PURIFIER = ITEMS.registerItem(
+            "injected_purifier", InjectedPurifierItem::new, new Item.Properties().stacksTo(6));
+    public static final DeferredItem<EvolutionDeviceItem> EVOLUTION_DEVICE = ITEMS.registerItem(
+            "evolution_device", EvolutionDeviceItem::new, new Item.Properties().stacksTo(1));
 
     public static final DeferredItem<LivingWeaponItem> WEAPON_SCYTHE_SENTIENT = livingWeapon(
             "weapon_scythe_sentient", LivingWeaponItem.WeaponKind.SCYTHE, 34.0F, -3.3F, 5.0F, true, null);
@@ -454,6 +484,18 @@ public final class ModItems {
     }
     private static DeferredItem<Item> simple(String id, Item.Properties properties) {
         return ITEMS.registerSimpleItem(id, properties);
+    }
+
+    private static DeferredItem<OverlastFoodItem> overlastFood(String id, OverlastFoodItem.Kind kind, int stackSize) {
+        return ITEMS.registerItem(id, properties -> new OverlastFoodItem(kind, properties),
+                new Item.Properties().stacksTo(stackSize));
+    }
+
+    private static DeferredItem<OverlastCanteenItem> canteen(String id, OverlastCanteenItem.Dose dose) {
+        return ITEMS.registerItem(id, properties -> new OverlastCanteenItem(dose, properties),
+                dose == OverlastCanteenItem.Dose.EMPTY
+                        ? new Item.Properties().stacksTo(1)
+                        : new Item.Properties().durability(6));
     }
 
     private static DeferredItem<LivingWeaponItem> livingWeapon(String id, LivingWeaponItem.WeaponKind kind,
