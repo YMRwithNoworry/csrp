@@ -120,6 +120,14 @@ public final class ModSounds {
         };
     }
 
+    public static SoundEvent get(String name) {
+        DeferredHolder<SoundEvent, SoundEvent> sound = REGISTERED.get(name);
+        if (sound == null) {
+            throw new IllegalArgumentException("Unknown csrp sound event: " + name);
+        }
+        return sound.get();
+    }
+
     private static DeferredHolder<SoundEvent, SoundEvent> register(String name) {
         DeferredHolder<SoundEvent, SoundEvent> existing = REGISTERED.get(name);
         if (existing != null) {

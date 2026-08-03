@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
@@ -65,6 +66,21 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.1D)
                 .add(Attributes.MOVEMENT_SPEED, 0.30D)
                 .add(Attributes.FOLLOW_RANGE, 64.0D);
+    }
+
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return ParasiteSoundProfiles.ambient(this);
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource source) {
+        return ParasiteSoundProfiles.hurt(this);
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return ParasiteSoundProfiles.death(this);
     }
 
     @Override

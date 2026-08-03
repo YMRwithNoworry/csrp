@@ -4,6 +4,7 @@ import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -51,6 +52,21 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
                 .add(Attributes.MOVEMENT_SPEED, kind.movementSpeed)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.1D)
                 .add(Attributes.FOLLOW_RANGE, kind.followRange);
+    }
+
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return ParasiteSoundProfiles.ambient(this);
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource source) {
+        return ParasiteSoundProfiles.hurt(this);
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return ParasiteSoundProfiles.death(this);
     }
 
     @Override

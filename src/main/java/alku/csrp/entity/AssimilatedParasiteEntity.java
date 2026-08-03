@@ -11,6 +11,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
@@ -184,6 +185,21 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
             transformToFeral(level);
         }
         return super.killedEntity(level, victim);
+    }
+
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return ParasiteSoundProfiles.ambient(this);
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource source) {
+        return ParasiteSoundProfiles.hurt(this);
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return ParasiteSoundProfiles.death(this);
     }
 
     @Override

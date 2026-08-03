@@ -13,6 +13,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -69,6 +70,21 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
 
     protected PrimitiveParasiteEntity(EntityType<? extends PrimitiveParasiteEntity> type, Level level) {
         super(type, level);
+    }
+
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return ParasiteSoundProfiles.ambient(this);
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource source) {
+        return ParasiteSoundProfiles.hurt(this);
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return ParasiteSoundProfiles.death(this);
     }
 
     @Override

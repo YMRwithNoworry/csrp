@@ -11,6 +11,8 @@ const targetSoundsRoot = path.join(targetAssetsRoot, "sounds");
 const reportPath = path.join(projectRoot, "docs/original-sounds-import.json");
 const catalogPath = path.join(projectRoot,
   "src/main/java/alku/csrp/registry/SoundEventCatalog.java");
+const profilesPath = path.join(projectRoot,
+  "src/main/java/alku/csrp/entity/ParasiteSoundProfiles.java");
 const failures = [];
 
 const readJson = (file) => JSON.parse(fs.readFileSync(file, "utf8"));
@@ -108,6 +110,37 @@ if (catalogEntries.length !== Object.keys(targetDefinitions).length) {
   failures.push(`Java catalog has ${catalogEntries.length} entries, expected ${Object.keys(targetDefinitions).length}`);
 }
 
+const profileSource = fs.readFileSync(profilesPath, "utf8");
+const profileEntityIds = new Set();
+const profileRegistrations = [...profileSource.matchAll(/register\("([^"]+)",\s*([\s\S]*?)\);/g)];
+for (const [, prefix, rawEntityIds] of profileRegistrations) {
+  for (const suffix of ["growl", "hurt", "death"]) {
+    const event = `${prefix}.${suffix}`;
+    if (!Object.hasOwn(targetDefinitions, event)) {
+      failures.push(`entity sound profile references missing event: ${event}`);
+    }
+  }
+  for (const [, entityId] of rawEntityIds.matchAll(/"([^"]+)"/g)) {
+    if (profileEntityIds.has(entityId)) failures.push(`duplicate entity sound profile: ${entityId}`);
+    profileEntityIds.add(entityId);
+  }
+}
+for (const sourceFile of [
+  "PrimitiveParasiteEntity.java",
+  "AssimilatedParasiteEntity.java",
+  "AssimilatedVariantEntity.java",
+  "AssimilatedEndermanEntity.java",
+  "AssimilatedHeadEntity.java",
+  "FeralParasiteEntity.java",
+]) {
+  const source = fs.readFileSync(path.join(projectRoot, "src/main/java/alku/csrp/entity", sourceFile), "utf8");
+  for (const method of ["ambient", "hurt", "death"]) {
+    if (!source.includes(`ParasiteSoundProfiles.${method}(this)`)) {
+      failures.push(`${sourceFile}: missing ${method} sound-profile binding`);
+    }
+  }
+}
+
 if (failures.length) {
   console.error(`Original sound verification failed (${failures.length}):`);
   failures.slice(0, 100).forEach((failure) => console.error(`- ${failure}`));
@@ -117,4 +150,5 @@ if (failures.length) {
 
 console.log(`Verified ${sourceOggFiles.length} original OGG files by SHA-256.`);
 console.log(`Verified ${Object.keys(sourceDefinitions).length} original events and ${Object.keys(targetDefinitions).length} total registered events.`);
+console.log(`Verified ${profileEntityIds.size} entity sound profiles and shared entity bindings.`);
 console.log("All csrp sound file and event references resolve.");

@@ -3,6 +3,7 @@ package alku.csrp.entity;
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
@@ -84,6 +85,21 @@ public class FeralParasiteEntity extends Monster implements GeoEntity, Parasite 
     public boolean hurt(DamageSource source, float amount) {
         amount = ParasiteCombatEffects.damageAfterKillingResistance(source, amount, ModMobEffects.FERAL);
         return super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
+    }
+
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return ParasiteSoundProfiles.ambient(this);
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource source) {
+        return ParasiteSoundProfiles.hurt(this);
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return ParasiteSoundProfiles.death(this);
     }
 
     @Override

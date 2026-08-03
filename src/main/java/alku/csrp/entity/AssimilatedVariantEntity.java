@@ -5,6 +5,7 @@ import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModItems;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
@@ -67,6 +68,21 @@ public final class AssimilatedVariantEntity extends Monster implements GeoEntity
                 .add(Attributes.KNOCKBACK_RESISTANCE, kind.knockbackResistance)
                 .add(Attributes.MOVEMENT_SPEED, kind.movementSpeed)
                 .add(Attributes.FOLLOW_RANGE, kind.followRange);
+    }
+
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return ParasiteSoundProfiles.ambient(this);
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource source) {
+        return ParasiteSoundProfiles.hurt(this);
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return ParasiteSoundProfiles.death(this);
     }
 
     @Override
