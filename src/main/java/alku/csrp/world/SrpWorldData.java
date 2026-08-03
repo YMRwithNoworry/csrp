@@ -17,10 +17,12 @@ import net.minecraft.world.level.saveddata.SavedData;
 
 public final class SrpWorldData extends SavedData {
     private static final String DATA_NAME = "csrp_world_data";
+    private static final int DATA_VERSION = 1;
     private static final Factory<SrpWorldData> FACTORY = new Factory<>(SrpWorldData::new, SrpWorldData::load);
     private static final int[] DISLODGMENT_PHASE_COOLDOWN_MULTIPLIER = {1, 4, 3, 3, 4, 5, 6, 7, 8, 9, 10};
 
     private boolean initialized;
+    private int dataVersion = DATA_VERSION;
     private int evolutionPhase = -1;
     private int evolutionPoints = -300;
     private long cooldownEnd;
@@ -45,11 +47,13 @@ public final class SrpWorldData extends SavedData {
         if (!data.initialized) {
             data.initialize(level);
         }
+        data.migrateLegacyEvolutionCooldown(level);
         return data;
     }
 
     private static SrpWorldData load(CompoundTag tag, HolderLookup.Provider registries) {
         SrpWorldData data = new SrpWorldData();
+        data.dataVersion = tag.getInt("data_version");
         data.initialized = tag.contains("evolution_phase");
         if (tag.contains("evolution_phase")) {
             data.evolutionPhase = tag.getInt("evolution_phase");
@@ -82,6 +86,7 @@ public final class SrpWorldData extends SavedData {
     @Override
     public CompoundTag save(CompoundTag tag, HolderLookup.Provider registries) {
         tag.putBoolean("initialized", initialized);
+        tag.putInt("data_version", DATA_VERSION);
         tag.putInt("evolution_phase", evolutionPhase);
         tag.putInt("evolution_points", evolutionPoints);
         tag.putLong("cooldown_end", cooldownEnd);
@@ -111,7 +116,7 @@ public final class SrpWorldData extends SavedData {
         int previous = evolutionPhase;
         evolutionPhase = Math.max(-2, Math.min(10, phase));
         evolutionPoints = EvolutionSystem.thresholdForPhase(evolutionPhase);
-        cooldownEnd = level.getGameTime() + EvolutionSystem.cooldownSecondsForPhase(evolutionPhase) * 20L;
+        cooldownEnd = level.getGameTime() + EvolutionSystem.cooldownTicksForPhase(evolutionPhase);
         if (previous != evolutionPhase) {
             EvolutionSystem.announcePhaseChange(level, previous, evolutionPhase);
         }
@@ -138,7 +143,7 @@ public final class SrpWorldData extends SavedData {
         int previous = evolutionPhase;
         evolutionPhase = EvolutionSystem.phaseForPoints(evolutionPoints);
         if (previous != evolutionPhase) {
-            cooldownEnd = level.getGameTime() + EvolutionSystem.cooldownSecondsForPhase(evolutionPhase) * 20L;
+            cooldownEnd = level.getGameTime() + EvolutionSystem.cooldownTicksForPhase(evolutionPhase);
             EvolutionSystem.announcePhaseChange(level, previous, evolutionPhase);
         }
         setDirty();
@@ -525,6 +530,18 @@ public final class SrpWorldData extends SavedData {
         generationTicks = 0;
         passivePointRemainder = 0.0D;
         cooldownEnd = 0L;
+        setDirty();
+    }
+
+    private void migrateLegacyEvolutionCooldown(ServerLevel level) {
+        if (dataVersion >= DATA_VERSION) {
+            return;
+        }
+        long maximumPhaseCooldownEnd = level.getGameTime() + EvolutionSystem.cooldownTicksForPhase(evolutionPhase);
+        if (cooldownEnd > maximumPhaseCooldownEnd) {
+            cooldownEnd = maximumPhaseCooldownEnd;
+        }
+        dataVersion = DATA_VERSION;
         setDirty();
     }
 
