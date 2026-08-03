@@ -20,6 +20,7 @@ import alku.csrp.item.TheSignCharmItem;
 import alku.csrp.item.InjectedPurifierItem;
 import alku.csrp.item.OverlastCanteenItem;
 import alku.csrp.item.OverlastFoodItem;
+import alku.csrp.item.ParasiteLootBlockItem;
 import alku.csrp.item.AlveolarFluidItem;
 import alku.csrp.item.AlveoliItem;
 import net.minecraft.world.item.ArmorItem;
@@ -392,6 +393,12 @@ public final class ModItems {
             "solid_alveoli_block", ModBlocks.SOLID_ALVEOLI_BLOCK);
     public static final DeferredItem<BlockItem> HAIR_FOLLICLE_BLOCK = ITEMS.registerSimpleBlockItem(
             "hair_follicle_block", ModBlocks.HAIR_FOLLICLE_BLOCK);
+    public static final DeferredItem<ParasiteLootBlockItem> PARASITE_LOOT_COMMON = parasiteLootBlockItem(
+            "parasiteloot", ModBlocks.PARASITE_LOOT_COMMON);
+    public static final DeferredItem<ParasiteLootBlockItem> PARASITE_LOOT_UNCOMMON = parasiteLootBlockItem(
+            "parasiteloot_uncommon", ModBlocks.PARASITE_LOOT_UNCOMMON);
+    public static final DeferredItem<ParasiteLootBlockItem> PARASITE_LOOT_RARE = parasiteLootBlockItem(
+            "parasiteloot_rare", ModBlocks.PARASITE_LOOT_RARE);
     public static final DeferredItem<EvolutionLureItem> EVOLUTION_LURE_ONE = evolutionLure(
             "evolutionlure_one", EvolutionLureBlock.Tier.ONE);
     public static final DeferredItem<EvolutionLureItem> EVOLUTION_LURE_TWO = evolutionLure(
@@ -582,6 +589,12 @@ public final class ModItems {
                     DiggerItem.createAttributes(ModTiers.HIJACKED_IRON, -2.5F, -1.0F))), new Item.Properties());
 
     private static DeferredItem<Item> simple(String id) { return simple(id, new Item.Properties()); }
+    private static DeferredItem<ParasiteLootBlockItem> parasiteLootBlockItem(String id,
+            net.neoforged.neoforge.registries.DeferredBlock<? extends net.minecraft.world.level.block.Block> block) {
+        return ITEMS.registerItem(id, properties -> new ParasiteLootBlockItem(block.get(), properties),
+                new Item.Properties());
+    }
+
     private static <T extends net.minecraft.world.entity.Mob> DeferredItem<SpawnEggItem> spawnEgg(String id,
             net.neoforged.neoforge.registries.DeferredHolder<net.minecraft.world.entity.EntityType<?>,
                     net.minecraft.world.entity.EntityType<T>> type, int primary, int secondary) {

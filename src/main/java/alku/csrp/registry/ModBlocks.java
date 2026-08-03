@@ -13,6 +13,7 @@ import alku.csrp.block.InfestedResidueBlock;
 import alku.csrp.block.InfestationPurifierBlock;
 import alku.csrp.block.EvolutionLureBlock;
 import alku.csrp.block.ParasiteTrapBlock;
+import alku.csrp.block.ParasiteLootBlock;
 import alku.csrp.block.AlveoliBlock;
 import alku.csrp.block.AlveoliGrowthBlock;
 import alku.csrp.block.SickAlveoliBlock;
@@ -60,6 +61,12 @@ public final class ModBlocks {
     public static final DeferredBlock<Block> HIVESTONE_DEBRIS = BLOCKS.register("parasiterubble_stonedebris", () ->
             new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY)
                     .strength(2.3F, 6.0F).requiresCorrectToolForDrops().sound(SoundType.METAL)));
+    public static final DeferredBlock<ParasiteLootBlock> PARASITE_LOOT_COMMON = parasiteLoot(
+            "parasiteloot", ParasiteLootBlock.Tier.COMMON);
+    public static final DeferredBlock<ParasiteLootBlock> PARASITE_LOOT_UNCOMMON = parasiteLoot(
+            "parasiteloot_uncommon", ParasiteLootBlock.Tier.UNCOMMON);
+    public static final DeferredBlock<ParasiteLootBlock> PARASITE_LOOT_RARE = parasiteLoot(
+            "parasiteloot_rare", ParasiteLootBlock.Tier.RARE);
 
     public static final DeferredBlock<InfestedBlock> INFESTED_STAIN = infested("infestedstain", MapColor.COLOR_RED, SoundType.ROOTED_DIRT);
     public static final DeferredBlock<InfestedBlock> INFESTED_RUBBLE = infested("infestedrubble", MapColor.COLOR_RED, SoundType.STONE);
@@ -166,6 +173,11 @@ public final class ModBlocks {
     private static DeferredBlock<InfestedBlock> infested(String id, MapColor color, SoundType sound) {
         return BLOCKS.register(id, () -> new InfestedBlock(BlockBehaviour.Properties.of()
                 .mapColor(color).strength(1.5F, 6.0F).sound(sound)));
+    }
+
+    private static DeferredBlock<ParasiteLootBlock> parasiteLoot(String id, ParasiteLootBlock.Tier tier) {
+        return BLOCKS.register(id, () -> new ParasiteLootBlock(tier, BlockBehaviour.Properties.of()
+                .mapColor(MapColor.COLOR_RED).strength(2.0F, 8.0F).sound(SoundType.SCULK)));
     }
 
     private static DeferredBlock<InfestedBlock> infested(

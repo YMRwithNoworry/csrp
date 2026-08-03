@@ -18,10 +18,12 @@ import alku.csrp.client.renderer.PullingBallRenderer;
 import alku.csrp.client.renderer.ParasiteProjectileRenderer;
 import alku.csrp.client.renderer.ScaryOrbRenderer;
 import alku.csrp.client.renderer.VoidOrbRenderer;
+import alku.csrp.client.screen.ParasiteLootScreen;
 import alku.csrp.client.renderer.TetheredMarauderizedRenderer;
 import alku.csrp.client.renderer.ParasiticScentRenderer;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModItems;
+import alku.csrp.registry.ModMenus;
 import alku.csrp.registry.ModParticles;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.component.DataComponents;
@@ -33,6 +35,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 
 @EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public final class ClientModEvents {
@@ -303,6 +306,11 @@ public final class ClientModEvents {
     @SubscribeEvent
     public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
         event.registerSpriteSet(ModParticles.KIRIN_WARNING.get(), KirinWarningParticle.Provider::new);
+    }
+
+    @SubscribeEvent
+    public static void registerMenuScreens(RegisterMenuScreensEvent event) {
+        event.register(ModMenus.PARASITE_LOOT.get(), ParasiteLootScreen::new);
     }
 
     @SubscribeEvent

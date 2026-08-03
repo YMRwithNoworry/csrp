@@ -3,10 +3,12 @@ package alku.csrp;
 import alku.csrp.entity.BuglinEvolutionTarget;
 import alku.csrp.entity.ManglerEvolutionTarget;
 import alku.csrp.registry.ModBlocks;
+import alku.csrp.registry.ModBlockEntities;
 import alku.csrp.registry.ModArmorMaterials;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModItems;
 import alku.csrp.registry.ModMobEffects;
+import alku.csrp.registry.ModMenus;
 import alku.csrp.registry.ModPotions;
 import alku.csrp.registry.ModParticles;
 import alku.csrp.registry.ModSounds;
@@ -166,10 +168,12 @@ public final class Csrp {
 
     public Csrp(IEventBus modEventBus, ModContainer modContainer) {
         ModBlocks.BLOCKS.register(modEventBus);
+        ModBlockEntities.BLOCK_ENTITIES.register(modEventBus);
         ModEntities.ENTITIES.register(modEventBus);
         ModArmorMaterials.MATERIALS.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
         ModMobEffects.EFFECTS.register(modEventBus);
+        ModMenus.MENUS.register(modEventBus);
         ModPotions.POTIONS.register(modEventBus);
         ModParticles.PARTICLES.register(modEventBus);
         ModSounds.SOUNDS.register(modEventBus);
