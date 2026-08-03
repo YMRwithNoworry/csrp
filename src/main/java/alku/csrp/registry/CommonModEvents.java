@@ -300,5 +300,11 @@ public final class CommonModEvents {
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 KirinEntity::checkKirinSpawnRules,
                 RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        event.register(
+                ModEntities.FER_ENDERMAN.get(),
+                SpawnPlacementTypes.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                FeralEndermanEntity::checkFeralEndermanSpawnRules,
+                RegisterSpawnPlacementsEvent.Operation.REPLACE);
     }
 }

@@ -2,6 +2,9 @@ package alku.csrp.infection;
 
 import alku.csrp.Csrp;
 import alku.csrp.entity.Parasite;
+import alku.csrp.entity.FeralEndermanEntity;
+import alku.csrp.entity.GnatEntity;
+import alku.csrp.entity.LiceEntity;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.world.EvolutionSystem;
 import net.minecraft.server.level.ServerLevel;
@@ -36,8 +39,10 @@ public final class InfectionEvents {
         }
         Entity attacker = event.getSource().getEntity();
         if (attacker instanceof Parasite && event.getEntity().level() instanceof ServerLevel level) {
-            if (event.getEntity().getRandom().nextFloat()
-                    < EvolutionSystem.generationProfile(level).cothChance()) {
+            float chance = attacker instanceof FeralEndermanEntity
+                    ? FeralEndermanEntity.cothChance()
+                    : EvolutionSystem.generationProfile(level).cothChance();
+            if (event.getEntity().getRandom().nextFloat() < chance) {
                 InfectionMechanics.applyCoth(event.getEntity(), attacker);
             }
         }
@@ -58,6 +63,11 @@ public final class InfectionEvents {
             return;
         }
         Entity attacker = event.getSource().getEntity();
+        if ((attacker instanceof GnatEntity || attacker instanceof LiceEntity)
+                && InfectionMechanics.convertFeralEndermanHost(host)) {
+            event.setCanceled(true);
+            return;
+        }
         if (InfectionMechanics.convertKilledHost(host, attacker)) {
             event.setCanceled(true);
             return;

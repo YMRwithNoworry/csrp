@@ -2,7 +2,9 @@ package alku.csrp.infection;
 
 import alku.csrp.Config;
 import alku.csrp.Csrp;
+import alku.csrp.entity.FeralEndermanEntity;
 import alku.csrp.entity.Parasite;
+import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.world.DislodgmentSystem;
 import alku.csrp.world.EvolutionSystem;
@@ -12,6 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
@@ -133,14 +136,33 @@ public final class InfectionMechanics {
         return true;
     }
 
+    /** Gnat and Lice kills turn an Enderman directly into its Feral form. */
+    public static boolean convertFeralEndermanHost(LivingEntity host) {
+        if (host.getType() != EntityType.ENDERMAN || host.level().isClientSide || host.isRemoved()
+                || !(host.level() instanceof ServerLevel serverLevel)) {
+            return false;
+        }
+        FeralEndermanEntity converted = ModEntities.FER_ENDERMAN.get().create(serverLevel);
+        if (converted == null) {
+            return false;
+        }
+        replaceHost(host, converted, serverLevel);
+        return true;
+    }
+
     private static void replaceHost(LivingEntity host, Mob converted, ServerLevel serverLevel) {
         float healthFraction = host.getMaxHealth() <= 0.0F ? 1.0F : host.getHealth() / host.getMaxHealth();
+        boolean assimilatedEnderman = host.getType() == EntityType.ENDERMAN
+                && BuiltInRegistries.ENTITY_TYPE.getKey(converted.getType()).getPath().equals("sim_enderman");
         converted.moveTo(host.getX(), host.getY(), host.getZ(), host.getYRot(), host.getXRot());
         converted.setHealth(Math.max(1.0F, converted.getMaxHealth() * Math.max(0.1F, healthFraction)));
         converted.setCustomName(host.getCustomName());
         converted.setCustomNameVisible(host.isCustomNameVisible());
         converted.setPersistenceRequired();
         serverLevel.addFreshEntity(converted);
+        if (assimilatedEnderman) {
+            SrpWorldData.get(serverLevel).recordAssimilatedEnderman();
+        }
         EvolutionSystem.addPoints(serverLevel, EvolutionSystem.VALUE_COTH, EvolutionSystem.PointSource.COTH);
         host.discard();
     }

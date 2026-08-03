@@ -75,6 +75,8 @@ public final class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> CARRIER_COLONY_DEATH = register("vesta.death");
     public static final DeferredHolder<SoundEvent, SoundEvent> HEAVY_MULTIPLE_STEP = register("step.heavy_multiple");
     public static final DeferredHolder<SoundEvent, SoundEvent> MOB_EXPLOSION = register("mob.explotion");
+    public static final DeferredHolder<SoundEvent, SoundEvent> INFECTED_ENDERMAN_PORTAL =
+            register("infectedenderman.portal");
     public static final DeferredHolder<SoundEvent, SoundEvent> ORB_START = register("orb.s");
     public static final DeferredHolder<SoundEvent, SoundEvent> ORB_END = register("orb.e");
     public static final DeferredHolder<SoundEvent, SoundEvent> COMPENDIUM_UNLOCK_ENTITY = register("compendium.unlock_entity");

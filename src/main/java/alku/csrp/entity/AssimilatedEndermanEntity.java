@@ -139,7 +139,7 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
     @Override
     public boolean killedEntity(ServerLevel level, LivingEntity victim) {
         parasiteKills++;
-        if (parasiteKills > AssimilatedParasiteEntity.FERAL_KILL_THRESHOLD) {
+        if (parasiteKills >= AssimilatedParasiteEntity.FERAL_KILL_THRESHOLD) {
             FeralEndermanEntity feral = ModEntities.FER_ENDERMAN.get().create(level);
             if (feral != null) {
                 feral.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());

@@ -30,6 +30,7 @@ public final class SrpWorldData extends SavedData {
     private boolean canLose = true;
     private int generation;
     private int generationTicks;
+    private int assimilatedEndermen;
     private double passivePointRemainder;
     private int ubiquitousDevelopment;
     private long dislodgmentTriggerCooldownEnd;
@@ -64,6 +65,7 @@ public final class SrpWorldData extends SavedData {
         data.canLose = !tag.contains("can_lose") || tag.getBoolean("can_lose");
         data.generation = tag.getInt("generation");
         data.generationTicks = tag.getInt("generation_ticks");
+        data.assimilatedEndermen = tag.getInt("assimilated_endermen");
         data.passivePointRemainder = tag.getDouble("passive_point_remainder");
         data.ubiquitousDevelopment = tag.getInt("ubiquitous_development");
         data.dislodgmentTriggerCooldownEnd = tag.getLong("dislodgment_trigger_cooldown_end");
@@ -94,6 +96,7 @@ public final class SrpWorldData extends SavedData {
         tag.putBoolean("can_lose", canLose);
         tag.putInt("generation", generation);
         tag.putInt("generation_ticks", generationTicks);
+        tag.putInt("assimilated_endermen", assimilatedEndermen);
         tag.putDouble("passive_point_remainder", passivePointRemainder);
         tag.putInt("ubiquitous_development", ubiquitousDevelopment);
         tag.putLong("dislodgment_trigger_cooldown_end", dislodgmentTriggerCooldownEnd);
@@ -195,6 +198,17 @@ public final class SrpWorldData extends SavedData {
 
     public int generationTicks() {
         return generationTicks;
+    }
+
+    public int assimilatedEndermen() {
+        return assimilatedEndermen;
+    }
+
+    public void recordAssimilatedEnderman() {
+        if (assimilatedEndermen < Integer.MAX_VALUE) {
+            assimilatedEndermen++;
+            setDirty();
+        }
     }
 
     public void addGenerationTicks(int ticks) {
@@ -508,6 +522,7 @@ public final class SrpWorldData extends SavedData {
         canLose = true;
         generation = 0;
         generationTicks = 0;
+        assimilatedEndermen = 0;
         passivePointRemainder = 0.0D;
         ubiquitousDevelopment = 0;
         dislodgmentTriggerCooldownEnd = 0L;
@@ -528,6 +543,7 @@ public final class SrpWorldData extends SavedData {
         evolutionPoints = initial.points();
         generation = 0;
         generationTicks = 0;
+        assimilatedEndermen = 0;
         passivePointRemainder = 0.0D;
         cooldownEnd = 0L;
         setDirty();
