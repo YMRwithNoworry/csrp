@@ -7,16 +7,20 @@ import alku.csrp.registry.ModSounds;
 import alku.csrp.world.EvolutionSystem;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -42,8 +46,11 @@ import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
+import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 /** Shared 1.12 primitive-parasite state: hostile targeting, kills, and repeated-damage adaptation. */
 public abstract class PrimitiveParasiteEntity extends Monster implements GeoEntity, Parasite {
@@ -58,6 +65,10 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     private static final int DEFAULT_MAX_LEARNABLE_DAMAGE_SOURCES = 5;
     private static final int NEW_DAMAGE_COOLDOWN_TICKS = 20;
     private static final int FIRE_ADAPTATION_BLOCK_TICKS = 10;
+    private static final TagKey<DamageType> TACZ_BULLET_DAMAGE = TagKey.create(Registries.DAMAGE_TYPE,
+            ResourceLocation.fromNamespaceAndPath("tacz", "bullets"));
+    private static final Map<Class<?>, Optional<Method>> TACZ_BULLET_GUN_ID_METHODS = new ConcurrentHashMap<>();
+    private static final Map<Class<?>, Optional<Method>> TACZ_ITEM_GUN_ID_METHODS = new ConcurrentHashMap<>();
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private final Map<String, Integer> damageAdaptations = new LinkedHashMap<>();
@@ -323,6 +334,10 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     }
 
     public static String damageTypeId(DamageSource source) {
+        String taczGunDamageId = taczGunDamageId(source);
+        if (taczGunDamageId != null) {
+            return taczGunDamageId;
+        }
         Entity direct = source.getDirectEntity();
         Entity attacker = source.getEntity();
         LivingEntity livingSource = direct instanceof LivingEntity living ? living
@@ -338,6 +353,67 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
             return BuiltInRegistries.ENTITY_TYPE.getKey(livingSource.getType()).toString();
         }
         return source.getMsgId();
+    }
+
+    private static String taczGunDamageId(DamageSource source) {
+        Entity direct = source.getDirectEntity();
+        if (!source.is(TACZ_BULLET_DAMAGE) && !isTaczBullet(direct)) {
+            return null;
+        }
+
+        ResourceLocation gunId = gunIdFromTaczBullet(direct);
+        if (gunId == null && source.getEntity() instanceof LivingEntity shooter) {
+            gunId = gunIdFromTaczItem(shooter.getMainHandItem());
+        }
+        return gunId == null ? "tacz:bullet"
+                : "tacz:gun/" + gunId.getNamespace() + "/" + gunId.getPath();
+    }
+
+    private static boolean isTaczBullet(Entity entity) {
+        if (entity == null) {
+            return false;
+        }
+        ResourceLocation entityId = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType());
+        return entityId.getNamespace().equals("tacz") && entityId.getPath().equals("bullet");
+    }
+
+    private static ResourceLocation gunIdFromTaczBullet(Entity bullet) {
+        if (!isTaczBullet(bullet)) {
+            return null;
+        }
+        Optional<Method> method = TACZ_BULLET_GUN_ID_METHODS.computeIfAbsent(bullet.getClass(),
+                type -> findPublicMethod(type, "getGunId"));
+        return invokeGunId(method, bullet);
+    }
+
+    private static ResourceLocation gunIdFromTaczItem(ItemStack stack) {
+        if (stack.isEmpty()) {
+            return null;
+        }
+        Object item = stack.getItem();
+        Optional<Method> method = TACZ_ITEM_GUN_ID_METHODS.computeIfAbsent(item.getClass(),
+                type -> findPublicMethod(type, "getGunId", ItemStack.class));
+        return invokeGunId(method, item, stack);
+    }
+
+    private static Optional<Method> findPublicMethod(Class<?> type, String name, Class<?>... parameterTypes) {
+        try {
+            return Optional.of(type.getMethod(name, parameterTypes));
+        } catch (NoSuchMethodException | SecurityException ignored) {
+            return Optional.empty();
+        }
+    }
+
+    private static ResourceLocation invokeGunId(Optional<Method> method, Object owner, Object... arguments) {
+        if (method.isEmpty()) {
+            return null;
+        }
+        try {
+            Object result = method.get().invoke(owner, arguments);
+            return result instanceof ResourceLocation id ? id : null;
+        } catch (ReflectiveOperationException | RuntimeException ignored) {
+            return null;
+        }
     }
 
     public byte getAdaptationHitStatus() {
