@@ -15,11 +15,11 @@ import net.minecraft.util.Mth;
 
 public final class ScaryOrbRenderer extends EntityRenderer<ScaryOrbEntity> {
     private static final ResourceLocation CORE_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
-            "textures/entity/orbvoid.png");
+            "textures/entity/orbscary.png");
     private static final ResourceLocation AURA_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
-            "textures/entity/orbvoid_armor.png");
-    private static final float VOID_ORB_DIAMETER = 2.4F;
-    private static final float SPHERE_RADIUS = VOID_ORB_DIAMETER * 0.5F;
+            "textures/entity/orbscary_armor.png");
+    private static final float ORB_DIAMETER = 2.4F;
+    private static final float SPHERE_RADIUS = ORB_DIAMETER * 0.5F;
     private static final int SPHERE_STACKS = 18;
     private static final int SPHERE_SLICES = 18;
     private static final int FULL_BRIGHT = 0xF000F0;
@@ -39,25 +39,15 @@ public final class ScaryOrbRenderer extends EntityRenderer<ScaryOrbEntity> {
         poseStack.pushPose();
         poseStack.scale(appear * pulse, appear * pulse, appear * pulse);
         poseStack.mulPose(Axis.YP.rotation(age * 0.05F));
-        if (entity.isBolsterOrb()) {
-            renderSphere(poseStack, bufferSource.getBuffer(RenderType.entityTranslucentEmissive(CORE_TEXTURE)),
-                    SPHERE_RADIUS, 1.0F, 0.12F, 0.12F, 205);
-        } else {
-            renderSphere(poseStack, bufferSource.getBuffer(RenderType.entityTranslucentEmissive(CORE_TEXTURE)),
-                    SPHERE_RADIUS, 1.0F, 1.0F, 1.0F, 220);
-        }
+        renderSphere(poseStack, bufferSource.getBuffer(RenderType.entityTranslucentEmissive(CORE_TEXTURE)),
+                SPHERE_RADIUS, 1.0F, 1.0F, 1.0F, 220);
         poseStack.popPose();
 
         poseStack.pushPose();
         poseStack.scale(appear * 1.12F, appear * 1.12F, appear * 1.12F);
         poseStack.mulPose(Axis.YP.rotation(-age * 0.07F));
-        if (entity.isBolsterOrb()) {
-            renderSphere(poseStack, bufferSource.getBuffer(RenderType.entityTranslucentEmissive(AURA_TEXTURE)),
-                    SPHERE_RADIUS, 1.0F, 0.25F, 0.35F, 125);
-        } else {
-            renderSphere(poseStack, bufferSource.getBuffer(RenderType.entityTranslucentEmissive(AURA_TEXTURE)),
-                    SPHERE_RADIUS, 0.65F, 0.85F, 1.0F, 135);
-        }
+        renderSphere(poseStack, bufferSource.getBuffer(RenderType.entityTranslucentEmissive(AURA_TEXTURE)),
+                SPHERE_RADIUS, 1.0F, 1.0F, 1.0F, 135);
         poseStack.popPose();
 
         super.render(entity, entityYaw, partialTick, poseStack, bufferSource, packedLight);

@@ -118,20 +118,29 @@ public final class ScaryOrbEntity extends Entity {
         }
         int elapsed = activeTicks - startTicks;
         activeTicks++;
-        if (elapsed % 10 == 0 && owner != null) applyOrbEffects(owner);
-        if (elapsed == fuseTicks + BURST_TICKS && owner != null) owner.hurtNearby(this, 3.0,
-                (float) owner.getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE) * 0.5F,
-                false);
+        if (elapsed % 10 == 0 && owner != null) applyOrbEffects(owner, elapsed % 20 == 0);
+        if (elapsed == fuseTicks + BURST_TICKS && owner != null) burst(owner);
         if (elapsed >= fuseTicks + DISCARD_TICKS || owner == null || !owner.isAlive()) discard();
     }
 
-    private void applyOrbEffects(PrimitiveParasiteEntity owner) {
+    private void applyOrbEffects(PrimitiveParasiteEntity owner, boolean damagePulse) {
         DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(2.5D));
         List<LivingEntity> targets = level().getEntitiesOfClass(LivingEntity.class,
                 getBoundingBox().inflate(2.5D), LivingEntity::isAlive);
         int nearbyEntities = targets.size();
         for (LivingEntity target : targets) {
             owner.applyScaryOrbEffect(target, nearbyEntities);
+            if (damagePulse) {
+                owner.applyScaryOrbMinimumDamage(target, 0.5F);
+            }
+        }
+    }
+
+    private void burst(PrimitiveParasiteEntity owner) {
+        DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(3.0D));
+        for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
+                getBoundingBox().inflate(3.0D), LivingEntity::isAlive)) {
+            owner.applyScaryOrbMinimumDamage(target, 5.0F);
         }
     }
 

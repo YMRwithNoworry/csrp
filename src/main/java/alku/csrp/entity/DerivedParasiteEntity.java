@@ -266,11 +266,13 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
             }
         }
         target.addEffect(new MobEffectInstance(ModMobEffects.COTH, 1200, 3, false, false), this);
-        if (!(target instanceof Parasite)) {
-            applyMinimumDamage(target, DERIVED_MINIMUM_DAMAGE * 0.5F);
-        }
         target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 0, false, false), this);
         return true;
+    }
+
+    @Override
+    public float scaryOrbMinimumDamage() {
+        return DERIVED_MINIMUM_DAMAGE;
     }
 
     public boolean applyMinimumDamage(LivingEntity target, float amount) {
