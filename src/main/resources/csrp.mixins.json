@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_21",
   "client": [
     "client.ChatComponentMixin",
+    "client.CreateWorldScreenMixin",
     "client.FontMixin",
     "client.GuiMixin",
     "client.SignRendererMixin"

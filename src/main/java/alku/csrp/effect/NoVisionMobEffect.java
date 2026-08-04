@@ -4,7 +4,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 
-/** Blacks out players client-side and burdens every affected host with mining fatigue. */
+/** Applies VHS-like visual interference to players and burdens every affected host with mining fatigue. */
 public final class NoVisionMobEffect extends MarkerMobEffect {
     public NoVisionMobEffect() {
         super(true, 1582649);

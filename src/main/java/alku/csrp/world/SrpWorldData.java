@@ -17,7 +17,7 @@ import net.minecraft.world.level.saveddata.SavedData;
 
 public final class SrpWorldData extends SavedData {
     private static final String DATA_NAME = "csrp_world_data";
-    private static final int DATA_VERSION = 1;
+    private static final int DATA_VERSION = 2;
     private static final Factory<SrpWorldData> FACTORY = new Factory<>(SrpWorldData::new, SrpWorldData::load);
     private static final int[] DISLODGMENT_PHASE_COOLDOWN_MULTIPLIER = {1, 4, 3, 3, 4, 5, 6, 7, 8, 9, 10};
 
@@ -25,6 +25,8 @@ public final class SrpWorldData extends SavedData {
     private int dataVersion = DATA_VERSION;
     private int evolutionPhase = -1;
     private int evolutionPoints = -300;
+    private SrpDifficulty difficulty = SrpDifficulty.NORMAL;
+    private double difficultyPointRemainder;
     private long cooldownEnd;
     private boolean canGain = true;
     private boolean canLose = true;
@@ -60,6 +62,8 @@ public final class SrpWorldData extends SavedData {
             data.evolutionPhase = tag.getInt("evolution_phase");
         }
         data.evolutionPoints = tag.getInt("evolution_points");
+        data.difficulty = SrpDifficulty.byId(tag.getString("srp_difficulty"));
+        data.difficultyPointRemainder = tag.getDouble("difficulty_point_remainder");
         data.cooldownEnd = tag.getLong("cooldown_end");
         data.canGain = !tag.contains("can_gain") || tag.getBoolean("can_gain");
         data.canLose = !tag.contains("can_lose") || tag.getBoolean("can_lose");
@@ -91,6 +95,8 @@ public final class SrpWorldData extends SavedData {
         tag.putInt("data_version", DATA_VERSION);
         tag.putInt("evolution_phase", evolutionPhase);
         tag.putInt("evolution_points", evolutionPoints);
+        tag.putString("srp_difficulty", difficulty.id());
+        tag.putDouble("difficulty_point_remainder", difficultyPointRemainder);
         tag.putLong("cooldown_end", cooldownEnd);
         tag.putBoolean("can_gain", canGain);
         tag.putBoolean("can_lose", canLose);
@@ -130,9 +136,23 @@ public final class SrpWorldData extends SavedData {
         return evolutionPoints;
     }
 
+    public SrpDifficulty difficulty() {
+        return difficulty;
+    }
+
+    private int applyDifficultyPointMultiplier(int points) {
+        if (points <= 0 || difficulty.pointMultiplier() == 1.0D) {
+            return points;
+        }
+        double scaled = points * difficulty.pointMultiplier() + difficultyPointRemainder;
+        int wholePoints = (int) Math.floor(scaled);
+        difficultyPointRemainder = scaled - wholePoints;
+        setDirty();
+        return wholePoints;
+    }
+
     public boolean addEvolutionPoints(ServerLevel level, int points, boolean bypassCooldown) {
-        if ((points > 0 && !canGain) || (points < 0 && !canLose) || evolutionPhase == -2
-                || (points < 0 && evolutionPhase < 0) || (!bypassCooldown && cooldown(level) > 0)) {
+        if (!canAddEvolutionPoints(level, points, bypassCooldown)) {
             return false;
         }
 
@@ -151,6 +171,19 @@ public final class SrpWorldData extends SavedData {
         }
         setDirty();
         return true;
+    }
+
+    public boolean addDifficultyScaledEvolutionPoints(ServerLevel level, int points, boolean bypassCooldown) {
+        if (!canAddEvolutionPoints(level, points, bypassCooldown)) {
+            return false;
+        }
+        int adjusted = applyDifficultyPointMultiplier(points);
+        return adjusted == 0 || addEvolutionPoints(level, adjusted, bypassCooldown);
+    }
+
+    private boolean canAddEvolutionPoints(ServerLevel level, int points, boolean bypassCooldown) {
+        return !((points > 0 && !canGain) || (points < 0 && !canLose) || evolutionPhase == -2
+                || (points < 0 && evolutionPhase < 0) || (!bypassCooldown && cooldown(level) > 0));
     }
 
     public int cooldown(ServerLevel level) {
@@ -541,6 +574,10 @@ public final class SrpWorldData extends SavedData {
         initialized = true;
         evolutionPhase = initial.phase();
         evolutionPoints = initial.points();
+        difficulty = level == level.getServer().overworld()
+                ? SrpDifficultySelection.consumeOrDefault()
+                : SrpWorldData.get(level.getServer().overworld()).difficulty();
+        difficultyPointRemainder = 0.0D;
         generation = 0;
         generationTicks = 0;
         assimilatedEndermen = 0;

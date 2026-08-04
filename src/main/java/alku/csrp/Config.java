@@ -28,9 +28,6 @@ public final class Config {
     private static final ModConfigSpec.DoubleValue PARASITE_KILLING_REDUCTION = BUILDER
             .comment("Damage reduction per level of the matching parasite-killing status effect.")
             .defineInRange("parasiteKillingReduction", 0.15D, 0.0D, 0.95D);
-    private static final ModConfigSpec.DoubleValue COTH_CONVERT = BUILDER
-            .comment("Chance for a parasite kill to convert a victim that has COTH.")
-            .defineInRange("cothConvert", 0.3D, 0.0D, 1.0D);
     private static final ModConfigSpec.DoubleValue KILLCOUNT_PLUS = BUILDER
             .comment("Killcount added every second on HARD or HARDCORE when evolution phases are disabled.")
             .defineInRange("killcountPlus", 0.0D, 0.0D, 1000000.0D);
@@ -434,7 +431,6 @@ public final class Config {
 
     public static double parasiteKillingReduction() { return PARASITE_KILLING_REDUCTION.get(); }
 
-    public static double cothConvert() { return COTH_CONVERT.get(); }
     public static double killcountPlus() { return KILLCOUNT_PLUS.get(); }
     public static boolean useEvolutionPhases() { return USE_EVOLUTION_PHASES.get(); }
     public static boolean generationEnabled() { return GENERATION_ENABLED.get(); }

@@ -17,7 +17,6 @@ public final class StatusEffectOverlayEvents {
     private static final ResourceLocation VIRAL = texture("screen_viral.png");
     private static final ResourceLocation BLEED = texture("screen_bleed.png");
     private static final ResourceLocation VOMIT = texture("screen_vomit.png");
-    private static final ResourceLocation NOVISION = texture("screen_novision.png");
     private static final ResourceLocation DISTORTED = texture("screen_distorted.png");
     private static int vomitY;
 
@@ -45,9 +44,6 @@ public final class StatusEffectOverlayEvents {
             }
             if (player.hasEffect(ModMobEffects.BLEED)) {
                 drawFullScreen(graphics, BLEED, width, height);
-            }
-            if (player.hasEffect(ModMobEffects.NOVISION)) {
-                drawFullScreen(graphics, NOVISION, width, height);
             }
             if (player.hasEffect(ModMobEffects.DISTORTED_ENLIGHTENMENT)) {
                 float pulse = 0.22F + 0.08F * (float) Math.sin(player.tickCount * 0.2F);

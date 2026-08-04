@@ -1,0 +1,31 @@
+{
+  "targets": [
+    "swap"
+  ],
+  "passes": [
+    {
+      "name": "csrp:kirin_vhs",
+      "intarget": "minecraft:main",
+      "outtarget": "swap",
+      "uniforms": [
+        {
+          "name": "Intensity",
+          "values": [ 0.72 ]
+        },
+        {
+          "name": "ScanReduction",
+          "values": [ 0.055 ]
+        },
+        {
+          "name": "VignetteStrength",
+          "values": [ 0.30 ]
+        }
+      ]
+    },
+    {
+      "name": "blit",
+      "intarget": "swap",
+      "outtarget": "minecraft:main"
+    }
+  ]
+}

@@ -158,15 +158,27 @@ public final class InfectionMechanics {
         host.discard();
     }
 
-    /** Applies the original SRP COTH-on-kill conversion chance. */
+    /** Converts every non-parasite mob killed by a parasite, using Moving Flesh as the fallback. */
     public static boolean convertKilledHost(LivingEntity host, Entity attacker) {
         if (!(attacker instanceof Parasite) || host.level().isClientSide || host instanceof Parasite
-                || host instanceof Player || host.getEffect(ModMobEffects.COTH) == null
-                || host.hasEffect(ModMobEffects.REPEL)
-                || host.getRandom().nextDouble() >= Config.cothConvert()) {
+                || host instanceof Player || host.isRemoved()
+                || !(host.level() instanceof ServerLevel serverLevel)) {
             return false;
         }
-        return convertInfectedHost(host);
+
+        Mob converted = createMappedHost(host, serverLevel, false);
+        if (converted == null) {
+            converted = createHijackedHost(host, serverLevel);
+        }
+        if (converted == null) {
+            converted = ModEntities.MOVINGFLESH.get().create(serverLevel);
+        }
+        if (converted == null) {
+            return false;
+        }
+
+        replaceHost(host, converted, serverLevel);
+        return true;
     }
 
     private static void spreadCoth(LivingEntity source) {

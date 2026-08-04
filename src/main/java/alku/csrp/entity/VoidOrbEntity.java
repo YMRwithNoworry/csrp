@@ -176,7 +176,8 @@ public final class VoidOrbEntity extends Entity {
     }
 
     private boolean canPull(LivingEntity target) {
-        if (!target.isAlive() || target.getUUID().equals(ownerId) || !target.isPushable()) {
+        if (!target.isAlive() || target instanceof Parasite
+                || target.getUUID().equals(ownerId) || !target.isPushable()) {
             return false;
         }
         return !(target instanceof Player player && player.getAbilities().invulnerable);

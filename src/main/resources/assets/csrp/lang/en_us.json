@@ -796,5 +796,14 @@
   "subtitles.draconite.bell_chargeup": "Distorted Engine tolls",
   "entity.csrp.dragon_egg_assimilation": "Assimilating Dragon Egg",
   "advancements.csrp.again.title": "Again?",
-  "advancements.csrp.again.description": "Witness a dragon egg become assimilated"
+  "advancements.csrp.again.description": "Witness a dragon egg become assimilated",
+  "options.csrp.difficulty": "SRP Difficulty",
+  "options.csrp.difficulty.easy": "Easy",
+  "options.csrp.difficulty.easy.description": "Reduced knockback resistance and half evolution point gain.",
+  "options.csrp.difficulty.normal": "Normal",
+  "options.csrp.difficulty.normal.description": "Standard parasite attributes and evolution point gain.",
+  "options.csrp.difficulty.hard": "Hard",
+  "options.csrp.difficulty.hard.description": "4x health, damage and armor; 1.5x evolution point gain.",
+  "options.csrp.difficulty.impossible": "Impossible",
+  "options.csrp.difficulty.impossible.description": "11x health and damage, 6x armor, extreme knockback resistance and 10x point gain."
 }

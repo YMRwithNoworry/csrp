@@ -810,5 +810,14 @@
   "subtitles.draconite.bell_chargeup": "扭曲引擎鸣响",
   "entity.csrp.dragon_egg_assimilation": "正在同化的龙蛋",
   "advancements.csrp.again.title": "还TMD来？",
-  "advancements.csrp.again.description": "见证龙蛋被寄生体同化"
+  "advancements.csrp.again.description": "见证龙蛋被寄生体同化",
+  "options.csrp.difficulty": "SRP 难度",
+  "options.csrp.difficulty.easy": "简单",
+  "options.csrp.difficulty.easy.description": "降低寄生体击退抗性，演化点数获取减半。",
+  "options.csrp.difficulty.normal": "普通",
+  "options.csrp.difficulty.normal.description": "使用标准寄生体属性与演化点数获取速度。",
+  "options.csrp.difficulty.hard": "困难",
+  "options.csrp.difficulty.hard.description": "寄生体生命、伤害和护甲提升至 4 倍，演化点数提升至 1.5 倍。",
+  "options.csrp.difficulty.impossible": "极难",
+  "options.csrp.difficulty.impossible.description": "寄生体生命和伤害提升至 11 倍、护甲 6 倍，获得极高击退抗性且演化点数提升至 10 倍。"
 }

@@ -146,7 +146,7 @@ public final class EvolutionSystem {
         if (points != 0 && adjusted == 0) {
             adjusted = Integer.signum(points);
         }
-        return data.addEvolutionPoints(level, adjusted, source.bypassesCooldown());
+        return data.addDifficultyScaledEvolutionPoints(level, adjusted, source.bypassesCooldown());
     }
 
     public static int sleepPoints(int phase) {
