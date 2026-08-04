@@ -2,6 +2,8 @@ package alku.csrp.entity;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -13,6 +15,8 @@ import java.util.List;
 import java.util.UUID;
 
 public final class ScaryOrbEntity extends Entity {
+    private static final EntityDataAccessor<Boolean> BOLSTER_ORB = SynchedEntityData.defineId(
+            ScaryOrbEntity.class, EntityDataSerializers.BOOLEAN);
     private static final int DEFAULT_START_TICKS = 40;
     private static final int DEFAULT_FUSE_TICKS = 7;
     private static final int BURST_TICKS = 35;
@@ -38,6 +42,11 @@ public final class ScaryOrbEntity extends Entity {
     public ScaryOrbEntity(EntityType<? extends ScaryOrbEntity> type, Level level, PrimitiveParasiteEntity owner) {
         this(type, level);
         ownerId = owner.getUUID();
+        entityData.set(BOLSTER_ORB, owner instanceof AdaptedVariantEntity adapted && adapted.isAdaptedBolster());
+    }
+
+    public boolean isBolsterOrb() {
+        return entityData.get(BOLSTER_ORB);
     }
 
     public void setAnchor(Vec3 anchor) {
@@ -139,6 +148,7 @@ public final class ScaryOrbEntity extends Entity {
     }
 
     @Override protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        builder.define(BOLSTER_ORB, false);
     }
 
     @Override protected void readAdditionalSaveData(CompoundTag tag) {
@@ -153,6 +163,7 @@ public final class ScaryOrbEntity extends Entity {
         anchorX = tag.getDouble("anchor_x");
         anchorY = tag.getDouble("anchor_y");
         anchorZ = tag.getDouble("anchor_z");
+        entityData.set(BOLSTER_ORB, tag.getBoolean("bolster_orb"));
     }
 
     @Override protected void addAdditionalSaveData(CompoundTag tag) {
@@ -167,5 +178,6 @@ public final class ScaryOrbEntity extends Entity {
         tag.putDouble("anchor_x", anchorX);
         tag.putDouble("anchor_y", anchorY);
         tag.putDouble("anchor_z", anchorZ);
+        tag.putBoolean("bolster_orb", entityData.get(BOLSTER_ORB));
     }
 }

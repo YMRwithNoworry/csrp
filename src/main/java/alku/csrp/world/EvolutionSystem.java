@@ -198,6 +198,7 @@ public final class EvolutionSystem {
         if (path.equals("carrier_light")) return new NaturalPhase(1, 4);
         if (path.equals("carrier_heavy")) return new NaturalPhase(2, 4);
         if (path.equals("carrier_flying")) return new NaturalPhase(3, 4);
+        if (path.equals("ada_bolster")) return new NaturalPhase(4, 10);
         if (path.equals("sim_dragone")) return new NaturalPhase(9, 10);
         if (path.startsWith("sim_")) return new NaturalPhase(2, 7);
         if (path.equals("host") || path.equals("hostii")) return new NaturalPhase(3, 7);

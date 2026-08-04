@@ -1,20 +1,31 @@
 package alku.csrp.entity;
 
 import alku.csrp.registry.ModEntities;
+import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
+import alku.csrp.world.EvolutionSystem;
+import alku.csrp.world.SrpWorldData;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
@@ -28,7 +39,11 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
@@ -37,14 +52,39 @@ import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 
 import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.annotation.Nullable;
 
 /** Shared implementation for the legacy adapted parasite tier. */
 public final class AdaptedVariantEntity extends BurrowingVariantEntity {
+    private static final EntityDataAccessor<Integer> BOLSTER_VARIANT = SynchedEntityData.defineId(
+            AdaptedVariantEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> BOLSTER_ACTION = SynchedEntityData.defineId(
+            AdaptedVariantEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> BOLSTER_ACTION_TICKS = SynchedEntityData.defineId(
+            AdaptedVariantEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Float> BOLSTER_LEFT_TENDRIL = SynchedEntityData.defineId(
+            AdaptedVariantEntity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> BOLSTER_RIGHT_TENDRIL = SynchedEntityData.defineId(
+            AdaptedVariantEntity.class, EntityDataSerializers.FLOAT);
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
     private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
     private final RawAnimation FLY = ParasiteAnimations.loop(this, "fly");
     private final RawAnimation DIG = ParasiteAnimations.loop(this, "func_78087_a.getDigging");
+    private final RawAnimation BOLSTER_ATTACK = ParasiteAnimations.play(this, "attack");
+    private static final RawAnimation BOLSTER_STATUS_3 = RawAnimation.begin()
+            .thenLoop("animation.ada_bolster.idle.get_parasite_status_3");
+    private static final RawAnimation BOLSTER_STATUS_15 = RawAnimation.begin()
+            .thenLoop("animation.ada_bolster.idle.get_parasite_status_15");
+    private static final RawAnimation BOLSTER_STATUS_25 = RawAnimation.begin()
+            .thenLoop("animation.ada_bolster.idle.get_parasite_status_25");
+    private static final RawAnimation BOLSTER_ATTACK_STATUS_15 = RawAnimation.begin()
+            .thenLoop("animation.ada_bolster.get_attack_timer.get_parasite_status_15");
+    private static final RawAnimation BOLSTER_ATTACK_STATUS_25 = RawAnimation.begin()
+            .thenLoop("animation.ada_bolster.get_attack_timer.get_parasite_status_25");
 
     private final Kind kind;
     private int abilityCooldown;
@@ -54,6 +94,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
     private int rangedShots;
     private int cloakTicks;
     private boolean cloaked;
+    private int residueCooldown;
+    private int lastBolsterCombatTick;
+    private boolean bolsterDeathHandled;
 
     public AdaptedVariantEntity(EntityType<? extends AdaptedVariantEntity> type, Level level, Kind kind) {
         super(type, level);
@@ -121,7 +164,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
                 damage = 28.0D;
                 speed = 0.17D;
                 knockbackResistance = 0.90D;
-                followRange = 40.0D;
+                followRange = 32.0D;
             }
             case BURROWER -> {
                 health = 110.0D;
@@ -220,6 +263,31 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
     }
 
     @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(BOLSTER_VARIANT, BolsterVariant.NORMAL.ordinal());
+        builder.define(BOLSTER_ACTION, BolsterAction.NONE.ordinal());
+        builder.define(BOLSTER_ACTION_TICKS, 0);
+        builder.define(BOLSTER_LEFT_TENDRIL, -1.0F);
+        builder.define(BOLSTER_RIGHT_TENDRIL, -1.0F);
+    }
+
+    @Nullable
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
+                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
+        SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
+        if (!level.isClientSide() && activeKind() == Kind.BOLSTER) {
+            if (random.nextFloat() < 0.33F) {
+                setBolsterVariant(BolsterVariant.values()[1 + random.nextInt(3)]);
+            }
+            initializeBolsterTendrils();
+            residueCooldown = 600 + random.nextInt(601);
+        }
+        return data;
+    }
+
+    @Override
     protected PathNavigation createNavigation(Level level) {
         if (isDevourerType(getType())) {
             return new WaterBoundPathNavigation(this, level);
@@ -243,8 +311,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
             }
             case BOLSTER -> {
                 goalSelector.addGoal(1, new BolsterSupportGoal());
-                goalSelector.addGoal(2, new BarrageGoal());
-                goalSelector.addGoal(3, new MeleeAttackGoal(this, 0.95D, false));
+                goalSelector.addGoal(2, new BolsterOrbGoal());
+                goalSelector.addGoal(3, new BarrageGoal());
+                goalSelector.addGoal(4, new MeleeAttackGoal(this, 0.95D, false));
             }
             case BURROWER -> {
                 goalSelector.addGoal(1, createBurrowMovementGoal());
@@ -302,6 +371,12 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
         if (supportCooldown > 0) supportCooldown--;
         if (secondaryCooldown > 0) secondaryCooldown--;
         if (blockBreakCooldown > 0) blockBreakCooldown--;
+        if (entityData.get(BOLSTER_ACTION_TICKS) > 0) {
+            entityData.set(BOLSTER_ACTION_TICKS, entityData.get(BOLSTER_ACTION_TICKS) - 1);
+            if (entityData.get(BOLSTER_ACTION_TICKS) == 0) {
+                entityData.set(BOLSTER_ACTION, BolsterAction.NONE.ordinal());
+            }
+        }
         updateCloak();
 
         LivingEntity target = getTarget();
@@ -312,6 +387,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
             if (!isInWaterOrBubble() && tickCount % 40 == 0) {
                 hurt(damageSources().drown(), 3.0F);
             }
+        }
+        if (activeKind == Kind.BOLSTER && level() instanceof ServerLevel serverLevel) {
+            tickBolster(serverLevel);
         }
     }
 
@@ -324,7 +402,17 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
         if (source.is(DamageTypeTags.IS_FIRE)) {
             amount *= 4.0F;
         }
+        if (activeKind() == Kind.BOLSTER && !level().isClientSide) {
+            lastBolsterCombatTick = tickCount;
+            damageBolsterTendril(source, amount);
+        }
         return super.hurt(source, amount);
+    }
+
+    @Override
+    protected int incomingDamageCapDivisor() {
+        return activeKind() == Kind.BOLSTER && level() instanceof ServerLevel serverLevel
+                && EvolutionSystem.generationProfile(serverLevel).damageCap() ? 9 : super.incomingDamageCapDivisor();
     }
 
     @Override
@@ -340,6 +428,10 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
         }
         if (!(entity instanceof LivingEntity target)) {
             return super.doHurtTarget(entity);
+        }
+
+        if (activeKind == Kind.BOLSTER) {
+            return performBolsterSweep(target);
         }
 
         boolean hit;
@@ -372,6 +464,117 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
     }
 
     @Override
+    protected void doPush(Entity entity) {
+        super.doPush(entity);
+        if (!level().isClientSide && activeKind() == Kind.BOLSTER
+                && getBolsterVariant() == BolsterVariant.VIRULENT
+                && entity instanceof LivingEntity living && isValidParasiteTarget(living)) {
+            living.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 100, 0), this);
+        }
+    }
+
+    @Override
+    public boolean applyScaryOrbEffect(LivingEntity target, int nearbyEntities) {
+        if (activeKind() != Kind.BOLSTER) {
+            return super.applyScaryOrbEffect(target, nearbyEntities);
+        }
+        if (target == this || target instanceof Player player && player.getAbilities().instabuild) {
+            return false;
+        }
+        if (target instanceof Parasite) {
+            target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 600, 2, false, true), this);
+            return true;
+        }
+        target.addEffect(new MobEffectInstance(MobEffects.HUNGER, 300, 2, false, true), this);
+        target.addEffect(new MobEffectInstance(ModMobEffects.NEEDLER, 500, 2, false, true), this);
+        if (target instanceof Player player) {
+            player.causeFoodExhaustion(5.0F);
+            Set<Item> cooledItems = new HashSet<>();
+            for (ItemStack stack : player.getInventory().items) {
+                if (!stack.isEmpty() && cooledItems.add(stack.getItem())) {
+                    player.getCooldowns().addCooldown(stack.getItem(), 200);
+                }
+            }
+            ItemStack offhand = player.getOffhandItem();
+            if (!offhand.isEmpty() && cooledItems.add(offhand.getItem())) {
+                player.getCooldowns().addCooldown(offhand.getItem(), 200);
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void die(DamageSource source) {
+        if (activeKind() == Kind.BOLSTER && !bolsterDeathHandled && level() instanceof ServerLevel serverLevel) {
+            bolsterDeathHandled = true;
+            if (random.nextFloat() < 0.20F) {
+                createBolsterDeathBurst();
+            }
+            if (!SrpWorldData.get(serverLevel).colonies().isEmpty()) {
+                Mob primitive = ModEntities.PRI_BOLSTER.get().create(serverLevel);
+                if (primitive != null) {
+                    primitive.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+                    primitive.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
+                            MobSpawnType.CONVERSION, null);
+                    primitive.setCustomName(getCustomName());
+                    primitive.setCustomNameVisible(isCustomNameVisible());
+                    serverLevel.addFreshEntity(primitive);
+                }
+            }
+        }
+        super.die(source);
+    }
+
+    private void createBolsterDeathBurst() {
+        level().explode(this, getX(), getY() + getBbHeight() * 0.5D, getZ(), 2.5F,
+                Level.ExplosionInteraction.NONE);
+        AreaEffectCloud cloud = new AreaEffectCloud(level(), getX(), getY(), getZ());
+        cloud.setOwner(this);
+        cloud.setRadius(4.0F);
+        cloud.setWaitTime(10);
+        cloud.setDuration(200);
+        cloud.setRadiusPerTick(-0.015F);
+        cloud.addEffect(new MobEffectInstance(MobEffects.POISON, 300, 1));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 1200, 1, false, false));
+        level().addFreshEntity(cloud);
+        spreadBolsterResidue();
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        if (activeKind() == Kind.BOLSTER) {
+            tag.putInt("bolster_variant", entityData.get(BOLSTER_VARIANT));
+            tag.putFloat("bolster_left_tendril", entityData.get(BOLSTER_LEFT_TENDRIL));
+            tag.putFloat("bolster_right_tendril", entityData.get(BOLSTER_RIGHT_TENDRIL));
+            tag.putInt("bolster_ability_cooldown", abilityCooldown);
+            tag.putInt("bolster_support_cooldown", supportCooldown);
+            tag.putInt("bolster_orb_cooldown", secondaryCooldown);
+            tag.putInt("bolster_residue_cooldown", residueCooldown);
+            tag.putInt("bolster_last_combat_tick", lastBolsterCombatTick);
+        }
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        if (activeKind() == Kind.BOLSTER) {
+            entityData.set(BOLSTER_VARIANT, tag.getInt("bolster_variant"));
+            entityData.set(BOLSTER_LEFT_TENDRIL, tag.contains("bolster_left_tendril")
+                    ? tag.getFloat("bolster_left_tendril") : -1.0F);
+            entityData.set(BOLSTER_RIGHT_TENDRIL, tag.contains("bolster_right_tendril")
+                    ? tag.getFloat("bolster_right_tendril") : -1.0F);
+            abilityCooldown = tag.getInt("bolster_ability_cooldown");
+            supportCooldown = tag.getInt("bolster_support_cooldown");
+            secondaryCooldown = tag.getInt("bolster_orb_cooldown");
+            residueCooldown = tag.contains("bolster_residue_cooldown")
+                    ? tag.getInt("bolster_residue_cooldown") : 600 + random.nextInt(601);
+            lastBolsterCombatTick = tag.getInt("bolster_last_combat_tick");
+            setBolsterAction(BolsterAction.NONE, 0);
+        }
+    }
+
+    @Override
     public boolean onClimbable() {
         return (activeKind() == Kind.ARACHNIDA || activeKind() == Kind.LONGARMS) && horizontalCollision
                 || super.onClimbable();
@@ -385,10 +588,22 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
+        controllers.add(new AnimationController<>(this, "bolster_overlay_controller", 0,
+                this::bolsterOverlayAnimation));
+        controllers.add(new AnimationController<>(this, "bolster_attack_controller", 0, state -> PlayState.STOP)
+                .triggerableAnim("attack", BOLSTER_ATTACK));
     }
 
     private PlayState movementAnimation(AnimationState<AdaptedVariantEntity> state) {
         Kind kind = activeKind();
+        if (kind == Kind.BOLSTER) {
+            return switch (getBolsterAction()) {
+                case BARRAGE_WINDUP -> state.setAndContinue(BOLSTER_STATUS_25);
+                case BARRAGE -> state.setAndContinue(BOLSTER_STATUS_3);
+                case SUPPORT, VOMIT, ORB -> state.setAndContinue(BOLSTER_STATUS_15);
+                default -> state.setAndContinue(state.isMoving() ? WALK : IDLE);
+            };
+        }
         if (supportsBurrowing() && isBurrowing()) {
             return state.setAndContinue(DIG);
         }
@@ -404,12 +619,201 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
         return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() > 0.02D ? RUN : WALK);
     }
 
+    private PlayState bolsterOverlayAnimation(AnimationState<AdaptedVariantEntity> state) {
+        if (activeKind() != Kind.BOLSTER) {
+            return PlayState.STOP;
+        }
+        return switch (getBolsterAction()) {
+            case BARRAGE_WINDUP -> state.setAndContinue(BOLSTER_ATTACK_STATUS_25);
+            case SUPPORT, VOMIT, ORB -> state.setAndContinue(BOLSTER_ATTACK_STATUS_15);
+            default -> PlayState.STOP;
+        };
+    }
+
     private float meleeDamage() {
         float damage = (float) getAttributeValue(Attributes.ATTACK_DAMAGE);
         if (activeKind() == Kind.LONGARMS) {
             damage *= 1.0F + (1.0F - getHealth() / getMaxHealth());
         }
         return damage;
+    }
+
+    private boolean performBolsterSweep(LivingEntity center) {
+        if (level().isClientSide || getBolsterAction().blocksMelee()) {
+            return false;
+        }
+        lastBolsterCombatTick = tickCount;
+        setBolsterAction(BolsterAction.MELEE, 12);
+        triggerAnim("bolster_attack_controller", "attack");
+        playSound(ModSounds.get("mob.swipe"), 2.5F, 0.75F + random.nextFloat() * 0.2F);
+        boolean hit = false;
+        for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
+                center.getBoundingBox().inflate(2.0D), this::isValidParasiteTarget)) {
+            float healthBefore = target.getHealth();
+            boolean targetHit = super.doHurtTarget(target);
+            if (targetHit) {
+                applyBolsterMinimumDamage(target, healthBefore);
+                applyBolsterVariantAttack(target);
+                if (random.nextFloat() < 0.50F) {
+                    target.addEffect(new MobEffectInstance(ModMobEffects.COTH, 1200, 0), this);
+                }
+                double x = target.getX() - getX();
+                double z = target.getZ() - getZ();
+                double length = Math.max(0.001D, Math.sqrt(x * x + z * z));
+                target.push(x / length * 0.35D, 0.35D, z / length * 0.35D);
+            }
+            hit |= targetHit;
+        }
+        return hit;
+    }
+
+    private void applyBolsterVariantAttack(LivingEntity target) {
+        switch (getBolsterVariant()) {
+            case BERSERKER -> target.addEffect(new MobEffectInstance(ModMobEffects.BLEED, 100, 0), this);
+            case VIRULENT -> target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 100, 0), this);
+            default -> {
+            }
+        }
+    }
+
+    private void applyBolsterMinimumDamage(LivingEntity target, float healthBefore) {
+        if (!(level() instanceof ServerLevel serverLevel)
+                || !EvolutionSystem.generationProfile(serverLevel).minimumDamage() || !target.isAlive()) {
+            return;
+        }
+        float dealt = Math.max(0.0F, healthBefore - target.getHealth());
+        if (dealt < 4.0F) {
+            target.invulnerableTime = 0;
+            target.hurt(damageSources().fellOutOfWorld(), 4.0F - dealt);
+            target.invulnerableTime = 0;
+        }
+    }
+
+    private void tickBolster(ServerLevel level) {
+        initializeBolsterTendrils();
+        if (getHealth() < getMaxHealth() && tickCount - lastBolsterCombatTick >= 80 && consumeParasiteKill()) {
+            heal(getMaxHealth() * 0.001F);
+        }
+        if (isInWaterOrBubble()) {
+            LivingEntity target = getTarget();
+            if (target != null && target.isInWaterOrBubble()) {
+                Vec3 direction = target.getEyePosition().subtract(getEyePosition());
+                if (direction.lengthSqr() > 0.01D) {
+                    direction = direction.normalize().scale(0.08D);
+                    setDeltaMovement(getDeltaMovement().add(direction));
+                }
+            } else if (horizontalCollision && tickCount % 10 == 0) {
+                setDeltaMovement(getDeltaMovement().add(0.0D, 0.18D, 0.0D));
+            }
+        }
+        if (!bolsterSpecialMovesEnabled() || getBolsterAction() != BolsterAction.NONE) {
+            return;
+        }
+        if (residueCooldown > 0) {
+            residueCooldown--;
+            return;
+        }
+        setBolsterAction(BolsterAction.VOMIT, 40);
+        playSound(ModSounds.get("adapted.v"), 2.0F, 0.85F + random.nextFloat() * 0.2F);
+        spreadBolsterResidue();
+        residueCooldown = 600 + random.nextInt(601);
+    }
+
+    private boolean bolsterSpecialMovesEnabled() {
+        return level() instanceof ServerLevel serverLevel
+                && EvolutionSystem.generationProfile(serverLevel).specialMoves();
+    }
+
+    private boolean bolsterOrbEnabled() {
+        return level() instanceof ServerLevel serverLevel
+                && EvolutionSystem.generationProfile(serverLevel).ordinaryOrb();
+    }
+
+    private void spreadBolsterResidue() {
+        BlockPos origin = blockPosition();
+        for (int x = -3; x <= 3; x++) {
+            for (int z = -3; z <= 3; z++) {
+                if (random.nextFloat() < 0.45F) {
+                    placeBolsterResidue(origin.offset(x, 3, z));
+                }
+            }
+        }
+    }
+
+    private void placeBolsterResidue(BlockPos start) {
+        for (int y = 0; y <= 6; y++) {
+            BlockPos candidate = start.below(y);
+            if (level().getBlockState(candidate).canBeReplaced()
+                    && !level().getBlockState(candidate.below()).canBeReplaced()) {
+                level().setBlock(candidate, ModBlocks.INFESTED_REMAINS.get().defaultBlockState(), 3);
+                return;
+            }
+        }
+    }
+
+    private void initializeBolsterTendrils() {
+        float health = getMaxHealth() * 0.25F;
+        if (entityData.get(BOLSTER_LEFT_TENDRIL) < 0.0F) {
+            entityData.set(BOLSTER_LEFT_TENDRIL, health);
+        }
+        if (entityData.get(BOLSTER_RIGHT_TENDRIL) < 0.0F) {
+            entityData.set(BOLSTER_RIGHT_TENDRIL, health);
+        }
+    }
+
+    private void damageBolsterTendril(DamageSource source, float amount) {
+        Entity attacker = source.getEntity();
+        if (attacker == null || attacker == this || amount <= 0.0F) {
+            return;
+        }
+        Vec3 toAttacker = attacker.position().subtract(position());
+        Vec3 right = new Vec3(Math.cos(Math.toRadians(getYRot())), 0.0D,
+                -Math.sin(Math.toRadians(getYRot())));
+        EntityDataAccessor<Float> tendril = toAttacker.dot(right) >= 0.0D
+                ? BOLSTER_RIGHT_TENDRIL : BOLSTER_LEFT_TENDRIL;
+        float previous = entityData.get(tendril);
+        if (previous <= 0.0F) {
+            return;
+        }
+        float remaining = Math.max(0.0F, previous - amount);
+        entityData.set(tendril, remaining);
+        if (remaining == 0.0F) {
+            reduceAllResistances(Integer.MAX_VALUE);
+            addEffect(new MobEffectInstance(ModMobEffects.BLEED, 200, 1), this);
+            addEffect(new MobEffectInstance(ModMobEffects.RAGE, 600, 1), this);
+            playSound(ModSounds.get("mob.tendril"), 2.0F, 0.8F);
+        }
+    }
+
+    public BolsterVariant getBolsterVariant() {
+        int value = entityData.get(BOLSTER_VARIANT);
+        return BolsterVariant.values()[Math.max(0, Math.min(BolsterVariant.values().length - 1, value))];
+    }
+
+    public boolean isAdaptedBolster() {
+        return activeKind() == Kind.BOLSTER;
+    }
+
+    private void setBolsterVariant(BolsterVariant variant) {
+        entityData.set(BOLSTER_VARIANT, variant.ordinal());
+    }
+
+    public boolean isLeftBolsterTendrilAttached() {
+        return entityData.get(BOLSTER_LEFT_TENDRIL) != 0.0F;
+    }
+
+    public boolean isRightBolsterTendrilAttached() {
+        return entityData.get(BOLSTER_RIGHT_TENDRIL) != 0.0F;
+    }
+
+    private BolsterAction getBolsterAction() {
+        int value = entityData.get(BOLSTER_ACTION);
+        return BolsterAction.values()[Math.max(0, Math.min(BolsterAction.values().length - 1, value))];
+    }
+
+    private void setBolsterAction(BolsterAction action, int ticks) {
+        entityData.set(BOLSTER_ACTION, action.ordinal());
+        entityData.set(BOLSTER_ACTION_TICKS, Math.max(0, ticks));
     }
 
     private void updateCloak() {
@@ -436,8 +840,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
             return;
         }
         horizontal = horizontal.normalize();
-        double reach = activeKind() == Kind.BOLSTER || activeKind() == Kind.MANDUCATER
-                || activeKind() == Kind.VISCERA || activeKind() == Kind.YELLOWEYE ? 1.7D : 1.0D;
+        double reach = activeKind() == Kind.BOLSTER ? 2.0D
+                : activeKind() == Kind.MANDUCATER || activeKind() == Kind.VISCERA
+                || activeKind() == Kind.YELLOWEYE ? 1.7D : 1.0D;
         BlockPos origin = BlockPos.containing(getX() + horizontal.x * reach,
                 getY() + getBbHeight() * 0.5D, getZ() + horizontal.z * reach);
         for (BlockPos candidate : new BlockPos[] {origin, origin.above(), origin.below()}) {
@@ -455,7 +860,10 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
     }
 
     private float blockBreakHardness() {
-        return activeKind() == Kind.BOLSTER ? 3.5F : 3.0F;
+        if (activeKind() == Kind.BOLSTER) {
+            return getBolsterVariant() == BolsterVariant.BREACHER ? 7.0F : 3.5F;
+        }
+        return 3.0F;
     }
 
     private static boolean breaksSoftBlocks(Kind kind) {
@@ -470,6 +878,26 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
                 pull = pull.normalize().scale(strength);
                 target.push(pull.x, 0.08D, pull.z);
             }
+        }
+    }
+
+    private void damageBolsterBarrage() {
+        DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(8.0D));
+        for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
+                getBoundingBox().inflate(8.0D), this::isValidParasiteTarget)) {
+            if (!hasLineOfSight(target)) {
+                continue;
+            }
+            float healthBefore = target.getHealth();
+            target.invulnerableTime = 0;
+            if (target.hurt(damageSources().mobAttack(this), meleeDamage() * 0.25F)) {
+                applyBolsterMinimumDamage(target, healthBefore);
+                applyBolsterVariantAttack(target);
+                if (random.nextFloat() < 0.50F) {
+                    target.addEffect(new MobEffectInstance(ModMobEffects.COTH, 1200, 0), this);
+                }
+            }
+            target.invulnerableTime = 0;
         }
     }
 
@@ -632,7 +1060,8 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
 
         @Override
         public boolean canUse() {
-            return supportCooldown <= 0 && getTarget() != null;
+            return bolsterSpecialMovesEnabled() && supportCooldown <= 0 && getTarget() != null
+                    && getBolsterAction() == BolsterAction.NONE;
         }
 
         @Override
@@ -642,12 +1071,64 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
 
         @Override
         public void start() {
+            setBolsterAction(BolsterAction.SUPPORT, 40);
+            getNavigation().stop();
+            playSound(ModSounds.get("attack.bano"), 3.0F, 1.0F + random.nextFloat() * 0.4F);
             for (LivingEntity ally : level().getEntitiesOfClass(LivingEntity.class,
                     getBoundingBox().inflate(24.0D), entity -> entity instanceof Parasite && entity.isAlive())) {
                 ally.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 1200, 3), AdaptedVariantEntity.this);
                 ally.clearFire();
             }
             supportCooldown = 1200;
+        }
+    }
+
+    private final class BolsterOrbGoal extends Goal {
+        private int castTicks;
+
+        private BolsterOrbGoal() {
+            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
+        }
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = getTarget();
+            return bolsterOrbEnabled() && secondaryCooldown <= 0 && target != null && target.isAlive()
+                    && distanceToSqr(target) <= 576.0D && getBolsterAction() == BolsterAction.NONE;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return castTicks < 40 && getTarget() != null && getTarget().isAlive();
+        }
+
+        @Override
+        public void start() {
+            castTicks = 0;
+            setBolsterAction(BolsterAction.ORB, 40);
+            getNavigation().stop();
+            playSound(ModSounds.ORB_START.get(), 2.5F, 0.8F);
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = getTarget();
+            if (target == null) {
+                return;
+            }
+            getLookControl().setLookAt(target, 30.0F, 30.0F);
+            if (++castTicks == 25) {
+                ScaryOrbEntity orb = new ScaryOrbEntity(ModEntities.SCARY_ORB.get(), level(),
+                        AdaptedVariantEntity.this);
+                orb.setTimings(20, 10);
+                orb.setAnchor(position().add(0.0D, getBbHeight() + 1.0D, 0.0D));
+                level().addFreshEntity(orb);
+            }
+        }
+
+        @Override
+        public void stop() {
+            secondaryCooldown = 600;
         }
     }
 
@@ -661,33 +1142,54 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
         @Override
         public boolean canUse() {
             LivingEntity target = getTarget();
-            return abilityCooldown <= 0 && onGround() && target != null && distanceToSqr(target) <= 196.0D;
+            return bolsterSpecialMovesEnabled() && abilityCooldown <= 0 && onGround() && target != null
+                    && distanceToSqr(target) <= 196.0D && getBolsterAction() == BolsterAction.NONE;
         }
 
         @Override
         public boolean canContinueToUse() {
             LivingEntity target = getTarget();
-            return barrageTicks < 60 && target != null && target.isAlive();
+            return barrageTicks < 101 && target != null && target.isAlive();
         }
 
         @Override
         public void start() {
             barrageTicks = 0;
             getNavigation().stop();
+            setBolsterAction(BolsterAction.BARRAGE_WINDUP, 20);
         }
 
         @Override
         public void tick() {
             barrageTicks++;
-            if (barrageTicks % 10 == 0) {
-                hurtNearby(AdaptedVariantEntity.this, 8.0D, meleeDamage() * 0.55F, true);
+            setDeltaMovement(0.0D, getDeltaMovement().y, 0.0D);
+            if (barrageTicks <= 20) {
+                if (level() instanceof ServerLevel serverLevel) {
+                    serverLevel.sendParticles(ParticleTypes.FLAME, getX(), getY() + getBbHeight() * 0.7D,
+                            getZ(), 8, 0.8D, 1.1D, 0.8D, 0.03D);
+                }
+                if (barrageTicks == 2) {
+                    playSound(ModSounds.get("attack.bano"), 4.0F, 1.0F + random.nextFloat() * 0.4F);
+                }
+                if (barrageTicks == 20) {
+                    setBolsterAction(BolsterAction.BARRAGE, 81);
+                    playSound(ModSounds.get("mob.swipe"), 5.0F, 1.0F);
+                }
+                return;
+            }
+            if (barrageTicks % 4 == 0) {
+                damageBolsterBarrage();
                 pullTargets(8.0D, 0.22D);
+                if (barrageTicks % 8 == 0) {
+                    playSound(ModSounds.get("mob.swipe"), 3.0F, 0.9F + random.nextFloat() * 0.2F);
+                }
             }
         }
 
         @Override
         public void stop() {
-            abilityCooldown = 300;
+            setBolsterAction(BolsterAction.NONE, 0);
+            abilityCooldown = 1200;
         }
     }
 
@@ -1001,6 +1503,33 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
                 doHurtTarget(target);
                 secondaryCooldown = 20;
             }
+        }
+    }
+
+    public enum BolsterVariant {
+        NORMAL,
+        BERSERKER,
+        VIRULENT,
+        BREACHER
+    }
+
+    private enum BolsterAction {
+        NONE(false),
+        MELEE(false),
+        SUPPORT(true),
+        BARRAGE_WINDUP(true),
+        BARRAGE(true),
+        VOMIT(true),
+        ORB(true);
+
+        private final boolean blocksMelee;
+
+        BolsterAction(boolean blocksMelee) {
+            this.blocksMelee = blocksMelee;
+        }
+
+        private boolean blocksMelee() {
+            return blocksMelee;
         }
     }
 

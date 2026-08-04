@@ -39,15 +39,25 @@ public final class ScaryOrbRenderer extends EntityRenderer<ScaryOrbEntity> {
         poseStack.pushPose();
         poseStack.scale(appear * pulse, appear * pulse, appear * pulse);
         poseStack.mulPose(Axis.YP.rotation(age * 0.05F));
-        renderSphere(poseStack, bufferSource.getBuffer(RenderType.entityTranslucentEmissive(CORE_TEXTURE)),
-                SPHERE_RADIUS, 1.0F, 1.0F, 1.0F, 220);
+        if (entity.isBolsterOrb()) {
+            renderSphere(poseStack, bufferSource.getBuffer(RenderType.entityTranslucentEmissive(CORE_TEXTURE)),
+                    SPHERE_RADIUS, 1.0F, 0.12F, 0.12F, 205);
+        } else {
+            renderSphere(poseStack, bufferSource.getBuffer(RenderType.entityTranslucentEmissive(CORE_TEXTURE)),
+                    SPHERE_RADIUS, 1.0F, 1.0F, 1.0F, 220);
+        }
         poseStack.popPose();
 
         poseStack.pushPose();
         poseStack.scale(appear * 1.12F, appear * 1.12F, appear * 1.12F);
         poseStack.mulPose(Axis.YP.rotation(-age * 0.07F));
-        renderSphere(poseStack, bufferSource.getBuffer(RenderType.entityTranslucentEmissive(AURA_TEXTURE)),
-                SPHERE_RADIUS, 0.65F, 0.85F, 1.0F, 135);
+        if (entity.isBolsterOrb()) {
+            renderSphere(poseStack, bufferSource.getBuffer(RenderType.entityTranslucentEmissive(AURA_TEXTURE)),
+                    SPHERE_RADIUS, 1.0F, 0.25F, 0.35F, 125);
+        } else {
+            renderSphere(poseStack, bufferSource.getBuffer(RenderType.entityTranslucentEmissive(AURA_TEXTURE)),
+                    SPHERE_RADIUS, 0.65F, 0.85F, 1.0F, 135);
+        }
         poseStack.popPose();
 
         super.render(entity, entityYaw, partialTick, poseStack, bufferSource, packedLight);

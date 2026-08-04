@@ -115,7 +115,9 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
             int currentKills = (int) Math.floor(legacyKillCount);
             if (currentKills > previousKills) {
                 parasiteKills = Math.max(parasiteKills, currentKills);
-                if (previousKills < 10 && currentKills >= 10 && level() instanceof ServerLevel serverLevel) {
+                int requiredKills = requiredAdaptationKills();
+                if (previousKills < requiredKills && currentKills >= requiredKills
+                        && level() instanceof ServerLevel serverLevel) {
                     onParasiteKill(serverLevel, this, parasiteKills);
                 }
             }
@@ -480,7 +482,8 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     }
 
     protected void onParasiteKill(ServerLevel level, LivingEntity victim, int kills) {
-        if (kills < 10 || adaptedFormSpawned || isRemoved()) {
+        int requiredKills = requiredAdaptationKills();
+        if (kills < requiredKills || adaptedFormSpawned || isRemoved()) {
             return;
         }
         Mob adapted = createAdaptedForm(level);
@@ -500,6 +503,10 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         } else {
             adaptedFormSpawned = false;
         }
+    }
+
+    private int requiredAdaptationKills() {
+        return getType() == ModEntities.PRI_BOLSTER.get() ? 30 : 10;
     }
 
     private Mob createAdaptedForm(ServerLevel level) {

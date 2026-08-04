@@ -61,6 +61,7 @@ import alku.csrp.entity.ThrallEntity;
 import alku.csrp.entity.VerminEntity;
 import alku.csrp.entity.VisceraEntity;
 import net.minecraft.world.entity.SpawnPlacementTypes;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -304,6 +305,12 @@ public final class CommonModEvents {
                 SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 FeralEndermanEntity::checkFeralEndermanSpawnRules,
+                RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        event.register(
+                ModEntities.ADA_BOLSTER.get(),
+                SpawnPlacementTypes.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                Monster::checkMonsterSpawnRules,
                 RegisterSpawnPlacementsEvent.Operation.REPLACE);
     }
 }
