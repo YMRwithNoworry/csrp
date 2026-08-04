@@ -26,6 +26,15 @@ public final class CompendiumScreen extends Screen {
     private static final int PANEL_HEIGHT = 212;
     private static final int LIST_WIDTH = 128;
     private static final int ROW_HEIGHT = 15;
+    private static final int PREVIEW_LEFT = 92;
+    private static final int PREVIEW_TOP = 18;
+    private static final int PREVIEW_RIGHT = 192;
+    private static final int PREVIEW_BOTTOM = 110;
+    private static final int PREVIEW_INSET = 10;
+    private static final float PREVIEW_BASE_SCALE = 20.0F;
+    private static final float PREVIEW_BOUNDS_PADDING = 1.15F;
+    private static final int PREVIEW_MIN_SCALE = 2;
+    private static final int PREVIEW_MAX_SCALE = 34;
     private final CompendiumProgress progress;
     private final List<CompendiumEntry> mobs;
     private Category category = Category.PARASITES;
@@ -60,6 +69,7 @@ public final class CompendiumScreen extends Screen {
         selectedIndex = 0;
         scroll = 0;
         previewEntity = null;
+        resetModelView();
     }
 
     @Override
@@ -129,8 +139,9 @@ public final class CompendiumScreen extends Screen {
                 0xFF654936, false);
         LivingEntity entity = preview(entry);
         if (entity != null) {
-            int scale = Math.max(8, Math.min(42, Math.round(28.0F * modelZoom * entry.renderScale())));
-            InventoryScreen.renderEntityInInventoryFollowsAngle(graphics, x + 125, y + 25, x + 207, y + 105,
+            int scale = previewScale(entity, entry);
+            InventoryScreen.renderEntityInInventoryFollowsAngle(graphics,
+                    x + PREVIEW_LEFT, y + PREVIEW_TOP, x + PREVIEW_RIGHT, y + PREVIEW_BOTTOM,
                     scale, 0.0F, modelYaw, modelPitch, entity);
         }
         if (kills >= entry.minimumStatKills() && entity != null) {
@@ -214,6 +225,23 @@ public final class CompendiumScreen extends Screen {
         var entity = BuiltInRegistries.ENTITY_TYPE.get(id).create(minecraft.level);
         previewEntity = entity instanceof LivingEntity living ? living : null;
         return previewEntity;
+    }
+
+    private int previewScale(LivingEntity entity, CompendiumEntry entry) {
+        float availableWidth = PREVIEW_RIGHT - PREVIEW_LEFT - PREVIEW_INSET * 2.0F;
+        float availableHeight = PREVIEW_BOTTOM - PREVIEW_TOP - PREVIEW_INSET * 2.0F;
+        float entityWidth = Math.max(0.1F, entity.getBbWidth()) * PREVIEW_BOUNDS_PADDING;
+        float entityHeight = Math.max(0.1F, entity.getBbHeight()) * PREVIEW_BOUNDS_PADDING;
+        float fittedScale = Math.min(availableWidth / entityWidth, availableHeight / entityHeight);
+        float configuredScale = PREVIEW_BASE_SCALE * entry.renderScale();
+        int scale = Math.round(Math.min(configuredScale, fittedScale) * modelZoom);
+        return Math.max(PREVIEW_MIN_SCALE, Math.min(PREVIEW_MAX_SCALE, scale));
+    }
+
+    private void resetModelView() {
+        modelYaw = 0.0F;
+        modelPitch = 0.0F;
+        modelZoom = 1.0F;
     }
 
     private List<ListEntry> currentEntries() {
@@ -340,6 +368,9 @@ public final class CompendiumScreen extends Screen {
             int row = (int) ((mouseY - top - 5) / ROW_HEIGHT);
             int index = scroll + row;
             if (index >= 0 && index < currentEntries().size()) {
+                if (selectedIndex != index) {
+                    resetModelView();
+                }
                 selectedIndex = index;
                 previewEntity = null;
                 return true;
