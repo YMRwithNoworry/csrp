@@ -80,7 +80,7 @@ public class BuglinEntity extends Monster implements GeoEntity, Parasite {
 
     @Override
     public int getMaxSpawnClusterSize() {
-        return 9;
+        return 12;
     }
 
     @Override

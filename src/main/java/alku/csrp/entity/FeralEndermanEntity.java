@@ -81,7 +81,7 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
 
     @Override
     public int getMaxSpawnClusterSize() {
-        return 5;
+        return 7;
     }
 
     @Override

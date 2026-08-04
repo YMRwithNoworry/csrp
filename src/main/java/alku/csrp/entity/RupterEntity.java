@@ -138,7 +138,7 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
 
     @Override
     public int getMaxSpawnClusterSize() {
-        return 8;
+        return 12;
     }
 
     @Override
