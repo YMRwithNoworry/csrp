@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -34,6 +35,7 @@ import net.neoforged.neoforge.event.tick.EntityTickEvent;
 /** Connects world activity to the original SRP evolution and generation state. */
 @EventBusSubscriber(modid = Csrp.MODID)
 public final class EvolutionEvents {
+    private static final double SPRINT_MIN_HORIZONTAL_DISTANCE_SQR = 1.0E-4D;
     private static final ResourceLocation PHASE_TEN_HEALTH =
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "phase_ten_health");
     private static final ResourceLocation PHASE_TEN_DAMAGE =
@@ -219,9 +221,13 @@ public final class EvolutionEvents {
         }
         EvolutionSystem.GenerationProfile profile = EvolutionSystem.generationProfile(level);
         updatePhaseTenAttributes(entity, level);
-        if (profile.sprinting() && entity instanceof net.minecraft.world.entity.Mob mob && mob.getTarget() != null) {
-            entity.setSprinting(true);
-        }
+        double movedX = entity.getX() - entity.xo;
+        double movedZ = entity.getZ() - entity.zo;
+        boolean movedHorizontally = movedX * movedX + movedZ * movedZ
+                > SPRINT_MIN_HORIZONTAL_DISTANCE_SQR;
+        boolean shouldSprint = profile.sprinting() && entity instanceof Mob mob
+                && mob.getTarget() != null && mob.getTarget().isAlive() && movedHorizontally;
+        entity.setSprinting(shouldSprint);
         if (entity.tickCount % 20 != 0 || entity.getHealth() >= entity.getMaxHealth()) {
             return;
         }
