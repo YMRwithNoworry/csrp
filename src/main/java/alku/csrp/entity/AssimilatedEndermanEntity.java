@@ -2,13 +2,20 @@ package alku.csrp.entity;
 
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
+import alku.csrp.registry.ModItems;
+import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -26,6 +33,8 @@ import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -40,6 +49,8 @@ import java.util.List;
 
 /** Legacy assimilated Enderman teleports itself and idle parasite allies around its prey. */
 public final class AssimilatedEndermanEntity extends Monster implements GeoEntity, Parasite {
+    private static final EntityDataAccessor<Boolean> SHRIMP_FED = SynchedEntityData.defineId(
+            AssimilatedEndermanEntity.class, EntityDataSerializers.BOOLEAN);
     private static final int TARGET_GRACE_TICKS = 80;
     private static final int SELF_TELEPORT_COOLDOWN = 20;
     private static final int ALLY_TELEPORT_COOLDOWN = 40;
@@ -69,6 +80,20 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
     }
 
     @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(SHRIMP_FED, false);
+    }
+
+    public boolean isShrimpFed() {
+        return entityData.get(SHRIMP_FED);
+    }
+
+    private void setShrimpFed(boolean fed) {
+        entityData.set(SHRIMP_FED, fed);
+    }
+
+    @Override
     protected SoundEvent getAmbientSound() {
         return ParasiteSoundProfiles.ambient(this);
     }
@@ -93,6 +118,22 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
         targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
         targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,
                 true, false, this::isValidParasiteTarget));
+    }
+
+    @Override
+    protected InteractionResult mobInteract(Player player, InteractionHand hand) {
+        ItemStack stack = player.getItemInHand(hand);
+        if (!stack.is(ModItems.SHRIMP.get()) || isShrimpFed()) {
+            return super.mobInteract(player, hand);
+        }
+        if (!level().isClientSide) {
+            setShrimpFed(true);
+            playSound(ModSounds.get("shrimp.eat"), 1.0F, 1.0F);
+            if (!player.getAbilities().instabuild) {
+                stack.shrink(1);
+            }
+        }
+        return InteractionResult.sidedSuccess(level().isClientSide);
     }
 
     @Override
@@ -163,6 +204,7 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
         tag.putInt("target_ticks", targetTicks);
         tag.putInt("self_teleport_cooldown", selfTeleportCooldown);
         tag.putInt("ally_teleport_cooldown", allyTeleportCooldown);
+        tag.putBoolean("shrimp_fed", isShrimpFed());
     }
 
     @Override
@@ -172,6 +214,7 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
         targetTicks = tag.getInt("target_ticks");
         selfTeleportCooldown = tag.getInt("self_teleport_cooldown");
         allyTeleportCooldown = tag.getInt("ally_teleport_cooldown");
+        setShrimpFed(tag.getBoolean("shrimp_fed"));
     }
 
     @Override

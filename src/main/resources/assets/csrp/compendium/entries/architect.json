@@ -1,0 +1,12 @@
+{
+  "id": "srparasites:architect",
+  "tier": "PREEMINENT",
+  "name_key": "entity.srparasites.architect.name",
+  "lore_key": "lore.srparasites.architect",
+  "render_scale": 0.45,
+  "minlorekill": 1,
+  "minstatkill": 1,
+  "stats": {
+    "source": "entity"
+  }
+}

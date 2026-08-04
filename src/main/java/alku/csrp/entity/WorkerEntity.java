@@ -54,10 +54,10 @@ public final class WorkerEntity extends PrimitiveParasiteEntity {
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 7.0D)
-                .add(Attributes.ARMOR, 1.5D)
-                .add(Attributes.ATTACK_DAMAGE, 3.0D)
-                .add(Attributes.KNOCKBACK_RESISTANCE, 0.05D)
+                .add(Attributes.MAX_HEALTH, 10.0D)
+                .add(Attributes.ARMOR, 5.0D)
+                .add(Attributes.ATTACK_DAMAGE, 5.0D)
+                .add(Attributes.KNOCKBACK_RESISTANCE, 2.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.30D)
                 .add(Attributes.FOLLOW_RANGE, 16.0D);
     }

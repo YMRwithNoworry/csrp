@@ -2,6 +2,7 @@ package alku.csrp.client.model;
 
 import alku.csrp.Csrp;
 import alku.csrp.entity.AdaptedVariantEntity;
+import alku.csrp.entity.AssimilatedEndermanEntity;
 import alku.csrp.entity.PreeminentParasiteEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
@@ -19,6 +20,8 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/ada_bolster_virulent.png");
     private static final ResourceLocation BOLSTER_BREACHER_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/ada_bolster_breacher.png");
+    private static final ResourceLocation SHRIMP_FED_ENDERMAN_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/sim_enderman_ariral.png");
     private final ResourceLocation model;
     private final ResourceLocation texture;
     private final ResourceLocation animation;
@@ -32,6 +35,9 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
     @Override public ResourceLocation getModelResource(T animatable) { return model; }
     @Override
     public ResourceLocation getTextureResource(T animatable) {
+        if (animatable instanceof AssimilatedEndermanEntity enderman && enderman.isShrimpFed()) {
+            return SHRIMP_FED_ENDERMAN_TEXTURE;
+        }
         if (animatable instanceof PreeminentParasiteEntity preeminent && preeminent.isCarrierVariant()) {
             return CARRIER_VARIANT_TEXTURE;
         }
@@ -56,6 +62,9 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
         if (animatable instanceof AdaptedVariantEntity adapted && adapted.isAdaptedBolster()) {
             getBone("jointMLT0").ifPresent(bone -> bone.setHidden(!adapted.isLeftBolsterTendrilAttached()));
             getBone("jointMRT0").ifPresent(bone -> bone.setHidden(!adapted.isRightBolsterTendrilAttached()));
+        }
+        if (animatable instanceof AssimilatedEndermanEntity enderman) {
+            getBone("mouth").ifPresent(bone -> bone.setHidden(enderman.isShrimpFed()));
         }
     }
 }

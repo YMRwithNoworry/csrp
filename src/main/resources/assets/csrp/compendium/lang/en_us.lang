@@ -2471,6 +2471,8 @@ lore.srparasites.bomber_light=§lEpithet:§r Omboo §l|§r §oHollow frame packe
 lore.srparasites.marauder=§lEpithet:§r Esor §l|§r §oCarver of corridors through living lines; momentum is its favorite weapon.
 lore.srparasites.monarch=§lEpithet:§r Orch §l|§r §oCommands lesser forms by impulse alone; the swarm kneels without thought.
 lore.srparasites.overseer=§lEpithet:§r Alafha §l|§r §oAn auditor of authority.
+lore.srparasites.worker=§oA passive colony builder dispatched by Architects.
+lore.srparasites.architect=§oA passive flying utility parasite that constructs Colonies through its Workers.
 lore.srparasites.vigilante=§lEpithet:§r Anged §l|§r §oHunts outliers and stragglers. It is a good job, mate.
 lore.srparasites.warden=§lEpithet:§r Ganro §l|§r §oBulwark organism. Holds its authority and ground like a tumor.
 

@@ -15,6 +15,7 @@ import alku.csrp.item.LivingArmorItem;
 import alku.csrp.item.LivingBowItem;
 import alku.csrp.item.LivingWeaponItem;
 import alku.csrp.item.QuenchItem;
+import alku.csrp.item.ShrimpItem;
 import alku.csrp.item.TexturedSpawnEggItem;
 import alku.csrp.item.TheSignCharmItem;
 import alku.csrp.item.InjectedPurifierItem;
@@ -460,7 +461,8 @@ public final class ModItems {
             "false_apple", FalseAppleItem::new, new Item.Properties());
     public static final DeferredItem<FishlinItem> FISHLIN = ITEMS.registerItem(
             "fishlin", FishlinItem::new, new Item.Properties());
-    public static final DeferredItem<Item> SHRIMP = simple("shrimp");
+    public static final DeferredItem<ShrimpItem> SHRIMP = ITEMS.registerItem(
+            "shrimp", ShrimpItem::new, new Item.Properties());
     public static final DeferredItem<AlveoliItem> ALVEOLIGROWTH = ITEMS.registerItem(
             "alveoligrowth", AlveoliItem::new, new Item.Properties());
     public static final DeferredItem<AlveolarFluidItem> ALVEOLAR_FLUID = ITEMS.registerItem(

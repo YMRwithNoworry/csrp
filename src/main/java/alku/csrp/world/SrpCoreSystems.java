@@ -3,16 +3,20 @@ package alku.csrp.world;
 import alku.csrp.Csrp;
 import alku.csrp.Config;
 import alku.csrp.block.SrpCoreBlock;
+import alku.csrp.entity.ArchitectEntity;
 import alku.csrp.infection.BlockInfestation;
 import alku.csrp.registry.ModBlocks;
+import alku.csrp.registry.ModEntities;
 import alku.csrp.world.SrpWorldData.ColonyEntry;
 import alku.csrp.world.SrpWorldData.NodeEntry;
 import alku.csrp.world.SrpWorldData.VectorEntry;
 import java.util.ArrayList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
@@ -185,7 +189,28 @@ public final class SrpCoreSystems {
             int stage = colonyStage(entry.points());
             updateActiveState(level, entry.pos(), ModBlocks.COLONYHEART.get(), stage);
             BlockInfestation.infestAround(level, entry.pos(), stage);
+            spawnArchitectIfMissing(level, entry);
         }
+    }
+
+    private static void spawnArchitectIfMissing(ServerLevel level, ColonyEntry colony) {
+        AABB colonyCoreArea = new AABB(colony.pos()).inflate(96.0D, 48.0D, 96.0D);
+        if (!level.getEntitiesOfClass(ArchitectEntity.class, colonyCoreArea).isEmpty()) {
+            return;
+        }
+        ArchitectEntity architect = ModEntities.ARCHITECT.get().create(level);
+        if (architect == null) {
+            return;
+        }
+        BlockPos spawn = colony.pos().above(4);
+        architect.moveTo(spawn.getX() + 0.5D, spawn.getY(), spawn.getZ() + 0.5D, 0.0F, 0.0F);
+        if (!level.noCollision(architect)) {
+            return;
+        }
+        architect.finalizeSpawn(level, level.getCurrentDifficultyAt(spawn),
+                MobSpawnType.MOB_SUMMONED, null);
+        architect.setPersistenceRequired();
+        level.addFreshEntity(architect);
     }
 
     private static void advanceDailyState(ServerLevel level) {

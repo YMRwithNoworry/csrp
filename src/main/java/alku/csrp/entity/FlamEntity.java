@@ -117,17 +117,17 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
                 true, false, this::isValidParasiteTarget));
     }
 
-    public void configure(PreeminentParasiteEntity father, LivingEntity target, int actionType) {
+    public void configure(PrimitiveParasiteEntity father, LivingEntity target, int actionType) {
         fatherId = father.getUUID();
         this.actionType = Mth.clamp(actionType, ACTION_EXPLODE, ACTION_TELEPORT);
         setTarget(target);
         var attackDamage = getAttribute(Attributes.ATTACK_DAMAGE);
-        if (attackDamage != null) {
+        if (attackDamage != null && father.getAttributeValue(Attributes.ATTACK_DAMAGE) > 0.0D) {
             attackDamage.setBaseValue(father.getAttributeValue(Attributes.ATTACK_DAMAGE) * 2.0D);
         }
     }
 
-    public boolean isSummonedBy(PreeminentParasiteEntity father) {
+    public boolean isSummonedBy(PrimitiveParasiteEntity father) {
         return father != null && fatherId != null && fatherId.equals(father.getUUID());
     }
 
@@ -177,7 +177,7 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
             return;
         }
 
-        PreeminentParasiteEntity father = resolveFather();
+        PrimitiveParasiteEntity father = resolveFather();
         if (targetPosition == null || father == null) {
             setActivationProgress(activationProgress + 5000);
             advanceFinishing();
@@ -231,7 +231,7 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
             return;
         }
         actionConsumed = true;
-        PreeminentParasiteEntity father = resolveFather();
+        PrimitiveParasiteEntity father = resolveFather();
         switch (actionType) {
             case ACTION_EXPLODE -> performExplosion();
             case ACTION_ORB -> {
@@ -244,7 +244,7 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
         discard();
     }
 
-    private void completeTeleportAction(@Nullable PreeminentParasiteEntity father) {
+    private void completeTeleportAction(@Nullable PrimitiveParasiteEntity father) {
         if (father != null && targetPosition != null
                 && distanceToSqr(Vec3.atCenterOf(targetPosition)) < 16.0D) {
             father.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
@@ -258,7 +258,7 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
         }
     }
 
-    private boolean spawnScaryOrb(@Nullable PreeminentParasiteEntity father, double yOffset) {
+    private boolean spawnScaryOrb(@Nullable PrimitiveParasiteEntity father, double yOffset) {
         if (father == null) {
             return false;
         }
@@ -285,12 +285,12 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
         level().addFreshEntity(cloud);
     }
 
-    private PreeminentParasiteEntity resolveFather() {
+    private PrimitiveParasiteEntity resolveFather() {
         if (fatherId == null || !(level() instanceof ServerLevel serverLevel)) {
             return null;
         }
         Entity father = serverLevel.getEntity(fatherId);
-        return father instanceof PreeminentParasiteEntity preeminent ? preeminent : null;
+        return father instanceof PrimitiveParasiteEntity parasite ? parasite : null;
     }
 
     private void breakNearbyBlocks() {
