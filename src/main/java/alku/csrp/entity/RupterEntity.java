@@ -1,15 +1,18 @@
 package alku.csrp.entity;
 
+import alku.csrp.Csrp;
 import alku.csrp.Config;
 import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
@@ -25,6 +28,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
@@ -35,6 +41,7 @@ import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ambient.Bat;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
@@ -55,19 +62,36 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.Comparator;
 import java.util.EnumSet;
+import java.util.UUID;
 
 public class RupterEntity extends Monster implements GeoEntity, Parasite {
     public static final int TUNNEL_KILL_COST = 5;
+    private static final int OVERHEAT_WARMUP_DURATION = 100;
+    private static final int BAT_LEAP_EVALUATION_TIMEOUT = 40;
     private static final String KILL_COUNT_NBT_KEY = "rupter_kill_count";
     private static final String VARIANT_NBT_KEY = "rupter_texture_variant";
     private static final String BEHAVIOR_VARIANT_NBT_KEY = "rupter_behavior_variant";
+    private static final String OVERHEATED_NBT_KEY = "rupter_overheated";
+    private static final String OVERHEAT_WARMUP_NBT_KEY = "rupter_overheat_warmup";
+    private static final String FAILED_BAT_LEAPS_NBT_KEY = "rupter_failed_bat_leaps";
+    private static final String FAILED_BAT_TARGET_NBT_KEY = "rupter_failed_bat_target";
     private static final float SPECIAL_VARIANT_CHANCE = 0.165F;
+    private static final ResourceLocation OVERHEAT_ATTACK_MODIFIER =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "rupter_overheat_attack");
+    private static final ResourceLocation OVERHEAT_SPEED_MODIFIER =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "rupter_overheat_speed");
+    private static final ResourceLocation OVERHEAT_JUMP_MODIFIER =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "rupter_overheat_jump");
     private static final EntityDataAccessor<Byte> CLIMBING =
             SynchedEntityData.defineId(RupterEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Byte> TEXTURE_VARIANT =
             SynchedEntityData.defineId(RupterEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Byte> BEHAVIOR_VARIANT =
             SynchedEntityData.defineId(RupterEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Boolean> OVERHEATED =
+            SynchedEntityData.defineId(RupterEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> OVERHEAT_WARMUP_TICKS =
+            SynchedEntityData.defineId(RupterEntity.class, EntityDataSerializers.INT);
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
     private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
@@ -77,7 +101,15 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
     private int killCount;
     private int cloudCooldown;
     private int leapAttackTicks;
+    private int failedBatLeaps;
+    private int pendingBatLeapTicks;
     private boolean variantsInitialized;
+    private boolean pendingBatLeap;
+    private boolean pendingBatLeapAirborne;
+    @Nullable
+    private UUID failedBatTarget;
+    @Nullable
+    private UUID pendingBatLeapTarget;
 
     public RupterEntity(EntityType<? extends RupterEntity> entityType, Level level) {
         super(entityType, level);
@@ -111,16 +143,17 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
 
     @Override
     protected void registerGoals() {
-        goalSelector.addGoal(0, new FloatGoal(this));
-        goalSelector.addGoal(1, new RupterLeapGoal(this, 0.7F));
-        goalSelector.addGoal(2, new CothCloudGoal());
-        goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.3, false));
-        goalSelector.addGoal(4, new AvoidEntityGoal<>(this, LivingEntity.class, 8.0F, 1.0, 1.3,
+        goalSelector.addGoal(0, new OverheatStunGoal());
+        goalSelector.addGoal(1, new FloatGoal(this));
+        goalSelector.addGoal(2, new RupterLeapGoal(this, 0.7F));
+        goalSelector.addGoal(3, new CothCloudGoal());
+        goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.3, false));
+        goalSelector.addGoal(5, new AvoidEntityGoal<>(this, LivingEntity.class, 8.0F, 1.0, 1.3,
                 this::shouldAvoid));
-        goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0));
-        goalSelector.addGoal(6, new ParasiteFollowGoal(this));
-        goalSelector.addGoal(6, new RupterSpinGoal());
-        goalSelector.addGoal(7, new RandomLookAroundGoal(this));
+        goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 1.0));
+        goalSelector.addGoal(7, new ParasiteFollowGoal(this));
+        goalSelector.addGoal(7, new RupterSpinGoal());
+        goalSelector.addGoal(8, new RandomLookAroundGoal(this));
         targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(
                 this, LivingEntity.class, 10, true, false, this::canTargetByPhase));
     }
@@ -152,6 +185,13 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
         }
 
         setClimbing(horizontalCollision);
+        tickOverheatWarmup();
+        tickBatLeapAttempt();
+        if (isOverheatCharging()) {
+            navigation.stop();
+            setDeltaMovement(Vec3.ZERO);
+            return;
+        }
         if (cloudCooldown > 0) {
             cloudCooldown--;
         }
@@ -160,6 +200,125 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
         }
         performLiquidLeap();
         tryPlaceTunnel();
+    }
+
+    @Override
+    public void travel(Vec3 travelVector) {
+        if (isOverheatCharging()) {
+            setDeltaMovement(Vec3.ZERO);
+            return;
+        }
+        super.travel(travelVector);
+    }
+
+    private void tickOverheatWarmup() {
+        int warmupTicks = getOverheatWarmupTicks();
+        if (!isOverheated() || warmupTicks <= 0) {
+            return;
+        }
+
+        warmupTicks--;
+        entityData.set(OVERHEAT_WARMUP_TICKS, warmupTicks);
+        if (warmupTicks == 0) {
+            applyOverheatModifiers();
+        }
+    }
+
+    private void beginBatLeapAttempt(Bat bat) {
+        if (isOverheated()) {
+            return;
+        }
+        pendingBatLeap = true;
+        pendingBatLeapAirborne = false;
+        pendingBatLeapTicks = 0;
+        pendingBatLeapTarget = bat.getUUID();
+    }
+
+    private void tickBatLeapAttempt() {
+        if (isOverheated()) {
+            clearBatLeapTracking();
+            return;
+        }
+
+        if (!pendingBatLeap) {
+            LivingEntity target = getTarget();
+            if (failedBatLeaps > 0 && (!(target instanceof Bat bat) || !bat.isAlive()
+                    || !bat.getUUID().equals(failedBatTarget))) {
+                clearBatLeapTracking();
+            }
+            return;
+        }
+
+        pendingBatLeapTicks++;
+        if (!onGround()) {
+            pendingBatLeapAirborne = true;
+        }
+        if ((pendingBatLeapAirborne && onGround()) || pendingBatLeapTicks >= BAT_LEAP_EVALUATION_TIMEOUT) {
+            evaluateBatLeapAttempt();
+        }
+    }
+
+    private void evaluateBatLeapAttempt() {
+        UUID targetId = pendingBatLeapTarget;
+        clearPendingBatLeap();
+        if (!(level() instanceof ServerLevel serverLevel) || targetId == null) {
+            clearBatLeapTracking();
+            return;
+        }
+
+        Entity target = serverLevel.getEntity(targetId);
+        if (!(target instanceof Bat bat) || !bat.isAlive()) {
+            clearBatLeapTracking();
+            return;
+        }
+
+        if (targetId.equals(failedBatTarget)) {
+            failedBatLeaps++;
+        } else {
+            failedBatTarget = targetId;
+            failedBatLeaps = 1;
+        }
+        if (failedBatLeaps >= 2) {
+            activateOverheat();
+        }
+    }
+
+    private void activateOverheat() {
+        if (isOverheated()) {
+            return;
+        }
+        entityData.set(OVERHEATED, true);
+        entityData.set(OVERHEAT_WARMUP_TICKS, OVERHEAT_WARMUP_DURATION);
+        navigation.stop();
+        setDeltaMovement(Vec3.ZERO);
+        clearBatLeapTracking();
+    }
+
+    private void clearPendingBatLeap() {
+        pendingBatLeap = false;
+        pendingBatLeapAirborne = false;
+        pendingBatLeapTicks = 0;
+        pendingBatLeapTarget = null;
+    }
+
+    private void clearBatLeapTracking() {
+        clearPendingBatLeap();
+        failedBatLeaps = 0;
+        failedBatTarget = null;
+    }
+
+    private void applyOverheatModifiers() {
+        addPermanentModifier(Attributes.ATTACK_DAMAGE, OVERHEAT_ATTACK_MODIFIER, 2.0D);
+        addPermanentModifier(Attributes.MOVEMENT_SPEED, OVERHEAT_SPEED_MODIFIER, 0.5D);
+        addPermanentModifier(Attributes.JUMP_STRENGTH, OVERHEAT_JUMP_MODIFIER, 0.5D);
+    }
+
+    private void addPermanentModifier(Holder<Attribute> attribute, ResourceLocation id, double amount) {
+        AttributeInstance instance = getAttribute(attribute);
+        if (instance != null && instance.getModifier(id) == null) {
+            instance.addPermanentModifier(new AttributeModifier(
+                    id, amount, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+        }
     }
 
     private void performLiquidLeap() {
@@ -225,6 +384,9 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
 
     @Override
     public boolean killedEntity(ServerLevel level, LivingEntity victim) {
+        if (victim instanceof Bat) {
+            clearBatLeapTracking();
+        }
         killCount++;
         if (killCount >= 30) {
             tryEvolve(level);
@@ -250,6 +412,8 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
         builder.define(CLIMBING, (byte) 0);
         builder.define(TEXTURE_VARIANT, (byte) TextureVariant.NORMAL.ordinal());
         builder.define(BEHAVIOR_VARIANT, (byte) BehaviorVariant.NORMAL.ordinal());
+        builder.define(OVERHEATED, false);
+        builder.define(OVERHEAT_WARMUP_TICKS, 0);
     }
 
     @Override
@@ -286,6 +450,18 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
 
     private void setBehaviorVariant(BehaviorVariant variant) {
         entityData.set(BEHAVIOR_VARIANT, (byte) variant.ordinal());
+    }
+
+    public boolean isOverheated() {
+        return entityData.get(OVERHEATED);
+    }
+
+    public boolean isOverheatCharging() {
+        return isOverheated() && getOverheatWarmupTicks() > 0;
+    }
+
+    public int getOverheatWarmupTicks() {
+        return entityData.get(OVERHEAT_WARMUP_TICKS);
     }
 
     private void initializeVariants() {
@@ -339,6 +515,12 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
         tag.putInt(KILL_COUNT_NBT_KEY, killCount);
         tag.putByte(VARIANT_NBT_KEY, (byte) getTextureVariant().ordinal());
         tag.putByte(BEHAVIOR_VARIANT_NBT_KEY, (byte) getBehaviorVariant().ordinal());
+        tag.putBoolean(OVERHEATED_NBT_KEY, isOverheated());
+        tag.putInt(OVERHEAT_WARMUP_NBT_KEY, getOverheatWarmupTicks());
+        tag.putInt(FAILED_BAT_LEAPS_NBT_KEY, failedBatLeaps);
+        if (failedBatTarget != null) {
+            tag.putUUID(FAILED_BAT_TARGET_NBT_KEY, failedBatTarget);
+        }
     }
 
     @Override
@@ -352,6 +534,20 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
         int behaviorVariant = tag.getByte(BEHAVIOR_VARIANT_NBT_KEY);
         if (behaviorVariant >= 0 && behaviorVariant < BehaviorVariant.values().length) {
             setBehaviorVariant(BehaviorVariant.values()[behaviorVariant]);
+        }
+        boolean overheated = tag.getBoolean(OVERHEATED_NBT_KEY);
+        int warmupTicks = overheated ? Math.max(0, tag.getInt(OVERHEAT_WARMUP_NBT_KEY)) : 0;
+        entityData.set(OVERHEATED, overheated);
+        entityData.set(OVERHEAT_WARMUP_TICKS, warmupTicks);
+        failedBatTarget = tag.hasUUID(FAILED_BAT_TARGET_NBT_KEY)
+                ? tag.getUUID(FAILED_BAT_TARGET_NBT_KEY)
+                : null;
+        failedBatLeaps = failedBatTarget == null
+                ? 0
+                : Math.min(1, Math.max(0, tag.getInt(FAILED_BAT_LEAPS_NBT_KEY)));
+        clearPendingBatLeap();
+        if (overheated && warmupTicks == 0) {
+            applyOverheatModifiers();
         }
         variantsInitialized = true;
     }
@@ -431,6 +627,33 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
         }
     }
 
+    private final class OverheatStunGoal extends Goal {
+        private OverheatStunGoal() {
+            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK, Flag.JUMP));
+        }
+
+        @Override
+        public boolean canUse() {
+            return isOverheatCharging();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return isOverheatCharging();
+        }
+
+        @Override
+        public void start() {
+            navigation.stop();
+        }
+
+        @Override
+        public void tick() {
+            navigation.stop();
+            setDeltaMovement(Vec3.ZERO);
+        }
+    }
+
     private static final class RupterLeapGoal extends LeapAtTargetGoal {
         private final RupterEntity rupter;
 
@@ -444,6 +667,16 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
             super.start();
             rupter.triggerAnim("attack_controller", "rush");
             rupter.leapAttackTicks = 20;
+            LivingEntity target = rupter.getTarget();
+            if (target instanceof Bat bat) {
+                rupter.beginBatLeapAttempt(bat);
+            } else {
+                rupter.clearBatLeapTracking();
+            }
+            if (rupter.isOverheated() && !rupter.isOverheatCharging()) {
+                Vec3 movement = rupter.getDeltaMovement();
+                rupter.setDeltaMovement(movement.x, movement.y * 1.5D, movement.z);
+            }
         }
     }
 
