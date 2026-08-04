@@ -140,6 +140,15 @@ public final class SrpWorldData extends SavedData {
         return difficulty;
     }
 
+    public void setDifficulty(SrpDifficulty difficulty) {
+        if (this.difficulty == difficulty) {
+            return;
+        }
+        this.difficulty = difficulty;
+        difficultyPointRemainder = 0.0D;
+        setDirty();
+    }
+
     private int applyDifficultyPointMultiplier(int points) {
         if (points <= 0 || difficulty.pointMultiplier() == 1.0D) {
             return points;

@@ -9,6 +9,8 @@ import alku.csrp.world.EvolutionSystem;
 import alku.csrp.world.DislodgmentSystem;
 import alku.csrp.world.SrpWorldData;
 import alku.csrp.world.SrpCoreSystems;
+import alku.csrp.world.SrpDifficulty;
+import alku.csrp.world.SrpDifficultyEvents;
 import alku.csrp.world.SrpWorldData.ColonyEntry;
 import alku.csrp.world.SrpWorldData.DislodgmentCode;
 import alku.csrp.world.SrpWorldData.NodeEntry;
@@ -52,6 +54,7 @@ public final class SrpCommands {
         dispatcher.register(srColonies());
         dispatcher.register(srVectors());
         dispatcher.register(srDislodgment());
+        dispatcher.register(srDifficulty());
         dispatcher.register(srHelp());
         dispatcher.register(srSummonNidus());
     }
@@ -284,11 +287,23 @@ public final class SrpCommands {
                                                         IntegerArgumentType.getInteger(context, "value")))))));
     }
 
+    private static LiteralArgumentBuilder<CommandSourceStack> srDifficulty() {
+        LiteralArgumentBuilder<CommandSourceStack> set = Commands.literal("set");
+        for (SrpDifficulty difficulty : SrpDifficulty.values()) {
+            set.then(Commands.literal(difficulty.id())
+                    .executes(context -> setDifficulty(context.getSource(), difficulty)));
+        }
+        return admin("srpdifficulty")
+                .executes(context -> showDifficulty(context.getSource()))
+                .then(Commands.literal("get").executes(context -> showDifficulty(context.getSource())))
+                .then(set);
+    }
+
     private static LiteralArgumentBuilder<CommandSourceStack> srHelp() {
         return admin("srphelp")
                 .executes(context -> success(context.getSource(),
                         "SRP commands: srparasites, srpevolution, srpgeneration, srpudevelopment, srpnodes, "
-                                + "srpcolonies, srpvectors, srpdislodgment, srp_summon_nidus"))
+                                + "srpcolonies, srpvectors, srpdislodgment, srpdifficulty, srp_summon_nidus"))
                 .then(helpTopic("srparasites", "Status, generation and per-dimension data reset"))
                 .then(helpTopic("srpevolution", "Phase, points, cooldown and evolution locks"))
                 .then(helpTopic("srpgeneration", "Parasite generation and generation ticks"))
@@ -297,6 +312,7 @@ public final class SrpCommands {
                 .then(helpTopic("srpcolonies", "List, create and remove persistent colonies"))
                 .then(helpTopic("srpvectors", "List, create and remove infestation vectors"))
                 .then(helpTopic("srpdislodgment", "Create, inspect and clear dislodgment codes"))
+                .then(helpTopic("srpdifficulty", "View or change the active SRP difficulty"))
                 .then(helpTopic("srp_summon_nidus", "Summon a Beckon nexus stage at a position"));
     }
 
@@ -336,7 +352,8 @@ public final class SrpCommands {
         }
         SrpWorldData data = SrpWorldData.get(level);
         return success(source, "Parasites: " + count + ", phase: " + data.evolutionPhase()
-                + ", generation: " + data.generation() + ", generation system: "
+                + ", generation: " + data.generation() + ", difficulty: " + data.difficulty().id()
+                + ", generation system: "
                 + (Config.generationEnabled() ? "enabled" : "disabled") + ", adaptation: "
                 + adaptationStatus(level) + ", dislodgment codes: "
                 + data.activeDislodgmentCodes(level).size());
@@ -359,6 +376,7 @@ public final class SrpCommands {
         success(source, "Next phase points: " + nextThreshold + ", progress: " + progress + "%");
         success(source, "Gaining: " + data.canGain() + ", loss: " + data.canLose()
                 + ", generation: " + data.generation() + ", generation ticks: " + data.generationTicks()
+                + ", difficulty: " + data.difficulty().id()
                 + ", generation system: " + (Config.generationEnabled() ? "enabled" : "disabled")
                 + ", adaptation: " + adaptationStatus(level)
                 + ", UD: " + EvolutionSystem.ubiquitousDevelopment(source.getServer()));
@@ -445,13 +463,34 @@ public final class SrpCommands {
 
     private static int showAllDimensions(CommandContext<CommandSourceStack> context) {
         CommandSourceStack source = context.getSource();
-        success(source, "Parasite progress by dimension (dimension, phase, points, generation):");
+        success(source, "Parasite progress by dimension (dimension, phase, points, generation, difficulty):");
         for (ServerLevel level : source.getServer().getAllLevels()) {
             SrpWorldData data = SrpWorldData.get(level);
             success(source, "[" + level.dimension().location() + ", " + data.evolutionPhase() + ", "
-                    + data.evolutionPoints() + ", " + data.generation() + "]");
+                    + data.evolutionPoints() + ", " + data.generation() + ", "
+                    + data.difficulty().id() + "]");
         }
         return Command.SINGLE_SUCCESS;
+    }
+
+    private static int showDifficulty(CommandSourceStack source) {
+        SrpDifficulty difficulty = SrpWorldData.get(source.getServer().overworld()).difficulty();
+        return success(source, "SRP difficulty: " + difficulty.id()
+                + " (health x" + difficulty.healthMultiplier()
+                + ", damage x" + difficulty.damageMultiplier()
+                + ", armor x" + difficulty.armorMultiplier()
+                + ", knockback x" + difficulty.knockbackMultiplier()
+                + ", evolution points x" + difficulty.pointMultiplier() + ")");
+    }
+
+    private static int setDifficulty(CommandSourceStack source, SrpDifficulty difficulty) {
+        SrpDifficulty previous = SrpWorldData.get(source.getServer().overworld()).difficulty();
+        for (ServerLevel level : source.getServer().getAllLevels()) {
+            SrpWorldData.get(level).setDifficulty(difficulty);
+            SrpDifficultyEvents.refreshDifficulty(level);
+        }
+        return success(source, "Changed SRP difficulty from " + previous.id() + " to " + difficulty.id()
+                + "; parasite attributes and evolution point gain updated in all dimensions");
     }
 
     private static int setDimensionEvolution(CommandContext<CommandSourceStack> context, Integer generation)

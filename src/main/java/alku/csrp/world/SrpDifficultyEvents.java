@@ -32,11 +32,26 @@ public final class SrpDifficultyEvents {
             return;
         }
 
+        applyDifficulty(entity, SrpWorldData.get(level).difficulty());
+    }
+
+    public static void refreshDifficulty(ServerLevel level) {
         SrpDifficulty difficulty = SrpWorldData.get(level).difficulty();
+        for (var entity : level.getAllEntities()) {
+            if (entity instanceof LivingEntity living && living.isAlive() && living instanceof Parasite) {
+                applyDifficulty(living, difficulty);
+            }
+        }
+    }
+
+    private static void applyDifficulty(LivingEntity entity, SrpDifficulty difficulty) {
         float healthFraction = entity.getMaxHealth() <= 0.0F
                 ? 1.0F : entity.getHealth() / entity.getMaxHealth();
-        boolean healthChanged = multiply(entity.getAttribute(Attributes.MAX_HEALTH), HEALTH,
-                difficulty.healthMultiplier());
+        remove(entity.getAttribute(Attributes.MAX_HEALTH), HEALTH);
+        remove(entity.getAttribute(Attributes.ATTACK_DAMAGE), DAMAGE);
+        remove(entity.getAttribute(Attributes.ARMOR), ARMOR);
+        remove(entity.getAttribute(Attributes.KNOCKBACK_RESISTANCE), KNOCKBACK);
+        multiply(entity.getAttribute(Attributes.MAX_HEALTH), HEALTH, difficulty.healthMultiplier());
         multiply(entity.getAttribute(Attributes.ATTACK_DAMAGE), DAMAGE, difficulty.damageMultiplier());
         multiply(entity.getAttribute(Attributes.ARMOR), ARMOR, difficulty.armorMultiplier());
         multiply(entity.getAttribute(Attributes.KNOCKBACK_RESISTANCE), KNOCKBACK,
@@ -44,9 +59,7 @@ public final class SrpDifficultyEvents {
         if (difficulty == SrpDifficulty.IMPOSSIBLE) {
             add(entity.getAttribute(Attributes.KNOCKBACK_RESISTANCE), KNOCKBACK, 1.0D);
         }
-        if (healthChanged) {
-            entity.setHealth(Mth.clamp(entity.getMaxHealth() * healthFraction, 1.0F, entity.getMaxHealth()));
-        }
+        entity.setHealth(Mth.clamp(entity.getMaxHealth() * healthFraction, 1.0F, entity.getMaxHealth()));
     }
 
     private static boolean multiply(AttributeInstance attribute, ResourceLocation id, double multiplier) {
@@ -63,6 +76,12 @@ public final class SrpDifficultyEvents {
             return;
         }
         attribute.addPermanentModifier(new AttributeModifier(id, amount, AttributeModifier.Operation.ADD_VALUE));
+    }
+
+    private static void remove(AttributeInstance attribute, ResourceLocation id) {
+        if (attribute != null) {
+            attribute.removeModifier(id);
+        }
     }
 
     private static ResourceLocation id(String path) {
