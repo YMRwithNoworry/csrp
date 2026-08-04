@@ -55,6 +55,7 @@ public final class SrpCommands {
         dispatcher.register(srVectors());
         dispatcher.register(srDislodgment());
         dispatcher.register(srDifficulty());
+        dispatcher.register(dqq());
         dispatcher.register(srHelp());
         dispatcher.register(srSummonNidus());
     }
@@ -299,11 +300,22 @@ public final class SrpCommands {
                 .then(set);
     }
 
+    private static LiteralArgumentBuilder<CommandSourceStack> dqq() {
+        return admin("dqq")
+                .executes(context -> setEveMode(context.getSource(), null))
+                .then(Commands.literal("on")
+                        .executes(context -> setEveMode(context.getSource(), true)))
+                .then(Commands.literal("off")
+                        .executes(context -> setEveMode(context.getSource(), false)))
+                .then(Commands.literal("status")
+                        .executes(context -> showEveMode(context.getSource())));
+    }
+
     private static LiteralArgumentBuilder<CommandSourceStack> srHelp() {
         return admin("srphelp")
                 .executes(context -> success(context.getSource(),
                         "SRP commands: srparasites, srpevolution, srpgeneration, srpudevelopment, srpnodes, "
-                                + "srpcolonies, srpvectors, srpdislodgment, srpdifficulty, srp_summon_nidus"))
+                                + "srpcolonies, srpvectors, srpdislodgment, srpdifficulty, dqq, srp_summon_nidus"))
                 .then(helpTopic("srparasites", "Status, generation and per-dimension data reset"))
                 .then(helpTopic("srpevolution", "Phase, points, cooldown and evolution locks"))
                 .then(helpTopic("srpgeneration", "Parasite generation and generation ticks"))
@@ -313,6 +325,7 @@ public final class SrpCommands {
                 .then(helpTopic("srpvectors", "List, create and remove infestation vectors"))
                 .then(helpTopic("srpdislodgment", "Create, inspect and clear dislodgment codes"))
                 .then(helpTopic("srpdifficulty", "View or change the active SRP difficulty"))
+                .then(helpTopic("dqq", "Toggle EVE mode or query its status"))
                 .then(helpTopic("srp_summon_nidus", "Summon a Beckon nexus stage at a position"));
     }
 
@@ -493,6 +506,26 @@ public final class SrpCommands {
                 + "; parasite attributes and evolution point gain updated in all dimensions");
     }
 
+    private static int setEveMode(CommandSourceStack source, Boolean requestedState) {
+        SrpWorldData globalData = SrpWorldData.get(source.getServer().overworld());
+        boolean enabled = requestedState == null ? !globalData.eveMode() : requestedState;
+        for (ServerLevel level : source.getServer().getAllLevels()) {
+            SrpWorldData.get(level).setEveMode(enabled);
+        }
+        return success(source, Component.translatable(enabled
+                        ? "command.csrp.eve.enabled" : "command.csrp.eve.disabled",
+                Component.translatable(globalData.difficulty().translationKey())));
+    }
+
+    private static int showEveMode(CommandSourceStack source) {
+        SrpWorldData data = SrpWorldData.get(source.getServer().overworld());
+        return success(source, Component.translatable("command.csrp.eve.status",
+                Component.translatable(data.eveMode() ? "options.on" : "options.off"),
+                data.evolutionPhase(), data.generation(),
+                EvolutionSystem.ubiquitousDevelopment(source.getServer()),
+                Component.translatable(data.difficulty().translationKey())));
+    }
+
     private static int setDimensionEvolution(CommandContext<CommandSourceStack> context, Integer generation)
             throws CommandSyntaxException {
         ServerLevel level = DimensionArgument.getDimension(context, "dimension");
@@ -579,6 +612,11 @@ public final class SrpCommands {
 
     private static int success(CommandSourceStack source, String message) {
         source.sendSuccess(() -> Component.literal(message), true);
+        return Command.SINGLE_SUCCESS;
+    }
+
+    private static int success(CommandSourceStack source, Component message) {
+        source.sendSuccess(() -> message, true);
         return Command.SINGLE_SUCCESS;
     }
 

@@ -808,5 +808,8 @@
   "options.csrp.difficulty.hard": "Hard",
   "options.csrp.difficulty.hard.description": "4x health, damage and armor; 1.5x evolution point gain.",
   "options.csrp.difficulty.impossible": "Impossible",
-  "options.csrp.difficulty.impossible.description": "11x health and damage, 6x armor, extreme knockback resistance and 10x point gain."
+  "options.csrp.difficulty.impossible.description": "11x health and damage, 6x armor, extreme knockback resistance and 10x point gain.",
+  "command.csrp.eve.enabled": "EVE mode enabled: evolution phase is fixed at 10, generation at 5, Ubiquitous Development at 4, and all parasite abilities are unlocked. SRP difficulty remains %s.",
+  "command.csrp.eve.disabled": "EVE mode disabled. Evolution, generation, and parasite abilities now use their actual progression again. SRP difficulty remains %s.",
+  "command.csrp.eve.status": "EVE mode: %s; effective evolution phase: %s; effective generation: %s; Ubiquitous Development: %s; SRP difficulty: %s."
 }

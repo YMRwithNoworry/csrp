@@ -13,6 +13,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
 
 public final class SrpWorldData extends SavedData {
@@ -35,6 +36,7 @@ public final class SrpWorldData extends SavedData {
     private int assimilatedEndermen;
     private double passivePointRemainder;
     private int ubiquitousDevelopment;
+    private boolean eveMode;
     private long dislodgmentTriggerCooldownEnd;
     private long reinforcementCooldownEnd;
     private final List<Integer> lockedParasites = new ArrayList<>();
@@ -51,6 +53,12 @@ public final class SrpWorldData extends SavedData {
             data.initialize(level);
         }
         data.migrateLegacyEvolutionCooldown(level);
+        if (level.dimension() != Level.OVERWORLD) {
+            ServerLevel overworld = level.getServer().getLevel(Level.OVERWORLD);
+            if (overworld != null) {
+                data.setEveMode(get(overworld).eveMode());
+            }
+        }
         return data;
     }
 
@@ -72,6 +80,7 @@ public final class SrpWorldData extends SavedData {
         data.assimilatedEndermen = tag.getInt("assimilated_endermen");
         data.passivePointRemainder = tag.getDouble("passive_point_remainder");
         data.ubiquitousDevelopment = tag.getInt("ubiquitous_development");
+        data.eveMode = tag.getBoolean("eve_mode");
         data.dislodgmentTriggerCooldownEnd = tag.getLong("dislodgment_trigger_cooldown_end");
         data.reinforcementCooldownEnd = tag.getLong("reinforcement_cooldown_end");
         long[] dislodgmentCooldowns = tag.getLongArray("dislodgment_cooldown_ends");
@@ -105,6 +114,7 @@ public final class SrpWorldData extends SavedData {
         tag.putInt("assimilated_endermen", assimilatedEndermen);
         tag.putDouble("passive_point_remainder", passivePointRemainder);
         tag.putInt("ubiquitous_development", ubiquitousDevelopment);
+        tag.putBoolean("eve_mode", eveMode);
         tag.putLong("dislodgment_trigger_cooldown_end", dislodgmentTriggerCooldownEnd);
         tag.putLong("reinforcement_cooldown_end", reinforcementCooldownEnd);
         tag.putLongArray("dislodgment_cooldown_ends", dislodgmentCooldownEnds);
@@ -118,7 +128,7 @@ public final class SrpWorldData extends SavedData {
     }
 
     public int evolutionPhase() {
-        return evolutionPhase;
+        return eveMode ? 10 : evolutionPhase;
     }
 
     public void forceEvolutionPhase(ServerLevel level, int phase) {
@@ -133,7 +143,7 @@ public final class SrpWorldData extends SavedData {
     }
 
     public int evolutionPoints() {
-        return evolutionPoints;
+        return eveMode ? EvolutionSystem.MAX_EVOLUTION_POINTS : evolutionPoints;
     }
 
     public SrpDifficulty difficulty() {
@@ -229,7 +239,7 @@ public final class SrpWorldData extends SavedData {
     }
 
     public int generation() {
-        return generation;
+        return eveMode ? 5 : generation;
     }
 
     public void setGeneration(int value) {
@@ -286,11 +296,23 @@ public final class SrpWorldData extends SavedData {
     }
 
     public int ubiquitousDevelopmentOverride() {
-        return ubiquitousDevelopment;
+        return eveMode ? 4 : ubiquitousDevelopment;
     }
 
     public void setUbiquitousDevelopment(int level) {
         ubiquitousDevelopment = Math.max(0, Math.min(4, level));
+        setDirty();
+    }
+
+    public boolean eveMode() {
+        return eveMode;
+    }
+
+    public void setEveMode(boolean enabled) {
+        if (eveMode == enabled) {
+            return;
+        }
+        eveMode = enabled;
         setDirty();
     }
 
@@ -465,7 +487,7 @@ public final class SrpWorldData extends SavedData {
                 || dislodgmentCooldownEnds[code] > level.getGameTime()) {
             return false;
         }
-        if (Config.useEvolutionPhases() && evolutionPointCost > 0) {
+        if (Config.useEvolutionPhases() && evolutionPointCost > 0 && !eveMode) {
             long remaining = (long) evolutionPoints - evolutionPointCost;
             if (remaining < EvolutionSystem.thresholdForPhase(evolutionPhase)) {
                 return false;
@@ -532,7 +554,7 @@ public final class SrpWorldData extends SavedData {
         if (code < 0 || code >= dislodgmentCooldownEnds.length) {
             return;
         }
-        int phase = Math.max(0, Math.min(10, evolutionPhase));
+        int phase = Math.max(0, Math.min(10, evolutionPhase()));
         long seconds = (long) Config.dislodgmentCodeCooldown(code)
                 * DISLODGMENT_PHASE_COOLDOWN_MULTIPLIER[phase];
         long ticks = Math.min(Long.MAX_VALUE - level.getGameTime(), seconds * 20L);

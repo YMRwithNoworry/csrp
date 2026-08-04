@@ -822,5 +822,8 @@
   "options.csrp.difficulty.hard": "困难",
   "options.csrp.difficulty.hard.description": "寄生体生命、伤害和护甲提升至 4 倍，演化点数提升至 1.5 倍。",
   "options.csrp.difficulty.impossible": "极难",
-  "options.csrp.difficulty.impossible.description": "寄生体生命和伤害提升至 11 倍、护甲 6 倍，获得极高击退抗性且演化点数提升至 10 倍。"
+  "options.csrp.difficulty.impossible.description": "寄生体生命和伤害提升至 11 倍、护甲 6 倍，获得极高击退抗性且演化点数提升至 10 倍。",
+  "command.csrp.eve.enabled": "EVE 模式已开启：演化阶段固定为 10、迭代固定为 5、泛维度发展固定为 4，寄生虫能力全部解锁。SRP 难度保持为 %s。",
+  "command.csrp.eve.disabled": "EVE 模式已关闭，演化、迭代和寄生虫能力已恢复为实际进度。SRP 难度保持为 %s。",
+  "command.csrp.eve.status": "EVE 模式：%s；有效演化阶段：%s；有效迭代：%s；泛维度发展：%s；SRP 难度：%s。"
 }
