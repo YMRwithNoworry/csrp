@@ -47,6 +47,7 @@ import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 import org.jetbrains.annotations.Nullable;
@@ -59,7 +60,7 @@ import java.util.List;
  * generic assimilated-animal class because the original creature melts into Moving Flesh.
  */
 public final class SimAdventurerEntity extends Monster implements GeoEntity, Parasite {
-    public static final int MELT_KILL_THRESHOLD = 10;
+    public static final int MELT_KILL_THRESHOLD = 5;
     public static final int THRALL_KILL_THRESHOLD = 15;
     public static final int MELT_DURATION_TICKS = 127;
     private static final float BASE_HEIGHT = 1.95F;
@@ -82,6 +83,7 @@ public final class SimAdventurerEntity extends Monster implements GeoEntity, Par
             SimAdventurerEntity.class, EntityDataSerializers.INT);
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private int parasiteKills;
@@ -171,12 +173,21 @@ public final class SimAdventurerEntity extends Monster implements GeoEntity, Par
             return;
         }
 
-        if (random.nextFloat() < EXPLOSION_CHANCE) {
+        boolean exploded = random.nextFloat() < EXPLOSION_CHANCE;
+        if (exploded) {
             spawnDeathBurst();
-        }
-        if (random.nextFloat() < HEAD_SPAWN_CHANCE) {
+        } else if (random.nextFloat() < HEAD_SPAWN_CHANCE) {
             spawnWalkingHead();
         }
+    }
+
+    @Override
+    public boolean doHurtTarget(Entity target) {
+        boolean hit = super.doHurtTarget(target);
+        if (hit && !level().isClientSide) {
+            triggerAnim("attack_controller", "attack");
+        }
+        return hit;
     }
 
     public void melt() {
@@ -258,6 +269,8 @@ public final class SimAdventurerEntity extends Monster implements GeoEntity, Par
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
                 state -> state.setAndContinue(state.isMoving() ? WALK : IDLE)));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
+                .triggerableAnim("attack", ATTACK));
     }
 
     @Override
@@ -269,10 +282,10 @@ public final class SimAdventurerEntity extends Monster implements GeoEntity, Par
         if (isMelting() || !(level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        if (parasiteKills > MELT_KILL_THRESHOLD && getTarget() == null && startMeltGroup()) {
+        if (parasiteKills >= MELT_KILL_THRESHOLD && getTarget() == null && startMeltGroup()) {
             return;
         }
-        if (parasiteKills > THRALL_KILL_THRESHOLD) {
+        if (parasiteKills >= THRALL_KILL_THRESHOLD) {
             ThrallEntity thrall = ModEntities.THRALL.get().create(serverLevel);
             if (thrall == null) {
                 return;

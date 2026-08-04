@@ -4,11 +4,15 @@ import alku.csrp.Csrp;
 import alku.csrp.Config;
 import alku.csrp.entity.Parasite;
 import alku.csrp.entity.PrimitiveParasiteEntity;
+import alku.csrp.entity.SimAdventurerEntity;
+import alku.csrp.entity.ThrallEntity;
+import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.world.SrpWorldData.GlobalAdaptation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -105,6 +109,28 @@ public final class ColonyEvents {
                 && parasite.supportsDamageAdaptation()) {
             contributePrimitiveAdaptation(parasite, level);
         }
+    }
+
+    @SubscribeEvent
+    public static void spawnAdventurerFromColonyThrall(LivingDeathEvent event) {
+        if (!(event.getEntity() instanceof ThrallEntity thrall)
+                || !(thrall.level() instanceof ServerLevel level)
+                || SrpWorldData.get(level).colonies().isEmpty()) {
+            return;
+        }
+        SimAdventurerEntity adventurer = ModEntities.SIM_ADVENTURER.get().create(level);
+        if (adventurer == null) {
+            return;
+        }
+        adventurer.moveTo(thrall.getX(), thrall.getY(), thrall.getZ(), thrall.getYRot(), thrall.getXRot());
+        adventurer.finalizeSpawn(level, level.getCurrentDifficultyAt(thrall.blockPosition()),
+                MobSpawnType.MOB_SUMMONED, null);
+        adventurer.setCustomName(thrall.getCustomName());
+        adventurer.setCustomNameVisible(thrall.isCustomNameVisible());
+        if (thrall.isPersistenceRequired()) {
+            adventurer.setPersistenceRequired();
+        }
+        level.addFreshEntity(adventurer);
     }
 
     private static void contributePrimitiveAdaptation(PrimitiveParasiteEntity parasite, ServerLevel level) {

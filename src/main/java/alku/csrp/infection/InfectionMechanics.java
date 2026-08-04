@@ -4,6 +4,7 @@ import alku.csrp.Config;
 import alku.csrp.Csrp;
 import alku.csrp.entity.FeralEndermanEntity;
 import alku.csrp.entity.Parasite;
+import alku.csrp.entity.SimAdventurerEntity;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.world.DislodgmentSystem;
@@ -17,7 +18,11 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.GameRules;
 
 /** Server-side COTH and Viral infection progression, spread, and host conversion. */
 public final class InfectionMechanics {
@@ -178,6 +183,44 @@ public final class InfectionMechanics {
         }
 
         replaceHost(host, converted, serverLevel);
+        return true;
+    }
+
+    /** A COTH-infected player killed by a parasite leaves an Assimilated Adventurer behind. */
+    public static boolean convertKilledPlayer(Player player, Entity attacker) {
+        if (!(attacker instanceof Parasite) || !player.hasEffect(ModMobEffects.COTH)
+                || player.level().isClientSide || player.isRemoved()
+                || !(player.level() instanceof ServerLevel serverLevel)) {
+            return false;
+        }
+        SimAdventurerEntity converted = ModEntities.SIM_ADVENTURER.get().create(serverLevel);
+        if (converted == null) {
+            return false;
+        }
+        converted.moveTo(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
+        converted.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(player.blockPosition()),
+                MobSpawnType.CONVERSION, null);
+        converted.setCustomName(player.getName().copy());
+        converted.setCustomNameVisible(true);
+        converted.setPersistenceRequired();
+        boolean keepInventory = serverLevel.getGameRules().getBoolean(GameRules.RULE_KEEPINVENTORY);
+        EquipmentSlot[] inheritedSlots = {
+                EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND,
+                EquipmentSlot.HEAD, EquipmentSlot.LEGS, EquipmentSlot.FEET
+        };
+        for (EquipmentSlot slot : inheritedSlots) {
+            ItemStack equipment = player.getItemBySlot(slot);
+            if (equipment.isEmpty()) {
+                continue;
+            }
+            converted.setItemSlot(slot, equipment.copy());
+            converted.setDropChance(slot, 1.0F);
+            if (!keepInventory) {
+                player.setItemSlot(slot, ItemStack.EMPTY);
+            }
+        }
+        serverLevel.addFreshEntity(converted);
+        EvolutionSystem.addPoints(serverLevel, EvolutionSystem.VALUE_COTH, EvolutionSystem.PointSource.COTH);
         return true;
     }
 

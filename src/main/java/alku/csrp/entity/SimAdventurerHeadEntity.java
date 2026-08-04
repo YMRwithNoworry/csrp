@@ -3,6 +3,7 @@ package alku.csrp.entity;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModSounds;
+import alku.csrp.world.EvolutionSystem;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
@@ -18,6 +19,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
@@ -34,14 +36,20 @@ import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
+
+import java.util.Comparator;
+import java.util.EnumSet;
 
 /** Walking head companion that reforms an Assimilated Adventurer with a Medium Incomplete Form. */
 public final class SimAdventurerHeadEntity extends Monster implements GeoEntity, Parasite {
     private static final double COTH_AURA_RADIUS = 3.0D;
+    private static final float MINIMUM_DAMAGE = 0.5F;
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
 
@@ -62,10 +70,11 @@ public final class SimAdventurerHeadEntity extends Monster implements GeoEntity,
     @Override
     protected void registerGoals() {
         goalSelector.addGoal(0, new FloatGoal(this));
-        goalSelector.addGoal(1, new AvoidEntityGoal<>(this, LivingEntity.class, 8.0F, 1.0D, 1.3D,
+        goalSelector.addGoal(1, new MergeWithIncompleteFormGoal());
+        goalSelector.addGoal(2, new AvoidEntityGoal<>(this, LivingEntity.class, 8.0F, 1.0D, 1.3D,
                 this::shouldFleeInDaylight));
-        goalSelector.addGoal(2, new LeapAtTargetGoal(this, 0.4F));
-        goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.3D, false));
+        goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.4F));
+        goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.3D, false));
         goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         goalSelector.addGoal(6, new ParasiteFollowGoal(this));
         goalSelector.addGoal(6, new RandomLookAroundGoal(this));
@@ -98,21 +107,19 @@ public final class SimAdventurerHeadEntity extends Monster implements GeoEntity,
 
     @Override
     public boolean doHurtTarget(Entity target) {
-        if (target instanceof IncompleteFormMediumEntity medium && level() instanceof ServerLevel serverLevel) {
-            SimAdventurerEntity adventurer = ModEntities.SIM_ADVENTURER.get().create(serverLevel);
-            if (adventurer == null) {
-                return false;
-            }
-            adventurer.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
-            adventurer.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                    MobSpawnType.MOB_SUMMONED, null);
-            copyIdentity(adventurer);
-            serverLevel.addFreshEntity(adventurer);
-            medium.discard();
-            discard();
-            return true;
+        if (target instanceof IncompleteFormMediumEntity medium) {
+            return mergeWith(medium);
         }
-        return super.doHurtTarget(target);
+        float healthBefore = target instanceof LivingEntity living
+                ? ParasiteCombatEffects.healthWithAbsorption(living) : 0.0F;
+        boolean hit = super.doHurtTarget(target);
+        if (hit && !level().isClientSide) {
+            triggerAnim("attack_controller", "attack");
+            if (target instanceof LivingEntity living) {
+                applyMinimumDamage(living, healthBefore);
+            }
+        }
+        return hit;
     }
 
     @Override
@@ -151,6 +158,8 @@ public final class SimAdventurerHeadEntity extends Monster implements GeoEntity,
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
                 state -> state.setAndContinue(state.isMoving() ? WALK : IDLE)));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
+                .triggerableAnim("attack", ATTACK));
     }
 
     @Override
@@ -176,6 +185,97 @@ public final class SimAdventurerHeadEntity extends Monster implements GeoEntity,
         target.setCustomNameVisible(isCustomNameVisible());
         if (isPersistenceRequired()) {
             target.setPersistenceRequired();
+        }
+    }
+
+    private boolean mergeWith(IncompleteFormMediumEntity medium) {
+        if (!isAlive() || !medium.isAlive() || !(level() instanceof ServerLevel serverLevel)) {
+            return false;
+        }
+        SimAdventurerEntity adventurer = ModEntities.SIM_ADVENTURER.get().create(serverLevel);
+        if (adventurer == null) {
+            return false;
+        }
+        adventurer.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        adventurer.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
+                MobSpawnType.MOB_SUMMONED, null);
+        copyIdentity(adventurer);
+        serverLevel.addFreshEntity(adventurer);
+        medium.discard();
+        discard();
+        return true;
+    }
+
+    private void applyMinimumDamage(LivingEntity target, float healthBefore) {
+        if (!(level() instanceof ServerLevel serverLevel)
+                || !EvolutionSystem.generationProfile(serverLevel).minimumDamage() || !target.isAlive()) {
+            return;
+        }
+        float dealt = Math.max(0.0F, healthBefore - ParasiteCombatEffects.healthWithAbsorption(target));
+        float remaining = MINIMUM_DAMAGE - dealt;
+        if (remaining <= 0.0F) {
+            return;
+        }
+        float absorption = target.getAbsorptionAmount();
+        float absorbed = Math.min(absorption, remaining);
+        target.setAbsorptionAmount(absorption - absorbed);
+        remaining -= absorbed;
+        if (remaining > 0.0F) {
+            target.setHealth(Math.max(0.0F, target.getHealth() - remaining));
+        }
+        level().broadcastEntityEvent(target, (byte) 2);
+    }
+
+    private final class MergeWithIncompleteFormGoal extends Goal {
+        private IncompleteFormMediumEntity mergeTarget;
+        private int searchCooldown;
+
+        private MergeWithIncompleteFormGoal() {
+            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
+        }
+
+        @Override
+        public boolean canUse() {
+            if (searchCooldown-- > 0) {
+                return false;
+            }
+            searchCooldown = 10;
+            mergeTarget = level().getEntitiesOfClass(IncompleteFormMediumEntity.class,
+                            getBoundingBox().inflate(getAttributeValue(Attributes.FOLLOW_RANGE)),
+                            Entity::isAlive).stream()
+                    .min(Comparator.comparingDouble(SimAdventurerHeadEntity.this::distanceToSqr))
+                    .orElse(null);
+            return mergeTarget != null;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return mergeTarget != null && mergeTarget.isAlive()
+                    && distanceToSqr(mergeTarget) <= 576.0D;
+        }
+
+        @Override
+        public void start() {
+            getNavigation().moveTo(mergeTarget, 1.3D);
+        }
+
+        @Override
+        public void tick() {
+            if (mergeTarget == null) {
+                return;
+            }
+            getLookControl().setLookAt(mergeTarget, 30.0F, 30.0F);
+            getNavigation().moveTo(mergeTarget, 1.3D);
+            double reach = getBbWidth() + mergeTarget.getBbWidth();
+            if (distanceToSqr(mergeTarget) <= reach * reach) {
+                mergeWith(mergeTarget);
+            }
+        }
+
+        @Override
+        public void stop() {
+            mergeTarget = null;
+            getNavigation().stop();
         }
     }
 }

@@ -11,6 +11,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
@@ -63,6 +64,9 @@ public final class InfectionEvents {
             return;
         }
         Entity attacker = event.getSource().getEntity();
+        if (host instanceof Player player && InfectionMechanics.convertKilledPlayer(player, attacker)) {
+            return;
+        }
         if ((attacker instanceof GnatEntity || attacker instanceof LiceEntity)
                 && InfectionMechanics.convertFeralEndermanHost(host)) {
             event.setCanceled(true);
