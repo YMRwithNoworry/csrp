@@ -6,6 +6,7 @@ import alku.csrp.client.renderer.AirscrewRenderer;
 import alku.csrp.client.renderer.BurrowingParasiteRenderer;
 import alku.csrp.client.renderer.BuglinRenderer;
 import alku.csrp.client.renderer.DerivedParasiteRenderer;
+import alku.csrp.client.renderer.DragonEggAssimilationRenderer;
 import alku.csrp.client.renderer.HaunterHomingProjectileRenderer;
 import alku.csrp.client.renderer.MarauderRenderer;
 import alku.csrp.client.renderer.MarauderTendrilRenderer;
@@ -159,6 +160,8 @@ public final class ClientModEvents {
                 new PrimitiveParasiteRenderer<>(context, "sim_bigspider", 1.2F));
         event.registerEntityRenderer(ModEntities.SIM_DRAGONE.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "sim_dragone", 1.2F));
+        event.registerEntityRenderer(ModEntities.DRAGON_EGG_ASSIMILATION.get(),
+                DragonEggAssimilationRenderer::new);
         event.registerEntityRenderer(ModEntities.SIM_DRAGON_HEAD.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "sim_dragonehead", 0.6F));
         event.registerEntityRenderer(ModEntities.SIM_ENDERMAN.get(), context ->

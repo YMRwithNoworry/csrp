@@ -117,6 +117,7 @@ abstract class AbstractHostEntity extends CrudeParasiteEntity {
         }
         boolean hit = false;
         float damage = (float) getAttributeValue(Attributes.ATTACK_DAMAGE);
+        DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(attackRadius));
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
                 getBoundingBox().inflate(attackRadius), this::isValidParasiteTarget)) {
             if (hasLineOfSight(target) && target.hurt(damageSources().mobAttack(this), damage)) {

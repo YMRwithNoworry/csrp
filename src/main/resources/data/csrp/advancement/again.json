@@ -1,0 +1,16 @@
+{
+  "display": {
+    "icon": { "id": "minecraft:dragon_egg" },
+    "title": { "translate": "advancements.csrp.again.title" },
+    "description": { "translate": "advancements.csrp.again.description" },
+    "background": "minecraft:textures/gui/advancements/backgrounds/end.png",
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "dragon_egg_assimilated": { "trigger": "minecraft:impossible" }
+  },
+  "requirements": [["dragon_egg_assimilated"]]
+}

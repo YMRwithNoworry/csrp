@@ -485,6 +485,8 @@ public final class KirinEntity extends DerivedParasiteEntity {
     private void performBlink() {
         teleportTo(blinkDestination.getX() + 0.5D, blinkDestination.getY(), blinkDestination.getZ() + 0.5D);
         playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
+        DragonEggAssimilationEntity.assimilateDragonEggs(level(),
+                getBoundingBox().inflate(BLINK_LIFE_STEAL_RADIUS));
         List<LivingEntity> nearby = level().getEntitiesOfClass(LivingEntity.class,
                 getBoundingBox().inflate(BLINK_LIFE_STEAL_RADIUS),
                 entity -> entity != this && entity.isAlive() && !(entity instanceof Parasite));

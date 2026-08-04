@@ -255,6 +255,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
 
     private boolean performAreaMelee(LivingEntity center) {
         double radius = activeKind() == Kind.WARDEN ? 2.6D : 2.0D;
+        DragonEggAssimilationEntity.assimilateDragonEggs(level(), center.getBoundingBox().inflate(radius));
         boolean hit = false;
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
                 center.getBoundingBox().inflate(radius), this::isValidParasiteTarget)) {
@@ -353,6 +354,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private void triggerPureDeathBurst() {
+        DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(2.0D));
         Level.ExplosionInteraction interaction = level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
                 ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
         level().explode(this, getX(), getY() + getBbHeight() * 0.5D, getZ(), 2.0F, interaction);
@@ -893,6 +895,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
                 setDeltaMovement(horizontal.x, 0.12D, horizontal.z);
             }
             dashTicks++;
+            DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(1.5D));
             for (LivingEntity victim : level().getEntitiesOfClass(LivingEntity.class,
                     getBoundingBox().inflate(1.5D), PureParasiteEntity.this::isValidParasiteTarget)) {
                 if (victim.hurt(damageSources().mobAttack(PureParasiteEntity.this),
@@ -969,6 +972,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         }
         horizontal = horizontal.normalize();
         AABB shockwave = getBoundingBox().expandTowards(horizontal.scale(14.0D)).inflate(1.35D, 1.5D, 1.35D);
+        DragonEggAssimilationEntity.assimilateDragonEggs(level(), shockwave);
         for (LivingEntity victim : level().getEntitiesOfClass(LivingEntity.class, shockwave,
                 this::isValidParasiteTarget)) {
             if (victim.hurt(damageSources().mobAttack(this),

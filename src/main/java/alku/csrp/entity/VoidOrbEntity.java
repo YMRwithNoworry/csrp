@@ -124,6 +124,10 @@ public final class VoidOrbEntity extends Entity {
     }
 
     private void pullNearbyEntities(DerivedParasiteEntity owner) {
+        if (owner != null) {
+            DragonEggAssimilationEntity.assimilateDragonEggs(level(),
+                    getBoundingBox().inflate(Math.sqrt(DAMAGE_DISTANCE_SQR)));
+        }
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
                 getBoundingBox().inflate(PULL_RADIUS), this::canPull)) {
             if (!isUncovered(target)) {
@@ -162,6 +166,7 @@ public final class VoidOrbEntity extends Entity {
         AABB damageBox = new AABB(
                 getX() - width * 0.5D, getY() - height, getZ() - width * 0.5D,
                 getX() + width * 0.5D, getY() + height, getZ() + width * 0.5D);
+        DragonEggAssimilationEntity.assimilateDragonEggs(level(), damageBox);
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, damageBox,
                 target -> canPull(target) && isUncovered(target))) {
             target.invulnerableTime = 0;

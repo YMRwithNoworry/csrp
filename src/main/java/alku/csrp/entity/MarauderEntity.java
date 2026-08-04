@@ -238,6 +238,7 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
         playSound(SoundEvents.PLAYER_ATTACK_SWEEP, 2.0F, 0.75F + random.nextFloat() * 0.25F);
         boolean hit = false;
         AABB area = center.getBoundingBox().inflate(2.0D);
+        DragonEggAssimilationEntity.assimilateDragonEggs(level(), area);
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, area, this::isValidParasiteTarget)) {
             hit |= doHurtTarget(target);
         }
@@ -246,6 +247,7 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
 
     private void performSmashStrike() {
         AABB area = getBoundingBox().inflate(6.0D, 3.0D, 6.0D);
+        DragonEggAssimilationEntity.assimilateDragonEggs(level(), area);
         float damage = (float) getAttributeValue(Attributes.ATTACK_DAMAGE);
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, area, this::isValidParasiteTarget)) {
             target.hurt(damageSources().mobAttack(this), damage);

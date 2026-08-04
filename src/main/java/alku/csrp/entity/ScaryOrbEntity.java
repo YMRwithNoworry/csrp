@@ -117,6 +117,7 @@ public final class ScaryOrbEntity extends Entity {
     }
 
     private void applyOrbEffects(PrimitiveParasiteEntity owner) {
+        DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(2.5D));
         List<LivingEntity> targets = level().getEntitiesOfClass(LivingEntity.class,
                 getBoundingBox().inflate(2.5D), LivingEntity::isAlive);
         int nearbyEntities = targets.size();

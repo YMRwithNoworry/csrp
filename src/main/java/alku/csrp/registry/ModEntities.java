@@ -8,6 +8,7 @@ import alku.csrp.entity.AdaptedVariantEntity;
 import alku.csrp.entity.AssimilatedParasiteEntity;
 import alku.csrp.entity.AssimilatedDragonEntity;
 import alku.csrp.entity.AssimilatedDragonHeadEntity;
+import alku.csrp.entity.DragonEggAssimilationEntity;
 import alku.csrp.entity.AssimilatedEndermanEntity;
 import alku.csrp.entity.AssimilatedHeadEntity;
 import alku.csrp.entity.AssimilatedVariantEntity;
@@ -226,6 +227,11 @@ public final class ModEntities {
                     AssimilatedVariantEntity.Kind.BIGSPIDER), 1.9F, 2.1F);
     public static final DeferredHolder<EntityType<?>, EntityType<AssimilatedDragonEntity>> SIM_DRAGONE =
             monster("sim_dragone", AssimilatedDragonEntity::new, 1.9F, 3.8F);
+    public static final DeferredHolder<EntityType<?>, EntityType<DragonEggAssimilationEntity>> DRAGON_EGG_ASSIMILATION =
+            ENTITIES.register("dragon_egg_assimilation", () -> EntityType.Builder
+                    .<DragonEggAssimilationEntity>of(DragonEggAssimilationEntity::new, MobCategory.MISC)
+                    .sized(1.0F, 1.0F).clientTrackingRange(10).updateInterval(1)
+                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "dragon_egg_assimilation").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<AssimilatedDragonHeadEntity>> SIM_DRAGON_HEAD =
             monster("sim_dragonhead", AssimilatedDragonHeadEntity::new, 1.75F, 1.95F);
     public static final DeferredHolder<EntityType<?>, EntityType<AssimilatedEndermanEntity>> SIM_ENDERMAN =

@@ -187,6 +187,8 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
             return hurt;
         }
         boolean hit = false;
+        DragonEggAssimilationEntity.assimilateDragonEggs(level(),
+                center.getBoundingBox().inflate(4.0D, 2.0D, 4.0D));
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
                 center.getBoundingBox().inflate(4.0D, 2.0D, 4.0D), this::isValidParasiteTarget)) {
             if (!super.doHurtTarget(target)) {
@@ -346,6 +348,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private void triggerAncientDeathBurst() {
+        DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(5.0D));
         Level.ExplosionInteraction interaction = level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
                 ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
         level().explode(this, getX(), getY() + getBbHeight() * 0.5D, getZ(), 5.0F, interaction);

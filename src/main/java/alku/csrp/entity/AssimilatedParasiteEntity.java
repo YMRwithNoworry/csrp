@@ -163,6 +163,7 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
         }
         if (hit && kind == Kind.SQUID) {
             float damage = (float) getAttributeValue(Attributes.ATTACK_DAMAGE);
+            DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(1.75D));
             for (LivingEntity nearby : level().getEntitiesOfClass(LivingEntity.class,
                     getBoundingBox().inflate(1.75D), this::isValidParasiteTarget)) {
                 if (nearby != entity) {
@@ -562,6 +563,8 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
                 navigation.moveTo(chargeDestination.x, chargeDestination.y, chargeDestination.z, 2.0D);
             }
 
+            DragonEggAssimilationEntity.assimilateDragonEggs(level(),
+                    getBoundingBox().inflate(1.0D, 0.0D, 1.0D));
             for (LivingEntity nearby : level().getEntitiesOfClass(LivingEntity.class,
                     getBoundingBox().inflate(1.0D, 0.0D, 1.0D), AssimilatedParasiteEntity.this::isValidParasiteTarget)) {
                 if (nearby.hurt(damageSources().mobAttack(AssimilatedParasiteEntity.this),

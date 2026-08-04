@@ -793,5 +793,8 @@
   "subtitles.celestial.dark_days.rumble": "§0§k0000",
   "subtitles.draconite.light_impact": "Distorted Light bursts",
   "subtitles.draconite.parry": "Distorted Energy deflected",
-  "subtitles.draconite.bell_chargeup": "Distorted Engine tolls"
+  "subtitles.draconite.bell_chargeup": "Distorted Engine tolls",
+  "entity.csrp.dragon_egg_assimilation": "Assimilating Dragon Egg",
+  "advancements.csrp.again.title": "Again?",
+  "advancements.csrp.again.description": "Witness a dragon egg become assimilated"
 }

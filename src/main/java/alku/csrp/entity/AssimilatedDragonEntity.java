@@ -30,6 +30,7 @@ import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -296,8 +297,10 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
         }
         direction = direction.normalize();
         Vec3 impact = source.add(direction.scale(Math.min(32.0D, Math.sqrt(distanceToSqr(target)))));
+        AABB breathArea = getBoundingBox().expandTowards(direction.scale(32.0D)).inflate(2.0D);
+        DragonEggAssimilationEntity.assimilateDragonEggs(level(), breathArea);
         for (LivingEntity victim : level().getEntitiesOfClass(LivingEntity.class,
-                getBoundingBox().expandTowards(direction.scale(32.0D)).inflate(2.0D), this::isValidParasiteTarget)) {
+                breathArea, this::isValidParasiteTarget)) {
             if (hasLineOfSight(victim)) {
                 victim.hurt(damageSources().indirectMagic(this, this), 20.0F);
                 victim.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 160, 0), this);

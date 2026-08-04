@@ -1314,6 +1314,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
     private boolean performHaunterAoeAttack(LivingEntity center) {
         AABB targetArea = new AABB(center.getX(), center.getY(), center.getZ(), center.getX() + 1.0D,
                 center.getY() + 1.0D, center.getZ() + 1.0D).inflate(5.0D, 2.0D, 5.0D);
+        DragonEggAssimilationEntity.assimilateDragonEggs(level(), targetArea);
         List<LivingEntity> nearby = level().getEntitiesOfClass(LivingEntity.class, targetArea);
         if (nearby.size() > 4) {
             AABB damageArea = new AABB(getX(), getY(), getZ(), getX() + 1.0D, getY() + 1.0D,

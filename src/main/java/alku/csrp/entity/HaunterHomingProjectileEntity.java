@@ -89,6 +89,7 @@ public final class HaunterHomingProjectileEntity extends Entity {
 
         AABB impactArea = new AABB(getX(), getY(), getZ(), getX() + 1.0D, getY() + 1.0D,
                 getZ() + 1.0D).inflate(2.0D);
+        DragonEggAssimilationEntity.assimilateDragonEggs(level(), impactArea);
         for (LivingEntity candidate : level().getEntitiesOfClass(LivingEntity.class, impactArea,
                 this::isValidTarget)) {
             DamageSource source = damageSources().indirectMagic(this, owner == null ? this : owner);

@@ -52,6 +52,7 @@ public final class CruxThrownBlockDamageEntity extends Entity {
 
         setPos(follower.position());
         AABB impactArea = follower.getBoundingBox().inflate(0.75, 0.5, 0.75);
+        DragonEggAssimilationEntity.assimilateDragonEggs(level(), impactArea);
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, impactArea,
                 owner::isValidParasiteTarget)) {
             if (hasClearPath(target)) {

@@ -36,6 +36,8 @@ public final class HaunterDamageEntity extends Entity {
         }
         PreeminentParasiteEntity owner = owner();
         if (owner != null) {
+            DragonEggAssimilationEntity.assimilateDragonEggs(level(),
+                    getBoundingBox().inflate(0.3D, 0.0D, 0.2D));
             for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
                     getBoundingBox().inflate(0.3D, 0.0D, 0.2D), candidate -> isValidTarget(owner, candidate))) {
                 knockBack(owner, target);

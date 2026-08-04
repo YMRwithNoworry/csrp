@@ -137,6 +137,8 @@ public final class HiGolemEntity extends HijackedParasiteEntity {
 
         private void strikeTargets(Vec3 direction) {
             float damage = (float) Math.max(1.0D, getAttributeValue(Attributes.ATTACK_DAMAGE) * 0.5D);
+            DragonEggAssimilationEntity.assimilateDragonEggs(level(),
+                    getBoundingBox().inflate(1.5D, 0.75D, 1.5D));
             for (LivingEntity victim : level().getEntitiesOfClass(LivingEntity.class,
                     getBoundingBox().inflate(1.5D, 0.75D, 1.5D), HiGolemEntity.this::isValidParasiteTarget)) {
                 if (!struckTargets.add(victim.getUUID())) {

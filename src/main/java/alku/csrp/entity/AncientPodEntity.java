@@ -117,6 +117,7 @@ public final class AncientPodEntity extends PrimitiveParasiteEntity {
 
     private void explodePod(ServerLevel level) {
         exploded = true;
+        DragonEggAssimilationEntity.assimilateDragonEggs(level, getBoundingBox().inflate(4.0D));
         Level.ExplosionInteraction interaction = level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
                 ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
         level.explode(this, getX(), getY(), getZ(), 4.0F, interaction);

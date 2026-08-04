@@ -273,6 +273,7 @@ public final class AssimilatedVariantEntity extends Monster implements GeoEntity
         }
         float radius = kind == Kind.HORSE ? 3.5F : 2.25F;
         float damage = kind == Kind.HORSE ? 15.0F : 5.0F;
+        DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(radius));
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
                 getBoundingBox().inflate(radius), this::isValidParasiteTarget)) {
             target.hurt(damageSources().mobAttack(this), damage);

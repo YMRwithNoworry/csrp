@@ -21,6 +21,7 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -126,8 +127,10 @@ public final class AssimilatedDragonHeadEntity extends Monster implements GeoEnt
         cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 240, 0, false, true));
         cloud.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 120, 0, false, true));
         level().addFreshEntity(cloud);
+        AABB breathArea = getBoundingBox().expandTowards(direction.scale(24.0D)).inflate(1.5D);
+        DragonEggAssimilationEntity.assimilateDragonEggs(level(), breathArea);
         for (LivingEntity victim : level().getEntitiesOfClass(LivingEntity.class,
-                getBoundingBox().expandTowards(direction.scale(24.0D)).inflate(1.5D),
+                breathArea,
                 entity -> entity != this && entity.isAlive() && !(entity instanceof Parasite))) {
             if (hasLineOfSight(victim)) {
                 victim.hurt(damageSources().indirectMagic(this, this), 12.0F);
