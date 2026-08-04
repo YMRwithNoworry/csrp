@@ -4,6 +4,11 @@ import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
@@ -37,12 +42,23 @@ import java.util.EnumSet;
  * combat branch while sharing the common primitive adaptation state.</p>
  */
 public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
+    private static final EntityDataAccessor<Integer> REEKER_CHARGE_STATE = SynchedEntityData.defineId(
+            PrimitiveVariantEntity.class, EntityDataSerializers.INT);
+    private static final int REEKER_CHARGE_NONE = 0;
+    private static final int REEKER_CHARGE_WINDUP = 1;
+    private static final int REEKER_CHARGING = 2;
+    private static final int REEKER_WINDUP_TICKS = 20;
+    private static final int REEKER_CHARGE_TICKS = 40;
+
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
     private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
     private final RawAnimation FLY = ParasiteAnimations.loop(this, "fly");
     private final RawAnimation DIG = ParasiteAnimations.loop(this, "func_78087_a.getDigging");
     private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation REEKER_WINDUP = ParasiteAnimations.loop(
+            this, "idle.get_parasite_status_3.get_still_ani_1");
+    private final RawAnimation REEKER_CHARGE = ParasiteAnimations.loop(this, "walk.get_parasite_status_3");
 
     private final Kind kind;
     private int abilityCooldown;
@@ -56,6 +72,12 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
             moveControl = new FlyingMoveControl(this, 20, true);
             setNoGravity(true);
         }
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(REEKER_CHARGE_STATE, REEKER_CHARGE_NONE);
     }
 
     public static AttributeSupplier.Builder createAttributes(Kind kind) {
@@ -280,6 +302,13 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
         if (activeKind() == Kind.YELLOWEYE) {
             return state.setAndContinue(FLY);
         }
+        if (activeKind() == Kind.REEKER) {
+            return switch (entityData.get(REEKER_CHARGE_STATE)) {
+                case REEKER_CHARGE_WINDUP -> state.setAndContinue(REEKER_WINDUP);
+                case REEKER_CHARGING -> state.setAndContinue(REEKER_CHARGE);
+                default -> state.setAndContinue(state.isMoving() ? WALK : IDLE);
+            };
+        }
         if (!state.isMoving()) {
             return state.setAndContinue(IDLE);
         }
@@ -460,6 +489,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
 
     private final class ChargeGoal extends Goal {
         private int chargeTicks;
+        private Vec3 chargeDirection = Vec3.ZERO;
 
         private ChargeGoal() {
             setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
@@ -475,13 +505,24 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
         @Override
         public boolean canContinueToUse() {
             LivingEntity target = getTarget();
-            return chargeTicks < 18 && target != null && target.isAlive();
+            return chargeTicks < REEKER_WINDUP_TICKS + REEKER_CHARGE_TICKS
+                    && target != null && target.isAlive();
         }
 
         @Override
         public void start() {
             chargeTicks = 0;
             abilityCooldown = 100;
+            chargeDirection = Vec3.ZERO;
+            entityData.set(REEKER_CHARGE_STATE, REEKER_CHARGE_WINDUP);
+            getNavigation().stop();
+            setDeltaMovement(0.0D, getDeltaMovement().y, 0.0D);
+        }
+
+        @Override
+        public void stop() {
+            entityData.set(REEKER_CHARGE_STATE, REEKER_CHARGE_NONE);
+            chargeDirection = Vec3.ZERO;
         }
 
         @Override
@@ -491,16 +532,37 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
                 return;
             }
             getLookControl().setLookAt(target, 30.0F, 30.0F);
-            Vec3 direction = target.position().subtract(position());
-            if (direction.lengthSqr() > 0.001D) {
-                direction = direction.normalize();
-                setDeltaMovement(direction.x * 0.72D, getDeltaMovement().y, direction.z * 0.72D);
+            if (chargeTicks < REEKER_WINDUP_TICKS) {
+                getNavigation().stop();
+                setDeltaMovement(0.0D, getDeltaMovement().y, 0.0D);
+                if (chargeTicks == 1) {
+                    playSound(ParasiteSoundProfiles.ambient(PrimitiveVariantEntity.this), 4.0F, 2.0F);
+                }
+                if (level() instanceof ServerLevel serverLevel) {
+                    serverLevel.sendParticles(ParticleTypes.FLAME, getRandomX(0.8D),
+                            getY() + random.nextDouble() * getBbHeight(), getRandomZ(0.8D),
+                            2, 0.05D, 0.05D, 0.05D, 0.01D);
+                }
+                chargeTicks++;
+                return;
+            }
+            if (chargeTicks == REEKER_WINDUP_TICKS) {
+                chargeDirection = target.position().subtract(position());
+                chargeDirection = new Vec3(chargeDirection.x, 0.0D, chargeDirection.z);
+                if (chargeDirection.lengthSqr() > 0.001D) {
+                    chargeDirection = chargeDirection.normalize();
+                }
+                entityData.set(REEKER_CHARGE_STATE, REEKER_CHARGING);
+            }
+            if (chargeDirection.lengthSqr() > 0.001D) {
+                setDeltaMovement(chargeDirection.x * 0.72D, getDeltaMovement().y,
+                        chargeDirection.z * 0.72D);
             }
             if (distanceToSqr(target) <= 6.25D) {
                 doHurtTarget(target);
                 hurtNearby(PrimitiveVariantEntity.this, 2.5D,
                         (float) getAttributeValue(Attributes.ATTACK_DAMAGE) * 1.25F, true);
-                chargeTicks = 18;
+                chargeTicks = REEKER_WINDUP_TICKS + REEKER_CHARGE_TICKS;
                 return;
             }
             chargeTicks++;
