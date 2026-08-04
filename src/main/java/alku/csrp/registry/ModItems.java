@@ -18,12 +18,15 @@ import alku.csrp.item.QuenchItem;
 import alku.csrp.item.ShrimpItem;
 import alku.csrp.item.TexturedSpawnEggItem;
 import alku.csrp.item.TheSignCharmItem;
+import alku.csrp.item.ThornshadeBerryItem;
+import alku.csrp.item.ThornshadeDecanterItem;
 import alku.csrp.item.InjectedPurifierItem;
 import alku.csrp.item.OverlastCanteenItem;
 import alku.csrp.item.OverlastFoodItem;
 import alku.csrp.item.ParasiteLootBlockItem;
 import alku.csrp.item.AlveolarFluidItem;
 import alku.csrp.item.AlveoliItem;
+import alku.csrp.item.VenkrolBootsItem;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.BlockItem;
@@ -298,6 +301,8 @@ public final class ModItems {
     public static final DeferredItem<BlockItem> TUNNEL = ITEMS.registerSimpleBlockItem("tunnel", ModBlocks.TUNNEL);
     public static final DeferredItem<BlockItem> RESIDUE_PLANTS = ITEMS.registerSimpleBlockItem(
             "residue_plants", ModBlocks.RESIDUE_PLANTS);
+    public static final DeferredItem<BlockItem> THORNSHADE_ITEM = ITEMS.registerSimpleBlockItem(
+            "thornshade", ModBlocks.THORNSHADE);
     public static final DeferredItem<BlockItem> RESIDUE_BLOCK = ITEMS.registerSimpleBlockItem(
             "residue_block", ModBlocks.RESIDUE_BLOCK);
     public static final DeferredItem<BlockItem> INFESTED_REMAINS = ITEMS.registerSimpleBlockItem(
@@ -487,9 +492,13 @@ public final class ModItems {
             "itemthrow", QuenchItem::new, new Item.Properties().stacksTo(16));
     public static final DeferredItem<BoughItem> BOUGH = ITEMS.registerItem(
             "bough", BoughItem::new, new Item.Properties());
-    public static final DeferredItem<Item> THORNSHADE_DECANTER = simple("thornshade_decanter", new Item.Properties().stacksTo(1));
-    public static final DeferredItem<ArmorItem> VENKROL_BOOTS = ITEMS.registerItem("venkrol_boots",
-            properties -> new ArmorItem(ModArmorMaterials.VENKROL, ArmorItem.Type.BOOTS, properties.durability(520)),
+    public static final DeferredItem<ThornshadeBerryItem> THORNSHADE_BERRY = ITEMS.registerItem(
+            "thornshade_berry", ThornshadeBerryItem::new, new Item.Properties());
+    public static final DeferredItem<ThornshadeDecanterItem> THORNSHADE_DECANTER = ITEMS.registerItem(
+            "thornshade_decanter", ThornshadeDecanterItem::new, new Item.Properties());
+    public static final DeferredItem<VenkrolBootsItem> VENKROL_BOOTS = ITEMS.registerItem("venkrol_boots",
+            properties -> new VenkrolBootsItem(ModArmorMaterials.VENKROL, ArmorItem.Type.BOOTS,
+                    properties.durability(520)),
             new Item.Properties().rarity(Rarity.RARE));
     public static final DeferredItem<Item> MODULE_BASE = simple("module_base", new Item.Properties().stacksTo(1));
     public static final DeferredItem<Item> TISSUE_SPIKE = simple("tissue_spike", new Item.Properties().stacksTo(1));

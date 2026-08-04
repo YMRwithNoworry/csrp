@@ -1,0 +1,14 @@
+{
+  "variants": {
+    "stage=stage0_ts": { "model": "csrp:block/thornshade_stage0_ts" },
+    "stage=stage0_ts_snow": { "model": "csrp:block/thornshade_stage0_ts_snow" },
+    "stage=stage1_ts": { "model": "csrp:block/thornshade_stage1_ts" },
+    "stage=stage1_ts_snow": { "model": "csrp:block/thornshade_stage1_ts_snow" },
+    "stage=stage2_ts": { "model": "csrp:block/thornshade_stage2_ts" },
+    "stage=stage2_ts_snow": { "model": "csrp:block/thornshade_stage2_ts_snow" },
+    "stage=stage2_ts_noberry": { "model": "csrp:block/thornshade_stage2_ts_noberry" },
+    "stage=stage2_ts_noberry_snow": { "model": "csrp:block/thornshade_stage2_ts_noberry_snow" },
+    "stage=dead_ts": { "model": "csrp:block/thornshade_dead_ts" },
+    "stage=dead_ts_snow": { "model": "csrp:block/thornshade_dead_ts_snow" }
+  }
+}

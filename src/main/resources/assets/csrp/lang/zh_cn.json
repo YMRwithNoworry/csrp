@@ -825,5 +825,14 @@
   "options.csrp.difficulty.impossible.description": "寄生体生命和伤害提升至 11 倍、护甲 6 倍，获得极高击退抗性且演化点数提升至 10 倍。",
   "command.csrp.eve.enabled": "EVE 模式已开启：演化阶段固定为 10、迭代固定为 5、泛维度发展固定为 4，寄生虫能力全部解锁。SRP 难度保持为 %s。",
   "command.csrp.eve.disabled": "EVE 模式已关闭，演化、迭代和寄生虫能力已恢复为实际进度。SRP 难度保持为 %s。",
-  "command.csrp.eve.status": "EVE 模式：%s；有效演化阶段：%s；有效迭代：%s；泛维度发展：%s；SRP 难度：%s。"
+  "command.csrp.eve.status": "EVE 模式：%s；有效演化阶段：%s；有效迭代：%s；泛维度发展：%s；SRP 难度：%s。",
+  "block.csrp.thornshade": "影棘",
+  "item.csrp.thornshade": "影棘",
+  "item.csrp.thornshade_berry": "影棘浆果",
+  "tooltip.csrp.thornshade_berry": "影棘酒的必要酿造材料。",
+  "tooltip.csrp.thornshade_decanter.line1": "反弹一部分近战伤害。",
+  "tooltip.csrp.thornshade_decanter.line2": "无法作用于远程与魔法伤害。",
+  "tooltip.csrp.venkrol_boots": "防止穿戴者被卷入漩涡。",
+  "advancements.csrp.thornshade_self_destruct.title": "美丽的自我毁灭",
+  "advancements.csrp.thornshade_self_destruct.description": "饮下第三瓶影棘酒，迎接盛放。"
 }

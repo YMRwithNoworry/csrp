@@ -4,6 +4,7 @@ import alku.csrp.Csrp;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.infection.BlockInfestation;
 import alku.csrp.registry.ModMobEffects;
+import alku.csrp.registry.ModItems;
 import alku.csrp.world.SrpWorldData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -19,6 +20,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -629,6 +631,9 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     private void createStormVortex() {
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
                 getBoundingBox().inflate(10.0D), this::isValidParasiteTarget)) {
+            if (target.getItemBySlot(EquipmentSlot.FEET).is(ModItems.VENKROL_BOOTS)) {
+                continue;
+            }
             Vec3 pull = position().subtract(target.position());
             if (pull.lengthSqr() < 0.001D) {
                 continue;

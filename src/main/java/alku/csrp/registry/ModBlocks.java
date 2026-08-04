@@ -17,6 +17,7 @@ import alku.csrp.block.ParasiteLootBlock;
 import alku.csrp.block.AlveoliBlock;
 import alku.csrp.block.AlveoliGrowthBlock;
 import alku.csrp.block.SickAlveoliBlock;
+import alku.csrp.block.ThornshadeBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SoundType;
@@ -45,6 +46,13 @@ public final class ModBlocks {
                     .randomTicks()
                     .instabreak()
                     .sound(SoundType.GRASS)));
+    public static final DeferredBlock<ThornshadeBlock> THORNSHADE = BLOCKS.register("thornshade", () ->
+            new ThornshadeBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED)
+                    .noCollission()
+                    .noOcclusion()
+                    .instabreak()
+                    .sound(SoundType.SWEET_BERRY_BUSH)));
     public static final DeferredBlock<ResidueBlock> RESIDUE_BLOCK = BLOCKS.register("residue_block", () -> new ResidueBlock(
             BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.5F, 6.0F)
                     .sound(SoundType.ROOTED_DIRT)));

@@ -1,0 +1,16 @@
+{
+  "display": {
+    "icon": { "id": "csrp:thornshade_decanter" },
+    "title": { "translate": "advancements.csrp.thornshade_self_destruct.title" },
+    "description": { "translate": "advancements.csrp.thornshade_self_destruct.description" },
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png",
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "exploded": { "trigger": "minecraft:impossible" }
+  },
+  "requirements": [["exploded"]]
+}

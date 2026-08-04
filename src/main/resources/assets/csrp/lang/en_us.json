@@ -811,5 +811,14 @@
   "options.csrp.difficulty.impossible.description": "11x health and damage, 6x armor, extreme knockback resistance and 10x point gain.",
   "command.csrp.eve.enabled": "EVE mode enabled: evolution phase is fixed at 10, generation at 5, Ubiquitous Development at 4, and all parasite abilities are unlocked. SRP difficulty remains %s.",
   "command.csrp.eve.disabled": "EVE mode disabled. Evolution, generation, and parasite abilities now use their actual progression again. SRP difficulty remains %s.",
-  "command.csrp.eve.status": "EVE mode: %s; effective evolution phase: %s; effective generation: %s; Ubiquitous Development: %s; SRP difficulty: %s."
+  "command.csrp.eve.status": "EVE mode: %s; effective evolution phase: %s; effective generation: %s; Ubiquitous Development: %s; SRP difficulty: %s.",
+  "block.csrp.thornshade": "Thornshade",
+  "item.csrp.thornshade": "Thornshade",
+  "item.csrp.thornshade_berry": "Thornshade Berry",
+  "tooltip.csrp.thornshade_berry": "A necessary ingredient for brewing Thornshade Decanter.",
+  "tooltip.csrp.thornshade_decanter.line1": "Reflects part of incoming melee damage.",
+  "tooltip.csrp.thornshade_decanter.line2": "Does not affect ranged or magic damage.",
+  "tooltip.csrp.venkrol_boots": "Prevents the wearer from being pulled into a vortex.",
+  "advancements.csrp.thornshade_self_destruct.title": "Beautiful Self-Destruction",
+  "advancements.csrp.thornshade_self_destruct.description": "Drink a third Thornshade Decanter and embrace the bloom."
 }

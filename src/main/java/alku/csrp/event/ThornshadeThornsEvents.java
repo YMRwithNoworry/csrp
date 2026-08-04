@@ -3,10 +3,13 @@ package alku.csrp.event;
 import alku.csrp.Csrp;
 import alku.csrp.entity.Parasite;
 import alku.csrp.registry.ModMobEffects;
+import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -27,6 +30,9 @@ public final class ThornshadeThornsEvents {
     private static final String EXPLODE_DELAY_TAG = "ExplodeDelay";
     private static final String EXPLODED_TAG = "HasExplodedOnce";
     private static final float MAX_ALLOWED_HEALTH = 120.0F;
+    private static final ResourceLocation SELF_DESTRUCT_ADVANCEMENT =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "thornshade_self_destruct");
+    private static final String SELF_DESTRUCT_CRITERION = "exploded";
 
     private ThornshadeThornsEvents() {
     }
@@ -74,7 +80,7 @@ public final class ThornshadeThornsEvents {
         MobEffectInstance thorns = target.getEffect(ModMobEffects.THORNSHADE_THORNS);
         Entity source = event.getSource().getEntity();
         if (thorns == null || isInfinite(thorns) || !(source instanceof LivingEntity attacker)
-                || event.getAmount() <= 0.0F) {
+                || event.getSource().getDirectEntity() != attacker || event.getAmount() <= 0.0F) {
             return;
         }
         int uses = thornData(target).getInt(USES_TAG);
@@ -122,6 +128,7 @@ public final class ThornshadeThornsEvents {
         CompoundTag centerData = thornData(center);
         centerData.putBoolean(EXPLODED_TAG, true);
         saveThornData(center, centerData);
+        awardSelfDestruction(center);
 
         double x = center.getX();
         double y = center.getY();
@@ -153,7 +160,18 @@ public final class ThornshadeThornsEvents {
             other.addEffect(new MobEffectInstance(ModMobEffects.THORNSHADE_THORNS,
                     600, 0, false, true), center);
         }
-        center.hurt(level.damageSources().genericKill(), Float.MAX_VALUE);
+        center.invulnerableTime = 0;
+        center.hurt(level.damageSources().magic(), Float.MAX_VALUE);
+    }
+
+    private static void awardSelfDestruction(LivingEntity center) {
+        if (!(center instanceof ServerPlayer player)) {
+            return;
+        }
+        AdvancementHolder advancement = player.server.getAdvancements().get(SELF_DESTRUCT_ADVANCEMENT);
+        if (advancement != null) {
+            player.getAdvancements().award(advancement, SELF_DESTRUCT_CRITERION);
+        }
     }
 
     private static boolean canReceiveThorns(LivingEntity entity) {
