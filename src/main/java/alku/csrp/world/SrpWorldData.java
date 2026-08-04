@@ -18,7 +18,7 @@ import net.minecraft.world.level.saveddata.SavedData;
 
 public final class SrpWorldData extends SavedData {
     private static final String DATA_NAME = "csrp_world_data";
-    private static final int DATA_VERSION = 2;
+    private static final int DATA_VERSION = 3;
     private static final Factory<SrpWorldData> FACTORY = new Factory<>(SrpWorldData::new, SrpWorldData::load);
     private static final int[] DISLODGMENT_PHASE_COOLDOWN_MULTIPLIER = {1, 4, 3, 3, 4, 5, 6, 7, 8, 9, 10};
 
@@ -52,7 +52,7 @@ public final class SrpWorldData extends SavedData {
         if (!data.initialized) {
             data.initialize(level);
         }
-        data.migrateLegacyEvolutionCooldown(level);
+        data.migrateRemovedPhaseCooldown();
         if (level.dimension() != Level.OVERWORLD) {
             ServerLevel overworld = level.getServer().getLevel(Level.OVERWORLD);
             if (overworld != null) {
@@ -135,7 +135,6 @@ public final class SrpWorldData extends SavedData {
         int previous = evolutionPhase;
         evolutionPhase = Math.max(-2, Math.min(10, phase));
         evolutionPoints = EvolutionSystem.thresholdForPhase(evolutionPhase);
-        cooldownEnd = level.getGameTime() + EvolutionSystem.cooldownTicksForPhase(evolutionPhase);
         if (previous != evolutionPhase) {
             EvolutionSystem.announcePhaseChange(level, previous, evolutionPhase);
         }
@@ -170,8 +169,8 @@ public final class SrpWorldData extends SavedData {
         return wholePoints;
     }
 
-    public boolean addEvolutionPoints(ServerLevel level, int points, boolean bypassCooldown) {
-        if (!canAddEvolutionPoints(level, points, bypassCooldown)) {
+    public boolean addEvolutionPoints(ServerLevel level, int points) {
+        if (!canAddEvolutionPoints(points)) {
             return false;
         }
 
@@ -185,24 +184,23 @@ public final class SrpWorldData extends SavedData {
         int previous = evolutionPhase;
         evolutionPhase = EvolutionSystem.phaseForPoints(evolutionPoints);
         if (previous != evolutionPhase) {
-            cooldownEnd = level.getGameTime() + EvolutionSystem.cooldownTicksForPhase(evolutionPhase);
             EvolutionSystem.announcePhaseChange(level, previous, evolutionPhase);
         }
         setDirty();
         return true;
     }
 
-    public boolean addDifficultyScaledEvolutionPoints(ServerLevel level, int points, boolean bypassCooldown) {
-        if (!canAddEvolutionPoints(level, points, bypassCooldown)) {
+    public boolean addDifficultyScaledEvolutionPoints(ServerLevel level, int points) {
+        if (!canAddEvolutionPoints(points)) {
             return false;
         }
         int adjusted = applyDifficultyPointMultiplier(points);
-        return adjusted == 0 || addEvolutionPoints(level, adjusted, bypassCooldown);
+        return adjusted == 0 || addEvolutionPoints(level, adjusted);
     }
 
-    private boolean canAddEvolutionPoints(ServerLevel level, int points, boolean bypassCooldown) {
+    private boolean canAddEvolutionPoints(int points) {
         return !((points > 0 && !canGain) || (points < 0 && !canLose) || evolutionPhase == -2
-                || (points < 0 && evolutionPhase < 0) || (!bypassCooldown && cooldown(level) > 0));
+                || (points < 0 && evolutionPhase < 0));
     }
 
     public int cooldown(ServerLevel level) {
@@ -283,7 +281,7 @@ public final class SrpWorldData extends SavedData {
     }
 
     public void tickPassivePoints(ServerLevel level) {
-        if (!canGain || evolutionPhase < 0 || cooldown(level) > 0) {
+        if (!canGain || evolutionPhase < 0) {
             return;
         }
         passivePointRemainder += EvolutionSystem.passivePointsPerSecond(evolutionPhase);
@@ -617,14 +615,11 @@ public final class SrpWorldData extends SavedData {
         setDirty();
     }
 
-    private void migrateLegacyEvolutionCooldown(ServerLevel level) {
+    private void migrateRemovedPhaseCooldown() {
         if (dataVersion >= DATA_VERSION) {
             return;
         }
-        long maximumPhaseCooldownEnd = level.getGameTime() + EvolutionSystem.cooldownTicksForPhase(evolutionPhase);
-        if (cooldownEnd > maximumPhaseCooldownEnd) {
-            cooldownEnd = maximumPhaseCooldownEnd;
-        }
+        cooldownEnd = 0L;
         dataVersion = DATA_VERSION;
         setDirty();
     }

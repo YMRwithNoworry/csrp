@@ -31,9 +31,6 @@ public final class EvolutionSystem {
             0, 800, 1_600, 5_000, 30_000, 200_000,
             5_000_000, 25_000_000, 500_000_000, 1_000_000_000, 1_800_000_000
     };
-    private static final int[] PHASE_COOLDOWN_TICKS = {
-            0, 4_000, 4_800, 4_700, 4_500, 4_200, 3_800, 3_700, 3_700, 3_800, 6_000
-    };
     private static final int[] SLEEP_POINTS = {3, 40, 50, 1_000, 100, 2_500, 8_500, 12_500, 15_000, 18_000, 1};
     private static final double[] PASSIVE_POINTS_PER_SECOND = {
             0.0D, 0.0D, 0.0D, 0.05D, 0.075D, 0.1D, 0.15D, 0.25D, 0.35D, 0.45D, 0.55D
@@ -101,10 +98,6 @@ public final class EvolutionSystem {
         return phase;
     }
 
-    public static int cooldownTicksForPhase(int phase) {
-        return phase < 1 || phase > 10 ? 0 : PHASE_COOLDOWN_TICKS[phase];
-    }
-
     public static int generationNeededTicks(int generation, int phase) {
         if (generation < 0 || generation >= GENERATION_TIME_TICKS.length) {
             return 0;
@@ -146,7 +139,7 @@ public final class EvolutionSystem {
         if (points != 0 && adjusted == 0) {
             adjusted = Integer.signum(points);
         }
-        return data.addDifficultyScaledEvolutionPoints(level, adjusted, source.bypassesCooldown());
+        return data.addDifficultyScaledEvolutionPoints(level, adjusted);
     }
 
     public static int sleepPoints(int phase) {
@@ -308,10 +301,6 @@ public final class EvolutionSystem {
         COMMAND
 
         ;
-
-        boolean bypassesCooldown() {
-            return this == COMMAND || this == VECTOR_DAILY || this == PARASITE_DEATH || this == BLOCK_BREAK;
-        }
     }
 
     public record InitialProgress(int phase, int points) {

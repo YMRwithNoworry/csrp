@@ -317,7 +317,7 @@ public final class SrpCommands {
                         "SRP commands: srparasites, srpevolution, srpgeneration, srpudevelopment, srpnodes, "
                                 + "srpcolonies, srpvectors, srpdislodgment, srpdifficulty, dqq, srp_summon_nidus"))
                 .then(helpTopic("srparasites", "Status, generation and per-dimension data reset"))
-                .then(helpTopic("srpevolution", "Phase, points, cooldown and evolution locks"))
+                .then(helpTopic("srpevolution", "Phase, points, lure timer and evolution locks"))
                 .then(helpTopic("srpgeneration", "Parasite generation and generation ticks"))
                 .then(helpTopic("srpudevelopment", "UD level and cross-dimension evolution state"))
                 .then(helpTopic("srpnodes", "List, create and remove persistent nodes"))
@@ -425,8 +425,8 @@ public final class SrpCommands {
 
     private static int addEvolutionPoints(CommandSourceStack source, int points) {
         SrpWorldData data = data(source);
-        if (!data.addEvolutionPoints(source.getLevel(), points, false)) {
-            return failure(source, "Evolution point change was blocked by phase, cooldown, or gain/loss settings");
+        if (!data.addEvolutionPoints(source.getLevel(), points)) {
+            return failure(source, "Evolution point change was blocked by phase or gain/loss settings");
         }
         return success(source, "Added " + points + " evolution points; total: " + data.evolutionPoints());
     }
@@ -438,7 +438,7 @@ public final class SrpCommands {
         } else {
             data.setCooldown(source.getLevel(), seconds);
         }
-        return success(source, "Evolution cooldown seconds: " + data.cooldown(source.getLevel()));
+        return success(source, "Lure/carcass cooldown seconds: " + data.cooldown(source.getLevel()));
     }
 
     private static int setPhase(CommandSourceStack source, int phase, Integer generation) {
