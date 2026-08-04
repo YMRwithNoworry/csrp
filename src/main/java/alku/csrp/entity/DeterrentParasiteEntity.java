@@ -52,7 +52,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     private static final float ADAPTATION_LEARN_CHANCE = 0.85F;
     private static final float FIRE_SUPPRESSION_CHANCE = 0.50F;
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation ATTACK = ParasiteAnimations.loop(this, "attack");
+    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
 
     private final Kind kind;
     private int abilityCooldown;
@@ -133,8 +133,9 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         if (!hit || !(entity instanceof LivingEntity target)) {
             return hit;
         }
+        attackFlashTicks = 12;
+        triggerAnim("attack_controller", "attack");
         if (activeKind == Kind.KYPHOSIS) {
-            attackFlashTicks = 12;
             hurtNearby(target, 2.0D, 35.0F, true);
             target.push(0.0D, 0.5D, 0.0D);
         }
@@ -237,6 +238,8 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
+                .triggerableAnim("attack", ATTACK));
     }
 
     public void setDispatchTarget(LivingEntity target) {

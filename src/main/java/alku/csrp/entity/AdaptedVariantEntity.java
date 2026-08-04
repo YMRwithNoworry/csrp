@@ -451,6 +451,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
         if (!hit) {
             return false;
         }
+        triggerAnim("bolster_attack_controller", "attack");
 
         switch (activeKind) {
             case BOLSTER -> hurtNearby(this, 2.75D, meleeDamage() * 0.75F, true);

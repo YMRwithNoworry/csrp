@@ -95,17 +95,17 @@ public final class KirinEntity extends DerivedParasiteEntity {
             KirinEntity.class, EntityDataSerializers.INT);
 
     private final RawAnimation idleAnimation = RawAnimation.begin()
-            .thenLoop("animation.kirin.func_78087_a");
+            .thenLoop("animation.kirin.idle");
     private final RawAnimation walkAnimation = RawAnimation.begin()
-            .thenLoop("animation.kirin.func_78087_a.walk");
+            .thenLoop("animation.kirin.walk");
     private final RawAnimation attackAnimation = RawAnimation.begin()
-            .thenPlay("animation.kirin.func_78087_a.attack");
+            .thenPlay("animation.kirin.attack");
     private final RawAnimation cloneAnimation = RawAnimation.begin()
-            .thenLoop("animation.kirin.func_78087_a.getCloneC");
+            .thenLoop("animation.kirin.idle.get_clone_c_1");
+    private final RawAnimation cloneShakingAnimation = RawAnimation.begin()
+            .thenLoop("animation.kirin.idle.get_clone_c_1.shaking_c_1");
     private final RawAnimation shakingAnimation = RawAnimation.begin()
-            .thenLoop("animation.kirin.func_78087_a.shakingC");
-    private final RawAnimation revealAnimation = RawAnimation.begin()
-            .thenLoop("animation.kirin.func_78087_a.showC");
+            .thenLoop("animation.kirin.idle.shaking_c_1");
 
     private int blinkCooldown;
     private int blinkCharge;
@@ -670,7 +670,7 @@ public final class KirinEntity extends DerivedParasiteEntity {
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
             if (isShadowClone()) {
-                return state.setAndContinue(cloneAnimation);
+                return state.setAndContinue(isShadowHitFlashing() ? cloneShakingAnimation : cloneAnimation);
             }
             if (isShadowHitFlashing()) {
                 return state.setAndContinue(shakingAnimation);
@@ -679,7 +679,7 @@ public final class KirinEntity extends DerivedParasiteEntity {
                 return state.setAndContinue(shakingAnimation);
             }
             if (isShadowed() && getShadowRenderAlpha(0.0F) > 0.0F) {
-                return state.setAndContinue(revealAnimation);
+                return state.setAndContinue(idleAnimation);
             }
             return state.setAndContinue(state.isMoving() ? walkAnimation : idleAnimation);
         }));

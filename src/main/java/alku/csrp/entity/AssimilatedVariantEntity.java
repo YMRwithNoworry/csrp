@@ -34,6 +34,7 @@ import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
@@ -48,6 +49,7 @@ public final class AssimilatedVariantEntity extends Monster implements GeoEntity
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
     private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
+    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private final Kind kind;
@@ -121,6 +123,7 @@ public final class AssimilatedVariantEntity extends Monster implements GeoEntity
         float healthBefore = livingTarget == null ? 0.0F : ParasiteCombatEffects.healthWithAbsorption(livingTarget);
         boolean hit = super.doHurtTarget(entity);
         if (hit && livingTarget != null) {
+            triggerAnim("attack_controller", "attack");
             ParasiteCombatEffects.applyFearFromDamage(livingTarget, healthBefore, this);
             InfectionMechanics.applyCoth(livingTarget, this);
             if (kind == Kind.BIGSPIDER && random.nextInt(3) == 0) {
@@ -180,6 +183,8 @@ public final class AssimilatedVariantEntity extends Monster implements GeoEntity
             }
             return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() > 0.055D ? RUN : WALK);
         }));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
+                .triggerableAnim("attack", ATTACK));
     }
 
     @Override

@@ -42,6 +42,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
     private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
     private final RawAnimation FLY = ParasiteAnimations.loop(this, "fly");
     private final RawAnimation DIG = ParasiteAnimations.loop(this, "func_78087_a.getDigging");
+    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
 
     private final Kind kind;
     private int abilityCooldown;
@@ -231,6 +232,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
         if (!hit || !(entity instanceof LivingEntity target)) {
             return hit;
         }
+        triggerAnim("attack_controller", "attack");
 
         switch (activeKind()) {
             case ARACHNIDA -> target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 80, 0), this);
@@ -267,6 +269,8 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
+                .triggerableAnim("attack", ATTACK));
     }
 
     private PlayState movementAnimation(AnimationState<PrimitiveVariantEntity> state) {

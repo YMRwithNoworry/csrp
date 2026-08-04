@@ -23,6 +23,7 @@ final class ParasiteAnimations {
         String action = switch (requestedAction) {
             case "run", "fly" -> "walk";
             case "spawn", "rush", "throw", "smash", "swipe" -> "attack";
+            case "func_78087_a.getDigging" -> "get_dig_model.get_digging_1";
             case "animation" -> "idle";
             default -> requestedAction;
         };

@@ -183,6 +183,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
             boolean hurt = super.doHurtTarget(entity);
             if (hurt) {
                 attackAnimationTicks = 8;
+                triggerAnim("attack_controller", "attack");
             }
             return hurt;
         }
@@ -199,6 +200,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         }
         if (hit) {
             attackAnimationTicks = 10;
+            triggerAnim("attack_controller", "attack");
         }
         return hit;
     }
@@ -235,6 +237,8 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
+                .triggerableAnim("attack", ATTACK));
     }
 
     public Kind getKind() {

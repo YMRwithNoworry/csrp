@@ -23,6 +23,7 @@ import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
@@ -32,6 +33,7 @@ public class FeralParasiteEntity extends Monster implements GeoEntity, Parasite 
     private static final int REGEN_KILL_INTERVAL = 10;
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
+    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private final Kind kind;
@@ -110,6 +112,7 @@ public class FeralParasiteEntity extends Monster implements GeoEntity, Parasite 
         float healthBefore = ParasiteCombatEffects.healthWithAbsorption(livingTarget);
         boolean hit = super.doHurtTarget(target);
         if (hit) {
+            triggerAnim("attack_controller", "attack");
             ParasiteCombatEffects.applyFearFromDamage(livingTarget, healthBefore, this);
         }
         return hit;
@@ -139,6 +142,8 @@ public class FeralParasiteEntity extends Monster implements GeoEntity, Parasite 
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
                 state -> state.setAndContinue(state.isMoving() ? RUN : IDLE)));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
+                .triggerableAnim("attack", ATTACK));
     }
 
     @Override
