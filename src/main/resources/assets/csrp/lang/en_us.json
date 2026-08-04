@@ -831,5 +831,11 @@
   "message.csrp.compass.not_found": "No %s exists in this dimension.",
   "message.csrp.compass.found": "%s located at %s, %s, %s (%s blocks away).",
   "tooltip.csrp.compass.searching": "Searching for the nearest %s",
-  "tooltip.csrp.compass.target": "%s: %s, %s, %s"
+  "tooltip.csrp.compass.target": "%s: %s, %s, %s",
+  "tooltip.csrp.bough.line1": "Shines with a radiant, warming yellow hue.",
+  "tooltip.csrp.bough.line2": "Used in Seppuku.",
+  "tooltip.csrp.quench": "A warm compound whose concentrated blaze powder purifies parasitic matter.",
+  "death.attack.sepeku": "%1$s performed Seppuku",
+  "advancements.csrp.sepeku.title": "Seppuku",
+  "advancements.csrp.sepeku.description": "You offered your life."
 }

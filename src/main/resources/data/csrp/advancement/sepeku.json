@@ -1,0 +1,16 @@
+{
+  "display": {
+    "icon": { "id": "csrp:bough" },
+    "title": { "translate": "advancements.csrp.sepeku.title" },
+    "description": { "translate": "advancements.csrp.sepeku.description" },
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png",
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "sepeku": { "trigger": "minecraft:impossible" }
+  },
+  "requirements": [["sepeku"]]
+}

@@ -9,6 +9,7 @@ import net.minecraft.world.damagesource.DamageType;
 public final class ModDamageTypes {
     public static final ResourceKey<DamageType> BIOMASS = key("biomass");
     public static final ResourceKey<DamageType> PARASITE_MOUTH = key("parasite_mouth");
+    public static final ResourceKey<DamageType> SEPPEKU = key("sepeku");
 
     private ModDamageTypes() {
     }

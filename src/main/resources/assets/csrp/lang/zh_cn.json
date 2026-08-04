@@ -845,5 +845,11 @@
   "message.csrp.compass.not_found": "当前维度不存在%s。",
   "message.csrp.compass.found": "%s位于 %s, %s, %s（距离 %s 格）。",
   "tooltip.csrp.compass.searching": "正在搜索最近的%s",
-  "tooltip.csrp.compass.target": "%s：%s, %s, %s"
+  "tooltip.csrp.compass.target": "%s：%s, %s, %s",
+  "tooltip.csrp.bough.line1": "散发出明亮且温暖的黄色光芒。",
+  "tooltip.csrp.bough.line2": "用于切腹自尽。",
+  "tooltip.csrp.quench": "内部填满温热的岩浆膏，浓缩的烈焰粉能有效清理寄生物质。",
+  "death.attack.sepeku": "%1$s切腹自尽了",
+  "advancements.csrp.sepeku.title": "切腹自尽",
+  "advancements.csrp.sepeku.description": "你献出了你的生命。"
 }
