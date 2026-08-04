@@ -820,5 +820,16 @@
   "tooltip.csrp.thornshade_decanter.line2": "Does not affect ranged or magic damage.",
   "tooltip.csrp.venkrol_boots": "Prevents the wearer from being pulled into a vortex.",
   "advancements.csrp.thornshade_self_destruct.title": "Beautiful Self-Destruction",
-  "advancements.csrp.thornshade_self_destruct.description": "Drink a third Thornshade Decanter and embrace the bloom."
+  "advancements.csrp.thornshade_self_destruct.description": "Drink a third Thornshade Decanter and embrace the bloom.",
+  "message.csrp.level_clock": "Ubiquitous Development level: %s",
+  "tooltip.csrp.level_clock": "Ubiquitous Development: %s / 4",
+  "tooltip.csrp.evolution_clock.phase": "Phase %s, evolution points %s",
+  "tooltip.csrp.evolution_clock.cooldown": "Phase cooldown: %s seconds",
+  "target.csrp.compass.node": "Node",
+  "target.csrp.compass.colony": "Colony",
+  "target.csrp.compass.origin": "Infection Origin",
+  "message.csrp.compass.not_found": "No %s exists in this dimension.",
+  "message.csrp.compass.found": "%s located at %s, %s, %s (%s blocks away).",
+  "tooltip.csrp.compass.searching": "Searching for the nearest %s",
+  "tooltip.csrp.compass.target": "%s: %s, %s, %s"
 }

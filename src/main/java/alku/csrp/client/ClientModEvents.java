@@ -27,7 +27,13 @@ import alku.csrp.registry.ModItems;
 import alku.csrp.registry.ModMenus;
 import alku.csrp.registry.ModParticles;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
@@ -324,8 +330,37 @@ public final class ClientModEvents {
             ItemProperties.register(ModItems.EVCLOCK.get(), ResourceLocation.withDefaultNamespace("phase"),
                     (stack, level, entity, seed) -> stack
                             .getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
-                            .copyTag().getInt("evolution_phase"));
+                            .copyTag().getInt(alku.csrp.item.EvolutionClockItem.PHASE_TAG));
+            ItemProperties.register(ModItems.LEVELCLOCK.get(), ResourceLocation.withDefaultNamespace("level"),
+                    (stack, level, entity, seed) -> stack
+                            .getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
+                            .copyTag().getInt(alku.csrp.item.LevelClockItem.DEVELOPMENT_TAG));
+            registerCompassProperty(ModItems.NODECOMPASS.get());
+            registerCompassProperty(ModItems.COLONYCOMPASS.get());
+            registerCompassProperty(ModItems.ORIGINCOMPASS.get());
         });
+    }
+
+    private static void registerCompassProperty(net.minecraft.world.item.Item compass) {
+        ItemProperties.register(compass, ResourceLocation.withDefaultNamespace("angle"),
+                ClientModEvents::compassAngle);
+    }
+
+    private static float compassAngle(ItemStack stack, ClientLevel level, LivingEntity entity, int seed) {
+        if (level == null || entity == null) {
+            return 0.0F;
+        }
+        CompoundTag tag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
+        if (!tag.getBoolean(alku.csrp.item.SrpCompassItem.HAS_TARGET_TAG)
+                || !level.dimension().location().toString()
+                        .equals(tag.getString(alku.csrp.item.SrpCompassItem.TARGET_DIMENSION_TAG))) {
+            return Mth.positiveModulo((level.getGameTime() + seed * 13L) / 100.0F, 1.0F);
+        }
+        BlockPos target = BlockPos.of(tag.getLong(alku.csrp.item.SrpCompassItem.TARGET_POS_TAG));
+        double targetAngle = Math.atan2(target.getZ() + 0.5D - entity.getZ(),
+                target.getX() + 0.5D - entity.getX()) / (Math.PI * 2.0D);
+        double entityAngle = Mth.positiveModulo(entity.getYRot() / 360.0F, 1.0F);
+        return Mth.positiveModulo((float) (0.5D - (entityAngle - 0.25D - targetAngle)), 1.0F);
     }
 
     private static void registerBowProperties(net.minecraft.world.item.Item bow) {

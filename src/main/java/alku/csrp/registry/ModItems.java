@@ -14,8 +14,10 @@ import alku.csrp.item.HijackedToolItem;
 import alku.csrp.item.LivingArmorItem;
 import alku.csrp.item.LivingBowItem;
 import alku.csrp.item.LivingWeaponItem;
+import alku.csrp.item.LevelClockItem;
 import alku.csrp.item.QuenchItem;
 import alku.csrp.item.ShrimpItem;
+import alku.csrp.item.SrpCompassItem;
 import alku.csrp.item.TexturedSpawnEggItem;
 import alku.csrp.item.TheSignCharmItem;
 import alku.csrp.item.ThornshadeBerryItem;
@@ -31,7 +33,6 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BoneMealItem;
-import net.minecraft.world.item.CompassItem;
 import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Item;
@@ -476,13 +477,17 @@ public final class ModItems {
             "infested_bonemeal", BoneMealItem::new, new Item.Properties());
     public static final DeferredItem<EvolutionClockItem> EVCLOCK = ITEMS.registerItem(
             "evclock", EvolutionClockItem::new, new Item.Properties().stacksTo(1));
-    public static final DeferredItem<Item> LEVELCLOCK = simple("levelclock", new Item.Properties().stacksTo(1));
-    public static final DeferredItem<CompassItem> NODECOMPASS = ITEMS.registerItem(
-            "nodecompass", CompassItem::new, new Item.Properties().stacksTo(1));
-    public static final DeferredItem<CompassItem> COLONYCOMPASS = ITEMS.registerItem(
-            "colonycompass", CompassItem::new, new Item.Properties().stacksTo(1));
-    public static final DeferredItem<CompassItem> ORIGINCOMPASS = ITEMS.registerItem(
-            "origincompass", CompassItem::new, new Item.Properties().stacksTo(1));
+    public static final DeferredItem<LevelClockItem> LEVELCLOCK = ITEMS.registerItem(
+            "levelclock", LevelClockItem::new, new Item.Properties().stacksTo(1));
+    public static final DeferredItem<SrpCompassItem> NODECOMPASS = ITEMS.registerItem(
+            "nodecompass", properties -> new SrpCompassItem(SrpCompassItem.Target.NODE, properties),
+            new Item.Properties().stacksTo(1));
+    public static final DeferredItem<SrpCompassItem> COLONYCOMPASS = ITEMS.registerItem(
+            "colonycompass", properties -> new SrpCompassItem(SrpCompassItem.Target.COLONY, properties),
+            new Item.Properties().stacksTo(1));
+    public static final DeferredItem<SrpCompassItem> ORIGINCOMPASS = ITEMS.registerItem(
+            "origincompass", properties -> new SrpCompassItem(SrpCompassItem.Target.ORIGIN, properties),
+            new Item.Properties().stacksTo(1));
     public static final DeferredItem<CompendiumItem> SRP_FIELD_GUIDE = ITEMS.registerItem(
             "srp_field_guide", CompendiumItem::new, new Item.Properties().stacksTo(1));
     public static final DeferredItem<Item> BOOK_OF_VENGEANCE = simple("book_of_vengeance", new Item.Properties().stacksTo(1));
