@@ -1,0 +1,68 @@
+{{Stub}}
+{{WIP}}
+{{Mob Info|title1=Seeker
+|image1=seeker.png
+|hp=80
+|damage=22
+|ranged=yes
+|armor=20
+|kb_resistance=0.4
+|adaptable=yes
+|id=srparasites:seeker
+}}
+
+'''Seekers''' are a type of [[Mobs|Mob]], placed into the [[Pure Parasites|Pure]] Tier.
+
+They are not currently implemented in the game, but in [https://trello.com/c/uGoACOYB/91-seeker Trello] it is described it as being like smaller versions of [[Ancient Dreadnaut]], [[Bogle]], or [[Wraith]] mobs.
+
+== ''Spawning'' ==
+It's implied that they would primarily spawn in the [[Parasite Biome]], although it is reasonable it would work all-the-same were it to be linked to [[Nests]] or [[Colony|Colonies]].
+
+
+== ''Behavior'' ==
+
+WIP
+
+Seekers are flying, medium-sized ranged Combatants.
+It's implied that Seekers will hunt enemies in packs of up to 5 members. When a pack encounters a player, a randomly chosen Seeker would return to their respective [[Parasite Biome]] and call for a raid.
+
+
+=== ''Weaknesses'' ===
+
+*Seekers, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+== ''Sounds'' ==
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source''' 
+!'''Description'''
+!'''File name''' 
+|-
+|}
+
+=== ''Post Death'' ===
+
+* On death, Seekers have a 50% chance to explode, releasing [[Remains|Pure Remains]], an effect cloud of stacking Poison and [[Call Of The Hive|COTH]] while also leaving an [[Incomplete Crux]].
+
+{{Properties
+|tier=Pure
+|DamageCap=4
+|Orbs=false
+}}{{Drops
+|rolls1=1 Roll
+|page1=Noxious Brain
+|amount1=1
+|chance1=40
+}}
+
+== ''Trivia'' ==
+This Mob was [[:Category:Community Proposals|proposed]] by user '''a cats'''.
+
+== ''Gallery'' ==
+<gallery>
+File: SeekerSizeComparison.png|Size of Seeker's Model.
+</gallery>
+<references />
+[[Category:Mobs]]
+[[Category:Pure Parasites]]

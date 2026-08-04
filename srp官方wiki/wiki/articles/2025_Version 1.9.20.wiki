@@ -1,0 +1,16 @@
+{{VersionBar|
+|page1=1.9.19
+|page2=1.9.21
+}}
+'''Version 1.9.20''' was an update for the Scape and Run: Parasites Mod, released on May 13th 2024.  It was 25.75 MB.
+
+== ''Change Log'' ==
+
+====<u>Fixes</u>====
+*Evolution points not working
+*Configuration options for weapons with wrong default values
+====<u>General</u>====
+*Tweaked weapons speed/attack values
+
+{{VersionList}}
+[[Category:Versions]]

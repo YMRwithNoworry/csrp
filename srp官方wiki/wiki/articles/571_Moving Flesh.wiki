@@ -1,0 +1,114 @@
+{{Mob Info 
+|title1=Moving Flesh
+|image1=Moving Flesh.png
+|hp=15.0
+|damage=N/A
+|armor=0.0
+|kb_resistance=N/A
+|adaptable=No
+|id=srparasites:movingflesh
+}}
+'''Moving Flesh''' is an unique type of [[Mobs]], placed into the [[Crude Parasites|Crude]] Tier.
+
+== ''Spawning'' ==
+*Spawns from the [[#Merge System|Merge System]]:
+**When one [[Assimilated Parasites|Assimilated Mob]]<ref name="flesh">Excluding [[Assimilated Big Spider|Assimilated Big Spiders]] and [[Assimilated Ender Dragon|Assimilated Ender Dragons]].</ref> accumulates a killcount of 10 and is next to three other Assimilated Mobs.
+**When an Assimilated Mob<ref name="flesh" /> accumulates a killcount of 10 and is next to another Moving Flesh.
+*If at least one [[Colony]] exists, spawns when any [[Primitive Parasite]] (except for [[Primitive Burrower|Primitive Burrowers]], [[Primitive Tozoon|Tozoons]], and [[Primitive Devourer|Devourers]]) or an [[Adapted Vermin]] is killed.
+
+== ''Behavior'' ==
+Moving Flesh are Utility/Transition-stage units.
+
+* Moving Flesh are unable to attack and flee from Aggressive Mobs and Players.
+* They will seek other Moving Flesh, merging and becoming larger. Once 4 Moving Flesh merge, they will evolve into a random [[:Category:Primitive Parasites|Primitive]] Parasite.
+** This Primitive Parasite will spawn with half of its max health.
+* Moving Flesh passively regenerate about 0.125 health per second.
+* Moving Flesh are able to traverse faster in liquids by performing small leaps.
+
+==''Merge System''==
+Moving Flesh are entirely tied to the Merge System, which is how Primitive Parasites are introduced into a world early. The Merge System is unlocked at [[Ubiquitous Development]] level 1.
+
+Assimilated Mobs<ref name="flesh" />, if prior having accumulated a killcount of at least 10 and fail to evolve into [[Feral Parasites]], will melt down into Moving Flesh under certain conditions. These being:
+*An Assimilated Mob (with a killcount of at least 10) is next to three other Assimilated Mobs. If so, all four will melt into one Moving Flesh, regardless of the killcounts of the other three.
+*An Assimilated Mob (with a killcount of at least 10) is next to another Moving Flesh. If so, it will melt down into one Moving Flesh.
+**This scenario takes priority over the other; if such an Assimilated Mob is next to both a Moving Flesh and three other Assimilated Mobs, it will melt only into one Moving Flesh.
+
+Each Assimilated Mob has a "value" that they will give to the Moving Flesh when they melt. These values will add when Moving Flesh combine. Every Assimilated Mob<ref name="flesh" /> has a value of one, with one exception, the [[Assimilated Bear]], which has a value of two.
+
+When Moving Flesh explode into a Primitive Parasite, the value of the Moving Flesh is taken into account. Each Primitive Parasite also has a value assigned to it, and if the value of the Moving Flesh and a certain Primitive Parasite are equal, then that Primitive will spawn. If the value of the Moving Flesh is not equal to any Primitive value, then the Primitive spawned will be selected at random.
+
+By default, every Primitive Parasite value is zero, which means that one is always selected at random.
+
+=== ''Weaknesses'' ===
+Moving Flesh, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+{{Properties
+|tier=Crude
+|FollowRange=16
+}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Fleshidle1.ogg]]
+[[File:Fleshidle2.ogg]]
+[[File:Fleshidle3.ogg]]
+|Hostile
+|Plays randomly while a Moving Flesh is alive.
+|Moving flesh hisses
+|idle1-3
+|-
+|
+[[File:Flesh Hurt.ogg]]
+|Hostile
+|Plays when a Moving Flesh is hurt.
+|Moving flesh squishes
+|hurt
+|-
+|
+[[File:Flesh Evolve.ogg]]
+|Hostile
+|Plays when Moving Flesh bursts into a [[Primitive Parasites|Primitive Parasite]].
+|Moving flesh pops
+|primitive
+|-
+|
+[[File:Flesh Eat.ogg]]
+|Hostile
+|Plays when a Moving Flesh absorbs another Moving Flesh.
+|Moving flesh eats
+|eat
+|-
+|
+[[File:Flesh grow.ogg]]
+|Hostile
+|Plays when a Moving Flesh absorbs another Moving Flesh.
+|Moving flesh grows
+|grow
+|-
+|
+[[File:Fleshdeath.ogg]]
+|Hostile
+|Plays when a Moving Flesh dies.
+|Moving flesh decays
+|death
+|-
+|}
+
+== ''Gallery'' ==
+<gallery>
+File:Moving Flesh Size Comparison.png|Size of the Moving Flesh's Model.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Crude Parasites]]
+[[Category:Mobs]]

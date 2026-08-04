@@ -1,0 +1,41 @@
+{{Navbar|page1=Living Sword|page2=Sentient Greatsword}}
+{{Item Info
+|image1=Living Sword.png
+|damage=19
+|attack_speed=0.9
+|range=4.5
+|durability=1000
+|stackable=No
+|tooltip=Result of various Parasites body parts reshaped to form a Weapon. The flame of life shines inside it. Inflicts life-threatening injuries.  
+|id=srparasites:weapon_sword
+}}
+The '''Living Sword''' is a type of [[Weapons|Weapon]] created from a multitude parasite materials.
+
+== ''Obtainment'' ==
+{{CraftingTable
+|r1_b1=Infectious Blade Fragment
+|r1_c1=Infectious Blade Fragment
+|r1_a2=Vile Shell
+|r1_c2=Infectious Blade Fragment
+|r1_b2=Living Core
+|r1_a3=Hardened Bone Handle
+|r1_b3=Vile Shell
+|r1_output=Living Sword
+}}
+
+== ''Usage'' ==
+
+'''Fighting'''
+
+The Living Sword is a Melee Weapon. Its attack reach is 4 blocks in each direction from the players head, which is the default attack reach.
+
+Each time it is swung without being on attack cooldown, it performs a sweeping attack (though only visually if airborne) and applies the [[Bleeding]] Effect to the directly targeted mob with a 23%<ref>needs verification</ref> chance each hit.
+
+'''Evolving'''
+
+Upon killing an entity, it's hp, including possible buffs from health boost, is added to a counter shown in the item's tooltip. 1 second after this counter reaches 50,000, a non-damaging lightning will strike the player, and the held weapon will be replaced with it's Sentient counterpart at full durability.
+[[Category:Weapons]]
+
+{{ItemList}}
+[[Category:Items]]
+[[Category:Equipment]]

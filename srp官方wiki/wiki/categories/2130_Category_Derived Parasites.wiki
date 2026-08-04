@@ -1,0 +1,59 @@
+{{TierBar}}
+
+
+'''Derived Parasites''' are a Tier of [[Mobs#Parasites|Parasites]]. This Tier is at the top of their Hierarchy, excluding the deprecated [[Ancient Parasites]], and contains 2 Mobs. 
+
+If the player manages to kill a Draconite or Kirin, they will be awarded the {{AdvancementLink|Hellfire Chemical Warfare}} and the {{AdvancementLink|Cosmic Structural Failure}} respectively.
+
+Derived Parasites are likely some of the most dangerous Parasites the Player will encounter.
+
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+Draconite.png|link=Draconite|[[Draconite]]
+Kirin.png|link=Kirin|[[Kirin]]
+
+</gallery>
+</div>
+
+== ''Shared Aspects and Capabilities'' ==
+
+* Derived Parasites have as cosmic version of themselves, a translucent duplicate that is usually superposed over their main body. Whenever they receive damage their cosmic version will take the damage of the hit for them, effectively acting as a shield.
+* To deal with this overly effective mechanism the player must deal damage to the Derivate parasite whenever it is near a light source block, otherwise the cosmic version will not separate.
+* Whenever enough damage is dealt to the cosmic version, it will return to the main body, although it wont have any functional use.
+* Separated Cosmic versions have all the same attacks from their main bodies.
+* Derived Parasites also possess the ability to corrupt [[Derived Distortion Phenomenon|Player GUI]] if you are within 100 blocks.
+
+=== Spawning ===
+
+
+=== Weakness ===
+*Like all Parasites, Derived parasites present a weakness to fire (damage inflicted by fire is quadrupled);
+
+=== Combat Capabilities ===
+
+* All current Derived parasites parasites are able to summon [[Orb|red orbs]] ('srparasites:orbscary') which deal damage, inflict poison and negative saturation.
+
+* All current Derived parasites are able to separate their cosmic version from themselves, duplicating their attacks aswell.
+
+=== Post-Death ===
+
+
+{{Properties|tier=Derived}}
+
+=== Drops ===
+{{Drops
+}}
+
+== ''Configuration'' ==
+Below is a list of the Config changes that affect Derived Parasites.
+
+To be added...
+
+== ''[[Lore]]'' ==
+To be added...
+
+== ''Trivia'' ==
+
+* The names of the Derived tier comes from the fact that the Parasites in it are derivatives of the dimensions in the Minecraft world, the Draconite and Kirin being derived from the Nether and End, respectively.<ref>https://discord.com/channels/717978802407342102/1468989713019830306/1469731622541852905</ref>
+
+[[Category:Mobs]]

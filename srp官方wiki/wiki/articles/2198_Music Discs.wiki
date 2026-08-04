@@ -1,0 +1,80 @@
+{{Stub}}
+'''Music Discs''' are an items added in version 1.10.0. In total there are three of them.
+Below is every music added by the mod including discs.
+
+{|class="fandom-table"
+! style="width: 200px" |Name
+! style="width: 300px" |Audio
+|-
+|Adaptation
+|[[File:Music Adaptation.ogg]]
+|-
+|Anguish
+|[[File:Music Anguish.ogg]]
+|-
+|Chants of the Beckons
+|[[File:Music Chants of the Beckons.ogg]]
+|-
+|Coagulation
+|[[File:Music Coagulation.ogg]]
+|-
+|Dominion
+|[[File:Music Dominion.ogg]]
+|-
+|[[File:Disc1.png|32px]] Duality
+|[[File:Music Duality.ogg]]
+|-
+|Fathomless
+|[[File:Music Fathomless.ogg]]
+|-
+|From Below
+|[[File:Music From Below.ogg]]
+|-
+|Grounded
+|[[File:Music Grounded.ogg]]
+|-
+|Hivemind
+|[[File:Music Hivemind.ogg]]
+|-
+|Insanity
+|[[File:Music Insanity.ogg]]
+|-
+|Irreversible
+|[[File:Music Irreversible.ogg]]
+|-
+|Parasite
+|[[File:Music Parasite.ogg]]
+|-
+|Prey
+|[[File:Music Prey.ogg]]
+|-
+|Relentless
+|[[File:Music Relentless.ogg]]
+|-
+|Restless
+|[[File:Music Restless.ogg]]
+|-
+|[[File:Disc3.png|32px]] Serenity
+|[[File:Music Serenity.ogg]]
+|-
+|Sorrow
+|[[File:Music Sorrow.ogg]]
+|-
+|The Call
+|[[File:Music The Call.ogg]]
+|-
+|Tying Veins
+|[[File:Music Tying Veins.ogg]]
+|-
+|Unsteady
+|[[File:Music Unsteady.ogg]]
+|-
+|[[File:Disc2.png|32px]] We'll Meet Again
+|[[File:Music We'll Meet Again.ogg]]
+|-
+|}
+<br>
+{{ItemList}}
+[[Category:Items]]
+[[Category:Equipment]]
+[[Category:Tools]]

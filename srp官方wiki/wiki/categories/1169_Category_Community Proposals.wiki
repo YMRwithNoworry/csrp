@@ -1,0 +1,3 @@
+'''Community Proposals''' are created, conceptualized and suggested by various users in the [https://discord.gg/WPuhKDU Discord Server], which were then approved by the developers and eventually added to the game.  Approved Suggestions can be seen in the [https://trello.com/b/aKzxuPeN/scape-run-parasites Trello].
+[[Category:Scape and Run: Parasites Wiki]]
+[[Category:Pages with a discord link]]

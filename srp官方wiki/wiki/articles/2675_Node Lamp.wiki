@@ -1,0 +1,29 @@
+'''Node Lamps''' are utility blocks that react to the presence of a [[Dispatcher (Disambiguation)|Dispatcher]].
+{{Item Info
+|image1=Node Lamp.png
+|id=srparasites:node_redstone_lamp
+}}
+
+==''Obtainment''==
+Node Lamps can only be obtained by crafting one with four [[Dispatcher Membrane|Dispatcher Membranes]] and a Redstone Lamp.
+{{CraftingTable|r1_b1=Dispatcher Membrane|r1_a2=Dispatcher Membrane|r1_c2=Dispatcher Membrane|r1_b2=Redstone Lamp|r1_b3=Dispatcher Membrane|r1_output=Node Lamp|r1_count=1}}
+
+==''Usage''==
+Node Lamps can detect the presence of Dispatchers in a 250-block radius and light up, emitting a redstone signal. When right-clicking, it presents Signal Strength and Signal Distance. Signal Strength is related to the level of the nearest Dispatcher, meaning the value can either be [[Stage I Dispatcher|I]], [[Stage II Dispatcher|II]], [[Stage III Dispatcher|III]], or [[Stage IV Dispatcher|IV]]. Signal Distance relates to how close the nearest Dispatcher is, the closest being 1 and the farthest being 5. When a Node Lamp cannot detect a Dispatcher, the Signal Distance will always be 0.
+
+{{CraftingTable|r1_a1=Semi-organic Ingot|r1_b1=Redstone Repeater|r1_c1=Semi-organic Ingot|r1_a2=Oak Planks|r1_b2=Node Lamp|r1_c2=Oak Planks|r1_a3=Semi-organic Block|r1_c3=Semi-organic Block|r1_b3=Oak Planks|r1_output=Relay Terminal
+|r2_a1=Altered Tendons
+|r2_b1=Dispatcher Membrane
+|r2_c1=Altered Tendons
+|r2_a2=Dispatcher Membrane
+|r2_b2=Module Genic Receptacle
+|r2_c2=Dispatcher Membrane
+|r2_a3=Gold Ingot
+|r2_b3=Node Lamp
+|r2_c3=Gold Ingot
+|r2_output=Vector Module
+}}
+
+
+{{BlockList}}
+[[Category:Blocks]]

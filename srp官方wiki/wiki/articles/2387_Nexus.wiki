@@ -1,0 +1,24 @@
+{{Stub}}
+
+
+'''Nexus''' is a [[Effects|Potion Effect]] added in v1.10.0. It reduces damage inflicted to [[:Category:Nexus Parasites|Nexus Parasites]] by 15%, affected by amplifier + 1.
+
+{{Effect Info
+|title1=Nexus
+|image1=Nexus.png
+|sources=See [[#Obtainment|Obtainment]]
+|type=Buff (Parasite)
+|id=srparasites:nexus}}
+
+== ''Obtainment'' ==
+{| class="fandom-table"
+!'''Cause'''
+!'''Potency'''
+!'''Duration'''
+|-
+|Killing a [[:Category:Nexus Parasites|Nexus Parasite]] while [[Dislodgment System#Code 22|Dislodgment Code 22]] is active
+|II
+|1:00
+|}
+{{EffectList}}
+[[Category:Effects]]

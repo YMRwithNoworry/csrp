@@ -1,0 +1,24 @@
+{{Stub}}
+
+
+'''Feral''' is a [[Effects|Potion Effect]] added in v1.10.0. It reduces damage inflicted to [[:Category:Feral Parasites|Feral Parasites]] by 15%, affected by amplifier + 1.
+
+{{Effect Info
+|title1=Feral
+|image1=Feral.png
+|sources=See [[#Obtainment|Obtainment]]
+|type=Buff (Parasite)
+|id=srparasites:feral}}
+
+== ''Obtainment'' ==
+{| class="fandom-table"
+!'''Cause'''
+!'''Potency'''
+!'''Duration'''
+|-
+|Killing a [[:Category:Feral Parasites|Feral Parasite]] while [[Dislodgment System#Code 22|Dislodgment Code 22]] is active
+|II
+|1:00
+|}
+{{EffectList}}
+[[Category:Effects]]

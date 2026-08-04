@@ -1,0 +1,37 @@
+{{Stub}}
+{{Item Info
+|image1=Chipped Motherly Membrane.png
+|type=Material
+|stackable=Yes (64)
+|id=srparasites:ada_viscera_drop
+}}
+'''Chipped Motherly Membranes''' are [[:Category:Drops|Drops]] from Viscera.
+
+== ''Obtainment'' ==
+Dropped by the [[Adapted Viscera|Adapted]] and [[Primitive Viscera]].
+
+== ''Usage'' ==
+{{CraftingTable
+|r1_a1=Hive Scrap
+|r1_b1=Chipped Motherly Membrane
+|r1_c1=Hive Scrap
+|r1_a2=Chipped Motherly Membrane
+|r1_b2=Module Genic Receptacle
+|r1_c2=Chipped Motherly Membrane
+|r1_a3=Hive Scrap
+|r1_b3=Chipped Motherly Membrane
+|r1_c3=Hive Scrap
+|r1_output=Dislodgement Module
+|r1_count=1
+
+|r2_b2=Chipped Motherly Membrane
+|r2_shapeless=true
+|r2_output=String
+|r2_nolink=true
+|r2_count=3}}
+
+
+
+{{ItemList}}
+[[Category:Drops]]
+[[Category:Items]]

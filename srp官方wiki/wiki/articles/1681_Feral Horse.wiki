@@ -1,0 +1,56 @@
+{{Navbar|page1=Walking Horse Head|page2=Assimilated Horse|page3=Feral Horse}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|ferhorse}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=FeralHorse.png
+|hp=37.0
+|damage=16.0
+|armor=3.0
+|kb_resistance=0.6
+|adaptable=No
+|id=srparasites:fer_horse
+}}
+'''Feral Horses''' are the [[Feral Parasites|Feral Version]] of Horses. Its slightly recognizable from its original form, although just barely, as its maw has split all the way to the start of its torso.<ref>Truly a ''fearsome fate.''</ref> Like other [[Feral Parasites]], most of its body is a fleshy red, and tentacles emerge from the [[Gnat]] in its mouth.
+
+==''Spawning''==
+
+* Spawned when a Horse is killed by a [[Gnat]] or [[Lice]].
+* Spawns from a Horse succumbing to [[Call Of The Hive]] at [[Evolution Phases#Phase 7|Phase 7]] onwards.
+* Spawns when an [[Assimilated Horse]] accumulates a killcount of 60 and [[Evolution System|evolves]].
+* Spawns in groups of 3 to 5, from [[Evolution Phases#Phase 8|Phase 8]] onwards, with a spawnweight of 25, once 3 Horses have been assimilated.
+
+==''Behavior''==
+Feral Horses are Melee Combatants.
+
+* Feral Horses attack through contact damage.
+* Feral Horses can perform small leaps, both on land and in liquids.
+* Feral Horses are able to sink in liquids to pursue submerged targets.
+* On hit Feral Horse has a chance to drop [[Remains|Feral Remains]].
+
+===''Weaknesses''===
+*Feral Horses, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+=== ''Post Death'' ===
+
+* On death Feral Horses have a chance to explode, releasing [[Remains|Feral Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+* On death they have a chance to drop a [[Gnat]].
+{{Properties|tier=Feral|FollowRange=20|DamageCap=3|MinimumDamage=0.75|DeathPenaltyEvolutionValue=5|RemainValue=12|ScentDeathValue=15|XPValue=16|COTH=.7}}
+
+==''Sounds''==
+To be added...
+
+==''Trivia''==
+To be added...
+
+== Gallery ==
+<gallery>
+File:FeralHorseHeight.png|Size of the Feral Horses' model.
+</gallery>
+
+{{MobList}}
+<references />
+[[Category:Mobs]]
+[[Category:Feral Parasites]]

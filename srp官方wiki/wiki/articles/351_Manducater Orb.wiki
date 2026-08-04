@@ -1,0 +1,20 @@
+{{Item Info
+|image1=Manducater Orb.png
+|type=Material
+|stackable=Yes (16)
+|tooltip=A small orb which seems to emit Energy, harvested from a Manducater body. A Crafting Ingredient for Weapons Components.
+|id=srparasites:ada_manducater_drop
+}}
+'''Manducater Orbs''' are a [[:Category:Drops|Drop]] used as a [[:Category:Drops#Materials|Material]] to craft [[Living Core|Living Cores]], a [[:Category:Weapons' Components|Weapons' Component]].
+
+== ''Obtainment'' ==
+*Dropped by the [[Primitive Manducater]] and [[Adapted Manducater]].
+*Can be found in [[Malignant Growth|Malignant Growths]].
+
+== ''Usage'' ==
+{{CraftingTable|r1_b1=Summoner Core|r1_b2=Manducater Orb|r1_a2=Infected Flesh|r1_c2=Infected Flesh|r1_output=Living Core}}
+[[Category:Drops]]
+
+
+{{ItemList}}
+[[Category:Items]]

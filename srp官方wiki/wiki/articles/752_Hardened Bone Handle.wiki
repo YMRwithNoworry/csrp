@@ -1,0 +1,67 @@
+{{Item Info
+|image1=Hardened Bone Handle.png
+|type=Material
+|stackable=No
+|tooltip=A particularly thick handle, composed of bones, produced from Parasites body parts. A Component for Weapons.
+|id=srparasites:hardened_bone_handle
+}}
+'''Hardened Bone Handles''' are a [[:Category:Weapons' Components|Weapons' Component]] used to craft the [[:Category:Weapons#Living Weapons|Living Weapons]].
+
+==''Obtainment''==
+{{CraftingTable|r1_count=1|r1_output=Hardened Bone Handle|r1_b3=Yelloweye Bone|r1_a3=Infected Flesh|r1_b2=Yelloweye Bone|r1_a2=Infected Flesh|r1_b1=Yelloweye Bone|r1_a1=Infected Flesh}}
+
+==''Usage''==
+{{CraftingTable
+|r1_b1=Infectious Blade Fragment
+|r1_c1=Infectious Blade Fragment
+|r1_a2=Vile Shell
+|r1_c2=Infectious Blade Fragment
+|r1_b2=Living Core
+|r1_a3=Hardened Bone Handle
+|r1_b3=Vile Shell
+|r1_output=Living Sword
+
+|r2_b1=Vile Shell
+|r2_c1=Living Core
+|r2_b2=Hardened Bone Handle
+|r2_c2=Infectious Blade Fragment
+|r2_a3=Hardened Bone Handle
+|r2_c3=Infectious Blade Fragment
+|r2_output=Living Scythe
+
+|r3_b1=Living Core
+|r3_c1=Infectious Blade Fragment
+|r3_a2=Vile Shell
+|r3_b2=Hardened Bone Handle
+|r3_c2=Infectious Blade Fragment
+|r3_a3=Hardened Bone Handle
+|r3_b3=Infectious Blade Fragment
+|r3_output=Living Cleaver
+
+|r4_a1=Living Core
+|r4_b1=Hardened Bone Handle
+|r4_c1=Vile Shell
+|r4_a2=Hardened Bone Handle
+|r4_c2=Dried Tendons
+|r4_b3=Dried Tendons
+|r4_output=Living Bow
+|r4_a3=Vile Shell
+
+|r5_a1=Vile Shell
+|r5_b1=Living Core
+|r5_c1=Infectious Blade Fragment
+|r5_b2=Vile Shell
+|r5_b3=Hardened Bone Handle
+|r5_output=Living Axe
+|r5_c2=Infectious Blade Fragment
+
+|r6_b2=Hardened Bone Handle
+|r6_output=Infested Bonemeal
+|r6_count=16
+|r6_shapeless=true
+}}
+
+
+{{ItemList}}
+[[Category:Items]]
+[[Category:Weapons' Components]]

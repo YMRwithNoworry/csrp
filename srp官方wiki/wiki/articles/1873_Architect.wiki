@@ -1,0 +1,28 @@
+{{WIP}}{{Mob_Info
+|image1=Architect.png
+|hp=80.0
+|damage=N/A
+|armor=20.0
+|kb_resistance=0.4
+|id=srparasites:architect
+}}'''Architects''' are WIP Preeminent [[Mobs|Parasites]], that are spawned in [[Colony|Colonies]]. 
+
+As of now, the Model is a placeholder/is unfinished, along with the sounds of an [[Overseer]].
+==''Spawning''==
+*Spawned by [[Colony|Colony Cores]].
+*Spawned by [[Colony#Structures|Incomplete Parasitic Colony Structures]].
+*Spawns in [[Colony|Colonies]], with a spawnweight of 20.
+
+==''Behavior''==
+Architects are Passive Utility Parasites, which construct [[Colony|Colonies]] by spawning [[Worker|Workers]].
+*Architects use the same movement logic as the [[Overseer]], but lack their melee charge and ranged attacks.
+**Architects do retain the [[Adaptation System|Adaptation]] values and Deterrent summons of [[:Category:Pure Parasites|Pure Parasites]], although this is likely placeholder.
+*Architects passively drop [[Worker|Workers]].
+*Architects can spawn [[Succor|Succors]].
+
+===''Weaknesses''===
+*Architects, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+{{MobList}}
+[[Category:Mobs]]
+[[Category:Work In Progress Content]]
+[[Category:Preeminent Parasites]]

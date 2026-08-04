@@ -1,0 +1,43 @@
+{{Item Info
+|image1=Infected Flesh.png
+|type=Material
+|stackable=Yes (16)
+|tooltip=A piece of flesh ripped off an Assimilated Creature. A basic Crafting Material. 
+|id=srparasites:assimilated_flesh
+}}
+'''Infected Flesh''' is a [[:Category:Drops|Drop]] used as a [[:Category:Drops#Materials|Material]] to craft a multitude of Items. 
+
+== ''Obtainment'' ==
+*Dropped by all [[Assimilated Mobs]]<ref>Except for the [[Assimilated Big Spider]], [[Assimilated Enderman|Enderman]] and [[Assimilated Ender Dragon|Ender Dragon]].</ref>
+*Dropped by [[Host|Hosts]].
+*Dropped by [[Thrall|Thralls]].
+*Can be found as loot in [[Benign Growth|Benign Growths]] and [[Malignant Growth|Malignant Growths]].
+
+== ''Usage'' ==
+===Weapon Components===
+{{CraftingTable|r1_b1=Strange Bone|r1_a2=Infected Flesh|r1_b2=Strange Bone|r1_a3=Infected Flesh|r1_output=Dried Tendons
+|r2_b1=Reeker Fang|r2_a2=Infected Flesh|r2_b2=Reeker Fang|r2_a3=Infected Flesh|r2_output=Infectious Blade Fragment
+|r3_a1=Infected Flesh|r3_b1=Yelloweye Bone|r3_a2=Infected Flesh|r3_b2=Yelloweye Bone|r3_a3=Infected Flesh|r3_b3=Yelloweye Bone|r3_output=Hardened Bone Handle
+|r4_b1=Summoner Core|r4_b2=Manducater Orb|r4_a2=Infected Flesh|r4_c2=Infected Flesh|r4_output=Living Core
+|r5_b1=Longarms Armor Fragment|r5_b2=Longarms Armor Fragment|r5_a2=Infected Flesh|r5_c2=Infected Flesh|r5_output=Vile Shell}}
+
+===Items===
+{{CraftingTable|r1_b1=Sapling|r1_b2=Infected Flesh|r1_b3=Stick|r1_count=|r1_output=Bough
+|r2_b1=Glass|r2_a2=Glass|r2_b2=Infected Flesh|r2_c2=Glass|r2_a3=Gold Nugget|r2_b3=Iron Ingot|r2_c3=Gold Nugget|r2_output=Module Tissue Spike
+|r3_a1=Book|r3_b1=Infected Flesh|r3_output=Compendium
+|r4_b1=Diseased Heart|r4_a2=Infected Flesh|r4_b2=Module Genic Receptacle|r4_c2=Infected Flesh|r4_b3=Diseased Heart|r4_output=Assimilated + Assimara Module
+|r5_b1=Diseased Heart|r5_a2=Infected Flesh|r5_b2=Assimilated + Assimara Module|r5_c2=Infected Flesh|r5_b3=Diseased Heart|r5_output=Feral Module
+|r6_b1=Altered Tendons|r6_a2=Infected Flesh|r6_b2=Assimilated + Assimara Module|r6_c2=Infected Flesh|r6_b3=Altered Tendons|r6_output=Crude Module
+|r7_b1=Infected Flesh|r7_a2=Infected Flesh|r7_b2=Clock|r7_c2=Infected Flesh|r7_output=Doomsday Clock|r7_b3=Infected Flesh}}
+
+===Blocks===
+{{CraftingTable|collapse=true|r1_b1=Fish|r1_a2=Infected Flesh|r1_b2=Sea Lantern|r1_c2=Infected Flesh|r1_b3=Fish|r1_output=Esca Bulb|r1_count=4
+|r2_a1=Infected Flesh|r2_b1=Flesh Chunk|r2_c1=Infected Flesh|r2_a2=Flesh Chunk|r2_b2=Vacuous Cyst|r2_c2=Flesh Chunk|r2_a3=Infected Flesh|r2_b3=Flesh Chunk|r2_c3=Infected Flesh|r2_output=Dermoid Cyst|r2_count=1
+|r3_a1=Infected Flesh|r3_b1=Infected Flesh|r3_c1=Infected Flesh|r3_a2=Infected Flesh|r3_b2=Infected Flesh|r3_c2=Infected Flesh|r3_a3=Infected Flesh|r3_b3=Infected Flesh|r3_c3=Infected Flesh|r3_output=Sac of Flesh|r3_nolink=true}}
+
+==Notes==
+<references />
+
+{{ItemList}}
+[[Category:Drops]]
+[[Category:Items]]

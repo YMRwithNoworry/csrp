@@ -1,0 +1,43 @@
+{{Stub}}
+{{Item Info
+|image1=<gallery>
+Pestilential Ore.png|Twisted
+Pestilential Coal Ore.png|Coal
+Pestilential Diamond Ore.png|Diamond
+Pestilential Emerald Ore.png|Emerald
+Pestilential Gold Ore.png|Gold
+Pestilential Iron Ore.png|Iron
+Pestilential Lapis Lazuli Ore.png|Lapis
+Pestilential Redstone Ore.png|Redstone
+</gallery>
+|id=srparasites:infestedore<ref>Each ore has a different '''data tag''', which are as follows:<div class="toccolours mw-collapsible mw-collapsed"><!--
+-->Pestilential Coal Ore's tag is <code>0</code><br><!--
+-->Pestilential Diamond Ore's tag is <code>1</code><br><!--
+-->Pestilential Emerald Ore's tag is <code>2</code><br><!--
+-->Pestilential Gold Ore's tag is <code>3</code><br><!--
+-->Pestilential Iron Ore's tag is <code>4</code><br><!--
+-->Pestilential Lapis Lazuli Ore's tag is <code>5</code><br><!--
+-->Pestilential Redstone Ore's tag is <code>6</code><br><!--
+-->Pestilential Ore's tag is <code>7</code></div><!--
+-->{{WhatAreDataTags|x|/=false}}</ref>
+}}
+
+'''Pestilential Ores''' are infested versions of regular ores.
+
+==''Generation''==
+Pestilential Ore itself is generated via [[Beckon]] infestation or [[Infested Bonemeal]] on [[Remains]]. It can also be generated when Infested Bonemeal is used on regular Pestilential vanilla ores twice.
+
+The infested versions of regular ore generate under the same circumstances for the corresponding ore block.
+
+==''Usage''==
+Pestilential Ore can be smelted to create a [[Twisted Spinal Signal]], while the other infested Ores smelt into two of their corresponding raw form. Pestilential Ores always drop one of themselves as a block and are unaffected by multipliers like Fortune.
+
+== ''Gallery'' ==
+<gallery>
+File:Pestilential Ores Example.png|All current infested ores, with Pestilential Ore on the far left and the vanilla ores in order to the right.
+</gallery>
+
+==Notes==
+<references />
+
+[[Category:Blocks]]

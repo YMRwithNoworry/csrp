@@ -1,0 +1,42 @@
+{{WIP}}
+
+{{TierBar}}
+
+
+'''Ancient Parasites''' are a Tier of [[Mobs#Parasites|Parasites]]. As of version 1.9.18, Ancient Parasites are considered deprecated, scheduled for a massive rework. Because of this, they're not considered in the Hierarchy. 
+
+Ancient Parasites are currently a heavy [[:Category:Work In Progress Content|Work In Progress]]. 
+
+Ancient Parasites are a Tier uniquely compromised of [[Bosses]].
+
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+Dreadnaut.png|link=Dreadnaut|[[Ancient Dreadnaut]]
+Overlord.png|link=Overlord|[[Ancient Overlord]]
+</gallery>
+</div>
+
+== ''Shared Aspects and Capabilities'' ==
+
+=== Spawning ===
+*Ancient Parasites do not spawn naturally as of 1.10.
+
+=== Weakness ===
+Like all Parasites, Ancients present a weakness to fire (damage inflicted by fire is quadrupled). 
+
+=== Combat Capabilities ===
+To be added...
+{{Properties|tier=Ancient}}
+
+== ''Configuration'' ==
+Below is a list of the Config changes that affect Ancients Parasites.
+
+To be added...
+
+== ''[[Lore]]'' ==
+To be added...
+
+== ''Trivia'' ==
+*Parasites part of the Ancient Tier, along [[Inborn Parasites]] and [[Deterrent Parasites]], are the only Tiers which Mobs do not spawn in the [[Parasite Biome]].
+
+[[Category:Mobs]]

@@ -1,0 +1,24 @@
+{{Stub}}
+
+
+'''Primitive''' is an [[Effects|Effect]] added in [[Version 1.10.0]]. It reduces damage inflicted to [[:Category:Primitive Parasites|Primitive Parasites]] by 15%, affected by amplifier + 1.
+
+{{Effect Info
+|title1=Primitive
+|image1=Primitive.png
+|sources=See [[#Obtainment|Obtainment]]
+|type=Buff (Parasite)
+|id=srparasites:primitive}}
+
+== ''Obtainment'' ==
+{| class="fandom-table"
+!'''Cause'''
+!'''Potency'''
+!'''Duration'''
+|-
+|Killing a [[:Category:Primitive Parasites|Primitive Parasite]] while [[Dislodgment System#Code 22|Dislodgment Code 22]] is active
+|II
+|1:00
+|}
+{{EffectList}}
+[[Category:Effects]]

@@ -1,0 +1,54 @@
+{{VersionBar|
+|page1=Version 1.3.0
+|page2=Version 1.5.0
+}}
+'''Version 1.4.0''' was an update for the Scape and Run: Parasites Mod, released on December 8th 2019.  It was 2.44 MB.
+
+== ''Change Log'' ==
+
+* Changed [[Primitive Yelloweye|emana]] model
+* Changed base value for the following mobs:
+*#    Emana Health from 20 to 13
+*#    Emana Armor from 5 to 0.2
+*#    Emana KD Resistance from 0.9 to 0.1
+*#    [[Assimilated Human|Infected Human]] Health from 20 to 21
+*#    Infected Human Damage from 4.5 to 5.5
+*#    Infected Human Armor from 7 to 3
+*#    Infected Human KD Resistance from 1.1 to 0.2
+*#    [[Buglin|Lodo]] Health from 6 to 3
+*#    Lodo Armor from 10 to 0.2
+*#    Lodo Damage from 2 to 1.1
+*#    Lodo KD Resistance from 0.5 to 0.1
+
+* Changed [[Flying Carrier|Buthol]] mob name for Nithol
+* Changed how [[Summoner (Disambiguation)|Canra]] summon mobs (now it has a cooldown, previously you only need to hurt it)
+* Changed [[Assimilated Big Spider|Dorpa]] projectile, now it will spawn a maximum of 3 web blocks
+* [[Heavy Carrier|Rathol]] will spawn 4 [[Rupter|Mudo]] mobs on explotion
+* Rathol will explote when its remaining life is below 5%
+* Added more options to the configuration file
+* Added loot table for [[:Category:Adapted Parasites|Adapted versions]] ( Now they have 2 loot tables and 1 is choosen by rng )
+
+==== <u>New Content</u> ====
+
+* Added infected versions of the following mobs:
+*# [[Assimilated Cow|Cow]]
+*# [[Assimilated Sheep|Sheep]]
+*# [[Assimilated Wolf|Wolf]]
+
+* Added an [[Adapted Yelloweye|Adapted version]] for the [[Primitive Yelloweye|Emana]] mob
+* Added ambient, hurt and death sounds for the following mobs:
+*# [[Primitive Summoner|Canra]] (and [[Adapted Summoner|adapted version]])
+*# [[Primitive Reeker|Nogla]] (and [[Adapted Reeker|adapted version]])
+*# Emana (and adapted version)
+*# [[Primitive Longarms|Shyco]] (and [[Adapted Longarms|adapted version]])
+*# [[Primitive Manducater|Hull]] (and [[Adapted Manducater|adapted version]])
+*# [[:Category:Assimilated Mobs|Infected versions]]
+
+* Added esplotion sound for the [[Heavy Carrier|Rathol]] and [[Flying Carrier|Nithol]]
+* Added a new mob: [[Rupter|Mudo]]
+*#    This little guy will attack and infect cows, sheeps, wolfs and zombies (Optional)
+
+Sound effects obtained from https://www.zapsplat.com/
+
+{{VersionList}}
+[[Category:Versions]]

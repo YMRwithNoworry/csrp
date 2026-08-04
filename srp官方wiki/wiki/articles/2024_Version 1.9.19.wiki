@@ -1,0 +1,69 @@
+{{VersionBar|
+|page1=1.9.18
+|page2=1.9.20
+}}
+'''Version 1.9.19''' was an update for the Scape and Run: Parasites Mod, released on May 13th 2024.  It was 25.75 MB.
+
+== ''Change Log'' ==
+
+====<u>Fixes</u>====
+*Major Fix: Beckons sometimes reseting evolution phases
+*Fixed Beckons spinning when spawning
+*Sometimes console spam when spawning entities
+*Devolution want killing all parasites, now if the parasites has a previously version it will spawn it
+*Fix Stage IV Beckon still suffocating in ceilings
+*Fix lures reporting wrong cooldown times
+*Fix host using underground sounds when not underground
+*Scents will now be deleted if the phase is below OneMind/Collective Consciousness phase (See new "CC Phase Locked" configuration option below to disable this fix)
+*"Evolution Parasite Lock List" option not working
+*Scents will now avoid being next to each other ("Scents now observe social distancing" -Modrome)
+*Beckons will no longer spawn from residue until RS chance is above 0
+*Parasites with a Scent Death Value below 3 should no longer create a scent
+*By default, this should include all Ancient-tiers, Rupters, Buglins, etc.
+*Adapted Arachnida step sounds not working
+*Dispatcher crashes
+===<u>Configuration</u>===
+*"Phase Beckon Summoning Cooldown" option will be disabled for now
+*"Evolution Parasite Lock List" added "0;4;92"
+*"Evolution Parasite Lock List" added missing ids
+*"Mobs with new griefing task" added "srparasites:hi_golem;3;40;2"
+*Added Category for Evolution Phase 9
+*Added Category for Evolution Phase 10
+*New options:
+**"Needler Maximum Damage Player" - "Maximum damage this effect will inflict to the player." - SRPConfigSystems.cfg
+**"Needler Maximum Damage Monster" - "Maximum damage this effect will inflict to the Monster." - SRPConfigSystems.cfg
+**"Evolution No Players Gaining" - "True if parasites can gain points when there are no players in the server." - SRPConfigSystems.cfg
+**"Living Weapons HP Evolve" - "Value needed in order for Living weapons to evolve into Sentient Weapons." - SRPConfig.cfg
+**"Phase Parasites Always Variant" - "From this phase on, Parasites will always spawn as a variant if available." - SRPConfigSystems.cfg
+**"Phase Healing Affected" - "From this phase on, Healing is affected to non-parasites mobs." - SRPConfigSystems.cfg
+**"Phase Healing Affected Value" - "Value of the healing ." - SRPConfigSystems.cfg
+**"Phase Parasites Without XP" - "From this phase on, Parasites will no longer drop xp." - SRPConfigSystems.cfg
+**"Phase Parasites Stats Increase" - "From this phase on, Parasites will spawn with an increase of stats." - SRPConfigSystems.cfg
+**"Phase Parasites Stats Increase Value" - "Value." - SRPConfigSystems.cfg
+**"Phase Spawning Denied" - "From this phase on, only Parasites will spawn naturally." - SRPConfigSystems.cfg
+**"CC Phase Locked" - "Set to false for scents to be deleted if the phase is below CC required phase." - SRPConfigSystems.cfg
+**"Evolution Parasite Lock Message" - "Message sent to all players when a parasite is unlocked" - SRPConfigSystems.cfg
+**"Minimum Space Between Scents": Minimum distance the scent has to be from other scents. If a scent is within this distance from another scent, the newly-created (or loaded) scent will be deleted. - SRParasitesSystems.cfg
+**"Scent Spawn Death Parasite Chance" - Chance to spawn a Scent when a parasite is killed." - SRParasitesSystems.cfg
+**"Scent Player" - "Set to true if you want Scent to be activated only by Players" - SRParasitesSystems.cfg
+*Removed: - "Scent Mob Cap" - SRParasitesSystems.cfg
+===<u>General</u>===
+*Living Weapons will now evolve into Sentient weapons by killing mobs
+*Living/Sentient Lance will now apply Needler on hit
+*Increased maximum phase number to 10
+*Parasites will not drop xp if the phase is too high
+*Parasites will only spawn naturally if the phase is too high
+*Parasites will always spawn as a variant if the phase is too high
+===<u>Mobs</u>===
+*Changed Texture for [[Feral Human]]
+*Changed Texture for [[Feral Sheep]]
+*Small parasites (width <= 1 or height <= 1) will no longer spawn Beckons
+*Changed running animation for Feral Human
+*Changed running animation for [[Feral Villager]]
+*Reduced melee cooldown for all Feral versions by ~1/3
+*Added particle effects to all crude versions, same particles as feral versions
+*Increased Scent spawning cooldown for the [[Heed]] from 20 to 50 seconds
+*Gnat stats rebalanced: - Health changed: 17 -> 5 - Armor changed: 10 -> 2 - No longer drops XP upon player kill
+
+{{VersionList}}
+[[Category:Versions]]

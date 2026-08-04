@@ -1,0 +1,41 @@
+{{Stub}}
+
+
+'''Assimilated Sugar Cane''' is the infested form of Sugar Cane.
+{{Item Info
+|image1=Assimilated Sugar Cane Block.png
+|id=srparasites:assimilated_reed
+}}
+
+== ''Obtainment'' ==
+WIP
+
+== ''Usage'' ==
+Unlike its normal counterpart, along with Sugar and Paper, Assimilated Sugar Cane can also be used to make Sticks.<ref>The Sticks recipe seemingly cannot be accessed because it is identical to the Sugar recipe, and the game defaults it to the latter.</ref>
+
+{{CraftingTable
+|r1_a1=Assimilated Sugar Cane
+|r1_b1=Assimilated Sugar Cane
+|r1_output=Sugar
+|r1_shapeless=true
+|r1_nolink=true
+|r2_a1=Assimilated Sugar Cane
+|r2_b1=Assimilated Sugar Cane
+|r2_a2=Assimilated Sugar Cane
+|r2_output=Paper
+|r2_shapeless=true
+|r2_count=2
+|r2_nolink=true
+|r3_a1=Assimilated Sugar Cane
+|r3_b1=Assimilated Sugar Cane
+|r3_output=Stick
+|r3_count=2
+|r3_shapeless=true
+|r3_nolink=true
+}}
+
+==Notes==
+<references />
+
+{{BlockList}}
+[[Category:Blocks]]

@@ -1,0 +1,128 @@
+{{Navbar|page1=Primitive Yelloweye|page2=Adapted Yelloweye}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|adayelloweye}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=<gallery>
+Adapted Yelloweye.png|Normal
+BreacherAdaYelloweye.png|Breacher
+</gallery>
+|hp=55.0
+|damage=17.0
+|ranged=10.0
+|armor=13.5
+|kb_resistance=0.6 
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:ada_yelloweye
+}}
+'''Adapted Yelloweyes''' are a type of [[Mobs]], placed into the [[Adapted Parasites|Adapted]] Tier.
+
+== ''Spawning'' ==
+*Spawns after a [[Primitive Yelloweye]] accumulates a killcount of 30 and [[Evolution System|evolves]].
+*Spawns in groups of 2 to 3, if [[Ubiquitous Development]] is Level 3 or higher, with a spawnweight of 15.
+*Spawns inside the [[Parasite Biome]], with a spawnweight of 10.
+
+== ''Behavior'' ==
+Adapted Yelloweyes are Flying Ranged and Melee Combatants.
+
+*Adapted Yelloweye's Ranged Attack is performed by them shooting poisonous projectiles in bursts of 2, which degrades durability. Adapted Yelloweye's projectiles inflict the Poison Effect for 3 seconds, every shot degrades gear durability by 7%.
+*Adapted Yelloweyes are capable of shooting Nades, a projectile that creates a block of acid upon contact, inflicts very high damage per second and ignores immunity frames.
+**This is indicated by flame particles and a significantly louder and higher pitched growl, the Nade projectile also travels slower and has a yellow color.
+*Adapted Yelloweyes' Melee Attack is performed by them swooping down towards their foes.
+*Adapted Yelloweyes can break blocks that have their [[Hardness]] Value up to 3, with a 40 ticks cooldown and 2 Blocks range.
+{{Variants|count=1|Breacher=BreacherAdaYelloweye.png}}
+
+=== ''Weaknesses'' ===
+Adapted Yelloweyes, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+=== ''Post Death'' ===
+* On death, Adapted Yelloweyes have a chance to explode, releasing [[Remains|Adapted Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+** If at least one [[Colony]] exists in the dimension, Adapted Yelloweyes will become [[Primitive Yelloweye|Primitive Yelloweyes]] upon death instead.
+
+{{Properties
+|tier=Adapted
+|Orbs=false
+}}
+
+{{Drops
+|rolls1=One Roll:
+|page1=Toxic Lung
+|amount1=1
+|chance1=80
+|rolls2=Always Rolls
+|page2=Yelloweye Bone
+|amount2=1
+|chance2=80
+|page3=Strange Bone
+|amount3=1
+|chance3=20
+}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|[[File:adaptedyelloweyeliving1.ogg]]
+[[File:adaptedyelloweyeliving2.ogg]]
+[[File:adaptedyelloweyeliving3.ogg]]
+|Hostile
+|Plays randomly while an Adapted Yelloweye is alive.
+|Adapted Yelloweye growls
+|adaptedyelloweyeliving1-3
+|-
+|[[File:adaptedyelloweyehurt1.ogg]]
+[[File:adaptedyelloweyehurt2.ogg]]
+[[File:adaptedyelloweyehurt3.ogg]]
+|Hostile
+|Plays when an Adapted Yelloweye takes damage.
+|Adapted Yelloweye roars
+|adaptedyelloweyehurt1-3
+|-
+|[[File:Yelloweye Shooting.ogg]]
+|Hostile
+|Plays when an Adapted Yelloweye shoots.
+|Adapted Yelloweye spits
+|emana_shooting
+|-
+|[[File:adaptedyelloweyeshooting.ogg]]
+|Hostile
+|Plays before an Adapted Yelloweye is going to shoot acid.
+|X
+|adaptedyelloweyeshooting
+|-
+|[[File:Ada yelloweye special.ogg]]
+|Hostile
+|Plays when an Adapted Yelloweye performs a special attack.
+|X
+|adapted_yelloweye_special
+|-
+|[[File:adaptedyelloweyedeath.ogg]]
+|Hostile
+|Plays when an Adapted Yelloweye dies.
+|Adapted Yelloweye dying
+|adaptedyelloweyedeath
+|-
+|}
+
+== ''Trivia'' ==
+*Adapted Yelloweyes are known internally as "Emana". This may derive from "emanate", a word meaning to emit or be emitted, reflecting their status as ranged combatants.
+*Adapted Yelloweyes are named for the yellow spot on their center, though this has been confirmed not to actually be an eye. It may be the orifice from which they fire projectiles, or simply a discolored patch.
+
+== ''Gallery'' ==
+<gallery>
+File:Nade.png|A Nade upon coming in contact with land, erupting in to a cube of acid.
+File:AdaptedYelloweyeHeight.png|Size of the Adapted Yelloweye's model
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Adapted Parasites]]
+[[Category:Mobs]]

@@ -1,0 +1,50 @@
+A list of the Weapons introduced by the SRP Mod.
+
+== ''Living Weapons'' ==
+
+'''Melee Weapons'''
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+Living Scythe.png|link=Living Scythe|[[Living Scythe]]
+Living Axe.png|link=Living Axe|[[Living Axe]]
+Living Sword.png|link=Living Sword|[[Living Sword]]
+Living Cleaver.png|link=Living Cleaver|[[Living Cleaver]]
+Living Maul.png|[[Living Maul]]
+Living Lance.png|[[Living Lance]]
+</gallery>
+</div>
+
+
+'''Ranged Weapons''' 
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+Living Bow.png|link=Living Bow|[[Living Bow]]
+</gallery>
+</div>
+
+== ''Sentient Weapons'' ==
+
+'''Melee Weapons''' 
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+Sentient Greatscythe.png|link=Sentient Greatscythe|[[Sentient Greatscythe]]
+Sentient Greataxe.png|link=Sentient Greataxe|[[Sentient Greataxe]]
+Sentient Greatsword.png|link=Sentient Greatsword|[[Sentient Greatsword]]
+Sentient Greatcleaver.png|link=Sentient Greatcleaver|[[Sentient Greatcleaver]]
+Sentient Greatmaul.png|[[Sentient Greatmaul]]
+Sentient Greatlance.png|[[Sentient Greatlance]]
+</gallery>
+</div>
+
+
+'''Ranged Weapons''' 
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+Sentient Greatbow.png|link=Sentient Greatbow|[[Sentient Greatbow]]
+</gallery>
+</div>
+
+
+{{ItemList}}
+[[Category:Items]]
+[[Category:Equipment]]

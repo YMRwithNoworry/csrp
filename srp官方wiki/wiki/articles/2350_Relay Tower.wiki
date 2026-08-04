@@ -1,0 +1,94 @@
+{{Stub}} 
+{{Item Info|title1=Relay Tower|image1=RelayTower.png|caption1=Structure of the Relay Multiblock.}}
+
+The '''Relay Tower''' is a structure that scans for parasite presence within loaded chunks of a Dimension. 
+
+== ''Building'' ==
+The Relay Tower is constructed using the Relay Antennas, Structure, and Terminal in a 3-block tall formation with the Terminal on the bottom, Structure in the middle, and Antennas on top. Once assembled correctly, the tower will turn itself into a single entity called the Relay Multiblock. It drops a Relay Controller when broken which will spawn the Multiblock again once used.
+
+The tower itself is made of invisible blocks that span a 3x3x4 area at the base with an extra three extending from the center. If any of these blocks intersect with another upon the creation of the Multiblock structure, it will break and drop a Relay Controller, along with the message ''"Not enough space for Relay."''
+
+{{CraftingTable
+|r1_b1=Strange Bone
+|r1_b2=Module Tissue Spike
+|r1_a2=Semi-organic Ingot
+|r1_c2=Semi-organic Ingot
+|r1_a3=Semi-organic Ingot
+|r1_b3=Redstone Repeater
+|r1_c3=Semi-organic Ingot
+|r1_nolink=true
+|r1_output=Relay Antennas
+
+|r2_a1=Semi-organic Ingot
+|r2_b1=Redstone Repeater
+|r2_c1=Semi-organic Ingot
+|r2_a2=Semi-organic Ingot
+|r2_b2=Module Organ Synth
+|r2_c2=Semi-organic Ingot
+|r2_a3=Semi-organic Ingot
+|r2_b3=Semi-organic Ingot
+|r2_c3=Semi-organic Ingot
+|r2_output=Relay Structure
+|r2_nolink=true
+
+|r3_a1=Semi-organic Ingot
+|r3_b1=Redstone Repeater
+|r3_c1=Semi-organic Ingot
+|r3_a2=Oak Planks
+|r3_b2=Node Lamp
+|r3_c2=Oak Planks
+|r3_a3=Semi-organic Block
+|r3_c3=Semi-organic Block
+|r3_b3=Oak Planks
+|r3_output=Relay Terminal
+|r3_nolink=true
+}}
+
+== ''Usage'' ==
+[[Modules]] can be used in the Relay Tower to scan for specific types of parasites and will give a report paper<ref>The [[Phase Module]], [[Vector Module]], and [[Dislodgement Module]] will give the corresponding [[Module Reports|Module Report]] instead.</ref> when done scanning that is formatted as such:
+----''Relay Scan Results:'' 
+
+*''Dimension: [X] (-1 = Nether, 0 = Overworld, 1 = End)'' 
+*''Total Mobs: [# of total non-parasite creatures]''
+*''Parasites: [# of total parasites]''
+*''Parasite Share: [Percent of total creatures that parasites make up]''
+*''Parasite Ratio: [Ratio of total creatures that parasites make up]''
+
+''Tiers:''
+*''- [List of type of parasite(s) depending on module]: [# of that parasite type]''
+----After scanning, there is a twenty second cooldown before another Module can be used again.
+
+==''Sounds''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|[[File:relay_signal_activation.ogg]]
+|Block
+|Plays while the Relay Tower is scanning.
+|Relay Scanning
+|relay_scan_activate
+|-
+|[[File:relay_paper_output.ogg]]
+|Block
+|Plays when the Relay Tower prints a Report Paper.
+|Paper printed
+|relay_paper_output
+|-
+|}
+
+==''Gallery''==
+<gallery>
+File:RelayBlockSize.png|The block space the Multiblock structure takes up.
+File:RelayGUI.png|The interface upon interacting with the Relay Tower.
+File:OriginScanExample.png|An example of a Relay Scan Report using the [[Origin Module]].
+</gallery>
+
+==Notes==
+<references />
+
+{{BlockList}}
+[[Category:Blocks]]

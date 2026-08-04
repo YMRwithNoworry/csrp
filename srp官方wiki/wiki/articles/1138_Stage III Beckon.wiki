@@ -1,0 +1,210 @@
+{{Navbar|page1=Stage I Beckon|page2=Stage II Beckon|page3=Stage III Beckon|page4=Stage IV Beckon}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|beckonsiii}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Nexus Info
+|image1=Stage 3 Beckon.png
+|armor=16.0
+|growtime=600-1200 sec [min-max]
+|hp=110.0
+|infestation_cooldown=50 sec [min]
+|infestation_radius=X: 16 Y: 4
+|summon_cooldown=14 sec
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:beckon_siii
+}}
+'''Stage III Beckons''' are a type of [[Mobs|Mob]], placed in the [[:Category:Nexus Parasites|Nexus]] Tier. Killing one will grant the {{AdvancementLink|Uprooter}}.
+
+== ''Spawning'' ==
+*Spawned after a [[Stage II Beckon]] evolves.
+*Spawned by [[Stage IV Beckon|Stage IV Beckons]].
+*If at least one [[Colony]] exists, spawns when a Stage IV Beckon is killed.
+*Spawns as a result of a Colony-buffed [[Reinforcement System#Colony Buff|Reinforcement System]]:
+**Spawned randomly upon the death of Parasites larger than 1 block.
+**Spawned randomly on [[Residue]].
+**Spawned on [[Infested Blocks]], created by other Beckons.
+
+== ''Behavior'' ==
+Stage III Beckons are Stationary Block Infesters and Defensive Support parasites.
+
+*Stage III Beckons are capable of spawning [[Rupter|Rupters]], [[:Category:Assimilated Mobs|Assimilated Mobs]]<ref name=":0">Excluding [[Assimilated Ender Dragon]] and [[Assimilated Squid]].
+#</ref>, [[:Category:Primitive Parasites|Primitive Mobs]]<ref>Excluding [[Primitive Devourer|Primitive Devourer.]]</ref>, [[Flying Carrier|Flying]] and [[Heavy Carrier|Heavy]] Carriers, and a major selection of [[:Category:Pure Parasites|Pures]]<ref>Excluding [[Grunt]], [[Marauder]], and [[Monarch]].</ref> through the usage of [[Biomass]]. [[Stage III Beckon#Summoning and Mobs Value|More info below]]. 
+*They're able to convert blocks, depending on their [[Hardness]]<ref>Max [[Hardness]] of the Blocks they can infest, by default, is 4.5. </ref>, to their Infested Variant. These include Infested Dirt, Stone and Wood. The Infestation can spread in a 16 block radius (8 blocks along the Y-axis) with a 50 second minimum Infestation cooldown per block radius.
+**The same Infested Blocks can generate [[Stage I Beckon|Stage I Beckons]], extending the range of the Infested Zone. There can be a maximum of 2 Beckons per Chunk.
+*Stage III Beckons are capable of spawning [[Sentry|Sentries]] and [[Kyphosis|Kyphosises]] on Infested Blocks, which act as a defensive line.
+*Stage III Beckons throw 6 bombs around them when damaged, this has a cooldown of 5 seconds. These bombs inflict 13 damage each and place an effect cloud of stacking [[Viral]] and Poison.
+*Stage III Beckons can break blocks that have their [[Hardness]] Value up to 7, with a 20 ticks cooldown and 4 Blocks range.
+* Upon death, if at least one [[Colony]] is present in the dimension, Stage III Beckons will become [[Stage II Beckon|Stage II Beckons]].
+
+=== ''Summoning'' ===
+Stage III Beckons are capable of spawning various [[Mobs]], through the usage of Biomass.
+
+The summoning Ability is based on Points. Each Mob has a certain Points value. Spawned Parasites will either be sorted by Ground type or Air, Parasites categorized as Air type will be spawned instead of Grounded if the target is 3 blocks above the summoner.
+
+'''Stage III Beckons have a total of 12 Points per summon and can summon 2 mobs before its cooldown of 14 seconds with a cap of 12 parasites active at once.'''
+{|class="fandom-table mw-collapsible mw-collapsed"
+|+'''Spawn Table''' Collapse
+!Mobs
+!Points Value
+!Spawn Chance
+!Type
+|-
+|[[Rupter]]
+|1 Point
+|10%
+|Ground
+|-
+|[[Assimilated Mobs|Assimilated Mob]]<ref name=":0" />
+|3 Points
+|20%
+|Ground
+|-
+|[[Primitive Summoner]]
+|6 Points
+|20%
+|Ground
+|-
+|[[Primitive Manducater]]
+|6 Points
+|40%
+|Ground
+|-
+|[[Primitive Bolster]]
+|6 Points
+|10%
+|Ground
+|-
+|[[Primitive Reeker]]
+|6 Points
+|40%
+|Ground
+|-
+|[[Primitive Longarms]]
+|6 Points
+|40%
+|Ground
+|-
+|[[Primitive Arachnida]]
+|6 Points
+|40%
+|Ground
+|-
+|[[Primitive Vermin]]
+|6 Points
+|30%
+|Ground
+|-
+|[[Primitive Tozoon]]
+|3 Points
+|30%
+|Ground
+|-
+|[[Heavy Carrier]]
+|6 Points
+|20%
+|Ground
+|-
+|[[Vigilante]]
+|6 Points
+|20%
+|Ground
+|-
+|[[Warden]]
+|6 Points
+|20%
+|Ground
+|-
+|[[Overseer]]
+|6 Points
+|20%
+|Air
+|-
+|[[Light Bomber]]
+|6 Points
+|20%
+|Air
+|-
+|[[Flying Carrier]]
+|3 Points
+|50%
+|Air
+|-
+|[[Primitive Yelloweye]]
+|6 Points
+|50%
+|Air
+|}
+
+=== ''Weaknesses'' ===
+*Stage III Beckons, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+*Stage III Beckons will take damage over time and die if the current dimension is at [[Evolution Phases#Phase 2|Phase 2]] or lower.
+{{Properties|tier=Nexus III}}
+
+{{Drops
+|rolls1=Always Rolls:
+|page1=Beckon Membrane
+|amount1=10
+|chance1=80
+}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|[[File:vstageiii.ogg]]
+|Hostile
+|Plays when a Stage II Beckon grows into Stage III.
+|Bell tolls
+|vstageiii
+|-
+|[[File:Stage3 Beckon Growl1.ogg]]
+[[File:Stage3 Beckon Growl2.ogg]]
+|Hostile
+|Plays randomly while a Stage III Beckon is alive.
+|Beckon whispers
+|beckonsiii_growl/beckonsiii_growl_2
+|-
+|[[File:Stage3 Beckon Hurt1.ogg]]
+[[File:Stage3 Beckon Hurt2.ogg]]
+|Hostile
+|Plays when a Stage III Beckon takes damage.
+|Beckon hisses
+|beckonsiii_hurt/beckonsiii_hurt_2
+|-
+|[[File:Stage3 Beckon Death1.ogg]]
+[[File:Stage3 Beckon Death2.ogg]]
+|Hostile
+|Plays when a Stage III Beckon dies.
+|Beckon cries
+|beckonsiii_death/beckonsiii_death_2
+|-
+|}
+
+== ''Trivia'' ==
+*Like all Nexuses, Stage III Beckons do not despawn by default.
+*Beckons are also known as '''VenkrolSIII''' in the Mod Files.
+*Contrary to popular beliefs, Beckons aren't Plants, despite looking like one. Biomass isn't Eggs, either. Eggs aren't present in any part of Parasites Life Cycle.
+*Beckons use Biomass to clone [[Mobs]].
+*Stage III Beckons' Model present roots. They use the roots to extract an unknown type of Energy from underground, which they use to infest blocks, clone Mobs and evolve.
+
+==''Gallery''==
+<gallery>
+File:Biomass.png|Biomass Stage III Beckons use.
+File:Bomb2.png|The bomb Stage III Beckons use.
+File:BeckonS3Height.png|Size of the Stage 3 Beckon's model.
+File:Stage3Beckon1.8.0.png|The Stage 3 Beckon's appearance in 1.8.0. (Credit to @scout2illustrates)
+File:Stage3 Bell.ogg|Old evolve sound.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Mobs]]
+[[Category:Nexus Parasites]]

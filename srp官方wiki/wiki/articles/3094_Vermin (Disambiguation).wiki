@@ -1,0 +1,9 @@
+{{DisambiguationContent
+|title=Vermin
+|image1=PrimitiveVermin.png
+|title1=[[Primitive Vermin]]
+|desc1=A [[Primitive Parasites|Primitive]] Parasite
+|image2=Adapted vermin.png
+|title2=[[Adapted Vermin]]
+|desc2=An [[Adapted Parasites|Adapted]] Parasite
+}}

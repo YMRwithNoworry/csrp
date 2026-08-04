@@ -1,0 +1,168 @@
+[[Category:Blocks]]
+[[Category:World]]
+{{Stub}}
+
+Biome Blocks refers to a large variety of blocks created within the [[Parasite Biome]]. Parasites will not break the blocks normally although their universally low blast resistance means explosions can still break them.
+{|class="fandom-table mw-collapsible mw-collapsed"
+!colspan="7"|'''Utility Entries'''
+|-
+!Block
+!Name
+!ID
+!Tool
+!Harvest Level
+!Hardness/Blast Resistance
+!Purified Block
+|-
+|[[File:Hive Core.png|43x43px]]
+|Hive Core
+|srparasites:biomeheart
+|Pickaxe
+|0
+|60.0/7500.0
+|N/A
+|-
+|[[File:Reinforced Hivestone|43x43px]]
+|Reinforced Hivestone
+|srparasites:parasiterubble 2
+|Pickaxe
+|3
+|3.3/16.0
+|[[File:Stone.png|43x43px]]
+|-
+|[[File:Bruisewood Log.png|43x43px]]
+|Bruisewood Log
+|srparasites:parasitetrunk 0
+|Axe
+|0
+|2.2/11.0
+|[[File:Oak Log.png|43x43px]]
+|-
+|[[File:Veinwood Log.png|43x43px]]
+|Veinwood Log
+|srparasites:parasitetrunk 1
+|Axe
+|0
+|2.2/11.0
+|[[File:Oak Log.png|43x43px]]
+|-
+|[[File:Darkwood Log.png|43x43px]]
+|Darkwood Log
+|srparasites:parasitetrunk 2
+|Axe
+|0
+|2.2/11.0
+|[[File:Oak Log.png|43x43px]]
+|-
+|[[File:Hivesoil.png|43x43px]]
+|Hivesoil
+|srparasites:parasitestain
+|Shovel
+|0
+|0.8/4.0
+|[[File:Dirt.png|43x43px]]
+|-
+|[[File:Visceral mud.png|43x43px]]
+|Visceral Mud
+|srparasites:parasitestain 1
+|Shovel
+|0
+|0.8/4.0
+|[[File:Dirt.png|43x43px]]
+|-
+|[[File:Flesh Chunk.png|43x43px]]
+|Flesh Chunk
+|srparasites:parasitestain 2
+|Shovel
+|0
+|0.8/4.0
+|[[File:Dirt.png|43x43px]]
+|-
+|[[File:Flesh chunk stairs.png|43x43px]]
+|Flesh Chunk Stairs
+|srparasites:parasitestain_fleshstairs
+|Shovel
+|0
+|0.8/4.0
+|[[File:Dirt.png|43x43px]]
+|-
+|[[File:Maw.png|43x43px]]
+|Maw
+|srparasites:parasitemouth
+|None
+|0
+|1.4/7.0
+|[[File:Dirt.png|43x43px]]
+|-
+|[[File:Compressed arteries.png|43x43px]]
+|Compressed Arteries
+|srparasites:parasitestain 3
+|Shovel
+|0
+|0.8/4.0
+|[[File:Dirt.png|43x43px]]
+|-
+|
+|Hivestone
+|1
+|Pickaxe
+|2.3
+|11.5
+|[[File:Stone.png|43x43px]]
+|-
+|[[File:Hivestone Debris.png|43x43px]]
+|Hivestone Debris
+|srparasites:parasiterubble 3
+|Pickaxe
+|1
+|2.3/11.5
+|[[File:Stone.png|43x43px]]
+|-
+|[[File:Consumed Wood.png|43x43px]]
+|Consumed Wood
+|srparasites:parasiterubble 4
+|Pickaxe
+|1
+|2.3/11.5
+|[[File:Stone.png|43x43px]]
+|-
+|[[File:Hivestone bricks.png|43x43px]]
+|Hivestone Bricks
+|srparasites:parasiterubble 5
+|Pickaxe
+|1
+|2.3/11.5
+|[[File:Stone.png|43x43px]]
+|-
+|[[File:Hivesteel.png|43x43px]]
+|Hivesteel
+|srparasites:parasiterubble 6
+|Pickaxe
+|1
+|2.3/11.5
+|[[File:Stone.png|43x43px]]
+|-
+|[[File:Bleeding Obsidian.png|43x43px]]
+|Bleeding Obsidian
+|srparasites:parasiterubble 6
+|Pickaxe
+|1
+|2.3/11.5
+|[[File:Stone.png|43x43px]]
+|-
+|[[File:Assimilated fungus.png|43x43px]]
+|Assimilated Fungus
+|srparasites:parasiterubble 8
+|Pickaxe
+|1
+|2.3/11.5
+|[[File:Stone.png|43x43px]]
+|-
+|[[File:Bloody Ice.png|43x43px]]
+|Bloody Ice
+|srparasites:bloodyice
+|None
+|0
+|0.7/3.5
+|N/A
+|}

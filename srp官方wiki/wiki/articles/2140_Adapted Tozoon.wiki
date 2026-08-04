@@ -1,0 +1,95 @@
+{{Stub}}
+{{WIP}}
+{{Navbar|page1=Primitive Tozoon|page2=Adapted Tozoon}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|adatozoon}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=AdaptedTozoon.png
+|hp=115.0
+|damage=45.0
+|armor=24
+|kb_resistance=1.0
+|OTHER STUFF
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:ada_tozoon
+}}
+'''Adapted Tozoons''' are a type of unique [[Mobs]], placed into the [[Adapted Parasites]] tier. 
+
+== ''Spawning'' ==
+*Spawns after a [[Primitive Tozoon]] accumulates a killcount of 30 and [[Evolution System|evolves]].
+
+== ''Behavior'' ==
+Adapted Tozoons are Fast-Burrowing Melee Combatants. They are able to burrow underground to ambush their prey, they are completely invulnerable while underground.
+
+=== ''Weaknesses'' ===
+Adapted Tozoons, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+=== ''Properties'' ===
+WIP
+
+{{Drops|rolls1=One Roll:|page1=Toxic Lung|amount1=3|chance1=60|rolls2=Always Rolls:|page2=(Placeholder Tozoon Drop)|amount2=1|chance2=80|page3=Strange Bone|amount3=3|chance3=20}}
+
+==''Sounds''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Ada tozoon living 1.ogg]]
+[[File:Ada tozoon living 2.ogg]]
+[[File:Ada tozoon living 3.ogg]]
+[[File:Ada tozoon living 4.ogg]]
+|Hostile
+|Plays randomly while an Adapted Tozoon is alive.
+|Tozoon shrieks
+|idle_1-4
+|-
+|
+[[File:Ada tozoon hurt 1.ogg]]
+[[File:Ada tozoon hurt 2.ogg]]
+[[File:Ada tozoon hurt 3.ogg]]
+|Hostile
+|Plays when an Adapted Tozoon is hurt.
+|Tozoon hurts
+|hurt_1-3
+|-
+|
+[[File:Ada tozoon digging_1.ogg]]
+[[File:Ada tozoon digging_2.ogg]]
+[[File:Ada tozoon digging_3.ogg]]
+|Hostile
+|Plays when an Adapted Tozoon is digging.
+|Digging
+|ada_tozoon_digging_1-3
+|-
+|
+[[File:Ada tozoon special.ogg]]
+|Hostile
+|Plays when an Adapted Tozoon is performing a special attack.
+|Tozoon prepares
+|special
+|-
+|
+[[File:Ada tozoon death.ogg]]
+|Hostile
+|Plays when an Adapted Tozoon dies.
+|Tozoon dies
+|ada_tozoon_death
+|-
+|}
+
+== ''Gallery'' ==
+File:AdaptedTozoonComparison.png|Size of the Adapted Tozoon's model.
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Adapted Parasites]]
+[[Category:Mobs]]

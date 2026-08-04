@@ -1,0 +1,50 @@
+{{Item Info
+|image1=Module_Organ_Synth.png
+|type=Crafting Component
+|stackable=No
+|tooltip=An essential crafting component in both relay and module assembly.
+|id=srparasites:organ_synth
+}}
+'''Module Organ Synths''' are crafting components used to create the [[Relay Tower|Relay Structure]], [[Module Genic Receptacle|Module Genic Receptacles]], and most bundle [[Modules]]. They have no use outside of this.
+
+== ''Obtainment'' ==
+Crafting one Module Organ Synth requires five Iron Ingots, two of any Glass, one Redstone Dust, and one of either a [[Noxious Brain]], [[Toxic Lung]], [[Altered Tendons]], or [[Diseased Heart]].{{CraftingTable|r1_a1=Iron Ingot|r1_b1=Iron Ingot|r1_c1=Iron Ingot|r1_a2=Glass|r1_b2=Noxious Brain|r1_c2=Glass|r1_a3=Iron Ingot|r1_b3=Redstone Dust|r1_c3=Iron Ingot|r1_output=Module Organ Synth|r1_count=1}}
+
+==''Usage''==
+{{CraftingTable
+|r1_a1=Semi-organic Ingot
+|r1_b1=Redstone Repeater
+|r1_c1=Semi-organic Ingot
+|r1_a2=Semi-organic Ingot
+|r1_b2=Module Organ Synth
+|r1_c2=Semi-organic Ingot
+|r1_a3=Semi-organic Ingot
+|r1_b3=Semi-organic Ingot
+|r1_c3=Semi-organic Ingot
+|r1_output=Relay Structure
+
+|r2_a1=Glass
+|r2_a2=Module Tissue Spike
+|r2_a3=Glass
+|r2_b1=Module Tissue Spike
+|r2_b2=Module Organ Synth
+|r2_b3=Module Tissue Spike
+|r2_c1=Glass
+|r2_c2=Module Tissue Spike
+|r2_c3=Glass
+|r2_output=Module Genic Receptacle
+|r2_count=1
+
+|r3_a1=Iron Ingot|r3_b1=Module Organ Synth|r3_c1=Iron Ingot|r3_a2=Inborn Module|r3_b2=Assimara Module|r3_c2=Hijacked Module|r3_a3=Iron Ingot|r3_b3=Module Organ Synth|r3_c3=Iron Ingot|r3_output=Desmoid Module|r3_count=1
+
+|r4_a1=Iron Ingot|r4_b1=Module Organ Synth|r4_c1=Iron Ingot|r4_a2=Feral Module|r4_b2=Crude Module|r4_c2=Primitive Module|r4_a3=Iron Ingot|r4_b3=Module Organ Synth|r4_c3=Iron Ingot|r4_output=Eschar Module|r4_count=1
+
+|r5_output=Resistance Module|r5_count=1|r5_c3=Iron Ingot|r5_b3=Module Organ Synth|r5_a3=Iron Ingot|r5_c2=Deterrent Module|r5_a2=Adapted Module|r5_b1=Module Organ Synth|r5_a1=Iron Ingot|r5_c1=Iron Ingot|r5_b2=Nexus Module
+
+|r6_a1=Iron Ingot|r6_b1=Module Organ Synth|r6_c1=Iron Ingot|r6_a2=Pure Module|r6_b2=Derived Module|r6_c2=Preeminent Module|r6_a3=Iron Ingot|r6_b3=Module Organ Synth|r6_c3=Iron Ingot|r6_output=Ideal Module|r6_count=1
+}}
+
+
+
+{{ItemList}}
+[[Category:Items]]

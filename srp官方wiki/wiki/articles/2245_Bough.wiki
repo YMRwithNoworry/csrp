@@ -1,0 +1,30 @@
+{{Stub}}
+{{Item Info
+|image1=Bough.png
+|type=Equipment
+|stackable=No
+|tooltip=Shines with a radiant, warming yellow hue. Used in Seppuku.
+|id=srparasites:bough
+}}
+The '''Bough''' is a [[:Category:Tools|Tool]] item which allows the player to kill themselves.
+
+== ''Obtainment'' ==
+{{CraftingTable|r1_b1=Sapling|r1_b2=Infected Flesh|r1_b3=Stick|r1_count=1|r1_nolink=true|r1_output=Bough}}
+
+== ''Usage'' ==
+When right-clicking, it shakes and darkens the screen, produces blood particles and a fleshy sound. After about 2 seconds, this will kill the player, spawning between one and two<ref>Likely a bug.</ref> [[Assimilated Adventurer|Assimilated Adventurers]]. Doing so will announce to the chat "''[Player]'' committed Seppuku", as well as granting the {{AdvancementLink|Seppuku}}.
+
+However, this can be canceled by letting go of right click in time, with no consequences.
+
+==''Trivia''==
+*The item is a reference to the [https://limbuscompany.fandom.com/wiki/Golden_Boughs Golden Boughs] from Limbus Company, which serve a similar purpose in game.
+*It is also a reference to the Book "The Golden Bough: [...]" by anthropologist Sir James George Frazer, which, among other things, analyses human sacrifice in religion, and references a Bough broken off before ritual combat. 
+*The word Bough (pronounced like "bow" as in "to bow down") refers to a large tree branch.
+
+==Notes==
+<references />
+
+{{ItemList}}
+[[Category:Items]]
+[[Category:Equipment]]
+[[Category:Tools]]

@@ -1,0 +1,55 @@
+{{Item Info
+|image1=Twisted Spinal Signal.png
+|type=Material
+|stackable=Yes (16)
+|tooltip=Spine-like object harvested from the Sacs hanging in the Biome. A Lure Component.
+|id=srparasites:lurecomponent6
+}}
+'''Twisted Spinal Signals''' are a [[:Category:Drops|Drop]] and a [[:Category:Drops#Lure Components|Lure Component]] used to craft [[Lures|Concentrated Lures]].
+
+== ''Obtainment'' ==
+* Dropped by breaking [[Bladder Sac|Bladder Sacs]] found in the [[Parasite Biome]], with a 5% Drop rate per Sac.
+* Smelted from [[Pestilential Ore]], which is generated when [[Beckon|Beckons]] infest [[Remains|Parasite Remains]], or when [[Infested Bonemeal]] is used twice over any Ore<ref>Any Vanilla or Modded ore, with the exception of Vanilla Coal.</ref>.
+* Found in [[Parasitic Growth Block|Metastatic Masses]].
+
+== ''Usage'' ==
+{{CraftingTable
+
+|r1_output=Preeminent Module|r1_b1=Living Core|r1_a2=Twisted Spinal Signal|r1_b2=Module Genic Receptacle|r1_c2=Twisted Spinal Signal|r1_b3=Twisted Spinal Signal
+
+|r2_b1=Twisted Spinal Signal|r2_a2=Twisted Spinal Signal|r2_b2=Module Genic Receptacle|r2_c2=Twisted Spinal Signal|r2_b3=Twisted Spinal Signal|r2_output=Ancient Module
+
+|r3_a1=Semi-organic Ingot
+|r3_b1=Dead Blood Fluid
+|r3_c1=Semi-organic Ingot
+|r3_a2=Twisted Spinal Signal
+|r3_b2=Module Genic Receptacle
+|r3_c2=Hive Scrap
+|r3_a3=Doomsday Clock
+|r3_b3=Semi-organic Ingot
+|r3_c3=Level Clock
+|r3_output=Phase Module
+|r3_count=1
+
+|r4_a1=Twisted Spinal Signal
+|r4_c1=Twisted Spinal Signal
+|r4_a2=Cobblestone
+|r4_b2=Cobblestone
+|r4_c2=Cobblestone
+|r4_a3=Cobblestone
+|r4_b3=Cobblestone
+|r4_c3=Cobblestone
+|r4_output=Lure (Concentrated)
+
+|r5_output=Biomass Block|r5_a1=Twisted Spinal Signal|r5_b1=Twisted Spinal Signal|r5_a2=Twisted Spinal Signal|r5_b2=Beckon Membrane|r5_count=4
+}}
+
+==Trivia==
+*Twisted Spinal Signals were once called Essential Segments.
+
+==Notes==
+<references />
+
+{{ItemList}}
+[[Category:Items]]
+[[Category:Drops]]

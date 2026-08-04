@@ -1,0 +1,26 @@
+{{Stub}}
+
+{{Item Info
+ |image1=Book of Vengeance.png
+ |type=Weapon
+ |stackable=No
+ |tooltip=
+Domineer, Assemble, Swear Vengeance.<br>Bleed, Debar, Smoke Trail (5s)<br>Interact: Vengeance slam chain (on hit)<br>Sneak-Use: Pulse knockback
+ |id=srparasites:book_of_vengeance
+ }}
+The '''Book of Vengeance''' is a usable [[:Category:Weapons|Weapon]].
+
+== ''Obtainment'' ==
+*Dropped when a [[Primitive Reeker]] named "''Ricardo''" is killed.
+
+== ''Usage'' ==
+The book allows the user to execute various attacks depending on the input, but seems to still be a WIP.
+*Right-clicking an enemy will summon a line of purple particles at the targeted enemy. After a delay, the player will go flying at the enemy, making contact and bouncing off before performing the second slam, which always summons lightning. If the player gets stuck behind a block as this is happening, the slams will be performed on the enemy regardless of contact. This inflicts [[Bleeding|Bleeding I]], [[Debar|Debar I]], and [[Concussive Smoke Trail]] for five seconds.
+*Right-clicking while sneaking knocks back all entities that are close to the player.
+
+== ''Trivia'' ==
+*The Book of Vengeance is a reference to the book of the same name from Limbus Company.
+
+{{ItemList}}
+[[Category:Items]]
+[[Category:Weapons]]

@@ -1,0 +1,85 @@
+{{Navbar|page1=Stage I Dispatcher|page2=Stage II Dispatcher|page3=Stage III Dispatcher|page4=Stage IV Dispatcher}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|dispatchersi}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Nexus Info
+|image1=Stage 1 Dispatcher.png
+|armor=7.0
+|growtime=240-300 sec [min-max]
+|hp=33.0
+|OTHER STUFF
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:dispatcher_si
+}}
+'''Stage I Dispatchers''' are a type of [[Mobs|Mob]], placed into the [[Nexus Parasites|Nexus]] Tier.
+
+Killing one will grant the {{AdvancementLink|ZAYIN Suppression}}.
+
+== ''Spawning'' ==
+*Spawns by chance from a [[Dispatcher Nidus]] accumulating 40 kills from nearby parasites. 
+**Can spawn naturally without the use of Nidi when [[Ubiquitous Development]] reaches level 3.
+*If at least one [[Colony]] exists, spawns when a [[Stage II Dispatcher]] is killed.
+
+== ''Behavior'' ==
+Stage I Dispatchers are Stationary Offensive Support Parasites.
+*Stage I Dispatchers can store and teleport parasites around using [[Dispatcher Tentacle|Dispatcher Tentacles]], Stage I Dispatchers can summon up to 3. Parasites that have been stored by a Dispatcher that despawn will end up back in the Dispatcher's storage.
+*Stage I Dispatchers can summon up to 3 [[Seizer|Seizers]].
+*Stage I Dispatchers will force nearby [[Assimilated Mobs]] to drop their disguise (unless if they are on water).
+*Stage I Dispatchers throw 4 bombs around them when damaged, this has a cooldown of 5 seconds. The bombs inflict 3 damage each and place an effect cloud of stacking [[Viral]] and Poison.
+*Stage I Dispatchers can break blocks that have their [[Hardness]] Value up to 3, with a 60 ticks cooldown and 1 Block range.
+*Stage I Dispatchers will apply the following effects to parasites once they're stored:
+**[[Debar]] I (1:40)
+**[[Link]] I (3:20)
+**[[Heightened Senses]] I (1:40)
+
+=== ''Weaknesses'' ===
+*Stage I Dispatchers, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+**Any entities a Dispatcher summons will also be on fire.
+
+* Right clicking on any of their Dispatcher Tentacles or Seizers will apply the glowing effect to their Dispatcher.
+{{Properties|tier=Nexus I}}
+
+{{Drops
+|rolls1=Always Rolls:
+|page1=Dispatcher Membrane
+|amount1=1-7
+|chance1=20
+}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|[[File:dispatcher_stage_i.ogg]]
+|Hostile
+|Plays when a Stage I Dispatcher spawns.
+|Harp plunks
+|dispatcher_stage_i
+|-
+|}
+
+== ''Trivia'' ==
+* Like all Nexuses, Stage I Dispatchers do not despawn by default.
+* The Stage I Dispatcher's spawning sound is an electronically distorted violin screech.
+* Dispatchers are known as '''Dod''' internally.
+* Dispatchers were called "Reinforcers" in the early builds of [[Version 1.9.6|1.9.6]].
+
+== ''Gallery'' ==
+<gallery>
+File:Bomb2.png|The Bomb Stage I Dispatchers use.
+File:DispatcherS1Height.png|Size of the Stage 1 Dispatcher's model
+File:dstagei.ogg|The old sound effect for Dispatchers spawning.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Nexus Parasites]]
+[[Category:Mobs]]

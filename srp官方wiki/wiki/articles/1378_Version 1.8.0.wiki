@@ -1,0 +1,315 @@
+{{VersionBar|
+|page1=Version 1.7.0
+|page2=Version 1.8.1
+}}
+'''Version 1.8.0''' was an update of the Scape and Run: Parasites Mod, released on August 1st 2020.  It was 5.32 MB.
+
+== ''Change Log'' ==
+
+==== <u>General</u> ====
+
+* The [[Evolution System#Functioning|merge system]] now is customizable
+* Added the following config options:
+*# Infected versions despawn
+*# Primitive versions despawn
+*# Ancient versions despawn
+*# List of entities that will avoid the parasites
+*# Vanilla mob Spawn Eggs
+*# Infected Damage Cap
+*# Primitive Damage Cap
+*# Adapted Damage Cap
+*# Ancient Damage Cap
+*# Killcount goes up by time (only if difficulty is set to hard)
+*# Mobs ignore sunlight when spawning
+*# List of parasites that will break block in their way only if chasing its target
+*# Spawnrate for the [[:Category:Adapted Parasites|Adapted versions]], [[:Category:Ancient Parasites|Ancients versions]], [[Stage I Beckon|Stage 1 Beckon]] and for the [[Vigilante]]
+*# Number of days required for the parasites to spawn
+*# Density for the particle effects spawned in the infested blocks
+*# Maximum number of Beckons per dimension
+*# [[Reinforcement System]] cooldown for spawning Beckons
+*# Collective Attack for the Beckons (to reduce mob spawning when a lot are in the same area)
+*# [[Primitive Yelloweye|Yelloweye]] gear degrade
+
+* Removed the following config options:
+*# [[Primitive Longarms|Shyco]] reflect Chance
+*# Shyco reflect Damage
+*# [[Primitive Longarms|Stage Adapted]] reflect Chance
+*# Stage Adapted reflect Damage
+*# Mobs with new task (renamed to: Mobs with new target task)
+
+==== <u>Entities</u> ====
+
+* New behavior: the parasites will start making groups:
+** Tier I: [[Buglin|Buglins]], [[Rupter|Rupters]], Walking Heads
+** Tier II: [[:Category:Assimilated Mobs|Infected Versions]]
+** Tier III: [[:Category:Primitive Parasites|Primitive versions]], [[Heavy Carrier]]
+** Tier IV: [[:Category:Adapted Parasites|Adapted versions]]
+** Tier V: [[:Category:Ancient Parasites|Ancient versions]]
+** Infected versions will recruit only Tier I - II parasites
+** Primitive versions will recruit Tier I - III parasites
+** Adapted versions will recruit Tier I - III parasites
+** Ancient versions will recruit Tier I - IV parasites
+
+* New effect for the Longarms branch, the less health they have, the more damage they will deal
+*# Replacing the "reflect damage" one (to reflect this the mob will spawn particles, low health equals higher particle spawning)
+
+* Increased flying speed/follow range for the Yelloweye branch
+* New behavior: the following parasites will start running if needed:
+*# Walking Heads
+*# Infected Versions (minus Alafha)
+*# Primitive versions (minus [[Primitive Yelloweye|Yelloweye]], [[Primitive Bolster|Bolster]])
+*# Adapted versions (minus [[Adapted Yelloweye|Yelloweye]], [[Adapted Bolster|Bolster]])
+*# [[Vigilante]]
+
+* Parasites while chasing will no longer play ambient sounds
+* Yelloweye projectiles will now reduce the equipped armor durability
+* [[Moving Flesh]] will now avoid Players
+* Tweaked flying parasites AI
+* Reverted death animation for human, primitive and adapted versions
+* New animations for the [[Primitive Summoner|Primitive]] and [[Adapted Summoner]] when summoning mobs
+* New texture and base values for the [[Buglin]]
+* New base values for the [[Heavy Carrier|Heavy]]/[[Flying Carrier]]
+
+* [[Rupter]]:
+*# -New model/texture/animation
+*# -New base values
+*# -Attacks will apply slowness
+*# -Now they will convert zombies into Infected Humans
+
+* [[Vigilante]]:
+*# -New texture
+*# -New animations
+*# -New base values
+*# -New behavior: if target is too far they will shoot otherwise they will go melee
+*# -Changed behavior or their projectile (from an "egg" to a "fireball")
+
+* [[:Category:Assimilated Mobs|Infected Versions]]:
+*# -New models (minus [[Assimilated Big Spider|Dorpa]], Alafha)
+*# -New textures (minus Dropa, Alafha)
+*# -New animations (minus Alafha)
+*# -New sound effects for all (minus Dorpa, Alafha):
+*#* Human and villager will share the same sound effects
+*#* [[Assimilated Pig|Pig]], [[Assimilated Cow|cow]], [[Assimilated Sheep|sheep]]<!--, pig-->, [[Assimilated Wolf|wolf]] will share the same sound effects
+*# -New base values
+*# -Added variant for [[Assimilated Big Spider|Big spider]]:
+*#* It will spawn with 50% less health but will deal 25% more damage and apply poison on melee attack
+*# -Changed death animation for the cow, sheep and wolf
+*# -Changed "Infected Dorpa" to "Infected Big Spider"
+*# -Reduced time to despawn for the web blocks spawned by the Big Spider
+*# -Big spider will now shoot in burst of 3
+
+* Walking heads:
+*# -New models for all
+*# -New textures for all
+*# -New animations for all
+*# -New sound effects for all
+*# -New ability: they will jump at you from a longer distance
+*# -New behavior: will avoid entities if they're alone or if the lightness around them is too high (like vanilla spiders)
+
+* Primitive versions:
+*# -New models and sound effects:
+*#* [[Primitive Longarms]]
+*#* [[Primitive Summoner]]
+*#* [[Primitive Reeker]]
+*# -New textures for all
+*# -New animations for all
+*# -New base values
+*# -Tweaked hitbox size:
+*#* Primitive Longarms
+*#* Primitive Reeker
+*# -Added variant for Reeker: It will spawn with 50% less health but will deal 50% more damage
+
+* Adapted versions:
+*# -New models:
+*#* [[Adapted Longarms]]
+*#* [[Adapted Reeker]]
+*#* [[Adapted Manducater]]
+*# -Tweaked [[Adapted Summoner|Summoner]] model
+*# -New textures for all
+*# -New animations for all
+*# -New sound effects:
+*#* Adapted Longarms
+*#* Adapted Reeker
+*#* Adapted Manducater
+*#* Adapted Summoner (when summoning mobs)
+*# -New base values
+*# -Added variant for Longarms: It will spawn with 50% less health but will deal double damage
+*# -Tweaked hitbox size:
+*#* Adapted Longarms
+*#* Adapted Reeker
+*# -New behavior: they will start infesting nearby block by spawning infested Residue, this block will not despawn unlike ones spawned by the death of a Beckon
+*# -Tweaked model for Summoner
+*# -[[Adapted Yelloweye|Yelloweye]] projectile will do 2x duration and +1 amplifier (from its primitive version)
+*# -Yelloweye will attack with melee now
+*# -Yelloweye will shoot homming projectiles if the target is spending too much time in the air
+*# -[[Adapted Bolster|Bolster]] will stretch out its limbs to have longer attack melee range
+
+* Ancient versions:
+*# -Tweaked models
+*# -New textures for all
+*# -Changed how the [[Dreadnaut]] fly
+*# -New ability: will summon mobs by spawning Drop Pods
+*# -New Dreadnaut mechanic: at 20%, 40%, 60%, 80% one of its longarms will drop
+*# -Dreadnaut will shoot homming projectiles if the target is spending too much time in the air
+
+* [[Reinforcement System]]:
+*# -New textures for all
+*# -New behavior: when not attacking, they will close up their limbs to reduce all incoming damage:
+*#* [[Stage I Beckon|Stage I]] by 20%
+*#* [[Stage II Beckon|Stage II]] by 40%
+*#* [[Stage III Beckon|Stage III]] by 60%
+*# -They will spawn now with their summon attack on cooldown
+
+* New entities:
+*# -New Infected version: '''[[Assimilated Villager|Infected Villager]]'''
+*# -New Infected version: '''[[Assimilated Pig|Infected Pig]]'''
+*# -New Walking Head: '''Infected Villager Head'''
+*# -New Walking Head: '''Infected Pig Head'''
+*# -New Reinforcement System mob: '''[[Sentry]]''': Turret-like parasite that shoots in burst of 3
+*# -New Reinforcement System mob: '''[[Kyphosis]]''': Turret-like parasite who likes to smash the ground
+*# -New Reinforcement System mob: '''[[Warden]]''': Big parasite built for territory defense purposes, they can jump to get closer to its target
+*# -[[:Category:Deterrent Parasites|Turret-like parasites]] will spawn on infested block [[Stage III Beckon|stage 3]]
+*# -Big changes are planned to the infected Alafha and the [[Overlord|Ancient Overlord]], no changes for them at the moment
+
+==== <u>Misc</u> ====
+
+* Fixed crash caused by [[Assimilated Big Spider|Infected Dorpa]] web attack
+* Fixed [[Buglin|Buglins]] trying to spawn a [[Rupter|Rupters]] when the Rupter is disable
+* Changed the name for the following items:
+*# "[[Longarms Armor Fragment|Shyco Armor Fragment]]" to "Longarms Armor fragment"
+*# "[[Summoner Core|Canra Core]]" to "Summoner Core"
+*# "[[Yelloweye Bone|Emana Bone]]" to "Yelloweye bone"
+*# "[[Reeker Fang|Nogla Blade]]" to "Reeker Blade"
+*# "[[Manducater Orb|Hull Orb]]" to "Manducater Orb"
+
+* Changed [[Living Scythe|Living Sythe]] first person holding position
+* Increased maximum input value for durability in the tools category
+* Added NBT tags for the parasites:
+*# "parasitekills"
+*# "parasitedespawn"
+*# "parasitetype"
+
+New Base Values
+
+* Alafha:
+*# -HP from 75 to 18
+*# -ARMOR from 10 to 3
+*# -DAMAGE from 6.5 to 7
+*# -KD RESISTANCE from 0.2 to 0.4
+* [[Assimilated Big Spider|Big Spider]]
+*# -HP from 30 to 22
+*# -ARMOR from 1 to 3
+*# -DAMAGE from 6 to 9
+*# -KD RESISTANCE from 0.1 to 0.5
+*# -RANGED DAMAGE from 1 to 4
+* [[Assimilated Human|Infected Human]]
+*# -HP from 21 to 15
+*# -ARMOR from 3 to 5
+*# -DAMAGE from 5.5 to 9
+*# -KD RESISTANCE from 0.2 to 0.1
+* [[Assimilated Cow|Infected Cow]]
+*# -HP from 11 to 18
+*# -ARMOR from 0.1 to 5
+*# -DAMAGE from 5 to 7
+*# -KD RESISTANCE from 0.2 to 0.4
+* [[Assimilated Sheep|Infected Sheep]]
+*# -HP from 9 to 13
+*# -ARMOR from 0.1 to 1.3
+*# -DAMAGE from 3.5 to 6
+*# -KD RESISTANCE from 0.1 to 0.3
+* [[Assimilated Wolf|Infected Wolf]]
+*# -HP from 9 to 10
+*# -ARMOR from 0.1 to 0.5
+*# -DAMAGE from 3.5 to 10.5
+*# -KD RESISTANCE from 0.1 to 0.2
+* [[Heavy Carrier]]
+*# -HP from 75 to 30
+*# -ARMOR from 15 to 5
+*# -DAMAGE from --
+*# -KD RESISTANCE from 0.9 to 0.95
+* [[Buglin]]
+*# -HP from 3 to 7
+*# -ARMOR from 0.2 to 1.5
+*# -DAMAGE from 1.1 to 3
+*# -KD RESISTANCE from 0.01 to 0.05
+* [[Flying Carrier]]
+*# -HP from 13 to 20
+*# -ARMOR from 3 to 2.5
+*# -DAMAGE from --
+*# -KD RESISTANCE from 0.1 to 0.15
+* [[Rupter]]
+*# -HP from 6 to 10
+*# -ARMOR from 0.9 to 5
+*# -DAMAGE from 2.5 to 5
+*# -KD RESISTANCE from 0.1 to 0.2
+* [[Vigilante]]
+*# -HP from 60 to 35
+*# -ARMOR from 7 to 5
+*# -DAMAGE from 5 to 10
+*# -RANGED DAMAGE from 5 to 15
+*# -KD RESISTANCE from 0.8 to 0.75
+* [[Primitive Longarms]]
+** -HP from 90 to 70
+** -ARMOR from 8 to 9
+** -DAMAGE from 5 to 15
+** -KD RESISTANCE from 0.3 to 0.7
+* [[Adapted Longarms]]
+*# -Additional HP from 30 to 50
+*# -Additional ARMOR from 2 to 7
+*# -Additional DAMAGE from 0.7 to 12
+*# -Additional KD RESISTANCE from 0.5 to 0.3
+* [[Primitive Yelloweye]]
+*# -HP from 13 to 15
+*# -ARMOR from 0.2 to 3.5
+*# -DAMAGE from 2 to 4
+*# -KD RESISTANCE from 0.1 to 0.2
+* [[Adapted Yelloweye]]
+*# -Additional HP from 21 to 25
+*# -Additional ARMOR from 1 to 10
+*# -Additional DAMAGE from 4 to 5
+*# -Additional KD RESISTANCE from 0.3 to 0.4
+* [[Primitive Manducater]]
+*# -HP from 15 to 18
+*# -ARMOR from 5 to 4
+*# -DAMAGE from 5.5 to 8
+*# -KD RESISTANCE from 0.2 to 0.5
+*# -Needed health to go invisible from 1 to 0.7
+* [[Adapted Manducater]]
+*# -Additional HP from 5 to 15
+*# -Additional ARMOR from 0.5 to 6
+*# -Additional DAMAGE from 2 to 12
+*# -Additional KD RESISTANCE from 0.2 to 0.5
+*# -Needed health to go invisible from 1 to 0.4
+* [[Primitive Summoner]]
+*# -HP from 50 to 35
+*# -ARMOR from 7 to 4
+*# -DAMAGE from 5 to 10
+*# -KD RESISTANCE from 0.15 to 0.5
+* [[Adapted Summoner]]
+*# -Additional HP from 50 to 60
+*# -Additional ARMOR from 8 to 10
+*# -Additional DAMAGE from 1.8 to 15
+*# -Additional KD RESISTANCE from 0.25 to 0.5
+* [[Primitive Reeker]]
+*# -HP from 25 to 20
+*# -ARMOR from 5 to 12
+*# -DAMAGE from 5.3 to 10
+*# -KD RESISTANCE from 0.2 to 0.6
+* [[Adapted Reeker]]
+*# -Additional HP from 5 to 35
+*# -Additional ARMOR from 0.2 to 15
+*# -Additional DAMAGE from 2.2 to 18
+*# -Additional KD RESISTANCE from 0.15 to 0.4
+* [[Primitive Bolster]]
+*# -HP from 30 to 35
+*# -ARMOR from 5 to 4
+*# -DAMAGE from 4.5 to 6
+*# -KD RESISTANCE from 0.4 to 0.35
+* [[Adapted Bolster]]
+*# -Additional HP from 80 to 70
+*# -Additional ARMOR from 6 to 15
+*# -Additional DAMAGE from 15 to 30
+*# -Additional KD RESISTANCE from 0.55 to 0.65
+
+{{VersionList}}
+[[Category:Versions]]

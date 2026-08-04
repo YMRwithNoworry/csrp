@@ -1,0 +1,20 @@
+{{Item Info
+|image1=Arachnida Claw.png
+|type=Material
+|stackable=Yes (16)
+|tooltip=Terrifyingly sharp claws harvested from an Arachnida corpse.
+|id=srparasites:ada_arachnida_drop
+}}
+'''Arachnida Claws''' are a [[:Category:Drops|Drop]] that most likely be expanded upon as [[:Category:Drops#Materials|Materials]].
+
+== ''Obtainment'' ==
+
+* Dropped by the [[Primitive Arachnida]] and [[Adapted Arachnida]].
+* Found in [[Parasitic Growth Block|Malignant Growths]].
+
+== ''Usage'' ==
+{{CraftingTable|r1_b1=Bolster Husk|r1_a2=Devourer Tentacle|r1_b2=Module Genic Receptacle|r1_c2=Arachnida Claw|r1_b3=Longarms Armor Fragment|r1_output=Adapted Module|r1_count=1}}
+
+{{ItemList}}
+[[Category:Items]]
+[[Category:Drops]]

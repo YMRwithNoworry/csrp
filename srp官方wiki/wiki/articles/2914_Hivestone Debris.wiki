@@ -1,0 +1,15 @@
+{{Stub}}
+{{Item Info
+|image1=Hivestone Debris.png
+|id=srparasites:parasiterubble/3<ref>{{WhatAreDataTags|x}}</ref>
+}}
+
+'''Hivestone Debris''' is a metal-like block that can generate as part of parasite-made structures and [[Meteor|Meteors]].  It must be mined with a stone pickaxe or higher.
+
+== ''Usage'' ==
+Smelting '''two''' Hivestone Debris into a furnace produces one [[Hive Scrap]].
+
+There are also decorate slab and stair variants of this block.
+
+{{BlockList}}
+[[Category:Blocks]]

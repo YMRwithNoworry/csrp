@@ -1,0 +1,33 @@
+{{WIP}}{{Navbar|page1=Living Lance|page2=Sentient Greatlance}}
+
+{{Item Info
+|image1=Living Lance.png
+|damage=17
+|attack_speed=0.9
+|range=5.0
+|durability=1000
+|stackable=No
+|tooltip=
+|id=srparasites:weapon_lance
+}}
+The '''Living Lance''' is a type of [[Weapons|Weapon]] created from a multitude of parasite materials.
+==''Obtainment''==
+{{CraftingTable|r1_b1=Living Core|r1_a2=Vile Shell|r1_c1=Infectious Blade Fragment|r1_b2=Hardened Bone Handle|r1_a3=Infectious Blade Fragment|r1_output=Living Lance|r1_count=1}}
+
+
+==''Usage''==
+'''Fighting'''
+
+The Living Lance is a Melee Weapon. Its attack reach is 4 blocks in each direction from the players head, which is the default attack reach.
+
+Each time it is swung, it performs the default sweeping attack (though only visually if airborne or the attack cooldown is still up), and applies the <u>[[Needler]]</u> effect to the directly targeted mob
+
+'''Evolving'''
+
+Upon killing an entity, it's hp, including possible buffs from health boost, is added to a counter shown in the item's tooltip. 1 second after this counter reaches 50,000, a non-damaging lightning will strike the player, and the held weapon will be replaced with it's Sentient counterpart at full durability.{{ItemList}}
+
+[[Category:Items]]
+
+[[Category:Equipment]]
+[[Category:Work In Progress Content]]
+[[Category:Weapons]]

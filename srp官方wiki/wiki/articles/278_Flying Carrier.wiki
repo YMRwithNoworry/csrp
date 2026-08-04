@@ -1,0 +1,103 @@
+{{Navbar|page1=Light Carrier|page2=Heavy Carrier|page3=Flying Carrier|page4=Worm Carrier}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|carrierflying}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+{{Mob Info 
+|image1=Flying Carrier.png
+|hp=20.0
+|damage=15.0
+|armor=2.5
+|kb_resistance=0.15
+|adaptable=No
+|id=srparasites:carrier_flying
+}}
+'''Flying Carriers''' are a [[Mobs|Mob]] in the [[Inborn Parasites|Inborn]] Tier.
+
+== ''Spawning'' ==
+*Spawned by [[Stage II Beckon|Stage II]] and [[Stage III Beckon|Stage III Beckons]].
+*Spawns from [[Evolution Phases|Phase 3]] to [[Evolution Phases|Phase 4]] with spawnweight of 15.
+
+== ''Behavior'' ==
+Flying Carriers are Aerial Infestation Propagators that hold other infectors.
+
+* Flying Carriers will explode when they get close to the entity they are targeting or upon death (assuming they are not on fire). 
+** This explosion can spawn several mobs ([[Flying Carrier#Carrier Mob Contents|More info below]]) and will inflict the [[Viral]] Effect.
+** The area where they exploded will spawn the aforementioned Mobs together with a Poison and [[Call Of The Hive|COTH]] Cloud<ref>This unique effect cloud is known in the mod as "srparasites:cloudtoxic."</ref>.
+{{Variants|count=1|Empty=Flying Carrier.png}}
+
+=== ''Carrier Mob Contents'' ===
+{| class="fandom-table"
+|+'''Spawn Table'''
+!
+!Minimum
+!Maximum
+|-
+|[[Rupter]]
+|1
+|3
+|-
+|[[Buglin]]
+|2
+|3
+|}
+
+=== ''Weaknesses'' ===
+
+* Flying Carriers, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+* Flying Carriers on fire will not explode or release anything upon death.
+{{Properties
+|tier=Inborn
+|XPValue=15
+}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|[[File:carrierliving1.ogg]]
+[[File:carrierliving2.ogg]]
+|Hostile
+|Randomly plays when a Flying Carrier is living.
+|Carrier bubbling
+|carrierliving1-2
+|-
+|[[File:carrierhurt1.ogg]]
+[[File:carrierhurt2.ogg]]
+|Hostile
+|Plays when a Flying Carrier is hurt.
+|Carrier snarls
+|carrierhurt1-2
+|-
+|[[File:Flying Carrier Explosion.ogg]]
+|Hostile
+|Plays when a Flying Carrier explodes.
+|Mob explodes
+|buthol_explotion
+|-
+|[[File:carrierdeath.ogg]]
+|Hostile
+|Plays when a Flying Carrier dies.
+|Carrier perishes
+|carrierdeath
+|}
+
+== ''Trivia'' ==
+*Flying Carriers are also known as '''Buthol''' in the Mod Files.
+
+== ''Gallery'' ==
+<gallery>
+File:CarrierFlyingHeight.png|thumb|Size of the Flying Carrier's model
+File:Flyingcarrieraftermath.png|Average aftermath of a Flying Carrier explosion.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Mobs]]
+[[Category:Inborn Parasites]]

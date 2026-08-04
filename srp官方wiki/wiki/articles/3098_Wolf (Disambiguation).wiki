@@ -1,0 +1,14 @@
+{{DisambiguationContent
+|image1=Assimilated Wolf.png
+|title1=[[Assimilated Wolf]]
+|desc1=An [[Assimilated Mobs|Assimilated]] Parasite
+|image2=Assimilated Wolf Head.png
+|title2=[[Walking Wolf Head]]
+|desc2=A [[Walking Heads|Walking Head]] Parasite
+|image3=FeralWolf.png
+|title3=[[Feral Wolf]]
+|desc3=A [[Feral Parasites|Feral]] Parasite
+|image4=AssimaraWolf.png
+|title4=[[Assimara Wolf]]
+|desc4=An [[Assimara Parasites|Assimara]] Parasite
+}}

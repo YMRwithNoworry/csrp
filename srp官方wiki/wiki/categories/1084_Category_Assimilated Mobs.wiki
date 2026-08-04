@@ -1,0 +1,75 @@
+{{TierBar}}
+
+'''Assimilated Mobs''' are the Assimilated variants of vanilla mobs, which have been overtaken by the infection through [[Call Of The Hive]]. These [[mobs]] are placed above [[Inborn Parasites]]. Assimilated Mobs' abilities and statistics are very diversified, though the majority of them pose no particularly high threat.
+
+Killing all of them at least once, including the [[Walking Heads]], grants the player the {{AdvancementLink|Assimilated}}. Slaying all of the [[Walking Heads|Heads]] specifically grants the {{AdvancementLink|L Corp}}.
+
+==''Assimilated Mobs''==
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+Assimilated Adventurer.png|link=Assimilated Adventurer|[[Assimilated Adventurer]]
+Assimilated Bear.png|link=Assimilated Bear|[[Assimilated Bear|Assimilated Bear]]
+Assimilated Big Spider.png|link=Assimilated Big Spider|[[Assimilated Big Spider]]
+Assimilated Cow.png|link=Assimilated Cow|[[Assimilated Cow]]
+Assimilated Enderman.png|link=Assimilated Enderman|[[Assimilated Enderman]]
+Assimilated Dragon.png|link=Assimilated Ender Dragon|[[Assimilated Ender Dragon]]
+Assimilated Horse.png|link=Assimilated Horse|[[Assimilated Horse|Assimilated Horse]]
+Assimilated Pig.png|link=Assimilated Pig|[[Assimilated Pig]]
+Assimilated Human.png|link=Assimilated Human|[[Assimilated Human]]
+Assimilated Sheep.png|link=Assimilated Sheep|[[Assimilated Sheep]]
+Assimilated Squid.png|link=Assimilated Squid|[[Assimilated Squid]]
+Assimilated Villager.png|link=Assimilated Villager|[[Assimilated Villager]]
+Assimilated Wolf.png|link=Assimilated Wolf|[[Assimilated Wolf]]
+All Walking Heads.gif|link=Walking Heads|[[:Category:Walking Heads|Walking Heads]]
+</gallery>
+</div>
+
+==''Spawning''==
+* Spawned after their Sane counterpart is assimilated.
+** Assimilations can occur when a Sane mob is killed by a Parasite or succumbs to Call Of The Hive III.
+* Spawned naturally from [[Evolution Phases#Phase 2|Phase 2]] to [[Evolution Phases#Phase 7|Phase 7]] after enough of their Sane variants are assimilated.
+**[[Assimilated Enderman|Assimilated Endermen]] require the End to have reached [[Evolution Phases#Phase 3|Phase 3]].
+** [[Assimilated Ender Dragon|Assimilated Ender Dragons]] will spawn from [[Evolution Phases#Phase 9|Phase 9]] onwards if the End has reached [[Evolution Phases#Phase 3|Phase 3]].
+* Spawned from [[Stage II Beckon|Stage II]] and [[Stage III Beckon|Stage III Beckons]] (excl. Assimilated Ender Dragons and Squids).
+* Assimilated Humans, Cows and Wolves can be spawned by [[Adapted Summoner|Adapted Summoners]].
+==''Features''==
+* Assimilated Mobs' melee attacks will inflict [[Call Of The Hive]] I.
+* All Assimilated Mobs (excl. [[Assimilated Ender Dragon|Assimilated Ender Dragons]] and [[Assimilated Human|Assimilated Humans]]) are able to disguise, faking to be regular mobs.
+* Assimilated Mobs will obtain the Regeneration effect after killing an entity. The effect lasts enough to regenerate 1 HP.
+* Assimilated Mobs are capable of performing small leaps in liquids.
+* Assimilated Mobs are capable of pouncing in order to reach their targets.
+* When 4 Assimilated Mobs (excl. [[Assimilated Enderman|Assimilated Endermen]] and [[Assimilated Ender Dragon|Assimilated Ender Dragons]]) are near each other and each of them has at least 5 kills, they will melt down into [[Moving Flesh]], then proceed to merge and transform into a random [[Primitive Parasites|Primitive Parasite]] (excl. the [[Primitive Devourer]]).
+* Upon death, most Assimilated Mobs (excl. [[Assimilated Bear|Assimilated Bears]] and [[Assimilated Big Spider|Assimilated Big Spiders]]) have a chance to spawn a [[Walking Heads|Walking Head]], in order to continue attacking. Walking Heads have a 50% chance to spawn and will have 30% of the health and damage values of its full counterpart.
+** This process is different in the case of the [[Assimilated Ender Dragon]], which can drop its [[Walking Ender Dragon Head|head]] while still alive, as long as it takes enough damage.
+* After dying, Assimilated Mobs have a chance to explode. Upon explosion, the dead Assimilated Mob will either release a certain number of [[Buglin|Buglins]] or leave a lingering cloud of Poison and [[Call Of The Hive]]. In both cases, [[Remains]] will spawn on the mob's death location, which will inflict nearby entities with [[Call Of The Hive|COTH]]. If the large [[Remains|Remain]] piece is present, the deceased Assimilated [[Mobs|Mob]] can be revived by a [[Summoner_(Disambiguation)|Summoner]].
+** [[Assimilated Horse|Assimilated Horses]] will explode much more violently after death, dealing 15 damage in a 3.5 block radius.
+
+===''Weaknesses''===
+Like all Parasites, Assimilated Mobs present a weakness to fire (damage inflicted by fire is quadrupled).{{Properties|tier=Assimilated}}
+
+{{Drops
+|rolls1=1 Roll
+|page1=Infected Flesh
+|amount1=1
+|chance1=40
+|rolls2=Always Rolls
+|page2=Diseased Heart
+|amount2=1
+|chance2=5
+}}
+==''Survival hints''==
+''To be added...''
+
+==''Lore''==
+*Assimilated creatures are still fully conscious and aware, though their cells have been replaced by [[Call Of The Hive|COTH]] cells and they no longer possess free will.
+
+==''Trivia''==  
+*Contrary to every other parasite, the [[Assimilated Big Spider]] has eyes. However, this is because its model is particularly old. A rework of the mob is planned, after which it will likely no longer possess eyes.
+
+==''Gallery''==
+<gallery>
+File:Assimilated Remains.png|The [[Remains]] Assimilated Mobs leave after exploding.
+</gallery>
+[[Category:Mobs]]
+
+<references />

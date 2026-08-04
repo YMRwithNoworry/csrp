@@ -1,0 +1,32 @@
+{{Stub}}
+{{Item Info
+|image1=Dermoid Cyst.png
+|id=srparasites:dermoid_cyst
+|title1=Dermoid Cyst|type=Utility Block|stackable=Yes (64)}}
+
+'''Dermoid Cysts''' are utility [[Blocks]] introduced in [[Version 1.10.0]]. They are currently a [[:Category:Work In Progress Content|Work In Progress]].
+
+==''Obtainment''==
+Dermoid Cysts can be harvested from the inside of [[Meteor|Meteors]] (two per Meteor), or they can be crafted with a [[Parasitic Cyst|Vacuous Cyst]], four [[Biome Blocks|Flesh Chunks]], and four [[Infected Flesh]].
+
+{{CraftingTable
+|r1_a1=Infected Flesh
+|r1_b1=Flesh Chunk
+|r1_c1=Infected Flesh
+|r1_a2=Flesh Chunk
+|r1_b2=Vacuous Cyst
+|r1_c2=Flesh Chunk
+|r1_a3=Infected Flesh
+|r1_b3=Flesh Chunk
+|r1_c3=Infected Flesh
+|r1_output=Dermoid Cyst
+|r1_count=1}}
+
+==''Usage''==
+Being a Work In Progress, Dermoid Cysts have a limited function, which is only to be a Chest crafted from parasite parts. It has no use or unique functionality other than this.<ref>In the game files, there are textures for "happy" and "open" versions, which may mean that the Dermoid Cyst will gain new usage, tiers, or animations on further development.</ref>
+
+==Notes==
+<references />
+
+{{BlockList}}
+[[Category:Blocks]]

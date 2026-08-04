@@ -1,0 +1,29 @@
+{{Stub}}
+{{Effect_Info
+|[[File:Dod smoke trail.png|thumb]]
+|title1=Concussive Smoke Trail
+|sources=See [[#Obtainment|Obtainment]]
+|type=Debuff
+|id=srparasites:dod_smoke_trail
+|image1=dod_smoke_trail.png}}
+
+'''Concussive Smoke Trail''' is an effect added in 1.10.0 of SRP. It summons multiple smoke particles around you.
+
+Concussive Smoke Trail cannot be removed by drinking milk.
+
+== ''Obtainment'' ==
+{| class="fandom-table"
+!'''Cause'''
+!'''Potency'''
+!'''Duration'''
+|-
+|[[Dispatcher Nidus]]
+|I
+|0:01
+|-
+|[[Living Bow]] and [[Sentient Greatbow]]
+|I
+|0:10
+|}
+{{EffectList}}
+[[Category:Effects]]

@@ -1,0 +1,33 @@
+{{Item Info
+|image1=Dispatcher Membrane.png
+|type=Material
+|stackable=Yes (16)
+|tooltip=A coating of Dispatchers, peeled off their body.
+|id=srparasites:dispatcher_drop
+}}
+'''Dispatcher Membranes''' are a [[:Category:Drops|Drop]] that most likely will be used as [[:Category:Drops#Materials|Materials]].
+== ''Obtainment'' ==
+
+* Dropped by all Stages of [[:Category:Nexus Parasites#Dispatchers|Dispatchers]].
+* Found in [[Parasitic Growth Block|Metastatic Masses]].
+
+== ''Usage'' ==
+{{CraftingTable|r1_b1=Beckon Membrane|r1_a2=Dispatcher Membrane|r1_b2=Module Genic Receptacle|r1_c2=Dispatcher Membrane|r1_b3=Beckon Membrane|r1_output=Nexus Module|r1_count=1
+
+|r2_a1=Altered Tendons
+|r2_b1=Dispatcher Membrane
+|r2_c1=Altered Tendons
+|r2_a2=Dispatcher Membrane
+|r2_b2=Module Genic Receptacle
+|r2_c2=Dispatcher Membrane
+|r2_a3=Gold Ingot
+|r2_b3=Node Lamp
+|r2_c3=Gold Ingot
+|r2_output=Vector Module
+|r2_count=1
+
+|r3_b1=Dispatcher Membrane|r3_a2=Dispatcher Membrane|r3_c2=Dispatcher Membrane|r3_b2=Redstone Lamp|r3_b3=Dispatcher Membrane|r3_output=Node Lamp|r3_count=1}}
+
+{{ItemList}}
+[[Category:Items]]
+[[Category:Drops]]

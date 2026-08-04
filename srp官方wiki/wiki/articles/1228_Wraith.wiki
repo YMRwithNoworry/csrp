@@ -1,0 +1,90 @@
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|wraith}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=Wraith.png
+|hp=310.0
+|damage=70.0
+|armor=15.5
+|kb_resistance=0.15
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:wraith
+}}
+'''Wraiths''' are a type of [[Mobs]], placed into the [[Preeminent Parasites|Preeminent]] Tier.
+
+== ''Spawning'' ==
+*Spawns in groups of 2 in the [[Parasite Biome]], with a spawnweight of 5.
+*Can spawn naturally, once a [[Colony]] with at least 15 points exists in the dimension, individually with a spawnweight of 1.
+
+== ''Behavior'' ==
+Wraiths are Flying, Stealth Ranged units with additional melee capabilities.
+
+* Wraiths can rapidly shoot Nades in bursts of 3.
+** Wraiths will not do this if their target is in midair.
+* Wraiths have a damaging, immunity frame ignoring, melee aura.
+* Wraiths can spawn [[Succor|Succors]].
+*Wraiths can go completely invisible. This invisibility is disrupted when it shoots, takes damage, or if its health goes below 40% of its max health. Succors spawned during this invisibility will spawn with the invisibility effect for 3 seconds.
+*Wraiths can break blocks that have their [[Hardness]] Value up to 15, with a 20 ticks cooldown and 5 Blocks range.
+
+=== ''Weaknesses'' ===
+*Wraiths, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+{{Properties|tier=Preeminent}}
+
+{{Drops
+|rolls1=One Roll:
+|page1=Noxious Brain
+|amount1=1
+|chance1=80
+|page2=Hive Scrap
+|amount2=7
+|chance2=80
+}}
+==''Sounds''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''ID'''
+|-
+|
+[[File:Elvialiving1.ogg]]
+[[File:Elvialiving2.ogg]]
+[[File:Elvialiving3.ogg]]
+|Hostile
+|Plays randomly while a Wraith is alive.
+|elvialiving1-3
+|-
+|
+[[File:Elviahurt1.ogg]]
+[[File:Elviahurt2.ogg]]
+[[File:Elviahurt3.ogg]]
+|Hostile
+|Plays when a Wraith is hurt.
+|elviahurt1-3
+|-
+|
+[[File:Elviadeath.ogg]]
+|Hostile
+|Plays when a Wraith dies.
+|elviadeath
+|-
+|}
+
+== ''Trivia'' ==
+*Wraiths are also known as '''Elvia''' in the Mod Files.
+*A "wraith", in common usage, is another term for a ghost or other apparition, having a similar meaning to "haunter" or "bogle".
+
+== ''Gallery'' ==
+<gallery>
+File:Nade.png|A Nade upon coming in contact with land, erupting in to a cube of acid.
+File:WraithHeight.png|Size of the Wraiths' model
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Preeminent Parasites]]
+[[Category:Mobs]]

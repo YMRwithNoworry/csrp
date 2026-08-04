@@ -1,0 +1,125 @@
+{{Stub}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|draconite}}
+}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+{{Mob Info 
+|image1=Draconite.png
+|hp=525.0
+|damage=210.0
+|armor=30.0
+|kb_resistance=1.0
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:draconite
+|ranged=210.0}}
+'''Draconites''' are a type of [[Mobs|Mob]], placed into the [[Derived Parasites|Derived]] Tier.
+
+== ''Spawning'' ==
+*Spawns from [[Evolution Phases#Phase 1|Phase 1]] onwards after the Nether reaches [[Evolution Phases#Phase 7|Phase 7]].
+
+== ''Behavior'' ==
+Draconites are Flying, Ranged, Bombardment units.
+
+* Draconites, as other [[Derived Parasites|Derived]] parasites, are able to protect themselves by summoning dark projections of themselves known as Cosmic Forms. When these projections are attached to the Derived Parasite, they will be completely invulnerable to damage. The duplicate will get separated from the main body if it either takes too much damage or if it is aggressively targeting mobs for enough time.
+** This duplicate when separated acts on its own as if it was another Draconite, it is completely unkillable, but it is still capable of adapting to damage for its original form.
+** Hitting any invulnerable form (either the Cosmic Form alone or when it is present on the original parasite) will be indicated by a dark cyan flash.
+
+* Draconites can shoot extremely powerful saliva balls, which explode in contact, dealing heavy damage whilst also leaving a lingering area of effect.
+* Draconites may summon saliva balls from the sky, devastating large areas.
+** This is telegraphed by the Draconite breathing fire upward.
+* Draconites can perform a "barrage" attack of 20 homing projectiles that inflict [[Distorted Enlightenment]].
+** These bullets will shift from yellow to red depending on how close they are to the target.
+** These can be parried by any of the [[Weapons#Sentient Weapons|Sentient Weapons]] and will turn blue upon successful parry.
+* Draconites, like other Derived Parasites, have the ability to create Orbs in bursts of three at their target oppose to at themselves like other parasites.
+* Draconites, like other Derived Parasites, have Overloaded Adaptation. This refers to the ability to reflect a portion of the damage it takes while [[Adaptation System|adapting]]. This is ability is not present on the Cosmic Form.
+* Draconites can break blocks that have their [[Hardness]] Value up to 27, with an 80-tick cooldown and 6 block range.
+* Draconites, when within 100 blocks of a player, are able to [[Derived Distortion Phenomenon|distort and corrupt GUI text]], including but not limited to the [[Compendium]], [[Module Reports]], chat messages (ignoring system messages like commands), and signs.
+=== ''Weaknesses'' ===
+* Draconites, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+{{Properties|tier=Derived}}
+
+{{Drops
+|rolls1=Always Rolls
+|page1=Draconite Trophy
+|amount1=1
+|chance1=100
+|page2=False Apple|amount2=1|chance2=100}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source''' 
+!'''Description'''
+!'''Subtitle'''
+!'''File name''' 
+|-
+|
+[[File:draconite_idle_1.ogg]]
+[[File:draconite_idle_2.ogg]]
+[[File:draconite_idle_3.ogg]]
+[[File:draconite_idle_4.ogg]]
+[[File:draconite_idle_5.ogg]]
+|Hostile
+|Plays randomly when a Draconite is alive or is hit.
+|Draconite calls/shouts
+|draconite_idle_1_5
+|-
+|
+[[File:draconite_fire_shoot.ogg]]
+|Hostile
+|Plays whenever the Draconite uses its ranged attacks.
+|Napalm releases
+|draconite_fire_shoot
+|-
+|
+[[File:hebluchargeup.ogg]]
+[[File:hebluchargeup2.ogg]]
+|Hostile
+|Plays whenever the Draconite fires its barrage attack.
+|Distorted Engine tolls
+|heblu_bell_chargeup1-2
+|-
+|
+[[File:hebluimpact.ogg]]
+[[File:hebluimpact2.ogg]]
+|Hostile
+|Plays periodically when a barrage projectile is active.
+|Distorted Light bursts
+|heblu_light_impact1-2
+|-
+|
+[[File:hebluparry1.ogg]]
+[[File:hebluparry2.ogg]]
+[[File:hebluparry3.ogg]]
+|Hostile
+|Plays upon successful parry of a barrage projectile with a [[Weapons#Sentient Weapons|Sentient Weapon]].
+|Distorted Energy deflected
+|heblu_parry1-2
+|-
+|
+[[File:draconite_death.ogg]]
+|Hostile
+|Plays when a Draconite dies.
+|Draconite dies
+|draconite_death
+|}
+
+== ''Trivia'' ==
+* The original Trello post by Robert 25 described a nether parasite of roughly 5x12 blocks which would have specifically adapted to withstand the common fiery hazards of the nether, to invade it. It is visually identical, but its signature attack would have consisted of a grab, which the player could have deflected were they to attack as soon as they were grabbed.
+* The Wretched Gryff from 'Magic the gathering' is the main inspiration for the Draconite's visual design.
+* Despite having a head hitbox, hitting it doesn't deal any bonus damage.
+* The [[Compendium]] suggests the possibility that Draconites have a proper head rather than the gaping stub seen in the game, but lose it at some point in their creation.
+
+== ''Gallery'' ==
+<gallery>
+File:DraconiteHeight.png|Size of the Draconite's model
+File:SizeComparisonDraconite.png|Size of the Draconite's model compared to the [[Assimilated Ender Dragon]]'s.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Derived Parasites]]
+[[Category:Mobs]]

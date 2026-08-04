@@ -1,0 +1,68 @@
+{{Stub}}
+{{WIP}}
+{{Navbar|page1=Primitive Burrower|page2=Adapted Burrower}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|adaburrower}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=AdaptedBurrower.png
+|hp=105.0
+|damage=27.0
+|armor=16.0
+|kb_resistance=1.0
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:ada_burrower
+}}'''Adapted Burrowers''' are a type of [[Mobs]], placed into the [[Adapted Parasites|Adapted]] Tier.
+==''Spawning''==
+WIP
+==''Behavior''==
+Adapted Burrowers are Fast-Burrowing Melee Combatants. They are able to burrow underground to ambush their prey, they are completely invulnerable while underground.
+
+=== ''Weaknesses'' ===
+
+* Adapted Burrowers, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+{{Properties
+|tier=Adapted
+}}
+
+{{Drops
+|rolls1=One Roll:
+|page1=Toxic Lung
+|amount1=1
+|chance1=80
+|rolls2=Always Rolls:|page2=(Placeholder Burrower Drop)|amount2=2|chance2=60|page3=Strange Bone|amount3=2|chance3=20}}
+
+==''Sounds''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''ID'''
+|-
+|
+[[File:Ada tozoon digging_1.ogg]]
+[[File:Ada tozoon digging_2.ogg]]
+[[File:Ada tozoon digging_3.ogg]]
+|Hostile
+|Plays when an Adapted Burrower is digging.
+|ada_burrower_digging_1-3
+|-
+|}
+
+==''Trivia''==
+
+
+==''Gallery''==
+<gallery>
+File:AdaptedBurrowerComparison.png|Size of Adapted Burrower's model.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Mobs]]
+[[Category:Adapted Parasites]]

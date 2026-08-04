@@ -1,0 +1,14 @@
+[[File:Gluttonous Cyst.png|thumb|A Vacuous Cyst Block.]]
+[[File:Vacuous Cyst.png|thumb|A Gluttonous Cyst Block.]]
+'''Parasitic Cysts''' (or more simply, Cysts) are a unique type of block added by the Mod. 
+
+All [[Mobs#Parasites|Parasites]] capable of breaking blocks have an internal inventory, where they store blocks that they break. Under certain conditions, they'll empty their inventory into a Cyst and place it.
+
+== ''Mechanics'' ==
+When a Parasite breaks a block, it will be stored in its own internal inventory. When the parasite dies, despawns, its inventory becomes full, or randomly if their inventory is not empty, they will thrown down a '''Gluttonous Cyst''', which contains their inventory. Gluttonous Cysts can be accessed like a chest, having 36 slots, meaning the items within them can be taken any time. Parasites cannot break Gluttonous Cysts.
+
+After 25 seconds, the Gluttonous Cyst will begin consuming the items within itself, consuming one item every 5 seconds. For items that have a durability, 5 durability will be consumed each second, until it breaks. For each item it consumes, it will generate 2 [[Evolution Phases|Evolution Points]]. Each time it consumes an item, black particles will appear above it, sometimes play a chewing sound, and the consumed item is lost forever.
+
+When there are no more items it can consume, it will turn into a '''Vacuous Cyst''', which can broken by parasites. Vacuous Cysts serve no purpose, and will randomly turn into air blocks if on top of air. A Vacuous Cyst will disappear if it is in air.
+{{BlockList}}
+[[Category:Blocks]]

@@ -1,0 +1,133 @@
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|warden}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=<gallery>
+Warden.png|Normal
+BreacherWarden.png|Breacher
+</gallery>
+|hp=80.0
+|damage=25.0
+|armor=15.0
+|kb_resistance=1.0
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:warden
+}}
+'''Wardens''' are a type of [[Mobs]], placed into the [[Pure Parasites|Pure]] Tier.
+
+== ''Spawning'' ==
+*Spawns naturally in groups of 1 to 2 if [[Ubiquitous Development]] is Level 4, with a spawnweight of 10.
+*Spawns inside the [[Parasite Biome]], with a spawnweight of 5.
+*Spawned by [[Stage III Beckon|Stage III Beckons]].
+
+==''Behavior'' ==
+Wardens are highly mobile, melee units with AoE attacks.
+
+*Their Attack inflicts AoE Damage and is performed by them pushing their limbs upward.
+*Wardens can climb Blocks.
+*Wardens can perform great leaps. inflicting AoE Damage when it lands.
+*They are able to perform a charge attack. After staying still covering their face for some seconds, they'll dash forward at high speed for a short distance. This attack ignores immunity frames and inflicts great knockback, some vertical knockback, and AoE Damage.
+**This is indicated by flame particles and a higher pitched growl, as well as the arms covering the face.
+*They are able to generate Shockwaves, large damaging areas of disturbed ground. After standing still for a brief period they will summon a wave which moves forward at slow speed attempting to break any blocks they contact. Shockwaves ignore immunity frames and deal massive vertical knockback. 
+**This is indicated by flame particles and a higher pitched growl.
+*Wardens will regularly preform evasive dashes.
+*Wardens can perform small leaps in liquids.
+*Wardens can sink in liquids to pursue submerged targets.
+*Like other [[Pure Parasites]], Wardens can summon up to 3 [[Seizer|Seizers]] to support them.
+*Like other [[Pure Parasites]], Wardens can summon [[Dispatcher Tentacle|Dispatcher Tentacles]] to teleport them.
+**Wardens (along with the other Melee focused Pures) spawn [[:Category:Deterrent Parasites|Deterrents]] significantly less than flying and grounded range Pures.
+*Wardens can break blocks that have their [[Hardness]] Value up to 5, with a 20 ticks cooldown and 2 Blocks range.
+{{Variants|count=1|Breacher=BreacherWarden.png}}
+
+=== ''Weaknesses'' ===
+
+* Wardens, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+* The two humps on Wardens' head function as Weak Points. When one of these Weak Points are hit, damage inflicted to it is tripled and the [[Bleeding]] Effect is applied to it.
+
+=== ''Post Death'' ===
+
+* On death, Wardens have a chance to explode, releasing [[Remains|Pure Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+{{Properties
+|tier=Pure
+|OrbEffectsMobs=Hunger IV (00:15), [[Needler|Needler IV]] (00:25), Mining Fatigue IV (00:15)
+|OrbEffectsParasites=Absorption IV (00:30)
+}}
+
+{{Drops
+|rolls1=1 Roll
+|page1=Noxious Brain
+|amount1=1
+|chance1=80
+}}
+
+== ''Sounds'' ==
+{| class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Wardenliving1.ogg]]
+[[File:Wardenliving2.ogg]]
+[[File:Wardenliving3.ogg]]
+|Hostile 
+|Plays randomly while a Warden is alive.
+|Warden growls
+|wardenliving1-3
+|-
+|[[File:Step.ogg]]
+|Hostile
+|Plays when a Warden walks.
+|X
+|monster_step
+|-
+|[[File:Swipe.ogg]]
+|Hostile
+|Plays when a Warden attacks.
+|X
+|mob_swipe
+|-
+|[[File:Landing.ogg]]
+|Hostile
+|Plays when a Warden lands after leaping.
+|X
+|mob_hitground
+|-
+|[[File:Wardenhurt1.ogg]]
+[[File:Wardenhurt2.ogg]]
+[[File:Wardenhurt3.ogg]]
+|Hostile
+|Plays when a Warden takes damage.
+|Warden snarls
+|wardenhurt1-3
+|-
+|[[File:Wardendeath.ogg]]
+|Hostile
+|Plays when a Warden dies.
+|Warden dies
+|wardendeath
+|}
+
+==''Trivia''==
+*Wardens are also known as '''Ganro''' in the Mod Files.
+*Wardens are inspired by the [https://strangerthings.fandom.com/wiki/The_Demogorgon Demogorgon] from Stranger Things.
+*The Warden has gone through 2 Remodels during the [[Version 1.9.0A1|1.9.0A1]] to [[Version 1.9.0A2|1.9.0A2]] Updates, using the [[Marauder]]]] Model in 1.9.0A1 and in the next Update, because of many complaints regarding this change, its pre-1.9.0A1 Model was re-introduced.
+*The Warden shares its name with a vanilla mob from a much later version of Minecraft. They have no other relationship beyond the name and both being hostile.
+
+==''Gallery''==
+<gallery>
+File:Warden Size Comparison.png|Size of the Warden's Model.
+File:Warden Weak Point Highlighted.png|Warden's Weak Points as seen on the Model.
+File:Wardencharge.png|Warden's Charge Position.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Mobs]]
+[[Category:Pure Parasites]]

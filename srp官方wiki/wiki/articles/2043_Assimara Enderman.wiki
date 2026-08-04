@@ -1,0 +1,124 @@
+{{Stub}}
+{{Navbar|page1=Walking Enderman Head|page2=Assimilated Enderman|page3=Assimara Enderman|page4=Feral Enderman}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|marenderman}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=AssimaraEnderman.png
+|hp=80.0
+|damage=21.0
+|armor=6.0
+|kb_resistance=0.5
+|adaptable=No
+|id=srparasites:mar_enderman
+}}
+
+'''Assimara Endermen''' are the [[:Category:Assimara_Parasites|Assimara Version]] of Endermen. It features 12 tentacles and 2 legs, with 4 of the tentacles being on its mouth. Effectively unrecognizable from its uninfected form, being a greyish brown colour and having 2 extra joints on each limb. 
+
+== ''Spawning'' ==
+
+* Spawns individually, from [[Evolution Phases#Phase 4|Phase 4]] onward, with a spawnweight of 1, once 9 Endermen have been assimilated.
+
+== ''Behavior'' ==
+Assimara Endermen are Hit and Run Offensive Grappler Melee Combatants.
+
+* Their Melee Attack is performed through contact damage, which has a 20% chance to inflict [[Bleeding]] for 5 seconds.
+* Assimara Endermen will grab their target if in melee range, preventing them from moving, this will do continuous immunity-frame bypassing damage, apply Weakness IV at the start for 2 seconds, Mining Fatigue II, and Slowness II. The target will be pulled to the Assimara Enderman while in this state.
+* Assimara Endermen are able to teleport themselves. Their teleportation Ability is based on the following logic:
+** Upon sight of a Player, the teleportation noise will play.
+** Assimara Endermen cannot teleport within the first 1.5 seconds of finding a target.
+* Assimara Endermen can perform great leaps.
+* Assimara Endermen are immune to fall damage.
+* Any Mob within 3 blocks of an Assimara Enderman will be inflicted with [[Call Of The Hive|COTH]]. This does not go through walls.
+* Assimara Endermen are immune to ranged attacks, teleporting away from Projectiles, similar to their Sane counterpart.
+* Assimara Endermen are able to traverse faster in liquids by performing small leaps.
+* Assimara Endermen are able to dive in liquids to pursue submerged targets.
+* On death, Assimara Endermen have a chance to explode, releasing [[Remains|Assimara Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+
+=== ''Weaknesses'' ===
+* Assimara Endermen, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+* Upon sight of a Player, the teleportation noise will play.
+* Assimara Endermen cannot teleport within the first 1.5 seconds of finding a target.
+{{Properties|}}
+
+{{Drops
+|rolls1=Always Rolls:
+|page1=Eye Of The Beholder
+|amount1=1
+|chance1=~6
+}}
+
+==''Sounds''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Assimaraendermanidle1.ogg]]
+[[File:Assimaraendermanidle2.ogg]]
+[[File:Assimaraendermanidle3.ogg]]
+[[File:Assimaraendermanidle4.ogg]]
+[[File:Assimaraendermanidle5.ogg]]
+|Hostile
+|Plays randomly while an Assimara Enderman is alive.
+|Otherworldly vwaamps
+|idle1-5
+|-
+|
+[[File:Assimaraendermanhurt1.ogg]]
+[[File:Assimaraendermanhurt2.ogg]]
+[[File:Assimaraendermanhurt3.ogg]]
+[[File:Assimaraendermanhurt4.ogg]]
+|Hostile
+|Plays when an Assimara Enderman is hurt.
+|Distorted bwaamps
+|hurt1-4
+|-
+|
+[[File:Assimaraendermanportal1.ogg]]
+[[File:Assimaraendermanportal2.ogg]]
+|Hostile
+|Plays when an Assimara Enderman teleports or targets a player.
+|Corrupted waamps
+|portal1-2
+|-
+|
+[[File:Assimilated Melting.ogg]]
+|Hostile
+|Plays when an Assimara Enderman melts into [[Moving Flesh]].
+|Moving flesh merges
+|infected_melting
+|-
+|
+[[File:Explosion.ogg]]
+|Hostile
+|Plays when an Assimara Enderman explodes, on death.
+|X
+|mob_explotion
+|-
+|
+[[File:Assimaraendermandeath.ogg]]
+|Hostile
+|Plays when an Assimara Enderman dies.
+|Assimara Enderman bawls
+|death
+|-
+|}
+
+==''Trivia''==
+* The Assimara Enderman's animation was inspired by [https://deadspace.fandom.com/wiki/Twitcher Twitchers], Necromorphs from Dead Space.
+
+== Gallery ==
+<gallery>
+File:AssimaraEndermanHeight.png|Size of the Assimara Enderman's model.
+</gallery>
+
+{{MobList}}
+<references />
+[[Category:Mobs]]
+[[Category:Assimara Parasites]]

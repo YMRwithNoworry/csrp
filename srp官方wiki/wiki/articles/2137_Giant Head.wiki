@@ -1,0 +1,40 @@
+{{Stub}}
+{{WIP}}
+
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|gianthead}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=Giant_Head_Spawn.png
+|hp=17.0
+|damage=9.0
+|armor=?
+|kb_resistance=?
+|OTHER STUFF
+|adaptable=[[Adaptation System#Adaptation Capacities|?]]
+|id=srparasites:abo_head
+}}
+'''Giant Heads''' are a type of unique [[Mobs]], placed into the [[Abominations]] tier. 
+
+== ''Spawning'' ==
+WIP
+
+== ''Behavior'' ==
+WIP
+
+=== ''Weaknesses'' ===
+Giant Heads, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+=== ''Properties'' ===
+WIP
+
+== ''Sounds'' ==
+WIP
+
+== ''Gallery'' ==
+WIP
+{{MobList}}
+[[Category:Abominations]]
+[[Category:Mobs]]

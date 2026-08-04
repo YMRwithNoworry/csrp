@@ -1,0 +1,80 @@
+{{WIP}}
+
+{{Mob Info 
+|image1=Overlord.png
+|hp=250.0
+|damage=20.0
+|armor=15.0
+|kb_resistance=N/A
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:anc_overlord
+}}
+'''Ancient Overlords''' are a type of [[Mobs]], placed into the [[Ancient Parasites|Ancient]] Tier.
+
+They are one of the Bosses of the mod.
+
+== ''Spawning'' ==
+Overlords no longer spawn naturally until their upcoming rework.
+
+== ''Behavior'' ==
+Ancient Overlords are Melee and Ranged Tanks. Overlords have a bossbar.
+
+*Overlords' Melee Attack is performed through contact damage, inflicting AoE Damage and great Knockback.
+*Overlords' Ranged Attack is performed by them shooting an homing projectile.
+*Overlords can break blocks that have their [[Hardness]] Value up to 9, with a 5 ticks cooldown and 4 Blocks range.
+
+=== ''Weaknesses'' ===
+
+* Ancient Overlords, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+=== ''Post Death'' ===
+
+* On death, Overlords have a chance to explode, releasing a large effect cloud of [[Viral]], [[Call Of The Hive|COTH]], and stacking Poison.
+{{Properties|tier=Ancient}}
+
+==''Sounds''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''ID'''
+|-
+|
+[[File:Overlord Growl.ogg]]
+|Hostile
+|Plays while an Overlord is alive.
+|terla_growl
+|-
+|
+[[File:Overlord Hurt.ogg]]
+|Hostile
+|Plays when an Overlord is hurt.
+|terla_hurt
+|-
+|
+[[File:Overlord Death.ogg]]
+|Hostile
+|Plays when an Overlord dies.
+|terla_death
+|-
+|}
+
+== ''Trivia'' ==
+*Overlords are also known as '''Terla''' in the Mod Files.
+*Overlords are inspired by the [https://stephenkingsthemist.fandom.com/wiki/Behemoth Behemoth] from the Mist.
+*The [[Haunter]]'s model is derived from the Overlord, likely to have its visual concept implemented before the Overlord is reworked and completely changed.
+*The Ancient Overlord's spawn egg denotes the Monumenta branch of [[Advancements]], which is related to slaying [[Nexus]] parasites.
+**It shares the same egg texture with the [[Ancient Dreadnaut]].
+
+== ''Gallery'' ==
+<gallery>
+File:Overlord Size Comparison.png|Size of Overlord's Model. 
+File:AncientOverlord1.7.0.png|The Ancient Overlord's appearance in 1.7.0. (Credit to @scout2illustrates)
+</gallery>
+
+
+{{MobList}}
+[[Category:Ancient Parasites]]
+[[Category:Bosses]]
+[[Category:Work In Progress Content]]
+[[Category:Mobs]]

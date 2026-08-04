@@ -1,0 +1,73 @@
+{{Navbar|page1=Walking Ender Dragon Head|page2=Assimilated Ender Dragon}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|dragonhead}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=Assimilated_Ender_Dragon_Head.png
+|hp=78.0
+|damage=10.0
+|armor=
+|kb_resistance=0.1
+|adaptable=No
+|id=srparasites:sim_dragonehead
+|ranged=40.0}}'''Walking Ender Dragon Heads''' are the [[Walking Heads]] of [[Assimilated Ender Dragon|Assimilated Ender Dragons]].
+
+==''Spawning''==
+*Spawned after the head of an Assimilated Ender Dragon takes enough damage.
+==''Behavior''==
+Walking Ender Dragon Heads are Melee and Ranged units.
+*Walking Ender Dragon Head's Melee Attack is performed through contact damage.
+*Walking Ender Dragon Head's Ranged Attack is performed by shooting a Projectile, which leaves a Dragon Breath Cloud. The Cloud inflicts the Poison and the [[Call Of The Hive]] Effects, while the Projectile inflicts the [[Viral]] Effect.
+*Any Mob within 3 blocks of a Walking Ender Dragon Head will be inflicted with [[Call Of The Hive|COTH]]. This does not go through walls.
+*Walking Ender Dragon Heads can perform small leaps in liquids.
+
+=== ''Weaknesses'' ===
+
+* Walking Ender Dragon Heads, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+{{Properties|tier=Assimilated|FollowRange=16|DamageCap=1|MinimumDamage=0.5|DeathPenaltyEvolutionValue=1|RemainValue=N/A|ScentDeathValue=5|XPValue=8|COTH=.7}}
+
+==''Sounds''==
+{| class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:infectedhead_growl.ogg]]
+[[File:infectedhead_growl1.ogg]]
+[[File:infectedhead_growl2.ogg]]
+|Hostile
+|Plays randomly while a Walking Ender Dragon Head is alive.
+|Head screams
+|infectedhead_growl-2
+|-
+|
+[[File:infectedhead_hurt.ogg]]
+[[File:infectedhead_hurt1.ogg]]
+|Hostile
+|Plays when a Walking Ender Dragon Head takes damage.
+|Head screeches
+|infectedhead_hurt-1
+|-
+|[[File:Assimilated Head Death.ogg]]
+|Hostile
+|Plays when a Walking Ender Dragon Head dies.
+|Head dies
+|infectedhead_death
+|-
+|}
+
+==''Trivia''== 
+*Walking Ender Dragon Heads are also known as '''infdragonehead''' in the mod files.
+
+==''Gallery''==
+{{MobList}}
+[[Category:Mobs]]
+[[Category:Walking Heads]]
+
+<references />
+[[Category:Assimilated Mobs]]

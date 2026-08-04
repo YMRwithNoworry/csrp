@@ -1,0 +1,148 @@
+{{WIP}}
+{{Item Info
+|title1=Lures
+|image1=<gallery>
+File:Lure (Weakened).png|Weakened
+File:Lure (Faint).png|Faint
+File:Lure (Slender).png|Slender
+File:Lure (Stable).png|Stable
+File:Lure (Substantial).png|Substantial
+File:Lure (Concentrated).png|Concentrated
+File:Lure (Concentrated+).png|Concentrated+
+File:Lure (Concentrated++).png|Concentrated++
+File:Lure (Overloaded).png|Overloaded
+File:Lure (Anomalous).png|Anomalous
+</gallery>
+|type=Utility Block
+|stackable=Yes (64)
+|tooltip=Will pause evolution points for approximately [X] seconds
+|id=srparasites:evolutionlure<ref>Each block has a different '''data tag''', which are as follows:<div class="toccolours mw-collapsible mw-collapsed"><!--
+-->Lure (Weakened) = <code>0</code><br><!--
+-->Lure (Faint) = <code>1</code><br><!--
+-->Lure (Slender) = <code>2</code><br><!--
+-->Lure (Stable) = <code>3</code><br><!--
+-->Lure (Substantial) = <code>4</code><br><!--
+-->Lure (Concentrated) = <code>5</code><br><!--
+-->Lure (Concentrated+) = <code>6</code><br><!--
+-->Lure (Concentrated++) = <code>7</code><br><!--
+-->Lure (Overloaded) = <code>8</code><br><!--
+-->Lure (Anomalous) = <code>9</code></div><!--
+-->{{WhatAreDataTags|x|/=false}}</ref>
+}}
+
+'''Lures''' are a series of blocks introduced in [[Version 1.9.0A1]]. They're used to halt [[Evolution Phases|Evolution Phase]] Point gaining as well as reduce them through the use of [[Carcass|Carcasses]].
+
+They're currently a Work In Progress.
+
+== ''Usage'' ==
+After placing one down, Players need to right click it with an empty hand. The Lure will disappear, and at its place, black particles will appear. Above the hotbar, the message "Point Cooldown added!" will appear.  Parasites will not be able to gain points until a certain time limit has elapsed, which can be seen under "Individual Halt Duration" in the table below.
+
+Arranging five lures in 7x7 area with one in the middle and the rest in the corners will create a [[Carcass]]. Upon using the middle lure, a nondamaging lightning will strike and above the hotbar, the message "Points reduced!" will appear. Using a Carcass will spawn a [[Scent System|Scent]].  Parasites will then lose a certain number of points, which can be seen under "Carcass Point Reduction" in the table below. Carcasses cannot be used during [[Evolution Phases|Evolution]] cooldown.
+
+== ''Lures List'' ==
+There are currently 10 Lure tiers:
+
+{|class="fandom-table"
+! style="width: 200px" |Tier
+! style="width: 200px" |Individual Halt Duration
+! style="width: 200px" |Carcass Point Reduction
+|-
+|[[File:Lure (Weakened).png|32px]] '''Weakened'''
+|10 seconds
+|10 points
+|-
+|[[File:Lure (Faint).png|32px]] '''Faint'''
+|20 seconds
+|20 points
+|-
+|[[File:Lure (Slender).png|32px]] '''Slender'''
+|50 seconds
+|50 points
+|-
+|[[File:Lure (Stable).png|32px]] '''Stable'''
+|250 seconds
+|500 points
+|-
+|[[File:Lure (Substantial).png|32px]] '''Substantial'''
+|300 seconds
+|4000 points
+|-
+|[[File:Lure (Concentrated).png|32px]] '''Concentrated'''
+|600 seconds
+|80000 points
+|-
+|[[File:Lure (Concentrated+).png|32px]] '''Concentrated+'''
+|600 seconds
+|350000 points
+|-
+|[[File:Lure (Concentrated++).png|32px]] '''Concentrated++'''
+|1200 seconds
+|6250000 points
+|-
+|[[File:Lure (Overloaded).png|32px]] '''Overloaded'''
+|1200 seconds
+|?
+|-
+|[[File:Lure (Anomalous).png|32px]] '''Anomalous'''
+|1200 seconds
+|?
+|-
+|}
+
+== ''Obtainment'' ==
+{{CraftingTable
+|r1_a1=Rupter Viscera|r1_c1=Rupter Viscera|r1_a2=Cobblestone|r1_b2=Cobblestone|r1_c2=Cobblestone|r1_a3=Cobblestone|r1_b3=Cobblestone|r1_c3=Cobblestone|r1_output=Lure (Weakened)|r1_nolink=true
+
+|r2_a1=Diseased Heart|r2_c1=Diseased Heart|r2_a2=Cobblestone|r2_b2=Cobblestone|r2_c2=Cobblestone|r2_a3=Cobblestone|r2_b3=Cobblestone|r2_c3=Cobblestone|r2_output=Lure (Faint)|r2_nolink=true
+
+|r3_a1=Altered Tendons|r3_c1=Altered Tendons|r3_a2=Cobblestone|r3_b2=Cobblestone|r3_c2=Cobblestone|r3_a3=Cobblestone|r3_b3=Cobblestone|r3_c3=Cobblestone|r3_output=Lure (Slender)|r3_nolink=true
+
+|r4_a1=Toxic Lung|r4_c1=Toxic Lung|r4_a2=Cobblestone|r4_b2=Cobblestone|r4_c2=Cobblestone|r4_a3=Cobblestone|r4_b3=Cobblestone|r4_c3=Cobblestone|r4_output=Lure (Stable)|r4_nolink=true
+
+|r5_a1=Noxious Brain|r5_c1=Noxious Brain|r5_a2=Cobblestone|r5_b2=Cobblestone|r5_c2=Cobblestone|r5_a3=Cobblestone|r5_b3=Cobblestone|r5_c3=Cobblestone|r5_output=Lure (Substantial)|r5_nolink=true
+
+|r6_a1=Twisted Spinal Signal|r6_c1=Twisted Spinal Signal|r6_a2=Cobblestone|r6_b2=Cobblestone|r6_c2=Cobblestone|r6_a3=Cobblestone|r6_b3=Cobblestone|r6_c3=Cobblestone|r6_output=Lure (Concentrated)|r6_nolink=true
+}}
+<br>Concentrated+, Concentrated++, Overloaded and Anomalous Lures currently cannot be crafted.
+
+==''Carcass''==
+[[File:Carcass Arrangement.png|thumb|256x256px|Carcass (Concrete blocks for scale)]]
+Carcasses are multiblock structures composed of Lures that are created by the Player in order to reduce [[Evolution Phases|Evolution points.]]
+
+The structure requires 5 Lure blocks. The Lures are arranged in a 7x7 square with one in the middle and the other 4 in the corners. Right clicking the middle Lure will activate the Carcass expending all 5 lures. Upon usage, all five of the Lure blocks will disappear and the message "Points Decreased!" will appear over the hotbar, with the relevant amount of evolution points being deducted from the current dimension's total. The amount of [[Evolution Phases|points]] subtracted from a Carcass is the same number as the seconds of point cooldown of the central Lure. Using a Carcass in survival mode will summon nondamaging lightning and a [[Scent System|Scent]] of a certain level, depending on the central Lure.  
+
+{| class="fandom-table"
+|+Carcass scent Levels
+|-
+!Lure
+|Weakened
+|Faint
+|Slender
+|Stable
+|Substantial
+|Concentrated
+|Concentrated+
+|Concentrated++
+|Overloaded
+|Anomalous
+|-
+![[Scent System|Scent level]]
+|1
+|1
+|1
+|2
+|3
+|4
+|5
+|6
+|?
+|?
+|-
+|}
+
+==Notes==
+<references />
+
+{{BlockList}}
+[[Category:Blocks]]
+[[Category:Work In Progress Content]]

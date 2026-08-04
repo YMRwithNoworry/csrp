@@ -1,0 +1,43 @@
+{{Item Info
+|image1=<gallery>
+File:Residue.png|Block
+File:Infested Residue.png|Item
+</gallery>
+|id=srparasites:infestremain
+}}
+
+'''Residue''' is a mushy snow-like block which appears in specific situations, starting when [[Generations]] reaches Generation 4.  It will only drop itself when mined with a shovel.
+
+Touching it inflicts the [[Call Of The Hive|COTH]] Effect for 3 minutes.
+
+== ''Usage'' ==
+{{CraftingTable
+|r1_a1=Infested Residue
+|r1_a2=Infested Residue
+|r1_b1=Infested Residue
+|r1_b2=Infested Residue
+|r1_output=Residue Block
+}}
+
+== ''Functioning'' ==
+Residue is generated in several occasions:
+
+*The Cleansing of [[Infested Blocks]], whether that be from the death of a [[Stage I Beckon]] or the usage of a [[Quench]].
+*A Land [[Adapted Parasites|Adapted Parasite]] pukes some (only if [[Generations|Generation]] is 4 or higher).
+*A [[Heavy Carrier|Heavy]] or [[Light Carrier]] explodes.
+*A [[Host]] or [[Herd]] traveling underground.
+*A [[Succor]] explodes.
+
+In all cases, there's a chance<ref>1/20000 per tick if [[Evolution Phases]] are disabled, 
+
+Phase 4: 1/4000 per tick, 
+
+Phase 5: 1/1000 per tick, 
+
+Phase 6: 1/500 per tick, 
+
+Phase 7:  1/400 per tick, 
+
+Phase 8: 1/300 per tick.</ref> that a [[Stage I Beckon]] will spawn from Residue via [[Reinforcement System]]. Such chance is calculated every random tick.
+{{BlockList}}
+[[Category:Blocks]]

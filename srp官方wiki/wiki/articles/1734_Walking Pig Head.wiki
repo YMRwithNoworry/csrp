@@ -1,0 +1,80 @@
+{{Navbar|page1=Walking Pig Head|page2=Assimilated Pig|page3=Feral Pig}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|pighead}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=Assimilated_Pig_Head.png
+|hp=2.7
+|damage=1.05
+|armor= 
+|kb_resistance=0.1
+|adaptable=No
+|id=srparasites:sim_pighead
+}}
+'''Walking Pig Heads''' are the [[Walking Heads]] of [[Assimilated Pig|Assimilated Pigs]].
+
+==''Spawning''==
+* Spawned with a 50% chance when an Assimilated Pig dies.
+* Spawned by [[Worm|Worms]] through Level 3 [[Scent System|Scents]].
+
+==''Behavior''==
+Walking Pig Heads are cowardly Melee swarm units.
+* Walking Pig Heads' Melee Attack is performed through contact damage.
+* Walking Pig Heads can perform small leaps.
+* They will seek out [[Medium Incomplete Form|Medium Incomplete Forms]] to merge with in order to evolve back into Assimilated Pigs.
+* Any Mob within 3 blocks of a Walking Pig Head will be inflicted with [[Call Of The Hive|COTH]]. This does not go through walls.
+* Walking Pig Heads are able to traverse faster in liquids by performing small leaps.
+
+=== ''Weaknesses'' ===
+
+* Walking Pig Heads, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+* Walking Pig Heads will run away during the daytime if no other Parasites are present.
+{{Properties|tier=Assimilated|FollowRange=16|DamageCap=1|MinimumDamage=0.5|DeathPenaltyEvolutionValue=1|RemainValue=N/A|ScentDeathValue=5|XPValue=8|COTH=.7}}				            
+==''Sounds''==
+{| class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:infectedhead_growl.ogg]]
+[[File:infectedhead_growl1.ogg]]
+[[File:infectedhead_growl2.ogg]]
+|Hostile
+|Plays randomly while a Walking Pig Head is alive.
+|Head screams
+|infectedhead_growl-2
+|-
+|
+[[File:infectedhead_hurt.ogg]]
+[[File:infectedhead_hurt1.ogg]]
+|Hostile
+|Plays when a Walking Pig Head takes damage.
+|Head screeches
+|infectedhead_hurt-1
+|-
+|[[File:Assimilated Head Death.ogg]]
+|Hostile
+|Plays when a Walking Pig Head dies.
+|Head dies
+|infectedhead_death
+|-
+|}
+
+==''Trivia''==  
+* Walking Pig Heads are also known as '''infpighead''' in the mod files.
+
+==''Gallery''==
+<gallery>
+File:Walking Pig Head Size Comparison.png|Size of the Walking Pig Head's Model.
+</gallery>
+{{MobList}}
+[[Category:Mobs]]
+[[Category:Walking Heads]]
+
+<references />
+[[Category:Assimilated Mobs]]

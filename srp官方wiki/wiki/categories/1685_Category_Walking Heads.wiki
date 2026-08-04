@@ -1,0 +1,56 @@
+{{TierBar}}
+
+'''Walking Heads''' are a tier of parasites comprised of the severed heads of [[Assimilated Mobs]]. In terms of hierarchy, they can be considered the same tier as their [[Assimilated Mobs|Assimilated]] counterparts.
+
+Walking Heads are generally non-threatening but can be difficult to hit and tend to be fought in groups.
+
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+File:Assimilated Adventurer Head.png|[[Walking Adventurer Head]]
+File:Assimilated Cow Head.png|[[Walking Cow Head]]
+File:Assimilated Enderman Head.png|[[Walking Enderman Head]]
+File:Assimilated Ender Dragon Head.png|[[Walking Ender Dragon Head]]
+File:Assimilated Horse Head.png|[[Walking Horse Head]]
+File:Assimilated Human Head.png|[[Walking Human Head]]
+File:Assimilated Pig Head.png|[[Walking Pig Head]]
+File:Assimilated Sheep Head.png|[[Walking Sheep Head]]
+File:Assimilated Villager Head.png|[[Walking Villager Head]]
+File:Assimilated Wolf Head.png|[[Walking Wolf Head]]
+</gallery>
+</div>
+
+==''Shared Aspects and Capabilities''==
+
+===Spawning===
+*Spawn with a 50% chance after an [[:Category:Assimilated Mobs|Assimilated Mob]]<ref>Excluding the [[Assimilated Bear]] and the [[Assimilated Big Spider]].</ref> dies.
+*Spawned by [[Worm|Worms]] through Level 3 [[Scent System|Scents]].
+
+===Weakness===
+*Like all Parasites, Walking Heads present a weakness to fire (damage inflicted by fire is quadrupled).
+
+===Capabilities===
+*Walking Heads inflict the [[Call Of The Hive]] Effect when attacking.
+*Walking Heads can perform small leaps at a target.
+*Walking Heads<ref>Except for the Walking Ender Dragon Head.</ref>, can fuse with [[Medium Incomplete Form|Medium Incomplete Forms]] to evolve back into their full counterparts.
+*Walking Heads<ref>Except for the Walking Ender Dragon and Enderman Heads.</ref> will run away when there are no other parasites nearby.
+*Walking Heads are capable of performing small leaps in liquids which grants them a movement advantage.
+**Walking Heads are capable of jumping a certain amount of blocks, depending on the mob, in order to reach their targets.
+{{Properties|tier=Assimilated|FollowRange=16|DamageCap=1|MinimumDamage=0.5|DeathPenaltyEvolutionValue=1|RemainValue=N/A|ScentDeathValue=5|XPValue=8|COTH=.7}}
+
+===''Drops''===
+None.
+
+==''Survival Guides''==
+To be added...
+
+==''Lore''==
+To be added...
+
+==''Trivia''==
+*Walking Heads are inspired by the [https://thething.fandom.com/wiki/Norris-Thing Norris-Thing] from [https://thething.fandom.com/wiki/The_Thing_Wiki The Thing].
+
+==''Gallery''==
+[[Category:Mobs]]
+
+<references />
+[[Category:Assimilated Mobs]]

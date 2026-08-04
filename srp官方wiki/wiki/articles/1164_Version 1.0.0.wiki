@@ -1,0 +1,19 @@
+{{Navbar|title1=Back To Main Page|title2=Next Version
+|page1=Scape and Run: Parasites Wiki
+|page2=Version 1.0.1
+|page3=Current Version
+}}
+'''Version 1.0.0''' was the first released version of the Scape and Run: Parasites Mod, released on October 14th 2019.  It was 159.78 KB.
+
+== ''Change Log'' ==
+Added 6 mobs:
+
+*[[Primitive Longarms|'''Shyco''']]: Similar to an Iron Golem; it can throw you in the air to deal extra damage, and has a large health bar.
+*[[Assimilated Big Spider|'''Dorpa''']]: A big spider able to throw web balls at its target to prevent it from escaping.
+*[[Heavy Carrier|'''Rathol''']]: A big, slow creature with a large health bar. It may explode spontaneously to release additional minions which are immune to poison.
+*[[Primitive Yelloweye|'''Emana''']]: One of the minions spawned by the Rathol; a flying creature able to shoot poison missiles.
+*[[Buglin|'''Lodo''']]: One of the minions spawned by the Rathol; a ground creature.
+*[[Assimilated Human|'''Infected Human''']]: Living individuals controlled by a parasite who hunt along the creatures they once fought. These kidnap living beings to process them for assimilation in order to mutate into other forms.
+
+{{VersionList}}
+[[Category:Versions]]

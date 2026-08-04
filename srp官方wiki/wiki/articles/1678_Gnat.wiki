@@ -1,0 +1,72 @@
+{{Navbar|page1=Gnat|page2=Lice}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|gnat}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+{{Mob Info 
+|image1=Gnat.png
+|hp=5.0
+|damage=5.0
+|armor=2.0
+|kb_resistance=0.6
+|adaptable=No
+|id=srparasites:gnat
+}}'''Gnats''' are insect-like<ref>Although it doesn't resemble any earthly bug.</ref>, infector [[Mobs|Mobs]] in the [[Inborn Parasites|Inborn]] Tier. They count with three pair of legs and three tentacles coming out from the head, and have an upright posture. These same tentacles can be seen when it has borrowed into a sane mob and turned it [[Feral Parasites|Feral]]. 
+
+==''Spawning''==
+*Spawned by [[Primitive Vermin]].
+*Spawned by [[Heavy Carrier|Heavy]] and [[Light Carrier|Light Carriers]].
+*Spawned by [[:Category:Feral Parasites|Feral]] parasites when they explode.
+==''Behavior''==
+Gnats are short lived Infestation Propagators and swarm units. They are Melee Combatants. They are used for specialized forms of [[Call Of The Hive|Assimilation]].
+*Their Melee Attack is performed through contact damage, they inflict stacking [[Viral]].
+*Gnats can perform short leaps at their target.
+**Gnats disappear into a cloud of gore after dying or attacking once.
+*Gnats will turn any mob they kill Feral, assuming it has a [[:Category:Feral Parasites|Feral form]].
+**Mobs with an [[:Category:Assimilated Mobs|Assimilated]] but not Feral form will assimilate instead. 
+*Any mobs with [[:Category:Hijacked Mobs|Hijacked]] forms will become Hijacked when attacked by a Gnat and have below 50% health.
+
+* Gnats are able to traverse faster in liquids by performing small leaps.
+* Gnats are able to dive in liquids to pursue submerged targets.
+
+=== ''Weaknesses'' ===
+
+* Gnats, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+* Gnats die after existing for one minute.
+{{Properties
+|tier=Inborn
+|XPValue=0
+|COTH=0
+|MinimumDamage=0.1
+}}
+
+{{Drops
+|rolls1=Always Rolls
+|page1=Rupter Viscera
+|amount1=1-2
+|chance1=30
+|page2=Hijacked Growth|amount2=2|chance2=30}}
+
+==''Sounds''==
+TBA
+
+==''Trivia''==
+* Gnats are also known as '''Ata''' in the Mod Files.
+* Unlike most other mobs, Gnats do not have any death animations, instead just vanishing.
+* The word "gnat" refers to any small fly that bites and usually flies in large groups. 
+** This is somewhat ironic given that Gnats can't fly but [[Lice]] can.
+* Gnats are inspired by [https://www.halopedia.org/Pod_infector Flood Pod Infectors], from Halo.
+* The [[Compendium]] states that Gnats lack a sense of hearing. This combined with the fact that Parasites don't have eyes means that Gnats rely on scent alone to navigate and hunt.
+
+==''Gallery''==
+<gallery>
+File:GnatSizeComparison.png|Size of the Gnat's Model.
+File:Gnat Burrow System.gif|Gnats burrowing into a Husk, turning it Feral.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Mobs]]
+[[Category:Inborn Parasites]]

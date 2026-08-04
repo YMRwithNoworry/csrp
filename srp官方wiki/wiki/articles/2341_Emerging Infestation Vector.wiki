@@ -1,0 +1,136 @@
+{{Stub}}
+<br>'''Emerging Infestation Vectors''' (commonly EIVs or just Vectors) are a [[Systems|System]] which, as the name suggests, handles the appearance of the Parasites' infestation in the world. 
+
+==''Generation''==
+There are three ways Vectors can be generated:
+#If the [[Meteor]] is enabled in the configuration at world creation, the first Emerging Infestation Vector will spawn at the Meteor impact coordinates.
+#A 5% chance upon the death of a mob due to a parasite.
+#A 1/10 (10%) chance to be created every day in random coordinates, if available, with an increased 1/3 (~33%) chance of spawning if there are no other Vectors in the world. 
+
+Randomly generated Vectors must be no less than 1,000 blocks and no more than 10,000 blocks from the player. Vectors created from the first two circumstances have no distance constraints.
+
+When first placed naturally, Vectors spawn with 350 health and a radius of 200 blocks by default. [[Evolution Phases]] provide a multiplier bonus for Vector health when created, as well as a day-to-day health and size growth bonus, increasing with Phase (see [[#Evolution Phase Bonuses|Evolution Phase Bonuses]]). There can also only be a certain number of Vectors in a dimension, determined by Phase as well.<ref>Phase 0 = 1, Phases 1 - 2 = 2, Phases 3 - 4 = 3, Phases 5 - 7 = 4, Phases 8 - 10 = 5, if Evolution Phases are disabled the max is 2.</ref>
+
+Vectors have a maximum health of 2,000,000,000<ref>Because Vectors add Evolution Points equal to their health value, there is an issue when once they get too big and add too many points at once, it will overflow the max amount of points parasites can have (2,100,000,000), which will set total points to 0. Because of this, it is recommended to configure their maximum health to a lower number.</ref> and a maximum radius of 2,000,000. They cannot be less than 10,000 blocks away from each other.
+
+==''Functionality''==
+[[Mobs|Parasites]] can only spawn if they're within the area of a Vector, unless they are disabled. Each Vector has health points, which increase if a parasite kills a mob or gets assimilated. Whenever either one of those happen, the total health the mob had is added to the Vector's own health, although the radius and health of the Vectors are able to increase independently each day or roughly 24000 ticks.
+
+[[Buglin|Buglins]] ignore Vector constraints and can spawn anywhere. If [[Ubiquitous Development]] reaches level two, all other parasites will share this ability and can spawn regardless of Vectors.
+
+Vectors passively and continuously generate [[Evolution Phases|points]] for the dimension they reside regardless of being loaded or not, taking into account their health. Vectors will add points equivalent to their current health value. Each Phase has a Point Cap,<ref>Phase 0 = 100, Phase 1 = 200, Phase 2 = 600, Phase 3 = 3,500, Phase 4 = 25,000, Phase 5 = 500,000, Phase 6 = 3,000,000, Phase 7 = 50,000,000, Phase 8 = 100,000,000, Phase 9 = 150,000,000, Phase 10 = N/A</ref> or maximum of points that a Vector can generate for that Phase. Any additional points over the Point Cap that a Vector adds will be voided.
+
+To destroy a Vector its health must reach 0, which can be attempted by killing parasites. Additionally, the [[Reinforcement System]] only works within the radius of Vectors.
+
+==''Emerging Infestation Vector Outbreaks''==
+Outbreaks add Evolution Points depending on Vector's health. Adds points each day.
+
+==''Evolution Phase Bonuses''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+! colspan="4" |Evolution Phase Bonus by Phase
+|-
+!'''Phase'''
+!'''Health Multiplier (Creation Health)'''
+!'''Health Bonus (<math>E_h</math>)'''
+!'''Size Bonus (<math>E_s</math>)'''
+|-
+|0
+|1 (350)
+|N/A
+|N/A
+|-
+|1
+|3 (1,050)
+|0.01
+|0.005
+|-
+|2
+|5 (1,750)
+|0.02
+|0.01
+|-
+|3
+|10 (3,500)
+|0.05
+|0.02
+|-
+|4
+|40 (14,000)
+|0.1
+|0.05
+|-
+|5
+|100 (35,000)
+|0.2
+|0.1
+|-
+|6
+|350 (122,500) 
+|0.3
+|0.2
+|-
+|7
+|900 (315,000)
+|0.4
+|0.3
+|-
+|8
+|1,300 (455,000)
+|0.5
+|0.4
+|-
+|9
+|2,700 (945,000)
+|0.6
+|0.5
+|-
+|10
+|5,500 (1,925,000)
+|0.7
+|0.65
+|-
+|}
+
+
+==''Size and Health Monitoring''==
+Vectors can be monitored using the [[Vector Map]], obtained by scanning the [[Vector Module]] in the [[Relay Tower]]. One Vector Map will be given per Vector in the dimension, which will show the coordinates, size, and health of them.
+
+More technically:
+*Size/Radius:
+**Vectors always initially generate with a radius of 200.
+**The size growth of a Vector can be predicted by the equation <math>Size = V_r+(V_r \times (1.35 + E_s))</math>, where <math>V_r</math> is the Vector's current radius and <math>E_s</math> is the Evolution Phase size growth bonus.
+*Health:
+**The initial health of Vectors upon creation is dependent on Phase, where each Phase gives an increasing health mulitiplier. For example, a Vector created in Phase 6 would have an initial health of 122,500 (350<math>\times</math>350).
+**The health growth of a Vector can be predicted by the equation <math>Health = V_h+(V_h \times (0.3 + E_h))</math>, where <math>V_h</math> is the Vector's current health and <math>E_h</math> is the Evolution Phase health growth bonus. However, because of the constant gaining and losing of health due to various actions, such as assimilations and killing of parasites, this equation is heavily unreliable under normal circumstances.
+
+
+==''[[Commands]]''==
+{{#lst:Commands|vector}}
+
+==''Sounds''==
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source''' 
+!'''Description'''
+!'''File name''' 
+|-
+|[[File:vector_creation.ogg]]
+|Hostile
+|Plays whenever a new Emerging Infestation Vector is created.
+|vector_creation
+|-
+|[[File:vector_outbreak.ogg]]
+|Hostile
+|Plays whenever an Emerging Infestation Vector Outbreak happens.
+|vector_outbreak
+|-
+|}
+
+==''Trivia''==
+* This seems to be a response to voidwyrm's Trello suggestion which read; ''"Punish players for not killing parasites more than u punish players for killing parasites"''
+
+==''Notes''==
+<references />
+
+[[Category:Systems]]

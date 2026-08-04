@@ -1,0 +1,128 @@
+'''Work In Progress Content (WIP Content)''' is content that has been (partially) implemented into the mod, but remains unfinished and is still being worked on. Below is a table showcasing all WIP Content. 
+
+{| class="fandom-table"
+! style="width: 300px" |'''Content'''
+! style="width: 200px" |'''WIP Features'''
+! style="width: 200px" |'''Derivation'''
+|-
+! colspan="3" |'''[[Blocks]]'''
+|-
+|Grotesque Lump
+|
+* Functionality
+| rowspan="3" |Already in the mod, but unfinished.
+|-
+|Snowy Blocks
+|
+* Functionality
+|-
+|Hivestone Bricks
+|
+* Recipe
+|-
+! colspan="3" |'''[[Mobs]]'''
+|-
+|[[File:Ancient Tier.gif|64px]] [[Ancient Parasites]]
+|
+*Complete rework
+| rowspan="2" |Already in the mod, but unfinished.
+|-
+|[[Architect]]
+|
+*SFX
+*Texture
+|-
+|[[File:Crux Big.png|64px]] [[Crux]]
+|
+*Attack tweaks
+*Summoning ability
+|https://trello.com/c/Q25WvqDL/66-crux
+|-
+|[[File:Heed.png|64px]] [[Heed]]
+|
+*SFX
+*Spawning
+| rowspan="1" |Already in the mod, but unfinished.
+|-
+|[[File:Primitive Devourer.png|64px]] [[Primitive Devourer]]
+|
+*Ability
+*Spawning
+|https://trello.com/c/eq8fhxyy/155-devourer
+|-
+|[[Seeker]]
+| 
+*AI
+*Model
+*SFX
+*Texture
+|https://trello.com/c/uGoACOYB/91-seeker
+|-
+|[[File:Worm.png|64px]] [[Worm|Worm "Carrier"]]
+| 
+*AI
+*Model
+*SFX
+*Texture
+|https://trello.com/c/2WGnWFAo/398-worm-carrier
+|-
+|[[File:Giant_Head_Spawn.png|64px]] [[Giant Head]]
+|
+*AI
+*Model
+*SFX
+*Texture
+|Already in the mod, but unfinished.
+|-
+|Walking Bear Head
+|
+*Model
+|Mentioned in the game files.
+|-
+|[[File:Rupter.png|64px]] [[Worker]]
+|
+*AI
+*Model
+*SFX
+*Texture
+|Already in the mod, but unfinished.
+|-
+! colspan="3" |'''[[Equipment]]'''
+|-
+|[[File:Living Armor2.png|left|76x76px]][[File:Living Armor1.png|77x77px]] [[Living Armor]]
+|
+*Recipe
+|https://trello.com/c/zZVTEMEF/1019-living-sentient-armor-suggestion 
+|-
+|[[Living Lance]]
+|
+* Functionality
+* Recipe
+| rowspan="2" |Already in the mod, but unfinished.
+|-
+|[[Living Maul]]
+|
+* Functionality
+* Recipe
+|-
+|[[File:Sentient Armor2.png|left|76x76px]][[File:Sentient Armor1.png|77x77px]] [[Sentient Armor]]
+|
+*Obtainment
+|https://trello.com/c/zZVTEMEF/1019-living-sentient-armor-suggestion
+|-
+|Node Compass
+|
+*Recipe
+|Already in the mod, but unfinished.
+|-
+! colspan="3" |[[:Category:World|'''World''']]
+|-
+|[[Colony|Colonies]]
+|
+*Functionalities
+*Contents
+|N/A
+|-
+|}
+
+[[Category:Mod Content]]

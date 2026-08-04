@@ -1,0 +1,23 @@
+{{Item Info
+|image1=Venkrol Anchor Boots.png
+|type=Armor
+|stackable=No
+|tooltip=Prevents the vortex from dragging you inward.
+|title1=Venkrol Anchor Boots|id=srparasites:venkrol_boots}}
+'''Venkrol Anchor Boots''' is a piece of [[:Category:Equipment|Equipment]] Armor made for defending yourself against the parasites.
+
+== ''Obtainment'' ==
+The Venkrol Anchor Boots can be crafted using four [[Beckon Membrane|Beckon Membranes]] and Diamond Boots.
+{{CraftingTable|r1_b1=Beckon Membrane|r1_a2=Beckon Membrane|r1_b2=Diamond Boots|r1_c2=Beckon Membrane|r1_b3=Beckon Membrane|r1_output=Venkrol Anchor Boots|r1_count=1}}
+
+== ''Usage'' ==
+ 
+These boots protect player from a [[Stage IV Beckon#Behavior|Stage IV Beckon's Vortex]]. When they are equipped, the Vortex will not throw the player away. They are also better than diamond boots stat-wise.
+== ''Trivia'' ==
+
+* Venkrol Anchor Boots share their name is the [[Beckon (Disambiguation)|Beckon]], which is referred to internally as the Venkrol.
+{{ItemList}}
+[[Category:Equipment]]
+[[Category:Items]]
+[[Category:Work In Progress Content]]
+[[Category:Armors]]

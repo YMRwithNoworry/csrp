@@ -1,0 +1,67 @@
+{{Stub}}
+{{Navbar|page1=Walking Villager Head|page2=Assimilated Villager|page3=Assimara Villager|page4=Feral Villager}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|marvillager}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=AssimaraVillager.png
+|hp=27.0
+|damage=17.0
+|armor=8.0
+|kb_resistance=0.9
+|adaptable=No
+|id=srparasites:mar_villager
+}}
+'''Assimara Villagers''' are the [[:Category:Assimara_Parasites|Assimara Version]] of Villagers.
+
+== ''Spawning'' ==
+
+* Spawns individually, from [[Evolution Phases#Phase 4|Phase 4]] onward, with a spawnweight of 1, once 6 Villagers have been assimilated.
+
+== ''Behavior'' ==
+Assimara Villagers are Backline Ranged units.
+
+* Assimara Villagers fire acid every 5 seconds, firerate increases as its health lowers.
+* Assimara Villagers are incapable of melee attack.
+* Assimara Villagers will attempt to maintain a certain distance from their enemies to avoid melee.
+* Any Mob within 3 blocks of an Assimara Villager will be inflicted with [[Call Of The Hive|COTH]]. This does not go through walls.
+* Assimara Villagers are able to traverse faster in liquids by performing small leaps.
+* Assimara Villagers are able to dive in liquids to pursue submerged targets.
+* On death Assimara Villagers have a chance to explode, releasing [[Remains|Assimara Remains]] and an effect cloud of stacking Poison and COTH.
+{{Variants
+|count=1
+|Texture=Mar villager variant.png
+|TextureDesc=is in the files of the mod, it does not spawns with this variant.
+}}
+
+=== ''Weaknesses'' ===
+*Assimara Villagers, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+{{Properties||tier=Assimara}}
+
+{{Drops
+|rolls1=Always Rolls:
+|page1=False Apple
+|amount1=1
+|chance1=10
+}}
+
+==''Sounds''==
+To be added...
+
+==''Trivia''==
+
+* Assimara Villagers were the first of the Assimara line to be teased. They were shown in a rendered image on Halloween 2025 in the official Discord.
+
+== Gallery ==
+<gallery>
+File:AssimaraVillagerHeight.png|Size of the Assimara Villager's model.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Mobs]]
+[[Category:Assimara Parasites]]

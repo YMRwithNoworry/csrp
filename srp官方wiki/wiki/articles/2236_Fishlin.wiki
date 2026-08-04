@@ -1,0 +1,22 @@
+{{Stub}}
+{{Item Info
+|image1=Fishlin.png
+|type=Material
+|stackable=Yes (64)
+|tooltip=''Freshly writhing.''
+|id=srparasites:fishlin
+}}
+'''{{PAGENAME}}''' is a [[:Category:Drops|Drop]] item obtained from fishing in the [[Parasite Biome]] and infected Bears.
+
+== ''Obtainment'' ==
+*Fishing in the [[Parasite Biome]] (needs verification).
+*Dropped by [[Assimilated Bear|Assimilated]], [[Assimara Bear|Assimara]], and [[Feral Bear|Feral Bears]].
+
+== ''Usage'' ==
+It can be eaten, but deals 8 ([[File:Heart.png]][[File:Heart.png]][[File:Heart.png]][[File:Heart.png]]) damage to the player and inflicts [[Call Of The Hive]] for 4 minutes.
+
+== Trivia ==
+* The name appears to be a pun of fish and [[Buglin]], possibly a Buglin variant that evolved to an aquatic environment, though it does not have a mob form as of the current version.
+{{ItemList}}
+[[Category:Drops]]
+[[Category:Items]]

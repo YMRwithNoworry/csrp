@@ -1,0 +1,111 @@
+{{WIP}}
+
+{{Mob Info 
+|image1=Dreadnaut.png
+|hp=200.0
+|damage=15.0
+|armor=15.0
+|kb_resistance=N/A
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:anc_dreadnaut
+}}
+'''Ancient Dreadnauts''' are a type of [[Mobs]], placed into the [[Ancient Parasites|Ancient]] Tier.
+
+They are one of the Bosses of the mod.
+
+== ''Spawning'' ==
+Dreadnauts no longer spawn naturally until their upcoming rework.
+
+== ''Behavior'' ==
+Ancient Dreadnauts are Flying Ranged Summoner/Tank Hybrids. It must fly at least 7 blocks above the ground. Dreadnauts have a bossbar.
+
+*Dreadnauts can shoot a series of 3 Projectiles, which inflict Wither, and spawn an effect cloud of Wither.
+*Dreadnauts can swoop down towards their foes, inflicting great knockback.
+*They can summon multiple [[Ancient Dreadnaut#Gallery|Ancient Pods]], which will fall from the sky towards the ground. Few seconds after landing, they will explode inflicting 50 damage, Saturation -20 for 10 seconds, and release a Lingering effect Cloud of Poison for 15 seconds. Dreadnaut must wait at least 12 seconds before it can summon Pods again, and a maximum of 5 can spawn. These Pods will spawn other Parasites ([[Ancient Dreadnaut#Summoning|More info below]])
+*Every 20% HP taken, they will drop their [[Dreadnaut#Gallery|Ancient Tendrils]]. If they're not killed soon enough, they will start to spawn [[Buglin|Buglins]], the Tendrils will make grey particles before doing this. These Tendrils have 50 HP each.
+*Dreadnauts can break blocks that have their [[Hardness]] Value up to 9, with a 5 ticks cooldown and 4 Blocks range.
+
+=== ''Weaknesses'' ===
+
+* Ancient Dreadnauts, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+=== ''Post Death'' ===
+
+* On death, Dreadnauts have a chance to explode, releasing a large effect cloud of [[Viral]], [[Call Of The Hive|COTH]], and stacking Poison.
+
+=== ''Summoning'' ===
+{| class="fandom-table"
+|+'''Spawn Table'''
+!Mob
+!Chance
+|-
+|[[Rupter]]
+|66.6%
+|-
+|[[Grunt]]
+|11.6%
+|-
+|Nothing
+|21.8%
+|}
+{{Properties|tier=Ancient}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''ID'''
+|-
+|[[File:Dreadnaut Shooting.ogg]]
+|Hostile
+|Plays when a Dreadnaut attacks.
+|oronco_shootingreal
+|-
+|[[File:Dreadnaut Shoot.ogg]]
+|Hostile
+|Plays before a Dreadnaut attacks.
+|oronco_shooting
+|-
+|[[File:Dreadnaut Pods.ogg]]
+|Hostile
+|Plays when a Dreadnaut summons Pods.
+|ancient_pods
+|-
+|[[File:Dreadnaut Death.ogg]]
+|Hostile
+|Plays when a Dreadnaut dies.
+|oronco_death
+|-
+|[[File:Dreadnaut Growl.ogg]]
+|Hostile
+|Plays randomly while a Dreadnaut is alive.
+|oronco_growl
+|-
+|[[File:Dreadnaut Hurt.ogg]]
+|Hostile
+|Plays when a Dreadnaut takes damage.
+|oronco_hurt
+|-
+|}
+
+== ''Trivia'' ==
+*Dreadnauts are also known as '''Oronco''' in the Mod Files.
+*Dreadnauts are inspired by the [https://strangerthings.fandom.com/wiki/The_Mind_Flayer Mind Flayer] from Stranger Things. 
+*The [[Bogle]] and [[Wraith]]'s model are derived from the Dreadnaut, likely to have its visual concept implemented before the Dreadnaut is reworked and completely changed.
+*The Ancient Dreadnaut's spawn egg denotes the Monumenta branch of [[Advancements]], which is related to slaying [[Nexus]] parasites.
+**It shares the same egg texture with the [[Ancient Overlord]].
+
+== ''Gallery'' ==
+<gallery>
+File: Dreadnaut Size Comparison.png|Size of Dreadnauts' Model.
+File: Pod.png|A Pod.
+File: Pod2.png|A Pod, moments before exploding.
+File:Dreadnaut Tendril.png|One of the Dreadnauts' Tendrils after being cut.
+</gallery>
+
+{{MobList}}
+[[Category:Bosses]]
+[[Category:Ancient Parasites]]
+[[Category:Work In Progress Content]]
+[[Category:Mobs]]

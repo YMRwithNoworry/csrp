@@ -1,0 +1,20 @@
+{{DisambiguationContent
+|title=Dispatcher
+|image1=Stage 1 Dispatcher.png
+|title1=[[Stage I Dispatcher]]
+|image2=Stage 2 Dispatcher.png
+|title2=[[Stage II Dispatcher]]
+|image3=Stage 3 Dispatcher.png
+|title3=[[Stage III Dispatcher]]
+|image4=Stage 4 Dispatcher.png
+|title4=[[Stage IV Dispatcher]]
+|image5=DispatcherTentacle.png
+|title5=[[Dispatcher Tentacle]]
+|desc5=A utility parasite used by Dispatchers and [[:Category:Pure_Parasites|Pures]]
+|image6=Dispatcher Nidus.png
+|title6=[[Dispatcher Nidus]]
+|desc6=A block created by parasites, where [[Stage I Dispatcher|Stage I Dispatchers]] spawn from
+|image7=Dispatcher Membrane.png
+|title7=[[Dispatcher Membrane]]
+|desc7=A [[:Category:Drops#Materials|Material]] dropped by all Dispatchers
+}}

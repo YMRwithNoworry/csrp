@@ -1,0 +1,53 @@
+{{Item Info
+|image1=Infectious Blade Fragment.png
+|type=Material
+|stackable=No
+|tooltip=A piece of a blade, produced from Parasites body parts. A Component for Weapons.
+|id=srparasites:infectious_blade_fragment
+}}
+'''Infectious Blade Fragments''' are a [[:Category:Weapons' Components|Weapons' Component]] used to craft the melee [[:Category:Weapons#Living Weapons|Living Weapons]].
+
+==''Obtainment''==
+{{CraftingTable|r1_b1=Reeker Fang|r1_a2=Infected Flesh|r1_b2=Reeker Fang|r1_a3=Infected Flesh|r1_output=Infectious Blade Fragment}}
+
+==''Usage''==
+{{CraftingTable
+|r1_b1=Infectious Blade Fragment
+|r1_c1=Infectious Blade Fragment
+|r1_a2=Vile Shell
+|r1_c2=Infectious Blade Fragment
+|r1_b2=Living Core
+|r1_a3=Hardened Bone Handle
+|r1_b3=Vile Shell
+|r1_output=Living Sword
+
+|r2_b1=Vile Shell
+|r2_c1=Living Core
+|r2_b2=Hardened Bone Handle
+|r2_c2=Infectious Blade Fragment
+|r2_a3=Hardened Bone Handle
+|r2_c3=Infectious Blade Fragment
+|r2_output=Living Scythe
+
+|r3_b1=Living Core
+|r3_c1=Infectious Blade Fragment
+|r3_a2=Vile Shell
+|r3_b2=Hardened Bone Handle
+|r3_c2=Infectious Blade Fragment
+|r3_a3=Hardened Bone Handle
+|r3_b3=Infectious Blade Fragment
+|r3_output=Living Cleaver
+
+|r4_a1=Vile Shell
+|r4_b1=Living Core
+|r4_c1=Infectious Blade Fragment
+|r4_b2=Vile Shell
+|r4_b3=Hardened Bone Handle
+|r4_output=Living Axe
+|r4_c2=Infectious Blade Fragment
+}}
+
+
+{{ItemList}}
+[[Category:Items]]
+[[Category:Weapons' Components]]

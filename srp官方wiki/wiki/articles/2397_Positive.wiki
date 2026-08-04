@@ -1,0 +1,21 @@
+{{Stub}}
+{{Effect Info
+|title1=Positive
+|image1=Effectpos.png
+|sources=See [[#Obtainment|Obtainment]]
+|type=Debuff
+|id=srparasites:effectpos}}
+
+'''Positive''' is a [[Effects|Potion Effect]] added in v1.10.0 that punishes beneficial effects. The host suffers damage based on the number of active positive potion effects, scaling with effect strength.
+
+Positive does not stack.
+
+== ''Obtainment'' ==
+{{Effect Causes
+|cause1=[[Kirin|Kirin's]] Ray
+|potency1=I
+|duration1=0:07
+}}
+
+{{EffectList}}
+[[Category:Effects]]

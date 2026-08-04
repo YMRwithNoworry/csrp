@@ -1,0 +1,31 @@
+Categories that were automatically generated upon creation of the Wiki.  We currently do not use most of them.<ref>Directories in the above [[:Category:Default Categories#List of Directories|List]] that have been crossed out were automatically generated, but are therefore not in this category, as they are now being used.</ref><br>
+===''List of Directories''===
+*[[:Category:Scape and Run: Parasites Wiki|Scape and Run: Parasites Wiki]]
+**[[:Category:Blog posts‏‎|Blog posts]]
+**[[:Category:Community‏‎|Community‏‎]]
+**'''Default Categories'''
+**[[:Category:Maintenance‏‎|Maintenance‏‎]]
+***[[:Category:Candidates for deletion‏‎|Candidates for deletion‏‎]]
+***[[:Category:Hatnote templates with errors|Hatnote templates with errors]]‏‎
+***[[:Category:Pages with broken file links|Pages with broken file links]]‏‎
+***[[:Category:Stubs‏‎|Stubs]]
+*** [[:Category:Templates‏‎|Templates]]
+****[[:Category:Documentation templates‏|Documentation templates‏‎]]
+****[[:Category:General wiki templates|General wiki templates]]‎
+****[[:Category:Image license templates|Image license templates]]‎
+****[[:Category:Infobox templates|Infobox templates]]‏‎
+****[[:Category:Navbox templates|Navbox templates]]‏‎
+****[[:Category:Notice templates|Notice templates]]‏‎
+****[[:Category:Quote templates‏|Quote templates‏‎]]
+****[[:Category:Template documentation‏‎|Template documentation‏‎]]
+***[[:Category:Unattributed files‎|Unattributed files]]
+**[[:Category:Media‏‎|<s>''Media''</s>]]
+***[[:Category:Images‏‎|<s>''Images''</s>]]
+****[[:Category:Screenshots‏‎|<s>''Screenshots‏‎''</s>]]
+****[[:Category:Unattributed files‏‎|Unattributed files]]
+****[[:Category:Wiki skin images‏‎|<s>''Wiki skin images''</s>]]
+***[[:Category:Videos‏‎|Videos‏‎]]
+**[[:Category:Disambiguations‏‎|<s>''Disambiguations‏‎''</s>]] [[File:Disambig color.svg|20px]]
+[[Category:{{SITENAME}}]]
+
+<references />

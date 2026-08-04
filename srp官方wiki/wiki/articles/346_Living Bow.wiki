@@ -1,0 +1,39 @@
+{{Navbar|page1=Living Bow|page2=Sentient Greatbow}}
+{{Item Info
+|image1=Living Bow.png
+|damage=1
+|attack_speed=N/A
+|durability=1000
+|stackable=No
+|tooltip=Result of various Parasites body parts reshaped to form a Weapon. The flame of life shines inside it. Keep holding those arrows
+|id=srparasites:weapon_bow
+}}
+The '''Living Bow''' is a type of [[Weapons|Weapon]] created from a multitude of parasite materials.
+
+== ''Obtainment'' ==
+{{CraftingTable
+|r1_a1=Living Core
+|r1_b1=Hardened Bone Handle
+|r1_c1=Vile Shell
+|r1_a2=Hardened Bone Handle
+|r1_c2=Dried Tendons
+|r1_b3=Dried Tendons
+|r1_output=Living Bow
+|r1_a3=Vile Shell
+}}
+
+== ''Usage'' ==
+'''Fighting'''
+The Living Bow is one of currently 2 ranged weapons, the other being its successor. Each second the bow is pulled, 1 bonus point is added to the base value (1) up to a cap of 3 overall points. After the shot is released, the damage of the arrow itself will be multiplied with the stacked bonus points, resulting in a maximum of around 21 to 33 damage after only 2 seconds drawtime. 
+
+This can further be amplified by the Power enchantment, adding velocity to the arrow by falling for example, as well as using tipped arrows. Combining the 3 allows for singular attacks to deal between 50 and 90 damage.
+
+Arrows fired by the Living Bow inflict [[Bleeding|Bleeding I]] and [[Concussive Smoke Trail]] for ten seconds each, unaffected by draw length.
+
+'''Evolving'''
+As of version 1.9.20, Evolution does not take place for the bow, which seems to be a bug.
+[[Category:Weapons]]
+
+{{ItemList}}
+[[Category:Items]]
+[[Category:Equipment]]

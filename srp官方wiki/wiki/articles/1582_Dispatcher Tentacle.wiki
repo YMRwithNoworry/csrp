@@ -1,0 +1,70 @@
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|dispatcherten}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=DispatcherTentacle.png
+|hp=10.0
+|damage=N/A
+|armor=10.0
+|kb_resistance=N/A 
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:dispatcherten
+}}'''Dispatcher Tentacles''' are a type of [[Mobs|Mob]], placed into the [[:Category:Deterrent Parasites|Deterrent]] Tier.
+==''Spawning''==
+*Summoned at a target's location by all [[Dispatcher (Disambiguation)|Dispatchers]] stages.
+*Summoned by all [[:Category:Pure Parasites|Pure Parasites]] except [[Grunt|Grunts]].
+==''Behavior''==
+Dispatcher Tentacles are utility parasites. They teleport parasites to their location and obey 2 different behaviors depending on what summoned them.
+
+=== Dispatcher's Tentacles: ===
+
+* When summoned by a Dispatcher, Dispatcher Tentacles will spawn a mob from the Dispatcher's inventory.
+* Tentacles require specific conditions in order to spawn:
+** There must be 3 full blocks below the position where it will teleport to.
+** The sum of the 3 blocks' [[hardness]] values must be less than 10.
+
+=== Personal Tentacles: ===
+
+* Summoned by Pure Parasites in an area around them.
+* No limits on hardness or block height.
+* Teleports their summoner and only their summoner.
+===''Weaknesses''===
+* Dispatcher Tentacles, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+* The tentacles cannot be spawned on partial blocks.
+* If enough distance is put between the player and the tentacle it will retract before performing its function.
+{{Properties
+|tier=Detterent
+|DamageCap=3|COTH=N/A|RemainValue=N/A|Regen=0.3|XPValue=0|ScentDeathValue=0|FollowRange=32|MinimumDamage=2|DeathPenaltyEvolutionValue=0}}{{Adaptation|pointChanceToLearn=.85|tier=Deterrent|pointChanceToFail=0.5|pointReductionValue=0.16|pointReductionCap=6|pointReducationTotalCap=10}}
+
+== ''Sounds'' ==
+{| class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Sentry emerge 1.ogg]]
+[[File:Sentry emerge 2.ogg]]
+[[File:Sentry emerge 3.ogg]]
+|Hostile
+|Plays when a Dispatcher Tentacle emerges from the ground.
+|X
+|dispatcher_tentacles_emerge_1-3
+|}
+==''Trivia'' ==
+* Dispatcher Tentacles are also known as '''DodT''' in the Mod Files.
+* A Dispatcher will not spawn any tentacles if you are more than four blocks above the ground.
+
+==''Gallery''==
+<gallery>
+File:DispatcherTentacleHeight.png|Size of a Dispatcher Tentacle's model
+</gallery>
+
+{{MobList}}
+[[Category:Mobs]]
+[[Category:Deterrent Parasites]]
+<references />

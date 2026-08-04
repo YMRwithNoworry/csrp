@@ -1,0 +1,17 @@
+{{Stub}}
+
+
+'''Maws''' are infested [[blocks]] that act as parasite traps.
+{{Item Info
+|image1=Maw.png
+|id=srparasites:parasitemouth
+}}
+
+==''Obtainment''==
+Maws can be harvested in surplus from [[Meteor|Meteors]] and from various pitfall trap structures in the [[Parasite Biome]].
+
+==''Usage''==
+Maws inflict stacking [[Viral|Viral II]] for ten seconds and [[Corrosion]] for five seconds to any non-parasite mob. Due to their damage output, they can be used as an effective trap block if one manages to survive a Meteor or disarm a Parasite Biome to collect many of them.
+
+{{BlockList}}
+[[Category:Blocks]]

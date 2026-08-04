@@ -1,0 +1,123 @@
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|monarch}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=<gallery>
+Monarch.png|Normal
+BreacherMonarch.png|Breacher
+DeviantiveMonarch.png|Deviantive
+</gallery>
+|hp=75.0
+|damage=25.0
+|armor=10.0
+|kb_resistance=1.0
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:monarch
+}}
+'''Monarchs''' are a type of [[Mobs]], placed into the [[Pure Parasites|Pure]] Tier.
+
+== ''Spawning'' ==
+*Spawns naturally in groups of 1 to 2 if [[Ubiquitous Development]] is Level 4, with a spawnweight of 10.
+*Spawns in groups of 2 to 5 in the [[Parasite Biome]], with a spawnweight of 5.
+*Spawned by [[Heavy Bomber|Heavy Bombers]].
+
+== ''Capabilities'' ==
+Monarchs are highly mobile scout units that serve as late game infection spreaders and are primarily Melee combatants.
+* Monarchs' Melee Attack is performed through contact damage.
+* Monarchs can shoot web projectiles to immobilize their target with web blocks, creating [[Toxicant Webbing]] if they miss, which will disappear after some time.
+* Monarchs can leap in the air, spawning 5 [[Buglin|Buglins]] during this attack.
+* Monarchs can charge short distances, spawning 3 Buglins during this attack.
+* Monarchs will regularly perform a short evasive dash.
+* Monarchs can perform small leaps in liquids.
+* Monarchs can sink in liquids to pursue submerged targets.
+* Like other [[Pure Parasites]], Monarchs can summon up to 3 [[Seizer|Seizers]] to support them.
+* Like other [[:Category:Pure Parasites|Pure Parasites]], Monarchs can use personal [[Dispatcher Tentacle|Dispatcher Tentacles]] to teleport.
+** Monarchs (along with the other Melee focused Pures) spawn [[:Category:Deterrent Parasites|Deterrents]] significantly less than flying and grounded range Pures.
+* Monarchs can break blocks that have their [[Hardness]] Value up to 5, with a 20 ticks cooldown and 4 Blocks range.
+{{Variants|count=2|Breacher=BreacherMonarch.png|Texture=DeviantiveMonarch.png|TextureName=Deviantive|TextureDesc=inflicts double the damage but has half the HP.}}
+
+=== ''Weaknesses'' ===
+* Monarchs, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+=== ''Post Death'' ===
+
+* On death, Monarchs have a chance to explode, releasing [[Remains|Pure Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+{{Properties
+|tier=Pure
+|OrbEffectsMobs=Hunger IV (00:15), [[Needler|Needler IV]] (00:25), Mining Fatigue IV (00:15), Wither IV (00:15)
+}}
+
+{{Drops
+|rolls1=One Roll
+|page1=Noxious Brain
+|amount1=1
+|chance1=80
+}}
+== ''Sounds'' ==
+{| class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Monarchliving1.ogg]]
+[[File:Monarchliving2.ogg]]
+[[File:Monarchliving3.ogg]]
+|Hostile
+|Plays randomly while a Monarch is alive.
+|Monarch calls
+|monarchliving1-4
+|-
+|[[File:Big Spider Ranged.ogg]]
+|Hostile
+|Plays when a Monarch attacks with projectiles
+|X
+|dorpa_rangea
+|-
+|
+[[File:Monarchhurt1.ogg]]
+[[File:Monarchhurt2.ogg]]
+[[File:Monarchhurt3.ogg]]
+|Hostile
+|Plays when a Monarch takes damage.
+|Monarch screeches
+|monarchhurt1-4
+|-
+|
+[[File:Heavy multiple_step1.ogg]]
+[[File:Heavy multiple_step2.ogg]]
+[[File:Heavy multiple_step3.ogg]]
+[[File:Heavy multiple_step4.ogg]]
+|Hostile
+|Plays when a Monarch is walking.
+|X
+|step1-4
+|-
+|[[File:Monarchdeath.ogg]]
+|Hostile
+|Plays when a Monarch dies.
+|Monarch cries
+|monarchdeath 
+|}
+
+== ''Trivia'' ==
+* Monarchs are also known as '''Orch''' in the Mod Files.
+* This Mob was [[:Category:Community Proposals|proposed]] by user '''Cephelo'''. Original Suggestion: https://trello.com/c/rvfFyxjb/201-monarch.
+
+== ''Gallery'' ==
+<gallery>
+
+</gallery>
+
+==Notes==
+<references />
+
+[[File:Monarch Size Comparison.png|left|thumb|210x210px|Size of the Monarch's Model.]]
+{{MobList}}
+[[Category:Pure Parasites]]
+[[Category:Mobs]]
+[[Category:Community Proposals]]

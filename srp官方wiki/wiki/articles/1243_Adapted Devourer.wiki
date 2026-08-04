@@ -1,0 +1,63 @@
+{{Stub}}
+{{Navbar|page1=Primitive Devourer|page2=Adapted Devourer}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|adadevourer}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=AdaptedDevourer.png
+|hp=60.0
+|damage=20.0
+|armor=?
+|kb_resistance=?
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:ada_devourer
+}}
+
+'''Adapted Devourers''' are a type of [[Mobs]], placed into the [[Adapted Parasites|Adapted]] Tier.
+
+== ''Spawning'' ==
+*Spawns naturally in groups of 1 to 2, if [[Ubiquitous Development]] is Level 3 or higher, with a spawnweight of 10.
+
+== ''Behavior'' ==
+Adapted Devourers are Aquatic Melee Combatants. 
+
+*Their Melee attack is performed through contact damage.
+
+*The Devourers are able to terraform their enviroment by digging an area and filling it with water.
+
+=== Weaknesses ===
+
+* Adapted Devourers, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled. But since it is in water...
+
+{{Drops
+|rolls1=One Roll
+|page1=Toxic Lung
+|amount1=1-3
+|chance1=30
+|rolls2=Always Rolls
+|page2=Devourer Tentacle
+|amount2=1-4
+|chance2=40
+|page3=Strange Bone
+|amount3=2
+|chance3=10
+}}
+
+== ''Trivia'' ==
+*This Mob was [[:Category:Community Proposals|proposed]] by user '''oof'''.  Original Suggestion: https://trello.com/c/eq8fhxyy/155-devourer
+*Devourers are also known as '''Lum''' in the Mod Files.
+
+== ''Gallery'' ==
+<gallery>
+File:AdaptedDevourerHeight.png|Size of the Adapted Devourer's model. And a Villager.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Mobs]]
+[[Category:Adapted Parasites]]
+[[Category:Community Proposals]]

@@ -1,0 +1,67 @@
+{{VersionBar|
+|page1=Version 1.9.3
+|page2=Version 1.9.5
+}}
+'''Version 1.9.4''' was an update for the Scape and Run: Parasites Mod, released on April 4th 2022.  It was 9.13 MB.
+
+== ''Change Log'' ==
+
+====<u>Fixes</u>==== 
+
+*Crash:
+<div class="mw-collapsible mw-collapsed" data-expandtext="Show crash" data-collapsetext="Hide crash">
+
+Description: Ticking entity
+
+java.lang.ClassCastException: com.dhanantry.scapeandrunparasites.entity.monster.inborn.EntityLodo cannot be cast to com.dhanantry.scapeandrunparasites.entity.ai.EntityPInfected
+
+at com.dhanantry.scapeandrunparasites.util.ParasiteEventEntity.convertEntity(ParasiteEventEntity.java:754)
+
+at com.dhanantry.scapeandrunparasites.entity.ai.EntityParasiteBase.func_70074_a(EntityParasiteBase.java:545)
+
+at com.dhanantry.scapeandrunparasites.entity.ai.EntityPInfected.func_70074_a(EntityPInfected.java:274)
+
+at com.dhanantry.scapeandrunparasites.entity.monster.infected.EntityInfHuman.func_70074_a(EntityInfHuman.java:139)
+
+at net.minecraft.entity.EntityLivingBase.func_70645_a(EntityLivingBase.java:1181)
+
+at net.minecraft.entity.EntityLivingBase.func_70097_a(EntityLivingBase.java:1023)
+</div> 
+
+*Crash:
+<div class="mw-collapsible mw-collapsed" data-expandtext="Show crash" data-collapsetext="Hide crash">
+
+Description: Ticking entity
+
+java.lang.ArrayIndexOutOfBoundsException: 1
+
+at com.dhanantry.scapeandrunparasites.util.ParasiteEventEntity.convertEntity(ParasiteEventEntity.java:747)
+
+at com.dhanantry.scapeandrunparasites.entity.ai.EntityParasiteBase.func_70074_a(EntityParasiteBase.java:545)
+
+at net.minecraft.entity.EntityLivingBase.func_70645_a(EntityLivingBase.java:1181)
+
+at net.minecraft.entity.monster.EntityZombie.func_70645_a(EntityZombie.java:546)
+
+at net.minecraft.entity.EntityLivingBase.func_70097_a(EntityLivingBase.java:1023)
+
+at net.minecraft.entity.monster.EntityMob.func_70097_a(EntityMob.java:70)
+</div> 
+
+*Sound for parasites exploding into gore not playing
+*[[Living Cleaver|Living cleaver]] V texture backwards
+*[[Scent System|Scent]] entities being placed by parasites in [[Evolution Phases|phases]] < 0
+
+====<u>Changes</u>==== 
+
+*[[Crux]] throwing block ability is now affected by "Mobs with Griefing Task Blacklist" config option
+*Crux will try to kill anything except water mobs and creepers (it is angry!)
+*Crux now has AoE melee attacks
+*[[Viral]] effect will always leave you with 1 heart instead of removing all of them
+*"Mobs with new griefing task" changed "srparasites:crux;2;40;2" to "srparasites:crux;4;30;2"
+*Removed old weapon component texture files from the mod
+*zh_cn.lang file Updated by: 飘寂叶#2421
+*ro_ro.lang file Updated by: Harbinger#5641
+
+{{VersionList}}
+[[Category:Versions]]

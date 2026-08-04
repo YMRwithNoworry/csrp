@@ -1,0 +1,47 @@
+{{Effect Info
+|image1=Viral.png
+|sources=See [[#Obtainment|Obtainment]]
+|type=Debuff
+|id=srparasites:viral
+}}
+
+'''Viral''' is a [[Effects|Potion Effect]] introduced by the SRP Mod. This Effect makes you take additional damage. Being affected with Viral increases damage received by 50% * Amplifier.  This means Viral I gives a 1.5x damage multiplier while Viral V gives a 3.5x damage multiplier. It also adds a screen effect.<!--Multiplier (0.5) x Amplifier x Damage += Damage-->
+
+Viral cannot be removed by drinking Milk.
+
+== ''Obtainment'' ==
+{{Effect Causes
+|cause1=[[Heavy Carrier|Heavy Carriers]]
+|potency1=III, stacking
+|duration1=0:20
+|cause2=[[Flying Carrier|Flying Carriers]]
+|potency=II, Stacking
+|duration2=0:20
+|cause3=[[Assimilated Ender Dragon]]
+|duration3=0:10
+|cause4=[[Living Cleaver]]
+|potency4=I
+|duration4=0:05
+|cause5=[[Sentient Greatcleaver]]
+|duration5=0:05
+|cause6=[[:Category:Variants#Virulent Variants|Virulent Parasites]]
+|duration6=0:01, Stacking
+|potency6=I, Stacking
+|cause7=[[Dead Blood]]
+|duration7=0:10
+|potency7=II
+|cause8=Taking an item from [[Parasitic Growth Block|Parasitic Growth Blocks]]
+|potency8=II - IV, Stacking<ref name="viral">Variable depending on how many items are inside. Taking an item from a full Loot Block applies Viral II for five seconds, while an empty one applies Viral IV for thirty seconds.</ref>
+|duration8=0:05 - 0:30<ref name="viral" />
+}}
+
+== ''Gallery'' ==
+<gallery>
+File:Viral_screen_effect.png|The screen effect while the player is affected by Viral.
+File:Viral_effect_with_meteor.png|Another example of Viral's screen effect.
+</gallery>
+
+==Notes==
+<references />
+{{EffectList}}
+[[Category:Effects]]

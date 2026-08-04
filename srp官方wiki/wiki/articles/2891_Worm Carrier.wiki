@@ -1,0 +1,48 @@
+{{Navbar|page1=Light Carrier|page2=Heavy Carrier|page3=Flying Carrier|page4=Worm Carrier}}
+{{WIP}}
+
+{{Mob Info 
+|image1=Worm Carrier.png
+|hp=50.0
+|damage=15.0
+|armor=9.0
+|kb_resistance=0.15
+|adaptable=No
+|id=srparasites:worm_carrier
+}}
+'''Worm Carriers''' are a [[Mobs|Mob]] in the [[Crude Parasites|Crude]] Tier and consist of 5 segments. 
+
+==''Spawning''==
+?
+
+==''Behavior''==
+?
+=== ''Carrier Mob Contents'' ===
+?
+
+=== ''Weaknesses'' ===
+
+* Worm Carriers, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+{{Drops|rolls1=One Roll:|page1=Noxious Brain|amount1=1|chance1=80}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''ID'''
+|-
+|
+[[File:worm_carrier_emerge_1.ogg]]
+[[File:worm_carrier_emerge_2.ogg]]
+[[File:worm_carrier_emerge_3.ogg]]
+|Hostile
+|Plays when a worm carrier emerges from the ground.
+|worm_carrier_emerge_1-3
+|-
+|}
+
+[[Category:Mobs]]
+[[Category:Work In Progress Content]]
+[[Category:Crude Parasites]]

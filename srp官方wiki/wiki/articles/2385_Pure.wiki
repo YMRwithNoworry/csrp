@@ -1,0 +1,24 @@
+{{Stub}}
+
+
+'''Pure''' is a [[Effects|Potion Effect]] added in v1.10.0. It reduces damage inflicted to [[:Category:Pure Parasites|Pure Parasites]] by 15%, affected by amplifier + 1.
+
+{{Effect Info
+|title1=Pure
+|image1=TierEffect.png
+|sources=See [[#Obtainment|Obtainment]]
+|type=Buff (Parasite)
+|id=srparasites:pure}}
+
+== ''Obtainment'' ==
+{| class="fandom-table"
+!'''Cause'''
+!'''Potency'''
+!'''Duration'''
+|-
+|Killing a [[:Category:Pure Parasites|Pure Parasite]] while [[Dislodgment System#Code 22|Dislodgment Code 22]] is active
+|II
+|1:00
+|}
+{{EffectList}}
+[[Category:Effects]]

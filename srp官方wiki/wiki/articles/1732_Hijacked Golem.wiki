@@ -1,0 +1,86 @@
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|higolem}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=Hijacked Golem.png
+|hp=150.0
+|damage=40.0
+|armor=16.0
+|kb_resistance=0.8
+|adaptable=No
+|id=srparasites:hi_golem
+}}'''Hijacked Golems''' are the [[:Category:Hijacked Mobs|Hijacked Version]] of Iron Golems.
+==''Spawning''==
+* Spawned when an Iron Golem is hurt by a [[Gnat]] or a [[Lice]] when below 50% health.
+
+==''Behavior''==
+Hijacked Golems are melee tanks.
+* Hijacked Golems attack through contact damage.
+* Any Mob within 3 blocks of a Hijacked Golem will be inflicted with [[Call Of The Hive]]. This does not go through walls.
+* Hijacked Golems are able to traverse faster in liquids by performing small leaps.
+* Hijacked Golems are able to dive in liquids to pursue submerged targets.
+* Hijacked Golems can break blocks that have their [[Hardness]] Value up to 3, with a 40 tick cooldown and a 2 Block range.
+
+===''Weaknesses''===
+* Hijacked Golems, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+{{Properties|tier=Feral|FollowRange=20|DamageCap=3|MinimumDamage=0.75|DeathPenaltyEvolutionValue=5|RemainValue=12|ScentDeathValue=15|XPValue=16|COTH=.7}}
+
+{{Drops
+|rolls1=Always Rolls:
+|page1=Hijacked Iron Ingot
+|amount1=3
+|chance1=20
+|page2=Hijacked Growth|amount2=1|chance2=20}}
+
+==''Sounds''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Hijackedgolemliving1.ogg]]
+[[File:Hijackedgolemliving2.ogg]]
+[[File:Hijackedgolemliving3.ogg]]
+|Hostile
+|Plays randomly while a Hijacked Golem is alive.
+|Hijacked golem scrapes
+|hijackedgolemliving1-3
+|-
+|
+[[File:Hijackedgolemhurt1.ogg]]
+[[File:Hijackedgolemhurt2.ogg]]
+[[File:Hijackedgolemhurt3.ogg]]
+|Hostile
+|Plays when a Hijacked Golem is hurt.
+|Hijacked golem clanks
+|hijackedgolemhurt1-3
+|-
+|
+[[File:Hijackedgolemdeath.ogg]]
+|Hostile
+|Plays when a Hijacked Golem dies.
+|Hijacked golem dies
+|hijackedgolemdeath
+|-
+|}
+
+==''Trivia''==
+
+* The [[Gnat]] that infected the Iron Golem can be seen on its model, burrowed into what remains of its head.
+** When the Hijacked Golem takes damage, its [[Gnat]] can be heard as well.
+
+== Gallery ==
+[[File:Size Comparison Hijacked Golem.png|none|thumb|The Size of a Hijacked Golem compared to a Villager]]
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Hijacked Mobs]]
+[[Category:Mobs]]

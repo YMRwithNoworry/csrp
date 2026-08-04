@@ -1,0 +1,135 @@
+<small>Not to be confused with [[Evolution Phases]].</small>
+
+The '''Evolution System''' is a [[Systems|system]] necessary for the development of the [[Mobs|Parasites]] by allowing them evolve and become more powerful.
+
+==''Functioning''==
+[[File:Evolution_System_Chart.png|thumb|360x360px|Conceptual Map (Credit to @goasty)]]
+*On Phase 0, [[Buglin|Buglins]] will begin spawning. After 75 seconds, they will grow into [[Rupter|Rupters]]. 
+**Upon getting 30 kills, Rupters will evolve into [[Mangler|Manglers]].
+**On [[Evolution Phases#Phase 0|Phases 0]] and [[Evolution Phases#Phase 1|1]], Rupters will wander around and occasionally produce [[Call Of The Hive]] effect clouds in order to assimilate mobs. They will initially avoid players and hostile mobs, only engaging in direct combat on Phase 2 onwards. Direct Rupter attacks will also inflict COTH. 
+***Depending on its potency and the Evolution Phase, COTH can turn mobs into either [[Incomplete Forms]], [[Assimilated Mobs]] or [[Feral Parasites]].
+****COTH II will turn mobs into [[Incomplete Forms]], however they will remain disguised and will only undisguise when overly damaged.
+*****If the Mob's size is smaller than 0.517, a [[Small Incomplete Form]] will be generated. If it is greater than 0.517 blocks, a [[Medium Incomplete Form]] will be generated.
+****On Phases [[Evolution Phases#Phase 0|0]]-[[Evolution Phases#Phase 6|6]], COTH III will turn mobs into [[Assimilated Mobs]], which will also initially remain disguised, though only up until Phase [[Evolution Phases#Phase 9|9]].
+*****Mobs with COTH III that do not have an Assimilated counterpart will turn into Incomplete Forms instead.
+*****Assimilated Mobs (excl. [[Assimilated Bear|Assimilated Bears]]) may drop [[Walking Heads]] upon death.    
+******Walking Heads can merge with Medium Incomplete Forms to transform back into Assimilated Mobs.
+*****Assimilated Mobs can melt into [[Moving Flesh]] (as long as [[Ubiquitous Development]] is Level 1 or higher) in the following scenarios:
+******When one Assimilated Mob accumulates a killcount of 10 and is next to three other Assimilated Mobs, regardless of the killcount of the other three.
+******When an Assimilated Mob accumulates a killcount of 10 and is next to another Moving Flesh.
+*******Four Moving Flesh can combine and burst into a random [[Primitive Parasites|Primitive Parasite]].
+********[[Primitive Summoner|Primitive Summoners]] can spawn Rupters.
+********[[Primitive Vermin]] can spawn [[Gnat|Gnats]], which can turn mobs into Feral Parasites instead of Assimilated Mobs.
+********Primitive Parasites can spawn naturally when [[Ubiquitous Development]] is Level 2 or 3.
+********Upon getting 30 kills, Primitive Parasites will evolve into [[Adapted Parasites]].
+*********Adapted Parasites will occasionally puke [[Residue]] if the [[Generations|Generation]] is 4 or higher.
+*********[[Adapted Summoner|Adapted Summoners]] can summon [[Rupter|Rupters]], [[Assimilated Human|Assimilated Humans]], [[Assimilated Cow|Assimilated Cows]] and [[Assimilated Wolf|Assimilated Wolves]].
+*********Adapted Parasites can spawn naturally if [[Ubiquitous Development]] is Level 3 or higher.
+*****Upon killing 5 Skeletons, [[Assimilated Human|Assimilated Humans]] and [[Assimilated Villager|Villagers]] will become [[Host|Hosts]].
+******Hosts are able to produce Rupters periodically.
+******Upon getting 40 kills, [[Host|Hosts]] will evolve into [[Herd|Herds]]. 
+*******Herds are able to produce Manglers.
+*******Hosts and Herds traveling underground will produce Residue.
+*****Upon getting 15 kills, [[Assimilated Adventurer|Assimilated Adventurers]] will evolve into [[Thrall|Thralls]].
+******Thralls can spawn naturally when [[Ubiquitous Development]] is Level 2 or 3.
+*****Upon getting 60 kills, Assimilated Mobs (excl. Assimilated Adventurers, Big Spiders, Squids and Wolves) will evolve into Feral Parasites.
+****On Phases [[Evolution Phases#Phase 7|7]]-[[Evolution Phases#Phase 10|10]], COTH III will turn mobs into [[Feral Parasites]].
+
+*On Phase 1: 
+**[[Rupter|Rupters]] and [[Light Carrier|Light Carriers]] will spawn naturally.
+**Any Parasite (excl. [[Inborn Parasites]] and Incomplete Forms) can spawn a [[Dispatcher Nidus]] after getting 15 kills.
+***Dispatcher Niduses will transform into [[Stage I Dispatcher|Stage I Dispatchers]] when 40 mobs are killed by Parasites in its vicinity.
+****Stage I+ Dispatchers are able to summon [[Dispatcher Tentacle|Dispatcher Tentacles]], which can teleport Parasites, and [[Seizer|Seizers]], which can grab and immobilize nearby entities.
+****Stage I Dispatchers can spawn naturally (without the use of Nidi) if [[Ubiquitous Development]] is Level 3 or higher.
+****After anywhere '''between 240 and 300 seconds''', Stage I Dispatchers will evolve into [[Stage II Dispatcher|Stage II Dispatchers]].
+*****Upon storing Incomplete Forms whose values add up to 6, a Stage II Dispatcher will be able to produce a [[Heed]].
+*****Stage II Dispatchers are able to spawn [[Stage I Rooter|Stage I Rooters]] with a 2% chance roughly every second.
+******All [[Rooter (Disambiguation)|Rooters]] summon [[Rootmass Cyst|Rootmass Cysts]] upon taking damage.
+******Stage I Rooters can spawn naturally (without other Nexuses) if [[Ubiquitous Development]] is Level 3 or higher.
+******After a certain amount of time, Stage I Rooters will evolve into [[Stage II Rooter|Stage II Rooters]].
+*******After a certain amount of time, Stage II Rooters will evolve into [[Stage III Rooter|Stage III Rooters]].
+********After a certain amount of time, Stage III Rooters will evolve into [[Stage IV Rooter|Stage IV Rooters]].
+*****After anywhere '''between 300 and 360 seconds''', Stage I Dispatchers will evolve into [[Stage III Dispatcher|Stage III Dispatchers]].
+******Stage III+ Dispatchers can summon [[Sentry|Sentries]].
+******Upon storing Incomplete Forms whose values add up to 6, a Stage III+ Dispatcher will be able to produce a [[Crux]].
+******After anywhere '''between 600 and 1200 seconds''', Stage III Dispatchers will evolve into [[Stage IV Dispatcher|Stage IV Dispatchers]].
+*******Stage IV Dispatchers will be able to create [[Colony|Colonies]] starting from [[Ubiquitous Development]] Level 4.
+********Colonies will spawn [[Architect|Architects]].
+*********[[Architect|Architects]] will occasionally deploy [[Worker|Workers]].
+********Colonies can permit the spawning of [[Preeminent Parasites]] naturally in the world if enough points are accumulated.
+*********[[Colony Carrier|Colony Carriers]] require a Colony with at least 3 points.
+*********[[Heavy Bomber|Heavy Bombers]] require a Colony with at least 10 points.
+*********[[Wraith|Wraiths]] require a Colony with at least 15 points.
+*********[[Haunter|Haunters]] require a Colony with at least 25 points.
+*********[[Bogle|Bogles]] require a Colony with at least 30 points.
+********Colonies can buff the [[Reinforcement System]] every 20 points.
+*********[[Stage II Beckon|Stage II]] and [[Stage III Beckon|Stage III Beckons]] can spawn from this buffed Reinforcement System.
+
+*On Phase 2: 
+**[[Heavy Carrier|Heavy Carriers]] and [[Assimilated Mobs]] (excl. Assimilated Ender Dragons) will be able to spawn naturally if enough of their sane counterparts are assimilated.
+***[[Assimilated Enderman|Assimilated Endermen]] require the End to be at least Phase 3.
+**Rupters lose their grouping behavior and attack regardless of numbers.
+
+*On Phase 3: 
+**[[Host|Hosts]], [[Lice]], and [[Flying Carrier|Flying Carriers]] will spawn naturally.
+**The [[Reinforcement System]] will become active:
+***When a Parasite dies, there is a chance for a [[Stage I Beckon]] to spawn nearby (4% on Phase 3; 6% on Phase 4; 8% on Phase 5; 10% on Phase 6; 14% on Phase 7; 16% on Phase 8; 18% on Phase 9; 20% on Phase 10).
+***Residue has a chance to spawn a Stage I Beckon every tick (1/5500 on Phase 3; 1/4000 on Phase 4; 1/1000 on Phase 5; 1/500 on Phase 6; 1/400 on Phase 7; 1/300 on Phase 8; 1/250 on Phase 9; 1/150 on Phase 10).
+****Stage I+ Beckons will convert any blocks whose Hardness is less than or equal to 4.5 into [[Infested Blocks]].
+*****Stage I Beckons can spawn from Infested Blocks as well, with a 5% chance.
+****Stage I Beckons are able to spawn Rupters.
+****When a Stage I Beckon dies, it will produce more Residue.
+****After anywhere '''between 240 and 300 seconds''', Stage I Beckons will evolve into [[Stage II Beckon|Stage II Beckons]].
+*****Stage II Beckons are able to spawn Rupters, [[Flying Carrier|Flying Carriers]] and Assimilated Mobs (excl. Assimilated Ender Dragons and Squids).
+*****Stage II Beckons are able to spawn [[Stage I Rooter|Stage I Rooters]] with a 2% chance roughly every second.
+******All [[Rooter (Disambiguation)|Rooters]] summon [[Rootmass Cyst|Rootmass Cysts]] upon taking damage.
+******Stage I Rooters can spawn naturally (without other Nexuses) if [[Ubiquitous Development]] is Level 3 or higher.
+******After a certain amount of time, Stage I Rooters will evolve into [[Stage II Rooter|Stage II Rooters]].
+*******After a certain amount of time, Stage II Rooters will evolve into [[Stage III Rooter|Stage III Rooters]].
+********After a certain amount of time, Stage III Rooters will evolve into [[Stage IV Rooter|Stage IV Rooters]].
+*****As of Phase 4, after anywhere '''between''' '''300 and 360 seconds''', Stage II Beckons will evolve into [[Stage III Beckon|Stage III Beckons]].
+******Stage III Beckons are able to spawn Rupters, [[Heavy Carrier|Heavy]] and [[Flying Carrier|Flying Carriers]], Assimilated Mobs (excl. Assimilated Ender Dragons and Squids), Primitive Parasites (excl. Primitive Devourers), [[Light Bomber|Light Bombers]], [[Overseer|Overseers]], [[Vigilante|Vigilantes]] and [[Warden|Wardens]].
+*******Heavy Carriers will spawn Gnats.
+*******Stage III Beckons can spawn [[Kyphosis|Kyphosises]] and Sentries on Infested Blocks.
+******As of Phase 5, after anywhere '''between 600 and 1200 seconds''', Stage III Beckons will evolve into [[Stage IV Beckon|Stage IV Beckons]].
+*******Stage IV Beckons are able to spawn Stage I, II and III Beckons.
+*******Stage IV Beckons can instantly evolve Assimilated Mobs and Walking Heads into Primitive Parasites and Primitive Parasites into Adapted Parasites.
+*******Stage IV Beckons are able to create [[Node|Nodes]] if [[Ubiquitous Development]] Level 4.
+********8 days after its creation, a Node will level up to '''Level 1'''.
+*********Crop growth has a '''30% chance''' to fail within the Node.
+*********Its effects have a range of '''400 blocks'''.
+*********It can spread over a total of '''200 blocks'''.
+*********10 days after a Node becomes Level 1, it will level up to '''Level 2'''.
+**********Crop growth has a '''60% chance''' to fail within the Node.
+**********Its effects have a range of '''1600 blocks'''.
+**********It can spread over a total of '''800 blocks'''.
+**********40 days after a Node becomes Level 2, it will level up to '''Level 3'''.
+***********Crop growth has a '''100% chance''' to fail within the Node.
+***********Its effects have a range of '''8000 blocks'''.
+***********It can spread over a total of '''4000 blocks'''.
+********Nodes will subsequently form a [[Parasite Biome]].
+*********Workers, Assimilated Mobs, Primitive Parasites, Adapted Parasites, [[Pure Parasites]], and [[Preeminent Parasites]] will be able to spawn naturally within the Parasite Biome.
+**********Pure Parasites can spawn Dispatcher Tentacles and Seizers.
+**********[[Heavy Bomber|Heavy Bombers]] can deploy bombs which spawn [[Marauder|Marauders]], [[Monarch|Monarchs]], [[Overseer|Overseers]], and/or [[Vigilante|Vigilantes]].
+**********All Preeminent Parasites can spawn [[Succor|Succors]].
+
+*On Phase 4, [[Heed|Heeds]] and [[Assimara Parasites]] will spawn naturally if enough of their Sane counterpart has been assimilated.
+
+*On Phase 5, [[Crux|Cruxes]] and [[Dredge|Dredges]] will spawn naturally.
+
+*On Phase 6, [[Mangler|Manglers]] and [[Many Bodies]] will spawn naturally.
+
+*On Phase 7, [[Airscrew|Airscrews]] and [[Herd|Herds]] can spawn naturally.
+**Additionally, if the Nether and End reach this Phase, [[Draconite|Draconites]] and [[Kirin]] will spawn naturally.
+
+*On Phase 8: 
+**[[Feral Parasites]] will be able to spawn naturally.
+***[[Feral Enderman|Feral Endermen]] require the End to be Phase 4 or higher.
+**[[Light Bomber|Light Bombers]] will be able to spawn naturally.
+***All other [[Pure Parasites]] require [[Ubiquitous Development]] to be Level 4.
+
+*On Phase 9, [[Assimilated Ender Dragon|Assimilated Ender Dragons]] can spawn if the End has reached Phase 3.
+
+*On Phase 10, all base Parasite stats will be increased by 7%. 
+
+[[Category:Systems]]

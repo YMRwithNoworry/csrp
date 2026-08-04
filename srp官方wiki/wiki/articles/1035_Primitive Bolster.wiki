@@ -1,0 +1,122 @@
+{{Navbar|page1=Primitive Bolster|page2=Adapted Bolster}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|pribolster}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=<gallery>
+Primitive Bolster.png|Normal
+VirulentPriBolster.png|Virulent
+BreacherPriBolster.png|Breacher
+</gallery>
+|hp=35.0
+|damage=6.0
+|armor=4.0
+|kb_resistance=0.35 
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:pri_bolster 
+}} 
+
+'''Primitive Bolsters''', known internally as '''Bano e'Zetmo''', is a [[Mobs|Mob]] in the [[Primitive Parasites|Primitive]] tier.
+
+== ''Spawning'' ==
+*Spawned after a successful merging between 4 [[Moving Flesh]], through the [[Evolution System]].
+*Spawns in groups of 2 to 3, from [[Ubiquitous Development#Level 2|Ubiquitous Development Level 2]] through [[Ubiquitous Development#Level 4|Level 4]], with a spawnweight of 15.
+*Spawned by [[Stage III Beckon|Stage III Beckons]].
+*Spawned by 4 [[:Category:Assimilated Mobs|Assimilated Mobs]] stored into a [[Stage III Dispatcher|Stage III]] or [[Stage IV Dispatcher|IV Dispatcher]].
+*Spawned by level 4 or higher [[Scent System|Scents]].
+*If at least one [[Colony]] exists, spawns when an [[Adapted Bolster]] is killed.
+
+== ''Behavior'' ==
+Primitive Bolsters are slow-moving support units with moderate melee capabilities.
+
+*Primitive Bolsters deal damage on contact.
+*If the [[Generations|Generation]] is 4 or higher, Primitive Bolsters can perform the following ability:
+**Giving Regeneration II (0:30) to nearby Parasites up to 16 blocks away, with a cooldown of 30 seconds.
+*Primitive Bolsters are capable of extinguishing fire within melee range.
+*Primitive Bolsters have a chance of blocking incoming damage, nullifiyng it.
+*Primitive Bolsters can perform small leaps in liquids.
+*Primitive Bolsters can break blocks of a [[Hardness]] value up to 1, with a 60-tick cooldown and 1-block range.
+*If a Primitive Bolster gets 10 kills, it will evolve into an [[Adapted Bolster]].
+{{Variants|count=2|Virulent=VirulentPriBolster.png|Breacher=BreacherPriBolster.png}}
+
+=== ''Weaknesses'' ===
+Like all Parasites, Primitive Bolsters are weak to fire. Damage inflicted by fire and lava is quadrupled.
+
+=== ''Post Death'' ===
+
+* On death, Primitive Bolsters have a chance to explode, releasing [[Remains|Primitive Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|Call of the Hive]].
+** If at least one [[Colony]] exists in the dimension, Primitive Bolsters will become [[Moving Flesh]] upon death instead.
+{{Properties
+|tier=Primitive
+|OrbEffectsMobs=Hunger II (00:15)
+|OrbEffectsParasites=Speed II (00:30)
+}}
+
+{{Drops
+|rolls1=One Roll:
+|page1=Altered Tendons
+|amount1=2
+|chance1=40
+|rolls2=Always Rolls:|page2=Bolster Husk|amount2=1|chance2=40|page3=Strange Bone|amount3=1|chance3=10}}
+
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|[[File:Primitive Bolster Growl.ogg]]
+|Hostile
+|Plays randomly while a Primitive Bolster is alive.
+|zetmo_growl
+|-
+|[[File:Primitive Bolster Hurt.ogg]]
+|Hostile
+|Plays when a Primitive Bolster takes damage.
+|zetmo_hurt
+|-
+|[[File:Adaptating_1.ogg]]
+[[File:Adaptating_2.ogg]]
+[[File:Adaptating_3.ogg]]
+|Hostile
+|Plays when a Parasite is adapting.
+|Parasite adapts
+|adaptating_1-3
+|-
+|[[File:Adapted_1.ogg]]
+[[File:Adapted_2.ogg]]
+[[File:Adapted_3.ogg]]
+|Hostile
+|Plays when a Parasite has adapted.
+|Parasite adapted
+|adapted_1-3
+|-
+|[[File:Primitive Bolster Death.ogg]]
+|Hostile
+|Plays when a Primitive Bolster dies.
+|zetmo_death
+|-
+|}
+
+== ''Trivia'' ==
+*Bolsters are internally known as '''Bano''' and '''Zetmo''', seemingly interchangeably. Whether or not this is a mistake is unknown.
+**'''Zetmo''' was the Bolster's name in early betas, which would match the naming convention used by other primitives.
+**Sometimes these names are combined into '''Bano e'Zetmo''', such as in the Compendium.
+*To "bolster" something means to support or strengthen it, which may reference the Bolster's tankiness and ability to give Regeneration to other parasites.
+
+== ''Gallery'' ==
+<gallery>
+File:PrimitiveBolsterHeight.png|thumb|Size of the Primitive Bolster's model.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Primitive Parasites]]
+[[Category:Mobs]]

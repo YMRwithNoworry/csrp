@@ -1,0 +1,85 @@
+{{TierBar}}
+
+
+'''Adapted Parasites''' are a Tier of [[Mobs#Parasites|Parasites]]. This Tier is placed above [[Primitive Parasites]] and contains 12 Mobs. Killing all of them at least once grants the player the {{AdvancementLink|Adapted}}.
+
+Parasites part of the Adapted Tier must be approached with caution because of their particularly strong Stats and unique Abilities. 
+
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+File:Adapted Arachnida.png|link=Adapted_Arachnida|[[Adapted Arachnida]]
+File:Adapted Bolster.png|link=Adapted_Bolster|[[Adapted Bolster]]
+File:AdaptedBurrower.png|link=Adapted Burrower|[[Adapted Burrower]]
+File:AdaptedDevourer.png|link=Adapted Devourer|[[Adapted Devourer]]
+File:Adapted Longarms.png|link=Adapted_Longarms|[[Adapted Longarms]]
+File:Adapted Manducater.png|link=Adapted_Manducater|[[Adapted Manducater]]
+File:Adapted Reeker.png|link=Adapted_Reeker|[[Adapted Reeker]]
+File:Adapted Summoner.png|link=Adapted_Summoner|[[Adapted Summoner]]
+File:AdaptedTozoon.png|link=Adapted_Tozoon|[[Adapted Tozoon]]
+File:AdaptedVermin.png|link=Adapted Vermin|[[Adapted Vermin]]
+File:AdaptedViscera.png|link=Adapted Viscera|[[Adapted Viscera]]
+File:Adapted Yelloweye.png|link=Adapted_Yelloweye|[[Adapted Yelloweye]]
+</gallery>
+</div>
+
+== ''Shared Aspects and Capabilities'' ==
+
+=== Spawning ===
+*Spawn after a [[Primitive Parasites|Primitive Parasite]] [[Evolution System|evolves]] after killing 30 mobs;
+*Spawns naturally if [[Ubiquitous Development]] is Level 3 or higher;
+*Spawns inside the [[Parasite Biome]].
+
+=== Weakness ===
+*Like all Parasites, Adapted present a weakness to fire (damage inflicted by fire is quadrupled);
+*Some of the Adapted Parasites present either a [[Adaptation System#Trivia|Weak Point]] or [[Adaptation System#Neutralization|Tendrils]]:
+**When the first are hit, the damage inflicted to the Parasite is tripled. This also inflicts the [[Bleeding]] Effect to the Parasite;
+**When the second are hit enough times, they'll be cut off, resetting the Parasites' [[Adaptation System|Adaptation]]. This also inflicts the [[Bleeding]] and [[Rage]] Effects.
+
+=== Capabilities ===
+*Adapted Parasites are capable of regenerating when out of combat;
+**Adapted Parasites obtain the Regeneration Effect after killing something. The Effect lasts enough to regenerate 1 HP;
+*Adapted Parasites are capable of performing small leaps, both on land and in liquids, which grants them a movement advantage;
+**Primitive Parasites are capable of jumping a certain amount of blocks, depending on the Parasite, in order to reach their targets. [[Adapted Arachnida|Arachnida]] and [[Adapted Longarms|Longarms]] are the only exception, because they are capable of climbing blocks;
+*Adapted Parasites will escape from Lava and Magma Blocks after being damaged by them;
+*Adapted Parasites inflict the [[Call Of The Hive]] Effect when attacking in Melee;
+*Adapted Parasites are capable of puking [[Residue]] (as long as the [[Generations|Generation]] is 4), which has a chance to spawn Beckons;
+*Adapted Parasites are capable of [[Adaptation System#Adaptation|adapting]] to Damage Types. The maximum number of Damage Types they can learn is 3;
+**Adapted Parasites posses a Damage Cap of 3<ref>This means that, no matter how much Damage an Adapted is receiving, it'll always need at least three hits before going down</ref>;
+**Adapted Parasites have a Minimum Damage of 1.5<ref>This means that, no matter how much Armor an Adapted's target is wearing, it will always take at least 1.25 damage.</ref>.
+
+=== Griefing Capabilities ===
+All Adapted can break blocks that have their [https://minecraft.fandom.com/wiki/Breaking#Blocks_by_hardness Hardness] Value up to 3<ref>Exception for Bolsters, which can break blocks that have their Hardness Value up to 3.5</ref>, with a 40 ticks cooldown and 1<ref>Exception for Manducaters, Yelloweyes, Arachnida and Bolsters, which have a 2 Blocks range.</ref>Block range.
+
+After there's a certain amount of dropped items around, Adapted will spawn a [[Parasitic Cyst]], which will slowly clean these items.
+
+=== Post-Death ===
+*After dying, all Adapted have a chance to explode, releasing a Potion Cloud which inflicts the Poison and [[Call Of The Hive]] Effects. They will also leave behind [[Remains|Adapted Remains]];
+*After dying, all Adapted have a chance to activate the [[Reinforcement System]].
+{{Properties|tier=Adapted}}
+Note: Each Adapted Parasites’ Orb gives an additional effect to either mobs, other parasites, or itself.  See their individual pages for more information.
+
+=== Drops ===
+{{Drops
+|header=false
+|rolls1=1 Roll
+|page1=Toxic Lung
+|amount1=1-3
+|chance1=30% to 50
+}}
+
+== ''Configuration'' ==
+Below is a list of the Config changes that affect Adapted Parasites.
+
+To be added...
+
+== ''[[Survival Guides]]'' ==
+To be added...
+
+== ''[[Lore]]'' ==
+To be added...
+
+== ''Trivia'' ==
+*An Adapted Parasite has the same abilities as its [[Primitive Parasites|Primitive]] counterpart, albeit more powerful, and sometimes a new ability as well.
+* To be added...
+
+[[Category:Mobs]]

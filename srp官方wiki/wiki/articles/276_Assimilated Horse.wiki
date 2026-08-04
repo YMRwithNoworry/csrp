@@ -1,0 +1,120 @@
+{{Navbar|page1=Walking Horse Head|page2=Assimilated Horse|page3=Feral Horse}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|simhorse}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=Assimilated Horse.png
+|hp=24.0
+|damage=7.5
+|armor=0.5 
+|kb_resistance=0.1
+|adaptable=No
+|id=srparasites:sim_horse
+}}
+'''Assimilated Horses''', known internally as '''Infhorse''', are the [[Assimilated Mobs|Assimilated Version]] of Horses. Assimilated Horses do not currently possess an [[Assimara Parasites|Assimara version]] at the time of writing, much like [[Assimilated Pig|Assimilated Pigs]]. The implications of this are unknown.
+
+== ''Spawning'' ==
+* Spawned when a Horse succumbs to [[Call Of The Hive]] below [[Evolution Phases#Phase 7|Phase 7]].
+* Spawns in groups of 3 to 5, from [[Evolution Phases#Phase 2|Phase 2]] through [[Evolution Phases#Phase 7|Phase 7]], with a spawnweight of 25, once 3 Horses have been assimilated.
+* Spawned by [[Stage II Beckon|Stage II]] and [[Stage III Beckon|Stage III Beckons]].
+* Spawned by level 3 or higher [[Scent System|Scents]].
+
+== ''Behavior'' ==
+Assimilated Horses are Melee Combatants.
+
+* Their Melee Attack is performed through contact damage.
+* Any Mob within 3 blocks of an Assimilated Horse will be inflicted with [[Call Of The Hive|COTH]]. This does not go through walls.
+* Assimilated Horses are able to traverse faster in liquids by performing small leaps.
+* Assimilated Horses are able to dive in liquids to pursue submerged targets.
+* Assimilated Horses have a chance to explode, dealing 15 damage in a 3.5 block radius, and releasing [[Remains|Assimilated Remains]], 3-4 [[Buglin|Buglins]], and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+** Assimilated Horses will attempt to explode on low health, acting identically to if they would have exploded on death. 
+*** When not exploding, there is a 50% chance an Assimilated Horse will drop its [[Walking Horse Head|Head]].
+* If an Assimilated Horse gets 5 kills and is within range of a [[Moving Flesh]] or 3 other Assimilated Mobs<ref>Excluding [[Assimilated Ender Dragon]] and [[Assimilated Big Spider]].</ref>, it will evolve into a [[Moving Flesh]].
+* If an Assimilated Horse gets 60 kills and is unable to turn into [[Moving Flesh]], it will evolve into a [[Feral Horse]].
+
+===''Weaknesses''===
+*Assimilated Horses, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+{{Properties|tier=Assimilated}}
+
+{{Drops
+|rolls1=One Roll
+|page1=Infected Flesh
+|amount1=1-2
+|chance1=80
+|rolls2=Always Rolls
+|page2=Diseased Heart
+|amount2=1
+|chance2=10
+}}
+
+==''Sounds''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Assimilatedhorseliving1.ogg]]
+[[File:Assimilatedhorseliving2.ogg]]
+[[File:Assimilatedhorseliving3.ogg]]
+|Hostile
+|Plays randomly while an Assimilated Horse is alive.
+|Distorted neighs
+|assimilatedhorseliving1-3
+|-
+|
+[[File:Assimilatedhorsehurt1.ogg]]
+[[File:Assimilatedhorsehurt2.ogg]]
+[[File:Assimilatedhorsehurt3.ogg]]
+|Hostile
+|Plays when an Assimilated Horse is hurt.
+|Assimilated horse screams
+|assimilatedhorsehurt1-3
+|-
+|[[File:Assimilatedhorsecharge.ogg]]
+|Hostile
+|Plays when an Assimilated Horse charges.
+|Assimilated horse charges
+|assimilatedhorsecharge
+|-
+|[[File:Assimilated Melting.ogg]]
+|Hostile
+|Plays when an Assimilated Horse melts into [[Moving Flesh]].
+|X
+|infected_melting
+|-
+|[[File:Assimilatedhorseexplode.ogg]]
+|Hostile
+|Plays when an Assimilated Horse explodes, at death.
+|X
+|assimilatedhorseexplode
+|-
+|
+[[File:Assimilatedhorsedeath.ogg]]
+|Hostile
+|Plays when an Assimilated Horse dies.
+|Assimilated horse dies
+|assimilatedhorsedeath
+|-
+|}
+
+== ''Trivia'' ==
+*Assimilated Horses are also known as '''infhorse''' in the Mod Files.
+
+== ''Gallery'' ==
+<gallery>
+File:Assimilated Horse Size Comparison.png|Size of the Assimilated Horse's Model.
+File:Assimilated Horse Head.png|Assimilated Horse's Walking Head.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Assimilated Mobs]]
+[[Category:Mobs]]

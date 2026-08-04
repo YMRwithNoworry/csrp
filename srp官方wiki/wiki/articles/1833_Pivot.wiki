@@ -1,0 +1,18 @@
+{{Effect Info
+|image1=Pivot.png
+|sources=See [[#Obtainment|Obtainment]]
+|type=Buff
+|id=srparasites:pivot
+}}'''Pivot''' is a [[Effects|Potion Effect]] introduced by the Mod. This Effect when applied to a Parasite, does a number of changes.
+
+Parasites with the Pivot Effect will send 23.375% of damage taken to a nearby [[Stage I Rooter|Rooter]]'''.''' This percentage increases with potency. Damage diverted to a [[Stage I Rooter|Rooter]] by a Parasite with the Pivot Effect has a cap of 95%.
+
+Pivot increases the attack speed of Parasites each potency.
+
+Parasites with the Pivot Effect gain double [[Evolution Phases#Obtaining Points|Evolution Points]] from action they do.
+
+Pivot cannot be removed by drinking Milk.
+==''Obtainment''==
+Currently, the Pivot Effect can only be obtained from the [[Stage I Rooter|Rooter]] and is parasite-exclusive.
+{{EffectList}}
+[[Category:Effects]]

@@ -1,0 +1,16 @@
+{{Item Info|title1=Tunnel|image1=Tunnel.png|type=Block|id=srparasites:tunnel}}
+'''Tunnels''' (also known as Buglin Tunnels) are a unique type of [[Blocks|Block]]. 
+
+== ''Description'' ==
+Between [[Evolution Phases#Phase -1|Phase -1]] and [[Evolution Phases#Phase 2|Phase 2]], if a [[Rupter]] gets 5 or more kills, it can place down a Tunnel block, and its killcount value will be reduced by 5. [[Buglin|Buglins]] will regularly spawn from Tunnel blocks, as if they are emerging from deep underground. A [[Buglin]] also spawns when the Tunnel block is broken.
+
+==''Gallery''==
+<gallery>
+File:Buglintunnelemergence.png||A [[Buglin]] emerging from a Tunnel.
+</gallery>
+
+== ''Trivia'' ==
+*This Block was [[:Category:Community Proposals|proposed]] by user '''Cephelo'''.  Original Suggestion: https://trello.com/c/CyUapR1K/355-buglin-tunnels
+{{BlockList}}
+[[Category:Blocks]]
+[[Category:Community Proposals]]

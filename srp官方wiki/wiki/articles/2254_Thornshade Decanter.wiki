@@ -1,0 +1,51 @@
+{{Item Info
+|image1=Thornshade Decanter.png
+|type=Consumable
+|stackable=Yes (16)
+|tooltip=Turn your '''wounds''' into theirs, reflecting '''some melee damage'''. Its blessing only works '''twice''' per life. Totems '''nullify''' future effects.
+|id=srparasites:thornshade_decanter
+}}
+'''Thornshade Decanters''' are consumable [[:Category:Tools|Tool]] items that grant a [[Thornshades|buff]] upon being consumed.
+
+== ''Obtainment'' ==
+Brewed in a Brewing Stand from [[Thornshade#Thornshade Berry|Thornshade Berries]] and Awkward Potions.
+
+{{Crafting
+|r1_resultimage=Thornshade_Decanter.png
+|r1_result=Thornshade Decanter (1-3)
+|r1_ing1image=Thornshade_Berry.png
+|r1_ing1=[[Thornshade#Thornshade Berry|Thornshade Berry]] (1)
+|r1_ing2image=Awkward Potion.png
+|r1_ing2=Awkward Potion (1-3)
+|r1_recipeimage=Thornshade Decanter Recipe.gif
+}}
+
+== ''Usage'' ==
+When consumed, it bestows the [[Thornshades]] status effect for 20 seconds. Consuming a Decanter again within those 20 seconds will ''not'' cause the duration to be refreshed, and drinking another one after those 20 seconds is considered a second use.
+
+Upon the third use, instead of receiving the [[Thornshades]] effect, the player will instead drip a large amount of blood particles, as a soft, crunchy sound plays. Shortly after that, a custom explosion of ringed blood particles is triggered around the player.
+
+This will:
+*Kill the player instantly, which can be counteracted by using a Totem of Undying in both hands simultaneously, consuming one or both.
+*Grant the player the {{AdvancementLink|Beautiful Self-Destruction}}.
+*Deal damage to mobs in a 5 block radius, with the amount ranging from 21 to 0 depending on the distance of the affected mob.
+*Apply [[Thornshades]] to all mobs within a 10 block radius for about half a minute.
+
+Once such an explosion is triggered, this Item will become useless until you die, which in most cases will happen alongside the explosion.
+
+== ''Trivia'' ==
+*Dying to the Thornshade explosion attributes the kill to the last entity that hit the player.
+*Switching from Creative to Spectator mode while drinking the Decanter will consume it like in survival.
+
+==''Gallery''==
+<gallery>
+File:Thornshade explosion (grey background).png|Third person view of the explosion with a solid background.
+File:Thornshade explosion (rings marked).png|Third person view of the explosion, with blue lines marking the rings formed by the blood particles.
+File:Thornshade explosion (prolapse).png|First stage of the Explosion, likely being the player throwing up concerning amounts of blood.
+File:Thornshade explosion (prolapse first person).png|The POV right before the explosion.
+</gallery>
+
+{{ItemList}}
+[[Category:Tools]]
+[[Category:Equipment]]
+[[Category:Items]]

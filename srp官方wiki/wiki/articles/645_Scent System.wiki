@@ -1,0 +1,146 @@
+[[File:Viral.png|thumb|108px|The [[Compendium]] icon.|link=Compendium]]
+
+The '''Scent System''' is a [[Systems|System]] introduced by Scape and Run: Parasites. This System allows [[Mobs|Parasites]] to interact and react to different situations in a great variety of ways.
+
+== Overview ==
+Scents essentially function as a smart spawn/invasion system. When killing a mob while [[Ubiquitous Development]] is level 2 and onward, there is a chance that it will create an invisible Scent entity. A scent can be manually summoned when using a [[Lures#Carcass|Carcass]] in survival mode, with a specific level based on the current evolution phase or by [[Heed|Heeds]] can also directly summon low level Scents.
+
+Scent entities are invisible, intangible, and can only be killed manually via commands. Scent entities have a default cap of 3 within the world and need to be a minimum distance of 40 blocks apart.
+
+Scent entities serve as a brain to the Scent System. When parasites die nearby the Scent will respond by attempting to teleport nearby parasites to the attacker's location, if there are not enough parasites the Scent will summon [[Worm|Worms]] to spawn the parasites from a list, depending on the Scent's level. Killing parasites will add <u>Danger Points</u>, <u>Reaction Points</u>, and increase the Scent's lifespan. <u>Danger Points</u> increase a Scent's level. <u>Reaction Points</u> determine when a Scent will teleport and summon parasites. 
+{| class="mw-collapsible mw-collapsed fandom-table"
+|+Scent Levels
+!Scent Level
+!Danger Points Required
+!Minimum Waves
+!Maximum Waves
+!Minimum Mobs Per Wave
+!Maximum Mobs Per Wave
+!Spawn Pool
+|-
+|0
+|0
+|1
+|2
+|3
+|4
+|[[Rupter|Rupters]]
+|-
+|1
+|10
+|1
+|3
+|4
+|6
+|[[Rupter|Rupters]]
+|-
+|2
+|25
+|2
+|4
+|4
+|6
+|[[Rupter|Rupters]], [[:Category:Walking Heads|Walking Heads]], [[Heed|Heeds]]
+|-
+|3
+|75
+|3
+|6
+|3
+|4
+|[[Rupter|Rupters]], [[:Category:Walking Heads|Walking Heads]], [[:Category:Assimilated Mobs|Assimilated]], [[Heed|Heeds]]
+|-
+|4
+|150
+|3
+|4
+|3
+|6
+|[[:Category:Assimilated Mobs|Assimilated]], [[:Category:Primitive Parasites|Primitive]], [[Heed|Heeds]], [[Crux|Cruxes]]
+|-
+|5
+|150
+|3
+|4
+|4
+|6
+|[[:Category:Assimilated Mobs|Assimilated]], [[:Category:Primitive Parasites|Primitive]], [[Heed|Heeds]], [[Crux|Cruxes]]
+|-
+|6
+|240
+|2
+|5
+|2
+|5
+|[[:Category:Assimilated Mobs|Assimilated]], [[:Category:Primitive Parasites|Primitive]], [[Heed|Heeds]], [[Crux|Cruxes]]
+|-
+|7
+|360
+|2
+|5
+|2
+|5
+|[[:Category:Assimilated Mobs|Assimilated]], [[:Category:Primitive Parasites|Primitive]], [[Heed|Heeds]], [[Crux|Cruxes]]
+|-
+|8
+|500
+|2
+|5
+|2
+|5
+|[[:Category:Assimilated Mobs|Assimilated]], [[:Category:Primitive Parasites|Primitive]], [[Heed|Heeds]], [[Crux|Cruxes]]
+|}
+
+=== Tips ===
+
+* To avoid an infinite feedback loop of Scent attacks, it may be best to lay low and not kill any parasites until a Scent dissipates.
+** This does not work if a [[Heed]] is present, since Heeds spawn Scents they must be killed in order to stop a Scent attack.
+
+== ''<big>Functioning</big>'' ==
+The Scent System works with three types of variables: <u>Tasks</u>, <u>Values</u>, and <u>Modes</u>.
+
+=== Values ===
+
+* <u>Danger Value</u>: This will go up when a parasite dies within range and as this goes up, the Scent's level will increase. If [[Evolution Phases]] is on, each time a scent is placed it will have a bonus per phase. Some parasites can increase this value faster when they die.
+* <u>Reaction Value</u>: This will also go up when a parasite dies within range, and this will trigger the placement of waves.
+
+=== Tasks ===
+
+* <u>Task A</u>: The scent will check the <u>reaction value</u> until it reaches a threshold. If that threshold is met, it will go into <u>Tactical Mode</u> (This will reset the <u>reaction value</u>).
+* <u>Task B</u>: If a non-parasite mob is within range, the <u>reaction value</u> will increase.
+* <u>Task C</u>: The scent will check the <u>reaction value</u> until it reaches a threshold. If that threshold is met, it will go into <u>Attacker Mode</u> (This will lower the <u>reaction value</u>). If the current target is alive, the <u>reaction value</u> will increase (it will decrease if its dead). If <u>reaction value</u> reaches 0, the scent will go into <u>Observer Mode</u>.
+* <u>Task D</u>: The Scent will try to relocate nearby parasites if avaiable. If there are not enough parasites that can be relocated, it goes into <u>Builder Mode</u>. After this is done, this will go into <u>Tactical Mode</u>.
+* <u>Task E</u>: The scent will try to spawn other scents within a range of its intended target. Spawned scents will be in <u>Aggressive Mode</u>.
+* <u>Task F</u>: This will spawn mobs from a list and then this will be set to dead.
+
+=== Modes ===
+
+* <u>Listener Mode</u>: Will only work Task A
+* <u>Observer Mode</u>: Will work Task A, B
+* <u>Tactical Mode</u>: Will work Task C
+* <u>Attacker Mode</u>: Will work Task D
+* <u>Builder Mode</u>: Will work Task E
+* <u>Aggressive Mode</u>: Will work Task F
+
+=== Summary ===
+As parasite mobs die, this will trigger scent within range and increase <u>Danger value</u> and <u>Reaction value</u>. <u>Danger value</u> can depends on the mobs that are killed and the evolution phase. This value will change the mobs that will be spawned by scent. <u>Reaction value</u> is used as a trigger for the whole system. If <u>reaction value</u> is high enough, the scent will go in <u>tactical mode</u>, basically waiting for the <u>Reaction value</u> to go higher. When it does, it will trigger the <u>Attacker mode</u>. The scent will check if there are parasites mobs available to relocate, the scent will relocate those parasites. If there are not enough parasites that can be relocated, it goes into <u>Builder mode</u>, that will basically artificially spawn parasites (by spawning scents in aggressive mode, the mode that spawn parasites).
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''ID'''
+|-
+|[[File:Scent Wave.ogg]]
+|Hostile
+|Plays when a Scent changes modes/summons a Wave
+|scent_wave
+|-
+|}
+
+==Trivia==
+* When a scent is summoned, it has its own "theme song" that will play for the duration the scent is active. This song is ''"Grounded,"'' composed by Rotch Gwylt, who has composed most other Scape and Run: Parasites music. It can be listened to [https://www.youtube.com/watch?v=RtZlVLk3oxk here].
+
+[[Category:Work In Progress Content]]
+[[Category:Systems]]

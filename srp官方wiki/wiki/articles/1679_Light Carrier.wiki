@@ -1,0 +1,101 @@
+{{Navbar|page1=Light Carrier|page2=Heavy Carrier|page3=Flying Carrier|page4=Worm Carrier}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|carrierlight}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+{{Mob Info 
+|image1=Light Carrier.png
+|hp=30.0
+|damage=N/A
+|armor=5.0
+|kb_resistance=0.95
+|adaptable=No
+|id=srparasites:carrier_light
+}}'''Light Carriers''' are a [[Mobs|Mob]] in the [[Inborn Parasites|Inborn]] Tier.
+
+==''Spawning''==
+*Spawns from [[Evolution Phases|Phase 1]] to [[Evolution Phases|Phase 4]] with spawnweight of 5.
+
+==''Behavior''==
+Light Carriers are Small Infestation Propagators that hold other infectors.
+
+* Light Carriers will explode when they get close to the entity they are targeting or upon death (assuming they are not on fire). 
+** This explosion can spawn several mobs ([[Light Carrier#Carrier Mob Contents|More info below]]), place [[Residue]] in a 7x7 area, and will inflict the [[Viral]] and [[Vomit]] effect.
+** The area where they exploded will spawn the aforementioned Mobs together with a Poison and [[Call Of The Hive|COTH]] Cloud<ref>This unique effect cloud is known in the mod as "srparasites:cloudtoxic."</ref>.
+
+* Light Carriers are able to traverse faster in liquids by performing small leaps.
+{{Variants|count=1|Empty=Light Carrier.png}}
+
+=== ''Carrier Mob Contents'' ===
+{| class="fandom-table"
+|+'''Spawn Table'''
+!
+!Minimum
+!Maximum
+|-
+|[[Rupter]]
+|4
+|5
+|-
+|[[Gnat]]
+|5
+|7
+|}
+
+=== ''Weaknesses'' ===
+
+* Light Carriers, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+* Light Carriers if set on fire will not explode and release anything upon death.
+{{Properties
+|tier=Inborn
+|XPValue=25
+}}
+==''Sounds''==
+{| class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|[[File:Heavy Carrier Explosion.ogg]]
+|Hostile
+|Plays when a Light Carrier explodes.
+|Mob explodes
+|rathol_explotion
+|-
+|[[File:carrierdeath.ogg]]
+|Hostile
+|Plays when a Light Carrier dies.
+|Carrier perishes
+|carrierdeath
+|-
+|[[File:carrierhurt1.ogg]]
+[[File:carrierhurt2.ogg]]
+|Hostile
+|Plays when a Light Carrier is hurt.
+|Carrier snarls
+|carrierhurt1-2
+|-
+|[[File:carrierliving1.ogg]]
+[[File:carrierliving2.ogg]]
+|Hostile
+|Randomly plays when a Light Carrier is alive.
+|Carrier bubbling
+|carrierliving1-2
+|}
+==''Trivia''==
+*Light Carriers are also known as '''Gothol''' in the Mod Files.
+*Light Carriers resemble flood carrier forms from Halo, both in appearance and in function.
+*The stench of a Light Carrier is described with extreme specificity, being said to be like "spoiled cooked meat sealed in a warm container".
+
+==''Gallery''==
+<gallery>
+File:Light Carrier size comparison.png|Size of the Light Carrier's Model.
+File:Lightcarrieraftermath.png|Average aftermath of a Light Carrier explosion.
+</gallery>{{MobList}}
+[[Category:Inborn Parasites]]
+[[Category:Mobs]]
+
+==Notes==
+<references />

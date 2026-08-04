@@ -1,0 +1,106 @@
+{{Stub}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|kirin}}
+}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+{{Mob Info 
+|image1=Kirin.png
+|hp=410.0
+|damage=155.0
+|armor=30.0
+|kb_resistance=1.0
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:kirin
+}}
+'''Kirin''' are a type of [[Mobs|Mob]], placed into the [[Derived Parasites|Derived]] Tier.
+
+== ''Spawning'' ==
+*Spawns from [[Evolution Phases#Phase 1|Phase 1]] onwards after the End reaches [[Evolution Phases#Phase 7|Phase 7]].
+
+== ''Behavior'' ==
+Kirin are slow, versatile, long-ranged units with heavy crowd control capabilities.
+*Kirin, as other [[Derived Parasites|Derived]] parasites, are able to protect themselves by summoning dark projections of themselves known as Cosmic Forms. When these projections are attached to the Derived Parasite, they will be completely invulnerable to damage. The duplicate will get separated from the main body if it either takes too much damage or if it is aggressively targeting mobs for enough time. 
+**This duplicate when separated acts on its own as if it was another Kirin, it is completely unkillable, but it is still capable of adapting to damage for its original form.
+**Hitting any invulnerable form (either the Cosmic Form alone or when it is present on the original parasite) will be indicated by a dark cyan flash.
+*Kirin have the ability to cast laser beams which may set the target on fire and apply varying debuffs.
+**Before casting this attack, the Kirin will glow pink and shake, before than casting the laser beams.
+**These effects include Mining Fatigue, Nausea, Blindness, Hunger, Weakness, [[Bleeding]], [[Positive]], [[Negative]], [[Indeaf]], [[Overheating]], [[No Vision]], [[Braining]], and [[Muscle Out]].
+***All of these debuffs are applied for seven seconds.
+*Kirin have the ability to teleport near a target. When it does, it creates 2 rectangles and teleports itself or its projections at that place after a few seconds. This has a cooldown of 20 seconds.
+*Kirin have the ability to summon a void orb, which pulls and absorbs any uncovered mob (including other parasites) within a 42-block radius. It deals constant I-frame ignoring damage and lasts for 7.5 seconds.
+**When the Kirin is about to cast this attack, the Kirin will shout and the void orb will appear above it. After a few seconds, the void orb will grow large and the attack will be casted.
+*Kirin, like other Derived Parasites, have the ability to create Orbs in bursts of three at their target oppose to at themselves like other parasites.
+*Kirin, like other Derived Parasites, have Overloaded Adaptation. This refers to the ability to reflect a portion of the damage it takes while [[Adaptation System|adapting]]. This is ability is not present on the Cosmic Form.
+*Kirin can break blocks that have their [[Hardness]] Value up to 27, with a 60 ticks cooldown and 3 Blocks range.
+*Kirin, when in the vicinity of a player, are able to [[Derived Distortion Phenomenon|distort and corrupt GUI text]], including but not limited to the [[Compendium]], [[Module Reports]], signs, and chat messages (ignoring system messages like commands).
+
+=== ''Weaknesses'' ===
+*Kirin, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+{{Properties|tier=Derived}}
+
+{{Drops
+|rolls1=Always Rolls
+|page1=Kirin Trophy
+|amount1=1
+|chance1=100
+}}
+
+=== ''Sounds'' ===
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source''' 
+!'''Description'''
+!'''Subtitle'''
+!'''File name''' 
+|-
+|
+[[File:kirin_idle_1.ogg]]
+[[File:kirin_idle_2.ogg]]
+[[File:kirin_idle_3.ogg]]
+|Hostile
+|Plays randomly when a Kirin is alive.
+|Kirin sings
+|kirin_idle_1-3
+|-
+|
+[[File:kirin_hurt_1.ogg]]
+[[File:kirin_hurt_2.ogg]]
+[[File:kirin_hurt_3.ogg]]
+|Hostile
+|Plays when a Kirin takes damage.
+|Kirin shouts
+|kirin_hurt_1-3
+|-
+|[[File:kirin_black_hole.ogg]]
+|Hostile
+|Plays whenever a Kirin summons a void orb.
+|Blackhole accumulates
+|kirin_black_hole
+|-
+|[[File:orb_attack_summon.ogg]]
+|Hostile
+|Plays whenever a Kirin summons a red orb.
+|
+|orb_attack_summon
+|-
+|[[File:kirin_death.ogg]]
+|Hostile
+|Plays when a Kirin dies.
+|Kirin dies
+|kirin_death
+|-
+|}
+
+== ''Trivia'' ==
+
+
+== ''Gallery'' ==
+<gallery>
+File:KirinHeight.png|Size of the Kirin's model
+</gallery>
+
+{{MobList}}
+[[Category:Derived Parasites]]
+[[Category:Mobs]]

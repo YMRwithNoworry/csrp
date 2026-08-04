@@ -1,0 +1,49 @@
+Versions of the Scape and Run: Parasites Mod. 
+#'''[[Version 1.0.0]]''': The beginning of the mod.  Added six mobs.
+#[[Version 1.0.1]]: Hotfix.
+#[[Version 1.1.0]]: A couple new mechanics, added two mobs.
+#[[Version 1.2.0]]: More config options and fixes, added three mobs.
+#[[Version 1.2.1]]: Fixes.
+#'''[[Version 1.3.0]]''': Balance, name, and visual changes, four new mobs, and gave what would eventually become the [[Primitive Parasites|Primitive]] and [[Adapted Parasites]] their first unique abilities.
+#[[Version 1.4.0]]: Balance tweaks, five new mobs, and a variety of mob sounds.
+#'''[[Version 1.5.0]]''': Some mechanic changes and five new mobs, including what would become [[Stage I Beckon|Stage I]], [[Stage II Beckon|Stage II]], and [[Stage III Beckon|Stage III Beckons]].  The first [[:Category:Weapons|Weapons]] are added, along with the [[Reinforcement System]].
+#[[Version 1.5.1]]: Hotfix.
+#[[Version 1.5.2]]: Fixes, a few config options.
+#'''[[Version 1.6.0]]''': Balance, visual, sound and name changes, two new mobs, and the first [[Beckon (Disambiguation)|Infested Blocks]].
+#'''[[Version 1.7.0]]''': Balance and visual changes.  Both [[Ancient Parasites]] and the [[Vigilante]] have been added, along with [[Moving Flesh]] and the [[Evolution System|Merge System]].  
+#'''[[Version 1.8.0]]''': Tiers are introduced, along with 7 new mobs, including the [[Sentry]], [[Kyphosis]], and [[Warden]].  A myriad of fixes, balance tweaks, name changes, and new config options.
+#[[Version 1.8.1]]: Fixes, and some alternate textures.
+#'''[[Version 1.8.2]]''': Fixes and tweaks.  This was the current version when the mod was cast into the public eye by and excellent [https://youtu.be/GLluVgrpz4k mod review] by textConjure.
+#'''[[Version 1.9.0]]''': Major update. A complete overhaul of mechanics.  [[Evolution Phases]], [[Adaptation System|Adaptation]], the [[Parasite Biome]], [[Colony|Colonies]], and many [[:Category:Effects|Effects]] were added, along with many config options, balance changes, 16 new mobs including the [[Stage IV Beckon]], [[Marauder]], [[Primitive Arachnida|Arachnida]], [[Overseer]], [[Incomplete Forms]], and more.  Many parasites now can swim and dive.  The Infected Alafha was removed, the first and only removed mob.  Was originally split into two alphas.
+#[[Version 1.9.1]]: Hotfix.
+#'''[[Version 1.9.2]]''': Major update.  More mechanics to [[Colony|Colonies]] have been added, as well as more [[:Category:Effects|Effects]], four new mobs such as the [[Assimilated Ender Dragon]], and many fixes, visual changes, balance tweaks, and mechanic updates.  Recipes for [[:Category:Weapons|Living Weapons]] have been reworked.  The [[Scent System]] has been added, but must be enabled.  Many translations have also been added.
+#[[Version 1.9.3]]: Large hotfix.
+#[[Version 1.9.4]]: Fixes.
+#[[Version 1.9.5]]: Fixes and balance tweaks, minimal visual changes.
+#'''[[Version 1.9.6]]''': Major update.  Tons of fixes, 18 new [[Mobs]] including the [[Seizer]], [[Mangler]], [[Thrall]], [[Monarch]], [[Stage I Dispatcher|Dispatchers]], and [[Preeminent Parasites]].  New [[:Category:Effects|Effects]], changes to existing Effects, sounds, and experimental [[:Category:Armors|Armor]] has also been added, along with countless balance tweaks, visual changes, and config options.  [[Adaptation System|Adaptation]] logic has changed.  [[Orb|Orbs]] were added.  [[Ancient Parasites]] no longer spawn, and are considered unimplemented.  Parasites now have their own mobcap.
+#[[Version 1.9.7]]: Hotfix, new sounds, and many translation updates.
+#[[Version 1.9.8]]: Fixes, new config options, and balance tweaks.  Orbs can now contaminate food.
+#[[Version 1.9.9]]: Many fixes, balance tweaks, and new config options.  [[:Category:Armors|Armor]] can now adapt to damage.
+#[[Version 1.9.10]]: Many fixes, visual changes, balance tweaks, and config options, [[Preeminent Parasites]] can now spawn if a [[Colony]] exists in the world.  The [[Quench]] is implemented, and the [[Assimilated Enderman]] is balanced further.
+#[[Version 1.9.11]]: Fixes and new config options.  Point requirements for early phases are increased.  Some parasites have more attacks, some can apply more effects.
+#[[Version 1.9.12]]: Many fixes and tweaks.
+#'''[[Version 1.9.13]]''': Major update. Lots of fixes, config changes and tweaks. 14 new [[Mobs]] including [[Feral Parasites]], [[Hijacked Golem]], [[Primitive Vermin]], [[Gnat]], [[Primitive Tozoon]], [[Assimilated Squid]] and [[Light Carrier]]. Along with the addition of [[Debug Items|Wands]], phases 9 and 10, a rework of [[Lures]] to add a cooldown to evolution points instead of decreasing them, new variants for many existing parasites and the [[Scent System]].
+#[[Version 1.9.14]]: Hotfix.
+#[[Version 1.9.15]]: Fixes and config changes.
+#[[Version 1.9.16]]: Fixes, config changes and tweaks.
+#[[Version 1.9.17]]: Many sound and config changes.
+#[[Version 1.9.18]]: Fixes and sound changes.
+#[[Version 1.9.19]]: Many fixes, balance tweaks, config options and sound changes.
+#[[Version 1.9.20]]: Fixes and tweaks.
+#[[Version 1.9.21]]: Many config changes, compatibility changes and multiple translations added.
+#'''[[Version 1.10.0]]''': One of the largest updates the mod has ever received. Tons of fixes, config changes and sound changes, 23 new [[Mobs]] including new tiers such as [[Abominations]], [[Derived Parasites]] and [[Assimara Parasites]]. New Parasites were added to existing tiers such as [[Hijacked Blaze]], [[Hijacked Skeleton]], [[Primitive Viscera|Primitive and Adapted Visceras]], [[Adapted Devourer]], [[Dredge]], [[Stage I Rooter|Rooters]], [[Incomplete Crux]], [[Airscrew]], [[Lice]] and [[Rootmass Cyst]]. New Systems like [[Dislodgment System]], [[Ubiquitous Development]], [[Emerging Infestation Vector|Emerging Infestation Vectors]], [[Generations]] and [[Celestial Events]]. 18 new [[Effects]], 21 unique [[Items]] including the [[Compendium]], many new blocks and texture changes to old ones, with the addition of the [[Relay Tower]] and [[Modules]]. OSTs made by Rotch Gwylt were also included in this update.
+#[[Version 1.10.1]]: Fixes and code cleanups.
+#[[Version 1.10.2]]: Fixes, tweaks, lore for inborn and derived parasites, 2 languages added (japanese and french) and new animations added for the compendium.
+#[[Version 1.10.3]]: Many fixes and config options. Added Dislodgment/EIV/Phase reports/modules for the [[Relay Tower]]. New trophies, advancements being remade. Addition of drops to each mob entry in the compendium.
+#[[Version 1.10.4]]: Fixes, tweaks and config options. New commands related to the new [[Derived Distortion Phenomenon]]. New advancements related to [[Celestial Events]]. New stats page and gui changes made to the [[Compendium]]. New [[Shrimp]] item, which can be fed to an [[Assimilated Enderman]] for a new Ariral variant.
+#[[Version 1.10.5]]: Multiple Fixes and tweaks. New Mob [[Compendium]] lore entries for [[Crude]] and [[Assimilated Mobs|Assimilated]] parasites. New textures for many [[Effects|Potion Effects]]. Parasite spawn logic tweaked.
+#[[Version 1.10.6]]: Texture and sound tweaks. Many new [[Mobs|Mob]] sounds. New textures for some [[Effects|Potion Effects]]. Sound files organization. New block sounds.
+#[[Version 1.10.7]]: Lots of sound and texture tweaks. New  [[Assimilated Wolf]]] and [[Rupter]] variants. New Dark Days celestial event. [[Hijacked Iron Armor]] is now craftable. New [[Draconite]] attack. Improvements to particles, fog and sound organization.
+
+[[Category:Mod Content]]
+[[Category:Scape and Run: Parasites Wiki]]

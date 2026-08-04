@@ -1,0 +1,35 @@
+{{Effect Info
+|image1=Parate.png
+|sources=See [[#Obtainment|Obtainment]]
+|type=Buff (Parasite)
+|id=srparasites:Parate
+}}
+
+'''Parate''' is a parasite-exclusive [[Effects|effect]] introduced by the Mod. 
+*If a parasite kills a mob under this effect, the parasite will partially absorb the victim's attributes (Health, Damage, Armor). Affected by Amplifier.
+*Parate cannot be removed by drinking Milk.
+
+== ''Obtainment'' ==
+[[Stage I Rooter|Rooter]] applies Parate to any parasite in it's range.
+
+The Parate effect potency doesn't stack.
+
+{{Effect Causes
+|cause1=[[Stage I Rooter|Stage I Rooter]]
+|duration1=0:15
+|potency1=I
+|Percentage1=WIP
+|cause2=[[Stage II Rooter|Stage II Rooter]]
+|duration2=0:15
+|potency2=II
+|Percentage2=WIP
+|cause3=[[Stage III Rooter|Stage III Rooter]]
+|duration3=0:15
+|potency3=III
+|Percentage3=WIP
+|cause4=[[Stage IV Rooter|Stage IV Rooter]]
+|potency4=IV
+|Percentage4=WIP
+|duration4=0:15}}
+{{EffectList}}
+[[Category:Effects]]

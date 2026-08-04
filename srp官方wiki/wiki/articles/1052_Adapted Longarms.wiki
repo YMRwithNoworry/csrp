@@ -1,0 +1,157 @@
+{{Navbar|page1=Primitive Longarms|page2=Adapted Longarms}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|adalongarms}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=<gallery>
+Adapted Longarms.png|Normal
+TyrantAdaLongarms.png|Tyrant
+BerserkerAdaLongarms.png|Berserker
+VirulentAdaLongarms.png|Virulent
+BreacherAdaLongarms.png|Breacher
+</gallery>
+|hp=95.0
+|damage= 27.0
+|armor=16.0
+|kb_resistance=1.0 
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:ada_longarms
+}}
+'''Adapted Longarms''' are a [[Mobs|Mob]] placed into the [[Adapted Parasites|Adapted]] Tier.
+
+== ''Spawning'' ==
+* Spawns after a [[Primitive Longarms]] accumulates a killcount of 30 and [[Evolution System|evolves]].
+* Spawns naturally in groups of 2 to 3, if [[Ubiquitous Development]] is Level 3 or higher, with a spawnweight of 15.
+* Spawns inside the [[Parasite Biome]], with a spawnweight of 10.
+
+== ''Behavior'' ==
+Adapted Longarms are highly mobile melee combatants with AoE capabilities. 
+
+* Adapted Longarms' melee attack inflicts AoE damage and is performed by them swinging their tentacles.
+*If the [[Generations|Generation]] is 4 or higher, Adapted Longarms can perform the following abilities:
+**Generate shock waves, large damaging areas of disturbed ground. After standing still for a brief period they will summon a shock wave which moves forward at slow speed attempting to break any blocks they contact. Shock waves ignore immunity frames and deal massive vertical knockback.
+*** This is indicated by flame particles and a higher pitched growl. They will also stand still before performing this attack.
+** Like other Adapted Parasites, vomit [[Residue]] in a 5x5 area every so often.
+* Their attack damage increases the lower their HP is. Adapted Longarms' damage will increase by 100% for every HP they lose.
+* Adapted Longarms can climb blocks.
+* Adapted Longarms can perform small leaps, both on land and in liquids.
+* Adapted Longarms can sink in liquids to pursue submerged enemies.
+* Adapted Longarms can break blocks with [[Hardness]] value up to 3, with a 1-block range and a 40 tick cooldown.
+{{Variants|count=4|Berserker=BerserkerAdaLongarms.png|Virulent=VirulentAdaLongarms.png|Breacher=BreacherAdaLongarms.png|Texture=TyrantAdaLongarms.png|TextureName=Tyrant|TextureDesc=inflicts double the damage but has half the HP.}}
+
+===''Weaknesses''===
+* Like all Parasites, Adapted Longarms are weak to fire. Damage inflicted by fire is quadrupled.
+* Adapted Longarms's Tendrils, found on the sides of their body, can reset their [[Adaptation System|adaptation]] when cut off, as well as giving them the [[Bleeding]] and [[Rage]] effects.
+
+===''Post Death''===
+
+* On death, Adapted Longarms have a chance to explode, releasing [[Remains|Adapted Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+** If at least one [[Colony]] exists in the dimension, Adapted Longarms will become [[Primitive Longarms]] upon death instead.
+{{Properties
+|tier=Adapted
+|OrbEffectsMobs=Hunger III (00:15), [[Needler|Needler III]] (00:25), Slowness III (00:15)
+}}
+{{Drops
+|rolls1=One Roll
+|page1=Toxic Lung
+|amount1=1
+|chance1=80
+|rolls2=Always Rolls
+|page2=Longarms Armor Fragment
+|amount2=1-2
+|chance2=60
+|page3=Strange Bone
+|amount3=1-2
+|chance3=20
+}}
+
+==''Sounds''==
+{| class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|[[File:adaptedlongarmsliving1.ogg]]
+[[File:adaptedlongarmsliving2.ogg]]
+[[File:adaptedlongarmsliving3.ogg]]
+[[File:adaptedlongarmsliving4.ogg]]
+[[File:adaptedlongarmsliving5.ogg]]
+|Hostile
+|Plays randomly while an Adapted Longarms is alive.
+|X
+|adaptedlongarmsliving1-5
+|-
+|[[File:adaptedlongarmshurt1.ogg]]
+[[File:adaptedlongarmshurt2.ogg]]
+[[File:adaptedlongarmshurt3.ogg]]
+|Hostile
+|Plays when an Adapted Longarms takes damage.
+|X
+|adaptedlongarmshurt1-3
+|-
+|
+[[File:Heavy one_step1.ogg]]
+[[File:Heavy one_step2.ogg]]
+[[File:Heavy one_step3.ogg]]
+[[File:Heavy one_step4.ogg]]
+[[File:Heavy one_step5.ogg]]
+|Hostile
+|Plays when an Adapted Longarms is walking.
+|X
+|step1-5
+|-
+|[[File:Swipe.ogg]]
+|Hostile
+|Plays when an Adapted Longarms attacks.
+|Swipe
+|mob_swipe
+|-
+|[[File:Adapted Vomit.ogg]]
+|Hostile
+|Plays when an Adapted Longarms pukes [[Residue]] onto the ground.
+|Vomiting
+|adapted_vomit
+|-
+|[[File:Tendril Cut.ogg]]
+|Hostile
+|Plays after cutting an Adapted Longarms's Tendril.
+|Tendril falls off
+|mob_tendril
+|-
+|[[File:ada longarm special.ogg]]
+|Hostile
+|Plays when an Adapted Longarms performs a special attack.
+|X
+|ada_longarm_special
+|-
+|[[File:adaptedlongarmsdeath.ogg]]
+|Hostile
+|Plays when an Adapted Longarms dies.
+|X
+|adaptedlongarmsdeath
+|-
+|}
+
+==''Trivia''==
+*Adapted Longarms are inspired by [https://deadspace.fandom.com/wiki/Slasher Slashers] and [https://doom.fandom.com/wiki/Hell_Knight/Doom_3 Hell Knights], from Dead Space and Doom 3 respectively.
+*Adapted Longarms are known as '''Shyco''' internally.
+*In the mod's files, there are two unused variant textures called '''shycoaabyss''' and '''shycoalovecraft'''. It is unknown why they went unused.
+
+==''Gallery''==
+<gallery>
+File:Longarms Tendril.png|The Adapted Longarms's Tendril after being cut.
+File:Longarms Tendrils Highlighted.png|The Adapted Longarms's Tendrils as seen on the Model.
+File:AdaptedLongarmHeight.png|thumb|Size of the Adapted Longarms's Model
+File:AbyssLovecraftAdaLongarms.png|The two unused textures for the Longarms, '''shycoaabyss''' on the left and '''shycoalovecraft''' on the right.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Adapted Parasites]]
+[[Category:Mobs]]

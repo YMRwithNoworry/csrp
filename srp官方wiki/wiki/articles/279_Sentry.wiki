@@ -1,0 +1,96 @@
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|sentry}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=Sentry.png
+|hp=30.0
+|damage=
+Base: 5.0 ([[File:Heart.png]][[File:Heart.png]][[File:Halfheart.png]])
+Ranged: 25.0 ([[File:Heart.png]] x 12.5)
+|armor=10.0
+|kb_resistance=N/A
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:sentry
+}}
+'''Sentries''' are a type of [[Mobs|Mob]], placed into the [[Deterrent Parasites|Deterrent]] Tier.
+
+== ''Spawning'' ==
+*Spawned by [[Stage III Dispatcher|Stage III]] and [[Stage IV Dispatcher|Stage IV Dispatchers]].
+*Spawned on Infested Blocks by [[Stage III Beckon|Stage III Beckons]].
+
+== ''Behavior'' ==
+Sentries are Ranged defenders, incapable of movement. 
+
+*Their Ranged Attack is a burst of 3 Poisonous Projectiles, which can melt the Player Armor in few hits. Each hit reduces an armor piece's durability by 4%, and the poison lasts for 7 seconds.
+*Sentries can break blocks that have their [[Hardness]] Value up to 7, with a 20-tick cooldown and 3-block range.
+
+=== ''Weaknesses'' ===
+
+* Sentries, like any other [[:Category:Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+* Sentries cannot spawn on any partial blocks.
+{{Properties|tier=Deterrent}}
+
+==''Sounds''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Sentryliving1.ogg]]
+[[File:Sentryliving2.ogg]]
+[[File:Sentryliving3.ogg]]
+|Hostile
+|Plays randomly while a Sentry is alive.
+|Sentry growls
+|sentryliving1-3
+|-
+|
+[[File:Sentryhurt1.ogg]]
+[[File:Sentryhurt2.ogg]]
+[[File:Sentryhurt3.ogg]]
+|Hostile
+|Plays when a Sentry is hurt.
+|Sentry hisses
+|sentryhurt1-3
+|-
+|
+[[File:Sentry_emerge_1.ogg]]
+[[File:Sentry_emerge_2.ogg]]
+[[File:Sentry_emerge_3.ogg]]
+|Hostile
+|Plays while a Sentry emerges from the ground.
+|X
+|sentry_emerge_1-3
+|-
+|
+[[File:Sentryshoot.ogg]]
+|Hostile
+|Plays when a Sentry shoots.
+|X
+|sentryshoot
+|-
+|
+[[File:Sentrydeath.ogg]]
+|Hostile
+|Plays when a Sentry dies.
+|Sentry dies
+|sentrydeath
+|-
+|}
+
+== ''Trivia'' ==
+*Sentries are also known as '''Unvo''' in the Mod Files.
+
+== ''Gallery'' ==
+<gallery>
+File:SentryHeight.png|thumb|Size of the Sentries' model.
+</gallery>
+
+{{MobList}}
+[[Category:Mobs]]
+[[Category:Deterrent Parasites]]

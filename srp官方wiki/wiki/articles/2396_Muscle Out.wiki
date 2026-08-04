@@ -1,0 +1,25 @@
+{{Stub}}
+{{Effect Info
+|title1=Muscle Out
+|image1=Muscleout.png
+|sources=See [[#Obtainment|Obtainment]]
+|type=Buff
+|id=srparasites:muscleout}}
+
+'''Muscle Out''' is a [[:Category:Effects|Potion Effect]] added in v1.10.0 of SRP. Greatly increases the host’s outgoing damage. Attacks are multiplied by a configuration-based factor that scales with effect strength (amplifier + 1).
+
+Muscle Out does not stack.
+
+== ''Obtainment'' ==
+{| class="fandom-table"
+!'''Cause'''
+!'''Potency'''
+!'''Duration'''
+|-
+|Rays ability from [[Kirin]]
+|I
+|0:07
+|}
+
+{{EffectList}}
+[[Category:Effects]]

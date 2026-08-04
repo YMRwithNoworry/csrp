@@ -1,0 +1,8 @@
+{{DisambiguationContent
+|image1=Assimilated Dragon.png
+|title1=[[Assimilated Ender Dragon]]
+|desc1=An [[Assimilated Mobs|Assimilated]] Parasite
+|image2=Assimilated Ender Dragon Head.png
+|title2=[[Walking Ender Dragon Head]]
+|desc2=A [[Walking Heads|Walking Head]] Parasite
+}}

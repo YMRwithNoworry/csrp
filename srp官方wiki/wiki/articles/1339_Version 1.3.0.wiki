@@ -1,0 +1,50 @@
+{{VersionBar|
+|page1=Version 1.2.1
+|page2=Version 1.4.0
+}}
+'''Version 1.3.0''' was an update for the Scape and Run: Parasites Mod, released on November 9th 2019.  It was 610.13 KB.
+
+== ''Change Log'' ==
+Changed base values for the following mobs:
+
+* [[Primitive Longarms|'''Shyco''']]:
+*# Base Health: 120-> 90
+*# Base Armor: 10 -> 8
+*# Base Damage: 5.7 -> 5
+*# Base KD Resistance: 1.5 -> 1
+
+* [[Adapted Summoner|'''Canra''']]
+*# Base Health: 150 -> 50
+*# Base Armor: 15 -> 7
+*# Base Damage: 6.8 -> 5
+*# Base KD Resistance: 1.8 -> 1
+
+* Changed "Shyco" name for "[[Primitive Longarms|Primitive Shyco]]"
+* Changed "Nogla" name for "[[Primitive Reeker|Primitive Nogla]]"
+* Changed "Hull" name for "[[Primitive Manducater|Primitive Hull]]"
+* Changed "Emana" name for "[[Primitive Yelloweye|Primitive Emana]]"
+* Changed "Canra" name for "[[Adapted Summoner|Adapted Canra]]"
+* Changed "Dorpa" name for "[[Assimilated Big Spider|Infected Dorpa]]"
+* Changed texture for the Hull
+* Changed model for Nogla
+* Changed how many [[Buglin|Lodos]] the [[Assimilated Human|infected human]] can spawn when hurt (2 -> 1)
+* The [[Heavy Carrier|Rathol]] can now explote when its health is below 5%
+* The infected Human now has a new animation
+
+==== <u>New Content</u> ====
+
+* Added an adapted version for the following mobs:
+*# Primitive Shyco
+*# Primitive Nogla
+*# Primitive Hull
+
+* Added a [[Primitive Summoner|primitive version]] for the Canra mob
+* [[:Category:Primitive_Parasites|Primitive]] mobs can change their form when they get x amount of kills
+* The [[Manducater (Disambiguation)|Hull]] branch can have Invisibility, only if they have full health
+* The [[Longarms (Disambiguation)|Shyco]] branch have a chance to reflect a portion of damage
+* The [[Summoner (Disambiguation)|Canra]] branch have a chance to summon mobs
+* The [[Reeker (Disambiguation)|Nogla]] branch can poison its target
+* Added custom spawners
+
+{{VersionList}}
+[[Category:Versions]]

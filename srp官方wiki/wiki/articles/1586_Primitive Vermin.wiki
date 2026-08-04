@@ -1,0 +1,124 @@
+{{Navbar|page1=Primitive Vermin|page2=Adapted Vermin}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|privermin}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=PrimitiveVermin.png
+|hp=45.0
+|damage=15.0
+|armor=9.0
+|kb_resistance=0.7 
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:pri_vermin 
+}}
+'''Primitive Vermin''' are a type of [[Mobs|Mob]], placed into the [[Primitive Parasites|Primitive]] Tier.
+
+==''Spawning''==
+* Spawns after a successful merging between 4 [[Moving Flesh]], through the [[Evolution System]].
+* Spawned by [[Stage III Beckon|Stage III Beckons]].
+* Spawned by 4 [[:Category:Assimilated Mobs|Assimilated Mobs]] stored into a [[Stage III Dispatcher|Stage III]] or [[Stage IV Dispatcher|IV Dispatcher]].
+* Spawned by level 4 or higher [[Scent System|Scents]].
+
+==''Behavior''==
+Primitive Vermin are flying, bombarding, swarm summoning units, they will chase and hover above the player when attacking.
+
+* Primitive Vermin hover above the player dropping [[Gnat|Gnats]].
+** When the number of Gnats exceeds 20, they will drop bombs instead.
+* Primitive Vermin have a chance of blocking incoming damage, nullifying it.
+* In certain circumstances, Primitive Vermin can apply contact damage, though they make no effort to do so.
+* Primitive Vermin can break blocks that have their [[Hardness]] Value up to 1, with a 60-tick cooldown and 1 block range.
+
+===''Weaknesses''===
+Primitive Vermin, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+=== ''Post Death'' ===
+* On death, Primitive Vermin have a chance to explode, releasing [[Remains|Primitive Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+** If at least one [[Colony]] exists in the dimension, Primitive Vermin will become [[Moving Flesh]] upon death instead.
+
+{{Properties
+|tier=Primitive
+|OrbEffectsMobs=
+|Orbs=false}}
+
+{{Drops
+|rolls1=One Roll
+|page1=Altered Tendons
+|amount1=1-2
+|chance1=40
+|page2=Corrosive Mucus
+|amount2=1
+|chance2=40
+|rolls3=
+|page3=Strange Bone
+|amount3=1
+|chance3=10
+|rolls2=Always Rolls}}
+
+==''Sounds''==
+{| class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:verminliving1.ogg]]
+[[File:verminliving2.ogg]]
+[[File:verminliving3.ogg]]
+|Hostile
+|Randomly plays when a Primitive Vermin is alive.
+|Vermin craws
+|verminliving1-3
+|-
+|
+[[File:verminhurt1.ogg]]
+[[File:verminhurt2.ogg]]
+|Hostile
+|Plays when a Primitive Vermin is hurt.
+|Vermin yells
+|verminhurt1-2
+|-
+|[[File:Adaptating_1.ogg]]
+[[File:Adaptating_2.ogg]]
+[[File:Adaptating_3.ogg]]
+|Hostile
+|Plays when a Parasite is adapting.
+|Parasite adapts
+|adaptating_1-3
+|-
+|[[File:Adapted_1.ogg]]
+[[File:Adapted_2.ogg]]
+[[File:Adapted_3.ogg]]
+|Hostile
+|Plays when a Parasite has adapted.
+|Parasite adapted
+|adapted_1-3
+|-
+|
+[[File:vermindeath.ogg]]
+|Hostile
+|Plays when a Primitive Vermin dies.
+|Vermin perishes
+|vermindeath
+|-
+|}
+
+==''Trivia''==
+*Vermin are also known as '''Iki''' in the Mod Files.
+
+==''Gallery''==
+<gallery>
+File:Bomb2.png|The bomb Primitive Vermins use.
+File:PrimitiveVerminHeight.png|thumb|Size of the Primitive Vermin's model.
+File:Vermin Spawning Gnat.gif|Vermin spawning a Gnat over a Husk.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Primitive Parasites]]
+[[Category:Mobs]]

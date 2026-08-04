@@ -1,0 +1,29 @@
+{{Effect Info
+|image1=Link.png
+|sources=See [[#Obtainment|Obtainment]]
+|type=Buff (Parasites)
+|id=srparasites:link
+}}
+'''Link''' is a [[Effects|Potion Effect]] introduced by the Mod. This Effect can only be applied to parasites.
+
+Parasites that have this effect will contribute to Global Adaptation without having to be close to a [[Colony]], if available.	
+
+The number of potency multiplies the chance for Parasites to send their adaptations.	
+== ''Obtainment'' ==
+{{Effect Causes
+|cause1=From a [[Colony Carrier]]
+|duration1=0:10
+|potency1=II
+|cause2=From a [[Stage I Dispatcher]]
+|duration2=3:20
+|cause3=From a [[Stage II Dispatcher]]
+|duration3=5:00
+|cause4=From a [[Stage III Dispatcher]]
+|duration4=6:40
+|potency4=II
+|cause5=From a [[Stage IV Dispatcher]]
+|duration5=3:20
+|potency5=III
+}}
+{{EffectList}}
+[[Category:Effects]]

@@ -1,0 +1,27 @@
+{{Stub}}
+
+{{Item Info
+|image1=False Apple.png
+|type=Consumable
+|stackable=Yes (64)
+|tooltip="''Is it so wrong that I survived?''"
+|id=srparasites:false_apple
+}}
+
+== ''Obtainment'' ==
+*Has a chance to drop when breaking Infested Leaves.
+*Dropped by [[Assimilated Villager|Assimilated]] (5% chance) and [[Assimara Villager|Assimara Villagers]] (10% chance).
+*Guaranteed drop from [[Draconite|Draconites]].
+
+== ''Usage'' ==
+The False Apple can be eaten, which will grant Hunger and Nausea effects for 30 and 10 seconds respectively. This will also spawn 5 [[Buglin|Buglins]] around the player.
+
+They can also be used to craft the [[Modules#Derived Module|Derived Module]].
+{{CraftingTable|r1_b1=Kirin Trophy|r1_a2=Ancient Module|r1_b2=False Apple|r1_c2=Ancient Module|r1_b3=Draconite Trophy|r1_output=Derived Module}}
+
+== ''Trivia'' ==
+*The item's name and tooltip are a reference to the game "Limbus Company." "Is it so wrong that I survived?" is a quote from one of the game's characters.  
+
+{{ItemList}}
+
+[[Category:Items]]

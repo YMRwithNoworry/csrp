@@ -1,0 +1,18 @@
+'''Biome Purifiers''' are a type of [[:Category:Blocks|Block]] used to clear [[Parasite Biome|Parasite Biomes]]. Having one in your inventory grants the {{AdvancementLink|Peacekeeper}}.
+{{Item Info
+|image1=Biome Purifier.png
+|id=srparasites:biomepurifier
+}}
+
+== ''Obtainment'' ==
+{{CraftingTable|r1_a1=Chiseled Stone Bricks|r1_b1=Chiseled Stone Bricks|r1_c1=Chiseled Stone Bricks|r1_a2=Chiseled Stone Bricks|r1_b2=Diamond|r1_c2=Chiseled Stone Bricks|r1_a3=Chiseled Stone Bricks|r1_b3=Chiseled Stone Bricks|r1_c3=Chiseled Stone Bricks|r1_output=Biome Purifier|r1_count=1|r1_nolink=true}}
+
+== ''Usage'' ==
+A Biome Purifier can turn an approximate 3x3 Chunk Area of a Parasite Biome into a Plains Biome upon its activation. Blue sparkle particles will appear after it is successfully used. Once used, Purifiers will not remove any Parasitic blocks, instead changing the ID of the Biome from Parasite Biome to Plains. The Parasite Biome terrain and blocks will remain, but Parasites will no longer spawn as if it were a Parasite Biome, nor will the effects of the [[Parasite Biome#Node|Node]] take place.
+
+When the Biome Purifier is placed but not activated, it will apply the Glowing effect to any [[:Category:Nexus Parasites|Nexus Parasite]] within a 32-block range for ten seconds and slowly purify all Infected Blocks in a large area around it, provided there are no Beckons nearby with its range.
+
+Parasites within the range of a Biome Purifier will gain the [[Rage]] effect for thirty seconds.
+
+{{BlockList}}
+[[Category:Blocks]]

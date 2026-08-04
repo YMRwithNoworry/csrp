@@ -1,0 +1,35 @@
+{{Stub}}
+{{Item Info
+|title1=Dead Blood Fluid
+|image1=Dead Blood Fluid.png
+|type=Material
+|stackable=Yes (64)
+|tooltip=N/A
+|id=srparasites:deadblood_fluid}}
+'''Dead Blood Fluid''' is a liquid material.
+
+==''Obtainment''==
+*Collection via a [[Dead Blood]] source block with Glass Bottles.
+*Brewing a [[Diseased Sponge]] with an Awkward Potion(s).
+
+==''Usage''==
+Dead Blood Fluid can be consumed, which it will apply [[Viral|Viral II]] for thirty seconds and visibly distort the screen.<ref>The screen distortion is not an actual "effect" and cannot be removed by Milk. It can be toggled with the "/srp_breathe" command.</ref> Other than this, it can be combined in the [[Metallurgical Infuser Furnace|Infuser Furnace]] with Iron Ingots to create [[Semi-organic Ingot|Semi-organic Ingots]] and Infested Sand to create Infested Glass.
+
+It can also be used to craft the [[Phase Module]].
+{{CraftingTable
+|r1_a1=Semi-organic Ingot
+|r1_b1=Dead Blood Fluid
+|r1_c1=Semi-organic Ingot
+|r1_a2=Twisted Spinal Signal
+|r1_b2=Module Genic Receptacle
+|r1_c2=Hive Scrap
+|r1_a3=Doomsday Clock
+|r1_b3=Semi-organic Ingot
+|r1_c3=Level Clock
+|r1_output=Phase Module
+|r1_count=1}}
+
+== Notes ==
+<references />
+
+[[Category:Items]]

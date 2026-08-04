@@ -1,0 +1,19 @@
+{{Item Info
+|image1=Dried Tendons.png
+|type=Material
+|stackable=No
+|tooltip=An elastic material, produced from Parasites body parts. A Component for Weapons.
+|id=srparasites:dried_tendons
+}}
+'''Dried Tendons''' are a [[:Category:Weapons' Components|Weapons' Component]] used to craft [[Living Bow|Living Bows]], a [[:Category:Weapons|Weapon]].
+
+== ''Obtainment'' ==
+{{CraftingTable|r1_b1=Strange Bone|r1_a2=Infected Flesh|r1_b2=Strange Bone|r1_a3=Infected Flesh|r1_output=Dried Tendons|r1_count=1|r1_nolink=true}}
+
+== ''Usage'' ==
+{{CraftingTable|r1_a1=Living Core|r1_b1=Hardened Bone Handle|r1_c1=Vile Shell|r1_a2=Hardened Bone Handle|r1_c2=Dried Tendons|r1_a3=Vile Shell|r1_b3=Dried Tendons|r1_output=Living Bow|r1_count=1}}
+
+
+{{ItemList}}
+[[Category:Weapons' Components]]
+[[Category:Items]]

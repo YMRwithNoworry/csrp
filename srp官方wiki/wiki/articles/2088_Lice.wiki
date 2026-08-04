@@ -1,0 +1,65 @@
+{{Stub}}
+{{Navbar|page1=Gnat|page2=Lice}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|lice}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+{{Mob Info 
+|image1=Lice.png
+|hp=12.0
+|damage=11.0
+|armor=5.0
+|kb_resistance=0.4
+|adaptable=No
+|id=srparasites:lice
+}}
+'''Lice''' are small infector [[Mobs|Mobs]] in the [[Inborn Parasites|Inborn]] Tier. They have several tentacles coming out from what can be assumed to be a maw. Said tentacles can also be seen when it has borrowed into a sane mob and turned it Feral. It has an amorphous body structure, mostly being a ball of biomass with bump features and a ringed skin. 
+
+==''Spawning''==
+*Spawns in groups of 1 to 4 from [[Evolution Phases#Phase 3|Phase 3]] and onwards with a spawnweight of 20.
+*Spawned by [[Adapted Vermin]].
+
+== ''Behavior'' ==
+Lice are short lived Aerial Infestation Propagators and swarm units. They are Melee Combatants. They are used for specialized forms of [[Call Of The Hive|Assimilation]].
+
+* They gently float around their target before charging quickly at them.
+** Their Melee Attack is performed through contact damage, inflicting stacking [[Viral]].
+*** Lice disappear into a cloud of gore after dying or attacking once.
+* Lice will turn any mob they kill [[:Category:Feral Parasites|Feral]], assuming it has a Feral form.
+** Mobs with an [[:Category:Assimilated Mobs|Assimilated]] but no Feral form will assimilate instead.
+** Any mob with a [[:Category:Hijacked Mobs|Hijacked]] form will become Hijacked when attacked by one and has below 50% health.
+
+=== ''Weaknesses'' ===
+
+* Lice, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+* Lice die after existing for one minute.
+
+{{Drops
+|rolls1=Always Rolls:
+|page1=Rupter Viscera
+|amount1=2
+|chance1=30
+|page2=Hijacked Growth|amount2=2|chance2=30}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+
+|}
+
+== ''Trivia'' ==
+*Lice are known as '''Viin''' in the mod files.
+
+== ''Gallery'' ==
+<gallery>
+File:LiceSizeComparison.png|Size of the Lice's model
+</gallery>
+
+{{MobList}}
+[[Category:Mobs]]
+[[Category:Inborn Parasites]]

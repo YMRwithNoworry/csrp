@@ -1,0 +1,97 @@
+{{VersionBar|
+|page1=Version 1.9.8
+|page2=Version 1.9.10
+}}
+'''Version 1.9.9''' was an update for the Scape and Run: Parasites Mod, released on January 3rd 2023.  It was 15.54 MB.
+
+== ''Change Log'' ==
+
+====<u>Fixes</u>====
+* Crash:
+<div class="mw-collapsible mw-collapsed" data-expandtext="Show crash" data-collapsetext="Hide crash">
+java.lang.ArrayIndexOutOfBoundsException: 1 
+at com.dhanantry.scapeandrunparasites.entity.projectile.EntityGore.addCystItems(EntityGore.java:318)
+at com.dhanantry.scapeandrunparasites.entity.projectile.EntityGore.func_70071_h_(EntityGore.java:181)
+at net.minecraft.world.World.func_72866_a(World.java:1996)</div>
+
+*"Mod Easter Egg (Nametags)" not working
+*"[[Parasitic Cyst|Cyst]] Enabled" not working
+*"[[Thrall]] Enabled" not working
+*"[[Primitive Devourer]] Enabled" not working
+*"[[Mangler]] Enabled" not working
+*"[[Herd]] Enabled" not working
+*"[[Monarch]] Enabled" not working
+*"[[Wraith]] Enabled" not working
+*"[[Bogle]] Enabled" not working
+*"[[Haunter]] Enabled" not working
+*"[[Colony Carrier]] Enabled" not working
+*"Mod Easter Eggs" still spawning adventurers/thralls with nametag if turned off
+*[[Incomplete Forms|Small Incomplete Form]] using [[Assimilated Wolf]] Attribute Values
+*[[Incomplete Forms|Medium Incomplete Form]] using [[Assimilated Wolf]] Attribute Values
+*[[:Category:Adapted Parasites|Adapted versions]] despawning too quick
+*[[Orb|Orbs]] affecting entities that are in the list of "Mob Attacking blacklist"
+*[[Dispatcher (Disambiguation)|Dispatcher]] console ai spam
+*[[:Category:Preeminent Parasites|Preeminent versions]] despawning too quick
+*[[Dispatcher Nidus]] gaining kills without parasites
+*EntityHomming not doing damage to mobs
+*[[Rage]] effect stacking if damage cap of parasites is reached
+*Server stall caused by SummonM() method
+*[[Stage I Beckon|Beckons]] spawned from [[Reinforcement System|RS]] always have follow range of 16
+*"[[Evolution System|Merge System]] Assimilated Values" values not working for:
+**[[Assimilated Cow]]
+**[[Assimilated Human]]
+**[[Assimilated Sheep]]
+**[[Assimilated Wolf]]
+**[[Assimilated Pig]]
+**[[Assimilated Villager]]
+ 
+====<u>Configuration</u>====
+*Added category for [[Incomplete Forms|Incomplete Form (Small)]]
+*Added category for [[Incomplete Forms|Incomplete Form (Medium)]]
+*"Value for Despawning" updated description "Number of Points gained when Adapted versions spawned from moving flesh despawn, set this value to 0 in you dont want adapted to despawn."
+*"[[Parasitic Cyst|Cyst]] Enabled" updated description "Set to true if you want parasites to store blocks in their inventory and then place them in a cyst."
+*New options:
+**"[[Living Armor]] Point Cap" - "Cap of points used to reduce damage taken." - SRParasites.cfg
+**"Living Armor Damage Type Cap" - "How many damage types the version can learn and adapt." - SRParasites.cfg
+**"Living Armor Point Reduction Value" - "Value for each point, used to reduce damage taken." - SRParasites.cfg
+**"[[Sentient Armor]] Point Cap" - "Cap of points used to reduce damage taken." - SRParasites.cfg
+**"Sentient Armor Damage Type Cap" - "How many damage types the version can learn and adapt." - SRParasites.cfg
+**"Sentient Armor Point Reduction Value" - "Value for each point, used to reduce damage taken." - SRParasites.cfg
+**"[[Needler]] Immune Mob List" - "Mobs that are immune to the Needler effect, Ex: \"minecraft:zombie\" or just \"minecraft\" for a whole mod" - SRParasitesSystems.cfg
+**"Needler Immune Mob List Inverted" - "Set to true if you want to use the list as a WhiteList." - SRParasitesSystems.cfg
+**"Version [[:Category:Assimilated Mobs|Assimilated]] Sneak Penalty" - "Penalty for parasites when someone is sneaking, the lower the value the higher the chance of not being seen, vanilla value is 0.800000011920929." - SRParasites.cfg
+**"Version Assimilated Invisible Penalty" - "Penalty for parasites when someone is invisible, the lower the value the higher the chance of not being seen, vanilla value is 0.7." - SRParasites.cfg
+**"Version [[:Category:Primitive Parasites|Primitive]] Sneak Penalty" - "Penalty for parasites when someone is sneaking, the lower the value the higher the chance of not being seen, vanilla value is 0.800000011920929." - SRParasites.cfg
+**"Version Primitive Invisible Penalty" - "Penalty for parasites when someone is invisible, the lower the value the higher the chance of not being seen, vanilla value is 0.7." - SRParasites.cfg
+**"Version [[:Category:Adapted Parasites|Adapted]] Sneak Penalty" - "Penalty for parasites when someone is sneaking, the lower the value the higher the chance of not being seen, vanilla value is 0.800000011920929." - SRParasites.cfg
+**"Version Adapted Invisible Penalty" - "Penalty for parasites when someone is invisible, the lower the value the higher the chance of not being seen, vanilla value is 0.7." - SRParasites.cfg
+**"Version [[:Category:Pure Parasites|Pure]] Sneak Penalty" - "Penalty for parasites when someone is sneaking, the lower the value the higher the chance of not being seen, vanilla value is 0.800000011920929." - SRParasites.cfg
+**"Version Pure Invisible Penalty" - "Penalty for parasites when someone is invisible, the lower the value the higher the chance of not being seen, vanilla value is 0.7." - SRParasites.cfg
+**"Version [[:Category:Preeminent Parasites|Preeminent]] Sneak Penalty" - "Penalty for parasites when someone is sneaking, the lower the value the higher the chance of not being seen, vanilla value is 0.800000011920929." - SRParasites.cfg
+**"Version Preeminent Invisible Penalty" - "Penalty for parasites when someone is invisible, the lower the value the higher the chance of not being seen, vanilla value is 0.7." - SRParasites.cfg
+**"Target Blocks" - "Set to false if you dont want parasites to target light/circuit blocks." - SRParasites.cfg
+ 
+====<u>General changes</u>====
+*[[Living Armor|Living]]/[[Sentient Armor|Sentient armor]] can now [[Adaptation System|adapt]] to damage: (WIP)
+**Damage taken while burning will be multiplied by "Mob Fire Damage Multiplier" config value
+**If Damage Type is fire, damage will be multiplied by "Mob Fire Damage Multiplier" config value
+**Will give [[Call Of The Hive|COTH]] to the attacker if available
+**Is immune to the [[Corrosion|corrosive]] effect
+**Enchantability for armor/weapons set to 1
+ 
+====<u>Mobs</u>====
+*Removed [[Assimilated Enderman|Enderman]] Leap (crawling variant)
+*[[Dispatcher (Disambiguation)|Dispatcher]] AI changes:
+**It can target multiple mobs at the same time - all stages
+**Can "store" parasites to later spawn them (this mobs saves their entityid) - all stages
+**If a [[Buglin|buglin]] is stored then it will spawn as a [[Rupter]] - from [[Stage II Dispatcher|stage II]]
+**If a rupter is stored then it will spawn as a [[Mangler]] - from [[Stage III Dispatcher|stage III]]
+**If enough assimilated are stored then it will spawn them as a primitive - from [[Stage III Dispatcher|stage III]]
+**If enought incomplete forms are stored then it will spawn them as a [[:Category:Crude Parasites|crude]] version - points required: 6
+***[[Incomplete Forms|Small incomplete]] value: 1
+***[[Incomplete Forms|Medium incomplete]] value: 2
+***[[Heed]] - from stage II beckon
+***[[Crux]] - from stage III beckon
+
+{{VersionList}}
+[[Category:Versions]]

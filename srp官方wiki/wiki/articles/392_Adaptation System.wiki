@@ -1,0 +1,74 @@
+The '''Adaptation System''' is a [[Systems|System]] unlocked when the [[Generations|Generation]] is 3 or higher. With this System, certain [[Mobs|Parasites]] can become greatly resistant to Damage Sources, whether that be from a specific Weapon or Mob. 
+
+==''Mechanics''== 
+The Parasite in question must receive damage from a certain Damage Source that in order to adapt to it. Each item and entity count as an individual Damage Type. When a parasite is hit by a Damage Source it will gain one Adaptation Point for that Damage Type. Each Adaptation Point will reduce oncoming damage by a certain percentage, depending on that parasite's tier. Each tier also has its own Adaptation Point Cap and Adaptation Chance. Setting a parasite on fire adds an additional chance to fail adaptation depending on the tier. Parasites can adapt to '''ALL''' Damage Sources '''EXCEPT''' suffocation and being in the void. <u>Parasites can adapt to Fire Damage but still receive its negative effects even if immune.</u>
+
+===<u>Logic</u>===
+*If the damage is coming from a Player, the Parasite will adapt to the '''Item<!--ID-->''' that dealt the damage.
+*If the damage is coming from a Living Entity, the Parasite will adapt to the '''Entity<!--ID-->''' that dealt the damage.
+* If the damage is '''''not''''' coming from a Living Entity, the Parasite will adapt to the '''Damage Type'''<ref>'''List of Vanilla Damage Types:''' <code>inFire</code>''',''' <code>lightningBolt</code>''',''' <code>onFire</code>''',''' <code>lava</code>''',''' <code>hotFloor</code>''',''' <code>inWall</code>''',''' <code>cramming</code>''',''' <code>drown</code>''',''' <code>starve</code>''',''' <code>cactus</code>''',''' <code>fall</code>''',''' <code>flyIntoWall</code>''',''' <code>outOfWorld</code>''',''' <code>generic</code>''',''' <code>magic</code>''',''' <code>wither</code>''',''' <code>anvil</code>''',''' <code>fallingBlock</code>''',''' <code>dragonBreath</code>''',''' <code>fireworks</code>''',''' <code>player</code>''',''' <code>mob</code>''',''' <code>arrow</code>''',''' <code>indirectMagic</code>''',''' <code>thorns</code>.  Keep in mind''',''' some mods add their own damage types.</ref> of the damage.
+
+===<u>Detecting Adaptation</u>===
+Adaptation can be detected each time a Parasite is damaged. Instead of the normal red flash, Parasites will flash different colors, depending on the state of their Adaptation.
+
+*Green: The Parasite is still vulnerable to a Damage Source.
+*Purple: The Parasite has, [[Adaptation System#Adaptation Values|to the best of their ability]], fully adapted to a Damage Source.
+
+==''Neutralization''==
+Players are able to slow, or even stop, a Parasite from adapting using these three methods:
+
+*'''Cutting a Tendril.''' Doing so will reset their Adaptations and inflict the [[Bleeding]] and [[Rage]] Effects to the Parasite for a small period of time. Tendrils hitboxes can be found by pressing F3+B.
+**As of now, only [[Adapted Reeker|Adapted Reekers]], [[Adapted Summoner|Summoners]], [[Adapted Longarms|Longarms]], [[Adapted Bolster|Bolsters]], [[Vigilante|Vigilantes]], and [[Marauder|Marauders]] have Tendrils.
+*'''Using the [[Immalleable]] Potion.''' By inflicting the Immalleable Effect, Parasites will become unable to adapt to any Damage Type, effectively neutralizing Adaptation for the duration of the effect. '''Currently, this Potion can only be obtained in Creative or through cheats.'''
+*'''Burning the Parasite.''' A Parasite, while being on fire, has a chance to fail to adapt to any Damage Source for a span of 10 ticks, or half a second. Exact chances can be seen below.
+
+==''Adaptation Values'' ==
+Every type of Parasite has a limit to the amount of Damage Types they can adapt to. 
+
+Each Tier of Parasite, along with some outliers<ref name="outliers">Despite the Inborn and Crude Tiers not being able to adapt by default, [[Mangler|Manglers]], [[Host|Hosts]], [[Herd|Herds]] and [[Thrall|Thralls]] can all adapt.  See their individual Pages for further details.</ref>, has its own Adaptation Values, <u>''which are shown below''</u>. [[:Category:Inborn Parasites|Inborn Parasites]], [[:Category:Crude Parasites|Crude Parasites]], [[:Category:Feral Parasites|Feral Parasites]], [https://scape-and-run-parasites.fandom.com/wiki/Category:Hijacked_Mobs Hijacked Mobs], [[:Category:Assimara Parasites|Assimara Mobs]] and [[:Category:Assimilated Mobs|Assimilated Mobs]] are not able to adapt.<ref name="outliers" />
+{{Adaptation|tier=Primitive|title=[[Primitive Parasites|Primitive]]}}<!--
+-->
+{{Adaptation|tier=Adapted|title=[[Adapted Parasites|Adapted]]}}<!--
+-->
+{{Adaptation|tier=Nexus I|title=[[Nexus Parasites|Nexus (Stage I)]]}}<!--
+-->
+{{Adaptation|tier=Nexus II|title=[[Nexus Parasites|Nexus (Stage II)]]}}<!--
+-->
+{{Adaptation|tier=Nexus III|title=[[Nexus Parasites|Nexus (Stage III)]]}}<!--
+-->
+{{Adaptation|tier=Nexus IV|title=[[Nexus Parasites|Nexus (Stage IV)]]}}<!--
+-->
+{{Adaptation|tier=Deterrent|title=[[Deterrent Parasites|Deterrent]]}}<!--
+-->
+{{Adaptation|tier=Pure|title=[[Pure Parasites|Pure]]}}<!--
+-->
+{{Adaptation|tier=Preeminent|title=[[Preeminent Parasites|Preeminent]]}}<!--
+-->
+{{Adaptation|tier=Ancient|title=[[Ancient Parasites|Ancient]]}}
+
+<!--   -->{{Adaptation|title=[[Derived Parasites|Derived]]|tier=Derived}}
+
+<u>Point Reduction Value</u> and <u>Point Reduction Cap</u> are used to calculate how many times a Parasite can learn a Damage Source before reaching its maximum resistance (this does not always mean it will be resistant to the Damage Type). For example, [[Primitive Parasites]] can become up to <u>{{#ifexpr: {{#expr:{{PropertiesValues|t=Primitive|v=PReducVal}} * {{PropertiesValues|t=Primitive|v=PReducCap}} * 100}} > 100 | 100 | {{#expr:{{PropertiesValues|t=Primitive|v=PReducVal}} * {{PropertiesValues|t=Primitive|v=PReducCap}} * 100}}}}% immune</u> to any damage source.
+
+==''Global Adaptation''==
+[[Colony|Colonies]] permit parasites to use Global Adaptation, which, as the name suggests, allows groups of parasites that spawn in to be somewhat immune to certain damage types. When an adaptable parasite is killed within a Colony's effect radius, if it was not burning at the time of death, will send a signal to the Colony, being the damage type it adapted to the most. Any parasite that spawns in that Colony's radius will have learned that damage type slightly, meaning that it will be quicker to fully adapt and take less damage from that source initially.
+
+To neutralize this Global Adaptation, one can destroy the Colony Core at the center of the Colony Node, which will reset its Global Adaptation.
+
+==Trivia==
+*The Adaptation System was inspired by the [https://warframe.fandom.com/wiki/Sentient#Damage_Adaptation Sentient's Ability], mechanical beings from Warframe.
+
+==''Gallery''==
+<gallery>
+File:Bolster Tendrils Highlighted.png|Adapted Bolsters' Tendrils as seen on the Model.
+File:Longarms Tendrils Highlighted.png|Adapted Longarms' Tendrils as seen on the Model.
+File:Reeker Tendrils Highlighted.png|Adapted Reekers' Tendrils as seen on the Model.
+File:Summoner Tendrils Highlighted.png|Adapted Summoners' Tendrils as seen on the Model.
+File:Vigilante Tendrils Highlighted.png|Vigilantes' Tendrils as seen on the Model.
+File:Marauder Tendrils Highlighted.png|Marauders' Tendrils as seen on the Model.
+</gallery>
+
+==''Notes''==
+<references />
+
+[[Category:Systems]]

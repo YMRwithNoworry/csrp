@@ -1,0 +1,146 @@
+{{Navbar|page1=Primitive Longarms|page2=Adapted Longarms}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|prilongarms}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=<gallery>
+Primitive Longarms.png|Normal
+BerserkerPriLongarms.png|Berserker
+VirulentPriLongarms.png|Virulent
+BreacherPriLongarms.png|Breacher
+</gallery>
+|hp=45.0
+|damage=15.0
+|armor=9.0
+|kb_resistance=0.7 
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:pri_longarms 
+}}
+'''Primitive Longarms''', known internally as '''Shyco''', is a [[Mobs|Mob]] in the [[Primitive Parasites|Primitive]] Tier.
+
+== ''Spawning'' ==
+*Spawned after a successful merging between 4 [[Moving Flesh]], through the [[Evolution System]].
+*Spawns in groups of 2 to 3, from [[Ubiquitous Development#Level 2|Ubiquitous Development Level 2]] through [[Ubiquitous Development#Level 4|Level 4]], with a spawnweight of 15.
+*Spawned by [[Stage III Beckon|Stage III Beckons]].
+*Spawned by 4 [[:Category:Assimilated Mobs|Assimilated Mobs]] stored into a [[Stage III Dispatcher|Stage III]] or [[Stage IV Dispatcher|IV Dispatcher]].
+*Spawned by level 4 or higher [[Scent System|Scents]].
+*If at least one [[Colony]] exists, spawns when an [[Adapted Longarms]] is killed.
+
+== ''Behavior'' ==
+Primitive Longarms are generic AoE Melee units. 
+
+*Primitive Longarms' Melee Attack inflicts AoE Damage and is performed by them swinging their arms.
+*Primitive Longarms have a chance of blocking incoming damage, nullifiyng it.
+*If the [[Generations|Generation]] is 4 or higher, Primitive Longarms can perform the following abilities:
+**Generate Shockwaves, large damaging areas of disturbed ground. After standing still for a brief period, they will summon a Shockwave which moves forward at slow speed attempting to break any blocks they contact. Shockwaves ignore immunity frames and deal massive vertical knockback.
+***This is indicated by flame particles and a sword swinging sound. They will also stand still before performing this attack.
+* Primitive Longarms can perform small leaps in liquids.
+*Primitive Longarms can dive in liquids to pursue submerged targets.
+*Primitive Longarms can break blocks that have their [[Hardness]] Value up to 1, with a 60 ticks cooldown and 1 Block range.
+*On death, Primitive Longarms have a chance to explode, releasing Primitive Remains and an effect cloud of stacking Poison and COTH.
+*If a Primitive Longarms gets 10 kills it will evolve into an [[Adapted Longarms]].
+{{Variants|count=3|Berserker=BerserkerPriLongarms.png|Virulent=VirulentPriLongarms.png|Breacher=BreacherPriLongarms.png}}
+
+=== ''Weaknesses'' ===
+Primitive Longarms, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+{{Properties
+|tier=Primitive
+|OrbEffectsMobs=Hunger II (00:15), Slowness II (00:15)
+}}
+
+=== ''Post Death'' ===
+* On death, Primitive Longarms have a chance to explode into [[Remains|Primitive Remains]], leaving behind an effect cloud of stacking Poison and [[Call Of The Hive|Call of the Hive]].
+** If at least one [[Colony]] exists in the dimension, Primitive Longarms will become [[Moving Flesh]] upon death instead.
+{{Drops
+|rolls1=One Roll
+|page1=Altered Tendons
+|amount1=1-2
+|chance1=60
+|rolls2=Always Rolls
+|page2=Longarms Armor Fragment
+|amount2=1-2
+|chance2=40
+|page3=Strange Bone
+|amount3=1
+|chance3=10
+}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|[[File:Primitive Longarms Growl.ogg]]
+|Hostile
+|Plays randomly while a Primitive Longarms is alive.
+|X
+|shyco_growl
+|-
+|[[File:Primitive Longarms Hurt.ogg]]
+|Hostile
+|Plays when a Primitive Longarms takes damage.
+|X
+|shyco_hurt
+|-
+|[[File:Step.ogg]]
+|Hostile
+|Plays when a Primitive Longarms is walking.
+|X
+|monster_step
+|-
+|[[File:Swipe.ogg]]
+|Hostile
+|Plays when a Primitive Longarms attacks.
+|Swipe
+|mob_swipe
+|-
+|[[File:Shyco special.ogg]]
+|Hostile
+|Plays when a Primitive Longarms performs a special attack.
+|X
+|shyco_special
+|-
+|[[File:Adaptating_1.ogg]]
+[[File:Adaptating_2.ogg]]
+[[File:Adaptating_3.ogg]]
+|Hostile
+|Plays when a Parasite is adapting.
+|Parasite adapts
+|adaptating_1-3
+|-
+|[[File:Adapted_1.ogg]]
+[[File:Adapted_2.ogg]]
+[[File:Adapted_3.ogg]]
+|Hostile
+|Plays when a Parasite has adapted.
+|Parasite adapted
+|adapted_1-3
+|-
+|[[File:Primitive Longarms Death.ogg]]
+|Hostile
+|Plays when a Primitive Longarms dies.
+|X
+|shyco_death
+|-
+|}
+
+== ''Trivia'' ==
+*Longarms are inspired by Dead Space's [https://deadspace.fandom.com/wiki/Slasher Slashers] and Doom 3's [https://doom.fandom.com/wiki/Hell_Knight/Doom_3 Hell Knights].
+*Longarms are known as '''Shyco''' internally. This is a corruption of "sheep-cow", as a very early design for the Longarms was based on a sheep and cow merged together.
+
+== ''Gallery'' ==
+<gallery>
+File:PrimitiveLongarmHeight.png|Size of the Primitive Longarms's model
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Primitive Parasites]]
+[[Category:Mobs]]

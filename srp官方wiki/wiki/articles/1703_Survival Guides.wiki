@@ -1,0 +1,319 @@
+{{mbox
+|bgcolor=#475715
+|header='''DISCLAIMER'''
+|text=''The following tips are based on player experience, and are not officially provided.<br>Tips may be more or less useful depending on the modpack, or even the situation.
+|image=Buglin.png
+|imageadjust=left
+|imagewidth=80px
+}}
+
+== ''Recommended Mods'' ==
+<u>Scape and Run: Parasites is not balanced for a vanilla-only experience, so it's recommended to have a few more mods installed.</u><br>
+If you're having trouble dealing with parasites, try installing some of the mods listed below.
+
+{|class="fandom-table mw-collapsible mw-collapsed" style="width: 750px"
+|+
+'''Useful Mods '''
+!Mod Name
+!Description
+|-
+!colspan="2"|Recommended Mods
+|-
+|Just Enough Items
+|Shows you item recipes, and an item list on the right of the inventory.  You should always have this installed.
+|-
+|Spartan Weaponry
+|Adds good and balanced weapons, each with their own buffs and downsides.<ref>Particularly recommend the saber for its high damage, as well as its damage reduction.</ref>
+|-
+|Spartan Shields
+|Adds more shields, complements Spartan Weaponry.
+|-
+|Grappling Hook / Advanced Hook Launchers
+|Adds grappling hooks that greatly improve player maneuverability.
+|-
+|Bountiful Baubles / Trinkets and Baubles
+|Adds useful accessories that enhance the player in a variety of ways.
+|-
+|HWYLA + WAWLA
+|So that you can see useful info about the mob/block you're looking at, helps you see the health and armor of parasites.
+|-
+|OptiFine
+|If you're lagging.
+|-
+|SwingThroughGrass
+|Makes Rupters and Buglins less annoying to kill. Quite convenient.
+|-
+|Tinker's Construct and Construct's Armory
+|Adds effective and customizable armor and weapons.
+|-
+|MineTraps
+|Adds several new traps and blocks to aid in defending your base from Parasites.
+|-
+!colspan="2"|World Generation: Most popular world generation mods are good but here are some that I would specifically recommend.
+|-
+|Lost Cities
+|For a post-apocalyptic world. This adds abandoned city structures.
+|-
+|Wildlands
+|For a realistic world.
+|-
+|RTG
+|Also for a realistic world.
+|-
+|Biomes O' Plenty
+|Adds many new biomes that will make your adventure worth while and fun.
+|-
+|Dregora RL
+|A craaazy generation mod specifically made for RlCraft but can still make it worth using. However, this generation mod does offer lots of underground area, meaning you will most likely progress faster than usual.
+|-
+|YUNG's Better Caves
+|Makes caves more realistic and better to explore.
+|-
+|YUNG's Better Mineshafts
+|In the name makes mineshafts cooler and unique depending on where it spawns.
+|-
+|BetterNether
+|Makes the nether cooler, hotter, and much more dangerous.
+|-
+|Recurrent Complex
+|Adds lots of unique and interesting structures, some interesting some not. It makes the world feel more alive.
+|-
+|Roguelike Dungeons
+|Most popular dungeon mod that adds a worthwhile challenge, as well as rewards that progressively improve each floor.
+|-
+|Large Ore Deposits
+|Makes ore veins have more ore. Simple and HIGHLY recommended.
+|-
+!colspan="2"|Shaders: Lots of shaders will break the [[Parasite Biome|Biome's]] fog. This is very much appreciated.
+|-
+|Sildur's Enhanced Default
+|No issues with the fog.
+|-
+|Builder's QOL Shaders
+|Reduces biome fog density but keeps it the right color.
+|-
+|Chocapic 13
+|Highly recommend, looks very cool.
+|-
+!colspan="2"|Immersion: Mods that make Minecraft more realistic or beautiful in their own way.
+|-
+|Enhanced Visuals
+|Makes visuals more immersive.
+|-
+|Dynamic Lighting
+|Makes lighting more immersive, such as throwing a torch down giving off light.
+|-
+|Dynamic Surroundings
+|Makes the game more immersive and spookier.
+|-
+|Sound Filters
+|A mod that adds reverb to caves, mutes certain sounds when underwater or behind a wall.
+|-
+|Hardcore Darkness
+|Makes darker areas even darker. Might wanna bring a flashlight.
+|-
+|Serene Seasons
+|Adds seasons to Minecraft for more realistic environment from Spring-Winter.
+|-
+|Eternal Winter
+|Useful if you want a John Carpenter vibe to the mod.
+|-
+|Weather 2 - Remastered
+|Yup the mod that adds realistic thunderstorms and tornadoes.
+|-
+|Simple Flashlight Port
+|You'll want this for the dark a good ol flashlight.
+|-
+!colspan="2"|Dimensions: Mods that'll add more adventure and/or make your life easier.
+|-
+|The Aether
+|Taking a break high above the clouds might be what you need to ease your mind.
+|-
+|Galacticraft Legacy
+|Galacticraft Legacy is a mod all about traveling planets, might be a good last resort if your world becomes overrun.
+|-
+|Aroma1997s Dimensional World
+|A dimension solely for mining might give you what you need to fight the infection.
+|-
+|The Twilight Forest
+|A dimension mod which is difficult, but gives good gear, especially the gear set that inflicts fire.
+|-
+!colspan="2"|Weaponry: Swords, Guns, Nukes😈. This section will show you the best weapon mods to add.
+|-
+|Techguns
+|Adds guns such as the Double Barrel, Bolt Action Rifle, Nuclear Death Ray, Minigun, etc. Best go-to gun mod.
+|-
+|MrCrayfish's Gun Mod
+|Might not be the best but it's the required mod for a lot of gun mods, plus they are good early game.
+|-
+|Advanced Rifles
+|MrCrayfish's Gun mod addon with stronger guns.
+|-
+|ModularWarfare - Guns & more
+|If your PC can handle it and you love really powerful gun mods with realism to it, use this.
+|-
+|HBM Nuclear Tech Mod
+|With Nukes, Armor, Guns, and Grenades, this has the best stuff to offer from a Pistol to a Tsar Bomba.
+|-
+|Avaritia 1.1x
+|The most overpowered...also the most agonizingly painful grind of your life just to get one piece of gear describes this mod VERY well. But it is worth it.
+|-
+|Infinity Craft
+|A personal favorite is the Infinity Craft mod. It offers quite a bit, from the ability to clone blocks, travel thousands of blocks instantly, control mobs, kill half the current population, and so much more. Very fun.
+|-
+|Portal Gun
+|I would recommend the Gravity Gun from this mod. It can save you in certain situations.
+|-
+|ICBM
+|Scaled down version of HBM nukes. But offers a good blackhole TNT/missile which can kill anything and is easy to take care of.
+|-
+|Draconic Evolution
+|Second best mod for armor against the parasites. Very time consuming.
+|-
+!colspan="2"|Difficulty Easing: Make your life easier but the parasites' harder.
+|-
+|ProjectE
+|Think of it as a complex trading system. Very good for wanting to exchange useless stuff for good stuff.
+|-
+|Nature's Compass
+|Makes finding biomes easier.
+|-
+|Artifacts
+|A mod that adds artifacts around the world that will help you in certain situations.
+|-
+|Inventory Pets
+|Pets that go in your inventory and may grant you buffs or debuff other entities.
+|-
+|Capsule
+|A mod that allows you to literally capture a base within a certain radius and take it with you which can be placed somewhere else.
+|-
+|Scaling Health
+|A mod that allows you to increase your default health using Heart Capsules.
+|-
+!colspan="2"|Difficulty Hardening: Make your life hell and the parasites' stronger.
+|-
+|Blood Moon
+|If you looove to suffer or give yourself a challenge, this mod adds a semi-rare event to your world that will turn the moon blood red, the following night will cause a massive increase in mob spawning and players cannot sleep.
+|-
+|Epic Siege Mod
+|Zombies can break blocks, place blocks, and sometimes blow stuff up with TNT, creepers explode with fire, and many more.
+|-
+|Hordes Mod
+|Every night has a chance to become a horde night, which can either be full of vanilla mobs or parasites depending how you config it.
+|-
+!colspan="2"|Scape and Run Addons: Addons that are recommended for the SRP mod. There's a lot. Note: These mods might not work after 1.9.21.
+|-
+|Scape and Run: Parasites Combat Addon
+|Adds armor and weapons that you can use against the parasites, most notably the flamethrower.
+|-
+|Scape and Run: Parasites Survival Addon
+|Mostly a food addon with new blocks.
+|-
+|Scape and Run: Parasites Nests Addon
+|Adds nests to the mod around the world which are mainly defended by Primitive Longarms. There's also a Flesh Worm that hides in the ground of plains and forests which holds loot.
+|-
+|Scape and Run: Parasites Extra
+|Adds Assimilated, Hijacked, and Feral forms to parasites that don't have one.
+|-
+|Scape and Run: Parasite Cure
+|Adds a cure to Assimilated mobs, useful if your dog is a parasite.
+|-
+|Scape and Run: Parasites Meteorite
+|Within 1-7 nights meteorites will fall from the sky starting the infection with some structures now appearing around the world, those being the meteorites.
+|-
+|Scape and Run: Parasites Deep Sea Danger
+|Adds parasite versions from the Deep Sea Danger mod.
+|-
+|Scape and Run: Parasites Mutant Beasts
+|Adds parasite versions for the Mutant Beasts mod. However, the Mutant Skeleton is Hijacked.
+|-
+|Scape and Run: Hermit's Arsenal
+|A weapon addon that'll give you the ability to use the parasites' strengths and weaknesses against them.
+|-
+|Scape and Run: Monstress
+|...nice. I'd personally recommend.<ref>Very nice indeed. I'd recommend it quite, too.</ref>
+|-
+|Scape and Run Parasites Addon: Cotesia Glomerata
+|If you can't beat 'em, join 'em and become a parasite. I would suggest no one else but [https://youtu.be/i73R4rNthnE?si=ubcn-IPSR7m4J-Hd Prophetic Extrusion] for a complete guide on the mod.
+|-
+|Scape and Run: Parasites Medical Addon
+|A mod that'll help you against the parasites by using medicine such as the Vaccine, which grants you 1 minute of immunity to Viral, and the Cryptotoxin which can temporarily nullify all adaptation abilities of the parasite for 10 seconds, which is a lot. HIGHLY recommend.
+|-
+|Scape and Run: Dimension
+|In the name. Gives you access to a parasite dimension. Oh boy.
+|-
+|Scape and Run: Parasites Utility addon
+|From the looks of it, adds just a few but really good blocks such as Obsidian Reinforced Glass and Slabs which would come in handy.
+|-
+|Scape and Run: Parasites Aether
+|Makes Aether mobs able to become infected and makes it easier for the dimension to be overrun, depending on certain conditions.
+|-
+|Scape and Spartan: Parasites
+|Adds Living/Sentient versions of Spartan Weaponry weapons, each having a unique ability against the parasites. Also HIGHLY recommend.
+|-
+|Scape and Run: Holiday AND Scape and Run: Parasites Halloween
+|I personally find this funny and cool to use during Christmas/Halloween.
+|-
+|Parasites Addon: OverLast
+|Adds some unique features, most notably a new evolution UI bar to show the evolution phase in real time, as well as a Node Detector, infection and purification potions, a new enchantment called Parasite Killer, a Courage Shield mechanism which reduces damage dealt by Parasites, a Seasonal and Sanity mechanism, and a few other features.
+|-
+!colspan="2"|Resource Packs: Resource Packs I'd recommend using at least once.
+|-
+|Scape and Run: Emissives
+|Makes things that should probably glow, such as the acid sac on the Yelloweye or the eyes of Primitive Manducaters and NoCubes armor.
+|-
+|Xaero's Minimap - Scape and Run: Parasites
+|Makes every Assimilated mob icon show on the minimap.
+|-
+|}
+{|class="fandom-table mw-collapsible mw-collapsed" style="width: 750px"
+|+
+'''Advice For Certain [[Evolution Phases|Phases]]'''
+!Phases
+!Advice For Phase
+|-
+|Phase 0
+|
+*[[Buglin|Buglins]] will spawn naturally during Phase 0 so it is highly recommended to kill on sight.
+*Buglins take 75 seconds to evolve into [[Rupter|Rupters]]. When it's just one, all they will do is infect and run away from the player, killing on sight is highly recommended, however if you encounter more than one, they will start attacking you so your main focus in Phase 0 is to prepare and get a weapon and shield.
+*Buglins will apply [[Call Of The Hive]] when touched and the effect can stack so be cautious.
+|-
+|Phase 1
+|
+*Rupters will now spawn naturally during this phase and will attack players and mobs instead of infecting by CotH cloud so try avoiding these creepy crawlies, especially their variants because they can be more dangerous than most Assimilated mobs due to their speed, the effects they give, and their leaping capabilities.
+*Parasites will now ignore sky light levels when spawning so the surface is now equally dangerous.
+*Sleeping adds 40 points now so sleeping exactly 20 days (gaining 800 points) would put you in Phase 2, but half the points gained would be due to the parasites themselves so expect 10 minimum sleepings before going into Phase 2.
+*Since Rupters spawn now, having defenses around your base that prevents climbing parasites would be ideal. I'd suggest fences along with Barbed Wire from the Nuclear Tech Mod in order to damage these guys, however loot will not drop if they die from it.
+*If you haven't been using Lava or Fire yet, now would be a good time.
+*Use anything at your disposal to fight back from here forward because your main goal here is to survive.
+|-
+|Phase 2
+|
+|}
+
+==Tips And Tricks==
+*If it isn't obvious already, use fire. Especially against Primitive parasites and above, Fire Aspect is a must (especially since most [[:Category:Weapons|Weapons]] added by the mod won't benefit from other enchantments) and lava is good against stationary parasites.
+*If you're using the Nuclear Tech Mod (Extended Edition) you can use the Null Grenade as a last resort. This kills everything, including dangerous tiers like Adapted, Pure, Nexus, Preeminent, and even Derived, without exceptions. The only downside is that you won't get any loot and if you're in the 7x7 area you will die. Thank you Boiledlawyer9883 for getting the info for me.
+*From the Nuclear Tech mod again, the "F.L.E.I.J.A" nuke will delete anything within a 50-block radius in a sphere shape which makes for another good last resort if needed. Thank you again Boiledlawyer9883. However The Prototype nuke is the same way but 150 block radius.
+*Incendiary Grenades are good for taking down Beckons (AS LONG AS WATER ISN'T IN THE MIX), on the other hand Flaming Barbed Wire is good for Adapted parasites and below.
+*Sky bases are also good with the right resources and blocks, coward's way out maybe but who cares you're living.
+*Break Dispatcher Nidus blocks and any Parasitic Cyst on the ground. This will prevent Dispatchers from spawning and prevent points from being gained faster due to Cysts consuming items.
+*NEVER leave a Dispatcher to live unless you want to have Sentries spawning all over the place.
+*Try using multiple traps at once around your base so parasites can't adapt to it all. (Ex: Flaming Barbed Wire + Electric Fence + Turrets + Firing guns from above + Lava + Iron Golems + Grenades) Adapted parasites can adapt up to 8 damage sources so lots of traps and damage outputs would be efficient and overwhelm most parasites.
+*If you want, make hitboxes show by pressing F3+b. This is particularly needed to hit the tendrils of adapted parasites or above, as the tendril hitboxes are easy to miss or distinguish, and may be displaced sometimes.
+*Kill anything that drops food early on, so you have food to support a long run.<ref>Do this to slow the infection aswell. This to prevent them from getting assimilated and contribute evolution points. It is also useful to prevent [[Dispatcher (Disambiguation)|Dispatchers]] from gaining attacking units. It is particularly useful if the [[Meteor]] infection is enabled, as its impact has a chance to infect any mob within an 800 block radius, making food scarce.</ref>
+*Obsidian is the block parasites can't break, and it's regarded as the best defense option. Concrete from Nuclear Tech is also good early game since most parasites can't break it and it's easy to mine from structures.
+*Have a backup set of armor.
+*Suicide runs to place lava on Beckons or Dispatchers is always a worthwhile measure to stop them from overgrowing and becoming too powerful. The weapons from Nuclear Tech are very much useful as well.
+*An emergency bunker is also a useful tool for later phases.
+*Having EMC or food farms in a far location or other dimension is a good way to make sure the parasites don't ruin everything and you process through the game without raising evolution points.
+*Jetpacks are good for battling grounded and flying parasites, most notably the Overseer.
+*If you see an Overseer, it's recommended to leave it alone. If there are two, DO NOT fight, SCAPE and RUN to come up with a plan. The [[Needler]] it applies is incredibly dangerous.
+*Kill any parasite in Phase 0, especially Assimilated since their deaths reduce points and stop them from infecting more mobs.
+*DON'T put the mod on impossible mode unless you're a god at the mod.
+
+==Notes==
+<references />
+
+
+[[Category:Stubs]]

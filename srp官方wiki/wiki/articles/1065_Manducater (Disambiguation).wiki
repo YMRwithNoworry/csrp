@@ -1,0 +1,11 @@
+{{DisambiguationContent
+|image1=Primitive Manducater.png
+|title1=[[Primitive Manducater]]
+|desc1=A [[Primitive Parasites|Primitive]] Parasite
+|image2=Adapted Manducater.png
+|title2=[[Adapted Manducater]]
+|desc2=An [[Adapted Parasites|Adapted]] Parasite
+|image3=Manducater Orb.png
+|title3=[[Manducater Orb]]
+|desc3=A [[Drops#Materials|Material]] dropped by Manducaters
+}}

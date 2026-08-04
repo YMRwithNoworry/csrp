@@ -1,0 +1,42 @@
+{{Navbar|page1=Living Scythe|page2=Sentient Greatscythe}}
+{{Item Info
+|image1=File:Living Scythe.png
+|damage=17
+|attack_speed=0.8
+|range=4.0
+|durability=1000
+|stackable=No
+|tooltip=Result of various Parasites body parts reshaped to form a Weapon. The flame of life shines inside it. Wipes out a large area.
+|id=srparasites:weapon_scythe
+}}
+The '''Living Scythe''' is a type of [[Weapons|Weapon]] created from a multitude of parasite materials.
+
+==''Obtainment''==
+{{CraftingTable
+|r1_b1=Vile Shell
+|r1_c1=Living Core
+|r1_b2=Hardened Bone Handle
+|r1_c2=Infectious Blade Fragment
+|r1_a3=Hardened Bone Handle
+|r1_c3=Infectious Blade Fragment
+|r1_output=Living Scythe
+}}
+
+==''Usage''==
+
+'''Fighting'''
+
+The Living Scythe is a Melee Weapon.Its attack reach is 4 blocks in every direction from the players head, which is the default attack reach.
+
+Each time it is swung, it performs the default sweeping attack (though only visually if airborne or the attack cooldown is still up), alongside a large AoE attack, which can hit through walls and applies durability damage for every affected mob. While that is unaffected by the Sweeping or Sharpness Enchantments, Strength and Fire Aspect are applied normally to all affected mobs. 
+
+This large sweep extends 5 blocks in each cardinal direction, up 4 blocks and down 6. This attack deals 3 base damage to the affected mobs and happens independently of attack cooldown and being airborne.  
+
+'''Evolving''' 
+
+Upon killing an entity, it's hp, including possible buffs from health boost, is added to a counter shown in the item's tooltip. 1 second after this counter reaches 50,000, a non-damaging lightning will strike the player, and the held weapon will be replaced with it's Sentient counterpart at full durability.
+[[Category:Weapons]]
+
+{{ItemList}}
+[[Category:Items]]
+[[Category:Equipment]]

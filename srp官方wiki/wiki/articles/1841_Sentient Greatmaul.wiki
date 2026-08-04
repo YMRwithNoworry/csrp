@@ -1,0 +1,33 @@
+{{WIP}}
+{{Navbar|page1=Living Maul|page2=Sentient Greatmaul}}
+
+{{Item Info
+|image1=Sentient Greatmaul.png
+|damage=42
+|attack_speed=0.7
+|range=5.0
+|durability=1000
+|stackable=No
+|tooltip=Wipes out a large area. You can't hide anymore.
+|id=srparasites:weapon_maul_sentient
+}}
+The '''Sentient Greatmaul''' is a type of [[Weapons|Weapon]] created from a multitude of parasite materials.
+
+==''Obtainment''==
+Sentient Weapons evolve from their craftable Living counterpart after having dealt 50,000 damage.
+
+==''Usage''==
+
+'''Fighting'''
+
+The Sentient Greatmaul is a Melee Weapon. Its attack reach is 5 blocks in each direction from the players head, which is the default attack reach.
+
+Each time it is swung, it performs the default sweeping attack (though only visually if airborne or the attack cooldown is still up). However, one can charge the Greatmaul by holding right click and releasing shoots the player a large distance. Hitting a surface or Mob while flying releases an AOE impact that decimates enemies in a large area. The player is immune to fall damage should they fly high enough to incur it. This attack has a cooldown of twenty seconds.
+
+
+[[Category:Weapons]]
+[[Category:Work In Progress Content]]
+
+{{ItemList}}
+[[Category:Items]]
+[[Category:Equipment]]

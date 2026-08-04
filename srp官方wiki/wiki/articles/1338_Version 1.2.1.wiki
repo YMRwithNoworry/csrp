@@ -1,0 +1,13 @@
+{{VersionBar|
+|page1=Version 1.2.0
+|page2=Version 1.3.0
+}}
+'''Version 1.2.1''' was an update for the Scape and Run: Parasites Mod, released on October 25th 2019.  It was 497.86 KB.
+
+== ''Change Log'' ==
+
+* Fixed [[Primitive Yelloweye|Emana's]] projectile (poison effect duration was always 0)
+* Changed Emana's configuration (poison numbers do not multiply)
+
+{{VersionList}}
+[[Category:Versions]]

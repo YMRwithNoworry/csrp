@@ -1,0 +1,30 @@
+{{VersionBar|
+|page1=1.9.16
+|page2=1.9.18
+}}
+'''Version 1.9.17''' was an update for the Scape and Run: Parasites Mod, released on February 7th 2024.  It was 24.89 MB.
+
+== ''Change Log'' ==
+
+====<u>Fixes</u>====
+*Typos in the configuration file
+====<u>Configuration</u>====
+*"Scent Level 6 Mob Table" changed to "srparasites:sim_adventurer", "srparasites:sim_enderman", "srparasites:sim_human", "srparasites:sim_horse", "srparasites:sim_villager", "srparasites:sim_pig", "srparasites:sim_cow", "srparasites:sim_wolf", "srparasites:sim_sheep", "srparasites:pri_longarms", "srparasites:pri_manducater", "srparasites:pri_reeker", "srparasites:pri_yelloweye", "srparasites:pri_summoner", "srparasites:pri_bolster", "srparasites:pri_arachnida", "srparasites:pri_vermin", "srparasites:heed", "srparasites:crux",
+*"Scent Level 7 Mob Table" changed to "srparasites:sim_adventurer", "srparasites:sim_enderman", "srparasites:sim_human", "srparasites:sim_horse", "srparasites:sim_villager", "srparasites:sim_pig", "srparasites:sim_cow", "srparasites:sim_wolf", "srparasites:sim_sheep", "srparasites:pri_longarms", "srparasites:pri_manducater", "srparasites:pri_reeker", "srparasites:pri_yelloweye", "srparasites:pri_summoner", "srparasites:pri_bolster", "srparasites:pri_arachnida", "srparasites:pri_vermin", "srparasites:heed", "srparasites:crux",
+*"Scent Level 8 Mob Table" changed to "srparasites:sim_adventurer", "srparasites:sim_enderman", "srparasites:sim_human", "srparasites:sim_horse", "srparasites:sim_villager", "srparasites:sim_pig", "srparasites:sim_cow", "srparasites:sim_wolf", "srparasites:sim_sheep", "srparasites:pri_longarms", "srparasites:pri_manducater", "srparasites:pri_reeker", "srparasites:pri_yelloweye", "srparasites:pri_summoner", "srparasites:pri_bolster", "srparasites:pri_arachnida", "srparasites:pri_vermin", "srparasites:heed", "srparasites:crux",
+*"Scent" false -> true
+*"Scent Mob Cap" 30 -> 11
+====<u>General</u>====
+*Added new sound effects for the [[Evolution Phases]]
+*Added more subtitles**
+*[[Lures|Lure Blocks]] will now spawn particles or a thunder if used together
+====<u>Mobs</u>====
+*Tweaked [[Scent System|Scent]] spawning [[Primitive Tozoon|worms]] logic
+*Changed [[Adapted Summoner ]]Spawning biomass sound effect
+*Added small step sound effect to walking heads, [[Gnat|Gnats]], [[Rupter|Rupters]], [[Mangler|Manglers]]
+*Added new sound effect for [[Primitive Yelloweye|Yellow Eye]] shooting
+*Added/tweaked new Growl/Hurt/Death sound effect for the following mobs: 
+**[[Primitive Vermin]], Walking heads, [[Host]] when underground, [[Herd]] when underground, [[Light Carrier]], [[Heavy Carrier]], [[Flying Carrier]], [[Monarch]], [[Adapted Bolster]], [[Marauder]]
+
+{{VersionList}}
+[[Category:Versions]]

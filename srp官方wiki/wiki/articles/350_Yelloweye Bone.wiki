@@ -1,0 +1,33 @@
+{{Item Info
+|image1=Yelloweye Bone.png
+|type=Material
+|stackable=Yes (16)
+|tooltip=A sturdy bone harvested from a Yelloweye body. A Crafting Ingredient for Weapons Components.
+|id=srparasites:ada_yelloweye_drop
+}}
+'''Yelloweye Bones''' are a [[:Category:Drops|Drop]] used as a [[:Category:Drops#Materials|Material]] to craft [[Hardened Bone Handle|Hardened Bone Handles]], a [[:Category:Weapons' Components|Weapons' Component]].
+
+== ''Obtainment'' ==
+*Dropped by the [[Primitive Yelloweye]] and [[Adapted Yelloweye]].
+*Can be found in [[Malignant Growth|Malignant Growths]].
+
+== ''Usage'' ==
+{{CraftingTable
+|r1_count=1
+|r1_output=Hardened Bone Handle
+|r1_b3=Yelloweye Bone
+|r1_a3=Infected Flesh
+|r1_b2=Yelloweye Bone
+|r1_a2=Infected Flesh
+|r1_b1=Yelloweye Bone
+|r1_a1=Infected Flesh
+|r2_count=4
+|r2_output=Infested Bonemeal
+|r2_b2=Yelloweye Bone
+|r2_shapeless=true
+}}
+
+
+{{ItemList}}
+[[Category:Items]]
+[[Category:Drops]]

@@ -1,0 +1,19 @@
+{{Stub}}
+{{Item Info
+|image1=Hijacked Bone.png
+|type=Material
+|stackable=Yes (64)
+|id=srparasites:bloody_bone
+}}
+'''Hijacked Bones''' are [[:Category:Drops|Drop]] items.
+
+== ''Obtainment'' ==
+Dropped by the [[Hijacked Skeleton]].
+
+== ''Usage'' ==
+Hijacked Bones can be smelted back into a normal bone.
+
+
+{{ItemList}}
+[[Category:Drops]]
+[[Category:Items]]

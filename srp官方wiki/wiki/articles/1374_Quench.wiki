@@ -1,0 +1,37 @@
+{{Item Info
+|image1=Quench.png
+|type=Tool
+|stackable=Yes (16)
+|tooltip=A warm and malleable substance made of saturated magma cream. It's high concentration of blaze powder makes it incredibly toxic to parasitic matter.
+|id=srparasites:itemthrow
+}}
+'''Quenches''' are an item that will purify [[Infested Blocks]] from [[:Category:Nexus Parasites#Beckons|Stage I, II, or III Beckons]] when thrown.
+
+== ''Obtainment'' ==
+{{CraftingTable
+|r1_b1=Blaze Rod
+|r1_a2=Blaze Rod
+|r1_c2=Blaze Rod
+|r1_b3=Blaze Rod
+|r1_b2=Magma Cream
+|r1_output=Quench
+|r1_count=3
+}}
+
+== ''Usage'' ==
+Right clicking a Quench will throw it as a projectile, such as an egg or snowball, but it will fly slower and fall faster. When it hits a block, it will immediately purify all [[Infested Blocks]] within a 15x15 area of the block that the projectile hits, then purify the surrounding blocks progressively by radius. Note that the resulting blocks can still be re-infested by any surrounding infested blocks or Beckons.
+
+== ''Trivia'' ==
+*The Quench has been in the game for a long time, but previously had a placeholder texture, was unnamed, unobtainable, and acted as a [[Debug Items|Debug Item]]. It was also required that an Infested block was hit, and it only purified infested blocks horizontally.
+*The Item is toxic to Parasites due to their weakness to fire.
+
+
+==''Gallery''==
+<gallery>
+File:QuenchOld.png|The texture of the quench as depicted in 1.9.12.
+</gallery>
+
+{{ItemList}}
+[[Category:Tools]]
+[[Category:Equipment]]
+[[Category:Items]]

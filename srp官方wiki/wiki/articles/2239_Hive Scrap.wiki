@@ -1,0 +1,43 @@
+{{Stub}}
+{{Item Info
+|image1=Hive Scrap.png
+|type=Material
+|stackable=Yes (64)
+|id=srparasites:hive_scrap
+}}
+'''Hive Scrap''' are [[:Category:Drops|Drops]] used to make late-game items.
+
+== ''Obtainment'' ==
+*Obtained by smelting two [[Hivestone Debris]].
+*Dropped by [[:Category:Preeminent Parasites|Preeminent Parasites]].
+
+== ''Usage'' ==
+{{CraftingTable
+|r1_a1=Semi-organic Ingot
+|r1_b1=Dead Blood Fluid
+|r1_c1=Semi-organic Ingot
+|r1_a2=Twisted Spinal Signal
+|r1_b2=Module Genic Receptacle
+|r1_c2=Hive Scrap
+|r1_a3=Doomsday Clock
+|r1_b3=Semi-organic Ingot
+|r1_c3=Level Clock
+|r1_output=Phase Module
+|r1_count=1
+
+|r2_a1=Hive Scrap
+|r2_b1=Chipped Motherly Membrane
+|r2_c1=Hive Scrap
+|r2_a2=Chipped Motherly Membrane
+|r2_b2=Module Genic Receptacle
+|r2_c2=Chipped Motherly Membrane
+|r2_a3=Hive Scrap
+|r2_b3=Chipped Motherly Membrane
+|r2_c3=Hive Scrap
+|r2_output=Dislodgement Module
+|r2_count=1
+}}
+
+{{ItemList}}
+[[Category:Drops]]
+[[Category:Items]]

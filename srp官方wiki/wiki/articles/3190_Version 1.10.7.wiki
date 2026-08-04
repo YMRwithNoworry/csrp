@@ -1,0 +1,90 @@
+{{VersionBar|
+|page1=1.10.6
+|page2=current
+}}
+'''Version 1.10.7''' was an update for the Scape and Run: Parasites Mod, released on June 21st 2026.  It was 109 MB.
+
+== ''Change Log'' ==
+
+====<u>Fixes and Tweaks</u>====
+* Fixed Beckons spawned on infested sand bypassing spread limits
+* Added Light and Heavy Carriers to spawn tables for phases 1–4
+* Replaced Wither with Corrosion on Primitive and Adapted Summoner vomit to reduce parasite-on-parasite damage. Applies to Assimilated Cow, Primitive Summoner, and Adapted Summoner.
+* Reworked parasite loot blocks to only accept SRP items. They can no longer hold vanilla items/blocks or SRP blocks.
+* Fixed lure sound
+* Added lure cooldown, empty-hand text, and structure text when using lures.
+* Allowed Assimilated Sugarcane to be placed on vanilla and purified soft soil
+* Fixed colonies not being removed after large explosions
+* Tweaked Colony and Node checks to ensure the heart/node is physically present
+* Fixed kirin clipping through ground
+* Fixed COTH immunity not being a base-case termination
+* Fixed COTH spreading to unseen entities
+* Fixed stacking amp up to 255 with COTH (REQUIRES CONFIG REGEN)
+* Buglins now only apply COTH and raise its amp every 20 seconds on contact (fixing rapid COTH stacking)
+* Added rgb support for flash particles
+* Made spore particles more transparent
+* Fix #326 incompatibilities with Fluidlogged API (ft.  jbredwards)
+* Partially Fixed Draconite's shaking Compendium Model
+* Fixed ud lvl 2 and 3 with any phase bigger than 0 doesnt seem to respect its spawnlist caused by broken switch statement
+* Buglins now don't make step sounds
+* Vector radius default value 2B -> 2M
+* Heavy, Flying and Light Carrier contents spawn tweaks.
+
+====<u>New Content</u>====
+* Updated assimilated flesh, diseased heart, level clock, toxic lung textures.
+* Updated Tooltip for Eye of Beholder
+* Added Crafting Recipe for Hijacked Iron Armour
+* Added blood particles
+* Updated buglin sounds and subtitles
+* Particles can now show up from a first-person POV
+* Added scrollbar to parasite tier + mob selection page(s)
+* Added scrollbar to parasite loot table
+
+* Added custom advancement icons
+* Added an advancement for using shears on the Adapted Reeker Ricardo variant
+* Added the rare celestial event “Dark Days”
+* Added an advancement for surviving the “Dark Days” event
+
+* Updated the Book of Vengeance item texture
+* Changed the moon and sun textures to better match celestial events
+* Removed effects from wearing the Assimilated Pumpkin
+* Added random Rage sound effects to mobs with the Rage effect
+* Added Rage particles
+* Added flash, fog, dot, and unused wind particles.
+* Updated purifier interaction particles
+* Updated spore, biomass, flesh, vomit, red happy, and een particle textures/logic.
+* Added green dot particles alongside biomass particles
+* Infested dirt and biomass can now occasionally spawn dot particles
+* Added fog ambience sounds
+* Changed fog block rendering and fog texture
+* Added sounds when Summoners resurrect parasites from remains
+* Improved internal sound organization
+* Tweaked Vortex sounds
+* Added Mangler sound implementation
+* Added additional mob sounds and subtitles
+* Abo bodies now play randomly pitched-down animal hurt sounds when damaged
+* Some SRP sounds now use vanilla Minecraft subtitles
+* Rooter and Dispatcher upgrade/appear sounds now have subtitles
+* Updated twenty_seven texture
+* Added Fog Block Screen Overlay
+
+====<u>Mobs</u>====
+* Updated rupter textures and added new variants: classic, striped, weird, fluffy, golden.
+* Removed assimilated Herobrine
+* Subtle Draconite Texture Tweaks
+* Added leg movement to Draconite flying animation
+* Draconite wing speed animation determined via fly speed
+* Added a 1% chance for infected wolves to spawn with a collar variant
+* Added Draconite Barrage Attack
+* Updated Draconite Lore
+* Added buglin emerge sounds and updated tunnel block breaking sounds
+* Updated yelloweye texture and added emissive layer
+
+====<u>Config Changes</u>====
+* Added "Draconite Debug Special Attack" to SRParasitesMob.cfg | Interacting with Draconite Spawn Egg forces nearest Draconite to perform barrage attack.
+* Added "Draconite Barrage Count" to SRParasitesMob.cfg | How many Projectiles are summoned during a Barrage
+* Added celestialMovementSpeedMultiplier to srp world config
+* Added config options to disable or blacklist certain celestial events, including a separate Dark Days toggle disabled by default.
+
+{{VersionList}}
+[[Category:Versions]]

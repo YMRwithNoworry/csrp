@@ -1,0 +1,137 @@
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|marauder}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=<gallery>
+Marauder.png|Normal
+BreacherMarauder.png|Breacher
+</gallery>
+|hp=120.0
+|damage=40.0
+|armor=20.0
+|kb_resistance=1.0
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:marauder
+}}
+'''Marauders''' are a type of [[Mobs]], placed into the [[Pure Parasites|Pure]] Tier.
+
+== ''Spawning'' ==
+* Spawns naturally in groups of 1 to 2 if [[Ubiquitous Development]] is Level 4, with a spawnweight of 10.
+* Spawns in groups of 2 to 3 in the [[Parasite Biome]], with a spawnweight of 5.
+* Spawned by [[Heavy Bomber|Heavy Bombers]].
+
+==''Behavior''==
+Marauders are Highly mobile Tank units and AoE melee combatants.
+
+* Their Melee Attack inflicts AoE Damage and is performed by them pushing their limbs upward.
+* Marauders second Melee Attack can grab nearby Mobs, who will then be punched to death by the Marauder. It will stay still during this Attack, moving its limbs backward and forward from its body. This Attack ignores Immunity Frames. After it ends, the [[Rage]] Effect will be inflicted onto nearby Parasites.
+* Marauders can climb blocks.
+* Marauders are able to perform great leaps which inflicts AoE Damage when it lands.
+* Marauders can perform small leaps, both on land and in liquids.
+* Marauders can sink in liquids to pursue submerged targets.
+* Like other [[Pure Parasites]], Marauders can summon up to 3 [[Seizer|Seizers]] to support them
+* Like other [[:Category:Pure Parasites|Pure Parasites]], Marauders can use personal [[Dispatcher Tentacle|Dispatcher Tentacles]] to teleport.
+** Marauders (along with the other Melee focused Pures) spawn [[:Category:Deterrent Parasites|Deterrents]] significantly less than flying and grounded range Pures.
+* Marauders can break blocks that have their [[Hardness]] Value up to 5, with a 10 ticks cooldown and 3 Blocks range.
+{{Variants|count=1|Breacher=BreacherMarauder.png}}
+
+=== ''Weaknesses'' ===
+* Marauders, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+* Marauders' Tendrils, found on the sides of their body, can reset their [[Adaptation System|adaptation]], while also giving them the [[Bleeding]] and [[Rage]] Effects.
+
+=== ''Post Death'' ===
+
+* On death Marauders have a chance to explode, releasing [[Remains|Pure Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+{{Properties
+|tier=Pure
+|OrbEffectsMobs=Hunger IV (00:15), [[Needler|Needler IV]] (00:25), Mining Fatigue IV (00:15), Weakness IV (00:15)
+}}
+{{Drops
+|rolls1=One Roll
+|page1=Noxious Brain
+|amount1=1
+|chance1=80
+}}
+
+== ''Sounds'' ==
+{| class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Marauderliving1.ogg]]
+[[File:Marauderliving2.ogg]]
+[[File:Marauderliving3.ogg]]
+|Hostile 
+|Plays randomly while a Marauder is alive.
+|Marauder gurgles
+|marauderliving1-3
+|-
+|[[File:Marauderhurt1.ogg]]
+[[File:Marauderhurt2.ogg]]
+[[File:Marauderhurt3.ogg]]
+|Hostile
+|Plays when a Marauder takes damage.
+|Marauder snarls
+|marauderhurt1-3
+|-
+|
+[[File:Heavy one_step1.ogg]]
+[[File:Heavy one_step2.ogg]]
+[[File:Heavy one_step3.ogg]]
+[[File:Heavy one_step4.ogg]]
+[[File:Heavy one_step5.ogg]]
+|Hostile
+|Plays when a Marauder is walking.
+|Footsteps
+|step1-5
+|-
+|[[File:Swipe.ogg]]
+|Hostile
+|Plays when a Marauder attacks.
+|Swipe
+|mob_swipe
+|-
+|[[File:Landing.ogg]]
+|Hostile
+|Plays when a Marauder lands after leaping.
+|X
+|mob_hitground
+|-
+|[[File:Tendril Cut.ogg]]
+|Hostile
+|Plays after cutting a Marauder Tendril.
+|Tendril falls off
+|mob_tendril
+|-
+|[[File:Marauderdeath.ogg]]
+|Hostile
+|Plays when a Marauder dies.
+|Marauder perishes
+|marauderdeath
+|}
+
+==''Trivia''== 
+*Marauders are also known as '''Esor''' in the Mod Files.
+*Marauders are inspired by [https://www.halopedia.org/Flood_Juggernaut Flood Juggernauts], from Halo.
+*Initially, the current Marauder Model was used for the [[Warden]] in the [[Version 1.9.0A1|1.9.0A1]] Update but, after many complaints regarding this change, in [[Version 1.9.0A2|1.9.0A2]], the Warden obtained its old Model and the Marauder was introduced.
+
+==''Gallery''==
+<gallery>
+File:Marauder Size Comparison.png|Size of the Marauder's Model.
+File:Marauder Tendril.png|A Marauder's Tendril after being cut.
+File:Marauder Tendrils Highlighted.png|Marauder's Tendrils as seen on the Model.
+File:Marauderbarrage.gif|Marauder's Barrage animation.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Mobs]]
+[[Category:Pure Parasites]]

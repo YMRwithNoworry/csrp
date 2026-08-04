@@ -1,0 +1,142 @@
+{{Navbar|page1=Primitive Arachnida|page2=Adapted Arachnida}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|adaarachnida}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=<gallery>
+Adapted Arachnida.png|Normal
+BerserkerAdaArachnida.png|Berserker
+VirulentAdaArachnida.png|Virulent
+BreacherAdaArachnida.png|Breacher
+</gallery>
+|hp=80.0
+|damage=30.0
+|armor=14.0
+|kb_resistance=1.0 
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:ada_arachnida
+}} 
+'''Adapted Arachnidas''' are a type of [[Mobs]], placed into the [[Adapted Parasites|Adapted]] Tier. 
+
+== ''Spawning'' ==
+* Spawns after a [[Primitive Arachnida]] accumulates a killcount of 30 and [[Evolution System|evolves]].
+* Spawns naturally in groups of 2 to 3, if [[Ubiquitous Development]] is Level 3 or higher, with a spawnweight of 15.
+* Spawns inside the [[Parasite Biome]], with a spawnweight of 10.
+
+== ''Behavior'' ==
+Adapted Arachnida are Utility ranged units and Melee Combatants. 
+
+* Their Melee Attack is performed through contact damage.
+*If the [[Generations|Generation]] is 4 or higher, Adapted Arachnida can perform the following abilities:
+** Grappling and pulling distant Mobs or Players.
+*** After shooting a white projectile from their mouth, if it misses, a [[Thin Webbing]] block will be placed, if it hits their target, Adapted Arachnida will shoot a string from their mouth that will attach to the target, pulling the target towards the Adapted Arachnida. Weakness will be applied at the start. Slowness and Mining Fatigue will be applied while being pulled. If the target is near enough, the string will disappear and they will attack. They can only pull the mob if the projectile hits them.
+**** They can pull targets that are above them, and will pull down flying mobs or players.
+**** They will only pull targets in for 7 seconds (seconds have increased W.I.P), after which they will switch to melee damage.
+** Like other Adapted land Parasites, vomit [[Residue]] in a 5x5 area every so often.
+* Adapted Arachnida can climb blocks.
+* Adapted Arachnida can perform small leaps, both on land and in liquids.
+* Adapted Arachnida can break blocks that have their [[Hardness]] Value up to 3, with a 40 ticks cooldown and 2 Blocks range.
+{{Variants|count=3|Berserker=BerserkerAdaArachnida.png|Virulent=VirulentAdaArachnida.png|Breacher=BreacherAdaArachnida.png}}
+
+=== ''Weaknesses''===
+
+* Adapted Arachnida, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled
+* The abdomen on Adapted Arachnida functions as a Weak Point. When this Weak Point is hit, damage inflicted to it is tripled and the [[Bleeding]] Effect is applied to it.
+
+=== ''Post Death'' ===
+* On death, Adapted Arachnida have a chance to explode, releasing [[Remains|Adapted Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+** If at least one [[Colony]] exists in the dimension, Adapted Arachnida will become [[Primitive Arachnida]] upon death instead.
+{{Properties
+|tier=Adapted
+|OrbEffectsMobs=Hunger III (00:15), [[Needler|Needler III]] (00:25), Blindness III (00:15)
+}}
+{{Drops
+|rolls1=1 Roll
+|page1=Toxic Lung
+|amount1=1-3
+|chance1=60
+|rolls2=Always Rolls
+|page2=Arachnida Claw
+|amount2=1-3
+|chance2=80
+|page3=Strange Bone
+|amount3=1-2
+|chance3=20
+}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Adapted Arachnida Idle1.ogg]]
+[[File:Adapted Arachnida Idle2.ogg]]
+[[File:Adapted Arachnida Idle3.ogg]]
+|Hostile
+|Randomly plays when an Adapted Arachnida is alive.
+|Adapted Arachnida growls
+|adaptedarachnidaliving1-3
+|-
+|
+[[File:Adapted Arachnida Hurt1.ogg]]
+[[File:Adapted Arachnida Hurt2.ogg]]
+[[File:Adapted Arachnida Hurt3.ogg]]
+|Hostile
+|Plays when an Adapted Arachnida gets hurt.
+|Adapted Arachnida snarls
+|adaptedarachnidahurt1-3
+|-
+|
+[[File:Heavy multiple_step1.ogg]]
+[[File:Heavy multiple_step2.ogg]]
+[[File:Heavy multiple_step3.ogg]]
+[[File:Heavy multiple_step4.ogg]]
+|Hostile
+|Plays when an Adapted Arachnida is walking.
+|X
+|step1-4
+|-
+|
+[[File:Adapted Vomit.ogg]]
+|Hostile
+|Plays when an Adapted Arachnida pukes [[Residue]] onto the ground.
+|Vomiting
+|adapted_vomit
+|-
+|
+[[File:ada arachnida special.ogg]]
+|Hostile
+|Plays when an Adapted Arachnida performs a special attack.
+|X
+|ada_arachnida_special
+|-
+|
+[[File:Adapted Arachnida Death.ogg]]
+|Hostile
+|Plays when an Adapted Arachnida dies.
+|Adapted Arachnida hisses
+|adaptedarachnidadeath
+|-
+|}
+
+== ''Trivia'' ==
+*Adapted Arachnida are also known as '''Ranrac''' in the Mod Files.
+*Adapted Arachnida's Ability was inspired by the Left 4 Dead [https://left4dead.fandom.com/wiki/The_Smoker Smoker].
+*Adapted Arachnida, despite the name, is '''not''' an arachnid. While the adapted version has four legs, a characteristic of arachnids; it still drops a [[Strange Bone]] on death. In the real world arachnids do '''not''' have bones, instead they have an exoskeleton.
+
+==''Gallery''==
+<gallery>
+File:Arachnida Weak Point Highlighted.png|Adapted Arachnida's Weak Point as seen on the Model.
+File:Adaptedarachnidapull.png|An Adapted Arachnida pulling a Baby Husk.
+File:AdaptedArachnidaHeight.png|thumb|Size of the Adapted Arachnida's Model.
+</gallery>
+
+{{MobList}}
+[[Category:Adapted Parasites]]
+[[Category:Mobs]]

@@ -1,0 +1,138 @@
+{{Navbar|page1=Walking Human Head|page2=Assimilated Human|page3=Assimara Human|page4=Feral Human}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|simhuman}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=<gallery>
+Assimilated Human.png|Default
+Assimilated Human Variant.png|Torn
+</gallery>
+|hp=15.0
+|damage=9.0
+|armor=5.0
+|kb_resistance=0.1
+|adaptable=No
+|id=srparasites:sim_human
+}}
+'''Assimilated Humans''' are the [[Assimilated Mobs|Assimilated Version]] of Zombies and Husks.
+
+== ''Spawning'' ==
+* Spawned when a Zombie or Husk succumbs to [[Call Of The Hive]] below [[Evolution Phases#Phase 7|Phase 7]].
+* Spawns in groups of 3 to 5, from [[Evolution Phases#Phase 2|Phase 2]] through [[Evolution Phases#Phase 7|Phase 7]], with a spawnweight of 25, once 5 Zombies/Husks have been assimilated.
+* Spawned by [[Stage II Beckon|Stage II]] and [[Stage III Beckon|Stage III Beckons]].
+* Spawned by [[Adapted Summoner|Adapted Summoners]].
+* Spawned by level 3 or higher [[Scent System|Scents]].
+
+== ''Behavior'' ==
+Assimilated Humans are Melee Combatants.
+
+* Their Melee Attack is performed through contact damage, with a 20% chance to inflict [[Bleeding]] for 3 seconds.
+* Assimilated Humans are able to open Wooden Doors and Fence Gates if they are between their target.
+* Any Mob within 3 blocks of an Assimilated Human will be inflicted with [[Call Of The Hive|COTH]]. This does not go through walls.
+* Assimilated Humans are able to traverse faster in liquids by performing small leaps.
+* Assimilated Humans are able to dive in liquids to pursue submerged targets.
+* If an Assimilated Human gets 5 kills and is within range of a [[Moving Flesh]] or 3 other Assimilated Mobs<ref>Excluding [[Assimilated Ender Dragon]] and [[Assimilated Big Spider]].</ref>, it will evolve into a Moving Flesh.
+* If an Assimilated Human kills 5 Skeletons and is unable to turn into [[Moving Flesh]], it will evolve into a [[Host]].
+* If an Assimilated Human gets 60 kills and is unable to turn into [[Moving Flesh]], it will evolve into a [[Feral Human]].
+** When not exploding, there is a 50% chance an Assimilated Human will drop its [[Walking Human Head|Head]].
+* In groups, Assimilated Humans will pace in circles. This occurrence initiates in a group of eight or more Assimilated Humans and stops once a target is found or five or less remain. This behavior serves no real purpose.{{Variants|count=1|Texture=Assimilated Human Variant.png|TextureDesc=has identical stats.}}
+
+=== ''Weaknesses'' ===
+
+* Assimilated Humans, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+=== ''Post Death'' ===
+
+* On death, Assimilated Humans have a chance to explode, releasing [[Remains|Assimilated Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+
+*
+{{Properties|tier=Assimilated}}
+
+{{Drops
+|rolls1=One Roll
+|page1=Infected Flesh
+|amount1=1-2
+|chance1=80
+|rolls2=Always Rolls
+|page2=Diseased Heart
+|amount2=1
+|chance2=10
+}}
+
+==''Sounds''==
+{| class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+
+[[File:Assimilatedhumanliving1.ogg]]
+[[File:Assimilatedhumanliving2.ogg]]
+[[File:Assimilatedhumanliving3.ogg]]
+[[File:Assimilatedhumanliving4.ogg]]
+[[File:Assimilatedhumanliving5.ogg]]
+|Hostile
+|Plays randomly while an Assimilated Human is alive.
+|Assimilated human screams
+|idle1-5
+|-
+|[[File:Assimilated Humanoid Growl.ogg]]
+|Hostile
+|Has a small chance to play while an Assimilated Human is alive.
+|Assimilated human screams
+|old_idle
+|-
+|
+[[File:Assimilatedhumanhurt1.ogg]]
+[[File:Assimilatedhumanhurt2.ogg]]
+[[File:Assimilatedhumanhurt3.ogg]]
+[[File:Assimilatedhumanhurt4.ogg]]
+[[File:Assimilatedhumanhurt5.ogg]]
+|Hostile
+|Plays when an Assimilated Human takes damage.
+|Assimilated human howling
+|hurt1-5
+|-
+|[[File:Assimilated Melting.ogg]]
+|Hostile
+|Plays when an Assimilated Human melts into [[Moving Flesh]].
+|Squelching flesh merges
+|infected_melting
+|-
+|[[File:Explosion.ogg]]
+|Hostile
+|Plays when an Assimilated Human explodes, at death.
+|Mob explodes
+|mob_explotion
+|-
+|[[File:Assimilatedhumandeath.ogg]]
+|Hostile
+|Plays when an Assimilated Human dies.
+|Assimilated human dying
+|death
+|-
+|}
+
+== ''Trivia'' ==
+* A Variant of Assimilated Humans simply called in the Mod files as '''human1''' can spawn, equipped with its own Head. It simply acts as aesthetic.
+* In the Mod's Files, there are textures of two unused Variants called '''human2''' and '''humannocturn'''. It is unknown why they were unused.
+* While idle, there is a small chance its old idle sound plays.
+
+== ''Gallery'' ==
+<gallery>
+File:Assimilated Human Size Comparison.png|Size of the Assimilated Human's Model.
+File:Assimilated Human Head.png|Assimilated Human's [[Walking Human Head|Walking Head]].
+File:Assimilated Human Variant Head.png|[[Walking Human Head|Walking Head of Assimilated Human's Variant]].
+</gallery><br />
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Assimilated Mobs]]
+[[Category:Mobs]]

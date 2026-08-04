@@ -1,0 +1,19 @@
+A list of the Tools introduced by the SRP Mod.
+
+*[[File:Doomsday Clock.png|32px]][[Doomsday Clock]]
+*[[File:Level Clock.png|32px]][[Level Clock]]
+*[[File:Node Compass.png|32px]][[Colony Compass]]
+* [[File:Node Compass.png|32px]][[Vector Compass]]
+*[[File:Node Compass.png|32px]][[Node Compass]]
+*[[File:Eye Of The Beholder.png|32px]][[Eye Of The Beholder]]
+*[[File:Compendium.png|32px]][[Compendium]]
+*[[File:Origin Module.png|32px]][[Modules]]
+*[[File:Quench.png|32px]][[Quench]]
+*[[File:Infested Bonemeal.png|32px]][[Infested Bonemeal]]
+*[[File:Bough.png|32px]][[Bough]]
+*[[File:Thornshade Decanter.png|32px]][[Thornshade Decanter]]
+*[[File:Book of Vengeance.png|32px]][[Book of Vengeance]]
+*[[File:Disc3.png|32px]][[Music Discs]]
+{{ItemList}}
+[[Category:Items]]
+[[Category:Equipment]]

@@ -1,0 +1,109 @@
+{{VersionBar|
+|page1=1.9.20
+|page2=1.10.0
+}}
+'''Version 1.9.21''' was an update for the Scape and Run: Parasites Mod, released on May 25th 2024.  It was 25.77 MB.
+
+== ''Change Log'' ==
+
+====<u>Fixes</u>====
+*Fix stray pixel on Virulent Bolster texture
+*Fix wrong mod version being reported internally
+*Fix some configuration options default values not working
+
+====<u>Compatibility</u>====
+*Mod Compatibility module & framework has been introduced
+*For mod + addon developer Modrome is now handling mod and addon compatibility inquiries
+*Function Deprecation warnings have been added and will show up on logs as a warning
+*Users will be warned in logs if they have JEID or REID installed, due to known incompatiblity.  ''[Notify Modrome if there's a patch to REID.]''
+*Deprecation: SRPExplotion() replaced with SRPExplosion()
+
+====<u>Internal</u>====
+*Code cleanups for performance improvements
+
+====<u>Configuration</u>====
+*"Stage I Beckon Block Infestation Range" = 8
+*"Stage II Beckon Block Infestation Range" = 16
+*"Stage III Beckon Block Infestation Range" = 32
+*"Phase 3 Residue" = 5500
+*"Biome Hardness" = 60.0
+*"Primitive Arachnida Loot Table": srparasitelurecomponent3;40;1;false srparasiteada_arachnida_drop;40;2;true srparasitebone;10;1;true
+*"Stage Adapted loot Table": srparasitelurecomponent4;60;3;false srparasiteada_arachnida_drop;80;3;true srparasitebone;20;2;true
+*"Stage I Beckon Loot Table": srparasitebeckon_drop;20;3;true
+*"Stage II Beckon Loot Table": srparasitebeckon_drop;60;7;true
+*"Stage III Beckon Loot Table": srparasitebeckon_drop;80;10;true
+*"Bogle Loot Table": srparasitelurecomponent5;70;1;false
+*"Primitive Bolster Loot Table": srparasitelurecomponent3;40;2;false srparasiteada_bolster_drop;40;1;true srparasitebone;10;1;true
+*"Stage Adapted loot Table": srparasitelurecomponent4;60;3;false srparasiteada_bolster_drop;80;1;true srparasitebone;20;3;true
+*"Heavy Bomber Loot Table": srparasitelurecomponent5;80;1;false
+*"Light Bomber Loot Table": srparasitelurecomponent5;80;1;false
+*"Colony Carrier Loot Table": srparasitelurecomponent5;80;1;false
+*"Primitive Devourer Loot Table": srparasiteada_devourer_drop;40;2;true srparasitelurecomponent3;40;2;false srparasitebone;10;1;true
+*"Stage I Dispatcher Loot Table": srparasitedispatcher_drop;20;7;true
+*"Stage II Dispatcher Loot Table": srparasitedispatcher_drop;65;15;true
+*"Stage III Dispatcher Loot Table": srparasitedispatcher_drop;90;30;true
+*"Grunt Loot Table": srparasitelurecomponent5;70;1;false
+*"Haunter Loot Table": srparasitelurecomponent5;80;1;false
+*"Host Loot Table": srparasiteassimilated_flesh;80;7;false srparasitelurecomponent2;10;4;true
+*"Primitive Longarms Loot Table": srparasitelurecomponent3;60;2;false srparasiteada_longarms_drop;40;2;true srparasitebone;10;1;true
+*"Stage Adapted loot Table": srparasiteada_longarms_drop;60;2;true srparasitelurecomponent4;80;1;false srparasitebone;20;2;true
+*"Primitive Manducater Loot Table": srparasitelurecomponent3;40;2;false srparasiteada_manducater_drop;40;1;false srparasitebone;10;1;true
+*"Stage Adapted loot Table": srparasiteada_manducater_drop;60;1;false srparasitelurecomponent4;80;1;false srparasitebone;20;2;true
+*"Mangler Loot Table": srparasitelurecomponent1;60;2;true
+*"Marauder Loot Table": srparasitelurecomponent5;80;1;false
+*"Monarch Loot Table": srparasitelurecomponent5;80;1;false
+*"Overseer Loot Table": srparasitelurecomponent5;80;1;false
+*"Primitive Reeker Loot Table": srparasitelurecomponent3;40;2;false srparasiteada_reeker_drop;40;1;false srparasitebone;10;1;true
+*"Stage Adapted loot Table": srparasiteada_reeker_drop;60;3;false srparasitelurecomponent4;80;1;false srparasitebone;20;2;true
+*"Rupter Loot Table": srparasitelurecomponent1;70;2;true
+*"Assimilated Bear Loot Table": srparasiteassimilated_flesh;80;1;false srparasitelurecomponent2;10;1;true
+*"Assimilated Cow Loot Table": srparasiteassimilated_flesh;80;2;false srparasitelurecomponent2;10;1;true
+*"Assimilated Horse Loot Table": srparasiteassimilated_flesh;80;2;false srparasitelurecomponent2;10;1;true
+*"Assimilated Human Loot Table": srparasiteassimilated_flesh;80;1;false srparasitelurecomponent2;10;1;true
+*"Assimilated Pig Loot Table": srparasiteassimilated_flesh;80;2;false srparasitelurecomponent2;10;1;true
+*"Assimilated Sheep Loot Table": srparasiteassimilated_flesh;80;1;false srparasitelurecomponent2;10;1;true
+*"Assimilated Squid Loot Table": srparasiteassimilated_flesh;80;2;false srparasitelurecomponent2;10;1;true
+*"Assimilated Villager Loot Table": srparasiteassimilated_flesh;80;1;false srparasitelurecomponent2;10;1;true
+*"Assimilated Wolf Loot Table": srparasiteassimilated_flesh;20;1;false srparasitelurecomponent2;10;1;true
+*"Primitive Summoner Loot Table": srparasitelurecomponent3;60;2;false srparasiteada_summoner_drop;40;1;false srparasitebone;10;1;true
+*"Stage Adapted loot Table": srparasiteada_summoner_drop;80;1;false srparasitelurecomponent4;60;1;false srparasitebone;20;2;true
+*"Thrall Loot Table": srparasiteassimilated_flesh;80;1;false srparasitelurecomponent3;10;1;true srparasitebone;10;1;true
+*"Primitive Tozoon Loot Table": srparasitelurecomponent3;40;2;false srparasiteada_tozoon_drop;40;1;true srparasitebone;10;1;true
+*"Stage Adapted loot Table": srparasitelurecomponent4;60;3;false srparasiteada_tozoon_drop;80;1;true srparasitebone;20;3;true
+*"Primitive Vermin Loot Table": srparasitelurecomponent3;40;2;false srparasiteada_vermin_drop;40;1;true srparasitebone;10;1;true
+*"Stage Adapted loot Table": srparasitelurecomponent4;60;3;false srparasiteada_vermin_drop;80;1;true srparasitebone;20;3;true
+*"Vigilante Loot Table": srparasitelurecomponent5;80;1;false
+*"Warden Loot Table": srparasitelurecomponent5;80;1;false
+*"Wraith Loot Table": srparasitelurecomponent5;80;1;false
+*"Primitive Yelloweye Loot Table": srparasitelurecomponent3;60;2;false srparasiteada_yelloweye_drop;40;1;true srparasitebone;4;1;true
+*"Stage Adapted loot Table": srparasiteada_yelloweye_drop;80;1;true srparasitelurecomponent4;80;1;false srparasitebone;20;1;true
+*
+*New option: "Weapon Packet Cancel" - "Set to true if you want to cancel packets from the weapons, instead will use reach Attribute from the Player." - SRPConfig.cfg
+====================================General: 
+*Tweaked default armor texture 
+*Tweaked default weapon models
+*Added the following translations:
+**de_de (by @truthahngebaeck)<
+**es_ar (by @i_zeta_i)
+**es_cl (by @simply_simple.)
+**es_ec (by @i_zeta_i)
+**es_es (by @wo0fuck)
+**es_mx (by @i_zeta_i)
+**es_uy (by @i_zeta_i)
+**es_ve (by @i_zeta_i)
+**fr_ca (by @lordsilverx)
+**fr_fr (by @lordsilverx)
+**lol_us (by @danieloxxelo)
+**pl_pl (by @danieloxxelo)
+**pt_br (by @septemberbegamin)
+**ru_ru (by @pticayebanaya)
+**tr_tr (by @paa4164)
+**uk_ua (by @.grayeagle)
+**zh_cn (by @tusama_)
+
+====<u>Mobs</u>====
+*Tweaked texture to the Mangler, Virulent Mangler, Berserker Mangler, Rupter, Virulent Rupter, Berserker Rupter.
+*Tweaked Sound Effects and added a new one (underground) to the host
+
+{{VersionList}}
+[[Category:Versions]]

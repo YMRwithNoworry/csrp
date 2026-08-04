@@ -1,0 +1,268 @@
+Advancements are in-game Milestones that can be unlocked by fulfilling the required condition. There are currently 39 as of 1.10.4. Of these, 5 are unlocked at all times.
+
+[[File:Advancements overview.PNG|center|frame|Tree structure of all advancements, as seen in-game. The root advancement "Scape and Run: Parasites" on the left branches out to the four groups of advancements]]
+
+== '''List of Advancements:''' ==
+
+== Monumenta ==
+Monumenta advancements deal with [[Nexus Parasites]] (except [[Rooter|Rooters]]) and the dispatchment of them.
+<div class="mw-collapsible" data-expandtext="Show Monumenta" data-collapsetext="Collapse Monumenta">
+
+{{Advancement
+|title=ZAYIN Suppression
+|condition=Kill a [[Stage I Dispatcher]].
+|trivia= "ZAYIN" is a reference to threat grading in Lobotomy Corporation, being the first level out of 5<ref>https://lobotomycorp.fandom.com/wiki/ZAYIN</ref>
+}}
+
+{{Advancement
+|title=TETH Suppression
+|condition=Kill a [[Stage II Dispatcher]].
+|trivia="TETH" is a reference to threat grading in Lobotomy Corporation, being the second level out of 5<ref>https://lobotomycorp.fandom.com/wiki/TETH</ref>
+}}
+
+{{Advancement
+|title=HE Suppression
+|condition=Kill a [[Stage III Dispatcher]].
+|trivia="HE" is a reference to threat grading in Lobotomy Corporation, being the third level out of 5<ref>https://lobotomycorp.fandom.com/wiki/HE</ref>
+}}
+
+{{Advancement
+|title=ALEPH Suppression
+|condition=Kill a [[Stage IV Dispatcher]].
+|trivia="ALEPH" is a reference to threat grading in Lobotomy Corporation, being the fifth level out of 5<ref>https://lobotomycorp.fandom.com/wiki/ALEPH</ref>
+}}
+
+{{Advancement
+|title=Qliphoth Overload
+|condition=A [[Stage IV Dispatcher]] must be present in the world.
+|trivia=Qliphoth Overloads are a type of emergency that can occur in the Lobotomy Corporation game.
+}}
+
+{{Advancement
+|title=Gardener
+|condition=Kill a [[Stage I Beckon]].
+|trivia=
+}}
+
+{{Advancement
+|title=Pruner
+|condition=Kill a [[Stage II Beckon]].
+|trivia=Pruners are a cutting tool used in gardening to cut somewhat sturdy stems and twigs.
+}}
+
+{{Advancement
+|title=Uprooter
+|condition=Kill a [[Stage III Beckon]].
+|trivia=
+}}
+
+{{Advancement
+|title=Eradicator
+|condition=Kill a [[Stage IV Beckon]].
+|trivia=
+}}
+
+{{Advancement
+|title=I am a monument to all your sins
+|condition=A [[Stage IV Beckon]] must be present in the world.
+|trivia=The title is a direct quote from Halo, where the Gravemind speaks to Master Chief.
+}}
+</div> <br>
+
+== Firmamentum ==
+Firmamentum advancements deal with parasite structures and the removal of them.
+<div class="mw-collapsible" data-expandtext="Show Firmamentum" data-collapsetext="Collapse Firmamentum">
+
+{{Advancement
+|title=Fog Nullifier
+|condition=Obtain a [[Fog Nullifier]] in your inventory.
+|trivia=
+}}
+
+{{Advancement
+|title=Peacekeeper
+|condition=Obtain a [[Biome Purifier]] in your inventory.
+|trivia= - 
+}}
+</div> <br>
+
+== Cognitio == 
+Cognitio advancements involve more niche scenarios but generally deal with magic (e.g. potions or supernatural).
+<div class="mw-collapsible" data-expandtext="Show Cognito" data-collapsetext="Collapse Cognito">
+
+{{Advancement
+|title=Ecstasy
+|condition=Obtain a potion of Fear in your inventory.
+|trivia=A fear response of the human body to threatening or scary situations, especially when surviving, is releasing dopamine. It is a biochemical responsible for, among other things, rewarding behaviors and thus feeling good.
+}}
+
+{{Advancement
+|title=Fermented Arrogance
+|condition=Kill a [[Feral Enderman]].
+|trivia= - 
+}}
+
+{{Advancement
+|title=Seppuku
+|condition=Commit Suicide using the [[Bough]] item.
+|trivia=Seppuku is an archaic Japanese practice of honor-death, being preferred to for example being captured, by going out "on one's own terms."
+}}
+
+{{Advancement
+|title=Cut the evil by its roots
+|condition=Have a total 1000 or more [[Rupter|Rupters]] killed.
+|trivia=
+}}
+
+{{Advancement
+|title=Columbus
+|condition=Witness at least half of the [[Celestial Events]] occuring.
+|trivia=Cristopher Columbus was an Italian explorer who is often accredited with discovering the Americas in the name of the catholic church. During his time, seafaring navigation heavily relied on the stars and their positions.
+}}
+
+{{Advancement
+|title=STOLAS
+|condition=Witness all of the [[Celestial Events]] occuring.
+|trivia=Stolas is a mythological demon generally associated with knowledge about herbs and, fittingly, astronomy.
+}}
+
+{{Advancement
+|title=TRICKED ME, DID YOU??!!
+|condition=Shear a [[Primitive Reeker]] renamed "''Ricardo''" via a Name Tag.
+|trivia="'''TRICKED ME, DID YOU??!!'''" is the name of one of Ricardo's skills from Limbus Company.
+}}
+
+{{Advancement
+|title=Dark Days
+|condition=Survive until the end of the Dark Days [[Celestial Events|Celestial Event]].
+|trivia=
+}}
+
+{{Advancement
+|title=Controversial
+|condition=Kill an [[Assimilated Enderman]].
+|trivia=The Title refers to the communities' differing opinions on the balancing of this mob.
+}}
+
+{{Advancement
+|title=Guerilla
+|condition=Kill another player who is under the effects of [[Fear]]
+|trivia=Guerilla warfare is a type of (para-)military strategy that involves decentralized, and often many, small scale attacks. Typically in urban settings and employed against a numerically and technologically superior force.
+}}
+
+{{Advancement
+|title=Beautiful Self-Destruction
+|condition=Trigger a Thornshade explosion of yourself. This is done by drinking from a [[Thornshade Decanter]] after seperately having already done so twice before.
+|trivia=
+}}
+
+{{Advancement
+|title=The enemy of my enemy
+|condition=Have any [[Mobs|Parasite]] be killed by a creeper's explosion. You do not need to hit that mob first, and it can therefore naturally occur.
+|trivia="The enemy of my enemy is my friend" is an English idiom, referring to uniting in common cause.
+}}
+
+{{Advancement|title=Hunt season|condition=Kill fifty or more parasites within one day.}}
+</div> <br>
+
+== Venari == 
+Venari advancements deal with killing parasites.
+<div class="mw-collapsible" data-expandtext="Show Venari" data-collapsetext="Collapse Venari">
+{{Advancement
+|title= Inborn
+|condition=Kill all seven [[Inborn Parasites|Inborn]] parasites at least once.
+}}
+
+{{Advancement
+|title=Assimilated
+|condition=Kill all 23 [[Assimilated Mobs|Assimilated]] parasites at least once, including [[Walking Heads]].
+|trivia=
+}}
+
+{{Advancement
+|title=L Corp
+|condition=Kill all of the ten [[Walking Heads]] spawned by killing [[Assimilated Mobs]].
+|trivia=L Corp is a shortened name for the "Lobotomy Corporation", which, in its universe, coexists with a faction called "The Head".
+}}
+
+{{Advancement
+|title=Crude
+|condition=Kill all eight [[Crude Parasites|Crude]] parasites at least once.
+|trivia=
+}}
+
+{{Advancement
+|title=Primitive
+|condition=Kill all 12 [[Primitive Parasites|Primitive]] parasites at least once.
+|trivia=
+}}
+
+{{Advancement
+|title=Adapted
+|condition=Kill all 12 [[Adapted Parasites|Adapted]] parasites at least once.
+|trivia=
+}}
+
+{{Advancement
+|title=Deterrent
+|condition= Kill all five [[Deterrent Parasites|Deterrent]] parasites at least once.
+|trivia=
+}}
+
+{{Advancement
+|title=Pure
+|condition=Kill all seven [[Pure Parasites|Pure]] parasites at least once.
+|trivia=
+}}
+
+{{Advancement
+|title=Cosmic Structural Failure
+|condition=Kill a [[Kirin]].
+|trivia=
+}}
+
+{{Advancement
+|title=Hellfire Chemical Warfare
+|condition=Kill a [[Draconite]].
+|trivia=The Title may be a reference to the use of White Phosphorus, a dangerous self-igniting chemical outlawed even from large scale armed conflict.
+}}
+</div> <br>
+
+== Structural == 
+These serve to structure the advancement screen and are unlocked at all times.
+<div class="mw-collapsible" data-expandtext="Show Structural" data-collapsetext="Collapse Structural">
+{{Advancement
+|title=Scape and Run Parasites
+|condition=None.
+|trivia="Internus Incrementum" is Latin for "internal growth."
+}}
+
+{{Advancement
+|title=Monumenta
+|condition=None.
+|trivia="Monumenta" is the plural of "monumentum", which denotes a memorial or monument.
+}}
+
+{{Advancement
+|title=Firmamentum
+|condition=None.
+|trivia="Firmamentum" is a Latin term for something that supports.
+}}
+
+{{Advancement
+|title=Cognitio
+|condition=None.
+|trivia= "Cognitio" is Latin for "knowledge."
+}}
+
+{{Advancement
+|title=Venari
+|condition=None.
+|trivia="Venari" is Latin for "to hunt."
+}}
+</div>
+
+==Notes==
+<references />
+
+[[Category:Mod Content]]

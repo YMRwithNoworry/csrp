@@ -1,0 +1,23 @@
+{{Stub}}
+{{Item Info
+|image1=Corrosive Mucus.png
+|type=Material
+|stackable=Yes (64)
+|id=srparasites:ada_vermin_drop
+}}
+'''Corrosive Mucus''' are [[:Category:Drops|Drop]] items with only one use, which is to make Slimeballs.
+
+== ''Obtainment'' ==
+Dropped by the [[Adapted Vermin]].
+
+== ''Usage'' ==
+{{CraftingTable
+|r1_b2=Corrosive Mucus
+|r1_shapeless=true
+|r1_output=Slimeball
+|r1_nolink=true
+|r1_count=1}}
+
+{{ItemList}}
+[[Category:Drops]]
+[[Category:Items]]

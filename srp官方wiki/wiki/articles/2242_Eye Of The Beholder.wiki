@@ -1,0 +1,43 @@
+{{Stub}}
+{{Item Info
+|image1=Eye Of The Beholder.png
+|type=Equipment
+|stackable=Yes (64)
+|tooltip=Gleams with a euphoric shimmer only present around its beholder. Item will disappear if wielder is slain by its beholder.
+
+<br><span style="color:#ff55ff">Pink = Assimilated</span>
+<br><span style="color:#ff5555">Red = Feral</span>
+<br><span style="color:#5555ff">Blue = Assimara</span>
+|id=srparasites:pearl
+}}
+The '''Eye of the Beholder''' is a [[:Category:Tools|Tool]] item that indicates the presence of nearby [[Assimilated Enderman|Assimilated Endermen]], [[Assimara Enderman|Assimara Endermen]], or [[Feral Enderman|Feral Endermen]].
+
+== ''Obtainment'' ==
+Has a chance to be dropped by each of the Enderman variants.
+
+Conversely, if the player were to die to such a mob with the Eye in their inventory, they would lose it. This mimics a transfer of ownership back and forth, emphasizing the "'''Beholder'''" part of the name.
+
+== ''Usage'' ==
+Holding the item in either hand will cause it to visually glitch and twitch. When ''any'' Enderman variant is within '''60 blocks''', it becomes more erratic, and the center will change in color.
+
+{|class="fandom-table mw-collapsible"
+! colspan="4"|'''Eye of the Beholder Colors'''
+|-
+!style="width: 200px" |'''Texture'''
+!style="width: 500px" |'''Description'''
+|-
+|[[File:Pearl assimilated.png]]
+|Indicates that an [[Assimilated Enderman]] or its [[Walking Enderman Head|Head]] is nearby.
+|-
+|[[File:Pearl feral.png]]
+|Indicates that a [[Feral Enderman]] is nearby.
+|-
+|[[File:Pearl assimara.png]]
+|Indicates that an [[Assimara Enderman]] is nearby.
+|-
+|}
+<br>
+{{ItemList}}
+[[Category:Tools]]
+[[Category:Equipment]]
+[[Category:Items]]

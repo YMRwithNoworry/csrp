@@ -1,0 +1,127 @@
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|vigilante}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=<gallery>
+Vigilante.png|Normal
+BreacherVigilante.png|Breacher
+</gallery>
+|hp=70.0
+|damage=23.0
+|ranged=27.0
+|armor=25.0
+|kb_resistance=1.0
+|adaptable=Yes
+|id=srparasites:vigilante
+}}
+'''Vigilantes''' are a type of [[Mobs]], placed into the [[Pure Parasites|Pure]] Tier.
+
+== ''Spawning'' ==
+*Spawns naturally in groups of 1 to 2 if [[Ubiquitous Development]] is Level 4, with a spawnweight of 10.
+*Spawns in groups of 1 to 3 in the [[Parasite Biome]], with a spawnweight of 5.
+*Spawned by [[Stage III Beckon|Stage III Beckons]].
+*Spawned by [[Heavy Bomber|Heavy Bombers]].
+
+== ''Behavior'' ==
+Vigilantes are slow ranged backline units with melee capabilities.
+
+*Their Melee Attack is performed through contact damage.
+*Their Ranged Attack is performed by them rapidly shooting Projectiles, which leaves a Lingering Cloud when it lands that inflicts Poison and [[Corrosion]].
+**Vigilantes will remain at a distance, standing still while firing, only moving if their target is at a close range.
+*Vigilantes can perform small leaps in liquids.
+*Like other [[Pure Parasites]], Vigilantes can summon up to 3 [[Seizer|Seizers]] to support them.
+*Like other [[:Category:Pure Parasites|Pure Parasites]], Vigilantes can use personal [[Dispatcher Tentacle|Dispatcher Tentacles]] to teleport.
+*Vigilantes can break blocks that have their [[Hardness]] Value up to 5, with a 20 ticks cooldown and 2 Blocks range.
+{{Variants|count=1|Breacher=BreacherVigilante.png}}
+
+=== ''Weaknesses'' ===
+
+* Vigilantes, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+* Vigilantes' Tendrils, found on the upper sides of their body, can reset their [[Adaptation System|adaptation]], while also giving them the [[Bleeding]] and [[Rage]] Effects.
+
+=== ''Post Death'' ===
+
+* On death, Vigilantes have a chance to explode, releasing [[Remains|Pure Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+{{Properties
+|tier=Pure
+|OrbEffectsMobs=Hunger IV (00:15), [[Needler|Needler IV]] (00:25), Mining Fatigue IV (00:15)
+|OrbEffectsParasites=Speed IV (00:30)
+}}
+
+{{Drops
+|rolls1=One Roll
+|page1=Noxious Brain
+|amount1=1
+|chance1=81
+}}
+
+== ''Sounds'' ==
+{| class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Vigilanteliving1.ogg]]
+[[File:Vigilanteliving2.ogg]]
+[[File:Vigilanteliving3.ogg]]
+[[File:Vigilanteliving4.ogg]]
+|Hostile
+|Plays randomly while a Vigilante is alive.
+|Vigilante rumbles
+|vigilanteliving1-4
+|-
+|[[File:Vigilantehurt1.ogg]]
+[[File:Vigilantehurt2.ogg]]
+[[File:Vigilantehurt3.ogg]]
+[[File:Vigilantehurt4.ogg]]
+|Hostile
+|Plays when a Vigilante takes damage.
+|Vigilante crackles
+|vigilantehurt1-4
+|-
+|[[File:Vigilante Shooting.ogg]]
+|Hostile
+|Plays when a Vigilante attacks with projectiles
+|X
+|anged_shooting
+|-
+|[[File:Vigilante Shoot.ogg]]
+|Hostile
+|Plays before a Vigilante attacks with projectiles.
+|X
+|anged_shooting
+|-
+|[[File:Tendril Cut.ogg]]
+|Hostile
+|Plays after cutting a Vigilante's Tendril.
+|X
+|mob_tendril
+|-
+|[[File:Vigilantedeath.ogg]]
+|Hostile
+|Plays when a Vigilante dies.
+|Vigilante bubbles
+|vigilantedeath
+|}
+
+==''Trivia''==
+*Vigilantes are also known as '''Anged''' in the Mod Files.
+
+==''Gallery''==
+<gallery>
+File:Vigilante Size Comparison.png|Size of the Vigilante's Model.
+File:Vigilante Tendril.png|One of the Vigilante's Tendrils after being cut.
+File:Vigilante Tendrils Highlighted.png|Vigilante's Tendrils as seen on the Model.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Pure Parasites]]
+[[Category:Mobs]]

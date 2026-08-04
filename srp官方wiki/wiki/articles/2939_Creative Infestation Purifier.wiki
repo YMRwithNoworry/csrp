@@ -1,0 +1,14 @@
+The '''Creative Infestation Purifier''' is a [[Debug Items|Creative-Only]] [[:Category:Blocks|Block]].
+{{Item Info
+|image1=Biome Purifier.png
+|id=srparasites:infestation_purifier
+}}
+
+==''Obtainment''==
+Can only be obtained from the Creative Menu or with Cheats.
+
+==''Usage''==
+The Creative Infestation Purifier functions similarly to the [[Biome Purifier]] (also has the same texture) in that it removes parasite influence in an area. However, unlike the Biome Purifier, it is able to turn [[Infested Blocks]] back into their original non-infected forms extremely quickly if a Diamond is used on it. it will also display the amount of blocks purified once it does this.
+
+{{BlockList}}
+[[Category:Blocks]]

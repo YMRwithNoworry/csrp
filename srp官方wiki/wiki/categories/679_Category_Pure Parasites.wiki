@@ -1,0 +1,70 @@
+{{TierBar}}
+
+
+'''Pure Parasites''' are a Tier of [[Mobs#Parasites|Parasites]]. This Tier is near the top of their Hierarchy and contains 7 Mobs. 
+
+Pure Parasites are likely some of the most dangerous Parasites the Player will encounter, right behind [[Preeminent Parasites|Preeminent]]. If a player manages to kill all of them at least once, it grants them the {{AdvancementLink|Pure}}.
+
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+Grunt.png|link=Grunt|[[Grunt]]
+Light Bomber.png|link=Light Bomber|[[Light Bomber]]
+Marauder.png|link=Marauder|[[Marauder]]
+Monarch.png|link=Monarch|[[Monarch]]
+Overseer.png|link=Overseer|[[Overseer]]
+Vigilante.png|link=Vigilante|[[Vigilante]]
+Warden.png|link=Warden|[[Warden]]
+Seeker.png|link=Seeker|[[Seeker]]
+</gallery>
+</div>
+
+== ''Shared Aspects and Capabilities'' ==
+
+=== Spawning ===
+*Spawn naturally from [[Ubiquitous Development]] Level 4 and higher (excl. Light Bombers); 
+**Light Bombers spawn naturally from [[Evolution Phases#Phase 8|Phase 8]] onwards.
+*Spawned by [[Stage III Beckon|Stage III Beckons]];
+*Spawned inside the [[Parasite Biome]].
+
+=== Weakness ===
+*Like all Parasites, Pures present a weakness to fire (damage inflicted by fire is quadrupled);
+*Some of the Pure Parasites present either a [[Adaptation System#Trivia|Weak Point]] or [[Adaptation System#Neutralization|Tendrils]]:
+**When [[Adaptation System#Trivia|Weak Points]] are hit, the damage inflicted to the Parasite is tripled. This also inflicts the [[Bleeding]] Effect to the Parasite;
+**When [[Adaptation System#Neutralization|Tendrils]] are hit enough times, they'll be cut off, resetting the Parasites' [[Adaptation System|Adaptation]]. This also inflicts the [[Bleeding]] and [[Rage]] Effects.
+
+=== Combat Capabilities ===
+*All Pure Parasites but the Grunt can summon [[Seizer|Seizers]] to support them;
+*All Pure Parasites but the Grunt can use personal [[Dispatcher Tentacle|Dispatcher Tentacles]] to teleport;
+More to be added...
+
+=== Post-Death ===
+*After dying, all Pures have a chance to explode, releasing a Potion Cloud which inflicts the Poison and [[Call Of The Hive]] Effects. They will also leave behind [[Remains|Pure Remains]];
+*After dying, all Pures have a chance to activate the [[Reinforcement System]].
+
+{{Properties
+|tier=Pure
+|ref=[[Grunt|Grunts]] have a Damage Cap of 4.
+}}
+Note: Each Pure Parasites’ Orb gives an additional effect to either mobs, other parasites, or itself.  See their individual pages for more information.
+
+{{Drops
+|header=false
+|rolls1=1 Roll
+|page1=Noxious Brain
+|amount1=1
+|chance1=40
+}}
+
+== ''Configuration'' ==
+Below is a list of the Config changes that affect Pure Parasites.
+
+To be added...
+
+== ''[[Lore]]'' ==
+To be added...
+
+== ''Trivia'' ==
+To be added...
+[[Category:Mobs]]
+
+<references />

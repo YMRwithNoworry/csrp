@@ -1,0 +1,15 @@
+'''Fog Nullifiers''' are utility blocks that can be used to dispel Fog. Possessing one at any point grants the {{AdvancementLink|Fog Nullifier}}.
+{{Item Info
+|image1=Fog Nullifier.png
+|id=srparasites:fog_nullifier
+}}
+
+==''Obtainment''==
+One Fog Nullifier can be crafted with six Stone, an Iron Bar, a Cobweb, and an Iron Ingot.
+{{CraftingTable|r1_a1=Stone|r1_b1=Iron Ingot|r1_c1=Stone|r1_a2=Stone|r1_b2=Cobweb|r1_c2=Stone|r1_a3=Stone|r1_b3=Iron Bars|r1_c3=Stone|r1_output=Fog Nullifier|r1_count=1}}
+
+==''Usage''==
+Fog Nullifiers delete Fog blocks that they are directly adjacent to in a seemingly infinite amount. They can do this three times before breaking and losing the block. Their ability to clear fog is useful for clearing [[Dispatcher (Disambiguation)|Dispatcher]] and [[Rooter]] [[Nests]].
+
+{{BlockList}}
+[[Category:Blocks]]

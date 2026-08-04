@@ -1,0 +1,11 @@
+{{DisambiguationContent
+|image1=Primitive Arachnida.png
+|title1=[[Primitive Arachnida]]
+|desc1=A [[Primitive Parasites|Primitive]] Parasite
+|image2=Adapted Arachnida.png
+|title2=[[Adapted Arachnida]]
+|desc2=An [[Adapted Parasites|Adapted]] Parasite
+|image3=Arachnida Claw.png
+|title3=[[Arachnida Claw]]
+|desc3=A [[Drops#Materials|Material]] dropped by all Arachnida
+}}

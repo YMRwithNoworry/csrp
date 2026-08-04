@@ -1,0 +1,24 @@
+The '''Metallurgical Infuser Furnace''' is a [[Blocks|Utility Block]].
+{{Item Info
+|image1=Metallurgical Infuser Furnace.png
+|id=srparasites:infuser_furnace
+}}
+
+== ''Obtainment'' ==
+{{CraftingTable|r1_a1=Iron Ingot|r1_c1=Iron Ingot|r1_output=Metallurgical Infuser Furnace|r1_count=1|r1_c3=Block of Coal|r1_b3=Module Tissue Spike|r1_a3=Block of Coal|r1_a2=Stone Bricks|r1_b2=Iron Bars|r1_c2=Stone Bricks|r1_b1=Stone Bricks}}
+
+== ''Usage'' ==
+Combining [[Dead Blood Fluid]] with Iron Ingots and a fuel source in the Infuser Furnace creates [[Semi-organic Ingot|Semi-organic Ingots]] and is the sole source of obtaining them.
+
+It can also be used to make various types of Infested Glass:
+*Combining [[Dead Blood Fluid]] with Infested Sand yields Infested Glass.
+*Combining Infested Glass with Cooked Flesh yields Bloody Glass.
+*Combining Infested Glass with Infested Terracotta yields Ashen Glass.
+*Combining Infested Glass with Poland Skin Blocks yields Sepia Glass.
+*Combining Infested Glass with Harleskinn Blocks yields Harlequinn Glass.
+*Combining Infested Glass with Ice Blocks yields Shrouded Glass.
+*Combining Infested Glass with [[Residue Block|Residue Blocks]] yields Moody Glass.
+*Combining Infested Glass with Gothshrooms yields Shade Glass.
+
+{{BlockList}}
+[[Category:Blocks]]

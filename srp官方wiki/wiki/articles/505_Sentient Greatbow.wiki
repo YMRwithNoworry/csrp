@@ -1,0 +1,34 @@
+{{WIP}}
+{{Navbar|page1=Living Bow|page2=Sentient Greatbow}}
+
+{{Item Info
+|image1=File:Sentient Greatbow.png
+|damage=1
+|attack_speed=N/A
+|durability=1000
+|stackable=No
+|tooltip=The ulterior Evolution of the Living Bow. It has gained a Mind. Keep holding those arrows
+|id=srparasites:weapon_bow_sentient
+}}
+The '''Sentient Greatbow''' is a type of [[Weapons|Weapon]].
+
+It is the direct Upgrade of the [[Living Bow]].
+
+== ''Obtainment'' ==
+Sentient Weapons evolve from their craftable Living counterpart after having dealt 50,000 damage.
+
+== ''Usage'' ==
+
+The Sentient Greatbow is one of currently 2 ranged weapons, the other being it's predecessor to which it currently acts identically. Each second the bow is pulled, 1 bonus point is added to the base value (1) up to a cap of 3 overall points. After the shot is released, the damage of the arrow itself will be multiplied with the stacked bonus points, yielding the same damage as it's Living version.
+
+Arrows fired by the Sentient Greatbow inflict [[Bleeding|Bleeding I]] and [[Concussive Smoke Trail]] for ten seconds each, unaffected by draw length.
+
+== ''Trivia'' ==
+*The Sentient Greatbow was inspired by the Luanwulf Greatbow, from Black Desert Online.
+
+[[Category:Weapons]]
+[[Category:Work In Progress Content]]
+
+{{ItemList}}
+[[Category:Items]]
+[[Category:Equipment]]

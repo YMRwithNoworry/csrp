@@ -1,0 +1,138 @@
+'''''<u>Note</u>''''': You must have a level 2 Permission Level in the world or server to use commands from this mod.  Admins/Operators of a server will automatically be able to use commands.  If cheats are enabled on a world, all players will be able to use commands.
+
+Segments of a command that are enclosed in [brackets/closed parentheses] are not required for a valid command, while segments enclosed in <angle brackets> will invalidate the command if omitted.
+
+== ''[[Evolution Phases]] Commands'' ==
+<section begin="phases"/><!--
+-->Listed below are a series of Commands related to Evolution Phases.
+
+*'''/srpevolution getphase''' - ''Displays current phase and points for the Dimension the Command is used in, if Parasites can gain and/or lose Points in that Dimension, if the point gain is currently on cooldown due to phase change, and the total points needed for the next phase;''
+*'''/srpevolution setphase #''' - ''Sets the Dimension's Phase to the specified number (replace '''#''' with anything between -2 and 10);''
+*'''/srpevolution addpoints #''' - ''Adds the specified amount of phase points to the Dimension (replace '''#''' with the amount of points you want to add);''
+*'''/srpevolution setcooldown #''' - ''Sets a cooldown for point gain (replace '''#''' with the amount of time you want the cooldown to be, in ticks);''
+*'''/srpevolution set_evolutiongaining <true:false>''' - ''Toggles if Parasites can gain points in the Dimension the Command is used in;''
+*'''/srpevolution set_evolutionloss <true:false>''' - ''Toggles if parasites can lose points in the Dimension the Command is used in;''
+*'''/srpevolution evolutionlock_getlist''' - ''Lists all mobs/items currently unable  to evolve;''
+*'''/srpevolution evolutionlock_reset''' - ''Clears all evolution locks;''
+*'''/srpevolution evolutionlock_unlockall''' - ''Unlocks every evolution lock''.<!--
+--><section end="phases"/>
+
+
+== ''[[Parasite Biome|Biome]] Commands'' ==
+<section begin="biome"/><!--
+-->Listed below are a series of Commands related to the Parasite Biome, specifically nodes.
+
+*'''/srpnodes clearworld''' - ''Removes all Nodes from the Dimension this Command is used in;''
+*'''/srpnodes setnode''' ['''x'''] ['''y'''] ['''z'''] '''<node tier 0-3>''' - ''Places a Node at the specified coordinates (only works if [[Ubiquitous Development]] is Level 4);''
+*'''/srpnodes removenode''' ['''x'''] ['''y'''] ['''z'''] - ''Removes a Node at the specified coordinates, if there is one;''
+*'''/srpnodes viewall''' - ''Displays all Node coordinates in the Dimension this Command is used in, along their ages''.<!--
+--><section end="biome"/>
+
+== ''[[Harlequin Biome]] Commands'' ==
+<section begin="harlequin"/><!--
+-->Listed below are a series of Commands related to the Harlequin Biome.
+
+*'''/harlequin_here #''' - ''Converts the surrounding chunks into Harlequin biome and refreshes said chunks (replace '''#''' with the number of chunks you want to generate the biome in);''
+*'''/harlequin_convert [radius] [sampleChance] [depth] [blotchChance] [blotchMinDam] [blotchMaxDam]''' - ''Creates circular Harlequin blotches and converts blocks within radius (replace the words in closed parentheses with the desired numbers);''
+*'''/harlequin_scatter <rock:bush:tree:ruin:both:all> [tries=#] [radius=#]''' - ''Scatter Harlequin rocks/bushes/trees/ruins on valid surfaces in-biome (replace the words in closed parentheses with the desired numbers)''.<!--
+--><section end="harlequin"/>
+
+== ''[[Colony]] Commands'' ==
+<section begin="colony"/><!--
+-->Listed below are a series of Commands related to Colonies.
+
+* '''/srpcolonies clearworld''' - ''Removes all Colonies from the Dimension the Command is used in;''
+* '''/srpcolonies setcolony''' ['''x'''] ['''y'''] ['''z'''] - ''Places a Colony at the specified coordinates (only works if [[Ubiquitous Development]] is Level 4);''
+* '''/srpcolonies removecolony''' ['''x'''] ['''y'''] ['''z'''] - ''Removes a Colony at the specified coordinates, if there is one;''
+* '''/srpcolonies viewall''' - ''Displays all Colonies coordinates in the Dimension this Command is used in, along their ages;''
+* '''/srpcolonies viewallglobaladaptation''' - ''Displays Global [[Adaptation System|Adaptation]] info from Colonies;''
+* '''/srpcolonies resetglobaladaptation''' - ''Resets Global Adaptation data''.<!--
+--><section end="colony"/>
+
+== ''[[Compendium]] Commands'' ==
+<section begin="compendium"/><!--
+-->Listed below are a series of Commands related to the Compendium.
+
+* '''/srpguide unlockall''' - ''Unlocks all of the Compendium entries.''
+* '''/srpguide unlockblocks''' - ''Unlocks all of the Compendium [[Blocks|Block]] entries.''
+* '''/srpguide unlockcelestial''' - ''Unlocks all of the Compendium [[Celestial Events|Celestial Event]] entries.''
+* '''/srpguide unlockeffects''' - ''Unlocks all of the Compendium [[:Category:Effects|Effect]] entries.''
+* '''/srpguide clearall''' OR '''/srpguideclear''' - ''Locks all of the Compendium entries.''
+* '''/srpbestiarystats clear [player]''' OR '''/srpstats clear [player]''' - ''Resets the Stats section of the Compendium for the selected player.''<!--
+--><section end="compendium"/>
+
+== ''[[Generations|Generation]] Commands'' ==
+<section begin="generations"/><!--
+-->Listed below are a series of Commands related to Generations.
+
+* '''/srpgeneration addticks #''' - ''Adds # ticks to the current amount;''
+* '''/srpgeneration setgeneration #''' - ''Sets the Dimension's Generation to the specified number (replace '''#''' with anything between 0 and 5);''
+* '''/srpgeneration getgeneration''' - ''Displays the current Dimension's Generation''.<!--
+--><section end="generations"/>
+
+== ''[[Emerging Infestation Vector]] Commands'' ==
+<section begin="vector"/><!--
+-->Listed below are a series of Commands related to EIVs (Emerging Infestation Vectors).
+
+* '''/srpvectors viewall''' - ''Displays all the current Dimension's Vectors;''
+* '''/srpvectors setvector''' ['''x'''] ['''y'''] ['''z'''] '''<health> <radius>''' - ''Creates/Registers a new EIV at the specified coordinates;''
+* '''/srpvectors removevector''' ['''x'''] ['''y'''] ['''z''']  ''' -''' ''Removes an EIV at the specified coordinates''';'''''
+* '''/srpvectors clearworld''' - ''Removes all the EIV's in the current Dimension''.<!--
+--><section end="vector"/>
+
+== ''[[Ubiquitous Development]] Commands'' ==
+<section begin="ubiquitous"/><!--
+-->Listed below are a series of Commands related to Ubiquitous Development.
+
+* '''/srpudevelopment getlevel''' - ''Displays the current Ubiquitous Development level;''
+* '''/srpudevelopment setlevel #''' - ''Sets the Ubiquitous Development level to the specified number (replace '''#''' with anything between 0 and 4);''
+* '''/srpudevelopment viewalldims''' - ''Lists the Evolution Phase, total Evolution points, and Generation by dimension.''
+* '''/srpudevelopment setdimevolution <dimension> #''' - ''Sets the specified dimension's Evolution Phase to # (replace <dimension> with the targeted dimension's ID and # with the Phase number).''<!--
+--><section end="ubiquitous"/>
+
+== ''[[Dislodgment]] Commands'' ==
+<section begin="dislodgment"/><!--
+-->Listed below are a series of Commands related to Dislodgment.
+
+* '''/srpdislodgment random_code #''' - ''Generates a random Dislodgment value for the specified duration (replace '''#''' with any number);''
+* '''/srpdislodgment set_code <ϲ឴឵឵឵឴о឴឵឴d឴឴឴឴឵឴឴е឴឵> <value> <duration_s>''' - ''Manually sets the Dislodgment code and value for the specified duration;''
+* '''/srpdislodgment codes_reset''' - ''Clears any current dislodgment code or value''.<!--
+--><section end="dislodgment"/>
+
+== ''[[Celestial Events|Celestial Event]] Commands'' ==
+<section begin="celestial"/><!--
+-->Listed below are a series of Commands related to Celestial Events.
+
+* '''/srp_celestial debug''' - ''Displays the current day-night cycle status, active celestial bodies, and forced celestial bodies.'' 
+* '''/srp_celestial list''' - ''Lists the IDs of all current sixteen celestial bodies.'' 
+* '''/srp_celestial clear''' - ''Voids all current '''forced''' celestial bodies from either /all or /id. Events with 100% chance or are already naturally occurring cannot be cleared unless the Evolution Phase is changed.'' 
+* '''/srp_celestial all''' - ''Forces all sixteen celestial bodies to appear at once, regardless of Phase.'' 
+* '''/srp_celestial id''' - ''Forces one celestial body regardless of Phase when the respective ID is put in.'' 
+* '''/srp_celestial dark_days''' - ''Forces the Dark Days event to occur after eight seconds.'' 
+* '''/srp_celestial dark_days_end''' - ''Forces the Dark Days event to end after ten seconds.''<!--
+--><section end="celestial"/>
+
+== ''Configuration/Data Commands'' ==
+<section begin="config"/><!--
+-->Listed below are a series of commands that have to do with world data or configuration.
+
+* '''/srparasites readconfigurationfile - ''Reloads the configuration file ingame (NOTE: not all options are working such as Registry or client-side options)''. 
+* '''/srparasites getbeckonlimit''' - ''Displays the maximum amount of beckons there can be in one dimension at a time''.
+* '''/srparasites setbeckonlimit #''' - ''Changes the maximum amount of beckons there can be in one dimension at a time (replace '''#''' with the number you want to change the limit to)''.
+* '''/srparasites resetdatafile''' - ''Resets the world’s <code>srparasites_data.dat</code> data file.  Only do this if parasites are not gaining points, and you’re sure that it’s not point delay.  We generally recommend against doing this''.
+* '''/srparasites toggle_dotiledrops''' - ''If set to false, will prevent blocks from dropping when broken by parasites''.
+* '''/srparasites toggle_domobevolution''' - ''If set to false, will prevent Parasites from evolving into their next form''.<!--
+--><section end="config"/>
+
+== ''Miscellaneous Commands'' ==
+<section begin="misc"/><!--
+-->Listed below are a series of commands that have nothing to do with any other category.
+
+* '''/srparasites spawnmeteor''' ['''x'''] ['''y'''] ['''z'''] '''<nowiki><distance></nowiki>''' - ''Activates the [[Meteor]] event (<nowiki><distance></nowiki> determines the distance in blocks the Meteor will land from the central XYZ coordinates).''
+* '''/srparasites parasites''' - ''Prints the [[Dislodgment System|Dislodgment Code]], parasite cap, and number of active parasites.''.
+* '''/srp_breathe''' - ''Toggles on and off the "breathe" screen distortion effect afflicted by [[Alveolar Fluid]] and [[Dead Blood Fluid]]''.
+* '''/srp_summon_nidus''' ['''x'''] ['''y'''] ['''z'''] '''[stage]''' - ''Spawns a certain stage [[Nests#Dispatcher Nests|Dispatcher Nest]] at the specified coordinates. (Replace [stage] with any number 1 - 4, defaults to 1 if entry is missing)''
+* '''/srpguidist <on:off:toggle:status> [player:all]''' OR '''/srpguidistortion <on:off:toggle:status> [player:all]''' - ''Enables, disables, toggles, or displays the status of the distortion effect caused by the [[Derived Distortion Phenomenon]] for a certain player or all players.''<!--
+--><section end="misc"/>
+
+[[Category:Mod Content]]

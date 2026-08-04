@@ -1,0 +1,24 @@
+{{Stub}}
+
+
+'''Crude''' is a [[Effects|Potion Effect]] added in v1.10.0. It reduces damage inflicted to [[:Category:Crude Parasites|Crude Parasites]] by 15%, affected by amplifier + 1.
+
+{{Effect Info
+|title1=Crude
+|image1=TierEffect.png
+|sources=See [[#Obtainment|Obtainment]]
+|type=Buff (Parasite)
+|id=srparasites:crude}}
+
+== ''Obtainment'' ==
+{| class="fandom-table"
+!'''Cause'''
+!'''Potency'''
+!'''Duration'''
+|-
+|Unknown
+|?
+|?
+|}
+{{EffectList}}
+[[Category:Effects]]

@@ -1,0 +1,12 @@
+{{DisambiguationContent
+|image1=Stage 1 Beckon.png
+|title1=[[Stage I Beckon]]
+|image2=Stage 2 Beckon.png
+|title2=[[Stage II Beckon]]
+|image3=Stage 3 Beckon.png
+|title3=[[Stage III Beckon]]
+|image4=Stage 4 Beckon.png
+|title4=[[Stage IV Beckon]]
+|image5=Beckon Membrane.png
+|title5=[[Beckon Membrane]]
+|desc5=A [[:Category:Drops#Materials|Material]] dropped by all Beckons.}}

@@ -1,0 +1,75 @@
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|grunt}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=<gallery>
+Grunt.png|Normal
+BerserkerGrunt.png|Berserker
+VirulentGrunt.png|Virulent
+BreacherGrunt.png|Breacher
+</gallery>
+|hp=20.0
+|damage=13.0
+|armor=7.0
+|kb_resistance=0.4
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:grunt
+}}
+'''Grunts''' are a type of [[Mobs]], placed into the [[Pure Parasites|Pure]] Tier.
+
+== ''Spawning'' ==
+*Spawns in groups of 2 to 3, from [[Evolution Phases#Phase 7|Phase 7]], with a spawnweight of 20.
+*Spawns inside the [[Parasite Biome]], with a spawnweight of 20.
+*Spawned by [[Overseer|Overseers]].
+*Spawned by [[Dreadnaut|Ancient Dreadnauts]].
+
+== ''Behavior'' ==
+Grunts are highly Mobile Melee Group Combatants.
+
+<!--*Like all [[Pure Parasites]], Grunts can summon [[Seizer|Seizers]] to support them;-->
+*Their Melee Attack inflicts AoE damage.
+*Grunts can climb Blocks.
+*Grunts can perform great leaps.
+*Grunts will regularly perform short evasive dashes.
+*Grunts can perform small leaps in liquids.
+*Grunts can sink in liquids to pursue submerged targets.
+*Grunts can break blocks that have their [[Hardness]] Value up to 3, with a 20 ticks cooldown and 1 Block range.
+{{Variants|count=3|Berserker=BerserkerGrunt.png|Virulent=VirulentGrunt.png|Breacher=BreacherGrunt.png}}
+
+=== ''Weaknesses'' ===
+* Grunts, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+=== ''Post Death'' ===
+
+* On death, Grunts have a chance to explode, releasing [[Remains|Pure Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+{{Properties
+|tier=Pure
+|DamageCap=4
+|Orbs=false
+}}
+
+{{Drops
+|rolls1=One Roll
+|page1=Noxious Brain
+|amount1=1
+|chance1=70
+}}
+
+== ''Trivia'' ==
+*Grunts are also known as '''Flog''' in the Mod Files.
+*Grunts are inspired by [https://www.halopedia.org/Abomination Flood Abominations], from Halo.
+*A "grunt" is a slang term for a foot soldier or infantryman in the US Army, referring to the mob's nature as a highly mobile attacker and possibly relating to the soldier caste in colonial insects such as ants.
+
+== ''Gallery'' ==
+<gallery>
+File: Grunt Size Comparison.png|Size of Grunts' Model.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Mobs]]
+[[Category:Pure Parasites]]

@@ -1,0 +1,18 @@
+{{VersionBar|
+|page1=1.9.17
+|page2=1.9.19
+}}
+'''Version 1.9.18''' was an update for the Scape and Run: Parasites Mod, released on February 12th 2024.  It was 25.48 MB.
+
+== ''Change Log'' ==
+
+====<u>Fixes</u>====
+*Walking heads/[[Rupter]]/[[Mangler]]/[[Gnat]] step sound effects not working
+*[[:Category:Feral Parasites|Feral versions]] not spawning naturally
+====<u>Mobs</u>====
+*Added growl/hurt/death sound effects for the [[Hijacked Golem]]
+*Tweaked [[Adapted Arachnida]] sound effects
+*Added step sound effects for the Adapted Arachnida
+
+{{VersionList}}
+[[Category:Versions]]

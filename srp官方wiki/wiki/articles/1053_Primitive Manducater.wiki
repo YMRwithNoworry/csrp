@@ -1,0 +1,135 @@
+{{Navbar|page1=Primitive Manducater|page2=Adapted Manducater}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|primanducater}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=<gallery>
+Primitive Manducater.png|Normal
+BreacherPriManducater.png|Breacher
+</gallery>
+|hp=30.0
+|damage=12.0
+|armor=4.0
+|kb_resistance=0.5 
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:pri_manducater 
+}}
+'''Primitive Manducaters''', known internally as '''Hull''', are a [[Mobs|Mob]] in the [[Primitive Parasites|Primitive]] Tier.
+
+== ''Spawning'' ==
+*Primitive Manducaters are spawned after a successful merging between 4 [[Moving Flesh]], through the [[Evolution System]].
+*Spawns in groups of 2 to 3, from [[Ubiquitous Development#Level 2|Ubiquitous Development Level 2]] through [[Ubiquitous Development#Level 4|Level 4]], with a spawnweight of 15.
+*Spawned by [[Stage III Beckon|Stage III Beckons]].
+*Spawned by 4 [[:Category:Assimilated Mobs|Assimilated Mobs]] stored into a [[Stage III Dispatcher|Stage III]] or [[Stage IV Dispatcher|IV Dispatcher]].
+*Spawned by a level 4 or higher [[Scent System|Scent]].
+*If at least one [[Colony]] exists, spawns when an [[Adapted Manducater]] is killed.
+
+== ''Behavior'' ==
+Primitive Manducaters are high-damage, stealth-focused melee combatants.
+
+*Primitive Manducaters' Melee Attack is performed through contact damage.
+*They can become almost completely invisible when above 70% of their maximum health.  While being in this state, their speed is greatly decreased but their damage is doubled and their target becomes immobile for a small while. Their invisibility is removed if the Manducater attacks or takes damage.  This ability has a 15-second cooldown.
+*Primitive Manducaters has a chance of blocking incoming damage, nullifying it.
+*Primitive Manducaters can perform small leaps, both on land and in liquids.
+*Primitive Manducaters can dive in liquids to pursue submerged targets.
+*Primitive Manducaters can break blocks that have their [[Hardness]] Value up to 1, with a 60 ticks cooldown and 1 Block range.
+*On death, Primitive Manducaters have a chance to explode, releasing Primitive Remains and an effect cloud of stacking Poison and COTH.
+*If a Primitive Manducater gets 10 kills it will evolve into an [[Adapted Manducater]].
+{{Variants|count=1|Breacher=BreacherPriManducater.png}}
+
+=== ''Weaknesses'' ===
+Primitive Manducaters, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.{{Properties
+|tier=Primitive
+|OrbEffectsMobs=Hunger II (00:15)
+|OrbEffectsSelf=Invisibility (00:20)<ref>The duration lengthens for each mob within the Orb's radius.</ref>
+}}
+
+=== ''Post Death'' ===
+*On death, Primitive Manducaters have a chance to explode into [[Remains|Primitive Remains]], leaving behind a effect cloud of stacking Poison and [[Call Of The Hive|Call of the Hive]].
+** If at least one [[Colony]] exists in the dimension, Primitive Manducaters will become [[Moving Flesh]] upon death instead.
+
+{{Drops
+|rolls1=1 Roll
+|page1=Altered Tendons
+|amount1=1-2
+|chance1=40
+|page2=Manducater Orb
+|amount2=1
+|chance2=40
+|rolls3=Always Rolls
+|page3=Strange Bone
+|amount3=1
+|chance3=10
+}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|[[File:Primitive Manducater Growl.ogg]]
+|Hostile
+|Plays randomly while a Primitive Manducater is alive.
+|X
+|hull_growl
+|-
+|[[File:Primitive Manducater Hurt.ogg]]
+|Hostile
+|Plays when a Primitive Manducater takes damage.
+|X
+|hull_hurt
+|-
+|[[File:Step.ogg]]
+|Hostile
+|Plays when a Primitive Manducater is walking.
+|X
+|monster_step
+|-
+|[[File:Adaptating_1.ogg]]
+[[File:Adaptating_2.ogg]]
+[[File:Adaptating_3.ogg]]
+|Hostile
+|Plays when a Parasite is adapting.
+|Parasite adapts
+|adaptating_1-3
+|-
+|[[File:Adapted_1.ogg]]
+[[File:Adapted_2.ogg]]
+[[File:Adapted_3.ogg]]
+|Hostile
+|Plays when a Parasite has adapted.
+|Parasite adapted
+|adapted_1-3
+|-
+|[[File:Primitive Manducater Death.ogg]]
+|Hostile
+|Plays when a Primitive Manducater dies.
+|X
+|hull_death
+|-
+|}
+
+== ''Trivia'' ==
+*Manducaters are also known as '''Hull''' in the Mod Files.
+*"Manducate" is an archaic English word meaning to chew or eat.
+*In-game text is inconsistent with the spelling of its name, with items calling it "Manducater" with an E, and the subtitles calling it "Manducator" with an O. 
+
+== ''Gallery'' ==
+<gallery>
+File:Invisibleprimitivemanducater.png|A Primitive Manducater using its near Invisibility.
+File:PrimitiveManducaterHeight.png|Size of the Primitive Manducater's model
+File:PrimitiveManducater1.7.0.png|The Primitive Manducater's appearance in 1.7.0. (Credit to @scout2illustrates)
+File:PrimitiveManducater19Old.png|The Primitive Manducater's appearance up until 1.10.0.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Primitive Parasites]]
+[[Category:Mobs]]

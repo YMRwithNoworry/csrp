@@ -1,0 +1,398 @@
+'''Modules''' are items placed in the [[Relay Tower]] that are used to scan for specific types of [[Mobs|Parasites]] or info on a [[:Category:Systems|System]] depending on the ingredients used in creating the Module. After scanning a Module, a Relay Scan Report will be printed based on the scanned Module. In the case of the three System modules, Phase, Vector, and Dislodgement, the corresponding [[Module Reports|Module Report]] will be printed instead.
+
+== ''Obtainment & Info'' ==
+All modules require a [[Module Genic Receptacle]]/other Module(s) as well as several parts of parasites in that module tier. 
+----
+{{Item Info
+|image1=Inborn Module.png
+|type=Module
+|stackable=No
+|tooltip=Scans for nearby Inborn parasites. '': Insert into the Relay Terminal and press Scan.''
+|id=srparasites:module_inborn
+|title1=Inborn Module}}
+===''Inborn Module''===
+The Inborn Module scans for [[Inborn Parasites|Inborn]] parasites.
+{{CraftingTable|r1_nolink=true|r1_b1=Rupter Viscera|r1_a2=Rupter Viscera|r1_b2=Module Genic Receptacle|r1_c2=Rupter Viscera|r1_b3=Rupter Viscera|r1_output=Inborn Module|r1_count=1}}
+
+
+----
+
+
+{{Item Info
+|image1=Assimilated Module.png
+|type=Module
+|stackable=No
+|tooltip=Scans for nearby Assimilated parasites. '': Insert into the Relay Terminal and press Scan.''
+|id=srparasites:module_assimilated
+|title1=Assimilated Module}}
+===''Assimilated Module''===
+The Assimilated Module scans for [[Assimilated Parasites|Assimilated]] parasites.
+{{CraftingTable|r1_nolink=true|r1_b1=Diseased Heart|r1_a2=Infected Flesh|r1_b2=Module Genic Receptacle|r1_c2=Infected Flesh|r1_b3=Diseased Heart|r1_output=Assimilated Module|r1_count=1}}
+
+
+
+
+----
+
+
+{{Item Info
+|image1=Assimara Module.png
+|type=Module
+|stackable=No
+|tooltip=Scans for nearby Assimara parasites. '': Insert into the Relay Terminal and press Scan.''
+|id=srparasites:module_assimara
+|title1=Assimara Module}}
+===''Assimara Module''===
+The Assimara Module scans for [[Assimara Parasites|Assimara]] parasites.
+{{CraftingTable|r1_nolink=true|r1_b1=Fishlin|r1_a2=Assimilated Module|r1_b2=Hijacked Growth|r1_c2=Assimilated Module|r1_b3=Fishlin|r1_output=Assimara Module|r1_count=1}}
+
+
+
+
+----
+
+
+{{Item Info
+|image1=Hijacked Module.png
+|type=Module
+|stackable=No
+|tooltip=Scans for nearby Hijacked parasites. '': Insert into the Relay Terminal and press Scan.''
+|id=srparasites:module_hijacked
+|title1=Hijacked Module}}
+===''Hijacked Module''===
+The Hijacked Module scans for [[Hijacked Parasites|Hijacked]] parasites.
+{{CraftingTable|r1_nolink=true|r1_b1=Hijacked Growth|r1_a2=Hijacked Iron Ingot|r1_b2=Module Genic Receptacle|r1_c2=Hijacked Iron Ingot|r1_b3=Hijacked Growth|r1_output=Hijacked Module|r1_count=1}}
+
+
+
+
+----
+
+{{Item Info
+|image1=Feral Module.png
+|type=Module
+|stackable=No
+|tooltip=Scans for nearby Feral parasites. '': Insert into the Relay Terminal and press Scan.''
+|id=srparasites:module_feral
+|title1=Feral Module}}
+
+
+===''Feral Module''===
+The Feral Module scans for [[Feral Parasites|Feral]] parasites.
+{{CraftingTable|r1_nolink=true|r1_b1=Diseased Heart|r1_a2=Infected Flesh|r1_b2=Assimilated Module|r1_c2=Infected Flesh|r1_b3=Diseased Heart|r1_output=Feral Module|r1_count=1}}
+
+
+
+
+----
+
+{{Item Info
+|image1=Crude Module.png
+|type=Module
+|stackable=No
+|tooltip=Scans for nearby Crude parasites. '': Insert into the Relay Terminal and press Scan.''
+|id=srparasites:module_crude
+|title1=Crude Module}}
+===''Crude Module''===
+The Crude Module scans for [[Crude Parasites|Crude]] parasites.
+{{CraftingTable|r1_nolink=true|r1_b1=Altered Tendons|r1_a2=Infected Flesh|r1_b2=Assimilated Module|r1_c2=Infected Flesh|r1_b3=Altered Tendons|r1_output=Crude Module|r1_count=1}}
+
+
+
+
+----
+
+{{Item Info
+|image1=Primitive Module.png
+|type=Module
+|stackable=No
+|tooltip=Scans for nearby Primitive parasites. '': Insert into the Relay Terminal and press Scan.''
+|id=srparasites:module_primitive
+|title1=Primitive Module}}
+===''Primitive Module''===
+The Primitive Module scans for [[Primitive Parasites|Primitive]] parasites.
+{{CraftingTable|r1_nolink=true|r1_b1=Altered Tendons|r1_a2=Altered Tendons|r1_b2=Module Genic Receptacle|r1_c2=Altered Tendons|r1_b3=Altered Tendons|r1_output=Primitive Module|r1_count=1}}
+
+
+
+
+----
+
+{{Item Info
+|image1=Adapted Module.png
+|type=Module
+|stackable=No
+|tooltip=Scans for nearby Adapted parasites. '': Insert into the Relay Terminal and press Scan.''
+|id=srparasites:module_adapted
+|title1=Adapted Module}}
+===''Adapted Module''===
+The Adapted Module scans for [[Adapted Parasites|Adapted]] parasites.
+{{CraftingTable|r1_nolink=true|r1_b1=Bolster Husk|r1_a2=Devourer Tentacle|r1_b2=Module Genic Receptacle|r1_c2=Arachnida Claw|r1_b3=Longarms Armor Fragment|r1_output=Adapted Module|r1_count=1}}
+
+
+
+
+----
+
+{{Item Info
+|image1=Nexus Module.png
+|type=Module
+|stackable=No
+|tooltip=Scans for nearby Nexus parasites. '': Insert into the Relay Terminal and press Scan.''
+|id=srparasites:module_nexus
+|title1=Nexus Module}}
+===''Nexus Module''===
+The Nexus Module scans for [[Nexus Parasites|Nexus]] parasites.
+{{CraftingTable|r1_nolink=true|r1_b1=Beckon Membrane|r1_a2=Dispatcher Membrane|r1_b2=Module Genic Receptacle|r1_c2=Dispatcher Membrane|r1_b3=Beckon Membrane|r1_output=Nexus Module|r1_count=1}}
+
+
+
+
+----
+
+{{Item Info
+|image1=Deterrent Module.png
+|type=Module
+|stackable=No
+|tooltip=Scans for nearby Deterrent parasites. '': Insert into the Relay Terminal and press Scan.''
+|id=srparasites:module_deterrent
+|title1=Deterrent Module}}
+===''Deterrent Module''===
+The Deterrent Module scans for [[Deterrent Parasites|Deterrent]] parasites.
+{{CraftingTable|r1_nolink=true|r1_b1=Hivesoil|r1_a2=Diseased Heart|r1_b2=Module Genic Receptacle|r1_c2=Diseased Heart|r1_b3=Hivesoil|r1_output=Deterrent Module|r1_count=1}}
+
+
+
+
+----
+
+{{Item Info
+|image1=Pure Module.png
+|type=Module
+|stackable=No
+|tooltip=Scans for nearby Pure parasites. '': Insert into the Relay Terminal and press Scan.''
+|id=srparasites:module_pure
+|title1=Pure Module}}
+===''Pure Module''===
+The Pure Module scans for [[Pure Parasites|Pure]] parasites.
+{{CraftingTable|r1_nolink=true|r1_b1=Noxious Brain|r1_a2=Toxic Lung|r1_b2=Module Genic Receptacle|r1_c2=Toxic Lung|r1_b3=Noxious Brain|r1_output=Pure Module|r1_count=1}}
+
+
+
+
+----
+
+{{Item Info
+|image1=Preeminent Module.png
+|type=Module
+|stackable=No
+|tooltip=Scans for nearby Preeminent parasites. '': Insert into the Relay Terminal and press Scan.''
+|id=srparasites:module_preeminent
+|title1=Preeminent Module}}
+===''Preeminent Module''===
+The Preeminent Module scans for [[Preeminent Parasites|Preeminent]] parasites.
+{{CraftingTable|r1_nolink=true|r1_b1=Living Core|r1_a2=Twisted Spinal Signal|r1_count=1|r1_output=Preeminent Module|r1_b3=Twisted Spinal Signal|r1_c2=Twisted Spinal Signal|r1_b2=Module Genic Receptacle}}
+
+
+
+
+----
+
+{{Item Info
+|image1=Ancient Module.png
+|type=Module
+|stackable=No
+|tooltip=Scans for nearby Ancient parasites. '': Insert into the Relay Terminal and press Scan.''
+|id=srparasites:module_ancient
+|title1=Ancient Module}}
+===''Ancient Module''===
+The Ancient Module scans for [[Ancient Parasites|Ancient]] parasites.
+{{CraftingTable|r1_nolink=true|r1_b1=Twisted Spinal Signal|r1_a2=Twisted Spinal Signal|r1_b2=Module Genic Receptacle|r1_c2=Twisted Spinal Signal|r1_b3=Twisted Spinal Signal|r1_output=Ancient Module|r1_count=1}}
+
+
+
+
+----
+
+{{Item Info
+|image1=Derived Module.png
+|type=Module
+|stackable=No
+|tooltip=Scans for nearby Derived parasites. '': Insert into the Relay Terminal and press Scan.''
+|id=srparasites:module_derived
+|title1=Derived Module}}
+===''Derived Module''===
+The Derived Module scans for [[Derived Parasites|Derived]] parasites.
+{{CraftingTable|r1_nolink=true|r1_b1=Kirin Trophy|r1_a2=Ancient Module|r1_b2=False Apple|r1_c2=Ancient Module|r1_b3=Draconite Trophy|r1_output=Derived Module|r1_count=1}}
+
+
+
+
+----
+
+{{Item Info
+|image1=Desmoid Module.png
+|type=Module
+|stackable=No
+|tooltip=Covers Inborn, Assimara, Assimilated, and Hijacked tiers. '': Insert into the Relay Terminal and press Scan.''
+|id=srparasites:module_desmoid
+|title1=Desmoid Module}}
+
+===''Desmoid Module''===
+The Desmoid Module is a bundle module that scans for Inborn, Assimara, Assimilated, and Hijacked parasites.
+{{CraftingTable|r1_nolink=true|r1_a1=Iron Ingot|r1_b1=Module Organ Synth|r1_c1=Iron Ingot|r1_a2=Inborn Module|r1_b2=Assimara Module|r1_c2=Hijacked Module|r1_a3=Iron Ingot|r1_b3=Module Organ Synth|r1_c3=Iron Ingot|r1_output=Desmoid Module|r1_count=1}}
+
+
+
+
+----
+
+{{Item Info
+|image1=Eschar Module.png
+|type=Module
+|stackable=No
+|tooltip=Covers Feral, Crude, and Primitive tiers. '': Insert into the Relay Terminal and press Scan.''
+|id=srparasites:module_eschar
+|title1=Eschar Module}}
+===''Eschar Module''===
+The Eschar Module is a bundle module that scans for Feral, Crude, and Primitive parasites.
+{{CraftingTable|r1_nolink=true|r1_a1=Iron Ingot|r1_b1=Module Organ Synth|r1_c1=Iron Ingot|r1_a2=Feral Module|r1_b2=Crude Module|r1_c2=Primitive Module|r1_a3=Iron Ingot|r1_b3=Module Organ Synth|r1_c3=Iron Ingot|r1_output=Eschar Module|r1_count=1}}
+
+
+
+
+----
+
+{{Item Info
+|image1=Resistance Module.png
+|type=Module
+|stackable=No
+|tooltip=Covers Adapted, Nexus, and Deterrent tiers. '': Insert into the Relay Terminal and press Scan.''
+|id=srparasites:module_resistance
+|title1=Resistance Module}}
+===''Resistance Module''===
+The Resistance Module is a bundle module that scans for Adapted, Nexus, and Deterrent parasites.
+{{CraftingTable|r1_nolink=true|r1_output=Resistance Module|r1_count=1|r1_c3=Iron Ingot|r1_b3=Module Organ Synth|r1_a3=Iron Ingot|r1_c2=Deterrent Module|r1_a2=Adapted Module|r1_b1=Module Organ Synth|r1_a1=Iron Ingot|r1_c1=Iron Ingot|r1_b2=Nexus Module}}
+
+
+
+
+----
+
+{{Item Info
+|image1=Ideal Module.png
+|type=Module
+|stackable=No
+|tooltip=Covers Pure, Preeminent, Derived, and Ancient tiers. '': Insert into the Relay Terminal and press Scan.''
+|id=srparasites:module_ideal
+|title1=Ideal Module}}
+===''Ideal Module''===
+The Ideal Module is a bundle module that scans for Pure, Preeminent, Derived, and Ancient parasites.
+{{CraftingTable|r1_nolink=true|r1_a1=Iron Ingot|r1_b1=Module Organ Synth|r1_c1=Iron Ingot|r1_a2=Pure Module|r1_b2=Derived Module|r1_c2=Preeminent Module|r1_a3=Iron Ingot|r1_b3=Module Organ Synth|r1_c3=Iron Ingot|r1_output=Ideal Module|r1_count=1}}
+
+
+
+
+----
+
+{{Item Info
+|image1=Origin Module.png
+|type=Module
+|stackable=No
+|tooltip=Scans for ALL parasite tiers. '': Insert into the Relay Terminal and press Scan.''
+|id=srparasites:module_origin
+|title1=Origin Module}}
+
+===''Origin Module''===
+The Origin Module is a bundle module that scans for all parasite types.
+{{CraftingTable|r1_nolink=true|r1_a1=Desmoid Module|r1_b1=Iron Ingot|r1_c1=Eschar Module|r1_a2=Iron Ingot|r1_b2=Module Genic Receptacle|r1_c2=Iron Ingot|r1_a3=Resistance Module|r1_b3=Iron Ingot|r1_c3=Ideal Module|r1_output=Origin Module|r1_count=1}}
+
+
+
+
+----
+
+{{Item Info
+|image1=Phase_Module.png
+|type=Module
+|stackable=No
+|tooltip=Scans for Phase Info within your dimension. '': Insert into the Relay Terminal and press Scan.''
+|id=srparasites:module_phase
+|title1=Phase Module}}
+
+===''Phase Module''===
+The Phase Module is a System module that scans for the current [[Evolution Phases|Phase]] the world is in and information about that Phase. After scanning, it will give a [[Module Reports#Phase_Report|Phase Report]] that will display said info.
+{{CraftingTable|r1_nolink=true
+|r1_a1=Semi-organic Ingot
+|r1_b1=Dead Blood Fluid
+|r1_c1=Semi-organic Ingot
+|r1_a2=Twisted Spinal Signal
+|r1_b2=Module Genic Receptacle
+|r1_c2=Hive Scrap
+|r1_a3=Doomsday Clock
+|r1_b3=Semi-organic Ingot
+|r1_c3=Level Clock
+|r1_output=Phase Module
+|r1_count=1}}
+
+
+
+
+----
+
+{{Item Info
+|image1=Vector_Module.png
+|type=Module
+|stackable=No
+|tooltip=Scans for Vectors within your dimension. '': Insert into the Relay Terminal and press Scan.''
+|id=srparasites:module_vectors
+|title1=Vector Module}}
+
+===''Vector Module''===
+The Vector Module is a System module that scans for the current location and health of [[Emerging Infestation Vector|Emerging Infestation Vectors]] within a 5000x5000 block radius of the Relay Tower it is used on. When giving a scan report, it will give a [[Module Reports#Vector_Map|Vector Map]] that displays this info on the 5000x5000 grid.
+{{CraftingTable|r1_nolink=true
+|r1_a1=Altered Tendons
+|r1_b1=Dispatcher Membrane
+|r1_c1=Altered Tendons
+|r1_a2=Dispatcher Membrane
+|r1_b2=Module Genic Receptacle
+|r1_c2=Dispatcher Membrane
+|r1_a3=Gold Ingot
+|r1_b3=Node Lamp
+|r1_c3=Gold Ingot
+|r1_output=Vector Module
+|r1_count=1}}
+
+
+
+
+----
+
+{{Item Info
+|image1=Dislodgement_Module.png
+|type=Module
+|stackable=No
+|tooltip=Used by the Relay Controller to print the current dislodgement code.
+|id=srparasites:module_dislodgement
+|title1=Dislodgement Module}}
+===''Dislodgement Module''===
+The Dislodgement Module is a System module that scans for any activations of the current [[Dislodgment System|Dislodgement Code]] and prints a [[Module Reports#Dislodgement_Report|Dislodgement Report]] with the Dimension, the code number, and the effect that the code triggered has.
+{{CraftingTable|r1_nolink=true
+|r1_a1=Hive Scrap
+|r1_b1=Chipped Motherly Membrane
+|r1_c1=Hive Scrap
+|r1_a2=Chipped Motherly Membrane
+|r1_b2=Module Genic Receptacle
+|r1_c2=Chipped Motherly Membrane
+|r1_a3=Hive Scrap
+|r1_b3=Chipped Motherly Membrane
+|r1_c3=Hive Scrap
+|r1_output=Dislodgement Module
+|r1_count=1}}
+
+
+
+
+
+[[Category:Items]]
+{{ItemList}}

@@ -1,0 +1,51 @@
+{{Stub}}
+{{Navbar|page1=Walking Human Head|page2=Assimilated Human|page3=Assimara Human|page4=Feral Human}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|marhuman}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=AssimaraHuman.png
+|hp=24.0
+|damage=15.0
+|armor=7.0
+|kb_resistance=0.3
+|adaptable=No
+|id=srparasites:mar_human
+}}
+'''Assimara Humans''' are the [[:Category:Assimara_Parasites|Assimara Version]] of Zombies/Husks.
+
+== ''Spawning'' ==
+
+* Spawns individually, from [[Evolution Phases#Phase 4|Phase 4]] onward, with a spawnweight of 1, once 5 Zombies/Husks have been assimilated.
+
+== ''Behavior'' ==
+Assimara Humans are Offensive Grappler Melee Combatants.
+
+* Their Melee Attack is performed through contact damage, which has a 20% chance to inflict [[Bleeding]] for 5 seconds.
+* Assimara Humans will grab their target if in melee range, latching on to their head. This will, apply the [[No Vision]] effect (completely blinding the target), Mining Fatigue, and Speed.
+* Any Mob within 3 blocks of an Assimara Humans will be inflicted with [[Call Of The Hive|COTH]]. This does not go through walls.
+* Assimara Humans can perform small leaps, both on land and in liquids.
+* Assimara Humans are able to dive in liquids to pursue submerged targets.
+* On death Assimara Humans have a chance to explode, releasing [[Remains|Assimara Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+
+=== ''Weaknesses'' ===
+*Assimara Humans, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+{{Properties|}}
+
+==''Sounds''==
+To be added...
+
+==''Trivia''==
+To be added...
+
+== Gallery ==
+<gallery>
+File:AssimaraHumanHeight.png|Size of the Assimara Human's model.
+</gallery>
+
+{{MobList}}
+<references />
+[[Category:Mobs]]
+[[Category:Assimara Parasites]]

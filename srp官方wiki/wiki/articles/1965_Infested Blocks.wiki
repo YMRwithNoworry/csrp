@@ -1,0 +1,906 @@
+{{Stub}}
+Infested Blocks are a category of blocks created by [[Beckon (Disambiguation)|Beckons]].
+
+Infested Blocks have a stage which they inherit from the last Beckon that created them. Beyond a certain stage Infested Blocks will start spawning [[Stage I Beckon|Stage I Beckons]] on top of them if they are not within range of another Beckon. Stage 3 Infested Blocks will emit particles when a Beckon is nearby. Stage 3 Infested Blocks will rarely spawn [[Sentry|Sentries]] and [[Kyphosis]] when targets are nearby.
+
+Killing a [[Stage I Beckon]], using a [[Quench]], or placing a [[Biome Purifier]] nearby will trigger a Chain Reaction that permeates through all connected Infested Blocks, causing all infested blocks to "degrade," leaving [[Residue]] above them and converting the block into a non-infested equivalent.
+
+===''Utility''===
+Converted Crafting Tables, Furnaces and blocks alike.
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+!colspan="7"|'''Utility Entries'''
+|-
+!Block
+!Name
+!ID
+!Tool
+!Harvest Level
+!Hardness/Blast Resistance
+!Purified Block
+|-
+|[[File:Consumed Crafting Table.png|43x43px]]
+|Consumed Crafting Table
+|srparasites:consumed_workbench
+|Axe
+|0
+|2.5 / 7.5
+|X
+|-
+|[[File:Infested Crafting Table.png|43x43px]]
+|Infested Crafting Table
+|srparasites:infested_workbench
+|Axe
+|0
+|2.5 / 7.5
+|X
+|-
+|[[File:Infested Furnace.png|43x43px]]
+|Infested Furnace
+|srparasites:infested_furnace
+|Pickaxe
+|0
+|3.5 / 3.5
+|X
+|}
+
+===''Nature''===
+Converted Dirt, Plants and blocks alike.
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+!colspan="7"|'''Nature Entries'''
+|-
+!Block
+!Name
+!ID
+!Tool
+!Harvest Level
+!Hardness/Blast Resistance
+!Purified Block
+|-
+|[[File:Bloody Ice.png|frameless|43x43px]]
+|Bloody Ice
+|srparasites:bloodyice
+|Any
+|0
+|0.7 / 0.7
+|X
+|-
+|[[File:Infested Cactus.png|frameless|43x43px]]
+|Infested Cactus
+|srparasites:infested_cactus
+|Axe
+|0
+|0.4 / 0.2
+|X
+|-
+|[[File:Infested Dirt.png|frameless|43x43px]]
+|Infested Dirt
+|srparasites:infestedstain
+|Shovel
+|0
+|0.7 / 0.7
+|[[File:Dirt.png|frameless|43x43px]]
+|-
+|[[File:Infested Leaves.png|frameless|43x43px]]
+|Infested Leaves
+|srparasites:infested_leaves
+|Any
+|0
+|0.2 / 0.2
+|[[File:Oak Leaves.png|frameless|43x43px]]
+|-
+|[[File:Infested Sand.png|frameless|43x43px]]
+|Infested Sand
+|srparasites:infestedsand
+|Shovel
+|0
+|1.0 / 1.0
+|[[File:Sand.png|frameless|43x43px]]
+|-
+|[[File:Infested Terracotta.png|frameless|43x43px]]
+|Infested Terracotta
+|srparasites:infested_terracotta
+|Pickaxe
+|1
+|1.25 / 2.5
+|[[File:White Terracotta.png|frameless|43x43px]]
+|}
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+!colspan="7"|'''Slab Entries'''
+|-
+!Block
+!Name
+!ID
+!Tool
+!Harvest Level
+!Hardness/Blast Resistance
+!Purified Block
+|-
+|[[File:Bleeding Obsidian Slab.png|43x43px]]
+|Bleeding Obsidian Slab
+|srparasites:parasiterubbleslabhalf
+|Pickaxe
+|1
+|2.3 / 2.3
+|[[File:Stone.png|frameless|43x43px]]
+|-
+|[[File:Infested Dirt Slab.png|43x43px]]
+|Infested Dirt Slab
+|srparasites:infested_dirt_slab
+|Shovel
+|0
+|0.5 / 0.3
+|[[File:Dirt.png|frameless|43x43px]]
+|-
+|[[File:Infested Terracotta Slab.png|43x43px]]
+|Infested Terracotta Slab
+|srparasites:infested_terracotta_slab
+|Pickaxe
+|1
+|1.25 / 2.5
+|[[File:White Terracotta.png|frameless|43x43px]]
+|}
+
+===''Wood''===
+Converted Logs, Planks and blocks alike.
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+!colspan="7"|'''Log Entries'''
+|-
+!Block
+!Name
+!ID
+!Tool
+!Harvest Level
+!Hardness/Blast Resistance
+!Purified Block
+|-
+|[[File:Consumed Wood.png|frameless|43x43px]]
+|Consumed Wood
+|srparasites:parasiterubble
+|Axe
+|0
+|2.3 / 2.3
+|[[File:Stone.png|frameless|43x43px]]
+|-
+|[[File:Goth Stem.png|frameless|43x43px]]
+|Goth Stem
+|srparasites:goth_stem
+|Axe
+|0
+|1.5 / 6.0
+|X
+|-
+|[[File:Infested Log.png|frameless|43x43px]]
+|Infested Log
+|srparasites:infestedtrunk
+|Axe
+|0
+|2.1 / 2.1
+|[[File:Oak Log.png|frameless|43x43px]]
+|-
+|[[File:Bruisewood Log.png|frameless|43x43px]]
+|Bruisewood Log
+|srparasites:parasitetrunk/0
+|Axe
+|0
+|2.2 / 2.2
+|[[File:Oak Log.png|frameless|43x43px]]
+|-
+|[[File:Veinwood Log.png|frameless|43x43px]]
+|Veinwood Log
+|srparasites:parasitetrunk/1
+|Axe
+|0
+|2.2 / 2.2
+|[[File:Oak Log.png|frameless|43x43px]]
+|-
+|[[File:Darkwood Log.png|frameless|43x43px]]
+|Darkwood Log
+|srparasites:parasitetrunk/2
+|Axe
+|0
+|2.2 / 2.2
+|[[File:Oak Log.png|frameless|43x43px]]
+|-
+|[[File:Bruisewood Log.png|frameless|43x43px]]
+|Circle Trunk
+|srparasites:parasitetrunk/3
+|Axe
+|0
+|2.2 / 2.2
+|[[File:Oak Log.png|frameless|43x43px]]
+|-
+|[[File:Deadhead Log.png|frameless|43x43px]]
+|Deadhead Log
+|srparasites:parasitetrunk/4
+|Axe
+|0
+|2.2 / 2.2
+|[[File:Oak Log.png|frameless|43x43px]]
+|}
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+!colspan="7"|'''Plank Entries'''
+|-
+!Block
+!Name
+!ID
+!Tool
+!Harvest Level
+!Hardness/Blast Resistance
+!Purified Block
+|-
+|[[File:Bruisewood Planks.png|frameless|43x43px]]
+|Bruisewood Planks
+|srparasites:bruisewood_planks
+|Axe
+|1
+|2.0 / 3.0
+|[[File:Oak Planks.png|frameless|43x43px]]
+|-
+|[[File:Consumed Planks.png|frameless|43x43px]]
+|Consumed Planks
+|srparasites:consumed_planks
+|Axe
+|1
+|2.0 / 3.0
+|[[File:Oak Planks.png|frameless|43x43px]]
+|-
+|[[File:Cooked Flesh Planks.png|frameless|43x43px]]
+|Cooked Flesh Planks
+|srparasites:cooked_flesh_planks
+|Axe
+|1
+|2.0 / 3.0
+|[[File:Oak Planks.png|frameless|43x43px]]
+|-
+|[[File:Deadhead Planks.png|frameless|43x43px]]
+|Deadhead Planks
+|srparasites:parasiteplank/0
+|Axe
+|0
+|2.2 / 2.2
+|[[File:Oak Planks.png|frameless|43x43px]]
+|-
+|[[File:Deadhead Planks (Snow).png|frameless|43x43px]]
+|Deadhead Planks (Snow)
+|srparasites:parasiteplank/1
+|Axe
+|0
+|2.2 / 2.2
+|[[File:Oak Planks.png|frameless|43x43px]]
+|-
+|[[File:Flesh Planks.png|frameless|43x43px]]
+|Flesh Planks
+|srparasites:flesh_planks
+|Axe
+|1
+|2.0 / 3.0
+|[[File:Oak Planks.png|frameless|43x43px]]
+|-
+|[[File:Goth Planks.png|frameless|43x43px]]
+|Goth Planks
+|srparasites:goth_planks
+|Axe
+|1
+|2.0 / 3.0
+|[[File:Oak Planks.png|frameless|43x43px]]
+|-
+|[[File:Infested Planks.png|frameless|43x43px]]
+|Infested Planks
+|srparasites:infested_planks
+|Axe
+|1
+|2.0 / 3.0
+|[[File:Oak Planks.png|frameless|43x43px]]
+|}
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+!colspan="7"|'''Slab Entries'''
+|-
+!Block
+!Name
+!ID
+!Tool
+!Harvest Level
+!Hardness/Blast Resistance
+!Purified Block
+|-
+|[[File:Bruisewood Plank Slab.png|frameless|43x43px]]
+|Bruisewood Plank Slab
+|srparasites:bruisewood_plank_slab
+|Axe
+|1
+|2.0 / 1.8
+|X
+|-
+|[[File:Consumed Plank Slab.png|frameless|43x43px]]
+|Consumed Plank Slab
+|srparasites:consumed_plank_slab
+|Axe
+|1
+|2.0 / 1.8
+|X
+|-
+|[[File:Cooked Flesh Plank Slab.png|frameless|43x43px]]
+|Cooked Flesh Plank Slab
+|srparasites:cooked_flesh_slab
+|Axe
+|1
+|1.5 / 1.8
+|X
+|-
+|[[File:Consumed Wood Slab.png|frameless|43x43px]]
+|Consumed Wood Slab
+|srparasites:parasiterubbleslabhalf
+|Pickaxe
+|1
+|2.3 / 2.3
+|[[File:Stone.png|frameless|43x43px]]
+|-
+|[[File:Deadhead Plank Slab.png|frameless|43x43px]]
+|Deadhead Plank Slab
+|srparasites:dead_head_plank_slab
+|Axe
+|1
+|2.0 / 1.8
+|X
+|-
+|[[File:Flesh Plank Slab.png|frameless|43x43px]]
+|Flesh Plank Slab
+|srparasites:flesh_slab
+|Axe
+|1
+|1.5 / 1.8
+|X
+|-
+|[[File:Goth Plank Slab.png|frameless|43x43px]]
+|Goth Plank Slab
+|srparasites:goth_plank_slab
+|Axe
+|1
+|2.0 / 1.8
+|X
+|-
+|[[File:Infested Plank Slab.png|frameless|43x43px]]
+|Infested Plank Slab
+|srparasites:infested_plank_slab
+|Axe
+|1
+|2.0 / 1.8
+|X
+|}
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+!colspan="7"|'''Stairs Entries'''
+|-
+!Block
+!Name
+!ID
+!Tool
+!Harvest Level
+!Hardness/Blast Resistance
+!Purified Block
+|-
+|[[File:Bruisewood Stairs.png|frameless|43x43px]]
+|Bruisewood Stairs
+|srparasites:parasitetrunk_ballstairs
+|Axe
+|0
+|2.2 / 2.2
+|[[File:Oak Log.png|frameless|43x43px]]
+|-
+|[[File:Bruisewood Plank Stairs.png|frameless|43x43px]]
+|Bruisewood Plank Stairs
+|srparasites:bruisewood_plank_stairs
+|Axe
+|0
+|1.5 / 6.0
+|X
+|-
+|[[File:Consumed Plank Stairs.png|frameless|43x43px]]
+|Consumed Plank Stairs
+|srparasites:consumed_planks_stairs
+|Axe
+|0
+|1.5 / 6.0
+|X
+|-
+|[[File:Cooked Flesh Stairs.png|frameless|43x43px]]
+|Cooked Flesh Stairs
+|srparasites:cooked_flesh_planks
+|Axe
+|0
+|1.5 / 6.0
+|X
+|-
+|[[File:Consumed Wood Stairs.png|frameless|43x43px]]
+|Consumed Wood Stairs
+|srparasites:parasiterubble_woodstairs
+|Axe
+|0
+|2.3 / 2.3
+|[[File:Oak Log.png|frameless|43x43px]]
+|-
+|[[File:Darkwood Stairs.png|frameless|43x43px]]
+|Darkwood Stairs
+|srparasites:parasitetrunk_plantstairs
+|Axe
+|0
+|2.2 / 2.2
+|[[File:Oak Log.png|frameless|43x43px]]
+|-
+|[[File:Deadhead Stairs.png|frameless|43x43px]]
+|Deadhead Stairs
+|srparasites:deadhead_plank_stairs
+|Axe
+|0
+|1.5 / 6.0
+|X
+|-
+|[[File:Flesh Plank Stairs.png|frameless|43x43px]]
+|Flesh Plank Stairs
+|srparasites:flesh_stairs
+|Axe
+|0
+|1.5 / 6.0
+|X
+|-
+|[[File:Goth Planks Stairs.png|frameless|43x43px]]
+|Goth Planks Stairs
+|srparasites:goth_planks_stairs
+|Axe
+|0
+|1.5 / 6.0
+|X
+|-
+|[[File:Infested Planks Stairs.png|frameless|43x43px]]
+|Infested Planks Stairs
+|srparasites:infested_planks_stairs
+|Axe
+|0
+|1.5 / 6.0
+|[[File:Oak Wood Stairs.png|frameless|43x43px]]
+|-
+|[[File:Veinwood Stairs.png|frameless|43x43px]]
+|Veinwood Stairs
+|srparasites:parasitetrunk_treestairs
+|Axe
+|0
+|2.2 / 2.2
+|[[File:Oak Log.png|frameless|43x43px]]
+|}
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+!colspan="7"|'''Fence Entries'''
+|-
+!Block
+!Name
+!ID
+!Tool
+!Harvest Level
+!Hardness/Blast Resistance
+!Purified Block
+|-
+|[[File:Bruisewood Fence.png|frameless|43x43px]]
+|Bruisewood Fence
+|srparasites:bruisewood_fence
+|Axe
+|1
+|0.0 / 0.0
+|[[File:Oak Fence.png|frameless|43x43px]]
+|-
+|[[File:Consumed Fence.png|frameless|43x43px]]
+|Consumed Fence
+|srparasites:consumed_fence
+|Axe
+|1
+|0.0 / 0.0
+|[[File:Oak Fence.png|frameless|43x43px]]
+|-
+|[[File:Cooked Flesh Fence.png|frameless|43x43px]]
+|Cooked Flesh Fence
+|srparasites:cooked_flesh_fence
+|Axe
+|1
+|0.0 / 0.0
+|[[File:Oak Fence.png|frameless|43x43px]]
+|-
+|[[File:Deadhead Fence.png|frameless|43x43px]]
+|Deadhead Fence
+|srparasites:deadhead_fence
+|Axe
+|0
+|0.0 / 0.0
+|X
+|-
+|[[File:Flesh Fence.png|frameless|43x43px]]
+|Flesh Fence
+|srparasites:flesh_fence
+|Axe
+|1
+|0.0 / 0.0
+|[[File:Oak Fence.png|frameless|43x43px]]
+|-
+|[[File:Goth Fence.png|frameless|43x43px]]
+|Goth Fence
+|srparasites:goth_fence
+|Axe
+|1
+|0.0 / 0.0
+|[[File:Oak Fence.png|frameless|43x43px]]
+|-
+|[[File:Infested Fence.png|frameless|43x43px]]
+|Infested Fence
+|srparasites:infested_fence
+|Axe
+|1
+|0.0 / 0.0
+|[[File:Oak Fence.png|frameless|43x43px]]
+|}
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+!colspan="7"|'''Wall Entries'''
+|-
+!Block
+!Name
+!ID
+!Tool
+!Harvest Level
+!Hardness/Blast Resistance
+!Purified Block
+|-
+|[[File:Bruisewood Plank Wall.png|frameless|43x43px]]
+|Bruisewood Plank Wall
+|srparasites:bruisewood_plank_wall
+|Pickaxe
+|1
+|2.2 / 2.2
+|X
+|-
+|[[File:Consumed Plank Wall.png|frameless|43x43px]]
+|Consumed Plank Wall
+|srparasites:consumed_plank_wall
+|Pickaxe
+|1
+|2.2 / 2.2
+|X
+|-
+|[[File:Deadhead Plank Wall.png|frameless|43x43px]]
+|Deadhead Plank Wall
+|srparasites:parasiteplank_deadhead_wall
+|Pickaxe
+|1
+|2.2 / 2.2
+|X
+|-
+|[[File:Flesh Chunk Wall.png|frameless|43x43px]]
+|Flesh Chunk Wall
+|srparasites:parasitestain_flesh_wall
+|Pickaxe
+|1
+|0.8 / 0.8
+|[[File:Dirt.png|frameless|43x43px]]
+|-
+|[[File:Goth Plank Wall.png|frameless|43x43px]]
+|Goth Plank Wall
+|srparasites:goth_plank_wall
+|Pickaxe
+|1
+|2.2 / 2.2
+|X
+|-
+|[[File:Infested Plank Wall.png|frameless|43x43px]]
+|Infested Plank Wall
+|srparasites:infested_plank_wall
+|Pickaxe
+|1
+|2.2 / 2.2
+|X
+|}
+
+===''Stone''===
+Converted Stone, Ores and blocks alike.
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+!colspan="7"|'''Block Entries'''
+|-
+!Block
+!Name
+!ID
+!Tool
+!Harvest Level
+!Hardness/Blast Resistance
+!Purified Block
+|-
+|[[File:Bleeding Obsidian.png|43x43px]]
+|Bleeding Obsidian
+|srparasites:parasiterubble/7
+|Pickaxe
+|1
+|2.3 / 2.3
+|[[File:Stone.png|frameless|43x43px]]
+|-
+|[[File:Frost Weathered Stone.png|43x43px]]
+|Frost Weathered Stone
+|srparasites:parasiterubble/13
+|Pickaxe
+|1
+|2.3 / 2.3
+|[[File:Stone.png|frameless|43x43px]]
+|-
+|[[File:Frost Weathered Stone (Snow).png|43x43px]]
+|Frost Weathered Stone (Snow)
+|srparasites:parasiterubble/14
+|Pickaxe
+|1
+|2.3 / 2.3
+|[[File:Stone.png|frameless|43x43px]]
+|-
+|[[File:Infested Cobblestone.png|43x43px]]
+|Infested Cobblestone
+|srparasites:infested_cobblestone
+|Pickaxe
+|0
+|2.0 / 2.0
+|[[File:Cobblestone.png|frameless|43x43px]]
+|-
+|[[File:Infested Stone.png|43x43px]]
+|Infested Stone
+|srparasites:infestedrubble
+|Pickaxe
+|1
+|2.2 / 6.6
+|[[File:Stone.png|frameless|43x43px]]
+|-
+|[[File:Weathered Bricks.png|43x43px]]
+|Weathered Bricks
+|srparasites:parasiterubble/9
+|Pickaxe
+|1
+|2.3 / 2.3
+|[[File:Stone.png|frameless|43x43px]]
+|-
+|[[File:Weathered Bricks (Snow).png|43x43px]]
+|Weathered Bricks (Snow)
+|srparasites:parasiterubble/10
+|Pickaxe
+|1
+|2.3 / 2.3
+|[[File:Stone.png|frameless|43x43px]]
+|-
+|[[File:Weathered Cobblestone.png|43x43px]]
+|Weathered Cobblestone
+|srparasites:parasiterubble/11
+|Pickaxe
+|1
+|2.3 / 2.3
+|[[File:Stone.png|frameless|43x43px]]
+|-
+|[[File:Weathered Cobblestone (Snow).png|43x43px]]
+|Weathered Cobblestone (Snow)
+|srparasites:parasiterubble/12
+|Pickaxe
+|1
+|2.3 / 2.3
+|[[File:Stone.png|frameless|43x43px]]
+|}
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+!colspan="7"|'''Slab Entries'''
+|-
+!Block
+!Name
+!ID
+!Tool
+!Harvest Level
+!Hardness/Blast Resistance
+!Purified Block
+|-
+|[[File:Frost Weathered Stone Slab.png|43x43px]]
+|Frost Weathered Stone Slab
+|srparasites:frost_weathered_stone_slab
+|Pickaxe
+|1
+|2.0 / 3.6
+|X
+|-
+|[[File:Infested Cobblestone Slab.png|43x43px]]
+|Infested Cobblestone Slab
+|srparasites:infested_cobblestone_slab
+|Pickaxe
+|1
+|2.0 / 1.8
+|[[File:Cobblestone.png|frameless|43x43px]]
+|-
+|[[File:Infested Stone Slab.png|43x43px]]
+|Infested Stone Slab
+|srparasites:infested_stone_slab
+|Pickaxe
+|1
+|2.0 / 1.8
+|[[File:Stone.png|frameless|43x43px]]
+|-
+|[[File:Weathered Bricks Slab.png|43x43px]]
+|Weathered Bricks Slab
+|srparasites:weathered_bricks_slab
+|Pickaxe
+|1
+|2.0 / 3.6
+|X
+|-
+|[[File:Weathered Cobblestone Slab.png|43x43px]]
+|Weathered Cobblestone Slab
+|srparasites:weathered_cobblestone_slab
+|Pickaxe
+|1
+|2.0 / 3.6
+|X
+|}
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+!colspan="7"|'''Stairs Entries'''
+|-
+!Block
+!Name
+!ID
+!Tool
+!Harvest Level
+!Hardness/Blast Resistance
+!Purified Block
+|-
+|[[File:Bleeding Obsidian.png|43x43px]]
+|Bleeding Obsidian
+|srparasites:parasiterubble
+|Pickaxe
+|1
+|2.3 / 2.3
+|[[File:Stone.png|frameless|43x43px]]
+|}
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+!colspan="7"|'''Fence Entries'''
+|-
+!Block
+!Name
+!ID
+!Tool
+!Harvest Level
+!Hardness/Blast Resistance
+!Purified Block
+|-
+|[[File:Bleeding Obsidian.png|43x43px]]
+|Bleeding Obsidian
+|srparasites:parasiterubble
+|Pickaxe
+|1
+|2.3 / 2.3
+|[[File:Stone.png|frameless|43x43px]]
+|}
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+!colspan="7"|'''Wall Entries'''
+|-
+!Block
+!Name
+!ID
+!Tool
+!Harvest Level
+!Hardness/Blast Resistance
+!Purified Block
+|-
+|[[File:Bleeding Obsidian.png|43x43px]]
+|Bleeding Obsidian
+|srparasites:parasiterubble
+|Pickaxe
+|1
+|2.3 / 2.3
+|[[File:Stone.png|frameless|43x43px]]
+|}
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+!colspan="7"|'''Ore Entries'''
+|-
+!Block
+!Name
+!ID
+!Tool
+!Harvest Level
+!Hardness/Blast Resistance
+!Purified Block
+|-
+|[[File:Pestilential Coal Ore.png|43x43px]]
+|[[Pestilential Ore|Pestilential Coal Ore]]
+|srparasites:infestedore/0
+|Pickaxe
+|1
+|3.5 / 3.5
+|X
+|-
+|[[File:Pestilential Diamond Ore.png|43x43px]]
+|[[Pestilential Ore|Pestilential Diamond Ore]]
+|srparasites:infestedore/1
+|Pickaxe
+|1
+|3.5 / 3.5
+|X
+|-
+|[[File:Pestilential Emerald Ore.png|43x43px]]
+|[[Pestilential Ore|Pestilential Emerald Ore]]
+|srparasites:infestedore/2
+|Pickaxe
+|1
+|3.5 / 3.5
+|X
+|-
+|[[File:Pestilential Gold Ore.png|43x43px]]
+|[[Pestilential Ore|Pestilential Gold Ore]]
+|srparasites:infestedore/3
+|Pickaxe
+|1
+|3.5 / 3.5
+|X
+|-
+|[[File:Pestilential Iron Ore.png|43x43px]]
+|[[Pestilential Ore|Pestilential Iron Ore]]
+|srparasites:infestedore/4
+|Pickaxe
+|1
+|3.5 / 3.5
+|X
+|-
+|[[File:Pestilential Lapis Lazuli Ore.png|43x43px]]
+|[[Pestilential Ore|Pestilential Lapis Lazuli Ore]]
+|srparasites:infestedore/5
+|Pickaxe
+|1
+|3.5 / 3.5
+|X
+|-
+|[[File:Pestilential Ore.png|43x43px]]
+|[[Pestilential Ore|Pestilential Ore]]
+|srparasites:infestedore/7
+|Pickaxe
+|1
+|3.5 / 3.5
+|X
+|-
+|[[File:Pestilential Redstone Ore.png|43x43px]]
+|[[Pestilential Ore|Pestilential Redstone Ore]]
+|srparasites:infestedore/6
+|Pickaxe
+|1
+|3.5 / 3.5
+|X
+|}
+===''Parasitic Blocks''===
+New Blocks created by Parasites.
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+!colspan="7"|'''Block Entries'''
+|-
+!Block
+!Name
+!ID
+!Tool
+!Harvest Level
+!Hardness/Blast Resistance
+!Purified Block
+|-
+|[[File:Consumed Crafting Table.png|43x43px]]
+|Consumed Crafting Table
+|srparasites:consumed_workbench
+|Axe
+|0
+|2.5 / 7.5
+|X
+|}
+
+<hr>
+{{WhatAreDataTags}}
+
+{{BlockList}}
+[[Category:Blocks]]

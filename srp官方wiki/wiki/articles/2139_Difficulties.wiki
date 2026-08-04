@@ -1,0 +1,8 @@
+SRP Difficulty is a [[:Category:Systems|system]] added in [[Version 1.10.0]].
+*It has four difficulties: '''Easy''', '''Normal''', '''Hard''' and '''Impossible'''.
+**'''Easy mode:''' less knockback immunity. Halved point gain. 
+**'''Normal mode:''' No changes.
+**'''Hard mode:''' Quadruples (x4) parasites health points, damage and armor. Point gain is multiplied by 1.5 times.
+**'''Impossible mode:''' Increases parasite's health and damage by 11 times and armor by 6 times. Adds huge knockback immunity. Point gain multiplied by 10.
+Difficulty can be chosen when you are creating new world, by clicking button "SRP World options"
+[[Category:Systems]]

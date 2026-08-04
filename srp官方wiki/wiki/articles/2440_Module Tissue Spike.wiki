@@ -1,0 +1,51 @@
+{{Item Info
+|image1=Module_Tissue_Spike.png
+|type=Crafting Component
+|stackable=No
+|tooltip=An essential crafting component in both relay and module assembly.
+|id=srparasites:tissue_spike
+}}
+'''Module Tissue Spikes''' are crafting components used to create the [[Relay Tower|Relay Antennas]], [[Module Genic Receptacle|Module Genic Receptacles]], and the [[Metallurgical Infuser Furnace]]. They have no use outside of this.
+
+== ''Obtainment'' ==
+Crafting one Module Tissue Spike requires one Iron Ingot, three of any Glass, two Gold Nuggets, and one [[Infected Flesh]].{{CraftingTable|r1_a1=|r1_b1=Glass|r1_c1=|r1_a2=Glass|r1_b2=Infected Flesh|r1_c2=Glass|r1_a3=Gold Nugget|r1_b3=Iron Ingot|r1_c3=Gold Nugget|r1_output=Module Tissue Spike|r1_count=1}}
+
+==''Usage''==
+{{CraftingTable
+|r1_b1=Strange Bone
+|r1_b2=Module Tissue Spike
+|r1_a2=Semi-organic Ingot
+|r1_c2=Semi-organic Ingot
+|r1_a3=Semi-organic Ingot
+|r1_b3=Redstone Repeater
+|r1_c3=Semi-organic Ingot
+|r1_output=Relay Antennas
+
+|r2_a1=Glass
+|r2_a2=Module Tissue Spike
+|r2_a3=Glass
+|r2_b1=Module Tissue Spike
+|r2_b2=Module Organ Synth
+|r2_b3=Module Tissue Spike
+|r2_c1=Glass
+|r2_c2=Module Tissue Spike
+|r2_c3=Glass
+|r2_output=Module Genic Receptacle
+|r2_count=1
+
+|r3_a1=Iron Ingot
+|r3_c1=Iron Ingot
+|r3_output=Metallurgical Infuser Furnace
+|r3_count=1
+|r3_c3=Block of Coal
+|r3_b3=Module Tissue Spike
+|r3_a3=Block of Coal
+|r3_a2=Stone Bricks
+|r3_b2=Iron Bars
+|r3_c2=Stone Bricks
+|r3_b1=Stone Bricks}}
+
+
+
+{{ItemList}}
+[[Category:Items]]

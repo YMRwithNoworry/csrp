@@ -1,0 +1,18 @@
+{{Effect Info
+|image1=Foster.png
+|sources=See [[#Obtainment|Obtainment]]
+|type=Buff (Parasites)
+|id=srparasites:foster
+}}
+'''Foster''' is a [[Effects|Potion Effect]] introduced by the Mod. This Effect can only be applied to parasites.
+
+Parasites with this effect will have their [[Adaptation System|Adaptation]] to damage sources increased over time once they have adapted to a damage source.  Parasites that cannot adapt are not affected by this effect.
+
+== ''Obtainment'' ==
+{{Effect Causes
+|cause1=[[Colony Carrier]]
+|duration1=1:00
+|potency1=III
+}}
+{{EffectList}}
+[[Category:Effects]]

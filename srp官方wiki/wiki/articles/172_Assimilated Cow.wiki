@@ -1,0 +1,114 @@
+{{Navbar|page1=Walking Cow Head|page2=Assimilated Cow|page3=Assimara Cow|page4=Feral Cow}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|simcow}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=Assimilated Cow.png
+|hp=18.0
+|damage=7.0
+|armor=5.0
+|kb_resistance=0.4
+|adaptable=No
+|id=srparasites:sim_cow
+}}
+'''Assimilated Cows''' are the [[Assimilated Mobs|Assimilated Version]] of Cows.
+
+== ''Spawning'' ==
+* Spawned when a Cow succumbs to [[Call Of The Hive|Call of The Hive]] below [[Evolution Phases#Phase 7|Phase 7]].
+* Spawns in groups of 3 to 5, from [[Evolution Phases#Phase 2|Phase 2]] through [[Evolution Phases#Phase 7|Phase 7]], with a spawnweight of 25, once 4 Cows have been assimilated.
+* Spawned by [[Stage II Beckon|Stage II]] and [[Stage III Beckon|Stage III Beckons]].
+* Spawned by [[Adapted Summoner|Adapted Summoners]].
+* Spawned by level 3 or higher [[Scent System|Scents]].
+
+== ''Behavior'' ==
+Assimilated Cows are Melee Combatants.
+
+* Their Melee Attack is performed through contact damage.
+* Assimilated Cows are capable of performing a charge attack. After staying still for some seconds, they'll move forward. This Attack inflicts great knockback and AoE Damage.
+* Any Mob within 3 blocks of an Assimilated Cow will be inflicted with COTH. This does not go through walls.
+* Assimilated Cows are able to traverse faster in liquids by performing small leaps.
+* Assimilated Cows are able to dive in liquids to pursue submerged targets.
+* If an Assimilated Cow gets 5 kills and is within range of a [[Moving Flesh]] or 3 other Assimilated Mobs<ref>Excluding Assimilated Ender Dragon and Assimilated Big Spider.</ref>, it will evolve into Moving Flesh.
+* If an Assimilated Cow gets 60 kills and is unable to turn into Moving Flesh, it will evolve into a [[Feral Cow]].
+* On death Assimilated Cows have a chance to explode, releasing [[Remains|Assimilated Remains]], 3-4 [[Buglin|Buglins]], and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+** When not exploding, there is a 50% chance an Assimilated Cow will drop its [[Walking Cow Head|Head]].
+
+=== ''Weaknesses'' ===
+*Assimilated Cows, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+{{Properties|tier=Assimilated}}
+
+{{Drops
+|rolls1=One Roll
+|page1=Infected Flesh
+|amount1=1-2
+|chance1=80
+|rolls2=Always Rolls
+|page2=Diseased Heart
+|amount2=1
+|chance2=10
+}}
+
+==''Sounds''==
+{| class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+
+[[File:Sim Cow Idle1.ogg]]
+[[File:Sim Cow Idle2.ogg]]
+[[File:Sim Cow Idle3.ogg]]
+|Hostile
+|Plays randomly while an Assimilated Cow is alive.
+|Distorted mooing
+|assimilatedcowliving1-3
+|-
+|
+[[File:Sim Cow Hurt1.ogg]]
+[[File:Sim Cow Hurt2.ogg]]
+[[File:Sim Cow Hurt3.ogg]]
+|Hostile
+|Plays when an Assimilated Cow takes damage.
+|Assimilated cow grunts
+|assimilatedcowhurt1-3
+|-
+|[[File:Assimilated Melting.ogg]]
+|Hostile
+|Plays when an Assimilated Cow melts into [[Moving Flesh]].
+|Squelching flesh merges
+|infected_melting
+|-
+|[[File:Explosion.ogg]]
+|Hostile
+|Plays when an Assimilated Cow explodes, at death.
+|Mob explodes
+|mob_explotion
+|-
+|[[File:Sim Cow Death.ogg]]
+|Hostile
+|Plays when an Assimilated Cow dies.
+|Assimilated cow dying
+|assimilatedcowdeath
+|-
+|}
+
+== ''Trivia'' ==
+*Assimilated Cows are also known as '''infcow''' in the Mod Files.
+
+==''Gallery''==
+<gallery>
+File:Assimilated Cow Size Comparison.png|Size of the Assimilated Cow's Model.
+File:Assimilated Cow Head.png|Assimilated Cow's Walking Head.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Assimilated Mobs]]
+[[Category:Mobs]]

@@ -1,0 +1,850 @@
+{{VersionBar|
+|page1=1.9.21
+|page2=1.10.1
+}}
+'''Version 1.10.0''' was an update for the Scape and Run: Parasites Mod, released on February 2nd 2026.  It was 82.68 MB.
+
+== ''Change Log'' ==
+
+====<u>Fixes</u>====
+
+* Fixed Walking Heads not attacking Medium Incomplete Forms
+* Fixed COTH-immune mobs with COTH III+ being applied from converting
+* Fixing wrong NBT name getting read regarding evolution point loss
+* Fix instant despawning adapteds gives point penalty
+* Fix parasite weapons dont work properly on parasites
+* Fix Needler always applying maximum damage possible
+* Fix upgrading beckons revert infestation if evolution is off
+* Fix beckon block infestation cancelled if beckon is inside infested grass
+* Fix beckon infestation always uses stage 3 ranges
+* Fixed missing en_us.lang lines
+* Fixed Beckon Stage IV turning the game into a slideshow
+* Fixed parasites lowering the evolution phase 
+* Incomplete Forms reseting Save Files
+* "Phase 9 Reinforcement System Chance" sometimes not working
+* "Phase 10 Reinforcement System Chance" sometimes not working
+* "Default Phase Start" option not working
+* "Default Points Start" option not working
+* Dimensions not registered in the configuration file not working with Evolution Phases on
+* Dispatchers giving the wrong xp value
+* Point cooldown option not working for phase 9, 10
+* Fixed configuration options for the following mobs not working (health/Damage/Armor): Tozoon, Vermin
+* Parasite Biome Block limit not working
+* Feral Bear loot table configuration option not working
+* Feral Cow loot table configuration option not working
+* Feral Enderman loot table configuration option not working
+* Feral Horse loot table configuration option not working
+* Feral Human loot table configuration option not working
+* Feral Pig loot table configuration option not working
+* Feral Sheep loot table configuration option not working
+* Configuration option "Phase 9 Nexus Stage I Grow Stunned" not working
+* Configuration option "Phase 9 Nexus Stage II Grow Stunned" not working
+* Configuration option "Phase 9 Nexus Stage III Grow Stunned" not working
+* Configuration option "Phase 10 Nexus Stage I Grow Stunned" not working
+* Configuration option "Phase 10 Nexus Stage II Grow Stunned" not working
+* Configuration option "Phase 10 Nexus Stage III Grow Stunned" not working
+* Fix feral bear cant get converted
+* Fix mixed liv/sent armor wrong multi
+* Fix canLoss inversion implementation
+* Fix can't set min assimilations to 0
+* Fix empty whitelists not working
+* Fix phase resets due to calling SRPSaveData.get from client thread
+* Fixed lvl 2 lures add lvl 2, 9, &10 cooldowns when activated
+* Switched a damage variable to be a float to avoid potentially severe rounding errors.
+* SRP commands tab autocomplete (known to be incomplete)
+
+====<u>Internal</u>====
+
+* Code cleanups/opts
+
+====<u>Configuration</u>====
+
+*Changed:
+	"Mob Cap" "Parasites will not spawn (by Scent/Effects) if local number is greater than this."
+    	
+* Removed options:
+** "Camouflage Chance"
+** "Biome Color Sky"
+** "Biome Color Grass"
+** "Biome Color Foliage"
+** "Biome Color Water"
+** "Biome Fog Color Red Value"
+** "Biome Fog Color Green Value"
+** "Biome Fog Color Blue Value"
+** "Biome Spawn Entity List"
+** "Biome Heal Penalty"
+** "Biome Weight"
+** "Biome Tree chance"
+** "Biome Spine chance"
+** "Biome Flower chance"
+** "Biome Ball chance"
+** "Biome Bigball chance"
+** "Biome Mouth chance"
+
+*Changed Evolution Phases Values:
+** Node unlock from 7 to 11
+** Colony unlock from 5 to 11
+** COTH no loot from 3 to 2
+** Assimilation dehiding from 5 to 9
+** Rupter Attacking from 2
+** Beckon spawning cooldown from 7 to 5
+** Parasites ignoring sunlight from 8 to 1
+** Stopping fishing from 4 to 6
+** CC from 5 to 11
+** Total Slaughter from 8 to 9
+** COTH Feral from 6 to 7
+** Parasite Variants from 8 to 11
+** Parasite Without XP from 9 to 8
+
+* New options:
+** "Version Hijacked COTH" - "Chance (1 = 100%) to infect with COTH per hit." 
+** "Version Feral COTH" - "Chance (1 = 100%) to infect with COTH per hit." 
+** "Version Crude COTH" - "Chance (1 = 100%) to infect with COTH per hit." 
+** "MuscleOut Value" - "Damage reduced % while on this effect, multiplied by amplifier." 
+** "COTH Player" - "Set to false if you dont want COTH to work on Players" 
+** "Version Feral Remain Spawn" - "Chance to spawn remains when receiving damage" 
+** "Mob Cap Spawning" "Parasites will not naturally spawn if local number is greater than this."
+** "Version Feral Exhaustion" "Will increase exhaustion level by this value when it hits you."
+** "Version Feral Regen" "How much they will heal each second if available."
+** "Crux Incomplete Minimum grow time" - "Minimum time in seconds for this to grow into a Crux."
+** "Crux Incomplete Maximum grow time" - "Maximum time in seconds for this to grow into a Crux."
+** "Mob Water Cap" - "Water mobs will not be spawned naturally if the local number is greater than this."
+** "Living Armor DAMAGE Evolve" - "Value needed in order for Living armor to evolve into Sentient Armor."
+** "Beckon Mob Spawn Caps" - "Beckons will summon biomass should the mob cap not exceed the base cap and this limit added together." - SRPConfig.cfg
+** "Parate Value" - "(1 = 100%) How much of the attributes the parasite will absorb from its victim's attributes by killing it" - SRParasitesSystems.cfg
+
+* Added to the Parasite Block Griefing:
+** "srparasites:pri_devourer;1;100;2",
+** "srparasites:ada_devourer;3.5;60;3",
+	
+* Added Derived Category
+* Added Hijacked version Category
+* Added Phase -1 Category
+* Added Assimara version Category
+* Added Ubiquitous Development category
+* Removed Evolution Points cooldown for all phases
+* Changed Assimilated Enderdragon phase unlock from 5 to 3
+* Changed Assimilated Damage Cap Default value to 2
+* Changed Primitive Damage Cap Default value to 4
+* Changed Primitive Minimum Damage Default value to 2
+* Changed Adapted Damage Cap Default value to 6
+* Changed Adapted Minimum Damage Default value to 4
+* Changed Pure Damage Cap Default value to 10
+* Changed Pure Minimum Damage Default value to 6
+* Changed Preeminent Minimum Damage Default value to 10
+* Changed Nexus Stage II Damage Cap Default value to 8
+* Changed Nexus Stage II Damage Cap Default value to 14
+* Changed Nexus Stage II Damage Cap Default value to 20
+* "Reinforcement System Maximum Beckons" changed description to  "Maximum number of Beckons loaded at once, more will not spawn if number is greater than this."
+* "Phase X Reinforcement System Chance" Value doubled
+* Removed Primitives/Adapted/Pures from the Mob List of each Evolution Phase
+* "Bleeding Damage" from 0.02 to 0.06
+* "Evolution Parasite Lock List" changed to: 
+**"1;5;64",
+**"-1;7;309",
+**"1;3;59",
+**"1;4;94",
+* Added Category for the Boils Biome
+* Added Category for the Harlequin Biome
+* Added Category for the Demen Biome
+* Added Category for the Shrouded Biome
+* Added "srparasites:sim_squid;1;2;15" to Evolution Phase 2
+* Added "srparasites:sim_squid;1;2;15" to Evolution Phase 3
+* Added "srparasites:sim_squid;1;2;15" to Evolution Phase 4
+* Added "srparasites:pri_devourer;1;2;5" to Evolution Phase 4
+* Added "srparasites:pri_devourer;1;2;5" to Evolution Phase 5
+* Added "srparasites:pri_devourer;1;2;5" to Evolution Phase 6
+* Added "srparasites:ada_devourer;1;2;5" to Evolution Phase 6
+* Added "srparasites:ada_devourer;1;2;5" to Evolution Phase 7
+* Added "srparasites:ada_devourer;1;2;5" to Evolution Phase 8
+* Added "srparasites:ada_devourer;1;2;5" to Evolution Phase 9
+* Added "srparasites:ada_devourer;1;2;5" to Evolution Phase 10
+* "Value for blocks" from 5 to 6
+* "Value for Merging" from 10 to 9
+* "Value Loss Block Stain" from 5 to 2
+* "Value Loss Block Trunk" from 5 to 3
+* "Value Loss Block Rubble" from 5 to 4
+* Added categories for Parasite Generation
+* Added category for Dislodgment System
+* Added category for Emerging Infestation Vectors
+	
+====<u>New</u>====
+
+* New Parasites:
+** [[Hijacked Blaze]]
+** [[Hijacked Skeleton]]
+** [[Many Bodies]]
+** [[Assimara Cow]]
+** [[Assimara Enderman]] - will pull its target to itself
+** [[Assimara Human]] - will ride its victim and push it randomly
+** [[Assimara Villager]] - ground shooter
+** [[Assimara Sheep]] - will shoot Nade Projectiles
+** [[Assimara Bear]] - can pull targets to itself
+** [[Adapted Devourer]]
+** [[Primitive Viscera]]
+** [[Adapted Viscera]]
+** [[Dredge]]
+** [[Incomplete Crux]]
+** [[Airscrew]]
+** [[Draconite]]
+** [[Kirin]]
+** 'Ricardo' Adapted Reeker Variant
+	
+* New potion effects:
+** [[The Sign]]: Parasites will not attack player; Can only be obtained via creative. 
+** [[Braining]]: will not render parasites
+** [[No Vision|Novision]]: no vision by client image loading
+** [[Indeaf]]: movement will not work 
+** [[Overheating]]: sets fire and will increase fire damage
+** [[Conta]]: poison but will spread
+** [[Muscle Out|Muscleout]]: damage dealt will be reduced
+** [[Positive|Effectpos]]: damage for each positive potion effect
+** [[Negative|Effectneg]]: will improve all negative effects
+** [[Vomit]] - will draw a texture in the screen to prevent the Player from seeing clearly		
+** [[Primitive]] - damage to this version will be reduced, affected by amplifier
+** [[Adapted]] - damage to this version will be reduced, affected by amplifier
+** [[Pure]] - damage to this version will be reduced, affected by amplifier
+** [[Crude]] - damage to this version will be reduced, affected by amplifier WIP
+** [[Feral]] - damage to this version will be reduced, affected by amplifier
+** [[Nexus]] - damage to this version will be reduced, affected by amplifier
+** [[Spotted]]: Will spawn parasites if nearby EIV current health is high enough.
+** [[Parate]]: If a parasite kills a mob under this effect, the parasite will partially absorb the victim's attributes (Health, Damage, Armor).  Affected by Amplifier.
+	
+* Added new Block variants:
+** Cicle log variant
+** Red stain variant
+	
+* New items:
+** Colony Compass; will point at the nearest colony if within range
+** Origin Compass; will point at the nearest Infection Origin if within range
+** Hijacked Iron Ingot; Dropped from Hijacked Iron Golems. Can be smelted into iron ingots. 
+** Hijacked Blaze Rods; Dropped from Hijacked Blazes. Can be smelted into blaze rods.
+** Hijacked Bone; Dropped from Hijacked Skeletons. Can be smelted into bones.
+** Alveolar Fluid; Harvested from Alveola Blocks. Used in parasite potion brewing.
+** Compendium; A book that acts as a guide and updates as you kill more parasites.
+** Infested Bonemeal; Used to convert blocks into their infested counterpart. Used to speed up infested sapling growth.
+** Alveoli; WIP Item; Can be eaten.
+** Devourer Tentacle; dropped from devourers. 
+** Fishlin; Can be fished from deadblood.
+** Module Tissue Spike; Used in Relay and Module crafting.
+** Module Genic Receptacle; Used in Relay and Module crafting.
+** Module Organ Synth; Used in Relay and Module crafting.
+** False Apple; Dropped from Infested Leaves; Spawns Buglins at player when eaten.
+** The Sign; Gives Players 'The Sign' effect. Parasites Ignore player. Creative-Only item.
+** We'll Meet Again; Music Disc
+** Serenity; Music Disc
+** Duality; Music Disc
+** Pearl; Dropped from enderman parasites; Changes color depending on what enderman parasite variant is nearby. 
+
+* New Relay Scanner Modules
+** Inborn Module — scans for nearby Inborn parasites.
+** Assimilated Module — scans for nearby Assimilated parasites.
+** Hijacked Module — scans for nearby Hijacked parasites.
+** Feral Module — scans for nearby Feral parasites.
+** Crude Module — scans for nearby Crude parasites.
+** Primitive Module — scans for nearby Primitive parasites.
+** Adapted Module — scans for nearby Adapted parasites.
+** Nexus Module — scans for nearby Nexus parasites.
+** Deterrent Module — scans for nearby Deterrent parasites.
+** Pure Module — scans for nearby Pure parasites.
+** Preeminent Module — scans for nearby Preeminent parasites.
+** Ancient Module — scans for nearby Ancient parasites.
+
+* Bundle Modules
+** Desmoid Module — covers Inborn, Assimilated, Hijacked tiers.
+** Eschar Module — covers Feral, Crude, Primitive tiers.
+** Resistance Module — covers Adapted, Nexus, Deterrent tiers.
+** Ideal Module — covers Pure, Preeminent, Ancient tiers.
+** Origin Module — scans for all parasite tiers.
+	
+* Blocks: 
+<div class="mw-collapsible mw-collapsed" data-expandtext="Show blocks" data-collapsetext="Hide blocks">
+** Decanter (WIP)
+** Empty Decanter (WIP) 
+** Frost-burnt Grass
+** Frost-burned Grass 
+** Thornshade
+** Dead Thornshade
+** Dormat Thornshade
+** Weathered Bricks
+** Weathered Cobblestone
+** Frost Weathered Stone
+** Gothshroom
+** Parasite Chunk Barrier
+** Dermoid Cyst (WIP)
+** Node Lamp
+** Biomass Block; Damages entities that are not parasites and inflicts effects. 
+** Residue Block
+** Residue Bloomings
+** Assimilated Blossom
+** Potted Assimilated Blossom
+** Consumed Potted Assimilated Blossom
+** Infested Flower Pot
+** Consumed Flower Pot
+** Alveoli; Must be placed near bronchial tube else will convert into Sick Alveoli. Can extract Alveolar fluid from Alveoli with bottle.
+** Sick Alveoli; Poisons player if interacted with. 
+** Alveoli Growth
+** Solid Alveoli Block
+** Infested Cobblestone
+** Creative Infestation Purifier
+** White, Orange, Magenta, Light Blue, Yellow, Lime, Pink, Gray, Light Gray, Cyan, Purple, Blue, Brown, Green, Red, Black, and Normal Esca Blocks
+** Deadhead Log
+** Deadhead Plank
+** Benign Growth
+** Malignant Growth
+** Metastatic Mass
+** Weathered Bricks
+** Weathered Cobblestone
+** Frost Weathered Stone
+** Consumed Sapling; Using placeholder Generation
+** Deadhead Sapling; Using placeholder Generation
+** Infested Sapling; Using placeholder Generation
+** Concentrated Flesh Wall
+** Infested Planks
+** Infested Stone Bricks	
+** Infested Terracotta
+** Polished Infested Stone
+** Residue Bricks
+** Infested Column	
+** Infested Sandstone
+** Chiseled Infested Sandstone
+** Chiseled Cut Sandstone
+** Ashen Glass + Pane
+** Shrouded Glass + Pane
+** Harlequinn Glass + Pane
+** Bloody Glass + Pane
+** Infested Glass + Pane	
+** Shade Glass + Pane
+** Sepia Glass + Pane
+** Moody Glass + Pane
+** Goth Stem
+** Assimilated Pumpkin; Can be worn, applies overlay GUI and COTH. 
+** Assimilated Jack o'lantern; Can be worn, applies overlay GUI and COTH. 
+** Assimilated Sugar Cane; Grows up to 7 blocks. 
+** Cooked Flesh
+** Cooked Flesh Planks
+** Flesh Planks
+** Goth Planks	
+** Bruisewood Planks
+** Consumed Planks
+** Harlequinn Grass Block	
+** Harleskinn Block
+** Poland Skin Block
+** Bronchial Tube
+** Locs Block
+** Infested Leaves + Fast Variant
+** Hirsute Hair
+** Tresses Hair
+** Lipoma Mass
+** Harleskinn Slab
+** Infested Cobblestone Slab
+** Infested Stone Slab
+** Infested Dirt Slab
+** Reinforced Hivestone slab
+** Parasitic Colony Core slab
+** Sac of Flesh Slab
+** Dead Head Plank Slab
+** Weathered Bricks Slab
+** Parasitic Compressed colony stone slab
+** Weathered Cobblestone Slab
+** Frost Weathered stone slab
+** Infested stone brick slab
+** Infested Terracotta Slab
+** Polished Infested Stone slab
+** Residue Brick Slab
+** Infested sandstone slab
+** Goth Plank Slab
+** Bruisewood plank slab
+** consumed plank slab
+** infested plank slab
+** Poland skin slab
+** locs block slab
+** cooked flesh slab
+** flesh plank slab
+** goth door
+** bruisewood door
+** consumed door
+** residue wall	
+** infested plank wall	
+** bruisewood plank wall
+** polished infested stone wall	
+** infested stone brick wall
+** goth plank wall
+** infested sandstone wall
+** consumed plank wall
+** deadhead plank wall
+** weathered brick wall
+** compressed colony stone wall
+** frost weathered stone wall
+** reinforced hivestone wall	
+** weathered cobblestone wall
+** hivestone brick wall
+** sac of flesh wall
+** infested stone wall
+** infested dirt wall
+** flesh chunk wall
+** hivesteel wall
+** fortified bone stairs
+** concentrated flesh stairs
+** hivestone stairs
+** hivestone debris stairs
+** consumed wood stairs
+** hivestonebricks stairs
+** hivesteel stairs
+** bleeding obsidian stairs
+** assimilated fungus stairs
+** flesh chunk stairs
+** hivesoil stairs
+** visceral mud stairs
+** compressed arteries stairs
+** compressed hivestone stairs
+** reinforced hivestone stairs
+** parasitic compressed colony stone stairs
+** bruisewood stairs
+** Lure (Overloaded)
+** Lure (Anomalous)
+** Pestilential Coal Ore
+** Pestilential Diamond Ore
+** Pestilential Emerald Ore
+** Pestilential Gold Ore
+** Pestilential Iron Ore
+** Pestilential Lapis Lazuli Ore
+** Pestilential Redstone Ore
+** Pestilential Ore
+** Infested Sand
+** Infested Furnace
+** Concentrated Flesh Slab
+** Fortified Bone Slab
+** Hivestone Slab
+** Hivestone Debris Slab
+** Consumed Wood Slab
+** Hivestone Brick Slab
+** Hivesteel Slab
+** Bleeding obsidian slab
+** Assimilated Fungus Slab
+** Hivesoil Slab
+** Vicsceral Mud Slab
+** Flesh Chunk Slab
+** Compressed Artery Slab
+** Mycelium Network Slab
+** Contusion slab
+** Sacked Flesh Slab
+** Flesh Plank Stairs
+** Cooked Flesh Plank Stairs
+** Harleskinn Stairs
+** Bruisewood Plank Stairs
+** Infested Sandstone Stairs
+** Goth Plank Stairs
+** Infested Plank Stairs
+** Frost Weathered Stone Stairs
+** Consumed Plank Stairs
+** Infested Stone bricks Stairs
+** Infested Polished Stone bricks Stairs
+** Infested Stone Stairs
+** Weathered Bricks 
+** Weathered Cobblestone Stairs
+** Deadhead Stairs
+** Residue Brick Stairs
+** Harleskinn Fence
+** Infested Fence
+** Deadhead Fence
+** Goth Fence
+** Consumed Fence
+** Bruisewood Fence
+** Flesh Fence
+** Cooked Flesh Fence
+</div>
+
+* New Sound effects for the following parasites:
+** Overseer (Hurt/Growl/Death)
+** Heavy Bomber (Hurt/Growl/Death)
+** Beckon Bells
+** Node Spawning
+** Biome Heart
+	
+* '''Added OST''':
+
+** Added Music for the Evolution phases minus 0, -1, -2
+** Added music if the player is located in the parasite biome
+** Added music if there is a Scent nearby
+	
+* '''Added Ubiquitous development''':
+
+** Levels of development will increase/decrease depending of the progress of Parasites in each dimension
+** High levels will unlock parasites that were previously in phases such as the primitive version, adapted versions and so on
+** High levels will also unlock features like Dislodgment codes, Scent, Colonies, Nodes and so on
+** If current level have moblist spawning available, it will be a 50% chance to use it instead of the phase moblist
+
+* '''Added Emerging Infection Vectors''':
+
+** Parasites will only spawn within an area in the world
+** If EIVs dont exist in the world, spawnlist from phase 0 will be used for spawning parasites without the restriction
+** Each EIV will have health points
+** Killing parasites within the area will reduce its health points
+** If health points = 0 then it will be removed from the world	
+** This will only work if custom spawner is enabled
+** EIVs will grow in unloaded dimensions
+** They can generate points in unloaded dimensions
+** Every day there is a chance for an EIV to be created, chance is increased if there is no an EIV in the world
+** Every day Each EIV will grow in Radius and in Health, one day are 24000 ticks, "Day Tick Value" to change
+** Triggers for EIVs to be created in the world: 
+***COTH going from 2 to 3 (amplifier)
+***COTH Spawning parasite
+***Parasite killing a mob
+** If parasites are Killing other mobs inside a EIV, the mobs health will be used to increase the EIVs health
+** If a mob is inside an EIV with COTH and went from amplifier 2 to amplifier 3, the mobs health will be used to increase the EIVs health
+** Each day EIVs will now generate Evolution Points, depending of size/health
+** Reinforcement System will only work if parasites are killed within EIVs range
+	
+* '''Added Dislodgment system''':
+
+'''<u>What is Dislodgment?</u>'''
+	Dislodgments are events on a dimensional level that affect the world in different ways to challenge the player 
+	
+    <u>How can they be activated?</u>
+	They can be activated through the player's actions, such as breaking a block, killing parasites, using Lure blocks
+	
+	The goal of this is to make the game more dynamic and make each world feel more unique
+	
+	You can test them using the new command
+	
+*List of codes and effects:
+** 0: COTH will ignore amplifier and will spawn parasite
+** 1: COTH will spawn higher tier parasites
+** 2: Killing parasites will spawn a special parasite
+** 3: Parasites will spawn with potion effects
+** 4: Parasites will spawn with more health/damage/armor
+** 6: Parasites will consume more item durability
+** 7: Parasites when killed, will heal nearby parasites 
+** 8: Parasites when killed, will damage nearby non parasite mobs
+** 9: Parasites when killed, will drain players food
+** 10: Killing Assimilated have a chance to spawn higher versions
+** 11: Parasites immune to potion effects
+** 12: All non parasites mobs will have their health drained
+** 13: All players will have their food drained
+** 14: Evolution phase will use next phase list
+** 15: Parasite growl noise canceled, will also cancel Nexus versions spawning sound effect
+** 16: Parasite walk noise canceled, will also cancel Nexus versions evolving sound effect
+** 17: Parasites will disable shields, food
+** 18: Parasite loot, xp will be canceled
+** 19: Parasite killcount will increase overtime
+** 20: Moving Flesh/Incomplete Forms/Walking Heads will get a new body
+** 21: Parasites can only be killed if they are burning
+** 22: Killing parasites will give you a potion effect:
+***Killing Primitive versions will apply the Primitive effect
+***Killing Adapted versions will apply the Adapted effect
+***Killing Pure versions will apply the Pure effect
+***Killing Feral versions will apply the Feral effect
+***Killing Nexus versions will apply the Nexus effect
+***At the same time all similar effects will be removed except for the one of the version you killed
+** 25: Player breaking parasite blocks have a chance to spawn parasites
+	 
+	When these codes are activated naturally, points will be removed from the 
+	current phase and a cooldown of the code itself will be activated
+	Not all codes will be available in all phases
+	
+* '''Parasite Generation''':
+** Now all Parasites will have a Generation that will affect their behavior, the following features will not be available until later generations: Sprinting, Minimum Damage, Damage Cap, Adaptation, Water Leap, Special Move, Residue, Wall X-Ray, Orbbox, Block Searching
+** Assimilated spawned from COTH will have Health reduced
+		
+	By default parasites will unlock their features in the following order:
+	
+		Generation 1:
+			COTH mob Health 30%
+			
+		Generation 2:
+			COTH mob Health 65%
+			Sprinting
+			Minimum Damage
+		
+		Generation 3:
+			COTH mob Health 100%
+			Adaptation
+			Damage Cap
+			Water Leap
+		
+		Generation 4:
+			COTH mob Health 100%
+			Special Move
+			Residue
+			Wall X-Ray
+		
+		Generation 5:
+			COTH mob Health 100%
+			Orbbox
+			Block Searching
+			
+	Players will not be able to decrease Generations and parasites will be able to increase it depending on the phase
+	By Default, Generations will increase by time without penalty in the following phases:
+	
+		Generation 1 - Phase 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+		Generation 2 - Phase 3, 4, 5, 6, 7, 8, 9, 10
+		Generation 3 - Phase 5, 6, 7, 8, 9, 10
+		Generation 4 - Phase 7, 8, 9, 10
+		Generation 5 - Phase 9, 10
+		
+	If the Generation is out of phase, a penalty will be applied and will increase the time required
+	Example:
+	
+		Current Generation: 1
+		Current Phase: 1
+		Time needed for Generation 2: 1000 ticks
+		
+		Generation out of phase? yes, Phase minimum required: 3
+		Total time needed: time needed * penalty = 1500 ticks
+		
+	Generations will also affect poison healing PH, mob healing MH and attack speed AS(multiplier)
+** At G0: PH - 0, MH - 0, AS - 1
+** At G1: PH - 0.3, MH - 0, AS - 1
+** At G2: PH - 1, MH - 0.5, AS - 1
+** At G3: PH - 1.5, MH - 1, AS - 0.9
+** At G4: PH - 2, MH - 2, AS - 0.7
+** At G5: PH - 2.5, MH - 3, AS - 0.5
+		
+	This will hopefully make for a more enjoyable and less stressful progression 
+	
+* Added new command: /srpdislodgment
+** codes_reset
+** random_code [duration]
+** set_code [duration] [code] [value]
+	
+	Example:
+	/srpdislodgment 15 1 1
+	In the following 15 seconds COTH (amp >=2) will spawn primitive versions when triggered around the world
+	
+* New command: /srpvector:
+** clearworld; remove all Infection Vectors
+** setorigin x y z heatlh radius; will set a vector at that location
+** removevector; to remove nearest Origin
+** viewall; will print all EIVs
+
+* New command: /srpgeneration:
+** setgeneration
+** getgeneration 
+	
+* New command /srpudevelopment:
+** getlevel - will get the current level of Parasites
+** setlevel - will set a FAKE level for Parasites
+** viewalldims - will show all the dimensions where Parasites are and their current progress
+	
+* New subcommand, /srpevolution unlockall
+** Will unlock all locked parasites
+	
+* New srpevolution command:
+** addcooldown [number] - will add point cooldown to the current cooldown
+	
+	
+====<u>General</u>====
+
+* Added Meteor spawning
+* Evolution Clock will now change depending on the phase and will show you cooldown
+* Removed Camouflage effect random protection from COTH, now it will always work against it
+* Mobs with Camouflage and COTH will not spread COTH
+* Reduced Nade entity particle effects
+* BlockGore now have the shovel as its harvest tool
+* Changed BlockGore sound effects from PLANT to BLOCKINFEST
+* Increased hardness for BlockGore
+* EntityRemains will not spawn parasites if mobcap has been reached
+* Tweaked Air spawning logic
+* When using /srpcolonies showall now all coords will be shown in a list
+* When using /srpnodes showall now all coords will be shown in a list
+* When using /srpvectors showall now all coords will be shown in a list
+* Tweaked weapon model for the Axe/Sentient Ase
+* Tweaked weapon model for the Cleaver/Sentient Cleaver
+* Tweaked weapon model for the Lance/Sentient Lance
+* Tweaked weapon model for the Maul/Sentient Maul
+* Tweaked weapon model for the Scythe/Sentient Scythe
+* Tweaked weapon model for the Sword/Sentient Sword
+* Removed "srpcurrentbeckons" as a NBT tag from the savedata
+* Beckons will no longer spawn from the Reinforcement System if the Beckon cap is reached
+* Added small delay for parasites spawning when reaching mob cap if using custom mobs spawner
+* Removed console message from Parasitic Scent Entity
+* It can now rain in Parasite Biomes
+* Players cannot use Lure Blocks to reduce points if current phase is on cooldown
+* Removed second textures for weapons/armors
+* Scent Host health increase is now lower and is now different depending on the version of the parasite
+* Living armor can now evolve into Sentient armor
+* If a parasite is under the Parate effect, red particles will spawn around it
+* /srpevolution getphase will now tell you current Parasite Generation
+* /srparasites added setgeneration, getgeneration
+* Cooldown added by Lure blocks will now accumulate
+
+* Changed conditions to spawn Assimilated Adventurer:
+** If Player has COTH with amplifier == 0, nothing will spawn
+** If Player has COTH, amplifier == 1, a Medium Incomplete Form will spawn
+** If Player has COTH, amplifier >= 2, the Assimilated Adventurer will spawn
+	
+* Changed how COTH works for Players:
+** They will now be carriers, COTH will re-apply when duration is reaching 0
+** Players will also spread COTH to nearby mobs
+	
+	
+* Changed how parasites regenerate themself (only available if they can adapt to damage):
+** They dont need to wait to be out of combat anymore
+** They will regenerate every second instead of every tick
+** Increased the efficiency of kill/heal
+	
+* Changed the texture of the following blocks:
+** Biome heart
+** Consume Wood
+** Dispatcher Nidus
+** Hivesteel
+** Parasite Bush Variants
+** Parasite Rubble Variants
+** Parasite Rubbledense Variants
+** Parasite Trunk Variants
+** Parasite Stain Variants	
+** Parasite Remains
+** Mouth
+	
+* Changed the texture of the following effects:
+** Debar
+** Fear
+** Needle
+** Prey
+** Repel
+** Senses
+** Viral
+
+* Command "/srpevolution setphase" can now read 2 numbers 
+** First number is going to set the phase
+** Second number is going to set the generation
+	
+* Changed input for /srpevolution:
+** From "toggle_evolutionloss" to "set_evolutionloss" true/false
+** From "toggle_evolutiongaining" to "set_evolutiongaining" true/false
+
+* Scary Orb:
+** Now it will damage entities every second with the minimum damage of the parasite * 0.5 that is spawning it
+** The effects will also be applied constantly instead of at the end
+** Poison effect will be applied to all entities inside constantly
+
+* Changed Block Textures, highlights:
+** Biome Purifiers
+** Evolution Lures
+** Beckon Infestation
+** Parasite Biome
+
+* Added stair blocks for the following blocks:
+** parasiterubble_bone
+** parasiterubble_flesh
+** parasiterubble_stone
+** parasiterubble_stonedebris
+** parasiterubble_wood
+** parasiterubble_bricks
+** parasiterubble_metal
+** parasiterubble_obsidian
+** parasiterubble_fungus
+** parasitestain_flesh
+** parasitestain_dirt
+** parasitestain_mud
+** parasitestain_feeler
+** parasiterubbledense_wall
+** parasiterubbledense_biome
+** parasiterubbledense_colony
+
+* Scent:
+** Now a health bar is shown
+** When spawning for the first time, a cooldown is added before attacking mobs
+** The scent will randomly choose a Parasite to be its host
+** The host is now linked with the scent, if the host is killed the scent will die
+** The host will have its health multiplied by 10 	
+** The scent will only lose health when spawning or relocating mobs
+
+
+====<u>Mob</u>====
+
+* Nexus verions/Turrets are now immune to LEVITATION effect
+* Feral versions when receiving damage will now have a chance to place EntityRemains
+* Added sound effects for the Crux
+* Added sound effects for the Kyphosis
+* Dispatcher will not spawn Naks if the current local Nak number is 7 or higher
+* Dispatcher will not spawn Sentries if the current local Sentry number is 7 or higher
+* Dispatchers will not "teleport" parasites if the current local Parasite number is higher than the mods mob cap
+* Reduce height size of EntityToxicCloud entities to 0.5
+* Pure versions will not spawn Naks if the current local Nak number is 7 or higher
+* Feral versions will now heal themself naturally
+* Updated Host sound effects
+* From Stage 2 Nexus versions to Stage III, will now be able to spawn Rooters Stage I 
+* Increased Residue range of Adapted Bolster by 1 block
+* Assimilated Squid is now using SpawnPlacementRegistry type Water
+* Primitive Devourer is now using SpawnPlacementRegistry type Water
+* Adapted Devourer is now using SpawnPlacementRegistry type Water
+* Primitive Vermin is now using SpawnPlacementRegistry type Air
+* Primitive Yelloweye is now using SpawnPlacementRegistry type Air
+* Adapted Yelloweye is now using SpawnPlacementRegistry type Air
+* Overseer is now using SpawnPlacementRegistry type Air
+* Heavy Bomber is now using SpawnPlacementRegistry type Air
+* Bogle is now using SpawnPlacementRegistry type Air
+* Wraith is now using SpawnPlacementRegistry type Air
+* Removed Poison Immunity for parasites
+* If parasites are damaged by poison, it will heal them instead of inflicting damage
+* Removed regeneration effect applied in parasites when killing mobs
+* Parasites will now heal from killing mobs depending of its health
+* When the Devourer breaks blocks, they will place water blocks instead of air blocks
+* Tweaked AI for Water parasites
+* Water parasites now have their own mob cap
+* Walking Heads attack speed changed from 20 to 15
+* All beckons spawned by Beckon Stage IV will die after a short time
+* Changed so Beckons Stage IV spawns Beckons around its target instead of itself
+* Changed the texture of the Primitive Longarms and its variants
+* Assimilated Enderdragon will now use air spawning
+* Assimilated Enderdragon will now spawn in a flying state
+* Nexus versions stage 2 now generate defensive structures
+
+* Changed how Tozoons, Burrowers work:
+** Most of the time, their body will now be visible
+** They will be composed of multiple entities
+
+* Added new sound effect for performing special attacks for the following parasites:
+** Adapted Arachnida
+** Adapted Bolster
+** Adapted Yelloweye
+** Adapted Reeker
+** Adapted Longarms
+
+* Added new ability to Summoners: 
+** They will apply vomit to neaby mobs
+** Now they keep their distance from their enemies 	
+	
+* Added new ability to Manducaters: 
+** They will prevent their targets from moving	
+
+* Changed models for the following parasites:
+** Primitive Manducater
+** Adapted Manducater
+
+* Changed/tweaked sound effects for the following parasites:
+** Overseer
+** Sentry
+
+* Changed/tweaked texture for the following parasites::
+** Moving Flesh
+** Assimilated Human (4 versions)
+	
+* Added new sound effects for the following parasites:
+** Colony Carrier
+** Light Bomber
+** Thrall
+	
+* Cosmic versions can now be killed:
+** You can't hurt them if the two bodies are together
+** Normally the energy body splits off when it is attacking
+** To force the detachment it is necessary to inflict damage while it is close to a light source, otherwise it will not be possible
+	
+* Cosmic versions now have Overloaded Adaptation
+** Will reflect a certain percentage of the damage they receive when adapting to it
+	
+* Rooters:
+** They will now permanently upgrades nearby parasites by increasing their generation to the max value regardless for their stage
+** They will hide their tentacles if terrain is too small around them
+
+* Primitive/Adapted Arachnida:
+** Tweaked pulling logic
+** Removed the leap they did after getting its victim closer
+** Added SlOWNESS and MINING FATIGUE effects when pulling
+** Added WEAKNESS effect at the start of the pulling
+** Increased time of pulling
+
+{{VersionList}}
+[[Category:Versions]]

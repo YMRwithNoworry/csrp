@@ -1,0 +1,389 @@
+[[File:Dislodgment.png|link=Compendium|thumb|108x108px|The [[Compendium]] icon.]]
+
+{{#SQuote:|text=Certain actions can disturb the infection and provoke retaliation. Dislodgment triggers can activate from interaction, recovery, or parasite activity, escalating responses through multiple tiers of strength.|speaker=[[Compendium|The Compendium]]|receiver=|attribution=|source=|id=something|template=}}
+
+'''Dislodgment''' is a [[Systems|System]] added in [[Version 1.10.0]] that allows parasites to retaliate against interaction with and removal of their territory.
+
+==''Info''==
+Dislodgment applies certain buffs to Parasites and debuffs on non-Parasites, all based on RNG and the player's actions. In turn for the benefits, each event consumes a set amount of [[Evolution Phases|Evolution Points]] and sets a cooldown to the code that was activated. Not all codes will be available in all Phases. It is unlocked at [[Ubiquitous Development]] Level 1. As of now there are 19 Triggers combined with 26 available Dislodgment Codes and Effects.
+
+Almost all aspects of Dislodgment can be monitored in detail with the [[Module Reports#Dislodgement Report|Dislodgment Report]], obtained by scanning the [[Modules#Dislodgement Module|Dislodgment Module]] in the [[Relay Tower]], such as code effects, duration, and value.
+
+== Triggers ==
+''These can only be activated by the player.''
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+! style="width: 200px" |Trigger
+! style="width: 300px" |Codes
+! style="width: 50px" |Activation Chance
+|-
+| #0 - Right-clicking a block
+| [[Dislodgment System #Code 5|5]] [[Dislodgment System #Code 8|8]] [[Dislodgment System #Code 10|10]] [[Dislodgment System #Code 15|15]] [[Dislodgment System #Code 16|16]] [[Dislodgment System #Code 17|17]] [[Dislodgment System #Code 20|20]] [[Dislodgment System #Code 21|21]]  [[Dislodgment System #Code 22|22]] [[Dislodgment System #Code 23|23]] [[Dislodgment System #Code 24|24]] [[Dislodgment System #Code 25|25]]
+| 1%
+|-
+| #1 - Picking up xp
+| [[Dislodgment System #Code 0|0]] [[Dislodgment System #Code 5|5]] [[Dislodgment System #Code 7|7]] [[Dislodgment System #Code 10|10]] [[Dislodgment System #Code 17|17]] [[Dislodgment System #Code 19|19]] [[Dislodgment System #Code 20|20]] [[Dislodgment System #Code 21|21]]  [[Dislodgment System #Code 22|22]] [[Dislodgment System #Code 23|23]] [[Dislodgment System #Code 24|24]] [[Dislodgment System #Code 25|25]]
+| 3%
+|-
+| #2 - Picking up an item
+| [[Dislodgment System #Code 5|5]] [[Dislodgment System #Code 10|10]] [[Dislodgment System #Code 17|17]] [[Dislodgment System #Code 18|18]] [[Dislodgment System #Code 20|20]] [[Dislodgment System #Code 21|21]]  [[Dislodgment System #Code 22|22]] [[Dislodgment System #Code 23|23]] [[Dislodgment System #Code 24|24]] [[Dislodgment System #Code 25|25]]
+| 2%
+|-
+| #3 - Player Healing
+| [[Dislodgment System #Code 5|5]] [[Dislodgment System #Code 7|7]] [[Dislodgment System #Code 9|9]] [[Dislodgment System #Code 10|10]] [[Dislodgment System #Code 11|11]] [[Dislodgment System #Code 17|17]] [[Dislodgment System #Code 20|20]] [[Dislodgment System #Code 21|21]]  [[Dislodgment System #Code 22|22]] [[Dislodgment System #Code 23|23]] [[Dislodgment System #Code 24|24]] [[Dislodgment System #Code 25|25]]
+| 0.1%
+|-
+| #4 - Drawing a bow, eating Food, Drinking Potions/Milk
+| [[Dislodgment System #Code 3|3]] [[Dislodgment System #Code 5|5]] [[Dislodgment System #Code 6|6]] [[Dislodgment System #Code 10|10]] [[Dislodgment System #Code 11|11]] [[Dislodgment System #Code 15|15]] [[Dislodgment System #Code 17|17]] [[Dislodgment System #Code 20|20]] [[Dislodgment System #Code 21|21]]  [[Dislodgment System #Code 22|22]] [[Dislodgment System #Code 23|23]] [[Dislodgment System #Code 24|24]] [[Dislodgment System #Code 25|25]]
+| 1%
+|-
+| #5 - Closing UI
+| [[Dislodgment System #Code 5|5]] [[Dislodgment System #Code 8|8]] [[Dislodgment System #Code 10|10]] [[Dislodgment System #Code 16|16]] [[Dislodgment System #Code 17|17]] [[Dislodgment System #Code 20|20]] [[Dislodgment System #Code 21|21]]  [[Dislodgment System #Code 22|22]] [[Dislodgment System #Code 23|23]] [[Dislodgment System #Code 24|24]] [[Dislodgment System #Code 25|25]]
+| 0.1%
+|-
+| #10 - Parasite Death
+| [[Dislodgment System #Code 0|0]] [[Dislodgment System #Code 2|2]] [[Dislodgment System #Code 5|5]] [[Dislodgment System #Code 7|7]] [[Dislodgment System #Code 10|10]] [[Dislodgment System #Code 15|15]] [[Dislodgment System #Code 16|16]] [[Dislodgment System #Code 17|17]] [[Dislodgment System #Code 18|18]] [[Dislodgment System #Code 19|19]] [[Dislodgment System #Code 20|20]] [[Dislodgment System #Code 21|21]]  [[Dislodgment System #Code 22|22]] [[Dislodgment System #Code 23|23]] [[Dislodgment System #Code 24|24]] [[Dislodgment System #Code 25|25]]
+| 0.1%
+|-
+| #11 - Parasite Block Break
+| [[Dislodgment System #Code 5|5]] [[Dislodgment System #Code 15|15]] [[Dislodgment System #Code 16|16]] [[Dislodgment System #Code 17|17]] [[Dislodgment System #Code 20|20]] [[Dislodgment System #Code 21|21]]  [[Dislodgment System #Code 22|22]] [[Dislodgment System #Code 23|23]] [[Dislodgment System #Code 24|24]] [[Dislodgment System #Code 25|25]]
+| 10%
+|-
+| #12 - Parasite Nexus Stage I Death
+| [[Dislodgment System #Code 1|1]] [[Dislodgment System #Code 5|5]] [[Dislodgment System #Code 6|6]] [[Dislodgment System #Code 7|7]] [[Dislodgment System #Code 9|9]] [[Dislodgment System #Code 10|10]] [[Dislodgment System #Code 13|13]] [[Dislodgment System #Code 17|17]] [[Dislodgment System #Code 20|20]] [[Dislodgment System #Code 21|21]]  [[Dislodgment System #Code 22|22]] [[Dislodgment System #Code 23|23]] [[Dislodgment System #Code 24|24]] [[Dislodgment System #Code 25|25]]
+| 5%
+|-
+| #13 - Parasite Nexus Stage II Death
+| [[Dislodgment System #Code 1|1]] [[Dislodgment System #Code 3|3]] [[Dislodgment System #Code 5|5]] [[Dislodgment System #Code 6|6]] [[Dislodgment System #Code 8|8]] [[Dislodgment System #Code 9|9]] [[Dislodgment System #Code 10|10]] [[Dislodgment System #Code 13|13]] [[Dislodgment System #Code 17|17]] [[Dislodgment System #Code 20|20]] [[Dislodgment System #Code 21|21]]  [[Dislodgment System #Code 22|22]] [[Dislodgment System #Code 23|23]] [[Dislodgment System #Code 24|24]] [[Dislodgment System #Code 25|25]]
+| 6%
+|-
+| #14 - Parasite Nexus Stage III Death
+| [[Dislodgment System #Code 0|0]] [[Dislodgment System #Code 1|1]] [[Dislodgment System #Code 3|3]] [[Dislodgment System #Code 4|4]] [[Dislodgment System #Code 5|5]] [[Dislodgment System #Code 10|10]] [[Dislodgment System #Code 12|12]] [[Dislodgment System #Code 13|13]] [[Dislodgment System #Code 17|17]] [[Dislodgment System #Code 20|20]] [[Dislodgment System #Code 21|21]]  [[Dislodgment System #Code 22|22]] [[Dislodgment System #Code 23|23]] [[Dislodgment System #Code 24|24]] [[Dislodgment System #Code 25|25]]
+| 7%
+|-
+| #15 - Parasite Nexus Stage IV Death
+| [[Dislodgment System #Code 1|1]] [[Dislodgment System #Code 2|2]] [[Dislodgment System #Code 3|3]] [[Dislodgment System #Code 4|4]] [[Dislodgment System #Code 5|5]] [[Dislodgment System #Code 10|10]] [[Dislodgment System #Code 12|12]] [[Dislodgment System #Code 13|13]] [[Dislodgment System #Code 14|14]] [[Dislodgment System #Code 17|17]] [[Dislodgment System #Code 20|20]] [[Dislodgment System #Code 21|21]]  [[Dislodgment System #Code 22|22]] [[Dislodgment System #Code 23|23]] [[Dislodgment System #Code 24|24]] [[Dislodgment System #Code 25|25]]
+| 10%
+|-
+| #16 - Purifier Block Tick
+| [[Dislodgment System #Code 0|0]] [[Dislodgment System #Code 1|1]] [[Dislodgment System #Code 2|2]] [[Dislodgment System #Code 3|3]]  [[Dislodgment System #Code 5|5]] [[Dislodgment System #Code 6|6]] [[Dislodgment System #Code 7|7]] [[Dislodgment System #Code 8|8]] [[Dislodgment System #Code 9|9]] [[Dislodgment System #Code 10|10]] [[Dislodgment System #Code 11|11]] [[Dislodgment System #Code 14|14]] [[Dislodgment System #Code 17|17]] [[Dislodgment System #Code 18|18]] [[Dislodgment System #Code 19|19]] [[Dislodgment System #Code 20|20]] [[Dislodgment System #Code 21|21]]  [[Dislodgment System #Code 22|22]] [[Dislodgment System #Code 23|23]] [[Dislodgment System #Code 24|24]] [[Dislodgment System #Code 25|25]]
+| 10%
+|-
+| #17 - Parasite Node Core Block Break
+| [[Dislodgment System #Code 4|4]] [[Dislodgment System #Code 5|5]] [[Dislodgment System #Code 10|10]] [[Dislodgment System #Code 12|12]] [[Dislodgment System #Code 13|13]] [[Dislodgment System #Code 14|14]] [[Dislodgment System #Code 17|17]] [[Dislodgment System #Code 20|20]] [[Dislodgment System #Code 21|21]]  [[Dislodgment System #Code 22|22]] [[Dislodgment System #Code 23|23]] [[Dislodgment System #Code 24|24]] [[Dislodgment System #Code 25|25]]
+| 100%
+|-
+| #18 - Parasite Colony Core Block Break
+| [[Dislodgment System #Code 4|4]] [[Dislodgment System #Code 5|5]] [[Dislodgment System #Code 10|10]] [[Dislodgment System #Code 12|12]] [[Dislodgment System #Code 13|13]] [[Dislodgment System #Code 14|14]] [[Dislodgment System #Code 17|17]] [[Dislodgment System #Code 20|20]] [[Dislodgment System #Code 21|21]]  [[Dislodgment System #Code 22|22]] [[Dislodgment System #Code 23|23]] [[Dislodgment System #Code 24|24]] [[Dislodgment System #Code 25|25]]
+| 100%
+|-
+|}
+
+== Codes and Effects ==
+''IMPORTANT: CODE LEVELS ARE RANDOMLY CHOSEN'' 
+
+=== Code 0 ===
+* COTH effect will ignore amplifier value and will trigger itself at max level.
+** Can be activated by Triggers #1, #10, #14, #16;
+** Costs 100 Evolution Points;
+** Lasts for 60 seconds;
+** Adds a Code cooldown of 240 seconds.
+*** Code Value is not important.
+* Sound File: N/A
+
+=== Code 1 ===
+* Spawns Parasites based on its level.
+** Can be activated by Triggers #12, #13, #14, #15, #16;
+** Costs 200 Evolution Points;
+** Lasts for 40 seconds;
+** Adds a Code cooldown of 240 seconds.
+*** Level 1 - Spawns Feral Parasites and needs 1 point;
+*** Level 2 - Spawns Primitive Parasites and needs 9 points;
+*** Level 3 - Spawns Adapted Parasites and needs 15 points;
+*** Level 4 - Spawns Pure Parasites and needs 21 points.
+* Sound File:
+[[File:Dislo 1.ogg]]
+
+=== Code 2 ===
+* Killing parasites will spawn stronger ones.
+** Can be activated by Triggers #10, #15, #16;
+** Costs 200 Evolution Points;
+** Lasts for 60 seconds;
+** Adds a Code cooldown of 200 seconds.
+** Killing a Parasite will add 5 points to the Code Level.
+*** Will start with 1 point.
+*** Code value are deaths required.
+*** Will spawn: [[Assimilated Enderman]] when point value is 1, [[Feral Enderman]] when point value is 50, and [[Warden]] when point value is 100.
+* Sound File:
+[[File:Dislo 2.ogg]]
+
+=== Code 3 ===
+* Parasites will be able to spawn with potion effects.
+** Can be activated by Triggers #4, #13, #14, #15, #16;
+** Costs 300 Evolution Points;
+** Lasts for 120 seconds;
+** Adds a Code cooldown of 200 seconds.
+*** Will start with 1 point.
+*** Code value is used as amplifier for the effect.
+*** The following effects can be received: Invisibility, Fire Resistance, Speed.
+* Sound File:
+[[File:Dislo 3.ogg]]
+
+=== Code 4 ===
+* Parasites will be able to spawn with more health/damage/armor.
+** Can be activated by Triggers #4, #13, #14, #15, #16;
+** Costs 1000 Evolution Points;
+** Lasts for 60 seconds;
+** Adds a Code cooldown of 300 seconds.
+*** Code value is used as multiplier.
+*** Will start with 2 points.
+* Sound File:
+[[File:Dislo 4.ogg]]
+
+=== Code 5 ===
+* Not yet added by the mod.
+* Sound File:
+[[File:Dislo 5.ogg]]
+
+=== Code 6 ===
+* Parasites will consume more item durability.
+** Can be activated by Triggers #4, #12, #13, #16;
+** Costs 100 Evolution Points;
+** Lasts for 120 seconds;
+** Adds a Code cooldown of 240 seconds.
+*** Will start with 2 points.
+*** Code value is used as multiplier.
+*** When attacking, main hand/off hand will receive extra durability consumption and when getting hit by parasites, armor will receive extra durability consumption.
+* Sound File:
+[[File:Dislo 6.ogg]]
+
+=== Code 7 ===
+* Parasites when killed, will heal nearby parasites.
+** Can be activated by Triggers #1, #3, #10, #12, #16;
+** Costs 500 Evolution Points;
+** Lasts for 40 seconds;
+** Adds a Code cooldown of 240 seconds.
+*** Will start with 100 points.
+*** Code value is used as the amount of HP that is healed.
+* Sound File:
+[[File:Dislo 7.ogg]]
+
+=== Code 8 ===
+* Parasites when killed, will damage all nearby non-Parasites.
+** Can be activated by Triggers #0, #5, #13, #16;
+** Costs 500 Evolution Points;
+** Lasts for 60 seconds;
+** Adds a Code cooldown of 300 seconds.
+*** Will start with 10 points.
+*** Code value is used as the amount of damage dealt.
+* Sound File:
+[[File:Dislo 8.ogg]]
+
+=== Code 9 ===
+* Parasites when killed, will drain food of nearby players.
+** Can be activated by Triggers #3, #12, #13, #16;
+** Costs 500 Evolution Points;
+** Lasts for 60 seconds;
+** Adds a Code cooldown of 300 seconds.
+*** Will start with 100 points.
+*** Code value is used as the amount drained.
+* Sound File:
+[[File:Dislo 9.ogg]]
+
+=== Code 10 ===
+* When killing infected versions, Parasites will spawn based on its level.
+** Can be activated by Triggers #0, #1, #2, #3, #4, #5, #10, #11, #12, #13, #14, #15, #16, #17, #18;
+** Costs 300 Evolution Points;
+** Lasts for 120 seconds;
+** Adds a Code cooldown of 360 seconds;
+** Chance to spawn a parasite is 50%.
+*** Level 1 - Spawns Primitive Parasites and needs 1 point;
+*** Level 2 - Spawns Adapted Parasites and needs 12 points;
+*** Level 3 - Spawns Pure Parasites and needs 21 points.
+* Sound File:
+[[File:Dislo 10.ogg]]
+
+=== Code 11 ===
+* Parasites will now be immune to negative potion effects.
+** Can be activated by Triggers #3, #4, #16;
+** Costs 100 Evolution Points;
+** Lasts for 60 seconds;
+** Adds a Code cooldown of 240 seconds;
+*** Code Value is not important.
+* Sound File:
+[[File:Dislo 11.ogg]]
+
+=== Code 12 ===
+* All non-parasite mobs will have their health drained.
+** Can be activated by Triggers #14, #15, #17, #18;
+** Costs 50000 Evolution Points;
+** Lasts for 3 seconds;
+** Adds a Code cooldown of 300 seconds;
+*** Will start with 10 points.
+*** Code value is used as the amount drained.
+* Sound File:
+[[File:Dislo 12.ogg]]
+
+=== Code 13 ===
+* All non-parasite mobs will have their hunger drained.
+** Can be activated by Triggers #12, #13, #14, #15, #16, #17, #18;
+** Costs 500 Evolution Points;
+** Lasts for 3 seconds;
+** Adds a Code cooldown of 300 seconds;
+*** Will start with 200 points.
+*** Code value is used as the amount drained.
+* Sound File:
+[[File:Dislo 13.ogg]]
+
+=== Code 14 ===
+* The [[Evolution Phases|Evolution Phase]] will use the next phase's spawn list.
+** Can be activated by Triggers #15, #16, #17, #18;
+** Costs 50000 Evolution Points;
+** Lasts for 30 seconds;
+** Adds a Code cooldown of 240 seconds;
+*** Will start with 1 point.
+*** Code value will add up to the current phase mob list.
+* Sound File: 
+[[File:Dislo 14.ogg]]
+
+=== Code 15 ===
+* All Parasites' growl noises are deafened.
+** Can be activated by Triggers #0, #4, #10, #11;
+** Costs 100 Evolution Points;
+** Lasts for 60 seconds;
+** Adds a Code cooldown of 240 seconds;
+*** Code value is not important.
+* Sound File: 
+[[File:Dislo 15.ogg]]
+
+=== Code 16 ===
+* All Parasites' walk noises are deafened.
+** Can be activated by Triggers #0, #5, #10, #11;
+** Costs 100 Evolution Points;
+** Lasts for 60 seconds;
+** Adds a Code cooldown of 240 seconds;
+*** Code value is not important.
+* Sound File: 
+[[File:Dislo 16.ogg]]
+
+=== Code 17 ===
+*  All Parasites will disable shields and turn food into [[Infected Flesh]].
+** Can be activated by Triggers #0, #1, #2, #3, #4, #5, #10, #11, #12, #13, #14, #15, #16, #17, #18;
+** Costs 180 Evolution Points;
+** Lasts for 400 seconds;
+** Adds a Code cooldown of 550 seconds;
+*** Code value is not important.
+* Sound File: 
+[[File:Dislo 17.ogg]]
+
+=== Code 18 ===
+* No Parasites will drop loot, nor XP.
+** Can be activated by Triggers #2, #10, #16;
+** Costs 100 Evolution Points;
+** Lasts for 60 seconds;
+** Adds a Code cooldown of 240 seconds;
+*** Code value is not important.
+* Sound File: 
+[[File:Dislo 18.ogg]]
+
+=== Code 19 ===
+* Parasite Killcount will increase overtime, based on the Code Value.
+** Can be activated by Triggers #1, #10, #16;
+** Costs 100 Evolution Points;
+** Lasts for 60 seconds;
+** Adds a Code cooldown of 240 seconds;
+*** Will start with 10 points;
+*** Code value is the amount it increases by.
+* Sound File: 
+[[File:Dislo 19.ogg]]
+
+=== Code 20 ===
+* Walking Heads/Moving Flesh/Remains/Incomplete Forms will get a new body.
+** Can be activated by Triggers #0, #1, #2, #3, #4, #5, #10, #11, #12, #13, #14, #15, #16, #17, #18;
+** Costs # Evolution Points;
+** Lasts for # seconds;
+** Adds a Code cooldown of # seconds;
+*** Code value is not important.
+         NOT IN THE CONFIG, FIND STATS SOMEWHERE ELSE
+* Sound File:
+[[File:Dislo 20.ogg]]
+
+=== Code 21 ===
+* Parasites will not be able to die, unless they are burning.
+** Can be activated by Triggers #0, #1, #2, #3, #4, #5, #10, #11, #12, #13, #14, #15, #16, #17, #18;
+** Costs 50000 Evolution Points;
+** Lasts for 60 seconds;
+** Adds a Code cooldown of 180 seconds;
+*** Code value is not important.
+* Sound File:
+[[File:Dislo 21.ogg]]
+
+=== Code 22 ===
+* Killing parasites will give you a potion effect that decreases damage dealt to a certain Parasite and the given effect depends on the last Parasite killed. Only one can be active at any given time.
+** Can be activated by Triggers #0, #1, #2, #3, #4, #5, #10, #11, #12, #13, #14, #15, #16, #17, #18;
+** Costs 100 Evolution Points;
+** Lasts for 300 seconds;
+** Adds a Code cooldown of 60 seconds;
+** As of now, there are 5 effects that can be applied:
+*** [[Primitive]] - Decreases damage dealt to Primitive Parasites;
+*** [[Adapted]] - Decreases damage dealt to Adapted Parasites;
+*** [[Pure]] - Decreases damage dealt to Pure Parasites;
+*** [[Feral]] - Decreases damage dealt to Feral Parasites;
+*** [[Nexus]] - Decreases damage dealt to Nexus Parasites.
+* Sound File: 
+[[File:Dislo 22.ogg]]
+
+=== Code 23 ===
+* Not yet added by the mod.
+* Sound File:
+[[File:Dislo 23.ogg]]
+
+=== Code 24 ===
+* Not yet added by the mod.
+* Sound File:
+[[File:Dislo 24.ogg]]
+
+=== Code 25 ===
+* When breaking Parasite-related blocks, Parasites will spawn based on its level.
+** Can be activated by Triggers #0, #1, #2, #3, #4, #5, #10, #11, #12, #13, #14, #15, #16, #17, #18;
+** Costs 10 Evolution Points;
+** Lasts for 10 seconds;
+** Adds a Code cooldown of 10 seconds;
+** Chance to spawn a parasite is 20%.
+*** Level 1 - Spawns Assimilated Parasites;
+*** Level 2 - Spawns Feral Parasites and needs 1 point;
+*** Level 3 - Spawns Primitive Parasites and needs 9 points;
+*** Level 4 - Spawns Adapted Parasites and needs 15 points;
+*** Level 5 - Spawns Pure Parasites and needs 21 points.
+* Sound File: 
+[[File:Dislo 25.ogg]]
+
+=== Code 26 ===
+* Not yet added by the mod.
+* Sound File: 
+[[File:Dislo 26.ogg]]
+
+=== Code 27 ===
+* Not yet added by the mod.
+* Sound File:
+[[File:Dislo 27.ogg]]
+
+=== Code 28 ===
+* Not yet added by the mod.
+* Sound File: 
+[[File:Dislo 28.ogg]]
+
+=== Code 29 ===
+* Not yet added by the mod.
+* Sound File:
+[[File:Dislo 29.ogg]]
+
+=== Code 30 ===
+* Not yet added by the mod.
+* Sound File:
+[[File:Dislo 30.ogg]]
+
+== ''[[Commands]]'' ==
+{{#lst:Commands|dislodgment}}
+
+[[Category:Systems]]

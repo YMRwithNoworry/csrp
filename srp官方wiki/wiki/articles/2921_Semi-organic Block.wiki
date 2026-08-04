@@ -1,0 +1,41 @@
+{{Stub}}
+{{Item Info
+|image1=Semi-organic Block.png
+|id=srparasites:semiorganic_block
+}}
+
+The '''Semi-organic block''' is a storage block made with 9 [[Semi-organic Ingot|Semi-organic Ingots]].  It will only drop itself when mined with a pickaxe.
+
+== ''Obtainment'' ==
+{{CraftingTable
+|r1_a1=Semi-organic Ingot
+|r1_a2=Semi-organic Ingot
+|r1_a3=Semi-organic Ingot
+|r1_b1=Semi-organic Ingot
+|r1_b2=Semi-organic Ingot
+|r1_b3=Semi-organic Ingot
+|r1_c1=Semi-organic Ingot
+|r1_c2=Semi-organic Ingot
+|r1_c3=Semi-organic Ingot
+|r1_output=Semi-organic Block
+}}
+
+== ''Usage'' ==
+{{CraftingTable
+|r1_b2=Semi-organic Block
+|r1_output=Semi-organic Ingot
+|r1_count=9
+|r3_a1=Semi-organic Ingot
+|r3_b1=Redstone Repeater
+|r3_c1=Semi-organic Ingot
+|r3_a2=Oak Planks
+|r3_b2=Node Lamp
+|r3_c2=Oak Planks
+|r3_a3=Semi-organic Block
+|r3_c3=Semi-organic Block
+|r3_b3=Oak Planks
+|r3_output=Relay Terminal
+}}
+
+{{BlockList}}
+[[Category:Blocks]]

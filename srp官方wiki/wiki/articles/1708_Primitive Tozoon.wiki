@@ -1,0 +1,105 @@
+{{Navbar|page1=Primitive Tozoon|page2=Adapted Tozoon}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|pritozoon}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=PrimitiveTozoon.png
+|hp=45.0
+|damage=15.0
+|armor=9.0
+|kb_resistance=0.7 
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:pri_tozoon 
+}}'''Primitive Tozoons''' are a type of [[Mobs]], placed into the [[Primitive Parasites|Primitive]] Tier.
+==''Spawning''==
+*Spawns after a successful merging between 4 [[Moving Flesh]], through the [[Evolution System]].
+*Spawned by [[Stage III Beckon|Stage III Beckons]].
+*Spawned by 4 [[:Category:Assimilated Mobs|Assimilated Mobs]] stored into a [[Stage III Dispatcher|Stage III]] or [[Stage IV Dispatcher|IV Dispatcher]].
+==''Behavior''==
+Primitive Tozoons are Fast-Burrowing Melee Combatants. They are able to burrow underground to ambush their prey, they are completely invulnerable while underground.
+
+* Primitive Tozoons' Melee Attack is performed through contact damage.
+* Primitive Tozoons are able to perform small leaps in liquids.
+* Primitive Tozoons are able to sink in liquids to pursue submerged targets.
+
+* They are able to teleport while underground, but the following conditions must be met:
+** There must be 3 blocks below its current position, and in the position where it will teleport to.
+** Those 3 blocks, in both positions, need to be full blocks.
+** The sum of the 3 blocks' [[hardness]] values must be less than 10.
+
+=== ''Weaknesses'' ===
+
+* Primitive Tozoons, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+* Primitive Tozoons, while moving underground, if coming in contact with Magma Blocks they will start to be hurt.
+{{Properties
+|tier=Primitive
+|OrbEffectsMobs=
+|Orbs=false}}{{Drops
+|rolls1=1 Roll
+|page1=Altered Tendons
+|amount1=1-2
+|chance1=40
+|page2=
+|amount2=
+|chance2=
+|rolls3=Always Rolls
+|page3=(Placeholder Tozoon Drop)
+|amount3=1
+|chance3=40
+|rolls4=|page4=Strange Bone|amount4=1|chance4=10}}
+
+==''Sounds''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Ada tozoon digging 1.ogg]]
+[[File:Ada tozoon digging 2.ogg]]
+[[File:Ada tozoon digging 3.ogg]]
+|Hostile
+|Plays when a Primitive Tozoon is digging.
+|X
+|prim_tozoon_digging_1-3
+|-
+|[[File:Adaptating_1.ogg]]
+[[File:Adaptating_2.ogg]]
+[[File:Adaptating_3.ogg]]
+|Hostile
+|Plays when a Parasite is adapting.
+|Parasite adapts
+|adaptating_1-3
+|-
+|[[File:Adapted_1.ogg]]
+[[File:Adapted_2.ogg]]
+[[File:Adapted_3.ogg]]
+|Hostile
+|Plays when a Parasite has adapted.
+|Parasite adapted
+|adapted_1-3
+|-
+|}
+
+==''Trivia''==
+
+* Tozoons are referred to internally as "Wymo".
+* The Primitive Tozoon has a unique spawn item compared to other Primitive Parasites, resembling the spawn item of Deterrents instead.
+
+==''Gallery''==
+<gallery>
+File:Primitive Tozoon Comparison.png|Size of the Primitive Tozoon's model.
+File:When when the.gif| A glitch involving the Primitive Tozoon's model being loaded while burrowing.
+File:Funny Glitch.gif|Ditto.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Mobs]]
+[[Category:Primitive Parasites]]

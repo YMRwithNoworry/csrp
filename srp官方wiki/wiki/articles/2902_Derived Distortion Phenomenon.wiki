@@ -1,0 +1,17 @@
+[[File:Derived distortion.png|thumb|108px|The [[Compendium]] icon.|link=Compendium]]
+The '''Derived Distortion Phenomenon''' is a visual effect that affects almost all text within the presence of a [[:Category:Derived Parasites|Derived]] parasite. It is disabled by default in Creative Mode and can be modified or monitored with the command, "'''/srpguidistortion <on:off:toggle:status> [player:all]'''" (using /srpguidist is also allowed in place of /srpguidistortion).
+
+==''Mechanics''==
+When a player is in a certain radius of a Derived parasite (default is 100 blocks), GUI text will distort and become corrupted, and other graphs will become unreadable and fluctuate.
+
+The affected GUI consists of:
+*The [[Compendium]]
+*All [[Module Reports]]
+*Sign text
+*Chat messages (not including system messages)
+*Item hotbar highlights and tooltips
+*Subtitles
+*Potion effect HUD in the inventory (not implemented as of now)
+
+Having [[The Sign]] effect will nullify this distortion.
+[[Category:Derived Parasites]]

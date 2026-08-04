@@ -1,0 +1,360 @@
+{{VersionBar|
+|page1=Version 1.9.1
+|page2=Version 1.9.3
+}}
+'''Version 1.9.2''' was an update for the Scape and Run: Parasites Mod, released on April 2nd 2022.  It was 9.12 MB.
+
+== ''Change Log'' ==
+
+==== <u>New</u> ====
+
+* Global Adaptation from [[Colony|Colonies]]
+*# A parasite must be within the range of effect in order to send a signal when killed
+*# The signal is the most common damage type it suffered
+*# If its killed with fire, it will never send a signal
+*# Destroying Colony cores will delete the recorded damage types
+*# New parasites spawned in the world will have already learned the damage type that Colonies receive the most
+
+* Potion effect: [[Heightened Senses]]
+*# Increases mob follow range
+
+* Potion effect: [[Prey]]
+
+* Block: [[Parasitic Cyst|Canister Active]]
+*# Will now consume collected blocks after some time and will spawn particle effect
+*# After this process is complete, it will become a non active canister cysth
+
+* Parasite: [[Crux]]
+* Parasite: [[Heed]]
+* Parasite: [[Assimilated Ender Dragon|Assimilated EnderDragon]]
+* Parasite: [[Primitive Devourer]] (No Adapted variant yet)
+* Entity: [[Scent System|Parasitic Scent]]
+* Weapons: [[Living Sword|Living]]/[[Sentient Greatsword|Sentient Sword]], [[Living Cleaver|Living]]/[[Sentient Greatcleaver|Sentient Cleaver]]
+* Block remain variant
+*[[Commands]]:
+*# "srpevolution toogle_evolutiongaining"
+*# "srpevolution toogle_evolutionloss"
+*# "srpcolonies viewallglobaladaptation"
+*# "srpcolonies resetglobaladaptation"
+
+* Items:
+*# [[Dried Tendons]]
+*# [[Hardened Bone Handle]]
+*# [[Infectious Blade Fragment]]
+*# [[Living Core]]
+*# [[Vile Shell]]
+*# [[Strange Bone]]
+* Sound effect for:
+*# Cutting off [[Adaptation System|tendrils]]
+*# Landing hit for bigger jumping parasites
+*# Growl, Hurt, Death sound for Marauder
+
+==== <u>Config</u> ====
+
+* "Mobs with new griefing task" tweaked max [[Hardness|hardness]] values:
+*# [[Adapted Parasites|Adapted versions]] fron 2 to 3 minus [[Adapted Bolster|Bolster]]
+*# [[Pure Parasites|Pure versions]] from 3 to 5 minus [[Grunt]]
+*# [[Ancient Parasites|Ancient versions]] from 5 to 9
+* "[[Reinforcement System]] [[Hardness]]" from 1.5 to 4.5
+* "Biome [[Hardness]]" from 1.7 to 5
+* "Mob Attacking blacklist" added "srmonstress"
+* "Greataxe Living Damage" renamed to "Axe Living Damage"
+* "Greataxe Sentient Damage" renamed to "Axe Sentient Damage
+* Removed the following options:
+*# "[[Fear]] Block Fail Chance"
+*# "Fear Item Fail Chance"
+*# "Fear Inventory Fail Chance"
+*# "Fear Item BlackList"
+*# "Fear Item BlackList Inverted"
+*# "[[Stage III Beckon]] Ancient Chance"<ref>Previously, killing a [[Stage III Beckon]] had a 15% chance of spawning an [[:Category:Ancient Parasites|Ancient Parasite]].</ref>
+*# "Scythe Durability"
+*# "Greatbow Durability"
+*# "Greatbow Sentient Durability"
+
+* New options:
+*# Added "parasite_collective_consciousness" category
+*# "Version Pure Despawn"
+*# "Version X Minimum Damage"
+*# "Version X Regen"
+*# "Fire Adaptation Window"
+*# "Assimilated Enderman Teleport Parasites"
+*# "Assimilated Enderman Teleport Frequency"
+*# "Mob Attacking Friendly"
+*# "Mod Easter Eggs"
+*# "Beckon Stage IV Cap Upgrade"
+*# "Collective Consciousness"
+*# "Follow Range Cap"
+*# "CC Player Only"
+*# "Phase X Delay"
+*# "Evolution Parasite Lock List"
+*# "Colonies Total Points Cap"
+*# "Colonies Spread Effect Point"
+*# "Colonies Spread Effect Value"
+*# "Colonies Base Effect Radius Value"
+*# "Reinforcement System Maximum Beckon Chunk"
+*# "Mobs Additional Weakness"
+*# "Default Phase Start"
+*# "Living Weapons Durability"
+*# "Mod Weapons Second Texture"
+
+==== <u>Fixes</u> ====
+
+* Crash: 
+<div class="mw-collapsible mw-collapsed" data-expandtext="Show crash" data-collapsetext="Hide crash">
+
+java.lang.IndexOutOfBoundsException: Index: 0, Size: 0
+
+at java.util.ArrayList.rangeCheck(ArrayList.java:653)
+
+at java.util.ArrayList.remove(ArrayList.java:492)
+
+at com.dhanantry.scapeandrunparasites.entity.ai.EntityPMalleable.cutResistances(EntityPMalleable.java:222)
+</div>
+
+* Crash:  
+<div class="mw-collapsible mw-collapsed" data-expandtext="Show crash" data-collapsetext="Hide crash">
+
+java.lang.IllegalArgumentException: bound must be positive
+
+at java.util.Random.nextInt(Unknown Source)
+
+at com.dhanantry.scapeandrunparasites.entity.ai.EntityPVenkrol.setGT(EntityPVenkrol.java:75)
+</div>
+
+* Crash:  
+<div class="mw-collapsible mw-collapsed" data-expandtext="Show crash" data-collapsetext="Hide crash">
+
+Description: Ticking entity
+
+java.lang.ClassCastException: com.dhanantry.scapeandrunparasites.entity.monster.inborn.EntityRathol cannot be cast to com.dhanantry.scapeandrunparasites.entity.ai.EntityPInfected
+
+at com.dhanantry.scapeandrunparasites.util.ParasiteEventEntity.convertEntity(ParasiteEventEntity.java:744)
+
+at com.dhanantry.scapeandrunparasites.entity.monster.inborn.EntityMudo.onKillEntity(EntityMudo.java:164)
+</div>
+
+* Error message:  
+<div class="mw-collapsible mw-collapsed" data-expandtext="Show crash" data-collapsetext="Hide crash">
+
+Error executing task
+
+java.util.concurrent.ExecutionException: java.lang.NumberFormatException: For input string: ""
+
+at java.util.concurrent.FutureTask.report(Unknown Source) ~[?:1.8.0_301]
+
+at java.util.concurrent.FutureTask.get(Unknown Source) ~[?:1.8.0_301]
+
+at net.minecraft.util.Util.runTask(Util.java:54) [Util.class:?]
+
+at net.minecraft.server.MinecraftServer.updateTimeLightAndEntities(MinecraftServer.java:798) [MinecraftServer.class:?]
+
+at net.minecraft.server.MinecraftServer.tick(MinecraftServer.java:743) [MinecraftServer.class:?]
+
+at net.minecraft.server.integrated.IntegratedServer.tick(IntegratedServer.java:192) [IntegratedServer.class:?]
+
+at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:592) [MinecraftServer.class:?]
+
+at java.lang.Thread.run(Unknown Source) [?:1.8.0_301]
+
+Caused by: java.lang.NumberFormatException: For input string: ""
+
+at java.lang.NumberFormatException.forInputString(Unknown Source) ~[?:1.8.0_301]
+
+at java.lang.Integer.parseInt(Unknown Source) ~[?:1.8.0_301]
+
+at java.lang.Integer.parseInt(Unknown Source) ~[?:1.8.0_301]
+
+at com.dhanantry.scapeandrunparasites.entity.ai.EntityAIVenkrolGrow.<init>(EntityAIVenkrolGrow.java:40) ~[EntityAIVenkrolGrow.class:?]
+
+at com.dhanantry.scapeandrunparasites.entity.monster.deterrent.EntityVenkrol.initEntityAI(EntityVenkrol.java:66) ~[EntityVenkrol.class:?]
+</div>
+
+* [[Heavy Carrier]] texture map
+* [[Overlord|Ancient Overlord]] being called terla in the config file
+* [[Worker|Workers]] spawning when no [[Colony]] is near
+* [[Host]] spawning air block particles
+* [[Primitive Summoner|Primitive]] and [[Adapted Summoner|Adapted Summoners]] spawning [[biomass]] inside solid blocks
+* Jump damage, range not working for jumping parasites
+* Parasites inflicting [[Fear]] when they cant see you
+* Fixed player being able to use commands (need creative mode now)
+* Gore Blocks replacing doors, fences, redstone
+* Armor animation for [[Assimilated Adventurer]] not doing the right animation
+* Config options not changing [[Heavy Carrier]] attributes
+* If AI is disabled [[Host]] will not spawn [[Rupter|Rupters]]
+* Congig option "Worker Enabled" not working
+
+* Added tooltips to the following items (credit: LoneGuy):
+*# [[Infected Flesh]]
+*# [[Diseased Heart|Smelly Piece]]
+*# [[Rupter Viscera|Fragile Piece]]
+*# [[Altered Tendons|Putrid Unit]]
+*# [[Toxic Lung|Fetid Unit]]
+*# [[Noxious Brain|Moldered Segment]]
+*# [[Longarms Armor Fragment]]
+*# [[Summoner Core]]
+*# [[Reeker Fang]]
+*# [[Yelloweye Bone]]
+*# [[Manducater Orb]]
+*# [[Living Scythe]]
+*# [[Living Bow]]
+
+==== <u>Changes</u> ====
+
+* [[Beckon (Disambiguation)|Infested stone]] will generate bushes when placed by Beckons
+* Parasites will not break [[Parasite Biome #Node|Node]] Blocks
+* Tweaked spawning particles from Packet
+* [[Rage]] potion will now reduce ability cooldown on parasites
+* Reduced time to place remains from gore entities
+* Improved building generation for Colonies (WIP)
+* Improved building placement for Colonies (WIP)
+* Using [[NULL]] item on a Parasite will print out current list of [[Adaptation System|adaptation]]
+* Renamed [[:Category:Drops#Lures'_Compoments|lure components]]
+* New recipe for [[:Category:Weapons#Living Weapons|Living Weapons]]
+* Using the command "srpevolution get_phase" will now show you values for "srpevolutiongaining" and "srpevolutionloss"
+
+* Removed the following items:
+*# Scythe Handle
+*# Scythe Blade
+*# Scythe Back
+*# Scythe Core
+*# Scythe Head
+*# Bow Grip
+*# Bow Lower limb
+*# Bow Uper Limb
+*# Bow String
+*# Bow Core
+
+* Changed the following Item textures:
+*# [[Longarms Armor Fragment|Adapted Longarms drop]]
+*# [[Manducater Orb|Adapted Manducater drop]]
+*# [[Reeker Fang|Adapted Reeker drop]]
+*# [[Summoner Core|Adapted Summoner drop]]
+*# [[Yelloweye Bone|Adapted Yelloweye drop]]
+*# [[Rupter Viscera|Lure component 1]]
+*# [[Diseased Heart|Lure component 2]]
+*# [[Altered Tendons|Lure component 3]]
+*# [[Toxic Lung|Lure component 4]]
+*# [[Noxious Brain|Lure component 5]]
+*# [[Essential Segment|Lure component 6]]
+*# [[Sentient Greatscythe]]
+*# [[Sentient Greataxe]]
+
+* Changed the following Block Textures:
+*# Feeler
+*# Colony wall
+*# Bone
+*# Vine
+
+===== <u>Translations</u> =====
+* Updated russian translation by @@Sansrriorar, some corrections by @Globglogabgalab🇺🇦
+* Dutch Translation made by @oreo69420
+* Romanian translation made by @Harbinger
+* Updated Italian Translation made by @LoneFrog
+* Pirate English translation by @Sansrriorar
+* Pt_br translation by @Mr Obvious and @Primitive Seph
+* Chinese translation by @CFPAOrg
+* LOLCAT translation by @LazyKitch and @DanieloXXelo
+* turkish translation by @creesader
+* Polished Polish translation made by @DanieloXXelo and @Akacz13, polished by @DanieloXXelo
+* Shakespearean translation made by @ancient parasite cultist
+
+==== <u>Mobs</u> ====
+
+* New texture for [[Heavy Carrier]]
+* New texture for [[Flying Carrier]]
+* [[Beckon (Disambiguation)|Beckon]] growtime will be reduced when spawning biomass regardless of phase
+* Added mouth animation for:
+*# [[Adapted Bolster]]
+*# [[Adapted Arachnida]]
+*# [[Primitive Arachnida]]
+
+* Parasites can now attack Ghasts
+* Changed mob turning red when taking damage if adaptation is in place:
+** If Yellow<ref>This was later changed to green.</ref>, all damage is being reduced
+** If purple, damage type is fully learned and mob might be immune to it
+* [[Primitive Manducater|Primitive]] and [[Adapted Manducater|Adapted Manducaters]] will move slowly while they have invisibility
+* Added 4 seconds cooldown for Flying meele parasites
+* Tweaked [[Primitive Arachnida|Primitive]] and [[Adapted Arachnida]] pulling other mobs
+* [[Ancient Parasites|Ancient]], [[Adapted Parasites|Adapted]], [[Pure Parasites|Pure]], [[Primitive Parasites|Primitive]] versions will heal over time if not in combat
+* [[Assimilated Enderman]] will not melt to fuse with other parasites
+* Tweaked Assimilated Enderman running animation
+* Tweaked Assimilated Enderman teleporting of allies logic
+*# Before: if teleporting an ally is a success, teleport itself
+*# After: if teleporting itself is a success, teleport an ally
+
+* Tweaked [[Host]] burrow logic
+* Host now is immune to "inWall" damage source
+* Increased [[Viral]] duration from Host bombs and Carriers
+* Added attack animation for Host
+* Ancient, Adapted, Pure, Primitive versions and [[Rupter|Rupters]] are more resistance to fall Damage
+* Tweaked [[Primitive Summoner|Primitive]] and [[Adapted Summoner]] summoning logic
+* [[:Category:Primitive Parasites|Primitive]] and higher version parasites will now try to get out of lava
+* Reduced cooldown for [[Marauder]] jump and inreased jump AOE
+* Increased jump AOE for [[Warden]] jump
+* [[Heavy Carrier]] now spawn a EntityToxicCloud instead of EntityAreaEffectCloud
+* Warden adaptation damage reduction capped at 95%
+* All mobs spawned from [[Biomass|biomass]] will have [[Rage]] effect
+* Primitive and [[:Category:Adapted Parasites|Adapted]] version will now do a small leap in combat
+* Charge attack damage will be the same as the caster
+* Parasites will now try to break blocks while doing their charge attack if possible
+* Reduced cooldown for Reeker charge attack
+* Now parasites will try to break blocks if taking IN_WALL damage type
+* Jumping parasites will now try to break blocks when in the air
+* If AI is disabled [[Host]] will not be buried
+* Tweaked parasite pathfinding logic for those with longer melee range (they will stop moving towards their target it they are in range of attack)
+* New attack for Marauder; AOE smash
+*# It will attack with its tentacles around without moving and will apply Rage to nearby parasites
+
+* Tweaked parasite leap in water logic
+* Tweaked [[Rupter]], walking head, Warden, Marauder leap logic
+* Tweaked block griefing task logic
+* Parasites with Block Griefing task will now place Block Canister Active Blocks, which will store nearby items no reduce lag
+* The following parasites will climb walls:
+*# Marauder
+*# Warden
+*# [[Grunt]] (in need of tweaks)
+*# [[Adapted Longarms]]
+*# [[Adapted Arachnida]]
+*# [[Primitive Arachnida]]<br />
+
+==== <u>[[Scent System|Scent Logic]] (Experimental)</u> ====
+To explain how it works I first need you to know some of its <u>Tasks</u> and <u>Values</u>:
+
+* <u>Danger Value</u>:
+*# This will go up when a parasite dies within range and as this goes up, the table of mobs to spawn will change
+*# If Evolution Phases is on, each time a scent is placed it will have a bonus per phase
+*# Some parasites can increase more faster this value when they die
+* <u>Reaction Value</u>:
+*# This will also go up when a parasite dies within range and this will trigger the placement of waves.
+
+* <u>Task A</u>:
+*# The scent will check the <u>reaction value</u> until it reaches a threshold
+*# If that threshold is met, it will go into <u>Tactical Mode</u> (This will reset the <u>reaction value</u>)
+* <u>Task B</u>:
+*# If a non-parasite mob is within range, the <u>reaction value</u> will increase
+* <u>Task C</u>:
+*# The scent will check the <u>reaction value</u> until it reaches a threshold
+*# If that threshold is met, it will go into <u>Attacker Mode</u> (This will lower the <u>reaction value</u>)
+*# If the current target is alive, the <u>reaction value</u> will increase (it will decrease if its dead)
+*# If <u>reaction value</u> reaches 0, the scent will go into <u>Observer Mode</u>
+* <u>Task D</u>:
+*# The Scent will try to relocate nearby parasites if avaiable
+*# If there are not enough parasites that can be relocated, it goes into <u>Builder Mode</u>.
+*# After this is done, this will go into <u>Tactical Mode</u>
+* <u>Task E</u>:
+*# The scent will try to spawn other scents within a range of its intended target
+*# Spawned scents will be in <u>Aggressive Mode</u>
+* <u>Task F</u>:
+*# This will spawn mobs from a list and then this will be set to dead
+
+With this in mind I can now talk more about its <u>Modes</u>:
+
+* <u>Listener Mode</u>: Will only work Task A
+* <u>Observer Mode</u>: Will work Task A, B
+* <u>Tactical Mode</u>: Will work Task C
+* <u>Attacker Mode</u>: Will work Task D
+* <u>Builder Mode</u>: Will work Task E
+* <u>Aggressive Mode</u>: Will work Task F<br />
+
+{{VersionList}}
+[[Category:Versions]]

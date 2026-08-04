@@ -1,0 +1,34 @@
+'''Remains''' are a unique type of block added by the Mod.
+
+Released by all [[:Category:Assimilated Mobs|Assimilated Mobs]], [[:Category:Feral Parasites|Feral Parasites]], [[:Category:Primitive Parasites|Primitive Parasites]], [[Thrall|Thralls]], [[:Category:Adapted Parasites|Adapted Parasites]], [[:Category:Pure Parasites|Pure Parasites]] and [[Assimara Parasites|Assimara Parasites]] when they explode, at death. Parasites will not always explode when they die.
+
+Remains come in 3 different sizes: Large, Medium, and Small.
+
+Remains come in different types, depending on the Tier of the Mob that left them. The higher tier the parasite the larger radius and quantity of Medium and Small Remains.
+
+Thralls will explode into Primitive Remains. Dredges explode into Primitive and Feral Remains.
+
+[[Succor|Succors]] also explode into Pure Remains, but upon the Remain entity hitting the ground it will place down [[Residue]] instead of Pure Remain blocks.
+
+Remains have a timer when they can disappear based on random tick speed.
+
+==''Functioning''==
+After a Mob explodes and leave Remains, after several minutes, the medium and small Remains will disappear, but the Large Remain piece will stay permanently until destroyed. They can be washed away with water. 
+
+Being in contact with the Large Remain block inflicts the [[Call Of The Hive|COTH]] Debuff for 3 minutes.
+
+Both [[Primitive Summoner|Primitive]] and [[Adapted Summoner|Adapted Summoners]] are capable of reviving the parasite which died and released the remains as long as the large remain is present.
+
+==''Gallery''==
+<gallery>
+File:Assimilated Remains.png|Assimilated Remains.
+File:Primitive Remains.png|Primitive  Remains.
+File:Adapted Remains.png|Adapted Remains.
+File:Pure Remains.png|Pure Remains.
+File:Assimilated Remains.png|Feral Remains. Probably a placeholder texture.
+File:Assimilated Remains.png|Assimara Remains. Probably a placeholder texture.
+</gallery>
+
+<references />
+{{BlockList}}
+[[Category:Blocks]]

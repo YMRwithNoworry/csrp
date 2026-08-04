@@ -1,0 +1,81 @@
+{{Mob_Info
+|image1=Meteor.png
+|type=Event|Structure
+|id=srparasites:meteor
+}}
+
+The '''Meteor''' is a living unclassified being which crashes into the Minecraft world. It is implied to be the origin of the infection.
+
+If enabled in the SRP world options it will be able to spawn at day zero, making an attempt to spawn every three minutes with a 50% chance to succeed at each check.
+
+At the meteor event, the screen will darken and shake, following this the meteor will spawn. It tears apart while falling, releasing smaller versions of itself that, if making contact with a surface, will explode into fire and leave Compressed Hivestone structures. The impact will devastate an area of 32 blocks, and leave debris up to 68 blocks away, although the pieces that the meteor releases while falling might reach much further as they're given a random angle at spawn. The impact kills any entity in a 180-block radius. 
+
+Additionally, when landing the meteor will place an [[Emerging Infestation Vector]]. Another Meteor will not fall if a Vector is present.
+
+Any entities within an 800-block radius will have a 50% chance to spawn with [[Call Of The Hive]].
+
+==''Structure''== 
+
+The cover, or skin layer of the sphere is made out of [[Biome Blocks|Visceral Mud]], [[Biome Blocks|Hivestone]] and [[Biome Blocks|Cooked Flesh]], being the skin of the creature. At the top of the sphere, you will encounter the primary entrance, the mouth, which leads to a path extending the whole sphere, although it doesn't connect with the other chambers. In addition, there are also tendrils primarily made out of Flesh Chunk blocks coming out of the main body, which serve as secondary entrances as they're a few blocks apart from their respective chamber.
+
+The Meteorite structure proves to be incredibly useful by having [[Alveoli Block|Alveoli Blocks]], [[Dermoid Cyst|Dermoid Cysts]] and most useful of all, 14 [[Parasitic Growth Block|Parasite Loot Blocks]].
+
+This structure does have minor hazards, including [[Dead Blood]] (that more often than not, spawns on top of the Parasite Loot Blocks) which deals rapid chip damage and [[Maw|Maws]] which rapidly deal half a heart, inflict [[Corrosion]] for 5 seconds, and stacking [[Viral]] for 10 seconds, although you should have no problem as long as you watch your step. 
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''ID'''
+|-
+|[[File:vector_creation.ogg]]
+|Hostile
+|Plays when the meteor spawns.
+|vector_creation
+|-
+|}
+
+==''Loot Tables''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+! colspan="3" |'''The chances for each [[Parasitic Growth Block]] to generate'''
+|-
+!'''Tier'''
+!'''Location'''
+!'''Weights''' 
+|-
+|Iron
+|You may find 5 of them exposed along the main path and the bigger, main sealed-off chamber. There are 4 more of them next to other higher tier growths.
+|1/11 Rare, if not 1/5 Uncommon or else it defaults to Common. (9%, 16.2%, 74.8%)
+|-
+|Gold
+|You may find two of them in a sealed-off chamber directly below the first room with the three growths. There is another one following the Dead Blood liquid at the exit.
+|1/8 Rare, if not 1/4 Uncommon, if not it defaults to Common. (12.5%, 21.87%, 65.63%)
+|-
+|Diamond
+|It is in a sealed-off chamber<ref>Refer to the 'Incomplete Diamond Path' image in the Gallery.</ref> below Bronchial Tubes.
+|1/5 Rare, if not 1/3 Uncommon, if not it defaults to Common. (20%, 26.66%, 53.3%)
+|}
+
+== ''Trivia'' ==
+* Do note that the meteor spawning mechanic takes into account the time that the world has run in ticks, and not the day number.
+* There used to be a glass formation above what seems to be a deprecated main entrance, before 1.10.2, aswell as various iron, gold and diamond blocks. It could have had some suspicious implications, possibly hinting that this was an overtaken ship. Although this is very unlikely now that they removed it. The glass was also very likely to be a praise that glass is a [https://en.wikipedia.org/wiki/Chemically_inert chemically inert] material.
+* There's about 85% that at least one [[Parasitic Growth Block|Metastatic Mass]] spawns.
+*You can disconnect-glitch a few seconds before impact to avoid certain death!
+*Although the [[Parasitic Growth Block|Parasite Loot Blocks]] are useful on their own, the Diamond Block was very much appreciated and will be missed.
+* The meteor can be spawned with the command ''/srparasites spawnmeteor'' regardless of if it is enabled upon world creation.
+** It is also spawnable via the /summon command, but it will only sit in the place it was summoned, shake the screen for a while and break off into more pieces, and eventually create the structure below itself.
+
+== ''Gallery'' ==
+<gallery>
+File:Incomplete diamond path.png|Hint to the path of the diamond block.
+File:Night Meteor.png|Similar in appearance to the [[Heavy Bomber]].
+File:Suspicious.png
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Crude Parasites]]
+[[Category:Mobs]]

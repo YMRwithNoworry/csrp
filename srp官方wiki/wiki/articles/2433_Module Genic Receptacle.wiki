@@ -1,0 +1,92 @@
+'''Module Genic Receptacles''' are items added in [[Version 1.10.0]] of SRP. It is solely used to craft [[Modules]].
+{{Item Info
+|title1=Module Genic Receptacle
+|image1=Module Genic Receptacle.png
+|type=Item
+|stackable=No
+|tooltip=An essential crafting component in both relay and module assembly.
+|id=srparasites:module_base}}
+
+== ''Obtainment'' ==
+A Module Genic Receptacle can be crafted using four [[Module Tissue Spike|Module Tissue Spikes]], a [[Module Organ Synth]], and four of any Glass.
+{{CraftingTable
+|r1_a1=Glass
+|r1_a2=Module Tissue Spike
+|r1_a3=Glass
+|r1_b1=Module Tissue Spike
+|r1_b2=Module Organ Synth
+|r1_b3=Module Tissue Spike
+|r1_c1=Glass
+|r1_c2=Module Tissue Spike
+|r1_c3=Glass
+|r1_output=Module Genic Receptacle
+|r1_count=1
+}}
+
+==''Usage''==
+===''Regular Modules''===
+{{CraftingTable|r1_b1=Rupter Viscera|r1_a2=Rupter Viscera|r1_b2=Module Genic Receptacle|r1_c2=Rupter Viscera|r1_b3=Rupter Viscera|r1_output=Inborn Module|r1_count=1
+
+|r2_b1=Diseased Heart|r2_a2=Infected Flesh|r2_b2=Module Genic Receptacle|r2_c2=Infected Flesh|r2_b3=Diseased Heart|r2_output=Assimilated Module|r2_count=1
+
+|r3_b1=Hijacked Growth|r3_a2=Hijacked Iron Ingot|r3_b2=Module Genic Receptacle|r3_c2=Hijacked Iron Ingot|r3_b3=Hijacked Growth|r3_output=Hijacked Module|r3_count=1
+
+|r4_b1=Altered Tendons|r4_a2=Altered Tendons|r4_b2=Module Genic Receptacle|r4_c2=Altered Tendons|r4_b3=Altered Tendons|r4_output=Primitive Module|r4_count=1
+
+|r5_b1=Bolster Husk|r5_a2=Devourer Tentacle|r5_b2=Module Genic Receptacle|r5_c2=Arachnida Claw|r5_b3=Longarms Armor Fragment|r5_output=Adapted Module|r5_count=1
+
+|r6_b1=Beckon Membrane|r6_a2=Dispatcher Membrane|r6_b2=Module Genic Receptacle|r6_c2=Dispatcher Membrane|r6_b3=Beckon Membrane|r6_output=Nexus Module|r6_count=1
+
+|r7_b1=Hivesoil|r7_a2=Diseased Heart|r7_b2=Module Genic Receptacle|r7_c2=Diseased Heart|r7_b3=Hivesoil|r7_output=Deterrent Module|r7_count=1
+
+|r8_b1=Noxious Brain|r8_a2=Toxic Lung|r8_b2=Module Genic Receptacle|r8_c2=Toxic Lung|r8_b3=Noxious Brain|r8_output=Pure Module|r8_count=1
+
+|r9_b1=Living Core|r9_a2=Twisted Spinal Signal|r9_count=1|r9_output=Preeminent Module|r9_b3=Twisted Spinal Signal|r9_c2=Twisted Spinal Signal|r9_b2=Module Genic Receptacle
+
+|r10_b1=Twisted Spinal Signal|r10_a2=Twisted Spinal Signal|r10_b2=Module Genic Receptacle|r10_c2=Twisted Spinal Signal|r10_b3=Twisted Spinal Signal|r10_output=Ancient Module|r10_count=1
+
+|r11_a1=Desmoid Module|r11_b1=Iron Ingot|r11_c1=Eschar Module|r11_a2=Iron Ingot|r11_b2=Module Genic Receptacle|r11_c2=Iron Ingot|r11_a3=Resistance Module|r11_b3=Iron Ingot|r11_c3=Ideal Module|r11_output=Origin Module|r11_count=1}}
+
+===''System Modules''===
+{{CraftingTable
+|collapse=true
+|r1={{CraftingTableRecipe
+|a1=Semi-organic Ingot
+|b1=Dead Blood Fluid
+|c1=Semi-organic Ingot
+|a2=Twisted Spinal Signal
+|b2=Module Genic Receptacle
+|c2=Hive Scrap
+|a3=Doomsday Clock
+|b3=Semi-organic Ingot
+|c3=Level Clock
+|output=Phase Module}}
+
+|r2={{CraftingTableRecipe
+|a1=Altered Tendons
+|b1=Dispatcher Membrane
+|c1=Altered Tendons
+|a2=Dispatcher Membrane
+|b2=Module Genic Receptacle
+|c2=Dispatcher Membrane
+|a3=Gold Ingot
+|b3=Node Lamp
+|c3=Gold Ingot
+|output=Vector Module}}
+
+|r3={{CraftingTableRecipe
+|a1=Hive Scrap
+|b1=Chipped Motherly Membrane
+|c1=Hive Scrap
+|a2=Chipped Motherly Membrane
+|b2=Module Genic Receptacle
+|c2=Chipped Motherly Membrane
+|a3=Hive Scrap
+|b3=Chipped Motherly Membrane
+|c3=Hive Scrap
+|output=Dislodgement Module}}
+}}
+
+
+{{ItemList}}
+[[Category:Items]]

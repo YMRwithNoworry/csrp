@@ -1,0 +1,35 @@
+{{TierBar}}
+
+'''Hijacked Mobs''' are the Assimilated variants of vanilla mobs that are normally immune to [[Call Of The Hive]], which have been infected directly by [[Gnat|Gnats]]. [[Mobs|Hijacked Mobs]] are roughly equivalent to [[:Category:Assimilated Mobs|Assimilated Mobs]].
+
+==''Hijacked Mobs''==
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+Hijacked Golem.png|[[Hijacked Golem]]
+Hijacked Blaze.png|[[Hijacked Blaze]]
+Hijacked Skeleton.png|[[Hijacked Skeleton]]
+</gallery>
+</div>
+
+==''Spawning''==
+*Spawned after a Sane mob immune to COTH with less than 50% health remaining is damaged by a [[Gnat]].
+==''Features''==
+*Hijacked Mobs' melee attacks will inflict Call Of The Hive I.
+*Hijacked Mobs will obtain the Regeneration Effect after killing an entity. The Effect lasts enough to regenerate 1 HP.
+*Hijacked Mobs are capable of performing small leaps in liquids.
+*Hijacked Mobs are capable of pouncing in order to reach their targets.
+===''Weaknesses''===
+Like all Parasites, Hijacked Mobs present a weakness to fire (damage inflicted by fire is quadrupled).
+
+{{Properties|tier=Assimilated}}
+==''Survival Guides''==
+To be added...
+
+==''Lore''==
+Gnats are not able to exactly "infect" the host. Instead, it hijacks the way they work. Gnats do not become a part of the mob, but control it like a puppet. 
+
+==''Trivia''==  
+*The Hijacked Blaze is the only parasite immune to fire.
+[[Category:Mobs]]
+
+<references />

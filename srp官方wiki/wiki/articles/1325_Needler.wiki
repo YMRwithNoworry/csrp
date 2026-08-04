@@ -1,0 +1,31 @@
+{{Effect Info
+|image1=Needler.png
+|sources=See [[#Obtainment|Obtainment]]
+|type=Debuff
+|id=srparasites:needler
+}}
+'''Needler''' is a [[Effects|Potion Effect]] introduced by the Mod. This Effect does nothing on its own, '''''however''''', if it reaches amplifier 7 (Needler VIII), then 40% of the entity's total health will be dealt as damage to them. The entity will also produce an explosion, but this will not kill them. T''he effect always stacks, so if you get both Needler IV and Needler V within 30 seconds, you will be given Needler IX.''
+
+Needler can not deal more than one billion damage.
+
+Needler cannot be removed by drinking Milk.
+
+== ''Obtainment'' ==
+[[Orb|Orbs]] from [[Adapted Parasites]], [[Pure Parasites]], and [[Succor|Succors]] can apply Needler.
+
+[[Overseer]] can inflict Needler from its projectiles.
+
+The Needler effect potency always stacks.
+{{Effect Causes
+|cause1=Orbs from [[Adapted Parasites#Orbs|Adapted Parasites]]
+|duration1=0:30
+|potency1=III
+|cause2=Orbs from [[Pure Parasites#Orbs|Pure Parasites]]
+|duration2=0:30
+|potency2=IV
+|cause3=Orbs from [[Succor#Orbs|Succors]]
+|duration3=0:30
+|potency3=V
+|cause4=[[Overseer|Overseer]] Projectile|potency4=I|duration4=0:15}}
+{{EffectList}}
+[[Category:Effects]]

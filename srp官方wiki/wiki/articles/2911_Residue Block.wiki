@@ -1,0 +1,34 @@
+{{Stub}}
+{{Item Info
+|image1=Residue Block.png
+|id=srparasites:residue_block
+}}
+
+The '''Residue Block''' is a stone-like block crafted with 4 [[Infested Residue]], or generated when using [[Infested Bonemeal]] over farmland.  It will only drop itself when mined with a pickaxe.
+
+== ''Obtainment'' ==
+{{CraftingTable
+|r1_a1=Infested Residue
+|r1_a2=Infested Residue
+|r1_b1=Infested Residue
+|r1_b2=Infested Residue
+|r1_output=Residue Block
+}}
+
+== ''Usage'' ==
+
+
+{{CraftingTable
+|r1_a1=Residue Block
+|r1_a2=Residue Block
+|r1_b1=Residue Block
+|r1_b2=Residue Block
+|r1_output=Residue Bricks
+|r1_nolink=true
+}}
+
+
+[[Residue Bloomings]] will grow on this block naturally, possibly on random tick, on any side of the block.  Currently, this is the only way to obtain them.
+
+{{BlockList}}
+[[Category:Blocks]]

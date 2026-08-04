@@ -1,0 +1,21 @@
+{{Stub}}
+{{Effect Info
+|title1=Indeaf
+|image1=Indeaf.png
+|sources=See [[#Obtainment|Obtainment]]
+|type=Debuff
+|id=srparasites:indeaf}}
+
+'''Indeaf''' is a [[Effects|Potion Effect]] added in v1.10.0 of SRP. While active, movement inputs (forward/back/jump) are forcibly disabled and horizontal motion is continually cancelled, effectively rooting the host in place.
+
+Indeaf does not stack.
+
+== ''Obtainment'' ==
+{{Effect Causes
+|cause1=[[Kirin|Kirin's]] Ray
+|potency1=I
+|duration1=0:07
+}}
+
+{{EffectList}}
+[[Category:Effects]]

@@ -1,0 +1,73 @@
+{{Stub}}
+{{Navbar|page1=Stage I Rooter|page2=Stage II Rooter|page3=Stage III Rooter|page4=Stage IV Rooter}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|rootersiii}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Nexus Info
+|image1=Stage 3 Rooter.png
+|armor=21.0
+|growtime=240-300 sec [min-max]
+|hp=150.0
+|OTHER STUFF
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:rooter_siii
+}}
+'''Stage III Rooters''' are a type of [[Mobs]], placed into the [[Nexus Parasites|Nexus]] Tier.
+
+== ''Spawning'' ==
+*Spawns after a [[Stage II Rooter]] evolves.
+*If at least one [[Colony]] exists, spawns when a [[Stage IV Rooter]] is killed.
+
+== ''Behavior'' ==
+WIP 
+
+*Stage III Rooters throw 6 bombs around them when damaged, this has a cooldown of 5 seconds. These bombs inflict 14 damage each and place an effect cloud of stacking [[Viral]] and Poison.
+*Stage III Rooters can break blocks that have their [[Hardness]] Value up to 7, with a 20 ticks cooldown and 4 Blocks range.
+*Stage III Rooters can permanently upgrade parasites by increasing their [[Generations|generation]] to max value.
+*Stage III Rooters will hide their tentacles if the terrain around them is too small.
+*Stage III Rooters will apply the following effects to parasites:
+**[[Pivot]] III (0:15)
+**[[Parate]] III (0:15)
+*Stage III Rooters can summon [[Rootmass Cyst|Rootmass Cysts]] when receiving damage.
+* Upon death, if at least one [[Colony]] exists in the dimension, Stage III Rooters will turn into [[Stage II Rooter|Stage II Rooters]].
+
+=== ''Weaknesses'' ===
+* Stage III Rooters, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+* Stage III Rooters have another hitbox at the top of their body, any damage done in this part of its body will be tripled and has a chance to cause [[Bleeding]].
+
+{{Properties|tier=Nexus III}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|[[File:lstageiii.ogg]]
+|Hostile
+|Plays when a Stage III Rooter spawns.
+|String sings
+|lstageiii
+|-
+|}
+
+== ''Trivia'' ==
+* Like all Nexuses, Stage III Rooters do not despawn by default.
+* Stage III Rooters are also known as '''LeemSIII''' in the Mod Files.
+
+== ''Gallery'' ==
+<gallery>
+File:Bomb2.png|The Bomb Stage III Rooters use.
+File:RooterS3Height.png|Size of the Stage III Rooter's model
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Nexus Parasites]]
+[[Category:Mobs]]

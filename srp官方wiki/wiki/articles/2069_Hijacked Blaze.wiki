@@ -1,0 +1,92 @@
+{{Stub}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|hiblaze}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=Hijacked Blaze.png
+|hp=30.0
+|damage=3.5
+|armor=5.0
+|kb_resistance=0.1
+|adaptable=No
+|id=srparasites:hi_blaze
+}}'''Hijacked Blazes''' are the [[:Category:Hijacked Mobs|Hijacked Version]] of Blazes. As opposed to its sane counterpart, the Hijacked Blaze's Rods and head are all stuck together into one central body, with the parasites tentacles reaching out from below.
+
+==''Spawning''==
+* Spawned when a Blaze is damaged by a [[Gnat]] or a [[Lice]] when below 50% health.
+
+==''Behavior''==
+
+* Hijacked Blazes attack by slowly firing a projectile at their target which inflicts 3.5 damage and Poison.
+* Hijacked Blazes can break blocks that have their [[Hardness]] Value up to 3, with a 40 tick cooldown and a 2 Block range.
+
+{{Properties|tier=Feral|FollowRange=20|DamageCap=3|MinimumDamage=0.75|DeathPenaltyEvolutionValue=5|RemainValue=12|ScentDeathValue=15|XPValue=16|COTH=.7}}
+
+{{Drops
+|rolls1=Always Rolls:
+|page1=Hijacked Blaze Rod
+|amount1=3
+|chance1=20
+}}
+
+==''Sounds''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Hijackedblazeliving1.ogg]]
+[[File:Hijackedblazeliving2.ogg]]
+[[File:Hijackedblazeliving3.ogg]]
+|Hostile
+|Plays randomly while a Hijacked Blaze is alive.
+|Warped breathing
+|hijackedblazeliving1-3
+|-
+|
+[[File:Hijackedblazeshoot1.ogg]]
+|Hostile
+|Plays when a Hijacked Blaze shoots a projectile.
+|Hijacked blaze shoots
+|hijackedblazeshoot1
+|-
+|
+[[File:Hijackedblazehurt1.ogg]]
+[[File:Hijackedblazehurt2.ogg]]
+[[File:Hijackedblazehurt3.ogg]]
+[[File:Hijackedblazehurt4.ogg]]
+|Hostile
+|Plays when a Hijacked Blaze is hurt.
+|Hijacked blaze clanges
+|hijackedblazehurt1-4
+|-
+|
+[[File:Hijackedblazedeath.ogg]]
+|Hostile
+|Plays when a Hijacked Blaze dies.
+|Hijacked blaze dies
+|hijackedblazedeath
+|-
+|}
+
+==''Trivia''==
+
+* The [[Gnat]] that infected the blaze can be seen on its model, burrowed into what remains of its head.
+* The Hijacked Blaze is the only parasite immune to fire and lava, a common weakness amongst parasites.
+
+== Gallery ==
+<gallery>
+File:HighJackedBlazeHeight.png|thumb|Size of the Hijacked Blaze's Model.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Hijacked Mobs]]
+[[Category:Mobs]]

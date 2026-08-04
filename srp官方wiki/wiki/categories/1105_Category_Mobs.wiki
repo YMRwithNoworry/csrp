@@ -1,0 +1,212 @@
+Scape and Run: Parasites adds various types of '''mobs''', with a total of 15 tiers each of them can fall into. All mobs featured in the mod are listed below. 
+
+===''[[File:Rupter Viscera.png|32px|link=Inborn Parasites]][[Inborn Parasites]]''===
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+File:Buglin.png|link=Buglin|[[Buglin]]
+File:Rupter.png|link=Rupter|[[Rupter]]
+File:Mangler.png|link=Mangler|[[Mangler]]
+File:Gnat.png|link=Gnat|[[Gnat]]
+File:Lice.png|link=Lice|[[Lice]]
+File:Flying Carrier.png|link=Flying_Carrier|[[Flying Carrier]]
+File:Heavy Carrier.png|link=Heavy_Carrier|[[Heavy Carrier]]
+File:Light Carrier.png|link=Light_Carrier|[[Light Carrier]] 
+File:worker.png|link=Worker|[[Worker]]
+</gallery>
+</div>
+
+===''[[File:Altered Tendons.png|32px|link=Assimilated Mobs]][[Assimilated Mobs]]''===
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+Assimilated Adventurer.png|link=Assimilated Adventurer|[[Assimilated Adventurer]]
+Assimilated Bear.png|link=Assimilated Bear|[[Assimilated Bear|Assimilated Bear]]
+Assimilated Big Spider.png|link=Assimilated Big Spider|[[Assimilated Big Spider]]
+Assimilated Cow.png|link=Assimilated Cow|[[Assimilated Cow]]
+Assimilated Enderman.png|link=Assimilated Enderman|[[Assimilated Enderman]]
+File:Assimilated Dragon.png|link=Assimilated Ender Dragon|[[Assimilated Ender Dragon]]
+Assimilated Horse.png|link=Assimilated Horse|[[Assimilated Horse|Assimilated Horse]]
+Assimilated Pig.png|link=Assimilated Pig|[[Assimilated Pig]]
+Assimilated Human.png|link=Assimilated Human|[[Assimilated Human]]
+Assimilated Sheep.png|link=Assimilated Sheep|[[Assimilated Sheep]]
+File:Assimilated Squid.png|link=Assimilated Squid|[[Assimilated Squid]]
+Assimilated Villager.png|link=Assimilated Villager|[[Assimilated Villager]]
+Assimilated Wolf.png|link=Assimilated Wolf|[[Assimilated Wolf]]
+All Walking Heads.gif|link=Walking Heads|[[Walking Heads]]
+</gallery>
+</div>
+
+===''[[File:Hijacked Growth.png|32px|link=Hijacked Mobs]][[Hijacked Mobs]]''===
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715"><gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+File:Hijacked Golem.png|link=Hijacked Golem|[[Hijacked Golem]]
+File:Hijacked Blaze.png|link=Hijacked Blaze|[[Hijacked Blaze]]
+File:Hijacked Skeleton.png|link=Hijacked Skeleton|[[Hijacked Skeleton]]
+</gallery>
+</div>
+
+===''[[File:Chipped Motherly Membrane.png|32px|link=Assimara Parasites]][[Assimara Parasites]]''===
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715"><gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+File:AssimaraBear.png|link=Assimara_Bear|[[Assimara Bear]]
+File:AssimaraCow.png|link=Assimara_Cow|[[Assimara Cow]]
+File:AssimaraEnderman.png|link=Assimara_Enderman|[[Assimara Enderman]]
+File:AssimaraHuman.png|link=Assimara_Human|[[Assimara Human]]
+File:AssimaraSheep.png|link=Assimara_Sheep|[[Assimara Sheep]]
+File:AssimaraVillager.png|link=Assimara_Villager|[[Assimara Villager]]
+File:AssimaraWolf.png|link=Assimara_Wolf|[[Assimara Wolf]]
+</gallery>
+</div>
+
+===''[[File:Diseased Heart.png|32px|link=Feral Parasites]][[Feral Parasites]]''===
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715"><gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+File:FeralBear.png|link=Feral_Bear|[[Feral Bear]]
+File:FeralCow.png|link=Feral_Cow|[[Feral Cow]]
+File:FeralEnderman.png|link=Feral_Enderman|[[Feral Enderman]]
+File:FeralHorse.png|link=Feral_Horse|[[Feral Horse]]
+File:FeralHuman.png|link=Feral_Human|[[Feral Human]]
+File:FeralPig.png|link=Feral_Pig|[[Feral Pig]]
+File:FeralSheep.png|link=Feral_Sheep|[[Feral Sheep]]
+File:FeralVillager.png|link=Feral_Villager|[[Feral Villager]]
+File:FeralWolf.png|link=Feral_Wolf|[[Feral Wolf]]
+</gallery>
+</div>
+
+===''[[File:Host Spawn.png|32px|link=Crude Parasites]][[Crude Parasites]]''===
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+File:Airscrew.png|link=Airscrew|[[Airscrew]]
+File:Incomplete Crux.png|link=Incomplete Crux|[[Incomplete Crux]]
+File:Crux Big.png|link=Crux|[[Crux]]
+File:Dredge.png|link=Dredge|[[Dredge]]
+File:Heed.png|link=Heed|[[Heed]]
+File:Small Incomplete Form.png|link=Small Incomplete Form|[[Small Incomplete Form]]
+File:Medium Incomplete Form.png|link=Medium Incomplete Form|[[Medium Incomplete Form]]
+File:Host.png|link=Host|[[Host]]
+File:Herd.png|link=Herd|[[Herd]]
+File:Thrall.png|link=Thrall|[[Thrall]]
+File:Moving Flesh.png|link=Moving_Flesh|[[Moving Flesh]] 
+File:Worm Carrier.png|link=Worm_Carrier|[[Worm Carrier]] 
+</gallery>
+</div>
+
+===''[[File:Corrosive Mucus.png|32px|link=Abominations]][[Abominations]]''===
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+File:Giant Head Spawn.png|link=Giant Head|[[Giant Head]]
+File:Abomination Many Bodies.png|link=Many Bodies|[[Many Bodies]] 
+</gallery>
+</div>
+
+===''[[File:Reeker Fang.png|32px|link=Primitive Parasites]][[Primitive Parasites]]''===
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715"><gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+File:Primitive Arachnida.png|link=Primitive_Arachnida|[[Primitive Arachnida]]
+File:Primitive Bolster.png|link=Primitive_Bolster|[[Primitive Bolster]]
+File:PrimitiveBurrower.png|link=Primitive Burrower|[[Primitive Burrower]]
+File:Primitive Devourer.png|link=Primitive_Devourer|[[Primitive Devourer]]
+File:Primitive Longarms.png|link=Primitive_Longarms|[[Primitive Longarms]]
+File:Primitive Manducater.png|link=Primitive_Manducater|[[Primitive Manducater]]
+File:Primitive Reeker.png|link=Primitive_Reeker|[[Primitive Reeker]]
+File:Primitive Summoner.png|link=Primitive_Summoner|[[Primitive Summoner]]
+File:PrimitiveTozoon.png|link=Primitive_Tozoon|[[Primitive Tozoon]]
+File:PrimitiveVermin.png|link=Primitive_Vermin|[[Primitive Vermin]]
+File:PrimitiveViscera.png|link=Primitive_Viscera|[[Primitive Viscera]]
+File:Primitive Yelloweye.png|link=Primitive_Yelloweye|[[Primitive Yelloweye]]
+</gallery>
+</div>
+
+===''[[File:Longarms Armor Fragment.png|32px|link=Adapted Parasites]][[Adapted Parasites]]''===
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+File:Adapted Arachnida.png|link=Adapted_Arachnida|[[Adapted Arachnida]]
+File:Adapted Bolster.png|link=Adapted_Bolster|[[Adapted Bolster]]
+File:AdaptedBurrower.png|link=Adapted Burrower|[[Adapted Burrower]]
+File:AdaptedDevourer.png|link=Adapted Devourer|[[Adapted Devourer]]
+File:Adapted Longarms.png|link=Adapted_Longarms|[[Adapted Longarms]]
+File:Adapted Manducater.png|link=Adapted_Manducater|[[Adapted Manducater]]
+File:Adapted Reeker.png|link=Adapted_Reeker|[[Adapted Reeker]]
+File:Adapted Summoner.png|link=Adapted_Summoner|[[Adapted Summoner]]
+File:AdaptedTozoon.png|link=Adapted_Tozoon|[[Adapted Tozoon]]
+File:AdaptedVermin.png|link=Adapted Vermin|[[Adapted Vermin]]
+File:AdaptedViscera.png|link=Adapted Viscera|[[Adapted Viscera]]
+File:Adapted Yelloweye.png|link=Adapted_Yelloweye|[[Adapted Yelloweye]]
+</gallery>
+</div>
+
+===''[[File:Beckon Membrane.png|32px|link=Nexus Parasites]][[Nexus Parasites]]''===
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+Stage 1 Beckon.png|link=Stage I Beckon|[[Stage I Beckon]]
+Stage 2 Beckon.png|link=Stage II Beckon|[[Stage II Beckon]]
+Stage 3 Beckon.png|link=Stage III Beckon|[[Stage III Beckon]]
+Stage 4 Beckon.png|link=Stage IV Beckon|[[Stage IV Beckon]]
+Stage 1 Dispatcher.png|link=Stage I Dispatcher|[[Stage I Dispatcher]]
+Stage 2 Dispatcher.png|link=Stage II Dispatcher|[[Stage II Dispatcher]]
+Stage 3 Dispatcher.png|link=Stage III Dispatcher|[[Stage III Dispatcher]]
+Stage 4 Dispatcher.png|link=Stage IV Dispatcher|[[Stage IV Dispatcher]]
+Stage 1 Rooter.png|link=Stage I Rooter|[[Stage I Rooter]]
+Stage 2 Rooter.png|link=Stage II Rooter|[[Stage II Rooter]]
+Stage 3 Rooter.png|link=Stage III Rooter|[[Stage III Rooter]]
+Stage 4 Rooter.png|link=Stage IV Rooter|[[Stage IV Rooter]]
+</gallery>
+</div>
+
+===''[[File:Dispatcher Membrane.png|32px|link=Deterrent Parasites]][[Deterrent Parasites]]''===
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+DispatcherTentacle.png|link=Dispatcher Tentacle|[[Dispatcher Tentacle]]
+Kyphosis.png|link=Kyphosis|[[Kyphosis]]
+Rootmass_Cyst.png|link=Rootmass Cyst|[[Rootmass Cyst]]
+Seizer.png|link=Seizer|[[Seizer]]
+Sentry.png|link=Sentry|[[Sentry]]
+Worm.png|link=Worm|[[Worm]]
+</gallery>
+</div>
+
+===''[[File:Living Core.png|32px|link=Pure Parasites]][[Pure Parasites]]''===
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+Grunt.png|link=Grunt|[[Grunt]]
+Light Bomber.png|link=Light Bomber|[[Light Bomber]]
+Marauder.png|link=Marauder|[[Marauder]]
+Monarch.png|link=Monarch|[[Monarch]]
+Overseer.png|link=Overseer|[[Overseer]]
+Vigilante.png|link=Vigilante|[[Vigilante]]
+Warden.png|link=Warden|[[Warden]]
+Seeker.png|link=Seeker|[[Seeker]]
+</gallery>
+</div>
+
+===''[[File:Quench.png|32px|link=Preeminent Parasites]][[Preeminent Parasites]]''===
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+Bogle.png|link=Bogle|[[Bogle]]
+Colony Carrier.png|link=Colony Carrier|[[Colony Carrier]]
+Haunter.png|link=Haunter|[[Haunter]]
+Heavy Bomber.png|link=Heavy Bomber|[[Heavy Bomber]]
+Wraith.png|link=Wraith|[[Wraith]]
+Succor.png|link=Succor|[[Succor]]
+Architect.png|link=Architect|[[Architect]]
+</gallery>
+</div>
+
+===''[[File:Ancients Spawn.png|32px|link=Ancient Parasites]][[Ancient Parasites]]''===
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+Dreadnaut.png|link=Dreadnaut|[[Ancient Dreadnaut]]
+Overlord.png|link=Overlord|[[Ancient Overlord]]
+</gallery>
+</div>
+
+===''[[File:Alveoli.png|32px|link=Derived Parasites]][[Derived Parasites]]''===
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+Draconite.png|link=Draconite|[[Draconite]]
+Kirin.png|link=Kirin|[[Kirin]]
+</gallery>
+</div>
+===''Untiered''===
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+Biomass.png|link=Biomass|[[Biomass]]
+</gallery>
+</div>
+
+[[Category:Mod Content]]

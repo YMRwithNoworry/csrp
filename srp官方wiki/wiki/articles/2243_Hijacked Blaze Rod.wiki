@@ -1,0 +1,20 @@
+{{Stub}}
+{{Item Info
+|image1=Hijacked Blaze Rod.png
+|type=Material
+|stackable=Yes (64)
+|id=srparasites:bloody_rod
+}}
+'''{{PAGENAME}}''' are [[:Category:Drops|Drop]] items with currently no known use.
+
+== ''Obtainment'' ==
+Dropped by the [[Hijacked Blaze]].
+
+== ''Usage'' ==
+Can be smelted back into a normal Blaze Rod.
+
+NEED RECIPES
+
+{{ItemList}}
+[[Category:Drops]]
+[[Category:Items]]

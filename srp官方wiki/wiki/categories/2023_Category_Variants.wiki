@@ -1,0 +1,126 @@
+[[File:Variants.png|thumb|108px|The [[Compendium]] icon.|link=Compendium]]
+Variants are alternate versions of a parasite or assimilated mob that may have different stats, apply effects, or simply just a different texture.
+
+The following variant types exist:
+
+=='''<span style="color:#AA0000;">Berserker Variants</span>'''==
+Berserker variants apply the [[Bleeding]] effect on hit.
+
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+BerserkerRupter.png|link=Rupter|[[Rupter]]
+BerserkerMangler.png|link=Mangler|[[Mangler]]
+BerserkerPriArachnida.png|link=Primitive_Arachnida|[[Primitive Arachnida]]
+BerserkerPriLongarms.png|link=Primitive_Longarms|[[Primitive Longarms]]
+BerserkerPriReeker.png|link=Primitive_Reeker|[[Primitive Reeker]]
+BerserkerPriSummoner.png|link=Primitive_Summoner|[[Primitive Summoner]]
+BerserkerAdaArachnida.png|link=Adapted_Arachnida|[[Adapted Arachnida]]
+BerserkerAdaBolster.png|link=Adapted_Bolster|[[Adapted Bolster]]
+BerserkerAdaLongarms.png|link=Adapted_Longarms|[[Adapted Longarms]]
+BerserkerAdaReeker.png|link=Adapted_Reeker|[[Adapted Reeker]]
+BerserkerAdaSummoner.png|link=Adapted_Summoner|[[Adapted Summoner]]
+BerserkerGrunt.png|link=Grunt|[[Grunt]]
+</gallery>
+</div>
+
+=='''<span style="color:#55FF55;">Virulent Variants</span>'''==
+Virulent variants apply the [[Viral]] effect on hit and upon physical contact.
+
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+VirulentRupter.png|link=Rupter|[[Rupter]]
+VirulentMangler.png|link=Mangler|[[Mangler]]
+VirulentPriArachnida.png|link=Primitive_Arachnida|[[Primitive Arachnida]]
+VirulentPriBolster.png|link=Primitive_Bolster|[[Primitive Bolster]]
+VirulentPriLongarms.png|link=Primitive_Longarms|[[Primitive Longarms]]
+VirulentPriReeker.png|link=Primitive_Reeker|[[Primitive Reeker]]
+VirulentPriSummoner.png|link=Primitive_Summoner|[[Primitive Summoner]]
+VirulentAdaArachnida.png|link=Adapted_Arachnida|[[Adapted Arachnida]]
+VirulentAdaBolster.png|link=Adapted_Bolster|[[Adapted Bolster]]
+VirulentAdaLongarms.png|link=Adapted_Longarms|[[Adapted Longarms]]
+VirulentAdaReeker.png|link=Adapted_Reeker|[[Adapted Reeker]]
+VirulentAdaSummoner.png|link=Adapted_Summoner|[[Adapted Summoner]]
+VirulentGrunt.png|link=Grunt|[[Grunt]]
+</gallery>
+</div>
+
+=='''<span style="color:#AA00AA;">Breacher Variants</span>'''==
+Breacher variants can break blocks twice as hard as what their normal counterpart can break.
+
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+BreacherPriArachnida.png|link=Primitive_Arachnida|[[Primitive Arachnida]]
+BreacherPriBolster.png|link=Primitive_Bolster|[[Primitive Bolster]]
+BreacherPriDevourer.png|link=Primitive_Devourer|[[Primitive Devourer]]
+BreacherPriLongarms.png|link=Primitive_Longarms|[[Primitive Longarms]]
+BreacherPriManducater.png|link=Primitive_Manducater|[[Primitive Manducater]]
+BreacherPriReeker.png|link=Primitive_Reeker|[[Primitive Reeker]]
+BreacherPriSummoner.png|link=Primitive_Summoner|[[Primitive Summoner]]
+BreacherPriYelloweye.png|link=Primitive_Yelloweye|[[Primitive Yelloweye]]
+BreacherAdaArachnida.png|link=Adapted_Arachnida|[[Adapted Arachnida]]
+BreacherAdaBolster.png|link=Adapted_Bolster|[[Adapted Bolster]]
+BreacherAdaLongarms.png|link=Adapted_Longarms|[[Adapted Longarms]]
+BreacherAdaManducater.png|link=Adapted_Manducater|[[Adapted Manducater]]
+BreacherAdaReeker.png|link=Adapted_Reeker|[[Adapted Reeker]]
+BreacherAdaSummoner.png|link=Adapted_Summoner|[[Adapted Summoner]]
+BreacherAdaYelloweye.png|link=Adapted_Yelloweye|[[Adapted Yelloweye]]
+BreacherGrunt.png|link=Grunt|[[Grunt]]
+BreacherLightBomber.png|link=Light_Bomber|[[Light Bomber]]
+BreacherMarauder.png|link=Marauder|[[Marauder]]
+BreacherMonarch.png|link=Monarch|[[Monarch]]
+BreacherOverseer.png|link=Overseer|[[Overseer]]
+BreacherWarden.png|link=Warden|[[Warden]]
+BreacherVigilante.png|link=Vigilante|[[Vigilante]]
+</gallery>
+</div>
+
+=='''Miscellaneous Variants'''==
+Smaller variant types with miscellaneous differences from their normal form.
+
+==='''<span style="color:#AAAAAA;">Empty Carriers</span>'''===
+Empty Carriers contain no mobs, have faster movement speed, and spreads higher potencies of effects upon bursting.  All [[:Category:Inborn_Parasites|Inborn]] carriers have an Empty Variant.
+
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+EmptyHeavyCarrier.png|link=Heavy_Carrier|[[Heavy Carrier]]
+Flying Carrier.png|link=Flying_Carrier|[[Flying Carrier]]
+Light Carrier.png|link=Light_Carrier|[[Light Carrier]]
+</gallery>
+</div>
+
+==='''<span style="color:#AA00AA;">Armored Variants</span>'''===
+Only two [[Preeminent_Parasites|Preeminent Parasites]] have an Armored variant:
+*The [[Colony Carrier|Colony Carrier's]] Armored variant has 5 ([[File:Armor.png]][[File:Armor.png]][[File:Halfarmor.png]]) more armor points but a slower moving speed.
+*The [[Haunter|Haunter's]] Armored variant inflicts 1.5x melee damage but has half the HP.
+
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+ArmoredColonyCarrier.png|link=Colony_Carrier|[[Colony Carrier]]
+ArmoredHaunter.png|link=Haunter|[[Haunter]]
+</gallery>
+</div>
+
+==='''<span style="color:#AAAAAA;">Other Variants</span>'''===
+These variants fit into no particular group whatsoever.  Some of these variants, such as that of the Assimilated Human and Villager, existed before any other Variants were added.
+*The [[Adapted Longarms|Adapted Longarm's]] '''<span style="color:#AAAAAA;">Tyrant</span>''' variant inflicts double the damage but has half the HP.
+*The [[Primitive Reeker|Primitive Reeker's]] '''<span style="color:#AAAAAA;">Pale</span>''' variant inflicts double the damage but has half the HP.
+*The [[Monarch|Monarch's]] '''<span style="color:#AAAAAA;">Deviantive</span>''' variant inflicts double the damage but has half the HP.
+*The [[Assimilated Big Spider|Assimilated Big Spider's]] '''<span style="color:#AAAAAA;">Second</span>''' variant presents Half HP compared to a normal Assimilated Big Spider.
+*The [[Assimilated Enderman|Assimilated Enderman's]] '''<span style="color:#AAAAAA;">Crawling</span>''' variant is in crawling position, having a smaller hitbox able to fit in 1x1.5x1 spaces.
+*The '''<span style="color:#AAAAAA;">Nocturn</span>''' variant of the [[Assimilated Human]] and [[Assimilated Villager]], as well as their Walking Heads, have identical stats to their normal variants.
+*A number of mobs have unique texture variants that present no other changes to them, such as the elusive Golden [[Rupter]].
+
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+TyrantAdaLongarms.png|link=Adapted_Longarms|[[Adapted Longarms]]
+PalePriReeker.png|link=Primitive_Reeker|[[Primitive Reeker]]
+DeviantiveMonarch.png|link=Monarch|[[Monarch]]
+Dorpa2.webp|link=Assimilated Big Spider|[[Assimilated Big Spider]]
+Crawling Enderman .png|link=Assimilated Enderman|[[Assimilated Enderman]]
+Assimilated Human Variant.png|link=Assimilated Human|[[Assimilated Human]]
+Assimilated Villager Variant.png|link=Assimilated Villager|[[Assimilated Villager]]
+Assimilated Human HeadV.png|link=Walking Human Head|[[Walking Human Head]]
+Assimilated Villager HeadV.png|link=Walking Villager Head|[[Walking Villager Head]]
+</gallery>
+</div>
+[[Category:Mobs]]

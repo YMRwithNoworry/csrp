@@ -1,0 +1,38 @@
+{{TierBar}}
+
+'''Assimara Parasites''' are a tier of [[Mobs|Parasites]] consisting of specialized forms of [[Assimilated Mobs]]. In the hierarchy, they are above [[Assimilated Mobs]], but below [[Feral Parasites]].
+
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+AssimaraBear.png|link=Assimara Bear|[[Assimara Bear]]
+AssimaraCow.png|link=Assimara Cow|[[Assimara Cow]]
+AssimaraEnderman.png|link=Assimara Enderman|[[Assimara Enderman]]
+AssimaraHuman.png|link=Assimara Human|[[Assimara Human]]
+AssimaraSheep.png|link=Assimara Sheep|[[Assimara Sheep]]
+AssimaraVillager.png|link=Assimara Villager|[[Assimara Villager]]
+AssimaraWolf.png|link=Assimara Wolf|[[Assimara Wolf]]
+</gallery>
+</div>
+
+== Spawning ==
+Assimara Parasites spawn naturally from [[Evolution Phases#Phase 4|Phase 4]] when enough of their Sane counterpart has been assimilated.
+
+== Features ==
+*Assimara Parasites' melee attacks will inflict [[Call Of The Hive]] I.
+
+=== ''Weaknesses'' ===
+Like all Parasites, Assimaras present a weakness to fire (damage inflicted by fire is quadrupled).
+
+== ''Survival Guides'' ==
+These units are stronger versions of their respective [[:Category:Assimilated Mobs|Assimilated versions]].
+
+
+== ''Lore'' ==
+To be added...
+
+== ''Trivia'' ==
+
+
+== ''Gallery'' ==
+[[Category:Mobs]]
+[[Category:Stubs]]

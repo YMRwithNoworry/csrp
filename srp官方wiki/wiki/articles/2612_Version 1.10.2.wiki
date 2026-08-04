@@ -1,0 +1,41 @@
+{{VersionBar|
+|page1=1.10.1
+|page2=1.10.3
+}}
+'''Version 1.10.2''' was an update for the Scape and Run: Parasites Mod, released on February 14th 2026.  It was 86.04 MB.
+
+== ''Change Log'' ==
+
+====<u>Fixes and Tweaks</u>====
+* Meteor landing tweaks: Double the minimum radius -> 50 to 100 blocks. Higher maximum radius -> 120 to 144 blocks. -30% meteor damage = 90 blocks kill radius down from 110+.
+* Purifier now restores the original biome!
+* Several missing fixes and tweaks.
+* Fixed sync on Client end, mark chunk as dirty to save biome changes.
+* Meteor mode flavour text.
+* Added block-spread to massive amount of blocks.
+* Fixed phase skipping, phase increase not sending message, vector point cap, Parasites with no potion effects.
+* Fixed Vectors not working as intended in later Phases. Canra to have the same buff as assimara Cow.
+* Fixed the game from freezing by generating aggro from outside the follow range of entities.
+* Made level and evo clocks only show textures/levels when held.
+* Command /srpunlockall now unlocks every compendium entry instead of only the parasite's.
+
+====<u>New Content</u>====
+* Added compendium animations, inborn and derived lore, & evil saturn.
+* Added hidden advancements for killing the [[Kirin]] and [[Draconite]]
+* Added styling to the lore (bold, slanted, etc.)
+
+====<u>Internal</u>====
+* Code optimisations.
+
+====<u>Mobs</u>====
+* [[Primitive Burrower|Burrower]] texture added.
+
+====<u>Structures</u>====
+* Re-added nbt structures.
+* Fixed meteor having glass in it and spectator mode parasite loot name.
+
+====<u>Language</u>====
+* Added Japanese & French .lang files.
+
+{{VersionList}}
+[[Category:Versions]]

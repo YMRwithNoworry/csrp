@@ -1,0 +1,77 @@
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|simsquid}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=Assimilated Squid.png
+|hp=15.0
+|damage=11.0
+|armor=5.0
+|kb_resistance=0.1
+|adaptable=No
+|id=srparasites:sim_squid
+}}'''Assimilated Squids''', known internally as '''Infsquid''', are the [[Assimilated Mobs|Assimilated Version]] of Squids. The Assimilated Squid does not currently have an [[Assimara Parasites|Assimara form]], nor a [[Feral Parasites|Feral Form]], much like [[Assimilated Big Spider|Assimilated Big Spiders]] and the [[Assimilated Ender Dragon]].
+==''Spawning''==
+*Spawned when a Squid succumbs to [[Call Of The Hive|Call of The Hive]] below [[Evolution Phases#Phase 7|Phase 7]].
+*Spawns naturally in groups of 1 to 2, from [[Evolution Phases#Phase 2|Phase 2]] to [[Evolution Phases#Phase 7|Phase 7]], with a spawnweight of 15.
+
+==''Behavior''==
+Assimilated Squids are Aquatic Melee Combatants.
+*Their Melee Attack is performed through contact damage.
+*Any Mob within 3 blocks of an Assimilated Squid will be inflicted with COTH. This does not go through walls.
+*If an Assimilated Squid gets 5 kills and is within range of a [[Moving Flesh]] or 3 other Assimilated Mobs<ref>Excluding [[Assimilated Ender Dragon]] and [[Assimilated Big Spider]].</ref>, it will evolve into a Moving Flesh.
+===''Weaknesses''===
+*Assimilated Squids, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+*Assimilated Squids are unable to attack or move outside of water. If they are left out of the water for too long they will start dying of asphyxiation.
+{{Properties|tier=Assimilated}}
+
+{{Drops
+|rolls1=One Roll
+|page1=Infected Flesh
+|amount1=1-2
+|chance1=80
+|rolls2=Always Rolls
+|page2=Diseased Heart
+|amount2=1
+|chance2=10
+}}
+
+=== ''Sounds'' ===
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source''' 
+!'''Description'''
+!'''File name''' 
+|-
+|[[File:as_squid_idle_1.ogg]]
+[[File:as_squid_idle_2.ogg]]
+[[File:as_squid_idle_3.ogg]]
+|Hostile
+|Plays randomly when an Assimilated Squid is alive.
+|as_squid_idle_1-3
+|-
+|[[File:as_squid_hurt_1.ogg]]
+[[File:as_squid_hurt_2.ogg]]
+[[File:as_squid_hurt_3.ogg]]
+|Hostile
+|Plays when an Assimilated Squid takes damage.
+|as_squid_hurt_1-3
+|-
+|[[File:as_squid_death.ogg]]
+|Hostile
+|Plays when an Assimilated Squid dies.
+|as_squid_death
+|-
+|}
+
+==''Trivia''==
+*Assimilated Squids are also known as '''infSquid''' in the Mod Files.
+==''Gallery''==
+To be added…
+{{MobList}}
+
+==Notes==
+<references />
+[[Category:Assimilated Mobs]]
+[[Category:Mobs]]

@@ -1,0 +1,125 @@
+{{Navbar|page1=Host|page2=Herd}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|host}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=Host.png
+|hp=50.0
+|damage=10.0
+|ranged=7.0
+|armor=7.0
+|kb_resistance=1.0
+|adaptable=Yes
+|id=srparasites:host
+}}
+'''Hosts''' are a type of [[Mobs]], placed into the [[Crude Parasites|Crude]] Tier.
+
+== ''Spawning'' ==
+* Spawns when an [[Assimilated Human]] or an [[Assimilated Villager]] kills 5 skeletons.
+* Spawns in groups of 1 to 2, from [[Evolution Phases#Phase 3|Phase 3]] through [[Evolution Phases#Phase 7|Phase 7]], with a spawnweight of 5.
+* If at least one [[Colony]] exists, spawns when a [[Herd]] is killed.
+
+== ''Behavior'' ==
+Hosts are Burrowing Melee/Ranged/Summoner hybrids. They can move only when underground and are incapable of movement when on the surface. 
+
+While moving underground, they will release [[Residue]].
+
+* Their Melee Attack, performed by slamming their large tentacles, inflicts knockback and AoE Damage.
+* Their Ranged Attack is performed by them throwing a Bomb, which inflicts Poison, [[Call Of The Hive|COTH]], and [[Viral]] after exploding.
+* They are able to perform summons, generating [[Rupter|Rupters]], while being underground.
+* Hosts are able to generate Waves, small damaging areas of disturbed ground. After standing still for a brief period they will summon a Wave which homes toward the target at fast speed but is unable to move up blocks. Waves deal very high damage per second and ignore immunity frames.
+** This is telegraphed by flame particles and a significantly louder and higher pitched growl.
+* They are able to teleport while underground, but the following conditions must be met:
+** There must be 3 blocks below its current position, and in the position where it will teleport to.
+** Those 3 blocks, in both positions, need to be full blocks.
+** The sum of the 3 blocks' [[Hardness|hardness]] values must be less than <u>10</u>.
+* If a Host gets 40 kills, it will evolve into a [[Herd]].
+
+=== ''Weaknesses'' ===
+* Hosts, like any other [[:Category:Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled. 
+* Hosts, while moving underground, upon coming in contact with Magma Blocks they will be hurt.
+{{Properties
+|tier=Crude
+|tier2=Primitive
+|DamageCap=1
+|FollowRange=16
+|DeathPenaltyEvolutionValue=0
+|XPValue=5
+}}
+
+{{Drops
+|rolls1=One Roll
+|page1=Infected Flesh
+|amount1=1-7
+|chance1=80
+|rolls2=Always Rolls
+|page2=Diseased Heart
+|amount2=1-4
+|chance2=10
+}}
+
+==''Sounds''==
+
+{| class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|[[File:hostliving1.ogg]]
+[[File:hostliving2.ogg]]
+|Hostile
+|Randomly plays when a host is alive.
+|Host looms
+|hostidle1-2
+|-
+|[[File:hosthurt1.ogg]]
+[[File:hosthurt2.ogg]]
+[[File:hosthurt3.ogg]]
+|Hostile
+|Plays when a Host is hurt.
+|Host screams
+|hosthurt1-3
+|-
+|[[File:hostunderground1.ogg]]
+[[File:hostunderground2.ogg]]
+|Hostile
+|Plays when a host is underground.
+|X
+|hostunderground1-2
+|-
+|[[File:hostrmerge1.ogg]]
+[[File:hostrmerge2.ogg]]
+[[File:hostrmerge3.ogg]]
+|Hostile
+|Plays when a host emerges from underground.
+|Host emerges
+|hostrmerge1-3
+|-
+|[[File:hostdeath.ogg]]
+|Hostile
+|Plays when a Host dies.
+|Host dies
+|hostdeath
+|-
+|}
+
+==Trivia==
+*This Mob was [[:Category:Community Proposals|proposed]] by user '''Nidajfioll'''.  Original Suggestion: https://trello.com/c/FVD1sX1D/43-host
+
+== ''Gallery'' ==
+<gallery>
+File:Host Size Comparison.png|Size of the Host's Model.
+File:Bomb2.png|The Host's Bomb.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Crude Parasites]]
+[[Category:Mobs]]
+[[Category:Community Proposals]]

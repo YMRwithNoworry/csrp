@@ -1,0 +1,166 @@
+A list of '''Equipment''' introduced by the Mod.
+
+===''Tools''===
+WIP.
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+!colspan="2"|[[Tools]]
+|-
+! style="width: 170px" |'''Item'''
+! style="width: 300px" |'''Usage'''
+|-
+|[[File:Doomsday Clock.png|32px]] [[Doomsday Clock]]
+|Used to measure the progress of [[Evolution Phases]].
+|-
+|[[File:Level Clock.png|32px]] [[Level Clock]]
+|Used to measure the level of [[Ubiquitous Development]].
+|-
+|[[File:Node Compass.png|32px]] [[Colony Compass]]
+|Used to find the nearest [[Colony]] in the player's current dimension.
+|-
+|[[File:Node Compass.png|32px]] [[Node Compass]]
+|Used to find the nearest [[Node]] in the player's current dimension.
+|-
+|[[File:Node Compass.png|32px]] [[Vector Compass]]
+|Used to find the nearest [[Emerging Infestation Vector|Vector]] in the player's current dimension.
+|-
+|[[File:Eye Of The Beholder.png|32px]] [[Eye Of The Beholder]]
+|Used to detect the presence of any nearby [[Enderman (Disambiguation)|Enderman Variant]].
+|-
+|[[File:Compendium.png|32px]] [[Compendium]]
+|Encyclopedia of various SRP [[Systems]], [[Mobs]] and [[Blocks]].
+|-
+|[[File:Origin Module.png|32px]] [[Modules]]
+|Used to scan specific types of Parasites depending on the ingredients used in creating the [[Modules|Module]].
+|-
+|[[File:Quench.png|32px]] [[Quench]]
+|Used to purify [[Infested Blocks]].
+|-
+|[[File:Infested Bonemeal.png|32px]] [[Infested Bonemeal]]
+|Used to spread [[Beckon]] infestation.
+|-
+|[[File:Bough.png|32px]] [[Bough]]
+|Allows the player to kill themselves.
+|-
+|[[File:Thornshade Decanter.png|32px]] [[Thornshade Decanter]]
+|Grants the [[Thornshades]] buff when consumed.
+|-
+|[[File:Book of Vengeance.png|32px]] [[Book of Vengeance]]
+|Magic weapon dropped by a special [[Primitive Reeker]].
+|-
+|[[File:Disc3.png|32px]] [[Music Discs]]
+|Discs of OSTs which can be played in a Jukebox.
+|-
+|}
+
+===''Weapons''===
+WIP.
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+!colspan="2"|[[Weapons]]
+|-
+! style="width: 170px" |'''Item'''
+! style="width: 300px" |'''Usage'''
+|-
+|[[File:Living Axe.gif|32px]] [[Living Axe]]
+|Melee Weapon that inflicts [[Corrosion|Corrosion I]].
+|-
+|[[File:Living Cleaver.gif|32px]] [[Living Cleaver]]
+|Melee Weapon that inflicts [[Viral|Viral I]].
+|-
+|[[File:Living Scythe.gif|32px]] [[Living Scythe]]
+|Melee Weapon with a large AOE range.
+|-
+|[[File:Living Sword.gif|32px]] [[Living Sword]]
+|Melee Weapon that inflicts [[Bleeding|Bleeding I]].
+|-
+|[[File:Living Bow.gif|32px]] [[Living Bow]]
+|Ranged Weapon that deals more damage the longer arrows are drawn. Inflicts [[Bleeding|Bleeding I]] and [[Concussive Smoke Trail]].
+|-
+|[[File:Living Maul.png|32px]] [[Living Maul]]
+|Melee Weapon with a large AOE ability on right click.
+|-
+|[[File:Living Lance.png|32px]] [[Living Lance]]
+|Melee Weapon that inflicts [[Needler|Needler I]].
+|-
+|[[File:Sentient Axe.gif|32px]] [[Sentient Greataxe]]
+|Upgrade to the Living Axe that inflicts [[Corrosion|Corrosion II]].
+|-
+|[[File:Sentient Cleaver.gif|32px]] [[Sentient Greatcleaver]]
+|Upgrade to the Living Cleaver that inflicts [[Viral|Viral II]].
+|-
+|[[File:Sentient Scythe.gif|32px]] [[Sentient Greatscythe]]
+|Upgrade to the Living Scythe that has a larger AOE range.
+|-
+|[[File:Sentient Sword.gif|32px]] [[Sentient Greatsword]]
+|Upgrade to the Living Sword that inflicts [[Bleeding|Bleeding II]].
+|-
+|[[File:Sentient Bow.gif|32px]] [[Sentient Greatbow]]
+|Upgrade to the Living Bow. Also inflicts [[Bleeding|Bleeding I]] and [[Concussive Smoke Trail]].
+|-
+|[[File:Sentient Greatmaul.png|32px]] [[Sentient Greatmaul]]
+|Upgrade to the Living Maul with a charge ability that sends the player flying and releases an AOE attack upon impact.
+|-
+|[[File:Sentient Greatlance.png|32px]] [[Sentient Greatlance]]
+|Upgrade to the Living Lance that inflicts [[Needler|Needler II]].
+|-
+|}
+
+===''Armor''===
+WIP.
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+!colspan="2"|[[Armor]]
+|-
+! style="width: 170px" |'''Item'''
+! style="width: 300px" |'''Usage'''
+|-
+|-
+|[[File:Venkrol Anchor Boots.png|36px]] [[Venkrol Anchor Boots]]
+|Defensive equipment. Prevents being thrown around by [[Stage IV Beckon|Stage IV Beckons']] vortices.
+|-
+|[[File:Hijacked_Iron_Armor.png|36px]] [[Hijacked Iron Armor]]
+|Defensive equipment. Can prevent fall damage and immunizes one to [[Bleeding]], but quintuples fire damage.
+|-
+|[[File:Living Armor1.png|36px]] [[Living Armor]]
+|Defensive equipment. Permits Players to use the [[Adaptation System]].
+|-
+|[[File:Sentient Armor1.png|36px]] [[Sentient Armor]]
+|Defensive equipment. Permits Players to use the [[Adaptation System]].
+|}
+
+===''Debug Items''===
+Various Creative mode tools used for testing.
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+!colspan="2"|[[Debug Items]]
+|-
+! style="width: 170px" |'''Item'''
+! style="width: 300px" |'''Usage'''
+|-
+|[[File:Debug_Item.png|36px]] [[NULL]]
+|Shows a list of the targeted Parasite's adaptations. Also serves as the icon for the mod's Creative inventory tab.
+|-
+|[[File:ItemAssimilation.png|36px]] [[Debug Items#WANDS|Assimilation Wand]]
+|Instantly changes a Vanilla mob to its Assimilated form, if applicable. Can disguise said mob as its regular counterpart.
+|-
+|[[File:ItemEvolution.png|36px]] [[Debug Items#WANDS|Evolution Wand]]
+|Instantly evolves a Parasite, if applicable.
+|-
+|[[File:ItemDevolution.png|36px]] [[Debug Items#WANDS|Devolution Wand]]
+|Instantly devolves a Parasite. If the target is at its lowest stage, it will be killed.
+|-
+|[[File:ItemVariant.png|36px]] [[Debug Items#WANDS|Variant Wand]]
+|Cycles between a Parasite's variants.
+|-
+|[[File:Greek fire.png|36px]] [[Debug Items#GREEK FIRE|Greek Fire]]
+|Rapidly burns Parasite foliage.
+|-
+|[[File:The Sign (Item).png|36px]] [[Debug Items#The Sign|The Sign]]
+|Gives its holder [[The Sign]] effect, which makes Parasites ignore the player.
+|-
+|}
+
+
+{{ItemList}}
+[[Category:Items]]

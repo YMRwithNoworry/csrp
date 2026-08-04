@@ -1,0 +1,103 @@
+{{Navbar|page1=Walking Villager Head|page2=Assimilated Villager|page3=Assimara Villager|page4=Feral Villager}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|simvillager}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=<gallery>
+Assimilated Villager.png|Default
+Assimilated Villager Variant.png|Varian[https://www.youtube.com/watch?v=tpsD4HmpuR8 t]
+</gallery>
+|hp=16.0
+|damage=10.0
+|armor=5.0
+|kb_resistance=0.2
+|adaptable=No
+|id=srparasites:sim_villager
+}}
+'''Assimilated Villagers''', known internally as '''Infvillager''', are the [[Assimilated Mobs|Assimilated Version]] of Villagers.
+
+== ''Spawning'' ==
+* Spawned when a Villager succumbs to [[Call Of The Hive]] below [[Evolution Phases#Phase 7|Phase 7]].
+* Spawns in groups of 3 to 5, from [[Evolution Phases#Phase 2|Phase 2]] through [[Evolution Phases#Phase 7|Phase 7]], with a spawnweight of 25, once 6 villagers have been assimilated.
+* Spawned by [[Stage II Beckon|Stage II]] and [[Stage III Beckon|Stage III Beckons]].
+* Spawned by level 3 or higher [[Scent System|Scents]].
+
+== ''Capabilities'' ==
+Assimilated Villagers are Melee Combatants.
+
+* Their Melee Attack is performed through contact damage, with a 20% chance to inflict [[Bleeding]] for 3 seconds.
+* Any Mob within 3 blocks of an Assimilated Villager will be inflicted with [[Call Of The Hive]]. This does not go through walls.
+* Assimilated Villagers are able to traverse faster in liquids by performing small leaps.
+* Assimilated Villagers are able to dive in liquids to pursue submerged targets.
+* If an Assimilated Villager gets 5 kills and is within range of a [[Moving Flesh]] or 3 other Assimilated Mobs<ref>Excluding [[Assimilated Ender Dragon]] and [[Assimilated Big Spider]].</ref>, it will evolve into a Moving Flesh.
+* If an Assimilated Villager gets 60 kills and is unable to turn into [[Moving Flesh]], it will evolve into a [[Feral Villager]].
+* If an Assimilated Villager kills 5 Skeletons and is unable to turn into [[Moving Flesh]], it will evolve into a [[Host]].
+* On death, Assimilated Villagers have a chance to explode, releasing [[Remains|Assimilated Remains]], 2 Buglins, and an effect cloud of stacking Poison and [[Call Of The Hive]].
+** When not exploding, there is a 50% chance an Assimilated Villager will drop its [[Walking Villager Head|Head]].
+
+{{Variants|count=1|Texture=Assimilated Villager Variant.png|TextureDesc=has identical stats.}}
+
+{{Properties|tier=Assimilated}}
+
+{{Drops
+|rolls1=One Roll
+|page1=Infected Flesh
+|amount1=1
+|chance1=80
+|rolls2=Always Rolls
+|page2=Diseased Heart
+|amount2=1
+|chance2=10
+|page3=False Apple|amount3=1|chance3=5}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''ID'''
+|-
+|[[File:Assimilated Idle.ogg]]
+|Hostile
+|Plays randomly while an Assimilated Villager is alive.
+|infected_ambient
+|-
+|[[File:Assimilated Melting.ogg]]
+|Hostile
+|Plays when an Assimilated Villager melts into [[Moving Flesh]].
+|infected_melting
+|-
+|[[File:Explosion.ogg]]
+|Hostile
+|Plays when an Assimilated Villager explodes, on death.
+|mob_explotion
+|-
+|[[File:Assimilated Humanoid Death.ogg]]
+|Hostile
+|Plays when an Assimilated Villager dies.
+|infected_death
+|-
+|[[File:Assimilated Humanoid Growl.ogg]]
+|Hostile
+|Plays randomly while an Assimilated Villager is alive.
+|infected_growl
+|-
+|[[File:Assimilated Humanoid Hurt.ogg]]
+|Hostile
+|Plays when an Assimilated Villager takes damage.
+|infected_hurt
+|-
+|}
+
+== ''Gallery'' ==
+<gallery>
+File:Assimilated Villager Size Comparison.png|Size of the Assimilated Villager's Model and [[Walking Villager Head|Walking Head]].
+File:Assimilated Villager Head.png|Assimilated Villager's [[Walking Villager Head|Walking Head]].
+File:Assimilated Villager Variant Head.png|[[Walking Villager Head|Walking Head of Assimilated Villager's Variant]].
+</gallery>
+
+{{MobList}}
+[[Category:Assimilated Mobs]]
+[[Category:Mobs]]

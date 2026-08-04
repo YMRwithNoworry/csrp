@@ -1,0 +1,11 @@
+{{DisambiguationContent
+|image1=Assimilated Bear.png
+|title1=[[Assimilated Bear]]
+|desc1=An [[Assimilated Mobs|Assimilated]] Parasite
+|image2=FeralBear.png
+|title2=[[Feral Bear]]
+|desc2=A [[Feral Parasites|Feral]] Parasite
+|image3=AssimaraBear.png
+|title3=[[Assimara Bear]]
+|desc3=An [[Assimara Parasites|Assimara]] Parasite
+}}

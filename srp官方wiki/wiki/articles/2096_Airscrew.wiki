@@ -1,0 +1,66 @@
+
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|airscrew}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|title1=Airscrew
+|image1=Airscrew.png
+|hp=50.0
+|damage=15.0
+|armor=9.0
+|kb_resistance=0.7
+|adaptable=No
+|id=srparasites:airscrew
+}}
+'''Airscrews''' are a [[Mobs|Mob]] in the [[Crude Parasites|Crude]] Tier.
+
+== ''Spawning'' ==
+
+* Spawns in groups of 1 to 2, from [[Evolution Phases#Phase 7|Phase 7]] onward, with a spawnweight of 5.
+* This mob will only spawn within the range of a [[Colony]].
+
+== ''Behavior'' ==
+
+*Airscrews can shoot a projectile which creates [[Thin Webbing]] upon landing. These will slow down their target. These Webs disappear, after enough time passes.
+**They can shoot three of these projectiles at a time at multiple targets.
+**If this web projectile successfully hits a mob, a rope will be formed that will pull it up towards the Airscrew's underside, where it will receive immense damage.
+***When a mob is being pulled by this rope, it will receive:
+****Mining Fatigue III and Slowness III for the duration it is being pulled.
+****Weakness III for two seconds.
+***If this rope passes through a solid block, it will break and the target will no longer be pulled.
+
+=== ''Weaknesses'' ===
+Airscrews, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+{{Properties
+|tier=Crude
+|FollowRange=16
+}}
+
+{{Drops
+|rolls1=One Roll:
+|page1=Noxious Brain
+|amount1=1
+|chance1=80
+}}
+
+==''Sounds''==
+To be added...
+
+==''Trivia''==
+*Airscrews are known as '''Leer''' in the mod files.
+*In the [https://trello.com/c/EuhDjVH4/770-airscrew Trello] it mentions the Airscrew patrolling near [[Nests]] and/or [[Colony|Colonies]].
+*Despite having a head hitbox, it is unable to receive melee damage, nor does it give any bonus damage if hit with a projectile.
+
+== ''Gallery'' ==
+<gallery>
+File:AirscrewHeight.png|Size of Airscrew's Model.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Crude Parasites]]
+[[Category:Mobs]]

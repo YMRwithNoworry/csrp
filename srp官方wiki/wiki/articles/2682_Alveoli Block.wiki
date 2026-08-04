@@ -1,0 +1,22 @@
+{{Stub}}
+
+
+'''Alveoli Blocks''' are infested blocks that require [[Bronchial Tube|Bronchial Tubes]] to function.
+{{Item Info
+|image1=Alveoli Block.png
+|id=srparasites:alveoli
+}}
+
+==''Obtainment''==
+Alveoli Blocks are not directly craftable, but can be found as "tree" leaves in the [[Harlequin Biome]], or within the [[Meteor]] structure.
+
+{{CraftingTable|r1_b2=Solid Alveoli Block|r1_output=Alveoli Block|r1_count=2|r1_shapeless=true}}
+
+==''Usage''==
+Glass Bottles can be used on Alveoli Blocks to harvest [[Alveolar Fluid]]. If one is not in contact with a Bronchial Tube, it will turn into a Sick Alveoli Block and become unusable. 
+
+Two can be used to create the less transparent Solid Alveoli Block.
+{{CraftingTable|r1_a1=Alveoli Block|r1_b1=Alveoli Block|r1_output=Solid Alveoli Block|r1_shapeless=true|r1_nolink=true}}
+
+{{BlockList}}
+[[Category:Blocks]]

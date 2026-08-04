@@ -1,0 +1,11 @@
+{{DisambiguationContent
+|image1=Assimilated Horse.png
+|title1=[[Assimilated Horse]]
+|desc1=An [[Assimilated Mobs|Assimilated]] Parasite
+|image2=Assimilated Horse Head.png
+|title2=[[Walking Horse Head]]
+|desc2=A [[Walking Heads|Walking Head]] Parasite
+|image3=FeralHorse.png
+|title3=[[Feral Horse]]
+|desc3=A [[Feral Parasites|Feral]] Parasite
+}}

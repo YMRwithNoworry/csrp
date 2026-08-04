@@ -1,0 +1,135 @@
+{{Navbar|page1=Stage I Beckon|page2=Stage II Beckon|page3=Stage III Beckon|page4=Stage IV Beckon}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|beckonsi}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Nexus Info
+|image1=Stage 1 Beckon.png
+|armor=4.0
+|growtime=240-300 sec [min-max]
+|hp=25.0
+|infestation_cooldown=60 sec [min]
+|infestation_radius=X: 4 Y: 2 
+|summon_cooldown=10 sec
+|adaptable=Yes
+|id=srparasites:beckon_si 
+}}
+'''Stage I Beckons''' are a type of [[Mobs|Mob]], placed in the [[:Category:Nexus Parasites|Nexus]] Tier. Killing one will grant the {{AdvancementLink|Gardener}}.
+
+== ''Spawning'' ==
+*Spawned by the [[Reinforcement System]]:
+**Spawned randomly upon the death of Parasites larger than 1 block.
+**Spawned randomly on [[Residue]].
+**Spawned on [[Infested Blocks]], created by other Beckons.
+*Spawned by [[Stage IV Beckon|Stage IV Beckons]].
+*If at least one [[Colony]] exists, spawns when a [[Stage II Beckon]] is killed.
+Stage I Beckons will not spawn if there are already 2 other Beckons in the same chunk.
+
+== ''Behavior'' ==
+Stage I Beckons are Stationary Block Infesters and Defensive Support parasites.
+
+*Stage I Beckons are capable of spawning [[Rupter|Rupters]], through the usage of [[Biomass]]. [[Stage I Beckon#Summoning and Mobs Value|More info below]].
+*They're able to convert blocks, depending on their [[Hardness]]<ref>Max [[Hardness]] of the Blocks they can infest, by default, is 4.5. </ref>, to their [[Infested Blocks|Infested Variant]], these include Infested Dirt, Stone and Wood. The Infestation can spread in a 4 block radius with a 60 second minimum Infestation cooldown per block radius.
+**The same Infested Blocks can generate more Stage I Beckons, extending the range of the Infested Zone. There can be a maximum of 2 Beckons per Chunk.
+
+* Stage I Beckons throw 2 bombs around them when damaged, this has a cooldown of 5 seconds. The bombs inflict 2.5 damage each and place an effect cloud of stacking [[Viral]] and Poison.
+* Stage I Beckons can break blocks that have their [[Hardness]] Value up to 3, with a 60 ticks cooldown and 1 Block range.
+
+=== ''Summoning'' ===
+Stage I Beckons are capable of spawning various [[Mobs]], through the usage of [[Biomass]].
+
+The summoning Ability is based on Points. Each Mob has a certain Points value. Spawned Parasites will either be sorted by Ground type or Air, Parasites categorized as Air type will be spawned instead of Grounded if the target is 3 blocks above the summoner.
+
+'''Stage I Beckons have a total of 4 Points per summon and can summon 4 mobs before its cooldown of 10 seconds with a cap of 4 parasites active at once.'''
+
+{| class="fandom-table"
+|+
+'''Spawn Table'''
+!Mobs
+!Points Value
+!Spawn Chance
+!Type
+|-
+|[[Rupter]] 
+|1 Point
+|100%
+|Ground
+|-
+|}
+
+=== ''Weaknesses'' ===
+*Stage I Beckons, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+*Stage I Beckons will take damage over time and die if the current dimension is [[Evolution Phases#Phase 2|Phase 2]] or lower.
+=== ''Post-Death'' ===
+Stage I Beckons, after being killed, will clean all the Infested Blocks it created, turning them into [https://minecraft.fandom.com/wiki/Gravel gravel] with Residue on top.
+
+{{Properties|tier=Nexus I}}
+
+{{Drops
+|rolls1=Always Rolls:
+|page1=Beckon Membrane
+|amount1=3
+|chance1=20
+}}
+
+== ''Sounds'' ==
+{| class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|[[File:vstagei.ogg]]
+|Hostile
+|Plays when a Beckon spawns.
+|Bell tolls
+|vstagei
+|-
+|[[File:Stage1 Beckon Growl1.ogg]]
+[[File:Stage1 Beckon Growl2.ogg]]
+|Hostile
+|Plays randomly while a Stage I Beckon is alive.
+|Beckon whispers
+|beckonsi_growl/beckonsi_growl_2
+|-
+|[[File:Stage1 Beckon Hurt1.ogg]]
+[[File:Stage1 Beckon Hurt2.ogg]]
+|Hostile
+|Plays when a Stage I Beckon takes damage.
+|Beckon hisses
+|beckonsi_hurt/beckonsi_hurt_2
+|-
+|[[File:Stage1 Beckon Death1.ogg]]
+[[File:Stage1 Beckon Death2.ogg]]
+|Hostile
+|Plays when a Stage I Beckon dies.
+|Beckon cries
+|beckonsi_death/beckonsi_death_2
+|-
+|}
+
+== ''Trivia'' ==
+*Like all Nexuses, Stage I Beckons do not despawn by default.
+*Beckons are known as '''Venkrol''' internally. The etymology or meaning of this is unknown.
+*Despite their floral shape, Beckons and Dispatchers are not related to plants, as they're the same kind of pseudo-arthropod as Inborns and Pures. Additionally, Beckons' biomass pods are not eggs, though they serve a similar function.
+*Beckons use [[Biomass]] chunks to spawn other [[Mobs|Parasites]].
+*All Beckons except for Stage IV have fleshy "roots" below their model. They use these roots to infest blocks, absorb energy and biomass from [[the Source]], and evolve.
+*Like Dispatchers and Rooters, Beckons are physical appendages of the Source sent from underground.
+
+==''Gallery''==
+<gallery>
+File:Biomass.png|The Biomass Entity Stage I Beckons use.
+File:Bomb2.png|The Bomb that Stage I Beckons use.
+File:BeckonS1Height.png|Size of the Stage 1 Beckon's model.
+File:Stage1Beckon1.8.0.png|The Stage 1 Beckon's appearance in 1.8.0. (Credit to @scout2illustrates)
+File:Stage1 Bell.ogg|The old beckon spawning sound effect.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Mobs]]
+[[Category:Nexus Parasites]]

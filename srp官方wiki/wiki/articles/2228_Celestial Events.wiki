@@ -1,0 +1,136 @@
+'''Celestial Events''' are elusive, mysterious night-sky phenomena. As of now, there exist seventeen distinct astral objects. Eight of the seventeen of the events are planets, counting Pluto. 
+
+The {{AdvancementLink|Columbus}} is obtained by discovering half of the sixteen bodies, while the {{AdvancementLink|STOLAS}} is obtained after discovering them all (excluding Dark Days, as it is disabled by default).
+
+== ''Behavior'' ==
+Celestial Events are stellar bodies in the sky, similar to the Sun and Moon, that have a certain chance to appear in certain [[Evolution Phases]]. They revolve around Earth at different speeds, with some not even moving at all. Celestial Events cannot appear in negative Evolution Phases.
+
+Only two Celestial Events have effects on [[Mobs|Parasites]], being Twenty-Seven and Arrow.
+*Twenty-Seven will inflict all parasites that spawn with [[Rage|Rage II]] for ten minutes as long as it is active.
+*Arrow will allow all parasites to drop [[Shrimp]] as long as it is active.
+
+Added in 1.10.7, the Dark Days event (also called Celestial Displacement) can occur if enabled in the config file. It seems to have no effects on parasites, however:
+*The sky will turn completely black, obscuring the Moon and all other objects in the sky.
+*Sources of light, such as Torches, Glowstone, Fire, and Lava, will no longer emit light.
+*There is a constant low humming.
+*The Celestial Events tab in the [[Compendium]] corrupts, with every event other than Dark Days turning into [ ? ? ? ].
+
+== ''Solar'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Image''' 
+!'''Appearance'''
+!'''Description'''
+|-
+|[[File:mercury.png]]
+|Mercury. It has a 40% chance of appearing in all Phases. Unknown behavior.
+|A pale spark skimming the sky. Temperatures swing violently, burning and freezing the same ground in a single day. It's too close.
+|-
+|[[File:venus.png]]
+|Venus. It has a 75% chance of appearing in all Phases. Unknown behavior.
+|A bright cloud-suffocated marble. It has a day longer than its year. There are mice on it.
+|-
+|[[File:mars.png]]
+|Mars. It has a 35% chance of appearing in all Phases. Unknown behavior.
+|A red ember suspended in the heavens. Was once warm enough for liquid water, leaving scars that still cut across its surface.
+|-
+|[[File:jupiter.png]]
+|Jupiter. It has a 25% chance of appearing in all Phases. Unknown behavior.
+|A swollen giant adrift in the dark. Its bands churn like bruises watching without eyes. So massive that its gravity reshapes the paths of everything.
+|-
+|[[File:saturn.png]]
+|Saturn. It has a 22% chance of appearing in all Phases. Unknown behavior.
+|A crown of rings wrapped around a heavy silhouette. Its rings are fragile and temporary, slowly unraveling.
+|-
+|[[File:uranus.png]]
+|Uranus. It has a guaranteed 100% chance of appearing in all Phases. Unknown behavior.
+|A cold, tilted orb that refuses to sit right in the sky. It drags its seasons sideways on its tilted axis.
+|-
+|[[File:neptune.png]]
+|Neptune. It has a 15% chance of appearing in all Phases. Unknown behavior.
+|A deep-blue puncture in the night. Its winds are the fastest in the solar system, tearing across its surface faster than sound. Neptune has been mutated.
+|-
+|[[File:pluto.png]]
+|Pluto. It has a 8% chance of appearing in all Phases. Unknown behavior.
+|A small, forgotten bead at the edge of sight. Its orbit is unstable and tilted.
+|-
+|}
+
+== ''Alienis'' ==
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Image''' 
+!'''Appearance'''
+!'''Description'''
+|-
+|[[File:star1.png]]
+|Pulse. It has a guaranteed 100% chance of appearing daily after Phase 2. Unknown behavior.
+|A slow, rhythmic pulse.
+|-
+|[[File:star2.png]]
+|Twenty Seven. It has a mere 1% chance of appearing after Phase 1. Highly dangerous, as it gives all [[Mobs|Parasites]] [[Rage|Rage II]] when it is active.
+|??? : Parasites spawn enraged.
+|-
+|[[File:bld_planet.png]]
+|Blip. It has a guaranteed 100% chance of appearing regardless of the Phase. Harmless behavior.
+|A brief light in the sky that's existed for as long as you could remember.
+|-
+|[[File:four_comet.png]]
+|Comet Four. It has a 35% chance of appearing from Phase 3 and onwards. Unknown behavior.
+|???
+|-
+|[[File:eighty_three.png]]
+|Eighty Three. It has a 5% chance of appearing from Phase 7 and onwards. Unknown behavior.
+|???
+|-
+|[[File:tetrahedron.png]]
+|Arrow. It has merely 0.5% chance to appear each night, regardless of the Phase. Parasites may feel a little crustaceous.
+|An odd tetrahedron. : Parasites may drop [[Shrimp|shrimp]].
+|-
+|[[File:eight.png]]
+|Eight. It has merely a 0.5% chance to spawn, from Phase 4 and onwards. Unknown behavior.
+|???
+|-
+|[[File:three.png]]
+|Three. It has a 15% chance from Phase 5 and onwards. Unknown behavior.
+|???
+|-
+|[[File:black_sky.png]]
+|Dark Days. It has a very small 0.05% chance from Phase 0 and onwards. The sky will turn black, and no light will be found.
+|???
+|-
+|}
+
+==''[[Commands]]''==
+{{#lst:Commands|celestial}}
+
+== ''Trivia'' ==
+* The description of Venus references the song ''Mice on Venus'' by C418.
+**The Mice of Venus are a very resilient species, being able to thrive in the extreme environments of Venus with its extreme temperatures and the poor atmosphere. They love '''earthly cheese'''!
+*Neptune's description references the analog horror series ''Gemini Home Entertainment''.
+*The Dark Days event is inspired by actual "dark days" that occur because of natural phenomena such as volcanic eruptions and other airborne debris, most notably the [https://en.wikipedia.org/wiki/New_England's_Dark_Day Dark Days of New England in 1780].
+*The Arrow is a reference to the mystery Warp Arrow from ''Voices of The Void''.
+
+
+== ''Gallery'' ==
+Celestial bodies as they appear in the night sky.
+<gallery>
+File:Mercury_Nightsky.png|Mercury.
+File:Venus_Nightsky.png|Venus.
+File:Mars_Nightsky.png|Mars.
+File:Jupiter_Nightsky.png|Jupiter.
+File:Saturn_Nightsky.png|Saturn.
+File:Uranus_Nightsky.png|Uranus.
+File:Neptune_Nightsky.png|Neptune.
+File:Pluto_Nightsky.png|Pluto.
+File:Pulse_Nightsky.png|Pulse.
+File:nightsky.png|Twenty Seven.
+File:Blip_Nightsky.png|Blip.
+File:black_sky_example.png|Terrain during Dark Days, as the body itself is not visible.
+File:CometFour_Nightsky.png|Comet Four.
+File:EightyThree_Nightsky.png|Eighty Three.
+File:Arrow_Nightsky.png|Arrow.
+File:Eight_Nightsky.png|Eight.
+File:Three_Nightsky.png|Three.
+</gallery>
+
+[[Category:Systems]]

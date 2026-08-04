@@ -1,0 +1,11 @@
+{{DisambiguationContent
+|image1=Primitive Devourer.png
+|title1=[[Primitive Devourer]]
+|desc1=A [[Primitive Parasites|Primitive]] Parasite
+|image2=AdaptedDevourer.png
+|title2=[[Adapted Devourer]]
+|desc2=An [[Adapted Parasites|Adapted]] Parasite
+|image3=Devourer Tentacle.png
+|title3=[[Devourer Tentacle]]
+|desc3=A [[:Category:Drops#Materials|Material]] dropped by Devourers
+}}

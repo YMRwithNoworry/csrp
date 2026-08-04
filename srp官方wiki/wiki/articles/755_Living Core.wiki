@@ -1,0 +1,71 @@
+{{Item Info
+|image1=Living Core.png
+|type=Material
+|stackable=No
+|tooltip=The flame of life has not yet shined in this object. The Core that fuels all [[Weapons]].
+|id=srparasites:living_core
+}}
+'''Living Cores''' are a [[Weapons' Components|Weapons' Component]] used to craft [[:Category:Weapons#Living Weapons|Living Weapons]].
+
+== ''Obtainment'' ==
+{{CraftingTable|r1_b1=Summoner Core|r1_b2=Manducater Orb|r1_a2=Infected Flesh|r1_c2=Infected Flesh|r1_output=Living Core}}
+
+== ''Usage'' ==
+{{CraftingTable
+|r1_b1=Infectious Blade Fragment
+|r1_c1=Infectious Blade Fragment
+|r1_a2=Vile Shell
+|r1_c2=Infectious Blade Fragment
+|r1_b2=Living Core
+|r1_a3=Hardened Bone Handle
+|r1_b3=Vile Shell
+|r1_output=Living Sword
+
+|r2_b1=Vile Shell
+|r2_c1=Living Core
+|r2_b2=Hardened Bone Handle
+|r2_c2=Infectious Blade Fragment
+|r2_a3=Hardened Bone Handle
+|r2_c3=Infectious Blade Fragment
+|r2_output=Living Scythe
+
+|r3_b1=Living Core
+|r3_c1=Infectious Blade Fragment
+|r3_a2=Vile Shell
+|r3_b2=Hardened Bone Handle
+|r3_c2=Infectious Blade Fragment
+|r3_a3=Hardened Bone Handle
+|r3_b3=Infectious Blade Fragment
+|r3_output=Living Cleaver
+
+|r4_a1=Living Core
+|r4_b1=Hardened Bone Handle
+|r4_c1=Vile Shell
+|r4_a2=Hardened Bone Handle
+|r4_c2=Dried Tendons
+|r4_b3=Dried Tendons
+|r4_output=Living Bow
+|r4_a3=Vile Shell
+
+|r5_a1=Vile Shell
+|r5_b1=Living Core
+|r5_c1=Infectious Blade Fragment
+|r5_b2=Vile Shell
+|r5_b3=Hardened Bone Handle
+|r5_output=Living Axe
+|r5_c2=Infectious Blade Fragment
+
+|r6_nolink=true
+|r6_b1=Living Core
+|r6_a2=Twisted Spinal Signal
+|r6_count=1
+|r6_output=Preeminent Module
+|r6_b3=Twisted Spinal Signal
+|r6_c2=Twisted Spinal Signal
+|r6_b2=Module Genic Receptacle
+}}
+[[Category:Weapons' Components]]
+
+
+{{ItemList}}
+[[Category:Items]]

@@ -1,0 +1,152 @@
+{{Navbar|page1=Buglin|page2=Rupter|page3=Mangler}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|rupter}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+{{Mob Info 
+|image1=<gallery>
+Rupter.png|Normal
+BerserkerRupter.png|Berserker
+VirulentRupter.png|Virulent
+RupterFluffy.png|Fluffy
+WeirdRupter.png|Weird
+StripedRupter.png|Striped
+ClassicRupter.png|Classic
+GoldenRupter.png|Golden
+</gallery>
+|hp=10.0
+|damage=5.0
+|armor=5.0
+|kb_resistance=0.2
+|adaptable=No
+|id=srparasites:rupter
+}}
+'''Rupters''' are a type of [[Mobs|Mob]] in the [[Inborn Parasites|Inborn]] Tier. Reaching a kill count of 1000 or greater will award the player with the {{AdvancementLink|Cut the evil by its roots}}. They are insect-like creatures with four legs, and many thin tentacles coming from its head, which have been confirmed that they are used to echolocate its prey. They also have two limb like structures coming from the bottom half of its body, although, the purpose of them is not clear yet. They have a very similar tail-like growth in their back.
+
+== ''Spawning'' ==
+*Evolves from a [[Buglin]] after 75 seconds.
+*Spawns naturally, from [[Evolution Phases#Phase 1|Phase 1]] through [[Evolution Phases#Phase 7|Phase 7]], with a spawnweight of 30, in groups of 3 to 6.
+*Spawned by [[Light Carrier|all]] [[Heavy Carrier|three]] [[Flying Carrier|Carriers]].
+*Spawned via [[Biomass]] by [[Stage I Beckon|Stage I]], [[Stage II Beckon|II]], and [[Stage III Beckon|III Beckons]], [[Overseer|Overseers]], and [[Primitive Summoner|both]] [[Adapted Summoner|Summoners]].
+*Evolves from a [[Buglin]] after being stored by [[Stage II Dispatcher|Stage II]], [[Stage III Dispatcher|III]] or [[Stage IV Dispatcher|IV Dispatchers]].
+*Spawned by [[Dreadnaut|Ancient Dreadnauts]].
+*Spawned by level 0 to 3 [[Scent System|Scents]].
+*If at least one [[Colony]] exists, spawns when a [[Mangler]] is killed.
+*Rupters can spawn as one of five texture variants, being Classic, Striped, Fluffy, Weird, and Golden.<ref>
+*Classic - 15%
+*Striped - 40%
+*Fluffy - 25%
+*Weird - 5%
+*Golden - 0.5%</ref> This has no effect on their behavior or attack patterns.
+
+==''Behavior''==
+Rupters are infestation propagators and swarm units, attacking at close to moderate range and guaranteed to inflict the [[Call Of The Hive|Call of the Hive]]. 
+*If the current [[Evolution Phases|Evolution Phase]] is below [[Evolution Phases#Phase 2|2]], Rupters will flee from Players and Aggressive Mobs unless in a group of 2 or more. 
+*Their melee attack is performed through contact damage, inflicting CotH and Slowness II.
+*Rupters can spit out a lingering CotH II cloud on passive mobs instead of attacking if they are alone and under Phase 2.
+*Rupters can climb blocks.
+*Rupters can perform great leaps.
+*Rupters are able to traverse faster in liquids by performing small leaps.
+*Rupters can place [[Tunnel]] Blocks from [[Evolution Phases#Phase -1|Phases -1]] to [[Evolution Phases#Phase 3|3]] at the cost of 5 killcount per tunnel.
+*Rupters, in some circumtances, may follow another parasite around, and will try to stay close to that parasite:
+**If summoned by a [[Primitive Summoner|Primitive]] or [[Adapted Summoner]].
+**If close to a [[Primitive Viscera|Primitive]] or [[Adapted Viscera]].
+*If a Rupter gets 30 kills, it will evolve into a [[Mangler]].
+*Rupters, being so jolly,<ref>The reason for their jolliness is unknown, at the moment.</ref> may spin on the ground, and may also jump while spinning. This was formerly a bug but has been confirmed to be accepted as a feature by the Developers of the mod.
+{{Variants|count=2|Berserker=BerserkerRupter.png|Virulent=VirulentRupter.png}}
+
+
+=== ''Weaknesses'' ===
+
+* Like all Parasites, Rupters are weak to fire. Damage inflicted by fire is quadrupled.
+{{Properties
+|tier=Inborn
+|XPValue=5
+|COTH=1.0
+|MinimumDamage=0.1
+}}
+
+{{Drops
+|rolls1=Always Rolls:
+|page1=Rupter Viscera
+|amount1=1-2
+|chance1=70
+}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:rupteridle1.ogg]]
+[[File:rupteridle2.ogg]]
+[[File:rupteridle3.ogg]]
+|Hostile
+|Plays randomly while a Rupter is alive.
+|Rupter clicks
+|idle1-3
+|-
+|
+[[File:rupterhurt1.ogg]]
+[[File:rupterhurt2.ogg]]
+[[File:rupterhurt3.ogg]]
+|Hostile
+|Plays when a Rupter is hurt.
+|Rupter screeches
+|hurt1-3
+|-
+|
+[[File:Smollegs1.ogg]]
+[[File:Smollegs2.ogg]]
+[[File:Smollegs3.ogg]]
+[[File:Smollegs4.ogg]]
+|Hostile
+|Plays when a Rupter walks.
+|Insect steps
+|smollegs1-4
+|-
+|
+[[File:Rupter Cloud.ogg]]
+|Hostile
+|Plays when a Rupter releases a [[Call Of The Hive|COTH]] Cloud.
+|Rupter spits
+|cloud
+|-
+|
+[[File:buglintransform.ogg]]
+|Hostile
+|Plays when a Buglin transforms into a [[Rupter]].
+|Buglin grows
+|lodo_mudo
+|-
+|
+[[File:rupterdeath.ogg]]
+|Hostile
+|Plays when a Rupter dies.
+|Rupter dies
+|death
+|}
+
+==''Trivia''==
+*Rupters are known as '''Mudo''' in the mod files.
+*Rupters use their front tentacles to assimilate Mobs, from which they release [[Call Of The Hive|COTH]].
+*Rupters are inspired by [https://www.halopedia.org/Pod_infector Flood Infection Forms] from the Halo series.
+*The name "Rupter" derives from "corrupter", referring to their guaranteed infection of victims.
+
+==''Gallery''==
+<gallery>
+File:Rupter Dance.gif|The Shiggy Wiggy.
+File:Rupter size comparison.png|Size of the Rupter's Model.
+File:worker.png|The original Rupter model, now used by the colony [[Worker]].
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Mobs]]
+[[Category:Inborn Parasites]]

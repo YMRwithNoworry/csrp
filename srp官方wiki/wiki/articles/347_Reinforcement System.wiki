@@ -1,0 +1,40 @@
+[[File:Foster.png|thumb|108px|The [[Compendium]] icon.|link=Compendium]]
+
+
+The '''Reinforcement System''' is a [[Systems|System]] that allows [[Beckon (Disambiguation)|Beckons]] (and thus also [[Parasite Biome|Nodes]] and certain Parasites) to appear in the world. It is unlocked on [[Evolution Phases|Phase]] [[Evolution Phases#Phase |3]] and becomes more significant with each new Phase afterwards.
+
+The Reinforcement System can spawn a maximum of 5 Beckons, with a 2 second cooldown each. 
+
+==''Functioning''==
+There is a total of 3 ways the Reinforcement System can be activated.
+
+=== ''Parasite Death'' ===
+*After any Parasite larger than one block dies, there's a chance<ref>Phase 3: 4% chance,
+Phase 4: 6% chance, 
+Phase 5: 8% chance, 
+Phase 6: 10% chance, 
+Phase 7: 14% chance, 
+Phase 8: 16% chance, 
+Phase 9: 18% chance,
+Phase 10: 20% chance,
+4.5% if Evolution Phases are disabled.</ref> that a Stage I Beckon will emerge from underground, near the given Parasite's death location.
+=== ''[[Residue]]'' ===
+Residue has a small chance<ref>Phase 3: 1/5500 per tick, 
+Phase 4: 1/4000 per tick, 
+Phase 5: 1/1000 per tick, 
+Phase 6: 1/500 per tick, 
+Phase 7: 1/400 per tick, 
+Phase 8: 1/300 per tick, 
+Phase 9: 1/200 per tick,
+Phase 10: 1/150 per tick,
+1/20000 per tick if Evolution Phases are disabled.</ref> every tick to generate a Stage I Beckon.
+=== ''[[Infested Blocks]]'' ===
+Generating from other Beckons' Infestation, in order to increase the sizes of an Infested Zone, more Beckons can emerge from Infested Blocks, with a 5% chance for this to happen, though only if there are no other Beckons nearby. 
+
+==Colony Buff==
+[[Colony|Colonies]] can buff the Reinforcement System and allow for higher tier Beckons to appear as a result of the above causes. For every twenty points a Colony accumulates, it adds a 100% bonus for the Reinforcement System to spawn [[Stage II Beckon|Stage II]] and [[Stage III Beckon|Stage III Beckons]]. [[Stage IV Beckon|Stage IV Beckons]] can never spawn as a result of the Reinforcement System.
+
+[[Category:Systems]]
+
+==Notes==
+<references />

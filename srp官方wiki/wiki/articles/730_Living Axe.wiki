@@ -1,0 +1,41 @@
+{{Navbar|page1=Living Axe|page2=Sentient Greataxe}}
+{{Item Info
+|image1=File:Living Axe.png
+|damage=21
+|attack_speed=0.8
+|range=4.0
+|durability=1000
+|stackable=No
+|tooltip=Result of various Parasites body parts reshaped to form a Weapon. The flame of life shines inside it. Renders armour useless over time.
+|id=srparasites:weapon_axe
+}}
+The '''Living Axe''' is a type of [[Weapons|Weapon]] created from a multitude parasite materials.
+
+== ''Obtainment'' ==
+{{CraftingTable
+|r1_a1=Vile Shell
+|r1_b1=Living Core
+|r1_c1=Infectious Blade Fragment
+|r1_b2=Vile Shell
+|r1_b3=Hardened Bone Handle
+|r1_output=Living Axe
+|r1_c2=Infectious Blade Fragment
+}}
+
+== ''Usage'' ==
+
+'''Fighting'''
+
+The Living Axe is a Melee Weapon. Its attack reach is 4 blocks in every direction from the players head, which is the default attack reach.
+
+Each time it is swung, it performs a sweeping attack (though only visually if airborne or the attack cooldown is still up) and applies the [[Corrosion]] Effect to the directly targeted mob.  
+
+'''Evolving'''
+
+Upon killing an entity, it's HP, including possible buffs from health boost, are added to a counter shown in the item's tooltip. 1 second after this counter reaches 50,000, a non-damaging lightning will strike the player, and the held weapon will be replaced with it's Sentient counterpart at full durability. 
+
+{{ItemList}}
+
+[[Category:Weapons]]
+[[Category:Items]]
+[[Category:Equipment]]

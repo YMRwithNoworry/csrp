@@ -1,0 +1,62 @@
+{{Item Info
+|image1=Vile Shell.png
+|type=Material
+|stackable=No
+|tooltip=An extremely resistant shell, produced from Parasites body parts. A Component for Weapons.
+|id=srparasites:vile_shell
+}}
+'''Vile Shells''' are a [[Weapons' Components|Weapon Component]] used to craft [[:Category:Weapons#Living Weapons|Living Weapons]].
+
+==''Obtainment''==
+{{CraftingTable|r1_b1=Longarms Armor Fragment|r1_b2=Longarms Armor Fragment|r1_a2=Infected Flesh|r1_c2=Infected Flesh|r1_output=Vile Shell}}
+
+== ''Usage'' ==
+{{CraftingTable
+|r1_b1=Infectious Blade Fragment
+|r1_c1=Infectious Blade Fragment
+|r1_a2=Vile Shell
+|r1_c2=Infectious Blade Fragment
+|r1_b2=Living Core
+|r1_a3=Hardened Bone Handle
+|r1_b3=Vile Shell
+|r1_output=Living Sword
+
+|r2_b1=Vile Shell
+|r2_c1=Living Core
+|r2_b2=Hardened Bone Handle
+|r2_c2=Infectious Blade Fragment
+|r2_a3=Hardened Bone Handle
+|r2_c3=Infectious Blade Fragment
+|r2_output=Living Scythe
+
+|r3_b1=Living Core
+|r3_c1=Infectious Blade Fragment
+|r3_a2=Vile Shell
+|r3_b2=Hardened Bone Handle
+|r3_c2=Infectious Blade Fragment
+|r3_a3=Hardened Bone Handle
+|r3_b3=Infectious Blade Fragment
+|r3_output=Living Cleaver
+
+|r4_a1=Living Core
+|r4_b1=Hardened Bone Handle
+|r4_c1=Vile Shell
+|r4_a2=Hardened Bone Handle
+|r4_c2=Dried Tendons
+|r4_b3=Dried Tendons
+|r4_output=Living Bow
+|r4_a3=Vile Shell
+
+|r5_a1=Vile Shell
+|r5_b1=Living Core
+|r5_c1=Infectious Blade Fragment
+|r5_b2=Vile Shell
+|r5_b3=Hardened Bone Handle
+|r5_output=Living Axe
+|r5_c2=Infectious Blade Fragment
+}}
+[[Category:Weapons' Components]]
+
+
+{{ItemList}}
+[[Category:Items]]

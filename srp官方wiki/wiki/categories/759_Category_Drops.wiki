@@ -1,0 +1,89 @@
+A list of all [[items]] that can be dropped by [[Mobs|Parasites]] and [[blocks]].
+
+== ''[[Lures|Lure]] Components''==
+{| class="fandom-table"
+!'''Drop'''
+!'''Source(s)'''
+|-
+|[[File:Rupter Viscera.png|32px|link:Fragile Piece]] [[Rupter Viscera]]
+|[[Rupter|Rupters]], [[Mangler|Manglers]], [[Gnat|Gnats]] and [[Lice]]
+|-
+|[[File:Diseased Heart.png|32px|link:Diseased Heart]] [[Diseased Heart]]
+|[[Assimilated Mobs]] (except Big Spiders, Endermen and Ender Dragon) and [[Host|Hosts]]
+|-
+|[[File:Altered Tendons.png|32px|link:Altered Tendons]] [[Altered Tendons]]
+|[[Primitive Parasites]] and [[Thrall|Thralls]] 
+|-
+|[[File:Toxic Lung.png|32px|link:Toxic Lung]] [[Toxic Lung]]
+|[[Adapted Parasites]], [[Metastatic Mass|Metastatic Masses]]
+|-
+|[[File:Noxious Brain.png|32px|link:Noxious Brain]] [[Noxious Brain]]
+|[[Pure Parasites]], [[Preeminent Parasites]], [[Metastatic Mass|Metastatic Masses]]
+|-
+|[[File:Twisted Spinal Signal.png|32px|link:Twisted Spinal Signal]] [[Twisted Spinal Signal]]
+|[[Bladder Sac|Bladder Sacs]] (5% chance to drop), [[Pestilential Ore]], [[Metastatic Mass|Metastatic Masses]]
+|}
+
+== ''Materials''==
+{| class="fandom-table"
+!'''Drop'''
+!'''Source(s)'''
+|-
+|[[File:Infected Flesh.png|32px|link:Infected Flesh]] [[Infected Flesh]]
+|[[Assimilated Mobs]] (except Big Spiders, Endermen and Ender Dragons), [[Host|Hosts]], [[Thrall|Thralls]], [[Benign Growth|Benign Growths]], [[Malignant Growth|Malignant Growths]]
+|-
+|[[File:Arachnida Claw.png|32px|link:Arachnida Claw]] [[Arachnida Claw]]
+|[[Primitive Arachnida|Primitive Arachnidas]], [[Adapted Arachnida|Adapted Arachnidas]], [[Malignant Growth|Malignant Growths]]
+|-
+|[[File:Bolster Husk.png|32px|link:Bolster Husk]] [[Bolster Husk]]
+|[[Primitive Bolster|Primitive Bolsters]], [[Adapted Bolster|Adapted Bolsters]], [[Malignant Growth|Malignant Growths]]
+|-
+|[[File:Devourer Tentacle.png|32px|link:Devourer Tentacle]] [[Devourer Tentacle]]
+|[[Primitive Devourer|Primitive Devourers]], [[Adapted Devourer|Adapted Devourers]], [[Malignant Growth|Malignant Growths]]
+|-
+|[[File:Longarms Armor Fragment.png|32px|link:Longamrs Armor Fragment]] [[Longarms Armor Fragment]]
+|[[Primitive Longarms]], [[Adapted Longarms]], [[Malignant Growth|Malignant Growths]]
+|-
+|[[File:Manducater Orb.png|32px|link:Manducater Orb]] [[Manducater Orb]]
+|[[Primitive Manducater|Primitive Manducaters]], [[Adapted Manducater|Adapted Manducaters]], [[Malignant Growth|Malignant Growths]]
+|-
+|[[File:Reeker Fang.png|32px|link:Reeker Fang]] [[Reeker Fang]]
+|[[Primitive Reeker|Primitive Reekers]], [[Adapted Reeker|Adapted Reekers]], [[Malignant Growth|Malignant Growths]]
+|-
+|[[File:Strange Bone.png|32px|link:Strange Bone]] [[Strange Bone]]
+|[[Primitive Parasites]], [[Adapted Parasites]], [[Thrall|Thralls]], [[Benign Growth|Benign Growths]], [[Malignant Growth|Malignant Growths]]
+|-
+|[[File:Summoner Core.png|32px|link:Summoner Core]] [[Summoner Core]]
+|[[Primitive Summoner|Primitive Summoners]], [[Adapted Summoner|Adapted Summoners]], [[Malignant Growth|Malignant Growths]]
+|-
+|[[File:Yelloweye Bone.png|32px|link:Yelloweye Bone]] [[Yelloweye Bone]]
+|[[Primitive Yelloweye|Primitive Yelloweyes]], [[Adapted Yelloweye|Adapted Yelloweyes]], [[Malignant Growth|Malignant Growths]]
+|-
+|[[File:Chipped Motherly Membrane.png|32px|link:Chipped Motherly Membrane]] [[Chipped Motherly Membrane]]
+|[[Primitive Viscera|Primitive Visceras]] and [[Adapted Viscera|Adapted Visceras]]
+|-
+|[[File:Corrosive Mucus.png|32px|link:Corrosive Mucus]] [[Corrosive Mucus]]
+|[[Primitive Vermin|Primitive Vermins]] and [[Adapted Vermin|Adapted Vermins]]
+|-
+|[[File:Hijacked Blaze Rod.png|32px|link:Hijacked Blaze Rod]] [[Hijacked Blaze Rod]]
+|[[Hijacked Blaze|Hijacked Blazes]]
+|-
+|[[File:Hijacked Bone.png|32px|link:Hijacked Bone]] [[Hijacked Bone]]
+|[[Hijacked Skeleton|Hijacked Skeletons]]
+|-
+|[[File:Hijacked Iron Ingot.png|32px|link:Hijacked Iron Ingot]] [[Hijacked Iron Ingot]]
+|[[Hijacked Golem|Hijacked Iron Golems]]
+|-
+|[[File:Hijacked Growth.png|32px|link:Hijacked Growth]] [[Hijacked Growth]]
+|[[Hijacked Mobs]]
+|-
+|[[File:Beckon Membrane.png|32px|link:Beckon Membrane]] [[Beckon Membrane]]
+|[[Beckon (Disambiguation)|Beckons]], [[Metastatic Mass|Metastatic Masses]]
+|-
+|[[File:Dispatcher Membrane.png|32px|link:Dispatcher Membrane]] [[Dispatcher Membrane]]
+|[[Dispatcher (Disambiguation)|Dispatchers]], [[Metastatic Mass|Metastatic Masses]]
+|}
+
+
+{{ItemList}}
+[[Category:Items]]

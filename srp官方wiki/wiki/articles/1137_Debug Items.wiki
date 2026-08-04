@@ -1,0 +1,33 @@
+'''Debug Items''' are unobtainable [[Items]] used to carry out a specific debugging or Creative Mode purpose. Currently, there are six debug items and three [[Blocks]].  Only the blocks are stackable (up to 64).
+
+== ''Items'' ==
+=== ''NULL'' ===
+[[File:Debug Item.png|32px]] Left clicking a [[Mobs#Parasites|Parasite]] that can [[Adaptation System|adapt]] with the '''NULL''' item will print what Damage Type the Parasite has most recently adapted to, as well as how much damage from that Damage Type is reduced. It'll also generate a list of the Damage Types the Parasite has adapted to.  Its item ID is <code>srparasites:itemtab</code>
+
+=== ''Wands'' ===
+The '''Assimilation Wand''', '''Evolution Wand''', '''Devolution Wand''', and '''Variant Wand''' can be used to assimilate mobs, [[Evolution System|evolve]] parasites, devolve parasites, and change the variant of any parasite with variants respectively.
+
+* [[File:ItemAssimilation.png|32px]] The '''Assimilation Wand''' turns mobs that can be assimilated into their assimilated forms by left clicking. Right clicking the now assimilated mob will disguise it as its non-assimilated form.  Its item ID is <code>srparasites:itemassimilate</code>
+* [[File:ItemEvolution.png|32px]] The '''Evolution Wand''' makes parasites immediately evolve if they are able to evolve when right clicking.    Its item ID is <code>srparasites:itemevolve</code>
+* [[File:ItemDevolution.png|32px]] The '''Devolution Wand''' makes parasites devolve if they have evolved from another parasite (e.g. [[Mangler|Manglers]], [[:Category:Adapted Parasites|Adapted Parasites]]) by right clicking. If the parasite has no parasite it can devolve into, it will disappear.    Its item ID is <code>srparasites:itemdevolve</code>
+* [[File:ItemVariant.png|32px]] The '''Variant Wand''' randomly cycles through the available variants for the target parasite when right clicking. If the parasite has no variants, nothing will happen. This wand cannot change [[Primitive Reeker|Reekers]] to the Ricardo variant.    Its item ID is <code>srparasites:itemvariant</code>
+
+=== ''Blocks'' ===
+Debug blocks are centered mostly around removing parasite presence.
+
+*The [[Creative Infestation Purifier]] turns SRParasites blocks into their non-infested versions (e.g. Infested Dirt into Dirt) when placed on top of such a block and right-clicked with a diamond. Its item ID is <code>srparasites:infestation_purifier</code>
+*The [[Epitome Infestation Warp Diffuser]] deletes all SRParasites blocks directly next to it, no matter the orientation. It is activated upon right click and deletes all blocks that are connected to each other, similar in behavior to the [[Fog Nullifier]]. Its item ID is <code>srparasites:epitome_infestation_warp_diffuser</code>
+*The [[Parasite Chunk Barrier]] pushes all SRParasites entities out of its range, denoted by a chunk-wide square of barrier blocks around it. Right-clicking can cycle the range of the barrier between one to ten chunks. Its item ID is <code>srparasites:parasite_barrier</code>
+
+=== ''The Sign'' ===
+[[File:The Sign (Item).png|32px]] Simply having a "The Sign" item in your inventory permanently gives the player [[The Sign]] effect, making all parasites ignore that player until the item exits their inventory.  Its item ID is <code>srparasites:the_sign_charm</code>
+
+=== ''Greek Fire'' ===
+[[File:Greek fire.png|32px]] Used to burn parasite foliage such as [[Infested Residue]], [[Remains]], and other plants near instantly.  Its item ID is <code>srparasites:greek_fire</code>
+
+== ''Trivia'' ==
+*The [[Quench]] used to be an unobtainable Debug Item, but it was given a unique texture and crafting recipe in [[Version 1.9.10]], and some of its mechanics were adjusted.
+*The Sign and Greek Fire denote the Cognito and Firmamentum branches of [[Advancements]] respectively.
+
+{{ItemList}}
+[[Category:Items]]

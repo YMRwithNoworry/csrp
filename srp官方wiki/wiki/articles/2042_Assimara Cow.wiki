@@ -1,0 +1,57 @@
+{{Stub}}
+{{Navbar|page1=Walking Cow Head|page2=Assimilated Cow|page3=Assimara Cow|page4=Feral Cow}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|marcow}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=AssimaraCow.png
+|hp=38.0
+|damage=15.0
+|armor=8.0
+|kb_resistance=0.8
+|adaptable=No
+|id=srparasites:mar_cow
+}}
+'''Assimara Cows''' are the [[:Category:Assimara_Parasites|Assimara Version]] of Cows.
+
+== ''Spawning'' ==
+
+* Spawns individually, from [[Evolution Phases#Phase 4|Phase 4]] onward, with a spawnweight of 1, once 4 Cows have been assimilated.
+
+== ''Behavior'' ==
+Assimara Cows are Utility, Short Ranged Combatants.
+*Their melee attack is performed through contact damage, but they will not attempt to do this.
+*Assimara Cows will slowly approach their target and then vomit purple particles and produce a green effect cloud Infront of them. This attack has a 12 second cooldown.
+**This effect cloud inflicts, [[Viral]], Wither, Weakness, Hunger, and the [[Vomit]] effect, which covers your screen in a magenta splash. All of these effects are inflicted for 15 seconds.
+*Any mob within 3 blocks of an Assimara Cow will be inflicted with [[Call Of The Hive]]. This does not go through walls.
+*Assimara Cows are able to traverse faster in liquids by performing small leaps.
+*Assimara Cows are able to dive in liquids to pursue submerged targets.
+* On death Assimara Cows have a chance to explode, releasing [[Remains|Assimara Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+{{Variants
+|count=1
+|Texture=Mar_cow_variant.png
+|TextureDesc=is in the files of the mod, it does not spawns with this variant.
+}}
+
+=== ''Weaknesses'' ===
+*Assimara Cows, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+{{Properties|}}
+
+==''Sounds''==
+To be added...
+
+==''Trivia''==
+To be added...
+
+== Gallery ==
+<gallery>
+File:AssimaraCowHeight.png|Size of the Assimara Cow's model.
+</gallery>
+
+{{MobList}}
+<references />
+[[Category:Mobs]]
+[[Category:Assimara Parasites]]

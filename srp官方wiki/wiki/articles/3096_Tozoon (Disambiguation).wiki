@@ -1,0 +1,8 @@
+{{DisambiguationContent
+|image1=PrimitiveTozoon.png
+|title1=[[Primitive Tozoon]]
+|desc1=A [[Primitive Parasites|Primitive]] Parasite
+|image2=AdaptedTozoon.png
+|title2=[[Adapted Tozoon]]
+|desc2=An [[Adapted Parasites|Adapted]] Parasite
+}}

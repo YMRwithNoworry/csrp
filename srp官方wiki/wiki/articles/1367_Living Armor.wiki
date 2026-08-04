@@ -1,0 +1,38 @@
+{{WIP}}
+{{Navbar|page1=Living Armor|page2=Sentient Armor}}
+
+{{Armor Info
+|image2=<gallery>
+File:Living Armor1.png|1st Texture
+File:Living Armor2.png|2nd Texture
+</gallery>
+|armor=
+Helm: 4 [[File:Armor.png]][[File:Armor.png]]<br>Chestplate: 10 [[File:Armor.png]][[File:Armor.png]][[File:Armor.png]][[File:Armor.png]][[File:Armor.png]]<br>Leggings: 8 [[File:Armor.png]][[File:Armor.png]][[File:Armor.png]][[File:Armor.png]]<br>Boots: 4 [[File:Armor.png]][[File:Armor.png]]
+|toughness= 
+3.0 per piece
+12.0 in total
+|durability=
+Helm: 16500 <br>Chestplate: 24000 <br>Leggings: 22500 <br>Boots: 19500 
+|stackable=No
+|id=
+srparasites:armor_helm <br>srparasites:armor_chest <br>srparasites:armor_pants <br>srparasites:armor_boots
+}}
+The '''Living Armor''' is a type of [[Armor]].
+
+== ''Obtainment'' ==
+Obtainable only throughout Cheats or using Creative Mode.
+
+== ''Usage'' ==
+Like any armor set, Living Armor can be worn for extra protection.
+
+== ''Properties'' ==
+The Living Armor grants its user access to the [[Adaptation System]], permitting them to adapt to a total of 4 Damage Types.  Adaptation data can be seen by hovering over each item in the inventory.
+
+== ''Trivia'' ==
+To be added...
+
+{{ItemList}}
+[[Category:Armors]]
+[[Category:Work In Progress Content]]
+[[Category:Items]]
+[[Category:Equipment]]

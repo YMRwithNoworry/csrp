@@ -1,0 +1,21 @@
+{{Stub}}
+
+{{Effect Info
+|image1=Distorted Enlightenment.png
+|sources=See [[#Obtainment|Obtainment]]
+|type=Debuff
+|id=srparasites:distorted_enlightenment
+}}
+
+'''Distorted Enlightenment''' is a [[Effects|Status Effect]] inflicted by [[Draconite|Draconites]] (and ''possibly'' [[Kirin]] in the future). Upon being inflicted by it, the target will glow, receive five times the damage from Draconites, and both deal and receive 20% less damage to and from other parasites. Additionally, the screen distortion presented by the command ''/srp_breathe'' is applied.
+
+Distorted Enlightenment can be avoided by parrying projectiles that inflict it with [[Weapons#Sentient Weapons|Sentient Weapons]].
+
+Distorted Enlightenment does not stack.
+
+==''Obtainment''==
+{{Effect Causes|cause1=[[Draconite]] Barrage|potency1=I|duration1=0:20}}
+
+{{EffectList}}
+[[Category:Effects]]
+[[Category:Derived Parasites]]

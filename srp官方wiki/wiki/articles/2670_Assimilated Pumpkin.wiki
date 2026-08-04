@@ -1,0 +1,19 @@
+{{Stub}}
+{{Item Info
+|image1=Assimilated Pumpkin.png
+|id=srparasites:assimilated_pumpkin
+|title1=Assimilated Pumpkin|type=Block|stackable=Yes (64)}}
+
+The '''Assimilated Pumpkin''' is the infested form of a regular Pumpkin.
+
+==''Obtainment''==
+Contrary to the name, a Pumpkin cannot be infested or turned into an Assimilated one by [[Beckon]] infestation or conversion via the [[Parasite Biome]]. The only method to obtain one currently is simply crafting it with a Pumpkin and an [[Infested Blocks|Infested Dirt]].
+
+{{CraftingTable|r1_a1=Pumpkin|r1_b1=Infested Dirt|r1_output=Assimilated Pumpkin|r1_count=1}}
+
+==''Usage''==
+Assimilated Pumpkins cannot be used to stop any of the [[Enderman (Disambiguation)|Endermen variants]] from attacking. Its only true uses are for decoration and to craft its [[Assimilated Jack o'Lantern|sister block]].
+{{CraftingTable|r1_a1=Assimilated Pumpkin|r1_b1=Torch|r1_output=Assimilated Jack o'Lantern|r1_count=1}}
+
+{{BlockList}}
+[[Category:Blocks]]

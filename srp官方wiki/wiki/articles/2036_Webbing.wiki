@@ -1,0 +1,24 @@
+{{Stub}}
+{{Item Info
+|image1=<gallery>
+Thin Webbing (angled).png|Thin Webbing
+Toxicant Webbing (angled).png|Toxicant Webbing
+Tarnished Webbing (angled).png|Tarnished Webbing
+</gallery>
+|id=srparasites:srpweb<ref>Each block has a different '''data tag''', which are as follows:<div class="toccolours mw-collapsible mw-collapsed"><!--
+-->Thin Webbing's tag is <code>0</code><br><!--
+-->Toxicant Webbing's tag is <code>1</code><br><!--
+-->Tarnished Webbing's tag is <code>2</code></div><!--
+-->{{WhatAreDataTags|x|/=false}}</ref>
+}}
+=== Thin Webbing ===
+'''Thin Webbing''' is a [[Blocks|block]] produced by [[Assimilated Big Spider|Assimilated Big Spiders]], [[Primitive Arachnida|Primitive]] and [[Adapted Arachnida]], [[Assimara Bear|Assimara Bears]], and [[Airscrew|Airscrews]]. It only affects mobs which are not parasites and will disappear after some time.
+
+=== Toxicant Webbing ===
+'''Toxicant Webbing''' is a [[Blocks|block]] produced by [[Monarch|Monarchs]]. If a mob is caught in one, it will receive periodic damage until it either manages to escape or dies. It only affects mobs which are not parasites and will disappear after some time.
+
+=== Tarnished Webbing ===
+'''Tarnished Webbing''' is a [[Blocks|block]] not obtainable in survival. If a mob is caught in one, it will receive periodic damage, more so than Toxicant Webbing, until it either manages to escape or dies. It only affects mobs which are not parasites.
+
+{{BlockList}}
+[[Category:Blocks]]

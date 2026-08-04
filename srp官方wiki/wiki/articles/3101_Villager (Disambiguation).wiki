@@ -1,0 +1,14 @@
+{{DisambiguationContent
+|image1=Assimilated Villager.png
+|title1=[[Assimilated Villager]]
+|desc1=An [[Assimilated Mobs|Assimilated]] Parasite
+|image2=Assimilated Villager Head.png
+|title2=[[Walking Villager Head]]
+|desc2=A [[Walking Heads|Walking Head]] Parasite
+|image3=FeralVillager.png
+|title3=[[Feral Villager]]
+|desc3=A [[Feral Parasites|Feral]] Parasite
+|image4=AssimaraVillager.png
+|title4=[[Assimara Villager]]
+|desc4=An [[Assimara Parasites|Assimara]] Parasite
+}}

@@ -1,0 +1,1711 @@
+Resource IDs for every Scape and Run: Parasites item and block.
+
+==''Items''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+! colspan="2" |'''Item IDs'''
+|-
+!'''Item'''
+!'''ID'''
+|-
+! colspan="2" |'''[[Armor]]'''
+|-
+|[[Living Armor|Living Helm]]
+|srparasites:armor_helm
+|-
+|[[Living Armor|Living Chest]]
+|srparasites:armor_chest
+|-
+|[[Living Armor|Living Pants]]
+|srparasites:armor_pants
+|-
+|[[Living Armor|Living Boots]]
+|srparasites:armor_boots
+|-
+|[[Sentient Armor|Sentient Helm]]
+|srparasites:armor_helm_sentient
+|-
+|[[Sentient Armor|Sentient Chest]]
+|srparasites:armor_chest_sentient
+|-
+|[[Sentient Armor|Sentient Pants]]
+|srparasites:armor_pants_sentient
+|-
+|[[Sentient Armor|Sentient Boots]]
+|srparasites:armor_boots_sentient
+|-
+|[[Hijacked Iron Armor|Hijacked Iron Helmet]]
+|srparasites:hijacked_iron_helmet
+|-
+|[[Hijacked Iron Armor|Hijacked Iron Chestplate]]
+|srparasites:hijacked_iron_chestpiece
+|-
+|[[Hijacked Iron Armor|Hijacked Iron Leggings]]
+|srparasites:hijacked_iron_leggings
+|-
+|[[Hijacked Iron Armor|Hijacked Iron Boots]]
+|srparasites:hijacked_iron_boots
+|-
+|[[Venkrol Anchor Boots]]
+|srparasites:venkrol_boots
+|-
+! colspan="2" | '''Consumables'''
+|-
+|[[Shrimp]]
+|srparasites:shrimp
+|-
+|[[Thornshade Decanter]]
+|srparasites:thornshade_decanter
+|-
+! colspan="2" |'''[[Debug Items|Debug]]'''
+|-
+|Greek Fire
+|srparasites:greek_fire
+|-
+|NULL
+|srparasites:itemtab
+|-
+|The Sign
+|srparasites:the_sign_charm
+|-
+|Assimilation Wand
+|srparasites:itemassimilate
+|-
+|Devolution Wand
+|srparasites:itemdevolve
+|-
+|Evolution Wand
+|srparasites:itemevolve
+|-
+|Variant Wand
+|srparasites:itemvariant
+|-
+! colspan="2" |'''[[Drops]]'''
+|-
+|[[Altered Tendons]]
+|srparasites:lurecomponent3
+|-
+|[[Arachnida Claw]]
+|srparasites:ada_arachnida_drop
+|-
+|[[Bolster Husk]]
+|srparasites:ada_bolster_drop
+|-
+|[[Beckon Membrane]]
+|srparasites:beckon_drop
+|-
+|[[Chipped Motherly Membrane]]
+|srparasites:ada_viscera_drop
+|-
+|[[Corrosive Mucus]]
+|srparasites:ada_vermin_drop
+|-
+|[[Devourer Tentacle]]
+|srparasites:ada_devourer_drop
+|-
+|[[Diseased Heart]]
+|srparasites:lurecomponent2
+|-
+|[[Dispatcher Membrane]]
+|srparasites:dispatcher_drop
+|-
+|[[Hijacked Blaze Rod]]
+|srparasites:bloody_rod
+|-
+|[[Hijacked Bone]]
+|srparasites:bloody_bone
+|-
+|[[Hijacked Growth]]
+|srparasites:hijacked_drop
+|-
+|[[Hijacked Iron Ingot]]
+|srparasites:bloody_iron_ingot
+|-
+|[[Infected Flesh]]
+|srparsites:assimilated_flesh
+|-
+|[[Longarms Armor Fragment]]
+|srparasites:ada_longarms_drop
+|-
+|[[Manducater Orb]]
+|srparasites:ada_manducater_drop
+|-
+|[[Noxious Brain]]
+|srparasites:lurecomponent5
+|-
+|[[Reeker Fang]]
+|srparasites:ada_reeker_drop
+|-
+|[[Rupter Viscera]]
+|srparasites:lurecomponent1
+|-
+|[[Strange Bone]]
+|srparasites:bone
+|-
+|[[Summoner Core]]
+|srparasites:ada_summoner_drop
+|-
+|[[Toxic Lung]]
+|srparasites:lurecomponent4
+|-
+|[[Twisted Spinal Signal]]
+|srparasites:lurecomponent6
+|-
+|[[Yelloweye Bone]]
+|srparasites:ada_yelloweye_drop
+|-
+! colspan="2" |'''Misc'''
+|-
+|[[Alveoli]]
+|srparasites:alveoligrowth
+|-
+|[[False Apple]]
+|srparasites:false_apple
+|-
+|[[Fishlin]]
+|srparasites:fishlin
+|-
+|[[Infested Residue]]
+|srparasites:infestremain
+|-
+|[[Module Genic Receptacle]]
+|srparasites:module_base
+|-
+|[[Module Organ Synth]]
+|srparasites:organ_synth
+|-
+|[[Module Tissue Spike]]
+|srparasites:tissue_spike
+|-
+|[[Relay Tower|Relay Controller]]
+|srparasites:relaycontroller
+|-
+! colspan="2" |'''[[Modules]]'''
+|-
+|[[Adapted Module]]
+|srparasites:module_adapted
+|-
+|[[Ancient Module]]
+|srparasites:module_ancient
+|-
+|[[Assimara Module]]
+|srparasites:module_assimara
+|-
+|[[Assimilated Module]]
+|srparasites:module_assimilated
+|-
+|[[Crude Module]]
+|srparasites:module_crude
+|-
+|[[Derived Module]]
+|srparasites:module_derived
+|-
+|[[Desmoid Module]]
+|srparasites:module_desmoid
+|-
+|[[Deterrent Module]]
+|srparasites:module_deterrent
+|-
+|[[Dislodgement Module]]
+|srparasites:module_dislodgement
+|-
+|[[Eschar Module]]
+|srparasites:module_eschar
+|-
+|[[Feral Module]]
+|srparasites:module_feral
+|-
+|[[Hijacked Module]]
+|srparasites:module_hijacked
+|-
+|[[Ideal Module]]
+|srparasites:module_ideal
+|-
+|[[Inborn Module]]
+|srparasites:module_inborn
+|-
+|[[Nexus Module]]
+|srparasites:module_nexus
+|-
+|[[Origin Module]]
+|srparasites:module_origin
+|-
+|[[Phase Module]]
+|srparasites:module_phase
+|-
+|[[Preeminent Module]]
+|srparasites:module_preeminent
+|-
+|[[Primitive Module]]
+|srparasites:module_primitive
+|-
+|[[Pure Module]]
+|srparasites:module_pure
+|-
+|[[Resistance Module]]
+|srparasites:module_resistance
+|-
+|[[Vector Module]]
+|srparasites:module_vectors
+|-
+! colspan="2" |'''[[Module Reports]]'''
+|-
+|[[Phase Report]]
+|srparasites:phase_report
+|-
+|[[Vector Map]]
+|srparasites:vector_map
+|-
+|[[Dislodgement Report]]
+|srparasites:dislodgement_report
+|-
+! colspan="2" |'''[[Music Discs]]'''
+|-
+|Serenity
+|srparasites:discthree
+|-
+! colspan="2" |'''Other Materials'''
+|-
+|[[Alveolar Fluid]]
+|srparasites:alveolar_fluid
+|-
+|[[Dead Blood Fluid]]
+|srparasites:deadblood_fluid
+|-
+|[[Hive Scrap]]
+|srparasites:hivescrap
+|-
+|[[Residue Bloomings]]
+|srparasites:residue_plants
+|-
+|[[Semi-organic Ingot]]
+|srparasites:semiorganic_ingot
+|-
+|[[Thornshade|Thornshade Berry]]
+|srparasites:thornshade_berry
+|-
+! colspan="2" |'''Spawn Eggs'''
+|-
+|Spawn [[Giant Head|Abombination Giant Head]]
+|srparasites:itemmobspawner_abohead
+|-
+|Spawn [[Many Bodies|Abombination Many Bodies]]
+|srparasites:itemmobspawner_abobodies
+|-
+|Spawn [[Adapted Arachnida]]
+|srparasites:itemmobspawner_ranracadapted
+|-
+|Spawn [[Adapted Bolster]]
+|srparasites:itemmobspawner_banoadapted
+|-
+|Spawn [[Adapted Burrower]]
+|srparasites:itemmobspawner_zaaadapted
+|-
+|Spawn [[Adapted Devourer]]
+|srparasites:itemmobspawner_lumadapted
+|-
+|Spawn [[Adapted Longarms]]
+|srparasites:itemmobspawner_shycoadapted
+|-
+|Spawn [[Adapted Manducater]]
+|srparasites:itemmobspawner_hulladapted
+|-
+|Spawn [[Adapted Reeker]]
+|srparasites:itemmobspawner_noglaadapted
+|-
+|Spawn [[Adapted Summoner]]
+|srparasites:itemmobspawner_canraadapted
+|-
+|Spawn [[Adapted Tozoon]]
+|srparasites:itemmobspawner_wymoadapted
+|-
+|Spawn [[Adapted Vermin]]
+|srparasites:itemmobspawner_ikiadapted
+|-
+|Spawn [[Adapted Viscera]]
+|srparasites:itemmobspawner_gimadapted
+|-
+|Spawn [[Adapted Yelloweye]]
+|srparasites:itemmobspawner_emanaadapted
+|-
+|Spawn [[Airscrew]]
+|srparasites:itemmobspawner_leer
+|-
+|Spawn [[Ancient Dreadnaut]]
+|srparasites:itemmobspawner_oronco
+|-
+|Spawn [[Ancient Overlord]]
+|srparasites:itemmobspawner_terla
+|-
+|Spawn [[Assimara Bear]]
+|srparasites:itemmobspawner_marbear
+|-
+|Spawn [[Assimara Cow]]
+|srparasites:itemmobspawner_marcow
+|-
+|Spawn [[Assimara Enderman]]
+|srparasites:itemmobspawner_marenderman
+|-
+|Spawn [[Assimara Human]]
+|srparasites:itemmobspawner_marhuman
+|-
+|Spawn [[Assimara Sheep]]
+|srparasites:itemmobspawner_marsheep
+|-
+|Spawn [[Assimara Villager]]
+|srparasites:itemmobspawner_marvillager
+|-
+|Spawn [[Assimilated Adventurer]]
+|srparasites:itemmobspawner_infplayer
+|-
+|Spawn [[Assimilated Bear]]
+|srparasites:itemmobspawner_infbear
+|-
+|Spawn [[Assimilated Big Spider]]
+|srparasites:itemmobspawner_dorpa
+|-
+|Spawn [[Assimilated Cow]]
+|srparasites:itemmobspawner_infcow
+|-
+|Spawn [[Assimilated Ender Dragon]]
+|srparasites:itemmobspawner_infdragone
+|-
+|Spawn [[Assimilated Enderman]]
+|srparasites:itemmobspawner_infenderman
+|-
+|Spawn [[Assimilated Horse]]
+|srparasites:itemmobspawner_infhorse
+|-
+|Spawn [[Assimilated Human]]
+|srparasites:itemmobspawner_infhuman
+|-
+|Spawn [[Assimilated Pig]]
+|srparasites:itemmobspawner_infpig
+|-
+|Spawn [[Assimilated Sheep]]
+|srparasites:itemmobspawner_infsheep
+|-
+|Spawn [[Assimilated Squid]]
+|srparasites:itemmobspawner_infsquid
+|-
+|Spawn [[Assimilated Villager]]
+|srparasites:itemmobspawner_infvillager
+|-
+|Spawn [[Assimilated Wolf]]
+|srparasites:itemmobspawner_infwolf
+|-
+|Spawn [[Stage I Beckon|Beckon Stage I]]
+|srparasites:itemmobspawner_venkrol
+|-
+|Spawn [[Stage II Beckon|Beckon Stage II]]
+|srparasites:itemmobspawner_venkrolsii
+|-
+|Spawn [[Stage III Beckon|Beckon Stage III]]
+|srparasites:itemmobspawner_venkrolsiii
+|-
+|Spawn [[Stage IV Beckon|Beckon Stage IV]]
+|srparasites:itemmobspawner_venkrolsiv
+|-
+|Spawn [[Bogle]]
+|srparasites:itemmobspawner_lencia
+|-
+|Spawn [[Buglin]]
+|srparasites:itemmobspawner_lodo
+|-
+|Spawn [[Colony Carrier]]
+|srparasites:itemmobspawner_vesta
+|-
+|Spawn [[Crux]]
+|srparasites:itemmobspawner_cruxa
+|-
+|Spawn [[Stage I Dispatcher|Dispatcher Stage I]]
+|srparasites:itemmobspawner_dod
+|-
+|Spawn [[Stage II Dispatcher|Dispatcher Stage II]]
+|srparasites:itemmobspawner_dodsii
+|-
+|Spawn [[Stage III Dispatcher|Dispatcher Stage III]]
+|srparasites:itemmobspawner_dodsiii
+|-
+|Spawn [[Stage IV Dispatcher|Dispatcher Stage IV]]
+|srparasites:itemmobspawner_dodsiv
+|-
+|Spawn [[Draconite]]
+|srparasites:itemmobspawner_heblu
+|-
+|Spawn [[Dredge]]
+|srparasites:itemmobspawner_done
+|-
+|Spawn [[Feral Bear]]
+|srparasites:itemmobspawner_ferbear
+|-
+|Spawn [[Feral Cow]]
+|srparasites:itemmobspawner_fercow
+|-
+|Spawn [[Feral Enderman]]
+|srparasites:itemmobspawner_ferenderman
+|-
+|Spawn [[Feral Horse]]
+|srparasites:itemmobspawner_ferhorse
+|-
+|Spawn [[Feral Human]]
+|srparasites:itemmobspawner_ferhuman
+|-
+|Spawn [[Feral Pig]]
+|srparasites:itemmobspawner_ferpig
+|-
+|Spawn [[Feral Sheep]]
+|srparasites:itemmobspawner_fersheep
+|-
+|Spawn [[Feral Villager]]
+|srparasites:itemmobspawner_fervillager
+|-
+|Spawn [[Feral Wolf]]
+|srparasites:itemmobspawner_ferwolf
+|-
+|Spawn [[Flying Carrier]]
+|srparasites:itemmobspawner_buthol
+|-
+|Spawn [[Gnat]]
+|srparasites:itemmobspawner_ata
+|-
+|Spawn [[Grunt]]
+|srparasites:itemmobspawner_flog
+|-
+|Spawn [[Haunter]]
+|srparasites:itemmobspawner_pheon
+|-
+|Spawn [[Heavy Bomber]]
+|srparasites:itemmobspawner_jinjo
+|-
+|Spawn [[Heavy Carrier]]
+|srparasites:itemmobspawner_rathol
+|-
+|Spawn [[Heed]]
+|srparasites:itemmobspawner_heed
+|-
+|Spawn [[Herd]]
+|srparasites:itemmobspawner_hostii
+|-
+|Spawn [[Hijacked Blaze]]
+|srparasites:itemmobspawner_hiblaze
+|-
+|Spawn [[Hijacked Golem]]
+|srparasites:itemmobspawner_higolem
+|-
+|Spawn [[Hijacked Skeleton]]
+|srparasites:itemmobspawner_hiskeleton
+|-
+|Spawn [[Host]]
+|srparasites:itemmobspawner_host
+|-
+|Spawn [[Incomplete Crux]]
+|srparasites:itemmobspawner_cruxb
+|-
+|Spawn [[Kirin]]
+|srparasites:itemmobspawner_kirin
+|-
+|Spawn [[Kyphosis]]
+|srparasites:itemmobspawner_tonro
+|-
+|Spawn [[Light Bomber]]
+|srparasites:itemmobspawner_omboo
+|-
+|Spawn [[Light Carrier]]
+|srparasites:itemmobspawner_gothol
+|-
+|Spawn [[Mangler]]
+|srparasites:itemmobspawner_nuuh
+|-
+|Spawn [[Marauder]]
+|srparasites:itemmobspawner_esor
+|-
+|Spawn [[Medium Incomplete Form]]
+|srparasites:itemmobspawner_inhoom
+|-
+|Spawn [[Monarch]]
+|srparasites:itemmobspawner_orch
+|-
+|Spawn [[Moving Flesh]]
+|srparasites:itemmobspawner_lesh
+|-
+|Spawn [[Overseer]]
+|srparasites:itemmobspawner_alafha
+|-
+|Spawn Pod
+|srparasites:itemmobspawner_pod
+|-
+|Spawn [[Primitive Arachnida]]
+|srparasites:itemmobspawner_ranrac
+|-
+|Spawn [[Primitive Bolster]]
+|srparasites:itemmobspawner_bano
+|-
+|Spawn [[Primitive Burrower]]
+|srparasites:itemmobspawner_zaa
+|-
+|Spawn [[Primitive Devourer]]
+|srparasites:itemmobspawner_lum
+|-
+|Spawn [[Primitive Longarms]]
+|srparasites:itemmobspawner_shyco
+|-
+|Spawn [[Primitive Manducater]]
+|srparasites:itemmobspawner_hull
+|-
+|Spawn [[Primitive Reeker]]
+|srparasites:itemmobspawner_nogla
+|-
+|Spawn [[Primitive Summoner]]
+|srparasites:itemmobspawner_canra
+|-
+|Spawn [[Primitive Tozoon]]
+|srparasites:itemmobspawner_wymo
+|-
+|Spawn [[Primitive Vermin]]
+|srparasites:itemmobspawner_iki
+|-
+|Spawn [[Primitive Viscera]]
+|srparasites:itemmobspawner_gim
+|-
+|Spawn [[Primitive Yelloweye]]
+|srparasites:itemmobspawner_emana
+|-
+|Spawn [[Stage I Rooter|Rooter Stage I]]
+|srparasites:itemmobspawner_leem
+|-
+|Spawn [[Stage II Rooter|Rooter Stage II]]
+|srparasites:itemmobspawner_leemsii
+|-
+|Spawn [[Stage III Rooter|Rooter Stage III]]
+|srparasites:itemmobspawner_leemsiii
+|-
+|Spawn [[Stage IV Rooter|Rooter Stage IV]]
+|srparasites:itemmobspawner_leemsiv
+|-
+|Spawn [[Rupter]]
+|srparasites:itemmobspawner_mudo
+|-
+|Spawn [[Seizer]]
+|srparasites:itemmobspawner_nak
+|-
+|Spawn [[Sentry]]
+|srparasites:itemmobspawner_unvo
+|-
+|Spawn [[Small Incomplete Form]]
+|srparasites:itemmobspawner_inhoos
+|-
+|Spawn [[Thrall]]
+|srparasites:itemmobspawner_mes
+|-
+|Spawn [[Vigilante]]
+|srparasites:itemmobspawner_anged
+|-
+|Spawn [[Walking Adventurer Head]]
+|srparasites:itemmobspawner_infplayerhead
+|-
+|Spawn [[Walking Cow Head]]
+|srparasites:itemmobspawner_infcowhead
+|-
+|Spawn [[Walking Ender Dragon Head]]
+|srparasites:itemmobspawner_infdragonehead
+|-
+|Spawn [[Walking Enderman Head]]
+|srparasites:itemmobspawner_infendermanhead
+|-
+|Spawn [[Walking Horse Head]]
+|srparasites:itemmobspawner_infhorsehead
+|-
+|Spawn [[Walking Human Head]]
+|srparasites:itemmobspawner_infhumanhead
+|-
+|Spawn [[Walking Pig Head]]
+|srparasites:itemmobspawner_infpighead
+|-
+|Spawn [[Walking Sheep Head]]
+|srparasites:itemmobspawner_infsheephead
+|-
+|Spawn [[Walking Villager Head]]
+|srparasites:itemmobspawner_infvillagerhead
+|-
+|Spawn [[Walking Wolf Head]]
+|srparasites:itemmobspawner_infwolfhead
+|-
+|Spawn [[Warden]]
+|srparasites:itemmobspawner_ganro
+|-
+|Spawn [[Wraith]]
+|srparasites:itemmobspawner_elvia
+|-
+|Spawn [[Worm Carrier]]
+|srparasites:itemmobspawner_quac
+|-
+! colspan="2" |'''[[Tools]]'''
+|-
+|[[Bough]]
+|srparasites:bough
+|-
+|[[Colony Compass]]
+|srparasites:colonycompass
+|-
+|[[Compendium]]
+|srparasites:srp_field_guide
+|-
+|[[Doomsday Clock]]
+|srparasites:evclock
+|-
+|[[Eye Of The Beholder|Eye of the Beholder]]
+|srparasites:pearl
+|-
+|[[Hijacked Iron Tools|Hijacked Iron Axe]]
+|srparasites:hijacked_iron_axe
+|-
+|[[Hijacked Iron Tools|Hijacked Iron Hoe]]
+|srparasites:hijacked_iron_hoe
+|-
+|[[Hijacked Iron Tools|Hijacked Iron Pickaxe]]
+|srparasites:hijacked_iron_pickaxe
+|-
+|[[Hijacked Iron Tools|Hijacked Iron Shovel]]
+|srparasites:hijacked_iron_shovel
+|-
+|[[Hijacked Iron Tools|Hijacked Iron Sword]]
+|srparasites:hijacked_iron_sword
+|-
+|[[Infested Bonemeal]]
+|srparasites:infested_bonemeal
+|-
+|[[Level Clock]]
+|srparasites:levelclock
+|-
+|[[Node Compass]]
+|srparasites:nodecompass
+|-
+|[[Quench]]
+|srparasites:itemthrow
+|-
+|[[Vector Compass]]
+|srparasites:origincompass
+|-
+! colspan="2" |'''[[Weapons]]'''
+|-
+|[[Book of Vengeance]]
+|srparasites:book_of_vengeance
+|-
+|[[Living Axe]]
+|srparasites:weapon_axe
+|-
+|[[Living Bow]]
+|srparasites:weapon_bow
+|-
+|[[Living Cleaver]]
+|srparasites:weapon_cleaver
+|-
+|[[Living Lance]]
+|srparasites:weapon_lance
+|-
+|[[Living Maul]]
+|srparasites:weapon_maul
+|-
+|[[Living Scythe]]
+|srparasites:weapon_scythe
+|-
+|[[Living Sword]]
+|srparasites:weapon_sword
+|-
+|[[Sentient Greataxe]]
+|srparasites:weapon_axe_sentient
+|-
+|[[Sentient Greatbow]]
+|srparasites:weapon_bow_sentient
+|-
+|[[Sentient Greatcleaver]]
+|srparasites:weapon_cleaver_sentient
+|-
+|[[Sentient Greatlance]]
+|srparasites:weapon_lance_sentient
+|-
+|[[Sentient Greatmaul]]
+|srparasites:weapon_maul_sentient
+|-
+|[[Sentient Greatscythe]]
+|srparasites:weapon_scythe_sentient
+|-
+|[[Sentient Greatsword]]
+|srparasites:weapon_sword_sentient
+|-
+! colspan="2" |'''[[Weapons' Components|Weapon Components]]'''
+|-
+|[[Dried Tendons]]
+|srparasites:dried_tendons
+|-
+|[[Hardened Bone Handle]]
+|srparasites:hardened_bone_handle
+|-
+|[[Infectious Blade Fragment]]
+|srparasites:infectious_blade_fragment
+|-
+|[[Living Core]]
+|srparasites:living_core
+|-
+|[[Vile Shell]]
+|srparasites:vile_shell
+|-
+|}
+
+
+==''Blocks''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+! colspan="2" |'''Block IDs'''
+|-
+!'''Block'''
+!'''ID'''
+|-
+|[[Remains|Adapted Remains (M)]]
+|srparasites:goreada/0
+|-
+|[[Remains|Adapted Remains (S)]]
+|srparasites:goreada/1
+|-
+|[[Remains|Adapted Remains (L)]]
+|srparasites:goreada/2
+|-
+|[[Alveoli Block|Alveoli]]
+|srparasites:alveoli
+|-
+|Alveoli Growth
+|srparasites:alveoli_growth
+|-
+|Ashen Glass
+|srparasites:ashen_glass
+|-
+|Ashen Glass Pane
+|srparasites:ashen_glass_pane
+|-
+|[[Remains|Assimara Remains (M)]]
+|srparasites:goremar/0
+|-
+|[[Remains|Assimara Remains (S)]]
+|srparasites:goremar/1
+|-
+|[[Remains|Assimara Remains (L)]]
+|srparasites:goremar/2
+|-
+|Assimilated Blossom
+|srparasites:assimilated_blossom
+|-
+|Assimilated Fungus
+|srparasites:parasiterubble/8
+|-
+|Assimilated Fungus Stairs
+|srparasites:parasiterubble_fungusstairs
+|-
+|[[Assimilated Jack o'Lantern]]
+|srparasites:assimilated_jack_o_lantern
+|-
+|[[Assimilated Pumpkin]]
+|srparasites:assimilated_pumpkin
+|-
+|[[Remains|Assimilated Remains (M)]]
+|srparasites:goresim/0
+|-
+|[[Remains|Assimilated Remains (S)]]
+|srparasites:goresim/1
+|-
+|[[Remains|Assimilated Remains (L)]]
+|srparasites:goresim/2
+|-
+|[[Assimilated Sugar Cane]]
+|srparasites:assimilated_reed
+|-
+|[[Parasitic Growth Block|Benign Growth]]
+|srparasites:parasiteloot/0
+|-
+|[[Biomass Block]]
+|srparasites:biomass_block
+|-
+|[[Biome Purifier]]
+|srparasites:biomepurifier
+|-
+|[[Bladder Sac]]
+|srparasites:parasitecanister/0
+|-
+|Bleeding Obsidian
+|srparasites:parasiterubble/7
+|-
+|Bleeding Obsidian Slab
+|srparasites:parasiterubblehalfslab
+|-
+|Bleeding Obsidian Stairs
+|srparasites:parasiterubble_obsidianstairs
+|-
+|Bloody Ice
+|srparasites:bloodyice
+|-
+|Bloody Glass
+|srparasites:bloody_glass
+|-
+|Bloody Glass Pane
+|srparasites:bloody_glass_pane
+|-
+|[[Bronchial Tube]]
+|srparasites:hair_follicle_block
+|-
+|Bruisewood Door
+|srparasites:bruisewood_door
+|-
+|Bruisewood Fence
+|srparasites:bruisewood_fence
+|-
+|Bruisewood Log
+|srparasites:parasitetrunk/0
+|-
+|Bruisewood Planks
+|srparasites:bruisewood_planks
+|-
+|Bruisewood Plank Slab
+|srparasites:bruisewood_plank_slab
+|-
+|Bruisewood Plank Stairs
+|srparasites:bruisewood_plank_stairs
+|-
+|Bruisewood Plank Wall
+|srparasites:bruisewood_plank_wall
+|-
+|Bruisewood Stairs
+|srparasites:parasitetrunk_ballstairs
+|-
+|Bruisewood Trapdoor
+|srparasites:bruisewood_trapdoor
+|-
+|Capillary Net
+|srparasites:parasitebush/0
+|-
+|Chiseled Cut Sandstone
+|srparasites:inf_ss_cut
+|-
+|Chiseled Infested Sandstone
+|srparasites:inf_ss_chiseled
+|-
+|Circle Trunk
+|srparasites:parasitetrunk/3
+|-
+|Compressed Arteries
+|srparasites:parasitestain/3
+|-
+|Compressed Arteries Stairs
+|srparasites:parasitestain_feelerstairs
+|-
+|Compressed Artery Slab
+|srparasites:parasitestainslabhalf/3
+|-
+|Compressed Colony Stone Wall
+|srparasites:parasiterubbledense_colony_wall
+|-
+|Compressed Hivestone
+|srparasites:parasiterubbledense/0
+|-
+|Compressed Hivestone Stairs
+|srparasites:parasiterubbledense_wallstairs
+|-
+|Concentrated Flesh Chunk
+|srparasites:parasiterubble/0
+|-
+|Concentrated Flesh Chunk Slab
+|srparasites:parasiterubbleslabhalf/0
+|-
+|Concentrated Flesh Chunk Stairs
+|srparasites:parasiterubble_fleshstairs
+|-
+|Concentrated Flesh Chunk Wall
+|srparasites:parasiterubble_flesh_wall
+|-
+|Consumed Crafting Table
+|srparasites:consumed_workbench
+|-
+|Consumed Door
+|srparasites:consumed_door
+|-
+|Consumed Fence
+|srparasites:consumed_fence
+|-
+|Consumed Flower Pot
+|srparasites:consumed_pot
+|-
+|Consumed Planks
+|srparasites:consumed_planks
+|-
+|Consumed Plank Slab
+|srparasites:consumed_plank_slab
+|-
+|Consumed Plank Stairs
+|srparasites:consumed_planks_stairs
+|-
+|Consumed Plank Wall
+|srparasites:consumed_plank_wall
+|-
+|Consumed Potted Assimilated Blossom
+|srparasites:potted_consumed_assimilated_blossom
+|-
+|Consumed Sapling
+|srparasites:parasitesapling/3
+|-
+|Consumed Trapdoor
+|srparasites:consumed_trapdoor
+|-
+|Consumed Wood
+|srparasites:parasiterubble/4
+|-
+|Consumed Wood Slab
+|srparasites:parasiterubbleslabhalf/4
+|-
+|Consumed Wood Stairs
+|srparasites:parasiterubble_woodstairs
+|-
+|Contusion Block
+|srparasites:parasitestain/5
+|-
+|Contusion Slab
+|srparasites:parasitestainslabhalf/5
+|-
+|Cooked Flesh
+|srparasites:cooked_flesh
+|-
+|Cooked Flesh Fence
+|srparasites:cooked_flesh_fence
+|-
+|Cooked Flesh Planks
+|srparasites:cooked_flesh_planks
+|-
+|Cooked Flesh Plank Slab
+|srparasites:cooked_flesh_slab
+|-
+|Cooked Flesh Stairs
+|srparasites:cooked_flesh_stairs
+|-
+|[[Creative Infestation Purifier]]
+|srparasites:infestation_purifier
+|-
+|Darkwood Log
+|srparasites:parasitetrunk/2
+|-
+|Darkwood Sapling
+|srparasites:parasitesapling/2
+|-
+|Darkwood Stairs
+|srparasites:parasitetrunk_plantstairs
+|-
+|Deadhead Fence
+|srparasites:deadhead_fence
+|-
+|Deadhead Log
+|srparasites:parasitetrunk/4
+|-
+|Deadhead Planks
+|srparasites:parasiteplank
+|-
+|Deadhead Plank Slab
+|srparasites:dead_head_plank_slab
+|-
+|Deadhead Plank Wall
+|srparasites:parasiteplank_deadhead_wall
+|-
+|Deadhead Sapling
+|srparasites:parasitesapling/4
+|-
+|Deadhead Stairs
+|srparasites:deadhead_plank_stairs
+|-
+|[[Dermoid Cyst]]
+|srparasites:dermoid_cyst
+|-
+|[[Diseased Sponge]]
+|srparasites:diseased_sponge
+|-
+|[[Dispatcher Nidus]]
+|srparasites:dispatchern
+|-
+|[[Draconite Trophy]]
+|srparasites:trophy_boom_orb
+|-
+|[[Epitome Infestation Warp Diffuser]]
+|srparasites:epitome_infestation_warp_diffuser
+|-
+|[[Esca Bulb|Esca Bulb]]
+|srparasites:esca_bulb
+|-
+|[[Esca Bulb|Esca Bulb (Black)]]
+|srparasites:esca_bulb_black
+|-
+|[[Esca Bulb|Esca Bulb (Blue)]]
+|srparasites:esca_bulb_blue
+|-
+|[[Esca Bulb|Esca Bulb (Brown)]]
+|srparasites:esca_bulb_brown
+|-
+|[[Esca Bulb|Esca Bulb (Cyan)]]
+|srparasites:esca_bulb_cyan
+|-
+|[[Esca Bulb|Esca Bulb (Gray)]]
+|srparasites:esca_bulb_gray
+|-
+|[[Esca Bulb|Esca Bulb (Green)]]
+|srparasites:esca_bulb_green
+|-
+|[[Esca Bulb|Esca Bulb (Light Blue)]]
+|srparasites:esca_bulb_light_blue
+|-
+|[[Esca Bulb|Esca Bulb (Light Gray)]]
+|srparasites:esca_bulb_light_gray
+|-
+|[[Esca Bulb|Esca Bulb (Lime)]]
+|srparasites:esca_bulb_lime
+|-
+|[[Esca Bulb|Esca Bulb (Magenta)]]
+|srparasites:esca_bulb_magenta
+|-
+|[[Esca Bulb|Esca Bulb (Orange)]]
+|srparasites:esca_bulb_orange
+|-
+|[[Esca Bulb|Esca Bulb (Pink)]]
+|srparasites:esca_bulb_pink
+|-
+|[[Esca Bulb|Esca Bulb (Purple)]]
+|srparasites:esca_bulb_purple
+|-
+|[[Esca Bulb|Esca Bulb (Red)]]
+|srparasites:esca_bulb_red
+|-
+|[[Esca Bulb|Esca Bulb (White)]]
+|srparasites:esca_bulb_white
+|-
+|[[Esca Bulb|Esca Bulb (Yellow)]]
+|srparasites:esca_bulb_yellow
+|-
+|Eyesore Sapling
+|srparasites:parasitesapling/1
+|-
+|[[Remains|Feral Remains (M)]]
+|srparasites:gorefer/0
+|-
+|[[Remains|Feral Remains (S)]]
+|srparasites:gorefer/1
+|-
+|[[Remains|Feral Remains (L)]]
+|srparasites:gorefer/2
+|-
+|Flesh Chunk
+|srparasites:parasitestain/2
+|-
+|Flesh Chunk Slab
+|srparasites:parasitestainslabhalf/2
+|-
+|Flesh Chunk Stairs
+|srparasites:parasitestain_fleshstairs
+|-
+|Flesh Chunk Wall
+|srparasites:parasitestain_flesh_wall
+|-
+|Flesh Fence
+|srparasites:flesh_fence
+|-
+|Flesh Planks
+|srparasites:flesh_planks
+|-
+|Flesh Plank Stairs
+|srparasites:flesh_stairs
+|-
+|Flesh Plank Slab
+|srparasites:flesh_slab
+|-
+|Fog
+|srparasites:parasitefog
+|-
+|[[Fog Nullifier]]
+|srparasites:fog_nullifier
+|-
+|Fortified Bone
+|srparasites:parasiterubble/1
+|-
+|Fortified Bone Slab
+|srparasites:parasiterubbleslabhalf/1
+|-
+|Fortified Bone Stairs
+|srparasites:parasiterubble_bonestairs
+|-
+|Frost-burned Grass
+|srparasites:parasitebush/6
+|-
+|Frost-burnt Grass
+|srparasites:parasitebush/5
+|-
+|Frost Weathered Stone
+|srparasites:parasiterubble/13
+|-
+|Frost Weathered Stone ''(Snowy)''
+|srparasites:parasiterubble/14
+|-
+|Frost Weathered Stone Slab
+|srparasites:frost_weathered_stone_slab
+|-
+|Frost Weathered Stone Stairs
+|srparasites:frost_weathered_stone_stairs
+|-
+|Frost Weathered Stone Wall
+|srparasites:parasiterubble_weathfs_wall
+|-
+|[[Parasitic Cyst|Gluttonous Cyst]]
+|srparasites:canisteractive
+|-
+|Goth Door
+|srparasites:goth_door
+|-
+|Goth Fence
+|srparasites:goth_fence
+|-
+|Goth Planks
+|srparasites:goth_planks
+|-
+|Goth Planks Stairs
+|srparasites:goth_planks_stairs
+|-
+|Goth Plank Slab
+|srparasites:goth_plank_slab
+|-
+|Goth Plank Wall
+|srparasites:goth_plank_wall
+|-
+|Goth Stem
+|srparasites:goth_stem
+|-
+|Gothshroom
+|srparasites:gothshroom
+|-
+|Grotesque Lump
+|srparasites:parasitecanister/2
+|-
+|Harlequinn Glass
+|srparasites:harlequinn_glass
+|-
+|Harlequinn Glass Pane
+|srparasites:harlequinn_glass_pane
+|-
+|Harlequinn Grass Block
+|srparasites:harlequinn_grass
+|-
+|Harleskinn Block
+|srparasites:harleskinn_block
+|-
+|Harleskinn Fence
+|srparasites:harleskinn_fence
+|-
+|Harleskinn Slab
+|srparasites:harleskinn_slab
+|-
+|Harleskinn Stairs
+|srparasites:harleskinn_stairs
+|-
+|[[Parasite Biome|Hive Core]]
+|srparasites:biomeheart
+|-
+|Hirsute Hair
+|srparasites:hirsute_hair
+|-
+|Hivesoil
+|srparasites:parasitestain/0
+|-
+|Hivesoil Stairs
+|srparasites:parasitestain_dirtstairs
+|-
+|Hivesoil Slab
+|srparasites:parasitestainslabhalf/0
+|-
+|Hivesteel 
+|srparasites:parasiterubble/6
+|-
+|Hivesteel Slab
+|srparasites:parasiterubbleslabhalf/6
+|-
+|Hivesteel Stairs
+|srparasites:parasiterubble_metalstairs
+|-
+|Hivesteel Wall
+|srparasites:parasiterubble_metal_wall
+|-
+|Hivestone
+|srparasites:parasiterubble/2
+|-
+|Hivestone Slab
+|srparasites:parasiterubbleslabhalf/2
+|-
+|Hivestone Stairs
+|srparasites:parasiterubble_stonestairs
+|-
+|Hivestone Bricks
+|srparasites:parasiterubble/5
+|-
+|Hivestone Brick Slab
+|srparasites:parasiterubbleslabhalf/5
+|-
+|Hivestone Brick Stairs
+|srparasites:parasiterubble_bricksstairs
+|-
+|Hivestone Brick Wall
+|srparasites:parasiterubble_bricks_wall
+|-
+|[[Hivestone Debris]]
+|srparasites:parasiterubble/3
+|-
+|Hivestone Debris Slab
+|srparasites:parasiterubbleslabhalf/3
+|-
+|Hivestone Debris Stairs
+|srparasites:parasiterubble_stonedebrisstairs
+|-
+|[[Colony|Incomplete Parasitic Colony Structure]]
+|srparasites:parasitestructure
+|-
+|Infested Cactus
+|srparasites:infested_cactus
+|-
+|Infested Cobblestone
+|srparasites:infested_cobblestone
+|-
+|Infested Cobblestone Slab
+|srparasites:infested_cobblestone_slab
+|-
+|Infested Column
+|srparasites:infested_column
+|-
+|Infested Crafting Table
+|srparasites:infested_workbench
+|-
+|Infested Dirt
+|srparasites:infestedstain
+|-
+|Infested Dirt Slab
+|srparasites:infested_dirt_slab
+|-
+|Infested Dirt Wall
+|srparasites:infestedstain_wall
+|-
+|Infested Fence
+|srparasites:infested_fence
+|-
+|Infested Flower Pot
+|srparasites:infested_pot
+|-
+|Infested Furnace
+|srparasites:infested_furnace
+|-
+|Infested Glass
+|srparasites:infested_glass
+|-
+|Infested Glass Pane
+|srparasites:infested_glass_pane
+|-
+|Infested Leaves
+|srparasites:infested_leaves
+|-
+|Infested Leaves (Fast)
+|srparasites:infested_leaves_fast
+|-
+|Infested Log
+|srparasites:infestedtrunk
+|-
+|Infested Planks
+|srparasites:infested_planks
+|-
+|Infested Planks Stairs
+|srparasites:infested_planks_stairs
+|-
+|Infested Plank Slab
+|srparasites:infested_plank_slab
+|-
+|Infested Plank Wall
+|srparasites:infested_plank_wall
+|-
+|Infested Polished Stone Bricks Stairs
+|srparasites:infested_polished_sone_bricks_stairs
+|-
+|Infested Sand
+|srparasites:infestedsand
+|-
+|Infested Sandstone
+|srparasites:inf_ss
+|-
+|Infested Sandstone Slab
+|srparasites:infested_sandstone_slab
+|-
+|Infested Sandstone Stairs
+|srparasites:infested_sandstone_stairs
+|-
+|Infested Sandstone Wall
+|srparasites:infested_sandstone_wall
+|-
+|Infested Sapling
+|srparasites:parasitesapling/5
+|-
+|Infested Stone
+|srparasites:infestedrubble
+|-
+|Infested Stone Bricks
+|srparasites:infested_stone_bricks
+|-
+|Infested Stone Brick Slab
+|srparasites:infested_stone_brick_slab
+|-
+|Infested Stone Bricks Stairs
+|srparasites:infested_stone_bricks_wall
+|-
+|Infested Stone Brick Wall
+|srparasites:infested_stone_brick_wall
+|-
+|Infested Stone Slab
+|srparasites:infested_stone_slab
+|-
+|Infested Stone Stairs
+|srparasites:infested_stone_stairs
+|-
+|Infested Stone Wall
+|srparasites:infestedrubble_wall
+|-
+|Infested Terracotta
+|srparasites:infested_terracotta
+|-
+|Infested Terracotta Slab
+|srparasites:infested_terracotta_slab
+|-
+|Infested Vein Branches
+|srparasites:infestedbush/1
+|-
+|Infested Vein Coil
+|srparasites:infestedbush/4
+|-
+|Infested Vein Roots
+|srparasites:infestedbush/5
+|-
+|Infested Vein Sprout
+|srparasites:infestedbush/2
+|-
+|Infested Vein Thorns
+|srparasites:infestedbush/0
+|-
+|Infested Veins Bush
+|srparasites:infestedbush/3
+|-
+|[[Kirin Trophy]]
+|srparasites:trophy_void_orb
+|-
+|Lipoma Mass
+|srparasites:lipoma_mass
+|-
+|Locs Block
+|srparasites:locs_block
+|-
+|Locs Block Slab
+|srparasites:locs_block_slab
+|-
+|[[Lures|Lure (Weakened)]]
+|srparasites:evolutionlure/0
+|-
+|[[Lures|Lure (Faint)]]
+|srparasites:evolutionlure/1
+|-
+|[[Lures|Lure (Slender)]]
+|srparasites:evolutionlure/2
+|-
+|[[Lures|Lure (Stable)]]
+|srparasites:evolutionlure/3
+|-
+|[[Lures|Lure (Substantial)]]
+|srparasites:evolutionlure/4
+|-
+|[[Lures|Lure (Concentrated)]]
+|srparasites:evolutionlure/5
+|-
+|[[Lures|Lure (Concentrated+)]]
+|srparasites:evolutionlure/6
+|-
+|[[Lures|Lure (Concentrated++)]]
+|srparasites:evolutionlure/7
+|-
+|[[Lures|Lure (Overloaded)]]
+|srparasites:evolutionlure/8
+|-
+|[[Lures|Lure (Anomalous)]]
+|srparasites:evolutionlure/9
+|-
+|[[Parasitic Growth Block|Malignant Growth]]
+|srparasites:parasiteloot/1
+|-
+|[[Maw]]
+|srparasites:parasitemouth
+|-
+|[[Metallurgical Infuser Furnace]]
+|srparasites:infuser_furnace
+|-
+|[[Parasitic Growth Block|Metastatic Mass]]
+|srparasites:parasiteloot/2
+|-
+|Moody Glass
+|srparasites:moody_glass
+|-
+|Moody Glass Pane
+|srparasites:moody_glass_pane
+|-
+|Mycelium Network
+|srparasites:parasitestain/4
+|-
+|Mycelium Network Slab
+|srparasites:parasitestainslabhalf/4
+|-
+|Nerve Ringlet
+|srparasites:parasitebush/1
+|-
+|[[Node Lamp]]
+|srparasites:node_redstone_lamp
+|-
+|[[Parasite Chunk Barrier]]
+|srparasites:parasite_barrier
+|-
+|Parasitic Compressed Colony Stone
+|srparasites:parasiterubbledense/2
+|-
+|Parasitic Compressed Colony Stone Slab
+|srparasites:parasitic_compressed_colony_stone_slab
+|-
+|Parasitic Compressed Colony Stone Stairs
+|srparasites:parasiterubbledense_colonystairs
+|-
+|[[Colony|Parasitic Colony Core]]
+|srparasites:colonyheart
+|-
+|Parasitic Colony Outpost
+|srparasites:colonyoutpost
+|-
+|Parasitic Colony Core Slab
+|srparasites:parasitic_colony_core_slab
+|-
+|Parasitic Tendril
+|srparasites:parasitetendril
+|-
+|Parasitic Vesicle
+|srparasites:parasitebush/2
+|-
+|[[Pestilential Ore]]
+|srparasites:infestedore/7
+|-
+|[[Pestilential Ore|Pestilential Coal Ore]]
+|srparasites:infestedore/0
+|-
+|[[Pestilential Ore|Pestilential Diamond Ore]]
+|srparasites:infestedore/1
+|-
+|[[Pestilential Ore|Pestilential Emerald Ore]]
+|srparasites:infestedore/2
+|-
+|[[Pestilential Ore|Pestilential Gold Ore]]
+|srparasites:infestedore/3
+|-
+|[[Pestilential Ore|Pestilential Iron Ore]]
+|srparasites:infestedore/4
+|-
+|[[Pestilential Ore|Pestilential Lapis Lazuli Ore]]
+|srparasites:infestedore/5
+|-
+|[[Pestilential Ore|Pestilential Redstone Ore]]
+|srparasites:infestedore/6
+|-
+|Poland Skin
+|srparasites:poland_skin_block
+|-
+|Poland Skin Slab
+|srparasites:poland_skin_slab
+|-
+|Polished Infested Stone
+|srparasites:infested_stone_polished
+|-
+|Polished Infested Stone Slab
+|srparasites:polished_infested_stone_slab
+|-
+|Polished Infested Stone Wall
+|srparasites:polished_infested_stone_wall
+|-
+|Potted Assimilated Blossom
+|srparasites:potted_assimilated_blossom
+|-
+|[[Remains|Primitive Remains (M)]]
+|srparasites:gorepri/0
+|-
+|[[Remains|Primitive Remains (S)]]
+|srparasites:gorepri/1
+|-
+|[[Remains|Primitive Remains (L)]]
+|srparasites:gorepri/2
+|-
+|[[Remains|Pure Remains (M)]]
+|srparasites:gorepur/0
+|-
+|[[Remains|Pure Remains (S)]]
+|srparasites:gorepur/1
+|-
+|[[Remains|Pure Remains (L)]]
+|srparasites:gorepur/2
+|-
+|Reinforced Hivestone
+|srparasites:parasiterubbledense/1
+|-
+|Reinforced Hivestone Slab
+|srparasites:reinforced_hivestone_slab
+|-
+|Reinforced Hivestone Stairs
+|srparasites:parasiterubbledense_biomestairs
+|-
+|Reinforced Hivestone Wall
+|srparasites:parasiterubbledense_biome_wall
+|-
+|[[Relay Tower|Relay Antennas]]
+|srparasites:relay_roof
+|-
+|[[Relay Tower|Relay Terminal]]
+|srparasites:relay_base
+|-
+|[[Relay Tower|Relay Structure]]
+|srparasites:relay_middle
+|-
+|[[Residue Block]]
+|srparasites:residue_block
+|-
+|Residue Bricks
+|srparasites:residue_bricks
+|-
+|Residue Brick Slab
+|srparasites:residue_brick_slab
+|-
+|Residue Brick Stairs
+|srparasites:residue_stairs
+|-
+|Residue Wall
+|srparasites:residue_wall
+|-
+|Sac of Flesh
+|srparasites:parasitecanister/3
+|-
+|Sac of Flesh Slab
+|srparasites:sac_of_flesh_slab
+|-
+|Sac of Flesh Wall
+|srparasites:parasitecanister_bag_wall
+|-
+|Sacked Flesh Block
+|srparasites:parasitestain/6
+|-
+|Sacked Flesh Slab
+|srparasites:parasitestainslabhalf/6
+|-
+|[[Semi-organic Block]]
+|srparasites:semiorganic_block
+|-
+|Sepia Glass
+|srparasites:sepia_glass
+|-
+|Sepia Glass Pane
+|srparasites:sepia_glass_pane
+|-
+|Shade Glass
+|srparasites:shade_glass
+|-
+|Shade Glass Pane
+|srparasites:shade_glass
+|-
+|Shrouded Glass
+|srparasites:shrouded_glass
+|-
+|Shrouded Glass Pane
+|srparasites:shrouded_glass
+|-
+|Sick Alveoli
+|srparasites:sick_alveoli
+|-
+|Small Incisor
+|srparasites:parasitebush/4
+|-
+|Solid Alveoli Block
+|srparasites:solid_alveoli_block
+|-
+|[[Tarnished Webbing]]
+|srparasites:srpweb/2
+|-
+|Terminal Blinder
+|srparasites:parasitebush/3
+|-
+|Thin Parasitic Log
+|srparasites:parasitethin
+|-
+|[[Thin Webbing]]
+|srparasites:srpweb/0
+|-
+|[[Thornshade]]
+|srparasites:parasitebush/7
+|-
+|[[Toxicant Webbing]]
+|srparasites:srpweb/1
+|-
+|Tresses Hair
+|srparasites:tresses_hair
+|-
+|[[Tunnel]]
+|srparasites:tunnel
+|-
+|[[Parasitic Cyst|Vacuous Cyst]]
+|srparasites:parasitecanister/1
+|-
+|Veinwood Log
+|srparasites:parasitetrunk/1
+|-
+|Veinwood Sapling
+|srparasites:parasitesapling/0
+|-
+|Veinwood Stairs
+|srparasites:parasitetrunk_treestairs
+|-
+|Visceral Mud
+|srparasites:parasitestain/1
+|-
+|Visceral Mud Stairs
+|srparasites:parasitestain_mudstairs/1
+|-
+|Weathered Bricks
+|srparasites:parasiterubble/9
+|-
+|Weathered Bricks ''(Snowy)''
+|srparasites:parasiterubble/10
+|-
+|Weathered Bricks Slab
+|srparasites:weathered_bricks_slab
+|-
+|Weathered Bricks Stairs
+|srparasites:weathered_bricks_stairs
+|-
+|Weathered Brick Wall
+|srparasites:parasiterubble_weathb_wall
+|-
+|Weathered Cobblestone
+|srparasites:parasiterubble/11
+|-
+|Weathered Cobblestone ''(Snowy)''
+|srparasites:parasiterubble/12
+|-
+|Weathered Cobblestone Slab
+|srparasites:weathered_cobblestone_slab
+|-
+|Weathered Cobblestone Stairs
+|srparasites:weathered_cobblestone_stairs
+|-
+|Weathered Cobblestone Wall
+|srparasites:parasiterubble_weathbc_wall
+|}
+{{WhatAreDataTags}}
+[[Category:Items]]
+[[Category:Blocks]]
+[[Category:Mod Content]]

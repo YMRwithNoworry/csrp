@@ -1,0 +1,20 @@
+{{Stub}}
+{{Item Info|title1=Dead Blood|image1=DeadBloodExample.png}}
+
+'''Dead Blood''', or Parasite Hemolymph, is a new liquid added by the mod that behaves similarly to Water. <!--need images and stats !-->
+
+==Generation and Behavior==
+Dead Blood naturally generates throughout most Parasite structures and biomes, including [[Nests]], [[Colony|Colony Structures]], and the [[Meteor]]. Nearby [[Infested Blocks]] and [[Beckon (Disambiguation)|Beckon]] infestation will also convert Water into Dead Blood.
+
+Like Water, Dead Blood can also extinguish fire, and it pushes entities and items away while flowing. However, it will not fill back in if taken out, meaning that it cannot be made into an infinite source.
+
+Dead Blood is also a highly dangerous substance as it deals chip damage very rapidly, a few times per tick, and applies [[Viral]] and [[Corrosion]]. This is not the case with parasites though, as its poison damage is instead direct healing for them, and is likely to make parasites near unkillable.
+
+Upon contact with Water, it will turn it into Visceral Mud. Upon contact with Lava, it will turn it into Bleeding Obsidian. Note that Dead Blood cannot be removed via transformation by other liquid unless directly placed in, as it will turn the ''other liquid'' into its corresponding aforementioned [[Infested Blocks|Infested Block]].
+
+Dead Blood source blocks may emanate white smoke particles periodically.
+
+==Utility==
+Right-clicking a source block of Dead Blood with an empty Glass Bottle yields [[Dead Blood Fluid]]. This liquid is used in the [[Metallurgical Infuser Furnace]] to create [[Semi-organic Ingot|Semi-organic Ingots]]. Dead Blood can also be contained in buckets similarly to Water and Lava.
+
+Sponges can soak up Dead Blood, turning it into a [[Diseased Sponge]], which may be useful for clearing structures where it is prevalent. Brewing a Diseased Sponge with Water Bottles also yields Dead Blood Fluid, but will use up the Sponge in the process.

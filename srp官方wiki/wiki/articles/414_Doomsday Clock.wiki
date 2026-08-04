@@ -1,0 +1,44 @@
+{{item Info
+|image1=<gallery>
+DClockPhase-2.png|Phase -2
+DClockPhase-1.png|Phase -1
+Doomsday Clock.png|Phase 0
+DClockPhase1.png|Phase 1
+DClockPhase2.png|Phase 2
+DClockPhase3.png|Phase 3
+DClockPhase4.png|Phase 4
+DClockPhase5.png|Phase 5
+DClockPhase6.png|Phase 6
+DClockPhase7.png|Phase 7
+DClockPhase8.png|Phase 8
+DClockPhase9.png|Phase 9
+DClockPhase10.png|Phase 10
+</gallery>
+|type=Tool
+|stackable=No
+|tooltip=Dirtied by the Infected Flesh, the Clock now ticks towards a terrible Midnight.
+|id=srparasites:evclock
+}}
+The '''Doomsday Clock''' is a [[Tools|Tool]] used to measure the current [[Evolution Phases|Evolution Phase]] and the Phase Cooldown.
+
+== ''Obtainment'' ==
+{{CraftingTable
+|r1_a2=Infected Flesh
+|r1_b1=Infected Flesh
+|r1_b3=Infected Flesh
+|r1_c2=Infected Flesh
+|r1_b2=Clock
+|r1_output=Doomsday Clock
+}}
+
+== ''Usage'' ==
+Holding or hovering over the Doomsday Clock in the inventory will show current Evolution Phase of the Dimension they're in with a number from -2 to 10. In the item's tooltip, the current Phase Cooldown (in seconds), when parasites are unable to gain points after progressing in Phase, can be seen.
+
+== ''Trivia'' ==
+*The Doomsday Clock was previously known as the '''Bloody Clock''' before 1.10.7.
+**Before this, it was known as the '''Dirty Clock'''.
+
+{{ItemList}}
+[[Category:Tools]]
+[[Category:Items]]
+[[Category:Equipment]]

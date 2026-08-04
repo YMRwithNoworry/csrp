@@ -1,0 +1,350 @@
+{{VersionBar|
+|page1=Version 1.8.2
+|page2=Version 1.9.1
+}}
+'''Version 1.9.0''' was an update for the Scape and Run: Parasites Mod, released on October 21st 2021.<ref>Before v1.9.0 was released, two early alpha versions preceded it.  These alphas are no longer available, but all changes made in them after 1.8.2 are still noted on this page.</ref>  It was 8.41 MB.
+
+== ''Change Log'' ==
+
+'''''NOTE: Advice to delete your old config'''''
+
+==== <u>Fixes</u> ====
+
+* Config option which prevent parasites from spawning in the first day and instead of reading days it will read it in ticks
+* Parasite damage taken from fire sources
+* Beckon models not loading when the [[Reinforcement System]] is turned off
+* Beckons always infesting the block below
+* [[Assimilated Villager]] and [[Assimilated Pig|pig]] loot tables not working
+* All [[Adapted Parasites|adapted parasites]] loot table
+* Fixed [[Dreadnaut]] targeting player when player is in creative mode
+* Fixed [[Primitive Manducater|Primitive]] and [[Adapted Manducater]] not going invisible
+* [[Buglin]] localized name
+* [[Adapted Yelloweye]] melee damage capped at 1
+* Crash caused by spawning [[Kyphosis]]/[[Sentry]] from [[Beckon (Disambiguation)|Infested Dirt]] when they're disabled
+* Flying parasites not flying if spawned by commands
+* [[Moving Flesh]] causing other parasites to kill other Moving Flesh
+* Fixed mobs dropping loot when gamerule domobloot is false
+* Fixed "KD" typo at the config file<br />
+
+==== <u>General</u> ====
+
+* [[Living Scythe|Living]]/[[Sentient Greatscythe|Sentient Scythe]] will apply [[Bleeding|bleeding]] to targets
+* Decreased range/attack value for the Living Scythe
+* Changed creative tab label text to "Scape & Run: Parasites"
+* Changed registry name for all the parasites and for the Infested Block
+* Changed textures for some of the items - Credit: Vinni#6248, https://twitter.com/VinniSauce
+* Added Portuguese lang file - Credit: JohnySilverHand
+* Added Italian and spanish translations - Credit: LoneGuy#0376 and Robert 25#4832
+* Added Russian translation - Credit: CrazyPlayer#1509
+* Added [[Living Axe|Living]]/[[Sentient Greataxe]] and Sentient Scythe/[[Sentient Greatbow|Greatbow]]
+* Added [[Bloody Clock|Dirty Clock]]<br />
+
+==== <u>Config</u> ====
+
+* Renamed mob category to match their registry name if available
+* Changed default block blacklist for [[Beckon (Disambiguation)|Beckon infestation]]
+* Changed reinforcement system max block [[Hardness|hardness]] default value
+* Changed [[Sentry]] gear degrade from 0.7 to 0.1
+* Added a new Category in the confg file called "parasite_properties" and moved the following options from General to there:
+*# -Killcount Plus
+*# -Kills for Adapted Stage
+*# -Kills for Primitive Stage
+*# -Mob Adapted Despawn
+*# -Mob Ancient Despawn
+*# -Mob Attacking
+*# -Mob Fire Damage Multiplier
+*# -Mob Infected Despawn
+*# -Mob Primitive Despawn
+*# -Mobs with griefing blocks black list
+*# -Mobs with new griefing task
+*# -Version Adapted Damage Cap
+*# -Version Ancient Damage Cap
+*# -Version Infected Damage Cap
+*# -Version Primitive Damage Cap<br />
+
+==== <u>Entities</u> ====
+Base default values:
+
+* Yelloweye
+*# Health from 15 to 30
+*# Range damage from 4 to 5
+* Manducater
+*# Health from 18 to 30
+*# Damage from 8 to 12
+*# Attack mult from 2 to 1.5
+*# Adapted attack mult from 3 to 2
+* Summoner
+*# Health from 35 to 40
+*# Damage from 10 to 15
+* Reeker
+*# Health from 20 to 40
+*# Damage from 10 to 12
+*# Adapted health from 35 to 50
+*# Adapted damage from 18 to 20
+* Added the following mobs:
+*# [[Host]]
+*# [[Incomplete Forms|Incomplete Form (Medium)]]
+*# [[Incomplete Forms|Incomplete Form (Small)]]
+*# [[Assimilated Horse]]
+*# Assimilated Horse Head
+*# [[Assimilated Adventurer]]
+*# [[Assimilated Enderman]]
+*# [[Assimilated Bear]]
+*# [[Overseer]]
+*# [[Primitive Arachnida]]
+*# [[Adapted Arachnida]]
+*# [[Stage IV Beckon|Beckon Stage IV]]
+*# [[Light Bomber]]
+*# [[Grunt]]
+*# Human Walking Head
+*# [[Marauder]]
+* Added the following entities:
+*# Gore
+*# Tendril
+*# [[Biomass]]
+* Added more hitboxes for the following entities:
+*# [[Adapted Bolster]]
+*# [[Adapted Longarms]]
+*# [[Adapted Reeker]]
+*# [[Adapted Summoner]]
+* Changed Model for the following entities:
+*# Adapted Bolster
+*# Adapted Summoner
+*# [[Kyphosis]]
+* [[Primitive Parasites|Primitive]], [[Adapted Parasites|Adapted]], [[Pure Parasites|Pure]] and [[Ancient Parasites|Ancient]] version can now [[Adaptation System|adapt]] to damage types:
+*# You can change more of this mechanic at "parasite_properties"
+*# To remove their resistances, you can either throw them a new potion ([[Immalleable|antimall]]) or hit their tendrils, if available
+* Each time a parasite burst in death a lingering cloud will spawn which will apply the Poison and [[Call Of The Hive|COTH]] effects.
+* The following mobs will have a custom swimming AI:
+*# [[Assimilated Human|Sim Human]]
+*# [[Assimilated Villager|Sim Villager]]
+*# [[Primitive Reeker|Prim Reeker]]
+*# [[Primitive Manducater|Prim Manducater]]
+*# [[Primitive Arachnida|Prim Arachnida]]
+*# [[Primitive Summoner|Prim Summoner]]
+*# [[Primitive Longarms|Prim Longarms]]
+*# [[Adapted Reeker|Ada Reeker]]
+*# [[Adapted Manducater|Ada Manducater]]
+*# [[Adapted Arachnida|Ada Arachnida]]
+*# [[Adapted Summoner|Ada Summoner]]
+*# [[Adapted Longarms|Ada Longarms]]
+*# [[Warden]]
+* The following mobs will have custom leap attack when they're in water:
+*# Sim Human
+*# Sim Villager
+*# Prim Reeker
+*# Prim Manducater
+*# Prim Arachnida
+*# Prim Longarms
+*# Ada Reeker
+*# Ada Manducater
+*# Ada Arachnida
+*# Ada Summoner
+*# Ada Longarms
+*# Warden
+* Parasites will apply [[Fear]] effect on sight
+*# [[Assimilated Mobs|Assimilated]] verions - 0
+*# [[Primitive Parasites|Primitive]] versions - 1
+*# [[Adapted Parasites|Adapted]], [[Pure Parasites|Pure]] versions - 2
+*# [[Ancient Parasites|Ancient]] versions - 3
+* Added attack animations for the following parasites:
+*# Adapted Bolster
+*# Adapted Longarms
+*# Warden
+*# Primitive Longarms
+* The following parasites will have an AOE melee attack:
+*# Adapted Bolster
+*# Adapted Longarms
+*# Warden
+*# Primitive Longarms
+* Increased attack range for the Adapted Bolster and Adapted Longarms
+* Added growl, hust, death sounds for the following parasites:
+*# [[Stage I Beckon|Beckon Stage I]]
+*# [[Stage II Beckon|Beckon Stage II]]
+*# [[Stage III Beckon|Beckon Stage III]]
+*# [[Sentry]] (plus shooting sound)
+
+* Parasites will no longer enter boats and minecarts
+* [[Rupter]] will now leap at its target
+* Kyphosis and Sentry can now [[Adaptation System|adapt]] to damage types and have damage cap
+* Beckons can now adapt to damage types and have damage cap
+* Changed default spawnweights for Adapted Versions
+* Sentry and Kyphosis will only spawn from Stage III Infested Dirt
+* Sentry and Kyphosis will now be considered "[[Deterrent Parasites|Deterrent]]"
+* Removed Adapted Bolster tentacle pull ability
+* Added NBT tag for Beckon growth
+* Added boss bar to the [[Dreadnaut]], [[Overlord]] (you need to hit it in order to see it)
+* Overlord hitbox size increased
+* Beckon SI and SII hitbox height decreased
+* Beckons/Sentry/Kyphosis will no longer attack while leaving the ground
+* Added particle effects for Beckons in their attack posture
+* Manducaters will lose their invisibility each time they attack
+* Parasites are now immune to [[Viral]] and [[Corrosion|Corrosive]] effects
+* [[Rupter]] follow range from 16 to 32
+* Tweaked melee range for [[Adapted Yelloweye]]
+* Parasites will make small leap to targets when they're in water
+* [[Heavy Carrier|Heavy]] and [[Flying Carrier|Flying Carriers]] will always release minions when killed (you can prevent this killing it with fire)
+* Added nbt tag for the [[Buglin]] grow
+* Infected versions are now called [[Assimilated Mobs|Assimilated versions]]
+* Assimilated versions can now copy their original host if available
+* The [[Warden]], the [[Overseer|Flying Summoner]] and the Vigilante are now considered "Pure versions"
+* Beckon, Sentry and Kyphosis will not be pushed by water
+* Beckons will not look around
+* Changed particles spawned by Beckons when emerging from the ground
+* Improved the Block Griefing task, they will not dig down too much and if you are below them, they will start to dig
+* Removed Infected Alafha from the mod
+* Heavy/Flying Carriers will now release its minion on death unless it is on fire
+* Explotions from Carriers will apply Viral
+
+==== <u>[[Reinforcement System]]</u> ====
+
+* Beckon infestation, now for a block to spread, the block stage needs to find a Beckon and that Beckon stage needs to be equal to or greater than the block stage
+* Changed texture for the Infested Block
+* Changed Registry name for the Infested Block
+* Added Infested Wood and Infested Stone
+* Stone and wood can be infested by Beckons
+* Residue blocks will not spawn Beckons if there is one nearby
+* Beckons Stage III will now try to place Colonies
+* Infested Block [[Residue]] will now apply [[Call Of The Hive|COTH]] effect when walked by it
+* Removed an Infested Block Variant
+* Added new [[Quench|throwable]] for clearing infested blocks<br />
+
+==== <u>Colonies</u> ====
+
+* Added a feature called [[Colony|Colonies]]
+* When parasites have Colonies, they can build more stronger units to fight, when a parasite spawns these values will be affected:
+*# Health
+*# Armor
+*# Damage
+*# KnockBack Resistance
+*# Damage Cap<br />
+
+==== <u>Biomes</u> ====
+
+* Added [[Parasite Biome]]:
+*# Parasites will not care about daylight and spawn naturally
+*# Non-parasites entities will have a healing penalty inside the biome
+*# You can use Purifiers to remove the biome (this will not remove placed blocks)
+* Added a feature called Nodes
+*# [[Stage IV Beckon|Stage IV]] will create nodes
+*# A node will spread the Parasite Biome in the world
+*# Nodes will prevent grow of crops and trees
+*# Mobs spawned within the effect range of the node will have the [[Call Of The Hive|COTH]] effect
+
+==== <u>Evolution Phases</u> ====
+
+* Added a feature called [[Evolution Phases]]
+* If Evolution Phases is true, the current phase will dictate if a parasite can spawn naturally in the world and by reaching some phases, they will unlock some bonuses, the intention is to give the feeling that these parasites as a Faction are growing
+* Spawnrates are not affected by the Phases
+
+# '''<u>Phase 0: - Points required: 0</u>'''
+#* Buglins spawn naturally
+# '''<u>Phase 1: - Points required: 50</u>'''
+#* Rupters spawn naturally, with a hit and run behavior
+#* Animals and mobs infected with COTH will not mutate unless forced to low health
+#'''<u>Phase 2: - Points required: 100</u>'''
+#*Assimilated versions spawn naturally
+#* Rupters will now attack as normal
+#'''<u>Phase 3: - Points required: 1,000</u>'''
+#*Reinforcement system is unlocked
+#* Beckons will slowly grow to Stage II and beyond
+#* The passive point gaining is now active
+#* Mobs with COTH will stop dropping loot
+#'''<u>Phase 4: - Points required: 100,000</u>'''
+#*Primitive versions spawn naturally
+#* Normal growth to Beckons Stage II, but will slowly grow to Stage III
+#* Passive point gaining recieves a buff to the number gaining
+#* Reinforcement system chance increased
+#* Colonies now unlocked
+#* Buglins will stop spawning naturally
+#* No more fishing
+#'''<u>Phase 5: - Points required: 1,000,000</u>'''
+#* Passive point gaining recieves a buff to the number gaining
+#* Players can't sleep anymore
+#* Normal growth to Beckons Stage III but will slowly grow to Stage IV
+#* Nodes now unlocked
+#* COTH hidden mobs are now dropping their disguise
+#* Beckons will ignore summoning cooldown when spawning
+#* Reinforcement system chance increased
+# '''<u>Phase 6: - Points required: 30,000,000</u>'''
+#* Normal growth to Beckons Stage IV
+#* Passive point gaining recieves a buff to the number gaining
+#* Assimilated versions and lower tier parasites will stop spawning naturally
+#* Adapted versions spawn naturally
+#* Mobs have a chance to spawn with COTH now
+#* Crop growth is now partially stunted
+#* Reinforcement system chance increased
+#'''<u>Phase 7: - Points required: 100,000,000</u>'''
+#* Primitive versions and lower tier parasites will stop spawning naturally
+#* Pure versions spawn naturally
+#* Chance for a mob to spawn with COTH increased
+#* Passive point gaining recieves a buff to the number gaining
+#* Crop growth is now partially stunted
+#* Reinforcement system chance increased
+#* Parasites will ignore sunlight when spawning naturally
+# '''<u>Phase 8: - Points required: 600,000,000</u>'''
+#* Ancient versions spawn naturally
+#* Passive point gaining recieves a buff to the number gaining
+#* Chance for a mob to spawn with COTH increased
+#* Crop growth is now partially stunted
+#* Reinforcement system chance increased<br />
+
+* By default, a world starts with an Evolution Phase of 0
+* To reach a Phase, parasites need to gain points by:
+*# Killing other mobs
+*# Assimilating other mobs
+*# Infesting Blocks<br />
+
+'''''Edit: Please note that the above section is no longer accurate, see [[Evolution Phases]] for updated information.'''''
+
+==== <u>Status Effects</u> ====
+
+* Added [[Call Of The Hive]] Effect:
+*#With amplifier 0:
+*#*The effect will be reapplied when the duration is coming to an end with an amplifier of 1
+*# With amplifier 1:
+*#* The effect will spread to mobs around the victim with an amplifier of 0
+*#* If the victims health is low enough, it will try to transform into an incomplete form
+*#* The effect will be reapplied when the duration is coming to an end with an amplifier of 2
+*# With amplifier >= 2:
+*#* The effect will spread to mobs around the victim with an amplifier of 0
+*#* If the victims health is low enough, it will try to transform into the assimilated version if available, if not, an incomplete version will take its place
+*#* The effect will be reapplied when the duration is coming to an end with an amplifier of 2
+
+* Added [[Fear]] effect:
+*# You will receive more falling damage with this effect
+*# This effect have a chance to cancel the following interactions:
+*#* With amplifier >= 1 - items
+*#* With amplifier >= 2 - blocks
+*#* With amplifier >= 3 - gui
+
+* Added [[Bleeding]] Effect:
+*# Similar to poison, you will take damage, but if you move, the damage will multiply
+
+* Added [[Camouflage]] Effect:
+*# If an entity has this effect, it will be more difficult for it to become infected with COTH
+*# Rupters and COTH clouds will ignore thi
+
+* Added [[Corrosion|Corrosive]] Effect:
+*# Will reduce your armor value
+
+* Added [[Viral]] Effect:
+*# Will reduce your health value
+
+* Added [[Rage|Enraged]] Effect:
+*# Increase speed and damage<br />
+
+==== <u>To be improved in 1.9.0+</u> ====
+
+* [[Colony|Colonies]]
+* [[Parasite Biome|Biome]]
+* [[Assimilated Mobs|Ancient versions]]
+* [[Assimilated Adventurer]]
+* [[Incomplete Forms|Incomplete forms]]
+* Beckon infestation/biome block conversion
+* Sound effects
+* [[Lure]]/[[Parasite Biome#Biome Purifier|Purifier]] Blocks
+* Textures
+
+{{VersionList}}
+[[Category:Versions]]

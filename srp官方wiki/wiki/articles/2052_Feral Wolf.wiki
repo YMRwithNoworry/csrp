@@ -1,0 +1,57 @@
+{{Stub}}
+{{Navbar|page1=Walking Wolf Head|page2=Assimilated Wolf|page3=Assimara Wolf|page4=Feral Wolf}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|ferwolf}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=FeralWolf.png
+|hp=16.0
+|damage=15.0
+|armor=4.0
+|kb_resistance=0.4
+|adaptable=No
+|id=srparasites:fer_wolf
+}}
+'''Feral Wolves''' are the [[:Category:Feral_Parasites|Feral Version]] of Wolves.
+
+==''Spawning''==
+
+* Spawned when a Wolf is killed by a [[Gnat]] or [[Lice]].
+* Spawns from a Wolf succumbing to [[Call Of The Hive]] at [[Evolution Phases#Phase 7|Phase 7]] onwards.
+* Spawns when an [[Assimilated Wolf]] accumulates a killcount of 60 and [[Evolution System|evolves]].
+* Spawns in groups of 3 to 6, from [[Evolution Phases#Phase 8|Phase 8]] onwards, with a spawnweight of 25, once 3 Wolves have been assimilated.
+
+==''Behavior''==
+Feral Wolves are Melee Combatants.
+
+* Feral Wolves attack through contact damage.
+* Feral Wolves can perform small leaps, both on land and in liquids.
+* Feral Wolves are able to sink in liquids to pursue submerged targets.
+* On hit Feral Wolfs has a chance to drop [[Remains|Feral Remains]].
+
+===''Weaknesses''===
+*Feral Wolves, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+=== ''Post Death'' ===
+
+* On death, Feral Wolves have a chance to explode, releasing [[Remains|Feral Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+* On death, Feral Wolves have a chance to drop a [[Gnat]].
+{{Properties|tier=Feral|FollowRange=20|DamageCap=3|MinimumDamage=0.75|DeathPenaltyEvolutionValue=5|RemainValue=12|ScentDeathValue=15|XPValue=16|COTH=.7}}
+
+==''Sounds''==
+To be added...
+
+==''Trivia''==
+To be added...
+
+== Gallery ==
+<gallery>
+File:FeralWolfHeight.png|Size of the Feral Wolf's model.
+</gallery>
+
+{{MobList}}
+<references />
+[[Category:Mobs]]
+[[Category:Feral Parasites]]

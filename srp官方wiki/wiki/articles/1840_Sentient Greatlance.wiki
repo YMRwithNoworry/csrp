@@ -1,0 +1,30 @@
+{{WIP}}{{Navbar|page1=Living Lance|page2=Sentient Greatlance}}
+{{Item Info
+|image1=Sentient Greatlance.png
+|damage=34
+|attack_speed=0.7
+|range=7.0
+|durability=1000
+|stackable=No
+|tooltip=
+|id=srparasites:weapon_lance_sentient
+}}
+The '''Sentient Greatlance''' is a type of [[Weapons|Weapon]].
+
+It is the direct upgrade to the [[Living Lance]].
+==''Obtainment''==
+Sentient Weapons evolve from their craftable Living counterpart after having dealt 50,000 damage.
+==''Usage''==
+'''Fighting'''
+
+The Sentient Greatlance is a Melee Weapon. Its attack reach is 7 blocks in each direction from the players head, which is the default attack reach.
+
+Each time it is swung, it performs the default sweeping attack (though only visually if airborne or the attack cooldown is still up), and applies the <u>[[Needler|Needler II]]</u><ref>needs verification</ref> effect to the directly targeted mob.
+<references />
+
+{{ItemList}}
+
+[[Category:Items]]
+[[Category:Equipment]]
+[[Category:Work In Progress Content]]
+[[Category:Weapons]]

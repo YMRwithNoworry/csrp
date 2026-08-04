@@ -1,0 +1,39 @@
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|worm}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=Worm.png
+|hp=10.0
+|damage=N/A
+|armor=10.0
+|kb_resistance=N/A 
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:Worm
+}}'''Worms''' are a type of [[Mobs|Mob]], placed into the [[:Category:Deterrent Parasites|Deterrent]] Tier.
+==''Spawning''==
+*Summoned by [[Scent System|Scents]].
+==''Behavior''==
+Worms are a utility parasite entirely tied to the [[Scent System]]. Worms function similarly to [[Dispatcher Tentacle|Dispatcher Tentacles]], burrowing up from the ground before moving in mobs and then burrowing away, despawning.
+
+*Worms will burrow up from any solid block.
+*Worms will vomit a burst of several parasites into the air, set by the Scent that summoned them.
+
+=== ''Weaknesses'' ===
+*Worms, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+{{Properties
+|tier=Deterrent
+|DamageCap=3|COTH=N/A|RemainValue=N/A|Regen=0.3|XPValue=0|ScentDeathValue=0|FollowRange=32|MinimumDamage=2|DeathPenaltyEvolutionValue=0}}{{Adaptation|pointChanceToLearn=.85|tier=Deterrent|pointChanceToFail=0.5|pointReductionValue=0.16|pointReductionCap=6|pointReducationTotalCap=10}}
+
+==''Trivia''==
+*The Worm was proposed on Trello by user FasionBeard. The original proposal is linked [https://trello.com/c/2WGnWFAo/398-worm-carrier here].
+*Worms are also known as '''Rof''' in the Mod Files.
+==''Gallery''==
+<gallery>
+File:WormHeight.png|thumb|Size of the Worm's model
+File:Worm spew.png|Worm summoning parasites
+</gallery>{{MobList}}
+[[Category:Mobs]]
+[[Category:Deterrent Parasites]]
+<references />

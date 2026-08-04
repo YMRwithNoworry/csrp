@@ -1,0 +1,180 @@
+{{Navbar|page1=Primitive Summoner|page2=Adapted Summoner}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|adasummoner}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=<gallery>
+Adapted Summoner.png|Normal
+BerserkerAdaSummoner.png|Berserker
+VirulentAdaSummoner.png|Virulent
+BreacherAdaSummoner.png|Breacher
+</gallery>
+|hp=100.0
+|damage=30.0
+|armor=14.0
+|kb_resistance=1.0 
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:ada_summoner
+}}  
+'''Adapted Summoners''' are a type of [[Mobs]], placed into the [[Adapted Parasites|Adapted]] Tier.
+
+== ''Spawning'' ==
+* Spawns after a [[Primitive Summoner]] accumulates a killcount of 30 and [[Evolution System|evolves]].
+* Spawns in groups of 2 to 3, if [[Ubiquitous Development]] is Level 3 or higher, with a spawnweight of 15.
+* Spawns inside the [[Parasite Biome]], with a spawnweight of 10.
+
+== ''Behavior'' ==
+Adapted Summoners are Melee Combatants.
+
+* Adapted Summoners' Melee Attack is performed through contact damage.
+*If the [[Generations|Generation]] is 4 or higher, Adapted Summoners can perform the following abilities:
+**Summon certain parasites through the usage of [[Biomass]]. Summoned mobs will spawn with the [[Rage]] Effect. [[Adapted Summoner#Summoning|More info below]].
+**Revive parasites if the fallen parasite's large Remain piece is present. Parasites revived by an Adapted Summoner will have 50% more health.
+**Vomit on prey, which spawns a lingering cloud of [[Vomit]], [[Viral]], [[Corrosion]], Weakness, and Hunger.
+**Like other Adapted land Parasites, vomit [[Residue]] in a 5x5 area every so often.
+* Adapted Summoners can perform small leaps, both on land and in liquids.
+* Adapted Summoners can sink in liquids to pursue submerged targets.
+* Adapted Summoners will keep their distance from their enemies.
+* Adapted Summoners can break blocks that have their [[Hardness]] Value up to 3, with a 40 ticks cooldown and 1 Blocks range.
+{{Variants|count=3|Berserker=BerserkerAdaSummoner.png|Virulent=VirulentAdaSummoner.png|Breacher=BreacherAdaSummoner.png}}
+
+=== ''Summoning'' ===
+Adapted Summoners are capable of spawning various [[Mobs]], through the use of [[Biomass]].
+
+The summoning Ability is based on Points, each Mob has a certain Points value.
+
+'''Adapted Summoners have a total of 3 Points per summon and can summon 1 mob before its cooldown of 8 seconds with a cap of 6 parasites active at once.'''
+{| class="fandom-table"
+|+Adapted Summoner Spawn Table
+!Mobs
+!Point Value
+!Spawn Chance
+|-
+|[[Rupter]]
+|1
+|10%
+|-
+|[[Assimilated Human]]
+|2
+|30%
+|-
+|[[Assimilated Cow]]
+|2
+|30%
+|-
+|[[Assimilated Wolf]]
+|2
+|30%
+|}
+
+=== ''Weaknesses'' ===
+* Adapted Summoners, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+* Adapted Summoners' Tendrils, found on the sides of their body, can reset their [[Adaptation System|adaptation]], while also giving them the [[Bleeding]] and [[Rage]] Effects.
+
+=== ''Post Death'' ===
+* On death, Adapted Summoners have a chance to explode, releasing [[Remains|Adapted Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+** If at least one [[Colony]] exists in the dimension, Adapted Summoners will become [[Primitive Summoner|Primitive Summoners]] upon death instead.
+{{Properties
+|tier=Adapted
+|OrbEffectsMobs=Hunger III (00:15), [[Needler|Needler III]] (00:25)
+|OrbEffectsParasites=Speed III (00:30)
+}}
+{{Drops
+|rolls1=One Roll
+|page1=Toxic Lung
+|amount1=1
+|chance1=60
+|page2=Summoner Core
+|amount2=1
+|chance2=80
+|rolls3=Always Rolls
+|page3=Strange Bone
+|amount3=1-2
+|chance3=20
+}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|[[File:adaptedsummonerliving1.ogg]]
+[[File:adaptedsummonerliving2.ogg]]
+[[File:adaptedsummonerliving3.ogg]]
+[[File:adaptedsummonerliving4.ogg]]
+[[File:adaptedsummonerliving5.ogg]]
+|Hostile
+|Plays randomly while an Adapted Summoner is alive.
+|Adapted Summoner screams
+|adaptedsummonerliving1-5
+|-
+|[[File:adaptedsummonerhurt1.ogg]]
+[[File:adaptedsummonerhurt2.ogg]]
+[[File:adaptedsummonerhurt3.ogg]]
+|Hostile
+|Plays when an Adapted Summoner takes damage.
+|Adapted Summoner screeches
+|adaptedsummonerhurt1-3
+|-
+|
+[[File:Heavy one_step1.ogg]]
+[[File:Heavy one_step2.ogg]]
+[[File:Heavy one_step3.ogg]]
+[[File:Heavy one_step4.ogg]]
+[[File:Heavy one_step5.ogg]]
+|Hostile
+|Plays when an Adapted Reeker is walking.
+|X
+|two_steps1-5
+|-
+|[[File:Tendril Cut.ogg]]
+|Hostile
+|Plays after cutting an Adapted Summoner's Tendril.
+|Tendril falls off
+|mob_tendril
+|-
+|[[File:adaptedsummonerscream.ogg]]
+|Hostile
+|Plays when an Adapted Summoner is summoning mobs.
+|Loud screeching
+|adaptedsummonerscream
+|-
+|[[File:Adapted Vomit.ogg]]
+|Hostile
+|Plays when an Adapted Summoner pukes [[Residue]] onto the ground.
+|Vomiting
+|adapted_vomit
+|-
+|[[File:adaptedsummonerdeath.ogg]]
+|Hostile
+|Plays when an Adapted Summoner dies.
+|Adapted Summoner cries
+|adaptedsummonerdeath
+|-
+|}
+
+== ''Trivia'' ==
+* Adapted Summoners are also known as '''Canra''' in the Mod Files.
+* Adapted Summoner's Model was considered by Dhanantry as the hardest to realize (it has been updated numerous times, throughout 1.9.0).
+
+== ''Gallery'' ==
+<gallery>
+File:AdaptedSummonerHeight.png|thumb|Size of the Adapted Summoner's Model
+File:Summoner Tendril.png|Adapted Summoner's Tendril after being cut.
+File:Summoner Tendrils Highlighted.png|Adapted Summoner's Tendrils as seen on the Model.
+File:Biomass.png|The Biomass entity Adapted Summoners use.
+File:AdaptedSummoner1.9.0Alpha14.png|thumb|The Adapted Summoner's appearance in 1.9.0 Alpha 14
+File:AdaptedSummoner1.8.0.png|The Adapted Summoner's appearance in 1.8.0. (Credit to @scout2illustrates)
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Adapted Parasites]]
+[[Category:Mobs]]

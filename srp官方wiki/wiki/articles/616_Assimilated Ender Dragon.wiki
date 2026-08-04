@@ -1,0 +1,56 @@
+{{Navbar|page1=Walking Ender Dragon Head|page2=Assimilated Ender Dragon}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|simedragon}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=Assimilated Dragon.png
+|hp=260.0
+|damage=30.0
+|armor=25.0
+|kb_resistance=1.0
+|adaptable=No
+|id=srparasites:sim_dragone
+}}
+The '''Assimilated Ender Dragon''' is the [[Assimilated Mobs|Assimilated Variant]] of the Ender Dragon. The Assimilated Ender Dragon does not currently have an [[Assimara Parasites|Assimara form]], nor a [[Feral Parasites|Feral Form]], much like [[Assimilated Squid|Assimilated Squids]] and [[Assimilated Big Spider|Assimilated Big Spiders]].
+
+She is one of the [[Bosses]] of the Mod. 
+
+== ''Spawning'' ==
+*Spawns naturally in every dimension from [[Evolution Phases#Phase 9|Phase 9]] onwards with a spawnweight of 1, once the End has reached [[Evolution Phases#Phase 3|Phase 3]].
+
+== ''Behavior'' ==
+The Assimilated Ender Dragon is both a Melee and Ranged Combatant.
+
+*She is capable of switching between both a flying and grounded state, while grounded she can run at the target at a fast speed or use her ranged attack from a distance, while flying she hovers at a great distance from the target and moves much slower.
+*Her Melee Attack is performed through contact damage.
+*Her Ranged Attack is performed by shooting a Projectile, which leaves a Dragon Breath Cloud. The Cloud inflicts the Poison and the [[Call Of The Hive]] Effects, while the Projectile inflicts the [[Viral]] Effect.
+**Projectiles fire at a much faster rate while grounded.
+*Any Mob within 3 blocks of an Assimilated Ender Dragon will be inflicted with COTH. This does not go through walls.
+*She can break blocks that have their [[Hardness]] Value up to 3, with a 60 tick cooldown and 4 Blocks range.
+
+=== ''Weaknesses'' ===
+
+* Assimilated Ender Dragons, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+* Assimilated Ender Dragons are able to be decapitated, her head has a separate hitbox that upon taking enough damage, will fall off as a [[Walking Ender Dragon Head]], and the main body will no longer be able to shoot projectiles.
+* The Assimilated Ender Dragon's wings are able to be cut off. Each wing has a separate hitbox that will fall off upon taking enough damage, similar to a [[Adaptation System#Neutralization|Tendril]]. Cutting off one of these wings prevents the Assimilated Ender Dragon from flying.
+{{Properties|tier=Assimilated}}
+
+==''Trivia''==
+
+* The Assimilated Ender Dragon's name is misspelled as "Sim_Dragone" in the config and lang files as opposed to "Sim_Dragon".
+
+== ''Gallery'' ==
+<gallery>
+File:AssimilatedDragoneHeight.png|Size of Assimilated Ender Dragon's model.
+File:Simdragoneflying.png|Assimilated Ender Dragon taking flight.
+File:Assimilated Dragon No Limbs.png|Assimilated Ender Dragon with her head and both wings cut off.
+File:SizeComparisonDraconite.png|Size of the Assimilated Ender Dragon's model compared to the [[Draconite]]'s.
+
+</gallery>
+[[Category:Bosses]]
+
+{{MobList}}
+[[Category:Assimilated Mobs]]
+[[Category:Mobs]]

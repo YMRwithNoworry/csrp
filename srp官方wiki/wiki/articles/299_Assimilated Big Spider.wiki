@@ -1,0 +1,100 @@
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|simbspider}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=<gallery>
+Assimilated Big Spider.png|Normal
+Dorpa2.webp|Variant
+</gallery>
+|hp=22.0
+|damage=9.0
+|ranged=4.0
+|armor=3.0
+|kb_resistance=0.5
+|adaptable=No
+|id=srparasites:sim_bigspider
+}}
+'''Assimilated Big Spiders''' are classified as [[Assimilated Mobs]], despite not having a Sane Variant. The Assimilated Big Spider does not currently have an [[Assimara Parasites|Assimara form]], nor a [[Feral Parasites|Feral Form]], much like [[Assimilated Squid|Assimilated Squids]] and the [[Assimilated Ender Dragon]].
+
+== ''Spawning'' ==
+*Spawns in groups of 3 to 5, from [[Evolution Phases#Phase 2|Phase 2]] through [[Evolution Phases#Phase 7|Phase 7]], with a spawnweight of 25.
+*Spawns inside the [[Parasite Biome]], with a spawnweight of 60.
+*Spawned by [[Stage II Beckon|Stage II]] and [[Stage III Beckon|Stage III Beckons]].
+
+== ''Behavior'' ==
+Assimilated Big Spiders are both Melee and Ranged Combatants.
+
+*Their Melee Attack is performed through contact damage.
+*Assimilated Big Spiders can shoot a projectile which creates [[Thin Webbing]] upon landing. These will slow down their target. These Webs disappear, after enough time passes.
+*Any Mob within 3 blocks of an Assimilated Big Spider will be inflicted with [[Call Of The Hive|COTH]]. This does not go through walls.
+*Assimilated Big Spiders are able to traverse faster in liquids by performing small leaps.
+*On death, Assimilated Big Spiders have a chance to blow up similar to an Assimilated [[Remains]] explosion. Unlike other mobs, The Assimilated Big Spiders' explosion presents blue particles and does not create Remain blocks. This explosion still creates an effect cloud of stacking Poison and [[Call Of The Hive|COTH]] and spawns 5 [[Buglin|Buglins]].
+{{Variants|count=1|Texture=Dorpa2.webp|TextureName=Second|TextureDesc=presents Half HP compared to a Normal Assimilated Big Spider.}}
+
+=== ''Weaknesses'' ===
+
+* Assimilated Big Spiders, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+{{Properties|tier=Assimilated}}
+
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Big Spider Idle1.ogg]]
+[[File:Big Spider Idle2.ogg]]
+[[File:Big Spider Idle3.ogg]]
+[[File:Big Spider Idle4.ogg]]
+|Hostile
+|Plays randomly while an Assimilated Spider is alive.
+|Distorted hissing
+|assimilatedspidersay1-4
+|-
+|
+[[File:Big Spider Step1.ogg]]
+[[File:Big Spider Step2.ogg]]
+[[File:Big Spider Step3.ogg]]
+[[File:Big Spider Step4.ogg]]
+|Hostile
+|Plays when an Assimilated Spider walks.
+|Insect steps
+|assimilatedspiderstep1-4
+|-
+|[[File:Big Spider Ranged.ogg]]
+|Hostile
+|Plays when an Assimilated Big Spider uses its ranged attack.
+|X
+|dorpa_rangea
+|-
+|[[File:Big Spider Death.ogg]]
+|Hostile
+|Plays when an Assimilated Spider dies.
+|Big Spider dies
+|assimilatedspiderdeath
+|-
+|}
+
+== ''Trivia'' ==
+*Assimilated Big Spiders are also known as '''Dorpa''' in the Mod Files.
+**This implies that the Assimilated Big Spider is a different species than the rest of the Assimilated mobs, which are known as '''Inf[mob name]'''. This is also hinted at in the [[Compendium]].
+*As of now, Assimilated Big Spiders are one of the few Parasites that possess eyes. It is unknown if they'll be removed or not.
+
+== ''Gallery'' ==
+<gallery>
+File:Assimilated Big Spider Size Comparison.png|Size of the Assimilated Big Spider's Model.
+File:Assimilated Big Spider Variant.png|Assimilated Big Spider's Variant.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Assimilated Mobs]]
+[[Category:Mobs]]

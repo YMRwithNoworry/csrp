@@ -1,0 +1,28 @@
+{{Stub}}
+
+{{#SQuote:|text="Hives are structures that organize and defend parasite territory."|speaker=[[Compendium|The Compendium]]|receiver=|attribution=|source=|id=yeah|template=}}
+
+Hives aren't implemented in the game as of the [[Current Version]]. However, they will be unlocked at [[Ubiquitous Development]] level 4.
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''ID'''
+|-
+|}
+
+
+== ''Trivia'' ==
+*Hives were teased back in 1.9's config file, alongside [[Nests]].
+
+
+== ''Gallery'' ==
+
+<gallery>
+</gallery>
+
+{{MobList}}
+[[Category:Systems]]
+[[Category:Upcoming Content]]

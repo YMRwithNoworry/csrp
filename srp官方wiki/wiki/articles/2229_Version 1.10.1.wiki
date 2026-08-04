@@ -1,0 +1,34 @@
+{{VersionBar|
+|page1=1.10.0
+|page2=1.10.2
+}}
+'''Version 1.10.1''' was an update for the Scape and Run: Parasites Mod, released on February 5th 2026.  It was 85.31 MB.
+
+== ''Change Log'' ==
+
+====<u>Fixes</u>====
+* Fixed [[Stage IV Dispatcher]] missing head texture while in snow biome 
+* Added impact crater structure 
+* Removed sound eater human causing null exception error 
+* Fixed null exception error with difficulty
+* Fixed [[Stage IV Beckon|Stage IV Beckons]] that are underground during thunderstorms still picking you up and flinging you around even though the tornado is hidden 
+* Fixed disc item and creative item having different colors 
+* Fixed [[Ancient Dreadnaut]] visual bug + death crash 
+* Infested Furnace has been fixed and is now operational 
+* [[Thornshade]] effect now working as intended
+
+====<u>Internal</u>====
+* Code cleanups for performance improvements
+
+====<u>Configuration</u>====
+* [[Hijacked Skeleton|Skeleton]] & [[Hijacked Blaze|Blaze]] added to Hijacked list
+
+====<u>Mobs</u>====
+* [[Assimilated Human]] nametag "Kim" variant added
+
+====<u>Structures</u>====
+* Meteor structure
+* Meteor structure loot conversion
+
+{{VersionList}}
+[[Category:Versions]]

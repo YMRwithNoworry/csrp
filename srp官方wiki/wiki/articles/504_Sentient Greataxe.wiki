@@ -1,0 +1,34 @@
+{{WIP}}
+{{Navbar|page1=Living Axe|page2=Sentient Greataxe}}
+
+{{Item Info
+|image1=File:Sentient Greataxe.png
+|damage=42
+|attack_speed=0.7
+|range=5.0
+|durability=1000
+|stackable=No
+|tooltip=The ulterior Evolution of the Living Axe. It has gained a Mind. Renders armor useless over time.
+|id=srparasites:weapon_axe_sentient
+}}
+The '''Sentient Greataxe''' is a type of [[Weapons|Weapon]].
+
+It is the direct Upgrade of the [[Living Axe]].
+
+== ''Obtainment'' ==
+Sentient Weapons evolve from their craftable Living counterpart after having dealt 50,000 damage.
+
+== ''Usage'' ==
+
+The Sentient Greataxe is a Melee Weapon. Its Attack Reach is 3 Blocks horizontally, and 8 Blocks vertically, which is the default attack reach
+
+Each time it is swung, it performs a sweeping attack (though only visually if airborne or the attack cooldown is still up) and applies the [[Corrosion|Corrosion II]] Effect. 
+[[Category:Weapons]]
+[[Category:Work In Progress Content]]
+
+== ''Trivia'' ==
+*The Sentient Greataxe was inspired by the [https://runescape.wiki/w/Dharok%27s_greataxe Dharok's Greataxe] from Runescape.
+
+{{ItemList}}
+[[Category:Items]]
+[[Category:Equipment]]

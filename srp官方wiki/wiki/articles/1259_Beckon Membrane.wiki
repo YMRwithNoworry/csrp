@@ -1,0 +1,23 @@
+{{Item Info
+|image1=Beckon Membrane.png
+|type=Material
+|stackable=Yes (16)
+|tooltip=A coating for Beckons, peeled off their corpse.
+|id=srparasites:beckon_drop
+}}
+'''Beckon Membranes''' are a [[:Category:Drops|Drop]] that most likely will be used as [[:Category:Drops#Materials|Materials]].
+
+== ''Obtainment'' ==
+* Dropped by all Stages of [[:Category:Nexus Parasites#Beckons|Beckons]].
+* Found in [[Parasitic Growth Block|Metastatic Masses]].
+
+== ''Usage'' ==
+{{CraftingTable|r1_b1=Beckon Membrane|r1_a2=Dispatcher Membrane|r1_b2=Module Genic Receptacle|r1_c2=Dispatcher Membrane|r1_b3=Beckon Membrane|r1_output=Nexus Module|r1_count=1
+
+|r2_b1=Beckon Membrane|r2_a2=Beckon Membrane|r2_b2=Diamond Boots|r2_c2=Beckon Membrane|r2_b3=Beckon Membrane|r2_output=Venkrol Anchor Boots|r2_count=1
+
+|r3_a1=Rupter Viscera|r3_b1=Rupter Viscera|r3_b2=Beckon Membrane|r3_a2=Rupter Viscera|r3_output=Biomass Block|r3_count=4}}
+
+{{ItemList}}
+[[Category:Items]]
+[[Category:Drops]]

@@ -1,0 +1,38 @@
+{{Item Info
+|title1=Shrimp
+|image1=Shrimp.png
+|type=Consumable
+|stackable=Yes (64)
+|tooltip=The greatest delicacy in the multiverse. <br>Sometimes falls from parasites during an Arrow's presence. <br>Can be fed to an assimilated enderman.|id=srparasites:shrimp}}
+'''Shrimp''' are consumable Items.
+
+==''Obtainment''==
+*25% chance for 1 - 5 to drop from any parasite while the Arrow [[Celestial Events|Celestial Event]] is active.
+
+==''Usage''==
+Shrimp restore two hunger (one full drumstick piece) when eaten and can also be fed to wolves to restore health.
+
+They can also be fed to [[Assimilated Enderman|Assimilated Endermen]], which will turn their skin pale, their flesh red, and remove their jaw.
+
+==''Sounds''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:shrimp_eat1.ogg]]
+[[File:shrimp_eat2.ogg]]
+[[File:shrimp_eat3.ogg]]
+|Plays when a shrimp is eaten.
+|Shrimp Destroyed
+|shrimp_eat1-3
+|-
+|}
+
+==Trivia==
+*Shrimp are, like the Arrow itself, a reference to Voices of the Void, where they can also be eaten as food.
+**The white texture given to Assimilated Endermen when they eat a Shrimp may also be a reference to the Arirals found in Voices of the Void, who have pale skin.
+** The part of the tooltip, "The greatest delicacy in the multiverse," references the Arirals' love for Shrimp, which they claim is the "greatest delicacy in the universe."
+[[Category:Items]]

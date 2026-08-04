@@ -1,0 +1,139 @@
+{{Navbar|page1=Primitive Yelloweye|page2=Adapted Yelloweye}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|priyelloweye}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=<gallery>
+Primitive Yelloweye.png|Normal
+BreacherPriYelloweye.png|Breacher
+</gallery>
+|hp=30.0
+|damage=5.0
+|armor=3.5
+|kb_resistance=0.2 
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:pri_yelloweye
+}}
+'''Primitive Yelloweyes''', known internally as '''Emana''', are a [[Mobs|Mob]] in the [[Primitive Parasites|Primitive]] Tier.
+
+== ''Spawning'' ==
+* Spawns after a successful merging between 4 [[Moving Flesh]], through the [[Evolution System]].
+* Spawns in groups of 2 to 3 in air, from [[Ubiquitous Development#Level 2|Ubiquitous Development Level 2]] through [[Ubiquitous Development#Level 4|Level 4]], with a spawnweight of 15.
+* Spawned by [[Stage III Beckon|Stage III Beckons]].
+* Spawned by 4 [[:Category:Assimilated Mobs|Assimilated Mobs]] stored into a [[Stage III Dispatcher|Stage III]] or [[Stage IV Dispatcher|IV Dispatcher]].
+* Spawned by level 4 or higher [[Scent System|Scents]].
+* Spawns in groups of 1 - 2 from [[Heavy Carrier|Heavy Carriers]].
+*If at least one [[Colony]] exists, spawns when an [[Adapted Yelloweye]] is killed.
+
+== ''Behavior'' ==
+Primitive Yelloweyes are Flying Ranged Combatants.
+
+* Primitive Yelloweye's Ranged Attack is performed by them shooting a poisonous projectile, which degrades durability: Primitive Yelloweye's projectiles inflict the Poison Effect for 3 seconds, every shot degrades gear durability by 4%.
+* Every 4th shot, Primitive Yelloweyes are capable of shooting Nades, a projectile that creates a block of acid upon contact, inflicting very high damage per second, and ignores immunity frames.
+** This is indicated by flame particles and a sword swinging sound, the Nade projectile also travels slower and has a yellow color.
+
+* Primitive Yelloweyes can break blocks that have their [[Hardness]] Value up to 1, with a 60 ticks cooldown and 1 Blocks range.
+* On death, Primitive Yelloweye have a chance to explode, releasing Primitive Remains and an effect cloud of stacking Poison and COTH.
+* If a Primitive Yelloweye gets 10 kills, it will evolve into an [[Adapted Yelloweye]].
+{{Variants|count=1|Breacher=BreacherPriYelloweye.png}}
+
+=== ''Weaknesses'' ===
+Primitive Yelloweyes, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+{{Properties
+|tier=Primitive
+|Orbs=false
+}}
+
+=== ''Post Death'' ===
+* On death, Primitive Yelloweyes have a chance to explode, releasing [[Remains|Primitive Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+** If at least one [[Colony]] exists in the dimension, Primitive Yelloweyes will become [[Moving Flesh]] upon death instead.
+
+{{Drops
+|rolls1=One Roll:
+|page1=Altered Tendons
+|amount1=1-2
+|chance1=60
+|rolls2=Always Rolls
+|page2=Yelloweye Bone
+|amount2=1
+|chance2=40
+|page3=Strange Bone
+|amount3=1
+|chance3=4
+}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|[[File:Primitive Yelloweye Growl.ogg]]
+|Hostile
+|Plays randomly while a Primitive Yelloweye is alive.
+|X
+|emana_growl
+|-
+|[[File:Primitive Yelloweye Hurt.ogg]]
+|Hostile
+|Plays when a Primitive Yelloweye takes damage.
+|X
+|emana_hurt
+|-
+|[[File:Primitive Yelloweye Shooting.ogg]]
+|Hostile
+|Plays before a Primitive Yelloweye attacks.
+|X
+|emana_shootingpost
+|-
+|[[File:Yelloweye Shooting.ogg]]
+|Hostile
+|Plays when a Primitive Yelloweye attacks.
+|X
+|emana_shooting
+|-
+|[[File:Adaptating_1.ogg]]
+[[File:Adaptating_2.ogg]]
+[[File:Adaptating_3.ogg]]
+|Hostile
+|Plays when a Parasite is adapting.
+|Parasite adapts
+|adaptating_1-3
+|-
+|[[File:Adapted_1.ogg]]
+[[File:Adapted_2.ogg]]
+[[File:Adapted_3.ogg]]
+|Hostile
+|Plays when a Parasite has adapted.
+|Parasite adapted
+|adapted_1-3
+|-
+|[[File:Primitive Yelloweye Death.ogg]]
+|Hostile
+|Plays when a Primitive Yelloweye dies.
+|X
+|emana_death
+|-
+|}
+
+== ''Trivia'' ==
+*Primitive Yelloweyes are known internally as "Emana". This may derive from "emanate", a word meaning to emit or be emitted, reflecting their status as ranged combatants.
+*Primitive Yelloweyes are named for the yellow spot on their center, though this has been confirmed not to actually be an eye. It may be the orifice from which they fire projectiles, or simply a discolored patch.
+
+== ''Gallery'' ==
+<gallery>
+File:Nade.png|The cube of acid formed when a Nade hits the ground.
+File:PrimitiveYelloweyeHeight.png.png|Size of the Primitive Yelloweye's model.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Primitive Parasites]]
+[[Category:Mobs]]

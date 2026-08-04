@@ -1,0 +1,9 @@
+{{DisambiguationContent
+|title=Crux
+|image1=Incomplete Crux.png
+|title1=[[Incomplete Crux]]
+|desc1=A [[Crude Parasites|Crude]] Parasite
+|image2=Crux Big.png
+|title2=[[Crux]]
+|desc2=A [[Crude Parasites|Crude]] Parasite
+}}

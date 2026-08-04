@@ -1,0 +1,11 @@
+{{DisambiguationContent
+|image1=Primitive Longarms.png
+|title1=[[Primitive Longarms]]
+|desc1=A [[Primitive Parasites|Primitive]] Parasite
+|image2=Adapted Longarms.png
+|title2=[[Adapted Longarms]]
+|desc2=An [[Adapted Parasites|Adapted]] Parasite
+|image3=Longarms Armor Fragment.png
+|title3=[[Longarms Armor Fragment]]
+|desc3=A [[Drops#Materials|Material]] dropped by Longarms
+}}

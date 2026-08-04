@@ -1,0 +1,1889 @@
+{{Item Info
+|image1=Compendium.png
+|type=Book
+|stackable=No
+|tooltip=N/A
+|id=srparasites:srp_field_guide
+}}
+The '''Compendium''' is a book that contains information on [[Mobs|Parasites]], [[Blocks]], [[Celestial Events]], [[Effects|Status Effects]], and [[Systems|Parasite Systems]] based on what the player has experienced, killed, or picked up.
+
+== ''Obtainment'' ==
+{{CraftingTable|r1_a1=Book|r1_b1=Infected Flesh|r1_output=Compendium|r1_shapeless=true}}
+
+== ''Contents'' ==
+===''[[Mobs|Parasites]]''===
+In the case of Parasites, the player must kill at a varied amount of one parasite (less for stronger parasites, vice versa) to unlock HP, damage values, possible loot, and lore. In this category, the kill counts for a specific parasite are given, as well as models that can also be observed and moved within. 
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+! colspan="4" |'''Parasite Entries by Tier'''
+|-
+!'''Parasite Name'''
+!'''HP/Damage'''
+!'''Kill Req. for Lore
+!'''Lore''' 
+|-
+! colspan="4" |'''[[Inborn_Parasites|Inborn]]'''
+|-
+|[[Buglin]]
+|7/3.0
+|10
+|<section begin="buglin"/><!--
+-->''"Epithet: Lodo; Roughly the size of a basketball, this grub-like mass is formed from unstable flesh that bends and compresses in ways that it should not, often appearing moments from rupturing. It carries a sharp metallic stench, and its substance tastes sour and aggressively acidic. Sixteen small hook-like claws, each about an inch long, like its underside and allow it to crawl across terrain and force itself into and out of living prey. It possesses no visible orifices, its body sealed like a malformed catalyst. Despite its flexibility, the Buglin is fragile under extreme pressure, rupturing instantly beneath the weight of an iron golem. Often found emerging from parasite [[Tunnel|tunnels]]."''<!--
+--><section end="buglin"/>
+|-
+|[[Gnat]]
+|5/5.0
+|10
+|<section begin="gnat"/><!--
+-->''"Epithet: Ata; A small parasitic that uses its tentacles as rotating drill-heads to bore into hosts, allowing it to hijack and control both organic and inorganic entities. Individually weak, its appendages are exceptionally sharp and capable of chewing through dense material and resilient prey. A bulbous growth along its back dissolves or violently ruptures once embedded within a hot, accelerating internal damage and takeover. It is heavily attracted to the scent of blood, to the point where it can be deliberately used as a form of distraction. The organism lacks any form of hearing and relies entirely on scent to navigate. Specimens are often coated in a slick, lubricant-like mucus, a residue from being secreted out of vermin."''<!--
+--><section end="gnat"/>
+|-
+|[[Lice]]
+|12/11.0
+|5
+|<section begin="lice"/><!--
+-->''"Epithet: Viin; A highly erratic parasitic that uses its tentacles as rotating drill-heads to burrow into hosts, hijacking and controlling both organic and inorganic entities. Its abdomen is grossly inflated and lined with multiple bulbous growths that serve as both fuel and explosive charges, allowing it to force attachment and penetrate resistant targets. Movement is unpredictable to the point of inefficiency, making it difficult to track or swat. The organism is strongly attracted to the scent of sweat and blood and produces a faint humming noise when in close proximity."''<!--
+--><section end="lice"/>
+|-
+|[[Rupter]]
+|10/5.0
+|10
+|<section begin="rupter"/><!--
+-->''"Epithet: Mudo; Rupters operate in packs, using speed and numbers to split formations and harass isolated targets. When alone they are initially docile, though this behavior is subject to rapid change. Their musculature and tendons are folded into a dense, tesseract-like arrangement, while internal organs sprawl through the body like root systems with no clear structure. They weigh roughly the same as a cannonball and are capable of long, fast jumps, as well as climbing sheer surfaces, though the lack the dexterity to hang from ceilings that well. Tendrils twinge outward when agitated, gripping and boring into targets. Rupters frequently tear through cattle and smaller creatures, killing them unintentionally. Solid matter is dissolved within the stomach and regurgitated back onto or into victims in small indistinguishable traces to efficiently transit [[Call Of The Hive|CotH]] without much retaliation. their organs can be harvested, dried, and processed into a [[Rupter Viscera|durable fiber-like material]]. Limbs may be torn free from the body similar to a spider; it remains unknown whether lost limbs can regenerate."''<!--
+--><section end="rupter"/>
+|-
+|[[Mangler]]
+|17/9.0
+|7
+|<section begin="mangler"/><!--
+-->''"Epithet: Nuuh; A close-quarters brute derived from [[Rupter|Rupters]], grown specifically for larger prey such as cattle, horses, and llamas. It weighs roughly the same as a large dog and is built for endurance and sustained force rather than speed. While bulkier in form, it retains the transmissible capabilities of its predecessors. The metallic scent present in Rupters is significantly stronger, often detectable before visual contact."''<!--
+--><section end="mangler"/>
+|-
+|[[Flying Carrier]]
+|10/10.0
+|2
+|<section begin="carrierflying"/><!--
+-->''"Epithet: Buthol; An airborne infestation vector that hovers over active infestation zones. Three external bulbous growths hang below the body, each containing a separate chemical component. When agitated, the compounds are forcibly mixed within the bulbs, causing rapid inflation before the body ruptures outward. Upon exposure to open air, the released mixture converts into a highly toxic, gas-like substance. The creature emits an odor similar to industrial chemical waste. Its surface is lines with fine hypodermic pricks and needle-like protrusions that damage nearby matter during detonation. The resulting compound rapidly melts exposed skin. Fire engulfment seems to destabilize and partially defuse the reaction."''<!--
+--><section end="carrierflying"/>
+|-
+|[[Heavy Carrier]]
+|30/25.0
+|2
+|<section begin="carrierheavy"/><!--
+-->''"Epithet: Rathol; A heavy carrier designed to spread dense payloads of filth, toxins, and supporting parasites. The body is fully sealed, displaying no visible orifices, and functional primarily as a pressure vessel for store noxious gas. Specimens may form empty of living mass yet remain filled with volatile chemical mixtures. Within its compartmental structure, several partially digested parasites remain suspended and mobile, swimming through the slurry. Prior to detonation, the organism dissolves its own internal organs and structural barriers, rapidly building internal pressure before rupturing. It reacts strongly to vibrations and emits an odor comparable to spoiled cooked meat sealed in a warm container. Fire engulfment seems to destabilize and partially defuse the reaction."''<!--
+--><section end="carrierheavy"/>
+|-
+|[[Light Carrier]]
+|30/25.0
+|1
+|<section begin="carrierlight"/><!--
+-->''"Epithet: Gothol; A nimble carrier adapted for rapid strikes and short-range seeding. Its body is composed of hundreds of small compartments filled with a volatile slurry chemically bound to its vital functions. Internal organs are densely centralized, forming a firm core similar in structure to the center of a blackberry. Despite its instability, the organism is capable of maintaining balance independently and reacts aggressively to vibrations in its surroundings. It emits an odor comparable to spoiled cooked meat sealed in a warm container. Detonation leaves widespread residue. Fire engulfment seems to destabilize and partially defuse the reaction."''<!--
+--><section end="carrierlight"/>
+|-
+! colspan="4" |'''[[Assimilated Mobs|Assimilated]]'''
+|-
+|[[Assimilated Adventurer]]
+|15/9.0
+|3
+|<section begin="simadventurer"/><!--
+-->''"Epithet: Sim; Observed traveling in loose groups, but once enough gather, they begin to match pace. They still check containers, doorways, and camp-like structures, as if memory survives in fragments. Occasionally, one will stop and stare into familiar spaces for several seconds, as though trying to remember what it once was. They appear to like [[Assimilated Wolf|assimilated dogs]]. I guess some things never change."''<!--
+--><section end="simadventurer"/>
+|-
+|[[Assimilated Bear]]
+|40/13.0
+|3
+|<section begin="simbear"/><!--
+-->''"Epithet: Sim; Its body has been preserved for force rather than speed. Specimens do not posture or bluff-charge like healthy bears; once agitated, they commit fully. Trees, barricades, and even damaged walls are treated as inconveniences by this thing. I observed one of them chewing the flesh from its own body once, as if to satiate an itch."''<!--
+--><section end="simbear"/>
+|-
+|[[Assimilated Big Spider]]
+|22/9.0
+|3
+|<section begin="simbspider"/><!--
+-->''"Epithet: Dorpa; This one produces [[Thin Webbing|excessive webbing]] mixed with foul organic runoff. Trails left behind often remain contaminated long after the host has passed. Its movements are strangely deliberate, as if it is less interested in pursuit and more concerned with spreading material across as much ground as possible. This one has a discernible temper, and I once witnessed it relentlessly stab holes into a pig with its legs, like a horse trampling a mound of flesh. I can only assume it did this because the prey was loud; it did not bother infesting it. Perhaps it was just food for fodder parasites?"''<!--
+--><section end="simbspider"/>
+|-
+|[[Assimilated Cow]]
+|18/7.0
+|3
+|<section begin="simcow"/><!--
+-->''"Epithet: Sim; Still reacts to the presence of feed and familiar sounds from husbandry, though only briefly. Once engaged, it lowers its head and drives forward with enough force to crush fencing or break bone. The contrast between its farm-bred mannerisms and sudden violence is deeply unsettling. It keeps wailing and crying whenever the sun rises. I don't know why."''<!--
+--><section end="simcow"/>
+|-
+|[[Assimilated Ender Dragon]]
+|260/30.0
+|1
+|<section begin="simedragon"/><!--
+-->''"Epithet: Sim; Flight appears difficult for its body, suggesting severe anatomical compromise. Even so, it remains highly lethal during descent and close approach. It seems to compensate for its failing body with distance and flight. Armor recovered from corpses often shows tearing and melted patterns, consistent with dipping tin foil in acid rather than clean predation. It does not seem acclimated to its body yet, as evidenced by it repeatedly thrashing its skull against the obsidian pillars of the End like a mace."''<!--
+--><section end="simedragon"/>
+|-
+|[[Assimilated Enderman]]
+|55/11.0
+|3
+|<section begin="simenderman"/><!--
+-->''"Epithet: Sim; Displays unstable teleportation behavior and little concern for its own condition. When set ablaze, it does not retreat as expected and may instead continue advancing, igniting anything nearby in the process. It shows no sign of preserving itself and will throw itself into water despite its seemingly toxic nature. This suggests pain response has either been dulled or rendered irrelevant. Its [[Walking Enderman Head|beheaded variant]] doesn't seem to be affected by water for some reason, though."''<!--
+--><section end="simenderman"/>
+|-
+|[[Assimilated Horse]]
+|24/7.5
+|3
+|<section begin="simhorse"/><!--
+-->''"Epithet: Sim; The abdomen is swollen with pressurized putrid matter, making even minor trauma hazardous. It startles easily under force, heat, or sudden rupture and may detonate before full collapse. Despite this instability, it can still close distance quickly. I've seen it thrash and cry like a living horse moments before detonation."''<!--
+--><section end="simhorse"/>
+|-
+|[[Assimilated Human]]
+|15/9.0
+|3
+|<section begin="simhuman"/><!--
+-->''"Epithet: Sim; Retains more recognizable behavior than most infected stock. Some specimens hesitate at doorways, look toward voices, or recoil from sudden heat before resuming attack. These reactions imply awareness has not been fully erased. They are difficult to study for long, as their movements often resemble panic as much as hostility. I can't discern what emotions they might be exhibiting."''<!--
+--><section end="simhuman"/>
+|-
+|[[Assimilated Pig]]
+|9/3.5
+|3
+|<section begin="simpig"/><!--
+-->''"Epithet: Sim; At a distance, it can still pass for an ordinary animal, especially when idle. Closer observation reveals constant chewing motions and abrupt changes in focus. It roots through organic waste, remains, and contaminated growth with equal interest. Very little of the original temperament appears intact, other than its impressive intelligence. I've seen it mindlessly roll around in the dirt and dig up carrots, but they just fall out of its maw, seemingly unwilling to commit to fully consuming them."''<!--
+--><section end="simpig"/>
+|-
+|[[Assimilated Sheep]]
+|13/6.0
+|3
+|<section begin="simsheep"/><!--
+-->''"Epithet: Sim; Its crying is among the worst sounds recorded from infected livestock. The vocalization resembles an ordinary bleat, but prolonged listening reveals a strained, wet quality unlike anything natural. Nearby specimens sometimes grow more active when it cries. Whether this is communication or simple agitation is still unknown. I've noticed they can be dyed in a few select colors. Why anyone would want to do that, I don't know."''<!--
+--><section end="simsheep"/>
+|-
+|[[Assimilated Squid]]
+|15/7.0
+|3
+|<section begin="simsquid"/><!--
+-->''"Epithet: Sim; Moves through water with an almost passive grace, shedding rot, debris, and infectious matter as it drifts. Areas it frequents become visibly fouled over time. It shows little urgency when approached. The surrounding current often carries pieces of it farther than the body travels. I can't tell which end is its mouth. Maybe it has two."''<!--
+--><section end="simsquid"/>
+|-
+|[[Assimilated Villager]]
+|16/10.0
+|3
+|<section begin="simvillager"/><!--
+-->''"Epithet: Sim; Still turns its head toward movement with the same curious rhythm seen in normal villagers. Some have been observed lingering near doors, workstations, and former gathering places. The resemblance ends the moment one closes distance. Whatever social instinct remains has been hollowed out and repurposed into a grotesque imitation. I've seen one that did not approach in open aggression, though it looked nothing like a villager. Six legs, long hair, and an odd 'face'. Something tall and pulsing runs along the back of its neck. I once watched it place something strange into the hands of another thing nearby, as though carrying out some sort of exchange. I feel like it's trying to say something, but I can't make sense of its hollow noises. Not yet, anyway."''<!--
+--><section end="simvillager"/>
+|-
+|[[Assimilated Wolf]]
+|10/10.5
+|3
+|<section begin="simwolf"/><!--
+-->''"Epithet: Sim; Responds quickly to movement and rarely attacks without testing distance first. Multiple specimens will begin circling behavior even when no clear pack leader is present, implying the old instinct survives in broken form. Maybe it's chasing its own tail? Bites are fast, repetitive, and often aimed low, toward ankles. I've seen some with collars still strapped around their necks, and they react oddly when their former names, printed on their collars, are called out."''<!--
+--><section end="simwolf"/>
+|-
+! colspan="4" |'''[[Assimara_Parasites|Assimara]]'''
+|-
+|[[Assimara Bear]]
+|38/15.0
+|3
+|<section begin="marbear"/><!--
+-->''"Epithet: Mar; Nothing about its body makes sense. A colony of spiders nests inside."''<!--
+--><section end="marbear"/>
+|-
+|[[Assimara Cow]]
+|38/15.0
+|3
+|<section begin="marcow"/><!--
+-->''"Epithet: Mar; Nothing about its body makes sense. Its internal chamber works ceaselessly."''<!--
+--><section end="marcow"/>
+|-
+|[[Assimara Enderman]]
+|80/21.0
+|3
+|<section begin="marenderman"/><!--
+-->''"Epithet: Mar; Nothing about its body makes sense. Twisted beyond recognition."''<!--
+--><section end="marenderman"/>
+|-
+|[[Assimara Human]]
+|24/15.0
+|3
+|<section begin="marhuman"/><!--
+-->''"Epithet: Mar; Nothing about its body makes sense. Irritatingly disruptive."''<!--
+--><section end="marhuman"/>
+|-
+|[[Assimara Sheep]]
+|27/17.0
+|3
+|<section begin="marsheep"/><!--
+-->''"Epithet: Mar; Nothing about its body makes sense. A tall vigil."''<!--
+--><section end="marsheep"/>
+|-
+|[[Assimara Villager]]
+|27/17.0
+|3
+|<section begin="marvillager"/><!--
+-->''"Epithet: Mar; Nothing about its body makes sense. The face of the oblivion."''<!--
+--><section end="marvillager"/>
+|-
+! colspan="4" |'''[[Hijacked_Mobs|Hijacked]]'''
+|-
+|[[Hijacked Blaze]]
+|30/3.5
+|3
+|<section begin="hiblaze"/><!--
+-->''"Epithet: Hi; The impossible has happened."''<!--
+--><section end="hiblaze"/>
+|-
+|[[Hijacked Golem]]
+|150/40.0
+|1
+|<section begin="higolem"/><!--
+-->''"Epithet: Hi; From protector to oppressor."''<!--
+--><section end="higolem"/>
+|-
+|[[Hijacked Skeleton]]
+|27/17.0
+|3
+|<section begin="hiskeleton"/><!--
+-->''"Epithet: Hi; A frame for something to stand on."''<!--
+--><section end="hiskeleton"/>
+|-
+! colspan="4" |'''[[Feral_Parasites|Feral]]'''
+|-
+|[[Feral Bear]]
+|38/15.0
+|3
+|<section begin="ferbear"/><!--
+-->''"Epithet: Fer; Unleashes unstoppable fury, rending prey. As if converted bear wasn't enough."''<!--
+--><section end="ferbear"/>
+|-
+|[[Feral Cow]]
+|38/15.0
+|3
+|<section begin="fercow"/><!--
+-->''"Epithet: Fer; A lumbering vessel of meat and muscle, driven by endless hunger. The one who denies all."''<!--
+--><section end="fercow"/>
+|-
+|[[Feral Enderman]]
+|80/21.0
+|3
+|<section begin="ferenderman"/><!--
+-->''"Epithet: Fer; Stalks silently, warping through space with feral precision. Can ferry larger things and is not deterred by any water at all. Rage eternal."''<!--
+--><section end="ferenderman"/>
+|-
+|[[Feral Horse]]
+|37/16.0
+|3
+|<section begin="ferhorse"/><!--
+-->''"Epithet: Fer; Gallops with reckless speed, trampling the fallen in its path."''<!--
+--><section end="ferhorse"/>
+|-
+|[[Feral Human]]
+|24/15.0
+|3
+|<section begin="ferhuman"/><!--
+-->''"Epithet: Fer; Human form stripped of reason and skin."''<!--
+--><section end="ferhuman"/>
+|-
+|[[Feral Pig]]
+|16/13.0
+|3
+|<section begin="ferpig"/><!--
+-->''"Epithet: Fer; A grotesque feeder, squealing with hunger."''<!--
+--><section end="ferpig"/>
+|-
+|[[Feral Sheep]]
+|21/12.0
+|3
+|<section begin="fersheep"/><!--
+-->''"Epithet: Fer; A maw in fleece."''<!--
+--><section end="fersheep"/>
+|-
+|[[Feral Villager]]
+|27/17.0
+|3
+|<section begin="fervillager"/><!--
+-->''"Epithet: Fer; Community instincts perverted."''<!--
+--><section end="fervillager"/>
+|-
+|[[Feral Wolf]]
+|16/15.0
+|3
+|<section begin="ferwolf"/><!--
+-->''"Epithet: Fer; Alpha predator; a relentless hunter."''<!--
+--><section end="ferwolf"/>
+|-
+! colspan="4" |'''[[Crude_Parasites|Crude]]'''<ref>Excludes [[Moving Flesh]].</ref>
+|-
+|[[Crux]]
+|70/20.0
+|1
+|<section begin="crux"/><!--
+-->''"Epithet: Cruxa; Framework of a brutish, selfless creature still knitting itself together. Its rage deepens with every corpse it leaves behind. I have seen it hurl its own comrades at fleeing prey, with little care for whether the impact kills them. Under immense strain, its body secretes a strange boiling orange substance, and when driven to great speed, steam rises from it as though the whole frame is on the verge of catching fire. I cannot imagine the force required to keep such a body in motion."''<!--
+--><section end="crux"/>
+|-
+|[[Incomplete Crux]]
+|21/6.0
+|2
+|<section begin="incrux"/><!--
+-->''"Epithet: Cruxa; An outline of awkwardly knitted teeth. What remains is little more than a charred, half-formed frame, buying time and flesh until the [[Crux|fuller body]] forces its way through. It often settles in shallow creeks and streams to cool itself, as though the water hastens the mending of its crude, misshapen, chrysalis-like body."''<!--
+--><section end="incrux"/>
+|-
+|[[Airscrew]]
+|120/30.0
+|2
+|<section begin="airscrew"/><!--
+-->''"Epithet: Leer; Its proboscis yields enough strength to lift a van with ease. The sac above its body keeps it hanging like spoiled calamari, likely filled with a volatile low-density gas produced in excess by its own tissues and held under enough pressure to offset the creature's weight. The mouth beneath gives off concentrated [[Call Of The Hive|CotH]] in wet, choking drafts. Prey caught in its webbed projectiles is drawn upward and worked against the hooked underside of its dislocated maw with similar rhythm one might use to strip meat from bone. More than once, I have seen two or more fight over the same catch, pulling with such blind force that the victim came apart between them. Those that survive the feeding do not always remain whole in mind; the turned variants are sometimes discarded afterward and left to tumble to their deaths."''<!--
+--><section end="airscrew"/>
+|-
+|[[Heed]]
+|50/15.0
+|1
+|<section begin="heed"/><!--
+-->''"Epithet: Heed; Five-headed scout borne on an ant-like frame, with a maw set sideways across the face. It does little leading of its own, instead carrying [[Scent System|signals]] forward and stirring the hunt where resistance is found. I have seen it engage in trophallaxis<ref>Trophallaxis is the sharing of partially digested food via the mouth, most commonly observed in ants and other such community insects.</ref> with smaller, needier parasites."''<!--
+--><section end="heed"/>
+|-
+|[[Host]]
+|50/10.0
+|1
+|<section begin="host"/><!--
+-->''"Epithet: Host; It is often said that earthquakes foretell doom. Much of it remains buried, with only otherworldly groans and the stirring ground above betraying where the rest has gone. Corpses are rendered down into a strange black, tar-like matter that binds through its frame and keeps the greater body pliant. Each tentacle ends in a hollow opening put to many uses, from mending torn flesh to feeding from the fallen."''<!--
+--><section end="host"/>
+|-
+|[[Herd]]
+|140/18.0
+|1
+|<section begin="herd"/><!--
+-->''"Epithet: Hostii; The herd moves beneath soft and jagged ground as though its body can yield to every sharp crevice in the tainted soil. What was once a buried carrier has swollen into a heavier colony-form, casting out engorged bombs in quick bursts, each one packed with unknown venom and disease. Beneath the noise of its passing, there are often repeated mutterings that suggest some low, collective intelligence, though nothing in them has yet proven understandable."''<!--
+--><section end="herd"/>
+|-
+|[[Medium Incomplete Form|Medium Incomplete Form]]
+|14/11.0
+|4
+|<section begin="medinform"/><!--
+-->''"Epithet: Inhoo; Half-shaped, wholly lethal. The sort of thing one expects to find scraping at the walls of a body, not running loose without one."''<!--
+--><section end="medinform"/>
+|-
+|[[Small Incomplete Form|Small Incomplete Form]]
+|9/8.0
+|5
+|<section begin="smallinform"/><!--
+-->''"Epithet: Inhoo; Small frame, fast cuts. Light in the arms and ugly on impact, like catching a sack filled with teeth. Smells abhorrent and is best taken care of quickly."''<!--
+--><section end="smallinform"/>
+|-
+|[[Thrall]]
+|40/13.0
+|5
+|<section begin="thrall"/><!--
+-->''"Epithet: Mas; Obedience made flesh. Its body hangs together like a butchered thing forced back upright, with dark trailing filaments lashing behind it like severed reins. They are often found near places once crowded with life, kneading and worrying at the objects of vanished routine. The feet have warped into hard, hoof-like stumps, and the face has drawn into a melted expression too ruined to call human, yet still recognizably trying."''<!--
+--><section end="thrall"/>
+|-
+|[[Dredge]]
+|50/15.0
+|2
+|<section begin="dredge"/><!--
+-->''"Epithet: Done; Measured violence. Beneath an otherworldly executioner's skull, the body closes in deliberate loops, testing ribs, throat, and spine with the calm precision of something that already knows where the human frame and spirit gives first. The tail binds and strangles, starves the body of air, and leaves the victim reeling with a violent loss of coordination long before death. Its victims are left in a state resembling '''ataxia telangiectasia''',<ref>Ataxia telangiectasia, or A-T syndrome, is a neurodegenerative disease that disrupts the body's methods of repair and ability, with symptoms including loss of cognitive and motor function, increased risk of illness, and increased risk of cancer.</ref> but accelerated into something cruelly immediate. The struggle is prolonged with too much care to be accidental. No other parasite of this tier appears so invested in keeping prey conscious through the worst of it. Whether it feeds on the chemicals of panic or on the memories shaken loose by suffering, I cannot yet say."''<!--
+--><section end="dredge"/>
+|-
+! colspan="4" |'''[[:Category:Abominations|Abombination]]'''
+|-
+|[[Many Bodies]]
+|17/9.0
+|2
+|<section begin="bodies"/><!--
+-->''"Epithet: Abo; Conglomerate of conscious creatures mashed together from some unknown cause. Resembles that of a siphonophore."''<!--
+--><section end="bodies"/>
+|-
+|[[Giant Head]]
+|17/9.0
+|2
+|<section begin="gianthead"/><!--
+-->''"Epithet: Abo; Conglomerate of conscious creatures mashed together from some unknown cause. Resembles that of a siphonophore shaped like a head."''<!--
+--><section end="gianthead"/>
+|-
+! colspan="4" |'''[[Primitive_Parasites|Primitive]]'''
+|-
+|[[Primitive Arachnida]]
+|35/15.0
+|1
+|<section begin="priarachnida"/><!--
+-->''"Epithet: Ranrac; Crude eight-legged horror, precursor to greater forms."''<!--
+--><section end="priarachnida"/>
+|-
+|[[Primitive Bolster]]
+|35/6.0
+|1
+|<section begin="pribolster"/><!--
+-->''"Epithet: Bano e'Zetmo; Bulk frame, primitive yet resilient."''<!--
+--><section end="pribolster"/>
+|-
+|[[Primitive Burrower]]
+|45/15.0
+|1
+|<section begin="priburrower"/><!--
+-->''"Epithet: Zaa; Instinctively digs, carving out nests for others."''<!--
+--><section end="priburrower"/>
+|-
+|[[Primitive Devourer]]
+|60/20.0
+|1
+|<section begin="pridevourer"/><!--
+-->''"Epithet: Lum; Guided only by hunger and the scent of blood in water."''<!--
+--><section end="pridevourer"/>
+|-
+|[[Primitive Longarms]]
+|45/15.0
+|1
+|<section begin="prilongarms"/><!--
+-->''"Epithet: Shyco; Grasping limbs lunge far, though clumsy compared to later forms."''<!--
+--><section end="prilongarms"/>
+|-
+|[[Primitive Manducater]]
+|30/12.0
+|1
+|<section begin="primanducater"/><!--
+-->''"Epithet: Hull; Grinding jaws that never cease. Stays out of the eyesight."''<!--
+--><section end="primanducater"/>
+|-
+|[[Primitive Reeker]]
+|40/12.0
+|1
+|<section begin="prireeker"/><!--
+-->''"Epithet: Nogla; It smells awful. Charges headfast."''<!--
+--><section end="prireeker"/>
+|-
+|[[Primitive Summoner]]
+|40/15.0
+|1
+|<section begin="prisummoner"/><!--
+-->''"Epithet: Canra; Calls lesser spawn in erratic bursts. Re-sews what was slain out of leftovers."''<!--
+--><section end="prisummoner"/>
+|-
+|[[Primitive Tozoon]]
+|45/15.0
+|1
+|<section begin="pritozoon"/><!--
+-->''"Epithet: Wymo; Earthquakes are a sign."''<!--
+--><section end="pritozoon"/>
+|-
+|[[Primitive Vermin]]
+|45/30.0
+|1
+|<section begin="privermin"/><!--
+-->''"Epithet: Iki; It's like a weather balloon. Its [[Gnat|contents]] are even worse."''<!--
+--><section end="privermin"/>
+|-
+|[[Primitive Viscera]]
+|45/15.0
+|1
+|<section begin="priviscera"/><!--
+-->''"Epithet: Gim; Raw flesh given crude mobility."''<!--
+--><section end="priviscera"/>
+|-
+|[[Primitive Yelloweye]]
+|30/3.5
+|1
+|<section begin="priyelloweye"/><!--
+-->''"Epithet: Emana; Ponytails of sinew and bone. Its caustic bile is anathema to armor."''<!--
+--><section end="priyelloweye"/>
+|-
+! colspan="4" |'''[[Adapted Parasites|Adapted]]'''
+|-
+|[[Adapted Arachnida]]
+|80/30.0
+|1
+|<section begin="adaarachnida"/><!--
+-->''"Epithet: Ranrac; Refined hunter, webs and strikes with precision."''<!--
+--><section end="adaarachnida"/>
+|-
+|[[Adapted Bolster]]
+|105/36.0
+|1
+|<section begin="adabolster"/><!--
+-->''"Epithet: Bano e'Zetmo; Adapted bulk, built to shield and support."''<!--
+--><section end="adabolster"/>
+|-
+|[[Adapted Burrower]]
+|115/45.0
+|1
+|<section begin="adaburrower"/><!--
+-->''"Epithet: Zaa; Efficient tunneler, opening controlled paths."''<!--
+--><section end="adaburrower"/>
+|-
+|[[Adapted Devourer]]
+|60/20.01
+|1
+|<section begin="adadevourer"/><!--
+-->''"Epithet: Lum; A scavenging harpoon. A damnation of the seas."''<!--
+--><section end="adadevourer"/>
+|-
+|[[Adapted Longarms]]
+|95/27.0
+|1
+|<section begin="adalongarms"/><!--
+-->''"Epithet: Shyco; Limbs elongated with accuracy, no wasted motion. Surrender, or don't. It is fine with either."''<!--
+--><section end="adalongarms"/>
+|-
+|[[Adapted Manducater]]
+|45/24.0
+|1
+|<section begin="adamanducater"/><!--
+-->''"Epithet: Hull; Jaw structure perfected for maximum tissue yield. Nobody sees it coming."''<!--
+--><section end="adamanducater"/>
+|-
+|[[Adapted Reeker]]
+|90/32.0
+|1
+|<section begin="adareeker"/><!--
+-->''"Epithet: Nogla; Built for charging long distances. Move fast or die slow."''<!--
+--><section end="adareeker"/>
+|-
+|[[Adapted Summoner]]
+|100/30.0
+|1
+|<section begin="adasummoner"/><!--
+-->''"Epithet: Canra; Summons spawn from the remains of other parasites."''<!--
+--><section end="adasummoner"/>
+|-
+|[[Adapted Tozoon]]
+|115/45.0
+|1
+|<section begin="adatozoon"/><!--
+-->''"Epithet: Wymo; Wormy."''<!--
+--><section end="adatozoon"/>
+|-
+|[[Adapted Vermin]]
+|70/30.0
+|1
+|<section begin="adavermin"/><!--
+-->''"Epithet: Iki; It can unhinge its body to twice its width and has the jaw strength to crush steel with ease."''<!--
+--><section end="adavermin"/>
+|-
+|[[Adapted Viscera]]
+|95/27.0
+|1
+|<section begin="adaviscera"/><!--
+-->''"Epithet: Gim; Looks like a Nautilidae. Others treat it like a mother."''<!--
+--><section end="adaviscera"/>
+|-
+|[[Adapted Yelloweye]]
+|55/17.0
+|1
+|<section begin="adayelloweye"/><!--
+-->''"Epithet: Emana; Hatsune Miku or Kasane Teto. High acidic hazard."''<!--
+--><section end="adayelloweye"/>
+|-
+! colspan="4" |'''[[Nexus_Parasites|Nexus]]'''
+|-
+|[[Stage I Beckon |(Stage I) Beckon]]
+|25/2.5
+|3
+|<section begin="beckonsi"/><!--
+-->''"Epithet: Venkrol; Seed structure that calls parasites like a moths to a wound."''<!--
+--><section end="beckonsi"/>
+|-
+|[[Stage II Beckon|(Stage II) Beckon]]
+|60/36.0
+|2
+|<section begin="beckonsii"/><!--
+-->''"Epithet: Venkrol; The call grows louder; the ground yearns to answer back."''<!--
+--><section end="beckonsii"/>
+|-
+|[[Stage III Beckon|(Stage III) Beckon]]
+|110/13
+|1
+|<section begin="beckonsiii"/><!--
+-->''"Epithet: Venkrol; Beacon and birthing room; the air tastes like copper and is thick like mud."''<!--
+--><section end="beckonsiii"/>
+|-
+|[[Stage IV Beckon|(Stage IV) Beckon]]
+|220/20.0
+|1
+|<section begin="beckonsiv"/><!--
+-->''"Epithet: Venkrol; An address for the hive. Everything nearby is now an entrance, exit, and void."''<!--
+--><section end="beckonsiv"/>
+|-
+|[[Stage I Dispatcher|(Stage I) Dispatcher]]
+|33/3.0
+|3
+|<section begin="dispatchersi"/><!--
+-->''"Epithet: Dod; First dispatcher; signals, orders, and others in tidy loops."''<!--
+--><section end="dispatchersi"/>
+|-
+|[[Stage II Dispatcher|(Stage II) Dispatcher]]
+|70/7.0
+|2
+|<section begin="dispatchersii"/><!--
+-->''"Epithet: Dod; Channels widen; traffic of limbs and messages never ceases."''<!--
+--><section end="dispatchersii"/>
+|-
+|[[Stage III Dispatcher|(Stage III) Dispatcher]]
+|130/14.0
+|1
+|<section begin="dispatchersiii"/><!--
+-->''"Epithet: Dod; Logistics perfected and reinforcements arrive before you finish bleeding."''<!--
+--><section end="dispatchersiii"/>
+|-
+|[[Stage IV Dispatcher|(Stage IV) Dispatcher]]
+|250/22.0
+|1
+|<section begin="dispatchersiv"/><!--
+-->''"Epithet: Dod; The hub and the highway; strike it down or watch a living continent converge."''<!--
+--><section end="dispatchersiv"/>
+|-
+|[[Stage I Rooter|(Stage I) Rooter]]
+|25/2.5
+|3
+|<section begin="rootersi"/><!--
+-->''"Epithet: Leem; Seeded structure meant for enduring the pain of other parasites in its place."''<!--
+--><section end="rootersi"/>
+|-
+|[[Stage II Rooter|(Stage II) Rooter]]
+|60/36.0
+|2
+|<section begin="rootersii"/><!--
+-->''"Epithet: Leem; Seeded structure meant for enduring the pain of other parasites in its place."''<!--
+--><section end="rootersii"/>
+|-
+|[[Stage III Rooter|(Stage III) Rooter]]
+|110/13.0
+|1
+|<section begin="rootersiii"/><!--
+-->''"Epithet: Leem; Seeded structure meant for enduring the pain of other parasites in its place."''<!--
+--><section end="rootersiii"/>
+|-
+|[[Stage IV Rooter|(Stage IV) Rooter]]
+|220/20
+|1
+|<section begin="rootersiv"/><!--
+-->''"Epithet: Leem; Seeded structure meant for enduring the pain of other parasites in its place."''<!--
+--><section end="rootersiv"/>
+|-
+|[[Rootmass Cyst]]
+|20/2.0
+|3
+|<section begin="rootmasscyst"/><!--
+-->''"Epithet: Leem; Seeded structure meant for enduring the pain of other parasites in its place."''<!--
+--><section end="rootmasscyst"/>
+|-
+! colspan="4" |'''[[Deterrent_Parasites|Deterrent]]'''
+|-
+|[[Dispatcher Tentacle]]
+|10/2.0
+|1
+|<section begin="dispatcherten"/><!--
+-->''"Epithet: DodT; A barbed conduit for orders."''<!--
+--><section end="dispatcherten"/>
+|-
+|[[Kyphosis]]
+|50/15.0
+|1
+|<section begin="kyphosis"/><!--
+-->''"Epithet: Tonro; Hunched mass that coiled sinew uses as a living shield and battering ram."''<!--
+--><section end="kyphosis"/>
+|-
+|[[Seizer]]
+|15/6.0
+|1
+|<section begin="seizer"/><!--
+-->''"Epithet: Nak; Grabs and pins. Struggling makes it angrier."''<!--
+--><section end="seizer"/>
+|-
+|[[Sentry]]
+|30/5.0
+|1
+|<section begin="sentry"/><!--
+-->''"Epithet: Unvo; Their projectiles melt through bone and steel alike."''<!--
+--><section end="sentry"/>
+|-
+|[[Worm]]
+|100/2.0
+|1
+|<section begin="worm"/><!--
+-->''"Epithet: Rof; Coming into contact with such a creature is difficult. How did you manage that?"''<!--
+--><section end="worm"/>
+|-
+! colspan="4" |'''[[Pure_Parasites|Pure]]'''
+|-
+|[[Grunt]]
+|20/13.0
+|3
+|<section begin="grunt"/><!--
+-->''"Epithet: Flog; Nothing wasted, nothing spared; advances until one of you stops. A "grunt" to the larger ones out there."''<!--
+--><section end="grunt"/>
+|-
+|[[Light Bomber]]
+|75/2.0
+|3
+|<section begin="bomberlight"/><!--
+-->''"Epithet: Omboo; Hollow frame packed with volatile tissue."''<!--
+--><section end="bomberlight"/>
+|-
+|[[Marauder]]
+|120/40.0
+|1
+|<section begin="marauder"/><!--
+-->''"Epithet: Esor; Carver of corridors through living lines; momentum is its favorite weapon."''<!--
+--><section end="marauder"/>
+|-
+|[[Monarch]]
+|75/25.0
+|1
+|<section begin="monarch"/><!--
+-->''"Epithet: Orch; Commands lesser forms by impulse alone; the swarm kneels without thought."''<!--
+--><section end="monarch"/>
+|-
+|[[Overseer]]
+|80/22.0
+|1
+|<section begin="overseer"/><!--
+-->''"Epithet: Alafha; An auditor of authority."''<!--
+--><section end="overseer"/>
+|-
+|[[Vigilante]]
+|70/23.0
+|2
+|<section begin="vigilante"/><!--
+-->''"Epithet: Anged; Hunts outliers and stragglers. It is a good job, mate."''<!--
+--><section end="vigilante"/>
+|-
+|[[Warden]]
+|80/25.0
+|2
+|<section begin="warden"/><!--
+-->''"Epithet: Ganro; Bulwark organism. Holds its authority and ground like a tumor."''<!--
+--><section end="warden"/>
+|-
+! colspan="4" |'''[[Preeminent_Parasites|Preeminent]]'''
+|-
+|[[Bogle]]
+|310/2.0
+|1
+|<section begin="bogle"/><!--
+-->''"Epithet: Lencia; How does it fly? Regardless of that, only deep blast craters remain."''<!--
+--><section end="bogle"/>
+|-
+|[[Colony Carrier]]
+|390/45.0
+|1
+|<section begin="carriercolony"/><!--
+-->''"Epithet: Vesta; A city of mouths and holes travelling on too many legs. It appears to link and coordinate nearby units."''<!--
+--><section end="carriercolony"/>
+|-
+|[[Haunter]]
+|360/110.0
+|1
+|<section begin="haunter"/><!--
+-->''"Epithet: Pheon; A presence felt before seen."''<!--
+--><section end="haunter"/>
+|-
+|[[Heavy Bomber]]
+|420/33.0
+|1
+|<section begin="bomberheavy"/><!--
+-->''"Epithet: Jinjo; A walking verdict when it arrives, the area is rewritten. Where have I seen this before?"''<!--
+--><section end="bomberheavy"/>
+|-
+|[[Wraith]]
+|310/2.0
+|1
+|<section begin="wraith"/><!--
+-->''"Epithet: Elvia; Half-anchored to flesh, half to nightmare; passes where walls do not. Fires a headache of a projectile."''<!--
+--><section end="wraith"/>
+|-
+|[[Succor]]
+|85/1.0
+|1
+|<section begin="succor"/><!--
+-->''"Epithet: Flam; Little guy."''<!--
+--><section end="succor"/>
+|-
+! colspan="4" |'''[[Ancient_Parasites|Ancient]]'''
+|-
+|[[Ancient Dreadnaut]]
+|200/2.0
+|999
+|<section begin="dreadnaut"/><!--
+-->''"Epithet: Oronco; NULL EXISTENCE"''<!--
+--><section end="dreadnaut"/>
+|-
+|[[Ancient Overlord]]
+|250/20.0
+|999
+|<section begin="overlord"/><!--
+-->''"Epithet: Terla; NULL EXISTENCE"''<!--
+--><section end="overlord"/>
+|-
+! colspan="4" |'''[[Derived_Parasites|Derived]]'''
+|-
+|[[Draconite]]
+|525/210.0
+|1
+|<section begin="draconite"/><!--
+-->''"Epithet: Heblu; It is perpetually caked in ash, burning from the inside out. Its chest and stomach function as a toxic hellforge, cycling extreme heat and corrosive byproducts through its body and the surrounding air. The process melts its own flesh as it runs, rupturing weak points and punching holes clean through its frame. Layers of skin continually char, split, and peel away, giving it a pale, ashy-white appearance. Evidence suggests it was formed from something sealed deep within netherrack, only recently forced back into existence. The growth was so violent and rapid that it shed itself faster than its body could stabilize- its head tearing free from the base of its neck during formation, leaving behind a blunt, stump-like structure. The internal combustion of its core sounds as if a freight train is carrying me through the deepest pits of hell. At times, the core buried in its chest vents everything it has failed to burn away, releasing compressed bursts of distorted, radiant matter that bend through the air as if pulled toward living targets."''<!--
+--><section end="draconite"/>
+|-
+|[[Kirin]]
+|410/155.0
+|1
+|<section begin="kirin"/><!--
+-->''"Epithet: Kirin; Kirin exists in a constant state of structural failure. Its body is perpetually on the verge of tearing itself apart, which explains its bruised, bloodied exterior and unstable movements. Large cavities line each of its hollow arm structures, acting as vents for excess heat and bursts of cosmic radiation generated internally. These openings along their body act as vents or outlets- without them, the entity would likely detonate. The strain placed on its form causes Kirin to molt daily. Each projection it manifests further destabilizes its body, forcing layers of damaged tissue to be shed and replaced at an alarming rate. The creature shows no signs of self-preservation. It has not yet failed completely. Else I would be dead."''<!--
+--><section end="kirin"/>
+|-
+! colspan="4" |'''[[:Category:Walking_Heads|Walking Heads]]'''<ref>Considered [[Assimilated_Mobs|Assimilated Parasites]] but are placed into their own tier by the Compendium.</ref>
+|-
+|[[Walking Cow Head|Walking (Cow) Head]]
+|5/2.1
+|1
+|<section begin="cowhead"/><!--
+-->''"Epithet: Desim; A decapitated host animated by crawling sinew. It smells like stomach acid and beef. Will seek to reunite with any pile of meat to hijack."''<!--
+--><section end="cowhead"/>
+|-
+|[[Walking Ender Dragon Head|Walking (Ender Dragon) Head]]
+|78/9.0
+|1
+|<section begin="dragonhead"/><!--
+-->''"Epithet: Desim; Ancient bone and teeth driven by fresh hunger. Still can use its rancid breath somehow."''<!--
+--><section end="dragonhead"/>
+|-
+|[[Walking Enderman Head|Walking (Enderman) Head]]
+|17/3.3
+|1
+|<section begin="endermanhead"/><!--
+-->''"Epithet: Desim; Still looks... Still finds. Still works. Still annoying. Can only carry the things of a similar size."''<!--
+--><section end="endermanhead"/>
+|-
+|[[Walking Horse Head|Walking (Horse) Head]]
+|7/2.25
+|1
+|<section begin="horsehead"/><!--
+-->''"Epithet: Desim; Gallops on rotten skin-covered tendrils where legs once were. Will seek to reunite with any pile of meat to hijack."''<!--
+--><section end="horsehead"/>
+|-
+|[[Walking Human Head|Walking (Human) Head]]
+|5/2.7
+|1
+|<section begin="humanhead"/><!--
+-->''"Epithet: Desim; Its hollow sockets hold enough shape to form a gaze. Will seek to reunite with any pile of meat to hijack."''<!--
+--><section end="humanhead"/>
+|-
+|[[Walking Pig Head|Walking (Pig) Head]]
+|3/1.05
+|1
+|<section begin="pighead"/><!--
+-->''"Epithet: Desim; Snuffling mass tethered by cords of meat. Will seek to reunite with any pile of meat to hijack."''<!--
+--><section end="pighead"/>
+|-
+|[[Walking Sheep Head|Walking (Sheep) Head]]
+|4/1.8
+|1
+|<section begin="sheephead"/><!--
+-->''"Epithet: Desim; Wool matted with living threads. Will seek to reunite with any pile of meat to hijack."''<!--
+--><section end="sheephead"/>
+|-
+|[[Walking Villager Head|Walking (Villager) Head]]
+|5/3.0
+|1
+|<section begin="villagerhead"/><!--
+-->''"Epithet: Desim; Mutters in a voice that isn't language. Will seek to reunite with any pile of meat to hijack."''<!--
+--><section end="villagerhead"/>
+|-
+|[[Walking Wolf Head|Walking (Wolf) Head]]
+|3/3.15
+|1
+|<section begin="wolfhead"/><!--
+-->''"Epithet: Desim; Thinking is optional. Will seek to reunite with any pile of meat to hijack."''<!--
+--><section end="wolfhead"/>
+|}
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+! colspan="3" |'''Parasite Drops by Tier'''
+|-
+!'''Parasite Name'''
+!'''Kills Req.<ref>This number is also required for HP and damage info.</ref>'''
+!'''Loot Table''' 
+|-
+! colspan="3" |'''[[Inborn_Parasites|Inborn]]'''
+|-
+|[[Buglin]]
+|10
+|N/A
+|-
+|[[Gnat]]
+|5
+|[[Rupter Viscera]] x2 (30%) +Looting<br>[[Hijacked Growth]] x2 (30%) +Looting
+|-
+|[[Lice]]
+|5
+|[[Rupter Viscera]] x2 (30%) +Looting<br>[[Hijacked Growth]] x2 (30%) +Looting
+|-
+|[[Rupter]]
+|5
+|[[Rupter Viscera]] x2 (70%) +Looting
+|-
+|[[Mangler]]
+|4
+|[[Rupter Viscera]] x2 (60%) +Looting
+|-
+|[[Flying Carrier]]
+|2
+|N/A
+|-
+|[[Heavy Carrier]]
+|2
+|N/A
+|-
+|[[Light Carrier]]
+|1
+|N/A
+|-
+! colspan="3" |'''[[Assimilated Mobs|Assimilated]]'''
+|-
+|[[Assimilated Adventurer]]
+|3
+|[[Infected Flesh]] x1 (40%)<br>[[Diseased Heart]] x1 (5%) +Looting
+|-
+|[[Assimilated Bear]]
+|3
+|[[Infected Flesh]] x1 (80%)<br>[[Diseased Heart]] x1 (10%) +Looting<br>[[Fishlin]] x3 (20%) +Looting
+|-
+|[[Assimilated Big Spider]]
+|3
+|N/A
+|-
+|[[Assimilated Cow]]
+|3
+|[[Infected Flesh]] x2 (80%)<br>[[Diseased Heart]] x1 (10%) +Looting
+|-
+|[[Assimilated Ender Dragon]]
+|1
+|N/A
+|-
+|[[Assimilated Enderman]]
+|3
+|[[Eye Of The Beholder|Eye of the Beholder]] x1 (10%)
+|-
+|[[Assimilated Horse]]
+|3
+|[[Infected Flesh]] x2 (80%)<br>[[Diseased Heart]] x1 (10%) +Looting
+|-
+|[[Assimilated Human]]
+|3
+|[[Infected Flesh]] x1 (80%)<br>[[Diseased Heart]] x1 (10%) +Looting
+|-
+|[[Assimilated Pig]]
+|3
+|[[Infected Flesh]] x2 (80%)<br>[[Diseased Heart]] x1 (10%) +Looting
+|-
+|[[Assimilated Sheep]]
+|3
+|[[Infected Flesh]] x1 (80%)<br>[[Diseased Heart]] x1 (10%) +Looting
+|-
+|[[Assimilated Squid]]
+|3
+|[[Infected Flesh]] x2 (80%)<br>[[Diseased Heart]] x1 (10%) +Looting
+|-
+|[[Assimilated Villager]]
+|3
+|[[Infected Flesh]] x1 (80%)<br>[[Diseased Heart]] x1 (10%) +Looting<br>[[False Apple]] x1 (5%) +Looting
+|-
+|[[Assimilated Wolf]]
+|3
+|[[Infected Flesh]] x1 (20%)<br>[[Diseased Heart]] x1 (10%) +Looting
+|-
+! colspan="3" |'''[[Assimara_Parasites|Assimara]]'''
+|-
+|[[Assimara Bear]]
+|2
+|[[Fishlin]] x3 (20%) +Looting
+|-
+|[[Assimara Cow]]
+|2
+|N/A
+|-
+|[[Assimara Enderman]]
+|2
+|N/A
+|-
+|[[Assimara Human]]
+|2
+|N/A
+|-
+|[[Assimara Sheep]]
+|2
+|N/A
+|-
+|[[Assimara Villager]]
+|2
+|[[False Apple]] x1 (10%) +Looting
+|-
+! colspan="3" |'''[[Hijacked_Mobs|Hijacked]]'''
+|-
+|[[Hijacked Blaze]]
+|3
+|[[Hijacked Blaze Rod]] x3 (20%) +Looting
+|-
+|[[Hijacked Golem]]
+|1
+|[[Hijacked Growth]] x1 (20%) +Looting<br>[[Hijacked Iron Ingot]] x3 (20%) +Looting
+|-
+|[[Hijacked Skeleton]]
+|3
+|[[Hijacked Bone]] x3 (20%) +Looting
+|-
+! colspan="3" |'''[[Feral_Parasites|Feral]]'''
+|-
+|[[Feral Bear]]
+|3
+|[[Fishlin]] x3 (20%) +Looting
+|-
+|[[Feral Cow]]
+|3
+|N/A
+|-
+|[[Feral Enderman]]
+|3
+|N/A
+|-
+|[[Feral Horse]]
+|3
+|N/A
+|-
+|[[Feral Human]]
+|3
+|N/A
+|-
+|[[Feral Pig]]
+|3
+|N/A
+|-
+|[[Feral Sheep]]
+|3
+|N/A
+|-
+|[[Feral Villager]]
+|3
+|N/A
+|-
+|[[Feral Wolf]]
+|3
+|N/A
+|-
+! colspan="3" |'''[[Crude_Parasites|Crude]]'''
+|-
+|[[Crux]]
+|1
+|N/A
+|-
+|[[Incomplete Crux]]
+|2
+|N/A
+|-
+|[[Airscrew]]
+|2
+|[[Noxious Brain]] x1 (80%)
+|-
+|[[Heed]]
+|1
+|N/A
+|-
+|[[Host]]
+|1
+|[[Infected Flesh]] x7 (80%)<br>[[Diseased Heart]] x4 (10%) +Looting
+|-
+|[[Herd]]
+|1
+|N/A
+|-
+|[[Medium Incomplete Form|Medium Incomplete Form]]
+|4
+|N/A
+|-
+|[[Small Incomplete Form|Small Incomplete Form]]
+|5
+|N/A
+|-
+|[[Thrall]]
+|4
+|[[Infected Flesh]] x1 (80%)<br>[[Altered Tendons]] x1 (10%) +Looting<br>[[Strange Bone]] x1 (10%) +Looting
+|-
+|[[Dredge]]
+|1
+|[[Noxious Brain]] x1 (80%)
+|-
+! colspan="3" |'''[[:Category:Abominations|Abombination]]'''
+|-
+|[[Many Bodies]]
+|2
+|N/A
+|-
+|[[Giant Head]]
+|2
+|N/A
+|-
+! colspan="3" |'''[[Primitive_Parasites|Primitive]]'''
+|-
+|[[Primitive Arachnida]]
+|1
+|[[Altered Tendons]] x1 (40%)<br>[[Arachnida Claw]] x2 (40%) +Looting<br>[[Strange Bone]] x1 (10%) +Looting
+|-
+|[[Primitive Bolster]]
+|1
+|[[Altered Tendons]] x2 (40%)<br>[[Bolster Husk]] x1 (40%) +Looting<br>[[Strange Bone]] x1 (10%) +Looting
+|-
+|[[Primitive Burrower]]
+|1
+|[[Altered Tendons]] x2 (60%)<br>(Placeholder Burrower Drop) x2 (40%) +Looting<br>[[Strange Bone]] x1 (10%) +Looting
+|-
+|[[Primitive Devourer]]
+|1
+|[[Devourer Tentacle]] x2 (40%) +Looting<br>[[Altered Tendons]] x2 (40%)<br>[[Strange Bone]] x1 (10%) +Looting
+|-
+|[[Primitive Longarms]]
+|1
+|[[Altered Tendons]] x2 (60%)<br>[[Longarms Armor Fragment]] x2 (40%) +Looting<br>[[Strange Bone]] x1 (10%) +Looting
+|-
+|[[Primitive Manducater]]
+|1
+|[[Altered Tendons]] x2 (40%)<br>[[Manducater Orb]] x1 (40%)<br>[[Strange Bone]] x1 (10%) +Looting
+|-
+|[[Primitive Reeker]]
+|1
+|[[Altered Tendons]] x2 (40%)<br>[[Reeker Fang]] x1 (40%)<br>[[Strange Bone]] x1 (10%) +Looting
+|-
+|[[Primitive Summoner]]
+|1
+|[[Altered Tendons]] x2 (60%)<br>[[Summoner Core]] x1 (40%)<br>[[Strange Bone]] x1 (10%) +Looting
+|-
+|[[Primitive Tozoon]]
+|1
+|[[Altered Tendons]] x2 (40%)<br>(Placeholder Tozoon Drop) x2 (40%) +Looting<br>[[Strange Bone]] x1 (10%) +Looting
+|-
+|[[Primitive Vermin]]
+|1
+|[[Altered Tendons]] x2 (40%)<br>[[Corrosive Mucus]] x1 (40%) +Looting<br>[[Strange Bone]] x1 (10%) +Looting
+|-
+|[[Primitive Viscera]]
+|1
+|[[Altered Tendons]] x2 (60%)<br>[[Chipped Motherly Membrane]] x2 (40%) +Looting<br>[[Strange Bone]] x1 (10%) +Looting
+|-
+|[[Primitive Yelloweye]]
+|1
+|[[Altered Tendons]] x2 (60%)<br>[[Yelloweye Bone]] x1 (40%) +Looting<br>[[Strange Bone]] x1 (10%) +Looting
+|-
+! colspan="3" |'''[[Adapted Parasites|Adapted]]'''
+|-
+|[[Adapted Arachnida]]
+|1
+|[[Altered Tendons]] x1 (40%)<br>[[Arachnida Claw]] x2 (40%) +Looting<br>[[Strange Bone]] x1 (10%) +Looting
+|-
+|[[Adapted Bolster]]
+|1
+|[[Altered Tendons]] x2 (40%)<br>[[Bolster Husk]] x1 (40%) +Looting<br>[[Strange Bone]] x1 (10%) +Looting
+|-
+|[[Adapted Burrower]]
+|1
+|[[Altered Tendons]] x2 (60%)<br>(Placeholder Burrower Drop) x2 (40%) +Looting<br>[[Strange Bone]] x1 (10%) +Looting
+|-
+|[[Adapted Devourer]]
+|1
+|[[Devourer Tentacle]] x2 (40%) +Looting<br>[[Altered Tendons]] x2 (40%)<br>[[Strange Bone]] x1 (10%) +Looting
+|-
+|[[Adapted Longarms]]
+|1
+|[[Altered Tendons]] x2 (60%)<br>[[Longarms Armor Fragment]] x2 (40%) +Looting<br>[[Strange Bone]] x1 (10%) +Looting
+|-
+|[[Adapted Manducater]]
+|1
+|[[Altered Tendons]] x2 (40%)<br>[[Manducater Orb]] x1 (40%)<br>[[Strange Bone]] x1 (10%) +Looting
+|-
+|[[Adapted Reeker]]
+|1
+|[[Altered Tendons]] x2 (40%)<br>[[Reeker Fang]] x1 (40%)<br>[[Strange Bone]] x1 (10%) +Looting
+|-
+|[[Adapted Summoner]]
+|1
+|[[Altered Tendons]] x2 (60%)<br>[[Summoner Core]] x1 (40%)<br>[[Strange Bone]] x1 (10%) +Looting
+|-
+|[[Adapted Tozoon]]
+|1
+|[[Altered Tendons]] x2 (40%)<br>(Placeholder Tozoon Drop) x2 (40%) +Looting<br>[[Strange Bone]] x1 (10%) +Looting
+|-
+|[[Adapted Vermin]]
+|1
+|[[Altered Tendons]] x2 (40%)<br>[[Corrosive Mucus]] x1 (40%) +Looting<br>[[Strange Bone]] x1 (10%) +Looting
+|-
+|[[Adapted Viscera]]
+|1
+|[[Altered Tendons]] x2 (60%)<br>[[Chipped Motherly Membrane]] x2 (40%) +Looting<br>[[Strange Bone]] x1 (10%) +Looting
+|-
+|[[Adapted Yelloweye]]
+|1
+|[[Altered Tendons]] x2 (60%)<br>[[Yelloweye Bone]] x1 (40%) +Looting<br>[[Strange Bone]] x1 (10%) +Looting
+|-
+! colspan="3" |'''[[Nexus_Parasites|Nexus]]'''
+|-
+|[[Stage I Beckon |(Stage I) Beckon]]
+|1
+|N/A
+|-
+|[[Stage II Beckon|(Stage II) Beckon]]
+|1
+|N/A
+|-
+|[[Stage III Beckon|(Stage III) Beckon]]
+|1
+|N/A
+|-
+|[[Stage IV Beckon|(Stage IV) Beckon]]
+|1
+|N/A
+|-
+|[[Stage I Dispatcher|(Stage I) Dispatcher]]
+|3
+|[[Dispatcher Membrane]] x7 (20%) +Looting
+|-
+|[[Stage II Dispatcher|(Stage II) Dispatcher]]
+|2
+|[[Dispatcher Membrane]] x15 (65%) +Looting
+|-
+|[[Stage III Dispatcher|(Stage III) Dispatcher]]
+|1
+|[[Dispatcher Membrane]] x30 (90%) +Looting
+|-
+|[[Stage IV Dispatcher|(Stage IV) Dispatcher]]
+|1
+|[[Dispatcher Membrane]] x70 (100%) +Looting
+|-
+|[[Stage I Rooter|(Stage I) Rooter]]
+|3
+|N/A
+|-
+|[[Stage II Rooter|(Stage II) Rooter]]
+|2
+|N/A
+|-
+|[[Stage III Rooter|(Stage III) Rooter]]
+|1
+|N/A
+|-
+|[[Stage IV Rooter|(Stage IV) Rooter]]
+|1
+|N/A
+|-
+|[[Rootmass Cyst]]
+|1
+|N/A
+|-
+! colspan="3" |'''[[Deterrent_Parasites|Deterrent]]'''
+|-
+|[[Dispatcher Tentacle]]
+|1
+|N/A
+|-
+|[[Kyphosis]]
+|1
+|N/A
+|-
+|[[Seizer]]
+|1
+|N/A
+|-
+|[[Sentry]]
+|1
+|N/A
+|-
+|[[Worm]]
+|1
+|N/A
+|-
+! colspan="3" |'''[[Pure_Parasites|Pure]]'''
+|-
+|[[Grunt]]
+|3
+|[[Noxious Brain]] x1 (70%)
+|-
+|[[Light Bomber]]
+|1
+|[[Noxious Brain]] x1 (80%)
+|-
+|[[Marauder]]
+|1
+|[[Noxious Brain]] x1 (80%)
+|-
+|[[Monarch]]
+|1
+|[[Noxious Brain]] x1 (80%)
+|-
+|[[Overseer]]
+|1
+|[[Noxious Brain]] x1 (80%)
+|-
+|[[Vigilante]]
+|1
+|[[Noxious Brain]] x1 (80%)
+|-
+|[[Warden]]
+|1
+|[[Noxious Brain]] x1 (80%)
+|-
+! colspan="3" |'''[[Preeminent_Parasites|Preeminent]]'''
+|-
+|[[Bogle]]
+|1
+|[[Noxious Brain]] x1 (70%)<br>[[Hive Scrap]] x7 (80%)
+|-
+|[[Colony Carrier]]
+|1
+|[[Noxious Brain]] x1 (80%)<br>[[Hive Scrap]] x7 (80%)
+|-
+|[[Haunter]]
+|1
+|[[Noxious Brain]] x1 (80%)<br>[[Hive Scrap]] x7 (80%)
+|-
+|[[Heavy Bomber]]
+|1
+|[[Noxious Brain]] x1 (80%)<br>[[Hive Scrap]] x7 (80%)
+|-
+|[[Wraith]]
+|1
+|[[Noxious Brain]] x1 (80%)<br>[[Hive Scrap]] x7 (80%)
+|-
+|[[Succor]]
+|1
+|[[Hive Scrap]] x3 (80%)
+|-
+! colspan="3" |'''[[Ancient_Parasites|Ancient]]'''
+|-
+|[[Ancient Dreadnaut]]
+|999
+|N/A
+|-
+|[[Ancient Overlord]]
+|999
+|N/A
+|-
+! colspan="3" |'''[[Derived_Parasites|Derived]]'''
+|-
+|[[Draconite]]
+|1
+|[[False Apple]] x1 (100%) +Looting<br>[[Draconite Trophy]] x1 (100%) +Looting
+|-
+|[[Kirin]]
+|1
+|[[Kirin Trophy]] x1 (100%) +Looting
+|-
+! colspan="3" |'''[[:Category:Walking_Heads|Walking Heads]]'''
+|-
+|[[Walking Cow Head|Walking (Cow) Head]]
+|1
+|N/A
+|-
+|[[Walking Ender Dragon Head|Walking (Ender Dragon) Head]]
+|1
+|N/A
+|-
+|[[Walking Enderman Head|Walking (Enderman) Head]]
+|1
+|N/A
+|-
+|[[Walking Horse Head|Walking (Horse) Head]]
+|1
+|N/A
+|-
+|[[Walking Human Head|Walking (Human) Head]]
+|1
+|N/A
+|-
+|[[Walking Pig Head|Walking (Pig) Head]]
+|1
+|N/A
+|-
+|[[Walking Sheep Head|Walking (Sheep) Head]]
+|1
+|N/A
+|-
+|[[Walking Villager Head|Walking (Villager) Head]]
+|1
+|N/A
+|-
+|[[Walking Wolf Head|Walking (Wolf) Head]]
+|1
+|N/A
+|}
+
+===''[[Blocks]]''===
+In the case of Blocks, the player must have picked up a certain block with or without the Compendium in their inventory to unlock its entry. In this category, the block descriptions usually provide info on its usage, if applicable.
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+! colspan="2" |'''Block Entries'''
+|-
+!'''Block'''
+!'''Description'''
+|-
+|[[Alveoli Block|Alveoli]]
+|''"A primary source of airborne nutrients for underground mega-organs. Using a bottle on it gathers [[Alveolar Fluid]], an important ingredient in biological brewing. It becomes sick if left too far from a Bronchial Tube."''
+|-
+|[[Assimilated Pumpkin]]
+|''"Can be worn. Applies [[Call Of The Hive|CotH]].<ref>Does not as of 1.10.7.</ref>"''
+|-
+|[[Assimilated Sugar Cane]]
+|''"The rods are full of a jelly-like substance."''
+|-
+|[[Parasitic Growth Block|Benign Growth]]<ref>Obtaining a [[Malignant Growth]] or [[Metastatic Mass]] also triggers this entry.</ref>
+|''"Found in colony mega-structures. Hurts the player when taking items. Damage is increased when the container is more empty (refer to progress bar)."''
+|-
+|[[Biomass Block]]
+|''"Hurts anything that touches it. It constantly seeps green vapors and dripping biomass. Parasites aren't harmed by it."''
+|-
+|[[Bronchial Tube]]
+|''"Transports airborne nutrients for underground mega-organs."''
+|-
+|[[Creative Infestation Purifier]]
+|''"A creative-only block that removes beckon infections when using a diamond. It is required that there are no nearby beckons."''
+|-
+|[[Diseased Sponge]]
+|''"Can be brewed with water bottles or Awkward Potions to create [[Dead Blood Fluid]]."''
+|-
+|[[Esca Bulb]]
+|''"Smells and feels like rotten fish. Packed with bioluminescence."''
+|-
+|[[Fog Nullifier]]
+|''"Destroys connected Fog Blocks. Breaks after the third use. Cannot be picked up."''
+|-
+|Harleskinn Block
+|''"A dense parasitic mineral grown from corrupted terrain."''
+|-
+|[[Infested Residue]]
+|''"Can be removed using fire. Used in crafting and harvesting Residue Bloomings."''
+|-
+|Locs Block
+|''"A calcified mass of tissue used as a structural anchor."''
+|-
+|[[Maw]]
+|''"A fleshy parasite mouth embedded in the ground. Anything that steps directly on it gets bitten, taking armor-piercing damage and gaining corrosive and viral infections. Parasites and players in Creative Mode are unaffected."''
+|-
+|[[Node Lamp]]
+|''"A fragile glass node wired into Dispatchers within a 250-block range. It lights up and outputs a comparator signal based on how close one is, and right-clicking on it shows the nearest Dispatcher's tier and distance. Strength = Dispatcher Level : Distance = Dispatcher Distance (1 being the closest, 5 being the farthest.)"''
+|-
+|[[Parasite Chunk Barrier|Parasite Chunk Barrier - Creative Only]]
+|''"Pushes all SRParasites entities outwards. Can be cycled through a 1 - 10 chunk radius."''
+|-
+|Relay Antennas: Top
+|''"Used in the [[Relay Tower]] Construction. Placed on the top."''
+|-
+|Relay Structure: Middle
+|''"Used in the Relay Tower Construction. Placed in the middle."''
+|-
+|Relay Terminal: Bottom
+|''"Used in the Relay Tower Construction. Placed on the bottom."''
+|-
+|[[Residue Block]]
+|''"Used in building recipes. Residue Bloomings naturally grow on this block."''
+|-
+|Sick Alveoli
+|''"A weakened, infected form of the Alveoli Block. It poisons any creature that touches it and will remain infected until brought close to a Bronchial Tube."''
+|-
+|[[Biome Purifier]]
+|''"Purifies the beckon infestation if left alone and there are no beckons nearby. Interacting with the purifier removes [[Parasite Biome|parasite biomes]] LOGICALLY once node has been cleared."''
+|-
+|[[Dispatcher Nidus]]
+|''"It hurts."''
+|}
+
+===''[[Celestial Events|Celestial]]''===
+In the case of Celestial Events, the player must have seen a specific celestial body at night. This category gives the ID of the event, the [[Evolution Phases|Phases]] it can spawn in, the chance for it to spawn, and a bit of other appearance and/or effect info.
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+! colspan="5" |'''Celestial Bodies'''
+|-
+!'''Name'''
+!'''ID'''
+!'''Phase'''
+!'''Chance'''
+!'''Description'''
+|-
+|Arrow
+|arrow
+|0 - 10
+|0.50%
+|''"An odd tetrahedron : Parasites may drop [[shrimp]]."''
+|-
+|Blip
+|blip
+|0 - 10
+|100%
+|''"A brief light in the sky that's existed for as long as you can remember."''
+|-
+|Dark Days
+|dark_days
+|0 - 10
+|0.05%
+|''"???"''
+|-
+|Eight
+|eight
+|4 - 10
+|0.50%
+|''"???"''
+|-
+|Eighty Three
+|eighty_three
+|7 - 10
+|5%
+|''"???"''
+|-
+|Comet Four
+|four_comet
+|3 - 10
+|35%
+|''"???"''
+|-
+|Jupiter
+|jupiter
+|0 - 10
+|25%
+|''"A swollen giant adrift in the dark. Its bands churn like bruises watching without eyes. So massive that its gravity reshapes the paths of everything."''
+|-
+|Mars
+|mars
+|0 - 10
+|35%
+|''"A red ember suspended in the heavens. Was once warm enough for liquid water, leaving scars that still cut across its surface."''
+|-
+|Mercury
+|mercury
+|0 - 10
+|40%
+|''"A pale spark skimming the sky. Temperatures swing violently, burning and freezing the same ground in a single day. It's too close."''
+|-
+|Neptune
+|neptune
+|0 - 10
+|15%
+|''"A deep-blue puncture in the night. Its winds are the fastest in the solar system, tearing across its surface faster than sound. Neptune has been mutated."''
+|-
+|Pluto
+|pluto
+|0 - 10
+|8%
+|''"A small, forgotten bead at the edge of sight. Its orbit is unstable and tilted."''
+|-
+|Pulse
+|pulse
+|3 - 10
+|100%
+|''"A slow, rhythmic pulse."''
+|-
+|Saturn
+|saturn
+|0 - 10
+|22%
+|''"A crown of rings wrapped around and heavy silhouette. Its rings are fragile and temporary, slowly unraveling."''
+|-
+|Three
+|three
+|5 - 10
+|15%
+|''"???"''
+|-
+|Twenty Seven
+|twenty_seven
+|2 - 10
+|1%
+|''"??? : Parasites spawn [[Rage|enraged]]."''
+|-
+|Uranus
+|uranus
+|0 - 10
+|100%
+|''"A cold, tilted orb that refuses to sit right in the sky. It drags its seasons sideways on its tilted axis."''
+|-
+|Venus
+|venus
+|0 - 10
+|75%
+|''"A bright, cloud-suffocated marble. It has a day longer than its year. There are mice on it."''
+|}
+
+===''[[Effects|Status Effects]]''===
+In the case of Status Effects, the player must have been afflicted with a certain effect at one point. This category gives the ID of the effect and a description of the effects itself.
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+! colspan="3" |'''Status Effect Entries'''
+|-
+!'''Effect Name'''
+!'''ID'''
+!'''Description'''
+|-
+|[[Adapted]]
+|srparasites:adapted
+|''"Damage dealt to [[Adapted Parasites|adapted parasite]] variants is reduced while this effect is active."''
+|-
+|[[Immalleable]]
+|srparasites:antimall
+|''"Reduces or removes adaptive resistance in malleable parasites."''
+|-
+|[[Bleeding]]
+|srparasites:bleed
+|''"The host suffers continuous internal bleeding. Damage scales with maximum health and worsens while moving."''
+|-
+|[[Braining]]
+|srparasites:braining
+|''"Disrupts perception of parasites. While active, parasite entities will not render on the client (they still exist and act normally), updated once per-second."''
+|-
+|[[Conta]]
+|srparasites:conta
+|''"The host is biologically contaminated, suffering periodic damage and risking spread to nearby entities."''
+|-
+|[[Corrosion]]
+|srparasites:corrosive
+|''"Corrosive substances eat away at the host, dealing periodic damage over time."''
+|-
+|[[Call Of The Hive|Call of the Hive]]
+|srparasites:coth
+|''"An assimilative infection that escalates in stages. It can refresh and intensify, spread to nearby living hosts (unless repelled), and eventually trigger conversion when the host is weakened on progression thresholds are met."''
+|-
+|[[Crude]]
+|srparasites:crude
+|''"Damage dealt to [[Crude Parasites|crude parasite]] variants is reduced while this effect is active."''
+|-
+|[[Debar]]
+|srparasites:debar
+|''"Suppresses parasite loot. Parasites affected by Debar will not generate their configured drops on death (respecting the doMobLoot gamerule)."''
+|-
+|[[Distorted Enlightenment]]
+|srparasites:distorted_enlightenment
+|''"The mind is forced to bear witness to a truth it was never built to survive, leaving the body shining like a marked target before entities that should not notice it. While active, the afflicted glows, takes 5x damage from the Draconite, takes 20% less damage from other parasites, and deals 20% less damage to parasites. [[Weapons#Sentient Weapons|Sentient weapons]] can deflect projectiles that apply this effect."''
+|-
+|[[Concussive Smoke Trail]]
+|srparasites:dod_smoke_trail
+|''"A constant trail of thick smoke follows the afflicted entity."''
+|-
+|[[Negative]]
+|srparasites:effectneg
+|''"Intensifies harmful effects. While active, negative potion effects on the host are strengthened, scaling with effect strength."''
+|-
+|[[Positive]]
+|srparasites:effectpos
+|''"Punishes beneficial effects. The host suffers damage based on the number of active potion effects, scaling with effect strength."''
+|-
+|[[Fear]]
+|srparasites:fear
+|''"A crippling panic response that disrupts control. At higher levels it can randomly prevent using items or interacting with blocks, cancelling item use outright (subject to blacklist/whitelist rules). Fear also amplifies fall damage and can increase damage taken while airborne, scaling with effect strength and configuration."''
+|-
+|[[Feral]]
+|srparasites:feral
+|''"Damage dealt to [[Feral Parasites|feral parasite]] variants is reduced while this effect is active."''
+|-
+|[[Foster]]
+|srparasites:foster
+|''"The host is marked as suitable for parasitic growth, drawing the attention and protection of nearby parasites."''
+|-
+|[[Indeaf]]
+|srparasites:indeaf
+|''"Severs movement control. While active, movement inputs (forward/back/jump) are forcibly disabled and horizontal motion is continuously cancelled, effectively rooting the host in place."''
+|-
+|[[Jugg]]
+|srparasites:jugg
+|''"A dislodgement-bound effect that triggers on death. Depending on active Dislo codes, nearby parasites may be healed, nearby non-parasites may be damaged, and nearby players may suffer exhaustion. Certain deaths also apply a Jugg surge to the killer for a short time, with strength tied to stored dislocation values."''
+|-
+|[[Link]]
+|srparasites:link
+|''"Links the host to a colony network. While active, colony-related reactions (such as adaptation/colony triggers) become more likely, scaling with effect strength. Some colony entities can also propagate Link to nearby parasites, synchronizing them as part of the colony."''
+|-
+|[[Muscle Out]]
+|srparasites:muscleout
+|''"Greatly increases the hosts outgoing damage. Attacks are multiplied by a configuration-based factor that scales with effect strength (amplifier +1)."''
+|-
+|[[Needler]]
+|srparasites:needler
+|''"Parasitic growths erupt from the host, launching needle-like projectiles that damage nearby entities."''
+|-
+|[[Nexus]]
+|srparasites:nexus
+|''"Damage dealt to [[Nexus Parasites|nexus parasite]] variants is reduced while this effect is active."''
+|-
+|[[No Vision]]
+|srparasites:novision
+|''"The host's screen is smothered by a full-screen impairment and mining fatigue is applied; commonly inflicted while a parasite is latched onto a host."''
+|-
+|[[Overheating]]
+|srparasites:overheating
+|''"The host's body overheats, suffering escalating damage as internal systems begin to fail."''
+|-
+|[[Parate]]
+|srparasites:parate
+|''"A mutative surge that boosts core combat stats. While active, the host's maximum health, armor, and attack damage are increased by a percentage of their base values (scaled by effect strength and configuration multiplier)."''
+|-
+|[[Pivot]]
+|srparasites:pivot
+|''"While active, kills contribute increased evolution/progression points (scaled by a multiplier and effect strength), and certain parasite events may treat pivot-marked entities as a stronger "signal" when evaluating spawns or stages."''
+|-
+|[[Prey]]
+|srparasites:prey
+|''"The host is designated at prey, making them more likely to be hunted and targeted by parasites."''
+|-
+|[[Primitive]]
+|srparasites:primitive
+|''"Damage dealt to [[Primitive Parasites|primitive parasite]] variants is reduced while this effect is active."''
+|-
+|[[Pure]]
+|srparasites:pure
+|''"Damage dealt to [[Pure Parasites|pure parasite]] variants is reduced while this effect is active."''
+|-
+|[[Rage]]
+|srparasites:rage
+|''"The host enter a violent frenzy, increasing both movement speed and attack damage. Both bonuses can be multiplied and scale with effect strength (values are configuration-based)."''
+|-
+|[[Camouflage]]
+|srparasites:repel
+|''"A repellent mark that protects the host from Call of the Hive infection. While active, it can block assimilation-related behaviors such as conversion/transformation triggers and helps prevent nearby spread."''
+|-
+|[[Heightened Senses]]
+|srparasites:senses
+|''"The host's sensory perception is heightened, increasing detection and follow range."''
+|-
+|[[Spotted]]
+|srparasites:spotted
+|''"The host has been marked and is easier for parasites to track and locate."''
+|-
+|[[The Sign]]
+|srparasites:the_sign
+|''"The host bears a mark of significance. Parasites will ignore their presence while the sign persists. The Sign is a bright red symbol possessed by only a select number of people. Among these individuals, the Sign is considered to be a signifier of traits such as great potential, specialness, and competent leadership. The Sign grants immunity to Derived Distortion Phenomenon and parasite aggression."''
+|-
+|[[Thornshades]]
+|srparasites:thornshade_thorns
+|''"Barbed growths erupt from the host, damaging those who physically strike them. The host will violently erupt if afflicted with said effect more than two times. Nearby entities afflicted with the same effects will erupt if too close to the host during eruption. Does not break tiles."''
+|-
+|[[Viral]]
+|srparasites:viral
+|''"A rapidly mutating infection spreads through the host, dealing periodic damage and risking transmission to nearby living entities. Higher effect levels increase severity and spread potential."''
+|}
+
+===''[[Systems]]''===
+All Systems information is unlocked by default. This category gives information on the various systems parasites use to grow stronger and respond to threats.
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+! colspan="2" |'''System Entries'''
+|-
+!'''System'''
+!'''Description'''
+|-
+|[[Collective Consciousness]]
+|''"Parasites can act as a single coordinated organism. With Collective Consciousness active, nearby entities share awareness and respond together."''
+|-
+|[[Colony|Colonies]]
+|''"Colonies are the established 'industrial' segments of the infection. They strengthen parasite presence in an area and make infestations harder to remove. Sponges can be used to remove [[Dead Blood]] from Colony structures."''
+|-
+|[[Derived Distortion Phenomenon]]
+|''"[[:Category:Derived Parasites|Derived]] parasites emit a disruptive phenomenon that interferes with nearby analysis tools and interfaces. When one is close enough, affect GUI pages may display scrambled text, falsified readouts, and distorted values instead of reliable information. This proximity-base effect causes a black, oily substance to seep from the victim's eyes, while thoughts and senses take on the feeling of a rough, staticky granite surface."''
+|-
+|[[Dislodgment System|Dislodgment]]
+|''"Certain actions can disturb the infection and provoke retaliation. Dislodgment triggers can activate from interaction, recover, or parasite activity, escalating responses through multiple tiers of strength."''
+|-
+|[[Emerging Infestation Vector|Vectors]]
+|''"Parasites can only spawn within the area of a Vector, unless that restriction is disabled in config. Each Vector has health points that increase whenever a parasite kills a mob or becomes assimilated. When either of those happens, the total health of that mob is added to the Vector's own health. The radius and health of Vectors can also increase independently each day, or roughly every 24,000 ticks. To view a Vector's information, place a [[Vector Module]] into an [[Relay Tower|array]] and press scan."''
+|-
+|[[Evolution System|Evolution]]
+|''"The infection progresses through evolution phases as it gains strength. Each phase unlocks more behaviors and mechanics. Certain actions, such as using [[Lures|Lure Blocks]], can reduce evolution and slow the outbreak's growth."''
+|-
+|[[Generations]]
+|''"Incremental difficulty and tweaks to parasite stats and relating systems. Parasites mature through said generations over time. Each generation requires sustained growth, and mismatched conditions can slow progress."''
+|-
+|[[Hive|Hives]]
+|''"Hives are structures that organize and defend parasite territory."''
+|-
+|[[Moving Flesh#Merge System|Merge]]
+|''"Assimilated creatures can fuse and reform into new entities. Depending on conditions, merged forms may be selected from specific outcomes or generated randomly."''
+|-
+|[[Nests]]
+|''"Specialized [[Nexus Parasites|Relay (Nexus) parasites]] such as [[Dispatcher (Disambiguation)|Dispatchers]] can form nests that accelerate growth and expansion for the hive. These sites rapidly turn surrounded terrain into active and foggy infestation zones. A [[Fog Nullifier]] can be used to remove said fog."''
+|-
+|[[Node|Nodes]]
+|''"Nodes serve as infrastructure for parasite expansion. When active, they support spreading and reinforce nearby growth."''
+|-
+|[[Reinforcement System|Reinforcements]]
+|''"When a parasite is killed, it may signal for help. A [[Beckon]] can appear nearby and begin summoning allies. Beckons grow through stages, and higher stages bring stronger or more numerous reinforcements, allowing small encounters to escalate rapidly. It is paramount that Beckons are removed before they're able to grow and evolve."''
+|-
+|[[Scent System|Scent]]
+|''"The parasite reacts to activity through 'scent' buildup. As scent levels rise, waves of enemies become more frequent and more aggressive. Careless combat or lingering in infested areas can draw increasingly dangerous responses."''
+|-
+|[[Effects|Status Effects]]
+|''"The parasite inflicts unique status effects such as [[Fear]], [[Call Of The Hive|CotH]], [[Needler]], [[Bleeding]], and [[Camouflage]]. These effects interfere with combat, movement, and survival, often stacking or intensifying the longer an encounter continues. Be very cautious when these effects are active."''
+|-
+|[[Ubiquitous Development]]
+|''"As parasites grow further, new systems begin to activate across the world. Higher development levels unlock mechanics such as coordinated behavior, merging, scent waves, structures, and expanded spawning rules."''
+|-
+|[[:Category:Variants|Variants]]
+|''"Parasites have a chance to spawn from an array of variants that are not limited to inflicting [[Viral]], [[Bleeding]], or doing more damage to blocks."''
+|}
+
+===''Stats''===
+Stats are unlocked by default. This category gives a number count on how many parasites and type that the player has killed in total, as well as damage to and from and total deaths to parasites.
+
+==''[[Commands]]''==
+{{#lst:Commands|compendium}}
+
+==''Sounds==
+Sounds for the Compendium can be disabled/enabled by sneaking and right-clicking.
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:entityunlock1.ogg]]
+[[File:entityunlock2.ogg]]
+[[File:entityunlock3.ogg]]
+[[File:entityunlock4.ogg]]
+[[File:entityunlock5.ogg]]
+[[File:entityunlock6.ogg]]
+[[File:entityunlock7.ogg]]
+[[File:entityunlock8.ogg]]
+|Player
+|Plays upon opening after unlocking a Parasite entry.
+|Compendium sings
+|unlock_entity1-8
+|-
+|
+[[File:blockunlock1.ogg]]
+[[File:blockunlock2.ogg]]
+[[File:blockunlock3.ogg]]
+[[File:blockunlock4.ogg]]
+[[File:blockunlock5.ogg]]
+[[File:blockunlock6.ogg]]
+[[File:blockunlock7.ogg]]
+[[File:blockunlock8.ogg]]
+|Player
+|Plays upon opening after unlocking a Block entry.
+|Compendium sings
+|unlock_block1-8
+|-
+|
+[[File:celestialunlock1.ogg]]
+[[File:celestialunlock2.ogg]]
+[[File:celestialunlock3.ogg]]
+[[File:celestialunlock4.ogg]]
+[[File:celestialunlock5.ogg]]
+[[File:celestialunlock6.ogg]]
+[[File:celestialunlock7.ogg]]
+[[File:celestialunlock8.ogg]]
+|Player
+|Plays upon opening after unlocking a Celestial entry.
+|Compendium sings
+|unlock_celestial1-8
+|-
+|}
+
+==Trivia==
+* There is a total of 213 entries in the Compendium, composed of 119 Mob entries, 24 Block entries, 17 Celestial Event entries, 37 Status Effect entries, and 16 System entries.
+** Of these, 206 are obtainable in survival, excluding the Ancient Dreadnaut, Ancient Overlord, Giant Head, Creative Infestation Purifier, Parasite Chunk Barrier, Immalleable, and The Sign, which are either Creative Only or do not spawn as of the latest version.
+* This is the largest page on the Scape and Run: Parasites Wiki, being over 62,000 bytes, which is about 16,000 bytes larger than the second largest page, [[Version 1.9.6]] (coincidentally the largest changelog).
+** The smallest page is [[Lore]], having a mere 101 bytes, and being more than 200 bytes smaller than the second smallest page, [[Version 1.9.14]] (coincidentally the smallest changelog).
+* Some of the Compendium's entries reference other media.
+** The [[Adapted Yelloweye|Adapted Yelloweye's]] entry references Hatsune Miku and Kasane Teto, two vocal synths that both have large twin-tail hairstyles, similar to Adapted Yelloweyes' head tendrils.
+** ''"It is a good job, mate."'' from the [[Vigilante|Vigilante's]] entry may reference the quote ''"Snipin's a good job, mate!"'' from ''Team Fortress 2's'' Sniper. This is likely due to the fact that both the Vigilante and Sniper are both efficient in ranged combat.
+** Both the Arrow and the shrimp it refers to are references to ''Voices of the Void''.
+** ''"Neptune has been mutated."'' from Neptune's entry references the analog horror series ''Gemini Home Entertainment''.
+** ''"There are mice on it."'' from Venus's entry references the song ''Mice on Venus'', composed by C418 for Minecraft. 
+** The "red mark" spoken of in [[The Sign|The Sign's]] entry is a reference to the mark of the same name featured in ''Limbus Company''.
+
+== Notes ==
+<references />
+[[Category:Items]]
+[[Category:Tools]]

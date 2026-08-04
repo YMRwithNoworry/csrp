@@ -1,0 +1,14 @@
+The '''Epitome Infestation Warp Diffuser''' is a [[Debug Items|Creative-Only]] [[:Category:Blocks|Block]].
+{{Item Info
+|image1=Epitome Infestation Warp Diffuser.png
+|id=srparasites:epitome_infestation_warp_diffuser 
+|title1=Epitome Infestation Warp Diffuser|type=Utility Block|stackable=Yes (64)|tooltip=[Creative Use Only] Removes connected srparasites blocks in a massive area. Activates on use. Only loaded connected blocks are diffused. MAY CAUSE LAG.}}
+
+==''Obtainment''==
+Can only be obtained from the Creative Menu or with Cheats.
+
+==''Usage''==
+Right-clicking the Epitome Infestation Warp Diffuser, as its tooltip suggests, deletes all SRParasites blocks directly adjacent to it and each other in a large radius, including liquids like [[Dead Blood]] and otherwise untouchable blocks like Fog. Unloaded blocks will not be deleted.
+
+{{BlockList}}
+[[Category:Blocks]]

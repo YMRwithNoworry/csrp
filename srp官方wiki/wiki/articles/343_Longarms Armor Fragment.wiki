@@ -1,0 +1,21 @@
+{{Item Info
+|image1=Longarms Armor Fragment.png
+|type=Material
+|stackable=Yes (16)
+|tooltip=A light yet resistant armor fragment harvested from a Longarms body. A Crafting ingredient for Weapons Components.
+|id=srparasites:ada_longarms_drop
+}}
+'''Longarms Armor Fragments''' are a [[:Category:Drops|Drop]] used as a [[:Category:Drops#Materials|Material]] to craft [[Vile Shell|Vile Shells]], a [[:Category:Weapons' Components|Weapons' Component]].
+
+== ''Obtainment'' ==
+* Dropped by the [[Primitive Longarms]] and [[Adapted Longarms]].
+*Can be found in [[Malignant Growth|Malignant Growths]].
+
+== ''Usage'' ==
+{{CraftingTable|r1_b1=Longarms Armor Fragment|r1_b2=Longarms Armor Fragment|r1_a2=Infected Flesh|r1_c2=Infected Flesh|r1_output=Vile Shell
+|r2_nolink=true|r2_b1=Bolster Husk|r2_a2=Devourer Tentacle|r2_b2=Module Genic Receptacle|r2_c2=Arachnida Claw|r2_b3=Longarms Armor Fragment|r2_output=Adapted Module|r2_count=1}}
+[[Category:Drops]]
+
+
+{{ItemList}}
+[[Category:Items]]

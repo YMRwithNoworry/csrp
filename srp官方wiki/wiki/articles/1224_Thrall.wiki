@@ -1,0 +1,97 @@
+{{Navbar|page1=Walking Adventurer Head|page2=Assimilated Adventurer|page3=Thrall}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|thrall}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=Thrall.png
+|hp=40.0
+|damage= 13.0
+|armor=5.0
+|kb_resistance=0.1
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:thrall
+}}
+'''Thralls''' are a type of [[Mobs]], placed into the [[:Category:Crude Parasites|Crude]] Tier.
+
+== ''Spawning'' ==
+* Spawns after an [[Assimilated Adventurer]] gets 15 kills and evolves.
+* Spawns in groups of 3 to 5, from [[Ubiquitous Development#Level 2|Ubiquitous Development Level 2]] through [[Ubiquitous Development#Level 4|Level 4]], with a spawnweight of 25.
+
+== ''Behavior'' ==
+Thralls are Fast Melee Combatants.
+
+* Their Melee Attack is performed through contact damage.
+* Thralls are able to traverse faster in liquids by performing small leaps.
+* On death, Thralls have a chance to explode, releasing [[Remains|Primitive Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+** If at least one [[Colony]] is present in the dimension, will become an [[Assimilated Adventurer]] upon death.
+
+=== ''Weaknesses'' ===
+* Thralls, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+{{Properties
+|tier=Crude
+|tier2=Primitive
+}}{{Drops
+|rolls1=1 Roll
+|page1=Infected Flesh
+|amount1=1
+|chance1=80
+|rolls2=Always Rolls
+|page2=Altered Tendons
+|amount2=1
+|chance2=10
+|page3=Strange Bone
+|amount3=1
+|chance3=10
+}}
+
+==''Sounds''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''ID'''
+|-
+|
+[[File:Thrall_living_1.ogg]]
+[[File:Thrall_living_2.ogg]]
+[[File:Thrall_living_3.ogg]]
+[[File:Thrall_living_4.ogg]]
+[[File:Thrall_living_5.ogg]]
+|Hostile
+|Plays randomly while a Thrall is alive.
+|thrall_living_1-5
+|-
+|
+[[File:Thrall_hurt_1.ogg]]
+[[File:Thrall_hurt_2.ogg]]
+[[File:Thrall_hurt_3.ogg]]
+|Hostile
+|Plays when a Thrall is hurt.
+|thrall_hurt_1-3
+|-
+|
+[[File:Thrall_death.ogg]]
+|Hostile
+|Plays when a Thrall dies.
+|thrall_death
+|-
+|}
+
+== ''Trivia'' ==
+* Thralls are known internally as "Mes".
+* Thralls spawned when an Assimilated Adventurer evolves will maintain their custom name. Those spawned from a defeated player will bear that player's name tag, while those spawned naturally will have a name tag picked randomly from an internal list. The possible names are those of developers, moderators on the official Discord server, and the mod's financial backers.
+
+== ''Gallery'' ==
+<gallery>
+File:ThrallHeight.png|Size of the Thrall's model
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Crude Parasites]]
+[[Category:Mobs]]-->

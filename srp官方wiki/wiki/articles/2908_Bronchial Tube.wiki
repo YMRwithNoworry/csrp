@@ -1,0 +1,14 @@
+'''Bronchial Tubes''' are [[:Category:Blocks|Blocks]] that only serve to keep [[Alveoli Block|Alveoli Blocks]] oxygenated.
+{{Item Info
+|image1=Bronchial Tube.png
+|id=srparasites:hair_follicle_block
+}}
+
+==''Obtainment''==
+Found as tree "stems" in the [[Harlequin Biome]], and in the [[Meteor]].
+
+==''Usage''==
+Bronchial Tubes supply oxygen to [[Alveoli Block|Alveoli Blocks]] and keep them from becoming diseased when placed directly adjacent to the alveoli.
+
+{{BlockList}}
+[[Category:Blocks]]

@@ -1,0 +1,22 @@
+{{VersionBar|
+|page1=Version 1.5.1
+|page2=Version 1.6.0
+}}
+'''Version 1.5.2''' was an update for the Scape and Run: Parasites Mod, released on January 22th 2020.  It was 3.35 MB.
+
+== ''Change Log'' ==
+
+==== <u>Fixes</u> ====
+
+* Fixed a typo in the name of one item 
+* Fixed loot tables for Adapted versions of [[Adapted Summoner|Canra]] and [[Adapted Reeker|Nogla]] not working
+* Fixed the [[Stage I Beckon|Venkrol Stage I]] bell sound sometimes playing and not spawning the mob itself
+
+==== <u>Changes</u> ====
+
+* Added an option of flight height limit to air type mobs
+* Added an option to disable bell sounds from the [[Reinforcement System]]
+* Added [[Infected Flesh]] to [[:Category:Assimilated Mobs|infected versions]] loot tables by default
+
+{{VersionList}}
+[[Category:Versions]]

@@ -1,0 +1,22 @@
+{{Item Info
+|image1=Devourer Tentacle.png
+|type=Material
+|stackable=Yes (16)
+|tooltip=A  bony tentacle ripped off a Devourer.
+|id=srparasites:ada_devourer_drop
+}}
+Devourer Tentacles are a [[:Category:Drops|Drop]] that most likely will be expanded upon as [[:Category:Drops#Materials|Materials]].
+
+== ''Obtainment'' ==
+
+* Dropped by [[Primitive Devourer|Primitive]] and [[Adapted Devourer|Adapted Devourers]].
+* Found in [[Parasitic Growth Block|Malignant Growths]].
+
+== ''Usage'' ==
+{{CraftingTable|r1_b1=Bolster Husk|r1_a2=Devourer Tentacle|r1_b2=Module Genic Receptacle|r1_c2=Arachnida Claw|r1_b3=Longarms Armor Fragment|r1_output=Adapted Module|r1_count=1}}
+
+== Trivia ==
+* The Devourer Tentacle is colored in a dull turquoise color, standing in opposition to the [[Primitive Devourer]] which is colored pale. It is noteworthy, however, that the [[Adapted Devourer]] shares the color of the Tentacle.
+{{ItemList}}
+[[Category:Items]]
+[[Category:Drops]]

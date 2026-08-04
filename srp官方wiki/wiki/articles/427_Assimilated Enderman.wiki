@@ -1,0 +1,144 @@
+{{Navbar|page1=Walking Enderman Head|page2=Assimilated Enderman|page3=Assimara Enderman|page4=Feral Enderman}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|simenderman}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=<gallery>
+Assimilated Enderman.png|Variant A
+Crawling Enderman .png|Variant A Crawling
+AssimilatedEnderman2.png|Variant B
+CrawlingAssimilatedEnderman2.png|Variant B Crawling
+</gallery>
+|hp=55.0
+|damage=11.0
+|armor=5.0
+|kb_resistance=0.1
+|adaptable=No
+|id=srparasites:sim_enderman
+}} 
+'''Assimilated Endermen''' are the [[Assimilated Mobs|Assimilated Version]] of Endermen. 
+Killing one grants the {{AdvancementLink|Controversial}}.
+
+== ''Spawning'' ==
+* Spawned when an Enderman succumbs to [[Call Of The Hive|Call of The Hive]] below [[Evolution Phases#Phase 7|Phase 7]].
+* Spawns individually, from [[Evolution Phases#Phase 2|Phase 2]] to [[Evolution Phases#Phase 7|Phase 7]], with a spawnweight of 1, once 9 Endermen have been assimilated and the End has reached [[Evolution Phases#Phase 3|Phase 3]].
+* Spawned by [[Stage II Beckon|Stage II]] and [[Stage III Beckon|Stage III Beckons]].
+* Spawned by level 3 or higher [[Scent System|Scents]].
+
+== ''Behavior'' ==
+Assimilated Endermen are Hit and Run Offensive Support units and Melee Combatants.
+
+* Their Melee Attack is performed through contact damage, which has a 20% chance to inflict [[Bleeding]] for 5 seconds.
+* If the [[Generations|Generation]] is 4 or higher, Assimilated Enderman can perform the following abilities:
+** Teleport themselves as well as nearby [[:Category:Assimilated Mobs|Assimilated Mobs]]. Their teleportation Ability is based on the following logic:
+*** Upon sight of a Player, the teleportation noise will play.
+*** Assimilated Endermen cannot teleport within the first 4 seconds of finding a target.
+*** Assimilated Endermen will not teleport if within 10 blocks of the target.
+*** 2 damage will be inflicted to the teleported mob (unless it is another Assimilated Enderman)
+*** The ability to teleport other Parasites has a cooldown of 2 seconds. This cooldown is removed if the Assimilated Enderman takes damage or has the [[Rage]] effect.
+* Any Mob within 3 blocks of an Assimilated Enderman will be inflicted with COTH. This does not go through walls.
+* Assimilated Endermen are immune to ranged attacks, teleporting away from Projectiles, similar to their Sane counterpart.
+* Assimilated Endermen are able to traverse faster in liquids by performing small leaps.
+* Assimilated Endermen are able to dive in liquids to pursue submerged targets.
+* If an Assimilated Enderman gets 5 kills and is within range of a [[Moving Flesh]] or 3 other Assimilated Mobs<ref>Excluding Assimilated Ender Dragon and Assimilated Big Spider.</ref>, it will evolve into a [[Moving Flesh]].
+* If an Assimilated Enderman gets 60 kills and is unable to turn into Moving Flesh, it will evolve into a [[Feral Enderman]].
+* On death, there is a 50% chance an Assimilated Enderman will drop its [[Walking Enderman Head|Head]].
+{{Variants|count=1|Texture=Crawling Enderman .png|TextureName=Crawling|TextureDesc=is in crawling position, having a smaller hitbox able to fit in 1x1.5x1 spaces.}}
+
+=== ''Weaknesses'' ===
+
+* Assimilated Endermen, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+* The head of an Assimilated Enderman functions as a Weak Point. When this Weak Point is hit, damage inflicted to it is increased by 25%.
+* Similar to their Sane counterpart, Assimilated Endermen take damage in water.
+* If the Assimilated Enderman is on fire, there is a 75% chance the mob it teleports will also catch fire.
+
+{{Properties|tier=Assimilated}}
+
+{{Drops
+|rolls1=One Roll:
+|page1=Eye Of The Beholder
+|amount1=1
+|chance1=10
+}}
+
+==''Sounds''==
+
+{| class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Assimilatedendermanidle1.ogg]]
+[[File:Assimilatedendermanidle2.ogg]]
+[[File:Assimilatedendermanidle3.ogg]]
+[[File:Assimilatedendermanidle4.ogg]]
+[[File:Assimilatedendermanidle5.ogg]]
+[[File:Assimilatedendermanidle6.ogg]]
+|Hostile
+|Plays randomly while an Assimilated Enderman is alive.
+|Otherworldly vwoomps
+|idle1-6
+|-
+|
+[[File:Assimilatedendermanhurt1.ogg]]
+[[File:Assimilatedendermanhurt2.ogg]]
+[[File:Assimilatedendermanhurt3.ogg]]
+[[File:Assimilatedendermanhurt4.ogg]]
+|Hostile
+|Plays when an Assimilated Enderman is hurt.
+|Distorted bwoomps
+|hurt1-4
+|-
+|
+[[File:Assimilatedendermanportal1.ogg]]
+[[File:Assimilatedendermanportal2.ogg]]
+|Hostile
+|Plays when an Assimilated Enderman or a [[Walking Enderman Head]] teleports or targets a Player.
+|Corrupted woomps
+|portal1-2
+|-
+|
+[[File:Assimilated Melting.ogg]]
+|Hostile
+|Plays when an Assimilated Enderman melts into [[Moving Flesh]].
+|Moving flesh merges
+|infected_melting
+|-
+|
+[[File:Explosion.ogg]]
+|Hostile
+|Plays when an Assimilated Enderman explodes, on death.
+|X
+|mob_explotion
+|-
+|
+[[File:Assimilatedendermandeath.ogg]]
+|Hostile
+|Plays when an Assimilated Enderman dies.
+|Assimilated Enderman bawls
+|death
+|-
+|}
+
+== ''Trivia'' ==
+* Assimilated Endermen are known as '''Infenderman''' in the mod files.
+* The Assimilated Enderman's animation was inspired by [https://deadspace.fandom.com/wiki/Twitcher Twitchers], Necromorphs from Dead Space.
+* Assimilated Endermen has received many complaints and hate for its Abilities, missing weakness and Statistics. It is in fact one, if not the most hated [[Mobs|Mob]] this Mod introduces. 
+** This is also the reason killing it grants the "Controversial" Advancement, due to the debates and controversy over it.
+
+== ''Gallery'' ==
+<gallery>
+File:Assimilated Enderman Size Comparison.png|Size of the Assimilated Enderman's Model.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Assimilated Mobs]]
+[[Category:Mobs]]

@@ -1,0 +1,18 @@
+{{Stub}}
+{{Effect Info
+|title1=Conta
+|image1=Conta.png
+|sources=See [[#Obtainment|Obtainment]]
+|type=Debuff
+|id=srparasites:conta}}
+
+'''Conta''' is a potion effect added in v1.10.0. This effect can be applied to parasites, players and animals alike and deals periodic damage to the host, with the possibility of the effect spreading to nearby entities. 
+
+Conta cannot be removed by drinking Milk.
+
+== ''Obtainment'' ==
+WIP
+
+The Conta effect does not stack.
+{{EffectList}}
+[[Category:Effects]]

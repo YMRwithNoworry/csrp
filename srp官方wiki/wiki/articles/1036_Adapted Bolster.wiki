@@ -1,0 +1,136 @@
+{{Navbar|page1=Primitive Bolster|page2=Adapted Bolster}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|adabolster}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=<gallery>
+Adapted Bolster.png|Normal
+BerserkerAdaBolster.png|Berserker
+VirulentAdaBolster.png|Virulent
+BreacherAdaBolster.png|Breacher
+</gallery>
+|hp=105.0
+|damage=36.0
+|armor=19.0
+|kb_resistance=1.0 
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:ada_bolster
+}}
+'''Adapted Bolsters''' are a type of [[Mobs]], placed into the [[Adapted Parasites|Adapted]] Tier.
+
+== ''Spawning'' ==
+* Spawns after a [[Primitive Bolster]] accumulates a killcount of 30 and [[Evolution System|evolves]].
+* Spawns naturally in groups of 2 to 3, if [[Ubiquitous Development]] is Level 3 or higher, with a spawnweight of 15.
+* Spawns inside the [[Parasite Biome]], with a spawnweight of 10.
+
+== ''Behavior'' ==
+Adapted Bolsters Slow moving, Tank and Support units and devastating AoE Melee combatants. 
+
+* Adapted Bolster's Melee Attack inflicts AoE Damage and is performed by them swinging their scythes.
+*If the [[Generations|Generation]] is 4 or higher, Adapted Bolsters can perform the following abilities:
+**An AoE Barrage. It will stay still during this attack, flailing its tentacles inflicting very high damage per second, ignoring immunity frames, and pulling the targets around.
+*** This is telegraphed by flame particles and a significantly louder and higher pitched growl. They will also stand still before performing this attack.
+**Giving Regeneration IV (1:00) to nearby Parasites that are up to 24 blocks away with a cooldown of 60 seconds.
+**Like other Adapted land Parasites, vomit [[Residue]] in a 7x7 area every so often.
+* Adapted Bolsters can perform small leaps in liquids.
+* Adapted Bolsters can sink in liquids to pursue submerged targets.
+* Adapted Bolsters can break blocks that have their [[Hardness]] Value up to 3.5, with a 20 ticks cooldown and 2 Blocks range.
+{{Variants|count=3|Berserker=BerserkerAdaBolster.png|Virulent=VirulentAdaBolster.png|Breacher=BreacherAdaBolster.png}}
+
+=== ''Weaknesses'' ===
+* Adapted Bolsters, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+* Adapted Bolsters' Tendrils, found on the sides of their body, can reset their [[Adaptation System|adaptation]], while also giving them the [[Bleeding]] and [[Rage]] Effects.
+
+=== ''Post Death'' ===
+* On death, Adapted Bolsters have a chance to explode, releasing [[Remains|Adapted Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+** If at least one [[Colony]] exists in the dimension, Adapted Bolsters will become [[Primitive Bolster|Primitive Bolsters]] upon death instead.
+{{Properties
+|tier=Adapted
+|OrbEffectsMobs=Hunger III (00:15), [[Needler|Needler III]] (00:25)
+|OrbEffectsParasites=Speed III (00:30)
+}}
+{{Drops
+|rolls1=1 Roll
+|page1=Altered Tendons
+|amount1=1-2
+|chance1=40
+|rolls2=Always Rolls
+|page2=Bolster Husk
+|amount2=1
+|chance2=40
+|page3=Strange Bone
+|amount3=1
+|chance3=10
+}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Adapted Bolster Growl.ogg]]
+[[File:adaptedbolsterliving2.ogg]]
+[[File:adaptedbolsterliving3.ogg]]
+|Hostile
+|Plays randomly while an Adapted Bolster is alive.
+|Adapted Bolster growls
+|adaptedbolsterliving1-3
+|-
+|
+[[File:adaptedbolsterhurt1.ogg]]
+[[File:adaptedbolsterhurt2.ogg]]
+[[File:adaptedbolsterhurt3.ogg]]
+|Hostile
+|Plays when an Adapted Bolster takes damage.
+|Adapted Bolster snarls
+|adaptedbolsterhurt1-3
+|-
+|[[File:Adapted Vomit.ogg]]
+|Hostile
+|Plays when an Adapted Bolster pukes [[Residue]] onto the ground.
+|Vomiting
+|adapted_vomit
+|-
+|[[File:Tendril Cut.ogg]]
+|Hostile
+|Plays after cutting an Adapted Bolster's Tendril.
+|X
+|mob_tendril
+|-
+|[[File:Ada bolster special.ogg]]
+|Hostile
+|Plays when an Adapted Bolster performs a special attack.
+|X
+|ada_bolster_special
+|-
+|[[File:Adapted Bolster Death.ogg]]
+|Hostile
+|Plays when an Adapted Bolster dies.
+|Adapted Bolster dies
+|adaptedbolsterdeath
+|-
+|}
+
+== ''Trivia'' ==
+*Bolsters are called '''Bano''' and '''Zetmo''' seemingly interchangeably in the mod files, rather this is a mistake or not is unknown.
+**'''Zetmo''' was the Bolster's name in early betas, which would match the naming convention used by other adapteds.
+**Sometimes these names are combined into '''Bano e'Zetmo''', such as in the Compendium.
+*To "bolster" something means to support or strengthen it, which may reference the Bolster's tankiness and ability to give Regeneration to other parasites.
+
+== ''Gallery'' ==
+<gallery>
+File:Bolster Tendril.png|An Adapted Bolster's Tendril after being cut.
+File:Bolster Tendrils Highlighted.png|Adapted Bolster's Tendrils as seen on the Model.
+File:AdaptedBolsterHeight.png|thumb|Size of the Adapted Bolster's Model.
+File:AdaptedBolster1.8.0.png|The Adapted Bolster's appearance in 1.8.0. (Credit to @scout2illustrates)
+</gallery>
+
+{{MobList}}
+[[Category:Adapted Parasites]]
+[[Category:Mobs]]

@@ -1,0 +1,29 @@
+{{Stub}}
+{{Effect Info
+|title1=No Vision
+|image1=Novision.png
+|sources=See [[#Obtainment|Obtainment]]
+|type=Debuff
+|id=srparasites:novision}}
+
+'''No Vision''' is a [[Effects|Potion Effect]] added in v1.10.0 of SRP. It blacks out your screen with a transparent black overlay, making it harder to see.
+
+No Vision does not stack.
+
+== ''Obtainment'' ==
+{| class="fandom-table"
+!'''Cause'''
+!'''Potency'''
+!'''Duration'''
+|-
+|Rays ability from [[Kirin]]
+|I
+|0:07
+|-
+|Being grabbed by the [[Assimara Human]]
+|I
+|0:01
+|}
+
+{{EffectList}}
+[[Category:Effects]]

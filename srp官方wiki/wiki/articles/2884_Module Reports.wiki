@@ -1,0 +1,81 @@
+'''Module Reports''' are special papers obtained by scanning either the [[Modules#Phase_Module|Phase Module]], [[Modules#Vector_Module|Vector Module]], or the [[Modules#Dislodgement_Module|Dislodgement Module]] in the [[Relay Tower]]. They give specialized information depending on the [[Modules|Module]] scanned. They are distributed by PecTech™.
+
+==''Phase Report''==
+{{Item Info|title1=Phase Report|image1=Phase Report.png|type=Map|stackable=No|tooltip=Displays the current scanned evolution report.|id=srparasites:phase_report}}
+The Phase Report is obtained by scanning the Phase Module. It displays the following:
+*Dimension (-1 = Nether, 0 = Overworld, 1 = End)
+*Current [[Evolution Phases|Evolution Phase]]
+*Total points 
+*Points required for the next Phase change
+*Percent of progress towards the next Phase
+*Phase cooldown (in seconds) when parasites can't gain points
+*Parasite mob cap
+*Current [[Generations|Generation]]
+*Ticks required until next Generation level
+*Current Parasite Count
+*Number of disguised mobs with [[Call Of The Hive|CotH]]
+*Whether point gain or loss is enabled
+
+==''Vector Map''==
+{{Item Info|title1=Vector Map|image1=Vector Map.png|type=Map|stackable=No|tooltip=Obtained and filled with data from scanning the Vector Module in the Relay.|id=srparasites:vector_map}}
+The Vector Map is obtained by scanning the Vector Module. One is given for every scanned Vector in the dimension. It displays the following:
+*XYZ coordinates of a certain [[Emerging Infestation Vector]]
+*The size and health of that Vector
+*A 5000x5000 block grid displaying Vectors, scan origin, and the X and Z coordinates
+
+
+
+
+
+
+
+
+==''Dislodgement Report''==
+{{Item Info|title1=Dislodgement Report|image1=Dislodgement Report.png|type=Map|stackable=No|tooltip=Obtained from scanning the Dislodgement Module in the array.|id=srparasites:dislodgement_report}}
+The Dislodgement Report is obtained by scanning the Dislodgement Module. It displays the following information about the current state of the [[Dislodgment System|Dislodgement Code]]:
+*Dimension (-1 = Nether, 0 = Overworld, 1 = End)
+*Event (Code #)
+*Duration the effect is active
+**When this time reaches zero, the entry will be crossed out
+*Effect of the displayed code event
+*Value for the event
+*Code "threat" level denoted by ⚠︎ symbols (one being the least threatening, three being the highest)<ref>
+*Code o - ⚠︎
+*Code 1 - ⚠︎⚠︎
+*Code 2 - Unknown
+*Code 3 - ⚠︎⚠︎⚠︎
+*Code 4 - ⚠︎⚠︎
+*Code 6 - ⚠︎
+*Code 7 - ⚠︎
+*Code 8 - ⚠︎⚠︎
+*Code 9 - ⚠︎
+*Code 10 - ⚠︎⚠︎
+*Code 11 - ⚠︎⚠︎⚠︎
+*Code 12 - ⚠︎⚠︎⚠︎
+*Code 13 - ⚠︎⚠︎
+*Code 14 - ⚠︎⚠︎⚠︎
+*Code 15 - ⚠︎
+*Code 16 - ⚠︎
+*Code 17 - ⚠︎⚠︎
+*Code 18 - ⚠︎⚠︎
+*Code 19 - ⚠︎
+*Code 20 - ⚠︎
+*Code 21 - ⚠︎⚠︎⚠︎
+*Code 22 - ⚠︎⚠︎
+*Code 25 - ⚠︎⚠︎⚠︎</ref>
+**Invalid codes are denoted by blue malformed squares
+
+
+==''Gallery''==
+<gallery>
+PhaseReport Example.png|An example of a printed Phase Report.
+VectorMap Example.png|An example of a printed Vector Map.
+DisloReport Example.png|An example of a printed Dislodgement Report.
+</gallery>
+
+
+==Notes==
+<references />
+
+{{ItemList}}
+[[Category:Items]]

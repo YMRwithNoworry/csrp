@@ -1,0 +1,26 @@
+{{Stub}}
+{{Item Info
+|image1=
+<gallery>
+Level Clock.png|Level 0
+LClockLvl1.png|Level 1
+LClockLvl2.png|Level 2
+LClockLvl3.png|Level 3
+LClockLvl4.png|Level 4
+</gallery>
+|type=Equipment
+|stackable=No
+|id=srparasites:levelclock
+}}
+The '''{{PAGENAME}}''' is a [[:Category:Tools|Tool]] item.
+
+== ''Obtainment'' ==
+{{CraftingTable|r1_a1=Residue Bloomings|r1_b1=Semi-organic Ingot|r1_c1=Residue Bloomings|r1_a2=Semi-organic Ingot|r1_b2=Clock|r1_c2=Semi-organic Ingot|r1_a3=Residue Bloomings|r1_b3=Semi-organic Ingot|r1_output=Level Clock|r1_count=1|r1_c3=Residue Bloomings}}
+
+== ''Usage'' ==
+Used to tell the current level of [[Ubiquitous Development]]. Each dot corresponds to one level.
+
+{{ItemList}}
+[[Category:Tools]]
+[[Category:Equipment]]
+[[Category:Items]]

@@ -1,0 +1,63 @@
+{{TierBar}}
+
+'''Inborn Parasites''' are a tier of [[Mobs#Parasites|Parasites]] that sits at the bottom of the parasite hierarchy. They are primarily responsible for propagating the infection. In a way, Inborn Parasites can be subdivided into the '''Rupter family''', which initiates the infection and subsequently advances it, and '''Carriers''', which directly promote its spread later on.
+
+Killing all of them at least once grants the player the {{AdvancementLink|Inborn}}.
+
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+File:Buglin.png|link=Buglin|[[Buglin]]
+File:Rupter.png|link=Rupter|[[Rupter]]
+File:Mangler.png|link=Mangler|[[Mangler]]
+File:Gnat.png|link=Gnat|[[Gnat]]
+File:Lice.png|link=Lice|[[Lice]]
+File:Flying Carrier.png|link=Flying_Carrier|[[Flying Carrier]]
+File:Heavy Carrier.png|link=Heavy_Carrier|[[Heavy Carrier]]
+File:Light Carrier.png|link=Light_Carrier|[[Light Carrier]]
+</gallery>
+</div>
+
+== ''Spawning''==
+===''Buglins''===
+*Spawn naturally, from [[Evolution Phases|Phase]] [[Evolution Phases#Phase 0|0]] to [[Evolution Phases|Phase]] [[Evolution Phases#Phase 2|2]], with a spawnweight of 30, in groups of 2 to 6.
+* Spawned from certain Assimilated Mobs exploding upon death.
+*Spawned by [[Tunnel]] blocks.
+*Spawned by [[Flying Carrier|Flying Carriers]].
+*Spawned by [[Stage I Beckon|Stage I]], [[Stage II Beckon|II]] and [[Stage III Beckon|III Beckons]]
+*Spawned by [[Monarch|Monarchs]].
+===''Rupters''===
+*Evolve from [[Buglin|Buglins]] after 75 seconds.
+*Spawn naturally, from [[Evolution Phases#Phase 1|Phase 1]] to [[Evolution Phases#Phase 5|Phase 5]], with a spawnweight of 30, in groups of 3 to 6.
+*Spawned by all three Carriers.
+*Spawned by [[Stage I Beckon|Stage I]], [[Stage II Beckon|II]], and [[Stage III Beckon|III Beckons]].
+*Spawned by [[Summoner (Disambiguation)|Summoners]].
+*Spawned by Level 0-3 [[Scent System|Scents]].
+*Spawned by [[Overseer|Overseers]].
+*Evolve from Buglins stored by [[Stage II Dispatcher|Stage II+ Dispatchers]].
+*Spawned by [[Dreadnaut|Ancient Dreadnauts]].
+===''Manglers'' ===
+*Spawn after a [[Rupter]] accumulates a killcount of 30 and evolves.
+*Spawn naturally from [[Evolution Phases#Phase 6|Phase 6]] onwards, with a spawnweight of 30, in groups of 3 to 6.
+* Evolves from a Rupter after being stored by a Stage III+ Dispatcher.
+*Spawned by [[Herd|Herds]].
+===''Flying Carriers''===
+*Spawned by Stage II and Stage III Beckons.
+===''Heavy Carriers''===
+*Spawned by Stage III Beckons.
+
+==''Features''==
+Inborn Parasites are very diversified and share very little aspects with each other.
+
+===''Weaknesses''===
+Like all Parasites, Inborn Parasites present a weakness to fire (damage inflicted by fire is quadrupled). This is more emphasized in Carriers - if they die while being on fire, they won't be able to release carried Parasites.
+
+==''[[Lore]]''==
+*Buglins derive directly from [[The Source]] and make their way to the surface through [[Tunnel|Tunnels]].
+
+==''Trivia''==
+
+* Almost all Inborn Parasites are incapable of [[Adaptation System|Adaptation]], Manglers being the only exception.
+
+[[Category:Mobs]]
+
+<references />

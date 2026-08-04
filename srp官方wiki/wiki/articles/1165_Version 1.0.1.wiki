@@ -1,0 +1,12 @@
+{{VersionBar|
+|page1=Version 1.0.0
+|page2=Version 1.1.0
+}}
+'''Version 1.0.1''' was an update for the Scape and Run: Parasites Mod, released on October 15th 2019.  It was 247.43 KB.
+
+== ''Change Log'' ==
+*Fixed weird animation on Entity: [[Assimilated Human|Infected Human]]
+*Fixed Entity: [[Heavy Carrier|Rathol]] not following target
+
+{{VersionList}}
+[[Category:Versions]]

@@ -1,0 +1,12 @@
+[[File:Dispatcher Nidus.png|thumb|A Dispatcher Nidus Block.]]
+'''Dispatcher Nidi''' (or simply Nidi) are a unique type of block added by the Mod. 
+
+From [[Evolution Phases#Phase 1|Phase 1]] and onwards, if any Parasite, with the exception of [[Inborn Parasites]] and [[Incomplete Forms]], gets 15 kills, it has a chance of placing a Dispatcher Nidus. Nidus blocks will collect killcount points from nearby parasites. Once its internal killcount reaches 40, it will attempt to spawn a [[Stage I Dispatcher]] in its place. It will not spawn one if there is already one nearby, and instead will add 120<!--40x3--> [[Evolution Phases#Obtaining Points|Evolution Points]] to the world.
+
+Touching this block on its sides as a player knocks you back about 7 blocks, while also applying the [[Concussive Smoke Trail]] [[Effects|effect]] for roughly 1 second.
+
+== ''Trivia'' ==
+
+* "Nidus" is a medical term for the center or source of an infection.
+{{BlockList}}
+[[Category:Blocks]]

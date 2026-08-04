@@ -1,0 +1,79 @@
+{{Navbar|page1=Walking Sheep Head|page2=Assimilated Sheep|page3=Assimara Sheep|page4=Feral Sheep}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|sheephead}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1= Assimilated_Sheep_Head.png
+|hp=3.9
+|damage=1.8
+|armor= 
+|kb_resistance=0.1
+|adaptable=No
+|id=srparasites:sim_sheephead
+}}
+'''Walking Sheep Heads''' are [[Walking Heads]] of [[Assimilated Sheep|Assimilated Sheep]].
+
+==''Spawning''==
+*Spawned with a 50% chance when an Assimilated Sheep dies.
+*Spawned by [[Worm|Worms]] through Level 3 [[Scent System|Scents]].
+
+==''Behavior''==
+Walking Sheep Heads are cowardly Melee swarm units.
+
+*Walking Sheep Heads' Melee Attack is performed through contact damage.
+* Walking Sheep Heads can perform small leaps.
+*They will seek out [[Medium Incomplete Form|Medium Incomplete Forms]] to merge with in order to evolve back into Assimilated Sheep.
+*Any Mob within 3 blocks of a Walking Sheep Head will be inflicted with [[Call Of The Hive|COTH]]. This does not go through walls.
+*Walking Sheep Heads are able to traverse faster in liquids by performing small leaps.
+
+=== ''Weaknesses'' ===
+
+* Walking Sheep Heads, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+* Walking Sheep Heads will run away during the daytime if no other Parasites are present.
+{{Properties|tier=Assimilated|FollowRange=16|DamageCap=1|MinimumDamage=0.5|DeathPenaltyEvolutionValue=1|RemainValue=N/A|ScentDeathValue=5|XPValue=8|COTH=.7}}
+
+==''Sounds''==
+{| class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:infectedhead_growl.ogg]]
+[[File:infectedhead_growl1.ogg]]
+[[File:infectedhead_growl2.ogg]]
+|Hostile
+|Plays randomly while a Walking Sheep Head is alive.
+|Head screams
+|infectedhead_growl-2
+|-
+|
+[[File:infectedhead_hurt.ogg]]
+[[File:infectedhead_hurt1.ogg]]
+|Hostile
+|Plays when a Walking Sheep Head takes damage.
+|Head screeches
+|infectedhead_hurt-1
+|-
+|[[File:Assimilated Head Death.ogg]]
+|Hostile
+|Plays when a Walking Sheep Head dies.
+|Head dies
+|infectedhead_death
+|-
+|}
+
+==''Trivia''== 
+* Walking Sheep Heads are also known as '''infsheephead''' in the mod files.
+
+==''Gallery''==
+{{MobList}}
+[[Category:Mobs]]
+[[Category:Walking Heads]]
+
+<references />
+[[Category:Assimilated Mobs]]

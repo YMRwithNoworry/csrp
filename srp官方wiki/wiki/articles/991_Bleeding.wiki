@@ -1,0 +1,40 @@
+{{Effect Info
+|image1=Bleeding.png
+|sources=See [[#Obtainment|Obtainment]]
+|type=Debuff
+|id=srparasites:bleed
+}}
+'''Bleeding''' is a [[Effects|Potion Effect]] introduced by the Mod. This Effect damages Entities over time, in a similar way to Poison, doing 6% of the Entity maximum health every "hit". The damage is doubled if they move. Bleeding cannot inflict more than 100 damage.
+
+Bleeding cannot be removed by drinking Milk.
+
+== ''Obtainment'' ==
+{{Effect Causes
+|cause1=[[Assimilated Human|Assimilated Humans]], [[Assimilated Villager|Villagers]]
+|duration1=0:03
+|cause2=[[Assimilated Enderman]]
+|duration2=0:05
+|cause3=Cutting a [[Mobs#Parasites|Parasite]]'s [[Adaptation System#Neutralization|Tendril]]<ref name="parasite">In this case, Bleeding would be applied to the parasite that was attacked, and not to the attacker.</ref>
+|duration3=0:05
+|cause4=Hitting a Parasite's Weak Point<ref name="parasite" />
+|duration4=0:03
+|cause5=[[:Category:Variants#Berserker_Variants|Berserker Parasites]]
+|potency5=I, Stacking
+|duration5=0:04, Stacking
+|cause6=[[Living Sword]]
+|duration6=0:05
+|duration7=0:05|potency7=II|cause7=[[Sentient Greatsword]]
+|cause8=[[Living Bow]] and [[Sentient Greatbow]]
+|potency8=I
+|duration8=0:10
+|cause9=[[Kirin|Kirin's]] Ray
+|potency9=I
+|duration9=0:07
+}}
+
+== Gallery ==
+<gallery>
+File:Bleeding screen effect.png|Screen effect with bleeding
+</gallery>
+{{EffectList}}
+[[Category:Effects]]

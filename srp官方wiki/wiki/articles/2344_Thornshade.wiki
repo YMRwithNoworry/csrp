@@ -1,0 +1,62 @@
+{{Stub}}
+
+{{Item Info 
+|image1=<gallery>
+Thornshade Berry Bush (s1).png|St. 1
+Thornshade Berry Bush (s2).png|St. 2
+Thornshade Berry Bush (s3).png|St. 3
+Thornshade Berry Bush (s3 bare).png|St. 3 (bare)
+Thornshade.png|Plant
+</gallery>
+|id=srparasites:parasitebush/7<ref>{{WhatAreDataTags|x}}</ref>
+}}
+'''Thornshade''' is a type of Plant added by Scape and Run: Parasites. It has various forms and uses.
+
+== ''Obtainment'' ==
+
+WIP
+
+Thornshade can be found in a [[Parasite Biome]] (presumably).
+
+== ''Mechanics'' ==
+
+==='''Thornshade'''===
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+
+The basic Thornshade plant itself is a purely decorative block. It can be mined and collected using a shear, and placed on [[Infested Blocks]]. If it is not standing on such a block, it will soon disappear on it's own.
+
+[[File:Thornshade item.png|frame|Thornshade as an item]]
+
+</div>
+==='''Thornshade Berry'''===
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715"> 
+{{Item Info
+|image1=Thornshade Berry.png
+|type=Material
+|stackable=Yes (64)
+|tooltip=An essential brewing component used for Thornshade Decanters.''
+|id=srparasites:thornshade_berry
+}}
+The Thornshade berry is a consumable [[Items|Item]] used to brew the [[Thornshade Decanter]].
+It can also be eaten (regardless of hunger) and will damage the player once or twice for 4 damage (2x [[File:Heart.png]]) each time. This also plays a squirming sound.<ref>This may be a reference to many real life parasites waiting on berries to be eaten by a host.</ref>
+
+</div> <br>
+==='''Thornshade Berry Bush'''===
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+
+[[File:Thornshade Berry Bush (growth cycle).gif|thumb|The 3 stages Thornshade berry bushes go through when planted from a berry]]
+
+Right-clicking on any [[Infested Blocks]] will place a Thornshade Berry Bush in Stage 1, where it will continue to grow until Stage 3 naturally. It can be fertilized instantly using [[Infested Bonemeal]].
+This Stage 3 bush can then be harvested for 1-2 berries, after which it will remain bare for a while before regrowing it's fruit. This can also be accelerated using [[Infested Bonemeal]].
+
+If the bush is standing or planted on any normal block, it will become its wilted variant[[File:Thornshade Berry Bush (wilted).png|thumb|Wilted Thornshade Berry Bush]].
+
+</div>
+
+== ''Trivia'' ==
+*A bare Thornshade berry bush somewhat resembles a [[Bough]]
+
+{{ItemList}}
+{{BlockList}}
+[[Category:Blocks]]
+[[Category:Items]]

@@ -1,0 +1,24 @@
+{{Stub}}
+{{Item Info
+|image1=Alveoli.png
+|type=Material
+|stackable=Yes (64)
+|tooltip=''Breathe easy.''
+|id=srparasites:alveoligrowth
+}}
+'''{{PAGENAME}}''' is a [[:Category:Drops|Drop]] item
+
+== ''Obtainment'' ==
+WIP (Parasite biome?)
+
+== ''Usage'' ==
+Alveoli can be eaten, though they restore no hunger.
+
+WIP
+
+== '''Trivia''' ==
+*Alveoli are a biological structure of conjoined spheres found in the lungs. They are mainly responsible for taking in oxygen and removing carbon dioxide from used blood, and are thus covered in red arteries and blue veins 
+
+{{ItemList}}
+[[Category:Drops]]
+[[Category:Items]]

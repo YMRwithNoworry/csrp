@@ -1,0 +1,21 @@
+{{Stub}}{{WIP}}
+
+
+'''The Source''' is a prominent figure in the Scape and Run: Parasites [[Lore]]. 
+
+==''Known Info''==
+The Source is a gigantic eldritch entity found deep underground, although above Bedrock. It cannot be found nor does it have a physical form, at least for the time being.  
+
+The Source is responsible for the presence of [[Buglin|Buglins]], as well as [[Beckon|Beckons]] and [[Deterrent Parasites]] in later phases. It exists as a direct consequence of [[Mobs|Parasites]] building it. It becomes "active" starting from [[Evolution Phases#Phase 3|Phase 3]], when the [[Reinforcement System]] becomes available.  
+
+==''[[Previews]]''==
+So far, the only public preview that mentioned the Source has depicted it as an upcoming [[Bosses|Boss]], with its own Boss Healthbar.
+
+<gallery>
+File:Source Preview.png|Healthbar of The Source, as shown in a [[Previews#May 23rd 2022|Preview]].
+</gallery>
+
+==''Trivia''==
+*The Source is inspired by the [https://www.halopedia.org/Gravemind Graveminds] from Halo in the way it is formed. 
+[[Category:Work In Progress Content]]
+[[Category:Lore]]

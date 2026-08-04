@@ -1,0 +1,35 @@
+{{Item Info
+|image1=Strange Bone.png
+|type=Material
+|stackable=No
+|tooltip=An unusual bone that you don’t see every day.
+|id=srparasites:bone
+}}
+'''Strange Bones''' are a [[:Category:Drops|Drop]] used as a [[:Category:Drops#Materials|Material]] to craft [[Dried Tendons]], a [[:Category:Weapons' Components|Weapon Component]].
+
+== ''Obtainment'' ==
+*Dropped by all [[Primitive Parasites]].
+*Dropped by all [[Adapted Parasites]].
+*Dropped by [[Thrall|Thralls]].
+*Can be found as loot in [[Benign Growth|Benign Growths]] and [[Malignant Growth|Malignant Growths]].
+
+== ''Usage'' ==
+{{CraftingTable
+|r1_b1=Strange Bone
+|r1_a2=Infected Flesh
+|r1_b2=Strange Bone
+|r1_a3=Infected Flesh
+|r1_output=Dried Tendons
+|r2_count=8
+|r2_output=Infested Bonemeal
+|r2_b2=Strange Bone
+|r2_shapeless=true
+}}
+
+== ''Trivia '' ==
+*This Item was [[:Category:Community Proposals|proposed]] by user '''LoneGuy'''. Original Suggestion: https://trello.com/c/C7535pHD/295-parasite-bones.
+
+{{ItemList}}
+[[Category:Drops]]
+[[Category:Items]]
+[[Category:Community Proposals]]

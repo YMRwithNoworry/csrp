@@ -1,0 +1,90 @@
+{{Stub}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|dredge}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+{{Mob Info 
+|title1=Dredge
+|image1=Dredge.png
+|hp=40.0
+|damage=15.0
+|armor=9.0
+|kb_resistance=0.7
+|adaptable=No
+|id=srparasites:dredge
+}}
+'''Dredges''', known internally as '''Done''', are a [[Mobs|Mob]] in the [[Crude Parasites|Crude]] Tier.
+
+== ''Spawning'' ==
+
+* Spawns in groups of 1 to 2, from [[Evolution Phases#Phase 5|Phase 5]] onward, with a spawnweight of 5.
+
+== ''Behavior'' ==
+* On death, Dredges have a chance to explode, releasing [[Remains|Feral and Primitive Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+
+=== ''Weaknesses'' ===
+Dredges, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+{{Properties
+|tier=Crude
+|FollowRange=16
+}}
+
+{{Drops
+|rolls1=One Roll:
+|page1=Noxious Brain
+|amount1=1
+|chance1=80
+}}
+
+==''Sounds''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Prim dredge living 1.ogg]]
+[[File:Prim dredge living 2.ogg]]
+[[File:Prim dredge living 3.ogg]]
+[[File:Prim dredge living 4.ogg]]
+|Hostile
+|Plays randomly while a Dredge is alive.
+|Dredge rustles
+|prim_dredge_living_1-4
+|-
+|
+[[File:Prim dredge hurt 1.ogg]]
+[[File:Prim dredge hurt 2.ogg]]
+[[File:Prim dredge hurt 3.ogg]]
+[[File:Prim dredge hurt 4.ogg]]
+|Hostile
+|Plays when a Dredge is hurt.
+|Dredge snarls
+|prim_dredge_hurt_1-4
+|-
+|
+[[File:Prim dredge death.ogg]]
+|Hostile
+|Plays when a Dredge dies.
+|Dredge dies
+|prim_dredge_death
+|-
+|}
+
+==''Trivia''==
+
+* According to the [[Compendium]], Dredges are known to mentally torture victims and appears to intentionally attempt to keep them conscious. It is implied they may feed on chemicals released by panic, though this has yet to be proven one way or the other.
+
+== ''Gallery'' ==
+<gallery>
+File:DredgeHeight.png|Size of Dredge's Model.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Crude Parasites]]
+[[Category:Mobs]]

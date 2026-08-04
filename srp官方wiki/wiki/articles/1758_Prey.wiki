@@ -1,0 +1,24 @@
+{{Effect Info
+|image1=Prey.png
+|sources=See [[#Obtainment|Obtainment]]
+|type=Debuff
+|id=srparasites:prey
+}}
+'''Prey''' is a [[Effects|Potion Effect]] introduced by the Mod.  
+
+When players get this effect, a new [[Scent System|Scent]] is created which will stay location of the Player at all times while the Debuff is active, teleporting to the Player after reaching a certain distance.
+
+Prey cannot be removed by drinking Milk.
+== ''Obtainment'' ==
+'''The effect will not go away until the player has unequipped all Sentient armor, stopped holding a Sentient weapon, and after the duration has passed.'''
+{| class="fandom-table"
+!'''Cause'''
+!'''Potency'''
+!'''Duration'''
+|-
+|Having [[:Category:Weapons#Sentient|Sentient Weapons]] or [[Sentient Armor|Armor]]
+|I
+|1:00
+|}
+{{EffectList}}
+[[Category:Effects]]

@@ -1,0 +1,190 @@
+{{mbox
+|bgcolor= #475715
+|header='''[[:Category:Upcoming Content|Upcoming]]/[[:Category:Work_In_Progress_Content|Work In Progress]] Content Ahead!'''
+|text=''The following Page contains [[:Category:Upcoming Content|Upcoming]] and/or [[:Category:Work_In_Progress_Content|Work In Progress Content]], which means that it either has not been added to the game yet, or it may change, drastically or not, in later Updates.''
+|image=SRP Logo.png
+|imageadjust=left
+|imagewidth=53px
+}}
+
+
+'''Previews''' are sneak peeks of the upcoming content released by the developers on the [https://discord.com/invite/WPuhKDU Official Discord].  Some contain text, others do not.
+Previews are listed here in the order they are released, newest to oldest.
+
+== '''Game Previews''' ==
+
+{{Preview 
+|date=March 10th 2024
+|author=Pecora
+|caption=The first of my animations have been added by Modrome.
+|file=VerminStuff.mov
+|desc=New vermin animations.''
+}}<!--
+
+-->{{Preview 
+|date=February 19th 2024
+|author=Rotch Gwylt
+|file=<youtube>BP8_JEaE_jg</youtube>
+|desc=A video describing how SRP sound designer Rotch Gwylt created some of the mod's sounds. ''<u>[https://youtu.be/BP8_JEaE_jg Youtube link]</u>''
+}}<!--
+
+-->{{Preview 
+|date=February 13th 2024
+|author=Pecora
+|caption=Happy late Valentine’s Day! New video is up with a Metamorph tutorial.
+|file=<youtube>pu8Q7z1SXHc</youtube>
+|desc=A tutorial detailing how to change your appearance into that of a parasite.  '''THIS IS NOT A FEATURE IN THE MAIN MOD, YOU MUST INSTALL THE METAMORPH MOD TO DO THIS.''' ''<u>[https://youtu.be/pu8Q7z1SXHc Youtube link]</u>''
+}}<!--
+
+-->{{Preview 
+|date=February 6th 2024
+|author=Pecora
+|caption=Two month old preview/sneak peak of the Primitive Vermin. Realized I never actually posted it here, lol.
+|file=<youtube>3hq0zXbC1_0</youtube>
+|desc=A video of the perspective of an unsuspecting player using Alpha textures, in the style of Analog horror.  The player encounters the [[Primitive Vermin]] as well.  ''Note: the content of the Preview is non-canon to the Mod itself. <u>[https://youtu.be/3hq0zXbC1_0 Youtube link]</u>''
+}}<!--
+
+-->{{Preview
+|date=January 27th 2024
+|author=Pecora
+|caption=Squiddies
+|file=Squiddies.gif
+|desc=[[Assimilated Squid|Assimilated Squids]] swimming in a lake.
+}}<!--
+
+-->{{Preview
+|date=January 27th 2024
+|author=Pecora
+|file=Death.gif
+|desc=A [[Feral Enderman]] sprinting towards the player with alarming speed.
+}}<!--
+
+-->{{Preview
+|date=January 8th 2024
+|author=Pecora
+|file=<youtube>XgdTzhG7jc4</youtube>
+|desc=A combination of messages and alerts in the style of Analog horror.  ''Note: the content of the Preview is non-canon to the Mod itself. <u>[https://youtu.be/XgdTzhG7jc4 Youtube link]</u>''
+|features=[[Worm]]}}<!--
+
+-->{{Preview
+|date=November 5th 2023
+|author=Pecora
+|file=Morbid_ecstasy.png
+|desc=Concept art for the [[Feral Enderman]].
+}}<!--
+
+-->{{Preview
+|date=January 15th 2023
+|author=Pecora
+|caption=https://www.patreon.com/srpparasites We have Patreon now for those who want access to early builds of the mod with cool items and parasites.
+|file=<youtube>P3t3Mv_slgs</youtube>
+|desc=Teaser video depicting an odd [[Rupter]], along with some unknown organisms.  The video is also advertising the [https://www.patreon.com/srpparasites Patreon]].  ''If you would like to support the devs, give it a go!  Note: the content of the Preview is non-canon to the Mod itself. <u>[https://youtu.be/P3t3Mv_slgs Youtube link]</u>''
+}}<!--
+
+-->{{Preview
+|date=November 28th 2022
+|author=Pecora
+|file=<youtube>sJilt5jFwfY</youtube>
+|desc=Computer log of lab testing with a certain organism, in the style of Analog Horror.  Not much is known, as the terminal is corrupted.  ''Note: the content of the Preview is non-canon to the Mod itself. <u>[https://youtu.be/sJilt5jFwfY Youtube link]</u>''
+}}<!--
+
+-->{{Preview
+|date=November 11th 2022
+|author=Pecora
+|file=Mountain.png
+|desc=A lone creature surveys the landscape.
+|features=[[Herd]]
+}}<!--
+
+-->
+{{Preview
+|date=October 31st 2022
+|author=Pecora
+|file=alert.mp4
+|desc=Canadian Emergency Alert footage describing Parasites and how to combat them. It showcases a [[Buglin]], [[Rupter]] and a few unknown Parasites, in the style of Analog Horror. 1.9.6 coming soon.  ''Note: the content of the Preview is non-canon to the Mod itself. <u>[https://youtu.be/1ER1gdv_FFY Youtube version]</u>''
+|features=[[Mangler]], [[Colony Carrier]], [[Succor]]
+}}<!--
+
+-->{{Preview
+|date=October 24th 2022
+|author=Pecora
+|caption=U.F.O. (Unidentified Freaky Object)
+|file=UFOmeme.png
+|desc=A bizarre creature hovering in the distance.  The image has been edited to include symbols and disembodied heads.
+|features=[[Bogle]]
+}}<!--
+
+-->{{Preview
+|date=September 30th 2022
+|author=Dhanantry
+|file=Mist.png
+|desc=Something strange close by, the fog is not alone.
+|features=[[Stage I Dispatcher]], [[Mangler]], [[Monarch]], [[Herd]]
+}}<!--
+
+-->{{Preview
+|date=September 11th 2022
+|author=Dhanantry
+|caption=Taken by user <u>Tabcaps</u>
+|file=Horizon.png
+|desc=A figure stands upon the horizon.
+|features=[[Thrall]]
+}}<!--
+
+-->{{Preview
+|date=August 22nd 2022
+|author=Dhanantry
+|file=Preview Video.mp4
+|desc=Something strange is waiting.
+|features=[[Stage II Dispatcher]]
+}}<!--
+
+-->{{Preview
+|date=May 23rd 2022
+|author=Dhanantry
+|file=Source Preview.png
+|desc=Part of [[The Source|The Source's]] development.  What it will do is unknown
+}}<!--
+-->
+
+To view Screenshot Previews posted before January 1st 2022, join the [https://discord.com/invite/WPuhKDU Discord Server].  ''Note that some of these previews feature some creative liberties (such as an Analog Horror style) that may not represent gameplay, and may only be for purposes of a teaser.''<!--
+-->
+== '''Developer Plans''' ==
+
+{{Preview
+|date=November 3rd 2021
+|author=Dhanantry
+|caption=There is still work to do in v1.9 but here are my current plans for v1.10.0
+|file=1.10 Plans.png
+|desc=Initial plans for version 1.10.  Keep in mind this may change in the future.
+}}<!--
+
+-->{{Preview
+|date=August 12th 2020
+|author=Dhanantry
+|caption=Here are my plans for v1.9.0, I'll share some screenshots/videos when I have some to share
+|file=1.9 Plans.png
+|desc=Initial plans for version 1.9.  Keep in mind this may change in the future.
+}}<!--
+-->
+
+== '''Developer Questionnaires ''' ==
+{{Preview
+|date=Questionnaire #1
+|author=N/A
+|caption=The first official dev questionnaire has been concluded, you can see the results '''[https://docs.google.com/document/d/1iqR7mkm4jwya8c3lCB9nR-jm7oMxBMFAKqumnd1B9jE/edit?usp=sharing here]'''. Thank you all for participating!
+|desc=A link to the first Developer Questionnaire, held in the SRP Discord.
+}}<!--
+
+-->{{Preview
+|date=Questionnaire #2
+|author=N/A
+|caption=The second official dev questionnaire has been concluded, you can see the results '''[https://docs.google.com/document/d/1UcRHaf2oppPYjezxXHZ6ebNYe_tSkcgduDCiSqAzDIM/edit?usp=sharing here]'''. Thank you all for participating!
+|desc=A link to the second Developer Questionnaire, held in the SRP Discord.
+}}
+<br>
+
+[[Category:Upcoming Content]]
+[[Category:Work In Progress Content]]
+[[Category:Scape and Run: Parasites Wiki]]
+[[Category:Pages with a discord link]]

@@ -1,0 +1,66 @@
+{{VersionBar|
+|page1=Version 1.6.0
+|page2=Version 1.8.0
+}}
+'''Version 1.7.0''' was an update for the Scape and Run: Parasites Mod, released on April 4th 2020.  It was 4.68 MB.
+
+== ''Change Log'' ==
+
+==== <u>Fixes</u> ====
+
+* Fixed mobs spawning when they are disable
+* Potential fix for error in Loot Event
+
+==== <u>Changes</u> ====
+
+* Tweaked attack AI for air type mobs.
+* Reduced [[Primitive Yelloweye]] hitbox size.
+* There is now a mob list for Beckons<ref>See: [[Stage I Beckon]], [[Stage II Beckon]], [[Stage III Beckon]]</ref> and Summoners<ref>Both [[Primitive Summoner|Primitive]] and [[Adapted Summoner|Adapted Summoners]].</ref> (mobs from other mods will work, if mob attacking is true the Beckons and Summoners will target them).
+* Some [[:Category:Assimilated Mobs|Infected versions]] now has an option for spawning mobs on death.
+* There is an option to change the spawning chance for the Walking Heads.
+* The [[Reinforcement System|reinforcement system]] will no longer spawn [[Stage I Beckon|Beckons]] on infested blocks.
+* Tweaked block infestation timer, now to infest nearby blocks it has to wait said cooldown in config file.
+* Changed model for [[Buglin]].
+* Buglin can now grow into a [[Rupter]].
+* Changed Model for [[Adapted Longarms]].
+* Tweaked experience points for each mob.
+* Tweaked/changed textures for [[:Category:Primitive Parasites|primitive]] and [[:Category:Adapted Parasites|adapted]] versions.
+* Tweaked Infected Wolf Head animation.
+* Tweaked [[Adapted Reeker]] animation
+* Tweaked Beckons models.
+* Tweaked particles for the death animations.
+* [[:Category:Assimilated Mobs|Infected]] versions and the [[Primitive Bolster|Primitive]] and [[Adapted Bolster]] will be the only ones to have the swell animations, the others will just explode (will be tweaking this later on).
+* Tweaked texture for the [[Living Bow|Living Greatbow]] and for all weapon parts.
+* Changed color for the fog in the block infestation.
+* Added an option for light level and block revert for the Infestation System.
+* Beckons can now infest blocks below their root, [[Stage II Beckon|Stage II]] will go down by 1 and [[Stage III Beckon|Stage III]] will go down by 2.
+* Mobs that are disable will no longer be registered into the game.
+* Added sounds for the Walking Heads and for the mob that can shoot
+* [[Assimilated Big Spider|Infected Dorpa]] Web blocks will now despawn.
+* Removed option "Lodo spawn number" for the [[Flying Carrier]] category.
+
+==== <u>New Content</u> ====
+
+* When a Beckon is killed, the infested block will turn into dirt (default) and if the block above is air, it will turn into [[Residue|Infested Residue]] (new block, these can spawn Beckons).
+* Added a new mob type: [[:Category:Ancient Parasites|Ancient]]
+*# Parasites who have lived long enough to become stronger and more dangerous, you can find 2 of them now ([[Overlord|Ancient Overlord]], [[Dreadnaut|Ancient Dreadnaut]]).
+*# Killing [[Stage III Beckon|Beckons Stage III]] makes them angry and in the worst case scenario, they will come after you (they don't despawn).
+
+* Added mob: [[Moving Flesh]]
+* Added fusion system
+*# The infected now have the ability to learn from their battles and if the conditions are met, they will start to melt until they're some Moving Flesh.
+*# If 2 of these things meet, they will fuse together and grow, if they are big enough they will spawn a [[:Category:Primitive Parasites|primitive mob]] (with half his total health) (Infected Dorpa is the only one that will not melt).
+
+* Added mob: [[Vigilante]]
+*# First ground mob able to shoot, they will spawn from Beckons Stage III
+*# They are built for territory defense purposes so they don't have a spawn rate.
+
+<u>EDIT</u>:
+
+* Conditions for the infected to turn into Moving Flesh:
+*# The first condition: the infected needs to reach the primitive killcount..
+*# The second condition: it needs to be next to 3 more infected, regardless of their killcount/specie OR it needs to be next to a Moving Flesh.
+*# If the infected with the killcount is next to al least 3 more infected, the four of them will start to melt BUT if it is next to a Moving flesh, only it will start to melt.
+
+{{VersionList}}
+[[Category:Versions]]

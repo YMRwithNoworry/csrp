@@ -1,0 +1,3 @@
+Items added by Scape and Run: Parasites.  A full list of item IDs can be found [[Item IDs|here]].
+{{ItemList}}
+[[Category:Mod Content]]

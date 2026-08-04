@@ -1,0 +1,24 @@
+{{Stub}}
+{{Effect Info
+|title1=Frostbite
+|image1=Frostbite.png
+|sources=See [[#Obtainment|Obtainment]]
+|type=Debuff
+|id=srparasites:frostbite}}
+
+'''Frostbite''' is a [[Effects|Potion Effect]] added in v1.10.0 of SRP. This effect is currently unreleased and its use is unknown.
+
+== ''Obtainment'' ==
+{| class="fandom-table"
+!'''Cause'''
+!'''Potency'''
+!'''Duration'''
+|-
+|unknown
+|?
+|?
+|}
+
+This effect does not stack.
+{{EffectList}}
+[[Category:Effects]]

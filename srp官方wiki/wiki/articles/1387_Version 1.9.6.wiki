@@ -1,0 +1,774 @@
+{{VersionBar|
+|page1=Version 1.9.5
+|page2=Version 1.9.7
+}}
+'''Version 1.9.6''' was an update for the Scape and Run: Parasites Mod, released on November 20th 2022.  It was 15.21 MB.
+''This is the longest change log to date.''
+
+== ''Change Log'' ==
+
+====<u>Fixes</u>==== 
+*Crash: 
+<div class="mw-collapsible mw-collapsed" data-expandtext="Show crash" data-collapsetext="Hide crash">
+java.lang.NullPointerException: Ticking entity
+at net.minecraft.entity.player.EntityPlayerMP.func_152111_bt(EntityPlayerMP.java:295)
+at net.minecraft.util.CombatTracker.func_94547_a(SourceFile:65)
+at com.dhanantry.scapeandrunparasites.entity.ai.EntityParasiteBase.attackEntityAsMobMinimum(EntityParasiteBase.java:543)
+Crash, now if Beckon spawn value from Residue is 0 the spawn will be cancelled:
+java.lang.IllegalArgumentException: bound must be positive
+at java.util.Random.nextInt(Random.java:388)
+at com.dhanantry.scapeandrunparasites.block.BlockInfestedRemain.func_180650_b(BlockInfestedRemain.java:99)
+Crash:
+net.minecraftforge.fml.common.LoaderExceptionModCrash: Caught exception from Scape and Run Parasites (srparasites)
+Caused by: java.lang.NoClassDefFoundError: net/minecraft/client/multiplayer/WorldClient
+at java.lang.Class.getDeclaredConstructors0(Native Method)
+at java.lang.Class.privateGetDeclaredConstructors(Unknown Source)
+at java.lang.Class.getConstructor0(Unknown Source)
+at java.lang.Class.newInstance(Unknown Source)
+at net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper.instantiate(SimpleNetworkWrapper.java:166)
+at net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper.registerMessage(SimpleNetworkWrapper.java:159)
+at com.dhanantry.scapeandrunparasites.util.handlers.SRPPacketHandler.init(SRPPacketHandler.java:33)
+at com.dhanantry.scapeandrunparasites.proxy.CommonProxy.preInit(CommonProxy.java:44)
+at com.dhanantry.scapeandrunparasites.SRPMain.PreInit(SRPMain.java:42)
+</div>
+
+*Console spam, sometimes leading a server to crash:
+<div class="mw-collapsible mw-collapsed" data-expandtext="Show crash" data-collapsetext="Hide crash">
+java.lang.NullPointerException: null
+at net.minecraftforge.fml.common.network.FMLOutboundHandler$OutboundTarget$5.selectNetworks(FMLOutboundHandler.java:162) ~[FMLOutboundHandler$OutboundTarget$5.class:?]
+at net.minecraftforge.fml.common.network.FMLOutboundHandler.write(FMLOutboundHandler.java:378) ~[FMLOutboundHandler.class:?]
+at io.netty.channel.AbstractChannelHandlerContext.invokeWrite0(AbstractChannelHandlerContext.java:738) ~[AbstractChannelHandlerContext.class:4.1.9.Final]
+at io.netty.channel.AbstractChannelHandlerContext.invokeWrite(AbstractChannelHandlerContext.java:730) ~[AbstractChannelHandlerContext.class:4.1.9.Final]
+at io.netty.channel.AbstractChannelHandlerContext.write(AbstractChannelHandlerContext.java:816) ~[AbstractChannelHandlerContext.class:4.1.9.Final]
+at io.netty.channel.AbstractChannelHandlerContext.write(AbstractChannelHandlerContext.java:723) ~[AbstractChannelHandlerContext.class:4.1.9.Final]
+at io.netty.handler.codec.MessageToMessageEncoder.write(MessageToMessageEncoder.java:111) ~[MessageToMessageEncoder.class:4.1.9.Final]
+at io.netty.handler.codec.MessageToMessageCodec.write(MessageToMessageCodec.java:116) ~[MessageToMessageCodec.class:4.1.9.Final]
+at io.netty.channel.AbstractChannelHandlerContext.invokeWrite0(AbstractChannelHandlerContext.java:738) ~[AbstractChannelHandlerContext.class:4.1.9.Final]
+at io.netty.channel.AbstractChannelHandlerContext.invokeWriteAndFlush(AbstractChannelHandlerContext.java:801) ~[AbstractChannelHandlerContext.class:4.1.9.Final]
+at io.netty.channel.AbstractChannelHandlerContext.write(AbstractChannelHandlerContext.java:814) ~[AbstractChannelHandlerContext.class:4.1.9.Final]
+at io.netty.channel.AbstractChannelHandlerContext.writeAndFlush(AbstractChannelHandlerContext.java:794) ~[AbstractChannelHandlerContext.class:4.1.9.Final]
+at io.netty.channel.AbstractChannelHandlerContext.writeAndFlush(AbstractChannelHandlerContext.java:831) ~[AbstractChannelHandlerContext.class:4.1.9.Final]
+at io.netty.channel.DefaultChannelPipeline.writeAndFlush(DefaultChannelPipeline.java:1032) ~[DefaultChannelPipeline.class:4.1.9.Final]
+at io.netty.channel.AbstractChannel.writeAndFlush(AbstractChannel.java:296) ~[AbstractChannel.class:4.1.9.Final]
+at net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper.sendToAll(SimpleNetworkWrapper.java:236) [SimpleNetworkWrapper.class:?]
+at com.dhanantry.scapeandrunparasites.potion.SRPEffectBase.func_76394_a(SRPEffectBase.java:82) [SRPEffectBase.class:?]</div>
+
+*Error message:
+<div class="mw-collapsible mw-collapsed" data-expandtext="Show crash" data-collapsetext="Hide crash">
+net.minecraft.util.ReportedException: Loading entity NBT
+at net.minecraft.entity.Entity.readFromNBT(Entity.java:2097) ~[Entity.class:?]
+at net.minecraft.entity.EntityList.createEntityFromNBT(EntityList.java:268) [EntityList.class:?]
+at net.minecraft.world.chunk.storage.AnvilChunkLoader.createEntityFromNBT(AnvilChunkLoader.java:637) [AnvilChunkLoader.class:?]
+at net.minecraft.world.chunk.storage.AnvilChunkLoader.readChunkEntity(AnvilChunkLoader.java:564) [AnvilChunkLoader.class:?]
+at net.minecraft.world.chunk.storage.AnvilChunkLoader.loadEntities(AnvilChunkLoader.java:521) [AnvilChunkLoader.class:?]
+at net.minecraftforge.common.chunkio.ChunkIOProvider.syncCallback(ChunkIOProvider.java:101) [ChunkIOProvider.class:?]
+at net.minecraftforge.common.chunkio.ChunkIOExecutor.tick(ChunkIOExecutor.java:150) [ChunkIOExecutor.class:?]
+at net.minecraft.server.MinecraftServer.updateTimeLightAndEntities(MinecraftServer.java:803) [MinecraftServer.class:?]
+at net.minecraft.server.MinecraftServer.tick(MinecraftServer.java:743) [MinecraftServer.class:?]
+at net.minecraft.server.integrated.IntegratedServer.tick(IntegratedServer.java:192) [IntegratedServer.class:?]
+at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:592) [MinecraftServer.class:?]
+at java.lang.Thread.run(Unknown Source) [?:1.8.0_301]
+Caused by: java.lang.ClassCastException: net.minecraft.entity.item.EntityItem cannot be cast to com.dhanantry.scapeandrunparasites.entity.ai.EntityParasiteBase
+at com.dhanantry.scapeandrunparasites.entity.monster.EntityBiomass.readEntityFromNBT(EntityBiomass.java:469) ~[EntityBiomass.class:?]
+Potential fix to console message spam:
+[19:53:52] [Client thread/ERROR] [net.minecraft.client.renderer.entity.RenderLivingBase]: Couldn't render entity
+java.lang.ClassCastException: electroblob.wizardry.client.model.ModelRobeArmour cannot be cast to com.dhanantry.scapeandrunparasites.client.model.entity.SRPModelBiped
+at com.dhanantry.scapeandrunparasites.client.renderer.SRPLayerBipedArmor.renderArmorLayer(SRPLayerBipedArmor.java:66) ~[SRPLayerBipedArmor.class:?]
+at com.dhanantry.scapeandrunparasites.client.renderer.SRPLayerBipedArmor.func_177141_a(SRPLayerBipedArmor.java:55) ~[SRPLayerBipedArmor.class:?]
+at net.minecraft.client.renderer.entity.RenderLivingBase.func_177093_a(RenderLivingBase.java:561) ~[caa.class:?]</div>
+
+*Crash:
+<div class="mw-collapsible mw-collapsed" data-expandtext="Show crash" data-collapsetext="Hide crash">
+java.lang.NullPointerException: Exception ticking world 
+at com.dhanantry.scapeandrunparasites.util.handlers.SRPEventHandlerBus.setNewParasiteTask(SRPEventHandlerBus.java:650) 
+at com.dhanantry.scapeandrunparasites.util.handlers.SRPEventHandlerBus.onEntitySpawn(SRPEventHandlerBus.java:596) 
+at net.minecraftforge.fml.common.eventhandler.ASMEventHandler_248_SRPEventHandlerBus_onEntitySpawn_EntityJoinWorldEvent.invoke(.dynamic) </div>
+
+*[[Colony|Colonies]] giving parasites health/armor/damage bonuses over and over (no more [[:File:Summoner_god.png#file|summoner god]])
+*[[Primitive Devourer]] with wrong spawn texture
+*Potential fix for parasites not gaining points
+*[[Adapted Manducater]] not placing [[Residue]] blocks
+*Typo in srpevolution command
+*Typo in "COTH Convert At Kill" description
+*Beckon animation ground
+*if "Phase X Delay" is 0 Parasites will gain points even if daycicle is turned off
+*[[Assimilated Ender Dragon|Assimilated Enderdragon]] render class registering if "Assimilated Ender Dragon Enabled" is set to false
+*Primitive Devourer render class registering if "Primitive Devourer Enabled" is set to false
+*[[Worker]] render class registering if "Worker Enabled" is set to false
+*Infested [[Residue]] spawning [[Stage I Beckon|Beckons]] if "Mobs Enabled" is set to false
+*[[Prey]] will not spawn [[Scent System|EntityScent]] if player is in creative
+*Parasites not falling (gravity) when cutting limbs
+*Foliage generation replacing blocks other than air
+*Colonies building generation still happening if there isn't a [[Colony]] nearby
+*Minimum damage not respecting TOTEM_OF_UNDYING item
+*[[Deterrent Parasites|Deterrents]] jumping if they are inside liquid blocks
+*Parasites looking away while leaping at current target in water (they still do this but less)
+*[[Crux]] configuration options not working
+*[[Assimilated Adventurer]] loot table not working
+*EntityBomb doing damage through the walls
+*EntityTendril leaping in the water
+*[[Heavy Bomber]], [[Herd]] bombs not being affected by damage multiplier options
+*[[Pure Parasites|Pure]] versions spawning mobs inside blocks
+*[[Reinforcement System]] spawning mobs inside blocks
+*[[Marauder]] moving while special attack
+*[[Assimilated Enderman]] teleporting parasites when location is too small
+*Sometimes two or more Adapted parasites spawning from 1 Primitive version
+*Residue Blocks spawning Beckons inside blocks
+*EntityDamage packet spam in the server side
+*Assimilated Enderman teleporting melting assimilated versions
+*[[Assimilated Bear]] not working with "Merge System Assimilated Values" option list
+*[[Assimilated Horse]] not working with "Merge System Assimilated Values" option list
+*Assimilated Adventurer not working with "Merge System Assimilated Values" option list
+*Assimilated Adventurer with wrong attribute values
+*"Assimilated Horse Head Chance" option not working
+*[[Parasitic Cyst|Gluttonous Cyst]] Block not showing breaking progress
+*"[[Flying Carrier]] Griefing" option not workin
+ 
+====<u>New</u>====
+
+*Mobs:
+*#Enderdragon Walking Head
+*#Adventurer Walking Head
+*#Enderman Walking Head
+*#[[Seizer]]
+*#[[Stage I Dispatcher|Dispatcher Stage I]]
+*#[[Stage II Dispatcher|Dispatcher Stage II]]
+*#[[Stage III Dispatcher|Dispatcher Stage SIII]]
+*#[[Stage IV Dispatcher|Dispatcher Stage SIV]]
+*#[[Herd]]
+*#Dispatcher Tentacle
+*#[[Mangler]]
+*#[[Thrall]]
+*#[[Monarch]]
+*#[[Colony Carrier]]
+*#[[Haunter]]
+*#[[Bogle]]
+*#[[Wraith]]
+*#[[Succor]]
+ 
+*Entities:
+*#[[Orb|EntityOrb]]
+*#[[The Source|Source]]
+*#Remain
+*#wave
+*#nade
+*#nadeball
+
+*Items:
+*#[[Devourer Tentacle]]
+*#[[Arachnida Claw]]
+*#[[Bolster Husk]]
+*#Item spawner for Pods
+*#[[Beckon Membrane]]
+*#[[Dispatcher Membrane]]
+ 
+*Blocks:
+*#[[Dispatcher Nidus]]
+*#[[Tunnel|Buglin Tunnel Block]]
+ 
+*[[Commands]]:
+*#/srpevolution addpoints [number]
+*#/srpevolution setphase [number]
+*#/srpevolution setcooldown [number]
+*#/srparasites readconfigurationfile 
+*#*(NOTE: not all options are working such as Registry, client-side options :thinking:)
+*#/srparasites getbeckonlimit
+*#/srparasites setbeckonlimit [number]
+*#/srparasites resetdatafile
+*#/srparasites toggle_dotiledrops
+*#/srparasites toggle_domobevolution
+*#*if false, parasites cannot evolve into their next form
+ 
+*[[:Category:Effects|Effects]]:
+*#[[Debar]]
+*#[[Needler]] ''(Parasites aren't affected by this)'': 40% of total health dealt as damage by reaching amplfifier 7
+*#[[Link]]: Parasites will contribute to global adaptation without having to be close to a [[colony]] (if available) 
+*#[[Foster]]: Will increase adaptation damage values over time (if available)
+ 
+*[[:Category:Armors|Armor]] (WIP):
+*#Living Helm
+*#Living Chest
+*#Living Pants
+*#Living Boots
+*#Sentient Helm
+*#Sentient Chest
+*#Sentient Pants
+*#Sentient Boots
+
+*Sounds:
+*#[[Parasitic Cyst|Cyst]] Eating items
+*#[[Adaptation System|Adaptation]] hits
+*#When a [[Parasite Biome#Node|node]] is placed in the world
+*#When a [[colony]] is placed in the world
+*#[[Primitive Manducater|Manducater]] cloak
+*#[[Assimilated Bear]] Hurt/Growl/Death
+*#[[Assimilated Pig]] Hurt/Growl/Death
+*#[[Assimilated Enderman]] Hurt/Growl/Death
+ 
+====<u>Config</u>====
+*The configuration file is now separated into 4 files<ref>All four of these files can be found in the <code>srparasites</code> folder, within the config folder.</ref>:
+**General (<code>SRParasites.cfg</code>)
+**Mobs (<code>SRParasitesMobs.cfg</code>)
+**Systems (<code>SRParasitesSystems.cfg</code>)
+**World (<code>SRParasitesWorld.cfg</code>)
+
+*These files will be generated inside the folder srparasites
+**Renamed "parasite_properties_beckon" to "parasite_properties_nexus" and all options inside this category
+**Renamed "Beckons Stage X Min GrowTime" to "Nexus Stage X Min GrowTime" and moved option from RS System to "parasite_properties_nexus"
+**Renamed "Beckons Stage X Max GrowTime" "Nexus Stage X Max GrowTime" and moved option from RS System to "parasite_properties_nexus"
+**Renamed "Reinforcement System Despawn" to "Nexus Versions Despawn"
+**Renamed "Phase X Beckon Stage X Grow Stunned" to "Phase X Nexus Stage X Grow Stunned"
+ 
+*Removed options:
+**"Phase X Maximum Parasite ID"
+**"Phase X Minimum Parasite ID"
+**"[[Primitive Bolster]] Buffs Duration"
+**"Primitive Bolster Buffs Amplifier"
+**"[[Adapted Bolster|Stage Adapted]] buffs duration"
+**"Stage Adapted buffs amplifier"
+**"[[Corrosion|Corrosive]] Value"
+**"[[Host]] Skeleton Chance"
+ 
+*Option Changes: <div class="mw-collapsible mw-collapsed" data-expandtext="Show changes" data-collapsetext="Hide changes">
+**Updated "Merge System Assimilated Values" description
+**"[[Reinforcement System]] Block Residue Chance" updated description
+**"Host SpawnWeight" from 30 to 0
+**"Default Phase Start" from 0 to -1
+**"[[Evolution Phases]] Dimension Starting Phase List" added "0;0;0"
+**"Mob Fire Damage Multiplier" 2 -> 4
+**"Cyst Item Value" 3 -> 2
+**Changed "Phase Sleep Denied" to "Phase Sleep Point Multiplier" - "From this phase on, each time you sleep, the points obtained by sleeping will be multiplied by 5."
+**"WhiteList Dimensions" (colony) added -1
+**"WhiteList Dimensions" (biome) added 1, -1
+**"[[Fear]] Fall Damage Multiplier" 3 -> 1.5
+**"Version Primitive Point Chance to Learn" 0.5 -> 0.7
+**"Version Adapted Point Chance to Learn" 0.7 -> 0.8
+**"Version Pure Point Chance to Learn" 0.8 -> 0.95
+**"Version Preeminent Point Chance to Learn" 0.8 -> 1
+**"Deterrent Point Chance to Learn" 0.6 -> 0.85
+**"Nexus Stage I Point Chance to Learn" 0.4 -> 0.7
+**"Nexus Stage II Point Chance to Learn" 0.6 -> 0.8
+**"Nexus Stage III Point Chance to Learn" 0.8 -> 0.9
+**"Nexus Stage IV Point Chance to Learn" 0.9 -> 1
+**"Version Primitive Point Reduction Total Cap" 2 -> 5
+**"Version Adapted Point Reduction Total Cap" 3 -> 8
+**"Version Pure Point Reduction Total Cap" 4 -> 12
+**"Version Preeminent Point Reduction Total Cap" 4 -> 20
+**"Deterrent Point Reduction Total Cap" 2 -> 10
+**"Nexus Stage I Reduction Total Cap" 1 -> 5
+**"Nexus Stage II Reduction Total Cap" 2 -> 10
+**"Nexus Stage III Reduction Total Cap" 3 -> 15
+**"Nexus Stage IV Reduction Total Cap" 5 -> 23
+**"Version Primitive Point Reduction Value" 0.04 -> 0.5
+**"Version Adapted Point Reduction Value" 0.05 -> 0.1
+**"Version Pure Point Reduction Value" 0.067 -> 0.125
+**"Version Preeminent Point Reduction Value" 0.067 -> 0.2
+**"Deterrent Point Reduction Value" 0.05 -> 0.16
+**"Nexus Stage I Point Reduction Value" 0.04 -> 0.07
+**"Nexus Stage II Point Reduction Value" 0.05 -> 0.125
+**"Nexus Stage III Point Reduction Value" 0.067 -> 0.17
+**"Nexus Stage IV Point Reduction Value" 0.1 -> 0.25
+**"Version Primitive Point Reduction Cap" 12 -> 12
+**"Version Adapted Point Reduction Cap" 20 -> 10
+**"Version Pure Point Reduction Cap" 15 -> 8
+**"Version Preeminent Point Reduction Cap" 15 -> 5
+**"Deterrent Point Reduction Cap" 16 -> 6
+**"Nexus Stage I Point Reduction Cap" 12 -> 10
+**"Nexus Stage II Point Reduction Cap" 16 -> 8
+**"Nexus Stage III Point Reduction Cap" 14 -> 6
+**"Nexus Stage IV Point Reduction Cap" 10 -> 4
+**"Version Primitive Damage Cap" 2 -> 3
+**"Version Adapted Damage Cap" 3 -> 5
+**"Version Pure Damage Cap" 5 -> 7
+**"Version Preeminent Damage Cap" 5 -> 15
+**"Deterrent Damage Cap" 2 -> 6
+**"Nexus Stage I Damage Cap" 2 -> 4
+**"Nexus Stage II Damage Cap" 3 -> 7
+**"Nexus Stage III Damage Cap" 4 -> 10
+**"Nexus Stage IV Damage Cap" 5 -> 15
+**"Assimilated x Head Chance" from 0.1 to 0.5
+**"Primitive Longarms Loot Table" added "srparasites:bone;20;4;true" minus Yelloweye ("srparasites:bone;20;2;true" for Yelloweye)
+**"Stage Adapted loot Table" added "srparasites:bone;20;8;true" minus Yelloweye ("srparasites:bone;20;4;true" for Yelloweye)
+**"Mobs with new griefing task" added:
+**#"srparasites:wraith;15;20;5"
+**#"srparasites:bogle;15;20;5"
+**#"srparasites:succor;15;20;2"
+**#"srparasites:haunter;15;20;2"
+**#"srparasites:monarch;5;20;4"
+**#"srparasites:carrier_colony;15;20;5"
+**#"srparasites:bomber_heavy;15;20;5"
+**#"srparasites:beckon_si;3;60;1"
+**#"srparasites:dispatcher_si;3;60;1"
+**#"srparasites:beckon_sii;5.5;20;2"
+**#"srparasites:dispatcher_sii;5.5;20;2"
+**#"srparasites:beckon_siii;7;20;4"
+**#"srparasites:dispatcher_siii;7;20;4"
+**#"srparasites:beckon_siv;18;20;5"
+**#"srparasites:dispatcher_siv;18;20;5"
+**#"srparasites:kyphosis;7;20;3"
+**#"srparasites:sentry;7;20;3"
+**"[[Primitive Bolster]] Loot Table" added:
+**#"srparasites:ada_bolster_drop;20;1;true"
+**#"[[Adapted Bolster|Stage Adapted]] loot Table" added:
+**#"srparasites:ada_bolster_drop;40;1;true"
+**#"[[Primitive Arachnida]] Loot Table" added:
+**#"srparasites:ada_arachnida_drop;20;2;true"
+**#"[[Adapted Arachnida|Stage Adapted]] loot Table" added:
+**#"srparasites:ada_arachnida_drop;40;3;true"
+**#"[[Primitive Devourer]] Loot Table" added:
+**#"srparasites:ada_devourer_drop;20;2;true"
+**#"[[Adapted Devourer|Stage Adapted]] loot Table" added:
+**#"srparasites:ada_devourer_drop;40;4;true"
+**"[[Stage II Beckon]] Mob List" added:
+**#"ground;srparasites:sim_pig;0.2;3"
+**#"ground;srparasites:sim_villager;0.2;3"
+**#"ground;srparasites:sim_horse;0.2;3"
+**#"ground;srparasites:sim_bear;0.2;3"
+**#"ground;srparasites:sim_enderman;0.2;3"
+**#"[[Stage III Beckon]] Mob List" added:
+**#"ground;srparasites:pri_arachnida;0.4;6"
+**#"ground;srparasites:sim_pig;0.2;3"
+**#"ground;srparasites:sim_villager;0.2;3"
+**#"ground;srparasites:sim_horse;0.2;3"
+**#"ground;srparasites:sim_bear;0.2;3"
+**#"ground;srparasites:sim_enderman;0.2;3"
+**#"[[Parasite Biome|Biome]] Spawn Entity List" added:
+**#"srparasites:sim_adventurer;1;1;60;0"
+**#"srparasites:sim_horse;3;1;60;0"
+**#"srparasites:sim_bear;2;1;60;0"
+**#"srparasites:sim_enderman;1;1;60;0"
+**#"srparasites:ada_arachnida;1;1;10;0"
+**#"srparasites:pri_arachnida;1;1;10;0"
+**#"srparasites:bomber_heavy;1;1;5;0"
+**#"srparasites:wraith;2;2;5;0"
+**#"srparasites:bogle;1;1;5;0"
+**#"srparasites:haunter;1;1;5;0"
+**#"srparasites:carrier_colony;1;1;5;0"</div>
+ 
+*New options: <div class="mw-collapsible mw-collapsed" data-expandtext="Show changes" data-collapsetext="Hide changes">
+**"Reinforcement System Revert Block 2"
+**"Phase X Residue"
+**"Reinforcement System Block Revert Stage"
+**"Host From Skeletons Value"
+**"Block Limit For Beckon Infestation"
+**"Block Limit For Biome Infestation"
+**"Block Limit For Beckon Infestation Cooldown"
+**"Block Limit For Biome Infestation Cooldown"
+**"Remain Blocks" - "Set to true if you want parasites to place sometimes Remain Blocks when killed."
+**"Carrier Explotion" - "Set to true if you want explotions from Carriers<ref>Referring to the [[Flying Carrier]] and [[Heavy Carrier]].</ref> to not damage parasites."
+**"[[Adaptation System|Adaptation]] Bonus" - "Bonus to adaptation in dimensions."
+**"Biome Tree chance" - "(1 = 100%) Generation chance for tree feature."
+**"Biome Flower chance" - "(1 = 100%) Generation chance for flower feature."
+**"Biome Spine chance" - "(1 = 100%) Generation chance for spine feature."
+**"Biome Tenflower chance" - "(1 = 100%) Generation chance for tenflower feature."
+**"Biome Ball chance" - "(1 = 100%) Generation chance for ball feature."
+**"Biome Bigball chance" - "(1 = 100%) Generation chance for bigball feature."
+**"Biome Mouth chance" - "(1 = 100%) Generation chance for mouth feature."
+**"Version X Remain Value" - "Life points required to be rebuilt."
+**"[[Primitive Summoner]] Life Value" - "Life value for Primitive Summoner."
+**"Primitive Summoner Rebuilt Value" - "Health (%) that Primitive Summoner's rebuilt mobs will have."
+**"[[Adapted Summoner|Stage Adapted]] Life Value" - "Life value for Adapted Summoner."
+**"Stage Adapted Rebuilt Value" - "Health (%) that Adapted Summoner's rebuilt mobs will have."
+**"[[Rupter]] [[Tunnel]] Cost" - "Cost (killcount) of placing a Buglin Tunnel."
+**"Cyst Enabled" - "Set to true if you want mobs to place down Cyst blocks."
+**"Cyst Item Value" - "Amount of points (EP) generated each time a Cyst block consume an item."
+**"Nexus [[Dispatcher Nidus|Block Dispatcher]]" - "Killcount required for a Dispatcher Nidus Block to spawn a Dispatcher Stage I."
+**"Nexus Block Bonus" - "If Dispatcher Nidus block cannot spawn a Dispatcher, it will multiply collected killcount by this amount."
+**"Mobs [[Residue]]" - "Set to true if you want mobs to place down residue blocks."
+**"Mobs Converted Despawn" - "Set to true if you want converted mobs or merged ones to despawn."
+**"Nexus Block Start" - "Collective killcount required to place a Dispatcher Nidus Block."
+**"[[Heavy Bomber]] Mob Table" - "Mob list for Heavy Bomber."
+**"[[Crux]] Damage Stack Value" - "Percentage of damage the Crux will use to increase its damage when killing mobs."
+**"Crux Damage Stack Cap" - "Limit on how many times the Crux can increase its own damage."
+**"Phase Rupter Tunnel" - "From this phase on, Rupters will not place Tunnels."
+**"Biome Heart Volume" - "Volume of the Core Block Node Sound."
+**"Biome Heart Frequency" - "Frequency of the Core Block Node Sound.
+**"Mob Cap" - "Parasites will not spawn if local number is greater than this."
+**"[[Living Armor]] Helm" - "Armor value for Living Helm."
+**"Living Armor Chest" - "Armor value for Living Chest."
+**"Living Armor Pants" - "Armor value for Living Pants."
+**"Living Armor Boots" - "Armor value for Living Boots."
+**"[[Sentient Armor]] Helm" - "Armor value for Living Helm."
+**"Sentient Armor Chest" - "Armor value for Living Chest."
+**"Sentient Armor Pants" - "Armor value for Living Pants."
+**"Sentient Armor Boots" - "Armor value for Living Boots."
+**"Phase X Spawn Entity List" - "Entity List that will spawn at phase X."
+**"Version X Death Penalty Evolution Value" - "How many points parasites will lose when it is killed."
+**"Nexus Stage X Death Penalty Evolution Value" - "How many points parasites will lose when it is killed."
+**"[[Dispatcher (Disambiguation)|Stage X Dispatcher]] Health Multiplier" - "Health multiplier for Stage X Dispatcher"
+**"Stage X Dispatcher Damage Multiplier" - "Damage multiplier for Stage X Dispatcher"
+**"Stage X Dispatcher Armor Multiplier" - "Armor multiplier for Stage X Dispatcher"
+**"Stage X Dispatcher Loot Table" - "Items you want the Stage I Dispatcher to drop."
+**"[[Beckon (Disambiguation)|Stage X Beckon]] Loot Table" - "Items you want the Stage X Beckon to drop."
+**"[[Assimilated Ender Dragon]] Head Loot Table" - "Items you want the Walking Head to drop."
+**"[[Assimilated Adventurer]] Head Loot Table" - "Items you want the Walking Head to drop."
+**"[[Assimilated Horse]] Head Loot Table" - "Items you want the Walking Head to drop."
+**"[[Assimilated Villager]] Head Loot Table" - "Items you want the Walking Head to drop."
+**"[[Assimilated Pig]] Head Loot Table" - "Items you want the Walking Head to drop."
+**"[[Assimilated Wolf]] Head Loot Table" - "Items you want the Walking Head to drop."
+**"[[Assimilated Sheep]] Head Loot Table" - "Items you want the Walking Head to drop."
+**"[[Assimilated Cow]] Head Loot Table" - "Items you want the Walking Head to drop."
+**"[[Assimilated Human]] Head Loot Table" - "Items you want the Walking Head to drop."
+**"Assimilated Enderman Head Loot Table" - "Items you want the Walking Head to drop."
+**"Assimilated Adventurer Spawned By Players" - "Set to false if you want to disable the spawn of Assimilated Adventurers through players."
+**"[[Reinforcement System]] Sky [[Residue]]" - "Set to true if you want Beckons to only spawn if the position can see the sky (from residue blocks)."
+**"[[Evolution Phases#Phase 8|Phase 8]] Total Points" - "Parasites can't earn more points than this."
+**"Version Primitive Exhaustion" - "Will increase exhaustion level by this value when it hits you."
+**"Version Adapted Exhaustion" - "Will increase exhaustion level by this value when it hits you." 
+**"Version Pure Exhaustion" - "Will increase exhaustion level by this value when it hits you." 
+**"Mob doTileDrops" - "Set to true if the blocks broken by parasites should have drops."
+**"Version Pure [[Orb]] Xp Steal" - "Amount of xp it will steal." 
+**"Primitive Longarms Orb Effects" - "Orb effects " 
+**"Primitive Manducater Orb Effects" - "Orb effects " 
+**"Primitive Summoner Orb Effects" - "Orb effects "
+**"Primitive Reeker Orb Effects" - "Orb effects " 
+**"Primitive Arachnida Orb Effects" - "Orb effects "
+**"Primitive Bolster Orb Effects" - "Orb effects " 
+**"[[Needler]] Damage" - "Damage (1 = 100%) this effect will deal (victims total health) by reaching high amplifier." 
+**"Needler Terminal Amplifier" - "Mobs reaching this amplfifier will explode."
+**"Orb Exhaustion Multiplier" - "Exhaustion multiplier if affected by an orb." 
+**"Version Primitive Orb Item Cooldown" - "Cooldown (seconds) added to items by their orb."
+**"Version Adapted Orb Item Cooldown" - "Cooldown (seconds) added to items by their orb." 
+**"Version Pure Orb Item Cooldown" - "Cooldown (seconds) added to items by their orb." 
+**"Living Armor Toughness" - "Toughness value for Living Armor." 
+**"Sentient Armor Toughness" - "Toughness value for Sentient Armor."
+**"Value for Despawning" - "Number of Points gained when Adapted versions spawned from moving flesh despawn." 
+**"Variant Spawn Chance" - "Chance (1=100%) for parasites to spawn as a variant if available." 
+**"Value Loss Block Stain" - "How many points parasites will lose when Infested Blocks type stain are mined." 
+**"Value Loss Block Trunk" - "How many points parasites will lose when Infested Blocks type trunk are mined." 
+**"Value Loss Block Rubble" - "How many points parasites will lose when Infested Blocks type rubble are mined."
+**"[[Rupter]] To [[Mangler]]" - "How many kills a Rupter needs to become a Mangler." - SRParasitesMobs.cfg
+**"[[Host]] To [[Herd]]" - "How many kills a Host needs to become a Herd."
+**"[[Colony|Colonies]] Dispatcher" - "Set to false if you dont want Colonies to be created by a Dispatcher SIV. (This option is ignored if Evolution Phases are enabled, it has its own option)"
+**"[[Parasite Biome#Node|Nodes]] Beckons" - "Set to false if you dont want Colonies to be created by a Beckon SIV. (This option is ignored if Evolution Phases are enabled, it has its own option)" 
+**"[[Primitive Bolster]] Effects" - "Potion effects that will give the Bolster to nearby parasites"
+**"[[Adapted Bolster|Stage Adapted]] Effects" - "Potion effects that will give the Bolster to nearby parasites" 
+**"[[Corrosion|Corrosive]] Damage Value" - "Amount of damage your armor will receive under this effect." 
+**"[[Rage]] Acivated" - "Set to false if you dont want parasites to spawn/give the rage effect"
+**"Default Points Start" - "Default initial points for dimensions."
+**"[[Adaptation System|Adaptation]] New Damage Cooldown" - "Cooldown added when learning/improving adaptation (ticks)." - Useful when playing with weapons
+**"Assimilated Human Head Health" - "Percentage of health it will have fron the host." 
+**"Assimilated Human Head Damage" - "Percentage of damage it will have fron the host."
+**"Assimilated Human Head Chance" - "Chance (1 = 100%) to spawn a walking head when killed." 
+**"Assimilated Enderman Head Health" - "Percentage of health it will have fron the host." 
+**"Assimilated Enderman Head Damage" - "Percentage of damage it will have fron the host." 
+**"Assimilated Enderman Head Chance" - "Chance (1 = 100%) to spawn a walking head when killed."
+**"Assimilated Ender Dragon Head Health" - "Percentage of health it will have fron the host."
+**"Assimilated Ender Dragon Head Damage" - "Percentage of damage it will have fron the host." 
+**"Points Overtime WhiteList Dimensions" - "Parasites can only gain points overtime in these dimensions"
+**"Fear Air Damage Multiplier" - "Fear air damage multiplier, multiplied by the amp."
+**"Block Particle Spawn" - "Chance to spawn (1=100%) block particles when broken by parasites."
+**"Assimilated Adventurer Head Health" - "Percentage of health it will have fron the host." 
+**"Assimilated Adventurer Head Damage" - "Percentage of damage it will have fron the host." 
+**"Assimilated Adventurer Head Chance" - "Chance (1 = 100%) to spawn a walking head when killed." 
+**"Assimilated Adventurer Mobs Inside" - "Mob the Assimilated Adventurer spawns when killed."
+**"Mobs Additional Weakness" will now read double number types with the goal that this list can also be used as "Mobs Immune To"</div>
+ 
+*Returning options:
+**"Fear Block Fail Chance"
+**"Fear Item Fail Chance"
+**"Fear Inventory Fail Chance"
+**"Fear Item BlackList"
+**"Fear Item BlackList Inverted"
+ 
+====<u>General</u>====
+*List of General changes:  <div class="mw-collapsible mw-collapsed" data-expandtext="Show changes" data-collapsetext="Hide changes">
+**[[Commands]] will not require player to be in creative mode but instead a level 2 Permission Level
+**Infested bush can only stay on infested blocks
+**[[Parasite Biome#Biome Purifier|Purifier]] blocks will passively clear Beckon infestation blocks in a radius of 8
+**Beckon infestation cleaning chain will aslo clear Stone
+**Updated parasite loot item description
+**The bell sound will now play if a Beckon is spawned by a Residue Block
+**Block purifier will not revert Beckon infestation blocks in Beckon is within range but the block will give glow effect to it
+**Changed texture for Block parasite_rubble_stone variant
+**Removed tr_tr.lang file
+**Dirty Clock name changed to [[Bloody Clock]]
+**[[Remains|Gore Block]] Variant "Big" will now despawn slower and it will be placed along with a EntityRemain
+**New textures for blocks (Big Thanks to Vinni!)
+**Increased range effect of purifier from 8 to 20
+**Projectiles from parasites to other parasites will do no damage
+**Parasitic Colony Incomplete Structure block will not destroy blocks with hardness > 7
+**Corrosive effect removed (will return in the future)
+**New textures for spawn items, residue particle and stone block
+**[[Stage III Beckon|Beckon Stage III]] will not grow to Stage IV if node is in range
+**[[Parasitic Cyst|Cyst]] Blocks will now gain points from consuming items
+**Projectiles from parasites will now deal minimum damage (damage value from shooter)
+**[[Rage]] particle size decreased
+**[[Yelloweye Bone|Yelloweye drop]] and [[Strange Bone|Strange bone]] texture changed
+**Magic particles will no longer spawn when hitting adaptable mobs
+**'''Parasites now have their own mobcap'''
+***If playing with [[Evolution Phases]], the mod will no longer register SpawnListEntries to biomes but instead will use custom spawner
+**EntityToxicCloud will now spawn less particle effects
+**Parasites will now lose Evolution points when killed
+***If you kill a parasite while they have the Debar effect, parasites will not lose evolution points because of this death
+**EntityToxicCloud now stack effects
+**Beckon grow bell sound name changed
+**If absortion value is greater than 0 then minimum damage will be shared between health and absortion
+**Colonies and Nodes can now be placed in the world without the need of Evolution Phases
+**Evolution Phase/Node sound effects will now be played through SoundCategory.MASTER instead of SoundCategory.MUSIC
+**Cyst blocks sound volume decreased from 3 to 1
+**Flight limit: flying parasite will use target's y value instead of looking for the ground
+**[[Parasitic Cyst]] blocks will now be replaced by air blocks if they are on air
+**[[Call Of The Hive|COTH]] will not spread to entities through walls
+**Gluttonous Cyst will not become a Vacuous Cyst if the block below is air
+**Vacuous Cyst blocks will now become air blocks if the block below is air (random tick)
+**[[Rage]] effect will now reduce shooting projectiles cooldown
+**Parasite Stain blocks now use the Infested Stain block sounds
+**Renamed some of the projectile textures to match their shooting entity
+**Chance for lure components dropped by the SAC block variant decreased from 0.3 to 0.05
+**Log blocks now use Wood sounds
+**Changed block textures (lost track :sadge:)
+**[[Fear]] fall damage will now be multipled by the amplifier + 1
+**Fear effect will also make entities not touching the ground receive more damage
+**Changed adaptation sound (green color)
+**Adaptation sounds (green, purple) will now have pitch variation
+**Removed BlockRenderLayer.TRANSLUCENT to Gluttonous Cyst Block
+**Updated lang files:
+***lol_us 
+***pl_pl
+**[[Parasitic Cyst|Cyst]] block logic change:
+***The cyst block will no longer collect items around it
+***Blocks broken by parasites will no longer drop their item but will be stored in their "inventory"
+***Once their inventory is "full", a cyst will be placed with all the items found in their inventory
+***If it is killed or despawns, a cyst will be placed with all the items found in their inventory
+***After a while, it will start consuming the collected items
+***When there are no more items inside, it will turn into an empty cyst block
+***At random times if their inventory is not empty they will place a Cyst
+**[[Corrosion|Corrosive]] new effect: Inflicts damage to your amor over time (similar to poison)
+**Changed texture icon for: [[Immalleable]], [[Bleeding]], [[Camouflage]], [[Corrosion]], [[Fear]], [[Rage]], [[Viral]]
+**Removed the following commands: phase_-2, phase_-1, phase_0, phase_1, phase_2, phase_3, phase_4, phase_5, phase_6, phase_7, phase_8
+**Viral effect rework:
+***It will no longer reduce total health
+***Damage taken with this effect will be multiplied by current amplfifier + 2
+**If player is inside the biome a heart sound will be played
+***the closer the player is to the core of the biome, the louder it will sound
+**"/srpevolution getphase" will now show:
+***if phase is in cooldown
+***total points needed for next phase
+**Fog Render logic:
+***Previously: fog was only present if the player was inside the biome
+***Now: fog is present if the player is within the effect range of a node or inside a biome
+**Tool class and harvest level:
+***All Stain blocks: shovel 0
+***All Rubble blocks: pickaxe 1
+***All Rubble Dense blocks: pickaxe 3
+***All Trunk, Thin blocks: axe 0</div>
+
+*Block name changes: <div class="mw-collapsible mw-collapsed" data-expandtext="Show changes" data-collapsetext="Hide changes">
+**Parasitic Sapling = Veinwood Sapling
+**Parasitic Sapling = Eyesore Sapling
+**Parasitic Sapling = Darkwood Sapling
+**Parasitic Ringlete = Nerve Ringlet
+**Parasitic Net = Capillary Net
+**Biome Core = Hive Core
+**Parasitic Mouth = Maw
+**Parasitic Sac = Bladder Sac
+**Parasitic Cyst = Vacuous Cyst
+**Parasitic Cyst (Active) = Gluttonous Cyst
+**Parasitic Lump = Grotesque Lump
+**Parasitic Bag = Sac of Flesh
+**Parasitic Log = Bruisewood Log
+**Parasitic Log = Bruisewood Log
+**Parasitic Log = Bruisewood Log
+**Parasitic Dirt = Hivesoil
+**Parasitic Flesh = Flesh Chunk
+**Parasitic Flesh Stairs = Flesh Chunk
+**Parasitic Veins = Compressed Arteries
+**Parasitic Half Slab = Fortified Bone
+**Parasitic Concentrated Flesh = Concentrated Flesh Chunk
+**Parasitic Concentrated Bone= Fortified Bone
+**Parasitic Concentrated Bone Stairs = Fortified Bone
+**Parasitic Stone = Hivestone
+**Parasitic Compressed Stone = Compressed Hivestone
+**Parasitic Compressed Biome Stone = Reinforced Hivestone</div>
+
+'''[[Adaptation System|Adaptation]] logic change''':
+*Old: will store damage id of the source
+*New: Source is a living entity?
+**#If yes: is the source is a player?
+**##If yes: will store item id
+**##If no: will store entity id
+**#If no: is the true source is a living entity?
+**##If yes: is the source is a player?
+**###If yes: will store item id
+**###If no: will store entity id
+**##If no: will store damage id of the source
+
+*Parasites can now gain point in all dimensions overtime: 
+**This is affected by "Day Tick Value" option value
+**Points earned depend on the option "Phase X Sleep Penalty" / 2
+**If evolution phase is -1 or lower then they will not learn points
+**Only dimensions listed in "Points Overtime WhiteList Dimensions"
+ 
+====<u>Mobs</u>====
+*List of Mob changes: <div class="mw-collapsible mw-collapsed" data-expandtext="Show changes" data-collapsetext="Hide changes">
+**[[Assimilated Horse]] goes boom if low health
+**Charge now has a sound and tweaked logic
+**Changed [[Marauder]] sound step
+**[[Assimilated Ender Dragon|Enderdragon]] can now lose its head and wings
+**Hitting [[Warden]] weak points chance to cause bleeding, damage will be multipled by 3
+**Hitting [[Heed]] weak point chance to cause bleeding, damage will be multipled by 3
+**[[Adapted Arachnida|Arachnida Adapted]] weak point damage will be multipled by 3
+**Tweaked Marauder aoe attack animation
+**Marauder, Warden, [[Primitive Reeker]] and [[Adapted Reeker]] will spawn flame particles prior to aoe/charge attacks
+**[[Host]] spawn condition changed, it will now require an [[Assimilated Human]]/[[Assimilated Villager|Villager]] to kill 5 skeletons in order to spawn
+**[[:Category:Pure Parasites|Pure]] can now spawn Seizer as support minus grunt
+**[[Vigilante]] shooting rate increased
+**Arachnida will now pull up targets if they are above them (at least if there is 1 block of difference)
+**Added back [[Heavy Bomber]]
+**[[:Category:Deterrent Parasites|Deterrents]] will not target mobs if they cannot see them
+**[[Stage III Beckon|Beckon Stage III]] will no longer generate Colonies
+**[[Stage IV Beckon|Dispatcher Stage IV]] will generate Colonies
+**[[Rupter|Rupters]] will now place Buglin Tunnels if killcount is equal or higher than 5
+**[[Sentry]] fire rate increased
+**[[:Category:Primitive Parasites|Primitives]] and higher versions sometimes will search for blocks that emit light, circuits and break them (experimental)
+**Beckons and Dispatchers are now considered Nexus versions
+**Improved breaking blocks task logic
+**If a [[Seizer]] is attacked by a parasite projectile and its current target != null, it will redirect its damage to the current target * 2
+**Dispatchers will unhide nearby hidden [[Assimilated Mobs|assimilated mobs]]
+**If AI is disabled the Seizer will not retreat into the ground
+**If [[Evolution Phases]] are enabled parasites will not place [[Dispatcher Nidus]] Blocks if current phase is equal or lower than 0, -1, -2
+**Beckons spawned by Beckon Stage IV will not grow
+**[[Stage IV Beckon|Beckon Stage IV]] will not upgrade Assimilated Enderdragon
+**[[Crux]] will now gain damage by killing mobs
+**Crux can now burst its back (WIP)
+**Rupters will stop placing Buglin Tunnel Blocks from phase 3 and onwards
+**Pure versions will burst into pieces (WIP)
+**Assimilated Enderman: teleporting logic tweaked so it can do it more in water 
+**Arachnida: it will pull targets for 7 seconds, then it will go into melee
+**Parasites struck by lightning will have their killcount increased by 1000000
+**Improved breaking blocks task logic
+**Tweaked the transition between walking and standing animations
+**Reeker, Warden, Marauder warnign iframe attack sound volume increased
+**[[Flying Carrier]] and Parasites in the burst of death will now spawn EntityToxicCloud instead of EntityAreaEffectCloud
+**EntityToxicCloud spawned by Carriers will now apply [[viral]]
+**EntityToxicCloud will now stack effects
+**EntityBiomass will now spawn mobs with the [[Debar]] effect
+**[[Thrall|Mes]] can now adapt to damage and will use primitive values
+**When a primitive goes into adapted while burning, the adapted version will spawn with half of the health
+**If a [[colony]] is in a world the parasites upon death will turn into their previous version when killed (if available)
+**Removed light from Arachnida render ray
+**Primitive, Adapted, Pure versions will add Exhaustion to players on melee hits
+**Arachnida will try to pull you down if flying
+**New [[Grunt]] model
+**Grunt speed, attack range value increased
+**[[Adapted Yelloweye]] and [[Dreadnaut|Ancient Dreadnaut]] will not longer shoot Homing Projectiles
+**Sentry shooting rate increased
+**EntityAreaEffectCloud entity was replaced by EntityToxicCloud in the Vigilante's projectiles
+**[[Corrosion|Corrosive]] effect on the projectiles of the Vigilante was added 
+**[[Primitive Yelloweye|Primitive]] and [[Adapted Yelloweye|Adapted Yelloweyes]] will now shoot nade entities 
+**The height of the [[Adapted Yelloweye]]'s hitbox was reduced
+**The height of the "eyes" of the [[Incomplete Forms|incomplete form (Medium)]] was adjusted
+**Beckon Stage IV now has a weak point (will cause bleeding, damage * 3)
+**Arachnida will now shoot projectiles before pulling
+**Arachnida will leap after pulling
+**Parasites will now break Vacuous Cyst blocks
+**[[Primitive Summoner|Primitive]] and [[Adapted Summoner|Adapted Summoners]] will stop spawning biomass if they are inside liquid blocks
+**Grunt hitbox size increased
+**New Berserker and Virulent variants for Grunt
+**[[Assimilated Enderman|Enderman]] can now teleport [[Rupter|Rupters]]
+**Walking Heads can now walk in web blocks
+**[[Buglin]] will apply coth when touched
+**Assimilated Enderman can now crawl (variant)
+**[[Moving Flesh]] now have passive regeneration
+**Parasites that can shoot projectiles will have their idle time set to 0 each time they fire
+**Each time the damagecap is activated, the parasite will be given the [[rage]] effect (7 seconds, amplifier 0)(will stack)
+**[[Overseer]] shooting speed increased
+**New sound effects for the [[Adapted Reeker]]</div>
+*Changed texture for:
+**[[Grunt]]
+**[[Vigilante]]
+**[[Marauder]]
+**[[Overseer]]
+**[[Warden]]
+**[[Light Bomber]]
+
+*[[Host]] can teleport now:
+**There must be 3 blocks below in its current position and in the position where it will teleport to
+**Those 3 blocks need to be considered "Full cubes"
+**The hardness value of the 3 blocks will be added
+**The total hardness does not have to exceed a certain number (config)
+**If these conditions are fulfilled, the Host will be able to teleport
+
+*Summoner can now rebuilt parasites:
+**EntityRemain has life points and if that value reaches a "Remain Value", it will spawn killed parasite
+**Summoner can now use biomass to rebuilt parasites (if available) by increasing life points of nearby Entities (type Remain)
+
+*New behavior:
+**Parasites starting from assimilated versions will start to place [[Dispatcher Nidus]] Blocks
+**Dispatcher Nidus Blocks will collect killcount points from nearby parasites
+**If Dispatcher Nidus killcount reaches x value, it will start transformation into Dispatcher Stage I
+***It will scan the are for Dispatchers and if there are, it will not spawn one
+***Right now the value is 30 but you will be able to change it in the config in the future
+
+*Killcount now affects parasite regen: if killcount <= 0 regen will be canceled
+
+*New internal counter, this will make high tier parasites to use their killcount more effectively
+*New Berserker and Virulent variants for the following mobs:
+**[[Adapted Bolster]]
+**[[Adapted Summoner]]
+**[[Adapted Reeker]]
+**[[Adapted Longarms]]
+**[[Adapted Arachnida]]
+
+*New Berserker and Virulent variants for the following mobs (Thanks to Carver!) (still no effects, sadge):
+**[[Primitive Bolster]] (no Berserker)
+**[[Primitive Summoner]]
+**[[Primitive Reeker]]
+**[[Primitive Longarms]]
+**[[Primitive Arachnida]]
+*Berserker parasite variants will always inflict bleeding when attacking
+*Virulent parasite variants will always inflict viral when attacking and by touching them
+
+*Changes in the base value of attributes:
+**Beckon Stage I Health 10 -> 25
+**Beckon Stage II Health 30 -> 60
+**Beckon Stage III Health 90 -> 110
+**Beckon Stage III Health 170 -> 220
+**Primitive Longarms Health 70 -> 45
+**Overseer Health 40 -> 80
+**Overseer Armor 13 -> 20
+**Overseer Damage 15 -> 30
+**Overseer Melee Damage 10 -> 22
+**Vigilante Health 45 -> 70
+**Vigilante Armor 10 -> 25
+**Vigilante Damage 15 -> 27
+**Vigilante Melee Damage 18 -> 23
+**Warden Health 75 -> 80
+**Light Bomber Health 50 -> 75
+**Light Bomber Armor 5.5 -> 20
+**Light Bomber Damage 12 -> 20
+**[[:Category:Primitive Parasites|Primitive]], [[:Category:Adapted Parasites|Adapted]], [[:Category:Pure Parasites|Pure]] versions will now spawn [[Orb|EntityOrbs]] in combat, will steal "Version X Exhaustion" * 5 plus the following potion effects:
+**#Reeker: NAUSEA
+**#Longarms: SLOWNESS
+**#Arachnida: BLINDNESS
+**#Manducater: INVISIBILITY ''(duration increased for every mob inside)''
+**#Bolster: SPEED for parasites 
+**#Summoner: SPEED for parasites 
+**#Marauder: WEAKNESS
+**#Warden: ABSORPTION for parasites
+**#Vigilante: SPEED for parasites
+**Tier effects in addition:
+**#Primitive: HUNGER
+**#Adapted: HUNGER, [[Needler|NEEDLER]]
+**#Pure: HUNGER, NEEDLER, MINING_FATIGUE, XP steal 
+**#Preeminent: HUNGER, NEEDLER, MINING_FATIGUE, WITHER, XP steal 
+
+*[[:Category:Preeminent Parasites|Preeminent]] versions will now spawn [[Succor|Succors]] and will do one of the following (if close enough to the enemy):
+*#Create an explotion
+*#Teleport to the one who spawned it
+*#Create an [[orb]]
+*Then it will die
+
+*The name inheritance was improvised in cases such as:
+**[[Evolution System|Merging]]
+**[[Buglin]] spawning from burst
+**Walking head spawning from [[:Category:Assimilated Mobs|assimilated]] versions
+
+*New variant for [[Heavy Carrier|Heavy]]/[[Flying Carrier]]:
+**Will move faster
+**Will inflict same effects but with higher amplifier
+**There are not mobs inside
+
+{{VersionList}}
+[[Category:Versions]]

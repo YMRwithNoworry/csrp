@@ -1,0 +1,62 @@
+{{Navbar|page1=Assimilated Bear|page2=Assimara Bear|page3=Feral Bear}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|ferbear}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=FeralBear.png
+|hp=38.0
+|damage=15.0
+|armor=8.0
+|kb_resistance=0.8
+|adaptable=[[Adaptation System#Adaptation Capacities|No]]
+|id=srparasites:fer_bear
+}}
+'''Feral Bears''' are the [[Feral Parasites|Feral Version]] of Polar Bears. Much like its assimilated version, most of its body has been split into two, although its completely lost the shape of its head and it ends in what seems to be a snout. Like other [[Feral Parasites]], its whole body is a fleshy red, and has parasitic growths serving as claws in its front legs, along side tentacles coming from the [[Gnat]] in its torso.
+
+== ''Spawning'' ==
+*Spawned when a Polar Bear is killed by a [[Gnat]] or [[Lice]].
+*Spawns from a Polar Bear succumbing to [[Call Of The Hive]] at [[Evolution Phases#Phase 7|Phase 7]] onwards.
+*Spawns when an [[Assimilated Bear]] accumulates a killcount of 60 and [[Evolution System|evolves]].
+
+== ''Behavior'' ==
+Feral Bears are Melee Combatants. 
+
+* Feral Bears attack through contact damage.
+* Feral Bears are capable of small leaps.
+* Feral Bears are able to traverse faster in liquids by performing small leaps.
+* Feral Bears are able to dive in liquids to pursue submerged targets.
+* On hit Feral Bears has a chance to drop [[Remains|Feral Remains]].
+
+===''Weaknesses''===
+*Feral Bears, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+{{Drops
+|rolls1=Always Rolls:
+|page1=Fishlin
+|amount1=3
+|chance1=20
+}}
+
+* On death Feral Bears have a chance to explode, releasing [[Remains|Feral Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+* On death Feral bears have a chance to drop a [[Gnat]].
+{{Properties|tier=Feral|FollowRange=20|DamageCap=3|MinimumDamage=0.75|DeathPenaltyEvolutionValue=5|RemainValue=12|ScentDeathValue=15|XPValue=16|COTH=.7}}
+
+==''Sounds''==
+To be added...
+
+==''Trivia''==
+To be added...
+
+== Gallery ==
+<gallery>
+File:FeralBearHeight.png|Size of the Feral Bear's model
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Mobs]]
+[[Category:Feral Parasites]]

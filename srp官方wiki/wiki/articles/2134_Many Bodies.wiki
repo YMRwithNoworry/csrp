@@ -1,0 +1,64 @@
+{{Stub}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|bodies}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=Abomination_Many_Bodies.png
+|hp=17.0
+|damage=9.0
+|armor=10.0
+|kb_resistance=0.6
+|OTHER STUFF
+|adaptable=[[Adaptation System#Adaptation Capacities|No]]
+|id=srparasites:abo_bodies
+}}
+
+'''Many Bodies''' is a type of [[Mobs|Mob]], placed into the [[Abominations]] Tier. It is a grotesque and amorphous conglomeration of life forms.
+
+== ''Spawning'' ==
+As of now it spawns naturally, starting from [[Evolution Phases|Phase 6]], but it's intended spawning method is currently not added. 
+
+== ''Behavior'' ==
+
+* Many Bodies is a fairly agile, close combat unit.
+* Their Melee Attack is performed through contact damage, although it does not inflict [[Call Of The Hive|Call Of The Hive]].
+* Many Bodies can attack very rapidly, roughly every three to four ticks.
+* Many Bodies is able to perform leaps within liquids to reach its targets.
+
+=== ''Weaknesses'' ===
+* Many Bodies, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+
+{{Properties|tier=Abominations}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|[[File:abo_body_idle_1.ogg]] [[File:abo_body_idle_2.ogg]]
+|Hostile
+|Plays when Many Bodies is alive.
+|Bodies scream
+|abo_body_idle_1-2
+|}
+
+
+== ''Trivia'' ==
+
+* At least they're all together now.
+
+== ''Gallery'' ==
+<gallery>
+
+File:Many_Bodies_Height.png|Size of Many Bodies' model
+</gallery>
+
+{{MobList}}
+[[Category:Abominations]]
+[[Category:Mobs]]

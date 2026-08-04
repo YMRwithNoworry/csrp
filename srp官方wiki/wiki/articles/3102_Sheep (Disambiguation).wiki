@@ -1,0 +1,14 @@
+{{DisambiguationContent
+|image1=Assimilated Sheep.png
+|title1=[[Assimilated Sheep]]
+|desc1=An [[Assimilated Mobs|Assimilated]] Parasite
+|image2=Assimilated Sheep Head.png
+|title2=[[Walking Sheep Head]]
+|desc2=A [[Walking Heads|Walking Head]] Parasite
+|image3=FeralSheep.png
+|title3=[[Feral Sheep]]
+|desc3=A [[Feral Parasites|Feral]] Parasite
+|image4=AssimaraSheep.png
+|title4=[[Assimara Sheep]]
+|desc4=An [[Assimara Parasites|Assimara]] Parasite
+}}

@@ -1,0 +1,117 @@
+{{Navbar|page1=Walking Sheep Head|page2=Assimilated Sheep|page3=Assimara Sheep|page4=Feral Sheep}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|simsheep}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=Assimilated Sheep.png
+|hp=13.0
+|damage=6.0
+|armor=1.3
+|kb_resistance=0.3
+|adaptable=No
+|id=srparasites:sim_sheep
+}}
+'''Assimilated Sheep''', known internally as '''Infsheep''', are the [[Assimilated Mobs|Assimilated Version]] of Sheep.
+
+== ''Spawning'' ==
+* Spawned when a Sheep succumbs to [[Call Of The Hive|Call of The Hive]] below [[Evolution Phases#Phase 7|Phase 7]].
+* Spawns naturally in groups of 3 to 5, from [[Evolution Phases#Phase 2|Phase 2]] through [[Evolution Phases#Phase 7|Phase 7]], with a spawnweight of 25, once 3 Sheep have been assimilated.
+** Can spawn as White, Gray, and Black variants.<ref>60% chance to be White, 30% chance to be Gray, and 10% chance to be Black.</ref>
+* Spawned by [[Stage II Beckon|Stage II]] and [[Stage III Beckon|Stage III Beckons]].
+* Spawned by [[Adapted Summoner|Adapted Summoners]].
+* Spawned by level 3 or higher [[Scent System|Scents]].
+
+== ''Behavior'' ==
+Assimilated Sheep are Melee Combatants.
+
+* Their Melee Attack is performed through contact damage.
+* Any Mob within 3 blocks of an Assimilated Sheep will be inflicted with COTH. This does not go through walls.
+* Assimilated Sheep are able to traverse faster in liquids by performing small leaps.
+* Assimilated Sheep are able to dive in liquids to pursue submerged targets.
+* If an Assimilated Sheep gets 5 kills and is within range of a [[Moving Flesh]] or 3 other Assimilated Mobs<ref>Excluding [[Assimilated Ender Dragon]] and [[Assimilated Big Spider]].</ref>, it will evolve into a Moving Flesh.
+* If an Assimilated Sheep gets 60 kills and is unable to turn into Moving Flesh, it will evolve into a [[Feral Sheep]].
+* On death, Assimilated Sheep have a chance to explode, releasing [[Remains|Assimilated Remains]], 3 [[Buglin|Buglins]], and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+** When not exploding, there is a 50% chance an Assimilated Sheep will drop its [[Walking Sheep Head|Head]].
+=== ''Weaknesses'' ===
+
+* Assimilated Sheep, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+{{Properties|tier=Assimilated}}
+
+{{Drops
+|rolls1=One Roll
+|page1=Infected Flesh
+|amount1=1-2
+|chance1=80
+|rolls2=Always Rolls
+|page2=Diseased Heart
+|amount2=1
+|chance2=10
+}}
+
+==''Sounds''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Assimilatedsheepliving1.ogg]]
+[[File:Assimilatedsheepliving2.ogg]]
+[[File:Assimilatedsheepliving3.ogg]]
+|Hostile
+|Plays randomly while an Assimilated Sheep is alive.
+|Distorted bahhs
+|assimilatedsheepliving1-3
+|-
+|
+[[File:Assimilatedsheephurt1.ogg]]
+[[File:Assimilatedsheephurt2.ogg]]
+[[File:Assimilatedsheephurt3.ogg]]
+|Hostile
+|Plays when an Assimilated Sheep is hurt.
+|Assimilated sheep bleats
+|assimilatedsheephurt1-3
+|-
+|[[File:Assimilated Melting.ogg]]
+|Hostile
+|Plays when an Assimilated Sheep melts into [[Moving Flesh]].
+|Squelching flesh merges
+|infected_melting
+|-
+|[[File:Explosion.ogg]]
+|Hostile
+|Plays when an Assimilated Sheep explodes, at death.
+|X
+|mob_explotion
+|-
+|
+[[File:Assimilatedsheepdeath.ogg]]
+|Hostile
+|Plays when an Assimilated Sheep dies.
+|Assimilated sheep dying
+|assimilatedsheepdeath
+|-
+|}
+
+== ''Trivia'' ==
+* Assimilated Sheep are known as '''Infsheep''' in the mod files.
+* Like regular Sheep, Assimilated Sheep can be dyed White, Gray, and Black.
+
+== ''Gallery'' ==
+<gallery>
+File:Assimilated Sheep Size Comparison.png|Size of the Assimilated Sheep's Model.
+File:Assimilated Sheep Head.png|Assimilated Sheep's Walking Head.
+File:Assi Sheep Color.png|The three color variants of Assimilated Sheep.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Assimilated Mobs]]
+[[Category:Mobs]]

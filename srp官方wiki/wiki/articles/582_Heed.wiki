@@ -1,0 +1,49 @@
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|heed}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=
+Heed.png
+|hp=50.0
+|damage=15.0
+|armor=9.0
+|kb_resistance=0.7
+|drops=No Drops
+|adaptable=No
+|id=srparasites:heed
+}}
+'''Heeds''' are a [[Mobs|Mob]] in the [[Crude Parasites|Crude]] Tier.
+
+== ''Spawning'' ==
+
+* Spawns in groups of 1 to 2, from [[Evolution Phases#Phase 4|Phase 4]] onward, with a spawnweight of 5.
+* Spawned by a [[Stage II Dispatcher]] collecting [[Incomplete Forms]].
+* Spawned by level 2 or higher [[Scent System|Scents]].
+
+== ''Behavior'' ==
+Heeds are Melee/Offensive Support Combatants.
+
+*Their Melee Attack is performed through contact damage.
+*The Heed is capable of spawning [[Scent System|Scents]] upon sight of a target, with a cooldown of 50 seconds.
+*Heeds are able to traverse faster in liquids by performing small leaps.
+* Heeds are able to dive in liquids to pursue submerged targets.
+
+=== ''Weaknesses'' ===
+
+* Heeds, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+* The abdomen on Heed functions as a Weak Point. When this Weak Point is hit, damage inflicted to it is tripled and the [[Bleeding]] Effect is applied to it.
+{{Properties|tier=Crude}}
+
+== ''Trivia'' ==
+To be added...
+
+== ''Gallery'' ==
+<gallery>
+File:Heed Size Comparison.png|Size of the Heed's Model.
+</gallery>
+
+{{MobList}}
+[[Category:Crude Parasites]]
+[[Category:Mobs]]

@@ -1,0 +1,116 @@
+{{VersionBar|
+|page1=Version 1.9.11
+|page2=Version 1.9.13
+}}
+'''Version 1.9.12''' was an update for the Scape and Run: Parasites Mod, released on April 17th 2023.  It was 16.53 MB.
+
+== ''Change Log'' ==
+
+====<u>Fixes</u>====
+*"Mobs with Griefing Task Blacklist" not working when parasites are looking for light sources
+*"Biome Spawn Entity List" typo in the list
+*[[:Category:Preeminent Parasites|Preeminent versions]] not spawning inside the [[Parasite Biome|parasite biome]]
+*EntityWave missing lang name
+*[[Heavy Bomber]] getting stuck in the floor
+*[[Wraith]] getting stuck in the floor if it has a target
+*[[Bogle]] getting stuck in the floor if it has a target
+*[[Assimilated Ender Dragon|Assimilated Enderdragon]] getting stuck in the floor if it has a target
+*Removed COTH effect texture that was not in use
+*[[Overseer]] getting stuck in the floor if it has a target
+*[[Light Bomber]] getting stuck in the floor if it has a target
+*[[Primitive Yelloweye|Primitive]] and [[Adapted Yelloweye]] getting stuck in the floor if it has a target
+*Sometimes Heavy Bomber not following target
+*"[[Link]] Chance" typo in description
+*"Incomplete Cap" will now kill the mob with [[COTH]] instead of spawning particles on them forever
+*"[[Assimilated Enderman]] Ally Teleport Damage" not working for Assimilated Enderman Walking Head
+*Minecraft Mob Spawner blocks not spawning parasites 
+*[[:Category:Deterrent Parasites|Deterrent versions]] leaping on water
+====<u>New</u>====
+*[[Commands|Command]]:
+**/srparasites parasites
+***Will show you current number of parasites loaded and current parasite mob cap
+
+*EntityWaveShock
+**Will not follow you
+**Bigger hitbox
+**It will break blocks
+**Will throw you into the air
+
+====<u>Configuration</u>====
+*Added [[Succor]] Category - SRParasitesMobs.cfg
+*"Mob Cap" maximum value increased to 50000
+*"Biome Spawn Entity List" Removed all [[:Category:Assimilated Mobs|Assimilated]] and [[:Category:Primitive Parasites|Primitive]] versions from the list
+*"Damage Types BlackList Mobs" description not required was removed
+*"Damage Types BlackList Items" description not required was removed
+*"Damage Cap BlackList" option removed
+*"Damage Types BlackList" option removed
+*"Mobs Additional Weakness" option removed
+*Reduced minecraft:speed amplifier by 1 to all Dispatchers effects
+*"Block Limit For Biome Infestation" from 8 to 4
+*"Block Limit For Beckon Infestation Cooldown" from 40 to 200
+*"Block Limit For Biome Infestation Cooldown" from 40 to 200
+*"Heavy Bomber Explotion Multiplier" from 3 to 6
+New options:
+*"Mob Cap Per Player" - "Each Player will increase the mob cap by this value." - SRParasites.cfg
+*"[[Colony]] Parasite Values Biome" - "Set to false if you want parasites from the list to spawn in Parasite Biomes ignoring points required" - SRParasitesWorld.cfg
+*"Damage Deterrent RS" - "Set to false if you don't want Deterrents to die if the RS chance is 0." - SRParasitesSystems.cfg
+*"Damage Cap BlackList Mobs" - "Damage (Only Mobs) that will ignore damage cap" - SRParasites.cfg
+*"Damage Cap BlackList Items" - "Damage (Only Items) that will ignore damage cap" - SRParasites.cfg
+*"Damage Cap BlackList Else" - "Damage (Everything that is not Mob or Item) that will ignore damage cap" - SRParasites.cfg
+*"Damage Additional Weakness Mobs" - "Additional weakness (Only Mobs) for the parasites." - SRParasites.cfg
+*"Damage Additional Weakness Items" - "Additional weakness (Only Items) for the parasites." - SRParasites.cfg
+*"Damage Additional Weakness Else" - "Additional weakness (Everything that is not Mob or Item) for the parasites." - SRParasites.cfg
+*"Armor Damage Types BlackList Mobs" - "Damage (Only Mobs) that cannot be learned by the armor." - SRParasites.cfg
+*"Armor Damage Types BlackList Else" - "Damage (Everything that is not Mob or Item) that cannot be learned by the armor." - SRParasites.cfg
+*"Damage Types BlackList Mobs" - "Damage (Only Mobs) Types that cannot be learned by the parasites" - SRParasites.cfg
+*"Damage Types BlackList Items" - "Damage (Only Items) Types that cannot be learned by the parasites" - SRParasites.cfg
+*"Damage Types BlackList Else" - "Damage (Everything that is not Mob or Item) Types that cannot be learned by the parasites" - SRParasites.cfg
+*"[[Stage I Dispatcher]] Total Active Mobs" - "Number of Seizers/Sentrys this Dispatcher can spawn." - SRParasitesMobs.cfg
+*"[[Stage II Dispatcher]] Total Active Mobs" - "Number of Seizers/Sentrys this Dispatcher can spawn." - SRParasitesMobs.cfg
+*"[[Stage III Dispatcher]] Total Active Mobs" - "Number of Seizers/Sentrys this Dispatcher can spawn." - SRParasitesMobs.cfg
+*"[[Stage IV Dispatcher]] Total Active Mobs" - "Number of Seizers/Sentrys this Dispatcher can spawn." - SRParasitesMobs.cfg
+*"[[Bogle]] needed Health" - "Health (1 = 100%) needed to go invisible." - SRParasitesMobs.cfg
+*"[[Wraith]] needed Health" - "Health (1 = 100%) needed to go invisible." - SRParasitesMobs.cfg
+====<u>General</u>====
+*[[Parasitic Cyst|Cyst]] Blocks will not always make a sound when eating items (50%)
+*The command /srpevolution getphase will now show you current parasite mob cap
+*[[Dispatcher Nidus|Nidus]] block will not spawn Dispatchers if current evolution phase don't support Nexus versions and instead will add points
+*The [[Quench]] will now clean infested blocks in the same way as a [[Parasite Biome#Biome Purifier|purifier block]] instead of doing it instantly
+*Updated "parasite_evolution_phases" Category description
+*Changed texture for Beckon spawn eggs
+*Changed texture for Deterrent spawn eggs
+*Added tooltip for the Quench
+*Vacuous cysts Blocks will now turn into Air Blocks when they are floating
+*Changed block texture for:
+**Infested Stain
+**Infested Rubble
+**Infested Trunk
+**Parasite Bush
+**Parasite Trunk
+====<u>Mobs</u>====
+*[[Moving Flesh]] will now use "Version Adapted Follow Range" option value
+*Changed Longarms Wave Attack, will not use the new EntityWaveShock
+*[[Warden]] will now spawn EntityWaveShock entities
+*[[Host]] will now spawn EntityWave entities
+*[[Herd]] will now spawn EntityWave entities
+*[[Bogle]] now has the INVISIBILITY effect - will lose it when it shoots/gets hurt/its life is low
+*[[Wraith]] now has the INVISIBILITY effect - will lose it when it shoots/gets hurt/its life is low
+*Host will now use the primitive follow range config value instead of the assimilated one
+*[[:Category:Pure Parasites|Pures]] will not summon tentacles if the current pahse does not support Nexus versions
+*[[Assimilated Enderman]] will not damage other Assimilated Enderman by teleporting 
+*Succors spawned by Wraith/Bogle while invisible will gain invisibility for a short period of time
+*The blast damage of the succor will now use the value of the damage attribute of the one who spawned it * 2
+*Removed boss bar from the [[Haunter]]
+*Changed the following Attributes:
+**HEAVY_BOMBER_HEALTH from 150 to 420
+**COLONY_CARRIER_HEALTH from 150 to 390
+**COLONY_CARRIER_ATTACK_DAMAGE = 45
+**BOGLE_HEALTH from 150 to 310
+**BOGLE_ATTACK_DAMAGE = 70
+**WRAITH_HEALTH from 150 to 310
+**WRAITH_ATTACK_DAMAGE = 70
+**HAUNTER_HEALTH from 150 to 360
+**HAUNTER_ATTACK_DAMAGE = 110
+
+{{VersionList}}
+[[Category:Versions]]

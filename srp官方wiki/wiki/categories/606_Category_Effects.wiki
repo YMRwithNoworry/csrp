@@ -1,0 +1,165 @@
+{{Stub}}
+The SRP Mod adds various '''Effects''', in the form of either Buffs or Debuffs which can be obtained with multiple methods such as:
+*Potion Brewing with [[Thornshade#Mechanics|Thornshades Berries]].
+*[[Mobs]] or [[Blocks]] which inflict these effects.
+
+===''Buffs''===
+Entities with these Buffs will have their stats increased for a set duration.
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+! colspan="4"|'''Buff Entries'''
+|-
+!style="width: 200px" |'''Effect'''
+!style="width: 500px" |'''Description'''
+|-
+|[[File:Foster.png|36px|link=Foster]] [[Foster]]
+|Parasites with this Effect have their [[Adaptation System|Adaptations]] increased.
+|-
+|[[File:Link.png|36px|link=Link]] [[Link]]
+|Parasites with this Effect can contribute to [[Colony|Global Adaptation]] without being near a [[Colony]].
+|-
+|[[File:Pivot.png|36px|link=Pivot]] [[Pivot]]
+|Parasites with this Effect divert damage to [[Rooter|Rooters]], have increased attack speed, and doubled [[Evolution Phases#Obtaining Points|Evolution Point]] gain. It is a Work In Progress.
+|-
+|[[File:Rage.png|36px|link=Rage]] [[Rage]]
+|Makes any Entity that has this Effect to have increased Speed and Damage. Parasites' Abilities will have a lower Cooldown.
+|-
+|[[File:Parate.png|36px|link=Parate]] [[Parate]]
+|If a parasite kills a mob under this effect, the parasite will partially absorb the victim's attributes (Health, Damage, Armor). Affected by Amplifier.
+|-
+|[[File:Camouflage.png|36px|link=Camouflage]] [[Camouflage]]
+|Makes any Entity that has this Effect to have a 70% chance per tick to avoid taking [[Call Of The Hive]] from other Mobs that have it.
+|-
+|[[File:Debar.png|36px|link=Debar]] [[Debar]]
+|Parasites with this Effect will not subtract [[Evolution Phases|Evolution Points]] nor drop items.
+|-
+|[[File:Heightened Senses.png|36px|link=Heightened Senses]] [[Heightened Senses]]
+|Parasites with this Effect will have their follow range increased, and be able to see targets from farther away.
+|-
+|[[File:Jugg.png|36px|link=Jugg]] [[Jugg]]
+|A dislodgement-bound effect that triggers on death. Depending on active [[Dislodgment]] codes, nearby parasites may be healed, nearby non-parasites may be damaged, and nearby players may suffer exhaustion. Certain deaths also apply a Jugg surge to the killer for a short time, with strength tied to stored dislocation values.
+|-
+|[[File:Muscleout.png|36px|link=Muscle Out]] [[Muscle Out]]
+|Greatly increases the host’s outgoing damage. Attacks are multiplied by a configuration-based factor that scales with effect strength (amplifier + 1).
+|-
+|[[File:Thornshades.png|36px|link=Thornshades]] [[Thornshades]]
+|Partially reflects damage inflicted to the host onto the enemy.
+|-
+|}
+===''Tier Buffs''===
+This effect reduces damage dealt to parasites from multiple Tiers.
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+! colspan="4"|'''Tier Buff Entries'''
+|-
+!style="width: 200px" |'''Effect'''
+!style="width: 500px" |'''Description'''
+|-
+|[[File:Primitive.png|36px|link=Primitive]] [[Primitive]]
+|Reduces damage inflicted to [[:Category:Primitive Parasites|Primitive Parasites]].
+|-
+|[[File:Feral.png|36px|link=Feral]] [[Feral]]
+|Reduces damage inflicted to [[:Category:Feral Parasites|Feral Parasites]].
+|-
+|[[File:Adapted.png|36px|link=Adapted]] [[Adapted]]
+|Reduces damage inflicted to [[:Category:Adapted Parasites|Adapted Parasites]].
+|-
+|[[File:TierEffect.png|36px|link=Crude]] [[Crude]]
+|Reduces damage inflicted to [[:Category:Crude Parasites|Crude Parasites]].
+|-
+|[[File:TierEffect.png|36px|link=Pure]] [[Pure]]
+|Reduces damage inflicted to [[:Category:Pure Parasites|Pure Parasites]].
+|-
+|[[File:Nexus.png|36px|link=Nexus]] [[Nexus]]
+|Reduces damage inflicted to [[:Category:Nexus Parasites|Nexus Parasites]].
+|-
+|}
+
+===''Debuffs''===
+Entities with these Buffs will have their stats decreased for a set duration.
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+! colspan="4"|'''Debuff Entries'''
+|-
+!style="width: 200px" |'''Effect'''
+!style="width: 500px" |'''Description'''
+|-
+|[[File:Viral.png|36px|link=Viral]] [[Viral]]
+|Makes any Entity that has this Effect take additional damage, depending on the level of potency.
+|-
+|[[File:Bleeding.png|36px|link=Bleeding]] [[Bleeding]]
+|Makes any Entity that has this Effect to take damage passively which is doubled if the Entity moves, Parasites included.
+|-
+|[[File:COTH.png|36px|link=Call Of The Hive]] [[Call Of The Hive]]
+|Makes any Entity that has this Effect, with some exceptions, turn into an [[Assimilated Mobs|Assimilated Mob]], [[:Category:Feral Parasites|Feral Mob]] or an [[Incomplete Forms|Incomplete Form]] after it reaches certain levels of potency.
+|-
+|[[File:Corrosion.png|36px|link=Corrosion]] [[Corrosion]]
+|Subtracts the Entity that has this effect's armor durability.
+|-
+|[[File:Distorted Enlightenment.png|36px|link=Distorted Enlightenment]] [[Distorted Enlightenment]]
+|Distorted Enlightenment is inflicted by Draconites (and possibly Kirin in the future). Upon being inflicted by it, the target will glow, receive five times the damage from Draconites, and both deal and receive 20% less damage to and from other parasites.
+|-
+|[[File:Fear.png|36px|link=Fear]] [[Fear]]
+|Makes any Entity that has this Effect to take major fall damage and can cancel controls.
+|-
+|[[File:Needler.png|36px|link=Needler]] [[Needler]]
+|Deals 40% of HP after this Effect reaches a potency of 7.
+|-
+|[[File:Prey.png|36px|link=Prey]] [[Prey]]
+|When players are wearing [[Sentient Armor]] or holding a [[:Category:Weapons#Sentient_Weapons|Sentient Weapon]], a new [[Scent System|Scent]] is created at their location.
+|-
+|[[File:Vomit.png|36px|link=Vomit]] [[Vomit]]
+|Covers a player's screen with purple liquid which dissolves over time.
+|-
+|[[File:Conta.png|36px|link=Conta]] [[Conta]]
+|Affected entities receive periodic damage, with the possibility of the effect spreading to other nearby entities.
+|-
+|[[File:Novision.png|36px|link=No Vision]] [[No Vision]]
+|It blacks out your screen, including hotbar, hp bar, experience bar and food bar. This effect also applies Mining Fatigue to its host.
+|-
+|[[File:Effectpos.png|36px|link=Positive]] [[Positive]]
+|Punishes beneficial effects. The host suffers damage based on the number of active positive potion effects, scaling with effect strength.
+|-
+|[[File:Effectneg.png|36px|link=Negative]] [[Negative]]
+|Intensifies harmful effects. While active, negative potion effects on the host are strengthened, scaling with effect strength.
+|-
+|[[File:Spotted.png|36px|link=Spotted]] [[Spotted]]
+|A player suffering from this effect is easier for parasites to track and locate.
+|-
+|[[File:Overheating.png|36px|link=Overheating]] [[Overheating]]
+|Burns the affected entity dealing 2 damage every second. Water can stop the burning but not the effect.
+|-
+|[[File:Water Predation.png|36px|link=Water Predation]] [[Water Predation]]
+|Unreleased Effect.
+|-
+|[[File:Dod smoke trail.png|36px|link=Concussive Smoke Trail]] [[Concussive Smoke Trail]]
+|Summons multiple smoke particles around the affected entity.
+|-
+|[[File:Frostbite.png|36px|link=Frostbite]] [[Frostbite]]
+|Unreleased Effect.
+|-
+|[[File:Braining.png|36px|link=Braining]] [[Braining]]
+|This effect hides all the parasites for the host, but they still act the same (can hit, move, break blocks etc.).
+|-
+|[[File:Indeaf.png|36px|link=Indeaf]] [[Indeaf]]
+|Severs movement control. While active, movement inputs (forward/back/jump) are forcibly disabled and horizontal motion is continually cancelled, effectively rooting the host in place.
+|-
+|}
+===''Debug''===
+Effects used for debugging, only accessible with commands or Creative Mode.
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+! colspan="4"|'''Debug Entries'''
+|-
+!style="width: 200px" |'''Effect'''
+!style="width: 500px" |'''Description'''
+|-
+|[[File:Immalleable.png|36px|link=Immalleable]] [[Immalleable]]
+|Disables [[Mobs#Parasites|Parasites]]' [[Adaptation System]].
+|-
+|[[File:The Sign (Effect).png|36px|link=The Sign]] [[The Sign]]
+|This effect can be applied to players and animals alike and makes them undetectable to parasites. '''The Sign''' is only applied while holding The Sign Item.
+|-
+|}
+
+[[Category:Mod Content]]

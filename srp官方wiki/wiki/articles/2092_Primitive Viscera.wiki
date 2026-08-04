@@ -1,0 +1,115 @@
+{{Stub}}
+{{Navbar|page1=Primitive Viscera|page2=Adapted Viscera}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|priviscera}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=<gallery>
+PrimitiveViscera.png
+</gallery>
+|hp=45.0
+|damage=15.0
+|armor=9.0
+|kb_resistance=0.7
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:pri_viscera
+}}
+'''Primitive Viscera''' are a type of [[Mobs]], placed into the [[Primitive Parasites|Primitive]] Tier.
+
+== ''Spawning'' ==
+
+* Spawned after a successful merging between 4 [[Moving Flesh]], through the [[Evolution System]].
+* Spawns in groups of 2 to 3, from [[Ubiquitous Development#Level 2|Ubiquitous Development Level 2]] through [[Ubiquitous Development#Level 4|Level 4]], with a spawnweight of 15.
+* Spawned by [[Stage III Beckon|Stage III Beckons]].
+* Spawned by 4 [[:Category:Assimilated Mobs|Assimilated Mobs]] stored into a [[Stage III Dispatcher|Stage III]] or [[Stage IV Dispatcher|IV Dispatcher]].
+* Spawned by level 4 or higher [[Scent System|Scents]].
+*If at least one [[Colony]] exists, spawns when an [[Adapted Viscera]] is killed.
+
+== ''Behavior'' ==
+* Primitive Viscera can perform short leaps to a side of a target.
+* Primitive Viscera can rally nearby [[Rupter|Rupters]] to their side, which will follow the Viscera in a group.
+** Rupters that have been "bonded" to a Viscera, similarly to [[Summoner (Disambiguation)|Summoners]], will try to remain close if not attacking.
+* Primitive Viscera can sink in liquids to pursue targets.
+* Primitive Viscera can break blocks with [[Hardness (Disambiguation)|Hardness]] value up to 1, with a range of 1-block range and 60 tick cooldown.
+* Primitive Viscera have a chance to block your hit, nullifying it.
+* If a Primitive Viscera accumulates a killcount of 30, it will [[Evolution System|evolve]] into an [[Adapted Viscera]].
+
+=== ''Weaknesses'' ===
+Primitive Viscera, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+=== ''Post Death'' ===
+
+* On death, Primitive Viscera have a chance to explode, releasing [[Remains|Primitive Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+** If at least one [[Colony]] exists in the dimension, Primitive Viscera will become [[Moving Flesh]] upon death instead.
+
+{{Properties|tier=Primitive|OrbEffectsMobs=Hunger II (00:15) Hunger II (00:15)}}
+
+{{Drops|rolls1=One Roll:|page1=Altered Tendons|amount1=2|chance1=60|rolls2=Always Rolls:|page2=Chipped Motherly Membrane|amount2=2|chance2=40|page3=Strange Bone|amount3=1|chance3=10}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Prim viscera living 1.ogg]]
+[[File:Prim viscera living 2.ogg]]
+[[File:Prim viscera living 3.ogg]]
+|Hostile
+|Plays randomly while a Primitive Viscera is alive.
+|X
+|prim_viscera_living_1-3
+|-
+|
+[[File:Prim viscera hurt 1.ogg]]
+[[File:Prim viscera hurt 2.ogg]]
+[[File:Prim viscera hurt 3.ogg]]
+|Hostile
+|Plays when a Primitive Viscera is hurt.
+|X
+|prim_viscera_hurt_1-3
+|-
+|[[File:Adaptating_1.ogg]]
+[[File:Adaptating_2.ogg]]
+[[File:Adaptating_3.ogg]]
+|Hostile
+|Plays when a Parasite is adapting.
+|Parasite adapts
+|adaptating_1-3
+|-
+|[[File:Adapted_1.ogg]]
+[[File:Adapted_2.ogg]]
+[[File:Adapted_3.ogg]]
+|Hostile
+|Plays when a Parasite has adapted.
+|Parasite adapted
+|adapted_1-3
+|-
+|
+[[File:Prim viscera death.ogg]]
+|Hostile
+|Plays when a Primitive Viscera dies.
+|X
+|prim_viscera_death
+|-
+|}
+
+== ''Trivia'' ==
+
+
+== ''Gallery'' ==
+<gallery>
+File:PrimitiveVisceraHeight.png|Size of the Primitive Viscera's model
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Primitive Parasites]]
+[[Category:Mobs]]

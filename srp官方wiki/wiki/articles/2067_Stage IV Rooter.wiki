@@ -1,0 +1,72 @@
+{{Stub}}
+{{Navbar|page1=Stage I Rooter|page2=Stage II Rooter|page3=Stage III Rooter|page4=Stage IV Rooter}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|rootersiv}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Nexus Info
+|image1=Stage 4 Rooter.png
+|armor=28.0
+|growtime=240-300 sec [min-max]
+|hp=300.0
+|OTHER STUFF
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:rooter_siv
+}}
+'''Stage IV Rooters''' are a type of [[Mobs]], placed into the [[Nexus Parasites|Nexus]] Tier.
+
+== ''Spawning'' ==
+Spawns after a [[Stage III Rooter]] evolves.
+
+== ''Behavior'' ==
+
+*Stage IV Rooters can summon multiple Ancient Pods, which will fall from the sky towards the ground. Few seconds after landing, they will explode inflicting 50 damage, release a Toxic Cloud giving Saturation -20 for 10 seconds and release an effect cloud of Poison for 15 seconds. Ancient Pods from a Stage IV Rooter will not spawn any parasites. It must wait at least 12 seconds before it can summon Pods again, and a maximum of 5 can spawn.
+*Stage IV Rooters throw 8 bombs around them when damaged, this has a cooldown of 5 seconds. These bombs inflict 22 damage each and place an effect cloud of [[Viral]] and Poison.
+*Stage IV Rooters can break blocks that have their [[Hardness]] Value up to 18, with a 20-tick cooldown and 5 block range.
+*Stage IV Rooters will permanently upgrade parasites by increasing their [[Generations|generation]] to max value.
+*Stage IV Rooters will hide their tentacles if terrain around them is too small.
+*Stage IV Rooters will apply the following effects to parasites:
+**[[Pivot]] III (0:15)
+**[[Parate]] III (0:15)
+*Stage IV Rooters can summon [[Rootmass Cyst|Rootmass Cysts]] when damaged.
+* Upon death, if at least one [[Colony]] exists in the dimension, Stage IV Rooters will turn into [[Stage III Rooter|Stage III Rooters]].
+
+=== ''Weaknesses'' ===
+* Stage IV Rooters, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+* The topmost point on the Stage IV Rooter functions as a Weak Point. When this Weak Point is hit, damage inflicted to it is tripled and the [[Bleeding]] Effect is applied to it.
+
+{{Properties|tier=Nexus IV}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|[[File:lstageiv.ogg]]
+|Hostile
+|Plays when a Stage IV Rooter spawns.
+|String sings
+|lstageiv
+|-
+|}
+
+== ''Trivia'' ==
+* Like all Nexuses, Stage IV Rooters do not despawn by default.
+* Stage IV Rooters are also known as '''LeemSIV''' in the Mod Files.
+
+== ''Gallery'' ==
+<gallery>
+File:Bomb2.png|The Bomb Stage IV Rooters use.
+File:RooterS4Height.png|Size of the Stage IV Rooter's model
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Nexus Parasites]]
+[[Category:Mobs]]

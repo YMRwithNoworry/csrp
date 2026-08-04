@@ -1,0 +1,145 @@
+{{Navbar|page1=Primitive Reeker|page2=Adapted Reeker}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|prireeker}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=<gallery>
+Primitive Reeker.png|Normal
+PalePriReeker.png|Pale
+BerserkerPriReeker.png|Berserker
+VirulentPriReeker.png|Virulent
+BreacherPriReeker.png|Breacher
+</gallery>
+|hp=40.0
+|damage=12.0
+|armor=12.0
+|kb_resistance=0.6 
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:pri_reeker 
+}}
+'''Primitive Reekers''', known internally as '''Nogla''', is a [[Mobs|Mob]] in the [[Primitive Parasites|Primitive]] Tier.
+
+== ''Spawning'' ==
+*Spawns after a successful merging between 4 [[Moving Flesh]], through the [[Evolution System]].
+*Spawns in groups of 2 to 3, from [[Ubiquitous Development#Level 2|Ubiquitous Development Level 2]] through [[Ubiquitous Development#Level 4|Level 4]], with a spawnweight of 15.
+*Spawns inside the [[Parasite Biome]], with a spawnweight of 10.
+*Spawned by [[Stage III Beckon|Stage III Beckons]].
+*Spawned by 4 [[:Category:Assimilated Mobs|Assimilated Mobs]] stored into a [[Stage III Dispatcher|Stage III]] or [[Stage IV Dispatcher|IV Dispatcher]].
+*Spawned by level 4 or higher [[Scent System|Scents]].
+*If at least one [[Colony]] exists, spawns when an [[Adapted Reeker]] is killed.
+
+== ''Behavior'' ==
+Primitive Reekers are Fast moving Melee Combatants with a devastating AoE charge.
+
+*Their Melee Attack is performed through contact damage, which inflicts Poison for 5 seconds.
+*Primitive Reekers have a chance of blocking incoming damage, nullifying it.
+*If the [[Generations|Generation]] is 4 or higher, Primitive Reekers can perform the following abilities:
+**Perform a charge attack. After staying still for some seconds, they'll charge forward. This attack inflicts very high damage per second, ignores immunity frames, and inflicts great knockback and AoE Damage.
+***This is telegraphed by flame particles and a significantly louder and higher pitched growl. They will also stand still before performing this attack.
+*Primitive Reekers can perform small leaps, both on land and in liquids.
+*Primitive Reekers can dive in liquids to pursue submerged targets.
+*On death, Primitive Reekers have a chance to explode, releasing Primitive Remains and an effect cloud of stacking Poison and COTH.
+*Primitive Reekers can break blocks that have their [[Hardness]] Value up to 1, with a 60 ticks cooldown and 1 Block range.
+*If a Primitive Reeker gets 10 kills it will evolve into an [[Adapted Reeker]].
+*If a Primitive Reeker is named "''Ricardo''" with a Name Tag, it will become differently textured, accompanied by a lightning strike sound.
+**Note: The option to do this is disabled by default in the config file.
+**If this renamed Reeker is sheared, it will become angry and be afflicted with [[Rage]].
+{{Variants|count=4|Texture=PalePriReeker.png|TextureName=Pale|TextureDesc=inflicts double the damage but has half the HP.|Berserker=BerserkerPriReeker.png|Virulent=VirulentPriReeker.png|Breacher=BreacherPriReeker.png}}
+
+
+=== ''Weaknesses'' ===
+Primitive Reekers, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.{{Properties
+|tier=Primitive
+|OrbEffectsMobs=Hunger II (00:15), Nausea II (00:15)
+}}
+
+=== ''Post Death'' ===
+* On death, Primitive Reekers have a chance to explode, releasing [[Remains|Primitive Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|Call of the Hive]].
+** If at least one [[Colony]] exists in the dimension, Primitive Reekers will become [[Moving Flesh]] upon death instead.
+
+{{Drops
+|rolls1=1 Roll
+|page1=Altered Tendons
+|amount1=1-2
+|chance1=40
+|page2=Reeker Fang
+|amount2=1
+|chance2=40
+|rolls3=Always Rolls
+|page3=Strange Bone
+|amount3=1
+|chance3=10
+|rolls4=Always Rolls (if named ''Ricardo'')
+|page4=Book of Vengeance
+|amount4=1
+|chance4=100
+}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|[[File:Primitive Reeker Growl.ogg]]
+|Hostile
+|Plays randomly while a Primitive Reeker is alive.
+|X
+|nogla_growl
+|-
+|[[File:Primitive Reeker Hurt.ogg]]
+|Hostile
+|Plays when a Primitive Reeker takes damage.
+|X
+|nogla_hurt
+|-
+|[[File:Step.ogg]]
+|Hostile
+|Plays when a Primitive Reeker is walking.
+|X
+|monster_step
+|-
+|[[File:Adaptating_1.ogg]]
+[[File:Adaptating_2.ogg]]
+[[File:Adaptating_3.ogg]]
+|Hostile
+|Plays when a Parasite is adapting.
+|Parasite adapts
+|adaptating_1-3
+|-
+|[[File:Adapted_1.ogg]]
+[[File:Adapted_2.ogg]]
+[[File:Adapted_3.ogg]]
+|Hostile
+|Plays when a Parasite has adapted.
+|Parasite adapted
+|adapted_1-3
+|-
+|[[File:Primitive Reeker Death.ogg]]
+|Hostile
+|Plays when a Primitive Reeker dies.
+|X
+|nogla_death
+|-
+|}
+
+== ''Trivia'' ==
+*Reekers are also known as '''Nogla''' in the Mod Files.
+*The texture a Primitive Reeker named "''Ricardo''" has is a reference to the character of the same name from Limbus Company.
+**Killing this renamed Reeker is the only way to obtain the [[Book of Vengeance]] and grants the {{AdvancementLink|TRICKED ME, DID YOU??!!}}, more references to Limbus Company.
+
+== ''Gallery'' ==
+<gallery>
+File:PrimitiveReekerHeight.png|Size of the Primitive Reeker's model.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Primitive Parasites]]
+[[Category:Mobs]]

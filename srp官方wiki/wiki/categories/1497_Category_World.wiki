@@ -1,0 +1,5 @@
+World features added by Scape and Run: Parasites.  Currently these consist of:
+* The [[Parasite Biome]]
+* [[Colony|Colonies]] (WIP)
+* [[Stage II Beckon|Beckon]], [[Stage II Dispatcher|Dispatcher]] and [[Stage II Rooter|Rooter]] [[Nests]].
+[[Category:Mod Content]]

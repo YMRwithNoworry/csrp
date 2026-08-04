@@ -1,0 +1,110 @@
+{{Navbar|page1=Buglin|page2=Rupter|page3=Mangler}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|buglin}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+{{Mob Info
+|image1=Buglin.png
+|hp=7.0
+|damage=3.0<ref>Buglins do not attack.</ref> ([[File:Heart.png]][[File:Halfheart.png]])
+|armor=1.5
+|kb_resistance=0.05
+|adaptable=No
+|id=srparasites:buglin
+}}
+
+'''Buglins''' are a [[Mobs|Mob]] in the [[Inborn Parasites|Inborn]] Tier. They are overall dark-gray, maggot-like creatures with their ends almost fully black. They seem to have a rough and dry texture with bumps in a ring-like pattern, although its easy to picture it as a wet and slimy being by the sounds they produce.
+
+== ''Spawning'' ==
+* Spawns naturally, from [[Evolution Phases#Phase 0|Phase 0]] through [[Evolution Phases#Phase 2|Phase 2]], with a spawnweight of 30, in groups of 2 to 6.
+* Spawned by certain [[Assimilated Mobs]]<ref>Assimilated Mobs release different quantities: [[Assimilated Ender Dragon|Ender Dragons]], [[Assimilated Enderman|Endermen]], [[Assimilated Human|Humans]], and [[Assimilated Squid|Squids]] release none. 
+
+ [[Assimilated Horse|Horses,]] [[Assimilated Pig|Pigs]], and [[Assimilated Wolf|Wolves]] release 2.
+
+ [[Assimilated Sheep|Sheep]] and [[Assimilated Villager|Villagers]] release 3.
+
+ [[Assimilated Adventurer|Adventurers]], [[Assimilated Bear|Bears]] and [[Assimilated Cow|Cows]] release 3-4. 
+
+ [[Assimilated Big Spider|Big Spiders]] release 5.</ref> after exploding on death.
+* Spawned by [[Tunnel]] blocks and when breaking them.
+* Spawned by [[Flying Carrier|Flying Carriers]].
+* Spawned by [[Monarch|Monarchs]].
+* Spawned in groups of five after eating a [[False Apple]].
+* If at least one [[Colony]] exists, spawns when a [[Rupter]] is killed.
+* Buglins spawn regardless of [[Emerging Infestation Vector|Vectors]].
+
+== ''Behavior'' ==
+Buglins are Transition units as well as Infection Propagators.
+* Buglins are unable to attack, fleeing from Aggressive Mobs and Players.
+* Buglins will grow into [[Rupter|Rupters]] after a period of 75 seconds.
+* Buglins will apply [[Call Of The Hive]] when touched, duration increases the longer contact is made.
+
+===''Weaknesses''===
+* Like all Parasites, Buglins are weak to fire. Damage inflicted by fire is quadrupled.
+
+{{Properties|tier=Assimilated|Exhaustion=N/A|MinimumDamage=N/A|RemainValue=N/A|COTH=N/A}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:buglinidle1.ogg]]
+[[File:buglinidle2.ogg]]
+[[File:buglinidle3.ogg]]
+|Hostile
+|Plays randomly while a Buglin is alive.
+|Buglin squeaks
+|idle1-3
+|-
+|
+[[File:buglinhurt1.ogg]]
+[[File:buglinhurt2.ogg]]
+[[File:buglinhurt3.ogg]]
+|Hostile
+|Plays when a Buglin is hurt.
+|Buglin squished
+|hurt1-3
+|-
+|
+[[File:buglinemerge.ogg]]
+|Hostile
+|Plays when a Buglin emerges from a [[Tunnel]].
+|Buglin emerges
+|emerge
+|-
+|
+[[File:buglintransform.ogg]]
+|Hostile
+|Plays when a Buglin transforms into a [[Rupter]].
+|Buglin grows
+|lodo_mudo
+|-
+|
+[[File:buglindeath.ogg]]
+|Hostile
+|Plays when a Buglin dies.
+|Buglin squashed
+|death
+|}
+
+== ''Trivia'' ==
+* Buglins are known as '''Lodo''' in the mod files.
+* Buglins used to be hostile and attack the player, but this was removed in 1.9.0. Since [[Evolution Phases]] were being introduced, it was decided that Buglins would flee from enemies to preserve their own life, thus increasing their chances of evolving into a [[Rupter]].
+* It would be wise '''not''' to eat Buglins.
+
+== ''Gallery'' ==
+<gallery>
+File:Rupter-Buglin Size Comparison.png|Size of the Buglin's Model.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Mobs]]
+[[Category:Inborn Parasites]]

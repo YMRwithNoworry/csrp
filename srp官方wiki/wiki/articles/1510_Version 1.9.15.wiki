@@ -1,0 +1,23 @@
+{{VersionBar|
+|page1=1.9.14
+|page2=1.9.16
+}}
+'''Version 1.9.15''' was an update for the Scape and Run: Parasites Mod, released on January 28th 2024.  It was 22.47 MB.
+
+== ''Change Log'' ==
+
+====<u>Fixes</u>====
+*Light Carrier variant spawning without texture 
+*Feral Enderman config options were in the wrong place 
+*Primitive Vermin Attributes options not working 
+*Devolution wand not working
+*Crash: java.lang.NullPointerException: Ticking entity at com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase.storeBefDes(EntityParasiteBase.java:1506)
+*Crash: java.lang.NullPointerException: Ticking entity at com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityPDispatcher.storeInf(EntityPDispatcher.java:95)
+====<u>Configuration</u>====
+*"Stage III Beckon Mob List" added: "ground;srparasites:pri_vermin;0.3;6", "ground;srparasites:pri_tozoon;0.3;3",
+*"Merge System Mob List" added: "srparasites:pri_vermin;0", "srparasites:pri_tozoon;0",
+====<u>Mobs</u>====
+*Feral Enderman can now teleport other feral versions
+
+{{VersionList}}
+[[Category:Versions]]

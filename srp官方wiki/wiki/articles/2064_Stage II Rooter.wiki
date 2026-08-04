@@ -1,0 +1,73 @@
+{{Stub}}
+{{Navbar|page1=Stage I Rooter|page2=Stage II Rooter|page3=Stage III Rooter|page4=Stage IV Rooter}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|rootersii}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Nexus Info
+|image1=Stage 2 Rooter.png
+|armor=14.0
+|growtime=240-300 sec [min-max]
+|hp=80.0
+|OTHER STUFF
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:rooter_sii
+}}
+'''Stage II Rooters''' are a type of [[Mobs]], placed into the [[Nexus Parasites|Nexus]] Tier.
+
+== ''Spawning'' ==
+*Spawns after a [[Stage I Rooter]] evolves.
+*If at least one [[Colony]] exists, spawns when a [[Stage III Rooter]] is killed.
+
+== ''Behavior'' ==
+WIP 
+
+*Grows into a [[Stage III Rooter]] after 240-300 seconds.
+*Stage II Rooters throw 4 bombs around them when damaged, this has a cooldown of 5 seconds. The bombs inflict 7 damage each and place an effect cloud of stacking [[Viral]] and Poison.
+*Stage II Rooters can break blocks that have their [[Hardness]] Value up to 5.5, with a 20 ticks cooldown and 2 Blocks range.
+*Stage II Rooters will permanently upgrade parasites by increasing their generation to the max value.
+*Stage II Rooters will hide their tentacles if terrain is too small for them.
+*Stage II Rooters will apply the following effects to parasites:
+**[[Pivot]] II (0:15)
+**[[Parate]] II (0:15)
+*Stage II Rooters can summon [[Rootmass Cyst]] when received damage.
+* Upon death, if at least one [[Colony]] exists in the dimension, Stage II Rooters will turn into [[Stage I Rooter|Stage I Rooters]].
+
+=== ''Weaknesses'' ===
+*Stage II Rooters, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+{{Properties|tier=Nexus II}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|[[File:lstageii.ogg]]
+|Hostile
+|Plays when a Stage II Rooter spawns.
+|String sings
+|lstageii
+|-
+|}
+
+== ''Trivia'' ==
+* Like all Nexuses, Stage II Rooters do not despawn by default.
+* Stage II Rooters are also known as '''LeemSII''' in the Mod Files.
+
+== ''Gallery'' ==
+<gallery>
+File:Bomb2.png|The Bomb Stage II Rooters use.
+File:RooterS2Height.png|Size of the Stage II Rooter's model
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Nexus Parasites]]
+[[Category:Mobs]]

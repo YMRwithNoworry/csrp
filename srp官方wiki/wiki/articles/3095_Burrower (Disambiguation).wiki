@@ -1,0 +1,8 @@
+{{DisambiguationContent
+|image1=PrimitiveBurrower.png
+|title1=[[Primitive Burrower]]
+|desc1=A [[Primitive Parasites|Primitive]] Parasite
+|image2=AdaptedBurrower.png
+|title2=[[Adapted Burrower]]
+|desc2=An [[Adapted Parasites|Adapted]] Parasite
+}}

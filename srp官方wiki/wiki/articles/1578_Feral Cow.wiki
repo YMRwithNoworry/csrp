@@ -1,0 +1,57 @@
+{{Navbar|page1=Walking Cow Head|page2=Assimilated Cow|page3=Assimara Cow|page4=Feral Cow}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|fercow}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=FeralCow.png
+|hp=38.0
+|damage=15.0
+|armor=8.0
+|kb_resistance=0.8
+|adaptable=No
+|id=srparasites:fer_cow
+}}
+'''Feral Cows''' are the [[Feral Parasites|Feral Version]] of Cows.
+
+== ''Spawning'' ==
+
+* Spawned when a Cow is killed by a [[Gnat]] or [[Lice]].
+* Spawns from a Cow succumbing to [[Call Of The Hive]] at [[Evolution Phases#Phase 7|Phase 7]] onwards.
+* Spawns when an [[Assimilated Cow]] accumulates a killcount of 60 and [[Evolution System|evolves]].
+* Spawns in groups of 3 to 6, from [[Evolution Phases#Phase 8|Phase 8]] onwards, with a spawnweight of 25, once 4 Cows have been assimilated.
+
+== ''Behavior'' ==
+Feral Cows are Melee Combatants.
+
+* Feral Cows attack through contact damage.
+* Feral Cows are capable of small leaps.
+* Feral Cows are able to traverse faster in liquids by performing small leaps.
+* Feral Cows are able to dive in liquids to pursue submerged targets.
+* On hit, Feral Cows have a chance to drop [[Remains|Feral Remains]].
+
+=== ''Weaknesses'' ===
+* Feral Cows, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+=== ''Post Death'' ===
+
+* On death, Feral Cows have a chance to explode, releasing [[Remains|Feral Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+* Feral Cows have a chance to drop a [[Gnat]] on death.
+{{Properties|tier=Feral|FollowRange=20|DamageCap=3|MinimumDamage=0.75|DeathPenaltyEvolutionValue=5|RemainValue=12|ScentDeathValue=15|XPValue=16|COTH=.7}}
+
+==''Sounds''==
+To be added...
+
+==''Trivia''==
+To be added...
+
+== Gallery ==
+<gallery>
+File:FeralCowHeight.png|Size of the Feral Cow's model.
+</gallery>
+
+{{MobList}}
+<references />
+[[Category:Mobs]]
+[[Category:Feral Parasites]]

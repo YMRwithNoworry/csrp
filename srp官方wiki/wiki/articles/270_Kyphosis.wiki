@@ -1,0 +1,83 @@
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|kyphosis}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=Kyphosis.png
+|hp=50.0
+|damage=15.0
+|customlabel=Swing Attack
+|custom=35.0
+|armor=15.0
+|kb_resistance=N/A
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:kyphosis
+}}
+'''Kyphosis''' are a type of [[Mobs|Mob]], placed into the [[Deterrent Parasites|Deterrent]] Tier.
+
+== ''Spawning'' ==
+*Spawned on Infested Blocks by [[Stage III Beckon|Stage III Beckons]].
+
+== ''Behavior'' ==
+Kyphosis are Far reaching Melee defensive units, incapable of movement. 
+
+*Their Melee Attack, performed by repeatedly stabbing the target with their whip like point, inflicts massive knockback and AoE Damage.
+* If the [[Generations|Generation]] is 4 or higher, Kyphosis can perform the following abilities:
+**Generate Waves, small damaging areas of disturbed ground. After standing still for a brief period, they will summon a Wave which homes toward the target at fast speed but is unable to move up blocks. Waves deal very high damage per second and ignore immunity frames.
+*** This is telegraphed by flame particles and a loud click.
+
+*Kyphosis can break blocks that have their [[Hardness]] Value up to 7, with a 20-tick cooldown and 3-block range.
+
+=== ''Weaknesses'' ===
+Kyphosis, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+{{Properties|tier=Deterrent}}
+
+==''Sounds''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Kyphosis living 1.ogg]]
+[[File:Kyphosis living 2.ogg]]
+|Hostile
+|Plays randomly while a Kyphosis is alive.
+|Kyphosis howls
+|kyphosis_living_1-2
+|-
+|
+[[File:Kyphosis hurt 1.ogg]]
+[[File:Kyphosis hurt 2.ogg]]
+|Hostile
+|Plays when a Kyphosis is hurt.
+|Kyphosis hisses
+|kyphosis_hurt_1-2
+|-
+|
+[[File:Kyphosis death.ogg]]
+|Hostile
+|Plays when a Kyphosis dies.
+|Kyphosis dies
+|kyphosis_death
+|-
+|}
+
+== ''Trivia'' ==
+*Kyphosis are also known as '''Tonro''' in the Mod Files.
+*Kyphosis are named after a condition that involves abnormal front-to-back curving of the spine, which results in a slouch.
+*Kyphosis are inspired by the [https://stephenkingsthemist.fandom.com/wiki/Tentacles_from_Planet_X Tentacles] from The Mist.
+
+== ''Gallery'' ==
+<gallery>
+File:KyphosisHeight.png|thumb|Size of the Kyphosis's model.
+File:Kyphosisattack.png|A Kyphosis attacking.
+</gallery>
+
+{{MobList}}
+[[Category:Mobs]]
+[[Category:Deterrent Parasites]]

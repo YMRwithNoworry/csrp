@@ -1,0 +1,127 @@
+{{Stub}}
+{{Navbar|page1=Primitive Viscera|page2=Adapted Viscera}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|adaviscera}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=<gallery>
+AdaptedViscera.png
+</gallery>
+|hp=95.0
+|damage=27.0
+|armor=16.0
+|kb_resistance=1.0
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:ada_viscera
+}}
+'''Adapted Viscera''' are a type of [[Mobs]], placed into the [[Adapted Parasites|Adapted]] Tier.
+
+== ''Spawning'' ==
+
+* Spawns after a [[Primitive Viscera]] accumulates a killcount of 30 and evolves.
+* Spawns in groups of 2 to 3, if [[Ubiquitous Development]] is Level 3 or higher, with spawnweight of 15.
+* Spawns inside the Parasite Biome, with spawnweight of 10.
+
+== ''Behavior'' ==
+
+* Adapted Viscera can perform short leaps to a side of a target.
+* Adapted Viscera can rally nearby [[Rupter|Rupters]] to their side, which will follow the Viscera in a group.
+** Rupters that have been "bonded" to a Viscera, similarly to [[Summoner (Disambiguation)|Summoners]], will try to remain close if not attacking.
+* Adapted Viscera can sink in liquids to pursue targets.
+* Adapted Viscera can break blocks with [[Hardness (Disambiguation)|Hardness]] Value up to 3, with a range of 2-block range and 20 tick cooldown.
+* Adapted Viscera have a chance to block your hit, nullifying it.
+
+=== ''Weaknesses'' ===
+Adapted Viscera, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+=== ''Post Death'' ===
+* On death, Adapted Viscera have a chance to explode, releasing [[Remains|Adapted Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+** If at least one [[Colony]] exists in the dimension, Adapted Viscera will become [[Primitive Viscera]] upon death instead.
+
+{{Properties
+WIP
+}}
+
+{{Drops
+|rolls1=One Roll:|page1=Toxic Lung|amount1=1|chance1=80|rolls2=Always Rolls:|page2=Chipped Motherly Membrane|amount2=2|chance2=60|page3=Strange Bone|amount3=2|chance3=20}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Ada viscera living 1.ogg]]
+[[File:Ada viscera living 2.ogg]]
+[[File:Ada viscera living 3.ogg]]
+[[File:Ada viscera living 4.ogg]]
+|Hostile
+|Plays randomly while an Adapted Viscera is alive.
+|X
+|ada_viscera_living_1-4
+|-
+|
+[[File:Ada viscera hurt 1.ogg]]
+[[File:Ada viscera hurt 2.ogg]]
+[[File:Ada viscera hurt 3.ogg]]
+|Hostile
+|Plays when an Adapted Viscera is hurt.
+|X
+|ada_viscera_hurt_1-3
+|-
+|
+[[File:Heavy multiple_step1.ogg]]
+[[File:Heavy multiple_step2.ogg]]
+[[File:Heavy multiple_step3.ogg]]
+[[File:Heavy multiple_step4.ogg]]
+|Hostile
+|Plays when an Adapted Viscera is walking.
+|X
+|step1-4
+|-
+|
+[[File:Ada viscera special.ogg]]
+|Hostile
+|Plays when an Adapted Viscera performs a special attack.
+|X
+|ada_viscera_special
+|-
+|[[File:Adapted Vomit.ogg]]
+|Hostile
+|Plays when an Adapted Viscera pukes [[Residue]] onto the ground.
+|Vomiting
+|adapted_vomit
+|-
+|
+[[File:Ada viscera death.ogg]]
+|Hostile
+|Plays when an Adapted Viscera dies.
+|X
+|ada_viscera_death
+|-
+|}
+
+
+== ''Trivia'' ==
+
+* The Viscera was proposed on Trello by user Cephelo. The original proposal is linked [https://trello.com/c/8Sv74PaC/206-viscera here]. 
+* The name of the material dropped by Adapted Viscera, [[Chipped Motherly Membrane]], seems to imply that [[Viscera (Disambiguation)|Viscera]] fulfill the role of females among the Parasites. 
+
+
+
+== ''Gallery'' ==
+<gallery>
+File:AdaptedVisceraHeight.png|Size of the Adapted Viscera's model
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Adapted_Parasites]]
+[[Category:Mobs]]

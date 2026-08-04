@@ -1,0 +1,33 @@
+{{Effect Info
+|image1=Corrosion.png
+|sources=See [[#Obtainment|Obtainment]]
+|type=Debuff
+|id=srparasites:corrosive
+}}
+'''Corrosion''' is a [[Effects|Potion Effect]] introduced by the mod. This Effect will deal damage to your armor over time, similar to the Poison effect, but for your armor durability instead. 3 damage per potency will be dealt to each armor item's durability per second, while you have this effect. The higher the potency, the higher the damage.
+
+Corrosion cannot be removed by drinking Milk.
+
+== ''Obtainment'' ==
+{{Effect Causes
+|cause1=[[Vigilante]] Projectiles
+|potency1=I, Stacking
+|duration1=0:05
+|cause2=[[Living Axe]]
+|duration2=0:05
+|cause3=[[Sentient Greataxe]]
+|potency3=II
+|duration3=0:05
+|cause4=[[Dead Blood]]
+|potency4=I
+|duration4=0:05
+|cause5=Taking an item from [[Parasitic Growth Block|Parasitic Growth Blocks]]
+|potency5=I - II<ref name="corrosion">Variable depending on how many items are inside. Taking an item from a full Loot Block applies Corrosion I for five seconds, while an empty one applies Corrosion II for twenty seconds.</ref>
+|duration5=0:05 - 0:20<ref name="corrosion" />
+}}
+
+==Notes==
+<references />
+
+{{EffectList}}
+[[Category:Effects]]

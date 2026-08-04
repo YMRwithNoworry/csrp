@@ -1,0 +1,79 @@
+{{Stub}}
+{{Navbar|page1=Stage I Rooter|page2=Stage II Rooter|page3=Stage III Rooter|page4=Stage IV Rooter}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|rootersi}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Nexus Info
+|image1=Stage 1 Rooter.png
+|armor=7.0
+|growtime=12-14 min [min-max]
+|hp=40.0
+|OTHER STUFF
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:rooter_si
+}}
+'''Stage I Rooters''' are a type of [[Mobs]], placed into the [[Nexus Parasites|Nexus]] Tier.
+
+== ''Spawning'' ==
+
+* Spawns near a [[:Category:Nexus Parasites|Stage II or III Beckon or Dispatcher]] with a 2% chance roughly every second.
+** Can spawn naturally without the help of other Nexuses when [[Ubiquitous Development]] reaches level 3.
+*If at least one [[Colony]] exists, spawns when a [[Stage II Rooter]] is killed.
+
+== ''Behavior'' ==
+WIP 
+
+*Grows into a [[Stage II Rooter]] after 12-14 minutes.
+*Stage I Rooters throw 4 bombs around them when damaged, this has a cooldown of 5 seconds. The bombs inflict 3 damage each and place an effect cloud of stacking [[Viral]] and Poison.
+*Stage I Rooters can't break blocks.
+*Stage I Rooters will permanently upgrade nearby parasites by increasing their generation to the max value regardless of stage.
+*Stage I Rooters will hide their tentacles if the terrain around them is too small.
+*Stage I Rooters can apply [[Pivot]] up to 20 blocks away.
+*Stage I Rooters will apply the following effects to parasites:
+**[[Pivot]] I (0:15)
+**[[Parate]] I (0:15)
+*Stage I Rooters can summon [[Rootmass Cyst]] when received damage.
+*Stage I Rooters can spawn up to 3 [[Rootmass Cyst|Rootmass Cysts]], which have a 16 blocks range and a spawn cooldown of 12 seconds.
+*The Rooter cap is 5 and the minimum distance between Rooters as to let one spawn is 32 blocks.
+
+=== ''Weaknesses'' ===
+* Stage I Rooters, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+{{Properties|tier=Nexus I}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|[[File:lstagei.ogg]]
+|Hostile
+|Plays when a Stage I Rooter spawns.
+|String sings
+|lstagei
+|-
+|}
+
+== ''Trivia'' ==
+* Like all Nexuses, Stage I Rooters do not despawn by default.
+* Stage I Rooters are known as '''Leem''' internally.
+* Rooters have been confirmed to be based on lungs. 
+
+== ''Gallery'' ==
+<gallery>
+File:Bomb2.png|The bomb that Stage I Rooters use.
+File:RooterS1Height.png|Size of the Stage 1 Rooter's model
+File:RooterWIPstage1.png|A future texture released by '''Pecora.'''
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Nexus Parasites]]
+[[Category:Mobs]]

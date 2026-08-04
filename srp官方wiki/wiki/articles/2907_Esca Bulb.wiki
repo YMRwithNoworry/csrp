@@ -1,0 +1,23 @@
+{{Stub}}
+{{Item Info
+|image1=Esca Bulb.png
+|id=srparasites:esca_bulb<ref>To produce a colored Esca Bulb, simply add "''_[dye name]''" to the end, e.g. "''srparasites:esca_bulb_magenta''" or "''srparasites:esca_bulb_light_blue''".</ref>
+}}
+'''Esca Bulbs''' are blocks that produce light.  They can be dyed in the crafting menu.
+
+==''Obtainment''==
+{{CraftingTable|r1_b1=Fish|r1_a2=Infected Flesh|r1_b2=Sea Lantern|r1_c2=Infected Flesh|r1_b3=Fish|r1_output=Esca Bulb|r1_count=4}}
+
+==''Usage''==
+Esca Bulbs produce a large amount of light (around 14 levels, comparable to a Torch), and are uniquely the only large light emitting block that cannot be detected by parasites in [[Generations#Generation 5|Generation 5]].
+
+==''Gallery''==
+<gallery>
+File:EscaBulbColors.png|All colored Esca Bulbs in rainbow order, with the original on the far left.
+</gallery>
+
+==Notes==
+<references />
+
+{{BlockList}}
+[[Category:Blocks]]

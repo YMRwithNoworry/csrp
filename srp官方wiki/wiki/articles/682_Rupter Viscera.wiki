@@ -1,0 +1,32 @@
+{{Item Info
+|image1=Rupter Viscera.png
+|type=Material
+|stackable=Yes (16)
+|tooltip=Chunks of the insides of a Rupter. A Lure Component.
+|id=srparasites:lurecomponent1
+}}
+'''Rupter Viscera''' are a [[:Category:Drops|Drop]] and a [[:Category:Drops#Lures' Compoments|Lure Component]].
+
+== ''Obtainment'' ==
+Dropped by [[Rupter|Rupters]], [[Mangler|Manglers]], and [[Gnat|Gnats]].
+
+== ''Usage'' ==
+{{CraftingTable|r1_b1=Rupter Viscera|r1_a2=Rupter Viscera|r1_b2=Module Genic Receptacle|r1_c2=Rupter Viscera|r1_b3=Rupter Viscera|r1_output=Inborn Module|r1_count=1
+
+|r2_a1=Rupter Viscera
+|r2_c1=Rupter Viscera
+|r2_a2=Cobblestone
+|r2_b2=Cobblestone
+|r2_c2=Cobblestone
+|r2_a3=Cobblestone
+|r2_b3=Cobblestone
+|r2_c3=Cobblestone
+|r2_output=Lure (Weakened)
+
+|r3_a1=Rupter Viscera|r3_b1=Rupter Viscera|r3_b2=Beckon Membrane|r3_a2=Rupter Viscera|r3_output=Biomass Block|r3_count=4
+}}
+
+
+{{ItemList}}
+[[Category:Drops]]
+[[Category:Items]]

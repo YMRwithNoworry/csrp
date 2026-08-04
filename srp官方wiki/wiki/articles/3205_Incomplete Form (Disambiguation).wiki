@@ -1,0 +1,10 @@
+{{DisambiguationContent
+|image1=Small Incomplete Form.png
+|title1=[[Small Incomplete Form]]
+|desc1=Incomplete Form generated if mob size is < 0.517 blocks.
+|image2=Medium Incomplete Form.png
+|title2=[[Medium Incomplete Form]]
+|desc2=Incomplete Form generated if mob size is > 0.517 blocks.}}
+
+==Notes==
+*When referring a link to both Incomplete Forms, refer it to here, as the Incomplete Forms page has been split into both Small and Medium.

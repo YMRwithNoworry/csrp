@@ -1,0 +1,67 @@
+{{Navbar|page1=Incomplete Crux|page2=Crux}}
+
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|incrux}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=Incomplete_Crux.png
+|hp=21.0
+|damage=6.0
+|armor=3.0
+|kb_resistance=0.3
+|growtime=20-60 sec [min-max]
+|OTHER STUFF
+|adaptable=[[Adaptation System#Adaptation Capacities|No]]
+|id=srparasites:crux_incomplete
+}}
+
+'''Incomplete Cruxes''', known internally as '''Cruxa''', are a type of [[Mobs|Mob]] in the [[Crude Parasites|Crude]] Tier.
+
+== ''Spawning'' ==
+*Incomplete Cruxes spawn when any [[Primitive Parasites|Primitive]], [[:Category:Adapted Parasites|Adapted]], [[:Category:Ancient Parasites|Ancient]], [[:Category:Preeminent Parasites|Preeminent]], [[:Category:Pure Parasites|Pure]], or [[:Category:Derived Parasites|Derived]] Parasite dies and performs their [[Remains|exploding]] death while on fire. This has a 50% chance of occurring.
+
+== ''Behavior'' ==
+Incomplete Cruxes are Transitional-stage units with Offensive capabilities. 
+
+*Incomplete Cruxes grow into a [[Crux]] between 20 to 60 seconds.
+*Their Melee Attack is performed through contact damage.
+* Incomplete Cruxes are able to regenerate at about 0.125 health per second.
+* Incomplete Cruxes may flee under specific circumstances.
+
+=== ''Weaknesses'' ===
+*Incomplete Crux, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+*Incomplete cruxes flee when under half health.
+{{Properties|tier=Crude}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''ID'''
+|-
+|[[File:Flesh_Growl.ogg]]
+|Hostile
+|Plays randomly while an Incomplete crux is alive.
+|flesh_growl
+|-
+|[[File:flesh_grow.ogg]]
+|Hostile
+|Plays when the Incomplete crux grows into the [[Crux]].
+|flesh_grow
+|}
+
+== ''Trivia'' ==
+
+
+== ''Gallery'' ==
+<gallery>
+
+File:Incomplete CruxHeight.png|Size of the Incomplete Crux's model
+</gallery>
+
+{{MobList}}
+[[Category:Crude Parasites]]
+[[Category:Mobs]]

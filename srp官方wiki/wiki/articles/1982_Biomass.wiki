@@ -1,0 +1,216 @@
+{{Nexus Info
+|image1=<gallery>
+Biomass.png | Size 1
+Biomass2.png | Size 2
+Biomass3.png | Size 3
+</gallery>
+|armor= 0
+|growtime=5s
+|hp=15.0
+|adaptable=[[Adaptation System#Adaptation Capacities|No]]
+|id=srparasites:biomass
+}}
+'''Biomass''' is a [[Mobs|Mob]] / living projectile, it has no tier.
+
+==''Spawning''==
+*Summoned by all [[Beckon (Disambiguation)|Beckon Stages]], [[Summoner (Disambiguation)|both Summoners]], and [[Overseer|Overseers]].
+
+==''Behavior''==
+Biomass is a utility parasite does not move or attack, its only function is to spawn mobs.
+
+*Biomass pulsates and grows once touching the ground, spawning a mob based on the spawn pool of its summoner after 5 seconds.
+**If the target of the summoner if three or more blocks above it, an Air type parasite will spawn. If else, a Ground type parasite will spawn.
+{|class="fandom-table mw-collapsible mw-collapsed"
+! colspan="5" |'''Spawns Based on Host Mob'''
+|-
+!'''Mob'''
+!'''Potential Spawns'''
+!'''Point Value'''
+!'''Chance'''
+!'''Type'''
+|-
+|[[Stage I Beckon]]
+|[[Rupter]]
+|1 Point
+|100%
+|Ground
+|-
+|rowspan="3" |[[Stage II Beckon]]
+|[[Rupter]]
+|1 Point
+|10%
+|Ground
+|-
+|[[Assimilated Mobs|Assimilated Mob]]<ref name=":0">Excluding [[Assimilated Ender Dragon|Assimilated Ender Dragons]] and [[Assimilated Squid]].</ref>
+|3 Points
+|20%
+|Ground
+|-
+|[[Flying Carrier]]
+|3 Points
+|30%
+|Air
+|-
+|rowspan="17" |[[Stage III Beckon]]
+|[[Rupter]]
+|1 Point
+|10%
+|Ground
+|-
+|[[Flying Carrier]]
+|3 Points
+|50%
+|Air
+|-
+|[[Heavy Carrier]]
+|6 Points
+|20%
+|Ground
+|-
+|[[Assimilated Mobs|Assimilated Mob]]<ref name=":0" />
+|3 Points
+|20%
+|Ground
+|-
+|[[Primitive Arachnida]]
+|6 Points
+|40%
+|Ground
+|-
+|[[Primitive Bolster]]
+|6 Points
+|10%
+|Ground
+|-
+|[[Primitive Longarms]]
+|6 Points
+|40%
+|Ground
+|-
+|[[Primitive Manducater]]
+|6 Points
+|40%
+|Ground
+|-
+|[[Primitive Summoner]]
+|6 Points
+|20%
+|Ground
+|-
+|[[Primitive Reeker]]
+|6 Points
+|40%
+|Ground
+|-
+|[[Primitive Tozoon]]
+|3 Points
+|30%
+|Ground
+|-
+|[[Primitive Vermin]]
+|6 Points
+|30%
+|Ground
+|-
+|[[Primitive Yelloweye]]
+|6 Points
+|50%
+|Air
+|-
+|[[Light Bomber]]
+|6 Points
+|20%
+|Air
+|-
+|[[Overseer]]
+|6 Points
+|20%
+|Air
+|-
+|[[Vigilante]]
+|6 Points
+|20%
+|Ground
+|-
+|[[Warden]]
+|6 Points
+|20%
+|Ground
+|-
+|rowspan="3" |[[Stage IV Beckon]]
+|[[Stage I Beckon]]
+|3 Points
+|30%
+|Ground
+|-
+|[[Stage II Beckon]] 
+|3 Points
+|40%
+|Ground
+|-
+|[[Stage III Beckon]]
+|4 Points
+|30%
+|Ground
+|-
+|[[Primitive Summoner]]
+|[[Rupter]]
+|1 Point
+|100%
+|Ground
+|-
+|rowspan="4" |[[Adapted Summoner]]
+|[[Rupter]]
+|1 Point
+|10%
+|Ground
+|-
+|[[Assimilated Human]]
+|2 Points
+|30%
+|Ground
+|-
+|[[Assimilated Cow]]
+|2 Points
+|30%
+|Ground
+|-
+|[[Assimilated Wolf]]
+|2 Points
+|30%
+|Ground
+|-
+|rowspan="2" |[[Overseer]]
+|[[Rupter]]
+|1 Point
+|33%
+|Ground
+|-
+|[[Grunt|Grunt]]
+|1 Point
+|66%
+|Ground
+|}
+
+===''Weaknesses''===
+*Biomass, like any other [[Mobs|Mob]], presents a weakness to Fire. Damage inflicted by Fire is quadrupled.
+*Setting the summoner on fire tends to cause any biomass it spawns to be set on fire.
+==''Sounds''==
+TBA
+
+==''Trivia''==
+*Biomass varies in size and model depending on its summoner.
+
+== ''Commands'' ==
+
+* When summoning Biomass, you can include ''parasiteparasite:"(mob id here)"''  in the entity data to dictate what it summons. Having ''Fuse:(number, in ticks)s'' is also necessary in order to dictate how long the Biomass will exist before it spawns what's in the biomass. For example, the command /''summon srparasites:biomass ~ ~ ~ {parasiteparasite:"srparasites:anc_overlord",Fuse:100s}'' will summon Biomass that spawns an Ancient Overlord after 5 seconds.
+**Including parasitetype:{1, 2, 3} will change the model used by the biomass.
+
+==''Gallery''==
+<gallery>
+
+</gallery>
+
+==Notes==
+<references />
+[[Category:Mobs]]

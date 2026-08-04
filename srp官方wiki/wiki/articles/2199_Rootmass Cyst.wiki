@@ -1,0 +1,45 @@
+{{Stub}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|rootmasscyst}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=Rootmass_Cyst.png
+|hp=20
+|damage=2
+|armor=10
+|kb_resistance=1
+|adaptable=No
+|id=srparasites:rooterball
+}}
+'''Rootmass Cysts''' are a type of [[Mobs|Mob]], placed into the [[Deterrent Parasites|Deterrent]] Tier.
+
+== ''Spawning'' ==
+
+* Spawned by all [[Rooter (Disambiguation)|Rooters]] after receiving damage.
+
+== ''Behavior'' ==
+
+* Rootmass Cysts take damage from nearby [[Rooter (Disambiguation)|Rooters]] and reroute it to themselves.
+
+=== ''Weaknesses'' ===
+*Rootmass Cysts, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+{{Properties|}}
+
+==''Sounds''==
+To be added...
+
+==''Trivia''==
+To be added...
+
+== Gallery ==
+<gallery>
+File:RootmassCystHeight.png|Size of the Rootmass Cyst's model.
+</gallery>
+
+{{MobList}}
+<references />
+[[Category:Mobs]]
+[[Category:Deterrent Parasites]]

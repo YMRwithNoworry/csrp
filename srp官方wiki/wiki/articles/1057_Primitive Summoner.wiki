@@ -1,0 +1,150 @@
+{{Navbar|page1=Primitive Summoner|page2=Adapted Summoner}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|prisummoner}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=<gallery>
+Primitive Summoner.png|Normal
+BerserkerPriSummoner.png|Berserker
+VirulentPriSummoner.png|Virulent
+BreacherPriSummoner.png|Breacher
+</gallery>
+|hp=40.0
+|damage=15.0
+|armor=4.0
+|kb_resistance=0.5 
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:pri_summoner 
+}} 
+'''Primitive Summoners''', known internally as '''Canra''', is a [[Mobs|Mob]] in the [[:Category:Primitive Parasites|Primitive Tier]].
+
+== ''Spawning'' ==
+*Spawns after a successful merging between 4 [[Moving Flesh]], through the [[Evolution System]].
+*Spawns in groups of 2 to 3, from [[Ubiquitous Development#Level 2|Ubiquitous Development Level 2]] through [[Ubiquitous Development#Level 4|Level 4]], with a spawnweight of 15.
+*Spawns inside the [[Parasite Biome]], with a spawnweight of 10.
+*Spawned by [[Stage III Beckon|Stage III Beckons]].
+*Spawned by 4 [[:Category:Assimilated Mobs|Assimilated Mobs]] stored into a [[Stage III Dispatcher|Stage III]] or [[Stage IV Dispatcher|IV Dispatcher]].
+*Spawned by level 4 or higher [[Scent System|Scents]].
+*If at least one [[Colony]] exists, spawns when an [[Adapted Summoner]] is killed.
+
+== ''Behavior'' ==
+Primitive Summoners are Backline Utility/Melee Support Combatants (Summoners).
+
+*Primitive Summoners' Melee Attack is performed through contact damage.
+*If the [[Generations|Generation]] is 4 or higher, Primitive Summoners can perform the following abilities:
+**Summon 2 [[Rupter|Rupters]] through the usage of [[Biomass]].
+***This has a 10 second cooldown.
+***A maximum of 4 Rupters can be active at a time. 
+***The summoned Rupters will spawn with the [[Rage]] Effect and will always seek to stay near the Primitive Summoner, regardless of distance.
+**Slowly approach their target and then vomit purple particles and produce a green effect cloud in front of them. This attack has a 12 second cooldown. Summoners will often follow this action with an attack.
+***This effect cloud inflicts [[Viral]], [[Corrosion]], Weakness, Hunger, and [[Vomit]], all for 15 seconds. 
+**Revive Parasites if the fallen Parasite's large [[Remains|Remain]] piece is present.
+*Primitive Summoners will keep their distance from their enemies.
+*Primitive Summoners have a chance of blocking incoming damage, nullifying it.
+*Primitive Summoners can perform small leaps, both on land and in liquids.
+*Primitive Summoners can dive in liquids to pursue submerged targets.
+*Primitive Summoners can break blocks that have their [[Hardness]] Value up to 1, with a 60 ticks cooldown and 1 Block range.
+*On death, Primitive Summoners have a chance to explode, releasing Primitive Remains and an effect cloud of stacking Poison and COTH.
+*If a Primitive Summoner gets 10 kills, it will evolve into an [[Adapted Summoner]].
+{{Variants|count=3|Berserker=BerserkerPriSummoner.png|Virulent=VirulentPriSummoner.png|Breacher=BreacherPriSummoner.png}}
+
+=== ''Weaknesses'' ===
+Primitive Summoners, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.{{Properties
+|tier=Primitive
+|OrbEffectsMobs=Hunger II (00:15)
+|OrbEffectsParasites=Speed II (00:30)
+}}
+
+=== ''Post Death'' ===
+* On death, Primitive Summoners have a chance to explode, releasing [[Remains|Primitive Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+** If at least one [[Colony]] exists in the dimension, Primitive Summoners will become [[Moving Flesh]] upon death instead.
+
+{{Drops
+|rolls1=One Roll
+|page1=Altered Tendons
+|amount1=1-2
+|chance1=60
+|page2=Summoner Core
+|amount2=1
+|chance2=40
+|rolls3=Always Rolls
+|page3=Strange Bone
+|amount3=1
+|chance3=10
+}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|[[File:Primitive Summoner Growl.ogg]]
+|Hostile
+|Plays randomly while a Primitive Summoner is alive.
+|X
+|canra_growl
+|-
+|[[File:Primitive Summoner Hurt.ogg]]
+|Hostile
+|Plays when a Primitive Summoner takes damage.
+|X
+|canra_hurt
+|-
+|[[File:Step.ogg]]
+|Hostile
+|Plays when a Primitive Summoner is walking.
+|X
+|monster_step
+|-
+|[[File:Primitive Summoner Special.ogg]]
+|Hostile
+|Plays when a Primitive Summoner uses its ability.
+|Summoner resurrects
+|canra_special
+|-
+|[[File:Adaptating_1.ogg]]
+[[File:Adaptating_2.ogg]]
+[[File:Adaptating_3.ogg]]
+|Hostile
+|Plays when a Parasite is adapting.
+|Parasite adapts
+|adaptating_1-3
+|-
+|[[File:Adapted_1.ogg]]
+[[File:Adapted_2.ogg]]
+[[File:Adapted_3.ogg]]
+|Hostile
+|Plays when a Parasite has adapted.
+|Parasite adapted
+|adapted_1-3
+|-
+|[[File:Primitive Summoner Death.ogg]]
+|Hostile
+|Plays when a Primitive Summoner dies.
+|X
+|canra_death
+|-
+|}
+
+== ''Trivia'' ==
+*Summoners are also known as '''Canra''' in the Mod Files.
+
+== ''Gallery'' ==
+<gallery>
+File:Summoner Biomass.png|The Biomass Entity Primitive Summoners use.
+File:PrimitiveSummonerHeight.png|thumb|Size of the Primitive Summoner's model
+File:SummonerVomitPov.png|Vision when player has the Vomit effect
+File:SummonerVomitHusk.png|Primitive Summoner vomiting on a husk
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Primitive Parasites]]
+[[Category:Mobs]]

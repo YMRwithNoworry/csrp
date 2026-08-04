@@ -1,0 +1,94 @@
+{{Navbar|page1=Walking Adventurer Head|page2=Assimilated Adventurer|page3=Thrall}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|simadventurer}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=Assimilated Adventurer.png
+|hp=15.0
+|damage=9.0
+|armor=5.0
+|kb_resistance=0.1
+|adaptable=No
+|id=srparasites:sim_adventurer
+}}
+'''Assimilated Adventurers''' are the [[Assimilated Mobs|Assimilated Version]] of the Player.
+
+== ''Spawning'' ==
+* Spawns when a player is killed by parasitic mobs while having the [[Call Of The Hive]] effect.
+* Spawns in groups of 3 to 5, from [[Evolution Phases#Phase 2|Phase 2]] to [[Evolution Phases#Phase 7|Phase 7]], with a spawnweight of 25.
+* Spawned by level 4 or higher [[Scent System|Scents]].
+* If at least one [[Colony]] exists, spawns when a [[Thrall]] is killed.
+
+== ''Behavior'' ==
+Assimilated Adventurers are Melee Combatants.
+
+* Their Melee Attack is performed through contact damage.
+* They are capable of wearing whatever Armor the Player had equipped before being assimilated, except the chestplate.
+* Any [[Mobs|Mob]] within 3 blocks of an Assimilated Adventurer will be inflicted with [[Call Of The Hive]]. This does not go through walls.
+* Assimilated Adventurers are able to traverse faster in liquids by performing small leaps.
+* Assimilated Adventurers are able to dive in liquids to pursue submerged targets.
+* If an Assimilated Adventurer gets 5 kills and is within range of a [[Moving Flesh]] or 3 other [[Assimilated Mobs]]<ref>Excluding [[Assimilated Ender Dragon]] and [[Assimilated Big Spider]].</ref>, it will evolve into a [[Moving Flesh]].
+* If an Assimilated Adventurer gets 15 kills and is unable to turn into [[Moving Flesh]], it will evolve into a [[Thrall]].
+* On death, Assimilated Adventurers have a chance to explode, releasing [[Remains|Assimilated Remains]], 3-4 [[Buglin|Buglins]], and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+** When not exploding, there is a 50% chance an Assimilated Adventurer will drop its [[Walking Adventurer Head|Head]].
+
+=== ''Weaknesses'' ===
+
+* Assimilated Adventurers, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+{{Properties|tier=Assimilated}}{{Drops
+|rolls1=1 Roll
+|page1=Infected Flesh
+|amount1=1
+|chance1=40
+|rolls2=Always Rolls
+|page2=Diseased Heart
+|amount2=1
+|chance2=5
+}}
+
+==''Sounds''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:simadventurerbreath1.ogg]]
+[[File:simadventurerbreath2.ogg]]
+[[File:simadventurerbreath3.ogg]]
+|Hostile
+|Plays randomly while an Assimilated Adventurer is alive.
+|Assimilated adventurer breaths
+|simadventurerbreath1-3
+|-
+|[[File:Assimilated Melting.ogg]]
+|Hostile
+|Plays when an Assimilated Adventurer melts into [[Moving Flesh]].
+|X
+|infected_melting
+|-
+|[[File:Explosion.ogg]]
+|Hostile
+|Plays when an Assimilated Adventurer explodes, on death.
+|X
+|mob_explotion
+|-
+|}
+
+== ''Trivia'' ==
+* Assimilated Adventurers are known internally as '''Infplayer''', which is short for "Infected Player".
+* Assimilated Adventurers spawned from a defeated player will bear that player's name tag, while those spawned naturally will have a name tag picked randomly from an internal list. The possible names are those of developers, moderators on the official Discord server, and the mod's financial supporters. 
+
+== ''Gallery'' ==
+<gallery>
+File:Assimilated Adventurer Size Comparison.png|Size of the Assimilated Adventurer's Model.
+</gallery><br />
+
+{{MobList}}
+[[Category:Assimilated Mobs]]
+[[Category:Mobs]]

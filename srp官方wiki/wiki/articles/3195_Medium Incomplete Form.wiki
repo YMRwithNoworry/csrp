@@ -1,0 +1,85 @@
+{{Navbar|page1=Small Incomplete Form|page2=Medium Incomplete Form}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|medinform}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=Medium Incomplete Form.png|hp=14.0
+|damage=11.0
+|armor=0.0
+|kb_resistance=0.3
+|id=srparasites:incompleteform_medium
+|title1=Medium Incomplete Form}}
+'''The Medium Incomplete Form''' is a [[Mobs|Mob]], placed into the [[Crude Parasites|Crude]] Tier.
+
+==''Spawning''==
+* Spawns if the [[Call Of The Hive|Assimilation]] Process is abruptly stopped, while the Mob has [[Call Of The Hive|COTH]] II.
+* Spawns if the [[Call Of The Hive|Assimilation]] is successful yet the Mob doesn't have an [[Assimilated Mobs|Assimilated Variant]].
+
+Depending on the size of the Mob's Model, an Incomplete Form of a certain size will be generated. If the Mob's size is inferior to 0.517, a [[Small Incomplete Form]] will be generated. If it is major to 0.517 blocks, a Medium Incomplete Form will be generated.
+
+The amount of Incomplete Forms is capped at 10. If this cap is reached, [[Call Of The Hive|COTH]] II will no longer turn mobs into Incomplete Forms.
+
+==''Behavior''==
+Medium Incomplete Forms are Swarm Melee Combatants.  
+
+* The Melee Attack of both is performed through contact damage.
+* Walking Heads<ref>Excluding the [[Assimilated Ender Dragon|Assimilated Ender Dragon's Walking Head]].</ref> will seek out Medium Incomplete Forms and merge with them, evolving them back into their [[Category:Assimilated Mobs|Assimilated]] version.
+* Incomplete Forms are able to traverse faster in liquids by performing small leaps.
+
+===''Weaknesses''===  
+
+* Medium Incomplete Forms, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+{{Properties
+|tier=Crude
+|FollowRange=16
+}}
+
+=== ''Sounds'' ===
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source''' 
+!'''Description'''
+!'''Subtitle'''
+!'''File name''' 
+|-
+|[[File:m_incomplete_form_idle_1.ogg]]
+[[File:m_incomplete_form_idle_2.ogg]]
+[[File:m_incomplete_form_idle_3.ogg]]
+|Hostile
+|Plays randomly while a Medium Incomplete Form is alive.
+|Medium form gurgles
+|idle1-3
+|-
+|[[File:m_incomplete_form_hurt_1.ogg]]
+[[File:m_incomplete_form_hurt_2.ogg]]
+[[File:m_incomplete_form_hurt_3.ogg]]
+|Hostile
+|Plays when a Medium Incomplete Form is hurt.
+|Medium form hurt
+|hurt1-3
+|-
+|[[File:m_incomplete_form_death.ogg]]
+|Hostile
+|Plays when a Medium Incomplete Form dies.
+|Medium form dies
+|death
+|-
+|}
+
+==''Trivia''==
+
+* Their exposed muscle and bone, tangled appearance, and lack of significant combat or motion ability cause them to resemble malformed or nonviable fetuses. Their status as parasitic mutants specifically brings to mind the mutant cattle from the horror film ''Isolation.''
+
+== ''Gallery'' ==
+<gallery>
+File:IncompleteFormMedium.png|thumb|Size of the Medium Incomplete Form's Model.
+</gallery>
+
+==Notes==
+<references />
+
+{{mobList}}
+[[Category:Mobs]]
+[[Category:Crude Parasites]]

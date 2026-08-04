@@ -1,0 +1,9 @@
+A list of the [[Weapons|Weapon]] Components introduced by the Mod.
+
+*[[File:Dried Tendons.png|32px]] [[Dried Tendons]]
+*[[File:Hardened Bone Handle.png|32px]] [[Hardened Bone Handle]]
+*[[File:Infectious Blade Fragment.png|32px]] [[Infectious Blade Fragment]]
+*[[File:Living Core.png|32px]] [[Living Core]]
+*[[File:Vile Shell.png|32px]] [[Vile Shell]]
+{{ItemList}}
+[[Category:Items]]

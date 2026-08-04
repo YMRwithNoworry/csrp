@@ -1,0 +1,66 @@
+{{VersionBar|
+|page1=Version 1.9.0
+|page2=Version 1.9.2
+}}
+'''Version 1.9.1''' was an update for the Scape and Run: Parasites Mod, released on October 21st 2021.  It was 8.42 MB.
+
+== ''Change Log'' ==
+
+====<u>Fixes</u>==== 
+
+*[[Rupter]] sometimes not attacking passive animals
+*[[Call Of The Hive|Call of the Hive]] tags not working (new entities can now be assimilated)
+*[[Sentient Greatbow]] wrong size when shooting
+*Fixed Beckon Infestation crash:  
+<div class="mw-collapsible mw-collapsed" data-expandtext="Show crash" data-collapsetext="Hide crash">
+
+java.lang.IllegalArgumentException: Cannot set property PropertyEnum{name=variant, clazz=class com.dhanantry.scapeandrunparasites.block.BlockInfestedBush$EnumType, values=[infected, grass1, flower1, spine, vine, arc]} as it does not exist in BlockStateContainer{block=srparasites:parasitebush, properties=[variant]}
+
+at net.minecraft.block.state.BlockStateContainer$StateImplementation.func_177226_a(BlockStateContainer.java:215) 
+</div>
+*Fixed spawning Biomass with commands crash:  
+<div class="mw-collapsible mw-collapsed" data-expandtext="Show crash" data-collapsetext="Hide crash">
+
+net.minecraft.util.ReportedException: Ticking entity
+
+at net.minecraft.server.MinecraftServer.updateTimeLightAndEntities(MinecraftServer.java:848) ~[MinecraftServer.class:?]
+
+at net.minecraft.server.MinecraftServer.tick(MinecraftServer.java:743) ~[MinecraftServer.class:?]
+
+at net.minecraft.server.integrated.IntegratedServer.tick(IntegratedServer.java:192) ~[IntegratedServer.class:?]
+
+at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:592) [MinecraftServer.class:?]
+
+at java.lang.Thread.run(Unknown Source) [?:1.8.0_301]
+
+Caused by: java.lang.NullPointerException
+
+at net.minecraft.util.ResourceLocation.splitObjectName(ResourceLocation.java:43) ~[ResourceLocation.class:?]
+
+at net.minecraft.util.ResourceLocation.<init>(ResourceLocation.java:28) ~[ResourceLocation.class:?]
+
+at com.dhanantry.scapeandrunparasites.entity.monster.EntityBiomass.explode2(EntityBiomass.java:290) ~[EntityBiomass.class:?]
+</div>
+====<u>General</u>==== 
+
+*Changed model for Parasitic Ringlet Block
+*Changed texture for [[Parasite Biome#Biome Purifier|Biome Purifier Block]]
+*Updated Russian translation - Credit: CrazyPlayer#1509
+
+====<u>To be improved in 1.9.0+</u>==== 
+
+*[[Colony|Colonies]]
+*[[Parasite Biome|Biome]]
+*[[:Category:Ancient Parasites|Ancient versions]]
+*[[Assimilated Adventurer]]
+*[[Incomplete Forms|Incomplete forms]]
+*[[Beckon (Disambiguation)|Beckon infestation]]/biome block conversion
+*Sound effects
+*[[Lure]]/Purifier Blocks
+*Some of the textures<br />
+
+=====<u>Known issues</u>=====
+Conflict with JEID<ref>As of 1.9.0, the [[Parasite Biome]] will not be able to spread from Nodes with the Just Enough IDs mod installed.</ref>
+
+{{VersionList}}
+[[Category:Versions]]

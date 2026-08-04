@@ -1,0 +1,56 @@
+{{VersionBar|
+|page1=Version 1.9.6
+|page2=Version 1.9.8
+}}
+'''Version 1.9.7''' was an update for the Scape and Run: Parasites Mod, released on November 21st 2022.  It was 15.51 MB.
+
+== ''Change Log'' ==
+
+====<u>Fixes</u>====
+*[[Overseer]] applying [[Debar|debar]] instead of [[Needler|needler]] in its projectiles
+*"The name inheritance was improvised" change reverted 
+*Parasite death will no longer decrease [[Evolution Phases|phases]]
+*Fixed [[Dispatcher Nidus|Dispatcher Tile Entity]] not working (problem with collecting killcount from other parasites)
+*Nidus Blocks not spawning [[Stage I Dispatcher|Dispatcher]]
+*[[Assimilated Enderman]] sound effect volume
+*[[Assimilated Bear]] sound effect volume
+*[[Assimilated Pig]] sound effect volume
+*[[Adapted Reeker]] sound effect volume
+
+====<u>New</u>====
+*[[Assimilated Big Spider]] sounds
+*[[Assimilated Enderman]] portal sound
+
+====<u>Configuration</u>====
+*"Version [[:Category:Primitive Parasites|Primitive]] Point Reduction Value" from 0.5 to 0.05
+*"[[Adaptation System|Adaptation]] New Damage Cooldown" from 10 to 20
+
+*New options:
+**"[[Bogle]] Griefing" - "Set to true if you want the Bogle to destroy blocks on explosion." - SRParasitesMobs.cfg
+**"[[Assimilated Adventurer]] To [[Thrall]]" - "How many kills an Assimilated Adventurer needs to become a Thrall." - SRParasitesMobs.cfg
+
+====<u>Mobs</u>====
+[[Heavy Bomber]] bomb damage from 25 to 80
+Decreased the rate of [[Marauder]], [[Warden]] and [[Monarch]] spawning [[Seizer|Seizers]]
+
+====<u>General changes</u>====
+*Nade entities "tweaked texture
+*Updated lang files:
+**Darkk#6859
+***de_at
+***de_ch
+***de_de
+**DanieloXXelo#3260
+***pl_pl
+***lol_us
+**ZETA#1898
+***es_ar
+***es_cl
+***es_es
+***es_ve
+***es_uy
+***es_ec
+***es_mx
+
+{{VersionList}}
+[[Category:Versions]]

@@ -1,0 +1,114 @@
+{{Navbar|page1=Primitive Arachnida|page2=Adapted Arachnida}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|priarachnida}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=<gallery>
+Primitive Arachnida.png|Normal
+BerserkerPriArachnida.png|Berserker
+VirulentPriArachnida.png|Virulent
+BreacherPriArachnida.png|Breacher
+</gallery>
+|hp=35.0
+|damage=15.0
+|armor=4.0
+|kb_resistance=0.8 
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:pri_arachnida 
+}}  
+'''Primitive Arachnida''', known internally as '''Ranrac''', are a [[Mobs|Mob]] in the [[:Category:Primitive Parasites|Primitive]] Tier.
+
+== ''Spawning'' ==
+*Spawns after a successful merging between 4 [[Moving Flesh]], through the [[Evolution System]].
+*Spawns in groups of 2 to 3, from [[Ubiquitous Development#Level 2|Ubiquitous Development Level 2]] through [[Ubiquitous Development#Level 4|Level 4]], with a spawnweight of 15.
+*Spawned by [[Stage III Beckon|Stage III Beckons]].
+*Spawned by 4 [[:Category:Assimilated Mobs|Assimilated Mobs]] stored into a [[Stage III Dispatcher|Stage III]] or [[Stage IV Dispatcher|IV Dispatcher]].
+*Spawned by level 4 or higher [[Scent System|Scents]].
+*If at least one [[Colony]] exists, spawns when an [[Adapted Arachnida]] is killed.
+
+== ''Behavior'' ==
+Primitive Arachnida are Utility ranged units and Melee Combatants. 
+
+*Their Melee Attack is performed through contact damage.
+*If the [[Generations|Generation]] is 4 or higher, Primitive Arachnida can perform the following abilities:
+**Grappling and pulling distant Mobs or Players.
+***After shooting a white projectile from their mouth, if it misses, a [[Thin Webbing]] block will be placed. If the projectile hits their target, Primitive Arachnida will shoot a string from their mouth that will attach to the target applying Weakness at the start, pulling them towards it. Slowness and Mining Fatigue will be applied to the target when being pulled. If the target is near enough, the string will disappear.
+****They can pull targets that are above them and will pull down flying mobs or players.
+****They will only pull targets in for 10 seconds, after which they will switch to melee damage.
+*Primitive Arachnida can climb blocks.
+*Primitive Arachnida can perform small leaps, both on land and in liquids.
+*Primitive Arachnida can dive in liquids to pursue submerged targets.
+*Primitive Arachnida can break blocks that have their [[Hardness]] Value up to 1, with a 60 ticks cooldown and 1 Block range.
+*On death, Primitive Arachnida have a chance to explode, releasing Primitive Remains and an effect cloud of stacking Poison and COTH.
+*If a Primitive Arachnida gets 10 kills it will evolve into an [[Adapted Arachnida]].
+{{Variants|count=3|Berserker=BerserkerPriArachnida.png|Virulent=VirulentPriArachnida.png|Breacher=BreacherPriArachnida.png}}
+
+=== ''Weaknesses'' ===
+
+* Primitive Arachnidas, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+{{Properties
+|tier=Primitive
+|OrbEffectsMobs=Hunger II (00:15), Blindness II (00:15)
+}}
+
+=== ''Post Death'' ===
+* When a Primitive Arachnida dies, it has a chance to explode into [[Remains|Primitive Remains]].
+** If at least one [[Colony]] exists in the dimension, it will become [[Moving Flesh]] instead.
+
+{{Drops
+|rolls1=1 Roll
+|page1=Altered Tendons
+|amount1=1
+|chance1=40
+|rolls2=Always Rolls
+|page2=Arachnida Claw
+|amount2=2
+|chance2=40
+|page3=Strange Bone
+|amount3=1
+|chance3=20
+}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|[[File:Adaptating_1.ogg]]
+[[File:Adaptating_2.ogg]]
+[[File:Adaptating_3.ogg]]
+|Hostile
+|Plays when a Parasite is adapting.
+|Parasite adapts
+|adaptating_1-3
+|-
+|[[File:Adapted_1.ogg]]
+[[File:Adapted_2.ogg]]
+[[File:Adapted_3.ogg]]
+|Hostile
+|Plays when a Parasite has adapted.
+|Parasite adapted
+|adapted_1-3
+|-
+|}
+
+== ''Trivia'' ==
+*Arachnidas are also known as '''Ranrac''' in the Mod Files.
+*The Arachnida's ability was inspired by the [https://left4dead.fandom.com/wiki/The_Smoker Smoker] from Left 4 Dead
+*The Arachnida, despite the name, is not an arachnid. The [[Primitive Parasites|Primitive]] Arachnida only has three pairs of legs and can drop a [[Strange Bone]]. Arachnids in the real world have four pairs of legs and have an exoskeleton instead of bones.
+*The Primitive Arachnida has no sounds, despite its evolved form having them.
+
+==''Gallery''==
+<gallery>
+File:PrimitiveArachnidaHeight.png|The size of the Primitive Arachnida's model.
+File:Primitivearachnidapull.png|A Breacher Primitive Arachnida pulling a Husk.
+</gallery>
+
+{{MobList}}
+[[Category:Primitive Parasites]]
+[[Category:Mobs]]

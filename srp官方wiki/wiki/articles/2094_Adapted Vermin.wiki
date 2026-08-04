@@ -1,0 +1,99 @@
+{{Stub}}
+{{Navbar|page1=Primitive Vermin|page2=Adapted Vermin}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|adavermin}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=Adapted vermin.png
+|hp=70.0
+|damage=30.0
+|armor=24.0
+|kb_resistance=1.35
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:ada_vermin
+}}
+'''Adapted Vermin''' are a type of [[Mobs|Mob]], placed into the [[Adapted Parasites|Adapted]] Tier.
+
+==''Spawning''==
+
+==''Behavior''==
+Adapted Vermin are a flying, bombarding, swarm summoning unit, they will chase and hover above the player when attacking.
+
+*Adapted Vermin hover above the player dropping [[Lice]].
+**When the number of Lice exceeds 40, it will drop bombs instead.
+*In certain circumstances, Adapted Vermin can apply contact damage, though they make no effort to do so.
+
+===''Weaknesses''===
+Adapted Vermin, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+=== ''Post Death'' ===
+
+* On death, Adapted Vermin have a chance to explode, releasing [[Remains|Adapted Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+** Unconventionally, if at least one [[Colony]] exists in the dimension, Adapted Vermin will become [[Moving Flesh]] upon death instead.
+***It is the only [[Adapted Parasites|Adapted Parasite]] to do this, as usually Adapted Parasites turn into their Primitive counterpart and [[Primitive Parasites]] turn into Moving Flesh.
+
+{{Properties
+|tier=Adapted|Exhaustion=1.0|FollowRange=32|DamageCap=5 hits|MinimumDamage=1.5 HP|RemainValue=20|ScentDeathValue=60|DeathPenaltyEvolutionValue=3000|Regen=0.1|XPValue=55}}
+
+{{Drops|rolls1=One Roll:|page1=Toxic Lung|amount1=3|chance1=60|rolls2=Always Roll:|amount2=1|chance2=80|page2=Corrosive Mucus|page3=Strange Bone|amount3=3|chance3=20}}
+
+==''Sounds''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Adapted vermin idle 1.ogg]]
+[[File:Adapted vermin idle 2.ogg]]
+[[File:Adapted vermin idle 3.ogg]]
+|Hostile
+|Plays randomly while an Adapted Vermin is alive.
+|Adapted Vermin yelp
+|adapted_vermin_living_1-3
+|-
+|
+[[File:Adapted vermin hurt 1.ogg]]
+[[File:Adapted vermin hurt 2.ogg]]
+[[File:Adapted vermin hurt 3.ogg]]
+|Hostile
+|Plays when an Adapted Vermin is hurt.
+|Adapted Vermin snarl
+|adapted_vermin_hurt_1-3
+|-
+|[[File:Adapted Vomit.ogg]]
+|Hostile
+|Plays when an Adapted Vermin pukes [[Residue]] onto the ground.
+|Vomiting
+|adapted_vomit
+|-
+|
+[[File:Adapted vermin death.ogg]]
+|Hostile
+|Plays when an Adapted Vermin dies.
+|X
+|adapted_vermin_death
+|-
+|}
+
+==''Trivia''==
+
+* The [[Compendium]] states that an Adapted Vermin can crush steel with its jaws; however, steel is not a material that appears in Vanilla Minecraft or the SRP mod<ref>With its crooked and fairly thin teeth, it doesn't look much like it.</ref>.
+
+==''Gallery''==
+<gallery>
+File:AdaptedVerminBomb.png|The bomb Adapted Vermin use.
+File:AdaptedVerminHeight.png|thumb|Size of the Adapted Vermin's model
+File:Vermin Spawning Lice.gif|Vermin spawning a Lice over a Husk.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Adapted_Parasites]]
+[[Category:Mobs]]

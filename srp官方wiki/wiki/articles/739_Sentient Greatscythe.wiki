@@ -1,0 +1,31 @@
+{{WIP}}
+{{Navbar|page1=Living Scythe|page2=Sentient Greatscythe}}
+
+{{Item Info
+|image1=Sentient Greatscythe.png
+|damage=34
+|attack_speed=0.7
+|range=5.0
+|durability=1000
+|stackable=No
+|tooltip=The ulterior Evolution of the Living Scythe. It has gained a Mind. Decimates a large area.
+|id=srparasites:weapon_scythe_sentient
+}}
+The '''Sentient Greatscythe''' is a type of [[Weapons|Weapon]].
+
+It is the direct Upgrade of the [[Living Scythe]].
+
+== ''Obtainment'' ==
+Sentient Weapons evolve from their craftable Living counterpart after having dealt 50,000 damage. 
+
+== ''Usage'' ==
+
+The Living Scythe is a Melee Weapon. Its attack reach is 4 blocks in every direction from the players head, which is the default attack reach.
+
+Each time it is swung, it performs the default sweeping attack (though only visually if airborne or the attack cooldown is still up), alongside a large AoE attack, which can hit through walls and applies durability damage for every  mob hit. While that is unaffected by the Sweeping or Sharpness Enchantments, Strength and Fire Aspect are applied normally to all mobs hit.
+
+This large sweep extends roughly 10 blocks in each direction along the axis. This attack deals 6 base damage to the affected mobs and happens independently of attack cooldown and being airborne.{{ItemList}}
+
+[[Category:Weapons]]
+[[Category:Work In Progress Content]]
+[[Category:Items]]

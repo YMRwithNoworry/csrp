@@ -1,0 +1,59 @@
+{{TierBar}}
+
+
+'''Preeminent Parasites''' are a Tier of [[Mobs#Parasites|Parasites]]. This Tier is almost at the top of the Hierarchy, excluding the deprecated [[Ancient Parasites]], and contains 7 Mobs. 
+
+Preeminent Parasites are some of the most dangerous Parasites the Player will likely encounter.
+
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+Bogle.png|link=Bogle|[[Bogle]]
+Colony Carrier.png|link=Colony Carrier|[[Colony Carrier]]
+Haunter.png|link=Haunter|[[Haunter]]
+Heavy Bomber.png|link=Heavy Bomber|[[Heavy Bomber]]
+Wraith.png|link=Wraith|[[Wraith]]
+Succor.png|link=Succor|[[Succor]]
+Architect.png|link=Architect|[[Architect]] 
+</gallery>
+</div>
+
+== ''Shared Aspects and Capabilities'' ==
+
+=== Spawning ===
+*Spawns naturally when a [[Colony]] with a certain number of Points exists in the dimension.
+*Spawned inside the [[Parasite Biome]].
+
+=== Weakness ===
+*Like all Parasites, Preeminents present a weakness to fire (damage inflicted by fire is quadrupled);
+*Some of the Preeminent Parasites present a [[Adaptation System#Trivia|Weak Point]]: 
+**When [[Adaptation System#Trivia|Weak Points]] are hit, the damage inflicted to the Parasite is tripled. This also inflicts the [[Bleeding]] Effect to the Parasite;
+
+=== Combat Capabilities ===
+To be added...
+
+=== Post-Death ===
+*After dying, all Preeminents have a chance to explode, releasing a Potion Cloud which inflicts the Poison and [[Call Of The Hive]] Effects. They will also leave behind [[Remains|Preeminent Remains]];
+*After dying, all Preeminents have a chance to activate the [[Reinforcement System]].
+
+{{Properties|tier=Preeminent}}
+
+=== Drops ===
+{{Drops
+|header=false
+|rolls1=1 Roll
+|page1=Noxious Brain
+|amount1=1
+|chance1=40
+}}
+
+== ''Configuration'' ==
+Below is a list of the Config changes that affect Preeminent Parasites.
+
+To be added...
+
+== ''[[Lore]]'' ==
+To be added...
+
+== ''Trivia'' ==
+To be added...
+[[Category:Mobs]]

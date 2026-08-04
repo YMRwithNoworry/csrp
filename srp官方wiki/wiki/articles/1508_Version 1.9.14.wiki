@@ -1,0 +1,14 @@
+{{VersionBar|
+|page1=Version 1.9.13
+|page2=1.9.15
+}}
+'''Version 1.9.14''' was an update for the Scape and Run: Parasites Mod, released on January 27th 2024.  It was 22.47 MB.
+
+== ''Change Log'' ==
+
+====<u>Fixes</u>====
+*Lure items spawning Iron golem spawners
+*DoubleSlab bone using the wrong model
+
+{{VersionList}}
+[[Category:Versions]]

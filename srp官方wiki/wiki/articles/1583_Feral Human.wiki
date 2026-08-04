@@ -1,0 +1,59 @@
+{{Navbar|page1=Walking Human Head|page2=Assimilated Human|page3=Assimara Human|page4=Feral Human}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|ferhuman}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=FeralHuman.png
+|hp=24.0
+|damage=15.0
+|armor=7.0
+|kb_resistance=0.3
+|adaptable=No
+|id=srparasites:fer_human
+}}
+
+'''Feral Humans''' are the [[Feral Parasites|Feral Versions]] of Zombies and Husks. 
+
+== ''Spawning'' ==
+
+* Spawned when a Zombie or Husk is killed by a [[Gnat]] or [[Lice]].
+* Spawns from a Zombie or Husk succumbing to [[Call Of The Hive]] at [[Evolution Phases#Phase 7|Phase 7]] onwards.
+* Spawns when an [[Assimilated Human]] accumulates a killcount of 60 and [[Evolution System|evolves]].
+* Spawns in groups of 4 to 5, from [[Evolution Phases#Phase 8|Phase 8]] onwards, with a spawnweight of 25, once 5 Zombies/Husks have been assimilated.
+
+== ''Behavior'' ==
+Feral Humans are melee combatants.
+
+* Feral Humans attack through contact damage.
+* Feral Humans can perform small leaps, both on land and in liquids.
+* Feral Humans are able to sink in liquids to pursue submerged targets.
+* On hit Feral Humans has a chance to drop [[Remains|Feral Remains]].
+
+===''Weaknesses''===
+*Feral Humans, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+=== ''Post Death'' ===
+
+* On death Feral Humans have a chance to explode, releasing [[Remains|Assimilated Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+* On death Feral Humans have a chance to drop a [[Gnat]].
+{{Properties|tier=Feral|FollowRange=20|DamageCap=3|MinimumDamage=0.75|DeathPenaltyEvolutionValue=5|RemainValue=12|ScentDeathValue=15|XPValue=16|COTH=.7}}
+
+
+
+== ''Sounds'' ==
+To be added...
+
+== ''Trivia'' ==
+To be added...
+
+== Gallery ==
+<gallery>
+File:FeralHumanHeight.png|Size of the Feral Human's model.
+</gallery>
+
+{{MobList}}
+<references />
+[[Category:Feral Parasites]]
+[[Category:Mobs]]

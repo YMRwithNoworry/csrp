@@ -1,0 +1,16 @@
+{{TierBar}}
+
+
+'''Abomination Parasites''' are a ubiquitous tier of [[Mobs#Parasites|Parasites]]. Their Tier is subjective within their Hierarchy and contains 2 Mobs.
+
+=== ''Properties'' ===
+Most Abomination Parasites have their own custom property values; see their individual pages for more information.
+
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+File:Giant Head Spawn.png|[[Giant Head]]
+File:Abomination Many Bodies.png|link=Many Bodies|[[Many Bodies]]
+</gallery>
+</div>
+
+[[Category:Mobs]]

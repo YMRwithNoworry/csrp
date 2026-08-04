@@ -1,0 +1,271 @@
+{{Stub}} 
+
+'''Parasitic Growth Blocks''' are container [[Blocks]] with a unique GUI and functionality. 
+{{Item Info
+|image1=<gallery>
+Benign Growth.png|Benign Growth
+Malignant Growth.png|Malignant Growth
+Metastatic Mass.png|Metastatic Mass
+</gallery>
+|id=srparasites:parasiteloot<ref>Each block has a different '''data tag''', which are as follows:<div class="toccolours mw-collapsible mw-collapsed"><!--
+-->Benign Growth = <code>0</code><br><!--
+-->Malignant Growth = <code>1</code><br><!--
+-->Metastatic Mass = <code>2</code></div><!--
+-->{{WhatAreDataTags|x|/=false}}</ref>
+}}
+
+==''Info''==
+When opened for the first time they randomly generate a variety of [[Drops|Parasite Loot]], with the exception of [[:Category:Hijacked Mobs|Hijacked Drops]]. 
+
+When the player is in the interface, red, blood-like particles will spawn from the bottom of the screen and slowly move upwards. This is purely visual. If the player chooses to grab an item, they will take a guaranteed half a heart of damage plus a bonus based on how many of the container's slots are empty. There are three tiers for the Parasite Loot Block, each corresponding for [[Assimilated Mobs]], [[Adapted Parasites]] and [[Nexus Parasites]] items. Breaking them results in all of their drops being deleted with no way to get them back, so do not try this.
+
+To safely extract items from the Loot Blocks without taking damage, one can either siphon the contents out with a hopper, or replace the items taken out with other items. Note that items you are replacing with must be a Scape and Run item, and it can't be anything from vanilla Minecraft or a Scape and Run block.
+
+'''Parasitic Growth Blocks''' can naturally generate in the [[Meteor]] structure or in the [[Nests]] of either a [[Rooter (Disambiguation)|Rooter]] or [[Dispatcher (Disambiguation)|Dispatcher]]. Parasite Loot Blocks may also generate in [[Colony]] Buildings, with an estimated 60% to generate as a common variant, 30% to generate as an uncommon variant, and 10% to generate as a rare variant.
+
+==''Loot Tables''==
+
+
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+! colspan="4" |    '''Benign Growth''' Loot Table
+|-
+!'''Image'''
+!'''Name'''
+!'''Items'''
+!'''Chance'''
+|-
+|[[File:Benign Growth.png|128x128px]]
+|''' Benign Growth''' 
+|[[Infected Flesh]], [[Strange Bone]]
+|50%<ref name="bmm">The chance for each item to generate in a single spot. For example, Benign Growths will have a 50% to generate either Infected Flesh or a Strange Bone, so each one would have a 25% chance to generate.
+</ref>
+|}
+
+
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+! colspan="4" |        '''Malignant Growth''' Loot Table
+|-
+!'''Image'''
+!'''Name'''
+!'''Items'''
+!'''Chance'''
+|-
+|[[File:Malignant Growth.png|128x128px]]
+|''' Malignant Growth''' 
+|[[Summoner Core]], [[Yelloweye Bone]], [[Manducater Orb]], [[Reeker Fang]], [[Longarms Armor Fragment]], [[Bolster Husk]] [[Arachnida Claw]], [[Devourer Tentacle]], [[Infected Flesh]], [[Strange Bone]]
+|10%<ref name="bmm" />
+|}
+
+
+
+{|class="fandom-table mw-collapsible mw-collapsed"
+! colspan="4" |   '''Metastatic Mass''' Loot Table
+|-
+!'''Image'''
+!'''Name'''
+!'''Items'''
+!'''Chance'''
+|-
+|[[File:Metastatic Mass.png|128x128px]]
+|''' Metastatic Mass'''
+|[[Beckon Membrane]], [[Dispatcher Membrane]], [[Toxic Lung]], [[Noxious Brain]], [[Twisted Spinal Signal]]
+|20%<ref name="bmm" />
+|}
+
+==Effects==
+
+Whenever taking an item from the '''Parasitic Loot''' the following formulas are applied:
+
+*'''Fullness:''' Queries how many slots are free and subtracts the number from 27. Then divides by the total (27 in this case) and multiplies by 1000. The result is a float. The equation is <math>((27-Free)/27)*1000</math>
+
+*'''Damage:''' <math> 0.5F + 7.5F * (1.0F - Fullness)</math>
+**Note that the maximum of Fullness is 1 and the minimum is 0. This ultimately results in the game applying at least half a heart of flat parasite damage and at most four hearts of damage.
+
+Additionally, depending on how full the Loot Block is, it will apply stacking [[Viral]] II - IV for five to thirty seconds and [[Corrosion]] I - II for five to twenty seconds. The emptier the Loot Block, the more severe the effects and vice versa.
+{|class="fandom-table mw-collapsible mw-collapsed"
+! colspan=5 | '''Viral and Corrosion Application'''
+|-
+! colspan=1 | 
+! colspan=2 | '''Viral'''
+! colspan=2 | '''Corrosion'''
+|-
+!'''Slots Full'''
+!'''Potency'''
+!'''Duration'''
+!'''Potency'''
+!'''Duration'''
+|-
+|'''27'''
+|II
+|0:05
+|I
+|0:05
+|-
+|26
+|II
+|0:05
+|I
+|0:05
+|-
+|25
+|II
+|0:05
+|I
+|0:05
+|-
+|24
+|II
+|0:05
+|I
+|0:05
+|-
+|23
+|II
+|0:05
+|I
+|0:05
+|-
+|22
+|II
+|0:05
+|I
+|0:05
+|-
+|'''21'''
+|II
+|0:10
+|I
+|0:10
+|-
+|20
+|II
+|0:10
+|I
+|0:10
+|-
+|19
+|II
+|0:10
+|I
+|0:10
+|-
+|18
+|II
+|0:10
+|I
+|0:10
+|-
+|17
+|II
+|0:10
+|I
+|0:10
+|-
+|16
+|II
+|0:10
+|I
+|0:10
+|-
+|15
+|II
+|0:10
+|I
+|0:10
+|-
+|'''14'''
+|III
+|0:20
+|II
+|0:10
+|-
+|13
+|III
+|0:20
+|II
+|0:10
+|-
+|12
+|III
+|0:20
+|II
+|0:10
+|-
+|11
+|III
+|0:20
+|II
+|0:10
+|-
+|10
+|III
+|0:20
+|II
+|0:10
+|-
+|9
+|III
+|0:20
+|II
+|0:10
+|-
+|8
+|III
+|0:20
+|II
+|0:10
+|-
+|'''7'''
+|IV
+|0:30
+|II
+|0:20
+|-
+|6
+|IV
+|0:30
+|II
+|0:20
+|-
+|5
+|IV
+|0:30
+|II
+|0:20
+|-
+|4
+|IV
+|0:30
+|II
+|0:20
+|-
+|3
+|IV
+|0:30
+|II
+|0:20
+|-
+|2
+|IV
+|0:30
+|II
+|0:20
+|-
+|1
+|IV
+|0:30
+|II
+|0:20
+|-
+|}
+
+==''Trivia''==
+*The various types of Parasitic Growths, Benign, Malignant, and Metastatic, are all also forms of tumors, hinting at a biological similarity.
+
+==Notes==
+<references />
+
+{{BlockList}}
+[[Category:Blocks]]

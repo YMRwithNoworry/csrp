@@ -1,0 +1,57 @@
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|succor}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=Succor.png
+|hp=85
+|damage=N/A
+|armor=2
+|kb_resistance=1.0
+|adaptable=Yes
+|id=srparasites:succor
+}}
+'''Succors''' are a type of [[Mobs]], placed into the [[Preeminent Parasites|Preeminent]] Tier.
+
+== ''Spawning<ref>Succors technically require a [[Colony]] to exist in order to be able to spawn, but since all Preeminent Parasites that spawn them also do, this boundary is redundant.</ref>'' ==
+* Succors are summoned by other [[Preeminent Parasites]].  A Succor cannot spawn more Succors.
+
+== ''Behavior'' ==
+Succors are Flying Utility/Projectile units.
+*When a Succor flies close to an enemy, it will either: 
+**Explode into [[Remains|Pure Remains]], placing [[Residue]], dealing 2x the base damage of the Parasite that spawned it, and spawn a cloud that inflicts Poison, Wither, and [[Call Of The Hive|COTH]].
+**Deploy an [[Orb]] (Carrying the Orb effects of Parasite who spawned the Succor).
+**Teleport the Parasite that spawned it to itself.
+* After it does one of these actions, it will disappear and die.
+*Succors can break blocks that have their [[Hardness]] Value up to 15, with a 20 ticks cooldown and 2 Blocks range.
+
+=== ''Weaknesses'' ===
+*Succors, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+=== ''Post Death'' ===
+* If a Succor is killed before it can use one of its abilities, it will either Explode into Residue (as it would if it was near a target) or die normally.
+
+{{Properties|tier=Pure|Exhaustion=5.0|FollowRange=80|DamageCap=15|MinimumDamage=4|DeathPenaltyEvolutionValue=150000|RemainValue=25|ScentDeathValue=0|XPValue=75|Regen=0.3|COTH=0|PointChanceToLearn=100|PointChanceToFail=30|PointReductionValue=0.2|PointReductionCap=5|PointReducationTotalCap=20|Orbs=true|OrbItemCooldown=30|OrbExhaustion=25|OrbEffectsMobs=Hunger V (0:15), Needler V (00:25), Mining Fatigue V (00:15), Wither V (00:10)|OrbXPSteal=340}}
+
+{{Drops
+|rolls1=One Roll
+|page1=Hive Scrap
+|amount1=3
+|chance1=80}}
+
+==''Trivia''==
+*Succors are also known as '''Flam''' in the Mod Files.
+*The word "succor" means aid or something that brings it, fitting a Parasite summoned to provide aid to Preeminents.
+
+==''Gallery''==
+<gallery>
+File:SuccorHeight.png|Size of the Succor's model.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Preeminent Parasites]]
+[[Category:Mobs]]

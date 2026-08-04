@@ -1,0 +1,96 @@
+{{Navbar|page1=Incomplete Crux|page2=Crux}}
+
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|crux}}
+}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=
+Crux Big.png
+|hp=70.0
+|damage=20.0
+|armor=9.0
+|kb_resistance=1.0
+|adaptable=No
+|id=srparasites:crux
+}}
+'''Cruxes''', known internally as '''Cruxa,''' are a [[Mobs|Mob]] in the [[Crude Parasites|Crude]] Tier.
+
+== ''Spawning'' ==
+* Spawned by an [[Incomplete Crux|Incomplete Crux]] when it grows up after roughly 20 to 60 seconds.
+* Spawns in groups of 1 to 2 from [[Evolution Phases#Phase 5|Phase 5]] onwards with a spawnweight of 5.
+* Spawned by a [[Stage III Dispatcher|Stage III]] or [[Stage IV Dispatcher|Stage IV Dispatchers]] collecting [[Incomplete Forms]].
+* Spawned by level 4 or higher [[Scent System|Scents]].
+
+== ''Behavior'' ==
+Cruxes are Melee/Range Hybrids.
+
+*Cruxes, unlike other parasites will attempt to kill all non-parasites excluding Squids and Creepers regardless of [[Evolution Phases|Evolution Phase]].
+*Cruxes always have the [[Rage]] effect applied.
+*Their Melee Attack, performed by pushing their arms upward, inflicts AoE Damage.
+*Their Ranged Attack is performed by them grabbing the nearest block and throwing it, this Projectile will inflict the same damage as their current base damage. Thrown blocks will break leaf blocks. This Ability depends on the [[Hardness]] of the Block, which needs to be the same as the Cruxes' breaking capability (Hardness of 4 by default). The block thrown will also place down once hitting the ground.
+*For each entity it kills, it will increase its damage by 12%. It can do this up to 10 times.
+*Cruxes are able to traverse faster in liquids by performing small leaps.
+* Cruxes are able to dive in liquids to pursue submerged targets.
+
+* Crux can break (and throw) blocks that have their [[Hardness]] Value up to 4, with a 30 ticks cooldown and 2 Blocks range.
+
+=== ''Weaknesses'' ===
+Cruxes like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+{{Properties|tier=Crude}}
+
+==''Sounds''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Crux living 1.ogg]]
+[[File:Crux living 2.ogg]]
+[[File:Crux living 3.ogg]]
+[[File:Crux living 4.ogg]]
+[[File:Crux living 5.ogg]]
+[[File:Crux living 6.ogg]]
+|Hostile
+|Plays randomly while a Crux is alive.
+|Crux howls
+|crux_living_1-6
+|-
+|
+[[File:Crux hurt 1.ogg]]
+[[File:Crux hurt 2.ogg]]
+[[File:Crux hurt 3.ogg]]
+[[File:Crux hurt 4.ogg]]
+|Hostile
+|Plays when a Crux is hurt.
+|Crux snarls
+|crux_hurt_1-4
+|-
+|[[File:Crux death.ogg]]
+|Hostile
+|Plays when a Crux dies.
+|Crux dies
+|crux_death
+|-
+|}
+
+== ''Trivia'' ==
+*This Mob was [[:Category:Community Proposals|proposed]] by user '''Robert 25'''.  Original Suggestion: https://trello.com/c/Q25WvqDL/66-crux
+
+== ''Gallery'' ==
+<gallery>
+File:Crux Size Comparison.png|Size of a Crux's Model.
+File:Cruxthrow.png|A Crux lobbing a Grass Block at an unsuspecting Sheep.
+</gallery>
+
+{{MobList}}
+[[Category:Mobs]]
+[[Category:Crude Parasites]]
+[[Category:Work In Progress Content]]
+[[Category:Community Proposals]]

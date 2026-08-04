@@ -1,0 +1,103 @@
+{{Navbar|page1=Host|page2=Herd}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|herd}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=Herd.png
+|hp=140.0
+|damage=18.0
+|ranged=7.0
+|armor=12.0
+|kb_resistance=1.0
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:hostii
+}}
+'''Herds''' are a type of [[Mobs]], placed into the [[Crude Parasites|Crude]] Tier.
+
+== ''Spawning'' ==
+*Spawns after a [[Host]] gets 40 kills and evolves.
+*Spawns in groups of 1 to 2, from [[Evolution Phases#Phase 7|Phase 7]] onward, with a spawnweight of 5.
+
+== ''Behavior'' ==
+Herds are Melee/Ranged/Summoner Hybrids. They can move only when underground and are incapable of movement when on the surface.
+
+While moving underground, they will release [[Residue]].
+
+*Their Melee Attack, performed by slamming their large tentacles, inflicts knockback and AoE Damage.
+*Their Ranged Attack is performed by them shooting Bombs in bursts of up to 2, which inflicts Poison, [[Call Of The Hive|COTH]], and [[Viral]] after exploding.
+*Their Second Ranged Attack is performed by a poisonous Projectile being shot in bursts of up to 3 from the top of the Herd, this Projectile inflicts Poison for a short duration.
+*They are able to perform summons, generating [[Mangler|Manglers]], while being underground.
+*Herds are able to generate Waves, small damaging areas of disturbed ground. After standing still for a brief period they will summon a Wave which homes toward the target at fast speed but is unable to move up blocks. Waves deal very high damage per second and ignore immunity frames.
+** This is telegraphed by flame particles and a significantly louder and higher pitched growl.
+*They are able to teleport while underground, but the following conditions must be met:
+**There must be 3 blocks below its current position, and in the position where it will teleport to.
+**Those 3 blocks, in both positions, need to be full blocks.
+**The sum of the 3 blocks' [[hardness]] values must be less than <u>15</u>.
+* Upon death, if at least one [[Colony]] is present in the dimension, Herds will become [[Host|Hosts]].
+
+=== ''Weaknesses'' ===
+*Herds, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+*Herds, while underground, can be damaged by other blocks like lava, fire, and magma.
+
+{{Properties
+|tier=Crude
+|tier2=Adapted
+}}
+
+==''Sounds''==
+
+{| class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''ID'''
+|-
+|[[File:hostliving1.ogg]]
+[[File:hostliving2.ogg]]
+|Hostile
+|Randomly plays when a Herd is alive.
+|hostliving1-2
+|-
+|[[File:hosthurt1.ogg]]
+[[File:hosthurt2.ogg]]
+[[File:hosthurt3.ogg]]
+|Hostile
+|Plays when a Herd is hurt.
+|hosthurt1-3
+|-
+|[[File:hostunderground1.ogg]]
+[[File:hostunderground2.ogg]]
+|Hostile
+|Plays when a Herd is underground.
+|hostunderground1-2
+|-
+|[[File:hostrmerge1.ogg]]
+[[File:hostrmerge2.ogg]]
+[[File:hostrmerge3.ogg]]
+|Hostile
+|Plays when a Herd emerges from underground.
+|hostrmerge1-3
+|-
+|[[File:hostdeath.ogg]]
+|Hostile
+|Plays when a Herd dies.
+|hostdeath
+|-
+|}
+
+== ''Trivia'' ==
+*Herds are also known as '''Hostii''' in the Mod Files;
+*According to the [[Compendium]], the tentacles of [[Host|Hosts]] and Herds have hollow openings at the end and possess the consistency of tar.
+*Herds are said to be heard muttering, implying some for of intelligence, though nothing of these mutters has proven understanding.
+
+== ''Gallery'' ==
+<gallery>
+File:HerdHeight.png|thumb|Size of the Herd's Model
+File:Bomb2.png|The Herd's Bomb.
+</gallery>
+
+{{MobList}}
+[[Category:Crude Parasites]]
+[[Category:Mobs]]

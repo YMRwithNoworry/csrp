@@ -1,0 +1,111 @@
+{{Navbar|page1=Walking Pig Head|page2=Assimilated Pig|page3=Feral Pig}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|simpig}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=Assimilated Pig.png
+|hp=9.0
+|damage=3.5
+|armor=0.1 
+|kb_resistance=0.1
+|adaptable=No
+|id=srparasites:sim_pig
+}}
+'''Assimilated Pigs''', known internally as '''Infpig''', are the [[Assimilated Mobs|Assimilated Version]] of Pigs. Assimilated Pigs do not currently possess an [[Assimara Parasites|Assimara version]] at the time of writing, much like [[Assimilated Horse|Assimilated Horses]]. The implications of this are unknown.
+
+
+== ''Spawning'' ==
+* Spawned when a Pig succumbs to [[Call Of The Hive|Call of The Hive]] below [[Evolution Phases#Phase 7|Phase 7]].
+* Spawns in groups of 3 to 5, from [[Evolution Phases#Phase 2|Phase 2]] through [[Evolution Phases#Phase 7|Phase 7]], with a spawnweight of 25, once 4 Pigs have been assimilated.
+* Spawned by [[Stage II Beckon|Stage II]] and [[Stage III Beckon|Stage III Beckons]].
+* Spawned by level 3 or higher [[Scent System|Scents]].
+
+== ''Behavior'' ==
+Assimilated Pigs are Melee Combatants.
+
+* Their Melee Attack is performed through contact damage.
+* Any Mob within 3 blocks of an Assimilated Pig will be inflicted with COTH. This does not go through walls.
+* Assimilated Pigs are able to traverse faster in liquids by performing small leaps.
+* Assimilated Pigs are able to dive in liquids to pursue submerged targets.
+* If an Assimilated Pig gets 5 kills and is within range of a [[Moving Flesh]] or 3 other Assimilated Mobs<ref>Excluding [[Assimilated Ender Dragon]] and [[Assimilated Big Spider]].</ref>, it will evolve into a Moving Flesh.
+* If an Assimilated Pig gets 60 kills and is unable to turn into Moving Flesh, it will evolve into a [[Feral Pig]].
+* On death, Assimilated Pigs have a chance to explode, releasing [[Remains|Assimilated Remains]], 2 [[Buglin|Buglins]], and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+** When not exploding, there is a 50% chance that an Assimilated Pig drops its [[Walking Pig Head|Head]].
+
+=== ''Weaknesses'' ===
+
+* Assimilated Pigs, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+{{Properties|tier=Assimilated}}
+
+{{Drops
+|rolls1=One Roll
+|page1=Infected Flesh
+|amount1=1-2
+|chance1=80
+|rolls2=Always Rolls
+|page2=Diseased Heart
+|amount2=1
+|chance2=10
+}}
+
+==''Sounds''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Assimilatedpigliving1.ogg]]
+[[File:Assimilatedpigliving2.ogg]]
+[[File:Assimilatedpigliving3.ogg]]
+|Hostile
+|Plays randomly while an Assimilated Pig is alive.
+|Distorted oinks
+|assimilatedpigliving1-3
+|-
+|
+[[File:Assimilatedpighurt1.ogg]]
+[[File:Assimilatedpighurt2.ogg]]
+[[File:Assimilatedpighurt3.ogg]]
+|Hostile
+|Plays when an Assimilated Pig is hurt.
+|Assimilated pig squeals
+|assimilatedpighurt1-3
+|-
+|[[File:Assimilated Melting.ogg]]
+|Hostile
+|Plays when an Assimilated Pig melts into [[Moving Flesh]].
+|X
+|infected_melting
+|-
+|[[File:Explosion.ogg]]
+|Hostile
+|Plays when an Assimilated Pig explodes, at death.
+|X
+|mob_explotion
+|-
+|
+[[File:Assimilatedpigdeath.ogg]]
+|Hostile
+|Plays when an Assimilated Pig dies.
+|Assimilated pig dies
+|assimilatedpigdeath
+|-
+|}
+
+== ''Gallery'' ==
+<gallery>
+File:Assimilated Pig Size Comparison.png|Size of the Assimilated Pig's Model.
+File:Assimilated Pig Head.png|Assimilated Pig's Walking Head.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Assimilated Mobs]]
+[[Category:Mobs]]

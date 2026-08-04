@@ -1,0 +1,97 @@
+{{VersionBar|
+|page1=Version 1.9.2
+|page2=Version 1.9.4
+}}
+'''Version 1.9.3''' was an update for the Scape and Run: Parasites Mod, released on April 3rd 2022.  It was 9.13 MB.
+
+== ''Change Log'' ==
+
+====<u>New options</u>==== 
+
+*Added category for [[Primitive Devourer|Devourer]]
+*"[[Scent System|Scent]] Debug"
+*"Regen Timer"
+
+====<u>Fixes</u>==== 
+
+*Crash:
+<div class="mw-collapsible mw-collapsed" data-expandtext="Show crash" data-collapsetext="Hide crash">
+net.minecraft.util.ReportedException: Ticking entity
+
+at net.minecraft.server.MinecraftServer.func_71190_q(MinecraftServer.java:773) ~[MinecraftServer.class:?]
+
+at net.minecraft.server.MinecraftServer.func_71217_p(MinecraftServer.java:668) ~[MinecraftServer.class:?]
+
+at net.minecraft.server.integrated.IntegratedServer.func_71217_p(IntegratedServer.java:279) ~[chd.class:?]
+
+at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:526) [MinecraftServer.class:?]
+
+at java.lang.Thread.run(Thread.java:745) [?:1.8.0_51]
+
+Caused by: java.lang.NullPointerException
+
+at com.dhanantry.scapeandrunparasites.entity.ai.EntityParasiteBase.func_70686_a(EntityParasiteBase.java:582) ~[EntityParasiteBase.class:?]
+
+at net.minecraft.entity.ai.EntityAITarget.func_179445_a(SourceFile:116) ~[za.class:?]
+
+at net.minecraft.entity.ai.EntityAITarget.func_75296_a(SourceFile:148) ~[za.class:?]
+</div> 
+
+*Crash:
+<div class="mw-collapsible mw-collapsed" data-expandtext="Show crash" data-collapsetext="Hide crash">
+java.lang.NullPointerException: Ticking entity
+
+at com.dhanantry.scapeandrunparasites.util.ParasiteEventEntity.checkEntity(ParasiteEventEntity.java:76)
+
+at com.dhanantry.scapeandrunparasites.entity.ai.EntityPPure$1.apply(EntityPPure.java:46)
+
+at com.dhanantry.scapeandrunparasites.entity.ai.EntityPPure$1.apply(EntityPPure.java:39)
+
+at com.dhanantry.scapeandrunparasites.entity.ai.EntityAINearestAttackableTargetStatus$1.apply(EntityAINearestAttackableTargetStatus.java:55)
+
+at com.dhanantry.scapeandrunparasites.entity.ai.EntityAINearestAttackableTargetStatus$1.apply(EntityAINearestAttackableTargetStatus.java:50)
+
+at net.minecraft.world.chunk.Chunk.func_177430_a(Chunk.java:936)
+</div> 
+
+*Crash:
+<div class="mw-collapsible mw-collapsed" data-expandtext="Show crash" data-collapsetext="Hide crash">
+java.lang.NullPointerException: Ticking entity
+
+at com.dhanantry.scapeandrunparasites.entity.monster.infected.EntityInfDragonE$AIFireballAttack.func_75246_d(EntityInfDragonE.java:528)
+
+at net.minecraft.entity.ai.EntityAITasks.func_75774_a(SourceFile:129)
+
+at net.minecraft.entity.EntityLiving.func_70626_be(EntityLiving.java:888)
+
+at net.minecraft.entity.EntityLivingBase.func_70636_d(EntityLivingBase.java:2359)
+
+at net.minecraft.entity.EntityLiving.func_70636_d(EntityLiving.java:678)
+</div> 
+
+*Game crashing when you try to spawn the [[Crux]], a [[Heed]] if they are disabled
+*Game crashing when spawning the [[Heavy Bomber]]
+*[[Assimilated Adventurer]] not spawning with players name if spawned with spawn egg
+*Assimilated Adventurer not spawning with players name if killed by parasites
+*Some Items/Blocks without localised names (en_us)
+
+====<u>Changes</u>==== 
+
+*[[Sentient Greatsword|Sentient Sword]] Texture (V)
+*[[Living Cleaver]] Texture (V)
+*[[Sentient Greatcleaver|Sentient Cleaver]] Texture (V)
+*pl_pl.lang file Updated by: @Eldritch Demon
+*es_cl.lang file Updated by: @ZETA#1898
+
+====<u>Mobs</u>==== 
+
+*Parasites with charge attack<ref>At this time, this included the [[Assimilated Cow]], [[Primitive Reeker]], [[Adapted Reeker]], and [[Warden]]</ref>:
+*#Before making the actual charge they will have to wait a little and their body will start to shake.
+*#They will not begin to do aoe damage until the charge has begun 
+
+*Tweaked [[Adapted Reeker]], [[Warden]] charge attack speed
+*Removed Adapted Reeker damage aura
+*[[:Category:Ancient Parasites|Ancient versions]] regeneration reduced by half
+
+{{VersionList}}
+[[Category:Versions]]

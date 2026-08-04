@@ -1,0 +1,80 @@
+{{Navbar|page1=Walking Horse Head|page2=Assimilated Horse|page3=Feral Horse}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|horsehead}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=Assimilated_Horse_Head.png
+|hp=5.0
+|damage=2.5
+|armor= 
+|kb_resistance=0.1
+|adaptable=No
+|id=srparasites:sim_horsehead
+}}
+'''Walking Horse Heads''' are [[Walking Heads]] of [[Assimilated Horse|Assimilated Horses]].
+
+==''Spawning''==
+*Spawned with a 50% chance when an Assimilated Horse dies.
+*Spawned by [[Worm|Worms]] through Level 3 [[Scent System|Scents]].
+
+==''Behavior''==
+Walking Horse Heads are cowardly Melee swarm units.
+*Walking Horse Heads' Melee Attack is performed through contact damage.
+* Walking Horse Heads can perform small leaps.
+*They will seek out [[Medium Incomplete Form|Medium Incomplete Forms]] to merge with in order to evolve back into Assimilated Horses.
+*Any Mob within 3 blocks of a Walking Horse Head will be inflicted with [[Call Of The Hive|COTH]]. This does not go through walls.
+*Walking Horse Heads are able to traverse faster in liquids by performing small leaps.
+=== ''Weaknesses'' ===
+
+* Walking Horse Heads, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+* Walking Horse Heads will run away during the daytime if no other parasites are present.
+{{Properties|tier=Assimilated|FollowRange=16|DamageCap=1|MinimumDamage=0.5|DeathPenaltyEvolutionValue=1|RemainValue=N/A|ScentDeathValue=5|XPValue=8|COTH=.7}}
+
+==''Sounds''==
+{| class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:infectedhead_growl.ogg]]
+[[File:infectedhead_growl1.ogg]]
+[[File:infectedhead_growl2.ogg]]
+|Hostile
+|Plays randomly while a Walking Horse Head is alive.
+|Head screams
+|infectedhead_growl-2
+|-
+|
+[[File:infectedhead_hurt.ogg]]
+[[File:infectedhead_hurt1.ogg]]
+|Hostile
+|Plays when a Walking Horse Head takes damage.
+|Head screeches
+|infectedhead_hurt-1
+|-
+|[[File:Assimilated Head Death.ogg]]
+|Hostile
+|Plays when a Walking Horse Head dies.
+|Head dies
+|infectedhead_death
+|-
+|}
+
+==''Trivia''== 
+* Walking Horse Heads are also known as '''infhorsehead''' in the mod files.
+
+==''Gallery''==
+<gallery>
+File:Assimilated Horse Size Comparison.png|Size of the Walking Horse Head's Model.
+</gallery>
+{{MobList}}
+[[Category:Mobs]]
+[[Category:Walking Heads]]
+
+<references />
+[[Category:Assimilated Mobs]]

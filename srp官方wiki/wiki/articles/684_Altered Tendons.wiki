@@ -1,0 +1,49 @@
+{{Item Info
+|image1=Altered Tendons.png
+|type=Material
+|stackable=Yes (16)
+|tooltip=Chunks of developed muscles harvested from a Primitive Parasite body, which excretes a horrible smell. A Lure Component.
+|id=srparasites:lurecomponent3
+}}
+'''Altered Tendons''' are a [[:Category:Drops|Drop]] and a [[:Category:Drops#Lure Components|Lure Component]].
+
+== ''Obtainment'' ==
+Dropped by all [[Primitive Parasites]] and the [[Thrall]].
+
+== ''Usage'' ==
+{{CraftingTable
+|r1_b1=Altered Tendons|r1_a2=Infected Flesh|r1_b2=Assimilated Module|r1_c2=Infected Flesh|r1_b3=Altered Tendons|r1_output=Crude Module|r1_count=1
+
+|r2_b1=Altered Tendons|r2_a2=Altered Tendons|r2_b2=Module Genic Receptacle|r2_c2=Altered Tendons|r2_b3=Altered Tendons|r2_output=Primitive Module|r2_count=1
+
+|r3_a1=Altered Tendons
+|r3_b1=Dispatcher Membrane
+|r3_c1=Altered Tendons
+|r3_a2=Dispatcher Membrane
+|r3_b2=Module Genic Receptacle
+|r3_c2=Dispatcher Membrane
+|r3_a3=Gold Ingot
+|r3_b3=Node Lamp
+|r3_c3=Gold Ingot
+|r3_output=Vector Module
+|r3_count=1
+
+|r4_a1=Altered Tendons
+|r4_c1=Altered Tendons
+|r4_a2=Cobblestone
+|r4_b2=Cobblestone
+|r4_c2=Cobblestone
+|r4_a3=Cobblestone
+|r4_b3=Cobblestone
+|r4_c3=Cobblestone
+|r4_output=Lure (Slender)
+
+|r5_a1=Iron Ingot|r5_b1=Iron Ingot|r5_c1=Iron Ingot|r5_a2=Glass|r5_b2=Altered Tendons|r5_c2=Glass|r5_a3=Iron Ingot|r5_b3=Redstone Dust|r5_c3=Iron Ingot|r5_output=Module Organ Synth|r5_count=1
+
+|r6_a1=Altered Tendons|r6_b1=Altered Tendons|r6_b2=Beckon Membrane|r6_a2=Altered Tendons|r6_output=Biomass Block|r6_count=4
+}}
+
+
+{{ItemList}}
+[[Category:Drops]]
+[[Category:Items]]

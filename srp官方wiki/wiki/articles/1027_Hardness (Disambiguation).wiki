@@ -1,0 +1,29 @@
+{{Disambiguation}}
+
+
+SRP Mobs can break different grades of Hardness, depending on the type of [[Mobs|Mob]] or Tier. 
+
+Listed below are the Hardness Levels each Tier can break.
+
+* [[:Category:Variants#Breacher_Variants|Breacher Variant]] Parasites have double the hardness breaking capabilities of their normal version.
+* The [[Assimilated Ender Dragon]] can break blocks up to a hardness of '''3'''
+* [[Primitive Parasites]] can break blocks up to a hardness of '''1'''
+* [[Adapted Parasites]] can break blocks up to a hardness of '''3'''
+* The [[Adapted Bolster]] can break blocks up to a hardness of '''3.5'''
+* The [[Crux]] can break blocks up to a hardness of '''4'''
+* Stage I [[Nexus Parasites]] can break blocks up to a hardness of '''3'''
+* Stage II [[Nexus Parasites]] can break blocks up to a hardness of '''5.5'''
+* Stage III [[Nexus Parasites]] can break blocks up to a hardness of '''7'''
+* Stage IV [[Nexus Parasites]] can break blocks up to a hardness of '''18'''
+* The [[Sentry]] and [[Kyphosis]] can break blocks up to a hardness of '''7'''
+* [[Pure Parasites]] can break blocks up to a hardness of '''5'''
+* The [[Grunt]] can break blocks up to a hardness of '''3'''
+* [[Preeminent Parasites]] can break blocks up to a hardness of '''15'''
+* [[Ancient Parasites]] can break blocks up to a hardness of '''9'''
+* [[Beckon|Beckons]] can infest blocks up to a hardness of '''4.5'''
+* The [[Parasite Biome]] can corrupt blocks up to a Hardness of '''60'''
+
+[https://minecraft.fandom.com/wiki/Breaking#Blocks_by_hardness '''Click here'''] to see a list of the Hardness values for Vanilla Blocks.  Use this as a reference for building bases.
+
+''Suggestion: Iron Bars, Iron Doors, and Metal Blocks cannot be infested by [[Beckon|Beckons]], and can only be broken by most above the Adapted Tier. However, no parasite can break Obsidian.''
+[[Category:Disambiguations]]

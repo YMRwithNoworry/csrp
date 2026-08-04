@@ -1,0 +1,16 @@
+{{Stub}}
+{{Item Info
+|image1=Diseased Sponge.png
+|id=srparasites:diseased_sponge
+}}
+
+'''Diseased Sponges''' are Sponges that have been filled with Dead Blood.
+
+==''Obtainment''==
+Diseased Sponges can be obtained by placing a Sponge inside liquid Dead Blood, which will be absorbed and disappear.
+
+==''Usage''==
+Diseased Sponges can be brewed with Water Bottles or Awkward Potions to create [[Dead Blood Fluid]] and are the one of only two ways of obtaining it, alongside taking the fluid from a source block. However, upon brewing, the Sponge will be consumed and unable to be reused.
+
+{{BlockList}}
+[[Category:Blocks]]

@@ -1,0 +1,9 @@
+{{DisambiguationContent
+|image1=Stage 1 Rooter.png
+|title1=[[Stage I Rooter]]
+|image2=Stage 2 Rooter.png
+|title2=[[Stage II Rooter]]
+|image3=Stage 3 Rooter.png
+|title3=[[Stage III Rooter]]
+|image4=Stage 4 Rooter.png
+|title4=[[Stage IV Rooter]]}}

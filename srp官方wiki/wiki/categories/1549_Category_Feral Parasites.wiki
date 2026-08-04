@@ -1,0 +1,48 @@
+{{TierBar}}
+
+'''Feral Parasites''' are a tier of [[Mobs|Parasites]] consisting of evolved, refined forms of [[Assimilated Mobs]]. In the hierarchy, they are above Assimilated Mobs, but roughly at or below [[Primitive Parasites]].
+
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+FeralBear.png|link=Feral Bear|[[Feral Bear]]
+FeralCow.png|link=Feral Cow|[[Feral Cow]]
+FeralEnderman.png|link=Feral Enderman|[[Feral Enderman]]
+FeralHorse.png|link=Feral Horse|[[Feral Horse]]
+FeralHuman.png|link=Feral Human|[[Feral Human]]
+FeralPig.png|link=Feral Pig|[[Feral Pig]]
+FeralSheep.png|link=Feral Sheep|[[Feral Sheep]]
+FeralVillager.png|link=Feral Villager|[[Feral Villager]]
+FeralWolf.png|link=Feral Wolf|[[Feral Wolf]]
+</gallery>
+</div>
+
+== Spawning ==
+*Created when a [[Gnat]] or [[Lice]] is responsible for the mob's death (assuming the mob is not immune to COTH).
+*Spawns naturally from [[Evolution Phases#Phase 8|Phase 8]] once enough of their Sane counterpart has been assimilated.
+*Spawned by mobs succumbing to [[Call Of The Hive]] from [[Evolution Phases#Phase 7|Phase 7]] and onwards.
+*Spawned when an [[Assimilated Mobs|Assimilated Mob]] accumulates a killcount of 60.
+
+== Features ==
+*Feral Parasites' melee attacks will inflict Call Of The Hive I.
+*Feral Parasites are capable of performing small leaps in liquids.
+*Feral Parasites are capable of pouncing in order to reach their targets.
+
+=== ''Weaknesses'' ===
+Like all Parasites, Ferals present a weakness to fire (damage inflicted by fire is quadrupled).
+
+== ''Survival Guides'' ==
+These guys are stronger versions of their respective [[:Category:Assimilated Mobs|Assimilated versions]]
+
+-Destroy all Vermins and Gnats in the area
+
+-Pour lava, use fire
+
+== ''Lore'' ==
+To be added...
+
+== ''Trivia'' ==
+*The sounds of Feral Parasites are the sounds of their respective [[:Category:Assimilated Mobs|Assimilated versions]] put through an in-game audio filter.
+*All current Feral Parasites have a set of small appendages coming from their mouths.
+
+== ''Gallery'' ==
+[[Category:Mobs]]

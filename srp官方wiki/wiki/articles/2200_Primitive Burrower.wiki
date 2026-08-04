@@ -1,0 +1,88 @@
+{{Stub}}
+{{WIP}}
+{{Navbar|page1=Primitive Burrower|page2=Adapted Burrower}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|priburrower}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=PrimitiveBurrower.png
+|hp=45.0
+|damage=15.0
+|armor=9.0
+|kb_resistance=0.7
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:pri_burrower
+}}'''Primitive Burrowers''' are a type of [[Mobs]], placed into the [[Primitive Parasites|Primitive]] Tier.
+==''Spawning''==
+WIP
+==''Behavior''==
+Primitive Burrowers are Fast-Burrowing Melee Combatants. They are able to burrow underground to ambush their prey, they are completely invulnerable while underground.
+
+WIP
+
+=== ''Weaknesses'' ===
+
+* Primitive Burrowers, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+{{Properties
+|tier=Primitive
+}}
+
+{{Drops
+|rolls1=One Roll:
+|page1=Altered Tendons
+|amount1=2
+|chance1=60
+|rolls2=Always Rolls:|page2=(Placeholder Burrower Drop)|amount2=2|chance2=40|page3=Strange Bone|amount3=1|chance3=10}}
+
+==''Sounds''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Ada tozoon digging_1.ogg]]
+[[File:Ada tozoon digging_2.ogg]]
+[[File:Ada tozoon digging_3.ogg]]
+|Hostile
+|Plays when a Primitive Burrower is digging.
+|X
+|prim_burrower_digging_1-3
+|-
+|[[File:Adaptating_1.ogg]]
+[[File:Adaptating_2.ogg]]
+[[File:Adaptating_3.ogg]]
+|Hostile
+|Plays when a Parasite is adapting.
+|Parasite adapts
+|adaptating_1-3
+|-
+|[[File:Adapted_1.ogg]]
+[[File:Adapted_2.ogg]]
+[[File:Adapted_3.ogg]]
+|Hostile
+|Plays when a Parasite has adapted.
+|Parasite adapted
+|adapted_1-3
+|-
+|}
+
+==''Trivia''==
+
+
+==''Gallery''==
+<gallery>
+File:PrimitiveBurrowerComparison.png|Size of the Primitive Burrower's model.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Mobs]]
+[[Category:Primitive Parasites]]

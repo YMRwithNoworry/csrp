@@ -1,0 +1,55 @@
+{{VersionBar|
+|page1=Version 1.9.4
+|page2=Version 1.9.6
+}}
+'''Version 1.9.5''' was an update for the Scape and Run: Parasites Mod, released on April 16th 2022.  It was 9.18 MB.
+
+== ''Change Log'' ==
+
+====<u>Fixes</u>==== 
+
+*[[Dried Tendons]] recipe will now give Dried Tendons
+*[[Living Scythe|Scythe]] causing lag when hitting mobs
+*[[:Category:Assimilated Mobs|Assimilated versions]] not melting to [[Evolution System|merge]] for creation of [[:Category:Primitive Parasites|Primitive versions]]
+*"asiudghsaiu" message changed to "Phase decreased"
+*[[Lures|Lure blocks]] lowering [[Evolution Phases|Evolution phases]] not updating current phase if a phase was drecreased
+*Removed weird message caused by the [[Assimilated Cow|assimilated cow]]
+*[[Assimilated Ender Dragon|Assimilated Enderdragon]] boss bar not showing up when attacked by player
+
+====<u>Config</u>==== 
+
+*"[[Reinforcement System]] Maximum Beckon Chunk" value changed from 3 to 2
+*Tweaked loot table for each [[:Category:Primitive Parasites|Primitive]]/[[:Category:Adapted Parasites|Adapted version]] (minus [[Primitive Devourer|Devourer]], [[Primitive Arachnida|Primitive]] and [[Adapted Arachnida]], [[Primitive Bolster|Primitive]] and [[Adapted Bolster]])
+*New options:
+*#"Version x XP Value"
+*#"Cyst Item BlackList"
+*#"Cyst Delay"
+
+====<u>Changes</u>==== 
+
+*Mobs that are considered child will never spawn with [[Call Of The Hive|COTH]]
+*[[Parasitic Cyst|Parasite Cyst]] will now has "Active" in the name if its active
+*Block cyst (Active):
+*#If item can be damaged, it will consume 5 of the durability instead of consuming it in one go
+*#It will eat items every 5 seconds instead of 2
+*#Range reduced from 32 to 16
+*#Parasites with griefing will place them more frequently to make for the loss of range 
+
+*Minimum damage will now respect shields (they can disable shields if minimum damage != 0, only Primitive and higher tier versions)
+*[[Reinforcement System]] will not send [[Stage I Beckon|Beckons]] if there is one too close to the call
+
+====<u>Mobs</u>==== 
+
+*[[Primitive Manducater|Primitive]] and [[Adapted Manducater]] can now bee seen while it has the "INVISIBILITY" effect
+*[[Assimilated Cow]] charge attack will now respect iframes
+*Added [[Crux]] sac(s) animation
+*[[Assimilated Big Spider]] will no longer drop lure components
+*Little tweak for the [[Assimilated Ender Dragon|Assimilated Enderdragon]] texture
+*Reduced melee attack cooldown from 20 to 10 ticks for:
+*#[[Rupter]]
+*#Manducater
+*#[[Assimilated Wolf]]
+*#[[Heed]]
+
+{{VersionList}}
+[[Category:Versions]]

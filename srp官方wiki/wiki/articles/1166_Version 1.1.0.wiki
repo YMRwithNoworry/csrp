@@ -1,0 +1,18 @@
+{{VersionBar|
+|page1=Version 1.0.1
+|page2=Version 1.2.0
+}}
+'''Version 1.1.0''' was an update for the Scape and Run: Parasites Mod, released on October 18th 2019.  It was 330.67 KB.
+
+== ''Change Log'' ==
+
+*Changed how the entities are registered into Minecraft for better compatibility
+*The parasites now regenerate health each time they kill another entity
+*Changed the [[Assimilated Human|Infected Human]] model and texture
+*The [[Assimilated Human|Infected Human]] now has a chance to spawn [[Buglin|Lodos]] when hurt
+*Added 2 mobs:
+*# [[Adapted Summoner|'''Carna''']]: A big creature looking for someone to consume
+*# [[Primitive Manducater|'''Hull''']]: The parasite version of a dog, it can move quick and strike fast
+
+{{VersionList}}
+[[Category:Versions]]

@@ -1,0 +1,86 @@
+{{Stub}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|hiskeleton}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=Hijacked Skeleton.png
+|hp=26.0
+|damage=7.0
+|armor=3.0
+|kb_resistance=0.1
+|adaptable=No
+|id=srparasites:hi_skeleton
+}}'''Hijacked Skeletons''' are the [[:Category:Hijacked Mobs|Hijacked Version]] of Skeletons. Its body has been contorted so that it walks with its chest facing down, but with the head and neck emerging from the centre of the back, with the parasite being the connector between the spines position and the centre of where it would have originally been.
+
+==''Spawning''==
+* Spawned when a Skeleton is hurt by a [[Gnat]] or a [[Lice]] when below 50% health.
+
+==''Behavior''==
+
+* Upon finding a target, the Hijacked Skeleton will rapidly fire projectiles at its target, inflicting 2 damage.
+* Hijacked Skeletons can break blocks that have their [[Hardness]] Value up to 3, with a 40 tick cooldown and a 2 Block range.
+
+===''Weaknesses''===
+
+* Hijacked Skeletons, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+{{Properties|tier=Feral|FollowRange=20|DamageCap=3|MinimumDamage=0.75|DeathPenaltyEvolutionValue=5|RemainValue=12|ScentDeathValue=15|XPValue=16|COTH=.7}}
+
+{{Drops
+|rolls1=Always Rolls:
+|page1=Hijacked Bone
+|amount1=3
+|chance1=20
+}}
+
+==''Sounds''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Hijackedskeletonliving1.ogg]]
+[[File:Hijackedskeletonliving2.ogg]]
+[[File:Hijackedskeletonliving3.ogg]]
+|Hostile
+|Plays randomly while a Hijacked Skeleton is alive.
+|X
+|hijackedskeletonliving1-3
+|-
+|
+[[File:Hijackedskeletonhurt1.ogg]]
+[[File:Hijackedskeletonhurt2.ogg]]
+[[File:Hijackedskeletonhurt3.ogg]]
+|Hostile
+|Plays when a Hijacked Skeleton is hurt.
+|X
+|hijackedskeletonhurt1-3
+|-
+|
+[[File:Hijackedskeletondeath.ogg]]
+|Hostile
+|Plays when a Hijacked Skeleton dies.
+|X
+|hijackedskeletondeath
+|-
+|}
+
+==''Trivia''==
+
+* The [[Gnat]] that infected the Skeleton can be seen burrowed in the lower part of its body.
+
+== Gallery ==
+<gallery>
+File:HijackedSkeletonHeight.png|thumb|Size of the Hijacked Skeleton's Model.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Hijacked Mobs]]
+[[Category:Mobs]]

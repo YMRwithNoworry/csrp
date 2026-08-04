@@ -1,0 +1,60 @@
+{{VersionBar|
+|page1=Version 1.5.2
+|page2=Version 1.7.0
+}}
+'''Version 1.6.0''' was an update for the Scape and Run: Parasites Mod, released on Febuaury 24th 2020.  It was 3.58 MB.
+
+== ''Change Log'' ==
+
+==== <u>Fixes</u> ====
+
+* Fixed Crash caused by the flight limit
+* Fixed [[Rupter|Mudo]] attacking passive animal mobs with no infected version
+* Fixed [[Living Bow|Living Greatbow]] bonus damage value not working with numbers below 1
+
+==== <u>Changes</u> ====
+
+* Tweaked and changed model/texture for [[Assimilated Big Spider|Infected Dorpa]]
+* Tweaked model and texture for [[Adapted Summoner|Adapted Canra]] and [[Adapted Reeker|Adapted Nogla]]
+* Tweaked the following sound effects:
+*# Infected Hurt
+*# Infected Death
+*# Infected Growl 1
+*# Adapted Zetmo Growl
+*# Adapted Zetmo Death
+*# Adapted Zetmo Hurt
+*# Primitive Canra Hurt
+*# Primitive Zetmo Hurt
+
+* Changed the name for the following mobs:
+*# Shyco -> [[Primitive Longarms|Longarms]]
+*# Emana -> [[Primitive Yelloweye|Yelloweye]]
+*# Canra -> [[Primitive Summoner|Summoner]]
+*# Hull -> [[Primitive Manducater|Manducater]]
+*# Nogla -> [[Primitive Reeker|Reeker]]
+*# Zetmo -> [[Primitive Bolster|Bolster]]
+*# Rathol -> [[Heavy Carrier]]
+*# Nithol -> [[Flying Carrier]]
+*# Venkrol -> [[Stage I Beckon|Beckon]]
+*# Lodo -> [[Buglin]]
+*# Mudo -> [[Rupter]]
+
+* Changed animations for some mobs
+* Reduced health base value for the Heavy Carrier
+* The Living Greatbow now has a damage cap
+* Added animation when [[:Category:Assimilated Mobs|infected versions]] are spawning minions on death (this animations will also play with [[:Category:Primitive Parasites|primitive]] and [[:Category:Adapted Parasites|adapted versions]] but for now they don't spawn minions)
+* Beckons will only grow to the next stage when the light around them is below 4
+* Parasites are now immune to posion effects
+* Parasites will now take more damage from fire source
+* Changed particle effects where a primitive parasite kills an entity
+
+==== <u>New Content</u> ====
+
+* Added 2 mobs, a walking head for the [[Assimilated Cow|infected cow]] and for the [[Assimilated Sheep|infected sheep]]
+* Added a block infestation system:
+*# Each [[Beckon (Disambiguation)|Beckon]] can spawn infested blocks and depending on their stage the block will have different effects, chance to damage non-parasites entities and damage values
+*# It will only spread when the light around the block is below 4.
+*# When a Beckon is killed, if the stage of the block is equal to the stage of the mob, the block will be converted to dirt and this will happen to all blocks next to it
+
+{{VersionList}}
+[[Category:Versions]]

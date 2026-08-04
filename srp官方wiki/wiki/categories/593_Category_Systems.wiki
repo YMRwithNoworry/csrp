@@ -1,0 +1,46 @@
+'''Parasites Systems''' are mechanics introduced by the SRP Mod. These Systems are used by Parasites in a multitude of ways to affirm their dominion.
+{|class="fandom-table"
+! style="width: 200px" |System
+! style="width: 400px" |Summary
+|-
+|[[File:COTH.png|36px|link=Evolution Phases]] '''[[Evolution System]]'''
+|The Evolution System grants low Tier Parasites the Ability to evolve into stronger Forms. 
+|-
+|[[File:COTH.png|36px|link=Evolution Phases]] '''[[Evolution Phases]]'''
+|The Evolution Phases adds a Progression to Parasites' presence in the Minecraft World. Starting from Phase 0, Parasites can complete various "Tasks" in order to advance, grow and develop.
+|-
+|'''[[Adaptation System]]'''
+|The Adaptation System grants some Tiers of Parasites the Ability to achieve great immunity to various damage types, making them ineffective against them. There are various methods Players can utilize to neutralize the Adaptation. 
+|-
+|[[File:Foster.png|36px|link=Reinforcement System]] '''[[Reinforcement System]]'''
+|Unlocked after Evolution Phase 3 is reached, it can make [[Stage I Beckon|Beckons]] appear, giving Parasites the opportunity to create a habitat for themselves.
+|-
+|[[File:Viral.png|36px|link=Scent System]] [[Scent System]]
+|Scents are a smart spawn/invasion system designed to allow parasites to attack dangerous players/mobs more intently, and to act as an invasion after the use of [[Carcass|Carcasses]].
+|-
+|[[File:Dislodgment.png|36px|link=Dislodgment System]] '''[[Dislodgment System]]'''
+|The Dislodgment System is a series of triggers and effects can cause catastrophic consequences when players or mobs perform certain actions repeatedly, or just events happening in general.
+|-
+|[[File:Ubiquitous development compendium.png|36px|link=Ubiquitous Development]] '''[[Ubiquitous Development]]'''
+|The Ubiquitous Development System slowly allows the Parasites to grow stronger (unlocks [[Parasite Biome]], [[Colony]], Hives, [[Scent System]], Nests etc) the more it evolves. The level of Ubiquitous Development is affected by how many dimensions are infected and the [[Evolution Phases]] of said dimensions; furthermore, the points are determined by the sum of phases in all dimensions.
+|-
+|[[File:Debar.png|36px|link=Generations]] '''[[Generations]]'''
+|Incremental difficulty and tweaks to parasite stats and relating systems. Parasites mature through said generations over time. Each generation requires sustained growth, and mismatched conditions can slow progress.
+|-
+|[[File:Needler.png|36px|link=Emerging Infestation Vector]] '''[[Emerging Infestation Vector|Emerging Infestation Vectors]]'''
+|Emerging Infestation Vectors manage the area and severity of the Parasite infestation, being able to enable certain spawns over an area and give minor buffs to the monsters.
+|-
+|[[Celestial Events]]
+|Celestial Events are sixteen distinct astral objects and phenomena seen in the night sky.  As of now, only two Celestial Events have unique effects on [[Mobs|parasites]] or alter their behavior.
+|-
+|[[File:Derived distortion.png|36px|link=Derived Distortion Phenomenon]] [[Derived Distortion Phenomenon]]
+|The Derived Distortion Phenomenon is a visual effect that affects almost all text within the presence of a [[Derived Parasites|Derived parasite]].
+|-
+|[[File:Variants.png|36px|link=Category:Variants]] [[:Category:Variants|Variants]]
+|Variants are alternate versions of a parasite or assimilated mob that may have different stats, apply effects, or simply just a different texture.
+|}
+
+
+Additionally, a [[Difficulties|difficulty preset]] can be selected upon creating a world, permanently changing parasite stats for that world.
+
+[[Category:Mod Content]]

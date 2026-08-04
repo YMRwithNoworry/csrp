@@ -1,0 +1,60 @@
+{{Stub}}
+{{Item Info
+|image1=Hijacked Iron Tools.gif
+|durability=1561
+|stackable=No
+|id=
+srparasites:hijacked_iron_axe <br>srparasites:hijacked_iron_hoe <br>srparasites:hijacked_iron_pickaxe <br>srparasites:hijacked_iron_shovel <br>srparasites:hijacked_iron_sword
+}}
+The '''{{PAGENAME}}''' consist of the '''Hijacked Iron Axe''', '''Hijacked Iron Hoe''', '''Hijacked Iron Pickaxe''', '''Hijacked Iron Shovel''', and '''Hijacked Iron Sword'''.
+
+== ''Obtainment'' ==
+Crafted using Sticks and [[Hijacked Iron Ingot|Hijacked Iron Ingots]].
+{{CraftingTable
+|r1_a1=Hijacked Iron Ingot
+|r1_a2=Hijacked Iron Ingot
+|r1_b1=Hijacked Iron Ingot
+|r1_b2=Stick
+|r1_b3=Stick
+|r1_output=Hijacked Iron Axe
+|r1_nolink=true
+|r2_a1=Hijacked Iron Ingot
+|r2_b1=Hijacked Iron Ingot
+|r2_b2=Stick
+|r2_b3=Stick
+|r2_output=Hijacked Iron Hoe
+|r2_nolink=true
+|r3_a1=Hijacked Iron Ingot
+|r3_b1=Hijacked Iron Ingot
+|r3_c1=Hijacked Iron Ingot
+|r3_b2=Stick
+|r3_b3=Stick
+|r3_output=Hijacked Iron Pickaxe
+|r3_nolink=true
+|r4_b1=Hijacked Iron Ingot
+|r4_b2=Stick
+|r4_b3=Stick
+|r4_output=Hijacked Iron Shovel
+|r4_nolink=true
+|r5_b1=Hijacked Iron Ingot
+|r5_b2=Hijacked Iron Ingot
+|r5_b3=Stick
+|r5_output=Hijacked Iron Sword
+|r5_nolink=true
+}}
+
+== ''Usage'' ==
+Hijacked Iron tools have a few abilities:
+* Applies [[Bleeding]] to attacked entities
+* Deal additional damage to all [[Mobs|Parasites]], [[Assimilated Mobs]], and [[Hijacked Mobs]]
+* Applies [[Rage]] to the wielder when nearing death (threshold not known)
+* Have a max durability equal to Diamond tools
+Hijacked Iron tools are otherwise identical to regular Iron tools.
+
+== ''Trivia'' ==
+To be added...
+
+{{ItemList}}
+[[Category:Tools]]
+[[Category:Equipment]]
+[[Category:Items]]

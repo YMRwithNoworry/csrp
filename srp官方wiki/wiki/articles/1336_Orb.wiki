@@ -1,0 +1,33 @@
+'''Orbs''' unlocked when [[Generations]] system is Generation 5. These Orbs are red, translucent, swelling "auras" that can be produced by some parasites when in combat. They can apply Exhaustion to players, add a cooldown to their items, and apply potion effects to entities inside their range. Orbs deal effects every second to every mob inside, if effects are already applied, their potency will be increased by 1. They can be created by [[Primitive Parasites]], [[Adapted Parasites]], [[Pure Parasites]], [[:Category:Derived Parasites|derived parasites]] and [[Succor|Succors]].<ref>This excludes the [[Primitive Yelloweye]], [[Primitive Devourer]], [[Adapted Yelloweye]], [[Grunt]], [[Light Bomber]], and [[Overseer]].</ref> 
+{{Orb Info|tier=Primitive|title=Orbs made by [[Primitive Parasites]]|effectsMobs={{PropertiesValues|t=Primitive|v=OrbEffectsMobs}}}}
+{{Orb Info|tier=Adapted|title=Orbs made by [[Adapted Parasites]]|effectsMobs={{PropertiesValues|t=Adapted|v=OrbEffectsMobs}}}}
+{{Orb Info|tier=Pure|title=Orbs made by [[Pure Parasites]]|effectsMobs={{PropertiesValues|t=Pure|v=OrbEffectsMobs}}}}
+
+''While [[Preeminent Parasites]] do not produce orbs on their own, the [[Succor|Succors]] they spawn do.''<!--
+-->{{Orb Info|tier=Preeminent|title=Orbs made by [[Preeminent Parasites]]|effectsMobs={{PropertiesValues|t=Preeminent|v=OrbEffectsMobs}}}}
+
+{{Exhaustion|onlyRef=true}}
+
+Note that each parasites' Orbs gives its own custom status effects to either non-parasite mobs, other parasites, or itself.  A list of these effects can be seen below:
+*[[Primitive Arachnida]]: Blindness II (00:15) ''for non-parasite mobs''
+*[[Adapted Arachnida]]: Blindness III (00:15) ''for non-parasite mobs''
+*[[Primitive Bolster]]: Speed II (00:30) ''for parasites''
+*[[Adapted Bolster]]: Speed III (00:30) ''for parasites''
+*[[Primitive Longarms]]: Slowness II (00:15) ''for non-parasite mobs''
+*[[Adapted Longarms]]: Slowness III (00:15) ''for non-parasite mobs''
+*[[Primitive Manducater|Primitive]] and [[Adapted Manducater|Adapted Manducaters]]: Invisibility (00:20) ''for itself.  The duration lengthens for each mob within the Orb's radius.''
+*[[Primitive Reeker]]: Nausea II (00:15) ''for non-parasite mobs''
+*[[Adapted Reeker]]: Nausea III (00:15) ''for non-parasite mobs''
+*[[Primitive Summoner]]: Speed II (00:30) ''for parasites''
+*[[Adapted Summoner]]: Speed III (00:30) ''for parasites''
+*[[Marauder]]: Weakness IV (00:15) ''for non-parasite mobs''
+*[[Monarch]]: Wither IV (00:15) ''for non-parasite mobs''
+*[[Vigilante]]: Speed IV (00:30) ''for parasites''
+*[[Warden]]: Absorption IV (00:30) ''for parasites''
+*[[Bogle|Bogle's]] [[Succor]]: Levitation -XX (00:15) ''for non-parasites''
+*''[[Colony Carrier]] currently has no custom status effects''
+*''[[Haunter]] currently has no custom status effects''
+*''[[Heavy Bomber]] currently has no custom status effects''
+*[[Wraith|Wraith's]] [[Succor]]: Levitation -XX (00:15) ''for non-parasites''
+
+[[Category:Systems]]

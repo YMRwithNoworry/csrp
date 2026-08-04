@@ -1,0 +1,87 @@
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|bogle}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=Bogle.png
+|hp=310.0
+|damage=70.0
+|armor=15.5
+|kb_resistance=0.15
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:bogle
+}}
+'''Bogles''' are a type of [[Mobs]], placed into the [[Preeminent Parasites|Preeminent]] Tier.
+
+== ''Spawning'' ==
+*Spawns inside the [[Parasite Biome]], with a spawnweight of 5.
+*Can spawn naturally, once a [[Colony]] with at least 30 points exists in the dimension, individually with a spawnweight of 1.
+
+== ''Behavior'' ==
+Bogles are Flying Stealth Bomber units with additional melee capabilities.
+*Bogles can shoot highly explosive projectiles.
+**Bogles will not do this if their target is midair.
+*Bogles have a damaging, immunity frame ignoring, melee aura.
+*Bogles will occasionally swoop down from above their target. 
+*Bogles can spawn [[Succor|Succors]].
+*Bogles can go completely invisible. This invisibility is disrupted when it shoots, takes damage, or if its health goes below 40% of its max health. Succors spawned during this invisibility will spawn with the invisibility effect for 3 seconds.
+*Bogles can break blocks that have their [[Hardness]] Value up to 15, with a 20 tick cooldown and a 5 Block range.
+
+=== ''Weaknesses'' ===
+*Bogles, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+{{Properties|tier=Preeminent}}
+
+{{Drops
+|rolls1=One Roll:
+|page1=Noxious Brain|amount1=1|chance1=70
+|page2=Hive Scrap|amount2=7|chance2=80}}
+
+==''Sounds''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Elvialiving1.ogg]]
+[[File:Elvialiving2.ogg]]
+[[File:Elvialiving3.ogg]]
+|Hostile
+|Plays randomly while a Bogle is alive.
+|Gargles
+|lencialiving1-3
+|-
+|
+[[File:Elviahurt1.ogg]]
+[[File:Elviahurt2.ogg]]
+[[File:Elviahurt3.ogg]]
+|Hostile
+|Plays when a Bogle is hurt.
+|Growls
+|lenciahurt1-3
+|-
+|
+[[File:Lenciadeath.ogg]]
+|Hostile
+|Plays when a Bogle dies.
+|Something perishes
+|lenciadeath
+|-
+|}
+
+== ''Trivia'' ==
+*Bogles are also known as '''Lencia''' in the Mod Files.
+*"Bogle" is a dialectal English word for a specter or goblin, having a similar meaning to "haunter" or "wraith".
+
+== ''Gallery'' ==
+<gallery>
+File:UFOmeme.png|Bogle as seen in a [[Previews|Preview]].
+File:BogleHeight.png|thumb|Size of the Bogle's Model
+</gallery>
+
+{{MobList}}
+[[Category:Preeminent Parasites]]
+[[Category:Mobs]]

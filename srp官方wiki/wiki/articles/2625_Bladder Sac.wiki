@@ -1,0 +1,28 @@
+'''Bladder Sacs''' are dark yellow blocks that resemble cocoons.
+{{Item Info
+|image1=Bladder Sac.png
+|id=srparasites:parasitecanister<ref>It shares this data tag with the following:<div class="toccolours mw-collapsible mw-collapsed"><!--
+-->Bladder Sac = <code>0</code><br><!--
+-->Vacuous Cyst = <code>1</code><br><!--
+-->Grotesque Lump = <code>2</code><br><!--
+-->Sac of Flesh = <code>3</code></div><!--
+-->{{WhatAreDataTags|x|/=false}}</ref>
+}}
+
+==''Spawning & Usage''==
+Bladder Sacs are decorative utility blocks that spawn hanging from [[Infested Blocks#Wood|Veinwood]] trees generated in the [[Parasite Biome]]. Upon breaking, they have a 5% chance to drop a [[Twisted Spinal Signal]]. 
+
+They are not to be confused with the redder Grotesque Lump blocks that generate in the same Biome but hang from the chorus plant-resembling Thin Parasitic Log trees. These only drop themselves as a block.
+
+They are one of the three sources of Twisted Spinal Signals, the other two being smelting [[Pestilential Ore]] and [[Parasitic Growth Block|Metastatic Masses]]. Compared to the other two, it is unfavorable to obtain them in large amounts this way, as they generate in the dangerous Parasite Biome and have a low chance of actually giving one.
+
+==''Gallery''==
+<gallery>
+File:Bladder Sac Example.png|An example of several Bladder Sacs hanging from a Veinwood tree.
+</gallery>
+
+==Notes==
+<references />
+
+{{BlockList}}
+[[Category:Blocks]]

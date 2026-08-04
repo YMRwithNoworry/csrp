@@ -1,0 +1,117 @@
+{{Navbar|page1=Light Carrier|page2=Heavy Carrier|page3=Flying Carrier|page4=Worm Carrier}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|carrierheavy}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+{{Mob Info 
+|image1=<gallery>
+Heavy Carrier.png|Normal
+EmptyHeavyCarrier.png|Empty
+</gallery>
+|hp=30.0
+|damage=N/A
+|armor=5.0
+|kb_resistance=0.95
+|adaptable=No
+|id=srparasites:carrier_heavy
+}}
+'''Heavy Carriers''' are a [[Mobs|Mob]] in the [[Inborn Parasites|Inborn]] Tier.
+
+== ''Spawning'' ==
+*Spawned by [[Stage III Beckon|Stage III Beckons]].
+*Spawns from [[Evolution Phases|Phase 2]] to [[Evolution Phases|Phase 4]] with spawnweight of 2.
+
+== ''Behavior'' ==
+Heavy Carriers are Large Infestation Propagators that hold other infectors and combatants.
+
+* Heavy Carriers will explode when they get close to the entity they are targeting or upon death (assuming they are not on fire). 
+** This explosion can spawn several mobs ([[Heavy Carrier#Carrier Mob Contents|More Info Below]]), place [[Residue]] in a 13x13 area, and will inflict the [[Viral]] effect.
+** The area where they exploded will spawn the aforementioned Mobs together with a Poison and [[Call Of The Hive|COTH]] Cloud<ref>This unique effect cloud is known in the mod as "srparasites:cloudtoxic."</ref>.
+
+* Heavy Carriers are able to traverse faster in liquids by performing small leaps.
+{{Variants|count=1|Empty=EmptyHeavyCarrier.png}}
+
+=== ''Carrier Mob Contents'' ===
+{| class="fandom-table"
+|+'''Spawn Table'''
+!Mob
+!Minimum
+!Maximum
+|-
+|[[Buglin]]
+|2
+|5
+|-
+|[[Rupter]]
+|1
+|4
+|-
+|[[Gnat]]
+|2
+|6
+|-
+|[[Primitive Yelloweye]]
+|1
+|2
+|}
+
+=== ''Weaknesses'' ===
+
+* Heavy Carriers, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+* Heavy Carriers on fire will not explode and release anything upon death.
+{{Properties
+|tier=Inborn
+|XPValue=25
+}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|[[File:Heavy Carrier Explosion.ogg]]
+|Hostile
+|Plays when a Heavy Carrier explodes.
+|Mob explodes
+|rathol_explotion
+|-
+|[[File:carrierdeath.ogg]]
+|Hostile
+|Plays when a Heavy Carrier dies.
+|Carrier perishes
+|carrierdeath
+|-
+|[[File:carrierhurt1.ogg]]
+[[File:carrierhurt2.ogg]]
+|Hostile
+|Plays when a Heavy Carrier is hurt.
+|Carrier snarls
+|carrierhurt1-2
+|-
+|[[File:carrierliving1.ogg]]
+[[File:carrierliving2.ogg]]
+|Hostile
+|Randomly plays when a Heavy Carrier is living.
+|Carrier bubbling
+|carrierliving1-2
+|-
+|}
+
+== ''Trivia'' ==
+*Heavy Carriers are also known as '''Rathol''' in the Mod Files.
+
+== ''Gallery'' ==
+<gallery>
+File:CarrierHeavyHeight.png|thumb|Size of the Heavy Carrier's model.
+File:Heavycarrieraftermath.png|Average aftermath of a Heavy Carrier explosion.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Inborn Parasites]]
+[[Category:Mobs]]

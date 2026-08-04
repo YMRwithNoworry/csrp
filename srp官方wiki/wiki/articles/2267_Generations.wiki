@@ -1,0 +1,92 @@
+[[File:Debar.png|thumb|108px|The [[Compendium]] icon.|link=Compendium]]
+
+'''Generations''' are a [[Systems|System]] added in [[Version 1.10.0]] that allows parasites to grow stronger as time passes.
+
+==''Info''==
+Generations work much like [[Evolution Phases]], but depend not on points, but instead on time elapsed from the start of the game, measured in ticks. Unlike Phases, you cannot decrease Generation stages. There are currently 5 Generation stages, each unlocking unique parasite abilities and upgrades.
+
+Generations and the required ticks can be monitored with the [[Phase Report]], obtained by scanning the [[Phase Module]] in the [[Relay Tower]], and is the only non-cheat way to do so.
+
+With each generation, parasites obtain these multipliers that amplify as generations increase: 
+*Poison Healing (PH, parasites can heal a small amount if poisoned)
+*Mob Healing (MH, the health regeneration of nearby parasites if one is killed) 
+*Attack Speed (AS)
+
+== ''Generation Stages'' ==
+=== Generation 0 ===
+''0 ticks required to enter this generation.''
+
+* All mobs that have [[Call Of The Hive|COTH]] spawn with 20% of their max health.
+* PH = 0, MH = 0, AS = 1.
+
+=== Generation 1 ===
+''25,000 ticks required to enter this generation.''
+
+* All mobs that have [[Call Of The Hive|COTH]] spawn with 30% of their max health.
+* PH = 0.3, MH = 0, AS = 1.
+
+=== Generation 2 ===
+''45,000 ticks required to enter this generation.''
+
+* All mobs that have [[Call Of The Hive|COTH]] spawn with 65% of their max health.
+* Parasite sprinting is unlocked.
+* Parasites can deal a minimum damage that ignores armor.
+* PH = 1, MH = 0.5, AS = 1.
+
+=== Generation 3 ===
+''72,000 ticks required to enter this generation.''
+
+* All mobs that have [[Call Of The Hive|COTH]] spawn with 100% of their max health.
+* The [[Adaptation System]] is unlocked.
+* Parasite Damage Caps are unlocked.
+* Parasites can leap in Water to reach targets.
+* PH = 1.5, MH = 1, AS = 0.9.
+
+=== Generation 4 ===
+''72,000 ticks required to enter this generation.''
+
+* Parasites can execute their special move (see [[#Special Abilties|Special Abilities]]).
+* Land [[Adapted Parasites]] can puke [[Residue]].
+* Parasites can see targets through walls near them.
+* PH = 2, MH = 2, AS = 0.7.
+
+=== Generation 5 ===
+''72,000 ticks required to enter this generation.''
+
+* Parasites can use [[Orb|Orbs]].
+* Parasites can detect certain light-emitting blocks and will break them if not actively doing anything else<ref>This includes blocks such as Fire, Glowstone, Torches, Redstone Torches, lit Furnaces, Beacons, End Rods, Sea Lanterns, and [[Assimilated Jack o'Lantern|Assimilated Jack o'Lanterns]]. [[Esca Bulb|Esca Bulbs]] are exempt from this.</ref>.
+* PH = 2.5, MH = 3, AS = 0.5
+
+==''Generation Penalties''==
+If the [[Evolution Phases]] progress too slow, penalties will be given that increases the required ticks for the next generation (multiplies needed tick value by 1.5).
+
+For example, if the current Evolution Phase is 1 and the current generation is 1, the next generation is out of Phase, and it gets a penalty of requiring more ticks to progress.                                                                                                            
+Generation penalties will not increase if they are in the following Phases:
+
+*Generation 1: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10.
+*Generation 2: 3, 4, 5, 6, 7, 8, 9, 10.
+*Generation 3: 5, 6, 7, 8, 9, 10.
+*Generation 4: 7, 8, 9, 10.
+*Generation 5: 9, 10.
+
+== ''Special Abilities'' ==
+Special moves unlocked after reaching generation 4 include:
+
+* Waves ([[Kyphosis]], [[Adapted Longarms|Adapted]] and [[Primitive Longarms]], [[Marauder|Marauders]])
+* AoE attack ([[Adapted Bolster|Adapted]] and [[Primitive Bolster|Primitive Bolsters]], [[Warden|Wardens]])
+* Vomiting ([[Adapted Summoner|Adapted]] and [[Primitive Summoner|Primitive Summoners]])
+* Summoning ([[Adapted Summoner|Adapted]] and [[Primitive Summoner|Primitive Summoners]], [[Overseer|Overseers]], [[Monarch|Monarchs]])
+* Pulling ([[Adapted Arachnida|Adapted]] and [[Primitive Arachnida]])
+* Teleporting/teleporting allies ([[Feral Enderman|Feral]] and [[Assimilated Enderman|Assimilated Endermen]]. [[Kirin]] and [[Assimara Enderman]] not included, as they still can teleport no matter the generation.)
+* Ramming ([[Adapted Reeker|Adapted]] and [[Primitive Reeker|Primitive Reekers]], [[Warden|Wardens]])
+* Resurrection ([[Adapted Summoner|Adapted]] and [[Primitive Summoner|Primitive Summoners]])
+* Buffing other parasites ([[Colony Carrier]], all [[Dispatcher (Disambiguation)|Dispatchers]], [[Adapted Bolster|Adapted]] and [[Primitive Bolster|Primitive Bolsters]])
+* Grabbing ([[Marauder|Marauders]])
+
+==''Commands''==
+{{#lst:Commands|generations}}
+
+==Notes==
+<references />
+
+[[Category:Systems]]

@@ -1,0 +1,11 @@
+{{DisambiguationContent
+|image1=Assimilated Pig.png
+|title1=[[Assimilated Pig]]
+|desc1=An [[Assimilated Mobs|Assimilated]] Parasite
+|image2=Assimilated Pig Head.png
+|title2=[[Walking Pig Head]]
+|desc2=A [[Walking Heads|Walking Head]] Parasite
+|image3=FeralPig.png
+|title3=[[Feral Pig]]
+|desc3=A [[Feral Parasites|Feral]] Parasite
+}}

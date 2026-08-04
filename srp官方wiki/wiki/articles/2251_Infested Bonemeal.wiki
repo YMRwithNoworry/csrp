@@ -1,0 +1,36 @@
+{{Stub}}
+{{Item Info
+|image1=Infested Bonemeal.png
+|type=Equipment
+|stackable=Yes (64)
+|id=srparasites:infested_bonemeal
+}}
+'''{{PAGENAME}}''' are [[:Category:Tools|Tool]] items used to spread [[Beckon]] infestation.
+
+== ''Obtainment'' ==
+Placing a [[Strange Bone]], [[Hardened Bone Handle]], or [[Yelloweye Bone]] in the crafting table.
+
+{{CraftingTable
+|r1_count=4
+|r1_output=Infested Bonemeal
+|r1_b2=Yelloweye Bone
+|r1_shapeless=true
+|r2_count=8
+|r2_output=Infested Bonemeal
+|r2_b2=Strange Bone
+|r2_shapeless=true
+|r3_count=16
+|r3_output=Infested Bonemeal
+|r3_b2=Hardened Bone Handle
+|r3_shapeless=true
+}}
+
+== ''Usage'' ==
+Right-clicking infestable blocks will spread [[Beckon]] infestation in the area, turning blocks into their infested variants. Right-clicking a [[Thornshade#Thornshade Berry Bush|Thornshade Berry Bush]] will cause it to either progress to the next stage or regrow its [[Thornshade#Thornshade Berry|berries]]. It can also speed up the growth of Infected Saplings.
+
+Its useful to turn ores into their [[Pestilential Ore|Pestilential variant]], or turn Pestilential ores into their Twisted Spinal Signal variant. It can also be a quite unconventional source of [[Residue Block]] and by extension [[Residue Bloomings]].
+
+{{ItemList}}
+[[Category:Tools]]
+[[Category:Equipment]]
+[[Category:Items]]

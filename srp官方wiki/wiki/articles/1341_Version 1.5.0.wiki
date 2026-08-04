@@ -1,0 +1,52 @@
+{{VersionBar|
+|page1=Version 1.4.0
+|page2=Version 1.5.1
+}}
+'''Version 1.5.0''' was an update for the Scape and Run: Parasites Mod, released on January 12th 2020.  It was 3.34 MB.
+
+== ''Change Log'' ==
+
+==== <u>Fixes</u> ====
+
+* Fixed [[Rupter|Mudo]] attacking option not working
+* Fixed [[Yelloweye (Disambiguation)|Emana]] shooting
+
+==== <u>Changes</u> ====
+
+* Changed [[Primitive Longarms|Primitive Shyco]] model
+* Changed knock back resistance value for some mobs
+* Changed [[Buglin|Lodo]] growl sound
+* Changed Mudo animation
+* [[Summoner (Disambiguation)|Canra]] now has a limit of mobs
+* Mob attacking option can target more mobs (if not considered Animals)
+
+==== <u>New Content</u> ====
+
+* Added two weapons, a [[Living Scythe|Scythe]] and a [[Living Bow|Greatbow]]
+* Added a list of entities that will have the task to target the parasites
+* Added the following items:
+*# Living Greatbow Upper
+*# Limb Living Greatbow Lower Limb
+*# Living Greatbow String
+*# Living Greatbow Grip
+*# Living Greatbow Core
+*# Living Scythe Back
+*# Living Scythe Blade
+*# Living Scythe Handle
+*# Living Scythe Head
+*# Living Scythe Core
+*# [[Longarms Armor Fragment|Shyco Armor Fragment]]
+*# [[Reeker Fang|Nogla Blade]]
+*# [[Manducater Orb|Hull Orb]]
+*# [[Yelloweye Bone|Emana Bone]]
+*# [[Summoner Core|Canra Core]]
+*# [[Infected Flesh]]
+
+* Added a new primitive and Adapted mob: [[Bolster (Disambiguation)|Zetmo]]
+*# This mob can buff nearby parasites and make them stronger
+
+* Added a [[Reinforcement System]]:
+*# When a parasite is killed, there is a chance for it to call reinforcements, this means that a [[Stage I Beckon|Venkrol]] will spawn nearby and will help in the fight. The Venkrol has different stages and that will tell how many and which parasites it will spawn.
+
+{{VersionList}}
+[[Category:Versions]]

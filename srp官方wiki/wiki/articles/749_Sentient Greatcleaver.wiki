@@ -1,0 +1,30 @@
+{{WIP}}
+{{Navbar|page1=Living Cleaver|page2=Sentient Greatcleaver}}
+
+{{Item Info
+|image1=File:Sentient Greatcleaver.png
+|damage=38
+|attack_speed=0.7
+|range=6.0
+|durability=1000
+|stackable=No
+|tooltip=The ulterior Evolution of the Living Cleaver. It has gained a Mind. Lashes out virulent strikes.
+|id=srparasites:weapon_cleaver_sentient
+}}
+The '''Sentient Greatcleaver''' is a type of [[Weapons|Weapon]].
+
+It is the direct Upgrade of the [[Living Cleaver]].
+
+== ''Obtainment'' ==
+Sentient Weapons evolve from their craftable Living counterpart after having dealt 50,000 damage.
+== ''Usage'' ==
+
+The Sentient Greatcleaver is a Melee Weapon. Its attack reach is 4 blocks in every direction from the players head, which is the default attack reach.
+
+Each time it is swung, it performs a sweeping attack (though only visually if airborne or the attack cooldown is still up) and applies the [[Viral|Viral II]] Effect. 
+[[Category:Weapons]]
+[[Category:Work In Progress Content]]
+
+{{ItemList}}
+[[Category:Items]]
+[[Category:Equipment]]

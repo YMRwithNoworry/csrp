@@ -1,0 +1,31 @@
+Using a Launcher streamlines the process of Installation. If you have little to no experience with installing Mods, it is suggested you use the Curseforge Launcher. ''The Mod can be downloaded from Curseforge [https://www.curseforge.com/minecraft/mc-mods/scape-and-run-parasites HERE], and from Modrinth [https://modrinth.com/mod/scapeandrunparasites HERE].''
+
+== ''Curseforge Launcher'' ==
+[[File:Installtut11.png|thumb|521x521px]]
+[[File:Installtut2.png|thumb|506x506px]]
+[[File:Installtut3.png|thumb|502x502px]]
+*Download and install the [https://curseforge.overwolf.com Curseforge Launcher];
+*Click the button “+ Create Custom Profile” in the top left and select 1.12.2 in the dropdown menu;
+*Click on the profile (not “Play”) and then the “Add Content” Button;
+*Search a keyword from the name of this Mod e.g. "Parasites<nowiki>''</nowiki> or "Scape". Then click the install button on this Mod.  ''You can also download the mod manually and place it in the mods folder'';
+*Click X in the top right, and click Play to launch the game.
+
+== ''Vanilla Launcher'' ==
+*Download and install [https://files.minecraftforge.net/net/minecraftforge/forge/index_1.12.2.html Forge for 1.12.2];
+*Open the Minecraft Launcher;
+*Select the Forge Profile and run it. This generates the mods folder;
+*Navigate to the mods folder:
+**<u>On Windows</u>, hold the windows key and tap R, then type %appdata%, then open Roaming, then open .minecraft, then open mods;
+**<u>On Mac</u>, click the “Go” tab in the menu bar on the top of the screen and click “Go To Folder…”, then type “~Library” in the search bar and hit OK.  Then navigate to the “Application Support” folder, then “.minecraft”, then “mods”;
+*Download the [https://www.curseforge.com/minecraft/mc-mods/scape-and-run-parasites/files latest Mod Version];
+*Put the Mod File in the mods folder;
+*Relaunch the game using the forge profile.
+
+== ''Other Launchers'' ==
+Scape and Run: Parasites is not available for automatic installation on any other Launcher, such as GDLauncher or TLegacy.  Instead, you will have to download the Mod manually and place it in the installation's mods folder, which should be in the Launcher's folder.
+
+== ''Gameplay'' ==
+Once you've installed the Mod, you may have some Questions on how things work, such as how [[Mobs|Parasites]] spawn. Before asking Questions, please read the [[Frequently Asked Questions|FAQ]], as it will most likely have your answer. If not, you can look through the rest of the Wiki, or join the [https://discord.com/invite/WPuhKDU Discord Server] for support.
+
+[[Category:Scape and Run: Parasites Wiki]]
+[[Category:Pages with a discord link]]

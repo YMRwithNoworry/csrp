@@ -1,0 +1,21 @@
+{{VersionBar|
+|page1=Version 1.1.0
+|page2=Version 1.2.1
+}}
+'''Version 1.2.0''' was an update for the Scape and Run: Parasites Mod, released on October 23rd 2019.  It was 499.12 KB.
+
+== ''Change Log'' ==
+
+* Added more options to the config file
+* Fixed some typos in the config file
+* Added animations for Mob: [[Heavy Carrier|Rathol]]
+* [[Assimilated Big Spider|Dorpa]] mob is now a bit smaller
+* Removed the custom spawn eggs from the creative tab
+* Changed base values of some mobs for balancing purposes
+* Added 3 mobs:
+*# [[Flying Carrier|'''Buthol''']]: Flying mob, unknown origin
+*# '''Infected Alafha''': Flying mob, unknown origin
+*# [[Primitive Reeker|'''Nogla''']]: Ground mob, unknown origin
+
+{{VersionList}}
+[[Category:Versions]]

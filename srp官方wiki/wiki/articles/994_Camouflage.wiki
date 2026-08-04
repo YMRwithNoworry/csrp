@@ -1,0 +1,19 @@
+{{Effect Info
+|image1=Camouflage.png
+|sources=See [[#Obtainment|Obtainment]]
+|type=Buff
+|id=srparasites:repel
+}}
+'''Camouflage''' is a [[Effects|Potion Effect]] introduced by the mod. This Effect has a 70% chance to protect Mobs from getting the [[Call Of The Hive]] Effect per tick.
+
+Camouflage cannot be removed by drinking Milk.
+
+== ''Obtainment'' ==
+{{Effect Causes
+|cause1=Feeding a Mob a [https://minecraft.fandom.com/wiki/Golden_Apple Golden Apple]
+|duration1=5:00
+|cause2=Feeding a Mob a [https://minecraft.fandom.com/wiki/Golden_Carrot Golden Carrot]
+|duration2=2:30
+}}
+{{EffectList}}
+[[Category:Effects]]

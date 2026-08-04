@@ -1,0 +1,91 @@
+<small>''This article is about the [[:Category:Preeminent Parasites|Preeminent Parasite]]. For the [[:Category:Pure Parasites|Pure Parasite]] with a similar name, see [[Light Bomber]].''</small>
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|bomberheavy}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=Heavy Bomber.png
+|hp=420.0
+|damage=33.0
+|armor=15.5
+|kb_resistance=0.15
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:bomber_heavy
+|ranged=198.0}}
+'''Heavy Bombers''' are a type of [[Mobs]], placed into the [[Preeminent Parasites|Preeminent]] Tier.
+
+== ''Spawning'' ==
+*Spawns inside the [[Parasite Biome]], with a spawnweight of 5.
+*Can spawn naturally, once a [[Colony]] with at least 10 points exists in the dimension, individually with a spawnweight of 1.
+
+== ''Behavior'' ==
+Heavy Bombers are Flying Tank, Bomber/Summoner Hybrid units with basic melee capabilities. They attempt to hover above the target and drop their bombs.
+
+*Their Ranged Attack is performed by them releasing Bombs, which destroy blocks and spawn mobs.
+**When these bombs explode, they summon an [[Overseer]], [[Vigilante]], [[Marauder]], or [[Monarch]]. 
+**It will not use this attack if the target is above the ground.
+*Heavy bombers will occasionally swoop down to hit their target with contact damage.
+*Heavy Bombers can spawn [[Succor|Succors]].
+*Heavy Bombers can break blocks that have their [[Hardness]] Value up to 15, with a 20 ticks cooldown and 5 Blocks range.
+
+=== ''Weaknesses'' ===
+*Heavy Bombers, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+{{Properties|tier=Preeminent}}
+
+{{Drops
+|rolls1=One Roll:
+|page1=Noxious Brain
+|amount1=1
+|chance1=80
+|page2=Hive Scrap|amount2=7|chance2=80}}
+
+
+==''Sounds''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''ID'''
+|-
+|
+[[File:Heavy bomber living 1.ogg]]
+[[File:Heavy bomber living 2.ogg]]
+[[File:Heavy bomber living 3.ogg]]
+|Hostile
+|Plays randomly while a Heavy Bomber is alive.
+|heavy_bomber_living_1-3
+|-
+|
+[[File:Heavy bomber hurt 1.ogg]]
+[[File:Heavy bomber hurt 2.ogg]]
+[[File:Heavy bomber hurt 3.ogg]]
+|Hostile
+|Plays when a Heavy Bomber is hurt.
+|heavy_bomber_hurt_1-4
+|-
+|
+[[File:Heavy bomber death.ogg]]
+|Hostile
+|Plays when a Heavy Bomber dies.
+|heavy_bomber_death
+|-
+|}
+
+== ''Trivia'' ==
+*Heavy Bombers are also known as '''Jinjo''' in the Mod Files;
+
+== ''Gallery'' ==
+<gallery>
+File:BomberHeavyHeight.png|Size of the Heavy Bomber's model
+File:BomberHeavybomb.png|A Heavy Bomber summoning a bomb on a zombie
+File:BomberHeavyBombHeight.png|Size of the Heavy Bomber's Bomb model
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Preeminent Parasites]]
+[[Category:Mobs]]

@@ -1,0 +1,42 @@
+{{Stub}}
+{{WIP}}
+
+{{Navbar|page1=Walking Wolf Head|page2=Assimilated Wolf|page3=Assimara Wolf|page4=Feral Wolf}}
+
+{{Mob Info
+|image1=AssimaraWolf.png
+|hp=?
+|damage=?
+|armor=?
+|kb_resistance=?
+|adaptable=No
+|id=srparasites:mar_wolf
+}}
+'''Assimara Wolves''' are the [[:Category:Assimara_Parasites|Assimara Version]] of Wolves.
+
+== ''Spawning'' ==
+
+?
+
+== ''Behavior'' ==
+?
+
+=== ''Weaknesses'' ===
+*Assimara Wolves, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+{{Properties|}}
+
+==''Sounds''==
+To be added...
+
+==''Trivia''==
+?
+
+== Gallery ==
+<gallery>
+File:AssimaraWolfHeight.png|Size of the Assimara Wolf's model.
+</gallery>
+
+{{MobList}}
+<references />
+[[Category:Mobs]]
+[[Category:Assimara Parasites]]

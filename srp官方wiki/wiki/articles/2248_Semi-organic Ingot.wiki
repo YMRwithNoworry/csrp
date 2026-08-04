@@ -1,0 +1,79 @@
+{{Stub}}
+{{Item Info
+|image1=Semi-organic Ingot.png
+|type=Material
+|stackable=Yes (64)
+|tooltip=''An iron alloy infused with parasitic hemolymph while in a molten state. The resulting alloy exhibits heightened sensitivity to bioelectric and anomalous signal patterns associated with parasitic entities. Created by combining Iron, Bottled Deadblood, and a fuel source.''
+|id=srparasites:semiorganic_ingot
+}}
+'''Semi-organic Ingots''' are [[:Category:Drops|Drop]] items.
+
+== ''Obtainment'' ==
+Created in a [[Metallurgical Infuser Furnace]] with one [[Dead Blood Fluid]] and one Iron Ingot.
+{{CraftingTable
+|r1_output=Semi-organic Ingot
+|r1_b2=Semi-organic Block
+|r1_count=9
+}}
+
+== ''Usage'' ==
+Used to craft the [[Semi-organic Block]] and each part of the [[Relay Tower]] multiblock structure.
+
+{{CraftingTable
+|r1_a1=Semi-organic Ingot
+|r1_a2=Semi-organic Ingot
+|r1_a3=Semi-organic Ingot
+|r1_b1=Semi-organic Ingot
+|r1_b2=Semi-organic Ingot
+|r1_b3=Semi-organic Ingot
+|r1_c1=Semi-organic Ingot
+|r1_c2=Semi-organic Ingot
+|r1_c3=Semi-organic Ingot
+|r1_output=Semi-organic Block
+
+|r2_b1=Strange Bone
+|r2_b2=Module Tissue Spike
+|r2_a2=Semi-organic Ingot
+|r2_c2=Semi-organic Ingot
+|r2_a3=Semi-organic Ingot
+|r2_b3=Redstone Repeater
+|r2_c3=Semi-organic Ingot
+|r2_output=Relay Antennas
+
+|r3_a1=Semi-organic Ingot
+|r3_b1=Redstone Repeater
+|r3_c1=Semi-organic Ingot
+|r3_a2=Semi-organic Ingot
+|r3_b2=Module Organ Synth
+|r3_c2=Semi-organic Ingot
+|r3_a3=Semi-organic Ingot
+|r3_b3=Semi-organic Ingot
+|r3_c3=Semi-organic Ingot
+|r3_output=Relay Structure
+
+|r4_a1=Semi-organic Ingot
+|r4_b1=Redstone Repeater
+|r4_c1=Semi-organic Ingot
+|r4_a2=Oak Planks
+|r4_b2=Node Lamp
+|r4_c2=Oak Planks
+|r4_a3=Semi-organic Block
+|r4_c3=Semi-organic Block
+|r4_b3=Oak Planks
+|r4_output=Relay Terminal
+
+|r5_a1=Semi-organic Ingot
+|r5_b1=Dead Blood Fluid
+|r5_c1=Semi-organic Ingot
+|r5_a2=Twisted Spinal Signal
+|r5_b2=Module Genic Receptacle
+|r5_c2=Hive Scrap
+|r5_a3=Doomsday Clock
+|r5_b3=Semi-organic Ingot
+|r5_c3=Level Clock
+|r5_output=Phase Module
+}}
+
+
+{{ItemList}}
+[[Category:Items]]

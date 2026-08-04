@@ -1,0 +1,14 @@
+The '''Parasite Chunk Barrier''' is a [[Debug Items|Creative-Only]] [[:Category:Blocks|Block]].
+{{Item Info
+|image1=Parasite Chunk Barrier.png
+|id=srparasites:parasite_barrier
+}}
+
+==''Obtainment''==
+Can only be obtained from the Creative Menu or with Cheats.
+
+==''Usage''==
+The Parasite Chunk Barrier, as its name suggests, pushes all Scape and Run entities (including projectiles like the [[Quench]]) out of a set chunk radius. This radius can be configured by right clicking the block and goes up to a maximum of ten chunks.
+
+{{BlockList}}
+[[Category:Blocks]]

@@ -1,0 +1,45 @@
+{{TierBar}}
+
+
+'''Deterrent Parasites''' are a Tier of [[Mobs#Parasites|Parasites]]. This Tier currently contains 5 Mobs, and killing all of them at least once grants the player the {{AdvancementLink|Deterrent}}.
+
+Deterrent Parasites are responsible for "deterring" enemies from the parasite that spawns them. 
+
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+DispatcherTentacle.png|link=Dispatcher Tentacle|[[Dispatcher Tentacle]]
+Kyphosis.png|link=Kyphosis|[[Kyphosis]]
+Seizer.png|link=Seizer|[[Seizer]]
+Sentry.png|link=Sentry|[[Sentry]]
+Worm.png|link=Worm|[[Worm]]
+Rootmass_Cyst.png|link=Rootmass Cyst|[[Rootmass Cyst]]
+</gallery>
+</div>
+
+== ''Shared Aspects and Capabilities'' ==
+
+=== Spawning ===
+*Spawned by [[Nexus Parasites|Nexus]] or [[Pure Parasites|Pure]] parasites, whether directly or indirectly, as defense.
+
+=== Weakness ===
+Like all Parasites, Deterrent present a weakness to fire (damage inflicted by fire is quadrupled). 
+
+=== Capabilities ===
+*Deterrent Parasites, despite being incapable of movement, act as a line for defense for [[Nexus Parasites]], or in the case of [[Seizer|Seizers]], as aids for [[Pure Parasites]]. 
+
+{{Properties
+|tier=Deterrent
+|ref=[[Seizer|Seizers]] have a damage cap of 4.
+}}
+
+== ''Configuration'' ==
+Below is a list of the Config changes that affect Deterrent Parasites.
+
+To be added...
+
+== ''[[Lore]]'' ==
+To be added...
+
+== ''Trivia'' ==
+*Parasites part of the Deterrent Tier, along [[Inborn Parasites]] and [[Ancient Parasites]], are the only Tiers which Mobs do not spawn in the [[Parasite Biome]].
+[[Category:Mobs]]

@@ -1,0 +1,89 @@
+{{Navbar|page1=Stage I Dispatcher|page2=Stage II Dispatcher|page3=Stage III Dispatcher|page4=Stage IV Dispatcher}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|dispatchersii}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Nexus Info
+|image1=Stage 2 Dispatcher.png
+|armor=14.0
+|growtime=300-360 sec [min-max]
+|hp=70.0
+|OTHER STUFF
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:dispatcher_sii
+}}
+'''Stage II Dispatchers''' are a type of [[Mobs]], placed into the [[Nexus Parasites|Nexus]] Tier.
+
+Killing one will grant the {{AdvancementLink|TETH Suppression}}.
+
+== ''Spawning'' ==
+*Spawned after a [[Stage I Dispatcher]] evolves.
+*If at least one [[Colony]] exists, spawns when a [[Stage III Dispatcher]] is killed.
+
+== ''Behavior'' ==
+Stage II Dispatchers are Stationary Offensive Support Parasites.
+*Stage II Dispatchers can store and teleport parasites around using [[Dispatcher Tentacle|Dispatcher Tentacles]], Stage II Dispatchers can summon up to 6. Parasites that have been stored by a Dispatcher that despawn will end up back in the Dispatcher's storage.
+**[[Buglin|Buglins]] stored by Stage II Dispatchers will become [[Rupter|Rupters]].
+**[[Incomplete Forms]] stored by a Stage II Dispatcher reaching 6 value (with [[Small Incomplete Form|Small]] having a value of 1 and [[Medium Incomplete Form|Medium]] having a value of 2) will create a [[Heed]].
+*Stage II Dispatchers can summon up to 5 [[Seizer|Seizers]].
+*Stage II Dispatchers will force nearby [[Assimilated Mobs]] to drop their disguise (unless if they are on water).
+*Stage II Dispatchers throw 4 bombs around them when damaged, this has a cooldown of 5 seconds. The bombs inflict 7 damage each and place an effect cloud of stacking [[Viral]] and Poison.
+*Stage II Dispatchers can break blocks that have their [[Hardness]] Value up to 5.5, with a 20 ticks cooldown and 2 Blocks range.
+*Stage II Dispatchers will apply the following effects to parasites:
+**Speed I (3:20)
+**Regeneration II (3:20)
+**[[Debar]] I (3:20)
+**[[Link]] I (5:00)
+**[[Heightened Senses]] II (3:20)
+*Upon death, if at least one [[Colony]] is present in the dimension, Stage II Dispatchers will become [[Stage I Dispatcher|Stage I Dispatchers]].
+
+=== ''Weaknesses'' ===
+*Stage II Dispatchers, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+**Any entities a Dispatcher summons will also be on fire. (Note that fire is not enough to outright kill their tentacles)
+
+* Right clicking on any of their Dispatcher Tentacles or Seizers will apply the glowing effect to their Dispatcher.
+{{Properties|tier=Nexus II}}
+
+{{Drops
+|rolls1=Always Rolls:
+|page1=Dispatcher Membrane
+|amount1=1-15
+|chance1=65
+}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|[[File:dispatcher_stage_ii.ogg]]
+|Hostile
+|Plays when a Stage I Dispatcher evolves in a Stage II Dispatcher
+|Harp plunks
+|dispatcher_stage_ii
+|-
+|}
+
+== ''Trivia'' ==
+* Stage II Dispatchers do not despawn.
+* Stage II Dispatchers are also known as '''DodSII''' in the Mod Files.
+* In the early builds of [[Version 1.9.6|1.9.6]], Dispatchers used to be called ‘’’Reinforcers’’’.
+
+
+== ''Gallery'' ==
+<gallery>
+File:Bomb2.png|The Bomb Stage II Dispatchers use.
+File:DispatcherS2Height.png|Size of the Stage 2 Dispatcher's model
+File:dstageii.ogg|The old sound effect when a stage One Dispatcher evolves into stage Two.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Nexus Parasites]]
+[[Category:Mobs]]

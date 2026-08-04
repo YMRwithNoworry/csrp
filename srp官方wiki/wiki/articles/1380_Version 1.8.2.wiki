@@ -1,0 +1,19 @@
+{{VersionBar|
+|page1=Version 1.8.0
+|page2=Version 1.9.0
+}}
+'''Version 1.8.2''' was an update for the Scape and Run: Parasites Mod, released on August 5th 2020.  It was 5.32 MB.  When the mod had its [[#Trivia|first popularity boom]], 1.8.2 was the most recent version.
+
+== ''Change Log'' ==
+
+* Fixed kill command not killing mobs with damage cap > 1
+* Reduced mob death animation time
+* Fixed [[Moving Flesh]] growing too much and not spawning mobs
+* Fixed crash cause by the "new task" options not being compatible with some entities
+*# This does not mean that an incompatible entity can work the task
+
+== ''Trivia'' ==
+* The video to push Scape and Run: Parasites into the public eye was published by textConjure on March 3rd, 2021.  You can watch it [https://youtu.be/GLluVgrpz4k here]!
+
+{{VersionList}}
+[[Category:Versions]]

@@ -1,0 +1,136 @@
+{{Navbar|page1=Primitive Manducater|page2=Adapted Manducater}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|adamanducater}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=<gallery>
+Adapted Manducater.png|Normal
+BreacherAdaManducater.png|Breacher
+</gallery>
+|hp=45.0
+|damage=24.0
+|armor=10.0
+|kb_resistance=1.0 
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:ada_manducater
+}}
+'''Adapted Manducaters''' are a type of [[Mobs]], placed into the [[Adapted Parasites|Adapted]] Tier.
+
+== ''Spawning'' ==
+* Spawns after a [[Primitive Manducater]] accumulates a killcount of 30 and [[Evolution System|evolves]].
+* Spawns in groups of 2 to 3, if [[Ubiquitous Development]] is Level 3 or higher, with a spawnweight of 15.
+* Spawns inside the [[Parasite Biome]], with a spawnweight of 10.
+
+== ''Behavior'' ==
+Adapted Manducaters are High damage Stealth units and Melee Combatants.
+
+* Adapted Manducaters' Melee Attack is performed through contact damage.
+* They can become almost completely invisible, while being in this state, their speed will be greatly slowed down but their damage will be multiplied by 4 and thy will stun the mob they hit. The Invisibility is removed if Adapted Manducaters attacks or are attacked. Adapted Manducaters need 40% of their own HP, and have a 7 seconds cooldown.
+* Adapted Manducaters can perform small leaps, both on land and in liquids.
+* Adapted Manducaters can sink in liquids to pursue submerged targets.
+* Like other Adapted land Parasites, Adapted Manducaters can vomit [[Residue]] in a 5x5 area every so often.
+* Adapted Manducaters can break blocks that have their [[Hardness]] Value up to 3, with a 40 ticks cooldown and 2 Blocks range.
+{{Variants|count=1|Breacher=BreacherAdaManducater.png}}
+
+=== ''Weaknesses'' ===
+Adapted Manducaters, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+=== ''Post Death'' ===
+
+* On death, Adapted Manducaters have a chance to explode, releasing [[Remains|Adapted Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+** If at least one [[Colony]] exists in the dimension, Adapted Manducaters will become [[Primitive Manducater|Primitive Manducaters]] upon death instead.
+{{Properties
+|tier=Adapted
+|OrbEffectsMobs=Hunger II (00:15), [[Needler|Needler III]] (00:25)
+|OrbEffectsSelf=Invisibility (00:20)<ref>The duration lengthens for each mob within the Orb's radius.</ref>
+}}
+
+{{Drops
+|rolls1=1 Roll
+|page1=Toxic Lung
+|amount1=1
+|chance1=80
+|page2=Manducater Orb
+|amount2=1
+|chance2=60
+|rolls3=Always Rolls
+|page3=Strange Bone
+|amount3=1-2
+|chance3=20
+}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|[[File:adaptedmanducatorliving1.ogg]]
+[[File:adaptedmanducatorliving2.ogg]]
+[[File:adaptedmanducatorliving3.ogg]]
+[[File:adaptedmanducatorliving4.ogg]]
+|Hostile
+|Plays randomly while an Adapted Manducater is alive.
+|Adapted Manducater growls
+|adaptedmanducatorliving1-4
+|-
+|[[File:adaptedmanducatorhurt1.ogg]]
+[[File:adaptedmanducatorhurt2.ogg]]
+[[File:adaptedmanducatorhurt3.ogg]]
+|Hostile
+|Plays when an Adapted Manducater is hurt.
+|Adapted Manducater screams
+|adaptedmanducatorhurt1-3
+|-
+|
+[[File:Heavy one_step1.ogg]]
+[[File:Heavy one_step2.ogg]]
+[[File:Heavy one_step3.ogg]]
+[[File:Heavy one_step4.ogg]]
+[[File:Heavy one_step5.ogg]]
+|Hostile
+|Plays when an Adapted Manducater is walking.
+|X
+|two_steps1-5
+|-
+|[[File:adaptedmanducatorcamouflaging.ogg]]
+|Hostile
+|Plays when an Adapted Manducater camouflages itself.
+|Ghastly taunting
+|adaptedmanducatorcamouflaging
+|-
+|[[File:Adapted Vomit.ogg]]
+|Hostile
+|Plays when an Adapted Manducater pukes [[Residue]] onto the ground.
+|Vomiting
+|adapted_vomit
+|-
+|[[File:adaptedmanducatordeath.ogg]]
+|Hostile
+|Plays when an Adapted Manducater dies.
+|Adapted Manducater roars
+|adaptedmanducatordeath
+|-
+|}
+
+== ''Trivia'' ==
+* Adapted Manducaters are also known as '''Hull''' in the Mod Files.
+* Adapted Manducaters were considered by Dhanantry as the hardest Mob to balance, basing on the first QnA Event Answers.
+* In-game text is inconsistent with the spelling of its name, with items calling it "Manducater" with an E, and the subtitles calling it "Manducator" with an O.
+
+== ''Gallery'' ==
+<gallery>
+File:Invisibleadaptedmanducater.png|An Adapted Manducater using its near Invisibility.
+File:AdaptedManducaterHeight.png|Size of the Adapted Manducater's model
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Adapted Parasites]]
+[[Category:Mobs]]

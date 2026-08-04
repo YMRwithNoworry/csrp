@@ -1,0 +1,19 @@
+{{Stub}}
+{{Item Info
+|image1=Node Compass.png
+|type=Equipment
+|stackable=No
+|id=srparasites:vectorcompass
+}}
+'''{{PAGENAME}}''' is a [[:Category:Tools|Tool]] item.
+
+== ''Obtainment'' ==
+WIP
+
+== ''Usage'' ==
+Used to find the nearest [[Emerging Infestation Vector|Vector]] in the player's current dimension.
+
+{{ItemList}}
+[[Category:Tools]]
+[[Category:Equipment]]
+[[Category:Items]]

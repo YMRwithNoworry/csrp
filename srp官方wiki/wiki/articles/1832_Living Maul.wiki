@@ -1,0 +1,35 @@
+{{WIP}}
+{{Navbar|page1=Living Maul|page2=Sentient Greatmaul}}
+
+{{Item Info
+|image1=Living Maul.png
+|damage=21
+|attack_speed=0.9
+|range=4.0
+|durability=1000
+|stackable=No
+|tooltip=Result of various Parasites body parts reshaped to form a Weapon. The flame of life shines inside it. Kill one kill many.
+|id=srparasites:weapon_maul
+}}
+The '''Living Maul''' is a type of [[Weapons|Weapon]] created from a multitude of parasite materials.
+
+==''Obtainment''==
+{{CraftingTable|r1_b1=Infectious Blade Fragment|r1_c1=Living Core|r1_b2=Hardened Bone Handle|r1_c2=Infectious Blade Fragment|r1_a3=Vile Shell|r1_output=Living Maul|r1_count=1}}
+
+==''Usage''==
+
+'''Fighting'''
+
+The Living Maul is a Melee Weapon. Its attack reach is 4 blocks in each direction from the players head, which is the default attack reach.
+
+Each time it is swung, it performs the default sweeping attack (though only visually if airborne or the attack cooldown is still up). However, upon right click, a large AoE attack is initiated around the player. This can hit through walls, is unaffected by the Sweeping or Sharpness enchantments, can be amplified by effects like Strength or the Fire Aspect enchantment and applies durability damage for every affected mob. This ability has a cooldown of ten seconds.
+
+'''Evolving'''
+
+Upon killing an entity, it's hp, including possible buffs from health boost, is added to a counter shown in the item's tooltip. 1 second after this counter reaches 50,000, a non-damaging lightning will strike the player, and the held weapon will be replaced with its Sentient counterpart at full durability.
+[[Category:Weapons]]
+[[Category:Work In Progress Content]]
+
+{{ItemList}}
+[[Category:Items]]
+[[Category:Equipment]]

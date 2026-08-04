@@ -1,0 +1,55 @@
+{{Effect Info
+|image1=COTH.png
+|sources=See [[#Obtainment|Obtainment]]
+|type=Debuff
+|id=srparasites:coth
+}}
+'''Call Of The Hive''' (or more simply COTH) is a [[Effects|Potion Effect]] introduced by the Mod. This Effect is necessary in the propagation of Assimilated Mobs during the first [[Evolution Phases]]. This effect can stack.
+
+COTH cannot be removed by drinking Milk.
+
+== ''Function'' ==
+COTH has 3 levels of potency, each of them will be applied when the previous finishes. 
+
+*COTH I: No effect.
+*COTH II: The Mob is in the process of Assimilation. It will fake to be a normal Mob, spreading COTH to nearby Mobs, but not through walls. If brought to low Health,<ref name=":0">Below 30% health by default.</ref> the Mob will remove its disguise, turning into an [[Incomplete Forms|Incomplete Form]].
+*COTH III: The Mob is assimilated. The now [[Assimilated Mobs|Assimilated Mob]], if it can disguise, will fake to be a normal Mob, spreading COTH to nearby Mobs, but not through walls. Each time the timer of COTH III finishes, it will be reapplied. If brought to low Health,<ref name=":0" /> the Assimilated Mob will remove its disguise, turning into its Assimilated Variant. Assimilated Mobs can turn into a normal mob with COTH III, becoming disguised. 
+**From Evolution Phase 5 and up, disguised mobs will immediately undisguised, effectively killing all mobs with COTH. Being in range of a [[Stage I Dispatcher|Dispatcher]] will cause this effect regardless of the current COTH potency.
+**In case a Mob that does not have an Assimilated Variant reaches this Stage, it will turn into an Incomplete Form. 
+**If the Evolution Phase is 6 or greater, and the mob has a [[:Category:Feral Parasites|Feral Form]], it will become Feral instead.
+*COTH can stack above level III, but any potency above III will have the same effects as if the potency was III.
+
+COTH works differently for Players.
+
+*Players can spread COTH.
+*Unlike all Assimilated Mobs, Players will generate [[Assimilated Adventurer|their Assimilated version]] only at death.
+*When COTH's timer ends, it will reapply with higher potency. Stops at potency III, if already at the third level it will not change.
+*COTH does not affect the player in any other way.
+
+== ''Obtainment'' ==
+{{Effect Causes
+|cause1=Attacked by a [[Rupter]]
+|duration1=3:00
+|cause2=Being near an Assimilated Mob/Mob that has COTH II<ref>Range of 3 Blocks centered around the Mob.</ref>
+|duration2=4:00
+|cause3=Attacked by [[Assimilated Mobs]], [[Primitive Parasites|Primitive]], [[Adapted Parasites|Adapted]], and [[Pure Parasites]] in Melee
+|duration3=3:00
+|cause4=Being near [[Residue]] and [[Remains]]
+|duration4=3:00
+|cause5=Being near the Effect Cloud left by [[Inborn Parasites|Carriers]], [[Dreadnaut#Capabilities|Pods]], Primitive, Adapted, and Pure Parasites
+|duration5=3:00
+|cause6=Touching a [[Buglin|Buglin]]
+|duration6=0:10, Stacking
+|cause7=[[Rupter|Rupter]] spitting Effect Cloud
+|potency7=II
+|duration7=3:00
+}}
+Keep in mind, this list is incomplete.  There are a wide variety of ways entities can contract COTH, from every parasite.
+
+=== Prevention ===
+With the usage of the [[Camouflage]] Effect, it is possible to partially protect Mobs from Call of the Hive. It is still advisable to keep Mobs that you do not want assimilated away from all sources of COTH.
+
+==Notes==
+<references />
+{{EffectList}}
+[[Category:Effects]]

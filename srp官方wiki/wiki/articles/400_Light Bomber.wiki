@@ -1,0 +1,99 @@
+<small>''This article is about the [[:Category:Pure Parasites|Pure Parasite]]. For the [[:Category:Preeminent Parasites|Preeminent Parasite]] with a similar name, see [[Heavy Bomber]].''</small>
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|bomberlight}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=<gallery>
+Light Bomber.png|Normal
+BreacherLightBomber.png|Breacher
+</gallery>
+|hp=75.0
+|damage=2.0
+|armor=20.0
+|kb_resistance=0.15
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:bomber_light
+|ranged=24.0}}
+
+'''Light Bombers''' are a type of [[Mobs]], placed into the [[Pure Parasites|Pure]] Tier.
+
+== ''Spawning'' ==
+*Spawns in groups of 1 from [[Evolution Phases#Phase 8|Phase 8]] with a spawnweight of 5.
+*Spawns in groups of 2 to 5 in the [[Parasite Biome]], with a spawnweight of 5.
+*Spawned by [[Stage III Beckon|Stage III Beckons]].
+
+== ''Behavior'' ==
+Light Bombers are flying bombardiers.
+
+*Their Ranged Attack is performed by them dropping Bombs, which destroy blocks and inflict Poison, [[Viral]], and [[Call Of The Hive|COTH]].
+** It will not use this attack if the target is above the ground.
+*In certain circumstances, Light Bombers can apply contact damage, though they make no effort to do so.
+*Like other [[Pure Parasites]], Light Bombers can summon up to 3 [[Seizer|Seizers]] to support them.
+*Like other [[:Category:Pure Parasites|Pure Parasites]], Light Bombers can use personal [[Dispatcher Tentacle|Dispatcher Tentacles]] to teleport.
+*Light Bombers can break blocks that have their [[Hardness]] Value up to 5, with a 20 ticks cooldown and 2 Blocks range.
+{{Variants|count=1|Breacher=BreacherLightBomber.png}}
+
+=== ''Weaknesses'' ===
+
+* Light Bombers, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+=== ''Post Death'' ===
+
+* On Death, Light Bombers have a chance to explode, releasing [[Remains|Pure Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+{{Properties|tier=Pure|Orbs=false}}{{Drops
+|rolls1=1 Roll
+|page1=Noxious Brain
+|amount1=1
+|chance1=80
+}}
+
+==''Sounds''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Light bomber living 1.ogg]]
+[[File:Light bomber living 2.ogg]]
+[[File:Light bomber living 3.ogg]]
+|Hostile
+|Plays randomly while a Light bomber is alive.
+|Light Bomber howls
+|light_bomber_living_1-3
+|-
+|
+[[File:Light bomber hurt 1.ogg]]
+[[File:Light bomber hurt 2.ogg]]
+[[File:Light bomber hurt 3.ogg]]
+|Hostile
+|Plays when a Light bomber is hurt.
+|Light Bomber snarls
+|light_bomber_hurt_1-3
+|-
+|
+[[File:Light bomber death.ogg]]
+|Hostile
+|Plays when a Light Bomber dies.
+|Light Bomber dies
+|light_bomber_death
+|-
+|}
+
+== ''Trivia'' ==
+*Light Bombers are also known as '''Omboo''' in the Mod Files.
+
+== ''Gallery'' ==
+<gallery>
+File:Light Bomber Size Comparison.png|Size of the Light Bomber's Model.
+File:Bomb.png|Light Bomber's Bomb.
+File:BomberLightBombHeight.png|Size of the Light Bomber's Bomb Model.
+</gallery>
+
+{{MobList}}
+[[Category:Mobs]]
+[[Category:Pure Parasites]]

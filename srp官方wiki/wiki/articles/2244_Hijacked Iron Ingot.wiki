@@ -1,0 +1,54 @@
+{{Stub}}
+{{Item Info
+|image1=Hijacked Iron Ingot.png
+|type=Material
+|stackable=Yes (64)
+|id=srparasites:bloody_bone
+}}
+'''{{PAGENAME}}''' are [[:Category:Drops|Drop]] items. 
+
+== ''Obtainment'' ==
+Dropped by the [[Hijacked Golem]].
+
+== ''Usage'' ==
+Can be smelted back into a normal Iron Ingot.
+Used to create a [[Modules#Hijacked Module|Hijacked Module]], [[Hijacked Iron Tools]] and [[Hijacked Iron Armor]].
+
+{{CraftingTable
+|r1_a1=Hijacked Iron Ingot
+|r1_a2=Hijacked Iron Ingot
+|r1_b1=Hijacked Iron Ingot
+|r1_b2=Stick
+|r1_b3=Stick
+|r1_output=Hijacked Iron Axe
+|r2_a1=Hijacked Iron Ingot
+|r2_b1=Hijacked Iron Ingot
+|r2_b2=Stick
+|r2_b3=Stick
+|r2_output=Hijacked Iron Hoe
+|r3_a1=Hijacked Iron Ingot
+|r3_b1=Hijacked Iron Ingot
+|r3_c1=Hijacked Iron Ingot
+|r3_b2=Stick
+|r3_b3=Stick
+|r3_output=Hijacked Iron Pickaxe
+|r4_b1=Hijacked Iron Ingot
+|r4_b2=Stick
+|r4_b3=Stick
+|r4_output=Hijacked Iron Shovel
+|r5_b1=Hijacked Iron Ingot
+|r5_b2=Hijacked Iron Ingot
+|r5_b3=Stick
+|r5_output=Hijacked Iron Sword
+|r6_b1=Hijacked Bone
+|r6_a2=Hijacked Iron Ingot
+|r6_b2=Module Genic Receptacle
+|r6_c2=Hijacked Iron Ingot
+|r6_b3=Hijacked Bone
+|r6_output=Hijacked Module
+}}
+
+
+{{ItemList}}
+[[Category:Drops]]
+[[Category:Items]]

@@ -1,0 +1,17 @@
+{{Stub}}
+{{Item Info
+|image1=<gallery>
+File:Residue Bloomings (block).png|Block
+File:Residue Bloomings.png|Item
+</gallery>
+|id=srparasites:residue_plants
+}}
+
+'''Residue Bloomings''' are unique plants that grow naturally on any side of a [[Residue Block]].  They are used to craft the [[Level Clock]].
+
+==''Usage''==
+{{CraftingTable|r1_a1=Residue Bloomings|r1_b1=Hive Scrap|r1_c1=Residue Bloomings|r1_a2=Hive Scrap|r1_b2=Clock|r1_c2=Hive Scrap|r1_a3=Residue Bloomings|r1_b3=Hive Scrap|r1_output=Level Clock|r1_count=1|r1_c3=Residue Bloomings}}
+
+
+{{BlockList}}
+[[Category:Blocks]]

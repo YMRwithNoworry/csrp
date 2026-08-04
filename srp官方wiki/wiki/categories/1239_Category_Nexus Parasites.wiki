@@ -1,0 +1,225 @@
+{{TierBar}}
+
+
+'''Nexus Parasites''' are a unique Tier of [[Mobs#Parasites|Parasites]]. This Tier placement is relatively arbitrary, as they evolve while staying in the same Tier. This Tier contains 3 unique Mobs, each with 4 Stages, with 12 Mobs in total. 
+
+Parasites part of the Nexus Tier, depending on the stage, must be approached with caution because of their game changing capabilities, but must be killed as soon as possible to prevent further catastrophe.
+
+=== Beckons ===
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+Stage 1 Beckon.png|link=Stage I Beckon|[[Stage I Beckon]]
+Stage 2 Beckon.png|link=Stage II Beckon|[[Stage II Beckon]]
+Stage 3 Beckon.png|link=Stage III Beckon|[[Stage III Beckon]]
+Stage 4 Beckon.png|link=Stage IV Beckon|[[Stage IV Beckon]]
+</gallery>
+</div>
+
+=== Dispatchers ===
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+Stage 1 Dispatcher.png|link=Stage I Dispatcher|[[Stage I Dispatcher]]
+Stage 2 Dispatcher.png|link=Stage II Dispatcher|[[Stage II Dispatcher]]
+Stage 3 Dispatcher.png|link=Stage III Dispatcher|[[Stage III Dispatcher]]
+Stage 4 Dispatcher.png|link=Stage IV Dispatcher|[[Stage IV Dispatcher]]
+</gallery>
+</div>
+
+=== Rooters ===
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+Stage 1 Rooter.png|link=Stage I Rooter|[[Stage I Rooter]]
+Stage 2 Rooter.png|link=Stage II Rooter|[[Stage II Rooter]]
+Stage 3 Rooter.png|link=Stage III Rooter|[[Stage III Rooter]]
+Stage 4 Rooter.png|link=Stage IV Rooter|[[Stage IV Rooter]]
+</gallery>
+</div>
+
+=== Spawns ===
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+Rootmass_Cyst.png|link=Rootmass Cyst|[[Rootmass Cyst]]
+Biomass.png|link=Biomass|[[Biomass]]
+</gallery>
+</div>
+
+== Spawning ==
+===Beckons===
+*Stage I Beckons spawn purely from the [[Reinforcement System]]:
+**Randomly upon the death of Parasites larger than 1 block.
+**Randomly on [[Residue]] (Chance increases with [[Evolution Phases]]).
+**On [[Infested Blocks]], created by other Beckons.
+*Stage IV Beckons can spawn all lower tiers of Beckons.
+
+===Dispatchers===
+*Stage I Dispatchers spawn from a [[Dispatcher Nidus]] block.
+**If [[Ubiquitous Development]] is level 3 or higher, can spawn naturally without the use of Nidi.
+
+===Rooters===
+*Stage I Rooters are summoned by Stage II and III Beckons or Dispatchers with a 2% chance roughly every second.
+**If [[Ubiquitous Development]] is level 3 or higher, can spawn naturally without other Nexuses.
+
+Subsequent Nexuses following Stage I evolve from their predecessors after enough time has passed. This time-based evolution can fail at lower [[Evolution Phases]]. 
+
+If a [[Colony]] is present in the dimension, higher tier Nexuses will turn into their previous Stage after death.
+
+==''Shared Aspects and Capabilities''==
+=== ''Capabilities'' ===
+*All Nexus parasites, to some degree, make use of other (summoned) parasites to aid them. 
+**Beckons utilize [[:Category:Deterrent Parasites|Deterrents]], other parasite summons, and, in the case of Stage IV Beckons, themselves.
+**Dispatchers utilize [[:Category:Deterrent Parasites|Deterrents]] and nearby parasites.
+**Rooters utilize [[Rootmass Cyst|Rootmass Cysts]].
+*Nexus parasites do not despawn naturally.
+*Nexus parasites are able to create structures that aid greatly in parasite takeover.
+**Stage IV Beckons are able to create [[Parasite Biome|Nodes]] starting from Ubiquitous Development level 4.
+**Stage IV Dispatchers are able to create [[Colony|Colonies]] starting from Ubiquitous Development level 4.
+**All Nexuses, when evolving from Stage I to Stage II, have a chance to create [[Nests]].
+***Rooter Nests increase Beckon infestation speed.
+
+=== ''Weaknesses'' ===
+* Like all Parasites, Nexus parasites present a weakness to fire (damage inflicted by fire is quadrupled).
+* Stage IV Nexuses present a weakspot on their top segment. Hitting this weakspot will deal 3x damage and apply [[Bleeding]] to the Nexus.
+* [[Biome Purifier|Biome Purifiers]] will apply the Glowing effect to Nexus parasites within a 32-block radius when used. 
+* Right-clicking Dispatcher Tentacles or Seizers will apply the Glowing effect to their parent Dispatcher.
+
+=== ''Properties'' ===
+{| class="fandom-table mw-collapsible mw-collapsed" style="width: 750px"
+|+
+'''Nexus Parasites' Properties'''
+! style="width: 200px"|'''Property'''
+! style="width: 350px"|'''Description'''
+! style="width: 200px"|'''Value'''
+|-
+!Follow Range
+|How far the parasite can follow you from
+|{{PropertiesValues|t=Nexus I|v=FollowRange}}-{{PropertiesValues|t=Nexus IV|v=FollowRange}} blocks
+|-
+!Damage Cap
+|Minimum number of hits required to kill the parasite
+|{{PropertiesValues|t=Nexus I|v=DamageCap}}-{{PropertiesValues|t=Nexus IV|v=DamageCap}} hits
+|-
+!Minimum Damage
+|Minimum amount of Damage this parasite can do to entities; this will ignore armor and effects
+|{{PropertiesValues|t=Nexus I|v=MinDamage}}-{{PropertiesValues|t=Nexus IV|v=MinDamage}} HP
+|-
+!Death Point Reduction<!--Death Penalty Evolution Value-->
+|How many [[Evolution Phases|evolution points]] this parasite will subtract when it is killed
+|{{PropertiesValues|t=Nexus I|v=DeathPenaltyEvoVal}}-{{PropertiesValues|t=Nexus IV|v=DeathPenaltyEvoVal}}}}} points
+|-
+!Remain Value
+|Life points required to be rebuilt by a [[Primitive Summoner|Primitive]] or [[Adapted Summoner]] (see [[Remains]] for more info)
+|{{PropertiesValues|t=Nexus I|v=RemainVal}}
+|-
+!Scent Death Value
+|Death value set for [[Scent System|Scents]], only used if [[Collective Consciousness]] is enabled
+|{{PropertiesValues|t=Nexus I|v=ScentDeathVal}}
+|-
+!XP Value
+|Amount of XP the parasite drops upon death
+|{{PropertiesValues|t=Nexus I|v=XPVal}}-{{PropertiesValues|t=Nexus IV|v=XPVal}} XP
+|-
+!Regen
+|How much HP the parasite will heal ''per tick'' if not in combat after 4 seconds (depletes its killcount, will not regen with 0 )
+|{{PropertiesValues|t=Nexus I|v=Regen}} HP per tick
+|-
+!COTH
+|Chance the parasite has to infect the target entity with [[COTH]], per hit
+|{{PropertiesValues|t=Nexus I|v=COTH}} * 100}}% per hit
+|-
+!colspan="3"| Growtimes
+|-
+!Stage I Minimum Growtime
+|Minimum amount of time it takes a Stage I Nexus Parasite to evolve into Stage II.
+|{{PropertiesValues|t=Nexus I|v=MinGrow}} seconds
+|-
+!Stage I Maximum Growtime
+|Maximum amount of time it takes a Stage I Nexus Parasite to evolve into Stage II.
+|{{PropertiesValues|t=Nexus I|v=MaxGrow}} seconds
+|-
+!Stage II Minimum Growtime
+|Minimum amount of time it takes a Stage II Nexus Parasite to evolve into Stage III.
+|{{PropertiesValues|t=Nexus II|v=MinGrow}} seconds
+|-
+!Stage II Maximum Growtime
+|Maximum amount of time it takes a Stage II Nexus Parasite to evolve into Stage III.
+|{{PropertiesValues|t=Nexus II|v=MaxGrow}} seconds
+|-
+!Stage III Minimum Growtime
+|Minimum amount of time it takes a Stage III Nexus Parasite to evolve into Stage IV.
+|{{PropertiesValues|t=Nexus III|v=MinGrow}} seconds
+|-
+!Stage III Maximum Growtime
+|Maximum amount of time it takes a Stage III Nexus Parasite to evolve into Stage IV.
+|{{PropertiesValues|t=Nexus III|v=MaxGrow}} seconds
+|-
+!colspan="3"| [[Adaptation System|Adaptation]]
+|-
+!Chance to Learn Damage Source<!--Point Chance to Learn-->
+|Chance that the parasite will adapt to the damage source per hit
+|{{#expr:{{PropertiesValues|t=Nexus I|v=PChanceLearn}} * 100}}-{{#expr:{{PropertiesValues|t=Nexus IV|v=PChanceLearn}} * 100}}%
+|-
+!Chance to Fail Adapting<!--Point Chance to Fail-->
+|Chance that the parasite will fail to adapt to the damage source while on fire
+|{{#expr:{{PropertiesValues|t=Nexus I|v=PChanceFail}} * 100}}-{{#expr:{{PropertiesValues|t=Nexus IV|v=PChanceFail}} * 100}}%
+|-
+!Point Reduction Value<ref name="PReduc"><u>Point Reduction Value</u> and <u>Point Reduction Cap</u> are used to calculate how many times a parasite can learn a damage source before reaching its maximum immunity (this does not always mean it will be immune to the type).  See their individual pages for examples on how immune a certain Nexus Parasite or Stage can become to damage sources.  See [[Adaptation System]] for more info on Adaptation in general.</ref>
+|Value for each "Reduction Point"<ref name="PReduc"/>, used to reduce damage taken.
+|{{PropertiesValues|t=Nexus I|v=PReducVal}}-{{PropertiesValues|t=Nexus IV|v=PReducVal}} per hit 
+|-
+!Point Reduction Cap<ref name="PReduc"/>
+|Maximum amount of "Reduction Points"<ref name="PReduc"/> per damage source.
+|{{PropertiesValues|t=Nexus I|v=PReducCap}}-{{PropertiesValues|t=Nexus I|v=PReducCap}}
+|-
+!Maximum Learnable Damage Sources<!--Point Reduction Total Cap-->
+|How many damage sources the parasite can learn and adapt to
+|{{PropertiesValues|t=Nexus I|v=PReducTotCap}}-{{PropertiesValues|t=Nexus IV|v=PReducTotCap}} sources}}
+|-
+|}
+
+== Drops ==
+=== Beckons ===
+{{Drops
+|header=false
+|rolls1=Always Rolls:
+|page1=Beckon Membrane
+|amount1=1-70
+|chance1=10%-100
+}}
+
+=== Dispatchers ===
+{{Drops
+|header=false
+|rolls1=Always Rolls:
+|page1=Dispatcher Membrane
+|amount1=1-70
+|chance1=10%-100
+}}
+
+== ''Configuration'' ==
+Below is a list of the Config changes that affect Nexus Parasites, per Stage.
+
+To be added...
+
+== ''[[Survival Guides]]'' ==
+Destroy the Nexus Parasite as soon as possible, you may go directly in if the target is weak, but if not:
+
+If the Nexus Parasite is on the surface: 
+
+Nexus parasites have a very high distance of view, towering over them wont work. But an invisility potion helps with that. Climb over the target and pour lava on it, if lacking lava, dont shoot if you are not able to fight the things they spawn, wait till you get one (Nether suggested)
+
+If the Nexus Parasite is in the caves:
+
+Parasites thrive in caves, but it also means that they will break lots of blocks in the area with tunnels. Try to bomb or shoot the exposed target from a distance or again, pour lava
+
+== ''[[Lore]]'' ==
+(Note: This is not confirmed, it is only made wither scraps of info, which means it can be entirely wrong)
+
+It is theorised that there is a huge ancient parasite nest (aptly named The Source) underground, and Beckons are its tentacles reaching from deep underground, while Dispatchers serve as temporary area control either before the area is infected or just to make the infected area more dangerous.
+
+== ''Trivia'' ==
+To be added...
+
+==Notes==
+<references />
+
+[[Category:Mobs]]

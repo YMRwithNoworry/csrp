@@ -1,0 +1,338 @@
+''Not to be confused with the [[Evolution System]].''
+
+[[File:COTH.png|thumb|108px|The [[Compendium]] icon.|link=Compendium]]
+
+'''Evolution Phases''' are a [[Systems|System]]. With this System, Parasites forces will grow stronger each time they complete a "Task", gaining Points. This System is divided in 13 Phases.
+
+== ''Things to know regarding Phases'' ==
+*They '''DO NOT''' depend on time but on obtaining '''Points''', which is explained below.
+*World Generation can greatly impact how fast Phases progress. Don't be surprised if they prosper better in some worlds while in others they don't.
+*Points are gained cumulatively; the point counter does not reset every time the phase advances.
+*'''For a certain time after changing phases, parasites will not be able to gain nor lose points'''. This can be circumvented with the [[Commands|command]] <u>''/srpevolution setcooldown 0''</u>, or setting the ''"<u>Phase # Delay</u>" options in the config to 0.''
+*All dimensions, other than the Overworld and Nether, start with -300 points in [[#Phase -1|Phase -1]] by default.  The Overworld starts in [[#Phase 0|Phase 0]] with 0 points, and the Nether starts in [[#Phase -1|Phase -1]] with -50 points.
+
+==''[[Commands]]''==
+{{#lst:Commands|phases}}
+
+==''Obtaining Points''==
+[[Mobs|Parasites]] are able to obtain Points to advance into higher Evolution Phases, they can gain Points by completing certain Tasks, these being:
+
+#Killing Mobs (1 Point each).
+#[[Parasitic Cyst|Cysts]] consuming items (2 Points per each item).
+#[[Evolution System|Assimilating]] Mobs (6 Points each).<ref>Only assimilations via [[Call Of The Hive|COTH]] count for adding 6 points. All other forms of assimilation count as kills.</ref>
+#[[Beckon|Infesting]] blocks (6 Points each).
+#[[Moving Flesh#Merge System|Merging]] (9 Points each).
+#If an [[Adapted Parasites|Adapted Parasite]] that spawned from merging despawns (100 points each).
+#[[Dispatcher Nidus]] failing to spawn a [[Stage I Dispatcher]] (120 points each).
+#[[Emerging Infestation Vector|Vectors]] will add points daily equal to their health value.
+
+[[Colony|Colonies]], every 10 points, will both increase Evolution Point gain and decrease Evolution Point loss by 5%.
+
+Each time they gain enough Points to move to the next Phase, the number in which the Phase turned to will be sent in Chat, accompanied by a unique Sound.
+
+== ''<big>Halting Points</big>'' ==
+There are two ways that a point cooldown can be active (''Note that Point Cooldown stops both Evolution Point gain.''):
+
+* The Evolution Phase '''increases'''. Each Phase has a different Point Cooldown value that will activate upon reaching that Phase. See the specific Phase below for values.
+*'''Using [[Lures]]''', craftable blocks introduced by the mod, created with cobblestone and parasite drops that will add Point Cooldown for a certain number of seconds, depending on the tier.
+
+==''Subtracting Points''==
+There are four actions that subtract points from a dimension:
+
+''Note that when the Phase decreases, all nearby Parasites will gain the [[Rage]] effect.''
+*'''Using [[Carcass|Carcasses]]''', a multi-block structure of [[Lures]] introduced by the Mod. When used, they lower points by a certain amount, depending on the Lure that was used. <u>They are the only way to decrease Phases.</u>
+*'''Breaking [[Infested Blocks]]'''. Breaking Infested Blocks created by a [[Beckon]] will subtract points per block broken.
+**Infested Rubble types will subtract 4 points.
+**Infested Trunk types will subtract 3 points.
+**Infested Stain types will subtract 2 points.
+*'''[[Dislodgment System|Dislodgment Codes]]''', '''upon activation''', will subtract set amounts of points in exchange for parasite buffs.
+*'''Killing Parasites'''. When a Parasite is killed, it will subtract some points from the dimension. Killing parasites that have the [[Debar]] effect will not subtract any points. The exact amount of points subtracted varies per Tier. Values can be seen below:
+{| class="fandom-table mw-collapsible mw-collapsed" style="width: 500px"
+|+'''Death Point Reduction Values'''
+! style="width: 250px"|'''Tier'''
+! style="width: 250px"|'''Value'''
+|-
+|[[Inborn Parasites]]
+|{{PropertiesValues|t=Inborn|v=DeathPenaltyEvoVal}} point{{#ifeq:{{#expr:{{PropertiesValues|t=Inborn|v=DeathPenaltyEvoVal}}}}|{{#expr:1}}||s}}
+|-
+|[[Assimilated Mobs]]
+|{{PropertiesValues|t=Assimilated|v=DeathPenaltyEvoVal}} point{{#ifeq:{{#expr:{{PropertiesValues|t=Assimilated|v=DeathPenaltyEvoVal}}}}|{{#expr:1}}||s}}
+|-
+|[[Crude Parasites]]
+|{{PropertiesValues|t=Crude|v=DeathPenaltyEvoVal}} point{{#ifeq:{{#expr:{{PropertiesValues|t=Crude|v=DeathPenaltyEvoVal}}}}|{{#expr:1}}||s}}
+|-
+|[[:Category:Assimara Parasites|Assimara Parasites]]
+|5 points
+|-
+|[[:Category:Feral Parasites|Feral Parasites]]
+|5 points
+|-
+|[[Primitive Parasites]]
+|{{PropertiesValues|t=Primitive|v=DeathPenaltyEvoVal}} point{{#ifeq:{{#expr:{{PropertiesValues|t=Primitive|v=DeathPenaltyEvoVal}}}}|{{#expr:1}}||s}}
+|-
+|[[Adapted Parasites]]
+|200 points
+|-
+|[[Nexus Parasites|Nexus (Stage I)]]
+|{{PropertiesValues|t=Nexus I|v=DeathPenaltyEvoVal}} point{{#ifeq:{{#expr:{{PropertiesValues|t=Nexus I|v=DeathPenaltyEvoVal}}}}|{{#expr:1}}||s}}
+|-
+|[[Nexus Parasites|Nexus (Stage II)]]
+|{{PropertiesValues|t=Nexus II|v=DeathPenaltyEvoVal}} point{{#ifeq:{{#expr:{{PropertiesValues|t=Nexus II|v=DeathPenaltyEvoVal}}}}|{{#expr:1}}||s}}
+|-
+|[[Nexus Parasites|Nexus (Stage III)]]
+|{{PropertiesValues|t=Nexus III|v=DeathPenaltyEvoVal}} point{{#ifeq:{{#expr:{{PropertiesValues|t=Nexus III|v=DeathPenaltyEvoVal}}}}|{{#expr:1}}||s}}
+|-
+|[[Nexus Parasites|Nexus (Stage IV)]]
+|{{PropertiesValues|t=Nexus IV|v=DeathPenaltyEvoVal}} point{{#ifeq:{{#expr:{{PropertiesValues|t=Nexus IV|v=DeathPenaltyEvoVal}}}}|{{#expr:1}}||s}}
+|-
+|[[Deterrent Parasites]]
+|1000 points
+|-
+|[[Pure Parasites]]
+|1000 points
+|-
+|[[Preeminent Parasites]]
+|30000 points
+|-
+|[[:Category:Derived Parasites|Derived Parasites]]
+|45000 points
+|-
+|[[Ancient Parasites]]
+|{{PropertiesValues|t=Ancient|v=DeathPenaltyEvoVal}} point{{#ifeq:{{#expr:{{PropertiesValues|t=Ancient|v=DeathPenaltyEvoVal}}}}|{{#expr:1}}||s}}
+|}
+
+==''Evolution Lock''==
+Some Parasites are locked behind certain Evolution Phases in dimensions other than the Overworld, where parasites must have infected that dimension and reached a certain Phase for such parasites to be permitted to spawn naturally in other dimensions. These parasites are:
+*[[Assimilated Enderman|Assimilated Endermen]], who can spawn naturally from Phases 2 - 7 when the <u>End has reached Phase 3.</u>
+*[[Assimilated Ender Dragon|Assimilated Ender Dragons]], who can spawn naturally  from Phase 9 onward when the <u>End has reached Phase 3.</u>
+*[[Feral Enderman|Feral Endermen]], who can spawn naturally from Phase 8 onward when the <u>End has reached Phase 4.</u>
+*[[Kirin]], who can spawn naturally from Phase 1 onward when the <u>End has reached Phase 7.</u>
+*[[Draconite|Draconites]], who can spawn naturally from Phase 1 onward when the <u>Nether has reached Phase 7.</u>
+
+When a parasite is unlocked, a "..." message will be sent in chat accompanied by the Phase change number.
+
+==''Measuring Phases''==
+''Main Article: [[Doomsday Clock]]''
+
+The '''[[Doomsday Clock]]''' is an Item Players can obtain very early in-game. It is used to check what Phase the Dimension is in but cannot see the specific amount of points. It can also tell the time (in seconds) until the current Phase Cooldown, where parasites cannot gain points after increasing Phases, ends.
+
+''Main Article: [[Module Reports#Phase Report|Module Reports]]''
+
+If one would like a more in-depth view of the status of Evolution Phases, the [[Phase Report]], obtained by scanning the [[Phase Module]] in the [[Relay Tower]], can be utilized, which shows the current Phase, current Points, current Point Cooldown, and progress to the next Phase.
+
+== ''Negative Evolution Phases''==
+Negative Evolution Phases are Evolution Phases for Dimensions other than the Overworld, by default. It is used for disabling Parasites from spawning until a Parasite infiltrates the Dimension or to completely stop Parasites from gaining points. You cannot return to Negative Evolution Phases without using Commands.
+
+===Phase -2===
+''-200 Evolution Points, only reached by commands.''
+
+*Parasites cannot spawn.
+*Parasites cannot obtain Points, regardless of what they do.
+
+===Phase -1===
+''-100 Evolution Points, only reached by commands or in the Nether or End Dimensions.''
+
+*Parasites cannot spawn.
+*Parasites that enter the Dimension can infect native Mobs and advance to Phase 0.
+
+== ''Evolution Phases'' ==
+
+===Phase 0===
+''0 Evolution Points required to enter this Phase.''
+
+*[[Buglin|Buglins]] can spawn naturally and grow into [[Rupter|Rupters]].
+*Rupters attack Hostile Mobs if they're in a group of 2 or more.
+*Base [[Emerging Infestation Vector|EIV]] stats:
+**Health upon creation multiplier = 1 (350 health upon creation).
+**Health and radius bonuses = 0.
+**Point Cap = 100.
+**Vector Cap = 1.
+*Sleeping will add 3 Points.
+
+===Phase 1===
+''800 Evolution Points required to enter this Phase. Has a Point Cooldown of 4,000 seconds.''
+
+[[File:Phase1.ogg]]
+
+*[[Rupter|Rupters]] and [[Light Carrier|Light Carriers]] can now spawn naturally.
+*Parasites will now ignore sky light levels when spawning naturally.
+*[[Emerging Infestation Vector|EIV]] upgrades:
+**Health upon creation multiplier increased to 3 (1,050 health upon creation).
+**Health and radius bonuses increased to 0.01 and 0.005 respectively.
+**Point Cap increased to 200.
+**Vector Cap increased to 2.
+*Sleeping will add 40 Points.
+
+===Phase 2 ===
+''1,600 Evolution Points required to enter this Phase. Has a Point Cooldown of 4,800 seconds.''
+
+[[File:Phase2.ogg]]
+
+*[[Heavy Carrier|Heavy Carriers]] can now spawn naturally.
+*[[Assimilated Mobs]]<ref name=":0" /> can now spawn naturally if enough of its type are infected.
+**[[Assimilated Enderman|Assimilated Endermen]] can only spawn naturally if the End has reached Phase 3.
+*Rupters will now attack any Entity in order to assimilate it, regardless of if they're alone or not.
+*Mobs with [[Call Of The Hive]] will no longer drop items.
+*[[Emerging Infestation Vector|EIV]] upgrades:
+**Health upon creation multiplier increased to 5 (1,750 health upon creation).
+**Health and radius bonuses increased to 0.02 and 0.01 respectively.
+**Point Cap increased to 600.
+*Sleeping will add 50 Points.
+
+===Phase 3===
+''5,000 Evolution Points required to enter this Phase. Has a Point Cooldown of 4,700 seconds.''
+
+[[File:Phase3.ogg]]
+
+*[[Host|Hosts]], [[Lice]], and [[Flying Carrier|Flying Carriers]] can now spawn naturally.
+*[[Buglin|Buglins]] will no longer spawn naturally.
+*[[Rupter|Rupters]] will no longer place [[Tunnel|Tunnels]].
+*[[Reinforcement System]] is unlocked (4% on parasite death, 1/5,500 ticks from [[Residue]]).
+*Passive Point Gaining is now active; Parasites' killcount will go up by 0.05 each second.
+*[[:Category:Nexus Parasites|Nexuses]] and [[:Category:Deterrent Parasites|Deterrents]] will no longer take damage and die over time.
+*[[:Category:Nexus Parasites|Stage I Nexuses]] will very slowly grow to Stage II.
+*[[Emerging Infestation Vector|EIV]] upgrades:
+**Health upon creation multiplier increased to 10 (3,500 health upon creation).
+**Health and radius bonuses increased to 0.05 and 0.02 respectively.
+**Point Cap increased to 3,500.
+**Vector Cap increased to 3.
+*Sleeping will add 1,000 Points.
+
+===Phase 4===
+''30,000 Evolution Points required to enter this Phase. Has a Point Cooldown of 4,500 seconds.''
+
+[[File:Phase4.ogg]]
+
+*[[Heed|Heeds]] can now spawn naturally.
+*[[Assimara Parasites]] can now spawn naturally if enough of their Sane counterpart has been assimilated.
+*[[:Category:Nexus Parasites|Stage I Nexuses]] will now normally grow to Stage II.
+*[[:Category:Nexus Parasites|Stage II Nexuses]] will very slowly grow to Stage III.
+*Reinforcement System chances to activate are increased (6% on parasite death, 1/4,000 ticks from Residue).
+*Passive Points gaining increased; each second, Parasite killcount will go up by 0.075.
+*[[Emerging Infestation Vector|EIV]] upgrades:
+**Health upon creation multiplier increased to 40 (14,000 health upon creation).
+**Health and radius bonuses increased to 0.1 and 0.05 respectively.
+**Point Cap increased to 25,000.
+* Sleeping will add 100 Points.
+
+===Phase 5===
+''200,000 Evolution Points required to reach this Phase. Has a Point Cooldown of 4,200 seconds.''
+
+[[File:Phase5.ogg]]
+
+*[[Crux|Cruxes]] and [[Dredge|Dredges]] can now spawn naturally.
+*[[Carrier (Disambiguation)|Carriers]] will no longer spawn naturally.
+*Beckons will now ignore their Summoning Cooldown.
+*[[:Category:Nexus Parasites|Stage II Nexuses]] will now normally grow to Stage III.
+*[[:Category:Nexus Parasites|Stage III Nexuses]] will very slowly grow to Stage IV.
+*Reinforcement System chances to activate are increased (8% on parasite death, 1/1,000 ticks from Residue).
+*Passive point gaining increased; each second, Parasite killcount will go up by 0.1.
+*[[Emerging Infestation Vector|EIV]] upgrades:
+**Health upon creation multiplier increased to 100 (35,000 health upon creation).
+**Health and radius bonuses increased to 0.2 and 0.1 respectively.
+**Point Cap increased to 500,000.
+**Vector Cap increased to 4.
+*Sleeping will now add <!--1500000x5-->2,500 Points.
+
+=== Phase 6===
+''5,000,000 Evolution Points required to enter this Phase. Has a Point Cooldown of 3,800 seconds.''
+
+[[File:Phase6.ogg]]
+
+*[[Many Bodies|Abomination Many Bodies]] and [[Mangler|Manglers]] can now spawn naturally.
+*Fishing will no longer give items.
+*Mobs have a 20% chance to spawn with the COTH Effect.
+*Crops grow 10% slower.<ref name="crops">Reducing crop growth does not function as of 1.9.21.</ref>
+*[[:Category:Nexus Parasites|Stage III Nexuses]] will now normally grow to Stage IV.
+*Reinforcement System chances to activate are increased (10% on parasite death, 1/500 ticks from Residue).
+*Passive point gaining is increased; each second, Parasite killcount will go up by 0.15.
+*Points gained by sleeping will now be multiplied by 5 each sleep.
+*[[Emerging Infestation Vector|EIV]] upgrades:
+**Health upon creation multiplier increased to 350 (122,500 health upon creation).
+**Health and radius bonuses increased to 0.3 and 0.2 respectively.
+**Point Cap increased to 3,000,000.
+*Sleeping will add <!--5000000x5-->8,500 Points.
+
+===Phase 7===
+''25,000,000 Evolution Points required to enter this Phase. Has a Point Cooldown of 3,700 seconds.''
+
+[[File:Phase7.ogg]]
+
+*[[Airscrew|Airscrews]] and [[Herd|Herds]] can now spawn naturally.
+**Airscrews will only spawn in the range of a [[Colony]].
+*[[Draconite|Draconites]] and [[Kirin]] can now spawn naturally if the Nether and End reach this Phase.
+*COTH will now turn sane mobs into their [[:Category:Feral Parasites|Feral]] version instead of their [[:Category:Assimilated Mobs|Assimilated]] version.
+*Mobs have a 40% chance to spawn with the COTH Effect.
+*Crops grow 30% slower.<ref name="crops" />
+*Reinforcement System chances to activate are increased (14% on parasite death, 1/400 ticks from Residue).
+*Passive point gaining is increased; each second, Parasite killcount will go up by 0.25.
+*[[Emerging Infestation Vector|EIV]] upgrades:
+**Health upon creation multiplier increased to 900 (315,000 health upon creation).
+**Health and radius bonuses increased to 0.4 and 0.3 respectively.
+**Point Cap increased to 50,000,000.
+*Sleeping will add <!--30000000x5-->12,500 Points.
+
+===Phase 8 ===
+''500,000,000 Evolution Points required to enter this Phase. Has a Point Cooldown of 3,700 seconds.''
+
+[[File:Phase8.ogg]]
+
+*[[Feral Parasites]] can now spawn naturally.
+**[[Feral Enderman|Feral Endermen]] can only spawn naturally if the End has reached Phase 4.
+*[[Light Bomber|Light Bombers]] can now spawn naturally.
+*[[Assimilated Parasites|Assimilated Mobs]]<ref name=":0">Excluding [[Assimilated Ender Dragon|Assimilated Ender Dragons]].</ref>, [[Rupter|Rupters]], and [[Host|Hosts]] will no longer spawn naturally.
+*Parasites will no longer drop experience.
+*Mobs have a 60% chance to spawn with the COTH Effect.
+*Crops grow 60% slower.<ref name="crops" />
+*Reinforcement System chances to activate are increased (16% on parasite death, 1/300 ticks from Residue).
+*Passive point gaining is increased; each second, Parasite killcount will go up by 0.35.
+*[[Emerging Infestation Vector|EIV]] upgrades:
+**Health upon creation multiplier increased to 1,300 (455,000 health upon creation).
+**Health and radius bonuses increased to 0.5 and 0.4 respectively.
+**Point Cap increased to 100,000,000.
+**Vector Cap increased to 5.
+*Sleeping will add <!--5x1-->15,000 Points.
+
+=== Phase 9 ===
+''1,000,000,000 Evolution Points required to enter this Phase. Has a Point Cooldown of 3,800 seconds.''  
+
+[[File:Evphase9.ogg]]
+
+*[[Assimilated Ender Dragon|Assimilated Ender Dragons]] can now spawn naturally if the End has reached Phase 3.
+*Total Slaughter is active; Parasites will now attempt to kill all non-parasites.
+*Crops can no longer grow.<ref name="crops" />
+*Non-Parasite healing is halved.
+*All disguised Assimilated Mobs will no longer hide.
+*Mobs have a 90% chance to spawn with the COTH Effect.
+*Reinforcement System chances to activate are increased (18% on parasite death, 1/250 ticks from Residue).
+*Passive point gaining is increased; each second, Parasite killcount will go up by 0.45.
+*[[Emerging Infestation Vector|EIV]] upgrades:
+**Health upon creation multiplier increased to 2,700 (945,000 health upon creation).
+**Health and radius bonuses increased to 0.6 and 0.5 respectively.
+**Point Cap increased to 150,000,000.
+*Sleeping will add <!--5x1-->18,000 Points.
+
+===Phase 10===
+''1,800,000,000 Evolution Points required to enter this Phase. Has a Point Cooldown of 6,000 seconds.'' 
+
+[[File:Phase10.ogg]]
+
+*Non-parasites will no longer spawn naturally.
+*Mobs will always spawn with the COTH Effect.
+*Parasite base stats increased by 7%.
+*Reinforcement System chances to activate are increased (20% on parasite death, 1/150 ticks from Residue)
+*Passive point gaining is increased; each second, Parasite killcount will go up by 0.55.
+*[[Emerging Infestation Vector|EIV]] upgrades:
+**Health upon creation multiplier increased to 5,500 (1,925,000 health upon creation).
+**Health and radius bonuses increased to 0.7 and 0.65 respectively.
+**Point Cap is removed.
+*Sleeping will add <!--5x1-->1 Point.
+
+
+
+Parasites can only reach a maximum of 2,100,000,000 points in any dimension.
+
+== Notes ==
+<references />
+
+[[Category:Systems]]

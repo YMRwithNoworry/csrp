@@ -1,0 +1,77 @@
+{{Navbar|page1=Walking Enderman Head|page2=Assimilated Enderman|page3=Assimara Enderman|page4=Feral Enderman}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|ferenderman}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=FeralEnderman.png
+|hp=80.0
+|damage=21.0
+|armor=6.0
+|kb_resistance=0.5
+|adaptable=[[Adaptation System#Adaptation Capacities|No]]
+|id=srparasites:fer_enderman
+}}
+
+'''Feral Endermen''' are the [[Feral Parasites|Feral Version]] of [https://minecraft.fandom.com/wiki/Enderman Endermen]. Killing them will grant the {{AdvancementLink|Fermented Arrogance}}.
+
+== ''Spawning'' ==
+
+* Spawned when an Enderman is killed by a [[Gnat]] or [[Lice]].
+* Spawns from an Enderman succumbing to [[Call Of The Hive]] at [[Evolution Phases#Phase 7|Phase 7]] onwards.
+* Spawns when an [[Assimilated Enderman]] accumulates a killcount of 60 and [[Evolution System|evolves]].
+* Spawns in groups of 3 to 5, from [[Evolution Phases#Phase 8|Phase 8]] onwards, with a spawnweight of 25, once 9 Endermen have been assimilated and the End has reached [[Evolution Phases#Phase 4|Phase 4]].
+
+== ''Behavior'' ==
+Feral Endermen are Melee Combatants/Aggressive Support units. They use hit and run tactics teleporting in and out of close combat. 
+
+*Their Melee Attack is performed through contact damage.
+* If the [[Generations|Generation]] is 4 or higher, Assimilated Enderman can perform the following abilities:
+**Teleport themselves as well as nearby [[Rupter|Rupters]], [[:Category:Walking Heads|Walking Heads]], [[:Category:Assimilated Mobs|Assimilated Mobs]], [[:Category:Feral Parasites|Feral Parasites]], and [[:Category:Primitive Parasites|Primitive Parasites]]. Their teleportation Ability is based on the following logic:
+***Upon sight of a target, the teleportation noise will play.
+*** Feral Endermen cannot teleport within the first 1.5 seconds of finding a target.
+*** After it manages to teleport, it will teleport a nearby Rupter, Assimilated Mob, Feral Parasite, or Primitive Parasite.
+*** 0.5 damage will be inflicted to the teleported mob (unless it is an [[Assimilated Enderman]], a [[Walking Enderman Head]], or another Feral Enderman)
+*** The ability to teleport other Parasites has a cooldown of 0.5 seconds. This cooldown is removed if the Feral Enderman takes damage or has the [[Rage]] effect.
+*** If the Feral Enderman is on fire, there is a 75% chance the mob it teleports will also catch fire.
+
+*Feral Endermen are immune to ranged attacks, teleporting away from Projectiles, similar to their Sane counterpart.
+*Similar to their assimilated version, it doesn't present any weakness in being in contact with Water.
+**Feral Endermen can perform small leaps, both on land and in liquids.
+**Feral Endermen are able to sink in liquids to pursue submerged targets.
+
+* On hit Feral Endermen has a chance to drop [[Remains|Feral Remains]].
+
+=== ''Weaknesses''===
+*Feral Endermen, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+{{Drops
+|rolls1=Always Rolls:
+|page1=Eye Of The Beholder
+|amount1=1
+|chance1=~6
+}}
+
+=== ''Post Death'' ===
+
+* On death Feral Endermen have a chance to explode, releasing [[Remains|Feral Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+* On death Feral Endermen have a chance to drop a [[Gnat]].
+{{Properties|tier=Feral|FollowRange=64|DamageCap=3|MinimumDamage=0.75|DeathPenaltyEvolutionValue=5|RemainValue=12|ScentDeathValue=15|XPValue=16|COTH=.7}}
+
+== ''Sounds'' ==
+To be added...
+
+== ''Trivia'' ==
+To be added...
+
+== ''Gallery'' ==
+<gallery>
+File:FeralEndermanHeight.png|Size of the Feral Enderman's model.
+File:Morbid ecstasy.png|Feral Enderman concept art.
+File:Death.gif|Feral Enderman sprinting towards a player.
+</gallery>
+
+{{MobList}}
+[[Category:Feral Parasites]]
+[[Category:Mobs]]

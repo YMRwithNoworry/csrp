@@ -1,0 +1,216 @@
+{{VersionBar|
+|page1=Version 1.9.9
+|page2=Version 1.9.11
+}}
+'''Version 1.9.10''' was an update for the Scape and Run: Parasites Mod, released on February 6th 2023.  It was 16.00 MB.
+
+== ''Change Log'' ==
+
+====<u>Fixes</u>====
+
+*Crash:
+<div class="mw-collapsible mw-collapsed" data-expandtext="Show crash" data-collapsetext="Hide crash">
+java.lang.ClassCastException: com.dhanantry.scapeandrunparasites.entity.monster.infected.EntityInfDragonE cannot be cast to com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityCanMelt
+at com.dhanantry.scapeandrunparasites.entity.ai.EntityAIInfectedSearch.func_75246_d(EntityAIInfectedSearch.java:82)
+at net.minecraft.entity.ai.EntityAITasks.func_75774_a(SourceFile:129)
+Primitive Reeker crash: 
+java.lang.NullPointerException: Ticking entity
+at net.minecraft.entity.player.EntityPlayerMP.func_152111_bt(EntityPlayerMP.java:295)
+at net.minecraft.util.CombatTracker.func_94547_a(SourceFile:65)
+at com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase.attackEntityAsMobMinimum(EntityParasiteBase.java:738)
+at com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase.func_70652_k(EntityParasiteBase.java:684)</div>
+
+*Crash:
+<div class="mw-collapsible mw-collapsed" data-expandtext="Show crash" data-collapsetext="Hide crash">
+java.lang.ArrayIndexOutOfBoundsException: 3
+at com.dhanantry.scapeandrunparasites.util.ParasiteEventEntity.orbApplyEffects(ParasiteEventEntity.java:161)
+at com.dhanantry.scapeandrunparasites.entity.monster.pure.preeminent.EntityLencia.scaryOrbEffect(EntityLencia.java:151)
+at com.dhanantry.scapeandrunparasites.entity.EntityScaryOrb.selfExplode(EntityScaryOrb.java:298)
+at com.dhanantry.scapeandrunparasites.entity.EntityScaryOrb.dyingBurst(EntityScaryOrb.java:221)
+at com.dhanantry.scapeandrunparasites.entity.EntityScaryOrb.func_70071_h_(EntityScaryOrb.java:104)
+at net.minecraft.world.World.func_72866_a(World.java:1996)</div>
+
+*Message:
+<div class="mw-collapsible mw-collapsed" data-expandtext="Show crash" data-collapsetext="Hide message">
+java.lang.NullPointerException: null
+at com.dhanantry.scapeandrunparasites.util.handlers.SRPEventHandlerBus.entityHurt(SRPEventHandlerBus.java:369)
+Crash: 
+java.lang.ClassCastException: net.minecraft.entity.player.EntityPlayerMP cannot be cast to com.dhanantry.scapeandrunparasites.entity.monster.adapted.EntityRanracAdapted
+at com.dhanantry.scapeandrunparasites.entity.projectile.EntityProjectilePullball.aRanrac(EntityProjectilePullball.java:141)
+at com.dhanantry.scapeandrunparasites.entity.projectile.EntityProjectilePullball.func_70071_h_(EntityProjectilePullball.java:104)
+at net.minecraft.world.World.func_72866_a(World.java:1996)</div>
+
+*[[Dispatcher (Disambiguation)|Dispatchers]] only spawning 1 type of primitive from assimilated versions
+*"Points Overtime WhiteList Dimensions" this option has been disabled
+*"Block Particle Spawn" not working for [[Succor]], [[Haunter]], [[Monarch]], Deterrent if "[[Parasitic Cyst|Cyst]] Enabled" is turned off
+*Custom World spawner running if [[Evolution Phases]] is turned off
+*Configuration list with wrong weapons id
+*[[Monarch]] spawning buglins if buglins are disabled
+*[[Tunnel|Buglin tunnel block]] spawning [[Buglin|buglins]] if buglins are disabled
+*[[:Category:Deterrent Parasites|Deterrent]]/[[:Category:Nexus Parasites|Nexus]] parasites spawning on [[Beckon (Disambiguation)|infested blocks]] if Difficulty is PEACEFUL
+*"Version [[:Category:Preeminent Parasites|Preeminent]] XP Value" not working
+*Dispatchers storing [[Worker|Workers]]
+*[[Mangler]] not able to dive
+*[[Adapted Bolster]] not able to dive
+*[[Assimilated Bear]], [[Assimilated Cow]], [[Assimilated Ender Dragon]], [[Assimilated Horse]], [[Assimilated Pig]], [[Assimilated Adventurer]], [[Assimilated Sheep]], [[Assimilated Wolf]] not able to dive
+*[[Host]] and [[Herd]] getting random slowness
+*[[Incomplete Forms]] spawning with attribute values of 0
+*Unnecessary files were deleted from the mod
+*[[Parasitic Cyst|Cyst]] not eating all items in its inventory
+*Cyst not transfroming into an empty cyst
+*Coth spreading by taking damage
+*Console spam caused by [[:Category:Armors|armor]]
+*Buglin tunnel wrong render for block
+*Mouth/Maw wrong render for block
+*"Mob Fire Damage Multiplier" value affecting players even if no armor of the mod is being equiped
+*"[[:Category:Nexus Parasites|Nexus]] Stage I Death Penalty Evolution Value" not working
+*"Nexus Stage II Death Penalty Evolution Value" not working
+*"Nexus Stage III Death Penalty Evolution Value" not working
+*"Nexus Stage IV Death Penalty Evolution Value" not working
+*"Reinforcement System [[Beckon (Disambiguation)|Block Revert]] Stage" not working
+
+====<u>Configuration</u>====
+*"[[Corrosion|Corrosive]] Damage Value" from 5 to 3
+*"[[Primitive Summoner]] Rebuilt Value" from 0.2 to 1
+*"[[Adapted Summoner|Stage Adapted]] Rebuilt Value" from 0.4 to 1.5
+*"Version [[:Category:Preeminent Parasites|Preeminent]] XP Value" from 75 to 200
+*"[[Heavy Bomber]] Mob Table" new list:
+**"srparasites:[[overseer]]",
+**"srparasites:[[vigilante]]",
+**"srparasites:[[marauder]]",
+**"srparasites:[[monarch]]"
+*"Phase 3 Spawn Entity List" added
+**"srparasites:[[Heavy Bomber|bomber_heavy]];1;1;1",
+**"srparasites:[[wraith]];1;1;1",
+**"srparasites:[[bogle]];1;1;1",
+**"srparasites:[[haunter]];1;1;1",
+**"srparasites:[[Colony Carrier|carrier_colony]];1;1;1"
+*"Phase 4 Spawn Entity List" added
+**"srparasites:bomber_heavy;1;1;1",
+**"srparasites:wraith;1;1;1",
+**"srparasites:bogle;1;1;1",
+**"srparasites:haunter;1;1;1",
+**"srparasites:carrier_colony;1;1;1"
+*"Phase 5 Spawn Entity List" added
+**"srparasites:bomber_heavy;1;1;1",
+**"srparasites:wraith;1;1;1",
+**"srparasites:bogle;1;1;1",
+**"srparasites:haunter;1;1;1",
+**"srparasites:carrier_colony;1;1;1"
+*"Phase 6 Spawn Entity List" added
+**"srparasites:bomber_heavy;1;1;1",
+**"srparasites:wraith;1;1;1",
+**"srparasites:bogle;1;1;1",
+**"srparasites:haunter;1;1;1",
+**"srparasites:carrier_colony;1;1;1"
+*"Phase 7 Spawn Entity List" added
+**"srparasites:bomber_heavy;1;1;1",
+**"srparasites:wraith;1;1;1",
+**"srparasites:bogle;1;1;1",
+**"srparasites:haunter;1;1;1",
+**"srparasites:carrier_colony;1;1;1"
+*"Phase 8 Spawn Entity List" added
+**"srparasites:bomber_heavy;1;1;1",
+**"srparasites:wraith;1;1;1",
+**"srparasites:bogle;1;1;1",
+**"srparasites:haunter;1;1;1",
+**"srparasites:carrier_colony;1;1;1"
+
+''Note: The above parasites will only spawn if a [[Colony]] is in the world.''
+
+*"Version X Death Penalty Evolution Value" minimum value now is 0
+ 
+*New options:
+**"[[Assimilated Enderman]] Ally Teleport Cooldown" - "Cooldown in ticks for teleporting allies." - SRParasitesMobs.cfg
+**"Assimilated Enderman First Sighting Teleport Cooldown" - "Cooldown in ticks to start teleporting when engaging an enemy." - SRParasitesMobs.cfg
+**"[[Corrosion|Corrosive]] Percentage To Work" - "If the durability of the armor is below this threshold, the effect will not work." - SRParasitesSystems.cfg
+**"[[Stage I Dispatcher]] Effect List" - "List of potion effects that the Stage I Dispatcher will apply to relocated parasites." - SRParasitesMobs.cfg
+**"[[[Stage II Dispatcher]] Effect List" - "List of potion effects that the Stage II Dispatcher will apply to relocated paraites." - SRParasitesMobs.cfg
+**"[[Stage III Dispatcher]] Effect List" - "List of potion effects that the Stage III Dispatcher will apply to relocated parasites." - SRParasitesMobs.cfg
+**"[[Stage IV Dispatcher]] Effect List" - "List of potion effects that the Stage IV Dispatcher will apply to relocated parasites." - SRParasitesMobs.cfg
+**"Assimilated Enderman Ally Teleport Damage" - "Damage to teleported allies." - SRParasitesMobs.cfg
+**"Version [[:Category:Primitive Parasites|Primitive]] See Through Walls" - "Set to true if you want the view check to be performed when searching for enemies." - SRParasites.cfg
+**"Version [[:Category:Adapted Parasites|Adapted]] See Through Walls" - "Set to true if you want the view check to be performed when searching for enemies." - SRParasites.cfg
+**"Version [[:Category:Pure Parasites|Pure]] See Through Walls" - "Set to true if you want the view check to be performed when searching for enemies." - SRParasites.cfg
+**"Version [[:Category:Preeminent Parasites|Preeminent]] See Through Walls" - "Set to true if you want the view check to be performed when searching for enemies." - SRParasites.cfg
+**"Block Sound Play" - "Chance to play (1=100%) block sound when broken by parasites." - SRParasites.cfg
+**"[[Living Armor]] Point Chance to Learn" - "Chance to adapt (1=100%) to the damage." - SRParasites.cfg
+**"[[Sentient Armor]] Point Chance to Learn" - "Chance to adapt (1=100%) to the damage." - SRParasites.cfg
+**"Armor Damage Types BlackList" - "Damage that cannot be learned by the armor." - SRParasites.cfg
+**"Armor Damage Types BlackList Inverted" - "Set to true if you want to use the list as a WhiteList." - SRParasites.cfg
+**"Block Drops Spawn" - "Chance to spawn (1=100%) block drops when broken by parasites." - SRParasites.cfg
+**"[[Orb]] Attacking" - "Set to false if you dont want the parasites to spawn orbs." - SRParasites.cfg
+**"[[Colony]] Parasite Values" - "List of parasites that require Colony points to appear, parasites that are not in the list will not be affected." - SRParasitesWorld.cfg
+**"Armor COTH" - "Set to true for the armor to apply [[Call Of The Hive|COTH]] to the user." - SRParasites.cfg
+**"Phase Total Slaughter" - "From this [[Evolution Phases|phase]] on, parasites will kill everything (not ignoring config options)." - SRParasitesSystems.cfg
+ 
+====<u>General changes</u>====
+*New textures (Vinni) for the Living/Sentient Armor set
+*New textures (Vinni) for [[:Category:Weapons|Living/Sentient Weapons]]
+*[[Corrosion|Corrosive]] effect will no longer destroy armor
+*Armor from this mod now has a chance to learn instead of always
+*Changed texture for the feeler block face up
+*Custom mob spawner and the parasite mob cap will only work if [[Evolution Phases]] is turned on
+*Throwingball changes:
+**It is now named [[Quench]]
+**Range changed from 3 to 7
+**Added cooldown of 1 sec
+**Added recipe
+*Every random tick, the [[Parasite Biome#Biome Purifier|Purifier]] Block will:
+**Scan an area (32 blocks radius) and apply the Glowing effect to every [[:Category:Nexus Parasites|nexus]] version inside
+**Will clean [[Beckon (Disambiguation)|infestation]] (5 blocks radius) by starting a chain reaction
+*Updated the following lang files:
+**ro_ro
+**ru_ru
+**zh_cn
+ 
+====<u>Mobs</u>====
+*Dispatcher tentacles will not remove Evolution Points when killed
+*[[Dispatcher (Disambiguation)|Dispatchers]] will no apply effects to relocated parasites 
+*Dispatcher Tentacles spawn mobs 1 second faster
+*Teleported parasites by the [[Assimilated Enderman]] will now take damage (following ender pearl logic, value reduced)
+*Assimilated Enderman will now play the teleport sound effect when finding a player
+*Reduced [[Succor]] xp value
+*If Assimilated Enderman is on fire there is a 75% chance for teleported mobs to be set on fire
+*Changed texture for the [[Primitive Arachnida]] and its variants
+*Changed texture for the [[Buglin]]
+*Changed texture for the [[Thrall]]
+*Succor spawning from [[:Category:Preeminent Parasites|Preeminent]] will now spawn biomass particles
+*Tweaked Succor flying logic
+*If [[Beckon (Disambiguation)|Beckon]] or [[Primitive Summoner|Primitive]]/[[Adapted Summoner]] is on fire then biomass will be set on Fire and parasite spawned from biomass will be set on fire plus health will be multiplied by 0.5
+*Biomass passive regeneration added
+*Decreased dispatcher tentacle spawnrate from dispatchers and tweaked attack logic (WIP,in progress)
+*Tweaked minimum charge attack distance for:
+**[[Warden]]
+**[[Primitive Reeker|Primitive]] and [[Adapted Reeker]]
+**[[Assimilated Cow|Cow]]
+*[[:Category:Deterrent Parasites|Deterrent]] and [[:Category:Nexus Parasites|Nexus]] type parasites will die slowly if [[Evolution Phases]] are on and the [[Reinforcement System|RS]] chance of the current phase is 0
+**In addition, Beckons/Dispatchers will convert connected blocks of their current position
+*Added new sound effects for:
+**[[Assimilated Wolf]]
+**[[Bogle]]/[[Wraith]]
+**[[Adapted Longarms]]
+
+*Dispatcher changes:
+**1 tentacle will only spawn 1 parasite
+**Will not unhide mobs that are on water
+**Will follow rule of the [[Host]]/[[Herd]] teleportation to store/spawn tentacles
+**If a parasite was previously stored then if it despawns it will be returned to the Dispatcher (if available)
+**Number of tentacles it can spawn: current stage * 3
+**It will not target multiple mobs if total number of mobs > number of parasites stored
+
+*Added same dash to: 
+**[[Mangler]]
+**[[Monarch]]
+**[[Warden]]
+**[[Marauder]]
+**[[Grunt]]
+**[[Haunter]]
+
+*Added teleportation cooldown for [[Assimilated Enderman]] when finding an enemy
+**This cooldown is negated when it receives damage
+**Also applies to the teleportation of allies
+**There is also a second cooldown for ally teleportation
+
+{{VersionList}}
+[[Category:Versions]]

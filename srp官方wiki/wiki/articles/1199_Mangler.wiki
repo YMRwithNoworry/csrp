@@ -1,0 +1,113 @@
+{{Navbar|page1=Buglin|page2=Rupter|page3=Mangler}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|mangler}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+{{Mob Info
+|image1=<gallery>
+Mangler.png|Normal
+BerserkerMangler.png|Berserker
+VirulentMangler.png|Virulent
+</gallery>
+|hp=17.0
+|damage=9.0
+|armor=10.0
+|kb_resistance=0.6
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:mangler
+}}
+'''Manglers''' are a [[Mobs|Mob]] in the [[Inborn Parasites|Inborn]] Tier. They are large insect-like creatures with three pairs of legs, and nine thin, elongated tentacles coming from its head, which have been confirmed to be used to echolocate its prey. The Mangler is fairly more robust than his younger brothers, almost doubling them in body size.
+
+== ''Spawning'' ==
+*Spawns after a [[Rupter]] accumulates a killcount of 30 and evolves.
+*Spawns in groups of 3 to 6, from [[Evolution Phases#Phase 6|Phase 6]], with a spawnweight of 30.
+*Spawned by [[Herd|Herds]].
+*Evolves from a Rupter after being stored by a [[Stage III Dispatcher|Stage III]] or [[Stage IV Dispatcher|IV Dispatcher]].
+
+==''Behavior''==
+Manglers are highly mobile, swarming melee combatants. 
+
+*Their melee attack is performed through contact and inflicts Slowness IV.
+*Manglers can climb blocks.
+*Manglers can perform great leaps.
+*Manglers will regularly perform evasive dashes.
+**This is indicated by blue, enchanted hit particles.
+*Manglers, being so jolly<ref>The reason for their jolliness is unknown, at the moment.</ref>, may spin on the ground, and may also jump while spinning. This was formerly a bug but has been confirmed to be accepted as a feature by the Developers of the mod.
+
+* Manglers are able to traverse faster in liquids by performing small leaps.
+* Manglers are able to dive in liquids to pursue submerged targets.
+{{Variants|count=2|Berserker=BerserkerMangler.png|Virulent=VirulentMangler.png}}
+
+=== ''Weaknesses'' ===
+*Like all parasites, Manglers are weak to fire. Damage inflicted by fire is quadrupled.
+
+{{Properties
+|tier=Inborn
+|tier2=Pure
+|DamageCap=1
+|FollowRange=32
+|MinimumDamage=0.3
+}}
+
+{{Drops
+|rolls1=Always Rolls
+|page1=Rupter Viscera
+|amount1=1-2
+|chance1=60
+}}
+
+==''Sounds''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Mangler idle 1.ogg]]
+[[File:Mangler idle 2.ogg]]
+[[File:Mangler idle 3.ogg]]
+|Hostile
+|Plays randomly while a Mangler is alive.
+|Mangler ticks
+|mangler_idle_1-3
+|-
+|
+[[File:Mangler hurt 1.ogg]]
+[[File:Mangler hurt 2.ogg]]
+[[File:Mangler hurt 3.ogg]]
+|Hostile
+|Plays when a Mangler is hurt.
+|Mangler screams
+|mangler_hurt_1-3
+|-
+|
+[[File:Mangler death.ogg]]
+|Hostile
+|Plays when a Mangler dies.
+|Mangler dies
+|mangler_death
+|-
+|}
+
+==''Trivia''==
+*Manglers are known as '''Nuuh''' in the mod files.
+*Manglers were revealed in a video teaser released on the Scape and Run: Parasites Server. The video can be found [[Previews#October 31st 2022|here]].
+*This Mob was [[:Category:Community Proposals|proposed]] by user '''thy saucy fellow'''. Original Suggestion: https://trello.com/c/lGvSvFbJ.
+*Unlike [[Rupter|their unevolved form]], Manglers do not always inflict the Call of the Hive when they attack, reflecting their more combat-oriented name.
+*Despite being able to adapt to damage sources, the player is unlikely to see a Mangler fully adapt to anything due to their low health. A Mangler cannot even adapt to a wooden sword before dying to it.
+
+==''Gallery''==
+<gallery>
+File:E6D0389A-6EFB-4F4A-A733-8BF6EDC0A06A.jpeg|A Mangler, as shown in the Preview.
+File:Mangler Size Comparison.png|Size of the Mangler's Model.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Mobs]]
+[[Category:Inborn Parasites]]
+[[Category:Community Proposals]]

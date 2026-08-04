@@ -1,0 +1,90 @@
+{{Navbar|page1=Stage I Dispatcher|page2=Stage II Dispatcher|page3=Stage III Dispatcher|page4=Stage IV Dispatcher|page5=}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|dispatchersiii}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Nexus Info
+|image1=Stage 3 Dispatcher.png
+|armor=21.0
+|growtime=600-1200 sec [min-max]
+|hp=130.0
+|OTHER STUFF
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:dispatcher_siii
+}}
+'''Stage III Dispatchers''' are a type of [[Mobs]], placed into the [[Nexus Parasites|Nexus]] Tier.
+
+Killing one will grant the {{AdvancementLink|HE Suppression}}.
+
+== ''Spawning'' ==
+*Spawned after a [[Stage II Dispatcher]] evolves.
+*If at least one [[Colony]] exists, spawns when a [[Stage IV Dispatcher]] is killed.
+
+== ''Behavior'' ==
+Stage III Dispatchers are Stationary Offensive Support Parasites.
+*Stage III Dispatchers can store and teleport parasites around using [[Dispatcher Tentacle|Dispatcher Tentacles]], Stage III Dispatchers can summon up to 9. Parasites that have been stored by a Dispatcher that despawn will end up back in the Dispatcher's storage.
+**[[Buglin|Buglins]] stored by Stage III Dispatchers will become [[Rupter|Rupters]].
+**[[Rupter|Rupters]] stored by Stage III Dispatchers will become [[Mangler|Manglers]].
+**4 [[:Category:Assimilated Mobs|Assimilated Mobs]] stored by Stage III Dispatchers will become a [[:Category:Primitive Parasites|Primitive]].
+**[[Incomplete Forms]] stored by a Stage III Dispatcher reaching 6 value (with [[Small Incomplete Form|Small]] having a value of 1 and [[Medium Incomplete Form|Medium]] having a value of 2) will create a [[Crux]].
+*Stage III Dispatchers can summon up to 7 [[Seizer|Seizers]] and [[Sentry|Sentries]] to defend them.
+*Stage III Dispatchers will force nearby [[Assimilated Mobs]] to drop their disguise (unless if they are on water).
+*Stage III Dispatchers throw 6 bombs around them when damaged, this has a cooldown of 5 seconds. These bombs inflict 14 damage each and place an effect cloud of stacking [[Viral]] and Poison.
+*Stage III Dispatchers can break blocks that have their [[Hardness]] Value up to 7, with a 20 ticks cooldown and 4 Blocks range.
+*Stage III Dispatchers will apply the following effects to parasites:
+**Speed II (5:00)
+**Regeneration III (5:00)
+**Strength III (5:00)
+**[[Debar]] I (5:00)
+**[[Link]] II (6:40)
+**[[Heightened Senses]] III (5:00)
+* Upon death, if at least one [[Colony]] is present in the dimension, Stage III Dispatchers will become [[Stage II Dispatcher|Stage II Dispatchers]].
+
+=== ''Weaknesses'' ===
+*Stage III Dispatchers, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+**Any entities a Dispatcher summons will also be on fire. (Note that fire is not enough to outright kill their tentacles)
+
+* Right clicking on any of their Dispatcher Tentacles or Seizers will apply the glowing effect to their Dispatcher.
+{{Properties|tier=Nexus III}}
+
+{{Drops
+|rolls1=Always Rolls:
+|page1=Dispatcher Membrane
+|amount1=1-30
+|chance1=90
+}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|[[File:dispatcher_stage_iii.ogg]]
+|Hostile
+|Plays when a Stage II Dispatcher evolves in a Stage III Dispatcher
+|Harp plunks
+|dispatcher_stage_iii
+|-
+|}
+== ''Trivia'' ==
+* Stage III Dispatchers do not despawn.
+* Stage III Dispatchers are also known as '''DodSIII''' in the Mod Files.
+* In the early builds of [[Version 1.9.6|1.9.6]], Dispatchers used to be called ‘’’Reinforcers’’’.
+
+== ''Gallery'' ==
+<gallery>
+File:Bomb2.png|The Bomb Stage III Dispatchers use.
+File:DispatcherS3Height.png|Size of the Stage 3 Dispatcher's model
+File:dstageiii.ogg|The old sound used when a Dispatcher evolves from stage Two to stage Three.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Nexus Parasites]]
+[[Category:Mobs]]

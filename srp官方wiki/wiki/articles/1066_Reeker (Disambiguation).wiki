@@ -1,0 +1,11 @@
+{{DisambiguationContent
+|image1=Primitive Reeker.png
+|title1=[[Primitive Reeker]]
+|desc1=A [[Primitive Parasites|Primitive]] Parasite
+|image2=Adapted Reeker.png
+|title2=[[Adapted Reeker]]
+|desc2=An [[Adapted Parasites|Adapted]] Parasite
+|image3=Reeker Fang.png
+|title3=[[Reeker Fang]]
+|desc3=A [[Drops#Materials|Material]] dropped by Reekers
+}}

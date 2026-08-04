@@ -1,0 +1,21 @@
+{{VersionBar|
+|page1=Version 1.5.0
+|page2=Version 1.5.2
+}}
+'''Version 1.5.1''' was an update for the Scape and Run: Parasites Mod, released on January 13th 2020.  It was 3.34 MB.
+
+== ''Change Log'' ==
+
+==== <u>Fixes</u> ====
+
+* [[Living Bow|Living Greatbow]] and [[Living Scythe]] not working as weapons
+* [[Beckon (Disambiguation)|Venkrol]] air mob spawning location
+
+==== <u>Changes</u> ====
+
+* The configuration file now shows you which mobs the Venkrol can spawn 
+* Changed a description for the Living Greatbow
+* Living Greatbow damage reduced from 5 to 1 by default
+
+{{VersionList}}
+[[Category:Versions]]

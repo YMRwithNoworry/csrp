@@ -1,0 +1,14 @@
+A list of all the Armor sets and pieces introduced by the SRP Mod.
+
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+Hijacked Iron Armor.png|link=Hijacked Iron Armor|[[Hijacked Iron Armor]]
+Living Armor1.png|link=Living Armor|[[Living Armor]]
+Sentient Armor1.png|link=Sentient Armor|[[Sentient Armor]]
+Venkrol Anchor Boots.png|link=Venkrol Anchor Boots|[[Venkrol Anchor Boots]]
+</gallery>
+</div>
+{{ItemList}}
+[[Category:Items]]
+[[Category:Work In Progress Content]]
+[[Category:Equipment]]

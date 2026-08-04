@@ -1,0 +1,38 @@
+{{WIP}}
+{{Navbar|page1=Living Armor|page2=Sentient Armor}}
+
+{{Armor Info
+|image2=<gallery>
+File:Sentient Armor1.png|1st Texture
+File:Sentient Armor2.png|2nd Texture
+</gallery>
+|armor=
+Helm/Boots: 5 [[File:Armor.png]][[File:Armor.png]][[File:Halfarmor.png]]<br>Chestplate: 12 [[File:Armor.png]][[File:Armor.png]][[File:Armor.png]][[File:Armor.png]][[File:Armor.png]][[File:Armor.png]]<br>Leggings: 12 [[File:Armor.png]][[File:Armor.png]][[File:Armor.png]][[File:Armor.png]][[File:Armor.png]][[File:Armor.png]]
+|toughness= 
+4.0 per piece
+16.0 in total
+|durability=
+Helm: 16500 <br>Chestplate: 24000 <br>Leggings: 22500 <br>Boots: 19500 
+|stackable=No
+|id=
+srparasites:armor_helm_sentient <br>srparasites:armor_chest_sentient <br>srparasites:armor_pants_sentient <br>srparasites:armor_boots_sentient
+}}
+The '''Sentient Armor''' is a type of [[Armor]].
+
+== ''Obtainment'' ==
+Obtainable only throughout Cheats or using Creative Mode.
+
+== ''Usage'' ==
+Like any armor set, Sentient Armor can be worn for extra protection.
+
+== ''Properties'' ==
+The Sentient Armor grants its user access to the [[Adaptation System]], permitting them to adapt to a total of 7 Damage Types.  Adaptation data can be seen by hovering over each item in the inventory.
+
+== ''Trivia'' ==
+To be added...
+
+{{ItemList}}
+[[Category:Armors]]
+[[Category:Work In Progress Content]]
+[[Category:Items]]
+[[Category:Equipment]]

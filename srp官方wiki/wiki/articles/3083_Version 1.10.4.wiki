@@ -1,0 +1,71 @@
+{{VersionBar|
+|page1=1.10.3
+|page2=1.10.5
+}}
+'''Version 1.10.4''' was an update for the Scape and Run: Parasites Mod, released on April 26th 2026.  It was 102 MB.
+
+== ''Change Log'' ==
+
+====<u>Fixes and Tweaks</u>====
+* Number of ticks required for parasites to spawn = 48000 -> 0 
+* Fixed lack of parasites spawning 
+* Changed mob spawn weight for vector/vectorless to 30 
+* Fixed certain mobs not spawning naturally despite being on phase mob list 
+* Fixed kirin's float-up bug 
+* Buffed kirin's teleport distance to compensate for the end dimension island spread 
+* Removed infested glass spread 
+* Phase 1 to 10 Spawn Entity List tweaks 
+* Fixed Gnats, Light Bomber, and Flying Carrier not spawning naturally. 
+* Fixed living armour instantly evolving with the 'quality tools' mod. 
+* Fixed Draconite Spawning from phase 1 
+* Fixed assimilated versions not merging 
+* Major performance optimizations to Vector, biome, colony, and node-restricted spawning. 
+* Potentially fixed issue with parasites not spawning in Vectors with certain modpacks, setups, and configurations. 
+* Temporarily changed vector disable button text 
+* Adjusted radius/distance calculations for random EIV placements - Water and air cap 10 -> 5 - Default meteorChance = 0.3 -> 0.6 
+
+====<u>New Content</u>====
+* Added shrimp - 25% chance to drop 1–5 shrimp from any parasite while warp arrow event is active 
+
+* Added animated gui to systems page 
+* Added animated gui to effects page 
+* Added alternate distorted animated systems page 
+* Added alternate distorted animated effects page 
+* Updated mob page gui
+* Added adapted vermin to scannable mobs list 
+* Added stats page to compendium. Includes total parasite kills by tier, bar graph, deaths, damage to and from, etc.
+
+* Added /srpguidistortion command for toggling/status/off/on the derived distortion phenomenon 
+* Added stats clear info to srphelp command 
+* Added derived distortion command info to srphelp command 
+* Added srp_breathe command info to srphelp command 
+* Added srp_celestial command info to srphelp command 
+
+* Derived distortion phenomenon effects all compendium pages, vector maps, dislodgement reports, and phase reports. 
+* Added "derived distortion phenomenon" to systems page 
+* "the sign" effect now grants immunity to the "derived distortion phenomenon" 
+* Derived distortion phenomenon now effects signs, chat (player-style chat only; ...not commands, system messages, or many server/mod-formatted messages), and subtitles. 
+* Added more missing subtitles for parasites
+* Added darkened background to loot block gui 
+
+* Added 'columbus' advancement to the Cognito advancement route. Granted after unlocking half of all celestial events. 
+* Added 'STOLAS' advancement to the Cognito advancement route. Granted after unlocking all celestial events. 
+
+====<u>Config</u>====
+* Moved derived distortion phenomenon to independent helper 
+* Added derived distortion phenomenon to config
+* Added debugspawner to systems config. If debugspawner true, parasites will spawn glowing for a minute and console will be full of anything spawn-related.
+* Fixed vectors spawning on top of the player. Vectors now abide by min and max values in config.
+* Tweaked config descriptions for EIVs to make it clear that min-max placement distance values are for randomly-placed EIVs only, and that EIVs can be placed closer for random reasons.
+
+====<u>Mobs</u>====
+* Added ariral assimilated enderman variant when feeding them a shrimp | just visual change 
+* Added texture variant to assimilated enderman
+* Added Primitive/Adapted Burrower
+* Added new Primitive/Adapted Tozoon models
+
+====<u>Language</u>====
+* Updated chinese .lang
+
+{{VersionList}}
+[[Category:Versions]]

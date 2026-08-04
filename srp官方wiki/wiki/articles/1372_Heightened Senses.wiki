@@ -1,0 +1,25 @@
+{{Effect Info
+|image1=Heightened Senses.png
+|sources=See [[#Obtainment|Obtainment]]
+|type=Buff (Parasites)
+|id=srparasites:senses
+}}
+'''Heightened Senses''' is a [[Effects|Potion Effect]] introduced by the SRP Mod. The Effect increases the distance that parasites can see targets from, including players, as well as their follow range.
+
+== ''Obtainment'' ==
+{{Effect Causes
+|cause1=From a [[Stage I Dispatcher]]
+|potency1=I
+|duration1=1:40
+|cause2=From a [[Stage II Dispatcher]]
+|potency2=II
+|duration2=3:20
+|cause3=From a [[Stage III Dispatcher]]
+|potency3=III
+|duration3=5:00
+|cause4=From a [[Stage IV Dispatcher]]
+|potency4=IV
+|duration4=6:40
+}}
+{{EffectList}}
+[[Category:Effects]]

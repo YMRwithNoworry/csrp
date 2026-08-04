@@ -1,0 +1,17 @@
+{{VersionBar|
+|page1=Version 1.8.0
+|page2=Version 1.8.2
+}}
+'''Version 1.8.1''' was an update for the Scape and Run: Parasites Mod, released on August 3rd 2020.  It was 5.32 MB.
+
+== ''Change Log'' ==
+
+* Fixed crash caused by hitting a [[Primitive Longarms|Primitive]]/[[Adapted Longarms]]
+* Changed description for "Block Infestation Cooldown"/"Block Light Level"
+* Parasites spawned from the [[Evolution System#Functionality|merge system]] will no longer despawn
+* Changed "RS Block Light Level" default value from 4 to 15
+* [[Assimilated Human|Infected Humans]]/[[Assimilated Villager|Villagers]] spawned by a [[Rupter]] can now have other textures
+* Fixed griefing task not being read in seconds
+
+{{VersionList}}
+[[Category:Versions]]

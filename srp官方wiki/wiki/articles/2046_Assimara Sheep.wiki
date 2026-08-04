@@ -1,0 +1,52 @@
+{{Stub}}
+{{Navbar|page1=Walking Sheep Head|page2=Assimilated Sheep|page3=Assimara Sheep|page4=Feral Sheep}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|marsheep}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=AssimaraSheep.png
+|hp=27.0
+|damage=17.0
+|armor=8.0
+|kb_resistance=0.0?
+|adaptable=No
+|id=srparasites:mar_sheep
+}}
+'''Assimara Sheep''' are the [[:Category:Assimara_Parasites|Assimara Version]] of Sheep.
+
+== ''Spawning'' ==
+
+* Spawns individually, from [[Evolution Phases#Phase 4|Phase 4]] onward, with a spawnweight of 1, once 3 Sheep have been assimilated.
+
+== ''Behavior'' ==
+Assimara Sheep are Heavy Backline Ranged units.
+
+* Assimara Sheep fire a Nade every 5 seconds, a projectile that creates a block of acid upon contact, inflicting very high damage per second, and ignores immunity frames. Cooldown decreases after reaching 50% of its health.
+* Assimara Sheep are incapable of melee attack.
+* Assimara Sheep will attempt to maintain a certain distance from their enemies to avoid melee.
+* Assimara Sheep are able to traverse faster in liquids by performing small leaps.
+* Assimara Sheep are able to dive in liquids to pursue submerged targets.
+* Any Mob within 3 blocks of an Assimara Sheep will be inflicted with [[Call Of The Hive|COTH]]. This does not go through walls.
+* On death Assimara Sheep have a chance to explode, releasing [[Remains|Assimara Remains]] and an effect cloud of stacking Poison and COTH.
+
+=== ''Weaknesses'' ===
+*Assimara Sheep, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+{{Properties|}}
+
+==''Sounds''==
+To be added...
+
+==''Trivia''==
+To be added...
+
+== Gallery ==
+<gallery>
+File:AssimaraSheepHeight.png|Size of the Assimara Sheep's model.
+</gallery>
+
+{{MobList}}
+<references />
+[[Category:Mobs]]
+[[Category:Assimara Parasites]]

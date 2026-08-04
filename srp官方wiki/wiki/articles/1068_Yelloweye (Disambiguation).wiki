@@ -1,0 +1,12 @@
+{{DisambiguationContent
+|title=Yelloweye
+|image1=Primitive Yelloweye.png
+|title1=[[Primitive Yelloweye]]
+|desc1=A [[Primitive Parasites|Primitive]] Parasite
+|image2=Adapted Yelloweye.png
+|title2=[[Adapted Yelloweye]]
+|desc2=An [[Adapted Parasites|Adapted]] Parasite
+|image3=Yelloweye Bone.png
+|title3=[[Yelloweye Bone]]
+|desc3=A [[Drops#Materials|Material]] dropped by Yelloweyes
+}}

@@ -1,0 +1,64 @@
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|seizer}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=Seizer.png
+|hp=15.0
+|damage=6.0
+|armor=10.0
+|kb_resistance=N/A
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:seizer
+}}
+'''Seizers''' are a type of [[Mobs|Mob]], placed into the [[Deterrent Parasites|Deterrent]] Tier.
+
+== ''Spawning'' ==
+*Spawned by [[Stage I Dispatcher|Stage I]], [[Stage II Dispatcher|Stage II]], [[Stage III Dispatcher|Stage III]], and [[Stage IV Dispatcher|Stage IV Dispatchers]].
+*Spawned by all [[Pure Parasites]] excluding [[Grunt|Grunts]].
+
+== ''Behavior'' ==
+Seizers are utility parasites, incapable of movement.
+*Seizers will pull a nearby player or mob into its grasp and hold them there, leaving them open to attack.  The affected player or mob will be unable to move until the Seizer is killed.
+*If a Seizer is hit with a projectile from a parasite, it will take no damage and apply twice the damage it would have taken to its current target.
+
+=== ''Weaknesses'' ===
+*Seizers, like any other [[Category:Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+*Seizers cannot spawn on any partial blocks.
+
+{{Properties
+|tier=Deterrent
+|DamageCap=4
+|DeathPenaltyEvolutionValue=0
+|XPValue=0
+}}
+
+==''Sounds''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''ID'''
+|-
+|
+[[File:Ada tozoon digging 1.ogg]]
+[[File:Ada tozoon digging 2.ogg]]
+[[File:Ada tozoon digging 3.ogg]]
+|Hostile
+|Plays while a Seizer emerges from the ground.
+|seizer_emerge_1-3
+|-
+|}
+
+== ''Trivia'' ==
+*Seizers are also known as '''Nak''' in the Mod Files.
+
+== ''Gallery'' ==
+<gallery>
+File:SeizerHeight.png|Size of the Seizer's model
+</gallery>
+
+{{MobList}}
+[[Category:Deterrent Parasites]]
+[[Category:Mobs]]

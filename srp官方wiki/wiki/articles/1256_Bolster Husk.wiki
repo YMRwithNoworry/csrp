@@ -1,0 +1,19 @@
+{{Item Info
+|image1=Bolster Husk.png
+|type=Material
+|stackable=Yes (16)
+|tooltip=A dry piece of skin harvested from a Bolster corpse.
+|id=srparasites:ada_bolster_drop
+}}
+'''Bolster Husks''' are a [[Drops|Drop]] that most likely will expanded upon as [[:Category:Drops#Materials|Materials]].
+
+== ''Obtainment'' ==
+* Dropped by the [[Primitive Bolster]] and [[Adapted Bolster]].
+* Found in [[Parasitic Growth Block|Malignant Growths]].
+
+== ''Usage'' ==
+{{CraftingTable|r1_b1=Bolster Husk|r1_a2=Devourer Tentacle|r1_b2=Module Genic Receptacle|r1_c2=Arachnida Claw|r1_b3=Longarms Armor Fragment|r1_output=Adapted Module|r1_count=1}}
+
+{{ItemList}}
+[[Category:Items]]
+[[Category:Drops]]

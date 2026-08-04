@@ -1,0 +1,24 @@
+{{Stub}}
+
+
+'''Adapted''' is a [[Effects|Potion Effect]] added in v1.10.0. It reduces damage inflicted to [[:Category:Adapted Parasites|Adapted Parasites]] by 15%, affected by amplifier + 1.
+
+{{Effect Info
+|title1=Adapted
+|image1=Adapted.png
+|sources=See [[#Obtainment|Obtainment]]
+|type=Buff (Parasite)
+|id=srparasites:adapted}}
+
+== ''Obtainment'' ==
+{| class="fandom-table"
+!'''Cause'''
+!'''Potency'''
+!'''Duration'''
+|-
+|Killing an [[:Category:Adapted Parasites|Adapted Parasite]] while [[Dislodgment System#Code 22|Dislodgment Code 22]] is active
+|II
+|1:00
+|}
+{{EffectList}}
+[[Category:Effects]]

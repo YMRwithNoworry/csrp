@@ -1,0 +1,14 @@
+{{Stub}}
+{{Item Info|title1=Assimilated Jack o'Lantern|image1=Assimilated Jack o'Lantern.png|type=Block|stackable=Yes (64)|id=srparasites:assimilated_jack_o_lantern}}
+
+The '''Assimilated Jack o'Lantern''' is the infested form of a regular Jack o'Lantern.
+
+== ''Obtainment'' ==
+A regular Jack o'Lantern cannot be infested or turned into an Assimilated one by [[Beckon]] infestation or conversion via the [[Parasite Biome]]. It can only be obtained by crafting with an [[Assimilated Pumpkin]] and a Torch.
+{{CraftingTable|r1_a1=Assimilated Pumpkin|r1_b1=Torch|r1_output=Assimilated Jack o'Lantern|r1_count=1}}
+
+== ''Usage'' ==
+Like a regular Jack o'Lantern, it emits a low light. This is its only use as of now.
+
+{{BlockList}}
+[[Category:Blocks]]

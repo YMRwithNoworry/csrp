@@ -1,0 +1,93 @@
+{{Navbar|page1=Stage I Dispatcher|page2=Stage II Dispatcher|page3=Stage III Dispatcher|page4=Stage IV Dispatcher|page5=}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|dispatchersiv}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Nexus Info
+|image1=Stage 4 Dispatcher.png
+|armor=28.0
+|growtime=N/A
+|hp=250.0
+|OTHER STUFF
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:dispatcher_siv
+}}
+'''Stage IV Dispatchers''' are a type of [[Mobs]], placed into the [[Nexus Parasites|Nexus]] Tier.
+
+They are one of the [[Bosses]] of the Mod and will grant players the {{AdvancementLink|Qliphoth Overload}} when alive. Killing one will grant the {{AdvancementLink|ALEPH Suppression}}.
+
+== ''Spawning'' ==
+*Spawned after a [[Stage III Dispatcher]] evolves.
+
+== ''Behavior'' ==
+Stage IV Dispatchers are Colony Constructors and Stationary Offensive Support Parasites.
+*Stage IV Dispatchers can store and teleport parasites around using [[Dispatcher Tentacle|Dispatcher Tentacles]], Stage IV Dispatchers can summon up to 12. Parasites that have been stored by a Dispatcher that despawn will end up back in the Dispatcher's storage.
+**[[Buglin|Buglins]] stored by Stage IV Dispatchers will become [[Rupter|Rupters]].
+**[[Rupter|Rupters]] stored by Stage IV Dispatchers will become [[Mangler|Manglers]].
+**4 [[:Category:Assimilated Mobs|Assimilated Mobs]] stored by Stage IV Dispatchers will become a [[:Category:Primitive Parasites|Primitive]].
+**[[Incomplete Forms]] stored by a Stage IV Dispatcher reaching 6 value (with [[Small Incomplete Form|Small]] having a value of 1 and [[Medium Incomplete Form|Medium]] having a value of 2) will create a [[Crux]].
+*Stage IV Dispatchers can summon up to 9 [[Seizer|Seizers]] and [[Sentry|Sentries]] to defend them.
+*Stage IV Dispatchers can summon multiple Ancient Pods, which will fall from the sky towards the ground. Few seconds after landing, they will explode inflicting 50 damage, release a Toxic Cloud giving Saturation -20 for 10 seconds and release and effect cloud of Poison for 15 seconds. Ancient Pods from a Stage IV Dispatcher will not spawn any parasites. It must wait at least 12 seconds before it can summon Pods again, and a maximum of 5 can spawn.
+*Stage IV Dispatchers will force nearby [[Assimilated Mobs]] to drop their disguise (unless if they are on water).
+*Starting from [[Ubiquitous Development]] Level 4, Stage IV Dispatchers will be able to generate [[Colony|Colonies]].
+*Stage IV Dispatchers throw 8 bombs around them when damaged, this has a cooldown of 5 seconds. These bombs inflict 22 damage each and place an effect cloud of [[Viral]] and Poison.
+*Stage IV Dispatchers can break blocks that have their [[Hardness]] Value up to 18, with a 20 ticks cooldown and 5 Blocks range.
+*Stage IV Dispatchers will apply the following effects to parasites:
+**Speed III (6:40)
+**Regeneration IV (6:40)
+**Strength IV (6:40)
+**Absorption IV (6:40)
+**[[Debar]] I (6:40)
+**[[Link]] III (8:20)
+**[[Heightened Senses]] IV (6:40)
+* Upon death, if at least one [[Colony]] is present in the dimension, Stage IV Dispatchers will become [[Stage III Dispatcher|Stage III Dispatchers]].
+
+=== ''Weaknesses'' ===
+* Stage IV Dispatchers, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+** Any entities a Dispatcher summons will also be on fire. (Note that fire is not enough to outright kill their tentacles).
+
+* The top most flower on the Stage IV Dispatcher functions as a Weak Point. When this Weak Point is hit, damage inflicted to it is tripled and the [[Bleeding]] Effect is applied to it.
+* Right clicking on any of their Dispatcher Tentacles or Seizers will apply the glowing effect to their Dispatcher.
+{{Properties|tier=Nexus IV}}
+{{Drops
+|rolls1=Always Rolls:
+|page1=Dispatcher Membrane
+|amount1=1-70
+|chance1=100
+}}
+
+==''Sounds''==
+{| class="fandom-table mw-collapsible mw-collapsed"
+! '''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID''' 
+|-
+|[[File:dispatcher_stage_iv.ogg]]
+|Hostile
+|Plays when a Stage III Dispatcher evolves into an Stage IV Dispatcher.
+|Harp plunks
+|dispatcher_stage_iv
+|}
+== ''Trivia''==
+* Like all Nexues, Stage IV Dispatchers do not despawn.
+* Stage IV Dispatchers are also known as '''DodSIV''' in the Mod Files.
+* In the early builds of [[Version 1.9.6|1.9.6]], Dispatchers used to be called ‘’’Reinforcers’’’.
+* The achievement associated with the Dispatcher IV '''[Qliphoth Overload]''' is a reference to the indie game ''Lobotomy Corp'' by PROJECT MOON
+
+==''Gallery''==
+<gallery>
+File:Bomb2.png|The Bomb Stage IV Dispatchers use.
+File:DispatcherS4Height.png|thumb|Size of the Stage 4 Dispatcher's model
+File:Dstageiv.ogg|The old evolving sound effect.<ref>Similar to a [[Dislodgment System|Dislodgement]] sound effect.</ref>
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Nexus Parasites]]
+[[Category:Mobs]]
+[[Category:Bosses]]

@@ -1,0 +1,82 @@
+[[File:SRP Logo2.png|568x568px|center]]
+<center><div style="color:#e2e260 ; font-size:200%; padding:1em 0;">'''Welcome to the Scape and Run: Parasites Wiki!'''</div><center>
+<center><div style="font-size:120%;">The Official Wiki centered around the Scape and Run: Parasites Mod, developed by Dhanantry and his Team.</div><center>
+<center><div style="font-size:100%;">The Wiki currently has {{NUMBEROFARTICLES}} Articles.<center>
+
+{|
+| colspan="3" class=wikibox  style="width: 66%; vertical-align: top; " |
+
+<div style="background: #475715; border:1px solid #b9b61e; padding: 5px; margin: 3px; text-align: center; font-size: 120%; color:#fff;">'''About the Mod'''</div>
+<div style="padding: 0em 1em;">
+The ''Scape and Run: Parasites'' Mod focuses on adding various types of Parasitic Mobs, an ever-growing threat whose forces consist of bastardizations of Vanilla Mobs to refined beings constructed with flesh, capable of converting the ''Minecraft'' World and its inhabitants into killing machines, capable of evolving and adapting. 
+
+The Mod is based on [https://www.halopedia.org/Flood Flood], [https://thething.fandom.com/wiki/The_Thing_(Organism) the Thing] and [https://deadspace.fandom.com/wiki/Necromorphs Necromorphs], picking elements from each of these works of fiction, combining and incorporating them in order to create a unique ''Horror Mod''. 
+
+| class=wikibox style="width: 33%; vertical-align: top;" |
+<div style="background: #475715; border:1px solid #b9b61e; padding: 5px; margin: 3px; text-align: center; font-size: 120%; color:#fff;">'''Important Links'''</div>
+<div style="padding-left: 1em;">
+*[https://discord.gg/WPuhKDU Discord Server]
+*[https://trello.com/b/aKzxuPeN/scape-run-parasites Trello]
+
+</div>
+|}
+
+{|
+| colspan="4" class=wikibox  style="width: 66%; vertical-align: top; " |
+<div style="background: #475715; border:1px solid #b9b61e; padding: 5px; margin: 3px; text-align: center; font-size: 120%; color:#fff;">'''[[Mod Content]]'''</div>
+<div style="padding: 0em 1em;">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+file:Rupter.png|link=Category:Mobs|[[:Category:Mobs|Mobs]]
+file:Debug Item.png|link=Systems|[[Systems]]
+file:COTH.png|link=Effects|[[Effects]]
+file:Infected Flesh.png|link=Drops|[[Drops]]
+file:Doomsday Clock.png|link=Tools|[[Tools]]
+file:Living Armor1.png|link=Category:Equipment|[[:Category:Equipment|Equipment]]
+file:Lure (Weakened).png|link=Blocks|[[:Category:Blocks|Blocks]]
+file:Stage 4 Beckon.png|link=Category:World|[[:Category:World|World]]
+file:SRP Logo.png|link=Lore|[[Lore]]
+</gallery>
+
+</div>
+
+| class=wikibox style="width: 33%; vertical-align: top;" |
+<div style="background: #475715; border:1px solid #b9b61e; padding: 5px; margin: 3px; text-align: center; font-size: 120%; color:#fff;">'''Download the Mod'''</div>
+<div style="padding-left: 1em;">
+*[https://www.curseforge.com/minecraft/mc-mods/scape-and-run-parasites Curseforge Page]
+*[https://modrinth.com/mod/scapeandrunparasites Modrinth Page]
+
+</div>
+
+{| width="100%"
+| class=wikibox style="width: 33%; vertical-align: top;" |
+<div style="background: #475715; border:1px solid #b9b61e; padding: 5px; margin: 3px; text-align: center; font-size: 120%; color:#fff;">'''Important Pages'''</div>
+<div style="padding-left: 1em;">
+*[[Frequently Asked Questions]]
+*[[Current Version|Recent Changes]]
+*[[Installation Tutorial]]
+*[[Survival Guides]]
+*[[:Category:Versions|Mod Versions]]
+
+</div>
+
+{| width="100%"
+| class=wikibox style="width: 33%; vertical-align: top;" |
+<div style="background: #475715; border:1px solid #b9b61e; padding: 5px; margin: 3px; text-align: center; font-size: 120%; color:#fff;">'''Support the Mod'''</div>
+<div style="padding-left: 1em;">
+*[https://ko-fi.com/dhanantry Ko-Fi]
+*[https://www.patreon.com/srpparasites Patreon]
+
+</div>
+
+{| width="100%"
+| class=wikibox style="width: 33%; vertical-align: top;" |
+<div style="background: #475715; border:1px solid #b9b61e; padding: 5px; margin: 3px; text-align: center; font-size: 120%; color:#fff;">'''Future Content'''</div>
+<div style="padding-left: 1em;">
+*[[:Category:Upcoming Content|Upcoming Content]]
+*[[:Category:Work In Progress Content|Work In Progress Content]]
+*[[Previews]]
+
+</div>
+|}
+[[Category:Scape and Run: Parasites Wiki]]
+[[Category:Pages with a discord link]]

@@ -1,0 +1,142 @@
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|overseer}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=<gallery>
+Overseer.png|Normal
+BreacherOverseer.png|Breacher
+</gallery>
+|hp=80.0
+|damage=45.0 
+|ranged=30.0
+|armor=20.0
+|kb_resistance=0.4
+|adaptable=Yes
+|id=srparasites:overseer
+}}
+'''Overseers''' are a type of [[Mobs]], placed into the [[Pure Parasites|Pure]] Tier.
+
+== ''Spawning'' ==
+*Spawns naturally in groups of 1 to 2 if [[Ubiquitous Development]] is Level 4, with a spawnweight of 10.
+*Spawns in groups of 2 to 4 in the [[Parasite Biome]], with a spawnweight of 5.
+*Spawned by [[Stage III Beckon|Stage III Beckons]].
+*Spawned by [[Heavy Bomber|Heavy Bombers]].
+
+== ''Behavior'' ==
+Overseers are Flying Melee/Ranger/Summoner hybrids with a focus on rapid fire AoE projectiles.
+
+*Their Melee Attack is performed by them swooping down towards their foes.
+*Their Ranged Attack is performed by them rapidly shooting an explosive projectile in up to bursts of 6 that inflict [[Needler]].
+*They are capable of summoning other Parasites, through the usage of Biomass projectiles, which create [[Biomass]] entities on contact with the ground or a target. The summoned Mobs will have the [[Rage]] Effect. The Biomass will be spawned by the Overseer shooting a specific projectile. Biomass particles will appear on the Overseer when this is being done.
+**It will not do this attack if the target is above ground.
+*Like all [[Pure Parasites]], Overseers can summon up to 3 [[Seizer|Seizers]] to support them.
+*Like all [[:Category:Pure Parasites|Pure Parasites]], Overseers can use personal [[Dispatcher Tentacle|Dispatcher Tentacles]] to teleport.
+*Overseers can break blocks that have their [[Hardness]] Value up to 5, with a 20 ticks cooldown and 2 Blocks range.
+{{Variants|count=1|Breacher=BreacherOverseer.png}}
+
+=== ''Summoning'' ===
+Overseers are capable of spawning various [[Mobs]], through the usage of Biomass.
+
+The summoning Ability is based on Points. Each Mob has a certain Points value.
+
+'''Overseers have a total of 3 Points per summon and can summon 6 mobs before its cooldown of 10 seconds with a cap of 6 parasites active at once.'''
+{| class="fandom-table"
+|+'''Spawn Table'''
+!Mobs
+!Points Value
+!Spawn chance
+|-
+|[[Rupter]]
+|1 Point
+|33%
+|-
+|[[Grunt|Grunt]]
+|1 Point
+|66%
+|}
+
+=== ''Weaknesses'' ===
+* Overseers, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+* Overseers' head and part of their neck functions as a Weak Point. When this Weak Point is hit, damage inflicted to it is tripled and the [[Bleeding]] Effect is applied to it.
+
+=== ''Post Death'' ===
+
+* On death, Overseers have a chance to explode, releasing [[Remains|Pure Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+{{Properties|tier=Pure|Orbs=false}}
+
+{{Drops
+|rolls1=One Roll
+|page1=Noxious Brain
+|amount1=1
+|chance1=80
+}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Alafha growl.ogg]]
+[[File:Alafha growl1.ogg]]
+[[File:Alafha growl2.ogg]]
+|Hostile
+|Plays randomly while an Overseer is alive.
+|X
+|alafha_growl0-2
+|-
+|
+[[File:Alafha hurt.ogg]]
+[[File:Alafha hurt1.ogg]]
+[[File:Alafha hurt2.ogg]]
+|Hostile
+|Plays when an Overseer takes damage.
+|X
+|alafha_hurt0-2
+|-
+|
+[[File:Overseer Shooting.ogg]]
+|Hostile
+|Plays when an Overseeer attacks.
+|X
+|alafha_shooting
+|-
+|
+[[File:Overseer Shoot.ogg]]
+|Hostile
+|Plays before an Overseer attacks.
+|X
+|alafha_shootingpost
+|-
+|
+[[File:Alafha death.ogg]]
+|Hostile
+|Plays when an Overseer dies.
+|X
+|alafha_death
+|-
+|}
+
+== ''Trivia'' ==
+* Overseers are also known as '''Alafha''' in the Mod Files. 
+* In 1.8.2, there was an insect-like Mob with the same name which was reworked into the Overseer.
+
+== ''Gallery'' ==
+<gallery>
+File:Overseer Size Comparison.png|Size of the Overseer's Model.
+File:Biomass.png|The Biomass Entity Overseers use.
+File:Overseer Weak Point Highlighted.png|Overseer's Weak Point as seen on the Model.
+File:Alafha1.2.0.png|The Overseer's appearance in 1.2.0, known then as the "Alafha".
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Mobs]]
+[[Category:Pure Parasites]]

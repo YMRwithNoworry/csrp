@@ -1,0 +1,156 @@
+{{VersionBar|
+|page1=Version 1.9.10
+|page2=Version 1.9.12
+}}
+'''Version 1.9.11''' was an update for the Scape and Run: Parasites Mod, released on March 14th 2023.  It was 16.52 MB.
+
+== ''Change Log'' ==
+
+====<u>Fixes</u>====
+*Mod Creative tab with wrong name (us)
+*Tooltip number 1 weird text (us)
+*Tooltip number 13 missing text (us)
+*Missing lang name for block bush with variant "eye" (us)
+*Missing lang name for block bush with variant "tooh" (us)
+*[[:Category:Adapted Parasites|Adapted]] versions despawn internal value not working
+*Griefing task still working if "mobGriefing" gamerule is turned off
+*[[Fear]] damage not working if effect amplifier is 0
+*[[:Category:Assimilated Mobs|Assimilated]] trying to melting if they are not supposed to do so
+*Parasites breaking the following blocks:
+**Portal
+**Portal frame
+**Portal Gateaway
+
+*Crash:
+<div class="mw-collapsible mw-collapsed" data-expandtext="Show crash" data-collapsetext="Hide crash">
+java.lang.IllegalArgumentException: bound must be positive
+at java.util.Random.nextInt(Random.java:388)
+at com.dhanantry.scapeandrunparasites.world.SRPWorldEntitySpawner.getRandomChunkPosition(SRPWorldEntitySpawner.java:198)
+at com.dhanantry.scapeandrunparasites.world.SRPWorldEntitySpawner.findChunksForSpawning(SRPWorldEntitySpawner.java:102)</div>
+ 
+====<u>Configuration</u>====
+*"[[Evolution Phases|Phase]] 1 Points" from 50 to 400
+*"Phase 2 Points" from 100 to 800
+*"Phase 3 Points" from 1000 to 1800
+*"[[Colony Carrier]] Effects" new default list:
+**"30;3;minecraft:regeneration"
+**"60;2;srparasites:[[foster]]"
+**"10;1;srparasites:[[link]]"
+*"[[Overseer]] mob List"
+**added "srparasites:[[grunt]];0.5;1"
+*"[[Bogle]] [[Orb]] Effects" new list:
+**"0;15;4;minecraft:hunger;0;0",
+**"0;120;6;srparasites:[[needler]];0;0",
+**"0;15;4;minecraft:mining_fatigue;0;0",
+**"0;10;4;minecraft:wither;0;0",
+**"0;15;-20;minecraft:levitation;0;0",<ref name="jump">This makes the affected entity or player unable to jump.</ref>
+
+*"[[Wraith]] Orb Effects" added 
+**"0;15;-20;minecraft:levitation;0;0",<ref name="jump" />
+
+*"[[Stage I Dispatcher]] Effect List" new list:
+**"100;minecraft:speed;1",
+**"100;srparasites:[[debar]];1",
+**"200;srparasites:link;1",
+**"100;srparasites:[[Heightened Senses|senses]];1",
+
+*"[[Stage II Dispatcher]] Effect List" new list: 
+**"200;minecraft:speed;2",
+**"200;minecraft:regeneration;2",
+**"200;srparasites:debar;1",
+**"300;srparasites:link;1",
+**"200;srparasites:senses;2", 
+
+*"[[Stage III Dispatcher]] Effect List" new list:
+**"300;minecraft:speed;3",
+**"300;minecraft:regeneration;3",
+**"300;minecraft:strength;3",
+**"300;srparasites:debar;1",
+**"400;srparasites:link;2",
+**"300;srparasites:senses;3",
+
+*"[[Stage IV Dispatcher]] Effect List" new list:
+**"400;minecraft:speed;4",
+**"400;minecraft:regeneration;4",
+**"400;minecraft:strength;4",
+**"400;minecraft:absorption;4",
+**"400;srparasites:debar;1",
+**"500;srparasites:link;3",
+**"400;srparasites:senses;4",
+
+*"[[Call Of The Hive|COTH]] Mob Immune Mob List" added:
+**"[https://modrinth.com/mod/wyrms wyrmsofnyrus]",
+**"srrevenants",
+
+*Returning options:
+**"[[Evolution Phases|Phase]] 0 Maximum Parasite ID"
+**"Phase 0 Minimum Parasite ID"
+**"Phase 1 Maximum Parasite ID"
+**"Phase 1 Minimum Parasite ID"
+**"Phase 2 Maximum Parasite ID"
+**"Phase 2 Minimum Parasite ID"
+**"Phase 3 Maximum Parasite ID"
+**"Phase 3 Minimum Parasite ID"
+**"Phase 4 Maximum Parasite ID"
+**"Phase 4 Minimum Parasite ID"
+**"Phase 5 Maximum Parasite ID"
+**"Phase 5 Minimum Parasite ID"
+**"Phase 6 Maximum Parasite ID"
+**"Phase 6 Minimum Parasite ID"
+**"Phase 7 Maximum Parasite ID"
+**"Phase 7 Minimum Parasite ID"
+**"Phase 8 Maximum Parasite ID"
+**"Phase 8 Minimum Parasite ID"
+
+*"[[Fear]] Fall Damage Multiplier" minimum value is now 0 instead of 1
+*"Fear Air Damage Multiplier" minimum value is now 0 instead of 1
+*"[[Viral]] Value" option removed
+ 
+*New options:
+**"[[Living Armor]] Durability" - "Armor Durability for Living set." - SRParasites.cfg
+**"[[Sentient Armor]] Durability" - "Armor Durability for Sentient set." - SRParasites.cfg
+**"[[Living Scythe|Scythe Living]] Range" - "Range for the Living Scythe." - SRParasites.cfg
+**"[[Sentient Greatscythe|Scythe]] Sentient Range" - "Range for the Sentient Scythe." - SRParasites.cfg
+**"[[Living Axe|Axe Living]] Range" - "Range for the Living Axe." - SRParasites.cfg
+**"[[Sentient Greataxe|Axe Sentient]] Range" - "Range for the Sentient Axe." - SRParasites.cfg
+**"[[Living Sword|Sword Living]] Range" - "Range for the Living Sword." - SRParasites.cfg
+**"[[Sentient Greatsword|Sword Sentient]] Range" - "Range for the Sentient Sword." - SRParasites.cfg
+**"[[Living Cleaver|Cleaver Living]] Range" - "Range for the Living Cleaver." - SRParasites.cfg
+**"[[Sentient Greatcleaver|Cleaver Sentient]] Range" - "Range for the Sentient Cleaver." - SRParasites.cfg
+**"[[Bleeding]] Damage Limit" - "Maximum damage that this effect will inflict." - SRParasitesSystems.cfg
+**"[[Viral]] Multiplier" - "This value will be multiplied by the amplifier and then multiplied by the damage which will be added to the total damage." - SRParasitesSystems.cfg
+**"Incomplete Cap" - "[[Incomplete Forms|Incomplete forms]] will not spawn from [[Call Of The Hive|COTH]] if local number is greater than this." - SRParasites.cfg
+**"Viral Acivated" - "Set to false if you dont want the viral effect" - SRParasitesSystems.cfg
+**"Evolution Custom Spawner" - "Set to false if you want to use Vanilla Spawner (parasite mob cap will not work if set to false)." - SRParasitesSystems.cfg
+**"Limit Potion Amplifiers" - "List of stackable effects amplifiers limits." - SRParasites.cfg
+ 
+====<u>General changes</u>====
+*[[Parasite Biome#Biome Purifier|Purifier]] Blocks will now apply the rage effect to parasites within the scanning area
+*[[Living Armor|Living]]/[[Sentient Armor|Sentient armor]] will now show you the current list of [[Adaptation System|adaptation]] and their values
+*When an [[Evolution Phases|evolution phase]] is decreased, all local parasites will gain the [[rage]] effect
+*[[Fear]] will now check Player flying capabilities to apply "Fear Air Damage Multiplier"
+*The [[Commands|command]] "/srpevolution getphase" will now show you the current number of parasites around
+*Updated [[Quench]] item texture
+*Quench entity will now spawn particles
+*Updated the following lang files:
+**it_it
+**lv_LV
+**pt_br
+**sv_se
+**uk_ua
+ 
+====<u>Mobs</u>====
+*[[Stage IV Beckon|Beckon Stage IV]] will now stop other beckons from growing
+*[[Kyphosis]] will now perform Wave attacks
+*[[Primitive Longarms|Primitive]] and [[Adapted Longarms]] will now perform Wave attacks
+*[[Incomplete Forms|Incomplete forms]] will not place [[Dispatcher Nidus|Nidus]] Blocks anymore
+*If the [[Assimilated Enderman]] has the rage effect then the Assimilated Enderman will ignore tp cooldowns
+*[[Seizer|Seziers]] will not remove Evolution Points when killed 
+*[[Primitive Longarms|Primitive]] and [[Adapted Arachnida]] and [[Seizer]] will now dismount targets when pulling
+*XP value for the Dispatcher tentacle is now 0
+*XP value for the Seizer is now 0
+*Added Sound Effects for the Adapted Arachnida
+*Added Sound Effects for the [[Assimilated Cow]]
+
+{{VersionList}}
+[[Category:Versions]]

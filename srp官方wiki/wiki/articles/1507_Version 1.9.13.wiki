@@ -1,0 +1,383 @@
+{{VersionBar|
+|page1=Version 1.9.12
+|page2=1.9.14
+}}
+'''Version 1.9.13''' was an update for the Scape and Run: Parasites Mod, released on January 26th 2024.  It was 22.47 MB.
+
+Note that this changelog may be incomplete.
+
+== ''Change Log'' ==
+
+====<u>Fixes</u>====
+Dead Blood hydrating farmland Webs dropping broken/erroring items A typo in the Config file Beckons no longer overreact to drowning/suffocation by creating bomb entities Update config with new entity IDs Config wording fixes for seeing through walls Fixed beckons getting confused on what evo stage it is and taking damage when it's phase 3 if spawned at phase 2, or not taking damage when it is phase 2 after being spawned at phase 3. Overseer playing Adapted Summoner sound effect when spawning biomass "Mob Attacking" option not working for flying mobs Explotions will no longer drop Buglin Tunnels Silk Harvest working with Buglin Tunnels Assimilated versions sometimes spawning particles when chasing targets Assimilated enderman not working "Merge System Assimilated Values" LVL4 Disaptchers despawning in the biome Colony Block Core printing messages in console EntityParasiticScent did not store the pursue value inside the nbt Primitive Yelloweye not spawning Moving Flesh if killed where there is a Colony in the world Lure Blocks spawning Scent entities when "Scent" config option is set to false
+ERROR: net.minecraft.util.ReportedException: Ticking entity at net.minecraft.server.MinecraftServer.updateTimeLightAndEntities(MinecraftServer.java:773) ~[MinecraftServer.class:?] at net.minecraft.server.MinecraftServer.tick(MinecraftServer.java:668) ~[MinecraftServer.class:?] at net.minecraft.server.integrated.IntegratedServer.tick(IntegratedServer.java:185) ~[chd.class:?] at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:526) [MinecraftServer.class:?] at java.lang.Thread.run(Unknown Source) [?:1.8.0_45] Caused by: java.lang.NullPointerException at com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityPDispatcher.getParasiteStored(EntityPDispatcher.java:287) ~[EntityPDispatcher.class:?] at com.dhanantry.scapeandrunparasites.entity.ai.EntityAIDodAttack.spawnDet(EntityAIDodAttack.java:441) ~[EntityAIDodAttack.class:?] at com.dhanantry.scapeandrunparasites.entity.ai.EntityAIDodAttack.summonTentacles(EntityAIDodAttack.java:238) ~[EntityAIDodAttack.class:?] at com.dhanantry.scapeandrunparasites.entity.ai.EntityAIDodAttack.updateTask(EntityAIDodAttack.java:107) ~[EntityAIDodAttack.class:?] at net.minecraft.entity.ai.EntityAITasks.onUpdateTasks(SourceFile:129) ~[xf.class:?]
+Crash: Description: Ticking entity java.lang.ClassCastException: com.dhanantry.scapeandrunparasites.entity.monster.deterrent.nexus.EntityVenkrolSII cannot be cast to com.dhanantry.scapeandrunparasites.entity.monster.deterrent.nexus.EntityVenkrol at com.dhanantry.scapeandrunparasites.util.ParasiteEventEntity.SummonM(ParasiteEventEntity.java:403) at com.dhanantry.scapeandrunparasites.util.ParasiteEventEntity.spawnBeckonNE(ParasiteEventEntity.java:1529) at com.dhanantry.scapeandrunparasites.util.ParasiteEventEntity.spawnBeckonE(ParasiteEventEntity.java:1574)
+
+====<u>New Content</u>====
+*Mobs: 
+**Feral versions: -Bear -Cow -Human -Enderman -Pig -Horse -Sheep -Villager 
+**Hijacked Iron Golem 
+**Primitive Vermin 
+**Gnat 
+**Primitive Tozoon 
+**Assimilated Squid 
+**Light Carrier
+*Items: 
+**Node Compass -Will guide you to the core of a node in the world -It will only work if you are within the area of effect of the node
+**Evolution wand -Right click to evolve a parasite (if available)
+**Devolution wand -Right click to de-evolve a parasite (if available)
+**Variant wand -Right click to change the variant to a new one (random)
+**Assimilation wand -Hit a mob to assimilate (if available) -Right click to turn it back to its original form (if available)
+*Blocks: -Hivestone Debris -Consumed Wood -Hivestone Bricks -Hivesteel -Bleeding Obsidian -Bloody Ice -Assimilated Fungus -Ore blocks -Colony Outpost
+*New growl/hurt/death sound effects for: -Vigilante -Devourer -Host -Warden -Sentry -Assimilated Horse -Assimilated Sheep -Adapted Manducater -Assimilated Human -Rupter -Adapted Yelloweye -Adapted Summoner
+*Subtitles for sound effects
+
+====<u>Config</u>====
+Changed default values:
+*"Reinforcement System Revert Block" from "minecraft:dirt" to "minecraft:gravel"
+*"Colony RS Extra Chance Value" from 0.1 to 1
+*"Heavy Carrier Mob Table" added "srparasites:gnat;7;5" instead of  "srparasites:buglin;5;3"
+*"Heavy Carrier Mob Table" added "srparasites:rupter;5;4", instead of  "srparasites:rupter;4;4"
+*"Block Limit For Beckon Infestation" 1000
+*"Block Limit For Biome Infestation" 2000
+*"Block Limit For Beckon Infestation Cooldown" 300 
+*"Block Limit For Biome Infestation Cooldown" 300
+*"Merge System Assimilated Values" added "srparasites:sim_enderman;1"
+
+*"COTH Assimilated Transformation" added:
+**"wyrmsofnyrus:creepedhumanoid;srparasites:sim_human"
+**"wyrmsofnyrus:creepedbiter;srparasites:sim_cow"
+**"wyrmsofnyrus:crawler;srparasites:sim_bigspider"
+**"wyrmsofnyrus:minos;srparasites:sim_cow"
+**"wyrmsofnyrus:prime;srparasites:cruxa"
+
+*"COTH Assimilated Transformation" added "minecraft:squid;srparasites:sim_squid"
+
+*"Version Assimilated Scent Death Value" 5
+*"Version Primitive Scent Death Value" 20
+*"Version Adapted Scent Death Value" 60
+*"Version Pure Scent Death Value" 130
+*"Evolution Parasite Lock List" added "-1;7;309"
+
+*"Scent Wave Minimum Distance" 15 -> 7
+*"Scent Wave Maximum Distance" 32 -> 40
+
+*"Scent Level 0 Minimum Mob Wave Number" 2 -> 3
+*"Scent Level 0 Maximum Mob Wave Number" 5 -> 4
+*"Scent Level 0 Minimum Wave Number" 2 -> 1 
+*"Scent Level 0 Maximum Wave Number" 5 -> 2
+
+*"Scent Level 1 Points Required" 5 -> 10
+*"Scent Level 1 Minimum Mob Wave Number" 2 -> 4
+*"Scent Level 1 Maximum Mob Wave Number" 5 -> 6
+*"Scent Level 1 Minimum Wave Number" 2 -> 1
+*"Scent Level 1 Maximum Wave Number" 5 -> 3
+
+*"Scent Level 2 Points Required" 20 -> 25
+*"Scent Level 2 Minimum Mob Wave Number" 2 -> 4
+*"Scent Level 2 Maximum Mob Wave Number" 5 -> 6
+*"Scent Level 2 Minimum Wave Number" 2 -> 2
+*"Scent Level 2 Maximum Wave Number" 5 -> 4
+*"Scent Level 2 Mob Table" added:
+**"sim_adventurerhead",
+**"sim_endermanhead",
+**"sim_humanhead",
+**"sim_horsehead",
+**"sim_villagerhead",
+**"sim_pighead",
+**"sim_cowhead",
+**"sim_wolfhead",
+**"sim_sheephead",
+
+*"Scent Level 3 Points Required" 50 -> 75
+*"Scent Level 3 Minimum Mob Wave Number" 2 -> 3 
+*"Scent Level 3 Maximum Mob Wave Number" 5 -> 4
+*"Scent Level 3 Minimum Wave Number" 2 -> 3 
+*"Scent Level 3 Maximum Wave Number" 5 -> 6
+*"Scent Level 3 Mob Table" added:
+**"srparasites:rupter",
+**"srparasites:sim_adventurerhead",
+**"srparasites:sim_endermanhead",
+**"srparasites:sim_humanhead",
+**"srparasites:sim_horsehead",
+**"srparasites:sim_villagerhead",
+**"srparasites:sim_pighead",
+**"srparasites:sim_cowhead",
+**"srparasites:sim_wolfhead",
+**"srparasites:sim_sheephead",
+**"srparasites:sim_adventurer",
+**"srparasites:sim_enderman",
+**"srparasites:sim_human",
+**"srparasites:sim_horse",
+**"srparasites:sim_villager",
+**"srparasites:sim_pig",
+**"srparasites:sim_cow",
+**"srparasites:sim_wolf",
+**"srparasites:sim_sheep",
+**"srparasites:heed",
+
+*"Scent Level 4 Points Required" 90 -> 150
+*"Scent Level 4 Minimum Mob Wave Number" 2 -> 3
+*"Scent Level 4 Maximum Mob Wave Number" 5 -> 6
+*"Scent Level 4 Minimum Wave Number" 2 -> 3
+*"Scent Level 4 Maximum Wave Number" 5 -> 4
+*"Scent Level 4 Mob Table" added:
+**"srparasites:sim_adventurer",
+**"srparasites:sim_enderman",
+**"srparasites:sim_human",
+**"srparasites:sim_horse",
+**"srparasites:sim_villager",
+**"srparasites:sim_pig",
+**"srparasites:sim_cow",
+**"srparasites:sim_wolf",
+**"srparasites:sim_sheep",
+**"srparasites:pri_longarms",
+**"srparasites:pri_manducater",
+**"srparasites:pri_reeker",
+**"srparasites:pri_yelloweye",
+**"srparasites:pri_summoner",
+**"srparasites:pri_bolster",
+**"srparasites:pri_arachnida",
+**"srparasites:pri_vermin",
+**"srparasites:heed",
+**"srparasites:crux",
+
+*"Scent Level 5 Minimum Mob Wave Number" 2 -> 4
+*"Scent Level 5 Maximum Mob Wave Number" 5 -> 6
+*"Scent Level 5 Minimum Wave Number" 2 -> 3
+*"Scent Level 5 Maximum Wave Number" 5 -> 4
+*"Scent Level 5 Mob Table" added:
+**"srparasites:sim_adventurer",
+**"srparasites:sim_enderman",
+**"srparasites:sim_human",
+**"srparasites:sim_horse",
+**"srparasites:sim_villager",
+**"srparasites:sim_pig",
+**"srparasites:sim_cow",
+**"srparasites:sim_wolf",
+**"srparasites:sim_sheep",
+**"srparasites:pri_longarms",
+**"srparasites:pri_manducater",
+**"srparasites:pri_reeker",
+**"srparasites:pri_yelloweye",
+**"srparasites:pri_summoner",
+**"srparasites:pri_bolster",
+**"srparasites:pri_arachnida",
+**"srparasites:pri_vermin",
+**"srparasites:heed",
+**"srparasites:crux",
+
+*"Phase 5 Spawn Entity List" removed:
+**"srparasites:sim_bigspider;3;5;25",
+**"srparasites:sim_human;3;5;25",
+**"srparasites:sim_cow;3;5;25",
+**"srparasites:sim_sheep;3;5;25",
+**"srparasites:sim_wolf;3;5;25",
+**"srparasites:sim_pig;3;5;25",
+**"srparasites:sim_villager;3;5;25",
+**"srparasites:sim_adventurer;3;5;25",
+**"srparasites:sim_horse;3;5;25",
+**"srparasites:sim_bear;3;5;25",
+**"srparasites:sim_enderman;3;5;25"
+
+*"Phase 5 Spawn Entity List" added:
+**"srparasites:feral_human;4;5;25",
+**"srparasites:feral_cow;3;6;25",
+**"srparasites:feral_sheep;4;5;25",
+**"srparasites:feral_wolf;3;6;25",
+**"srparasites:feral_pig;3;5;25",
+**"srparasites:feral_villager;3;5;25",
+**"srparasites:feral_horse;3;5;25",
+**"srparasites:feral_enderman;3;5;25"
+
+*"Phase 6 Spawn Entity List" added:
+**"srparasites:feral_human;4;5;25",
+**"srparasites:feral_cow;3;6;25",
+**"srparasites:feral_sheep;4;5;25",
+**"srparasites:feral_wolf;3;6;25",
+**"srparasites:feral_pig;3;5;25",
+**"srparasites:feral_villager;3;5;25",
+**"srparasites:feral_horse;3;5;25",
+**"srparasites:feral_enderman;3;5;25"
+
+*"Phase 7 Spawn Entity List" added:
+**"srparasites:feral_human;4;5;25",
+**"srparasites:feral_cow;3;6;25",
+**"srparasites:feral_sheep;4;5;25",
+**"srparasites:feral_wolf;3;6;25",
+**"srparasites:feral_pig;3;5;25",
+**"srparasites:feral_villager;3;5;25",
+**"srparasites:feral_horse;3;5;25",
+**"srparasites:feral_enderman;3;5;25"
+
+*"Phase 8 Spawn Entity List" added:
+**"srparasites:feral_human;4;5;25",
+**"srparasites:feral_cow;3;6;25",
+**"srparasites:feral_sheep;4;5;25",
+**"srparasites:feral_wolf;3;6;25",
+**"srparasites:feral_pig;3;5;25",
+**"srparasites:feral_villager;3;5;25",
+**"srparasites:feral_horse;3;5;25",
+**"srparasites:feral_enderman;3;5;25"
+
+*"Yelloweye Stage Adapted melee" from 30 to 17
+*"Sentry Gear degrade" from 0.1 to 0.04
+
+*"Phase 4 Residue" to 4000
+*"Phase 5 Residue" to 1000
+*"Phase 6 Residue" to 500
+*"Phase 7 Residue" to 400
+*"Phase 8 Residue" to 300
+*"Phase 1 Carcass Value" to 10
+*"Phase 1 Lure Block Cooldown Value" to 10   
+*"Phase 1 Sleep Penalty" to 40
+*"Phase 2 Carcass Value" to 20
+*"Phase 2 Lure Block Cooldown Value" to 20
+*"Phase 3 Sleep Penalty" to 1000
+*"Phase 4 Carcass Value" to 500
+*"Phase 4 Points" to 20000
+*"Phase 4 Sleep Penalty" to 10000
+*"Phase 4 Lure Block Cooldown Value" to 250
+*"Phase 5 Points" to 200000
+*"Phase 5 Sleep Penalty" to 250000
+*"Phase 5 Carcass Value" to 4000
+*"Phase 5 Lure Block Cooldown Value" to 300
+*"Phase 6 Points" to 5000000
+*"Phase 6 Sleep Penalty" to 1250000
+*"Phase 6 Carcass Value" to 80000
+*"Phase 6 Lure Block Cooldown Value" to 600
+*"Phase 7 Points" to 25000000
+*"Phase 7 Sleep Penalty" to 25000000
+*"Phase 7 Carcass Value" to 350000
+*"Phase 7 Lure Block Cooldown Value" to 600
+*"Phase 8 Points" to 500000000
+*"Phase 8 Carcass Value" to 6250000
+*"Phase 8 Lure Block Cooldown Value" to 1200
+*"Phase 2 Spawn Entity List" added "srparasites:sim_enderman;1;1;1"
+*"Value for blocks" to 50
+*"Value Loss Block Rubble" to 5
+*"Value Loss Block Stain" to 5
+*"Value Loss Block Trunk" to 5
+*"Version Adapted Death Penalty Evolution Value" to 200
+*"Version Deterrent Death Penalty Evolution Value" to 1000
+*"Version Preeminent Death Penalty Evolution Value" to 30000
+*"Version Pure Death Penalty Evolution Value" to 1000
+*"Stage I Beckon Block Infestation Damage" to 1
+*"Stage I Beckon Block Infestation Damage Chance" to 0.5
+*"Stage II Beckon Block Infestation Damage" to 2
+*"Stage II Beckon Block Infestation Damage Chance" to 0.7
+*"Stage III Beckon Block Infestation Damage" to 4
+*"Stage III Beckon Block Infestation Damage Chance" to 0.9
+*"Evolution Phases Dimension Starting Phase List" added "270;-1;300"
+*"Node 1 Time Needed" to 8
+*"Node 2 Time Needed" to 10
+*"Node 3 Time Needed" to 40
+*"Overseer summoning Cooldown" from 200 to 10
+*"Mob Cap" from 70 to 40
+*"Phase X Spawn Entity List" added "srparasites:architect;1;1;20" where X ranges from 3 to 8
+
+*Category "parasite_evolution_phases" description updated
+*Removed: "Stage I Beckon Block Infestation Damage" "Stage I Beckon Block Infestation Damage Chance" "Stage II Beckon Block Infestation Damage" "Stage II Beckon Block Infestation Damage Chance" "Stage III Beckon Block Infestation Damage" "Stage III Beckon Block Infestation Damage Chance" "Reinforcement System Equipment" "Phase X Lure Value"
+*New options: 
+**"Kills for Feral Stage" - "How many kills Assimilated versions need for the Feral stage." - SRParasites.cfg
+**"Phase Feral COTH" - "From this phase on, COTH will spawn Feral versions instead of assimilated ones, if available." - SRParasitesSystems.cfg
+**"Scent Condition Minimum Health" - "Minimum heatlh value that a mob must have for the scent to attack it." - SRParasitesSystems.cfg
+**"Scent Condition Minimum Armor" - "Minimum armor value that a mob must have for the scent to attack it." - SRParasitesSystems.cfg
+**"Scent Condition Minimum Damage" - "Minimum damage value that a mob must have for the scent to attack it." - SRParasitesSystems.cfg
+**"Mobs No Loot If Parasite" - "Set to false if you want mobs to drop loot if killed by parasites." - SRParasites.cfg
+**"Colony RS Extra Chance Point" - "Every x points, the colony will increase the RS chance to send Beckons Stage II or Stage III" - SRParasitesWorld.cfg
+**"Colony RS Extra Chance Value" - "Value (in %) of the bonus." - SRParasitesWorld.cfg
+**"Assimilated Ender Dragon Needed Assimilation Value" - "Total number of assimilations required to spawn naturally." - SRParasitesMobs.cfg
+**"Assimilated Adventurer Needed Assimilation Value" - "Total number of assimilations required to spawn naturally." - SRParasitesMobs.cfg
+**"Assimilated Horse Needed Assimilation Value" - "Total number of assimilations required to spawn naturally." - SRParasitesMobs.cfg
+**"Assimilated Villager Needed Assimilation Value" - "Total number of assimilations required to spawn naturally." - SRParasitesMobs.cfg
+**"Assimilated Pig Needed Assimilation Value" - "Total number of assimilations required to spawn naturally." - SRParasitesMobs.cfg
+**"Assimilated Wolf Needed Assimilation Value" - "Total number of assimilations required to spawn naturally." - SRParasitesMobs.cfg
+**"Assimilated Sheep Needed Assimilation Value" - "Total number of assimilations required to spawn naturally." - SRParasitesMobs.cfg
+**"Assimilated Cow Needed Assimilation Value" - "Total number of assimilations required to spawn naturally." - SRParasitesMobs.cfg
+**"Assimilated Human Needed Assimilation Value" - "Total number of assimilations required to spawn naturally." - SRParasitesMobs.cfg
+**"Assimilated Enderman Needed Assimilation Value" - "Total number of assimilations required to spawn naturally." - SRParasitesMobs.cfg
+**"Assimilated Bear Needed Assimilation Value" - "Total number of assimilations required to spawn naturally." - SRParasitesMobs.cfg
+**"Scent" - "Set to false if you dont want Scent to spawn in your world" - SRParasitesSystems.cfg
+**"Colonies Outpost Distance" - "Distance from the colony to which they are going to start setting up Outposts." - SRParasitesWorld.cfg
+**"Scent Cap" - "Maximum number that can spawn in the world." - SRParasitesSystems.cfg
+**"Phase X Lure Block Cooldown Value" - "Point cooldown added ot the parasites when using a Lure Block." - SRParasitesSystems.cfg
+**"Phase X Carcass Value" - "Number of Points the parasites will lose when using a Carcass" - SRParasitesSystems.cfg
+**"Minimum Damage Special Attack Cap" - "Special attacks will not deal minimum damage if the victim's life is below this value." - SRParasites.cfg
+**"Phase X Lure Scent Level Desploy" - "Level that the Scent will have when it spawns from a Lure Block of this phase." - SRParasitesSystems.cfg
+
+====<u>General</u>====
+*Nexus versions will now be affected by Colonies, when killed they will spawn their previous version if available 
+*Lure Blocks will now spawn high level scent entities depending of the tier of the block 
+*Changed projectile texture for the Quench 
+*After reaching a certain phase COTH will spawn a feral version instead of an assimilated one 
+*Infested Blocks will no longer damage Mobs Changed the way of storing the Evolution Phases values, now the global memory will be used instead of the dim one *Incomplete Structure Block will now delete block when clearing areas (this is temporary) 
+*Evolution phases cooldown will also prevent points from being taken away 
+*Nexus versions spawn item new texture 
+*Assimilated mobs will not spawn naturally until their individual assimilation value is valid 
+**By default, the Assimilated cow will not spawn naturally until 2 cows are previously assimilated, same with other assimilated versions 
+**The Assimilated Ender Dragon is the exception
+*When right clicking Lure blocks: 
+**Instead of removing points it will now add a cooldown where parasites cannot gain points, this cannot be stacked 
+**The player will now receive this message: Point Cooldown added!
+*In order to remove evolution points, players now have to build a Carcass:
+***'''KEY''': X = Lure block B = Air block<br><!--
+-->Layer:<br><!--
+-->X B B B B B X<br><!--
+-->B B B B B B B<br><!--
+-->B B B B B B B<br><!--
+-->B B B X B B B<br><!--
+-->B B B B B B B<br><!--
+-->B B B B B B B<br><!--
+-->X B B B B B X
+
+*Lure blocks can be mixed but the points to be removed will depend on which lure block is in the center 
+**Scent will appear and will target the player who activated the block 
+**The player will receive this message: Points reduced! 
+**You need to right click the block in the center for this to work 
+**Air blocks are not required, it can be anything
+
+====<u>Mobs</u>====
+*Improved swimming AI for Devourer: when chasing target Devourer will now swim faster 
+*Improved Host and Herd melee fight AI: they will try to get closer before getting out of the ground 
+*Scent can now target animals: Scent will check attribute values before attacking
+*Assimilated versions can now transform into Feral verions
+*All beckons now glow in the dark 
+*Dispatcher locatable via clicking on a tendril, highlights the Dispatcher by interacting with tendril
+*Dispatcher now has 2-second cooldown for spawning Seizers
+*Parasites will not drop loot while affected by Debar effect 
+*Parasites will not drop xp while affected by Debar effect 
+*Being lit on fire have a chance to apply rage effect to the parasite 
+*Scent will now spawn Worms and will come out of the ground to spit out the mobs and then return to the ground 
+*Pure versions will now attack villagers 
+*Overseer will no longer spawn biomass if target is not on ground 
+*Light Bomber will no longer spawn bombs if target is not on ground 
+*Heavy Bomber will no longer spawn bombs if target is not on ground
+*Heavy Carrier will now place residue blocks when blowing up 
+*Light Carrier will now place residue blocks when blowing up 
+*Removed quick dash to Marauder, Added small leap to Marauder 
+*Increased dash distance to Warden, Decreased dash cooldown to Warden 
+*Increased long jump cooldown to Marauder 
+*Crux follow range is now 64 
+*Assimilated adventurer will now use assimilated human natural spawning value 
+*Walking head will now require assimilated (for each of them) natural spawning values to spawn naturally 
+*Feral verions will now require assimilated (for each of them) natural spawning values to spawn naturally 
+*Assimilated Enderman will not teleport if it is within 10 blocks of its target 
+*Heavy Carrier, Flying Carrier, and Light Carrier will now target villagers
+*Reduced horse explosion radius from 4 to 3.5 
+*Adapted Bolster now has the AOE attack similar to the Marauder 
+*Longarms will not use EntityShockWave if they cannot see their target 
+*Adapted Longarms, Arachnida, Rupter, Mangler, Warden, Marauder will now not climb as much if they are following their enemy when they are in close proximity *Architects will now summon Workers 
+*Changed Primitive Bolster default texture
+*Tweaked sound effects for: -Rupter -Assimilated Human -Assimilated Bear -Assimilated Enderman -Assimilated Wolf -Adapted Reeker -Adapted Manducater
+*Added model/texture map for the following mobs: -Hijacked Golem -Feral Cow -Feral Enderman -Feral Human -Feral Horse -Feral Sheep
+*Added Virulent/Berserker variants for the following mobs: -Rupter -Mangler
+*Needler effect duration gained from orbs: -Adapted versions to 35 seconds -Pure versions to 70 seconds -Pree versions to 120 seconds
+*"Minimum Damage Special Attack Cap" will affect: -Reeker charge -Marauder aoe -Warden charge 
+*Heed will use EntityParasiticScent every 20 seconds Scent will die the moment the target dies Scent will folow the target
+*Tweaked sound effects for: -Adapted Reeker -Assimilated Bear -Assimilated Wolf -Assimilated Enderman -Bogle -Wraith
+*Default attribute values: Marauder health 90 -> 120 Marauder damage 25 -> 40 Assimilated Enderman damage 13 -> 11
+*Added new variant, will be able to break harder blocks than usual (x2) -Overseer -Vigilante -Marauder -Grunt -Warden -Light Bomber -Monarch -Primitive Bolster -Primitive Summoner -Primitive Yelloweye -Primitive Manducater -Primitive Reeker -Primitive Arachnida -Primitive Longarms
+
+{{VersionList}}
+[[Category:Versions]]

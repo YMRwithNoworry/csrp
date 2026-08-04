@@ -1,0 +1,40 @@
+{{VersionBar|
+|page1=1.10.4
+|page2=1.10.6
+}}
+'''Version 1.10.5''' was an update for the Scape and Run: Parasites Mod, released on May 19th 2026.  It was 109.91 MB.
+
+== ''Change Log'' ==
+
+====<u>Fixes and Tweaks</u>====
+
+* Ubiquitous Development default spawns: slightly less flying parasites
+* Meteor landing tweaks
+* worldAirCap 5 -> 3
+* Infested Sand block spread speed fixed
+* worldWaterCap 5 -> 3
+* Devourer spawn and griefing delay tweaks
+* Caves now properly have spawns
+* Fixed some dimensions with roofs having no spawns
+
+====<u>New Content</u>====
+
+* Assimilated Mob compendium lore entries finished.
+* Crude Mob compendium lore entries finished. 
+* Assimilated Villager lore entry tweaked.
+* Added scrollbar to effects compendium page
+* Tweaked the sign effect compendium entry
+* Added scrollbar for celestial event and status effect information textbox
+* Added fog block to creative inventory
+* Fog block texture updated
+* Updated Four comet and Three textures
+* Updated (most) placeholder/repeating potion effects textures
+* Dislo sounds feels now more distant, less loud with more reeverb.
+
+====<u>Config</u>====
+
+* Mob config: "Devourer Water Placement" - Set to false if you want to disable water placement when Devourers break blocks. Enabled by default.
+
+
+{{VersionList}}
+[[Category:Versions]]

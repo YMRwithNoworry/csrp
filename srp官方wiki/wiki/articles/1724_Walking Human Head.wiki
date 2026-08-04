@@ -1,0 +1,82 @@
+{{Navbar|page1=Walking Human Head|page2=Assimilated Human|page3=Assimara Human|page4=Feral Human}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|humanhead}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1= <gallery>
+Assimilated_Human_Head.png|Normal
+Assimilated_Human_HeadV.png|Variant
+</gallery>
+|hp=4.5
+|damage=2.7
+|armor= 
+|kb_resistance=0.1
+|adaptable=No
+|id=srparasites:sim_humanhead
+}}
+'''Walking Human Heads''' are the [[Walking Heads]] of [[Assimilated Human|Assimilated Humans]].
+
+==''Spawning''==
+*Spawned with a 50% chance when an Assimilated Human dies.
+*Spawned by [[Worm|Worms]] through Level 3 [[Scent System|Scents]].
+
+==''Behavior''==
+Walking Human Heads are cowardly Melee swarm units.
+*Walking Human Heads' Melee Attack is performed through contact damage.
+* Walking Human Heads can perform small leaps.
+*They will seek out [[Medium Incomplete Form|Medium Incomplete Forms]] to merge with in order to evolve back into Assimilated Humans.
+*Any Mob within 3 blocks of a Walking Human Head will be inflicted with [[Call Of The Hive|COTH]]. This does not go through walls.
+*Walking Human Heads are able to traverse faster in liquids by performing small leaps.
+{{Variants|customdesc=*Walking Human Heads have 1 variant, spawning from the <span style="color:#AAAAAA;">Nocturn</span> variant of the Assimilated Human:|count=1|Texture=Assimilated_Human_HeadV.png|TextureDesc=has identical stats.}}
+
+=== ''Weaknesses'' ===
+
+* Walking Human Heads, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+* Walking Human Heads will run away during the daytime if no other parasites are present.
+{{Properties|tier=Assimilated|FollowRange=16|DamageCap=1|MinimumDamage=0.5|DeathPenaltyEvolutionValue=1|RemainValue=N/A|ScentDeathValue=5|XPValue=8|COTH=.7}}
+
+==''Sounds''==
+{| class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:infectedhead_growl.ogg]]
+[[File:infectedhead_growl1.ogg]]
+[[File:infectedhead_growl2.ogg]]
+|Hostile
+|Plays randomly while a Walking Human Head is alive.
+|Head screams
+|infectedhead_growl-2
+|-
+|
+[[File:infectedhead_hurt.ogg]]
+[[File:infectedhead_hurt1.ogg]]
+|Hostile
+|Plays when a Walking Human Head takes damage.
+|Head screeches
+|infectedhead_hurt-1
+|-
+|[[File:Assimilated Head Death.ogg]]
+|Hostile
+|Plays when a Walking Human Head dies.
+|Head dies
+|infectedhead_death
+|-
+|}
+
+==''Trivia''==  
+*Walking Human Heads are also known as '''infhumanhead''' in the mod files.
+
+==''Gallery''==
+{{MobList}}
+[[Category:Mobs]]
+[[Category:Walking Heads]]
+
+<references />
+[[Category:Assimilated Mobs]]

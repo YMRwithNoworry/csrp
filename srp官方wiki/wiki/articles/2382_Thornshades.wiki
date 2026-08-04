@@ -1,0 +1,29 @@
+{{Stub}}
+{{Effect_Info
+|[[File:Thornshades.png|thumb]]
+|title1=Thornshades
+|sources=See [[#Obtainment|Obtainment]]
+|type=Buff
+|id=srparasites:thornshades
+|image1=Thornshades.png}}
+
+'''Thornshades''' is an [[:Category:Effects|Effect]] added in [[Version 1.10.0]]. It acts similarly to Thorns, reflecting a portion of melee damage back at the attacker.
+
+Thornshades does not stack.
+
+== ''Obtainment'' ==
+{| class="fandom-table"
+!'''Cause'''
+!'''Potency'''
+!'''Duration'''
+|-
+|[[Thornshade Decanter]]
+|I
+|0:20
+|}
+
+==Trivia==
+* If one lets the Thornshades buff run out twice and drinks another Thornshade Decanter, they will explode and die, granting the {{AdvancementLink|Beautiful Self-Destruction}}.
+
+{{EffectList}}
+[[Category:Effects]]

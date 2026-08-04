@@ -1,0 +1,38 @@
+{{WIP}}
+{{Mob_Info
+|image1=worker.png
+|hp=10.0 ([[File:Heart.png]][[File:Heart.png]][[File:Heart.png]][[File:Heart.png]][[File:Heart.png]])
+|damage=5.0 ([[File:Heart.png]][[File:Heart.png]][[File:Halfheart.png]])
+|armor=5.0 ([[File:Armor.png]][[File:Armor.png]][[File:Halfarmor.png]])
+|kb_resistance=2.0
+|id=srparasites:worker
+}}
+'''Workers''' are WIP [[Mobs|Parasites]], that are spawned by [[Architect|Architects]] in [[Colony|Colonies]]. Their Tier placement is currently unknown.
+
+As of now, they use the original [[Rupter|Rupter's]] Model as a placeholder.
+
+==''Spawning''==
+
+*Spawned by [[Architect|Architects]].
+*Spawns inside the [[Parasite Biome]], with a spawnweight of 10.
+
+==''Behavior''==
+Workers are passive utility parasites, their ai is heavily unfinished but currently serves the function of building colony structures.
+
+*Workers roam around similar to other passive mobs, but do not run away when attacked.
+*Workers progress the construction of Colony buildings when nearby to an [[Colony#Generation|Incomplete Parasitic Colony Structure]] or a location where one will be placed.
+
+===''Weaknesses''===
+
+*Workers, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+==Gallery==
+<gallery>
+File:workersize.png|The size of the Worker's model.
+File:workerNEW.png|
+</gallery>
+
+
+{{MobList}}
+[[Category:Work In Progress Content]]
+[[Category:Mobs]]

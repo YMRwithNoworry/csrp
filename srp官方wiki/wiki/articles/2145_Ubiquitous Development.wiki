@@ -1,0 +1,117 @@
+[[File:Ubiquitous_development_compendium.png|thumb|108px|The [[Compendium]] icon.|link=Compendium]]
+
+{{#SQuote:|text=As parasites grow further, new systems begin to activate across the world. Higher development levels unlock mechanics such as coordinated behavior, merging, scent waves, structures, and expanded spawning rules.|speaker=[[Compendium|The Compendium]]|receiver=|attribution=|source=|id=WT3C-PBHB-J4H8|template=}}
+'''Ubiquitous Development''' is a [[Systems|System]] that slowly allows the Parasites to grow stronger (unlocks [[Parasite Biome]], [[Colony|Colonies]], [[Hive|Hives]], the [[Scent System]], [[Nests]], etc.) the more it evolves. The level of Ubiquitous Development is determined by how many dimensions are infected and the [[Evolution Phases]] of said dimensions. The current level of Ubiquitous Development can be measured with the [[Level Clock]].
+
+== ''Levels'' ==
+'''Points are determined by the sum of Phases in all dimensions'''. For example, if the Overworld is currently on Phase 3 and the Nether is on Phase 4, the current points would be 3 + 4 which is 7 and the Ubiquitous Development level would be 2. Ubiquitous Development is separated into 5 levels:
+
+=== Level 0 ===
+''To achieve this level, parasites do not require any infected dimensions, nor points.''
+
+=== Level 1 ===
+''To achieve this level, parasites must have infected at least one dimension and 4 phases accumulated across all dimensions.''
+* [[Dislodgment]] is unlocked.
+* [[Moving Flesh|Parasite Merging]] is unlocked.
+
+=== Level 2 ===
+''To achieve this level, parasites must have infected at least two dimensions and 7 phases accumulated across all dimensions.''
+* [[Primitive Parasites]] and [[Thrall|Thralls]] can now spawn naturally.
+* [[Collective Consciousness]] is unlocked.
+* The [[Scent System]] is unlocked.
+* Parasites will now be able to spawn outside of [[Emerging Infestation Vector|Emerging Infestation Vectors]]. 
+
+=== Level 3 ===
+''To achieve this level, parasites must have infected at least two dimensions and 10 phases accumulated across all dimensions.''
+* [[Adapted Parasites]] can now spawn naturally.
+* [[Dispatcher (Disambiguation)|Dispatchers]] and [[Rooter (Disambiguation)|Rooters]] will be able to spawn naturally, ignoring their respective conventional spawning methods.
+* [[:Category:Variants|Variants]] will be more common.
+
+=== Level 4 ===
+''To achieve this level, parasites must have infected at least two dimensions and 14 phases accumulated across all dimensions.''
+* [[Pure Parasites]], excluding [[Light Bomber|Light Bombers]], can now spawn naturally.
+* [[Colony|Colonies]] are unlocked.
+* [[Hive|Hives]] are unlocked.
+* [[Parasite Biome|Nodes]] are unlocked.
+* Primitive Parasites and Thralls will no longer spawn naturally.
+
+==''Mob Spawnlist''==
+Note that [[Burrower (Disambiguation)|Burrowers]] and [[Tozoon (Disambiguation)|Tozoons]] do not appear at all regarding Ubiquitous Development, and [[Light Bomber|Light Bombers]] spawn starting from [[Evolution Phases#Phase 8|Phase 8]].
+{|class="fandom-table mw-collapsible mw-collapsed"
+|-
+!colspan="3"|'''Ubiquitous Development Spawnlist'''
+|-
+!'''Mob(s)'''
+!'''Spawnweight'''
+!'''Quantity'''
+|-
+!colspan="3"|'''Level 2'''
+|-
+|[[Thrall|Thralls]]
+|25
+|3 - 5
+|-
+|[[Primitive Parasites]] (excl. [[Primitive Burrower|Burrowers]], [[Primitive Tozoon|Tozoons]], [[Primitive Devourer|Devourers]], [[Primitive Yelloweye|Yelloweyes]])
+|15
+|2 - 3
+|-
+|[[Primitive Yelloweye|Primitive Yelloweyes]]
+|10
+|2 - 3
+|-
+|[[Primitive Devourer|Primitive Devourers]]
+|5
+|1 - 2
+|-
+!colspan="3"|'''Level 3'''
+|-
+|[[Thrall|Thralls]]
+|25
+|3 - 5
+|-
+|[[Adapted Parasites]] (excl. [[Adapted Burrower|Burrowers]], [[Adapted Tozoon|Tozoons]], [[Adapted Devourer|Devourers]], [[Adapted Yelloweye|Yelloweyes]])
+|20
+|2 - 3
+|-
+|[[Adapted Yelloweye|Adapted Yelloweyes]], [[Primitive Parasites]] (excl. [[Primitive Burrower|Burrowers]], [[Primitive Tozoon|Tozoons]], [[Primitive Devourer|Devourers]], [[Primitive Yelloweye|Yelloweyes]])
+|15
+|2 - 3
+|-
+|[[Primitive Yelloweye|Primitive Yelloweyes]]
+|10
+|2 - 3
+|-
+|[[Adapted Devourer|Adapted Devourers]]
+|10
+|1 - 2
+|-
+|[[Primitive Devourer|Primitive Devourers]]
+|5
+|1 - 2
+|-
+!colspan="3"|'''Level 4'''
+|-
+|[[Grunt|Grunts]]
+|30<br>40
+|3 - 6<br>6 - 10
+|-
+|[[Adapted Parasites]] (excl. [[Adapted Burrower|Burrowers]], [[Adapted Tozoon|Tozoons]], [[Adapted Devourer|Devourers]], [[Adapted Yelloweye|Yelloweyes]])
+|20
+|2 - 3
+|-
+|[[Adapted Yelloweye|Adapted Yelloweyes]]
+|15
+|2 - 3
+|-
+|[[Adapted Devourer|Adapted Devourers]], [[Pure Parasites]] (excl. [[Grunt|Grunts]], [[Light Bomber|Light Bombers]])
+|10
+|1 - 2
+|-
+|}
+
+==''[[Commands]]''==
+{{#lst:Commands|ubiquitous}}
+
+== ''Trivia'' ==
+* ''Ubiquitous Development'' was first teased on November 3rd, 2021, by Dhanantry in the V1.10 developer plan.
+[[Category:Systems]]

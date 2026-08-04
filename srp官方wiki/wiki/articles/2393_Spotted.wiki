@@ -1,0 +1,24 @@
+{{Stub}}
+{{Effect Info
+|title1=Spotted
+|image1=Spotted.png
+|sources=See [[#Obtainment|Obtainment]]
+|type=Debuff
+|id=srparasites:spotted}}
+
+'''Spotted''' is a [[Effects|Potion Effect]] added in v1.10.0 of SRP. A player suffering from this effect is easier for parasites to track and locate.
+
+== ''Obtainment'' ==
+{| class="fandom-table"
+!'''Cause'''
+!'''Potency'''
+!'''Duration'''
+|-
+|unknown
+|?
+|?
+|}
+
+This effect does not stack.
+{{EffectList}}
+[[Category:Effects]]

@@ -1,0 +1,66 @@
+{{Stub}}
+Blocks added by Scape and Run: Parasites.
+===''Utility Blocks''===
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+File:Biome Purifier.png|link=Biome Purifier|[[Biome Purifier]]<ref>Will grant the {{AdvancementLink|Peacekeeper}} once obtained.</ref>
+File:Fog Nullifier.png|link=Fog Nullifier|[[Fog Nullifier]]<ref>Will grant the {{AdvancementLink|Fog Nullifier}} once obtained.</ref>
+File:Lure (Weakened).png|link=Lures|[[Lures]]
+File:Metallurgical Infuser Furnace.png|link=Metallurgical Infuser Furnace|[[Metallurgical Infuser Furnace]]
+File:Node Lamp.png|link=Node Lamp|[[Node Lamp]]
+File:RelayTower.png|link=Relay Tower|[[Relay Tower]]
+</gallery>
+</div>
+===''[[Infested Blocks]]''===
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+File:Alveoli Block.png|link=Alveoli Block|[[Alveoli Block]]
+File:Assimilated Jack o'Lantern.png|link=Assimilated Jack o'Lantern|[[Assimilated Jack o'Lantern]]
+File:Assimilated Pumpkin.png|link=Assimilated Pumpkin|[[Assimilated Pumpkin]]
+File:Assimilated Sugar Cane Block.png|link=Assimilated Sugar Cane|[[Assimilated Sugar Cane]]
+File:Biomass Block.png|link=Biomass Block|[[Biomass Block]]
+File:Bladder Sac.png|link=Bladder Sac|[[Bladder Sac]]
+File:Bronchial Tube.png|link=Bronchial Tube|[[Bronchial Tube]]
+File:Dermoid Cyst.png|link=Dermoid Cyst|[[Dermoid Cyst]]
+File:Diseased Sponge.png|link=Diseased Sponge|[[Diseased Sponge]]
+File:Hivestone Debris.png|link=Hivestone Debris|[[Hivestone Debris]]
+File:Maw.png|link=Maw|[[Maw]]
+File:Benign Growth.png|link=Parasitic Growth Block|[[Parasitic Growth Block|Parasitic Growth Blocks]]
+File:Pestilential Ore.png|link-Pestilential Ore|[[Pestilential Ore]]
+File:Residue Block.png|link=Residue Block|[[Residue Block]]
+File:Residue Bloomings.png|link=Residue Bloomings|[[Residue Bloomings]]
+File:Thornshade.png|link=Thornshade|[[Thornshade]]
+</gallery>
+</div>
+===''Parasite-Spawned Blocks''===
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+File:Dispatcher_Nidus.png|link=Dispatcher Nidus|[[Dispatcher Nidus]]
+File:Gluttonous_Cyst.png|link=Parasitic Cyst|[[Parasitic Cyst]]
+File:Assimilated_Remains.png|link=Remains|[[Remains]]
+File:Residue.png|link=Residue|[[Residue]]
+File:Tunnel.png|link=Tunnel|[[Tunnel]]
+File:Thin_Webbing (angled).png|link=Webbing|[[Webbing]]
+</gallery>
+</div>
+===''Decorative Blocks''===
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+File:Esca Bulb.png|link=Esca Bulb|[[Esca Bulb]]
+File:Semi-organic Block.png|link=Semi-organic Block|[[Semi-organic Block]]
+File:Draconite Trophy.png|link=Trophies|[[Trophies]]
+
+</gallery>
+</div>
+===''Debug Blocks''===
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+File:Biome Purifier.png|link=Creative Infestation Purifier|[[Creative Infestation Purifier]]
+File:Epitome Infestation Warp Diffuser.png|link=Epitome Infestation Warp Diffuser|[[Epitome Infestation Warp Diffuser]]
+File:Parasite Chunk Barrier.png|link=Parasite Chunk Barrier|[[Parasite Chunk Barrier]]
+</gallery>
+</div>
+
+==Notes==
+
+[[Category:Mod Content]]

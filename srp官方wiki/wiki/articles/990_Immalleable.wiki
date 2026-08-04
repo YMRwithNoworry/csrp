@@ -1,0 +1,15 @@
+{{Effect Info
+|image1=Immalleable.png
+|sources=See [[#Obtainment|Obtainment]]
+|type=Debug
+|id=srparasites:antimall
+}}
+'''Immalleable''' is a [[Effects|Potion Effect]] introduced by the SRP Mod. This Effect can disable the [[Adaptation System]], as long as the it lasts.
+
+Immalleable cannot be removed by drinking Milk.
+
+== ''Obtainment'' ==
+Currently, the Immalleable Effect can only be obtained throughout Cheats and the usage of Creative Mode.
+
+{{EffectList}}
+[[Category:Effects]]

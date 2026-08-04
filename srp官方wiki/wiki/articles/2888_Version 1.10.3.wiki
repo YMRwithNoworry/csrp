@@ -1,0 +1,103 @@
+{{VersionBar|
+|page1=1.10.2
+|page2=1.10.4
+}}
+'''Version 1.10.3''' was an update for the Scape and Run: Parasites Mod, released on March 8th 2026.  It was 96.87 MB.
+
+== ''Change Log'' ==
+
+====<u>Fixes and Tweaks</u>====
+* Made the evolution and level clock show “0” in inventory and the actual number when held to keep players from cheating and using JEI to view phases.
+* Fixed "the sign" effect so that parasites no longer attack players with said-effect 
+* Fixed "SRP World Settings..." appearing in top left corner of screen after editing custom world preset 
+* Removed eyes from dorpa/assimilated big spider's alt texture 
+* Tweaked hijacked module to swap out "bloody bone" with "hijacked growth" 
+* Tweaked/updated "boom orb" model/renderer 
+* Fixed nexus mobs showing up in deterrent module scan instead of nexus module scan 
+* Tweaked Ideal Module to Include the Derived Module in its crafting recipe. 
+* Tweaked Desmoid Module to Include the Assimara Module in its crafting recipe. 
+* Changed "The Sign" item name colour. 
+* Changed "Bough" item name colour. 
+* Fixed infested and consumed flower pots having incorrect crafting recipe
+* Allowed kirin to float over voids 
+* Remade advancement progression with 4 separate paths 
+* Tweaked all 'kill parasites' advancements to now require that all parasites in said-tier have to be killed before getting said-tier advancement 
+* Improved/tweaked vector report map gui 
+* Improved/tweaked dislodgement code report gui 
+* Fixed rupter infect subtitle 
+* Fixed manducater subtitle inconsistencies 
+* Fixed missing tooltips for weapons 
+* Added vectors to compendium systems page 
+* Updated dislodgement compendium page 
+* Added pivot potion icon 
+
+====<u>New Content</u>====
+* Music tweaks, renamed some, added new tracks to phases 
+
+* Added x3 dyed sheep variant to naturally spawning assimilated sheep. [ White | 60% ] [ Grey | 30% ] [ Black | 10% ]
+* Implemented dye mechanic to dying assimilated sheep
+
+* Added dislodgement module used for scanning current dislo codes 
+* Added dislodgement report, which is spawned from scanning a dislodgement module. has GUI. 
+* Added dislo logic & gui to dislodgement report 
+* Added phase report gui 
+* Added phase report gui 100-block range derived corruption
+* Added Vector module, which scans dimension for emerging vectors and tells players their location and health. 
+* Added phase module, which displays phase and UD information when placed into array scanner. 
+* Added vector module, which displays vector location & health when placed into an array scanner. 
+* Added crafting recipe for level clock. 
+* Added crafting recipe for vector module | meant to be mid-game progression 
+* Added crafting recipe for phase module | meant to be late-game progression 
+* Added a special byproduct of scanning for "Vectors" called a "Vector map", which visually displays where/how big vectors are relative to the player/relay
+* Added Assimara Module | Scans all Assimara parasites in given-dimension. 
+* Added Derived Module | Scans all Derived parasites in given-dimension. 
+
+* Removed ruin of fools advancement 
+* Added secret root advancement path 
+* Added monument root advancement path 
+
+* Added crafting recipes to living maul and lance 
+* Added aoe attack for living and sentient maul: slams ground and knocks enemies away. (1.5 blocks up and down / 4 block radius around player.) - Sentient maul flings playing when holding left click/interact like a bow and slams enemies on-contact. - Sentient and Living maul apply slowness and weakness 1 for 10 seconds for anyone within the radius of the AOE attack. Tamed/Owned mobs unaffected.
+* Added "Greek Fire" animated item texture & changed item name colour. 
+
+* Added Kirin Trophy block + entity | 100% - x1 from srparasites:kirin 
+* Added Draconite Trophy block + entity | 100% - x1 from srparasites:draconite 
+* Added infested trunk to x4 infested planks crafting recipe 
+* Added chipped motherly membrane to x3 string crafting recipe 
+* Added corrosive mucus to x1 slimeball crafting recipe
+
+* Added item drop list to compendium | unlocks upon stat unlock 
+* Each entry now has a min-lore-kill and min-stat-kill variable. so info can be unlocked at different kill counts for different mobs.
+* Added scroll bar to compendium systems page 
+
+====<u>Internal</u>====
+* Slight backend improvements (better coding practices)
+* Fixed trying to cast from playerMP to EntityParasiteBase in biomass projectile
+* Crash fix by adding a check so if mobList is empty it returns a safe fallback mob for dislo 2A ( set to srparasites:warden ) 
+
+
+====<u>Config</u>====
+* Added relayScannerDebugGlow to SRPConfigSystems, which makes the relay make all scanned parasites glow for a few seconds. - Fixed RelayScannerCoolDownSeconds config option not showing in SRPConfigSystems
+* Registered assimara bear to config 
+
+====<u>Mobs</u>====
+* Added hijacked growth drop to gnats and lice - 30% x2 
+* Added fishlin drop to infected,feral, and assimara bear - 20% x3 
+* Added eye of beholder drop to assimilated enderman - 10% x1 
+* Added false apple drop to infected villager - 5% x1 
+* Added false apple drop to assimara villager - 10% x1 
+* Added bloody rod drop to hijacked blaze - 20% x3 
+* Added bloody iron ingot drop to hijacked iron golem - 20% - x3 
+* Added hijacked growth drop to hijacked iron golem - 20% - x1 
+* Added bloody bone drop to hijacked skeleton - 20% - x3 
+* Added hive scrap to all preeminents - 80% - x7 | succor = 80% - x3 
+* Added false apple drop to draconite - 100% - x1 
+
+====<u>Language</u>====
+* Updated Japanese & French .lang files.
+* Added some entities to .lang file.
+* Made relay scanner report GUI .lang friendly.
+* Made scent messages .lang friendly.
+
+{{VersionList}}
+[[Category:Versions]]

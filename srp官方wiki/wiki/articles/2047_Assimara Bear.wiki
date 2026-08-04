@@ -1,0 +1,64 @@
+{{Stub}}
+{{Navbar|page1=Assimilated Bear|page2=Assimara Bear|page3=Feral Bear}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|marbear}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=AssimaraBear.png
+|hp=38.0
+|damage=15.0
+|armor=8.0
+|kb_resistance=0.8
+|adaptable=No
+|id=srparasites:mar_bear
+}}
+'''Assimara Bear''' are the [[:Category:Assimara_Parasites|Assimara Version]] of Polar Bears. They are mostly unrecognizable from any of its counterparts, its upper half having been torn open in two parts, along already having been split in two in its [[Assimilated Mobs|Assimilated version]]. A parasitic tentacle, which later splits into two is seen appearing from its gut. It is implied that this appendage is responsible from firing its web at its prey. This same parasitic growth matter is also seen in growths in its two front legs, which may serve as some truly terrifying claws.
+
+== ''Spawning'' ==
+
+* Spawns individually, from [[Evolution Phases#Phase 4|Phase 4]] onward, with a spawnweight of 1, once 2 Polar Bears have been assimilated.
+
+== ''Behavior'' ==
+Assimara Bears are Utility Ranged Combatants with Melee capabilities.
+
+* Their Melee Attack is performed through contact damage, applying [[Bleeding]] for 4 seconds with stacking potency.
+* They are capable of grappling and pulling distant Mobs or Players.
+** After shooting a white projectile from their mouth, if it misses, a [[Thin Webbing]] block will be placed; it hits their target, the Assimara Bear will shoot a rope from their mouth that will attach to the target applying Weakness II at the start, pulling them towards the Assimara Bear. Slowness II and Mining Fatigue II will be applied to the target when being pulled, as well as darkening the screen and inflicting immunity-frame-bypassing damage per tick.
+*** They can pull targets that are above them and will pull down flying mobs or players.
+*** They will only pull targets in for 10 seconds after which they will release their target.
+*** If this rope passes through a solid block, it will break and the target will no longer be pulled.
+* Assimara Bears are able to traverse faster in liquids by performing small leaps.
+* Assimara Bears can sink in liquids to pursue submerged targets.
+* On death Assimara Bears have a chance to explode, releasing [[Remains|Assimara Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+
+=== ''Weaknesses'' ===
+*Assimara Bears, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+{{Properties|}}
+
+{{Drops
+|rolls1=Always Rolls:
+|page1=Fishlin
+|amount1=3
+|chance1=20
+}}
+
+==''Sounds''==
+To be added...
+
+==''Trivia''==
+
+* The Assimara Bear's entry in the [[Compendium]] states that its body is home to a nest of spiders. This helps explain its ability to fire [[Thin Webbing]].
+
+== Gallery ==
+<gallery>
+File:AssimaraBearHeight.png|Size of the Assimara Bear's model.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Mobs]]
+[[Category:Assimara Parasites]]

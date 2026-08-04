@@ -1,0 +1,18 @@
+{{DisambiguationContent
+|title=Carrier
+|image1=Flying Carrier.png
+|title1=[[Flying Carrier]]
+|desc1=An [[:Category:Inborn Parasites|Inborn]] Parasite
+|image2=Heavy Carrier.png
+|title2=[[Heavy Carrier]]
+|desc2=An [[:Category:Inborn Parasites|Inborn]] Parasite
+|image3=Light Carrier.png
+|title3=[[Light Carrier]]
+|desc3=An [[:Category:Inborn Parasites|Inborn]] Parasite
+|image4=Colony Carrier.png
+|title4=[[Colony Carrier]]
+|desc4=A [[:Category:Preeminent Parasites|Preeminent]] Parasite
+|image5=Worm Carrier.png
+|title5=[[Worm Carrier]]
+|desc5=A [[:Category:Crude Parasites|Crude]] Parasite
+}}

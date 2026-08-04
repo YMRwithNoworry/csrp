@@ -1,0 +1,18 @@
+{{Stub}}
+
+
+'''Biomass Blocks''' are infested blocks that resemble the [[Biomass]] summoned by [[Beckon (Disambiguation)|Beckons]], [[Summoner (Disambiguation)|Summoners]], and [[Overseer|Overseers]].
+{{Item Info
+|image1=Biomass Block.png
+|id=srparasites:biomass_block
+}}
+
+==''Obtainment''==
+Four Biomass Blocks can be crafted with a [[Beckon Membrane]] and three of any [[Drops|Lure Component]].
+{{CraftingTable|r1_a1=Rupter Viscera|r1_b1=Rupter Viscera|r1_b2=Beckon Membrane|r1_a2=Rupter Viscera|r1_output=Biomass Block|r1_count=4}}
+
+==''Usage''==
+Biomass Blocks have a slime-like texture and will inflict stacking [[Viral|Viral II]] for ten seconds and [[Corrosion]] for five seconds when touched by any non-parasite mob. Because of this, if one has extra Beckon Membranes and Lure Components, they can be used as trap blocks. However, due to the fact that they do not work on parasites, the likely main threat of a world, they are not a very good use of materials.
+
+{{BlockList}}
+[[Category:Blocks]]

@@ -1,0 +1,42 @@
+{{VersionBar|
+|page1=1.10.5
+|page2=1.10.7
+}}
+'''Version 1.10.6''' was an update for the Scape and Run: Parasites Mod, released on May 26th 2026.  It was 109.95 MB.
+
+== ''Change Log'' ==
+
+====<u>Fixes and Tweaks</u>====
+
+* Fix for Vectors causing erratic evolution point shifts
+* Patched up packet to avoid OOM
+
+* Made no vision overlay slightly transparent
+* Made viral and bleeding overlays half transparent through texture file, removed transparency from code.
+* Reorganized sound files
+
+* Added block sounds for several blocks: Purifier, lures, flesh blocks, esca bulbs.
+* Check against UD1's empty spawnlist
+
+====<u>New Content</u>====
+
+* Changed Eye of Beholder texture and model display orientation
+* Made effects have unique particle colors
+* Changed several potion effect textures
+* Changed loot blocks gui texture
+* Updated vomit overlay
+* Made lures glow slightly
+* Added new particles for when a player interacts with purifier
+* Updated textures for four comet and three celestial events
+
+====<u>Mobs</u>====
+
+* Added heavy steps multiple, heavy steps and heavy steps two sounds.
+* Updated idle sounds for assimilated enderman and added 2 more idle sounds for assimilated endermen
+* Added sounds for assimara enderman
+* Added sounds for moving flesh
+* Assimilated humans now have a small chance to play old idle sound
+* Updated sounds for incomplete forms
+
+{{VersionList}}
+[[Category:Versions]]

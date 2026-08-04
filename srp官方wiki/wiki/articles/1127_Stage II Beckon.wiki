@@ -1,0 +1,141 @@
+{{Navbar|page1=Stage I Beckon|page2=Stage II Beckon|page3=Stage III Beckon|page4=Stage IV Beckon}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|beckonsii}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Nexus Info
+|image1=Stage 2 Beckon.png
+|armor=8.0
+|growtime=300-360 sec [min-max]
+|hp=60.0
+|infestation_cooldown=55 sec [min]
+|infestation_radius=X: 8 Y: 3
+|summon_cooldown=12 sec
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:beckon_sii
+}}
+'''Stage II Beckons''' are a type of [[Mobs|Mob]], placed in the [[:Category:Nexus Parasites|Nexus]] Tier. Killing one will grant the {{AdvancementLink|Pruner}}.
+
+== ''Spawning'' ==
+*Spawned after a [[Stage I Beckon]] evolves.
+*Spawned by [[Stage IV Beckon|Stage IV Beckons]].
+*If at least one [[Colony]] exists, spawns when a [[Stage III Beckon]] is killed.
+*Spawns as a result of a Colony-buffed [[Reinforcement System#Colony Buff|Reinforcement System]]:
+**Spawned randomly upon the death of Parasites larger than 1 block.
+**Spawned randomly on [[Residue]].
+**Spawned on [[Infested Blocks]], created by other Beckons.
+
+== ''Behavior'' ==
+Stage II Beckons are Stationary Block Infesters and Defensive Support Parasites.
+
+*Stage II Beckons are able to spawn [[Rupter|Rupters]], [[:Category:Assimilated Mobs|Assimilated Mobs]], and [[Flying Carrier|Flying Carriers]] through the usage of [[Biomass]]. [[Stage II Beckon#Summoning and Mobs Value|More info below]].
+*They're able to convert blocks, depending on their [[Hardness]], to their Infested Variant, these include Infested Dirt, Stone and Wood. The Infestation can spread in a 8 block radius (6 blocks along the Y-axis) with a 55 second minimum Infestation cooldown per block radius.
+**The same Infested Blocks can generate Stage I Beckons, extending the range of the Infested Zone. There can be a maximum of 2 Beckons per Chunk.
+* Stage II Beckons throw 4 bombs around them when damaged, this has a cooldown of 5 seconds. The bombs inflict 6 damage each and place an effect cloud of stacking [[Viral]] and Poison.
+* Stage II Beckons can break blocks that have their [[Hardness]] Value up to 5.5, with a 20 ticks cooldown and 2 Blocks range.
+* Upon death, if at least one [[Colony]] is present in the dimension, Stage II Beckons will become [[Stage I Beckon|Stage I Beckons]].
+
+=== ''Summoning'' ===
+Stage II Beckons are capable of spawning various [[Mobs]], through the usage of [[Biomass]].
+
+The summoning Ability is based on Points. Each Mob has a certain Points value. Spawned Parasites will either be sorted by Ground type or Air, Parasites categorized as Air type will be spawned instead of Grounded if the target is 3 blocks above the summoner.
+
+'''Stage II Beckons have a total of 9 Points per summon and can summon 3 mobs before its cooldown of 12 seconds with a cap of 9 parasites active at once.'''
+
+{| class="fandom-table"
+|+
+'''Spawn Table'''
+!Mobs
+!Points Value
+!Spawn chance
+!Type
+|-
+|[[Rupter]]
+|1 Point
+|10%
+|Ground
+|-
+|[[Assimilated Mobs|Assimilated Mob]]<ref>Excluding [[Assimilated Ender Dragon]] and [[Assimilated Squid|Assimilated Squid.]]</ref>
+|3 Points
+|20%
+|Ground
+|-
+|[[Flying Carrier]]
+|3 Points
+|30%
+|Air
+|-
+|}
+
+=== ''Weaknesses'' ===
+*Stage II Beckons, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+*Stage II Beckons will take damage over time and die if the current dimension is at [[Evolution Phases#Phase 2|Phase 2]] or lower.
+{{Properties|tier=Nexus II}}
+
+{{Drops
+|rolls1=Always Rolls:
+|page1=Beckon Membrane
+|amount1=7
+|chance1=60
+}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed" 
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|[[File:vstageii.ogg]]
+|Hostile
+|Plays when a Stage I Beckon grows into Stage II.
+|Bell tolls
+|vstageii
+|-
+|[[File:Stage2 Beckon Growl1.ogg]]
+[[File:Stage2 Beckon Growl2.ogg]]
+|Hostile
+|Plays randomly while a Stage II Beckon is alive.
+|Beckon whispers
+|beckonsii_growl/beckonsii_growl_2
+|-
+|[[File:Stage2 Beckon Hurt1.ogg]]
+[[File:Stage2 Beckon Hurt2.ogg]]
+|Hostile
+|Plays when a Stage II Beckon takes damage.
+|Beckon hisses
+|beckonsii_hurt/beckonsii_hurt_2
+|-
+|[[File:Stage2 Beckon Death1.ogg]]
+[[File:Stage2 Beckon Death2.ogg]]
+|Hostile
+|Plays when a Stage II Beckon dies.
+|Beckon cries
+|beckonsii_death/beckonsii_death_2
+|-
+|}
+
+== ''Trivia'' ==
+*Like all Nexuses, Stage II Beckons do not despawn by default.
+*Beckons are also known as '''VenkrolSII''' in the Mod Files.
+*Contrary to popular belief, Beckons aren't Plants, despite looking like one. Biomass isn't Eggs, either. Eggs aren't present in any part of Parasites Life Cycle.
+*Beckons use Biomass to clone [[Mobs]].
+*Stage II Beckon's Model present roots. They use the roots to extract an unknown type of Energy from underground, which they use to infest blocks, clone Mobs and evolve.
+
+==''Gallery''==
+<gallery>
+File:BiomassStage2.png|The Biomass Entity Stage II Beckons use.
+File:Bomb2.png|The Bomb that Stage II Beckons use.
+File:BeckonS2Height.png|Size of the Stage 2 Beckon's model.
+File:Stage2Beckon1.8.0.png|The Stage 2 Beckon's appearance in 1.8.0. (Credit to @scout2illustrates)
+File:Stage2 Bell.ogg|The old evolve sound effect.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Mobs]]
+[[Category:Nexus Parasites]]

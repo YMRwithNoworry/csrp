@@ -1,0 +1,33 @@
+{{Item Info
+|image1=Reeker Fang.png
+|type=Material
+|stackable=Yes (16)
+|tooltip=A terrifyingly sharp fang harvested from a Reeker body. A Crafting Ingredient for Weapons Components.
+|id=srparasites:ada_reeker_drop
+}}
+'''Reeker Fangs''' are a [[:Category:Drops|Drop]] used as a [[:Category:Drops#Materials|Material]] to craft [[Infectious Blade Fragment|Infectious Blade Fragments]], a [[:Category:Weapons' Components|Weapons' Component]].
+
+== ''Obtainment'' ==
+*Dropped by the [[Primitive Reeker]] and [[Adapted Reeker]].
+*Can be found in [[Malignant Growth|Malignant Growths]].
+
+== ''Usage'' ==
+{{CraftingTable
+|r1_b1=Reeker Fang
+|r1_a2=Infected Flesh
+|r1_b2=Reeker Fang
+|r1_a3=Infected Flesh
+|r1_output=Infectious Blade Fragment
+
+|r2_a1=Reeker Fang
+|r2_a2=Reeker Fang
+|r2_b1=Reeker Fang
+|r2_b2=Reeker Fang
+|r2_output=Fortified Bone
+|r2_count=4
+|r2_nolink=true}}
+[[Category:Drops]]
+
+
+{{ItemList}}
+[[Category:Items]]

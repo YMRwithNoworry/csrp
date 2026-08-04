@@ -1,0 +1,109 @@
+{{VersionBar|
+|page1=Version 1.9.7
+|page2=Version 1.9.9
+}}
+'''Version 1.9.8''' was an update for the Scape and Run: Parasites Mod, released on December 12th 2022.  It was 15.53 MB.
+
+== ''Change Log'' ==
+
+====<u>Fixes</u>====
+*Crash:
+<div class="mw-collapsible mw-collapsed" data-expandtext="Show crash" data-collapsetext="Hide crash">
+Caused by: java.lang.ClassCastException: com.dhanantry.scapeandrunparasites.entity.tile.TileEntityCanister cannot be cast to mekanism.common.tile.TileEntityEnergyCube
+at mekanism.common.block.BlockEnergyCube.getDropItem(BlockEnergyCube.java:224) ~[BlockEnergyCube.class:?]
+at mekanism.common.block.BlockMekanismContainer.getDrops(BlockMekanismContainer.java:72) ~[BlockMekanismContainer.class:?]
+at net.minecraft.block.Block.getDrops(Block.java:1300) ~[aow.class:?]
+at com.dhanantry.scapeandrunparasites.entity.projectile.EntityGore.addCystItems(EntityGore.java:323) ~[EntityGore.class:?]
+at com.dhanantry.scapeandrunparasites.entity.projectile.EntityGore.func_70071_h_(EntityGore.java:181) ~[EntityGore.class:?]
+at net.minecraft.world.World.func_72866_a(World.java:1996) ~[amu.class:?]
+Crash:
+java.lang.ClassCastException: com.dhanantry.scapeandrunparasites.entity.monster.infected.EntityInfEnderman cannot be cast to com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityCanMelt
+at com.dhanantry.scapeandrunparasites.entity.ai.EntityAIInfectedSearch.LeshCount(EntityAIInfectedSearch.java:117)
+at com.dhanantry.scapeandrunparasites.entity.ai.EntityAIInfectedSearch.func_75250_a(EntityAIInfectedSearch.java:38)
+at net.minecraft.entity.ai.EntityAITasks.func_75774_a(SourceFile:94)</div>
+
+*[[Host]] not targeting Player
+*[[Herd]] not targeting Player
+*Herd not able to perform melee attacks
+*[[Stage IV Dispatcher|Dispatcher stage IV]] with wrong internal stage
+*[[Stage III Dispatcher|Dispatcher stage III]] with wrong internal stage
+*[[Primitive Arachnida]] killcount stuck at 0
+*[[Rupter|Rupters]] not attacking in groups if the Phase is low
+*Rupter spawning thunder when turning into a Mangler
+*EntityBomb radius not working
+*[[Evolution Phases|Phases]] will no longer decrease by mining [[Beckon (Disambiguation)|infested blocks]]
+*[[Orb]] cooldown not working in the offhand slot
+*[[Parasitic Cyst|Parasite block inventory]] being deleted after closing the world
+*[[Heavy Carrier]] not showing attack damage attributes
+*[[Seizer]] dragging players in creative mode
+*[[Dispatcher (Disambiguation)|Dispatcher]] unhiding [[:Category:Assimilated Mobs|assimilated]] versions loop
+*[[Assimilated Adventurer]] Walking Head animation offset
+ 
+====<u>Configuration</u>====
+*"Version x Orb Item Cooldown" minimum value from 1 to 0
+*"[[Fear]] Block Fail Chance" from 0.5 to 0
+*"Fear Item Fail Chance" from 0.5 to 0
+*"Fear Inventory Fail Chance" from 0.5 to 0
+*"[[Nexus Parasites|Nexus]] Stage II Follow Range" from 24 to 32
+*"Nexus Stage III Follow Range" from 32 to 48
+*Reduced chance/amount of bone items dropped by all Primitive/Adapted versions
+ 
+*New options:
+**"Version [[:Category:Adapted Parasites|Adapted]] Food Item Chance" "Chance (1=100%) of contaminating food when hitting you." SRParasites.cfg
+**"Version [[:Category:Pure Parasites|Pure]] Food Item Amount" "Amount of food to be contaminated." SRParasites.cfg
+**"Version [[:Category:Preeminent Parasites|Preeminent]] Food Item Amount" "Amount of food to be contaminated." SRParasites.cfg
+**"Version [[:Category:Primitive Parasites|Primitive]] Food Item Amount" "Amount of food to be contaminated." SRParasites.cfg
+**"[[Stage I Dispatcher]] Extra Follow Range" - "Follow range Multiplier for Stage I Dispatcher" - SRParasitesMobs.cfg
+**"[[Stage II Dispatcher]] Extra Follow Range" - "Follow range Multiplier for Stage I Dispatcher" - SRParasitesMobs.cfg
+**"[[Stage III Dispatcher]] Extra Follow Range" - "Follow range Multiplier for Stage I Dispatcher" - SRParasitesMobs.cfg
+**"[[Stage IV Dispatcher]] Extra Follow Range" - "Follow range Multiplier for Stage I Dispatcher" - SRParasitesMobs.cfg
+**"[[Heavy Carrier]] Damage Multiplier" - "Damage multiplier for Heavy Carrier." - SRParasitesMobs.cfg
+**"[[Flying Carrier]] Damage Multiplier" - "Damage multiplier for Flying Carrier." - SRParasitesMobs.cfg
+**"[[Assimilated Horse]] Explotion Multiplier" - "Explotion damage will take base Damage and multiply it by this value." - SRParasitesMobs.cfg
+**"[[Heavy Bomber]] Explotion Multiplier" - "Explotion damage will take base Damage and multiply it by this value." - SRParasitesMobs.cfg
+**"Mod Easter Egg (Nametags)" - "Chance to spawn an [[Assimilated Adventurer|adventurer]]/[[thrall]] with a nametag." - SRParasites.cfg
+ 
+====<u>General changes</u>====
+*Minimum damage is now multiplied by [[viral]] amplifier + 1
+*Removed minimum damage knockback
+*Removed EntityNade knockback
+*Changed spawn egg texture for all Pure versions
+*Debug messages will only show if "[[Scent System|Scent]] Debug" is set to true
+ 
+====<u>Mobs</u>====
+*[[Orb|Orbs]] now contaminate food<ref>Food will be irreversibly transformed into [[Infected Flesh]].</ref>
+*[[Bogle]] explotions will now store blocks instead of spawning drops
+*[[:Category:Pure Parasites|Pure]] spawning [[Seizer]] frequency increased by 1 second
+*[[Overseer|Overseer's]] burst of shots reduced from 6 to 4 shots
+*Heavy/Flying Carrier explotion damage type changed from GENERIC to WITHER
+*Heavy/Flying Carrier explotion damage value will now take ATTACK_DAMAGE attribute value
+*[[Assimilated Horse]] explotion damage value will now take ATTACK_DAMAGE attribute value multiplied by "Assimilated Horse Explotion Multiplier" 
+*[[Mangler]] attack cooldown decreased from 10 to 6
+*[[Primitive Manducater|Primitive]] and [[Adapted Manducater]] attack cooldown decreased from 10 to 6
+*[[Beckon (Disambiguation)|Beckons]] will now throw bombs if attacker is too close
+*[[Dispatcher (Disambiguation)|Dispatchers]] will now throw bombs if attacker is too close
+*Bombs will now deal minimum damage
+*EntityRemain will now spawn Parasites with the Debar effect
+*[[Haunter]] fire rate decreased
+*[[Bogle]] explotion strength decreased
+*[[:Category:Primitive Parasites|Primitive]] and higher versions will now have the ability to contaminate food in your inventory by hitting you
+*Walking head will try to rebuild themselves by attacking [[Incomplete Forms|incomplete forms (Medium size)]]
+
+*All bombs will now spawn EntityToxicCloud with the following effects:
+**Poison
+**[[Call Of The Hive|COTH]]
+**[[Viral|VIRAL]]
+
+*Attribute value changes:
+**[[Stage I Dispatcher|Dispatcher SI]] attack damage from 0 to 3 
+**[[Stage II Dispatcher|Dispatcher SII]] attack damage from 0 to 7 
+**[[Stage III Dispatcher|Dispatcher SIII]] attack damage from 0 to 14 
+**[[Stage IV Dispatcher|Dispatcher SIV]] attack damage from 0 to 22
+ 
+*Tweaked Dispatcher Combat AI:
+**Will unhide infected mobs regardless of their coth amplifier
+**Pods spawned from SIV will now spawn closer to its target
+**Dispatcher scan cooldown increased from 45 to 80, if target != null then cooldown is 40
+ 
+{{VersionList}}
+[[Category:Versions]]

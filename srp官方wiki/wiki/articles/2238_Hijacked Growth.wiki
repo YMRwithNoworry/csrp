@@ -1,0 +1,20 @@
+{{Stub}}
+{{Item Info
+|image1=Hijacked Growth.png
+|type=Material
+|stackable=Yes (64)
+|id=srparasites:hijacked_drop
+}}
+'''Hijacked Growths''' are [[:Category:Drops|Drop]] items.
+
+== ''Obtainment'' ==
+*Dropped by all [[:Category:Hijacked Mobs|Hijacked Mobs]], [[Gnat|Gnats]], and [[Lice]].
+
+== ''Usage'' ==
+{{CraftingTable|r1_b1=Fishlin|r1_a2=Assimilated Module|r1_b2=Hijacked Growth|r1_c2=Assimilated Module|r1_b3=Fishlin|r1_output=Assimara Module|r1_count=1
+
+|r2_b1=Hijacked Growth|r2_a2=Hijacked Iron Ingot|r2_b2=Module Genic Receptacle|r2_c2=Hijacked Iron Ingot|r2_b3=Hijacked Growth|r2_output=Hijacked Module|r2_count=1}}
+
+{{ItemList}}
+[[Category:Drops]]
+[[Category:Items]]

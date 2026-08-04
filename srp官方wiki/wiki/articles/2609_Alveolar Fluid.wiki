@@ -1,0 +1,18 @@
+{{Stub}}
+{{Item Info
+|title1=Alveolar Fluid
+|image1=Alveolar Fluid.png
+|type=Material
+|stackable=No
+|tooltip=N/A
+|id=srparasites:alveolar_fluid}}
+'''Alveolar Fluid''' is a liquid material.
+
+==''Obtainment''==
+Alveolar Fluid bottles can be obtained by interacting with [[Alveoli Block|Alveoli Blocks]] with Glass Bottles. It cannot be harvested from Sick Alveoli Blocks, which will apply Poison on contact.
+
+==''Usage''==
+The fluid is consumable, applying [[Viral|Viral III]], Haste, and Speed for thirty seconds as well as visibly distorting the screen.<ref>The screen distortion is not an actual "effect" and cannot be removed by Milk. It can be toggled with the "/srp_breathe" command.</ref> Other than this, it can only be brewed in combination with Flint to create bottles of [[Fear]].
+
+== Notes ==
+<references />

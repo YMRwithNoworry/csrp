@@ -1,0 +1,104 @@
+{{Navbar|page1=Walking Wolf Head|page2=Assimilated Wolf|page3=Assimara Wolf|page4=Feral Wolf}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|simwolf}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=<gallery>
+Assimilated Wolf.png|Normal
+Assimilated Wolf Collar.png|"Tamed"
+</gallery>
+|hp=10.0
+|damage=10.5
+|armor=0.5
+|kb_resistance=0.2
+|adaptable=No
+|id=srparasites:sim_wolf
+}}
+'''Assimilated Wolves''', known internally as '''Infwolf''', are the [[Assimilated Mobs|Assimilated Version]] of Wolves.
+
+
+== ''Spawning'' ==
+* Spawned when a Wolf succumbs to [[Call Of The Hive|Call of The Hive]] below [[Evolution Phases#Phase 7|Phase 7]].
+* Spawns in groups of 3 to 5, from [[Evolution Phases#Phase 2|Phase 2]] through [[Evolution Phases#Phase 7|Phase 7]], with a spawnweight of 25, once 2 Wolves have been assimilated.
+* Spawned by [[Stage II Beckon|Stage II]] and [[Stage III Beckon|Stage III Beckons]].
+* Spawned by [[Adapted Summoner]].
+* Spawned by level 3 or higher [[Scent System|Scents]].
+
+== ''Behavior'' ==
+Assimilated Wolves are Melee Combatants.
+
+* Their Melee Attack is performed through contact damage.
+* Any Mob within 3 blocks of an Assimilated Wolf will be inflicted with COTH. This does not go through walls.
+* Assimilated Wolves are able to traverse faster in liquids by performing small leaps.
+* Assimilated Wolves are able to dive in liquids to pursue submerged targets.
+* If an Assimilated Wolf gets 5 kills and is within range of a [[Moving Flesh]] or 3 other Assimilated Mobs<ref>Excluding [[Assimilated Ender Dragon]] and [[Assimilated Big Spider]].</ref>, it will evolve into a Moving Flesh.
+* On death, Assimilated Wolves have a chance to explode, releasing [[Remains|Assimilated Remains]], 2 [[Buglin|Buglins]], and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+* Assimilated wolfes has 1% chance of spawning as a collar variant.
+** When not exploding, there is a 50% chance an Assimilated Wolf will drop its [[Walking Wolf Head|Head]].
+
+=== ''Weaknesses'' ===
+
+* Assimilated Wolves, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+{{Properties|tier=Assimilated}}
+
+{{Drops
+|rolls1=One Roll
+|page1=Infected Flesh
+|amount1=1
+|chance1=20
+|rolls2=Always Rolls
+|page2=Diseased Heart
+|amount2=1
+|chance2=10
+}}
+
+==''Sounds''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Assimilatedwolfliving1.ogg]]
+[[File:Assimilatedwolfliving2.ogg]]
+[[File:Assimilatedwolfliving3.ogg]]
+|Hostile
+|Plays randomly while an Assimilated Wolf is alive.
+|Unusual barking
+|assimilatedwolfliving1-3
+|-
+|
+[[File:Assimilatedwolfhurt1.ogg]]
+[[File:Assimilatedwolfhurt2.ogg]]
+[[File:Assimilatedwolfhurt3.ogg]]
+|Hostile
+|Plays when an Assimilated Wolf is hurt.
+|Distorted yips
+|assimilatedwolfhurt1-3
+|-
+|
+[[File:Assimilatedwolfdeath.ogg]]
+|Hostile
+|Plays when an Assimilated Wolf dies.
+|Assimilated wolf dying
+|assimilatedwolfdeath
+|-
+|}
+
+== ''Gallery'' ==
+<gallery>
+File:Assimilated Wolf Size Comparison.png|Size of the Assimilated Wolf's Model.
+File:Assimilated Wolf Head.png|Assimilated Wolf Walking Head's Model.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Assimilated Mobs]]
+[[Category:Mobs]]

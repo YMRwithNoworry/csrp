@@ -1,0 +1,106 @@
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|carriercolony}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=<gallery>
+Colony Carrier.png|Normal
+ArmoredColonyCarrier.png|Armored
+</gallery>
+|hp=390.0
+|damage=49.0
+|armor=15.5
+|kb_resistance=0.15
+|adaptable=Yes
+|id=srparasites:carrier_colony
+}}
+'''Colony Carriers''' are a type of [[Mobs]], placed into the [[Preeminent Parasites|Preeminent]] Tier.
+
+== ''Spawning'' ==
+*Spawns inside the [[Parasite Biome]], with a spawnweight of 5.
+*Can spawn naturally, once a [[Colony]] with at least 3 points exists in the dimension, individually with a spawnweight of 1.
+
+== ''Behavior'' ==
+Colony Carriers are Heavy Support Units.
+*Their melee attack is performed through contact damage.
+*Colony Carriers will apply the following effects to nearby parasites:
+**Regeneration III (0:30)
+**[[Foster]] II (1:00)
+**[[Link]] I (0:10)
+*Colony Carriers can spawn [[Succor|Succors]].
+*Colony Carriers can perform small leaps in liquids.
+*Colony Carriers can dive in liquids to pursue submerged targets.
+*Colony Carriers can break blocks that have their [[Hardness]] Value up to 15, with a 20 ticks cooldown and 5 Blocks range.
+{{Variants|count=1|Armored=ArmoredColonyCarrier.png|TextureDesc=has 5 ([[File:Armor.png]][[File:Armor.png]][[File:Halfarmor.png]]) more armor points but a slower moving speed.}}
+
+=== ''Weaknesses'' ===
+*Colony Carriers, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+*The back of the Colony Carrier functions as a Weak Point. When this Weak Point is hit, damage inflicted to it is tripled and the [[Bleeding]] Effect is applied to it.
+
+{{Properties|tier=Preeminent}}
+
+{{Drops
+|rolls1=One Roll
+|page1=Noxious Brain
+|amount1=1
+|chance1=80
+|page2=Hive Scrap|amount2=7|chance2=80}}
+
+==''Sounds''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Colony_carrier_living_1.ogg]]
+[[File:Colony_carrier_living_2.ogg]]
+[[File:Colony_carrier_living_3.ogg]]
+|Hostile
+|Plays randomly while a Colony Carrier is alive.
+|X
+|colony_carrier_living_1-3
+|-
+|
+[[File:Colony_carrier_hurt_1.ogg]]
+[[File:Colony_carrier_hurt_2.ogg]]
+[[File:Colony_carrier_hurt_3.ogg]]
+|Hostile
+|Plays when a Colony Carrier is hurt.
+|X
+|colony_carrier_hurt_1-3
+|-
+|
+[[File:Heavy multiple_step1.ogg]]
+[[File:Heavy multiple_step2.ogg]]
+[[File:Heavy multiple_step3.ogg]]
+[[File:Heavy multiple_step4.ogg]]
+|Hostile
+|Plays when a Colony Carrier is walking.
+|X
+|step1-4
+|-
+|
+[[File:Colony_carrier_death.ogg]]
+|Hostile
+|Plays when an Colony Carrier dies.
+|X
+|colony_carrier_death
+|-
+|}
+
+== ''Trivia'' ==
+* Colony Carriers are also known as '''Vesta''' in the Mod Files.
+* Colony Carrier is also shown on Pecora's Youtube channel banner.
+
+== ''Gallery'' ==
+<gallery>
+File:CarrierColonyHeight.png|Size of the Colony Carrier's model
+</gallery>
+
+{{MobList}}
+[[Category:Preeminent Parasites]]
+[[Category:Mobs]]

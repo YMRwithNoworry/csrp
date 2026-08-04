@@ -1,0 +1,145 @@
+{{Navbar|page1=Primitive Reeker|page2=Adapted Reeker}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|adareeker}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=<gallery>
+Adapted Reeker.png|Normal
+BerserkerAdaReeker.png|Berserker
+VirulentAdaReeker.png|Virulent
+BreacherAdaReeker.png|Breacher
+</gallery>
+|hp=90.0
+|damage=32.0
+|armor=27.0
+|kb_resistance=1.0 
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:ada_reeker
+}}
+'''Adapted Reekers''' are a type of [[Mobs]], placed into the [[Adapted Parasites|Adapted]] Tier.
+
+== ''Spawning'' ==
+* Spawns after a [[Primitive Reeker]] accumulates a killcount of 30 and [[Evolution System|evolves]].
+* Spawns in groups of 2 to 3, if [[Ubiquitous Development]] is Level 3 or higher, with a spawnweight of 15.
+* Spawns inside the [[Parasite Biome]], with a spawnweight of 10.
+
+== ''Behavior'' ==
+Adapted Reekers are Fast moving Melee Combatants with a destructive AoE charge.
+* Their Melee Attack is performed through contact damage, which inflicts Poison II for 5 seconds.
+*If the [[Generations|Generation]] is 4 or higher, Adapted Reekers can perform the following abilities:
+**A charge attack. After staying still for some seconds, they'll charge forward. This attack inflicts very high damage per second, ignores immunity frames, and inflicts great knockback and AoE Damage.
+*** This is telegraphed by flame particles and a significantly louder and higher pitched growl. They will also stand still before performing this attack.
+** Like other Adapted land Parasites, vomit [[Residue]] in a 5x5 area every so often.
+* Adapted Reekers can perform small leaps, on land and in liquids.
+* Adapted Reekers can sink in liquids to pursue submerged targets.
+* Adapted Reekers can break blocks that have their [[Hardness]] Value up to 3, with a 40 ticks cooldown and 1 Blocks range.
+{{Variants|count=3|Berserker=BerserkerAdaReeker.png|Virulent=VirulentAdaReeker.png|Breacher=BreacherAdaReeker.png}}
+
+=== ''Weaknesses'' ===
+* Adapted Reekers, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+* Adapted Reekers' Tendrils, found on their "belly", can reset their [[Adaptation System|adaptation]], while also giving them the [[Bleeding]] and [[Rage]] Effects.
+
+=== ''Post Death'' ===
+* On death, Adapted Reekers have a chance to explode, releasing [[Remains|Adapted Remains]] and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+** If at least one [[Colony]] exists in the dimension, Adapted Reekers will become [[Primitive Reeker|Primitive Reekers]] upon death instead.
+{{Properties
+|tier=Adapted
+|OrbEffectsMobs=Hunger III (00:15), [[Needler|Needler III]] (00:25), Nausea III (00:15)
+}}
+{{Drops
+|rolls1=1 Roll
+|page1=Toxic Lung
+|amount1=1
+|chance1=80
+|page2=Reeker Fang
+|amount2=1-3
+|chance2=60
+|rolls3=Always Rolls
+|page3=Strange Bone
+|amount3=1-2
+|chance3=20
+}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|[[File:adaptedreekerliving1.ogg]]
+[[File:adaptedreekerliving2.ogg]]
+[[File:adaptedreekerliving3.ogg]]
+[[File:adaptedreekerliving4.ogg]]
+[[File:adaptedreekerliving5.ogg]]
+|Hostile
+|Plays randomly while an Adapted Reeker is alive.
+|Adapted Reeker growls
+|adaptedreekerliving1-5
+|-
+|[[File:adaptedreekerhurt1.ogg]]
+[[File:adaptedreekerhurt2.ogg]]
+[[File:adaptedreekerhurt3.ogg]]
+[[File:adaptedreekerhurt4.ogg]]
+|Hostile
+|Plays when an Adapted Reeker takes damage.
+|Adapted Reeker grunts
+|adaptedreekerhurt1-4
+|-
+|
+[[File:Heavy one_step1.ogg]]
+[[File:Heavy one_step2.ogg]]
+[[File:Heavy one_step3.ogg]]
+[[File:Heavy one_step4.ogg]]
+[[File:Heavy one_step5.ogg]]
+|Hostile
+|Plays when an Adapted Reeker is walking.
+|X
+|two_steps1-5
+|-
+|[[File:Tendril Cut.ogg]]
+|Hostile
+|Plays after cutting an Adapted Reeker's Tendril.
+|X
+|mob_tendril
+|-
+|[[File:Adapted Vomit.ogg]]
+|Hostile
+|Plays when an Adapted Reeker pukes [[Residue]] onto the ground.
+|Vomiting
+|adapted_vomit
+|-
+|[[File:Ada reeker special.ogg]]
+|Hostile
+|Plays when an Adapted Reeker performs a special attack.
+|X
+|ada_reeker_special
+|-
+|[[File:adaptedreekerdeath.ogg]]
+|Hostile
+|Plays when an Adapted Reeker dies.
+|Adapted Reeker dying
+|adaptedreekerdeath
+|-
+|}
+
+== ''Trivia'' ==
+*Adapted Reekers are also known as '''Nogla''' in the Mod Files.
+
+== ''Gallery'' ==
+<gallery>
+File:Reeker Tendril.png|Adapted Reeker's Tendril after being cut.
+File:Reeker Tendrils Highlighted.png|Adapted Reeker's Tendrils as seen on the Model.
+File:AdaptedReekerHeight.png|thumb|Size of the Adapted Reeker's Model.
+File:AdaptedReeker1.7.0.png|The Adapted Reeker's appearance in 1.7.0. (Credit to @scout2illustrates)
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Adapted Parasites]]
+[[Category:Mobs]]

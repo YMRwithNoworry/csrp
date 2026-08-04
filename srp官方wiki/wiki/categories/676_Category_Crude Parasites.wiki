@@ -1,0 +1,26 @@
+{{TierBar}}
+
+
+'''Crude Parasites''' are a ubiquitous tier of [[Mobs#Parasites|Parasites]]. Their Tier is subjective within their Hierarchy and contains 11 Mobs. Killing all of them at least once grants the player the {{AdvancementLink|Crude}}.
+
+=== ''Properties'' ===
+Most Crude Parasites have their own custom property values; see their individual pages for more information.
+
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+Airscrew.png|link=Airscrew|[[Airscrew]]
+Dredge.png|link=Dredge|[[Dredge]]
+Crux_Big.png|link=Crux|[[Crux]]
+Incomplete Crux.png|link=Incomplete Crux|[[Incomplete Crux]]
+Heed.png|link=Heed|[[Heed]]
+Small Incomplete Form.png|link=Small Incomplete Form|[[Small Incomplete Form]]
+Medium Incomplete Form.png|link=Medium Incomplete Form|[[Medium Incomplete Form]]
+Host.png|link=Host|[[Host]]
+Herd.png|link=Herd|[[Herd]]
+Thrall.png|link=Thrall|[[Thrall]]
+Moving Flesh.png|link=Moving Flesh|[[Moving Flesh]]
+File:Worm Carrier.png|link=Worm_Carrier|[[Worm Carrier]]
+</gallery>
+</div>
+
+[[Category:Mobs]]

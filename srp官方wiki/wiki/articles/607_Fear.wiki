@@ -1,0 +1,50 @@
+{{Effect Info
+|image1=Fear.png
+|sources=See [[#Obtainment|Obtainment]]
+|type=Debuff
+|id=srparasites:fear
+}}
+'''Fear''' is a [[Effects|Potion Effect]] introduced by the Mod.  While players have the Fear effect, fall damage taken will be multiplied by the amount (<code>1.5 x amplifier</code>).  Players will also have all incoming damage multiplied by this value when airborne.  For example, you will take 4.5x the normal damage with Fear III, and take 3x damage with Fear II if flying or otherwise not touching the ground.
+
+* Fear can also cancel interactions and controls depending on the potency. '''[EXPERIMENTAL AND DISABLED BY DEFAULT.]'''
+** Fear II or higher on the Player will have a chance to fail placing a block.
+** Fear III or higher on the Player will have a chance to fail using an item.
+** Fear IV or higher on the Player will have a chance to fail opening inventory.
+
+* Fear cannot be removed by drinking Milk.
+
+== ''Obtainment'' ==
+Fear is applied to the player when a parasite knows where they are, or if a parasite sees them.  The potency of the effect depends on the tier of parasite.
+{{Effect Causes
+|cause1=[[Assimilated Mobs]]
+|duration1=0:15
+|cause2=[[Primitive Parasites]]
+|potency2=II
+|duration2=0:15
+|cause3=[[Adapted Parasites|Adapted]]/[[Pure Parasites]]
+|potency3=III
+|duration3=0:15
+|cause4=[[Preeminent Parasites|Preeminent]] and [[Ancient Parasites]]
+|potency4=IV
+|duration4=0:15
+}}
+
+It can also be applied through a Potion of Fear, which is available in all 3 forms: potion, splash potion and lingering potion.
+{{Crafting
+|r1_resultimage=Potion of Fear.png
+|r1_result=Potion of Fear (1-3)
+|r1_ing1image=Flint.png
+|r1_ing1=Flint (1)
+|r1_ing2image=Alveolar Fluid.png
+|r1_ing2=[[Alveolar Fluid]] (1-3)
+|r1_recipeimage=Potion of Fear Recipe.gif
+}}
+
+== ''Advancements'' ==
+
+The Fear effect is linked to 2 Advancements:
+*The {{AdvancementLink|Ecstasy}}, awarded after obtaining a Potion of Fear.
+*The {{AdvancementLink|Guerilla}}, awarded after killing another player who is under the influence of this effect.
+
+{{EffectList}}
+[[Category:Effects]]

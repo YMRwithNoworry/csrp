@@ -1,0 +1,23 @@
+{{Stub}}
+{{Effect Info
+|title1=Braining
+|image1=Braining.png
+|sources=See [[#Obtainment|Obtainment]]
+|type=Debuff
+|id=srparasites:braining}}
+
+'''Braining''' is a [[Effects|Potion Effect]] added in v1.10.0 of SRP. It hides all the parasites for the host, but they still act the same (can hit, move, break blocks etc.).
+
+Braining does not stack.
+
+== ''Obtainment'' ==
+{{Effect Causes
+|cause1=Stepping in the [[Harlequin Biome]]
+|potency1=I
+|duration1=1:30
+|cause2=[[Kirin|Kirin's]] Ray
+|potency2=I
+|duration2=0:07}}
+
+{{EffectList}}
+[[Category:Effects]]

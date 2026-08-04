@@ -1,0 +1,127 @@
+{{Navbar|page1=Primitive Devourer|page2=Adapted Devourer}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|pridevourer}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=
+<gallery>
+Primitive Devourer.png|Normal
+BreacherPriDevourer.png|Breacher
+</gallery>
+|hp=60.0
+|damage=20.0
+|armor=4.0
+|kb_resistance=1.0
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:pri_devourer
+}}
+'''Primitive Devourers''', known internally as '''Lum''', is a type of [[Mobs|Mob]] in the [[Primitive Parasites|Primitive]] Tier.
+
+== ''Spawning'' ==
+
+* Spawns in groups of 1 to 2 in water, from [[Ubiquitous Development#Level 2|Ubiquitous Development Level 2]] through [[Ubiquitous Development#Level 4|Level 4]], with a spawnweight of 15.
+
+== ''Behavior'' ==
+'''Note: Part of Primitive Devourers' Abilities are still not in-game. See the [[Primitive Devourer#Trivia|Original Suggestion]].'''
+
+Primitive Devourers are Aquatic Melee Combatants. 
+
+*Their Melee attack is performed through contact damage.
+*Primitive Devourers have a chance to block incoming damage, nullifiyng it.
+*Primitive Devourer can break blocks that have their Hardness Value up to 1, with a 100 ticks cooldown and 2 Block range. Being an aquatic mob, the broken area is replaced with water source blocks as opposed to air blocks.
+*On death Primitive Devourers have a chance to explode, releasing Primitive Remains and an effect cloud of stacking Poison and COTH.{{Variants|count=1|Breacher=BreacherPriDevourer.png}}<ref>This currently does not change anything, as Primitive Devourers cannot break blocks.</ref>
+
+=== ''Weaknesses'' ===
+
+* Primitive Devourers, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+* Primitive Devourers, being an aquatic Parasite, are unable to attack or breathe while outside of the water; with the Devourer being in the [[Primitive Parasites|Primitive]] tier it is able to [[Adaptation System|adapt]] to asphyxiation damage.
+{{Properties
+|tier=Primitive
+|Orbs=false
+}}
+
+{{Drops
+|rolls1=One Roll
+|page1=Altered Tendons
+|amount1=1-2
+|chance1=40
+|rolls2=Always Rolls
+|page2=Devourer Tentacle
+|amount2=2
+|chance2=40
+|page3=Strange Bone
+|amount3=1
+|chance3=10
+}}
+
+==''Sounds''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Devourerliving1.ogg]]
+[[File:Devourerliving2.ogg]]
+[[File:Devourerliving3.ogg]]
+[[File:Devourerliving4.ogg]]
+|Hostile
+|Plays randomly while a Primitive Devourer is alive.
+|Primitive Devourer roars
+|devourerliving1-4
+|-
+|
+[[File:Devourerhurt1.ogg]]
+[[File:Devourerhurt2.ogg]]
+[[File:Devourerhurt3.ogg]]
+|Hostile
+|Plays when a Primitive Devourer is hurt.
+|Primitive Devourer hurt
+|devourerhurt1-3
+|-
+|[[File:Adaptating_1.ogg]]
+[[File:Adaptating_2.ogg]]
+[[File:Adaptating_3.ogg]]
+|Hostile
+|Plays when a Parasite is adapting.
+|Parasite adapts
+|adaptating_1-3
+|-
+|[[File:Adapted_1.ogg]]
+[[File:Adapted_2.ogg]]
+[[File:Adapted_3.ogg]]
+|Hostile
+|Plays when a Parasite has adapted.
+|Parasite adapted
+|adapted_1-3
+|-
+|
+[[File:Devourerdeath.ogg]]
+|Hostile
+|Plays when a Primitive Devourer dies.
+|Primitive Devourer dying
+|devourerdeath
+|-
+|}
+
+== ''Trivia'' ==
+*Devourers are the first Aquatic Parasite ever added into the Mod, in the 1.9.2 Update.
+*This Mob was [[:Category:Community Proposals|proposed]] by user '''oof'''.  Original Suggestion: https://trello.com/c/eq8fhxyy/155-devourer
+*Devourers are also known as '''Lum''' in the Mod Files.
+
+== ''Gallery'' ==
+<gallery>
+File:Devourer Size Comparison.png|Size of the Devourer's Model.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Mobs]]
+[[Category:Primitive Parasites]]
+[[Category:Community Proposals]]

@@ -1,0 +1,39 @@
+{{Stub}}
+'''Vomit''' is a potion [[:Category:Effects|effect]] added in 1.10.0v of SRP. It covers your screen with purple liquid and dissolves over time.
+
+{{Effect_Info
+|title1=Vomit
+|image1=Vomit.png
+|sources=see [[#Obtainment|Obtainment]]
+|type=Debuff
+|id=srparasites:vomit}}
+
+== ''Obtainment'' ==
+{| class="fandom-table"
+|+
+!'''Cause'''
+!'''Potency'''
+!'''Duration'''
+|-
+|Effect cloud from [[Assimara Cow]]
+|I
+|0:15
+|-
+|[[Primitive Summoner|Primitive]] & [[Adapted Summoner|Adapted Summoners]]
+|I
+|0:15
+|-
+|[[Light Carrier]] Explosion
+|I
+|0:25
+|-
+|[[Heavy Carrier]] Explosion
+|I
+|0:30
+|-
+|[[Flying Carrier]] Explosion
+|I
+|0:20
+|}
+{{EffectList}}
+[[Category:Effects]]

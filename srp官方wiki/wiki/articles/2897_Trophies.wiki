@@ -1,0 +1,43 @@
+'''Trophies''' are decorative [[:Category:Blocks|Blocks]] that are dropped from [[:Category:Derived_Parasites|Derived]] parasites.
+
+==''Kirin Trophy''==
+{{Item Info|title1=Kirin Trophy|image1=Kirin Trophy.png|type=Item|stackable=Yes (64)|tooltip=N/A|id=srparasites:trophy_void_orb}}
+The Kirin Trophy is a guaranteed drop from the [[Kirin]]. It resembles its void orb attack both in item and block form.
+
+
+
+
+
+
+
+
+
+
+
+
+==''Draconite Trophy''==
+{{Item Info|title1=Draconite Trophy|image1=Draconite Trophy.png|type=Item|stackable=Yes (64)|tooltip=N/A|id=srparasites:trophy_boom_orb}}
+The Draconite Trophy is a guaranteed drop from [[Draconite|Draconites]]. It resembles their saliva attack both in item and block form.
+
+
+
+
+
+
+
+
+
+
+
+
+==''Usage''==
+Aside from being decorative, both Trophies can be used to craft the [[Derived Module]].
+{{CraftingTable|r1_b1=Kirin Trophy|r1_a2=Ancient Module|r1_b2=False Apple|r1_c2=Ancient Module|r1_b3=Draconite Trophy|r1_output=Derived Module|r1_count=1}}
+
+
+==''Gallery''==
+<gallery>
+File:Trophies.png|The trophies when placed as a block, with the Kirin Trophy on the left and Draconite Trophy on the right.
+</gallery>
+{{BlockList}}
+[[Category:Blocks]]

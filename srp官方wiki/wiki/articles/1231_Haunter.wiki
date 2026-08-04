@@ -1,0 +1,60 @@
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|haunter}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info 
+|image1=<gallery>
+Haunter.png|Normal
+ArmoredHaunter.png|Armored
+</gallery>
+|hp=360.0
+|damage=114.0
+|armor=15.5
+|kb_resistance=0.15
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:haunter
+|ranged=15.0}}
+'''Haunters''' are a type of [[Mobs]], placed into the [[Preeminent Parasites|Preeminent]] Tier.
+
+== ''Spawning'' ==
+*Spawns inside the [[Parasite Biome]], with a spawnweight of 5.
+*Can spawn naturally, once a [[Colony]] with at least 25 points exists in the dimension, individually with a spawnweight of 1.
+
+== ''Behavior'' ==
+Haunters are relatively mobile Melee/Ranged Hybrid Tanks.
+*Haunter's melee attack is performed through contact damage.
+*Haunter's melee will occasionally ignore immunity frames in a brief burst of damage.
+*Haunters can shoot fast homing projectiles in bursts of 3, these projectiles can phase through walls, but can also be destroyed.
+*Haunters regularly perform large evasive dashes.
+*Haunters can spawn [[Succor|Succors]].
+*Haunters can perform small leaps in liquids.
+*Haunters can dive in liquids to pursue submerged targets.
+*Haunters can break blocks that have their [[Hardness]] Value up to 15, with a 20 ticks cooldown and 5 Blocks range.
+{{Variants|count=1|Armored=ArmoredHaunter.png|TextureDesc=inflicts 1.5x melee damage but has half the HP.}}
+
+=== ''Weaknesses'' ===
+*Haunters, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+{{Properties|tier=Preeminent}}
+
+{{Drops
+|rolls1=One Roll
+|page1=Noxious Brain
+|amount1=1
+|chance1=80
+|page2=Hive Scrap|amount2=7|chance2=80}}
+
+== ''Trivia'' ==
+*Haunters are also known as '''Pheon''' in the Mod Files.
+
+== ''Gallery'' ==
+<gallery>
+File:HaunterHeight.png|thumb|Size of the Haunters' model
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Preeminent Parasites]]
+[[Category:Mobs]]

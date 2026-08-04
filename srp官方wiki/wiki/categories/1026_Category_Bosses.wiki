@@ -1,0 +1,13 @@
+'''Bosses''' are a select few Parasites that stand out from others, thanks to unique Capabilities and enhanced Statistics.
+
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+File:Assimilated Dragon.png|link=Assimilated_Ender_Dragon|[[Assimilated Ender Dragon]]
+File:Dreadnaut.png|link=Dreadnaut|[[Dreadnaut]]
+File:Overlord.png|link=Overlord|[[Overlord]]
+File:Stage 4 Beckon.png|link=Stage_IV_Beckon|[[Stage IV Beckon]]
+File:Stage 4 Dispatcher.png|[[Stage IV Dispatcher]]
+</gallery>
+</div>
+
+[[Category:Mobs]]

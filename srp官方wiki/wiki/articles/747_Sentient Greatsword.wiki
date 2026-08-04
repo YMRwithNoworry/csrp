@@ -1,0 +1,35 @@
+{{WIP}}
+{{Navbar|page1=Living Sword|page2=Sentient Greatsword}}
+
+{{Item Info
+|image1=File:Sentient Greatsword.png
+|damage=38
+|attack_speed=0.7
+|range=6.0
+|durability=1000
+|stackable=No
+|tooltip=The ulterior Evolution of the Living Sword. It has gained a Mind. Inflicts life-threatening injuries. 
+|id=srparasites:weapon_sword_sentient
+}}
+The '''Sentient Greatsword''' is a type of [[Weapons|Weapon]].
+
+It is the direct Upgrade of the [[Living Sword]].
+
+== ''Obtainment'' ==
+Sentient Weapons evolve from their craftable Living counterpart after having dealt 50,000 damage.
+
+== ''Usage'' ==
+
+The Sentient Greatsword is a Melee Weapon. Its Attack Range, in horizontal, is of 3 Blocks. In vertical, it is 8 Block.
+
+Each time it is swung, it performs a sweeping attack (though only visually if airborne or the attack cooldown is still up) and has a chance to apply the [[Bleeding|Bleeding II]] Effect to the struck mob. 
+
+== ''Trivia'' ==
+*The Sentient Greatsword was inspired by the [https://oldschool.runescape.wiki/w/Armadyl_godsword Armadyl Godsword] and [https://runescape.wiki/w/Saradomin_godsword Saradomin Godsword], both from Runescape.
+
+[[Category:Weapons]]
+[[Category:Work In Progress Content]]
+
+{{ItemList}}
+[[Category:Items]]
+[[Category:Equipment]]

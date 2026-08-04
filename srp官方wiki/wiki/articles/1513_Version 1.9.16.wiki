@@ -1,0 +1,22 @@
+{{VersionBar|
+|page1=1.9.15
+|page2=1.9.17
+}}
+'''Version 1.9.16''' was an update for the Scape and Run: Parasites Mod, released on January 30th 2024.  It was 22.47 MB.
+
+== ''Change Log'' ==
+
+====<u>Fixes</u>====
+*Lag caused by the Primitive Vermin and the Gnat
+*"Phase X Lure Block Cooldown Value" description typo
+*Phase 8 Carcass Value" not working
+*"Phase 8 Lure Block Cooldown Value" not working
+====<u>Configuration</u>====
+*"Mobs with new griefing task" added: "srparasites:pri_vermin;1;60;1",
+*New options: "Gnat Cap" - "Gnats will not be spawned by Vermin or spawned naturally if the local number is greater than this. Natural Gnat spawns will respect the base + player caps." - SRPConfig.cfg
+====<u>Mobs</u>====
+*Gnat now has a lifespan of 1200 ticks (60 seconds)
+*Primitive Vermin will now drop bombs (only if Gnat cap has been reached)
+
+{{VersionList}}
+[[Category:Versions]]

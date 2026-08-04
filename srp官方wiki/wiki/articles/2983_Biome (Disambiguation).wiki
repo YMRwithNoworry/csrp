@@ -1,0 +1,14 @@
+{{DisambiguationContent
+|image1=Node Stage1.png
+|title1=[[Parasite Biome]]
+|desc1=The main territorial threat of the mod, spread by [[Parasite Biome#Node|Nodes]] placed by [[Stage IV Beckon|Stage IV Beckons]].
+|image2=harlequin Fog.png
+|title2=[[Harlequin Biome]]
+|desc2=A unimplemented, [[:Category:Work In Progress Content|Work In Progress]] biome that can only be spawned via [[Commands#Harlequin Biome Commands|Commands]].
+|image3=Biome Purifier.png
+|title3=[[Biome Purifier]]
+|desc3=A [[Blocks|Block]] that is used to cleanse both Biomes.
+|image4=Biome Purifier.png
+|title4=[[Creative Infestation Purifier]]
+|desc4=A [[Blocks|Block]] that is used to cleanse all [[Infested Blocks]].
+}}

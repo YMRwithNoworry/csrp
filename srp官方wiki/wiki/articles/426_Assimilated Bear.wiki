@@ -1,0 +1,110 @@
+{{Navbar|page1=Assimilated Bear|page2=Assimara Bear|page3=Feral Bear}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|simbear}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Mob Info
+|image1=Assimilated Bear.png
+|hp=40.0
+|damage=13.0
+|armor=5.0
+|kb_resistance=0.1
+|adaptable=No
+|id=srparasites:sim_bear
+}}
+'''Assimilated Bears''' are the [[Assimilated Mobs|Assimilated Version]] of Polar Bears. Although damaged, its body structure is mostly recognizable. Most of the bear's body has been split into two, and in its front paws there seems to be parasitic growths which serve as claws.
+
+== ''Spawning'' ==
+*Spawned when a Bear succumbs to [[Call Of The Hive|Call of The Hive]] below [[Evolution Phases#Phase 7|Phase 7]].
+*Spawns in groups of 3 to 5, from [[Evolution Phases#Phase 2|Phase 2]] to [[Evolution Phases#Phase 7|Phase 7]], with a spawnweight of 25, once 2 Polar Bears have been assimilated.
+*Spawned by [[Stage II Beckon|Stage II]] and [[Stage III Beckon|Stage III Beckons]].
+
+== ''Behavior'' ==
+Assimilated Bears are Fast, Melee, Tank units.
+
+*Their Melee Attack is performed through contact damage.
+*Any Mob within 3 blocks of an Assimilated Bear will be inflicted with COTH. This does not go through walls.
+*Assimilated Bears are able to traverse faster in liquids by performing small leaps.
+*Assimilated Bears are able to dive in liquids to pursue submerged targets.
+*If an Assimilated Bear gets 5 kills and is within range of a [[Moving Flesh]], 3 other Assimilated Mobs, it will evolve into Moving Flesh.
+*On death Assimilated Bears have a chance to explode, releasing [[Remains|Assimilated Remains]], 4 [[Buglin|Buglins]], and an effect cloud of stacking Poison and [[Call Of The Hive|COTH]].
+
+=== ''Weaknesses'' ===
+*Assimilated Bears, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+
+{{Properties|tier=Assimilated}}
+
+{{Drops
+|rolls1=One Roll
+|page1=Infected Flesh
+|amount1=1
+|chance1=80
+|rolls2=Always Rolls
+|page2=Diseased Heart
+|amount2=1
+|chance2=10
+|page3=Fishlin|amount3=3|chance3=20}}
+
+==''Sounds''==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|
+[[File:Assimilatedbearliving1.ogg]]
+[[File:Assimilatedbearliving2.ogg]]
+[[File:Assimilatedbearliving3.ogg]]
+|Hostile
+|Plays randomly while an Assimilated Bear is alive.
+|Distorted gruffs
+|assimilatedbearliving1-3
+|-
+|
+[[File:Assimilatedbearhurt1.ogg]]
+[[File:Assimilatedbearhurt2.ogg]]
+[[File:Assimilatedbearhurt3.ogg]]
+|Hostile
+|Plays when an Assimilated Bear is hurt.
+|Distorted roars
+|assimilatedbearhurt1-3
+|-
+|[[File:Assimilated Melting.ogg]]
+|Hostile
+|Plays when an Assimilated Bear melts into [[Moving Flesh]].
+|Squelching flesh merges
+|infected_melting
+|-
+|[[File:Explosion.ogg]]
+|Hostile
+|Plays when an Assimilated Bear explodes, on death.
+|X
+|mob_explotion
+|-
+|
+[[File:Assimilatedbeardeath.ogg]]
+|Hostile
+|Plays when an Assimilated Bear dies.
+|Assimilated bear dying
+|assimilatedbeardeath
+|-
+|}
+
+== ''Trivia'' ==
+*Assimilated Bears are also known as '''infbear''' in the Mod Files.
+*Mentions of a '''Walking Bear Head''' have been included in recent updates.
+
+== ''Gallery'' ==
+<gallery>
+File:Assimilated Bear Size Comparison.png|Size of the Assimilated Bear's Model.
+</gallery>
+
+==Notes==
+<references />
+
+{{MobList}}
+[[Category:Assimilated Mobs]]
+[[Category:Mobs]]

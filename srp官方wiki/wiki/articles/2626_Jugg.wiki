@@ -1,0 +1,18 @@
+{{Stub}}
+{{Effect Info
+|image1=Jugg.png
+|sources=See [[#Obtainment|Obtainment]]
+|type=Buff (Parasites)
+|id=srparasites:jugg
+}}
+'''Jugg''' is a [[Effects|Potion Effect]] introduced by the SRP Mod. A dislodgement-bound effect that triggers on death. Depending on active [[Dislodgment]] codes, nearby parasites may be healed, nearby non-parasites may be damaged, and nearby players may suffer exhaustion. Certain deaths also apply a Jugg surge to the killer for a short time, with strength tied to stored dislocation values.
+
+
+== ''Obtainment'' ==
+{{Effect Causes
+|cause1=?
+|potency1=?
+|duration1=?
+}}
+{{EffectList}}
+[[Category:Effects]]

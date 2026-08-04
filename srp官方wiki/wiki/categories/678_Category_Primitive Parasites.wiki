@@ -1,0 +1,84 @@
+{{TierBar}}
+
+
+'''Primitive Parasites''' are a Tier of [[Mobs#Parasites|Parasites]]. This Tier is placed above [[Assimilated Mobs]] and contains 12 Mobs. 
+
+Parasites part of the Primitive Tier should be approached with caution because of their strong Stats and unique Abilities. Killing all of them at least once grants the player the {{AdvancementLink|Primitive}}.
+
+<div style="background:rgba(0,0,0,0.1);padding:1em;border-left:5px solid #475715">
+<gallery position="center" captionalign="center" navigation="true" hideaddbutton="true">
+Primitive Arachnida.png|link=Primitive Arachnida|[[Primitive Arachnida]]
+Primitive Bolster.png|link=Primitive Bolster|[[Primitive Bolster]]
+File:PrimitiveBurrower.png|link=Primitive Burrower|[[Primitive Burrower]]
+Primitive Devourer.png|link=Primitive Devourer|[[Primitive Devourer]]
+Primitive Longarms.png|link=Primitive Longarms|[[Primitive Longarms]]
+Primitive Manducater.png|link=Primitive Manducater|[[Primitive Manducater]]
+Primitive Reeker.png|link=Primitive Reeker|[[Primitive Reeker]]
+Primitive Summoner.png|link=Primitive Summoner|[[Primitive Summoner]]
+File:PrimitiveViscera.png|link=Primitive Viscera|[[Primitive Viscera]]
+File:PrimitiveTozoon.png|link=Primitive Tozoon|[[Primitive Tozoon]]
+File:PrimitiveVermin.png|link=Primitive Vermin|[[Primitive Vermin]]
+Primitive Yelloweye.png|link=Primitive Yelloweye|[[Primitive Yelloweye]]
+</gallery>
+</div>
+
+== ''Shared Aspects and Capabilities'' ==
+
+=== Spawning ===
+*Spawned after a successful merging between 4 [[Moving Flesh]], through the usage of the [[Evolution System]]. The result is random;
+*Spawn naturally from [[Evolution Phases#Phase 4|Phase 4]] to [[Evolution Phases#Phase 6|Phase 6]];
+*Spawned by [[Stage III Beckon|Stage III Beckons]]<ref name=":0">Except for Arachnida.</ref>;
+*Spawned inside the [[Parasite Biome]]<ref name=":0" />.
+*Spawns when their [[Adapted Parasites|Adapted]] counterpart is killed<ref>Except for [[Adapted Burrower|Adapted Burrowers]], [[Adapted Tozoon|Tozoons]], [[Adapted Devourer|Devourers]], and [[Adapted Vermin|Vermin]].</ref>, if at least one [[Colony]] exists in the dimension.
+
+=== Weaknesses ===
+Like all Parasites, Primitives present a weakness to fire (damage inflicted by fire is quadrupled).
+
+=== Capabilities ===
+*Primitive Parasites are capable of [[Evolution System|evolving]] into stronger forms: the [[Adapted Parasites]];
+*Primitive Parasites are capable of regenerating when out of combat;
+**Primitive Parasites obtain the Regeneration Effect after killing something. The Effect lasts enough to regenerate 1 HP;
+*Primitive Parasites are capable of performing small leaps, both on land and in liquids, which grants them a movement advantage;
+**Primitive Parasites are capable of jumping a certain amount of blocks, depending on the Parasite, in order to reach their targets. [[Primitive Arachnida|Arachnida]] are the only exception, because they are capable of climbing blocks;
+*Primitive Parasites will escape from Lava and Magma Blocks after being damaged by them;
+*Primitive Parasites inflict the [[Call Of The Hive]] Effect when attacking in Melee;
+*Primitive Parasites are capable of [[Adaptation System#Adaptation|adapting]] to Damage Types. The maximum number of Damage Types they can learn is 2;
+**Primitive Parasites possess a Damage Cap of 2<ref>This means that, no matter how much Damage a Primitive is receiving, it'll always need at least two hits before going down.</ref>;
+**Primitive Parasites have a Minimum Damage of 1<ref>This means that, no matter how much Armor a Primitive's target is wearing, it will always take at least half a heart of damage.</ref>.
+
+=== Griefing Capabilities ===
+All Primitives can break blocks that have their [https://minecraft.fandom.com/wiki/Breaking#Blocks_by_hardness Hardness] Value up to 1, with a 60 ticks cooldown and 1 Block range.
+
+After there's a certain amount of dropped items around, Primitives will spawn a [[Parasitic Cyst]], which will slowly clean these items.
+
+=== Post-Death ===
+
+*After dying, all Primitives have a chance to explode, releasing a Potion Cloud which inflicts the Poison and [[Call Of The Hive]] Effects. They will also leave behind [[Remains|Primitive Remains]];
+*After dying, all Primitives have a chance to activate the [[Reinforcement System]].
+{{Properties|tier=Primitive}}
+Note: Each Primitive Parasites’ Orb gives an additional effect to either mobs, other parasites, or itself.  See their individual pages for more information.
+
+=== Drops ===
+{{Drops
+|header=false
+|rolls1=1 Roll
+|page1=Altered Tendons
+|amount1=1-2
+|chance1=20% to 30
+}}
+
+== ''Configuration'' ==
+Below is a list of the Config changes that affect Primitive Parasites.
+
+To be added...
+
+== ''[[Survival Guides]]'' ==
+To be added...
+
+== ''[[Lore]]'' ==
+To be added...
+
+== ''Trivia'' ==
+To be added...
+
+[[Category:Mobs]]

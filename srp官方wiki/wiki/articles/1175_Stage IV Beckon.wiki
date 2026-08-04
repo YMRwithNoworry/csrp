@@ -1,0 +1,129 @@
+{{Navbar|page1=Stage I Beckon|page2=Stage II Beckon|page3=Stage III Beckon|page4=Stage IV Beckon}}
+<blockquote class="pull-quote">
+	<div class="pull-quote__text">{{{text|{{#lst:Compendium|beckonsiv}}}}}</div>
+	<p style="text-align: right"><cite>— The [[Compendium]]</cite></p>
+</blockquote>
+
+{{Nexus Info
+|image1=Stage 4 Beckon.png
+|armor=25.0
+|block_damage_chance=N/A
+|growtime=N/A
+|hp=220.0
+|infestation_cooldown=N/A
+|infestation_radius=N/A
+|summon_cooldown=8 sec
+|adaptable=[[Adaptation System#Adaptation Capacities|Yes]]
+|id=srparasites:beckon_siv
+}}
+'''Stage IV Beckons''' are a type of [[Mobs|Mob]], placed in the [[:Category:Nexus Parasites|Nexus]] Tier.
+
+They are one of the [[Bosses]] of the Mod and will grant players the {{AdvancementLink|I am a monument to all your sins}} if they are present. Killing one will also grant the {{AdvancementLink|Eradicator}}.
+
+== ''Spawning'' ==
+*Spawns after a [[Stage III Beckon]] evolves, but not if there's a [[Parasite Biome#Node|Node]] or another [[Stage IV Beckon]] nearby.
+
+== ''Behavior'' ==
+Stage IV Beckons are Stationary Biome Catalysts and Block Infesters, as well as Defensive Support Parasites.
+
+*Stage IV Beckons are capable of spawning [[Stage I Beckon|lower]] [[Stage II Beckon|Stage]] [[Stage III Beckon|Beckons]]. [[Stage IV Beckon#Summoning and Mobs Value|More info below]].
+*Stage IV Beckons are capable of instantaneously evolve any Parasite below the [[Adapted Parasites|Adapted]] Tier, ignoring the [[Evolution System]]. This Ability is accompanied by a nondamaging lightning strike. The following transformations are possible:
+**Any [[Assimilated Mobs]]<ref>Except for the [[Assimilated Ender Dragon]]</ref> or [[:Category:Walking Heads|Walking Head]] will be turned into a [[Primitive Parasite]].
+**Any [[Primitive Parasites|Primitive Parasites]] will be turned into their [[Adapted Parasites|Adapted]] form.
+*Starting from [[Ubiquitous Development]] Level 4, Stage IV Beckons will be able to generate a [[Parasite Biome#Node|Node]], which will subsequently generate a [[Parasite Biome]].
+*Stage IV Beckons throw 8 bombs around them when damaged, this has a cooldown of 5 seconds. These bombs inflict 20 damage each and place an effect cloud of [[Viral]] and Poison.
+*Stage IV Beckons can break blocks that have their [[Hardness]] Value up to 18, with a 20-tick cooldown and 5 Blocks range.
+*When the weather is a thunderstorm, a vortex will appear above the Stage IV Beckon that can throw around non-parasite mobs and players. The player may use [[Venkrol Anchor Boots]] to protect themselves from this.
+* Upon death, if at least one [[Colony]] is present in the dimension, Stage IV Beckons will become [[Stage III Beckon|Stage III Beckons]].
+
+=== ''Summoning'' ===
+Stage IV Beckons are capable of spawning lower Stages Beckons around the target. Unlike other Beckon Stages, Stage IV Beckons do not use [[Biomass]] to summon.
+
+The summoning Ability is based on Points. Each Mob has a certain Points value. Spawned Parasites will either be sorted by Ground type or Air, Parasites categorized as Air type will be spawned instead of Grounded if the target is 3 blocks above the summoner.
+
+'''Stage IV Beckons have a total of 12 Points per summon and can summon 4 mobs before its cooldown of 8 seconds with a cap of 12 parasites active at once.'''
+{| class="fandom-table mw-collapsible mw-collapsed" style="width: 750px"
+|+
+'''Spawn Table'''
+!Stage 
+!Points Value
+!Spawn Chance
+!Type
+|-
+|[[Stage I Beckon]]
+|3 Points
+|30%
+|Ground
+|-
+|[[Stage II Beckon]] 
+|3 Points
+|40%
+|Ground
+|-
+|[[Stage III Beckon]]
+|4 Points
+|30%
+|Ground
+|}
+
+=== ''Weaknesses'' ===
+*Stage IV Beckons, like any other [[Mobs|Mob]], present a weakness to Fire. Damage inflicted by Fire is quadrupled.
+*The large green Biomass bulb on top of the Stage IV Beckon functions as a Weak Point. When this Weak Point is hit, damage inflicted to it is tripled and the [[Bleeding]] Effect is applied to it.
+*Stage IV Beckons will take damage over time and die if the current dimension is at [[Evolution Phases#Phase 2|Phase 2]] or lower.
+{{Properties|tier=Nexus IV}}
+
+{{Drops
+|rolls1=Always Rolls:
+|page1=Beckon Membrane
+|amount1=30
+|chance1=90
+}}
+
+== ''Sounds'' ==
+{|class="fandom-table mw-collapsible mw-collapsed"
+!'''Sound'''
+!'''Source'''
+!'''Description'''
+!'''Subtitle'''
+!'''ID'''
+|-
+|[[File:vstageiv.ogg]]
+|Hostile
+|Plays when a Stage III Beckon grows into Stage IV.
+|Bell tolls
+|vstageiv
+|-
+|[[File:beckon_vortex.ogg]]
+|Hostile
+|Plays when a Stage IV Beckon generates a Vortex.
+|Vortex Accumulating
+|beckon_vortex
+|-
+|}
+
+== ''Trivia'' ==
+*Like all Nexuses, Stage IV Beckons do not despawn by default.
+*While previous Beckon stages are signaled by a church bell tolling, the Stage IV is signaled by a prolonged pipe organ chord.
+*Beckons are known as '''Venkrol''' internally. The etymology or meaning of this is unknown.
+*It has been confirmed that Beckons will have more growth stages in the future. In fact, there is a texture for a Stage V Beckon present in the mod files, though it's currently only a texture map. 
+*Despite their floral shape, Beckons and Dispatchers are not related to plants, as they're the same kind of pseudo-arthropod as Inborns and Pures. Additionally, Beckons' biomass pods are not eggs, though they serve a similar function.
+*While the previous Beckon stages have roots on the bottom of their models, the Stage IV lacks them. Its unknown if this is intentional.
+*The advancement associated with the Stage IV Beckon, '''"I am a monument to all of your sins"''' is a direct reference to the Gravemind from the Halo franchise.
+
+<!--
+==''Gallery''==
+<gallery>
+File:Beckon Size Comparison.png|Size of the Beckons' Models.
+</gallery>
+-->== ''Gallery'' ==
+<gallery>
+File:BeckonS4Height.png|Size of the Stage 4 Beckon's model.
+File:Stage4 Bell.ogg|Old evolve sound effect.
+</gallery>{{MobList}}
+
+==Notes==
+<references />
+
+[[Category:Mobs]]
+[[Category:Bosses]]
+[[Category:Nexus Parasites]]
