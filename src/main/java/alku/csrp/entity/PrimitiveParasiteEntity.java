@@ -75,6 +75,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     private int parasiteKills;
     private double legacyKillCount;
     private boolean colonySpawned;
+    private boolean adaptedFormSpawned;
     private int adaptationLearningCooldown;
     private int fireAdaptationBlockTicks;
 
@@ -479,13 +480,14 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     }
 
     protected void onParasiteKill(ServerLevel level, LivingEntity victim, int kills) {
-        if (kills < 10) {
+        if (kills < 10 || adaptedFormSpawned || isRemoved()) {
             return;
         }
         Mob adapted = createAdaptedForm(level);
         if (adapted == null) {
             return;
         }
+        adaptedFormSpawned = true;
         adapted.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
         adapted.finalizeSpawn(level, level.getCurrentDifficultyAt(blockPosition()), MobSpawnType.MOB_SUMMONED, null);
         adapted.setCustomName(getCustomName());
@@ -493,8 +495,11 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         if (isPersistenceRequired()) {
             adapted.setPersistenceRequired();
         }
-        level.addFreshEntity(adapted);
-        discard();
+        if (level.addFreshEntity(adapted)) {
+            discard();
+        } else {
+            adaptedFormSpawned = false;
+        }
     }
 
     private Mob createAdaptedForm(ServerLevel level) {
