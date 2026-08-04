@@ -2,6 +2,7 @@ package alku.csrp.registry;
 
 import alku.csrp.Csrp;
 import alku.csrp.item.BoughItem;
+import alku.csrp.item.BookOfVengeanceItem;
 import alku.csrp.item.CompendiumItem;
 import alku.csrp.item.EvolutionClockItem;
 import alku.csrp.item.EvolutionDeviceItem;
@@ -490,7 +491,8 @@ public final class ModItems {
             new Item.Properties().stacksTo(1));
     public static final DeferredItem<CompendiumItem> SRP_FIELD_GUIDE = ITEMS.registerItem(
             "srp_field_guide", CompendiumItem::new, new Item.Properties().stacksTo(1));
-    public static final DeferredItem<Item> BOOK_OF_VENGEANCE = simple("book_of_vengeance", new Item.Properties().stacksTo(1));
+    public static final DeferredItem<BookOfVengeanceItem> BOOK_OF_VENGEANCE = ITEMS.registerItem(
+            "book_of_vengeance", BookOfVengeanceItem::new, new Item.Properties().stacksTo(1));
     public static final DeferredItem<TheSignCharmItem> THE_SIGN_CHARM = ITEMS.registerItem(
             "the_sign_charm", TheSignCharmItem::new, new Item.Properties().stacksTo(1));
     public static final DeferredItem<QuenchItem> ITEMTHROW = ITEMS.registerItem(

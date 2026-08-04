@@ -339,6 +339,10 @@
   "item.csrp.origincompass": "§c源区指针",
   "item.csrp.srp_field_guide": "图鉴",
   "item.csrp.book_of_vengeance": "§d§l复仇账簿",
+  "tooltip.csrp.book_of_vengeance.line1": "§6统治，集合，誓报此仇。",
+  "tooltip.csrp.book_of_vengeance.line2": "§d流血，抑减，烟雾轨迹 §8（5秒）",
+  "tooltip.csrp.book_of_vengeance.line3": "§d交互：§7复仇猛击锁链 §8（击中时）",
+  "tooltip.csrp.book_of_vengeance.line4": "§d潜行中使用：§7脉冲击退",
   "item.csrp.itemthrow": "§6净污熔胶",
   "item.csrp.bough": "枝条",
   "item.csrp.thornshade_decanter": "§5影棘酒",
@@ -850,6 +854,7 @@
   "tooltip.csrp.bough.line2": "用于切腹自尽。",
   "tooltip.csrp.quench": "内部填满温热的岩浆膏，浓缩的烈焰粉能有效清理寄生物质。",
   "death.attack.sepeku": "%1$s切腹自尽了",
+  "death.attack.srparasites.ricardo": "%1$s被添加到了复仇账簿",
   "advancements.csrp.sepeku.title": "切腹自尽",
   "advancements.csrp.sepeku.description": "你献出了你的生命。"
 }

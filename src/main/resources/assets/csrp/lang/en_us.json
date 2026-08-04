@@ -339,6 +339,10 @@
   "item.csrp.origincompass": "Vector Compass",
   "item.csrp.srp_field_guide": "Compendium",
   "item.csrp.book_of_vengeance": "The Book of Vengeance",
+  "tooltip.csrp.book_of_vengeance.line1": "Domineer, Assemble, Swear Vengeance.",
+  "tooltip.csrp.book_of_vengeance.line2": "Bleed, Debar, Smoke Trail (5s)",
+  "tooltip.csrp.book_of_vengeance.line3": "Interact: Vengeance slam chain (on hit)",
+  "tooltip.csrp.book_of_vengeance.line4": "Sneak-Use: Pulse knockback",
   "item.csrp.itemthrow": "Quench",
   "item.csrp.bough": "Bough",
   "item.csrp.thornshade_decanter": "Thornshade Decanter",
@@ -836,6 +840,7 @@
   "tooltip.csrp.bough.line2": "Used in Seppuku.",
   "tooltip.csrp.quench": "A warm compound whose concentrated blaze powder purifies parasitic matter.",
   "death.attack.sepeku": "%1$s performed Seppuku",
+  "death.attack.srparasites.ricardo": "%1$s was added to the Book of Vengeance",
   "advancements.csrp.sepeku.title": "Seppuku",
   "advancements.csrp.sepeku.description": "You offered your life."
 }
