@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AB"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:pumpkin"
+    },
+    "B": {
+      "item": "csrp:infestedstain"
+    }
+  },
+  "result": {
+    "id": "csrp:assimilated_pumpkin"
+  }
+}

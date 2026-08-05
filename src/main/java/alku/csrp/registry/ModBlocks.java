@@ -22,6 +22,9 @@ import alku.csrp.block.PestilentialOreBlock;
 import alku.csrp.block.ParasiteLootBlock;
 import alku.csrp.block.AlveoliBlock;
 import alku.csrp.block.AlveoliGrowthBlock;
+import alku.csrp.block.AssimilatedJackOLanternBlock;
+import alku.csrp.block.AssimilatedPumpkinBlock;
+import alku.csrp.block.AssimilatedReedBlock;
 import alku.csrp.block.SickAlveoliBlock;
 import alku.csrp.block.SrpWebBlock;
 import alku.csrp.block.ThornshadeBlock;
@@ -253,6 +256,24 @@ public final class ModBlocks {
                     .randomTicks()
                     .sound(SoundType.SLIME_BLOCK)
                     .noLootTable()));
+    public static final DeferredBlock<AssimilatedPumpkinBlock> ASSIMILATED_PUMPKIN = BLOCKS.register(
+            "assimilated_pumpkin", () -> new AssimilatedPumpkinBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED)
+                    .strength(1.0F)
+                    .sound(SoundType.WOOD)));
+    public static final DeferredBlock<AssimilatedJackOLanternBlock> ASSIMILATED_JACK_O_LANTERN = BLOCKS.register(
+            "assimilated_jack_o_lantern", () -> new AssimilatedJackOLanternBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED)
+                    .strength(1.0F)
+                    .lightLevel(state -> 15)
+                    .sound(SoundType.WOOD)));
+    public static final DeferredBlock<AssimilatedReedBlock> ASSIMILATED_REED = BLOCKS.register(
+            "assimilated_reed", () -> new AssimilatedReedBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED)
+                    .instabreak()
+                    .noCollission()
+                    .noOcclusion()
+                    .sound(SoundType.GRASS)));
 
     private static DeferredBlock<InfestedBlock> infested(String id, MapColor color, SoundType sound) {
         return BLOCKS.register(id, () -> new InfestedBlock(BlockBehaviour.Properties.of()

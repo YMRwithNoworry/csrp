@@ -316,6 +316,12 @@ public final class ModItems {
             "gluttonous_cyst", ModBlocks.GLUTTONOUS_CYST);
     public static final DeferredItem<BlockItem> VACUOUS_CYST = ITEMS.registerSimpleBlockItem(
             "vacuous_cyst", ModBlocks.VACUOUS_CYST);
+    public static final DeferredItem<BlockItem> ASSIMILATED_PUMPKIN = ITEMS.registerSimpleBlockItem(
+            "assimilated_pumpkin", ModBlocks.ASSIMILATED_PUMPKIN);
+    public static final DeferredItem<BlockItem> ASSIMILATED_JACK_O_LANTERN = ITEMS.registerSimpleBlockItem(
+            "assimilated_jack_o_lantern", ModBlocks.ASSIMILATED_JACK_O_LANTERN);
+    public static final DeferredItem<BlockItem> ASSIMILATED_REED = ITEMS.registerSimpleBlockItem(
+            "assimilated_reed", ModBlocks.ASSIMILATED_REED);
     public static final DeferredItem<BlockItem> RESIDUE_PLANTS = ITEMS.registerSimpleBlockItem(
             "residue_plants", ModBlocks.RESIDUE_PLANTS);
     public static final DeferredItem<BlockItem> THORNSHADE_ITEM = ITEMS.registerSimpleBlockItem(
