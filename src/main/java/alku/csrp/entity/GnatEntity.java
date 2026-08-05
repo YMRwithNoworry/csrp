@@ -48,9 +48,9 @@ public final class GnatEntity extends PrimitiveParasiteEntity {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 8.0).add(Attributes.ARMOR, 2.0)
-                .add(Attributes.ATTACK_DAMAGE, 4.0).add(Attributes.MOVEMENT_SPEED, 0.34559)
-                .add(Attributes.FOLLOW_RANGE, 32.0);
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 5.0).add(Attributes.ARMOR, 2.0)
+                .add(Attributes.ATTACK_DAMAGE, 5.0).add(Attributes.MOVEMENT_SPEED, 0.34559)
+                .add(Attributes.KNOCKBACK_RESISTANCE, 0.6).add(Attributes.FOLLOW_RANGE, 32.0);
     }
 
     @Override protected void registerGoals() {

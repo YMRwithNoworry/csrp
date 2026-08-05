@@ -74,10 +74,10 @@ public final class AirscrewEntity extends CrudeParasiteEntity implements Pulling
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 120.0).add(Attributes.ARMOR, 19.0)
-                .add(Attributes.ATTACK_DAMAGE, 30.0).add(Attributes.MOVEMENT_SPEED, 0.25)
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 50.0).add(Attributes.ARMOR, 9.0)
+                .add(Attributes.ATTACK_DAMAGE, 15.0).add(Attributes.MOVEMENT_SPEED, 0.25)
                 .add(Attributes.FLYING_SPEED, 0.25).add(Attributes.KNOCKBACK_RESISTANCE, 0.7)
-                .add(Attributes.FOLLOW_RANGE, 48.0);
+                .add(Attributes.FOLLOW_RANGE, 16.0);
     }
 
     @Override
