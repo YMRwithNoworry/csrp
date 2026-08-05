@@ -7,6 +7,8 @@ import alku.csrp.block.entity.InfuserFurnaceBlockEntity;
 import alku.csrp.block.entity.ParasiticCystBlockEntity;
 import alku.csrp.block.entity.ParasiteLootBlockEntity;
 import alku.csrp.block.entity.RelayTerminalBlockEntity;
+import alku.csrp.block.entity.FogNullifierBlockEntity;
+import alku.csrp.block.entity.TrophyBlockEntity;
 import java.util.Set;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -42,6 +44,15 @@ public final class ModBlockEntities {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BiomePurifierBlockEntity>> BIOME_PURIFIER =
             BLOCK_ENTITIES.register("biome_purifier", () -> new BlockEntityType<>(
                     BiomePurifierBlockEntity::new, Set.of(ModBlocks.BIOME_PURIFIER.get()), null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<FogNullifierBlockEntity>> FOG_NULLIFIER =
+            BLOCK_ENTITIES.register("fog_nullifier", () -> new BlockEntityType<>(
+                    FogNullifierBlockEntity::new, Set.of(ModBlocks.FOG_NULLIFIER.get()), null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<TrophyBlockEntity>> TROPHY =
+            BLOCK_ENTITIES.register("trophy", () -> new BlockEntityType<>(
+                    TrophyBlockEntity::new,
+                    Set.of(ModBlocks.KIRIN_TROPHY.get(), ModBlocks.DRACONITE_TROPHY.get()), null));
 
     private ModBlockEntities() {
     }

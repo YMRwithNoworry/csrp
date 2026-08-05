@@ -68,6 +68,12 @@ public final class ModBlocks {
             () -> ModSounds.get("blockinfest.place"),
             () -> ModSounds.get("blockinfest.hit"),
             () -> SoundEvents.STONE_FALL);
+    private static final SoundType FLESH_LIGHT_SOUND_TYPE = new DeferredSoundType(1.5F, 1.0F,
+            () -> ModSounds.get("block.flesh_light.dig"),
+            () -> ModSounds.get("block.flesh_light.step"),
+            () -> ModSounds.get("block.flesh_light.place"),
+            () -> ModSounds.get("block.flesh_light.hit"),
+            () -> ModSounds.get("block.flesh_light.fall"));
 
     public static final DeferredBlock<TunnelBlock> TUNNEL = BLOCKS.register("tunnel", () -> new TunnelBlock(
             BlockBehaviour.Properties.of()
@@ -305,12 +311,12 @@ public final class ModBlocks {
                     .strength(0.8F)
                     .sound(SoundType.SLIME_BLOCK)));
     public static final DeferredBlock<TrophyBlock> KIRIN_TROPHY = BLOCKS.register(
-            "trophy_void_orb", () -> new TrophyBlock(BlockBehaviour.Properties.of()
+            "trophy_void_orb", () -> new TrophyBlock(TrophyBlock.Kind.VOID, BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_PURPLE)
                     .strength(1.0F)
                     .sound(SoundType.SCULK)));
     public static final DeferredBlock<TrophyBlock> DRACONITE_TROPHY = BLOCKS.register(
-            "trophy_boom_orb", () -> new TrophyBlock(BlockBehaviour.Properties.of()
+            "trophy_boom_orb", () -> new TrophyBlock(TrophyBlock.Kind.BOOM, BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_RED)
                     .strength(1.0F)
                     .sound(SoundType.SCULK)));
@@ -327,7 +333,8 @@ public final class ModBlocks {
     public static final DeferredBlock<FogNullifierBlock> FOG_NULLIFIER = BLOCKS.register(
             "fog_nullifier", () -> new FogNullifierBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_LIGHT_GRAY)
-                    .strength(5.0F, 20.0F)
+                    .strength(2.0F, 10.0F)
+                    .requiresCorrectToolForDrops()
                     .sound(SoundType.STONE)));
 
     public static final DeferredBlock<DeadBloodBlock> DEAD_BLOOD = BLOCKS.register(
@@ -436,9 +443,10 @@ public final class ModBlocks {
             bulbs.put(color.isEmpty() ? "base" : color, BLOCKS.register(id, () ->
                     new EscaBulbBlock(BlockBehaviour.Properties.of()
                             .mapColor(MapColor.COLOR_LIGHT_BLUE)
-                            .strength(0.3F)
-                            .lightLevel(state -> 14)
-                            .sound(SoundType.GLASS))));
+                            .strength(0.0F)
+                            .noOcclusion()
+                            .lightLevel(state -> 15)
+                            .sound(FLESH_LIGHT_SOUND_TYPE))));
         }
         return java.util.Map.copyOf(bulbs);
     }

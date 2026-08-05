@@ -55,6 +55,10 @@ public final class RelayReportItem extends Item {
                     data.getInt("PrintDay"), formatTime(data.getInt("PrintTime")))
                     .withStyle(ChatFormatting.DARK_GRAY));
         }
+        if (type == Type.SCAN && data.contains("TotalMobs")) {
+            tooltip.add(Component.empty());
+            tooltip.addAll(reportLines(type, data));
+        }
     }
 
     public static List<Component> reportLines(Type type, CompoundTag data) {

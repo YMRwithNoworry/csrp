@@ -1046,6 +1046,7 @@
   "block.csrp.esca_bulb_pink": "Pink Esca Bulb",
   "block.csrp.fog": "Fog",
   "block.csrp.fog_nullifier": "Fog Nullifier",
+  "tooltip.csrp.fog_nullifier.uses": "Uses remaining: %s/%s",
   "fluid.csrp.deadblood": "Dead Blood",
   "item.csrp.deadblood_bucket": "Dead Blood Bucket",
   "block.csrp.visceral_mud": "Visceral Mud",

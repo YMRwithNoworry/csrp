@@ -41,6 +41,11 @@ public final class OverlastFoodItem extends Item {
         return result;
     }
 
+    @Override
+    public int getUseDuration(ItemStack stack, LivingEntity entity) {
+        return kind == Kind.DUMPLING ? 10 : super.getUseDuration(stack, entity);
+    }
+
     private static FoodProperties food(Kind kind) {
         FoodProperties.Builder builder = new FoodProperties.Builder();
         return switch (kind) {

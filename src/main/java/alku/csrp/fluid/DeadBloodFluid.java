@@ -29,7 +29,7 @@ import net.neoforged.neoforge.fluids.FluidType;
  * heals parasites, cannot form infinite sources, and converts water into
  * Visceral Mud and lava into Bleeding Obsidian.
  */
-public final class DeadBloodFluid extends FlowingFluid {
+public abstract class DeadBloodFluid extends FlowingFluid {
     @Override
     public Fluid getFlowing() {
         return ModFluids.DEADBLOOD_FLOWING.get();
@@ -81,22 +81,6 @@ public final class DeadBloodFluid extends FlowingFluid {
     }
 
     @Override
-    public int getAmount(FluidState state) {
-        return state.getValue(LEVEL);
-    }
-
-    @Override
-    public boolean isSource(FluidState state) {
-        return state.getValue(LEVEL) == 8;
-    }
-
-    @Override
-    protected void createFluidStateDefinition(StateDefinition.Builder<Fluid, FluidState> builder) {
-        super.createFluidStateDefinition(builder);
-        builder.add(LEVEL);
-    }
-
-    @Override
     public boolean canBeReplacedWith(FluidState state, BlockGetter level, BlockPos pos,
             Fluid fluid, Direction direction) {
         return direction == Direction.DOWN && !fluid.is(FluidTags.WATER);
@@ -137,6 +121,36 @@ public final class DeadBloodFluid extends FlowingFluid {
                     pos.getY() + 0.7D + random.nextDouble() * 0.2D,
                     pos.getZ() + 0.2D + random.nextDouble() * 0.6D,
                     0.0D, 0.03D, 0.0D);
+        }
+    }
+
+    public static final class Source extends DeadBloodFluid {
+        @Override
+        public int getAmount(FluidState state) {
+            return 8;
+        }
+
+        @Override
+        public boolean isSource(FluidState state) {
+            return true;
+        }
+    }
+
+    public static final class Flowing extends DeadBloodFluid {
+        @Override
+        protected void createFluidStateDefinition(StateDefinition.Builder<Fluid, FluidState> builder) {
+            super.createFluidStateDefinition(builder);
+            builder.add(LEVEL);
+        }
+
+        @Override
+        public int getAmount(FluidState state) {
+            return state.getValue(LEVEL);
+        }
+
+        @Override
+        public boolean isSource(FluidState state) {
+            return false;
         }
     }
 }

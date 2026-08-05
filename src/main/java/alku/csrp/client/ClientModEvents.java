@@ -22,6 +22,7 @@ import alku.csrp.client.renderer.ParasiteProjectileRenderer;
 import alku.csrp.client.renderer.ParasiteRemainsRenderer;
 import alku.csrp.client.renderer.ScaryOrbRenderer;
 import alku.csrp.client.renderer.VoidOrbRenderer;
+import alku.csrp.client.renderer.TrophyBlockEntityRenderer;
 import alku.csrp.client.screen.ParasiteLootScreen;
 import alku.csrp.client.screen.ParasiticCystScreen;
 import alku.csrp.client.screen.RelayTerminalScreen;
@@ -29,6 +30,7 @@ import alku.csrp.client.screen.InfuserFurnaceScreen;
 import alku.csrp.client.renderer.TetheredMarauderizedRenderer;
 import alku.csrp.client.renderer.ParasiticScentRenderer;
 import alku.csrp.registry.ModEntities;
+import alku.csrp.registry.ModBlockEntities;
 import alku.csrp.registry.ModItems;
 import alku.csrp.registry.ModMenus;
 import alku.csrp.registry.ModParticles;
@@ -68,6 +70,7 @@ public final class ClientModEvents {
 
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerBlockEntityRenderer(ModBlockEntities.TROPHY.get(), TrophyBlockEntityRenderer::new);
         event.registerEntityRenderer(ModEntities.PARASITE_REMAINS.get(), ParasiteRemainsRenderer::new);
         event.registerEntityRenderer(ModEntities.SHOCKWAVE.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.BUGLIN.get(), BuglinRenderer::new);

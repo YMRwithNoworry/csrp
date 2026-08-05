@@ -29,9 +29,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.level.BlockDropsEvent;
@@ -134,7 +135,7 @@ public final class OverlastEvents {
     @SubscribeEvent
     public static void fortunateOreDrops(BlockDropsEvent event) {
         if (!(event.getBreaker() instanceof Player player) || !player.hasEffect(ModMobEffects.FORTUNATE)
-                || !event.getState().is(Tags.Blocks.ORES) || event.getDrops().isEmpty()) {
+                || !isFortunateOre(event.getState().getBlock()) || event.getDrops().isEmpty()) {
             return;
         }
         ItemEntity first = event.getDrops().getFirst();
@@ -143,6 +144,14 @@ public final class OverlastEvents {
         }
         ItemStack bonus = first.getItem().copyWithCount(1);
         event.getDrops().add(new ItemEntity(event.getLevel(), first.getX(), first.getY(), first.getZ(), bonus));
+    }
+
+    private static boolean isFortunateOre(Block block) {
+        return block == Blocks.COAL_ORE || block == Blocks.DEEPSLATE_COAL_ORE
+                || block == Blocks.DIAMOND_ORE || block == Blocks.DEEPSLATE_DIAMOND_ORE
+                || block == Blocks.LAPIS_ORE || block == Blocks.DEEPSLATE_LAPIS_ORE
+                || block == Blocks.EMERALD_ORE || block == Blocks.DEEPSLATE_EMERALD_ORE
+                || block == Blocks.NETHER_QUARTZ_ORE;
     }
 
     @SubscribeEvent

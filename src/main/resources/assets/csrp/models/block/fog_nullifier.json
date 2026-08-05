@@ -1,6 +1,1 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "csrp:block/semiorganic_block"
-  }
-}
+{"parent":"minecraft:block/cube_all","textures":{"all":"csrp:block/fog_nullifier"}}

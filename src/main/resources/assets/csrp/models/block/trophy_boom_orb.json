@@ -1,6 +1,1 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "csrp:block/parasitemouth"
-  }
-}
+{"parent":"minecraft:block/cube_all","textures":{"all":"csrp:block/trophy_boom_orb"}}

@@ -11,10 +11,10 @@ public final class ModFluids {
     public static final DeferredRegister<Fluid> FLUIDS =
             DeferredRegister.create(Registries.FLUID, Csrp.MODID);
 
-    public static final DeferredHolder<Fluid, DeadBloodFluid> DEADBLOOD =
-            FLUIDS.register("deadblood", DeadBloodFluid::new);
-    public static final DeferredHolder<Fluid, DeadBloodFluid> DEADBLOOD_FLOWING =
-            FLUIDS.register("deadblood_flowing", DeadBloodFluid::new);
+    public static final DeferredHolder<Fluid, DeadBloodFluid.Source> DEADBLOOD =
+            FLUIDS.register("deadblood", DeadBloodFluid.Source::new);
+    public static final DeferredHolder<Fluid, DeadBloodFluid.Flowing> DEADBLOOD_FLOWING =
+            FLUIDS.register("deadblood_flowing", DeadBloodFluid.Flowing::new);
 
     private ModFluids() {
     }

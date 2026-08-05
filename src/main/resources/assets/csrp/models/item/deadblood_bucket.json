@@ -1,6 +1,1 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "minecraft:item/bucket"
-  }
-}
+{"parent":"neoforge:item/default","loader":"neoforge:fluid_container","textures":{"base":"minecraft:item/bucket","fluid":"csrp:block/dead_blood_still"},"fluid":"csrp:deadblood"}

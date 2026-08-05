@@ -6,6 +6,7 @@ import alku.csrp.item.BoughItem;
 import alku.csrp.item.BookOfVengeanceItem;
 import alku.csrp.item.CompendiumItem;
 import alku.csrp.item.DeadBloodFluidItem;
+import alku.csrp.item.FogNullifierItem;
 import alku.csrp.item.EvolutionClockItem;
 import alku.csrp.item.EvolutionDeviceItem;
 import alku.csrp.item.EvolutionLureItem;
@@ -334,8 +335,9 @@ public final class ModItems {
     public static final DeferredItem<BlockItem> DRACONITE_TROPHY = ITEMS.registerSimpleBlockItem(
             "trophy_boom_orb", ModBlocks.DRACONITE_TROPHY);
     public static final java.util.Map<String, DeferredItem<BlockItem>> ESCA_BULBS = registerEscaBulbItems();
-    public static final DeferredItem<BlockItem> FOG_NULLIFIER = ITEMS.registerSimpleBlockItem(
-            "fog_nullifier", ModBlocks.FOG_NULLIFIER);
+    public static final DeferredItem<FogNullifierItem> FOG_NULLIFIER = ITEMS.registerItem(
+            "fog_nullifier", properties -> new FogNullifierItem(ModBlocks.FOG_NULLIFIER.get(), properties),
+            new Item.Properties());
     public static final DeferredItem<BucketItem> DEADBLOOD_BUCKET = ITEMS.registerItem(
             "deadblood_bucket", props -> new BucketItem(ModFluids.DEADBLOOD.get(), props),
             new Item.Properties().stacksTo(1));

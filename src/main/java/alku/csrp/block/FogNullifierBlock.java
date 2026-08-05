@@ -1,69 +1,170 @@
 package alku.csrp.block;
 
+import alku.csrp.block.entity.FogNullifierBlockEntity;
+import alku.csrp.registry.ModBlockEntities;
+import java.util.ArrayDeque;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
 
-/**
- * Fog Nullifier: clears fog blocks in straight lines from itself. It can be
- * used three times before breaking.
- */
-public final class FogNullifierBlock extends Block {
-    public static final IntegerProperty USES = IntegerProperty.create("uses", 0, 3);
+/** Clears one connected parasite-fog volume per stored use. */
+public final class FogNullifierBlock extends Block implements EntityBlock {
+    public static final int MAX_USES = 3;
+    private static final int CLEAR_LIMIT = 500_000;
 
     public FogNullifierBlock(Properties properties) {
         super(properties);
-        registerDefaultState(stateDefinition.any().setValue(USES, 0));
+    }
+
+    @Nullable
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new FogNullifierBlockEntity(pos, state);
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(USES);
+    public void setPlacedBy(Level level, BlockPos pos, BlockState state,
+            LivingEntity placer, ItemStack stack) {
+        super.setPlacedBy(level, pos, state, placer, stack);
+        if (!level.isClientSide) {
+            readUsesFromItem(level, pos, stack);
+            attemptClear((ServerLevel) level, pos);
+        }
+    }
+
+    @Override
+    public void neighborChanged(BlockState state, Level level, BlockPos pos,
+            Block neighborBlock, BlockPos neighborPos, boolean movedByPiston) {
+        super.neighborChanged(state, level, pos, neighborBlock, neighborPos, movedByPiston);
+        if (!level.isClientSide) {
+            attemptClear((ServerLevel) level, pos);
+        }
     }
 
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos,
             Player player, BlockHitResult hitResult) {
-        if (!(level instanceof ServerLevel serverLevel)) {
-            return InteractionResult.SUCCESS;
+        if (!level.isClientSide) {
+            attemptClear((ServerLevel) level, pos);
         }
-        int cleared = 0;
-        for (Direction direction : Direction.values()) {
-            cleared += clearLine(serverLevel, pos, direction);
-        }
-        serverLevel.sendParticles(ParticleTypes.WHITE_ASH,
-                pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D,
-                24, 0.4D, 0.4D, 0.4D, 0.02D);
-        if (cleared == 0) {
-            return InteractionResult.SUCCESS;
-        }
-        int uses = state.getValue(USES) + 1;
-        if (uses >= 3) {
-            serverLevel.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
-        } else {
-            serverLevel.setBlock(pos, state.setValue(USES, uses), 3);
-        }
-        return InteractionResult.SUCCESS;
+        return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
-    private int clearLine(ServerLevel level, BlockPos origin, Direction direction) {
+    @Override
+    protected List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
+        BlockEntity blockEntity = builder.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
+        if (!(blockEntity instanceof FogNullifierBlockEntity nullifier) || nullifier.usesRemaining() <= 0) {
+            return List.of();
+        }
+        return List.of(stackWithUses(nullifier.usesRemaining()));
+    }
+
+    @Override
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state) {
+        if (level.getBlockEntity(pos) instanceof FogNullifierBlockEntity nullifier) {
+            return stackWithUses(nullifier.usesRemaining());
+        }
+        return stackWithUses(MAX_USES);
+    }
+
+    private ItemStack stackWithUses(int uses) {
+        ItemStack stack = new ItemStack(this);
+        CompoundTag tag = new CompoundTag();
+        tag.putInt(FogNullifierBlockEntity.USES_TAG, uses);
+        BlockItem.setBlockEntityData(stack, ModBlockEntities.FOG_NULLIFIER.get(), tag);
+        return stack;
+    }
+
+    private static void readUsesFromItem(Level level, BlockPos pos, ItemStack stack) {
+        if (!(level.getBlockEntity(pos) instanceof FogNullifierBlockEntity nullifier)) {
+            return;
+        }
+        CustomData data = stack.get(DataComponents.BLOCK_ENTITY_DATA);
+        if (data != null && data.copyTag().contains(FogNullifierBlockEntity.USES_TAG)) {
+            nullifier.setUsesRemaining(data.copyTag().getInt(FogNullifierBlockEntity.USES_TAG));
+        }
+    }
+
+    private static boolean attemptClear(ServerLevel level, BlockPos origin) {
+        if (!(level.getBlockEntity(origin) instanceof FogNullifierBlockEntity nullifier)
+                || nullifier.usesRemaining() <= 0 || nullifier.isClearing()) {
+            return false;
+        }
+        int cleared;
+        nullifier.setClearing(true);
+        try {
+            cleared = clearConnectedFog(level, origin);
+        } finally {
+            nullifier.setClearing(false);
+        }
+        if (cleared == 0) {
+            return false;
+        }
+        level.playSound(null, origin, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 0.9F, 1.0F);
+        nullifier.setUsesRemaining(nullifier.usesRemaining() - 1);
+        if (nullifier.usesRemaining() <= 0) {
+            level.playSound(null, origin, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 0.8F, 0.9F);
+            level.setBlock(origin, Blocks.AIR.defaultBlockState(), 3);
+        }
+        return true;
+    }
+
+    private static int clearConnectedFog(ServerLevel level, BlockPos origin) {
+        ArrayDeque<BlockPos> queue = new ArrayDeque<>();
+        Set<BlockPos> seen = new HashSet<>();
+        for (Direction direction : Direction.values()) {
+            BlockPos adjacent = origin.relative(direction);
+            if (isFog(level, adjacent) && seen.add(adjacent)) {
+                queue.add(adjacent);
+            }
+        }
         int cleared = 0;
-        BlockPos current = origin.relative(direction);
-        while (level.getBlockState(current).getBlock() instanceof FogBlock) {
+        while (!queue.isEmpty() && cleared < CLEAR_LIMIT) {
+            BlockPos current = queue.removeFirst();
+            if (!isFog(level, current)) {
+                continue;
+            }
+            level.sendParticles(ParticleTypes.SMOKE,
+                    current.getX() + 0.5D, current.getY() + 0.5D, current.getZ() + 0.5D,
+                    4, 0.3D, 0.3D, 0.3D, 0.01D);
             level.setBlock(current, Blocks.AIR.defaultBlockState(), 3);
             cleared++;
-            current = current.relative(direction);
+            for (Direction direction : Direction.values()) {
+                BlockPos adjacent = current.relative(direction);
+                if (isFog(level, adjacent) && seen.add(adjacent)) {
+                    queue.addLast(adjacent);
+                }
+            }
         }
         return cleared;
+    }
+
+    private static boolean isFog(Level level, BlockPos pos) {
+        return level.getBlockState(pos).getBlock() instanceof FogBlock;
     }
 }
