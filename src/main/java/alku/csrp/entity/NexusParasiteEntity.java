@@ -854,10 +854,10 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         DISPATCHER_SII(Family.DISPATCHER, 2, 70.0D, 14.0D, 7.0D, 5, 5, 220, 2.0F, 6.0D, 32),
         DISPATCHER_SIII(Family.DISPATCHER, 3, 130.0D, 21.0D, 14.0D, 6, 7, 200, 3.0F, 9.0D, 64),
         DISPATCHER_SIV(Family.DISPATCHER, 4, 250.0D, 28.0D, 22.0D, 8, 9, 180, 5.0F, 18.0D, 220),
-        ROOTER_SI(Family.ROOTER, 1, 25.0D, 4.0D, 2.5D, 4, 3, 240, 0.0F, 0.0D, 16),
-        ROOTER_SII(Family.ROOTER, 2, 60.0D, 8.0D, 6.0D, 5, 5, 220, 2.0F, 6.0D, 32),
-        ROOTER_SIII(Family.ROOTER, 3, 110.0D, 16.0D, 13.0D, 6, 7, 200, 3.0F, 9.0D, 64),
-        ROOTER_SIV(Family.ROOTER, 4, 220.0D, 25.0D, 20.0D, 8, 9, 180, 5.0F, 18.0D, 220),
+        ROOTER_SI(Family.ROOTER, 1, 40.0D, 7.0D, 2.5D, 4, 3, 240, 0.0F, 0.0D, 16),
+        ROOTER_SII(Family.ROOTER, 2, 80.0D, 14.0D, 6.0D, 5, 5, 220, 2.0F, 6.0D, 32),
+        ROOTER_SIII(Family.ROOTER, 3, 150.0D, 21.0D, 13.0D, 6, 7, 200, 3.0F, 9.0D, 64),
+        ROOTER_SIV(Family.ROOTER, 4, 300.0D, 28.0D, 20.0D, 8, 9, 180, 5.0F, 18.0D, 220),
         ROOTERBALL(Family.ROOTERBALL, 0, 20.0D, 10.0D, 0.0D, 0, 0, 0, 0.0F, 0.0D, 0);
 
         private final Family family;

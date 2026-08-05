@@ -1013,7 +1013,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         GRUNT(false, true, 20.0D, 7.0D, 13.0D, 0.274172325D, 0.40D, 32.0D, 3.0F, 1.0D),
         BOMBER_LIGHT(true, false, 75.0D, 20.0D, 25.0D, 0.27D, 0.15D, 32.0D, 5.0F, 2.0D),
         MONARCH(false, true, 75.0D, 10.0D, 25.0D, 0.2775D, 1.0D, 32.0D, 5.0F, 4.0D),
-        OVERSEER(true, false, 80.0D, 20.0D, 22.0D, 0.27D, 0.40D, 32.0D, 5.0F, 2.0D),
+        OVERSEER(true, false, 80.0D, 20.0D, 45.0D, 0.27D, 0.40D, 32.0D, 5.0F, 2.0D),
         VIGILANTE(false, false, 70.0D, 25.0D, 23.0D, 0.20D, 1.0D, 32.0D, 5.0F, 2.0D),
         WARDEN(false, true, 80.0D, 15.0D, 25.0D, 0.27D, 1.0D, 32.0D, 5.0F, 2.0D);
 
