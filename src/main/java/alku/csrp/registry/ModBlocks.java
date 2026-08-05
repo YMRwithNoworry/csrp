@@ -8,6 +8,7 @@ import alku.csrp.block.NodeLampBlock;
 import alku.csrp.block.BiomeHeartBlock;
 import alku.csrp.block.ColonyHeartBlock;
 import alku.csrp.block.ColonyStructureBlock;
+import alku.csrp.block.DispatcherNidusBlock;
 import alku.csrp.block.ResidueBlock;
 import alku.csrp.block.ResidueBloomingBlock;
 import alku.csrp.block.RelayTerminalBlock;
@@ -213,6 +214,12 @@ public final class ModBlocks {
                     .noOcclusion()
                     .randomTicks()
                     .sound(SoundType.COBWEB)
+                    .noLootTable()));
+    public static final DeferredBlock<DispatcherNidusBlock> DISPATCHER_NIDUS = BLOCKS.register(
+            "dispatcher_nidus", () -> new DispatcherNidusBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED)
+                    .strength(3.0F, 12.0F)
+                    .sound(SoundType.SCULK)
                     .noLootTable()));
 
     private static DeferredBlock<InfestedBlock> infested(String id, MapColor color, SoundType sound) {
