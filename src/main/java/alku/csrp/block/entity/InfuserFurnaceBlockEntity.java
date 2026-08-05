@@ -1,6 +1,7 @@
 package alku.csrp.block.entity;
 
 import alku.csrp.registry.ModBlockEntities;
+import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModItems;
 import java.util.Map;
 import net.minecraft.core.BlockPos;
@@ -97,11 +98,18 @@ public final class InfuserFurnaceBlockEntity extends BaseContainerBlockEntity {
         ItemStack iron = items.get(IRON_SLOT);
         ItemStack blood = items.get(BLOOD_SLOT);
         ItemStack output = items.get(OUTPUT_SLOT);
-        if (!iron.is(Items.IRON_INGOT) || !blood.is(ModItems.DEADBLOOD_FLUID.get())) {
+        if (!blood.is(ModItems.DEADBLOOD_FLUID.get())
+                || !(iron.is(Items.IRON_INGOT) || iron.is(net.minecraft.world.level.block.Blocks.SAND.asItem()))) {
             return false;
         }
-        return output.isEmpty() || (output.is(ModItems.SEMIORGANIC_INGOT.get())
+        net.minecraft.world.item.Item result = resultItem(iron);
+        return output.isEmpty() || (output.is(result)
                 && output.getCount() < output.getMaxStackSize());
+    }
+
+    private static net.minecraft.world.item.Item resultItem(ItemStack input) {
+        return input.is(Items.IRON_INGOT) ? ModItems.SEMIORGANIC_INGOT.get()
+                : ModBlocks.INFESTED_GLASS.get().asItem();
     }
 
     private boolean hasFuel() {
@@ -125,11 +133,13 @@ public final class InfuserFurnaceBlockEntity extends BaseContainerBlockEntity {
     }
 
     private void process() {
-        items.get(IRON_SLOT).shrink(1);
+        ItemStack input = items.get(IRON_SLOT);
+        net.minecraft.world.item.Item result = resultItem(input);
+        input.shrink(1);
         items.get(BLOOD_SLOT).shrink(1);
         ItemStack output = items.get(OUTPUT_SLOT);
         if (output.isEmpty()) {
-            items.set(OUTPUT_SLOT, new ItemStack(ModItems.SEMIORGANIC_INGOT.get()));
+            items.set(OUTPUT_SLOT, new ItemStack(result));
         } else {
             output.grow(1);
         }

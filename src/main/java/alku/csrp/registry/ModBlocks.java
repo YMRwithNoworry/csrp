@@ -33,6 +33,7 @@ import alku.csrp.block.AssimilatedReedBlock;
 import alku.csrp.block.BiomePurifierBlock;
 import alku.csrp.block.BladderSacBlock;
 import alku.csrp.block.GrotesqueLumpBlock;
+import alku.csrp.block.InfestedGlassBlock;
 import alku.csrp.block.InfuserFurnaceBlock;
 import alku.csrp.block.SickAlveoliBlock;
 import alku.csrp.block.SrpWebBlock;
@@ -355,6 +356,27 @@ public final class ModBlocks {
                     .strength(5.0F, 20.0F)
                     .requiresCorrectToolForDrops()
                     .sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> HARLESKINN_BLOCK = BLOCKS.register("harleskinn_block", () ->
+            new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_GRAY)
+                    .strength(2.0F, 6.0F)
+                    .sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> POLAND_SKIN_BLOCK = BLOCKS.register("poland_skin_block", () ->
+            new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.SNOW)
+                    .strength(2.0F, 6.0F)
+                    .sound(SoundType.SLIME_BLOCK)));
+    public static final DeferredBlock<Block> LOCS_BLOCK = BLOCKS.register("locs_block", () ->
+            new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BROWN)
+                    .strength(2.0F, 6.0F)
+                    .sound(SoundType.STONE)));
+    public static final DeferredBlock<InfestedGlassBlock> INFESTED_GLASS = BLOCKS.register(
+            "infested_glass", () -> new InfestedGlassBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED)
+                    .strength(0.3F)
+                    .sound(SoundType.GLASS)
+                    .noOcclusion()));
 
     private static java.util.Map<String, DeferredBlock<EscaBulbBlock>> registerEscaBulbs() {
         java.util.Map<String, DeferredBlock<EscaBulbBlock>> bulbs = new java.util.LinkedHashMap<>();

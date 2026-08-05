@@ -347,6 +347,14 @@ public final class ModItems {
             "infuser_furnace", ModBlocks.INFUSER_FURNACE);
     public static final DeferredItem<BlockItem> BIOME_PURIFIER = ITEMS.registerSimpleBlockItem(
             "biomepurifier", ModBlocks.BIOME_PURIFIER);
+    public static final DeferredItem<BlockItem> HARLESKINN_BLOCK = ITEMS.registerSimpleBlockItem(
+            "harleskinn_block", ModBlocks.HARLESKINN_BLOCK);
+    public static final DeferredItem<BlockItem> POLAND_SKIN_BLOCK = ITEMS.registerSimpleBlockItem(
+            "poland_skin_block", ModBlocks.POLAND_SKIN_BLOCK);
+    public static final DeferredItem<BlockItem> LOCS_BLOCK = ITEMS.registerSimpleBlockItem(
+            "locs_block", ModBlocks.LOCS_BLOCK);
+    public static final DeferredItem<BlockItem> INFESTED_GLASS = ITEMS.registerSimpleBlockItem(
+            "infested_glass", ModBlocks.INFESTED_GLASS);
 
     private static java.util.Map<String, DeferredItem<BlockItem>> registerEscaBulbItems() {
         java.util.Map<String, DeferredItem<BlockItem>> items = new java.util.LinkedHashMap<>();
