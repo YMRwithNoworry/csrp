@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "csrp:cooked_flesh_slab",
     "csrp:infested_cobblestone_slab",
     "csrp:infested_stone_slab",
     "csrp:infested_dirt_slab",

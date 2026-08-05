@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "csrp:cooked_flesh_stairs",
     "csrp:infested_sandstone_stairs",
     "csrp:residue_stairs",
     "csrp:infested_planks_stairs",

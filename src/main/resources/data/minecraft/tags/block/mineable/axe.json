@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
+    "csrp:cooked_flesh_slab",
+    "csrp:cooked_flesh_fence",
     "csrp:infested_plank_slab",
     "csrp:infested_planks_stairs",
     "csrp:residue_wall",

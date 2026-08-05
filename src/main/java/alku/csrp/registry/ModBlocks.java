@@ -3,6 +3,8 @@ package alku.csrp.registry;
 import alku.csrp.Csrp;
 import alku.csrp.block.InfestedBlock;
 import alku.csrp.block.InfestedStairBlock;
+import alku.csrp.block.InfestedFenceBlock;
+import alku.csrp.block.InfestedSlabBlock;
 import alku.csrp.block.InfestedWallBlock;
 import alku.csrp.block.NodeLampBlock;
 import alku.csrp.block.BiomeHeartBlock;
@@ -391,6 +393,24 @@ public final class ModBlocks {
                     .noCollission()
                     .noOcclusion()
                     .sound(SoundType.FUNGUS)));
+    public static final DeferredBlock<InfestedBlock> COOKED_FLESH = BLOCKS.register("cooked_flesh", () ->
+            new InfestedBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
+                    .strength(2.0F, 5.0F).requiresCorrectToolForDrops().sound(TUNNEL_SOUND_TYPE)));
+    public static final DeferredBlock<InfestedBlock> COOKED_FLESH_PLANKS = BLOCKS.register(
+            "cooked_flesh_planks", () -> new InfestedBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(2.0F, 5.0F)
+                    .requiresCorrectToolForDrops().sound(TUNNEL_SOUND_TYPE)));
+    public static final DeferredBlock<InfestedStairBlock> COOKED_FLESH_STAIRS = BLOCKS.register(
+            "cooked_flesh_stairs", () -> new InfestedStairBlock(COOKED_FLESH_PLANKS.get().defaultBlockState(),
+                    BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
+                            .strength(1.5F, 10.0F).sound(TUNNEL_SOUND_TYPE)));
+    public static final DeferredBlock<InfestedSlabBlock> COOKED_FLESH_SLAB = BLOCKS.register(
+            "cooked_flesh_slab", () -> new InfestedSlabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(1.5F, 3.0F)
+                    .requiresCorrectToolForDrops().sound(TUNNEL_SOUND_TYPE)));
+    public static final DeferredBlock<InfestedFenceBlock> COOKED_FLESH_FENCE = BLOCKS.register(
+            "cooked_flesh_fence", () -> new InfestedFenceBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(1.5F, 3.0F).sound(TUNNEL_SOUND_TYPE)));
 
     private static DeferredBlock<InfestedGlassBlock> tintedGlass(String id) {
         return BLOCKS.register(id, () -> new InfestedGlassBlock(BlockBehaviour.Properties.of()

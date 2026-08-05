@@ -359,6 +359,9 @@ public final class ClientModEvents {
         event.enqueueWork(() -> {
             registerBowProperties(ModItems.WEAPON_BOW.get());
             registerBowProperties(ModItems.WEAPON_BOW_SENTIENT.get());
+            ItemProperties.register(ModItems.PEARL.get(),
+                    ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "pearl_state"),
+                    PearlClientEvents::pearlState);
             ItemProperties.register(ModItems.EVCLOCK.get(), ResourceLocation.withDefaultNamespace("phase"),
                     (stack, level, entity, seed) -> stack
                             .getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)

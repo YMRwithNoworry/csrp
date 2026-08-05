@@ -21,6 +21,7 @@ public final class EyeOfTheBeholderItem extends Item {
             List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable("tooltip.csrp.pearl.desc")
                 .withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.empty());
         tooltip.add(Component.translatable("tooltip.csrp.pearl.assimilated")
                 .withStyle(ChatFormatting.LIGHT_PURPLE));
         tooltip.add(Component.translatable("tooltip.csrp.pearl.feral")

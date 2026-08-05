@@ -373,7 +373,16 @@ public final class ModItems {
             "shade_glass", ModBlocks.SHADE_GLASS);
     public static final DeferredItem<BlockItem> GOTHSHROOM = ITEMS.registerSimpleBlockItem(
             "gothshroom", ModBlocks.GOTHSHROOM);
-    public static final DeferredItem<Item> COOKED_FLESH = simple("cooked_flesh");
+    public static final DeferredItem<BlockItem> COOKED_FLESH = ITEMS.registerSimpleBlockItem(
+            "cooked_flesh", ModBlocks.COOKED_FLESH);
+    public static final DeferredItem<BlockItem> COOKED_FLESH_PLANKS = ITEMS.registerSimpleBlockItem(
+            "cooked_flesh_planks", ModBlocks.COOKED_FLESH_PLANKS);
+    public static final DeferredItem<BlockItem> COOKED_FLESH_STAIRS = ITEMS.registerSimpleBlockItem(
+            "cooked_flesh_stairs", ModBlocks.COOKED_FLESH_STAIRS);
+    public static final DeferredItem<BlockItem> COOKED_FLESH_SLAB = ITEMS.registerSimpleBlockItem(
+            "cooked_flesh_slab", ModBlocks.COOKED_FLESH_SLAB);
+    public static final DeferredItem<BlockItem> COOKED_FLESH_FENCE = ITEMS.registerSimpleBlockItem(
+            "cooked_flesh_fence", ModBlocks.COOKED_FLESH_FENCE);
     public static final DeferredItem<EyeOfTheBeholderItem> PEARL = ITEMS.registerItem(
             "pearl", EyeOfTheBeholderItem::new, new Item.Properties());
 

@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
+    "csrp:cooked_flesh",
+    "csrp:cooked_flesh_planks",
     "csrp:parasiterubble_stonedebris",
     "csrp:infested_stone_bricks",
     "csrp:infested_terracotta",
