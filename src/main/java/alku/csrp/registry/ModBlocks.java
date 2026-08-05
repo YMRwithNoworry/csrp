@@ -30,6 +30,7 @@ import alku.csrp.block.AlveoliGrowthBlock;
 import alku.csrp.block.AssimilatedJackOLanternBlock;
 import alku.csrp.block.AssimilatedPumpkinBlock;
 import alku.csrp.block.AssimilatedReedBlock;
+import alku.csrp.block.BiomePurifierBlock;
 import alku.csrp.block.BladderSacBlock;
 import alku.csrp.block.GrotesqueLumpBlock;
 import alku.csrp.block.InfuserFurnaceBlock;
@@ -348,6 +349,12 @@ public final class ModBlocks {
                     .lightLevel(state -> 13)
                     .requiresCorrectToolForDrops()
                     .sound(SoundType.METAL)));
+    public static final DeferredBlock<BiomePurifierBlock> BIOME_PURIFIER = BLOCKS.register(
+            "biomepurifier", () -> new BiomePurifierBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_LIGHT_BLUE)
+                    .strength(5.0F, 20.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     private static java.util.Map<String, DeferredBlock<EscaBulbBlock>> registerEscaBulbs() {
         java.util.Map<String, DeferredBlock<EscaBulbBlock>> bulbs = new java.util.LinkedHashMap<>();

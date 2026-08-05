@@ -3,6 +3,9 @@
   "minVersion": "0.8",
   "package": "alku.csrp.mixin",
   "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "LevelChunkSectionMixin"
+  ],
   "client": [
     "client.ChatComponentMixin",
     "client.CreateWorldScreenMixin",
