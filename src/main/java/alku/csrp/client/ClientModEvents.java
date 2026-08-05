@@ -30,6 +30,7 @@ import alku.csrp.registry.ModItems;
 import alku.csrp.registry.ModMenus;
 import alku.csrp.registry.ModParticles;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.client.renderer.entity.NoopRenderer;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
@@ -61,6 +62,7 @@ public final class ClientModEvents {
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntities.PARASITE_REMAINS.get(), ParasiteRemainsRenderer::new);
+        event.registerEntityRenderer(ModEntities.SHOCKWAVE.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.BUGLIN.get(), BuglinRenderer::new);
         event.registerEntityRenderer(ModEntities.RUPTER.get(), RupterRenderer::new);
         event.registerEntityRenderer(ModEntities.SCENT.get(), ParasiticScentRenderer::new);

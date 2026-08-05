@@ -1,12 +1,18 @@
 package alku.csrp.entity;
 
+import alku.csrp.registry.ModEntities;
+import alku.csrp.registry.ModSounds;
 import alku.csrp.world.EvolutionSystem;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -36,6 +42,9 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
     private static final double SHOCKWAVE_MIN_VERTICAL_DISTANCE = -2.0D;
     private static final int BLOCK_BREAK_COOLDOWN_TICKS = 60;
     private static final float BLOCK_BREAK_HARDNESS = 1.0F;
+    private static final float FIRE_DAMAGE_MULTIPLIER = 4.0F;
+    private static final float RANDOM_BLOCK_CHANCE = 0.1F;
+    private static final float MISSING_HEALTH_DAMAGE_FACTOR = 0.5F;
     private static final String ATTACKS_SINCE_REST_TAG = "MeleeAttacksSinceRest";
     private static final String REST_TICKS_TAG = "MeleeRestTicks";
     private static final EntityDataAccessor<Boolean> MELEE_RESTING = SynchedEntityData.defineId(
@@ -58,7 +67,7 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 45.0).add(Attributes.ARMOR, 9.0)
                 .add(Attributes.ATTACK_DAMAGE, 15.0).add(Attributes.MOVEMENT_SPEED, 0.3)
-                .add(Attributes.KNOCKBACK_RESISTANCE, 0.4).add(Attributes.FOLLOW_RANGE, 32.0);
+                .add(Attributes.KNOCKBACK_RESISTANCE, 0.7).add(Attributes.FOLLOW_RANGE, 32.0);
     }
 
     @Override
@@ -158,7 +167,63 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
             return;
         }
         triggerAnim("attack_controller", "attack");
-        hurtNearby(center, 1.5, (float) getAttributeValue(Attributes.ATTACK_DAMAGE), random.nextFloat() < 0.1F);
+        playSound(ModSounds.get("mob.swipe"), 2.0F, 1.0F);
+        for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
+                center.getBoundingBox().inflate(1.5D), this::isValidParasiteTarget)) {
+            if (hasLineOfSight(target)) {
+                hitLongarmsTarget(target, false);
+            }
+        }
+    }
+
+    private float currentMeleeDamage() {
+        float baseDamage = (float) getAttributeValue(Attributes.ATTACK_DAMAGE);
+        if (getHealth() >= getMaxHealth()) {
+            return baseDamage;
+        }
+        float healthRatio = Math.clamp(getHealth() / getMaxHealth(), 0.0F, 1.0F);
+        return baseDamage + baseDamage * (1.0F - healthRatio * MISSING_HEALTH_DAMAGE_FACTOR);
+    }
+
+    boolean hitWithShockwave(LivingEntity target) {
+        return hitLongarmsTarget(target, true);
+    }
+
+    private boolean hitLongarmsTarget(LivingEntity target, boolean shockwave) {
+        if (!isValidParasiteTarget(target)) {
+            return false;
+        }
+        if (shockwave) {
+            target.invulnerableTime = 0;
+        }
+        if (!target.hurt(damageSources().mobAttack(this), currentMeleeDamage())) {
+            return false;
+        }
+        target.knockback(0.4D, getX() - target.getX(), getZ() - target.getZ());
+        if (random.nextFloat() < 0.1F) {
+            double x = target.getX() - getX();
+            double z = target.getZ() - getZ();
+            double length = Math.max(0.0001D, Math.sqrt(x * x + z * z));
+            target.push(x / length * 0.4D, target instanceof net.minecraft.world.entity.player.Player
+                    ? 0.525D : 1.05D, z / length * 0.4D);
+        }
+        if (shockwave) {
+            target.setDeltaMovement(target.getDeltaMovement().add(0.0D, 0.64645D, 0.0D));
+            target.hurtMarked = true;
+        }
+        return true;
+    }
+
+    private void spawnShockwave(LivingEntity target) {
+        ShockwaveEntity shockwave = ModEntities.SHOCKWAVE.get().create(level());
+        if (shockwave == null) {
+            return;
+        }
+        shockwave.moveTo(getX(), getY(), getZ(), getYRot(), 0.0F);
+        shockwave.configure(this, target);
+        level().addFreshEntity(shockwave);
+        triggerAnim("attack_controller", "attack");
+        playSound(ModSounds.get("mob.swipe"), 2.0F, 1.0F);
     }
 
     private boolean isRestingAfterMeleeAttacks() {
@@ -184,7 +249,27 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
 
     @Override
     public boolean doHurtTarget(Entity target) {
-        return !isRestingAfterMeleeAttacks() && super.doHurtTarget(target);
+        return !isRestingAfterMeleeAttacks() && target instanceof LivingEntity living
+                && hitLongarmsTarget(living, false);
+    }
+
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        if (!level().isClientSide && amount > 0.0F && tickCount > 5
+                && !source.is(DamageTypeTags.BYPASSES_ARMOR)
+                && random.nextFloat() < RANDOM_BLOCK_CHANCE) {
+            playSound(SoundEvents.SHIELD_BLOCK, 0.7F, 1.15F + random.nextFloat() * 0.15F);
+            if (level() instanceof ServerLevel serverLevel) {
+                serverLevel.sendParticles(ParticleTypes.CRIT, getX(), getY() + getBbHeight() * 0.6D, getZ(),
+                        6, 0.08D, 0.08D, 0.08D, 0.01D);
+            }
+            if (source.getEntity() instanceof LivingEntity attacker) {
+                setTarget(attacker);
+            }
+            return false;
+        }
+        return super.hurt(source, source.is(DamageTypeTags.IS_FIRE)
+                ? amount * FIRE_DAMAGE_MULTIPLIER : amount);
     }
 
     @Override
@@ -307,11 +392,24 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
             return charge < 80 && !isRestingAfterMeleeAttacks()
                     && isValidShockwaveTarget(getTarget());
         }
-        @Override public void start() { charge = 0; getNavigation().stop(); setAggressive(false); }
+        @Override public void start() {
+            charge = 0;
+            getNavigation().stop();
+            setAggressive(false);
+            playSound(ModSounds.get("shyco.special"), 4.0F,
+                    1.8F + random.nextFloat() * 0.4F);
+        }
         @Override public void tick() {
             LivingEntity target = getTarget();
             if (target != null) getLookControl().setLookAt(target, 30.0F, 30.0F);
-            if (++charge == 60) hurtNearby(LongarmsEntity.this, 12.0, 4.5F, true);
+            charge++;
+            if (charge <= 40 && charge % 4 == 0 && level() instanceof ServerLevel serverLevel) {
+                serverLevel.sendParticles(ParticleTypes.FLAME, getX(), getY() + 0.2D, getZ(),
+                        4, 0.45D, 0.1D, 0.45D, 0.02D);
+            }
+            if (charge == 60 && target != null) {
+                spawnShockwave(target);
+            }
         }
         @Override public void stop() {
             shockwaveCooldown = SHOCKWAVE_COOLDOWN_TICKS;
