@@ -9,6 +9,7 @@ import alku.csrp.item.DeadBloodFluidItem;
 import alku.csrp.item.EvolutionClockItem;
 import alku.csrp.item.EvolutionDeviceItem;
 import alku.csrp.item.EvolutionLureItem;
+import alku.csrp.item.EyeOfTheBeholderItem;
 import alku.csrp.block.EvolutionLureBlock;
 import alku.csrp.item.FalseAppleItem;
 import alku.csrp.item.FishlinItem;
@@ -373,6 +374,8 @@ public final class ModItems {
     public static final DeferredItem<BlockItem> GOTHSHROOM = ITEMS.registerSimpleBlockItem(
             "gothshroom", ModBlocks.GOTHSHROOM);
     public static final DeferredItem<Item> COOKED_FLESH = simple("cooked_flesh");
+    public static final DeferredItem<EyeOfTheBeholderItem> PEARL = ITEMS.registerItem(
+            "pearl", EyeOfTheBeholderItem::new, new Item.Properties());
 
     private static java.util.Map<String, DeferredItem<BlockItem>> registerEscaBulbItems() {
         java.util.Map<String, DeferredItem<BlockItem>> items = new java.util.LinkedHashMap<>();
