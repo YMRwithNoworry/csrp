@@ -49,6 +49,7 @@ import alku.csrp.entity.MarauderizedHumanEntity;
 import alku.csrp.entity.MarauderizedSheepEntity;
 import alku.csrp.entity.MarauderizedVillagerEntity;
 import alku.csrp.entity.ParasiteProjectileEntity;
+import alku.csrp.entity.ParasiteRemainsEntity;
 import alku.csrp.entity.ParasiticScentEntity;
 import alku.csrp.entity.PrimitiveVariantEntity;
 import alku.csrp.entity.PreeminentParasiteEntity;
@@ -79,6 +80,14 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public final class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITIES =
             DeferredRegister.create(Registries.ENTITY_TYPE, Csrp.MODID);
+
+    public static final DeferredHolder<EntityType<?>, EntityType<ParasiteRemainsEntity>> PARASITE_REMAINS =
+            ENTITIES.register("parasite_remains", () -> EntityType.Builder
+                    .of(ParasiteRemainsEntity::new, MobCategory.MISC)
+                    .sized(0.38F, 0.38F)
+                    .clientTrackingRange(10)
+                    .updateInterval(1)
+                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "parasite_remains").toString()));
 
     public static final DeferredHolder<EntityType<?>, EntityType<BuglinEntity>> BUGLIN =
             ENTITIES.register("buglin", () -> EntityType.Builder.of(BuglinEntity::new, MobCategory.MONSTER)
