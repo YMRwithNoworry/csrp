@@ -163,7 +163,7 @@ public final class ParasiteRemainsEntity extends Entity {
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
-        entityData.set(VARIANT, Mth.clamp(tag.getInt("variant"), 0, 7));
+        entityData.set(VARIANT, Mth.clamp(tag.getInt("variant"), 0, 255));
         entityData.set(SOURCE_TYPE, tag.getString("source_type"));
     }
 

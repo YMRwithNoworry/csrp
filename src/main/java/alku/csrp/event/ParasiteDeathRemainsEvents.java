@@ -50,7 +50,7 @@ public final class ParasiteDeathRemainsEvents {
             remains.setPos(dead.getX() + (level.random.nextDouble() - 0.5D) * dead.getBbWidth() * 0.5D,
                     centerY + (level.random.nextDouble() - 0.5D) * dead.getBbHeight() * 0.35D,
                     dead.getZ() + (level.random.nextDouble() - 0.5D) * dead.getBbWidth() * 0.5D);
-            remains.initialize(dead, level.random.nextInt(8), velocity);
+            remains.initialize(dead, level.random.nextInt(256), velocity);
             level.addFreshEntity(remains);
         }
     }
