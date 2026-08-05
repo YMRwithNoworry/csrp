@@ -31,6 +31,7 @@ import alku.csrp.item.InjectedPurifierItem;
 import alku.csrp.item.OverlastCanteenItem;
 import alku.csrp.item.OverlastFoodItem;
 import alku.csrp.item.ParasiteLootBlockItem;
+import alku.csrp.item.ParasiteEvolutionWandItem;
 import alku.csrp.item.AlveolarFluidItem;
 import alku.csrp.item.AlveoliItem;
 import alku.csrp.item.VenkrolBootsItem;
@@ -496,6 +497,12 @@ public final class ModItems {
             "evclock", EvolutionClockItem::new, new Item.Properties().stacksTo(1));
     public static final DeferredItem<LevelClockItem> LEVELCLOCK = ITEMS.registerItem(
             "levelclock", LevelClockItem::new, new Item.Properties().stacksTo(1));
+    public static final DeferredItem<ParasiteEvolutionWandItem> ITEM_EVOLVE = ITEMS.registerItem(
+            "itemevolve", properties -> new ParasiteEvolutionWandItem(
+                    ParasiteEvolutionWandItem.Mode.EVOLUTION, properties), new Item.Properties().stacksTo(1));
+    public static final DeferredItem<ParasiteEvolutionWandItem> ITEM_DEVOLVE = ITEMS.registerItem(
+            "itemdevolve", properties -> new ParasiteEvolutionWandItem(
+                    ParasiteEvolutionWandItem.Mode.DEVOLUTION, properties), new Item.Properties().stacksTo(1));
     public static final DeferredItem<SrpCompassItem> NODECOMPASS = ITEMS.registerItem(
             "nodecompass", properties -> new SrpCompassItem(SrpCompassItem.Target.NODE, properties),
             new Item.Properties().stacksTo(1));
