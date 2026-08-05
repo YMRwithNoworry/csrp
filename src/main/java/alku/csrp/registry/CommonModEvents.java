@@ -60,11 +60,20 @@ import alku.csrp.entity.SummonerEntity;
 import alku.csrp.entity.ThrallEntity;
 import alku.csrp.entity.VerminEntity;
 import alku.csrp.entity.VisceraEntity;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.Holder;
 import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 
@@ -318,5 +327,22 @@ public final class CommonModEvents {
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 Monster::checkMonsterSpawnRules,
                 RegisterSpawnPlacementsEvent.Operation.REPLACE);
+    }
+
+    @SubscribeEvent
+    public static void registerBrewing(RegisterBrewingRecipesEvent event) {
+        var builder = event.getBuilder();
+        Ingredient sponge = Ingredient.of(ModItems.DISEASED_SPONGE.get());
+        builder.addRecipe(potionIngredient("water"), sponge,
+                new ItemStack(ModItems.DEADBLOOD_FLUID.get()));
+        builder.addRecipe(potionIngredient("awkward"), sponge,
+                new ItemStack(ModItems.DEADBLOOD_FLUID.get()));
+    }
+
+    private static Ingredient potionIngredient(String potionName) {
+        Holder<Potion> holder = potionName.equals("awkward") ? Potions.AWKWARD : Potions.WATER;
+        ItemStack stack = new ItemStack(Items.POTION);
+        stack.set(DataComponents.POTION_CONTENTS, new PotionContents(holder));
+        return Ingredient.of(stack);
     }
 }

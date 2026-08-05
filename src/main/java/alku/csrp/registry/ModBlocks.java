@@ -10,6 +10,7 @@ import alku.csrp.block.ColonyHeartBlock;
 import alku.csrp.block.ColonyStructureBlock;
 import alku.csrp.block.DeadBloodBlock;
 import alku.csrp.block.DispatcherNidusBlock;
+import alku.csrp.block.DiseasedSpongeBlock;
 import alku.csrp.block.EscaBulbBlock;
 import alku.csrp.block.FogBlock;
 import alku.csrp.block.FogNullifierBlock;
@@ -334,6 +335,11 @@ public final class ModBlocks {
                     .strength(50.0F, 1200.0F)
                     .requiresCorrectToolForDrops()
                     .sound(SoundType.STONE)));
+    public static final DeferredBlock<DiseasedSpongeBlock> DISEASED_SPONGE = BLOCKS.register(
+            "diseased_sponge", () -> new DiseasedSpongeBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED)
+                    .strength(0.6F)
+                    .sound(SoundType.SPONGE)));
 
     private static java.util.Map<String, DeferredBlock<EscaBulbBlock>> registerEscaBulbs() {
         java.util.Map<String, DeferredBlock<EscaBulbBlock>> bulbs = new java.util.LinkedHashMap<>();
