@@ -33,7 +33,12 @@ public final class ParasiteRemainsEntity extends Entity {
             ParasiteRemainsEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<String> SOURCE_TYPE = SynchedEntityData.defineId(
             ParasiteRemainsEntity.class, EntityDataSerializers.STRING);
+    private static final EntityDataAccessor<Boolean> SETTLED = SynchedEntityData.defineId(
+            ParasiteRemainsEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> SETTLED_TICK = SynchedEntityData.defineId(
+            ParasiteRemainsEntity.class, EntityDataSerializers.INT);
     private static final int LIFETIME_TICKS = 20 * 20;
+    private int groundContactTicks;
 
     public ParasiteRemainsEntity(EntityType<? extends ParasiteRemainsEntity> type, Level level) {
         super(type, level);
@@ -55,9 +60,28 @@ public final class ParasiteRemainsEntity extends Entity {
         return id == null ? ResourceLocation.withDefaultNamespace("pig") : id;
     }
 
+    public boolean isSettled() {
+        return entityData.get(SETTLED);
+    }
+
+    public int settledTick() {
+        return entityData.get(SETTLED_TICK);
+    }
+
     @Override
     public void tick() {
         super.tick();
+        if (isSettled()) {
+            setDeltaMovement(Vec3.ZERO);
+            move(MoverType.SELF, new Vec3(0.0D, -0.04D, 0.0D));
+            if (onGround()) {
+                expireIfNeeded();
+                return;
+            }
+            entityData.set(SETTLED, false);
+            groundContactTicks = 0;
+        }
+
         Vec3 movement = getDeltaMovement();
         if (!isNoGravity()) {
             movement = movement.add(0.0D, -0.04D, 0.0D);
@@ -75,12 +99,28 @@ public final class ParasiteRemainsEntity extends Entity {
             y = Math.abs(y) > 0.08D ? -y * 0.34D : 0.0D;
             x *= 0.72D;
             z *= 0.72D;
+            if (y == 0.0D && x * x + z * z < 0.001225D) {
+                groundContactTicks++;
+                if (groundContactTicks >= 3) {
+                    entityData.set(SETTLED, true);
+                    entityData.set(SETTLED_TICK, tickCount);
+                    x = 0.0D;
+                    z = 0.0D;
+                }
+            } else {
+                groundContactTicks = 0;
+            }
         } else {
             x *= 0.98D;
             z *= 0.98D;
+            groundContactTicks = 0;
         }
         setDeltaMovement(x, y * 0.98D, z);
 
+        expireIfNeeded();
+    }
+
+    private void expireIfNeeded() {
         if (!level().isClientSide && tickCount >= LIFETIME_TICKS && level() instanceof ServerLevel serverLevel) {
             contaminate(serverLevel);
             discard();
@@ -159,17 +199,24 @@ public final class ParasiteRemainsEntity extends Entity {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         builder.define(VARIANT, 0);
         builder.define(SOURCE_TYPE, "minecraft:pig");
+        builder.define(SETTLED, false);
+        builder.define(SETTLED_TICK, 0);
     }
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
         entityData.set(VARIANT, Mth.clamp(tag.getInt("variant"), 0, 255));
         entityData.set(SOURCE_TYPE, tag.getString("source_type"));
+        boolean settled = tag.getBoolean("settled");
+        entityData.set(SETTLED, settled);
+        entityData.set(SETTLED_TICK, settled ? 0 : tag.getInt("settled_tick"));
     }
 
     @Override
     protected void addAdditionalSaveData(CompoundTag tag) {
         tag.putInt("variant", entityData.get(VARIANT));
         tag.putString("source_type", entityData.get(SOURCE_TYPE));
+        tag.putBoolean("settled", entityData.get(SETTLED));
+        tag.putInt("settled_tick", entityData.get(SETTLED_TICK));
     }
 }

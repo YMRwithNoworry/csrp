@@ -51,10 +51,19 @@ public final class ParasiteRemainsRenderer extends EntityRenderer<ParasiteRemain
 
         int variant = entity.variant();
         float age = entity.tickCount + partialTick;
+        float spinAge = entity.isSettled() ? Math.min(age, entity.settledTick()) : age;
+        float settleProgress = entity.isSettled()
+                ? Mth.clamp((age - entity.settledTick()) / 8.0F, 0.0F, 1.0F) : 0.0F;
+        float spinX = spinAge * (8.0F + variant % 7 * 1.7F);
+        float spinY = spinAge * (11.0F + variant % 9 * 1.3F);
+        float spinZ = spinAge * (6.0F + variant % 5 * 1.1F);
+        float restingX = 82.0F + variant % 7 * 2.5F;
+        float restingY = Math.floorMod(variant * 67, 360);
+        float restingZ = Math.floorMod(variant * 29, 25) - 12.0F;
         poseStack.pushPose();
-        poseStack.mulPose(Axis.XP.rotationDegrees(age * (8.0F + variant % 7 * 1.7F)));
-        poseStack.mulPose(Axis.YP.rotationDegrees(age * (11.0F + variant % 9 * 1.3F)));
-        poseStack.mulPose(Axis.ZP.rotationDegrees(age * (6.0F + variant % 5 * 1.1F)));
+        poseStack.mulPose(Axis.XP.rotationDegrees(Mth.rotLerp(settleProgress, spinX, restingX)));
+        poseStack.mulPose(Axis.YP.rotationDegrees(Mth.rotLerp(settleProgress, spinY, restingY)));
+        poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.rotLerp(settleProgress, spinZ, restingZ)));
         renderModelCube(cube, poseStack,
                 bufferSource.getBuffer(RenderType.entityCutoutNoCull(getTextureLocation(entity))), packedLight);
         poseStack.popPose();
