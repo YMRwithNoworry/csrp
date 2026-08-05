@@ -634,6 +634,8 @@
   "item.csrp.purifying_potion": "净化药剂壶",
   "item.csrp.infecting_potion": "感染药剂壶",
   "item.csrp.strong_infecting_potion": "强效感染药剂壶",
+  "tooltip.csrp.canteen.sips": "剩余 %s 口",
+  "tooltip.csrp.canteen.durability": "壶体耐久：%s",
   "item.csrp.injected_purifier": "净化注射器",
   "item.csrp.evolution_device": "节点探测器",
   "effect.csrp.parasites_purify": "寄生净化",

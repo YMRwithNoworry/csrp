@@ -844,9 +844,7 @@ public final class ModItems {
 
     private static DeferredItem<OverlastCanteenItem> canteen(String id, OverlastCanteenItem.Dose dose) {
         return ITEMS.registerItem(id, properties -> new OverlastCanteenItem(dose, properties),
-                dose == OverlastCanteenItem.Dose.EMPTY
-                        ? new Item.Properties().stacksTo(1)
-                        : new Item.Properties().durability(6));
+                new Item.Properties().stacksTo(1));
     }
 
     private static DeferredItem<LivingWeaponItem> livingWeapon(String id, LivingWeaponItem.WeaponKind kind,

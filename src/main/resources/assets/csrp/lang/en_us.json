@@ -634,6 +634,8 @@
   "item.csrp.purifying_potion": "Purifying Potion Canteen",
   "item.csrp.infecting_potion": "Infecting Potion Canteen",
   "item.csrp.strong_infecting_potion": "Strong Infecting Potion Canteen",
+  "tooltip.csrp.canteen.sips": "%s sips",
+  "tooltip.csrp.canteen.durability": "%s durability",
   "item.csrp.injected_purifier": "Purifying Injector",
   "item.csrp.evolution_device": "Node Detector",
   "effect.csrp.parasites_purify": "Parasite Purification",

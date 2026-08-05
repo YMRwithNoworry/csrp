@@ -13,6 +13,7 @@ import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModMenus;
 import alku.csrp.registry.ModPotions;
 import alku.csrp.registry.ModParticles;
+import alku.csrp.registry.ModRecipeSerializers;
 import alku.csrp.registry.ModSounds;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -180,6 +181,7 @@ public final class Csrp {
         ModMenus.MENUS.register(modEventBus);
         ModPotions.POTIONS.register(modEventBus);
         ModParticles.PARTICLES.register(modEventBus);
+        ModRecipeSerializers.RECIPE_SERIALIZERS.register(modEventBus);
         ModSounds.SOUNDS.register(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
 
