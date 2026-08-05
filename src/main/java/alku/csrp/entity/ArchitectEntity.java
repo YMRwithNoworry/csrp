@@ -16,6 +16,7 @@ import net.minecraft.world.entity.ai.control.FlyingMoveControl;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.level.Level;
@@ -32,6 +33,7 @@ import java.util.EnumSet;
 public final class ArchitectEntity extends PrimitiveParasiteEntity {
     private static final int SUPPORT_SUMMON_INTERVAL = 80;
     private static final int MAX_SUMMONED_SUCCORS = 3;
+    private static final int MELEE_COOLDOWN = 20;
     @Override
     protected int maxDamageAdaptationHits() {
         return 5;
@@ -75,7 +77,7 @@ public final class ArchitectEntity extends PrimitiveParasiteEntity {
         return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 80.0D)
                 .add(Attributes.ARMOR, 20.0D)
-                .add(Attributes.ATTACK_DAMAGE, 0.0D)
+                .add(Attributes.ATTACK_DAMAGE, 22.0D)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.40D)
                 .add(Attributes.MOVEMENT_SPEED, 0.30D)
                 .add(Attributes.FLYING_SPEED, 0.30D)
@@ -93,8 +95,11 @@ public final class ArchitectEntity extends PrimitiveParasiteEntity {
     @Override
     protected void registerGoals() {
         goalSelector.addGoal(0, new FloatGoal(this));
+        goalSelector.addGoal(3, new FlightAttackGoal());
         goalSelector.addGoal(6, new RandomFlightGoal());
         targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
+        targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,
+                true, false, this::isValidParasiteTarget));
     }
 
     @Override
@@ -135,7 +140,7 @@ public final class ArchitectEntity extends PrimitiveParasiteEntity {
         if (level.getEntitiesOfClass(WorkerEntity.class, getBoundingBox().inflate(16.0D)).size() > 3) {
             return;
         }
-        SrpWorldData.ColonyEntry colony = SrpWorldData.get(level).nearestColonyInEffectRange(blockPosition());
+        SrpWorldData.ColonyEntry colony = SrpWorldData.get(level).nearestColonyInConstructionRange(blockPosition());
         if (colony == null) {
             return;
         }
@@ -191,6 +196,44 @@ public final class ArchitectEntity extends PrimitiveParasiteEntity {
             if (level().getBlockState(destination).isAir()) {
                 Vec3 center = Vec3.atCenterOf(destination);
                 getMoveControl().setWantedPosition(center.x, center.y, center.z, 0.5D);
+            }
+        }
+    }
+
+    private final class FlightAttackGoal extends Goal {
+        private int attackCooldown;
+
+        private FlightAttackGoal() {
+            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
+        }
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = getTarget();
+            return target != null && target.isAlive();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return canUse();
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = getTarget();
+            if (target == null) {
+                return;
+            }
+            getLookControl().setLookAt(target, 30.0F, 30.0F);
+            getMoveControl().setWantedPosition(target.getX(), target.getY() + target.getEyeHeight() * 0.5D,
+                    target.getZ(), distanceToSqr(target) > 400.0D ? 1.1D : 0.8D);
+            if (attackCooldown > 0) {
+                attackCooldown--;
+            }
+            double reach = getBbWidth() * 2.0D + target.getBbWidth();
+            if (attackCooldown <= 0 && distanceToSqr(target) <= reach * reach && hasLineOfSight(target)) {
+                doHurtTarget(target);
+                attackCooldown = MELEE_COOLDOWN;
             }
         }
     }

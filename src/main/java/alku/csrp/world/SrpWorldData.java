@@ -401,10 +401,31 @@ public final class SrpWorldData extends SavedData {
     }
 
     public ColonyEntry nearestColonyInEffectRange(BlockPos pos) {
+        return nearestColonyInRange(pos, true);
+    }
+
+    public ColonyEntry nearestColonyInConstructionRange(BlockPos pos) {
+        return nearestColonyInRange(pos, false);
+    }
+
+    public static int colonyConstructionRadius(int points) {
+        int cappedPoints = Math.max(0, Math.min(Config.colonyPointCap(), points));
+        return Config.colonyBaseRadius()
+                + cappedPoints / Config.colonySpreadPoint() * Config.colonySpreadValue();
+    }
+
+    public static int colonyEffectRadius(int points) {
+        int cappedPoints = Math.max(0, Math.min(Config.colonyPointCap(), points));
+        return Config.colonyBaseEffectRadius()
+                + cappedPoints / Config.colonyEffectSpreadPoint() * Config.colonyEffectSpreadValue();
+    }
+
+    private ColonyEntry nearestColonyInRange(BlockPos pos, boolean effectRange) {
         ColonyEntry closest = null;
         double closestDistance = Double.MAX_VALUE;
         for (ColonyEntry entry : colonies) {
-            int radius = 300 + entry.points() * 40;
+            int radius = effectRange ? colonyEffectRadius(entry.points())
+                    : colonyConstructionRadius(entry.points());
             double distance = entry.pos().distSqr(pos);
             if (distance <= (double) radius * radius && distance < closestDistance) {
                 closest = entry;

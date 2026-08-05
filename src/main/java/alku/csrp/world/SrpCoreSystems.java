@@ -7,6 +7,7 @@ import alku.csrp.entity.ArchitectEntity;
 import alku.csrp.infection.BlockInfestation;
 import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModEntities;
+import alku.csrp.registry.ModSounds;
 import alku.csrp.world.SrpWorldData.ColonyEntry;
 import alku.csrp.world.SrpWorldData.NodeEntry;
 import alku.csrp.world.SrpWorldData.VectorEntry;
@@ -14,8 +15,10 @@ import java.util.ArrayList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -28,9 +31,7 @@ public final class SrpCoreSystems {
     private static final int VECTOR_HEALTH_CAP = 2_000_000_000;
     private static final int VECTOR_RADIUS_CAP = 2_000_000;
     private static final int MAX_NODES = 20;
-    private static final int MAX_COLONIES = 20;
     private static final int NODE_MIN_DISTANCE = 10_000;
-    private static final int COLONY_MIN_DISTANCE = 2_000;
     private static final int VECTOR_MIN_DISTANCE = 10_000;
     private static final double VECTOR_DAILY_HEALTH = 0.3D;
     private static final double VECTOR_DAILY_RADIUS = 1.35D;
@@ -80,17 +81,22 @@ public final class SrpCoreSystems {
 
     public static boolean placeColony(ServerLevel level, BlockPos pos) {
         SrpWorldData data = SrpWorldData.get(level);
-        if (data.colonies().size() >= MAX_COLONIES || tooCloseToColony(data, pos, COLONY_MIN_DISTANCE)) {
+        int snappedX = nearestMultiple(pos.getX(), 26);
+        int snappedZ = nearestMultiple(pos.getZ(), 26);
+        int surfaceY = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, snappedX, snappedZ);
+        BlockPos foundation = new BlockPos(snappedX, surfaceY, snappedZ);
+        if (data.colonies().size() >= Config.colonyMaximumNumber()
+                || tooCloseToColony(data, foundation, Config.colonyMinimumDistance())) {
             return false;
         }
-        data.setColony(pos);
-        if (level.setBlock(pos, ModBlocks.COLONYHEART.get().defaultBlockState()
-                .setValue(SrpCoreBlock.ACTIVE, 1), Block.UPDATE_ALL)) {
-            BlockInfestation.infestAround(level, pos, 1);
-            return true;
+        BlockPos heart = ColonyStructureGenerator.generateCore(level, foundation, level.getRandom());
+        if (!level.getBlockState(heart).is(ModBlocks.COLONYHEART)) {
+            return false;
         }
-        data.rollbackColony(pos);
-        return false;
+        data.setColony(heart);
+        BlockInfestation.infestAround(level, heart, 1);
+        level.playSound(null, heart, ModSounds.get("colony.one"), SoundSource.HOSTILE, 4.0F, 1.0F);
+        return true;
     }
 
     public static boolean removeNode(ServerLevel level, BlockPos pos) {
@@ -202,7 +208,7 @@ public final class SrpCoreSystems {
         if (architect == null) {
             return;
         }
-        BlockPos spawn = colony.pos().above(4);
+        BlockPos spawn = colony.pos().above();
         architect.moveTo(spawn.getX() + 0.5D, spawn.getY(), spawn.getZ() + 0.5D, 0.0F, 0.0F);
         if (!level.noCollision(architect)) {
             return;
@@ -289,5 +295,11 @@ public final class SrpCoreSystems {
     private static boolean tooCloseToVector(SrpWorldData data, BlockPos pos, int distance) {
         double minimum = (double) distance * distance;
         return data.vectors().stream().anyMatch(entry -> entry.pos().distSqr(pos) <= minimum);
+    }
+
+    private static int nearestMultiple(int value, int multiple) {
+        int magnitude = Math.abs(value);
+        int rounded = (magnitude + multiple / 2) / multiple * multiple;
+        return value < 0 ? -rounded : rounded;
     }
 }

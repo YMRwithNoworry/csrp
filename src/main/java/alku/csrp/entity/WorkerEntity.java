@@ -80,7 +80,7 @@ public final class WorkerEntity extends PrimitiveParasiteEntity {
         if (!level().isClientSide && colonyOrigin == null && tickCount % 10 == 0 && random.nextInt(7) == 0
                 && level() instanceof ServerLevel serverLevel) {
             SrpWorldData.ColonyEntry colony = SrpWorldData.get(serverLevel)
-                    .nearestColonyInEffectRange(blockPosition());
+                    .nearestColonyInConstructionRange(blockPosition());
             if (colony != null) {
                 setColonyTask(colony.pos(), colonyRadius(colony));
             }
@@ -94,7 +94,7 @@ public final class WorkerEntity extends PrimitiveParasiteEntity {
     }
 
     public static int colonyRadius(SrpWorldData.ColonyEntry colony) {
-        return 300 + colony.points() * 40;
+        return SrpWorldData.colonyConstructionRadius(colony.points());
     }
 
     @Override

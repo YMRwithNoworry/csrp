@@ -5,6 +5,7 @@ import alku.csrp.registry.ModEntities;
 import alku.csrp.infection.BlockInfestation;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModItems;
+import alku.csrp.world.SrpCoreSystems;
 import alku.csrp.world.SrpWorldData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -65,6 +66,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     private int blockBreakCooldown;
     private int forcedEvolutionCooldown;
     private int attackFlashTicks;
+    private int colonyPlacementProgress;
     private int temporaryLifetimeTicks = -1;
     private boolean canGrow = true;
 
@@ -131,6 +133,9 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         if (activeKind.family == Family.DISPATCHER && tickCount % 40 == 0) {
             storeNearbyParasite();
         }
+        if (activeKind.family == Family.DISPATCHER && activeKind.stage == 4) {
+            tryPlaceFirstColony();
+        }
         if (summonCooldown <= 0 && performFamilyAbility(activeKind)) {
             summonCooldown = activeKind.summonCooldown;
         }
@@ -149,6 +154,28 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         }
         if (tickCount % 10 == 0) {
             breakBlocksTowardsTarget(activeKind);
+        }
+    }
+
+    private void tryPlaceFirstColony() {
+        if (tickCount < 1_200 || random.nextInt(10) != 0 || !(level() instanceof ServerLevel serverLevel)) {
+            return;
+        }
+        if (!SrpWorldData.get(serverLevel).colonies().isEmpty()) {
+            colonyPlacementProgress = -1_000;
+            return;
+        }
+        if (++colonyPlacementProgress < 200) {
+            return;
+        }
+        colonyPlacementProgress = -100;
+        for (int attempt = 0; attempt < 3; attempt++) {
+            int offsetX = (5 + random.nextInt(7)) * (random.nextBoolean() ? 1 : -1);
+            int offsetZ = (5 + random.nextInt(7)) * (random.nextBoolean() ? 1 : -1);
+            if (SrpCoreSystems.placeColony(serverLevel, blockPosition().offset(offsetX, 0, offsetZ))) {
+                colonyPlacementProgress = -1_000;
+                return;
+            }
         }
     }
 

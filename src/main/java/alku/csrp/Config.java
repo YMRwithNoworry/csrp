@@ -90,6 +90,22 @@ public final class Config {
             .defineInRange("colonyPointCap", 100, 1, Integer.MAX_VALUE);
     private static final ModConfigSpec.IntValue COLONY_TOTAL_POINT_CAP = BUILDER
             .defineInRange("colonyTotalPointCap", 100000, 1, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue COLONY_MAXIMUM_NUMBER = BUILDER
+            .defineInRange("colonyMaximumNumber", 20, 1, 100);
+    private static final ModConfigSpec.IntValue COLONY_MINIMUM_DISTANCE = BUILDER
+            .defineInRange("colonyMinimumDistance", 2000, 1, 100000);
+    private static final ModConfigSpec.IntValue COLONY_SPREAD_POINT = BUILDER
+            .defineInRange("colonySpreadPoint", 2, 1, 10000);
+    private static final ModConfigSpec.IntValue COLONY_SPREAD_VALUE = BUILDER
+            .defineInRange("colonySpreadValue", 20, 1, 10000);
+    private static final ModConfigSpec.IntValue COLONY_BASE_RADIUS = BUILDER
+            .defineInRange("colonyBaseRadius", 120, 1, 10000);
+    private static final ModConfigSpec.IntValue COLONY_EFFECT_SPREAD_POINT = BUILDER
+            .defineInRange("colonyEffectSpreadPoint", 1, 1, 10000);
+    private static final ModConfigSpec.IntValue COLONY_EFFECT_SPREAD_VALUE = BUILDER
+            .defineInRange("colonyEffectSpreadValue", 40, 1, 10000);
+    private static final ModConfigSpec.IntValue COLONY_BASE_EFFECT_RADIUS = BUILDER
+            .defineInRange("colonyBaseEffectRadius", 300, 1, 10000);
     private static final ModConfigSpec.BooleanValue USE_DISLODGMENT = BUILDER
             .comment("Enable the original parasite dislodgment system.")
             .define("useDislodgment", true);
@@ -451,6 +467,14 @@ public final class Config {
     public static double colonyDamageCapValue() { return COLONY_DAMAGE_CAP_VALUE.get(); }
     public static int colonyPointCap() { return COLONY_POINT_CAP.get(); }
     public static int colonyTotalPointCap() { return COLONY_TOTAL_POINT_CAP.get(); }
+    public static int colonyMaximumNumber() { return COLONY_MAXIMUM_NUMBER.get(); }
+    public static int colonyMinimumDistance() { return COLONY_MINIMUM_DISTANCE.get(); }
+    public static int colonySpreadPoint() { return COLONY_SPREAD_POINT.get(); }
+    public static int colonySpreadValue() { return COLONY_SPREAD_VALUE.get(); }
+    public static int colonyBaseRadius() { return COLONY_BASE_RADIUS.get(); }
+    public static int colonyEffectSpreadPoint() { return COLONY_EFFECT_SPREAD_POINT.get(); }
+    public static int colonyEffectSpreadValue() { return COLONY_EFFECT_SPREAD_VALUE.get(); }
+    public static int colonyBaseEffectRadius() { return COLONY_BASE_EFFECT_RADIUS.get(); }
     public static boolean useDislodgment() { return USE_DISLODGMENT.get(); }
     public static double dislodgmentDeathTriggerChance() { return DISLODGMENT_DEATH_TRIGGER_CHANCE.get(); }
     public static int dislodgmentGlobalCooldown() { return DISLODGMENT_GLOBAL_COOLDOWN.get(); }
