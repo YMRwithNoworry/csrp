@@ -1,0 +1,35 @@
+{
+  "parent": "csrp:firmamentum",
+  "display": {
+    "icon": {
+      "id": "csrp:fog_nullifier"
+    },
+    "title": {
+      "translate": "advancements.csrp.fog_nullifier.title"
+    },
+    "description": {
+      "translate": "advancements.csrp.fog_nullifier.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "fog_nullifier": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "csrp:fog_nullifier"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    "fog_nullifier"
+  ]
+}

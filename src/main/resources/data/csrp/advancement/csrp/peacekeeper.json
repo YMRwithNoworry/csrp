@@ -1,0 +1,35 @@
+{
+  "parent": "csrp:firmamentum",
+  "display": {
+    "icon": {
+      "id": "csrp:biomepurifier"
+    },
+    "title": {
+      "translate": "advancements.csrp.peacekeeper.title"
+    },
+    "description": {
+      "translate": "advancements.csrp.peacekeeper.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "peacekeeper": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "csrp:biomepurifier"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    "peacekeeper"
+  ]
+}

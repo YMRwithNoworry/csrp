@@ -1,0 +1,37 @@
+{
+  "parent": "csrp:gardener",
+  "display": {
+    "icon": {
+      "id": "csrp:beckon_drop"
+    },
+    "title": {
+      "translate": "advancements.csrp.pruner.title"
+    },
+    "description": {
+      "translate": "advancements.csrp.pruner.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "pruner": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "csrp:beckon_sii"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    "pruner"
+  ]
+}

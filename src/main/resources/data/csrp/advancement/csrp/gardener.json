@@ -1,0 +1,37 @@
+{
+  "parent": "csrp:monumenta",
+  "display": {
+    "icon": {
+      "id": "csrp:beckon_drop"
+    },
+    "title": {
+      "translate": "advancements.csrp.gardener.title"
+    },
+    "description": {
+      "translate": "advancements.csrp.gardener.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "gardener": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "csrp:beckon_si"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    "gardener"
+  ]
+}

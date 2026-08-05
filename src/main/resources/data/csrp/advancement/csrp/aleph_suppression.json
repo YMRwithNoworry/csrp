@@ -1,0 +1,37 @@
+{
+  "parent": "csrp:he_suppression",
+  "display": {
+    "icon": {
+      "id": "csrp:dispatcher_drop"
+    },
+    "title": {
+      "translate": "advancements.csrp.aleph_suppression.title"
+    },
+    "description": {
+      "translate": "advancements.csrp.aleph_suppression.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "aleph_suppression": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "csrp:dispatcher_siv"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    "aleph_suppression"
+  ]
+}

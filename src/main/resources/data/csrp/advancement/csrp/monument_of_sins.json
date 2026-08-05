@@ -1,0 +1,26 @@
+{
+  "parent": "csrp:eradicator",
+  "display": {
+    "icon": {
+      "id": "csrp:beckon_drop"
+    },
+    "title": {
+      "translate": "advancements.csrp.monument_of_sins.title"
+    },
+    "description": {
+      "translate": "advancements.csrp.monument_of_sins.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "monument_of_sins": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    "monument_of_sins"
+  ]
+}

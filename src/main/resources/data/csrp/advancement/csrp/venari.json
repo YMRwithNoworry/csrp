@@ -1,0 +1,26 @@
+{
+  "parent": "csrp:root",
+  "display": {
+    "icon": {
+      "id": "csrp:rupter_spawn_egg"
+    },
+    "title": {
+      "translate": "advancements.csrp.venari.title"
+    },
+    "description": {
+      "translate": "advancements.csrp.venari.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "venari": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "requirements": [
+    "venari"
+  ]
+}

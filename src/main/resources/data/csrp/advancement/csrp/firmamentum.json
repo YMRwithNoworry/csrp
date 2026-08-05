@@ -1,0 +1,26 @@
+{
+  "parent": "csrp:root",
+  "display": {
+    "icon": {
+      "id": "csrp:biomepurifier"
+    },
+    "title": {
+      "translate": "advancements.csrp.firmamentum.title"
+    },
+    "description": {
+      "translate": "advancements.csrp.firmamentum.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "firmamentum": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "requirements": [
+    "firmamentum"
+  ]
+}

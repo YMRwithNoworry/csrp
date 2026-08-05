@@ -1,0 +1,25 @@
+{
+  "display": {
+    "icon": {
+      "id": "csrp:buglin_spawn_egg"
+    },
+    "title": {
+      "translate": "advancements.csrp.root.title"
+    },
+    "description": {
+      "translate": "advancements.csrp.root.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "root": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "requirements": [
+    "root"
+  ]
+}

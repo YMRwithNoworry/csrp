@@ -1,0 +1,26 @@
+{
+  "parent": "csrp:root",
+  "display": {
+    "icon": {
+      "id": "csrp:beckon_drop"
+    },
+    "title": {
+      "translate": "advancements.csrp.monumenta.title"
+    },
+    "description": {
+      "translate": "advancements.csrp.monumenta.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "monumenta": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "requirements": [
+    "monumenta"
+  ]
+}

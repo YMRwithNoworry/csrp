@@ -1,0 +1,26 @@
+{
+  "parent": "csrp:root",
+  "display": {
+    "icon": {
+      "id": "csrp:false_apple"
+    },
+    "title": {
+      "translate": "advancements.csrp.cognitio.title"
+    },
+    "description": {
+      "translate": "advancements.csrp.cognitio.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "cognitio": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "requirements": [
+    "cognitio"
+  ]
+}
