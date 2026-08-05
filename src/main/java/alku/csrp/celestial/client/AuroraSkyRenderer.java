@@ -128,7 +128,7 @@ public final class AuroraSkyRenderer {
         Matrix4f matrix = poseStack.last().pose();
 
         float partialTick = event.getPartialTick().getGameTimeDeltaPartialTick(false);
-        shader.getUniform("GameTime").set((minecraft.level.getGameTime() + partialTick) / 20.0F);
+        shader.getUniform("AuroraTime").set((minecraft.level.getGameTime() + partialTick) / 20.0F);
         shader.getUniform("Brightness").set(BRIGHTNESS);
         shader.getUniform("Speed").set(SPEED);
         shader.getUniform("Height").set(HEIGHT);

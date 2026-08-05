@@ -5,7 +5,7 @@
 // Based on https://www.shadertoy.com/view/XtGGRt
 
 uniform sampler2D ColorGradient;
-uniform float GameTime;
+uniform float AuroraTime;
 uniform float Brightness;
 uniform float Speed;
 uniform float Height;
@@ -61,6 +61,7 @@ float trinoise2d(vec2 p, float t) {
 vec4 getAuroraColor(vec3 direction) {
     vec4 color = vec4(0.0);
     vec4 averageColor = vec4(0.0);
+    float time = AuroraTime * Speed;
 
     float jitter = fract(sin(dot(direction.xz, vec2(13.0, 78.0))));
     float jitterStepScale = Height / resolution_loop_count;
@@ -69,7 +70,12 @@ vec4 getAuroraColor(vec3 direction) {
         float depthStep = (float(i) + jitter) * jitterStepScale;
         float depth = (Scale + pow(depthStep, 1.4) * 0.002) / (direction.y * 2.0 + 0.4);
         vec3 pos = depth * direction;
-        float noise = trinoise2d(pos.zx, GameTime * Speed);
+        vec2 curtainPos = pos.zx;
+        curtainPos.x += time * 0.18;
+        curtainPos.y += sin(curtainPos.x * 0.35 + time * 0.70) * 0.16;
+        curtainPos.y += sin(curtainPos.x * 0.17 - time * 0.43) * 0.08;
+        float noise = trinoise2d(curtainPos, time * 0.35);
+        noise *= 0.88 + 0.12 * sin(time * 0.55 + pos.x * 0.31 + pos.z * 0.19);
 
         vec4 col = vec4(0.0);
         col.a = noise;
