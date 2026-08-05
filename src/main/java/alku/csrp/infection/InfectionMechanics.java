@@ -7,12 +7,15 @@ import alku.csrp.entity.Parasite;
 import alku.csrp.entity.SimAdventurerEntity;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
+import alku.csrp.registry.ModParticles;
 import alku.csrp.world.DislodgmentSystem;
 import alku.csrp.world.EvolutionSystem;
 import alku.csrp.world.SrpWorldData;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -32,6 +35,10 @@ public final class InfectionMechanics {
     public static final double COTH_SPREAD_RADIUS = 4.0D;
     public static final float COTH_CONVERSION_HEALTH_FRACTION = 0.35F;
     private static final String ASSIMILATION_HOST_TAG = "csrp_assimilation_host";
+    private static final int ASSIMILATION_FERAL_PHASE = 7;
+    private static final int ASSIMILATION_NAUSEA_TICKS = 100;
+    private static final int ASSIMILATION_RESTORE_NAUSEA_TICKS = 60;
+    private static final int ASSIMILATION_NAUSEA_AMPLIFIER = 3;
     private static final float CAMOUFLAGE_RESIST_CHANCE = 0.70F;
     private static final String[] FERALS = {
             "fer_bear", "fer_cow", "fer_enderman", "fer_horse", "fer_human",
@@ -115,8 +122,7 @@ public final class InfectionMechanics {
     }
 
     public static boolean canForceAssimilate(LivingEntity host) {
-        return host.isAlive() && !(host instanceof Parasite) && !(host instanceof Player)
-                && hasMappedHost(host);
+        return host.isAlive() && !host.isRemoved() && hasMappedHost(host);
     }
 
     /** Immediately converts a configured host, matching the original creative Assimilation Wand. */
@@ -125,12 +131,12 @@ public final class InfectionMechanics {
                 || !(host.level() instanceof ServerLevel serverLevel)) {
             return false;
         }
+        playAssimilationStart(serverLevel, host, ASSIMILATION_NAUSEA_TICKS);
         Mob converted = createAssimilatedHost(host, serverLevel);
         if (converted == null) {
             return false;
         }
-        replaceHost(host, converted, serverLevel);
-        return true;
+        return replaceForcedHost(host, converted, serverLevel);
     }
 
     public static boolean isAssimilatedBody(LivingEntity entity) {
@@ -155,6 +161,7 @@ public final class InfectionMechanics {
         if (!(created instanceof Mob disguise)) {
             return false;
         }
+        playAssimilationStart(serverLevel, assimilated, ASSIMILATION_RESTORE_NAUSEA_TICKS);
         disguise.moveTo(assimilated.getX(), assimilated.getY(), assimilated.getZ(),
                 assimilated.getYRot(), assimilated.getXRot());
         disguise.setCustomName(assimilated.getCustomName());
@@ -167,6 +174,7 @@ public final class InfectionMechanics {
         if (!serverLevel.addFreshEntity(disguise)) {
             return false;
         }
+        playAssimilationCompletion(serverLevel, disguise);
         assimilated.discard();
         return true;
     }
@@ -296,6 +304,12 @@ public final class InfectionMechanics {
     }
 
     private static Mob createAssimilatedHost(LivingEntity host, ServerLevel level) {
+        if (SrpWorldData.get(level).evolutionPhase() >= ASSIMILATION_FERAL_PHASE) {
+            Mob latePhaseHost = createMappedHost(host, level, true);
+            if (latePhaseHost != null) {
+                return latePhaseHost;
+            }
+        }
         int dislodgmentTier = Config.disloCothTiers()
                 ? DislodgmentSystem.activeCodeValue(level, 1) : 0;
         if (dislodgmentTier > 0) {
@@ -304,7 +318,48 @@ public final class InfectionMechanics {
                 return tierParasite;
             }
         }
-        return createMappedHost(host, level, SrpWorldData.get(level).evolutionPhase() >= 7);
+        return createMappedHost(host, level, false);
+    }
+
+    private static boolean replaceForcedHost(LivingEntity host, Mob converted, ServerLevel level) {
+        boolean assimilatedEnderman = host.getType() == EntityType.ENDERMAN
+                && BuiltInRegistries.ENTITY_TYPE.getKey(converted.getType()).getPath().equals("sim_enderman");
+        converted.moveTo(host.getX(), host.getY(), host.getZ(), host.getYRot(), host.getXRot());
+        converted.finalizeSpawn(level, level.getCurrentDifficultyAt(host.blockPosition()),
+                MobSpawnType.CONVERSION, null);
+        converted.setHealth(converted.getMaxHealth());
+        converted.setCustomName(host.getCustomName());
+        converted.setCustomNameVisible(host.isCustomNameVisible());
+        converted.setPersistenceRequired();
+        if (isAssimilatedBody(converted)) {
+            converted.getPersistentData().putString(ASSIMILATION_HOST_TAG,
+                    BuiltInRegistries.ENTITY_TYPE.getKey(host.getType()).toString());
+        }
+        if (!level.addFreshEntity(converted)) {
+            return false;
+        }
+        if (assimilatedEnderman) {
+            SrpWorldData.get(level).recordAssimilatedEnderman();
+        }
+        playAssimilationCompletion(level, converted);
+        host.discard();
+        return true;
+    }
+
+    private static void playAssimilationStart(ServerLevel level, LivingEntity entity, int nauseaTicks) {
+        entity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, nauseaTicks,
+                ASSIMILATION_NAUSEA_AMPLIFIER, false, false));
+        level.sendParticles(ModParticles.ASSIMILATION_SPLASH.get(),
+                entity.getX(), entity.getY() + entity.getBbHeight() * 0.5D, entity.getZ(), 1,
+                entity.getBbWidth(), entity.getBbHeight() * 0.5D, entity.getBbWidth(), 0.02D);
+    }
+
+    private static void playAssimilationCompletion(ServerLevel level, LivingEntity entity) {
+        level.sendParticles(ParticleTypes.EXPLOSION,
+                entity.getX(), entity.getY() + entity.getBbHeight() * 0.5D, entity.getZ(), 11,
+                entity.getBbWidth() * 0.5D, entity.getBbHeight() * 0.35D,
+                entity.getBbWidth() * 0.5D, 0.0D);
+        level.levelEvent(null, 1026, entity.blockPosition(), 0);
     }
 
     private static Mob createMappedHost(LivingEntity host, ServerLevel level, boolean preferFeral) {

@@ -13,6 +13,8 @@ public final class ModParticles {
 
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> KIRIN_WARNING =
             PARTICLES.register("kirin_warning", () -> new SimpleParticleType(true));
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> ASSIMILATION_SPLASH =
+            PARTICLES.register("assimilation_splash", () -> new SimpleParticleType(true));
 
     private ModParticles() {
     }

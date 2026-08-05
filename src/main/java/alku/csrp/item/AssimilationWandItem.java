@@ -20,7 +20,7 @@ public final class AssimilationWandItem extends Item {
 
     @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (!target.level().isClientSide && attacker instanceof Player) {
+        if (!target.level().isClientSide) {
             InfectionMechanics.forceAssimilate(target);
         }
         return super.hurtEnemy(stack, target, attacker);

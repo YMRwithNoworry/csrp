@@ -1,6 +1,7 @@
 package alku.csrp.client;
 
 import alku.csrp.Csrp;
+import alku.csrp.client.particle.AssimilationSplashParticle;
 import alku.csrp.client.particle.KirinWarningParticle;
 import alku.csrp.client.renderer.AirscrewRenderer;
 import alku.csrp.client.renderer.BurrowingParasiteRenderer;
@@ -316,6 +317,7 @@ public final class ClientModEvents {
     @SubscribeEvent
     public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
         event.registerSpriteSet(ModParticles.KIRIN_WARNING.get(), KirinWarningParticle.Provider::new);
+        event.registerSpriteSet(ModParticles.ASSIMILATION_SPLASH.get(), AssimilationSplashParticle.Provider::new);
     }
 
     @SubscribeEvent
