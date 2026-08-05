@@ -490,7 +490,7 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
         PIG("sim_pig", 9.0D, 3.5D, 0.1D, 0.1D, 0.30D, 24.0D, 3, 0.9D, 0.9F, 25),
         SHEEP("sim_sheep", 13.0D, 6.0D, 1.3D, 0.3D, 0.28D, 24.0D, 4, 1.3D, 1.3F, 63),
         WOLF("sim_wolf", 10.0D, 10.5D, 0.5D, 0.2D, 0.34D, 32.0D, 5, 0.85D, 0.85F, 19),
-        SQUID("sim_squid", 15.0D, 7.0D, 5.0D, 0.1D, 0.26D, 24.0D, 5, 0.9D, 0.0F, 0);
+        SQUID("sim_squid", 15.0D, 11.0D, 5.0D, 0.1D, 0.26D, 24.0D, 5, 0.9D, 0.0F, 0);
 
         private final String id;
         private final double maxHealth;
