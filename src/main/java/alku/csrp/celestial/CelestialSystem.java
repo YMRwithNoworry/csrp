@@ -5,9 +5,16 @@ import alku.csrp.entity.Parasite;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
 import alku.csrp.world.SrpWorldData;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import net.minecraft.advancements.AdvancementHolder;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
@@ -21,6 +28,13 @@ public final class CelestialSystem {
     public static final int DARK_DAYS_INTRO_DELAY_TICKS = 160;
     public static final int DARK_DAYS_OUTRO_DELAY_TICKS = 200;
     private static final Random RANDOM = new Random();
+    private static final String WITNESSED_KEY = "csrpWitnessed";
+    private static final int HALF_EVENT_COUNT = 8;
+    private static final int ALL_EVENT_COUNT = 16;
+    private static final ResourceLocation COLUMBUS = ResourceLocation.fromNamespaceAndPath(
+            alku.csrp.Csrp.MODID, "columbus");
+    private static final ResourceLocation STOLAS = ResourceLocation.fromNamespaceAndPath(
+            alku.csrp.Csrp.MODID, "stolas");
 
     private CelestialSystem() {
     }
@@ -32,6 +46,55 @@ public final class CelestialSystem {
         if (!isDarkDaysPendingOrActive(data)) rollNight(level, data);
         rollDarkDays(level, data);
         applyNightStartEffects(level, data);
+        if (level.getGameTime() % 100L == 0L) {
+            updateWitnessedEvents(level);
+        }
+    }
+
+    private static void updateWitnessedEvents(ServerLevel level) {
+        for (ServerPlayer player : level.players()) {
+            Set<String> witnessed = loadWitnessed(player);
+            int before = witnessed.size();
+            for (String id : visible(level)) {
+                if (!id.equals(DARK_DAYS)) {
+                    witnessed.add(id);
+                }
+            }
+            if (witnessed.size() == before) {
+                continue;
+            }
+            saveWitnessed(player, witnessed);
+            award(player, COLUMBUS, "witness_half", HALF_EVENT_COUNT);
+            award(player, STOLAS, "witness_all", ALL_EVENT_COUNT);
+        }
+    }
+
+    private static Set<String> loadWitnessed(ServerPlayer player) {
+        Set<String> result = new HashSet<>();
+        ListTag list = player.getPersistentData().getList(WITNESSED_KEY, Tag.TAG_STRING);
+        for (Tag tag : list) {
+            result.add(tag.getAsString());
+        }
+        return result;
+    }
+
+    private static void saveWitnessed(ServerPlayer player, Set<String> witnessed) {
+        ListTag list = new ListTag();
+        for (String id : witnessed) {
+            list.add(StringTag.valueOf(id));
+        }
+        player.getPersistentData().put(WITNESSED_KEY, list);
+    }
+
+    private static void award(ServerPlayer player, ResourceLocation advancementId,
+            String criterion, int threshold) {
+        if (loadWitnessed(player).size() < threshold) {
+            return;
+        }
+        AdvancementHolder holder = player.server.getAdvancements().get(advancementId);
+        if (holder != null) {
+            player.getAdvancements().award(holder, criterion);
+        }
     }
 
     private static void rollNight(ServerLevel level, CelestialWorldData data) {
