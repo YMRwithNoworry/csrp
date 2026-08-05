@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building_blocks",
+  "pattern": [
+    " F ",
+    "FSF",
+    " F "
+  ],
+  "key": {
+    "F": {
+      "item": "csrp:fishlin"
+    },
+    "S": {
+      "item": "minecraft:sea_lantern"
+    }
+  },
+  "result": {
+    "id": "csrp:esca_bulb",
+    "count": 4
+  }
+}

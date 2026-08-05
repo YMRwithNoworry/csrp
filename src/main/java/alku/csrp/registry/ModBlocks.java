@@ -9,6 +9,7 @@ import alku.csrp.block.BiomeHeartBlock;
 import alku.csrp.block.ColonyHeartBlock;
 import alku.csrp.block.ColonyStructureBlock;
 import alku.csrp.block.DispatcherNidusBlock;
+import alku.csrp.block.EscaBulbBlock;
 import alku.csrp.block.GluttonousCystBlock;
 import alku.csrp.block.ResidueBlock;
 import alku.csrp.block.ResidueBloomingBlock;
@@ -297,6 +298,24 @@ public final class ModBlocks {
                     .mapColor(MapColor.COLOR_RED)
                     .strength(1.0F)
                     .sound(SoundType.SCULK)));
+
+    public static final java.util.Map<String, DeferredBlock<EscaBulbBlock>> ESCA_BULBS = registerEscaBulbs();
+
+    private static java.util.Map<String, DeferredBlock<EscaBulbBlock>> registerEscaBulbs() {
+        java.util.Map<String, DeferredBlock<EscaBulbBlock>> bulbs = new java.util.LinkedHashMap<>();
+        String[] colors = {"", "white", "light_gray", "gray", "black", "brown", "red", "orange",
+                "yellow", "lime", "green", "cyan", "light_blue", "blue", "purple", "magenta", "pink"};
+        for (String color : colors) {
+            String id = color.isEmpty() ? "esca_bulb" : "esca_bulb_" + color;
+            bulbs.put(color.isEmpty() ? "base" : color, BLOCKS.register(id, () ->
+                    new EscaBulbBlock(BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.COLOR_LIGHT_BLUE)
+                            .strength(0.3F)
+                            .lightLevel(state -> 14)
+                            .sound(SoundType.GLASS))));
+        }
+        return java.util.Map.copyOf(bulbs);
+    }
 
     private static DeferredBlock<InfestedBlock> infested(String id, MapColor color, SoundType sound) {
         return BLOCKS.register(id, () -> new InfestedBlock(BlockBehaviour.Properties.of()
