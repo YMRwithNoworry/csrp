@@ -33,10 +33,30 @@ import java.util.Comparator;
 /** Runtime hooks for SRP effects whose behavior crosses entity boundaries. */
 @EventBusSubscriber(modid = Csrp.MODID)
 public final class StatusEffectEvents {
+    private static final int MAX_EFFECT_AMPLIFIER = 254;
     private static final ThreadLocal<Boolean> TRANSFERRING_PIVOT_DAMAGE =
             ThreadLocal.withInitial(() -> false);
 
     private StatusEffectEvents() {
+    }
+
+    @SubscribeEvent
+    public static void stackNeedlerPotency(MobEffectEvent.Added event) {
+        MobEffectInstance incoming = event.getEffectInstance();
+        MobEffectInstance current = event.getOldEffectInstance();
+        if (current == null || !incoming.is(ModMobEffects.NEEDLER)) {
+            return;
+        }
+        int amplifier = Math.min(MAX_EFFECT_AMPLIFIER,
+                current.getAmplifier() + incoming.getAmplifier() + 1);
+        int duration = Math.max(current.getDuration(), incoming.getDuration());
+        MobEffectInstance stacked = new MobEffectInstance(ModMobEffects.NEEDLER, duration, amplifier,
+                current.isAmbient() && incoming.isAmbient(),
+                current.isVisible() || incoming.isVisible(),
+                current.showIcon() || incoming.showIcon());
+        // Added fires before vanilla merges the incoming instance; replacing the map entry here
+        // leaves that later merge attached only to the displaced instance.
+        event.getEntity().forceAddEffect(stacked, event.getEffectSource());
     }
 
     @SubscribeEvent

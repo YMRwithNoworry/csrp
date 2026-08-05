@@ -11,16 +11,18 @@ import net.minecraft.sounds.SoundSource;
 import alku.csrp.registry.ModMobEffects;
 
 public final class NeedlerMobEffect extends MobEffect {
+    public static final int TERMINAL_AMPLIFIER = 7;
+    public static final float DAMAGE_FRACTION = 0.4F;
+    public static final float MAX_DAMAGE = 1_000_000_000.0F;
+
     public NeedlerMobEffect() { super(MobEffectCategory.HARMFUL, 0xD7B34B); }
 
     @Override
     public boolean applyEffectTick(LivingEntity entity, int amplifier) {
-        if (!entity.level().isClientSide && amplifier >= 7) {
-            int remainder = amplifier - 7;
+        if (!entity.level().isClientSide && amplifier >= TERMINAL_AMPLIFIER) {
+            int remainder = amplifier - TERMINAL_AMPLIFIER;
             entity.removeEffect(ModMobEffects.NEEDLER);
-            if (remainder >= 0) {
-                entity.addEffect(new MobEffectInstance(ModMobEffects.NEEDLER, 400, remainder, false, false));
-            }
+            entity.addEffect(new MobEffectInstance(ModMobEffects.NEEDLER, 400, remainder, false, false));
             if (entity.level() instanceof ServerLevel level) {
                 level.sendParticles(ParticleTypes.EXPLOSION_EMITTER, entity.getX(),
                         entity.getY() + entity.getBbHeight() * 0.5D, entity.getZ(),
@@ -28,9 +30,8 @@ public final class NeedlerMobEffect extends MobEffect {
                 level.playSound(null, entity.blockPosition(), SoundEvents.GENERIC_EXPLODE.value(),
                         SoundSource.HOSTILE, 1.0F, 1.0F);
             }
-            float health = entity.getHealth() - entity.getMaxHealth() * 0.4F;
-            entity.setHealth(Math.max(0.0F, health));
-            if (health <= 0.0F) entity.hurt(entity.damageSources().magic(), Float.MAX_VALUE);
+            float damage = Math.min(entity.getMaxHealth() * DAMAGE_FRACTION, MAX_DAMAGE);
+            entity.setHealth(Math.max(1.0F, entity.getHealth() - damage));
         }
         return true;
     }
@@ -38,6 +39,6 @@ public final class NeedlerMobEffect extends MobEffect {
     @Override
     public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
         int interval = 25 >> amplifier;
-        return amplifier >= 7 && (interval <= 0 || duration % interval == 0);
+        return amplifier >= TERMINAL_AMPLIFIER && (interval <= 0 || duration % interval == 0);
     }
 }

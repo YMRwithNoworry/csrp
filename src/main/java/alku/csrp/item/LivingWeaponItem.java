@@ -98,7 +98,7 @@ public class LivingWeaponItem extends SwordItem {
             int amplifier, float chance) {
         if (attacker.getRandom().nextFloat() < chance) {
             MobEffectInstance current = target.getEffect(effect);
-            if (current == null) {
+            if (current == null || effect.value() == ModMobEffects.NEEDLER.get()) {
                 target.addEffect(new MobEffectInstance(effect, duration, amplifier, false, false));
                 return;
             }
