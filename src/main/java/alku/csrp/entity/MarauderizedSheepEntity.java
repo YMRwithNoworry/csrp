@@ -19,7 +19,7 @@ public final class MarauderizedSheepEntity extends MarauderizedParasiteEntity {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return createMarauderizedAttributes(21.0D, 5.0D, 12.0D, 0.7D, 0.1725D, 32.0D);
+        return createMarauderizedAttributes(27.0D, 8.0D, 17.0D, 0.7D, 0.1725D, 32.0D);
     }
 
     @Override
