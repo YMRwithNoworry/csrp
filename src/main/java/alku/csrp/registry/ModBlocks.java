@@ -377,6 +377,28 @@ public final class ModBlocks {
                     .strength(0.3F)
                     .sound(SoundType.GLASS)
                     .noOcclusion()));
+    public static final DeferredBlock<InfestedGlassBlock> BLOODY_GLASS = tintedGlass("bloody_glass");
+    public static final DeferredBlock<InfestedGlassBlock> ASHEN_GLASS = tintedGlass("ashen_glass");
+    public static final DeferredBlock<InfestedGlassBlock> SEPIA_GLASS = tintedGlass("sepia_glass");
+    public static final DeferredBlock<InfestedGlassBlock> HARLEQUINN_GLASS = tintedGlass("harlequinn_glass");
+    public static final DeferredBlock<InfestedGlassBlock> SHROUDED_GLASS = tintedGlass("shrouded_glass");
+    public static final DeferredBlock<InfestedGlassBlock> MOODY_GLASS = tintedGlass("moody_glass");
+    public static final DeferredBlock<InfestedGlassBlock> SHADE_GLASS = tintedGlass("shade_glass");
+    public static final DeferredBlock<Block> GOTHSHROOM = BLOCKS.register("gothshroom", () ->
+            new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BLACK)
+                    .instabreak()
+                    .noCollission()
+                    .noOcclusion()
+                    .sound(SoundType.FUNGUS)));
+
+    private static DeferredBlock<InfestedGlassBlock> tintedGlass(String id) {
+        return BLOCKS.register(id, () -> new InfestedGlassBlock(BlockBehaviour.Properties.of()
+                .mapColor(MapColor.COLOR_RED)
+                .strength(0.3F)
+                .sound(SoundType.GLASS)
+                .noOcclusion()));
+    }
 
     private static java.util.Map<String, DeferredBlock<EscaBulbBlock>> registerEscaBulbs() {
         java.util.Map<String, DeferredBlock<EscaBulbBlock>> bulbs = new java.util.LinkedHashMap<>();

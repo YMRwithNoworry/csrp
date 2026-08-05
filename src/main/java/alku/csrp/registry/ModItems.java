@@ -43,6 +43,7 @@ import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BoneMealItem;
 import net.minecraft.world.item.BucketItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Item;
@@ -355,6 +356,23 @@ public final class ModItems {
             "locs_block", ModBlocks.LOCS_BLOCK);
     public static final DeferredItem<BlockItem> INFESTED_GLASS = ITEMS.registerSimpleBlockItem(
             "infested_glass", ModBlocks.INFESTED_GLASS);
+    public static final DeferredItem<BlockItem> BLOODY_GLASS = ITEMS.registerSimpleBlockItem(
+            "bloody_glass", ModBlocks.BLOODY_GLASS);
+    public static final DeferredItem<BlockItem> ASHEN_GLASS = ITEMS.registerSimpleBlockItem(
+            "ashen_glass", ModBlocks.ASHEN_GLASS);
+    public static final DeferredItem<BlockItem> SEPIA_GLASS = ITEMS.registerSimpleBlockItem(
+            "sepia_glass", ModBlocks.SEPIA_GLASS);
+    public static final DeferredItem<BlockItem> HARLEQUINN_GLASS = ITEMS.registerSimpleBlockItem(
+            "harlequinn_glass", ModBlocks.HARLEQUINN_GLASS);
+    public static final DeferredItem<BlockItem> SHROUDED_GLASS = ITEMS.registerSimpleBlockItem(
+            "shrouded_glass", ModBlocks.SHROUDED_GLASS);
+    public static final DeferredItem<BlockItem> MOODY_GLASS = ITEMS.registerSimpleBlockItem(
+            "moody_glass", ModBlocks.MOODY_GLASS);
+    public static final DeferredItem<BlockItem> SHADE_GLASS = ITEMS.registerSimpleBlockItem(
+            "shade_glass", ModBlocks.SHADE_GLASS);
+    public static final DeferredItem<BlockItem> GOTHSHROOM = ITEMS.registerSimpleBlockItem(
+            "gothshroom", ModBlocks.GOTHSHROOM);
+    public static final DeferredItem<Item> COOKED_FLESH = simple("cooked_flesh");
 
     private static java.util.Map<String, DeferredItem<BlockItem>> registerEscaBulbItems() {
         java.util.Map<String, DeferredItem<BlockItem>> items = new java.util.LinkedHashMap<>();

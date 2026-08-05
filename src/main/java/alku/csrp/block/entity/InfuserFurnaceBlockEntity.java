@@ -32,6 +32,16 @@ public final class InfuserFurnaceBlockEntity extends BaseContainerBlockEntity {
     public static final int CONTAINER_SIZE = 4;
     public static final int PROCESS_TIME = 200;
 
+    private static final Map<net.minecraft.world.item.Item, net.minecraft.world.item.Item> GLASS_RECIPES =
+            Map.of(
+                    ModItems.COOKED_FLESH.get(), ModBlocks.BLOODY_GLASS.get().asItem(),
+                    ModBlocks.INFESTED_TERRACOTTA.get().asItem(), ModBlocks.ASHEN_GLASS.get().asItem(),
+                    ModBlocks.POLAND_SKIN_BLOCK.get().asItem(), ModBlocks.SEPIA_GLASS.get().asItem(),
+                    ModBlocks.HARLESKINN_BLOCK.get().asItem(), ModBlocks.HARLEQUINN_GLASS.get().asItem(),
+                    net.minecraft.world.item.Items.ICE, ModBlocks.SHROUDED_GLASS.get().asItem(),
+                    ModBlocks.RESIDUE_BLOCK.get().asItem(), ModBlocks.MOODY_GLASS.get().asItem(),
+                    ModBlocks.GOTHSHROOM.get().asItem(), ModBlocks.SHADE_GLASS.get().asItem());
+
     private NonNullList<ItemStack> items = NonNullList.withSize(CONTAINER_SIZE, ItemStack.EMPTY);
     private int burnTime;
     private int burnDuration;
@@ -95,21 +105,29 @@ public final class InfuserFurnaceBlockEntity extends BaseContainerBlockEntity {
     }
 
     private boolean canProcess() {
-        ItemStack iron = items.get(IRON_SLOT);
-        ItemStack blood = items.get(BLOOD_SLOT);
+        ItemStack input1 = items.get(IRON_SLOT);
+        ItemStack input2 = items.get(BLOOD_SLOT);
         ItemStack output = items.get(OUTPUT_SLOT);
-        if (!blood.is(ModItems.DEADBLOOD_FLUID.get())
-                || !(iron.is(Items.IRON_INGOT) || iron.is(net.minecraft.world.level.block.Blocks.SAND.asItem()))) {
+        net.minecraft.world.item.Item result = resultItem(input1, input2);
+        if (result == null) {
             return false;
         }
-        net.minecraft.world.item.Item result = resultItem(iron);
         return output.isEmpty() || (output.is(result)
                 && output.getCount() < output.getMaxStackSize());
     }
 
-    private static net.minecraft.world.item.Item resultItem(ItemStack input) {
-        return input.is(Items.IRON_INGOT) ? ModItems.SEMIORGANIC_INGOT.get()
-                : ModBlocks.INFESTED_GLASS.get().asItem();
+    private static net.minecraft.world.item.Item resultItem(ItemStack input1, ItemStack input2) {
+        if (input1.is(Items.IRON_INGOT) && input2.is(ModItems.DEADBLOOD_FLUID.get())) {
+            return ModItems.SEMIORGANIC_INGOT.get();
+        }
+        if (input1.is(net.minecraft.world.level.block.Blocks.SAND.asItem())
+                && input2.is(ModItems.DEADBLOOD_FLUID.get())) {
+            return ModBlocks.INFESTED_GLASS.get().asItem();
+        }
+        if (input1.is(ModBlocks.INFESTED_GLASS.get().asItem())) {
+            return GLASS_RECIPES.get(input2.getItem());
+        }
+        return null;
     }
 
     private boolean hasFuel() {
@@ -134,7 +152,7 @@ public final class InfuserFurnaceBlockEntity extends BaseContainerBlockEntity {
 
     private void process() {
         ItemStack input = items.get(IRON_SLOT);
-        net.minecraft.world.item.Item result = resultItem(input);
+        net.minecraft.world.item.Item result = resultItem(input, items.get(BLOOD_SLOT));
         input.shrink(1);
         items.get(BLOOD_SLOT).shrink(1);
         ItemStack output = items.get(OUTPUT_SLOT);

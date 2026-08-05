@@ -1073,5 +1073,14 @@
   "block.csrp.esca_bulb_purple": "紫色灯烛球",
   "block.csrp.esca_bulb_magenta": "品红色灯烛球",
   "block.csrp.esca_bulb_light_blue": "淡蓝色灯烛球",
-  "block.csrp.esca_bulb_cyan": "青色灯烛球",
+  "block.csrp.esca_bulb_cyan": "青色灯烛球"
+  "block.csrp.shrouded_glass": "阴暗玻璃",
+  "block.csrp.shade_glass": "阴影玻璃",
+  "block.csrp.harlequinn_glass": "丑鳞玻璃",
+  "item.csrp.cooked_flesh": "熟肉",
+  "block.csrp.moody_glass": "忧郁玻璃",
+  "block.csrp.gothshroom": "哥特菇",
+  "block.csrp.sepia_glass": "黄褐玻璃",
+  "block.csrp.ashen_glass": "灰烬玻璃",
+  "block.csrp.bloody_glass": "血玻璃",
 }

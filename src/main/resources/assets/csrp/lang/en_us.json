@@ -1059,5 +1059,14 @@
   "block.csrp.esca_bulb_purple": "Purple Esca Bulb",
   "block.csrp.esca_bulb_magenta": "Magenta Esca Bulb",
   "block.csrp.esca_bulb_light_blue": "Light Blue Esca Bulb",
-  "block.csrp.esca_bulb_cyan": "Cyan Esca Bulb",
+  "block.csrp.esca_bulb_cyan": "Cyan Esca Bulb"
+  "block.csrp.shrouded_glass": "Shrouded Glass",
+  "block.csrp.shade_glass": "Shade Glass",
+  "block.csrp.harlequinn_glass": "Harlequinn Glass",
+  "item.csrp.cooked_flesh": "Cooked Flesh",
+  "block.csrp.moody_glass": "Moody Glass",
+  "block.csrp.gothshroom": "Gothshroom",
+  "block.csrp.sepia_glass": "Sepia Glass",
+  "block.csrp.ashen_glass": "Ashen Glass",
+  "block.csrp.bloody_glass": "Bloody Glass",
 }
