@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "kind=thin": {
+      "model": "minecraft:block/cobweb"
+    },
+    "kind=toxicant": {
+      "model": "minecraft:block/cobweb"
+    },
+    "kind=tarnished": {
+      "model": "minecraft:block/cobweb"
+    }
+  }
+}

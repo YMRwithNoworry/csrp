@@ -903,13 +903,25 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
     }
 
     private void fireProjectile(LivingEntity target, ParasiteProjectileEntity.Mode mode, double speed,
-            float damage, double radius, int lifetime) {
+                                float damage, double radius, int lifetime) {
         ParasiteProjectileEntity projectile = ModEntities.PARASITE_PROJECTILE.get().create(level());
         if (projectile == null) {
             return;
         }
         Vec3 start = getEyePosition().add(getViewVector(1.0F).scale(0.55D));
         projectile.configure(this, mode, start, target.getEyePosition(), speed, damage, radius, lifetime);
+        level().addFreshEntity(projectile);
+    }
+
+    private void fireWebProjectile(LivingEntity target, int webKind) {
+        ParasiteProjectileEntity projectile = ModEntities.PARASITE_PROJECTILE.get().create(level());
+        if (projectile == null) {
+            return;
+        }
+        Vec3 start = getEyePosition().add(getViewVector(1.0F).scale(0.5D));
+        projectile.configure(this, ParasiteProjectileEntity.Mode.WEB, start,
+                target.getEyePosition(), 1.0D, 6.0F, 0.9D, 75, target);
+        projectile.setWebKind(webKind);
         level().addFreshEntity(projectile);
     }
 
@@ -1050,6 +1062,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
                 pull = pull.normalize().scale(0.65D);
                 target.push(pull.x, 0.12D, pull.z);
             }
+            fireWebProjectile(target, 0);
             abilityCooldown = 70;
         }
     }

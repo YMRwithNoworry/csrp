@@ -308,6 +308,7 @@ public final class ModItems {
             "abo_head_spawn_egg", ModEntities.ABO_HEAD, 0x45322E, 0xB97D61);
     public static final DeferredItem<Item> RUPTER_VISCERA = simple("rupter_viscera");
     public static final DeferredItem<BlockItem> TUNNEL = ITEMS.registerSimpleBlockItem("tunnel", ModBlocks.TUNNEL);
+    public static final DeferredItem<BlockItem> SRP_WEB = ITEMS.registerSimpleBlockItem("srpweb", ModBlocks.SRP_WEB);
     public static final DeferredItem<BlockItem> RESIDUE_PLANTS = ITEMS.registerSimpleBlockItem(
             "residue_plants", ModBlocks.RESIDUE_PLANTS);
     public static final DeferredItem<BlockItem> THORNSHADE_ITEM = ITEMS.registerSimpleBlockItem(

@@ -388,6 +388,18 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         level().addFreshEntity(projectile);
     }
 
+    private void fireWebProjectile(LivingEntity target, int webKind) {
+        ParasiteProjectileEntity projectile = ModEntities.PARASITE_PROJECTILE.get().create(level());
+        if (projectile == null) {
+            return;
+        }
+        Vec3 start = getEyePosition().add(getViewVector(1.0F).scale(0.55D));
+        projectile.configure(this, ParasiteProjectileEntity.Mode.WEB, start,
+                target.getEyePosition(), 0.95D, 8.0F, 1.0D, 80, target);
+        projectile.setWebKind(webKind);
+        level().addFreshEntity(projectile);
+    }
+
     private void fireBomb(LivingEntity target) {
         ParasiteProjectileEntity projectile = ModEntities.PARASITE_PROJECTILE.get().create(level());
         if (projectile == null) {
@@ -522,7 +534,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
             LivingEntity target = getTarget();
             if (target != null) {
                 getLookControl().setLookAt(target, 30.0F, 30.0F);
-                fireProjectile(target, ParasiteProjectileEntity.Mode.SPINE, 0.95D, 8.0F, 1.0D, 80);
+                fireWebProjectile(target, 1);
                 cooldown = 70;
             }
         }

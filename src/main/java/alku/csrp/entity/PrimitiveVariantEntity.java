@@ -360,6 +360,18 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
         level().addFreshEntity(projectile);
     }
 
+    private void fireWebProjectile(LivingEntity target, int webKind) {
+        ParasiteProjectileEntity projectile = ModEntities.PARASITE_PROJECTILE.get().create(level());
+        if (projectile == null) {
+            return;
+        }
+        Vec3 start = getEyePosition().add(getViewVector(1.0F).scale(0.45D));
+        projectile.configure(this, ParasiteProjectileEntity.Mode.WEB, start,
+                target.getEyePosition(), 0.95D, 4.0F, 0.75D, 70, target);
+        projectile.setWebKind(webKind);
+        level().addFreshEntity(projectile);
+    }
+
     private Kind activeKind() {
         if (kind != null) {
             return kind;
@@ -425,6 +437,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
                 pull = pull.normalize().scale(0.45D);
                 target.push(pull.x, 0.10D, pull.z);
             }
+            fireWebProjectile(target, 0);
             abilityCooldown = 80;
         }
     }

@@ -1,5 +1,9 @@
 {
   "itemGroup.csrp": "CSRP",
+  "block.csrp.srpweb": "SRP Webbing",
+  "block.csrp.srpweb.kind.thin": "Thin Webbing",
+  "block.csrp.srpweb.kind.toxicant": "Toxicant Webbing",
+  "block.csrp.srpweb.kind.tarnished": "Tarnished Webbing",
   "entity.csrp.buglin": "Buglin",
   "entity.csrp.rupter": "Rupter",
   "entity.csrp.pri_longarms": "Primitive Longarms",

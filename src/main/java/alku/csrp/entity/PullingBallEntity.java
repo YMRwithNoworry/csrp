@@ -1,5 +1,7 @@
 package alku.csrp.entity;
 
+import alku.csrp.block.SrpWebBlock;
+import alku.csrp.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -11,7 +13,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
@@ -76,7 +77,11 @@ public final class PullingBallEntity extends Entity {
         int total = random.nextInt(3) + 1;
         for (int i = 0; i < total; i++) {
             BlockPos pos = center.offset(random.nextInt(3) - 1, random.nextInt(3) - 1, random.nextInt(3) - 1);
-            if (level().isEmptyBlock(pos)) level().setBlockAndUpdate(pos, Blocks.COBWEB.defaultBlockState());
+            if (level().isEmptyBlock(pos)) {
+                level().setBlockAndUpdate(pos, ModBlocks.SRP_WEB.get().defaultBlockState()
+                        .setValue(SrpWebBlock.KIND, SrpWebBlock.Kind.THIN)
+                        .setValue(SrpWebBlock.AGE, 0));
+            }
         }
     }
 

@@ -20,6 +20,7 @@ import alku.csrp.block.ParasiteLootBlock;
 import alku.csrp.block.AlveoliBlock;
 import alku.csrp.block.AlveoliGrowthBlock;
 import alku.csrp.block.SickAlveoliBlock;
+import alku.csrp.block.SrpWebBlock;
 import alku.csrp.block.ThornshadeBlock;
 import alku.csrp.block.TunnelBlock;
 import net.minecraft.world.level.block.Block;
@@ -204,6 +205,15 @@ public final class ModBlocks {
     public static final DeferredBlock<RotatedPillarBlock> HAIR_FOLLICLE_BLOCK = BLOCKS.register(
             "hair_follicle_block", () -> new RotatedPillarBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_RED).strength(1.0F).sound(SoundType.ROOTED_DIRT)));
+    public static final DeferredBlock<SrpWebBlock> SRP_WEB = BLOCKS.register("srpweb", () ->
+            new SrpWebBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.SNOW)
+                    .noCollission()
+                    .instabreak()
+                    .noOcclusion()
+                    .randomTicks()
+                    .sound(SoundType.COBWEB)
+                    .noLootTable()));
 
     private static DeferredBlock<InfestedBlock> infested(String id, MapColor color, SoundType sound) {
         return BLOCKS.register(id, () -> new InfestedBlock(BlockBehaviour.Properties.of()

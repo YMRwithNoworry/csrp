@@ -1,7 +1,10 @@
 package alku.csrp.entity;
 
+import alku.csrp.block.SrpWebBlock;
+import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -19,6 +22,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -33,6 +37,7 @@ public final class ParasiteProjectileEntity extends Entity {
     public enum Mode {
         BOMB,
         SPINE,
+        WEB,
         METEOR,
         LIGHT,
         ACID,
@@ -62,6 +67,7 @@ public final class ParasiteProjectileEntity extends Entity {
     private int nadeIgnitionTicks;
     private int nadeFuseTicks;
     private int nadeDamageTicks;
+    private int webKind;
 
     public ParasiteProjectileEntity(EntityType<? extends ParasiteProjectileEntity> type, Level level) {
         super(type, level);
@@ -134,6 +140,7 @@ public final class ParasiteProjectileEntity extends Entity {
                 case BOMB, METEOR -> ParticleTypes.FLAME;
                 case LIGHT, WITHER -> ParticleTypes.SOUL_FIRE_FLAME;
                 case SPINE, NEEDLE -> ParticleTypes.CRIT;
+                case WEB -> ParticleTypes.WHITE_ASH;
                 case ACID, VOMIT -> ParticleTypes.WITCH;
                 case LENCIA_BALL, ELVIA_BALL -> ParticleTypes.EXPLOSION;
                 case ELVIA_NADE -> ParticleTypes.ITEM_SLIME;
@@ -152,6 +159,9 @@ public final class ParasiteProjectileEntity extends Entity {
                         target -> canCollideWith(owner, mode, target))
                 .stream().findFirst().orElse(null);
         if (blockHit.getType() != HitResult.Type.MISS || hit != null || tickCount >= maximumLifetime) {
+            if (mode == Mode.WEB && hit == null && blockHit.getType() == HitResult.Type.BLOCK) {
+                placeWeb(BlockPos.containing(blockHit.getLocation()));
+            }
             impact(owner, mode, hit);
         }
     }
@@ -191,8 +201,10 @@ public final class ParasiteProjectileEntity extends Entity {
             impactLegacyProjectile(owner, mode, directHit);
             return;
         }
-        boolean launch = mode == Mode.BOMB || mode == Mode.METEOR || mode == Mode.ACID;
-        owner.hurtNearby(this, radius, damage, launch);
+        if (mode != Mode.WEB) {
+            boolean launch = mode == Mode.BOMB || mode == Mode.METEOR || mode == Mode.ACID;
+            owner.hurtNearby(this, radius, damage, launch);
+        }
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
                 getBoundingBox().inflate(radius), owner::isValidParasiteTarget)) {
             switch (mode) {
@@ -202,6 +214,12 @@ public final class ParasiteProjectileEntity extends Entity {
                     if (owner instanceof DeterrentParasiteEntity deterrent
                             && deterrent.getKind() == DeterrentParasiteEntity.Kind.SENTRY) {
                         deterrent.applySentrySpineEffects(target);
+                    }
+                }
+                case WEB -> {
+                    target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 2), owner);
+                    if (webKind >= 1) {
+                        target.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 0), owner);
                     }
                 }
                 case NEEDLE -> target.addEffect(new MobEffectInstance(ModMobEffects.NEEDLER, 180, 0), owner);
@@ -245,10 +263,25 @@ public final class ParasiteProjectileEntity extends Entity {
         }
         if (level() instanceof ServerLevel serverLevel) {
             serverLevel.sendParticles(mode == Mode.LIGHT || mode == Mode.WITHER ? ParticleTypes.SOUL_FIRE_FLAME
-                            : mode == Mode.ACID || mode == Mode.VOMIT ? ParticleTypes.WITCH : ParticleTypes.EXPLOSION,
+                            : mode == Mode.ACID || mode == Mode.VOMIT ? ParticleTypes.WITCH
+                            : mode == Mode.WEB ? ParticleTypes.WHITE_ASH : ParticleTypes.EXPLOSION,
                     getX(), getY(), getZ(), 12, radius * 0.25, radius * 0.25, radius * 0.25, 0.02);
         }
         discard();
+    }
+
+    private void placeWeb(BlockPos pos) {
+        if (level().isClientSide || !level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+            return;
+        }
+        BlockState state = level().getBlockState(pos);
+        if (!state.canBeReplaced()) {
+            return;
+        }
+        SrpWebBlock.Kind kind = SrpWebBlock.Kind.values()[Math.max(0, Math.min(webKind, 2))];
+        level().setBlockAndUpdate(pos, ModBlocks.SRP_WEB.get().defaultBlockState()
+                .setValue(SrpWebBlock.KIND, kind)
+                .setValue(SrpWebBlock.AGE, 0));
     }
 
     private void impactLegacyProjectile(PrimitiveParasiteEntity owner, Mode mode, LivingEntity directHit) {
@@ -404,6 +437,7 @@ public final class ParasiteProjectileEntity extends Entity {
         nadeIgnitionTicks = tag.getInt("nade_ignition_ticks");
         nadeFuseTicks = tag.getInt("nade_fuse_ticks");
         nadeDamageTicks = tag.getInt("nade_damage_ticks");
+        webKind = tag.getInt("web_kind");
     }
 
     @Override
@@ -425,6 +459,7 @@ public final class ParasiteProjectileEntity extends Entity {
         tag.putInt("nade_ignition_ticks", nadeIgnitionTicks);
         tag.putInt("nade_fuse_ticks", nadeFuseTicks);
         tag.putInt("nade_damage_ticks", nadeDamageTicks);
+        tag.putInt("web_kind", webKind);
     }
 
     public Mode getMode() {
@@ -447,6 +482,10 @@ public final class ParasiteProjectileEntity extends Entity {
             return 0.3F;
         }
         return 0.5F + entityData.get(NADE_FUSE_PROGRESS) * 0.32F;
+    }
+
+    public void setWebKind(int kind) {
+        this.webKind = kind;
     }
 
     private static int sanitizeMode(int modeIndex) {
