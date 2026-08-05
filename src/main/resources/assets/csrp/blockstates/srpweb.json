@@ -1,13 +1,13 @@
 {
   "variants": {
     "kind=thin": {
-      "model": "minecraft:block/cobweb"
+      "model": "csrp:block/srpweb"
     },
     "kind=toxicant": {
-      "model": "minecraft:block/cobweb"
+      "model": "csrp:block/srpweb"
     },
     "kind=tarnished": {
-      "model": "minecraft:block/cobweb"
+      "model": "csrp:block/srpweb"
     }
   }
 }
