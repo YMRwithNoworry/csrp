@@ -42,6 +42,7 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BoneMealItem;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Item;
@@ -333,6 +334,13 @@ public final class ModItems {
     public static final java.util.Map<String, DeferredItem<BlockItem>> ESCA_BULBS = registerEscaBulbItems();
     public static final DeferredItem<BlockItem> FOG_NULLIFIER = ITEMS.registerSimpleBlockItem(
             "fog_nullifier", ModBlocks.FOG_NULLIFIER);
+    public static final DeferredItem<BucketItem> DEADBLOOD_BUCKET = ITEMS.registerItem(
+            "deadblood_bucket", props -> new BucketItem(ModFluids.DEADBLOOD.get(), props),
+            new Item.Properties().stacksTo(1));
+    public static final DeferredItem<BlockItem> VISCERAL_MUD = ITEMS.registerSimpleBlockItem(
+            "visceral_mud", ModBlocks.VISCERAL_MUD);
+    public static final DeferredItem<BlockItem> BLEEDING_OBSIDIAN = ITEMS.registerSimpleBlockItem(
+            "bleeding_obsidian", ModBlocks.BLEEDING_OBSIDIAN);
 
     private static java.util.Map<String, DeferredItem<BlockItem>> registerEscaBulbItems() {
         java.util.Map<String, DeferredItem<BlockItem>> items = new java.util.LinkedHashMap<>();

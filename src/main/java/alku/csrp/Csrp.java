@@ -3,6 +3,8 @@ package alku.csrp;
 import alku.csrp.entity.BuglinEvolutionTarget;
 import alku.csrp.entity.ManglerEvolutionTarget;
 import alku.csrp.registry.ModBlocks;
+import alku.csrp.registry.ModFluids;
+import alku.csrp.registry.ModFluidTypes;
 import alku.csrp.registry.ModBlockEntities;
 import alku.csrp.registry.ModArmorMaterials;
 import alku.csrp.registry.ModEntities;
@@ -168,6 +170,8 @@ public final class Csrp {
 
     public Csrp(IEventBus modEventBus, ModContainer modContainer) {
         ModBlocks.BLOCKS.register(modEventBus);
+        ModFluids.FLUIDS.register(modEventBus);
+        ModFluidTypes.FLUID_TYPES.register(modEventBus);
         ModBlockEntities.BLOCK_ENTITIES.register(modEventBus);
         ModEntities.ENTITIES.register(modEventBus);
         ModArmorMaterials.MATERIALS.register(modEventBus);

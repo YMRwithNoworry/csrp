@@ -8,6 +8,7 @@ import alku.csrp.block.NodeLampBlock;
 import alku.csrp.block.BiomeHeartBlock;
 import alku.csrp.block.ColonyHeartBlock;
 import alku.csrp.block.ColonyStructureBlock;
+import alku.csrp.block.DeadBloodBlock;
 import alku.csrp.block.DispatcherNidusBlock;
 import alku.csrp.block.EscaBulbBlock;
 import alku.csrp.block.FogBlock;
@@ -314,6 +315,24 @@ public final class ModBlocks {
             "fog_nullifier", () -> new FogNullifierBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_LIGHT_GRAY)
                     .strength(5.0F, 20.0F)
+                    .sound(SoundType.STONE)));
+
+    public static final DeferredBlock<DeadBloodBlock> DEAD_BLOOD = BLOCKS.register(
+            "deadblood", () -> new DeadBloodBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED)
+                    .noCollission()
+                    .strength(100.0F)
+                    .noLootTable()));
+    public static final DeferredBlock<Block> VISCERAL_MUD = BLOCKS.register("visceral_mud", () ->
+            new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BROWN)
+                    .strength(0.5F)
+                    .sound(SoundType.MUD)));
+    public static final DeferredBlock<Block> BLEEDING_OBSIDIAN = BLOCKS.register("bleeding_obsidian", () ->
+            new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BLACK)
+                    .strength(50.0F, 1200.0F)
+                    .requiresCorrectToolForDrops()
                     .sound(SoundType.STONE)));
 
     private static java.util.Map<String, DeferredBlock<EscaBulbBlock>> registerEscaBulbs() {
