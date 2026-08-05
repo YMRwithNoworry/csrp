@@ -157,6 +157,7 @@ public final class AuroraSkyRenderer {
         }
         MeshData meshData = buffer.buildOrThrow();
         VertexBuffer vertexBuffer = new VertexBuffer(VertexBuffer.Usage.DYNAMIC);
+        vertexBuffer.bind();
         vertexBuffer.upload(meshData);
         vertexBuffer.drawWithShader(matrix, event.getProjectionMatrix(), shader);
         VertexBuffer.unbind();
