@@ -151,39 +151,39 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
 
         switch (kind) {
             case ARACHNIDA -> {
-                health = 95.0D;
-                armor = 12.0D;
-                damage = 16.0D;
+                health = 80.0D;
+                armor = 14.0D;
+                damage = 30.0D;
                 speed = 0.31D;
                 knockbackResistance = 0.50D;
                 followRange = 40.0D;
             }
             case BOLSTER -> {
-                health = 180.0D;
-                armor = 20.0D;
-                damage = 28.0D;
+                health = 105.0D;
+                armor = 19.0D;
+                damage = 36.0D;
                 speed = 0.17D;
                 knockbackResistance = 0.90D;
                 followRange = 32.0D;
             }
             case BURROWER -> {
-                health = 110.0D;
-                armor = 14.0D;
-                damage = 20.0D;
+                health = 105.0D;
+                armor = 16.0D;
+                damage = 27.0D;
                 speed = 0.34D;
                 knockbackResistance = 0.55D;
                 followRange = 40.0D;
             }
             case DEVOURER -> {
-                health = 100.0D;
+                health = 60.0D;
                 armor = 13.0D;
-                damage = 23.0D;
+                damage = 20.0D;
                 speed = 0.32D;
                 knockbackResistance = 0.40D;
                 followRange = 40.0D;
             }
             case LONGARMS -> {
-                health = 150.0D;
+                health = 95.0D;
                 armor = 16.0D;
                 damage = 26.0D;
                 speed = 0.31D;
@@ -191,57 +191,57 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
                 followRange = 48.0D;
             }
             case MANDUCATER -> {
-                health = 135.0D;
-                armor = 17.0D;
-                damage = 35.0D;
+                health = 45.0D;
+                armor = 10.0D;
+                damage = 24.0D;
                 speed = 0.27D;
                 knockbackResistance = 0.75D;
                 followRange = 40.0D;
             }
             case REEKER -> {
-                health = 115.0D;
-                armor = 12.0D;
-                damage = 25.0D;
+                health = 90.0D;
+                armor = 27.0D;
+                damage = 32.0D;
                 speed = 0.36D;
                 knockbackResistance = 0.55D;
                 followRange = 48.0D;
             }
             case SUMMONER -> {
-                health = 120.0D;
+                health = 100.0D;
                 armor = 14.0D;
-                damage = 18.0D;
+                damage = 30.0D;
                 speed = 0.28D;
                 knockbackResistance = 0.60D;
                 followRange = 40.0D;
             }
             case TOZOON -> {
-                health = 130.0D;
-                armor = 15.0D;
-                damage = 23.0D;
+                health = 115.0D;
+                armor = 24.0D;
+                damage = 45.0D;
                 speed = 0.31D;
                 knockbackResistance = 0.65D;
                 followRange = 40.0D;
             }
             case VERMIN -> {
-                health = 100.0D;
-                armor = 10.0D;
-                damage = 12.0D;
+                health = 70.0D;
+                armor = 24.0D;
+                damage = 30.0D;
                 speed = 0.25D;
                 knockbackResistance = 0.35D;
                 followRange = 40.0D;
             }
             case VISCERA -> {
-                health = 130.0D;
+                health = 95.0D;
                 armor = 16.0D;
-                damage = 24.0D;
+                damage = 27.0D;
                 speed = 0.31D;
                 knockbackResistance = 0.65D;
                 followRange = 40.0D;
             }
             case YELLOWEYE -> {
-                health = 90.0D;
-                armor = 12.0D;
-                damage = 14.0D;
+                health = 55.0D;
+                armor = 13.5D;
+                damage = 17.0D;
                 speed = 0.30D;
                 knockbackResistance = 0.35D;
                 followRange = 48.0D;

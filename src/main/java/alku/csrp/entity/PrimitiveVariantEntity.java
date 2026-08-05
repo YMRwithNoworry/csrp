@@ -90,57 +90,57 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
 
         switch (kind) {
             case ARACHNIDA -> {
-                health = 38.0D;
+                health = 35.0D;
                 armor = 4.0D;
-                damage = 9.0D;
+                damage = 15.0D;
                 speed = 0.30D;
                 knockbackResistance = 0.20D;
                 followRange = 36.0D;
             }
             case BOLSTER -> {
-                health = 64.0D;
-                armor = 12.0D;
-                damage = 12.0D;
+                health = 35.0D;
+                armor = 4.0D;
+                damage = 6.0D;
                 speed = 0.19D;
                 knockbackResistance = 0.80D;
                 followRange = 32.0D;
             }
             case BURROWER -> {
-                health = 44.0D;
-                armor = 7.0D;
-                damage = 11.0D;
+                health = 45.0D;
+                armor = 9.0D;
+                damage = 15.0D;
                 speed = 0.27D;
                 knockbackResistance = 0.45D;
                 followRange = 32.0D;
             }
             case DEVOURER -> {
-                health = 36.0D;
-                armor = 5.0D;
-                damage = 10.0D;
+                health = 60.0D;
+                armor = 4.0D;
+                damage = 20.0D;
                 speed = 0.32D;
                 knockbackResistance = 0.30D;
                 followRange = 36.0D;
             }
             case MANDUCATER -> {
-                health = 50.0D;
-                armor = 10.0D;
-                damage = 14.0D;
+                health = 30.0D;
+                armor = 4.0D;
+                damage = 12.0D;
                 speed = 0.25D;
                 knockbackResistance = 0.65D;
                 followRange = 40.0D;
             }
             case REEKER -> {
-                health = 32.0D;
-                armor = 3.0D;
-                damage = 10.0D;
+                health = 40.0D;
+                armor = 12.0D;
+                damage = 12.0D;
                 speed = 0.34D;
                 knockbackResistance = 0.15D;
                 followRange = 40.0D;
             }
             case TOZOON -> {
-                health = 56.0D;
+                health = 45.0D;
                 armor = 9.0D;
-                damage = 13.0D;
+                damage = 15.0D;
                 speed = 0.22D;
                 knockbackResistance = 0.75D;
                 followRange = 36.0D;
