@@ -58,7 +58,7 @@ public final class AuroraSkyRenderer {
         }
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.level == null || minecraft.player == null
-                || !isSnowyBiome(minecraft)) {
+                || !isNight(minecraft) || !isSnowyBiome(minecraft)) {
             return;
         }
         ensureLoaded(minecraft);
@@ -72,6 +72,11 @@ public final class AuroraSkyRenderer {
         return minecraft.level.getBiome(minecraft.player.blockPosition())
                 .value().getPrecipitationAt(minecraft.player.blockPosition())
                 == Biome.Precipitation.SNOW;
+    }
+
+    private static boolean isNight(Minecraft minecraft) {
+        long timeOfDay = Math.floorMod(minecraft.level.getDayTime(), 24000L);
+        return timeOfDay >= 13000L && timeOfDay <= 23000L;
     }
 
     private static void ensureLoaded(Minecraft minecraft) {
@@ -111,19 +116,19 @@ public final class AuroraSkyRenderer {
         float local = t * (stops.length - 1) - segment;
         float[] a = stops[segment];
         float[] b = stops[segment + 1];
-        int red = Math.round(a[1] + (b[1] - a[1]) * local);
-        int green = Math.round(a[2] + (b[2] - a[2]) * local);
-        int blue = Math.round(a[3] + (b[3] - a[3]) * local);
+        int red = Math.round((a[1] + (b[1] - a[1]) * local) * 255.0F);
+        int green = Math.round((a[2] + (b[2] - a[2]) * local) * 255.0F);
+        int blue = Math.round((a[3] + (b[3] - a[3]) * local) * 255.0F);
         return (255 << 24) | (blue << 16) | (green << 8) | red;
     }
 
     private static void renderAuroraSphere(RenderLevelStageEvent event, Minecraft minecraft) {
         PoseStack poseStack = new PoseStack();
         poseStack.mulPose(event.getModelViewMatrix());
-        var camera = minecraft.gameRenderer.getMainCamera().getPosition();
-        poseStack.translate(camera.x, camera.y, camera.z);
         Matrix4f matrix = poseStack.last().pose();
 
+        float partialTick = event.getPartialTick().getGameTimeDeltaPartialTick(false);
+        shader.getUniform("GameTime").set((minecraft.level.getGameTime() + partialTick) / 20.0F);
         shader.getUniform("Brightness").set(BRIGHTNESS);
         shader.getUniform("Speed").set(SPEED);
         shader.getUniform("Height").set(HEIGHT);
@@ -144,10 +149,10 @@ public final class AuroraSkyRenderer {
             for (int lon = 0; lon < LONGITUDE_SEGMENTS; lon++) {
                 float phi0 = (float) lon / LONGITUDE_SEGMENTS * (float) (Math.PI * 2.0D);
                 float phi1 = (float) (lon + 1) / LONGITUDE_SEGMENTS * (float) (Math.PI * 2.0D);
-                addVertex(buffer, matrix, direction(theta0, phi0));
-                addVertex(buffer, matrix, direction(theta0, phi1));
-                addVertex(buffer, matrix, direction(theta1, phi1));
-                addVertex(buffer, matrix, direction(theta1, phi0));
+                addVertex(buffer, direction(theta0, phi0));
+                addVertex(buffer, direction(theta0, phi1));
+                addVertex(buffer, direction(theta1, phi1));
+                addVertex(buffer, direction(theta1, phi0));
             }
         }
         MeshData meshData = buffer.buildOrThrow();
@@ -169,8 +174,8 @@ public final class AuroraSkyRenderer {
                 sinTheta * (float) Math.sin(phi)).mul(RADIUS);
     }
 
-    private static void addVertex(BufferBuilder buffer, Matrix4f matrix, Vector3f direction) {
-        buffer.addVertex(matrix, direction.x, direction.y, direction.z);
+    private static void addVertex(BufferBuilder buffer, Vector3f direction) {
+        buffer.addVertex(direction.x, direction.y, direction.z);
     }
 
     public static void dispose() {
