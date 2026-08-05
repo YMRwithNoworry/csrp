@@ -7,5 +7,6 @@
   "min_cost": { "base": 16, "per_level_above_first": 5 },
   "slots": ["mainhand"],
   "supported_items": "#minecraft:enchantable/weapon",
+  "primary_items": "#minecraft:enchantable/weapon",
   "weight": 1
 }
