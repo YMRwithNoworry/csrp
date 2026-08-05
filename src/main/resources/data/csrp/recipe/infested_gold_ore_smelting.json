@@ -5,9 +5,9 @@
     "item": "csrp:infested_gold_ore"
   },
   "result": {
-    "id": "minecraft:raw_gold",
+    "id": "minecraft:gold_ingot",
     "count": 2
   },
-  "experience": 1.0,
+  "experience": 0.7,
   "cookingtime": 200
 }

@@ -1,3 +1,1 @@
-{
-  "parent": "minecraft:block/redstone_ore"
-}
+{"parent":"minecraft:block/cube_all","textures":{"all":"csrp:block/infested_redstone_ore"}}
