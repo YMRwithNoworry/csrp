@@ -28,8 +28,8 @@ public final class ThrallEntity extends CrudeParasiteEntity {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 140.0).add(Attributes.ARMOR, 12.0)
-                .add(Attributes.ATTACK_DAMAGE, 18.0).add(Attributes.MOVEMENT_SPEED, 0.4)
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 40.0).add(Attributes.ARMOR, 5.0)
+                .add(Attributes.ATTACK_DAMAGE, 13.0).add(Attributes.MOVEMENT_SPEED, 0.4)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.1).add(Attributes.FOLLOW_RANGE, 32.0);
     }
 
