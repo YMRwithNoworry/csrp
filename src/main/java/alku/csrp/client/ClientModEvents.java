@@ -3,6 +3,7 @@ package alku.csrp.client;
 import alku.csrp.Csrp;
 import alku.csrp.client.particle.AssimilationSplashParticle;
 import alku.csrp.client.particle.KirinWarningParticle;
+import alku.csrp.celestial.client.AuroraSkyRenderer;
 import alku.csrp.client.renderer.AirscrewRenderer;
 import alku.csrp.client.renderer.BurrowingParasiteRenderer;
 import alku.csrp.client.renderer.BuglinRenderer;
@@ -35,7 +36,10 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
 import net.minecraft.util.Mth;
+import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
@@ -47,6 +51,7 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 
 @EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public final class ClientModEvents {
@@ -328,6 +333,21 @@ public final class ClientModEvents {
     public static void registerMenuScreens(RegisterMenuScreensEvent event) {
         event.register(ModMenus.PARASITE_LOOT.get(), ParasiteLootScreen::new);
         event.register(ModMenus.RELAY_TERMINAL.get(), RelayTerminalScreen::new);
+    }
+
+    @SubscribeEvent
+    public static void registerReloadListeners(RegisterClientReloadListenersEvent event) {
+        event.registerReloadListener(new SimplePreparableReloadListener<Void>() {
+            @Override
+            protected Void prepare(ResourceManager resourceManager, ProfilerFiller profilerFiller) {
+                return null;
+            }
+
+            @Override
+            protected void apply(Void data, ResourceManager resourceManager, ProfilerFiller profilerFiller) {
+                AuroraSkyRenderer.dispose();
+            }
+        });
     }
 
     @SubscribeEvent
