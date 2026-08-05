@@ -25,12 +25,6 @@ public final class InfectedPlantGlitchEvents {
     private static final ResourceLocation EFFECT = ResourceLocation.fromNamespaceAndPath(
             Csrp.MODID, "shaders/post/glitch_double_vision.json");
 
-    private static final Block[] INFECTED_PLANTS = {
-            ModBlocks.RESIDUE_PLANTS.get(),
-            ModBlocks.THORNSHADE.get(),
-            ModBlocks.ALVEOLI_GROWTH.get()
-    };
-
     private static PostChain loadedEffect;
     private static boolean loadAttempted;
 
@@ -89,12 +83,9 @@ public final class InfectedPlantGlitchEvents {
     }
 
     private static boolean isInfectedPlant(Block block) {
-        for (Block plant : INFECTED_PLANTS) {
-            if (block == plant) {
-                return true;
-            }
-        }
-        return false;
+        return block == ModBlocks.RESIDUE_PLANTS.get()
+                || block == ModBlocks.THORNSHADE.get()
+                || block == ModBlocks.ALVEOLI_GROWTH.get();
     }
 
     private static void unloadEffect(Minecraft minecraft) {
