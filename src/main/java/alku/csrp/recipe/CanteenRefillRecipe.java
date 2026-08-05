@@ -20,8 +20,6 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.util.RecipeMatcher;
 
 public final class CanteenRefillRecipe implements CraftingRecipe {
-    private static final int SIPS_PER_REFILL = 2;
-
     private final String group;
     private final CraftingBookCategory category;
     private final ItemStack result;
@@ -42,13 +40,23 @@ public final class CanteenRefillRecipe implements CraftingRecipe {
         if (input.ingredientCount() != ingredients.size()) {
             return false;
         }
-        if (!simple) {
-            return RecipeMatcher.findMatches(input.items().stream().filter(stack -> !stack.isEmpty()).toList(),
-                    ingredients) != null;
-        }
-        return input.size() == 1 && ingredients.size() == 1
+        boolean ingredientsMatch = !simple
+                ? RecipeMatcher.findMatches(input.items().stream().filter(stack -> !stack.isEmpty()).toList(),
+                        ingredients) != null
+                : input.size() == 1 && ingredients.size() == 1
                 ? ingredients.getFirst().test(input.getItem(0))
                 : input.stackedContents().canCraft(this, null);
+        if (!ingredientsMatch) {
+            return false;
+        }
+        for (ItemStack ingredient : input.items()) {
+            if (ingredient.is(result.getItem())
+                    && ingredient.getItem() instanceof OverlastCanteenItem
+                    && OverlastCanteenItem.getSips(ingredient) >= OverlastCanteenItem.MAX_SIPS) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -57,7 +65,7 @@ public final class CanteenRefillRecipe implements CraftingRecipe {
         for (ItemStack ingredient : input.items()) {
             if (ingredient.getItem() instanceof OverlastCanteenItem) {
                 OverlastCanteenItem.setState(output,
-                        OverlastCanteenItem.getSips(ingredient) + SIPS_PER_REFILL,
+                        OverlastCanteenItem.MAX_SIPS,
                         OverlastCanteenItem.getCanteenDurability(ingredient));
                 break;
             }

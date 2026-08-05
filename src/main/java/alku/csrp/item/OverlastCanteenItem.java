@@ -3,9 +3,12 @@ package alku.csrp.item;
 import java.util.List;
 import alku.csrp.registry.ModItems;
 import alku.csrp.registry.ModMobEffects;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -16,8 +19,10 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.gameevent.GameEvent;
 
 public final class OverlastCanteenItem extends Item {
     public static final int MAX_SIPS = 6;
@@ -44,16 +49,24 @@ public final class OverlastCanteenItem extends Item {
 
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity user) {
-        if (level.isClientSide || dose == Dose.EMPTY || !(user instanceof Player player)) {
+        if (dose == Dose.EMPTY || getSips(stack) <= 0) {
             return stack;
         }
 
-        player.addEffect(switch (dose) {
-            case PURIFY -> new MobEffectInstance(ModMobEffects.PARASITES_PURIFY, 1_800);
-            case INFECT -> new MobEffectInstance(ModMobEffects.PARASITES_INFECT, 1_800);
-            case STRONG_INFECT -> new MobEffectInstance(ModMobEffects.PARASITES_INFECT, 3_600, 1);
-            case EMPTY -> throw new IllegalStateException("Empty canteen has no dose");
-        });
+        if (user instanceof ServerPlayer serverPlayer) {
+            CriteriaTriggers.CONSUME_ITEM.trigger(serverPlayer, stack);
+        }
+        if (!level.isClientSide) {
+            user.addEffect(createEffect());
+        }
+        user.gameEvent(GameEvent.DRINK);
+
+        if (user instanceof Player player) {
+            player.awardStat(Stats.ITEM_USED.get(this));
+            if (player.hasInfiniteMaterials()) {
+                return stack;
+            }
+        }
 
         int sips = getSips(stack) - 1;
         int durability = getCanteenDurability(stack) - 1;
@@ -100,6 +113,9 @@ public final class OverlastCanteenItem extends Item {
     public void appendHoverText(ItemStack stack, TooltipContext context,
             List<Component> tooltip, TooltipFlag flag) {
         int sips = getSips(stack);
+        if (dose != Dose.EMPTY) {
+            PotionContents.addPotionTooltip(List.of(createEffect()), tooltip::add, 1.0F, context.tickRate());
+        }
         ChatFormatting sipColor = sips >= 5 ? ChatFormatting.GREEN
                 : sips >= 2 ? ChatFormatting.YELLOW : ChatFormatting.RED;
         tooltip.add(Component.translatable("tooltip.csrp.canteen.sips", sips).withStyle(sipColor));
@@ -112,22 +128,33 @@ public final class OverlastCanteenItem extends Item {
             return 0;
         }
         CustomData data = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
-        return data.contains(SIPS_TAG) ? data.copyTag().getInt(SIPS_TAG)
-                : canteen.dose == Dose.EMPTY ? 0 : Math.max(0, MAX_SIPS - stack.getDamageValue());
+        int sips = data.contains(SIPS_TAG) ? data.copyTag().getInt(SIPS_TAG)
+                : canteen.dose == Dose.EMPTY ? 0 : MAX_SIPS - stack.getDamageValue();
+        return Mth.clamp(sips, 0, MAX_SIPS);
     }
 
     public static int getCanteenDurability(ItemStack stack) {
         CustomData data = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
-        return data.contains(DURABILITY_TAG) ? data.copyTag().getInt(DURABILITY_TAG)
-                : Math.max(0, MAX_CANTEEN_DURABILITY - stack.getDamageValue());
+        int durability = data.contains(DURABILITY_TAG) ? data.copyTag().getInt(DURABILITY_TAG)
+                : MAX_CANTEEN_DURABILITY - stack.getDamageValue();
+        return Mth.clamp(durability, 0, MAX_CANTEEN_DURABILITY);
     }
 
     public static void setState(ItemStack stack, int sips, int durability) {
         stack.remove(DataComponents.DAMAGE);
         CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> {
-            tag.putInt(SIPS_TAG, sips);
-            tag.putInt(DURABILITY_TAG, durability);
+            tag.putInt(SIPS_TAG, Mth.clamp(sips, 0, MAX_SIPS));
+            tag.putInt(DURABILITY_TAG, Mth.clamp(durability, 0, MAX_CANTEEN_DURABILITY));
         });
+    }
+
+    private MobEffectInstance createEffect() {
+        return switch (dose) {
+            case PURIFY -> new MobEffectInstance(ModMobEffects.PARASITES_PURIFY, 1_800);
+            case INFECT -> new MobEffectInstance(ModMobEffects.PARASITES_INFECT, 1_800);
+            case STRONG_INFECT -> new MobEffectInstance(ModMobEffects.PARASITES_INFECT, 3_600, 1);
+            case EMPTY -> throw new IllegalStateException("Empty canteen has no dose");
+        };
     }
 
     public enum Dose {
