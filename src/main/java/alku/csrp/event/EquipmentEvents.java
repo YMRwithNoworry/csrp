@@ -75,10 +75,6 @@ public final class EquipmentEvents {
         if (attacker != null && !weapon.isEmpty() && isHijackedTool(weapon)) {
             HijackedHitEffects.apply(attacker, target);
         }
-        if (!weapon.isEmpty() && weapon.getItem() instanceof LivingBowItem) {
-            target.addEffect(new MobEffectInstance(ModMobEffects.BLEED, 200, 0, false, true));
-        }
-
         if (attacker != null && event.getSource().getDirectEntity() instanceof net.minecraft.world.entity.projectile.Projectile) {
             for (InteractionHandSlot hand : InteractionHandSlot.values()) {
                 ItemStack held = hand.get(attacker);

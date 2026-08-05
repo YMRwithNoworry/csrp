@@ -17,6 +17,7 @@ import alku.csrp.item.HijackedToolItem;
 import alku.csrp.item.LivingArmorItem;
 import alku.csrp.item.LivingBowItem;
 import alku.csrp.item.LivingWeaponItem;
+import alku.csrp.item.LivingMaulItem;
 import alku.csrp.item.LevelClockItem;
 import alku.csrp.item.ModuleComponentItem;
 import alku.csrp.item.QuenchItem;
@@ -735,8 +736,11 @@ public final class ModItems {
     private static DeferredItem<LivingWeaponItem> livingWeapon(String id, LivingWeaponItem.WeaponKind kind,
             float damage, float speed,
             float reach, boolean sentient, DeferredItem<? extends Item> next) {
-        return ITEMS.registerItem(id, properties -> new LivingWeaponItem(kind, damage, speed, reach, sentient,
-                next == null ? null : next::get, properties), new Item.Properties().durability(sentient ? 1500 : 1000));
+        return ITEMS.registerItem(id, properties -> kind == LivingWeaponItem.WeaponKind.MAUL
+                ? new LivingMaulItem(damage, speed, reach, sentient, next == null ? null : next::get, properties)
+                : new LivingWeaponItem(kind, damage, speed, reach, sentient,
+                        next == null ? null : next::get, properties),
+                new Item.Properties().durability(1000));
     }
 
     private static DeferredItem<LivingArmorItem> livingArmor(String id, ArmorItem.Type type,
