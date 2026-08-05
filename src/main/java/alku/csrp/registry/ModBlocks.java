@@ -9,6 +9,7 @@ import alku.csrp.block.BiomeHeartBlock;
 import alku.csrp.block.ColonyHeartBlock;
 import alku.csrp.block.ColonyStructureBlock;
 import alku.csrp.block.DispatcherNidusBlock;
+import alku.csrp.block.GluttonousCystBlock;
 import alku.csrp.block.ResidueBlock;
 import alku.csrp.block.ResidueBloomingBlock;
 import alku.csrp.block.RelayTerminalBlock;
@@ -25,6 +26,7 @@ import alku.csrp.block.SickAlveoliBlock;
 import alku.csrp.block.SrpWebBlock;
 import alku.csrp.block.ThornshadeBlock;
 import alku.csrp.block.TunnelBlock;
+import alku.csrp.block.VacuousCystBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SoundType;
@@ -238,6 +240,19 @@ public final class ModBlocks {
                 .requiresCorrectToolForDrops()
                 .sound(SoundType.STONE)));
     }
+    public static final DeferredBlock<GluttonousCystBlock> GLUTTONOUS_CYST = BLOCKS.register(
+            "gluttonous_cyst", () -> new GluttonousCystBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED)
+                    .strength(20.0F, 2000.0F)
+                    .sound(SoundType.SLIME_BLOCK)
+                    .noLootTable()));
+    public static final DeferredBlock<VacuousCystBlock> VACUOUS_CYST = BLOCKS.register(
+            "vacuous_cyst", () -> new VacuousCystBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED)
+                    .strength(0.5F)
+                    .randomTicks()
+                    .sound(SoundType.SLIME_BLOCK)
+                    .noLootTable()));
 
     private static DeferredBlock<InfestedBlock> infested(String id, MapColor color, SoundType sound) {
         return BLOCKS.register(id, () -> new InfestedBlock(BlockBehaviour.Properties.of()

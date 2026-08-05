@@ -312,6 +312,10 @@ public final class ModItems {
     public static final DeferredItem<BlockItem> SRP_WEB = ITEMS.registerSimpleBlockItem("srpweb", ModBlocks.SRP_WEB);
     public static final DeferredItem<BlockItem> DISPATCHER_NIDUS = ITEMS.registerSimpleBlockItem(
             "dispatcher_nidus", ModBlocks.DISPATCHER_NIDUS);
+    public static final DeferredItem<BlockItem> GLUTTONOUS_CYST = ITEMS.registerSimpleBlockItem(
+            "gluttonous_cyst", ModBlocks.GLUTTONOUS_CYST);
+    public static final DeferredItem<BlockItem> VACUOUS_CYST = ITEMS.registerSimpleBlockItem(
+            "vacuous_cyst", ModBlocks.VACUOUS_CYST);
     public static final DeferredItem<BlockItem> RESIDUE_PLANTS = ITEMS.registerSimpleBlockItem(
             "residue_plants", ModBlocks.RESIDUE_PLANTS);
     public static final DeferredItem<BlockItem> THORNSHADE_ITEM = ITEMS.registerSimpleBlockItem(
