@@ -1038,7 +1038,7 @@
   "report.csrp.dislodgement.effect.20": "Unknown dislodgement event",
   "report.csrp.dislodgement.effect.21": "Unburned parasites cannot be damaged normally",
   "report.csrp.dislodgement.effect.22": "Unknown dislodgement event",
-  "report.csrp.dislodgement.effect.25": "Unknown dislodgement event"
+  "report.csrp.dislodgement.effect.25": "Unknown dislodgement event",
   "block.csrp.esca_bulb_lime": "Lime Esca Bulb",
   "block.csrp.esca_bulb_orange": "Orange Esca Bulb",
   "block.csrp.esca_bulb_black": "Black Esca Bulb",
@@ -1069,7 +1069,7 @@
   "block.csrp.esca_bulb_purple": "Purple Esca Bulb",
   "block.csrp.esca_bulb_magenta": "Magenta Esca Bulb",
   "block.csrp.esca_bulb_light_blue": "Light Blue Esca Bulb",
-  "block.csrp.esca_bulb_cyan": "Cyan Esca Bulb"
+  "block.csrp.esca_bulb_cyan": "Cyan Esca Bulb",
   "block.csrp.shrouded_glass": "Shrouded Glass",
   "block.csrp.shade_glass": "Shade Glass",
   "block.csrp.harlequinn_glass": "Harlequinn Glass",
@@ -1083,7 +1083,7 @@
   "block.csrp.gothshroom": "Gothshroom",
   "block.csrp.sepia_glass": "Sepia Glass",
   "block.csrp.ashen_glass": "Ashen Glass",
-  "block.csrp.bloody_glass": "Bloody Glass"
+  "block.csrp.bloody_glass": "Bloody Glass",
   "advancements.csrp.uprooter.title": "Uprooter",
   "advancements.csrp.uprooter.desc": "Kill a Stage III Beckon",
   "advancements.csrp.gardener.title": "Gardener",
@@ -1117,7 +1117,7 @@
   "advancements.csrp.venari.title": "Venari",
   "advancements.csrp.venari.desc": "Hunt parasites",
   "advancements.csrp.fog_nullifier.title": "Fog Nullifier",
-  "advancements.csrp.fog_nullifier.desc": "Obtain a Fog Nullifier"
+  "advancements.csrp.fog_nullifier.desc": "Obtain a Fog Nullifier",
   "advancements.csrp.hellfire_chemical_warfare.title": "Hellfire Chemical Warfare",
   "advancements.csrp.hellfire_chemical_warfare.desc": "Kill a Draconite",
   "advancements.csrp.pure.title": "Pure",
@@ -1133,7 +1133,7 @@
   "advancements.csrp.primitive.title": "Primitive",
   "advancements.csrp.primitive.desc": "Kill all twelve Primitive parasites at least once",
   "advancements.csrp.adapted.title": "Adapted",
-  "advancements.csrp.adapted.desc": "Kill all twelve Adapted parasites at least once"
+  "advancements.csrp.adapted.desc": "Kill all twelve Adapted parasites at least once",
   "advancements.csrp.fermented_arrogance.title": "Fermented Arrogance",
   "advancements.csrp.fermented_arrogance.desc": "Kill a Feral Enderman",
   "advancements.csrp.controversial.title": "Controversial",
@@ -1145,7 +1145,7 @@
   "advancements.csrp.ecstasy.title": "Ecstasy",
   "advancements.csrp.ecstasy.desc": "Obtain a potion of Fear",
   "advancements.csrp.stolas.title": "STOLAS",
-  "advancements.csrp.stolas.desc": "Witness all of the Celestial Events"
+  "advancements.csrp.stolas.desc": "Witness all of the Celestial Events",
   "advancements.csrp.beautiful_self_destruction.title": "Beautiful Self-Destruction",
   "advancements.csrp.beautiful_self_destruction.desc": "Drink from a Thornshade Decanter three times and trigger the explosion",
   "advancements.csrp.sepeku.title": "Seppuku",
@@ -1159,5 +1159,5 @@
   "advancements.csrp.enemy_of_my_enemy.title": "The enemy of my enemy",
   "advancements.csrp.enemy_of_my_enemy.desc": "Have a parasite killed by a creeper explosion",
   "advancements.csrp.hunt_season.title": "Hunt season",
-  "advancements.csrp.hunt_season.desc": "Kill fifty or more parasites within one day",
+  "advancements.csrp.hunt_season.desc": "Kill fifty or more parasites within one day"
 }
