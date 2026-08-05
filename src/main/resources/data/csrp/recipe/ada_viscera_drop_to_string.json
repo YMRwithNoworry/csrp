@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "csrp:ada_viscera_drop"
+    }
+  ],
+  "result": {
+    "id": "minecraft:string",
+    "count": 3
+  }
+}
