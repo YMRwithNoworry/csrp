@@ -140,9 +140,8 @@ public final class ParasiteRemainsEntity extends Entity {
                 .create(LootContextParamSets.ENTITY);
         LootTable table = level.getServer().reloadableRegistries().getLootTable(source.getLootTable());
         List<ItemStack> drops = table.getRandomItems(params);
-        if (!drops.isEmpty()) {
-            ItemStack selected = drops.get(random.nextInt(drops.size()));
-            spawnAtLocation(selected.copy());
+        for (ItemStack drop : drops) {
+            spawnAtLocation(drop.copy());
         }
     }
 
