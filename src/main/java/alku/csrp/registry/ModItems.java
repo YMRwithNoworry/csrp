@@ -326,6 +326,10 @@ public final class ModItems {
             "bladder_sac", ModBlocks.BLADDER_SAC);
     public static final DeferredItem<BlockItem> GROTESQUE_LUMP = ITEMS.registerSimpleBlockItem(
             "grotesque_lump", ModBlocks.GROTESQUE_LUMP);
+    public static final DeferredItem<BlockItem> KIRIN_TROPHY = ITEMS.registerSimpleBlockItem(
+            "trophy_void_orb", ModBlocks.KIRIN_TROPHY);
+    public static final DeferredItem<BlockItem> DRACONITE_TROPHY = ITEMS.registerSimpleBlockItem(
+            "trophy_boom_orb", ModBlocks.DRACONITE_TROPHY);
     public static final DeferredItem<BlockItem> RESIDUE_PLANTS = ITEMS.registerSimpleBlockItem(
             "residue_plants", ModBlocks.RESIDUE_PLANTS);
     public static final DeferredItem<BlockItem> THORNSHADE_ITEM = ITEMS.registerSimpleBlockItem(

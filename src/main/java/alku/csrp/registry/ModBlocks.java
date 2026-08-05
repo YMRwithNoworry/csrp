@@ -30,6 +30,7 @@ import alku.csrp.block.GrotesqueLumpBlock;
 import alku.csrp.block.SickAlveoliBlock;
 import alku.csrp.block.SrpWebBlock;
 import alku.csrp.block.ThornshadeBlock;
+import alku.csrp.block.TrophyBlock;
 import alku.csrp.block.TunnelBlock;
 import alku.csrp.block.VacuousCystBlock;
 import net.minecraft.world.level.block.Block;
@@ -286,6 +287,16 @@ public final class ModBlocks {
                     .mapColor(MapColor.COLOR_RED)
                     .strength(0.8F)
                     .sound(SoundType.SLIME_BLOCK)));
+    public static final DeferredBlock<TrophyBlock> KIRIN_TROPHY = BLOCKS.register(
+            "trophy_void_orb", () -> new TrophyBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_PURPLE)
+                    .strength(1.0F)
+                    .sound(SoundType.SCULK)));
+    public static final DeferredBlock<TrophyBlock> DRACONITE_TROPHY = BLOCKS.register(
+            "trophy_boom_orb", () -> new TrophyBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED)
+                    .strength(1.0F)
+                    .sound(SoundType.SCULK)));
 
     private static DeferredBlock<InfestedBlock> infested(String id, MapColor color, SoundType sound) {
         return BLOCKS.register(id, () -> new InfestedBlock(BlockBehaviour.Properties.of()

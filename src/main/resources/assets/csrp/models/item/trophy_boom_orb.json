@@ -1,6 +1,3 @@
 {
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "csrp:item/trophy_boom_orb"
-  }
+  "parent": "csrp:block/trophy_boom_orb"
 }
