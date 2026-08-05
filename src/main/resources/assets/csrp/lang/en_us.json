@@ -438,6 +438,7 @@
   "item.csrp.hijacked_iron_hoe": "Hijacked Iron Hoe",
   "tooltip.csrp.living_progress": "Evolution progress: %s / %s",
   "tooltip.csrp.adaptation": "Adapted damage types: %s / %s",
+  "tooltip.csrp.adaptation_entry": "  %s: %s / %s points (%s%% reduction)",
   "effect.csrp.corrosion": "Corrosion",
   "effect.csrp.rage": "Rage",
   "effect.csrp.needler": "Needler",

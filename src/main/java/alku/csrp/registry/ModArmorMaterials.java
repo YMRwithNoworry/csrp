@@ -23,7 +23,7 @@ public final class ModArmorMaterials {
                     3.0F, 0.0F, "livings"));
     public static final DeferredHolder<ArmorMaterial, ArmorMaterial> SENTIENT = MATERIALS.register(
             "sentient", () -> material(Map.of(ArmorItem.Type.HELMET, 5, ArmorItem.Type.CHESTPLATE, 12,
-                    ArmorItem.Type.LEGGINGS, 10, ArmorItem.Type.BOOTS, 5), 18, SoundEvents.ARMOR_EQUIP_NETHERITE,
+                    ArmorItem.Type.LEGGINGS, 12, ArmorItem.Type.BOOTS, 5), 18, SoundEvents.ARMOR_EQUIP_NETHERITE,
                     4.0F, 0.0F, "sentients"));
     public static final DeferredHolder<ArmorMaterial, ArmorMaterial> HIJACKED_IRON = MATERIALS.register(
             "hijacked_iron", () -> material(Map.of(ArmorItem.Type.HELMET, 4, ArmorItem.Type.CHESTPLATE, 9,

@@ -438,6 +438,7 @@
   "item.csrp.hijacked_iron_hoe": "§c被操纵的铁锄",
   "tooltip.csrp.living_progress": "进化进度：%s / %s",
   "tooltip.csrp.adaptation": "已适应伤害类型：%s / %s",
+  "tooltip.csrp.adaptation_entry": "  %s：%s / %s 点（减伤 %s%%）",
   "effect.csrp.corrosion": "腐蚀",
   "effect.csrp.rage": "§c狂怒",
   "effect.csrp.needler": "§6穿刺",

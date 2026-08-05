@@ -5,9 +5,11 @@ import alku.csrp.item.HijackedArmorItem;
 import alku.csrp.item.HijackedHitEffects;
 import alku.csrp.item.LivingArmorItem;
 import alku.csrp.item.LivingBowItem;
+import alku.csrp.effect.EffectStacking;
 import alku.csrp.registry.ModItems;
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -36,34 +38,72 @@ public final class EquipmentEvents {
     public static void adaptAndApplySetPenalty(LivingIncomingDamageEvent event) {
         LivingEntity entity = event.getEntity();
         if (event.getAmount() <= 0.0F) return;
+        if (entity.level().isClientSide) return;
 
         if (entity instanceof Player player && wearsFullHijackedSet(player)) {
             player.removeEffect(ModMobEffects.BLEED);
             if (event.getSource().is(DamageTypeTags.IS_FIRE)) event.setAmount(event.getAmount() * 5.5F);
         }
 
-        String damageType = event.getSource().getMsgId().replaceAll("[^a-zA-Z0-9_]", "_");
-        int learnedPoints = 0;
-        float reductionPerPoint = 0.0F;
+        boolean hasLivingArmor = false;
+        for (EquipmentSlot slot : ARMOR_SLOTS) {
+            if (entity.getItemBySlot(slot).getItem() instanceof LivingArmorItem) {
+                hasLivingArmor = true;
+                break;
+            }
+        }
+        if (!hasLivingArmor) return;
+
+        if (event.getSource().getEntity() != null
+                && (event.getSource().is(DamageTypeTags.IS_FIRE) || entity.isOnFire())) {
+            event.setAmount(event.getAmount() * 4.0F);
+            return;
+        }
+
+        String damageType = adaptationSource(event);
+        String legacyDamageType = event.getSource().getMsgId().replaceAll("[^a-zA-Z0-9_]", "_");
+        float incomingDamage = event.getAmount();
+        float totalReduction = 0.0F;
         for (EquipmentSlot slot : ARMOR_SLOTS) {
             ItemStack stack = entity.getItemBySlot(slot);
             if (!(stack.getItem() instanceof LivingArmorItem armor)) continue;
-            int limit = armor.isSentient() ? 7 : 4;
-            float chance = armor.isSentient() ? 0.50F : 0.20F;
-            reductionPerPoint = armor.isSentient() ? 0.018F : 0.0125F;
-            String key = "adapt_" + damageType;
+            String key = "adapt_points_" + damageType;
+            String legacyKey = "adapt_" + legacyDamageType;
             var data = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
-            if (!data.getBoolean(key) && data.getInt(LivingArmorItem.ADAPT_COUNT) < limit
-                    && entity.getRandom().nextFloat() < chance) {
-                CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> {
-                    tag.putBoolean(key, true);
-                    tag.putInt(LivingArmorItem.ADAPT_COUNT, tag.getInt(LivingArmorItem.ADAPT_COUNT) + 1);
-                });
+            int points = data.getInt(key);
+            if (points == 0 && data.getBoolean(legacyKey)) {
+                points = 1;
+                int migratedPoints = points;
+                CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> tag.putInt(key, migratedPoints));
                 data = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
             }
-            if (data.getBoolean(key)) learnedPoints++;
+            boolean canLearn = points > 0 || data.getInt(LivingArmorItem.ADAPT_COUNT) < armor.damageTypeLimit();
+            if (canLearn && points < armor.pointLimit() && entity.getRandom().nextFloat() < armor.learningChance()) {
+                boolean newType = points == 0;
+                int learned = points + 1;
+                CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> {
+                    tag.putInt(key, learned);
+                    if (newType) tag.putInt(LivingArmorItem.ADAPT_COUNT,
+                            tag.getInt(LivingArmorItem.ADAPT_COUNT) + 1);
+                });
+                points = learned;
+            }
+            totalReduction += Math.min(points, armor.pointLimit()) * armor.reductionPerPoint();
+            CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> tag.putInt(LivingArmorItem.DAMAGE,
+                    tag.getInt(LivingArmorItem.DAMAGE) + Math.round(incomingDamage)));
         }
-        if (learnedPoints > 0) event.setAmount(event.getAmount() * Math.max(0.0F, 1.0F - learnedPoints * reductionPerPoint));
+        event.setAmount(incomingDamage * Math.max(0.0F, 1.0F - totalReduction));
+        if (event.getSource().getEntity() instanceof LivingEntity attacker) {
+            EffectStacking.apply(attacker, ModMobEffects.COTH, 400, 2, 2);
+        }
+    }
+
+    private static String adaptationSource(LivingIncomingDamageEvent event) {
+        if (event.getSource().getEntity() instanceof Player player) return "player." + player.getName().getString();
+        if (event.getSource().getEntity() instanceof LivingEntity attacker) {
+            return BuiltInRegistries.ENTITY_TYPE.getKey(attacker.getType()).toString();
+        }
+        return event.getSource().getMsgId();
     }
 
     @SubscribeEvent
@@ -85,20 +125,6 @@ public final class EquipmentEvents {
             }
         }
 
-        if (target.level().isClientSide || event.getNewDamage() <= 0.0F) return;
-        for (EquipmentSlot slot : ARMOR_SLOTS) {
-            ItemStack stack = target.getItemBySlot(slot);
-            if (!(stack.getItem() instanceof LivingArmorItem armor)) continue;
-            CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> tag.putInt(LivingArmorItem.DAMAGE,
-                    tag.getInt(LivingArmorItem.DAMAGE) + Math.round(event.getNewDamage())));
-            int total = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
-                    .copyTag().getInt(LivingArmorItem.DAMAGE);
-            if (!armor.isSentient() && armor.next() != null && total >= LivingArmorItem.EVOLUTION_DAMAGE) {
-                ItemStack evolved = new ItemStack(armor.next().get());
-                evolved.set(DataComponents.CUSTOM_DATA, stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY));
-                target.setItemSlot(slot, evolved);
-            }
-        }
     }
 
     @SubscribeEvent
