@@ -147,8 +147,8 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
             }
             case YELLOWEYE -> {
                 health = 30.0D;
-                armor = 3.0D;
-                damage = 4.0D;
+                armor = 3.5D;
+                damage = 5.0D;
                 speed = 0.25D;
                 knockbackResistance = 0.15D;
                 followRange = 48.0D;

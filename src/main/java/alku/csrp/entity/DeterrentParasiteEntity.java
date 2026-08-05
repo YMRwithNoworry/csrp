@@ -684,7 +684,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         KYPHOSIS(50.0D, 15.0D, 15.0D, 0.0D, 20.0D, 36),
         SEIZER(15.0D, 10.0D, 6.0D, 0.0D, 6.0D, 0),
         SENTRY(30.0D, 10.0D, 5.0D, 0.0D, 32.0D, 36),
-        WORM(100.0D, 100.0D, 0.0D, 0.0D, 16.0D, 0);
+        WORM(10.0D, 10.0D, 0.0D, 0.0D, 16.0D, 0);
 
         private final double maxHealth;
         private final double armor;
