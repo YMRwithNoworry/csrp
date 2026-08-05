@@ -2,6 +2,7 @@ package alku.csrp.registry;
 
 import alku.csrp.Csrp;
 import alku.csrp.block.entity.DispatcherNidusBlockEntity;
+import alku.csrp.block.entity.InfuserFurnaceBlockEntity;
 import alku.csrp.block.entity.ParasiticCystBlockEntity;
 import alku.csrp.block.entity.ParasiteLootBlockEntity;
 import alku.csrp.block.entity.RelayTerminalBlockEntity;
@@ -32,6 +33,10 @@ public final class ModBlockEntities {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ParasiticCystBlockEntity>> PARASITIC_CYST =
             BLOCK_ENTITIES.register("parasitic_cyst", () -> new BlockEntityType<>(
                     ParasiticCystBlockEntity::new, Set.of(ModBlocks.GLUTTONOUS_CYST.get()), null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<InfuserFurnaceBlockEntity>> INFUSER_FURNACE =
+            BLOCK_ENTITIES.register("infuser_furnace", () -> new BlockEntityType<>(
+                    InfuserFurnaceBlockEntity::new, Set.of(ModBlocks.INFUSER_FURNACE.get()), null));
 
     private ModBlockEntities() {
     }

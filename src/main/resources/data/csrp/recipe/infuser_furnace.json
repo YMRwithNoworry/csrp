@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "ISI",
+    "SBS",
+    "CTC"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "S": {
+      "item": "minecraft:stone_bricks"
+    },
+    "B": {
+      "item": "minecraft:iron_bars"
+    },
+    "C": {
+      "item": "minecraft:coal_block"
+    },
+    "T": {
+      "item": "csrp:tissue_spike"
+    }
+  },
+  "result": {
+    "id": "csrp:infuser_furnace"
+  }
+}

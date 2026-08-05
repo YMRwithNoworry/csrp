@@ -32,6 +32,7 @@ import alku.csrp.block.AssimilatedPumpkinBlock;
 import alku.csrp.block.AssimilatedReedBlock;
 import alku.csrp.block.BladderSacBlock;
 import alku.csrp.block.GrotesqueLumpBlock;
+import alku.csrp.block.InfuserFurnaceBlock;
 import alku.csrp.block.SickAlveoliBlock;
 import alku.csrp.block.SrpWebBlock;
 import alku.csrp.block.ThornshadeBlock;
@@ -340,6 +341,13 @@ public final class ModBlocks {
                     .mapColor(MapColor.COLOR_RED)
                     .strength(0.6F)
                     .sound(SoundType.SPONGE)));
+    public static final DeferredBlock<InfuserFurnaceBlock> INFUSER_FURNACE = BLOCKS.register(
+            "infuser_furnace", () -> new InfuserFurnaceBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_LIGHT_GRAY)
+                    .strength(3.5F, 10.0F)
+                    .lightLevel(state -> 13)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.METAL)));
 
     private static java.util.Map<String, DeferredBlock<EscaBulbBlock>> registerEscaBulbs() {
         java.util.Map<String, DeferredBlock<EscaBulbBlock>> bulbs = new java.util.LinkedHashMap<>();

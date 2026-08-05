@@ -343,6 +343,8 @@ public final class ModItems {
             "bleeding_obsidian", ModBlocks.BLEEDING_OBSIDIAN);
     public static final DeferredItem<BlockItem> DISEASED_SPONGE = ITEMS.registerSimpleBlockItem(
             "diseased_sponge", ModBlocks.DISEASED_SPONGE);
+    public static final DeferredItem<BlockItem> INFUSER_FURNACE = ITEMS.registerSimpleBlockItem(
+            "infuser_furnace", ModBlocks.INFUSER_FURNACE);
 
     private static java.util.Map<String, DeferredItem<BlockItem>> registerEscaBulbItems() {
         java.util.Map<String, DeferredItem<BlockItem>> items = new java.util.LinkedHashMap<>();

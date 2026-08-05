@@ -1,6 +1,7 @@
 package alku.csrp.registry;
 
 import alku.csrp.Csrp;
+import alku.csrp.inventory.InfuserFurnaceMenu;
 import alku.csrp.inventory.ParasiteLootMenu;
 import alku.csrp.inventory.ParasiticCystMenu;
 import alku.csrp.inventory.RelayTerminalMenu;
@@ -22,6 +23,9 @@ public final class ModMenus {
 
     public static final DeferredHolder<MenuType<?>, MenuType<ParasiticCystMenu>> PARASITIC_CYST =
             MENUS.register("parasitic_cyst", () -> new MenuType<>(ParasiticCystMenu::new, FeatureFlags.DEFAULT_FLAGS));
+
+    public static final DeferredHolder<MenuType<?>, MenuType<InfuserFurnaceMenu>> INFUSER_FURNACE =
+            MENUS.register("infuser_furnace", () -> new MenuType<>(InfuserFurnaceMenu::new, FeatureFlags.DEFAULT_FLAGS));
 
     private ModMenus() {
     }

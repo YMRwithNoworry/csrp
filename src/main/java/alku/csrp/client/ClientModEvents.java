@@ -25,6 +25,7 @@ import alku.csrp.client.renderer.VoidOrbRenderer;
 import alku.csrp.client.screen.ParasiteLootScreen;
 import alku.csrp.client.screen.ParasiticCystScreen;
 import alku.csrp.client.screen.RelayTerminalScreen;
+import alku.csrp.client.screen.InfuserFurnaceScreen;
 import alku.csrp.client.renderer.TetheredMarauderizedRenderer;
 import alku.csrp.client.renderer.ParasiticScentRenderer;
 import alku.csrp.registry.ModEntities;
@@ -334,6 +335,7 @@ public final class ClientModEvents {
     public static void registerMenuScreens(RegisterMenuScreensEvent event) {
         event.register(ModMenus.PARASITE_LOOT.get(), ParasiteLootScreen::new);
         event.register(ModMenus.PARASITIC_CYST.get(), ParasiticCystScreen::new);
+        event.register(ModMenus.INFUSER_FURNACE.get(), InfuserFurnaceScreen::new);
         event.register(ModMenus.RELAY_TERMINAL.get(), RelayTerminalScreen::new);
     }
 
