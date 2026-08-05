@@ -3,8 +3,8 @@
   "biomes": "#minecraft:is_overworld",
   "spawners": {
     "type": "csrp:buglin",
-    "weight": 120,
-    "minCount": 7,
-    "maxCount": 12
+    "weight": 30,
+    "minCount": 2,
+    "maxCount": 6
   }
 }
