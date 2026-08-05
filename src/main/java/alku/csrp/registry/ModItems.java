@@ -322,6 +322,10 @@ public final class ModItems {
             "assimilated_jack_o_lantern", ModBlocks.ASSIMILATED_JACK_O_LANTERN);
     public static final DeferredItem<BlockItem> ASSIMILATED_REED = ITEMS.registerSimpleBlockItem(
             "assimilated_reed", ModBlocks.ASSIMILATED_REED);
+    public static final DeferredItem<BlockItem> BLADDER_SAC = ITEMS.registerSimpleBlockItem(
+            "bladder_sac", ModBlocks.BLADDER_SAC);
+    public static final DeferredItem<BlockItem> GROTESQUE_LUMP = ITEMS.registerSimpleBlockItem(
+            "grotesque_lump", ModBlocks.GROTESQUE_LUMP);
     public static final DeferredItem<BlockItem> RESIDUE_PLANTS = ITEMS.registerSimpleBlockItem(
             "residue_plants", ModBlocks.RESIDUE_PLANTS);
     public static final DeferredItem<BlockItem> THORNSHADE_ITEM = ITEMS.registerSimpleBlockItem(

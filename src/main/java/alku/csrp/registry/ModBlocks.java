@@ -25,6 +25,8 @@ import alku.csrp.block.AlveoliGrowthBlock;
 import alku.csrp.block.AssimilatedJackOLanternBlock;
 import alku.csrp.block.AssimilatedPumpkinBlock;
 import alku.csrp.block.AssimilatedReedBlock;
+import alku.csrp.block.BladderSacBlock;
+import alku.csrp.block.GrotesqueLumpBlock;
 import alku.csrp.block.SickAlveoliBlock;
 import alku.csrp.block.SrpWebBlock;
 import alku.csrp.block.ThornshadeBlock;
@@ -274,6 +276,16 @@ public final class ModBlocks {
                     .noCollission()
                     .noOcclusion()
                     .sound(SoundType.GRASS)));
+    public static final DeferredBlock<BladderSacBlock> BLADDER_SAC = BLOCKS.register(
+            "bladder_sac", () -> new BladderSacBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_YELLOW)
+                    .strength(0.8F)
+                    .sound(SoundType.SLIME_BLOCK)));
+    public static final DeferredBlock<GrotesqueLumpBlock> GROTESQUE_LUMP = BLOCKS.register(
+            "grotesque_lump", () -> new GrotesqueLumpBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED)
+                    .strength(0.8F)
+                    .sound(SoundType.SLIME_BLOCK)));
 
     private static DeferredBlock<InfestedBlock> infested(String id, MapColor color, SoundType sound) {
         return BLOCKS.register(id, () -> new InfestedBlock(BlockBehaviour.Properties.of()
