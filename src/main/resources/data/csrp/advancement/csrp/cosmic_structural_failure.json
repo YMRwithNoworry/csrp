@@ -1,0 +1,39 @@
+{
+  "parent": "csrp:pure",
+  "display": {
+    "icon": {
+      "id": "csrp:kirin_spawn_egg"
+    },
+    "title": {
+      "translate": "advancements.csrp.cosmic_structural_failure.title"
+    },
+    "description": {
+      "translate": "advancements.csrp.cosmic_structural_failure.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "kill_0": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "csrp:kirin"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "kill_0"
+    ]
+  ]
+}

@@ -1,0 +1,226 @@
+{
+  "parent": "csrp:inborn",
+  "display": {
+    "icon": {
+      "id": "csrp:airscrew_spawn_egg"
+    },
+    "title": {
+      "translate": "advancements.csrp.crude.title"
+    },
+    "description": {
+      "translate": "advancements.csrp.crude.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "kill_0": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "csrp:airscrew"
+            }
+          }
+        ]
+      }
+    },
+    "kill_1": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "csrp:dredge"
+            }
+          }
+        ]
+      }
+    },
+    "kill_2": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "csrp:crux"
+            }
+          }
+        ]
+      }
+    },
+    "kill_3": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "csrp:crux_incomplete"
+            }
+          }
+        ]
+      }
+    },
+    "kill_4": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "csrp:heed"
+            }
+          }
+        ]
+      }
+    },
+    "kill_5": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "csrp:incompleteform_small"
+            }
+          }
+        ]
+      }
+    },
+    "kill_6": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "csrp:incompleteform_medium"
+            }
+          }
+        ]
+      }
+    },
+    "kill_7": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "csrp:host"
+            }
+          }
+        ]
+      }
+    },
+    "kill_8": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "csrp:hostii"
+            }
+          }
+        ]
+      }
+    },
+    "kill_9": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "csrp:thrall"
+            }
+          }
+        ]
+      }
+    },
+    "kill_10": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "csrp:movingflesh"
+            }
+          }
+        ]
+      }
+    },
+    "kill_11": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "csrp:carrier_colony"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "kill_0"
+    ],
+    [
+      "kill_1"
+    ],
+    [
+      "kill_2"
+    ],
+    [
+      "kill_3"
+    ],
+    [
+      "kill_4"
+    ],
+    [
+      "kill_5"
+    ],
+    [
+      "kill_6"
+    ],
+    [
+      "kill_7"
+    ],
+    [
+      "kill_8"
+    ],
+    [
+      "kill_9"
+    ],
+    [
+      "kill_10"
+    ],
+    [
+      "kill_11"
+    ]
+  ]
+}

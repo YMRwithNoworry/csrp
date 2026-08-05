@@ -1,0 +1,226 @@
+{
+  "parent": "csrp:primitive",
+  "display": {
+    "icon": {
+      "id": "csrp:ada_longarms_spawn_egg"
+    },
+    "title": {
+      "translate": "advancements.csrp.adapted.title"
+    },
+    "description": {
+      "translate": "advancements.csrp.adapted.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "kill_0": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "csrp:ada_arachnida"
+            }
+          }
+        ]
+      }
+    },
+    "kill_1": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "csrp:ada_bolster"
+            }
+          }
+        ]
+      }
+    },
+    "kill_2": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "csrp:ada_burrower"
+            }
+          }
+        ]
+      }
+    },
+    "kill_3": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "csrp:ada_devourer"
+            }
+          }
+        ]
+      }
+    },
+    "kill_4": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "csrp:ada_longarms"
+            }
+          }
+        ]
+      }
+    },
+    "kill_5": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "csrp:ada_manducater"
+            }
+          }
+        ]
+      }
+    },
+    "kill_6": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "csrp:ada_reeker"
+            }
+          }
+        ]
+      }
+    },
+    "kill_7": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "csrp:ada_summoner"
+            }
+          }
+        ]
+      }
+    },
+    "kill_8": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "csrp:ada_viscera"
+            }
+          }
+        ]
+      }
+    },
+    "kill_9": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "csrp:ada_tozoon"
+            }
+          }
+        ]
+      }
+    },
+    "kill_10": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "csrp:ada_vermin"
+            }
+          }
+        ]
+      }
+    },
+    "kill_11": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "csrp:ada_yelloweye"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "kill_0"
+    ],
+    [
+      "kill_1"
+    ],
+    [
+      "kill_2"
+    ],
+    [
+      "kill_3"
+    ],
+    [
+      "kill_4"
+    ],
+    [
+      "kill_5"
+    ],
+    [
+      "kill_6"
+    ],
+    [
+      "kill_7"
+    ],
+    [
+      "kill_8"
+    ],
+    [
+      "kill_9"
+    ],
+    [
+      "kill_10"
+    ],
+    [
+      "kill_11"
+    ]
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "parent": "csrp:adapted",
+  "display": {
+    "icon": {
+      "id": "csrp:seizer_spawn_egg"
+    },
+    "title": {
+      "translate": "advancements.csrp.deterrent.title"
+    },
+    "description": {
+      "translate": "advancements.csrp.deterrent.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "kill_0": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "csrp:dispatcherten"
+            }
+          }
+        ]
+      }
+    },
+    "kill_1": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "csrp:kyphosis"
+            }
+          }
+        ]
+      }
+    },
+    "kill_2": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "csrp:seizer"
+            }
+          }
+        ]
+      }
+    },
+    "kill_3": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "csrp:sentry"
+            }
+          }
+        ]
+      }
+    },
+    "kill_4": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "csrp:worm"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "kill_0"
+    ],
+    [
+      "kill_1"
+    ],
+    [
+      "kill_2"
+    ],
+    [
+      "kill_3"
+    ],
+    [
+      "kill_4"
+    ]
+  ]
+}
