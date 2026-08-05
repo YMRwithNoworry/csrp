@@ -28,8 +28,10 @@ public final class AlveoliItem extends Item {
 
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity user) {
-        level.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.PLAYER_BURP,
-                SoundSource.PLAYERS, 0.5F, level.getRandom().nextFloat() * 0.1F + 0.9F);
+        if (user instanceof Player player) {
+            level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_BURP,
+                    SoundSource.PLAYERS, 0.8F, 1.0F);
+        }
         if (!(user instanceof Player player) || !player.getAbilities().instabuild) {
             stack.shrink(1);
         }

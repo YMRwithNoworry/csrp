@@ -1,5 +1,6 @@
 package alku.csrp.block;
 
+import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModItems;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
@@ -98,7 +99,7 @@ public final class AlveoliBlock extends Block {
                 origin.offset(BRONCHIAL_SEARCH_RADIUS, BRONCHIAL_SEARCH_RADIUS, BRONCHIAL_SEARCH_RADIUS))
                 .map(level::getBlockState)
                 .map(BlockState::getBlock)
-                .map(BuiltInRegistries.BLOCK::getKey)
-                .anyMatch(id -> id.getPath().contains("hair_follicle"));
+                .anyMatch(block -> block == ModBlocks.HAIR_FOLLICLE_BLOCK.get()
+                        || BuiltInRegistries.BLOCK.getKey(block).getPath().contains("hair_follicle"));
     }
 }

@@ -40,6 +40,7 @@
     "csrp:infested_iron_ore",
     "csrp:infested_lapis_ore",
     "csrp:infested_redstone_ore",
-    "csrp:fog_nullifier"
+    "csrp:fog_nullifier",
+    "csrp:solid_alveoli_block"
   ]
 }

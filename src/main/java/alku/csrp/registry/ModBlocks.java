@@ -57,6 +57,12 @@ import net.neoforged.neoforge.common.util.DeferredSoundType;
 
 public final class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(Csrp.MODID);
+    private static final SoundType FLESH_SOUND_TYPE = new DeferredSoundType(1.5F, 1.0F,
+            () -> ModSounds.get("block.flesh.dig"),
+            () -> ModSounds.get("block.flesh.step"),
+            () -> ModSounds.get("block.flesh.place"),
+            () -> ModSounds.get("block.flesh.hit"),
+            () -> ModSounds.get("block.flesh.fall"));
     private static final SoundType TUNNEL_SOUND_TYPE = new DeferredSoundType(1.5F, 1.0F,
             () -> ModSounds.get("block.tunnel.dig"),
             () -> ModSounds.get("block.flesh.step"),
@@ -226,19 +232,19 @@ public final class ModBlocks {
                     .mapColor(MapColor.COLOR_RED).strength(2.0F, 6.0F).sound(SoundType.STONE)));
     public static final DeferredBlock<AlveoliBlock> ALVEOLI = BLOCKS.register("alveoli", () ->
             new AlveoliBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
-                    .strength(1.0F).noOcclusion().sound(SoundType.SLIME_BLOCK)));
+                    .strength(1.0F).noOcclusion().sound(FLESH_SOUND_TYPE)));
     public static final DeferredBlock<SickAlveoliBlock> SICK_ALVEOLI = BLOCKS.register("sick_alveoli", () ->
             new SickAlveoliBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
-                    .strength(1.0F).noOcclusion().sound(SoundType.SLIME_BLOCK)));
+                    .strength(1.0F).noOcclusion().sound(FLESH_SOUND_TYPE)));
     public static final DeferredBlock<AlveoliGrowthBlock> ALVEOLI_GROWTH = BLOCKS.register("alveoli_growth", () ->
             new AlveoliGrowthBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
-                    .instabreak().noCollission().noOcclusion().sound(SoundType.GRASS)));
+                    .instabreak().noCollission().noOcclusion().sound(FLESH_SOUND_TYPE)));
     public static final DeferredBlock<Block> SOLID_ALVEOLI_BLOCK = BLOCKS.register("solid_alveoli_block", () ->
             new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
-                    .strength(1.0F).noOcclusion().sound(SoundType.SLIME_BLOCK)));
+                    .strength(1.0F).noOcclusion().sound(FLESH_SOUND_TYPE)));
     public static final DeferredBlock<RotatedPillarBlock> HAIR_FOLLICLE_BLOCK = BLOCKS.register(
             "hair_follicle_block", () -> new RotatedPillarBlock(BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.COLOR_RED).strength(1.0F).sound(SoundType.ROOTED_DIRT)));
+                    .mapColor(MapColor.COLOR_RED).strength(1.0F).sound(SoundType.STONE)));
     public static final DeferredBlock<SrpWebBlock> SRP_WEB = BLOCKS.register("srpweb", () ->
             new SrpWebBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.SNOW)
