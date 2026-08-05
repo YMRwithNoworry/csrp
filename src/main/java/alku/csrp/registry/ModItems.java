@@ -373,6 +373,22 @@ public final class ModItems {
             "moody_glass", ModBlocks.MOODY_GLASS);
     public static final DeferredItem<BlockItem> SHADE_GLASS = ITEMS.registerSimpleBlockItem(
             "shade_glass", ModBlocks.SHADE_GLASS);
+    public static final DeferredItem<BlockItem> INFESTED_GLASS_PANE = ITEMS.registerSimpleBlockItem(
+            "infested_glass_pane", ModBlocks.INFESTED_GLASS_PANE);
+    public static final DeferredItem<BlockItem> BLOODY_GLASS_PANE = ITEMS.registerSimpleBlockItem(
+            "bloody_glass_pane", ModBlocks.BLOODY_GLASS_PANE);
+    public static final DeferredItem<BlockItem> ASHEN_GLASS_PANE = ITEMS.registerSimpleBlockItem(
+            "ashen_glass_pane", ModBlocks.ASHEN_GLASS_PANE);
+    public static final DeferredItem<BlockItem> SEPIA_GLASS_PANE = ITEMS.registerSimpleBlockItem(
+            "sepia_glass_pane", ModBlocks.SEPIA_GLASS_PANE);
+    public static final DeferredItem<BlockItem> HARLEQUINN_GLASS_PANE = ITEMS.registerSimpleBlockItem(
+            "harlequinn_glass_pane", ModBlocks.HARLEQUINN_GLASS_PANE);
+    public static final DeferredItem<BlockItem> SHROUDED_GLASS_PANE = ITEMS.registerSimpleBlockItem(
+            "shrouded_glass_pane", ModBlocks.SHROUDED_GLASS_PANE);
+    public static final DeferredItem<BlockItem> MOODY_GLASS_PANE = ITEMS.registerSimpleBlockItem(
+            "moody_glass_pane", ModBlocks.MOODY_GLASS_PANE);
+    public static final DeferredItem<BlockItem> SHADE_GLASS_PANE = ITEMS.registerSimpleBlockItem(
+            "shade_glass_pane", ModBlocks.SHADE_GLASS_PANE);
     public static final DeferredItem<BlockItem> GOTHSHROOM = ITEMS.registerSimpleBlockItem(
             "gothshroom", ModBlocks.GOTHSHROOM);
     public static final DeferredItem<BlockItem> COOKED_FLESH = ITEMS.registerSimpleBlockItem(

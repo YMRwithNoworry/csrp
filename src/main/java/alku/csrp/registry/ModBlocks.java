@@ -45,6 +45,7 @@ import alku.csrp.block.TunnelBlock;
 import alku.csrp.block.VacuousCystBlock;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.IronBarsBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.SlabBlock;
@@ -400,6 +401,14 @@ public final class ModBlocks {
     public static final DeferredBlock<InfestedGlassBlock> SHROUDED_GLASS = tintedGlass("shrouded_glass");
     public static final DeferredBlock<InfestedGlassBlock> MOODY_GLASS = tintedGlass("moody_glass");
     public static final DeferredBlock<InfestedGlassBlock> SHADE_GLASS = tintedGlass("shade_glass");
+    public static final DeferredBlock<IronBarsBlock> INFESTED_GLASS_PANE = glassPane("infested_glass_pane");
+    public static final DeferredBlock<IronBarsBlock> BLOODY_GLASS_PANE = glassPane("bloody_glass_pane");
+    public static final DeferredBlock<IronBarsBlock> ASHEN_GLASS_PANE = glassPane("ashen_glass_pane");
+    public static final DeferredBlock<IronBarsBlock> SEPIA_GLASS_PANE = glassPane("sepia_glass_pane");
+    public static final DeferredBlock<IronBarsBlock> HARLEQUINN_GLASS_PANE = glassPane("harlequinn_glass_pane");
+    public static final DeferredBlock<IronBarsBlock> SHROUDED_GLASS_PANE = glassPane("shrouded_glass_pane");
+    public static final DeferredBlock<IronBarsBlock> MOODY_GLASS_PANE = glassPane("moody_glass_pane");
+    public static final DeferredBlock<IronBarsBlock> SHADE_GLASS_PANE = glassPane("shade_glass_pane");
     public static final DeferredBlock<Block> GOTHSHROOM = BLOCKS.register("gothshroom", () ->
             new Block(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_BLACK)
@@ -428,6 +437,14 @@ public final class ModBlocks {
 
     private static DeferredBlock<InfestedGlassBlock> tintedGlass(String id) {
         return BLOCKS.register(id, () -> new InfestedGlassBlock(BlockBehaviour.Properties.of()
+                .mapColor(MapColor.COLOR_RED)
+                .strength(0.3F)
+                .sound(SoundType.GLASS)
+                .noOcclusion()));
+    }
+
+    private static DeferredBlock<IronBarsBlock> glassPane(String id) {
+        return BLOCKS.register(id, () -> new IronBarsBlock(BlockBehaviour.Properties.of()
                 .mapColor(MapColor.COLOR_RED)
                 .strength(0.3F)
                 .sound(SoundType.GLASS)

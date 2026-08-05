@@ -1,1 +1,1 @@
-{"parent":"minecraft:block/cube_all","render_type":"translucent","textures":{"all":"minecraft:block/light_blue_stained_glass"}}
+{"parent":"minecraft:block/cube_all","render_type":"translucent","textures":{"all":"csrp:block/shrouded_glass"}}

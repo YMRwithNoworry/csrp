@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "csrp:glass_panes",
+  "pattern": [
+    "XXX",
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "csrp:infested_glass"
+    }
+  },
+  "result": {
+    "count": 16,
+    "id": "csrp:infested_glass_pane"
+  }
+}

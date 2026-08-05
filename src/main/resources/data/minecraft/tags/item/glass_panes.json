@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "csrp:infested_glass_pane",
+    "csrp:bloody_glass_pane",
+    "csrp:ashen_glass_pane",
+    "csrp:sepia_glass_pane",
+    "csrp:harlequinn_glass_pane",
+    "csrp:shrouded_glass_pane",
+    "csrp:moody_glass_pane",
+    "csrp:shade_glass_pane"
+  ]
+}
