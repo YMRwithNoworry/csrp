@@ -31,6 +31,7 @@ public final class InfectionMechanics {
     public static final int COTH_MAX_AMPLIFIER = 2;
     public static final double COTH_SPREAD_RADIUS = 4.0D;
     public static final float COTH_CONVERSION_HEALTH_FRACTION = 0.35F;
+    private static final String ASSIMILATION_HOST_TAG = "csrp_assimilation_host";
     private static final float CAMOUFLAGE_RESIST_CHANCE = 0.70F;
     private static final String[] FERALS = {
             "fer_bear", "fer_cow", "fer_enderman", "fer_horse", "fer_human",
@@ -113,6 +114,63 @@ public final class InfectionMechanics {
         return true;
     }
 
+    public static boolean canForceAssimilate(LivingEntity host) {
+        return host.isAlive() && !(host instanceof Parasite) && !(host instanceof Player)
+                && hasMappedHost(host);
+    }
+
+    /** Immediately converts a configured host, matching the original creative Assimilation Wand. */
+    public static boolean forceAssimilate(LivingEntity host) {
+        if (host.level().isClientSide || host.isRemoved() || !canForceAssimilate(host)
+                || !(host.level() instanceof ServerLevel serverLevel)) {
+            return false;
+        }
+        Mob converted = createAssimilatedHost(host, serverLevel);
+        if (converted == null) {
+            return false;
+        }
+        replaceHost(host, converted, serverLevel);
+        return true;
+    }
+
+    public static boolean isAssimilatedBody(LivingEntity entity) {
+        ResourceLocation id = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType());
+        return entity instanceof Parasite && id.getNamespace().equals(Csrp.MODID)
+                && id.getPath().startsWith("sim_") && !id.getPath().endsWith("head");
+    }
+
+    /** Restores the original host as a COTH-infected disguise. */
+    public static boolean disguiseAssimilated(LivingEntity assimilated) {
+        if (assimilated.level().isClientSide || assimilated.isRemoved() || !isAssimilatedBody(assimilated)
+                || !(assimilated.level() instanceof ServerLevel serverLevel)) {
+            return false;
+        }
+        ResourceLocation hostId = ResourceLocation.tryParse(
+                assimilated.getPersistentData().getString(ASSIMILATION_HOST_TAG));
+        if (hostId == null) {
+            return false;
+        }
+        Entity created = BuiltInRegistries.ENTITY_TYPE.getOptional(hostId)
+                .map(type -> type.create(serverLevel)).orElse(null);
+        if (!(created instanceof Mob disguise)) {
+            return false;
+        }
+        disguise.moveTo(assimilated.getX(), assimilated.getY(), assimilated.getZ(),
+                assimilated.getYRot(), assimilated.getXRot());
+        disguise.setCustomName(assimilated.getCustomName());
+        disguise.setCustomNameVisible(assimilated.isCustomNameVisible());
+        if (assimilated instanceof Mob sourceMob && sourceMob.isPersistenceRequired()) {
+            disguise.setPersistenceRequired();
+        }
+        disguise.addEffect(new MobEffectInstance(ModMobEffects.COTH, COTH_BASE_DURATION_TICKS,
+                COTH_MAX_AMPLIFIER, false, false));
+        if (!serverLevel.addFreshEntity(disguise)) {
+            return false;
+        }
+        assimilated.discard();
+        return true;
+    }
+
     /** Gnat conversion always prefers a Feral form, then an assimilated or hijacked form. */
     public static boolean convertGnatHost(LivingEntity host) {
         if (host.level().isClientSide || host.isRemoved() || !isConvertible(host) || host instanceof Player
@@ -155,6 +213,10 @@ public final class InfectionMechanics {
         converted.setCustomName(host.getCustomName());
         converted.setCustomNameVisible(host.isCustomNameVisible());
         converted.setPersistenceRequired();
+        if (isAssimilatedBody(converted)) {
+            converted.getPersistentData().putString(ASSIMILATION_HOST_TAG,
+                    BuiltInRegistries.ENTITY_TYPE.getKey(host.getType()).toString());
+        }
         serverLevel.addFreshEntity(converted);
         if (assimilatedEnderman) {
             SrpWorldData.get(serverLevel).recordAssimilatedEnderman();
@@ -270,6 +332,21 @@ public final class InfectionMechanics {
             }
         }
         return null;
+    }
+
+    private static boolean hasMappedHost(LivingEntity host) {
+        ResourceLocation hostId = BuiltInRegistries.ENTITY_TYPE.getKey(host.getType());
+        for (String mapping : Config.cothVictimParasites()) {
+            String[] parts = mapping.split(";", -1);
+            if (parts.length != 2 || !parts[0].trim().equals(hostId.toString())) {
+                continue;
+            }
+            ResourceLocation targetId = ResourceLocation.tryParse(parts[1].trim());
+            if (targetId != null && BuiltInRegistries.ENTITY_TYPE.containsKey(targetId)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static Mob createHijackedHost(LivingEntity host, ServerLevel level) {

@@ -1,6 +1,7 @@
 package alku.csrp.registry;
 
 import alku.csrp.Csrp;
+import alku.csrp.item.AssimilationWandItem;
 import alku.csrp.item.BoughItem;
 import alku.csrp.item.BookOfVengeanceItem;
 import alku.csrp.item.CompendiumItem;
@@ -497,6 +498,8 @@ public final class ModItems {
             "evclock", EvolutionClockItem::new, new Item.Properties().stacksTo(1));
     public static final DeferredItem<LevelClockItem> LEVELCLOCK = ITEMS.registerItem(
             "levelclock", LevelClockItem::new, new Item.Properties().stacksTo(1));
+    public static final DeferredItem<AssimilationWandItem> ITEM_ASSIMILATE = ITEMS.registerItem(
+            "itemassimilate", AssimilationWandItem::new, new Item.Properties().stacksTo(1));
     public static final DeferredItem<ParasiteEvolutionWandItem> ITEM_EVOLVE = ITEMS.registerItem(
             "itemevolve", properties -> new ParasiteEvolutionWandItem(
                     ParasiteEvolutionWandItem.Mode.EVOLUTION, properties), new Item.Properties().stacksTo(1));
