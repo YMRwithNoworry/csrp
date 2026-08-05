@@ -5,6 +5,7 @@ import alku.csrp.entity.Parasite;
 import alku.csrp.registry.ModBlockEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.world.BlockPurification;
+import alku.csrp.world.BiomeChunkSectionAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
@@ -82,8 +83,8 @@ public final class BiomePurifierBlockEntity extends BlockEntity {
                     if (section == null) {
                         continue;
                     }
-                    alku.csrp.mixin.BiomeChunkSectionAccessor accessor =
-                            (alku.csrp.mixin.BiomeChunkSectionAccessor) (Object) section;
+                    BiomeChunkSectionAccessor accessor =
+                            (BiomeChunkSectionAccessor) (Object) section;
                     for (int x = 0; x < 4; x++) {
                         for (int y = 0; y < 4; y++) {
                             for (int z = 0; z < 4; z++) {

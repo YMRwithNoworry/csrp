@@ -1,5 +1,6 @@
 package alku.csrp.mixin;
 
+import alku.csrp.world.BiomeChunkSectionAccessor;
 import net.minecraft.core.Holder;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.chunk.LevelChunkSection;

@@ -1,4 +1,4 @@
-package alku.csrp.mixin;
+package alku.csrp.world;
 
 import net.minecraft.core.Holder;
 import net.minecraft.world.level.biome.Biome;
