@@ -3,6 +3,7 @@ package alku.csrp.compendium.network;
 import alku.csrp.Csrp;
 import alku.csrp.celestial.network.CelestialStatePayload;
 import alku.csrp.overlast.network.EvolutionHudPayload;
+import alku.csrp.relay.network.RelayReportOpenPayload;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -25,5 +26,7 @@ public final class CompendiumPayloads {
                 CelestialStatePayload::handle);
         registrar.playToClient(EvolutionHudPayload.TYPE, EvolutionHudPayload.STREAM_CODEC,
                 EvolutionHudPayload::handle);
+        registrar.playToClient(RelayReportOpenPayload.TYPE, RelayReportOpenPayload.STREAM_CODEC,
+                RelayReportOpenPayload::handle);
     }
 }

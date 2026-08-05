@@ -1,0 +1,5 @@
+{
+  "multipart": [
+    { "apply": { "model": "csrp:block/node_redstone_lamp" } }
+  ]
+}

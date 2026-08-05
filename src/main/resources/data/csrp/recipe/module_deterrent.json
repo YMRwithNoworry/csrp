@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " X ",
+    "YMY",
+    " X "
+  ],
+  "key": {
+    "X": {
+      "item": "csrp:infestedstain"
+    },
+    "Y": {
+      "item": "csrp:lurecomponent2"
+    },
+    "M": {
+      "item": "csrp:module_base"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "csrp:module_deterrent"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": ["XYX", "YMY", "GLG"],
+  "key": {
+    "X": { "item": "csrp:lurecomponent3" },
+    "Y": { "item": "csrp:dispatcher_drop" },
+    "M": { "item": "csrp:module_base" },
+    "G": { "item": "minecraft:gold_ingot" },
+    "L": { "item": "csrp:node_redstone_lamp" }
+  },
+  "result": { "id": "csrp:module_vectors", "count": 1 }
+}

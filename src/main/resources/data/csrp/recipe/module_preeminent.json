@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " X ",
+    "YMY",
+    " Y "
+  ],
+  "key": {
+    "X": {
+      "item": "csrp:living_core"
+    },
+    "Y": {
+      "item": "csrp:lurecomponent6"
+    },
+    "M": {
+      "item": "csrp:module_base"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "csrp:module_preeminent"
+  }
+}

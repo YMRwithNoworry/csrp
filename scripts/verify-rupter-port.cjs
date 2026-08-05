@@ -21,6 +21,7 @@ const entity = read("src/main/java/alku/csrp/entity/RupterEntity.java");
 const entities = read("src/main/java/alku/csrp/registry/ModEntities.java");
 const items = read("src/main/java/alku/csrp/registry/ModItems.java");
 const blocks = read("src/main/java/alku/csrp/registry/ModBlocks.java");
+const tunnel = read("src/main/java/alku/csrp/block/TunnelBlock.java");
 const config = read("src/main/java/alku/csrp/Config.java");
 const sounds = read("src/main/java/alku/csrp/registry/ModSounds.java");
 const client = read("src/main/java/alku/csrp/client/ClientModEvents.java");
@@ -43,7 +44,18 @@ expect(entities, /register\("rupter"/, "Rupter entity is not registered");
 expect(entities, /sized\(0\.85F,\s*1\.0F\)/, "legacy Rupter dimensions are missing");
 expect(items, /"rupter_spawn_egg"/, "Rupter spawn egg is not registered");
 expect(items, /"rupter_viscera"/, "Rupter Viscera is not registered");
-expect(blocks, /register\("tunnel"/, "Tunnel block is not registered");
+expect(blocks, /DeferredBlock<TunnelBlock>\s+TUNNEL\s*=\s*BLOCKS\.register\("tunnel"/,
+        "functional Tunnel block is not registered");
+expect(blocks, /block\.tunnel\.dig/, "original Tunnel break sound is not wired");
+expect(tunnel, /class TunnelBlock extends Block/, "Tunnel behavior class is missing");
+expect(tunnel, /randomTick\(/, "Tunnel does not periodically spawn Buglins");
+expect(tunnel, /getEntitiesOfClass\(BuglinEntity\.class,\s*tunnelArea\)/,
+        "Tunnel local Buglin cap is missing");
+expect(tunnel, /inflate\(16\.0D\)/, "Tunnel parasite population radius is missing");
+expect(tunnel, /parasiteCount\s*<=\s*10/, "Tunnel parasite population cap is missing");
+expect(tunnel, /onRemove\(/, "breaking a Tunnel does not release a Buglin");
+expect(tunnel, /Difficulty\.PEACEFUL/, "Tunnel peaceful-difficulty guard is missing");
+expect(tunnel, /dropFromExplosion[\s\S]*return false/, "Tunnel explosion drops are not disabled");
 expect(modEntry, /output\.accept\(ModItems\.RUPTER_SPAWN_EGG\.get\(\)\)/,
         "CSRP creative tab does not contain the Rupter spawn egg");
 expect(modEntry, /CreativeModeTabs\.SPAWN_EGGS[\s\S]*event\.accept\(ModItems\.RUPTER_SPAWN_EGG\.get\(\)\)/,
@@ -69,7 +81,7 @@ for (const [pattern, description] of [
     [/AreaEffectCloud/, "lingering COTH cloud is missing"],
     [/new MobEffectInstance\(ModMobEffects\.COTH,\s*\d+,\s*1\)/,
         "COTH II cloud effect is missing"],
-    [/Config\.evolutionPhase\(\)\s*<\s*2/, "low-phase behavior gate is missing"],
+    [/Config\.evolutionPhase\(level\(\)\)\s*<\s*2/, "low-phase behavior gate is missing"],
     [/nearby.*Rupter|Rupter.*nearby/is, "lone/pack behavior check is missing"],
     [/TUNNEL_KILL_COST\s*=\s*5/, "Tunnel kill cost 5 is missing"],
     [/killCount\s*>=\s*30/, "30-kill Mangler evolution is missing"],
@@ -111,15 +123,20 @@ expect(killMilestone, /award\([^,]+,\s*CRITERION\)/,
 expect(advancement, /"trigger"\s*:\s*"minecraft:impossible"/,
         "Cut the evil by its roots advancement criterion is missing");
 
-expect(config, /defineInRange\("evolutionPhase",\s*1,\s*-1,\s*10\)/,
+expect(config, /defineInRange\("evolutionPhase",\s*-1,\s*-2,\s*10\)/,
         "runtime evolution phase config is missing");
 expect(evolution, /registerMangler/, "Mangler evolution registration contract is missing");
 expect(client, /RupterRenderer/, "Rupter renderer is not registered");
 expect(model, /getTextureVariant\(\)/, "Rupter texture variants are not wired");
-expect(geo, /"identifier"\s*:\s*"geometry\.rupter"/, "Rupter geometry identifier is wrong");
-for (const animation of ["idle", "walk", "run", "rush"]) {
-    expect(animations, new RegExp(`"${animation}"\\s*:`), `missing ${animation} animation`);
+expect(geo, /"identifier"\s*:\s*"geometry\.srparasites\.rupter"/,
+        "Rupter geometry identifier is wrong");
+for (const animation of ["idle", "walk", "attack"]) {
+    expect(animations, new RegExp(`"animation\\.rupter\\.${animation}"\\s*:`),
+            `missing ${animation} animation`);
 }
+expect(read("src/main/java/alku/csrp/entity/ParasiteAnimations.java"),
+        /case "run", "fly" -> "walk"[\s\S]*case "spawn", "rush"[\s\S]*-> "attack"/,
+        "Rupter run/rush animation aliases are missing");
 for (const variant of ["classic", "striped", "fluffy", "weird", "golden"]) {
     expect(entity, new RegExp(variant.toUpperCase()), `missing ${variant} texture variant`);
     read(`src/main/resources/assets/csrp/textures/entity/rupter_${variant}.png`);

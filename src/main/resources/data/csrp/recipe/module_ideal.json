@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "XYX",
+    "ABC",
+    "XYX"
+  ],
+  "key": {
+    "X": {
+      "item": "minecraft:iron_ingot"
+    },
+    "Y": {
+      "item": "csrp:organ_synth"
+    },
+    "A": {
+      "item": "csrp:module_pure"
+    },
+    "B": {
+      "item": "csrp:module_derived"
+    },
+    "C": {
+      "item": "csrp:module_preeminent"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "csrp:module_ideal"
+  }
+}

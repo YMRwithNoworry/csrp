@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " X ",
+    "YMY",
+    " X "
+  ],
+  "key": {
+    "X": {
+      "item": "csrp:lurecomponent2"
+    },
+    "Y": {
+      "item": "csrp:assimilated_flesh"
+    },
+    "M": {
+      "item": "csrp:module_assimilated"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "csrp:module_feral"
+  }
+}

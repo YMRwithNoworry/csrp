@@ -2,6 +2,7 @@ package alku.csrp.registry;
 
 import alku.csrp.Csrp;
 import alku.csrp.inventory.ParasiteLootMenu;
+import alku.csrp.inventory.RelayTerminalMenu;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.MenuType;
@@ -14,6 +15,9 @@ public final class ModMenus {
 
     public static final DeferredHolder<MenuType<?>, MenuType<ParasiteLootMenu>> PARASITE_LOOT =
             MENUS.register("parasite_loot", () -> new MenuType<>(ParasiteLootMenu::new, FeatureFlags.DEFAULT_FLAGS));
+
+    public static final DeferredHolder<MenuType<?>, MenuType<RelayTerminalMenu>> RELAY_TERMINAL =
+            MENUS.register("relay_terminal", () -> new MenuType<>(RelayTerminalMenu::new, FeatureFlags.DEFAULT_FLAGS));
 
     private ModMenus() {
     }

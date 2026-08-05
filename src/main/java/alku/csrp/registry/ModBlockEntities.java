@@ -2,6 +2,7 @@ package alku.csrp.registry;
 
 import alku.csrp.Csrp;
 import alku.csrp.block.entity.ParasiteLootBlockEntity;
+import alku.csrp.block.entity.RelayTerminalBlockEntity;
 import java.util.Set;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -17,6 +18,10 @@ public final class ModBlockEntities {
                     ParasiteLootBlockEntity::new,
                     Set.of(ModBlocks.PARASITE_LOOT_COMMON.get(), ModBlocks.PARASITE_LOOT_UNCOMMON.get(),
                             ModBlocks.PARASITE_LOOT_RARE.get()), null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<RelayTerminalBlockEntity>> RELAY_TERMINAL =
+            BLOCK_ENTITIES.register("relay_terminal", () -> new BlockEntityType<>(
+                    RelayTerminalBlockEntity::new, Set.of(ModBlocks.RELAY_BASE.get()), null));
 
     private ModBlockEntities() {
     }

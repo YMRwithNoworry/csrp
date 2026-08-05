@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "RPR",
+    "PCP",
+    "RPR"
+  ],
+  "key": {
+    "R": {
+      "item": "csrp:hive_scrap"
+    },
+    "P": {
+      "item": "csrp:ada_viscera_drop"
+    },
+    "C": {
+      "item": "csrp:module_base"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "csrp:module_dislodgement"
+  }
+}

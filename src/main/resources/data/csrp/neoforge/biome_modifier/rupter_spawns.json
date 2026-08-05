@@ -3,8 +3,8 @@
   "biomes": "#minecraft:is_overworld",
   "spawners": {
     "type": "csrp:rupter",
-    "weight": 75,
-    "minCount": 6,
-    "maxCount": 12
+    "weight": 30,
+    "minCount": 3,
+    "maxCount": 6
   }
 }

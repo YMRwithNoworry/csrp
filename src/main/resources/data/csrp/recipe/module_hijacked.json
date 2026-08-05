@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " X ",
+    "YMY",
+    " X "
+  ],
+  "key": {
+    "X": {
+      "item": "csrp:hijacked_drop"
+    },
+    "Y": {
+      "item": "csrp:bloody_iron_ingot"
+    },
+    "M": {
+      "item": "csrp:module_base"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "csrp:module_hijacked"
+  }
+}

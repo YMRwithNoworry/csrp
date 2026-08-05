@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " A ",
+    "BMC",
+    " D "
+  ],
+  "key": {
+    "A": {
+      "item": "csrp:ada_bolster_drop"
+    },
+    "B": {
+      "item": "csrp:ada_devourer_drop"
+    },
+    "C": {
+      "item": "csrp:ada_arachnida_drop"
+    },
+    "D": {
+      "item": "csrp:ada_longarms_drop"
+    },
+    "M": {
+      "item": "csrp:module_base"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "csrp:module_adapted"
+  }
+}

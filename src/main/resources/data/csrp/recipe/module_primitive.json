@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " X ",
+    "XMX",
+    " X "
+  ],
+  "key": {
+    "X": {
+      "item": "csrp:lurecomponent3"
+    },
+    "M": {
+      "item": "csrp:module_base"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "csrp:module_primitive"
+  }
+}

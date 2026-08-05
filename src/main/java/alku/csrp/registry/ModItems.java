@@ -4,6 +4,7 @@ import alku.csrp.Csrp;
 import alku.csrp.item.BoughItem;
 import alku.csrp.item.BookOfVengeanceItem;
 import alku.csrp.item.CompendiumItem;
+import alku.csrp.item.DeadBloodFluidItem;
 import alku.csrp.item.EvolutionClockItem;
 import alku.csrp.item.EvolutionDeviceItem;
 import alku.csrp.item.EvolutionLureItem;
@@ -16,7 +17,10 @@ import alku.csrp.item.LivingArmorItem;
 import alku.csrp.item.LivingBowItem;
 import alku.csrp.item.LivingWeaponItem;
 import alku.csrp.item.LevelClockItem;
+import alku.csrp.item.ModuleComponentItem;
 import alku.csrp.item.QuenchItem;
+import alku.csrp.item.RelayModuleItem;
+import alku.csrp.item.RelayReportItem;
 import alku.csrp.item.ShrimpItem;
 import alku.csrp.item.SrpCompassItem;
 import alku.csrp.item.TexturedSpawnEggItem;
@@ -391,6 +395,16 @@ public final class ModItems {
     public static final DeferredItem<BlockItem> COLONYHEART = ITEMS.registerSimpleBlockItem("colonyheart", ModBlocks.COLONYHEART);
     public static final DeferredItem<BlockItem> PARASITE_STRUCTURE = ITEMS.registerSimpleBlockItem(
             "parasitestructure", ModBlocks.PARASITE_STRUCTURE);
+    public static final DeferredItem<BlockItem> SEMIORGANIC_BLOCK = ITEMS.registerSimpleBlockItem(
+            "semiorganic_block", ModBlocks.SEMIORGANIC_BLOCK);
+    public static final DeferredItem<BlockItem> NODE_REDSTONE_LAMP = ITEMS.registerSimpleBlockItem(
+            "node_redstone_lamp", ModBlocks.NODE_REDSTONE_LAMP);
+    public static final DeferredItem<BlockItem> RELAY_BASE = ITEMS.registerSimpleBlockItem(
+            "relay_base", ModBlocks.RELAY_BASE);
+    public static final DeferredItem<BlockItem> RELAY_MIDDLE = ITEMS.registerSimpleBlockItem(
+            "relay_middle", ModBlocks.RELAY_MIDDLE);
+    public static final DeferredItem<BlockItem> RELAY_ROOF = ITEMS.registerSimpleBlockItem(
+            "relay_roof", ModBlocks.RELAY_ROOF);
     public static final DeferredItem<BlockItem> ALVEOLI = ITEMS.registerSimpleBlockItem(
             "alveoli", ModBlocks.ALVEOLI);
     public static final DeferredItem<BlockItem> SICK_ALVEOLI = ITEMS.registerSimpleBlockItem(
@@ -474,6 +488,8 @@ public final class ModItems {
             "alveoligrowth", AlveoliItem::new, new Item.Properties());
     public static final DeferredItem<AlveolarFluidItem> ALVEOLAR_FLUID = ITEMS.registerItem(
             "alveolar_fluid", AlveolarFluidItem::new, new Item.Properties().stacksTo(1));
+    public static final DeferredItem<DeadBloodFluidItem> DEADBLOOD_FLUID = ITEMS.registerItem(
+            "deadblood_fluid", DeadBloodFluidItem::new, new Item.Properties());
     public static final DeferredItem<BoneMealItem> INFESTED_BONEMEAL = ITEMS.registerItem(
             "infested_bonemeal", BoneMealItem::new, new Item.Properties());
     public static final DeferredItem<EvolutionClockItem> EVCLOCK = ITEMS.registerItem(
@@ -507,9 +523,69 @@ public final class ModItems {
             properties -> new VenkrolBootsItem(ModArmorMaterials.VENKROL, ArmorItem.Type.BOOTS,
                     properties.durability(520)),
             new Item.Properties().rarity(Rarity.RARE));
-    public static final DeferredItem<Item> MODULE_BASE = simple("module_base", new Item.Properties().stacksTo(1));
-    public static final DeferredItem<Item> TISSUE_SPIKE = simple("tissue_spike", new Item.Properties().stacksTo(1));
-    public static final DeferredItem<Item> ORGAN_SYNTH = simple("organ_synth", new Item.Properties().stacksTo(1));
+    public static final DeferredItem<ModuleComponentItem> MODULE_BASE = ITEMS.registerItem(
+            "module_base", ModuleComponentItem::new, new Item.Properties().stacksTo(1));
+    public static final DeferredItem<ModuleComponentItem> TISSUE_SPIKE = ITEMS.registerItem(
+            "tissue_spike", ModuleComponentItem::new, new Item.Properties().stacksTo(1));
+    public static final DeferredItem<ModuleComponentItem> ORGAN_SYNTH = ITEMS.registerItem(
+            "organ_synth", ModuleComponentItem::new, new Item.Properties().stacksTo(1));
+    public static final DeferredItem<RelayModuleItem> MODULE_INBORN = module(
+            "module_inborn", RelayModuleItem.Kind.INBORN);
+    public static final DeferredItem<RelayModuleItem> MODULE_ASSIMILATED = module(
+            "module_assimilated", RelayModuleItem.Kind.ASSIMILATED);
+    public static final DeferredItem<RelayModuleItem> MODULE_ASSIMARA = module(
+            "module_assimara", RelayModuleItem.Kind.ASSIMARA);
+    public static final DeferredItem<RelayModuleItem> MODULE_HIJACKED = module(
+            "module_hijacked", RelayModuleItem.Kind.HIJACKED);
+    public static final DeferredItem<RelayModuleItem> MODULE_FERAL = module(
+            "module_feral", RelayModuleItem.Kind.FERAL);
+    public static final DeferredItem<RelayModuleItem> MODULE_CRUDE = module(
+            "module_crude", RelayModuleItem.Kind.CRUDE);
+    public static final DeferredItem<RelayModuleItem> MODULE_PRIMITIVE = module(
+            "module_primitive", RelayModuleItem.Kind.PRIMITIVE);
+    public static final DeferredItem<RelayModuleItem> MODULE_ADAPTED = module(
+            "module_adapted", RelayModuleItem.Kind.ADAPTED);
+    public static final DeferredItem<RelayModuleItem> MODULE_NEXUS = module(
+            "module_nexus", RelayModuleItem.Kind.NEXUS);
+    public static final DeferredItem<RelayModuleItem> MODULE_DETERRENT = module(
+            "module_deterrent", RelayModuleItem.Kind.DETERRENT);
+    public static final DeferredItem<RelayModuleItem> MODULE_PURE = module(
+            "module_pure", RelayModuleItem.Kind.PURE);
+    public static final DeferredItem<RelayModuleItem> MODULE_PREEMINENT = module(
+            "module_preeminent", RelayModuleItem.Kind.PREEMINENT);
+    public static final DeferredItem<RelayModuleItem> MODULE_ANCIENT = module(
+            "module_ancient", RelayModuleItem.Kind.ANCIENT);
+    public static final DeferredItem<RelayModuleItem> MODULE_DERIVED = module(
+            "module_derived", RelayModuleItem.Kind.DERIVED);
+    public static final DeferredItem<RelayModuleItem> MODULE_DESMOID = module(
+            "module_desmoid", RelayModuleItem.Kind.DESMOID);
+    public static final DeferredItem<RelayModuleItem> MODULE_ESCHAR = module(
+            "module_eschar", RelayModuleItem.Kind.ESCHAR);
+    public static final DeferredItem<RelayModuleItem> MODULE_RESISTANCE = module(
+            "module_resistance", RelayModuleItem.Kind.RESISTANCE);
+    public static final DeferredItem<RelayModuleItem> MODULE_IDEAL = module(
+            "module_ideal", RelayModuleItem.Kind.IDEAL);
+    public static final DeferredItem<RelayModuleItem> MODULE_ORIGIN = module(
+            "module_origin", RelayModuleItem.Kind.ORIGIN);
+    public static final DeferredItem<RelayModuleItem> MODULE_PHASE = module(
+            "module_phase", RelayModuleItem.Kind.PHASE);
+    public static final DeferredItem<RelayModuleItem> MODULE_VECTORS = module(
+            "module_vectors", RelayModuleItem.Kind.VECTORS);
+    public static final DeferredItem<RelayModuleItem> MODULE_DISLODGEMENT = module(
+            "module_dislodgement", RelayModuleItem.Kind.DISLODGEMENT);
+    public static final DeferredItem<RelayReportItem> RELAY_SCAN_REPORT = ITEMS.registerItem(
+            "relay_scan_report", properties -> new RelayReportItem(RelayReportItem.Type.SCAN, properties),
+            new Item.Properties().stacksTo(1));
+    public static final DeferredItem<RelayReportItem> PHASE_REPORT = ITEMS.registerItem(
+            "phase_report", properties -> new RelayReportItem(RelayReportItem.Type.PHASE, properties),
+            new Item.Properties().stacksTo(1));
+    public static final DeferredItem<RelayReportItem> VECTOR_MAP = ITEMS.registerItem(
+            "vector_map", properties -> new RelayReportItem(RelayReportItem.Type.VECTOR, properties),
+            new Item.Properties().stacksTo(1));
+    public static final DeferredItem<RelayReportItem> DISLODGEMENT_REPORT = ITEMS.registerItem(
+            "dislodgement_report",
+            properties -> new RelayReportItem(RelayReportItem.Type.DISLODGEMENT, properties),
+            new Item.Properties().stacksTo(1));
     public static final DeferredItem<BlockItem> INFESTATION_PURIFIER = ITEMS.registerSimpleBlockItem(
             "infestation_purifier", ModBlocks.INFESTATION_PURIFIER);
     public static final DeferredItem<OverlastFoodItem> CHOCOLATE_SMOOTHIE = overlastFood(
@@ -627,6 +703,11 @@ public final class ModItems {
     private static DeferredItem<EvolutionLureItem> evolutionLure(String id, EvolutionLureBlock.Tier tier) {
         return ITEMS.registerItem(id, properties -> new EvolutionLureItem(ModBlocks.EVOLUTION_LURE.get(), tier,
                 properties), new Item.Properties());
+    }
+
+    private static DeferredItem<RelayModuleItem> module(String id, RelayModuleItem.Kind kind) {
+        return ITEMS.registerItem(id, properties -> new RelayModuleItem(kind, properties),
+                new Item.Properties().stacksTo(1));
     }
 
     private static DeferredItem<OverlastFoodItem> overlastFood(String id, OverlastFoodItem.Kind kind, int stackSize) {

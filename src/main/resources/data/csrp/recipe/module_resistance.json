@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "XYX",
+    "ABC",
+    "XYX"
+  ],
+  "key": {
+    "X": {
+      "item": "minecraft:iron_ingot"
+    },
+    "Y": {
+      "item": "csrp:organ_synth"
+    },
+    "A": {
+      "item": "csrp:module_adapted"
+    },
+    "B": {
+      "item": "csrp:module_nexus"
+    },
+    "C": {
+      "item": "csrp:module_deterrent"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "csrp:module_resistance"
+  }
+}

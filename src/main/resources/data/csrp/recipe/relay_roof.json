@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "pattern": [" B ", "XSX", "XRX"],
+  "key": {
+    "X": { "item": "csrp:semiorganic_ingot" },
+    "B": { "item": "csrp:bone" },
+    "S": { "item": "csrp:tissue_spike" },
+    "R": { "item": "minecraft:repeater" }
+  },
+  "result": { "id": "csrp:relay_roof", "count": 1 }
+}

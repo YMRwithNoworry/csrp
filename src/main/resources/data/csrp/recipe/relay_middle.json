@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "pattern": ["XRX", "XOX", "XXX"],
+  "key": {
+    "X": { "item": "csrp:semiorganic_ingot" },
+    "R": { "item": "minecraft:repeater" },
+    "O": { "item": "csrp:organ_synth" }
+  },
+  "result": { "id": "csrp:relay_middle", "count": 1 }
+}

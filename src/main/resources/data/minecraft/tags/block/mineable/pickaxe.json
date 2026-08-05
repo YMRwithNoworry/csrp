@@ -25,6 +25,10 @@
     "csrp:polished_infested_stone_wall",
     "csrp:infested_stone_brick_wall",
     "csrp:infested_sandstone_wall",
-    "csrp:infestedrubble_wall"
+    "csrp:infestedrubble_wall",
+    "csrp:semiorganic_block",
+    "csrp:relay_base",
+    "csrp:relay_middle",
+    "csrp:relay_roof"
   ]
 }

@@ -15,6 +15,10 @@
     "csrp:infested_terracotta_slab",
     "csrp:polished_infested_stone_slab",
     "csrp:residue_brick_slab",
-    "csrp:infested_sandstone_slab"
+    "csrp:infested_sandstone_slab",
+    "csrp:semiorganic_block",
+    "csrp:relay_base",
+    "csrp:relay_middle",
+    "csrp:relay_roof"
   ]
 }

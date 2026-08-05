@@ -4,11 +4,14 @@ import alku.csrp.Csrp;
 import alku.csrp.block.InfestedBlock;
 import alku.csrp.block.InfestedStairBlock;
 import alku.csrp.block.InfestedWallBlock;
+import alku.csrp.block.NodeLampBlock;
 import alku.csrp.block.BiomeHeartBlock;
 import alku.csrp.block.ColonyHeartBlock;
 import alku.csrp.block.ColonyStructureBlock;
 import alku.csrp.block.ResidueBlock;
 import alku.csrp.block.ResidueBloomingBlock;
+import alku.csrp.block.RelayTerminalBlock;
+import alku.csrp.block.RelayTowerPartBlock;
 import alku.csrp.block.InfestedResidueBlock;
 import alku.csrp.block.InfestationPurifierBlock;
 import alku.csrp.block.EvolutionLureBlock;
@@ -18,6 +21,7 @@ import alku.csrp.block.AlveoliBlock;
 import alku.csrp.block.AlveoliGrowthBlock;
 import alku.csrp.block.SickAlveoliBlock;
 import alku.csrp.block.ThornshadeBlock;
+import alku.csrp.block.TunnelBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SoundType;
@@ -26,17 +30,24 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.common.util.DeferredSoundType;
 
 public final class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(Csrp.MODID);
+    private static final SoundType TUNNEL_SOUND_TYPE = new DeferredSoundType(1.5F, 1.0F,
+            () -> ModSounds.get("block.tunnel.dig"),
+            () -> ModSounds.get("block.flesh.step"),
+            () -> ModSounds.get("block.flesh.place"),
+            () -> ModSounds.get("block.flesh.hit"),
+            () -> ModSounds.get("block.flesh.fall"));
 
-    public static final DeferredBlock<Block> TUNNEL = BLOCKS.register("tunnel", () -> new Block(
+    public static final DeferredBlock<TunnelBlock> TUNNEL = BLOCKS.register("tunnel", () -> new TunnelBlock(
             BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_RED)
                     .noCollission()
                     .noOcclusion()
-                    .strength(0.5F)
-                    .sound(SoundType.SCULK)));
+                    .strength(0.1F, 0.1F)
+                    .sound(TUNNEL_SOUND_TYPE)));
 
     public static final DeferredBlock<ResidueBloomingBlock> RESIDUE_PLANTS = BLOCKS.register("residue_plants", () -> new ResidueBloomingBlock(
             BlockBehaviour.Properties.of()
@@ -156,6 +167,22 @@ public final class ModBlocks {
     public static final DeferredBlock<ColonyStructureBlock> PARASITE_STRUCTURE = BLOCKS.register("parasitestructure", () ->
             new ColonyStructureBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
                     .strength(1.5F, 6.0F).sound(SoundType.SCULK)));
+    public static final DeferredBlock<Block> SEMIORGANIC_BLOCK = BLOCKS.register("semiorganic_block", () ->
+            new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GRAY)
+                    .strength(3.0F, 10.0F).requiresCorrectToolForDrops().sound(SoundType.METAL)));
+    public static final DeferredBlock<NodeLampBlock> NODE_REDSTONE_LAMP = BLOCKS.register("node_redstone_lamp", () ->
+            new NodeLampBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE)
+                    .strength(0.35F).lightLevel(state -> state.getValue(NodeLampBlock.POWERED) ? 12 : 0)
+                    .sound(SoundType.GLASS)));
+    public static final DeferredBlock<RelayTerminalBlock> RELAY_BASE = BLOCKS.register("relay_base", () ->
+            new RelayTerminalBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GRAY)
+                    .strength(2.0F, 10.0F).requiresCorrectToolForDrops().sound(SoundType.METAL)));
+    public static final DeferredBlock<RelayTowerPartBlock> RELAY_MIDDLE = BLOCKS.register("relay_middle", () ->
+            new RelayTowerPartBlock(1, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GRAY)
+                    .strength(2.0F, 10.0F).requiresCorrectToolForDrops().sound(SoundType.METAL)));
+    public static final DeferredBlock<RelayTowerPartBlock> RELAY_ROOF = BLOCKS.register("relay_roof", () ->
+            new RelayTowerPartBlock(2, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GRAY)
+                    .strength(2.0F, 10.0F).requiresCorrectToolForDrops().sound(SoundType.METAL)));
     public static final DeferredBlock<InfestationPurifierBlock> INFESTATION_PURIFIER = BLOCKS.register(
             "infestation_purifier", () -> new InfestationPurifierBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_LIGHT_GRAY).strength(5.0F).sound(SoundType.SPONGE)));
