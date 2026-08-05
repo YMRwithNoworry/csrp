@@ -310,7 +310,7 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
                             || !EventHooks.onEntityDestroyBlock(this, candidate, state)) {
                         continue;
                     }
-                    level().destroyBlock(candidate, true, this);
+                    ParasiteBlockInventory.collect((ServerLevel) level(), candidate, this);
                 }
             }
         }

@@ -155,7 +155,7 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
                     || hardness < 0.0F || hardness > BLOCK_BREAK_HARDNESS) {
                 continue;
             }
-            if (level().destroyBlock(candidate, true, this)) {
+            if (ParasiteBlockInventory.collect((ServerLevel) level(), candidate, this)) {
                 blockBreakCooldown = BLOCK_BREAK_COOLDOWN_TICKS;
             }
             return;

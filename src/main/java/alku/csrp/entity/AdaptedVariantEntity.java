@@ -853,7 +853,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
                     || hardness < 0.0F || hardness > blockBreakHardness()) {
                 continue;
             }
-            if (level().destroyBlock(candidate, true, this)) {
+            if (ParasiteBlockInventory.collect((ServerLevel) level(), candidate, this)) {
                 blockBreakCooldown = 20;
             }
             return;

@@ -583,7 +583,7 @@ public final class KirinEntity extends DerivedParasiteEntity {
                             || state.is(ModBlocks.PARASITE_STRUCTURE.get())) {
                         continue;
                     }
-                    brokeAny |= level().destroyBlock(candidate, true, this);
+                    brokeAny |= ParasiteBlockInventory.collect((ServerLevel) level(), candidate, this);
                 }
             }
         }

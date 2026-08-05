@@ -316,7 +316,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
             if (state.isAir() || state.hasBlockEntity() || hardness < 0.0F || hardness > activeKind.blockHardness) {
                 continue;
             }
-            if (level().destroyBlock(candidate, true, this)) {
+            if (ParasiteBlockInventory.collect((ServerLevel) level(), candidate, this)) {
                 blockBreakCooldown = 20;
             }
             return;
@@ -1004,7 +1004,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
             BlockState state = level().getBlockState(position);
             float hardness = state.getDestroySpeed(level(), position);
             if (!state.isAir() && !state.hasBlockEntity() && hardness >= 0.0F && hardness <= 5.0F) {
-                level().destroyBlock(position, true, this);
+                ParasiteBlockInventory.collect((ServerLevel) level(), position, this);
             }
         }
     }

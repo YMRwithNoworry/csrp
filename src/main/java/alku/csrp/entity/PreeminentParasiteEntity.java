@@ -648,7 +648,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
             if (state.isAir() || state.hasBlockEntity() || hardness < 0.0F || hardness > 15.0F) {
                 continue;
             }
-            if (level().destroyBlock(candidate, true, this)) {
+            if (ParasiteBlockInventory.collect((ServerLevel) level(), candidate, this)) {
                 blockBreakCooldown = 20;
             }
             return;
@@ -1387,7 +1387,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
                             || !EventHooks.onEntityDestroyBlock(this, candidate, state)) {
                         continue;
                     }
-                    level().destroyBlock(candidate, true, this);
+                    ParasiteBlockInventory.collect((ServerLevel) level(), candidate, this);
                 }
             }
         }

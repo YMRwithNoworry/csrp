@@ -434,7 +434,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
             if (state.isAir() || state.hasBlockEntity() || hardness < 0.0F || hardness > maximumHardness) {
                 continue;
             }
-            if (level().destroyBlock(position, true, this)) {
+            if (ParasiteBlockInventory.collect((ServerLevel) level(), position, this)) {
                 abilityCooldown = 20;
             }
             return;

@@ -115,7 +115,7 @@ public final class ShockwaveEntity extends Entity {
                             || hardness < 0.0F || hardness > BLOCK_BREAK_HARDNESS) {
                         continue;
                     }
-                    level().destroyBlock(candidate, true, owner);
+                    ParasiteBlockInventory.collect((ServerLevel) level(), candidate, owner);
                 }
             }
         }

@@ -1,6 +1,7 @@
 package alku.csrp.event;
 
 import alku.csrp.Csrp;
+import alku.csrp.block.entity.ParasiticCystBlockEntity;
 import alku.csrp.entity.BuglinEntity;
 import alku.csrp.entity.CarrierFlyingEntity;
 import alku.csrp.entity.CarrierHeavyEntity;
@@ -10,11 +11,14 @@ import alku.csrp.entity.IncompleteFormSmallEntity;
 import alku.csrp.entity.LiceEntity;
 import alku.csrp.entity.ManglerEntity;
 import alku.csrp.entity.Parasite;
+import alku.csrp.entity.ParasiteBlockInventory;
 import alku.csrp.entity.RupterEntity;
 import alku.csrp.registry.ModBlocks;
+import net.minecraft.core.NonNullList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
@@ -48,6 +52,12 @@ public final class ParasiticCystEvents {
         }
         if (level.getBlockState(pos).canBeReplaced()) {
             level.setBlockAndUpdate(pos, ModBlocks.GLUTTONOUS_CYST.get().defaultBlockState());
+            if (level.getBlockEntity(pos) instanceof ParasiticCystBlockEntity cyst) {
+                NonNullList<ItemStack> items = ParasiteBlockInventory.takeAll(victim);
+                for (int slot = 0; slot < items.size(); slot++) {
+                    cyst.setItem(slot, items.get(slot));
+                }
+            }
         }
     }
 

@@ -690,7 +690,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
             if (state.isAir() || state.hasBlockEntity() || hardness < 0.0F || hardness > activeKind.maxBlockHardness) {
                 continue;
             }
-            if (level().destroyBlock(candidate, true, this)) {
+            if (ParasiteBlockInventory.collect((ServerLevel) level(), candidate, this)) {
                 blockBreakCooldown = activeKind.stage >= 4 ? 20 : 60;
             }
             return;

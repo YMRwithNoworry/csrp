@@ -334,7 +334,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
                     || hardness < 0.0F || hardness > 1.0F) {
                 continue;
             }
-            if (level().destroyBlock(candidate, true, this)) {
+            if (ParasiteBlockInventory.collect((ServerLevel) level(), candidate, this)) {
                 abilityCooldown = 60;
             }
             return;

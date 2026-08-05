@@ -279,7 +279,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
             if (state.isAir() || state.hasBlockEntity() || hardness < 0.0F || hardness > 9.0F) {
                 continue;
             }
-            if (level().destroyBlock(candidate, true, this)) {
+            if (ParasiteBlockInventory.collect((ServerLevel) level(), candidate, this)) {
                 blockBreakCooldown = 5;
             }
             return;
