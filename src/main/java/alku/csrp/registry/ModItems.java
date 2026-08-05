@@ -553,10 +553,6 @@ public final class ModItems {
     public static final DeferredItem<Item> LIVING_CORE = simple("living_core");
     public static final DeferredItem<Item> VILE_SHELL = simple("vile_shell");
     public static final DeferredItem<Item> SEMIORGANIC_INGOT = simple("semiorganic_ingot");
-    public static final DeferredItem<Item> TROPHY_BOOM_ORB = simple("trophy_boom_orb",
-            new Item.Properties().rarity(Rarity.EPIC).stacksTo(1));
-    public static final DeferredItem<Item> TROPHY_VOID_ORB = simple("trophy_void_orb",
-            new Item.Properties().rarity(Rarity.EPIC).stacksTo(1));
 
     public static final DeferredItem<FalseAppleItem> FALSE_APPLE = ITEMS.registerItem(
             "false_apple", FalseAppleItem::new, new Item.Properties());
