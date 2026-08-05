@@ -1,0 +1,28 @@
+{
+  "parent": "csrp:cognitio",
+  "display": {
+    "icon": {
+      "id": "csrp:thornshade_decanter"
+    },
+    "title": {
+      "translate": "advancements.csrp.beautiful_self_destruction.title"
+    },
+    "description": {
+      "translate": "advancements.csrp.beautiful_self_destruction.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "triggered": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "triggered"
+    ]
+  ]
+}

@@ -20,6 +20,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.tags.FluidTags;
 import net.neoforged.neoforge.fluids.FluidType;
 
@@ -87,6 +88,12 @@ public final class DeadBloodFluid extends FlowingFluid {
     @Override
     public boolean isSource(FluidState state) {
         return state.getValue(LEVEL) == 8;
+    }
+
+    @Override
+    protected void createFluidStateDefinition(StateDefinition.Builder<Fluid, FluidState> builder) {
+        super.createFluidStateDefinition(builder);
+        builder.add(LEVEL);
     }
 
     @Override

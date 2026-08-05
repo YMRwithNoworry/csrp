@@ -1,0 +1,28 @@
+{
+  "parent": "csrp:cognitio",
+  "display": {
+    "icon": {
+      "id": "minecraft:iron_sword"
+    },
+    "title": {
+      "translate": "advancements.csrp.guerilla.title"
+    },
+    "description": {
+      "translate": "advancements.csrp.guerilla.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "killed_fearful_player": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "killed_fearful_player"
+    ]
+  ]
+}

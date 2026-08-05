@@ -142,8 +142,23 @@ public final class CelestialSystem {
         data.darkDaysStartTime(-1);
         data.darkDaysEndTime(-1);
         data.darkDaysEndingSoundPlayed(false);
+        awardDarkDaysSurvivors(level);
         data.changed();
         sync(level);
+    }
+
+    private static void awardDarkDaysSurvivors(ServerLevel level) {
+        net.minecraft.advancements.AdvancementHolder holder = level.getServer().getAdvancements()
+                .get(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(
+                        alku.csrp.Csrp.MODID, "dark_days"));
+        if (holder == null) {
+            return;
+        }
+        for (net.minecraft.server.level.ServerPlayer player : level.players()) {
+            if (player.isAlive()) {
+                player.getAdvancements().award(holder, "survived_dark_days");
+            }
+        }
     }
 
     public static boolean isActive(ServerLevel level, String id) {

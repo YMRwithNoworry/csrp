@@ -1,0 +1,28 @@
+{
+  "parent": "csrp:cognitio",
+  "display": {
+    "icon": {
+      "id": "csrp:rupter_spawn_egg"
+    },
+    "title": {
+      "translate": "advancements.csrp.hunt_season.title"
+    },
+    "description": {
+      "translate": "advancements.csrp.hunt_season.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "fifty_in_day": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "fifty_in_day"
+    ]
+  ]
+}
