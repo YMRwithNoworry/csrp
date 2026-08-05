@@ -2,6 +2,7 @@ package alku.csrp.entity;
 
 import alku.csrp.Csrp;
 import alku.csrp.registry.ModEntities;
+import alku.csrp.registry.ModBlocks;
 import alku.csrp.infection.BlockInfestation;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModItems;
@@ -132,6 +133,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         }
         if (activeKind.family == Family.DISPATCHER && tickCount % 40 == 0) {
             storeNearbyParasite();
+            placeNestFog(activeKind.stage);
         }
         if (activeKind.family == Family.DISPATCHER && activeKind.stage == 4) {
             tryPlaceFirstColony();
@@ -373,6 +375,26 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
             serverLevel.sendParticles(ParticleTypes.PORTAL, candidate.getX(),
                     candidate.getY() + candidate.getBbHeight() * 0.5D, candidate.getZ(),
                     12, 0.25D, 0.35D, 0.25D, 0.02D);
+        }
+    }
+
+    private void placeNestFog(int stage) {
+        if (!(level() instanceof ServerLevel serverLevel)) {
+            return;
+        }
+        int count = Math.min(3, 1 + stage);
+        int radius = 5 + stage;
+        for (int attempt = 0; attempt < 8 && count > 0; attempt++) {
+            BlockPos candidate = blockPosition().offset(
+                    random.nextInt(radius * 2 + 1) - radius,
+                    random.nextInt(7) - 2,
+                    random.nextInt(radius * 2 + 1) - radius);
+            if (serverLevel.getBlockState(candidate).canBeReplaced()
+                    && candidate.getY() > serverLevel.getMinBuildHeight()) {
+                serverLevel.setBlockAndUpdate(candidate,
+                        ModBlocks.FOG.get().defaultBlockState());
+                count--;
+            }
         }
     }
 

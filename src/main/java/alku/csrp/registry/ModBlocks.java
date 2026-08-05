@@ -10,6 +10,8 @@ import alku.csrp.block.ColonyHeartBlock;
 import alku.csrp.block.ColonyStructureBlock;
 import alku.csrp.block.DispatcherNidusBlock;
 import alku.csrp.block.EscaBulbBlock;
+import alku.csrp.block.FogBlock;
+import alku.csrp.block.FogNullifierBlock;
 import alku.csrp.block.GluttonousCystBlock;
 import alku.csrp.block.ResidueBlock;
 import alku.csrp.block.ResidueBloomingBlock;
@@ -300,6 +302,19 @@ public final class ModBlocks {
                     .sound(SoundType.SCULK)));
 
     public static final java.util.Map<String, DeferredBlock<EscaBulbBlock>> ESCA_BULBS = registerEscaBulbs();
+
+    public static final DeferredBlock<FogBlock> FOG = BLOCKS.register("fog", () ->
+            new FogBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.SNOW)
+                    .noCollission()
+                    .noOcclusion()
+                    .strength(-1.0F, 3600000.0F)
+                    .noLootTable()));
+    public static final DeferredBlock<FogNullifierBlock> FOG_NULLIFIER = BLOCKS.register(
+            "fog_nullifier", () -> new FogNullifierBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_LIGHT_GRAY)
+                    .strength(5.0F, 20.0F)
+                    .sound(SoundType.STONE)));
 
     private static java.util.Map<String, DeferredBlock<EscaBulbBlock>> registerEscaBulbs() {
         java.util.Map<String, DeferredBlock<EscaBulbBlock>> bulbs = new java.util.LinkedHashMap<>();

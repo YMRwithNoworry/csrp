@@ -331,6 +331,8 @@ public final class ModItems {
     public static final DeferredItem<BlockItem> DRACONITE_TROPHY = ITEMS.registerSimpleBlockItem(
             "trophy_boom_orb", ModBlocks.DRACONITE_TROPHY);
     public static final java.util.Map<String, DeferredItem<BlockItem>> ESCA_BULBS = registerEscaBulbItems();
+    public static final DeferredItem<BlockItem> FOG_NULLIFIER = ITEMS.registerSimpleBlockItem(
+            "fog_nullifier", ModBlocks.FOG_NULLIFIER);
 
     private static java.util.Map<String, DeferredItem<BlockItem>> registerEscaBulbItems() {
         java.util.Map<String, DeferredItem<BlockItem>> items = new java.util.LinkedHashMap<>();

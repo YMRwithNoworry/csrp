@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "uses=0": {
+      "model": "csrp:block/fog_nullifier"
+    },
+    "uses=1": {
+      "model": "csrp:block/fog_nullifier"
+    },
+    "uses=2": {
+      "model": "csrp:block/fog_nullifier"
+    },
+    "uses=3": {
+      "model": "csrp:block/fog_nullifier"
+    }
+  }
+}
