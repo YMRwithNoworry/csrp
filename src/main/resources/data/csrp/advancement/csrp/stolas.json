@@ -1,0 +1,28 @@
+{
+  "parent": "csrp:columbus",
+  "display": {
+    "icon": {
+      "id": "csrp:evclock"
+    },
+    "title": {
+      "translate": "advancements.csrp.stolas.title"
+    },
+    "description": {
+      "translate": "advancements.csrp.stolas.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "witness_all": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "witness_all"
+    ]
+  ]
+}

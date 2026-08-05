@@ -1,0 +1,28 @@
+{
+  "parent": "csrp:cognitio",
+  "display": {
+    "icon": {
+      "id": "csrp:evclock"
+    },
+    "title": {
+      "translate": "advancements.csrp.columbus.title"
+    },
+    "description": {
+      "translate": "advancements.csrp.columbus.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "witness_half": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "witness_half"
+    ]
+  ]
+}

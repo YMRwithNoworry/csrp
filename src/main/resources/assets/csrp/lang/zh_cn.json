@@ -1137,5 +1137,17 @@
   "advancements.csrp.primitive.title": "原始",
   "advancements.csrp.primitive.desc": "至少击杀一次全部十二种原始寄生虫",
   "advancements.csrp.adapted.title": "适应",
-  "advancements.csrp.adapted.desc": "至少击杀一次全部十二种适应寄生虫",
+  "advancements.csrp.adapted.desc": "至少击杀一次全部十二种适应寄生虫"
+  "advancements.csrp.fermented_arrogance.title": "发酵的傲慢",
+  "advancements.csrp.fermented_arrogance.desc": "击杀一只狂野末影人",
+  "advancements.csrp.controversial.title": "争议",
+  "advancements.csrp.controversial.desc": "击杀一只同化末影人",
+  "advancements.csrp.columbus.title": "哥伦布",
+  "advancements.csrp.columbus.desc": "见证至少一半的天象",
+  "advancements.csrp.cut_roots.title": "斩草除根",
+  "advancements.csrp.cut_roots.desc": "累计击杀一千只裂兽",
+  "advancements.csrp.ecstasy.title": "狂喜",
+  "advancements.csrp.ecstasy.desc": "获得一瓶恐惧药水",
+  "advancements.csrp.stolas.title": "斯托拉斯",
+  "advancements.csrp.stolas.desc": "见证全部天象",
 }

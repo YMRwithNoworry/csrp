@@ -1123,5 +1123,17 @@
   "advancements.csrp.primitive.title": "Primitive",
   "advancements.csrp.primitive.desc": "Kill all twelve Primitive parasites at least once",
   "advancements.csrp.adapted.title": "Adapted",
-  "advancements.csrp.adapted.desc": "Kill all twelve Adapted parasites at least once",
+  "advancements.csrp.adapted.desc": "Kill all twelve Adapted parasites at least once"
+  "advancements.csrp.fermented_arrogance.title": "Fermented Arrogance",
+  "advancements.csrp.fermented_arrogance.desc": "Kill a Feral Enderman",
+  "advancements.csrp.controversial.title": "Controversial",
+  "advancements.csrp.controversial.desc": "Kill an Assimilated Enderman",
+  "advancements.csrp.columbus.title": "Columbus",
+  "advancements.csrp.columbus.desc": "Witness at least half of the Celestial Events",
+  "advancements.csrp.cut_roots.title": "Cut the evil by its roots",
+  "advancements.csrp.cut_roots.desc": "Have a total of 1000 or more Rupters killed",
+  "advancements.csrp.ecstasy.title": "Ecstasy",
+  "advancements.csrp.ecstasy.desc": "Obtain a potion of Fear",
+  "advancements.csrp.stolas.title": "STOLAS",
+  "advancements.csrp.stolas.desc": "Witness all of the Celestial Events",
 }

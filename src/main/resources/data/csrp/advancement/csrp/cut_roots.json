@@ -1,0 +1,28 @@
+{
+  "parent": "csrp:cognitio",
+  "display": {
+    "icon": {
+      "id": "csrp:rupter_spawn_egg"
+    },
+    "title": {
+      "translate": "advancements.csrp.cut_roots.title"
+    },
+    "description": {
+      "translate": "advancements.csrp.cut_roots.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "reached_1000_rupter_kills": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "reached_1000_rupter_kills"
+    ]
+  ]
+}

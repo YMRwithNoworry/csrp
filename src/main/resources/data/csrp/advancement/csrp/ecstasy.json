@@ -1,0 +1,42 @@
+{
+  "parent": "csrp:cognitio",
+  "display": {
+    "icon": {
+      "id": "minecraft:potion"
+    },
+    "title": {
+      "translate": "advancements.csrp.ecstasy.title"
+    },
+    "description": {
+      "translate": "advancements.csrp.ecstasy.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has_fear": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:potion"
+            ],
+            "predicates": {
+              "minecraft:potion_contents": {
+                "potion": "csrp:fear"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_fear"
+    ]
+  ]
+}
