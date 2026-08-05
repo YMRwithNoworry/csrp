@@ -182,6 +182,7 @@ public final class SrpCoreSystems {
             int stage = nodeStage(entry.age());
             updateActiveState(level, entry.pos(), ModBlocks.BIOMEHEART.get(), stage);
             BlockInfestation.infestAround(level, entry.pos(), stage);
+            ParasiteBiomeGenerator.generateAround(level, entry.pos(), stage);
         }
         for (ColonyEntry entry : new ArrayList<>(data.colonies())) {
             if (!level.hasChunkAt(entry.pos())) {
