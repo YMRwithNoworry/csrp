@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "ingredient": {
+    "item": "csrp:infested_lapis_ore"
+  },
+  "result": {
+    "id": "minecraft:lapis_lazuli",
+    "count": 2
+  },
+  "experience": 0.2,
+  "cookingtime": 200
+}

@@ -17,6 +17,7 @@ import alku.csrp.block.InfestedResidueBlock;
 import alku.csrp.block.InfestationPurifierBlock;
 import alku.csrp.block.EvolutionLureBlock;
 import alku.csrp.block.ParasiteTrapBlock;
+import alku.csrp.block.PestilentialOreBlock;
 import alku.csrp.block.ParasiteLootBlock;
 import alku.csrp.block.AlveoliBlock;
 import alku.csrp.block.AlveoliGrowthBlock;
@@ -221,6 +222,22 @@ public final class ModBlocks {
                     .strength(3.0F, 12.0F)
                     .sound(SoundType.SCULK)
                     .noLootTable()));
+    public static final DeferredBlock<PestilentialOreBlock> INFESTED_ORE = infestedOre("infested_ore");
+    public static final DeferredBlock<PestilentialOreBlock> INFESTED_COAL_ORE = infestedOre("infested_coal_ore");
+    public static final DeferredBlock<PestilentialOreBlock> INFESTED_DIAMOND_ORE = infestedOre("infested_diamond_ore");
+    public static final DeferredBlock<PestilentialOreBlock> INFESTED_EMERALD_ORE = infestedOre("infested_emerald_ore");
+    public static final DeferredBlock<PestilentialOreBlock> INFESTED_GOLD_ORE = infestedOre("infested_gold_ore");
+    public static final DeferredBlock<PestilentialOreBlock> INFESTED_IRON_ORE = infestedOre("infested_iron_ore");
+    public static final DeferredBlock<PestilentialOreBlock> INFESTED_LAPIS_ORE = infestedOre("infested_lapis_ore");
+    public static final DeferredBlock<PestilentialOreBlock> INFESTED_REDSTONE_ORE = infestedOre("infested_redstone_ore");
+
+    private static DeferredBlock<PestilentialOreBlock> infestedOre(String id) {
+        return BLOCKS.register(id, () -> new PestilentialOreBlock(BlockBehaviour.Properties.of()
+                .mapColor(MapColor.COLOR_RED)
+                .strength(3.0F, 6.0F)
+                .requiresCorrectToolForDrops()
+                .sound(SoundType.STONE)));
+    }
 
     private static DeferredBlock<InfestedBlock> infested(String id, MapColor color, SoundType sound) {
         return BLOCKS.register(id, () -> new InfestedBlock(BlockBehaviour.Properties.of()

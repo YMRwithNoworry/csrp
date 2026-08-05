@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "ingredient": {
+    "item": "csrp:infested_iron_ore"
+  },
+  "result": {
+    "id": "minecraft:raw_iron",
+    "count": 2
+  },
+  "experience": 0.7,
+  "cookingtime": 200
+}

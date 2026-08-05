@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "ingredient": {
+    "item": "csrp:infested_redstone_ore"
+  },
+  "result": {
+    "id": "minecraft:redstone",
+    "count": 2
+  },
+  "experience": 0.7,
+  "cookingtime": 200
+}

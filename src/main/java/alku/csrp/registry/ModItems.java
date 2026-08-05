@@ -14,6 +14,7 @@ import alku.csrp.item.FalseAppleItem;
 import alku.csrp.item.FishlinItem;
 import alku.csrp.item.HijackedArmorItem;
 import alku.csrp.item.HijackedToolItem;
+import alku.csrp.item.InfestedBonemealItem;
 import alku.csrp.item.LivingArmorItem;
 import alku.csrp.item.LivingBowItem;
 import alku.csrp.item.LivingWeaponItem;
@@ -497,7 +498,23 @@ public final class ModItems {
     public static final DeferredItem<DeadBloodFluidItem> DEADBLOOD_FLUID = ITEMS.registerItem(
             "deadblood_fluid", DeadBloodFluidItem::new, new Item.Properties());
     public static final DeferredItem<BoneMealItem> INFESTED_BONEMEAL = ITEMS.registerItem(
-            "infested_bonemeal", BoneMealItem::new, new Item.Properties());
+            "infested_bonemeal", InfestedBonemealItem::new, new Item.Properties());
+    public static final DeferredItem<BlockItem> INFESTED_ORE = ITEMS.registerSimpleBlockItem(
+            "infested_ore", ModBlocks.INFESTED_ORE);
+    public static final DeferredItem<BlockItem> INFESTED_COAL_ORE = ITEMS.registerSimpleBlockItem(
+            "infested_coal_ore", ModBlocks.INFESTED_COAL_ORE);
+    public static final DeferredItem<BlockItem> INFESTED_DIAMOND_ORE = ITEMS.registerSimpleBlockItem(
+            "infested_diamond_ore", ModBlocks.INFESTED_DIAMOND_ORE);
+    public static final DeferredItem<BlockItem> INFESTED_EMERALD_ORE = ITEMS.registerSimpleBlockItem(
+            "infested_emerald_ore", ModBlocks.INFESTED_EMERALD_ORE);
+    public static final DeferredItem<BlockItem> INFESTED_GOLD_ORE = ITEMS.registerSimpleBlockItem(
+            "infested_gold_ore", ModBlocks.INFESTED_GOLD_ORE);
+    public static final DeferredItem<BlockItem> INFESTED_IRON_ORE = ITEMS.registerSimpleBlockItem(
+            "infested_iron_ore", ModBlocks.INFESTED_IRON_ORE);
+    public static final DeferredItem<BlockItem> INFESTED_LAPIS_ORE = ITEMS.registerSimpleBlockItem(
+            "infested_lapis_ore", ModBlocks.INFESTED_LAPIS_ORE);
+    public static final DeferredItem<BlockItem> INFESTED_REDSTONE_ORE = ITEMS.registerSimpleBlockItem(
+            "infested_redstone_ore", ModBlocks.INFESTED_REDSTONE_ORE);
     public static final DeferredItem<EvolutionClockItem> EVCLOCK = ITEMS.registerItem(
             "evclock", EvolutionClockItem::new, new Item.Properties().stacksTo(1));
     public static final DeferredItem<LevelClockItem> LEVELCLOCK = ITEMS.registerItem(

@@ -19,6 +19,14 @@
     "csrp:semiorganic_block",
     "csrp:relay_base",
     "csrp:relay_middle",
-    "csrp:relay_roof"
+    "csrp:relay_roof",
+    "csrp:infested_ore",
+    "csrp:infested_coal_ore",
+    "csrp:infested_diamond_ore",
+    "csrp:infested_emerald_ore",
+    "csrp:infested_gold_ore",
+    "csrp:infested_iron_ore",
+    "csrp:infested_lapis_ore",
+    "csrp:infested_redstone_ore"
   ]
 }

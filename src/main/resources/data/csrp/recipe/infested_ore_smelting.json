@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "ingredient": {
+    "item": "csrp:infested_ore"
+  },
+  "result": {
+    "id": "csrp:lurecomponent6"
+  },
+  "experience": 0.2,
+  "cookingtime": 200
+}
