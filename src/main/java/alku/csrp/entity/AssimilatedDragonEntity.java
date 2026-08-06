@@ -78,6 +78,8 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
     private float leftWingHealth = PART_HEALTH;
     private float rightWingHealth = PART_HEALTH;
     private int rangedCooldown;
+    private int attackStateTimer;  // 近战攻击状态计时器
+    private int breathStateTimer;  // 火焰喷射状态计时器
 
     public AssimilatedDragonEntity(EntityType<? extends AssimilatedDragonEntity> type, Level level) {
         super(type, level);
@@ -157,6 +159,7 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
         if (hit) {
             // 设置近战攻击状态并触发攻击动画
             setParasiteStatus(1);
+            attackStateTimer = 20; // 攻击动画持续约1秒 (20 ticks)
             triggerAnim("attack_controller", "attack");
         }
         if (hit && livingTarget != null) {
@@ -235,6 +238,8 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
         tag.putFloat("left_wing_health", leftWingHealth);
         tag.putFloat("right_wing_health", rightWingHealth);
         tag.putInt("ranged_cooldown", rangedCooldown);
+        tag.putInt("attack_state_timer", attackStateTimer);
+        tag.putInt("breath_state_timer", breathStateTimer);
     }
 
     @Override
@@ -245,6 +250,8 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
         leftWingHealth = tag.getFloat("left_wing_health");
         rightWingHealth = tag.getFloat("right_wing_health");
         rangedCooldown = tag.getInt("ranged_cooldown");
+        attackStateTimer = tag.getInt("attack_state_timer");
+        breathStateTimer = tag.getInt("breath_state_timer");
         entityData.set(HEAD_ATTACHED, headHealth > 0.0F);
         entityData.set(LEFT_WING_ATTACHED, leftWingHealth > 0.0F);
         entityData.set(RIGHT_WING_ATTACHED, rightWingHealth > 0.0F);
@@ -325,17 +332,35 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
      * 状态 10: 火焰喷射技能
      */
     private void updateParasiteStatus() {
-        // 火焰喷射状态由 shootDragonBreath 方法设置
-        if (getParasiteStatus() == 10) {
-            return; // 保持火焰喷射状态，由攻击冷却控制
+        // 更新攻击状态计时器
+        if (attackStateTimer > 0) {
+            attackStateTimer--;
+            if (attackStateTimer == 0 && getParasiteStatus() == 1) {
+                setParasiteStatus(0); // 攻击动画结束，回到普通状态
+            }
         }
 
+        // 更新火焰喷射状态计时器
+        if (breathStateTimer > 0) {
+            breathStateTimer--;
+            if (breathStateTimer == 0 && getParasiteStatus() == 10) {
+                setParasiteStatus(0); // 火焰喷射结束，回到普通状态
+            }
+        }
+
+        // 如果处于特殊攻击状态，不自动切换
+        int currentStatus = getParasiteStatus();
+        if (currentStatus == 1 || currentStatus == 10) {
+            return;
+        }
+
+        // 根据当前环境自动设置状态
         if (isFlying()) {
             setParasiteStatus(3);
         } else if (isInWater()) {
             setParasiteStatus(2);
-        } else {
-            setParasiteStatus(0); // 默认地面状态
+        } else if (currentStatus != 0) {
+            setParasiteStatus(0); // 回到默认地面状态
         }
     }
 
@@ -372,6 +397,7 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
     private void shootDragonBreath(LivingEntity target) {
         // 设置火焰喷射状态
         setParasiteStatus(10);
+        breathStateTimer = 40; // 火焰喷射动画持续约2秒 (40 ticks)
 
         Vec3 source = getEyePosition().add(getLookAngle().scale(1.8D));
         Vec3 direction = target.getEyePosition().subtract(source);
