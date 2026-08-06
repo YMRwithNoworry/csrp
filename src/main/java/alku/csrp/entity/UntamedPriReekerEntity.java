@@ -122,7 +122,7 @@ public class UntamedPriReekerEntity extends Monster implements GeoEntity, Parasi
         goalSelector.addGoal(4, new RandomLookAroundGoal(this));
         targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
         targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,
-                true, false, entity -> entity instanceof LivingEntity && !ParasiteUtil.isParasite(entity)));
+                true, false, entity -> entity instanceof LivingEntity && !(entity instanceof Parasite)));
     }
 
     @Override
@@ -184,7 +184,7 @@ public class UntamedPriReekerEntity extends Monster implements GeoEntity, Parasi
             // 碰撞检测 - 范围内的所有敌对生物
             AABB collisionBox = getBoundingBox().inflate(CHARGE_COLLISION_RANGE);
             for (LivingEntity entity : level().getEntitiesOfClass(LivingEntity.class, collisionBox,
-                    e -> e instanceof LivingEntity && !ParasiteUtil.isParasite(e) && e.isAlive())) {
+                    e -> e instanceof LivingEntity && !(e instanceof Parasite) && e.isAlive())) {
                 if (entity.hurt(damageSources().mobAttack(this), CHARGE_DAMAGE)) {
                     // 应用效果：缓慢 II (60 ticks) + COTH (3600 ticks)
                     entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 2), this);
