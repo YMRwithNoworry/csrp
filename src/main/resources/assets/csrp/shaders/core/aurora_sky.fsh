@@ -15,7 +15,7 @@ in vec3 localPos;
 
 out vec4 fragColor;
 
-const float resolution_loop_count = 30.0;
+const float resolution_loop_count = 14.0;
 
 mat2 mm2(float a) {
     float c = cos(a);
@@ -40,7 +40,7 @@ float trinoise2d(vec2 p, float t) {
     vec2 bp = p;
     mat2 rot = mm2(t);
 
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 3; i++) {
         vec2 dg = tri2(bp * 1.85) * 0.75;
         dg = dg * rot;
         p -= dg / z2;

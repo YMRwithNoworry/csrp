@@ -168,7 +168,9 @@ public final class AuroraSkyRenderer {
     private static VertexBuffer buildAuroraMesh() {
         BufferBuilder buffer = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS,
                 DefaultVertexFormat.POSITION);
-        for (int lat = 0; lat < LATITUDE_SEGMENTS; lat++) {
+        // Aurora is only visible above the horizon; avoid rasterizing the discarded lower half.
+        int hemisphereSegments = LATITUDE_SEGMENTS / 2;
+        for (int lat = 0; lat < hemisphereSegments; lat++) {
             float theta0 = (float) lat / LATITUDE_SEGMENTS * (float) Math.PI;
             float theta1 = (float) (lat + 1) / LATITUDE_SEGMENTS * (float) Math.PI;
             for (int lon = 0; lon < LONGITUDE_SEGMENTS; lon++) {
