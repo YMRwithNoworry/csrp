@@ -107,7 +107,7 @@ public final class SummonerEntity extends PrimitiveParasiteEntity {
             if (isSummoning()) {
                 return state.setAndContinue(SUMMON);
             }
-            if (getDeltaMovement().horizontalDistanceSqr() < 0.0001) {
+            if (getDeltaMovement().horizontalDistanceSqr() < 0.001) {
                 return state.setAndContinue(IDLE);
             }
             return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() > 0.02 ? RUN : WALK);

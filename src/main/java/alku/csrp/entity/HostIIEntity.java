@@ -237,7 +237,7 @@ public final class HostIIEntity extends AbstractHostEntity {
                         return state.setAndContinue(BURROWED);
                     }
                     // 优先级3: 行走或待机
-                    return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.0001 ? WALK : IDLE);
+                    return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.001 ? WALK : IDLE);
                 }));
 
         // 攻击控制器 - 处理attack和burrowed_attack状态

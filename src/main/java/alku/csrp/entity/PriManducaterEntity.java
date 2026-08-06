@@ -355,7 +355,7 @@ public class PriManducaterEntity extends PrimitiveParasiteEntity implements GeoE
         }
 
         // Status 0: Idle/Walk - 空闲或行走
-        if (getDeltaMovement().horizontalDistanceSqr() < 0.0001) {
+        if (getDeltaMovement().horizontalDistanceSqr() < 0.001) {
             return state.setAndContinue(IDLE);
         }
 

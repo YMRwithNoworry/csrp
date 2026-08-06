@@ -591,7 +591,7 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
         if (entityData.get(LEAP_ATTACK_TICKS) > 0) {
             return state.setAndContinue(LEAP);
         }
-        if (getDeltaMovement().horizontalDistanceSqr() < 0.0001) {
+        if (getDeltaMovement().horizontalDistanceSqr() < 0.001) {
             return state.setAndContinue(IDLE);
         }
         return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() > 0.02 ? RUN : WALK);

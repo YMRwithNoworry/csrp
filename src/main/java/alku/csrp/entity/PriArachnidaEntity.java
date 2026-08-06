@@ -280,7 +280,7 @@ public class PriArachnidaEntity extends Monster implements GeoEntity, Parasite {
         }
 
         // Status 0: 默认移动状态
-        if (getDeltaMovement().horizontalDistanceSqr() < 0.0001) {
+        if (getDeltaMovement().horizontalDistanceSqr() < 0.001) {
             return state.setAndContinue(IDLE);
         }
         return state.setAndContinue(WALK);

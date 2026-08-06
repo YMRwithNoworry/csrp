@@ -141,7 +141,7 @@ public class FeralParasiteEntity extends Monster implements GeoEntity, Parasite 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.0001 ? RUN : IDLE)));
+                state -> state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.001 ? RUN : IDLE)));
         controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
                 .triggerableAnim("attack", ATTACK));
     }

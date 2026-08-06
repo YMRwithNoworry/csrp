@@ -370,7 +370,7 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         // 主移动动画控制器 - 根据多种状态组合选择动画
         controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
-            boolean moving = getDeltaMovement().horizontalDistanceSqr() >= 0.0001;
+            boolean moving = getDeltaMovement().horizontalDistanceSqr() >= 0.001;
             boolean screaming = entityData.get(SCREAMING);
             boolean crawling = entityData.get(CRAWLING);
             boolean pulling = entityData.get(PULLING);

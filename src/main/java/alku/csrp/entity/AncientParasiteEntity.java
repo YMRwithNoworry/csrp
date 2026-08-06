@@ -272,7 +272,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         if (activeKind() == Kind.DREADNAUT) {
             return state.setAndContinue(FLY);
         }
-        return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.0001 ? WALK : IDLE);
+        return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.001 ? WALK : IDLE);
     }
 
     private PlayState tentacleAnimation(AnimationState<AncientParasiteEntity> state) {

@@ -248,7 +248,7 @@ public class AdaLonglegEntity extends BurrowingVariantEntity {
         }
 
         // 状态 0: 默认移动
-        if (getDeltaMovement().horizontalDistanceSqr() < 0.0001) {
+        if (getDeltaMovement().horizontalDistanceSqr() < 0.001) {
             return state.setAndContinue(IDLE);
         }
 

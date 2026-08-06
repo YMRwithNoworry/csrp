@@ -284,7 +284,7 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
             }
 
             // 状态 0: 空闲/行走
-            boolean isMoving = getDeltaMovement().horizontalDistanceSqr() >= 0.0001;
+            boolean isMoving = getDeltaMovement().horizontalDistanceSqr() >= 0.001;
             return state.setAndContinue(isMoving ? WALK : IDLE);
         }));
 

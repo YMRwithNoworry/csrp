@@ -334,7 +334,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
         }
         if (activeKind() == Kind.DEVOURER) {
             // Devourer: idle when no target, movement animation when has target or moving
-            if (getTarget() != null || getDeltaMovement().horizontalDistanceSqr() >= 0.0001) {
+            if (getTarget() != null || getDeltaMovement().horizontalDistanceSqr() >= 0.001) {
                 return state.setAndContinue(DEVOURER_MOVEMENT);
             }
             return state.setAndContinue(DEVOURER_IDLE);
@@ -343,10 +343,10 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
             return switch (entityData.get(REEKER_CHARGE_STATE)) {
                 case REEKER_CHARGE_WINDUP -> state.setAndContinue(REEKER_WINDUP);
                 case REEKER_CHARGING -> state.setAndContinue(REEKER_CHARGE);
-                default -> state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.0001 ? WALK : IDLE);
+                default -> state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.001 ? WALK : IDLE);
             };
         }
-        if (getDeltaMovement().horizontalDistanceSqr() < 0.0001) {
+        if (getDeltaMovement().horizontalDistanceSqr() < 0.001) {
             return state.setAndContinue(IDLE);
         }
         return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() > 0.02D ? RUN : WALK);

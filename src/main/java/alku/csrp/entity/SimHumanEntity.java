@@ -238,16 +238,16 @@ public final class SimHumanEntity extends Monster implements GeoEntity, Parasite
                     switch (animState) {
                         case STATE_TRACKING:
                             return state.setAndContinue(
-                                    getDeltaMovement().horizontalDistanceSqr() >= 0.0001 ? TRACKING : IDLE);
+                                    getDeltaMovement().horizontalDistanceSqr() >= 0.001 ? TRACKING : IDLE);
                         case STATE_SNEAKING:
                             return state.setAndContinue(
-                                    getDeltaMovement().horizontalDistanceSqr() >= 0.0001 ? SNEAKING : IDLE);
+                                    getDeltaMovement().horizontalDistanceSqr() >= 0.001 ? SNEAKING : IDLE);
                         case STATE_RIDING:
                             return state.setAndContinue(RIDING);
                         case STATE_NORMAL:
                         default:
                             return state.setAndContinue(
-                                    getDeltaMovement().horizontalDistanceSqr() >= 0.0001 ? WALK : IDLE);
+                                    getDeltaMovement().horizontalDistanceSqr() >= 0.001 ? WALK : IDLE);
                     }
                 }));
 

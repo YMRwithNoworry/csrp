@@ -681,7 +681,7 @@ public final class KirinEntity extends DerivedParasiteEntity {
             if (isShadowed() && getShadowRenderAlpha(0.0F) > 0.0F) {
                 return state.setAndContinue(idleAnimation);
             }
-            return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.0001 ? walkAnimation : idleAnimation);
+            return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.001 ? walkAnimation : idleAnimation);
         }));
         controllers.add(new AnimationController<>(this, "action_controller", 0, state -> PlayState.STOP)
                 .triggerableAnim("attack", attackAnimation));

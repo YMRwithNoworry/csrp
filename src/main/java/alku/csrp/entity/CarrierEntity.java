@@ -75,7 +75,7 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity {
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         // 运动控制器
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.0001 ? walkAnimation : idleAnimation())));
+                state -> state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.001 ? walkAnimation : idleAnimation())));
 
         // 攻击控制器
         controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->

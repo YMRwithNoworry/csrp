@@ -302,11 +302,11 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
             return state.setAndContinue(LEAP);
         }
         if (activeKind() == Kind.WARDEN && entityData.get(WARDEN_CHARGING)) {
-            return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.0001 ? WARDEN_CHARGE_WALK : WARDEN_CHARGE_IDLE);
+            return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.001 ? WARDEN_CHARGE_WALK : WARDEN_CHARGE_IDLE);
         }
         if (activeKind() == Kind.VIGILANTE) {
             int status = entityData.get(VIGILANTE_STATUS);
-            boolean moving = getDeltaMovement().horizontalDistanceSqr() >= 0.0001;
+            boolean moving = getDeltaMovement().horizontalDistanceSqr() >= 0.001;
             return switch (status) {
                 case 1 -> state.setAndContinue(moving ? VIGILANTE_ATTACK_WALK : VIGILANTE_ATTACK_IDLE);
                 case 2 -> state.setAndContinue(moving ? VIGILANTE_ATTACK2_WALK : VIGILANTE_ATTACK2_IDLE);
@@ -317,7 +317,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         if (activeKind().flying) {
             return state.setAndContinue(FLY);
         }
-        if (getDeltaMovement().horizontalDistanceSqr() < 0.0001) {
+        if (getDeltaMovement().horizontalDistanceSqr() < 0.001) {
             return state.setAndContinue(IDLE);
         }
         return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() > 0.02D ? RUN : WALK);

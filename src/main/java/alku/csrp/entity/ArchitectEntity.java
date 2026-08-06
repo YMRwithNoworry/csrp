@@ -145,7 +145,7 @@ public final class ArchitectEntity extends PrimitiveParasiteEntity {
     }
 
     private PlayState movementAnimation(AnimationState<ArchitectEntity> state) {
-        return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.0001 ? flyAnimation : idleAnimation);
+        return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.001 ? flyAnimation : idleAnimation);
     }
 
     private void spawnColonyWorker(ServerLevel level) {

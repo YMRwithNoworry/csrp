@@ -280,7 +280,7 @@ public final class AssimilatedPigEntity extends Monster implements GeoEntity, Pa
 
     private <T extends AssimilatedPigEntity> PlayState movementAnimation(AnimationState<T> state) {
         int status = getParasiteStatus();
-        boolean moving = getDeltaMovement().horizontalDistanceSqr() >= 0.0001;
+        boolean moving = getDeltaMovement().horizontalDistanceSqr() >= 0.001;
 
         // 状态 6: 融化动画
         if (status == STATUS_MELT) {

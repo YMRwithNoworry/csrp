@@ -235,7 +235,7 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.0001 ? WALK : IDLE)));
+                state -> state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.001 ? WALK : IDLE)));
         controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
                 software.bernie.geckolib.animation.PlayState.STOP).triggerableAnim("attack", ATTACK));
     }
