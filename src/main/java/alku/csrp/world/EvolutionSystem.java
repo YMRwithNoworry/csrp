@@ -264,7 +264,7 @@ public final class EvolutionSystem {
         for (ServerPlayer player : level.players()) {
             player.sendSystemMessage(message);
             if (advanced && current >= 1) {
-                player.playNotifySound(ModSounds.evolutionPhase(current), SoundSource.MUSIC, 1.0F, 1.0F);
+                player.playNotifySound(ModSounds.evolutionPhase(current), SoundSource.MASTER, 1.0F, 1.0F);
             }
         }
         if (!advanced) {
