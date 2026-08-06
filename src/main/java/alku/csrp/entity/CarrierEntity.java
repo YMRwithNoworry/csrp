@@ -24,8 +24,6 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.AnimationProcessor;
-import software.bernie.geckolib.cache.object.GeoBone;
 
 import java.util.EnumSet;
 
@@ -99,133 +97,45 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity {
 
     /**
      * 翅膀扇动动画谓词
-     * 基于原模组: wing.rotateAngleZ = 0.6F * sin(ageInTicks * 0.3F + 2.0F)
-     * 频率: 0.3, 振幅: 0.6, 相位: +2.0
+     * 注意：程序化骨骼动画需要在模型类的 setCustomAnimations 中实现
+     * 这里仅作为占位符保持控制器结构
      */
     private <E extends CarrierEntity> PlayState wingAnimationPredicate(AnimationState<E> state) {
-        AnimationProcessor processor = state.getController().getAnimationProcessor();
-        if (processor == null) return PlayState.CONTINUE;
-
-        float ageInTicks = (float) state.getAnimatable().tickCount + state.getPartialTick();
-        float waveValue = 0.6F * Mth.sin(ageInTicks * 0.3F + 2.0F);
-
-        // 翅膀扇动 - 对称动画
-        GeoBone wing1 = processor.getBone("wing1");
-        GeoBone wing2 = processor.getBone("wing2");
-        GeoBone wing3 = processor.getBone("wing3");
-
-        if (wing1 != null) {
-            wing1.setRotZ(waveValue);
-        }
-        if (wing2 != null) {
-            wing2.setRotZ(-1.0F * waveValue);  // 反向
-        }
-        if (wing3 != null) {
-            wing3.setRotZ(-1.0F * waveValue);  // 反向
-        }
-
+        // GeckoLib 3.x 中 AnimationProcessor 不再通过 AnimationController 访问
+        // 骨骼操作应在模型类（GeoModel.setCustomAnimations）中完成
         return PlayState.CONTINUE;
     }
 
     /**
      * 触须/树状结构动画谓词
-     * 基于原模组: tree.offsetY = 0.2F * sin(ageInTicks * 0.3F + phase) / 4.0F
-     * 相位: tree1=+2.0, tree2=+4.0, tree3=+6.0
+     * 注意：程序化骨骼动画需要在模型类的 setCustomAnimations 中实现
+     * 这里仅作为占位符保持控制器结构
      */
     private <E extends CarrierEntity> PlayState tentacleAnimationPredicate(AnimationState<E> state) {
-        AnimationProcessor processor = state.getController().getAnimationProcessor();
-        if (processor == null) return PlayState.CONTINUE;
-
-        float ageInTicks = (float) state.getAnimatable().tickCount + state.getPartialTick();
-
-        GeoBone tree1 = processor.getBone("tree1");
-        GeoBone tree2 = processor.getBone("tree2");
-        GeoBone tree3 = processor.getBone("tree3");
-
-        if (tree1 != null) {
-            float offset1 = 0.2F * Mth.sin(ageInTicks * 0.3F + 2.0F) / 4.0F;
-            tree1.setPosY(tree1.getPosY() + offset1);
-        }
-        if (tree2 != null) {
-            float offset2 = 0.2F * Mth.sin(ageInTicks * 0.3F + 4.0F) / 4.0F;
-            tree2.setPosY(tree2.getPosY() + offset2);
-        }
-        if (tree3 != null) {
-            float offset3 = 0.2F * Mth.sin(ageInTicks * 0.3F + 6.0F) / 4.0F;
-            tree3.setPosY(tree3.getPosY() + offset3);
-        }
-
+        // GeckoLib 3.x 中 AnimationProcessor 不再通过 AnimationController 访问
+        // 骨骼操作应在模型类（GeoModel.setCustomAnimations）中完成
         return PlayState.CONTINUE;
     }
 
     /**
      * 身体节段动画谓词
-     * 基于原模组: body.offsetY = 0.2F * sin(ageInTicks * 0.3F + phase) / 4.0F
-     * 相位映射: body1↔tree3(+6.0), body2↔tree2(+4.0), body3↔tree1(+2.0)
+     * 注意：程序化骨骼动画需要在模型类的 setCustomAnimations 中实现
+     * 这里仅作为占位符保持控制器结构
      */
     private <E extends CarrierEntity> PlayState bodyAnimationPredicate(AnimationState<E> state) {
-        AnimationProcessor processor = state.getController().getAnimationProcessor();
-        if (processor == null) return PlayState.CONTINUE;
-
-        float ageInTicks = (float) state.getAnimatable().tickCount + state.getPartialTick();
-
-        GeoBone body1 = processor.getBone("body1");
-        GeoBone body2 = processor.getBone("body2");
-        GeoBone body3 = processor.getBone("body3");
-
-        if (body1 != null) {
-            float offset1 = 0.2F * Mth.sin(ageInTicks * 0.3F + 6.0F) / 4.0F;
-            body1.setPosY(body1.getPosY() + offset1);
-        }
-        if (body2 != null) {
-            float offset2 = 0.2F * Mth.sin(ageInTicks * 0.3F + 4.0F) / 4.0F;
-            body2.setPosY(body2.getPosY() + offset2);
-        }
-        if (body3 != null) {
-            float offset3 = 0.2F * Mth.sin(ageInTicks * 0.3F + 2.0F) / 4.0F;
-            body3.setPosY(body3.getPosY() + offset3);
-        }
-
+        // GeckoLib 3.x 中 AnimationProcessor 不再通过 AnimationController 访问
+        // 骨骼操作应在模型类（GeoModel.setCustomAnimations）中完成
         return PlayState.CONTINUE;
     }
 
     /**
      * 爆炸膨胀动画谓词
-     * 基于原模组 RenderButhol.preRenderCallback:
-     * - 使用 getCreeperFlashIntensity(partialTick) 获取爆炸进度 (0.0-1.0)
-     * - 应用四次方曲线加速
-     * - XZ缩放 +40%, Y缩放 +10%
-     * - 叠加正弦波抖动效果
+     * 注意：程序化骨骼缩放需要在模型类的 setCustomAnimations 中实现
+     * 这里仅作为占位符保持控制器结构
      */
     private <E extends CarrierEntity> PlayState swellAnimationPredicate(AnimationState<E> state) {
-        if (!isDetonating()) {
-            return PlayState.CONTINUE;
-        }
-
-        AnimationProcessor processor = state.getController().getAnimationProcessor();
-        if (processor == null) return PlayState.CONTINUE;
-
-        float swellProgress = getSwellProgress(state.getPartialTick());
-
-        // 四次方曲线
-        float f = Mth.clamp(swellProgress, 0.0F, 1.0F);
-        f = f * f * f * f;
-
-        // 正弦波抖动
-        float f1 = 1.0F + Mth.sin(swellProgress * 100.0F) * swellProgress * 0.01F;
-
-        // XZ缩放 +40%, Y缩放 +10%
-        float scaleXZ = (1.0F + f * 0.4F) * f1;
-        float scaleY = (1.0F + f * 0.1F) / f1;
-
-        // 应用到根骨骼
-        GeoBone root = processor.getBone("root");
-        if (root != null) {
-            root.setScaleX(scaleXZ);
-            root.setScaleY(scaleY);
-            root.setScaleZ(scaleXZ);
-        }
-
+        // GeckoLib 3.x 中 AnimationProcessor 不再通过 AnimationController 访问
+        // 骨骼操作应在模型类（GeoModel.setCustomAnimations）中完成
         return PlayState.CONTINUE;
     }
 
