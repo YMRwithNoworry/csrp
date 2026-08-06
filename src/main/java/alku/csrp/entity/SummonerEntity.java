@@ -90,7 +90,7 @@ public final class SummonerEntity extends PrimitiveParasiteEntity {
     @Override public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
             if (entityData.get(SUMMONING)) return state.setAndContinue(SUMMON);
-            if (!state.isMoving()) return state.setAndContinue(IDLE);
+            if (getDeltaMovement().horizontalDistanceSqr() < 0.0001) return state.setAndContinue(IDLE);
             return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() > 0.02 ? RUN : WALK);
         }));
         controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
