@@ -26,6 +26,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
@@ -399,7 +400,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
                 goalSelector.addGoal(1, new BolsterSupportGoal());
                 goalSelector.addGoal(2, new BolsterOrbGoal());
                 goalSelector.addGoal(3, new BarrageGoal());
-                goalSelector.addGoal(4, new MeleeAttackGoal(this, 0.95D, false));
+                goalSelector.addGoal(4, new FastMeleeAttackGoal(this, 1.20D));
             }
             case BURROWER -> {
                 goalSelector.addGoal(1, createBurrowMovementGoal());
@@ -416,7 +417,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
             }
             case LONGARMS -> {
                 goalSelector.addGoal(1, new ShockwaveGoal());
-                goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.25D, false));
+                goalSelector.addGoal(2, new FastMeleeAttackGoal(this, 1.25D));
             }
             case MANDUCATER -> {
                 goalSelector.addGoal(1, new CloakGoal());
@@ -927,7 +928,8 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
                 center.getBoundingBox().inflate(2.0D), this::isValidParasiteTarget)) {
             float healthBefore = target.getHealth();
-            boolean targetHit = super.doHurtTarget(target);
+            // 横扫动画和实际伤害在同一服务器 tick 结算，避免仅播放动画而未造成伤害。
+            boolean targetHit = target.hurt(damageSources().mobAttack(this), meleeDamage());
             if (targetHit) {
                 applyBolsterMinimumDamage(target, healthBefore);
                 applyBolsterVariantAttack(target);
@@ -950,6 +952,18 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
             case VIRULENT -> target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 100, 0), this);
             default -> {
             }
+        }
+    }
+
+    /** 适应体近战攻击间隔，匹配原版寄生体的快速攻击节奏。 */
+    private static final class FastMeleeAttackGoal extends MeleeAttackGoal {
+        private FastMeleeAttackGoal(PathfinderMob mob, double speedModifier) {
+            super(mob, speedModifier, false);
+        }
+
+        @Override
+        protected int getTicksUntilNextAttack() {
+            return 4;
         }
     }
 
