@@ -44,6 +44,33 @@ public final class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> DRACONITE_LIVING = register("draconite.living");
     public static final DeferredHolder<SoundEvent, SoundEvent> DRACONITE_DEATH = register("draconite.death");
     public static final DeferredHolder<SoundEvent, SoundEvent> DRACONITE_FIRE_SHOOT = register("draconite.fire_shoot");
+
+    // 通用寄生体音效
+    public static final DeferredHolder<SoundEvent, SoundEvent> MOB_SHOOT = register("mob.shoot");
+    public static final DeferredHolder<SoundEvent, SoundEvent> MOB_SWIPE = register("mob.swipe");
+    public static final DeferredHolder<SoundEvent, SoundEvent> MOB_TENDRIL = register("mob.tendril");
+
+    // 适应型音效
+    public static final DeferredHolder<SoundEvent, SoundEvent> ADAPTED_DIG = register("adapted.dig");
+    public static final DeferredHolder<SoundEvent, SoundEvent> ADAPTED_V = register("adapted.v");
+
+    // 攻击音效
+    public static final DeferredHolder<SoundEvent, SoundEvent> ATTACK_BANO = register("attack.bano");
+    public static final DeferredHolder<SoundEvent, SoundEvent> ATTACK_EMANA = register("attack.emana");
+    public static final DeferredHolder<SoundEvent, SoundEvent> ATTACK_THROW = register("attack.throw");
+
+    // Emana系列音效
+    public static final DeferredHolder<SoundEvent, SoundEvent> EMANA_GROWL = register("emana.growl");
+    public static final DeferredHolder<SoundEvent, SoundEvent> EMANA_HURT = register("emana.hurt");
+    public static final DeferredHolder<SoundEvent, SoundEvent> EMANA_DEATH = register("emana.death");
+    public static final DeferredHolder<SoundEvent, SoundEvent> EMANA_SHOOTING = register("emana.shooting");
+    public static final DeferredHolder<SoundEvent, SoundEvent> AEMANA_SHOOTINGPOST = register("aemana.shootingpost");
+
+    // 其他音效
+    public static final DeferredHolder<SoundEvent, SoundEvent> PARASITE_MELT = register("parasite.melt");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SHRIMP_EAT = register("shrimp.eat");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SHYCO_SPECIAL = register("shyco.special");
+
     public static final DeferredHolder<SoundEvent, SoundEvent> KIRIN_LIVING = register("kirin.living");
     public static final DeferredHolder<SoundEvent, SoundEvent> KIRIN_HURT = register("kirin.hurt");
     public static final DeferredHolder<SoundEvent, SoundEvent> KIRIN_DEATH = register("kirin.death");
