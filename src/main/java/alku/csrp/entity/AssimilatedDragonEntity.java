@@ -45,11 +45,21 @@ import java.util.EnumSet;
 public final class AssimilatedDragonEntity extends Monster implements GeoEntity, Parasite {
     private static final float PART_HEALTH = 52.0F;
     private static final int RANGED_COOLDOWN = 40;
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+
+    // 动画定义 - 对应原模组的不同 parasiteStatus 状态
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");  // 状态 0: 空闲
+    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");  // 状态 0: 行走
+    private final RawAnimation ATTACK_ANIM = RawAnimation.begin()
+            .thenLoop("animation.sim_dragone.idle.get_parasite_status_1");  // 状态 1: 近战攻击
+    private final RawAnimation SWIM = RawAnimation.begin()
+            .thenLoop("animation.sim_dragone.walk.get_parasite_status_2");  // 状态 2: 游泳
     private final RawAnimation FLY = RawAnimation.begin()
-            .thenLoop("animation.sim_dragone.idle.get_flying_state_1");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+            .thenLoop("animation.sim_dragone.idle.get_flying_state_1");     // 状态 3: 飞行
+    private final RawAnimation BREATH_ATTACK = RawAnimation.begin()
+            .thenLoop("animation.sim_dragone.idle.get_parasite_status_10"); // 状态 10: 火焰喷射
+    private final RawAnimation MELEE_ATTACK = ParasiteAnimations.play(this, "attack");  // 触发式近战攻击
+    private static final EntityDataAccessor<Integer> PARASITE_STATUS = SynchedEntityData.defineId(
+            AssimilatedDragonEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> FLYING = SynchedEntityData.defineId(
             AssimilatedDragonEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> HEAD_ATTACHED = SynchedEntityData.defineId(
@@ -93,6 +103,7 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
+        builder.define(PARASITE_STATUS, 0);
         builder.define(FLYING, true);
         builder.define(HEAD_ATTACHED, true);
         builder.define(LEFT_WING_ATTACHED, true);
@@ -120,6 +131,7 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
         super.tick();
         setNoGravity(isFlying());
         updateBodyParts();
+        updateParasiteStatus();
         if (level().isClientSide) {
             return;
         }
@@ -143,6 +155,8 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
         float healthBefore = livingTarget == null ? 0.0F : ParasiteCombatEffects.healthWithAbsorption(livingTarget);
         boolean hit = super.doHurtTarget(entity);
         if (hit) {
+            // 设置近战攻击状态并触发攻击动画
+            setParasiteStatus(1);
             triggerAnim("attack_controller", "attack");
         }
         if (hit && livingTarget != null) {
@@ -216,6 +230,7 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
+        tag.putInt("parasite_status", getParasiteStatus());
         tag.putFloat("head_health", headHealth);
         tag.putFloat("left_wing_health", leftWingHealth);
         tag.putFloat("right_wing_health", rightWingHealth);
@@ -225,6 +240,7 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
+        setParasiteStatus(tag.getInt("parasite_status"));
         headHealth = tag.getFloat("head_health");
         leftWingHealth = tag.getFloat("left_wing_health");
         rightWingHealth = tag.getFloat("right_wing_health");
@@ -236,12 +252,38 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        // 主要移动动画控制器 - 根据 parasiteStatus 切换不同状态
         controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
-            if (isFlying()) return state.setAndContinue(FLY);
-            return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.0001 ? WALK : IDLE);
+            int status = getParasiteStatus();
+
+            // 状态 10: 火焰喷射技能状态
+            if (status == 10) {
+                return state.setAndContinue(BREATH_ATTACK);
+            }
+
+            // 状态 3: 飞行状态
+            if (isFlying() || status == 3) {
+                return state.setAndContinue(FLY);
+            }
+
+            // 状态 2: 游泳状态
+            if (isInWater() || status == 2) {
+                return state.setAndContinue(SWIM);
+            }
+
+            // 状态 1: 近战攻击状态 - 使用特殊的攻击动画循环
+            if (status == 1) {
+                return state.setAndContinue(ATTACK_ANIM);
+            }
+
+            // 状态 0: 空闲/行走
+            boolean isMoving = getDeltaMovement().horizontalDistanceSqr() >= 0.0001;
+            return state.setAndContinue(isMoving ? WALK : IDLE);
         }));
+
+        // 攻击动画控制器 - 可触发的近战攻击动画叠加
         controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
-                software.bernie.geckolib.animation.PlayState.STOP).triggerableAnim("attack", ATTACK));
+                software.bernie.geckolib.animation.PlayState.STOP).triggerableAnim("attack", MELEE_ATTACK));
     }
 
     @Override
@@ -261,9 +303,40 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
         return entityData.get(LEFT_WING_ATTACHED) && entityData.get(RIGHT_WING_ATTACHED);
     }
 
+    public int getParasiteStatus() {
+        return entityData.get(PARASITE_STATUS);
+    }
+
+    public void setParasiteStatus(int status) {
+        entityData.set(PARASITE_STATUS, status);
+    }
+
     private void setFlying(boolean flying) {
         entityData.set(FLYING, flying && canFly());
         setNoGravity(entityData.get(FLYING));
+    }
+
+    /**
+     * 根据实体状态更新 parasiteStatus
+     * 状态 0: 地面空闲/行走
+     * 状态 1: 近战攻击
+     * 状态 2: 游泳
+     * 状态 3: 飞行
+     * 状态 10: 火焰喷射技能
+     */
+    private void updateParasiteStatus() {
+        // 火焰喷射状态由 shootDragonBreath 方法设置
+        if (getParasiteStatus() == 10) {
+            return; // 保持火焰喷射状态，由攻击冷却控制
+        }
+
+        if (isFlying()) {
+            setParasiteStatus(3);
+        } else if (isInWater()) {
+            setParasiteStatus(2);
+        } else {
+            setParasiteStatus(0); // 默认地面状态
+        }
     }
 
     private boolean isValidParasiteTarget(LivingEntity target) {
@@ -297,6 +370,9 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
     }
 
     private void shootDragonBreath(LivingEntity target) {
+        // 设置火焰喷射状态
+        setParasiteStatus(10);
+
         Vec3 source = getEyePosition().add(getLookAngle().scale(1.8D));
         Vec3 direction = target.getEyePosition().subtract(source);
         if (direction.lengthSqr() < 0.001D) {

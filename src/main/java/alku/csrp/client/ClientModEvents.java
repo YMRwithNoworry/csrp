@@ -13,8 +13,10 @@ import alku.csrp.client.renderer.HaunterHomingProjectileRenderer;
 import alku.csrp.client.renderer.MarauderRenderer;
 import alku.csrp.client.renderer.MarauderTendrilRenderer;
 import alku.csrp.client.renderer.MovingFleshRenderer;
+import alku.csrp.client.renderer.NexusParasiteRenderer;
 import alku.csrp.client.renderer.RupterRenderer;
 import alku.csrp.client.renderer.SimAdventurerRenderer;
+import alku.csrp.client.renderer.SimHumanRenderer;
 import alku.csrp.client.renderer.AssimilatedParasiteRenderer;
 import alku.csrp.client.renderer.PrimitiveParasiteRenderer;
 import alku.csrp.client.renderer.PullingBallRenderer;
@@ -194,8 +196,7 @@ public final class ClientModEvents {
                 new PrimitiveParasiteRenderer<>(context, "sim_horse", 0.75F));
         event.registerEntityRenderer(ModEntities.SIM_HORSE_HEAD.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "sim_horsehead", 0.6F));
-        event.registerEntityRenderer(ModEntities.SIM_HUMAN.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "sim_human", 0.5F));
+        event.registerEntityRenderer(ModEntities.SIM_HUMAN.get(), SimHumanRenderer::new);
         event.registerEntityRenderer(ModEntities.SIM_HUMAN_HEAD.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "sim_humanhead", 0.6F));
         event.registerEntityRenderer(ModEntities.SIM_COW_HEAD.get(), context ->
@@ -295,31 +296,31 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.ANC_DREADNAUT_TEN.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "anc_dreadnaut_ten", 0.55F));
         event.registerEntityRenderer(ModEntities.BECKON_SI.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "beckon_si", 0.4F));
+                new NexusParasiteRenderer(context, "beckon_si", 0.4F));
         event.registerEntityRenderer(ModEntities.BECKON_SII.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "beckon_sii", 0.5F));
+                new NexusParasiteRenderer(context, "beckon_sii", 0.5F));
         event.registerEntityRenderer(ModEntities.BECKON_SIII.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "beckon_siii", 0.6F));
+                new NexusParasiteRenderer(context, "beckon_siii", 0.6F));
         event.registerEntityRenderer(ModEntities.BECKON_SIV.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "beckon_siv", 0.7F));
+                new NexusParasiteRenderer(context, "beckon_siv", 0.7F));
         event.registerEntityRenderer(ModEntities.DISPATCHER_SI.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "dispatcher_si", 1.0F));
+                new NexusParasiteRenderer(context, "dispatcher_si", 1.0F));
         event.registerEntityRenderer(ModEntities.DISPATCHER_SII.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "dispatcher_sii", 1.1F));
+                new NexusParasiteRenderer(context, "dispatcher_sii", 1.1F));
         event.registerEntityRenderer(ModEntities.DISPATCHER_SIII.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "dispatcher_siii", 1.2F));
+                new NexusParasiteRenderer(context, "dispatcher_siii", 1.2F));
         event.registerEntityRenderer(ModEntities.DISPATCHER_SIV.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "dispatcher_siv", 1.4F));
+                new NexusParasiteRenderer(context, "dispatcher_siv", 1.4F));
         event.registerEntityRenderer(ModEntities.ROOTER_SI.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "rooter_si", 0.8F));
+                new NexusParasiteRenderer(context, "rooter_si", 0.8F));
         event.registerEntityRenderer(ModEntities.ROOTER_SII.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "rooter_sii", 0.9F));
+                new NexusParasiteRenderer(context, "rooter_sii", 0.9F));
         event.registerEntityRenderer(ModEntities.ROOTER_SIII.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "rooter_siii", 1.0F));
+                new NexusParasiteRenderer(context, "rooter_siii", 1.0F));
         event.registerEntityRenderer(ModEntities.ROOTER_SIV.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "rooter_siv", 1.1F));
+                new NexusParasiteRenderer(context, "rooter_siv", 1.1F));
         event.registerEntityRenderer(ModEntities.ROOTERBALL.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "rooterball", 0.7F));
+                new NexusParasiteRenderer(context, "rooterball", 0.7F));
         event.registerEntityRenderer(ModEntities.ABO_BODIES.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "abo_bodies", 1.0F));
         event.registerEntityRenderer(ModEntities.ABO_HEAD.get(), context ->

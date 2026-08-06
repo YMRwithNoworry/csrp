@@ -15,11 +15,20 @@ import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import software.bernie.geckolib.animatable.GeoEntity;
+import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.animation.RawAnimation;
 
 import java.util.EnumSet;
 
 /** Legacy hijacked blaze: aerial spineball volleys and nearby parasite illumination. */
-public final class HiBlazeEntity extends HijackedParasiteEntity {
+public final class HiBlazeEntity extends HijackedParasiteEntity implements GeoEntity {
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+
     private int rangedCooldown = 20;
     private int burstShots;
     private int burstDelay;
@@ -90,6 +99,15 @@ public final class HiBlazeEntity extends HijackedParasiteEntity {
         projectile.configure(this, ParasiteProjectileEntity.Mode.SPINE, start, target.getEyePosition(),
                 0.85D, 5.0F, 0.75D, 50);
         level().addFreshEntity(projectile);
+        triggerAttackAnimation();
+    }
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(this, "movement_controller", 4,
+                state -> state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.0001 ? WALK : IDLE)));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0,
+                state -> PlayState.STOP).triggerableAnim("attack", ATTACK));
     }
 
     private final class SpineBurstGoal extends Goal {

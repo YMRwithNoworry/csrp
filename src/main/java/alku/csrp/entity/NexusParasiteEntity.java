@@ -114,8 +114,8 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
 
     public void setBODY(float increment) {
         float newValue = getBODY() + increment;
-        if (newValue > 0.5F) {
-            newValue = 0.5F;
+        if (newValue > 0.6F) {
+            newValue = 0.6F;
         }
         if (newValue < 0.0F) {
             newValue = 0.0F;
@@ -406,8 +406,15 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private PlayState movementAnimation(AnimationState<NexusParasiteEntity> state) {
+        Kind activeKind = activeKind();
+
+        // For BECKON family, use body expansion/contraction animation when status != 0
+        if (activeKind.family == Family.BECKON && getParasiteStatus() != 0) {
+            return state.setAndContinue(BECKON_BODY);
+        }
+
         if (getDeltaMovement().horizontalDistanceSqr() < 0.0001) {
-            Kind activeKind = activeKind();
+            // Use body animation for BECKON family at lower stages when idle
             return state.setAndContinue(activeKind.family == Family.BECKON && activeKind.stage < 4
                     ? BECKON_BODY : IDLE);
         }
