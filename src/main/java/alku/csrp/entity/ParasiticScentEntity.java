@@ -208,10 +208,15 @@ public final class ParasiticScentEntity extends Entity {
         AABB area = getBoundingBox().inflate(80.0D);
         if (target != null) {
             activity++;
-            for (Mob parasite : level.getEntitiesOfClass(Mob.class, area, mob -> mob instanceof Parasite)) {
+            // 使用 getEntitiesOfClass 并提前过滤，减少不必要的迭代
+            List<Mob> nearbyParasites = level.getEntitiesOfClass(Mob.class, area,
+                mob -> mob instanceof Parasite && mob.isAlive());
+
+            double followRangeSq = 1024.0D; // 预计算范围的平方
+            for (Mob parasite : nearbyParasites) {
                 LivingEntity currentTarget = parasite.getTarget();
                 if ((currentTarget == null || !currentTarget.isAlive())
-                        && parasite.distanceToSqr(target) <= Mth.square(parasite.getAttributeValue(Attributes.FOLLOW_RANGE))) {
+                        && parasite.distanceToSqr(target) <= followRangeSq) {
                     parasite.setTarget(target);
                 }
             }
@@ -220,9 +225,10 @@ public final class ParasiticScentEntity extends Entity {
 
         LivingEntity closest = null;
         double closestDistance = 4096.0D;
+        // 直接在获取实体时过滤，减少不必要的检查
         for (LivingEntity candidate : level.getEntitiesOfClass(LivingEntity.class, area, this::isValidTarget)) {
             double distance = distanceToSqr(candidate);
-            if (distance <= closestDistance) {
+            if (distance < closestDistance) {
                 closestDistance = distance;
                 closest = candidate;
             }
@@ -297,12 +303,23 @@ public final class ParasiticScentEntity extends Entity {
         }
         int moved = 0;
         AABB area = getBoundingBox().inflate(80.0D);
-        for (Mob parasite : level.getEntitiesOfClass(Mob.class, area, mob -> mob instanceof Parasite)) {
-            if (parasite.getTarget() != null || !parasite.isAlive() || parasite.hurtTime > 0
-                    || parasite.getAttributeValue(Attributes.MOVEMENT_SPEED) <= 0.0D
-                    || level.getBrightness(LightLayer.BLOCK, blockPosition()) >= 5) {
-                continue;
-            }
+        BlockPos centerPos = blockPosition();
+        int lightLevel = level.getBrightness(LightLayer.BLOCK, centerPos);
+
+        // 提前过滤并限制处理数量，避免一次处理过多实体
+        List<Mob> parasites = level.getEntitiesOfClass(Mob.class, area,
+            mob -> mob instanceof Parasite && mob.isAlive() && mob.getTarget() == null
+                   && mob.hurtTime == 0 && mob.getAttributeValue(Attributes.MOVEMENT_SPEED) > 0.0D);
+
+        // 如果光照太强，提前退出
+        if (lightLevel >= 5) {
+            return countParasites(level) > mobCap(level) ? 20 : moved;
+        }
+
+        // 限制每次最多移动10个寄生虫，避免性能问题
+        int maxToMove = Math.min(10, parasites.size());
+        for (int i = 0; i < maxToMove; i++) {
+            Mob parasite = parasites.get(i);
             if (moveParasiteNearTarget(level, parasite, target)) {
                 parasite.setTarget(target);
                 moved++;
@@ -337,20 +354,40 @@ public final class ParasiticScentEntity extends Entity {
         if (target == null) {
             return 0;
         }
+
+        // 提前检查寄生虫数量，避免不必要的计算
+        int currentParasites = countParasites(level);
+        int cap = mobCap(level);
+        if (currentParasites > cap) {
+            return 0;
+        }
+
         BlockPos floor = randomFloorAround(level, target, MAX_DISTANCE);
         if (floor == null) {
             return 0;
         }
         double distance = Math.sqrt(distanceToSqr(floor.getX(), floor.getY(), floor.getZ()));
-        if (distance < MIN_DISTANCE || distance > RANGE_CAP || countParasites(level) > mobCap(level)) {
+        if (distance < MIN_DISTANCE || distance > RANGE_CAP) {
             return 0;
         }
+
+        // 优化：缩小搜索范围，只检查附近是否有非寄生虫实体
         AABB area = new AABB(floor).inflate(MAX_DISTANCE, 16.0D, MAX_DISTANCE);
         List<LivingEntity> living = level.getEntitiesOfClass(LivingEntity.class, area);
-        long parasites = living.stream().filter(entity -> entity instanceof Parasite).count();
-        if (living.size() == parasites) {
+
+        // 快速检查是否只有寄生虫
+        boolean hasNonParasite = false;
+        for (LivingEntity entity : living) {
+            if (!(entity instanceof Parasite)) {
+                hasNonParasite = true;
+                break;
+            }
+        }
+
+        if (!hasNonParasite) {
             return 0;
         }
+
         updateScentLevel();
         return spawnWorm(level, target, floor, mobsForAreaLevel(level)) ? 1 : 0;
     }
@@ -560,12 +597,22 @@ public final class ParasiticScentEntity extends Entity {
         return null;
     }
 
-    private static int countParasites(ServerLevel level) {
-        int count = 0;
-        for (Entity entity : level.getAllEntities()) {
-            if (entity instanceof Parasite) count++;
+    // 缓存寄生虫数量以避免每次都遍历所有实体
+    private int cachedParasiteCount = -1;
+    private long lastCountTick = 0;
+
+    private int countParasites(ServerLevel level) {
+        // 每20 tick（1秒）才重新计算一次
+        if (tickCount - lastCountTick >= 20 || cachedParasiteCount < 0) {
+            cachedParasiteCount = 0;
+            // 只在附近区域搜索，而不是整个世界
+            AABB searchArea = getBoundingBox().inflate(128.0D);
+            for (Entity entity : level.getEntities(null, searchArea)) {
+                if (entity instanceof Parasite) cachedParasiteCount++;
+            }
+            lastCountTick = tickCount;
         }
-        return count;
+        return cachedParasiteCount;
     }
 
     private static int mobCap(ServerLevel level) {

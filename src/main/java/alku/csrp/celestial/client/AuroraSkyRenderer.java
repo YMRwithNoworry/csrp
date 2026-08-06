@@ -122,6 +122,8 @@ public final class AuroraSkyRenderer {
         return (255 << 24) | (blue << 16) | (green << 8) | red;
     }
 
+    private static VertexBuffer cachedVertexBuffer;
+
     private static void renderAuroraSphere(RenderLevelStageEvent event, Minecraft minecraft) {
         PoseStack poseStack = new PoseStack();
         poseStack.mulPose(event.getModelViewMatrix());
@@ -134,13 +136,36 @@ public final class AuroraSkyRenderer {
         shader.getUniform("Height").set(HEIGHT);
         shader.getUniform("Scale").set(SCALE);
 
-        RenderSystem.depthMask(false);
-        RenderSystem.disableDepthTest();
-        RenderSystem.disableCull();
-        RenderSystem.enableBlend();
-        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA,
-                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        try {
+            RenderSystem.depthMask(false);
+            RenderSystem.disableDepthTest();
+            RenderSystem.disableCull();
+            RenderSystem.enableBlend();
+            RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA,
+                    GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 
+            // 使用缓存的 VertexBuffer 以提高性能
+            if (cachedVertexBuffer == null) {
+                cachedVertexBuffer = buildAuroraMesh();
+            }
+
+            cachedVertexBuffer.bind();
+            cachedVertexBuffer.drawWithShader(matrix, event.getProjectionMatrix(), shader);
+            VertexBuffer.unbind();
+        } finally {
+            // 恢复渲染状态，确保不影响后续 GUI 渲染
+            RenderSystem.enableCull();
+            RenderSystem.enableDepthTest();
+            RenderSystem.depthMask(true);
+            RenderSystem.disableBlend();
+            RenderSystem.defaultBlendFunc();
+
+            // 确保颜色状态正确，防止 GUI 透明
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        }
+    }
+
+    private static VertexBuffer buildAuroraMesh() {
         BufferBuilder buffer = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS,
                 DefaultVertexFormat.POSITION);
         for (int lat = 0; lat < LATITUDE_SEGMENTS; lat++) {
@@ -156,17 +181,11 @@ public final class AuroraSkyRenderer {
             }
         }
         MeshData meshData = buffer.buildOrThrow();
-        VertexBuffer vertexBuffer = new VertexBuffer(VertexBuffer.Usage.DYNAMIC);
+        VertexBuffer vertexBuffer = new VertexBuffer(VertexBuffer.Usage.STATIC);
         vertexBuffer.bind();
         vertexBuffer.upload(meshData);
-        vertexBuffer.drawWithShader(matrix, event.getProjectionMatrix(), shader);
         VertexBuffer.unbind();
-        vertexBuffer.close();
-
-        RenderSystem.enableCull();
-        RenderSystem.enableDepthTest();
-        RenderSystem.depthMask(true);
-        RenderSystem.disableBlend();
+        return vertexBuffer;
     }
 
     private static Vector3f direction(float theta, float phi) {
@@ -187,6 +206,10 @@ public final class AuroraSkyRenderer {
         if (gradientTexture != null) {
             gradientTexture.close();
             gradientTexture = null;
+        }
+        if (cachedVertexBuffer != null) {
+            cachedVertexBuffer.close();
+            cachedVertexBuffer = null;
         }
         loadAttempted = false;
     }
