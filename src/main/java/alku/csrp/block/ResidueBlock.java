@@ -17,7 +17,7 @@ public final class ResidueBlock extends Block {
 
     @Override
     protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-        if (random.nextInt(16) != 0) {
+        if (random.nextInt(4) != 0) {
             return;
         }
         Direction[] directions = Direction.values();
