@@ -33,17 +33,30 @@ final class ParasiteAnimations {
             default -> requestedAction;
         };
 
+        if (action.equals("attack") && !hasShortAttackAnimation(resourceId)
+                && usesShortAnimationKeys(resourceId)) {
+            return "walk";
+        }
+
         // These are the project-only fallback resources that were not
         // present in the extracted SRP resource set and retain short keys.
-        if (resourceId.equals("abo_head") || resourceId.equals("marauder_tendril")
+        if (usesShortAnimationKeys(resourceId)) {
+            return action;
+        }
+        return "animation." + resourceId + "." + action;
+    }
+
+    private static boolean usesShortAnimationKeys(String resourceId) {
+        return resourceId.equals("abo_head") || resourceId.equals("marauder_tendril")
                 || resourceId.equals("marauder") || resourceId.equals("movingflesh")
                 || resourceId.equals("pri_summoner") || resourceId.equals("sim_cow")
                 || resourceId.equals("sim_cowhead") || resourceId.equals("sim_pig")
                 || resourceId.equals("inf_sheep") || resourceId.equals("inf_sheep_head")
-                || resourceId.equals("inf_villager")) {
-            return action;
-        }
-        return "animation." + resourceId + "." + action;
+                || resourceId.equals("inf_villager");
+    }
+
+    private static boolean hasShortAttackAnimation(String resourceId) {
+        return resourceId.equals("abo_head") || resourceId.equals("marauder");
     }
 
     private static String animationResourceId(Entity entity) {
