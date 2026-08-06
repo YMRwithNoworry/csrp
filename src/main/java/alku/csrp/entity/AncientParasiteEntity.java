@@ -255,8 +255,8 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
         controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
                 .triggerableAnim("attack", ATTACK));
-        // OVERLORD 的触手动画控制器 - 持续播放的闲置动画
-        if (activeKind() == Kind.OVERLORD) {
+        // DREADNAUT 和 OVERLORD 都需要触手动画控制器
+        if (activeKind() == Kind.DREADNAUT || activeKind() == Kind.OVERLORD) {
             controllers.add(new AnimationController<>(this, "tentacle_controller", 0, this::tentacleAnimation));
         }
     }
@@ -273,6 +273,25 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
             return state.setAndContinue(FLY);
         }
         return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.0001 ? WALK : IDLE);
+    }
+
+    private PlayState tentacleAnimation(AnimationState<AncientParasiteEntity> state) {
+        // DREADNAUT: 根据状态返回不同的触手动画
+        // 状态 0 = 空闲/漂浮, 状态 1 = 攻击, 状态 77 = 受伤/愤怒
+        if (activeKind() == Kind.DREADNAUT) {
+            if (entityData.get(DREAD_DAMAGE_REACTION_TICKS) > 0) {
+                // 状态 77: 受伤动画 - 剧烈震动
+                return PlayState.CONTINUE;
+            } else if (attackAnimationTicks > 0) {
+                // 状态 1: 攻击动画 - 触手快速摆动
+                return PlayState.CONTINUE;
+            } else {
+                // 状态 0: 空闲动画 - 缓慢漂浮
+                return PlayState.CONTINUE;
+            }
+        }
+        // OVERLORD: 持续播放触手闲置动画
+        return PlayState.CONTINUE;
     }
 
     private void pushAway(LivingEntity target, double horizontal, double vertical) {
