@@ -1,6 +1,7 @@
 package alku.csrp.entity;
 
 import alku.csrp.Config;
+import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -223,7 +224,9 @@ public class UntamedPriWaspEntity extends Monster implements GeoEntity, Parasite
     private void executePullSkill(LivingEntity target) {
         if (level() instanceof ServerLevel serverLevel) {
             // 创建并发射拉拽弹丸
-            PullingBallEntity pullingBall = new PullingBallEntity(level(), this, target);
+            PullingBallEntity pullingBall = new PullingBallEntity(
+                ModEntities.PULLING_BALL.get(), level());
+            pullingBall.setOwner(this);
 
             // 计算发射位置（从实体中心偏上）
             double offsetY = getBbHeight() * 0.7;
@@ -234,7 +237,15 @@ public class UntamedPriWaspEntity extends Monster implements GeoEntity, Parasite
             double dy = target.getY(0.5) - (getY() + offsetY);
             double dz = target.getZ() - getZ();
 
-            pullingBall.shoot(dx, dy, dz, 1.2F, 2.0F);
+            double distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+            double speed = 1.2;
+
+            pullingBall.setDeltaMovement(
+                dx / distance * speed,
+                dy / distance * speed,
+                dz / distance * speed
+            );
+
             level().addFreshEntity(pullingBall);
 
             // 播放发射音效
@@ -257,17 +268,17 @@ public class UntamedPriWaspEntity extends Monster implements GeoEntity, Parasite
     }
 
     public boolean isClimbing() {
-        return (getEntityData().get(DATA_FLAGS_ID) & 1) != 0;
+        return (entityData.get(DATA_SHARED_FLAGS_ID) & 1) != 0;
     }
 
     public void setClimbing(boolean climbing) {
-        byte flags = getEntityData().get(DATA_FLAGS_ID);
+        byte flags = entityData.get(DATA_SHARED_FLAGS_ID);
         if (climbing) {
             flags = (byte)(flags | 1);
         } else {
             flags = (byte)(flags & -2);
         }
-        getEntityData().set(DATA_FLAGS_ID, flags);
+        entityData.set(DATA_SHARED_FLAGS_ID, flags);
     }
 
     public int getParasiteStatus() {
