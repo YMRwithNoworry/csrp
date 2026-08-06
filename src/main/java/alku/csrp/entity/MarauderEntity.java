@@ -464,7 +464,7 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
         if (getSmashTicks() > 0) {
             return state.setAndContinue(getSmashTicks() < SMASH_CHARGE_TICKS ? SMASH_CHARGE : SMASH);
         }
-        return state.setAndContinue(state.isMoving() ? WALK : IDLE);
+        return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.0001 ? WALK : IDLE);
     }
 
     public enum TendrilSide {
