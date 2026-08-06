@@ -69,6 +69,8 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
             AdaptedVariantEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> BOLSTER_RIGHT_TENDRIL = SynchedEntityData.defineId(
             AdaptedVariantEntity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Integer> ARACHNIDA_STATUS = SynchedEntityData.defineId(
+            AdaptedVariantEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> REEKER_CHARGING = SynchedEntityData.defineId(
             AdaptedVariantEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> REEKER_PULLING = SynchedEntityData.defineId(
@@ -81,12 +83,22 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
             AdaptedVariantEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> MANDUCATER_STILL_ANI = SynchedEntityData.defineId(
             AdaptedVariantEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> YELLOWEYE_CHARGING = SynchedEntityData.defineId(
+            AdaptedVariantEntity.class, EntityDataSerializers.BOOLEAN);
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
     private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
     private final RawAnimation FLY = ParasiteAnimations.loop(this, "fly");
     private final RawAnimation DIG = ParasiteAnimations.loop(this, "func_78087_a.getDigging");
     private final RawAnimation BOLSTER_ATTACK = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation ARACHNIDA_ATTACK_PREP = ParasiteAnimations.loop(this,
+            "walk.get_parasite_status_1");
+    private final RawAnimation ARACHNIDA_FAST_MOVE = ParasiteAnimations.loop(this,
+            "walk.get_parasite_status_2");
+    private final RawAnimation ARACHNIDA_PULLING = ParasiteAnimations.loop(this,
+            "idle.get_parasite_status_3");
+    private final RawAnimation ARACHNIDA_SKILL = ParasiteAnimations.loop(this,
+            "idle.get_parasite_status_11");
     private final RawAnimation REEKER_CHARGE_IDLE = ParasiteAnimations.loop(this,
             "idle.get_parasite_status_3.get_still_ani_1");
     private final RawAnimation REEKER_CHARGE_WALK = ParasiteAnimations.loop(this,
@@ -107,6 +119,8 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
             "idle.get_parasite_status_10");
     private final RawAnimation MANDUCATER_EVADE = ParasiteAnimations.loop(this,
             "idle.get_parasite_status_25");
+    private final RawAnimation YELLOWEYE_CHARGE = ParasiteAnimations.loop(this,
+            "idle.get_parasite_status_1");
     private static final RawAnimation BOLSTER_STATUS_3 = RawAnimation.begin()
             .thenLoop("animation.ada_bolster.idle.get_parasite_status_3");
     private static final RawAnimation BOLSTER_STATUS_15 = RawAnimation.begin()
@@ -150,6 +164,8 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
     private int manducaterVomitTicks;
     private int manducaterEvadeCooldown;
     private int reekerPullingCooldown;
+    private int arachnidaPullingTicks;
+    private LivingEntity arachnidaTargetEntity;
 
     public AdaptedVariantEntity(EntityType<? extends AdaptedVariantEntity> type, Level level, Kind kind) {
         super(type, level);
@@ -318,6 +334,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
+        builder.define(ARACHNIDA_STATUS, 0);
         builder.define(BOLSTER_VARIANT, BolsterVariant.NORMAL.ordinal());
         builder.define(BOLSTER_ACTION, BolsterAction.NONE.ordinal());
         builder.define(BOLSTER_ACTION_TICKS, 0);
@@ -329,6 +346,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
         builder.define(SUMMONER_CASTING, false);
         builder.define(MANDUCATER_STATUS, 0);
         builder.define(MANDUCATER_STILL_ANI, false);
+        builder.define(YELLOWEYE_CHARGING, false);
     }
 
     @Nullable
@@ -432,6 +450,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
         if (supportCooldown > 0) supportCooldown--;
         if (secondaryCooldown > 0) secondaryCooldown--;
         if (blockBreakCooldown > 0) blockBreakCooldown--;
+        if (reekerPullingCooldown > 0) reekerPullingCooldown--;
         if (entityData.get(BOLSTER_ACTION_TICKS) > 0) {
             entityData.set(BOLSTER_ACTION_TICKS, entityData.get(BOLSTER_ACTION_TICKS) - 1);
             if (entityData.get(BOLSTER_ACTION_TICKS) == 0) {
@@ -614,6 +633,11 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
+        if (activeKind() == Kind.ARACHNIDA) {
+            tag.putInt("arachnida_status", entityData.get(ARACHNIDA_STATUS));
+            tag.putInt("arachnida_pulling_ticks", arachnidaPullingTicks);
+            tag.putInt("arachnida_ability_cooldown", abilityCooldown);
+        }
         if (activeKind() == Kind.BOLSTER) {
             tag.putInt("bolster_variant", entityData.get(BOLSTER_VARIANT));
             tag.putFloat("bolster_left_tendril", entityData.get(BOLSTER_LEFT_TENDRIL));
@@ -634,11 +658,23 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
             tag.putInt("manducater_ability_cooldown", abilityCooldown);
             tag.putInt("manducater_secondary_cooldown", secondaryCooldown);
         }
+        if (activeKind() == Kind.REEKER) {
+            tag.putBoolean("reeker_charging", entityData.get(REEKER_CHARGING));
+            tag.putInt("reeker_pulling", entityData.get(REEKER_PULLING));
+            tag.putBoolean("reeker_still_ani", entityData.get(REEKER_STILL_ANI));
+            tag.putInt("reeker_pulling_cooldown", reekerPullingCooldown);
+            tag.putInt("reeker_ability_cooldown", abilityCooldown);
+        }
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
+        if (activeKind() == Kind.ARACHNIDA) {
+            entityData.set(ARACHNIDA_STATUS, tag.getInt("arachnida_status"));
+            arachnidaPullingTicks = tag.getInt("arachnida_pulling_ticks");
+            abilityCooldown = tag.getInt("arachnida_ability_cooldown");
+        }
         if (activeKind() == Kind.BOLSTER) {
             entityData.set(BOLSTER_VARIANT, tag.getInt("bolster_variant"));
             entityData.set(BOLSTER_LEFT_TENDRIL, tag.contains("bolster_left_tendril")
@@ -665,6 +701,13 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
             if (cloaked) {
                 setInvisible(true);
             }
+        }
+        if (activeKind() == Kind.REEKER) {
+            entityData.set(REEKER_CHARGING, tag.getBoolean("reeker_charging"));
+            entityData.set(REEKER_PULLING, tag.getInt("reeker_pulling"));
+            entityData.set(REEKER_STILL_ANI, tag.getBoolean("reeker_still_ani"));
+            reekerPullingCooldown = tag.getInt("reeker_pulling_cooldown");
+            abilityCooldown = tag.getInt("reeker_ability_cooldown");
         }
     }
 
@@ -697,8 +740,63 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
             }
             return state.setAndContinue(isBurrowing() ? BODY_DIG[body] : BODY_IDLE[body]);
         }
-        if (kind == Kind.REEKER && entityData.get(REEKER_CHARGING)) {
-            return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.0001 ? REEKER_CHARGE_WALK : REEKER_CHARGE_IDLE);
+        if (kind == Kind.ARACHNIDA) {
+            int status = getArachnidaStatus();
+            // Status 11: 技能释放动画
+            if (status == 11) {
+                return state.setAndContinue(ARACHNIDA_SKILL);
+            }
+            // Status 3: 拉拽技能准备
+            if (status == 3) {
+                return state.setAndContinue(ARACHNIDA_PULLING);
+            }
+            // Status 2: 快速移动
+            if (status == 2 && getDeltaMovement().horizontalDistanceSqr() >= 0.0001) {
+                return state.setAndContinue(ARACHNIDA_FAST_MOVE);
+            }
+            // Status 1: 攻击准备（减速）
+            if (status == 1 && getDeltaMovement().horizontalDistanceSqr() >= 0.0001) {
+                return state.setAndContinue(ARACHNIDA_ATTACK_PREP);
+            }
+            // Status 0: 默认移动
+            if (getDeltaMovement().horizontalDistanceSqr() < 0.0001) {
+                return state.setAndContinue(IDLE);
+            }
+            return state.setAndContinue(WALK);
+        }
+        if (kind == Kind.REEKER) {
+            int pulling = entityData.get(REEKER_PULLING);
+            boolean stillAni = entityData.get(REEKER_STILL_ANI);
+            boolean charging = entityData.get(REEKER_CHARGING);
+
+            // 拉拽技能动画（状态 3）
+            if (pulling > 0) {
+                boolean moving = getDeltaMovement().horizontalDistanceSqr() >= 0.0001;
+                if (stillAni) {
+                    return state.setAndContinue(REEKER_PULLING_IDLE);
+                }
+                return state.setAndContinue(moving ? REEKER_PULLING_WALK : REEKER_PULLING_IDLE);
+            }
+
+            // 冲锋动画
+            if (charging) {
+                boolean moving = getDeltaMovement().horizontalDistanceSqr() >= 0.0001;
+                if (stillAni) {
+                    return state.setAndContinue(REEKER_CHARGE_IDLE);
+                }
+                return state.setAndContinue(moving ? REEKER_CHARGE_WALK : REEKER_CHARGE_IDLE);
+            }
+
+            // 警戒状态（状态 1）- 当有目标但距离较远时
+            LivingEntity target = getTarget();
+            if (target != null && distanceToSqr(target) > 64.0D) {
+                return state.setAndContinue(REEKER_ALERT);
+            }
+
+            // 攻击准备（状态 2）- 接近目标时快速移动
+            if (target != null && getDeltaMovement().horizontalDistanceSqr() > 0.02D) {
+                return state.setAndContinue(REEKER_ATTACK_PREP);
+            }
         }
         if (kind == Kind.SUMMONER && entityData.get(SUMMONER_CASTING)) {
             return state.setAndContinue(SUMMONER_CAST);
@@ -733,6 +831,10 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
             return state.setAndContinue(IDLE);
         }
         if (isFlying(kind)) {
+            // Yelloweye 冲锋状态动画（触手弯曲）
+            if (kind == Kind.YELLOWEYE && entityData.get(YELLOWEYE_CHARGING)) {
+                return state.setAndContinue(YELLOWEYE_CHARGE);
+            }
             return state.setAndContinue(FLY);
         }
         if (getDeltaMovement().horizontalDistanceSqr() < 0.0001) {
@@ -954,6 +1056,83 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
         cloaked = false;
         cloakTicks = 0;
         setInvisible(false);
+    }
+
+    private void tickArachnida() {
+        int status = getArachnidaStatus();
+
+        // 处理拉拽技能计时
+        if (status == 3) {
+            arachnidaPullingTicks++;
+            if (arachnidaPullingTicks >= 100) { // 5秒后进入技能释放状态
+                setArachnidaStatus(11);
+                executePullingSkill();
+                arachnidaPullingTicks = 0;
+            }
+        } else {
+            arachnidaPullingTicks = 0;
+        }
+
+        // 技能释放后恢复到默认状态
+        if (status == 11 && tickCount % 20 == 0) {
+            setArachnidaStatus(0);
+            abilityCooldown = 200; // 10秒冷却
+        }
+
+        // 更新状态逻辑
+        if (status != 3 && status != 11) {
+            LivingEntity target = getTarget();
+            if (target != null) {
+                double distSqr = distanceToSqr(target);
+
+                // 检查是否可以使用拉拽技能
+                if (abilityCooldown <= 0 && distSqr >= 49.0D && distSqr <= 400.0D && hasLineOfSight(target)) {
+                    setArachnidaStatus(3);
+                    arachnidaTargetEntity = target;
+                } else if (distSqr < 16.0D) {
+                    // 状态 2: 快速移动（近距离）
+                    setArachnidaStatus(2);
+                } else if (distSqr < 64.0D) {
+                    // 状态 1: 攻击准备（中距离，减速）
+                    setArachnidaStatus(1);
+                } else {
+                    // 状态 0: 默认
+                    setArachnidaStatus(0);
+                }
+            } else {
+                setArachnidaStatus(0);
+            }
+        }
+    }
+
+    private void executePullingSkill() {
+        if (arachnidaTargetEntity != null && arachnidaTargetEntity.isAlive()) {
+            // 发射拉拽弹丸
+            PullingBallEntity pullingBall = ModEntities.PULLING_BALL.get().create(level());
+            if (pullingBall != null) {
+                Vec3 eyePos = getEyePosition();
+                pullingBall.setPos(eyePos.x, eyePos.y, eyePos.z);
+                pullingBall.setOwner(this);
+                pullingBall.shoot(
+                    arachnidaTargetEntity.getX() - eyePos.x,
+                    arachnidaTargetEntity.getEyeY() - eyePos.y,
+                    arachnidaTargetEntity.getZ() - eyePos.z,
+                    1.0F,
+                    0.0F
+                );
+                level().addFreshEntity(pullingBall);
+                playSound(ModSounds.get("mob.shoot"), 1.0F, 1.0F);
+            }
+        }
+        arachnidaTargetEntity = null;
+    }
+
+    public int getArachnidaStatus() {
+        return entityData.get(ARACHNIDA_STATUS);
+    }
+
+    private void setArachnidaStatus(int status) {
+        entityData.set(ARACHNIDA_STATUS, status);
     }
 
     private void tickManducater() {
@@ -1207,12 +1386,12 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
         public boolean canUse() {
             LivingEntity target = getTarget();
             return abilityCooldown <= 0 && target != null && hasLineOfSight(target)
-                    && distanceToSqr(target) >= 9.0D && distanceToSqr(target) <= 400.0D;
+                    && distanceToSqr(target) >= 49.0D && distanceToSqr(target) <= 400.0D;
         }
 
         @Override
         public boolean canContinueToUse() {
-            return false;
+            return getArachnidaStatus() == 3 && arachnidaPullingTicks < 100;
         }
 
         @Override
@@ -1221,18 +1400,25 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
             if (target == null) {
                 return;
             }
+            setArachnidaStatus(3);
+            arachnidaTargetEntity = target;
+            arachnidaPullingTicks = 0;
             getLookControl().setLookAt(target, 30.0F, 30.0F);
-            target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 120, 1), AdaptedVariantEntity.this);
-            target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 2), AdaptedVariantEntity.this);
-            target.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 100, 2), AdaptedVariantEntity.this);
-            Vec3 pull = position().subtract(target.position());
-            if (pull.lengthSqr() > 0.001D) {
-                pull = pull.normalize().scale(0.65D);
-                target.push(pull.x, 0.12D, pull.z);
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = getTarget();
+            if (target != null) {
+                getLookControl().setLookAt(target, 30.0F, 30.0F);
             }
-            fireWebProjectile(target, 0);
-            triggerAttackAnimation();
-            abilityCooldown = 70;
+        }
+
+        @Override
+        public void stop() {
+            if (getArachnidaStatus() == 3 || getArachnidaStatus() == 11) {
+                setArachnidaStatus(0);
+            }
         }
     }
 
@@ -1578,6 +1764,107 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
         }
     }
 
+    private final class ReekerPullGoal extends Goal {
+        private int pullingTicks;
+        private LivingEntity pullTarget;
+
+        private ReekerPullGoal() {
+            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
+        }
+
+        @Override
+        public boolean canUse() {
+            if (reekerPullingCooldown > 0 || entityData.get(REEKER_PULLING) > 0) {
+                return false;
+            }
+            LivingEntity target = getTarget();
+            if (target == null || !target.isAlive()) {
+                return false;
+            }
+            double distSq = distanceToSqr(target);
+            return distSq >= 36.0D && distSq <= 576.0D && hasLineOfSight(target);
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return pullingTicks < 400 && pullTarget != null && pullTarget.isAlive()
+                    && hasLineOfSight(pullTarget);
+        }
+
+        @Override
+        public void start() {
+            pullingTicks = 0;
+            pullTarget = getTarget();
+            entityData.set(REEKER_PULLING, 400);
+            entityData.set(REEKER_STILL_ANI, false);
+            getNavigation().stop();
+            playSound(ModSounds.get("adapted.v"), 1.5F, 0.7F + random.nextFloat() * 0.3F);
+        }
+
+        @Override
+        public void stop() {
+            entityData.set(REEKER_PULLING, 0);
+            entityData.set(REEKER_STILL_ANI, false);
+            reekerPullingCooldown = 200;
+            pullTarget = null;
+        }
+
+        @Override
+        public void tick() {
+            if (pullTarget == null || !pullTarget.isAlive()) {
+                pullingTicks = 400;
+                return;
+            }
+
+            getLookControl().setLookAt(pullTarget, 30.0F, 30.0F);
+
+            // 每10 tick拉拽一次
+            if (pullingTicks % 10 == 0) {
+                Vec3 pull = position().subtract(pullTarget.position());
+                if (pull.lengthSqr() > 0.001D) {
+                    pull = pull.normalize().scale(0.35D);
+                    pullTarget.push(pull.x, 0.08D, pull.z);
+                    pullTarget.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 30, 2),
+                            AdaptedVariantEntity.this);
+                }
+            }
+
+            // 发射拉拽弹丸
+            if (pullingTicks == 15) {
+                entityData.set(REEKER_STILL_ANI, true);
+                firePullProjectile(pullTarget);
+            }
+
+            pullingTicks++;
+            int remaining = 400 - pullingTicks;
+            entityData.set(REEKER_PULLING, Math.max(0, remaining));
+        }
+    }
+
+    private void firePullProjectile(LivingEntity target) {
+        PullingBallEntity projectile = ModEntities.PULLING_BALL.get().create(level());
+        if (projectile == null) {
+            return;
+        }
+        Vec3 start = getEyePosition().add(getViewVector(1.0F).scale(0.5D));
+        Vec3 direction = target.getEyePosition().subtract(start).normalize();
+        projectile.moveTo(start.x, start.y, start.z, getYRot(), getXRot());
+        projectile.setOwner(this);
+        projectile.shoot(direction.x, direction.y, direction.z, 0.8F, 1.0F);
+        level().addFreshEntity(projectile);
+        playSound(ModSounds.get("attack.throw"), 1.5F, 1.0F + random.nextFloat() * 0.2F);
+    }
+
+    private void tickReeker() {
+        int pulling = entityData.get(REEKER_PULLING);
+        if (pulling > 0) {
+            entityData.set(REEKER_PULLING, pulling - 1);
+            if (pulling == 1) {
+                entityData.set(REEKER_STILL_ANI, false);
+            }
+        }
+    }
+
     private final class SummonGoal extends Goal {
         private int castTicks;
 
@@ -1775,14 +2062,29 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
         public void tick() {
             LivingEntity target = getTarget();
             if (target == null) {
+                entityData.set(YELLOWEYE_CHARGING, false);
                 return;
             }
             getLookControl().setLookAt(target, 30.0F, 30.0F);
             getMoveControl().setWantedPosition(target.getX(), target.getY() + 2.5D, target.getZ(), 1.0D);
-            if (secondaryCooldown <= 0 && distanceToSqr(target) <= 4.0D) {
+
+            // 当接近目标时设置冲锋状态（触手弯曲动画）
+            double distSqr = distanceToSqr(target);
+            if (distSqr <= 16.0D) {
+                entityData.set(YELLOWEYE_CHARGING, true);
+            } else {
+                entityData.set(YELLOWEYE_CHARGING, false);
+            }
+
+            if (secondaryCooldown <= 0 && distSqr <= 4.0D) {
                 doHurtTarget(target);
                 secondaryCooldown = 20;
             }
+        }
+
+        @Override
+        public void stop() {
+            entityData.set(YELLOWEYE_CHARGING, false);
         }
     }
 
