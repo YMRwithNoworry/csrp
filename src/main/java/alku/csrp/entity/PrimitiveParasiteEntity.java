@@ -6,6 +6,7 @@ import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
 import alku.csrp.world.EvolutionSystem;
 import net.minecraft.core.Holder;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -262,7 +263,22 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
 
     @Override
     public boolean doHurtTarget(Entity target) {
-        return !(target instanceof Parasite) && super.doHurtTarget(target);
+        boolean hit = !(target instanceof Parasite) && super.doHurtTarget(target);
+        if (hit) {
+            spawnAttackParticles(target);
+        }
+        return hit;
+    }
+
+    protected final void spawnAttackParticles(Entity target) {
+        if (!(level() instanceof ServerLevel serverLevel)) {
+            return;
+        }
+        serverLevel.sendParticles(ParticleTypes.CRIT, target.getX(), target.getY() + target.getBbHeight() * 0.55D,
+                target.getZ(), 8, target.getBbWidth() * 0.35D, target.getBbHeight() * 0.25D,
+                target.getBbWidth() * 0.35D, 0.08D);
+        serverLevel.sendParticles(ParticleTypes.SWEEP_ATTACK, getX(), getY() + getBbHeight() * 0.5D, getZ(),
+                1, 0.0D, 0.0D, 0.0D, 0.0D);
     }
 
     protected int incomingDamageCapDivisor() {

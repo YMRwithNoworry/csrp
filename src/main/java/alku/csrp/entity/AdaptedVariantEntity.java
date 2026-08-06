@@ -546,6 +546,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
         if (!hit) {
             return false;
         }
+        if (activeKind == Kind.BOLSTER || activeKind == Kind.MANDUCATER || activeKind == Kind.LONGARMS) {
+            spawnAttackParticles(target);
+        }
         triggerAnim("bolster_attack_controller", "attack");
 
         // 更新 Manducater 攻击状态
