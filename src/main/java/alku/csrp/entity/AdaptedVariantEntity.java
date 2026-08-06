@@ -79,6 +79,8 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
             AdaptedVariantEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> SUMMONER_CASTING = SynchedEntityData.defineId(
             AdaptedVariantEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> SUMMONER_STATUS = SynchedEntityData.defineId(
+            AdaptedVariantEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> MANDUCATER_STATUS = SynchedEntityData.defineId(
             AdaptedVariantEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> MANDUCATER_STILL_ANI = SynchedEntityData.defineId(
@@ -113,6 +115,12 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
             "walk.get_parasite_status_2");
     private final RawAnimation SUMMONER_CAST = ParasiteAnimations.loop(this,
             "idle.get_parasite_status_10");
+    private final RawAnimation SUMMONER_ATTACK = ParasiteAnimations.loop(this,
+            "walk.get_parasite_status_1");
+    private final RawAnimation SUMMONER_VOMIT = ParasiteAnimations.loop(this,
+            "idle.get_parasite_status_100");
+    private final RawAnimation SUMMONER_SPECIAL = ParasiteAnimations.loop(this,
+            "idle.get_parasite_status_25");
     private final RawAnimation MANDUCATER_ATTACK = ParasiteAnimations.loop(this,
             "walk.get_parasite_status_1");
     private final RawAnimation MANDUCATER_SUMMON = ParasiteAnimations.loop(this,
@@ -344,6 +352,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
         builder.define(REEKER_PULLING, 0);
         builder.define(REEKER_STILL_ANI, false);
         builder.define(SUMMONER_CASTING, false);
+        builder.define(SUMMONER_STATUS, 0);
         builder.define(MANDUCATER_STATUS, 0);
         builder.define(MANDUCATER_STILL_ANI, false);
         builder.define(YELLOWEYE_CHARGING, false);
@@ -474,6 +483,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
         if (activeKind == Kind.MANDUCATER) {
             tickManducater();
         }
+        if (activeKind == Kind.SUMMONER) {
+            tickSummoner();
+        }
     }
 
     @Override
@@ -540,6 +552,11 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
         if (activeKind == Kind.MANDUCATER) {
             setManducaterStatus(1);
             entityData.set(MANDUCATER_STILL_ANI, false);
+        }
+
+        // 更新 Summoner 攻击状态
+        if (activeKind == Kind.SUMMONER) {
+            setSummonerStatus(1);
         }
 
         switch (activeKind) {
@@ -665,6 +682,12 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
             tag.putInt("reeker_pulling_cooldown", reekerPullingCooldown);
             tag.putInt("reeker_ability_cooldown", abilityCooldown);
         }
+        if (activeKind() == Kind.SUMMONER) {
+            tag.putBoolean("summoner_casting", entityData.get(SUMMONER_CASTING));
+            tag.putInt("summoner_status", entityData.get(SUMMONER_STATUS));
+            tag.putInt("summoner_ability_cooldown", abilityCooldown);
+            tag.putInt("summoner_secondary_cooldown", secondaryCooldown);
+        }
     }
 
     @Override
@@ -708,6 +731,12 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
             entityData.set(REEKER_STILL_ANI, tag.getBoolean("reeker_still_ani"));
             reekerPullingCooldown = tag.getInt("reeker_pulling_cooldown");
             abilityCooldown = tag.getInt("reeker_ability_cooldown");
+        }
+        if (activeKind() == Kind.SUMMONER) {
+            entityData.set(SUMMONER_CASTING, tag.getBoolean("summoner_casting"));
+            entityData.set(SUMMONER_STATUS, tag.getInt("summoner_status"));
+            abilityCooldown = tag.getInt("summoner_ability_cooldown");
+            secondaryCooldown = tag.getInt("summoner_secondary_cooldown");
         }
     }
 
@@ -800,6 +829,27 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
         }
         if (kind == Kind.SUMMONER && entityData.get(SUMMONER_CASTING)) {
             return state.setAndContinue(SUMMONER_CAST);
+        }
+        if (kind == Kind.SUMMONER) {
+            int status = getSummonerStatus();
+            // 状态 100: 呕吐动画（呕吐粒子效果）
+            if (status == 100) {
+                return state.setAndContinue(SUMMONER_VOMIT);
+            }
+            // 状态 25: 特殊震动状态
+            if (status == 25) {
+                return state.setAndContinue(SUMMONER_SPECIAL);
+            }
+            // 状态 10: 召唤动画（已通过 SUMMONER_CASTING 处理）
+            // 状态 1: 攻击状态（嘴部张开）
+            if (status == 1 && getDeltaMovement().horizontalDistanceSqr() >= 0.0001) {
+                return state.setAndContinue(SUMMONER_ATTACK);
+            }
+            // 状态 0 或 2: 默认移动
+            if (getDeltaMovement().horizontalDistanceSqr() < 0.0001) {
+                return state.setAndContinue(IDLE);
+            }
+            return state.setAndContinue(status == 2 || getDeltaMovement().horizontalDistanceSqr() > 0.02D ? RUN : WALK);
         }
         if (kind == Kind.MANDUCATER) {
             int status = getManducaterStatus();
@@ -1166,6 +1216,24 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
 
     private void setManducaterStatus(int status) {
         entityData.set(MANDUCATER_STATUS, status);
+    }
+
+    public int getSummonerStatus() {
+        return entityData.get(SUMMONER_STATUS);
+    }
+
+    private void setSummonerStatus(int status) {
+        entityData.set(SUMMONER_STATUS, status);
+    }
+
+    private void tickSummoner() {
+        // 自动恢复到默认状态
+        if (tickCount % 20 == 0) {
+            int status = getSummonerStatus();
+            if (status == 1 || status == 25 || status == 100) {
+                setSummonerStatus(0);
+            }
+        }
     }
 
     private void breakSoftBlockTowards(LivingEntity target) {
@@ -1863,6 +1931,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
 
     private final class SummonGoal extends Goal {
         private int castTicks;
+        private int spawnCount;
+        private static final int CAST_DURATION = 80;
+        private static final int SPAWN_INTERVAL = 20;
 
         private SummonGoal() {
             setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
@@ -1875,31 +1946,46 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
 
         @Override
         public boolean canContinueToUse() {
-            return castTicks < 40 && getTarget() != null;
+            return castTicks < CAST_DURATION && getTarget() != null;
         }
 
         @Override
         public void start() {
             castTicks = 0;
+            spawnCount = 0;
             getNavigation().stop();
             entityData.set(SUMMONER_CASTING, true);
+            setSummonerStatus(10);
+            playSound(ModSounds.get("adapted.v"), 2.0F, 0.7F + random.nextFloat() * 0.3F);
         }
 
         @Override
         public void tick() {
-            if (++castTicks == 30) {
+            castTicks++;
+            LivingEntity target = getTarget();
+            if (target != null) {
+                getLookControl().setLookAt(target, 30.0F, 30.0F);
+            }
+
+            // 每20 ticks召唤一波寄生体
+            if (castTicks >= 20 && castTicks % SPAWN_INTERVAL == 0 && spawnCount < 3) {
                 summonPrimitiveMinions();
+                spawnCount++;
+                playSound(ModSounds.get("mob.shoot"), 1.5F, 0.8F + random.nextFloat() * 0.4F);
             }
         }
 
         @Override
         public void stop() {
             entityData.set(SUMMONER_CASTING, false);
+            setSummonerStatus(0);
             abilityCooldown = 360;
         }
     }
 
     private final class VomitGoal extends Goal {
+        private int vomitTicks;
+
         private VomitGoal() {
             setFlags(EnumSet.of(Flag.LOOK));
         }
@@ -1913,7 +1999,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
 
         @Override
         public boolean canContinueToUse() {
-            return false;
+            return vomitTicks < 40;
         }
 
         @Override
@@ -1922,10 +2008,46 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
             if (target == null) {
                 return;
             }
+            vomitTicks = 0;
             getLookControl().setLookAt(target, 30.0F, 30.0F);
-            fireProjectile(target, ParasiteProjectileEntity.Mode.VOMIT, 0.75D, 9.0F, 2.4D, 90);
-            triggerAttackAnimation();
+            setSummonerStatus(100);
+            playSound(ModSounds.get("adapted.v"), 2.0F, 0.8F + random.nextFloat() * 0.2F);
+        }
+
+        @Override
+        public void tick() {
+            vomitTicks++;
+            LivingEntity target = getTarget();
+            if (target != null) {
+                getLookControl().setLookAt(target, 30.0F, 30.0F);
+            }
+
+            // 在第15 tick发射投射物
+            if (vomitTicks == 15 && target != null) {
+                fireProjectile(target, ParasiteProjectileEntity.Mode.VOMIT, 0.75D, 9.0F, 2.4D, 90);
+                triggerAnim("bolster_attack_controller", "attack");
+            }
+
+            // 呕吐粒子效果
+            if (level().isClientSide && vomitTicks <= 40) {
+                for (int i = 0; i < 2; i++) {
+                    double offsetX = (random.nextDouble() - 0.5D) * 0.5D;
+                    double offsetY = getBbHeight() * 0.7D;
+                    double offsetZ = (random.nextDouble() - 0.5D) * 0.5D;
+                    level().addParticle(ParticleTypes.ITEM_SLIME,
+                            getX() + offsetX, getY() + offsetY, getZ() + offsetZ,
+                            (random.nextDouble() - 0.5D) * 0.1D,
+                            random.nextDouble() * 0.1D,
+                            (random.nextDouble() - 0.5D) * 0.1D);
+                }
+            }
+        }
+
+        @Override
+        public void stop() {
+            setSummonerStatus(0);
             secondaryCooldown = 100;
+            vomitTicks = 0;
         }
     }
 
