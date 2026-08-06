@@ -1,1 +1,361 @@
-{"format_version":"1.8.0","animations":{"animation.sim_cowhead.idle":{"loop":true,"animation_length":6.133333,"bones":{"hair_jointR1":{"rotation":["(-1*((math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05)*57.29577951308232))",0,0]},"hair_jointL6":{"rotation":["(-1*((-1*(math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05))*57.29577951308232))",0,0]},"hair_jointR6":{"rotation":["(-1*((math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05)*57.29577951308232))",0,0]},"hair_jointR3":{"rotation":["(-1*((math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05)*57.29577951308232))",0,0]},"hair_jointL4":{"rotation":["(-1*((-1*(math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05))*57.29577951308232))",0,0]},"hair_jointL5":{"rotation":["(-1*((-1*(math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05))*57.29577951308232))",0,0]},"hair_jointR4":{"rotation":["(-1*((math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05)*57.29577951308232))",0,0]},"hair_jointR5":{"rotation":["(-1*((math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05)*57.29577951308232))",0,0]},"hair_jointR2":{"rotation":["(-1*((math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05)*57.29577951308232))",0,0]},"hair_jointL1":{"rotation":["(-1*((-1*(math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05))*57.29577951308232))",0,0]},"jointM":{"rotation":["(-1*((math.cos((((query.anim_time*20)*0.2)*57.29577951308232))*0.1)*57.29577951308232))",0,0]},"hair_jointL2":{"rotation":["(-1*((-1*(math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05))*57.29577951308232))",0,0]},"hair_jointL3":{"rotation":["(-1*((-1*(math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05))*57.29577951308232))",0,0]}}},"animation.sim_cowhead.walk":{"loop":true,"animation_length":6.533333,"bones":{"hair_jointR1":{"rotation":["(-1*((math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05)*57.29577951308232))",0,0]},"jointFLLY":{"rotation":[0,0,"((-1*((0.4*math.cos(((((query.anim_time*20)*0.48)+1)*57.29577951308232)))*57.29577951308232))+((query.anim_time>=6.033333)?((3.031808*((((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5))*((query.anim_time-6.033333)/0.5)))+(-0.95653*(((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5)))):0))"]},"hair_jointL6":{"rotation":["(-1*((-1*(math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05))*57.29577951308232))",0,0]},"jointMLLX":{"rotation":[0,"(((-0.6000000000000001*math.cos(((((query.anim_time*20)*0.48)+-0.2)*57.29577951308232)))*57.29577951308232)+((query.anim_time>=6.033333)?((19.716893*((((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5))*((query.anim_time-6.033333)/0.5)))+(-20.689807*(((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5)))):0))",0]},"hair_jointR6":{"rotation":["(-1*((math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05)*57.29577951308232))",0,0]},"hair_jointR3":{"rotation":["(-1*((math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05)*57.29577951308232))",0,0]},"hair_jointL4":{"rotation":["(-1*((-1*(math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05))*57.29577951308232))",0,0]},"jointBRLX":{"rotation":[0,"(((0.6000000000000001*math.cos(((((query.anim_time*20)*0.48)+-0.2)*57.29577951308232)))*57.29577951308232)+((query.anim_time>=6.033333)?((-19.716893*((((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5))*((query.anim_time-6.033333)/0.5)))+(20.689807*(((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5)))):0))",0]},"jointMRLX":{"rotation":[0,"(((-0.6000000000000001*math.cos(((((query.anim_time*20)*0.48)+-0.2)*57.29577951308232)))*57.29577951308232)+((query.anim_time>=6.033333)?((19.716893*((((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5))*((query.anim_time-6.033333)/0.5)))+(-20.689807*(((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5)))):0))",0]},"hair_jointL5":{"rotation":["(-1*((-1*(math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05))*57.29577951308232))",0,0]},"jointMLLY":{"rotation":[0,0,"((-1*((-0.4*math.cos(((((query.anim_time*20)*0.48)+1)*57.29577951308232)))*57.29577951308232))+((query.anim_time>=6.033333)?((-3.031808*((((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5))*((query.anim_time-6.033333)/0.5)))+(0.95653*(((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5)))):0))"]},"hair_jointR4":{"rotation":["(-1*((math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05)*57.29577951308232))",0,0]},"hair_jointR5":{"rotation":["(-1*((math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05)*57.29577951308232))",0,0]},"hair_jointR2":{"rotation":["(-1*((math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05)*57.29577951308232))",0,0]},"hair_jointL1":{"rotation":["(-1*((-1*(math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05))*57.29577951308232))",0,0]},"jointFRLY":{"rotation":[0,0,"((-1*((-0.4*math.cos(((((query.anim_time*20)*0.48)+1)*57.29577951308232)))*57.29577951308232))+((query.anim_time>=6.033333)?((-3.031808*((((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5))*((query.anim_time-6.033333)/0.5)))+(0.95653*(((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5)))):0))"]},"jointM":{"rotation":["((-1*((math.cos((((query.anim_time*20)*0.2)*57.29577951308232))*0.1)*57.29577951308232))+((query.anim_time>=6.033333)?((-4.365614*((((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5))*((query.anim_time-6.033333)/0.5)))+(1.728892*(((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5)))):0))",0,0]},"mainbody":{"position":[0,"(-1*(math.cos((((query.anim_time*20)*0.96)*57.29577951308232))*0.02))",0]},"jointFRLX":{"rotation":[0,"(((0.6000000000000001*math.cos(((((query.anim_time*20)*0.48)+-0.2)*57.29577951308232)))*57.29577951308232)+((query.anim_time>=6.033333)?((-19.716893*((((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5))*((query.anim_time-6.033333)/0.5)))+(20.689807*(((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5)))):0))",0]},"jointMRLY":{"rotation":[0,0,"((-1*((0.4*math.cos(((((query.anim_time*20)*0.48)+1)*57.29577951308232)))*57.29577951308232))+((query.anim_time>=6.033333)?((3.031808*((((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5))*((query.anim_time-6.033333)/0.5)))+(-0.95653*(((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5)))):0))"]},"jointBLLY":{"rotation":[0,0,"((-1*((0.4*math.cos(((((query.anim_time*20)*0.48)+1)*57.29577951308232)))*57.29577951308232))+((query.anim_time>=6.033333)?((3.031808*((((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5))*((query.anim_time-6.033333)/0.5)))+(-0.95653*(((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5)))):0))"]},"jointFLLX":{"rotation":[0,"(((0.6000000000000001*math.cos(((((query.anim_time*20)*0.48)+-0.2)*57.29577951308232)))*57.29577951308232)+((query.anim_time>=6.033333)?((-19.716893*((((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5))*((query.anim_time-6.033333)/0.5)))+(20.689807*(((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5)))):0))",0]},"jointBRLY":{"rotation":[0,0,"((-1*((-0.4*math.cos(((((query.anim_time*20)*0.48)+1)*57.29577951308232)))*57.29577951308232))+((query.anim_time>=6.033333)?((-3.031808*((((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5))*((query.anim_time-6.033333)/0.5)))+(0.95653*(((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5)))):0))"]},"hair_jointL2":{"rotation":["(-1*((-1*(math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05))*57.29577951308232))",0,0]},"hair_jointL3":{"rotation":["(-1*((-1*(math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05))*57.29577951308232))",0,0]},"jointBLLX":{"rotation":[0,"(((0.6000000000000001*math.cos(((((query.anim_time*20)*0.48)+-0.2)*57.29577951308232)))*57.29577951308232)+((query.anim_time>=6.033333)?((-19.716893*((((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5))*((query.anim_time-6.033333)/0.5)))+(20.689807*(((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5)))):0))",0]}}},"animation.sim_cowhead.attack":{"loop":true,"animation_length":6.533333,"bones":{"hair_jointR1":{"rotation":["(-1*((math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05)*57.29577951308232))",0,0]},"jointFLLY":{"rotation":[0,0,"((-1*((0.4*math.cos(((((query.anim_time*16)*0.48)+1)*57.29577951308232)))*57.29577951308232))+((query.anim_time>=6.033333)?((1.185477*((((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5))*((query.anim_time-6.033333)/0.5)))+(0.488403*(((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5)))):0))"]},"hair_jointL6":{"rotation":["(-1*((-1*(math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05))*57.29577951308232))",0,0]},"jointMLLX":{"rotation":[0,"((-0.6000000000000001*math.cos(((((query.anim_time*16)*0.48)+-0.2)*57.29577951308232)))*57.29577951308232)",0]},"hair_jointR6":{"rotation":["(-1*((math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05)*57.29577951308232))",0,0]},"hair_jointR3":{"rotation":["(-1*((math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05)*57.29577951308232))",0,0]},"hair_jointL4":{"rotation":["(-1*((-1*(math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05))*57.29577951308232))",0,0]},"jointBRLX":{"rotation":[0,"((0.6000000000000001*math.cos(((((query.anim_time*16)*0.48)+-0.2)*57.29577951308232)))*57.29577951308232)",0]},"jointMRLX":{"rotation":[0,"((-0.6000000000000001*math.cos(((((query.anim_time*16)*0.48)+-0.2)*57.29577951308232)))*57.29577951308232)",0]},"hair_jointL5":{"rotation":["(-1*((-1*(math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05))*57.29577951308232))",0,0]},"jointMLLY":{"rotation":[0,0,"((-1*((-0.4*math.cos(((((query.anim_time*16)*0.48)+1)*57.29577951308232)))*57.29577951308232))+((query.anim_time>=6.033333)?((-1.185477*((((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5))*((query.anim_time-6.033333)/0.5)))+(-0.488403*(((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5)))):0))"]},"hair_jointR4":{"rotation":["(-1*((math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05)*57.29577951308232))",0,0]},"hair_jointR5":{"rotation":["(-1*((math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05)*57.29577951308232))",0,0]},"hair_jointR2":{"rotation":["(-1*((math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05)*57.29577951308232))",0,0]},"hair_jointL1":{"rotation":["(-1*((-1*(math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05))*57.29577951308232))",0,0]},"jointFRLY":{"rotation":[0,0,"((-1*((-0.4*math.cos(((((query.anim_time*16)*0.48)+1)*57.29577951308232)))*57.29577951308232))+((query.anim_time>=6.033333)?((-1.185477*((((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5))*((query.anim_time-6.033333)/0.5)))+(-0.488403*(((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5)))):0))"]},"jointM":{"rotation":["((-1*((math.cos((((query.anim_time*20)*0.2)*57.29577951308232))*0.1)*57.29577951308232))+((query.anim_time>=6.033333)?((-4.365614*((((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5))*((query.anim_time-6.033333)/0.5)))+(1.728892*(((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5)))):0))",0,0]},"mainbody":{"position":[0,"(-1*(math.cos((((query.anim_time*16)*0.96)*57.29577951308232))*0.02))",0]},"jointFRLX":{"rotation":[0,"((0.6000000000000001*math.cos(((((query.anim_time*16)*0.48)+-0.2)*57.29577951308232)))*57.29577951308232)",0]},"jointMRLY":{"rotation":[0,0,"((-1*((0.4*math.cos(((((query.anim_time*16)*0.48)+1)*57.29577951308232)))*57.29577951308232))+((query.anim_time>=6.033333)?((1.185477*((((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5))*((query.anim_time-6.033333)/0.5)))+(0.488403*(((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5)))):0))"]},"jointBLLY":{"rotation":[0,0,"((-1*((0.4*math.cos(((((query.anim_time*16)*0.48)+1)*57.29577951308232)))*57.29577951308232))+((query.anim_time>=6.033333)?((1.185477*((((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5))*((query.anim_time-6.033333)/0.5)))+(0.488403*(((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5)))):0))"]},"jointFLLX":{"rotation":[0,"((0.6000000000000001*math.cos(((((query.anim_time*16)*0.48)+-0.2)*57.29577951308232)))*57.29577951308232)",0]},"jointBRLY":{"rotation":[0,0,"((-1*((-0.4*math.cos(((((query.anim_time*16)*0.48)+1)*57.29577951308232)))*57.29577951308232))+((query.anim_time>=6.033333)?((-1.185477*((((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5))*((query.anim_time-6.033333)/0.5)))+(-0.488403*(((query.anim_time-6.033333)/0.5)*((query.anim_time-6.033333)/0.5)))):0))"]},"hair_jointL2":{"rotation":["(-1*((-1*(math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05))*57.29577951308232))",0,0]},"hair_jointL3":{"rotation":["(-1*((-1*(math.cos((((query.anim_time*20)*0.1)*57.29577951308232))*0.05))*57.29577951308232))",0,0]},"jointBLLX":{"rotation":[0,"((0.6000000000000001*math.cos(((((query.anim_time*16)*0.48)+-0.2)*57.29577951308232)))*57.29577951308232)",0]}}},"animation.sim_cowhead.idle.get_parasite_status_1":{"loop":true,"animation_length":5.066667,"bones":{"hair_jointR1":{"rotation":["(-1*((math.cos((((query.anim_time*20)*0.8)*57.29577951308232))*0.08)*57.29577951308232))",0,0]},"hair_jointL6":{"rotation":["(-1*((-1*(math.cos((((query.anim_time*20)*0.8)*57.29577951308232))*0.08))*57.29577951308232))",0,0]},"hair_jointR6":{"rotation":["(-1*((math.cos((((query.anim_time*20)*0.8)*57.29577951308232))*0.08)*57.29577951308232))",0,0]},"hair_jointR3":{"rotation":["(-1*((math.cos((((query.anim_time*20)*0.8)*57.29577951308232))*0.08)*57.29577951308232))",0,0]},"hair_jointL4":{"rotation":["(-1*((-1*(math.cos((((query.anim_time*20)*0.8)*57.29577951308232))*0.08))*57.29577951308232))",0,0]},"hair_jointL5":{"rotation":["(-1*((-1*(math.cos((((query.anim_time*20)*0.8)*57.29577951308232))*0.08))*57.29577951308232))",0,0]},"hair_jointR4":{"rotation":["(-1*((math.cos((((query.anim_time*20)*0.8)*57.29577951308232))*0.08)*57.29577951308232))",0,0]},"hair_jointR5":{"rotation":["(-1*((math.cos((((query.anim_time*20)*0.8)*57.29577951308232))*0.08)*57.29577951308232))",0,0]},"hair_jointR2":{"rotation":["(-1*((math.cos((((query.anim_time*20)*0.8)*57.29577951308232))*0.08)*57.29577951308232))",0,0]},"hair_jointL1":{"rotation":["(-1*((-1*(math.cos((((query.anim_time*20)*0.8)*57.29577951308232))*0.08))*57.29577951308232))",0,0]},"jointM":{"rotation":["(-1*((math.cos((((query.anim_time*20)*0.5)*57.29577951308232))*0.2)*57.29577951308232))",0,0]},"hair_jointL2":{"rotation":["(-1*((-1*(math.cos((((query.anim_time*20)*0.8)*57.29577951308232))*0.08))*57.29577951308232))",0,0]},"hair_jointL3":{"rotation":["(-1*((-1*(math.cos((((query.anim_time*20)*0.8)*57.29577951308232))*0.08))*57.29577951308232))",0,0]}}},"animation.sim_cowhead.walk.get_parasite_status_1":{"loop":true,"animation_length":6.283333,"bones":{"hair_jointR1":{"rotation":["(-1*((math.cos((((query.anim_time*20)*0.8)*57.29577951308232))*0.08)*57.29577951308232))",0,0]},"jointFLLY":{"rotation":[0,0,"(-1*((0.5*math.cos(((((query.anim_time*20)*0.6)+1)*57.29577951308232)))*57.29577951308232))"]},"hair_jointL6":{"rotation":["(-1*((-1*(math.cos((((query.anim_time*20)*0.8)*57.29577951308232))*0.08))*57.29577951308232))",0,0]},"jointMLLX":{"rotation":[0,"((-0.75*math.cos(((((query.anim_time*20)*0.6)+-0.2)*57.29577951308232)))*57.29577951308232)",0]},"hair_jointR6":{"rotation":["(-1*((math.cos((((query.anim_time*20)*0.8)*57.29577951308232))*0.08)*57.29577951308232))",0,0]},"hair_jointR3":{"rotation":["(-1*((math.cos((((query.anim_time*20)*0.8)*57.29577951308232))*0.08)*57.29577951308232))",0,0]},"hair_jointL4":{"rotation":["(-1*((-1*(math.cos((((query.anim_time*20)*0.8)*57.29577951308232))*0.08))*57.29577951308232))",0,0]},"jointBRLX":{"rotation":[0,"((0.75*math.cos(((((query.anim_time*20)*0.6)+-0.2)*57.29577951308232)))*57.29577951308232)",0]},"jointMRLX":{"rotation":[0,"((-0.75*math.cos(((((query.anim_time*20)*0.6)+-0.2)*57.29577951308232)))*57.29577951308232)",0]},"hair_jointL5":{"rotation":["(-1*((-1*(math.cos((((query.anim_time*20)*0.8)*57.29577951308232))*0.08))*57.29577951308232))",0,0]},"jointMLLY":{"rotation":[0,0,"(-1*((-0.5*math.cos(((((query.anim_time*20)*0.6)+1)*57.29577951308232)))*57.29577951308232))"]},"hair_jointR4":{"rotation":["(-1*((math.cos((((query.anim_time*20)*0.8)*57.29577951308232))*0.08)*57.29577951308232))",0,0]},"hair_jointR5":{"rotation":["(-1*((math.cos((((query.anim_time*20)*0.8)*57.29577951308232))*0.08)*57.29577951308232))",0,0]},"hair_jointR2":{"rotation":["(-1*((math.cos((((query.anim_time*20)*0.8)*57.29577951308232))*0.08)*57.29577951308232))",0,0]},"hair_jointL1":{"rotation":["(-1*((-1*(math.cos((((query.anim_time*20)*0.8)*57.29577951308232))*0.08))*57.29577951308232))",0,0]},"jointFRLY":{"rotation":[0,0,"(-1*((-0.5*math.cos(((((query.anim_time*20)*0.6)+1)*57.29577951308232)))*57.29577951308232))"]},"jointM":{"rotation":["(-1*((math.cos((((query.anim_time*20)*0.5)*57.29577951308232))*0.2)*57.29577951308232))",0,0]},"mainbody":{"position":[0,"(-1*(math.cos((((query.anim_time*20)*1.2)*57.29577951308232))*0.02))",0]},"jointFRLX":{"rotation":[0,"((0.75*math.cos(((((query.anim_time*20)*0.6)+-0.2)*57.29577951308232)))*57.29577951308232)",0]},"jointMRLY":{"rotation":[0,0,"(-1*((0.5*math.cos(((((query.anim_time*20)*0.6)+1)*57.29577951308232)))*57.29577951308232))"]},"jointBLLY":{"rotation":[0,0,"(-1*((0.5*math.cos(((((query.anim_time*20)*0.6)+1)*57.29577951308232)))*57.29577951308232))"]},"jointFLLX":{"rotation":[0,"((0.75*math.cos(((((query.anim_time*20)*0.6)+-0.2)*57.29577951308232)))*57.29577951308232)",0]},"jointBRLY":{"rotation":[0,0,"(-1*((-0.5*math.cos(((((query.anim_time*20)*0.6)+1)*57.29577951308232)))*57.29577951308232))"]},"hair_jointL2":{"rotation":["(-1*((-1*(math.cos((((query.anim_time*20)*0.8)*57.29577951308232))*0.08))*57.29577951308232))",0,0]},"hair_jointL3":{"rotation":["(-1*((-1*(math.cos((((query.anim_time*20)*0.8)*57.29577951308232))*0.08))*57.29577951308232))",0,0]},"jointBLLX":{"rotation":[0,"((0.75*math.cos(((((query.anim_time*20)*0.6)+-0.2)*57.29577951308232)))*57.29577951308232)",0]}}},"animation.sim_cowhead.idle.get_parasite_status_3":{"loop":true,"animation_length":4,"bones":{}},"animation.sim_cowhead.idle.get_parasite_status_10":{"loop":true,"animation_length":4.183333,"bones":{"jointFLLY":{"rotation":[0,0,"(-1*((0.4+(math.cos((((query.anim_time*20)*0.9)*57.29577951308232))*0.4))*57.29577951308232))"]},"jointFRL1":{"rotation":[0,0,"(-1*((0.5+((math.cos((((query.anim_time*20)*0.9)*57.29577951308232))*0.4)*0.5))*57.29577951308232))"]},"jointMLLY":{"rotation":[0,0,"(-1*((0.5+(-1*(math.cos((((query.anim_time*20)*0.9)*57.29577951308232))*0.4)))*57.29577951308232))"]},"jointFRLY":{"rotation":[0,0,"(-1*((0.4+(math.cos((((query.anim_time*20)*0.9)*57.29577951308232))*0.4))*57.29577951308232))"]},"mainbody":{"rotation":[51.56620156177409,0,0]},"jointMRLY":{"rotation":[0,0,"(-1*((0.5+(-1*(math.cos((((query.anim_time*20)*0.9)*57.29577951308232))*0.4)))*57.29577951308232))"]},"jointBLLY":{"rotation":[0,0,"(-1*(((math.cos((((query.anim_time*20)*0.9)*57.29577951308232))*0.4)*1.2)*57.29577951308232))"]},"jointBRLY":{"rotation":[0,0,"(-1*(((math.cos((((query.anim_time*20)*0.9)*57.29577951308232))*0.4)*1.2)*57.29577951308232))"]},"jointFLL1":{"rotation":[0,0,"(-1*((0.5+((math.cos((((query.anim_time*20)*0.9)*57.29577951308232))*0.4)*0.5))*57.29577951308232))"]}}}}}
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"idle": {
+			"loop": true,
+			"animation_length": 1.84,
+			"bones": {
+				"mouth": {
+					"rotation": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"1.0": {
+							"post": [22.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"1.84": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"hair": {
+					"rotation": {
+						"0.0": {
+							"post": [12.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.92": {
+							"post": [-12.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"1.84": {
+							"post": [12.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"hair_3": {
+					"rotation": {
+						"0.0": {
+							"post": [-15, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"1.12": {
+							"post": [5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"1.84": {
+							"post": [-15, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"hair_7": {
+					"rotation": {
+						"0.0": {
+							"post": [-20, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"1.04": {
+							"post": [7.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"1.84": {
+							"post": [-20, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"hair_10": {
+					"rotation": {
+						"0.0": {
+							"post": [-17.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"1.2": {
+							"post": [5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"1.84": {
+							"post": [-17.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"bone": {
+					"rotation": {
+						"0.0": {
+							"post": [0, -7.5, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.88": {
+							"post": [0, 7.5, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"1.84": {
+							"post": [0, -7.5, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				}
+			}
+		},
+		"walk": {
+			"loop": true,
+			"animation_length": 0.3005,
+			"bones": {
+				"leg_8": {
+					"rotation": {
+						"0.0": {
+							"post": [-13.4299, 14.9589, -1.7713],
+							"lerp_mode": "catmullrom"
+						},
+						"0.0751": {
+							"post": [8.5779, -9.0844, -10.7208],
+							"lerp_mode": "catmullrom"
+						},
+						"0.169": {
+							"post": [8.5779, -9.0844, 1.7792],
+							"lerp_mode": "catmullrom"
+						},
+						"0.3005": {
+							"post": [-13.4299, 14.9589, -1.7713],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"mouth": {
+					"rotation": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.1127": {
+							"post": [15, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.3005": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"hair": {
+					"rotation": {
+						"0.0": {
+							"post": [-17.0191, -7.4976, 6.2855],
+							"lerp_mode": "catmullrom"
+						},
+						"0.1502": {
+							"post": [17.6859, 10.1604, -3.9184],
+							"lerp_mode": "catmullrom"
+						},
+						"0.3005": {
+							"post": [-17.0191, -7.4976, 6.2855],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"hair_3": {
+					"rotation": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.1878": {
+							"post": [-14.8514, 0.61, -9.3442],
+							"lerp_mode": "catmullrom"
+						},
+						"0.3005": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"hair_7": {
+					"rotation": {
+						"0.0": {
+							"post": [15.5452, -8.8331, 3.6117],
+							"lerp_mode": "catmullrom"
+						},
+						"0.1502": {
+							"post": [-4.6856, 2.313, -1.5179],
+							"lerp_mode": "catmullrom"
+						},
+						"0.3005": {
+							"post": [15.5452, -8.8331, 3.6117],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"hair_10": {
+					"rotation": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.2066": {
+							"post": [-19.0279, -0.3159, 12.1126],
+							"lerp_mode": "catmullrom"
+						},
+						"0.3005": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"bone": {
+					"rotation": {
+						"0.0": {
+							"post": [-7.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.0751": {
+							"post": [-20.911, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.1502": {
+							"post": [-7.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.2254": {
+							"post": [-20.911, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.3005": {
+							"post": [-7.5, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"leg_20": {
+					"rotation": {
+						"0.0": {
+							"post": [-13.4299, -14.9589, 1.7713],
+							"lerp_mode": "catmullrom"
+						},
+						"0.0751": {
+							"post": [8.5779, 9.0844, 10.7208],
+							"lerp_mode": "catmullrom"
+						},
+						"0.169": {
+							"post": [8.5779, 9.0844, -1.7792],
+							"lerp_mode": "catmullrom"
+						},
+						"0.3005": {
+							"post": [-13.4299, -14.9589, 1.7713],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"leg_12": {
+					"rotation": {
+						"0.0": {
+							"post": [14.9807, 10.9858, 6.2028],
+							"lerp_mode": "catmullrom"
+						},
+						"0.1315": {
+							"post": [-11.2659, -10.2705, -2.6658],
+							"lerp_mode": "catmullrom"
+						},
+						"0.2254": {
+							"post": [1.9909, 1.6524, 15.6664],
+							"lerp_mode": "catmullrom"
+						},
+						"0.3005": {
+							"post": [14.9807, 10.9858, 6.2028],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"leg_4": {
+					"rotation": {
+						"0.0": {
+							"post": [-13.4299, -14.9589, 1.7713],
+							"lerp_mode": "catmullrom"
+						},
+						"0.0751": {
+							"post": [8.5779, 9.0844, 10.7208],
+							"lerp_mode": "catmullrom"
+						},
+						"0.169": {
+							"post": [8.5779, 9.0844, -1.7792],
+							"lerp_mode": "catmullrom"
+						},
+						"0.3005": {
+							"post": [-13.4299, -14.9589, 1.7713],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"leg": {
+					"rotation": {
+						"0.0": {
+							"post": [14.9807, -10.9858, -6.2028],
+							"lerp_mode": "catmullrom"
+						},
+						"0.1315": {
+							"post": [-11.2659, 10.2705, 2.6658],
+							"lerp_mode": "catmullrom"
+						},
+						"0.2254": {
+							"post": [1.9909, -1.6524, -15.6664],
+							"lerp_mode": "catmullrom"
+						},
+						"0.3005": {
+							"post": [14.9807, -10.9858, -6.2028],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"leg_16": {
+					"rotation": {
+						"0.0": {
+							"post": [14.9807, -10.9858, -6.2028],
+							"lerp_mode": "catmullrom"
+						},
+						"0.1315": {
+							"post": [-11.2659, 10.2705, 2.6658],
+							"lerp_mode": "catmullrom"
+						},
+						"0.2254": {
+							"post": [1.9909, -1.6524, -15.6664],
+							"lerp_mode": "catmullrom"
+						},
+						"0.3005": {
+							"post": [14.9807, -10.9858, -6.2028],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"main": {
+					"position": {
+						"0.0": {
+							"post": [0, -0.25, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.0751": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.169": {
+							"post": [0, -0.25, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.2441": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.3005": {
+							"post": [0, -0.25, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				}
+			}
+		}
+	}
+}
