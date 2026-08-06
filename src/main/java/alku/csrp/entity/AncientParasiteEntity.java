@@ -255,6 +255,10 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
         controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
                 .triggerableAnim("attack", ATTACK));
+        // OVERLORD 的触手动画控制器 - 持续播放的闲置动画
+        if (activeKind() == Kind.OVERLORD) {
+            controllers.add(new AnimationController<>(this, "tentacle_controller", 0, this::tentacleAnimation));
+        }
     }
 
     public Kind getKind() {

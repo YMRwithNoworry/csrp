@@ -58,7 +58,7 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 /** Shared implementation for the legacy adapted parasite tier. */
-public final class AdaptedVariantEntity extends BurrowingVariantEntity {
+public final class AdaptedVariantEntity extends BurrowingVariantEntity implements PullingBallOwner {
     private static final EntityDataAccessor<Integer> BOLSTER_VARIANT = SynchedEntityData.defineId(
             AdaptedVariantEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> BOLSTER_ACTION = SynchedEntityData.defineId(
@@ -1111,15 +1111,11 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
             PullingBallEntity pullingBall = ModEntities.PULLING_BALL.get().create(level());
             if (pullingBall != null) {
                 Vec3 eyePos = getEyePosition();
+                Vec3 targetPos = arachnidaTargetEntity.getEyePosition();
+                Vec3 direction = targetPos.subtract(eyePos).normalize().scale(1.0D);
                 pullingBall.setPos(eyePos.x, eyePos.y, eyePos.z);
                 pullingBall.setOwner(this);
-                pullingBall.shoot(
-                    arachnidaTargetEntity.getX() - eyePos.x,
-                    arachnidaTargetEntity.getEyeY() - eyePos.y,
-                    arachnidaTargetEntity.getZ() - eyePos.z,
-                    1.0F,
-                    0.0F
-                );
+                pullingBall.setDeltaMovement(direction);
                 level().addFreshEntity(pullingBall);
                 playSound(ModSounds.get("mob.shoot"), 1.0F, 1.0F);
             }
@@ -2090,6 +2086,29 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
         public void stop() {
             entityData.set(YELLOWEYE_CHARGING, false);
         }
+    }
+
+    // PullingBallOwner 接口实现
+    @Override
+    public boolean captureTarget(LivingEntity target) {
+        if (activeKind() != Kind.REEKER || target == null || !target.isAlive()) {
+            return false;
+        }
+        // 拉拽目标并施加效果
+        Vec3 pull = position().subtract(target.position());
+        if (pull.lengthSqr() > 0.001D) {
+            pull = pull.normalize().scale(0.5D);
+            target.push(pull.x, 0.15D, pull.z);
+        }
+        target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 3), this);
+        target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 60, 1), this);
+        playSound(ModSounds.get("attack.throw"), 1.0F, 0.8F + random.nextFloat() * 0.4F);
+        return true;
+    }
+
+    @Override
+    public boolean isValidPullTarget(LivingEntity target) {
+        return isValidParasiteTarget(target);
     }
 
     public enum BolsterVariant {
