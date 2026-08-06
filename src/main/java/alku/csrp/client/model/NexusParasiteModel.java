@@ -50,6 +50,13 @@ public final class NexusParasiteModel extends ParasiteGeoModel<NexusParasiteEnti
             case DISPATCHER_SIV -> applyDispatcherIVAnimations(animatable, animationState);
             default -> {}
         }
+        if (kind == NexusParasiteEntity.Kind.DISPATCHER_SI
+                || kind == NexusParasiteEntity.Kind.DISPATCHER_SII
+                || kind == NexusParasiteEntity.Kind.DISPATCHER_SIII
+                || kind == NexusParasiteEntity.Kind.DISPATCHER_SIV) {
+            // Dispatcher head is a standalone `h` bone in the exported models.
+            getBone("h").ifPresent(bone -> bone.setHidden(false));
+        }
     }
 
     /**
