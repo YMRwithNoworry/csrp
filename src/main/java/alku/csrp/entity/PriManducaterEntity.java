@@ -2,14 +2,11 @@ package alku.csrp.entity;
 
 import alku.csrp.Config;
 import alku.csrp.registry.ModMobEffects;
-import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -30,7 +27,6 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -48,7 +44,7 @@ import java.util.EnumSet;
  * PriManducater (EntityHull) - 原始吞噬者
  * 四足寄生体，具有冲刺、拉拽和隐身能力
  */
-public class PriManducaterEntity extends Monster implements GeoEntity, Parasite {
+public class PriManducaterEntity extends PrimitiveParasiteEntity implements GeoEntity {
     private static final String PARASITE_STATUS_NBT_KEY = "parasite_status";
     private static final String ATTACK_COOLDOWN_NBT_KEY = "attack_cooldown";
     private static final String PULLING_NBT_KEY = "pulling";
@@ -326,26 +322,6 @@ public class PriManducaterEntity extends Monster implements GeoEntity, Parasite 
         }
     }
 
-    @Nullable
-    @Override
-    protected SoundEvent getAmbientSound() {
-        return ModSounds.PRIMITIVE_MANDUCATER_LIVING.get();
-    }
-
-    @Override
-    protected SoundEvent getHurtSound(DamageSource source) {
-        return ModSounds.PRIMITIVE_MANDUCATER_HURT.get();
-    }
-
-    @Override
-    protected SoundEvent getDeathSound() {
-        return ModSounds.PRIMITIVE_MANDUCATER_DEATH.get();
-    }
-
-    @Override
-    protected void playStepSound(BlockPos pos, BlockState state) {
-        playSound(ModSounds.PRIMITIVE_MANDUCATER_STEP.get(), 0.15F, 1.0F);
-    }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
@@ -378,7 +354,7 @@ public class PriManducaterEntity extends Monster implements GeoEntity, Parasite 
         }
 
         // Status 0: Idle/Walk - 空闲或行走
-        if (!state.isMoving()) {
+        if (getDeltaMovement().horizontalDistanceSqr() < 0.0001) {
             return state.setAndContinue(IDLE);
         }
 
