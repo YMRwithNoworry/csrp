@@ -93,13 +93,6 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
     private int chargeCooldown;
     private int meltTicks;
 
-    // 固化机制相关字段
-    private static final String SURVIVAL_TIME_TAG = "survival_time";
-    private static final int PETRIFICATION_TIME_TICKS = 24000; // 20分钟
-    private static final int PETRIFICATION_KILL_THRESHOLD = 30; // 低于转变阈值60
-    private static final int PETRIFICATION_CHECK_INTERVAL = 100; // 每5秒检查一次
-    private int survivalTicks;
-
     public AssimilatedParasiteEntity(EntityType<? extends AssimilatedParasiteEntity> type, Level level, Kind kind) {
         super(type, level);
         this.kind = kind;
@@ -166,11 +159,6 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
             setDeltaMovement(getDeltaMovement().add(0.0D, -0.02D, 0.0D));
         }
 
-        // 固化机制检查
-        if (tickCount % PETRIFICATION_CHECK_INTERVAL == 0) {
-            survivalTicks += PETRIFICATION_CHECK_INTERVAL;
-            checkPetrification();
-        }
     }
 
     @Override
@@ -273,49 +261,6 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
         discard();
     }
 
-    /**
-     * 检查固化条件并执行固化
-     */
-    private void checkPetrification() {
-        if (survivalTicks >= PETRIFICATION_TIME_TICKS
-            && parasiteKills < PETRIFICATION_KILL_THRESHOLD
-            && level() instanceof ServerLevel serverLevel) {
-            petrify(serverLevel);
-        }
-    }
-
-    /**
-     * 执行固化：生成 AssimilatedHeadEntity 遗骸
-     */
-    private void petrify(ServerLevel level) {
-        AssimilatedHeadEntity head = switch (kind) {
-            case COW -> ModEntities.SIM_COW_HEAD.get().create(level);
-            case PIG -> ModEntities.SIM_PIG_HEAD.get().create(level);
-            case SHEEP -> ModEntities.SIM_SHEEP_HEAD.get().create(level);
-            case WOLF -> ModEntities.SIM_WOLF_HEAD.get().create(level);
-            case BEAR, SQUID -> null;
-        };
-
-        if (head == null) {
-            return;
-        }
-
-        // 设置遗骸位置和姿态
-        head.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
-        head.finalizeSpawn(level, level.getCurrentDifficultyAt(blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
-        head.setCustomName(getCustomName());
-        head.setCustomNameVisible(isCustomNameVisible());
-
-        if (isPersistenceRequired()) {
-            head.setPersistenceRequired();
-        }
-
-        if (level.addFreshEntity(head)) {
-            discard();
-        }
-    }
-
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
@@ -409,7 +354,6 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
         tag.putBoolean("melting", isMelting());
         tag.putFloat("melt_height", getMeltHeight());
         tag.putInt("melt_ticks", meltTicks);
-        tag.putInt(SURVIVAL_TIME_TAG, survivalTicks);
     }
 
     @Override
@@ -421,7 +365,6 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
         entityData.set(MELTING, tag.getBoolean("melting"));
         entityData.set(MELT_HEIGHT, tag.getFloat("melt_height"));
         meltTicks = tag.getInt("melt_ticks");
-        survivalTicks = tag.getInt(SURVIVAL_TIME_TAG);
     }
 
     @Override
