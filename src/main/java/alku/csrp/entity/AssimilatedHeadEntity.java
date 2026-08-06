@@ -203,8 +203,8 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
                 state -> state.setAndContinue(entityData.get(LEAP_TICKS) > 0 ? LEAP
                         : kind == Kind.ENDERMAN && isAggressive()
-                        ? state.isMoving() ? SCREAM_WALK : SCREAM_IDLE
-                        : state.isMoving() ? WALK : IDLE)));
+                        ? ParasiteAnimations.isMoving(this, state.isMoving()) ? SCREAM_WALK : SCREAM_IDLE
+                        : ParasiteAnimations.isMoving(this, state.isMoving()) ? WALK : IDLE)));
         controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
                 software.bernie.geckolib.animation.PlayState.STOP).triggerableAnim("attack", ATTACK));
     }

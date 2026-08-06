@@ -18,6 +18,11 @@ final class ParasiteAnimations {
         return RawAnimation.begin().thenPlay(animationName(entity, action));
     }
 
+    /** Navigation can report movement while an entity is blocked; require actual displacement. */
+    static boolean isMoving(Entity entity, boolean animationMoving) {
+        return animationMoving && entity.getDeltaMovement().lengthSqr() > 0.0004D;
+    }
+
     private static String animationName(Entity entity, String requestedAction) {
         String resourceId = animationResourceId(entity);
         String action = switch (requestedAction) {

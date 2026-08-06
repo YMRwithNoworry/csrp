@@ -124,7 +124,7 @@ public final class HiGolemEntity extends HijackedParasiteEntity {
     }
 
     private PlayState movementAnimation(AnimationState<HiGolemEntity> state) {
-        boolean isMoving = state.isMoving();
+        boolean isMoving = ParasiteAnimations.isMoving(this, state.isMoving());
         int status = getParasiteStatus();
 
         switch (status) {

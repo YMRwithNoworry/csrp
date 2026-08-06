@@ -160,7 +160,7 @@ public final class ManglerEntity extends PrimitiveParasiteEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> state.setAndContinue(isSpecialLeapAnimating() ? LEAP : state.isMoving() ? WALK : IDLE)));
+                state -> state.setAndContinue(isSpecialLeapAnimating() ? LEAP : ParasiteAnimations.isMoving(this, state.isMoving()) ? WALK : IDLE)));
         controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
                 software.bernie.geckolib.animation.PlayState.STOP).triggerableAnim("attack", ATTACK));
     }

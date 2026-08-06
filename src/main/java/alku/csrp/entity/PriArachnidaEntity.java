@@ -280,7 +280,7 @@ public class PriArachnidaEntity extends Monster implements GeoEntity, Parasite {
         }
 
         // Status 0: 默认移动状态
-        if (!state.isMoving()) {
+        if (!ParasiteAnimations.isMoving(this, state.isMoving())) {
             return state.setAndContinue(IDLE);
         }
         return state.setAndContinue(WALK);

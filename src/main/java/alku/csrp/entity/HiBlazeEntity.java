@@ -105,7 +105,7 @@ public final class HiBlazeEntity extends HijackedParasiteEntity implements GeoEn
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> state.setAndContinue(state.isMoving() ? WALK : IDLE)));
+                state -> state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving()) ? WALK : IDLE)));
         controllers.add(new AnimationController<>(this, "attack_controller", 0,
                 state -> PlayState.STOP).triggerableAnim("attack", ATTACK));
     }

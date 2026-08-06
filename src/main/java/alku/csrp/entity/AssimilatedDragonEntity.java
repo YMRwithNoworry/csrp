@@ -304,7 +304,7 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
             }
 
             // 状态 0: 空闲/行走
-            boolean isMoving = state.isMoving();
+            boolean isMoving = ParasiteAnimations.isMoving(this, state.isMoving());
             return state.setAndContinue(isMoving ? WALK : IDLE);
         }));
 

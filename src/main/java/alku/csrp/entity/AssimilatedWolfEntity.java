@@ -315,7 +315,7 @@ public final class AssimilatedWolfEntity extends Monster implements GeoEntity, P
         // 主移动控制器
         controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
             int status = getParasiteStatus();
-            boolean moving = !getStillAni() && state.isMoving();
+            boolean moving = !getStillAni() && ParasiteAnimations.isMoving(this, state.isMoving());
 
             // 状态6：融化动画
             if (status == 6) {

@@ -307,7 +307,7 @@ public final class AssimilatedCowEntity extends Monster implements GeoEntity, Pa
 
     private <T extends AssimilatedCowEntity> PlayState movementAnimation(AnimationState<T> state) {
         int status = getParasiteStatus();
-        boolean moving = state.isMoving();
+        boolean moving = ParasiteAnimations.isMoving(this, state.isMoving());
 
         // 状态 6: 融化动画
         if (status == STATUS_MELT) {

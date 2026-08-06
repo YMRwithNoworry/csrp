@@ -627,7 +627,7 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
             return PlayState.STOP;
         }
 
-        boolean isMoving = state.isMoving();
+        boolean isMoving = ParasiteAnimations.isMoving(this, state.isMoving());
 
         // 水中游泳动画（对应原模组状态1 - 水中游泳）
         if (isInWater()) {

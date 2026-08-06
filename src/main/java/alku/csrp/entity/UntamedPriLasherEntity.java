@@ -359,7 +359,7 @@ public class UntamedPriLasherEntity extends PrimitiveParasiteEntity {
         }
 
         // Status 0: 默认移动状态
-        if (state.isMoving()) {
+        if (ParasiteAnimations.isMoving(this, state.isMoving())) {
             return state.setAndContinue(WALK);
         }
         return state.setAndContinue(IDLE);

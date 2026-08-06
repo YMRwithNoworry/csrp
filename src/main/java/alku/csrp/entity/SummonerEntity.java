@@ -107,7 +107,7 @@ public final class SummonerEntity extends PrimitiveParasiteEntity {
             if (isSummoning()) {
                 return state.setAndContinue(SUMMON);
             }
-            if (!state.isMoving()) {
+            if (!ParasiteAnimations.isMoving(this, state.isMoving())) {
                 return state.setAndContinue(IDLE);
             }
             return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() > 0.02 ? RUN : WALK);

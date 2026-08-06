@@ -215,9 +215,9 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
             if (isAggressive()) {
-                return state.setAndContinue(state.isMoving() ? screamingWalkAnimation : screamingIdleAnimation);
+                return state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving()) ? screamingWalkAnimation : screamingIdleAnimation);
             }
-            return state.setAndContinue(state.isMoving() ? walkAnimation : idleAnimation);
+            return state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving()) ? walkAnimation : idleAnimation);
         }));
         controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
                 .triggerableAnim("attack", attackAnimation));

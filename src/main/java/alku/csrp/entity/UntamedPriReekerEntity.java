@@ -357,7 +357,7 @@ public class UntamedPriReekerEntity extends Monster implements GeoEntity, Parasi
 
         // 冲锋恢复动画 - 检测是否停止移动
         if (status == STATUS_CHARGE_RECOVERY) {
-            if (!state.isMoving()) {
+            if (!ParasiteAnimations.isMoving(this, state.isMoving())) {
                 setParasiteStatus(STATUS_NORMAL);
                 return state.setAndContinue(IDLE);
             }
@@ -375,7 +375,7 @@ public class UntamedPriReekerEntity extends Monster implements GeoEntity, Parasi
         }
 
         // 常规移动动画
-        if (!state.isMoving()) {
+        if (!ParasiteAnimations.isMoving(this, state.isMoving())) {
             return state.setAndContinue(IDLE);
         }
 

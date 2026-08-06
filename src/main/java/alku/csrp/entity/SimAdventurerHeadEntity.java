@@ -173,7 +173,7 @@ public final class SimAdventurerHeadEntity extends Monster implements GeoEntity,
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
                 state -> state.setAndContinue(entityData.get(LEAP_TICKS) > 0
-                        ? LEAP : state.isMoving() ? WALK : IDLE)));
+                        ? LEAP : ParasiteAnimations.isMoving(this, state.isMoving()) ? WALK : IDLE)));
         controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
                 .triggerableAnim("attack", ATTACK));
     }

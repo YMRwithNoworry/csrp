@@ -47,8 +47,8 @@ public final class MarauderizedEndermanEntity extends TetheredMarauderizedEntity
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, state ->
                 state.setAndContinue(isAggressive()
-                        ? state.isMoving() ? screamingWalkAnimation : screamingIdleAnimation
-                        : state.isMoving() ? walkAnimation : idleAnimation)));
+                        ? ParasiteAnimations.isMoving(this, state.isMoving()) ? screamingWalkAnimation : screamingIdleAnimation
+                        : ParasiteAnimations.isMoving(this, state.isMoving()) ? walkAnimation : idleAnimation)));
         controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
                 .triggerableAnim("attack", attackAnimation));
     }

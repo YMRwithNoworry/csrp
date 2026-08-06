@@ -248,7 +248,7 @@ public class AdaLonglegEntity extends BurrowingVariantEntity {
         }
 
         // 状态 0: 默认移动
-        if (!state.isMoving()) {
+        if (!ParasiteAnimations.isMoving(this, state.isMoving())) {
             return state.setAndContinue(IDLE);
         }
 

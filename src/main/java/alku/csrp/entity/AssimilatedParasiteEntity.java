@@ -382,7 +382,7 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
             if (kind == Kind.SQUID) {
                 return state.setAndContinue(SWIM);
             }
-            return state.setAndContinue(state.isMoving() ? RUN : IDLE);
+            return state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving()) ? RUN : IDLE);
         }));
         controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
                 .triggerableAnim("attack", ATTACK));

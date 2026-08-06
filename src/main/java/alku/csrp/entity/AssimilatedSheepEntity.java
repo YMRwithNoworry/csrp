@@ -339,7 +339,7 @@ public final class AssimilatedSheepEntity extends Monster implements GeoEntity, 
         // 主要运动控制器 - 根据状态选择不同的动画
         controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
             int status = getParasiteStatus();
-            boolean moving = state.isMoving();
+            boolean moving = ParasiteAnimations.isMoving(this, state.isMoving());
 
             // 状态 6: 融化状态
             if (status == 6 || isMelting()) {
