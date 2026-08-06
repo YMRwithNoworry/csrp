@@ -293,7 +293,7 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
-            boolean moving = state.isMoving();
+            boolean moving = getDeltaMovement().horizontalDistanceSqr() >= 0.0001;
             if (entityData.get(CRAWLING)) {
                 return state.setAndContinue(entityData.get(SCREAMING)
                         ? moving ? CRAWL_SCREAM_WALK : CRAWL_SCREAM_IDLE
