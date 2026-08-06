@@ -158,8 +158,8 @@ public final class DredgeEntity extends CrudeParasiteEntity {
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
                 state -> state.setAndContinue(entityData.get(PULLING)
-                        ? state.isMoving() ? PULL_WALK : PULL_IDLE
-                        : state.isMoving() ? WALK : IDLE)));
+                        ? getDeltaMovement().horizontalDistanceSqr() >= 0.0001 ? PULL_WALK : PULL_IDLE
+                        : getDeltaMovement().horizontalDistanceSqr() >= 0.0001 ? WALK : IDLE)));
         controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
                 software.bernie.geckolib.animation.PlayState.STOP).triggerableAnim("attack", ATTACK));
     }
