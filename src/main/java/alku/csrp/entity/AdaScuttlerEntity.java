@@ -8,7 +8,10 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -18,8 +21,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
@@ -341,9 +342,30 @@ public class AdaScuttlerEntity extends BurrowingVariantEntity implements Pulling
     }
 
     @Override
-    public void onPullingBallHit(LivingEntity target) {
-        if (level().isClientSide || target == null) {
-            return;
+    protected SoundEvent burrowSound() {
+        return ModSounds.ADAPTED_BURROWER_DIG.get();
+    }
+
+    @Override
+    protected int burrowSkillCooldownTicks() {
+        return 200;
+    }
+
+    @Override
+    public boolean isValidPullTarget(LivingEntity target) {
+        if (target == null || !target.isAlive()) {
+            return false;
+        }
+        double distanceSqr = distanceToSqr(target);
+        return hasLineOfSight(target)
+                && distanceSqr >= 49.0D
+                && distanceSqr <= 400.0D;
+    }
+
+    @Override
+    public boolean captureTarget(LivingEntity target) {
+        if (level().isClientSide || target == null || !target.isAlive()) {
+            return false;
         }
 
         // 施加拉拽效果
@@ -357,5 +379,7 @@ public class AdaScuttlerEntity extends BurrowingVariantEntity implements Pulling
         target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 120, 1), this);
         target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 2), this);
         target.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 100, 2), this);
+
+        return true;
     }
 }
