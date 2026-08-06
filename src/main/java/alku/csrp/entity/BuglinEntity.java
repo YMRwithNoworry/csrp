@@ -220,7 +220,7 @@ public class BuglinEntity extends Monster implements GeoEntity, Parasite {
         if (emergenceTicks > 0) {
             return PlayState.STOP;
         }
-        if (!state.isMoving()) {
+        if (getDeltaMovement().horizontalDistanceSqr() < 0.0001) {
             return PlayState.STOP;
         }
         return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() > 0.015 ? RUN : WALK);
