@@ -35,7 +35,8 @@ final class ParasiteAnimations {
 
         // These are the project-only fallback resources that were not
         // present in the extracted SRP resource set and retain short keys.
-        if (resourceId.equals("abo_head") || resourceId.equals("marauder_tendril")) {
+        if (resourceId.equals("abo_head") || resourceId.equals("marauder_tendril")
+                || resourceId.equals("sim_pig")) {
             return action;
         }
         return "animation." + resourceId + "." + action;

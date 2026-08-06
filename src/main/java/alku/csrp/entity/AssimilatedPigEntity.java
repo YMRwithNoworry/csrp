@@ -54,12 +54,12 @@ public final class AssimilatedPigEntity extends Monster implements GeoEntity, Pa
     // 动画定义 - 根据原模组的状态系统
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation ATTACK_IDLE = ParasiteAnimations.loop(this, "idle.get_parasite_status_1");
-    private final RawAnimation ATTACK_WALK = ParasiteAnimations.loop(this, "walk.get_parasite_status_1");
-    private final RawAnimation SNEAK_IDLE = ParasiteAnimations.loop(this, "idle.get_parasite_status_2");
-    private final RawAnimation SNEAK_WALK = ParasiteAnimations.loop(this, "walk.get_parasite_status_2");
-    private final RawAnimation MELT = ParasiteAnimations.loop(this, "idle.get_parasite_status_6");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation ATTACK_IDLE = IDLE;
+    private final RawAnimation ATTACK_WALK = WALK;
+    private final RawAnimation SNEAK_IDLE = IDLE;
+    private final RawAnimation SNEAK_WALK = WALK;
+    private final RawAnimation MELT = IDLE;
+    private final RawAnimation ATTACK = RawAnimation.begin().thenPlay("run");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
 
