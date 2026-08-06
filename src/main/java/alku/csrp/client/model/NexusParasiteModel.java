@@ -46,6 +46,7 @@ public final class NexusParasiteModel extends ParasiteGeoModel<NexusParasiteEnti
             case BECKON_SI, BECKON_SII -> applyBeckonLowerStageAnimations(animatable, animationState);
             case BECKON_SIII -> applyBeckonIIIAnimations(animatable, animationState);
             case BECKON_SIV -> applyBeckonIVAnimations(animatable, animationState);
+            case DISPATCHER_SII -> applyDispatcherIIAnimations(animatable, animationState);
             default -> {}
         }
     }
@@ -328,6 +329,144 @@ public final class NexusParasiteModel extends ParasiteGeoModel<NexusParasiteEnti
         getBone(boneName).ifPresent(bone -> {
             float rotY = (float) Math.sin(time * frequency) * amplitude;
             bone.setRotY(bone.getRotY() + (invert ? -rotY : rotY));
+        });
+    }
+
+    /**
+     * Apply animations for Dispatcher II (EntityDodSII) based on original mod implementation.
+     * Implements complex procedural tentacle, neck, muscle, and hair animations with sinusoidal waves.
+     */
+    private void applyDispatcherIIAnimations(NexusParasiteEntity entity, AnimationState<NexusParasiteEntity> animationState) {
+        float ageInTicks = animationState.getAnimatable().tickCount + animationState.getPartialTick();
+
+        // Tentacle swaying animations - 9 groups (taclejointA through taclejointI)
+        // Each group has a main joint and 2 child joints
+        float tentacleF1 = (float) Math.sin(ageInTicks * 0.095986F) * 0.1429872F;
+        float tentacleF2 = (float) Math.sin(ageInTicks * 0.0758786F) * 0.20219871F;
+        float tentacleF3 = (float) Math.sin(ageInTicks * 0.0986F) * 0.1758872F;
+
+        // Apply tentacle animations to 9 groups
+        applyTentacleJointAnimation("taclejointA", tentacleF2, -tentacleF3);
+        applyTentacleJointAnimation("taclejointB", tentacleF3, tentacleF1);
+        applyTentacleJointAnimation("taclejointC", tentacleF1, -tentacleF2);
+        applyTentacleJointAnimation("taclejointD", -tentacleF2, tentacleF3);
+        applyTentacleJointAnimation("taclejointE", tentacleF3, -tentacleF1);
+        applyTentacleJointAnimation("taclejointF", -tentacleF1, tentacleF2);
+        applyTentacleJointAnimation("taclejointG", tentacleF2, tentacleF3);
+        applyTentacleJointAnimation("taclejointH", -tentacleF3, tentacleF1);
+        applyTentacleJointAnimation("taclejointI", tentacleF1, tentacleF3);
+
+        // Neck/joint swaying animations
+        float neckF1 = (float) Math.sin(ageInTicks * 0.0786F) * 0.0929872F;
+        float neckF2 = (float) Math.sin(ageInTicks * 0.06786F) * 0.099872F;
+        float neckF3 = (float) Math.sin(ageInTicks * 0.08986F) * 0.09158872F;
+
+        // Apply neck joint animations - jointNA series
+        getBone("jointNA").ifPresent(bone -> {
+            bone.setRotX(bone.getRotX() + neckF1);
+            bone.setRotZ(bone.getRotZ() + neckF2);
+        });
+        getBone("jointNAA").ifPresent(bone -> {
+            bone.setRotX(bone.getRotX() + neckF2);
+            bone.setRotZ(bone.getRotZ() + neckF3);
+        });
+        getBone("jointNAB").ifPresent(bone -> {
+            bone.setRotX(bone.getRotX() + neckF3);
+            bone.setRotZ(bone.getRotZ() + neckF1);
+        });
+
+        // Apply neck joint animations - jointNB series
+        getBone("jointNB").ifPresent(bone -> {
+            bone.setRotX(bone.getRotX() + neckF3);
+            bone.setRotZ(bone.getRotZ() + neckF1);
+        });
+        getBone("jointNBA").ifPresent(bone -> {
+            bone.setRotX(bone.getRotX() + neckF1);
+            bone.setRotZ(bone.getRotZ() + neckF2);
+        });
+        getBone("jointNBB").ifPresent(bone -> {
+            bone.setRotX(bone.getRotX() + neckF2);
+            bone.setRotZ(bone.getRotZ() + neckF3);
+        });
+
+        // Muscle joint swaying animations - NA muscle series
+        float muscleF2A = (float) Math.sin(ageInTicks * 0.04936786F) * 0.4172F;
+
+        getBone("jointNAMA").ifPresent(bone -> {
+            bone.setRotZ(bone.getRotZ() - muscleF2A);
+        });
+        getBone("jointNAMB").ifPresent(bone -> {
+            bone.setRotZ(bone.getRotZ() + muscleF2A);
+        });
+        getBone("jointNAMC").ifPresent(bone -> {
+            bone.setRotX(bone.getRotX() + muscleF2A);
+        });
+        getBone("jointNAMD").ifPresent(bone -> {
+            bone.setRotX(bone.getRotX() - muscleF2A);
+        });
+
+        // Muscle joint swaying animations - NB muscle series (reversed)
+        float muscleF2B = -(float) Math.sin(ageInTicks * 0.0436786F) * 0.472F;
+
+        getBone("jointNBMA").ifPresent(bone -> {
+            bone.setRotZ(bone.getRotZ() - muscleF2B);
+        });
+        getBone("jointNBMB").ifPresent(bone -> {
+            bone.setRotZ(bone.getRotZ() + muscleF2B);
+        });
+        getBone("jointNBMC").ifPresent(bone -> {
+            bone.setRotX(bone.getRotX() + muscleF2B);
+        });
+        getBone("jointNBMD").ifPresent(bone -> {
+            bone.setRotX(bone.getRotX() - muscleF2B);
+        });
+
+        // Hair swaying animations
+        float hairF1 = (float) Math.sin(ageInTicks * 0.5786F) * 0.0929872F;
+        float hairF2 = (float) Math.sin(ageInTicks * 0.46786F) * 0.099872F;
+        float hairF3 = (float) Math.sin(ageInTicks * 0.68986F) * 0.09158872F;
+
+        // Hair joint animations - NA hair series
+        getBone("hair_jointNAA").ifPresent(bone -> {
+            bone.setRotX(bone.getRotX() + hairF1);
+            bone.setRotZ(bone.getRotZ() + hairF2);
+        });
+        getBone("hair_jointNAB").ifPresent(bone -> {
+            bone.setRotX(bone.getRotX() + hairF2);
+            bone.setRotZ(bone.getRotZ() + hairF3);
+        });
+        getBone("hair_jointNAC").ifPresent(bone -> {
+            bone.setRotX(bone.getRotX() + hairF3);
+            bone.setRotZ(bone.getRotZ() + hairF1);
+        });
+
+        // Hair joint animations - NB hair series (reversed)
+        getBone("hair_jointNBA").ifPresent(bone -> {
+            bone.setRotX(bone.getRotX() - hairF1);
+            bone.setRotZ(bone.getRotZ() - hairF2);
+        });
+        getBone("hair_jointNBB").ifPresent(bone -> {
+            bone.setRotX(bone.getRotX() - hairF2);
+            bone.setRotZ(bone.getRotZ() - hairF3);
+        });
+        getBone("hair_jointNBC").ifPresent(bone -> {
+            bone.setRotX(bone.getRotX() - hairF3);
+            bone.setRotZ(bone.getRotZ() - hairF1);
+        });
+    }
+
+    /**
+     * Apply tentacle joint animation (for Dispatcher II tentacles).
+     * Each tentacle group has a main joint and 2 child joints.
+     *
+     * @param jointName Main joint name (e.g., "taclejointA")
+     * @param rotX Rotation X value
+     * @param rotY Rotation Y value
+     */
+    private void applyTentacleJointAnimation(String jointName, float rotX, float rotY) {
+        getBone(jointName).ifPresent(bone -> {
+            bone.setRotX(bone.getRotX() + rotX);
+            bone.setRotY(bone.getRotY() + rotY);
         });
     }
 }
