@@ -21,8 +21,13 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
+import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
+import net.minecraft.world.entity.ai.goal.TryFindWaterGoal;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -89,7 +94,17 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
         if (kind == Kind.YELLOWEYE) {
             moveControl = new FlyingMoveControl(this, 20, true);
             setNoGravity(true);
+        } else if (kind == Kind.DEVOURER) {
+            moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.1F, 0.2F, true);
         }
+    }
+
+    @Override
+    protected PathNavigation createNavigation(Level level) {
+        if (getType() == ModEntities.PRI_DEVOURER.get()) {
+            return new WaterBoundPathNavigation(this, level);
+        }
+        return super.createNavigation(level);
     }
 
     @Override
@@ -203,7 +218,11 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
                 goalSelector.addGoal(1, createBurrowMovementGoal());
                 goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.20D, false));
             }
-            case DEVOURER -> goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.35D, false));
+            case DEVOURER -> {
+                goalSelector.addGoal(1, new TryFindWaterGoal(this));
+                goalSelector.addGoal(2, new DevourerMeleeGoal());
+                goalSelector.addGoal(6, new RandomSwimmingGoal(this, 1.0D, 20));
+            }
             case MANDUCATER -> {
                 goalSelector.addGoal(1, new AmbushLeapGoal());
                 goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.15D, false));
@@ -446,6 +465,25 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
         return activeKind() == Kind.BURROWER
                 ? ModSounds.PRIMITIVE_BURROWER_DIG.get()
                 : ModSounds.PRIMITIVE_TOZOON_DIG.get();
+    }
+
+    private final class DevourerMeleeGoal extends MeleeAttackGoal {
+        private DevourerMeleeGoal() {
+            super(PrimitiveVariantEntity.this, 1.35D, false);
+        }
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = getTarget();
+            return isInWaterOrBubble() && target != null && target.isInWaterOrBubble() && super.canUse();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            LivingEntity target = getTarget();
+            return isInWaterOrBubble() && target != null && target.isInWaterOrBubble()
+                    && super.canContinueToUse();
+        }
     }
 
     private final class WebPullGoal extends Goal {
