@@ -15,7 +15,7 @@ import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
  * Removes dropped Eyes of the Beholder when their owner is slain by a
  * beholder. With keepInventory enabled no drops exist and no eyes are lost.
  */
-@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = Csrp.MODID)
 public final class PearlEvents {
     private PearlEvents() {
     }

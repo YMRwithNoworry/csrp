@@ -27,7 +27,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
  * Remaining Cognitio achievements: Ricardo shearing, guerilla kills, creeper
  * assisted kills, and the fifty-kills-in-one-day hunt season.
  */
-@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = Csrp.MODID)
 public final class CognitioEvents {
     private static final String HUNT_DAY_KEY = "csrpHuntDay";
     private static final String HUNT_COUNT_KEY = "csrpHuntCount";

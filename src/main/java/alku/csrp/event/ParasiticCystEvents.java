@@ -28,7 +28,7 @@ import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
  * collector). The block-inventory hooks fill the cyst contents; this only
  * places the storage block.
  */
-@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = Csrp.MODID)
 public final class ParasiticCystEvents {
     private static final float DROP_CHANCE = 0.35F;
 

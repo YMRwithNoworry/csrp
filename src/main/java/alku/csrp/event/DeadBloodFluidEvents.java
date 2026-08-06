@@ -15,7 +15,7 @@ import net.neoforged.neoforge.event.tick.EntityTickEvent;
  * Dead Blood contact effects: rapid chip damage with Viral and Corrosion for
  * non-parasites, direct healing for parasites.
  */
-@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = Csrp.MODID)
 public final class DeadBloodFluidEvents {
     private DeadBloodFluidEvents() {
     }

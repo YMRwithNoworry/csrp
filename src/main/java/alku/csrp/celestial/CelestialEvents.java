@@ -18,7 +18,7 @@ import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 
-@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = Csrp.MODID)
 public final class CelestialEvents {
     private CelestialEvents() {
     }

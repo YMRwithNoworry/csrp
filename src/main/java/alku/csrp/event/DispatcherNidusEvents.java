@@ -32,7 +32,7 @@ import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
  * Lets parasites with 15 kills place a Dispatcher Nidus, and feeds the kills
  * of nearby parasites into existing Nidi.
  */
-@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = Csrp.MODID)
 public final class DispatcherNidusEvents {
     private static final String NIDUS_KILLS = "csrp_nidus_kills";
     private static final int PLACE_KILLS = 15;

@@ -15,7 +15,7 @@ import net.neoforged.neoforge.event.level.BlockEvent;
  * Placing a sponge in Dead Blood absorbs the liquid and turns it into a
  * Diseased Sponge.
  */
-@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = Csrp.MODID)
 public final class DiseasedSpongeEvents {
     private DiseasedSpongeEvents() {
     }

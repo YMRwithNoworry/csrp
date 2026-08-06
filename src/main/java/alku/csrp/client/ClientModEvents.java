@@ -59,7 +59,7 @@ import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 
-@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT)
 public final class ClientModEvents {
     private ClientModEvents() {
     }

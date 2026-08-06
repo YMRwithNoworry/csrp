@@ -1,0 +1,192 @@
+Reusing configuration cache.
+> Task :createMinecraftArtifacts UP-TO-DATE
+
+> Task :compileJava
+D:\code\MC模组\csrp\src\main\java\alku\csrp\celestial\CelestialCommands.java:15: 警告: [removal] EventBusSubscriber 中的 bus() 已过时, 且标记为待删除
+@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.GAME)
+                                        ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\celestial\CelestialCommands.java:15: 警告: [removal] EventBusSubscriber 中的 Bus 已过时, 且标记为待删除
+@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.GAME)
+                                                                ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\celestial\CelestialEvents.java:21: 警告: [removal] EventBusSubscriber 中的 bus() 已过时, 且标记为待删除
+@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.GAME)
+                                        ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\celestial\CelestialEvents.java:21: 警告: [removal] EventBusSubscriber 中的 Bus 已过时, 且标记为待删除
+@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.GAME)
+                                                                ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\celestial\client\AuroraSkyRenderer.java:34: 警告: [removal] EventBusSubscriber 中的 bus() 已过时, 且标记为待删除
+@EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
+                                                             ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\celestial\client\AuroraSkyRenderer.java:34: 警告: [removal] EventBusSubscriber 中的 Bus 已过时, 且标记为待删除
+@EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
+                                                                                     ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\celestial\client\CelestialSkyRenderer.java:26: 警告: [removal] EventBusSubscriber 中的 bus() 已过时, 且标记为待删除
+@EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
+                                                             ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\celestial\client\CelestialSkyRenderer.java:26: 警告: [removal] EventBusSubscriber 中的 Bus 已过时, 且标记为待删除
+@EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
+                                                                                     ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\celestial\client\DarkDaysSoundEvents.java:10: 警告: [removal] EventBusSubscriber 中的 bus() 已过时, 且标记为待删除
+@EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
+                                                             ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\celestial\client\DarkDaysSoundEvents.java:10: 警告: [removal] EventBusSubscriber 中的 Bus 已过时, 且标记为待删除
+@EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
+                                                                                     ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\client\ClientModEvents.java:62: 警告: [removal] EventBusSubscriber 中的 bus() 已过时, 且标记为待删除
+@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+                                        ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\client\ClientModEvents.java:62: 警告: [removal] EventBusSubscriber 中的 Bus 已过时, 且标记为待删除
+@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+                                                                ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\client\ClientModEvents.java:199: 错误: 无法将类 RegisterRenderers中的方法 registerEntityRenderer应用到给定类型;
+        event.registerEntityRenderer(ModEntities.SIM_HUMAN.get(), SimHumanRenderer::new);
+             ^
+  需要: EntityType<? extends T>,EntityRendererProvider<T>
+  找到:    EntityType<AssimilatedVariantEntity>,SimHumanRe[...]::new
+  原因: 推论变量 T 具有不兼容的上限
+    等式约束条件：SimHumanEntity
+    下限：AssimilatedVariantEntity
+  其中, T是类型变量:
+    T扩展已在方法 <T>registerEntityRenderer(EntityType<? extends T>,EntityRendererProvider<T>)中声明的Entity
+D:\code\MC模组\csrp\src\main\java\alku\csrp\command\SrpCommands.java:41: 警告: [removal] EventBusSubscriber 中的 bus() 已过时, 且标记为待删除
+@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.GAME)
+                                        ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\command\SrpCommands.java:41: 警告: [removal] EventBusSubscriber 中的 Bus 已过时, 且标记为待删除
+@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.GAME)
+                                                                ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\compendium\CompendiumCommands.java:18: 警告: [removal] EventBusSubscriber 中的 bus() 已过时, 且标记为待删除
+@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.GAME)
+                                        ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\compendium\CompendiumCommands.java:18: 警告: [removal] EventBusSubscriber 中的 Bus 已过时, 且标记为待删除
+@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.GAME)
+                                                                ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\compendium\CompendiumEvents.java:20: 警告: [removal] EventBusSubscriber 中的 bus() 已过时, 且标记为待删除
+@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.GAME)
+                                        ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\compendium\CompendiumEvents.java:20: 警告: [removal] EventBusSubscriber 中的 Bus 已过时, 且标记为待删除
+@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.GAME)
+                                                                ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\compendium\network\CompendiumPayloads.java:12: 警告: [removal] EventBusSubscriber 中的 bus() 已过时, 且标记为待删除
+@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.MOD)
+                                        ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\compendium\network\CompendiumPayloads.java:12: 警告: [removal] EventBusSubscriber 中的 Bus 已过时, 且标记为待删除
+@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.MOD)
+                                                                ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\entity\AdaLonglegEntity.java:35: 错误: AdaLonglegEntity不是抽象的, 并且未覆盖BurrowingVariantEntity中的抽象方法burrowSound()
+public class AdaLonglegEntity extends BurrowingVariantEntity {
+       ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\entity\AdaScuttlerEntity.java:45: 错误: AdaScuttlerEntity不是抽象的, 并且未覆盖BurrowingVariantEntity中的抽象方法burrowSound()
+public class AdaScuttlerEntity extends BurrowingVariantEntity implements PullingBallOwner {
+       ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\entity\AdaScuttlerEntity.java:343: 错误: 方法不会覆盖或实现超类型的方法
+    @Override
+    ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\entity\AssimilatedCowEntity.java:238: 错误: 找不到符号
+                    ParasiteCombatEffects.applyFear(living, 2, 60);
+                                         ^
+  符号:   方法 applyFear(LivingEntity,int,int)
+  位置: 类 ParasiteCombatEffects
+D:\code\MC模组\csrp\src\main\java\alku\csrp\entity\AssimilatedVillagerEntity.java:176: 错误: 找不到符号
+        if (isInWater() && !isOnGround()) {
+                            ^
+  符号:   方法 isOnGround()
+  位置: 类 AssimilatedVillagerEntity
+D:\code\MC模组\csrp\src\main\java\alku\csrp\entity\CarrierEntity.java:106: 错误: 找不到符号
+        AnimationProcessor processor = state.getController().getAnimationProcessor();
+                                                            ^
+  符号:   方法 getAnimationProcessor()
+  位置: 类 AnimationController<E>
+  其中, E是类型变量:
+    E扩展已在方法 <E>wingAnimationPredicate(AnimationState<E>)中声明的CarrierEntity
+D:\code\MC模组\csrp\src\main\java\alku\csrp\entity\CarrierEntity.java:136: 错误: 找不到符号
+        AnimationProcessor processor = state.getController().getAnimationProcessor();
+                                                            ^
+  符号:   方法 getAnimationProcessor()
+  位置: 类 AnimationController<E>
+  其中, E是类型变量:
+    E扩展已在方法 <E>tentacleAnimationPredicate(AnimationState<E>)中声明的CarrierEntity
+D:\code\MC模组\csrp\src\main\java\alku\csrp\entity\CarrierEntity.java:167: 错误: 找不到符号
+        AnimationProcessor processor = state.getController().getAnimationProcessor();
+                                                            ^
+  符号:   方法 getAnimationProcessor()
+  位置: 类 AnimationController<E>
+  其中, E是类型变量:
+    E扩展已在方法 <E>bodyAnimationPredicate(AnimationState<E>)中声明的CarrierEntity
+D:\code\MC模组\csrp\src\main\java\alku\csrp\entity\CarrierEntity.java:205: 错误: 找不到符号
+        AnimationProcessor processor = state.getController().getAnimationProcessor();
+                                                            ^
+  符号:   方法 getAnimationProcessor()
+  位置: 类 AnimationController<E>
+  其中, E是类型变量:
+    E扩展已在方法 <E>swellAnimationPredicate(AnimationState<E>)中声明的CarrierEntity
+D:\code\MC模组\csrp\src\main\java\alku\csrp\event\CognitioEvents.java:30: 警告: [removal] EventBusSubscriber 中的 bus() 已过时, 且标记为待删除
+@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.GAME)
+                                        ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\event\CognitioEvents.java:30: 警告: [removal] EventBusSubscriber 中的 Bus 已过时, 且标记为待删除
+@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.GAME)
+                                                                ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\event\DeadBloodFluidEvents.java:18: 警告: [removal] EventBusSubscriber 中的 bus() 已过时, 且标记为待删除
+@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.GAME)
+                                        ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\event\DeadBloodFluidEvents.java:18: 警告: [removal] EventBusSubscriber 中的 Bus 已过时, 且标记为待删除
+@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.GAME)
+                                                                ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\event\DiseasedSpongeEvents.java:18: 警告: [removal] EventBusSubscriber 中的 bus() 已过时, 且标记为待删除
+@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.GAME)
+                                        ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\event\DiseasedSpongeEvents.java:18: 警告: [removal] EventBusSubscriber 中的 Bus 已过时, 且标记为待删除
+@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.GAME)
+                                                                ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\event\DispatcherNidusEvents.java:35: 警告: [removal] EventBusSubscriber 中的 bus() 已过时, 且标记为待删除
+@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.GAME)
+                                        ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\event\DispatcherNidusEvents.java:35: 警告: [removal] EventBusSubscriber 中的 Bus 已过时, 且标记为待删除
+@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.GAME)
+                                                                ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\event\ParasiticCystEvents.java:31: 警告: [removal] EventBusSubscriber 中的 bus() 已过时, 且标记为待删除
+@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.GAME)
+                                        ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\event\ParasiticCystEvents.java:31: 警告: [removal] EventBusSubscriber 中的 Bus 已过时, 且标记为待删除
+@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.GAME)
+                                                                ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\event\PearlEvents.java:18: 警告: [removal] EventBusSubscriber 中的 bus() 已过时, 且标记为待删除
+@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.GAME)
+                                        ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\event\PearlEvents.java:18: 警告: [removal] EventBusSubscriber 中的 Bus 已过时, 且标记为待删除
+@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.GAME)
+                                                                ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\fluid\DeadBloodFluidType.java:15: 警告: [removal] FluidType 中的 initializeClient(Consumer<IClientFluidTypeExtensions>) 已过时, 且标记为待删除
+    public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
+                ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\overlast\client\EvolutionHudEvents.java:124: 警告: [removal] EventBusSubscriber 中的 bus() 已过时, 且标记为待删除
+    @EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+                                            ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\overlast\client\EvolutionHudEvents.java:124: 警告: [removal] EventBusSubscriber 中的 Bus 已过时, 且标记为待删除
+    @EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+                                                                    ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\registry\CommonModEvents.java:80: 警告: [removal] EventBusSubscriber 中的 bus() 已过时, 且标记为待删除
+@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.MOD)
+                                        ^
+D:\code\MC模组\csrp\src\main\java\alku\csrp\registry\CommonModEvents.java:80: 警告: [removal] EventBusSubscriber 中的 Bus 已过时, 且标记为待删除
+@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.MOD)
+                                                                ^
+注: 某些输入文件使用或覆盖了已过时的 API。
+注: 有关详细信息, 请使用 -Xlint:deprecation 重新编译。
+10 个错误
+37 个警告
+
+> Task :compileJava FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler error output for details.
+
+* Try:
+> Run with --info option to get more log output.
+> Run with --scan to get full insights.
+
+BUILD FAILED in 5s
+2 actionable tasks: 1 executed, 1 up-to-date
+Configuration cache entry reused.

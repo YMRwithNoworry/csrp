@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
  * sphere right after the vanilla sky, blended with SRC_ALPHA so the base sky
  * stays intact.
  */
-@EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT)
 public final class AuroraSkyRenderer {
     private static final Logger LOGGER = LoggerFactory.getLogger(AuroraSkyRenderer.class);
     private static final ResourceLocation SHADER_LOCATION =

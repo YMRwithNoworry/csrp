@@ -121,7 +121,7 @@ public final class EvolutionHudEvents {
         return String.format(Locale.ROOT, "%.1fP", (double) points);
     }
 
-    @EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    @EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT)
     public static final class ModEvents {
         private ModEvents() {
         }

@@ -23,7 +23,7 @@ import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.neoforge.client.event.ViewportEvent;
 import org.joml.Matrix4f;
 
-@EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT)
 public final class CelestialSkyRenderer {
     private static final Map<String, Long> ORBIT_STARTS = new HashMap<>();
     private static long lastDayTime;

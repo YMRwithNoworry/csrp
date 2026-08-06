@@ -50,9 +50,16 @@ public final class IncompleteFormMediumEntity extends IncompleteFormSmallEntity 
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        // 主要移动动画控制器
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
                 state -> state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.0001 ? WALK : IDLE)));
+
+        // 攻击动画控制器
         controllers.add(new AnimationController<>(this, "attack_controller", 0,
                 state -> PlayState.STOP).triggerableAnim("attack", ATTACK));
     }
+
+    // 注意：原模组的程序化关节动画（animateJoints）依赖于不存在的GeckoLib API
+    // (setBoneAnimationProcessor 和 DataTickets.ANIMATION_PROCESSOR)
+    // 这些复杂的正弦波动画需要在模型文件的动画中实现，或等待GeckoLib提供相应的API
 }

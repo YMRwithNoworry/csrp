@@ -1,0 +1,230 @@
+====================================================================
+              动画适配完整性验证报告
+====================================================================
+生成时间: 2026-08-06
+项目路径: D:/code/MC模组/csrp
+验证范围: src/main/java/alku/csrp/entity/
+
+====================================================================
+一、总体统计
+====================================================================
+总实体类文件数: 98
+具体实体类数(非抽象): 89
+抽象基类数: 9
+
+--------------------------------------------------------------------
+GeoEntity接口实现情况
+--------------------------------------------------------------------
+直接实现GeoEntity的实体: 26个
+通过继承实现GeoEntity的实体: 65个
+已实现GeoEntity的实体总数: 91个
+未实现GeoEntity的实体: 7个
+
+实现率: 92.9% (91/98)
+
+--------------------------------------------------------------------
+registerControllers方法实现情况
+--------------------------------------------------------------------
+包含registerControllers方法的实体: 69/89 (77.5%)
+缺少registerControllers方法的实体: 20个
+
+====================================================================
+二、继承关系分析
+====================================================================
+
+已实现GeoEntity的抽象基类:
+  1. PrimitiveParasiteEntity (implements GeoEntity, Parasite)
+  2. CrudeParasiteEntity (extends PrimitiveParasiteEntity)
+  3. BurrowingVariantEntity (extends PrimitiveParasiteEntity)
+  4. HijackedParasiteEntity (extends Monster, implements GeoEntity)
+  5. MarauderizedParasiteEntity
+  6. DerivedParasiteEntity
+  7. AssimilatedParasiteEntity (implements GeoEntity, Parasite)
+
+通过继承自动获得GeoEntity实现的实体数: 65个
+
+====================================================================
+三、未实现GeoEntity的实体列表
+====================================================================
+
+以下7个实体类未直接实现或继承GeoEntity接口:
+
+1. CruxThrownBlockDamageEntity
+   - 类型: 抛射物/伤害实体
+   - 原因: 可能是非动画实体(伤害区域)
+
+2. DragonEggAssimilationEntity
+   - 类型: 特殊实体
+   - 原因: 可能是龙蛋同化过程的特效实体
+
+3. HaunterDamageEntity
+   - 类型: 伤害实体
+   - 原因: 可能是Haunter攻击的伤害判定区域
+
+4. HaunterHomingProjectileEntity
+   - 类型: 抛射物
+   - 原因: 可能是追踪弹丸,不需要复杂动画
+
+5. ParasiteProjectileEntity
+   - 类型: 抛射物
+   - 原因: 通用寄生体抛射物
+
+6. ParasiteRemainsEntity
+   - 类型: 掉落物/残骸
+   - 原因: 可能是寄生体死亡残骸,静态模型
+
+7. ParasiticScentEntity
+   - 类型: 效果实体
+   - 原因: 气味效果实体,可能无需动画
+
+====================================================================
+四、缺少registerControllers方法的实体列表 (20个)
+====================================================================
+
+以下实体缺少registerControllers方法实现:
+
+1. CarrierFlyingEntity - 飞行载体
+2. CarrierHeavyEntity - 重型载体
+3. CarrierLightEntity - 轻型载体
+4. CruxThrownBlockDamageEntity - Crux投掷方块伤害
+5. DragonEggAssimilationEntity - 龙蛋同化
+6. HaunterDamageEntity - Haunter伤害实体
+7. HaunterHomingProjectileEntity - Haunter追踪弹
+8. HiSkeletonEntity - 劫持骷髅
+9. MarauderizedBearEntity - 掠夺熊
+10. MarauderizedCowEntity - 掠夺牛
+11. MarauderizedHumanEntity - 掠夺人类
+12. MarauderizedSheepEntity - 掠夺羊
+13. MarauderizedVillagerEntity - 掠夺村民
+14. ParasiteProjectileEntity - 寄生体抛射物
+15. ParasiteRemainsEntity - 寄生体残骸
+16. ParasiticScentEntity - 寄生气味
+17. PullingBallEntity - 牵引球
+18. ScaryOrbEntity - 恐惧球
+19. ShockwaveEntity - 冲击波
+20. VoidOrbEntity - 虚空球
+
+====================================================================
+五、编译错误检测
+====================================================================
+
+执行编译检测发现 20个错误,主要类型:
+
+1. 方法引用错误 (7个)
+   - CarrierEntity: swellAnimationPredicate方法参数不匹配
+   - ColonicIIIEntity: getEyeHeight无法覆盖final方法
+   - PriManducaterEntity: canSprint方法访问权限冲突
+   - IncompleteFormMediumEntity: setBoneAnimationProcessor找不到
+   - IncompleteFormMediumEntity: DataTickets.ANIMATION_PROCESSOR不存在
+   - UntamedPriReekerEntity: ParasiteUtil类找不到 (2处)
+
+2. API过时警告 (13个)
+   - EventBusSubscriber.bus() 已废弃
+   - EventBusSubscriber.Bus 已废弃
+   - FluidType.initializeClient() 已废弃
+
+3. 其他编译警告
+   - 使用或覆盖已过时的API
+
+====================================================================
+六、关键问题实体详细分析
+====================================================================
+
+【严重】CarrierEntity
+  问题: swellAnimationPredicate方法参数类型不匹配
+  影响: 无法正常注册动画控制器
+  建议: 检查GeckoLib API版本,修正方法签名
+
+【严重】IncompleteFormMediumEntity
+  问题: 使用了不存在的API (setBoneAnimationProcessor, DataTickets.ANIMATION_PROCESSOR)
+  影响: 骨骼动画处理器无法工作
+  建议: 更新到GeckoLib 4.7.1的正确API
+
+【严重】UntamedPriReekerEntity
+  问题: 找不到ParasiteUtil工具类
+  影响: 目标判定逻辑失效
+  建议: 检查ParasiteUtil类是否存在或导入
+
+【中等】Marauderized系列 (5个实体)
+  问题: 缺少registerControllers实现
+  影响: 没有动画控制器,实体无动画
+  建议: 为每个实体添加完整的动画控制器注册
+
+【中等】Carrier变体系列 (3个实体)
+  问题: 缺少registerControllers实现
+  影响: Carrier变体无动画
+  建议: 继承或实现父类动画逻辑
+
+【低】特效/伤害实体 (7个)
+  问题: 未实现GeoEntity或registerControllers
+  影响: 可能不需要动画
+  建议: 确认设计意图,如需动画则补充实现
+
+====================================================================
+七、动画资源文件检查
+====================================================================
+
+需要检查的动画资源目录:
+  - src/main/resources/assets/csrp/geo/
+  - src/main/resources/assets/csrp/animations/
+  - src/main/resources/assets/csrp/textures/entity/
+
+建议操作:
+  1. 验证每个已适配实体是否有对应的.geo.json模型文件
+  2. 验证每个已适配实体是否有对应的.animation.json动画文件
+  3. 验证纹理文件是否完整
+
+====================================================================
+八、总结与建议
+====================================================================
+
+✓ 成功适配: 69个实体 (77.5%)
+  - 具有完整GeoEntity实现和registerControllers方法
+
+⚠ 部分适配: 22个实体 (24.7%)
+  - 实现了GeoEntity但缺少registerControllers
+  - 或缺少某些动画控制器
+
+✗ 未适配: 7个实体 (7.1%)
+  - 多为特效/伤害/抛射物实体
+  - 可能设计上不需要动画
+
+⚠ 编译错误: 20个错误
+  - 7个方法引用错误(严重)
+  - 13个API废弃警告(需更新)
+
+====================================================================
+优先修复建议:
+====================================================================
+
+【高优先级 - 阻塞性错误】
+1. 修复CarrierEntity的swellAnimationPredicate方法签名
+2. 修复IncompleteFormMediumEntity的API调用
+3. 解决UntamedPriReekerEntity的ParasiteUtil引用问题
+4. 修复ColonicIIIEntity的getEyeHeight覆盖问题
+5. 修复PriManducaterEntity的canSprint访问权限
+
+【中优先级 - 功能缺失】
+6. 为20个缺少registerControllers的实体补充动画控制器
+7. 特别关注Marauderized系列(5个)和Carrier变体(3个)
+
+【低优先级 - 代码优化】
+8. 更新EventBusSubscriber API调用(移除bus参数)
+9. 更新FluidType.initializeClient调用
+10. 验证动画资源文件完整性
+
+====================================================================
+预期结果:
+====================================================================
+
+修复所有高优先级错误后:
+  - 编译通过率: 100%
+  - 动画适配率: 95%+ (排除特效实体)
+  - 可运行的动画实体: 85-90个
+
+当前状态:
+  - 编译状态: 失败 (20个错误)
+  - 理论适配率: 77.5% (69/89个具体实体)
+  - 实际可用率: 待修复后验证
+
+====================================================================

@@ -64,8 +64,6 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     private final RawAnimation FLY = ParasiteAnimations.loop(this, "fly");
     private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
     private final RawAnimation BECKON_BODY = ParasiteAnimations.loop(this, "get_body");
-    private final RawAnimation DISPATCHER_IDLE = ParasiteAnimations.loop(this, "dispatcher_idle");
-    private final RawAnimation DISPATCHER_SUMMON = ParasiteAnimations.loop(this, "dispatcher_summon");
     private static final int STAGE_ONE_MIN_GROWTH = 4_800;
     private static final int STAGE_ONE_GROWTH_VARIANCE = 1_201;
     private static final int TEMPORARY_BECKON_LIFETIME = 300;
@@ -435,15 +433,12 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     /**
      * Dispatcher-specific animation controller with complex tentacle and hair animations.
      * Based on original mod's ModelDod implementation with sine wave oscillations.
+     * The procedural animations (tentacles, neck, hair) are baked into the idle/walk animations.
      */
     private PlayState dispatcherAnimation(AnimationState<NexusParasiteEntity> state) {
-        // When summoning/attacking, use summoning animation
-        if (getParasiteStatus() != 0) {
-            return state.setAndContinue(DISPATCHER_SUMMON);
-        }
-
-        // Default idle animation with procedural tentacle/hair movements
-        return state.setAndContinue(DISPATCHER_IDLE);
+        // Dispatcher family uses idle animation for all states, as procedural movements
+        // (sine wave tentacle/neck/hair animations) are baked into the animation JSON
+        return state.setAndContinue(IDLE);
     }
 
     private void triggerAttackAnimation() {
