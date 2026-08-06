@@ -635,7 +635,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
             return state.setAndContinue(isBurrowing() ? BODY_DIG[body] : BODY_IDLE[body]);
         }
         if (kind == Kind.REEKER && entityData.get(REEKER_CHARGING)) {
-            return state.setAndContinue(state.isMoving() ? REEKER_CHARGE_WALK : REEKER_CHARGE_IDLE);
+            return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.0001 ? REEKER_CHARGE_WALK : REEKER_CHARGE_IDLE);
         }
         if (kind == Kind.SUMMONER && entityData.get(SUMMONER_CASTING)) {
             return state.setAndContinue(SUMMONER_CAST);
@@ -645,7 +645,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
                 case BARRAGE_WINDUP -> state.setAndContinue(BOLSTER_STATUS_25);
                 case BARRAGE -> state.setAndContinue(BOLSTER_STATUS_3);
                 case SUPPORT, VOMIT, ORB -> state.setAndContinue(BOLSTER_STATUS_15);
-                default -> state.setAndContinue(state.isMoving() ? WALK : IDLE);
+                default -> state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.0001 ? WALK : IDLE);
             };
         }
         if (supportsBurrowing() && isBurrowing()) {
@@ -657,7 +657,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
         if (isFlying(kind)) {
             return state.setAndContinue(FLY);
         }
-        if (!state.isMoving()) {
+        if (getDeltaMovement().horizontalDistanceSqr() < 0.0001) {
             return state.setAndContinue(IDLE);
         }
         return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() > 0.02D ? RUN : WALK);

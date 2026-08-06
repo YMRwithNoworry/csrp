@@ -117,17 +117,17 @@ public class PriYelloweyeEntity extends Monster implements GeoEntity, Parasite {
     @Nullable
     @Override
     protected SoundEvent getAmbientSound() {
-        return ModSounds.PRIYELLOWEYE_GROWL.get();
+        return ModSounds.get("emana.growl");
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
-        return ModSounds.PRIYELLOWEYE_HURT.get();
+        return ModSounds.get("emana.hurt");
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return ModSounds.PRIYELLOWEYE_DEATH.get();
+        return ModSounds.get("emana.death");
     }
 
     @Override
