@@ -61,6 +61,7 @@ import alku.csrp.entity.ShockwaveEntity;
 import alku.csrp.entity.VoidOrbEntity;
 import alku.csrp.entity.SimAdventurerEntity;
 import alku.csrp.entity.SimAdventurerHeadEntity;
+import alku.csrp.entity.SimHumanEntity;
 import alku.csrp.entity.SummonerEntity;
 import alku.csrp.entity.ThrallEntity;
 import alku.csrp.entity.VerminEntity;
@@ -264,9 +265,8 @@ public final class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<AssimilatedHeadEntity>> SIM_HORSE_HEAD =
             monster("sim_horsehead", (type, level) -> new AssimilatedHeadEntity(type, level,
                     AssimilatedHeadEntity.Kind.HORSE), 0.7F, 0.9F);
-    public static final DeferredHolder<EntityType<?>, EntityType<AssimilatedVariantEntity>> SIM_HUMAN =
-            monster("sim_human", (type, level) -> new AssimilatedVariantEntity(type, level,
-                    AssimilatedVariantEntity.Kind.HUMAN), 0.6F, 1.95F);
+    public static final DeferredHolder<EntityType<?>, EntityType<SimHumanEntity>> SIM_HUMAN =
+            monster("sim_human", SimHumanEntity::new, 0.6F, 1.95F);
     public static final DeferredHolder<EntityType<?>, EntityType<AssimilatedHeadEntity>> SIM_HUMAN_HEAD =
             monster("sim_humanhead", (type, level) -> new AssimilatedHeadEntity(type, level,
                     AssimilatedHeadEntity.Kind.HUMAN), 0.7F, 0.8F);
