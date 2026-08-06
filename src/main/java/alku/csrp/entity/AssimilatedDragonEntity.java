@@ -47,7 +47,9 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
     private static final int RANGED_COOLDOWN = 40;
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation FLY = ParasiteAnimations.loop(this, "fly");
+    private final RawAnimation FLY = RawAnimation.begin()
+            .thenLoop("animation.sim_dragone.idle.get_flying_state_1");
+    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
     private static final EntityDataAccessor<Boolean> FLYING = SynchedEntityData.defineId(
             AssimilatedDragonEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> HEAD_ATTACHED = SynchedEntityData.defineId(
@@ -140,6 +142,9 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
         LivingEntity livingTarget = entity instanceof LivingEntity living ? living : null;
         float healthBefore = livingTarget == null ? 0.0F : ParasiteCombatEffects.healthWithAbsorption(livingTarget);
         boolean hit = super.doHurtTarget(entity);
+        if (hit) {
+            triggerAnim("attack_controller", "attack");
+        }
         if (hit && livingTarget != null) {
             ParasiteCombatEffects.applyFearFromDamage(livingTarget, healthBefore, this);
             InfectionMechanics.applyCoth(livingTarget, this);
@@ -235,6 +240,8 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
             if (isFlying()) return state.setAndContinue(FLY);
             return state.setAndContinue(state.isMoving() ? WALK : IDLE);
         }));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
+                software.bernie.geckolib.animation.PlayState.STOP).triggerableAnim("attack", ATTACK));
     }
 
     @Override

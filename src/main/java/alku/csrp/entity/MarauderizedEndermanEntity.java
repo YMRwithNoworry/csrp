@@ -11,6 +11,10 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.animation.RawAnimation;
 
 /** Legacy Marauderized enderman: teleporting ambusher that tethers targets after a melee hit. */
 public final class MarauderizedEndermanEntity extends TetheredMarauderizedEntity {
@@ -19,6 +23,11 @@ public final class MarauderizedEndermanEntity extends TetheredMarauderizedEntity
     private static final int TELEPORT_COOLDOWN_TICKS = 20;
 
     private int teleportCooldown;
+    private final RawAnimation idleAnimation = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation walkAnimation = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation attackAnimation = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation screamingIdleAnimation = ParasiteAnimations.loop(this, "idle.is_screaming_1");
+    private final RawAnimation screamingWalkAnimation = ParasiteAnimations.loop(this, "walk.is_screaming_1");
 
     public MarauderizedEndermanEntity(EntityType<? extends MarauderizedEndermanEntity> type, Level level) {
         super(type, level, 16);
@@ -26,6 +35,22 @@ public final class MarauderizedEndermanEntity extends TetheredMarauderizedEntity
 
     public static AttributeSupplier.Builder createAttributes() {
         return createMarauderizedAttributes(80.0D, 6.0D, 21.0D, 0.5D, 0.1496D, 64.0D);
+    }
+
+    @Override
+    public void setTarget(LivingEntity target) {
+        super.setTarget(target);
+        setAggressive(target != null);
+    }
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(this, "movement_controller", 4, state ->
+                state.setAndContinue(isAggressive()
+                        ? state.isMoving() ? screamingWalkAnimation : screamingIdleAnimation
+                        : state.isMoving() ? walkAnimation : idleAnimation)));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
+                .triggerableAnim("attack", attackAnimation));
     }
 
     @Override

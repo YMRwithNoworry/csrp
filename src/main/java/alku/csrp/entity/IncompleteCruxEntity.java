@@ -4,6 +4,7 @@ import alku.csrp.registry.ModEntities;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -20,7 +21,9 @@ public final class IncompleteCruxEntity extends CrudeParasiteEntity {
     private static final int MIN_GROW_TICKS = 20 * 20;
     private static final int MAX_GROW_TICKS = 60 * 20;
     private static final int BURST_TICKS = 70;
-    private final RawAnimation ANIMATION = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
 
     private int growthDuration;
     private int growthTicks;
@@ -74,6 +77,15 @@ public final class IncompleteCruxEntity extends CrudeParasiteEntity {
     }
 
     @Override
+    public boolean doHurtTarget(Entity target) {
+        boolean hit = super.doHurtTarget(target);
+        if (hit) {
+            triggerAnim("attack_controller", "attack");
+        }
+        return hit;
+    }
+
+    @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putInt("crux_growth_duration", growthDuration);
@@ -98,7 +110,9 @@ public final class IncompleteCruxEntity extends CrudeParasiteEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> state.setAndContinue(ANIMATION)));
+                state -> state.setAndContinue(state.isMoving() ? WALK : IDLE)));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
+                software.bernie.geckolib.animation.PlayState.STOP).triggerableAnim("attack", ATTACK));
     }
 
     private void transformIntoCrux() {

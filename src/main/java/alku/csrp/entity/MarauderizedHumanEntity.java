@@ -151,6 +151,7 @@ public final class MarauderizedHumanEntity extends MarauderizedParasiteEntity {
             setDeltaMovement(getDeltaMovement().multiply(0.25D, 0.0D, 0.25D)
                     .add(direction.x * 0.62D, 0.42D, direction.z * 0.62D));
             hasImpulse = true;
+            triggerAnim("attack_controller", "attack");
             pounceCooldown = 20;
         }
     }

@@ -37,6 +37,7 @@ public final class MarauderizedVillagerEntity extends MarauderizedParasiteEntity
         projectile.configure(this, ParasiteProjectileEntity.Mode.SPINE, start, target.getEyePosition(),
                 0.85D, 3.0F, 0.75D, 50);
         level().addFreshEntity(projectile);
+        triggerAnim("attack_controller", "attack");
     }
 
     private final class SpineballGoal extends Goal {

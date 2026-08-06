@@ -4,6 +4,9 @@ import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
@@ -19,7 +22,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
@@ -40,6 +42,8 @@ import java.util.EnumSet;
  * the individual melee, flying, summoning, and ranged roles.
  */
 public final class PureParasiteEntity extends PrimitiveParasiteEntity {
+    private static final EntityDataAccessor<Boolean> WARDEN_CHARGING = SynchedEntityData.defineId(
+            PureParasiteEntity.class, EntityDataSerializers.BOOLEAN);
     private static final int MAX_ADAPTATION_HITS = 8;
     private static final int MAX_LEARNABLE_DAMAGE_SOURCES = 12;
     private static final float ADAPTATION_PER_HIT = 0.125F;
@@ -50,6 +54,11 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
     private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
     private final RawAnimation FLY = ParasiteAnimations.loop(this, "fly");
     private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation WARDEN_CHARGE_IDLE = ParasiteAnimations.loop(this,
+            "idle.get_parasite_status_3");
+    private final RawAnimation WARDEN_CHARGE_WALK = ParasiteAnimations.loop(this,
+            "walk.get_parasite_status_3");
+    private final RawAnimation LEAP = ParasiteAnimations.loop(this, "idle.get_parasite_status_10");
 
     private final Kind kind;
     private int blockBreakCooldown;
@@ -86,7 +95,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         super.registerGoals();
         switch (activeKind()) {
             case GRUNT -> {
-                goalSelector.addGoal(1, new LeapAtTargetGoal(this, 0.65F));
+                goalSelector.addGoal(1, createAnimatedLeapGoal(0.65F, 24));
                 goalSelector.addGoal(2, new EvasiveDashGoal(80, 0.70D));
                 goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.25D, false));
             }
@@ -113,11 +122,17 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
             case WARDEN -> {
                 goalSelector.addGoal(1, new WardenShockwaveGoal());
                 goalSelector.addGoal(2, new WardenChargeGoal());
-                goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.75F));
+                goalSelector.addGoal(3, createAnimatedLeapGoal(0.75F, 30));
                 goalSelector.addGoal(4, new EvasiveDashGoal(100, 0.70D));
                 goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.10D, false));
             }
         }
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(WARDEN_CHARGING, false);
     }
 
     @Override
@@ -244,11 +259,15 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private PlayState movementAnimation(AnimationState<PureParasiteEntity> state) {
+        if (isSpecialLeapAnimating()
+                && (activeKind() == Kind.GRUNT || activeKind() == Kind.MONARCH || activeKind() == Kind.WARDEN)) {
+            return state.setAndContinue(LEAP);
+        }
+        if (activeKind() == Kind.WARDEN && entityData.get(WARDEN_CHARGING)) {
+            return state.setAndContinue(state.isMoving() ? WARDEN_CHARGE_WALK : WARDEN_CHARGE_IDLE);
+        }
         if (activeKind().flying) {
             return state.setAndContinue(FLY);
-        }
-        if (attackAnimationTicks > 0) {
-            return state.setAndContinue(ATTACK);
         }
         if (!state.isMoving()) {
             return state.setAndContinue(IDLE);
@@ -273,6 +292,11 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
             triggerAnim("attack_controller", "attack");
         }
         return hit;
+    }
+
+    private void triggerAttackAnimation() {
+        attackAnimationTicks = 10;
+        triggerAnim("attack_controller", "attack");
     }
 
     private void applyMeleeEffects(LivingEntity target, Kind activeKind) {
@@ -535,6 +559,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
             if (target != null) {
                 getLookControl().setLookAt(target, 30.0F, 30.0F);
                 fireWebProjectile(target, 1);
+                triggerAttackAnimation();
                 cooldown = 70;
             }
         }
@@ -570,7 +595,9 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
                 return;
             }
             leapTowards(target, 0.75D, 0.62D);
+            startSpecialLeapAnimation(30);
             spawnBuglins(target, 5);
+            triggerAttackAnimation();
             cooldown = 220;
         }
     }
@@ -606,6 +633,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
             }
             leapTowards(target, 1.05D, 0.18D);
             spawnBuglins(target, 3);
+            triggerAttackAnimation();
             cooldown = 180;
         }
     }
@@ -687,6 +715,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
             if (target != null) {
                 getLookControl().setLookAt(target, 30.0F, 30.0F);
                 fireBomb(target);
+                triggerAttackAnimation();
                 cooldown = 80;
             }
         }
@@ -724,6 +753,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
             shots = 0;
             shotDelay = 0;
             getNavigation().stop();
+            triggerAttackAnimation();
         }
 
         @Override
@@ -779,6 +809,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         public void start() {
             chargeTicks = 0;
             getNavigation().stop();
+            triggerAttackAnimation();
         }
 
         @Override
@@ -833,6 +864,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
             shots = 0;
             shotDelay = 0;
             getNavigation().stop();
+            triggerAttackAnimation();
         }
 
         @Override
@@ -888,6 +920,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
             chargeTicks = 0;
             dashTicks = 0;
             getNavigation().stop();
+            entityData.set(WARDEN_CHARGING, true);
         }
 
         @Override
@@ -924,6 +957,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         @Override
         public void stop() {
             cooldown = 220;
+            entityData.set(WARDEN_CHARGING, false);
         }
     }
 
@@ -969,8 +1003,9 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
             if (chargeTicks < 20) {
                 level().addParticle(ParticleTypes.FLAME, getX(), getY() + getBbHeight() * 0.5D, getZ(),
                         0.0D, 0.04D, 0.0D);
-            } else if (chargeTicks == 20) {
+        } else if (chargeTicks == 20) {
                 fireShockwave(target);
+                triggerAttackAnimation();
             }
         }
 

@@ -2,6 +2,7 @@ package alku.csrp.entity;
 
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -18,7 +19,9 @@ public final class HeedEntity extends CrudeParasiteEntity {
     private static final int SIGNAL_COOLDOWN_TICKS = 1000;
     private static final int RAGE_COOLDOWN_TICKS = 200;
     private static final int RAGE_DURATION_TICKS = 1200;
-    private final RawAnimation ANIMATION = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
 
     private int signalCooldown = SIGNAL_COOLDOWN_TICKS;
     private int rageCooldown = RAGE_COOLDOWN_TICKS;
@@ -69,8 +72,19 @@ public final class HeedEntity extends CrudeParasiteEntity {
     }
 
     @Override
+    public boolean doHurtTarget(Entity target) {
+        boolean hit = super.doHurtTarget(target);
+        if (hit) {
+            triggerAnim("attack_controller", "attack");
+        }
+        return hit;
+    }
+
+    @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> state.setAndContinue(ANIMATION)));
+                state -> state.setAndContinue(state.isMoving() ? WALK : IDLE)));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
+                software.bernie.geckolib.animation.PlayState.STOP).triggerableAnim("attack", ATTACK));
     }
 }

@@ -56,9 +56,27 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
     private final RawAnimation FLY = ParasiteAnimations.loop(this, "fly");
     private final RawAnimation DIG = ParasiteAnimations.loop(this, "func_78087_a.getDigging");
     private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation DEVOURER_IDLE = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation DEVOURER_MOVEMENT = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation DEVOURER_ATTACK = ParasiteAnimations.play(this, "attack");
     private final RawAnimation REEKER_WINDUP = ParasiteAnimations.loop(
             this, "idle.get_parasite_status_3.get_still_ani_1");
     private final RawAnimation REEKER_CHARGE = ParasiteAnimations.loop(this, "walk.get_parasite_status_3");
+    private final RawAnimation[] BODY_IDLE = {
+            ParasiteAnimations.loop(this, "idle"),
+            ParasiteAnimations.loop(this, "idle.get_body_number_1"),
+            ParasiteAnimations.loop(this, "idle.get_body_number_2")
+    };
+    private final RawAnimation[] BODY_DIG = {
+            DIG,
+            ParasiteAnimations.loop(this, "get_dig_model.get_body_number_1.get_digging_1"),
+            ParasiteAnimations.loop(this, "get_dig_model.get_body_number_2.get_digging_1")
+    };
+    private final RawAnimation[] BODY_ATTACK = {
+            ATTACK,
+            ParasiteAnimations.loop(this, "get_attack_timer.get_body_number_1"),
+            ParasiteAnimations.loop(this, "get_attack_timer.get_body_number_2")
+    };
 
     private final Kind kind;
     private int abilityCooldown;
@@ -291,16 +309,35 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
-                .triggerableAnim("attack", ATTACK));
+        if (activeKind() == Kind.DEVOURER) {
+            controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
+                    .triggerableAnim("attack", DEVOURER_ATTACK));
+        } else {
+            controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
+                    .triggerableAnim("attack", ATTACK));
+        }
     }
 
     private PlayState movementAnimation(AnimationState<PrimitiveVariantEntity> state) {
+        if (getBodyNumber() > 0) {
+            int body = Math.min(getBodyNumber(), BODY_IDLE.length - 1);
+            if (activeKind() == Kind.TOZOON && isBodyAttackAnimating()) {
+                return state.setAndContinue(BODY_ATTACK[body]);
+            }
+            return state.setAndContinue(isBurrowing() ? BODY_DIG[body] : BODY_IDLE[body]);
+        }
         if (supportsBurrowing() && isBurrowing()) {
             return state.setAndContinue(DIG);
         }
         if (activeKind() == Kind.YELLOWEYE) {
             return state.setAndContinue(FLY);
+        }
+        if (activeKind() == Kind.DEVOURER) {
+            // Devourer: idle when no target, movement animation when has target or moving
+            if (getTarget() != null || state.isMoving()) {
+                return state.setAndContinue(DEVOURER_MOVEMENT);
+            }
+            return state.setAndContinue(DEVOURER_IDLE);
         }
         if (activeKind() == Kind.REEKER) {
             return switch (entityData.get(REEKER_CHARGE_STATE)) {
@@ -399,6 +436,12 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
     }
 
     @Override
+    protected int bodySegmentCount() {
+        Kind kind = activeKind();
+        return kind == Kind.BURROWER || kind == Kind.TOZOON ? 2 : 0;
+    }
+
+    @Override
     protected SoundEvent burrowSound() {
         return activeKind() == Kind.BURROWER
                 ? ModSounds.PRIMITIVE_BURROWER_DIG.get()
@@ -438,6 +481,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
                 target.push(pull.x, 0.10D, pull.z);
             }
             fireWebProjectile(target, 0);
+            triggerAnim("attack_controller", "attack");
             abilityCooldown = 80;
         }
     }
@@ -464,6 +508,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
                 ally.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 600, 1), PrimitiveVariantEntity.this);
                 ally.clearFire();
             }
+            triggerAnim("attack_controller", "attack");
             abilityCooldown = 600;
         }
     }
@@ -496,6 +541,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
                 direction = direction.normalize();
                 setDeltaMovement(direction.x * 0.65D, 0.45D, direction.z * 0.65D);
             }
+            triggerAnim("attack_controller", "attack");
             abilityCooldown = 90;
         }
     }
@@ -607,6 +653,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
             getLookControl().setLookAt(target, 30.0F, 30.0F);
             boolean acid = ++rangedShots % 4 == 0;
             fireYelloweyeProjectile(target, acid);
+            triggerAnim("attack_controller", "attack");
             abilityCooldown = acid ? 80 : 30;
         }
     }

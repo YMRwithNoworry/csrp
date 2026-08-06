@@ -4,6 +4,9 @@ import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModItems;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
@@ -44,12 +47,16 @@ import software.bernie.geckolib.util.GeckoLibUtil;
  * transition, and explosive remains burst.
  */
 public final class AssimilatedVariantEntity extends Monster implements GeoEntity, Parasite {
+    private static final EntityDataAccessor<Boolean> SPIDER_AIMING = SynchedEntityData.defineId(
+            AssimilatedVariantEntity.class, EntityDataSerializers.BOOLEAN);
     private static final float HEAD_SPAWN_CHANCE = 0.5F;
     private static final float EXPLOSION_CHANCE = 0.25F;
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
     private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
     private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation SPIDER_AIM_IDLE = ParasiteAnimations.loop(this, "idle.get_parasite_status_1");
+    private final RawAnimation SPIDER_AIM_WALK = ParasiteAnimations.loop(this, "walk.get_parasite_status_1");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private final Kind kind;
@@ -70,6 +77,12 @@ public final class AssimilatedVariantEntity extends Monster implements GeoEntity
                 .add(Attributes.KNOCKBACK_RESISTANCE, kind.knockbackResistance)
                 .add(Attributes.MOVEMENT_SPEED, kind.movementSpeed)
                 .add(Attributes.FOLLOW_RANGE, kind.followRange);
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(SPIDER_AIMING, false);
     }
 
     @Override
@@ -107,6 +120,10 @@ public final class AssimilatedVariantEntity extends Monster implements GeoEntity
         }
         if (rangedCooldown > 0) {
             rangedCooldown--;
+        }
+        if (kind == Kind.BIGSPIDER) {
+            LivingEntity target = getTarget();
+            entityData.set(SPIDER_AIMING, target != null && target.isAlive());
         }
         if (tickCount % 20 == 0) {
             infectNearby();
@@ -178,6 +195,9 @@ public final class AssimilatedVariantEntity extends Monster implements GeoEntity
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
+            if (kind == Kind.BIGSPIDER && entityData.get(SPIDER_AIMING)) {
+                return state.setAndContinue(state.isMoving() ? SPIDER_AIM_WALK : SPIDER_AIM_IDLE);
+            }
             if (!state.isMoving()) {
                 return state.setAndContinue(IDLE);
             }

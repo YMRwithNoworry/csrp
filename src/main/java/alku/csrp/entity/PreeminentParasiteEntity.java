@@ -549,10 +549,12 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         if (activeKind().flying) {
             return state.setAndContinue(FLY);
         }
-        if (attackAnimationTicks > 0) {
-            return state.setAndContinue(ATTACK);
-        }
         return state.setAndContinue(state.isMoving() ? WALK : IDLE);
+    }
+
+    private void triggerAttackAnimation() {
+        attackAnimationTicks = 10;
+        triggerAnim("attack_controller", "attack");
     }
 
     private boolean isStealthKind() {
@@ -695,6 +697,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         for (int index = 0; index < 4; index++) {
             serverLevel.broadcastEntityEvent(flam, BIOMASS_EVENT);
         }
+        triggerAttackAnimation();
         return true;
     }
 
@@ -707,6 +710,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         Vec3 start = getEyePosition().add(getViewVector(1.0F).scale(0.65D));
         projectile.configure(this, mode, start, target.getEyePosition(), speed, damage, radius, lifetime, target);
         level().addFreshEntity(projectile);
+        triggerAttackAnimation();
     }
 
     private void fireLegacyProjectile(LivingEntity target, ParasiteProjectileEntity.Mode mode) {
@@ -726,6 +730,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         projectile.configureAccelerating(this, mode, start, accelerationDirection,
                 (float) getAttributeValue(Attributes.ATTACK_DAMAGE), radius);
         level().addFreshEntity(projectile);
+        triggerAttackAnimation();
     }
 
     private void spawnHeavyPayload(LivingEntity target) {
@@ -1355,6 +1360,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         projectile.configure(this, target, start);
         playSound(ModSounds.DORPA_RANGE.get(), 2.0F, 1.0F);
         level().addFreshEntity(projectile);
+        triggerAttackAnimation();
     }
 
     private void breakHaunterBlocks(LivingEntity target) {

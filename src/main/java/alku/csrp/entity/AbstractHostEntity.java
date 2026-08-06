@@ -29,6 +29,9 @@ import java.util.EnumSet;
 abstract class AbstractHostEntity extends CrudeParasiteEntity {
     private static final EntityDataAccessor<Boolean> BURROWED =
             SynchedEntityData.defineId(AbstractHostEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> BURROW_ANIMATION_TICKS =
+            SynchedEntityData.defineId(AbstractHostEntity.class, EntityDataSerializers.INT);
+    protected static final int BURROW_TRANSITION_TICKS = 10;
 
     private final double baseMovementSpeed;
     private final double attackRadius;
@@ -66,6 +69,7 @@ abstract class AbstractHostEntity extends CrudeParasiteEntity {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(BURROWED, false);
+        builder.define(BURROW_ANIMATION_TICKS, 0);
     }
 
     @Override
@@ -87,6 +91,9 @@ abstract class AbstractHostEntity extends CrudeParasiteEntity {
         }
         if (rangedCooldown > 0) {
             rangedCooldown--;
+        }
+        if (entityData.get(BURROW_ANIMATION_TICKS) > 0) {
+            entityData.set(BURROW_ANIMATION_TICKS, entityData.get(BURROW_ANIMATION_TICKS) - 1);
         }
         updateBurrowState();
         if (!isBurrowed()) {
@@ -124,10 +131,14 @@ abstract class AbstractHostEntity extends CrudeParasiteEntity {
                 hit = true;
             }
         }
+        if (hit) {
+            triggerAttackAnimation();
+        }
         return hit;
     }
 
     protected void performShockwave() {
+        triggerAttackAnimation();
         float damage = (float) Math.max(1.0, getAttributeValue(Attributes.ATTACK_DAMAGE) * 0.3);
         hurtNearby(this, shockwaveRadius, damage, true);
     }
@@ -142,6 +153,7 @@ abstract class AbstractHostEntity extends CrudeParasiteEntity {
         Vec3 destination = target.position().add(0.0, target.getBbHeight() * 0.5, 0.0);
         projectile.configure(this, mode, start, destination, speed, damage, radius, lifetime);
         level().addFreshEntity(projectile);
+        triggerAttackAnimation();
         rangedCooldown = rangedInterval;
     }
 
@@ -169,8 +181,18 @@ abstract class AbstractHostEntity extends CrudeParasiteEntity {
     }
 
     public void setBurrowed(boolean burrowed) {
+        if (entityData.get(BURROWED) == burrowed) {
+            return;
+        }
         entityData.set(BURROWED, burrowed);
+        entityData.set(BURROW_ANIMATION_TICKS, BURROW_TRANSITION_TICKS);
     }
+
+    public int getBurrowAnimationTicks() {
+        return entityData.get(BURROW_ANIMATION_TICKS);
+    }
+
+    protected abstract void triggerAttackAnimation();
 
     @Override
     protected SoundEvent getAmbientSound() {

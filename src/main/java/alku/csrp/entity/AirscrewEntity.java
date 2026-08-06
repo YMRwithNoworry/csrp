@@ -44,7 +44,9 @@ public final class AirscrewEntity extends CrudeParasiteEntity implements Pulling
     private static final int PULL_DURATION_TICKS = 600;
     private static final int VOLLEY_COOLDOWN_TICKS = 300;
     private static final double PULL_STRENGTH = 0.1;
-    private final RawAnimation ANIMATION = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
     private static final EntityDataAccessor<Integer> PULL_TARGET_0 = SynchedEntityData.defineId(
             AirscrewEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> PULL_TARGET_1 = SynchedEntityData.defineId(
@@ -195,6 +197,15 @@ public final class AirscrewEntity extends CrudeParasiteEntity implements Pulling
         heal(Math.max(1.0F, consumedHealth * 0.2F));
     }
 
+    @Override
+    public boolean doHurtTarget(Entity target) {
+        boolean hit = super.doHurtTarget(target);
+        if (hit) {
+            triggerAnim("attack_controller", "attack");
+        }
+        return hit;
+    }
+
     private LivingEntity resolveTarget(UUID id) {
         if (!(level() instanceof ServerLevel serverLevel)) return null;
         Entity entity = serverLevel.getEntity(id);
@@ -274,6 +285,7 @@ public final class AirscrewEntity extends CrudeParasiteEntity implements Pulling
     }
 
     private void firePullingVolley(LivingEntity primary) {
+        triggerAnim("attack_controller", "attack");
         List<LivingEntity> targets = new ArrayList<>();
         targets.add(primary);
         for (LivingEntity candidate : level().getEntitiesOfClass(LivingEntity.class,
@@ -330,7 +342,9 @@ public final class AirscrewEntity extends CrudeParasiteEntity implements Pulling
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> state.setAndContinue(ANIMATION)));
+                state -> state.setAndContinue(state.isMoving() ? WALK : IDLE)));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
+                software.bernie.geckolib.animation.PlayState.STOP).triggerableAnim("attack", ATTACK));
     }
 
     private final class AirscrewFlightGoal extends Goal {

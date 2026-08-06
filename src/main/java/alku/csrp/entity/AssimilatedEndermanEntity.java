@@ -16,6 +16,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -24,6 +25,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
@@ -36,6 +38,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -51,12 +54,25 @@ import java.util.List;
 public final class AssimilatedEndermanEntity extends Monster implements GeoEntity, Parasite {
     private static final EntityDataAccessor<Boolean> SHRIMP_FED = SynchedEntityData.defineId(
             AssimilatedEndermanEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> SCREAMING = SynchedEntityData.defineId(
+            AssimilatedEndermanEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> CRAWLING = SynchedEntityData.defineId(
+            AssimilatedEndermanEntity.class, EntityDataSerializers.BOOLEAN);
     private static final int TARGET_GRACE_TICKS = 80;
     private static final int SELF_TELEPORT_COOLDOWN = 20;
     private static final int ALLY_TELEPORT_COOLDOWN = 40;
     private static final double MIN_TARGET_DISTANCE_SQR = 100.0D;
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation SCREAM_IDLE = ParasiteAnimations.loop(this, "idle.is_screaming_1");
+    private final RawAnimation SCREAM_WALK = ParasiteAnimations.loop(this, "walk.is_screaming_1");
+    private final RawAnimation CRAWL_IDLE = ParasiteAnimations.loop(this, "idle.is_crawling_1");
+    private final RawAnimation CRAWL_WALK = ParasiteAnimations.loop(this, "walk.is_crawling_1");
+    private final RawAnimation CRAWL_SCREAM_IDLE = ParasiteAnimations.loop(
+            this, "idle.is_crawling_1.is_screaming_1");
+    private final RawAnimation CRAWL_SCREAM_WALK = ParasiteAnimations.loop(
+            this, "walk.is_crawling_1.is_screaming_1");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private int targetTicks;
@@ -83,6 +99,23 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(SHRIMP_FED, false);
+        builder.define(SCREAMING, false);
+        builder.define(CRAWLING, false);
+    }
+
+    @Override
+    public void setTarget(LivingEntity target) {
+        super.setTarget(target);
+        entityData.set(SCREAMING, target != null);
+        setAggressive(target != null);
+    }
+
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
+                                        MobSpawnType spawnType, SpawnGroupData spawnGroupData) {
+        SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
+        entityData.set(CRAWLING, random.nextDouble() < 0.33D);
+        return data;
     }
 
     public boolean isShrimpFed() {
@@ -167,6 +200,9 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
         LivingEntity livingTarget = entity instanceof LivingEntity living ? living : null;
         float healthBefore = livingTarget == null ? 0.0F : ParasiteCombatEffects.healthWithAbsorption(livingTarget);
         boolean hit = super.doHurtTarget(entity);
+        if (hit) {
+            triggerAnim("attack_controller", "attack");
+        }
         if (hit && livingTarget != null) {
             ParasiteCombatEffects.applyFearFromDamage(livingTarget, healthBefore, this);
             InfectionMechanics.applyCoth(livingTarget, this);
@@ -205,6 +241,7 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
         tag.putInt("self_teleport_cooldown", selfTeleportCooldown);
         tag.putInt("ally_teleport_cooldown", allyTeleportCooldown);
         tag.putBoolean("shrimp_fed", isShrimpFed());
+        tag.putBoolean("crawling", entityData.get(CRAWLING));
     }
 
     @Override
@@ -215,6 +252,7 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
         selfTeleportCooldown = tag.getInt("self_teleport_cooldown");
         allyTeleportCooldown = tag.getInt("ally_teleport_cooldown");
         setShrimpFed(tag.getBoolean("shrimp_fed"));
+        entityData.set(CRAWLING, tag.getBoolean("crawling"));
     }
 
     @Override
@@ -254,8 +292,18 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> state.setAndContinue(state.isMoving() ? WALK : IDLE)));
+        controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
+            boolean moving = state.isMoving();
+            if (entityData.get(CRAWLING)) {
+                return state.setAndContinue(entityData.get(SCREAMING)
+                        ? moving ? CRAWL_SCREAM_WALK : CRAWL_SCREAM_IDLE
+                        : moving ? CRAWL_WALK : CRAWL_IDLE);
+            }
+            return state.setAndContinue(entityData.get(SCREAMING)
+                    ? moving ? SCREAM_WALK : SCREAM_IDLE : moving ? WALK : IDLE);
+        }));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
+                software.bernie.geckolib.animation.PlayState.STOP).triggerableAnim("attack", ATTACK));
     }
 
     @Override

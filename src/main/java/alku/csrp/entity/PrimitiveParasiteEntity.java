@@ -32,6 +32,8 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
@@ -54,6 +56,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public abstract class PrimitiveParasiteEntity extends Monster implements GeoEntity, Parasite {
     private static final EntityDataAccessor<Byte> ADAPTATION_HIT_STATUS = SynchedEntityData.defineId(
             PrimitiveParasiteEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Integer> SPECIAL_LEAP_TICKS = SynchedEntityData.defineId(
+            PrimitiveParasiteEntity.class, EntityDataSerializers.INT);
     private static final String KILLS_TAG = "parasitekills";
     private static final String LEGACY_KILLCOUNT_TAG = "legacy_killcount";
     private static final String ADAPTATIONS_TAG = "damage_adaptations";
@@ -102,11 +106,18 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(ADAPTATION_HIT_STATUS, (byte) 0);
+        builder.define(SPECIAL_LEAP_TICKS, 0);
     }
 
     @Override
     public void tick() {
         super.tick();
+        if (!level().isClientSide) {
+            int leapTicks = entityData.get(SPECIAL_LEAP_TICKS);
+            if (leapTicks > 0) {
+                entityData.set(SPECIAL_LEAP_TICKS, leapTicks - 1);
+            }
+        }
         if (!level().isClientSide && tickCount % 20 == 0 && !Config.useEvolutionPhases()
                 && level().getDifficulty() == Difficulty.HARD && Config.killcountPlus() > 0.0D) {
             double previous = legacyKillCount;
@@ -133,6 +144,24 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
                 fireAdaptationBlockTicks--;
             }
         }
+    }
+
+    protected final Goal createAnimatedLeapGoal(float verticalVelocity, int animationTicks) {
+        return new LeapAtTargetGoal(this, verticalVelocity) {
+            @Override
+            public void start() {
+                super.start();
+                startSpecialLeapAnimation(animationTicks);
+            }
+        };
+    }
+
+    protected final void startSpecialLeapAnimation(int animationTicks) {
+        entityData.set(SPECIAL_LEAP_TICKS, Math.max(1, animationTicks));
+    }
+
+    protected final boolean isSpecialLeapAnimating() {
+        return entityData.get(SPECIAL_LEAP_TICKS) > 0;
     }
 
     @Override

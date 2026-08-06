@@ -1,1 +1,7 @@
-{"parent":"minecraft:block/cross","textures":{"cross":"csrp:block/alveoli_growth"}}
+{
+  "parent": "minecraft:block/cross",
+  "render_type": "cutout",
+  "textures": {
+    "cross": "csrp:block/alveoli_growth"
+  }
+}

@@ -9,6 +9,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -31,6 +32,8 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity {
     }
     private static final float LOW_HEALTH_FUSE_THRESHOLD = 0.05F;
     private static final String FUSE_TICKS_TAG = "carrier_fuse_ticks";
+    private final RawAnimation walkAnimation = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation attackAnimation = ParasiteAnimations.play(this, "attack");
 
     private final int fuseTime;
     private final int residueRadius;
@@ -68,7 +71,19 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> state.setAndContinue(idleAnimation())));
+                state -> state.setAndContinue(state.isMoving() ? walkAnimation : idleAnimation())));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
+                software.bernie.geckolib.animation.PlayState.STOP)
+                .triggerableAnim("attack", attackAnimation));
+    }
+
+    @Override
+    public boolean doHurtTarget(Entity target) {
+        boolean hit = super.doHurtTarget(target);
+        if (hit) {
+            triggerAnim("attack_controller", "attack");
+        }
+        return hit;
     }
 
     @Override
@@ -90,6 +105,7 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity {
         if (fuseTicks < 0) {
             fuseTicks = 0;
             getNavigation().stop();
+            triggerAnim("attack_controller", "attack");
         }
     }
 

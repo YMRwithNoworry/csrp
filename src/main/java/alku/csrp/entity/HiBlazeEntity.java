@@ -114,6 +114,7 @@ public final class HiBlazeEntity extends HijackedParasiteEntity {
             burstShots = 4;
             burstDelay = 0;
             rangedCooldown = 80;
+            triggerAttackAnimation();
         }
 
         @Override

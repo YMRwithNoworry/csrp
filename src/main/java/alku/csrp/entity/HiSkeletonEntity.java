@@ -65,6 +65,7 @@ public final class HiSkeletonEntity extends HijackedParasiteEntity {
                 return;
             }
             getLookControl().setLookAt(target, 30.0F, 30.0F);
+            triggerAttackAnimation();
             fireSpineball(target);
             rangedCooldown = 40;
         }

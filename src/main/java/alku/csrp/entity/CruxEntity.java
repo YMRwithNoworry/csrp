@@ -40,8 +40,8 @@ public final class CruxEntity extends CrudeParasiteEntity {
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
     private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
-    private final RawAnimation THROW = ParasiteAnimations.play(this, "throw");
+    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "get_attack_timer_m");
+    private final RawAnimation THROW = ParasiteAnimations.play(this, "get_attack_timer_r");
 
     private int attackCooldown;
     private int throwCooldown;

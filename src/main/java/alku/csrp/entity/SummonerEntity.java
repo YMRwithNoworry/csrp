@@ -1,8 +1,12 @@
 package alku.csrp.entity;
 
 import alku.csrp.registry.ModEntities;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -17,9 +21,13 @@ import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 
 public final class SummonerEntity extends PrimitiveParasiteEntity {
+    private static final EntityDataAccessor<Boolean> SUMMONING = SynchedEntityData.defineId(
+            SummonerEntity.class, EntityDataSerializers.BOOLEAN);
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
     private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
+    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation SUMMON = ParasiteAnimations.loop(this, "idle.get_parasite_status_10");
     private int summonCooldown = 200;
 
     public SummonerEntity(EntityType<? extends SummonerEntity> type, Level level) {
@@ -64,19 +72,44 @@ public final class SummonerEntity extends PrimitiveParasiteEntity {
         }
     }
 
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(SUMMONING, false);
+    }
+
+    @Override
+    public boolean doHurtTarget(Entity target) {
+        boolean hit = super.doHurtTarget(target);
+        if (hit) {
+            triggerAnim("attack_controller", "attack");
+        }
+        return hit;
+    }
+
     @Override public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
+            if (entityData.get(SUMMONING)) return state.setAndContinue(SUMMON);
             if (!state.isMoving()) return state.setAndContinue(IDLE);
             return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() > 0.02 ? RUN : WALK);
         }));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
+                .triggerableAnim("attack", ATTACK));
     }
 
     private final class SummonGoal extends Goal {
         private int castTicks;
         @Override public boolean canUse() { return summonCooldown == 0 && getTarget() != null && distanceToSqr(getTarget()) <= 256.0; }
         @Override public boolean canContinueToUse() { return castTicks < 40; }
-        @Override public void start() { castTicks = 0; getNavigation().stop(); }
+        @Override public void start() {
+            castTicks = 0;
+            getNavigation().stop();
+            entityData.set(SUMMONING, true);
+        }
         @Override public void tick() { if (++castTicks == 30) summonMinions(); }
-        @Override public void stop() { summonCooldown = 200; }
+        @Override public void stop() {
+            entityData.set(SUMMONING, false);
+            summonCooldown = 200;
+        }
     }
 }

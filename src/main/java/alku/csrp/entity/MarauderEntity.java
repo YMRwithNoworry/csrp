@@ -87,8 +87,12 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
             MarauderEntity.class, EntityDataSerializers.BOOLEAN);
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation SMASH = ParasiteAnimations.loop(this, "smash");
-    private final RawAnimation SWIPE = ParasiteAnimations.play(this, "swipe");
+    private final RawAnimation SMASH_CHARGE =
+            ParasiteAnimations.loop(this, "idle.get_parasite_status_25");
+    private final RawAnimation SMASH =
+            ParasiteAnimations.loop(this, "idle.get_parasite_status_3");
+    private final RawAnimation SWIPE = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation LEAP = ParasiteAnimations.loop(this, "idle.get_parasite_status_10");
 
     @Nullable
     private UUID leftTendrilId;
@@ -122,6 +126,7 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
     @Override
     protected void registerGoals() {
         super.registerGoals();
+        goalSelector.addGoal(0, createAnimatedLeapGoal(1.2F, 40));
         goalSelector.addGoal(1, new MarauderSmashGoal());
         goalSelector.addGoal(2, new MarauderMeleeGoal());
     }
@@ -453,8 +458,11 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
     }
 
     private PlayState movementAnimation(AnimationState<MarauderEntity> state) {
+        if (isSpecialLeapAnimating()) {
+            return state.setAndContinue(LEAP);
+        }
         if (getSmashTicks() > 0) {
-            return state.setAndContinue(SMASH);
+            return state.setAndContinue(getSmashTicks() < SMASH_CHARGE_TICKS ? SMASH_CHARGE : SMASH);
         }
         return state.setAndContinue(state.isMoving() ? WALK : IDLE);
     }

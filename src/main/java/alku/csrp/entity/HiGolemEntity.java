@@ -14,6 +14,11 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.AnimationState;
+import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.animation.RawAnimation;
 
 import java.util.EnumSet;
 import java.util.HashSet;
@@ -24,6 +29,13 @@ import java.util.UUID;
 public final class HiGolemEntity extends HijackedParasiteEntity {
     private static final EntityDataAccessor<Boolean> CHARGING = SynchedEntityData.defineId(
             HiGolemEntity.class, EntityDataSerializers.BOOLEAN);
+    private final RawAnimation idleAnimation = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation walkAnimation = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation attackAnimation = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation chargeIdleAnimation = ParasiteAnimations.loop(this,
+            "idle.get_parasite_status_3");
+    private final RawAnimation chargeWalkAnimation = ParasiteAnimations.loop(this,
+            "walk.get_parasite_status_3");
 
     private int chargeCooldown;
 
@@ -58,6 +70,20 @@ public final class HiGolemEntity extends HijackedParasiteEntity {
 
     public boolean isCharging() {
         return entityData.get(CHARGING);
+    }
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
+                .triggerableAnim("attack", attackAnimation));
+    }
+
+    private PlayState movementAnimation(AnimationState<HiGolemEntity> state) {
+        if (isCharging()) {
+            return state.setAndContinue(state.isMoving() ? chargeWalkAnimation : chargeIdleAnimation);
+        }
+        return state.setAndContinue(state.isMoving() ? walkAnimation : idleAnimation);
     }
 
     @Override
@@ -102,6 +128,7 @@ public final class HiGolemEntity extends HijackedParasiteEntity {
             struckTargets.clear();
             chargeCooldown = 120;
             entityData.set(CHARGING, true);
+            triggerAttackAnimation();
             getNavigation().stop();
         }
 

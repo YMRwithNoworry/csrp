@@ -20,7 +20,9 @@ public final class ThrallEntity extends CrudeParasiteEntity {
     public boolean supportsDamageAdaptation() {
         return true;
     }
-    private final RawAnimation ANIMATION = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
 
     public ThrallEntity(EntityType<? extends ThrallEntity> type, Level level) {
         super(type, level);
@@ -42,6 +44,9 @@ public final class ThrallEntity extends CrudeParasiteEntity {
     @Override
     public boolean doHurtTarget(Entity entity) {
         boolean hit = super.doHurtTarget(entity);
+        if (hit) {
+            triggerAnim("attack_controller", "attack");
+        }
         if (hit && entity instanceof Player target && hasCustomName()
                 && target.getGameProfile().getName().equals(getCustomName().getString())) {
             target.hurt(damageSources().mobAttack(this),
@@ -68,6 +73,8 @@ public final class ThrallEntity extends CrudeParasiteEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> state.setAndContinue(ANIMATION)));
+                state -> state.setAndContinue(state.isMoving() ? WALK : IDLE)));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
+                software.bernie.geckolib.animation.PlayState.STOP).triggerableAnim("attack", ATTACK));
     }
 }

@@ -58,6 +58,7 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
             MovingFleshEntity.class, EntityDataSerializers.FLOAT);
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
 
     private float targetScale = 1.0F;
     private int mergeCooldown;
@@ -129,6 +130,7 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
             return false;
         }
         mergeContacts++;
+        triggerAnim("attack_controller", "attack");
         if (mergeContacts < 3) {
             return true;
         }
@@ -215,6 +217,8 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
                 state -> state.setAndContinue(state.isMoving() ? WALK : IDLE)));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
+                software.bernie.geckolib.animation.PlayState.STOP).triggerableAnim("attack", ATTACK));
     }
 
     private void absorb(MovingFleshEntity other) {

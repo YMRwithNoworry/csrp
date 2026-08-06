@@ -33,7 +33,6 @@ public final class AbominationEntity extends PrimitiveParasiteEntity {
 
     private final Kind kind;
     private int supportCooldown;
-    private int attackAnimationTicks;
 
     public AbominationEntity(EntityType<? extends AbominationEntity> type, Level level, Kind kind) {
         super(type, level);
@@ -60,9 +59,6 @@ public final class AbominationEntity extends PrimitiveParasiteEntity {
     @Override
     public void tick() {
         super.tick();
-        if (attackAnimationTicks > 0) {
-            attackAnimationTicks--;
-        }
         if (level().isClientSide || activeKind() != Kind.BODIES) {
             return;
         }
@@ -83,7 +79,7 @@ public final class AbominationEntity extends PrimitiveParasiteEntity {
     public boolean doHurtTarget(Entity target) {
         boolean hurt = super.doHurtTarget(target);
         if (hurt) {
-            attackAnimationTicks = 8;
+            triggerAnim("attack_controller", "attack");
         }
         return hurt;
     }
@@ -91,6 +87,8 @@ public final class AbominationEntity extends PrimitiveParasiteEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
+                software.bernie.geckolib.animation.PlayState.STOP).triggerableAnim("attack", ATTACK));
     }
 
     public Kind getKind() {
@@ -102,9 +100,6 @@ public final class AbominationEntity extends PrimitiveParasiteEntity {
     }
 
     private PlayState movementAnimation(AnimationState<AbominationEntity> state) {
-        if (attackAnimationTicks > 0) {
-            return state.setAndContinue(ATTACK);
-        }
         return state.setAndContinue(state.isMoving() ? WALK : IDLE);
     }
 

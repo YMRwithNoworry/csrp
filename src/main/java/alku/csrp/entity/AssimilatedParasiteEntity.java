@@ -76,11 +76,16 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
             SynchedEntityData.defineId(AssimilatedParasiteEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Float> MELT_HEIGHT =
             SynchedEntityData.defineId(AssimilatedParasiteEntity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Integer> COW_CHARGE_STATE =
+            SynchedEntityData.defineId(AssimilatedParasiteEntity.class, EntityDataSerializers.INT);
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
     private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
     private final RawAnimation SWIM = ParasiteAnimations.loop(this, "walk");
     private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation COW_CHARGE_WINDUP = ParasiteAnimations.loop(
+            this, "idle.get_parasite_status_3.get_still_ani_1");
+    private final RawAnimation COW_CHARGING = ParasiteAnimations.loop(this, "walk.get_parasite_status_3");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private final Kind kind;
@@ -262,6 +267,7 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
         builder.define(TAMED_WOLF_TEXTURE, false);
         builder.define(MELTING, false);
         builder.define(MELT_HEIGHT, 0.0F);
+        builder.define(COW_CHARGE_STATE, 0);
     }
 
     public boolean canMelt() {
@@ -363,6 +369,15 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
+            if (kind == Kind.COW) {
+                int chargeState = entityData.get(COW_CHARGE_STATE);
+                if (chargeState == 1) {
+                    return state.setAndContinue(COW_CHARGE_WINDUP);
+                }
+                if (chargeState == 2) {
+                    return state.setAndContinue(COW_CHARGING);
+                }
+            }
             if (kind == Kind.SQUID) {
                 return state.setAndContinue(SWIM);
             }
@@ -548,6 +563,7 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
             ticks = 0;
             chargeDestination = null;
             navigation.stop();
+            entityData.set(COW_CHARGE_STATE, 1);
         }
 
         @Override
@@ -566,6 +582,7 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
                 Vec3 direction = target.position().subtract(position()).normalize();
                 chargeDestination = position().add(direction.scale(15.0D));
                 navigation.moveTo(chargeDestination.x, chargeDestination.y, chargeDestination.z, 2.0D);
+                entityData.set(COW_CHARGE_STATE, 2);
             }
 
             DragonEggAssimilationEntity.assimilateDragonEggs(level(),
@@ -589,6 +606,7 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
             chargeCooldown = 100;
             ticks = 0;
             chargeDestination = null;
+            entityData.set(COW_CHARGE_STATE, 0);
         }
     }
 }

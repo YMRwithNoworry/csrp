@@ -2,6 +2,9 @@ package alku.csrp.entity;
 
 import alku.csrp.registry.ModSounds;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -27,7 +30,13 @@ public final class DredgeEntity extends CrudeParasiteEntity {
     }
     private static final int MAX_PULL_TICKS = 200;
     private static final double PULL_STRENGTH = 0.13;
-    private final RawAnimation ANIMATION = ParasiteAnimations.loop(this, "idle");
+    private static final EntityDataAccessor<Boolean> PULLING = SynchedEntityData.defineId(
+            DredgeEntity.class, EntityDataSerializers.BOOLEAN);
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation PULL_IDLE = ParasiteAnimations.loop(this, "idle.get_parasite_status_2");
+    private final RawAnimation PULL_WALK = ParasiteAnimations.loop(this, "walk.get_parasite_status_2");
 
     private UUID pullTargetId;
     private int pullTicks;
@@ -51,11 +60,21 @@ public final class DredgeEntity extends CrudeParasiteEntity {
     }
 
     @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(PULLING, false);
+    }
+
+    @Override
     public boolean doHurtTarget(Entity entity) {
         boolean hit = super.doHurtTarget(entity);
+        if (hit) {
+            triggerAnim("attack_controller", "attack");
+        }
         if (hit && entity instanceof LivingEntity target && pullTargetId == null && pullCooldown == 0) {
             pullTargetId = target.getUUID();
             pullTicks = 0;
+            entityData.set(PULLING, true);
             target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 60, 3), this);
         }
         return hit;
@@ -71,6 +90,7 @@ public final class DredgeEntity extends CrudeParasiteEntity {
         if (pullTarget == null) {
             pullTargetId = null;
             pullTicks = 0;
+            entityData.set(PULLING, false);
             return;
         }
         if (!hasLineOfSight(pullTarget) || distanceToSqr(pullTarget) > 9.0 || ++pullTicks > MAX_PULL_TICKS) {
@@ -99,6 +119,7 @@ public final class DredgeEntity extends CrudeParasiteEntity {
         pullTargetId = null;
         pullTicks = 0;
         pullCooldown = MAX_PULL_TICKS;
+        entityData.set(PULLING, false);
     }
 
     @Override
@@ -130,11 +151,16 @@ public final class DredgeEntity extends CrudeParasiteEntity {
         pullTargetId = tag.hasUUID("pull_target") ? tag.getUUID("pull_target") : null;
         pullTicks = tag.getInt("pull_ticks");
         pullCooldown = tag.getInt("pull_cooldown");
+        entityData.set(PULLING, pullTargetId != null);
     }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> state.setAndContinue(ANIMATION)));
+                state -> state.setAndContinue(entityData.get(PULLING)
+                        ? state.isMoving() ? PULL_WALK : PULL_IDLE
+                        : state.isMoving() ? WALK : IDLE)));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
+                software.bernie.geckolib.animation.PlayState.STOP).triggerableAnim("attack", ATTACK));
     }
 }

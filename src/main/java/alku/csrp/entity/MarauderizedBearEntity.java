@@ -55,6 +55,7 @@ public final class MarauderizedBearEntity extends TetheredMarauderizedEntity {
         ball.setPos(start);
         ball.setDeltaMovement(direction.normalize().scale(0.35D));
         level().addFreshEntity(ball);
+        triggerAnim("attack_controller", "attack");
     }
 
     private final class PullVolleyGoal extends Goal {

@@ -22,7 +22,7 @@ final class ParasiteAnimations {
         String resourceId = animationResourceId(entity);
         String action = switch (requestedAction) {
             case "run", "fly" -> "walk";
-            case "spawn", "rush", "throw", "smash", "swipe" -> "attack";
+            case "spawn", "throw", "smash", "swipe" -> "attack";
             case "func_78087_a.getDigging" -> "get_dig_model.get_digging_1";
             case "animation" -> "idle";
             default -> requestedAction;
@@ -41,6 +41,10 @@ final class ParasiteAnimations {
         String id = key.getPath();
         // The original SRP resource uses the historical "dragone" spelling,
         // while csrp keeps its existing registry ID for save compatibility.
-        return id.equals("sim_dragonhead") ? "sim_dragonehead" : id;
+        return switch (id) {
+            case "sim_dragonhead" -> "sim_dragonehead";
+            case "dispatcher_tentacle" -> "dispatcherten";
+            default -> id;
+        };
     }
 }

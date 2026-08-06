@@ -22,6 +22,7 @@ public final class VisceraEntity extends PrimitiveParasiteEntity {
             EntityDataSerializers.BYTE);
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
 
     public VisceraEntity(EntityType<? extends VisceraEntity> type, Level level) {
         super(type, level);
@@ -46,6 +47,9 @@ public final class VisceraEntity extends PrimitiveParasiteEntity {
 
     @Override public boolean doHurtTarget(Entity entity) {
         boolean hit = super.doHurtTarget(entity);
+        if (hit) {
+            triggerAnim("attack_controller", "attack");
+        }
         if (hit && entity instanceof LivingEntity target) {
             target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 40, 0), this);
             target.addEffect(new MobEffectInstance(ModMobEffects.BLEED, 40, 0), this);
@@ -64,5 +68,7 @@ public final class VisceraEntity extends PrimitiveParasiteEntity {
     @Override public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
                 state -> state.setAndContinue(state.isMoving() ? WALK : IDLE)));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
+                software.bernie.geckolib.animation.PlayState.STOP).triggerableAnim("attack", ATTACK));
     }
 }

@@ -53,6 +53,23 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
     private final RawAnimation FLY = RawAnimation.begin()
             .thenLoop("animation.draconite.idle.get_flying_state_1");
+    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation CLONE_IDLE = ParasiteAnimations.loop(this, "idle.get_clone_c_1");
+    private final RawAnimation CLONE_WALK = ParasiteAnimations.loop(this, "walk.get_clone_c_1");
+    private final RawAnimation SHAKING_IDLE = ParasiteAnimations.loop(this, "idle.shaking_c_1");
+    private final RawAnimation SHAKING_WALK = ParasiteAnimations.loop(this, "walk.shaking_c_1");
+    private final RawAnimation CLONE_SHAKING_IDLE = ParasiteAnimations.loop(
+            this, "idle.get_clone_c_1.shaking_c_1");
+    private final RawAnimation CLONE_SHAKING_WALK = ParasiteAnimations.loop(
+            this, "walk.get_clone_c_1.shaking_c_1");
+    private final RawAnimation FIRE_BREATH = ParasiteAnimations.loop(this,
+            "idle.get_parasite_status_3");
+    private final RawAnimation FIRE_BREATH_SHAKING = ParasiteAnimations.loop(this,
+            "idle.get_parasite_status_3.shaking_c_1");
+    private final RawAnimation CLONE_FIRE_BREATH = ParasiteAnimations.loop(this,
+            "idle.get_clone_c_1.get_parasite_status_3");
+    private final RawAnimation CLONE_FIRE_BREATH_SHAKING = ParasiteAnimations.loop(this,
+            "idle.get_clone_c_1.get_parasite_status_3.shaking_c_1");
 
     private int salivaCooldown = 40;
     private int meteorCooldown = 80;
@@ -166,12 +183,14 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
     }
 
     private void shootSalivaBall(LivingEntity target) {
+        triggerAnim("attack_controller", "attack");
         fireProjectile(ParasiteProjectileEntity.Mode.BOMB, projectileMuzzle(), target.getEyePosition(),
                 1.20D, 48.0F, 3.5D, 80, null);
         playSound(ModSounds.DRACONITE_FIRE_SHOOT.get(), 2.0F, 1.0F);
     }
 
     private void beginFireBreath(LivingEntity target) {
+        triggerAnim("attack_controller", "attack");
         fireBreathTicks = FIRE_BREATH_DURATION_TICKS;
         fireBreathTarget = targetBlock(target);
         entityData.set(FIRE_BREATH_TICKS, fireBreathTicks);
@@ -202,6 +221,7 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
     }
 
     private void beginMeteorRain(LivingEntity target) {
+        triggerAnim("attack_controller", "attack");
         meteorRainTicks = METEOR_TELEGRAPH_TICKS;
         meteorTarget = targetBlock(target);
         entityData.set(METEOR_TICKS, meteorRainTicks);
@@ -236,6 +256,7 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
     }
 
     private void performLightBarrage(LivingEntity target) {
+        triggerAnim("attack_controller", "attack");
         Vec3 start = projectileMuzzle();
         for (int i = 0; i < LIGHT_BARRAGE_COUNT; i++) {
             Vec3 destination = target.getEyePosition().add(random.nextGaussian() * 1.5D,
@@ -302,6 +323,9 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
     @Override
     public boolean doHurtTarget(Entity entity) {
         boolean hurt = super.doHurtTarget(entity);
+        if (hurt) {
+            triggerAnim("attack_controller", "attack");
+        }
         if (hurt && entity instanceof LivingEntity target) {
             target.igniteForSeconds(5.0F);
         }
@@ -369,9 +393,27 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
+            if (entityData.get(FIRE_BREATH_TICKS) > 0) {
+                if (isShadowClone()) {
+                    return state.setAndContinue(isShadowHitFlashing()
+                            ? CLONE_FIRE_BREATH_SHAKING : CLONE_FIRE_BREATH);
+                }
+                return state.setAndContinue(isShadowHitFlashing() ? FIRE_BREATH_SHAKING : FIRE_BREATH);
+            }
+            if (isShadowClone()) {
+                if (isShadowHitFlashing()) {
+                    return state.setAndContinue(state.isMoving() ? CLONE_SHAKING_WALK : CLONE_SHAKING_IDLE);
+                }
+                return state.setAndContinue(state.isMoving() ? CLONE_WALK : CLONE_IDLE);
+            }
+            if (isShadowHitFlashing()) {
+                return state.setAndContinue(state.isMoving() ? SHAKING_WALK : SHAKING_IDLE);
+            }
             if (isFlying()) return state.setAndContinue(FLY);
             return state.setAndContinue(state.isMoving() ? WALK : IDLE);
         }));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
+                software.bernie.geckolib.animation.PlayState.STOP).triggerableAnim("attack", ATTACK));
     }
 
     private final class DraconiteCombatGoal extends Goal {

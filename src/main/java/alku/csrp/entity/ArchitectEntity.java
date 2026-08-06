@@ -65,6 +65,7 @@ public final class ArchitectEntity extends PrimitiveParasiteEntity {
     }
     private final RawAnimation idleAnimation = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation flyAnimation = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation attackAnimation = ParasiteAnimations.play(this, "attack");
 
     public ArchitectEntity(EntityType<? extends ArchitectEntity> type, Level level) {
         super(type, level);
@@ -128,8 +129,19 @@ public final class ArchitectEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
+    public boolean doHurtTarget(Entity target) {
+        boolean hit = super.doHurtTarget(target);
+        if (hit) {
+            triggerAnim("attack_controller", "attack");
+        }
+        return hit;
+    }
+
+    @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
+                .triggerableAnim("attack", attackAnimation));
     }
 
     private PlayState movementAnimation(AnimationState<ArchitectEntity> state) {

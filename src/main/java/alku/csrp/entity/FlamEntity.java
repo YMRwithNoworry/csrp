@@ -74,6 +74,7 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
 
     private final RawAnimation idleAnimation = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation walkAnimation = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation attackAnimation = ParasiteAnimations.play(this, "attack");
     private UUID fatherId;
     private UUID targetId;
     private BlockPos targetPosition;
@@ -212,6 +213,9 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
 
     private void advanceFinishing() {
         setActivationProgress(activationProgress + 1);
+        if (!isFinishing()) {
+            triggerAnim("action_controller", "attack");
+        }
         entityData.set(FINISHING, true);
         setCharging(false);
         getMoveControl().setWantedPosition(getX(), getY(), getZ(), 0.0D);
@@ -438,6 +442,8 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
             }
             return state.setAndContinue(walkAnimation);
         }));
+        controllers.add(new AnimationController<>(this, "action_controller", 0,
+                state -> PlayState.STOP).triggerableAnim("attack", attackAnimation));
     }
 
     private final class ChargeAttackGoal extends Goal {

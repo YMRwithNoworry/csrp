@@ -15,7 +15,6 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -57,6 +56,9 @@ public final class ManglerEntity extends PrimitiveParasiteEntity {
         return 0.95F;
     }
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation LEAP = ParasiteAnimations.loop(this, "idle.get_parasite_status_10");
     private static final int NORMAL = 0;
     private static final int VIRAL = 1;
     private static final int BLEEDING = 2;
@@ -85,13 +87,16 @@ public final class ManglerEntity extends PrimitiveParasiteEntity {
     protected void registerGoals() {
         super.registerGoals();
         goalSelector.addGoal(1, new EvasiveDashGoal());
-        goalSelector.addGoal(2, new LeapAtTargetGoal(this, 0.8F));
+        goalSelector.addGoal(2, createAnimatedLeapGoal(0.8F, 20));
         goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.3, false));
     }
 
     @Override
     public boolean doHurtTarget(Entity target) {
         boolean hurt = super.doHurtTarget(target);
+        if (hurt) {
+            triggerAnim("attack_controller", "attack");
+        }
         if (hurt && target instanceof LivingEntity living) {
             living.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 3), this);
             if (variant == VIRAL) {
@@ -155,7 +160,9 @@ public final class ManglerEntity extends PrimitiveParasiteEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> state.setAndContinue(IDLE)));
+                state -> state.setAndContinue(isSpecialLeapAnimating() ? LEAP : state.isMoving() ? WALK : IDLE)));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
+                software.bernie.geckolib.animation.PlayState.STOP).triggerableAnim("attack", ATTACK));
     }
 
     private final class EvasiveDashGoal extends Goal {

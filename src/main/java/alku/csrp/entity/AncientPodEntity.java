@@ -31,7 +31,8 @@ public final class AncientPodEntity extends PrimitiveParasiteEntity {
     private static final int DEFAULT_FUSE = 80;
 
     private final RawAnimation idleAnimation = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation fuseAnimation = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation airborneAnimation = ParasiteAnimations.loop(
+            this, "idle.get_parasite_status_1");
     private byte owner = 62;
     private int fuseTicks = DEFAULT_FUSE;
     private boolean fuseStarted;
@@ -112,7 +113,8 @@ public final class AncientPodEntity extends PrimitiveParasiteEntity {
     }
 
     private PlayState movementAnimation(AnimationState<AncientPodEntity> state) {
-        return state.setAndContinue(fuseStarted ? fuseAnimation : idleAnimation);
+        // The legacy pod uses status 1 while falling and returns to its normal pose on landing.
+        return state.setAndContinue(onGround() ? idleAnimation : airborneAnimation);
     }
 
     private void explodePod(ServerLevel level) {

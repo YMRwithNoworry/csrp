@@ -17,12 +17,12 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 
 public final class GnatEntity extends PrimitiveParasiteEntity {
@@ -41,6 +41,8 @@ public final class GnatEntity extends PrimitiveParasiteEntity {
     }
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation LEAP = ParasiteAnimations.loop(this, "idle.get_parasite_status_10");
 
     public GnatEntity(EntityType<? extends GnatEntity> type, Level level) {
         super(type, level);
@@ -55,7 +57,7 @@ public final class GnatEntity extends PrimitiveParasiteEntity {
 
     @Override protected void registerGoals() {
         super.registerGoals();
-        goalSelector.addGoal(1, new LeapAtTargetGoal(this, 0.4F));
+        goalSelector.addGoal(1, createAnimatedLeapGoal(0.4F, 20));
         goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.3, false));
     }
 
@@ -125,6 +127,7 @@ public final class GnatEntity extends PrimitiveParasiteEntity {
                 InfectionMechanics.convertGnatHost(target);
             }
         }
+        triggerAnim("attack_controller", "attack");
         burstAndDiscard(true);
         return converted || damaged;
     }
@@ -172,6 +175,8 @@ public final class GnatEntity extends PrimitiveParasiteEntity {
 
     @Override public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 3,
-                state -> state.setAndContinue(state.isMoving() ? WALK : IDLE)));
+                state -> state.setAndContinue(isSpecialLeapAnimating() ? LEAP : state.isMoving() ? WALK : IDLE)));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
+                .triggerableAnim("attack", ATTACK));
     }
 }

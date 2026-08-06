@@ -3,7 +3,9 @@ package alku.csrp.client.model;
 import alku.csrp.Csrp;
 import alku.csrp.entity.AdaptedVariantEntity;
 import alku.csrp.entity.AssimilatedEndermanEntity;
+import alku.csrp.entity.BurrowingVariantEntity;
 import alku.csrp.entity.PreeminentParasiteEntity;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -66,5 +68,49 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
         if (animatable instanceof AssimilatedEndermanEntity enderman) {
             getBone("mouth").ifPresent(bone -> bone.setHidden(enderman.isShrimpFed()));
         }
+        if (animatable instanceof BurrowingVariantEntity burrowing) {
+            applyBodySegmentVisibility(burrowing);
+        }
+    }
+
+    private void applyBodySegmentVisibility(BurrowingVariantEntity entity) {
+        int body = entity.getBodyNumber();
+        boolean tail = entity.isBodyTail();
+        String id = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).getPath();
+        if (!id.endsWith("burrower") && !id.endsWith("tozoon")) {
+            return;
+        }
+        setHidden("jointT", !tail);
+        setHidden("jointH", body > 0);
+
+        if (id.endsWith("burrower")) {
+            if (id.startsWith("ada_")) {
+                setHidden("bra", !tail);
+                setHidden("bla", !tail);
+            }
+            return;
+        }
+
+        boolean primitive = id.startsWith("pri_");
+        boolean alternatingLimbs = !tail && body > 0 && (body & 1) == 1;
+        if (primitive) {
+            setHidden("jointFL1", !alternatingLimbs);
+            setHidden("jointFR1", !alternatingLimbs);
+            setHidden("jointML1", tail || alternatingLimbs);
+            setHidden("jointMR1", tail || alternatingLimbs);
+            setHidden("jointBL1", !alternatingLimbs);
+            setHidden("jointBR1", !alternatingLimbs);
+        } else {
+            setHidden("jointULA1", !alternatingLimbs);
+            setHidden("jointURA1", !alternatingLimbs);
+            setHidden("jointMLA1", tail || alternatingLimbs);
+            setHidden("jointMRA1", tail || alternatingLimbs);
+            setHidden("jointDLA1", !alternatingLimbs);
+            setHidden("jointDRA1", !alternatingLimbs);
+        }
+    }
+
+    private void setHidden(String boneName, boolean hidden) {
+        getBone(boneName).ifPresent(bone -> bone.setHidden(hidden));
     }
 }

@@ -2,6 +2,7 @@ package alku.csrp.entity;
 
 import alku.csrp.registry.ModEntities;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
@@ -20,6 +21,8 @@ import java.util.EnumSet;
 
 public final class VerminEntity extends PrimitiveParasiteEntity {
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
     private int bombCooldown = 160;
 
     public VerminEntity(EntityType<? extends VerminEntity> type, Level level) {
@@ -56,6 +59,7 @@ public final class VerminEntity extends PrimitiveParasiteEntity {
 
     private void dropGnatBomb() {
         if (!(level() instanceof ServerLevel serverLevel)) return;
+        triggerAnim("attack_controller", "attack");
         GnatEntity gnat = ModEntities.GNAT.get().create(serverLevel, null, blockPosition(), MobSpawnType.MOB_SUMMONED, false, false);
         if (gnat != null) {
             gnat.moveTo(getX(), getY() - 0.5, getZ(), getYRot(), 0.0F);
@@ -64,8 +68,20 @@ public final class VerminEntity extends PrimitiveParasiteEntity {
         }
     }
 
+    @Override
+    public boolean doHurtTarget(Entity target) {
+        boolean hit = super.doHurtTarget(target);
+        if (hit) {
+            triggerAnim("attack_controller", "attack");
+        }
+        return hit;
+    }
+
     @Override public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> state.setAndContinue(IDLE)));
+        controllers.add(new AnimationController<>(this, "movement_controller", 4,
+                state -> state.setAndContinue(state.isMoving() ? WALK : IDLE)));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
+                software.bernie.geckolib.animation.PlayState.STOP).triggerableAnim("attack", ATTACK));
     }
 
     private final class VerminCombatGoal extends Goal {

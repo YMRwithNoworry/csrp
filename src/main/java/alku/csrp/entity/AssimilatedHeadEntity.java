@@ -3,6 +3,9 @@ package alku.csrp.entity;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
@@ -33,8 +36,14 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 /** Shared walking-head behavior: infect targets and rebuild a body with a medium incomplete form. */
 public final class AssimilatedHeadEntity extends Monster implements GeoEntity, Parasite {
+    private static final EntityDataAccessor<Integer> LEAP_TICKS = SynchedEntityData.defineId(
+            AssimilatedHeadEntity.class, EntityDataSerializers.INT);
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation LEAP = ParasiteAnimations.loop(this, "idle.get_parasite_status_10");
+    private final RawAnimation SCREAM_IDLE = ParasiteAnimations.loop(this, "idle.is_screaming_1");
+    private final RawAnimation SCREAM_WALK = ParasiteAnimations.loop(this, "walk.is_screaming_1");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private final Kind kind;
@@ -72,7 +81,13 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
     @Override
     protected void registerGoals() {
         goalSelector.addGoal(0, new FloatGoal(this));
-        goalSelector.addGoal(2, new LeapAtTargetGoal(this, 0.4F));
+        goalSelector.addGoal(2, new LeapAtTargetGoal(this, 0.4F) {
+            @Override
+            public void start() {
+                super.start();
+                entityData.set(LEAP_TICKS, 24);
+            }
+        });
         goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.3D, false));
         goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         goalSelector.addGoal(6, new ParasiteFollowGoal(this));
@@ -80,6 +95,12 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
         targetSelector.addGoal(1, new HurtByTargetGoal(this));
         targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,
                 true, false, this::isValidParasiteTarget));
+    }
+
+    @Override
+    public void setTarget(LivingEntity target) {
+        super.setTarget(target);
+        setAggressive(target != null);
     }
 
     @Override
@@ -91,6 +112,9 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
             }
             return;
         }
+        if (entityData.get(LEAP_TICKS) > 0) {
+            entityData.set(LEAP_TICKS, entityData.get(LEAP_TICKS) - 1);
+        }
         if (kind == Kind.ENDERMAN && tickCount % 20 == 0 && getTarget() != null
                 && distanceToSqr(getTarget()) > 4.0D && random.nextInt(3) == 0) {
             teleportAwayFromTarget(getTarget());
@@ -101,6 +125,12 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
                 InfectionMechanics.applyCoth(target, this);
             }
         }
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(LEAP_TICKS, 0);
     }
 
     @Override
@@ -128,12 +158,16 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
                 serverLevel.addFreshEntity(body);
             }
             target.discard();
+            triggerAnim("attack_controller", "attack");
             discard();
             return true;
         }
         LivingEntity livingTarget = target instanceof LivingEntity living ? living : null;
         float healthBefore = livingTarget == null ? 0.0F : ParasiteCombatEffects.healthWithAbsorption(livingTarget);
         boolean hit = super.doHurtTarget(target);
+        if (hit) {
+            triggerAnim("attack_controller", "attack");
+        }
         if (hit && livingTarget != null) {
             ParasiteCombatEffects.applyFearFromDamage(livingTarget, healthBefore, this);
             InfectionMechanics.applyCoth(livingTarget, this);
@@ -167,7 +201,12 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> state.setAndContinue(state.isMoving() ? WALK : IDLE)));
+                state -> state.setAndContinue(entityData.get(LEAP_TICKS) > 0 ? LEAP
+                        : kind == Kind.ENDERMAN && isAggressive()
+                        ? state.isMoving() ? SCREAM_WALK : SCREAM_IDLE
+                        : state.isMoving() ? WALK : IDLE)));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
+                software.bernie.geckolib.animation.PlayState.STOP).triggerableAnim("attack", ATTACK));
     }
 
     @Override

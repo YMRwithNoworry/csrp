@@ -10,10 +10,13 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 
 public final class IncompleteFormMediumEntity extends IncompleteFormSmallEntity {
-    private final RawAnimation ANIMATION = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
 
     public IncompleteFormMediumEntity(EntityType<? extends IncompleteFormMediumEntity> type, Level level) {
         super(type, level);
@@ -48,6 +51,8 @@ public final class IncompleteFormMediumEntity extends IncompleteFormSmallEntity 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> state.setAndContinue(ANIMATION)));
+                state -> state.setAndContinue(state.isMoving() ? WALK : IDLE)));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0,
+                state -> PlayState.STOP).triggerableAnim("attack", ATTACK));
     }
 }

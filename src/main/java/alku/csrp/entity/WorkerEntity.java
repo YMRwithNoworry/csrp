@@ -45,7 +45,6 @@ public final class WorkerEntity extends PrimitiveParasiteEntity {
     private BlockPos colonyOrigin;
     private int colonyRadius;
     private int buildCooldown = BUILD_INTERVAL;
-    private int buildAnimationTicks;
 
     public WorkerEntity(EntityType<? extends WorkerEntity> type, Level level) {
         super(type, level);
@@ -74,9 +73,6 @@ public final class WorkerEntity extends PrimitiveParasiteEntity {
     @Override
     public void tick() {
         super.tick();
-        if (buildAnimationTicks > 0) {
-            buildAnimationTicks--;
-        }
         if (!level().isClientSide && colonyOrigin == null && tickCount % 10 == 0 && random.nextInt(7) == 0
                 && level() instanceof ServerLevel serverLevel) {
             SrpWorldData.ColonyEntry colony = SrpWorldData.get(serverLevel)
@@ -105,6 +101,8 @@ public final class WorkerEntity extends PrimitiveParasiteEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
+                .triggerableAnim("attack", buildAnimation));
     }
 
     @Override
@@ -129,9 +127,6 @@ public final class WorkerEntity extends PrimitiveParasiteEntity {
     }
 
     private PlayState movementAnimation(AnimationState<WorkerEntity> state) {
-        if (buildAnimationTicks > 0) {
-            return state.setAndContinue(buildAnimation);
-        }
         return state.setAndContinue(state.isMoving() ? walkAnimation : idleAnimation);
     }
 
@@ -155,7 +150,7 @@ public final class WorkerEntity extends PrimitiveParasiteEntity {
                 }
                 serverLevel.setBlockAndUpdate(placement, ModBlocks.PARASITE_STRUCTURE.get().defaultBlockState()
                         .setValue(SrpCoreBlock.ACTIVE, stage));
-                buildAnimationTicks = 12;
+                triggerAnim("attack_controller", "attack");
                 return true;
             }
         }

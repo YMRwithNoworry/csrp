@@ -4,6 +4,9 @@ import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
@@ -39,6 +42,8 @@ import java.util.EnumSet;
 
 /** Legacy Ancient Dreadnaut and Ancient Overlord boss implementations. */
 public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
+    private static final EntityDataAccessor<Integer> DREAD_DAMAGE_REACTION_TICKS = SynchedEntityData.defineId(
+            AncientParasiteEntity.class, EntityDataSerializers.INT);
     private static final int MAX_ADAPTATION_HITS = 10;
     private static final int MAX_LEARNABLE_DAMAGE_SOURCES = 5;
     private static final float ADAPTATION_PER_HIT = 0.10F;
@@ -48,6 +53,8 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
     private final RawAnimation FLY = ParasiteAnimations.loop(this, "fly");
     private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation DREAD_DAMAGE_REACTION = ParasiteAnimations.loop(this,
+            "idle.get_parasite_status_77");
 
     private final Kind kind;
     private final ServerBossEvent bossEvent;
@@ -98,6 +105,12 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(DREAD_DAMAGE_REACTION_TICKS, 0);
+    }
+
+    @Override
     public void tick() {
         super.tick();
         if (activeKind() == Kind.DREADNAUT) {
@@ -113,6 +126,9 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         }
         if (attackAnimationTicks > 0) {
             attackAnimationTicks--;
+        }
+        if (entityData.get(DREAD_DAMAGE_REACTION_TICKS) > 0) {
+            entityData.set(DREAD_DAMAGE_REACTION_TICKS, entityData.get(DREAD_DAMAGE_REACTION_TICKS) - 1);
         }
         if (activeKind() == Kind.DREADNAUT && onGround()) {
             getMoveControl().setWantedPosition(getX(), getY() + 8.0D, getZ(), 0.60D);
@@ -246,11 +262,11 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private PlayState movementAnimation(AnimationState<AncientParasiteEntity> state) {
+        if (activeKind() == Kind.DREADNAUT && entityData.get(DREAD_DAMAGE_REACTION_TICKS) > 0) {
+            return state.setAndContinue(DREAD_DAMAGE_REACTION);
+        }
         if (activeKind() == Kind.DREADNAUT) {
             return state.setAndContinue(FLY);
-        }
-        if (attackAnimationTicks > 0) {
-            return state.setAndContinue(ATTACK);
         }
         return state.setAndContinue(state.isMoving() ? WALK : IDLE);
     }
@@ -302,7 +318,13 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         while (nextTendrilThreshold > 0 && healthFraction <= nextTendrilThreshold / 5.0F) {
             nextTendrilThreshold--;
             spawnDreadnautReinforcements();
+            entityData.set(DREAD_DAMAGE_REACTION_TICKS, 30);
         }
+    }
+
+    private void triggerAttackAnimation() {
+        attackAnimationTicks = 10;
+        triggerAnim("attack_controller", "attack");
     }
 
     private void spawnDreadnautReinforcements() {
@@ -404,6 +426,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         public void start() {
             shots = 0;
             delay = 0;
+            triggerAttackAnimation();
         }
 
         @Override
@@ -455,6 +478,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         public void start() {
             chargeTicks = 0;
             getNavigation().stop();
+            triggerAttackAnimation();
         }
 
         @Override
@@ -509,6 +533,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
                     swoopCooldown--;
                 } else {
                     swoopTicks = 28;
+                    triggerAttackAnimation();
                 }
                 getMoveControl().setWantedPosition(target.getX(), target.getY() + 8.0D, target.getZ(), 0.85D);
             }
@@ -550,6 +575,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
             if (target != null) {
                 getLookControl().setLookAt(target, 30.0F, 30.0F);
                 fireProjectile(target, ParasiteProjectileEntity.Mode.LIGHT, 1.10D, 20.0F, 2.0D, 100);
+                triggerAttackAnimation();
                 cooldown = 60;
             }
         }

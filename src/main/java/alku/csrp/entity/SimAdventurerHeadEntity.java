@@ -5,6 +5,9 @@ import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModSounds;
 import alku.csrp.world.EvolutionSystem;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.DifficultyInstance;
@@ -45,11 +48,14 @@ import java.util.EnumSet;
 
 /** Walking head companion that reforms an Assimilated Adventurer with a Medium Incomplete Form. */
 public final class SimAdventurerHeadEntity extends Monster implements GeoEntity, Parasite {
+    private static final EntityDataAccessor<Integer> LEAP_TICKS = SynchedEntityData.defineId(
+            SimAdventurerHeadEntity.class, EntityDataSerializers.INT);
     private static final double COTH_AURA_RADIUS = 3.0D;
     private static final float MINIMUM_DAMAGE = 0.5F;
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
     private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation LEAP = ParasiteAnimations.loop(this, "idle.get_parasite_status_10");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
 
@@ -73,7 +79,13 @@ public final class SimAdventurerHeadEntity extends Monster implements GeoEntity,
         goalSelector.addGoal(1, new MergeWithIncompleteFormGoal());
         goalSelector.addGoal(2, new AvoidEntityGoal<>(this, LivingEntity.class, 8.0F, 1.0D, 1.3D,
                 this::shouldFleeInDaylight));
-        goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.4F));
+        goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.4F) {
+            @Override
+            public void start() {
+                super.start();
+                entityData.set(LEAP_TICKS, 24);
+            }
+        });
         goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.3D, false));
         goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         goalSelector.addGoal(6, new ParasiteFollowGoal(this));
@@ -86,6 +98,9 @@ public final class SimAdventurerHeadEntity extends Monster implements GeoEntity,
     @Override
     public void tick() {
         super.tick();
+        if (!level().isClientSide && entityData.get(LEAP_TICKS) > 0) {
+            entityData.set(LEAP_TICKS, entityData.get(LEAP_TICKS) - 1);
+        }
         if (level().isClientSide || tickCount % 20 != 0) {
             return;
         }
@@ -157,7 +172,8 @@ public final class SimAdventurerHeadEntity extends Monster implements GeoEntity,
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> state.setAndContinue(state.isMoving() ? WALK : IDLE)));
+                state -> state.setAndContinue(entityData.get(LEAP_TICKS) > 0
+                        ? LEAP : state.isMoving() ? WALK : IDLE)));
         controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
                 .triggerableAnim("attack", ATTACK));
     }
@@ -186,6 +202,12 @@ public final class SimAdventurerHeadEntity extends Monster implements GeoEntity,
         if (isPersistenceRequired()) {
             target.setPersistenceRequired();
         }
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(LEAP_TICKS, 0);
     }
 
     private boolean mergeWith(IncompleteFormMediumEntity medium) {

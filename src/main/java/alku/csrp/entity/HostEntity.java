@@ -8,6 +8,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.level.Level;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 
 public final class HostEntity extends AbstractHostEntity {
@@ -24,6 +25,11 @@ public final class HostEntity extends AbstractHostEntity {
     private static final int HOST_TO_HOSTII_KILLS = 40;
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation BURROW = ParasiteAnimations.loop(this, "get_burrow_timer");
+    private final RawAnimation BURROWED = ParasiteAnimations.loop(this, "idle.get_burrowed_1");
+    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "get_attack_timer");
+    private final RawAnimation BURROWED_ATTACK =
+            ParasiteAnimations.play(this, "get_attack_timer.get_burrowed_1");
 
     public HostEntity(EntityType<? extends HostEntity> type, Level level) {
         super(type, level, 0.12, 3.0, 4.0, BURROW_DURATION_TICKS, 50, 40);
@@ -53,6 +59,11 @@ public final class HostEntity extends AbstractHostEntity {
         summonRupters();
     }
 
+    @Override
+    protected void triggerAttackAnimation() {
+        triggerAnim("attack_controller", isBurrowed() ? "burrowed_attack" : "attack");
+    }
+
     private void summonRupters() {
         spawnMinions(ModEntities.RUPTER, RupterEntity.class, 4);
     }
@@ -74,6 +85,18 @@ public final class HostEntity extends AbstractHostEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> state.setAndContinue(state.isMoving() ? WALK : IDLE)));
+                state -> {
+                    if (getBurrowAnimationTicks() > 0) {
+                        return state.setAndContinue(BURROW);
+                    }
+                    if (isBurrowed()) {
+                        return state.setAndContinue(BURROWED);
+                    }
+                    return state.setAndContinue(state.isMoving() ? WALK : IDLE);
+                }));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0,
+                state -> PlayState.STOP)
+                .triggerableAnim("attack", ATTACK)
+                .triggerableAnim("burrowed_attack", BURROWED_ATTACK));
     }
 }

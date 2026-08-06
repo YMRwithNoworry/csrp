@@ -12,6 +12,9 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -46,6 +49,10 @@ import java.util.UUID;
  * original battlefield role.
  */
 public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
+    private static final EntityDataAccessor<Integer> SPECIAL_ACTION = SynchedEntityData.defineId(
+            DeterrentParasiteEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> SEIZER_TARGET_ID = SynchedEntityData.defineId(
+            DeterrentParasiteEntity.class, EntityDataSerializers.INT);
     private static final int MAX_ADAPTATION_HITS = 6;
     private static final int MAX_LEARNABLE_DAMAGE_SOURCES = 10;
     private static final float ADAPTATION_PER_HIT = 0.16F;
@@ -53,6 +60,8 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     private static final float FIRE_SUPPRESSION_CHANCE = 0.50F;
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation ATTACK_TIMER = ParasiteAnimations.loop(this, "get_attack_timer");
+    private final RawAnimation SEIZER_HOLD = ParasiteAnimations.loop(this, "idle.get_targeted_entity_1");
 
     private final Kind kind;
     private int abilityCooldown;
@@ -100,6 +109,13 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
                 // Dispatcher tentacles are directed by their summoner instead of normal target AI.
             }
         }
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(SPECIAL_ACTION, SpecialAction.NONE.ordinal());
+        builder.define(SEIZER_TARGET_ID, 0);
     }
 
     @Override
@@ -188,7 +204,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     public void die(DamageSource source) {
         super.die(source);
         if (activeKind() == Kind.SEIZER) {
-            seizerTarget = null;
+            clearSeizerTarget();
         }
     }
 
@@ -294,10 +310,18 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private PlayState movementAnimation(AnimationState<DeterrentParasiteEntity> state) {
-        return state.setAndContinue(attackFlashTicks > 0 ? ATTACK : IDLE);
+        return state.setAndContinue(switch (specialAction()) {
+            case KYPHOSIS_WAVE, WORM_ERUPTION -> ATTACK_TIMER;
+            case SEIZER_HOLD -> SEIZER_HOLD;
+            case DISPATCHER_DEPLOY -> ATTACK;
+            case NONE -> IDLE;
+        });
     }
 
     private void tickDispatcherTentacle() {
+        if (lifetimeTicks == 40) {
+            setSpecialAction(SpecialAction.DISPATCHER_DEPLOY);
+        }
         if (++lifetimeTicks < 60) {
             return;
         }
@@ -347,8 +371,12 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     private void maintainSeizerGrip() {
         LivingEntity target = getSeizerTarget();
         if (target == null || !target.isAlive() || distanceToSqr(target) > 25.0D || !hasLineOfSight(target)) {
-            seizerTarget = null;
+            clearSeizerTarget();
             return;
+        }
+        if (entityData.get(SEIZER_TARGET_ID) != target.getId()) {
+            entityData.set(SEIZER_TARGET_ID, target.getId());
+            setSpecialAction(SpecialAction.SEIZER_HOLD);
         }
         Vec3 pull = position().subtract(target.position());
         if (pull.lengthSqr() > 0.001D) {
@@ -360,8 +388,32 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private LivingEntity getSeizerTarget() {
+        if (level().isClientSide) {
+            Entity target = level().getEntity(entityData.get(SEIZER_TARGET_ID));
+            return target instanceof LivingEntity living && living.isAlive() ? living : null;
+        }
         LivingEntity target = findEntity(seizerTarget);
         return target != null && isValidParasiteTarget(target) ? target : null;
+    }
+
+    private void setSeizerTarget(LivingEntity target) {
+        seizerTarget = target == null ? null : target.getUUID();
+        entityData.set(SEIZER_TARGET_ID, target == null ? 0 : target.getId());
+        setSpecialAction(target == null ? SpecialAction.NONE : SpecialAction.SEIZER_HOLD);
+    }
+
+    private void clearSeizerTarget() {
+        setSeizerTarget(null);
+    }
+
+    private SpecialAction specialAction() {
+        int value = entityData.get(SPECIAL_ACTION);
+        SpecialAction[] actions = SpecialAction.values();
+        return value >= 0 && value < actions.length ? actions[value] : SpecialAction.NONE;
+    }
+
+    private void setSpecialAction(SpecialAction action) {
+        entityData.set(SPECIAL_ACTION, action.ordinal());
     }
 
     private LivingEntity findEntity(UUID id) {
@@ -517,6 +569,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         public void start() {
             chargeTicks = 0;
             getNavigation().stop();
+            setSpecialAction(SpecialAction.KYPHOSIS_WAVE);
         }
 
         @Override
@@ -546,6 +599,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         @Override
         public void stop() {
             abilityCooldown = 180;
+            setSpecialAction(SpecialAction.NONE);
         }
     }
 
@@ -570,7 +624,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         public void start() {
             LivingEntity target = getTarget();
             if (target != null) {
-                seizerTarget = target.getUUID();
+                setSeizerTarget(target);
                 getLookControl().setLookAt(target, 30.0F, 30.0F);
             }
         }
@@ -603,6 +657,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
             fireSpine(target);
             fireSpine(target);
             fireSpine(target);
+            triggerAnim("attack_controller", "attack");
             abilityCooldown = 60;
         }
     }
@@ -628,6 +683,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         public void start() {
             chargeTicks = 0;
             getNavigation().stop();
+            setSpecialAction(SpecialAction.WORM_ERUPTION);
         }
 
         @Override
@@ -702,5 +758,13 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
             this.followRange = followRange;
             this.experience = experience;
         }
+    }
+
+    private enum SpecialAction {
+        NONE,
+        KYPHOSIS_WAVE,
+        WORM_ERUPTION,
+        SEIZER_HOLD,
+        DISPATCHER_DEPLOY
     }
 }

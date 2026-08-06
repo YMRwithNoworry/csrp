@@ -93,6 +93,7 @@ public final class MarauderizedCowEntity extends MarauderizedParasiteEntity {
         cloud.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 300, 20, false, true));
         cloud.addEffect(new MobEffectInstance(ModMobEffects.CORROSION, 300, 20, false, true));
         level().addFreshEntity(cloud);
+        triggerAnim("attack_controller", "attack");
         getLookControl().setLookAt(target, 30.0F, 30.0F);
         level().broadcastEntityEvent(this, VOMIT_EVENT);
     }

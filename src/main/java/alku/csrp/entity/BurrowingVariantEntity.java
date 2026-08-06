@@ -9,6 +9,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -19,6 +20,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
+import java.util.UUID;
 
 /** Shared staged digging movement used by the original and adapted Zaa and Wymo forms. */
 public abstract class BurrowingVariantEntity extends PrimitiveParasiteEntity {
@@ -33,11 +35,19 @@ public abstract class BurrowingVariantEntity extends PrimitiveParasiteEntity {
             BurrowingVariantEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Float> BURROW_DEPTH = SynchedEntityData.defineId(
             BurrowingVariantEntity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Byte> BODY_NUMBER = SynchedEntityData.defineId(
+            BurrowingVariantEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Boolean> BODY_TAIL = SynchedEntityData.defineId(
+            BurrowingVariantEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> BODY_ATTACK_TICKS = SynchedEntityData.defineId(
+            BurrowingVariantEntity.class, EntityDataSerializers.INT);
 
     private int burrowTicks;
     private int burrowSkillTicks;
     private boolean movedUnderground;
     private float previousBurrowDepth;
+    private UUID bodyPredecessor;
+    private boolean bodyChainInitialized;
 
     protected BurrowingVariantEntity(EntityType<? extends BurrowingVariantEntity> type, Level level) {
         super(type, level);
@@ -48,13 +58,22 @@ public abstract class BurrowingVariantEntity extends PrimitiveParasiteEntity {
         super.defineSynchedData(builder);
         builder.define(BURROW_PHASE, BURROW_NONE);
         builder.define(BURROW_DEPTH, 0.0F);
+        builder.define(BODY_NUMBER, (byte) 0);
+        builder.define(BODY_TAIL, false);
+        builder.define(BODY_ATTACK_TICKS, 0);
     }
 
     @Override
     public void tick() {
         previousBurrowDepth = entityData.get(BURROW_DEPTH);
         super.tick();
-        if (level().isClientSide || !supportsBurrowing()) {
+        if (!level().isClientSide) {
+            if (getBodyNumber() == 0 && entityData.get(BODY_ATTACK_TICKS) > 0) {
+                entityData.set(BODY_ATTACK_TICKS, entityData.get(BODY_ATTACK_TICKS) - 1);
+            }
+            updateBodyChain();
+        }
+        if (level().isClientSide || !supportsBurrowing() || getBodyNumber() > 0) {
             return;
         }
         if (!isBurrowing()) {
@@ -69,6 +88,88 @@ public abstract class BurrowingVariantEntity extends PrimitiveParasiteEntity {
     protected abstract int burrowSkillCooldownTicks();
 
     protected abstract SoundEvent burrowSound();
+
+    protected int bodySegmentCount() {
+        return 0;
+    }
+
+    public final int getBodyNumber() {
+        return Byte.toUnsignedInt(entityData.get(BODY_NUMBER));
+    }
+
+    public final boolean isBodyTail() {
+        return entityData.get(BODY_TAIL);
+    }
+
+    public final boolean isBodyAttackAnimating() {
+        return entityData.get(BODY_ATTACK_TICKS) > 0;
+    }
+
+    private void updateBodyChain() {
+        if (!(level() instanceof ServerLevel serverLevel) || !supportsBurrowing()) {
+            return;
+        }
+        if (getBodyNumber() == 0) {
+            if (!bodyChainInitialized) {
+                spawnBodyChain(serverLevel);
+                bodyChainInitialized = true;
+            }
+            return;
+        }
+
+        setNoAi(true);
+        setTarget(null);
+        getNavigation().stop();
+        Entity predecessor = bodyPredecessor == null ? null : serverLevel.getEntity(bodyPredecessor);
+        if (!(predecessor instanceof BurrowingVariantEntity previous) || !predecessor.isAlive()) {
+            discard();
+            return;
+        }
+        entityData.set(BURROW_PHASE, previous.entityData.get(BURROW_PHASE));
+        entityData.set(BURROW_DEPTH, previous.entityData.get(BURROW_DEPTH));
+        entityData.set(BODY_ATTACK_TICKS, previous.entityData.get(BODY_ATTACK_TICKS));
+        Vec3 direction = previous.getDeltaMovement();
+        if (direction.horizontalDistanceSqr() < 0.001D && previous.bodyPredecessor != null) {
+            Entity beforePrevious = serverLevel.getEntity(previous.bodyPredecessor);
+            if (beforePrevious != null) {
+                direction = previous.position().subtract(beforePrevious.position());
+            }
+        }
+        if (direction.horizontalDistanceSqr() < 0.001D) {
+            float yaw = previous.getYRot() * Mth.DEG_TO_RAD;
+            direction = new Vec3(-Mth.sin(yaw), 0.0D, Mth.cos(yaw));
+        } else {
+            direction = direction.normalize();
+        }
+        double spacing = Math.max(0.55D, previous.getBbWidth() * 0.65D);
+        Vec3 destination = previous.position().subtract(direction.scale(spacing));
+        setPos(Mth.lerp(0.45D, getX(), destination.x),
+                Mth.lerp(0.45D, getY(), destination.y),
+                Mth.lerp(0.45D, getZ(), destination.z));
+        setYRot(previous.getYRot());
+        setYBodyRot(previous.yBodyRot);
+        setYHeadRot(previous.getYHeadRot());
+        setDeltaMovement(Vec3.ZERO);
+    }
+
+    private void spawnBodyChain(ServerLevel serverLevel) {
+        int count = bodySegmentCount();
+        BurrowingVariantEntity previous = this;
+        for (int index = 1; index <= count; index++) {
+            Entity created = getType().create(serverLevel);
+            if (!(created instanceof BurrowingVariantEntity segment)) {
+                return;
+            }
+            segment.entityData.set(BODY_NUMBER, (byte) index);
+            segment.entityData.set(BODY_TAIL, index == count);
+            segment.bodyPredecessor = previous.getUUID();
+            segment.bodyChainInitialized = true;
+            segment.setPersistenceRequired();
+            segment.moveTo(previous.getX(), previous.getY(), previous.getZ(), previous.getYRot(), 0.0F);
+            serverLevel.addFreshEntity(segment);
+            previous = segment;
+        }
+    }
 
     protected final Goal createBurrowMovementGoal() {
         return new BurrowMovementGoal();
@@ -231,7 +332,11 @@ public abstract class BurrowingVariantEntity extends PrimitiveParasiteEntity {
 
     @Override
     public boolean doHurtTarget(Entity entity) {
-        return !isBurrowing() && super.doHurtTarget(entity);
+        boolean hit = !isBurrowing() && super.doHurtTarget(entity);
+        if (hit && !level().isClientSide && getBodyNumber() == 0) {
+            entityData.set(BODY_ATTACK_TICKS, 12);
+        }
+        return hit;
     }
 
     @Override
@@ -259,6 +364,13 @@ public abstract class BurrowingVariantEntity extends PrimitiveParasiteEntity {
         tag.putInt("burrow_ticks", burrowTicks);
         tag.putInt("burrow_skill_ticks", burrowSkillTicks);
         tag.putBoolean("burrow_moved", movedUnderground);
+        tag.putByte("body_number", entityData.get(BODY_NUMBER));
+        tag.putBoolean("body_tail", entityData.get(BODY_TAIL));
+        if (bodyPredecessor != null) {
+            tag.putUUID("body_predecessor", bodyPredecessor);
+        }
+        tag.putBoolean("body_chain_initialized", bodyChainInitialized);
+        tag.putInt("body_attack_ticks", entityData.get(BODY_ATTACK_TICKS));
     }
 
     @Override
@@ -278,6 +390,11 @@ public abstract class BurrowingVariantEntity extends PrimitiveParasiteEntity {
         burrowSkillTicks = Math.max(0, tag.getInt("burrow_skill_ticks"));
         movedUnderground = tag.getBoolean("burrow_moved");
         previousBurrowDepth = entityData.get(BURROW_DEPTH);
+        entityData.set(BODY_NUMBER, tag.getByte("body_number"));
+        entityData.set(BODY_TAIL, tag.getBoolean("body_tail"));
+        bodyPredecessor = tag.hasUUID("body_predecessor") ? tag.getUUID("body_predecessor") : null;
+        bodyChainInitialized = tag.getBoolean("body_chain_initialized") || getBodyNumber() > 0;
+        entityData.set(BODY_ATTACK_TICKS, Math.max(0, tag.getInt("body_attack_ticks")));
     }
 
     private final class BurrowMovementGoal extends Goal {

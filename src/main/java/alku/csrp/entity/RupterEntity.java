@@ -92,15 +92,17 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
             SynchedEntityData.defineId(RupterEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> OVERHEAT_WARMUP_TICKS =
             SynchedEntityData.defineId(RupterEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> LEAP_ATTACK_TICKS =
+            SynchedEntityData.defineId(RupterEntity.class, EntityDataSerializers.INT);
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
     private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
-    private final RawAnimation RUSH = ParasiteAnimations.play(this, "rush");
+    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation LEAP = ParasiteAnimations.loop(this, "idle.get_parasite_status_10");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private int killCount;
     private int cloudCooldown;
-    private int leapAttackTicks;
     private int failedBatLeaps;
     private int pendingBatLeapTicks;
     private boolean variantsInitialized;
@@ -195,8 +197,9 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
         if (cloudCooldown > 0) {
             cloudCooldown--;
         }
-        if (leapAttackTicks > 0) {
-            leapAttackTicks--;
+        int leapTicks = entityData.get(LEAP_ATTACK_TICKS);
+        if (leapTicks > 0) {
+            entityData.set(LEAP_ATTACK_TICKS, leapTicks - 1);
         }
         performLiquidLeap();
         tryPlaceTunnel();
@@ -349,6 +352,9 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
     public boolean doHurtTarget(Entity entity) {
         boolean hit = super.doHurtTarget(entity);
         if (hit && entity instanceof LivingEntity living) {
+            if (entityData.get(LEAP_ATTACK_TICKS) <= 0) {
+                triggerAnim("attack_controller", "attack");
+            }
             living.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 1), this);
             living.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, 0), this);
             if (getBehaviorVariant() == BehaviorVariant.BERSERKER) {
@@ -361,7 +367,7 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
     }
 
     private void applyVirulentAttackEffect(LivingEntity target) {
-        if (leapAttackTicks > 0) {
+        if (entityData.get(LEAP_ATTACK_TICKS) > 0) {
             target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 80, 0), this);
         } else {
             target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 40, 0), this);
@@ -414,6 +420,7 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
         builder.define(BEHAVIOR_VARIANT, (byte) BehaviorVariant.NORMAL.ordinal());
         builder.define(OVERHEATED, false);
         builder.define(OVERHEAT_WARMUP_TICKS, 0);
+        builder.define(LEAP_ATTACK_TICKS, 0);
     }
 
     @Override
@@ -577,10 +584,13 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
         controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
-                .triggerableAnim("rush", RUSH));
+                .triggerableAnim("attack", ATTACK));
     }
 
     private <T extends RupterEntity> PlayState movementAnimation(AnimationState<T> state) {
+        if (entityData.get(LEAP_ATTACK_TICKS) > 0) {
+            return state.setAndContinue(LEAP);
+        }
         if (!state.isMoving()) {
             return state.setAndContinue(IDLE);
         }
@@ -665,8 +675,7 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
         @Override
         public void start() {
             super.start();
-            rupter.triggerAnim("attack_controller", "rush");
-            rupter.leapAttackTicks = 20;
+            rupter.entityData.set(LEAP_ATTACK_TICKS, 20);
             LivingEntity target = rupter.getTarget();
             if (target instanceof Bat bat) {
                 rupter.beginBatLeapAttempt(bat);

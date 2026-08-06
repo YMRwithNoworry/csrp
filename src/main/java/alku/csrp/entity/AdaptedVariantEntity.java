@@ -69,12 +69,22 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
             AdaptedVariantEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> BOLSTER_RIGHT_TENDRIL = SynchedEntityData.defineId(
             AdaptedVariantEntity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Boolean> REEKER_CHARGING = SynchedEntityData.defineId(
+            AdaptedVariantEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> SUMMONER_CASTING = SynchedEntityData.defineId(
+            AdaptedVariantEntity.class, EntityDataSerializers.BOOLEAN);
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
     private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
     private final RawAnimation FLY = ParasiteAnimations.loop(this, "fly");
     private final RawAnimation DIG = ParasiteAnimations.loop(this, "func_78087_a.getDigging");
     private final RawAnimation BOLSTER_ATTACK = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation REEKER_CHARGE_IDLE = ParasiteAnimations.loop(this,
+            "idle.get_parasite_status_3.get_still_ani_1");
+    private final RawAnimation REEKER_CHARGE_WALK = ParasiteAnimations.loop(this,
+            "walk.get_parasite_status_3");
+    private final RawAnimation SUMMONER_CAST = ParasiteAnimations.loop(this,
+            "idle.get_parasite_status_10");
     private static final RawAnimation BOLSTER_STATUS_3 = RawAnimation.begin()
             .thenLoop("animation.ada_bolster.idle.get_parasite_status_3");
     private static final RawAnimation BOLSTER_STATUS_15 = RawAnimation.begin()
@@ -85,6 +95,24 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
             .thenLoop("animation.ada_bolster.get_attack_timer.get_parasite_status_15");
     private static final RawAnimation BOLSTER_ATTACK_STATUS_25 = RawAnimation.begin()
             .thenLoop("animation.ada_bolster.get_attack_timer.get_parasite_status_25");
+    private final RawAnimation[] BODY_IDLE = {
+            ParasiteAnimations.loop(this, "idle"),
+            ParasiteAnimations.loop(this, "idle.get_body_number_1"),
+            ParasiteAnimations.loop(this, "idle.get_body_number_2"),
+            ParasiteAnimations.loop(this, "idle.get_body_number_3")
+    };
+    private final RawAnimation[] BODY_DIG = {
+            DIG,
+            ParasiteAnimations.loop(this, "get_dig_model.get_body_number_1.get_digging_1"),
+            ParasiteAnimations.loop(this, "get_dig_model.get_body_number_2.get_digging_1"),
+            ParasiteAnimations.loop(this, "get_dig_model.get_body_number_3.get_digging_1")
+    };
+    private final RawAnimation[] BODY_ATTACK = {
+            BOLSTER_ATTACK,
+            ParasiteAnimations.loop(this, "get_attack_timer.get_body_number_1"),
+            ParasiteAnimations.loop(this, "get_attack_timer.get_body_number_2"),
+            ParasiteAnimations.loop(this, "get_attack_timer.get_body_number_3")
+    };
 
     private final Kind kind;
     private int abilityCooldown;
@@ -270,6 +298,8 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
         builder.define(BOLSTER_ACTION_TICKS, 0);
         builder.define(BOLSTER_LEFT_TENDRIL, -1.0F);
         builder.define(BOLSTER_RIGHT_TENDRIL, -1.0F);
+        builder.define(REEKER_CHARGING, false);
+        builder.define(SUMMONER_CASTING, false);
     }
 
     @Nullable
@@ -597,6 +627,19 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
 
     private PlayState movementAnimation(AnimationState<AdaptedVariantEntity> state) {
         Kind kind = activeKind();
+        if (getBodyNumber() > 0) {
+            int body = Math.min(getBodyNumber(), BODY_IDLE.length - 1);
+            if (kind == Kind.TOZOON && isBodyAttackAnimating()) {
+                return state.setAndContinue(BODY_ATTACK[body]);
+            }
+            return state.setAndContinue(isBurrowing() ? BODY_DIG[body] : BODY_IDLE[body]);
+        }
+        if (kind == Kind.REEKER && entityData.get(REEKER_CHARGING)) {
+            return state.setAndContinue(state.isMoving() ? REEKER_CHARGE_WALK : REEKER_CHARGE_IDLE);
+        }
+        if (kind == Kind.SUMMONER && entityData.get(SUMMONER_CASTING)) {
+            return state.setAndContinue(SUMMONER_CAST);
+        }
         if (kind == Kind.BOLSTER) {
             return switch (getBolsterAction()) {
                 case BARRAGE_WINDUP -> state.setAndContinue(BOLSTER_STATUS_25);
@@ -817,6 +860,10 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
         entityData.set(BOLSTER_ACTION_TICKS, Math.max(0, ticks));
     }
 
+    private void triggerAttackAnimation() {
+        triggerAnim("bolster_attack_controller", "attack");
+    }
+
     private void updateCloak() {
         if (!cloaked || --cloakTicks > 0) {
             return;
@@ -996,6 +1043,12 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
     }
 
     @Override
+    protected int bodySegmentCount() {
+        Kind kind = activeKind();
+        return kind == Kind.BURROWER || kind == Kind.TOZOON ? 4 : 0;
+    }
+
+    @Override
     protected SoundEvent burrowSound() {
         return activeKind() == Kind.BURROWER
                 ? ModSounds.ADAPTED_BURROWER_DIG.get()
@@ -1063,6 +1116,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
                 target.push(pull.x, 0.12D, pull.z);
             }
             fireWebProjectile(target, 0);
+            triggerAttackAnimation();
             abilityCooldown = 70;
         }
     }
@@ -1229,12 +1283,14 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
         public void start() {
             chargeTicks = 0;
             getNavigation().stop();
+            triggerAttackAnimation();
         }
 
         @Override
         public void tick() {
             if (++chargeTicks == 30) {
                 hurtNearby(AdaptedVariantEntity.this, 10.0D, meleeDamage() * 1.20F, true);
+                triggerAttackAnimation();
             }
         }
 
@@ -1293,6 +1349,12 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
         public void start() {
             chargeTicks = 0;
             abilityCooldown = 160;
+            entityData.set(REEKER_CHARGING, true);
+        }
+
+        @Override
+        public void stop() {
+            entityData.set(REEKER_CHARGING, false);
         }
 
         @Override
@@ -1338,6 +1400,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
         public void start() {
             castTicks = 0;
             getNavigation().stop();
+            entityData.set(SUMMONER_CASTING, true);
         }
 
         @Override
@@ -1349,6 +1412,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
 
         @Override
         public void stop() {
+            entityData.set(SUMMONER_CASTING, false);
             abilityCooldown = 360;
         }
     }
@@ -1378,6 +1442,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
             }
             getLookControl().setLookAt(target, 30.0F, 30.0F);
             fireProjectile(target, ParasiteProjectileEntity.Mode.VOMIT, 0.75D, 9.0F, 2.4D, 90);
+            triggerAttackAnimation();
             secondaryCooldown = 100;
         }
     }
@@ -1419,6 +1484,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
                 spawnLice();
                 abilityCooldown = 40;
             }
+            triggerAttackAnimation();
         }
     }
 
@@ -1486,6 +1552,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
                 fireProjectile(target, ParasiteProjectileEntity.Mode.SPINE, 1.05D, 7.0F, 0.85D, 70);
                 abilityCooldown = 36;
             }
+            triggerAttackAnimation();
         }
     }
 

@@ -53,6 +53,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
     private final RawAnimation FLY = ParasiteAnimations.loop(this, "fly");
     private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation BECKON_BODY = ParasiteAnimations.loop(this, "get_body");
     private static final int STAGE_ONE_MIN_GROWTH = 4_800;
     private static final int STAGE_ONE_GROWTH_VARIANCE = 1_201;
     private static final int TEMPORARY_BECKON_LIFETIME = 300;
@@ -129,6 +130,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
 
         if (activeKind.family == Family.ROOTER && supportCooldown <= 0) {
             applyRooterSupport(activeKind.stage);
+            triggerAttackAnimation();
             supportCooldown = 200;
         }
         if (activeKind.family == Family.DISPATCHER && tickCount % 40 == 0) {
@@ -139,15 +141,18 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
             tryPlaceFirstColony();
         }
         if (summonCooldown <= 0 && performFamilyAbility(activeKind)) {
+            triggerAttackAnimation();
             summonCooldown = activeKind.summonCooldown;
         }
         if (activeKind.family == Family.BECKON && activeKind.stage == 4
                 && forcedEvolutionCooldown <= 0 && forceEvolveNearbyParasite()) {
+            triggerAttackAnimation();
             forcedEvolutionCooldown = 100;
         }
         if (activeKind.family == Family.BECKON && activeKind.stage == 4 && level().isThundering()
                 && tickCount % 20 == 0) {
             createStormVortex();
+            triggerAttackAnimation();
         }
         if (activeKind.family == Family.BECKON && tickCount % Math.max(20, 100 - activeKind.stage * 15) == 0
                 && level() instanceof ServerLevel serverLevel) {
@@ -204,9 +209,9 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         if (!hurt || level().isClientSide || activeKind.isRooterBall()) {
             return hurt;
         }
-        attackFlashTicks = 12;
         if (bombCooldown <= 0) {
             spawnBombVolley(activeKind.bombCount, (float) activeKind.attackDamage);
+            triggerAttackAnimation();
             bombCooldown = 100;
         }
         return true;
@@ -274,6 +279,8 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
+                .triggerableAnim("attack", ATTACK));
     }
 
     @Override
@@ -324,13 +331,17 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private PlayState movementAnimation(AnimationState<NexusParasiteEntity> state) {
-        if (attackFlashTicks > 0) {
-            return state.setAndContinue(ATTACK);
-        }
         if (!state.isMoving()) {
-            return state.setAndContinue(IDLE);
+            Kind activeKind = activeKind();
+            return state.setAndContinue(activeKind.family == Family.BECKON && activeKind.stage < 4
+                    ? BECKON_BODY : IDLE);
         }
         return state.setAndContinue(!onGround() || Math.abs(getDeltaMovement().y) > 0.08D ? FLY : WALK);
+    }
+
+    private void triggerAttackAnimation() {
+        attackFlashTicks = 12;
+        triggerAnim("attack_controller", "attack");
     }
 
     private void decrementCooldowns() {
