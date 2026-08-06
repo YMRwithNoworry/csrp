@@ -1847,10 +1847,10 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
             return;
         }
         Vec3 start = getEyePosition().add(getViewVector(1.0F).scale(0.5D));
-        Vec3 direction = target.getEyePosition().subtract(start).normalize();
+        Vec3 direction = target.getEyePosition().subtract(start).normalize().scale(0.8D);
         projectile.moveTo(start.x, start.y, start.z, getYRot(), getXRot());
         projectile.setOwner(this);
-        projectile.shoot(direction.x, direction.y, direction.z, 0.8F, 1.0F);
+        projectile.setDeltaMovement(direction);
         level().addFreshEntity(projectile);
         playSound(ModSounds.get("attack.throw"), 1.5F, 1.0F + random.nextFloat() * 0.2F);
     }
@@ -2033,11 +2033,15 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
             if (acid) {
                 fireProjectile(target, ParasiteProjectileEntity.Mode.ACID, 0.70D, 14.0F, 2.25D, 100);
                 abilityCooldown = 90;
+                playSound(ModSounds.get("emana.shooting"), 1.0F, 1.5F);
+                playSound(ModSounds.get("attack.emana"), 2.0F, 1.0F);
             } else {
                 fireProjectile(target, ParasiteProjectileEntity.Mode.SPINE, 1.15D, 7.0F, 0.85D, 70);
                 fireProjectile(target, ParasiteProjectileEntity.Mode.SPINE, 1.05D, 7.0F, 0.85D, 70);
                 abilityCooldown = 36;
+                playSound(ModSounds.get("emana.shooting"), 1.0F, 1.0F);
             }
+            playSound(ModSounds.get("aemana.shootingpost"), 2.0F, 1.0F);
             triggerAttackAnimation();
         }
     }
