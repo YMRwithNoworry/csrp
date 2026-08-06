@@ -8,6 +8,7 @@ import alku.csrp.entity.SimAdventurerEntity;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModParticles;
+import alku.csrp.registry.ModSounds;
 import alku.csrp.world.DislodgmentSystem;
 import alku.csrp.world.EvolutionSystem;
 import alku.csrp.world.SrpWorldData;
@@ -26,6 +27,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
+import net.minecraft.sounds.SoundSource;
 
 /** Server-side COTH and Viral infection progression, spread, and host conversion. */
 public final class InfectionMechanics {
@@ -74,6 +76,11 @@ public final class InfectionMechanics {
         int amplifier = existing == null ? 0 : existing.getAmplifier();
         int duration = existing == null ? durationFloor : Math.max(existing.getDuration(), durationFloor);
         target.addEffect(new MobEffectInstance(ModMobEffects.COTH, duration, amplifier, false, false), source);
+        if (existing == null && !target.level().isClientSide) {
+            target.level().playSound(null, target.getX(), target.getY(), target.getZ(),
+                    ModSounds.get("infected.growl"), SoundSource.HOSTILE,
+                    1.0F, 0.9F + target.getRandom().nextFloat() * 0.2F);
+        }
     }
 
     public static void tickCoth(LivingEntity entity, int amplifier) {
