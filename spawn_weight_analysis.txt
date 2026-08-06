@@ -1,0 +1,343 @@
+原模组 vs 当前项目 生物生成权重对比分析
+===========================================
+
+基础映射关系：
+- EntityShyco (原始形态-长臂) -> PRI_LONGARMS
+- EntityShycoAdapted (适应形态-长臂) -> ADA_LONGARMS
+- EntityEmana (原始形态-内脏) -> PRI_VISCERA
+- EntityEmanaAdapted (适应形态-内脏) -> ADA_VISCERA
+- EntityHull (原始形态-穴居) -> PRI_BURROWER
+- EntityHullAdapted (适应形态-穴居) -> ADA_BURROWER
+- EntityCanra (原始形态-召唤者) -> PRI_SUMMONER
+- EntityCanraAdapted (适应形态-召唤者) -> ADA_SUMMONER
+- EntityBano (原始形态-支撑者) -> PRI_BOLSTER
+- EntityBanoAdapted (适应形态-支撑者) -> ADA_BOLSTER
+- EntityRanrac (原始形态-蛛形) -> PRI_ARACHNIDA
+- EntityRanracAdapted (适应形态-蛛形) -> ADA_ARACHNIDA
+- EntityWymo (原始形态-黄眼) -> PRI_YELLOWEYE
+- EntityIki (原始形态-吞噬者) -> PRI_DEVOURER
+- EntityNogla (原始形态-恶臭者) -> PRI_REEKER
+- EntityRathol (载体-重型) -> CARRIER_HEAVY
+- EntityButhol (载体-轻型) -> CARRIER_LIGHT
+- EntityMudo (虫群) -> BUGLIN
+- EntityLodo (破裂者) -> RUPTER
+- EntityKol (工蜂) -> WORKER
+- EntityNuuh (蠕动肉块) -> MOVINGFLESH
+- EntityAta (蚊) -> GNAT
+
+原模组生成权重数据 (来源: SRPConfigMobs.java + SRPSpawning.java)
+================================================================
+
+原始形态 (Primitive):
+- shyco (长臂): weight=15, group=1-1
+- shycoA (长臂-适应): weight=15, group=1-1
+- emana (内脏): weight=10, group=2-3
+- emanaA (内脏-适应): weight=10, group=2-3
+- hull (穴居): weight=30, group=4-6
+- hullA (穴居-适应): weight=30, group=4-6
+- canra (召唤者): weight=5, group=1-1
+- canraA (召唤者-适应): weight=5, group=1-1
+- nogla (恶臭者): weight=10, group=1-2
+- noglaA (恶臭者-适应): weight=10, group=1-2
+- zetmo/bano (支撑者): weight=10, group=1-1
+- zetmoA/banoA (支撑者-适应): weight=10, group=1-1
+- arachnida/ranrac (蛛形): weight=10, group=1-1
+- arachnidaA/ranracA (蛛形-适应): weight=10, group=1-1
+- wymo (黄眼): weight=10, group=1-1
+- iki (吞噬者): weight=10, group=1-1
+
+载体 (Carrier):
+- rathol (载体-重型): weight=20, group=2-2
+- buthol (载体-轻型): weight=15, group=1-2
+
+寄生虫群 (Inborn):
+- mudo (虫群): weight=30, group=3-6
+- lodo (破裂者): weight=30, group=2-5
+- kol (工蜂): weight=15, group=1-1
+- nuuh (蠕动肉块): weight=30, group=1-1
+- ata (蚊): weight=30, group=1-1
+
+同化生物 (Assimilated/Infected):
+- infbear (同化熊): weight=30, group=1-1
+- dorpa (同化大蜘蛛): weight=10, group=1-1
+- infenderman (同化末影人): weight=5, group=1-1
+- infhuman (同化人类): weight=30, group=3-5
+- infcow (同化牛): weight=25, group=1-3
+- infsheep (同化羊): weight=25, group=1-3
+- infwolf (同化狼): weight=25, group=3-6
+- infpig (同化猪): weight=25, group=3-6
+- infvillager (同化村民): weight=25, group=3-6
+- infhorse (同化马): weight=25, group=3-6
+- infadventurer (同化冒险家): weight=15, group=3-6
+- infdragone (同化末影龙): weight=2, group=3-6
+
+野性生物 (Feral):
+- ferenderman (野性末影人): weight=20, group=1-1
+- ferhuman (野性人类): weight=20, group=3-5
+- fercow (野性牛): weight=20, group=1-3
+- fersheep (野性羊): weight=20, group=1-3
+- ferwolf (野性狼): weight=20, group=3-6
+- ferpig (野性猪): weight=20, group=3-6
+- fervillager (野性村民): weight=20, group=3-6
+- ferhorse (野性马): weight=20, group=3-6
+
+劫持生物 (Hijacked):
+- higolem (劫持铁傀儡): weight=20, group=1-1
+- hibleze (劫持烈焰人): weight=20, group=N/A
+- hiskeleton (劫持骷髅): weight=20, group=N/A
+
+原型生物 (Crude):
+- host (宿主): weight=0, group=1-1
+- herd (宿主II): weight=0, group=1-1
+- heed (留意者): weight=0, group=1-1
+- cruxa (不完整十字架): weight=0, group=1-1
+- inhooS (不完整形态-小): weight=15, group=2-5
+- inhooM (不完整形态-中): weight=15, group=2-5
+
+纯净形态 (Pure):
+- alafha (纯净-格朗特): weight=5, group=1-1
+- ganro (纯净-监察官): weight=0, group=1-1
+- anged (纯净-轻型轰炸机): weight=0, group=2-2
+- esor (纯净-君主): weight=0, group=1-1
+- omboo (纯净-典狱长): weight=15, group=2-2
+- flog (纯净-守夜人): weight=0, group=3-6
+
+卓越形态 (Preeminent):
+- jinjo (卓越-妖精): weight=15, group=3-6
+- vesta (卓越-重型轰炸机): weight=15, group=3-6
+- elvia (卓越-缠绕者): weight=15, group=3-6
+- lencia (卓越-运载殖民地): weight=15, group=3-6
+- pheon (卓越-幽魂): weight=15, group=3-6
+
+衍生生物 (Derived):
+- heblu (炼狱者): weight=1, group=1-1
+
+远古生物 (Ancient):
+- oronco (远古-霸主): weight=1, group=1-1
+- terla (远古-无畏舰): weight=1, group=1-1
+- kirin (祈焰): weight=1, group=N/A
+
+
+当前项目生成权重数据 (来源: biome_modifier/*.json)
+=================================================
+
+已配置的生物：
+- buglin (虫群): weight=30, group=2-6
+- rupter (破裂者): weight=30, group=3-6
+- carrier_light (载体-轻型): weight=5, group=1-2
+- kirin (祈焰): weight=1, group=1-1
+- fer_enderman (野性末影人): weight=25, group=3-5 (仅末地)
+- ada_bolster (适应-支撑者): weight=15, group=2-3
+- sim_adventurer (同化冒险家): weight=25, group=3-5
+
+未配置的生物（需要添加）：
+- 所有原始形态生物 (除ada_bolster外)
+- carrier_heavy (载体-重型)
+- carrier_flying (载体-飞行)
+- 其他同化/野性生物
+- 纯净/卓越形态生物
+- 远古生物等
+
+详细对比表格
+============
+
+分类：原始形态 (Primitive)
+---------------------------------------------------------------------------
+实体名称              | 原模组权重 | 原模组数量 | 当前权重 | 当前数量 | 状态
+---------------------------------------------------------------------------
+pri_longarms (长臂)   | 15         | 1-1        | 未配置   | -        | 缺失
+ada_longarms          | 15         | 1-1        | 未配置   | -        | 缺失
+pri_viscera (内脏)    | 10         | 2-3        | 未配置   | -        | 缺失
+ada_viscera           | 10         | 2-3        | 未配置   | -        | 缺失
+pri_burrower (穴居)   | 30         | 4-6        | 未配置   | -        | 缺失
+ada_burrower          | 30         | 4-6        | 未配置   | -        | 缺失
+pri_summoner (召唤者) | 5          | 1-1        | 未配置   | -        | 缺失
+ada_summoner          | 5          | 1-1        | 未配置   | -        | 缺失
+pri_reeker (恶臭者)   | 10         | 1-2        | 未配置   | -        | 缺失
+ada_reeker            | 10         | 1-2        | 未配置   | -        | 缺失
+pri_bolster (支撑者)  | 10         | 1-1        | 未配置   | -        | 缺失
+ada_bolster           | 10         | 1-1        | 15       | 2-3      | 已配置(权重偏高)
+pri_arachnida (蛛形)  | 10         | 1-1        | 未配置   | -        | 缺失
+ada_arachnida         | 10         | 1-1        | 未配置   | -        | 缺失
+pri_yelloweye (黄眼)  | 10         | 1-1        | 未配置   | -        | 缺失
+pri_devourer (吞噬者) | 10         | 1-1        | 未配置   | -        | 缺失
+pri_tozoon            | ?          | ?          | 未配置   | -        | 缺失
+pri_manducater        | ?          | ?          | 未配置   | -        | 缺失
+pri_vermin            | ?          | ?          | 未配置   | -        | 缺失
+
+分类：载体 (Carrier)
+---------------------------------------------------------------------------
+carrier_heavy         | 20         | 2-2        | 未配置   | -        | 缺失
+carrier_light         | 15         | 1-2        | 5        | 1-2      | 已配置(权重偏低)
+carrier_flying        | ?          | ?          | 未配置   | -        | 缺失
+
+分类：寄生虫群 (Inborn)
+---------------------------------------------------------------------------
+buglin (虫群)         | 30         | 3-6        | 30       | 2-6      | 已配置(数量偏低)
+rupter (破裂者)       | 30         | 2-5        | 30       | 3-6      | 已配置(数量偏高)
+worker (工蜂)         | 15         | 1-1        | 未配置   | -        | 缺失
+movingflesh (蠕动)    | 30         | 1-1        | 未配置   | -        | 缺失
+gnat (蚊)             | 30         | 1-1        | 未配置   | -        | 缺失
+lice (虱)             | ?          | ?          | 未配置   | -        | 缺失
+
+分类：同化生物 (Assimilated)
+---------------------------------------------------------------------------
+sim_bear              | 30         | 1-1        | 未配置   | -        | 缺失
+sim_bigspider         | 10         | 1-1        | 未配置   | -        | 缺失
+sim_enderman          | 5          | 1-1        | 未配置   | -        | 缺失
+sim_human             | 30         | 3-5        | 未配置   | -        | 缺失
+sim_cow               | 25         | 1-3        | 未配置   | -        | 缺失
+sim_sheep             | 25         | 1-3        | 未配置   | -        | 缺失
+sim_wolf              | 25         | 3-6        | 未配置   | -        | 缺失
+sim_pig               | 25         | 3-6        | 未配置   | -        | 缺失
+sim_villager          | 25         | 3-6        | 未配置   | -        | 缺失
+sim_horse             | 25         | 3-6        | 未配置   | -        | 缺失
+sim_adventurer        | 15         | 3-6        | 25       | 3-5      | 已配置(权重偏高)
+sim_dragone           | 2          | 3-6        | 未配置   | -        | 缺失
+sim_squid             | ?          | ?          | 未配置   | -        | 缺失
+
+分类：野性生物 (Feral)
+---------------------------------------------------------------------------
+fer_enderman          | 20         | 1-1        | 25       | 3-5      | 已配置(权重偏高,数量偏高)
+fer_human             | 20         | 3-5        | 未配置   | -        | 缺失
+fer_cow               | 20         | 1-3        | 未配置   | -        | 缺失
+fer_sheep             | 20         | 1-3        | 未配置   | -        | 缺失
+fer_wolf              | 20         | 3-6        | 未配置   | -        | 缺失
+fer_pig               | 20         | 3-6        | 未配置   | -        | 缺失
+fer_villager          | 20         | 3-6        | 未配置   | -        | 缺失
+fer_horse             | 20         | 3-6        | 未配置   | -        | 缺失
+fer_bear              | 20         | ?          | 未配置   | -        | 缺失
+
+分类：劫持生物 (Hijacked)
+---------------------------------------------------------------------------
+hi_golem              | 20         | 1-1        | 未配置   | -        | 缺失
+hi_blaze              | 20         | ?          | 未配置   | -        | 缺失
+hi_skeleton           | 20         | ?          | 未配置   | -        | 缺失
+
+分类：原型生物 (Crude)
+---------------------------------------------------------------------------
+host (宿主)           | 0          | 1-1        | 未配置   | -        | 缺失(默认不生成)
+hostii (宿主II)       | 0          | 1-1        | 未配置   | -        | 缺失(默认不生成)
+heed (留意者)         | 0          | 1-1        | 未配置   | -        | 缺失(默认不生成)
+crux (不完整十字架)   | 0          | 1-1        | 未配置   | -        | 缺失(默认不生成)
+incompleteform_small  | 15         | 2-5        | 未配置   | -        | 缺失
+incompleteform_medium | 15         | 2-5        | 未配置   | -        | 缺失
+
+分类：纯净形态 (Pure)
+---------------------------------------------------------------------------
+grunt (格朗特)        | 5          | 1-1        | 未配置   | -        | 缺失
+overseer (监察官)     | 0          | 1-1        | 未配置   | -        | 缺失(默认不生成)
+bomber_light          | 0          | 2-2        | 未配置   | -        | 缺失(默认不生成)
+monarch (君主)        | 0          | 1-1        | 未配置   | -        | 缺失(默认不生成)
+warden (典狱长)       | 15         | 2-2        | 未配置   | -        | 缺失
+vigilante (守夜人)    | 0          | 3-6        | 未配置   | -        | 缺失(默认不生成)
+
+分类：卓越形态 (Preeminent)
+---------------------------------------------------------------------------
+bogle (妖精)          | 15         | 3-6        | 未配置   | -        | 缺失
+bomber_heavy          | 15         | 3-6        | 未配置   | -        | 缺失
+haunter (缠绕者)      | 15         | 3-6        | 未配置   | -        | 缺失
+carrier_colony        | 15         | 3-6        | 未配置   | -        | 缺失
+wraith (幽魂)         | 15         | 3-6        | 未配置   | -        | 缺失
+
+分类：远古生物 (Ancient)
+---------------------------------------------------------------------------
+anc_overlord (霸主)   | 1          | 1-1        | 未配置   | -        | 缺失
+anc_dreadnaut (无畏)  | 1          | 1-1        | 未配置   | -        | 缺失
+kirin (祈焰)          | 1          | 1-1        | 1        | 1-1      | 已配置(正确)
+
+分类：掠夺者 (Marauder)
+---------------------------------------------------------------------------
+mar_bear              | 20         | ?          | 未配置   | -        | 缺失
+mar_cow               | 20         | ?          | 未配置   | -        | 缺失
+mar_enderman          | 20         | ?          | 未配置   | -        | 缺失
+mar_human             | 20         | ?          | 未配置   | -        | 缺失
+mar_sheep             | 20         | ?          | 未配置   | -        | 缺失
+mar_villager          | 20         | ?          | 未配置   | -        | 缺失
+
+
+
+总结与建议
+==========
+
+1. 已配置生物的权重调整建议：
+   - ada_bolster: 15 -> 10 (降低至原版水平)
+   - carrier_light: 5 -> 15 (提升至原版水平)
+   - sim_adventurer: 25 -> 15 (降低至原版水平)
+   - fer_enderman: 25 -> 20 (降低至原版水平), group: 3-5 -> 1-1
+   - buglin: group 2-6 -> 3-6 (修正最小数量)
+
+2. 高优先级缺失生物（应立即添加）：
+   原始形态系列：
+   - pri_longarms + ada_longarms (weight=15, group=1-1)
+   - pri_viscera + ada_viscera (weight=10, group=2-3)
+   - pri_burrower + ada_burrower (weight=30, group=4-6) ⭐高权重
+   - pri_summoner + ada_summoner (weight=5, group=1-1)
+   - pri_reeker + ada_reeker (weight=10, group=1-2)
+   - pri_arachnida + ada_arachnida (weight=10, group=1-1)
+   - pri_yelloweye (weight=10, group=1-1)
+   - pri_devourer (weight=10, group=1-1)
+
+   寄生虫群：
+   - gnat (weight=30, group=1-1) ⭐高权重
+   - movingflesh (weight=30, group=1-1) ⭐高权重
+   - worker (weight=15, group=1-1)
+
+   载体：
+   - carrier_heavy (weight=20, group=2-2)
+
+3. 中优先级缺失生物（核心玩法）：
+   同化生物系列：
+   - sim_bear (weight=30, group=1-1) ⭐高权重
+   - sim_human (weight=30, group=3-5) ⭐高权重
+   - sim_cow/sheep/pig/wolf/horse/villager (weight=25, group varies)
+   - sim_enderman (weight=5, group=1-1)
+   - sim_bigspider (weight=10, group=1-1)
+
+   野性生物系列：
+   - fer_human/cow/sheep/pig/wolf/horse/villager (weight=20, group varies)
+
+4. 低优先级缺失生物（高级形态）：
+   - 纯净形态系列 (Pure): grunt, warden等
+   - 卓越形态系列 (Preeminent): bogle, bomber_heavy, haunter等
+   - 远古生物: anc_overlord, anc_dreadnaut
+   - 劫持生物: hi_golem, hi_blaze, hi_skeleton
+
+5. 默认不生成的生物（weight=0）：
+   - host, hostii, heed, crux (原型生物，特殊生成机制)
+   - overseer, bomber_light, monarch, vigilante (纯净形态，阶段限制)
+
+数据来源说明
+============
+- 原模组数据来源：D:\code\模组反编译器\decompiled\SRParasites-1.10.7
+  * SRPSpawning.java (第124-187行) - addSpawn调用
+  * SRPConfigMobs.java - SpawnRate配置值
+
+- 当前项目数据来源：D:\code\MC模组\csrp
+  * src/main/resources/data/csrp/neoforge/biome_modifier/*_spawns.json
+
+JSON格式示例（用于添加新生物）
+==============================
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#minecraft:is_overworld",
+  "spawners": {
+    "type": "csrp:<entity_name>",
+    "weight": <number>,
+    "minCount": <number>,
+    "maxCount": <number>
+  }
+}
+
+注意事项
+========
+1. 原模组使用 Biome.func_76747_a(EnumCreatureType.MONSTER).add() 方式
+   当前项目使用 NeoForge BiomeModifier JSON 方式
+
+2. 原模组权重系统在阶段进化(Phase Evolution)系统下可能动态调整
+   当前项目需要考虑是否实现类似机制
+
+3. 部分生物在原模组中有 enabled 配置开关，当前项目需考虑是否保留
+
+4. 原模组的水生/飞行生物使用不同的 EnumCreatureType
+   当前项目需要确认这些生物的生成类型配置

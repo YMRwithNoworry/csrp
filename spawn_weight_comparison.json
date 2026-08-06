@@ -1,0 +1,423 @@
+{
+  "analysis_date": "2026-08-06",
+  "data_sources": {
+    "original_mod": "D:\\code\\模组反编译器\\decompiled\\SRParasites-1.10.7",
+    "current_project": "D:\\code\\MC模组\\csrp"
+  },
+  "entities": {
+    "pri_longarms": {
+      "original_weight": 15,
+      "current_weight": null,
+      "original_group_size": "1-1",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "ada_longarms": {
+      "original_weight": 15,
+      "current_weight": null,
+      "original_group_size": "1-1",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "pri_viscera": {
+      "original_weight": 10,
+      "current_weight": null,
+      "original_group_size": "2-3",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "ada_viscera": {
+      "original_weight": 10,
+      "current_weight": null,
+      "original_group_size": "2-3",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "pri_burrower": {
+      "original_weight": 30,
+      "current_weight": null,
+      "original_group_size": "4-6",
+      "current_group_size": null,
+      "status": "missing",
+      "priority": "high"
+    },
+    "ada_burrower": {
+      "original_weight": 30,
+      "current_weight": null,
+      "original_group_size": "4-6",
+      "current_group_size": null,
+      "status": "missing",
+      "priority": "high"
+    },
+    "pri_summoner": {
+      "original_weight": 5,
+      "current_weight": null,
+      "original_group_size": "1-1",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "ada_summoner": {
+      "original_weight": 5,
+      "current_weight": null,
+      "original_group_size": "1-1",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "pri_reeker": {
+      "original_weight": 10,
+      "current_weight": null,
+      "original_group_size": "1-2",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "ada_reeker": {
+      "original_weight": 10,
+      "current_weight": null,
+      "original_group_size": "1-2",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "pri_bolster": {
+      "original_weight": 10,
+      "current_weight": null,
+      "original_group_size": "1-1",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "ada_bolster": {
+      "original_weight": 10,
+      "current_weight": 15,
+      "original_group_size": "1-1",
+      "current_group_size": "2-3",
+      "status": "configured",
+      "adjustment_needed": "reduce weight to 10, group to 1-1"
+    },
+    "pri_arachnida": {
+      "original_weight": 10,
+      "current_weight": null,
+      "original_group_size": "1-1",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "ada_arachnida": {
+      "original_weight": 10,
+      "current_weight": null,
+      "original_group_size": "1-1",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "pri_yelloweye": {
+      "original_weight": 10,
+      "current_weight": null,
+      "original_group_size": "1-1",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "pri_devourer": {
+      "original_weight": 10,
+      "current_weight": null,
+      "original_group_size": "1-1",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "carrier_heavy": {
+      "original_weight": 20,
+      "current_weight": null,
+      "original_group_size": "2-2",
+      "current_group_size": null,
+      "status": "missing",
+      "priority": "high"
+    },
+    "carrier_light": {
+      "original_weight": 15,
+      "current_weight": 5,
+      "original_group_size": "1-2",
+      "current_group_size": "1-2",
+      "status": "configured",
+      "adjustment_needed": "increase weight to 15"
+    },
+    "buglin": {
+      "original_weight": 30,
+      "current_weight": 30,
+      "original_group_size": "3-6",
+      "current_group_size": "2-6",
+      "status": "configured",
+      "adjustment_needed": "change minCount to 3"
+    },
+    "rupter": {
+      "original_weight": 30,
+      "current_weight": 30,
+      "original_group_size": "2-5",
+      "current_group_size": "3-6",
+      "status": "configured",
+      "adjustment_needed": "change to 2-5"
+    },
+    "worker": {
+      "original_weight": 15,
+      "current_weight": null,
+      "original_group_size": "1-1",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "movingflesh": {
+      "original_weight": 30,
+      "current_weight": null,
+      "original_group_size": "1-1",
+      "current_group_size": null,
+      "status": "missing",
+      "priority": "high"
+    },
+    "gnat": {
+      "original_weight": 30,
+      "current_weight": null,
+      "original_group_size": "1-1",
+      "current_group_size": null,
+      "status": "missing",
+      "priority": "high"
+    },
+    "sim_bear": {
+      "original_weight": 30,
+      "current_weight": null,
+      "original_group_size": "1-1",
+      "current_group_size": null,
+      "status": "missing",
+      "priority": "high"
+    },
+    "sim_bigspider": {
+      "original_weight": 10,
+      "current_weight": null,
+      "original_group_size": "1-1",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "sim_enderman": {
+      "original_weight": 5,
+      "current_weight": null,
+      "original_group_size": "1-1",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "sim_human": {
+      "original_weight": 30,
+      "current_weight": null,
+      "original_group_size": "3-5",
+      "current_group_size": null,
+      "status": "missing",
+      "priority": "high"
+    },
+    "sim_cow": {
+      "original_weight": 25,
+      "current_weight": null,
+      "original_group_size": "1-3",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "sim_sheep": {
+      "original_weight": 25,
+      "current_weight": null,
+      "original_group_size": "1-3",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "sim_wolf": {
+      "original_weight": 25,
+      "current_weight": null,
+      "original_group_size": "3-6",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "sim_pig": {
+      "original_weight": 25,
+      "current_weight": null,
+      "original_group_size": "3-6",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "sim_villager": {
+      "original_weight": 25,
+      "current_weight": null,
+      "original_group_size": "3-6",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "sim_horse": {
+      "original_weight": 25,
+      "current_weight": null,
+      "original_group_size": "3-6",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "sim_adventurer": {
+      "original_weight": 15,
+      "current_weight": 25,
+      "original_group_size": "3-6",
+      "current_group_size": "3-5",
+      "status": "configured",
+      "adjustment_needed": "reduce weight to 15, maxCount to 6"
+    },
+    "sim_dragone": {
+      "original_weight": 2,
+      "current_weight": null,
+      "original_group_size": "3-6",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "fer_enderman": {
+      "original_weight": 20,
+      "current_weight": 25,
+      "original_group_size": "1-1",
+      "current_group_size": "3-5",
+      "status": "configured",
+      "biome": "#minecraft:is_end",
+      "adjustment_needed": "reduce weight to 20, group to 1-1"
+    },
+    "fer_human": {
+      "original_weight": 20,
+      "current_weight": null,
+      "original_group_size": "3-5",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "fer_cow": {
+      "original_weight": 20,
+      "current_weight": null,
+      "original_group_size": "1-3",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "fer_sheep": {
+      "original_weight": 20,
+      "current_weight": null,
+      "original_group_size": "1-3",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "fer_wolf": {
+      "original_weight": 20,
+      "current_weight": null,
+      "original_group_size": "3-6",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "fer_pig": {
+      "original_weight": 20,
+      "current_weight": null,
+      "original_group_size": "3-6",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "fer_villager": {
+      "original_weight": 20,
+      "current_weight": null,
+      "original_group_size": "3-6",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "fer_horse": {
+      "original_weight": 20,
+      "current_weight": null,
+      "original_group_size": "3-6",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "hi_golem": {
+      "original_weight": 20,
+      "current_weight": null,
+      "original_group_size": "1-1",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "incompleteform_small": {
+      "original_weight": 15,
+      "current_weight": null,
+      "original_group_size": "2-5",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "incompleteform_medium": {
+      "original_weight": 15,
+      "current_weight": null,
+      "original_group_size": "2-5",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "grunt": {
+      "original_weight": 5,
+      "current_weight": null,
+      "original_group_size": "1-1",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "warden": {
+      "original_weight": 15,
+      "current_weight": null,
+      "original_group_size": "2-2",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "bogle": {
+      "original_weight": 15,
+      "current_weight": null,
+      "original_group_size": "3-6",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "bomber_heavy": {
+      "original_weight": 15,
+      "current_weight": null,
+      "original_group_size": "3-6",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "haunter": {
+      "original_weight": 15,
+      "current_weight": null,
+      "original_group_size": "3-6",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "carrier_colony": {
+      "original_weight": 15,
+      "current_weight": null,
+      "original_group_size": "3-6",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "wraith": {
+      "original_weight": 15,
+      "current_weight": null,
+      "original_group_size": "3-6",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "anc_overlord": {
+      "original_weight": 1,
+      "current_weight": null,
+      "original_group_size": "1-1",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "anc_dreadnaut": {
+      "original_weight": 1,
+      "current_weight": null,
+      "original_group_size": "1-1",
+      "current_group_size": null,
+      "status": "missing"
+    },
+    "kirin": {
+      "original_weight": 1,
+      "current_weight": 1,
+      "original_group_size": "1-1",
+      "current_group_size": "1-1",
+      "status": "configured",
+      "biome": "#csrp:kirin_spawns"
+    }
+  },
+  "summary": {
+    "total_entities_checked": 57,
+    "configured_correctly": 1,
+    "configured_needs_adjustment": 6,
+    "missing": 50,
+    "high_priority_missing": 6
+  }
+}

@@ -20,14 +20,20 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 
+import java.util.EnumSet;
+
 public final class SummonerEntity extends PrimitiveParasiteEntity {
     private static final EntityDataAccessor<Boolean> SUMMONING = SynchedEntityData.defineId(
             SummonerEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> SUMMON_TICKS = SynchedEntityData.defineId(
+            SummonerEntity.class, EntityDataSerializers.INT);
+
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
     private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
     private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
-    private final RawAnimation SUMMON = ParasiteAnimations.loop(this, "idle.get_parasite_status_10");
+    private final RawAnimation SUMMON = ParasiteAnimations.loop(this, "summon");
+
     private int summonCooldown = 200;
 
     public SummonerEntity(EntityType<? extends SummonerEntity> type, Level level) {
@@ -76,6 +82,15 @@ public final class SummonerEntity extends PrimitiveParasiteEntity {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(SUMMONING, false);
+        builder.define(SUMMON_TICKS, 0);
+    }
+
+    public boolean isSummoning() {
+        return entityData.get(SUMMONING);
+    }
+
+    public int getSummonTicks() {
+        return entityData.get(SUMMON_TICKS);
     }
 
     @Override
@@ -89,8 +104,12 @@ public final class SummonerEntity extends PrimitiveParasiteEntity {
 
     @Override public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
-            if (entityData.get(SUMMONING)) return state.setAndContinue(SUMMON);
-            if (getDeltaMovement().horizontalDistanceSqr() < 0.0001) return state.setAndContinue(IDLE);
+            if (isSummoning()) {
+                return state.setAndContinue(SUMMON);
+            }
+            if (getDeltaMovement().horizontalDistanceSqr() < 0.0001) {
+                return state.setAndContinue(IDLE);
+            }
             return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() > 0.02 ? RUN : WALK);
         }));
         controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
@@ -98,17 +117,57 @@ public final class SummonerEntity extends PrimitiveParasiteEntity {
     }
 
     private final class SummonGoal extends Goal {
+        private static final int SUMMON_DURATION = 80;
+        private static final int SPAWN_INTERVAL = 20;
+        private static final int MAX_SPAWNS = 4;
         private int castTicks;
-        @Override public boolean canUse() { return summonCooldown == 0 && getTarget() != null && distanceToSqr(getTarget()) <= 256.0; }
-        @Override public boolean canContinueToUse() { return castTicks < 40; }
-        @Override public void start() {
+        private int spawnCount;
+
+        public SummonGoal() {
+            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
+        }
+
+        @Override
+        public boolean canUse() {
+            return summonCooldown == 0 && getTarget() != null && distanceToSqr(getTarget()) <= 256.0;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return castTicks < SUMMON_DURATION && spawnCount < MAX_SPAWNS;
+        }
+
+        @Override
+        public void start() {
             castTicks = 0;
+            spawnCount = 0;
             getNavigation().stop();
             entityData.set(SUMMONING, true);
+            entityData.set(SUMMON_TICKS, 0);
         }
-        @Override public void tick() { if (++castTicks == 30) summonMinions(); }
-        @Override public void stop() {
+
+        @Override
+        public void tick() {
+            castTicks++;
+            entityData.set(SUMMON_TICKS, castTicks);
+
+            // 每20 ticks生成一波寄生体
+            if (castTicks >= 40 && castTicks % SPAWN_INTERVAL == 0 && spawnCount < MAX_SPAWNS) {
+                summonMinions();
+                spawnCount++;
+            }
+
+            // 面向目标
+            LivingEntity target = getTarget();
+            if (target != null) {
+                getLookControl().setLookAt(target, 30.0F, 30.0F);
+            }
+        }
+
+        @Override
+        public void stop() {
             entityData.set(SUMMONING, false);
+            entityData.set(SUMMON_TICKS, 0);
             summonCooldown = 200;
         }
     }

@@ -72,6 +72,11 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     private static final Map<Class<?>, Optional<Method>> TACZ_BULLET_GUN_ID_METHODS = new ConcurrentHashMap<>();
     private static final Map<Class<?>, Optional<Method>> TACZ_ITEM_GUN_ID_METHODS = new ConcurrentHashMap<>();
 
+    // 固化机制相关字段
+    private static final String SURVIVAL_TIME_TAG = "survival_time";
+    private static final int PETRIFICATION_TIME_TICKS = 24000; // 20分钟
+    private static final int PETRIFICATION_CHECK_INTERVAL = 100; // 每5秒检查一次
+
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private final Map<String, Integer> damageAdaptations = new LinkedHashMap<>();
     private boolean bypassArmorForDamageCap;
@@ -82,6 +87,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     private boolean adaptedFormSpawned;
     private int adaptationLearningCooldown;
     private int fireAdaptationBlockTicks;
+    private int survivalTicks;
 
     protected PrimitiveParasiteEntity(EntityType<? extends PrimitiveParasiteEntity> type, Level level) {
         super(type, level);
@@ -143,6 +149,11 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
             if (fireAdaptationBlockTicks > 0) {
                 fireAdaptationBlockTicks--;
             }
+        }
+        // 固化机制检查
+        if (!level().isClientSide && tickCount % PETRIFICATION_CHECK_INTERVAL == 0) {
+            survivalTicks += PETRIFICATION_CHECK_INTERVAL;
+            checkPetrification();
         }
     }
 
@@ -604,12 +615,55 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         return true;
     }
 
+    /**
+     * 检查固化条件并执行固化
+     */
+    protected void checkPetrification() {
+        if (survivalTicks >= PETRIFICATION_TIME_TICKS
+            && parasiteKills < petrifyKillThreshold()
+            && level() instanceof ServerLevel serverLevel) {
+            petrify(serverLevel);
+        }
+    }
+
+    /**
+     * 获取固化所需的击杀阈值（默认使用转变为适应型的阈值）
+     */
+    protected int petrifyKillThreshold() {
+        return requiredAdaptationKills();
+    }
+
+    /**
+     * 执行固化：生成 ParasiteRemainsEntity 遗骸
+     */
+    protected void petrify(ServerLevel level) {
+        ParasiteRemainsEntity remains = ModEntities.PARASITE_REMAINS.get().create(level);
+        if (remains == null) {
+            return;
+        }
+
+        // 设置遗骸的位置和姿态
+        remains.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+
+        // 初始化遗骸（设置来源实体类型和速度）
+        remains.initialize(this, 0, getDeltaMovement().multiply(0.2, 0.1, 0.2));
+
+        // 保持名称
+        remains.setCustomName(getCustomName());
+
+        // 添加到世界并移除当前实体
+        if (level.addFreshEntity(remains)) {
+            discard();
+        }
+    }
+
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putInt(KILLS_TAG, parasiteKills);
         tag.putDouble(LEGACY_KILLCOUNT_TAG, legacyKillCount);
         tag.putBoolean(COLONY_SPAWNED_TAG, colonySpawned);
+        tag.putInt(SURVIVAL_TIME_TAG, survivalTicks);
         ListTag adaptations = new ListTag();
         damageAdaptations.forEach((id, hits) -> {
             CompoundTag entry = new CompoundTag();
@@ -626,6 +680,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         parasiteKills = tag.getInt(KILLS_TAG);
         legacyKillCount = tag.contains(LEGACY_KILLCOUNT_TAG) ? tag.getDouble(LEGACY_KILLCOUNT_TAG) : parasiteKills;
         colonySpawned = tag.getBoolean(COLONY_SPAWNED_TAG);
+        survivalTicks = tag.getInt(SURVIVAL_TIME_TAG);
         damageAdaptations.clear();
         for (Tag raw : tag.getList(ADAPTATIONS_TAG, Tag.TAG_COMPOUND)) {
             CompoundTag entry = (CompoundTag) raw;

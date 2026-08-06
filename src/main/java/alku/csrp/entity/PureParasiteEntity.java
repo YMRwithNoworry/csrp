@@ -4,6 +4,7 @@ import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -44,6 +45,8 @@ import java.util.EnumSet;
 public final class PureParasiteEntity extends PrimitiveParasiteEntity {
     private static final EntityDataAccessor<Boolean> WARDEN_CHARGING = SynchedEntityData.defineId(
             PureParasiteEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> VIGILANTE_STATUS = SynchedEntityData.defineId(
+            PureParasiteEntity.class, EntityDataSerializers.INT);
     private static final int MAX_ADAPTATION_HITS = 8;
     private static final int MAX_LEARNABLE_DAMAGE_SOURCES = 12;
     private static final float ADAPTATION_PER_HIT = 0.125F;
@@ -59,6 +62,16 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
     private final RawAnimation WARDEN_CHARGE_WALK = ParasiteAnimations.loop(this,
             "walk.get_parasite_status_3");
     private final RawAnimation LEAP = ParasiteAnimations.loop(this, "idle.get_parasite_status_10");
+    private final RawAnimation VIGILANTE_ATTACK_IDLE = ParasiteAnimations.loop(this,
+            "idle.get_parasite_status_1");
+    private final RawAnimation VIGILANTE_ATTACK_WALK = ParasiteAnimations.loop(this,
+            "walk.get_parasite_status_1");
+    private final RawAnimation VIGILANTE_ATTACK2_IDLE = ParasiteAnimations.loop(this,
+            "idle.get_parasite_status_2");
+    private final RawAnimation VIGILANTE_ATTACK2_WALK = ParasiteAnimations.loop(this,
+            "walk.get_parasite_status_2");
+    private final RawAnimation VIGILANTE_UNDERGROUND = ParasiteAnimations.loop(this,
+            "idle.get_parasite_status_25");
 
     private final Kind kind;
     private int blockBreakCooldown;
@@ -133,6 +146,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(WARDEN_CHARGING, false);
+        builder.define(VIGILANTE_STATUS, 0);
     }
 
     @Override
@@ -248,6 +262,22 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        if (activeKind() == Kind.VIGILANTE) {
+            tag.putInt("VigilanteStatus", entityData.get(VIGILANTE_STATUS));
+        }
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        if (activeKind() == Kind.VIGILANTE && tag.contains("VigilanteStatus")) {
+            entityData.set(VIGILANTE_STATUS, tag.getInt("VigilanteStatus"));
+        }
+    }
+
+    @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
         controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
@@ -258,6 +288,14 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         return activeKind();
     }
 
+    public int getVigilanteStatus() {
+        return entityData.get(VIGILANTE_STATUS);
+    }
+
+    public void setVigilanteStatus(int status) {
+        entityData.set(VIGILANTE_STATUS, status);
+    }
+
     private PlayState movementAnimation(AnimationState<PureParasiteEntity> state) {
         if (isSpecialLeapAnimating()
                 && (activeKind() == Kind.GRUNT || activeKind() == Kind.MONARCH || activeKind() == Kind.WARDEN)) {
@@ -265,6 +303,16 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         }
         if (activeKind() == Kind.WARDEN && entityData.get(WARDEN_CHARGING)) {
             return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.0001 ? WARDEN_CHARGE_WALK : WARDEN_CHARGE_IDLE);
+        }
+        if (activeKind() == Kind.VIGILANTE) {
+            int status = entityData.get(VIGILANTE_STATUS);
+            boolean moving = getDeltaMovement().horizontalDistanceSqr() >= 0.0001;
+            return switch (status) {
+                case 1 -> state.setAndContinue(moving ? VIGILANTE_ATTACK_WALK : VIGILANTE_ATTACK_IDLE);
+                case 2 -> state.setAndContinue(moving ? VIGILANTE_ATTACK2_WALK : VIGILANTE_ATTACK2_IDLE);
+                case 25 -> state.setAndContinue(VIGILANTE_UNDERGROUND);
+                default -> state.setAndContinue(moving ? (getDeltaMovement().horizontalDistanceSqr() > 0.02D ? RUN : WALK) : IDLE);
+            };
         }
         if (activeKind().flying) {
             return state.setAndContinue(FLY);
@@ -837,6 +885,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         private int cooldown;
         private int shots;
         private int shotDelay;
+        private int warmupTicks;
 
         private VigilanteRangedGoal() {
             setFlags(EnumSet.of(Flag.LOOK));
@@ -863,8 +912,10 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         public void start() {
             shots = 0;
             shotDelay = 0;
+            warmupTicks = 0;
             getNavigation().stop();
             triggerAttackAnimation();
+            entityData.set(VIGILANTE_STATUS, 1);
         }
 
         @Override
@@ -874,6 +925,10 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
                 return;
             }
             getLookControl().setLookAt(target, 30.0F, 30.0F);
+            if (warmupTicks < 10) {
+                warmupTicks++;
+                return;
+            }
             if (shotDelay > 0) {
                 shotDelay--;
                 return;
@@ -881,11 +936,15 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
             fireProjectile(target, ParasiteProjectileEntity.Mode.ACID, 0.80D, 27.0F, 2.25D, 90);
             shots++;
             shotDelay = 8;
+            if (shots >= 3) {
+                entityData.set(VIGILANTE_STATUS, 2);
+            }
         }
 
         @Override
         public void stop() {
             cooldown = 80;
+            entityData.set(VIGILANTE_STATUS, 0);
         }
     }
 

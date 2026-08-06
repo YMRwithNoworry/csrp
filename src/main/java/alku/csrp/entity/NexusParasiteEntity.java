@@ -15,6 +15,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
@@ -49,6 +52,13 @@ import java.util.List;
 
 /** Legacy Nexus families: stationary stage growth, reinforcement, and battlefield support. */
 public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
+    private static final EntityDataAccessor<Float> BODY = SynchedEntityData.defineId(
+            NexusParasiteEntity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Integer> PARASITE_STATUS = SynchedEntityData.defineId(
+            NexusParasiteEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Float> FLOOR_TIMER = SynchedEntityData.defineId(
+            NexusParasiteEntity.class, EntityDataSerializers.FLOAT);
+
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
     private final RawAnimation FLY = ParasiteAnimations.loop(this, "fly");
@@ -88,6 +98,45 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
                 .add(Attributes.MOVEMENT_SPEED, 0.0D)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
                 .add(Attributes.FOLLOW_RANGE, kind.stage >= 4 ? 64.0D : 16.0D);
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(BODY, 0.5F);
+        builder.define(PARASITE_STATUS, 0);
+        builder.define(FLOOR_TIMER, -1.0F);
+    }
+
+    public float getBODY() {
+        return entityData.get(BODY);
+    }
+
+    public void setBODY(float increment) {
+        float newValue = getBODY() + increment;
+        if (newValue > 0.5F) {
+            newValue = 0.5F;
+        }
+        if (newValue < 0.0F) {
+            newValue = 0.0F;
+        }
+        entityData.set(BODY, newValue);
+    }
+
+    public int getParasiteStatus() {
+        return entityData.get(PARASITE_STATUS);
+    }
+
+    public void setParasiteStatus(int status) {
+        entityData.set(PARASITE_STATUS, status);
+    }
+
+    public float getFloorTimer() {
+        return entityData.get(FLOOR_TIMER);
+    }
+
+    public void setFloorTimer(float value) {
+        entityData.set(FLOOR_TIMER, value);
     }
 
     @Override
