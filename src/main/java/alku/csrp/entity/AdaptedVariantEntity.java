@@ -1653,8 +1653,20 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
 
         @Override
         public void tick() {
-            if (++chargeTicks == 30) {
+            int currentTick = ++chargeTicks;
+            if (level() instanceof ServerLevel serverLevel && currentTick <= 30 && currentTick % 3 == 0) {
+                double radius = 0.8D + currentTick * 0.08D;
+                serverLevel.sendParticles(ParticleTypes.CRIT, getX(), getY() + 0.15D, getZ(),
+                        10, radius, 0.08D, radius, 0.02D);
+            }
+            if (currentTick == 30) {
                 hurtNearby(AdaptedVariantEntity.this, 10.0D, meleeDamage() * 1.20F, true);
+                if (level() instanceof ServerLevel serverLevel) {
+                    serverLevel.sendParticles(ParticleTypes.EXPLOSION, getX(), getY() + 0.2D, getZ(),
+                            2, 0.4D, 0.1D, 0.4D, 0.0D);
+                    serverLevel.sendParticles(ParticleTypes.CLOUD, getX(), getY() + 0.15D, getZ(),
+                            24, 2.5D, 0.12D, 2.5D, 0.08D);
+                }
                 triggerAttackAnimation();
             }
         }
