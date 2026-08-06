@@ -36,7 +36,7 @@ import java.util.EnumSet;
  * 基于 EntityRanracAdapted 的动画系统实现
  * 特性：蛛网拉拽技能、攀爬能力、多状态动画系统
  */
-public class AdaWatcherEntity extends BurrowingVariantEntity {
+public class AdaWatcherEntity extends BurrowingVariantEntity implements PullingBallOwner {
     // 状态数据同步器
     private static final EntityDataAccessor<Integer> PARASITE_STATUS = SynchedEntityData.defineId(
             AdaWatcherEntity.class, EntityDataSerializers.INT);
@@ -274,6 +274,35 @@ public class AdaWatcherEntity extends BurrowingVariantEntity {
     }
 
     @Override
+    protected int burrowSkillCooldownTicks() {
+        return 80;
+    }
+
+    @Override
+    protected net.minecraft.sounds.SoundEvent burrowSound() {
+        return ModSounds.get("adapted.dig");
+    }
+
+    // PullingBallOwner 接口实现
+    @Override
+    public boolean captureTarget(LivingEntity target) {
+        if (!isValidPullTarget(target)) {
+            return false;
+        }
+        // 设置拉拽状态
+        setParasiteStatus(3);
+        pullingTicks = 0;
+        pullingTargetEntity = target;
+        setStillAni(false);
+        return true;
+    }
+
+    @Override
+    public boolean isValidPullTarget(LivingEntity target) {
+        return isValidParasiteTarget(target) && target.isAlive();
+    }
+
+    @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
     }
@@ -411,7 +440,8 @@ public class AdaWatcherEntity extends BurrowingVariantEntity {
 
         projectile.moveTo(eyePos.x, eyePos.y, eyePos.z, getYRot(), getXRot());
         projectile.setOwner(this);
-        projectile.shoot(direction.x, direction.y, direction.z, 1.0F, 0.0F);
+        // 设置弹丸运动方向和速度
+        projectile.setDeltaMovement(direction.scale(1.0D));
 
         level().addFreshEntity(projectile);
     }
