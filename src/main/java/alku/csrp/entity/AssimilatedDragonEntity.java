@@ -238,7 +238,7 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
             if (isFlying()) return state.setAndContinue(FLY);
-            return state.setAndContinue(state.isMoving() ? WALK : IDLE);
+            return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.0001 ? WALK : IDLE);
         }));
         controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
                 software.bernie.geckolib.animation.PlayState.STOP).triggerableAnim("attack", ATTACK));
