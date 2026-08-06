@@ -55,6 +55,8 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
             .thenLoop("animation.sim_dragone.walk.get_parasite_status_2");  // 状态 2: 游泳
     private final RawAnimation FLY = RawAnimation.begin()
             .thenLoop("animation.sim_dragone.idle.get_flying_state_1");     // 状态 3: 飞行
+    private final RawAnimation TAKEOFF = RawAnimation.begin()
+            .thenPlay("animation.sim_dragone.getaaa.get_flying_state_1");   // 起飞过渡
     private final RawAnimation BREATH_ATTACK = RawAnimation.begin()
             .thenLoop("animation.sim_dragone.idle.get_parasite_status_10"); // 状态 10: 火焰喷射
     private final RawAnimation MELEE_ATTACK = ParasiteAnimations.play(this, "attack");  // 触发式近战攻击
@@ -80,6 +82,9 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
     private int rangedCooldown;
     private int attackStateTimer;  // 近战攻击状态计时器
     private int breathStateTimer;  // 火焰喷射状态计时器
+    private static final int TAKEOFF_ANIMATION_TICKS = 20;
+    private int takeoffAnimationTicks;
+    private boolean lastFlyingState;
 
     public AssimilatedDragonEntity(EntityType<? extends AssimilatedDragonEntity> type, Level level) {
         super(type, level);
@@ -106,7 +111,7 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(PARASITE_STATUS, 0);
-        builder.define(FLYING, true);
+        builder.define(FLYING, false);
         builder.define(HEAD_ATTACHED, true);
         builder.define(LEFT_WING_ATTACHED, true);
         builder.define(RIGHT_WING_ATTACHED, true);
@@ -131,6 +136,16 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
     @Override
     public void tick() {
         super.tick();
+        boolean flying = isFlying();
+        if (flying != lastFlyingState) {
+            lastFlyingState = flying;
+            if (flying) {
+                takeoffAnimationTicks = TAKEOFF_ANIMATION_TICKS;
+            }
+        }
+        if (takeoffAnimationTicks > 0) {
+            takeoffAnimationTicks--;
+        }
         setNoGravity(isFlying());
         updateBodyParts();
         updateParasiteStatus();
@@ -268,6 +283,11 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
                 return state.setAndContinue(BREATH_ATTACK);
             }
 
+            // 起飞时先播放翅膀展开过渡，再进入稳定飞行循环
+            if (isFlying() && takeoffAnimationTicks > 0) {
+                return state.setAndContinue(TAKEOFF);
+            }
+
             // 状态 3: 飞行状态
             if (isFlying() || status == 3) {
                 return state.setAndContinue(FLY);
@@ -319,8 +339,13 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
     }
 
     private void setFlying(boolean flying) {
-        entityData.set(FLYING, flying && canFly());
-        setNoGravity(entityData.get(FLYING));
+        boolean nextFlying = flying && canFly();
+        boolean wasFlying = entityData.get(FLYING);
+        entityData.set(FLYING, nextFlying);
+        if (nextFlying && !wasFlying) {
+            takeoffAnimationTicks = TAKEOFF_ANIMATION_TICKS;
+        }
+        setNoGravity(nextFlying);
     }
 
     /**
