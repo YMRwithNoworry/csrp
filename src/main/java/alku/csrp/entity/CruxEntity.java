@@ -122,7 +122,7 @@ public final class CruxEntity extends CrudeParasiteEntity {
     }
 
     private PlayState movementAnimation(AnimationState<CruxEntity> state) {
-        if (getDeltaMovement().horizontalDistanceSqr() < 0.001) {
+        if (!state.isMoving()) {
             return state.setAndContinue(IDLE);
         }
         return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() > 0.02 ? RUN : WALK);

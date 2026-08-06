@@ -437,7 +437,7 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
-            if (isFinishing() || getDeltaMovement().horizontalDistanceSqr() < 0.001) {
+            if (isFinishing() || !state.isMoving()) {
                 return state.setAndContinue(idleAnimation);
             }
             return state.setAndContinue(walkAnimation);

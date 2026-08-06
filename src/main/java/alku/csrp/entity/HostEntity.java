@@ -92,7 +92,7 @@ public final class HostEntity extends AbstractHostEntity {
                     if (isBurrowed()) {
                         return state.setAndContinue(BURROWED);
                     }
-                    return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.001 ? WALK : IDLE);
+                    return state.setAndContinue(state.isMoving() ? WALK : IDLE);
                 }));
         controllers.add(new AnimationController<>(this, "attack_controller", 0,
                 state -> PlayState.STOP)

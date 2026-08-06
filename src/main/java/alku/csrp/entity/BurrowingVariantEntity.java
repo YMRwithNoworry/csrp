@@ -346,12 +346,21 @@ public abstract class BurrowingVariantEntity extends PrimitiveParasiteEntity {
 
     @Override
     public boolean isPushable() {
-        return !isBurrowing() && super.isPushable();
+        return getBodyNumber() == 0 && !isBurrowing() && super.isPushable();
+    }
+
+    @Override
+    public boolean canCollideWith(Entity other) {
+        if (other instanceof BurrowingVariantEntity segment && segment.getType() == getType()) {
+            return false;
+        }
+        return super.canCollideWith(other);
     }
 
     @Override
     public void push(Entity entity) {
-        if (!isBurrowing()) {
+        if (getBodyNumber() == 0 && !isBurrowing()
+                && !(entity instanceof BurrowingVariantEntity segment && segment.getType() == getType())) {
             super.push(entity);
         }
     }

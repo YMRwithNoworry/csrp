@@ -549,7 +549,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         if (activeKind().flying) {
             return state.setAndContinue(FLY);
         }
-        return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.001 ? WALK : IDLE);
+        return state.setAndContinue(state.isMoving() ? WALK : IDLE);
     }
 
     private void triggerAttackAnimation() {

@@ -238,7 +238,7 @@ public final class IncompleteCruxEntity extends CrudeParasiteEntity {
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         // 移动动画控制器
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.001 ? WALK : IDLE)));
+                state -> state.setAndContinue(state.isMoving() ? WALK : IDLE)));
 
         // 近战攻击动画控制器
         controllers.add(new AnimationController<>(this, "melee_attack_controller", 0, state ->

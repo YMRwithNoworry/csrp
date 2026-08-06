@@ -7,12 +7,15 @@ import alku.csrp.entity.NexusParasiteEntity;
 import alku.csrp.entity.Parasite;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModItems;
+import alku.csrp.world.SrpCoreSystems;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -133,6 +136,16 @@ public final class StatusEffectEvents {
             return;
         }
         player.addEffect(new MobEffectInstance(ModMobEffects.THE_SIGN, 40, 0, false, false));
+    }
+
+    @SubscribeEvent
+    public static void applyParasiteBiomeBlindness(PlayerTickEvent.Post event) {
+        Player player = event.getEntity();
+        if (!(player.level() instanceof ServerLevel level) || player.tickCount % 20 != 0
+                || !SrpCoreSystems.isInsideParasiteBiome(level, player.blockPosition())) {
+            return;
+        }
+        player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 60, 0, true, false));
     }
 
     @SubscribeEvent

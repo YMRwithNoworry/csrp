@@ -373,7 +373,7 @@ public class UntamedPriWaspEntity extends Monster implements GeoEntity, Parasite
         }
 
         // Status 0: 默认移动状态
-        if (getDeltaMovement().horizontalDistanceSqr() < 0.001) {
+        if (!state.isMoving()) {
             return state.setAndContinue(IDLE);
         }
         return state.setAndContinue(WALK);

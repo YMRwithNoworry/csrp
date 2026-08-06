@@ -780,15 +780,15 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
                 return state.setAndContinue(ARACHNIDA_PULLING);
             }
             // Status 2: 快速移动
-            if (status == 2 && getDeltaMovement().horizontalDistanceSqr() >= 0.001) {
+            if (status == 2 && state.isMoving()) {
                 return state.setAndContinue(ARACHNIDA_FAST_MOVE);
             }
             // Status 1: 攻击准备（减速）
-            if (status == 1 && getDeltaMovement().horizontalDistanceSqr() >= 0.001) {
+            if (status == 1 && state.isMoving()) {
                 return state.setAndContinue(ARACHNIDA_ATTACK_PREP);
             }
             // Status 0: 默认移动
-            if (getDeltaMovement().horizontalDistanceSqr() < 0.001) {
+            if (!state.isMoving()) {
                 return state.setAndContinue(IDLE);
             }
             return state.setAndContinue(WALK);
@@ -800,7 +800,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
 
             // 拉拽技能动画（状态 3）
             if (pulling > 0) {
-                boolean moving = getDeltaMovement().horizontalDistanceSqr() >= 0.001;
+                boolean moving = state.isMoving();
                 if (stillAni) {
                     return state.setAndContinue(REEKER_PULLING_IDLE);
                 }
@@ -809,7 +809,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
 
             // 冲锋动画
             if (charging) {
-                boolean moving = getDeltaMovement().horizontalDistanceSqr() >= 0.001;
+                boolean moving = state.isMoving();
                 if (stillAni) {
                     return state.setAndContinue(REEKER_CHARGE_IDLE);
                 }
@@ -842,11 +842,11 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
             }
             // 状态 10: 召唤动画（已通过 SUMMONER_CASTING 处理）
             // 状态 1: 攻击状态（嘴部张开）
-            if (status == 1 && getDeltaMovement().horizontalDistanceSqr() >= 0.001) {
+            if (status == 1 && state.isMoving()) {
                 return state.setAndContinue(SUMMONER_ATTACK);
             }
             // 状态 0 或 2: 默认移动
-            if (getDeltaMovement().horizontalDistanceSqr() < 0.001) {
+            if (!state.isMoving()) {
                 return state.setAndContinue(IDLE);
             }
             return state.setAndContinue(status == 2 || getDeltaMovement().horizontalDistanceSqr() > 0.02D ? RUN : WALK);
@@ -861,7 +861,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
                 return state.setAndContinue(MANDUCATER_EVADE);
             }
             // 默认状态 (status == 0 或 2)
-            if (getDeltaMovement().horizontalDistanceSqr() < 0.001) {
+            if (!state.isMoving()) {
                 return state.setAndContinue(IDLE);
             }
             return state.setAndContinue(status == 2 || getDeltaMovement().horizontalDistanceSqr() > 0.02D ? RUN : WALK);
@@ -871,7 +871,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
                 case BARRAGE_WINDUP -> state.setAndContinue(BOLSTER_STATUS_25);
                 case BARRAGE -> state.setAndContinue(BOLSTER_STATUS_3);
                 case SUPPORT, VOMIT, ORB -> state.setAndContinue(BOLSTER_STATUS_15);
-                default -> state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.001 ? WALK : IDLE);
+                default -> state.setAndContinue(state.isMoving() ? WALK : IDLE);
             };
         }
         if (supportsBurrowing() && isBurrowing()) {
@@ -887,7 +887,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
             }
             return state.setAndContinue(FLY);
         }
-        if (getDeltaMovement().horizontalDistanceSqr() < 0.001) {
+        if (!state.isMoving()) {
             return state.setAndContinue(IDLE);
         }
         return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() > 0.02D ? RUN : WALK);

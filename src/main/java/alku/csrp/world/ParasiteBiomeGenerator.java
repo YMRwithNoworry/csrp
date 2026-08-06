@@ -13,7 +13,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
  * parasite material blocks and small Dead Blood pools.
  */
 public final class ParasiteBiomeGenerator {
-    private static final int RADIUS = 32;
+    static final int RADIUS = 32;
 
     private ParasiteBiomeGenerator() {
     }

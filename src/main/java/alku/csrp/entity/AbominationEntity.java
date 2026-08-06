@@ -100,7 +100,7 @@ public final class AbominationEntity extends PrimitiveParasiteEntity {
     }
 
     private PlayState movementAnimation(AnimationState<AbominationEntity> state) {
-        return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.001 ? WALK : IDLE);
+        return state.setAndContinue(state.isMoving() ? WALK : IDLE);
     }
 
     private void applyBodiesSupport() {

@@ -137,6 +137,20 @@ public final class SrpCoreSystems {
         data.clearColonies();
     }
 
+    public static boolean isInsideParasiteBiome(ServerLevel level, BlockPos pos) {
+        long radiusSqr = (long) ParasiteBiomeGenerator.RADIUS * ParasiteBiomeGenerator.RADIUS;
+        for (NodeEntry entry : SrpWorldData.get(level).nodes()) {
+            long x = (long) entry.pos().getX() - pos.getX();
+            long z = (long) entry.pos().getZ() - pos.getZ();
+            if (x * x + z * z <= radiusSqr
+                    && level.getBlockState(entry.pos()).is(ModBlocks.BIOMEHEART)
+                    && level.getBlockState(entry.pos()).getValue(SrpCoreBlock.ACTIVE) > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /** Original return keys: 1 regular vector, 2 outbreak, 6 too close, 7 cap reached. */
     public static int placeVector(ServerLevel level, BlockPos pos, int health, int radius) {
         SrpWorldData data = SrpWorldData.get(level);

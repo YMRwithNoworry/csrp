@@ -296,7 +296,7 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
 
     private PlayState movementAnimation(AnimationState<LongarmsEntity> state) {
         if (isRestingAfterMeleeAttacks()) return state.setAndContinue(IDLE);
-        if (getDeltaMovement().horizontalDistanceSqr() < 0.001) return state.setAndContinue(IDLE);
+        if (!state.isMoving()) return state.setAndContinue(IDLE);
         return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() > 0.02 ? RUN : WALK);
     }
 

@@ -302,7 +302,7 @@ public class PriReekerEntity extends PrimitiveParasiteEntity {
 
         // 冲锋恢复动画
         if (status == STATUS_CHARGE_RECOVERY) {
-            if (getDeltaMovement().horizontalDistanceSqr() < 0.001) {
+            if (!state.isMoving()) {
                 setParasiteStatus(STATUS_NORMAL);
                 return state.setAndContinue(IDLE);
             }
@@ -320,7 +320,7 @@ public class PriReekerEntity extends PrimitiveParasiteEntity {
         }
 
         // 常规移动动画
-        if (getDeltaMovement().horizontalDistanceSqr() < 0.001) {
+        if (!state.isMoving()) {
             return state.setAndContinue(IDLE);
         }
 

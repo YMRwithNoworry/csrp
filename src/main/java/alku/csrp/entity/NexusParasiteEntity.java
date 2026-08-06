@@ -422,7 +422,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
             return state.setAndContinue(BECKON_BODY);
         }
 
-        if (getDeltaMovement().horizontalDistanceSqr() < 0.001) {
+        if (!state.isMoving()) {
             // Use body animation for BECKON family at lower stages when idle
             return state.setAndContinue(activeKind.family == Family.BECKON && activeKind.stage < 4
                     ? BECKON_BODY : IDLE);

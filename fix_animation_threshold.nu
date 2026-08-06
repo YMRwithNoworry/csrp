@@ -1,7 +1,6 @@
 #!/usr/bin/env nu
 
-# 修复实体原地播放移动动画的问题
-# 将过小的移动阈值 0.0001 替换为更合理的 0.001
+# 使用 GeckoLib 的移动状态驱动动画，避免慢速生物平移或静止生物误播放移动动画。
 
 let files = [
     "src/main/java/alku/csrp/entity/AdaScuttlerEntity.java",
@@ -70,7 +69,7 @@ let files = [
     "src/main/java/alku/csrp/entity/BuglinEntity.java"
 ]
 
-print "开始修复实体移动动画阈值..."
+print "开始修复实体移动动画判定..."
 print $"需要修复的文件数量: ($files | length)"
 
 mut fixed_count = 0
@@ -79,8 +78,8 @@ for file in $files {
     if ($file | path exists) {
         print $"处理: ($file)"
         let content = open $file
-        let new_content = ($content | str replace --all "horizontalDistanceSqr() >= 0.0001" "horizontalDistanceSqr() >= 0.001")
-        let new_content = ($new_content | str replace --all "horizontalDistanceSqr() < 0.0001" "horizontalDistanceSqr() < 0.001")
+        let new_content = ($content | str replace --all "getDeltaMovement().horizontalDistanceSqr() >= 0.001" "state.isMoving()")
+        let new_content = ($new_content | str replace --all "getDeltaMovement().horizontalDistanceSqr() < 0.001" "!state.isMoving()")
         $new_content | save -f $file
         $fixed_count = $fixed_count + 1
     } else {
@@ -89,4 +88,4 @@ for file in $files {
 }
 
 print $"修复完成! 共修复 ($fixed_count) 个文件"
-print "移动阈值已从 0.0001 更改为 0.001（约 0.0316 方块/tick）"
+print "动画已改用 GeckoLib 移动状态"

@@ -402,15 +402,15 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
             }
             if (isShadowClone()) {
                 if (isShadowHitFlashing()) {
-                    return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.001 ? CLONE_SHAKING_WALK : CLONE_SHAKING_IDLE);
+                    return state.setAndContinue(state.isMoving() ? CLONE_SHAKING_WALK : CLONE_SHAKING_IDLE);
                 }
-                return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.001 ? CLONE_WALK : CLONE_IDLE);
+                return state.setAndContinue(state.isMoving() ? CLONE_WALK : CLONE_IDLE);
             }
             if (isShadowHitFlashing()) {
-                return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.001 ? SHAKING_WALK : SHAKING_IDLE);
+                return state.setAndContinue(state.isMoving() ? SHAKING_WALK : SHAKING_IDLE);
             }
             if (isFlying()) return state.setAndContinue(FLY);
-            return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.001 ? WALK : IDLE);
+            return state.setAndContinue(state.isMoving() ? WALK : IDLE);
         }));
         controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
                 software.bernie.geckolib.animation.PlayState.STOP).triggerableAnim("attack", ATTACK));

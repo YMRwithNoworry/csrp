@@ -325,7 +325,7 @@ public class AdaWatcherEntity extends BurrowingVariantEntity implements PullingB
 
         // Status 2: 攻击执行动画（触须前伸，腿部加速）
         if (status == 2) {
-            if (getDeltaMovement().horizontalDistanceSqr() >= 0.001) {
+            if (state.isMoving()) {
                 return state.setAndContinue(ATTACK_EXEC);
             }
             return state.setAndContinue(IDLE);
@@ -333,14 +333,14 @@ public class AdaWatcherEntity extends BurrowingVariantEntity implements PullingB
 
         // Status 1: 攻击准备动画（下颚张开，腿部减速）
         if (status == 1) {
-            if (getDeltaMovement().horizontalDistanceSqr() >= 0.001) {
+            if (state.isMoving()) {
                 return state.setAndContinue(ATTACK_PREP);
             }
             return state.setAndContinue(IDLE);
         }
 
         // Status 0: 默认空闲/行走动画
-        if (getDeltaMovement().horizontalDistanceSqr() < 0.001 || getStillAni()) {
+        if (!state.isMoving() || getStillAni()) {
             return state.setAndContinue(IDLE);
         }
 

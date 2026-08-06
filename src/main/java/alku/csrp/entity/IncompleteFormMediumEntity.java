@@ -52,7 +52,7 @@ public final class IncompleteFormMediumEntity extends IncompleteFormSmallEntity 
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         // 主要移动动画控制器
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.001 ? WALK : IDLE)));
+                state -> state.setAndContinue(state.isMoving() ? WALK : IDLE)));
 
         // 攻击动画控制器
         controllers.add(new AnimationController<>(this, "attack_controller", 0,

@@ -253,17 +253,17 @@ public class AdaScuttlerEntity extends BurrowingVariantEntity implements Pulling
         }
 
         // 状态 2: 快速移动
-        if (status == 2 && getDeltaMovement().horizontalDistanceSqr() >= 0.001) {
+        if (status == 2 && state.isMoving()) {
             return state.setAndContinue(FAST_MOVE);
         }
 
         // 状态 1: 攻击准备（减速）
-        if (status == 1 && getDeltaMovement().horizontalDistanceSqr() >= 0.001) {
+        if (status == 1 && state.isMoving()) {
             return state.setAndContinue(ATTACK_PREP);
         }
 
         // 状态 0: 默认移动
-        if (getDeltaMovement().horizontalDistanceSqr() < 0.001) {
+        if (!state.isMoving()) {
             return state.setAndContinue(IDLE);
         }
 

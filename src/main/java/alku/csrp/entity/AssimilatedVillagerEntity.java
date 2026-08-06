@@ -331,7 +331,7 @@ public final class AssimilatedVillagerEntity extends Monster implements GeoEntit
         }
 
         int status = getParasiteStatus();
-        boolean moving = getDeltaMovement().horizontalDistanceSqr() >= 0.001;
+        boolean moving = state.isMoving();
 
         // 状态 2: 游泳动画
         if (status == STATUS_SWIMMING) {

@@ -127,7 +127,7 @@ public final class WorkerEntity extends PrimitiveParasiteEntity {
     }
 
     private PlayState movementAnimation(AnimationState<WorkerEntity> state) {
-        return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.001 ? walkAnimation : idleAnimation);
+        return state.setAndContinue(state.isMoving() ? walkAnimation : idleAnimation);
     }
 
     private boolean placeNextStructure() {

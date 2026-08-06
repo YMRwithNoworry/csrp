@@ -196,9 +196,9 @@ public final class AssimilatedVariantEntity extends Monster implements GeoEntity
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
             if (kind == Kind.BIGSPIDER && entityData.get(SPIDER_AIMING)) {
-                return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.001 ? SPIDER_AIM_WALK : SPIDER_AIM_IDLE);
+                return state.setAndContinue(state.isMoving() ? SPIDER_AIM_WALK : SPIDER_AIM_IDLE);
             }
-            if (getDeltaMovement().horizontalDistanceSqr() < 0.001) {
+            if (!state.isMoving()) {
                 return state.setAndContinue(IDLE);
             }
             return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() > 0.055D ? RUN : WALK);

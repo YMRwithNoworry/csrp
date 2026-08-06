@@ -330,7 +330,7 @@ public final class MarauderTendrilEntity extends Monster implements GeoEntity, P
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.001 ? WALK : IDLE)));
+                state -> state.setAndContinue(state.isMoving() ? WALK : IDLE)));
     }
 
     @Override
