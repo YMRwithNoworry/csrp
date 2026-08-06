@@ -1,0 +1,10 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#minecraft:is_overworld",
+  "spawners": {
+    "type": "csrp:sim_horse",
+    "weight": 25,
+    "minCount": 3,
+    "maxCount": 6
+  }
+}
