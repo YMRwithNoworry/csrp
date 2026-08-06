@@ -1,8 +1,10 @@
 package alku.csrp.entity;
 
 import alku.csrp.Config;
+import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -11,6 +13,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
@@ -25,6 +29,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -35,7 +40,7 @@ import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class PriArachnidaEntity extends Monster implements GeoEntity, Parasite {
+public class PriArachnidaEntity extends Monster implements GeoEntity, Parasite, PullingBallOwner {
     private static final String PARASITE_STATUS_NBT_KEY = "parasite_status";
     private static final String PULL_COOLDOWN_NBT_KEY = "pull_cooldown";
     private static final String PULL_COUNT_NBT_KEY = "pull_count";
@@ -179,8 +184,46 @@ public class PriArachnidaEntity extends Monster implements GeoEntity, Parasite {
     }
 
     private void executePullSkill(LivingEntity target) {
-        // 这里应该发射拉扯弹丸，暂时留空等待弹丸实体实现
-        // TODO: 创建并发射 PullingBallEntity
+        PullingBallEntity projectile = ModEntities.PULLING_BALL.get().create(level());
+        if (projectile == null) {
+            return;
+        }
+        Vec3 start = getEyePosition().add(getViewVector(1.0F).scale(0.45D));
+        Vec3 direction = target.getEyePosition().subtract(start);
+        if (direction.lengthSqr() < 0.001D) {
+            return;
+        }
+        projectile.moveTo(start.x, start.y, start.z, getYRot(), getXRot());
+        projectile.setOwner(this);
+        projectile.setDeltaMovement(direction.normalize().scale(0.8D));
+        level().addFreshEntity(projectile);
+    }
+
+    @Override
+    public boolean captureTarget(LivingEntity target) {
+        if (!isValidPullTarget(target)) {
+            return false;
+        }
+        target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 0), this);
+        target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 2), this);
+        target.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 100, 1), this);
+        Vec3 pull = position().subtract(target.position());
+        if (pull.lengthSqr() > 0.001D) {
+            pull = pull.normalize().scale(0.55D);
+            target.push(pull.x, 0.12D, pull.z);
+        }
+        if (level() instanceof ServerLevel serverLevel) {
+            serverLevel.sendParticles(ParticleTypes.POOF, target.getX(),
+                    target.getY() + target.getBbHeight() * 0.5D, target.getZ(),
+                    14, target.getBbWidth() * 0.4D, target.getBbHeight() * 0.35D,
+                    target.getBbWidth() * 0.4D, 0.03D);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean isValidPullTarget(LivingEntity target) {
+        return target != this && target.isAlive() && !(target instanceof Parasite);
     }
 
     @Override
