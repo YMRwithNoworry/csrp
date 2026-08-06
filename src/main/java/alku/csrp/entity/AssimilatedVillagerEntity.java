@@ -173,7 +173,7 @@ public final class AssimilatedVillagerEntity extends Monster implements GeoEntit
         }
 
         // 游泳状态检测
-        if (isInWater() && !isOnGround()) {
+        if (isInWater() && !onGround()) {
             if (currentStatus != STATUS_SWIMMING) {
                 setParasiteStatus(STATUS_SWIMMING);
             }

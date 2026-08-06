@@ -233,9 +233,10 @@ public final class AssimilatedCowEntity extends Monster implements GeoEntity, Pa
                     living.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 60, 0), this);
                 }
 
-                // 恐惧效果
+                // 恐惧效果 - 冲锋状态下造成高伤害时应用恐惧
                 if (getParasiteStatus() == STATUS_CHARGE) {
-                    ParasiteCombatEffects.applyFear(living, 2, 60);
+                    float healthBefore = ParasiteCombatEffects.healthWithAbsorption(living);
+                    ParasiteCombatEffects.applyFearFromDamage(living, healthBefore, this);
                 }
             }
         }
