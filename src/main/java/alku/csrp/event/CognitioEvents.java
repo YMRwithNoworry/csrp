@@ -1,12 +1,14 @@
 package alku.csrp.event;
 
 import alku.csrp.Csrp;
+import alku.csrp.entity.AssimilatedParasiteEntity;
 import alku.csrp.entity.Parasite;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import java.util.Comparator;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -42,6 +44,14 @@ public final class CognitioEvents {
             return;
         }
         Entity target = event.getTarget();
+        if (target instanceof AssimilatedParasiteEntity wolf
+                && wolf.getKind() == AssimilatedParasiteEntity.Kind.WOLF
+                && event.getItemStack().is(Items.NAME_TAG)
+                && event.getItemStack().get(DataComponents.CUSTOM_NAME) != null
+                && event.getItemStack().get(DataComponents.CUSTOM_NAME).getString().equals("Paojiao134")
+                && event.getEntity() instanceof ServerPlayer player) {
+            award(player, "paojiao_wolf", "named_wolf");
+        }
         if (target.getType() != ModEntities.PRI_REEKER.get()
                 || target.getCustomName() == null
                 || !target.getCustomName().getString().equals("Ricardo")

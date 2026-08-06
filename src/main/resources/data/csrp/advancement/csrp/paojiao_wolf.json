@@ -1,0 +1,16 @@
+{
+  "parent": "csrp:cognitio",
+  "display": {
+    "icon": { "id": "minecraft:name_tag" },
+    "title": { "translate": "advancements.csrp.paojiao_wolf.title" },
+    "description": { "translate": "advancements.csrp.paojiao_wolf.desc" },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "named_wolf": { "trigger": "minecraft:impossible" }
+  },
+  "requirements": [["named_wolf"]]
+}
