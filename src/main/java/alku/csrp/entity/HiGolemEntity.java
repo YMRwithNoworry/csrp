@@ -81,9 +81,9 @@ public final class HiGolemEntity extends HijackedParasiteEntity {
 
     private PlayState movementAnimation(AnimationState<HiGolemEntity> state) {
         if (isCharging()) {
-            return state.setAndContinue(state.isMoving() ? chargeWalkAnimation : chargeIdleAnimation);
+            return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.0001 ? chargeWalkAnimation : chargeIdleAnimation);
         }
-        return state.setAndContinue(state.isMoving() ? walkAnimation : idleAnimation);
+        return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.0001 ? walkAnimation : idleAnimation);
     }
 
     @Override
