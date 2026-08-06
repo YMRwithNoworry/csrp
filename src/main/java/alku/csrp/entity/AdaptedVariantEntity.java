@@ -71,7 +71,15 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
             AdaptedVariantEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Boolean> REEKER_CHARGING = SynchedEntityData.defineId(
             AdaptedVariantEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> REEKER_PULLING = SynchedEntityData.defineId(
+            AdaptedVariantEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> REEKER_STILL_ANI = SynchedEntityData.defineId(
+            AdaptedVariantEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> SUMMONER_CASTING = SynchedEntityData.defineId(
+            AdaptedVariantEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> MANDUCATER_STATUS = SynchedEntityData.defineId(
+            AdaptedVariantEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> MANDUCATER_STILL_ANI = SynchedEntityData.defineId(
             AdaptedVariantEntity.class, EntityDataSerializers.BOOLEAN);
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
@@ -83,8 +91,22 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
             "idle.get_parasite_status_3.get_still_ani_1");
     private final RawAnimation REEKER_CHARGE_WALK = ParasiteAnimations.loop(this,
             "walk.get_parasite_status_3");
+    private final RawAnimation REEKER_PULLING_IDLE = ParasiteAnimations.loop(this,
+            "idle.get_parasite_status_3");
+    private final RawAnimation REEKER_PULLING_WALK = ParasiteAnimations.loop(this,
+            "walk.get_parasite_status_3");
+    private final RawAnimation REEKER_ALERT = ParasiteAnimations.loop(this,
+            "idle.get_parasite_status_1");
+    private final RawAnimation REEKER_ATTACK_PREP = ParasiteAnimations.loop(this,
+            "walk.get_parasite_status_2");
     private final RawAnimation SUMMONER_CAST = ParasiteAnimations.loop(this,
             "idle.get_parasite_status_10");
+    private final RawAnimation MANDUCATER_ATTACK = ParasiteAnimations.loop(this,
+            "walk.get_parasite_status_1");
+    private final RawAnimation MANDUCATER_SUMMON = ParasiteAnimations.loop(this,
+            "idle.get_parasite_status_10");
+    private final RawAnimation MANDUCATER_EVADE = ParasiteAnimations.loop(this,
+            "idle.get_parasite_status_25");
     private static final RawAnimation BOLSTER_STATUS_3 = RawAnimation.begin()
             .thenLoop("animation.ada_bolster.idle.get_parasite_status_3");
     private static final RawAnimation BOLSTER_STATUS_15 = RawAnimation.begin()
@@ -125,6 +147,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
     private int residueCooldown;
     private int lastBolsterCombatTick;
     private boolean bolsterDeathHandled;
+    private int manducaterVomitTicks;
+    private int manducaterEvadeCooldown;
+    private int reekerPullingCooldown;
 
     public AdaptedVariantEntity(EntityType<? extends AdaptedVariantEntity> type, Level level, Kind kind) {
         super(type, level);
@@ -299,7 +324,11 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
         builder.define(BOLSTER_LEFT_TENDRIL, -1.0F);
         builder.define(BOLSTER_RIGHT_TENDRIL, -1.0F);
         builder.define(REEKER_CHARGING, false);
+        builder.define(REEKER_PULLING, 0);
+        builder.define(REEKER_STILL_ANI, false);
         builder.define(SUMMONER_CASTING, false);
+        builder.define(MANDUCATER_STATUS, 0);
+        builder.define(MANDUCATER_STILL_ANI, false);
     }
 
     @Nullable
@@ -364,7 +393,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
             }
             case MANDUCATER -> {
                 goalSelector.addGoal(1, new CloakGoal());
-                goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.20D, false));
+                goalSelector.addGoal(2, new ManducaterEvadeGoal());
+                goalSelector.addGoal(3, new ManducaterVomitGoal());
+                goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.20D, false));
             }
             case REEKER -> {
                 goalSelector.addGoal(1, new ChargeGoal());
@@ -420,6 +451,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
         }
         if (activeKind == Kind.BOLSTER && level() instanceof ServerLevel serverLevel) {
             tickBolster(serverLevel);
+        }
+        if (activeKind == Kind.MANDUCATER) {
+            tickManducater();
         }
     }
 
@@ -482,6 +516,12 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
             return false;
         }
         triggerAnim("bolster_attack_controller", "attack");
+
+        // 更新 Manducater 攻击状态
+        if (activeKind == Kind.MANDUCATER) {
+            setManducaterStatus(1);
+            entityData.set(MANDUCATER_STILL_ANI, false);
+        }
 
         switch (activeKind) {
             case BOLSTER -> hurtNearby(this, 2.75D, meleeDamage() * 0.75F, true);
@@ -584,6 +624,16 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
             tag.putInt("bolster_residue_cooldown", residueCooldown);
             tag.putInt("bolster_last_combat_tick", lastBolsterCombatTick);
         }
+        if (activeKind() == Kind.MANDUCATER) {
+            tag.putInt("manducater_status", entityData.get(MANDUCATER_STATUS));
+            tag.putBoolean("manducater_still_ani", entityData.get(MANDUCATER_STILL_ANI));
+            tag.putInt("manducater_vomit_ticks", manducaterVomitTicks);
+            tag.putInt("manducater_evade_cooldown", manducaterEvadeCooldown);
+            tag.putBoolean("manducater_cloaked", cloaked);
+            tag.putInt("manducater_cloak_ticks", cloakTicks);
+            tag.putInt("manducater_ability_cooldown", abilityCooldown);
+            tag.putInt("manducater_secondary_cooldown", secondaryCooldown);
+        }
     }
 
     @Override
@@ -602,6 +652,19 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
                     ? tag.getInt("bolster_residue_cooldown") : 600 + random.nextInt(601);
             lastBolsterCombatTick = tag.getInt("bolster_last_combat_tick");
             setBolsterAction(BolsterAction.NONE, 0);
+        }
+        if (activeKind() == Kind.MANDUCATER) {
+            entityData.set(MANDUCATER_STATUS, tag.getInt("manducater_status"));
+            entityData.set(MANDUCATER_STILL_ANI, tag.getBoolean("manducater_still_ani"));
+            manducaterVomitTicks = tag.getInt("manducater_vomit_ticks");
+            manducaterEvadeCooldown = tag.getInt("manducater_evade_cooldown");
+            cloaked = tag.getBoolean("manducater_cloaked");
+            cloakTicks = tag.getInt("manducater_cloak_ticks");
+            abilityCooldown = tag.getInt("manducater_ability_cooldown");
+            secondaryCooldown = tag.getInt("manducater_secondary_cooldown");
+            if (cloaked) {
+                setInvisible(true);
+            }
         }
     }
 
@@ -639,6 +702,21 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
         }
         if (kind == Kind.SUMMONER && entityData.get(SUMMONER_CASTING)) {
             return state.setAndContinue(SUMMONER_CAST);
+        }
+        if (kind == Kind.MANDUCATER) {
+            int status = getManducaterStatus();
+            if (status == 1) {
+                return state.setAndContinue(MANDUCATER_ATTACK);
+            } else if (status == 10) {
+                return state.setAndContinue(MANDUCATER_SUMMON);
+            } else if (status == 25) {
+                return state.setAndContinue(MANDUCATER_EVADE);
+            }
+            // 默认状态 (status == 0 或 2)
+            if (getDeltaMovement().horizontalDistanceSqr() < 0.0001) {
+                return state.setAndContinue(IDLE);
+            }
+            return state.setAndContinue(status == 2 || getDeltaMovement().horizontalDistanceSqr() > 0.02D ? RUN : WALK);
         }
         if (kind == Kind.BOLSTER) {
             return switch (getBolsterAction()) {
@@ -876,6 +954,43 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
         cloaked = false;
         cloakTicks = 0;
         setInvisible(false);
+    }
+
+    private void tickManducater() {
+        if (manducaterVomitTicks > 0) {
+            manducaterVomitTicks--;
+            if (level().isClientSide && manducaterVomitTicks > 0) {
+                // 客户端呕吐粒子效果
+                for (int i = 0; i < 2; i++) {
+                    double offsetX = (random.nextDouble() - 0.5D) * 0.5D;
+                    double offsetY = getBbHeight() * 0.5D;
+                    double offsetZ = (random.nextDouble() - 0.5D) * 0.5D;
+                    level().addParticle(ParticleTypes.ITEM_SLIME,
+                            getX() + offsetX, getY() + offsetY, getZ() + offsetZ,
+                            (random.nextDouble() - 0.5D) * 0.1D,
+                            random.nextDouble() * 0.1D,
+                            (random.nextDouble() - 0.5D) * 0.1D);
+                }
+            }
+        }
+        if (manducaterEvadeCooldown > 0) {
+            manducaterEvadeCooldown--;
+        }
+        // 自动恢复到默认状态
+        if (!level().isClientSide && tickCount % 20 == 0) {
+            int status = getManducaterStatus();
+            if (status == 1 || status == 10 || status == 25) {
+                setManducaterStatus(0);
+            }
+        }
+    }
+
+    private int getManducaterStatus() {
+        return entityData.get(MANDUCATER_STATUS);
+    }
+
+    private void setManducaterStatus(int status) {
+        entityData.set(MANDUCATER_STATUS, status);
     }
 
     private void breakSoftBlockTowards(LivingEntity target) {
@@ -1322,6 +1437,90 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity {
             cloaked = true;
             cloakTicks = 80;
             setInvisible(true);
+        }
+    }
+
+    private final class ManducaterEvadeGoal extends Goal {
+        private ManducaterEvadeGoal() {
+            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
+        }
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = getTarget();
+            return manducaterEvadeCooldown <= 0 && target != null && target.isAlive()
+                    && distanceToSqr(target) <= 36.0D && hasLineOfSight(target);
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return false;
+        }
+
+        @Override
+        public void start() {
+            LivingEntity target = getTarget();
+            if (target == null) {
+                return;
+            }
+            // 设置闪避动画状态
+            setManducaterStatus(25);
+            entityData.set(MANDUCATER_STILL_ANI, false);
+
+            // 向侧面闪避
+            Vec3 direction = target.position().subtract(position());
+            if (direction.lengthSqr() > 0.001D) {
+                direction = direction.normalize();
+                // 向垂直于目标方向的侧面移动
+                double dodgeX = -direction.z * 0.5D;
+                double dodgeZ = direction.x * 0.5D;
+                if (random.nextBoolean()) {
+                    dodgeX = -dodgeX;
+                    dodgeZ = -dodgeZ;
+                }
+                setDeltaMovement(dodgeX, 0.25D, dodgeZ);
+            }
+
+            manducaterEvadeCooldown = 100;
+            playSound(ModSounds.get("adapted.v"), 1.0F, 1.2F + random.nextFloat() * 0.2F);
+        }
+    }
+
+    private final class ManducaterVomitGoal extends Goal {
+        private ManducaterVomitGoal() {
+            setFlags(EnumSet.of(Flag.LOOK));
+        }
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = getTarget();
+            return secondaryCooldown <= 0 && target != null && target.isAlive() && hasLineOfSight(target)
+                    && distanceToSqr(target) >= 16.0D && distanceToSqr(target) <= 400.0D;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return false;
+        }
+
+        @Override
+        public void start() {
+            LivingEntity target = getTarget();
+            if (target == null) {
+                return;
+            }
+            getLookControl().setLookAt(target, 30.0F, 30.0F);
+
+            // 发射呕吐物投射物
+            fireProjectile(target, ParasiteProjectileEntity.Mode.VOMIT, 0.75D, 10.0F, 2.0D, 80);
+
+            // 设置呕吐动画状态
+            manducaterVomitTicks = 40;
+            setManducaterStatus(1);
+
+            triggerAttackAnimation();
+            playSound(ModSounds.get("adapted.v"), 2.0F, 0.8F + random.nextFloat() * 0.2F);
+            secondaryCooldown = 120;
         }
     }
 
