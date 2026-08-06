@@ -2,6 +2,7 @@ package alku.csrp.entity;
 
 import alku.csrp.Config;
 import alku.csrp.registry.ModSounds;
+import alku.csrp.registry.ModEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -34,7 +35,7 @@ import java.util.EnumSet;
  * Ada Longleg - Adapted Arachnida variant (对应原模组的 EntityRanracAdapted)
  * 特性：蛛网拉拽技能、攀爬能力、多状态动画系统
  */
-public class AdaLonglegEntity extends BurrowingVariantEntity {
+public class AdaLonglegEntity extends BurrowingVariantEntity implements PullingBallOwner {
     private static final EntityDataAccessor<Integer> ARACHNIDA_STATUS = SynchedEntityData.defineId(
             AdaLonglegEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> CAN_PULL = SynchedEntityData.defineId(
@@ -307,11 +308,50 @@ public class AdaLonglegEntity extends BurrowingVariantEntity {
             pullingTarget = target;
             entityData.set(PULLING_TICKS, 60);
 
-            // TODO: 发射蛛网投射物 (fireWebProjectile)
+            fireWebProjectile(target);
 
             // 设置冷却
             abilityCooldown = 70;
         }
+    }
+
+    private void fireWebProjectile(LivingEntity target) {
+        PullingBallEntity projectile = ModEntities.PULLING_BALL.get().create(level());
+        if (projectile == null) {
+            return;
+        }
+        Vec3 start = getEyePosition().add(getViewVector(1.0F).scale(0.45D));
+        Vec3 direction = target.getEyePosition().subtract(start);
+        if (direction.lengthSqr() < 0.001D) {
+            return;
+        }
+        projectile.moveTo(start.x, start.y, start.z, getYRot(), getXRot());
+        projectile.setOwner(this);
+        projectile.setDeltaMovement(direction.normalize().scale(0.8D));
+        level().addFreshEntity(projectile);
+    }
+
+    @Override
+    public boolean captureTarget(LivingEntity target) {
+        if (!isValidPullTarget(target)) {
+            return false;
+        }
+        target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 120, 1), this);
+        target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 2), this);
+        target.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 100, 2), this);
+        pullingTarget = target;
+        pullingDuration = 60;
+        Vec3 pull = position().subtract(target.position());
+        if (pull.lengthSqr() > 0.001D) {
+            pull = pull.normalize().scale(0.65D);
+            target.push(pull.x, 0.12D, pull.z);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean isValidPullTarget(LivingEntity target) {
+        return target != this && target.isAlive() && !(target instanceof Parasite);
     }
 
     @Override
