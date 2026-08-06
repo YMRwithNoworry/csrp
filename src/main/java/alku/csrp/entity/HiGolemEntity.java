@@ -29,13 +29,27 @@ import java.util.UUID;
 public final class HiGolemEntity extends HijackedParasiteEntity {
     private static final EntityDataAccessor<Boolean> CHARGING = SynchedEntityData.defineId(
             HiGolemEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> PARASITE_STATUS = SynchedEntityData.defineId(
+            HiGolemEntity.class, EntityDataSerializers.INT);
+
+    // 状态 0 - 普通移动状态
     private final RawAnimation idleAnimation = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation walkAnimation = ParasiteAnimations.loop(this, "walk");
+
+    // 状态 1 - 攻击准备状态
+    private final RawAnimation idleStatus1Animation = ParasiteAnimations.loop(this, "idle.get_parasite_status_1");
+    private final RawAnimation walkStatus1Animation = ParasiteAnimations.loop(this, "walk.get_parasite_status_1");
+
+    // 状态 2 - 蓄力状态
+    private final RawAnimation idleStatus2Animation = ParasiteAnimations.loop(this, "idle.get_parasite_status_2");
+    private final RawAnimation walkStatus2Animation = ParasiteAnimations.loop(this, "walk.get_parasite_status_2");
+
+    // 状态 3 - 冲锋状态
+    private final RawAnimation chargeIdleAnimation = ParasiteAnimations.loop(this, "idle.get_parasite_status_3");
+    private final RawAnimation chargeWalkAnimation = ParasiteAnimations.loop(this, "walk.get_parasite_status_3");
+
+    // 攻击动画
     private final RawAnimation attackAnimation = ParasiteAnimations.play(this, "attack");
-    private final RawAnimation chargeIdleAnimation = ParasiteAnimations.loop(this,
-            "idle.get_parasite_status_3");
-    private final RawAnimation chargeWalkAnimation = ParasiteAnimations.loop(this,
-            "walk.get_parasite_status_3");
 
     private int chargeCooldown;
 
@@ -51,6 +65,7 @@ public final class HiGolemEntity extends HijackedParasiteEntity {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(CHARGING, false);
+        builder.define(PARASITE_STATUS, 0);
     }
 
     @Override
@@ -66,6 +81,35 @@ public final class HiGolemEntity extends HijackedParasiteEntity {
         if (!level().isClientSide && chargeCooldown > 0) {
             chargeCooldown--;
         }
+
+        // 更新状态机
+        updateParasiteStatus();
+    }
+
+    private void updateParasiteStatus() {
+        if (isCharging()) {
+            setParasiteStatus(3); // 冲锋状态
+        } else if (getTarget() != null) {
+            // 根据目标距离和攻击状态决定状态
+            double distSqr = distanceToSqr(getTarget());
+            if (distSqr < 9.0D && isAggressive()) {
+                setParasiteStatus(1); // 攻击准备状态
+            } else if (distSqr >= 9.0D && distSqr < 576.0D) {
+                setParasiteStatus(2); // 蓄力状态
+            } else {
+                setParasiteStatus(0); // 普通移动状态
+            }
+        } else {
+            setParasiteStatus(0); // 普通移动状态
+        }
+    }
+
+    public int getParasiteStatus() {
+        return entityData.get(PARASITE_STATUS);
+    }
+
+    public void setParasiteStatus(int status) {
+        entityData.set(PARASITE_STATUS, status);
     }
 
     public boolean isCharging() {
@@ -80,22 +124,33 @@ public final class HiGolemEntity extends HijackedParasiteEntity {
     }
 
     private PlayState movementAnimation(AnimationState<HiGolemEntity> state) {
-        if (isCharging()) {
-            return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.0001 ? chargeWalkAnimation : chargeIdleAnimation);
+        boolean isMoving = getDeltaMovement().horizontalDistanceSqr() >= 0.0001;
+        int status = getParasiteStatus();
+
+        switch (status) {
+            case 1: // 攻击准备状态
+                return state.setAndContinue(isMoving ? walkStatus1Animation : idleStatus1Animation);
+            case 2: // 蓄力状态
+                return state.setAndContinue(isMoving ? walkStatus2Animation : idleStatus2Animation);
+            case 3: // 冲锋状态
+                return state.setAndContinue(isMoving ? chargeWalkAnimation : chargeIdleAnimation);
+            default: // 状态 0 - 普通移动状态
+                return state.setAndContinue(isMoving ? walkAnimation : idleAnimation);
         }
-        return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.0001 ? walkAnimation : idleAnimation);
     }
 
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putInt("charge_cooldown", chargeCooldown);
+        tag.putInt("parasite_status", getParasiteStatus());
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         chargeCooldown = tag.getInt("charge_cooldown");
+        setParasiteStatus(tag.getInt("parasite_status"));
     }
 
     private final class GolemChargeGoal extends Goal {
