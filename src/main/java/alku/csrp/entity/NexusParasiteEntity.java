@@ -331,7 +331,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private PlayState movementAnimation(AnimationState<NexusParasiteEntity> state) {
-        if (!state.isMoving()) {
+        if (getDeltaMovement().horizontalDistanceSqr() < 0.0001) {
             Kind activeKind = activeKind();
             return state.setAndContinue(activeKind.family == Family.BECKON && activeKind.stage < 4
                     ? BECKON_BODY : IDLE);
