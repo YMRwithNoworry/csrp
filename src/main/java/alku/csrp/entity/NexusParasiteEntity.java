@@ -159,7 +159,16 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         getNavigation().stop();
         decrementCooldowns();
 
+        // Update body animation for BECKON family
         Kind activeKind = activeKind();
+        if (activeKind.family == Family.BECKON) {
+            if (getParasiteStatus() == 0) {
+                setBODY(0.04F);  // Expand body
+            } else {
+                setBODY(-0.04F); // Contract body
+            }
+        }
+
         if (activeKind.isRooterBall()) {
             return;
         }
@@ -190,8 +199,13 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
             tryPlaceFirstColony();
         }
         if (summonCooldown <= 0 && performFamilyAbility(activeKind)) {
+            // Set status to trigger summoning animation
+            setParasiteStatus(1);
             triggerAttackAnimation();
             summonCooldown = activeKind.summonCooldown;
+        } else if (summonCooldown > 0 && getParasiteStatus() == 1) {
+            // Reset status after summoning
+            setParasiteStatus(0);
         }
         if (activeKind.family == Family.BECKON && activeKind.stage == 4
                 && forcedEvolutionCooldown <= 0 && forceEvolveNearbyParasite()) {
@@ -345,6 +359,9 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         tag.putInt("nexus_attack_flash", attackFlashTicks);
         tag.putInt("nexus_temporary_lifetime", temporaryLifetimeTicks);
         tag.putBoolean("nexus_can_grow", canGrow);
+        tag.putFloat("nexus_body", getBODY());
+        tag.putInt("nexus_parasite_status", getParasiteStatus());
+        tag.putFloat("nexus_floor_timer", getFloorTimer());
         ListTag storedParasites = new ListTag();
         storedParasiteIds.forEach(id -> storedParasites.add(StringTag.valueOf(id)));
         tag.put("nexus_dispatcher_stored", storedParasites);
@@ -365,6 +382,15 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         temporaryLifetimeTicks = tag.contains("nexus_temporary_lifetime")
                 ? tag.getInt("nexus_temporary_lifetime") : -1;
         canGrow = !tag.contains("nexus_can_grow") || tag.getBoolean("nexus_can_grow");
+        if (tag.contains("nexus_body")) {
+            entityData.set(BODY, tag.getFloat("nexus_body"));
+        }
+        if (tag.contains("nexus_parasite_status")) {
+            setParasiteStatus(tag.getInt("nexus_parasite_status"));
+        }
+        if (tag.contains("nexus_floor_timer")) {
+            setFloorTimer(tag.getFloat("nexus_floor_timer"));
+        }
         storedParasiteIds.clear();
         ListTag storedParasites = tag.getList("nexus_dispatcher_stored", Tag.TAG_STRING);
         for (int index = 0; index < storedParasites.size(); index++) {

@@ -372,4 +372,20 @@ public class UntamedPriWaspEntity extends Monster implements GeoEntity, Parasite
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return animationCache;
     }
+
+    // PullingBallOwner 接口实现
+    @Override
+    public boolean captureTarget(LivingEntity target) {
+        // 捕获目标时不做特殊处理，仅返回成功
+        return target != null && target.isAlive() && isValidPullTarget(target);
+    }
+
+    @Override
+    public boolean isValidPullTarget(LivingEntity target) {
+        // 验证目标是否有效
+        return target != null
+                && target.isAlive()
+                && !(target instanceof Parasite)
+                && target != this;
+    }
 }
