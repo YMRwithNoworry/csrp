@@ -173,8 +173,16 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
         }
         triggerAnim("attack_controller", "attack");
         playSound(ModSounds.get("mob.swipe"), 2.0F, 1.0F);
+        if (center instanceof LivingEntity primaryTarget && isValidParasiteTarget(primaryTarget)
+                && hasLineOfSight(primaryTarget)) {
+            primaryTarget.invulnerableTime = 0;
+            hitLongarmsTarget(primaryTarget, false);
+        }
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
                 center.getBoundingBox().inflate(1.5D), this::isValidParasiteTarget)) {
+            if (target == center) {
+                continue;
+            }
             if (hasLineOfSight(target)) {
                 hitLongarmsTarget(target, false);
             }
