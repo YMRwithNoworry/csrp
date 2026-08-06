@@ -268,7 +268,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         if (activeKind() == Kind.DREADNAUT) {
             return state.setAndContinue(FLY);
         }
-        return state.setAndContinue(state.isMoving() ? WALK : IDLE);
+        return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() >= 0.0001 ? WALK : IDLE);
     }
 
     private void pushAway(LivingEntity target, double horizontal, double vertical) {
