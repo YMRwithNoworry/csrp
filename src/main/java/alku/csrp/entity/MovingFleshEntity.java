@@ -64,6 +64,7 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
     private int mergeCooldown;
     private int evolutionDelay;
     private int mergeContacts;
+    private float evolutionFlashIntensity = 0.0F;
 
     public MovingFleshEntity(EntityType<? extends MovingFleshEntity> type, Level level) {
         super(type, level);
@@ -99,6 +100,13 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
     public void tick() {
         super.tick();
         if (level().isClientSide) {
+            // 客户端：更新进化闪烁效果
+            if (evolutionDelay > 0) {
+                float progress = 1.0F - (evolutionDelay / (float) EVOLUTION_DELAY_TICKS);
+                evolutionFlashIntensity = progress;
+            } else {
+                evolutionFlashIntensity = 0.0F;
+            }
             return;
         }
         if (tickCount % 20 == 0 && getHealth() < getMaxHealth()) {
@@ -176,6 +184,15 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
         return entityData.get(RENDER_SCALE);
     }
 
+    /**
+     * 获取进化闪烁强度（用于渲染器中的爆炸前效果）
+     * @param partialTick 部分tick时间
+     * @return 0.0-1.0的闪烁强度
+     */
+    public float getEvolutionFlashIntensity(float partialTick) {
+        return evolutionFlashIntensity;
+    }
+
     @Override
     protected EntityDimensions getDefaultDimensions(Pose pose) {
         EntityDimensions dimensions = super.getDefaultDimensions(pose);
@@ -200,6 +217,7 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
         tag.putInt("merge_cooldown", mergeCooldown);
         tag.putInt("evolution_delay", evolutionDelay);
         tag.putInt("merge_contacts", mergeContacts);
+        tag.putFloat("evolution_flash_intensity", evolutionFlashIntensity);
     }
 
     @Override
@@ -211,6 +229,7 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
         mergeCooldown = tag.getInt("merge_cooldown");
         evolutionDelay = tag.getInt("evolution_delay");
         mergeContacts = tag.getInt("merge_contacts");
+        evolutionFlashIntensity = tag.getFloat("evolution_flash_intensity");
     }
 
     @Override
