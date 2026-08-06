@@ -271,7 +271,8 @@ public class PriManducaterEntity extends PrimitiveParasiteEntity implements GeoE
         return super.hurt(source, amount);
     }
 
-    private boolean canSprint() {
+    @Override
+    public boolean canSprint() {
         // 基因模块检查 - 暂时默认允许
         return true;
     }
