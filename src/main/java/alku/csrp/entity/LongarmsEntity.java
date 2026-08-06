@@ -71,6 +71,11 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
+    public boolean onClimbable() {
+        return horizontalCollision || super.onClimbable();
+    }
+
+    @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(MELEE_RESTING, false);
