@@ -146,7 +146,8 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
                                         MobSpawnType spawnType, SpawnGroupData spawnGroupData) {
         SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
-        entityData.set(CRAWLING, random.nextDouble() < 0.33D);
+        // The crawling clip is a special pose and must not be selected randomly at spawn.
+        entityData.set(CRAWLING, false);
         return data;
     }
 
@@ -325,7 +326,8 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
         selfTeleportCooldown = tag.getInt("self_teleport_cooldown");
         allyTeleportCooldown = tag.getInt("ally_teleport_cooldown");
         setShrimpFed(tag.getBoolean("shrimp_fed"));
-        entityData.set(CRAWLING, tag.getBoolean("crawling"));
+        // Older saves may contain the legacy random crawling flag; normalize it on load.
+        entityData.set(CRAWLING, false);
         pullingCounter = tag.getInt("pulling_counter");
         spotCooldown = tag.getInt("spot_cooldown");
         entityData.set(PARASITE_STATUS, tag.getInt("parasite_status"));
