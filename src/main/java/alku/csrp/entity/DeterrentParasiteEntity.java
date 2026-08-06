@@ -31,6 +31,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
@@ -57,6 +58,14 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
             DeterrentParasiteEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> SENTRY_STILL_ANI = SynchedEntityData.defineId(
             DeterrentParasiteEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Float> KYPHOSIS_ATTACK_TIMER = SynchedEntityData.defineId(
+            DeterrentParasiteEntity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> KYPHOSIS_BURIED = SynchedEntityData.defineId(
+            DeterrentParasiteEntity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Integer> KYPHOSIS_PARASITE_STATUS = SynchedEntityData.defineId(
+            DeterrentParasiteEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> KYPHOSIS_SKILL_BORDER = SynchedEntityData.defineId(
+            DeterrentParasiteEntity.class, EntityDataSerializers.INT);
     private static final int MAX_ADAPTATION_HITS = 6;
     private static final int MAX_LEARNABLE_DAMAGE_SOURCES = 10;
     private static final float ADAPTATION_PER_HIT = 0.16F;
@@ -69,6 +78,8 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     private final RawAnimation SENTRY_ATTACK = ParasiteAnimations.loop(this, "idle.get_parasite_status_1");
     private final RawAnimation SENTRY_FAST_ATTACK = ParasiteAnimations.loop(this, "idle.get_parasite_status_2");
     private final RawAnimation SENTRY_SPECIAL = ParasiteAnimations.loop(this, "idle.get_parasite_status_3");
+    private final RawAnimation KYPHOSIS_BURIED_ANIM = ParasiteAnimations.loop(this, "idle.get_parasite_status_3");
+    private final RawAnimation KYPHOSIS_SKILL_ANIM = ParasiteAnimations.loop(this, "idle.get_parasite_status_10");
 
     private final Kind kind;
     private int abilityCooldown;
@@ -80,6 +91,8 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     private UUID dispatchTarget;
     private String dispatchEntityId;
     private UUID seizerTarget;
+    private boolean kyphosisAttackUp = false;
+    private double kyphosisBuriedTarget = 7.5D;
 
     public DeterrentParasiteEntity(EntityType<? extends DeterrentParasiteEntity> type, Level level, Kind kind) {
         super(type, level);
@@ -125,6 +138,10 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         builder.define(SEIZER_TARGET_ID, 0);
         builder.define(SENTRY_PARASITE_STATUS, 0);
         builder.define(SENTRY_STILL_ANI, false);
+        builder.define(KYPHOSIS_ATTACK_TIMER, 0.0F);
+        builder.define(KYPHOSIS_BURIED, 0.0F);
+        builder.define(KYPHOSIS_PARASITE_STATUS, 0);
+        builder.define(KYPHOSIS_SKILL_BORDER, 0);
     }
 
     @Override
@@ -146,7 +163,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         } else if (activeKind() == Kind.SENTRY) {
             tickSentry();
         } else if (activeKind() == Kind.KYPHOSIS) {
-            breakBlocksTowardsTarget(7.0F, 3.0D);
+            tickKyphosis();
         }
     }
 
@@ -163,6 +180,8 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         attackFlashTicks = 12;
         triggerAnim("attack_controller", "attack");
         if (activeKind == Kind.KYPHOSIS) {
+            // 触发攻击动画计时器
+            kyphosisAttackUp = true;
             hurtNearby(target, 2.0D, 35.0F, true);
             target.push(0.0D, 0.5D, 0.0D);
         }
@@ -245,6 +264,14 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
             tag.putInt("sentry_parasite_status", entityData.get(SENTRY_PARASITE_STATUS));
             tag.putBoolean("sentry_still_ani", entityData.get(SENTRY_STILL_ANI));
         }
+        if (activeKind() == Kind.KYPHOSIS) {
+            tag.putFloat("kyphosis_attack_timer", entityData.get(KYPHOSIS_ATTACK_TIMER));
+            tag.putFloat("kyphosis_buried", entityData.get(KYPHOSIS_BURIED));
+            tag.putInt("kyphosis_parasite_status", entityData.get(KYPHOSIS_PARASITE_STATUS));
+            tag.putInt("kyphosis_skill_border", entityData.get(KYPHOSIS_SKILL_BORDER));
+            tag.putBoolean("kyphosis_attack_up", kyphosisAttackUp);
+            tag.putDouble("kyphosis_buried_target", kyphosisBuriedTarget);
+        }
     }
 
     @Override
@@ -268,6 +295,15 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
             entityData.set(SENTRY_PARASITE_STATUS, tag.getInt("sentry_parasite_status"));
             entityData.set(SENTRY_STILL_ANI, tag.getBoolean("sentry_still_ani"));
         }
+        if (activeKind() == Kind.KYPHOSIS) {
+            entityData.set(KYPHOSIS_ATTACK_TIMER, tag.getFloat("kyphosis_attack_timer"));
+            entityData.set(KYPHOSIS_BURIED, tag.getFloat("kyphosis_buried"));
+            entityData.set(KYPHOSIS_PARASITE_STATUS, tag.getInt("kyphosis_parasite_status"));
+            entityData.set(KYPHOSIS_SKILL_BORDER, tag.getInt("kyphosis_skill_border"));
+            kyphosisAttackUp = tag.getBoolean("kyphosis_attack_up");
+            kyphosisBuriedTarget = tag.contains("kyphosis_buried_target")
+                    ? tag.getDouble("kyphosis_buried_target") : 7.5D;
+        }
     }
 
     @Override
@@ -275,6 +311,9 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
         controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
                 .triggerableAnim("attack", ATTACK));
+        if (activeKind() == Kind.KYPHOSIS) {
+            controllers.add(new AnimationController<>(this, "kyphosis_attack_timer_controller", 0, this::kyphosisAttackTimerAnimation));
+        }
     }
 
     public void setDispatchTarget(LivingEntity target) {
@@ -316,6 +355,32 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         return activeKind();
     }
 
+    /** 设置Kyphosis的埋地状态 (状态3=埋地) */
+    public void setKyphosisBuriedStatus(boolean buried) {
+        if (activeKind() == Kind.KYPHOSIS) {
+            setKyphosisParasiteStatus(buried ? 3 : 0);
+        }
+    }
+
+    /** 触发Kyphosis的冲击波技能 */
+    public void triggerKyphosisShockwaveSkill() {
+        if (activeKind() == Kind.KYPHOSIS && abilityCooldown <= 0) {
+            setKyphosisParasiteStatus(10);
+            setKyphosisSkillBorder(0);
+            abilityCooldown = 300; // 15秒冷却
+        }
+    }
+
+    /** 获取Kyphosis的攻击计时器（供动画系统使用） */
+    public float getKyphosisAttackTimerForAnimation() {
+        return getKyphosisAttackTimer();
+    }
+
+    /** 获取Kyphosis的埋地深度（供动画系统使用） */
+    public float getKyphosisBuriedForAnimation() {
+        return getKyphosisBuried();
+    }
+
     private Kind activeKind() {
         if (kind != null) {
             return kind;
@@ -329,6 +394,24 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private PlayState movementAnimation(AnimationState<DeterrentParasiteEntity> state) {
+        if (activeKind() == Kind.KYPHOSIS) {
+            int parasiteStatus = getKyphosisParasiteStatus();
+            float buried = getKyphosisBuried();
+
+            // 技能动画（优先级最高）
+            if (parasiteStatus == 10) {
+                return state.setAndContinue(KYPHOSIS_SKILL_ANIM);
+            }
+
+            // 埋地动画
+            if (parasiteStatus == 3 || buried > 0) {
+                return state.setAndContinue(KYPHOSIS_BURIED_ANIM);
+            }
+
+            // 默认待机动画
+            return state.setAndContinue(IDLE);
+        }
+
         if (activeKind() == Kind.SENTRY) {
             int status = getSentryParasiteStatus();
             // 状态 1: 攻击动画（触手摆动频率增加）
@@ -454,6 +537,79 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         }
     }
 
+    private void tickKyphosis() {
+        breakBlocksTowardsTarget(7.0F, 3.0D);
+
+        // 更新攻击动画计时器
+        float attackTimer = getKyphosisAttackTimer();
+        if (kyphosisAttackUp) {
+            attackTimer += 0.15F;
+            if (attackTimer >= 1.0F) {
+                attackTimer = 1.0F;
+                kyphosisAttackUp = false;
+            }
+        } else if (attackTimer > 0.0F) {
+            attackTimer -= 0.2F;
+            if (attackTimer < 0.0F) {
+                attackTimer = 0.0F;
+            }
+        }
+        setKyphosisAttackTimer(attackTimer);
+
+        // 更新埋地状态
+        float buried = getKyphosisBuried();
+        int parasiteStatus = getKyphosisParasiteStatus();
+
+        if (parasiteStatus == 3) {
+            // 下潜
+            if (buried < kyphosisBuriedTarget) {
+                buried += 0.08F;
+                if (buried > kyphosisBuriedTarget) {
+                    buried = (float) kyphosisBuriedTarget;
+                }
+            }
+        } else if (buried > 0.0F) {
+            // 上浮
+            buried -= 0.08F;
+            if (buried < 0.0F) {
+                buried = 0.0F;
+            }
+        }
+        setKyphosisBuried(buried);
+
+        // 更新技能状态（每20tick推进一个阶段）
+        int skillBorder = getKyphosisSkillBorder();
+        if (parasiteStatus == 10) {
+            if (tickCount % 20 == 0) {
+                skillBorder++;
+                setKyphosisSkillBorder(skillBorder);
+
+                // 技能阶段逻辑
+                if (skillBorder == 0) {
+                    playSound(net.minecraft.sounds.SoundEvents.GENERIC_HURT);
+                } else if (skillBorder == 1 || skillBorder == 2) {
+                    // 生成火焰粒子效果
+                    if (level() instanceof ServerLevel) {
+                        for (int i = 0; i < 10; i++) {
+                            double offsetX = (random.nextDouble() - 0.5D) * 2.0D;
+                            double offsetZ = (random.nextDouble() - 0.5D) * 2.0D;
+                            level().addParticle(ParticleTypes.FLAME,
+                                    getX() + offsetX, getY() + 0.5D, getZ() + offsetZ,
+                                    0.0D, 0.05D, 0.0D);
+                        }
+                    }
+                } else if (skillBorder == 3 || skillBorder == 5) {
+                    // 生成冲击波
+                    summonShockwave();
+                } else if (skillBorder >= 6) {
+                    // 技能结束
+                    setKyphosisParasiteStatus(0);
+                    setKyphosisSkillBorder(0);
+                }
+            }
+        }
+    }
+
     private int getSentryParasiteStatus() {
         return entityData.get(SENTRY_PARASITE_STATUS);
     }
@@ -468,6 +624,44 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
 
     private void setSentryStillAni(boolean stillAni) {
         entityData.set(SENTRY_STILL_ANI, stillAni);
+    }
+
+    private float getKyphosisAttackTimer() {
+        return entityData.get(KYPHOSIS_ATTACK_TIMER);
+    }
+
+    private void setKyphosisAttackTimer(float timer) {
+        entityData.set(KYPHOSIS_ATTACK_TIMER, Math.max(0.0F, Math.min(1.0F, timer)));
+    }
+
+    private float getKyphosisBuried() {
+        return entityData.get(KYPHOSIS_BURIED);
+    }
+
+    private void setKyphosisBuried(float buried) {
+        entityData.set(KYPHOSIS_BURIED, Math.max(0.0F, buried));
+    }
+
+    private int getKyphosisParasiteStatus() {
+        return entityData.get(KYPHOSIS_PARASITE_STATUS);
+    }
+
+    private void setKyphosisParasiteStatus(int status) {
+        entityData.set(KYPHOSIS_PARASITE_STATUS, status);
+    }
+
+    private int getKyphosisSkillBorder() {
+        return entityData.get(KYPHOSIS_SKILL_BORDER);
+    }
+
+    private void setKyphosisSkillBorder(int border) {
+        entityData.set(KYPHOSIS_SKILL_BORDER, border);
+    }
+
+    private PlayState kyphosisAttackTimerAnimation(AnimationState<DeterrentParasiteEntity> state) {
+        // 这个控制器用于提供攻击计时器值给动画系统
+        // 返回CONTINUE以保持动画系统更新
+        return PlayState.CONTINUE;
     }
 
     private SpecialAction specialAction() {
@@ -608,6 +802,41 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         y = Math.min(y / length * scale * 6.0D, 1.2D);
         z = Math.min(z / length * scale, 0.03D) * (random.nextDouble() * 2.0D - 1.0D);
         return new Vec3(x, y, z);
+    }
+
+    private void summonShockwave() {
+        if (!(level() instanceof ServerLevel serverLevel)) {
+            return;
+        }
+        // 生成冲击波效果：在周围范围内造成伤害和击退
+        double radius = 12.0D;
+        AABB impactArea = getBoundingBox().inflate(radius);
+
+        // 生成粒子效果
+        for (int i = 0; i < 50; i++) {
+            double angle = random.nextDouble() * Math.PI * 2.0D;
+            double distance = random.nextDouble() * radius;
+            double offsetX = Math.cos(angle) * distance;
+            double offsetZ = Math.sin(angle) * distance;
+            serverLevel.sendParticles(ParticleTypes.FLAME,
+                    getX() + offsetX, getY() + 0.1D, getZ() + offsetZ,
+                    1, 0.0D, 0.0D, 0.0D, 0.0D);
+        }
+
+        // 同化龙蛋
+        DragonEggAssimilationEntity.assimilateDragonEggs(level(), impactArea);
+
+        // 对范围内的敌对实体造成伤害和击退
+        for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, impactArea,
+                this::isValidParasiteTarget)) {
+            if (target.hurt(damageSources().mobAttack(this), 12.0F)) {
+                Vec3 push = target.position().subtract(position());
+                if (push.lengthSqr() > 0.001D) {
+                    push = push.normalize().scale(0.8D);
+                    target.push(push.x, 0.3D, push.z);
+                }
+            }
+        }
     }
 
     private final class KyphosisWaveGoal extends Goal {
