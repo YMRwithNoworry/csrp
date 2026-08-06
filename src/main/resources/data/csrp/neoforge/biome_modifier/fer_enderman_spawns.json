@@ -3,8 +3,8 @@
   "biomes": "#minecraft:is_end",
   "spawners": {
     "type": "csrp:fer_enderman",
-    "weight": 25,
-    "minCount": 3,
-    "maxCount": 5
+    "weight": 20,
+    "minCount": 1,
+    "maxCount": 1
   }
 }

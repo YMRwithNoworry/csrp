@@ -3,8 +3,8 @@
   "biomes": "#minecraft:is_overworld",
   "spawners": {
     "type": "csrp:ada_bolster",
-    "weight": 15,
-    "minCount": 2,
-    "maxCount": 3
+    "weight": 10,
+    "minCount": 1,
+    "maxCount": 1
   }
 }
