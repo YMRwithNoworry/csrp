@@ -20,9 +20,18 @@ import software.bernie.geckolib.animation.RawAnimation;
 public final class VisceraEntity extends PrimitiveParasiteEntity {
     private static final EntityDataAccessor<Byte> CLIMBING = SynchedEntityData.defineId(VisceraEntity.class,
             EntityDataSerializers.BYTE);
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private static final EntityDataAccessor<Boolean> COMBAT_STATUS = SynchedEntityData.defineId(
+            VisceraEntity.class, EntityDataSerializers.BOOLEAN);
+    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks");
+    private final RawAnimation LIMB_SWING = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing");
+    private final RawAnimation COMBAT_AGE = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_1");
+    private final RawAnimation COMBAT_LIMB = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_1");
+    private final RawAnimation SPRINT_LIMB = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_2");
 
     public VisceraEntity(EntityType<? extends VisceraEntity> type, Level level) {
         super(type, level);
@@ -42,14 +51,15 @@ public final class VisceraEntity extends PrimitiveParasiteEntity {
 
     @Override public void tick() {
         super.tick();
-        if (!level().isClientSide) setClimbing(horizontalCollision);
+        if (!level().isClientSide) {
+            setClimbing(horizontalCollision);
+            LivingEntity target = getTarget();
+            entityData.set(COMBAT_STATUS, target != null && target.isAlive());
+        }
     }
 
     @Override public boolean doHurtTarget(Entity entity) {
         boolean hit = super.doHurtTarget(entity);
-        if (hit) {
-            triggerAnim("attack_controller", "attack");
-        }
         if (hit && entity instanceof LivingEntity target) {
             target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 40, 0), this);
             target.addEffect(new MobEffectInstance(ModMobEffects.BLEED, 40, 0), this);
@@ -60,6 +70,7 @@ public final class VisceraEntity extends PrimitiveParasiteEntity {
     @Override protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(CLIMBING, (byte) 0);
+        builder.define(COMBAT_STATUS, false);
     }
 
     @Override public boolean onClimbable() { return (entityData.get(CLIMBING) & 1) != 0; }
@@ -67,8 +78,15 @@ public final class VisceraEntity extends PrimitiveParasiteEntity {
 
     @Override public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving()) ? WALK : IDLE)));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
-                software.bernie.geckolib.animation.PlayState.STOP).triggerableAnim("attack", ATTACK));
+                state -> {
+                    boolean moving = ParasiteAnimations.isMoving(this, state.isMoving());
+                    if (!moving) {
+                        return state.setAndContinue(entityData.get(COMBAT_STATUS) ? COMBAT_AGE : AGE_IN_TICKS);
+                    }
+                    if (getDeltaMovement().horizontalDistanceSqr() > 0.02D) {
+                        return state.setAndContinue(SPRINT_LIMB);
+                    }
+                    return state.setAndContinue(entityData.get(COMBAT_STATUS) ? COMBAT_LIMB : LIMB_SWING);
+                }));
     }
 }

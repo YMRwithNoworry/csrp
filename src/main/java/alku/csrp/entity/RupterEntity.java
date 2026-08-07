@@ -94,11 +94,20 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
             SynchedEntityData.defineId(RupterEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> LEAP_ATTACK_TICKS =
             SynchedEntityData.defineId(RupterEntity.class, EntityDataSerializers.INT);
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
-    private final RawAnimation LEAP = ParasiteAnimations.loop(this, "idle.get_parasite_status_10");
+    private static final EntityDataAccessor<Boolean> COMBAT_STATUS =
+            SynchedEntityData.defineId(RupterEntity.class, EntityDataSerializers.BOOLEAN);
+    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks");
+    private final RawAnimation LIMB_SWING = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing");
+    private final RawAnimation COMBAT_AGE = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_1");
+    private final RawAnimation COMBAT_LIMB = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_1");
+    private final RawAnimation SPRINT_LIMB = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_2");
+    private final RawAnimation LEAP = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_10");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private int killCount;
@@ -202,6 +211,8 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
         if (leapTicks > 0) {
             entityData.set(LEAP_ATTACK_TICKS, leapTicks - 1);
         }
+        LivingEntity target = getTarget();
+        entityData.set(COMBAT_STATUS, target != null && target.isAlive());
         performLiquidLeap();
         tryPlaceTunnel();
     }
@@ -353,9 +364,6 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
     public boolean doHurtTarget(Entity entity) {
         boolean hit = super.doHurtTarget(entity);
         if (hit && entity instanceof LivingEntity living) {
-            if (entityData.get(LEAP_ATTACK_TICKS) <= 0) {
-                triggerAnim("attack_controller", "attack");
-            }
             living.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 1), this);
             living.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, 0), this);
             if (getBehaviorVariant() == BehaviorVariant.BERSERKER) {
@@ -422,6 +430,7 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
         builder.define(OVERHEATED, false);
         builder.define(OVERHEAT_WARMUP_TICKS, 0);
         builder.define(LEAP_ATTACK_TICKS, 0);
+        builder.define(COMBAT_STATUS, false);
     }
 
     @Override
@@ -584,18 +593,20 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
-                .triggerableAnim("attack", ATTACK));
     }
 
     private <T extends RupterEntity> PlayState movementAnimation(AnimationState<T> state) {
         if (entityData.get(LEAP_ATTACK_TICKS) > 0) {
             return state.setAndContinue(LEAP);
         }
-        if (!ParasiteAnimations.isMoving(this, state.isMoving())) {
-            return state.setAndContinue(IDLE);
+        boolean moving = ParasiteAnimations.isMoving(this, state.isMoving());
+        if (!moving) {
+            return state.setAndContinue(entityData.get(COMBAT_STATUS) ? COMBAT_AGE : AGE_IN_TICKS);
         }
-        return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() > 0.02 ? RUN : WALK);
+        if (getDeltaMovement().horizontalDistanceSqr() > 0.02D) {
+            return state.setAndContinue(SPRINT_LIMB);
+        }
+        return state.setAndContinue(entityData.get(COMBAT_STATUS) ? COMBAT_LIMB : LIMB_SWING);
     }
 
     @Override

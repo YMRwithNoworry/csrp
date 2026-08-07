@@ -17,7 +17,8 @@ import software.bernie.geckolib.animation.RawAnimation;
 import java.util.EnumSet;
 
 public final class CarrierFlyingEntity extends CarrierEntity {
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks");
 
     public CarrierFlyingEntity(EntityType<? extends CarrierFlyingEntity> type, Level level) {
         super(type, level, 30, 0, 4.0, 0, 300);
@@ -69,8 +70,8 @@ public final class CarrierFlyingEntity extends CarrierEntity {
     }
 
     @Override
-    protected RawAnimation idleAnimation() {
-        return IDLE;
+    protected RawAnimation ageAnimation() {
+        return AGE_IN_TICKS;
     }
 
     private final class FlyingCombatGoal extends Goal {

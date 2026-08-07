@@ -35,7 +35,6 @@ import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
@@ -46,9 +45,9 @@ public class BuglinEntity extends Monster implements GeoEntity, Parasite {
 
     private static final String GROWTH_TARGET_NBT_KEY = "ruptergrow_target";
     private static final String EMERGENCE_NBT_KEY = "emergence_ticks";
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
-    private final RawAnimation SPAWN = ParasiteAnimations.play(this, "spawn");
+    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks");
+    private final RawAnimation FLOOR_TIMER = ParasiteAnimations.play(this, "get_floor_timer");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private int growthSeconds;
@@ -108,7 +107,7 @@ public class BuglinEntity extends Monster implements GeoEntity, Parasite {
         if (!level().isClientSide) {
             if (!emergenceStarted && emergenceTicks > 0) {
                 emergenceStarted = true;
-                triggerAnim("emergence_controller", "spawn");
+                triggerAnim("emergence_controller", "get_floor_timer");
                 playSound(ModSounds.BUGLIN_EMERGE.get(), 1.0F, 1.0F);
             }
 
@@ -211,19 +210,10 @@ public class BuglinEntity extends Monster implements GeoEntity, Parasite {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
+        controllers.add(new AnimationController<>(this, "age_controller", 0,
+                state -> state.setAndContinue(AGE_IN_TICKS)));
         controllers.add(new AnimationController<>(this, "emergence_controller", 0, state -> PlayState.STOP)
-                .triggerableAnim("spawn", SPAWN));
-    }
-
-    private <T extends BuglinEntity> PlayState movementAnimation(AnimationState<T> state) {
-        if (emergenceTicks > 0) {
-            return PlayState.STOP;
-        }
-        if (!ParasiteAnimations.isMoving(this, state.isMoving())) {
-            return PlayState.STOP;
-        }
-        return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() > 0.015 ? RUN : WALK);
+                .triggerableAnim("get_floor_timer", FLOOR_TIMER));
     }
 
     @Override

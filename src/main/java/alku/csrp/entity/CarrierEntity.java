@@ -22,7 +22,6 @@ import net.minecraft.world.level.Level;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.animation.PlayState;
 
 import java.util.EnumSet;
@@ -35,9 +34,6 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity {
     }
     private static final float LOW_HEALTH_FUSE_THRESHOLD = 0.05F;
     private static final String FUSE_TICKS_TAG = "carrier_fuse_ticks";
-    private final RawAnimation walkAnimation = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation attackAnimation = ParasiteAnimations.play(this, "attack");
-
     private final int fuseTime;
     private final int residueRadius;
     private final double viralRadius;
@@ -69,74 +65,23 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity {
         return true;
     }
 
-    protected abstract RawAnimation idleAnimation();
+    protected abstract RawAnimation ageAnimation();
+
+    protected RawAnimation limbSwingAnimation() {
+        return null;
+    }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        // 运动控制器
-        controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving()) ? walkAnimation : idleAnimation())));
+        controllers.add(new AnimationController<>(this, "age_controller", 0,
+                state -> state.setAndContinue(ageAnimation())));
+        RawAnimation limbSwing = limbSwingAnimation();
+        if (limbSwing != null) {
+            controllers.add(new AnimationController<>(this, "movement_controller", 4, state ->
+                    ParasiteAnimations.isMoving(this, state.isMoving())
+                            ? state.setAndContinue(limbSwing) : PlayState.STOP));
+        }
 
-        // 攻击控制器
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
-                PlayState.STOP)
-                .triggerableAnim("attack", attackAnimation));
-
-        // 翅膀扇动控制器 - 持续性动画
-        controllers.add(new AnimationController<>(this, "wing_controller", 0, this::wingAnimationPredicate));
-
-        // 触须/树状结构控制器 - 持续性波动
-        controllers.add(new AnimationController<>(this, "tentacle_controller", 0, this::tentacleAnimationPredicate));
-
-        // 身体节段控制器 - 持续性波动
-        controllers.add(new AnimationController<>(this, "body_controller", 0, this::bodyAnimationPredicate));
-
-        // 爆炸膨胀控制器 - 爆炸前的缩放效果
-        controllers.add(new AnimationController<>(this, "swell_controller", 0, this::swellAnimationPredicate));
-    }
-
-    /**
-     * 翅膀扇动动画谓词
-     * 注意：程序化骨骼动画需要在模型类的 setCustomAnimations 中实现
-     * 这里仅作为占位符保持控制器结构
-     */
-    private <E extends CarrierEntity> PlayState wingAnimationPredicate(AnimationState<E> state) {
-        // GeckoLib 3.x 中 AnimationProcessor 不再通过 AnimationController 访问
-        // 骨骼操作应在模型类（GeoModel.setCustomAnimations）中完成
-        return PlayState.CONTINUE;
-    }
-
-    /**
-     * 触须/树状结构动画谓词
-     * 注意：程序化骨骼动画需要在模型类的 setCustomAnimations 中实现
-     * 这里仅作为占位符保持控制器结构
-     */
-    private <E extends CarrierEntity> PlayState tentacleAnimationPredicate(AnimationState<E> state) {
-        // GeckoLib 3.x 中 AnimationProcessor 不再通过 AnimationController 访问
-        // 骨骼操作应在模型类（GeoModel.setCustomAnimations）中完成
-        return PlayState.CONTINUE;
-    }
-
-    /**
-     * 身体节段动画谓词
-     * 注意：程序化骨骼动画需要在模型类的 setCustomAnimations 中实现
-     * 这里仅作为占位符保持控制器结构
-     */
-    private <E extends CarrierEntity> PlayState bodyAnimationPredicate(AnimationState<E> state) {
-        // GeckoLib 3.x 中 AnimationProcessor 不再通过 AnimationController 访问
-        // 骨骼操作应在模型类（GeoModel.setCustomAnimations）中完成
-        return PlayState.CONTINUE;
-    }
-
-    /**
-     * 爆炸膨胀动画谓词
-     * 注意：程序化骨骼缩放需要在模型类的 setCustomAnimations 中实现
-     * 这里仅作为占位符保持控制器结构
-     */
-    private <E extends CarrierEntity> PlayState swellAnimationPredicate(AnimationState<E> state) {
-        // GeckoLib 3.x 中 AnimationProcessor 不再通过 AnimationController 访问
-        // 骨骼操作应在模型类（GeoModel.setCustomAnimations）中完成
-        return PlayState.CONTINUE;
     }
 
     /**
@@ -154,9 +99,6 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity {
     @Override
     public boolean doHurtTarget(Entity target) {
         boolean hit = super.doHurtTarget(target);
-        if (hit) {
-            triggerAnim("attack_controller", "attack");
-        }
         return hit;
     }
 
@@ -179,7 +121,6 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity {
         if (fuseTicks < 0) {
             fuseTicks = 0;
             getNavigation().stop();
-            triggerAnim("attack_controller", "attack");
         }
     }
 

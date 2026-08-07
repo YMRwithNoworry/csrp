@@ -6,7 +6,6 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -17,7 +16,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 
 import java.util.EnumSet;
@@ -28,11 +26,18 @@ public final class SummonerEntity extends PrimitiveParasiteEntity {
     private static final EntityDataAccessor<Integer> SUMMON_TICKS = SynchedEntityData.defineId(
             SummonerEntity.class, EntityDataSerializers.INT);
 
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
-    private final RawAnimation SUMMON = ParasiteAnimations.loop(this, "summon");
+    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks");
+    private final RawAnimation LIMB_SWING = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing");
+    private final RawAnimation COMBAT_LIMB = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_1");
+    private final RawAnimation COMBAT_STILL = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1");
+    private final RawAnimation SPRINT_LIMB = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_2");
+    private final RawAnimation SUMMON = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_10");
 
     private int summonCooldown = 200;
 
@@ -93,27 +98,18 @@ public final class SummonerEntity extends PrimitiveParasiteEntity {
         return entityData.get(SUMMON_TICKS);
     }
 
-    @Override
-    public boolean doHurtTarget(Entity target) {
-        boolean hit = super.doHurtTarget(target);
-        if (hit) {
-            triggerAnim("attack_controller", "attack");
-        }
-        return hit;
-    }
-
     @Override public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
             if (isSummoning()) {
                 return state.setAndContinue(SUMMON);
             }
             if (!ParasiteAnimations.isMoving(this, state.isMoving())) {
-                return state.setAndContinue(IDLE);
+                LivingEntity target = getTarget();
+                return state.setAndContinue(target != null && target.isAlive() ? COMBAT_STILL : AGE_IN_TICKS);
             }
-            return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() > 0.02 ? RUN : WALK);
+            return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() > 0.02D
+                    ? SPRINT_LIMB : getTarget() != null ? COMBAT_LIMB : LIMB_SWING);
         }));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
-                .triggerableAnim("attack", ATTACK));
     }
 
     private final class SummonGoal extends Goal {

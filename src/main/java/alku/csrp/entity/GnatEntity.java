@@ -22,12 +22,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 
 public final class GnatEntity extends PrimitiveParasiteEntity {
     private static final EntityDataAccessor<Byte> CLIMBING =
             SynchedEntityData.defineId(GnatEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Boolean> COMBAT_STATUS =
+            SynchedEntityData.defineId(GnatEntity.class, EntityDataSerializers.BOOLEAN);
     private static final int MAX_LIFETIME_TICKS = 1_200;
     private static final float HIJACK_HEALTH_FRACTION = 0.5F;
     private static final int VIRAL_DURATION_TICKS = 120;
@@ -39,10 +40,18 @@ public final class GnatEntity extends PrimitiveParasiteEntity {
     public boolean supportsDamageAdaptation() {
         return false;
     }
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
-    private final RawAnimation LEAP = ParasiteAnimations.loop(this, "idle.get_parasite_status_10");
+    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks");
+    private final RawAnimation LIMB_SWING = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing");
+    private final RawAnimation COMBAT_AGE = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_1");
+    private final RawAnimation COMBAT_LIMB = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_1");
+    private final RawAnimation SPRINT_LIMB = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_2");
+    private final RawAnimation LEAP = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_10");
 
     public GnatEntity(EntityType<? extends GnatEntity> type, Level level) {
         super(type, level);
@@ -65,6 +74,7 @@ public final class GnatEntity extends PrimitiveParasiteEntity {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(CLIMBING, (byte) 0);
+        builder.define(COMBAT_STATUS, false);
     }
 
     @Override
@@ -75,6 +85,8 @@ public final class GnatEntity extends PrimitiveParasiteEntity {
         }
 
         setClimbing(horizontalCollision);
+        LivingEntity target = getTarget();
+        entityData.set(COMBAT_STATUS, target != null && target.isAlive());
         pursueInLiquid();
         if (tickCount > MAX_LIFETIME_TICKS) {
             burstAndDiscard(false);
@@ -127,7 +139,6 @@ public final class GnatEntity extends PrimitiveParasiteEntity {
                 InfectionMechanics.convertGnatHost(target);
             }
         }
-        triggerAnim("attack_controller", "attack");
         burstAndDiscard(true);
         return converted || damaged;
     }
@@ -175,8 +186,18 @@ public final class GnatEntity extends PrimitiveParasiteEntity {
 
     @Override public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 3,
-                state -> state.setAndContinue(isSpecialLeapAnimating() ? LEAP : ParasiteAnimations.isMoving(this, state.isMoving()) ? WALK : IDLE)));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
-                .triggerableAnim("attack", ATTACK));
+                state -> {
+                    if (isSpecialLeapAnimating()) {
+                        return state.setAndContinue(LEAP);
+                    }
+                    boolean moving = ParasiteAnimations.isMoving(this, state.isMoving());
+                    if (!moving) {
+                        return state.setAndContinue(entityData.get(COMBAT_STATUS) ? COMBAT_AGE : AGE_IN_TICKS);
+                    }
+                    if (getDeltaMovement().horizontalDistanceSqr() > 0.02D) {
+                        return state.setAndContinue(SPRINT_LIMB);
+                    }
+                    return state.setAndContinue(entityData.get(COMBAT_STATUS) ? COMBAT_LIMB : LIMB_SWING);
+                }));
     }
 }

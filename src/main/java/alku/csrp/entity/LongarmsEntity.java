@@ -58,30 +58,23 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
     private static final EntityDataAccessor<Integer> PARASITE_STATUS = SynchedEntityData.defineId(
             LongarmsEntity.class, EntityDataSerializers.INT);
 
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
-    private final RawAnimation STILL_IDLE = ParasiteAnimations.loop(this, "idle.get_still_ani_1");
+    private final RawAnimation LIMB_SWING = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing");
+    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "get_attack_timer");
+    private final RawAnimation STILL_IDLE = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_still_ani_1");
     private final RawAnimation STILL_ATTACK = ParasiteAnimations.play(this,
             "get_attack_timer.get_still_ani_1");
     private final RawAnimation COMBAT_WALK = ParasiteAnimations.loop(this,
-            "walk.get_parasite_status_1");
-    private final RawAnimation COMBAT_ATTACK = ParasiteAnimations.play(this,
-            "get_attack_timer.get_parasite_status_1");
+            "func_78087_a.limb_swing.get_parasite_status_1");
     private final RawAnimation COMBAT_STILL_IDLE = ParasiteAnimations.loop(this,
-            "idle.get_parasite_status_1.get_still_ani_1");
+            "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1");
     private final RawAnimation COMBAT_STILL_ATTACK = ParasiteAnimations.play(this,
             "get_attack_timer.get_parasite_status_1.get_still_ani_1");
-    private final RawAnimation SPRINT_IDLE = ParasiteAnimations.loop(this,
-            "idle.get_parasite_status_2");
     private final RawAnimation SPRINT_WALK = ParasiteAnimations.loop(this,
-            "walk.get_parasite_status_2");
+            "func_78087_a.limb_swing.get_parasite_status_2");
     private final RawAnimation SPRINT_ATTACK = ParasiteAnimations.play(this,
             "get_attack_timer.get_parasite_status_2");
-    private final RawAnimation SHOCKWAVE_IDLE = ParasiteAnimations.loop(this,
-            "idle.get_parasite_status_3");
-    private final RawAnimation SHOCKWAVE_ATTACK = ParasiteAnimations.play(this,
-            "get_attack_timer.get_parasite_status_3");
     private int shockwaveCooldown = SHOCKWAVE_COOLDOWN_TICKS;
     private int blockBreakCooldown;
     private int meleeAttacksSinceRest;
@@ -299,9 +292,8 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
 
     private void triggerAttackAnimation() {
         String trigger = switch (getParasiteStatus()) {
-            case STATUS_COMBAT -> isStillAnimation() ? "combat_still_attack" : "combat_attack";
+            case STATUS_COMBAT -> "combat_still_attack";
             case STATUS_SPRINT -> "sprint_attack";
-            case STATUS_SHOCKWAVE -> "shockwave_attack";
             default -> isStillAnimation() ? "still_attack" : "attack";
         };
         triggerAnim("attack_controller", trigger);
@@ -374,19 +366,17 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
         controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
                 .triggerableAnim("attack", ATTACK)
                 .triggerableAnim("still_attack", STILL_ATTACK)
-                .triggerableAnim("combat_attack", COMBAT_ATTACK)
                 .triggerableAnim("combat_still_attack", COMBAT_STILL_ATTACK)
-                .triggerableAnim("sprint_attack", SPRINT_ATTACK)
-                .triggerableAnim("shockwave_attack", SHOCKWAVE_ATTACK));
+                .triggerableAnim("sprint_attack", SPRINT_ATTACK));
     }
 
     private PlayState movementAnimation(AnimationState<LongarmsEntity> state) {
         boolean moving = ParasiteAnimations.isMoving(this, state.isMoving());
         return switch (getParasiteStatus()) {
             case STATUS_COMBAT -> state.setAndContinue(moving ? COMBAT_WALK : COMBAT_STILL_IDLE);
-            case STATUS_SPRINT -> state.setAndContinue(moving ? SPRINT_WALK : SPRINT_IDLE);
-            case STATUS_SHOCKWAVE -> state.setAndContinue(SHOCKWAVE_IDLE);
-            default -> state.setAndContinue(isStillAnimation() ? STILL_IDLE : moving ? WALK : IDLE);
+            case STATUS_SPRINT -> state.setAndContinue(moving ? SPRINT_WALK : STILL_IDLE);
+            case STATUS_SHOCKWAVE -> state.setAndContinue(STILL_IDLE);
+            default -> state.setAndContinue(moving ? LIMB_SWING : STILL_IDLE);
         };
     }
 

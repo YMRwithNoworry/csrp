@@ -8,7 +8,10 @@ import net.minecraft.world.level.Level;
 import software.bernie.geckolib.animation.RawAnimation;
 
 public final class CarrierHeavyEntity extends CarrierEntity {
-    private final RawAnimation ANIMATION = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks");
+    private final RawAnimation LIMB_SWING = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing");
 
     public CarrierHeavyEntity(EntityType<? extends CarrierHeavyEntity> type, Level level) {
         super(type, level, 70, 6, 7.0, 1, 1200);
@@ -22,8 +25,13 @@ public final class CarrierHeavyEntity extends CarrierEntity {
     }
 
     @Override
-    protected RawAnimation idleAnimation() {
-        return ANIMATION;
+    protected RawAnimation ageAnimation() {
+        return AGE_IN_TICKS;
+    }
+
+    @Override
+    protected RawAnimation limbSwingAnimation() {
+        return LIMB_SWING;
     }
 
     @Override

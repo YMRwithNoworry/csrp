@@ -47,12 +47,18 @@ public final class CruxEntity extends CrudeParasiteEntity {
     private static final byte STATUS_APPROACHING = 1;
     private static final byte STATUS_SPRINTING = 2;
     private static final byte STATUS_THROWING = 3;
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation APPROACH_IDLE = ParasiteAnimations.loop(this, "idle.get_parasite_status_1");
-    private final RawAnimation APPROACH_WALK = ParasiteAnimations.loop(this, "walk.get_parasite_status_1");
-    private final RawAnimation SPRINT = ParasiteAnimations.loop(this, "walk.get_parasite_status_2");
-    private final RawAnimation THROW_IDLE = ParasiteAnimations.loop(this, "idle.get_parasite_status_3");
+    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks");
+    private final RawAnimation LIMB_SWING = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing");
+    private final RawAnimation APPROACH_AGE = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_1");
+    private final RawAnimation APPROACH_LIMB = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_1");
+    private final RawAnimation APPROACH_STILL = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1");
+    private final RawAnimation SPRINT_LIMB = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_2");
 
     private int attackCooldown;
     private int throwCooldown;
@@ -147,27 +153,22 @@ public final class CruxEntity extends CrudeParasiteEntity {
         AnimationController<CruxEntity> actions = new AnimationController<>(this, "action_controller", 0,
                 state -> PlayState.STOP);
         registerAction(actions, "get_attack_timer_m");
-        registerAction(actions, "get_attack_timer_m.get_still_ani_1");
         registerAction(actions, "get_attack_timer_m.get_parasite_status_1");
         registerAction(actions, "get_attack_timer_m.get_parasite_status_1.get_still_ani_1");
-        registerAction(actions, "get_attack_timer_m.get_parasite_status_2");
-        registerAction(actions, "get_attack_timer_m.get_parasite_status_3");
         registerAction(actions, "get_attack_timer_r");
-        registerAction(actions, "get_attack_timer_r.get_still_ani_1");
         registerAction(actions, "get_attack_timer_r.get_parasite_status_1");
         registerAction(actions, "get_attack_timer_r.get_parasite_status_1.get_still_ani_1");
-        registerAction(actions, "get_attack_timer_r.get_parasite_status_2");
-        registerAction(actions, "get_attack_timer_r.get_parasite_status_3");
         controllers.add(actions);
     }
 
     private PlayState movementAnimation(AnimationState<CruxEntity> state) {
         boolean moving = ParasiteAnimations.isMoving(this, state.isMoving());
         return switch (animationStatus()) {
-            case STATUS_APPROACHING -> state.setAndContinue(moving ? APPROACH_WALK : APPROACH_IDLE);
-            case STATUS_SPRINTING -> state.setAndContinue(moving ? SPRINT : THROW_IDLE);
-            case STATUS_THROWING -> state.setAndContinue(THROW_IDLE);
-            default -> state.setAndContinue(moving ? WALK : IDLE);
+            case STATUS_APPROACHING -> state.setAndContinue(isStillAnimation()
+                    ? APPROACH_STILL : moving ? APPROACH_LIMB : APPROACH_AGE);
+            case STATUS_SPRINTING -> state.setAndContinue(moving ? SPRINT_LIMB : AGE_IN_TICKS);
+            case STATUS_THROWING -> state.setAndContinue(AGE_IN_TICKS);
+            default -> state.setAndContinue(moving ? LIMB_SWING : AGE_IN_TICKS);
         };
     }
 
@@ -180,12 +181,8 @@ public final class CruxEntity extends CrudeParasiteEntity {
         String functionName = timerFunction;
         if (status == STATUS_APPROACHING) {
             functionName += ".get_parasite_status_1";
-        } else if (status == STATUS_SPRINTING) {
-            functionName += ".get_parasite_status_2";
-        } else if (status == STATUS_THROWING) {
-            functionName += ".get_parasite_status_3";
         }
-        if ((status == STATUS_IDLE || status == STATUS_APPROACHING) && isStillAnimation()) {
+        if (status == STATUS_APPROACHING && isStillAnimation()) {
             functionName += ".get_still_ani_1";
         }
         triggerAnim("action_controller", functionName);

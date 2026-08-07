@@ -7,9 +7,43 @@ const failures = [];
 const read = (relative) => fs.readFileSync(path.join(root, relative), "utf8");
 const animationKeys = new Set();
 const shortKeys = new Set([
-  "abo_head", "marauder_tendril", "marauder", "movingflesh", "pri_summoner",
+  "abo_head", "marauder_tendril", "marauder", "movingflesh",
   "inf_sheep", "inf_sheep_head", "inf_villager"
 ]);
+
+const currentExpected = {
+  buglin: ["func_78087_a.age_in_ticks", "get_floor_timer"],
+  gnat: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1", "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_2", "func_78087_a.age_in_ticks.get_parasite_status_10"],
+  rupter: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1", "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_2", "func_78087_a.age_in_ticks.get_parasite_status_10"],
+  carrier_flying: ["func_78087_a.age_in_ticks"],
+  carrier_heavy: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing"],
+  carrier_light: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing"],
+  crux: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing", "get_attack_timer_m", "get_attack_timer_r",
+    "func_78087_a.age_in_ticks.get_parasite_status_1", "func_78087_a.limb_swing.get_parasite_status_1",
+    "get_attack_timer_m.get_parasite_status_1", "get_attack_timer_r.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1",
+    "get_attack_timer_m.get_parasite_status_1.get_still_ani_1",
+    "get_attack_timer_r.get_parasite_status_1.get_still_ani_1",
+    "func_78087_a.limb_swing.get_parasite_status_2"],
+  pri_longarms: ["func_78087_a.limb_swing", "get_attack_timer",
+    "func_78087_a.age_in_ticks.get_still_ani_1", "get_attack_timer.get_still_ani_1",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1",
+    "get_attack_timer.get_parasite_status_1.get_still_ani_1",
+    "func_78087_a.limb_swing.get_parasite_status_2", "get_attack_timer.get_parasite_status_2"],
+  pri_summoner: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1",
+    "func_78087_a.limb_swing.get_parasite_status_2", "func_78087_a.age_in_ticks.get_parasite_status_10"],
+  pri_vermin: ["func_78087_a.age_in_ticks"],
+  pri_viscera: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1", "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_2"]
+};
 
 function resolvedAnimationKey(id, requestedAction) {
   const resourceId = id === "sim_dragonhead" ? "sim_dragonehead"
@@ -57,7 +91,9 @@ for (const id of all) {
     dispatcher_sii: "idle"
   };
   const baseActions = id === "dispatcher_sii" ? ["idle", "idle", "idle"] : ["idle", "walk", actionAliases[id] || "attack"];
-  const expected = id === "crux_incomplete"
+  const expected = currentExpected[id]
+    ? currentExpected[id].map((action) => `animation.${resourceId}.${action}`)
+    : id === "crux_incomplete"
     ? ["animation.crux_incomplete.func_78087_a.age_in_ticks", "animation.crux_incomplete.func_78087_a.limb_swing"]
     : id === "sim_cow"
       ? ["animation.sim_cow.func_78087_a.age_in_ticks", "animation.sim_cow.func_78087_a.limb_swing",
@@ -584,20 +620,23 @@ if (incompleteSmall.includes('triggerableAnim("attack"') || incompleteSmall.incl
 
 const crux = read("src/main/java/alku/csrp/entity/CruxEntity.java");
 for (const action of [
-  "idle", "walk", "idle.get_parasite_status_1", "walk.get_parasite_status_1",
-  "walk.get_parasite_status_2", "idle.get_parasite_status_3",
-  "get_attack_timer_m", "get_attack_timer_m.get_still_ani_1",
+  "func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+  "func_78087_a.age_in_ticks.get_parasite_status_1",
+  "func_78087_a.limb_swing.get_parasite_status_1",
+  "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1",
+  "func_78087_a.limb_swing.get_parasite_status_2", "get_attack_timer_m",
   "get_attack_timer_m.get_parasite_status_1",
   "get_attack_timer_m.get_parasite_status_1.get_still_ani_1",
-  "get_attack_timer_m.get_parasite_status_2", "get_attack_timer_m.get_parasite_status_3",
-  "get_attack_timer_r", "get_attack_timer_r.get_still_ani_1",
+  "get_attack_timer_r",
   "get_attack_timer_r.get_parasite_status_1",
-  "get_attack_timer_r.get_parasite_status_1.get_still_ani_1",
-  "get_attack_timer_r.get_parasite_status_2", "get_attack_timer_r.get_parasite_status_3"
+  "get_attack_timer_r.get_parasite_status_1.get_still_ani_1"
 ]) {
   if (!crux.includes(`"${action}"`)) {
     failures.push(`CruxEntity: original runtime animation ${action} is not wired`);
   }
+}
+if (/"(?:idle|walk|idle\.get_parasite_status_3|get_attack_timer_[mr]\.get_parasite_status_[23])"/.test(crux)) {
+  failures.push("CruxEntity: still requests fabricated functions absent from ModelCruxA");
 }
 if (!crux.includes("stillAnimationTicks > STILL_ANIMATION_DELAY_TICKS")) {
   failures.push("CruxEntity: legacy stillAni delay is not represented");
@@ -658,20 +697,74 @@ if (/ParasiteAnimations\.(?:loop|play)\(this,\s*"(?:melee_attack|ranged_attack|b
 
 const longarms = read("src/main/java/alku/csrp/entity/LongarmsEntity.java");
 for (const action of [
-  "idle.get_still_ani_1", "get_attack_timer.get_still_ani_1",
-  "walk.get_parasite_status_1", "get_attack_timer.get_parasite_status_1",
-  "idle.get_parasite_status_1.get_still_ani_1",
+  "func_78087_a.limb_swing", "get_attack_timer",
+  "func_78087_a.age_in_ticks.get_still_ani_1", "get_attack_timer.get_still_ani_1",
+  "func_78087_a.limb_swing.get_parasite_status_1",
+  "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1",
   "get_attack_timer.get_parasite_status_1.get_still_ani_1",
-  "idle.get_parasite_status_2", "walk.get_parasite_status_2",
-  "get_attack_timer.get_parasite_status_2", "idle.get_parasite_status_3",
-  "get_attack_timer.get_parasite_status_3"
+  "func_78087_a.limb_swing.get_parasite_status_2",
+  "get_attack_timer.get_parasite_status_2"
 ]) {
   if (!longarms.includes(`"${action}"`)) {
     failures.push(`LongarmsEntity: original runtime animation ${action} is not wired`);
   }
 }
+if (/ParasiteAnimations\.(?:loop|play)\(this,\s*"(?:idle|walk|attack|idle\.get_parasite_status_[23]|get_attack_timer\.get_parasite_status_[13])"/.test(longarms)) {
+  failures.push("LongarmsEntity: still requests fabricated functions absent from ModelShyco");
+}
 if (!longarms.includes("stillAnimationTicks > STILL_ANIMATION_DELAY_TICKS")) {
   failures.push("LongarmsEntity: legacy stillAni delay is not represented");
+}
+
+for (const [className, actions] of [
+  ["BuglinEntity", ["func_78087_a.age_in_ticks", "get_floor_timer"]],
+  ["GnatEntity", [
+    "func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_2",
+    "func_78087_a.age_in_ticks.get_parasite_status_10"
+  ]],
+  ["RupterEntity", [
+    "func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_2",
+    "func_78087_a.age_in_ticks.get_parasite_status_10"
+  ]],
+  ["CarrierFlyingEntity", ["func_78087_a.age_in_ticks"]],
+  ["CarrierHeavyEntity", ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing"]],
+  ["CarrierLightEntity", ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing"]],
+  ["SummonerEntity", [
+    "func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1",
+    "func_78087_a.limb_swing.get_parasite_status_2",
+    "func_78087_a.age_in_ticks.get_parasite_status_10"
+  ]],
+  ["VerminEntity", ["func_78087_a.age_in_ticks"]],
+  ["VisceraEntity", [
+    "func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_2"
+  ]]
+]) {
+  const source = read(`src/main/java/alku/csrp/entity/${className}.java`);
+  for (const action of actions) {
+    if (!source.includes(`"${action}"`)) {
+      failures.push(`${className}: original runtime animation ${action} is not wired`);
+    }
+  }
+  if (/ParasiteAnimations\.(?:loop|play)\(this,\s*"(?:idle|walk|run|attack|spawn|summon)"/.test(source)) {
+    failures.push(`${className}: still requests a fabricated generic animation`);
+  }
+}
+
+const carrierBase = read("src/main/java/alku/csrp/entity/CarrierEntity.java");
+if (carrierBase.includes('triggerAnim("attack_controller"')
+    || /ParasiteAnimations\.(?:loop|play)\(this,\s*"(?:walk|attack)"/.test(carrierBase)) {
+  failures.push("CarrierEntity: shared carrier logic still requests fabricated movement or attack clips");
 }
 
 const dredge = read("src/main/java/alku/csrp/entity/DredgeEntity.java");
