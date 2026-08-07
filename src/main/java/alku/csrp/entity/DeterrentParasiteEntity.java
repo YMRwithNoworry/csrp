@@ -79,7 +79,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     private final RawAnimation SENTRY_FAST_ATTACK = ParasiteAnimations.loop(this, "idle.get_parasite_status_2");
     private final RawAnimation SENTRY_SPECIAL = ParasiteAnimations.loop(this, "idle.get_parasite_status_3");
     private final RawAnimation KYPHOSIS_BURIED_ANIM = ParasiteAnimations.loop(this, "idle.get_parasite_status_3");
-    private final RawAnimation KYPHOSIS_SKILL_ANIM = ParasiteAnimations.loop(this, "idle.get_parasite_status_10");
+    private final RawAnimation KYPHOSIS_SKILL_ANIM = ParasiteAnimations.loop(this, "idle.get_parasite_status_3");
 
     private final Kind kind;
     private int abilityCooldown;

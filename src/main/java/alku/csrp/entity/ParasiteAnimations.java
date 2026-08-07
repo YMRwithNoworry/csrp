@@ -61,6 +61,12 @@ final class ParasiteAnimations {
             action = "skill";
         } else if (resourceId.equals("pri_summoner") && action.equals("summon")) {
             action = "run";
+        } else if (resourceId.equals("sim_cow")
+                && action.equals("idle.get_parasite_status_3.get_still_ani_1")) {
+            action = "idle";
+        } else if (resourceId.equals("sim_cow")
+                && action.equals("walk.get_parasite_status_3")) {
+            action = "run";
         } else if (resourceId.equals("ada_arachnida")
                 && action.equals("idle.get_parasite_status_11")) {
             action = "idle.get_parasite_status_3";

@@ -67,9 +67,9 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
     private final RawAnimation VIGILANTE_ATTACK_WALK = ParasiteAnimations.loop(this,
             "walk.get_parasite_status_1");
     private final RawAnimation VIGILANTE_ATTACK2_IDLE = ParasiteAnimations.loop(this,
-            "idle.get_parasite_status_2");
+            "idle.get_parasite_status_1");
     private final RawAnimation VIGILANTE_ATTACK2_WALK = ParasiteAnimations.loop(this,
-            "walk.get_parasite_status_2");
+            "walk.get_parasite_status_1");
     private final RawAnimation VIGILANTE_UNDERGROUND = ParasiteAnimations.loop(this,
             "idle.get_parasite_status_25");
 
