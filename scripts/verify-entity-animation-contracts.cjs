@@ -815,6 +815,9 @@ if (!assimilatedEnderman.includes("class EndermanMeleeGoal extends MeleeAttackGo
 if (!assimilatedEnderman.includes("stillAnimationTicks > STILL_ANIMATION_DELAY_TICKS")) {
   failures.push("AssimilatedEndermanEntity: legacy stillAni delay is not represented");
 }
+if (!assimilatedEnderman.includes('"movement_controller", 0')) {
+  failures.push("AssimilatedEndermanEntity: standing/crawling root poses must switch without deformation blending");
+}
 if (!assimilatedEnderman.includes("Config.variantSpawnChance()")
     || !assimilatedEnderman.includes("EntityDimensions.scalable(0.95F, 1.25F)")) {
   failures.push("AssimilatedEndermanEntity: original crawling variant spawn or dimensions are missing");

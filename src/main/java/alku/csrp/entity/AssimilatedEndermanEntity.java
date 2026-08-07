@@ -365,7 +365,9 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, state ->
+        // Crawling rotates the original root model by roughly 90 degrees on X and 180 on Z.
+        // The legacy model switched this pose immediately; blending from standing deforms the spawn pose.
+        controllers.add(new AnimationController<>(this, "movement_controller", 0, state ->
                 state.setAndContinue(originalAnimations.get(animationFunction(
                         ParasiteAnimations.isMoving(this, state.isMoving()))))));
     }
