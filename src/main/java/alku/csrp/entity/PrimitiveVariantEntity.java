@@ -49,38 +49,58 @@ import java.util.EnumSet;
 public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
     private static final EntityDataAccessor<Integer> REEKER_CHARGE_STATE = SynchedEntityData.defineId(
             PrimitiveVariantEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> SPECIAL_ANIMATION_TICKS = SynchedEntityData.defineId(
+            PrimitiveVariantEntity.class, EntityDataSerializers.INT);
     private static final int REEKER_CHARGE_NONE = 0;
     private static final int REEKER_CHARGE_WINDUP = 1;
     private static final int REEKER_CHARGING = 2;
     private static final int REEKER_WINDUP_TICKS = 20;
     private static final int REEKER_CHARGE_TICKS = 40;
 
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
-    private final RawAnimation FLY = ParasiteAnimations.loop(this, "fly");
-    private final RawAnimation DIG = ParasiteAnimations.loop(this, "func_78087_a.getDigging");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
-    private final RawAnimation DEVOURER_IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation DEVOURER_MOVEMENT = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation DEVOURER_ATTACK = ParasiteAnimations.play(this, "attack");
-    private final RawAnimation REEKER_WINDUP = ParasiteAnimations.loop(
-            this, "idle.get_parasite_status_3.get_still_ani_1");
-    private final RawAnimation REEKER_CHARGE = ParasiteAnimations.loop(this, "walk.get_parasite_status_3");
-    private final RawAnimation[] BODY_IDLE = {
-            ParasiteAnimations.loop(this, "idle"),
-            ParasiteAnimations.loop(this, "idle.get_body_number_1"),
-            ParasiteAnimations.loop(this, "idle.get_body_number_2")
-    };
-    private final RawAnimation[] BODY_DIG = {
-            DIG,
-            ParasiteAnimations.loop(this, "get_dig_model.get_body_number_1.get_digging_1"),
-            ParasiteAnimations.loop(this, "get_dig_model.get_body_number_2.get_digging_1")
-    };
+    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks");
+    private final RawAnimation LIMB_SWING = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing");
+    private final RawAnimation AGE_STATUS_1 = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_1");
+    private final RawAnimation LIMB_STATUS_1 = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_1");
+    private final RawAnimation LIMB_STATUS_2 = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_2");
+    private final RawAnimation LIMB_STATUS_3 = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_3");
+    private final RawAnimation AGE_STATUS_3_STILL = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_3.get_still_ani_1");
+    private final RawAnimation AGE_STATUS_3 = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_3");
+    private final RawAnimation AGE_BODY_05 = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_body_number_0_5");
+    private final RawAnimation AGE_BODY_1 = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_body_number_1");
+    private final RawAnimation AGE_DEVOURER_STATUS_1 = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_1");
+    private final RawAnimation DIG = ParasiteAnimations.loop(this,
+            "get_dig_model.get_digging_1");
+    private final RawAnimation DIG_BODY_05 = ParasiteAnimations.loop(this,
+            "get_dig_model.get_body_number_0_5.get_digging_1");
+    private final RawAnimation DIG_BODY_NEG_03 = ParasiteAnimations.loop(this,
+            "get_dig_model.get_body_number_neg_0_3.get_digging_1");
+    private final RawAnimation ATTACK_BODY_NEG_03 = ParasiteAnimations.play(this,
+            "get_attack_timer.get_body_number_neg_0_3");
+    private final RawAnimation ATTACK_BODY_1 = ParasiteAnimations.play(this,
+            "get_attack_timer.get_body_number_1");
+    private final RawAnimation TOZOON_ATTACK = ParasiteAnimations.play(this,
+            "get_attack_timer");
+    private final RawAnimation TOZOON_DIG = ParasiteAnimations.loop(this,
+            "get_dig_model");
+    private final RawAnimation DIG_BODY_1 = ParasiteAnimations.loop(this,
+            "get_dig_model.get_body_number_1.get_digging_1");
+    private final RawAnimation REEKER_WINDUP = AGE_STATUS_3_STILL;
+    private final RawAnimation REEKER_CHARGE = LIMB_STATUS_3;
     private final RawAnimation[] BODY_ATTACK = {
-            ATTACK,
-            ParasiteAnimations.loop(this, "get_attack_timer.get_body_number_1"),
-            ParasiteAnimations.loop(this, "get_attack_timer.get_body_number_2")
+            ATTACK_BODY_NEG_03,
+            ATTACK_BODY_1,
+            ATTACK_BODY_NEG_03
     };
 
     private final Kind kind;
@@ -111,6 +131,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(REEKER_CHARGE_STATE, REEKER_CHARGE_NONE);
+        builder.define(SPECIAL_ANIMATION_TICKS, 0);
     }
 
     public static AttributeSupplier.Builder createAttributes(Kind kind) {
@@ -259,6 +280,10 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
         if (abilityCooldown > 0) {
             abilityCooldown--;
         }
+        int specialTicks = entityData.get(SPECIAL_ANIMATION_TICKS);
+        if (specialTicks > 0) {
+            entityData.set(SPECIAL_ANIMATION_TICKS, specialTicks - 1);
+        }
 
         LivingEntity target = getTarget();
         if (target != null && breaksSoftBlocks(activeKind)) {
@@ -291,7 +316,9 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
         if (!hit || !(entity instanceof LivingEntity target)) {
             return hit;
         }
-        triggerAnim("attack_controller", "attack");
+        if (activeKind() == Kind.TOZOON) {
+            triggerAnim("attack_controller", "get_attack_timer");
+        }
 
         switch (activeKind()) {
             case ARACHNIDA -> target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 80, 0), this);
@@ -328,46 +355,64 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
-        if (activeKind() == Kind.DEVOURER) {
+        if (activeKind() == Kind.TOZOON) {
             controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
-                    .triggerableAnim("attack", DEVOURER_ATTACK));
-        } else {
-            controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
-                    .triggerableAnim("attack", ATTACK));
+                    .triggerableAnim("get_attack_timer", TOZOON_ATTACK));
         }
     }
 
     private PlayState movementAnimation(AnimationState<PrimitiveVariantEntity> state) {
         if (getBodyNumber() > 0) {
-            int body = Math.min(getBodyNumber(), BODY_IDLE.length - 1);
-            if (activeKind() == Kind.TOZOON && isBodyAttackAnimating()) {
+            int body = Math.min(getBodyNumber(), BODY_ATTACK.length - 1);
+            Kind activeKind = activeKind();
+            if (activeKind == Kind.TOZOON && isBodyAttackAnimating()) {
                 return state.setAndContinue(BODY_ATTACK[body]);
             }
-            return state.setAndContinue(isBurrowing() ? BODY_DIG[body] : BODY_IDLE[body]);
+            if (activeKind == Kind.BURROWER) {
+                return state.setAndContinue(isBurrowing() ? DIG_BODY_05 : AGE_BODY_05);
+            }
+            return state.setAndContinue(isBurrowing()
+                    ? body == 1 ? DIG_BODY_1 : DIG_BODY_NEG_03
+                    : body == 1 ? AGE_BODY_1 : AGE_IN_TICKS);
         }
         if (supportsBurrowing() && isBurrowing()) {
-            return state.setAndContinue(DIG);
+            return state.setAndContinue(activeKind() == Kind.TOZOON ? TOZOON_DIG : DIG);
         }
         if (activeKind() == Kind.YELLOWEYE) {
-            return state.setAndContinue(FLY);
+            return state.setAndContinue(AGE_IN_TICKS);
         }
         if (activeKind() == Kind.DEVOURER) {
-            if (ParasiteAnimations.isMoving(this, state.isMoving())) {
-                return state.setAndContinue(DEVOURER_MOVEMENT);
-            }
-            return state.setAndContinue(DEVOURER_IDLE);
+            LivingEntity target = getTarget();
+            return state.setAndContinue(target != null && target.isAlive()
+                    ? AGE_DEVOURER_STATUS_1 : AGE_IN_TICKS);
+        }
+        boolean moving = ParasiteAnimations.isMoving(this, state.isMoving());
+        if (activeKind() == Kind.ARACHNIDA && entityData.get(SPECIAL_ANIMATION_TICKS) > 0) {
+            return state.setAndContinue(AGE_STATUS_3);
         }
         if (activeKind() == Kind.REEKER) {
             return switch (entityData.get(REEKER_CHARGE_STATE)) {
                 case REEKER_CHARGE_WINDUP -> state.setAndContinue(REEKER_WINDUP);
                 case REEKER_CHARGING -> state.setAndContinue(REEKER_CHARGE);
-                default -> state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving()) ? WALK : IDLE);
+                default -> state.setAndContinue(selectGroundAnimation(moving));
             };
         }
-        if (!ParasiteAnimations.isMoving(this, state.isMoving())) {
-            return state.setAndContinue(IDLE);
+        if (activeKind() == Kind.BOLSTER) {
+            return state.setAndContinue(moving ? LIMB_SWING : AGE_IN_TICKS);
         }
-        return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() > 0.02D ? RUN : WALK);
+        return state.setAndContinue(selectGroundAnimation(moving));
+    }
+
+    private RawAnimation selectGroundAnimation(boolean moving) {
+        LivingEntity target = getTarget();
+        boolean combat = target != null && target.isAlive();
+        if (moving && getDeltaMovement().horizontalDistanceSqr() > 0.02D) {
+            return LIMB_STATUS_2;
+        }
+        if (combat) {
+            return moving ? LIMB_STATUS_1 : AGE_STATUS_1;
+        }
+        return moving ? LIMB_SWING : AGE_IN_TICKS;
     }
 
     private void breakSoftBlockTowards(LivingEntity target) {
@@ -518,7 +563,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
                 target.push(pull.x, 0.10D, pull.z);
             }
             fireWebProjectile(target, 0);
-            triggerAnim("attack_controller", "attack");
+            entityData.set(SPECIAL_ANIMATION_TICKS, 20);
             abilityCooldown = 80;
         }
     }
@@ -545,7 +590,6 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
                 ally.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 600, 1), PrimitiveVariantEntity.this);
                 ally.clearFire();
             }
-            triggerAnim("attack_controller", "attack");
             abilityCooldown = 600;
         }
     }
@@ -578,7 +622,6 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
                 direction = direction.normalize();
                 setDeltaMovement(direction.x * 0.65D, 0.45D, direction.z * 0.65D);
             }
-            triggerAnim("attack_controller", "attack");
             abilityCooldown = 90;
         }
     }
@@ -690,7 +733,6 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
             getLookControl().setLookAt(target, 30.0F, 30.0F);
             boolean acid = ++rangedShots % 4 == 0;
             fireYelloweyeProjectile(target, acid);
-            triggerAnim("attack_controller", "attack");
             abilityCooldown = acid ? 80 : 30;
         }
     }

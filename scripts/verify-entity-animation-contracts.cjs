@@ -42,7 +42,26 @@ const currentExpected = {
   pri_vermin: ["func_78087_a.age_in_ticks"],
   pri_viscera: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
     "func_78087_a.age_in_ticks.get_parasite_status_1", "func_78087_a.limb_swing.get_parasite_status_1",
-    "func_78087_a.limb_swing.get_parasite_status_2"]
+    "func_78087_a.limb_swing.get_parasite_status_2"],
+  pri_arachnida: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1", "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_2", "func_78087_a.age_in_ticks.get_parasite_status_3"],
+  pri_bolster: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing"],
+  pri_burrower: ["func_78087_a.age_in_ticks", "get_dig_model.get_digging_1",
+    "func_78087_a.age_in_ticks.get_body_number_0_5", "get_dig_model.get_body_number_0_5.get_digging_1"],
+  pri_devourer: ["func_78087_a.age_in_ticks", "func_78087_a.age_in_ticks.get_parasite_status_1"],
+  pri_manducater: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1", "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_2"],
+  pri_reeker: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1", "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_2", "func_78087_a.limb_swing.get_parasite_status_3",
+    "func_78087_a.age_in_ticks.get_parasite_status_3.get_still_ani_1"],
+  pri_tozoon: ["func_78087_a.age_in_ticks", "get_attack_timer.get_body_number_neg_0_3",
+    "get_dig_model.get_body_number_neg_0_3.get_digging_1", "get_attack_timer", "get_dig_model",
+    "get_dig_model.get_digging_1", "func_78087_a.age_in_ticks.get_body_number_1",
+    "get_attack_timer.get_body_number_1", "get_dig_model.get_body_number_1.get_digging_1"],
+  pri_yelloweye: ["func_78087_a.age_in_ticks"]
 };
 
 function resolvedAnimationKey(id, requestedAction) {
@@ -240,19 +259,14 @@ for (const match of registrations.matchAll(
 }
 
 const sharedVariantActions = {
-  pri_arachnida: ["idle", "walk", "run", "attack"],
-  pri_bolster: ["idle", "walk", "run", "attack"],
-  pri_burrower: ["idle", "func_78087_a.getDigging", "attack", "idle.get_body_number_1",
-    "idle.get_body_number_2", "get_dig_model.get_body_number_1.get_digging_1",
-    "get_dig_model.get_body_number_2.get_digging_1"],
-  pri_devourer: ["idle", "walk", "attack"],
-  pri_manducater: ["idle", "walk", "run", "attack"],
-  pri_reeker: ["idle", "walk", "attack", "idle.get_parasite_status_3.get_still_ani_1",
-    "walk.get_parasite_status_3"],
-  pri_tozoon: ["idle", "func_78087_a.getDigging", "attack", "idle.get_body_number_1",
-    "idle.get_body_number_2", "get_attack_timer.get_body_number_1", "get_attack_timer.get_body_number_2",
-    "get_dig_model.get_body_number_1.get_digging_1", "get_dig_model.get_body_number_2.get_digging_1"],
-  pri_yelloweye: ["fly", "attack"],
+  pri_arachnida: currentExpected.pri_arachnida,
+  pri_bolster: currentExpected.pri_bolster,
+  pri_burrower: currentExpected.pri_burrower,
+  pri_devourer: currentExpected.pri_devourer,
+  pri_manducater: currentExpected.pri_manducater,
+  pri_reeker: currentExpected.pri_reeker,
+  pri_tozoon: currentExpected.pri_tozoon,
+  pri_yelloweye: currentExpected.pri_yelloweye,
   ada_arachnida: ["idle", "walk", "attack", "walk.get_parasite_status_1",
     "walk.get_parasite_status_2", "idle.get_parasite_status_3", "idle.get_parasite_status_11"],
   ada_bolster: ["idle", "walk", "attack", "idle.get_parasite_status_3",
@@ -426,6 +440,17 @@ if (/isMoving\([^)]*\)[\s\S]{0,120}getDeltaMovement\(\)\.lengthSqr/.test(helper)
 const primitiveVariants = read("src/main/java/alku/csrp/entity/PrimitiveVariantEntity.java");
 if (/getTarget\(\) != null \|\| ParasiteAnimations\.isMoving/.test(primitiveVariants)) {
   failures.push("Primitive devourer still walks in place merely because it has a target");
+}
+const primitiveIds = ["pri_arachnida", "pri_bolster", "pri_burrower", "pri_devourer",
+  "pri_manducater", "pri_reeker", "pri_tozoon", "pri_yelloweye"];
+for (const action of new Set(primitiveIds.flatMap((id) => currentExpected[id]))) {
+  if (!primitiveVariants.includes(`"${action}"`)) {
+    failures.push(`PrimitiveVariantEntity: original runtime animation ${action} is not wired`);
+  }
+}
+if (/ParasiteAnimations\.(?:loop|play)\(this,\s*"(?:idle|walk|run|fly|attack)"/.test(primitiveVariants)
+    || primitiveVariants.includes('triggerAnim("attack_controller", "attack")')) {
+  failures.push("PrimitiveVariantEntity: still requests fabricated generic primitive animations");
 }
 const vigile = read("src/main/java/alku/csrp/entity/VigileEntity.java");
 if (!vigile.includes("!ParasiteAnimations.isMoving(this, state.isMoving())")) {
@@ -824,7 +849,6 @@ if (hostII.includes('triggerableAnim("attack"') || hostII.includes('triggerAnim(
 }
 
 const triggeredFamilies = [
-  ["PrimitiveVariantEntity.java", "attack_controller"],
   ["AdaptedVariantEntity.java", "bolster_attack_controller"],
   ["AssimilatedVariantEntity.java", "attack_controller"],
   ["AssimilatedParasiteEntity.java", "attack_controller"],
