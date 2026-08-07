@@ -31,6 +31,10 @@ import software.bernie.geckolib.animation.RawAnimation;
 import java.util.EnumSet;
 
 public final class DraconiteEntity extends DerivedParasiteEntity {
+    private static final int STATUS_IDLE = 0;
+    private static final int STATUS_COMBAT = 1;
+    private static final int STATUS_FLIGHT_TRANSITION = 3;
+    private static final int STATUS_FLAME = 10;
     private static final int FIRE_BREATH_DURATION_TICKS = 60;
     private static final int FIRE_BREATH_COOLDOWN_TICKS = 180;
     private static final int FIRE_BREATH_SHOT_INTERVAL_TICKS = 10;
@@ -41,6 +45,8 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
 
     private static final EntityDataAccessor<Boolean> FLYING =
             SynchedEntityData.defineId(DraconiteEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> PARASITE_STATUS =
+            SynchedEntityData.defineId(DraconiteEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> FIRE_BREATH_TICKS =
             SynchedEntityData.defineId(DraconiteEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<BlockPos> FIRE_BREATH_TARGET =
@@ -58,17 +64,33 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
     private final RawAnimation CLONE_WALK = ParasiteAnimations.loop(this, "walk.get_clone_c_1");
     private final RawAnimation SHAKING_IDLE = ParasiteAnimations.loop(this, "idle.shaking_c_1");
     private final RawAnimation SHAKING_WALK = ParasiteAnimations.loop(this, "walk.shaking_c_1");
+    private final RawAnimation COMBAT_IDLE = ParasiteAnimations.loop(this,
+            "idle.get_parasite_status_1");
+    private final RawAnimation COMBAT_WALK = ParasiteAnimations.loop(this,
+            "walk.get_parasite_status_1");
+    private final RawAnimation COMBAT_SHAKING_IDLE = ParasiteAnimations.loop(this,
+            "idle.get_parasite_status_1.shaking_c_1");
+    private final RawAnimation COMBAT_SHAKING_WALK = ParasiteAnimations.loop(this,
+            "walk.get_parasite_status_1.shaking_c_1");
     private final RawAnimation CLONE_SHAKING_IDLE = ParasiteAnimations.loop(
             this, "idle.get_clone_c_1.shaking_c_1");
     private final RawAnimation CLONE_SHAKING_WALK = ParasiteAnimations.loop(
             this, "walk.get_clone_c_1.shaking_c_1");
-    private final RawAnimation FIRE_BREATH = ParasiteAnimations.loop(this,
+    private final RawAnimation CLONE_COMBAT_IDLE = ParasiteAnimations.loop(this,
+            "idle.get_clone_c_1.get_parasite_status_1");
+    private final RawAnimation CLONE_COMBAT_WALK = ParasiteAnimations.loop(this,
+            "walk.get_clone_c_1.get_parasite_status_1");
+    private final RawAnimation CLONE_COMBAT_SHAKING_IDLE = ParasiteAnimations.loop(this,
+            "idle.get_clone_c_1.get_parasite_status_1.shaking_c_1");
+    private final RawAnimation CLONE_COMBAT_SHAKING_WALK = ParasiteAnimations.loop(this,
+            "walk.get_clone_c_1.get_parasite_status_1.shaking_c_1");
+    private final RawAnimation FLAME_IDLE = ParasiteAnimations.loop(this,
             "idle.get_parasite_status_3");
-    private final RawAnimation FIRE_BREATH_SHAKING = ParasiteAnimations.loop(this,
+    private final RawAnimation FLAME_SHAKING_IDLE = ParasiteAnimations.loop(this,
             "idle.get_parasite_status_3.shaking_c_1");
-    private final RawAnimation CLONE_FIRE_BREATH = ParasiteAnimations.loop(this,
+    private final RawAnimation CLONE_FLAME_IDLE = ParasiteAnimations.loop(this,
             "idle.get_clone_c_1.get_parasite_status_3");
-    private final RawAnimation CLONE_FIRE_BREATH_SHAKING = ParasiteAnimations.loop(this,
+    private final RawAnimation CLONE_FLAME_SHAKING_IDLE = ParasiteAnimations.loop(this,
             "idle.get_clone_c_1.get_parasite_status_3.shaking_c_1");
 
     private int salivaCooldown = 40;
@@ -101,6 +123,7 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(FLYING, false);
+        builder.define(PARASITE_STATUS, STATUS_IDLE);
         builder.define(FIRE_BREATH_TICKS, 0);
         builder.define(FIRE_BREATH_TARGET, BlockPos.ZERO);
         builder.define(METEOR_TICKS, 0);
@@ -138,6 +161,9 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
         switchFlightMode();
         LivingEntity target = getTarget();
         if (target == null || !target.isAlive()) {
+            if (!isFlying()) {
+                setParasiteStatus(STATUS_IDLE);
+            }
             return;
         }
 
@@ -191,6 +217,7 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
 
     private void beginFireBreath(LivingEntity target) {
         triggerAnim("attack_controller", "attack");
+        setParasiteStatus(STATUS_FLAME);
         fireBreathTicks = FIRE_BREATH_DURATION_TICKS;
         fireBreathTarget = targetBlock(target);
         entityData.set(FIRE_BREATH_TICKS, fireBreathTicks);
@@ -216,6 +243,7 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
             fireBreathTarget = BlockPos.ZERO;
             entityData.set(FIRE_BREATH_TARGET, BlockPos.ZERO);
             fireBreathCooldown = FIRE_BREATH_COOLDOWN_TICKS;
+            setParasiteStatus(STATUS_IDLE);
         }
         return true;
     }
@@ -342,8 +370,20 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
     }
 
     private void setFlying(boolean flying) {
+        if (isFlying() == flying) {
+            return;
+        }
+        setParasiteStatus(flying ? STATUS_FLIGHT_TRANSITION : STATUS_IDLE);
         entityData.set(FLYING, flying);
         setNoGravity(flying);
+    }
+
+    private int getParasiteStatus() {
+        return entityData.get(PARASITE_STATUS);
+    }
+
+    private void setParasiteStatus(int status) {
+        entityData.set(PARASITE_STATUS, status);
     }
 
     @Override
@@ -360,6 +400,7 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putBoolean("flying", isFlying());
+        tag.putInt("parasite_status", getParasiteStatus());
         tag.putInt("saliva_cooldown", salivaCooldown);
         tag.putInt("meteor_cooldown", meteorCooldown);
         tag.putInt("light_cooldown", lightCooldown);
@@ -374,6 +415,8 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         setFlying(tag.getBoolean("flying"));
+        setParasiteStatus(tag.contains("parasite_status")
+                ? tag.getInt("parasite_status") : STATUS_IDLE);
         salivaCooldown = tag.contains("saliva_cooldown") ? tag.getInt("saliva_cooldown")
                 : tag.getInt("toxic_cloud_cooldown");
         meteorCooldown = tag.getInt("meteor_cooldown");
@@ -393,24 +436,41 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
-            if (entityData.get(FIRE_BREATH_TICKS) > 0) {
+            if (isFlying()) {
+                return state.setAndContinue(FLY);
+            }
+            boolean moving = ParasiteAnimations.isMoving(this, state.isMoving());
+            if (getParasiteStatus() == STATUS_FLAME) {
                 if (isShadowClone()) {
                     return state.setAndContinue(isShadowHitFlashing()
-                            ? CLONE_FIRE_BREATH_SHAKING : CLONE_FIRE_BREATH);
+                            ? CLONE_FLAME_SHAKING_IDLE : CLONE_FLAME_IDLE);
                 }
-                return state.setAndContinue(isShadowHitFlashing() ? FIRE_BREATH_SHAKING : FIRE_BREATH);
+                return state.setAndContinue(isShadowHitFlashing() ? FLAME_SHAKING_IDLE : FLAME_IDLE);
+            }
+            if (getParasiteStatus() == STATUS_COMBAT) {
+                if (isShadowClone()) {
+                    if (isShadowHitFlashing()) {
+                        return state.setAndContinue(moving
+                                ? CLONE_COMBAT_SHAKING_WALK : CLONE_COMBAT_SHAKING_IDLE);
+                    }
+                    return state.setAndContinue(moving ? CLONE_COMBAT_WALK : CLONE_COMBAT_IDLE);
+                }
+                if (isShadowHitFlashing()) {
+                    return state.setAndContinue(moving
+                            ? COMBAT_SHAKING_WALK : COMBAT_SHAKING_IDLE);
+                }
+                return state.setAndContinue(moving ? COMBAT_WALK : COMBAT_IDLE);
             }
             if (isShadowClone()) {
                 if (isShadowHitFlashing()) {
-                    return state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving()) ? CLONE_SHAKING_WALK : CLONE_SHAKING_IDLE);
+                    return state.setAndContinue(moving ? CLONE_SHAKING_WALK : CLONE_SHAKING_IDLE);
                 }
-                return state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving()) ? CLONE_WALK : CLONE_IDLE);
+                return state.setAndContinue(moving ? CLONE_WALK : CLONE_IDLE);
             }
             if (isShadowHitFlashing()) {
-                return state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving()) ? SHAKING_WALK : SHAKING_IDLE);
+                return state.setAndContinue(moving ? SHAKING_WALK : SHAKING_IDLE);
             }
-            if (isFlying()) return state.setAndContinue(FLY);
-            return state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving()) ? WALK : IDLE);
+            return state.setAndContinue(moving ? WALK : IDLE);
         }));
         controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
                 software.bernie.geckolib.animation.PlayState.STOP).triggerableAnim("attack", ATTACK));
@@ -439,12 +499,20 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
             if (isFlying()) {
                 getMoveControl().setWantedPosition(target.getX(), target.getY() + 4.0D, target.getZ(), 1.0D);
             } else if (fireBreathTicks <= 0 && meteorRainTicks <= 0) {
+                setParasiteStatus(STATUS_COMBAT);
                 getNavigation().moveTo(target, 1.1D);
             }
             if (attackCooldown > 0) attackCooldown--;
             if (distanceToSqr(target) < 16.0D && attackCooldown <= 0) {
                 doHurtTarget(target);
                 attackCooldown = 20;
+            }
+        }
+
+        @Override
+        public void stop() {
+            if (!isFlying() && fireBreathTicks <= 0) {
+                setParasiteStatus(STATUS_IDLE);
             }
         }
     }
