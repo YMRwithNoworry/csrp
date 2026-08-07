@@ -3,6 +3,7 @@ package alku.csrp.entity;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import software.bernie.geckolib.animation.RawAnimation;
 
 /** Resolves the fully-qualified animation names emitted by the SRP extractor. */
@@ -20,13 +21,19 @@ final class ParasiteAnimations {
 
     /** Navigation and velocity can remain active while a mob is blocked; require actual tick displacement. */
     static boolean isMoving(Entity entity, boolean animationMoving) {
-        if (!animationMoving) {
+        if (!animationMoving || isAttacking(entity)) {
             return false;
         }
         double deltaX = entity.getX() - entity.xo;
         double deltaY = entity.getY() - entity.yo;
         double deltaZ = entity.getZ() - entity.zo;
         return deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ > 1.0E-6D;
+    }
+
+    /** Attack poses take priority over locomotion even when the mob keeps sliding toward its target. */
+    static boolean isAttacking(Entity entity) {
+        return entity instanceof LivingEntity living
+                && (living.swinging || living.getAttackAnim(1.0F) > 0.0F);
     }
 
     private static String animationName(Entity entity, String requestedAction) {

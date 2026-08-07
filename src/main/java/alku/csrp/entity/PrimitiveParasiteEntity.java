@@ -22,6 +22,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.Difficulty;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -33,7 +35,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
@@ -355,6 +356,9 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     public boolean doHurtTarget(Entity target) {
         boolean hit = !(target instanceof Parasite) && super.doHurtTarget(target);
         if (hit) {
+            if (!swinging) {
+                swing(InteractionHand.MAIN_HAND);
+            }
             spawnAttackParticles(target);
         }
         return hit;

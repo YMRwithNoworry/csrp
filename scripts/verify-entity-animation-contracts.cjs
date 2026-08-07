@@ -1257,6 +1257,18 @@ for (const [file, controller] of triggeredFamilies) {
   }
 }
 
+const animationRouter = read("src/main/java/alku/csrp/entity/ParasiteAnimations.java");
+if (!animationRouter.includes("!animationMoving || isAttacking(entity)")
+    || !animationRouter.includes("living.swinging || living.getAttackAnim(1.0F) > 0.0F")) {
+  failures.push("ParasiteAnimations: attack state does not take priority over locomotion");
+}
+
+const primitiveBase = read("src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java");
+if (!primitiveBase.includes("if (!swinging)")
+    || !primitiveBase.includes("swing(InteractionHand.MAIN_HAND)")) {
+  failures.push("PrimitiveParasiteEntity: successful custom melee hits do not synchronize the attack window");
+}
+
 if (failures.length) {
   console.error(`Entity animation contract verification failed (${failures.length}):`);
   failures.forEach((failure) => console.error(`- ${failure}`));
