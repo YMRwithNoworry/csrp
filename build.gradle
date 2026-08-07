@@ -99,9 +99,6 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 dependencies {
     implementation("com.lowdragmc.ldlib2:ldlib2-neoforge-${minecraft_version}:${ldlib2_version}:all")
-    implementation("com.lowdragmc.photon:photon-neoforge-${minecraft_version}:${photon_version}") {
-        transitive = false
-    }
     implementation("software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}")
 
     // Example mod dependency with JEI
@@ -139,7 +136,6 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
                              mod_license            : mod_license,
                              mod_version            : mod_version,
                              ldlib2_version         : ldlib2_version,
-                             photon_version         : photon_version,
                              mod_authors            : mod_authors,
                              mod_description        : mod_description,
                              geckolib_version       : geckolib_version]

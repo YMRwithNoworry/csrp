@@ -75,16 +75,8 @@ side = "BOTH"
 [[dependencies."${mod_id}"]]
 modId = "ldlib2"
 type = "required"
-reason = "CSRP uses LDLib2 as its library framework."
+reason = "CSRP uses LDLib2 for its credits interface."
 versionRange = "[${ldlib2_version},)"
-ordering = "AFTER"
-side = "BOTH"
-
-[[dependencies."${mod_id}"]]
-modId = "photon"
-type = "required"
-reason = "CSRP uses Photon for parasite death effects."
-versionRange = "[${photon_version},)"
 ordering = "AFTER"
 side = "BOTH"
 

@@ -6437,5 +6437,31 @@
     "sounds": [
       "csrp:block/lure/carcass"
     ]
+  },
+  "mob.shoot": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:unvo_shooting"
+    ]
+  },
+  "adapted.dig": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:mob/dig/digging1",
+      "csrp:mob/dig/digging2",
+      "csrp:mob/dig/digging3"
+    ]
+  },
+  "attack.throw": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:sentryshoot"
+    ]
+  },
+  "parasite.melt": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:mob/crude/flesh/infected_melting"
+    ]
   }
 }
