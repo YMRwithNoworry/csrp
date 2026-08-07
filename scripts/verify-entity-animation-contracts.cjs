@@ -78,6 +78,17 @@ for (const match of registrations.matchAll(/monster\("([a-z0-9_]+)",\s*(\w+)::ne
     if (!(key in animations)) failures.push(`${id}/${className}: unresolved requested animation ${key}`);
   }
 }
+for (const match of registrations.matchAll(
+  /ENTITIES\.register\("([a-z0-9_]+)",[\s\S]{0,400}?EntityType\.Builder(?:\.<[^>]+>)?\.of\((\w+)::new/g
+)) {
+  const [, id, className] = match;
+  const source = read(`src/main/java/alku/csrp/entity/${className}.java`);
+  const animations = JSON.parse(read(`src/main/resources/assets/csrp/animations/${id}.animation.json`)).animations;
+  for (const request of source.matchAll(/ParasiteAnimations\.(?:loop|play)\(this,\s*"([a-zA-Z0-9_.]+)"/g)) {
+    const key = resolvedAnimationKey(id, request[1]);
+    if (!(key in animations)) failures.push(`${id}/${className}: unresolved requested animation ${key}`);
+  }
+}
 
 const sharedVariantActions = {
   pri_arachnida: ["idle", "walk", "run", "attack"],
@@ -199,4 +210,4 @@ if (failures.length) {
 }
 
 console.log(`Verified extracted animation contracts for all ${all.length} legacy bestiary entities.`);
-console.log("Verified direct animation keys, burrower/Kirin mappings, and shared-family attack triggers.");
+console.log("Verified registered entity requests, shared-family state functions, and server attack triggers.");
