@@ -39,17 +39,19 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity {
     private final double viralRadius;
     private final int viralAmplifier;
     private final int cloudDuration;
+    private final int vomitDuration;
     private int fuseTicks = -1;
     private boolean detonated;
 
     protected CarrierEntity(EntityType<? extends CarrierEntity> type, Level level, int fuseTime, int residueRadius,
-            double viralRadius, int viralAmplifier, int cloudDuration) {
+            double viralRadius, int viralAmplifier, int cloudDuration, int vomitDuration) {
         super(type, level);
         this.fuseTime = fuseTime;
         this.residueRadius = residueRadius;
         this.viralRadius = viralRadius;
         this.viralAmplifier = viralAmplifier;
         this.cloudDuration = cloudDuration;
+        this.vomitDuration = vomitDuration;
     }
 
     @Override
@@ -189,6 +191,8 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity {
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
                 getBoundingBox().inflate(viralRadius), this::isValidParasiteTarget)) {
             target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 400, viralAmplifier), this);
+            target.addEffect(new MobEffectInstance(ModMobEffects.VOMIT, vomitDuration, 0,
+                    false, true), this);
         }
     }
 

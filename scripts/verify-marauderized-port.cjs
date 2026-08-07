@@ -42,6 +42,7 @@ const bear = read("src/main/java/alku/csrp/entity/MarauderizedBearEntity.java");
 const cow = read("src/main/java/alku/csrp/entity/MarauderizedCowEntity.java");
 const enderman = read("src/main/java/alku/csrp/entity/MarauderizedEndermanEntity.java");
 const human = read("src/main/java/alku/csrp/entity/MarauderizedHumanEntity.java");
+const combat = read("src/main/java/alku/csrp/entity/ParasiteCombatEffects.java");
 const tetherRenderer = read("src/main/java/alku/csrp/client/renderer/TetheredMarauderizedRenderer.java");
 
 for (const [source, hooks] of [
@@ -49,7 +50,9 @@ for (const [source, hooks] of [
     '"age_controller"', "ParasiteAnimations.isMoving(this, state.isMoving())"]],
   [tethered, ["pullDurationTicks", "tetherDamage", "initialWeaknessAmplifier", "getPullTargetForRendering"]],
   [bear, ["PullVolleyGoal", "PullingBallEntity", "startAttackAnimation"]],
-  [cow, ["VOMIT_EVENT", "ModMobEffects.VIRAL, 300, 20", "ModMobEffects.CORROSION, 300, 20", "startAttackAnimation"]],
+  [cow, ["VOMIT_EVENT", "spawnVomitCloud(this, 4.5D, 3.0F, 100, 300, 20)", "startAttackAnimation"]],
+  [combat, ["ModMobEffects.VOMIT", "ModMobEffects.VIRAL", "MobEffects.MOVEMENT_SLOWDOWN",
+    "MobEffects.WEAKNESS", "ModMobEffects.CORROSION"]],
   [enderman, ["ParticleTypes.PORTAL", "DamageTypeTags.IS_PROJECTILE", "teleportAwayFromTarget", "pullStrength", "tetherDamage"]],
   [human, ["PounceMountGoal", "startRiding", "MobEffects.BLINDNESS", "MobEffects.HUNGER"]],
   [tetherRenderer, ["RenderType.lightning()", "getPullTargetForRendering", "renderRibbonSegment"]]

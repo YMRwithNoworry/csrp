@@ -36,13 +36,14 @@ expect(shared, /super\.die\(damageSources\(\)\.mobAttack\(this\)\);\s*discard\(\
 expect(shared, /AreaEffectCloud/, "carrier lingering cloud is missing");
 expect(shared, /ModMobEffects\.COTH/, "carrier COTH cloud effect is missing");
 expect(shared, /ModMobEffects\.VIRAL/, "carrier viral cloud effect is missing");
+expect(shared, /ModMobEffects\.VOMIT, vomitDuration, 0/, "carrier explosion vomit effect is missing");
 expect(shared, /this::isValidParasiteTarget/, "carrier effects must exclude parasite targets");
-expect(shared, /ModBlocks\.RESIDUE_PLANTS/, "carrier residue placement is missing");
+expect(shared, /ModBlocks\.INFESTED_REMAINS/, "carrier Infested Residue placement is missing");
 
 const carriers = {
-  carrier_heavy: ["CarrierHeavyEntity.java", /super\(type, level, 70, 6, 7\.0, 1, 1200\)/],
-  carrier_light: ["CarrierLightEntity.java", /super\(type, level, 70, 3, 7\.0, 1, 300\)/],
-  carrier_flying: ["CarrierFlyingEntity.java", /super\(type, level, 30, 0, 4\.0, 0, 300\)/]
+  carrier_heavy: ["CarrierHeavyEntity.java", /super\(type, level, 70, 6, 7\.0, 1, 1200, 600\)/],
+  carrier_light: ["CarrierLightEntity.java", /super\(type, level, 70, 3, 7\.0, 1, 300, 500\)/],
+  carrier_flying: ["CarrierFlyingEntity.java", /super\(type, level, 30, 0, 4\.0, 0, 300, 400\)/]
 };
 
 for (const [id, [javaFile, behavior]] of Object.entries(carriers)) {

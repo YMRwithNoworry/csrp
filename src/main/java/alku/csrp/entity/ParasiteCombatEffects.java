@@ -7,8 +7,11 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.Vec3;
 
 /** Shared damage-based status calculations used by legacy parasite tiers. */
 final class ParasiteCombatEffects {
@@ -46,5 +49,27 @@ final class ParasiteCombatEffects {
         float reduction = Mth.clamp((float) Config.parasiteKillingReduction()
                 * (resistance.getAmplifier() + 1), 0.0F, 0.95F);
         return Math.max(0.0F, amount * (1.0F - reduction));
+    }
+
+    static void spawnVomitCloud(LivingEntity owner, double forwardDistance, float radius,
+                                int cloudDuration, int effectDuration, int severeAmplifier) {
+        Vec3 direction = owner.getViewVector(1.0F);
+        AreaEffectCloud cloud = new AreaEffectCloud(owner.level(),
+                owner.getX() + direction.x * forwardDistance, owner.getY(),
+                owner.getZ() + direction.z * forwardDistance);
+        cloud.setOwner(owner);
+        cloud.setRadius(radius);
+        cloud.setDuration(cloudDuration);
+        cloud.setRadiusPerTick(-radius / cloudDuration);
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.VOMIT, effectDuration, 0, false, true));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, effectDuration,
+                severeAmplifier, false, true));
+        cloud.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, effectDuration,
+                severeAmplifier, false, true));
+        cloud.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, effectDuration,
+                severeAmplifier, false, true));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.CORROSION, effectDuration,
+                severeAmplifier, false, true));
+        owner.level().addFreshEntity(cloud);
     }
 }

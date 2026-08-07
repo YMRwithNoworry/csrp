@@ -1,13 +1,9 @@
 package alku.csrp.entity;
 
 import alku.csrp.registry.ModEntities;
-import alku.csrp.registry.ModMobEffects;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -80,19 +76,7 @@ public final class MarauderizedCowEntity extends MarauderizedParasiteEntity {
     }
 
     private void spitVomit(LivingEntity target) {
-        Vec3 direction = getViewVector(1.0F);
-        AreaEffectCloud cloud = new AreaEffectCloud(level(), getX() + direction.x * 4.5D, getY(),
-                getZ() + direction.z * 4.5D);
-        cloud.setOwner(this);
-        cloud.setRadius(3.0F);
-        cloud.setDuration(100);
-        cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 300, 0, false, true));
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 300, 20, false, true));
-        cloud.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 300, 20, false, true));
-        cloud.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 300, 20, false, true));
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.CORROSION, 300, 20, false, true));
-        level().addFreshEntity(cloud);
+        ParasiteCombatEffects.spawnVomitCloud(this, 4.5D, 3.0F, 100, 300, 20);
         startAttackAnimation();
         getLookControl().setLookAt(target, 30.0F, 30.0F);
         level().broadcastEntityEvent(this, VOMIT_EVENT);

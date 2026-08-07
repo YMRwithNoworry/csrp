@@ -1,6 +1,7 @@
 package alku.csrp.entity;
 
 import alku.csrp.registry.ModEntities;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -21,6 +22,8 @@ import software.bernie.geckolib.animation.RawAnimation;
 import java.util.EnumSet;
 
 public final class SummonerEntity extends PrimitiveParasiteEntity {
+    private static final byte VOMIT_EVENT = 100;
+    private static final int VOMIT_COOLDOWN_TICKS = 180;
     private static final EntityDataAccessor<Boolean> SUMMONING = SynchedEntityData.defineId(
             SummonerEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> SUMMON_TICKS = SynchedEntityData.defineId(
@@ -40,6 +43,7 @@ public final class SummonerEntity extends PrimitiveParasiteEntity {
             "func_78087_a.age_in_ticks.get_parasite_status_10");
 
     private int summonCooldown = 200;
+    private int vomitTicks;
 
     public SummonerEntity(EntityType<? extends SummonerEntity> type, Level level) {
         super(type, level);
@@ -55,12 +59,37 @@ public final class SummonerEntity extends PrimitiveParasiteEntity {
     @Override protected void registerGoals() {
         super.registerGoals();
         goalSelector.addGoal(1, new SummonGoal());
+        goalSelector.addGoal(2, new VomitGoal());
         goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.3, false));
     }
 
     @Override public void tick() {
         super.tick();
-        if (summonCooldown > 0) summonCooldown--;
+        if (!level().isClientSide && summonCooldown > 0) summonCooldown--;
+        if (level().isClientSide && vomitTicks > 0) {
+            vomitTicks--;
+            spawnVomitParticles();
+        }
+    }
+
+    @Override
+    public void handleEntityEvent(byte id) {
+        if (id == VOMIT_EVENT) {
+            vomitTicks = 40;
+        } else {
+            super.handleEntityEvent(id);
+        }
+    }
+
+    private void spawnVomitParticles() {
+        Vec3 direction = getViewVector(1.0F);
+        Vec3 start = getEyePosition().add(direction.scale(1.2D));
+        for (int index = 0; index < 6; index++) {
+            level().addParticle(ParticleTypes.WITCH, start.x, start.y - 0.2D, start.z,
+                    direction.x * 0.2D + (random.nextDouble() - 0.5D) * 0.25D,
+                    0.01D + random.nextDouble() * 0.1D,
+                    direction.z * 0.2D + (random.nextDouble() - 0.5D) * 0.25D);
+        }
     }
 
     private void summonMinions() {
@@ -165,6 +194,43 @@ public final class SummonerEntity extends PrimitiveParasiteEntity {
             entityData.set(SUMMONING, false);
             entityData.set(SUMMON_TICKS, 0);
             summonCooldown = 200;
+        }
+    }
+
+    private final class VomitGoal extends Goal {
+        private int cooldown;
+
+        private VomitGoal() {
+            setFlags(EnumSet.of(Flag.LOOK));
+        }
+
+        @Override
+        public boolean canUse() {
+            if (cooldown > 0) {
+                cooldown--;
+                return false;
+            }
+            LivingEntity target = getTarget();
+            return !isSummoning() && target != null && target.isAlive() && hasLineOfSight(target)
+                    && distanceToSqr(target) >= 16.0D && distanceToSqr(target) <= 64.0D;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return false;
+        }
+
+        @Override
+        public void start() {
+            LivingEntity target = getTarget();
+            if (target == null) {
+                return;
+            }
+            getLookControl().setLookAt(target, 30.0F, 30.0F);
+            ParasiteCombatEffects.spawnVomitCloud(SummonerEntity.this,
+                    5.5D, 4.0F, 100, 300, 25);
+            level().broadcastEntityEvent(SummonerEntity.this, VOMIT_EVENT);
+            cooldown = VOMIT_COOLDOWN_TICKS;
         }
     }
 }

@@ -60,6 +60,7 @@ import javax.annotation.Nullable;
 
 /** Shared implementation for the legacy adapted parasite tier. */
 public final class AdaptedVariantEntity extends BurrowingVariantEntity implements PullingBallOwner {
+    private static final byte VOMIT_EVENT = 100;
     private static final EntityDataAccessor<Integer> BOLSTER_VARIANT = SynchedEntityData.defineId(
             AdaptedVariantEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> BOLSTER_ACTION = SynchedEntityData.defineId(
@@ -169,6 +170,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
 
     private final Kind kind;
     private int abilityCooldown;
+    private int summonerVomitTicks;
     private int supportCooldown;
     private int secondaryCooldown;
     private int blockBreakCooldown;
@@ -462,6 +464,10 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
             setNoGravity(true);
         }
         if (level().isClientSide) {
+            if (activeKind == Kind.SUMMONER && summonerVomitTicks > 0) {
+                summonerVomitTicks--;
+                spawnSummonerVomitParticles();
+            }
             return;
         }
         if (abilityCooldown > 0) abilityCooldown--;
@@ -494,6 +500,26 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
         }
         if (activeKind == Kind.SUMMONER) {
             tickSummoner();
+        }
+    }
+
+    @Override
+    public void handleEntityEvent(byte id) {
+        if (id == VOMIT_EVENT && activeKind() == Kind.SUMMONER) {
+            summonerVomitTicks = 40;
+        } else {
+            super.handleEntityEvent(id);
+        }
+    }
+
+    private void spawnSummonerVomitParticles() {
+        Vec3 direction = getViewVector(1.0F);
+        Vec3 start = getEyePosition().add(direction.scale(1.2D));
+        for (int index = 0; index < 6; index++) {
+            level().addParticle(ParticleTypes.WITCH, start.x, start.y - 0.2D, start.z,
+                    direction.x * 0.2D + (random.nextDouble() - 0.5D) * 0.25D,
+                    0.01D + random.nextDouble() * 0.1D,
+                    direction.z * 0.2D + (random.nextDouble() - 0.5D) * 0.25D);
         }
     }
 
@@ -2077,24 +2103,11 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
                 getLookControl().setLookAt(target, 30.0F, 30.0F);
             }
 
-            // 在第15 tick发射投射物
+            // The original attack creates its cloud directly in front of the Summoner.
             if (vomitTicks == 15 && target != null) {
-                fireProjectile(target, ParasiteProjectileEntity.Mode.VOMIT, 0.75D, 9.0F, 2.4D, 90);
-                triggerAnim("bolster_attack_controller", "attack");
-            }
-
-            // 呕吐粒子效果
-            if (level().isClientSide && vomitTicks <= 40) {
-                for (int i = 0; i < 2; i++) {
-                    double offsetX = (random.nextDouble() - 0.5D) * 0.5D;
-                    double offsetY = getBbHeight() * 0.7D;
-                    double offsetZ = (random.nextDouble() - 0.5D) * 0.5D;
-                    level().addParticle(ParticleTypes.ITEM_SLIME,
-                            getX() + offsetX, getY() + offsetY, getZ() + offsetZ,
-                            (random.nextDouble() - 0.5D) * 0.1D,
-                            random.nextDouble() * 0.1D,
-                            (random.nextDouble() - 0.5D) * 0.1D);
-                }
+                ParasiteCombatEffects.spawnVomitCloud(AdaptedVariantEntity.this,
+                        6.5D, 5.0F, 100, 300, 40);
+                level().broadcastEntityEvent(AdaptedVariantEntity.this, VOMIT_EVENT);
             }
         }
 

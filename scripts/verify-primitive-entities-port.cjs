@@ -13,15 +13,26 @@ const entities = read("src/main/java/alku/csrp/registry/ModEntities.java");
 const items = read("src/main/java/alku/csrp/registry/ModItems.java");
 const client = read("src/main/java/alku/csrp/client/ClientModEvents.java");
 const shared = read("src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java");
+const combat = read("src/main/java/alku/csrp/entity/ParasiteCombatEffects.java");
+const summoner = read("src/main/java/alku/csrp/entity/SummonerEntity.java");
+const adapted = read("src/main/java/alku/csrp/entity/AdaptedVariantEntity.java");
+const projectile = read("src/main/java/alku/csrp/entity/ParasiteProjectileEntity.java");
 expect(shared, /parasitekills/, "legacy parasite kill state is missing");
 expect(shared, /damageAdaptations/, "primitive damage adaptation is missing");
+expect(combat, /ModMobEffects\.VOMIT/, "shared original Vomit cloud effect is missing");
+expect(summoner, /VOMIT_COOLDOWN_TICKS\s*=\s*180/, "primitive Summoner ranged cadence is missing");
+expect(summoner, /spawnVomitCloud\(SummonerEntity\.this,\s*5\.5D, 4\.0F, 100, 300, 25\)/s,
+  "primitive Summoner original Vomit cloud is missing");
+expect(adapted, /spawnVomitCloud\(AdaptedVariantEntity\.this,\s*6\.5D, 5\.0F, 100, 300, 40\)/s,
+  "adapted Summoner original Vomit cloud is missing");
+expect(projectile, /case VOMIT[\s\S]*ModMobEffects\.VOMIT/, "Vomit projectiles do not apply Vomit");
 
 const checks = {
-  pri_longarms: ["LongarmsEntity.java", /hurtNearby\(center, 1\.5/, /shockwaveCooldown = 100/],
+  pri_longarms: ["LongarmsEntity.java", /spawnShockwave\(target\)/, /SHOCKWAVE_COOLDOWN_TICKS\s*=\s*100/],
   pri_summoner: ["SummonerEntity.java", /for \(int i = 0; i < 3; i\+\+\)/, /ScaryOrbEntity/],
   pri_vermin: ["VerminEntity.java", /FlyingPathNavigation/, /dropGnatBomb/],
   pri_viscera: ["VisceraEntity.java", /setClimbing\(horizontalCollision\)/, /ModMobEffects\.VIRAL[\s\S]*ModMobEffects\.BLEED/],
-  gnat: ["GnatEntity.java", /LeapAtTargetGoal/, /MeleeAttackGoal/]
+  gnat: ["GnatEntity.java", /createAnimatedLeapGoal\(0\.4F, 20\)/, /MeleeAttackGoal/]
 };
 for (const [id, [javaFile, first, second]] of Object.entries(checks)) {
   const java = read(`src/main/java/alku/csrp/entity/${javaFile}`);

@@ -247,7 +247,7 @@ public final class ParasiteProjectileEntity extends Entity {
                     target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 140, 0), owner);
                 }
                 case VOMIT -> {
-                    target.addEffect(new MobEffectInstance(ModMobEffects.COTH, 160, 0), owner);
+                    target.addEffect(new MobEffectInstance(ModMobEffects.VOMIT, 160, 0), owner);
                     target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 160, 0), owner);
                     target.addEffect(new MobEffectInstance(ModMobEffects.CORROSION, 160, 0), owner);
                     target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 160, 1), owner);
@@ -432,7 +432,7 @@ public final class ParasiteProjectileEntity extends Entity {
         cloud.setDuration(70);
         cloud.setWaitTime(0);
         cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 160, 0, false, true));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.VOMIT, 160, 0, false, true));
         cloud.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 160, 0, false, true));
         cloud.addEffect(new MobEffectInstance(ModMobEffects.CORROSION, 160, 0, false, true));
         cloud.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 120, 1, false, true));

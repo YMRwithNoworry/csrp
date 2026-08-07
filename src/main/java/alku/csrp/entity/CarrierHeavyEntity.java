@@ -14,7 +14,7 @@ public final class CarrierHeavyEntity extends CarrierEntity {
             "func_78087_a.limb_swing");
 
     public CarrierHeavyEntity(EntityType<? extends CarrierHeavyEntity> type, Level level) {
-        super(type, level, 70, 6, 7.0, 1, 1200);
+        super(type, level, 70, 6, 7.0, 1, 1200, 600);
         xpReward = 18;
     }
 
