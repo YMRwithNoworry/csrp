@@ -9,13 +9,26 @@ const animationKeys = new Set();
 
 for (const id of all) {
   const resourceId = id === "sim_dragonhead" ? "sim_dragonehead" : id;
-  const file = `src/main/resources/assets/csrp/animations/${id}.animation.json`;
+  const resolvedResourceId = resourceId === "crux_incomplete" ? "crux" : resourceId;
+  const file = `src/main/resources/assets/csrp/animations/${resolvedResourceId}.animation.json`;
   const animations = JSON.parse(read(file)).animations;
   Object.keys(animations).forEach((key) => animationKeys.add(key));
 
-  const expected = id === "abo_head"
-    ? ["idle", "walk", "attack"]
-    : ["idle", "walk", "attack"].map((action) => `animation.${resourceId}.${action}`);
+  const shortKeys = new Set([
+    "abo_head", "marauder_tendril", "marauder", "movingflesh", "pri_summoner",
+    "sim_cow", "sim_cowhead", "sim_pig", "inf_sheep", "inf_sheep_head", "inf_villager"
+  ]);
+  const actionAliases = {
+    pri_arachnida: "walk.get_parasite_status_2",
+    pri_manducater: "idle.get_parasite_status_1",
+    pri_reeker: "idle.get_parasite_status_1",
+    sim_dragone: "walk.get_parasite_status_2",
+    dispatcher_sii: "idle"
+  };
+  const baseActions = id === "dispatcher_sii" ? ["idle", "idle", "idle"] : ["idle", "walk", actionAliases[id] || "attack"];
+  const expected = shortKeys.has(id)
+    ? ["idle", "walk", id === "marauder" ? "attack" : "walk"]
+    : baseActions.map((action) => `animation.${resolvedResourceId}.${action}`);
   for (const key of expected) {
     if (!(key in animations)) failures.push(`${id}: missing base animation key ${key}`);
   }

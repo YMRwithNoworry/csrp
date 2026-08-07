@@ -41,6 +41,19 @@ final class ParasiteAnimations {
             return "walk";
         }
 
+        // Several primitive entities encode their attack as a parasite-status
+        // pose instead of publishing a generic `attack` clip.
+        if (action.equals("attack")) {
+            action = switch (resourceId) {
+                case "pri_arachnida" -> "walk.get_parasite_status_2";
+                case "pri_manducater" -> "idle.get_parasite_status_1";
+                case "pri_reeker" -> "idle.get_parasite_status_1";
+                case "sim_dragone" -> "walk.get_parasite_status_2";
+                case "dispatcher_sii" -> "idle";
+                default -> action;
+            };
+        }
+
         // These are the project-only fallback resources that were not
         // present in the extracted SRP resource set and retain short keys.
         if (usesShortAnimationKeys(resourceId)) {
