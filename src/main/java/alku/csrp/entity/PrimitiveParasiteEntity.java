@@ -6,6 +6,7 @@ import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
 import alku.csrp.world.EvolutionSystem;
 import net.minecraft.core.Holder;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -43,18 +44,25 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.util.Mth;
+import net.neoforged.neoforge.event.EventHooks;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 /** Shared 1.12 primitive-parasite state: hostile targeting, kills, and repeated-damage adaptation. */
 public abstract class PrimitiveParasiteEntity extends Monster implements GeoEntity, Parasite {
+    private static final Map<String, BlockBreakProfile> BLOCK_BREAK_PROFILES = createBlockBreakProfiles();
+    private int blockBreakCooldown;
     private static final EntityDataAccessor<Byte> ADAPTATION_HIT_STATUS = SynchedEntityData.defineId(
             PrimitiveParasiteEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Integer> SPECIAL_LEAP_TICKS = SynchedEntityData.defineId(
@@ -114,6 +122,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     public void tick() {
         super.tick();
         if (!level().isClientSide) {
+            tickBlockBreaking();
             int leapTicks = entityData.get(SPECIAL_LEAP_TICKS);
             if (leapTicks > 0) {
                 entityData.set(SPECIAL_LEAP_TICKS, leapTicks - 1);
@@ -145,6 +154,84 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
                 fireAdaptationBlockTicks--;
             }
         }
+    }
+
+    private void tickBlockBreaking() {
+        if (blockBreakCooldown > 0) {
+            blockBreakCooldown--;
+        }
+        BlockBreakProfile profile = BLOCK_BREAK_PROFILES.get(
+                BuiltInRegistries.ENTITY_TYPE.getKey(getType()).getPath());
+        LivingEntity target = getTarget();
+        if (profile == null || blockBreakCooldown > 0 || target == null || !target.isAlive()
+                || distanceToSqr(target) > 4096.0D
+                || !level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
+                || !EventHooks.canEntityGrief(level(), this)) {
+            return;
+        }
+        int baseX = Mth.floor(getX());
+        int baseY = Mth.floor(getY() + 0.1D);
+        int baseZ = Mth.floor(getZ());
+        int height = Mth.ceil(getBbHeight());
+        double targetDeltaY = target.getY() - getY();
+        int verticalOffset = targetDeltaY < -1.0D ? -2 : targetDeltaY > 2.0D ? 1 : 0;
+        boolean broke = false;
+        for (int x = -profile.range(); x <= profile.range(); x++) {
+            for (int z = -profile.range(); z <= profile.range(); z++) {
+                for (int y = 1 + verticalOffset; y <= height + verticalOffset; y++) {
+                    BlockPos pos = new BlockPos(baseX + x, baseY + y, baseZ + z);
+                    BlockState state = level().getBlockState(pos);
+                    float hardness = state.getDestroySpeed(level(), pos);
+                    if (state.isAir() || hardness < 0.0F || hardness > profile.hardness()
+                            || !state.canEntityDestroy(level(), pos, this)
+                            || !EventHooks.onEntityDestroyBlock(this, pos, state)) {
+                        continue;
+                    }
+                    broke |= level().destroyBlock(pos, true, this);
+                }
+            }
+        }
+        blockBreakCooldown = profile.cooldown();
+        if (broke) {
+            playSound(net.minecraft.sounds.SoundEvents.STONE_BREAK, 0.7F, 0.8F + random.nextFloat() * 0.3F);
+        }
+    }
+
+    private static Map<String, BlockBreakProfile> createBlockBreakProfiles() {
+        Map<String, BlockBreakProfile> profiles = new HashMap<>();
+        addBlockBreakProfiles(profiles, 3.0F, 60, 4, "sim_dragone");
+        addBlockBreakProfiles(profiles, 3.0F, 40, 2, "hi_golem");
+        addBlockBreakProfiles(profiles, 1.0F, 40, 1, "mar_cow", "mar_enderman", "mar_bear");
+        addBlockBreakProfiles(profiles, 1.0F, 60, 1, "pri_longarms", "pri_reeker", "pri_summoner",
+                "pri_manducater", "pri_yelloweye", "pri_arachnida", "pri_bolster", "pri_vermin");
+        addBlockBreakProfiles(profiles, 1.0F, 900, 2, "pri_devourer");
+        addBlockBreakProfiles(profiles, 3.0F, 40, 1, "ada_longarms", "ada_reeker", "ada_summoner");
+        addBlockBreakProfiles(profiles, 3.0F, 40, 2, "ada_manducater", "ada_yelloweye", "ada_arachnida");
+        addBlockBreakProfiles(profiles, 3.5F, 20, 2, "ada_bolster");
+        addBlockBreakProfiles(profiles, 3.5F, 540, 3, "ada_devourer");
+        addBlockBreakProfiles(profiles, 5.0F, 20, 2, "warden", "vigilante", "overseer", "bomber_light");
+        addBlockBreakProfiles(profiles, 5.0F, 10, 3, "marauder");
+        addBlockBreakProfiles(profiles, 5.0F, 20, 4, "monarch");
+        addBlockBreakProfiles(profiles, 7.0F, 20, 4, "beckon_siii", "dispatcher_siii");
+        addBlockBreakProfiles(profiles, 15.0F, 60, 5, "wraith", "bogle", "haunter", "carrier_colony", "bomber_heavy");
+        addBlockBreakProfiles(profiles, 15.0F, 60, 2, "succor");
+        addBlockBreakProfiles(profiles, 18.0F, 20, 5, "beckon_siv", "dispatcher_siv");
+        addBlockBreakProfiles(profiles, 7.0F, 20, 3, "kyphosis", "sentry");
+        addBlockBreakProfiles(profiles, 9.0F, 5, 4, "anc_dreadnaut", "anc_overlord");
+        addBlockBreakProfiles(profiles, 27.0F, 80, 6, "draconite");
+        addBlockBreakProfiles(profiles, 27.0F, 60, 3, "kirin");
+        addBlockBreakProfiles(profiles, 4.0F, 30, 2, "crux");
+        return profiles;
+    }
+
+    private static void addBlockBreakProfiles(Map<String, BlockBreakProfile> profiles, float hardness,
+                                               int cooldown, int range, String... ids) {
+        for (String id : ids) {
+            profiles.put(id, new BlockBreakProfile(hardness, cooldown, range));
+        }
+    }
+
+    private record BlockBreakProfile(float hardness, int cooldown, int range) {
     }
 
     protected final Goal createAnimatedLeapGoal(float verticalVelocity, int animationTicks) {

@@ -4,6 +4,7 @@ import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -30,6 +31,10 @@ import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.util.Mth;
+import net.neoforged.neoforge.event.EventHooks;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -45,6 +50,10 @@ import java.util.EnumSet;
 public final class AssimilatedDragonEntity extends Monster implements GeoEntity, Parasite {
     private static final float PART_HEALTH = 52.0F;
     private static final int RANGED_COOLDOWN = 40;
+    private static final int BLOCK_BREAK_COOLDOWN = 60;
+    private static final int BLOCK_BREAK_RANGE = 4;
+    private static final float BLOCK_BREAK_HARDNESS = 3.0F;
+    private int blockBreakCooldown;
 
     // 动画定义 - 对应原模组的不同 parasiteStatus 状态
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");  // 状态 0: 空闲
@@ -153,6 +162,7 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
             return;
         }
         if (rangedCooldown > 0) rangedCooldown--;
+        tickBlockBreaking();
         if (!canFly() && isFlying()) {
             setFlying(false);
         }
@@ -164,6 +174,37 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
             shootDragonBreath(target);
             rangedCooldown = RANGED_COOLDOWN;
         }
+    }
+
+    private void tickBlockBreaking() {
+        if (blockBreakCooldown > 0) {
+            blockBreakCooldown--;
+        }
+        LivingEntity target = getTarget();
+        if (blockBreakCooldown > 0 || target == null || !target.isAlive() || distanceToSqr(target) > 4096.0D
+                || !level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
+                || !EventHooks.canEntityGrief(level(), this)) {
+            return;
+        }
+        int baseX = Mth.floor(getX());
+        int baseY = Mth.floor(getY() + 0.1D);
+        int baseZ = Mth.floor(getZ());
+        int verticalOffset = target.getY() - getY() < -1.0D ? -2 : target.getY() - getY() > 2.0D ? 1 : 0;
+        for (int x = -BLOCK_BREAK_RANGE; x <= BLOCK_BREAK_RANGE; x++) {
+            for (int z = -BLOCK_BREAK_RANGE; z <= BLOCK_BREAK_RANGE; z++) {
+                for (int y = 1 + verticalOffset; y <= Mth.ceil(getBbHeight()) + verticalOffset; y++) {
+                    BlockPos pos = new BlockPos(baseX + x, baseY + y, baseZ + z);
+                    BlockState state = level().getBlockState(pos);
+                    float hardness = state.getDestroySpeed(level(), pos);
+                    if (!state.isAir() && hardness >= 0.0F && hardness <= BLOCK_BREAK_HARDNESS
+                            && state.canEntityDestroy(level(), pos, this)
+                            && EventHooks.onEntityDestroyBlock(this, pos, state)) {
+                        level().destroyBlock(pos, true, this);
+                    }
+                }
+            }
+        }
+        blockBreakCooldown = BLOCK_BREAK_COOLDOWN;
     }
 
     @Override
