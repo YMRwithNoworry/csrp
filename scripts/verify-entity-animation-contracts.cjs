@@ -91,6 +91,8 @@ for (const id of all) {
         ? ["animation.sim_adventurerhead.func_78087_a.limb_swing",
           "animation.sim_adventurerhead.func_78087_a.limb_swing.get_parasite_status_1",
           "animation.sim_adventurerhead.func_78087_a.age_in_ticks.get_parasite_status_10"]
+      : ["incompleteform_small", "incompleteform_medium"].includes(id)
+        ? [`animation.${id}.func_78087_a.age_in_ticks`]
       : ["sim_cowhead", "sim_horsehead", "sim_humanhead", "sim_pighead", "sim_sheephead", "sim_villagerhead", "sim_wolfhead"].includes(id)
     ? ["animation." + id + ".func_78087_a.age_in_ticks",
       "animation." + id + ".func_78087_a.limb_swing",
@@ -432,6 +434,17 @@ if (!adventurerHead.includes("class HeadMeleeGoal extends MeleeAttackGoal")
 }
 if (adventurerHead.includes('triggerableAnim("attack"') || adventurerHead.includes("triggerAnim(")) {
   failures.push("SimAdventurerHeadEntity: still uses a fabricated generic attack animation");
+}
+
+const incompleteSmall = read("src/main/java/alku/csrp/entity/IncompleteFormSmallEntity.java");
+const incompleteMedium = read("src/main/java/alku/csrp/entity/IncompleteFormMediumEntity.java");
+if (!incompleteSmall.includes('"func_78087_a.age_in_ticks"')
+    || !incompleteSmall.includes('"age_controller"')) {
+  failures.push("Incomplete forms: extracted age-in-ticks function is not continuously wired");
+}
+if (incompleteSmall.includes('triggerableAnim("attack"') || incompleteSmall.includes("triggerAnim(")
+    || incompleteMedium.includes('triggerableAnim("attack"') || incompleteMedium.includes("triggerAnim(")) {
+  failures.push("Incomplete forms: still use fabricated movement or attack animations");
 }
 
 const crux = read("src/main/java/alku/csrp/entity/CruxEntity.java");
