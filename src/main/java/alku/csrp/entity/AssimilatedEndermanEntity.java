@@ -86,11 +86,11 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
             this, "walk.is_crawling_1.is_screaming_1");
 
     // 拉拽状态动画
-    private final RawAnimation PULLING_IDLE = ParasiteAnimations.loop(this, "idle.is_pulling_1");
-    private final RawAnimation PULLING_WALK = ParasiteAnimations.loop(this, "walk.is_pulling_1");
+    private final RawAnimation PULLING_IDLE = ParasiteAnimations.loop(this, "idle.get_parasite_status_1");
+    private final RawAnimation PULLING_WALK = ParasiteAnimations.loop(this, "walk.get_parasite_status_1");
 
     // 传送动画
-    private final RawAnimation TELEPORT = ParasiteAnimations.play(this, "teleport");
+    private final RawAnimation TELEPORT = ParasiteAnimations.play(this, "idle.get_parasite_status_3");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private int targetTicks;

@@ -53,9 +53,9 @@ public final class SimHumanEntity extends Monster implements GeoEntity, Parasite
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
     private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
-    private final RawAnimation TRACKING = ParasiteAnimations.loop(this, "tracking");
-    private final RawAnimation SNEAKING = ParasiteAnimations.loop(this, "sneaking");
-    private final RawAnimation RIDING = ParasiteAnimations.loop(this, "riding");
+    private final RawAnimation TRACKING = ParasiteAnimations.loop(this, "idle.get_parasite_status_1");
+    private final RawAnimation SNEAKING = ParasiteAnimations.loop(this, "idle.get_parasite_status_2");
+    private final RawAnimation RIDING = ParasiteAnimations.loop(this, "idle.get_parasite_status_3");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
 

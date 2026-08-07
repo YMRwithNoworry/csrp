@@ -64,11 +64,11 @@ public final class AssimilatedWolfEntity extends Monster implements GeoEntity, P
     private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
 
     // 动画定义 - 状态2（特殊移动模式）
-    private final RawAnimation SPECIAL_IDLE = ParasiteAnimations.loop(this, "idle.special_mode");
-    private final RawAnimation SPECIAL_WALK = ParasiteAnimations.loop(this, "walk.special_mode");
+    private final RawAnimation SPECIAL_IDLE = ParasiteAnimations.loop(this, "idle.get_parasite_status_1");
+    private final RawAnimation SPECIAL_WALK = ParasiteAnimations.loop(this, "walk.get_parasite_status_1");
 
     // 动画定义 - 状态6（融化动画）
-    private final RawAnimation MELTING = ParasiteAnimations.loop(this, "melting");
+    private final RawAnimation MELTING = ParasiteAnimations.loop(this, "idle.get_parasite_status_6");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private int meltTicks;

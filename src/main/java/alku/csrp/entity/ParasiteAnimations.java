@@ -61,6 +61,18 @@ final class ParasiteAnimations {
             action = "skill";
         } else if (resourceId.equals("pri_summoner") && action.equals("summon")) {
             action = "run";
+        } else if (resourceId.equals("ada_arachnida")
+                && action.equals("idle.get_parasite_status_11")) {
+            action = "idle.get_parasite_status_3";
+        } else if (resourceId.equals("ada_summoner")
+                && action.equals("idle.get_parasite_status_100")) {
+            action = "idle.get_parasite_status_25";
+        } else if (resourceId.equals("ada_manducater")
+                && action.equals("idle.get_parasite_status_10")) {
+            action = "idle.get_parasite_status_3";
+        } else if (resourceId.equals("ada_manducater")
+                && action.equals("idle.get_parasite_status_25")) {
+            action = "walk.get_parasite_status_2";
         }
 
         // These are the project-only fallback resources that were not

@@ -63,7 +63,7 @@ public final class AssimilatedVillagerEntity extends Monster implements GeoEntit
     private final RawAnimation ATTACK_WALK = ParasiteAnimations.loop(this, "walk.get_parasite_status_1");
     private final RawAnimation SWIM_IDLE = ParasiteAnimations.loop(this, "idle.get_parasite_status_2");
     private final RawAnimation SWIM_WALK = ParasiteAnimations.loop(this, "walk.get_parasite_status_2");
-    private final RawAnimation MELTING = ParasiteAnimations.loop(this, "idle.is_melting_1");
+    private final RawAnimation MELTING = ParasiteAnimations.loop(this, "idle.get_parasite_status_3");
     private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);

@@ -66,7 +66,7 @@ public final class AssimilatedSheepEntity extends Monster implements GeoEntity, 
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
     private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
     private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
-    private final RawAnimation MELTING_ANIM = ParasiteAnimations.loop(this, "melting");
+    private final RawAnimation MELTING_ANIM = ParasiteAnimations.loop(this, "idle.get_parasite_status_6");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private int parasiteKills;
