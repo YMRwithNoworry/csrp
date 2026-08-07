@@ -41,12 +41,8 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
             AssimilatedHeadEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> PARASITE_STATUS = SynchedEntityData.defineId(
             AssimilatedHeadEntity.class, EntityDataSerializers.INT);
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
-    private final RawAnimation LEAP = ParasiteAnimations.loop(this, "idle.get_parasite_status_10");
-    private final RawAnimation SCREAM_IDLE = ParasiteAnimations.loop(this, "idle.is_screaming_1");
-    private final RawAnimation SCREAM_WALK = ParasiteAnimations.loop(this, "walk.is_screaming_1");
+    private static final EntityDataAccessor<Boolean> SCREAMING = SynchedEntityData.defineId(
+            AssimilatedHeadEntity.class, EntityDataSerializers.BOOLEAN);
     private final RawAnimation FUNC_78087_A_AGE = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks");
     private final RawAnimation FUNC_78087_A_MOVEMENT = ParasiteAnimations.loop(this,
@@ -57,6 +53,16 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
             "func_78087_a.limb_swing.get_parasite_status_1");
     private final RawAnimation FUNC_78087_A_AGE_STATUS_10 = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_10");
+    private final RawAnimation FUNC_78087_A_AGE_SCREAMING = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.is_screaming_1");
+    private final RawAnimation FUNC_78087_A_MOVEMENT_SCREAMING = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.is_screaming_1");
+    private final RawAnimation FUNC_78087_A_AGE_STATUS_1_SCREAMING = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_1.is_screaming_1");
+    private final RawAnimation FUNC_78087_A_MOVEMENT_STATUS_1_SCREAMING = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_1.is_screaming_1");
+    private final RawAnimation FUNC_78087_A_AGE_STATUS_10_SCREAMING = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_10.is_screaming_1");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private final Kind kind;
@@ -99,9 +105,7 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
             public void start() {
                 super.start();
                 entityData.set(LEAP_TICKS, 24);
-                if (usesOriginalHeadAnimations()) {
-                    setParasiteStatus(10);
-                }
+                setParasiteStatus(10);
             }
         });
         goalSelector.addGoal(3, new HeadMeleeGoal());
@@ -117,6 +121,9 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
     public void setTarget(LivingEntity target) {
         super.setTarget(target);
         setAggressive(target != null);
+        if (kind == Kind.ENDERMAN) {
+            entityData.set(SCREAMING, target != null);
+        }
     }
 
     @Override
@@ -132,7 +139,7 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
         if (leapTicks > 0) {
             int remainingTicks = leapTicks - 1;
             entityData.set(LEAP_TICKS, remainingTicks);
-            if (usesOriginalHeadAnimations() && getParasiteStatus() == 10
+            if (getParasiteStatus() == 10
                     && (remainingTicks == 0 || remainingTicks <= 22 && onGround())) {
                 entityData.set(LEAP_TICKS, 0);
                 setParasiteStatus(0);
@@ -155,6 +162,7 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
         super.defineSynchedData(builder);
         builder.define(LEAP_TICKS, 0);
         builder.define(PARASITE_STATUS, 0);
+        builder.define(SCREAMING, false);
     }
 
     @Override
@@ -182,18 +190,12 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
                 serverLevel.addFreshEntity(body);
             }
             target.discard();
-            if (!usesOriginalHeadAnimations()) {
-                triggerAnim("attack_controller", "attack");
-            }
             discard();
             return true;
         }
         LivingEntity livingTarget = target instanceof LivingEntity living ? living : null;
         float healthBefore = livingTarget == null ? 0.0F : ParasiteCombatEffects.healthWithAbsorption(livingTarget);
         boolean hit = super.doHurtTarget(target);
-        if (hit && !usesOriginalHeadAnimations()) {
-            triggerAnim("attack_controller", "attack");
-        }
         if (hit && livingTarget != null) {
             ParasiteCombatEffects.applyFearFromDamage(livingTarget, healthBefore, this);
             InfectionMechanics.applyCoth(livingTarget, this);
@@ -226,32 +228,27 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        if (usesOriginalHeadAnimations()) {
-            controllers.add(new AnimationController<>(this, "age_controller", 4, state -> {
-                RawAnimation animation = switch (getParasiteStatus()) {
-                    case 1, 2 -> usesStatusOneAgeAnimation() ? FUNC_78087_A_AGE_STATUS_1 : FUNC_78087_A_AGE;
-                    case 10 -> FUNC_78087_A_AGE_STATUS_10;
-                    default -> FUNC_78087_A_AGE;
-                };
-                return state.setAndContinue(animation);
-            }));
-            controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
-                if (getParasiteStatus() == 10
-                        || !ParasiteAnimations.isMoving(this, state.isMoving())) {
-                    return PlayState.STOP;
-                }
-                return state.setAndContinue(getParasiteStatus() == 1 || getParasiteStatus() == 2
-                        ? FUNC_78087_A_MOVEMENT_STATUS_1 : FUNC_78087_A_MOVEMENT);
-            }));
-            return;
-        }
-        controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> state.setAndContinue(entityData.get(LEAP_TICKS) > 0 ? LEAP
-                        : kind == Kind.ENDERMAN && isAggressive()
-                        ? ParasiteAnimations.isMoving(this, state.isMoving()) ? SCREAM_WALK : SCREAM_IDLE
-                        : ParasiteAnimations.isMoving(this, state.isMoving()) ? WALK : IDLE)));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
-                software.bernie.geckolib.animation.PlayState.STOP).triggerableAnim("attack", ATTACK));
+        controllers.add(new AnimationController<>(this, "age_controller", 4, state -> {
+            RawAnimation animation = switch (getParasiteStatus()) {
+                case 1, 2 -> usesStatusOneAgeAnimation()
+                        ? isScreaming() ? FUNC_78087_A_AGE_STATUS_1_SCREAMING : FUNC_78087_A_AGE_STATUS_1
+                        : FUNC_78087_A_AGE;
+                case 10 -> isScreaming() ? FUNC_78087_A_AGE_STATUS_10_SCREAMING : FUNC_78087_A_AGE_STATUS_10;
+                default -> isScreaming() ? FUNC_78087_A_AGE_SCREAMING : FUNC_78087_A_AGE;
+            };
+            return state.setAndContinue(animation);
+        }));
+        controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
+            if (getParasiteStatus() == 10
+                    || !ParasiteAnimations.isMoving(this, state.isMoving())) {
+                return PlayState.STOP;
+            }
+            RawAnimation animation = getParasiteStatus() == 1 || getParasiteStatus() == 2
+                    ? isScreaming() ? FUNC_78087_A_MOVEMENT_STATUS_1_SCREAMING
+                    : FUNC_78087_A_MOVEMENT_STATUS_1
+                    : isScreaming() ? FUNC_78087_A_MOVEMENT_SCREAMING : FUNC_78087_A_MOVEMENT;
+            return state.setAndContinue(animation);
+        }));
     }
 
     @Override
@@ -263,12 +260,12 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
         return kind;
     }
 
-    private boolean usesOriginalHeadAnimations() {
-        return kind != Kind.ENDERMAN;
-    }
-
     private boolean usesStatusOneAgeAnimation() {
         return kind != Kind.HORSE;
+    }
+
+    private boolean isScreaming() {
+        return kind == Kind.ENDERMAN && entityData.get(SCREAMING);
     }
 
     private int getParasiteStatus() {
@@ -339,13 +336,13 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
         @Override
         public void stop() {
             super.stop();
-            if (usesOriginalHeadAnimations() && getParasiteStatus() != 10) {
+            if (getParasiteStatus() != 10) {
                 setParasiteStatus(0);
             }
         }
 
         private void updateMeleeStatus() {
-            if (usesOriginalHeadAnimations() && getParasiteStatus() != 10) {
+            if (getParasiteStatus() != 10) {
                 setParasiteStatus(1);
             }
         }

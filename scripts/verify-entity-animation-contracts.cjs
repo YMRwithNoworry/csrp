@@ -76,6 +76,17 @@ for (const id of all) {
           "animation.sim_pig.func_78087_a.limb_swing.get_parasite_status_2",
           "animation.sim_pig.func_78087_a.age_in_ticks.get_parasite_status_6",
           "animation.sim_pig.get_theigh.get_parasite_status_6"]
+      : id === "sim_endermanhead"
+        ? ["animation.sim_endermanhead.func_78087_a.age_in_ticks",
+          "animation.sim_endermanhead.func_78087_a.limb_swing",
+          "animation.sim_endermanhead.func_78087_a.age_in_ticks.is_screaming_1",
+          "animation.sim_endermanhead.func_78087_a.limb_swing.is_screaming_1",
+          "animation.sim_endermanhead.func_78087_a.age_in_ticks.get_parasite_status_1",
+          "animation.sim_endermanhead.func_78087_a.limb_swing.get_parasite_status_1",
+          "animation.sim_endermanhead.func_78087_a.age_in_ticks.get_parasite_status_1.is_screaming_1",
+          "animation.sim_endermanhead.func_78087_a.limb_swing.get_parasite_status_1.is_screaming_1",
+          "animation.sim_endermanhead.func_78087_a.age_in_ticks.get_parasite_status_10",
+          "animation.sim_endermanhead.func_78087_a.age_in_ticks.get_parasite_status_10.is_screaming_1"]
       : ["sim_cowhead", "sim_horsehead", "sim_humanhead", "sim_pighead", "sim_sheephead", "sim_villagerhead", "sim_wolfhead"].includes(id)
     ? ["animation." + id + ".func_78087_a.age_in_ticks",
       "animation." + id + ".func_78087_a.limb_swing",
@@ -98,7 +109,7 @@ for (const match of registrations.matchAll(/monster\("([a-z0-9_]+)",\s*(\w+)::ne
   const animations = JSON.parse(read(`src/main/resources/assets/csrp/animations/${resourceId}.animation.json`)).animations;
     for (const request of source.matchAll(/ParasiteAnimations\.(?:loop|play)\(this,\s*"([a-zA-Z0-9_.]+)"/g)) {
       if (className === "AssimilatedHeadEntity"
-          && ["sim_cowhead", "sim_horsehead", "sim_humanhead", "sim_pighead", "sim_sheephead",
+          && ["sim_cowhead", "sim_endermanhead", "sim_horsehead", "sim_humanhead", "sim_pighead", "sim_sheephead",
             "sim_villagerhead", "sim_wolfhead"].includes(id)
           && (!request[1].startsWith("func_78087_a.")
             || id === "sim_horsehead" && request[1] === "func_78087_a.age_in_ticks.get_parasite_status_1")) continue;
@@ -177,6 +188,14 @@ const sharedVariantActions = {
   ,sim_horsehead: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
     "func_78087_a.limb_swing.get_parasite_status_1",
     "func_78087_a.age_in_ticks.get_parasite_status_10"]
+  ,sim_endermanhead: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.is_screaming_1", "func_78087_a.limb_swing.is_screaming_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1.is_screaming_1",
+    "func_78087_a.limb_swing.get_parasite_status_1.is_screaming_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_10",
+    "func_78087_a.age_in_ticks.get_parasite_status_10.is_screaming_1"]
   ,sim_humanhead: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
     "func_78087_a.age_in_ticks.get_parasite_status_1",
     "func_78087_a.limb_swing.get_parasite_status_1",
@@ -364,15 +383,20 @@ for (const action of [
   "func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
   "func_78087_a.age_in_ticks.get_parasite_status_1",
   "func_78087_a.limb_swing.get_parasite_status_1",
-  "func_78087_a.age_in_ticks.get_parasite_status_10"
+  "func_78087_a.age_in_ticks.get_parasite_status_10",
+  "func_78087_a.age_in_ticks.is_screaming_1",
+  "func_78087_a.limb_swing.is_screaming_1",
+  "func_78087_a.age_in_ticks.get_parasite_status_1.is_screaming_1",
+  "func_78087_a.limb_swing.get_parasite_status_1.is_screaming_1",
+  "func_78087_a.age_in_ticks.get_parasite_status_10.is_screaming_1"
 ]) {
   if (!assimilatedHeads.includes(`"${action}"`)) {
-    failures.push(`AssimilatedHeadEntity: original cow/pig head function ${action} is not wired`);
+    failures.push(`AssimilatedHeadEntity: original head function ${action} is not wired`);
   }
 }
-if (!assimilatedHeads.includes("return kind != Kind.ENDERMAN")
-    || !assimilatedHeads.includes('"age_controller"')) {
-  failures.push("AssimilatedHeadEntity: cow/pig original function controllers are not isolated by kind");
+if (!assimilatedHeads.includes('"age_controller"')
+    || !assimilatedHeads.includes("entityData.set(SCREAMING, target != null)")) {
+  failures.push("AssimilatedHeadEntity: original function controllers or enderman screaming state are missing");
 }
 if (!assimilatedHeads.includes("class HeadMeleeGoal extends MeleeAttackGoal")
     || !assimilatedHeads.includes("setParasiteStatus(1)")
@@ -383,9 +407,8 @@ if (!assimilatedHeads.includes("ParasiteAnimations.isMoving(this, state.isMoving
     || !assimilatedHeads.includes("remainingTicks <= 22 && onGround()")) {
   failures.push("AssimilatedHeadEntity: original still-animation gate or leap landing reset is missing");
 }
-if (!assimilatedHeads.includes("if (!usesOriginalHeadAnimations())")
-    || !assimilatedHeads.includes("if (hit && !usesOriginalHeadAnimations())")) {
-  failures.push("AssimilatedHeadEntity: cow/pig heads can still trigger fabricated generic attacks");
+if (assimilatedHeads.includes('triggerableAnim("attack"') || assimilatedHeads.includes("triggerAnim(")) {
+  failures.push("AssimilatedHeadEntity: shared heads still use fabricated generic attack animations");
 }
 
 const crux = read("src/main/java/alku/csrp/entity/CruxEntity.java");
