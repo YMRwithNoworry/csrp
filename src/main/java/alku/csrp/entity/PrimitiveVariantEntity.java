@@ -352,8 +352,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
             return state.setAndContinue(FLY);
         }
         if (activeKind() == Kind.DEVOURER) {
-            // Devourer: idle when no target, movement animation when has target or moving
-            if (getTarget() != null || ParasiteAnimations.isMoving(this, state.isMoving())) {
+            if (ParasiteAnimations.isMoving(this, state.isMoving())) {
                 return state.setAndContinue(DEVOURER_MOVEMENT);
             }
             return state.setAndContinue(DEVOURER_IDLE);

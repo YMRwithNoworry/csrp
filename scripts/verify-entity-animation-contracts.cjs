@@ -220,6 +220,21 @@ const helper = read("src/main/java/alku/csrp/entity/ParasiteAnimations.java");
 if (!helper.includes('case "func_78087_a.getDigging" -> "get_dig_model.get_digging_1";')) {
   failures.push("burrower digging animation is not mapped to the extracted key");
 }
+if (!helper.includes("entity.getX() - entity.xo") || !helper.includes("entity.getZ() - entity.zo")) {
+  failures.push("shared movement animation gate does not measure actual tick displacement");
+}
+if (/isMoving\([^)]*\)[\s\S]{0,120}getDeltaMovement\(\)\.lengthSqr/.test(helper)) {
+  failures.push("shared movement animation gate still trusts requested velocity while blocked");
+}
+
+const primitiveVariants = read("src/main/java/alku/csrp/entity/PrimitiveVariantEntity.java");
+if (/getTarget\(\) != null \|\| ParasiteAnimations\.isMoving/.test(primitiveVariants)) {
+  failures.push("Primitive devourer still walks in place merely because it has a target");
+}
+const vigile = read("src/main/java/alku/csrp/entity/VigileEntity.java");
+if (!vigile.includes("!ParasiteAnimations.isMoving(this, state.isMoving())")) {
+  failures.push("Vigile movement controller bypasses the actual-displacement gate");
+}
 
 const kirin = read("src/main/java/alku/csrp/entity/KirinEntity.java");
 if (kirin.includes("animation.kirin.func_78087_a")) {

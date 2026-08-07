@@ -18,9 +18,15 @@ final class ParasiteAnimations {
         return RawAnimation.begin().thenPlay(animationName(entity, action));
     }
 
-    /** Navigation can report movement while an entity is blocked; require actual displacement. */
+    /** Navigation and velocity can remain active while a mob is blocked; require actual tick displacement. */
     static boolean isMoving(Entity entity, boolean animationMoving) {
-        return animationMoving && entity.getDeltaMovement().lengthSqr() > 0.0004D;
+        if (!animationMoving) {
+            return false;
+        }
+        double deltaX = entity.getX() - entity.xo;
+        double deltaY = entity.getY() - entity.yo;
+        double deltaZ = entity.getZ() - entity.zo;
+        return deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ > 1.0E-6D;
     }
 
     private static String animationName(Entity entity, String requestedAction) {

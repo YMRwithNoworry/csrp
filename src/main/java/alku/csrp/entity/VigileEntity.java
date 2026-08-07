@@ -70,13 +70,12 @@ public final class VigileEntity extends PrimitiveParasiteEntity {
             return PlayState.STOP;
         }
 
-        // 获取水平移动速度
-        double horizontalSpeed = getDeltaMovement().horizontalDistanceSqr();
-
-        // 静止状态 - idle 动画
-        if (horizontalSpeed < 0.0001) {
+        if (!ParasiteAnimations.isMoving(this, state.isMoving())) {
             return state.setAndContinue(IDLE);
         }
+
+        // Actual movement is confirmed above; velocity is only used to choose walk or run.
+        double horizontalSpeed = getDeltaMovement().horizontalDistanceSqr();
 
         // 快速移动 - run 动画（状态0：正常移动）
         if (horizontalSpeed > 0.02D) {
