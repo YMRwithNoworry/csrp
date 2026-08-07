@@ -229,7 +229,7 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
         if (usesOriginalHeadAnimations()) {
             controllers.add(new AnimationController<>(this, "age_controller", 4, state -> {
                 RawAnimation animation = switch (getParasiteStatus()) {
-                    case 1, 2 -> FUNC_78087_A_AGE_STATUS_1;
+                    case 1, 2 -> usesStatusOneAgeAnimation() ? FUNC_78087_A_AGE_STATUS_1 : FUNC_78087_A_AGE;
                     case 10 -> FUNC_78087_A_AGE_STATUS_10;
                     default -> FUNC_78087_A_AGE;
                 };
@@ -264,7 +264,11 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
     }
 
     private boolean usesOriginalHeadAnimations() {
-        return kind == Kind.COW || kind == Kind.PIG;
+        return kind != Kind.ENDERMAN;
+    }
+
+    private boolean usesStatusOneAgeAnimation() {
+        return kind != Kind.HORSE;
     }
 
     private int getParasiteStatus() {

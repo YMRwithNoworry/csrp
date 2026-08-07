@@ -76,10 +76,10 @@ for (const id of all) {
           "animation.sim_pig.func_78087_a.limb_swing.get_parasite_status_2",
           "animation.sim_pig.func_78087_a.age_in_ticks.get_parasite_status_6",
           "animation.sim_pig.get_theigh.get_parasite_status_6"]
-      : id === "sim_cowhead" || id === "sim_pighead"
+      : ["sim_cowhead", "sim_horsehead", "sim_humanhead", "sim_pighead", "sim_sheephead", "sim_villagerhead", "sim_wolfhead"].includes(id)
     ? ["animation." + id + ".func_78087_a.age_in_ticks",
       "animation." + id + ".func_78087_a.limb_swing",
-      "animation." + id + ".func_78087_a.age_in_ticks.get_parasite_status_1",
+      ...(id === "sim_horsehead" ? [] : ["animation." + id + ".func_78087_a.age_in_ticks.get_parasite_status_1"]),
       "animation." + id + ".func_78087_a.limb_swing.get_parasite_status_1",
       "animation." + id + ".func_78087_a.age_in_ticks.get_parasite_status_10"]
       : shortKeys.has(id)
@@ -97,8 +97,11 @@ for (const match of registrations.matchAll(/monster\("([a-z0-9_]+)",\s*(\w+)::ne
   const resourceId = id === "sim_dragonhead" ? "sim_dragonehead" : id;
   const animations = JSON.parse(read(`src/main/resources/assets/csrp/animations/${resourceId}.animation.json`)).animations;
     for (const request of source.matchAll(/ParasiteAnimations\.(?:loop|play)\(this,\s*"([a-zA-Z0-9_.]+)"/g)) {
-      if (className === "AssimilatedHeadEntity" && (id === "sim_cowhead" || id === "sim_pighead")
-          && !request[1].startsWith("func_78087_a.")) continue;
+      if (className === "AssimilatedHeadEntity"
+          && ["sim_cowhead", "sim_horsehead", "sim_humanhead", "sim_pighead", "sim_sheephead",
+            "sim_villagerhead", "sim_wolfhead"].includes(id)
+          && (!request[1].startsWith("func_78087_a.")
+            || id === "sim_horsehead" && request[1] === "func_78087_a.age_in_ticks.get_parasite_status_1")) continue;
       const key = resolvedAnimationKey(id, request[1]);
     if (!(key in animations)) failures.push(`${id}/${className}: unresolved requested animation ${key}`);
   }
@@ -171,7 +174,26 @@ const sharedVariantActions = {
     "func_78087_a.age_in_ticks.get_parasite_status_1",
     "func_78087_a.limb_swing.get_parasite_status_1",
     "func_78087_a.age_in_ticks.get_parasite_status_10"]
+  ,sim_horsehead: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_10"]
+  ,sim_humanhead: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_10"]
   ,sim_pighead: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_10"]
+  ,sim_sheephead: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_10"]
+  ,sim_villagerhead: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_10"]
+  ,sim_wolfhead: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
     "func_78087_a.age_in_ticks.get_parasite_status_1",
     "func_78087_a.limb_swing.get_parasite_status_1",
     "func_78087_a.age_in_ticks.get_parasite_status_10"]
@@ -348,7 +370,7 @@ for (const action of [
     failures.push(`AssimilatedHeadEntity: original cow/pig head function ${action} is not wired`);
   }
 }
-if (!assimilatedHeads.includes("return kind == Kind.COW || kind == Kind.PIG")
+if (!assimilatedHeads.includes("return kind != Kind.ENDERMAN")
     || !assimilatedHeads.includes('"age_controller"')) {
   failures.push("AssimilatedHeadEntity: cow/pig original function controllers are not isolated by kind");
 }
