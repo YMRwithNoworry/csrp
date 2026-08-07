@@ -91,6 +91,23 @@ for (const id of all) {
         ? ["animation.sim_adventurerhead.func_78087_a.limb_swing",
           "animation.sim_adventurerhead.func_78087_a.limb_swing.get_parasite_status_1",
           "animation.sim_adventurerhead.func_78087_a.age_in_ticks.get_parasite_status_10"]
+      : id === "airscrew"
+        ? ["animation.airscrew.func_78087_a.age_in_ticks"]
+      : id === "heed"
+        ? ["animation.heed.func_78087_a.age_in_ticks", "animation.heed.func_78087_a.limb_swing",
+          "animation.heed.func_78087_a.age_in_ticks.get_parasite_status_1",
+          "animation.heed.func_78087_a.limb_swing.get_parasite_status_1"]
+      : id === "dredge"
+        ? ["animation.dredge.func_78087_a.age_in_ticks", "animation.dredge.func_78087_a.limb_swing",
+          "animation.dredge.func_78087_a.age_in_ticks.get_still_ani_1",
+          "animation.dredge.func_78087_a.age_in_ticks.get_parasite_status_1",
+          "animation.dredge.func_78087_a.limb_swing.get_parasite_status_1",
+          "animation.dredge.func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1",
+          "animation.dredge.func_78087_a.age_in_ticks.get_parasite_status_2",
+          "animation.dredge.func_78087_a.limb_swing.get_parasite_status_2",
+          "animation.dredge.func_78087_a.age_in_ticks.get_parasite_status_2.get_still_ani_1"]
+      : id === "thrall"
+        ? ["animation.thrall.func_78087_a.age_in_ticks", "animation.thrall.func_78087_a.limb_swing"]
       : id === "lice"
         ? ["animation.lice.func_78087_a.age_in_ticks"]
       : id === "mangler"
@@ -410,6 +427,18 @@ if (draconite.includes('triggerableAnim("attack"') || draconite.includes('Parasi
   failures.push("DraconiteEntity: still uses a fabricated attack animation");
 }
 
+const heed = read("src/main/java/alku/csrp/entity/HeedEntity.java");
+if (!heed.includes("COMBAT_STATUS") || !heed.includes("builder.define(COMBAT_STATUS, false)")
+    || !heed.includes("entityData.set(COMBAT_STATUS, inCombat)")) {
+  failures.push("HeedEntity: original combat status 1 is not synchronized from target state");
+}
+for (const file of ["AirscrewEntity.java", "HeedEntity.java", "DredgeEntity.java", "ThrallEntity.java"]) {
+  const source = read(`src/main/java/alku/csrp/entity/${file}`);
+  if (source.includes('triggerableAnim("attack"') || source.includes('ParasiteAnimations.play(this, "attack"')) {
+    failures.push(`${file}: still uses a fabricated attack animation absent from its extracted model`);
+  }
+}
+
 const lice = read("src/main/java/alku/csrp/entity/LiceEntity.java");
 if (!lice.includes('"func_78087_a.age_in_ticks"') || lice.includes('triggerableAnim("attack"')) {
   failures.push("LiceEntity: animation controller is not limited to the original age function");
@@ -647,10 +676,14 @@ if (!longarms.includes("stillAnimationTicks > STILL_ANIMATION_DELAY_TICKS")) {
 
 const dredge = read("src/main/java/alku/csrp/entity/DredgeEntity.java");
 for (const action of [
-  "idle.get_still_ani_1", "idle.get_parasite_status_1", "walk.get_parasite_status_1",
-  "idle.get_parasite_status_1.get_still_ani_1", "idle.get_parasite_status_2",
-  "walk.get_parasite_status_2", "idle.get_parasite_status_2.get_still_ani_1",
-  "idle.get_parasite_status_3"
+  "func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+  "func_78087_a.age_in_ticks.get_still_ani_1",
+  "func_78087_a.age_in_ticks.get_parasite_status_1",
+  "func_78087_a.limb_swing.get_parasite_status_1",
+  "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1",
+  "func_78087_a.age_in_ticks.get_parasite_status_2",
+  "func_78087_a.limb_swing.get_parasite_status_2",
+  "func_78087_a.age_in_ticks.get_parasite_status_2.get_still_ani_1"
 ]) {
   if (!dredge.includes(`"${action}"`)) {
     failures.push(`DredgeEntity: original runtime animation ${action} is not wired`);
@@ -658,6 +691,10 @@ for (const action of [
 }
 if (!dredge.includes("setParasiteStatus(STATUS_PULLING)")) {
   failures.push("DredgeEntity: legacy pulling state 3 is not synchronized");
+}
+if (!dredge.includes("case STATUS_PULLING -> state.setAndContinue(IDLE)")
+    || dredge.includes("get_parasite_status_3")) {
+  failures.push("DredgeEntity: status 3 must use the unchanged base pose from ModelDredge");
 }
 
 const host = read("src/main/java/alku/csrp/entity/HostEntity.java");

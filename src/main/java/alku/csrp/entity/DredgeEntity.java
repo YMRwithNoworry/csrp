@@ -39,19 +39,22 @@ public final class DredgeEntity extends CrudeParasiteEntity {
             DredgeEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> PARASITE_STATUS = SynchedEntityData.defineId(
             DredgeEntity.class, EntityDataSerializers.INT);
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
-    private final RawAnimation STILL_IDLE = ParasiteAnimations.loop(this, "idle.get_still_ani_1");
-    private final RawAnimation COMBAT_IDLE = ParasiteAnimations.loop(this, "idle.get_parasite_status_1");
-    private final RawAnimation COMBAT_WALK = ParasiteAnimations.loop(this, "walk.get_parasite_status_1");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final RawAnimation WALK = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final RawAnimation STILL_IDLE = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_still_ani_1");
+    private final RawAnimation COMBAT_IDLE = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_1");
+    private final RawAnimation COMBAT_WALK = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_1");
     private final RawAnimation COMBAT_STILL_IDLE = ParasiteAnimations.loop(this,
-            "idle.get_parasite_status_1.get_still_ani_1");
-    private final RawAnimation SPRINT_IDLE = ParasiteAnimations.loop(this, "idle.get_parasite_status_2");
-    private final RawAnimation SPRINT_WALK = ParasiteAnimations.loop(this, "walk.get_parasite_status_2");
+            "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1");
+    private final RawAnimation SPRINT_IDLE = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_2");
+    private final RawAnimation SPRINT_WALK = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_2");
     private final RawAnimation SPRINT_STILL_IDLE = ParasiteAnimations.loop(this,
-            "idle.get_parasite_status_2.get_still_ani_1");
-    private final RawAnimation PULL_IDLE = ParasiteAnimations.loop(this, "idle.get_parasite_status_3");
+            "func_78087_a.age_in_ticks.get_parasite_status_2.get_still_ani_1");
 
     private UUID pullTargetId;
     private int pullTicks;
@@ -86,7 +89,6 @@ public final class DredgeEntity extends CrudeParasiteEntity {
     public boolean doHurtTarget(Entity entity) {
         boolean hit = super.doHurtTarget(entity);
         if (hit) {
-            triggerAnim("attack_controller", "attack");
         }
         if (hit && entity instanceof LivingEntity target && pullTargetId == null && pullCooldown == 0) {
             pullTargetId = target.getUUID();
@@ -213,11 +215,9 @@ public final class DredgeEntity extends CrudeParasiteEntity {
                         ? COMBAT_STILL_IDLE : moving ? COMBAT_WALK : COMBAT_IDLE);
                 case STATUS_SPRINT -> state.setAndContinue(isStillAnimation()
                         ? SPRINT_STILL_IDLE : moving ? SPRINT_WALK : SPRINT_IDLE);
-                case STATUS_PULLING -> state.setAndContinue(PULL_IDLE);
+                case STATUS_PULLING -> state.setAndContinue(IDLE);
                 default -> state.setAndContinue(isStillAnimation() ? STILL_IDLE : moving ? WALK : IDLE);
             };
         }));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
-                software.bernie.geckolib.animation.PlayState.STOP).triggerableAnim("attack", ATTACK));
     }
 }
