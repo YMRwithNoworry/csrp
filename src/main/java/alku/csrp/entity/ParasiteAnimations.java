@@ -28,6 +28,9 @@ final class ParasiteAnimations {
         String action = switch (requestedAction) {
             case "run", "fly" -> "walk";
             case "spawn", "throw", "smash", "swipe" -> "attack";
+            // CruxB keeps the original controller function names, while the
+            // extracted Bedrock resource only exposes Crux's attack clip.
+            case "melee_attack", "ranged_attack", "burst" -> "attack";
             case "func_78087_a.getDigging" -> "get_dig_model.get_digging_1";
             case "animation" -> "idle";
             default -> requestedAction;
@@ -67,6 +70,7 @@ final class ParasiteAnimations {
         return switch (id) {
             case "sim_dragonhead" -> "sim_dragonehead";
             case "dispatcher_tentacle" -> "dispatcherten";
+            case "crux_incomplete" -> "crux";
             default -> id;
         };
     }

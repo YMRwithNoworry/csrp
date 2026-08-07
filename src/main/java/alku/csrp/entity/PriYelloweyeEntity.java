@@ -2,6 +2,7 @@ package alku.csrp.entity;
 
 import alku.csrp.Config;
 import alku.csrp.registry.ModSounds;
+import alku.csrp.registry.ModEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
@@ -15,6 +16,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
@@ -34,7 +36,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.EnumSet;
 
-public class PriYelloweyeEntity extends Monster implements GeoEntity, Parasite {
+public class PriYelloweyeEntity extends PrimitiveParasiteEntity {
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation FLY = ParasiteAnimations.loop(this, "fly");
     private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
@@ -85,7 +87,10 @@ public class PriYelloweyeEntity extends Monster implements GeoEntity, Parasite {
 
     @Override
     protected void registerGoals() {
+        targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,
+                true, false, this::isValidParasiteTarget));
         targetSelector.addGoal(1, new HurtByTargetGoal(this));
+        goalSelector.addGoal(1, new YelloweyeRangedGoal());
         goalSelector.addGoal(1, new FloatingIdleGoal());
         goalSelector.addGoal(2, new RandomFlyingGoal());
         goalSelector.addGoal(3, new ParasiteFollowGoal(this));
@@ -147,6 +152,17 @@ public class PriYelloweyeEntity extends Monster implements GeoEntity, Parasite {
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return animationCache;
+    }
+
+    private void fireProjectile(LivingEntity target, ParasiteProjectileEntity.Mode mode,
+                                double speed, float damage, double radius, int lifetime) {
+        ParasiteProjectileEntity projectile = ModEntities.PARASITE_PROJECTILE.get().create(level());
+        if (projectile == null) {
+            return;
+        }
+        Vec3 start = getEyePosition().add(getViewVector(1.0F).scale(0.35D));
+        projectile.configure(this, mode, start, target.getEyePosition(), speed, damage, radius, lifetime);
+        level().addFreshEntity(projectile);
     }
 
     /**
@@ -250,6 +266,43 @@ public class PriYelloweyeEntity extends Monster implements GeoEntity, Parasite {
                     break;
                 }
             }
+        }
+    }
+
+    private final class YelloweyeRangedGoal extends Goal {
+        private YelloweyeRangedGoal() {
+            setFlags(EnumSet.of(Flag.LOOK));
+        }
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = getTarget();
+            return shootCooldown <= 0 && target != null && target.isAlive() && hasLineOfSight(target);
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return false;
+        }
+
+        @Override
+        public void start() {
+            LivingEntity target = getTarget();
+            if (target == null) {
+                return;
+            }
+            getLookControl().setLookAt(target, 30.0F, 30.0F);
+            if (++shootCount % 5 == 0) {
+                fireProjectile(target, ParasiteProjectileEntity.Mode.ACID, 0.70D, 14.0F, 2.25D, 100);
+                shootCooldown = 90;
+                playSound(ModSounds.get("emana.shooting"), 1.0F, 1.5F);
+            } else {
+                fireProjectile(target, ParasiteProjectileEntity.Mode.SPINE, 1.15D, 7.0F, 0.85D, 70);
+                fireProjectile(target, ParasiteProjectileEntity.Mode.SPINE, 1.05D, 7.0F, 0.85D, 70);
+                shootCooldown = 36;
+                playSound(ModSounds.get("emana.shooting"), 1.0F, 1.0F);
+            }
+            triggerAnim("attack_controller", "attack");
         }
     }
 }
