@@ -34,16 +34,14 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 /**
- * SimHuman (特殊人形感染体) - EntitySpeHuman
- * 具有四种动画状态的人形寄生体
+ * Assimilated Human animation states mirror ModelInfHuman.
  */
 public final class SimHumanEntity extends Monster implements GeoEntity, Parasite {
 
     // 动画状态常量
-    public static final int STATE_NORMAL = 0;      // 正常状态
-    public static final int STATE_TRACKING = 1;    // 攻击准备/跟踪状态
-    public static final int STATE_SNEAKING = 2;    // 潜行/慢速状态
-    public static final int STATE_RIDING = 3;      // 骑乘/抓取状态
+    public static final int STATE_NORMAL = 0;
+    public static final int STATE_ATTACK = 1;
+    public static final int STATE_PURSUIT = 2;
 
     private static final int COTH_AURA_INTERVAL_TICKS = 20;
     private static final double COTH_AURA_RADIUS = 3.0D;
@@ -52,15 +50,24 @@ public final class SimHumanEntity extends Monster implements GeoEntity, Parasite
     private static final EntityDataAccessor<Integer> ANIMATION_STATE = SynchedEntityData.defineId(
             SimHumanEntity.class, EntityDataSerializers.INT);
 
-    // 动画定义
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
-    private final RawAnimation TRACKING = ParasiteAnimations.loop(this, "idle.get_parasite_status_1");
-    private final RawAnimation SNEAKING = ParasiteAnimations.loop(this, "idle.get_parasite_status_2");
-    private final RawAnimation RIDING = ParasiteAnimations.loop(this, "idle.get_parasite_status_3");
+    private static final int STILL_ANIMATION_DELAY_TICKS = 25;
+    private final RawAnimation AGE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final RawAnimation LIMB = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final RawAnimation AGE_STILL = ParasiteAnimations.loop(
+            this, "func_78087_a.age_in_ticks.get_still_ani_1");
+    private final RawAnimation AGE_STATUS_1 = ParasiteAnimations.loop(
+            this, "func_78087_a.age_in_ticks.get_parasite_status_1");
+    private final RawAnimation LIMB_STATUS_1 = ParasiteAnimations.loop(
+            this, "func_78087_a.limb_swing.get_parasite_status_1");
+    private final RawAnimation AGE_STATUS_1_STILL = ParasiteAnimations.loop(
+            this, "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1");
+    private final RawAnimation AGE_STATUS_2 = ParasiteAnimations.loop(
+            this, "func_78087_a.age_in_ticks.get_parasite_status_2");
+    private final RawAnimation LIMB_STATUS_2 = ParasiteAnimations.loop(
+            this, "func_78087_a.limb_swing.get_parasite_status_2");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
+    private int stillAnimationTicks;
 
     public SimHumanEntity(EntityType<? extends SimHumanEntity> type, Level level) {
         super(type, level);
@@ -116,6 +123,12 @@ public final class SimHumanEntity extends Monster implements GeoEntity, Parasite
     public void tick() {
         super.tick();
 
+        if (ParasiteAnimations.isMoving(this, true)) {
+            stillAnimationTicks = 0;
+        } else {
+            stillAnimationTicks++;
+        }
+
         if (level().isClientSide) {
             return;
         }
@@ -135,35 +148,23 @@ public final class SimHumanEntity extends Monster implements GeoEntity, Parasite
     private void updateAnimationState() {
         LivingEntity target = getTarget();
 
-        if (target != null) {
-            double distanceToTarget = distanceToSqr(target);
-
-            // 骑乘状态 - 当实体正在骑乘其他生物时
-            if (isPassenger()) {
-                setAnimationState(STATE_RIDING);
-            }
-            // 近距离跟踪状态
-            else if (distanceToTarget < 16.0D) {
-                setAnimationState(STATE_TRACKING);
-            }
-            // 潜行状态 - 远距离接近目标
-            else if (distanceToTarget < 64.0D && getDeltaMovement().horizontalDistanceSqr() < 0.01D) {
-                setAnimationState(STATE_SNEAKING);
-            }
-            else {
-                setAnimationState(STATE_NORMAL);
-            }
-        } else {
+        if (target == null || !target.isAlive()) {
             setAnimationState(STATE_NORMAL);
+            return;
         }
+        double reach = getBbWidth() * 2.0D;
+        setAnimationState(isPassenger()
+                || distanceToSqr(target) > reach * reach + target.getBbWidth()
+                ? STATE_PURSUIT : STATE_ATTACK);
     }
 
     /**
      * 设置动画状态
      */
     public void setAnimationState(int state) {
-        if (getAnimationState() != state) {
-            entityData.set(ANIMATION_STATE, state);
+        int clampedState = Math.clamp(state, STATE_NORMAL, STATE_PURSUIT);
+        if (getAnimationState() != clampedState) {
+            entityData.set(ANIMATION_STATE, clampedState);
         }
     }
 
@@ -178,8 +179,6 @@ public final class SimHumanEntity extends Monster implements GeoEntity, Parasite
     public boolean doHurtTarget(Entity target) {
         boolean hit = super.doHurtTarget(target);
         if (hit && !level().isClientSide) {
-            triggerAnim("attack_controller", "attack");
-
             // 尝试骑乘目标
             if (target instanceof LivingEntity living && living.isAlive() && !isPassenger()) {
                 if (random.nextFloat() < 0.3F) {
@@ -243,37 +242,32 @@ public final class SimHumanEntity extends Monster implements GeoEntity, Parasite
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        entityData.set(ANIMATION_STATE, tag.getInt("animation_state"));
+        setAnimationState(tag.getInt("animation_state"));
     }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        // 主要移动控制器 - 根据状态切换动画
-        controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> {
-                    int animState = getAnimationState();
+        controllers.add(new AnimationController<>(this, "age_controller", 0,
+                state -> state.setAndContinue(ageAnimation())));
+        controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
+            if (!ParasiteAnimations.isMoving(this, state.isMoving())) {
+                return PlayState.STOP;
+            }
+            return state.setAndContinue(switch (getAnimationState()) {
+                case STATE_ATTACK -> LIMB_STATUS_1;
+                case STATE_PURSUIT -> LIMB_STATUS_2;
+                default -> LIMB;
+            });
+        }));
+    }
 
-                    // 根据动画状态选择对应的动画
-                    switch (animState) {
-                        case STATE_TRACKING:
-                            return state.setAndContinue(
-                                    ParasiteAnimations.isMoving(this, state.isMoving()) ? TRACKING : IDLE);
-                        case STATE_SNEAKING:
-                            return state.setAndContinue(
-                                    ParasiteAnimations.isMoving(this, state.isMoving()) ? SNEAKING : IDLE);
-                        case STATE_RIDING:
-                            return state.setAndContinue(RIDING);
-                        case STATE_NORMAL:
-                        default:
-                            return state.setAndContinue(
-                                    ParasiteAnimations.isMoving(this, state.isMoving()) ? WALK : IDLE);
-                    }
-                }));
-
-        // 攻击动画控制器
-        controllers.add(new AnimationController<>(this, "attack_controller", 0,
-                state -> PlayState.STOP)
-                .triggerableAnim("attack", ATTACK));
+    private RawAnimation ageAnimation() {
+        boolean still = stillAnimationTicks > STILL_ANIMATION_DELAY_TICKS;
+        return switch (getAnimationState()) {
+            case STATE_ATTACK -> still ? AGE_STATUS_1_STILL : AGE_STATUS_1;
+            case STATE_PURSUIT -> AGE_STATUS_2;
+            default -> still ? AGE_STILL : AGE;
+        };
     }
 
     @Override

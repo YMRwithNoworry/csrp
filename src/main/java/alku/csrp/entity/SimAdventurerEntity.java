@@ -81,9 +81,13 @@ public final class SimAdventurerEntity extends Monster implements GeoEntity, Par
             SimAdventurerEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> MELT_TICKS = SynchedEntityData.defineId(
             SimAdventurerEntity.class, EntityDataSerializers.INT);
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation AGE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final RawAnimation LIMB = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final RawAnimation HELMET = ParasiteAnimations.loop(this, "helmet_slot");
+    private final RawAnimation AGE_STILL = ParasiteAnimations.loop(
+            this, "func_78087_a.age_in_ticks.get_still_ani_1");
+    private final RawAnimation HELMET_STILL = ParasiteAnimations.loop(
+            this, "helmet_slot.get_still_ani_1");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private int parasiteKills;
@@ -183,11 +187,7 @@ public final class SimAdventurerEntity extends Monster implements GeoEntity, Par
 
     @Override
     public boolean doHurtTarget(Entity target) {
-        boolean hit = super.doHurtTarget(target);
-        if (hit && !level().isClientSide) {
-            triggerAnim("attack_controller", "attack");
-        }
-        return hit;
+        return super.doHurtTarget(target);
     }
 
     public void melt() {
@@ -267,10 +267,19 @@ public final class SimAdventurerEntity extends Monster implements GeoEntity, Par
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving()) ? WALK : IDLE)));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
-                .triggerableAnim("attack", ATTACK));
+        controllers.add(new AnimationController<>(this, "age_controller", 0,
+                state -> state.setAndContinue(ageAnimation())));
+        controllers.add(new AnimationController<>(this, "movement_controller", 4, state ->
+                !isMelting() && ParasiteAnimations.isMoving(this, state.isMoving())
+                        ? state.setAndContinue(LIMB) : PlayState.STOP));
+    }
+
+    private RawAnimation ageAnimation() {
+        boolean helmetEquipped = !getItemBySlot(EquipmentSlot.HEAD).isEmpty();
+        if (isMelting()) {
+            return helmetEquipped ? HELMET_STILL : AGE_STILL;
+        }
+        return helmetEquipped ? HELMET : AGE;
     }
 
     @Override

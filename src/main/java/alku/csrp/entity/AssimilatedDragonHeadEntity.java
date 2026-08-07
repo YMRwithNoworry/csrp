@@ -32,9 +32,8 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 /** Detached dragon head retains its fireball attack after the body has been decapitated. */
 public final class AssimilatedDragonHeadEntity extends Monster implements GeoEntity, Parasite {
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation AGE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final RawAnimation LIMB = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private int fireballCooldown;
 
@@ -84,9 +83,6 @@ public final class AssimilatedDragonHeadEntity extends Monster implements GeoEnt
         LivingEntity livingTarget = entity instanceof LivingEntity living ? living : null;
         float healthBefore = livingTarget == null ? 0.0F : ParasiteCombatEffects.healthWithAbsorption(livingTarget);
         boolean hit = super.doHurtTarget(entity);
-        if (hit) {
-            triggerAnim("attack_controller", "attack");
-        }
         if (hit && livingTarget != null) {
             ParasiteCombatEffects.applyFearFromDamage(livingTarget, healthBefore, this);
             InfectionMechanics.applyCoth(livingTarget, this);
@@ -106,10 +102,12 @@ public final class AssimilatedDragonHeadEntity extends Monster implements GeoEnt
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(this, "age_controller", 0,
+                state -> state.setAndContinue(AGE)));
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving()) ? WALK : IDLE)));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
-                software.bernie.geckolib.animation.PlayState.STOP).triggerableAnim("attack", ATTACK));
+                state -> ParasiteAnimations.isMoving(this, state.isMoving())
+                        ? state.setAndContinue(LIMB)
+                        : software.bernie.geckolib.animation.PlayState.STOP));
     }
 
     @Override
@@ -118,7 +116,6 @@ public final class AssimilatedDragonHeadEntity extends Monster implements GeoEnt
     }
 
     private void launchFireball(LivingEntity target) {
-        triggerAnim("attack_controller", "attack");
         Vec3 source = getEyePosition().add(getLookAngle());
         Vec3 direction = target.getEyePosition().subtract(source);
         if (direction.lengthSqr() < 0.001D) {

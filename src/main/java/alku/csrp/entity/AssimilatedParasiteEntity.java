@@ -78,20 +78,34 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
             SynchedEntityData.defineId(AssimilatedParasiteEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Integer> COW_CHARGE_STATE =
             SynchedEntityData.defineId(AssimilatedParasiteEntity.class, EntityDataSerializers.INT);
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
-    private final RawAnimation SWIM = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
-    private final RawAnimation COW_CHARGE_WINDUP = ParasiteAnimations.loop(
-            this, "idle.get_parasite_status_3.get_still_ani_1");
-    private final RawAnimation COW_CHARGING = ParasiteAnimations.loop(this, "walk.get_parasite_status_3");
+    private static final EntityDataAccessor<Integer> ANIMATION_STATUS =
+            SynchedEntityData.defineId(AssimilatedParasiteEntity.class, EntityDataSerializers.INT);
+    private static final int STILL_ANIMATION_DELAY_TICKS = 25;
+    private final RawAnimation AGE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final RawAnimation LIMB = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final RawAnimation AGE_STATUS_1 = ParasiteAnimations.loop(
+            this, "func_78087_a.age_in_ticks.get_parasite_status_1");
+    private final RawAnimation LIMB_STATUS_1 = ParasiteAnimations.loop(
+            this, "func_78087_a.limb_swing.get_parasite_status_1");
+    private final RawAnimation LIMB_STATUS_2 = ParasiteAnimations.loop(
+            this, "func_78087_a.limb_swing.get_parasite_status_2");
+    private final RawAnimation AGE_STATUS_3 = ParasiteAnimations.loop(
+            this, "func_78087_a.age_in_ticks.get_parasite_status_3");
+    private final RawAnimation LIMB_STATUS_3 = ParasiteAnimations.loop(
+            this, "func_78087_a.limb_swing.get_parasite_status_3");
+    private final RawAnimation AGE_STATUS_3_STILL = ParasiteAnimations.loop(
+            this, "func_78087_a.age_in_ticks.get_parasite_status_3.get_still_ani_1");
+    private final RawAnimation AGE_STATUS_6 = ParasiteAnimations.loop(
+            this, "func_78087_a.age_in_ticks.get_parasite_status_6");
+    private final RawAnimation THIGH_STATUS_6 = ParasiteAnimations.loop(
+            this, "get_theigh.get_parasite_status_6");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private final Kind kind;
     private int parasiteKills;
     private int chargeCooldown;
     private int meltTicks;
+    private int stillAnimationTicks;
 
     public AssimilatedParasiteEntity(EntityType<? extends AssimilatedParasiteEntity> type, Level level, Kind kind) {
         super(type, level);
@@ -139,9 +153,16 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
             freezeMelting();
         }
         super.tick();
+        if (ParasiteAnimations.isMoving(this, true)) {
+            stillAnimationTicks = 0;
+        } else {
+            stillAnimationTicks++;
+        }
         if (level().isClientSide) {
             return;
         }
+
+        updateAnimationStatus();
 
         if (isMelting()) {
             freezeMelting();
@@ -167,7 +188,6 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
         float healthBefore = livingTarget == null ? 0.0F : ParasiteCombatEffects.healthWithAbsorption(livingTarget);
         boolean hit = super.doHurtTarget(entity);
         if (hit && livingTarget != null) {
-            triggerAnim("attack_controller", "attack");
             ParasiteCombatEffects.applyFearFromDamage(livingTarget, healthBefore, this);
         }
         if (hit && kind == Kind.SQUID) {
@@ -269,6 +289,7 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
         builder.define(MELTING, false);
         builder.define(MELT_HEIGHT, 0.0F);
         builder.define(COW_CHARGE_STATE, 0);
+        builder.define(ANIMATION_STATUS, 0);
     }
 
     public boolean canMelt() {
@@ -369,23 +390,79 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(this, "age_controller", 0,
+                state -> state.setAndContinue(ageAnimation())));
         controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
-            if (kind == Kind.COW) {
-                int chargeState = entityData.get(COW_CHARGE_STATE);
-                if (chargeState == 1) {
-                    return state.setAndContinue(COW_CHARGE_WINDUP);
-                }
-                if (chargeState == 2) {
-                    return state.setAndContinue(COW_CHARGING);
-                }
+            if (kind == Kind.SQUID || !ParasiteAnimations.isMoving(this, state.isMoving())) {
+                return PlayState.STOP;
             }
-            if (kind == Kind.SQUID) {
-                return state.setAndContinue(SWIM);
-            }
-            return state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving()) ? RUN : IDLE);
+            RawAnimation animation = limbAnimation();
+            return animation == null ? PlayState.STOP : state.setAndContinue(animation);
         }));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
-                .triggerableAnim("attack", ATTACK));
+        controllers.add(new AnimationController<>(this, "melt_height_controller", 0, state ->
+                usesMeltFunction() && getAnimationStatus() == 6
+                        ? state.setAndContinue(THIGH_STATUS_6) : PlayState.STOP));
+    }
+
+    private void updateAnimationStatus() {
+        if (isMelting() && usesMeltFunction()) {
+            entityData.set(ANIMATION_STATUS, 6);
+            return;
+        }
+        if (kind == Kind.COW && entityData.get(COW_CHARGE_STATE) != 0) {
+            entityData.set(ANIMATION_STATUS, 3);
+            return;
+        }
+        LivingEntity target = getTarget();
+        if (target == null || !target.isAlive()) {
+            entityData.set(ANIMATION_STATUS, 0);
+            return;
+        }
+        double reach = getBbWidth() * 2.0D;
+        entityData.set(ANIMATION_STATUS,
+                distanceToSqr(target) <= reach * reach + target.getBbWidth() ? 1 : 2);
+    }
+
+    private RawAnimation ageAnimation() {
+        int status = getAnimationStatus();
+        if (kind == Kind.SQUID) {
+            return AGE;
+        }
+        if (kind == Kind.BEAR) {
+            return status == 0 ? AGE : AGE_STATUS_1;
+        }
+        return switch (status) {
+            case 1, 2 -> AGE_STATUS_1;
+            case 3 -> stillAnimationTicks > STILL_ANIMATION_DELAY_TICKS
+                    ? AGE_STATUS_3_STILL : AGE_STATUS_3;
+            case 6 -> AGE_STATUS_6;
+            default -> AGE;
+        };
+    }
+
+    @Nullable
+    private RawAnimation limbAnimation() {
+        int status = getAnimationStatus();
+        if (status == 6) {
+            return null;
+        }
+        if (kind == Kind.BEAR) {
+            return status == 0 ? LIMB : LIMB_STATUS_1;
+        }
+        return switch (status) {
+            case 1 -> LIMB_STATUS_1;
+            case 2 -> LIMB_STATUS_2;
+            case 3 -> LIMB_STATUS_3;
+            default -> LIMB;
+        };
+    }
+
+    private boolean usesMeltFunction() {
+        return kind == Kind.COW || kind == Kind.PIG || kind == Kind.SHEEP || kind == Kind.WOLF;
+    }
+
+    private int getAnimationStatus() {
+        return entityData.get(ANIMATION_STATUS);
     }
 
     @Override

@@ -55,22 +55,19 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
     private static final float BLOCK_BREAK_HARDNESS = 3.0F;
     private int blockBreakCooldown;
 
-    // 动画定义 - 对应原模组的不同 parasiteStatus 状态
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");  // 状态 0: 空闲
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");  // 状态 0: 行走
-    private final RawAnimation ATTACK_ANIM = RawAnimation.begin()
-            .thenLoop("animation.sim_dragone.idle.get_parasite_status_1");  // 状态 1: 近战攻击
-    private final RawAnimation ATTACK_WALK_ANIM = RawAnimation.begin()
-            .thenLoop("animation.sim_dragone.walk.get_parasite_status_1");
-    private final RawAnimation SWIM = RawAnimation.begin()
-            .thenLoop("animation.sim_dragone.walk.get_parasite_status_2");  // 状态 2: 游泳
-    private final RawAnimation FLY = RawAnimation.begin()
-            .thenLoop("animation.sim_dragone.idle.get_flying_state_1");     // 状态 3: 飞行
-    private final RawAnimation TAKEOFF = RawAnimation.begin()
-            .thenPlay("animation.sim_dragone.getaaa.get_flying_state_1");   // 起飞过渡
-    private final RawAnimation BREATH_ATTACK = RawAnimation.begin()
-            .thenLoop("animation.sim_dragone.idle.get_parasite_status_10"); // 状态 10: 火焰喷射
-    private final RawAnimation MELEE_ATTACK = ParasiteAnimations.play(this, "attack");  // 触发式近战攻击
+    private final RawAnimation AGE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final RawAnimation LIMB = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final RawAnimation AGE_STATUS_1 = ParasiteAnimations.loop(
+            this, "func_78087_a.age_in_ticks.get_parasite_status_1");
+    private final RawAnimation LIMB_STATUS_1 = ParasiteAnimations.loop(
+            this, "func_78087_a.limb_swing.get_parasite_status_1");
+    private final RawAnimation LIMB_STATUS_2 = ParasiteAnimations.loop(
+            this, "func_78087_a.limb_swing.get_parasite_status_2");
+    private final RawAnimation AGE_STATUS_10 = ParasiteAnimations.loop(
+            this, "func_78087_a.age_in_ticks.get_parasite_status_10");
+    private final RawAnimation AGE_FLYING = ParasiteAnimations.loop(
+            this, "func_78087_a.age_in_ticks.get_flying_state_1");
+    private final RawAnimation TAKEOFF = ParasiteAnimations.play(this, "getaaa.get_flying_state_1");
     private static final EntityDataAccessor<Integer> PARASITE_STATUS = SynchedEntityData.defineId(
             AssimilatedDragonEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> FLYING = SynchedEntityData.defineId(
@@ -215,10 +212,8 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
         float healthBefore = livingTarget == null ? 0.0F : ParasiteCombatEffects.healthWithAbsorption(livingTarget);
         boolean hit = super.doHurtTarget(entity);
         if (hit) {
-            // 设置近战攻击状态并触发攻击动画
             setParasiteStatus(1);
             attackStateTimer = 20; // 攻击动画持续约1秒 (20 ticks)
-            triggerAnim("attack_controller", "attack");
         }
         if (hit && livingTarget != null) {
             ParasiteCombatEffects.applyFearFromDamage(livingTarget, healthBefore, this);
@@ -317,43 +312,31 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        // 主要移动动画控制器 - 根据 parasiteStatus 切换不同状态
+        controllers.add(new AnimationController<>(this, "age_controller", 0, state -> {
+            int status = getParasiteStatus();
+            if (status == 10) {
+                return state.setAndContinue(AGE_STATUS_10);
+            }
+            if (isFlying() || status == 3) {
+                return state.setAndContinue(AGE_FLYING);
+            }
+            return state.setAndContinue(status == 1 ? AGE_STATUS_1 : AGE);
+        }));
         controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
             int status = getParasiteStatus();
             boolean moving = ParasiteAnimations.isMoving(this, state.isMoving());
-
-            // 状态 10: 火焰喷射技能状态
-            if (status == 10) {
-                return state.setAndContinue(BREATH_ATTACK);
-            }
-
-            // 起飞时先播放翅膀展开过渡，再进入稳定飞行循环
             if (isFlying() && takeoffAnimationTicks > 0) {
                 return state.setAndContinue(TAKEOFF);
             }
-
-            // 状态 3: 飞行状态
-            if (isFlying() || status == 3) {
-                return state.setAndContinue(FLY);
+            if (!moving || isFlying() || status == 3 || status == 10) {
+                return software.bernie.geckolib.animation.PlayState.STOP;
             }
-
-            // 状态 2: 游泳状态
-            if (isInWater() || status == 2) {
-                return state.setAndContinue(SWIM);
-            }
-
-            // 状态 1: 近战攻击状态 - 使用特殊的攻击动画循环
-            if (status == 1) {
-                return state.setAndContinue(moving ? ATTACK_WALK_ANIM : ATTACK_ANIM);
-            }
-
-            // 状态 0: 空闲/行走
-            return state.setAndContinue(moving ? WALK : IDLE);
+            return state.setAndContinue(switch (status) {
+                case 1 -> LIMB_STATUS_1;
+                case 2 -> LIMB_STATUS_2;
+                default -> LIMB;
+            });
         }));
-
-        // 攻击动画控制器 - 可触发的近战攻击动画叠加
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
-                software.bernie.geckolib.animation.PlayState.STOP).triggerableAnim("attack", MELEE_ATTACK));
     }
 
     @Override

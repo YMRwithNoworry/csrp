@@ -106,6 +106,129 @@ const adaptedExpected = {
   ada_yelloweye: ["func_78087_a.age_in_ticks", "func_78087_a.age_in_ticks.get_parasite_status_1"]
 };
 
+const assimilatedExpected = {
+  sim_adventurer: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing", "helmet_slot",
+    "func_78087_a.age_in_ticks.get_still_ani_1", "helmet_slot.get_still_ani_1"],
+  sim_bear: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_1"],
+  sim_bigspider: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_still_ani_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1"],
+  sim_cow: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_2",
+    "func_78087_a.age_in_ticks.get_parasite_status_3",
+    "func_78087_a.limb_swing.get_parasite_status_3",
+    "func_78087_a.age_in_ticks.get_parasite_status_3.get_still_ani_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_6", "get_theigh.get_parasite_status_6"],
+  sim_cowhead: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_10"],
+  sim_dragone: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_2",
+    "func_78087_a.age_in_ticks.get_parasite_status_10",
+    "func_78087_a.age_in_ticks.get_flying_state_1", "getaaa.get_flying_state_1"],
+  sim_dragonhead: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing"],
+  sim_enderman: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.is_screaming_1", "func_78087_a.limb_swing.is_screaming_1",
+    "func_78087_a.age_in_ticks.is_crawling_1", "func_78087_a.limb_swing.is_crawling_1",
+    "func_78087_a.age_in_ticks.is_crawling_1.is_screaming_1",
+    "func_78087_a.limb_swing.is_crawling_1.is_screaming_1",
+    "func_78087_a.age_in_ticks.get_still_ani_1",
+    "func_78087_a.age_in_ticks.get_still_ani_1.is_screaming_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1.is_screaming_1",
+    "func_78087_a.limb_swing.get_parasite_status_1.is_screaming_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1.is_crawling_1",
+    "func_78087_a.limb_swing.get_parasite_status_1.is_crawling_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1.is_crawling_1.is_screaming_1",
+    "func_78087_a.limb_swing.get_parasite_status_1.is_crawling_1.is_screaming_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1.is_screaming_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_2.is_crawling_1",
+    "func_78087_a.limb_swing.get_parasite_status_2.is_crawling_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_2.is_crawling_1.is_screaming_1",
+    "func_78087_a.limb_swing.get_parasite_status_2.is_crawling_1.is_screaming_1"],
+  sim_endermanhead: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.is_screaming_1", "func_78087_a.limb_swing.is_screaming_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1.is_screaming_1",
+    "func_78087_a.limb_swing.get_parasite_status_1.is_screaming_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_10",
+    "func_78087_a.age_in_ticks.get_parasite_status_10.is_screaming_1"],
+  sim_horse: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_2",
+    "func_78087_a.limb_swing.get_parasite_status_2",
+    "func_78087_a.limb_swing.get_parasite_status_3"],
+  sim_horsehead: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_10"],
+  sim_human: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_still_ani_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_2",
+    "func_78087_a.limb_swing.get_parasite_status_2"],
+  sim_humanhead: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_10"],
+  sim_pig: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_2",
+    "func_78087_a.age_in_ticks.get_parasite_status_6", "get_theigh.get_parasite_status_6"],
+  sim_pighead: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_10"],
+  sim_sheep: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_2",
+    "func_78087_a.age_in_ticks.get_parasite_status_6", "get_theigh.get_parasite_status_6"],
+  sim_sheephead: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_10"],
+  sim_squid: ["func_78087_a.age_in_ticks"],
+  sim_villager: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_still_ani_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_2",
+    "func_78087_a.limb_swing.get_parasite_status_2",
+    "func_78087_a.age_in_ticks.get_parasite_status_2.get_still_ani_1"],
+  sim_villagerhead: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_10"],
+  sim_wolf: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_2",
+    "func_78087_a.age_in_ticks.get_parasite_status_6", "get_theigh.get_parasite_status_6"],
+  sim_wolfhead: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_10"],
+  sim_adventurerhead: ["func_78087_a.limb_swing",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_10"]
+};
+
 const pureExpected = {
   dispatcherten: ["func_78087_a.age_in_ticks", "get_floor_timer"],
   kyphosis: ["func_78087_a.age_in_ticks", "get_attack_timer", "get_floor_timer",
@@ -191,7 +314,8 @@ for (const id of all) {
     dispatcher_sii: "idle"
   };
   const baseActions = id === "dispatcher_sii" ? ["idle", "idle", "idle"] : ["idle", "walk", actionAliases[id] || "attack"];
-  const expectedActions = currentExpected[id] || adaptedExpected[id] || pureExpected[id];
+  const expectedActions = currentExpected[id] || adaptedExpected[id]
+    || assimilatedExpected[id] || pureExpected[id];
   const expected = expectedActions
     ? expectedActions.map((action) => `animation.${resourceId}.${action}`)
     : id === "crux_incomplete"
@@ -310,6 +434,15 @@ for (const id of all) {
   for (const key of expected) {
     if (!(key in animations)) failures.push(`${id}: missing base animation key ${key}`);
   }
+  if (assimilatedExpected[id]) {
+    const actualKeys = Object.keys(animations).sort();
+    const exactKeys = assimilatedExpected[id]
+      .map((action) => `animation.${resourceId}.${action}`).sort();
+    if (actualKeys.length !== exactKeys.length
+        || actualKeys.some((key, index) => key !== exactKeys[index])) {
+      failures.push(`${id}: animation keys differ from the extracted original function set`);
+    }
+  }
 }
 
 const registrations = read("src/main/java/alku/csrp/registry/ModEntities.java");
@@ -361,64 +494,24 @@ const sharedVariantActions = {
   ada_vermin: adaptedExpected.ada_vermin,
   ada_viscera: adaptedExpected.ada_viscera,
   ada_yelloweye: adaptedExpected.ada_yelloweye
-  ,sim_bear: ["idle", "walk", "run", "attack"]
-  ,sim_cow: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
-    "func_78087_a.age_in_ticks.get_parasite_status_1",
-    "func_78087_a.limb_swing.get_parasite_status_1",
-    "func_78087_a.limb_swing.get_parasite_status_2",
-    "func_78087_a.age_in_ticks.get_parasite_status_3",
-    "func_78087_a.limb_swing.get_parasite_status_3",
-    "func_78087_a.age_in_ticks.get_parasite_status_3.get_still_ani_1",
-    "func_78087_a.age_in_ticks.get_parasite_status_6", "get_theigh.get_parasite_status_6"]
-  ,sim_pig: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
-    "func_78087_a.age_in_ticks.get_parasite_status_1",
-    "func_78087_a.limb_swing.get_parasite_status_1",
-    "func_78087_a.limb_swing.get_parasite_status_2",
-    "func_78087_a.age_in_ticks.get_parasite_status_6", "get_theigh.get_parasite_status_6"]
-  ,sim_cowhead: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
-    "func_78087_a.age_in_ticks.get_parasite_status_1",
-    "func_78087_a.limb_swing.get_parasite_status_1",
-    "func_78087_a.age_in_ticks.get_parasite_status_10"]
-  ,sim_horsehead: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
-    "func_78087_a.limb_swing.get_parasite_status_1",
-    "func_78087_a.age_in_ticks.get_parasite_status_10"]
-  ,sim_endermanhead: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
-    "func_78087_a.age_in_ticks.is_screaming_1", "func_78087_a.limb_swing.is_screaming_1",
-    "func_78087_a.age_in_ticks.get_parasite_status_1",
-    "func_78087_a.limb_swing.get_parasite_status_1",
-    "func_78087_a.age_in_ticks.get_parasite_status_1.is_screaming_1",
-    "func_78087_a.limb_swing.get_parasite_status_1.is_screaming_1",
-    "func_78087_a.age_in_ticks.get_parasite_status_10",
-    "func_78087_a.age_in_ticks.get_parasite_status_10.is_screaming_1"]
-  ,sim_adventurerhead: ["func_78087_a.limb_swing", "func_78087_a.limb_swing.get_parasite_status_1",
-    "func_78087_a.age_in_ticks.get_parasite_status_10"]
-  ,sim_humanhead: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
-    "func_78087_a.age_in_ticks.get_parasite_status_1",
-    "func_78087_a.limb_swing.get_parasite_status_1",
-    "func_78087_a.age_in_ticks.get_parasite_status_10"]
-  ,sim_pighead: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
-    "func_78087_a.age_in_ticks.get_parasite_status_1",
-    "func_78087_a.limb_swing.get_parasite_status_1",
-    "func_78087_a.age_in_ticks.get_parasite_status_10"]
-  ,sim_sheephead: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
-    "func_78087_a.age_in_ticks.get_parasite_status_1",
-    "func_78087_a.limb_swing.get_parasite_status_1",
-    "func_78087_a.age_in_ticks.get_parasite_status_10"]
-  ,sim_villagerhead: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
-    "func_78087_a.age_in_ticks.get_parasite_status_1",
-    "func_78087_a.limb_swing.get_parasite_status_1",
-    "func_78087_a.age_in_ticks.get_parasite_status_10"]
-  ,sim_wolfhead: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
-    "func_78087_a.age_in_ticks.get_parasite_status_1",
-    "func_78087_a.limb_swing.get_parasite_status_1",
-    "func_78087_a.age_in_ticks.get_parasite_status_10"]
-  ,sim_sheep: ["idle", "walk", "run", "attack"]
-  ,sim_wolf: ["idle", "walk", "run", "attack"]
-  ,sim_squid: ["idle", "walk", "run", "attack"]
-  ,sim_bigspider: ["idle", "walk", "run", "attack", "idle.get_parasite_status_1",
-    "walk.get_parasite_status_1"]
-  ,sim_horse: ["idle", "walk", "run", "attack"]
-  ,sim_villager: ["idle", "walk", "run", "attack"]
+  ,sim_bear: assimilatedExpected.sim_bear
+  ,sim_cow: assimilatedExpected.sim_cow
+  ,sim_pig: assimilatedExpected.sim_pig
+  ,sim_cowhead: assimilatedExpected.sim_cowhead
+  ,sim_horsehead: assimilatedExpected.sim_horsehead
+  ,sim_endermanhead: assimilatedExpected.sim_endermanhead
+  ,sim_adventurerhead: assimilatedExpected.sim_adventurerhead
+  ,sim_humanhead: assimilatedExpected.sim_humanhead
+  ,sim_pighead: assimilatedExpected.sim_pighead
+  ,sim_sheephead: assimilatedExpected.sim_sheephead
+  ,sim_villagerhead: assimilatedExpected.sim_villagerhead
+  ,sim_wolfhead: assimilatedExpected.sim_wolfhead
+  ,sim_sheep: assimilatedExpected.sim_sheep
+  ,sim_wolf: assimilatedExpected.sim_wolf
+  ,sim_squid: assimilatedExpected.sim_squid
+  ,sim_bigspider: assimilatedExpected.sim_bigspider
+  ,sim_horse: assimilatedExpected.sim_horse
+  ,sim_villager: assimilatedExpected.sim_villager
   ,grunt: pureExpected.grunt
   ,bomber_light: pureExpected.bomber_light
   ,monarch: pureExpected.monarch
@@ -597,32 +690,19 @@ if (!earlyLifecycleHostII.includes('"func_78087_a.age_in_ticks"') || earlyLifecy
 }
 
 const assimilatedDragon = read("src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java");
-if (!assimilatedDragon.includes('animation.sim_dragone.walk.get_parasite_status_1')) {
-  failures.push("AssimilatedDragonEntity: moving status 1 does not use the extracted original function");
+for (const action of assimilatedExpected.sim_dragone) {
+  if (!assimilatedDragon.includes(`"${action}"`)) {
+    failures.push(`AssimilatedDragonEntity: original runtime animation ${action} is not wired`);
+  }
 }
-if (!assimilatedDragon.includes('moving ? ATTACK_WALK_ANIM : ATTACK_ANIM')) {
-  failures.push("AssimilatedDragonEntity: status 1 does not switch between moving and idle functions");
+if (assimilatedDragon.includes('triggerableAnim("attack"')
+    || assimilatedDragon.includes('ParasiteAnimations.play(this, "attack"')) {
+  failures.push("AssimilatedDragonEntity: still uses a fabricated generic attack animation");
 }
 
 const assimilatedEnderman = read("src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java");
 const endermanFunctions = [
-  "idle", "walk", "idle.is_screaming_1", "walk.is_screaming_1",
-  "idle.is_crawling_1", "walk.is_crawling_1",
-  "idle.is_crawling_1.is_screaming_1", "walk.is_crawling_1.is_screaming_1",
-  "idle.get_still_ani_1", "idle.get_still_ani_1.is_screaming_1",
-  "idle.get_parasite_status_1", "walk.get_parasite_status_1",
-  "idle.get_parasite_status_1.is_screaming_1", "walk.get_parasite_status_1.is_screaming_1",
-  "idle.get_parasite_status_1.is_crawling_1", "walk.get_parasite_status_1.is_crawling_1",
-  "idle.get_parasite_status_1.is_crawling_1.is_screaming_1",
-  "walk.get_parasite_status_1.is_crawling_1.is_screaming_1",
-  "idle.get_parasite_status_1.get_still_ani_1",
-  "idle.get_parasite_status_1.get_still_ani_1.is_screaming_1",
-  "idle.get_parasite_status_2.is_crawling_1", "walk.get_parasite_status_2.is_crawling_1",
-  "idle.get_parasite_status_2.is_crawling_1.is_screaming_1",
-  "walk.get_parasite_status_2.is_crawling_1.is_screaming_1",
-  "idle.get_parasite_status_3", "idle.get_parasite_status_3.is_screaming_1",
-  "idle.get_parasite_status_3.is_crawling_1",
-  "idle.get_parasite_status_3.is_crawling_1.is_screaming_1"
+  ...assimilatedExpected.sim_enderman
 ];
 for (const action of endermanFunctions) {
   if (!assimilatedEnderman.includes(`"${action}"`)) {
@@ -915,10 +995,38 @@ if (hostII.includes('triggerableAnim("attack"') || hostII.includes('triggerAnim(
   failures.push("HostIIEntity: still fabricates an attack clip absent from ModelHostII");
 }
 
+for (const [className, actions] of [
+  ["AssimilatedParasiteEntity", [...new Set([
+    ...assimilatedExpected.sim_bear, ...assimilatedExpected.sim_cow,
+    ...assimilatedExpected.sim_pig, ...assimilatedExpected.sim_sheep,
+    ...assimilatedExpected.sim_wolf, ...assimilatedExpected.sim_squid
+  ])]],
+  ["AssimilatedVariantEntity", [...new Set([
+    ...assimilatedExpected.sim_bigspider, ...assimilatedExpected.sim_horse,
+    ...assimilatedExpected.sim_villager
+  ])]],
+  ["SimHumanEntity", assimilatedExpected.sim_human],
+  ["SimAdventurerEntity", assimilatedExpected.sim_adventurer],
+  ["AssimilatedDragonHeadEntity", assimilatedExpected.sim_dragonhead]
+]) {
+  const source = read(`src/main/java/alku/csrp/entity/${className}.java`);
+  for (const action of actions) {
+    if (!source.includes(`"${action}"`)) {
+      failures.push(`${className}: original assimilated function ${action} is not wired`);
+    }
+  }
+  if (/ParasiteAnimations\.(?:loop|play)\(this,\s*"(?:idle|walk|run|attack)"/.test(source)
+      || source.includes('triggerableAnim("attack"') || source.includes('triggerAnim("attack_controller"')) {
+    failures.push(`${className}: still uses a fabricated generic assimilated animation`);
+  }
+  if (!source.includes('"age_controller"')
+      || !source.includes('ParasiteAnimations.isMoving(this, state.isMoving())')) {
+    failures.push(`${className}: age and actual-displacement function controllers are incomplete`);
+  }
+}
+
 const triggeredFamilies = [
   ["AdaptedVariantEntity.java", "bolster_attack_controller"],
-  ["AssimilatedVariantEntity.java", "attack_controller"],
-  ["AssimilatedParasiteEntity.java", "attack_controller"],
   ["FeralParasiteEntity.java", "attack_controller"],
   ["AncientParasiteEntity.java", "attack_controller"],
 ];

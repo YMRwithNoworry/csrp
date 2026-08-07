@@ -47,21 +47,35 @@ import software.bernie.geckolib.util.GeckoLibUtil;
  * transition, and explosive remains burst.
  */
 public final class AssimilatedVariantEntity extends Monster implements GeoEntity, Parasite {
-    private static final EntityDataAccessor<Boolean> SPIDER_AIMING = SynchedEntityData.defineId(
-            AssimilatedVariantEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> ANIMATION_STATUS = SynchedEntityData.defineId(
+            AssimilatedVariantEntity.class, EntityDataSerializers.INT);
     private static final float HEAD_SPAWN_CHANCE = 0.5F;
     private static final float EXPLOSION_CHANCE = 0.25F;
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
-    private final RawAnimation SPIDER_AIM_IDLE = ParasiteAnimations.loop(this, "idle.get_parasite_status_1");
-    private final RawAnimation SPIDER_AIM_WALK = ParasiteAnimations.loop(this, "walk.get_parasite_status_1");
+    private static final int STILL_ANIMATION_DELAY_TICKS = 25;
+    private final RawAnimation AGE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final RawAnimation LIMB = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final RawAnimation AGE_STILL = ParasiteAnimations.loop(
+            this, "func_78087_a.age_in_ticks.get_still_ani_1");
+    private final RawAnimation AGE_STATUS_1 = ParasiteAnimations.loop(
+            this, "func_78087_a.age_in_ticks.get_parasite_status_1");
+    private final RawAnimation LIMB_STATUS_1 = ParasiteAnimations.loop(
+            this, "func_78087_a.limb_swing.get_parasite_status_1");
+    private final RawAnimation AGE_STATUS_1_STILL = ParasiteAnimations.loop(
+            this, "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1");
+    private final RawAnimation AGE_STATUS_2 = ParasiteAnimations.loop(
+            this, "func_78087_a.age_in_ticks.get_parasite_status_2");
+    private final RawAnimation LIMB_STATUS_2 = ParasiteAnimations.loop(
+            this, "func_78087_a.limb_swing.get_parasite_status_2");
+    private final RawAnimation AGE_STATUS_2_STILL = ParasiteAnimations.loop(
+            this, "func_78087_a.age_in_ticks.get_parasite_status_2.get_still_ani_1");
+    private final RawAnimation LIMB_STATUS_3 = ParasiteAnimations.loop(
+            this, "func_78087_a.limb_swing.get_parasite_status_3");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private final Kind kind;
     private int parasiteKills;
     private int rangedCooldown;
+    private int stillAnimationTicks;
 
     public AssimilatedVariantEntity(EntityType<? extends AssimilatedVariantEntity> type, Level level, Kind kind) {
         super(type, level);
@@ -82,7 +96,7 @@ public final class AssimilatedVariantEntity extends Monster implements GeoEntity
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        builder.define(SPIDER_AIMING, false);
+        builder.define(ANIMATION_STATUS, 0);
     }
 
     @Override
@@ -115,16 +129,18 @@ public final class AssimilatedVariantEntity extends Monster implements GeoEntity
     @Override
     public void tick() {
         super.tick();
+        if (ParasiteAnimations.isMoving(this, true)) {
+            stillAnimationTicks = 0;
+        } else {
+            stillAnimationTicks++;
+        }
         if (level().isClientSide) {
             return;
         }
         if (rangedCooldown > 0) {
             rangedCooldown--;
         }
-        if (kind == Kind.BIGSPIDER) {
-            LivingEntity target = getTarget();
-            entityData.set(SPIDER_AIMING, target != null && target.isAlive());
-        }
+        updateAnimationStatus();
         if (tickCount % 20 == 0) {
             infectNearby();
         }
@@ -140,7 +156,6 @@ public final class AssimilatedVariantEntity extends Monster implements GeoEntity
         float healthBefore = livingTarget == null ? 0.0F : ParasiteCombatEffects.healthWithAbsorption(livingTarget);
         boolean hit = super.doHurtTarget(entity);
         if (hit && livingTarget != null) {
-            triggerAnim("attack_controller", "attack");
             ParasiteCombatEffects.applyFearFromDamage(livingTarget, healthBefore, this);
             InfectionMechanics.applyCoth(livingTarget, this);
             if (kind == Kind.BIGSPIDER && random.nextInt(3) == 0) {
@@ -194,17 +209,60 @@ public final class AssimilatedVariantEntity extends Monster implements GeoEntity
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(this, "age_controller", 0,
+                state -> state.setAndContinue(ageAnimation())));
         controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
-            if (kind == Kind.BIGSPIDER && entityData.get(SPIDER_AIMING)) {
-                return state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving()) ? SPIDER_AIM_WALK : SPIDER_AIM_IDLE);
-            }
             if (!ParasiteAnimations.isMoving(this, state.isMoving())) {
-                return state.setAndContinue(IDLE);
+                return PlayState.STOP;
             }
-            return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() > 0.055D ? RUN : WALK);
+            return state.setAndContinue(limbAnimation());
         }));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
-                .triggerableAnim("attack", ATTACK));
+    }
+
+    private void updateAnimationStatus() {
+        LivingEntity target = getTarget();
+        if (target == null || !target.isAlive()) {
+            entityData.set(ANIMATION_STATUS, 0);
+            return;
+        }
+        if (kind == Kind.BIGSPIDER) {
+            entityData.set(ANIMATION_STATUS, 1);
+            return;
+        }
+        double reach = getBbWidth() * 2.0D;
+        entityData.set(ANIMATION_STATUS,
+                distanceToSqr(target) <= reach * reach + target.getBbWidth() ? 1 : 2);
+    }
+
+    private RawAnimation ageAnimation() {
+        int status = entityData.get(ANIMATION_STATUS);
+        boolean still = stillAnimationTicks > STILL_ANIMATION_DELAY_TICKS;
+        return switch (kind) {
+            case BIGSPIDER -> status == 1
+                    ? (still ? AGE_STATUS_1_STILL : AGE_STATUS_1)
+                    : (still ? AGE_STILL : AGE);
+            case HORSE -> status == 2 ? AGE_STATUS_2 : AGE;
+            case VILLAGER -> switch (status) {
+                case 1 -> still ? AGE_STATUS_1_STILL : AGE_STATUS_1;
+                case 2 -> still ? AGE_STATUS_2_STILL : AGE_STATUS_2;
+                default -> still ? AGE_STILL : AGE;
+            };
+            case HUMAN -> switch (status) {
+                case 1 -> still ? AGE_STATUS_1_STILL : AGE_STATUS_1;
+                case 2 -> AGE_STATUS_2;
+                default -> still ? AGE_STILL : AGE;
+            };
+        };
+    }
+
+    private RawAnimation limbAnimation() {
+        int status = entityData.get(ANIMATION_STATUS);
+        return switch (status) {
+            case 1 -> LIMB_STATUS_1;
+            case 2 -> LIMB_STATUS_2;
+            case 3 -> LIMB_STATUS_3;
+            default -> LIMB;
+        };
     }
 
     @Override

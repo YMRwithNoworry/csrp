@@ -71,27 +71,29 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
     private static final int STILL_ANIMATION_DELAY_TICKS = 25;
     private static final double MIN_TARGET_DISTANCE_SQR = 100.0D;
     private static final List<String> ORIGINAL_ANIMATION_FUNCTIONS = List.of(
-            "idle", "walk",
-            "idle.is_screaming_1", "walk.is_screaming_1",
-            "idle.is_crawling_1", "walk.is_crawling_1",
-            "idle.is_crawling_1.is_screaming_1", "walk.is_crawling_1.is_screaming_1",
-            "idle.get_still_ani_1", "idle.get_still_ani_1.is_screaming_1",
-            "idle.get_parasite_status_1", "walk.get_parasite_status_1",
-            "idle.get_parasite_status_1.is_screaming_1",
-            "walk.get_parasite_status_1.is_screaming_1",
-            "idle.get_parasite_status_1.is_crawling_1",
-            "walk.get_parasite_status_1.is_crawling_1",
-            "idle.get_parasite_status_1.is_crawling_1.is_screaming_1",
-            "walk.get_parasite_status_1.is_crawling_1.is_screaming_1",
-            "idle.get_parasite_status_1.get_still_ani_1",
-            "idle.get_parasite_status_1.get_still_ani_1.is_screaming_1",
-            "idle.get_parasite_status_2.is_crawling_1",
-            "walk.get_parasite_status_2.is_crawling_1",
-            "idle.get_parasite_status_2.is_crawling_1.is_screaming_1",
-            "walk.get_parasite_status_2.is_crawling_1.is_screaming_1",
-            "idle.get_parasite_status_3", "idle.get_parasite_status_3.is_screaming_1",
-            "idle.get_parasite_status_3.is_crawling_1",
-            "idle.get_parasite_status_3.is_crawling_1.is_screaming_1");
+            "func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+            "func_78087_a.age_in_ticks.is_screaming_1",
+            "func_78087_a.limb_swing.is_screaming_1",
+            "func_78087_a.age_in_ticks.is_crawling_1",
+            "func_78087_a.limb_swing.is_crawling_1",
+            "func_78087_a.age_in_ticks.is_crawling_1.is_screaming_1",
+            "func_78087_a.limb_swing.is_crawling_1.is_screaming_1",
+            "func_78087_a.age_in_ticks.get_still_ani_1",
+            "func_78087_a.age_in_ticks.get_still_ani_1.is_screaming_1",
+            "func_78087_a.age_in_ticks.get_parasite_status_1",
+            "func_78087_a.limb_swing.get_parasite_status_1",
+            "func_78087_a.age_in_ticks.get_parasite_status_1.is_screaming_1",
+            "func_78087_a.limb_swing.get_parasite_status_1.is_screaming_1",
+            "func_78087_a.age_in_ticks.get_parasite_status_1.is_crawling_1",
+            "func_78087_a.limb_swing.get_parasite_status_1.is_crawling_1",
+            "func_78087_a.age_in_ticks.get_parasite_status_1.is_crawling_1.is_screaming_1",
+            "func_78087_a.limb_swing.get_parasite_status_1.is_crawling_1.is_screaming_1",
+            "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1",
+            "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1.is_screaming_1",
+            "func_78087_a.age_in_ticks.get_parasite_status_2.is_crawling_1",
+            "func_78087_a.limb_swing.get_parasite_status_2.is_crawling_1",
+            "func_78087_a.age_in_ticks.get_parasite_status_2.is_crawling_1.is_screaming_1",
+            "func_78087_a.limb_swing.get_parasite_status_2.is_crawling_1.is_screaming_1");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private final Map<String, RawAnimation> originalAnimations = createOriginalAnimations();
@@ -380,20 +382,18 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
         int status = entityData.get(PARASITE_STATUS);
         boolean crawling = isCrawling();
         boolean screaming = entityData.get(SCREAMING);
-        String functionName;
-        if (status == 3) {
-            functionName = "idle.get_parasite_status_3";
-        } else {
-            if (!crawling && status == 2) {
-                status = 1;
-            }
-            functionName = moving ? "walk" : "idle";
-            if (status == 1 || status == 2) {
-                functionName += ".get_parasite_status_" + status;
-            }
-            if (!moving && !crawling && stillAnimationTicks > STILL_ANIMATION_DELAY_TICKS) {
-                functionName += ".get_still_ani_1";
-            }
+        if (status < 0 || status > 2) {
+            status = 0;
+        } else if (!crawling && status == 2) {
+            status = 1;
+        }
+        String functionName = moving
+                ? "func_78087_a.limb_swing" : "func_78087_a.age_in_ticks";
+        if (status == 1 || status == 2) {
+            functionName += ".get_parasite_status_" + status;
+        }
+        if (!moving && !crawling && stillAnimationTicks > STILL_ANIMATION_DELAY_TICKS) {
+            functionName += ".get_still_ani_1";
         }
         if (crawling) {
             functionName += ".is_crawling_1";
