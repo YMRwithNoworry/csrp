@@ -282,6 +282,20 @@ if (!host.includes("MAX_BURIED_TIMER = 4.8F") || !host.includes("BURIED_TIMER_ST
   failures.push("HostEntity: legacy burrow transition timing is not represented");
 }
 
+const hostII = read("src/main/java/alku/csrp/entity/HostIIEntity.java");
+for (const action of [
+  "idle.get_open_1", "get_burrow_timer.get_open_1", "idle.get_burrowed_1",
+  "get_burrow_timer.get_burrowed_1", "idle.get_burrowed_1.get_open_1",
+  "get_burrow_timer.get_burrowed_1.get_open_1"
+]) {
+  if (!hostII.includes(`"${action}"`)) {
+    failures.push(`HostIIEntity: original runtime animation ${action} is not wired`);
+  }
+}
+if (hostII.includes('triggerAnim("attack_controller", isBurrowed()')) {
+  failures.push("HostIIEntity: burrowed attack still substitutes an idle pose for the original attack clip");
+}
+
 const triggeredFamilies = [
   ["PrimitiveVariantEntity.java", "attack_controller"],
   ["AdaptedVariantEntity.java", "bolster_attack_controller"],

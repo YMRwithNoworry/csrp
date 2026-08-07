@@ -69,11 +69,16 @@ public final class HostIIEntity extends AbstractHostEntity {
     public static final int BURROW_DURATION_TICKS = 120;
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation BURROW = ParasiteAnimations.loop(this, "get_burrow_timer.get_burrowed_1");
+    private final RawAnimation OPEN_IDLE = ParasiteAnimations.loop(this, "idle.get_open_1");
+    private final RawAnimation OPEN_BURROW = ParasiteAnimations.loop(this, "get_burrow_timer.get_open_1");
+    private final RawAnimation BURROW = ParasiteAnimations.loop(this,
+            "get_burrow_timer.get_burrowed_1");
     private final RawAnimation BURROWED = ParasiteAnimations.loop(this, "idle.get_burrowed_1");
+    private final RawAnimation BURROWED_OPEN_IDLE = ParasiteAnimations.loop(this,
+            "idle.get_burrowed_1.get_open_1");
+    private final RawAnimation BURROWED_OPEN_BURROW = ParasiteAnimations.loop(this,
+            "get_burrow_timer.get_burrowed_1.get_open_1");
     private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
-    private final RawAnimation BURROWED_ATTACK =
-            ParasiteAnimations.play(this, "idle.get_burrowed_1.get_open_1");
 
     public HostIIEntity(EntityType<? extends HostIIEntity> type, Level level) {
         super(type, level, 0.12, 5.0, 5.0, BURROW_DURATION_TICKS, 20, 20);
@@ -181,7 +186,7 @@ public final class HostIIEntity extends AbstractHostEntity {
         // 触发攻击动画并重置攻击计时器
         entityData.set(ATTACK_UP, true);
         entityData.set(ATTACK_TIMER, 0.0F);
-        triggerAnim("attack_controller", isBurrowed() ? "burrowed_attack" : "attack");
+        triggerAnim("attack_controller", "attack");
     }
 
     // 客户端动画数据访问器
@@ -199,6 +204,11 @@ public final class HostIIEntity extends AbstractHostEntity {
 
     public boolean isAttackUp() {
         return entityData.get(ATTACK_UP);
+    }
+
+    private boolean isBurrowTransitioning() {
+        float timer = getBuriedTimer();
+        return timer > 0.0F && timer < MAX_BURIED_TIMER;
     }
 
     @Override
@@ -229,12 +239,19 @@ public final class HostIIEntity extends AbstractHostEntity {
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
                 state -> {
                     // 优先级1: 潜地过渡动画
-                    if (getBurrowAnimationTicks() > 0) {
-                        return state.setAndContinue(BURROW);
+                    if (isBurrowTransitioning()) {
+                        if (isBurrowed()) {
+                            return state.setAndContinue(isMouthOpen()
+                                    ? BURROWED_OPEN_BURROW : BURROW);
+                        }
+                        return state.setAndContinue(OPEN_BURROW);
                     }
                     // 优先级2: 完全潜地状态
                     if (isBurrowed()) {
-                        return state.setAndContinue(BURROWED);
+                        return state.setAndContinue(isMouthOpen() ? BURROWED_OPEN_IDLE : BURROWED);
+                    }
+                    if (isMouthOpen()) {
+                        return state.setAndContinue(OPEN_IDLE);
                     }
                     // 优先级3: 行走或待机
                     return state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving()) ? WALK : IDLE);
@@ -243,7 +260,6 @@ public final class HostIIEntity extends AbstractHostEntity {
         // 攻击控制器 - 处理attack和burrowed_attack状态
         controllers.add(new AnimationController<>(this, "attack_controller", 0,
                 state -> PlayState.STOP)
-                .triggerableAnim("attack", ATTACK)
-                .triggerableAnim("burrowed_attack", BURROWED_ATTACK));
+                .triggerableAnim("attack", ATTACK));
     }
 }
