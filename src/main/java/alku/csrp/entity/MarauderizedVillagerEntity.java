@@ -15,7 +15,7 @@ public final class MarauderizedVillagerEntity extends MarauderizedParasiteEntity
     private static final int SHOT_COOLDOWN_TICKS = 40;
 
     public MarauderizedVillagerEntity(EntityType<? extends MarauderizedVillagerEntity> type, Level level) {
-        super(type, level, 10);
+        super(type, level, 10, AnimationProfile.VILLAGER);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -37,7 +37,7 @@ public final class MarauderizedVillagerEntity extends MarauderizedParasiteEntity
         projectile.configure(this, ParasiteProjectileEntity.Mode.SPINE, start, target.getEyePosition(),
                 0.85D, 3.0F, 0.75D, 50);
         level().addFreshEntity(projectile);
-        triggerAnim("attack_controller", "attack");
+        startAttackAnimation();
     }
 
     private final class SpineballGoal extends Goal {

@@ -45,10 +45,11 @@ const human = read("src/main/java/alku/csrp/entity/MarauderizedHumanEntity.java"
 const tetherRenderer = read("src/main/java/alku/csrp/client/renderer/TetheredMarauderizedRenderer.java");
 
 for (const [source, hooks] of [
-  [shared, ["MeleeAttackGoal", "meleeSpeed"]],
+  [shared, ["MeleeAttackGoal", "meleeSpeed", "PARASITE_STATUS", "STILL_ANI", "startAttackAnimation",
+    '"age_controller"', "ParasiteAnimations.isMoving(this, state.isMoving())"]],
   [tethered, ["pullDurationTicks", "tetherDamage", "initialWeaknessAmplifier", "getPullTargetForRendering"]],
-  [bear, ["PullVolleyGoal", "PullingBallEntity"]],
-  [cow, ["VOMIT_EVENT", "ModMobEffects.VIRAL, 300, 20", "ModMobEffects.CORROSION, 300, 20"]],
+  [bear, ["PullVolleyGoal", "PullingBallEntity", "startAttackAnimation"]],
+  [cow, ["VOMIT_EVENT", "ModMobEffects.VIRAL, 300, 20", "ModMobEffects.CORROSION, 300, 20", "startAttackAnimation"]],
   [enderman, ["ParticleTypes.PORTAL", "DamageTypeTags.IS_PROJECTILE", "teleportAwayFromTarget", "pullStrength", "tetherDamage"]],
   [human, ["PounceMountGoal", "startRiding", "MobEffects.BLINDNESS", "MobEffects.HUNGER"]],
   [tetherRenderer, ["RenderType.lightning()", "getPullTargetForRendering", "renderRibbonSegment"]]

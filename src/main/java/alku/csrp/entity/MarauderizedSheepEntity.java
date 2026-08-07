@@ -15,7 +15,7 @@ public final class MarauderizedSheepEntity extends MarauderizedParasiteEntity {
     private static final int SHOT_COOLDOWN_TICKS = 100;
 
     public MarauderizedSheepEntity(EntityType<? extends MarauderizedSheepEntity> type, Level level) {
-        super(type, level, 9);
+        super(type, level, 9, AnimationProfile.SHEEP);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -37,7 +37,7 @@ public final class MarauderizedSheepEntity extends MarauderizedParasiteEntity {
         projectile.configure(this, ParasiteProjectileEntity.Mode.BOMB, start, target.getEyePosition(),
                 0.55D, 3.0F, 3.0D, 60);
         level().addFreshEntity(projectile);
-        triggerAnim("attack_controller", "attack");
+        startAttackAnimation();
     }
 
     private final class NadeGoal extends Goal {

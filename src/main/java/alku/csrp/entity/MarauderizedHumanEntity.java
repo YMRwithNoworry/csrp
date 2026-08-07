@@ -24,7 +24,7 @@ public final class MarauderizedHumanEntity extends MarauderizedParasiteEntity {
     private double pushZ;
 
     public MarauderizedHumanEntity(EntityType<? extends MarauderizedHumanEntity> type, Level level) {
-        super(type, level, 10);
+        super(type, level, 10, AnimationProfile.HUMAN);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -40,6 +40,11 @@ public final class MarauderizedHumanEntity extends MarauderizedParasiteEntity {
     @Override
     protected double meleeSpeed() {
         return 1.5D;
+    }
+
+    @Override
+    protected int specialAnimationStatus() {
+        return isPassenger() ? 3 : -1;
     }
 
     @Override
@@ -151,7 +156,7 @@ public final class MarauderizedHumanEntity extends MarauderizedParasiteEntity {
             setDeltaMovement(getDeltaMovement().multiply(0.25D, 0.0D, 0.25D)
                     .add(direction.x * 0.62D, 0.42D, direction.z * 0.62D));
             hasImpulse = true;
-            triggerAnim("attack_controller", "attack");
+            startAttackAnimation();
             pounceCooldown = 20;
         }
     }

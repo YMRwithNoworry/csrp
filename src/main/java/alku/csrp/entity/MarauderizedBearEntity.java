@@ -20,7 +20,7 @@ public final class MarauderizedBearEntity extends TetheredMarauderizedEntity {
     private int volleyDelay;
 
     public MarauderizedBearEntity(EntityType<? extends MarauderizedBearEntity> type, Level level) {
-        super(type, level, 12);
+        super(type, level, 12, AnimationProfile.BEAR);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -41,6 +41,11 @@ public final class MarauderizedBearEntity extends TetheredMarauderizedEntity {
         }
     }
 
+    @Override
+    protected int specialAnimationStatus() {
+        return hasPullTarget() ? 3 : -1;
+    }
+
     private void shootPullingBall(LivingEntity target) {
         PullingBallEntity ball = ModEntities.PULLING_BALL.get().create(level());
         if (ball == null) {
@@ -55,7 +60,7 @@ public final class MarauderizedBearEntity extends TetheredMarauderizedEntity {
         ball.setPos(start);
         ball.setDeltaMovement(direction.normalize().scale(0.35D));
         level().addFreshEntity(ball);
-        triggerAnim("attack_controller", "attack");
+        startAttackAnimation();
     }
 
     private final class PullVolleyGoal extends Goal {

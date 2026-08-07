@@ -25,8 +25,8 @@ public abstract class TetheredMarauderizedEntity extends MarauderizedParasiteEnt
     private int pullCooldown;
 
     protected TetheredMarauderizedEntity(EntityType<? extends TetheredMarauderizedEntity> type, Level level,
-                                         int experience) {
-        super(type, level, experience);
+                                         int experience, AnimationProfile animationProfile) {
+        super(type, level, experience, animationProfile);
     }
 
     @Override

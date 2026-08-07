@@ -11,10 +11,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
 
 /** Legacy Marauderized enderman: teleporting ambusher that tethers targets after a melee hit. */
 public final class MarauderizedEndermanEntity extends TetheredMarauderizedEntity {
@@ -23,14 +19,9 @@ public final class MarauderizedEndermanEntity extends TetheredMarauderizedEntity
     private static final int TELEPORT_COOLDOWN_TICKS = 20;
 
     private int teleportCooldown;
-    private final RawAnimation idleAnimation = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation walkAnimation = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation attackAnimation = ParasiteAnimations.play(this, "attack");
-    private final RawAnimation screamingIdleAnimation = ParasiteAnimations.loop(this, "idle.is_screaming_1");
-    private final RawAnimation screamingWalkAnimation = ParasiteAnimations.loop(this, "walk.is_screaming_1");
 
     public MarauderizedEndermanEntity(EntityType<? extends MarauderizedEndermanEntity> type, Level level) {
-        super(type, level, 16);
+        super(type, level, 16, AnimationProfile.ENDERMAN);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -41,16 +32,6 @@ public final class MarauderizedEndermanEntity extends TetheredMarauderizedEntity
     public void setTarget(LivingEntity target) {
         super.setTarget(target);
         setAggressive(target != null);
-    }
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, state ->
-                state.setAndContinue(isAggressive()
-                        ? ParasiteAnimations.isMoving(this, state.isMoving()) ? screamingWalkAnimation : screamingIdleAnimation
-                        : ParasiteAnimations.isMoving(this, state.isMoving()) ? walkAnimation : idleAnimation)));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
-                .triggerableAnim("attack", attackAnimation));
     }
 
     @Override

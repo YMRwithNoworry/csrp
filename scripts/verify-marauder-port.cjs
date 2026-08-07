@@ -24,7 +24,9 @@ const soundsJson = read("src/main/resources/assets/csrp/sounds.json");
 const matrix = read("docs/ENTITY_PORTING_MATRIX.md");
 
 for (const [source, hooks] of [
-  [entity, ["TENDRIL_HEALTH_FRACTION", "SMASH_DURATION_TICKS = 100", "ensureAttachedTendrils", "trySummonSupportTendril", "hurtTendril", "ModMobEffects.RAGE"]],
+  [entity, ["TENDRIL_HEALTH_FRACTION", "SMASH_DURATION_TICKS = 100", "ensureAttachedTendrils", "trySummonSupportTendril", "hurtTendril", "ModMobEffects.RAGE",
+    "EntityDataAccessor<Integer> PARASITE_STATUS", "EntityDataAccessor<Boolean> STILL_ANI", '"age_controller"',
+    "if (getAttackTicks() > 0)", "ParasiteAnimations.isMoving(this, state.isMoving())"]],
   [tendril, ["Mode.ATTACHED", "Mode.DETACHED", "Mode.TELEPORT", "Mode.SNARE", "updateAttachedPosition", "tickSnareSupport"]],
   [model, ["geo/marauder.geo.json", "marauder_hardened.png", "taclejointLA0", "taclejointRA0"]],
   [tendrilModel, ["geo/marauder_tendril.geo.json", "marauder_tendril.animation.json"]]
@@ -47,7 +49,7 @@ for (const [source, hook, description] of [
   [english, "\"entity.csrp.marauder\"", "Marauder English name"],
   [chinese, "\"entity.csrp.marauder\"", "Marauder Chinese name"],
   [soundsJson, "\"marauder.living\"", "Marauder sounds.json entry"],
-  [matrix, "Progress: **49 / 119**", "Marauder matrix progress"]
+  [matrix, "Registration/resource baseline: **119 / 119**", "entity matrix baseline"]
 ]) {
   if (!source.includes(hook)) failures.push(`missing ${description}`);
 }
@@ -84,8 +86,26 @@ if (tendrilGeo["minecraft:geometry"][0].description.identifier !== "geometry.mar
 }
 
 const animation = JSON.parse(read("src/main/resources/assets/csrp/animations/marauder.animation.json"));
-for (const clip of ["idle", "walk", "smash", "swipe"]) {
-  if (!animation.animations[clip]) failures.push(`Marauder animation clip is missing: ${clip}`);
+const expectedMarauderAnimations = [
+  "func_78087_a.age_in_ticks", "func_78087_a.limb_swing", "get_attack_timer",
+  "func_78087_a.age_in_ticks.get_still_ani_1", "get_attack_timer.get_still_ani_1",
+  "func_78087_a.age_in_ticks.get_parasite_status_1", "func_78087_a.limb_swing.get_parasite_status_1",
+  "get_attack_timer.get_parasite_status_1",
+  "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1",
+  "get_attack_timer.get_parasite_status_1.get_still_ani_1",
+  "func_78087_a.age_in_ticks.get_parasite_status_2", "func_78087_a.limb_swing.get_parasite_status_2",
+  "get_attack_timer.get_parasite_status_2",
+  "func_78087_a.age_in_ticks.get_parasite_status_2.get_still_ani_1",
+  "get_attack_timer.get_parasite_status_2.get_still_ani_1",
+  "func_78087_a.age_in_ticks.get_parasite_status_3",
+  "func_78087_a.age_in_ticks.get_parasite_status_4", "get_attack_timer.get_parasite_status_4",
+  "func_78087_a.age_in_ticks.get_parasite_status_10", "get_attack_timer.get_parasite_status_10",
+  "func_78087_a.age_in_ticks.get_parasite_status_25", "get_attack_timer.get_parasite_status_25"
+].map((action) => `animation.marauder.${action}`).sort();
+const actualMarauderAnimations = Object.keys(animation.animations).sort();
+if (actualMarauderAnimations.length !== expectedMarauderAnimations.length
+    || actualMarauderAnimations.some((key, index) => key !== expectedMarauderAnimations[index])) {
+  failures.push("Marauder animation keys differ from the extracted original function set");
 }
 const tendrilAnimation = JSON.parse(read("src/main/resources/assets/csrp/animations/marauder_tendril.animation.json"));
 for (const clip of ["idle", "walk"]) {

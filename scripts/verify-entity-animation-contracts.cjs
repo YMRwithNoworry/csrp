@@ -7,7 +7,7 @@ const failures = [];
 const read = (relative) => fs.readFileSync(path.join(root, relative), "utf8");
 const animationKeys = new Set();
 const shortKeys = new Set([
-  "abo_head", "marauder_tendril", "marauder", "movingflesh",
+  "abo_head", "marauder_tendril", "movingflesh",
   "inf_sheep", "inf_sheep_head", "inf_villager"
 ]);
 
@@ -269,6 +269,56 @@ const hijackedAndFeralExpected = {
     "func_78087_a.limb_swing.get_parasite_status_2"]
 };
 
+const marauderizedExpected = {
+  mar_bear: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1", "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_2", "func_78087_a.limb_swing.get_parasite_status_2",
+    "func_78087_a.age_in_ticks.get_parasite_status_3", "func_78087_a.limb_swing.get_parasite_status_3"],
+  mar_cow: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1", "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_2", "func_78087_a.limb_swing.get_parasite_status_3",
+    "func_78087_a.age_in_ticks.get_parasite_status_3.get_still_ani_1"],
+  mar_enderman: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.is_screaming_1", "func_78087_a.limb_swing.is_screaming_1",
+    "func_78087_a.age_in_ticks.get_still_ani_1",
+    "func_78087_a.age_in_ticks.get_still_ani_1.is_screaming_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1.is_screaming_1",
+    "func_78087_a.limb_swing.get_parasite_status_1.is_screaming_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1.is_screaming_1"],
+  mar_human: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_still_ani_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1", "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_2", "func_78087_a.limb_swing.get_parasite_status_2",
+    "func_78087_a.age_in_ticks.get_parasite_status_3"],
+  mar_sheep: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1", "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_2", "func_78087_a.limb_swing.get_parasite_status_2"],
+  mar_villager: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_still_ani_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1", "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_2", "func_78087_a.limb_swing.get_parasite_status_2",
+    "func_78087_a.age_in_ticks.get_parasite_status_2.get_still_ani_1"],
+  marauder: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing", "get_attack_timer",
+    "func_78087_a.age_in_ticks.get_still_ani_1", "get_attack_timer.get_still_ani_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1", "func_78087_a.limb_swing.get_parasite_status_1",
+    "get_attack_timer.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1",
+    "get_attack_timer.get_parasite_status_1.get_still_ani_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_2", "func_78087_a.limb_swing.get_parasite_status_2",
+    "get_attack_timer.get_parasite_status_2",
+    "func_78087_a.age_in_ticks.get_parasite_status_2.get_still_ani_1",
+    "get_attack_timer.get_parasite_status_2.get_still_ani_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_3",
+    "func_78087_a.age_in_ticks.get_parasite_status_4", "get_attack_timer.get_parasite_status_4",
+    "func_78087_a.age_in_ticks.get_parasite_status_10", "get_attack_timer.get_parasite_status_10",
+    "func_78087_a.age_in_ticks.get_parasite_status_25", "get_attack_timer.get_parasite_status_25"]
+};
+
 const pureExpected = {
   dispatcherten: ["func_78087_a.age_in_ticks", "get_floor_timer"],
   kyphosis: ["func_78087_a.age_in_ticks", "get_attack_timer", "get_floor_timer",
@@ -317,7 +367,7 @@ function resolvedAnimationKey(id, requestedAction) {
       : requestedAction === "func_78087_a.getDigging" ? "get_dig_model.get_digging_1"
         : requestedAction === "animation" ? "idle" : requestedAction;
 
-  if (action === "attack" && shortKeys.has(resourceId) && !["abo_head", "marauder"].includes(resourceId)) {
+  if (action === "attack" && shortKeys.has(resourceId) && resourceId !== "abo_head") {
     return "walk";
   }
   if (action === "attack") {
@@ -329,8 +379,7 @@ function resolvedAnimationKey(id, requestedAction) {
       dispatcher_sii: "idle"
     }[resourceId] || action;
   }
-  if (resourceId === "marauder" && action.includes("get_parasite_status")) action = "skill";
-  else if (resourceId === "pri_summoner" && action === "summon") action = "run";
+  if (resourceId === "pri_summoner" && action === "summon") action = "run";
   else if (resourceId === "sim_cow" && action === "idle.get_parasite_status_3.get_still_ani_1") action = "idle";
   else if (resourceId === "sim_cow" && action === "walk.get_parasite_status_3") action = "run";
   else if (resourceId === "ada_arachnida" && action === "idle.get_parasite_status_11") action = "idle.get_parasite_status_3";
@@ -355,7 +404,7 @@ for (const id of all) {
   };
   const baseActions = id === "dispatcher_sii" ? ["idle", "idle", "idle"] : ["idle", "walk", actionAliases[id] || "attack"];
   const expectedActions = currentExpected[id] || adaptedExpected[id]
-    || assimilatedExpected[id] || hijackedAndFeralExpected[id] || pureExpected[id];
+    || assimilatedExpected[id] || hijackedAndFeralExpected[id] || marauderizedExpected[id] || pureExpected[id];
   const expected = expectedActions
     ? expectedActions.map((action) => `animation.${resourceId}.${action}`)
     : id === "crux_incomplete"
@@ -474,7 +523,8 @@ for (const id of all) {
   for (const key of expected) {
     if (!(key in animations)) failures.push(`${id}: missing base animation key ${key}`);
   }
-  const exactExpectedActions = assimilatedExpected[id] || hijackedAndFeralExpected[id];
+  const exactExpectedActions = assimilatedExpected[id] || hijackedAndFeralExpected[id]
+    || marauderizedExpected[id];
   if (exactExpectedActions) {
     const actualKeys = Object.keys(animations).sort();
     const exactKeys = exactExpectedActions
@@ -1113,6 +1163,51 @@ if (!feral.includes("EntityDataAccessor<Integer> PARASITE_STATUS")
     || !feral.includes("ParasiteAnimations.isMoving(this, state.isMoving())")
     || !feral.includes("status = distanceToSqr(target) > attackReachSqr ? 2 : 1")) {
   failures.push("FeralParasiteEntity: legacy status 1/2, still state, or actual-displacement controller is incomplete");
+}
+
+const marauderizedBase = read("src/main/java/alku/csrp/entity/MarauderizedParasiteEntity.java");
+for (const [className, id] of [
+  ["MarauderizedBearEntity", "mar_bear"],
+  ["MarauderizedCowEntity", "mar_cow"],
+  ["MarauderizedEndermanEntity", "mar_enderman"],
+  ["MarauderizedHumanEntity", "mar_human"],
+  ["MarauderizedSheepEntity", "mar_sheep"],
+  ["MarauderizedVillagerEntity", "mar_villager"]
+]) {
+  const entitySource = read(`src/main/java/alku/csrp/entity/${className}.java`);
+  const source = marauderizedBase + entitySource;
+  for (const action of marauderizedExpected[id]) {
+    if (!source.includes(`"${action}"`)) {
+      failures.push(`${className}: original Marauderized function ${action} is not wired`);
+    }
+  }
+  if (/ParasiteAnimations\.(?:loop|play)\(this,\s*"(?:idle|walk|run|attack)"/.test(source)
+      || source.includes('triggerableAnim("attack"')
+      || source.includes('triggerAnim("attack_controller"')) {
+    failures.push(`${className}: still uses a fabricated generic Marauderized animation`);
+  }
+  if (!source.includes('"age_controller"')
+      || !source.includes('ParasiteAnimations.isMoving(this, state.isMoving())')
+      || !source.includes("forcedStatusTicks")
+      || !source.includes("startAttackAnimation()")) {
+    failures.push(`${className}: attack-priority, status, or actual-displacement routing is incomplete`);
+  }
+}
+
+const marauder = read("src/main/java/alku/csrp/entity/MarauderEntity.java");
+for (const action of marauderizedExpected.marauder) {
+  if (!marauder.includes(`"${action}"`)) {
+    failures.push(`MarauderEntity: original function ${action} is not wired`);
+  }
+}
+if (!marauder.includes("EntityDataAccessor<Integer> PARASITE_STATUS")
+    || !marauder.includes("EntityDataAccessor<Boolean> STILL_ANI")
+    || !marauder.includes("if (getAttackTicks() > 0)")
+    || !marauder.includes('"age_controller"')
+    || !marauder.includes("ParasiteAnimations.isMoving(this, state.isMoving())")
+    || marauder.includes('triggerAnim("attack_controller"')
+    || marauder.includes('triggerableAnim("swipe"')) {
+  failures.push("MarauderEntity: original status/attack-timer priority routing is incomplete");
 }
 
 const hiSkeleton = read("src/main/java/alku/csrp/entity/HiSkeletonEntity.java");

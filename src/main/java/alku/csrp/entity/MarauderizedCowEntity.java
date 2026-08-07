@@ -25,7 +25,7 @@ public final class MarauderizedCowEntity extends MarauderizedParasiteEntity {
     private int vomitTicks;
 
     public MarauderizedCowEntity(EntityType<? extends MarauderizedCowEntity> type, Level level) {
-        super(type, level, 12);
+        super(type, level, 12, AnimationProfile.COW);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -93,7 +93,7 @@ public final class MarauderizedCowEntity extends MarauderizedParasiteEntity {
         cloud.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 300, 20, false, true));
         cloud.addEffect(new MobEffectInstance(ModMobEffects.CORROSION, 300, 20, false, true));
         level().addFreshEntity(cloud);
-        triggerAnim("attack_controller", "attack");
+        startAttackAnimation();
         getLookControl().setLookAt(target, 30.0F, 30.0F);
         level().broadcastEntityEvent(this, VOMIT_EVENT);
     }

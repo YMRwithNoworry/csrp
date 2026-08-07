@@ -61,9 +61,7 @@ final class ParasiteAnimations {
         // These extracted short-key resources omit the controller aliases
         // used by the original Java models; keep the original call sites but
         // resolve them to the available clips.
-        if (resourceId.equals("marauder") && action.contains("get_parasite_status")) {
-            action = "skill";
-        } else if (resourceId.equals("pri_summoner") && action.equals("summon")) {
+        if (resourceId.equals("pri_summoner") && action.equals("summon")) {
             action = "run";
         } else if (resourceId.equals("ada_arachnida")
                 && action.equals("idle.get_parasite_status_11")) {
@@ -89,14 +87,14 @@ final class ParasiteAnimations {
 
     private static boolean usesShortAnimationKeys(String resourceId) {
         return resourceId.equals("abo_head") || resourceId.equals("marauder_tendril")
-                || resourceId.equals("marauder") || resourceId.equals("movingflesh")
+                || resourceId.equals("movingflesh")
                 || resourceId.equals("pri_summoner")
                 || resourceId.equals("inf_sheep") || resourceId.equals("inf_sheep_head")
                 || resourceId.equals("inf_villager");
     }
 
     private static boolean hasShortAttackAnimation(String resourceId) {
-        return resourceId.equals("abo_head") || resourceId.equals("marauder");
+        return resourceId.equals("abo_head");
     }
 
     private static String animationResourceId(Entity entity) {
