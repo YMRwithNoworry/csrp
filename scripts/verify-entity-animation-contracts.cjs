@@ -87,6 +87,10 @@ for (const id of all) {
           "animation.sim_endermanhead.func_78087_a.limb_swing.get_parasite_status_1.is_screaming_1",
           "animation.sim_endermanhead.func_78087_a.age_in_ticks.get_parasite_status_10",
           "animation.sim_endermanhead.func_78087_a.age_in_ticks.get_parasite_status_10.is_screaming_1"]
+      : id === "sim_adventurerhead"
+        ? ["animation.sim_adventurerhead.func_78087_a.limb_swing",
+          "animation.sim_adventurerhead.func_78087_a.limb_swing.get_parasite_status_1",
+          "animation.sim_adventurerhead.func_78087_a.age_in_ticks.get_parasite_status_10"]
       : ["sim_cowhead", "sim_horsehead", "sim_humanhead", "sim_pighead", "sim_sheephead", "sim_villagerhead", "sim_wolfhead"].includes(id)
     ? ["animation." + id + ".func_78087_a.age_in_ticks",
       "animation." + id + ".func_78087_a.limb_swing",
@@ -109,7 +113,7 @@ for (const match of registrations.matchAll(/monster\("([a-z0-9_]+)",\s*(\w+)::ne
   const animations = JSON.parse(read(`src/main/resources/assets/csrp/animations/${resourceId}.animation.json`)).animations;
     for (const request of source.matchAll(/ParasiteAnimations\.(?:loop|play)\(this,\s*"([a-zA-Z0-9_.]+)"/g)) {
       if (className === "AssimilatedHeadEntity"
-          && ["sim_cowhead", "sim_endermanhead", "sim_horsehead", "sim_humanhead", "sim_pighead", "sim_sheephead",
+          && ["sim_adventurerhead", "sim_cowhead", "sim_endermanhead", "sim_horsehead", "sim_humanhead", "sim_pighead", "sim_sheephead",
             "sim_villagerhead", "sim_wolfhead"].includes(id)
           && (!request[1].startsWith("func_78087_a.")
             || id === "sim_horsehead" && request[1] === "func_78087_a.age_in_ticks.get_parasite_status_1")) continue;
@@ -196,6 +200,8 @@ const sharedVariantActions = {
     "func_78087_a.limb_swing.get_parasite_status_1.is_screaming_1",
     "func_78087_a.age_in_ticks.get_parasite_status_10",
     "func_78087_a.age_in_ticks.get_parasite_status_10.is_screaming_1"]
+  ,sim_adventurerhead: ["func_78087_a.limb_swing", "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_10"]
   ,sim_humanhead: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
     "func_78087_a.age_in_ticks.get_parasite_status_1",
     "func_78087_a.limb_swing.get_parasite_status_1",
@@ -409,6 +415,23 @@ if (!assimilatedHeads.includes("ParasiteAnimations.isMoving(this, state.isMoving
 }
 if (assimilatedHeads.includes('triggerableAnim("attack"') || assimilatedHeads.includes("triggerAnim(")) {
   failures.push("AssimilatedHeadEntity: shared heads still use fabricated generic attack animations");
+}
+
+const adventurerHead = read("src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java");
+for (const action of ["func_78087_a.limb_swing",
+  "func_78087_a.limb_swing.get_parasite_status_1",
+  "func_78087_a.age_in_ticks.get_parasite_status_10"]) {
+  if (!adventurerHead.includes(`"${action}"`)) {
+    failures.push(`SimAdventurerHeadEntity: original function ${action} is not wired`);
+  }
+}
+if (!adventurerHead.includes("class HeadMeleeGoal extends MeleeAttackGoal")
+    || !adventurerHead.includes("setParasiteStatus(1)")
+    || !adventurerHead.includes("setParasiteStatus(10)")) {
+  failures.push("SimAdventurerHeadEntity: pursuit and leap do not drive original statuses 1 and 10");
+}
+if (adventurerHead.includes('triggerableAnim("attack"') || adventurerHead.includes("triggerAnim(")) {
+  failures.push("SimAdventurerHeadEntity: still uses a fabricated generic attack animation");
 }
 
 const crux = read("src/main/java/alku/csrp/entity/CruxEntity.java");

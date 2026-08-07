@@ -50,12 +50,15 @@ import java.util.EnumSet;
 public final class SimAdventurerHeadEntity extends Monster implements GeoEntity, Parasite {
     private static final EntityDataAccessor<Integer> LEAP_TICKS = SynchedEntityData.defineId(
             SimAdventurerHeadEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> PARASITE_STATUS = SynchedEntityData.defineId(
+            SimAdventurerHeadEntity.class, EntityDataSerializers.INT);
     private static final double COTH_AURA_RADIUS = 3.0D;
     private static final float MINIMUM_DAMAGE = 0.5F;
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
-    private final RawAnimation LEAP = ParasiteAnimations.loop(this, "idle.get_parasite_status_10");
+    private final RawAnimation MOVEMENT = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final RawAnimation MOVEMENT_STATUS_1 = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_1");
+    private final RawAnimation AGE_STATUS_10 = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_10");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
 
@@ -84,9 +87,10 @@ public final class SimAdventurerHeadEntity extends Monster implements GeoEntity,
             public void start() {
                 super.start();
                 entityData.set(LEAP_TICKS, 24);
+                setParasiteStatus(10);
             }
         });
-        goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.3D, false));
+        goalSelector.addGoal(4, new HeadMeleeGoal());
         goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         goalSelector.addGoal(6, new ParasiteFollowGoal(this));
         goalSelector.addGoal(6, new RandomLookAroundGoal(this));
@@ -99,7 +103,13 @@ public final class SimAdventurerHeadEntity extends Monster implements GeoEntity,
     public void tick() {
         super.tick();
         if (!level().isClientSide && entityData.get(LEAP_TICKS) > 0) {
-            entityData.set(LEAP_TICKS, entityData.get(LEAP_TICKS) - 1);
+            int remainingTicks = entityData.get(LEAP_TICKS) - 1;
+            entityData.set(LEAP_TICKS, remainingTicks);
+            if (getParasiteStatus() == 10
+                    && (remainingTicks == 0 || remainingTicks <= 22 && onGround())) {
+                entityData.set(LEAP_TICKS, 0);
+                setParasiteStatus(0);
+            }
         }
         if (level().isClientSide || tickCount % 20 != 0) {
             return;
@@ -129,7 +139,6 @@ public final class SimAdventurerHeadEntity extends Monster implements GeoEntity,
                 ? ParasiteCombatEffects.healthWithAbsorption(living) : 0.0F;
         boolean hit = super.doHurtTarget(target);
         if (hit && !level().isClientSide) {
-            triggerAnim("attack_controller", "attack");
             if (target instanceof LivingEntity living) {
                 applyMinimumDamage(living, healthBefore);
             }
@@ -171,11 +180,14 @@ public final class SimAdventurerHeadEntity extends Monster implements GeoEntity,
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> state.setAndContinue(entityData.get(LEAP_TICKS) > 0
-                        ? LEAP : ParasiteAnimations.isMoving(this, state.isMoving()) ? WALK : IDLE)));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
-                .triggerableAnim("attack", ATTACK));
+        controllers.add(new AnimationController<>(this, "age_controller", 4, state ->
+                getParasiteStatus() == 10 ? state.setAndContinue(AGE_STATUS_10) : PlayState.STOP));
+        controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
+            if (!ParasiteAnimations.isMoving(this, state.isMoving()) || getParasiteStatus() == 10) {
+                return PlayState.STOP;
+            }
+            return state.setAndContinue(getParasiteStatus() == 1 ? MOVEMENT_STATUS_1 : MOVEMENT);
+        }));
     }
 
     @Override
@@ -208,6 +220,43 @@ public final class SimAdventurerHeadEntity extends Monster implements GeoEntity,
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(LEAP_TICKS, 0);
+        builder.define(PARASITE_STATUS, 0);
+    }
+
+    private int getParasiteStatus() {
+        return entityData.get(PARASITE_STATUS);
+    }
+
+    private void setParasiteStatus(int status) {
+        entityData.set(PARASITE_STATUS, status);
+    }
+
+    private final class HeadMeleeGoal extends MeleeAttackGoal {
+        private HeadMeleeGoal() {
+            super(SimAdventurerHeadEntity.this, 1.3D, false);
+        }
+
+        @Override
+        public void start() {
+            super.start();
+            setParasiteStatus(1);
+        }
+
+        @Override
+        public void tick() {
+            super.tick();
+            if (getParasiteStatus() != 10) {
+                setParasiteStatus(1);
+            }
+        }
+
+        @Override
+        public void stop() {
+            super.stop();
+            if (getParasiteStatus() != 10) {
+                setParasiteStatus(0);
+            }
+        }
     }
 
     private boolean mergeWith(IncompleteFormMediumEntity medium) {
