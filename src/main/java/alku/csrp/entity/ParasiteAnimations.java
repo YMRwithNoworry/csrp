@@ -90,7 +90,7 @@ final class ParasiteAnimations {
     private static boolean usesShortAnimationKeys(String resourceId) {
         return resourceId.equals("abo_head") || resourceId.equals("marauder_tendril")
                 || resourceId.equals("marauder") || resourceId.equals("movingflesh")
-                || resourceId.equals("pri_summoner") || resourceId.equals("sim_cowhead")
+                || resourceId.equals("pri_summoner")
                 || resourceId.equals("inf_sheep") || resourceId.equals("inf_sheep_head")
                 || resourceId.equals("inf_villager");
     }

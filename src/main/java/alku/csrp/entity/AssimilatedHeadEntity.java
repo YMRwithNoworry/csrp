@@ -31,6 +31,7 @@ import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
@@ -38,12 +39,24 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 public final class AssimilatedHeadEntity extends Monster implements GeoEntity, Parasite {
     private static final EntityDataAccessor<Integer> LEAP_TICKS = SynchedEntityData.defineId(
             AssimilatedHeadEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> PARASITE_STATUS = SynchedEntityData.defineId(
+            AssimilatedHeadEntity.class, EntityDataSerializers.INT);
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
     private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
     private final RawAnimation LEAP = ParasiteAnimations.loop(this, "idle.get_parasite_status_10");
     private final RawAnimation SCREAM_IDLE = ParasiteAnimations.loop(this, "idle.is_screaming_1");
     private final RawAnimation SCREAM_WALK = ParasiteAnimations.loop(this, "walk.is_screaming_1");
+    private final RawAnimation FUNC_78087_A_AGE = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks");
+    private final RawAnimation FUNC_78087_A_MOVEMENT = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing");
+    private final RawAnimation FUNC_78087_A_AGE_STATUS_1 = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_1");
+    private final RawAnimation FUNC_78087_A_MOVEMENT_STATUS_1 = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_1");
+    private final RawAnimation FUNC_78087_A_AGE_STATUS_10 = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_10");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private final Kind kind;
@@ -86,9 +99,12 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
             public void start() {
                 super.start();
                 entityData.set(LEAP_TICKS, 24);
+                if (usesOriginalHeadAnimations()) {
+                    setParasiteStatus(10);
+                }
             }
         });
-        goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.3D, false));
+        goalSelector.addGoal(3, new HeadMeleeGoal());
         goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         goalSelector.addGoal(6, new ParasiteFollowGoal(this));
         goalSelector.addGoal(6, new RandomLookAroundGoal(this));
@@ -112,8 +128,15 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
             }
             return;
         }
-        if (entityData.get(LEAP_TICKS) > 0) {
-            entityData.set(LEAP_TICKS, entityData.get(LEAP_TICKS) - 1);
+        int leapTicks = entityData.get(LEAP_TICKS);
+        if (leapTicks > 0) {
+            int remainingTicks = leapTicks - 1;
+            entityData.set(LEAP_TICKS, remainingTicks);
+            if (usesOriginalHeadAnimations() && getParasiteStatus() == 10
+                    && (remainingTicks == 0 || remainingTicks <= 22 && onGround())) {
+                entityData.set(LEAP_TICKS, 0);
+                setParasiteStatus(0);
+            }
         }
         if (kind == Kind.ENDERMAN && tickCount % 20 == 0 && getTarget() != null
                 && distanceToSqr(getTarget()) > 4.0D && random.nextInt(3) == 0) {
@@ -131,6 +154,7 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(LEAP_TICKS, 0);
+        builder.define(PARASITE_STATUS, 0);
     }
 
     @Override
@@ -158,14 +182,16 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
                 serverLevel.addFreshEntity(body);
             }
             target.discard();
-            triggerAnim("attack_controller", "attack");
+            if (!usesOriginalHeadAnimations()) {
+                triggerAnim("attack_controller", "attack");
+            }
             discard();
             return true;
         }
         LivingEntity livingTarget = target instanceof LivingEntity living ? living : null;
         float healthBefore = livingTarget == null ? 0.0F : ParasiteCombatEffects.healthWithAbsorption(livingTarget);
         boolean hit = super.doHurtTarget(target);
-        if (hit) {
+        if (hit && !usesOriginalHeadAnimations()) {
             triggerAnim("attack_controller", "attack");
         }
         if (hit && livingTarget != null) {
@@ -200,6 +226,25 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        if (usesOriginalHeadAnimations()) {
+            controllers.add(new AnimationController<>(this, "age_controller", 4, state -> {
+                RawAnimation animation = switch (getParasiteStatus()) {
+                    case 1, 2 -> FUNC_78087_A_AGE_STATUS_1;
+                    case 10 -> FUNC_78087_A_AGE_STATUS_10;
+                    default -> FUNC_78087_A_AGE;
+                };
+                return state.setAndContinue(animation);
+            }));
+            controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
+                if (getParasiteStatus() == 10
+                        || !ParasiteAnimations.isMoving(this, state.isMoving())) {
+                    return PlayState.STOP;
+                }
+                return state.setAndContinue(getParasiteStatus() == 1 || getParasiteStatus() == 2
+                        ? FUNC_78087_A_MOVEMENT_STATUS_1 : FUNC_78087_A_MOVEMENT);
+            }));
+            return;
+        }
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
                 state -> state.setAndContinue(entityData.get(LEAP_TICKS) > 0 ? LEAP
                         : kind == Kind.ENDERMAN && isAggressive()
@@ -216,6 +261,18 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
 
     public Kind getKind() {
         return kind;
+    }
+
+    private boolean usesOriginalHeadAnimations() {
+        return kind == Kind.COW || kind == Kind.PIG;
+    }
+
+    private int getParasiteStatus() {
+        return entityData.get(PARASITE_STATUS);
+    }
+
+    private void setParasiteStatus(int status) {
+        entityData.set(PARASITE_STATUS, status);
     }
 
     private boolean isValidParasiteTarget(LivingEntity target) {
@@ -255,6 +312,38 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
                     getZ() + (random.nextDouble() - 0.5D) * getBbWidth(),
                     (random.nextDouble() - 0.5D) * 2.0D, -random.nextDouble(),
                     (random.nextDouble() - 0.5D) * 2.0D);
+        }
+    }
+
+    private final class HeadMeleeGoal extends MeleeAttackGoal {
+        private HeadMeleeGoal() {
+            super(AssimilatedHeadEntity.this, 1.3D, false);
+        }
+
+        @Override
+        public void start() {
+            super.start();
+            updateMeleeStatus();
+        }
+
+        @Override
+        public void tick() {
+            super.tick();
+            updateMeleeStatus();
+        }
+
+        @Override
+        public void stop() {
+            super.stop();
+            if (usesOriginalHeadAnimations() && getParasiteStatus() != 10) {
+                setParasiteStatus(0);
+            }
+        }
+
+        private void updateMeleeStatus() {
+            if (usesOriginalHeadAnimations() && getParasiteStatus() != 10) {
+                setParasiteStatus(1);
+            }
         }
     }
 

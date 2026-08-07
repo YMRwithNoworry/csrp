@@ -8,7 +8,7 @@ const read = (relative) => fs.readFileSync(path.join(root, relative), "utf8");
 const animationKeys = new Set();
 const shortKeys = new Set([
   "abo_head", "marauder_tendril", "marauder", "movingflesh", "pri_summoner",
-  "sim_cowhead", "inf_sheep", "inf_sheep_head", "inf_villager"
+  "inf_sheep", "inf_sheep_head", "inf_villager"
 ]);
 
 function resolvedAnimationKey(id, requestedAction) {
@@ -76,6 +76,12 @@ for (const id of all) {
           "animation.sim_pig.func_78087_a.limb_swing.get_parasite_status_2",
           "animation.sim_pig.func_78087_a.age_in_ticks.get_parasite_status_6",
           "animation.sim_pig.get_theigh.get_parasite_status_6"]
+      : id === "sim_cowhead" || id === "sim_pighead"
+    ? ["animation." + id + ".func_78087_a.age_in_ticks",
+      "animation." + id + ".func_78087_a.limb_swing",
+      "animation." + id + ".func_78087_a.age_in_ticks.get_parasite_status_1",
+      "animation." + id + ".func_78087_a.limb_swing.get_parasite_status_1",
+      "animation." + id + ".func_78087_a.age_in_ticks.get_parasite_status_10"]
       : shortKeys.has(id)
     ? ["idle", "walk", id === "marauder" ? "attack" : "walk"]
     : baseActions.map((action) => `animation.${resourceId}.${action}`);
@@ -90,8 +96,10 @@ for (const match of registrations.matchAll(/monster\("([a-z0-9_]+)",\s*(\w+)::ne
   const source = read(`src/main/java/alku/csrp/entity/${className}.java`);
   const resourceId = id === "sim_dragonhead" ? "sim_dragonehead" : id;
   const animations = JSON.parse(read(`src/main/resources/assets/csrp/animations/${resourceId}.animation.json`)).animations;
-  for (const request of source.matchAll(/ParasiteAnimations\.(?:loop|play)\(this,\s*"([a-zA-Z0-9_.]+)"/g)) {
-    const key = resolvedAnimationKey(id, request[1]);
+    for (const request of source.matchAll(/ParasiteAnimations\.(?:loop|play)\(this,\s*"([a-zA-Z0-9_.]+)"/g)) {
+      if (className === "AssimilatedHeadEntity" && (id === "sim_cowhead" || id === "sim_pighead")
+          && !request[1].startsWith("func_78087_a.")) continue;
+      const key = resolvedAnimationKey(id, request[1]);
     if (!(key in animations)) failures.push(`${id}/${className}: unresolved requested animation ${key}`);
   }
 }
@@ -159,6 +167,14 @@ const sharedVariantActions = {
     "func_78087_a.limb_swing.get_parasite_status_1",
     "func_78087_a.limb_swing.get_parasite_status_2",
     "func_78087_a.age_in_ticks.get_parasite_status_6", "get_theigh.get_parasite_status_6"]
+  ,sim_cowhead: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_10"]
+  ,sim_pighead: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_10"]
   ,sim_sheep: ["idle", "walk", "run", "attack"]
   ,sim_wolf: ["idle", "walk", "run", "attack"]
   ,sim_squid: ["idle", "walk", "run", "attack"]
@@ -319,6 +335,35 @@ if (!assimilatedEnderman.includes("stillAnimationTicks > STILL_ANIMATION_DELAY_T
 if (!assimilatedEnderman.includes("Config.variantSpawnChance()")
     || !assimilatedEnderman.includes("EntityDimensions.scalable(0.95F, 1.25F)")) {
   failures.push("AssimilatedEndermanEntity: original crawling variant spawn or dimensions are missing");
+}
+
+const assimilatedHeads = read("src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java");
+for (const action of [
+  "func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+  "func_78087_a.age_in_ticks.get_parasite_status_1",
+  "func_78087_a.limb_swing.get_parasite_status_1",
+  "func_78087_a.age_in_ticks.get_parasite_status_10"
+]) {
+  if (!assimilatedHeads.includes(`"${action}"`)) {
+    failures.push(`AssimilatedHeadEntity: original cow/pig head function ${action} is not wired`);
+  }
+}
+if (!assimilatedHeads.includes("return kind == Kind.COW || kind == Kind.PIG")
+    || !assimilatedHeads.includes('"age_controller"')) {
+  failures.push("AssimilatedHeadEntity: cow/pig original function controllers are not isolated by kind");
+}
+if (!assimilatedHeads.includes("class HeadMeleeGoal extends MeleeAttackGoal")
+    || !assimilatedHeads.includes("setParasiteStatus(1)")
+    || !assimilatedHeads.includes("setParasiteStatus(10)")) {
+  failures.push("AssimilatedHeadEntity: melee and leap AI do not drive original statuses 1 and 10");
+}
+if (!assimilatedHeads.includes("ParasiteAnimations.isMoving(this, state.isMoving())")
+    || !assimilatedHeads.includes("remainingTicks <= 22 && onGround()")) {
+  failures.push("AssimilatedHeadEntity: original still-animation gate or leap landing reset is missing");
+}
+if (!assimilatedHeads.includes("if (!usesOriginalHeadAnimations())")
+    || !assimilatedHeads.includes("if (hit && !usesOriginalHeadAnimations())")) {
+  failures.push("AssimilatedHeadEntity: cow/pig heads can still trigger fabricated generic attacks");
 }
 
 const crux = read("src/main/java/alku/csrp/entity/CruxEntity.java");
