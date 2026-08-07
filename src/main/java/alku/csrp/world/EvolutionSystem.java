@@ -16,6 +16,8 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 
+import java.util.Set;
+
 /** Original SRP evolution thresholds, generation timing, and point sources. */
 public final class EvolutionSystem {
     public static final int VALUE_KILL = 1;
@@ -31,12 +33,15 @@ public final class EvolutionSystem {
             0, 800, 1_600, 5_000, 30_000, 200_000,
             5_000_000, 25_000_000, 500_000_000, 1_000_000_000, 1_800_000_000
     };
-    private static final int[] SLEEP_POINTS = {3, 40, 50, 1_000, 100, 2_500, 8_500, 12_500, 15_000, 18_000, 1};
+    private static final int[] PHASE_DELAY_SECONDS = {
+            0, 4_000, 4_800, 4_700, 4_500, 4_200, 3_800, 3_700, 3_700, 3_800, 6_000
+    };
+    private static final int[] SLEEP_POINTS = {3, 10, 25, 50, 100, 2_500, 8_500, 12_500, 15_000, 18_000, 1};
     private static final double[] PASSIVE_POINTS_PER_SECOND = {
             0.0D, 0.0D, 0.0D, 0.05D, 0.075D, 0.1D, 0.15D, 0.25D, 0.35D, 0.45D, 0.55D
     };
     private static final float[] PHASE_COTH_CHANCE = {
-            0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.20F, 0.40F, 0.60F, 0.90F, 1.0F
+            0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.20F, 0.40F, 0.80F, 0.90F, 1.0F
     };
     private static final float[] CROP_BLOCK_CHANCE = {
             0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.10F, 0.30F, 0.60F, 1.0F, 1.0F
@@ -60,6 +65,17 @@ public final class EvolutionSystem {
     private static final float[] GENERATION_POISON_HEALING = {0.0F, 0.3F, 1.0F, 1.5F, 2.0F, 2.5F};
     private static final float[] GENERATION_MOB_HEALING = {0.0F, 0.0F, 0.5F, 1.0F, 2.0F, 3.0F};
     private static final float[] GENERATION_ATTACK_SPEED = {1.0F, 1.0F, 1.0F, 0.9F, 0.7F, 0.5F};
+    private static final Set<String> PHASE_MINUS_ONE_SPAWNS = Set.of(
+            "rupter", "sim_squid", "sim_bigspider", "sim_human", "sim_cow", "sim_sheep",
+            "sim_wolf", "sim_pig", "sim_villager", "sim_adventurer", "sim_horse", "sim_bear",
+            "sim_enderman", "host", "heed", "pri_devourer", "pri_longarms", "pri_manducater",
+            "pri_reeker", "pri_yelloweye", "pri_summoner", "pri_bolster", "pri_arachnida", "thrall");
+    private static final Set<String> NATURAL_ASSIMILATED = Set.of(
+            "sim_squid", "sim_bigspider", "sim_human", "sim_cow", "sim_sheep", "sim_wolf",
+            "sim_pig", "sim_villager", "sim_adventurer", "sim_horse", "sim_bear", "sim_enderman");
+    private static final Set<String> NATURAL_FERAL = Set.of(
+            "fer_human", "fer_cow", "fer_sheep", "fer_wolf", "fer_pig", "fer_villager",
+            "fer_horse", "fer_enderman");
 
     private EvolutionSystem() {
     }
@@ -96,6 +112,10 @@ public final class EvolutionSystem {
             phase++;
         }
         return phase;
+    }
+
+    public static int phaseDelaySeconds(int phase) {
+        return phase < 0 ? 0 : PHASE_DELAY_SECONDS[Math.min(10, phase)];
     }
 
     public static int generationNeededTicks(int generation, int phase) {
@@ -143,7 +163,11 @@ public final class EvolutionSystem {
     }
 
     public static int sleepPoints(int phase) {
-        return phase < 0 ? 0 : SLEEP_POINTS[Math.min(10, phase)];
+        if (phase < 0) {
+            return 0;
+        }
+        int points = SLEEP_POINTS[Math.min(10, phase)];
+        return phase >= 6 ? points * 5 : points;
     }
 
     public static double passivePointsPerSecond(int phase) {
@@ -159,8 +183,14 @@ public final class EvolutionSystem {
     }
 
     public static boolean canNaturallySpawn(String path, int phase) {
+        if (phase == -1) {
+            return PHASE_MINUS_ONE_SPAWNS.contains(path);
+        }
+        if (phase < 0) {
+            return false;
+        }
         NaturalPhase range = naturalPhase(path);
-        return phase >= range.minimum() && phase <= range.maximum();
+        return range != null && phase >= range.minimum() && phase <= range.maximum();
     }
 
     public static boolean crossDimensionUnlocked(ServerLevel level, String path) {
@@ -172,9 +202,6 @@ public final class EvolutionSystem {
         } else if (path.equals("fer_enderman")) {
             requiredDimension = null;
             requiredPhase = 4;
-        } else if (path.equals("kirin")) {
-            requiredDimension = null;
-            requiredPhase = 7;
         } else if (path.equals("draconite")) {
             requiredDimension = Level.NETHER;
             requiredPhase = 7;
@@ -191,18 +218,22 @@ public final class EvolutionSystem {
         if (path.equals("carrier_light")) return new NaturalPhase(1, 4);
         if (path.equals("carrier_heavy")) return new NaturalPhase(2, 4);
         if (path.equals("carrier_flying")) return new NaturalPhase(3, 4);
-        if (path.equals("ada_bolster")) return new NaturalPhase(4, 10);
         if (path.equals("sim_dragone")) return new NaturalPhase(9, 10);
-        if (path.startsWith("sim_")) return new NaturalPhase(2, 7);
-        if (path.equals("host") || path.equals("hostii")) return new NaturalPhase(3, 7);
+        if (NATURAL_ASSIMILATED.contains(path)) return new NaturalPhase(2, 7);
+        if (path.equals("host")) return new NaturalPhase(3, 6);
+        if (path.equals("hostii")) return new NaturalPhase(7, 10);
         if (path.equals("lice")) return new NaturalPhase(3, 10);
         if (path.equals("heed") || path.startsWith("mar_")) return new NaturalPhase(4, 10);
         if (path.equals("crux") || path.equals("dredge")) return new NaturalPhase(5, 10);
         if (path.equals("mangler") || path.equals("abo_bodies")) return new NaturalPhase(6, 10);
         if (path.equals("airscrew") || path.equals("thrall")) return new NaturalPhase(7, 10);
-        if (path.equals("draconite") || path.equals("kirin")) return new NaturalPhase(1, 10);
-        if (path.startsWith("fer_") || path.equals("bomber_light")) return new NaturalPhase(8, 10);
-        return new NaturalPhase(0, 10);
+        if (NATURAL_FERAL.contains(path) || path.equals("bomber_light")) return new NaturalPhase(8, 10);
+        if (path.equals("worker") || path.equals("architect") || path.equals("bomber_heavy")
+                || path.equals("wraith") || path.equals("bogle") || path.equals("haunter")
+                || path.equals("carrier_colony") || path.equals("draconite") || path.equals("kirin")) {
+            return new NaturalPhase(1, 10);
+        }
+        return null;
     }
 
     public static int parasiteDeathPenalty(LivingEntity entity) {

@@ -170,7 +170,7 @@ public final class SrpWorldData extends SavedData {
     }
 
     public boolean addEvolutionPoints(ServerLevel level, int points) {
-        if (!canAddEvolutionPoints(points)) {
+        if (!canAddEvolutionPoints(points) || cooldown(level) > 0) {
             return false;
         }
 
@@ -184,6 +184,7 @@ public final class SrpWorldData extends SavedData {
         int previous = evolutionPhase;
         evolutionPhase = EvolutionSystem.phaseForPoints(evolutionPoints);
         if (previous != evolutionPhase) {
+            setCooldown(level, EvolutionSystem.phaseDelaySeconds(evolutionPhase));
             EvolutionSystem.announcePhaseChange(level, previous, evolutionPhase);
         }
         setDirty();

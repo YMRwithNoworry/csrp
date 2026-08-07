@@ -5,6 +5,7 @@ import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
 import alku.csrp.world.EvolutionSystem;
+import alku.csrp.world.SrpWorldData;
 import net.minecraft.core.Holder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -270,8 +271,10 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     }
 
     protected boolean isValidParasiteTarget(LivingEntity target) {
+        boolean totalSlaughter = level() instanceof ServerLevel serverLevel
+                && SrpWorldData.get(serverLevel).evolutionPhase() >= 9;
         return target != this && target.isAlive() && !(target instanceof Parasite)
-                && !target.hasEffect(ModMobEffects.THE_SIGN);
+                && (totalSlaughter || !target.hasEffect(ModMobEffects.THE_SIGN));
     }
 
     @Override

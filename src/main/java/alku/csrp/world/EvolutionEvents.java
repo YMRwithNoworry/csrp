@@ -12,6 +12,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -156,7 +157,7 @@ public final class EvolutionEvents {
         }
         int phase = SrpWorldData.get(level).evolutionPhase();
         boolean parasite = event.getEntity() instanceof Parasite;
-        if (parasite && phase < 0 || !parasite && phase >= 10) {
+        if (parasite && phase == -2 || !parasite && phase >= 10) {
             event.setResult(MobSpawnEvent.PositionCheck.Result.FAIL);
             return;
         }
@@ -165,6 +166,9 @@ public final class EvolutionEvents {
             if (!EvolutionSystem.canNaturallySpawn(path, phase)
                     || !EvolutionSystem.crossDimensionUnlocked(level, path)) {
                 event.setResult(MobSpawnEvent.PositionCheck.Result.FAIL);
+            } else {
+                // 阶段表是原模组自定义生成器的最终准入规则，也负责覆盖各实体旧的阶段检查。
+                event.setResult(MobSpawnEvent.PositionCheck.Result.SUCCEED);
             }
         }
     }
@@ -221,6 +225,15 @@ public final class EvolutionEvents {
         }
         EvolutionSystem.GenerationProfile profile = EvolutionSystem.generationProfile(level);
         updatePhaseTenAttributes(entity, level);
+        if (entity.tickCount % 20 == 0 && entity instanceof Mob mob && mob.getTarget() == null
+                && SrpWorldData.get(level).evolutionPhase() >= 9) {
+            double range = Math.max(16.0D, mob.getAttributeValue(Attributes.FOLLOW_RANGE));
+            level.getEntitiesOfClass(LivingEntity.class, mob.getBoundingBox().inflate(range),
+                            candidate -> candidate != mob && candidate.isAlive() && !(candidate instanceof Parasite)
+                                    && !(candidate instanceof Player player && player.getAbilities().instabuild))
+                    .stream().min(java.util.Comparator.comparingDouble(mob::distanceToSqr))
+                    .ifPresent(mob::setTarget);
+        }
         double movedX = entity.getX() - entity.xo;
         double movedZ = entity.getZ() - entity.zo;
         boolean movedHorizontally = movedX * movedX + movedZ * movedZ

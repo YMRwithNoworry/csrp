@@ -161,17 +161,18 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
     }
 
     private boolean shouldAvoid(LivingEntity entity) {
-        return isLoneBelowPhaseTwo()
+        return isLoneBeforeAggressivePhase()
                 && !(entity instanceof Parasite)
                 && (entity instanceof Player || entity instanceof Monster);
     }
 
     private boolean canTargetByPhase(LivingEntity entity) {
-        return entity != this && entity.isAlive() && !(entity instanceof Parasite) && !isLoneBelowPhaseTwo();
+        return entity != this && entity.isAlive() && !(entity instanceof Parasite) && !isLoneBeforeAggressivePhase();
     }
 
-    private boolean isLoneBelowPhaseTwo() {
-        return Config.evolutionPhase(level()) < 2 && nearbyRupters() == 0;
+    private boolean isLoneBeforeAggressivePhase() {
+        // 原模组在阶段 4 前保持游击/感染行为，阶段 4 起才转为正常主动攻击。
+        return Config.evolutionPhase(level()) < 4 && nearbyRupters() == 0;
     }
 
     private int nearbyRupters() {
@@ -744,7 +745,7 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
 
         @Override
         public boolean canUse() {
-            if (cloudCooldown > 0 || !isLoneBelowPhaseTwo() || random.nextInt(reducedTickDelay(20)) != 0) {
+            if (cloudCooldown > 0 || !isLoneBeforeAggressivePhase() || random.nextInt(reducedTickDelay(20)) != 0) {
                 return false;
             }
 

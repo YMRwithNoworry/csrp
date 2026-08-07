@@ -38,6 +38,7 @@ public final class InfectionMechanics {
     public static final float COTH_CONVERSION_HEALTH_FRACTION = 0.35F;
     private static final String ASSIMILATION_HOST_TAG = "csrp_assimilation_host";
     private static final int ASSIMILATION_FERAL_PHASE = 7;
+    private static final int ASSIMILATION_DEHIDE_PHASE = 9;
     private static final int ASSIMILATION_NAUSEA_TICKS = 100;
     private static final int ASSIMILATION_RESTORE_NAUSEA_TICKS = 60;
     private static final int ASSIMILATION_NAUSEA_AMPLIFIER = 3;
@@ -107,8 +108,10 @@ public final class InfectionMechanics {
         if (effectiveAmplifier >= 1) {
             spreadCoth(entity);
         }
+        boolean forceAssimilation = entity.level() instanceof ServerLevel serverLevel
+                && SrpWorldData.get(serverLevel).evolutionPhase() >= ASSIMILATION_DEHIDE_PHASE;
         if (effectiveAmplifier >= COTH_MAX_AMPLIFIER
-                && entity.getHealth() <= entity.getMaxHealth() * COTH_CONVERSION_HEALTH_FRACTION) {
+                && (forceAssimilation || entity.getHealth() <= entity.getMaxHealth() * COTH_CONVERSION_HEALTH_FRACTION)) {
             convertInfectedHost(entity);
         }
     }
