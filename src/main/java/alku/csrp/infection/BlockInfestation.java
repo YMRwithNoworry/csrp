@@ -1,6 +1,7 @@
 package alku.csrp.infection;
 
 import alku.csrp.block.InfestedBlock;
+import alku.csrp.config.BlockConversionsConfig;
 import alku.csrp.registry.ModBlocks;
 import alku.csrp.world.EvolutionSystem;
 import net.minecraft.core.BlockPos;
@@ -58,7 +59,10 @@ public final class BlockInfestation {
             return currentStage < stage && level.setBlock(pos,
                     current.setValue(InfestedBlock.STAGE, Math.min(3, stage)), Block.UPDATE_ALL);
         }
-        Block target = convertedBlock(current);
+        Block target = BlockConversionsConfig.customTarget(current.getBlock());
+        if (target == null && BlockConversionsConfig.useDefaultConversions()) {
+            target = convertedBlock(current);
+        }
         if (target == null || current.hasBlockEntity() || current.getDestroySpeed(level, pos) < 0.0F) {
             return false;
         }

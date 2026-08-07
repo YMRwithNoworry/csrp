@@ -2,6 +2,8 @@ package alku.csrp.world;
 
 import alku.csrp.Config;
 import alku.csrp.Csrp;
+import alku.csrp.config.GeneralConfig;
+import alku.csrp.config.WorldConfig;
 import alku.csrp.entity.Parasite;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModBlocks;
@@ -157,6 +159,22 @@ public final class EvolutionEvents {
         }
         int phase = SrpWorldData.get(level).evolutionPhase();
         boolean parasite = event.getEntity() instanceof Parasite;
+        if (parasite && (!GeneralConfig.allowMobs() || !WorldConfig.dimensionAllowsNaturalSpawning(level))) {
+            event.setResult(MobSpawnEvent.PositionCheck.Result.FAIL);
+            return;
+        }
+        if (parasite) {
+            int cap = WorldConfig.naturalMobCap(level);
+            if (cap > 0) {
+                int count = 0;
+                for (Entity entity : level.getAllEntities()) {
+                    if (entity instanceof Parasite && ++count >= cap) {
+                        event.setResult(MobSpawnEvent.PositionCheck.Result.FAIL);
+                        return;
+                    }
+                }
+            }
+        }
         if (parasite && phase == -2 || !parasite && phase >= 10) {
             event.setResult(MobSpawnEvent.PositionCheck.Result.FAIL);
             return;
