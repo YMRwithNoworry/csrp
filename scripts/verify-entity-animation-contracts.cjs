@@ -252,6 +252,21 @@ if (!longarms.includes("stillAnimationTicks > STILL_ANIMATION_DELAY_TICKS")) {
   failures.push("LongarmsEntity: legacy stillAni delay is not represented");
 }
 
+const dredge = read("src/main/java/alku/csrp/entity/DredgeEntity.java");
+for (const action of [
+  "idle.get_still_ani_1", "idle.get_parasite_status_1", "walk.get_parasite_status_1",
+  "idle.get_parasite_status_1.get_still_ani_1", "idle.get_parasite_status_2",
+  "walk.get_parasite_status_2", "idle.get_parasite_status_2.get_still_ani_1",
+  "idle.get_parasite_status_3"
+]) {
+  if (!dredge.includes(`"${action}"`)) {
+    failures.push(`DredgeEntity: original runtime animation ${action} is not wired`);
+  }
+}
+if (!dredge.includes("setParasiteStatus(STATUS_PULLING)")) {
+  failures.push("DredgeEntity: legacy pulling state 3 is not synchronized");
+}
+
 const triggeredFamilies = [
   ["PrimitiveVariantEntity.java", "attack_controller"],
   ["AdaptedVariantEntity.java", "bolster_attack_controller"],

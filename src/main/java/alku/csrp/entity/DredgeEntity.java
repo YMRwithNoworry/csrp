@@ -28,19 +28,35 @@ public final class DredgeEntity extends CrudeParasiteEntity {
     public boolean supportsDamageAdaptation() {
         return true;
     }
+    private static final int STATUS_IDLE = 0;
+    private static final int STATUS_COMBAT = 1;
+    private static final int STATUS_SPRINT = 2;
+    private static final int STATUS_PULLING = 3;
+    private static final int STILL_ANIMATION_DELAY_TICKS = 25;
     private static final int MAX_PULL_TICKS = 200;
     private static final double PULL_STRENGTH = 0.13;
     private static final EntityDataAccessor<Boolean> PULLING = SynchedEntityData.defineId(
             DredgeEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> PARASITE_STATUS = SynchedEntityData.defineId(
+            DredgeEntity.class, EntityDataSerializers.INT);
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
     private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
-    private final RawAnimation PULL_IDLE = ParasiteAnimations.loop(this, "idle.get_parasite_status_2");
-    private final RawAnimation PULL_WALK = ParasiteAnimations.loop(this, "walk.get_parasite_status_2");
+    private final RawAnimation STILL_IDLE = ParasiteAnimations.loop(this, "idle.get_still_ani_1");
+    private final RawAnimation COMBAT_IDLE = ParasiteAnimations.loop(this, "idle.get_parasite_status_1");
+    private final RawAnimation COMBAT_WALK = ParasiteAnimations.loop(this, "walk.get_parasite_status_1");
+    private final RawAnimation COMBAT_STILL_IDLE = ParasiteAnimations.loop(this,
+            "idle.get_parasite_status_1.get_still_ani_1");
+    private final RawAnimation SPRINT_IDLE = ParasiteAnimations.loop(this, "idle.get_parasite_status_2");
+    private final RawAnimation SPRINT_WALK = ParasiteAnimations.loop(this, "walk.get_parasite_status_2");
+    private final RawAnimation SPRINT_STILL_IDLE = ParasiteAnimations.loop(this,
+            "idle.get_parasite_status_2.get_still_ani_1");
+    private final RawAnimation PULL_IDLE = ParasiteAnimations.loop(this, "idle.get_parasite_status_3");
 
     private UUID pullTargetId;
     private int pullTicks;
     private int pullCooldown;
+    private int stillAnimationTicks;
 
     public DredgeEntity(EntityType<? extends DredgeEntity> type, Level level) {
         super(type, level);
@@ -63,6 +79,7 @@ public final class DredgeEntity extends CrudeParasiteEntity {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(PULLING, false);
+        builder.define(PARASITE_STATUS, STATUS_IDLE);
     }
 
     @Override
@@ -75,6 +92,7 @@ public final class DredgeEntity extends CrudeParasiteEntity {
             pullTargetId = target.getUUID();
             pullTicks = 0;
             entityData.set(PULLING, true);
+            setParasiteStatus(STATUS_PULLING);
             target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 60, 3), this);
         }
         return hit;
@@ -82,6 +100,11 @@ public final class DredgeEntity extends CrudeParasiteEntity {
 
     @Override
     public void tick() {
+        if (getX() == xo && getZ() == zo) {
+            stillAnimationTicks++;
+        } else {
+            stillAnimationTicks = 0;
+        }
         super.tick();
         if (level().isClientSide) return;
         if (pullCooldown > 0) pullCooldown--;
@@ -91,6 +114,7 @@ public final class DredgeEntity extends CrudeParasiteEntity {
             pullTargetId = null;
             pullTicks = 0;
             entityData.set(PULLING, false);
+            updateCombatStatus();
             return;
         }
         if (!hasLineOfSight(pullTarget) || distanceToSqr(pullTarget) > 9.0 || ++pullTicks > MAX_PULL_TICKS) {
@@ -99,6 +123,7 @@ public final class DredgeEntity extends CrudeParasiteEntity {
         }
 
         pullTarget.stopRiding();
+        setParasiteStatus(STATUS_PULLING);
         pullTarget.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20, 1, false, false), this);
         pullTarget.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 20, 1, false, false), this);
         var direction = position().subtract(pullTarget.position());
@@ -120,6 +145,29 @@ public final class DredgeEntity extends CrudeParasiteEntity {
         pullTicks = 0;
         pullCooldown = MAX_PULL_TICKS;
         entityData.set(PULLING, false);
+        updateCombatStatus();
+    }
+
+    private int getParasiteStatus() {
+        return entityData.get(PARASITE_STATUS);
+    }
+
+    private void setParasiteStatus(int status) {
+        entityData.set(PARASITE_STATUS, status);
+    }
+
+    private boolean isStillAnimation() {
+        return stillAnimationTicks > STILL_ANIMATION_DELAY_TICKS;
+    }
+
+    private void updateCombatStatus() {
+        LivingEntity target = getTarget();
+        if (target == null || !target.isAlive()) {
+            setParasiteStatus(STATUS_IDLE);
+            return;
+        }
+        setParasiteStatus(getDeltaMovement().horizontalDistanceSqr() > 0.0004D
+                ? STATUS_SPRINT : STATUS_COMBAT);
     }
 
     @Override
@@ -143,6 +191,7 @@ public final class DredgeEntity extends CrudeParasiteEntity {
         if (pullTargetId != null) tag.putUUID("pull_target", pullTargetId);
         tag.putInt("pull_ticks", pullTicks);
         tag.putInt("pull_cooldown", pullCooldown);
+        tag.putInt("parasite_status", getParasiteStatus());
     }
 
     @Override
@@ -152,14 +201,22 @@ public final class DredgeEntity extends CrudeParasiteEntity {
         pullTicks = tag.getInt("pull_ticks");
         pullCooldown = tag.getInt("pull_cooldown");
         entityData.set(PULLING, pullTargetId != null);
+        setParasiteStatus(tag.getInt("parasite_status"));
     }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> state.setAndContinue(entityData.get(PULLING)
-                        ? ParasiteAnimations.isMoving(this, state.isMoving()) ? PULL_WALK : PULL_IDLE
-                        : ParasiteAnimations.isMoving(this, state.isMoving()) ? WALK : IDLE)));
+        controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
+            boolean moving = ParasiteAnimations.isMoving(this, state.isMoving());
+            return switch (getParasiteStatus()) {
+                case STATUS_COMBAT -> state.setAndContinue(isStillAnimation()
+                        ? COMBAT_STILL_IDLE : moving ? COMBAT_WALK : COMBAT_IDLE);
+                case STATUS_SPRINT -> state.setAndContinue(isStillAnimation()
+                        ? SPRINT_STILL_IDLE : moving ? SPRINT_WALK : SPRINT_IDLE);
+                case STATUS_PULLING -> state.setAndContinue(PULL_IDLE);
+                default -> state.setAndContinue(isStillAnimation() ? STILL_IDLE : moving ? WALK : IDLE);
+            };
+        }));
         controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
                 software.bernie.geckolib.animation.PlayState.STOP).triggerableAnim("attack", ATTACK));
     }
