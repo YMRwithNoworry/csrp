@@ -38,12 +38,13 @@ expect(shared, /ModMobEffects\.COTH/, "carrier COTH cloud effect is missing");
 expect(shared, /ModMobEffects\.VIRAL/, "carrier viral cloud effect is missing");
 expect(shared, /ModMobEffects\.VOMIT, vomitDuration, 0/, "carrier explosion vomit effect is missing");
 expect(shared, /this::isValidParasiteTarget/, "carrier effects must exclude parasite targets");
-expect(shared, /ModBlocks\.INFESTED_REMAINS/, "carrier Infested Residue placement is missing");
+reject(shared, /INFESTED_REMAINS|spreadResidue|placeResidueAtFloor/,
+  "carrier detonation must not place blocks after death");
 
 const carriers = {
-  carrier_heavy: ["CarrierHeavyEntity.java", /super\(type, level, 70, 6, 7\.0, 1, 1200, 600\)/],
-  carrier_light: ["CarrierLightEntity.java", /super\(type, level, 70, 3, 7\.0, 1, 300, 500\)/],
-  carrier_flying: ["CarrierFlyingEntity.java", /super\(type, level, 30, 0, 4\.0, 0, 300, 400\)/]
+  carrier_heavy: ["CarrierHeavyEntity.java", /super\(type, level, 70, 7\.0, 1, 1200, 600\)/],
+  carrier_light: ["CarrierLightEntity.java", /super\(type, level, 70, 7\.0, 1, 300, 500\)/],
+  carrier_flying: ["CarrierFlyingEntity.java", /super\(type, level, 30, 4\.0, 0, 300, 400\)/]
 };
 
 for (const [id, [javaFile, behavior]] of Object.entries(carriers)) {

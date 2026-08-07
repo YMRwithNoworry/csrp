@@ -41,7 +41,9 @@ expect(system, /0\.04F, 0\.06F, 0\.08F, 0\.10F, 0\.14F, 0\.16F, 0\.18F, 0\.20F/,
 expect(system, /colonyPoints > 40/, "stage III Colony threshold is missing");
 expect(system, /colonyPoints > 20/, "stage II Colony threshold is missing");
 expect(data, /reinforcement_cooldown_end/, "reinforcement cooldown is not persisted");
-expect(carrier, /ModBlocks\.INFESTED_REMAINS/, "Carrier does not place Infested Residue");
+if (/INFESTED_REMAINS|spreadResidue|placeResidueAtFloor/.test(carrier)) {
+  failures.push("Carrier death still places Infested Residue");
+}
 expect(infested, /tryFromInfestedBlock/, "infested blocks do not trigger reinforcement attempts");
 expect(residue, /tryFromResidue/, "Infested Residue does not trigger reinforcement attempts");
 expect(residue, /multiply\(0\.84D, 1\.0D, 0\.86D\)/, "Infested Residue slowdown is incorrect");

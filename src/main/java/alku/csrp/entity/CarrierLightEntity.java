@@ -20,7 +20,7 @@ public final class CarrierLightEntity extends CarrierEntity {
             "func_78087_a.limb_swing");
 
     public CarrierLightEntity(EntityType<? extends CarrierLightEntity> type, Level level) {
-        super(type, level, 70, 3, 7.0, 1, 300, 500);
+        super(type, level, 70, 7.0, 1, 300, 500);
         xpReward = 18;
     }
 

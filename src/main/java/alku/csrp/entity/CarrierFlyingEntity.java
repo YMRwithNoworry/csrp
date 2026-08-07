@@ -21,7 +21,7 @@ public final class CarrierFlyingEntity extends CarrierEntity {
             "func_78087_a.age_in_ticks");
 
     public CarrierFlyingEntity(EntityType<? extends CarrierFlyingEntity> type, Level level) {
-        super(type, level, 30, 0, 4.0, 0, 300, 400);
+        super(type, level, 30, 4.0, 0, 300, 400);
         moveControl = new FlyingMoveControl(this, 20, true);
         setNoGravity(true);
         xpReward = 36;

@@ -161,7 +161,7 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
             return false;
         }
         boolean damaged = super.hurt(source, cappedDamage(source, amount));
-        if (damaged && !level().isClientSide) {
+        if (damaged && isAlive() && !level().isClientSide) {
             allyTeleportCooldown = 0;
             if (random.nextFloat() < 0.10F) {
                 placeFeralRemains(blockPosition());
@@ -450,7 +450,6 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
                     (random.nextDouble() - 0.5D) * 0.3D);
             serverLevel.addFreshEntity(gnat);
         }
-        placeFeralRemains(blockPosition());
         serverLevel.sendParticles(ParticleTypes.DAMAGE_INDICATOR, getX(), getY() + 1.0D, getZ(),
                 30, 1.2D, 1.5D, 1.2D, 0.12D);
         playSound(ModSounds.MOB_EXPLOSION.get(), 1.0F, 0.9F);

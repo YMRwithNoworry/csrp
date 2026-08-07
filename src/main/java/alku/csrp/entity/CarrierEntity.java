@@ -1,9 +1,7 @@
 package alku.csrp.entity;
 
-import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
@@ -26,7 +24,7 @@ import software.bernie.geckolib.animation.PlayState;
 
 import java.util.EnumSet;
 
-/** Shared detonation, residue, and toxic-cloud behavior of the original carrier parasites. */
+/** Shared detonation and toxic-cloud behavior of the original carrier parasites. */
 public abstract class CarrierEntity extends PrimitiveParasiteEntity {
     @Override
     public boolean supportsDamageAdaptation() {
@@ -35,7 +33,6 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity {
     private static final float LOW_HEALTH_FUSE_THRESHOLD = 0.05F;
     private static final String FUSE_TICKS_TAG = "carrier_fuse_ticks";
     private final int fuseTime;
-    private final int residueRadius;
     private final double viralRadius;
     private final int viralAmplifier;
     private final int cloudDuration;
@@ -43,11 +40,10 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity {
     private int fuseTicks = -1;
     private boolean detonated;
 
-    protected CarrierEntity(EntityType<? extends CarrierEntity> type, Level level, int fuseTime, int residueRadius,
+    protected CarrierEntity(EntityType<? extends CarrierEntity> type, Level level, int fuseTime,
             double viralRadius, int viralAmplifier, int cloudDuration, int vomitDuration) {
         super(type, level);
         this.fuseTime = fuseTime;
-        this.residueRadius = residueRadius;
         this.viralRadius = viralRadius;
         this.viralAmplifier = viralAmplifier;
         this.cloudDuration = cloudDuration;
@@ -155,7 +151,6 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity {
                 ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
         level().explode(this, getX(), getY(), getZ(), 4.0F, interaction);
         applyExplosionEffects();
-        spreadResidue();
         spawnLingeringCloud();
         spawnGnats();
         super.die(damageSources().mobAttack(this));
@@ -193,31 +188,6 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity {
             target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 400, viralAmplifier), this);
             target.addEffect(new MobEffectInstance(ModMobEffects.VOMIT, vomitDuration, 0,
                     false, true), this);
-        }
-    }
-
-    private void spreadResidue() {
-        if (residueRadius <= 0) {
-            return;
-        }
-
-        BlockPos origin = blockPosition();
-        for (int x = -residueRadius; x <= residueRadius; x++) {
-            for (int z = -residueRadius; z <= residueRadius; z++) {
-                if (random.nextBoolean()) {
-                    placeResidueAtFloor(origin.offset(x, 3, z));
-                }
-            }
-        }
-    }
-
-    private void placeResidueAtFloor(BlockPos start) {
-        for (int y = 0; y <= 6; y++) {
-            BlockPos candidate = start.below(y);
-            if (level().isEmptyBlock(candidate) && !level().isEmptyBlock(candidate.below())) {
-                level().setBlock(candidate, ModBlocks.INFESTED_REMAINS.get().defaultBlockState(), 3);
-                return;
-            }
         }
     }
 
