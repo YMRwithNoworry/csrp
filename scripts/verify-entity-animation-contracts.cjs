@@ -13,8 +13,7 @@ const shortKeys = new Set([
 
 function resolvedAnimationKey(id, requestedAction) {
   const resourceId = id === "sim_dragonhead" ? "sim_dragonehead"
-    : id === "dispatcher_tentacle" ? "dispatcherten"
-      : id === "crux_incomplete" ? "crux" : id;
+    : id === "dispatcher_tentacle" ? "dispatcherten" : id;
   let action = ["run", "fly"].includes(requestedAction) ? "walk"
     : ["spawn", "throw", "smash", "swipe", "melee_attack", "ranged_attack", "burst"].includes(requestedAction)
       ? "attack"
@@ -46,8 +45,7 @@ function resolvedAnimationKey(id, requestedAction) {
 
 for (const id of all) {
   const resourceId = id === "sim_dragonhead" ? "sim_dragonehead" : id;
-  const resolvedResourceId = resourceId === "crux_incomplete" ? "crux" : resourceId;
-  const file = `src/main/resources/assets/csrp/animations/${resolvedResourceId}.animation.json`;
+  const file = `src/main/resources/assets/csrp/animations/${resourceId}.animation.json`;
   const animations = JSON.parse(read(file)).animations;
   Object.keys(animations).forEach((key) => animationKeys.add(key));
 
@@ -59,9 +57,11 @@ for (const id of all) {
     dispatcher_sii: "idle"
   };
   const baseActions = id === "dispatcher_sii" ? ["idle", "idle", "idle"] : ["idle", "walk", actionAliases[id] || "attack"];
-  const expected = shortKeys.has(id)
+  const expected = id === "crux_incomplete"
+    ? ["animation.crux_incomplete.func_78087_a.age_in_ticks", "animation.crux_incomplete.func_78087_a.limb_swing"]
+    : shortKeys.has(id)
     ? ["idle", "walk", id === "marauder" ? "attack" : "walk"]
-    : baseActions.map((action) => `animation.${resolvedResourceId}.${action}`);
+    : baseActions.map((action) => `animation.${resourceId}.${action}`);
   for (const key of expected) {
     if (!(key in animations)) failures.push(`${id}: missing base animation key ${key}`);
   }
@@ -71,7 +71,7 @@ const registrations = read("src/main/java/alku/csrp/registry/ModEntities.java");
 for (const match of registrations.matchAll(/monster\("([a-z0-9_]+)",\s*(\w+)::new/g)) {
   const [, id, className] = match;
   const source = read(`src/main/java/alku/csrp/entity/${className}.java`);
-  const resourceId = id === "sim_dragonhead" ? "sim_dragonehead" : id === "crux_incomplete" ? "crux" : id;
+  const resourceId = id === "sim_dragonhead" ? "sim_dragonehead" : id;
   const animations = JSON.parse(read(`src/main/resources/assets/csrp/animations/${resourceId}.animation.json`)).animations;
   for (const request of source.matchAll(/ParasiteAnimations\.(?:loop|play)\(this,\s*"([a-zA-Z0-9_.]+)"/g)) {
     const key = resolvedAnimationKey(id, request[1]);
@@ -247,6 +247,40 @@ if (!assimilatedDragon.includes('animation.sim_dragone.walk.get_parasite_status_
 }
 if (!assimilatedDragon.includes('moving ? ATTACK_WALK_ANIM : ATTACK_ANIM')) {
   failures.push("AssimilatedDragonEntity: status 1 does not switch between moving and idle functions");
+}
+
+const crux = read("src/main/java/alku/csrp/entity/CruxEntity.java");
+for (const action of [
+  "idle", "walk", "idle.get_parasite_status_1", "walk.get_parasite_status_1",
+  "walk.get_parasite_status_2", "idle.get_parasite_status_3",
+  "get_attack_timer_m", "get_attack_timer_m.get_still_ani_1",
+  "get_attack_timer_m.get_parasite_status_1",
+  "get_attack_timer_m.get_parasite_status_1.get_still_ani_1",
+  "get_attack_timer_m.get_parasite_status_2", "get_attack_timer_m.get_parasite_status_3",
+  "get_attack_timer_r", "get_attack_timer_r.get_still_ani_1",
+  "get_attack_timer_r.get_parasite_status_1",
+  "get_attack_timer_r.get_parasite_status_1.get_still_ani_1",
+  "get_attack_timer_r.get_parasite_status_2", "get_attack_timer_r.get_parasite_status_3"
+]) {
+  if (!crux.includes(`"${action}"`)) {
+    failures.push(`CruxEntity: original runtime animation ${action} is not wired`);
+  }
+}
+if (!crux.includes("stillAnimationTicks > STILL_ANIMATION_DELAY_TICKS")) {
+  failures.push("CruxEntity: legacy stillAni delay is not represented");
+}
+if (!crux.includes("setSprinting(true)") || !crux.includes("setSprinting(false)")) {
+  failures.push("CruxEntity: pursuit does not expose the original sprinting animation status");
+}
+
+const incompleteCrux = read("src/main/java/alku/csrp/entity/IncompleteCruxEntity.java");
+for (const action of ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing"]) {
+  if (!incompleteCrux.includes(`"${action}"`)) {
+    failures.push(`IncompleteCruxEntity: original runtime animation ${action} is not wired`);
+  }
+}
+if (/ParasiteAnimations\.(?:loop|play)\(this,\s*"(?:melee_attack|ranged_attack|burst)"/.test(incompleteCrux)) {
+  failures.push("IncompleteCruxEntity: requests a fabricated CruxA action animation");
 }
 
 const longarms = read("src/main/java/alku/csrp/entity/LongarmsEntity.java");

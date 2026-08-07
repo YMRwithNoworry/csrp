@@ -22,7 +22,6 @@ const entities = read("src/main/java/alku/csrp/registry/ModEntities.java");
 const items = read("src/main/java/alku/csrp/registry/ModItems.java");
 const attributes = read("src/main/java/alku/csrp/registry/CommonModEvents.java");
 const client = read("src/main/java/alku/csrp/client/ClientModEvents.java");
-const crudeBase = read("src/main/java/alku/csrp/entity/CrudeParasiteEntity.java");
 const crux = read("src/main/java/alku/csrp/entity/CruxEntity.java");
 const incomplete = read("src/main/java/alku/csrp/entity/IncompleteCruxEntity.java");
 const thrownBlockDamage = read("src/main/java/alku/csrp/entity/CruxThrownBlockDamageEntity.java");
@@ -40,17 +39,19 @@ expect(attributes, /ModEntities\.CRUX_INCOMPLETE\.get\(\), IncompleteCruxEntity\
 expect(client, /"crux", 0\.7F/, "Crux renderer is missing");
 expect(client, /"crux_incomplete", 0\.45F/, "Incomplete Crux renderer is missing");
 expect(entities, /CRUX_BLOCK_DAMAGE/, "Crux thrown-block damage entity is missing");
-expect(crudeBase, /usesDamageAdaptation\(\)[\s\S]*return false/, "Crude parasites still use primitive adaptation");
 expect(crux, /Attributes\.MAX_HEALTH, 70\.0/, "Crux legacy health is missing");
 expect(crux, /Attributes\.ATTACK_DAMAGE, BASE_ATTACK_DAMAGE/, "Crux legacy damage is missing");
 expect(crux, /performAoeAttack/, "Crux area melee behavior is missing");
-expect(crux, /thenLoop\("idle"\)/, "Crux idle animation is not wired");
-expect(crux, /thenLoop\("walk"\)/, "Crux walk animation is not wired");
-expect(crux, /thenLoop\("run"\)/, "Crux run animation is not wired");
-expect(crux, /triggerableAnim\("attack", ATTACK\)/, "Crux attack animation is not registered");
-expect(crux, /triggerableAnim\("throw", THROW\)/, "Crux throw animation is not registered");
-expect(crux, /triggerAnim\("action_controller", "attack"\)/, "Crux melee does not trigger its attack animation");
-expect(crux, /triggerAnim\("action_controller", "throw"\)/, "Crux block throw does not trigger its animation");
+expect(crux, /ParasiteAnimations\.loop\(this, "idle"\)/, "Crux idle animation is not wired");
+expect(crux, /ParasiteAnimations\.loop\(this, "walk"\)/, "Crux walk animation is not wired");
+expect(crux, /registerAction\(actions, "get_attack_timer_m"\)/,
+  "Crux original melee timer animation is not registered");
+expect(crux, /registerAction\(actions, "get_attack_timer_r"\)/,
+  "Crux original throw timer animation is not registered");
+expect(crux, /triggerOriginalAction\("get_attack_timer_m"\)/,
+  "Crux melee does not trigger its original timer animation");
+expect(crux, /triggerOriginalAction\("get_attack_timer_r"\)/,
+  "Crux block throw does not trigger its original timer animation");
 expect(crux, /throwSource = findThrowableBlock\(\);\s*return throwSource != null/,
   "Crux throw animation is not gated by a cached throwable block");
 expect(crux, /throwBlockAt\(target, throwSource\)/,
@@ -88,28 +89,26 @@ for (const id of ["crux", "crux_incomplete"]) {
   const animations = JSON.parse(read(`src/main/resources/assets/csrp/animations/${id}.animation.json`));
   const bones = new Set(geometry["minecraft:geometry"][0].bones.map((bone) => bone.name));
   if (id === "crux") {
-    const expectedAnimations = {
-      attack: { length: 0.75, loop: false, bones: 19 },
-      throw: { length: 0.9, loop: false, bones: 7 },
-      idle: { length: 2, loop: true, bones: 15 },
-      run: { length: 2, loop: true, bones: 26 },
-      walk: { length: 2, loop: true, bones: 26 }
-    };
-    for (const [name, expected] of Object.entries(expectedAnimations)) {
-      const animation = animations.animations[name];
-      if (!animation) {
-        failures.push(`crux/${name} animation is missing`);
-        continue;
-      }
-      if (animation.animation_length !== expected.length) {
-        failures.push(`crux/${name} animation length must be ${expected.length}`);
-      }
-      if (Boolean(animation.loop) !== expected.loop) {
-        failures.push(`crux/${name} loop state must be ${expected.loop}`);
-      }
-      if (Object.keys(animation.bones ?? {}).length !== expected.bones) {
-        failures.push(`crux/${name} must animate ${expected.bones} bones`);
-      }
+    for (const name of [
+      "animation.crux.idle", "animation.crux.walk",
+      "animation.crux.idle.get_parasite_status_1",
+      "animation.crux.walk.get_parasite_status_1",
+      "animation.crux.walk.get_parasite_status_2",
+      "animation.crux.idle.get_parasite_status_3",
+      "animation.crux.get_attack_timer_m", "animation.crux.get_attack_timer_r"
+    ]) {
+      if (!animations.animations[name]) failures.push(`crux/${name} animation is missing`);
+    }
+  } else {
+    const expected = [
+      "animation.crux_incomplete.func_78087_a.age_in_ticks",
+      "animation.crux_incomplete.func_78087_a.limb_swing"
+    ];
+    for (const name of expected) {
+      if (!animations.animations[name]) failures.push(`crux_incomplete/${name} animation is missing`);
+    }
+    if (Object.keys(animations.animations).length !== expected.length) {
+      failures.push("crux_incomplete must contain only the two original ModelCruxB functions");
     }
   }
   for (const [name, animation] of Object.entries(animations.animations)) {

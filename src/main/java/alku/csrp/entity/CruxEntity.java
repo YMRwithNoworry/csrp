@@ -4,6 +4,9 @@ import alku.csrp.registry.ModEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -30,6 +33,8 @@ import java.util.EnumSet;
  * Legacy Cruxa: a heavy crude parasite that sweeps groups, hurls nearby blocks, and grows stronger from kills.
  */
 public final class CruxEntity extends CrudeParasiteEntity {
+    private static final EntityDataAccessor<Byte> ANIMATION_STATUS =
+            SynchedEntityData.defineId(CruxEntity.class, EntityDataSerializers.BYTE);
     private static final double BASE_ATTACK_DAMAGE = 20.0;
     private static final int DAMAGE_STACK_CAP = 10;
     private static final double DAMAGE_GAIN_PER_KILL = 0.12;
@@ -37,15 +42,23 @@ public final class CruxEntity extends CrudeParasiteEntity {
     private static final double FALLING_BLOCK_DRAG = 0.98;
     private static final double FALLING_BLOCK_GRAVITY = 0.04;
     private static final String DAMAGE_STACKS_TAG = "crux_damage_stacks";
+    private static final int STILL_ANIMATION_DELAY_TICKS = 25;
+    private static final byte STATUS_IDLE = 0;
+    private static final byte STATUS_APPROACHING = 1;
+    private static final byte STATUS_SPRINTING = 2;
+    private static final byte STATUS_THROWING = 3;
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "get_attack_timer_m");
-    private final RawAnimation THROW = ParasiteAnimations.play(this, "get_attack_timer_r");
+    private final RawAnimation APPROACH_IDLE = ParasiteAnimations.loop(this, "idle.get_parasite_status_1");
+    private final RawAnimation APPROACH_WALK = ParasiteAnimations.loop(this, "walk.get_parasite_status_1");
+    private final RawAnimation SPRINT = ParasiteAnimations.loop(this, "walk.get_parasite_status_2");
+    private final RawAnimation THROW_IDLE = ParasiteAnimations.loop(this, "idle.get_parasite_status_3");
 
     private int attackCooldown;
     private int throwCooldown;
     private int damageStacks;
+    private int stillAnimationTicks;
+    private boolean throwingBlock;
 
     public CruxEntity(EntityType<? extends CruxEntity> type, Level level) {
         super(type, level);
@@ -59,6 +72,12 @@ public final class CruxEntity extends CrudeParasiteEntity {
     }
 
     @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(ANIMATION_STATUS, STATUS_IDLE);
+    }
+
+    @Override
     protected void registerGoals() {
         super.registerGoals();
         goalSelector.addGoal(1, new BlockThrowGoal());
@@ -68,12 +87,21 @@ public final class CruxEntity extends CrudeParasiteEntity {
     @Override
     public void tick() {
         super.tick();
+        if (ParasiteAnimations.isMoving(this, true)) {
+            stillAnimationTicks = 0;
+        } else {
+            stillAnimationTicks++;
+        }
         if (!level().isClientSide) {
             if (attackCooldown > 0) {
                 attackCooldown--;
             }
             if (throwCooldown > 0) {
                 throwCooldown--;
+            }
+            if (!throwingBlock) {
+                setAnimationStatus(getTarget() == null ? STATUS_IDLE
+                        : isSprinting() ? STATUS_SPRINTING : STATUS_APPROACHING);
             }
         }
     }
@@ -116,20 +144,67 @@ public final class CruxEntity extends CrudeParasiteEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
-        controllers.add(new AnimationController<>(this, "action_controller", 0, state -> PlayState.STOP)
-                .triggerableAnim("attack", ATTACK)
-                .triggerableAnim("throw", THROW));
+        AnimationController<CruxEntity> actions = new AnimationController<>(this, "action_controller", 0,
+                state -> PlayState.STOP);
+        registerAction(actions, "get_attack_timer_m");
+        registerAction(actions, "get_attack_timer_m.get_still_ani_1");
+        registerAction(actions, "get_attack_timer_m.get_parasite_status_1");
+        registerAction(actions, "get_attack_timer_m.get_parasite_status_1.get_still_ani_1");
+        registerAction(actions, "get_attack_timer_m.get_parasite_status_2");
+        registerAction(actions, "get_attack_timer_m.get_parasite_status_3");
+        registerAction(actions, "get_attack_timer_r");
+        registerAction(actions, "get_attack_timer_r.get_still_ani_1");
+        registerAction(actions, "get_attack_timer_r.get_parasite_status_1");
+        registerAction(actions, "get_attack_timer_r.get_parasite_status_1.get_still_ani_1");
+        registerAction(actions, "get_attack_timer_r.get_parasite_status_2");
+        registerAction(actions, "get_attack_timer_r.get_parasite_status_3");
+        controllers.add(actions);
     }
 
     private PlayState movementAnimation(AnimationState<CruxEntity> state) {
-        if (!ParasiteAnimations.isMoving(this, state.isMoving())) {
-            return state.setAndContinue(IDLE);
+        boolean moving = ParasiteAnimations.isMoving(this, state.isMoving());
+        return switch (animationStatus()) {
+            case STATUS_APPROACHING -> state.setAndContinue(moving ? APPROACH_WALK : APPROACH_IDLE);
+            case STATUS_SPRINTING -> state.setAndContinue(moving ? SPRINT : THROW_IDLE);
+            case STATUS_THROWING -> state.setAndContinue(THROW_IDLE);
+            default -> state.setAndContinue(moving ? WALK : IDLE);
+        };
+    }
+
+    private void registerAction(AnimationController<CruxEntity> controller, String functionName) {
+        controller.triggerableAnim(functionName, ParasiteAnimations.play(this, functionName));
+    }
+
+    private void triggerOriginalAction(String timerFunction) {
+        byte status = animationStatus();
+        String functionName = timerFunction;
+        if (status == STATUS_APPROACHING) {
+            functionName += ".get_parasite_status_1";
+        } else if (status == STATUS_SPRINTING) {
+            functionName += ".get_parasite_status_2";
+        } else if (status == STATUS_THROWING) {
+            functionName += ".get_parasite_status_3";
         }
-        return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() > 0.02 ? RUN : WALK);
+        if ((status == STATUS_IDLE || status == STATUS_APPROACHING) && isStillAnimation()) {
+            functionName += ".get_still_ani_1";
+        }
+        triggerAnim("action_controller", functionName);
+    }
+
+    private byte animationStatus() {
+        return entityData.get(ANIMATION_STATUS);
+    }
+
+    private void setAnimationStatus(byte status) {
+        entityData.set(ANIMATION_STATUS, status);
+    }
+
+    private boolean isStillAnimation() {
+        return stillAnimationTicks > STILL_ANIMATION_DELAY_TICKS;
     }
 
     private boolean performAoeAttack(LivingEntity target) {
-        triggerAnim("action_controller", "attack");
+        triggerOriginalAction("get_attack_timer_m");
         AABB attackArea = target.getBoundingBox().inflate(1.0);
         DragonEggAssimilationEntity.assimilateDragonEggs(level(), attackArea);
         boolean hit = false;
@@ -233,6 +308,20 @@ public final class CruxEntity extends CrudeParasiteEntity {
         }
 
         @Override
+        public void start() {
+            setSprinting(true);
+            setAnimationStatus(STATUS_SPRINTING);
+        }
+
+        @Override
+        public void stop() {
+            setSprinting(false);
+            if (!throwingBlock) {
+                setAnimationStatus(getTarget() == null ? STATUS_IDLE : STATUS_APPROACHING);
+            }
+        }
+
+        @Override
         public void tick() {
             LivingEntity target = getTarget();
             if (target == null) {
@@ -280,8 +369,10 @@ public final class CruxEntity extends CrudeParasiteEntity {
         @Override
         public void start() {
             windupTicks = 0;
+            throwingBlock = true;
+            setAnimationStatus(STATUS_THROWING);
             getNavigation().stop();
-            triggerAnim("action_controller", "throw");
+            triggerOriginalAction("get_attack_timer_r");
         }
 
         @Override
@@ -300,6 +391,9 @@ public final class CruxEntity extends CrudeParasiteEntity {
         public void stop() {
             throwCooldown = 100;
             throwSource = null;
+            throwingBlock = false;
+            setAnimationStatus(getTarget() == null ? STATUS_IDLE
+                    : isSprinting() ? STATUS_SPRINTING : STATUS_APPROACHING);
         }
     }
 }
