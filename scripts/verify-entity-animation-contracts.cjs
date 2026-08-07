@@ -165,10 +165,54 @@ for (const [id, actions] of Object.entries(sharedVariantActions)) {
 }
 
 const entityDirectory = path.join(root, "src/main/java/alku/csrp/entity");
+const entitySources = new Map();
 for (const name of fs.readdirSync(entityDirectory).filter((file) => file.endsWith(".java"))) {
   const source = fs.readFileSync(path.join(entityDirectory, name), "utf8");
+  entitySources.set(name.replace(/\.java$/, ""), source);
   for (const match of source.matchAll(/["'](animation\.[a-z0-9_.]+)["']/g)) {
     if (!animationKeys.has(match[1])) failures.push(`${name}: unknown animation key ${match[1]}`);
+  }
+}
+
+function inheritedControllerSource(className) {
+  const visited = new Set();
+  let current = className;
+  while (current && !visited.has(current)) {
+    visited.add(current);
+    const source = entitySources.get(current);
+    if (!source) return null;
+    if (/void\s+registerControllers\s*\(/.test(source)) return { className: current, source };
+    current = source.match(/class\s+\w+(?:<[^>{}]+>)?\s+extends\s+(\w+)/)?.[1];
+  }
+  return null;
+}
+
+function registeredTriggers(source) {
+  const triggers = new Set();
+  for (const block of source.matchAll(/controllers\.add\(([\s\S]*?)\)\);/g)) {
+    const controller = block[1].match(/new AnimationController<>\(this,\s*"([^"]+)"/)?.[1];
+    if (!controller) continue;
+    for (const trigger of block[1].matchAll(/\.triggerableAnim\("([^"]+)"/g)) {
+      triggers.add(`${controller}\0${trigger[1]}`);
+    }
+  }
+  return triggers;
+}
+
+for (const [className, source] of entitySources) {
+  const calls = [...source.matchAll(/triggerAnim\("([^"]+)",\s*"([^"]+)"\)/g)];
+  if (!calls.length) continue;
+  const owner = inheritedControllerSource(className);
+  if (!owner) {
+    failures.push(`${className}: triggers animations without a registerControllers implementation`);
+    continue;
+  }
+  const triggers = registeredTriggers(owner.source);
+  for (const call of calls) {
+    const contract = `${call[1]}\0${call[2]}`;
+    if (!triggers.has(contract)) {
+      failures.push(`${className}: ${call[1]}/${call[2]} is not registered by ${owner.className}`);
+    }
   }
 }
 
@@ -180,6 +224,14 @@ if (!helper.includes('case "func_78087_a.getDigging" -> "get_dig_model.get_diggi
 const kirin = read("src/main/java/alku/csrp/entity/KirinEntity.java");
 if (kirin.includes("animation.kirin.func_78087_a")) {
   failures.push("Kirin still requests obsolete pre-extraction animation keys");
+}
+
+const assimilatedDragon = read("src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java");
+if (!assimilatedDragon.includes('animation.sim_dragone.walk.get_parasite_status_1')) {
+  failures.push("AssimilatedDragonEntity: moving status 1 does not use the extracted original function");
+}
+if (!assimilatedDragon.includes('moving ? ATTACK_WALK_ANIM : ATTACK_ANIM')) {
+  failures.push("AssimilatedDragonEntity: status 1 does not switch between moving and idle functions");
 }
 
 const triggeredFamilies = [

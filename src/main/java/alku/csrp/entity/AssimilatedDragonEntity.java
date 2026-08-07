@@ -60,6 +60,8 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");  // 状态 0: 行走
     private final RawAnimation ATTACK_ANIM = RawAnimation.begin()
             .thenLoop("animation.sim_dragone.idle.get_parasite_status_1");  // 状态 1: 近战攻击
+    private final RawAnimation ATTACK_WALK_ANIM = RawAnimation.begin()
+            .thenLoop("animation.sim_dragone.walk.get_parasite_status_1");
     private final RawAnimation SWIM = RawAnimation.begin()
             .thenLoop("animation.sim_dragone.walk.get_parasite_status_2");  // 状态 2: 游泳
     private final RawAnimation FLY = RawAnimation.begin()
@@ -318,6 +320,7 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
         // 主要移动动画控制器 - 根据 parasiteStatus 切换不同状态
         controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
             int status = getParasiteStatus();
+            boolean moving = ParasiteAnimations.isMoving(this, state.isMoving());
 
             // 状态 10: 火焰喷射技能状态
             if (status == 10) {
@@ -341,12 +344,11 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
 
             // 状态 1: 近战攻击状态 - 使用特殊的攻击动画循环
             if (status == 1) {
-                return state.setAndContinue(ATTACK_ANIM);
+                return state.setAndContinue(moving ? ATTACK_WALK_ANIM : ATTACK_ANIM);
             }
 
             // 状态 0: 空闲/行走
-            boolean isMoving = ParasiteAnimations.isMoving(this, state.isMoving());
-            return state.setAndContinue(isMoving ? WALK : IDLE);
+            return state.setAndContinue(moving ? WALK : IDLE);
         }));
 
         // 攻击动画控制器 - 可触发的近战攻击动画叠加
