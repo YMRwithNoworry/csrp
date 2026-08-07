@@ -818,6 +818,12 @@ if (!assimilatedEnderman.includes("stillAnimationTicks > STILL_ANIMATION_DELAY_T
 if (!assimilatedEnderman.includes('"movement_controller", 0')) {
   failures.push("AssimilatedEndermanEntity: standing/crawling root poses must switch without deformation blending");
 }
+const primitiveParasiteModel = read("src/main/java/alku/csrp/client/model/PrimitiveParasiteModel.java");
+if (!primitiveParasiteModel.includes("shouldDampenMovingRotation")
+    || !primitiveParasiteModel.includes("animatable instanceof AssimilatedEndermanEntity")
+    || !primitiveParasiteModel.includes('bone.getName().equals("mainbody")')) {
+  failures.push("PrimitiveParasiteModel: assimilated Enderman crawling root must keep its full rotation while moving");
+}
 if (!assimilatedEnderman.includes("Config.variantSpawnChance()")
     || !assimilatedEnderman.includes("EntityDimensions.scalable(0.95F, 1.25F)")) {
   failures.push("AssimilatedEndermanEntity: original crawling variant spawn or dimensions are missing");

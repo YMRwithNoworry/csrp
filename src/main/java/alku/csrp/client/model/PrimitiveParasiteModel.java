@@ -10,6 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animation.AnimationState;
+import software.bernie.geckolib.cache.object.GeoBone;
 
 public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends ParasiteGeoModel<T> {
     private static final ResourceLocation CARRIER_VARIANT_TEXTURE =
@@ -71,6 +72,11 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
         if (animatable instanceof BurrowingVariantEntity burrowing) {
             applyBodySegmentVisibility(burrowing);
         }
+    }
+
+    @Override
+    protected boolean shouldDampenMovingRotation(T animatable, GeoBone bone) {
+        return !(animatable instanceof AssimilatedEndermanEntity && bone.getName().equals("mainbody"));
     }
 
     private void applyBodySegmentVisibility(BurrowingVariantEntity entity) {

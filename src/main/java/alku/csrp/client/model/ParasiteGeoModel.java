@@ -28,6 +28,9 @@ public abstract class ParasiteGeoModel<T extends GeoAnimatable> extends GeoModel
         // Extracted locomotion clips contain full-strength limb rotation. Keep the model's
         // baked pose intact while reducing only the animated rotation delta.
         for (GeoBone bone : getAnimationProcessor().getRegisteredBones()) {
+            if (!shouldDampenMovingRotation(animatable, bone)) {
+                continue;
+            }
             BoneSnapshot initialSnapshot = bone.getInitialSnapshot();
             if (initialSnapshot == null) {
                 continue;
@@ -37,6 +40,10 @@ public abstract class ParasiteGeoModel<T extends GeoAnimatable> extends GeoModel
             bone.setRotY(dampenRotation(initialSnapshot.getRotY(), bone.getRotY()));
             bone.setRotZ(dampenRotation(initialSnapshot.getRotZ(), bone.getRotZ()));
         }
+    }
+
+    protected boolean shouldDampenMovingRotation(T animatable, GeoBone bone) {
+        return true;
     }
 
     private static float dampenRotation(float initialRotation, float animatedRotation) {
