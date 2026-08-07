@@ -249,6 +249,51 @@ if (!assimilatedDragon.includes('moving ? ATTACK_WALK_ANIM : ATTACK_ANIM')) {
   failures.push("AssimilatedDragonEntity: status 1 does not switch between moving and idle functions");
 }
 
+const assimilatedEnderman = read("src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java");
+const endermanFunctions = [
+  "idle", "walk", "idle.is_screaming_1", "walk.is_screaming_1",
+  "idle.is_crawling_1", "walk.is_crawling_1",
+  "idle.is_crawling_1.is_screaming_1", "walk.is_crawling_1.is_screaming_1",
+  "idle.get_still_ani_1", "idle.get_still_ani_1.is_screaming_1",
+  "idle.get_parasite_status_1", "walk.get_parasite_status_1",
+  "idle.get_parasite_status_1.is_screaming_1", "walk.get_parasite_status_1.is_screaming_1",
+  "idle.get_parasite_status_1.is_crawling_1", "walk.get_parasite_status_1.is_crawling_1",
+  "idle.get_parasite_status_1.is_crawling_1.is_screaming_1",
+  "walk.get_parasite_status_1.is_crawling_1.is_screaming_1",
+  "idle.get_parasite_status_1.get_still_ani_1",
+  "idle.get_parasite_status_1.get_still_ani_1.is_screaming_1",
+  "idle.get_parasite_status_2.is_crawling_1", "walk.get_parasite_status_2.is_crawling_1",
+  "idle.get_parasite_status_2.is_crawling_1.is_screaming_1",
+  "walk.get_parasite_status_2.is_crawling_1.is_screaming_1",
+  "idle.get_parasite_status_3", "idle.get_parasite_status_3.is_screaming_1",
+  "idle.get_parasite_status_3.is_crawling_1",
+  "idle.get_parasite_status_3.is_crawling_1.is_screaming_1"
+];
+for (const action of endermanFunctions) {
+  if (!assimilatedEnderman.includes(`"${action}"`)) {
+    failures.push(`AssimilatedEndermanEntity: original runtime animation ${action} is not wired`);
+  }
+}
+if (assimilatedEnderman.includes('triggerableAnim("attack"')
+    || assimilatedEnderman.includes('triggerableAnim("teleport"')) {
+  failures.push("AssimilatedEndermanEntity: still uses a fabricated action animation controller");
+}
+if (assimilatedEnderman.includes("PULLING") || assimilatedEnderman.includes("pullingCounter")) {
+  failures.push("AssimilatedEndermanEntity: still treats original melee statuses as a pulling state");
+}
+if (!assimilatedEnderman.includes("class EndermanMeleeGoal extends MeleeAttackGoal")
+    || !assimilatedEnderman.includes("setParasiteStatus(2)")
+    || !assimilatedEnderman.includes("setParasiteStatus(distanceToSqr(target)")) {
+  failures.push("AssimilatedEndermanEntity: melee AI does not drive original parasite statuses 1 and 2");
+}
+if (!assimilatedEnderman.includes("stillAnimationTicks > STILL_ANIMATION_DELAY_TICKS")) {
+  failures.push("AssimilatedEndermanEntity: legacy stillAni delay is not represented");
+}
+if (!assimilatedEnderman.includes("Config.variantSpawnChance()")
+    || !assimilatedEnderman.includes("EntityDimensions.scalable(0.95F, 1.25F)")) {
+  failures.push("AssimilatedEndermanEntity: original crawling variant spawn or dimensions are missing");
+}
+
 const crux = read("src/main/java/alku/csrp/entity/CruxEntity.java");
 for (const action of [
   "idle", "walk", "idle.get_parasite_status_1", "walk.get_parasite_status_1",

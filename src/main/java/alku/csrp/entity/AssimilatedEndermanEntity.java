@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import alku.csrp.Config;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModItems;
@@ -21,10 +22,12 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -48,7 +51,9 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /** Legacy assimilated Enderman teleports itself and idle parasite allies around its prey. */
 public final class AssimilatedEndermanEntity extends Monster implements GeoEntity, Parasite {
@@ -60,45 +65,42 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
             AssimilatedEndermanEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> PARASITE_STATUS = SynchedEntityData.defineId(
             AssimilatedEndermanEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Boolean> PULLING = SynchedEntityData.defineId(
-            AssimilatedEndermanEntity.class, EntityDataSerializers.BOOLEAN);
     private static final int TARGET_GRACE_TICKS = 80;
     private static final int SELF_TELEPORT_COOLDOWN = 20;
     private static final int ALLY_TELEPORT_COOLDOWN = 40;
+    private static final int STILL_ANIMATION_DELAY_TICKS = 25;
     private static final double MIN_TARGET_DISTANCE_SQR = 100.0D;
-    // 基础动画
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
-
-    // 尖叫状态动画
-    private final RawAnimation SCREAM_IDLE = ParasiteAnimations.loop(this, "idle.is_screaming_1");
-    private final RawAnimation SCREAM_WALK = ParasiteAnimations.loop(this, "walk.is_screaming_1");
-
-    // 爬行状态动画
-    private final RawAnimation CRAWL_IDLE = ParasiteAnimations.loop(this, "idle.is_crawling_1");
-    private final RawAnimation CRAWL_WALK = ParasiteAnimations.loop(this, "walk.is_crawling_1");
-
-    // 爬行+尖叫组合动画
-    private final RawAnimation CRAWL_SCREAM_IDLE = ParasiteAnimations.loop(
-            this, "idle.is_crawling_1.is_screaming_1");
-    private final RawAnimation CRAWL_SCREAM_WALK = ParasiteAnimations.loop(
-            this, "walk.is_crawling_1.is_screaming_1");
-
-    // 拉拽状态动画
-    private final RawAnimation PULLING_IDLE = ParasiteAnimations.loop(this, "idle.get_parasite_status_1");
-    private final RawAnimation PULLING_WALK = ParasiteAnimations.loop(this, "walk.get_parasite_status_1");
-
-    // 传送动画
-    private final RawAnimation TELEPORT = ParasiteAnimations.play(this, "idle.get_parasite_status_3");
+    private static final List<String> ORIGINAL_ANIMATION_FUNCTIONS = List.of(
+            "idle", "walk",
+            "idle.is_screaming_1", "walk.is_screaming_1",
+            "idle.is_crawling_1", "walk.is_crawling_1",
+            "idle.is_crawling_1.is_screaming_1", "walk.is_crawling_1.is_screaming_1",
+            "idle.get_still_ani_1", "idle.get_still_ani_1.is_screaming_1",
+            "idle.get_parasite_status_1", "walk.get_parasite_status_1",
+            "idle.get_parasite_status_1.is_screaming_1",
+            "walk.get_parasite_status_1.is_screaming_1",
+            "idle.get_parasite_status_1.is_crawling_1",
+            "walk.get_parasite_status_1.is_crawling_1",
+            "idle.get_parasite_status_1.is_crawling_1.is_screaming_1",
+            "walk.get_parasite_status_1.is_crawling_1.is_screaming_1",
+            "idle.get_parasite_status_1.get_still_ani_1",
+            "idle.get_parasite_status_1.get_still_ani_1.is_screaming_1",
+            "idle.get_parasite_status_2.is_crawling_1",
+            "walk.get_parasite_status_2.is_crawling_1",
+            "idle.get_parasite_status_2.is_crawling_1.is_screaming_1",
+            "walk.get_parasite_status_2.is_crawling_1.is_screaming_1",
+            "idle.get_parasite_status_3", "idle.get_parasite_status_3.is_screaming_1",
+            "idle.get_parasite_status_3.is_crawling_1",
+            "idle.get_parasite_status_3.is_crawling_1.is_screaming_1");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
+    private final Map<String, RawAnimation> originalAnimations = createOriginalAnimations();
     private int targetTicks;
     private int selfTeleportCooldown;
     private int allyTeleportCooldown;
     private int parasiteKills;
-    private int pullingCounter;
     private int spotCooldown;
+    private int stillAnimationTicks;
 
     public AssimilatedEndermanEntity(EntityType<? extends AssimilatedEndermanEntity> type, Level level) {
         super(type, level);
@@ -122,7 +124,6 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
         builder.define(SCREAMING, false);
         builder.define(CRAWLING, false);
         builder.define(PARASITE_STATUS, 0);
-        builder.define(PULLING, false);
     }
 
     @Override
@@ -132,8 +133,9 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
         entityData.set(SCREAMING, hasTarget);
         setAggressive(hasTarget);
 
-        // 设置parasiteStatus: 有目标时为状态3(锁定)，否则为状态0(正常)
-        entityData.set(PARASITE_STATUS, hasTarget ? 3 : 0);
+        if (!hasTarget) {
+            setParasiteStatus(0);
+        }
 
         if (hasTarget && spotCooldown <= 0) {
             // 发现新目标时播放传送音效
@@ -146,8 +148,8 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
                                         MobSpawnType spawnType, SpawnGroupData spawnGroupData) {
         SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
-        // The crawling clip is a special pose and must not be selected randomly at spawn.
-        entityData.set(CRAWLING, false);
+        setCrawling(random.nextDouble() < Config.variantSpawnChance()
+                || Config.evolutionPhase(level.getLevel()) >= Config.alwaysVariantPhase());
         return data;
     }
 
@@ -157,6 +159,27 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
 
     private void setShrimpFed(boolean fed) {
         entityData.set(SHRIMP_FED, fed);
+    }
+
+    public boolean isCrawling() {
+        return entityData.get(CRAWLING);
+    }
+
+    private void setCrawling(boolean crawling) {
+        entityData.set(CRAWLING, crawling);
+    }
+
+    @Override
+    protected EntityDimensions getDefaultDimensions(Pose pose) {
+        return isCrawling() ? EntityDimensions.scalable(0.95F, 1.25F) : super.getDefaultDimensions(pose);
+    }
+
+    @Override
+    public void onSyncedDataUpdated(EntityDataAccessor<?> accessor) {
+        super.onSyncedDataUpdated(accessor);
+        if (accessor == CRAWLING) {
+            refreshDimensions();
+        }
     }
 
     @Override
@@ -177,7 +200,7 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
     @Override
     protected void registerGoals() {
         goalSelector.addGoal(0, new FloatGoal(this));
-        goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.2D, false));
+        goalSelector.addGoal(2, new EndermanMeleeGoal());
         goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         goalSelector.addGoal(6, new ParasiteFollowGoal(this));
         goalSelector.addGoal(6, new RandomLookAroundGoal(this));
@@ -205,6 +228,11 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
     @Override
     public void tick() {
         super.tick();
+        if (ParasiteAnimations.isMoving(this, true)) {
+            stillAnimationTicks = 0;
+        } else {
+            stillAnimationTicks++;
+        }
         if (level().isClientSide) {
             spawnPortalParticles();
             return;
@@ -218,37 +246,11 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
         LivingEntity target = getTarget();
         if (target == null || !target.isAlive()) {
             targetTicks = 0;
-            entityData.set(PARASITE_STATUS, 0);
-            entityData.set(PULLING, false);
-            pullingCounter = 0;
+            setParasiteStatus(0);
             return;
         }
 
         targetTicks++;
-
-        // 更新拉拽状态 (pulling counter 0-200)
-        double distToTarget = distanceTo(target);
-        if (distToTarget < 10.0D && distToTarget > 3.0D) {
-            if (pullingCounter < 200) {
-                pullingCounter++;
-            }
-            entityData.set(PULLING, true);
-            entityData.set(PARASITE_STATUS, 2); // 状态2: 拉拽
-
-            // 拉拽效果：拉近目标
-            if (tickCount % 5 == 0) {
-                Vec3 direction = position().subtract(target.position()).normalize().scale(0.15D);
-                target.setDeltaMovement(target.getDeltaMovement().add(direction));
-            }
-        } else {
-            if (pullingCounter > 0) {
-                pullingCounter--;
-            }
-            if (pullingCounter == 0) {
-                entityData.set(PULLING, false);
-                entityData.set(PARASITE_STATUS, 3); // 状态3: 锁定目标
-            }
-        }
 
         // 水伤害
         if (isInWaterRainOrBubble() && tickCount % 20 == 0) {
@@ -269,11 +271,6 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
         LivingEntity livingTarget = entity instanceof LivingEntity living ? living : null;
         float healthBefore = livingTarget == null ? 0.0F : ParasiteCombatEffects.healthWithAbsorption(livingTarget);
         boolean hit = super.doHurtTarget(entity);
-        if (hit) {
-            // 设置攻击状态
-            entityData.set(PARASITE_STATUS, 1); // 状态1: 攻击
-            triggerAnim("attack_controller", "attack");
-        }
         if (hit && livingTarget != null) {
             ParasiteCombatEffects.applyFearFromDamage(livingTarget, healthBefore, this);
             InfectionMechanics.applyCoth(livingTarget, this);
@@ -312,10 +309,8 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
         tag.putInt("self_teleport_cooldown", selfTeleportCooldown);
         tag.putInt("ally_teleport_cooldown", allyTeleportCooldown);
         tag.putBoolean("shrimp_fed", isShrimpFed());
-        tag.putBoolean("crawling", entityData.get(CRAWLING));
-        tag.putInt("pulling_counter", pullingCounter);
+        tag.putBoolean("crawling", isCrawling());
         tag.putInt("spot_cooldown", spotCooldown);
-        tag.putInt("parasite_status", entityData.get(PARASITE_STATUS));
     }
 
     @Override
@@ -326,11 +321,9 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
         selfTeleportCooldown = tag.getInt("self_teleport_cooldown");
         allyTeleportCooldown = tag.getInt("ally_teleport_cooldown");
         setShrimpFed(tag.getBoolean("shrimp_fed"));
-        // Older saves may contain the legacy random crawling flag; normalize it on load.
-        entityData.set(CRAWLING, false);
-        pullingCounter = tag.getInt("pulling_counter");
+        setCrawling(tag.getBoolean("crawling"));
         spotCooldown = tag.getInt("spot_cooldown");
-        entityData.set(PARASITE_STATUS, tag.getInt("parasite_status"));
+        setParasiteStatus(0);
     }
 
     @Override
@@ -370,47 +363,83 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        // 主移动动画控制器 - 根据多种状态组合选择动画
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
-            boolean moving = ParasiteAnimations.isMoving(this, state.isMoving());
-            boolean screaming = entityData.get(SCREAMING);
-            boolean crawling = entityData.get(CRAWLING);
-            boolean pulling = entityData.get(PULLING);
-            int parasiteStatus = entityData.get(PARASITE_STATUS);
+        controllers.add(new AnimationController<>(this, "movement_controller", 4, state ->
+                state.setAndContinue(originalAnimations.get(animationFunction(
+                        ParasiteAnimations.isMoving(this, state.isMoving()))))));
+    }
 
-            // 优先级: 拉拽 > 爬行+尖叫 > 爬行 > 尖叫 > 正常
-            if (pulling) {
-                return state.setAndContinue(moving ? PULLING_WALK : PULLING_IDLE);
+    private Map<String, RawAnimation> createOriginalAnimations() {
+        Map<String, RawAnimation> animations = new HashMap<>();
+        for (String functionName : ORIGINAL_ANIMATION_FUNCTIONS) {
+            animations.put(functionName, ParasiteAnimations.loop(this, functionName));
+        }
+        return Map.copyOf(animations);
+    }
+
+    private String animationFunction(boolean moving) {
+        int status = entityData.get(PARASITE_STATUS);
+        boolean crawling = isCrawling();
+        boolean screaming = entityData.get(SCREAMING);
+        String functionName;
+        if (status == 3) {
+            functionName = "idle.get_parasite_status_3";
+        } else {
+            if (!crawling && status == 2) {
+                status = 1;
             }
-
-            if (crawling) {
-                if (screaming) {
-                    return state.setAndContinue(moving ? CRAWL_SCREAM_WALK : CRAWL_SCREAM_IDLE);
-                }
-                return state.setAndContinue(moving ? CRAWL_WALK : CRAWL_IDLE);
+            functionName = moving ? "walk" : "idle";
+            if (status == 1 || status == 2) {
+                functionName += ".get_parasite_status_" + status;
             }
-
-            if (screaming) {
-                return state.setAndContinue(moving ? SCREAM_WALK : SCREAM_IDLE);
+            if (!moving && !crawling && stillAnimationTicks > STILL_ANIMATION_DELAY_TICKS) {
+                functionName += ".get_still_ani_1";
             }
+        }
+        if (crawling) {
+            functionName += ".is_crawling_1";
+        }
+        if (screaming) {
+            functionName += ".is_screaming_1";
+        }
+        return functionName;
+    }
 
-            return state.setAndContinue(moving ? WALK : IDLE);
-        }));
-
-        // 攻击动画控制器 - 可触发的单次播放动画
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
-                software.bernie.geckolib.animation.PlayState.STOP)
-                .triggerableAnim("attack", ATTACK));
-
-        // 传送动画控制器 - 可触发的传送效果动画
-        controllers.add(new AnimationController<>(this, "teleport_controller", 0, state ->
-                software.bernie.geckolib.animation.PlayState.STOP)
-                .triggerableAnim("teleport", TELEPORT));
+    private void setParasiteStatus(int status) {
+        entityData.set(PARASITE_STATUS, status);
     }
 
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return animationCache;
+    }
+
+    private final class EndermanMeleeGoal extends MeleeAttackGoal {
+        private EndermanMeleeGoal() {
+            super(AssimilatedEndermanEntity.this, 1.2D, false);
+        }
+
+        @Override
+        public void start() {
+            super.start();
+            setParasiteStatus(2);
+        }
+
+        @Override
+        public void stop() {
+            super.stop();
+            setParasiteStatus(0);
+        }
+
+        @Override
+        public void tick() {
+            super.tick();
+            LivingEntity target = getTarget();
+            if (target == null) {
+                return;
+            }
+            double reach = getBbWidth() * 2.0D;
+            setParasiteStatus(distanceToSqr(target) <= reach * reach + target.getBbWidth() ? 1 : 2);
+        }
     }
 
     private boolean isValidParasiteTarget(LivingEntity target) {
@@ -478,11 +507,6 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
         entity.teleportTo(destination.x, destination.y, destination.z);
         entity.resetFallDistance();
         playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
-
-        // 触发传送动画
-        if (entity == this) {
-            triggerAnim("teleport_controller", "teleport");
-        }
 
         return true;
     }
