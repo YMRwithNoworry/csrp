@@ -152,14 +152,7 @@ public final class EvolutionSystem {
 
     public static boolean addPoints(ServerLevel level, int points, PointSource source) {
         SrpWorldData data = SrpWorldData.get(level);
-        int colonySteps = data.totalColonyPoints() / 10;
-        double modifier = colonySteps * 0.05D;
-        double scaled = points >= 0 ? points * (1.0D + modifier) : points * Math.max(0.0D, 1.0D - modifier);
-        int adjusted = scaled >= 0.0D ? (int) Math.floor(scaled) : (int) Math.ceil(scaled);
-        if (points != 0 && adjusted == 0) {
-            adjusted = Integer.signum(points);
-        }
-        return data.addDifficultyScaledEvolutionPoints(level, adjusted);
+        return data.addDifficultyScaledEvolutionPoints(level, points);
     }
 
     public static int sleepPoints(int phase) {
