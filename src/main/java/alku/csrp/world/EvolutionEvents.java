@@ -134,7 +134,9 @@ public final class EvolutionEvents {
 
     @SubscribeEvent
     public static void preventCothDrops(LivingDropsEvent event) {
-        if (!(event.getEntity() instanceof Parasite) && event.getEntity().hasEffect(ModMobEffects.COTH)
+        // COTH carriers killed by players still use their normal loot table.
+        if (event.getSource().getEntity() instanceof Parasite
+                && !(event.getEntity() instanceof Parasite) && event.getEntity().hasEffect(ModMobEffects.COTH)
                 && event.getEntity().level() instanceof ServerLevel level
                 && SrpWorldData.get(level).evolutionPhase() >= 2) {
             event.getDrops().clear();
