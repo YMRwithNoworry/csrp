@@ -8,7 +8,7 @@ const read = (relative) => fs.readFileSync(path.join(root, relative), "utf8");
 const animationKeys = new Set();
 const shortKeys = new Set([
   "abo_head", "marauder_tendril", "marauder", "movingflesh", "pri_summoner",
-  "sim_cow", "sim_cowhead", "sim_pig", "inf_sheep", "inf_sheep_head", "inf_villager"
+  "sim_cowhead", "inf_sheep", "inf_sheep_head", "inf_villager"
 ]);
 
 function resolvedAnimationKey(id, requestedAction) {
@@ -59,7 +59,24 @@ for (const id of all) {
   const baseActions = id === "dispatcher_sii" ? ["idle", "idle", "idle"] : ["idle", "walk", actionAliases[id] || "attack"];
   const expected = id === "crux_incomplete"
     ? ["animation.crux_incomplete.func_78087_a.age_in_ticks", "animation.crux_incomplete.func_78087_a.limb_swing"]
-    : shortKeys.has(id)
+    : id === "sim_cow"
+      ? ["animation.sim_cow.func_78087_a.age_in_ticks", "animation.sim_cow.func_78087_a.limb_swing",
+        "animation.sim_cow.func_78087_a.age_in_ticks.get_parasite_status_1",
+        "animation.sim_cow.func_78087_a.limb_swing.get_parasite_status_1",
+        "animation.sim_cow.func_78087_a.limb_swing.get_parasite_status_2",
+        "animation.sim_cow.func_78087_a.age_in_ticks.get_parasite_status_3",
+        "animation.sim_cow.func_78087_a.limb_swing.get_parasite_status_3",
+        "animation.sim_cow.func_78087_a.age_in_ticks.get_parasite_status_3.get_still_ani_1",
+        "animation.sim_cow.func_78087_a.age_in_ticks.get_parasite_status_6",
+        "animation.sim_cow.get_theigh.get_parasite_status_6"]
+      : id === "sim_pig"
+        ? ["animation.sim_pig.func_78087_a.age_in_ticks", "animation.sim_pig.func_78087_a.limb_swing",
+          "animation.sim_pig.func_78087_a.age_in_ticks.get_parasite_status_1",
+          "animation.sim_pig.func_78087_a.limb_swing.get_parasite_status_1",
+          "animation.sim_pig.func_78087_a.limb_swing.get_parasite_status_2",
+          "animation.sim_pig.func_78087_a.age_in_ticks.get_parasite_status_6",
+          "animation.sim_pig.get_theigh.get_parasite_status_6"]
+      : shortKeys.has(id)
     ? ["idle", "walk", id === "marauder" ? "attack" : "walk"]
     : baseActions.map((action) => `animation.${resourceId}.${action}`);
   for (const key of expected) {
@@ -129,9 +146,19 @@ const sharedVariantActions = {
   ada_viscera: ["idle", "walk", "run", "attack"],
   ada_yelloweye: ["fly", "attack", "idle.get_parasite_status_1"]
   ,sim_bear: ["idle", "walk", "run", "attack"]
-  ,sim_cow: ["idle", "walk", "run", "attack", "idle.get_parasite_status_3.get_still_ani_1",
-    "walk.get_parasite_status_3"]
-  ,sim_pig: ["idle", "walk", "run", "attack"]
+  ,sim_cow: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_2",
+    "func_78087_a.age_in_ticks.get_parasite_status_3",
+    "func_78087_a.limb_swing.get_parasite_status_3",
+    "func_78087_a.age_in_ticks.get_parasite_status_3.get_still_ani_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_6", "get_theigh.get_parasite_status_6"]
+  ,sim_pig: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_2",
+    "func_78087_a.age_in_ticks.get_parasite_status_6", "get_theigh.get_parasite_status_6"]
   ,sim_sheep: ["idle", "walk", "run", "attack"]
   ,sim_wolf: ["idle", "walk", "run", "attack"]
   ,sim_squid: ["idle", "walk", "run", "attack"]
@@ -316,6 +343,46 @@ if (!crux.includes("stillAnimationTicks > STILL_ANIMATION_DELAY_TICKS")) {
 }
 if (!crux.includes("setSprinting(true)") || !crux.includes("setSprinting(false)")) {
   failures.push("CruxEntity: pursuit does not expose the original sprinting animation status");
+}
+
+for (const [className, actions] of [
+  ["AssimilatedCowEntity", [
+    "func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_2",
+    "func_78087_a.age_in_ticks.get_parasite_status_3",
+    "func_78087_a.limb_swing.get_parasite_status_3",
+    "func_78087_a.age_in_ticks.get_parasite_status_3.get_still_ani_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_6",
+    "get_theigh.get_parasite_status_6"
+  ]],
+  ["AssimilatedPigEntity", [
+    "func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_2",
+    "func_78087_a.age_in_ticks.get_parasite_status_6",
+    "get_theigh.get_parasite_status_6"
+  ]]
+]) {
+  const source = read(`src/main/java/alku/csrp/entity/${className}.java`);
+  for (const action of actions) {
+    if (!source.includes(`"${action}"`)) {
+      failures.push(`${className}: original runtime animation ${action} is not wired`);
+    }
+  }
+  if (source.includes('triggerableAnim("attack"')) {
+    failures.push(`${className}: still requests a fabricated generic attack animation`);
+  }
+  if (className === "AssimilatedCowEntity"
+      && !source.includes("stillAnimationTicks > STILL_ANIMATION_DELAY_TICKS")) {
+    failures.push(`${className}: legacy stillAni delay is not represented`);
+  }
+  if (className === "AssimilatedPigEntity"
+      && !source.includes("ParasiteAnimations.isMoving(this, state.isMoving())")) {
+    failures.push(`${className}: legacy stillAni movement gate is not represented`);
+  }
 }
 
 const incompleteCrux = read("src/main/java/alku/csrp/entity/IncompleteCruxEntity.java");

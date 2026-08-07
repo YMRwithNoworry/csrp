@@ -43,6 +43,7 @@ public final class AssimilatedPigEntity extends Monster implements GeoEntity, Pa
     private static final int STATUS_ATTACK = 1;    // 攻击状态
     private static final int STATUS_SNEAK = 2;     // 潜行/爬行
     private static final int STATUS_MELT = 6;      // 融化状态
+    private static final int STILL_ANIMATION_DELAY_TICKS = 25;
 
     private static final EntityDataAccessor<Integer> PARASITE_STATUS =
             SynchedEntityData.defineId(AssimilatedPigEntity.class, EntityDataSerializers.INT);
@@ -51,17 +52,21 @@ public final class AssimilatedPigEntity extends Monster implements GeoEntity, Pa
     private static final EntityDataAccessor<Integer> MELT_TIMER =
             SynchedEntityData.defineId(AssimilatedPigEntity.class, EntityDataSerializers.INT);
 
-    // 动画定义 - 根据原模组的状态系统
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation ATTACK_IDLE = IDLE;
-    private final RawAnimation ATTACK_WALK = WALK;
-    private final RawAnimation SNEAK_IDLE = IDLE;
-    private final RawAnimation SNEAK_WALK = WALK;
-    private final RawAnimation MELT = IDLE;
-    private final RawAnimation ATTACK = RawAnimation.begin().thenPlay("run");
+    private final RawAnimation AGE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final RawAnimation AGE_ATTACK = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_1");
+    private final RawAnimation AGE_MELT = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_6");
+    private final RawAnimation LIMB = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final RawAnimation LIMB_ATTACK = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_1");
+    private final RawAnimation LIMB_SNEAK = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_2");
+    private final RawAnimation THIGH_MELT = ParasiteAnimations.loop(this,
+            "get_theigh.get_parasite_status_6");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
+    private int stillAnimationTicks;
 
     public AssimilatedPigEntity(EntityType<? extends AssimilatedPigEntity> entityType, Level level) {
         super(entityType, level);
@@ -136,6 +141,12 @@ public final class AssimilatedPigEntity extends Monster implements GeoEntity, Pa
     public void tick() {
         super.tick();
 
+        if (ParasiteAnimations.isMoving(this, true)) {
+            stillAnimationTicks = 0;
+        } else {
+            stillAnimationTicks++;
+        }
+
         if (level().isClientSide) {
             return;
         }
@@ -205,8 +216,6 @@ public final class AssimilatedPigEntity extends Monster implements GeoEntity, Pa
         boolean hit = super.doHurtTarget(entity);
 
         if (hit) {
-            triggerAnim("attack_controller", "attack");
-
             if (entity instanceof LivingEntity living) {
                 // 应用感染
                 InfectionMechanics.applyCoth(living, this);
@@ -273,32 +282,32 @@ public final class AssimilatedPigEntity extends Monster implements GeoEntity, Pa
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
-                .triggerableAnim("attack", ATTACK));
+        controllers.add(new AnimationController<>(this, "age_controller", 0,
+                state -> state.setAndContinue(ageAnimation())));
+        controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
+            if (!ParasiteAnimations.isMoving(this, state.isMoving())) {
+                return PlayState.STOP;
+            }
+            return state.setAndContinue(limbAnimation());
+        }));
+        controllers.add(new AnimationController<>(this, "thigh_controller", 0, state ->
+                getParasiteStatus() == STATUS_MELT ? state.setAndContinue(THIGH_MELT) : PlayState.STOP));
     }
 
-    private <T extends AssimilatedPigEntity> PlayState movementAnimation(AnimationState<T> state) {
+    private RawAnimation ageAnimation() {
         int status = getParasiteStatus();
-        boolean moving = ParasiteAnimations.isMoving(this, state.isMoving());
-
-        // 状态 6: 融化动画
         if (status == STATUS_MELT) {
-            return state.setAndContinue(MELT);
+            return AGE_MELT;
         }
+        return status == STATUS_ATTACK || status == STATUS_SNEAK ? AGE_ATTACK : AGE;
+    }
 
-        // 状态 2: 潜行动画
-        if (status == STATUS_SNEAK) {
-            return state.setAndContinue(moving ? SNEAK_WALK : SNEAK_IDLE);
-        }
-
-        // 状态 1: 攻击动画
-        if (status == STATUS_ATTACK) {
-            return state.setAndContinue(moving ? ATTACK_WALK : ATTACK_IDLE);
-        }
-
-        // 状态 0: 闲置/行走动画
-        return state.setAndContinue(moving ? WALK : IDLE);
+    private RawAnimation limbAnimation() {
+        return switch (getParasiteStatus()) {
+            case STATUS_ATTACK -> LIMB_ATTACK;
+            case STATUS_SNEAK -> LIMB_SNEAK;
+            default -> LIMB;
+        };
     }
 
     @Override

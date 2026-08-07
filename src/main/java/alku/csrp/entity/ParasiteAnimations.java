@@ -65,12 +65,6 @@ final class ParasiteAnimations {
             action = "skill";
         } else if (resourceId.equals("pri_summoner") && action.equals("summon")) {
             action = "run";
-        } else if (resourceId.equals("sim_cow")
-                && action.equals("idle.get_parasite_status_3.get_still_ani_1")) {
-            action = "idle";
-        } else if (resourceId.equals("sim_cow")
-                && action.equals("walk.get_parasite_status_3")) {
-            action = "run";
         } else if (resourceId.equals("ada_arachnida")
                 && action.equals("idle.get_parasite_status_11")) {
             action = "idle.get_parasite_status_3";
@@ -96,8 +90,7 @@ final class ParasiteAnimations {
     private static boolean usesShortAnimationKeys(String resourceId) {
         return resourceId.equals("abo_head") || resourceId.equals("marauder_tendril")
                 || resourceId.equals("marauder") || resourceId.equals("movingflesh")
-                || resourceId.equals("pri_summoner") || resourceId.equals("sim_cow")
-                || resourceId.equals("sim_cowhead") || resourceId.equals("sim_pig")
+                || resourceId.equals("pri_summoner") || resourceId.equals("sim_cowhead")
                 || resourceId.equals("inf_sheep") || resourceId.equals("inf_sheep_head")
                 || resourceId.equals("inf_villager");
     }
