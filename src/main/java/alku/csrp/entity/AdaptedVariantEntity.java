@@ -88,36 +88,45 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
             AdaptedVariantEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> YELLOWEYE_CHARGING = SynchedEntityData.defineId(
             AdaptedVariantEntity.class, EntityDataSerializers.BOOLEAN);
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
-    private final RawAnimation FLY = ParasiteAnimations.loop(this, "fly");
-    private final RawAnimation DIG = ParasiteAnimations.loop(this, "func_78087_a.getDigging");
-    private final RawAnimation BOLSTER_ATTACK = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final RawAnimation WALK = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final RawAnimation RUN = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_2");
+    private final RawAnimation LONGARMS_STATUS_1 = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_1");
+    private final RawAnimation AGE_STATUS_1 = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_1");
+    private final RawAnimation FLY = IDLE;
+    private final RawAnimation DIG = ParasiteAnimations.loop(this, "get_dig_model.get_digging_1");
+    private final RawAnimation DIG_BODY_02 = ParasiteAnimations.loop(this,
+            "get_dig_model.get_body_number_0_2.get_digging_1");
+    private final RawAnimation AGE_BODY_02 = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_body_number_0_2");
+    private final RawAnimation BOLSTER_ATTACK = ParasiteAnimations.play(this, "get_attack_timer");
     private final RawAnimation ARACHNIDA_ATTACK_PREP = ParasiteAnimations.loop(this,
-            "walk.get_parasite_status_1");
+            "func_78087_a.limb_swing.get_parasite_status_1");
     private final RawAnimation ARACHNIDA_FAST_MOVE = ParasiteAnimations.loop(this,
-            "walk.get_parasite_status_2");
+            "func_78087_a.limb_swing.get_parasite_status_2");
     private final RawAnimation ARACHNIDA_PULLING = ParasiteAnimations.loop(this,
-            "idle.get_parasite_status_3");
+            "func_78087_a.age_in_ticks.get_parasite_status_3");
     private final RawAnimation ARACHNIDA_SKILL = ParasiteAnimations.loop(this,
-            "idle.get_parasite_status_11");
+            "func_78087_a.age_in_ticks.get_parasite_status_3");
     private final RawAnimation REEKER_CHARGE_IDLE = ParasiteAnimations.loop(this,
-            "idle.get_parasite_status_3.get_still_ani_1");
+            "func_78087_a.age_in_ticks.get_parasite_status_3.get_still_ani_1");
     private final RawAnimation REEKER_CHARGE_WALK = ParasiteAnimations.loop(this,
-            "walk.get_parasite_status_3");
+            "func_78087_a.limb_swing.get_parasite_status_3");
     private final RawAnimation REEKER_PULLING_IDLE = ParasiteAnimations.loop(this,
-            "idle.get_parasite_status_3");
+            "func_78087_a.age_in_ticks.get_parasite_status_3");
     private final RawAnimation REEKER_PULLING_WALK = ParasiteAnimations.loop(this,
-            "walk.get_parasite_status_3");
+            "func_78087_a.limb_swing.get_parasite_status_3");
     private final RawAnimation REEKER_ALERT = ParasiteAnimations.loop(this,
-            "idle.get_parasite_status_1");
+            "func_78087_a.age_in_ticks.get_parasite_status_1");
     private final RawAnimation REEKER_ATTACK_PREP = ParasiteAnimations.loop(this,
-            "walk.get_parasite_status_2");
+            "func_78087_a.limb_swing.get_parasite_status_2");
     private final RawAnimation SUMMONER_CAST = ParasiteAnimations.loop(this,
-            "idle.get_parasite_status_10");
+            "func_78087_a.age_in_ticks.get_parasite_status_10");
     private final RawAnimation SUMMONER_ATTACK = ParasiteAnimations.loop(this,
-            "walk.get_parasite_status_1");
+            "func_78087_a.limb_swing.get_parasite_status_1");
     private final RawAnimation SUMMONER_VOMIT = ParasiteAnimations.loop(this,
             "idle.get_parasite_status_100");
     private final RawAnimation SUMMONER_SPECIAL = ParasiteAnimations.loop(this,
@@ -125,26 +134,25 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
     private final RawAnimation MANDUCATER_ATTACK = ParasiteAnimations.loop(this,
             "walk.get_parasite_status_1");
     private final RawAnimation MANDUCATER_SUMMON = ParasiteAnimations.loop(this,
-            "idle.get_parasite_status_10");
+            "func_78087_a.age_in_ticks.get_parasite_status_1");
     private final RawAnimation MANDUCATER_EVADE = ParasiteAnimations.loop(this,
-            "idle.get_parasite_status_25");
+            "func_78087_a.age_in_ticks.get_parasite_status_1");
     private final RawAnimation YELLOWEYE_CHARGE = ParasiteAnimations.loop(this,
-            "idle.get_parasite_status_1");
-    private static final RawAnimation BOLSTER_STATUS_3 = RawAnimation.begin()
-            .thenLoop("animation.ada_bolster.idle.get_parasite_status_3");
-    private static final RawAnimation BOLSTER_STATUS_15 = RawAnimation.begin()
-            .thenLoop("animation.ada_bolster.idle.get_parasite_status_15");
-    private static final RawAnimation BOLSTER_STATUS_25 = RawAnimation.begin()
-            .thenLoop("animation.ada_bolster.idle.get_parasite_status_25");
-    private static final RawAnimation BOLSTER_ATTACK_STATUS_15 = RawAnimation.begin()
-            .thenLoop("animation.ada_bolster.get_attack_timer.get_parasite_status_15");
-    private static final RawAnimation BOLSTER_ATTACK_STATUS_25 = RawAnimation.begin()
-            .thenLoop("animation.ada_bolster.get_attack_timer.get_parasite_status_25");
+            "func_78087_a.age_in_ticks.get_parasite_status_1");
+    private final RawAnimation BOLSTER_STATUS_3 = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_3");
+    private final RawAnimation BOLSTER_STATUS_15 = BOLSTER_STATUS_3;
+    private final RawAnimation BOLSTER_STATUS_25 = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_25");
+    private final RawAnimation BOLSTER_ATTACK_STATUS_15 = ParasiteAnimations.loop(this,
+            "get_attack_timer.get_parasite_status_15");
+    private final RawAnimation BOLSTER_ATTACK_STATUS_25 = ParasiteAnimations.loop(this,
+            "get_attack_timer.get_parasite_status_25");
     private final RawAnimation[] BODY_IDLE = {
-            ParasiteAnimations.loop(this, "idle"),
-            ParasiteAnimations.loop(this, "idle.get_body_number_1"),
-            ParasiteAnimations.loop(this, "idle.get_body_number_2"),
-            ParasiteAnimations.loop(this, "idle.get_body_number_3")
+            ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks"),
+            ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks.get_body_number_1"),
+            ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks.get_body_number_2"),
+            ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks.get_body_number_3")
     };
     private final RawAnimation[] BODY_DIG = {
             DIG,
@@ -153,7 +161,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
             ParasiteAnimations.loop(this, "get_dig_model.get_body_number_3.get_digging_1")
     };
     private final RawAnimation[] BODY_ATTACK = {
-            BOLSTER_ATTACK,
+            ParasiteAnimations.loop(this, "get_attack_timer.get_body_number_neg_0_1"),
             ParasiteAnimations.loop(this, "get_attack_timer.get_body_number_1"),
             ParasiteAnimations.loop(this, "get_attack_timer.get_body_number_2"),
             ParasiteAnimations.loop(this, "get_attack_timer.get_body_number_3")
@@ -550,7 +558,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
         if (activeKind == Kind.BOLSTER || activeKind == Kind.MANDUCATER || activeKind == Kind.LONGARMS) {
             spawnAttackParticles(target);
         }
-        triggerAnim("bolster_attack_controller", "attack");
+        if (activeKind == Kind.BOLSTER || activeKind == Kind.LONGARMS) {
+            triggerAnim("bolster_attack_controller", "attack");
+        }
 
         // 更新 Manducater 攻击状态
         if (activeKind == Kind.MANDUCATER) {
@@ -771,6 +781,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
             if (kind == Kind.TOZOON && isBodyAttackAnimating()) {
                 return state.setAndContinue(BODY_ATTACK[body]);
             }
+            if (kind == Kind.BURROWER) {
+                return state.setAndContinue(isBurrowing() ? DIG_BODY_02 : AGE_BODY_02);
+            }
             return state.setAndContinue(isBurrowing() ? BODY_DIG[body] : BODY_IDLE[body]);
         }
         if (kind == Kind.ARACHNIDA) {
@@ -833,6 +846,19 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
         }
         if (kind == Kind.SUMMONER && entityData.get(SUMMONER_CASTING)) {
             return state.setAndContinue(SUMMONER_CAST);
+        }
+        if (kind == Kind.DEVOURER) {
+            LivingEntity target = getTarget();
+            return state.setAndContinue(target != null && target.isAlive() ? AGE_STATUS_1 : IDLE);
+        }
+        if (kind == Kind.LONGARMS) {
+            LivingEntity target = getTarget();
+            boolean moving = ParasiteAnimations.isMoving(this, state.isMoving());
+            if (!moving) {
+                return state.setAndContinue(target != null && target.isAlive()
+                        ? LONGARMS_STATUS_1 : IDLE);
+            }
+            return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() > 0.02D ? RUN : WALK);
         }
         if (kind == Kind.SUMMONER) {
             int status = getSummonerStatus();

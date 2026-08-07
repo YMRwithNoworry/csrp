@@ -64,6 +64,48 @@ const currentExpected = {
   pri_yelloweye: ["func_78087_a.age_in_ticks"]
 };
 
+const adaptedExpected = {
+  ada_arachnida: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1", "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_2", "func_78087_a.age_in_ticks.get_parasite_status_3"],
+  ada_bolster: ["func_78087_a.age_in_ticks", "get_attack_timer",
+    "func_78087_a.age_in_ticks.get_parasite_status_3", "get_attack_timer.get_parasite_status_15",
+    "func_78087_a.age_in_ticks.get_parasite_status_25", "get_attack_timer.get_parasite_status_25"],
+  ada_burrower: ["func_78087_a.age_in_ticks", "get_dig_model.get_digging_1",
+    "func_78087_a.age_in_ticks.get_body_number_0_2", "get_dig_model.get_body_number_0_2.get_digging_1"],
+  ada_devourer: ["func_78087_a.age_in_ticks", "func_78087_a.age_in_ticks.get_parasite_status_1"],
+  ada_longarms: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing", "get_attack_timer",
+    "func_78087_a.age_in_ticks.get_still_ani_1", "get_attack_timer.get_still_ani_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1", "func_78087_a.limb_swing.get_parasite_status_1",
+    "get_attack_timer.get_parasite_status_1", "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1",
+    "get_attack_timer.get_parasite_status_1.get_still_ani_1", "func_78087_a.limb_swing.get_parasite_status_2",
+    "func_78087_a.age_in_ticks.get_parasite_status_25", "get_attack_timer.get_parasite_status_25"],
+  ada_manducater: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1", "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_2"],
+  ada_reeker: ["func_78087_a.limb_swing", "func_78087_a.age_in_ticks.get_still_ani_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1", "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_2", "func_78087_a.age_in_ticks.get_parasite_status_3",
+    "func_78087_a.limb_swing.get_parasite_status_3", "func_78087_a.age_in_ticks.get_parasite_status_3.get_still_ani_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_25"],
+  ada_summoner: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1", "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_2", "func_78087_a.age_in_ticks.get_parasite_status_10",
+    "func_78087_a.age_in_ticks.get_parasite_status_25"],
+  ada_tozoon: ["func_78087_a.age_in_ticks", "get_attack_timer.get_body_number_neg_0_1",
+    "get_dig_model.get_body_number_neg_0_1.get_digging_1", "get_attack_timer", "get_dig_model",
+    "get_dig_model.get_digging_1", "func_78087_a.age_in_ticks.get_body_number_1",
+    "get_attack_timer.get_body_number_1", "get_dig_model.get_body_number_1.get_digging_1",
+    "func_78087_a.age_in_ticks.get_body_number_2", "get_attack_timer.get_body_number_2",
+    "get_dig_model.get_body_number_2.get_digging_1", "func_78087_a.age_in_ticks.get_body_number_3",
+    "get_attack_timer.get_body_number_3", "get_dig_model.get_body_number_3.get_digging_1"],
+  ada_vermin: ["func_78087_a.age_in_ticks"],
+  ada_viscera: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1", "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_2"],
+  ada_yelloweye: ["func_78087_a.age_in_ticks", "func_78087_a.age_in_ticks.get_parasite_status_1"]
+};
+
 function resolvedAnimationKey(id, requestedAction) {
   const resourceId = id === "sim_dragonhead" ? "sim_dragonehead"
     : id === "dispatcher_tentacle" ? "dispatcherten" : id;
@@ -110,8 +152,8 @@ for (const id of all) {
     dispatcher_sii: "idle"
   };
   const baseActions = id === "dispatcher_sii" ? ["idle", "idle", "idle"] : ["idle", "walk", actionAliases[id] || "attack"];
-  const expected = currentExpected[id]
-    ? currentExpected[id].map((action) => `animation.${resourceId}.${action}`)
+  const expected = (currentExpected[id] || adaptedExpected[id])
+    ? (currentExpected[id] || adaptedExpected[id]).map((action) => `animation.${resourceId}.${action}`)
     : id === "crux_incomplete"
     ? ["animation.crux_incomplete.func_78087_a.age_in_ticks", "animation.crux_incomplete.func_78087_a.limb_swing"]
     : id === "sim_cow"
@@ -267,30 +309,18 @@ const sharedVariantActions = {
   pri_reeker: currentExpected.pri_reeker,
   pri_tozoon: currentExpected.pri_tozoon,
   pri_yelloweye: currentExpected.pri_yelloweye,
-  ada_arachnida: ["idle", "walk", "attack", "walk.get_parasite_status_1",
-    "walk.get_parasite_status_2", "idle.get_parasite_status_3", "idle.get_parasite_status_11"],
-  ada_bolster: ["idle", "walk", "attack", "idle.get_parasite_status_3",
-    "idle.get_parasite_status_15", "idle.get_parasite_status_25",
-    "get_attack_timer.get_parasite_status_15", "get_attack_timer.get_parasite_status_25"],
-  ada_burrower: ["idle", "func_78087_a.getDigging", "attack", "idle.get_body_number_1",
-    "idle.get_body_number_2", "idle.get_body_number_3", "get_dig_model.get_body_number_1.get_digging_1",
-    "get_dig_model.get_body_number_2.get_digging_1", "get_dig_model.get_body_number_3.get_digging_1"],
-  ada_devourer: ["idle", "walk", "attack"],
-  ada_longarms: ["idle", "walk", "run", "attack"],
-  ada_manducater: ["idle", "walk", "run", "attack", "walk.get_parasite_status_1",
-    "idle.get_parasite_status_10", "idle.get_parasite_status_25"],
-  ada_reeker: ["idle", "walk", "attack", "idle.get_parasite_status_1", "walk.get_parasite_status_2",
-    "idle.get_parasite_status_3", "walk.get_parasite_status_3", "idle.get_parasite_status_3.get_still_ani_1"],
-  ada_summoner: ["idle", "walk", "run", "attack", "idle.get_parasite_status_10",
-    "walk.get_parasite_status_1", "idle.get_parasite_status_100", "idle.get_parasite_status_25"],
-  ada_tozoon: ["idle", "func_78087_a.getDigging", "attack", "idle.get_body_number_1",
-    "idle.get_body_number_2", "idle.get_body_number_3", "get_attack_timer.get_body_number_1",
-    "get_attack_timer.get_body_number_2", "get_attack_timer.get_body_number_3",
-    "get_dig_model.get_body_number_1.get_digging_1", "get_dig_model.get_body_number_2.get_digging_1",
-    "get_dig_model.get_body_number_3.get_digging_1"],
-  ada_vermin: ["idle"],
-  ada_viscera: ["idle", "walk", "run", "attack"],
-  ada_yelloweye: ["fly", "attack", "idle.get_parasite_status_1"]
+  ada_arachnida: adaptedExpected.ada_arachnida,
+  ada_bolster: adaptedExpected.ada_bolster,
+  ada_burrower: adaptedExpected.ada_burrower,
+  ada_devourer: adaptedExpected.ada_devourer,
+  ada_longarms: adaptedExpected.ada_longarms,
+  ada_manducater: adaptedExpected.ada_manducater,
+  ada_reeker: adaptedExpected.ada_reeker,
+  ada_summoner: adaptedExpected.ada_summoner,
+  ada_tozoon: adaptedExpected.ada_tozoon,
+  ada_vermin: adaptedExpected.ada_vermin,
+  ada_viscera: adaptedExpected.ada_viscera,
+  ada_yelloweye: adaptedExpected.ada_yelloweye
   ,sim_bear: ["idle", "walk", "run", "attack"]
   ,sim_cow: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
     "func_78087_a.age_in_ticks.get_parasite_status_1",
