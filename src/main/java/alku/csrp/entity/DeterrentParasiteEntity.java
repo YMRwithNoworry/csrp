@@ -71,15 +71,25 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     private static final float ADAPTATION_PER_HIT = 0.16F;
     private static final float ADAPTATION_LEARN_CHANCE = 0.85F;
     private static final float FIRE_SUPPRESSION_CHANCE = 0.50F;
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final RawAnimation FLOOR_TIMER = ParasiteAnimations.loop(this, "get_floor_timer");
     private final RawAnimation ATTACK_TIMER = ParasiteAnimations.loop(this, "get_attack_timer");
-    private final RawAnimation SEIZER_HOLD = ParasiteAnimations.loop(this, "idle.get_targeted_entity_1");
-    private final RawAnimation SENTRY_ATTACK = ParasiteAnimations.loop(this, "idle.get_parasite_status_1");
-    private final RawAnimation SENTRY_FAST_ATTACK = ParasiteAnimations.loop(this, "idle.get_parasite_status_2");
-    private final RawAnimation SENTRY_SPECIAL = ParasiteAnimations.loop(this, "idle.get_parasite_status_3");
-    private final RawAnimation KYPHOSIS_BURIED_ANIM = ParasiteAnimations.loop(this, "idle.get_parasite_status_3");
-    private final RawAnimation KYPHOSIS_SKILL_ANIM = ParasiteAnimations.loop(this, "idle.get_parasite_status_3");
+    private final RawAnimation ATTACK_TIMER_STATUS_3 = ParasiteAnimations.loop(this,
+            "get_attack_timer.get_parasite_status_3");
+    private final RawAnimation FLOOR_TIMER_STATUS_3 = ParasiteAnimations.loop(this,
+            "get_floor_timer.get_parasite_status_3");
+    private final RawAnimation SEIZER_HOLD = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_targeted_entity_1");
+    private final RawAnimation SEIZER_FLOOR_HOLD = ParasiteAnimations.loop(this,
+            "get_floor_timer.get_targeted_entity_1");
+    private final RawAnimation SENTRY_ATTACK = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_1");
+    private final RawAnimation SENTRY_FAST_ATTACK = ParasiteAnimations.loop(this,
+            "get_floor_timer.get_parasite_status_1");
+    private final RawAnimation SENTRY_SPECIAL = FLOOR_TIMER_STATUS_3;
+    private final RawAnimation KYPHOSIS_BURIED_ANIM = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_3");
+    private final RawAnimation KYPHOSIS_SKILL_ANIM = KYPHOSIS_BURIED_ANIM;
 
     private final Kind kind;
     private int abilityCooldown;
@@ -178,7 +188,6 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
             return hit;
         }
         attackFlashTicks = 12;
-        triggerAnim("attack_controller", "attack");
         if (activeKind == Kind.KYPHOSIS) {
             // 触发攻击动画计时器
             kyphosisAttackUp = true;
@@ -309,11 +318,6 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
-                .triggerableAnim("attack", ATTACK));
-        if (activeKind() == Kind.KYPHOSIS) {
-            controllers.add(new AnimationController<>(this, "kyphosis_attack_timer_controller", 0, this::kyphosisAttackTimerAnimation));
-        }
     }
 
     public void setDispatchTarget(LivingEntity target) {
@@ -430,9 +434,10 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
             return state.setAndContinue(IDLE);
         }
         return state.setAndContinue(switch (specialAction()) {
-            case KYPHOSIS_WAVE, WORM_ERUPTION -> ATTACK_TIMER;
+            case KYPHOSIS_WAVE -> ATTACK_TIMER_STATUS_3;
+            case WORM_ERUPTION -> ATTACK_TIMER;
             case SEIZER_HOLD -> SEIZER_HOLD;
-            case DISPATCHER_DEPLOY -> ATTACK;
+            case DISPATCHER_DEPLOY -> FLOOR_TIMER;
             case NONE -> IDLE;
         });
     }
@@ -656,12 +661,6 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
 
     private void setKyphosisSkillBorder(int border) {
         entityData.set(KYPHOSIS_SKILL_BORDER, border);
-    }
-
-    private PlayState kyphosisAttackTimerAnimation(AnimationState<DeterrentParasiteEntity> state) {
-        // 这个控制器用于提供攻击计时器值给动画系统
-        // 返回CONTINUE以保持动画系统更新
-        return PlayState.CONTINUE;
     }
 
     private SpecialAction specialAction() {
@@ -968,7 +967,6 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
             fireSpine(target);
             fireSpine(target);
             fireSpine(target);
-            triggerAnim("attack_controller", "attack");
             abilityCooldown = 60;
         }
     }

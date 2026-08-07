@@ -52,26 +52,58 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
     private static final float ADAPTATION_PER_HIT = 0.125F;
     private static final float ADAPTATION_LEARN_CHANCE = 0.95F;
     private static final float FIRE_SUPPRESSION_CHANCE = 0.30F;
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
-    private final RawAnimation FLY = ParasiteAnimations.loop(this, "fly");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final RawAnimation WALK = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final RawAnimation RUN = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_2");
+    private final RawAnimation FLY = IDLE;
+    private final RawAnimation WARDEN_ATTACK = ParasiteAnimations.play(this, "get_attack_timer");
+    private final RawAnimation WARDEN_AGE_STILL = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_still_ani_1");
+    private final RawAnimation WARDEN_ATTACK_STILL = ParasiteAnimations.play(this,
+            "get_attack_timer.get_still_ani_1");
+    private final RawAnimation WARDEN_AGE_STATUS_1 = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_1");
+    private final RawAnimation WARDEN_LIMB_STATUS_1 = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_1");
+    private final RawAnimation WARDEN_ATTACK_STATUS_1 = ParasiteAnimations.play(this,
+            "get_attack_timer.get_parasite_status_1");
+    private final RawAnimation WARDEN_AGE_STATUS_1_STILL = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1");
+    private final RawAnimation WARDEN_ATTACK_STATUS_1_STILL = ParasiteAnimations.play(this,
+            "get_attack_timer.get_parasite_status_1.get_still_ani_1");
+    private final RawAnimation WARDEN_LIMB_STATUS_2 = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_2");
+    private final RawAnimation WARDEN_AGE_STATUS_3 = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_3");
+    private final RawAnimation WARDEN_LIMB_STATUS_3 = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_3");
+    private final RawAnimation WARDEN_ATTACK_STATUS_3 = ParasiteAnimations.play(this,
+            "get_attack_timer.get_parasite_status_3");
+    private final RawAnimation WARDEN_AGE_STATUS_3_STILL = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_3.get_still_ani_1");
+    private final RawAnimation WARDEN_ATTACK_STATUS_3_STILL = ParasiteAnimations.play(this,
+            "get_attack_timer.get_parasite_status_3.get_still_ani_1");
+    private final RawAnimation WARDEN_AGE_STATUS_10 = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_10");
+    private final RawAnimation WARDEN_ATTACK_STATUS_10 = ParasiteAnimations.play(this,
+            "get_attack_timer.get_parasite_status_10");
     private final RawAnimation WARDEN_CHARGE_IDLE = ParasiteAnimations.loop(this,
-            "idle.get_parasite_status_3");
+            "func_78087_a.age_in_ticks.get_parasite_status_3");
     private final RawAnimation WARDEN_CHARGE_WALK = ParasiteAnimations.loop(this,
-            "walk.get_parasite_status_3");
-    private final RawAnimation LEAP = ParasiteAnimations.loop(this, "idle.get_parasite_status_10");
+            "func_78087_a.limb_swing.get_parasite_status_3");
+    private final RawAnimation LEAP = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_10");
     private final RawAnimation VIGILANTE_ATTACK_IDLE = ParasiteAnimations.loop(this,
-            "idle.get_parasite_status_1");
+            "func_78087_a.age_in_ticks.get_parasite_status_1");
     private final RawAnimation VIGILANTE_ATTACK_WALK = ParasiteAnimations.loop(this,
-            "walk.get_parasite_status_1");
+            "func_78087_a.limb_swing.get_parasite_status_1");
     private final RawAnimation VIGILANTE_ATTACK2_IDLE = ParasiteAnimations.loop(this,
-            "idle.get_parasite_status_1");
+            "func_78087_a.age_in_ticks.get_parasite_status_1");
     private final RawAnimation VIGILANTE_ATTACK2_WALK = ParasiteAnimations.loop(this,
-            "walk.get_parasite_status_1");
+            "func_78087_a.limb_swing.get_parasite_status_1");
     private final RawAnimation VIGILANTE_UNDERGROUND = ParasiteAnimations.loop(this,
-            "idle.get_parasite_status_25");
+            "func_78087_a.age_in_ticks.get_parasite_status_25");
 
     private final Kind kind;
     private int blockBreakCooldown;
@@ -234,7 +266,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
                 boolean hurt = super.doHurtTarget(target);
                 if (hurt) {
                     attackAnimationTicks = 8;
-                    triggerAnim("attack_controller", "attack");
+                    triggerAttackAnimation();
                     applyMeleeEffects(target, activeKind());
                 }
                 yield hurt;
@@ -280,8 +312,10 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
-                .triggerableAnim("attack", ATTACK));
+        if (activeKind() == Kind.WARDEN) {
+            controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
+                    .triggerableAnim("get_attack_timer", WARDEN_ATTACK));
+        }
     }
 
     public Kind getKind() {
@@ -314,8 +348,12 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
                 default -> state.setAndContinue(moving ? (getDeltaMovement().horizontalDistanceSqr() > 0.02D ? RUN : WALK) : IDLE);
             };
         }
-        if (activeKind().flying) {
+        if (activeKind() == Kind.BOMBER_LIGHT || activeKind() == Kind.OVERSEER) {
             return state.setAndContinue(FLY);
+        }
+        if (activeKind() == Kind.GRUNT) {
+            if (!ParasiteAnimations.isMoving(this, state.isMoving())) return state.setAndContinue(IDLE);
+            return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() > 0.02D ? RUN : VIGILANTE_ATTACK_WALK);
         }
         if (!ParasiteAnimations.isMoving(this, state.isMoving())) {
             return state.setAndContinue(IDLE);
@@ -337,14 +375,16 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         }
         if (hit) {
             attackAnimationTicks = 10;
-            triggerAnim("attack_controller", "attack");
+            triggerAttackAnimation();
         }
         return hit;
     }
 
     private void triggerAttackAnimation() {
         attackAnimationTicks = 10;
-        triggerAnim("attack_controller", "attack");
+        if (activeKind() == Kind.WARDEN) {
+            triggerAnim("attack_controller", "get_attack_timer");
+        }
     }
 
     private void applyMeleeEffects(LivingEntity target, Kind activeKind) {

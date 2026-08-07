@@ -72,9 +72,8 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
             "csrp:parasite_canister_active", "srparasites:biomeheart", "srparasites:colonyheart",
             "srparasites:parasiterubbledense", "srparasites:parasitecanisteractive");
 
-    private final RawAnimation idleAnimation = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation walkAnimation = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation attackAnimation = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation idleAnimation = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks");
     private UUID fatherId;
     private UUID targetId;
     private BlockPos targetPosition;
@@ -214,7 +213,6 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
     private void advanceFinishing() {
         setActivationProgress(activationProgress + 1);
         if (!isFinishing()) {
-            triggerAnim("action_controller", "attack");
         }
         entityData.set(FINISHING, true);
         setCharging(false);
@@ -440,10 +438,8 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
             if (isFinishing() || !ParasiteAnimations.isMoving(this, state.isMoving())) {
                 return state.setAndContinue(idleAnimation);
             }
-            return state.setAndContinue(walkAnimation);
+            return state.setAndContinue(idleAnimation);
         }));
-        controllers.add(new AnimationController<>(this, "action_controller", 0,
-                state -> PlayState.STOP).triggerableAnim("attack", attackAnimation));
     }
 
     private final class ChargeAttackGoal extends Goal {

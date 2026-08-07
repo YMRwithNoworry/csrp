@@ -92,10 +92,11 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
     private static final float ADAPTATION_PER_HIT = 0.20F;
     private static final float ADAPTATION_LEARN_CHANCE = 1.0F;
     private static final float FIRE_SUPPRESSION_CHANCE = 0.30F;
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation FLY = ParasiteAnimations.loop(this, "fly");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final RawAnimation WALK = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final RawAnimation FLY = IDLE;
+    private final RawAnimation BOGLE_STATUS_1 = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_1");
 
     private final Kind kind;
     private final CarrierHeadPart carrierHeadPart;
@@ -319,7 +320,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         boolean hurt = super.doHurtTarget(entity);
         if (hurt) {
             attackAnimationTicks = 8;
-            triggerAnim("attack_controller", "attack");
+            triggerAttackAnimation();
         }
         return hurt;
     }
@@ -476,8 +477,6 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
-                .triggerableAnim("attack", ATTACK));
     }
 
     public Kind getKind() {
@@ -546,15 +545,14 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private PlayState movementAnimation(AnimationState<PreeminentParasiteEntity> state) {
-        if (activeKind().flying) {
-            return state.setAndContinue(FLY);
+        if (activeKind() == Kind.BOGLE || activeKind() == Kind.WRAITH) {
+            return state.setAndContinue(getTarget() != null && getTarget().isAlive() ? BOGLE_STATUS_1 : FLY);
         }
         return state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving()) ? WALK : IDLE);
     }
 
     private void triggerAttackAnimation() {
         attackAnimationTicks = 10;
-        triggerAnim("attack_controller", "attack");
     }
 
     private boolean isStealthKind() {

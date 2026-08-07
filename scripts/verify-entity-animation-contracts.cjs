@@ -106,6 +106,45 @@ const adaptedExpected = {
   ada_yelloweye: ["func_78087_a.age_in_ticks", "func_78087_a.age_in_ticks.get_parasite_status_1"]
 };
 
+const pureExpected = {
+  dispatcherten: ["func_78087_a.age_in_ticks", "get_floor_timer"],
+  kyphosis: ["func_78087_a.age_in_ticks", "get_attack_timer", "get_floor_timer",
+    "func_78087_a.age_in_ticks.get_parasite_status_3", "get_attack_timer.get_parasite_status_3",
+    "get_floor_timer.get_parasite_status_3"],
+  seizer: ["func_78087_a.age_in_ticks", "get_floor_timer",
+    "func_78087_a.age_in_ticks.get_targeted_entity_1", "get_floor_timer.get_targeted_entity_1"],
+  sentry: ["func_78087_a.age_in_ticks", "get_floor_timer",
+    "func_78087_a.age_in_ticks.get_parasite_status_1", "get_floor_timer.get_parasite_status_1",
+    "get_floor_timer.get_parasite_status_3"],
+  worm: ["func_78087_a.age_in_ticks", "get_attack_timer", "get_floor_timer",
+    "func_78087_a.age_in_ticks.get_parasite_status_3", "get_attack_timer.get_parasite_status_3",
+    "get_floor_timer.get_parasite_status_3"],
+  grunt: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_2", "func_78087_a.age_in_ticks.get_parasite_status_10"],
+  bomber_light: ["func_78087_a.age_in_ticks"],
+  monarch: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_10"],
+  overseer: ["func_78087_a.age_in_ticks"],
+  vigilante: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1", "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_25"],
+  warden: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing", "get_attack_timer",
+    "func_78087_a.age_in_ticks.get_still_ani_1", "get_attack_timer.get_still_ani_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1", "func_78087_a.limb_swing.get_parasite_status_1",
+    "get_attack_timer.get_parasite_status_1", "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1",
+    "get_attack_timer.get_parasite_status_1.get_still_ani_1", "func_78087_a.limb_swing.get_parasite_status_2",
+    "func_78087_a.age_in_ticks.get_parasite_status_3", "func_78087_a.limb_swing.get_parasite_status_3",
+    "get_attack_timer.get_parasite_status_3", "func_78087_a.age_in_ticks.get_parasite_status_3.get_still_ani_1",
+    "get_attack_timer.get_parasite_status_3.get_still_ani_1", "func_78087_a.age_in_ticks.get_parasite_status_10",
+    "get_attack_timer.get_parasite_status_10"],
+  bogle: ["func_78087_a.age_in_ticks", "func_78087_a.age_in_ticks.get_parasite_status_1"],
+  carrier_colony: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing"],
+  haunter: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing"],
+  bomber_heavy: ["func_78087_a.age_in_ticks"],
+  wraith: ["func_78087_a.age_in_ticks", "func_78087_a.age_in_ticks.get_parasite_status_1"],
+  succor: ["func_78087_a.age_in_ticks"]
+};
+
 function resolvedAnimationKey(id, requestedAction) {
   const resourceId = id === "sim_dragonhead" ? "sim_dragonehead"
     : id === "dispatcher_tentacle" ? "dispatcherten" : id;
@@ -152,8 +191,9 @@ for (const id of all) {
     dispatcher_sii: "idle"
   };
   const baseActions = id === "dispatcher_sii" ? ["idle", "idle", "idle"] : ["idle", "walk", actionAliases[id] || "attack"];
-  const expected = (currentExpected[id] || adaptedExpected[id])
-    ? (currentExpected[id] || adaptedExpected[id]).map((action) => `animation.${resourceId}.${action}`)
+  const expectedActions = currentExpected[id] || adaptedExpected[id] || pureExpected[id];
+  const expected = expectedActions
+    ? expectedActions.map((action) => `animation.${resourceId}.${action}`)
     : id === "crux_incomplete"
     ? ["animation.crux_incomplete.func_78087_a.age_in_ticks", "animation.crux_incomplete.func_78087_a.limb_swing"]
     : id === "sim_cow"
@@ -379,22 +419,19 @@ const sharedVariantActions = {
     "walk.get_parasite_status_1"]
   ,sim_horse: ["idle", "walk", "run", "attack"]
   ,sim_villager: ["idle", "walk", "run", "attack"]
-  ,grunt: ["idle", "walk", "run", "attack", "idle.get_parasite_status_10"]
-  ,bomber_light: ["idle", "fly", "attack"]
-  ,monarch: ["idle", "walk", "run", "attack", "idle.get_parasite_status_10"]
-  ,overseer: ["idle", "fly", "attack"]
-  ,vigilante: ["idle", "walk", "run", "attack", "idle.get_parasite_status_1",
-    "walk.get_parasite_status_1", "idle.get_parasite_status_25"]
-  ,warden: ["idle", "walk", "run", "attack", "idle.get_parasite_status_3",
-    "walk.get_parasite_status_3", "idle.get_parasite_status_10"]
+  ,grunt: pureExpected.grunt
+  ,bomber_light: pureExpected.bomber_light
+  ,monarch: pureExpected.monarch
+  ,overseer: pureExpected.overseer
+  ,vigilante: pureExpected.vigilante
+  ,warden: pureExpected.warden
   ,anc_dreadnaut: ["idle", "walk", "attack", "idle.get_parasite_status_77"]
   ,anc_overlord: ["idle", "walk", "attack"]
-  ,dispatcherten: ["idle", "attack"]
-  ,kyphosis: ["idle", "attack", "idle.get_parasite_status_3"]
-  ,seizer: ["idle", "attack", "idle.get_targeted_entity_1"]
-  ,sentry: ["idle", "attack", "idle.get_parasite_status_1", "idle.get_parasite_status_2",
-    "idle.get_parasite_status_3"]
-  ,worm: ["idle", "attack", "get_attack_timer"]
+  ,dispatcherten: pureExpected.dispatcherten
+  ,kyphosis: pureExpected.kyphosis
+  ,seizer: pureExpected.seizer
+  ,sentry: pureExpected.sentry
+  ,worm: pureExpected.worm
 };
 for (const [id, actions] of Object.entries(sharedVariantActions)) {
   const animations = JSON.parse(read(`src/main/resources/assets/csrp/animations/${id}.animation.json`)).animations;
@@ -883,10 +920,7 @@ const triggeredFamilies = [
   ["AssimilatedVariantEntity.java", "attack_controller"],
   ["AssimilatedParasiteEntity.java", "attack_controller"],
   ["FeralParasiteEntity.java", "attack_controller"],
-  ["PureParasiteEntity.java", "attack_controller"],
-  ["PreeminentParasiteEntity.java", "attack_controller"],
   ["AncientParasiteEntity.java", "attack_controller"],
-  ["DeterrentParasiteEntity.java", "attack_controller"]
 ];
 for (const [file, controller] of triggeredFamilies) {
   const source = read(`src/main/java/alku/csrp/entity/${file}`);
