@@ -535,6 +535,10 @@ for (const id of all) {
     }
   }
 }
+for (const auxiliaryId of ["biomass"]) {
+  const animations = JSON.parse(read(`src/main/resources/assets/csrp/animations/${auxiliaryId}.animation.json`)).animations;
+  Object.keys(animations).forEach((key) => animationKeys.add(key));
+}
 
 const registrations = read("src/main/java/alku/csrp/registry/ModEntities.java");
 for (const match of registrations.matchAll(/monster\("([a-z0-9_]+)",\s*(\w+)::new/g)) {

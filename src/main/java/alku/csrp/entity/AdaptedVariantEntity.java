@@ -3,6 +3,7 @@ package alku.csrp.entity;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModMobEffects;
+import alku.csrp.registry.ModParticles;
 import alku.csrp.registry.ModSounds;
 import alku.csrp.world.EvolutionSystem;
 import alku.csrp.world.SrpWorldData;
@@ -54,13 +55,20 @@ import software.bernie.geckolib.animation.RawAnimation;
 
 import java.util.EnumSet;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.annotation.Nullable;
 
 /** Shared implementation for the legacy adapted parasite tier. */
-public final class AdaptedVariantEntity extends BurrowingVariantEntity implements PullingBallOwner {
+public final class AdaptedVariantEntity extends BurrowingVariantEntity
+        implements PullingBallOwner, SummonCapacityOwner {
     private static final byte VOMIT_EVENT = 100;
+    private static final byte SUMMON_EVENT = 101;
+    private static final int SUMMONER_COOLDOWN_TICKS = 160;
+    private static final int SUMMONER_TOTAL_CAPACITY = 6;
+    private static final int SUMMONER_LIMIT = 1;
     private static final EntityDataAccessor<Integer> BOLSTER_VARIANT = SynchedEntityData.defineId(
             AdaptedVariantEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> BOLSTER_ACTION = SynchedEntityData.defineId(
@@ -169,6 +177,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
     };
 
     private final Kind kind;
+    private final SummonCapacityTracker summonTracker = new SummonCapacityTracker();
     private int abilityCooldown;
     private int summonerVomitTicks;
     private int supportCooldown;
@@ -507,6 +516,8 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
     public void handleEntityEvent(byte id) {
         if (id == VOMIT_EVENT && activeKind() == Kind.SUMMONER) {
             summonerVomitTicks = 40;
+        } else if (id == SUMMON_EVENT && activeKind() == Kind.SUMMONER) {
+            spawnSummonParticles();
         } else {
             super.handleEntityEvent(id);
         }
@@ -520,6 +531,18 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
                     direction.x * 0.2D + (random.nextDouble() - 0.5D) * 0.25D,
                     0.01D + random.nextDouble() * 0.1D,
                     direction.z * 0.2D + (random.nextDouble() - 0.5D) * 0.25D);
+        }
+    }
+
+    private void spawnSummonParticles() {
+        for (int index = 0; index < 11; index++) {
+            level().addParticle(ModParticles.BIOMASS.get(),
+                    getX() + (random.nextDouble() - 0.5D) * getBbWidth(),
+                    getY() + random.nextDouble() * getBbHeight(),
+                    getZ() + (random.nextDouble() - 0.5D) * getBbWidth(),
+                    (random.nextDouble() - 0.5D) * 0.08D,
+                    random.nextDouble() * 0.08D,
+                    (random.nextDouble() - 0.5D) * 0.08D);
         }
     }
 
@@ -727,6 +750,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
             tag.putInt("summoner_status", entityData.get(SUMMONER_STATUS));
             tag.putInt("summoner_ability_cooldown", abilityCooldown);
             tag.putInt("summoner_secondary_cooldown", secondaryCooldown);
+            summonTracker.save(tag, "summoner_tracked_summons");
         }
     }
 
@@ -777,6 +801,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
             entityData.set(SUMMONER_STATUS, tag.getInt("summoner_status"));
             abilityCooldown = tag.getInt("summoner_ability_cooldown");
             secondaryCooldown = tag.getInt("summoner_secondary_cooldown");
+            summonTracker.load(tag, "summoner_tracked_summons");
+            entityData.set(SUMMONER_CASTING, false);
+            setSummonerStatus(0);
         }
     }
 
@@ -1296,8 +1323,10 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
     }
 
     private void tickSummoner() {
-        // 自动恢复到默认状态
         if (tickCount % 20 == 0) {
+            if (level() instanceof ServerLevel serverLevel) {
+                summonTracker.prune(serverLevel);
+            }
             int status = getSummonerStatus();
             if (status == 1 || status == 25 || status == 100) {
                 setSummonerStatus(0);
@@ -1399,29 +1428,37 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
         level().addFreshEntity(projectile);
     }
 
-    private void summonPrimitiveMinions() {
-        if (!(level() instanceof ServerLevel serverLevel)) {
-            return;
-        }
-        for (int index = 0; index < 3; index++) {
-            Mob minion = switch (random.nextInt(4)) {
-                case 0 -> ModEntities.PRI_ARACHNIDA.get().create(serverLevel);
-                case 1 -> ModEntities.PRI_REEKER.get().create(serverLevel);
-                case 2 -> ModEntities.PRI_VISCERA.get().create(serverLevel);
-                default -> ModEntities.PRI_LONGARMS.get().create(serverLevel);
-            };
-            if (minion == null) {
-                continue;
-            }
-            double angle = Math.PI * 2.0D * index / 3.0D;
-            minion.moveTo(getX() + Math.cos(angle) * 2.5D, getY(), getZ() + Math.sin(angle) * 2.5D,
-                    getYRot(), 0.0F);
-            minion.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(minion.blockPosition()),
-                    MobSpawnType.MOB_SUMMONED, null);
-            minion.setTarget(getTarget());
-            minion.addEffect(new MobEffectInstance(ModMobEffects.RAGE, 600, 0), this);
-            serverLevel.addFreshEntity(minion);
-        }
+    private boolean summonBiomass() {
+        return BiomassEntity.spawnFromVomit(this, this, 6, List.of(
+                new BiomassEntity.SummonOption(ModEntities.RUPTER.get(), 0.1D, 1),
+                new BiomassEntity.SummonOption(ModEntities.SIM_HUMAN.get(), 0.3D, 2),
+                new BiomassEntity.SummonOption(ModEntities.SIM_COW.get(), 0.3D, 2),
+                new BiomassEntity.SummonOption(ModEntities.SIM_WOLF.get(), 0.3D, 2)));
+    }
+
+    @Override
+    public int getSummonCapacity() {
+        return activeKind() == Kind.SUMMONER ? SUMMONER_TOTAL_CAPACITY : 0;
+    }
+
+    @Override
+    public int getUsedSummonCapacity() {
+        return summonTracker.usedCapacity();
+    }
+
+    @Override
+    public void reserveTrackedSummon(UUID entityId, int cost) {
+        summonTracker.reserve(entityId, cost);
+    }
+
+    @Override
+    public void replaceTrackedSummon(UUID previousId, UUID replacementId, int cost) {
+        summonTracker.replace(previousId, replacementId, cost);
+    }
+
+    @Override
+    public void releaseTrackedSummon(UUID entityId) {
+        summonTracker.release(entityId);
     }
 
     private void spawnLice() {
@@ -2012,8 +2049,8 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
 
     private final class SummonGoal extends Goal {
         private int castTicks;
-        private int spawnCount;
-        private static final int CAST_DURATION = 80;
+        private int successfulSummons;
+        private int failedSummons;
         private static final int SPAWN_INTERVAL = 20;
 
         private SummonGoal() {
@@ -2022,18 +2059,21 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
 
         @Override
         public boolean canUse() {
-            return abilityCooldown <= 0 && getTarget() != null && distanceToSqr(getTarget()) <= 400.0D;
+            return abilityCooldown <= 0 && getTarget() != null && distanceToSqr(getTarget()) <= 400.0D
+                    && !isInWaterOrBubble();
         }
 
         @Override
         public boolean canContinueToUse() {
-            return castTicks < CAST_DURATION && getTarget() != null;
+            return getTarget() != null && getTarget().isAlive() && !isInWaterOrBubble()
+                    && successfulSummons < SUMMONER_LIMIT && failedSummons <= 4;
         }
 
         @Override
         public void start() {
             castTicks = 0;
-            spawnCount = 0;
+            successfulSummons = 0;
+            failedSummons = 0;
             getNavigation().stop();
             entityData.set(SUMMONER_CASTING, true);
             setSummonerStatus(10);
@@ -2048,11 +2088,16 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
                 getLookControl().setLookAt(target, 30.0F, 30.0F);
             }
 
-            // 每20 ticks召唤一波寄生体
-            if (castTicks >= 20 && castTicks % SPAWN_INTERVAL == 0 && spawnCount < 3) {
-                summonPrimitiveMinions();
-                spawnCount++;
-                playSound(ModSounds.get("mob.shoot"), 1.5F, 0.8F + random.nextFloat() * 0.4F);
+            if (castTicks % SPAWN_INTERVAL == 0) {
+                if (getUsedSummonCapacity() < getSummonCapacity()) {
+                    playSound(ModSounds.get("acanra.special"), 3.0F, 1.0F);
+                }
+                if (summonBiomass()) {
+                    successfulSummons++;
+                    level().broadcastEntityEvent(AdaptedVariantEntity.this, SUMMON_EVENT);
+                } else {
+                    failedSummons++;
+                }
             }
         }
 
@@ -2060,7 +2105,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity implement
         public void stop() {
             entityData.set(SUMMONER_CASTING, false);
             setSummonerStatus(0);
-            abilityCooldown = 360;
+            abilityCooldown = SUMMONER_COOLDOWN_TICKS;
         }
     }
 

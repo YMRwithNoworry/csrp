@@ -16,6 +16,10 @@ const shared = read("src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java
 const combat = read("src/main/java/alku/csrp/entity/ParasiteCombatEffects.java");
 const summoner = read("src/main/java/alku/csrp/entity/SummonerEntity.java");
 const adapted = read("src/main/java/alku/csrp/entity/AdaptedVariantEntity.java");
+const biomass = read("src/main/java/alku/csrp/entity/BiomassEntity.java");
+const capacity = read("src/main/java/alku/csrp/entity/SummonCapacityTracker.java");
+const biomassModel = read("src/main/java/alku/csrp/client/model/BiomassModel.java");
+const biomassRenderer = read("src/main/java/alku/csrp/client/renderer/BiomassRenderer.java");
 const projectile = read("src/main/java/alku/csrp/entity/ParasiteProjectileEntity.java");
 expect(shared, /parasitekills/, "legacy parasite kill state is missing");
 expect(shared, /damageAdaptations/, "primitive damage adaptation is missing");
@@ -29,7 +33,7 @@ expect(projectile, /case VOMIT[\s\S]*ModMobEffects\.VOMIT/, "Vomit projectiles d
 
 const checks = {
   pri_longarms: ["LongarmsEntity.java", /spawnShockwave\(target\)/, /SHOCKWAVE_COOLDOWN_TICKS\s*=\s*100/],
-  pri_summoner: ["SummonerEntity.java", /for \(int i = 0; i < 3; i\+\+\)/, /ScaryOrbEntity/],
+  pri_summoner: ["SummonerEntity.java", /BiomassEntity\.spawnFromVomit/, /SUMMON_LIMIT\s*=\s*2/],
   pri_vermin: ["VerminEntity.java", /FlyingPathNavigation/, /dropGnatBomb/],
   pri_viscera: ["VisceraEntity.java", /setClimbing\(horizontalCollision\)/, /ModMobEffects\.VIRAL[\s\S]*ModMobEffects\.BLEED/],
   gnat: ["GnatEntity.java", /createAnimatedLeapGoal\(0\.4F, 20\)/, /MeleeAttackGoal/]
@@ -57,6 +61,57 @@ for (const [id, [javaFile, first, second]] of Object.entries(checks)) {
 }
 expect(entities, /SCARY_ORB/, "Scary Orb support entity is missing");
 expect(client, /ScaryOrbRenderer/, "Scary Orb renderer is missing");
+
+expect(entities, /register\("biomass"/, "Biomass entity type is missing");
+expect(client, /ModEntities\.BIOMASS/, "Biomass renderer registration is missing");
+expect(biomass, /HATCH_FUSE_TICKS\s*=\s*80/, "Biomass 80 tick hatch fuse is missing");
+expect(biomass, /tickCount\s*>=\s*200/, "Biomass airborne 200 tick fuse fallback is missing");
+expect(biomass, /ModMobEffects\.COTH,\s*200,\s*1/, "Biomass COTH aura duration or amplifier is wrong");
+expect(biomass, /ModMobEffects\.RAGE,\s*1200,\s*1/, "Biomass hatch Rage duration or amplifier is wrong");
+expect(biomass, /ModMobEffects\.DEBAR,\s*120000,\s*1/, "Biomass hatch Debar duration or amplifier is wrong");
+expect(biomass, /igniteForSeconds\(8\.0F\)/, "Biomass fire propagation must use the original eight seconds");
+expect(biomass, /attacker instanceof Parasite[\s\S]*direct instanceof Parasite/, "Biomass parasite damage immunity is missing");
+expect(capacity, /putUUID\("entity"/, "Summon capacity UUID persistence is missing");
+expect(capacity, /replace\(UUID previousId, UUID replacementId/, "Summon capacity replacement tracking is missing");
+expect(biomassModel, /applyGrowthScale[\s\S]*setScaleX[\s\S]*setScaleY[\s\S]*setScaleZ/,
+  "Biomass growth is not applied to the selected original root bone");
+if (biomassRenderer.includes("poseStack.scale")) {
+  failures.push("Biomass renderer still scales the full pose stack instead of its selected root bone");
+}
+expect(summoner, /TOTAL_SUMMON_CAPACITY\s*=\s*4/, "Primitive Summoner capacity is wrong");
+expect(summoner, /SUMMON_COOLDOWN_TICKS\s*=\s*200/, "Primitive Summoner cooldown is wrong");
+expect(summoner, /new BiomassEntity\.SummonOption\(ModEntities\.RUPTER\.get\(\),\s*1\.0D,\s*1\)/,
+  "Primitive Summoner biomass option is wrong");
+expect(adapted, /SUMMONER_TOTAL_CAPACITY\s*=\s*6/, "Adapted Summoner capacity is wrong");
+expect(adapted, /SUMMONER_COOLDOWN_TICKS\s*=\s*160/, "Adapted Summoner cooldown is wrong");
+for (const option of [
+  /ModEntities\.RUPTER\.get\(\),\s*0\.1D,\s*1/,
+  /ModEntities\.SIM_HUMAN\.get\(\),\s*0\.3D,\s*2/,
+  /ModEntities\.SIM_COW\.get\(\),\s*0\.3D,\s*2/,
+  /ModEntities\.SIM_WOLF\.get\(\),\s*0\.3D,\s*2/
+]) expect(adapted, option, "Adapted Summoner biomass option is wrong");
+if (summoner.includes("ModEntities.GNAT") || summoner.includes("ScaryOrbEntity")) {
+  failures.push("Primitive Summoner still uses the removed direct Gnat/Scary Orb summon path");
+}
+const adaptedSummon = adapted.match(/private boolean summonBiomass\(\)[\s\S]*?\n    }/);
+if (!adaptedSummon || adaptedSummon[0].includes("ScaryOrbEntity")
+    || adaptedSummon[0].includes("PRI_")) {
+  failures.push("Adapted Summoner still directly spawns primitive bodies instead of biomass");
+}
+for (const resource of [
+  "geo/biomass_pod.geo.json", "geo/biomass_venkrol.geo.json",
+  "animations/biomass.animation.json", "particles/biomass.json",
+  "textures/entity/biomass_pod.png", "textures/entity/biomass_venkrol.png",
+  "textures/particle/biomass_1.png", "textures/particle/biomass_2.png",
+  "textures/particle/biomass_3.png", "textures/particle/biomass_4.png"
+]) read(`src/main/resources/assets/csrp/${resource}`);
+const biomassAnimations = JSON.parse(read("src/main/resources/assets/csrp/animations/biomass.animation.json")).animations;
+if (!biomassAnimations["animation.biomass.idle"]) failures.push("Biomass idle animation is missing");
+for (const geometryFile of ["biomass_pod", "biomass_venkrol"]) {
+  const geometry = JSON.parse(read(`src/main/resources/assets/csrp/geo/${geometryFile}.geo.json`));
+  const bones = new Set(geometry["minecraft:geometry"].flatMap((entry) => entry.bones.map((bone) => bone.name)));
+  if (!bones.has("srp_coordinate_root")) failures.push(`${geometryFile}: coordinate root is missing`);
+}
 
 if (failures.length) {
   console.error("Primitive entity port verification failed:");

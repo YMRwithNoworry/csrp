@@ -2,11 +2,13 @@ package alku.csrp.client;
 
 import alku.csrp.Csrp;
 import alku.csrp.client.particle.AssimilationSplashParticle;
+import alku.csrp.client.particle.BiomassParticle;
 import alku.csrp.client.particle.KirinWarningParticle;
 import alku.csrp.celestial.client.AuroraSkyRenderer;
 import alku.csrp.client.renderer.AirscrewRenderer;
 import alku.csrp.client.renderer.BurrowingParasiteRenderer;
 import alku.csrp.client.renderer.BuglinRenderer;
+import alku.csrp.client.renderer.BiomassRenderer;
 import alku.csrp.client.renderer.DerivedParasiteRenderer;
 import alku.csrp.client.renderer.DragonEggAssimilationRenderer;
 import alku.csrp.client.renderer.HaunterHomingProjectileRenderer;
@@ -74,6 +76,7 @@ public final class ClientModEvents {
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(ModBlockEntities.TROPHY.get(), TrophyBlockEntityRenderer::new);
         event.registerEntityRenderer(ModEntities.PARASITE_REMAINS.get(), ParasiteRemainsRenderer::new);
+        event.registerEntityRenderer(ModEntities.BIOMASS.get(), BiomassRenderer::new);
         event.registerEntityRenderer(ModEntities.SHOCKWAVE.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.BUGLIN.get(), BuglinRenderer::new);
         event.registerEntityRenderer(ModEntities.RUPTER.get(), RupterRenderer::new);
@@ -333,6 +336,7 @@ public final class ClientModEvents {
     public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
         event.registerSpriteSet(ModParticles.KIRIN_WARNING.get(), KirinWarningParticle.Provider::new);
         event.registerSpriteSet(ModParticles.ASSIMILATION_SPLASH.get(), AssimilationSplashParticle.Provider::new);
+        event.registerSpriteSet(ModParticles.BIOMASS.get(), BiomassParticle.Provider::new);
     }
 
     @SubscribeEvent

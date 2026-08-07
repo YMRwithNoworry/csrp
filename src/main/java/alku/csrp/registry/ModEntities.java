@@ -12,6 +12,7 @@ import alku.csrp.entity.DragonEggAssimilationEntity;
 import alku.csrp.entity.AssimilatedEndermanEntity;
 import alku.csrp.entity.AssimilatedHeadEntity;
 import alku.csrp.entity.AssimilatedVariantEntity;
+import alku.csrp.entity.BiomassEntity;
 import alku.csrp.entity.BuglinEntity;
 import alku.csrp.entity.CarrierFlyingEntity;
 import alku.csrp.entity.CarrierHeavyEntity;
@@ -90,6 +91,13 @@ public final class ModEntities {
                     .clientTrackingRange(10)
                     .updateInterval(1)
                     .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "parasite_remains").toString()));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<BiomassEntity>> BIOMASS =
+            ENTITIES.register("biomass", () -> EntityType.Builder.of(BiomassEntity::new, MobCategory.MONSTER)
+                    .sized(0.98F, 0.98F)
+                    .clientTrackingRange(8)
+                    .updateInterval(1)
+                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "biomass").toString()));
 
     public static final DeferredHolder<EntityType<?>, EntityType<ShockwaveEntity>> SHOCKWAVE =
             ENTITIES.register("shockwave", () -> EntityType.Builder

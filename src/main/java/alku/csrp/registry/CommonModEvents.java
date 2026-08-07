@@ -15,6 +15,7 @@ import alku.csrp.entity.AssimilatedDragonHeadEntity;
 import alku.csrp.entity.AssimilatedEndermanEntity;
 import alku.csrp.entity.AssimilatedHeadEntity;
 import alku.csrp.entity.AssimilatedVariantEntity;
+import alku.csrp.entity.BiomassEntity;
 import alku.csrp.entity.BuglinEntity;
 import alku.csrp.entity.CarrierFlyingEntity;
 import alku.csrp.entity.CarrierHeavyEntity;
@@ -84,6 +85,7 @@ public final class CommonModEvents {
 
     @SubscribeEvent
     public static void registerAttributes(EntityAttributeCreationEvent event) {
+        event.put(ModEntities.BIOMASS.get(), BiomassEntity.createAttributes().build());
         event.put(ModEntities.BUGLIN.get(), BuglinEntity.createAttributes().build());
         event.put(ModEntities.RUPTER.get(), RupterEntity.createAttributes().build());
         event.put(ModEntities.PRI_LONGARMS.get(), LongarmsEntity.createAttributes().build());
