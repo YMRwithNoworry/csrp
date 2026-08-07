@@ -55,10 +55,16 @@ public final class ManglerEntity extends PrimitiveParasiteEntity {
     protected float damageAdaptationEffectiveness() {
         return 0.95F;
     }
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
-    private final RawAnimation LEAP = ParasiteAnimations.loop(this, "idle.get_parasite_status_10");
+    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final RawAnimation LIMB_SWING = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final RawAnimation AGE_STATUS_1 = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_1");
+    private final RawAnimation LIMB_STATUS_1 = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_1");
+    private final RawAnimation LIMB_STATUS_2 = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_2");
+    private final RawAnimation LEAP = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_10");
     private static final int NORMAL = 0;
     private static final int VIRAL = 1;
     private static final int BLEEDING = 2;
@@ -94,9 +100,6 @@ public final class ManglerEntity extends PrimitiveParasiteEntity {
     @Override
     public boolean doHurtTarget(Entity target) {
         boolean hurt = super.doHurtTarget(target);
-        if (hurt) {
-            triggerAnim("attack_controller", "attack");
-        }
         if (hurt && target instanceof LivingEntity living) {
             living.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 3), this);
             if (variant == VIRAL) {
@@ -160,9 +163,17 @@ public final class ManglerEntity extends PrimitiveParasiteEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> state.setAndContinue(isSpecialLeapAnimating() ? LEAP : ParasiteAnimations.isMoving(this, state.isMoving()) ? WALK : IDLE)));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
-                software.bernie.geckolib.animation.PlayState.STOP).triggerableAnim("attack", ATTACK));
+                state -> {
+                    if (isSpecialLeapAnimating()) {
+                        return state.setAndContinue(LEAP);
+                    }
+                    boolean moving = ParasiteAnimations.isMoving(this, state.isMoving());
+                    return switch (variant) {
+                        case VIRAL -> state.setAndContinue(moving ? LIMB_STATUS_1 : AGE_STATUS_1);
+                        case BLEEDING -> state.setAndContinue(moving ? LIMB_STATUS_2 : AGE_IN_TICKS);
+                        default -> state.setAndContinue(moving ? LIMB_SWING : AGE_IN_TICKS);
+                    };
+                }));
     }
 
     private final class EvasiveDashGoal extends Goal {

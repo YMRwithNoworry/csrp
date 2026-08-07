@@ -91,6 +91,57 @@ for (const id of all) {
         ? ["animation.sim_adventurerhead.func_78087_a.limb_swing",
           "animation.sim_adventurerhead.func_78087_a.limb_swing.get_parasite_status_1",
           "animation.sim_adventurerhead.func_78087_a.age_in_ticks.get_parasite_status_10"]
+      : id === "lice"
+        ? ["animation.lice.func_78087_a.age_in_ticks"]
+      : id === "mangler"
+        ? ["animation.mangler.func_78087_a.age_in_ticks", "animation.mangler.func_78087_a.limb_swing",
+          "animation.mangler.func_78087_a.age_in_ticks.get_parasite_status_1",
+          "animation.mangler.func_78087_a.limb_swing.get_parasite_status_1",
+          "animation.mangler.func_78087_a.limb_swing.get_parasite_status_2",
+          "animation.mangler.func_78087_a.age_in_ticks.get_parasite_status_10"]
+      : id === "host"
+        ? ["animation.host.func_78087_a.age_in_ticks", "animation.host.get_attack_timer",
+          "animation.host.get_burrow_timer", "animation.host.func_78087_a.age_in_ticks.get_open_1",
+          "animation.host.get_attack_timer.get_open_1", "animation.host.get_burrow_timer.get_open_1",
+          "animation.host.func_78087_a.age_in_ticks.get_burrowed_1",
+          "animation.host.get_attack_timer.get_burrowed_1", "animation.host.get_burrow_timer.get_burrowed_1",
+          "animation.host.func_78087_a.age_in_ticks.get_burrowed_1.get_open_1",
+          "animation.host.get_attack_timer.get_burrowed_1.get_open_1",
+          "animation.host.get_burrow_timer.get_burrowed_1.get_open_1"]
+      : id === "hostii"
+        ? ["animation.hostii.func_78087_a.age_in_ticks", "animation.hostii.get_burrow_timer",
+          "animation.hostii.func_78087_a.age_in_ticks.get_open_1",
+          "animation.hostii.get_burrow_timer.get_open_1",
+          "animation.hostii.func_78087_a.age_in_ticks.get_burrowed_1",
+          "animation.hostii.get_burrow_timer.get_burrowed_1",
+          "animation.hostii.func_78087_a.age_in_ticks.get_burrowed_1.get_open_1",
+          "animation.hostii.get_burrow_timer.get_burrowed_1.get_open_1"]
+      : id === "draconite"
+        ? ["animation.draconite.func_78087_a.age_in_ticks", "animation.draconite.func_78087_a.limb_swing",
+          "animation.draconite.func_78087_a.age_in_ticks.shaking_c_1",
+          "animation.draconite.func_78087_a.limb_swing.shaking_c_1",
+          "animation.draconite.func_78087_a.age_in_ticks.get_parasite_status_1",
+          "animation.draconite.func_78087_a.limb_swing.get_parasite_status_1",
+          "animation.draconite.func_78087_a.age_in_ticks.get_parasite_status_1.shaking_c_1",
+          "animation.draconite.func_78087_a.limb_swing.get_parasite_status_1.shaking_c_1",
+          "animation.draconite.func_78087_a.age_in_ticks.get_parasite_status_10",
+          "animation.draconite.func_78087_a.age_in_ticks.get_parasite_status_10.shaking_c_1",
+          "animation.draconite.func_78087_a.age_in_ticks.get_flying_state_1",
+          "animation.draconite.func_78087_a.age_in_ticks.get_clone_c_1",
+          "animation.draconite.func_78087_a.limb_swing.get_clone_c_1",
+          "animation.draconite.func_78087_a.age_in_ticks.get_clone_c_1.shaking_c_1",
+          "animation.draconite.func_78087_a.limb_swing.get_clone_c_1.shaking_c_1",
+          "animation.draconite.func_78087_a.age_in_ticks.get_clone_c_1.get_parasite_status_1",
+          "animation.draconite.func_78087_a.limb_swing.get_clone_c_1.get_parasite_status_1",
+          "animation.draconite.func_78087_a.age_in_ticks.get_clone_c_1.get_parasite_status_1.shaking_c_1",
+          "animation.draconite.func_78087_a.limb_swing.get_clone_c_1.get_parasite_status_1.shaking_c_1",
+          "animation.draconite.func_78087_a.age_in_ticks.get_clone_c_1.get_parasite_status_10",
+          "animation.draconite.func_78087_a.age_in_ticks.get_clone_c_1.get_parasite_status_10.shaking_c_1"]
+      : id === "kirin"
+        ? ["animation.kirin.func_78087_a.age_in_ticks",
+          "animation.kirin.func_78087_a.age_in_ticks.shaking_c_1",
+          "animation.kirin.func_78087_a.age_in_ticks.get_clone_c_1",
+          "animation.kirin.func_78087_a.age_in_ticks.get_clone_c_1.shaking_c_1"]
       : ["incompleteform_small", "incompleteform_medium"].includes(id)
         ? [`animation.${id}.func_78087_a.age_in_ticks`]
       : ["sim_cowhead", "sim_horsehead", "sim_humanhead", "sim_pighead", "sim_sheephead", "sim_villagerhead", "sim_wolfhead"].includes(id)
@@ -329,8 +380,63 @@ if (!vigile.includes("!ParasiteAnimations.isMoving(this, state.isMoving())")) {
 }
 
 const kirin = read("src/main/java/alku/csrp/entity/KirinEntity.java");
-if (kirin.includes("animation.kirin.func_78087_a")) {
-  failures.push("Kirin still requests obsolete pre-extraction animation keys");
+for (const action of [
+  "animation.kirin.func_78087_a.age_in_ticks",
+  "animation.kirin.func_78087_a.age_in_ticks.shaking_c_1",
+  "animation.kirin.func_78087_a.age_in_ticks.get_clone_c_1",
+  "animation.kirin.func_78087_a.age_in_ticks.get_clone_c_1.shaking_c_1"
+]) {
+  if (!kirin.includes(`"${action}"`)) failures.push(`KirinEntity: original runtime animation ${action} is not wired`);
+}
+if (kirin.includes('triggerableAnim("attack"') || kirin.includes("animation.kirin.walk")) {
+  failures.push("KirinEntity: still uses a fabricated movement or attack animation");
+}
+
+const draconite = read("src/main/java/alku/csrp/entity/DraconiteEntity.java");
+for (const action of [
+  "func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+  "func_78087_a.age_in_ticks.get_parasite_status_1",
+  "func_78087_a.limb_swing.get_parasite_status_1",
+  "func_78087_a.age_in_ticks.get_parasite_status_10",
+  "animation.draconite.func_78087_a.age_in_ticks.get_flying_state_1",
+  "func_78087_a.age_in_ticks.get_clone_c_1",
+  "func_78087_a.limb_swing.get_clone_c_1"
+]) {
+  if (!draconite.includes(`"${action}"`)) {
+    failures.push(`DraconiteEntity: original runtime animation ${action} is not wired`);
+  }
+}
+if (draconite.includes('triggerableAnim("attack"') || draconite.includes('ParasiteAnimations.play(this, "attack"')) {
+  failures.push("DraconiteEntity: still uses a fabricated attack animation");
+}
+
+const lice = read("src/main/java/alku/csrp/entity/LiceEntity.java");
+if (!lice.includes('"func_78087_a.age_in_ticks"') || lice.includes('triggerableAnim("attack"')) {
+  failures.push("LiceEntity: animation controller is not limited to the original age function");
+}
+const mangler = read("src/main/java/alku/csrp/entity/ManglerEntity.java");
+for (const action of [
+  "func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+  "func_78087_a.age_in_ticks.get_parasite_status_1",
+  "func_78087_a.limb_swing.get_parasite_status_1",
+  "func_78087_a.limb_swing.get_parasite_status_2",
+  "func_78087_a.age_in_ticks.get_parasite_status_10"
+]) {
+  if (!mangler.includes(`"${action}"`)) failures.push(`ManglerEntity: original runtime animation ${action} is not wired`);
+}
+if (mangler.includes('triggerableAnim("attack"')) {
+  failures.push("ManglerEntity: still uses a fabricated attack animation controller");
+}
+
+const earlyLifecycleHost = read("src/main/java/alku/csrp/entity/HostEntity.java");
+if (!earlyLifecycleHost.includes('"func_78087_a.age_in_ticks"') || earlyLifecycleHost.includes('"walk"')) {
+  failures.push("HostEntity: base animation does not use the original age function exclusively");
+}
+const earlyLifecycleHostII = read("src/main/java/alku/csrp/entity/HostIIEntity.java");
+if (!earlyLifecycleHostII.includes('"func_78087_a.age_in_ticks"') || earlyLifecycleHostII.includes('"walk"')
+    || earlyLifecycleHostII.includes('triggerableAnim("attack"')
+    || earlyLifecycleHostII.includes('ParasiteAnimations.play(this, "attack"')) {
+  failures.push("HostIIEntity: still uses a fabricated movement or attack function");
 }
 
 const assimilatedDragon = read("src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java");
@@ -556,8 +662,10 @@ if (!dredge.includes("setParasiteStatus(STATUS_PULLING)")) {
 
 const host = read("src/main/java/alku/csrp/entity/HostEntity.java");
 for (const action of [
-  "idle.get_open_1", "get_attack_timer.get_open_1", "get_burrow_timer.get_open_1",
-  "get_burrow_timer.get_burrowed_1", "idle.get_burrowed_1.get_open_1",
+  "func_78087_a.age_in_ticks", "get_attack_timer", "get_burrow_timer",
+  "func_78087_a.age_in_ticks.get_open_1", "get_attack_timer.get_open_1", "get_burrow_timer.get_open_1",
+  "func_78087_a.age_in_ticks.get_burrowed_1", "get_attack_timer.get_burrowed_1",
+  "get_burrow_timer.get_burrowed_1", "func_78087_a.age_in_ticks.get_burrowed_1.get_open_1",
   "get_attack_timer.get_burrowed_1.get_open_1",
   "get_burrow_timer.get_burrowed_1.get_open_1"
 ]) {
@@ -571,16 +679,18 @@ if (!host.includes("MAX_BURIED_TIMER = 4.8F") || !host.includes("BURIED_TIMER_ST
 
 const hostII = read("src/main/java/alku/csrp/entity/HostIIEntity.java");
 for (const action of [
-  "idle.get_open_1", "get_burrow_timer.get_open_1", "idle.get_burrowed_1",
-  "get_burrow_timer.get_burrowed_1", "idle.get_burrowed_1.get_open_1",
+  "func_78087_a.age_in_ticks", "get_burrow_timer",
+  "func_78087_a.age_in_ticks.get_open_1", "get_burrow_timer.get_open_1",
+  "func_78087_a.age_in_ticks.get_burrowed_1", "get_burrow_timer.get_burrowed_1",
+  "func_78087_a.age_in_ticks.get_burrowed_1.get_open_1",
   "get_burrow_timer.get_burrowed_1.get_open_1"
 ]) {
   if (!hostII.includes(`"${action}"`)) {
     failures.push(`HostIIEntity: original runtime animation ${action} is not wired`);
   }
 }
-if (hostII.includes('triggerAnim("attack_controller", isBurrowed()')) {
-  failures.push("HostIIEntity: burrowed attack still substitutes an idle pose for the original attack clip");
+if (hostII.includes('triggerableAnim("attack"') || hostII.includes('triggerAnim("attack_controller"')) {
+  failures.push("HostIIEntity: still fabricates an attack clip absent from ModelHostII");
 }
 
 const triggeredFamilies = [

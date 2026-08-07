@@ -33,22 +33,23 @@ public final class HostEntity extends AbstractHostEntity {
     private static final EntityDataAccessor<Boolean> MOUTH_OPEN =
             SynchedEntityData.defineId(HostEntity.class, EntityDataSerializers.BOOLEAN);
     private static final int HOST_TO_HOSTII_KILLS = 40;
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
     private final RawAnimation BURROW = ParasiteAnimations.loop(this, "get_burrow_timer");
-    private final RawAnimation OPEN_IDLE = ParasiteAnimations.loop(this, "idle.get_open_1");
+    private final RawAnimation OPEN_IDLE = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_open_1");
     private final RawAnimation OPEN_ATTACK = ParasiteAnimations.play(this,
             "get_attack_timer.get_open_1");
     private final RawAnimation OPEN_BURROW = ParasiteAnimations.loop(this,
             "get_burrow_timer.get_open_1");
-    private final RawAnimation BURROWED = ParasiteAnimations.loop(this, "idle.get_burrowed_1");
+    private final RawAnimation BURROWED = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_burrowed_1");
     private final RawAnimation ATTACK = ParasiteAnimations.play(this, "get_attack_timer");
     private final RawAnimation BURROWED_ATTACK =
             ParasiteAnimations.play(this, "get_attack_timer.get_burrowed_1");
     private final RawAnimation BURROWED_BURROW = ParasiteAnimations.loop(this,
             "get_burrow_timer.get_burrowed_1");
     private final RawAnimation BURROWED_OPEN_IDLE = ParasiteAnimations.loop(this,
-            "idle.get_burrowed_1.get_open_1");
+            "func_78087_a.age_in_ticks.get_burrowed_1.get_open_1");
     private final RawAnimation BURROWED_OPEN_ATTACK = ParasiteAnimations.play(this,
             "get_attack_timer.get_burrowed_1.get_open_1");
     private final RawAnimation BURROWED_OPEN_BURROW = ParasiteAnimations.loop(this,
@@ -173,7 +174,7 @@ public final class HostEntity extends AbstractHostEntity {
                     if (isMouthOpen()) {
                         return state.setAndContinue(OPEN_IDLE);
                     }
-                    return state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving()) ? WALK : IDLE);
+                    return state.setAndContinue(AGE_IN_TICKS);
                 }));
         controllers.add(new AnimationController<>(this, "attack_controller", 0,
                 state -> PlayState.STOP)

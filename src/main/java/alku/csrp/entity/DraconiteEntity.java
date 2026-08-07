@@ -55,43 +55,46 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
             SynchedEntityData.defineId(DraconiteEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<BlockPos> METEOR_TARGET =
             SynchedEntityData.defineId(DraconiteEntity.class, EntityDataSerializers.BLOCK_POS);
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final RawAnimation WALK = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
     private final RawAnimation FLY = RawAnimation.begin()
-            .thenLoop("animation.draconite.idle.get_flying_state_1");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
-    private final RawAnimation CLONE_IDLE = ParasiteAnimations.loop(this, "idle.get_clone_c_1");
-    private final RawAnimation CLONE_WALK = ParasiteAnimations.loop(this, "walk.get_clone_c_1");
-    private final RawAnimation SHAKING_IDLE = ParasiteAnimations.loop(this, "idle.shaking_c_1");
-    private final RawAnimation SHAKING_WALK = ParasiteAnimations.loop(this, "walk.shaking_c_1");
+            .thenLoop("animation.draconite.func_78087_a.age_in_ticks.get_flying_state_1");
+    private final RawAnimation CLONE_IDLE = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_clone_c_1");
+    private final RawAnimation CLONE_WALK = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_clone_c_1");
+    private final RawAnimation SHAKING_IDLE = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.shaking_c_1");
+    private final RawAnimation SHAKING_WALK = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.shaking_c_1");
     private final RawAnimation COMBAT_IDLE = ParasiteAnimations.loop(this,
-            "idle.get_parasite_status_1");
+            "func_78087_a.age_in_ticks.get_parasite_status_1");
     private final RawAnimation COMBAT_WALK = ParasiteAnimations.loop(this,
-            "walk.get_parasite_status_1");
+            "func_78087_a.limb_swing.get_parasite_status_1");
     private final RawAnimation COMBAT_SHAKING_IDLE = ParasiteAnimations.loop(this,
-            "idle.get_parasite_status_1.shaking_c_1");
+            "func_78087_a.age_in_ticks.get_parasite_status_1.shaking_c_1");
     private final RawAnimation COMBAT_SHAKING_WALK = ParasiteAnimations.loop(this,
-            "walk.get_parasite_status_1.shaking_c_1");
+            "func_78087_a.limb_swing.get_parasite_status_1.shaking_c_1");
     private final RawAnimation CLONE_SHAKING_IDLE = ParasiteAnimations.loop(
-            this, "idle.get_clone_c_1.shaking_c_1");
+            this, "func_78087_a.age_in_ticks.get_clone_c_1.shaking_c_1");
     private final RawAnimation CLONE_SHAKING_WALK = ParasiteAnimations.loop(
-            this, "walk.get_clone_c_1.shaking_c_1");
+            this, "func_78087_a.limb_swing.get_clone_c_1.shaking_c_1");
     private final RawAnimation CLONE_COMBAT_IDLE = ParasiteAnimations.loop(this,
-            "idle.get_clone_c_1.get_parasite_status_1");
+            "func_78087_a.age_in_ticks.get_clone_c_1.get_parasite_status_1");
     private final RawAnimation CLONE_COMBAT_WALK = ParasiteAnimations.loop(this,
-            "walk.get_clone_c_1.get_parasite_status_1");
+            "func_78087_a.limb_swing.get_clone_c_1.get_parasite_status_1");
     private final RawAnimation CLONE_COMBAT_SHAKING_IDLE = ParasiteAnimations.loop(this,
-            "idle.get_clone_c_1.get_parasite_status_1.shaking_c_1");
+            "func_78087_a.age_in_ticks.get_clone_c_1.get_parasite_status_1.shaking_c_1");
     private final RawAnimation CLONE_COMBAT_SHAKING_WALK = ParasiteAnimations.loop(this,
-            "walk.get_clone_c_1.get_parasite_status_1.shaking_c_1");
+            "func_78087_a.limb_swing.get_clone_c_1.get_parasite_status_1.shaking_c_1");
     private final RawAnimation FLAME_IDLE = ParasiteAnimations.loop(this,
-            "idle.get_parasite_status_3");
+            "func_78087_a.age_in_ticks.get_parasite_status_10");
     private final RawAnimation FLAME_SHAKING_IDLE = ParasiteAnimations.loop(this,
-            "idle.get_parasite_status_3.shaking_c_1");
+            "func_78087_a.age_in_ticks.get_parasite_status_10.shaking_c_1");
     private final RawAnimation CLONE_FLAME_IDLE = ParasiteAnimations.loop(this,
-            "idle.get_clone_c_1.get_parasite_status_3");
+            "func_78087_a.age_in_ticks.get_clone_c_1.get_parasite_status_10");
     private final RawAnimation CLONE_FLAME_SHAKING_IDLE = ParasiteAnimations.loop(this,
-            "idle.get_clone_c_1.get_parasite_status_3.shaking_c_1");
+            "func_78087_a.age_in_ticks.get_clone_c_1.get_parasite_status_10.shaking_c_1");
 
     private int salivaCooldown = 40;
     private int meteorCooldown = 80;
@@ -209,14 +212,12 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
     }
 
     private void shootSalivaBall(LivingEntity target) {
-        triggerAnim("attack_controller", "attack");
         fireProjectile(ParasiteProjectileEntity.Mode.BOMB, projectileMuzzle(), target.getEyePosition(),
                 1.20D, 48.0F, 3.5D, 80, null);
         playSound(ModSounds.DRACONITE_FIRE_SHOOT.get(), 2.0F, 1.0F);
     }
 
     private void beginFireBreath(LivingEntity target) {
-        triggerAnim("attack_controller", "attack");
         setParasiteStatus(STATUS_FLAME);
         fireBreathTicks = FIRE_BREATH_DURATION_TICKS;
         fireBreathTarget = targetBlock(target);
@@ -249,7 +250,6 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
     }
 
     private void beginMeteorRain(LivingEntity target) {
-        triggerAnim("attack_controller", "attack");
         meteorRainTicks = METEOR_TELEGRAPH_TICKS;
         meteorTarget = targetBlock(target);
         entityData.set(METEOR_TICKS, meteorRainTicks);
@@ -284,7 +284,6 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
     }
 
     private void performLightBarrage(LivingEntity target) {
-        triggerAnim("attack_controller", "attack");
         Vec3 start = projectileMuzzle();
         for (int i = 0; i < LIGHT_BARRAGE_COUNT; i++) {
             Vec3 destination = target.getEyePosition().add(random.nextGaussian() * 1.5D,
@@ -351,9 +350,6 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
     @Override
     public boolean doHurtTarget(Entity entity) {
         boolean hurt = super.doHurtTarget(entity);
-        if (hurt) {
-            triggerAnim("attack_controller", "attack");
-        }
         if (hurt && entity instanceof LivingEntity target) {
             target.igniteForSeconds(5.0F);
         }
@@ -472,8 +468,6 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
             }
             return state.setAndContinue(moving ? WALK : IDLE);
         }));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
-                software.bernie.geckolib.animation.PlayState.STOP).triggerableAnim("attack", ATTACK));
     }
 
     private final class DraconiteCombatGoal extends Goal {

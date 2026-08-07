@@ -44,7 +44,6 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 
 import java.util.EnumSet;
@@ -95,17 +94,13 @@ public final class KirinEntity extends DerivedParasiteEntity {
             KirinEntity.class, EntityDataSerializers.INT);
 
     private final RawAnimation idleAnimation = RawAnimation.begin()
-            .thenLoop("animation.kirin.idle");
-    private final RawAnimation walkAnimation = RawAnimation.begin()
-            .thenLoop("animation.kirin.walk");
-    private final RawAnimation attackAnimation = RawAnimation.begin()
-            .thenPlay("animation.kirin.attack");
+            .thenLoop("animation.kirin.func_78087_a.age_in_ticks");
     private final RawAnimation cloneAnimation = RawAnimation.begin()
-            .thenLoop("animation.kirin.idle.get_clone_c_1");
+            .thenLoop("animation.kirin.func_78087_a.age_in_ticks.get_clone_c_1");
     private final RawAnimation cloneShakingAnimation = RawAnimation.begin()
-            .thenLoop("animation.kirin.idle.get_clone_c_1.shaking_c_1");
+            .thenLoop("animation.kirin.func_78087_a.age_in_ticks.get_clone_c_1.shaking_c_1");
     private final RawAnimation shakingAnimation = RawAnimation.begin()
-            .thenLoop("animation.kirin.idle.shaking_c_1");
+            .thenLoop("animation.kirin.func_78087_a.age_in_ticks.shaking_c_1");
 
     private int blinkCooldown;
     private int blinkCharge;
@@ -320,7 +315,6 @@ public final class KirinEntity extends DerivedParasiteEntity {
 
         if (ticks == LASER_FIRE_TICKS) {
             applyLaserDebuffs(target);
-            triggerAnim("action_controller", "attack");
             playSound(SoundEvents.GUARDIAN_ATTACK, 2.0F, 0.75F);
         }
         if (ticks <= LASER_FIRE_TICKS && getSensing().hasLineOfSight(target)) {
@@ -592,7 +586,6 @@ public final class KirinEntity extends DerivedParasiteEntity {
 
     @Override
     public boolean doHurtTarget(Entity target) {
-        triggerAnim("action_controller", "attack");
         return super.doHurtTarget(target);
     }
 
@@ -681,10 +674,8 @@ public final class KirinEntity extends DerivedParasiteEntity {
             if (isShadowed() && getShadowRenderAlpha(0.0F) > 0.0F) {
                 return state.setAndContinue(idleAnimation);
             }
-            return state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving()) ? walkAnimation : idleAnimation);
+            return state.setAndContinue(idleAnimation);
         }));
-        controllers.add(new AnimationController<>(this, "action_controller", 0, state -> PlayState.STOP)
-                .triggerableAnim("attack", attackAnimation));
     }
 
     private final class KirinBlinkGoal extends Goal {

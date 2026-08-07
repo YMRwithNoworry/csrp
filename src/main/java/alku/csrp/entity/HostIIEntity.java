@@ -11,7 +11,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.level.Level;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 
 public final class HostIIEntity extends AbstractHostEntity {
@@ -67,18 +66,19 @@ public final class HostIIEntity extends AbstractHostEntity {
         return 0.95F;
     }
     public static final int BURROW_DURATION_TICKS = 120;
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation OPEN_IDLE = ParasiteAnimations.loop(this, "idle.get_open_1");
+    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final RawAnimation OPEN_IDLE = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_open_1");
+    private final RawAnimation BURROW_TIMER = ParasiteAnimations.loop(this, "get_burrow_timer");
     private final RawAnimation OPEN_BURROW = ParasiteAnimations.loop(this, "get_burrow_timer.get_open_1");
     private final RawAnimation BURROW = ParasiteAnimations.loop(this,
             "get_burrow_timer.get_burrowed_1");
-    private final RawAnimation BURROWED = ParasiteAnimations.loop(this, "idle.get_burrowed_1");
+    private final RawAnimation BURROWED = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_burrowed_1");
     private final RawAnimation BURROWED_OPEN_IDLE = ParasiteAnimations.loop(this,
-            "idle.get_burrowed_1.get_open_1");
+            "func_78087_a.age_in_ticks.get_burrowed_1.get_open_1");
     private final RawAnimation BURROWED_OPEN_BURROW = ParasiteAnimations.loop(this,
             "get_burrow_timer.get_burrowed_1.get_open_1");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
 
     public HostIIEntity(EntityType<? extends HostIIEntity> type, Level level) {
         super(type, level, 0.12, 5.0, 5.0, BURROW_DURATION_TICKS, 20, 20);
@@ -183,10 +183,9 @@ public final class HostIIEntity extends AbstractHostEntity {
 
     @Override
     protected void triggerAttackAnimation() {
-        // 触发攻击动画并重置攻击计时器
+        // Preserve the original attack timer even though ModelHostII does not apply it to bones.
         entityData.set(ATTACK_UP, true);
         entityData.set(ATTACK_TIMER, 0.0F);
-        triggerAnim("attack_controller", "attack");
     }
 
     // 客户端动画数据访问器
@@ -235,31 +234,22 @@ public final class HostIIEntity extends AbstractHostEntity {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        // 移动控制器 - 处理idle、walk、burrow、burrowed状态
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
                 state -> {
-                    // 优先级1: 潜地过渡动画
                     if (isBurrowTransitioning()) {
                         if (isBurrowed()) {
                             return state.setAndContinue(isMouthOpen()
                                     ? BURROWED_OPEN_BURROW : BURROW);
                         }
-                        return state.setAndContinue(OPEN_BURROW);
+                        return state.setAndContinue(isMouthOpen() ? OPEN_BURROW : BURROW_TIMER);
                     }
-                    // 优先级2: 完全潜地状态
                     if (isBurrowed()) {
                         return state.setAndContinue(isMouthOpen() ? BURROWED_OPEN_IDLE : BURROWED);
                     }
                     if (isMouthOpen()) {
                         return state.setAndContinue(OPEN_IDLE);
                     }
-                    // 优先级3: 行走或待机
-                    return state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving()) ? WALK : IDLE);
+                    return state.setAndContinue(AGE_IN_TICKS);
                 }));
-
-        // 攻击控制器 - 处理attack和burrowed_attack状态
-        controllers.add(new AnimationController<>(this, "attack_controller", 0,
-                state -> PlayState.STOP)
-                .triggerableAnim("attack", ATTACK));
     }
 }

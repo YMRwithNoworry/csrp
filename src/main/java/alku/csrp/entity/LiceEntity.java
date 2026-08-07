@@ -33,9 +33,7 @@ public final class LiceEntity extends PrimitiveParasiteEntity {
     public static final int MAX_LIFESPAN_TICKS = 1200;
     public static final int VIRAL_DURATION_TICKS = 120;
     public static final int VIRAL_AMPLIFIER = 2;
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
 
     private int lifespan;
     private boolean charging;
@@ -124,9 +122,7 @@ public final class LiceEntity extends PrimitiveParasiteEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving()) ? WALK : IDLE)));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
-                software.bernie.geckolib.animation.PlayState.STOP).triggerableAnim("attack", ATTACK));
+                state -> state.setAndContinue(AGE_IN_TICKS)));
     }
 
     private final class ChargeAttackGoal extends Goal {
@@ -153,7 +149,6 @@ public final class LiceEntity extends PrimitiveParasiteEntity {
         public void start() {
             chargeTicks = 0;
             charging = true;
-            triggerAnim("attack_controller", "attack");
         }
 
         @Override
