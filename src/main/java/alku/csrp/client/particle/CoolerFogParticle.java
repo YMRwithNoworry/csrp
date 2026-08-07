@@ -32,13 +32,13 @@ public final class CoolerFogParticle extends TextureSheetParticle {
         xo = x;
         yo = y;
         zo = z;
-        if (age++ >= lifetime) {
-            remove();
-            return;
-        }
+        int frameAge = age++;
 
         setPos(x + horizontalSpeed, y - verticalSpeed, z + horizontalSpeed);
-        setSprite(sprites.get(frameForAge(age), FRAME_COUNT - 1));
+        setSprite(sprites.get(frameForAge(frameAge), FRAME_COUNT - 1));
+        if (age++ >= lifetime) {
+            remove();
+        }
     }
 
     private static int frameForAge(int age) {

@@ -30,7 +30,8 @@ for (const token of ["IntegerProperty.create(\"air\", 0, 2)", "randomTick", "Mod
   "ModSounds.get(\"block.fog\")", "setValue(AIR, 2)", "Blocks.AIR.defaultBlockState()",
   "getBlockSupportShape"])
   expect(block.includes(token), `FogBlock is missing original behavior: ${token}`);
-for (const token of ["lifetime = 144", "quadSize = 10.0F", "frameForAge", "PARTICLE_SHEET_TRANSLUCENT"])
+for (const token of ["lifetime = 144", "quadSize = 10.0F", "frameForAge", "int frameAge = age++",
+  "if (age++ >= lifetime)", "PARTICLE_SHEET_TRANSLUCENT"])
   expect(particles.includes(token), `CoolerFogParticle is missing original behavior: ${token}`);
 expect(overlay.includes("RenderGuiEvent.Post") && overlay.includes("0.85F")
   && overlay.includes("TextureAtlas.LOCATION_BLOCKS") && overlay.includes("graphics.blit(0, 0, -90"),
