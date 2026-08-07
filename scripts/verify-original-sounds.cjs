@@ -203,6 +203,7 @@ for (const sourceFile of [
   "AssimilatedEndermanEntity.java",
   "AssimilatedHeadEntity.java",
   "FeralParasiteEntity.java",
+  "SimHumanEntity.java",
 ]) {
   const source = fs.readFileSync(path.join(projectRoot, "src/main/java/alku/csrp/entity", sourceFile), "utf8");
   for (const method of ["ambient", "hurt", "death"]) {
@@ -210,6 +211,11 @@ for (const sourceFile of [
       failures.push(`${sourceFile}: missing ${method} sound-profile binding`);
     }
   }
+}
+const simHumanSource = fs.readFileSync(path.join(projectRoot,
+  "src/main/java/alku/csrp/entity/SimHumanEntity.java"), "utf8");
+if (!simHumanSource.includes('ModSounds.get("mob.silence")')) {
+  failures.push("SimHumanEntity: non-normal ambient state does not use the original silence event");
 }
 
 if (failures.length) {
