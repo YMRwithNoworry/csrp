@@ -267,6 +267,21 @@ if (!dredge.includes("setParasiteStatus(STATUS_PULLING)")) {
   failures.push("DredgeEntity: legacy pulling state 3 is not synchronized");
 }
 
+const host = read("src/main/java/alku/csrp/entity/HostEntity.java");
+for (const action of [
+  "idle.get_open_1", "get_attack_timer.get_open_1", "get_burrow_timer.get_open_1",
+  "get_burrow_timer.get_burrowed_1", "idle.get_burrowed_1.get_open_1",
+  "get_attack_timer.get_burrowed_1.get_open_1",
+  "get_burrow_timer.get_burrowed_1.get_open_1"
+]) {
+  if (!host.includes(`"${action}"`)) {
+    failures.push(`HostEntity: original runtime animation ${action} is not wired`);
+  }
+}
+if (!host.includes("MAX_BURIED_TIMER = 4.8F") || !host.includes("BURIED_TIMER_STEP = 0.08F")) {
+  failures.push("HostEntity: legacy burrow transition timing is not represented");
+}
+
 const triggeredFamilies = [
   ["PrimitiveVariantEntity.java", "attack_controller"],
   ["AdaptedVariantEntity.java", "bolster_attack_controller"],
