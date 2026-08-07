@@ -18,16 +18,13 @@ import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 
 import java.util.EnumSet;
 
 /** Legacy hijacked blaze: aerial spineball volleys and nearby parasite illumination. */
 public final class HiBlazeEntity extends HijackedParasiteEntity implements GeoEntity {
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
 
     private int rangedCooldown = 20;
     private int burstShots;
@@ -99,15 +96,12 @@ public final class HiBlazeEntity extends HijackedParasiteEntity implements GeoEn
         projectile.configure(this, ParasiteProjectileEntity.Mode.SPINE, start, target.getEyePosition(),
                 0.85D, 5.0F, 0.75D, 50);
         level().addFreshEntity(projectile);
-        triggerAttackAnimation();
     }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving()) ? WALK : IDLE)));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0,
-                state -> PlayState.STOP).triggerableAnim("attack", ATTACK));
+        controllers.add(new AnimationController<>(this, "age_controller", 0,
+                state -> state.setAndContinue(AGE_IN_TICKS)));
     }
 
     private final class SpineBurstGoal extends Goal {
@@ -132,7 +126,6 @@ public final class HiBlazeEntity extends HijackedParasiteEntity implements GeoEn
             burstShots = 4;
             burstDelay = 0;
             rangedCooldown = 80;
-            triggerAttackAnimation();
         }
 
         @Override

@@ -10,10 +10,17 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.level.Level;
+import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.animation.RawAnimation;
 
 /** Common hostile and fire-vulnerable state for legacy Marauderized infected forms. */
 public abstract class MarauderizedParasiteEntity extends HijackedParasiteEntity {
     private static final float BLEED_CHANCE = 0.15F;
+    private final RawAnimation idleAnimation = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation runAnimation = ParasiteAnimations.loop(this, "run");
+    private final RawAnimation attackAnimation = ParasiteAnimations.play(this, "attack");
 
     protected MarauderizedParasiteEntity(EntityType<? extends MarauderizedParasiteEntity> type, Level level,
                                          int experience) {
@@ -36,6 +43,15 @@ public abstract class MarauderizedParasiteEntity extends HijackedParasiteEntity 
 
     protected double meleeSpeed() {
         return 1.2D;
+    }
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(this, "movement_controller", 4,
+                state -> state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving())
+                        ? runAnimation : idleAnimation)));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
+                .triggerableAnim("attack", attackAnimation));
     }
 
     @Override

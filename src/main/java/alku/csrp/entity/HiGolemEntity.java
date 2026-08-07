@@ -16,7 +16,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 
@@ -33,23 +32,20 @@ public final class HiGolemEntity extends HijackedParasiteEntity {
             HiGolemEntity.class, EntityDataSerializers.INT);
 
     // 状态 0 - 普通移动状态
-    private final RawAnimation idleAnimation = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation walkAnimation = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation ageInTicksAnimation = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final RawAnimation limbSwingAnimation = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
 
     // 状态 1 - 攻击准备状态
-    private final RawAnimation idleStatus1Animation = ParasiteAnimations.loop(this, "idle.get_parasite_status_1");
-    private final RawAnimation walkStatus1Animation = ParasiteAnimations.loop(this, "walk.get_parasite_status_1");
+    private final RawAnimation ageStatus1Animation = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks.get_parasite_status_1");
+    private final RawAnimation limbStatus1Animation = ParasiteAnimations.loop(this, "func_78087_a.limb_swing.get_parasite_status_1");
 
     // 状态 2 - 蓄力状态
-    private final RawAnimation idleStatus2Animation = ParasiteAnimations.loop(this, "idle.get_parasite_status_2");
-    private final RawAnimation walkStatus2Animation = ParasiteAnimations.loop(this, "walk.get_parasite_status_2");
+    private final RawAnimation ageStatus2Animation = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks.get_parasite_status_2");
+    private final RawAnimation limbStatus2Animation = ParasiteAnimations.loop(this, "func_78087_a.limb_swing.get_parasite_status_2");
 
     // 状态 3 - 冲锋状态
-    private final RawAnimation chargeIdleAnimation = ParasiteAnimations.loop(this, "idle.get_parasite_status_3");
-    private final RawAnimation chargeWalkAnimation = ParasiteAnimations.loop(this, "walk.get_parasite_status_3");
-
-    // 攻击动画
-    private final RawAnimation attackAnimation = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation chargeAgeAnimation = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks.get_parasite_status_3");
+    private final RawAnimation chargeLimbAnimation = ParasiteAnimations.loop(this, "func_78087_a.limb_swing.get_parasite_status_3");
 
     private int chargeCooldown;
 
@@ -78,12 +74,12 @@ public final class HiGolemEntity extends HijackedParasiteEntity {
     @Override
     public void tick() {
         super.tick();
-        if (!level().isClientSide && chargeCooldown > 0) {
-            chargeCooldown--;
+        if (!level().isClientSide) {
+            if (chargeCooldown > 0) {
+                chargeCooldown--;
+            }
+            updateParasiteStatus();
         }
-
-        // 更新状态机
-        updateParasiteStatus();
     }
 
     private void updateParasiteStatus() {
@@ -118,25 +114,32 @@ public final class HiGolemEntity extends HijackedParasiteEntity {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
-                .triggerableAnim("attack", attackAnimation));
+        controllers.add(new AnimationController<>(this, "age_controller", 0,
+                state -> state.setAndContinue(ageAnimation())));
+        controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
+            if (!ParasiteAnimations.isMoving(this, state.isMoving())) {
+                return PlayState.STOP;
+            }
+            return state.setAndContinue(limbAnimation());
+        }));
     }
 
-    private PlayState movementAnimation(AnimationState<HiGolemEntity> state) {
-        boolean isMoving = ParasiteAnimations.isMoving(this, state.isMoving());
-        int status = getParasiteStatus();
+    private RawAnimation ageAnimation() {
+        return switch (getParasiteStatus()) {
+            case 1 -> ageStatus1Animation;
+            case 2 -> ageStatus2Animation;
+            case 3 -> chargeAgeAnimation;
+            default -> ageInTicksAnimation;
+        };
+    }
 
-        switch (status) {
-            case 1: // 攻击准备状态
-                return state.setAndContinue(isMoving ? walkStatus1Animation : idleStatus1Animation);
-            case 2: // 蓄力状态
-                return state.setAndContinue(isMoving ? walkStatus2Animation : idleStatus2Animation);
-            case 3: // 冲锋状态
-                return state.setAndContinue(isMoving ? chargeWalkAnimation : chargeIdleAnimation);
-            default: // 状态 0 - 普通移动状态
-                return state.setAndContinue(isMoving ? walkAnimation : idleAnimation);
-        }
+    private RawAnimation limbAnimation() {
+        return switch (getParasiteStatus()) {
+            case 1 -> limbStatus1Animation;
+            case 2 -> limbStatus2Animation;
+            case 3 -> chargeLimbAnimation;
+            default -> limbSwingAnimation;
+        };
     }
 
     @Override
@@ -183,7 +186,6 @@ public final class HiGolemEntity extends HijackedParasiteEntity {
             struckTargets.clear();
             chargeCooldown = 120;
             entityData.set(CHARGING, true);
-            triggerAttackAnimation();
             getNavigation().stop();
         }
 

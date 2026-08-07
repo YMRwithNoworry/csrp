@@ -229,6 +229,46 @@ const assimilatedExpected = {
     "func_78087_a.age_in_ticks.get_parasite_status_10"]
 };
 
+const hijackedAndFeralExpected = {
+  hi_blaze: ["func_78087_a.age_in_ticks"],
+  hi_golem: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1", "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_2", "func_78087_a.limb_swing.get_parasite_status_2",
+    "func_78087_a.age_in_ticks.get_parasite_status_3", "func_78087_a.limb_swing.get_parasite_status_3"],
+  hi_skeleton: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.limb_swing.get_parasite_status_2"],
+  fer_bear: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1", "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_2"],
+  fer_cow: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.limb_swing.get_parasite_status_2", "func_78087_a.limb_swing.get_parasite_status_3",
+    "func_78087_a.age_in_ticks.get_parasite_status_3.get_still_ani_1"],
+  fer_enderman: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.is_screaming_1", "func_78087_a.limb_swing.is_screaming_1",
+    "func_78087_a.age_in_ticks.get_still_ani_1",
+    "func_78087_a.age_in_ticks.get_still_ani_1.is_screaming_1",
+    "func_78087_a.limb_swing.get_parasite_status_2",
+    "func_78087_a.limb_swing.get_parasite_status_2.is_screaming_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_2.get_still_ani_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_2.get_still_ani_1.is_screaming_1"],
+  fer_horse: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.limb_swing.get_parasite_status_2", "func_78087_a.limb_swing.get_parasite_status_3"],
+  fer_human: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_still_ani_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1", "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_2"],
+  fer_pig: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.limb_swing.get_parasite_status_2"],
+  fer_sheep: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.limb_swing.get_parasite_status_2"],
+  fer_villager: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_still_ani_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_1", "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_2"],
+  fer_wolf: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.limb_swing.get_parasite_status_2"]
+};
+
 const pureExpected = {
   dispatcherten: ["func_78087_a.age_in_ticks", "get_floor_timer"],
   kyphosis: ["func_78087_a.age_in_ticks", "get_attack_timer", "get_floor_timer",
@@ -315,7 +355,7 @@ for (const id of all) {
   };
   const baseActions = id === "dispatcher_sii" ? ["idle", "idle", "idle"] : ["idle", "walk", actionAliases[id] || "attack"];
   const expectedActions = currentExpected[id] || adaptedExpected[id]
-    || assimilatedExpected[id] || pureExpected[id];
+    || assimilatedExpected[id] || hijackedAndFeralExpected[id] || pureExpected[id];
   const expected = expectedActions
     ? expectedActions.map((action) => `animation.${resourceId}.${action}`)
     : id === "crux_incomplete"
@@ -434,9 +474,10 @@ for (const id of all) {
   for (const key of expected) {
     if (!(key in animations)) failures.push(`${id}: missing base animation key ${key}`);
   }
-  if (assimilatedExpected[id]) {
+  const exactExpectedActions = assimilatedExpected[id] || hijackedAndFeralExpected[id];
+  if (exactExpectedActions) {
     const actualKeys = Object.keys(animations).sort();
-    const exactKeys = assimilatedExpected[id]
+    const exactKeys = exactExpectedActions
       .map((action) => `animation.${resourceId}.${action}`).sort();
     if (actualKeys.length !== exactKeys.length
         || actualKeys.some((key, index) => key !== exactKeys[index])) {
@@ -1025,9 +1066,63 @@ for (const [className, actions] of [
   }
 }
 
+for (const [className, actions] of [
+  ["HiBlazeEntity", hijackedAndFeralExpected.hi_blaze],
+  ["HiGolemEntity", hijackedAndFeralExpected.hi_golem],
+  ["HiSkeletonEntity", hijackedAndFeralExpected.hi_skeleton],
+  ["FeralParasiteEntity", [...new Set([
+    ...hijackedAndFeralExpected.fer_bear,
+    ...hijackedAndFeralExpected.fer_cow,
+    ...hijackedAndFeralExpected.fer_horse,
+    ...hijackedAndFeralExpected.fer_human,
+    ...hijackedAndFeralExpected.fer_pig,
+    ...hijackedAndFeralExpected.fer_sheep,
+    ...hijackedAndFeralExpected.fer_villager,
+    ...hijackedAndFeralExpected.fer_wolf
+  ])]],
+  ["FeralEndermanEntity", hijackedAndFeralExpected.fer_enderman]
+]) {
+  const source = read(`src/main/java/alku/csrp/entity/${className}.java`);
+  for (const action of actions) {
+    if (!source.includes(`"${action}"`)) {
+      failures.push(`${className}: original hijacked/feral function ${action} is not wired`);
+    }
+  }
+  if (/ParasiteAnimations\.(?:loop|play)\(this,\s*"(?:idle|walk|run|attack)"/.test(source)
+      || source.includes('triggerableAnim("attack"')
+      || source.includes('triggerAnim("attack_controller"')) {
+    failures.push(`${className}: still uses a fabricated generic hijacked/feral animation`);
+  }
+  if (!source.includes('"age_controller"')
+      || (className !== "HiBlazeEntity"
+        && (!source.includes('"movement_controller"')
+          || !source.includes("ParasiteAnimations.isMoving(this, state.isMoving())")))) {
+    failures.push(`${className}: age and actual-displacement function controllers are incomplete`);
+  }
+}
+
+const hijackedBase = read("src/main/java/alku/csrp/entity/HijackedParasiteEntity.java");
+if (hijackedBase.includes("registerControllers") || hijackedBase.includes("triggerAttackAnimation")
+    || hijackedBase.includes("RawAnimation")) {
+  failures.push("HijackedParasiteEntity: shared base still fabricates animations absent from individual models");
+}
+
+const feral = read("src/main/java/alku/csrp/entity/FeralParasiteEntity.java");
+if (!feral.includes("EntityDataAccessor<Integer> PARASITE_STATUS")
+    || !feral.includes("EntityDataAccessor<Boolean> STILL_ANI")
+    || !feral.includes("ParasiteAnimations.isMoving(this, state.isMoving())")
+    || !feral.includes("status = distanceToSqr(target) > attackReachSqr ? 2 : 1")) {
+  failures.push("FeralParasiteEntity: legacy status 1/2, still state, or actual-displacement controller is incomplete");
+}
+
+const hiSkeleton = read("src/main/java/alku/csrp/entity/HiSkeletonEntity.java");
+if (!hiSkeleton.includes("EntityDataAccessor<Integer> PARASITE_STATUS")
+    || !hiSkeleton.includes("? 2 : 0")) {
+  failures.push("HiSkeletonEntity: ranged status 2 is not synchronized");
+}
+
 const triggeredFamilies = [
   ["AdaptedVariantEntity.java", "bolster_attack_controller"],
-  ["FeralParasiteEntity.java", "attack_controller"],
   ["AncientParasiteEntity.java", "attack_controller"],
 ];
 for (const [file, controller] of triggeredFamilies) {

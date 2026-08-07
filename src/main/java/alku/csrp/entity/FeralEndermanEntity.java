@@ -47,13 +47,24 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
     private static final float MINIMUM_DAMAGE = 0.75F;
     private static final float COTH_CHANCE = 0.70F;
     private static final float DEATH_BURST_CHANCE = 0.50F;
-    private final RawAnimation idleAnimation = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation walkAnimation = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation attackAnimation = ParasiteAnimations.play(this, "attack");
-    private final RawAnimation screamingIdleAnimation = RawAnimation.begin()
-            .thenLoop("animation.fer_enderman.idle.is_screaming_1");
-    private final RawAnimation screamingWalkAnimation = RawAnimation.begin()
-            .thenLoop("animation.fer_enderman.walk.is_screaming_1");
+    private final RawAnimation ageInTicksAnimation = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final RawAnimation limbSwingAnimation = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final RawAnimation screamingAgeAnimation = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.is_screaming_1");
+    private final RawAnimation screamingLimbAnimation = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.is_screaming_1");
+    private final RawAnimation stillAgeAnimation = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_still_ani_1");
+    private final RawAnimation screamingStillAgeAnimation = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_still_ani_1.is_screaming_1");
+    private final RawAnimation status2LimbAnimation = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_2");
+    private final RawAnimation screamingStatus2LimbAnimation = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_2.is_screaming_1");
+    private final RawAnimation status2StillAgeAnimation = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_2.get_still_ani_1");
+    private final RawAnimation screamingStatus2StillAgeAnimation = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_2.get_still_ani_1.is_screaming_1");
 
     private int targetTicks;
     private int teleportCooldown;
@@ -171,9 +182,6 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
         if (damaged && livingTarget != null) {
             applyMinimumDamage(livingTarget, healthBefore);
         }
-        if (damaged && !level().isClientSide) {
-            triggerAnim("attack_controller", "attack");
-        }
         if (damaged && !level().isClientSide && specialMovesEnabled()
                 && teleportCooldown <= 0 && random.nextBoolean()
                 && teleportWithAllyAwayFromTarget(getTarget())) {
@@ -213,14 +221,34 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(this, "age_controller", 0,
+                state -> state.setAndContinue(ageAnimation())));
         controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
-            if (isAggressive()) {
-                return state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving()) ? screamingWalkAnimation : screamingIdleAnimation);
+            if (!ParasiteAnimations.isMoving(this, state.isMoving())) {
+                return PlayState.STOP;
             }
-            return state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving()) ? walkAnimation : idleAnimation);
+            return state.setAndContinue(limbAnimation());
         }));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
-                .triggerableAnim("attack", attackAnimation));
+    }
+
+    private RawAnimation ageAnimation() {
+        boolean screaming = isAggressive();
+        boolean still = getStillAni();
+        if (getParasiteStatus() == 2 && still) {
+            return screaming ? screamingStatus2StillAgeAnimation : status2StillAgeAnimation;
+        }
+        if (still) {
+            return screaming ? screamingStillAgeAnimation : stillAgeAnimation;
+        }
+        return screaming ? screamingAgeAnimation : ageInTicksAnimation;
+    }
+
+    private RawAnimation limbAnimation() {
+        boolean screaming = isAggressive();
+        if (getParasiteStatus() == 2) {
+            return screaming ? screamingStatus2LimbAnimation : status2LimbAnimation;
+        }
+        return screaming ? screamingLimbAnimation : limbSwingAnimation;
     }
 
     private void spawnPortalParticles() {

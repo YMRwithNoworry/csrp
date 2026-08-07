@@ -2,12 +2,15 @@ package alku.csrp.entity;
 
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -31,14 +34,31 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 public class FeralParasiteEntity extends Monster implements GeoEntity, Parasite {
     private static final float REGEN_AMOUNT = 3.0F;
     private static final int REGEN_KILL_INTERVAL = 10;
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private static final EntityDataAccessor<Integer> PARASITE_STATUS = SynchedEntityData.defineId(
+            FeralParasiteEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> STILL_ANI = SynchedEntityData.defineId(
+            FeralParasiteEntity.class, EntityDataSerializers.BOOLEAN);
+
+    private final RawAnimation ageInTicksAnimation = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final RawAnimation limbSwingAnimation = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final RawAnimation ageStillAnimation = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_still_ani_1");
+    private final RawAnimation ageStatus1Animation = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_1");
+    private final RawAnimation limbStatus1Animation = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_1");
+    private final RawAnimation limbStatus2Animation = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_2");
+    private final RawAnimation limbStatus3Animation = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_3");
+    private final RawAnimation ageStatus3StillAnimation = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_3.get_still_ani_1");
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private final Kind kind;
     private int parasiteKills;
     private int regenUse = REGEN_KILL_INTERVAL;
+    private int stillTicks;
 
     public FeralParasiteEntity(EntityType<? extends FeralParasiteEntity> type, Level level, Kind kind) {
         super(type, level);
@@ -69,8 +89,16 @@ public class FeralParasiteEntity extends Monster implements GeoEntity, Parasite 
     }
 
     @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(PARASITE_STATUS, 0);
+        builder.define(STILL_ANI, false);
+    }
+
+    @Override
     public void tick() {
         super.tick();
+        updateAnimationState();
         if (level().isClientSide || tickCount % 10 != 0 || isOnFire() || parasiteKills <= 1
                 || getHealth() >= getMaxHealth()) {
             return;
@@ -81,6 +109,42 @@ public class FeralParasiteEntity extends Monster implements GeoEntity, Parasite 
             parasiteKills--;
             regenUse = REGEN_KILL_INTERVAL;
         }
+    }
+
+    private void updateAnimationState() {
+        if (level().isClientSide) {
+            return;
+        }
+
+        double dx = getX() - xo;
+        double dz = getZ() - zo;
+        if (dx * dx + dz * dz <= 1.0E-6D) {
+            stillTicks++;
+        } else {
+            stillTicks = 0;
+        }
+        entityData.set(STILL_ANI, stillTicks > 25);
+
+        LivingEntity target = getTarget();
+        int status = 0;
+        if (target != null && target.isAlive()) {
+            double attackReach = getBbWidth() * 2.0D;
+            double attackReachSqr = attackReach * attackReach + target.getBbWidth();
+            status = distanceToSqr(target) > attackReachSqr ? 2 : 1;
+        }
+        entityData.set(PARASITE_STATUS, status);
+    }
+
+    public int getParasiteStatus() {
+        return entityData.get(PARASITE_STATUS);
+    }
+
+    public void setParasiteStatus(int status) {
+        entityData.set(PARASITE_STATUS, Math.max(0, Math.min(3, status)));
+    }
+
+    public boolean getStillAni() {
+        return entityData.get(STILL_ANI);
     }
 
     @Override
@@ -112,7 +176,6 @@ public class FeralParasiteEntity extends Monster implements GeoEntity, Parasite 
         float healthBefore = ParasiteCombatEffects.healthWithAbsorption(livingTarget);
         boolean hit = super.doHurtTarget(target);
         if (hit) {
-            triggerAnim("attack_controller", "attack");
             ParasiteCombatEffects.applyFearFromDamage(livingTarget, healthBefore, this);
         }
         return hit;
@@ -129,6 +192,7 @@ public class FeralParasiteEntity extends Monster implements GeoEntity, Parasite 
         super.addAdditionalSaveData(tag);
         tag.putInt("parasite_kills", parasiteKills);
         tag.putInt("regen_use", regenUse);
+        tag.putInt("still_ticks", stillTicks);
     }
 
     @Override
@@ -136,14 +200,48 @@ public class FeralParasiteEntity extends Monster implements GeoEntity, Parasite 
         super.readAdditionalSaveData(tag);
         parasiteKills = tag.getInt("parasite_kills");
         regenUse = tag.contains("regen_use") ? tag.getInt("regen_use") : REGEN_KILL_INTERVAL;
+        stillTicks = tag.getInt("still_ticks");
     }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving()) ? RUN : IDLE)));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
-                .triggerableAnim("attack", ATTACK));
+        controllers.add(new AnimationController<>(this, "age_controller", 0,
+                state -> state.setAndContinue(ageAnimation())));
+        controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
+            if (!ParasiteAnimations.isMoving(this, state.isMoving())) {
+                return PlayState.STOP;
+            }
+            return state.setAndContinue(limbAnimation());
+        }));
+    }
+
+    private RawAnimation ageAnimation() {
+        int status = getParasiteStatus();
+        boolean still = getStillAni();
+        if (status == 3 && kind == Kind.COW && still) {
+            return ageStatus3StillAnimation;
+        }
+        if (status == 1 && (kind == Kind.BEAR || kind == Kind.HUMAN || kind == Kind.VILLAGER)) {
+            return ageStatus1Animation;
+        }
+        if (still && (kind == Kind.HUMAN || kind == Kind.VILLAGER)) {
+            return ageStillAnimation;
+        }
+        return ageInTicksAnimation;
+    }
+
+    private RawAnimation limbAnimation() {
+        int status = getParasiteStatus();
+        if (status == 3 && (kind == Kind.COW || kind == Kind.HORSE)) {
+            return limbStatus3Animation;
+        }
+        if (status == 2) {
+            return limbStatus2Animation;
+        }
+        if (status == 1 && (kind == Kind.BEAR || kind == Kind.HUMAN || kind == Kind.VILLAGER)) {
+            return limbStatus1Animation;
+        }
+        return limbSwingAnimation;
     }
 
     @Override
