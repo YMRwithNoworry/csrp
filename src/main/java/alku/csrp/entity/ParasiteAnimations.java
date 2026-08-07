@@ -54,6 +54,15 @@ final class ParasiteAnimations {
             };
         }
 
+        // These extracted short-key resources omit the controller aliases
+        // used by the original Java models; keep the original call sites but
+        // resolve them to the available clips.
+        if (resourceId.equals("marauder") && action.contains("get_parasite_status")) {
+            action = "skill";
+        } else if (resourceId.equals("pri_summoner") && action.equals("summon")) {
+            action = "run";
+        }
+
         // These are the project-only fallback resources that were not
         // present in the extracted SRP resource set and retain short keys.
         if (usesShortAnimationKeys(resourceId)) {
