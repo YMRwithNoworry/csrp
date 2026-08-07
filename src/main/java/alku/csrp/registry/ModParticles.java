@@ -17,6 +17,8 @@ public final class ModParticles {
             PARTICLES.register("assimilation_splash", () -> new SimpleParticleType(true));
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> BIOMASS =
             PARTICLES.register("biomass", () -> new SimpleParticleType(true));
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> FOG =
+            PARTICLES.register("fog", () -> new SimpleParticleType(false));
 
     private ModParticles() {
     }

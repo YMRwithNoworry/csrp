@@ -332,9 +332,12 @@ public final class ModBlocks {
 
     public static final DeferredBlock<FogBlock> FOG = BLOCKS.register("fog", () ->
             new FogBlock(BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.SNOW)
+                    .mapColor(MapColor.NONE)
                     .noCollission()
                     .noOcclusion()
+                    .replaceable()
+                    .forceSolidOff()
+                    .randomTicks()
                     .strength(-1.0F, 3600000.0F)
                     .noLootTable()));
     public static final DeferredBlock<FogNullifierBlock> FOG_NULLIFIER = BLOCKS.register(

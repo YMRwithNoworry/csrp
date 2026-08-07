@@ -1,6 +1,12 @@
 {
   "variants": {
-    "": {
+    "air=0": {
+      "model": "csrp:block/fog"
+    },
+    "air=1": {
+      "model": "csrp:block/fog"
+    },
+    "air=2": {
       "model": "csrp:block/fog"
     }
   }

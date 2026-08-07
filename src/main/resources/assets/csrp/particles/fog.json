@@ -1,0 +1,13 @@
+{
+  "textures": [
+    "csrp:particle/fog/fog_intro1",
+    "csrp:particle/fog/fog_intro2",
+    "csrp:particle/fog/fog_intro3",
+    "csrp:particle/fog/fog_intro4",
+    "csrp:particle/fog/fog_intro5",
+    "csrp:particle/fog/fog1",
+    "csrp:particle/fog/fog2",
+    "csrp:particle/fog/fog3",
+    "csrp:particle/fog/fog4"
+  ]
+}
