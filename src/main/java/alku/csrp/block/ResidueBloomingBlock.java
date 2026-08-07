@@ -10,6 +10,7 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
 
 /** Residue sprouts that attach to exposed residue-block faces. */
 public final class ResidueBloomingBlock extends DirectionalBlock {
@@ -22,6 +23,11 @@ public final class ResidueBloomingBlock extends DirectionalBlock {
     @Override
     protected MapCodec<? extends DirectionalBlock> codec() {
         return CODEC;
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(FACING);
     }
 
     @Override
