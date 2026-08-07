@@ -18,6 +18,7 @@ public final class ResidueBloomingBlock extends DirectionalBlock {
 
     public ResidueBloomingBlock(Properties properties) {
         super(properties.randomTicks());
+        registerDefaultState(stateDefinition.any().setValue(FACING, Direction.UP));
     }
 
     @Override
@@ -32,13 +33,8 @@ public final class ResidueBloomingBlock extends DirectionalBlock {
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        for (Direction direction : context.getNearestLookingDirections()) {
-            BlockState state = defaultBlockState().setValue(FACING, direction.getOpposite());
-            if (state.canSurvive(context.getLevel(), context.getClickedPos())) {
-                return state;
-            }
-        }
-        return null;
+        BlockState state = defaultBlockState().setValue(FACING, context.getClickedFace());
+        return state.canSurvive(context.getLevel(), context.getClickedPos()) ? state : null;
     }
 
     @Override
