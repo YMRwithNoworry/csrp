@@ -36,9 +36,12 @@ const assimilated = read("src/main/java/alku/csrp/entity/AssimilatedParasiteEnti
 const feral = read("src/main/java/alku/csrp/entity/FeralParasiteEntity.java");
 const model = read("src/main/java/alku/csrp/client/model/AssimilatedParasiteModel.java");
 const variants = read("src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java");
+const simHuman = read("src/main/java/alku/csrp/entity/SimHumanEntity.java");
 const heads = read("src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java");
 const enderman = read("src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java");
 const dragon = read("src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java");
+const meltSystem = read("src/main/java/alku/csrp/entity/AssimilatedMeltSystem.java");
+const movingFlesh = read("src/main/java/alku/csrp/entity/MovingFleshEntity.java");
 const squidBreathingTag = read("src/main/resources/data/minecraft/tags/entity_type/can_breathe_under_water.json");
 
 expect(assimilated, /FERAL_KILL_THRESHOLD\s*=\s*60/, "Feral transformation threshold is missing");
@@ -76,6 +79,26 @@ expect(model, /getTextureResource\(AssimilatedParasiteEntity/, "Assimilated dyna
 expect(variants, /HEAD_SPAWN_CHANCE\s*=\s*0\.5F/, "Remaining assimilated head chance is missing");
 expect(variants, /parasiteKills\s*>\s*AssimilatedParasiteEntity\.FERAL_KILL_THRESHOLD/,
   "Assimilated horse, human, and villager feral transition is missing");
+for (const [source, name] of [[assimilated, "animal"], [variants, "horse/villager"], [simHuman, "human"]]) {
+  expect(source, /MeltableAssimilated/, `Assimilated ${name} Moving Flesh participation is missing`);
+  expect(source, /AssimilatedMeltSystem\.tryStartGroup/, `Assimilated ${name} merge search is missing`);
+  expect(source, /AssimilatedMeltSystem\.spawnMovingFlesh/, `Assimilated ${name} melt output is missing`);
+}
+expect(meltSystem, /KILL_THRESHOLD\s*=\s*10/, "Assimilated primitive merge kill threshold is missing");
+expect(meltSystem, /REQUIRED_NEARBY_ASSIMILATED\s*=\s*3/,
+  "Assimilated merge group size is missing");
+expect(meltSystem, /movingFleshCount\s*>=\s*1\s*&&\s*movingFleshCount\s*<=\s*3/,
+  "Moving Flesh shortcut condition is missing");
+expect(movingFlesh, /EntityDataAccessor<Integer> MERGE_VALUE/,
+  "Moving Flesh assimilated value is missing");
+expect(movingFlesh, /random\.nextInt\(9\)/,
+  "Moving Flesh legacy nine-entry primitive table is missing");
+expect(movingFlesh, /SPAWN_HEALTH_FRACTION\s*=\s*0\.5F/,
+  "Moving Flesh primitive spawn health is missing");
+expect(variants, /HOST_SKELETON_KILLS\s*=\s*5[\s\S]*?transformToHost\(level\)/,
+  "Assimilated Villager Host conversion is missing");
+expect(simHuman, /HOST_SKELETON_KILLS\s*=\s*5[\s\S]*?transformToHost\(level\)/,
+  "Assimilated Human Host conversion is missing");
 expect(heads, /IncompleteFormMediumEntity/, "Walking heads must rebuild from medium incomplete forms");
 expect(enderman, /TARGET_GRACE_TICKS\s*=\s*80/, "Assimilated Enderman target grace period is missing");
 expect(enderman, /teleportAllyToTarget/, "Assimilated Enderman ally teleport is missing");

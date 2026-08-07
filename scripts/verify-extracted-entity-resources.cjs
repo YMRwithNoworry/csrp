@@ -1,6 +1,7 @@
 const crypto = require("crypto");
 const fs = require("fs");
 const path = require("path");
+const { isDeepStrictEqual } = require("util");
 
 const projectRoot = path.resolve(__dirname, "..");
 const sourceRoot = path.resolve(process.argv[2] ??
@@ -21,6 +22,26 @@ const parse = (file, label) => {
     return null;
   }
 };
+const normalizeJson = (value, key = "") => {
+  if (Array.isArray(value)) {
+    const normalized = value.map((entry) => normalizeJson(entry));
+    return key === "bones" && normalized.every((entry) => entry && typeof entry.name === "string")
+      ? normalized.sort((left, right) => left.name.localeCompare(right.name))
+      : normalized;
+  }
+  if (!value || typeof value !== "object") return value;
+  return Object.fromEntries(Object.entries(value)
+    .map(([childKey, child]) => [childKey, normalizeJson(child, childKey)]));
+};
+const sameJson = (source, target, label) => {
+  if (!fs.existsSync(target)) return failures.push(`${label}: target is missing`);
+  const sourceJson = parse(source, `${label} extractor source`);
+  const targetJson = parse(target, label);
+  if (sourceJson && targetJson
+      && !isDeepStrictEqual(normalizeJson(sourceJson), normalizeJson(targetJson))) {
+    failures.push(`${label}: structure differs from extractor output`);
+  }
+};
 
 const exported = manifest.entities.filter((entity) => entity.status === "approximate");
 const skipped = manifest.entities.filter((entity) => entity.status !== "approximate");
@@ -37,17 +58,19 @@ for (const entity of exported) {
   const sourceAnimation = path.join(sourceEntityRoot, `${id}.animation.json`);
   const targetGeo = path.join(assetsRoot, "geo", `${id}.geo.json`);
   const targetAnimation = path.join(assetsRoot, "animations", `${id}.animation.json`);
-  sameFile(sourceGeo, targetGeo, `${id} geometry`);
-  sameFile(sourceAnimation, targetAnimation, `${id} animation`);
+  sameJson(sourceGeo, targetGeo, `${id} geometry`);
+  sameJson(sourceAnimation, targetAnimation, `${id} animation`);
 
   const geometry = parse(targetGeo, `${id} geometry`);
   const animations = parse(targetAnimation, `${id} animation`);
   const geometryEntries = geometry?.["minecraft:geometry"];
   const bones = new Set(geometryEntries?.flatMap((entry) => entry.bones ?? []).map((bone) => bone.name) ?? []);
   if (!geometryEntries?.length) failures.push(`${id}: geometry has no minecraft:geometry entries`);
-  for (const action of ["idle", "walk", "attack"]) {
-    const name = `animation.${id}.${action}`;
-    if (!animations?.animations?.[name]) failures.push(`${id}: missing base animation ${name}`);
+  const expectedAnimations = [...(entity.animations ?? [])].sort();
+  const actualAnimations = Object.keys(animations?.animations ?? {}).sort();
+  if (expectedAnimations.length !== actualAnimations.length
+      || expectedAnimations.some((name, index) => name !== actualAnimations[index])) {
+    failures.push(`${id}: animation keys differ from extractor manifest`);
   }
   for (const [animationName, animation] of Object.entries(animations?.animations ?? {})) {
     for (const bone of Object.keys(animation.bones ?? {})) {
@@ -69,7 +92,7 @@ for (const entity of exported) {
 }
 
 for (const extension of ["geo.json", "animation.json"]) {
-  sameFile(
+  sameJson(
     path.join(assetsRoot, extension === "geo.json" ? "geo" : "animations", `sim_dragonehead.${extension}`),
     path.join(assetsRoot, extension === "geo.json" ? "geo" : "animations", `sim_dragonhead.${extension}`),
     `sim_dragonhead compatibility ${extension}`
@@ -97,5 +120,5 @@ if (failures.length) {
   failures.forEach((failure) => console.error(`- ${failure}`));
   process.exit(1);
 }
-console.log(`Verified ${exported.length} extracted entity resource sets and ${textureCount} textures by SHA-256.`);
-console.log("All geometry/animation JSON, base animation entries, bone references, and compatibility resources passed.");
+console.log(`Verified ${exported.length} extracted entity resource sets and ${textureCount} textures.`);
+console.log("All geometry/animation structures, extracted function keys, bone references, and compatibility resources passed.");

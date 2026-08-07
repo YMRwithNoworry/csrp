@@ -52,13 +52,15 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
     private static final int AUTO_EVOLUTION_AGE_TICKS = 800;
     private static final int MERGE_COOLDOWN_TICKS = 20;
     private static final float REGEN_PER_SECOND = 0.125F;
+    private static final float SPAWN_HEALTH_FRACTION = 0.5F;
     private static final EntityDataAccessor<Integer> MERGE_COUNT = SynchedEntityData.defineId(
+            MovingFleshEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> MERGE_VALUE = SynchedEntityData.defineId(
             MovingFleshEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Float> RENDER_SCALE = SynchedEntityData.defineId(
             MovingFleshEntity.class, EntityDataSerializers.FLOAT);
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation AGE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final RawAnimation LIMB = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
 
     private float targetScale = 1.0F;
     private int mergeCooldown;
@@ -83,6 +85,7 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(MERGE_COUNT, 1);
+        builder.define(MERGE_VALUE, (1 + random.nextInt(2)) * 2);
         builder.define(RENDER_SCALE, 1.0F);
     }
 
@@ -138,7 +141,6 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
             return false;
         }
         mergeContacts++;
-        triggerAnim("attack_controller", "attack");
         if (mergeContacts < 3) {
             return true;
         }
@@ -180,6 +182,14 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
         return entityData.get(MERGE_COUNT);
     }
 
+    public int getMergeValue() {
+        return entityData.get(MERGE_VALUE);
+    }
+
+    public void setMergeValue(int value) {
+        entityData.set(MERGE_VALUE, Math.max(0, value));
+    }
+
     public float getRenderScale(float partialTick) {
         return entityData.get(RENDER_SCALE);
     }
@@ -212,6 +222,7 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putInt("merge_count", getMergeCount());
+        tag.putInt("merge_value", getMergeValue());
         tag.putFloat("render_scale", getRenderScale(1.0F));
         tag.putFloat("target_scale", targetScale);
         tag.putInt("merge_cooldown", mergeCooldown);
@@ -224,6 +235,9 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         entityData.set(MERGE_COUNT, Math.max(1, tag.getInt("merge_count")));
+        if (tag.contains("merge_value")) {
+            setMergeValue(tag.getInt("merge_value"));
+        }
         entityData.set(RENDER_SCALE, Math.max(1.0F, tag.getFloat("render_scale")));
         targetScale = Math.max(entityData.get(RENDER_SCALE), tag.getFloat("target_scale"));
         mergeCooldown = tag.getInt("merge_cooldown");
@@ -234,15 +248,18 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(this, "age_controller", 0,
+                state -> state.setAndContinue(AGE)));
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
-                state -> state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving()) ? WALK : IDLE)));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
-                software.bernie.geckolib.animation.PlayState.STOP).triggerableAnim("attack", ATTACK));
+                state -> ParasiteAnimations.isMoving(this, state.isMoving())
+                        ? state.setAndContinue(LIMB)
+                        : software.bernie.geckolib.animation.PlayState.STOP));
     }
 
     private void absorb(MovingFleshEntity other) {
         int combined = getMergeCount() + other.getMergeCount();
         entityData.set(MERGE_COUNT, combined);
+        setMergeValue(getMergeValue() + other.getMergeValue());
         targetScale += 0.3F;
         mergeCooldown = MERGE_COOLDOWN_TICKS;
         playSound(ModSounds.MOVING_FLESH_EAT.get(), 1.0F, 1.0F);
@@ -272,18 +289,15 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
         if (!(level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        // 移除吞噬兽（PRI_DEVOURER），从12种减少到11种
-        Mob primitive = switch (random.nextInt(11)) {
+        Mob primitive = switch (random.nextInt(9)) {
             case 0 -> ModEntities.PRI_LONGARMS.get().create(serverLevel);
             case 1 -> ModEntities.PRI_SUMMONER.get().create(serverLevel);
             case 2 -> ModEntities.PRI_VERMIN.get().create(serverLevel);
-            case 3 -> ModEntities.PRI_VISCERA.get().create(serverLevel);
-            case 4 -> ModEntities.PRI_ARACHNIDA.get().create(serverLevel);
-            case 5 -> ModEntities.PRI_BOLSTER.get().create(serverLevel);
-            case 6 -> ModEntities.PRI_BURROWER.get().create(serverLevel);
-            case 7 -> ModEntities.PRI_MANDUCATER.get().create(serverLevel);
-            case 8 -> ModEntities.PRI_REEKER.get().create(serverLevel);
-            case 9 -> ModEntities.PRI_TOZOON.get().create(serverLevel);
+            case 3 -> ModEntities.PRI_ARACHNIDA.get().create(serverLevel);
+            case 4 -> ModEntities.PRI_BOLSTER.get().create(serverLevel);
+            case 5 -> ModEntities.PRI_MANDUCATER.get().create(serverLevel);
+            case 6 -> ModEntities.PRI_REEKER.get().create(serverLevel);
+            case 7 -> ModEntities.PRI_TOZOON.get().create(serverLevel);
             default -> ModEntities.PRI_YELLOWEYE.get().create(serverLevel);
         };
         if (primitive == null) {
@@ -292,6 +306,7 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
         primitive.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
         primitive.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
                 MobSpawnType.MOB_SUMMONED, null);
+        primitive.setHealth(primitive.getMaxHealth() * SPAWN_HEALTH_FRACTION);
         primitive.setCustomName(getCustomName());
         primitive.setCustomNameVisible(isCustomNameVisible());
         if (isPersistenceRequired()) {

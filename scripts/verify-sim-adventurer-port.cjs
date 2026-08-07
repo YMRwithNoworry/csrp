@@ -51,6 +51,9 @@ const adventurer = read("src/main/java/alku/csrp/entity/SimAdventurerEntity.java
 const head = read("src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java");
 const flesh = read("src/main/java/alku/csrp/entity/MovingFleshEntity.java");
 const assimilated = read("src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java");
+const variants = read("src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java");
+const human = read("src/main/java/alku/csrp/entity/SimHumanEntity.java");
+const meltSystem = read("src/main/java/alku/csrp/entity/AssimilatedMeltSystem.java");
 const english = read("src/main/resources/assets/csrp/lang/en_us.json");
 const chinese = read("src/main/resources/assets/csrp/lang/zh_cn.json");
 const soundsJson = parseJson("src/main/resources/assets/csrp/sounds.json");
@@ -117,8 +120,8 @@ for (const [source, checks] of [
     /COTH_AURA_RADIUS = 3\.0D/, /DamageTypeTags\.IS_FIRE\) \? amount \* 4\.0F/,
     /EquipmentSlot\.CHEST/, /spawnDeathBurst\(\)/, /SIM_ADVENTURER_HEAD/,
     /new ItemStack\(ModItems\.ASSIMILATED_FLESH/, /3 \+ random\.nextInt\(2\)/,
-    /private void freezeMelting\(\)/, /List<Mob> candidates/,
-    /startMelt\(candidates\.get\(index\)\)/, /finalizeSpawn\(ServerLevelAccessor/,
+    /private void freezeMelting\(\)/, /MeltableAssimilated/,
+    /AssimilatedMeltSystem\.tryStartGroup\(this, parasiteKills\)/, /finalizeSpawn\(ServerLevelAccessor/,
     /PLAYER_IDENTITY_NAMES/, /random\.nextFloat\(\) < EXPLOSION_CHANCE/,
     /random\.nextFloat\(\) < HEAD_SPAWN_CHANCE/
   ]],
@@ -135,7 +138,10 @@ for (const [source, checks] of [
     /DamageTypeTags\.IS_FIRE\) \? amount \* 4\.0F/, /mergeContacts/,
     /getRenderScale\(1\.0F\) >= other\.getRenderScale\(1\.0F\)/,
     /finalizeSpawn\(serverLevel, serverLevel\.getCurrentDifficultyAt\(blockPosition\(\)/,
-    /isPersistenceRequired\(\)/
+    /isPersistenceRequired\(\)/, /EntityDataAccessor<Integer> MERGE_VALUE/,
+    /setMergeValue\(getMergeValue\(\) \+ other\.getMergeValue\(\)\)/,
+    /random\.nextInt\(9\)/, /SPAWN_HEALTH_FRACTION = 0\.5F/,
+    /func_78087_a\.age_in_ticks/, /func_78087_a\.limb_swing/
   ]]
 ]) {
   checks.forEach((check) => expect(source, check, `missing behavior hook ${check}`));
@@ -143,10 +149,30 @@ for (const [source, checks] of [
 
 for (const check of [
   /EntityDataAccessor<Boolean> MELTING/, /public void melt\(\)/,
-  /kind != Kind\.SQUID/, /ModEntities\.MOVINGFLESH/, /finalizeSpawn\(/
+  /kind != Kind\.SQUID/, /AssimilatedMeltSystem\.spawnMovingFlesh/,
+  /getMeltRenderScale/
 ]) {
   expect(assimilated, check, `missing assimilated-unit melt hook ${check}`);
 }
+
+for (const [source, name] of [[variants, "AssimilatedVariantEntity"], [human, "SimHumanEntity"]]) {
+  for (const check of [
+    /implements GeoEntity, Parasite, MeltableAssimilated/,
+    /EntityDataAccessor<Boolean> MELTING/,
+    /AssimilatedMeltSystem\.tryStartGroup/,
+    /AssimilatedMeltSystem\.spawnMovingFlesh/,
+    /HOST_SKELETON_KILLS = 5/,
+    /transformToHost\(level\)/
+  ]) expect(source, check, `${name}: missing registered melt/Host hook ${check}`);
+}
+
+for (const check of [
+  /KILL_THRESHOLD = 10/,
+  /REQUIRED_NEARBY_ASSIMILATED = 3/,
+  /movingFleshCount >= 1 && movingFleshCount <= 3/,
+  /Config\.evolutionPhase\(serverLevel\)/,
+  /flesh\.setMergeValue\(mergeValue\)/
+]) expect(meltSystem, check, `missing shared assimilated merge hook ${check}`);
 
 for (const sound of [
   "SIM_ADVENTURER_LIVING", "SIM_ADVENTURER_HURT", "SIM_ADVENTURER_DEATH", "SIM_ADVENTURER_MELT",

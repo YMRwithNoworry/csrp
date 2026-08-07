@@ -64,7 +64,7 @@ import java.util.EnumSet;
  * no-adaptation, fire-vulnerable progression path rather than inheriting the
  * primitive-parasite damage-adaptation state.
  */
-public final class AssimilatedParasiteEntity extends Monster implements GeoEntity, Parasite {
+public final class AssimilatedParasiteEntity extends Monster implements GeoEntity, Parasite, MeltableAssimilated {
     public static final int FERAL_KILL_THRESHOLD = 60;
     private static final int COTH_DURATION_TICKS = 4_800;
     private static final int COTH_AURA_RADIUS = 8;
@@ -175,6 +175,9 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
         }
         if (tickCount % 20 == 0) {
             infectNearby();
+            if (AssimilatedMeltSystem.tryStartGroup(this, parasiteKills)) {
+                parasiteKills = 0;
+            }
         }
         if (kind == Kind.SQUID && !isInWaterOrBubble()) {
             setDeltaMovement(getDeltaMovement().add(0.0D, -0.02D, 0.0D));
@@ -211,7 +214,9 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
     @Override
     public boolean killedEntity(ServerLevel level, LivingEntity victim) {
         parasiteKills++;
-        if (parasiteKills > FERAL_KILL_THRESHOLD) {
+        if (AssimilatedMeltSystem.tryStartGroup(this, parasiteKills)) {
+            parasiteKills = 0;
+        } else if (parasiteKills > FERAL_KILL_THRESHOLD) {
             transformToFeral(level);
         }
         return super.killedEntity(level, victim);
@@ -277,6 +282,9 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
         feral.setTarget(getTarget());
         feral.setCustomName(getCustomName());
         feral.setCustomNameVisible(isCustomNameVisible());
+        if (isPersistenceRequired()) {
+            feral.setPersistenceRequired();
+        }
         level.addFreshEntity(feral);
         discard();
     }
@@ -292,10 +300,12 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
         builder.define(ANIMATION_STATUS, 0);
     }
 
+    @Override
     public boolean canMelt() {
         return kind != Kind.SQUID && !isMelting();
     }
 
+    @Override
     public void melt() {
         if (!canMelt()) {
             return;
@@ -306,6 +316,7 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
         freezeMelting();
     }
 
+    @Override
     public boolean isMelting() {
         return entityData.get(MELTING);
     }
@@ -511,20 +522,29 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
         return Math.max(0.7F, entityData.get(MELT_HEIGHT));
     }
 
+    @Override
+    public float getMeltRenderScale(float partialTick) {
+        if (!isMelting()) {
+            return 1.0F;
+        }
+        return Math.max(0.01F, 1.0F - (meltTicks + partialTick) * 0.005F);
+    }
+
     public float getBaseHeight() {
         return (float) kind.baseHeight;
     }
 
     private void freezeMelting() {
-        getNavigation().stop();
-        setTarget(null);
-        setDeltaMovement(Vec3.ZERO);
+        AssimilatedMeltSystem.freeze(this);
     }
 
     private void tickMelting() {
         meltTicks++;
         if (meltTicks % 20 == 0) {
             playSound(ModSounds.SIM_ADVENTURER_MELT.get(), 1.0F, 1.0F);
+        }
+        if (level() instanceof ServerLevel particleLevel) {
+            AssimilatedMeltSystem.sendMeltParticles(particleLevel, this);
         }
         float height = getMeltHeight();
         if (height > 0.7F) {
@@ -533,23 +553,7 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
         if (getMeltHeight() > 0.7F && meltTicks < kind.meltDuration) {
             return;
         }
-        if (!(level() instanceof ServerLevel serverLevel)) {
-            return;
-        }
-        MovingFleshEntity flesh = ModEntities.MOVINGFLESH.get().create(serverLevel);
-        if (flesh == null) {
-            return;
-        }
-        flesh.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
-        flesh.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
-        flesh.setCustomName(getCustomName());
-        flesh.setCustomNameVisible(isCustomNameVisible());
-        if (isPersistenceRequired()) {
-            flesh.setPersistenceRequired();
-        }
-        serverLevel.addFreshEntity(flesh);
-        discard();
+        AssimilatedMeltSystem.spawnMovingFlesh(this, kind.mergeValue);
     }
 
     public boolean isValidParasiteTarget(LivingEntity target) {
@@ -578,12 +582,12 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
     }
 
     public enum Kind {
-        BEAR("sim_bear", 40.0D, 13.0D, 5.0D, 0.1D, 0.25D, 32.0D, 8, 1.4D, 1.6F, 73),
-        COW("sim_cow", 18.0D, 7.0D, 5.0D, 0.4D, 0.25D, 32.0D, 6, 1.4D, 1.4F, 73),
-        PIG("sim_pig", 9.0D, 3.5D, 0.1D, 0.1D, 0.30D, 24.0D, 3, 0.9D, 0.9F, 25),
-        SHEEP("sim_sheep", 13.0D, 6.0D, 1.3D, 0.3D, 0.28D, 24.0D, 4, 1.3D, 1.3F, 63),
-        WOLF("sim_wolf", 10.0D, 10.5D, 0.5D, 0.2D, 0.34D, 32.0D, 5, 0.85D, 0.85F, 19),
-        SQUID("sim_squid", 15.0D, 11.0D, 5.0D, 0.1D, 0.26D, 24.0D, 5, 0.9D, 0.0F, 0);
+        BEAR("sim_bear", 40.0D, 13.0D, 5.0D, 0.1D, 0.25D, 32.0D, 8, 1.4D, 1.6F, 73, 2),
+        COW("sim_cow", 18.0D, 7.0D, 5.0D, 0.4D, 0.25D, 32.0D, 6, 1.4D, 1.4F, 73, 1),
+        PIG("sim_pig", 9.0D, 3.5D, 0.1D, 0.1D, 0.30D, 24.0D, 3, 0.9D, 0.9F, 25, 1),
+        SHEEP("sim_sheep", 13.0D, 6.0D, 1.3D, 0.3D, 0.28D, 24.0D, 4, 1.3D, 1.3F, 63, 1),
+        WOLF("sim_wolf", 10.0D, 10.5D, 0.5D, 0.2D, 0.34D, 32.0D, 5, 0.85D, 0.85F, 19, 1),
+        SQUID("sim_squid", 15.0D, 11.0D, 5.0D, 0.1D, 0.26D, 24.0D, 5, 0.9D, 0.0F, 0, 0);
 
         private final String id;
         private final double maxHealth;
@@ -596,10 +600,11 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
         private final double baseHeight;
         private final float meltStartHeight;
         private final int meltDuration;
+        private final int mergeValue;
 
         Kind(String id, double maxHealth, double attackDamage, double armor, double knockbackResistance,
              double movementSpeed, double followRange, int experience, double baseHeight,
-             float meltStartHeight, int meltDuration) {
+             float meltStartHeight, int meltDuration, int mergeValue) {
             this.id = id;
             this.maxHealth = maxHealth;
             this.attackDamage = attackDamage;
@@ -611,6 +616,7 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
             this.baseHeight = baseHeight;
             this.meltStartHeight = meltStartHeight;
             this.meltDuration = meltDuration;
+            this.mergeValue = mergeValue;
         }
     }
 

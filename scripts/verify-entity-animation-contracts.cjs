@@ -7,7 +7,7 @@ const failures = [];
 const read = (relative) => fs.readFileSync(path.join(root, relative), "utf8");
 const animationKeys = new Set();
 const shortKeys = new Set([
-  "abo_head", "marauder_tendril", "movingflesh",
+  "abo_head", "marauder_tendril",
   "inf_sheep", "inf_sheep_head", "inf_villager"
 ]);
 
@@ -908,43 +908,70 @@ if (!crux.includes("setSprinting(true)") || !crux.includes("setSprinting(false)"
   failures.push("CruxEntity: pursuit does not expose the original sprinting animation status");
 }
 
-for (const [className, actions] of [
-  ["AssimilatedCowEntity", [
-    "func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
-    "func_78087_a.age_in_ticks.get_parasite_status_1",
-    "func_78087_a.limb_swing.get_parasite_status_1",
-    "func_78087_a.limb_swing.get_parasite_status_2",
-    "func_78087_a.age_in_ticks.get_parasite_status_3",
-    "func_78087_a.limb_swing.get_parasite_status_3",
-    "func_78087_a.age_in_ticks.get_parasite_status_3.get_still_ani_1",
-    "func_78087_a.age_in_ticks.get_parasite_status_6",
-    "get_theigh.get_parasite_status_6"
-  ]],
-  ["AssimilatedPigEntity", [
-    "func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
-    "func_78087_a.age_in_ticks.get_parasite_status_1",
-    "func_78087_a.limb_swing.get_parasite_status_1",
-    "func_78087_a.limb_swing.get_parasite_status_2",
-    "func_78087_a.age_in_ticks.get_parasite_status_6",
-    "get_theigh.get_parasite_status_6"
-  ]]
+const movingFlesh = read("src/main/java/alku/csrp/entity/MovingFleshEntity.java");
+for (const action of ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing"]) {
+  if (!movingFlesh.includes(`"${action}"`)) {
+    failures.push(`MovingFleshEntity: original ModelLesh function ${action} is not wired`);
+  }
+}
+if (movingFlesh.includes('ParasiteAnimations.loop(this, "idle"')
+    || movingFlesh.includes('ParasiteAnimations.loop(this, "walk"')
+    || movingFlesh.includes('triggerableAnim("attack"')) {
+  failures.push("MovingFleshEntity: still uses animations from an unrelated model");
+}
+const movingFleshAnimation = JSON.parse(read(
+  "src/main/resources/assets/csrp/animations/movingflesh.animation.json"));
+const expectedMovingFleshKeys = [
+  "animation.movingflesh.func_78087_a.age_in_ticks",
+  "animation.movingflesh.func_78087_a.limb_swing"
+].sort();
+const actualMovingFleshKeys = Object.keys(movingFleshAnimation.animations).sort();
+if (actualMovingFleshKeys.length !== expectedMovingFleshKeys.length
+    || actualMovingFleshKeys.some((key, index) => key !== expectedMovingFleshKeys[index])) {
+  failures.push("Moving Flesh animation keys differ from the extracted ModelLesh functions");
+}
+
+const assimilatedMeltSystem = read("src/main/java/alku/csrp/entity/AssimilatedMeltSystem.java");
+const assimilatedAnimal = read("src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java");
+const assimilatedVariant = read("src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java");
+const assimilatedHuman = read("src/main/java/alku/csrp/entity/SimHumanEntity.java");
+const assimilatedAdventurer = read("src/main/java/alku/csrp/entity/SimAdventurerEntity.java");
+if (!assimilatedMeltSystem.includes("KILL_THRESHOLD = 10")
+    || !assimilatedMeltSystem.includes("movingFleshCount >= 1 && movingFleshCount <= 3")
+    || !assimilatedMeltSystem.includes("REQUIRED_NEARBY_ASSIMILATED = 3")
+    || !assimilatedMeltSystem.includes("Config.evolutionPhase(serverLevel) < MINIMUM_MERGE_PHASE")) {
+  failures.push("AssimilatedMeltSystem: original EntityAIInfectedSearch conditions are incomplete");
+}
+for (const [className, source] of [
+  ["AssimilatedParasiteEntity", assimilatedAnimal],
+  ["AssimilatedVariantEntity", assimilatedVariant],
+  ["SimHumanEntity", assimilatedHuman],
+  ["SimAdventurerEntity", assimilatedAdventurer]
 ]) {
-  const source = read(`src/main/java/alku/csrp/entity/${className}.java`);
-  for (const action of actions) {
-    if (!source.includes(`"${action}"`)) {
-      failures.push(`${className}: original runtime animation ${action} is not wired`);
-    }
+  if (!source.includes("MeltableAssimilated")
+      || !source.includes("AssimilatedMeltSystem.tryStartGroup")
+      || !source.includes("AssimilatedMeltSystem.spawnMovingFlesh")) {
+    failures.push(`${className}: registered assimilated melt path is incomplete`);
   }
-  if (source.includes('triggerableAnim("attack"')) {
-    failures.push(`${className}: still requests a fabricated generic attack animation`);
-  }
-  if (className === "AssimilatedCowEntity"
-      && !source.includes("stillAnimationTicks > STILL_ANIMATION_DELAY_TICKS")) {
-    failures.push(`${className}: legacy stillAni delay is not represented`);
-  }
-  if (className === "AssimilatedPigEntity"
-      && !source.includes("ParasiteAnimations.isMoving(this, state.isMoving())")) {
-    failures.push(`${className}: legacy stillAni movement gate is not represented`);
+}
+if (!movingFlesh.includes("EntityDataAccessor<Integer> MERGE_VALUE")
+    || !movingFlesh.includes("setMergeValue(getMergeValue() + other.getMergeValue())")
+    || !movingFlesh.includes("random.nextInt(9)")
+    || !movingFlesh.includes("SPAWN_HEALTH_FRACTION = 0.5F")) {
+  failures.push("MovingFleshEntity: legacy merge value, mob table, or spawn health is incomplete");
+}
+if (!assimilatedVariant.includes("HOST_SKELETON_KILLS = 5")
+    || !assimilatedVariant.includes("transformToHost(level)")
+    || !assimilatedHuman.includes("HOST_SKELETON_KILLS = 5")
+    || !assimilatedHuman.includes("transformToHost(level)")) {
+  failures.push("Assimilated Human/Villager skeleton-kill Host conversion is incomplete");
+}
+for (const obsolete of [
+  "AssimilatedChickenEntity.java", "AssimilatedCowEntity.java", "AssimilatedPigEntity.java",
+  "AssimilatedSheepEntity.java", "AssimilatedVillagerEntity.java"
+]) {
+  if (fs.existsSync(path.join(root, "src/main/java/alku/csrp/entity", obsolete))) {
+    failures.push(`${obsolete}: unregistered duplicate implementation still masks the runtime class`);
   }
 }
 

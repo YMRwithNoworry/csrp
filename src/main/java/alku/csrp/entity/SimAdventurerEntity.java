@@ -59,8 +59,8 @@ import java.util.List;
  * Legacy Assimilated Adventurer. Its transition path is intentionally separate from the
  * generic assimilated-animal class because the original creature melts into Moving Flesh.
  */
-public final class SimAdventurerEntity extends Monster implements GeoEntity, Parasite {
-    public static final int MELT_KILL_THRESHOLD = 5;
+public final class SimAdventurerEntity extends Monster implements GeoEntity, Parasite, MeltableAssimilated {
+    public static final int MELT_KILL_THRESHOLD = 10;
     public static final int THRALL_KILL_THRESHOLD = 15;
     public static final int MELT_DURATION_TICKS = 127;
     private static final float BASE_HEIGHT = 1.95F;
@@ -190,6 +190,7 @@ public final class SimAdventurerEntity extends Monster implements GeoEntity, Par
         return super.doHurtTarget(target);
     }
 
+    @Override
     public void melt() {
         if (isMelting()) {
             return;
@@ -199,8 +200,14 @@ public final class SimAdventurerEntity extends Monster implements GeoEntity, Par
         freezeMelting();
     }
 
+    @Override
     public boolean isMelting() {
         return entityData.get(MELTING);
+    }
+
+    @Override
+    public boolean canMelt() {
+        return !isMelting();
     }
 
     public int getMeltTicks() {
@@ -210,6 +217,11 @@ public final class SimAdventurerEntity extends Monster implements GeoEntity, Par
     public float getRenderScale(float partialTick) {
         float progress = Math.min(MELT_DURATION_TICKS, getMeltTicks() + partialTick);
         return Math.max(MELT_MIN_SCALE, 1.0F - progress * MELT_SCALE_PER_TICK);
+    }
+
+    @Override
+    public float getMeltRenderScale(float partialTick) {
+        return getRenderScale(partialTick);
     }
 
     public float getMeltHeight() {
@@ -291,7 +303,8 @@ public final class SimAdventurerEntity extends Monster implements GeoEntity, Par
         if (isMelting() || !(level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        if (parasiteKills >= MELT_KILL_THRESHOLD && getTarget() == null && startMeltGroup()) {
+        if (parasiteKills > MELT_KILL_THRESHOLD && startMeltGroup()) {
+            parasiteKills = 0;
             return;
         }
         if (parasiteKills >= THRALL_KILL_THRESHOLD) {
@@ -310,50 +323,7 @@ public final class SimAdventurerEntity extends Monster implements GeoEntity, Par
     }
 
     private boolean startMeltGroup() {
-        double followRange = getAttributeValue(Attributes.FOLLOW_RANGE);
-        AABB searchBox = getBoundingBox().inflate(followRange);
-        int movingFleshCount = 0;
-        for (MovingFleshEntity flesh : level().getEntitiesOfClass(MovingFleshEntity.class, searchBox,
-                Entity::isAlive)) {
-            if (hasLineOfSight(flesh)) {
-                movingFleshCount += flesh.getMergeCount();
-            }
-        }
-        if (movingFleshCount >= 1 && movingFleshCount <= 3) {
-            melt();
-            return true;
-        }
-
-        List<Mob> candidates = level().getEntitiesOfClass(Mob.class, searchBox,
-                this::isMeltCandidate);
-        if (candidates.size() < 3) {
-            return false;
-        }
-        int selected = 0;
-        for (int index = 0; index < candidates.size() && selected < 3; index++) {
-            startMelt(candidates.get(index));
-            selected++;
-        }
-        melt();
-        return true;
-    }
-
-    private boolean isMeltCandidate(Mob entity) {
-        if (entity == this || !entity.isAlive() || !hasLineOfSight(entity) || entity.getTarget() != null) {
-            return false;
-        }
-        if (entity instanceof SimAdventurerEntity adventurer) {
-            return !adventurer.isMelting();
-        }
-        return entity instanceof AssimilatedParasiteEntity animal && animal.canMelt();
-    }
-
-    private void startMelt(Mob entity) {
-        if (entity instanceof SimAdventurerEntity adventurer) {
-            adventurer.melt();
-        } else if (entity instanceof AssimilatedParasiteEntity animal) {
-            animal.melt();
-        }
+        return AssimilatedMeltSystem.tryStartGroup(this, parasiteKills);
     }
 
     private void tickMelting() {
@@ -363,22 +333,12 @@ public final class SimAdventurerEntity extends Monster implements GeoEntity, Par
             playSound(ModSounds.SIM_ADVENTURER_MELT.get(), 1.0F, 1.0F);
         }
         if (level() instanceof ServerLevel serverLevel) {
-            serverLevel.sendParticles(ParticleTypes.SMOKE, getX(), getY() + getBbHeight() * 0.5D, getZ(),
-                    4, 0.18D, 0.22D, 0.18D, 0.01D);
+            AssimilatedMeltSystem.sendMeltParticles(serverLevel, this);
         }
-        if (ticks < MELT_DURATION_TICKS || !(level() instanceof ServerLevel serverLevel)) {
+        if (ticks < MELT_DURATION_TICKS) {
             return;
         }
-
-        MovingFleshEntity flesh = ModEntities.MOVINGFLESH.get().create(serverLevel);
-        if (flesh != null) {
-            flesh.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
-            flesh.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                    MobSpawnType.MOB_SUMMONED, null);
-            copyIdentity(flesh);
-            serverLevel.addFreshEntity(flesh);
-        }
-        discard();
+        AssimilatedMeltSystem.spawnMovingFlesh(this, 1);
     }
 
     private void infectNearby() {
