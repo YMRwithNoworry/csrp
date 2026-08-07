@@ -14,6 +14,8 @@ const items = read("src/main/java/alku/csrp/registry/ModItems.java");
 const client = read("src/main/java/alku/csrp/client/ClientModEvents.java");
 const shared = read("src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java");
 const combat = read("src/main/java/alku/csrp/entity/ParasiteCombatEffects.java");
+const primitiveVariants = read("src/main/java/alku/csrp/entity/PrimitiveVariantEntity.java");
+const mobsConfig = read("src/main/java/alku/csrp/config/MobsConfig.java");
 const summoner = read("src/main/java/alku/csrp/entity/SummonerEntity.java");
 const adapted = read("src/main/java/alku/csrp/entity/AdaptedVariantEntity.java");
 const biomass = read("src/main/java/alku/csrp/entity/BiomassEntity.java");
@@ -30,6 +32,39 @@ expect(summoner, /spawnVomitCloud\(SummonerEntity\.this,\s*5\.5D, 4\.0F, 100, 30
 expect(adapted, /spawnVomitCloud\(AdaptedVariantEntity\.this,\s*6\.5D, 5\.0F, 100, 300, 40\)/s,
   "adapted Summoner original Vomit cloud is missing");
 expect(projectile, /case VOMIT[\s\S]*ModMobEffects\.VOMIT/, "Vomit projectiles do not apply Vomit");
+
+expect(primitiveVariants, /case MANDUCATER[\s\S]*speed = 0\.35D;[\s\S]*knockbackResistance = 0\.50D;/,
+  "Primitive Manducater original movement speed or knockback resistance is missing");
+expect(primitiveVariants, /new ManducaterWaterLeapGoal\(\)/,
+  "Primitive Manducater original water leap is missing");
+expect(primitiveVariants, /super\(PrimitiveVariantEntity\.this, 1\.30D, false\)/,
+  "Primitive Manducater melee movement speed is wrong");
+expect(primitiveVariants, /protected int getAttackInterval\(\)[\s\S]*return 6;/,
+  "Primitive Manducater six-tick attack cadence is missing");
+expect(primitiveVariants, /MANDUCATER_CAMOUFLAGED[\s\S]*MobsConfig\.manducaterNeededHealth\(\)/,
+  "Primitive Manducater camouflage health gate is missing");
+expect(primitiveVariants, /MobsConfig\.manducaterNeededTime\(\)/,
+  "Primitive Manducater camouflage timer is missing");
+expect(primitiveVariants, /MobsConfig\.manducaterStealthDamageMultiplier\(\)[\s\S]*EnchantmentHelper\.modifyDamage/,
+  "Primitive Manducater camouflage bonus damage is missing");
+expect(primitiveVariants, /MANDUCATER_PULL_MAX_TICKS\s*=\s*200/,
+  "Primitive Manducater pull duration is wrong");
+expect(primitiveVariants, /MANDUCATER_PULL_MAX_DISTANCE_SQR\s*=\s*9\.0D/,
+  "Primitive Manducater pull distance is wrong");
+expect(primitiveVariants, /MANDUCATER_PULL_STRENGTH\s*=\s*0\.13D/,
+  "Primitive Manducater pull strength is wrong");
+expect(primitiveVariants, /MobEffects\.WEAKNESS, 60, 3/,
+  "Primitive Manducater initial pull Weakness is missing");
+expect(primitiveVariants, /MobEffects\.MOVEMENT_SLOWDOWN, 20, 1[\s\S]*MobEffects\.DIG_SLOWDOWN, 20, 1/,
+  "Primitive Manducater sustained pull debuffs are missing");
+expect(primitiveVariants, /new ManducaterEvadeGoal\(\)/,
+  "Primitive Manducater original evade behavior is missing");
+expect(mobsConfig, /manducaterNeededHealth", 0\.70D, 0\.0D, 1\.0D/,
+  "Primitive Manducater camouflage health config is missing");
+expect(mobsConfig, /manducaterNeededTime", 15\.0D, 1\.0D, 100\.0D/,
+  "Primitive Manducater camouflage time config is missing");
+expect(mobsConfig, /manducaterStealthDamageMultiplier", 2\.0D, 0\.01D, 100\.0D/,
+  "Primitive Manducater stealth damage config is missing");
 
 const checks = {
   pri_longarms: ["LongarmsEntity.java", /spawnShockwave\(target\)/, /SHOCKWAVE_COOLDOWN_TICKS\s*=\s*100/],

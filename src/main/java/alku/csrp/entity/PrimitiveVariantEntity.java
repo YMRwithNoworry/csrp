@@ -1,10 +1,13 @@
 package alku.csrp.entity;
 
+import alku.csrp.config.MobsConfig;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -14,6 +17,7 @@ import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -32,6 +36,7 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.AnimationState;
@@ -51,11 +56,22 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
             PrimitiveVariantEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> SPECIAL_ANIMATION_TICKS = SynchedEntityData.defineId(
             PrimitiveVariantEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> MANDUCATER_CAMOUFLAGED = SynchedEntityData.defineId(
+            PrimitiveVariantEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> MANDUCATER_TARGET_ENTITY = SynchedEntityData.defineId(
+            PrimitiveVariantEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> MANDUCATER_STATUS = SynchedEntityData.defineId(
+            PrimitiveVariantEntity.class, EntityDataSerializers.INT);
     private static final int REEKER_CHARGE_NONE = 0;
     private static final int REEKER_CHARGE_WINDUP = 1;
     private static final int REEKER_CHARGING = 2;
     private static final int REEKER_WINDUP_TICKS = 20;
     private static final int REEKER_CHARGE_TICKS = 40;
+    private static final int MANDUCATER_CAMOUFLAGE_CHECK_PERIOD = 21;
+    private static final int MANDUCATER_PULL_MAX_TICKS = 200;
+    private static final double MANDUCATER_PULL_MAX_DISTANCE_SQR = 9.0D;
+    private static final double MANDUCATER_PULL_STRENGTH = 0.13D;
+    private static final float MANDUCATER_MINIMUM_DAMAGE = 0.02F;
 
     private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks");
@@ -106,6 +122,9 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
     private final Kind kind;
     private int abilityCooldown;
     private int rangedShots;
+    private int manducaterCamouflageTimer;
+    private int manducaterPullTicks;
+    private LivingEntity manducaterTarget;
 
     public PrimitiveVariantEntity(EntityType<? extends PrimitiveVariantEntity> type, Level level, Kind kind) {
         super(type, level);
@@ -132,6 +151,9 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
         super.defineSynchedData(builder);
         builder.define(REEKER_CHARGE_STATE, REEKER_CHARGE_NONE);
         builder.define(SPECIAL_ANIMATION_TICKS, 0);
+        builder.define(MANDUCATER_CAMOUFLAGED, false);
+        builder.define(MANDUCATER_TARGET_ENTITY, 0);
+        builder.define(MANDUCATER_STATUS, 0);
     }
 
     public static AttributeSupplier.Builder createAttributes(Kind kind) {
@@ -179,9 +201,9 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
                 health = 30.0D;
                 armor = 4.0D;
                 damage = 12.0D;
-                speed = 0.25D;
-                knockbackResistance = 0.65D;
-                followRange = 40.0D;
+                speed = 0.35D;
+                knockbackResistance = 0.50D;
+                followRange = 24.0D;
             }
             case REEKER -> {
                 health = 40.0D;
@@ -245,8 +267,9 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
                 goalSelector.addGoal(6, new RandomSwimmingGoal(this, 1.0D, 20));
             }
             case MANDUCATER -> {
-                goalSelector.addGoal(1, new AmbushLeapGoal());
-                goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.15D, false));
+                goalSelector.addGoal(2, new ManducaterWaterLeapGoal());
+                goalSelector.addGoal(2, new ManducaterEvadeGoal());
+                goalSelector.addGoal(3, new ManducaterMeleeGoal());
             }
             case REEKER -> {
                 goalSelector.addGoal(1, new ChargeGoal());
@@ -275,6 +298,9 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
         }
 
         if (level().isClientSide) {
+            if (activeKind == Kind.MANDUCATER) {
+                applyManducaterPullMotion();
+            }
             return;
         }
         if (abilityCooldown > 0) {
@@ -297,10 +323,17 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
         if (activeKind == Kind.DEVOURER && !isInWaterOrBubble() && tickCount % 40 == 0) {
             hurt(damageSources().drown(), 2.0F);
         }
+        if (activeKind == Kind.MANDUCATER) {
+            tickManducater();
+        }
     }
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
+        if (activeKind() == Kind.MANDUCATER) {
+            setManducaterCamouflaged(false);
+            manducaterCamouflageTimer = 0;
+        }
         if (source.is(DamageTypeTags.IS_FIRE)) {
             amount *= 4.0F;
         }
@@ -308,23 +341,46 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
     }
 
     @Override
+    protected SoundEvent getAmbientSound() {
+        if (activeKind() == Kind.MANDUCATER
+                && (entityData.get(MANDUCATER_STATUS) != 0 || hasEffect(MobEffects.INVISIBILITY))) {
+            return null;
+        }
+        return super.getAmbientSound();
+    }
+
+    @Override
     public boolean doHurtTarget(Entity entity) {
-        if (activeKind() == Kind.DEVOURER && !isInWaterOrBubble()) {
+        Kind activeKind = activeKind();
+        if (activeKind == Kind.DEVOURER && !isInWaterOrBubble()) {
             return false;
         }
+        boolean stealthAttack = activeKind == Kind.MANDUCATER && isManducaterCamouflaged();
         boolean hit = super.doHurtTarget(entity);
         if (!hit || !(entity instanceof LivingEntity target)) {
             return hit;
         }
-        if (activeKind() == Kind.TOZOON) {
+        if (activeKind == Kind.TOZOON) {
             triggerAnim("attack_controller", "get_attack_timer");
         }
 
-        switch (activeKind()) {
+        if (stealthAttack) {
+            applyManducaterStealthDamage(target);
+            setManducaterCamouflaged(false);
+            manducaterCamouflageTimer = 0;
+        }
+        if (activeKind == Kind.MANDUCATER) {
+            entityData.set(MANDUCATER_STATUS, 1);
+            if (entityData.get(MANDUCATER_TARGET_ENTITY) == 0) {
+                setManducaterTarget(target);
+                target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 60, 3, false, false), this);
+            }
+        }
+
+        switch (activeKind) {
             case ARACHNIDA -> target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 80, 0), this);
             case DEVOURER -> target.addEffect(new MobEffectInstance(ModMobEffects.BLEED, 100, 0), this);
             case MANDUCATER -> {
-                target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 80, 0), this);
                 if (random.nextFloat() < 0.20F) {
                     target.addEffect(new MobEffectInstance(ModMobEffects.COTH, 300, 0), this);
                 }
@@ -335,6 +391,192 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
             }
         }
         return true;
+    }
+
+    private void tickManducater() {
+        tickManducaterCamouflage();
+
+        LivingEntity target = getManducaterTarget();
+        if (target == null || !target.isAlive() || getTarget() != target || !hasLineOfSight(target)
+                || distanceToSqr(target) <= 0.0D) {
+            clearManducaterTarget();
+            updateManducaterStatus();
+            return;
+        }
+
+        target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20, 1, false, false), this);
+        target.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 20, 1, false, false), this);
+        getLookControl().setLookAt(target, 30.0F, 30.0F);
+        applyManducaterMinimumDamage(target);
+        entityData.set(MANDUCATER_STATUS, 3);
+        manducaterPullTicks++;
+
+        if (manducaterPullTicks > MANDUCATER_PULL_MAX_TICKS
+                || distanceToSqr(target) > MANDUCATER_PULL_MAX_DISTANCE_SQR) {
+            clearManducaterTarget();
+            updateManducaterStatus();
+            return;
+        }
+        applyManducaterPullMotion();
+    }
+
+    private void tickManducaterCamouflage() {
+        if (tickCount % MANDUCATER_CAMOUFLAGE_CHECK_PERIOD != 10) {
+            return;
+        }
+
+        double healthRatio = getMaxHealth() <= 0.0F ? 0.0D : getHealth() / getMaxHealth();
+        if (isManducaterCamouflaged()) {
+            addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 25, 0, false, false));
+            addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 25, 2, false, false));
+            if (tickCount % 2 == 0) {
+                playSound(ModSounds.get("hull.c"), 0.2F,
+                        (random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F);
+            }
+            if (healthRatio < MobsConfig.manducaterNeededHealth()) {
+                setManducaterCamouflaged(false);
+            }
+            return;
+        }
+
+        if (healthRatio >= MobsConfig.manducaterNeededHealth()) {
+            manducaterCamouflageTimer++;
+            if (manducaterCamouflageTimer > MobsConfig.manducaterNeededTime()) {
+                setManducaterCamouflaged(true);
+                addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 25, 0, false, false));
+                addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 25, 2, false, false));
+                spawnManducaterCamouflageParticles();
+                manducaterCamouflageTimer = 0;
+            }
+        }
+    }
+
+    private void spawnManducaterCamouflageParticles() {
+        if (!(level() instanceof ServerLevel serverLevel)) {
+            return;
+        }
+        ColorParticleOption cloud = ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT,
+                127.0F / 255.0F, 0.0F, 0.0F);
+        serverLevel.sendParticles(cloud, getX(), getY() + getBbHeight() * 0.5D, getZ(),
+                11, getBbWidth() * 0.5D, getBbHeight() * 0.5D, getBbWidth() * 0.5D, 0.08D);
+    }
+
+    private void applyManducaterStealthDamage(LivingEntity target) {
+        DamageSource source = damageSources().mobAttack(this);
+        float damage = (float) getAttributeValue(Attributes.ATTACK_DAMAGE)
+                * (float) MobsConfig.manducaterStealthDamageMultiplier();
+        if (level() instanceof ServerLevel serverLevel) {
+            damage = EnchantmentHelper.modifyDamage(serverLevel, getWeaponItem(), target, source, damage);
+        }
+        target.hurt(source, damage);
+    }
+
+    private void applyManducaterMinimumDamage(LivingEntity target) {
+        float damage = MANDUCATER_MINIMUM_DAMAGE;
+        float absorption = target.getAbsorptionAmount();
+        if (absorption > 0.0F) {
+            target.setHealth(target.getHealth() - damage * 0.5F);
+            target.setAbsorptionAmount(Math.max(0.0F, absorption - damage * 0.5F));
+        } else {
+            target.setHealth(target.getHealth() - damage);
+        }
+        if (target.isDeadOrDying()) {
+            target.die(damageSources().mobAttack(this));
+        }
+    }
+
+    private void applyManducaterPullMotion() {
+        LivingEntity target = getManducaterTarget();
+        if (target == null) {
+            return;
+        }
+        target.stopRiding();
+        Vec3 pull = position().subtract(target.position());
+        if (pull.lengthSqr() <= 0.0D) {
+            return;
+        }
+        pull = pull.normalize().scale(MANDUCATER_PULL_STRENGTH);
+        target.push(pull.x, pull.y, pull.z);
+    }
+
+    private LivingEntity getManducaterTarget() {
+        int entityId = entityData.get(MANDUCATER_TARGET_ENTITY);
+        if (entityId == 0) {
+            manducaterTarget = null;
+            return null;
+        }
+        if (manducaterTarget != null && manducaterTarget.getId() == entityId) {
+            return manducaterTarget;
+        }
+        Entity entity = level().getEntity(entityId);
+        manducaterTarget = entity instanceof LivingEntity living ? living : null;
+        return manducaterTarget;
+    }
+
+    private void setManducaterTarget(LivingEntity target) {
+        manducaterTarget = target;
+        manducaterPullTicks = 0;
+        entityData.set(MANDUCATER_TARGET_ENTITY, target.getId());
+    }
+
+    private void clearManducaterTarget() {
+        manducaterTarget = null;
+        manducaterPullTicks = 0;
+        entityData.set(MANDUCATER_TARGET_ENTITY, 0);
+    }
+
+    private boolean isManducaterCamouflaged() {
+        return entityData.get(MANDUCATER_CAMOUFLAGED);
+    }
+
+    private void setManducaterCamouflaged(boolean camouflaged) {
+        entityData.set(MANDUCATER_CAMOUFLAGED, camouflaged);
+    }
+
+    private void updateManducaterStatus() {
+        int status = entityData.get(MANDUCATER_STATUS);
+        if (status == 10 || entityData.get(MANDUCATER_TARGET_ENTITY) != 0) {
+            return;
+        }
+        LivingEntity target = getTarget();
+        if (target == null || !target.isAlive()) {
+            entityData.set(MANDUCATER_STATUS, 0);
+            return;
+        }
+        boolean moving = getDeltaMovement().horizontalDistanceSqr() > 0.02D;
+        entityData.set(MANDUCATER_STATUS, moving && distanceToSqr(target) > 64.0D ? 2 : 1);
+    }
+
+    @Override
+    public void onSyncedDataUpdated(EntityDataAccessor<?> accessor) {
+        super.onSyncedDataUpdated(accessor);
+        if (accessor == MANDUCATER_TARGET_ENTITY) {
+            manducaterTarget = null;
+        }
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        if (activeKind() == Kind.MANDUCATER) {
+            tag.putBoolean("manducater_camouflaged", isManducaterCamouflaged());
+            tag.putInt("manducater_camouflage_timer", manducaterCamouflageTimer);
+            tag.putInt("manducater_pull_ticks", manducaterPullTicks);
+            tag.putInt("manducater_status", entityData.get(MANDUCATER_STATUS));
+        }
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        if (activeKind() == Kind.MANDUCATER) {
+            setManducaterCamouflaged(tag.getBoolean("manducater_camouflaged"));
+            manducaterCamouflageTimer = tag.getInt("manducater_camouflage_timer");
+            manducaterPullTicks = tag.getInt("manducater_pull_ticks");
+            entityData.set(MANDUCATER_STATUS, tag.getInt("manducater_status"));
+            entityData.set(MANDUCATER_TARGET_ENTITY, 0);
+            manducaterTarget = null;
+        }
     }
 
     @Override
@@ -387,6 +629,14 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
                     ? AGE_DEVOURER_STATUS_1 : AGE_IN_TICKS);
         }
         boolean moving = ParasiteAnimations.isMoving(this, state.isMoving());
+        if (activeKind() == Kind.MANDUCATER) {
+            return switch (entityData.get(MANDUCATER_STATUS)) {
+                case 3, 10 -> PlayState.STOP;
+                case 2 -> state.setAndContinue(LIMB_STATUS_2);
+                case 1 -> state.setAndContinue(moving ? LIMB_STATUS_1 : AGE_STATUS_1);
+                default -> state.setAndContinue(moving ? LIMB_SWING : AGE_IN_TICKS);
+            };
+        }
         if (activeKind() == Kind.ARACHNIDA && entityData.get(SPECIAL_ANIMATION_TICKS) > 0) {
             return state.setAndContinue(AGE_STATUS_3);
         }
@@ -594,35 +844,170 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
         }
     }
 
-    private final class AmbushLeapGoal extends Goal {
-        private AmbushLeapGoal() {
-            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
-        }
+    private final class ManducaterMeleeGoal extends MeleeAttackGoal {
+        private int attackCooldown;
 
-        @Override
-        public boolean canUse() {
-            LivingEntity target = getTarget();
-            return abilityCooldown <= 0 && target != null && onGround()
-                    && distanceToSqr(target) >= 16.0D && distanceToSqr(target) <= 196.0D;
-        }
-
-        @Override
-        public boolean canContinueToUse() {
-            return false;
+        private ManducaterMeleeGoal() {
+            super(PrimitiveVariantEntity.this, 1.30D, false);
         }
 
         @Override
         public void start() {
+            super.start();
+            attackCooldown = 0;
+        }
+
+        @Override
+        public void tick() {
+            if (attackCooldown > 0) {
+                attackCooldown--;
+            }
+            super.tick();
+        }
+
+        @Override
+        protected void checkAndPerformAttack(LivingEntity target) {
+            if (attackCooldown <= 0 && mob.isWithinMeleeAttackRange(target)
+                    && mob.getSensing().hasLineOfSight(target)) {
+                attackCooldown = getAttackInterval();
+                mob.swing(InteractionHand.MAIN_HAND);
+                mob.doHurtTarget(target);
+            }
+        }
+
+        @Override
+        protected int getAttackInterval() {
+            return 6;
+        }
+    }
+
+    private final class ManducaterWaterLeapGoal extends Goal {
+        private int attackTimer;
+        private int attacking;
+        private double targetX;
+        private double targetY;
+        private double targetZ;
+
+        @Override
+        public boolean canUse() {
+            return isInWaterOrBubble() || attacking >= 1;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return canUse();
+        }
+
+        @Override
+        public void tick() {
             LivingEntity target = getTarget();
-            if (target == null) {
+            if (target != null && target.isAlive() && entityData.get(MANDUCATER_STATUS) <= 2) {
+                attackTimer++;
+                if (attackTimer >= 20 && attacking == 0) {
+                    attacking = 1;
+                    targetX = target.getX();
+                    targetZ = target.getZ();
+                    targetY = Math.max(0.0D, (target.getY() - getY()) * 0.07D);
+                }
+            } else if (attackTimer > 0) {
+                attackTimer--;
+            }
+
+            if (attacking < 1) {
                 return;
             }
-            Vec3 direction = target.position().subtract(position());
-            if (direction.lengthSqr() > 0.001D) {
-                direction = direction.normalize();
-                setDeltaMovement(direction.x * 0.65D, 0.45D, direction.z * 0.65D);
+            attacking++;
+            if (attacking == 2 && onGround()) {
+                entityData.set(MANDUCATER_STATUS, 10);
+                getNavigation().stop();
+                double deltaX = targetX - getX();
+                double deltaZ = targetZ - getZ();
+                double distance = Math.sqrt(deltaX * deltaX + deltaZ * deltaZ);
+                Vec3 motion = getDeltaMovement();
+                if (distance > 0.0D) {
+                    setDeltaMovement(motion.x + deltaX / distance * 1.5D * 0.9D + motion.x * 0.3D,
+                            0.7D + targetY,
+                            motion.z + deltaZ / distance * 1.5D * 0.9D + motion.z * 0.3D);
+                } else {
+                    setDeltaMovement(motion.x, 0.7D + targetY, motion.z);
+                }
             }
-            abilityCooldown = 90;
+
+            if (attacking >= 3 && onGround()) {
+                attacking = 0;
+                attackTimer = 0;
+                entityData.set(MANDUCATER_STATUS, 2);
+            }
+        }
+    }
+
+    private final class ManducaterEvadeGoal extends Goal {
+        private int cooldown = 41;
+        private int duration;
+        private boolean evading;
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = getTarget();
+            return evading || target != null && target.isAlive() && onGround()
+                    && !hasEffect(MobEffects.MOVEMENT_SLOWDOWN)
+                    && distanceToSqr(target) > 64.0D && distanceToSqr(target) < 225.0D
+                    && hasLineOfSight(target);
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return canUse();
+        }
+
+        @Override
+        public void stop() {
+            cooldown = 0;
+            duration = 0;
+            evading = false;
+            setXxa(0.0F);
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = getTarget();
+            if (evading) {
+                duration++;
+                if (duration >= 5) {
+                    setXxa(0.0F);
+                    duration = 0;
+                    cooldown = 0;
+                    evading = false;
+                }
+                return;
+            }
+            if (target == null || hasEffect(MobEffects.MOVEMENT_SLOWDOWN)) {
+                return;
+            }
+
+            double distanceSqr = distanceToSqr(target);
+            if (distanceSqr <= 64.0D || distanceSqr >= 225.0D || !hasLineOfSight(target)) {
+                return;
+            }
+            cooldown++;
+            if (cooldown < 40) {
+                return;
+            }
+
+            getLookControl().setLookAt(target, 30.0F, 30.0F);
+            int strafe = random.nextBoolean() ? 1 : -1;
+            setXxa(strafe);
+            evading = true;
+            Vec3 motion = getDeltaMovement();
+            double deltaX = target.getX() - getX();
+            double deltaZ = target.getZ() - getZ();
+            double distance = Math.sqrt(deltaX * deltaX + deltaZ * deltaZ);
+            if (distance > 0.0D) {
+                setDeltaMovement(motion.x + deltaX / distance * 1.77D * 0.8D + motion.x * 0.2D,
+                        0.2D + getBbHeight() * 0.1D,
+                        motion.z + deltaZ / distance * 1.77D * 0.8D + motion.z * 0.2D);
+            }
+            getNavigation().stop();
         }
     }
 
