@@ -29,7 +29,7 @@ public final class ParasiteProjectileRenderer extends EntityRenderer<ParasitePro
     @Override
     public void render(ParasiteProjectileEntity entity, float entityYaw, float partialTick, PoseStack poseStack,
                        MultiBufferSource buffer, int packedLight) {
-        if (!entity.isLegacyProjectileMode()) {
+        if (!entity.shouldRenderAsBillboard()) {
             super.render(entity, entityYaw, partialTick, poseStack, buffer, packedLight);
             return;
         }
@@ -64,6 +64,7 @@ public final class ParasiteProjectileRenderer extends EntityRenderer<ParasitePro
             case LENCIA_BALL -> LENCIA_TEXTURE;
             case ELVIA_BALL -> ELVIA_TEXTURE;
             case ELVIA_NADE -> NADE_TEXTURE;
+            case ACID -> NADE_TEXTURE;
             default -> DEFAULT_TEXTURE;
         };
     }

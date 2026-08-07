@@ -33,6 +33,8 @@ public final class ParasiteProjectileEntity extends Entity {
     private static final int ELVIA_NADE_START_DELAY_TICKS = 3;
     private static final int ELVIA_NADE_FUSE_TICKS = 4;
     private static final int ELVIA_NADE_DURATION_TICKS = 60;
+    private static final int ACID_NADE_FUSE_TICKS = 3;
+    private static final int ACID_NADE_DURATION_TICKS = 60;
 
     public enum Mode {
         BOMB,
@@ -57,6 +59,10 @@ public final class ParasiteProjectileEntity extends Entity {
             ParasiteProjectileEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> NADE_FUSE_PROGRESS = SynchedEntityData.defineId(
             ParasiteProjectileEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> ACID_NADE_ARMED = SynchedEntityData.defineId(
+            ParasiteProjectileEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> ACID_NADE_FUSE_PROGRESS = SynchedEntityData.defineId(
+            ParasiteProjectileEntity.class, EntityDataSerializers.INT);
 
     private UUID ownerId;
     private float damage = 4.0F;
@@ -67,6 +73,8 @@ public final class ParasiteProjectileEntity extends Entity {
     private int nadeIgnitionTicks;
     private int nadeFuseTicks;
     private int nadeDamageTicks;
+    private int acidNadeTicks;
+    private int acidDamageTicks;
     private int webKind;
 
     public ParasiteProjectileEntity(EntityType<? extends ParasiteProjectileEntity> type, Level level) {
@@ -119,12 +127,17 @@ public final class ParasiteProjectileEntity extends Entity {
         Mode mode = getMode();
         PrimitiveParasiteEntity owner = owner();
         boolean armedNade = mode == Mode.ELVIA_NADE && entityData.get(NADE_ARMED);
-        if (!level().isClientSide && (owner == null || !owner.isAlive()) && !armedNade) {
+        boolean armedAcidNade = mode == Mode.ACID && entityData.get(ACID_NADE_ARMED);
+        if (!level().isClientSide && (owner == null || !owner.isAlive()) && !armedNade && !armedAcidNade) {
             discard();
             return;
         }
         if (armedNade) {
             tickElviaNade(owner);
+            return;
+        }
+        if (armedAcidNade) {
+            tickAcidNade(owner);
             return;
         }
 
@@ -141,7 +154,8 @@ public final class ParasiteProjectileEntity extends Entity {
                 case LIGHT, WITHER -> ParticleTypes.SOUL_FIRE_FLAME;
                 case SPINE, NEEDLE -> ParticleTypes.CRIT;
                 case WEB -> ParticleTypes.WHITE_ASH;
-                case ACID, VOMIT -> ParticleTypes.WITCH;
+                case ACID -> ParticleTypes.ITEM_SLIME;
+                case VOMIT -> ParticleTypes.WITCH;
                 case LENCIA_BALL, ELVIA_BALL -> ParticleTypes.EXPLOSION;
                 case ELVIA_NADE -> ParticleTypes.ITEM_SLIME;
             };
@@ -201,6 +215,10 @@ public final class ParasiteProjectileEntity extends Entity {
             impactLegacyProjectile(owner, mode, directHit);
             return;
         }
+        if (mode == Mode.ACID) {
+            armAcidNade();
+            return;
+        }
         if (mode != Mode.WEB) {
             boolean launch = mode == Mode.BOMB || mode == Mode.METEOR || mode == Mode.ACID;
             owner.hurtNearby(this, radius, damage, launch);
@@ -228,10 +246,6 @@ public final class ParasiteProjectileEntity extends Entity {
                     target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 100, 0), owner);
                     target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 140, 0), owner);
                 }
-                case ACID -> {
-                    target.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 0), owner);
-                    target.addEffect(new MobEffectInstance(ModMobEffects.CORROSION, 180, 0), owner);
-                }
                 case VOMIT -> {
                     target.addEffect(new MobEffectInstance(ModMobEffects.COTH, 160, 0), owner);
                     target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 160, 0), owner);
@@ -254,8 +268,6 @@ public final class ParasiteProjectileEntity extends Entity {
                 level().explode(owner, getX(), getY(), getZ(), (float) Math.max(1.5D, radius),
                         Level.ExplosionInteraction.MOB);
             }
-        } else if (mode == Mode.ACID && radius >= 1.25D) {
-            spawnLingeringAcidCloud(owner);
         } else if (mode == Mode.VOMIT) {
             spawnLingeringVomitCloud(owner);
         } else if (mode == Mode.WITHER) {
@@ -354,6 +366,54 @@ public final class ParasiteProjectileEntity extends Entity {
         }
     }
 
+    private void armAcidNade() {
+        setDeltaMovement(Vec3.ZERO);
+        entityData.set(ACID_NADE_ARMED, true);
+        entityData.set(ACID_NADE_FUSE_PROGRESS, 0);
+        acidNadeTicks = 0;
+        acidDamageTicks = 0;
+    }
+
+    private void tickAcidNade(PrimitiveParasiteEntity owner) {
+        setDeltaMovement(Vec3.ZERO);
+        if (level().isClientSide) {
+            for (int index = 0; index < 4; index++) {
+                level().addParticle(ParticleTypes.ITEM_SLIME, getRandomX(getRenderWidth()),
+                        getY() + random.nextDouble() * getRenderHeight(), getRandomZ(getRenderWidth()),
+                        0.0D, 0.01D, 0.0D);
+            }
+            return;
+        }
+
+        acidNadeTicks++;
+        if (acidNadeTicks == 2) {
+            playSound(ModSounds.NADE_IGNITE.get(), 1.0F, 1.0F);
+        }
+        entityData.set(ACID_NADE_FUSE_PROGRESS, Math.min(acidNadeTicks, ACID_NADE_FUSE_TICKS));
+        if (acidNadeTicks < ACID_NADE_FUSE_TICKS || owner == null || !owner.isAlive()) {
+            if (acidNadeTicks > ACID_NADE_FUSE_TICKS + ACID_NADE_DURATION_TICKS) {
+                discard();
+            }
+            return;
+        }
+
+        acidDamageTicks++;
+        double halfWidth = getRenderWidth() * 0.5D;
+        AABB damageArea = new AABB(getX() - halfWidth, getY(), getZ() - halfWidth,
+                getX() + halfWidth, getY() + getRenderHeight(), getZ() + halfWidth);
+        float frameDamage = (float) owner.getAttributeValue(Attributes.ATTACK_DAMAGE);
+        for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, damageArea,
+                owner::isValidParasiteTarget)) {
+            target.invulnerableTime = 0;
+            target.hurt(damageSources().mobAttack(owner), frameDamage);
+            target.addEffect(new MobEffectInstance(MobEffects.POISON, 40, 0), owner);
+            target.addEffect(new MobEffectInstance(ModMobEffects.CORROSION, 60, 0), owner);
+        }
+        if (acidDamageTicks >= ACID_NADE_DURATION_TICKS) {
+            discard();
+        }
+    }
+
     private void spawnLingeringCothCloud(PrimitiveParasiteEntity owner) {
         AreaEffectCloud cloud = new AreaEffectCloud(level(), getX(), getY(), getZ());
         cloud.setOwner(owner);
@@ -362,18 +422,6 @@ public final class ParasiteProjectileEntity extends Entity {
         cloud.setWaitTime(0);
         cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
         cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 300, 0, false, true));
-        level().addFreshEntity(cloud);
-    }
-
-    private void spawnLingeringAcidCloud(PrimitiveParasiteEntity owner) {
-        AreaEffectCloud cloud = new AreaEffectCloud(level(), getX(), getY(), getZ());
-        cloud.setOwner(owner);
-        cloud.setRadius((float) Math.max(2.0D, radius + 0.5D));
-        cloud.setDuration(60);
-        cloud.setWaitTime(0);
-        cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
-        cloud.addEffect(new MobEffectInstance(MobEffects.POISON, 120, 0, false, true));
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.CORROSION, 180, 0, false, true));
         level().addFreshEntity(cloud);
     }
 
@@ -417,6 +465,8 @@ public final class ParasiteProjectileEntity extends Entity {
         builder.define(HOMING_TARGET, 0);
         builder.define(NADE_ARMED, false);
         builder.define(NADE_FUSE_PROGRESS, 0);
+        builder.define(ACID_NADE_ARMED, false);
+        builder.define(ACID_NADE_FUSE_PROGRESS, 0);
     }
 
     @Override
@@ -428,6 +478,8 @@ public final class ParasiteProjectileEntity extends Entity {
         entityData.set(HOMING_TARGET, tag.getInt("homing_target"));
         entityData.set(NADE_ARMED, tag.getBoolean("nade_armed"));
         entityData.set(NADE_FUSE_PROGRESS, tag.getInt("nade_fuse_progress"));
+        entityData.set(ACID_NADE_ARMED, tag.getBoolean("acid_nade_armed"));
+        entityData.set(ACID_NADE_FUSE_PROGRESS, tag.getInt("acid_nade_fuse_progress"));
         damage = tag.getFloat("damage");
         radius = tag.getDouble("radius");
         maximumLifetime = tag.getInt("maximum_lifetime");
@@ -437,6 +489,8 @@ public final class ParasiteProjectileEntity extends Entity {
         nadeIgnitionTicks = tag.getInt("nade_ignition_ticks");
         nadeFuseTicks = tag.getInt("nade_fuse_ticks");
         nadeDamageTicks = tag.getInt("nade_damage_ticks");
+        acidNadeTicks = tag.getInt("acid_nade_ticks");
+        acidDamageTicks = tag.getInt("acid_damage_ticks");
         webKind = tag.getInt("web_kind");
     }
 
@@ -449,6 +503,8 @@ public final class ParasiteProjectileEntity extends Entity {
         tag.putInt("homing_target", entityData.get(HOMING_TARGET));
         tag.putBoolean("nade_armed", entityData.get(NADE_ARMED));
         tag.putInt("nade_fuse_progress", entityData.get(NADE_FUSE_PROGRESS));
+        tag.putBoolean("acid_nade_armed", entityData.get(ACID_NADE_ARMED));
+        tag.putInt("acid_nade_fuse_progress", entityData.get(ACID_NADE_FUSE_PROGRESS));
         tag.putFloat("damage", damage);
         tag.putDouble("radius", radius);
         tag.putInt("maximum_lifetime", maximumLifetime);
@@ -459,6 +515,8 @@ public final class ParasiteProjectileEntity extends Entity {
         tag.putInt("nade_ignition_ticks", nadeIgnitionTicks);
         tag.putInt("nade_fuse_ticks", nadeFuseTicks);
         tag.putInt("nade_damage_ticks", nadeDamageTicks);
+        tag.putInt("acid_nade_ticks", acidNadeTicks);
+        tag.putInt("acid_damage_ticks", acidDamageTicks);
         tag.putInt("web_kind", webKind);
     }
 
@@ -470,7 +528,14 @@ public final class ParasiteProjectileEntity extends Entity {
         return isLegacyProjectile(getMode());
     }
 
+    public boolean shouldRenderAsBillboard() {
+        return isLegacyProjectileMode() || getMode() == Mode.ACID;
+    }
+
     public float getRenderWidth() {
+        if (getMode() == Mode.ACID) {
+            return 0.5F + entityData.get(ACID_NADE_FUSE_PROGRESS) * 0.8F;
+        }
         if (getMode() != Mode.ELVIA_NADE || !entityData.get(NADE_ARMED)) {
             return 0.3F;
         }
@@ -478,6 +543,9 @@ public final class ParasiteProjectileEntity extends Entity {
     }
 
     public float getRenderHeight() {
+        if (getMode() == Mode.ACID) {
+            return 0.5F + entityData.get(ACID_NADE_FUSE_PROGRESS) * 0.32F;
+        }
         if (getMode() != Mode.ELVIA_NADE || !entityData.get(NADE_ARMED)) {
             return 0.3F;
         }
