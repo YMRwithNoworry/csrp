@@ -234,6 +234,24 @@ if (!assimilatedDragon.includes('moving ? ATTACK_WALK_ANIM : ATTACK_ANIM')) {
   failures.push("AssimilatedDragonEntity: status 1 does not switch between moving and idle functions");
 }
 
+const longarms = read("src/main/java/alku/csrp/entity/LongarmsEntity.java");
+for (const action of [
+  "idle.get_still_ani_1", "get_attack_timer.get_still_ani_1",
+  "walk.get_parasite_status_1", "get_attack_timer.get_parasite_status_1",
+  "idle.get_parasite_status_1.get_still_ani_1",
+  "get_attack_timer.get_parasite_status_1.get_still_ani_1",
+  "idle.get_parasite_status_2", "walk.get_parasite_status_2",
+  "get_attack_timer.get_parasite_status_2", "idle.get_parasite_status_3",
+  "get_attack_timer.get_parasite_status_3"
+]) {
+  if (!longarms.includes(`"${action}"`)) {
+    failures.push(`LongarmsEntity: original runtime animation ${action} is not wired`);
+  }
+}
+if (!longarms.includes("stillAnimationTicks > STILL_ANIMATION_DELAY_TICKS")) {
+  failures.push("LongarmsEntity: legacy stillAni delay is not represented");
+}
+
 const triggeredFamilies = [
   ["PrimitiveVariantEntity.java", "attack_controller"],
   ["AdaptedVariantEntity.java", "bolster_attack_controller"],
