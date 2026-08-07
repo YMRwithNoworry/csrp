@@ -20,8 +20,11 @@ public final class TrophyBlockEntityRenderer implements BlockEntityRenderer<Trop
     private static final ResourceLocation VOID_AURA = texture("orbvoid_armor.png");
     private static final ResourceLocation BOOM_CORE = texture("orbboom.png");
     private static final ResourceLocation BOOM_AURA = texture("orbboom_armor.png");
-    private static final int STACKS = 14;
-    private static final int SLICES = 14;
+    private static final float LEGACY_TROPHY_SCALE = 5.0F;
+    private static final float LEGACY_SPHERE_RADIUS = 0.317F;
+    private static final float LEGACY_AURA_SCALE = 1.12F;
+    private static final int STACKS = 18;
+    private static final int SLICES = 18;
     private static final int FULL_BRIGHT = 0xF000F0;
 
     public TrophyBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
@@ -40,16 +43,18 @@ public final class TrophyBlockEntityRenderer implements BlockEntityRenderer<Trop
         poseStack.pushPose();
         poseStack.translate(0.5D, 1.35D, 0.5D);
         poseStack.mulPose(Axis.YP.rotation(age * 0.035F));
-        poseStack.scale(pulse, pulse, pulse);
+        poseStack.scale(LEGACY_TROPHY_SCALE * pulse, LEGACY_TROPHY_SCALE * pulse,
+                LEGACY_TROPHY_SCALE * pulse);
         renderSphere(poseStack, bufferSource.getBuffer(RenderType.entityTranslucentEmissive(
-                voidOrb ? VOID_CORE : BOOM_CORE)), 0.34F, 235);
+                voidOrb ? VOID_CORE : BOOM_CORE)), LEGACY_SPHERE_RADIUS, 235);
         poseStack.popPose();
 
         poseStack.pushPose();
         poseStack.translate(0.5D, 1.35D, 0.5D);
         poseStack.mulPose(Axis.YP.rotation(-age * 0.05F));
+        poseStack.scale(LEGACY_TROPHY_SCALE, LEGACY_TROPHY_SCALE, LEGACY_TROPHY_SCALE);
         renderSphere(poseStack, bufferSource.getBuffer(RenderType.entityTranslucentEmissive(
-                voidOrb ? VOID_AURA : BOOM_AURA)), 0.39F, 125);
+                voidOrb ? VOID_AURA : BOOM_AURA)), LEGACY_SPHERE_RADIUS * LEGACY_AURA_SCALE, 125);
         poseStack.popPose();
     }
 
