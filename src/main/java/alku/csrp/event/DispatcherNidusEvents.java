@@ -1,7 +1,6 @@
 package alku.csrp.event;
 
 import alku.csrp.Csrp;
-import alku.csrp.block.DispatcherNidusBlock;
 import alku.csrp.block.entity.DispatcherNidusBlockEntity;
 import alku.csrp.entity.BuglinEntity;
 import alku.csrp.entity.CarrierFlyingEntity;
@@ -18,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -29,14 +27,10 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 
 /**
- * Lets parasites with 15 kills place a Dispatcher Nidus, and feeds the kills
- * of nearby parasites into existing Nidi.
+ * Feeds parasite kills into an existing nearby Dispatcher Nidus.
  */
 @EventBusSubscriber(modid = Csrp.MODID)
 public final class DispatcherNidusEvents {
-    private static final String NIDUS_KILLS = "csrp_nidus_kills";
-    private static final int PLACE_KILLS = 15;
-    private static final float PLACE_CHANCE = 0.3F;
     private static final double COLLECT_RANGE = 10.0D;
 
     private DispatcherNidusEvents() {
@@ -63,18 +57,6 @@ public final class DispatcherNidusEvents {
         DispatcherNidusBlockEntity nidus = findNearbyNidus(level, center);
         if (nidus != null) {
             nidus.addKill();
-            return;
-        }
-
-        CompoundTag data = killerEntity.getPersistentData();
-        int kills = data.getInt(NIDUS_KILLS) + 1;
-        if (kills < PLACE_KILLS) {
-            data.putInt(NIDUS_KILLS, kills);
-            return;
-        }
-        data.putInt(NIDUS_KILLS, 0);
-        if (level.random.nextFloat() < PLACE_CHANCE) {
-            DispatcherNidusBlock.tryPlace(level, center);
         }
     }
 

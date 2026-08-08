@@ -707,7 +707,6 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         cloud.addEffect(new MobEffectInstance(MobEffects.POISON, 300, 1));
         cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 1200, 1, false, false));
         level().addFreshEntity(cloud);
-        spreadBolsterResidue();
     }
 
     @Override

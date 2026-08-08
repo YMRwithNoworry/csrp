@@ -1,7 +1,5 @@
 package alku.csrp.entity;
 
-import alku.csrp.infection.BlockInfestation;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -24,8 +22,6 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public final class ParasiteRemainsEntity extends Entity {
@@ -121,26 +117,8 @@ public final class ParasiteRemainsEntity extends Entity {
     }
 
     private void expireIfNeeded() {
-        if (!level().isClientSide && tickCount >= LIFETIME_TICKS && level() instanceof ServerLevel serverLevel) {
-            contaminate(serverLevel);
+        if (!level().isClientSide && tickCount >= LIFETIME_TICKS) {
             discard();
-        }
-    }
-
-    private void contaminate(ServerLevel level) {
-        List<BlockPos> candidates = new ArrayList<>();
-        BlockPos center = blockPosition();
-        candidates.add(center.below());
-        candidates.add(center.north());
-        candidates.add(center.south());
-        candidates.add(center.east());
-        candidates.add(center.west());
-        Collections.shuffle(candidates, new java.util.Random(random.nextLong()));
-        int converted = 0;
-        for (BlockPos candidate : candidates) {
-            if (BlockInfestation.convert(level, candidate, 1) && ++converted >= 2) {
-                break;
-            }
         }
     }
 
