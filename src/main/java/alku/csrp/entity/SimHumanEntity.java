@@ -182,8 +182,7 @@ public final class SimHumanEntity extends Monster implements GeoEntity, Parasite
             return;
         }
         double reach = getBbWidth() * 2.0D;
-        setAnimationState(isPassenger()
-                || distanceToSqr(target) > reach * reach + target.getBbWidth()
+        setAnimationState(distanceToSqr(target) > reach * reach + target.getBbWidth()
                 ? STATE_PURSUIT : STATE_ATTACK);
     }
 
@@ -218,12 +217,6 @@ public final class SimHumanEntity extends Monster implements GeoEntity, Parasite
                             ModMobEffects.BLEED, 100, 0), this);
                 }
             }
-            // 尝试骑乘目标
-            if (target instanceof LivingEntity living && living.isAlive() && !isPassenger()) {
-                if (random.nextFloat() < 0.3F) {
-                    startRiding(living, true);
-                }
-            }
         }
         return hit;
     }
@@ -246,31 +239,6 @@ public final class SimHumanEntity extends Monster implements GeoEntity, Parasite
             transformToFeral(level);
         }
         return super.killedEntity(level, victim);
-    }
-
-    @Override
-    public void rideTick() {
-        super.rideTick();
-
-        Entity vehicle = getVehicle();
-        if (vehicle instanceof LivingEntity living) {
-            // 持续伤害被骑乘的生物
-            if (tickCount % 20 == 0) {
-                living.hurt(damageSources().mobAttack(this), 2.0F);
-            }
-
-            // 应用感染效果
-            if (tickCount % 40 == 0) {
-                InfectionMechanics.applyCoth(living, this);
-            }
-
-            // 随机推动骑乘目标
-            if (tickCount % 10 == 0 && random.nextFloat() < 0.3F) {
-                double pushX = (random.nextDouble() - 0.5D) * 0.13D;
-                double pushZ = (random.nextDouble() - 0.5D) * 0.13D;
-                living.push(pushX, 0, pushZ);
-            }
-        }
     }
 
     /**
