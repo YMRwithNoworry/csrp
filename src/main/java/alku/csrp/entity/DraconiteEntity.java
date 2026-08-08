@@ -1,6 +1,7 @@
 package alku.csrp.entity;
 
 import alku.csrp.registry.ModEntities;
+import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -12,6 +13,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -35,9 +38,8 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
     private static final int STATUS_COMBAT = 1;
     private static final int STATUS_FLIGHT_TRANSITION = 3;
     private static final int STATUS_FLAME = 10;
-    private static final int FIRE_BREATH_DURATION_TICKS = 60;
+    private static final int FIRE_BREATH_DURATION_TICKS = 40;
     private static final int FIRE_BREATH_COOLDOWN_TICKS = 180;
-    private static final int FIRE_BREATH_SHOT_INTERVAL_TICKS = 10;
     private static final int METEOR_TELEGRAPH_TICKS = 40;
     private static final int METEOR_SALVO_TICKS = 15;
     private static final int METEOR_COOLDOWN_TICKS = 220;
@@ -224,7 +226,32 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
         entityData.set(FIRE_BREATH_TICKS, fireBreathTicks);
         entityData.set(FIRE_BREATH_TARGET, fireBreathTarget);
         getNavigation().stop();
+        spawnToxicCloudBarrage(target);
         playSound(ModSounds.DRACONITE_FIRE_SHOOT.get(), 2.0F, 0.85F);
+    }
+
+    private void spawnToxicCloudBarrage(LivingEntity target) {
+        Vec3 direction = new Vec3(target.getX() - getX(), 0.0D, target.getZ() - getZ());
+        if (direction.lengthSqr() <= 0.001D) {
+            direction = getLookAngle().multiply(1.0D, 0.0D, 1.0D);
+        }
+        if (direction.lengthSqr() <= 0.001D) {
+            return;
+        }
+        direction = direction.normalize();
+        double cloudY = Math.max(getY(), target.getY());
+        double[] distances = {12.5D, 20.0D, 32.5D};
+        for (int index = 0; index < distances.length; index++) {
+            Vec3 cloudPos = position().add(direction.scale(distances[index]));
+            AreaEffectCloud cloud = new AreaEffectCloud(level(), cloudPos.x, cloudY, cloudPos.z);
+            cloud.setOwner(this);
+            cloud.setRadius(3.0F + index);
+            cloud.setDuration(100);
+            cloud.setWaitTime(0);
+            cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
+            cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 300, 0, false, true));
+            level().addFreshEntity(cloud);
+        }
     }
 
     private boolean tickFireBreath() {
@@ -234,10 +261,6 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
         Vec3 destination = Vec3.atCenterOf(fireBreathTarget);
         getLookControl().setLookAt(destination.x, destination.y, destination.z, 30.0F, 30.0F);
         getNavigation().stop();
-        if (fireBreathTicks % FIRE_BREATH_SHOT_INTERVAL_TICKS == 0) {
-            fireProjectile(ParasiteProjectileEntity.Mode.BOMB, projectileMuzzle(), destination,
-                    1.10D, 42.0F, 3.25D, 80, null);
-        }
         fireBreathTicks--;
         entityData.set(FIRE_BREATH_TICKS, fireBreathTicks);
         if (fireBreathTicks == 0) {

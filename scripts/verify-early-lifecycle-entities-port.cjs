@@ -26,7 +26,8 @@ const checks = {
     /VIRAL_AMPLIFIER\s*=\s*2/, /FlyingPathNavigation/, /ChargeAttackGoal/, /discard\(\)/],
   mangler: ["ManglerEntity.java", /MAX_HEALTH,\s*17\.0/, /ARMOR,\s*10\.0/,
     /ATTACK_DAMAGE,\s*9\.0/, /MOVEMENT_SPEED,\s*0\.37/, /onClimbable\(\)/,
-    /LeapAtTargetGoal/, /EvasiveDashGoal/],
+    /createAnimatedLeapGoal\(0\.8F,\s*20\)[\s\S]*new LeapAtTargetGoal\(this,\s*0\.4F\)/,
+    /DASH_COOLDOWN_TICKS\s*=\s*10[\s\S]*MAX_DASH_DISTANCE_SQR\s*=\s*225\.0D/],
   host: ["HostEntity.java", /createHostAttributes\(50\.0,\s*7\.0,\s*10\.0/,
     /BURROW_DURATION_TICKS/, /performShockwave/, /summonRupters/,
     /ModEntities\.HOSTII/],
@@ -38,7 +39,7 @@ const checks = {
     /ATTACK_DAMAGE,\s*11\.0/, /MOVEMENT_SPEED,\s*0\.15/],
   draconite: ["DraconiteEntity.java", /MAX_HEALTH,\s*525\.0/, /ATTACK_DAMAGE,\s*210\.0/,
     /MOVEMENT_SPEED,\s*0\.27/, /switchFlightMode/, /spawnToxicCloud/,
-    /performMeteorBarrage/, /performLightBarrage/],
+    /beginMeteorRain[\s\S]*spawnMeteor/, /performLightBarrage/],
   kirin: ["KirinEntity.java", /MAX_HEALTH,\s*410\.0/, /ATTACK_DAMAGE,\s*155\.0/,
     /MOVEMENT_SPEED,\s*0\.24/, /BLINK_CHARGE_TICKS\s*=\s*60/,
     /BLINK_COOLDOWN_TICKS\s*=\s*200/, /BLINK_LIFE_STEAL_RADIUS\s*=\s*5\.0/,
@@ -48,7 +49,8 @@ const checks = {
 for (const [id, [javaFile, ...patterns]] of Object.entries(checks)) {
   const constant = id.toUpperCase();
   const java = read(`src/main/java/alku/csrp/entity/${javaFile}`);
-  expect(entities, new RegExp(`monster\\("${id}"`), `${id} entity type is missing`);
+  expect(entities, new RegExp(`(?:monster\\("${id}"|ENTITIES\\.register\\("${id}")`),
+    `${id} entity type is missing`);
   expect(items, new RegExp(`${constant}_SPAWN_EGG`), `${id} spawn egg is missing`);
   expect(events, new RegExp(`ModEntities\\.${constant}`), `${id} attributes are missing`);
   expect(client, new RegExp(`ModEntities\\.${constant}`), `${id} renderer is missing`);

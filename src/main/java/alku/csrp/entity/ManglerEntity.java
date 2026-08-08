@@ -15,6 +15,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -94,7 +95,8 @@ public final class ManglerEntity extends PrimitiveParasiteEntity {
         super.registerGoals();
         goalSelector.addGoal(1, new EvasiveDashGoal());
         goalSelector.addGoal(2, createAnimatedLeapGoal(0.8F, 20));
-        goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.3, false));
+        goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.4F));
+        goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.3, false));
     }
 
     @Override
@@ -177,6 +179,11 @@ public final class ManglerEntity extends PrimitiveParasiteEntity {
     }
 
     private final class EvasiveDashGoal extends Goal {
+        private static final int DASH_COOLDOWN_TICKS = 10;
+        private static final double MIN_DASH_DISTANCE_SQR = 1.0D;
+        private static final double MAX_DASH_DISTANCE_SQR = 225.0D;
+        private int cooldown;
+
         private EvasiveDashGoal() {
             setFlags(EnumSet.of(Flag.MOVE));
         }
@@ -184,21 +191,36 @@ public final class ManglerEntity extends PrimitiveParasiteEntity {
         @Override
         public boolean canUse() {
             LivingEntity target = getTarget();
-            return target != null && onGround() && distanceToSqr(target) < 100.0 && random.nextInt(30) == 0;
+            if (target == null || !onGround()) {
+                cooldown = 0;
+                return false;
+            }
+            double distance = distanceToSqr(target);
+            if (distance <= MIN_DASH_DISTANCE_SQR || distance >= MAX_DASH_DISTANCE_SQR
+                    || !hasLineOfSight(target)) {
+                return false;
+            }
+            return ++cooldown >= DASH_COOLDOWN_TICKS;
         }
 
         @Override
         public void start() {
             LivingEntity target = getTarget();
+            cooldown = 0;
             if (target == null) {
                 return;
             }
-            Vec3 away = position().subtract(target.position());
-            Vec3 side = new Vec3(-away.z, 0.0, away.x);
-            if (side.lengthSqr() > 0.001) {
-                side = side.normalize().scale(random.nextBoolean() ? 1.0 : -1.0);
-                setDeltaMovement(getDeltaMovement().add(side.x, 0.35, side.z));
+            Vec3 direction = new Vec3(target.getX() - getX(), 0.0D, target.getZ() - getZ());
+            if (direction.lengthSqr() <= 0.001D) {
+                return;
             }
+            direction = direction.normalize();
+            Vec3 movement = getDeltaMovement();
+            double axisX = random.nextBoolean() ? 1.0D : 0.0D;
+            double axisZ = axisX == 0.0D ? 1.0D : 0.0D;
+            setDeltaMovement(movement.x * 1.2D + direction.x * 0.8D + axisX,
+                    movement.y, movement.z * 1.2D + direction.z * 0.8D + axisZ);
+            navigation.stop();
         }
     }
 }
