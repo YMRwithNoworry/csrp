@@ -73,10 +73,11 @@ public class LivingWeaponItem extends SwordItem {
                     sentient ? 0.25F : 0.10F);
             case SCYTHE -> {
                 if (!(attacker instanceof Player player) || SCYTHE_SWEEP.get()) break;
+                double radius = sentient ? 8.0D : 4.0D;
                 SCYTHE_SWEEP.set(true);
                 try {
-                    if (sentient) sweep(player, target, player.getBoundingBox().inflate(8.0D));
-                    sweep(player, target, target.getBoundingBox().inflate(sentient ? 8.0D : 4.0D));
+                    if (sentient) sweep(player, target, player.getBoundingBox().inflate(radius));
+                    sweep(player, target, target.getBoundingBox().inflate(radius));
                 } finally {
                     SCYTHE_SWEEP.set(false);
                 }

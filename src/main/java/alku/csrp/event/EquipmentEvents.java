@@ -27,6 +27,10 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 @EventBusSubscriber(modid = Csrp.MODID)
 public final class EquipmentEvents {
+    private static final float LIVING_POINT_REDUCTION = 0.0125F;
+    private static final float SENTIENT_POINT_REDUCTION = 0.018F;
+    private static final float LIVING_LEARNING_CHANCE = 0.20F;
+    private static final float SENTIENT_LEARNING_CHANCE = 0.50F;
     private static final EquipmentSlot[] ARMOR_SLOTS = {
             EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET
     };
@@ -78,7 +82,8 @@ public final class EquipmentEvents {
                 data = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
             }
             boolean canLearn = points > 0 || data.getInt(LivingArmorItem.ADAPT_COUNT) < armor.damageTypeLimit();
-            if (canLearn && points < armor.pointLimit() && entity.getRandom().nextFloat() < armor.learningChance()) {
+            float learningChance = armor.isSentient() ? SENTIENT_LEARNING_CHANCE : LIVING_LEARNING_CHANCE;
+            if (canLearn && points < armor.pointLimit() && entity.getRandom().nextFloat() < learningChance) {
                 boolean newType = points == 0;
                 int learned = points + 1;
                 CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> {
@@ -88,9 +93,13 @@ public final class EquipmentEvents {
                 });
                 points = learned;
             }
-            totalReduction += Math.min(points, armor.pointLimit()) * armor.reductionPerPoint();
-            CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> tag.putInt(LivingArmorItem.DAMAGE,
-                    tag.getInt(LivingArmorItem.DAMAGE) + Math.round(incomingDamage)));
+            float reductionPerPoint = armor.isSentient() ? SENTIENT_POINT_REDUCTION : LIVING_POINT_REDUCTION;
+            totalReduction += Math.min(points, armor.pointLimit()) * reductionPerPoint;
+            CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> {
+                int accumulatedDamage = tag.getInt(LivingArmorItem.DAMAGE) + Math.round(incomingDamage);
+                tag.putInt(LivingArmorItem.DAMAGE,
+                        Math.min(LivingArmorItem.EVOLUTION_DAMAGE, accumulatedDamage));
+            });
         }
         event.setAmount(incomingDamage * Math.max(0.0F, 1.0F - totalReduction));
         if (event.getSource().getEntity() instanceof LivingEntity attacker) {

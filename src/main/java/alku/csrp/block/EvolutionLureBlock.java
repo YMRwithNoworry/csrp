@@ -81,7 +81,7 @@ public final class EvolutionLureBlock extends Block {
                     true);
             return;
         }
-        if (!data.addEvolutionPoints(level, -tier.carcassReduction())) {
+        if (!data.addEvolutionPoints(level, -tier.carcassReduction(), true)) {
             player.displayClientMessage(Component.translatable("message.csrp.lure_dormant"), true);
             return;
         }

@@ -170,7 +170,11 @@ public final class SrpWorldData extends SavedData {
     }
 
     public boolean addEvolutionPoints(ServerLevel level, int points) {
-        if (!canAddEvolutionPoints(points) || cooldown(level) > 0) {
+        return addEvolutionPoints(level, points, false);
+    }
+
+    public boolean addEvolutionPoints(ServerLevel level, int points, boolean bypassCooldown) {
+        if (!canAddEvolutionPoints(points) || (!bypassCooldown && cooldown(level) > 0)) {
             return false;
         }
 
