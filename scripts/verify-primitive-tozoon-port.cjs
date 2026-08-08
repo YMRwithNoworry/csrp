@@ -15,7 +15,9 @@ const registry = read("src/main/java/alku/csrp/registry/ModEntities.java");
 const config = read("src/main/java/alku/csrp/config/MobsConfig.java");
 
 expect(registry, /"pri_tozoon"[\s\S]*?0\.978F, 1\.2F/, "Tozoon registry dimensions are wrong");
-expect(entity, /case TOZOON -> \{[\s\S]*?MobsConfig\.tozoonHealth\(\)[\s\S]*?MobsConfig\.tozoonArmor\(\)[\s\S]*?MobsConfig\.tozoonDamage\(\)[\s\S]*?speed = 0\.26D[\s\S]*?MobsConfig\.tozoonKnockbackResistance\(\)[\s\S]*?followRange = 24\.0D/, "Primitive Tozoon attributes are incomplete");
+expect(entity, /case TOZOON -> \{[\s\S]*?health = 45\.0D[\s\S]*?armor = 9\.0D[\s\S]*?damage = 15\.0D[\s\S]*?speed = 0\.26D[\s\S]*?knockbackResistance = 1\.0D[\s\S]*?followRange = 24\.0D/, "Primitive Tozoon attributes are incomplete");
+expect(entity, /case TOZOON -> applyConfiguredAttributes\([\s\S]*?MobsConfig\.tozoonHealth\(\)[\s\S]*?MobsConfig\.tozoonArmor\(\)[\s\S]*?MobsConfig\.tozoonDamage\(\)[\s\S]*?MobsConfig\.tozoonKnockbackResistance\(\)/,
+  "Primitive Tozoon config is not applied after entity registration");
 expect(entity, /goalSelector\.addGoal\(2, new TozoonAoeAttackGoal\(\)\)/, "Tozoon does not use the dedicated AOE attack goal");
 expect(entity, /TozoonAoeAttackGoal[\s\S]*?ATTACK_INTERVAL_TICKS = 10[\s\S]*?ATTACK_DISTANCE_SQR = 9\.0D[\s\S]*?getNavigation\(\)\.moveTo\(target, 1\.3D\)/, "Tozoon AOE goal timing or movement is wrong");
 expect(entity, /new AABB\(target\.getX\(\), target\.getY\(\), target\.getZ\(\)[\s\S]*?inflate\(1\.5D\)/, "Tozoon attack AABB is missing");

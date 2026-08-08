@@ -1,7 +1,9 @@
 package alku.csrp.config;
 
 import alku.csrp.Csrp;
+import alku.csrp.entity.AdaptedVariantEntity;
 import alku.csrp.entity.Parasite;
+import alku.csrp.entity.PrimitiveVariantEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
@@ -29,6 +31,7 @@ public final class OriginalConfigEvents {
             return;
         }
         float healthRatio = entity.getMaxHealth() <= 0.0F ? 1.0F : entity.getHealth() / entity.getMaxHealth();
+        applyConfiguredMobAttributes(entity);
         applyMultiplier(entity.getAttribute(Attributes.MAX_HEALTH), HEALTH_MULTIPLIER,
                 GeneralConfig.globalHealthMultiplier());
         applyMultiplier(entity.getAttribute(Attributes.ARMOR), ARMOR_MULTIPLIER,
@@ -43,6 +46,14 @@ public final class OriginalConfigEvents {
             follow.setBaseValue(followRange);
         }
         entity.setHealth(entity.getMaxHealth() * healthRatio);
+    }
+
+    private static void applyConfiguredMobAttributes(LivingEntity entity) {
+        if (entity instanceof PrimitiveVariantEntity primitive) {
+            primitive.applyConfiguredAttributes();
+        } else if (entity instanceof AdaptedVariantEntity adapted) {
+            adapted.applyConfiguredAttributes();
+        }
     }
 
     private static void applyMultiplier(AttributeInstance attribute, ResourceLocation id, double multiplier) {

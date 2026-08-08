@@ -19,8 +19,11 @@ expect(registry,
   /"pri_devourer", \(type, level\) -> new PrimitiveVariantEntity\(type, level,[\s\S]*?Kind\.DEVOURER\)/,
   "registered Primitive Devourer does not use the audited implementation");
 expect(entity,
-  /case DEVOURER -> \{[\s\S]*?MobsConfig\.devourerHealth\(\)[\s\S]*?MobsConfig\.devourerArmor\(\)[\s\S]*?MobsConfig\.devourerDamage\(\)[\s\S]*?speed = 0\.0D[\s\S]*?MobsConfig\.devourerKnockbackResistance\(\)[\s\S]*?followRange = 24\.0D/,
+  /case DEVOURER -> \{[\s\S]*?health = 60\.0D[\s\S]*?armor = 4\.0D[\s\S]*?damage = 20\.0D[\s\S]*?speed = 0\.0D[\s\S]*?knockbackResistance = 1\.0D[\s\S]*?followRange = 24\.0D/,
   "Primitive Devourer original attributes are missing");
+expect(entity,
+  /case DEVOURER -> applyConfiguredAttributes\([\s\S]*?MobsConfig\.devourerHealth\(\)[\s\S]*?MobsConfig\.devourerArmor\(\)[\s\S]*?MobsConfig\.devourerDamage\(\)[\s\S]*?MobsConfig\.devourerKnockbackResistance\(\)/,
+  "Primitive Devourer config is not applied after entity registration");
 expect(entity, /kind == Kind\.DEVOURER[\s\S]*?xpReward = 1 \+ random\.nextInt\(3\)/,
   "Primitive Devourer original 1-3 experience reward is missing");
 

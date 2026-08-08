@@ -22,8 +22,11 @@ expect(registry,
   /"pri_yelloweye", \(type, level\) -> new PrimitiveVariantEntity\(type, level,[\s\S]*?Kind\.YELLOWEYE\)/,
   "registered Primitive Yelloweye does not use the audited implementation");
 expect(entity,
-  /case YELLOWEYE -> \{[\s\S]*?MobsConfig\.yelloweyeHealth\(\)[\s\S]*?MobsConfig\.yelloweyeArmor\(\)[\s\S]*?MobsConfig\.yelloweyeNadeDamage\(\)[\s\S]*?knockbackResistance = MobsConfig\.yelloweyeKnockbackResistance\(\)[\s\S]*?followRange = 24\.0D/,
+  /case YELLOWEYE -> \{[\s\S]*?health = 30\.0D[\s\S]*?armor = 3\.5D[\s\S]*?damage = 3\.5D[\s\S]*?speed = 0\.25D[\s\S]*?knockbackResistance = 0\.20D[\s\S]*?followRange = 24\.0D/,
   "Primitive Yelloweye original attributes are missing");
+expect(entity,
+  /case YELLOWEYE -> applyConfiguredAttributes\([\s\S]*?MobsConfig\.yelloweyeHealth\(\)[\s\S]*?MobsConfig\.yelloweyeArmor\(\)[\s\S]*?MobsConfig\.yelloweyeNadeDamage\(\)[\s\S]*?MobsConfig\.yelloweyeKnockbackResistance\(\)/,
+  "Primitive Yelloweye config is not applied after entity registration");
 expect(entity, /xpReward = kind == Kind\.YELLOWEYE \? 30 : 18/,
   "Primitive Yelloweye original experience reward is missing");
 expect(entity, /moveControl = new YelloweyeMoveControl\(this\)/,

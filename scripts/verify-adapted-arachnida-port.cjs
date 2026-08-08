@@ -34,8 +34,10 @@ const profiles = read("src/main/java/alku/csrp/entity/ParasiteSoundProfiles.java
 
 expect(entities, /"ada_arachnida"[\s\S]*?1\.901F, 2\.85F, 1\.5F/,
   "Adapted Arachnida dimensions or eye height differ from EntityRanracAdapted");
-expect(entity, /case ARACHNIDA -> \{[\s\S]*?MobsConfig\.adaptedArachnidaHealth\(\)[\s\S]*?MobsConfig\.adaptedArachnidaArmor\(\)[\s\S]*?MobsConfig\.adaptedArachnidaDamage\(\)[\s\S]*?speed = 0\.33D[\s\S]*?MobsConfig\.adaptedArachnidaKnockbackResistance\(\)[\s\S]*?MobsConfig\.adaptedFollowRange\(\)/,
-  "Adapted Arachnida attributes are not wired to the original values and config");
+expect(entity, /case ARACHNIDA -> \{[\s\S]*?health = 80\.0D[\s\S]*?armor = 14\.0D[\s\S]*?damage = 30\.0D[\s\S]*?speed = 0\.33D[\s\S]*?knockbackResistance = 1\.0D[\s\S]*?followRange = 32\.0D/,
+  "Adapted Arachnida default attributes differ from the original");
+expect(entity, /case ARACHNIDA -> applyConfiguredAttributes\([\s\S]*?MobsConfig\.adaptedArachnidaHealth\(\)[\s\S]*?MobsConfig\.adaptedArachnidaArmor\(\)[\s\S]*?MobsConfig\.adaptedArachnidaDamage\(\)[\s\S]*?MobsConfig\.adaptedArachnidaKnockbackResistance\(\)/,
+  "Adapted Arachnida config is not applied after entity registration");
 expect(entity, /kind == Kind\.ARACHNIDA \|\| kind == Kind\.BURROWER \|\| kind == Kind\.TOZOON[\s\S]*?Attributes\.STEP_HEIGHT, 1\.0D/,
   "Adapted Arachnida one-block step height is missing");
 for (const [method, base, additional] of [

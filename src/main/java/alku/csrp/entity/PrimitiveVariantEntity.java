@@ -257,19 +257,19 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
                 followRange = 32.0D;
             }
             case BURROWER -> {
-                health = MobsConfig.burrowerHealth();
-                armor = MobsConfig.burrowerArmor();
-                damage = MobsConfig.burrowerDamage();
+                health = 45.0D;
+                armor = 9.0D;
+                damage = 15.0D;
                 speed = 0.26D;
-                knockbackResistance = MobsConfig.burrowerKnockbackResistance();
+                knockbackResistance = 0.70D;
                 followRange = 24.0D;
             }
             case DEVOURER -> {
-                health = MobsConfig.devourerHealth();
-                armor = MobsConfig.devourerArmor();
-                damage = MobsConfig.devourerDamage();
+                health = 60.0D;
+                armor = 4.0D;
+                damage = 20.0D;
                 speed = 0.0D;
-                knockbackResistance = MobsConfig.devourerKnockbackResistance();
+                knockbackResistance = 1.0D;
                 followRange = 24.0D;
             }
             case MANDUCATER -> {
@@ -289,19 +289,19 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
                 followRange = 24.0D;
             }
             case TOZOON -> {
-                health = MobsConfig.tozoonHealth();
-                armor = MobsConfig.tozoonArmor();
-                damage = MobsConfig.tozoonDamage();
+                health = 45.0D;
+                armor = 9.0D;
+                damage = 15.0D;
                 speed = 0.26D;
-                knockbackResistance = MobsConfig.tozoonKnockbackResistance();
+                knockbackResistance = 1.0D;
                 followRange = 24.0D;
             }
             case YELLOWEYE -> {
-                health = MobsConfig.yelloweyeHealth();
-                armor = MobsConfig.yelloweyeArmor();
-                damage = MobsConfig.yelloweyeNadeDamage();
+                health = 30.0D;
+                armor = 3.5D;
+                damage = 3.5D;
                 speed = 0.25D;
-                knockbackResistance = MobsConfig.yelloweyeKnockbackResistance();
+                knockbackResistance = 0.20D;
                 followRange = 24.0D;
             }
             default -> throw new IllegalStateException("Unexpected primitive kind: " + kind);
@@ -321,6 +321,37 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
             attributes.add(Attributes.STEP_HEIGHT, 1.0D);
         }
         return attributes;
+    }
+
+    public void applyConfiguredAttributes() {
+        switch (activeKind()) {
+            case ARACHNIDA -> applyConfiguredAttributes(
+                    MobsConfig.arachnidaHealth(), MobsConfig.arachnidaArmor(),
+                    MobsConfig.arachnidaDamage(), MobsConfig.arachnidaKnockbackResistance());
+            case BURROWER -> applyConfiguredAttributes(
+                    MobsConfig.burrowerHealth(), MobsConfig.burrowerArmor(),
+                    MobsConfig.burrowerDamage(), MobsConfig.burrowerKnockbackResistance());
+            case DEVOURER -> applyConfiguredAttributes(
+                    MobsConfig.devourerHealth(), MobsConfig.devourerArmor(),
+                    MobsConfig.devourerDamage(), MobsConfig.devourerKnockbackResistance());
+            case REEKER -> applyReekerAttributes(false);
+            case TOZOON -> applyConfiguredAttributes(
+                    MobsConfig.tozoonHealth(), MobsConfig.tozoonArmor(),
+                    MobsConfig.tozoonDamage(), MobsConfig.tozoonKnockbackResistance());
+            case YELLOWEYE -> applyConfiguredAttributes(
+                    MobsConfig.yelloweyeHealth(), MobsConfig.yelloweyeArmor(),
+                    MobsConfig.yelloweyeNadeDamage(), MobsConfig.yelloweyeKnockbackResistance());
+            default -> {
+            }
+        }
+    }
+
+    private void applyConfiguredAttributes(double health, double armor, double damage,
+                                           double knockbackResistance) {
+        getAttribute(Attributes.MAX_HEALTH).setBaseValue(health);
+        getAttribute(Attributes.ARMOR).setBaseValue(armor);
+        getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(damage);
+        getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(knockbackResistance);
     }
 
     @Override

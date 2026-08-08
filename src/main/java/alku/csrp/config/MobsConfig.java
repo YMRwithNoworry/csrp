@@ -237,6 +237,22 @@ public final class MobsConfig {
         return ADAPTED_FOLLOW.get();
     }
 
+    public static double arachnidaHealth() {
+        return 35.0D * ARACHNIDA_HEALTH_MULTIPLIER.get();
+    }
+
+    public static double arachnidaDamage() {
+        return 15.0D * ARACHNIDA_DAMAGE_MULTIPLIER.get();
+    }
+
+    public static double arachnidaArmor() {
+        return 4.0D * ARACHNIDA_ARMOR_MULTIPLIER.get();
+    }
+
+    public static double arachnidaKnockbackResistance() {
+        return Math.min(1.0D, 0.2D * ARACHNIDA_KNOCKBACK_MULTIPLIER.get());
+    }
+
     public static double adaptedArachnidaHealth() {
         return (35.0D + ADAPTED_ARACHNIDA_ADDITIONAL_HEALTH.get()) * ARACHNIDA_HEALTH_MULTIPLIER.get();
     }

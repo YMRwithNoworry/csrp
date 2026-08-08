@@ -21,10 +21,14 @@ expect(registry, /"pri_burrower"[\s\S]*?1\.0F, 0\.25F, 0\.25F/,
 expect(registry, /"ada_burrower"[\s\S]*?1\.321F, 1\.2F, 1\.0F/,
   "Adapted Burrower dimensions or eye height differ from EntityZaaAdapted");
 
-expect(primitive, /case BURROWER -> \{[\s\S]*?MobsConfig\.burrowerHealth\(\)[\s\S]*?MobsConfig\.burrowerArmor\(\)[\s\S]*?MobsConfig\.burrowerDamage\(\)[\s\S]*?speed = 0\.26D[\s\S]*?MobsConfig\.burrowerKnockbackResistance\(\)[\s\S]*?followRange = 24\.0D/,
+expect(primitive, /case BURROWER -> \{[\s\S]*?health = 45\.0D[\s\S]*?armor = 9\.0D[\s\S]*?damage = 15\.0D[\s\S]*?speed = 0\.26D[\s\S]*?knockbackResistance = 0\.70D[\s\S]*?followRange = 24\.0D/,
   "Primitive Burrower attributes do not match EntityZaa");
-expect(adapted, /case BURROWER -> \{[\s\S]*?MobsConfig\.adaptedTozoonHealth\(\)[\s\S]*?MobsConfig\.adaptedTozoonArmor\(\)[\s\S]*?MobsConfig\.adaptedTozoonDamage\(\)[\s\S]*?speed = 0\.32D[\s\S]*?knockbackResistance = 1\.0D[\s\S]*?followRange = 32\.0D/,
+expect(primitive, /case BURROWER -> applyConfiguredAttributes\([\s\S]*?MobsConfig\.burrowerHealth\(\)[\s\S]*?MobsConfig\.burrowerArmor\(\)[\s\S]*?MobsConfig\.burrowerDamage\(\)[\s\S]*?MobsConfig\.burrowerKnockbackResistance\(\)/,
+  "Primitive Burrower config is not applied after entity registration");
+expect(adapted, /case BURROWER -> \{[\s\S]*?health = 115\.0D[\s\S]*?armor = 24\.0D[\s\S]*?damage = 45\.0D[\s\S]*?speed = 0\.32D[\s\S]*?knockbackResistance = 1\.0D[\s\S]*?followRange = 32\.0D/,
   "Adapted Burrower does not preserve EntityZaaAdapted's WYMO attribute-copy behavior");
+expect(adapted, /case BURROWER, TOZOON -> applyConfiguredAttributes\([\s\S]*?MobsConfig\.adaptedTozoonHealth\(\)[\s\S]*?MobsConfig\.adaptedTozoonArmor\(\)[\s\S]*?MobsConfig\.adaptedTozoonDamage\(\)/,
+  "Adapted Burrower config is not applied after entity registration");
 
 for (const [key, value] of [
   ["primitiveBurrowerHealthMultiplier", "1.0D"],

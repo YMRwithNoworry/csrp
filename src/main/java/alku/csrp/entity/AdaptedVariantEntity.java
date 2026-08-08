@@ -284,12 +284,12 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
         switch (kind) {
             case ARACHNIDA -> {
-                health = MobsConfig.adaptedArachnidaHealth();
-                armor = MobsConfig.adaptedArachnidaArmor();
-                damage = MobsConfig.adaptedArachnidaDamage();
+                health = 80.0D;
+                armor = 14.0D;
+                damage = 30.0D;
                 speed = 0.33D;
-                knockbackResistance = MobsConfig.adaptedArachnidaKnockbackResistance();
-                followRange = MobsConfig.adaptedFollowRange();
+                knockbackResistance = 1.0D;
+                followRange = 32.0D;
             }
             case BOLSTER -> {
                 health = 105.0D;
@@ -300,9 +300,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
                 followRange = 32.0D;
             }
             case BURROWER -> {
-                health = MobsConfig.adaptedTozoonHealth();
-                armor = MobsConfig.adaptedTozoonArmor();
-                damage = MobsConfig.adaptedTozoonDamage();
+                health = 115.0D;
+                armor = 24.0D;
+                damage = 45.0D;
                 speed = 0.32D;
                 knockbackResistance = 1.0D;
                 followRange = 32.0D;
@@ -348,9 +348,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
                 followRange = 40.0D;
             }
             case TOZOON -> {
-                health = MobsConfig.adaptedTozoonHealth();
-                armor = MobsConfig.adaptedTozoonArmor();
-                damage = MobsConfig.adaptedTozoonDamage();
+                health = 115.0D;
+                armor = 24.0D;
+                damage = 45.0D;
                 speed = 0.32D;
                 knockbackResistance = 1.0D;
                 followRange = 32.0D;
@@ -396,6 +396,28 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             attributes.add(Attributes.FLYING_SPEED, 0.35D);
         }
         return attributes;
+    }
+
+    public void applyConfiguredAttributes() {
+        switch (activeKind()) {
+            case ARACHNIDA -> applyConfiguredAttributes(
+                    MobsConfig.adaptedArachnidaHealth(), MobsConfig.adaptedArachnidaArmor(),
+                    MobsConfig.adaptedArachnidaDamage(), MobsConfig.adaptedArachnidaKnockbackResistance());
+            case BURROWER, TOZOON -> applyConfiguredAttributes(
+                    MobsConfig.adaptedTozoonHealth(), MobsConfig.adaptedTozoonArmor(),
+                    MobsConfig.adaptedTozoonDamage(),
+                    Math.min(1.0D, MobsConfig.adaptedTozoonConfiguredKnockbackResistance()));
+            default -> {
+            }
+        }
+    }
+
+    private void applyConfiguredAttributes(double health, double armor, double damage,
+                                           double knockbackResistance) {
+        getAttribute(Attributes.MAX_HEALTH).setBaseValue(health);
+        getAttribute(Attributes.ARMOR).setBaseValue(armor);
+        getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(damage);
+        getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(knockbackResistance);
     }
 
     @Override
