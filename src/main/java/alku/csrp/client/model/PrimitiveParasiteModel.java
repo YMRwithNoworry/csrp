@@ -5,6 +5,7 @@ import alku.csrp.entity.AdaptedVariantEntity;
 import alku.csrp.entity.AssimilatedEndermanEntity;
 import alku.csrp.entity.BurrowingVariantEntity;
 import alku.csrp.entity.PreeminentParasiteEntity;
+import alku.csrp.entity.PrimitiveVariantEntity;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
@@ -25,6 +26,18 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/ada_bolster_breacher.png");
     private static final ResourceLocation SHRIMP_FED_ENDERMAN_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/sim_enderman_ariral.png");
+    private static final ResourceLocation REEKER_FRAGILE_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/noglasp1.png");
+    private static final ResourceLocation REEKER_VIRULENT_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/noglav.png");
+    private static final ResourceLocation REEKER_BERSERKER_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/noglab.png");
+    private static final ResourceLocation REEKER_HEAVY_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/noglah.png");
+    private static final ResourceLocation REEKER_RICARDO_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/ricardo.png");
+    private static final ResourceLocation REEKER_RICARDO_BALD_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/ricardo_bald.png");
     private final ResourceLocation model;
     private final ResourceLocation texture;
     private final ResourceLocation animation;
@@ -52,6 +65,21 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
                 case BERSERKER -> BOLSTER_BERSERKER_TEXTURE;
                 case VIRULENT -> BOLSTER_VIRULENT_TEXTURE;
                 case BREACHER -> BOLSTER_BREACHER_TEXTURE;
+                default -> texture;
+            };
+        }
+        if (animatable instanceof PrimitiveVariantEntity primitive && primitive.isPrimitiveReeker()) {
+            if (primitive.isRicardoBald()) {
+                return REEKER_RICARDO_BALD_TEXTURE;
+            }
+            if (primitive.isRicardoVariant()) {
+                return REEKER_RICARDO_TEXTURE;
+            }
+            return switch (primitive.getReekerSkin()) {
+                case 1 -> REEKER_FRAGILE_TEXTURE;
+                case 5 -> REEKER_VIRULENT_TEXTURE;
+                case 6 -> REEKER_BERSERKER_TEXTURE;
+                case 7 -> REEKER_HEAVY_TEXTURE;
                 default -> texture;
             };
         }

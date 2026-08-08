@@ -1,8 +1,8 @@
 package alku.csrp.event;
 
 import alku.csrp.Csrp;
+import alku.csrp.entity.PrimitiveVariantEntity;
 import alku.csrp.registry.ModDamageTypes;
-import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModItems;
 import alku.csrp.registry.ModMobEffects;
 import java.util.ArrayList;
@@ -114,8 +114,7 @@ public final class BookOfVengeanceEvents {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void dropFromRicardo(LivingDropsEvent event) {
         LivingEntity entity = event.getEntity();
-        if (entity.getType() != ModEntities.PRI_REEKER.get() || entity.getCustomName() == null
-                || !"Ricardo".equals(entity.getCustomName().getString())
+        if (!(entity instanceof PrimitiveVariantEntity reeker) || !reeker.isRicardoVariant()
                 || !(entity.level() instanceof ServerLevel level)
                 || event.getDrops().stream().anyMatch(drop -> drop.getItem().is(ModItems.BOOK_OF_VENGEANCE))) {
             return;
