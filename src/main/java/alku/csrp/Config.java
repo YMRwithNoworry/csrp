@@ -31,6 +31,9 @@ public final class Config {
     private static final ModConfigSpec.DoubleValue KILLCOUNT_PLUS = BUILDER
             .comment("Killcount added every second on HARD or HARDCORE when evolution phases are disabled.")
             .defineInRange("killcountPlus", 0.0D, 0.0D, 1000000.0D);
+    private static final ModConfigSpec.DoubleValue PRIMITIVE_MINIMUM_DAMAGE = BUILDER
+            .comment("Armor-bypassing minimum damage dealt by primitive parasite special attacks.")
+            .defineInRange("primitiveMinimumDamage", 2.0D, 0.0D, 1000.0D);
     private static final ModConfigSpec.BooleanValue USE_EVOLUTION_PHASES = BUILDER
             .comment("Use SRP evolution phases instead of the legacy difficulty killcount behavior.")
             .define("useEvolutionPhases", true);
@@ -451,6 +454,7 @@ public final class Config {
     public static double parasiteKillingReduction() { return PARASITE_KILLING_REDUCTION.get(); }
 
     public static double killcountPlus() { return KILLCOUNT_PLUS.get(); }
+    public static float primitiveMinimumDamage() { return PRIMITIVE_MINIMUM_DAMAGE.get().floatValue(); }
     public static boolean useEvolutionPhases() { return USE_EVOLUTION_PHASES.get(); }
     public static boolean generationEnabled() { return GENERATION_ENABLED.get(); }
     public static boolean pearlDestroyedOnBeholderKill() { return PEARL_DESTROYED_ON_BEHOLDER_KILL.get(); }

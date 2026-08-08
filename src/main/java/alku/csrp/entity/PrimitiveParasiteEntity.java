@@ -184,7 +184,8 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
                     BlockPos pos = new BlockPos(baseX + x, baseY + y, baseZ + z);
                     BlockState state = level().getBlockState(pos);
                     float hardness = state.getDestroySpeed(level(), pos);
-                    if (state.isAir() || hardness < 0.0F || hardness > profile.hardness()
+                    if (state.isAir() || hardness < 0.0F
+                            || hardness > adjustBlockBreakHardness(profile.hardness())
                             || !state.canEntityDestroy(level(), pos, this)
                             || !EventHooks.onEntityDestroyBlock(this, pos, state)) {
                         continue;
@@ -224,6 +225,10 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         addBlockBreakProfiles(profiles, 27.0F, 60, 3, "kirin");
         addBlockBreakProfiles(profiles, 4.0F, 30, 2, "crux");
         return profiles;
+    }
+
+    protected float adjustBlockBreakHardness(float baseHardness) {
+        return baseHardness;
     }
 
     private static void addBlockBreakProfiles(Map<String, BlockBreakProfile> profiles, float hardness,
@@ -451,6 +456,29 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         float healthDamage = amount - absorptionDamage;
         target.setHealth(Math.max(0.0F, target.getHealth() - healthDamage));
         level().broadcastEntityEvent(target, (byte) 2);
+        return true;
+    }
+
+    public boolean applyPrimitiveMinimumDamage(LivingEntity target) {
+        if (!(level() instanceof ServerLevel serverLevel)
+                || !EvolutionSystem.generationProfile(serverLevel).minimumDamage()
+                || target instanceof Parasite || target == this || !target.isAlive()
+                || target instanceof Player player && player.getAbilities().instabuild) {
+            return false;
+        }
+        float amount = Config.primitiveMinimumDamage();
+        if (amount <= 0.0F) {
+            return false;
+        }
+        float absorptionDamage = Math.min(target.getAbsorptionAmount(), amount * 0.5F);
+        if (absorptionDamage > 0.0F) {
+            target.setAbsorptionAmount(target.getAbsorptionAmount() - absorptionDamage);
+        }
+        target.setHealth(Math.max(0.0F, target.getHealth() - (amount - absorptionDamage)));
+        level().broadcastEntityEvent(target, (byte) 2);
+        if (target.getHealth() <= 0.0F) {
+            target.die(damageSources().mobAttack(this));
+        }
         return true;
     }
 

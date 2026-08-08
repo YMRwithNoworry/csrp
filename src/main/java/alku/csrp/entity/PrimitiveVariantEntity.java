@@ -40,7 +40,7 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.control.FlyingMoveControl;
+import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
@@ -91,6 +91,8 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
             PrimitiveVariantEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> REEKER_RICARDO_BALD = SynchedEntityData.defineId(
             PrimitiveVariantEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> YELLOWEYE_SKIN = SynchedEntityData.defineId(
+            PrimitiveVariantEntity.class, EntityDataSerializers.INT);
     private static final int REEKER_CHARGE_NONE = 0;
     private static final int REEKER_CHARGE_WINDUP = 1;
     private static final int REEKER_CHARGING = 2;
@@ -99,6 +101,8 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
     private static final int REEKER_SKIN_VIRULENT = 5;
     private static final int REEKER_SKIN_BERSERKER = 6;
     private static final int REEKER_SKIN_HEAVY = 7;
+    private static final int YELLOWEYE_SKIN_NORMAL = 0;
+    private static final int YELLOWEYE_SKIN_HEAVY = 7;
     private static final int REEKER_SKILL_PREP_TICKS = 40;
     private static final int REEKER_WINDUP_TICKS = 20;
     private static final int REEKER_CHARGE_TICKS = 40;
@@ -110,6 +114,9 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
     private static final int REEKER_DIVE_COOLDOWN_TICKS = 1200;
     private static final double REEKER_DIVE_SPEED = 3.8D;
     private static final float REEKER_DIVE_EXPLOSION = 3.0F;
+    private static final int YELLOWEYE_WARNING_TICK = 70;
+    private static final int YELLOWEYE_FIRE_TICK = 100;
+    private static final double YELLOWEYE_MAX_ATTACK_DISTANCE_SQR = 4225.0D;
     private static final byte RICARDO_BURST_EVENT = 77;
     private static final double RICARDO_MAX_HEALTH = 3763.0D;
     private static final double RICARDO_NORMAL_ARMOR = 32.0D;
@@ -170,6 +177,8 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
     private final Kind kind;
     private int abilityCooldown;
     private int rangedShots;
+    private int yelloweyeAttackTimer;
+    private boolean yelloweyeShotFired;
     private int manducaterCamouflageTimer;
     private int manducaterPullTicks;
     private LivingEntity manducaterTarget;
@@ -178,9 +187,9 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
     public PrimitiveVariantEntity(EntityType<? extends PrimitiveVariantEntity> type, Level level, Kind kind) {
         super(type, level);
         this.kind = kind;
-        xpReward = 18;
+        xpReward = kind == Kind.YELLOWEYE ? 30 : 18;
         if (kind == Kind.YELLOWEYE) {
-            moveControl = new FlyingMoveControl(this, 20, true);
+            moveControl = new YelloweyeMoveControl(this);
             setNoGravity(true);
         } else if (kind == Kind.DEVOURER) {
             moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.1F, 0.2F, true);
@@ -205,6 +214,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
         builder.define(MANDUCATER_STATUS, 0);
         builder.define(REEKER_SKIN, REEKER_SKIN_NORMAL);
         builder.define(REEKER_RICARDO_BALD, false);
+        builder.define(YELLOWEYE_SKIN, YELLOWEYE_SKIN_NORMAL);
     }
 
     public static AttributeSupplier.Builder createAttributes(Kind kind) {
@@ -273,12 +283,12 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
                 followRange = 36.0D;
             }
             case YELLOWEYE -> {
-                health = 30.0D;
-                armor = 3.5D;
-                damage = 5.0D;
+                health = MobsConfig.yelloweyeHealth();
+                armor = MobsConfig.yelloweyeArmor();
+                damage = MobsConfig.yelloweyeNadeDamage();
                 speed = 0.25D;
-                knockbackResistance = 0.15D;
-                followRange = 48.0D;
+                knockbackResistance = MobsConfig.yelloweyeKnockbackResistance();
+                followRange = 24.0D;
             }
             default -> throw new IllegalStateException("Unexpected primitive kind: " + kind);
         }
@@ -336,7 +346,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
             }
             case YELLOWEYE -> {
                 goalSelector.addGoal(1, new YelloweyeRangedGoal());
-                goalSelector.addGoal(2, new YelloweyeFlightGoal());
+                goalSelector.addGoal(6, new YelloweyeRandomFlightGoal());
             }
         }
     }
@@ -359,6 +369,11 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
             applyReekerAttributes(true);
             setHealth(getMaxHealth());
         }
+        if (!level.isClientSide() && activeKind() == Kind.YELLOWEYE
+                && (random.nextDouble() < Config.variantSpawnChance()
+                || Config.evolutionPhase(level.getLevel()) >= Config.alwaysVariantPhase())) {
+            setYelloweyeSkin(YELLOWEYE_SKIN_HEAVY);
+        }
         return data;
     }
 
@@ -368,8 +383,8 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
         Kind activeKind = activeKind();
         if (activeKind == Kind.YELLOWEYE) {
             setNoGravity(true);
-            if (!level().isClientSide && onGround()) {
-                getMoveControl().setWantedPosition(getX(), getY() + 4.0D, getZ(), 0.6D);
+            if (!level().isClientSide) {
+                tickYelloweyeFlightLimits();
             }
         }
 
@@ -642,6 +657,19 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
 
     public boolean isPrimitiveReeker() {
         return activeKind() == Kind.REEKER;
+    }
+
+    public boolean isPrimitiveYelloweye() {
+        return activeKind() == Kind.YELLOWEYE;
+    }
+
+    public int getYelloweyeSkin() {
+        return entityData.get(YELLOWEYE_SKIN);
+    }
+
+    private void setYelloweyeSkin(int skin) {
+        entityData.set(YELLOWEYE_SKIN, skin == YELLOWEYE_SKIN_HEAVY
+                ? YELLOWEYE_SKIN_HEAVY : YELLOWEYE_SKIN_NORMAL);
     }
 
     public int getReekerSkin() {
@@ -922,6 +950,10 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
             tag.putBoolean("RicardoBald", entityData.get(REEKER_RICARDO_BALD));
             tag.putInt("reeker_charge_preparation", reekerChargePreparationTicks);
         }
+        if (activeKind() == Kind.YELLOWEYE) {
+            tag.putInt("yelloweye_skin", getYelloweyeSkin());
+            tag.putInt("yelloweye_shots", rangedShots);
+        }
     }
 
     @Override
@@ -944,6 +976,11 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
                 applyReekerAttributes(true);
             }
         }
+        if (activeKind() == Kind.YELLOWEYE) {
+            setYelloweyeSkin(tag.getInt("yelloweye_skin"));
+            rangedShots = Mth.clamp(tag.getInt("yelloweye_shots"), 0, 3);
+            resetYelloweyeAttack();
+        }
     }
 
     @Override
@@ -959,6 +996,13 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
     @Override
     public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
         return activeKind() != Kind.YELLOWEYE && super.causeFallDamage(distance, damageMultiplier, source);
+    }
+
+    @Override
+    protected float adjustBlockBreakHardness(float baseHardness) {
+        boolean heavy = activeKind() == Kind.YELLOWEYE && getYelloweyeSkin() == YELLOWEYE_SKIN_HEAVY
+                || activeKind() == Kind.REEKER && getReekerSkin() == REEKER_SKIN_HEAVY;
+        return heavy ? baseHardness * 2.0F : baseHardness;
     }
 
     @Override
@@ -1048,7 +1092,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
             BlockState state = level().getBlockState(candidate);
             float hardness = state.getDestroySpeed(level(), candidate);
             if (state.isAir() || state.hasBlockEntity() || !state.getFluidState().isEmpty()
-                    || hardness < 0.0F || hardness > 1.0F) {
+                    || hardness < 0.0F || hardness > adjustBlockBreakHardness(1.0F)) {
                 continue;
             }
             if (ParasiteBlockInventory.collect((ServerLevel) level(), candidate, this)) {
@@ -1070,11 +1114,44 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
         if (projectile == null) {
             return;
         }
-        Vec3 start = getEyePosition().add(getViewVector(1.0F).scale(0.45D));
-        projectile.configure(this, acid ? ParasiteProjectileEntity.Mode.ACID : ParasiteProjectileEntity.Mode.SPINE,
-                start, target.getEyePosition(), acid ? 0.65D : 1.0D, acid ? 9.0F : 5.0F,
-                acid ? 1.8D : 0.75D, acid ? 90 : 60);
+        Vec3 view = getViewVector(1.0F);
+        Vec3 start = new Vec3(getX() + view.x, getY() + getEyeHeight() - 0.2D, getZ() + view.z);
+        Vec3 targetCenter = new Vec3(target.getX(), target.getBoundingBox().minY + target.getBbHeight() * 0.5D,
+                target.getZ());
+        projectile.configureLegacyFireball(this,
+                acid ? ParasiteProjectileEntity.Mode.YELLOWEYE_NADE
+                        : ParasiteProjectileEntity.Mode.YELLOWEYE_SPINE,
+                start, targetCenter.subtract(start),
+                acid ? 0.0F : MobsConfig.yelloweyeRangedDamage(), 0.15D, Integer.MAX_VALUE);
         level().addFreshEntity(projectile);
+        playSound(ModSounds.get("emana.shooting"), 2.0F, acid ? 2.0F : 1.0F);
+    }
+
+    private void tickYelloweyeFlightLimits() {
+        if (tickCount % 21 == 10) {
+            if (onGround()) {
+                getMoveControl().setWantedPosition(getX(), getY() + 5.0D, getZ(), 0.5D);
+            }
+            LivingEntity target = getTarget();
+            if (target != null && (!level().isEmptyBlock(blockPosition().below())
+                    || !level().isEmptyBlock(blockPosition().below(2)))) {
+                Vec3 motion = getDeltaMovement();
+                setDeltaMovement(motion.x, Math.max(motion.y, 0.5D), motion.z);
+            }
+        }
+
+        int limit = MobsConfig.yelloweyeMaxFlightHeight();
+        if (limit == 256) {
+            return;
+        }
+        LivingEntity target = getTarget();
+        double maximumY = target == null
+                ? level().getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                        blockPosition().getX(), blockPosition().getZ()) + limit
+                : target.getY() + limit;
+        if (getY() > maximumY) {
+            setDeltaMovement(getDeltaMovement().add(0.0D, -0.04D, 0.0D));
+        }
     }
 
     private void fireWebProjectile(LivingEntity target, int webKind) {
@@ -1861,35 +1938,6 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
         @Override
         public boolean canUse() {
             LivingEntity target = getTarget();
-            return abilityCooldown <= 0 && target != null && target.isAlive() && hasLineOfSight(target);
-        }
-
-        @Override
-        public boolean canContinueToUse() {
-            return false;
-        }
-
-        @Override
-        public void start() {
-            LivingEntity target = getTarget();
-            if (target == null) {
-                return;
-            }
-            getLookControl().setLookAt(target, 30.0F, 30.0F);
-            boolean acid = ++rangedShots % 4 == 0;
-            fireYelloweyeProjectile(target, acid);
-            abilityCooldown = acid ? 80 : 30;
-        }
-    }
-
-    private final class YelloweyeFlightGoal extends Goal {
-        private YelloweyeFlightGoal() {
-            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
-        }
-
-        @Override
-        public boolean canUse() {
-            LivingEntity target = getTarget();
             return target != null && target.isAlive();
         }
 
@@ -1902,10 +1950,140 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
         public void tick() {
             LivingEntity target = getTarget();
             if (target == null) {
+                resetYelloweyeAttack();
                 return;
             }
             getLookControl().setLookAt(target, 30.0F, 30.0F);
-            getMoveControl().setWantedPosition(target.getX(), target.getY() + 2.5D, target.getZ(), 1.0D);
+            if (distanceToSqr(target) >= YELLOWEYE_MAX_ATTACK_DISTANCE_SQR || !hasLineOfSight(target)) {
+                yelloweyeAttackTimer = Math.max(0, yelloweyeAttackTimer - 1);
+                return;
+            }
+
+            yelloweyeAttackTimer += hasEffect(ModMobEffects.RAGE) ? 2 : 1;
+            if (yelloweyeAttackTimer == YELLOWEYE_WARNING_TICK) {
+                rangedShots++;
+                if (rangedShots == 4) {
+                    if (level() instanceof ServerLevel serverLevel) {
+                        serverLevel.sendParticles(ParticleTypes.FLAME, getX(), getY() + getEyeHeight(), getZ(),
+                                2, 0.15D, 0.15D, 0.15D, 0.01D);
+                    }
+                    playSound(ModSounds.get("emana.hurt"), 4.0F,
+                            (random.nextFloat() - random.nextFloat()) * 0.4F + 2.0F);
+                } else {
+                    playSound(ModSounds.get("emana.shootingpost"), 2.0F, 1.0F);
+                }
+            }
+            if (yelloweyeAttackTimer >= YELLOWEYE_FIRE_TICK && !yelloweyeShotFired) {
+                boolean acid = rangedShots >= 4;
+                fireYelloweyeProjectile(target, acid);
+                if (acid) {
+                    rangedShots = 0;
+                }
+                yelloweyeShotFired = true;
+                return;
+            }
+            if (yelloweyeShotFired) {
+                resetYelloweyeAttack();
+            }
+        }
+
+        @Override
+        public void stop() {
+            resetYelloweyeAttack();
+        }
+    }
+
+    private void resetYelloweyeAttack() {
+        yelloweyeAttackTimer = 0;
+        yelloweyeShotFired = false;
+    }
+
+    private final class YelloweyeRandomFlightGoal extends Goal {
+        private YelloweyeRandomFlightGoal() {
+            setFlags(EnumSet.of(Flag.MOVE));
+        }
+
+        @Override
+        public boolean canUse() {
+            return !getMoveControl().hasWanted() && random.nextInt(7) == 0;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return false;
+        }
+
+        @Override
+        public void start() {
+            BlockPos origin = blockPosition();
+            int mode = 1;
+            double speed = 0.5D;
+            LivingEntity target = getTarget();
+            if (target != null) {
+                double distance = distanceToSqr(target);
+                if (distance > 100.0D) {
+                    origin = target.blockPosition();
+                    mode = 2;
+                    speed = 0.75D;
+                } else if (distance < 36.0D) {
+                    origin = target.blockPosition();
+                    mode = 3;
+                    speed = 0.75D;
+                }
+            }
+
+            for (int attempt = 0; attempt < 3; attempt++) {
+                BlockPos destination = switch (mode) {
+                    case 2 -> origin.offset(random.nextInt(6) - 2, random.nextInt(7) - 2,
+                            random.nextInt(6) - 2);
+                    case 3 -> origin.offset(random.nextInt(4) + 3, random.nextInt(5) + 4,
+                            random.nextInt(4) + 3);
+                    default -> origin.offset(random.nextInt(15) - 7, random.nextInt(11) - 5,
+                            random.nextInt(15) - 7);
+                };
+                if (!level().isEmptyBlock(destination)) {
+                    continue;
+                }
+                getMoveControl().setWantedPosition(destination.getX() + 0.5D,
+                        destination.getY() + 0.5D, destination.getZ() + 0.5D, speed);
+                if (target == null) {
+                    getLookControl().setLookAt(destination.getX() + 0.5D,
+                            destination.getY() + 0.5D, destination.getZ() + 0.5D, 180.0F, 20.0F);
+                }
+                return;
+            }
+        }
+    }
+
+    private static final class YelloweyeMoveControl extends MoveControl {
+        private YelloweyeMoveControl(PrimitiveVariantEntity yelloweye) {
+            super(yelloweye);
+        }
+
+        @Override
+        public void tick() {
+            if (operation != Operation.MOVE_TO) {
+                return;
+            }
+            PrimitiveVariantEntity yelloweye = (PrimitiveVariantEntity) mob;
+            double x = wantedX - yelloweye.getX();
+            double y = wantedY - yelloweye.getY();
+            double z = wantedZ - yelloweye.getZ();
+            double distance = Math.sqrt(x * x + y * y + z * z);
+            if (distance < yelloweye.getBoundingBox().getSize()) {
+                operation = Operation.WAIT;
+                yelloweye.setDeltaMovement(yelloweye.getDeltaMovement().scale(0.5D));
+                return;
+            }
+            yelloweye.setDeltaMovement(yelloweye.getDeltaMovement().add(
+                    x / distance * 0.05D * speedModifier,
+                    y / distance * 0.05D * speedModifier,
+                    z / distance * 0.05D * speedModifier));
+            LivingEntity target = yelloweye.getTarget();
+            double lookX = target == null ? yelloweye.getDeltaMovement().x : target.getX() - yelloweye.getX();
+            double lookZ = target == null ? yelloweye.getDeltaMovement().z : target.getZ() - yelloweye.getZ();
+            yelloweye.setYRot(-((float) Mth.atan2(lookX, lookZ)) * Mth.RAD_TO_DEG);
+            yelloweye.yBodyRot = yelloweye.getYRot();
         }
     }
 

@@ -57,6 +57,30 @@ public final class MobsConfig {
                     "0;15;1;minecraft:nausea;0;0"),
             "Primitive Reeker scary-orb effects: self;seconds;amplifier;effect_id;mob_amplifier_step;mob_duration_step.",
             MobsConfig::validOrbEffect);
+    private static final ModConfigSpec.DoubleValue YELLOWEYE_HEALTH_MULTIPLIER = value(
+            "srparasites:yelloweye", "primitiveYelloweyeHealthMultiplier", 1.0D, 0.01D, 100.0D,
+            "Health multiplier for the Primitive Yelloweye.");
+    private static final ModConfigSpec.DoubleValue YELLOWEYE_DAMAGE_MULTIPLIER = value(
+            "srparasites:yelloweye", "primitiveYelloweyeDamageMultiplier", 1.0D, 0.01D, 100.0D,
+            "Ranged damage multiplier for the Primitive Yelloweye.");
+    private static final ModConfigSpec.DoubleValue YELLOWEYE_ARMOR_MULTIPLIER = value(
+            "srparasites:yelloweye", "primitiveYelloweyeArmorMultiplier", 1.0D, 0.01D, 100.0D,
+            "Armor multiplier for the Primitive Yelloweye.");
+    private static final ModConfigSpec.DoubleValue YELLOWEYE_KNOCKBACK_MULTIPLIER = value(
+            "srparasites:yelloweye", "primitiveYelloweyeKnockbackResistanceMultiplier",
+            1.0D, 0.01D, 100.0D, "Knockback resistance multiplier for the Primitive Yelloweye.");
+    private static final ModConfigSpec.IntValue YELLOWEYE_POISON_DURATION = intValue(
+            "srparasites:yelloweye", "primitiveYelloweyePoisonDuration", 3, 0, 100,
+            "Poison duration in seconds for the Primitive Yelloweye spine projectile.");
+    private static final ModConfigSpec.IntValue YELLOWEYE_POISON_AMPLIFIER = intValue(
+            "srparasites:yelloweye", "primitiveYelloweyePoisonAmplifier", 1, 1, 100,
+            "One-based poison amplifier for the Primitive Yelloweye spine projectile.");
+    private static final ModConfigSpec.DoubleValue YELLOWEYE_GEAR_DAMAGE = value(
+            "srparasites:yelloweye", "primitiveYelloweyeGearDegrade", 0.04D, 0.0D, 1.0D,
+            "Fraction of maximum durability removed from armor by a Primitive Yelloweye spine.");
+    private static final ModConfigSpec.IntValue YELLOWEYE_MAX_FLIGHT_HEIGHT = intValue(
+            "srparasites:yelloweye", "primitiveYelloweyeFlightHeightLimit", 256, 0, 256,
+            "Maximum number of air blocks the Primitive Yelloweye may fly above terrain.");
 
     public static final ModConfigSpec SPEC = BUILDER.build();
 
@@ -83,6 +107,14 @@ public final class MobsConfig {
                                                             boolean defaultValue, String comment) {
         BUILDER.push(category);
         ModConfigSpec.BooleanValue value = BUILDER.comment(comment).define(name, defaultValue);
+        BUILDER.pop();
+        return value;
+    }
+
+    private static ModConfigSpec.IntValue intValue(String category, String name, int defaultValue,
+                                                    int min, int max, String comment) {
+        BUILDER.push(category);
+        ModConfigSpec.IntValue value = BUILDER.comment(comment).defineInRange(name, defaultValue, min, max);
         BUILDER.pop();
         return value;
     }
@@ -140,6 +172,42 @@ public final class MobsConfig {
 
     public static List<? extends String> reekerOrbEffects() {
         return REEKER_ORB_EFFECTS.get();
+    }
+
+    public static double yelloweyeHealth() {
+        return 30.0D * YELLOWEYE_HEALTH_MULTIPLIER.get();
+    }
+
+    public static double yelloweyeArmor() {
+        return 3.5D * YELLOWEYE_ARMOR_MULTIPLIER.get();
+    }
+
+    public static double yelloweyeNadeDamage() {
+        return 3.5D * YELLOWEYE_ARMOR_MULTIPLIER.get();
+    }
+
+    public static float yelloweyeRangedDamage() {
+        return (float) (5.0D * YELLOWEYE_DAMAGE_MULTIPLIER.get());
+    }
+
+    public static double yelloweyeKnockbackResistance() {
+        return 0.2D * YELLOWEYE_KNOCKBACK_MULTIPLIER.get();
+    }
+
+    public static int yelloweyePoisonDurationTicks() {
+        return YELLOWEYE_POISON_DURATION.get() * 20;
+    }
+
+    public static int yelloweyePoisonAmplifier() {
+        return YELLOWEYE_POISON_AMPLIFIER.get() - 1;
+    }
+
+    public static double yelloweyeGearDamage() {
+        return YELLOWEYE_GEAR_DAMAGE.get();
+    }
+
+    public static int yelloweyeMaxFlightHeight() {
+        return YELLOWEYE_MAX_FLIGHT_HEIGHT.get();
     }
 
     private static boolean validOrbEffect(Object value) {
