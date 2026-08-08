@@ -59,11 +59,15 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     private static final EntityDataAccessor<Float> FLOOR_TIMER = SynchedEntityData.defineId(
             NexusParasiteEntity.class, EntityDataSerializers.FLOAT);
 
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation FLY = ParasiteAnimations.loop(this, "fly");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final RawAnimation BECKON_ATTACK_AGE = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_1");
     private final RawAnimation BECKON_BODY = ParasiteAnimations.loop(this, "get_body");
+    private final RawAnimation BECKON_ATTACK_BODY = ParasiteAnimations.loop(this,
+            "get_body.get_parasite_status_1");
+    private final RawAnimation BECKON_FLOOR_TIMER = ParasiteAnimations.loop(this, "get_floor_timer");
+    private final RawAnimation BECKON_ATTACK_FLOOR_TIMER = ParasiteAnimations.loop(this,
+            "get_floor_timer.get_parasite_status_1");
     private static final int STAGE_ONE_MIN_GROWTH = 4_800;
     private static final int STAGE_ONE_GROWTH_VARIANCE = 1_201;
     private static final int TEMPORARY_BECKON_LIFETIME = 300;
@@ -77,7 +81,6 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     private int supportCooldown;
     private int blockBreakCooldown;
     private int forcedEvolutionCooldown;
-    private int attackFlashTicks;
     private int colonyPlacementProgress;
     private int temporaryLifetimeTicks = -1;
     private boolean canGrow = true;
@@ -188,7 +191,6 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
 
         if (activeKind.family == Family.ROOTER && supportCooldown <= 0) {
             applyRooterSupport(activeKind.stage);
-            triggerAttackAnimation();
             supportCooldown = 200;
         }
         if (activeKind.family == Family.DISPATCHER && tickCount % 40 == 0) {
@@ -199,9 +201,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
             tryPlaceFirstColony();
         }
         if (summonCooldown <= 0 && performFamilyAbility(activeKind)) {
-            // Set status to trigger summoning animation
             setParasiteStatus(1);
-            triggerAttackAnimation();
             summonCooldown = activeKind.summonCooldown;
         } else if (summonCooldown > 0 && getParasiteStatus() == 1) {
             // Reset status after summoning
@@ -209,13 +209,11 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         }
         if (activeKind.family == Family.BECKON && activeKind.stage == 4
                 && forcedEvolutionCooldown <= 0 && forceEvolveNearbyParasite()) {
-            triggerAttackAnimation();
             forcedEvolutionCooldown = 100;
         }
         if (activeKind.family == Family.BECKON && activeKind.stage == 4 && level().isThundering()
                 && tickCount % 20 == 0) {
             createStormVortex();
-            triggerAttackAnimation();
         }
         if (activeKind.family == Family.BECKON && tickCount % Math.max(20, 100 - activeKind.stage * 15) == 0
                 && level() instanceof ServerLevel serverLevel) {
@@ -274,7 +272,6 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         }
         if (bombCooldown <= 0) {
             spawnBombVolley(activeKind.bombCount, (float) activeKind.attackDamage);
-            triggerAttackAnimation();
             bombCooldown = 100;
         }
         return true;
@@ -342,16 +339,13 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         Kind activeKind = activeKind();
-
-        // Dispatcher family uses specialized animation controllers
-        if (activeKind.family == Family.DISPATCHER) {
-            controllers.add(new AnimationController<>(this, "dispatcher_controller", 0, this::dispatcherAnimation));
-            controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
-                    .triggerableAnim("attack", ATTACK));
-        } else {
-            controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
-            controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
-                    .triggerableAnim("attack", ATTACK));
+        if (activeKind.isRooterBall()) {
+            return;
+        }
+        controllers.add(new AnimationController<>(this, "age_controller", 0, this::ageAnimation));
+        if (activeKind.family == Family.BECKON && activeKind.stage < 4) {
+            controllers.add(new AnimationController<>(this, "body_controller", 0, this::bodyAnimation));
+            controllers.add(new AnimationController<>(this, "floor_controller", 0, this::floorAnimation));
         }
     }
 
@@ -365,7 +359,6 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         tag.putInt("nexus_support_cooldown", supportCooldown);
         tag.putInt("nexus_block_break_cooldown", blockBreakCooldown);
         tag.putInt("nexus_forced_evolution_cooldown", forcedEvolutionCooldown);
-        tag.putInt("nexus_attack_flash", attackFlashTicks);
         tag.putInt("nexus_temporary_lifetime", temporaryLifetimeTicks);
         tag.putBoolean("nexus_can_grow", canGrow);
         tag.putFloat("nexus_body", getBODY());
@@ -387,7 +380,6 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         supportCooldown = tag.getInt("nexus_support_cooldown");
         blockBreakCooldown = tag.getInt("nexus_block_break_cooldown");
         forcedEvolutionCooldown = tag.getInt("nexus_forced_evolution_cooldown");
-        attackFlashTicks = tag.getInt("nexus_attack_flash");
         temporaryLifetimeTicks = tag.contains("nexus_temporary_lifetime")
                 ? tag.getInt("nexus_temporary_lifetime") : -1;
         canGrow = !tag.contains("nexus_can_grow") || tag.getBoolean("nexus_can_grow");
@@ -414,36 +406,19 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         return activeKind();
     }
 
-    private PlayState movementAnimation(AnimationState<NexusParasiteEntity> state) {
-        Kind activeKind = activeKind();
-
-        // For BECKON family, use body expansion/contraction animation when status != 0
-        if (activeKind.family == Family.BECKON && getParasiteStatus() != 0) {
-            return state.setAndContinue(BECKON_BODY);
-        }
-
-        if (!ParasiteAnimations.isMoving(this, state.isMoving())) {
-            // Use body animation for BECKON family at lower stages when idle
-            return state.setAndContinue(activeKind.family == Family.BECKON && activeKind.stage < 4
-                    ? BECKON_BODY : IDLE);
-        }
-        return state.setAndContinue(!onGround() || Math.abs(getDeltaMovement().y) > 0.08D ? FLY : WALK);
+    private PlayState ageAnimation(AnimationState<NexusParasiteEntity> state) {
+        return state.setAndContinue(activeKind().family == Family.BECKON
+                && activeKind().stage < 4 && getParasiteStatus() == 1
+                ? BECKON_ATTACK_AGE : AGE_IN_TICKS);
     }
 
-    /**
-     * Dispatcher-specific animation controller with complex tentacle and hair animations.
-     * Based on original mod's ModelDod implementation with sine wave oscillations.
-     * The procedural animations (tentacles, neck, hair) are baked into the idle/walk animations.
-     */
-    private PlayState dispatcherAnimation(AnimationState<NexusParasiteEntity> state) {
-        // Dispatcher family uses idle animation for all states, as procedural movements
-        // (sine wave tentacle/neck/hair animations) are baked into the animation JSON
-        return state.setAndContinue(IDLE);
+    private PlayState bodyAnimation(AnimationState<NexusParasiteEntity> state) {
+        return state.setAndContinue(getParasiteStatus() == 1 ? BECKON_ATTACK_BODY : BECKON_BODY);
     }
 
-    private void triggerAttackAnimation() {
-        attackFlashTicks = 12;
-        triggerAnim("attack_controller", "attack");
+    private PlayState floorAnimation(AnimationState<NexusParasiteEntity> state) {
+        return state.setAndContinue(getParasiteStatus() == 1
+                ? BECKON_ATTACK_FLOOR_TIMER : BECKON_FLOOR_TIMER);
     }
 
     private void decrementCooldowns() {
@@ -452,7 +427,6 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         if (supportCooldown > 0) supportCooldown--;
         if (blockBreakCooldown > 0) blockBreakCooldown--;
         if (forcedEvolutionCooldown > 0) forcedEvolutionCooldown--;
-        if (attackFlashTicks > 0) attackFlashTicks--;
     }
 
     private boolean performFamilyAbility(Kind activeKind) {

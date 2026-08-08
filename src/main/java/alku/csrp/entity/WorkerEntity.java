@@ -20,10 +20,6 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap;
 import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
 
 import java.util.EnumSet;
 
@@ -37,10 +33,6 @@ public final class WorkerEntity extends PrimitiveParasiteEntity {
     private static final int SEARCH_RANGE = 25;
     private static final int DEFENCE_GRID = 13;
     private static final int BUILDING_GRID = 26;
-
-    private final RawAnimation idleAnimation = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation walkAnimation = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation buildAnimation = ParasiteAnimations.play(this, "attack");
 
     private BlockPos colonyOrigin;
     private int colonyRadius;
@@ -100,9 +92,6 @@ public final class WorkerEntity extends PrimitiveParasiteEntity {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
-                .triggerableAnim("attack", buildAnimation));
     }
 
     @Override
@@ -126,10 +115,6 @@ public final class WorkerEntity extends PrimitiveParasiteEntity {
                 ? Math.max(0, tag.getInt("parasite_build_cooldown")) : BUILD_INTERVAL;
     }
 
-    private PlayState movementAnimation(AnimationState<WorkerEntity> state) {
-        return state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving()) ? walkAnimation : idleAnimation);
-    }
-
     private boolean placeNextStructure() {
         if (colonyOrigin == null || !(level() instanceof ServerLevel serverLevel)
                 || !serverLevel.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
@@ -150,7 +135,6 @@ public final class WorkerEntity extends PrimitiveParasiteEntity {
                 }
                 serverLevel.setBlockAndUpdate(placement, ModBlocks.PARASITE_STRUCTURE.get().defaultBlockState()
                         .setValue(SrpCoreBlock.ACTIVE, stage));
-                triggerAnim("attack_controller", "attack");
                 return true;
             }
         }

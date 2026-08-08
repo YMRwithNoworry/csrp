@@ -44,22 +44,23 @@ import java.util.EnumSet;
 public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
     private static final EntityDataAccessor<Integer> DREAD_DAMAGE_REACTION_TICKS = SynchedEntityData.defineId(
             AncientParasiteEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> DREAD_ATTACK_ANIMATION_TICKS = SynchedEntityData.defineId(
+            AncientParasiteEntity.class, EntityDataSerializers.INT);
     private static final int MAX_ADAPTATION_HITS = 10;
     private static final int MAX_LEARNABLE_DAMAGE_SOURCES = 5;
     private static final float ADAPTATION_PER_HIT = 0.10F;
     private static final float ADAPTATION_LEARN_CHANCE = 0.90F;
     private static final float FIRE_SUPPRESSION_CHANCE = 0.10F;
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation FLY = ParasiteAnimations.loop(this, "fly");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final RawAnimation LIMB_SWING = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final RawAnimation DREAD_ATTACK = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_1");
     private final RawAnimation DREAD_DAMAGE_REACTION = ParasiteAnimations.loop(this,
-            "idle.get_parasite_status_77");
+            "func_78087_a.age_in_ticks.get_parasite_status_77");
 
     private final Kind kind;
     private final ServerBossEvent bossEvent;
     private int blockBreakCooldown;
-    private int attackAnimationTicks;
     private int nextTendrilThreshold = 4;
     private boolean deathBurstFired;
 
@@ -108,6 +109,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(DREAD_DAMAGE_REACTION_TICKS, 0);
+        builder.define(DREAD_ATTACK_ANIMATION_TICKS, 0);
     }
 
     @Override
@@ -124,8 +126,8 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         if (blockBreakCooldown > 0) {
             blockBreakCooldown--;
         }
-        if (attackAnimationTicks > 0) {
-            attackAnimationTicks--;
+        if (entityData.get(DREAD_ATTACK_ANIMATION_TICKS) > 0) {
+            entityData.set(DREAD_ATTACK_ANIMATION_TICKS, entityData.get(DREAD_ATTACK_ANIMATION_TICKS) - 1);
         }
         if (entityData.get(DREAD_DAMAGE_REACTION_TICKS) > 0) {
             entityData.set(DREAD_DAMAGE_REACTION_TICKS, entityData.get(DREAD_DAMAGE_REACTION_TICKS) - 1);
@@ -198,8 +200,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         if (activeKind() != Kind.OVERLORD || !(entity instanceof LivingEntity center)) {
             boolean hurt = super.doHurtTarget(entity);
             if (hurt) {
-                attackAnimationTicks = 8;
-                triggerAnim("attack_controller", "attack");
+                entityData.set(DREAD_ATTACK_ANIMATION_TICKS, 8);
             }
             return hurt;
         }
@@ -215,8 +216,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
             pushAway(target, 1.10D, 0.85D);
         }
         if (hit) {
-            attackAnimationTicks = 10;
-            triggerAnim("attack_controller", "attack");
+            entityData.set(DREAD_ATTACK_ANIMATION_TICKS, 10);
         }
         return hit;
     }
@@ -252,46 +252,29 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
-                .triggerableAnim("attack", ATTACK));
-        // DREADNAUT 和 OVERLORD 都需要触手动画控制器
-        if (activeKind() == Kind.DREADNAUT || activeKind() == Kind.OVERLORD) {
-            controllers.add(new AnimationController<>(this, "tentacle_controller", 0, this::tentacleAnimation));
+        if (activeKind() == Kind.DREADNAUT) {
+            controllers.add(new AnimationController<>(this, "state_controller", 0, this::dreadnautAnimation));
+            return;
         }
+        controllers.add(new AnimationController<>(this, "age_controller", 0,
+                state -> state.setAndContinue(AGE_IN_TICKS)));
+        controllers.add(new AnimationController<>(this, "movement_controller", 4,
+                state -> ParasiteAnimations.isMoving(this, state.isMoving())
+                        ? state.setAndContinue(LIMB_SWING) : PlayState.STOP));
     }
 
     public Kind getKind() {
         return activeKind();
     }
 
-    private PlayState movementAnimation(AnimationState<AncientParasiteEntity> state) {
-        if (activeKind() == Kind.DREADNAUT && entityData.get(DREAD_DAMAGE_REACTION_TICKS) > 0) {
+    private PlayState dreadnautAnimation(AnimationState<AncientParasiteEntity> state) {
+        if (entityData.get(DREAD_DAMAGE_REACTION_TICKS) > 0) {
             return state.setAndContinue(DREAD_DAMAGE_REACTION);
         }
-        if (activeKind() == Kind.DREADNAUT) {
-            return state.setAndContinue(FLY);
+        if (entityData.get(DREAD_ATTACK_ANIMATION_TICKS) > 0) {
+            return state.setAndContinue(DREAD_ATTACK);
         }
-        return state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving()) ? WALK : IDLE);
-    }
-
-    private PlayState tentacleAnimation(AnimationState<AncientParasiteEntity> state) {
-        // DREADNAUT: 根据状态返回不同的触手动画
-        // 状态 0 = 空闲/漂浮, 状态 1 = 攻击, 状态 77 = 受伤/愤怒
-        if (activeKind() == Kind.DREADNAUT) {
-            if (entityData.get(DREAD_DAMAGE_REACTION_TICKS) > 0) {
-                // 状态 77: 受伤动画 - 剧烈震动
-                return PlayState.CONTINUE;
-            } else if (attackAnimationTicks > 0) {
-                // 状态 1: 攻击动画 - 触手快速摆动
-                return PlayState.CONTINUE;
-            } else {
-                // 状态 0: 空闲动画 - 缓慢漂浮
-                return PlayState.CONTINUE;
-            }
-        }
-        // OVERLORD: 持续播放触手闲置动画
-        return PlayState.CONTINUE;
+        return state.setAndContinue(AGE_IN_TICKS);
     }
 
     private void pushAway(LivingEntity target, double horizontal, double vertical) {
@@ -346,8 +329,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private void triggerAttackAnimation() {
-        attackAnimationTicks = 10;
-        triggerAnim("attack_controller", "attack");
+        entityData.set(DREAD_ATTACK_ANIMATION_TICKS, 10);
     }
 
     private void spawnDreadnautReinforcements() {

@@ -363,6 +363,39 @@ const registeredOnlyExpected = {
   sim_dragonehead: assimilatedExpected.sim_dragonhead
 };
 
+const lateExtractedExpected = {
+  worker: [],
+  architect: [],
+  anc_dreadnaut_ten: [],
+  anc_dreadnaut: ["func_78087_a.age_in_ticks",
+    "func_78087_a.age_in_ticks.get_parasite_status_1",
+    "func_78087_a.age_in_ticks.get_parasite_status_77"],
+  anc_overlord: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing"],
+  anc_pod: ["func_78087_a.age_in_ticks", "func_78087_a.age_in_ticks.get_parasite_status_1"],
+  beckon_si: ["func_78087_a.age_in_ticks", "get_body", "get_floor_timer",
+    "func_78087_a.age_in_ticks.get_parasite_status_1", "get_body.get_parasite_status_1",
+    "get_floor_timer.get_parasite_status_1"],
+  beckon_sii: ["func_78087_a.age_in_ticks", "get_body", "get_floor_timer",
+    "func_78087_a.age_in_ticks.get_parasite_status_1", "get_body.get_parasite_status_1",
+    "get_floor_timer.get_parasite_status_1"],
+  beckon_siii: ["func_78087_a.age_in_ticks", "get_body", "get_floor_timer",
+    "func_78087_a.age_in_ticks.get_parasite_status_1", "get_body.get_parasite_status_1",
+    "get_floor_timer.get_parasite_status_1"],
+  beckon_siv: ["func_78087_a.age_in_ticks"],
+  dispatcher_si: ["func_78087_a.age_in_ticks"],
+  dispatcher_sii: ["func_78087_a.age_in_ticks"],
+  dispatcher_siii: ["func_78087_a.age_in_ticks"],
+  dispatcher_siv: ["func_78087_a.age_in_ticks"],
+  rooter_si: ["func_78087_a.age_in_ticks"],
+  rooter_sii: ["func_78087_a.age_in_ticks"],
+  rooter_siii: ["func_78087_a.age_in_ticks"],
+  rooter_siv: ["func_78087_a.age_in_ticks"],
+  rooterball: [],
+  abo_bodies: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_2"]
+};
+
 function resolvedAnimationKey(id, requestedAction) {
   const resourceId = id === "sim_dragonhead" ? "sim_dragonehead"
     : id === "dispatcher_tentacle" ? "dispatcherten" : id;
@@ -411,7 +444,7 @@ for (const id of all) {
   const baseActions = id === "dispatcher_sii" ? ["idle", "idle", "idle"] : ["idle", "walk", actionAliases[id] || "attack"];
   const expectedActions = currentExpected[id] || adaptedExpected[id]
     || assimilatedExpected[id] || hijackedAndFeralExpected[id] || marauderizedExpected[id]
-    || pureExpected[id] || registeredOnlyExpected[id];
+    || pureExpected[id] || registeredOnlyExpected[id] || lateExtractedExpected[id];
   const expected = expectedActions
     ? expectedActions.map((action) => `animation.${resourceId}.${action}`)
     : id === "crux_incomplete"
@@ -531,7 +564,7 @@ for (const id of all) {
     if (!(key in animations)) failures.push(`${id}: missing base animation key ${key}`);
   }
   const exactExpectedActions = assimilatedExpected[id] || hijackedAndFeralExpected[id]
-    || marauderizedExpected[id];
+    || marauderizedExpected[id] || lateExtractedExpected[id];
   if (exactExpectedActions) {
     const actualKeys = Object.keys(animations).sort();
     const exactKeys = exactExpectedActions
@@ -622,8 +655,9 @@ const sharedVariantActions = {
   ,overseer: pureExpected.overseer
   ,vigilante: pureExpected.vigilante
   ,warden: pureExpected.warden
-  ,anc_dreadnaut: ["idle", "walk", "attack", "idle.get_parasite_status_77"]
-  ,anc_overlord: ["idle", "walk", "attack"]
+  ,anc_dreadnaut: lateExtractedExpected.anc_dreadnaut
+  ,anc_overlord: lateExtractedExpected.anc_overlord
+  ,abo_bodies: lateExtractedExpected.abo_bodies
   ,dispatcherten: pureExpected.dispatcherten
   ,kyphosis: pureExpected.kyphosis
   ,seizer: pureExpected.seizer
@@ -699,6 +733,72 @@ if (!helper.includes("entity.getX() - entity.xo") || !helper.includes("entity.ge
 }
 if (/isMoving\([^)]*\)[\s\S]{0,120}getDeltaMovement\(\)\.lengthSqr/.test(helper)) {
   failures.push("shared movement animation gate still trusts requested velocity while blocked");
+}
+
+for (const className of ["WorkerEntity", "ArchitectEntity", "DreadnautTentacleEntity"]) {
+  const source = read(`src/main/java/alku/csrp/entity/${className}.java`);
+  if (source.includes("RawAnimation") || source.includes("AnimationController")
+      || source.includes("triggerAnim(")) {
+    failures.push(`${className}: extracted legacy model is static but fabricated animation wiring remains`);
+  }
+}
+
+const ancientPod = read("src/main/java/alku/csrp/entity/AncientPodEntity.java");
+for (const action of lateExtractedExpected.anc_pod) {
+  if (!ancientPod.includes(`"${action}"`)) {
+    failures.push(`AncientPodEntity: original ModelDropPod function ${action} is not wired`);
+  }
+}
+if (ancientPod.includes('ParasiteAnimations.loop(this, "idle"')
+    || ancientPod.includes('"hair_controller"') || ancientPod.includes('"tentacle_controller"')) {
+  failures.push("AncientPodEntity: still uses fabricated clips or no-op procedural controllers");
+}
+
+const ancientParasite = read("src/main/java/alku/csrp/entity/AncientParasiteEntity.java");
+for (const action of new Set([
+  ...lateExtractedExpected.anc_dreadnaut,
+  ...lateExtractedExpected.anc_overlord
+])) {
+  if (!ancientParasite.includes(`"${action}"`)) {
+    failures.push(`AncientParasiteEntity: original ancient function ${action} is not wired`);
+  }
+}
+if (/ParasiteAnimations\.(?:loop|play)\(this,\s*"(?:idle|walk|fly|attack)"/.test(ancientParasite)
+    || ancientParasite.includes('triggerAnim("attack_controller"')) {
+  failures.push("AncientParasiteEntity: still requests a fabricated generic ancient animation");
+}
+if (!ancientParasite.includes("DREAD_ATTACK_ANIMATION_TICKS")
+    || !ancientParasite.includes("entityData.get(DREAD_DAMAGE_REACTION_TICKS) > 0")
+    || !ancientParasite.includes("ParasiteAnimations.isMoving(this, state.isMoving())")) {
+  failures.push("AncientParasiteEntity: Dreadnaut state priority or Overlord displacement routing is incomplete");
+}
+
+const nexus = read("src/main/java/alku/csrp/entity/NexusParasiteEntity.java");
+for (const action of lateExtractedExpected.beckon_si) {
+  if (!nexus.includes(`"${action}"`)) {
+    failures.push(`NexusParasiteEntity: original Nexus function ${action} is not wired`);
+  }
+}
+if (/ParasiteAnimations\.(?:loop|play)\(this,\s*"(?:idle|walk|fly|attack)"/.test(nexus)
+    || nexus.includes('triggerAnim("attack_controller"') || nexus.includes('triggerableAnim("attack"')) {
+  failures.push("NexusParasiteEntity: still requests fabricated generic Nexus animations");
+}
+if (!nexus.includes('"age_controller"') || !nexus.includes('"body_controller"')
+    || !nexus.includes('"floor_controller"') || !nexus.includes("activeKind.isRooterBall()")) {
+  failures.push("NexusParasiteEntity: extracted age/body/floor controllers or static Rooterball branch is incomplete");
+}
+
+const abomination = read("src/main/java/alku/csrp/entity/AbominationEntity.java");
+for (const action of lateExtractedExpected.abo_bodies) {
+  if (!abomination.includes(`"${action}"`)) {
+    failures.push(`AbominationEntity: original ModelAboBodies function ${action} is not wired`);
+  }
+}
+if (!abomination.includes("EntityDataAccessor<Integer> PARASITE_STATUS")
+    || !abomination.includes("ParasiteAnimations.isMoving(this, state.isMoving())")
+    || !abomination.includes("case 1 -> BODIES_APPROACH_LIMB")
+    || !abomination.includes("case 2 -> BODIES_SPRINT_LIMB")) {
+  failures.push("AbominationEntity: Many Bodies status 1/2 or actual-displacement routing is incomplete");
 }
 
 const primitiveVariants = read("src/main/java/alku/csrp/entity/PrimitiveVariantEntity.java");
@@ -1267,7 +1367,6 @@ if (!hiSkeleton.includes("EntityDataAccessor<Integer> PARASITE_STATUS")
 
 const triggeredFamilies = [
   ["AdaptedVariantEntity.java", "bolster_attack_controller"],
-  ["AncientParasiteEntity.java", "attack_controller"],
 ];
 for (const [file, controller] of triggeredFamilies) {
   const source = read(`src/main/java/alku/csrp/entity/${file}`);

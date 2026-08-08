@@ -13,10 +13,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
 
 /** Legacy Ancient Dreadnaut ground tendril (EntityOroncoTen). */
 public final class DreadnautTentacleEntity extends PrimitiveParasiteEntity {
@@ -24,11 +20,8 @@ public final class DreadnautTentacleEntity extends PrimitiveParasiteEntity {
     public boolean supportsDamageAdaptation() {
         return false;
     }
-    private final RawAnimation idleAnimation = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation attackAnimation = ParasiteAnimations.play(this, "attack");
     private int groundTicks;
     private int spawnedMobs;
-    private int attackAnimationTicks;
 
     public DreadnautTentacleEntity(EntityType<? extends DreadnautTentacleEntity> type, Level level) {
         super(type, level);
@@ -52,9 +45,6 @@ public final class DreadnautTentacleEntity extends PrimitiveParasiteEntity {
     @Override
     public void tick() {
         super.tick();
-        if (attackAnimationTicks > 0) {
-            attackAnimationTicks--;
-        }
         if (!onGround()) {
             return;
         }
@@ -82,7 +72,6 @@ public final class DreadnautTentacleEntity extends PrimitiveParasiteEntity {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
     }
 
     @Override
@@ -97,10 +86,6 @@ public final class DreadnautTentacleEntity extends PrimitiveParasiteEntity {
         super.readAdditionalSaveData(tag);
         groundTicks = tag.getInt("tendril_ground_ticks");
         spawnedMobs = tag.getInt("tendril_spawned_mobs");
-    }
-
-    private PlayState movementAnimation(AnimationState<DreadnautTentacleEntity> state) {
-        return state.setAndContinue(attackAnimationTicks > 0 ? attackAnimation : idleAnimation);
     }
 
     private boolean nearbyNonParasitesHaveAdvantage() {
@@ -129,7 +114,6 @@ public final class DreadnautTentacleEntity extends PrimitiveParasiteEntity {
         buglin.setTarget(getTarget());
         if (level.addFreshEntity(buglin)) {
             spawnedMobs++;
-            attackAnimationTicks = 12;
         }
     }
 }

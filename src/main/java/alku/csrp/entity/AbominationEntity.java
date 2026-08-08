@@ -2,6 +2,9 @@ package alku.csrp.entity;
 
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -23,13 +26,22 @@ import software.bernie.geckolib.animation.RawAnimation;
 
 /** Legacy Many Bodies and Giant Head close-combat abominations. */
 public final class AbominationEntity extends PrimitiveParasiteEntity {
+    private static final EntityDataAccessor<Integer> PARASITE_STATUS = SynchedEntityData.defineId(
+            AbominationEntity.class, EntityDataSerializers.INT);
+
     @Override
     public boolean supportsDamageAdaptation() {
         return false;
     }
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation HEAD_IDLE = ParasiteAnimations.loop(this, "idle");
+    private final RawAnimation HEAD_WALK = ParasiteAnimations.loop(this, "walk");
+    private final RawAnimation HEAD_ATTACK = ParasiteAnimations.play(this, "attack");
+    private final RawAnimation BODIES_AGE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final RawAnimation BODIES_LIMB = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final RawAnimation BODIES_APPROACH_LIMB = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_1");
+    private final RawAnimation BODIES_SPRINT_LIMB = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_2");
 
     private final Kind kind;
     private int supportCooldown;
@@ -48,6 +60,12 @@ public final class AbominationEntity extends PrimitiveParasiteEntity {
                 .add(Attributes.MOVEMENT_SPEED, kind.movementSpeed)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
                 .add(Attributes.FOLLOW_RANGE, 32.0D);
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(PARASITE_STATUS, 0);
     }
 
     @Override
@@ -78,7 +96,7 @@ public final class AbominationEntity extends PrimitiveParasiteEntity {
     @Override
     public boolean doHurtTarget(Entity target) {
         boolean hurt = super.doHurtTarget(target);
-        if (hurt) {
+        if (hurt && activeKind() == Kind.HEAD) {
             triggerAnim("attack_controller", "attack");
         }
         return hurt;
@@ -86,9 +104,16 @@ public final class AbominationEntity extends PrimitiveParasiteEntity {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
-                software.bernie.geckolib.animation.PlayState.STOP).triggerableAnim("attack", ATTACK));
+        if (activeKind() == Kind.BODIES) {
+            controllers.add(new AnimationController<>(this, "age_controller", 0,
+                    state -> state.setAndContinue(BODIES_AGE)));
+            controllers.add(new AnimationController<>(this, "movement_controller", 4,
+                    this::bodiesMovementAnimation));
+            return;
+        }
+        controllers.add(new AnimationController<>(this, "movement_controller", 4, this::headMovementAnimation));
+        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
+                .triggerableAnim("attack", HEAD_ATTACK));
     }
 
     public Kind getKind() {
@@ -99,8 +124,19 @@ public final class AbominationEntity extends PrimitiveParasiteEntity {
         return kind == null ? Kind.HEAD : kind;
     }
 
-    private PlayState movementAnimation(AnimationState<AbominationEntity> state) {
-        return state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving()) ? WALK : IDLE);
+    private PlayState headMovementAnimation(AnimationState<AbominationEntity> state) {
+        return state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving()) ? HEAD_WALK : HEAD_IDLE);
+    }
+
+    private PlayState bodiesMovementAnimation(AnimationState<AbominationEntity> state) {
+        if (!ParasiteAnimations.isMoving(this, state.isMoving())) {
+            return PlayState.STOP;
+        }
+        return state.setAndContinue(switch (entityData.get(PARASITE_STATUS)) {
+            case 1 -> BODIES_APPROACH_LIMB;
+            case 2 -> BODIES_SPRINT_LIMB;
+            default -> BODIES_LIMB;
+        });
     }
 
     private void applyBodiesSupport() {
@@ -134,13 +170,45 @@ public final class AbominationEntity extends PrimitiveParasiteEntity {
     }
 
     private static final class FastMeleeAttackGoal extends MeleeAttackGoal {
+        private final AbominationEntity parasite;
+
         private FastMeleeAttackGoal(PathfinderMob mob, double speedModifier) {
             super(mob, speedModifier, false);
+            parasite = (AbominationEntity) mob;
+        }
+
+        @Override
+        public void start() {
+            super.start();
+            updateParasiteStatus();
+        }
+
+        @Override
+        public void stop() {
+            parasite.entityData.set(PARASITE_STATUS, 0);
+            super.stop();
+        }
+
+        @Override
+        public void tick() {
+            updateParasiteStatus();
+            super.tick();
         }
 
         @Override
         protected int getTicksUntilNextAttack() {
             return 4;
+        }
+
+        private void updateParasiteStatus() {
+            LivingEntity target = parasite.getTarget();
+            if (target == null) {
+                parasite.entityData.set(PARASITE_STATUS, 0);
+                return;
+            }
+            double reach = parasite.getBbWidth() * 2.0D + target.getBbWidth();
+            parasite.entityData.set(PARASITE_STATUS,
+                    parasite.distanceToSqr(target) > reach * reach ? 2 : 1);
         }
     }
 }

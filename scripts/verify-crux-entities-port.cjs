@@ -42,8 +42,10 @@ expect(entities, /CRUX_BLOCK_DAMAGE/, "Crux thrown-block damage entity is missin
 expect(crux, /Attributes\.MAX_HEALTH, 70\.0/, "Crux legacy health is missing");
 expect(crux, /Attributes\.ATTACK_DAMAGE, BASE_ATTACK_DAMAGE/, "Crux legacy damage is missing");
 expect(crux, /performAoeAttack/, "Crux area melee behavior is missing");
-expect(crux, /ParasiteAnimations\.loop\(this, "idle"\)/, "Crux idle animation is not wired");
-expect(crux, /ParasiteAnimations\.loop\(this, "walk"\)/, "Crux walk animation is not wired");
+expect(crux, /ParasiteAnimations\.loop\(this,\s*"func_78087_a\.age_in_ticks"\)/,
+  "Crux original age-in-ticks animation is not wired");
+expect(crux, /ParasiteAnimations\.loop\(this,\s*"func_78087_a\.limb_swing"\)/,
+  "Crux original limb-swing animation is not wired");
 expect(crux, /registerAction\(actions, "get_attack_timer_m"\)/,
   "Crux original melee timer animation is not registered");
 expect(crux, /registerAction\(actions, "get_attack_timer_r"\)/,
@@ -90,12 +92,18 @@ for (const id of ["crux", "crux_incomplete"]) {
   const bones = new Set(geometry["minecraft:geometry"][0].bones.map((bone) => bone.name));
   if (id === "crux") {
     for (const name of [
-      "animation.crux.idle", "animation.crux.walk",
-      "animation.crux.idle.get_parasite_status_1",
-      "animation.crux.walk.get_parasite_status_1",
-      "animation.crux.walk.get_parasite_status_2",
-      "animation.crux.idle.get_parasite_status_3",
-      "animation.crux.get_attack_timer_m", "animation.crux.get_attack_timer_r"
+      "animation.crux.func_78087_a.age_in_ticks",
+      "animation.crux.func_78087_a.limb_swing",
+      "animation.crux.get_attack_timer_m",
+      "animation.crux.get_attack_timer_r",
+      "animation.crux.func_78087_a.age_in_ticks.get_parasite_status_1",
+      "animation.crux.func_78087_a.limb_swing.get_parasite_status_1",
+      "animation.crux.get_attack_timer_m.get_parasite_status_1",
+      "animation.crux.get_attack_timer_r.get_parasite_status_1",
+      "animation.crux.func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1",
+      "animation.crux.get_attack_timer_m.get_parasite_status_1.get_still_ani_1",
+      "animation.crux.get_attack_timer_r.get_parasite_status_1.get_still_ani_1",
+      "animation.crux.func_78087_a.limb_swing.get_parasite_status_2"
     ]) {
       if (!animations.animations[name]) failures.push(`crux/${name} animation is missing`);
     }

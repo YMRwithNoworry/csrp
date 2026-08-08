@@ -39,17 +39,23 @@ const hiSkeleton = read("src/main/java/alku/csrp/entity/HiSkeletonEntity.java");
 const airscrew = read("src/main/java/alku/csrp/entity/AirscrewEntity.java");
 const airscrewRenderer = read("src/main/java/alku/csrp/client/renderer/AirscrewRenderer.java");
 for (const [source, checks] of [
-  [feralEnderman, ["teleportAllyToTarget", "teleportAwayFromTarget", "instanceof Parasite"]],
+  [feralEnderman, ["teleportAllyToTarget", "teleportAwayFromTarget", "canTeleportAlly",
+    "ally instanceof RupterEntity", "ally instanceof PrimitiveParasiteEntity"]],
   [hiBlaze, ["SpineBurstGoal", "illuminateNearbyParasites", "Mode.SPINE"]],
   [hiGolem, ["GolemChargeGoal", "MOVEMENT_SLOWDOWN", "WEAKNESS"]],
   [hiSkeleton, ["SkeletonRangedGoal", "Mode.SPINE"]],
-  [airscrew, ["PULL_TARGET_IDS", "syncPullTargets", "spawnPullTethers", "ParticleTypes.CRIT",
+  [airscrew, ["PULL_TARGET_IDS", "syncPullTargets", "sendPullTetherParticles", "ParticleTypes.CRIT",
     "getPullTargetsForRendering"]],
-  [airscrewRenderer, ["renderTether", "RenderType.lightning()", "getPullTargetsForRendering"]]
+  [airscrewRenderer, ["renderTether", "RenderType.entityTranslucentEmissive(TETHER_TEXTURE)",
+    "getPullTargetsForRendering"]]
 ]) {
   for (const check of checks) {
     if (!source.includes(check)) failures.push(`behavior hook missing: ${check}`);
   }
+}
+
+if (airscrewRenderer.includes("RenderType.lightning()")) {
+  failures.push("airscrew: tether renderer still uses the invisible lightning path");
 }
 
 if (!client.includes("AirscrewRenderer::new")) {

@@ -22,10 +22,6 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
 
 import java.util.EnumSet;
 
@@ -63,10 +59,6 @@ public final class ArchitectEntity extends PrimitiveParasiteEntity {
     protected float damageAdaptationEffectiveness() {
         return 0.95F;
     }
-    private final RawAnimation idleAnimation = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation flyAnimation = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation attackAnimation = ParasiteAnimations.play(this, "attack");
-
     public ArchitectEntity(EntityType<? extends ArchitectEntity> type, Level level) {
         super(type, level);
         moveControl = new FlyingMoveControl(this, 18, true);
@@ -129,23 +121,7 @@ public final class ArchitectEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public boolean doHurtTarget(Entity target) {
-        boolean hit = super.doHurtTarget(target);
-        if (hit) {
-            triggerAnim("attack_controller", "attack");
-        }
-        return hit;
-    }
-
-    @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
-                .triggerableAnim("attack", attackAnimation));
-    }
-
-    private PlayState movementAnimation(AnimationState<ArchitectEntity> state) {
-        return state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving()) ? flyAnimation : idleAnimation);
     }
 
     private void spawnColonyWorker(ServerLevel level) {

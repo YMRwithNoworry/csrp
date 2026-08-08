@@ -267,7 +267,7 @@
     },
     {
       "entity": "dispatcher_siv",
-      "source": "textures/entity/monster/dodsiv.png"
+      "source": "textures/entity/monster/dodsiv_complete.png"
     },
     {
       "entity": "rooterball",
@@ -539,9 +539,39 @@
       "source": "textures/entity/monster/ranraca.png"
     },
     {
+      "target": "ada_arachnida_bleeding.png",
+      "entity": "ada_arachnida",
+      "source": "textures/entity/monster/ranracab.png"
+    },
+    {
+      "target": "ada_arachnida_heavy.png",
+      "entity": "ada_arachnida",
+      "source": "textures/entity/monster/ranracah.png"
+    },
+    {
+      "target": "ada_arachnida_virulent.png",
+      "entity": "ada_arachnida",
+      "source": "textures/entity/monster/ranracav.png"
+    },
+    {
       "target": "ada_bolster.png",
       "entity": "ada_bolster",
       "source": "textures/entity/monster/banoa.png"
+    },
+    {
+      "target": "ada_bolster_berserker.png",
+      "entity": "ada_bolster",
+      "source": "textures/entity/monster/banoab.png"
+    },
+    {
+      "target": "ada_bolster_breacher.png",
+      "entity": "ada_bolster",
+      "source": "textures/entity/monster/banoah.png"
+    },
+    {
+      "target": "ada_bolster_virulent.png",
+      "entity": "ada_bolster",
+      "source": "textures/entity/monster/banoav.png"
     },
     {
       "target": "ada_burrower.png",
@@ -849,11 +879,6 @@
       "source": "textures/entity/monster/dodsiii.png"
     },
     {
-      "target": "dispatcher_siv.png",
-      "entity": "dispatcher_siv",
-      "source": "textures/entity/monster/dodsiv.png"
-    },
-    {
       "target": "dod.png",
       "entity": "dispatcher_si",
       "source": "textures/entity/monster/dod.png"
@@ -867,11 +892,6 @@
       "target": "dodsiii.png",
       "entity": "dispatcher_siii",
       "source": "textures/entity/monster/dodsiii.png"
-    },
-    {
-      "target": "dodsiv.png",
-      "entity": "dispatcher_siv",
-      "source": "textures/entity/monster/dodsiv.png"
     },
     {
       "target": "dodt.png",
@@ -1654,6 +1674,11 @@
       "source": "textures/entity/monster/lum.png"
     },
     {
+      "target": "pri_devourer_heavy.png",
+      "entity": "pri_devourer",
+      "source": "textures/entity/monster/lumh.png"
+    },
+    {
       "target": "pri_longarms.png",
       "entity": "pri_longarms",
       "source": "textures/entity/monster/shyco.png"
@@ -1692,6 +1717,11 @@
       "target": "pri_yelloweye.png",
       "entity": "pri_yelloweye",
       "source": "textures/entity/monster/emana.png"
+    },
+    {
+      "target": "pri_yelloweye_heavy.png",
+      "entity": "pri_yelloweye",
+      "source": "textures/entity/monster/emanah.png"
     },
     {
       "target": "ranrac.png",
@@ -1952,6 +1982,11 @@
       "target": "sim_endermanhead.png",
       "entity": "sim_endermanhead",
       "source": "textures/entity/monster/endermanh.png"
+    },
+    {
+      "target": "sim_enderman_ariral.png",
+      "entity": "sim_enderman",
+      "source": "textures/entity/monster/infenderman_ariral.png"
     },
     {
       "target": "sim_horse.png",
