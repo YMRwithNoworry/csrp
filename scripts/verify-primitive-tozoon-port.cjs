@@ -27,7 +27,7 @@ if (/case TOZOON -> target\.addEffect\(new MobEffectInstance\(MobEffects\.MOVEME
 
 expect(entity, /protected void bodyPartEffect\(\)[\s\S]*?new AABB\(blockPosition\(\)\)\.inflate\(3\.0D\)/,
   "Tozoon body segment AOE is missing");
-expect(entity, /protected double bodyFollowDistance\(\)[\s\S]*?activeKind\(\) == Kind\.TOZOON \? 1\.7D/,
+expect(entity, /protected double bodyFollowDistance\(\)[\s\S]*?case TOZOON -> 1\.7D/,
   "Tozoon body follow distance is wrong");
 expect(burrowing, /previous\.hurt\(source, amount \* 0\.5F\)/,
   "burrowing body damage does not propagate to the predecessor");
@@ -67,10 +67,14 @@ for (const relative of [
       || lure.entries[0].functions?.[0]?.count?.max !== 2) {
     failures.push(`${relative}: lurecomponent3 pool is not the original 40% 1-2 drop`);
   }
-  if (bone.conditions?.[0]?.condition !== "minecraft:killed_by_player"
-      || bone.conditions?.[1]?.chance !== 0.1
+  if (bone.conditions?.length !== 1
+      || bone.conditions[0]?.condition !== "minecraft:random_chance"
+      || bone.conditions[0]?.chance !== 0.1
       || bone.entries?.[0]?.name !== "csrp:bone") {
-    failures.push(`${relative}: bone pool is not the original player-kill 10% drop`);
+    failures.push(`${relative}: bone pool is not the original independent 10% drop`);
+  }
+  if (JSON.stringify(table).includes("minecraft:killed_by_player")) {
+    failures.push(`${relative}: legacy independent drops were incorrectly gated behind a player kill`);
   }
   if (JSON.stringify(table).includes("ada_tozoon_drop")) {
     failures.push(`${relative}: unresolved legacy ada_tozoon_drop still invalidates the modern loot table`);

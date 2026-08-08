@@ -54,6 +54,7 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -194,6 +195,9 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
         if (kind == Kind.DEVOURER) {
             xpReward = 1 + random.nextInt(3);
         }
+        if (kind == Kind.BURROWER || kind == Kind.TOZOON) {
+            setPathfindingMalus(PathType.WATER, -1.0F);
+        }
         if (kind == Kind.YELLOWEYE) {
             moveControl = new YelloweyeMoveControl(this);
             setNoGravity(true);
@@ -255,12 +259,12 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
                 followRange = 32.0D;
             }
             case BURROWER -> {
-                health = 45.0D;
-                armor = 9.0D;
-                damage = 15.0D;
-                speed = 0.27D;
-                knockbackResistance = 0.45D;
-                followRange = 32.0D;
+                health = MobsConfig.burrowerHealth();
+                armor = MobsConfig.burrowerArmor();
+                damage = MobsConfig.burrowerDamage();
+                speed = 0.26D;
+                knockbackResistance = MobsConfig.burrowerKnockbackResistance();
+                followRange = 24.0D;
             }
             case DEVOURER -> {
                 health = MobsConfig.devourerHealth();
@@ -315,6 +319,9 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
         if (kind == Kind.YELLOWEYE) {
             attributes.add(Attributes.FLYING_SPEED, 0.30D);
         }
+        if (kind == Kind.BURROWER || kind == Kind.TOZOON) {
+            attributes.add(Attributes.STEP_HEIGHT, 1.0D);
+        }
         return attributes;
     }
 
@@ -332,7 +339,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
             }
             case BURROWER -> {
                 goalSelector.addGoal(1, createBurrowMovementGoal());
-                goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.20D, false));
+                goalSelector.addGoal(2, new BurrowerMeleeGoal());
             }
             case DEVOURER -> {
                 goalSelector.addGoal(2, new DevourerAttackGoal());
@@ -1237,7 +1244,11 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
 
     @Override
     protected double bodyFollowDistance() {
-        return activeKind() == Kind.TOZOON ? 1.7D : super.bodyFollowDistance();
+        return switch (activeKind()) {
+            case BURROWER -> 1.75D;
+            case TOZOON -> 1.7D;
+            default -> super.bodyFollowDistance();
+        };
     }
 
     @Override
@@ -1251,6 +1262,17 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
         return activeKind() == Kind.BURROWER
                 ? ModSounds.PRIMITIVE_BURROWER_DIG.get()
                 : ModSounds.PRIMITIVE_TOZOON_DIG.get();
+    }
+
+    private final class BurrowerMeleeGoal extends MeleeAttackGoal {
+        private BurrowerMeleeGoal() {
+            super(PrimitiveVariantEntity.this, 1.30D, false);
+        }
+
+        @Override
+        protected int getTicksUntilNextAttack() {
+            return 10;
+        }
     }
 
     @Override

@@ -127,7 +127,7 @@ public final class ModEntities {
                     PrimitiveVariantEntity.Kind.BOLSTER), 0.9F, 2.9F);
     public static final DeferredHolder<EntityType<?>, EntityType<PrimitiveVariantEntity>> PRI_BURROWER =
             monster("pri_burrower", (type, level) -> new PrimitiveVariantEntity(type, level,
-                    PrimitiveVariantEntity.Kind.BURROWER), 1.0F, 0.25F);
+                    PrimitiveVariantEntity.Kind.BURROWER), 1.0F, 0.25F, 0.25F);
     public static final DeferredHolder<EntityType<?>, EntityType<PrimitiveVariantEntity>> PRI_DEVOURER =
             monster("pri_devourer", (type, level) -> new PrimitiveVariantEntity(type, level,
                     PrimitiveVariantEntity.Kind.DEVOURER), 1.3F, 1.8F);
@@ -139,7 +139,7 @@ public final class ModEntities {
                     PrimitiveVariantEntity.Kind.REEKER), 0.9F, 2.6F);
     public static final DeferredHolder<EntityType<?>, EntityType<PrimitiveVariantEntity>> PRI_TOZOON =
             monster("pri_tozoon", (type, level) -> new PrimitiveVariantEntity(type, level,
-                    PrimitiveVariantEntity.Kind.TOZOON), 0.978F, 1.2F);
+                    PrimitiveVariantEntity.Kind.TOZOON), 0.978F, 1.2F, 1.0F);
     public static final DeferredHolder<EntityType<?>, EntityType<PrimitiveVariantEntity>> PRI_YELLOWEYE =
             monster("pri_yelloweye", (type, level) -> new PrimitiveVariantEntity(type, level,
                     PrimitiveVariantEntity.Kind.YELLOWEYE), 0.4F, 1.5F);
@@ -151,7 +151,7 @@ public final class ModEntities {
                     AdaptedVariantEntity.Kind.BOLSTER), 1.3F, 3.8F);
     public static final DeferredHolder<EntityType<?>, EntityType<AdaptedVariantEntity>> ADA_BURROWER =
             monster("ada_burrower", (type, level) -> new AdaptedVariantEntity(type, level,
-                    AdaptedVariantEntity.Kind.BURROWER), 1.321F, 1.2F);
+                    AdaptedVariantEntity.Kind.BURROWER), 1.321F, 1.2F, 1.0F);
     public static final DeferredHolder<EntityType<?>, EntityType<AdaptedVariantEntity>> ADA_DEVOURER =
             monster("ada_devourer", (type, level) -> new AdaptedVariantEntity(type, level,
                     AdaptedVariantEntity.Kind.DEVOURER), 0.901F, 3.5F);
@@ -169,7 +169,7 @@ public final class ModEntities {
                     AdaptedVariantEntity.Kind.SUMMONER), 0.901F, 3.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<AdaptedVariantEntity>> ADA_TOZOON =
             monster("ada_tozoon", (type, level) -> new AdaptedVariantEntity(type, level,
-                    AdaptedVariantEntity.Kind.TOZOON), 1.321F, 1.2F);
+                    AdaptedVariantEntity.Kind.TOZOON), 1.321F, 1.2F, 1.0F);
     public static final DeferredHolder<EntityType<?>, EntityType<AdaptedVariantEntity>> ADA_VERMIN =
             monster("ada_vermin", (type, level) -> new AdaptedVariantEntity(type, level,
                     AdaptedVariantEntity.Kind.VERMIN), 1.511F, 3.655F);
@@ -488,6 +488,13 @@ public final class ModEntities {
             String id, EntityType.EntityFactory<T> factory, float width, float height) {
         return ENTITIES.register(id, () -> EntityType.Builder.of(factory, MobCategory.MONSTER)
                 .sized(width, height).clientTrackingRange(8)
+                .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, id).toString()));
+    }
+
+    private static <T extends net.minecraft.world.entity.Mob> DeferredHolder<EntityType<?>, EntityType<T>> monster(
+            String id, EntityType.EntityFactory<T> factory, float width, float height, float eyeHeight) {
+        return ENTITIES.register(id, () -> EntityType.Builder.of(factory, MobCategory.MONSTER)
+                .sized(width, height).eyeHeight(eyeHeight).clientTrackingRange(8)
                 .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, id).toString()));
     }
 

@@ -51,6 +51,30 @@ public final class MobsConfig {
     private static final ModConfigSpec.BooleanValue DEVOURER_WATER_PLACEMENT = booleanValue(
             "srparasites:devourer", "devourerWaterPlacement", true,
             "Whether Devourers replace blocks they break with water.");
+    private static final ModConfigSpec.DoubleValue BURROWER_HEALTH_MULTIPLIER = value(
+            "srparasites:burrower", "primitiveBurrowerHealthMultiplier", 1.0D, 0.01D, 100.0D,
+            "Health multiplier for the Primitive Burrower.");
+    private static final ModConfigSpec.DoubleValue BURROWER_DAMAGE_MULTIPLIER = value(
+            "srparasites:burrower", "primitiveBurrowerDamageMultiplier", 1.0D, 0.01D, 100.0D,
+            "Attack damage multiplier for the Primitive Burrower.");
+    private static final ModConfigSpec.DoubleValue BURROWER_ARMOR_MULTIPLIER = value(
+            "srparasites:burrower", "primitiveBurrowerArmorMultiplier", 1.0D, 0.01D, 100.0D,
+            "Armor multiplier for the Primitive Burrower.");
+    private static final ModConfigSpec.DoubleValue BURROWER_KNOCKBACK_MULTIPLIER = value(
+            "srparasites:burrower", "primitiveBurrowerKnockbackResistanceMultiplier", 1.0D, 0.01D, 100.0D,
+            "Knockback resistance multiplier for the Primitive Burrower.");
+    private static final ModConfigSpec.DoubleValue ADAPTED_BURROWER_ADDITIONAL_HEALTH = value(
+            "srparasites:burrower", "adaptedBurrowerAdditionalHealth", 50.0D, 0.01D, 100.0D,
+            "Legacy Adapted Burrower health setting; SRP 1.10.7 defines it but does not use it.");
+    private static final ModConfigSpec.DoubleValue ADAPTED_BURROWER_ADDITIONAL_DAMAGE = value(
+            "srparasites:burrower", "adaptedBurrowerAdditionalDamage", 12.0D, 0.01D, 100.0D,
+            "Legacy Adapted Burrower damage setting; SRP 1.10.7 defines it but does not use it.");
+    private static final ModConfigSpec.DoubleValue ADAPTED_BURROWER_ADDITIONAL_ARMOR = value(
+            "srparasites:burrower", "adaptedBurrowerAdditionalArmor", 7.0D, 0.01D, 100.0D,
+            "Legacy Adapted Burrower armor setting; SRP 1.10.7 defines it but does not use it.");
+    private static final ModConfigSpec.DoubleValue ADAPTED_BURROWER_ADDITIONAL_KNOCKBACK = value(
+            "srparasites:burrower", "adaptedBurrowerAdditionalKnockbackResistance", 0.3D, 0.01D, 100.0D,
+            "Legacy Adapted Burrower knockback setting; SRP 1.10.7 defines it but does not use it.");
     private static final ModConfigSpec.DoubleValue TOZOON_HEALTH_MULTIPLIER = value(
             "srparasites:tozoon", "primitiveTozoonHealthMultiplier", 1.0D, 0.01D, 100.0D,
             "Health multiplier for the Primitive Tozoon.");
@@ -207,6 +231,22 @@ public final class MobsConfig {
 
     public static boolean devourerWaterPlacement() {
         return DEVOURER_WATER_PLACEMENT.get();
+    }
+
+    public static double burrowerHealth() {
+        return 45.0D * BURROWER_HEALTH_MULTIPLIER.get();
+    }
+
+    public static double burrowerDamage() {
+        return 15.0D * BURROWER_DAMAGE_MULTIPLIER.get();
+    }
+
+    public static double burrowerArmor() {
+        return 9.0D * BURROWER_ARMOR_MULTIPLIER.get();
+    }
+
+    public static double burrowerKnockbackResistance() {
+        return Math.min(1.0D, 0.7D * BURROWER_KNOCKBACK_MULTIPLIER.get());
     }
 
     public static double tozoonHealth() {

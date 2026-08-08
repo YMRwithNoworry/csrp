@@ -203,7 +203,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         super(type, level);
         this.kind = kind;
         xpReward = 55;
-        if (kind == Kind.TOZOON) {
+        if (kind == Kind.BURROWER || kind == Kind.TOZOON) {
             setPathfindingMalus(PathType.WATER, -1.0F);
         }
         if (isFlying(kind)) {
@@ -271,12 +271,12 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
                 followRange = 32.0D;
             }
             case BURROWER -> {
-                health = 105.0D;
-                armor = 16.0D;
-                damage = 27.0D;
-                speed = 0.34D;
-                knockbackResistance = 0.55D;
-                followRange = 40.0D;
+                health = MobsConfig.adaptedTozoonHealth();
+                armor = MobsConfig.adaptedTozoonArmor();
+                damage = MobsConfig.adaptedTozoonDamage();
+                speed = 0.32D;
+                knockbackResistance = 1.0D;
+                followRange = 32.0D;
             }
             case DEVOURER -> {
                 health = 60.0D;
@@ -360,7 +360,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
                 .add(Attributes.MOVEMENT_SPEED, speed)
                 .add(Attributes.KNOCKBACK_RESISTANCE, knockbackResistance)
                 .add(Attributes.FOLLOW_RANGE, followRange);
-        if (kind == Kind.TOZOON) {
+        if (kind == Kind.BURROWER || kind == Kind.TOZOON) {
             attributes.add(Attributes.STEP_HEIGHT, 1.0D);
         }
         if (isFlying(kind)) {
@@ -433,7 +433,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             }
             case BURROWER -> {
                 goalSelector.addGoal(1, createBurrowMovementGoal());
-                goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.30D, false));
+                goalSelector.addGoal(2, new BurrowerMeleeGoal());
             }
             case TOZOON -> {
                 goalSelector.addGoal(1, createBurrowMovementGoal());
@@ -1525,7 +1525,8 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
     @Override
     protected double bodyFollowDistance() {
-        return activeKind() == Kind.TOZOON ? 1.9D : super.bodyFollowDistance();
+        Kind kind = activeKind();
+        return kind == Kind.BURROWER || kind == Kind.TOZOON ? 1.9D : super.bodyFollowDistance();
     }
 
     @Override
@@ -1560,6 +1561,17 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         return activeKind() == Kind.BURROWER
                 ? ModSounds.ADAPTED_BURROWER_DIG.get()
                 : ModSounds.ADAPTED_TOZOON_DIG.get();
+    }
+
+    private final class BurrowerMeleeGoal extends MeleeAttackGoal {
+        private BurrowerMeleeGoal() {
+            super(AdaptedVariantEntity.this, 1.30D, false);
+        }
+
+        @Override
+        protected int getTicksUntilNextAttack() {
+            return 10;
+        }
     }
 
     private static boolean isFlying(Kind kind) {

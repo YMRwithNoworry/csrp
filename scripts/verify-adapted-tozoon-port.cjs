@@ -52,7 +52,7 @@ expect(entity, /public boolean doHurtTarget\(Entity entity\)[\s\S]*?activeKind =
 
 expect(entity, /bodySegmentCount\(\)[\s\S]*?kind == Kind\.BURROWER \|\| kind == Kind\.TOZOON \? 4 : 0/,
   "Adapted Tozoon does not create four body segments");
-expect(entity, /bodyFollowDistance\(\)[\s\S]*?activeKind\(\) == Kind\.TOZOON \? 1\.9D/,
+expect(entity, /bodyFollowDistance\(\)[\s\S]*?Kind\.BURROWER \|\| kind == Kind\.TOZOON \? 1\.9D/,
   "Adapted Tozoon body follow distance is wrong");
 expect(entity, /shouldTriggerBodyPartEffect\(\)[\s\S]*?body >= 1 && body <= 3/,
   "Adapted Tozoon body AOE is not enabled for segments one through three");
@@ -96,11 +96,15 @@ for (const relative of [
     failures.push(`${relative}: lurecomponent4 pool is not the original 60% 1-3 drop`);
   }
   const boneCount = bone.entries?.[0]?.functions?.[0]?.count;
-  if (bone.conditions?.[0]?.condition !== "minecraft:killed_by_player"
-      || bone.conditions?.[1]?.chance !== 0.2
+  if (bone.conditions?.length !== 1
+      || bone.conditions[0]?.condition !== "minecraft:random_chance"
+      || bone.conditions[0]?.chance !== 0.2
       || bone.entries?.[0]?.name !== "csrp:bone"
       || boneCount?.min !== 1 || boneCount?.max !== 3) {
-    failures.push(`${relative}: bone pool is not the original player-kill 20% 1-3 drop`);
+    failures.push(`${relative}: bone pool is not the original independent 20% 1-3 drop`);
+  }
+  if (JSON.stringify(table).includes("minecraft:killed_by_player")) {
+    failures.push(`${relative}: legacy independent drops were incorrectly gated behind a player kill`);
   }
   if (JSON.stringify(table).includes("ada_tozoon_drop")) {
     failures.push(`${relative}: unresolved legacy ada_tozoon_drop still invalidates the modern loot table`);
