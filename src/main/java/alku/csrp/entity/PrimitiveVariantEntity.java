@@ -11,7 +11,6 @@ import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -68,7 +67,6 @@ import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 
 import java.util.EnumSet;
-import java.util.List;
 
 /**
  * Shared implementation for the remaining legacy primitive parasites.
@@ -571,44 +569,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
     }
 
     private void applyReekerOrbEffects(LivingEntity target, int nearbyEntities) {
-        List<? extends String> effects = MobsConfig.reekerOrbEffects();
-        for (String raw : effects) {
-            String[] parts = raw.split(";", -1);
-            if (parts.length != 6) {
-                continue;
-            }
-            try {
-                int self = Integer.parseInt(parts[0].trim());
-                int duration = Math.max(0, Integer.parseInt(parts[1].trim())) * 20;
-                int amplifier = Integer.parseInt(parts[2].trim());
-                int amplifierStep = Integer.parseInt(parts[4].trim());
-                int durationStep = Integer.parseInt(parts[5].trim());
-                ResourceLocation effectId = ResourceLocation.tryParse(parts[3].trim());
-                if (effectId == null) {
-                    continue;
-                }
-                int scaledAmplifier = amplifierStep == 0 ? amplifier
-                        : amplifier + nearbyEntities / amplifierStep;
-                int scaledDuration = durationStep == 0 ? duration
-                        : duration + nearbyEntities / durationStep * 20;
-                BuiltInRegistries.MOB_EFFECT.getOptional(effectId).ifPresent(effect -> {
-                    if (self == 1) {
-                        EffectStacking.apply(PrimitiveVariantEntity.this,
-                                BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect), scaledDuration, scaledAmplifier);
-                    } else if (self == 2) {
-                        if (target instanceof Parasite) {
-                            EffectStacking.apply(target, BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect),
-                                    scaledDuration, scaledAmplifier);
-                        }
-                    } else if (!(target instanceof Parasite)) {
-                        EffectStacking.apply(target, BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect),
-                                scaledDuration, scaledAmplifier);
-                    }
-                });
-            } catch (NumberFormatException ignored) {
-                // Invalid entries are rejected by the config validator; retain runtime tolerance for old files.
-            }
-        }
+        ConfiguredOrbEffects.apply(this, target, nearbyEntities, MobsConfig.reekerOrbEffects());
     }
 
     @Override

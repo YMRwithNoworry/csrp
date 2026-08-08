@@ -105,7 +105,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.PRI_YELLOWEYE.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "pri_yelloweye", 0.5F));
         event.registerEntityRenderer(ModEntities.ADA_ARACHNIDA.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "ada_arachnida", 0.85F));
+                new PrimitiveParasiteRenderer<>(context, "ada_arachnida", 1.0F));
         event.registerEntityRenderer(ModEntities.ADA_BOLSTER.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "ada_bolster", 0.9F));
         event.registerEntityRenderer(ModEntities.ADA_BURROWER.get(), context ->

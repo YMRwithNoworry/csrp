@@ -51,14 +51,18 @@ public final class PullingBallEntity extends Entity {
         }
 
         PullingBallOwner owner = owner();
-        if (owner == null || !owner.isAlive() || tickCount > 80) {
+        if (owner == null || !owner.isAlive()
+                || owner.pullProjectileMaxAge() > 0 && tickCount > owner.pullProjectileMaxAge()) {
             discard();
             return;
         }
-        if (tickCount == 5) setDeltaMovement(getDeltaMovement().scale(2.0));
+        if (tickCount == 5) {
+            setDeltaMovement(getDeltaMovement().scale(owner.pullProjectileAccelerationMultiplier()));
+        }
 
-        for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(0.7),
-                owner::isValidPullTarget)) {
+        double captureRadius = Math.max(0.0D, owner.pullProjectileCaptureRadius());
+        for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
+                getBoundingBox().inflate(captureRadius), owner::isValidPullTarget)) {
             if (owner.captureTarget(target)) {
                 discard();
                 return;

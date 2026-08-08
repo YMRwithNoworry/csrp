@@ -1,6 +1,8 @@
 package alku.csrp.entity;
 
+import alku.csrp.Config;
 import alku.csrp.config.MobsConfig;
+import alku.csrp.effect.EffectStacking;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModMobEffects;
@@ -10,6 +12,7 @@ import alku.csrp.world.EvolutionSystem;
 import alku.csrp.world.SrpWorldData;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -17,16 +20,19 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -39,6 +45,7 @@ import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
 import net.minecraft.world.entity.ai.goal.TryFindWaterGoal;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
@@ -50,6 +57,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.entity.PartEntity;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.AnimationState;
@@ -72,6 +80,10 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     private static final int SUMMONER_COOLDOWN_TICKS = 160;
     private static final int SUMMONER_TOTAL_CAPACITY = 6;
     private static final int SUMMONER_LIMIT = 1;
+    private static final int ARACHNIDA_SKILL_CHARGE_TICKS = 20;
+    private static final int ARACHNIDA_SKILL_SHOTS = 6;
+    private static final int ARACHNIDA_SKILL_SHOT_INTERVAL = 20;
+    private static final int ARACHNIDA_MAX_PULL_TICKS = 400;
     private static final EntityDataAccessor<Integer> BOLSTER_VARIANT = SynchedEntityData.defineId(
             AdaptedVariantEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> BOLSTER_ACTION = SynchedEntityData.defineId(
@@ -83,6 +95,10 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     private static final EntityDataAccessor<Float> BOLSTER_RIGHT_TENDRIL = SynchedEntityData.defineId(
             AdaptedVariantEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Integer> ARACHNIDA_STATUS = SynchedEntityData.defineId(
+            AdaptedVariantEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> ARACHNIDA_TARGET = SynchedEntityData.defineId(
+            AdaptedVariantEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> ARACHNIDA_SKIN = SynchedEntityData.defineId(
             AdaptedVariantEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> REEKER_CHARGING = SynchedEntityData.defineId(
             AdaptedVariantEntity.class, EntityDataSerializers.BOOLEAN);
@@ -121,8 +137,6 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     private final RawAnimation ARACHNIDA_FAST_MOVE = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_2");
     private final RawAnimation ARACHNIDA_PULLING = ParasiteAnimations.loop(this,
-            "func_78087_a.age_in_ticks.get_parasite_status_3");
-    private final RawAnimation ARACHNIDA_SKILL = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_3");
     private final RawAnimation REEKER_CHARGE_IDLE = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_3.get_still_ani_1");
@@ -181,6 +195,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     };
 
     private final Kind kind;
+    private final ArachnidaPart arachnidaAbdomen;
+    private final ArachnidaPart arachnidaHead;
+    private final PartEntity<?>[] arachnidaParts;
     private final SummonCapacityTracker summonTracker = new SummonCapacityTracker();
     private int abilityCooldown;
     private int summonerVomitTicks;
@@ -197,11 +214,23 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     private int manducaterEvadeCooldown;
     private int reekerPullingCooldown;
     private int arachnidaPullingTicks;
-    private LivingEntity arachnidaTargetEntity;
+    private int arachnidaAttackAnimationCooldown;
+    private boolean arachnidaCanPull = true;
 
     public AdaptedVariantEntity(EntityType<? extends AdaptedVariantEntity> type, Level level, Kind kind) {
         super(type, level);
         this.kind = kind;
+        if (kind == Kind.ARACHNIDA) {
+            arachnidaAbdomen = new ArachnidaPart(this, "abdomen",
+                    -1.6F, 1.5F, 1.7F, 1.9F, 2.0F, 0.75F);
+            arachnidaHead = new ArachnidaPart(this, "head",
+                    1.6F, 1.3F, 1.5F, 0.9F, 0.9F, 1.25F);
+            arachnidaParts = new PartEntity<?>[]{arachnidaAbdomen, arachnidaHead};
+        } else {
+            arachnidaAbdomen = null;
+            arachnidaHead = null;
+            arachnidaParts = new PartEntity<?>[0];
+        }
         xpReward = 55;
         if (kind == Kind.BURROWER || kind == Kind.TOZOON) {
             setPathfindingMalus(PathType.WATER, -1.0F);
@@ -255,12 +284,12 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
         switch (kind) {
             case ARACHNIDA -> {
-                health = 80.0D;
-                armor = 14.0D;
-                damage = 30.0D;
-                speed = 0.31D;
-                knockbackResistance = 0.50D;
-                followRange = 40.0D;
+                health = MobsConfig.adaptedArachnidaHealth();
+                armor = MobsConfig.adaptedArachnidaArmor();
+                damage = MobsConfig.adaptedArachnidaDamage();
+                speed = 0.33D;
+                knockbackResistance = MobsConfig.adaptedArachnidaKnockbackResistance();
+                followRange = MobsConfig.adaptedFollowRange();
             }
             case BOLSTER -> {
                 health = 105.0D;
@@ -360,7 +389,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
                 .add(Attributes.MOVEMENT_SPEED, speed)
                 .add(Attributes.KNOCKBACK_RESISTANCE, knockbackResistance)
                 .add(Attributes.FOLLOW_RANGE, followRange);
-        if (kind == Kind.BURROWER || kind == Kind.TOZOON) {
+        if (kind == Kind.ARACHNIDA || kind == Kind.BURROWER || kind == Kind.TOZOON) {
             attributes.add(Attributes.STEP_HEIGHT, 1.0D);
         }
         if (isFlying(kind)) {
@@ -373,6 +402,8 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(ARACHNIDA_STATUS, 0);
+        builder.define(ARACHNIDA_TARGET, 0);
+        builder.define(ARACHNIDA_SKIN, 0);
         builder.define(BOLSTER_VARIANT, BolsterVariant.NORMAL.ordinal());
         builder.define(BOLSTER_ACTION, BolsterAction.NONE.ordinal());
         builder.define(BOLSTER_ACTION_TICKS, 0);
@@ -393,6 +424,11 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
                                         MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
         SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
+        if (!level.isClientSide() && activeKind() == Kind.ARACHNIDA
+                && (random.nextDouble() < Config.variantSpawnChance()
+                || Config.evolutionPhase(level.getLevel()) >= Config.alwaysVariantPhase())) {
+            setArachnidaSkin(5 + random.nextInt(3));
+        }
         if (!level.isClientSide() && activeKind() == Kind.BOLSTER) {
             if (random.nextFloat() < 0.33F) {
                 setBolsterVariant(BolsterVariant.values()[1 + random.nextInt(3)]);
@@ -408,6 +444,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         if (isDevourerType(getType())) {
             return new WaterBoundPathNavigation(this, level);
         }
+        if (isArachnidaType(getType())) {
+            return new WallClimberNavigation(this, level);
+        }
         if (!isFlyingType(getType())) {
             return super.createNavigation(level);
         }
@@ -422,8 +461,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         super.registerGoals();
         switch (activeKind()) {
             case ARACHNIDA -> {
-                goalSelector.addGoal(1, new WebPullGoal());
-                goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.20D, false));
+                goalSelector.addGoal(2, new ArachnidaPullSkillGoal());
+                goalSelector.addGoal(2, new ArachnidaWaterLeapGoal());
+                goalSelector.addGoal(3, new ArachnidaMeleeGoal());
             }
             case BOLSTER -> {
                 goalSelector.addGoal(1, new BolsterSupportGoal());
@@ -479,6 +519,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     public void tick() {
         super.tick();
         Kind activeKind = activeKind();
+        if (activeKind == Kind.ARACHNIDA) {
+            updateArachnidaParts();
+        }
         if (isFlying(activeKind)) {
             setNoGravity(true);
         }
@@ -494,6 +537,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         if (secondaryCooldown > 0) secondaryCooldown--;
         if (blockBreakCooldown > 0) blockBreakCooldown--;
         if (reekerPullingCooldown > 0) reekerPullingCooldown--;
+        if (arachnidaAttackAnimationCooldown > 0) arachnidaAttackAnimationCooldown--;
         if (entityData.get(BOLSTER_ACTION_TICKS) > 0) {
             entityData.set(BOLSTER_ACTION_TICKS, entityData.get(BOLSTER_ACTION_TICKS) - 1);
             if (entityData.get(BOLSTER_ACTION_TICKS) == 0) {
@@ -501,6 +545,10 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             }
         }
         updateCloak();
+
+        if (activeKind == Kind.ARACHNIDA) {
+            tickArachnidaTether();
+        }
 
         LivingEntity target = getTarget();
         if (target != null && breaksSoftBlocks(activeKind)) {
@@ -617,6 +665,14 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         if (!hit) {
             return false;
         }
+        if (activeKind == Kind.ARACHNIDA) {
+            arachnidaAttackAnimationCooldown = 100;
+            if (getArachnidaSkin() == 5) {
+                EffectStacking.apply(target, ModMobEffects.VIRAL, 100, 0);
+            } else if (getArachnidaSkin() == 6) {
+                EffectStacking.apply(target, ModMobEffects.BLEED, 100, 0);
+            }
+        }
         if (activeKind == Kind.BOLSTER || activeKind == Kind.MANDUCATER || activeKind == Kind.LONGARMS) {
             spawnAttackParticles(target);
         }
@@ -649,6 +705,10 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     @Override
     protected void doPush(Entity entity) {
         super.doPush(entity);
+        if (!level().isClientSide && activeKind() == Kind.ARACHNIDA && getArachnidaSkin() == 5
+                && entity instanceof LivingEntity living && isValidParasiteTarget(living)) {
+            EffectStacking.apply(living, ModMobEffects.VIRAL, 100, 0);
+        }
         if (!level().isClientSide && activeKind() == Kind.BOLSTER
                 && getBolsterVariant() == BolsterVariant.VIRULENT
                 && entity instanceof LivingEntity living && isValidParasiteTarget(living)) {
@@ -658,6 +718,13 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
     @Override
     public boolean applyScaryOrbEffect(LivingEntity target, int nearbyEntities) {
+        if (activeKind() == Kind.ARACHNIDA) {
+            boolean applied = super.applyScaryOrbEffect(target, nearbyEntities);
+            if (applied) {
+                ConfiguredOrbEffects.apply(this, target, nearbyEntities, MobsConfig.adaptedArachnidaOrbEffects());
+            }
+            return applied;
+        }
         if (activeKind() != Kind.BOLSTER) {
             return super.applyScaryOrbEffect(target, nearbyEntities);
         }
@@ -688,6 +755,18 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
     @Override
     public void die(DamageSource source) {
+        if (activeKind() == Kind.ARACHNIDA && level() instanceof ServerLevel serverLevel
+                && !SrpWorldData.get(serverLevel).colonies().isEmpty()) {
+            Mob primitive = ModEntities.PRI_ARACHNIDA.get().create(serverLevel);
+            if (primitive != null) {
+                primitive.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+                primitive.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
+                        MobSpawnType.CONVERSION, null);
+                primitive.setCustomName(getCustomName());
+                primitive.setCustomNameVisible(isCustomNameVisible());
+                serverLevel.addFreshEntity(primitive);
+            }
+        }
         if (activeKind() == Kind.BOLSTER && !bolsterDeathHandled && level() instanceof ServerLevel serverLevel) {
             bolsterDeathHandled = true;
             if (random.nextFloat() < 0.20F) {
@@ -726,9 +805,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         if (activeKind() == Kind.ARACHNIDA) {
-            tag.putInt("arachnida_status", entityData.get(ARACHNIDA_STATUS));
-            tag.putInt("arachnida_pulling_ticks", arachnidaPullingTicks);
-            tag.putInt("arachnida_ability_cooldown", abilityCooldown);
+            tag.putInt("arachnida_skin", getArachnidaSkin());
         }
         if (activeKind() == Kind.BOLSTER) {
             tag.putInt("bolster_variant", entityData.get(BOLSTER_VARIANT));
@@ -770,9 +847,11 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         if (activeKind() == Kind.ARACHNIDA) {
-            entityData.set(ARACHNIDA_STATUS, tag.getInt("arachnida_status"));
-            arachnidaPullingTicks = tag.getInt("arachnida_pulling_ticks");
-            abilityCooldown = tag.getInt("arachnida_ability_cooldown");
+            setArachnidaSkin(tag.getInt("arachnida_skin"));
+            setArachnidaStatus(0);
+            entityData.set(ARACHNIDA_TARGET, 0);
+            arachnidaPullingTicks = 0;
+            arachnidaCanPull = true;
         }
         if (activeKind() == Kind.BOLSTER) {
             entityData.set(BOLSTER_VARIANT, tag.getInt("bolster_variant"));
@@ -821,8 +900,49 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
     @Override
     public boolean onClimbable() {
-        return (activeKind() == Kind.ARACHNIDA || activeKind() == Kind.LONGARMS) && horizontalCollision
-                || super.onClimbable();
+        if (activeKind() == Kind.ARACHNIDA) {
+            LivingEntity target = getTarget();
+            if (target != null) {
+                if (!hasLineOfSight(target) && distanceToSqr(target) < 100.0D) {
+                    return super.onClimbable();
+                }
+                if (hasLineOfSight(target) && target.getY() + 1.0D < getY()) {
+                    return super.onClimbable();
+                }
+            }
+            return horizontalCollision || super.onClimbable();
+        }
+        return activeKind() == Kind.LONGARMS && horizontalCollision || super.onClimbable();
+    }
+
+    @Override
+    public boolean isMultipartEntity() {
+        return arachnidaParts != null && arachnidaParts.length > 0;
+    }
+
+    @Override
+    public void setId(int id) {
+        super.setId(id);
+        if (arachnidaParts == null) {
+            return;
+        }
+        for (int index = 0; index < arachnidaParts.length; index++) {
+            arachnidaParts[index].setId(id + index + 1);
+        }
+    }
+
+    @Override
+    public PartEntity<?>[] getParts() {
+        return arachnidaParts == null ? new PartEntity<?>[0] : arachnidaParts;
+    }
+
+    @Override
+    protected void playStepSound(BlockPos pos, BlockState state) {
+        if (activeKind() == Kind.ARACHNIDA) {
+            playSound(ModSounds.HEAVY_MULTIPLE_STEP.get(), getSoundVolume(), getVoicePitch());
+            return;
+        }
+        super.playStepSound(pos, state);
     }
 
     @Override
@@ -858,24 +978,20 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         }
         if (kind == Kind.ARACHNIDA) {
             int status = getArachnidaStatus();
-            // Status 11: 技能释放动画
-            if (status == 11) {
-                return state.setAndContinue(ARACHNIDA_SKILL);
+            if (status == 10 || status == 11) {
+                return PlayState.STOP;
             }
-            // Status 3: 拉拽技能准备
             if (status == 3) {
                 return state.setAndContinue(ARACHNIDA_PULLING);
             }
-            // Status 2: 快速移动
-            if (status == 2 && ParasiteAnimations.isMoving(this, state.isMoving())) {
-                return state.setAndContinue(ARACHNIDA_FAST_MOVE);
+            boolean moving = ParasiteAnimations.isMoving(this, state.isMoving());
+            if (status == 2) {
+                return moving ? state.setAndContinue(ARACHNIDA_FAST_MOVE) : PlayState.STOP;
             }
-            // Status 1: 攻击准备（减速）
-            if (status == 1 && ParasiteAnimations.isMoving(this, state.isMoving())) {
-                return state.setAndContinue(ARACHNIDA_ATTACK_PREP);
+            if (status == 1) {
+                return state.setAndContinue(moving ? ARACHNIDA_ATTACK_PREP : AGE_STATUS_1);
             }
-            // Status 0: 默认移动
-            if (!ParasiteAnimations.isMoving(this, state.isMoving())) {
+            if (!moving) {
                 return state.setAndContinue(IDLE);
             }
             return state.setAndContinue(WALK);
@@ -1221,77 +1337,108 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         setInvisible(false);
     }
 
-    private void tickArachnida() {
-        int status = getArachnidaStatus();
-
-        // 处理拉拽技能计时
-        if (status == 3) {
-            arachnidaPullingTicks++;
-            if (arachnidaPullingTicks >= 100) { // 5秒后进入技能释放状态
-                setArachnidaStatus(11);
-                executePullingSkill();
-                arachnidaPullingTicks = 0;
-            }
-        } else {
-            arachnidaPullingTicks = 0;
+    private void updateArachnidaParts() {
+        if (arachnidaAbdomen != null) {
+            arachnidaAbdomen.updatePosition();
         }
-
-        // 技能释放后恢复到默认状态
-        if (status == 11 && tickCount % 20 == 0) {
-            setArachnidaStatus(0);
-            abilityCooldown = 200; // 10秒冷却
-        }
-
-        // 更新状态逻辑
-        if (status != 3 && status != 11) {
-            LivingEntity target = getTarget();
-            if (target != null) {
-                double distSqr = distanceToSqr(target);
-
-                // 检查是否可以使用拉拽技能
-                if (abilityCooldown <= 0 && distSqr >= 49.0D && distSqr <= 400.0D && hasLineOfSight(target)) {
-                    setArachnidaStatus(3);
-                    arachnidaTargetEntity = target;
-                } else if (distSqr < 16.0D) {
-                    // 状态 2: 快速移动（近距离）
-                    setArachnidaStatus(2);
-                } else if (distSqr < 64.0D) {
-                    // 状态 1: 攻击准备（中距离，减速）
-                    setArachnidaStatus(1);
-                } else {
-                    // 状态 0: 默认
-                    setArachnidaStatus(0);
-                }
-            } else {
-                setArachnidaStatus(0);
-            }
+        if (arachnidaHead != null) {
+            arachnidaHead.updatePosition();
         }
     }
 
-    private void executePullingSkill() {
-        if (arachnidaTargetEntity != null && arachnidaTargetEntity.isAlive()) {
-            // 发射拉拽弹丸
-            PullingBallEntity pullingBall = ModEntities.PULLING_BALL.get().create(level());
-            if (pullingBall != null) {
-                Vec3 eyePos = getEyePosition();
-                Vec3 targetPos = arachnidaTargetEntity.getEyePosition();
-                Vec3 direction = targetPos.subtract(eyePos).normalize().scale(1.0D);
-                pullingBall.setPos(eyePos.x, eyePos.y, eyePos.z);
-                pullingBall.setOwner(this);
-                pullingBall.setDeltaMovement(direction);
-                level().addFreshEntity(pullingBall);
-                playSound(ModSounds.get("mob.shoot"), 1.0F, 1.0F);
+    private void tickArachnidaTether() {
+        LivingEntity target = getTarget();
+        if (target == null || !target.isAlive()) {
+            if (target != null && !target.isAlive()) {
+                setTarget(null);
             }
+            setArachnidaTarget(0);
+            if (getArachnidaStatus() == 3) {
+                setArachnidaStatus(0);
+            }
+            return;
         }
-        arachnidaTargetEntity = null;
+        if (entityData.get(ARACHNIDA_TARGET) == 0) {
+            if (!arachnidaCanPull) {
+                arachnidaCanPull = true;
+                arachnidaPullingTicks = 0;
+            }
+            return;
+        }
+        if (!arachnidaCanPull || !hasLineOfSight(target) || distanceToSqr(target) <= 0.0D) {
+            setArachnidaTarget(0);
+            setArachnidaStatus(Math.min(getArachnidaStatus(), 2));
+            return;
+        }
+
+        setArachnidaStatus(3);
+        getNavigation().stop();
+        getLookControl().setLookAt(target, 30.0F, 30.0F);
+        target.stopRiding();
+        target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20, 5, false, false), this);
+        target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 20, 5, false, false), this);
+        Vec3 pull = position().subtract(target.position());
+        if (pull.lengthSqr() > 0.0D) {
+            target.setDeltaMovement(target.getDeltaMovement().add(pull.normalize().scale(0.2D)));
+            target.hurtMarked = true;
+        }
+        arachnidaPullingTicks++;
+        if (arachnidaPullingTicks > ARACHNIDA_MAX_PULL_TICKS) {
+            setArachnidaTarget(0);
+            arachnidaCanPull = false;
+            setArachnidaStatus(0);
+        }
+    }
+
+    private void fireArachnidaPullProjectile(LivingEntity target) {
+        PullingBallEntity projectile = ModEntities.PULLING_BALL.get().create(level());
+        if (projectile == null) {
+            return;
+        }
+        Vec3 view = getViewVector(1.0F);
+        Vec3 start = new Vec3(getX() + view.x, getY() + getEyeHeight() - 0.2D, getZ() + view.z);
+        Vec3 direction = target.getEyePosition().subtract(start);
+        if (direction.lengthSqr() <= 0.0D) {
+            return;
+        }
+        projectile.moveTo(start.x, start.y, start.z, getYRot(), getXRot());
+        projectile.setOwner(this);
+        projectile.setDeltaMovement(direction.normalize().scale(0.1D));
+        level().addFreshEntity(projectile);
+    }
+
+    public boolean isAdaptedArachnida() {
+        return activeKind() == Kind.ARACHNIDA;
     }
 
     public int getArachnidaStatus() {
         return entityData.get(ARACHNIDA_STATUS);
     }
 
+    public int getArachnidaSkin() {
+        return entityData.get(ARACHNIDA_SKIN);
+    }
+
+    public void setArachnidaSkin(int skin) {
+        entityData.set(ARACHNIDA_SKIN, skin >= 5 && skin <= 7 ? skin : 0);
+    }
+
+    @Nullable
+    public LivingEntity getArachnidaTetherTarget() {
+        Entity target = level().getEntity(entityData.get(ARACHNIDA_TARGET));
+        return target instanceof LivingEntity living && living.isAlive() ? living : null;
+    }
+
     private void setArachnidaStatus(int status) {
         entityData.set(ARACHNIDA_STATUS, status);
+    }
+
+    private void setArachnidaTarget(int entityId) {
+        if (arachnidaCanPull || entityId == 0) {
+            arachnidaPullingTicks = 0;
+            arachnidaCanPull = true;
+            entityData.set(ARACHNIDA_TARGET, entityId);
+        }
     }
 
     private void tickManducater() {
@@ -1586,6 +1733,10 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         return type == ModEntities.ADA_DEVOURER.get();
     }
 
+    private static boolean isArachnidaType(EntityType<?> type) {
+        return type == ModEntities.ADA_ARACHNIDA.get();
+    }
+
     private boolean performTozoonAoeAttack(Entity target) {
         if (isBurrowing() || target == null) {
             return false;
@@ -1676,46 +1827,195 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         }
     }
 
-    private final class WebPullGoal extends Goal {
-        private WebPullGoal() {
-            setFlags(EnumSet.of(Flag.LOOK));
-        }
+    private final class ArachnidaPullSkillGoal extends Goal {
+        private int chargeTicks;
+        private int castTicks;
+        private int shots;
+        private boolean casting;
+        private boolean castSoundPlayed;
 
         @Override
         public boolean canUse() {
             LivingEntity target = getTarget();
-            return abilityCooldown <= 0 && target != null && hasLineOfSight(target)
-                    && distanceToSqr(target) >= 49.0D && distanceToSqr(target) <= 400.0D;
+            return target != null && target.isAlive() && arachnidaCanPull
+                    && entityData.get(ARACHNIDA_TARGET) == 0;
         }
 
         @Override
         public boolean canContinueToUse() {
-            return getArachnidaStatus() == 3 && arachnidaPullingTicks < 100;
-        }
-
-        @Override
-        public void start() {
             LivingEntity target = getTarget();
-            if (target == null) {
-                return;
-            }
-            setArachnidaStatus(3);
-            arachnidaTargetEntity = target;
-            arachnidaPullingTicks = 0;
-            getLookControl().setLookAt(target, 30.0F, 30.0F);
+            return target != null && target.isAlive() && arachnidaCanPull
+                    && entityData.get(ARACHNIDA_TARGET) == 0;
         }
 
         @Override
         public void tick() {
             LivingEntity target = getTarget();
-            if (target != null) {
-                getLookControl().setLookAt(target, 30.0F, 30.0F);
+            if (target == null) {
+                return;
+            }
+            getLookControl().setLookAt(target, 30.0F, 30.0F);
+            if (!casting) {
+                int status = getArachnidaStatus();
+                double distance = distanceToSqr(target);
+                if ((status == 1 || status == 2) && distance < 900.0D && distance >= 25.0D
+                        && hasLineOfSight(target)) {
+                    chargeTicks++;
+                }
+                if (chargeTicks >= ARACHNIDA_SKILL_CHARGE_TICKS) {
+                    if (!onGround()) {
+                        chargeTicks = 0;
+                        return;
+                    }
+                    casting = true;
+                    castTicks = 0;
+                    shots = 0;
+                    castSoundPlayed = false;
+                    setArachnidaStatus(11);
+                    getNavigation().stop();
+                }
+                return;
+            }
+
+            if (!onGround()) {
+                finishCast();
+                return;
+            }
+            setArachnidaStatus(11);
+            getNavigation().stop();
+            castTicks++;
+            if (shots == 2 && !castSoundPlayed) {
+                castSoundPlayed = true;
+                playSound(ModSounds.get("attack.ranrac"), 4.0F, random.nextFloat() * 0.4F + 1.0F);
+            }
+            if (castTicks % ARACHNIDA_SKILL_SHOT_INTERVAL == 0) {
+                if (getTarget() == null || !hasLineOfSight(target)) {
+                    finishCast();
+                    return;
+                }
+                fireArachnidaPullProjectile(target);
+                shots++;
+                if (shots >= ARACHNIDA_SKILL_SHOTS) {
+                    finishCast();
+                }
             }
         }
 
         @Override
         public void stop() {
-            if (getArachnidaStatus() == 3 || getArachnidaStatus() == 11) {
+            if (casting) {
+                finishCast();
+            }
+        }
+
+        private void finishCast() {
+            casting = false;
+            chargeTicks = 0;
+            castTicks = 0;
+            shots = 0;
+            castSoundPlayed = false;
+            arachnidaPullingTicks = 60;
+            if (entityData.get(ARACHNIDA_TARGET) == 0) {
+                setArachnidaStatus(0);
+            }
+        }
+    }
+
+    private final class ArachnidaWaterLeapGoal extends Goal {
+        private int chargeTicks;
+        private int airborneTicks;
+        private boolean leaping;
+        private double targetX;
+        private double targetZ;
+        private float targetYOffset;
+
+        private ArachnidaWaterLeapGoal() {
+            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
+        }
+
+        @Override
+        public boolean canUse() {
+            return leaping || isInWaterOrBubble();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return canUse();
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = getTarget();
+            if (!leaping) {
+                if (target != null && target.isAlive() && getArachnidaStatus() <= 2) {
+                    chargeTicks++;
+                    if (chargeTicks >= 20) {
+                        leaping = true;
+                        airborneTicks = 1;
+                        targetX = target.getX();
+                        targetZ = target.getZ();
+                        targetYOffset = Math.max(0.0F, (float) (target.getY() - getY()) * 0.07F);
+                    }
+                } else if (chargeTicks > 0) {
+                    chargeTicks--;
+                }
+            }
+
+            if (!leaping) {
+                return;
+            }
+            airborneTicks++;
+            if (airborneTicks == 2 && onGround()) {
+                setArachnidaStatus(10);
+                getNavigation().stop();
+                double deltaX = targetX - getX();
+                double deltaZ = targetZ - getZ();
+                double horizontal = Math.sqrt(deltaX * deltaX + deltaZ * deltaZ);
+                if (horizontal > 0.0D) {
+                    Vec3 motion = getDeltaMovement();
+                    setDeltaMovement(motion.x + deltaX / horizontal * 1.35D + motion.x * 0.3D,
+                            0.7D + targetYOffset,
+                            motion.z + deltaZ / horizontal * 1.35D + motion.z * 0.3D);
+                    hasImpulse = true;
+                }
+            }
+            if (airborneTicks >= 3 && onGround()) {
+                leaping = false;
+                chargeTicks = 0;
+                airborneTicks = 0;
+                setArachnidaStatus(2);
+            }
+        }
+    }
+
+    private final class ArachnidaMeleeGoal extends MeleeAttackGoal {
+        private ArachnidaMeleeGoal() {
+            super(AdaptedVariantEntity.this, 1.3D, false);
+        }
+
+        @Override
+        public void tick() {
+            int status = getArachnidaStatus();
+            LivingEntity target = getTarget();
+            if (target == null) {
+                return;
+            }
+            if (status == 3 || status == 10 || status == 11) {
+                getNavigation().stop();
+                getLookControl().setLookAt(target, 30.0F, 30.0F);
+                return;
+            }
+            super.tick();
+            double distance = distanceToSqr(target);
+            boolean fast = distance > 64.0D || arachnidaAttackAnimationCooldown == 0;
+            setArachnidaStatus(fast ? 2 : 1);
+            getNavigation().moveTo(target, fast ? 1.3D : 1.0D);
+        }
+
+        @Override
+        public void stop() {
+            super.stop();
+            if (entityData.get(ARACHNIDA_TARGET) == 0 && getArachnidaStatus() <= 2) {
                 setArachnidaStatus(0);
             }
         }
@@ -2455,7 +2755,20 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     // PullingBallOwner 接口实现
     @Override
     public boolean captureTarget(LivingEntity target) {
-        if (activeKind() != Kind.REEKER || target == null || !target.isAlive()) {
+        if (target == null || !target.isAlive()) {
+            return false;
+        }
+        if (activeKind() == Kind.ARACHNIDA) {
+            if (!arachnidaCanPull || target != getTarget() || !hasLineOfSight(target)
+                    || entityData.get(ARACHNIDA_TARGET) != 0) {
+                return false;
+            }
+            setArachnidaStatus(3);
+            target.addEffect(new MobEffectInstance(MobEffects.GLOWING, 100, 5, false, false), this);
+            setArachnidaTarget(target.getId());
+            return true;
+        }
+        if (activeKind() != Kind.REEKER) {
             return false;
         }
         // 拉拽目标并施加效果
@@ -2472,7 +2785,97 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
     @Override
     public boolean isValidPullTarget(LivingEntity target) {
+        if (activeKind() == Kind.ARACHNIDA) {
+            return arachnidaCanPull && entityData.get(ARACHNIDA_TARGET) == 0
+                    && target == getTarget() && isValidParasiteTarget(target) && hasLineOfSight(target);
+        }
         return isValidParasiteTarget(target);
+    }
+
+    @Override
+    public double pullProjectileCaptureRadius() {
+        return activeKind() == Kind.ARACHNIDA ? 2.0D : PullingBallOwner.super.pullProjectileCaptureRadius();
+    }
+
+    @Override
+    public double pullProjectileAccelerationMultiplier() {
+        return activeKind() == Kind.ARACHNIDA ? 4.0D
+                : PullingBallOwner.super.pullProjectileAccelerationMultiplier();
+    }
+
+    @Override
+    public int pullProjectileMaxAge() {
+        return activeKind() == Kind.ARACHNIDA ? 0 : PullingBallOwner.super.pullProjectileMaxAge();
+    }
+
+    private static final class ArachnidaPart extends PartEntity<AdaptedVariantEntity> {
+        private final String name;
+        private final float angle;
+        private final float radius;
+        private final float yOffset;
+        private final float width;
+        private final float height;
+        private final float damageVulnerability;
+
+        private ArachnidaPart(AdaptedVariantEntity parent, String name, float angle, float radius,
+                              float yOffset, float width, float height, float damageVulnerability) {
+            super(parent);
+            this.name = name;
+            this.angle = angle;
+            this.radius = radius;
+            this.yOffset = yOffset;
+            this.width = width;
+            this.height = height;
+            this.damageVulnerability = damageVulnerability;
+        }
+
+        private void updatePosition() {
+            AdaptedVariantEntity parent = getParent();
+            float facing = parent.yBodyRot * Mth.DEG_TO_RAD + angle;
+            setPos(parent.getX() + radius * Mth.cos(facing), parent.getY() + yOffset,
+                    parent.getZ() + radius * Mth.sin(facing));
+        }
+
+        @Override
+        protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        }
+
+        @Override
+        protected void readAdditionalSaveData(CompoundTag tag) {
+        }
+
+        @Override
+        protected void addAdditionalSaveData(CompoundTag tag) {
+        }
+
+        @Override
+        public boolean isPickable() {
+            return getParent().isAlive();
+        }
+
+        @Override
+        public boolean hurt(DamageSource source, float amount) {
+            AdaptedVariantEntity parent = getParent();
+            if (!parent.level().isClientSide && parent.random.nextBoolean()) {
+                EffectStacking.apply(parent, ModMobEffects.BLEED, 80, 0);
+            }
+            return parent.hurt(source, amount * damageVulnerability);
+        }
+
+        @Override
+        public EntityDimensions getDimensions(Pose pose) {
+            return EntityDimensions.scalable(width, height);
+        }
+
+        @Override
+        public boolean shouldBeSaved() {
+            return false;
+        }
+
+        @Override
+        public Component getName() {
+            return Component.literal(name);
+        }
     }
 
     public enum BolsterVariant {

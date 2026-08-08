@@ -145,7 +145,7 @@ public final class ModEntities {
                     PrimitiveVariantEntity.Kind.YELLOWEYE), 0.4F, 1.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<AdaptedVariantEntity>> ADA_ARACHNIDA =
             monster("ada_arachnida", (type, level) -> new AdaptedVariantEntity(type, level,
-                    AdaptedVariantEntity.Kind.ARACHNIDA), 1.901F, 2.85F);
+                    AdaptedVariantEntity.Kind.ARACHNIDA), 1.901F, 2.85F, 1.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<AdaptedVariantEntity>> ADA_BOLSTER =
             monster("ada_bolster", (type, level) -> new AdaptedVariantEntity(type, level,
                     AdaptedVariantEntity.Kind.BOLSTER), 1.3F, 3.8F);

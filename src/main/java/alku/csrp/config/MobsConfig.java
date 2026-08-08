@@ -27,6 +27,38 @@ public final class MobsConfig {
     private static final ModConfigSpec.DoubleValue PREEMINENT_FOLLOW = followRange(
             "parasitePropertiesPreeminent", "preeminentFollow", 80.0D);
 
+    private static final ModConfigSpec.DoubleValue ARACHNIDA_HEALTH_MULTIPLIER = value(
+            "srparasites:arachnida", "arachnidaHealthMultiplier", 1.0D, 0.01D, 100.0D,
+            "Health multiplier shared by Primitive and Adapted Arachnida.");
+    private static final ModConfigSpec.DoubleValue ARACHNIDA_DAMAGE_MULTIPLIER = value(
+            "srparasites:arachnida", "arachnidaDamageMultiplier", 1.0D, 0.01D, 100.0D,
+            "Attack-damage multiplier shared by Primitive and Adapted Arachnida.");
+    private static final ModConfigSpec.DoubleValue ARACHNIDA_ARMOR_MULTIPLIER = value(
+            "srparasites:arachnida", "arachnidaArmorMultiplier", 1.0D, 0.01D, 100.0D,
+            "Armor multiplier shared by Primitive and Adapted Arachnida.");
+    private static final ModConfigSpec.DoubleValue ARACHNIDA_KNOCKBACK_MULTIPLIER = value(
+            "srparasites:arachnida", "arachnidaKnockbackResistanceMultiplier", 1.0D, 0.01D, 100.0D,
+            "Knockback-resistance multiplier shared by Primitive and Adapted Arachnida.");
+    private static final ModConfigSpec.DoubleValue ADAPTED_ARACHNIDA_ADDITIONAL_HEALTH = value(
+            "srparasites:arachnida", "adaptedArachnidaAdditionalHealth", 45.0D, 0.01D, 100.0D,
+            "Additional health for the Adapted Arachnida.");
+    private static final ModConfigSpec.DoubleValue ADAPTED_ARACHNIDA_ADDITIONAL_DAMAGE = value(
+            "srparasites:arachnida", "adaptedArachnidaAdditionalDamage", 15.0D, 0.01D, 100.0D,
+            "Additional attack damage for the Adapted Arachnida.");
+    private static final ModConfigSpec.DoubleValue ADAPTED_ARACHNIDA_ADDITIONAL_ARMOR = value(
+            "srparasites:arachnida", "adaptedArachnidaAdditionalArmor", 10.0D, 0.01D, 100.0D,
+            "Additional armor for the Adapted Arachnida.");
+    private static final ModConfigSpec.DoubleValue ADAPTED_ARACHNIDA_ADDITIONAL_KNOCKBACK = value(
+            "srparasites:arachnida", "adaptedArachnidaAdditionalKnockbackResistance", 0.2D, 0.01D, 100.0D,
+            "Additional knockback resistance for the Adapted Arachnida.");
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> ADAPTED_ARACHNIDA_ORB_EFFECTS = stringList(
+            "srparasites:arachnida", "adaptedArachnidaOrbEffects", List.of(
+                    "0;15;2;minecraft:hunger;0;0",
+                    "0;35;2;csrp:needler;0;0",
+                    "0;15;2;minecraft:blindness;0;0"),
+            "Adapted Arachnida scary-orb effects: self;seconds;amplifier;effect_id;mob_amplifier_step;mob_duration_step.",
+            MobsConfig::validOrbEffect);
+
     private static final ModConfigSpec.DoubleValue MANDUCATER_NEEDED_HEALTH = value(
             "srparasites:manducater", "manducaterNeededHealth", 0.70D, 0.0D, 1.0D,
             "Health ratio needed for a Primitive Manducater to camouflage.");
@@ -199,6 +231,31 @@ public final class MobsConfig {
         if (entity instanceof AssimilatedParasiteEntity) return INFECTED_FOLLOW.get();
         if (entity instanceof PrimitiveParasiteEntity) return PRIMITIVE_FOLLOW.get();
         return -1.0D;
+    }
+
+    public static double adaptedFollowRange() {
+        return ADAPTED_FOLLOW.get();
+    }
+
+    public static double adaptedArachnidaHealth() {
+        return (35.0D + ADAPTED_ARACHNIDA_ADDITIONAL_HEALTH.get()) * ARACHNIDA_HEALTH_MULTIPLIER.get();
+    }
+
+    public static double adaptedArachnidaDamage() {
+        return (15.0D + ADAPTED_ARACHNIDA_ADDITIONAL_DAMAGE.get()) * ARACHNIDA_DAMAGE_MULTIPLIER.get();
+    }
+
+    public static double adaptedArachnidaArmor() {
+        return (4.0D + ADAPTED_ARACHNIDA_ADDITIONAL_ARMOR.get()) * ARACHNIDA_ARMOR_MULTIPLIER.get();
+    }
+
+    public static double adaptedArachnidaKnockbackResistance() {
+        return Math.min(1.0D, (0.8D + ADAPTED_ARACHNIDA_ADDITIONAL_KNOCKBACK.get())
+                * ARACHNIDA_KNOCKBACK_MULTIPLIER.get());
+    }
+
+    public static List<? extends String> adaptedArachnidaOrbEffects() {
+        return ADAPTED_ARACHNIDA_ORB_EFFECTS.get();
     }
 
     public static double manducaterNeededHealth() {

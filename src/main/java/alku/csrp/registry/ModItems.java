@@ -90,7 +90,7 @@ public final class ModItems {
     public static final DeferredItem<SpawnEggItem> PRI_YELLOWEYE_SPAWN_EGG = spawnEgg(
             "pri_yelloweye_spawn_egg", ModEntities.PRI_YELLOWEYE, 0x544420, 0xD8C343);
     public static final DeferredItem<SpawnEggItem> ADA_ARACHNIDA_SPAWN_EGG = spawnEgg(
-            "ada_arachnida_spawn_egg", ModEntities.ADA_ARACHNIDA, 0x5A1E1D, 0xE3B567);
+            "ada_arachnida_spawn_egg", ModEntities.ADA_ARACHNIDA, 0x7F3F00, 0xB6FF00);
     public static final DeferredItem<SpawnEggItem> ADA_BOLSTER_SPAWN_EGG = spawnEgg(
             "ada_bolster_spawn_egg", ModEntities.ADA_BOLSTER, 0x3A2021, 0xB77162);
     public static final DeferredItem<SpawnEggItem> ADA_BURROWER_SPAWN_EGG = spawnEgg(

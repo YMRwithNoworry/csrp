@@ -24,6 +24,12 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/ada_bolster_virulent.png");
     private static final ResourceLocation BOLSTER_BREACHER_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/ada_bolster_breacher.png");
+    private static final ResourceLocation ARACHNIDA_VIRULENT_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/ada_arachnida_virulent.png");
+    private static final ResourceLocation ARACHNIDA_BLEEDING_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/ada_arachnida_bleeding.png");
+    private static final ResourceLocation ARACHNIDA_HEAVY_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/ada_arachnida_heavy.png");
     private static final ResourceLocation SHRIMP_FED_ENDERMAN_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/sim_enderman_ariral.png");
     private static final ResourceLocation REEKER_FRAGILE_TEXTURE =
@@ -69,6 +75,14 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
                 case BERSERKER -> BOLSTER_BERSERKER_TEXTURE;
                 case VIRULENT -> BOLSTER_VIRULENT_TEXTURE;
                 case BREACHER -> BOLSTER_BREACHER_TEXTURE;
+                default -> texture;
+            };
+        }
+        if (animatable instanceof AdaptedVariantEntity adapted && adapted.isAdaptedArachnida()) {
+            return switch (adapted.getArachnidaSkin()) {
+                case 5 -> ARACHNIDA_VIRULENT_TEXTURE;
+                case 6 -> ARACHNIDA_BLEEDING_TEXTURE;
+                case 7 -> ARACHNIDA_HEAVY_TEXTURE;
                 default -> texture;
             };
         }
