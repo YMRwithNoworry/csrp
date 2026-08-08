@@ -31,6 +31,7 @@ public abstract class BurrowingVariantEntity extends PrimitiveParasiteEntity {
     private static final int DIVE_TICKS = 30;
     private static final int UNDERGROUND_TICKS = 20;
     private static final int EMERGE_TICKS = 30;
+    private static final int BODY_ATTACK_ANIMATION_TICKS = 15;
     private static final EntityDataAccessor<Byte> BURROW_PHASE = SynchedEntityData.defineId(
             BurrowingVariantEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Float> BURROW_DEPTH = SynchedEntityData.defineId(
@@ -68,10 +69,13 @@ public abstract class BurrowingVariantEntity extends PrimitiveParasiteEntity {
         previousBurrowDepth = entityData.get(BURROW_DEPTH);
         super.tick();
         if (!level().isClientSide) {
-            if (getBodyNumber() == 0 && entityData.get(BODY_ATTACK_TICKS) > 0) {
+            if (entityData.get(BODY_ATTACK_TICKS) > 0) {
                 entityData.set(BODY_ATTACK_TICKS, entityData.get(BODY_ATTACK_TICKS) - 1);
             }
             updateBodyChain();
+            if (!isRemoved() && getBodyNumber() == 1 && tickCount % 21 == 10 && !isBurrowing()) {
+                bodyPartEffect();
+            }
         }
         if (level().isClientSide || !supportsBurrowing() || getBodyNumber() > 0) {
             return;
@@ -127,7 +131,6 @@ public abstract class BurrowingVariantEntity extends PrimitiveParasiteEntity {
         }
         entityData.set(BURROW_PHASE, previous.entityData.get(BURROW_PHASE));
         entityData.set(BURROW_DEPTH, previous.entityData.get(BURROW_DEPTH));
-        entityData.set(BODY_ATTACK_TICKS, previous.entityData.get(BODY_ATTACK_TICKS));
         Vec3 direction = previous.getDeltaMovement();
         if (direction.horizontalDistanceSqr() < 0.001D && previous.bodyPredecessor != null) {
             Entity beforePrevious = serverLevel.getEntity(previous.bodyPredecessor);
@@ -141,11 +144,15 @@ public abstract class BurrowingVariantEntity extends PrimitiveParasiteEntity {
         } else {
             direction = direction.normalize();
         }
-        double spacing = Math.max(0.55D, previous.getBbWidth() * 0.65D);
+        double spacing = bodyFollowDistance();
         Vec3 destination = previous.position().subtract(direction.scale(spacing));
-        setPos(Mth.lerp(0.45D, getX(), destination.x),
-                Mth.lerp(0.45D, getY(), destination.y),
-                Mth.lerp(0.45D, getZ(), destination.z));
+        if (distanceToSqr(previous) > 9.0D) {
+            setPos(previous.getX(), previous.getY(), previous.getZ());
+        } else {
+            setPos(Mth.lerp(0.45D, getX(), destination.x),
+                    Mth.lerp(0.45D, getY(), destination.y),
+                    Mth.lerp(0.45D, getZ(), destination.z));
+        }
         setYRot(previous.getYRot());
         setYBodyRot(previous.yBodyRot);
         setYHeadRot(previous.getYHeadRot());
@@ -173,6 +180,17 @@ public abstract class BurrowingVariantEntity extends PrimitiveParasiteEntity {
 
     protected final Goal createBurrowMovementGoal() {
         return new BurrowMovementGoal();
+    }
+
+    protected double bodyFollowDistance() {
+        return Math.max(0.55D, getBbWidth() * 0.65D);
+    }
+
+    protected void bodyPartEffect() {
+    }
+
+    protected final void startBodyAttackAnimation() {
+        entityData.set(BODY_ATTACK_TICKS, BODY_ATTACK_ANIMATION_TICKS);
     }
 
     private boolean canStartBurrowing() {
@@ -327,16 +345,67 @@ public abstract class BurrowingVariantEntity extends PrimitiveParasiteEntity {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        return !isFullyBurrowed() && super.hurt(source, amount);
+        if (isFullyBurrowed()) {
+            return false;
+        }
+        boolean hurt = super.hurt(source, amount);
+        if (hurt && getBodyNumber() > 0 && bodyPredecessor != null
+                && level() instanceof ServerLevel serverLevel) {
+            Entity predecessor = serverLevel.getEntity(bodyPredecessor);
+            if (predecessor instanceof BurrowingVariantEntity previous && previous.isAlive()) {
+                previous.hurt(source, amount * 0.5F);
+            }
+        }
+        return hurt;
     }
 
     @Override
     public boolean doHurtTarget(Entity entity) {
         boolean hit = !isBurrowing() && super.doHurtTarget(entity);
-        if (hit && !level().isClientSide && getBodyNumber() == 0) {
-            entityData.set(BODY_ATTACK_TICKS, 12);
+        if (hit && !level().isClientSide) {
+            startBodyAttackAnimation();
         }
         return hit;
+    }
+
+    @Override
+    protected boolean canBreakBlocks() {
+        return getBodyNumber() == 0;
+    }
+
+    @Override
+    public boolean killedEntity(ServerLevel level, LivingEntity victim) {
+        if (getBodyNumber() > 0) {
+            BurrowingVariantEntity head = findBodyHead(level);
+            if (head != this) {
+                return head.killedEntity(level, victim);
+            }
+        }
+        return super.killedEntity(level, victim);
+    }
+
+    private BurrowingVariantEntity findBodyHead(ServerLevel level) {
+        BurrowingVariantEntity current = this;
+        for (int index = 0; index < 32 && current.bodyPredecessor != null; index++) {
+            Entity predecessor = level.getEntity(current.bodyPredecessor);
+            if (!(predecessor instanceof BurrowingVariantEntity previous)) {
+                break;
+            }
+            current = previous;
+        }
+        return current;
+    }
+
+    @Override
+    public void setTarget(LivingEntity target) {
+        if (getBodyNumber() == 0) {
+            super.setTarget(target);
+        }
+    }
+
+    @Override
+    public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
+        return !supportsBurrowing() && super.causeFallDamage(distance, damageMultiplier, source);
     }
 
     @Override

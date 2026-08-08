@@ -161,6 +161,9 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     }
 
     private void tickBlockBreaking() {
+        if (!canBreakBlocks()) {
+            return;
+        }
         if (blockBreakCooldown > 0) {
             blockBreakCooldown--;
         }
@@ -206,6 +209,10 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         if (broke) {
             playSound(net.minecraft.sounds.SoundEvents.STONE_BREAK, 0.7F, 0.8F + random.nextFloat() * 0.3F);
         }
+    }
+
+    protected boolean canBreakBlocks() {
+        return true;
     }
 
     private static Map<String, BlockBreakProfile> createBlockBreakProfiles() {

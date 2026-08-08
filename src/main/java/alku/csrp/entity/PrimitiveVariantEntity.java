@@ -55,6 +55,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -286,12 +287,12 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
                 followRange = 24.0D;
             }
             case TOZOON -> {
-                health = 45.0D;
-                armor = 9.0D;
-                damage = 15.0D;
-                speed = 0.22D;
-                knockbackResistance = 0.75D;
-                followRange = 36.0D;
+                health = MobsConfig.tozoonHealth();
+                armor = MobsConfig.tozoonArmor();
+                damage = MobsConfig.tozoonDamage();
+                speed = 0.26D;
+                knockbackResistance = MobsConfig.tozoonKnockbackResistance();
+                followRange = 24.0D;
             }
             case YELLOWEYE -> {
                 health = MobsConfig.yelloweyeHealth();
@@ -352,7 +353,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
             }
             case TOZOON -> {
                 goalSelector.addGoal(1, createBurrowMovementGoal());
-                goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.00D, false));
+                goalSelector.addGoal(2, new TozoonAoeAttackGoal());
             }
             case YELLOWEYE -> {
                 goalSelector.addGoal(1, new YelloweyeRangedGoal());
@@ -492,6 +493,9 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
     @Override
     public boolean doHurtTarget(Entity entity) {
         Kind activeKind = activeKind();
+        if (activeKind == Kind.TOZOON) {
+            return performTozoonAoeAttack(entity);
+        }
         if (activeKind == Kind.DEVOURER && !isInWaterOrBubble()) {
             return false;
         }
@@ -500,10 +504,6 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
         if (!hit || !(entity instanceof LivingEntity target)) {
             return hit;
         }
-        if (activeKind == Kind.TOZOON) {
-            triggerAnim("attack_controller", "get_attack_timer");
-        }
-
         if (stealthAttack) {
             applyManducaterStealthDamage(target);
             setManducaterCamouflaged(false);
@@ -538,7 +538,6 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
                             1.8F, Level.ExplosionInteraction.NONE);
                 }
             }
-            case TOZOON -> target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 1), this);
             default -> {
             }
         }
@@ -1237,6 +1236,11 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
     }
 
     @Override
+    protected double bodyFollowDistance() {
+        return activeKind() == Kind.TOZOON ? 1.7D : super.bodyFollowDistance();
+    }
+
+    @Override
     protected int bodySegmentCount() {
         Kind kind = activeKind();
         return kind == Kind.BURROWER || kind == Kind.TOZOON ? 2 : 0;
@@ -1247,6 +1251,95 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
         return activeKind() == Kind.BURROWER
                 ? ModSounds.PRIMITIVE_BURROWER_DIG.get()
                 : ModSounds.PRIMITIVE_TOZOON_DIG.get();
+    }
+
+    @Override
+    protected void bodyPartEffect() {
+        if (activeKind() != Kind.TOZOON || getBodyNumber() != 1 || isBurrowing()) {
+            return;
+        }
+        AABB area = new AABB(blockPosition()).inflate(3.0D);
+        for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, area,
+                candidate -> !(candidate instanceof Parasite)
+                        && (!(candidate instanceof Player player) || !player.getAbilities().instabuild))) {
+            if (performTozoonAoeAttack(target)) {
+                return;
+            }
+        }
+    }
+
+    private boolean performTozoonAoeAttack(Entity target) {
+        if (isBurrowing() || target == null) {
+            return false;
+        }
+        startBodyAttackAnimation();
+        if (getBodyNumber() == 0) {
+            triggerAnim("attack_controller", "get_attack_timer");
+        }
+        playSound(ModSounds.MOB_SWIPE.get(), 2.0F, 1.0F);
+        AABB area = new AABB(target.getX(), target.getY(), target.getZ(),
+                target.getX() + 1.0D, target.getY() + 1.0D, target.getZ() + 1.0D).inflate(1.5D);
+        boolean hit = false;
+        for (LivingEntity nearby : level().getEntitiesOfClass(LivingEntity.class, area,
+                candidate -> candidate.isAlive() && !(candidate instanceof Parasite)
+                        && hasLineOfSight(candidate))) {
+            hit |= super.doHurtTarget(nearby);
+        }
+        return hit;
+    }
+
+    private final class TozoonAoeAttackGoal extends Goal {
+        private static final int ATTACK_INTERVAL_TICKS = 10;
+        private static final double ATTACK_DISTANCE_SQR = 9.0D;
+        private int attackCooldown;
+
+        private TozoonAoeAttackGoal() {
+            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
+        }
+
+        @Override
+        public boolean canUse() {
+            return activeKind() == Kind.TOZOON && !isBurrowing()
+                    && getTarget() != null && getTarget().isAlive();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            LivingEntity target = getTarget();
+            return activeKind() == Kind.TOZOON && !isBurrowing() && target != null && target.isAlive();
+        }
+
+        @Override
+        public void start() {
+            attackCooldown = 0;
+        }
+
+        @Override
+        public void stop() {
+            getNavigation().stop();
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = getTarget();
+            if (target == null || !target.isAlive()) {
+                return;
+            }
+            if (attackCooldown > 0) {
+                attackCooldown--;
+            }
+            getLookControl().setLookAt(target, 30.0F, 30.0F);
+            double distance = distanceToSqr(target.getX(), target.getBoundingBox().minY, target.getZ());
+            if (distance > ATTACK_DISTANCE_SQR || !hasLineOfSight(target)) {
+                getNavigation().moveTo(target, 1.3D);
+                return;
+            }
+            getNavigation().stop();
+            if (attackCooldown <= 0) {
+                attackCooldown = ATTACK_INTERVAL_TICKS;
+                performTozoonAoeAttack(target);
+            }
+        }
     }
 
     private final class DevourerAttackGoal extends Goal {

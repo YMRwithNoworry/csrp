@@ -51,6 +51,18 @@ public final class MobsConfig {
     private static final ModConfigSpec.BooleanValue DEVOURER_WATER_PLACEMENT = booleanValue(
             "srparasites:devourer", "devourerWaterPlacement", true,
             "Whether Devourers replace blocks they break with water.");
+    private static final ModConfigSpec.DoubleValue TOZOON_HEALTH_MULTIPLIER = value(
+            "srparasites:tozoon", "primitiveTozoonHealthMultiplier", 1.0D, 0.01D, 100.0D,
+            "Health multiplier for the Primitive Tozoon.");
+    private static final ModConfigSpec.DoubleValue TOZOON_DAMAGE_MULTIPLIER = value(
+            "srparasites:tozoon", "primitiveTozoonDamageMultiplier", 1.0D, 0.01D, 100.0D,
+            "Attack damage multiplier for the Primitive Tozoon.");
+    private static final ModConfigSpec.DoubleValue TOZOON_ARMOR_MULTIPLIER = value(
+            "srparasites:tozoon", "primitiveTozoonArmorMultiplier", 1.0D, 0.01D, 100.0D,
+            "Armor multiplier for the Primitive Tozoon.");
+    private static final ModConfigSpec.DoubleValue TOZOON_KNOCKBACK_MULTIPLIER = value(
+            "srparasites:tozoon", "primitiveTozoonKnockbackResistanceMultiplier", 1.0D, 0.01D, 100.0D,
+            "Knockback resistance multiplier for the Primitive Tozoon.");
     private static final ModConfigSpec.DoubleValue REEKER_HEALTH_MULTIPLIER = value(
             "srparasites:reeker", "primitiveReekerHealthMultiplier", 1.0D, 0.01D, 100.0D,
             "Health multiplier for the Primitive Reeker.");
@@ -183,6 +195,22 @@ public final class MobsConfig {
 
     public static boolean devourerWaterPlacement() {
         return DEVOURER_WATER_PLACEMENT.get();
+    }
+
+    public static double tozoonHealth() {
+        return 45.0D * TOZOON_HEALTH_MULTIPLIER.get();
+    }
+
+    public static double tozoonDamage() {
+        return 15.0D * TOZOON_DAMAGE_MULTIPLIER.get();
+    }
+
+    public static double tozoonArmor() {
+        return 9.0D * TOZOON_ARMOR_MULTIPLIER.get();
+    }
+
+    public static double tozoonKnockbackResistance() {
+        return Math.min(1.0D, TOZOON_KNOCKBACK_MULTIPLIER.get());
     }
 
     public static double reekerHealth() {
