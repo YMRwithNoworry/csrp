@@ -38,6 +38,8 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/ricardo.png");
     private static final ResourceLocation REEKER_RICARDO_BALD_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/ricardo_bald.png");
+    private static final ResourceLocation DEVOURER_HEAVY_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/pri_devourer_heavy.png");
     private static final ResourceLocation YELLOWEYE_HEAVY_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/pri_yelloweye_heavy.png");
     private final ResourceLocation model;
@@ -84,6 +86,10 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
                 case 7 -> REEKER_HEAVY_TEXTURE;
                 default -> texture;
             };
+        }
+        if (animatable instanceof PrimitiveVariantEntity primitive && primitive.isPrimitiveDevourer()
+                && primitive.getDevourerSkin() == 7) {
+            return DEVOURER_HEAVY_TEXTURE;
         }
         if (animatable instanceof PrimitiveVariantEntity primitive && primitive.isPrimitiveYelloweye()
                 && primitive.getYelloweyeSkin() == 7) {

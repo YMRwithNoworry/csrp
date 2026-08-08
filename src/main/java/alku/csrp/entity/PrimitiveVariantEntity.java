@@ -24,6 +24,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
@@ -41,11 +42,8 @@ import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
-import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
-import net.minecraft.world.entity.ai.goal.TryFindWaterGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
 import net.minecraft.world.entity.monster.Slime;
@@ -91,6 +89,8 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
             PrimitiveVariantEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> REEKER_RICARDO_BALD = SynchedEntityData.defineId(
             PrimitiveVariantEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> DEVOURER_SKIN = SynchedEntityData.defineId(
+            PrimitiveVariantEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> YELLOWEYE_SKIN = SynchedEntityData.defineId(
             PrimitiveVariantEntity.class, EntityDataSerializers.INT);
     private static final int REEKER_CHARGE_NONE = 0;
@@ -101,6 +101,8 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
     private static final int REEKER_SKIN_VIRULENT = 5;
     private static final int REEKER_SKIN_BERSERKER = 6;
     private static final int REEKER_SKIN_HEAVY = 7;
+    private static final int DEVOURER_SKIN_NORMAL = 0;
+    private static final int DEVOURER_SKIN_HEAVY = 7;
     private static final int YELLOWEYE_SKIN_NORMAL = 0;
     private static final int YELLOWEYE_SKIN_HEAVY = 7;
     private static final int REEKER_SKILL_PREP_TICKS = 40;
@@ -188,11 +190,14 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
         super(type, level);
         this.kind = kind;
         xpReward = kind == Kind.YELLOWEYE ? 30 : 18;
+        if (kind == Kind.DEVOURER) {
+            xpReward = 1 + random.nextInt(3);
+        }
         if (kind == Kind.YELLOWEYE) {
             moveControl = new YelloweyeMoveControl(this);
             setNoGravity(true);
         } else if (kind == Kind.DEVOURER) {
-            moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.1F, 0.2F, true);
+            moveControl = new DevourerMoveControl(this);
         }
     }
 
@@ -205,6 +210,11 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
     }
 
     @Override
+    protected boolean usesDefaultMovementGoals() {
+        return activeKind() != Kind.DEVOURER;
+    }
+
+    @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(REEKER_CHARGE_STATE, REEKER_CHARGE_NONE);
@@ -214,6 +224,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
         builder.define(MANDUCATER_STATUS, 0);
         builder.define(REEKER_SKIN, REEKER_SKIN_NORMAL);
         builder.define(REEKER_RICARDO_BALD, false);
+        builder.define(DEVOURER_SKIN, DEVOURER_SKIN_NORMAL);
         builder.define(YELLOWEYE_SKIN, YELLOWEYE_SKIN_NORMAL);
     }
 
@@ -251,12 +262,12 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
                 followRange = 32.0D;
             }
             case DEVOURER -> {
-                health = 60.0D;
-                armor = 4.0D;
-                damage = 20.0D;
-                speed = 0.32D;
-                knockbackResistance = 0.30D;
-                followRange = 36.0D;
+                health = MobsConfig.devourerHealth();
+                armor = MobsConfig.devourerArmor();
+                damage = MobsConfig.devourerDamage();
+                speed = 0.0D;
+                knockbackResistance = MobsConfig.devourerKnockbackResistance();
+                followRange = 24.0D;
             }
             case MANDUCATER -> {
                 health = 30.0D;
@@ -323,9 +334,8 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
                 goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.20D, false));
             }
             case DEVOURER -> {
-                goalSelector.addGoal(1, new TryFindWaterGoal(this));
-                goalSelector.addGoal(2, new DevourerMeleeGoal());
-                goalSelector.addGoal(6, new RandomSwimmingGoal(this, 1.0D, 20));
+                goalSelector.addGoal(2, new DevourerAttackGoal());
+                goalSelector.addGoal(6, new DevourerRandomSwimGoal());
             }
             case MANDUCATER -> {
                 goalSelector.addGoal(2, new ManducaterWaterLeapGoal());
@@ -369,6 +379,11 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
             applyReekerAttributes(true);
             setHealth(getMaxHealth());
         }
+        if (!level.isClientSide() && activeKind() == Kind.DEVOURER
+                && (random.nextDouble() < Config.variantSpawnChance()
+                || Config.evolutionPhase(level.getLevel()) >= Config.alwaysVariantPhase())) {
+            setDevourerSkin(DEVOURER_SKIN_HEAVY);
+        }
         if (!level.isClientSide() && activeKind() == Kind.YELLOWEYE
                 && (random.nextDouble() < Config.variantSpawnChance()
                 || Config.evolutionPhase(level.getLevel()) >= Config.alwaysVariantPhase())) {
@@ -381,6 +396,18 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
     public void tick() {
         super.tick();
         Kind activeKind = activeKind();
+        if (activeKind == Kind.DEVOURER) {
+            boolean inWater = isInWaterOrBubble();
+            setNoGravity(inWater);
+            if (!level().isClientSide) {
+                if (inWater) {
+                    setAirSupply(getMaxAirSupply());
+                } else if (getAirSupply() <= -20) {
+                    setAirSupply(0);
+                    hurt(damageSources().drown(), 2.0F);
+                }
+            }
+        }
         if (activeKind == Kind.YELLOWEYE) {
             setNoGravity(true);
             if (!level().isClientSide) {
@@ -408,14 +435,6 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
         LivingEntity target = getTarget();
         if (target != null && breaksSoftBlocks(activeKind)) {
             breakSoftBlockTowards(target);
-        } else if (activeKind == Kind.DEVOURER && target != null && isInWaterOrBubble()) {
-            Vec3 direction = target.getEyePosition().subtract(getEyePosition());
-            if (direction.lengthSqr() > 0.001D) {
-                setDeltaMovement(getDeltaMovement().add(direction.normalize().scale(0.045D)));
-            }
-        }
-        if (activeKind == Kind.DEVOURER && !isInWaterOrBubble() && tickCount % 40 == 0) {
-            hurt(damageSources().drown(), 2.0F);
         }
         if (activeKind == Kind.MANDUCATER) {
             tickManducater();
@@ -500,7 +519,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
 
         switch (activeKind) {
             case ARACHNIDA -> target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 80, 0), this);
-            case DEVOURER -> target.addEffect(new MobEffectInstance(ModMobEffects.BLEED, 100, 0), this);
+            case DEVOURER -> target.setDeltaMovement(target.getDeltaMovement().add(0.0D, -0.5645D, 0.0D));
             case MANDUCATER -> {
                 if (random.nextFloat() < 0.20F) {
                     target.addEffect(new MobEffectInstance(ModMobEffects.COTH, 300, 0), this);
@@ -661,6 +680,19 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
 
     public boolean isPrimitiveYelloweye() {
         return activeKind() == Kind.YELLOWEYE;
+    }
+
+    public boolean isPrimitiveDevourer() {
+        return activeKind() == Kind.DEVOURER;
+    }
+
+    public int getDevourerSkin() {
+        return entityData.get(DEVOURER_SKIN);
+    }
+
+    private void setDevourerSkin(int skin) {
+        entityData.set(DEVOURER_SKIN, skin == DEVOURER_SKIN_HEAVY
+                ? DEVOURER_SKIN_HEAVY : DEVOURER_SKIN_NORMAL);
     }
 
     public int getYelloweyeSkin() {
@@ -950,6 +982,9 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
             tag.putBoolean("RicardoBald", entityData.get(REEKER_RICARDO_BALD));
             tag.putInt("reeker_charge_preparation", reekerChargePreparationTicks);
         }
+        if (activeKind() == Kind.DEVOURER) {
+            tag.putInt("devourer_skin", getDevourerSkin());
+        }
         if (activeKind() == Kind.YELLOWEYE) {
             tag.putInt("yelloweye_skin", getYelloweyeSkin());
             tag.putInt("yelloweye_shots", rangedShots);
@@ -976,6 +1011,9 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
                 applyReekerAttributes(true);
             }
         }
+        if (activeKind() == Kind.DEVOURER) {
+            setDevourerSkin(tag.getInt("devourer_skin"));
+        }
         if (activeKind() == Kind.YELLOWEYE) {
             setYelloweyeSkin(tag.getInt("yelloweye_skin"));
             rangedShots = Mth.clamp(tag.getInt("yelloweye_shots"), 0, 3);
@@ -994,6 +1032,11 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
     }
 
     @Override
+    protected int increaseAirSupply(int airSupply) {
+        return activeKind() == Kind.DEVOURER ? airSupply - 1 : super.increaseAirSupply(airSupply);
+    }
+
+    @Override
     public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
         return activeKind() != Kind.YELLOWEYE && super.causeFallDamage(distance, damageMultiplier, source);
     }
@@ -1001,7 +1044,8 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
     @Override
     protected float adjustBlockBreakHardness(float baseHardness) {
         boolean heavy = activeKind() == Kind.YELLOWEYE && getYelloweyeSkin() == YELLOWEYE_SKIN_HEAVY
-                || activeKind() == Kind.REEKER && getReekerSkin() == REEKER_SKIN_HEAVY;
+                || activeKind() == Kind.REEKER && getReekerSkin() == REEKER_SKIN_HEAVY
+                || activeKind() == Kind.DEVOURER && getDevourerSkin() == DEVOURER_SKIN_HEAVY;
         return heavy ? baseHardness * 2.0F : baseHardness;
     }
 
@@ -1205,22 +1249,125 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
                 : ModSounds.PRIMITIVE_TOZOON_DIG.get();
     }
 
-    private final class DevourerMeleeGoal extends MeleeAttackGoal {
-        private DevourerMeleeGoal() {
-            super(PrimitiveVariantEntity.this, 1.35D, false);
+    private final class DevourerAttackGoal extends Goal {
+        private static final double ATTACK_DISTANCE_SQR = 16.0D;
+        private static final double TRACKING_FACTOR = 0.85D;
+        private static final double SWIM_ACCELERATION = 0.08D;
+        private int attackCooldown;
+        private int movementCycle;
+
+        private DevourerAttackGoal() {
+            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
         }
 
         @Override
         public boolean canUse() {
-            LivingEntity target = getTarget();
-            return isInWaterOrBubble() && target != null && target.isInWaterOrBubble() && super.canUse();
+            return getTarget() != null;
         }
 
         @Override
         public boolean canContinueToUse() {
             LivingEntity target = getTarget();
-            return isInWaterOrBubble() && target != null && target.isInWaterOrBubble()
-                    && super.canContinueToUse();
+            return target != null && target.isAlive();
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = getTarget();
+            if (target == null || !target.isAlive()) {
+                setTarget(null);
+                return;
+            }
+            if (!isInWaterOrBubble()) {
+                return;
+            }
+            if (attackCooldown > 0) {
+                attackCooldown--;
+            }
+            movementCycle++;
+            getLookControl().setLookAt(target, 30.0F, 30.0F);
+            double followRange = getAttributeValue(Attributes.FOLLOW_RANGE);
+            if (distanceToSqr(target) * TRACKING_FACTOR >= followRange * followRange
+                    || !hasLineOfSight(target)) {
+                return;
+            }
+
+            double deltaX = target.getX() - getX();
+            double deltaZ = target.getZ() - getZ();
+            double horizontalDistance = Math.sqrt(deltaX * deltaX + deltaZ * deltaZ);
+            if (horizontalDistance > 1.0E-5D) {
+                Vec3 motion = getDeltaMovement();
+                double verticalMotion = target.getY() >= getY() + 3.0D ? 0.52D : -0.2D;
+                if (target.getY() >= getY() + 1.0D) {
+                    verticalMotion -= 0.2D;
+                }
+                setDeltaMovement(motion.x * 1.08D + deltaX / horizontalDistance * SWIM_ACCELERATION,
+                        verticalMotion,
+                        motion.z * 1.08D + deltaZ / horizontalDistance * SWIM_ACCELERATION);
+            }
+
+            double attackDistance = distanceToSqr(target.getX(), target.getBoundingBox().minY, target.getZ());
+            if (attackDistance <= ATTACK_DISTANCE_SQR && attackCooldown <= 0) {
+                attackCooldown = 20;
+                doHurtTarget(target);
+            }
+            if (movementCycle > 140) {
+                movementCycle = 0;
+            }
+        }
+    }
+
+    private final class DevourerRandomSwimGoal extends Goal {
+        private DevourerRandomSwimGoal() {
+            setFlags(EnumSet.of(Flag.MOVE));
+        }
+
+        @Override
+        public boolean canUse() {
+            return random.nextInt(7) == 0;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return false;
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = getTarget();
+            BlockPos origin = blockPosition();
+            int pattern = 1;
+            if (target != null) {
+                double distanceSqr = distanceToSqr(target);
+                if (distanceSqr > 100.0D) {
+                    origin = target.blockPosition();
+                    pattern = 2;
+                } else if (distanceSqr < 36.0D) {
+                    origin = target.blockPosition();
+                    pattern = 3;
+                }
+            }
+
+            for (int attempt = 0; attempt < 3; attempt++) {
+                BlockPos destination = switch (pattern) {
+                    case 2 -> origin.offset(random.nextInt(6) - 2, random.nextInt(7) - 2,
+                            random.nextInt(6) - 2);
+                    case 3 -> origin.offset(random.nextInt(4) + 3, random.nextInt(5) + 4,
+                            random.nextInt(4) + 3);
+                    default -> origin.offset(random.nextInt(15) - 7, random.nextInt(11) - 5,
+                            random.nextInt(15) - 7);
+                };
+                if (!level().getFluidState(destination).is(FluidTags.WATER)) {
+                    continue;
+                }
+                getMoveControl().setWantedPosition(destination.getX() + 0.5D,
+                        destination.getY() + 0.5D, destination.getZ() + 0.5D, 0.19D);
+                if (target == null) {
+                    getLookControl().setLookAt(destination.getX() + 0.5D,
+                            destination.getY() + 0.5D, destination.getZ() + 0.5D, 180.0F, 20.0F);
+                }
+                return;
+            }
         }
     }
 
@@ -2052,6 +2199,38 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
                 }
                 return;
             }
+        }
+    }
+
+    private static final class DevourerMoveControl extends MoveControl {
+        private DevourerMoveControl(PrimitiveVariantEntity devourer) {
+            super(devourer);
+        }
+
+        @Override
+        public void tick() {
+            if (operation != Operation.MOVE_TO) {
+                return;
+            }
+            PrimitiveVariantEntity devourer = (PrimitiveVariantEntity) mob;
+            double x = wantedX - devourer.getX();
+            double y = wantedY - devourer.getY();
+            double z = wantedZ - devourer.getZ();
+            double distance = Math.sqrt(x * x + y * y + z * z);
+            if (distance < devourer.getBoundingBox().getSize()) {
+                operation = Operation.WAIT;
+                devourer.setDeltaMovement(devourer.getDeltaMovement().scale(0.5D));
+                return;
+            }
+            devourer.setDeltaMovement(devourer.getDeltaMovement().add(
+                    x / distance * 0.05D * speedModifier,
+                    y / distance * 0.05D * speedModifier,
+                    z / distance * 0.05D * speedModifier));
+            LivingEntity target = devourer.getTarget();
+            double lookX = target == null ? devourer.getDeltaMovement().x : target.getX() - devourer.getX();
+            double lookZ = target == null ? devourer.getDeltaMovement().z : target.getZ() - devourer.getZ();
+            devourer.setYRot(-((float) Mth.atan2(lookX, lookZ)) * Mth.RAD_TO_DEG);
+            devourer.yBodyRot = devourer.getYRot();
         }
     }
 

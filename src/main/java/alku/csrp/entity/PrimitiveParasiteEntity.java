@@ -1,6 +1,7 @@
 package alku.csrp.entity;
 
 import alku.csrp.Config;
+import alku.csrp.config.MobsConfig;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
@@ -47,6 +48,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.util.Mth;
 import net.neoforged.neoforge.event.EventHooks;
@@ -162,8 +164,8 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         if (blockBreakCooldown > 0) {
             blockBreakCooldown--;
         }
-        BlockBreakProfile profile = BLOCK_BREAK_PROFILES.get(
-                BuiltInRegistries.ENTITY_TYPE.getKey(getType()).getPath());
+        String entityId = BuiltInRegistries.ENTITY_TYPE.getKey(getType()).getPath();
+        BlockBreakProfile profile = BLOCK_BREAK_PROFILES.get(entityId);
         LivingEntity target = getTarget();
         if (profile == null || blockBreakCooldown > 0 || target == null || !target.isAlive()
                 || distanceToSqr(target) > 4096.0D
@@ -190,7 +192,13 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
                             || !EventHooks.onEntityDestroyBlock(this, pos, state)) {
                         continue;
                     }
-                    broke |= level().destroyBlock(pos, true, this);
+                    if (level().destroyBlock(pos, true, this)) {
+                        broke = true;
+                        if (MobsConfig.devourerWaterPlacement()
+                                && ("pri_devourer".equals(entityId) || "ada_devourer".equals(entityId))) {
+                            level().setBlockAndUpdate(pos, Blocks.WATER.defaultBlockState());
+                        }
+                    }
                 }
             }
         }
@@ -261,19 +269,25 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
 
     @Override
     protected void registerGoals() {
-        if (!(this instanceof PreeminentParasiteEntity preeminent
-                && (preeminent.getKind() == PreeminentParasiteEntity.Kind.CARRIER_COLONY
-                || preeminent.getKind() == PreeminentParasiteEntity.Kind.HAUNTER))) {
-            goalSelector.addGoal(0, new FloatGoal(this));
+        if (usesDefaultMovementGoals()) {
+            if (!(this instanceof PreeminentParasiteEntity preeminent
+                    && (preeminent.getKind() == PreeminentParasiteEntity.Kind.CARRIER_COLONY
+                    || preeminent.getKind() == PreeminentParasiteEntity.Kind.HAUNTER))) {
+                goalSelector.addGoal(0, new FloatGoal(this));
+            }
+            if (!(this instanceof PreeminentParasiteEntity)) {
+                goalSelector.addGoal(6, new ParasiteFollowGoal(this));
+            }
+            goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1.0));
         }
-        if (!(this instanceof PreeminentParasiteEntity)) {
-            goalSelector.addGoal(6, new ParasiteFollowGoal(this));
-        }
-        goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1.0));
         goalSelector.addGoal(8, new RandomLookAroundGoal(this));
         targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
         targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,
                 true, false, this::isValidParasiteTarget));
+    }
+
+    protected boolean usesDefaultMovementGoals() {
+        return true;
     }
 
     protected boolean isValidParasiteTarget(LivingEntity target) {

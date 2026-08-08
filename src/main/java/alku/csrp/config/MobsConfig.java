@@ -36,6 +36,21 @@ public final class MobsConfig {
     private static final ModConfigSpec.DoubleValue MANDUCATER_STEALTH_DAMAGE = value(
             "srparasites:manducater", "manducaterStealthDamageMultiplier", 2.0D, 0.01D, 100.0D,
             "Damage multiplier for a camouflaged Primitive Manducater attack.");
+    private static final ModConfigSpec.DoubleValue DEVOURER_HEALTH_MULTIPLIER = value(
+            "srparasites:devourer", "primitiveDevourerHealthMultiplier", 1.0D, 0.01D, 100.0D,
+            "Health multiplier for the Primitive Devourer.");
+    private static final ModConfigSpec.DoubleValue DEVOURER_DAMAGE_MULTIPLIER = value(
+            "srparasites:devourer", "primitiveDevourerDamageMultiplier", 1.0D, 0.01D, 100.0D,
+            "Attack damage multiplier for the Primitive Devourer.");
+    private static final ModConfigSpec.DoubleValue DEVOURER_ARMOR_MULTIPLIER = value(
+            "srparasites:devourer", "primitiveDevourerArmorMultiplier", 1.0D, 0.01D, 100.0D,
+            "Armor multiplier for the Primitive Devourer.");
+    private static final ModConfigSpec.DoubleValue DEVOURER_KNOCKBACK_MULTIPLIER = value(
+            "srparasites:devourer", "primitiveDevourerKnockbackResistanceMultiplier", 1.0D, 0.01D, 100.0D,
+            "Knockback resistance multiplier for the Primitive Devourer.");
+    private static final ModConfigSpec.BooleanValue DEVOURER_WATER_PLACEMENT = booleanValue(
+            "srparasites:devourer", "devourerWaterPlacement", true,
+            "Whether Devourers replace blocks they break with water.");
     private static final ModConfigSpec.DoubleValue REEKER_HEALTH_MULTIPLIER = value(
             "srparasites:reeker", "primitiveReekerHealthMultiplier", 1.0D, 0.01D, 100.0D,
             "Health multiplier for the Primitive Reeker.");
@@ -148,6 +163,26 @@ public final class MobsConfig {
 
     public static double manducaterStealthDamageMultiplier() {
         return MANDUCATER_STEALTH_DAMAGE.get();
+    }
+
+    public static double devourerHealth() {
+        return 60.0D * DEVOURER_HEALTH_MULTIPLIER.get();
+    }
+
+    public static double devourerDamage() {
+        return 20.0D * DEVOURER_DAMAGE_MULTIPLIER.get();
+    }
+
+    public static double devourerArmor() {
+        return 4.0D * DEVOURER_ARMOR_MULTIPLIER.get();
+    }
+
+    public static double devourerKnockbackResistance() {
+        return Math.min(1.0D, DEVOURER_KNOCKBACK_MULTIPLIER.get());
+    }
+
+    public static boolean devourerWaterPlacement() {
+        return DEVOURER_WATER_PLACEMENT.get();
     }
 
     public static double reekerHealth() {
