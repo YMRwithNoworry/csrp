@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import alku.csrp.config.MobsConfig;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModMobEffects;
@@ -43,9 +44,11 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
@@ -112,6 +115,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     private final RawAnimation AGE_BODY_02 = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_body_number_0_2");
     private final RawAnimation BOLSTER_ATTACK = ParasiteAnimations.play(this, "get_attack_timer");
+    private final RawAnimation TOZOON_ATTACK = ParasiteAnimations.loop(this, "get_attack_timer");
     private final RawAnimation ARACHNIDA_ATTACK_PREP = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_1");
     private final RawAnimation ARACHNIDA_FAST_MOVE = ParasiteAnimations.loop(this,
@@ -199,6 +203,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         super(type, level);
         this.kind = kind;
         xpReward = 55;
+        if (kind == Kind.TOZOON) {
+            setPathfindingMalus(PathType.WATER, -1.0F);
+        }
         if (isFlying(kind)) {
             moveControl = new FlyingMoveControl(this, 20, true);
             setNoGravity(true);
@@ -312,12 +319,12 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
                 followRange = 40.0D;
             }
             case TOZOON -> {
-                health = 115.0D;
-                armor = 24.0D;
-                damage = 45.0D;
-                speed = 0.31D;
-                knockbackResistance = 0.65D;
-                followRange = 40.0D;
+                health = MobsConfig.adaptedTozoonHealth();
+                armor = MobsConfig.adaptedTozoonArmor();
+                damage = MobsConfig.adaptedTozoonDamage();
+                speed = 0.32D;
+                knockbackResistance = 1.0D;
+                followRange = 32.0D;
             }
             case VERMIN -> {
                 health = 70.0D;
@@ -353,6 +360,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
                 .add(Attributes.MOVEMENT_SPEED, speed)
                 .add(Attributes.KNOCKBACK_RESISTANCE, knockbackResistance)
                 .add(Attributes.FOLLOW_RANGE, followRange);
+        if (kind == Kind.TOZOON) {
+            attributes.add(Attributes.STEP_HEIGHT, 1.0D);
+        }
         if (isFlying(kind)) {
             attributes.add(Attributes.FLYING_SPEED, 0.35D);
         }
@@ -427,7 +437,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             }
             case TOZOON -> {
                 goalSelector.addGoal(1, createBurrowMovementGoal());
-                goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.30D, false));
+                goalSelector.addGoal(2, new TozoonAoeAttackGoal());
             }
             case DEVOURER -> {
                 goalSelector.addGoal(1, new TryFindWaterGoal(this));
@@ -578,6 +588,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         Kind activeKind = activeKind();
         if (activeKind == Kind.DEVOURER && !isInWaterOrBubble()) {
             return false;
+        }
+        if (activeKind == Kind.TOZOON) {
+            return performTozoonAoeAttack(entity);
         }
         if (!(entity instanceof LivingEntity target)) {
             return super.doHurtTarget(entity);
@@ -820,6 +833,10 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
+        if (activeKind() == Kind.TOZOON) {
+            controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
+                    .triggerableAnim("get_attack_timer", TOZOON_ATTACK));
+        }
         controllers.add(new AnimationController<>(this, "bolster_overlay_controller", 0,
                 this::bolsterOverlayAnimation));
         controllers.add(new AnimationController<>(this, "bolster_attack_controller", 0, state -> PlayState.STOP)
@@ -828,11 +845,12 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
     private PlayState movementAnimation(AnimationState<AdaptedVariantEntity> state) {
         Kind kind = activeKind();
+        if (kind == Kind.TOZOON && isBodyAttackAnimating()) {
+            int body = Math.min(getBodyNumber(), BODY_ATTACK.length - 1);
+            return state.setAndContinue(body == 0 ? TOZOON_ATTACK : BODY_ATTACK[body]);
+        }
         if (getBodyNumber() > 0) {
             int body = Math.min(getBodyNumber(), BODY_IDLE.length - 1);
-            if (kind == Kind.TOZOON && isBodyAttackAnimating()) {
-                return state.setAndContinue(BODY_ATTACK[body]);
-            }
             if (kind == Kind.BURROWER) {
                 return state.setAndContinue(isBurrowing() ? DIG_BODY_02 : AGE_BODY_02);
             }
@@ -1506,9 +1524,35 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     }
 
     @Override
+    protected double bodyFollowDistance() {
+        return activeKind() == Kind.TOZOON ? 1.9D : super.bodyFollowDistance();
+    }
+
+    @Override
     protected int bodySegmentCount() {
         Kind kind = activeKind();
         return kind == Kind.BURROWER || kind == Kind.TOZOON ? 4 : 0;
+    }
+
+    @Override
+    protected boolean shouldTriggerBodyPartEffect() {
+        int body = getBodyNumber();
+        return activeKind() == Kind.TOZOON ? body >= 1 && body <= 3 : super.shouldTriggerBodyPartEffect();
+    }
+
+    @Override
+    protected void bodyPartEffect() {
+        if (activeKind() != Kind.TOZOON || isBurrowing()) {
+            return;
+        }
+        AABB area = new AABB(blockPosition()).inflate(5.0D);
+        for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, area,
+                candidate -> !(candidate instanceof Parasite)
+                        && (!(candidate instanceof Player player) || !player.getAbilities().instabuild))) {
+            if (performTozoonAoeAttack(target)) {
+                return;
+            }
+        }
     }
 
     @Override
@@ -1528,6 +1572,80 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
     private static boolean isDevourerType(EntityType<?> type) {
         return type == ModEntities.ADA_DEVOURER.get();
+    }
+
+    private boolean performTozoonAoeAttack(Entity target) {
+        if (isBurrowing() || target == null) {
+            return false;
+        }
+        startBodyAttackAnimation();
+        if (getBodyNumber() == 0) {
+            triggerAnim("attack_controller", "get_attack_timer");
+        }
+        playSound(ModSounds.MOB_SWIPE.get(), 2.0F, 1.0F);
+        AABB area = new AABB(target.getX(), target.getY(), target.getZ(),
+                target.getX() + 1.0D, target.getY() + 1.0D, target.getZ() + 1.0D).inflate(1.5D);
+        boolean hit = false;
+        for (LivingEntity nearby : level().getEntitiesOfClass(LivingEntity.class, area,
+                candidate -> candidate.isAlive() && !(candidate instanceof Parasite)
+                        && hasLineOfSight(candidate))) {
+            hit |= super.doHurtTarget(nearby);
+        }
+        return hit;
+    }
+
+    private final class TozoonAoeAttackGoal extends Goal {
+        private static final int ATTACK_INTERVAL_TICKS = 10;
+        private static final double ATTACK_DISTANCE_SQR = 16.0D;
+        private int attackCooldown;
+
+        private TozoonAoeAttackGoal() {
+            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
+        }
+
+        @Override
+        public boolean canUse() {
+            return activeKind() == Kind.TOZOON && !isBurrowing()
+                    && getTarget() != null && getTarget().isAlive();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            LivingEntity target = getTarget();
+            return activeKind() == Kind.TOZOON && !isBurrowing() && target != null && target.isAlive();
+        }
+
+        @Override
+        public void start() {
+            attackCooldown = 0;
+        }
+
+        @Override
+        public void stop() {
+            getNavigation().stop();
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = getTarget();
+            if (target == null || !target.isAlive()) {
+                return;
+            }
+            if (attackCooldown > 0) {
+                attackCooldown--;
+            }
+            getLookControl().setLookAt(target, 30.0F, 30.0F);
+            double distance = distanceToSqr(target.getX(), target.getBoundingBox().minY, target.getZ());
+            if (distance > ATTACK_DISTANCE_SQR || !hasLineOfSight(target)) {
+                getNavigation().moveTo(target, 1.3D);
+                return;
+            }
+            getNavigation().stop();
+            if (attackCooldown <= 0) {
+                attackCooldown = ATTACK_INTERVAL_TICKS;
+                performTozoonAoeAttack(target);
+            }
+        }
     }
 
     private final class DevourerMeleeGoal extends MeleeAttackGoal {

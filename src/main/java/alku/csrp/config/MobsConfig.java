@@ -63,6 +63,18 @@ public final class MobsConfig {
     private static final ModConfigSpec.DoubleValue TOZOON_KNOCKBACK_MULTIPLIER = value(
             "srparasites:tozoon", "primitiveTozoonKnockbackResistanceMultiplier", 1.0D, 0.01D, 100.0D,
             "Knockback resistance multiplier for the Primitive Tozoon.");
+    private static final ModConfigSpec.DoubleValue ADAPTED_TOZOON_ADDITIONAL_HEALTH = value(
+            "srparasites:tozoon", "adaptedTozoonAdditionalHealth", 70.0D, 0.01D, 100.0D,
+            "Additional health for the Adapted Tozoon.");
+    private static final ModConfigSpec.DoubleValue ADAPTED_TOZOON_ADDITIONAL_DAMAGE = value(
+            "srparasites:tozoon", "adaptedTozoonAdditionalDamage", 30.0D, 0.01D, 100.0D,
+            "Additional attack damage for the Adapted Tozoon.");
+    private static final ModConfigSpec.DoubleValue ADAPTED_TOZOON_ADDITIONAL_ARMOR = value(
+            "srparasites:tozoon", "adaptedTozoonAdditionalArmor", 15.0D, 0.01D, 100.0D,
+            "Additional armor for the Adapted Tozoon.");
+    private static final ModConfigSpec.DoubleValue ADAPTED_TOZOON_ADDITIONAL_KNOCKBACK = value(
+            "srparasites:tozoon", "adaptedTozoonAdditionalKnockbackResistance", 0.65D, 0.01D, 100.0D,
+            "Original additional knockback-resistance setting for the Adapted Tozoon.");
     private static final ModConfigSpec.DoubleValue REEKER_HEALTH_MULTIPLIER = value(
             "srparasites:reeker", "primitiveReekerHealthMultiplier", 1.0D, 0.01D, 100.0D,
             "Health multiplier for the Primitive Reeker.");
@@ -211,6 +223,22 @@ public final class MobsConfig {
 
     public static double tozoonKnockbackResistance() {
         return Math.min(1.0D, TOZOON_KNOCKBACK_MULTIPLIER.get());
+    }
+
+    public static double adaptedTozoonHealth() {
+        return (45.0D + ADAPTED_TOZOON_ADDITIONAL_HEALTH.get()) * TOZOON_HEALTH_MULTIPLIER.get();
+    }
+
+    public static double adaptedTozoonDamage() {
+        return (15.0D + ADAPTED_TOZOON_ADDITIONAL_DAMAGE.get()) * TOZOON_DAMAGE_MULTIPLIER.get();
+    }
+
+    public static double adaptedTozoonArmor() {
+        return (9.0D + ADAPTED_TOZOON_ADDITIONAL_ARMOR.get()) * TOZOON_ARMOR_MULTIPLIER.get();
+    }
+
+    public static double adaptedTozoonConfiguredKnockbackResistance() {
+        return (0.7D + ADAPTED_TOZOON_ADDITIONAL_KNOCKBACK.get()) * TOZOON_KNOCKBACK_MULTIPLIER.get();
     }
 
     public static double reekerHealth() {

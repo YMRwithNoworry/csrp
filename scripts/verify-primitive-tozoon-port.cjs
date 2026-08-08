@@ -55,11 +55,11 @@ for (const relative of [
   "src/main/resources/assets/csrp/compendium/drops/pri_tozoon.json"
 ]) {
   const table = parseJson(relative);
-  if (!Array.isArray(table.pools) || table.pools.length !== 3) {
-    failures.push(`${relative}: expected three original drop pools`);
+  if (!Array.isArray(table.pools) || table.pools.length !== 2) {
+    failures.push(`${relative}: expected the two resolvable original drop pools`);
     continue;
   }
-  const [lure, adapted, bone] = table.pools;
+  const [lure, bone] = table.pools;
   if (lure.conditions?.[0]?.condition !== "minecraft:random_chance"
       || lure.conditions[0].chance !== 0.4
       || lure.entries?.[0]?.name !== "csrp:lurecomponent3"
@@ -67,15 +67,13 @@ for (const relative of [
       || lure.entries[0].functions?.[0]?.count?.max !== 2) {
     failures.push(`${relative}: lurecomponent3 pool is not the original 40% 1-2 drop`);
   }
-  if (adapted.conditions?.[0]?.condition !== "minecraft:killed_by_player"
-      || adapted.conditions?.[1]?.chance !== 0.4
-      || adapted.entries?.[0]?.name !== "csrp:ada_tozoon_drop") {
-    failures.push(`${relative}: ada_tozoon_drop pool is not the original player-kill 40% drop`);
-  }
   if (bone.conditions?.[0]?.condition !== "minecraft:killed_by_player"
       || bone.conditions?.[1]?.chance !== 0.1
       || bone.entries?.[0]?.name !== "csrp:bone") {
     failures.push(`${relative}: bone pool is not the original player-kill 10% drop`);
+  }
+  if (JSON.stringify(table).includes("ada_tozoon_drop")) {
+    failures.push(`${relative}: unresolved legacy ada_tozoon_drop still invalidates the modern loot table`);
   }
 }
 
