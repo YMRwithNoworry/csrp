@@ -7,6 +7,26 @@ const read = (relative) => fs.readFileSync(path.join(root, relative), "utf8");
 const expect = (source, pattern, message) => {
   if (!pattern.test(source)) failures.push(message);
 };
+const javaFiles = (directory) => fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+  const absolute = path.join(directory, entry.name);
+  return entry.isDirectory() ? javaFiles(absolute) : entry.name.endsWith(".java") ? [absolute] : [];
+});
+const methodBodies = (source, signature) => {
+  const bodies = [];
+  for (const match of source.matchAll(signature)) {
+    const openingBrace = source.indexOf("{", match.index);
+    if (openingBrace < 0) continue;
+    let depth = 0;
+    for (let index = openingBrace; index < source.length; index++) {
+      if (source[index] === "{") depth++;
+      if (source[index] === "}" && --depth === 0) {
+        bodies.push(source.slice(match.index, index + 1));
+        break;
+      }
+    }
+  }
+  return bodies;
+};
 
 const cystEvent = path.join(root, "src/main/java/alku/csrp/event/ParasiticCystEvents.java");
 if (fs.existsSync(cystEvent)) {
@@ -59,13 +79,20 @@ for (const forbidden of ["ParasiteRemainsEntity", "PARASITE_REMAINS", "parasite_
   }
 }
 
-const eventDirectory = path.join(root, "src/main/java/alku/csrp/event");
-for (const entry of fs.readdirSync(eventDirectory)) {
-  if (!entry.endsWith(".java")) continue;
-  const source = fs.readFileSync(path.join(eventDirectory, entry), "utf8");
-  if (source.includes("LivingDeathEvent")
-      && /setBlock(?:AndUpdate)?\(|\.tryPlace\(/.test(source)) {
-    failures.push(`${entry} still combines a death event with block placement`);
+const javaRoot = path.join(root, "src/main/java/alku/csrp");
+const forbiddenPlacement = /setBlock(?:AndUpdate)?\s*\(|\.tryPlace\s*\(|INFESTED_REMAINS|PARASITE_REMAINS/;
+for (const absolute of javaFiles(javaRoot)) {
+  const source = fs.readFileSync(absolute, "utf8");
+  const relative = path.relative(root, absolute);
+  const deathHandlers = methodBodies(source,
+    /(?:public|protected|private)\s+static\s+void\s+\w+\s*\([^)]*LivingDeathEvent[^)]*\)\s*\{/g);
+  const entityDeathMethods = methodBodies(source,
+    /(?:public|protected)\s+void\s+(?:die|tickDeath)\s*\([^)]*\)\s*\{/g);
+  for (const body of [...deathHandlers, ...entityDeathMethods]) {
+    if (forbiddenPlacement.test(body)) {
+      failures.push(`${relative} still places a block from a monster death path`);
+      break;
+    }
   }
 }
 
