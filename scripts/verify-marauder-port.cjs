@@ -49,7 +49,7 @@ for (const [source, hook, description] of [
   [english, "\"entity.csrp.marauder\"", "Marauder English name"],
   [chinese, "\"entity.csrp.marauder\"", "Marauder Chinese name"],
   [soundsJson, "\"marauder.living\"", "Marauder sounds.json entry"],
-  [matrix, "Registration/resource baseline: **119 / 119**", "entity matrix baseline"]
+  [matrix, "Registration/resource baseline: **127 / 127**", "entity matrix baseline"]
 ]) {
   if (!source.includes(hook)) failures.push(`missing ${description}`);
 }

@@ -82,6 +82,25 @@ expect(flying, /FlyingMoveControl/, "flying carrier movement control is missing"
 expect(flying, /causeFallDamage/, "flying carrier fall-damage immunity is missing");
 expect(flying, /random\.nextInt\(7\)/, "flying carrier random charge is missing");
 
+const worm = read("src/main/java/alku/csrp/entity/CarrierWormEntity.java");
+expect(entities, /monster\("carrier_worm"/, "carrier_worm entity type is missing");
+expect(items, /CARRIER_WORM_SPAWN_EGG/, "carrier_worm spawn egg is missing");
+expect(attributes, /ModEntities\.CARRIER_WORM/, "carrier_worm attributes are missing");
+expect(client, /ModEntities\.CARRIER_WORM\.get\(\), NoopRenderer::new/,
+  "carrier_worm original rendererless registration is missing");
+expect(tabs, /CARRIER_WORM_SPAWN_EGG/, "carrier_worm is missing from creative tabs");
+expect(worm, /BODY_SEGMENTS = 4/, "carrier_worm four-part body chain is missing");
+expect(worm, /return 1\.9D;/, "carrier_worm body spacing is missing");
+expect(worm, /MAX_HEALTH, 77\.0D/, "carrier_worm reset health is missing");
+expect(worm, /ARMOR, 20\.0D/, "carrier_worm reset armor is missing");
+expect(worm, /ATTACK_DAMAGE, 22\.0D/, "carrier_worm reset attack damage is missing");
+for (const resource of [
+  "textures/item/carrier_worm_spawn_egg.png",
+  "models/item/carrier_worm_spawn_egg.json"
+]) read(`src/main/resources/assets/csrp/${resource}`);
+expect(read("src/main/resources/data/csrp/loot_table/entities/carrier_worm.json"),
+  /"pools"\s*:\s*\[\s*\]/, "carrier_worm original empty loot behavior is missing");
+
 for (const id of ["pri_longarms", "pri_summoner", "pri_vermin", "pri_viscera"]) {
   const loot = read(`src/main/resources/data/csrp/loot_table/entities/${id}.json`);
   expect(loot, /csrp:lurecomponent3/, `${id} still has an adapted-only drop`);
@@ -92,4 +111,4 @@ if (failures.length) {
   failures.forEach((failure) => console.error(`- ${failure}`));
   process.exit(1);
 }
-console.log("Carrier entity port verification passed.");
+console.log("Carrier entity port verification passed (4 entities).");

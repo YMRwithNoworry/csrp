@@ -17,6 +17,7 @@ import alku.csrp.entity.BuglinEntity;
 import alku.csrp.entity.CarrierFlyingEntity;
 import alku.csrp.entity.CarrierHeavyEntity;
 import alku.csrp.entity.CarrierLightEntity;
+import alku.csrp.entity.CarrierWormEntity;
 import alku.csrp.entity.CruxEntity;
 import alku.csrp.entity.CruxThrownBlockDamageEntity;
 import alku.csrp.entity.HaunterDamageEntity;
@@ -187,6 +188,8 @@ public final class ModEntities {
             monster("carrier_light", CarrierLightEntity::new, 0.85F, 2.3F);
     public static final DeferredHolder<EntityType<?>, EntityType<CarrierFlyingEntity>> CARRIER_FLYING =
             monster("carrier_flying", CarrierFlyingEntity::new, 1.4F, 2.4F);
+    public static final DeferredHolder<EntityType<?>, EntityType<CarrierWormEntity>> CARRIER_WORM =
+            monster("carrier_worm", CarrierWormEntity::new, 1.321F, 1.2F, 1.0F);
     public static final DeferredHolder<EntityType<?>, EntityType<CruxEntity>> CRUX =
             monster("crux", CruxEntity::new, 1.13333F, 3.3F);
     public static final DeferredHolder<EntityType<?>, EntityType<IncompleteCruxEntity>> CRUX_INCOMPLETE =
@@ -252,6 +255,8 @@ public final class ModEntities {
                     .sized(1.0F, 1.0F).clientTrackingRange(10).updateInterval(1)
                     .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "dragon_egg_assimilation").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<AssimilatedDragonHeadEntity>> SIM_DRAGON_HEAD =
+            monster("sim_dragonehead", AssimilatedDragonHeadEntity::new, 1.75F, 1.95F);
+    public static final DeferredHolder<EntityType<?>, EntityType<AssimilatedDragonHeadEntity>> SIM_DRAGON_HEAD_COMPAT =
             monster("sim_dragonhead", AssimilatedDragonHeadEntity::new, 1.75F, 1.95F);
     public static final DeferredHolder<EntityType<?>, EntityType<AssimilatedEndermanEntity>> SIM_ENDERMAN =
             monster("sim_enderman", AssimilatedEndermanEntity::new, 0.6F, 2.3F);
@@ -362,6 +367,9 @@ public final class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<PureParasiteEntity>> OVERSEER =
             monster("overseer", (type, level) -> new PureParasiteEntity(type, level,
                     PureParasiteEntity.Kind.OVERSEER), 1.9F, 2.6F);
+    public static final DeferredHolder<EntityType<?>, EntityType<PureParasiteEntity>> SEEKER =
+            monster("seeker", (type, level) -> new PureParasiteEntity(type, level,
+                    PureParasiteEntity.Kind.SEEKER), 1.9F, 2.6F);
     public static final DeferredHolder<EntityType<?>, EntityType<PureParasiteEntity>> VIGILANTE =
             monster("vigilante", (type, level) -> new PureParasiteEntity(type, level,
                     PureParasiteEntity.Kind.VIGILANTE), 1.6F, 3.1F);

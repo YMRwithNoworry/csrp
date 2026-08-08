@@ -1,0 +1,6 @@
+{
+  "parent": "csrp:item/spawn_egg",
+  "textures": {
+    "layer0": "csrp:item/carrier_worm_spawn_egg"
+  }
+}

@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 const root = path.resolve(__dirname, "..");
-const ids = ["grunt", "bomber_light", "monarch", "overseer", "vigilante", "warden"];
+const ids = ["grunt", "bomber_light", "monarch", "overseer", "seeker", "vigilante", "warden"];
 const failures = [];
 const read = (relative) => {
   const file = path.join(root, relative);
@@ -34,6 +34,8 @@ expect(pure, /LightBomberBombGoal/, "Light Bomber bombardment is missing");
 expect(pure, /MonarchWebGoal/, "Monarch web projectile behavior is missing");
 expect(pure, /OverseerVolleyGoal/, "Overseer rapid volley behavior is missing");
 expect(pure, /OverseerSummonGoal/, "Overseer summoning behavior is missing");
+expect(pure, /SeekerRandomFlightGoal/, "Seeker random-flight behavior is missing");
+expect(pure, /tickSeekerScent/, "Seeker Scent behavior is missing");
 expect(pure, /VigilanteRangedGoal/, "Vigilante lingering projectile behavior is missing");
 expect(pure, /WardenChargeGoal/, "Warden charge behavior is missing");
 expect(pure, /WardenShockwaveGoal/, "Warden shockwave behavior is missing");
@@ -50,14 +52,19 @@ for (const id of ids) {
   expect(english, new RegExp(`"entity\\.csrp\\.${id}"`), `${id}: English translation is missing`);
   expect(chinese, new RegExp(`"entity\\.csrp\\.${id}"`), `${id}: Chinese translation is missing`);
 
-  for (const relative of [
-    `src/main/resources/assets/csrp/geo/${id}.geo.json`,
-    `src/main/resources/assets/csrp/animations/${id}.animation.json`,
-    `src/main/resources/assets/csrp/textures/entity/${id}.png`,
+  const resources = [
     `src/main/resources/assets/csrp/models/item/${id}_spawn_egg.json`,
     `src/main/resources/assets/csrp/textures/item/${id}_spawn_egg.png`,
     `src/main/resources/data/csrp/loot_table/entities/${id}.json`
-  ]) read(relative);
+  ];
+  if (id !== "seeker") {
+    resources.push(
+      `src/main/resources/assets/csrp/geo/${id}.geo.json`,
+      `src/main/resources/assets/csrp/animations/${id}.animation.json`,
+      `src/main/resources/assets/csrp/textures/entity/${id}.png`
+    );
+  }
+  for (const relative of resources) read(relative);
 }
 
 if (failures.length) {

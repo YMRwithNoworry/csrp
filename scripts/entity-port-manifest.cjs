@@ -1,16 +1,17 @@
 const groups = {
   current: [
     "buglin", "gnat", "rupter", "carrier_flying", "carrier_heavy", "carrier_light",
-    "crux", "crux_incomplete", "pri_longarms", "pri_summoner", "pri_vermin", "pri_viscera"
+    "carrier_worm", "crux", "crux_incomplete", "pri_longarms", "pri_summoner", "pri_vermin",
+    "pri_viscera"
   ],
   crude: ["airscrew", "heed", "dredge", "thrall"],
   early_lifecycle: [
     "lice", "mangler", "host", "hostii", "incompleteform_medium", "incompleteform_small",
-    "draconite", "kirin"
+    "draconite", "kirin", "movingflesh", "worker"
   ],
   assimilated: [
-    "sim_adventurer", "sim_bear", "sim_bigspider", "sim_cow", "sim_cowhead", "sim_dragone",
-    "sim_dragonhead", "sim_enderman", "sim_endermanhead", "sim_horse", "sim_horsehead",
+    "sim_adventurer", "sim_adventurerhead", "sim_bear", "sim_bigspider", "sim_cow", "sim_cowhead",
+    "sim_dragone", "sim_dragonehead", "sim_enderman", "sim_endermanhead", "sim_horse", "sim_horsehead",
     "sim_human", "sim_humanhead", "sim_pig", "sim_pighead", "sim_sheep", "sim_sheephead",
     "sim_squid", "sim_villager", "sim_villagerhead", "sim_wolf", "sim_wolfhead"
   ],
@@ -33,9 +34,9 @@ const groups = {
   pure_and_preeminent: [
     "dispatcherten", "kyphosis", "seizer", "sentry", "worm", "grunt", "bomber_light", "monarch",
     "overseer", "vigilante", "warden", "bogle", "carrier_colony", "haunter", "bomber_heavy",
-    "wraith", "succor"
+    "wraith", "succor", "seeker", "architect"
   ],
-  ancient: ["anc_dreadnaut", "anc_overlord"],
+  ancient: ["anc_dreadnaut", "anc_overlord", "anc_pod", "anc_dreadnaut_ten"],
   nexus_and_aberrant: [
     "beckon_si", "beckon_sii", "beckon_siii", "beckon_siv", "dispatcher_si", "dispatcher_sii",
     "dispatcher_siii", "dispatcher_siv", "rooter_si", "rooter_sii", "rooter_siii", "rooter_siv",

@@ -136,6 +136,7 @@ public final class ClientModEvents {
                 new PrimitiveParasiteRenderer<>(context, "carrier_light", 0.55F));
         event.registerEntityRenderer(ModEntities.CARRIER_FLYING.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "carrier_flying", 0.7F));
+        event.registerEntityRenderer(ModEntities.CARRIER_WORM.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.CRUX.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "crux", 0.7F));
         event.registerEntityRenderer(ModEntities.CRUX_INCOMPLETE.get(), context ->
@@ -189,6 +190,8 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.DRAGON_EGG_ASSIMILATION.get(),
                 DragonEggAssimilationRenderer::new);
         event.registerEntityRenderer(ModEntities.SIM_DRAGON_HEAD.get(), context ->
+                new PrimitiveParasiteRenderer<>(context, "sim_dragonehead", 0.6F));
+        event.registerEntityRenderer(ModEntities.SIM_DRAGON_HEAD_COMPAT.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "sim_dragonehead", 0.6F));
         event.registerEntityRenderer(ModEntities.SIM_ENDERMAN.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "sim_enderman", 0.5F));
@@ -269,6 +272,7 @@ public final class ClientModEvents {
                 new PrimitiveParasiteRenderer<>(context, "monarch", 1.1F));
         event.registerEntityRenderer(ModEntities.OVERSEER.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "overseer", 1.0F));
+        event.registerEntityRenderer(ModEntities.SEEKER.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.VIGILANTE.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "vigilante", 0.9F));
         event.registerEntityRenderer(ModEntities.WARDEN.get(), context ->

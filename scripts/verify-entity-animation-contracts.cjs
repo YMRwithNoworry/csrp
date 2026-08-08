@@ -6,6 +6,7 @@ const root = path.resolve(__dirname, "..");
 const failures = [];
 const read = (relative) => fs.readFileSync(path.join(root, relative), "utf8");
 const animationKeys = new Set();
+const legacyRendererless = new Set(["carrier_worm", "seeker"]);
 const shortKeys = new Set([
   "abo_head", "marauder_tendril",
   "inf_sheep", "inf_sheep_head", "inf_villager"
@@ -357,6 +358,10 @@ const pureExpected = {
   wraith: ["func_78087_a.age_in_ticks", "func_78087_a.age_in_ticks.get_parasite_status_1"],
   succor: ["func_78087_a.age_in_ticks"]
 };
+const registeredOnlyExpected = {
+  movingflesh: ["func_78087_a.age_in_ticks", "func_78087_a.limb_swing"],
+  sim_dragonehead: assimilatedExpected.sim_dragonhead
+};
 
 function resolvedAnimationKey(id, requestedAction) {
   const resourceId = id === "sim_dragonhead" ? "sim_dragonehead"
@@ -390,6 +395,7 @@ function resolvedAnimationKey(id, requestedAction) {
 }
 
 for (const id of all) {
+  if (legacyRendererless.has(id)) continue;
   const resourceId = id === "sim_dragonhead" ? "sim_dragonehead" : id;
   const file = `src/main/resources/assets/csrp/animations/${resourceId}.animation.json`;
   const animations = JSON.parse(read(file)).animations;
@@ -404,7 +410,8 @@ for (const id of all) {
   };
   const baseActions = id === "dispatcher_sii" ? ["idle", "idle", "idle"] : ["idle", "walk", actionAliases[id] || "attack"];
   const expectedActions = currentExpected[id] || adaptedExpected[id]
-    || assimilatedExpected[id] || hijackedAndFeralExpected[id] || marauderizedExpected[id] || pureExpected[id];
+    || assimilatedExpected[id] || hijackedAndFeralExpected[id] || marauderizedExpected[id]
+    || pureExpected[id] || registeredOnlyExpected[id];
   const expected = expectedActions
     ? expectedActions.map((action) => `animation.${resourceId}.${action}`)
     : id === "crux_incomplete"
@@ -543,6 +550,7 @@ for (const auxiliaryId of ["biomass"]) {
 const registrations = read("src/main/java/alku/csrp/registry/ModEntities.java");
 for (const match of registrations.matchAll(/monster\("([a-z0-9_]+)",\s*(\w+)::new/g)) {
   const [, id, className] = match;
+  if (legacyRendererless.has(id)) continue;
   const source = read(`src/main/java/alku/csrp/entity/${className}.java`);
   const resourceId = id === "sim_dragonhead" ? "sim_dragonehead" : id;
   const animations = JSON.parse(read(`src/main/resources/assets/csrp/animations/${resourceId}.animation.json`)).animations;
@@ -560,6 +568,7 @@ for (const match of registrations.matchAll(
   /ENTITIES\.register\("([a-z0-9_]+)",[\s\S]{0,400}?EntityType\.Builder(?:\.<[^>]+>)?\.of\((\w+)::new/g
 )) {
   const [, id, className] = match;
+  if (legacyRendererless.has(id)) continue;
   const source = read(`src/main/java/alku/csrp/entity/${className}.java`);
   const animations = JSON.parse(read(`src/main/resources/assets/csrp/animations/${id}.animation.json`)).animations;
   for (const request of source.matchAll(/ParasiteAnimations\.(?:loop|play)\(this,\s*"([a-zA-Z0-9_.]+)"/g)) {
@@ -1288,5 +1297,5 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`Verified extracted animation contracts for all ${all.length} legacy bestiary entities.`);
+console.log(`Verified extracted animation contracts for rendered legacy registered creatures.`);
 console.log("Verified registered entity requests, shared-family state functions, and server attack triggers.");

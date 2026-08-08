@@ -1,0 +1,6 @@
+{
+  "parent": "csrp:item/spawn_egg",
+  "textures": {
+    "layer0": "csrp:item/sim_dragonehead_spawn_egg"
+  }
+}

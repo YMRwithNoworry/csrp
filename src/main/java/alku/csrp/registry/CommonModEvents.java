@@ -20,6 +20,7 @@ import alku.csrp.entity.BuglinEntity;
 import alku.csrp.entity.CarrierFlyingEntity;
 import alku.csrp.entity.CarrierHeavyEntity;
 import alku.csrp.entity.CarrierLightEntity;
+import alku.csrp.entity.CarrierWormEntity;
 import alku.csrp.entity.CruxEntity;
 import alku.csrp.entity.DredgeEntity;
 import alku.csrp.entity.DeterrentParasiteEntity;
@@ -136,6 +137,7 @@ public final class CommonModEvents {
         event.put(ModEntities.CARRIER_HEAVY.get(), CarrierHeavyEntity.createAttributes().build());
         event.put(ModEntities.CARRIER_LIGHT.get(), CarrierLightEntity.createAttributes().build());
         event.put(ModEntities.CARRIER_FLYING.get(), CarrierFlyingEntity.createAttributes().build());
+        event.put(ModEntities.CARRIER_WORM.get(), CarrierWormEntity.createAttributes().build());
         event.put(ModEntities.CRUX.get(), CruxEntity.createAttributes().build());
         event.put(ModEntities.CRUX_INCOMPLETE.get(), IncompleteCruxEntity.createAttributes().build());
         event.put(ModEntities.AIRSCREW.get(), AirscrewEntity.createAttributes().build());
@@ -169,6 +171,7 @@ public final class CommonModEvents {
                 AssimilatedVariantEntity.Kind.BIGSPIDER).build());
         event.put(ModEntities.SIM_DRAGONE.get(), AssimilatedDragonEntity.createAttributes().build());
         event.put(ModEntities.SIM_DRAGON_HEAD.get(), AssimilatedDragonHeadEntity.createAttributes().build());
+        event.put(ModEntities.SIM_DRAGON_HEAD_COMPAT.get(), AssimilatedDragonHeadEntity.createAttributes().build());
         event.put(ModEntities.SIM_ENDERMAN.get(), AssimilatedEndermanEntity.createAttributes().build());
         event.put(ModEntities.SIM_ENDERMAN_HEAD.get(), AssimilatedHeadEntity.createAttributes(
                 AssimilatedHeadEntity.Kind.ENDERMAN).build());
@@ -230,6 +233,8 @@ public final class CommonModEvents {
                 PureParasiteEntity.Kind.MONARCH).build());
         event.put(ModEntities.OVERSEER.get(), PureParasiteEntity.createAttributes(
                 PureParasiteEntity.Kind.OVERSEER).build());
+        event.put(ModEntities.SEEKER.get(), PureParasiteEntity.createAttributes(
+                PureParasiteEntity.Kind.SEEKER).build());
         event.put(ModEntities.VIGILANTE.get(), PureParasiteEntity.createAttributes(
                 PureParasiteEntity.Kind.VIGILANTE).build());
         event.put(ModEntities.WARDEN.get(), PureParasiteEntity.createAttributes(

@@ -11,6 +11,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -372,6 +373,9 @@ public abstract class BurrowingVariantEntity extends PrimitiveParasiteEntity {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
+        if (source.is(DamageTypes.DROWN)) {
+            return false;
+        }
         if (getBodyNumber() > 0 && bodyBurrowCycles - 1 >= getBodyNumber()) {
             return false;
         }
@@ -432,7 +436,7 @@ public abstract class BurrowingVariantEntity extends PrimitiveParasiteEntity {
 
     @Override
     public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
-        return !supportsBurrowing() && super.causeFallDamage(distance, damageMultiplier, source);
+        return super.causeFallDamage(distance, damageMultiplier, source);
     }
 
     @Override

@@ -33,6 +33,7 @@ final class ParasiteSoundProfiles {
         register("higolem", "hi_golem");
 
         register("carrier", "carrier_heavy", "carrier_light", "carrier_flying");
+        register("quac", "carrier_worm");
         register("lodo", "buglin");
         register("mudo", "rupter");
         register("flesh", "movingflesh", "crux_incomplete");
@@ -66,7 +67,7 @@ final class ParasiteSoundProfiles {
 
         register("tonro", "kyphosis");
         register("unvo", "sentry");
-        register("alafha", "overseer", "architect");
+        register("alafha", "overseer", "architect", "seeker");
         register("anged", "vigilante");
         register("ganro", "warden");
         register("omboo", "bomber_light");

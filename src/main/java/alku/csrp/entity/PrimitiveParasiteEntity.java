@@ -221,7 +221,8 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         addBlockBreakProfiles(profiles, 3.0F, 40, 2, "hi_golem");
         addBlockBreakProfiles(profiles, 1.0F, 40, 1, "mar_cow", "mar_enderman", "mar_bear");
         addBlockBreakProfiles(profiles, 1.0F, 60, 1, "pri_longarms", "pri_reeker", "pri_summoner",
-                "pri_manducater", "pri_yelloweye", "pri_arachnida", "pri_bolster", "pri_vermin");
+                "pri_manducater", "pri_yelloweye", "pri_arachnida", "pri_bolster", "pri_vermin",
+                "carrier_worm");
         addBlockBreakProfiles(profiles, 1.0F, 900, 2, "pri_devourer");
         addBlockBreakProfiles(profiles, 3.0F, 40, 1, "ada_longarms", "ada_reeker", "ada_summoner");
         addBlockBreakProfiles(profiles, 3.0F, 40, 2, "ada_manducater", "ada_yelloweye", "ada_arachnida");

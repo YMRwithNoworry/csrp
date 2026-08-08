@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 const root = path.resolve(__dirname, "..");
-const ids = ["anc_dreadnaut", "anc_overlord"];
+const ids = ["anc_dreadnaut", "anc_overlord", "anc_pod", "anc_dreadnaut_ten"];
 const failures = [];
 const read = (relative) => {
   const file = path.join(root, relative);
@@ -24,6 +24,8 @@ const creative = read("src/main/java/alku/csrp/Csrp.java");
 const english = read("src/main/resources/assets/csrp/lang/en_us.json");
 const chinese = read("src/main/resources/assets/csrp/lang/zh_cn.json");
 const ancient = read("src/main/java/alku/csrp/entity/AncientParasiteEntity.java");
+const pod = read("src/main/java/alku/csrp/entity/AncientPodEntity.java");
+const tentacle = read("src/main/java/alku/csrp/entity/DreadnautTentacleEntity.java");
 const projectile = read("src/main/java/alku/csrp/entity/ParasiteProjectileEntity.java");
 
 expect(ancient, /MAX_ADAPTATION_HITS\s*=\s*10/, "Ancient adaptation hit cap is missing");
@@ -36,6 +38,9 @@ expect(ancient, /OverlordHomingGoal/, "Overlord homing projectile is missing");
 expect(ancient, /triggerAncientDeathBurst/, "Ancient death cloud is missing");
 expect(projectile, /WITHER/, "Wither projectile mode is missing");
 expect(projectile, /spawnLingeringWitherCloud/, "Wither effect cloud is missing");
+expect(pod, /spawnContents/, "Ancient drop-pod payload behavior is missing");
+expect(tentacle, /nearbyNonParasitesHaveAdvantage/, "Dreadnaut tendril balance check is missing");
+expect(tentacle, /spawnBuglin/, "Dreadnaut tendril Buglin summon is missing");
 
 for (const id of ids) {
   const constant = id.toUpperCase();

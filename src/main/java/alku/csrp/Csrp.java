@@ -74,9 +74,13 @@ public final class Csrp {
                         output.accept(ModItems.CARRIER_HEAVY_SPAWN_EGG.get());
                         output.accept(ModItems.CARRIER_LIGHT_SPAWN_EGG.get());
                         output.accept(ModItems.CARRIER_FLYING_SPAWN_EGG.get());
+                        output.accept(ModItems.CARRIER_WORM_SPAWN_EGG.get());
+                        output.accept(ModItems.CRUX_SPAWN_EGG.get());
+                        output.accept(ModItems.CRUX_INCOMPLETE_SPAWN_EGG.get());
                         output.accept(ModItems.SIM_BIGSPIDER_SPAWN_EGG.get());
                         output.accept(ModItems.SIM_DRAGONE_SPAWN_EGG.get());
                         output.accept(ModItems.SIM_DRAGONHEAD_SPAWN_EGG.get());
+                        output.accept(ModItems.SIM_DRAGONEHEAD_SPAWN_EGG.get());
                         output.accept(ModItems.SIM_ENDERMAN_SPAWN_EGG.get());
                         output.accept(ModItems.SIM_ENDERMANHEAD_SPAWN_EGG.get());
                         output.accept(ModItems.SIM_HORSE_SPAWN_EGG.get());
@@ -98,6 +102,7 @@ public final class Csrp {
                         output.accept(ModItems.BOMBER_LIGHT_SPAWN_EGG.get());
                         output.accept(ModItems.MONARCH_SPAWN_EGG.get());
                         output.accept(ModItems.OVERSEER_SPAWN_EGG.get());
+                        output.accept(ModItems.SEEKER_SPAWN_EGG.get());
                         output.accept(ModItems.VIGILANTE_SPAWN_EGG.get());
                         output.accept(ModItems.WARDEN_SPAWN_EGG.get());
                         output.accept(ModItems.BOGLE_SPAWN_EGG.get());
@@ -143,8 +148,11 @@ public final class Csrp {
                                         && item != ModItems.ADA_VISCERA_SPAWN_EGG && item != ModItems.ADA_YELLOWEYE_SPAWN_EGG
                                         && item != ModItems.GNAT_SPAWN_EGG && item != ModItems.CARRIER_HEAVY_SPAWN_EGG
                                         && item != ModItems.CARRIER_LIGHT_SPAWN_EGG && item != ModItems.CARRIER_FLYING_SPAWN_EGG
+                                        && item != ModItems.CARRIER_WORM_SPAWN_EGG
+                                        && item != ModItems.CRUX_SPAWN_EGG && item != ModItems.CRUX_INCOMPLETE_SPAWN_EGG
                                         && item != ModItems.SIM_BIGSPIDER_SPAWN_EGG && item != ModItems.SIM_DRAGONE_SPAWN_EGG
-                                        && item != ModItems.SIM_DRAGONHEAD_SPAWN_EGG && item != ModItems.SIM_ENDERMAN_SPAWN_EGG
+                                        && item != ModItems.SIM_DRAGONHEAD_SPAWN_EGG && item != ModItems.SIM_DRAGONEHEAD_SPAWN_EGG
+                                        && item != ModItems.SIM_ENDERMAN_SPAWN_EGG
                                         && item != ModItems.SIM_ENDERMANHEAD_SPAWN_EGG && item != ModItems.SIM_HORSE_SPAWN_EGG
                                         && item != ModItems.SIM_HORSEHEAD_SPAWN_EGG && item != ModItems.SIM_HUMAN_SPAWN_EGG
                                         && item != ModItems.SIM_HUMANHEAD_SPAWN_EGG && item != ModItems.SIM_COWHEAD_SPAWN_EGG
@@ -155,7 +163,8 @@ public final class Csrp {
                                         && item != ModItems.SEIZER_SPAWN_EGG && item != ModItems.SENTRY_SPAWN_EGG
                                         && item != ModItems.WORM_SPAWN_EGG && item != ModItems.GRUNT_SPAWN_EGG
                                         && item != ModItems.BOMBER_LIGHT_SPAWN_EGG && item != ModItems.MONARCH_SPAWN_EGG
-                                        && item != ModItems.OVERSEER_SPAWN_EGG && item != ModItems.VIGILANTE_SPAWN_EGG
+                                        && item != ModItems.OVERSEER_SPAWN_EGG && item != ModItems.SEEKER_SPAWN_EGG
+                                        && item != ModItems.VIGILANTE_SPAWN_EGG
                                         && item != ModItems.WARDEN_SPAWN_EGG && item != ModItems.BOGLE_SPAWN_EGG
                                         && item != ModItems.CARRIER_COLONY_SPAWN_EGG && item != ModItems.HAUNTER_SPAWN_EGG
                                         && item != ModItems.BOMBER_HEAVY_SPAWN_EGG && item != ModItems.WRAITH_SPAWN_EGG
@@ -233,6 +242,9 @@ public final class Csrp {
             event.accept(ModItems.CARRIER_HEAVY_SPAWN_EGG.get());
             event.accept(ModItems.CARRIER_LIGHT_SPAWN_EGG.get());
             event.accept(ModItems.CARRIER_FLYING_SPAWN_EGG.get());
+            event.accept(ModItems.CARRIER_WORM_SPAWN_EGG.get());
+            event.accept(ModItems.CRUX_SPAWN_EGG.get());
+            event.accept(ModItems.CRUX_INCOMPLETE_SPAWN_EGG.get());
             event.accept(ModItems.AIRSCREW_SPAWN_EGG.get());
             event.accept(ModItems.HEED_SPAWN_EGG.get());
             event.accept(ModItems.DREDGE_SPAWN_EGG.get());
@@ -257,6 +269,7 @@ public final class Csrp {
             event.accept(ModItems.SIM_BIGSPIDER_SPAWN_EGG.get());
             event.accept(ModItems.SIM_DRAGONE_SPAWN_EGG.get());
             event.accept(ModItems.SIM_DRAGONHEAD_SPAWN_EGG.get());
+            event.accept(ModItems.SIM_DRAGONEHEAD_SPAWN_EGG.get());
             event.accept(ModItems.SIM_ENDERMAN_SPAWN_EGG.get());
             event.accept(ModItems.SIM_ENDERMANHEAD_SPAWN_EGG.get());
             event.accept(ModItems.SIM_HORSE_SPAWN_EGG.get());
@@ -297,6 +310,7 @@ public final class Csrp {
             event.accept(ModItems.BOMBER_LIGHT_SPAWN_EGG.get());
             event.accept(ModItems.MONARCH_SPAWN_EGG.get());
             event.accept(ModItems.OVERSEER_SPAWN_EGG.get());
+            event.accept(ModItems.SEEKER_SPAWN_EGG.get());
             event.accept(ModItems.VIGILANTE_SPAWN_EGG.get());
             event.accept(ModItems.WARDEN_SPAWN_EGG.get());
             event.accept(ModItems.BOGLE_SPAWN_EGG.get());

@@ -16,6 +16,15 @@ public final class Config {
     private static final ModConfigSpec.IntValue EVOLUTION_PHASE = BUILDER
             .comment("Current parasite evolution phase used by phase-gated spawning and behavior.")
             .defineInRange("evolutionPhase", -1, -2, 10);
+    private static final ModConfigSpec.BooleanValue SCENT_ENABLED = BUILDER
+            .comment("Allow parasitic Scent entities to spawn.")
+            .define("scentEnabled", true);
+    private static final ModConfigSpec.IntValue SCENT_CAP = BUILDER
+            .comment("Maximum Scent count checked before a Seeker creates another Scent.")
+            .defineInRange("scentCap", 2, 1, 100);
+    private static final ModConfigSpec.IntValue SCENT_DEVELOPMENT_LEVEL = BUILDER
+            .comment("Minimum creation-phase development level at which a Seeker can create Scent.")
+            .defineInRange("scentDevelopmentLevel", 2, 0, 100);
     private static final ModConfigSpec.DoubleValue VARIANT_SPAWN_CHANCE = BUILDER
             .comment("Chance for a parasite with an available variant to spawn as that variant.")
             .defineInRange("variantSpawnChance", 0.33D, 0.0D, 1.0D);
@@ -443,6 +452,10 @@ public final class Config {
                 ? SrpWorldData.get(serverLevel).evolutionPhase()
                 : evolutionPhase();
     }
+
+    public static boolean scentEnabled() { return SCENT_ENABLED.get(); }
+    public static int scentCap() { return SCENT_CAP.get(); }
+    public static int scentDevelopmentLevel() { return SCENT_DEVELOPMENT_LEVEL.get(); }
 
     public static double variantSpawnChance() { return VARIANT_SPAWN_CHANCE.get(); }
     public static int alwaysVariantPhase() { return ALWAYS_VARIANT_PHASE.get(); }

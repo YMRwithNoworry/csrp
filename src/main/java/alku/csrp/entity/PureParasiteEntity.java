@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import alku.csrp.Config;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.core.BlockPos;
@@ -109,6 +110,8 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
     private int blockBreakCooldown;
     private int supportCooldown;
     private int attackAnimationTicks;
+    private int scentCooldown = 800;
+    private int seekerCreationPhase = -1;
     private boolean deathBurstFired;
 
     public PureParasiteEntity(EntityType<? extends PureParasiteEntity> type, Level level, Kind kind) {
@@ -160,6 +163,10 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
                 goalSelector.addGoal(2, new OverseerSummonGoal());
                 goalSelector.addGoal(3, new FlightPursuitGoal(0.95D));
             }
+            case SEEKER -> {
+                goalSelector.addGoal(3, new FlightPursuitGoal(0.50D));
+                goalSelector.addGoal(6, new SeekerRandomFlightGoal());
+            }
             case VIGILANTE -> {
                 goalSelector.addGoal(1, new VigilanteRangedGoal());
                 goalSelector.addGoal(2, new MeleeAttackGoal(this, 0.90D, false));
@@ -172,6 +179,11 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
                 goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.10D, false));
             }
         }
+    }
+
+    @Override
+    protected boolean usesDefaultMovementGoals() {
+        return !activeKind().flying;
     }
 
     @Override
@@ -203,13 +215,16 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         if (activeKind.flying && onGround()) {
             getMoveControl().setWantedPosition(getX(), getY() + 4.0D, getZ(), 0.55D);
         }
+        if (activeKind == Kind.SEEKER) {
+            tickSeekerScent();
+        }
 
         LivingEntity target = getTarget();
         if (target == null || !target.isAlive()) {
             return;
         }
         breakBlocksTowardsTarget(target, activeKind);
-        if (supportCooldown <= 0 && tickCount % 40 == 0) {
+        if (activeKind != Kind.SEEKER && supportCooldown <= 0 && tickCount % 40 == 0) {
             trySummonSupport(target);
         }
     }
@@ -299,6 +314,9 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         if (activeKind() == Kind.VIGILANTE) {
             tag.putInt("VigilanteStatus", entityData.get(VIGILANTE_STATUS));
         }
+        if (activeKind() == Kind.SEEKER) {
+            tag.putInt("SeekerCreationPhase", seekerCreationPhase);
+        }
     }
 
     @Override
@@ -306,6 +324,10 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         super.readAdditionalSaveData(tag);
         if (activeKind() == Kind.VIGILANTE && tag.contains("VigilanteStatus")) {
             entityData.set(VIGILANTE_STATUS, tag.getInt("VigilanteStatus"));
+        }
+        if (activeKind() == Kind.SEEKER) {
+            seekerCreationPhase = tag.contains("SeekerCreationPhase")
+                    ? tag.getInt("SeekerCreationPhase") : -1;
         }
     }
 
@@ -348,7 +370,8 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
                 default -> state.setAndContinue(moving ? (getDeltaMovement().horizontalDistanceSqr() > 0.02D ? RUN : WALK) : IDLE);
             };
         }
-        if (activeKind() == Kind.BOMBER_LIGHT || activeKind() == Kind.OVERSEER) {
+        if (activeKind() == Kind.BOMBER_LIGHT || activeKind() == Kind.OVERSEER
+                || activeKind() == Kind.SEEKER) {
             return state.setAndContinue(FLY);
         }
         if (activeKind() == Kind.GRUNT) {
@@ -469,6 +492,100 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         }
     }
 
+    private void tickSeekerScent() {
+        if (!(level() instanceof ServerLevel serverLevel)) {
+            return;
+        }
+        if (seekerCreationPhase < 0) {
+            seekerCreationPhase = Config.evolutionPhase(serverLevel);
+        }
+        if (--scentCooldown >= 0 || tickCount % 21 != 10 || !Config.scentEnabled()
+                || seekerCreationPhase < Config.scentDevelopmentLevel()
+                || serverLevel.getEntities(ModEntities.SCENT.get(), scent -> true).size()
+                        > Config.scentCap()) {
+            return;
+        }
+        LivingEntity target = getTarget();
+        if (target == null || !target.isAlive()) {
+            return;
+        }
+        ParasiticScentEntity scent = ModEntities.SCENT.get().create(serverLevel);
+        if (scent == null) {
+            return;
+        }
+        scent.moveTo(target.getX(), target.getY(), target.getZ(), target.getYRot(), target.getXRot());
+        scent.setTargetToKill(target, false);
+        scent.setDieAfterKilling(true);
+        scent.setCanFollow(true);
+        serverLevel.addFreshEntity(scent);
+        scentCooldown = 800;
+    }
+
+    private final class SeekerRandomFlightGoal extends Goal {
+        private SeekerRandomFlightGoal() {
+            setFlags(EnumSet.of(Flag.MOVE));
+        }
+
+        @Override
+        public boolean canUse() {
+            if (!getMoveControl().hasWanted()) {
+                return true;
+            }
+            double x = getMoveControl().getWantedX() - getX();
+            double y = getMoveControl().getWantedY() - getY();
+            double z = getMoveControl().getWantedZ() - getZ();
+            double distance = x * x + y * y + z * z;
+            return distance < 1.0D || distance > 3600.0D;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return false;
+        }
+
+        @Override
+        public void start() {
+            LivingEntity target = getTarget();
+            if (target == null) {
+                getMoveControl().setWantedPosition(
+                        getX() + (random.nextFloat() * 2.0F - 1.0F) * 16.0F,
+                        getY() + (random.nextFloat() * 2.0F - 1.0F) * 16.0F,
+                        getZ() + (random.nextFloat() * 2.0F - 1.0F) * 16.0F, 0.5D);
+                return;
+            }
+
+            BlockPos center = blockPosition();
+            int mode = 1;
+            double speed = 0.11D;
+            double distance = distanceToSqr(target);
+            if (distance > 400.0D) {
+                center = target.blockPosition();
+                mode = 2;
+                speed += 0.11D;
+            } else if (distance < 100.0D) {
+                center = target.blockPosition();
+                mode = 3;
+                speed += 0.11D;
+            }
+
+            for (int attempt = 0; attempt < 3; attempt++) {
+                BlockPos destination = switch (mode) {
+                    case 2 -> center.offset(random.nextInt(6) - 2,
+                            random.nextInt(7) - 2, random.nextInt(6) - 2);
+                    case 3 -> center.offset(random.nextInt(4) + 3,
+                            random.nextInt(5) + 4, random.nextInt(4) + 3);
+                    default -> center.offset(random.nextInt(15) - 7,
+                            random.nextInt(9) - 5, random.nextInt(15) - 7);
+                };
+                if (level().isEmptyBlock(destination)) {
+                    getMoveControl().setWantedPosition(destination.getX() + 0.5D,
+                            destination.getY() + 0.5D, destination.getZ() + 0.5D, speed);
+                    return;
+                }
+            }
+        }
+    }
+
     private void triggerPureDeathBurst() {
         DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(2.0D));
         Level.ExplosionInteraction interaction = level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
@@ -570,6 +687,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         if (type == ModEntities.BOMBER_LIGHT.get()) return Kind.BOMBER_LIGHT;
         if (type == ModEntities.MONARCH.get()) return Kind.MONARCH;
         if (type == ModEntities.OVERSEER.get()) return Kind.OVERSEER;
+        if (type == ModEntities.SEEKER.get()) return Kind.SEEKER;
         if (type == ModEntities.VIGILANTE.get()) return Kind.VIGILANTE;
         if (type == ModEntities.WARDEN.get()) return Kind.WARDEN;
         return Kind.GRUNT;
@@ -1148,6 +1266,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         BOMBER_LIGHT(true, false, 75.0D, 20.0D, 25.0D, 0.27D, 0.15D, 32.0D, 5.0F, 2.0D),
         MONARCH(false, true, 75.0D, 10.0D, 25.0D, 0.2775D, 1.0D, 32.0D, 5.0F, 4.0D),
         OVERSEER(true, false, 80.0D, 20.0D, 45.0D, 0.27D, 0.40D, 32.0D, 5.0F, 2.0D),
+        SEEKER(true, false, 80.0D, 20.0D, 22.0D, 0.27D, 0.40D, 32.0D, 5.0F, 2.0D),
         VIGILANTE(false, false, 70.0D, 25.0D, 23.0D, 0.20D, 1.0D, 32.0D, 5.0F, 2.0D),
         WARDEN(false, true, 80.0D, 15.0D, 25.0D, 0.27D, 1.0D, 32.0D, 5.0F, 2.0D);
 

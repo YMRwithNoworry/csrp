@@ -121,6 +121,8 @@ public final class ModItems {
             "carrier_light_spawn_egg", ModEntities.CARRIER_LIGHT, 0x6B2D27, 0xD0AE6C);
     public static final DeferredItem<SpawnEggItem> CARRIER_FLYING_SPAWN_EGG = spawnEgg(
             "carrier_flying_spawn_egg", ModEntities.CARRIER_FLYING, 0x4A2025, 0xB98555);
+    public static final DeferredItem<SpawnEggItem> CARRIER_WORM_SPAWN_EGG = spawnEgg(
+            "carrier_worm_spawn_egg", ModEntities.CARRIER_WORM, 0x7F4000, 0xB70000);
     public static final DeferredItem<SpawnEggItem> CRUX_SPAWN_EGG = spawnEgg(
             "crux_spawn_egg", ModEntities.CRUX, 0x7F4000, 0xB70000);
     public static final DeferredItem<SpawnEggItem> CRUX_INCOMPLETE_SPAWN_EGG = spawnEgg(
@@ -173,6 +175,8 @@ public final class ModItems {
             "sim_dragone_spawn_egg", ModEntities.SIM_DRAGONE, 0x231C2B, 0x9B4050);
     public static final DeferredItem<SpawnEggItem> SIM_DRAGONHEAD_SPAWN_EGG = spawnEgg(
             "sim_dragonhead_spawn_egg", ModEntities.SIM_DRAGON_HEAD, 0x2D1E2B, 0xC05A66);
+    public static final DeferredItem<SpawnEggItem> SIM_DRAGONEHEAD_SPAWN_EGG = spawnEgg(
+            "sim_dragonehead_spawn_egg", ModEntities.SIM_DRAGON_HEAD, 0x2D1E2B, 0xC05A66);
     public static final DeferredItem<SpawnEggItem> SIM_ENDERMAN_SPAWN_EGG = spawnEgg(
             "sim_enderman_spawn_egg", ModEntities.SIM_ENDERMAN, 0x20182B, 0x7A355D);
     public static final DeferredItem<SpawnEggItem> SIM_ENDERMANHEAD_SPAWN_EGG = spawnEgg(
@@ -253,6 +257,8 @@ public final class ModItems {
             "monarch_spawn_egg", ModEntities.MONARCH, 0x3A332D, 0xB77B50);
     public static final DeferredItem<SpawnEggItem> OVERSEER_SPAWN_EGG = spawnEgg(
             "overseer_spawn_egg", ModEntities.OVERSEER, 0x343B31, 0xC2A570);
+    public static final DeferredItem<SpawnEggItem> SEEKER_SPAWN_EGG = spawnEgg(
+            "seeker_spawn_egg", ModEntities.SEEKER, 0x313517, 0x313517);
     public static final DeferredItem<SpawnEggItem> VIGILANTE_SPAWN_EGG = spawnEgg(
             "vigilante_spawn_egg", ModEntities.VIGILANTE, 0x39342D, 0xA58A61);
     public static final DeferredItem<SpawnEggItem> WARDEN_SPAWN_EGG = spawnEgg(
