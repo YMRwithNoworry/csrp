@@ -70,7 +70,7 @@ public final class TunnelBlock extends Block {
         int parasiteCount = level.getEntitiesOfClass(Mob.class, populationArea,
                 mob -> mob instanceof Parasite).size();
         if (parasiteCount <= 10) {
-            spawnBuglin(level, pos);
+            spawnBuglin(level, pos, true);
         }
     }
 
@@ -79,7 +79,7 @@ public final class TunnelBlock extends Block {
         if (!state.is(newState.getBlock()) && level instanceof ServerLevel serverLevel
                 && level.getDifficulty() != Difficulty.PEACEFUL
                 && level.hasChunksAt(pos.offset(-1, -1, -1), pos.offset(1, 1, 1))) {
-            spawnBuglin(serverLevel, pos);
+            spawnBuglin(serverLevel, pos, false);
         }
         super.onRemove(state, level, pos, newState, isMoving);
     }
@@ -89,12 +89,15 @@ public final class TunnelBlock extends Block {
         return false;
     }
 
-    private static void spawnBuglin(ServerLevel level, BlockPos pos) {
+    private static void spawnBuglin(ServerLevel level, BlockPos pos, boolean buried) {
         BuglinEntity buglin = ModEntities.BUGLIN.get().create(level);
         if (buglin == null) {
             return;
         }
         buglin.moveTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, 0.0F, 0.0F);
+        if (buried) {
+            buglin.startBuriedEmergence();
+        }
         level.addFreshEntity(buglin);
     }
 }

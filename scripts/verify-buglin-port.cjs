@@ -26,7 +26,8 @@ const sounds = read("src/main/java/alku/csrp/registry/ModSounds.java");
 const evolution = read("src/main/java/alku/csrp/entity/BuglinEvolutionTarget.java");
 const client = read("src/main/java/alku/csrp/client/ClientModEvents.java");
 const model = read("src/main/java/alku/csrp/client/model/BuglinModel.java");
-const animationResolver = read("src/main/java/alku/csrp/entity/ParasiteAnimations.java");
+const tunnel = read("src/main/java/alku/csrp/block/TunnelBlock.java");
+const biomeModifier = read("src/main/resources/data/csrp/neoforge/biome_modifier/buglin_spawns.json");
 const geo = read("src/main/resources/assets/csrp/geo/buglin.geo.json");
 const animations = read("src/main/resources/assets/csrp/animations/buglin.animation.json");
 
@@ -52,20 +53,29 @@ expect(entity, /100,\s*0/, "legacy COTH duration/amplifier is missing");
 expect(entity, /GROWTH_NBT_KEY\s*=\s*"ruptergrow"/, "legacy growth NBT key is missing");
 expect(entity, /random\.nextInt\(60\)\s*\+\s*60/, "60-119 second growth range is missing");
 expect(entity, /EMERGENCE_TICKS\s*=\s*50/, "50 tick emergence state is missing");
-expect(entity, /triggerAnim\("emergence_controller",\s*"spawn"\)/, "spawn animation trigger is missing");
+expect(entity, /private int emergenceTicks;/,
+        "natural Buglins incorrectly start in the buried emergence state");
+expect(entity, /startBuriedEmergence\(\)[\s\S]*emergenceTicks\s*=\s*EMERGENCE_TICKS/,
+        "Tunnel-spawned Buglins cannot enter the buried emergence state");
+expect(entity, /triggerAnim\("emergence_controller",\s*"get_floor_timer"\)/,
+        "original floor-timer emergence animation trigger is missing");
+expect(tunnel, /randomTick[\s\S]*spawnBuglin\(level,\s*pos,\s*true\)/,
+        "Tunnel random ticks do not spawn a buried Buglin");
+expect(tunnel, /onRemove[\s\S]*spawnBuglin\(serverLevel,\s*pos,\s*false\)/,
+        "breaking a Tunnel incorrectly buries the released Buglin");
 expect(entity, /BuglinEvolutionTarget\.rupterType\(\)\.ifPresent/, "mature Buglin does not wait for a real Rupter type");
 expect(evolution, /registerRupter/, "Rupter evolution registration contract is missing");
 expect(client, /BuglinRenderer/, "Buglin renderer is not registered");
 expect(model, /geo\/buglin\.geo\.json/, "Buglin geometry is not wired");
 expect(model, /animations\/buglin\.animation\.json/, "Buglin animations are not wired");
 expect(geo, /"identifier"\s*:\s*"geometry\.srparasites\.buglin"/, "Buglin geometry identifier is wrong");
-for (const animation of ["idle", "walk", "attack"]) {
+for (const animation of ["func_78087_a.age_in_ticks", "get_floor_timer"]) {
     expect(animations, new RegExp(`"animation\\.buglin\\.${animation}"\\s*:`),
-            `missing extracted ${animation} animation`);
+            `missing original extracted ${animation} animation`);
 }
-expect(animationResolver, /case "run", "fly" -> "walk"/, "run animation is not mapped to extracted walk");
-expect(animationResolver, /case "spawn", "rush", "throw", "smash", "swipe" -> "attack"/,
-        "spawn animation is not mapped to extracted attack");
+expect(biomeModifier, /"weight"\s*:\s*30/, "legacy Buglin spawn weight 30 is missing");
+expect(biomeModifier, /"minCount"\s*:\s*2/, "legacy Buglin minimum group size 2 is missing");
+expect(biomeModifier, /"maxCount"\s*:\s*5/, "legacy Buglin maximum group size 5 is missing");
 for (const sound of ["lodo.growl", "lodo.hurt", "lodo.death", "lodo.mudo", "lodo.emerge"]) {
     expect(sounds, new RegExp(`register\\("${sound.replace(".", "\\.")}"\\)`), `missing ${sound} sound registration`);
 }

@@ -81,7 +81,7 @@ for (const [pattern, description] of [
     [/AreaEffectCloud/, "lingering COTH cloud is missing"],
     [/new MobEffectInstance\(ModMobEffects\.COTH,\s*\d+,\s*1\)/,
         "COTH II cloud effect is missing"],
-    [/Config\.evolutionPhase\(level\(\)\)\s*<\s*2/, "low-phase behavior gate is missing"],
+    [/Config\.evolutionPhase\(level\(\)\)\s*<\s*4/, "legacy phase-4 aggression gate is missing"],
     [/nearby.*Rupter|Rupter.*nearby/is, "lone/pack behavior check is missing"],
     [/TUNNEL_KILL_COST\s*=\s*5/, "Tunnel kill cost 5 is missing"],
     [/killCount\s*>=\s*30/, "30-kill Mangler evolution is missing"],
@@ -130,13 +130,17 @@ expect(client, /RupterRenderer/, "Rupter renderer is not registered");
 expect(model, /getTextureVariant\(\)/, "Rupter texture variants are not wired");
 expect(geo, /"identifier"\s*:\s*"geometry\.srparasites\.rupter"/,
         "Rupter geometry identifier is wrong");
-for (const animation of ["idle", "walk", "attack"]) {
+for (const animation of [
+    "func_78087_a.age_in_ticks",
+    "func_78087_a.limb_swing",
+    "func_78087_a.age_in_ticks.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_1",
+    "func_78087_a.limb_swing.get_parasite_status_2",
+    "func_78087_a.age_in_ticks.get_parasite_status_10"
+]) {
     expect(animations, new RegExp(`"animation\\.rupter\\.${animation}"\\s*:`),
-            `missing ${animation} animation`);
+            `missing original extracted ${animation} animation`);
 }
-expect(read("src/main/java/alku/csrp/entity/ParasiteAnimations.java"),
-        /case "run", "fly" -> "walk"[\s\S]*case "spawn", "rush"[\s\S]*-> "attack"/,
-        "Rupter run/rush animation aliases are missing");
 for (const variant of ["classic", "striped", "fluffy", "weird", "golden"]) {
     expect(entity, new RegExp(variant.toUpperCase()), `missing ${variant} texture variant`);
     read(`src/main/resources/assets/csrp/textures/entity/rupter_${variant}.png`);

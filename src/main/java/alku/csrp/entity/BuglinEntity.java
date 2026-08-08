@@ -44,7 +44,6 @@ public class BuglinEntity extends Monster implements GeoEntity, Parasite {
     public static final int EMERGENCE_TICKS = 50;
 
     private static final String GROWTH_TARGET_NBT_KEY = "ruptergrow_target";
-    private static final String EMERGENCE_NBT_KEY = "emergence_ticks";
     private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks");
     private final RawAnimation FLOOR_TIMER = ParasiteAnimations.play(this, "get_floor_timer");
@@ -52,7 +51,7 @@ public class BuglinEntity extends Monster implements GeoEntity, Parasite {
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private int growthSeconds;
     private int growthTargetSeconds;
-    private int emergenceTicks = EMERGENCE_TICKS;
+    private int emergenceTicks;
     private boolean emergenceStarted;
 
     public BuglinEntity(EntityType<? extends BuglinEntity> entityType, Level level) {
@@ -79,7 +78,12 @@ public class BuglinEntity extends Monster implements GeoEntity, Parasite {
 
     @Override
     public int getMaxSpawnClusterSize() {
-        return 12;
+        return 5;
+    }
+
+    public void startBuriedEmergence() {
+        emergenceTicks = EMERGENCE_TICKS;
+        emergenceStarted = false;
     }
 
     @Override
@@ -174,7 +178,6 @@ public class BuglinEntity extends Monster implements GeoEntity, Parasite {
         super.addAdditionalSaveData(tag);
         tag.putInt(GROWTH_NBT_KEY, growthSeconds);
         tag.putInt(GROWTH_TARGET_NBT_KEY, growthTargetSeconds);
-        tag.putInt(EMERGENCE_NBT_KEY, emergenceTicks);
     }
 
     @Override
@@ -185,10 +188,6 @@ public class BuglinEntity extends Monster implements GeoEntity, Parasite {
         }
         if (tag.contains(GROWTH_TARGET_NBT_KEY)) {
             growthTargetSeconds = tag.getInt(GROWTH_TARGET_NBT_KEY);
-        }
-        if (tag.contains(EMERGENCE_NBT_KEY)) {
-            emergenceTicks = tag.getInt(EMERGENCE_NBT_KEY);
-            emergenceStarted = true;
         }
     }
 
