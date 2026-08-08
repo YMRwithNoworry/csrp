@@ -13,6 +13,18 @@ if (fs.existsSync(cystEvent)) {
   failures.push("parasite deaths still register the Gluttonous Cyst placement event");
 }
 
+const remainsEvent = path.join(root, "src/main/java/alku/csrp/event/ParasiteDeathRemainsEvents.java");
+if (fs.existsSync(remainsEvent)) {
+  failures.push("parasite deaths still register the remains-spawning event");
+}
+
+const deathFx = read("src/main/java/alku/csrp/event/ParasiteDeathFxEvents.java");
+expect(deathFx, /PacketDistributor\.sendToPlayer\(player, payload\)/,
+  "parasite death particles were removed unexpectedly");
+for (const forbidden of ["ParasiteRemainsEntity", "PARASITE_REMAINS", "addFreshEntity"]) {
+  if (deathFx.includes(forbidden)) failures.push(`parasite death FX still spawns remains: ${forbidden}`);
+}
+
 const dispatcher = read("src/main/java/alku/csrp/event/DispatcherNidusEvents.java");
 for (const forbidden of ["DispatcherNidusBlock.tryPlace", "NIDUS_KILLS", "PLACE_KILLS", "PLACE_CHANCE"]) {
   if (dispatcher.includes(forbidden)) failures.push(`death-triggered Dispatcher Nidus placement remains: ${forbidden}`);
