@@ -24,7 +24,6 @@ import alku.csrp.client.renderer.AssimilatedParasiteRenderer;
 import alku.csrp.client.renderer.PrimitiveParasiteRenderer;
 import alku.csrp.client.renderer.PullingBallRenderer;
 import alku.csrp.client.renderer.ParasiteProjectileRenderer;
-import alku.csrp.client.renderer.ParasiteRemainsRenderer;
 import alku.csrp.client.renderer.ScaryOrbRenderer;
 import alku.csrp.client.renderer.VoidOrbRenderer;
 import alku.csrp.client.renderer.TrophyBlockEntityRenderer;
@@ -76,7 +75,6 @@ public final class ClientModEvents {
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(ModBlockEntities.TROPHY.get(), TrophyBlockEntityRenderer::new);
-        event.registerEntityRenderer(ModEntities.PARASITE_REMAINS.get(), ParasiteRemainsRenderer::new);
         event.registerEntityRenderer(ModEntities.BIOMASS.get(), BiomassRenderer::new);
         event.registerEntityRenderer(ModEntities.SHOCKWAVE.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.BUGLIN.get(), BuglinRenderer::new);

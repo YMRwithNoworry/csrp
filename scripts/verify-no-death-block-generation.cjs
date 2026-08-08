@@ -41,12 +41,23 @@ if (/spreadBolsterResidue|setBlock|INFESTED_REMAINS/.test(deathBurst)) {
 expect(adapted, /tickBolster[\s\S]*?spreadBolsterResidue\(\)/,
   "non-death Adapted Bolster residue skill was removed unexpectedly");
 
-const remains = read("src/main/java/alku/csrp/entity/ParasiteRemainsEntity.java");
-for (const forbidden of ["BlockInfestation", "contaminate(", "setBlock", "setBlockAndUpdate"]) {
-  if (remains.includes(forbidden)) failures.push(`death remains can still mutate blocks: ${forbidden}`);
+const removedRemainsFiles = [
+  "src/main/java/alku/csrp/entity/ParasiteRemainsEntity.java",
+  "src/main/java/alku/csrp/client/renderer/ParasiteRemainsRenderer.java"
+];
+for (const relative of removedRemainsFiles) {
+  if (fs.existsSync(path.join(root, relative))) {
+    failures.push(`obsolete death-fragment implementation remains: ${relative}`);
+  }
 }
-expect(remains, /tickCount >= LIFETIME_TICKS[\s\S]*?discard\(\)/,
-  "death remains no longer expire cleanly");
+
+const entityRegistry = read("src/main/java/alku/csrp/registry/ModEntities.java");
+const clientEvents = read("src/main/java/alku/csrp/client/ClientModEvents.java");
+for (const forbidden of ["ParasiteRemainsEntity", "PARASITE_REMAINS", "parasite_remains"]) {
+  if (entityRegistry.includes(forbidden) || clientEvents.includes(forbidden)) {
+    failures.push(`death-fragment entity is still registered: ${forbidden}`);
+  }
+}
 
 const eventDirectory = path.join(root, "src/main/java/alku/csrp/event");
 for (const entry of fs.readdirSync(eventDirectory)) {
