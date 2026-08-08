@@ -49,8 +49,8 @@ expect(derived, /removedAmplifierSum \+= effect\.getAmplifier\(\) \+ 1/,
 expect(derived, /NEURAL_LINK_TARGET_LIMIT\s*=\s*5/,
   "Derived NeuroLock no longer retains its five-target limit");
 
-expect(draconite, /FIRE_BREATH_DURATION_TICKS\s*=\s*60/,
-  "Draconite continuous fire-breath duration is missing");
+expect(draconite, /FIRE_BREATH_DURATION_TICKS\s*=\s*40/,
+  "Draconite original 40-tick toxic-cloud breath duration is missing");
 expect(draconite, /beginMeteorRain\(/, "Draconite meteor-rain ability is missing");
 expect(draconite, /LIGHT_BARRAGE_COUNT\s*=\s*20/,
   "Draconite tracking light barrage is missing");

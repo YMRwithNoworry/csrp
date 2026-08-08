@@ -6,6 +6,7 @@ const read = (relative) => fs.readFileSync(path.join(root, relative), "utf8");
 const entity = read("src/main/java/alku/csrp/entity/PrimitiveVariantEntity.java");
 const registry = read("src/main/java/alku/csrp/registry/ModEntities.java");
 const config = read("src/main/java/alku/csrp/config/MobsConfig.java");
+const orbEffects = read("src/main/java/alku/csrp/entity/ConfiguredOrbEffects.java");
 const model = read("src/main/java/alku/csrp/client/model/PrimitiveParasiteModel.java");
 const drops = read("src/main/java/alku/csrp/event/BookOfVengeanceEvents.java");
 const failures = [];
@@ -56,7 +57,7 @@ expect(entity, /tag\.putBoolean\("RicardoBald"/,
   "Ricardo bald state is not persisted");
 expect(entity, /applyReekerOrbEffects\(target, nearbyEntities\)/,
   "Primitive Reeker scary-orb effect application is missing");
-expect(entity, /BuiltInRegistries\.MOB_EFFECT\.getOptional\(effectId\)[\s\S]*?EffectStacking\.apply/,
+expect(orbEffects, /BuiltInRegistries\.MOB_EFFECT\.getOptional\(effectId\)[\s\S]*?EffectStacking\.apply/,
   "Primitive Reeker configurable scary-orb effect parser is missing");
 
 expect(config, /"enableRicardoVariant", false/,

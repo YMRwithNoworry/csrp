@@ -26,7 +26,7 @@ function expectPng(relativePath) {
 }
 
 const kirin = read("src/main/java/alku/csrp/entity/KirinEntity.java");
-const renderer = read("src/main/java/alku/csrp/client/renderer/ScaryOrbRenderer.java");
+const renderer = read("src/main/java/alku/csrp/client/renderer/VoidOrbRenderer.java");
 const particles = read("src/main/java/alku/csrp/registry/ModParticles.java");
 const warningParticle = read("src/main/java/alku/csrp/client/particle/KirinWarningParticle.java");
 const clientEvents = read("src/main/java/alku/csrp/client/ClientModEvents.java");

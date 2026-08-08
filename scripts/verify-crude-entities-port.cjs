@@ -60,7 +60,10 @@ for (const [id, [javaFile, ...patterns]] of Object.entries(checks)) {
 const pullBall = read("src/main/java/alku/csrp/entity/PullingBallEntity.java");
 expect(entities, /PULLING_BALL/, "Airscrew pulling-ball entity is missing");
 expect(client, /PullingBallRenderer/, "Airscrew pulling-ball renderer is missing");
-expect(pullBall, /Blocks\.COBWEB/, "Pulling ball does not create legacy web hazards on block impact");
+expect(pullBall, /ModBlocks\.SRP_WEB[\s\S]*SrpWebBlock\.Kind\.THIN/,
+  "Pulling ball does not create the original thin SRP web hazards on block impact");
+expect(pullBall, /random\.nextInt\(3\)\s*\+\s*1/,
+  "Pulling ball does not preserve the original one-to-three web count");
 expect(pullBall, /captureTarget/, "Pulling ball does not hand victims to its Airscrew owner");
 expect(sounds, /DREDGE_(LIVING|HURT|DEATH)/, "Dredge legacy sounds are not registered");
 expect(sounds, /THRALL_(LIVING|HURT|DEATH)/, "Thrall legacy sounds are not registered");

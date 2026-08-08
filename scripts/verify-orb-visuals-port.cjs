@@ -22,7 +22,7 @@ function expectMissing(text, pattern, message) {
 }
 
 const entity = read("src/main/java/alku/csrp/entity/ScaryOrbEntity.java");
-const renderer = read("src/main/java/alku/csrp/client/renderer/ScaryOrbRenderer.java");
+const renderer = read("src/main/java/alku/csrp/client/renderer/VoidOrbRenderer.java");
 
 expectMissing(entity, /ParticleTypes\.SOUL_FIRE_FLAME/, "Void orb still emits blue soul-fire particles");
 expect(renderer, /VOID_ORB_DIAMETER\s*=\s*2\.4F/, "Void orb does not use its legacy visual diameter");

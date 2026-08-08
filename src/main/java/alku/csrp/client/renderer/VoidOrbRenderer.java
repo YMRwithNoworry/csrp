@@ -18,7 +18,8 @@ public final class VoidOrbRenderer extends EntityRenderer<VoidOrbEntity> {
             "textures/entity/orbvoid.png");
     private static final ResourceLocation AURA_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
             "textures/entity/orbvoid_armor.png");
-    private static final float SPHERE_RADIUS = 1.2F;
+    private static final float VOID_ORB_DIAMETER = 2.4F;
+    private static final float SPHERE_RADIUS = VOID_ORB_DIAMETER * 0.5F;
     private static final int SPHERE_STACKS = 18;
     private static final int SPHERE_SLICES = 18;
     private static final int FULL_BRIGHT = 0xF000F0;

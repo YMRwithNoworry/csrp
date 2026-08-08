@@ -17,10 +17,12 @@ for (const hook of ["PULL_TARGET_IDS", "syncPullTargets", "getPullTargetsForRend
 for (const hook of [
   "sendPullTetherParticles(ServerLevel serverLevel)",
   "serverLevel.sendParticles(ParticleTypes.CRIT",
-  "for (UUID targetId : pullTargets)",
-  "syncPullTargets();\n        if (level() instanceof ServerLevel serverLevel)"
+  "for (UUID targetId : pullTargets)"
 ]) {
   if (!airscrew.includes(hook)) failures.push(`Airscrew shared tether particle path missing: ${hook}`);
+}
+if (!/syncPullTargets\(\);\r?\n\s*if \(level\(\) instanceof ServerLevel serverLevel\)/.test(airscrew)) {
+  failures.push("Airscrew shared tether particle path is not called after target synchronization");
 }
 
 if (airscrew.includes("level().addParticle(ParticleTypes.CRIT")) {
