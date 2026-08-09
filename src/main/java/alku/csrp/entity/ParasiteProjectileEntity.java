@@ -56,7 +56,13 @@ public final class ParasiteProjectileEntity extends Entity {
         ELVIA_BALL,
         ELVIA_NADE,
         YELLOWEYE_SPINE,
-        YELLOWEYE_NADE
+        YELLOWEYE_NADE,
+        ALAFHA_BALL,
+        ANGED_BALL,
+        ANCIENT_BALL,
+        DRAGON_MISSILE,
+        SALIVA_EFFECT,
+        BIOMASS_BALL
     }
 
     private static final EntityDataAccessor<Integer> MODE = SynchedEntityData.defineId(
@@ -180,7 +186,9 @@ public final class ParasiteProjectileEntity extends Entity {
                 case LIGHT, WITHER -> ParticleTypes.SOUL_FIRE_FLAME;
                 case SPINE, NEEDLE -> ParticleTypes.CRIT;
                 case WEB -> ParticleTypes.WHITE_ASH;
-                case ACID, YELLOWEYE_SPINE, YELLOWEYE_NADE -> ParticleTypes.ITEM_SLIME;
+                case ACID, YELLOWEYE_SPINE, YELLOWEYE_NADE, ALAFHA_BALL, ANGED_BALL,
+                        ANCIENT_BALL, SALIVA_EFFECT, BIOMASS_BALL -> ParticleTypes.ITEM_SLIME;
+                case DRAGON_MISSILE -> ParticleTypes.DRAGON_BREATH;
                 case VOMIT -> ParticleTypes.WITCH;
                 case LENCIA_BALL, ELVIA_BALL -> ParticleTypes.EXPLOSION;
                 case ELVIA_NADE -> ParticleTypes.ITEM_SLIME;
@@ -271,17 +279,21 @@ public final class ParasiteProjectileEntity extends Entity {
                     }
                 }
                 case NEEDLE -> target.addEffect(new MobEffectInstance(ModMobEffects.NEEDLER, 180, 0), owner);
-                case WITHER -> target.addEffect(new MobEffectInstance(MobEffects.WITHER, 160, 1), owner);
+                case WITHER, ANCIENT_BALL -> target.addEffect(new MobEffectInstance(MobEffects.WITHER, 160, 1), owner);
                 case LIGHT -> {
                     target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 100, 0), owner);
                     target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 140, 0), owner);
                 }
-                case VOMIT -> {
+                case VOMIT, ALAFHA_BALL, ANGED_BALL, SALIVA_EFFECT -> {
                     target.addEffect(new MobEffectInstance(ModMobEffects.VOMIT, 160, 0), owner);
                     target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 160, 0), owner);
                     target.addEffect(new MobEffectInstance(ModMobEffects.CORROSION, 160, 0), owner);
                     target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 160, 1), owner);
                     target.addEffect(new MobEffectInstance(MobEffects.HUNGER, 160, 1), owner);
+                }
+                case DRAGON_MISSILE -> {
+                    target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 200, 1), owner);
+                    target.addEffect(new MobEffectInstance(MobEffects.POISON, 120, 0), owner);
                 }
                 case BOMB -> {
                     target.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 0), owner);
@@ -298,9 +310,10 @@ public final class ParasiteProjectileEntity extends Entity {
                 level().explode(owner, getX(), getY(), getZ(), (float) Math.max(1.5D, radius),
                         Level.ExplosionInteraction.MOB);
             }
-        } else if (mode == Mode.VOMIT) {
+        } else if (mode == Mode.VOMIT || mode == Mode.ALAFHA_BALL || mode == Mode.ANGED_BALL
+                || mode == Mode.SALIVA_EFFECT) {
             spawnLingeringVomitCloud(owner);
-        } else if (mode == Mode.WITHER) {
+        } else if (mode == Mode.WITHER || mode == Mode.ANCIENT_BALL || mode == Mode.DRAGON_MISSILE) {
             spawnLingeringWitherCloud(owner);
         }
         if (level() instanceof ServerLevel serverLevel) {
@@ -636,7 +649,10 @@ public final class ParasiteProjectileEntity extends Entity {
     public boolean shouldRenderAsBillboard() {
         return isLegacyProjectileMode() || getMode() == Mode.ACID
                 || getMode() == Mode.YELLOWEYE_SPINE
-                || getMode() == Mode.YELLOWEYE_NADE && !entityData.get(ACID_NADE_ARMED);
+                || getMode() == Mode.YELLOWEYE_NADE && !entityData.get(ACID_NADE_ARMED)
+                || getMode() == Mode.ALAFHA_BALL || getMode() == Mode.ANGED_BALL
+                || getMode() == Mode.ANCIENT_BALL || getMode() == Mode.DRAGON_MISSILE
+                || getMode() == Mode.SALIVA_EFFECT || getMode() == Mode.BIOMASS_BALL;
     }
 
     public float getRenderWidth() {

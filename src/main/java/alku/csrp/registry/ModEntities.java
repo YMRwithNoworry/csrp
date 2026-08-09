@@ -39,6 +39,7 @@ import alku.csrp.entity.IncompleteCruxEntity;
 import alku.csrp.entity.IncompleteFormMediumEntity;
 import alku.csrp.entity.IncompleteFormSmallEntity;
 import alku.csrp.entity.KirinEntity;
+import alku.csrp.entity.LegacyAuxiliaryEntity;
 import alku.csrp.entity.LiceEntity;
 import alku.csrp.entity.LongarmsEntity;
 import alku.csrp.entity.ManglerEntity;
@@ -72,6 +73,7 @@ import alku.csrp.entity.NexusParasiteEntity;
 import alku.csrp.entity.WorkerEntity;
 import alku.csrp.entity.ArchitectEntity;
 import alku.csrp.entity.AncientPodEntity;
+import alku.csrp.entity.AntiInfestedBlockEntity;
 import alku.csrp.entity.DreadnautTentacleEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -515,6 +517,41 @@ public final class ModEntities {
             projectile("heblu_light", ParasiteProjectileEntity.Mode.LIGHT, 0.65F, 0.65F, 4, 3);
     public static final DeferredHolder<EntityType<?>, EntityType<ParasiteProjectileEntity>> METEOR =
             projectile("meteor", ParasiteProjectileEntity.Mode.METEOR, 4.5F, 4.5F, 16, 1);
+    public static final DeferredHolder<EntityType<?>, EntityType<ParasiteProjectileEntity>> SALIVA_BALL =
+            projectile("salivaball", ParasiteProjectileEntity.Mode.ALAFHA_BALL, 0.3F, 0.3F, 4, 3);
+    public static final DeferredHolder<EntityType<?>, EntityType<ParasiteProjectileEntity>> BALL_BALL =
+            projectile("ballball", ParasiteProjectileEntity.Mode.ANGED_BALL, 0.3F, 0.3F, 4, 3);
+    public static final DeferredHolder<EntityType<?>, EntityType<ParasiteProjectileEntity>> ANCIENT_BALL =
+            projectile("ancientball", ParasiteProjectileEntity.Mode.ANCIENT_BALL, 0.3F, 0.3F, 4, 3);
+    public static final DeferredHolder<EntityType<?>, EntityType<ParasiteProjectileEntity>> MISSILE =
+            projectile("missile", ParasiteProjectileEntity.Mode.DRAGON_MISSILE, 0.3F, 0.3F, 4, 3);
+    public static final DeferredHolder<EntityType<?>, EntityType<ParasiteProjectileEntity>> SALIVA_EFFECT =
+            projectile("salivaeff", ParasiteProjectileEntity.Mode.SALIVA_EFFECT, 0.3F, 0.3F, 4, 3);
+    public static final DeferredHolder<EntityType<?>, EntityType<ParasiteProjectileEntity>> BIOMASS_BALL =
+            projectile("biomassball", ParasiteProjectileEntity.Mode.BIOMASS_BALL, 0.3F, 0.3F, 4, 3);
+    public static final DeferredHolder<EntityType<?>, EntityType<AntiInfestedBlockEntity>> ANTI_INFESTED_BLOCK =
+            ENTITIES.register("antiinfestedblock", () -> EntityType.Builder
+                    .<AntiInfestedBlockEntity>of(AntiInfestedBlockEntity::new, MobCategory.MISC)
+                    .sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(3)
+                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "antiinfestedblock").toString()));
+    public static final DeferredHolder<EntityType<?>, EntityType<LegacyAuxiliaryEntity>> ORB_BOOM =
+            auxiliary("orbboom", LegacyAuxiliaryEntity.Kind.ORB_BOOM, 0.5F, 0.5F, 16, 1);
+    public static final DeferredHolder<EntityType<?>, EntityType<LegacyAuxiliaryEntity>> SOURCE =
+            auxiliary("source", LegacyAuxiliaryEntity.Kind.SOURCE, 0.5F, 0.5F, 4, 3);
+    public static final DeferredHolder<EntityType<?>, EntityType<LegacyAuxiliaryEntity>> REMAIN =
+            auxiliary("remain", LegacyAuxiliaryEntity.Kind.REMAIN, 0.5F, 0.5F, 4, 3);
+    public static final DeferredHolder<EntityType<?>, EntityType<LegacyAuxiliaryEntity>> BOMB =
+            auxiliary("bomb", LegacyAuxiliaryEntity.Kind.BOMB, 0.5F, 0.5F, 4, 3);
+    public static final DeferredHolder<EntityType<?>, EntityType<LegacyAuxiliaryEntity>> CLOUD_TOXIC =
+            auxiliary("cloudtoxic", LegacyAuxiliaryEntity.Kind.CLOUD_TOXIC, 0.5F, 0.5F, 4, 3);
+    public static final DeferredHolder<EntityType<?>, EntityType<LegacyAuxiliaryEntity>> GORE =
+            auxiliary("gore", LegacyAuxiliaryEntity.Kind.GORE, 0.4F, 0.4F, 4, 3);
+    public static final DeferredHolder<EntityType<?>, EntityType<LegacyAuxiliaryEntity>> TENDRIL =
+            auxiliary("tendril", LegacyAuxiliaryEntity.Kind.TENDRIL, 1.0F, 1.0F, 4, 3);
+    public static final DeferredHolder<EntityType<?>, EntityType<LegacyAuxiliaryEntity>> WAVE =
+            auxiliary("wave", LegacyAuxiliaryEntity.Kind.WAVE, 1.5F, 0.2F, 4, 3);
+    public static final DeferredHolder<EntityType<?>, EntityType<LegacyAuxiliaryEntity>> NADE =
+            auxiliary("nade", LegacyAuxiliaryEntity.Kind.NADE, 0.5F, 0.5F, 4, 3);
     public static final DeferredHolder<EntityType<?>, EntityType<HaunterHomingProjectileEntity>> HAUNTER_HOMING =
             ENTITIES.register("homming", () -> EntityType.Builder
                     .<HaunterHomingProjectileEntity>of(HaunterHomingProjectileEntity::new, MobCategory.MISC)
@@ -545,6 +582,16 @@ public final class ModEntities {
                 .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, id).toString()));
     }
 
+    private static DeferredHolder<EntityType<?>, EntityType<LegacyAuxiliaryEntity>> auxiliary(
+            String id, LegacyAuxiliaryEntity.Kind kind, float width, float height,
+            int trackingRange, int updateInterval) {
+        return ENTITIES.register(id, () -> EntityType.Builder
+                .<LegacyAuxiliaryEntity>of((type, level) -> new LegacyAuxiliaryEntity(type, level, kind),
+                        MobCategory.MISC)
+                .sized(width, height).clientTrackingRange(trackingRange).updateInterval(updateInterval)
+                .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, id).toString()));
+    }
+
     public static EntityType<ParasiteProjectileEntity> projectileType(ParasiteProjectileEntity.Mode mode) {
         return switch (mode) {
             case WEB -> WEB_BALL.get();
@@ -554,6 +601,12 @@ public final class ModEntities {
             case LENCIA_BALL -> BALL_MALL.get();
             case LIGHT -> HEBLU_LIGHT.get();
             case METEOR -> METEOR.get();
+            case ALAFHA_BALL -> SALIVA_BALL.get();
+            case ANGED_BALL -> BALL_BALL.get();
+            case ANCIENT_BALL -> ANCIENT_BALL.get();
+            case DRAGON_MISSILE -> MISSILE.get();
+            case SALIVA_EFFECT -> SALIVA_EFFECT.get();
+            case BIOMASS_BALL -> BIOMASS_BALL.get();
             default -> PARASITE_PROJECTILE.get();
         };
     }

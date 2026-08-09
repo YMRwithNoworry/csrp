@@ -43,7 +43,7 @@ expect(entity, /yelloweyeAttackTimer \+= hasEffect\(ModMobEffects\.RAGE\) \? 2 :
   "Rage does not accelerate Primitive Yelloweye shooting");
 expect(entity, /rangedShots\+\+[\s\S]*?rangedShots == 4[\s\S]*?boolean acid = rangedShots >= 4/,
   "Primitive Yelloweye fourth-shot Nade cycle is missing");
-expect(entity, /configureLegacyFireball\(this,[\s\S]*?Mode\.YELLOWEYE_NADE[\s\S]*?Mode\.YELLOWEYE_SPINE/,
+expect(entity, /Mode mode = acid \? ParasiteProjectileEntity\.Mode\.YELLOWEYE_NADE[\s\S]*?Mode\.YELLOWEYE_SPINE[\s\S]*?createProjectile\(level\(\), mode\)[\s\S]*?configureLegacyFireball\(this, mode/,
   "Primitive Yelloweye does not launch its dedicated original projectiles");
 expect(entity, /tickYelloweyeFlightLimits\(\)[\s\S]*?MobsConfig\.yelloweyeMaxFlightHeight\(\)/,
   "Primitive Yelloweye flight-height limiter is missing");
@@ -85,7 +85,7 @@ expect(renderer, /pri_yelloweye_glow\.png[\s\S]*?pri_yelloweye_heavy_glow\.png[\
 
 expect(projectile, /ELVIA_NADE,\s*YELLOWEYE_SPINE,\s*YELLOWEYE_NADE/,
   "Yelloweye projectile modes were not appended in a save-compatible order");
-expect(projectile, /case ACID, YELLOWEYE_SPINE, YELLOWEYE_NADE -> ParticleTypes\.ITEM_SLIME/,
+expect(projectile, /case ACID, YELLOWEYE_SPINE, YELLOWEYE_NADE,[\s\S]*?-> ParticleTypes\.ITEM_SLIME/,
   "Yelloweye projectiles do not use the original slime trail");
 expect(projectile, /impactYelloweyeSpine[\s\S]*?MobEffects\.POISON[\s\S]*?yelloweyeGearDamage\(\)[\s\S]*?applyPrimitiveMinimumDamage/,
   "Yelloweye spine damage, poison, gear damage, or minimum damage is missing");

@@ -344,6 +344,22 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.BALL_MALL.get(), ParasiteProjectileRenderer::new);
         event.registerEntityRenderer(ModEntities.HEBLU_LIGHT.get(), ParasiteProjectileRenderer::new);
         event.registerEntityRenderer(ModEntities.METEOR.get(), ParasiteProjectileRenderer::new);
+        event.registerEntityRenderer(ModEntities.SALIVA_BALL.get(), ParasiteProjectileRenderer::new);
+        event.registerEntityRenderer(ModEntities.BALL_BALL.get(), ParasiteProjectileRenderer::new);
+        event.registerEntityRenderer(ModEntities.ANCIENT_BALL.get(), ParasiteProjectileRenderer::new);
+        event.registerEntityRenderer(ModEntities.MISSILE.get(), ParasiteProjectileRenderer::new);
+        event.registerEntityRenderer(ModEntities.SALIVA_EFFECT.get(), ParasiteProjectileRenderer::new);
+        event.registerEntityRenderer(ModEntities.BIOMASS_BALL.get(), ParasiteProjectileRenderer::new);
+        event.registerEntityRenderer(ModEntities.ANTI_INFESTED_BLOCK.get(), NoopRenderer::new);
+        event.registerEntityRenderer(ModEntities.ORB_BOOM.get(), NoopRenderer::new);
+        event.registerEntityRenderer(ModEntities.SOURCE.get(), NoopRenderer::new);
+        event.registerEntityRenderer(ModEntities.REMAIN.get(), NoopRenderer::new);
+        event.registerEntityRenderer(ModEntities.BOMB.get(), NoopRenderer::new);
+        event.registerEntityRenderer(ModEntities.CLOUD_TOXIC.get(), NoopRenderer::new);
+        event.registerEntityRenderer(ModEntities.GORE.get(), NoopRenderer::new);
+        event.registerEntityRenderer(ModEntities.TENDRIL.get(), NoopRenderer::new);
+        event.registerEntityRenderer(ModEntities.WAVE.get(), NoopRenderer::new);
+        event.registerEntityRenderer(ModEntities.NADE.get(), NoopRenderer::new);
     }
 
     @SubscribeEvent
