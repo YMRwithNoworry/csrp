@@ -136,7 +136,7 @@ public final class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<VerminEntity>> PRI_VERMIN =
             monster("pri_vermin", VerminEntity::new, 1.3F, 1.6F);
     public static final DeferredHolder<EntityType<?>, EntityType<VisceraEntity>> PRI_VISCERA =
-            monster("pri_viscera", VisceraEntity::new, 1.3F, 2.3F);
+            monster("pri_viscera", VisceraEntity::new, 1.211F, 2.351F, 1.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<PrimitiveVariantEntity>> PRI_ARACHNIDA =
             monster("pri_arachnida", (type, level) -> new PrimitiveVariantEntity(type, level,
                     PrimitiveVariantEntity.Kind.ARACHNIDA), 0.9F, 2.7F);

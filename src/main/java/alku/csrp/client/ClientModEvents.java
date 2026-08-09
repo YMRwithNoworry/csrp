@@ -97,7 +97,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.PRI_VERMIN.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "pri_vermin", 0.65F));
         event.registerEntityRenderer(ModEntities.PRI_VISCERA.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "pri_viscera", 0.7F));
+                new PrimitiveParasiteRenderer<>(context, "pri_viscera", 1.0F));
         event.registerEntityRenderer(ModEntities.PRI_ARACHNIDA.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "pri_arachnida", 0.65F));
         event.registerEntityRenderer(ModEntities.PRI_BOLSTER.get(), context ->

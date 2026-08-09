@@ -59,6 +59,25 @@ public final class MobsConfig {
             "Adapted Arachnida scary-orb effects: self;seconds;amplifier;effect_id;mob_amplifier_step;mob_duration_step.",
             MobsConfig::validOrbEffect);
 
+    private static final ModConfigSpec.DoubleValue VISCERA_HEALTH_MULTIPLIER = value(
+            "srparasites:viscera", "primitiveVisceraHealthMultiplier", 1.0D, 0.01D, 100.0D,
+            "Health multiplier for Primitive Viscera.");
+    private static final ModConfigSpec.DoubleValue VISCERA_DAMAGE_MULTIPLIER = value(
+            "srparasites:viscera", "primitiveVisceraDamageMultiplier", 1.0D, 0.01D, 100.0D,
+            "Attack-damage multiplier for Primitive Viscera.");
+    private static final ModConfigSpec.DoubleValue VISCERA_ARMOR_MULTIPLIER = value(
+            "srparasites:viscera", "primitiveVisceraArmorMultiplier", 1.0D, 0.01D, 100.0D,
+            "Armor multiplier for Primitive Viscera.");
+    private static final ModConfigSpec.DoubleValue VISCERA_KNOCKBACK_MULTIPLIER = value(
+            "srparasites:viscera", "primitiveVisceraKnockbackResistanceMultiplier",
+            1.0D, 0.01D, 100.0D, "Knockback-resistance multiplier for Primitive Viscera.");
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> VISCERA_ORB_EFFECTS = stringList(
+            "srparasites:viscera", "primitiveVisceraOrbEffects", List.of(
+                    "0;15;1;minecraft:hunger;0;0",
+                    "0;15;1;minecraft:slowness;0;0"),
+            "Primitive Viscera scary-orb effects: self;seconds;amplifier;effect_id;mob_amplifier_step;mob_duration_step.",
+            MobsConfig::validOrbEffect);
+
     private static final ModConfigSpec.DoubleValue BOLSTER_HEALTH_MULTIPLIER = value(
             "srparasites:bolster", "primitiveBolsterHealthMultiplier", 1.0D, 0.01D, 100.0D,
             "Health multiplier for the Primitive Bolster.");
@@ -344,6 +363,26 @@ public final class MobsConfig {
 
     public static List<? extends String> adaptedArachnidaOrbEffects() {
         return ADAPTED_ARACHNIDA_ORB_EFFECTS.get();
+    }
+
+    public static double visceraHealth() {
+        return 45.0D * VISCERA_HEALTH_MULTIPLIER.get();
+    }
+
+    public static double visceraDamage() {
+        return 15.0D * VISCERA_DAMAGE_MULTIPLIER.get();
+    }
+
+    public static double visceraArmor() {
+        return 9.0D * VISCERA_ARMOR_MULTIPLIER.get();
+    }
+
+    public static double visceraKnockbackResistance() {
+        return Math.min(1.0D, 0.7D * VISCERA_KNOCKBACK_MULTIPLIER.get());
+    }
+
+    public static List<? extends String> visceraOrbEffects() {
+        return VISCERA_ORB_EFFECTS.get();
     }
 
     public static double bolsterHealth() {
