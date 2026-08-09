@@ -22,12 +22,31 @@ const client = read("src/main/java/alku/csrp/client/ClientModEvents.java");
 const mod = read("src/main/java/alku/csrp/Csrp.java");
 
 const checks = {
+  gnat: ["GnatEntity.java", /MAX_LIFETIME_TICKS\s*=\s*1_200/,
+    /return false;[\s\S]*void push\(Entity entity\)[\s\S]*entity == getTarget\(\)/,
+    /convertFeralEndermanHost\(target\)[\s\S]*convertGnatHost\(target\)/,
+    /EffectStacking\.apply\(target, ModMobEffects\.VIRAL, VIRAL_DURATION_TICKS, VIRAL_AMPLIFIER\)/,
+    /distance >= 60\.0F[\s\S]*super\.causeFallDamage/,
+    /FastMeleeAttackGoal[\s\S]*getTicksUntilNextAttack\(\)[\s\S]*return 6;/,
+    /SwimmingDivingGoal[\s\S]*-0\.12D[\s\S]*random\.nextFloat\(\) < 0\.8F/,
+    /ModSounds\.get\("buthol\.boom"\)/],
   lice: ["LiceEntity.java", /MAX_LIFESPAN_TICKS\s*=\s*1200/, /VIRAL_DURATION_TICKS\s*=\s*120/,
-    /VIRAL_AMPLIFIER\s*=\s*2/, /FlyingPathNavigation/, /ChargeAttackGoal/, /discard\(\)/],
+    /VIRAL_AMPLIFIER\s*=\s*2/, /FlyingPathNavigation/, /ChargeAttackGoal/,
+    /void push\(Entity entity\)[\s\S]*entity == getTarget\(\)/,
+    /convertFeralEndermanHost\(target\)[\s\S]*convertGnatHost\(target\)/,
+    /EffectStacking\.apply\(target, ModMobEffects\.VIRAL, VIRAL_DURATION_TICKS, VIRAL_AMPLIFIER\)/,
+    /getMoveControl\(\)\.hasWanted\(\)[\s\S]*random\.nextInt\(7\)/,
+    /setWantedPosition\([\s\S]*0\.25D\)/,
+    /ModSounds\.get\("buthol\.boom"\), 0\.4F/],
   mangler: ["ManglerEntity.java", /MAX_HEALTH,\s*17\.0/, /ARMOR,\s*10\.0/,
     /ATTACK_DAMAGE,\s*9\.0/, /MOVEMENT_SPEED,\s*0\.37/, /onClimbable\(\)/,
     /createAnimatedLeapGoal\(0\.8F,\s*20\)[\s\S]*new LeapAtTargetGoal\(this,\s*0\.4F\)/,
-    /DASH_COOLDOWN_TICKS\s*=\s*10[\s\S]*MAX_DASH_DISTANCE_SQR\s*=\s*225\.0D/],
+    /DASH_COOLDOWN_TICKS\s*=\s*10[\s\S]*MAX_DASH_DISTANCE_SQR\s*=\s*225\.0D/,
+    /WallClimberNavigation[\s\S]*setClimbing\(horizontalCollision && canClimbForTarget\(\)\)/,
+    /FastMeleeAttackGoal[\s\S]*getTicksUntilNextAttack\(\)[\s\S]*return 6;/,
+    /SwimmingDivingGoal[\s\S]*-0\.12D[\s\S]*random\.nextFloat\(\) < 0\.8F/,
+    /movement\.x \* 0\.2D \+ direction\.x \* 0\.8D[\s\S]*movement\.z \* 0\.2D \+ direction\.z \* 0\.8D/,
+    /ModSounds\.get\("small\.step"\)[\s\S]*ModSounds\.get\("nuuh\.growl"\)[\s\S]*ModSounds\.get\("nuuh\.hurt"\)[\s\S]*ModSounds\.get\("nuuh\.death"\)/],
   host: ["HostEntity.java", /createHostAttributes\(50\.0,\s*7\.0,\s*10\.0/,
     /BURROW_DURATION_TICKS/, /performShockwave/, /summonRupters/,
     /ModEntities\.HOSTII/],
@@ -45,6 +64,9 @@ const checks = {
     /BLINK_COOLDOWN_TICKS\s*=\s*200/, /BLINK_LIFE_STEAL_RADIUS\s*=\s*5\.0/,
     /BLINK_HEALTH_DRAIN_FRACTION\s*=\s*0\.5/, /summonVoidOrb/]
 };
+
+expect(entities, /monster\("gnat", GnatEntity::new, 0\.85F, 1\.0F\)/,
+  "Gnat dimensions do not match EntityAta");
 
 for (const [id, [javaFile, ...patterns]] of Object.entries(checks)) {
   const constant = id.toUpperCase();

@@ -1,10 +1,15 @@
 package alku.csrp.entity;
 
+import alku.csrp.effect.EffectStacking;
+import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModMobEffects;
-import net.minecraft.nbt.CompoundTag;
+import alku.csrp.registry.ModParticles;
+import alku.csrp.registry.ModSounds;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -18,6 +23,7 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
@@ -37,12 +43,13 @@ public final class LiceEntity extends PrimitiveParasiteEntity {
 
     private int lifespan;
     private boolean charging;
+    private boolean consumed;
 
     public LiceEntity(EntityType<? extends LiceEntity> type, Level level) {
         super(type, level);
         moveControl = new FlyingMoveControl(this, 20, true);
         setNoGravity(true);
-        xpReward = 5;
+        xpReward = 0;
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -75,6 +82,11 @@ public final class LiceEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
+    protected boolean isValidParasiteTarget(LivingEntity target) {
+        return !(target instanceof WaterAnimal) && super.isValidParasiteTarget(target);
+    }
+
+    @Override
     public void tick() {
         super.tick();
         setNoGravity(true);
@@ -82,22 +94,45 @@ public final class LiceEntity extends PrimitiveParasiteEntity {
             return;
         }
         if (++lifespan > MAX_LIFESPAN_TICKS) {
-            discard();
+            expireAndDiscard();
             return;
         }
 
-        LivingEntity target = getTarget();
-        if (charging && target != null && target.isAlive()
-                && getBoundingBox().inflate(0.15).intersects(target.getBoundingBox())) {
-            target.hurt(damageSources().mobAttack(this), (float) getAttributeValue(Attributes.ATTACK_DAMAGE));
-            target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, VIRAL_DURATION_TICKS, VIRAL_AMPLIFIER), this);
-            discard();
-        }
     }
 
     @Override
-    public boolean doHurtTarget(net.minecraft.world.entity.Entity target) {
+    public boolean doHurtTarget(Entity target) {
         return false;
+    }
+
+    @Override
+    public void push(Entity entity) {
+        super.push(entity);
+        if (entity == getTarget()) {
+            performContactAttack(entity);
+        }
+    }
+
+    private boolean performContactAttack(Entity entity) {
+        if (level().isClientSide || consumed || entity != getTarget()
+                || !(entity instanceof LivingEntity target)
+                || target instanceof Parasite || !target.isAlive()) {
+            return false;
+        }
+        boolean converted = false;
+        if (target.getHealth() <= target.getMaxHealth() * 0.5F) {
+            converted = InfectionMechanics.convertFeralEndermanHost(target)
+                    || InfectionMechanics.convertGnatHost(target);
+        }
+        boolean damaged = false;
+        if (!converted) {
+            damaged = target.hurt(damageSources().mobAttack(this),
+                    (float) getAttributeValue(Attributes.ATTACK_DAMAGE));
+        }
+        EffectStacking.apply(target, ModMobEffects.VIRAL, VIRAL_DURATION_TICKS, VIRAL_AMPLIFIER);
+        contactAndDiscard(converted);
+        charging = false;
+        return converted || damaged;
     }
 
     @Override
@@ -106,17 +141,40 @@ public final class LiceEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putInt("lifespan", lifespan);
-        tag.putBoolean("charging", charging);
+    public void die(DamageSource source) {
+        if (consumed) {
+            return;
+        }
+        super.die(source);
+        expireAndDiscard();
     }
 
-    @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        lifespan = tag.getInt("lifespan");
-        charging = tag.getBoolean("charging");
+    private void expireAndDiscard() {
+        if (consumed || !(level() instanceof net.minecraft.server.level.ServerLevel serverLevel)) {
+            return;
+        }
+        consumed = true;
+        serverLevel.sendParticles(ParticleTypes.DAMAGE_INDICATOR,
+                getX(), getY() + getBbHeight() * 0.5D, getZ(), 4,
+                getBbWidth() * 0.5D, getBbHeight() * 0.5D, getBbWidth() * 0.5D, 0.08D);
+        discard();
+    }
+
+    private void contactAndDiscard(boolean converted) {
+        if (consumed || !(level() instanceof net.minecraft.server.level.ServerLevel serverLevel)) {
+            return;
+        }
+        consumed = true;
+        serverLevel.sendParticles(ParticleTypes.DAMAGE_INDICATOR,
+                getX(), getY() + getBbHeight() * 0.5D, getZ(), 4,
+                getBbWidth() * 0.5D, getBbHeight() * 0.5D, getBbWidth() * 0.5D, 0.08D);
+        if (converted) {
+            serverLevel.sendParticles(ModParticles.ASSIMILATION_SPLASH.get(),
+                    getX(), getY() + getBbHeight() * 0.5D, getZ(), 2,
+                    getBbWidth() * 0.5D, getBbHeight() * 0.5D, getBbWidth() * 0.5D, 0.02D);
+        }
+        playSound(ModSounds.get("buthol.boom"), 0.4F, 1.0F);
+        discard();
     }
 
     @Override
@@ -135,14 +193,15 @@ public final class LiceEntity extends PrimitiveParasiteEntity {
         @Override
         public boolean canUse() {
             LivingEntity target = getTarget();
-            return !charging && target != null && target.isAlive() && distanceToSqr(target) > 1.0
+            return !charging && !getMoveControl().hasWanted() && target != null && target.isAlive()
+                    && distanceToSqr(target) > 1.0
                     && random.nextInt(7) == 0;
         }
 
         @Override
         public boolean canContinueToUse() {
             LivingEntity target = getTarget();
-            return charging && chargeTicks < 50 && target != null && target.isAlive();
+            return charging && getMoveControl().hasWanted() && target != null && target.isAlive();
         }
 
         @Override
@@ -166,25 +225,34 @@ public final class LiceEntity extends PrimitiveParasiteEntity {
             getLookControl().setLookAt(target, 30.0F, 30.0F);
             Vec3 eye = target.getEyePosition();
             getMoveControl().setWantedPosition(eye.x, eye.y, eye.z, 2.0);
+            if (getBoundingBox().inflate(0.15D).intersects(target.getBoundingBox())) {
+                performContactAttack(target);
+            }
         }
     }
 
     private final class RandomFlyGoal extends Goal {
-        private int cooldown;
-
         @Override
         public boolean canUse() {
-            return getTarget() == null && --cooldown <= 0;
+            return getTarget() == null && !getMoveControl().hasWanted() && random.nextInt(7) == 0;
         }
 
         @Override
         public void start() {
-            cooldown = 20 + random.nextInt(40);
-            Vec3 destination = position().add(
-                    random.nextInt(15) - 7,
-                    random.nextInt(11) - 5,
-                    random.nextInt(15) - 7);
-            getMoveControl().setWantedPosition(destination.x, destination.y, destination.z, 0.8);
+            BlockPos origin = blockPosition();
+            for (int attempt = 0; attempt < 3; attempt++) {
+                BlockPos destination = origin.offset(random.nextInt(15) - 7,
+                        random.nextInt(11) - 5, random.nextInt(15) - 7);
+                if (level().isEmptyBlock(destination)) {
+                    getMoveControl().setWantedPosition(destination.getX() + 0.5D,
+                            destination.getY() + 0.5D, destination.getZ() + 0.5D, 0.25D);
+                    if (getTarget() == null) {
+                        getLookControl().setLookAt(destination.getX() + 0.5D,
+                                destination.getY() + 0.5D, destination.getZ() + 0.5D, 180.0F, 20.0F);
+                    }
+                    break;
+                }
+            }
         }
     }
 }

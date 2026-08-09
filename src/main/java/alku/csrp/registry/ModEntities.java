@@ -198,7 +198,7 @@ public final class ModEntities {
             monster("ada_yelloweye", (type, level) -> new AdaptedVariantEntity(type, level,
                     AdaptedVariantEntity.Kind.YELLOWEYE), 1.3F, 2.9F);
     public static final DeferredHolder<EntityType<?>, EntityType<GnatEntity>> GNAT =
-            monster("gnat", GnatEntity::new, 0.55F, 0.45F);
+            monster("gnat", GnatEntity::new, 0.85F, 1.0F);
     public static final DeferredHolder<EntityType<?>, EntityType<CarrierHeavyEntity>> CARRIER_HEAVY =
             monster("carrier_heavy", CarrierHeavyEntity::new, 1.3F, 3.1F);
     public static final DeferredHolder<EntityType<?>, EntityType<CarrierLightEntity>> CARRIER_LIGHT =

@@ -1,32 +1,47 @@
 package alku.csrp.entity;
 
+import alku.csrp.Config;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
 
 public final class ManglerEntity extends PrimitiveParasiteEntity {
+    private static final EntityDataAccessor<Byte> CLIMBING =
+            SynchedEntityData.defineId(ManglerEntity.class, EntityDataSerializers.BYTE);
     @Override
     protected int maxDamageAdaptationHits() {
         return 8;
@@ -74,10 +89,7 @@ public final class ManglerEntity extends PrimitiveParasiteEntity {
 
     public ManglerEntity(EntityType<? extends ManglerEntity> type, Level level) {
         super(type, level);
-        xpReward = 10;
-        if (!level.isClientSide && random.nextFloat() < 0.25F) {
-            variant = random.nextBoolean() ? VIRAL : BLEEDING;
-        }
+        xpReward = 75;
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -91,26 +103,69 @@ public final class ManglerEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
+    protected PathNavigation createNavigation(Level level) {
+        return new WallClimberNavigation(this, level);
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(CLIMBING, (byte) 0);
+    }
+
+    @Override
     protected void registerGoals() {
         super.registerGoals();
+        goalSelector.addGoal(0, new SwimmingDivingGoal());
         goalSelector.addGoal(1, new EvasiveDashGoal());
         goalSelector.addGoal(2, createAnimatedLeapGoal(0.8F, 20));
         goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.4F));
-        goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.3, false));
+        goalSelector.addGoal(4, new FastMeleeAttackGoal());
+    }
+
+    @Override
+    protected boolean isValidParasiteTarget(LivingEntity target) {
+        return !(target instanceof WaterAnimal) && !(target instanceof Animal)
+                && !(target instanceof Villager) && super.isValidParasiteTarget(target);
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        if (!level().isClientSide) {
+            setClimbing(horizontalCollision && canClimbForTarget());
+        }
+    }
+
+    private boolean canClimbForTarget() {
+        LivingEntity target = getTarget();
+        if (target == null) {
+            return true;
+        }
+        if (!hasLineOfSight(target) && distanceToSqr(target) < 100.0D) {
+            return false;
+        }
+        return target.getY() + 1.0D >= getY();
+    }
+
+    @Nullable
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
+                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
+        SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
+        if (random.nextDouble() < Config.variantSpawnChance()
+                || Config.evolutionPhase(level()) >= Config.alwaysVariantPhase()) {
+            variant = random.nextBoolean() ? VIRAL : BLEEDING;
+        }
+        return data;
     }
 
     @Override
     public boolean doHurtTarget(Entity target) {
         boolean hurt = super.doHurtTarget(target);
         if (hurt && target instanceof LivingEntity living) {
-            living.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 3), this);
             if (variant == VIRAL) {
                 living.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 100, 0), this);
-            } else if (variant == BLEEDING) {
-                living.addEffect(new MobEffectInstance(ModMobEffects.BLEED, 100, 0), this);
-            }
-            if (!living.hasEffect(ModMobEffects.COTH) && random.nextFloat() < 0.15F) {
-                living.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, 0), this);
             }
         }
         return hurt;
@@ -127,7 +182,7 @@ public final class ManglerEntity extends PrimitiveParasiteEntity {
 
     @Override
     public boolean onClimbable() {
-        return horizontalCollision || super.onClimbable();
+        return (entityData.get(CLIMBING) & 1) != 0;
     }
 
     @Override
@@ -142,12 +197,22 @@ public final class ManglerEntity extends PrimitiveParasiteEntity {
 
     @Override
     protected void playStepSound(BlockPos pos, BlockState state) {
-        playSound(ModSounds.RUPTER_STEP.get(), 0.3F, getVoicePitch());
+        playSound(ModSounds.get("small.step"), 0.3F, getVoicePitch());
     }
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return null;
+        return ModSounds.get("nuuh.growl");
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource source) {
+        return ModSounds.get("nuuh.hurt");
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return ModSounds.get("nuuh.death");
     }
 
     @Override
@@ -176,6 +241,51 @@ public final class ManglerEntity extends PrimitiveParasiteEntity {
                         default -> state.setAndContinue(moving ? LIMB_SWING : AGE_IN_TICKS);
                     };
                 }));
+    }
+
+    private void setClimbing(boolean climbing) {
+        byte value = entityData.get(CLIMBING);
+        entityData.set(CLIMBING, climbing ? (byte) (value | 1) : (byte) (value & -2));
+    }
+
+    private final class FastMeleeAttackGoal extends MeleeAttackGoal {
+        private FastMeleeAttackGoal() {
+            super(ManglerEntity.this, 1.3D, false);
+        }
+
+        @Override
+        protected int getTicksUntilNextAttack() {
+            return 6;
+        }
+    }
+
+    private final class SwimmingDivingGoal extends Goal {
+        private SwimmingDivingGoal() {
+            setFlags(EnumSet.of(Flag.MOVE));
+            getNavigation().setCanFloat(true);
+        }
+
+        @Override
+        public boolean canUse() {
+            if (!isInWaterOrBubble()) {
+                return false;
+            }
+            LivingEntity target = getTarget();
+            if (target != null && target.isInWaterOrBubble()
+                    && distanceToSqr(getX(), target.getY(), getZ()) < 25.0D
+                    && target.getY() - getY() < -1.0D) {
+                setDeltaMovement(getDeltaMovement().add(0.0D, -0.12D, 0.0D));
+                return false;
+            }
+            return true;
+        }
+
+        @Override
+        public void tick() {
+            if (random.nextFloat() < 0.8F) {
+                getJumpControl().jump();
+            }
+        }
     }
 
     private final class EvasiveDashGoal extends Goal {
@@ -218,8 +328,8 @@ public final class ManglerEntity extends PrimitiveParasiteEntity {
             Vec3 movement = getDeltaMovement();
             double axisX = random.nextBoolean() ? 1.0D : 0.0D;
             double axisZ = axisX == 0.0D ? 1.0D : 0.0D;
-            setDeltaMovement(movement.x * 1.2D + direction.x * 0.8D + axisX,
-                    movement.y, movement.z * 1.2D + direction.z * 0.8D + axisZ);
+            setDeltaMovement(movement.x * 0.2D + direction.x * 0.8D + axisX,
+                    movement.y, movement.z * 0.2D + direction.z * 0.8D + axisZ);
             navigation.stop();
         }
     }
