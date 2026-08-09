@@ -15,8 +15,7 @@ public final class LegacyAuxiliaryEntity extends Entity {
         SOURCE,
         REMAIN,
         GORE,
-        TENDRIL,
-        WAVE
+        TENDRIL
     }
 
     private final Kind kind;
@@ -46,9 +45,9 @@ public final class LegacyAuxiliaryEntity extends Entity {
             return;
         }
         Vec3 movement = getDeltaMovement();
-        if (kind == Kind.GORE || kind == Kind.WAVE) {
+        if (kind == Kind.GORE) {
             setPos(position().add(movement));
-            setDeltaMovement(movement.scale(0.96D).add(0.0D, kind == Kind.GORE ? -0.04D : 0.0D, 0.0D));
+            setDeltaMovement(movement.scale(0.96D).add(0.0D, -0.04D, 0.0D));
         }
         if (tickCount >= lifetime) {
             discard();
@@ -62,7 +61,6 @@ public final class LegacyAuxiliaryEntity extends Entity {
         ParticleOptions particle = switch (kind) {
             case SOURCE, REMAIN, TENDRIL -> ParticleTypes.END_ROD;
             case GORE -> ParticleTypes.WITCH;
-            case WAVE -> ParticleTypes.CLOUD;
         };
         level().addParticle(particle, getX(), getY() + getBbHeight() * 0.5D, getZ(),
                 0.0D, 0.02D, 0.0D);

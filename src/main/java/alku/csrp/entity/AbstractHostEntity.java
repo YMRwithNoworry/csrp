@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import alku.csrp.Config;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
@@ -9,6 +10,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -138,9 +140,20 @@ abstract class AbstractHostEntity extends CrudeParasiteEntity {
     }
 
     protected void performShockwave() {
+        LivingEntity target = getTarget();
+        WaveEntity wave = ModEntities.WAVE.get().create(level());
+        if (target == null || wave == null) {
+            return;
+        }
+        double angle = getYRot() * Mth.DEG_TO_RAD;
+        double distance = 3.0D * Mth.cos(Mth.PI / 18.0F);
+        wave.moveTo(getX() - Mth.sin((float) angle) * distance, getY(),
+                getZ() + Mth.cos((float) angle) * distance, getYRot(), 0.0F);
+        wave.configure(getAttributeValue(Attributes.ATTACK_DAMAGE) * 0.3D,
+                Config.primitiveMinimumDamage(), 1, 60, target);
+        level().addFreshEntity(wave);
         triggerAttackAnimation();
-        float damage = (float) Math.max(1.0, getAttributeValue(Attributes.ATTACK_DAMAGE) * 0.3);
-        hurtNearby(this, shockwaveRadius, damage, true);
+        playSound(ModSounds.MOB_SWIPE.get(), 2.0F, 1.0F);
     }
 
     protected void spawnProjectile(ParasiteProjectileEntity.Mode mode, LivingEntity target, double speed,
@@ -307,7 +320,7 @@ abstract class AbstractHostEntity extends CrudeParasiteEntity {
             if (target != null) {
                 getLookControl().setLookAt(target, 30.0F, 30.0F);
             }
-            if (chargeTicks == 60) {
+            if (chargeTicks == 20) {
                 performShockwave();
             }
         }

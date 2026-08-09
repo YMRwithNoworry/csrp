@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import alku.csrp.Config;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.core.BlockPos;
@@ -12,6 +13,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.util.Mth;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -854,7 +856,8 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
 
         @Override
         public boolean canContinueToUse() {
-            return chargeTicks < 60 && getTarget() != null;
+            LivingEntity target = getTarget();
+            return chargeTicks < 120 && target != null && target.getY() == getY();
         }
 
         @Override
@@ -871,20 +874,13 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
                 return;
             }
             getLookControl().setLookAt(target, 30.0F, 30.0F);
-            if (++chargeTicks == 20 || chargeTicks == 40) {
-                Vec3 direction = target.position().subtract(position());
-                if (direction.lengthSqr() > 0.001D) {
-                    direction = direction.normalize();
-                    for (LivingEntity victim : level().getEntitiesOfClass(LivingEntity.class,
-                            getBoundingBox().expandTowards(direction.scale(12.0D)).inflate(1.25D),
-                            DeterrentParasiteEntity.this::isValidParasiteTarget)) {
-                        if (hasLineOfSight(victim)) {
-                            victim.hurt(damageSources().mobAttack(DeterrentParasiteEntity.this), 12.0F);
-                            break;
-                        }
-                    }
-                }
-                level().addParticle(ParticleTypes.FLAME, getX(), getY() + 0.5D, getZ(), 0.0D, 0.05D, 0.0D);
+            chargeTicks++;
+            if (chargeTicks <= 40 && level() instanceof ServerLevel serverLevel) {
+                serverLevel.sendParticles(ParticleTypes.FLAME, getX(), getY() + 0.5D, getZ(),
+                        2, 0.35D, 0.35D, 0.35D, 0.02D);
+            }
+            if (chargeTicks == 40 || chargeTicks == 80) {
+                spawnKyphosisWave(target);
             }
         }
 
@@ -893,6 +889,23 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
             abilityCooldown = 180;
             setSpecialAction(SpecialAction.NONE);
         }
+    }
+
+    private void spawnKyphosisWave(LivingEntity target) {
+        WaveEntity wave = ModEntities.WAVE.get().create(level());
+        if (wave == null) {
+            return;
+        }
+        double angle = getYRot() * Mth.DEG_TO_RAD;
+        double distance = 2.0D * Mth.cos(Mth.PI / 18.0F);
+        wave.moveTo(getX() - Mth.sin((float) angle) * distance, getY(),
+                getZ() + Mth.cos((float) angle) * distance, getYRot(), 0.0F);
+        if (!level().noCollision(wave)) {
+            return;
+        }
+        wave.configure(getAttributeValue(Attributes.ATTACK_DAMAGE) * 0.3D,
+                Config.primitiveMinimumDamage(), 1, 12, target);
+        level().addFreshEntity(wave);
     }
 
     private final class SeizerHoldGoal extends Goal {

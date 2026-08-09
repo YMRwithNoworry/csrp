@@ -62,6 +62,7 @@ import alku.csrp.entity.SummonerEntity;
 import alku.csrp.entity.ThrallEntity;
 import alku.csrp.entity.VerminEntity;
 import alku.csrp.entity.VisceraEntity;
+import alku.csrp.entity.WaveEntity;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.Holder;
 import net.minecraft.world.entity.SpawnPlacementTypes;
@@ -93,6 +94,7 @@ public final class CommonModEvents {
         event.put(ModEntities.PRI_SUMMONER.get(), SummonerEntity.createAttributes().build());
         event.put(ModEntities.PRI_VERMIN.get(), VerminEntity.createAttributes().build());
         event.put(ModEntities.PRI_VISCERA.get(), VisceraEntity.createAttributes().build());
+        event.put(ModEntities.WAVE.get(), WaveEntity.createAttributes().build());
         event.put(ModEntities.PRI_ARACHNIDA.get(), PrimitiveVariantEntity.createAttributes(
                 PrimitiveVariantEntity.Kind.ARACHNIDA).build());
         event.put(ModEntities.PRI_BOLSTER.get(), PrimitiveVariantEntity.createAttributes(

@@ -70,6 +70,7 @@ import alku.csrp.entity.ThrallEntity;
 import alku.csrp.entity.ToxicCloudEntity;
 import alku.csrp.entity.VerminEntity;
 import alku.csrp.entity.VisceraEntity;
+import alku.csrp.entity.WaveEntity;
 import alku.csrp.entity.MovingFleshEntity;
 import alku.csrp.entity.NadeEntity;
 import alku.csrp.entity.OrbBoomEntity;
@@ -562,8 +563,11 @@ public final class ModEntities {
             auxiliary("gore", LegacyAuxiliaryEntity.Kind.GORE, 0.4F, 0.4F, 4, 3);
     public static final DeferredHolder<EntityType<?>, EntityType<LegacyAuxiliaryEntity>> TENDRIL =
             auxiliary("tendril", LegacyAuxiliaryEntity.Kind.TENDRIL, 1.0F, 1.0F, 4, 3);
-    public static final DeferredHolder<EntityType<?>, EntityType<LegacyAuxiliaryEntity>> WAVE =
-            auxiliary("wave", LegacyAuxiliaryEntity.Kind.WAVE, 1.5F, 0.2F, 4, 3);
+    public static final DeferredHolder<EntityType<?>, EntityType<WaveEntity>> WAVE =
+            ENTITIES.register("wave", () -> EntityType.Builder
+                    .<WaveEntity>of(WaveEntity::new, MobCategory.MISC)
+                    .sized(1.5F, 0.2F).clientTrackingRange(4).updateInterval(3)
+                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "wave").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<NadeEntity>> NADE =
             ENTITIES.register("nade", () -> EntityType.Builder
                     .<NadeEntity>of(NadeEntity::new, MobCategory.MISC)
