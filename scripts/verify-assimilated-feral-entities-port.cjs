@@ -91,10 +91,10 @@ expect(meltSystem, /movingFleshCount\s*>=\s*1\s*&&\s*movingFleshCount\s*<=\s*3/,
   "Moving Flesh shortcut condition is missing");
 expect(movingFlesh, /EntityDataAccessor<Integer> MERGE_VALUE/,
   "Moving Flesh assimilated value is missing");
-expect(movingFlesh, /random\.nextInt\(9\)/,
-  "Moving Flesh legacy nine-entry primitive table is missing");
-expect(movingFlesh, /SPAWN_HEALTH_FRACTION\s*=\s*0\.5F/,
-  "Moving Flesh primitive spawn health is missing");
+expect(movingFlesh, /MobsConfig\.mergeSystemMobList\(\)/,
+  "Moving Flesh configurable primitive table is missing");
+expect(movingFlesh, /MobsConfig\.mergeSystemMobHealth\(\)/,
+  "Moving Flesh configurable primitive spawn health is missing");
 expect(variants, /HOST_SKELETON_KILLS\s*=\s*5[\s\S]*?transformToHost\(level\)/,
   "Assimilated Villager Host conversion is missing");
 expect(simHuman, /HOST_SKELETON_KILLS\s*=\s*5[\s\S]*?transformToHost\(level\)/,

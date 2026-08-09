@@ -23,7 +23,7 @@ import net.minecraft.world.phys.Vec3;
 import java.util.EnumSet;
 import java.util.UUID;
 
-/** Shared staged digging movement used by the original and adapted Zaa and Wymo forms. */
+/** Shared staged digging movement used by Quac and the original and adapted Zaa and Wymo forms. */
 public abstract class BurrowingVariantEntity extends PrimitiveParasiteEntity {
     private static final byte BURROW_NONE = 0;
     private static final byte BURROW_DIVING = 1;
@@ -190,6 +190,8 @@ public abstract class BurrowingVariantEntity extends PrimitiveParasiteEntity {
             segment.bodyChainInitialized = true;
             segment.setPersistenceRequired();
             segment.moveTo(previous.getX(), previous.getY(), previous.getZ(), previous.getYRot(), 0.0F);
+            segment.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(segment.blockPosition()),
+                    net.minecraft.world.entity.MobSpawnType.MOB_SUMMONED, null);
             serverLevel.addFreshEntity(segment);
             previous = segment;
         }

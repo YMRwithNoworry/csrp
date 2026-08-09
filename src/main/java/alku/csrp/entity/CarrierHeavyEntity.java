@@ -1,11 +1,17 @@
 package alku.csrp.entity;
 
+import alku.csrp.config.MobsConfig;
+import alku.csrp.registry.ModSounds;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.level.Level;
 import software.bernie.geckolib.animation.RawAnimation;
+
+import java.util.List;
 
 public final class CarrierHeavyEntity extends CarrierEntity {
     private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
@@ -14,8 +20,8 @@ public final class CarrierHeavyEntity extends CarrierEntity {
             "func_78087_a.limb_swing");
 
     public CarrierHeavyEntity(EntityType<? extends CarrierHeavyEntity> type, Level level) {
-        super(type, level, 70, 7.0, 1, 1200, 600);
-        xpReward = 18;
+        super(type, level, 70, 7.0, 2, 1200, 600);
+        xpReward = 30;
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -35,7 +41,25 @@ public final class CarrierHeavyEntity extends CarrierEntity {
     }
 
     @Override
-    protected int gnatSpawnCount() {
-        return 6;
+    protected boolean griefingEnabled() {
+        return MobsConfig.carrierHeavyGriefing();
+    }
+
+    @Override
+    protected List<? extends String> spawnTable() {
+        return MobsConfig.carrierHeavyMobTable();
+    }
+
+    @Override
+    protected void onVariantActivated() {
+        AttributeInstance speed = getAttribute(Attributes.MOVEMENT_SPEED);
+        if (speed != null) {
+            speed.setBaseValue(0.3D);
+        }
+    }
+
+    @Override
+    protected SoundEvent explosionSound() {
+        return ModSounds.RATHOL_BOOM.get();
     }
 }

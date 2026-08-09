@@ -3,9 +3,11 @@ package alku.csrp.config;
 import alku.csrp.entity.AdaptedVariantEntity;
 import alku.csrp.entity.AncientParasiteEntity;
 import alku.csrp.entity.AssimilatedParasiteEntity;
+import alku.csrp.entity.MovingFleshEntity;
 import alku.csrp.entity.PreeminentParasiteEntity;
 import alku.csrp.entity.PrimitiveParasiteEntity;
 import alku.csrp.entity.PureParasiteEntity;
+import alku.csrp.entity.WorkerEntity;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
@@ -52,6 +54,46 @@ public final class MobsConfig {
             "Ancient Drop Pod effects: seconds;amplifier;effect_id.", MobsConfig::validAreaEffect);
     private static final ModConfigSpec.DoubleValue PREEMINENT_FOLLOW = followRange(
             "parasitePropertiesPreeminent", "preeminentFollow", 80.0D);
+
+    private static final ModConfigSpec.BooleanValue CARRIER_HEAVY_GRIEFING = booleanValue(
+            "srparasites:carrier_heavy", "carrierHeavyGriefing", false,
+            "Whether Heavy Carriers may destroy blocks when exploding.");
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> CARRIER_HEAVY_MOBS = stringList(
+            "srparasites:carrier_heavy", "carrierHeavyMobTable", List.of(
+                    "srparasites:rupter;4;1", "srparasites:buglin;5;2", "srparasites:gnat;6;2",
+                    "srparasites:pri_yelloweye;2;1"),
+            "Heavy Carrier payload table: entity_id;maximum;minimum.", MobsConfig::validSpawnTableEntry);
+    private static final ModConfigSpec.BooleanValue CARRIER_LIGHT_GRIEFING = booleanValue(
+            "srparasites:carrier_light", "carrierLightGriefing", false,
+            "Whether Light Carriers may destroy blocks when exploding.");
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> CARRIER_LIGHT_MOBS = stringList(
+            "srparasites:carrier_light", "carrierLightMobTable", List.of(
+                    "srparasites:rupter;3;2", "srparasites:buglin;4;3", "srparasites:gnat;5;3"),
+            "Light Carrier payload table: entity_id;maximum;minimum.", MobsConfig::validSpawnTableEntry);
+    private static final ModConfigSpec.BooleanValue CARRIER_FLYING_GRIEFING = booleanValue(
+            "srparasites:carrier_flying", "carrierFlyingGriefing", false,
+            "Whether Flying Carriers may destroy blocks when exploding.");
+    private static final ModConfigSpec.IntValue CARRIER_FLYING_MAX_Y = intValue(
+            "srparasites:carrier_flying", "carrierFlyingMaxY", 256, 1, 320,
+            "Maximum flight height for the Flying Carrier.");
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> CARRIER_FLYING_MOBS = stringList(
+            "srparasites:carrier_flying", "carrierFlyingMobTable", List.of(
+                    "srparasites:rupter;3;1", "srparasites:buglin;3;2"),
+            "Flying Carrier payload table: entity_id;maximum;minimum.", MobsConfig::validSpawnTableEntry);
+    private static final ModConfigSpec.BooleanValue MERGE_RANDOM = booleanValue(
+            "merge_System", "mergeSystemRandom", true,
+            "Whether Moving Flesh always selects a random entry from its mob table.");
+    private static final ModConfigSpec.DoubleValue MERGE_HEALTH = value(
+            "merge_System", "mergeSystemMobHealth", 0.5D, 0.0D, 1.0D,
+            "Health fraction of a primitive spawned by Moving Flesh.");
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> MERGE_MOB_TABLE = stringList(
+            "merge_System", "mergeSystemMobList", List.of(
+                    "srparasites:pri_summoner;0", "srparasites:pri_longarms;0",
+                    "srparasites:pri_reeker;0", "srparasites:pri_manducater;0",
+                    "srparasites:pri_bolster;0", "srparasites:pri_yelloweye;0",
+                    "srparasites:pri_arachnida;0", "srparasites:pri_vermin;0",
+                    "srparasites:pri_tozoon;0"),
+            "Moving Flesh merge table: entity_id;merge_value.", MobsConfig::validMergeMobEntry);
 
     private static final ModConfigSpec.DoubleValue ARACHNIDA_HEALTH_MULTIPLIER = value(
             "srparasites:arachnida", "arachnidaHealthMultiplier", 1.0D, 0.01D, 100.0D,
@@ -341,6 +383,8 @@ public final class MobsConfig {
     }
 
     public static double followRange(LivingEntity entity) {
+        if (entity instanceof WorkerEntity) return -1.0D;
+        if (entity instanceof MovingFleshEntity) return ADAPTED_FOLLOW.get();
         if (entity instanceof PreeminentParasiteEntity) return PREEMINENT_FOLLOW.get();
         if (entity instanceof AncientParasiteEntity) return ANCIENT_FOLLOW.get();
         if (entity instanceof PureParasiteEntity) return PURE_FOLLOW.get();
@@ -372,6 +416,46 @@ public final class MobsConfig {
 
     public static int ancientDreadnautPodMaxMobs() {
         return ANCIENT_POD_MAX_MOBS.get();
+    }
+
+    public static boolean carrierHeavyGriefing() {
+        return CARRIER_HEAVY_GRIEFING.get();
+    }
+
+    public static List<? extends String> carrierHeavyMobTable() {
+        return CARRIER_HEAVY_MOBS.get();
+    }
+
+    public static boolean carrierLightGriefing() {
+        return CARRIER_LIGHT_GRIEFING.get();
+    }
+
+    public static List<? extends String> carrierLightMobTable() {
+        return CARRIER_LIGHT_MOBS.get();
+    }
+
+    public static boolean carrierFlyingGriefing() {
+        return CARRIER_FLYING_GRIEFING.get();
+    }
+
+    public static int carrierFlyingMaxY() {
+        return CARRIER_FLYING_MAX_Y.get();
+    }
+
+    public static List<? extends String> carrierFlyingMobTable() {
+        return CARRIER_FLYING_MOBS.get();
+    }
+
+    public static boolean mergeSystemRandom() {
+        return MERGE_RANDOM.get();
+    }
+
+    public static double mergeSystemMobHealth() {
+        return MERGE_HEALTH.get();
+    }
+
+    public static List<? extends String> mergeSystemMobList() {
+        return MERGE_MOB_TABLE.get();
     }
 
     public static boolean ancientPodGriefing() {
@@ -711,6 +795,39 @@ public final class MobsConfig {
         }
         try {
             return Double.parseDouble(parts[1].trim()) >= 0.0D;
+        } catch (NumberFormatException ignored) {
+            return false;
+        }
+    }
+
+    private static boolean validSpawnTableEntry(Object value) {
+        if (!(value instanceof String entry)) {
+            return false;
+        }
+        String[] parts = entry.split(";", -1);
+        if (parts.length != 3 || net.minecraft.resources.ResourceLocation.tryParse(parts[0].trim()) == null) {
+            return false;
+        }
+        try {
+            int maximum = Integer.parseInt(parts[1].trim());
+            int minimum = Integer.parseInt(parts[2].trim());
+            return minimum >= 0 && maximum >= minimum;
+        } catch (NumberFormatException ignored) {
+            return false;
+        }
+    }
+
+    private static boolean validMergeMobEntry(Object value) {
+        if (!(value instanceof String entry)) {
+            return false;
+        }
+        String[] parts = entry.split(";", -1);
+        if (parts.length != 2 || net.minecraft.resources.ResourceLocation.tryParse(parts[0].trim()) == null) {
+            return false;
+        }
+        try {
+            Integer.parseInt(parts[1].trim());
+            return true;
         } catch (NumberFormatException ignored) {
             return false;
         }

@@ -18,7 +18,7 @@ import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.block.state.BlockState;
 import software.bernie.geckolib.animation.AnimatableManager;
 
 import java.util.EnumSet;
@@ -45,10 +45,10 @@ public final class WorkerEntity extends PrimitiveParasiteEntity {
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 10.0D)
-                .add(Attributes.ARMOR, 5.0D)
-                .add(Attributes.ATTACK_DAMAGE, 5.0D)
-                .add(Attributes.KNOCKBACK_RESISTANCE, 2.0D)
+                .add(Attributes.MAX_HEALTH, 7.0D)
+                .add(Attributes.ARMOR, 1.5D)
+                .add(Attributes.ATTACK_DAMAGE, 3.0D)
+                .add(Attributes.KNOCKBACK_RESISTANCE, 0.05D)
                 .add(Attributes.MOVEMENT_SPEED, 0.30D)
                 .add(Attributes.FOLLOW_RANGE, 16.0D);
     }
@@ -124,13 +124,16 @@ public final class WorkerEntity extends PrimitiveParasiteEntity {
         for (int x = current.getX() - SEARCH_RANGE; x <= current.getX() + SEARCH_RANGE; x++) {
             for (int z = current.getZ() - SEARCH_RANGE; z <= current.getZ() + SEARCH_RANGE; z++) {
                 int stage = structureStage(x, z);
-                if (stage == 0 || colonyOrigin.distSqr(new BlockPos(x, colonyOrigin.getY(), z))
+                if (stage == 0 || colonyOrigin.distSqr(new BlockPos(x, current.getY(), z))
                         > (double) colonyRadius * colonyRadius) {
                     continue;
                 }
-                int surfaceY = serverLevel.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
-                BlockPos placement = new BlockPos(x, surfaceY, z);
-                if (!serverLevel.getBlockState(placement).canBeReplaced() || hasNearbyColonyStructure(placement)) {
+                BlockPos floor = findFloor(serverLevel, new BlockPos(x, current.getY(), z), 5);
+                if (floor == null) {
+                    continue;
+                }
+                BlockPos placement = floor.below();
+                if (hasNearbyColonyStructure(floor)) {
                     continue;
                 }
                 serverLevel.setBlockAndUpdate(placement, ModBlocks.PARASITE_STRUCTURE.get().defaultBlockState()
@@ -139,6 +142,26 @@ public final class WorkerEntity extends PrimitiveParasiteEntity {
             }
         }
         return false;
+    }
+
+    /** Mirrors EntityKol's five-step getFloor search: find an air block immediately above a solid floor. */
+    private static BlockPos findFloor(ServerLevel level, BlockPos start, int steps) {
+        if (start.getY() <= 2) {
+            return null;
+        }
+        return findFloorStep(level, start, steps);
+    }
+
+    private static BlockPos findFloorStep(ServerLevel level, BlockPos start, int steps) {
+        if (steps <= 0) {
+            return null;
+        }
+        BlockState state = level.getBlockState(start);
+        if (state.isAir()) {
+            return !level.getBlockState(start.below()).isAir()
+                    ? start : findFloorStep(level, start.below(), steps - 1);
+        }
+        return findFloorStep(level, start.above(), steps - 1);
     }
 
     private boolean hasNearbyColonyStructure(BlockPos placement) {
@@ -155,7 +178,7 @@ public final class WorkerEntity extends PrimitiveParasiteEntity {
 
     private static int structureStage(int x, int z) {
         if (Math.floorMod(x, DEFENCE_GRID) == 0 && Math.floorMod(z, DEFENCE_GRID) == 0
-                && (Math.floorMod(x, BUILDING_GRID) != 0 || Math.floorMod(z, BUILDING_GRID) != 0)) {
+                && Math.floorMod(x, BUILDING_GRID) != 0 && Math.floorMod(z, BUILDING_GRID) != 0) {
             return 2;
         }
         return Math.floorMod(x, BUILDING_GRID) == 0 && Math.floorMod(z, BUILDING_GRID) == 0 ? 1 : 0;

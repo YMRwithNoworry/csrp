@@ -204,7 +204,7 @@ public final class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<CarrierLightEntity>> CARRIER_LIGHT =
             monster("carrier_light", CarrierLightEntity::new, 0.85F, 2.3F);
     public static final DeferredHolder<EntityType<?>, EntityType<CarrierFlyingEntity>> CARRIER_FLYING =
-            monster("carrier_flying", CarrierFlyingEntity::new, 1.4F, 2.4F);
+            monster("carrier_flying", CarrierFlyingEntity::new, 1.4F, 2.4F, 2.4F);
     public static final DeferredHolder<EntityType<?>, EntityType<CarrierWormEntity>> CARRIER_WORM =
             monster("carrier_worm", CarrierWormEntity::new, 1.321F, 1.2F, 1.0F);
     public static final DeferredHolder<EntityType<?>, EntityType<CruxEntity>> CRUX =

@@ -6,6 +6,7 @@ import alku.csrp.entity.AncientParasiteEntity;
 import alku.csrp.entity.AssimilatedDragonEntity;
 import alku.csrp.entity.AssimilatedEndermanEntity;
 import alku.csrp.entity.BurrowingVariantEntity;
+import alku.csrp.entity.CarrierEntity;
 import alku.csrp.entity.PreeminentParasiteEntity;
 import alku.csrp.entity.PrimitiveVariantEntity;
 import alku.csrp.entity.PureParasiteEntity;
@@ -17,6 +18,10 @@ import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.cache.object.GeoBone;
 
 public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends ParasiteGeoModel<T> {
+    private static final ResourceLocation CARRIER_HEAVY_VARIANT_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/ratholone.png");
+    private static final ResourceLocation CARRIER_FLYING_VARIANT_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/butholone.png");
     private static final ResourceLocation CARRIER_VARIANT_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/vestare.png");
     private static final ResourceLocation HAUNTER_VARIANT_TEXTURE =
@@ -70,6 +75,15 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
     @Override public ResourceLocation getModelResource(T animatable) { return model; }
     @Override
     public ResourceLocation getTextureResource(T animatable) {
+        if (animatable instanceof CarrierEntity carrier && carrier.getSkin() == 1) {
+            String id = BuiltInRegistries.ENTITY_TYPE.getKey(carrier.getType()).getPath();
+            if (id.equals("carrier_heavy")) {
+                return CARRIER_HEAVY_VARIANT_TEXTURE;
+            }
+            if (id.equals("carrier_flying")) {
+                return CARRIER_FLYING_VARIANT_TEXTURE;
+            }
+        }
         if (animatable instanceof AssimilatedEndermanEntity enderman && enderman.isShrimpFed()) {
             return SHRIMP_FED_ENDERMAN_TEXTURE;
         }

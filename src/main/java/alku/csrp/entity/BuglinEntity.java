@@ -22,6 +22,7 @@ import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Creeper;
@@ -89,11 +90,12 @@ public class BuglinEntity extends Monster implements GeoEntity, Parasite {
     @Override
     protected void registerGoals() {
         goalSelector.addGoal(0, new FloatGoal(this));
-        goalSelector.addGoal(1, new AvoidEntityGoal<>(this, LivingEntity.class, 8.0F, 1.0, 1.2,
+        goalSelector.addGoal(1, new AvoidEntityGoal<>(this, LivingEntity.class, 8.0F, 1.0, 1.0,
                 this::shouldAvoid));
         goalSelector.addGoal(6, new ParasiteFollowGoal(this));
         goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 1.0));
         goalSelector.addGoal(4, new RandomLookAroundGoal(this));
+        targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
     }
 
     private boolean shouldAvoid(LivingEntity entity) {
@@ -140,6 +142,13 @@ public class BuglinEntity extends Monster implements GeoEntity, Parasite {
                 return;
             }
             rupter.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+            rupter.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
+                    MobSpawnType.MOB_SUMMONED, null);
+            rupter.setCustomName(getCustomName());
+            rupter.setCustomNameVisible(isCustomNameVisible());
+            if (isPersistenceRequired()) {
+                rupter.setPersistenceRequired();
+            }
             serverLevel.addFreshEntity(rupter);
             playSound(ModSounds.BUGLIN_GROW.get(), 1.0F, 1.0F);
             discard();

@@ -47,6 +47,8 @@ expect(entity, /ATTACK_DAMAGE,\s*3\.0/, "legacy attack damage is missing");
 expect(entity, /KNOCKBACK_RESISTANCE,\s*0\.05/, "legacy knockback resistance is missing");
 expect(entity, /MOVEMENT_SPEED,\s*0\.2/, "legacy movement speed is missing");
 expect(entity, /AvoidEntityGoal<.*LivingEntity/, "legacy selective avoidance goal is missing");
+expect(entity, /AvoidEntityGoal<.*8\.0F,\s*1\.0,\s*1\.0/, "legacy Buglin avoid speed is wrong");
+expect(entity, /HurtByTargetGoal\(this\)\.setAlertOthers\(\)/, "Buglin hurt-by target alert is missing");
 expect(entity, /WaterAvoidingRandomStrollGoal/, "wandering AI is missing");
 expect(entity, /FloatGoal/, "swimming AI is missing");
 expect(entity, /100,\s*0/, "legacy COTH duration/amplifier is missing");

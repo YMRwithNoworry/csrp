@@ -1078,8 +1078,8 @@ for (const [className, source] of [
 }
 if (!movingFlesh.includes("EntityDataAccessor<Integer> MERGE_VALUE")
     || !movingFlesh.includes("setMergeValue(getMergeValue() + other.getMergeValue())")
-    || !movingFlesh.includes("random.nextInt(9)")
-    || !movingFlesh.includes("SPAWN_HEALTH_FRACTION = 0.5F")) {
+    || !movingFlesh.includes("MobsConfig.mergeSystemMobList()")
+    || !movingFlesh.includes("MobsConfig.mergeSystemMobHealth()")) {
   failures.push("MovingFleshEntity: legacy merge value, mob table, or spawn health is incomplete");
 }
 if (!assimilatedVariant.includes("HOST_SKELETON_KILLS = 5")

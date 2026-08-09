@@ -3,6 +3,7 @@ package alku.csrp.client.renderer;
 import alku.csrp.Csrp;
 import alku.csrp.client.model.PrimitiveParasiteModel;
 import alku.csrp.entity.AdaptedVariantEntity;
+import alku.csrp.entity.CarrierEntity;
 import alku.csrp.entity.MeltableAssimilated;
 import alku.csrp.entity.PrimitiveVariantEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -50,6 +51,16 @@ public final class PrimitiveParasiteRenderer<T extends Mob & GeoEntity> extends 
                           float partialTick, int packedLight, int packedOverlay, int colour) {
         if (entity instanceof MeltableAssimilated meltable && meltable.isMelting()) {
             poseStack.scale(1.0F, meltable.getMeltRenderScale(partialTick), 1.0F);
+        }
+        if (entity instanceof CarrierEntity carrier) {
+            float swell = carrier.getSwellProgress(partialTick);
+            float pulse = 1.0F + Mth.sin(swell * 100.0F) * swell * 0.01F;
+            swell = Mth.clamp(swell, 0.0F, 1.0F);
+            swell *= swell;
+            swell *= swell;
+            float horizontalScale = (1.0F + swell * 0.4F) * pulse;
+            float verticalScale = (1.0F + swell * 0.1F) / pulse;
+            poseStack.scale(horizontalScale, verticalScale, horizontalScale);
         }
         super.preRender(poseStack, entity, model, bufferSource, buffer, isReRender, partialTick,
                 packedLight, packedOverlay, colour);

@@ -1,13 +1,15 @@
 package alku.csrp.entity;
 
-import alku.csrp.registry.ModEntities;
+import alku.csrp.config.MobsConfig;
 import alku.csrp.registry.ModSounds;
 import alku.csrp.world.EvolutionSystem;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
@@ -49,23 +51,25 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
     private static final float BASE_HEIGHT = 0.5F;
     private static final int REQUIRED_MERGES = 4;
     private static final int EVOLUTION_DELAY_TICKS = 70;
+    private static final int EVOLUTION_FUSE_INCREMENT = 2;
     private static final int AUTO_EVOLUTION_AGE_TICKS = 800;
     private static final int MERGE_COOLDOWN_TICKS = 20;
-    private static final float REGEN_PER_SECOND = 0.125F;
-    private static final float SPAWN_HEALTH_FRACTION = 0.5F;
+    private static final float REGEN_PER_TICK = 0.007F;
     private static final EntityDataAccessor<Integer> MERGE_COUNT = SynchedEntityData.defineId(
             MovingFleshEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> MERGE_VALUE = SynchedEntityData.defineId(
             MovingFleshEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Float> RENDER_SCALE = SynchedEntityData.defineId(
             MovingFleshEntity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Integer> EVOLUTION_FUSE = SynchedEntityData.defineId(
+            MovingFleshEntity.class, EntityDataSerializers.INT);
     private final RawAnimation AGE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
     private final RawAnimation LIMB = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
 
     private float targetScale = 1.0F;
     private int mergeCooldown;
-    private int evolutionDelay;
     private int mergeContacts;
+    private int mergeContactCooldown;
     private float evolutionFlashIntensity = 0.0F;
 
     public MovingFleshEntity(EntityType<? extends MovingFleshEntity> type, Level level) {
@@ -87,6 +91,7 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
         builder.define(MERGE_COUNT, 1);
         builder.define(MERGE_VALUE, (1 + random.nextInt(2)) * 2);
         builder.define(RENDER_SCALE, 1.0F);
+        builder.define(EVOLUTION_FUSE, 0);
     }
 
     @Override
@@ -104,16 +109,16 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
         super.tick();
         if (level().isClientSide) {
             // 客户端：更新进化闪烁效果
-            if (evolutionDelay > 0) {
-                float progress = 1.0F - (evolutionDelay / (float) EVOLUTION_DELAY_TICKS);
+            if (getEvolutionFuse() > 0) {
+                float progress = 1.0F - (getEvolutionFuse() / (float) EVOLUTION_DELAY_TICKS);
                 evolutionFlashIntensity = progress;
             } else {
                 evolutionFlashIntensity = 0.0F;
             }
             return;
         }
-        if (tickCount % 20 == 0 && getHealth() < getMaxHealth()) {
-            heal(REGEN_PER_SECOND);
+        if (getHealth() > 0.0F && getHealth() < getMaxHealth()) {
+            heal(REGEN_PER_TICK);
         }
         if (isInWaterOrBubble() && tickCount % 10 == 0) {
             Vec3 movement = getDeltaMovement();
@@ -122,8 +127,13 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
         if (getRenderScale(1.0F) < targetScale) {
             entityData.set(RENDER_SCALE, Math.min(targetScale, getRenderScale(1.0F) + 0.01F));
         }
-        if (evolutionDelay > 0) {
-            if (--evolutionDelay == 0) {
+        if (mergeContactCooldown > 0) {
+            mergeContactCooldown--;
+        }
+        if (getEvolutionFuse() > 0) {
+            int remaining = Math.max(0, getEvolutionFuse() - EVOLUTION_FUSE_INCREMENT);
+            entityData.set(EVOLUTION_FUSE, remaining);
+            if (remaining == 0) {
                 evolveToPrimitive();
             }
             return;
@@ -140,7 +150,11 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
         if (!(target instanceof MovingFleshEntity other) || !canMergePartner(other)) {
             return false;
         }
+        if (mergeContactCooldown > 0) {
+            return true;
+        }
         mergeContacts++;
+        mergeContactCooldown = 20;
         if (mergeContacts < 3) {
             return true;
         }
@@ -186,6 +200,10 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
         return entityData.get(MERGE_VALUE);
     }
 
+    public int getEvolutionFuse() {
+        return entityData.get(EVOLUTION_FUSE);
+    }
+
     public void setMergeValue(int value) {
         entityData.set(MERGE_VALUE, Math.max(0, value));
     }
@@ -226,8 +244,9 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
         tag.putFloat("render_scale", getRenderScale(1.0F));
         tag.putFloat("target_scale", targetScale);
         tag.putInt("merge_cooldown", mergeCooldown);
-        tag.putInt("evolution_delay", evolutionDelay);
+        tag.putInt("evolution_delay", getEvolutionFuse());
         tag.putInt("merge_contacts", mergeContacts);
+        tag.putInt("merge_contact_cooldown", mergeContactCooldown);
         tag.putFloat("evolution_flash_intensity", evolutionFlashIntensity);
     }
 
@@ -241,8 +260,9 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
         entityData.set(RENDER_SCALE, Math.max(1.0F, tag.getFloat("render_scale")));
         targetScale = Math.max(entityData.get(RENDER_SCALE), tag.getFloat("target_scale"));
         mergeCooldown = tag.getInt("merge_cooldown");
-        evolutionDelay = tag.getInt("evolution_delay");
+        entityData.set(EVOLUTION_FUSE, Math.max(0, tag.getInt("evolution_delay")));
         mergeContacts = tag.getInt("merge_contacts");
+        mergeContactCooldown = Math.max(0, tag.getInt("merge_contact_cooldown"));
         evolutionFlashIntensity = tag.getFloat("evolution_flash_intensity");
     }
 
@@ -262,6 +282,10 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
         setMergeValue(getMergeValue() + other.getMergeValue());
         targetScale += 0.3F;
         mergeCooldown = MERGE_COOLDOWN_TICKS;
+        var speed = getAttribute(Attributes.MOVEMENT_SPEED);
+        if (speed != null) {
+            speed.setBaseValue(Math.max(0.0D, speed.getValue() - 0.01D));
+        }
         playSound(ModSounds.MOVING_FLESH_EAT.get(), 1.0F, 1.0F);
         playSound(ModSounds.MOVING_FLESH_GROW.get(), 1.0F, 1.0F);
         if (getCustomName() == null && other.getCustomName() != null) {
@@ -269,18 +293,14 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
             setCustomNameVisible(other.isCustomNameVisible());
         }
         other.discard();
-        if (level() instanceof ServerLevel serverLevel) {
-            EvolutionSystem.addPoints(serverLevel, EvolutionSystem.VALUE_MERGE,
-                    EvolutionSystem.PointSource.MERGE);
-        }
         if (combined >= REQUIRED_MERGES) {
             startEvolution();
         }
     }
 
     private void startEvolution() {
-        if (evolutionDelay == 0) {
-            evolutionDelay = EVOLUTION_DELAY_TICKS;
+        if (getEvolutionFuse() == 0) {
+            entityData.set(EVOLUTION_FUSE, EVOLUTION_DELAY_TICKS);
             navigation.stop();
         }
     }
@@ -289,32 +309,65 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
         if (!(level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        Mob primitive = switch (random.nextInt(9)) {
-            case 0 -> ModEntities.PRI_LONGARMS.get().create(serverLevel);
-            case 1 -> ModEntities.PRI_SUMMONER.get().create(serverLevel);
-            case 2 -> ModEntities.PRI_VERMIN.get().create(serverLevel);
-            case 3 -> ModEntities.PRI_ARACHNIDA.get().create(serverLevel);
-            case 4 -> ModEntities.PRI_BOLSTER.get().create(serverLevel);
-            case 5 -> ModEntities.PRI_MANDUCATER.get().create(serverLevel);
-            case 6 -> ModEntities.PRI_REEKER.get().create(serverLevel);
-            case 7 -> ModEntities.PRI_TOZOON.get().create(serverLevel);
-            default -> ModEntities.PRI_YELLOWEYE.get().create(serverLevel);
-        };
+        Mob primitive = createConfiguredPrimitive(serverLevel);
         if (primitive == null) {
             return;
         }
         primitive.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
         primitive.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
                 MobSpawnType.MOB_SUMMONED, null);
-        primitive.setHealth(primitive.getMaxHealth() * SPAWN_HEALTH_FRACTION);
+        primitive.setHealth(primitive.getMaxHealth() * (float) MobsConfig.mergeSystemMobHealth());
         primitive.setCustomName(getCustomName());
         primitive.setCustomNameVisible(isCustomNameVisible());
         if (isPersistenceRequired()) {
             primitive.setPersistenceRequired();
         }
         playSound(ModSounds.MOVING_FLESH_PRIMITIVE.get(), 1.0F, 1.0F);
-        serverLevel.addFreshEntity(primitive);
-        discard();
+        if (serverLevel.addFreshEntity(primitive)) {
+            EvolutionSystem.addPoints(serverLevel, EvolutionSystem.VALUE_MERGE,
+                    EvolutionSystem.PointSource.MERGE);
+            discard();
+        } else {
+            primitive.discard();
+        }
+    }
+
+    private Mob createConfiguredPrimitive(ServerLevel serverLevel) {
+        List<? extends String> table = MobsConfig.mergeSystemMobList();
+        if (table.isEmpty()) {
+            return null;
+        }
+        String selected = null;
+        if (!MobsConfig.mergeSystemRandom()) {
+            for (String entry : table) {
+                String[] parts = entry.split(";", -1);
+                if (parts.length == 2) {
+                    try {
+                        if (Integer.parseInt(parts[1].trim()) == getMergeValue()) {
+                            selected = parts[0].trim();
+                            break;
+                        }
+                    } catch (NumberFormatException ignored) {
+                        // Config validation normally rejects this; skip stale malformed entries safely.
+                    }
+                }
+            }
+        }
+        if (selected == null) {
+            selected = table.get(random.nextInt(table.size())).split(";", -1)[0].trim();
+        }
+        ResourceLocation location = ResourceLocation.tryParse(selected);
+        if (location == null) {
+            return null;
+        }
+        if (location.getNamespace().equals("srparasites")) {
+            location = ResourceLocation.fromNamespaceAndPath("csrp", location.getPath());
+        }
+        EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.getOptional(location).orElse(null);
+        if (type == null || !(type.create(serverLevel) instanceof Mob primitive)) {
+            return null;
+        }
+        return primitive;
     }
 
     private final class MergeMovingFleshGoal extends Goal {
@@ -328,7 +381,7 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
 
         @Override
         public boolean canUse() {
-            if (mergeCooldown > 0 || evolutionDelay > 0) {
+            if (mergeCooldown > 0 || getEvolutionFuse() > 0) {
                 return false;
             }
             target = findMergeTarget();
@@ -375,7 +428,7 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
     }
 
     private boolean canMergePartner(MovingFleshEntity other) {
-        return other != this && other.isAlive() && other.evolutionDelay == 0 && other.mergeCooldown == 0
+        return other != this && other.isAlive() && other.getEvolutionFuse() == 0 && other.mergeCooldown == 0
                 && other.getMergeCount() + getMergeCount() <= REQUIRED_MERGES;
     }
 }

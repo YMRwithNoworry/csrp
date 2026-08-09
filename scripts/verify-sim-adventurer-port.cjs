@@ -134,13 +134,14 @@ for (const [source, checks] of [
   [flesh, [
     /REQUIRED_MERGES = 4/, /EVOLUTION_DELAY_TICKS = 70/, /AUTO_EVOLUTION_AGE_TICKS = 800/,
     /BASE_WIDTH = 0\.7F/, /BASE_HEIGHT = 0\.5F/, /getDefaultDimensions\(Pose pose\)/,
-    /REGEN_PER_SECOND = 0\.125F/, /MergeMovingFleshGoal/, /PRI_LONGARMS/,
+    /REGEN_PER_TICK = 0\.007F/, /EVOLUTION_FUSE_INCREMENT = 2/, /MergeMovingFleshGoal/,
     /DamageTypeTags\.IS_FIRE\) \? amount \* 4\.0F/, /mergeContacts/,
     /getRenderScale\(1\.0F\) >= other\.getRenderScale\(1\.0F\)/,
     /finalizeSpawn\(serverLevel, serverLevel\.getCurrentDifficultyAt\(blockPosition\(\)/,
     /isPersistenceRequired\(\)/, /EntityDataAccessor<Integer> MERGE_VALUE/,
     /setMergeValue\(getMergeValue\(\) \+ other\.getMergeValue\(\)\)/,
-    /random\.nextInt\(9\)/, /SPAWN_HEALTH_FRACTION = 0\.5F/,
+    /MobsConfig\.mergeSystemMobList\(\)/, /MobsConfig\.mergeSystemRandom\(\)/,
+    /MobsConfig\.mergeSystemMobHealth\(\)/, /BuiltInRegistries\.ENTITY_TYPE/,
     /func_78087_a\.age_in_ticks/, /func_78087_a\.limb_swing/
   ]]
 ]) {

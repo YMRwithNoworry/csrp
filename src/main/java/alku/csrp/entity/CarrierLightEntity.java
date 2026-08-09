@@ -1,10 +1,13 @@
 package alku.csrp.entity;
 
 import alku.csrp.Config;
+import alku.csrp.config.MobsConfig;
+import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -13,6 +16,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import software.bernie.geckolib.animation.RawAnimation;
 
+import java.util.List;
+
 public final class CarrierLightEntity extends CarrierEntity {
     private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks");
@@ -20,8 +25,8 @@ public final class CarrierLightEntity extends CarrierEntity {
             "func_78087_a.limb_swing");
 
     public CarrierLightEntity(EntityType<? extends CarrierLightEntity> type, Level level) {
-        super(type, level, 70, 7.0, 1, 300, 500);
-        xpReward = 18;
+        super(type, level, 70, 7.0, 2, 1200, 500);
+        xpReward = 30;
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -54,7 +59,27 @@ public final class CarrierLightEntity extends CarrierEntity {
     }
 
     @Override
-    protected int gnatSpawnCount() {
-        return 3;
+    protected boolean griefingEnabled() {
+        return MobsConfig.carrierLightGriefing();
+    }
+
+    @Override
+    protected List<? extends String> spawnTable() {
+        return MobsConfig.carrierLightMobTable();
+    }
+
+    @Override
+    protected float cloudRadiusMultiplier() {
+        return 2.5F;
+    }
+
+    @Override
+    protected int cloudWaitTime() {
+        return isVariant() ? 4 : 10;
+    }
+
+    @Override
+    protected SoundEvent explosionSound() {
+        return ModSounds.RATHOL_BOOM.get();
     }
 }
