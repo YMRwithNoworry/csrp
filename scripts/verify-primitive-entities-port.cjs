@@ -101,7 +101,8 @@ expect(entities, /register\("biomass"/, "Biomass entity type is missing");
 expect(client, /ModEntities\.BIOMASS/, "Biomass renderer registration is missing");
 expect(biomass, /HATCH_FUSE_TICKS\s*=\s*80/, "Biomass 80 tick hatch fuse is missing");
 expect(biomass, /tickCount\s*>=\s*200/, "Biomass airborne 200 tick fuse fallback is missing");
-expect(biomass, /ModMobEffects\.COTH,\s*200,\s*1/, "Biomass COTH aura duration or amplifier is wrong");
+expect(biomass, /(?:ModMobEffects\.COTH,\s*200,\s*1|applyCothEffect\(living,\s*this,\s*200,\s*1(?:,\s*false,\s*false)?\))/,
+  "Biomass COTH aura duration or amplifier is wrong");
 expect(biomass, /ModMobEffects\.RAGE,\s*1200,\s*1/, "Biomass hatch Rage duration or amplifier is wrong");
 expect(biomass, /ModMobEffects\.DEBAR,\s*120000,\s*1/, "Biomass hatch Debar duration or amplifier is wrong");
 expect(biomass, /igniteForSeconds\(8\.0F\)/, "Biomass fire propagation must use the original eight seconds");

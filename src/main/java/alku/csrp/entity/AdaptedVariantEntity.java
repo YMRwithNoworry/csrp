@@ -3,6 +3,7 @@ package alku.csrp.entity;
 import alku.csrp.Config;
 import alku.csrp.config.MobsConfig;
 import alku.csrp.effect.EffectStacking;
+import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModMobEffects;
@@ -1190,7 +1191,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
                 applyBolsterMinimumDamage(target, healthBefore);
                 applyBolsterVariantAttack(target);
                 if (random.nextFloat() < 0.50F) {
-                    target.addEffect(new MobEffectInstance(ModMobEffects.COTH, 1200, 0), this);
+                    InfectionMechanics.applyCothEffect(target, this, 1200, 0, false, true);
                 }
                 double x = target.getX() - getX();
                 double z = target.getZ() - getZ();
@@ -1712,7 +1713,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
                 applyBolsterMinimumDamage(target, healthBefore);
                 applyBolsterVariantAttack(target);
                 if (random.nextFloat() < 0.50F) {
-                    target.addEffect(new MobEffectInstance(ModMobEffects.COTH, 1200, 0), this);
+                    InfectionMechanics.applyCothEffect(target, this, 1200, 0, false, true);
                 }
             }
             target.invulnerableTime = 0;

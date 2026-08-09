@@ -1,7 +1,7 @@
 package alku.csrp.entity;
 
 import alku.csrp.Config;
-import alku.csrp.registry.ModMobEffects;
+import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -10,7 +10,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -177,7 +176,7 @@ public class BuglinEntity extends Monster implements GeoEntity, Parasite {
     public void push(Entity entity) {
         if (!level().isClientSide && tickCount % 20 == 0 && entity instanceof LivingEntity living
                 && !(living instanceof Parasite)) {
-            living.addEffect(new MobEffectInstance(ModMobEffects.COTH, 100, 0));
+            InfectionMechanics.applyCothEffect(living, null, 100, 0, false, true);
         }
         super.push(entity);
     }

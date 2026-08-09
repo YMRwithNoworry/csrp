@@ -1,6 +1,6 @@
 package alku.csrp.entity;
 
-import alku.csrp.registry.ModMobEffects;
+import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -188,7 +188,7 @@ public class UntamedPriReekerEntity extends Monster implements GeoEntity, Parasi
                 if (entity.hurt(damageSources().mobAttack(this), CHARGE_DAMAGE)) {
                     // 应用效果：缓慢 II (60 ticks) + COTH (3600 ticks)
                     entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 2), this);
-                    entity.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, 0), this);
+                    InfectionMechanics.applyCothEffect(entity, this, 3600, 0, false, true);
 
                     // 击退效果：水平1.5 + 垂直0.5
                     Vec3 knockback = entity.position().subtract(position()).normalize().scale(1.5);
@@ -276,7 +276,7 @@ public class UntamedPriReekerEntity extends Monster implements GeoEntity, Parasi
             if (target instanceof LivingEntity living) {
                 // 普通攻击效果：缓慢 I (40 ticks) + COTH (3600 ticks)
                 living.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 1), this);
-                living.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, 0), this);
+                InfectionMechanics.applyCothEffect(living, this, 3600, 0, false, true);
             }
         }
         return hurt;

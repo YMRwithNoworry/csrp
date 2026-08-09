@@ -3,6 +3,7 @@ package alku.csrp.event;
 import alku.csrp.Config;
 import alku.csrp.Csrp;
 import alku.csrp.entity.Parasite;
+import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModItems;
 import alku.csrp.overlast.network.EvolutionHudPayload;
@@ -109,7 +110,7 @@ public final class OverlastEvents {
         }
         int strength = Math.min(1, infection.getAmplifier());
         if (!living.hasEffect(ModMobEffects.PARASITES_PURIFY)) {
-            living.addEffect(new MobEffectInstance(ModMobEffects.COTH, 60, strength == 0 ? 1 : 3, false, false));
+            InfectionMechanics.applyCothEffect(living, null, 60, strength == 0 ? 1 : 3, false, false);
         }
         living.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 60, strength == 0 ? 2 : 3, false, false));
         living.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 60, 2, false, false));

@@ -2,6 +2,7 @@ package alku.csrp.entity;
 
 import alku.csrp.Config;
 import alku.csrp.config.MobsConfig;
+import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
@@ -456,7 +457,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         if (target == this || target instanceof Player player && player.getAbilities().instabuild) {
             return false;
         }
-        target.addEffect(new MobEffectInstance(ModMobEffects.COTH, 1200, 3, false, false), this);
+        InfectionMechanics.applyCothEffect(target, this, 1200, 3, false, false);
         target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 0, false, false), this);
         return true;
     }

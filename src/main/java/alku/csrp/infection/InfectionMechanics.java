@@ -76,12 +76,35 @@ public final class InfectionMechanics {
         MobEffectInstance existing = target.getEffect(ModMobEffects.COTH);
         int amplifier = existing == null ? 0 : existing.getAmplifier();
         int duration = existing == null ? durationFloor : Math.max(existing.getDuration(), durationFloor);
-        target.addEffect(new MobEffectInstance(ModMobEffects.COTH, duration, amplifier, false, false), source);
-        if (existing == null && !target.level().isClientSide) {
-            target.level().playSound(null, target.getX(), target.getY(), target.getZ(),
-                    ModSounds.get("infected.growl"), SoundSource.HOSTILE,
-                    1.0F, 0.9F + target.getRandom().nextFloat() * 0.2F);
+        boolean effectChanged = target.addEffect(
+                new MobEffectInstance(ModMobEffects.COTH, duration, amplifier, false, false), source);
+        if (effectChanged && existing == null && !target.level().isClientSide) {
+            playInfectionSound(target);
         }
+    }
+
+    /**
+     * Applies an exact COTH duration/amplifier for attack and skill paths that do not use
+     * the infection progression floor. The sound is emitted only for a newly infected host.
+     */
+    public static void applyCothEffect(LivingEntity target, Entity source, int durationTicks, int amplifier) {
+        applyCothEffect(target, source, durationTicks, amplifier, false, true);
+    }
+
+    public static void applyCothEffect(LivingEntity target, Entity source, int durationTicks, int amplifier,
+                                       boolean ambient, boolean visible) {
+        boolean alreadyInfected = target.hasEffect(ModMobEffects.COTH);
+        boolean effectChanged = target.addEffect(
+                new MobEffectInstance(ModMobEffects.COTH, durationTicks, amplifier, ambient, visible), source);
+        if (effectChanged && !alreadyInfected && !target.level().isClientSide) {
+            playInfectionSound(target);
+        }
+    }
+
+    private static void playInfectionSound(LivingEntity target) {
+        target.level().playSound(null, target.getX(), target.getY(), target.getZ(),
+                ModSounds.get("infected.growl"), SoundSource.HOSTILE,
+                1.0F, 0.9F + target.getRandom().nextFloat() * 0.2F);
     }
 
     public static void tickCoth(LivingEntity entity, int amplifier) {

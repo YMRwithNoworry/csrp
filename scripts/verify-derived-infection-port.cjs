@@ -23,15 +23,37 @@ const draconite = read("src/main/java/alku/csrp/entity/DraconiteEntity.java");
 const projectile = read("src/main/java/alku/csrp/entity/ParasiteProjectileEntity.java");
 const infection = read("src/main/java/alku/csrp/infection/InfectionMechanics.java");
 const infectionEvents = read("src/main/java/alku/csrp/infection/InfectionEvents.java");
+const directInfectionFiles = [
+  "block/ParasiteTrapBlock.java",
+  "entity/AdaptedVariantEntity.java",
+  "entity/BiomassEntity.java",
+  "entity/BuglinEntity.java",
+  "entity/DerivedParasiteEntity.java",
+  "entity/PriManducaterEntity.java",
+  "entity/PriReekerEntity.java",
+  "entity/PrimitiveParasiteEntity.java",
+  "entity/PrimitiveVariantEntity.java",
+  "entity/PureParasiteEntity.java",
+  "entity/RupterEntity.java",
+  "entity/UntamedPriReekerEntity.java",
+  "event/OverlastEvents.java"
+];
 
 expect(kirin, /class KirinEntity extends DerivedParasiteEntity/,
   "Kirin is not wired to the derived parasite behavior");
 expect(draconite, /class DraconiteEntity extends DerivedParasiteEntity/,
   "Draconite is not wired to the derived parasite behavior");
 expect(infection, /applyCoth\(/, "COTH infection application is missing");
+expect(infection, /applyCothEffect\(/, "Direct COTH infection helper is missing");
+expect(infection, /effectChanged && !alreadyInfected/, "COTH infection sound is not limited to new infections");
+expect(infection, /ModSounds\.get\("infected\.growl"\)/, "COTH infection growl is missing");
 expect(infection, /convertInfectedHost\(/, "COTH host conversion is missing");
 expect(infectionEvents, /infectFromParasiteHit/, "Parasite hit infection hook is missing");
 expect(infectionEvents, /convertTerminalCothHost/, "Terminal COTH death hook is missing");
+for (const file of directInfectionFiles) {
+  expect(read(`src/main/java/alku/csrp/${file}`), /InfectionMechanics\.applyCothEffect\(/,
+    `${file} bypasses the infection sound helper`);
+}
 
 expect(derived, /COSMIC_ORB_COUNT\s*=\s*3/, "Derived triple scary-orb count is missing");
 expect(derived, /spawnCosmicOrb\(/, "Derived scary-orb spawn routine is missing");

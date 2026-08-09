@@ -1,7 +1,7 @@
 package alku.csrp.entity;
 
 import alku.csrp.Config;
-import alku.csrp.registry.ModMobEffects;
+import alku.csrp.infection.InfectionMechanics;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -244,7 +244,7 @@ public class PriManducaterEntity extends PrimitiveParasiteEntity implements GeoE
             // 应用效果
             living.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 80, 0), this);
             if (random.nextFloat() < 0.20F) {
-                living.addEffect(new MobEffectInstance(ModMobEffects.COTH, 300, 0), this);
+                InfectionMechanics.applyCothEffect(living, this, 300, 0, false, true);
             }
 
             // 触发拉拽

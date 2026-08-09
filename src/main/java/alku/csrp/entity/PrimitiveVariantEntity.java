@@ -4,6 +4,7 @@ import alku.csrp.Config;
 import alku.csrp.Csrp;
 import alku.csrp.config.MobsConfig;
 import alku.csrp.effect.EffectStacking;
+import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
@@ -605,7 +606,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
             case DEVOURER -> target.setDeltaMovement(target.getDeltaMovement().add(0.0D, -0.5645D, 0.0D));
             case MANDUCATER -> {
                 if (random.nextFloat() < 0.20F) {
-                    target.addEffect(new MobEffectInstance(ModMobEffects.COTH, 300, 0), this);
+                    InfectionMechanics.applyCothEffect(target, this, 300, 0, false, true);
                 }
             }
             case REEKER -> {

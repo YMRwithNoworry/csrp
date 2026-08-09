@@ -2,6 +2,7 @@ package alku.csrp.block;
 
 import alku.csrp.effect.EffectStacking;
 import alku.csrp.entity.Parasite;
+import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModDamageTypes;
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.core.BlockPos;
@@ -86,8 +87,8 @@ public final class ParasiteTrapBlock extends Block {
         living.hurt(damageSource(serverLevel, kind.damageType), 1.0F);
         if (kind == Kind.BIOMASS) {
             living.removeEffect(ModMobEffects.CORROSION);
-            living.addEffect(new MobEffectInstance(ModMobEffects.COTH,
-                    BIOMASS_COTH_DURATION_TICKS, BIOMASS_COTH_AMPLIFIER, false, true));
+            InfectionMechanics.applyCothEffect(living, null,
+                    BIOMASS_COTH_DURATION_TICKS, BIOMASS_COTH_AMPLIFIER, false, true);
         }
         living.addEffect(new MobEffectInstance(ModMobEffects.CORROSION,
                 CORROSION_DURATION_TICKS, 0, false, kind == Kind.BIOMASS));

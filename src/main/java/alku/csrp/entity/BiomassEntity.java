@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModParticles;
@@ -192,7 +193,7 @@ public final class BiomassEntity extends Monster implements GeoEntity, Parasite 
     private void applyCothAura() {
         for (LivingEntity living : level().getEntitiesOfClass(LivingEntity.class,
                 getBoundingBox().inflate(2.0D), living -> living != this && !(living instanceof Parasite))) {
-            living.addEffect(new MobEffectInstance(ModMobEffects.COTH, 200, 1, false, false), this);
+            InfectionMechanics.applyCothEffect(living, this, 200, 1, false, false);
         }
     }
 

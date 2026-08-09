@@ -2,6 +2,7 @@ package alku.csrp.entity;
 
 import alku.csrp.Config;
 import alku.csrp.config.MobsConfig;
+import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
@@ -528,7 +529,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
 
     private void applyMeleeEffects(LivingEntity target, Kind activeKind) {
         if (random.nextFloat() < 0.40F) {
-            target.addEffect(new MobEffectInstance(ModMobEffects.COTH, 180, 0, false, false), this);
+            InfectionMechanics.applyCothEffect(target, this, 180, 0, false, false);
         }
         switch (activeKind) {
             case GRUNT -> {

@@ -1,6 +1,7 @@
 package alku.csrp.entity;
 
 import alku.csrp.effect.EffectStacking;
+import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModSounds;
@@ -265,7 +266,7 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
                 player.getCooldowns().addCooldown(offhand.getItem(), DERIVED_ORB_ITEM_COOLDOWN_TICKS);
             }
         }
-        target.addEffect(new MobEffectInstance(ModMobEffects.COTH, 1200, 3, false, false), this);
+        InfectionMechanics.applyCothEffect(target, this, 1200, 3, false, false);
         target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 0, false, false), this);
         return true;
     }
