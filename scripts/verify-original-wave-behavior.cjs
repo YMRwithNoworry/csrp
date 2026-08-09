@@ -14,7 +14,8 @@ const attributes = read("src/main/java/alku/csrp/registry/CommonModEvents.java")
 const client = read("src/main/java/alku/csrp/client/ClientModEvents.java");
 const host = read("src/main/java/alku/csrp/entity/AbstractHostEntity.java");
 const deterrent = read("src/main/java/alku/csrp/entity/DeterrentParasiteEntity.java");
-const legacy = read("src/main/java/alku/csrp/entity/LegacyAuxiliaryEntity.java");
+const legacyPath = path.join(root, "src/main/java/alku/csrp/entity/LegacyAuxiliaryEntity.java");
+const legacy = fs.existsSync(legacyPath) ? fs.readFileSync(legacyPath, "utf8") : "";
 
 expect(registry, /EntityType<WaveEntity>> WAVE[\s\S]*?sized\(1\.5F, 0\.2F\)/,
   "wave is not registered with its original dedicated type and dimensions");

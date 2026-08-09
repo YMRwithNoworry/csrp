@@ -30,6 +30,7 @@ import alku.csrp.entity.FeralParasiteEntity;
 import alku.csrp.entity.FlamEntity;
 import alku.csrp.entity.DraconiteEntity;
 import alku.csrp.entity.GnatEntity;
+import alku.csrp.entity.GoreEntity;
 import alku.csrp.entity.HeedEntity;
 import alku.csrp.entity.HiBlazeEntity;
 import alku.csrp.entity.HiGolemEntity;
@@ -40,7 +41,6 @@ import alku.csrp.entity.IncompleteCruxEntity;
 import alku.csrp.entity.IncompleteFormMediumEntity;
 import alku.csrp.entity.IncompleteFormSmallEntity;
 import alku.csrp.entity.KirinEntity;
-import alku.csrp.entity.LegacyAuxiliaryEntity;
 import alku.csrp.entity.LiceEntity;
 import alku.csrp.entity.LongarmsEntity;
 import alku.csrp.entity.ManglerEntity;
@@ -59,6 +59,7 @@ import alku.csrp.entity.PreeminentParasiteEntity;
 import alku.csrp.entity.PureParasiteEntity;
 import alku.csrp.entity.PullingBallEntity;
 import alku.csrp.entity.RupterEntity;
+import alku.csrp.entity.RemainEntity;
 import alku.csrp.entity.ScaryOrbEntity;
 import alku.csrp.entity.ShockwaveEntity;
 import alku.csrp.entity.VoidOrbEntity;
@@ -551,8 +552,11 @@ public final class ModEntities {
                     .<SourceEntity>of(SourceEntity::new, MobCategory.MISC)
                     .sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(3)
                     .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "source").toString()));
-    public static final DeferredHolder<EntityType<?>, EntityType<LegacyAuxiliaryEntity>> REMAIN =
-            auxiliary("remain", LegacyAuxiliaryEntity.Kind.REMAIN, 0.5F, 0.5F, 4, 3);
+    public static final DeferredHolder<EntityType<?>, EntityType<RemainEntity>> REMAIN =
+            ENTITIES.register("remain", () -> EntityType.Builder
+                    .<RemainEntity>of(RemainEntity::new, MobCategory.MISC)
+                    .sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(3)
+                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "remain").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<BombEntity>> BOMB =
             ENTITIES.register("bomb", () -> EntityType.Builder
                     .<BombEntity>of(BombEntity::new, MobCategory.MISC)
@@ -564,8 +568,11 @@ public final class ModEntities {
                     .<ToxicCloudEntity>of(ToxicCloudEntity::new, MobCategory.MISC)
                     .sized(6.0F, 0.5F).clientTrackingRange(4).updateInterval(3)
                     .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "cloudtoxic").toString()));
-    public static final DeferredHolder<EntityType<?>, EntityType<LegacyAuxiliaryEntity>> GORE =
-            auxiliary("gore", LegacyAuxiliaryEntity.Kind.GORE, 0.4F, 0.4F, 4, 3);
+    public static final DeferredHolder<EntityType<?>, EntityType<GoreEntity>> GORE =
+            ENTITIES.register("gore", () -> EntityType.Builder
+                    .<GoreEntity>of(GoreEntity::new, MobCategory.MISC)
+                    .sized(0.4F, 0.4F).clientTrackingRange(4).updateInterval(3).fireImmune()
+                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "gore").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<TendrilEntity>> TENDRIL =
             ENTITIES.register("tendril", () -> EntityType.Builder
                     .<TendrilEntity>of(TendrilEntity::new, MobCategory.MISC)
@@ -606,16 +613,6 @@ public final class ModEntities {
             int trackingRange, int updateInterval) {
         return ENTITIES.register(id, () -> EntityType.Builder
                 .<ParasiteProjectileEntity>of((type, level) -> new ParasiteProjectileEntity(type, level, mode),
-                        MobCategory.MISC)
-                .sized(width, height).clientTrackingRange(trackingRange).updateInterval(updateInterval)
-                .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, id).toString()));
-    }
-
-    private static DeferredHolder<EntityType<?>, EntityType<LegacyAuxiliaryEntity>> auxiliary(
-            String id, LegacyAuxiliaryEntity.Kind kind, float width, float height,
-            int trackingRange, int updateInterval) {
-        return ENTITIES.register(id, () -> EntityType.Builder
-                .<LegacyAuxiliaryEntity>of((type, level) -> new LegacyAuxiliaryEntity(type, level, kind),
                         MobCategory.MISC)
                 .sized(width, height).clientTrackingRange(trackingRange).updateInterval(updateInterval)
                 .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, id).toString()));

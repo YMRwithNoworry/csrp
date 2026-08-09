@@ -11,7 +11,8 @@ const expect = (text, pattern, message) => {
 const source = read("src/main/java/alku/csrp/entity/SourceEntity.java");
 const registry = read("src/main/java/alku/csrp/registry/ModEntities.java");
 const client = read("src/main/java/alku/csrp/client/ClientModEvents.java");
-const legacy = read("src/main/java/alku/csrp/entity/LegacyAuxiliaryEntity.java");
+const legacyPath = path.join(root, "src/main/java/alku/csrp/entity/LegacyAuxiliaryEntity.java");
+const legacy = fs.existsSync(legacyPath) ? fs.readFileSync(legacyPath, "utf8") : "";
 const allEntities = fs.readdirSync(path.join(root, "src/main/java/alku/csrp/entity"))
   .filter((file) => file.endsWith(".java") && file !== "SourceEntity.java")
   .map((file) => fs.readFileSync(path.join(root, "src/main/java/alku/csrp/entity", file), "utf8"))

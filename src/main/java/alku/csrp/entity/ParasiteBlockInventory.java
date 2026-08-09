@@ -1,6 +1,7 @@
 package alku.csrp.entity;
 
 import java.util.List;
+import alku.csrp.registry.ModEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
@@ -52,7 +53,28 @@ public final class ParasiteBlockInventory {
         level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
         level.playSound(null, pos, state.getSoundType().getBreakSound(),
                 SoundSource.BLOCKS, 1.0F, 1.0F);
+        if (list.size() >= GoreEntity.cystThreshold()) {
+            launchCyst(level, parasite);
+        }
         return true;
+    }
+
+    private static void launchCyst(ServerLevel level, LivingEntity parasite) {
+        NonNullList<ItemStack> items = takeAll(parasite);
+        if (items.isEmpty()) {
+            return;
+        }
+        GoreEntity gore = ModEntities.GORE.get().create(level);
+        if (gore == null) {
+            return;
+        }
+        gore.setType((byte) 10);
+        gore.setStoredItems(items);
+        gore.moveTo(parasite.getX(), parasite.getY() + parasite.getBbHeight() * 0.5D,
+                parasite.getZ(), parasite.getYRot(), parasite.getXRot());
+        gore.setMotion(level.getRandom().nextDouble() - 0.5D, 0.75D,
+                level.getRandom().nextDouble() - 0.5D, 0.25D, 0.75D);
+        level.addFreshEntity(gore);
     }
 
     /**

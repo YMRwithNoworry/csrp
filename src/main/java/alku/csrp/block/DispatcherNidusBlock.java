@@ -10,6 +10,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -62,15 +63,30 @@ public final class DispatcherNidusBlock extends Block implements EntityBlock {
     }
 
     public static boolean tryPlace(ServerLevel level, BlockPos pos) {
-        BlockPos candidate = pos;
-        if (!level.getBlockState(candidate).canBeReplaced()) {
-            candidate = pos.below();
+        if (canReplace(pos, level)) {
+            level.setBlockAndUpdate(pos, alku.csrp.registry.ModBlocks.DISPATCHER_NIDUS.get()
+                    .defaultBlockState());
+            return true;
         }
-        if (!level.getBlockState(candidate).canBeReplaced()) {
-            return false;
+        int start = level.getRandom().nextInt(4);
+        for (int index = 0; index < 4; index++) {
+            BlockPos candidate = switch ((start + index) % 4) {
+                case 0 -> pos.north();
+                case 1 -> pos.east();
+                case 2 -> pos.west();
+                default -> pos.south();
+            };
+            if (canReplace(candidate, level)) {
+                level.setBlockAndUpdate(candidate, alku.csrp.registry.ModBlocks.DISPATCHER_NIDUS.get()
+                        .defaultBlockState());
+                return true;
+            }
         }
-        level.setBlockAndUpdate(candidate, alku.csrp.registry.ModBlocks.DISPATCHER_NIDUS.get()
-                .defaultBlockState());
-        return true;
+        return false;
+    }
+
+    private static boolean canReplace(BlockPos pos, ServerLevel level) {
+        BlockState state = level.getBlockState(pos);
+        return state.isAir() || state.is(Blocks.DIRT);
     }
 }

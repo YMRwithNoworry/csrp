@@ -21,7 +21,8 @@ const jinjo = read("src/main/java/alku/csrp/entity/PreeminentParasiteEntity.java
 const iki = read("src/main/java/alku/csrp/entity/AdaptedVariantEntity.java");
 const primitiveIki = read("src/main/java/alku/csrp/entity/VerminEntity.java");
 const sheep = read("src/main/java/alku/csrp/entity/MarauderizedSheepEntity.java");
-const legacy = read("src/main/java/alku/csrp/entity/LegacyAuxiliaryEntity.java");
+const legacyPath = path.join(root, "src/main/java/alku/csrp/entity/LegacyAuxiliaryEntity.java");
+const legacy = fs.existsSync(legacyPath) ? fs.readFileSync(legacyPath, "utf8") : "";
 
 expect(registry, /EntityType<BombEntity>> BOMB[\s\S]*?sized\(0\.68F, 0\.68F\)[\s\S]*?fireImmune\(\)/,
   "bomb is not registered as its original dedicated fire-immune entity type");

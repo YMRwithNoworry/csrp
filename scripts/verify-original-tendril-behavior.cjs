@@ -10,7 +10,8 @@ const expect = (text, pattern, message) => {
 };
 
 const entity = read("src/main/java/alku/csrp/entity/TendrilEntity.java");
-const legacy = read("src/main/java/alku/csrp/entity/LegacyAuxiliaryEntity.java");
+const legacy = exists("src/main/java/alku/csrp/entity/LegacyAuxiliaryEntity.java")
+  ? read("src/main/java/alku/csrp/entity/LegacyAuxiliaryEntity.java") : "";
 const registry = read("src/main/java/alku/csrp/registry/ModEntities.java");
 const attributes = read("src/main/java/alku/csrp/registry/CommonModEvents.java");
 const client = read("src/main/java/alku/csrp/client/ClientModEvents.java");
@@ -30,8 +31,9 @@ expect(entity, /parasitetype/,
   "Tendril skin does not use the original parasite NBT key");
 expect(entity, /IS_FIRE[\s\S]*?amount \* 4\.0F/,
   "Tendril does not preserve parasite fire weakness");
-expect(legacy, /enum Kind\s*\{\s*REMAIN,\s*GORE\s*\}/,
-  "Legacy auxiliary placeholder still owns Tendril");
+if (legacy && !/enum Kind\s*\{\s*REMAIN,\s*GORE\s*\}/.test(legacy)) {
+  failures.push("Legacy auxiliary placeholder still owns Tendril");
+}
 expect(registry, /EntityType<TendrilEntity>> TENDRIL[\s\S]*?register\("tendril"[\s\S]*?sized\(1\.0F, 1\.0F\)[\s\S]*?clientTrackingRange\(4\)[\s\S]*?updateInterval\(3\)/,
   "Tendril registration does not preserve its original id, size, or tracking");
 expect(attributes, /ModEntities\.TENDRIL\.get\(\), TendrilEntity\.createAttributes\(\)\.build\(\)/,

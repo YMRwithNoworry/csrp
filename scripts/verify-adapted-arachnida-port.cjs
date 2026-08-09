@@ -65,7 +65,7 @@ expect(entity, /new ArachnidaPart\(this, "head",[\s\S]*?1\.6F, 1\.3F, 1\.5F, 0\.
   "Adapted Arachnida head hitbox differs from the original");
 expect(entity, /class ArachnidaPart extends PartEntity[\s\S]*?random\.nextBoolean\(\)[\s\S]*?ModMobEffects\.BLEED, 80, 0[\s\S]*?amount \* damageVulnerability/,
   "Adapted Arachnida multipart damage and self-bleeding behavior are incomplete");
-expect(entity, /isMultipartEntity\(\)[\s\S]*?arachnidaParts != null[\s\S]*?getParts\(\)/,
+expect(entity, /isMultipartEntity\(\)[\s\S]*?(?:arachnidaParts|bodyParts) != null[\s\S]*?getParts\(\)/,
   "Adapted Arachnida multipart registration is not constructor-safe");
 
 expect(entity, /isArachnidaType\(getType\(\)\)[\s\S]*?new WallClimberNavigation/,
