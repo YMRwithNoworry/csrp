@@ -320,7 +320,7 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
     private void fireProjectile(ParasiteProjectileEntity.Mode mode, Vec3 start, Vec3 destination,
                                 double speed, float damage, double radius, int lifetime,
                                 LivingEntity homingTarget) {
-        ParasiteProjectileEntity projectile = ModEntities.PARASITE_PROJECTILE.get().create(level());
+        ParasiteProjectileEntity projectile = ModEntities.createProjectile(level(), mode);
         if (projectile == null) {
             return;
         }

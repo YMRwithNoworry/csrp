@@ -1593,7 +1593,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
     private void fireProjectile(LivingEntity target, ParasiteProjectileEntity.Mode mode, double speed,
                                 float damage, double radius, int lifetime) {
-        ParasiteProjectileEntity projectile = ModEntities.PARASITE_PROJECTILE.get().create(level());
+        ParasiteProjectileEntity projectile = ModEntities.createProjectile(level(), mode);
         if (projectile == null) {
             return;
         }
@@ -1603,7 +1603,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     }
 
     private void fireWebProjectile(LivingEntity target, int webKind) {
-        ParasiteProjectileEntity projectile = ModEntities.PARASITE_PROJECTILE.get().create(level());
+        ParasiteProjectileEntity projectile = ModEntities.createProjectile(level(), ParasiteProjectileEntity.Mode.WEB);
         if (projectile == null) {
             return;
         }

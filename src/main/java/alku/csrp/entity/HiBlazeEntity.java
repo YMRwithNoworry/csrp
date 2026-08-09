@@ -88,7 +88,7 @@ public final class HiBlazeEntity extends HijackedParasiteEntity implements GeoEn
     }
 
     private void fireSpineball(LivingEntity target) {
-        ParasiteProjectileEntity projectile = ModEntities.PARASITE_PROJECTILE.get().create(level());
+        ParasiteProjectileEntity projectile = ModEntities.createProjectile(level(), ParasiteProjectileEntity.Mode.SPINE);
         if (projectile == null) {
             return;
         }

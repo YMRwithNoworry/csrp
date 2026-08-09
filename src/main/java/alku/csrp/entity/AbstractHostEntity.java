@@ -145,7 +145,7 @@ abstract class AbstractHostEntity extends CrudeParasiteEntity {
 
     protected void spawnProjectile(ParasiteProjectileEntity.Mode mode, LivingEntity target, double speed,
                                    float damage, double radius, int lifetime) {
-        ParasiteProjectileEntity projectile = ModEntities.PARASITE_PROJECTILE.get().create(level());
+        ParasiteProjectileEntity projectile = ModEntities.createProjectile(level(), mode);
         if (projectile == null) {
             return;
         }

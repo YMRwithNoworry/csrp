@@ -701,7 +701,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
 
     private void fireProjectile(LivingEntity target, ParasiteProjectileEntity.Mode mode, double speed,
                                 float damage, double radius, int lifetime) {
-        ParasiteProjectileEntity projectile = ModEntities.PARASITE_PROJECTILE.get().create(level());
+        ParasiteProjectileEntity projectile = ModEntities.createProjectile(level(), mode);
         if (projectile == null) {
             return;
         }
@@ -712,7 +712,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private void fireLegacyProjectile(LivingEntity target, ParasiteProjectileEntity.Mode mode) {
-        ParasiteProjectileEntity projectile = ModEntities.PARASITE_PROJECTILE.get().create(level());
+        ParasiteProjectileEntity projectile = ModEntities.createProjectile(level(), mode);
         if (projectile == null) {
             return;
         }

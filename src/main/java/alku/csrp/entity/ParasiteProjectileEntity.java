@@ -92,6 +92,11 @@ public final class ParasiteProjectileEntity extends Entity {
         setNoGravity(true);
     }
 
+    public ParasiteProjectileEntity(EntityType<? extends ParasiteProjectileEntity> type, Level level, Mode defaultMode) {
+        this(type, level);
+        entityData.set(MODE, defaultMode.ordinal());
+    }
+
     public void configure(PrimitiveParasiteEntity owner, Mode mode, Vec3 start, Vec3 target,
                           double speed, float damage, double radius, int maximumLifetime) {
         configure(owner, mode, start, target, speed, damage, radius, maximumLifetime, null);

@@ -337,6 +337,13 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.HAUNTER_HOMING.get(), HaunterHomingProjectileRenderer::new);
         event.registerEntityRenderer(ModEntities.HAUNTER_HOMING_LEGACY.get(), HaunterHomingProjectileRenderer::new);
         event.registerEntityRenderer(ModEntities.PARASITE_PROJECTILE.get(), ParasiteProjectileRenderer::new);
+        event.registerEntityRenderer(ModEntities.WEB_BALL.get(), ParasiteProjectileRenderer::new);
+        event.registerEntityRenderer(ModEntities.SPINE_BALL.get(), ParasiteProjectileRenderer::new);
+        event.registerEntityRenderer(ModEntities.NADE_BALL.get(), ParasiteProjectileRenderer::new);
+        event.registerEntityRenderer(ModEntities.BALL_TALL.get(), ParasiteProjectileRenderer::new);
+        event.registerEntityRenderer(ModEntities.BALL_MALL.get(), ParasiteProjectileRenderer::new);
+        event.registerEntityRenderer(ModEntities.HEBLU_LIGHT.get(), ParasiteProjectileRenderer::new);
+        event.registerEntityRenderer(ModEntities.METEOR.get(), ParasiteProjectileRenderer::new);
     }
 
     @SubscribeEvent

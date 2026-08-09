@@ -77,6 +77,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -500,6 +501,20 @@ public final class ModEntities {
                     .<ParasiteProjectileEntity>of(ParasiteProjectileEntity::new, MobCategory.MISC)
                     .sized(0.35F, 0.35F).clientTrackingRange(8).updateInterval(1)
                     .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "parasite_projectile").toString()));
+    public static final DeferredHolder<EntityType<?>, EntityType<ParasiteProjectileEntity>> WEB_BALL =
+            projectile("webball", ParasiteProjectileEntity.Mode.WEB, 0.3F, 0.3F, 4, 3);
+    public static final DeferredHolder<EntityType<?>, EntityType<ParasiteProjectileEntity>> SPINE_BALL =
+            projectile("spineball", ParasiteProjectileEntity.Mode.SPINE, 0.3F, 0.3F, 4, 3);
+    public static final DeferredHolder<EntityType<?>, EntityType<ParasiteProjectileEntity>> NADE_BALL =
+            projectile("nadeball", ParasiteProjectileEntity.Mode.ELVIA_NADE, 0.3F, 0.3F, 4, 3);
+    public static final DeferredHolder<EntityType<?>, EntityType<ParasiteProjectileEntity>> BALL_TALL =
+            projectile("balltall", ParasiteProjectileEntity.Mode.ELVIA_BALL, 0.3F, 0.3F, 4, 3);
+    public static final DeferredHolder<EntityType<?>, EntityType<ParasiteProjectileEntity>> BALL_MALL =
+            projectile("ballmall", ParasiteProjectileEntity.Mode.LENCIA_BALL, 0.3F, 0.3F, 4, 3);
+    public static final DeferredHolder<EntityType<?>, EntityType<ParasiteProjectileEntity>> HEBLU_LIGHT =
+            projectile("heblu_light", ParasiteProjectileEntity.Mode.LIGHT, 0.65F, 0.65F, 4, 3);
+    public static final DeferredHolder<EntityType<?>, EntityType<ParasiteProjectileEntity>> METEOR =
+            projectile("meteor", ParasiteProjectileEntity.Mode.METEOR, 4.5F, 4.5F, 16, 1);
     public static final DeferredHolder<EntityType<?>, EntityType<HaunterHomingProjectileEntity>> HAUNTER_HOMING =
             ENTITIES.register("homming", () -> EntityType.Builder
                     .<HaunterHomingProjectileEntity>of(HaunterHomingProjectileEntity::new, MobCategory.MISC)
@@ -518,6 +533,33 @@ public final class ModEntities {
         return ENTITIES.register(id, () -> EntityType.Builder.of(factory, MobCategory.MONSTER)
                 .sized(width, height).clientTrackingRange(8)
                 .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, id).toString()));
+    }
+
+    private static DeferredHolder<EntityType<?>, EntityType<ParasiteProjectileEntity>> projectile(
+            String id, ParasiteProjectileEntity.Mode mode, float width, float height,
+            int trackingRange, int updateInterval) {
+        return ENTITIES.register(id, () -> EntityType.Builder
+                .<ParasiteProjectileEntity>of((type, level) -> new ParasiteProjectileEntity(type, level, mode),
+                        MobCategory.MISC)
+                .sized(width, height).clientTrackingRange(trackingRange).updateInterval(updateInterval)
+                .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, id).toString()));
+    }
+
+    public static EntityType<ParasiteProjectileEntity> projectileType(ParasiteProjectileEntity.Mode mode) {
+        return switch (mode) {
+            case WEB -> WEB_BALL.get();
+            case SPINE, YELLOWEYE_SPINE -> SPINE_BALL.get();
+            case ELVIA_NADE, YELLOWEYE_NADE, ACID -> NADE_BALL.get();
+            case ELVIA_BALL -> BALL_TALL.get();
+            case LENCIA_BALL -> BALL_MALL.get();
+            case LIGHT -> HEBLU_LIGHT.get();
+            case METEOR -> METEOR.get();
+            default -> PARASITE_PROJECTILE.get();
+        };
+    }
+
+    public static ParasiteProjectileEntity createProjectile(Level level, ParasiteProjectileEntity.Mode mode) {
+        return projectileType(mode).create(level);
     }
 
     private static <T extends net.minecraft.world.entity.Mob> DeferredHolder<EntityType<?>, EntityType<T>> monster(

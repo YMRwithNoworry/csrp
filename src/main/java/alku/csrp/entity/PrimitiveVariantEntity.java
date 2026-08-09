@@ -1152,7 +1152,9 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
     }
 
     private void fireYelloweyeProjectile(LivingEntity target, boolean acid) {
-        ParasiteProjectileEntity projectile = ModEntities.PARASITE_PROJECTILE.get().create(level());
+        ParasiteProjectileEntity.Mode mode = acid ? ParasiteProjectileEntity.Mode.YELLOWEYE_NADE
+                : ParasiteProjectileEntity.Mode.YELLOWEYE_SPINE;
+        ParasiteProjectileEntity projectile = ModEntities.createProjectile(level(), mode);
         if (projectile == null) {
             return;
         }
@@ -1160,9 +1162,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
         Vec3 start = new Vec3(getX() + view.x, getY() + getEyeHeight() - 0.2D, getZ() + view.z);
         Vec3 targetCenter = new Vec3(target.getX(), target.getBoundingBox().minY + target.getBbHeight() * 0.5D,
                 target.getZ());
-        projectile.configureLegacyFireball(this,
-                acid ? ParasiteProjectileEntity.Mode.YELLOWEYE_NADE
-                        : ParasiteProjectileEntity.Mode.YELLOWEYE_SPINE,
+        projectile.configureLegacyFireball(this, mode,
                 start, targetCenter.subtract(start),
                 acid ? 0.0F : MobsConfig.yelloweyeRangedDamage(), 0.15D, Integer.MAX_VALUE);
         level().addFreshEntity(projectile);
@@ -1197,7 +1197,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
     }
 
     private void fireWebProjectile(LivingEntity target, int webKind) {
-        ParasiteProjectileEntity projectile = ModEntities.PARASITE_PROJECTILE.get().create(level());
+        ParasiteProjectileEntity projectile = ModEntities.createProjectile(level(), ParasiteProjectileEntity.Mode.WEB);
         if (projectile == null) {
             return;
         }

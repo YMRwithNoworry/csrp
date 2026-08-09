@@ -608,7 +608,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
 
     private void fireProjectile(LivingEntity target, ParasiteProjectileEntity.Mode mode, double speed,
                                 float damage, double radius, int lifetime) {
-        ParasiteProjectileEntity projectile = ModEntities.PARASITE_PROJECTILE.get().create(level());
+        ParasiteProjectileEntity projectile = ModEntities.createProjectile(level(), mode);
         if (projectile == null) {
             return;
         }
@@ -618,7 +618,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private void fireWebProjectile(LivingEntity target, int webKind) {
-        ParasiteProjectileEntity projectile = ModEntities.PARASITE_PROJECTILE.get().create(level());
+        ParasiteProjectileEntity projectile = ModEntities.createProjectile(level(), ParasiteProjectileEntity.Mode.WEB);
         if (projectile == null) {
             return;
         }
@@ -630,7 +630,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private void fireBomb(LivingEntity target) {
-        ParasiteProjectileEntity projectile = ModEntities.PARASITE_PROJECTILE.get().create(level());
+        ParasiteProjectileEntity projectile = ModEntities.createProjectile(level(), ParasiteProjectileEntity.Mode.BOMB);
         if (projectile == null) {
             return;
         }
