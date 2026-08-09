@@ -222,7 +222,7 @@ public final class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<LiceEntity>> LICE =
             monster("lice", LiceEntity::new, 0.85F, 1.0F);
     public static final DeferredHolder<EntityType<?>, EntityType<ManglerEntity>> MANGLER =
-            monster("mangler", ManglerEntity::new, 1.0F, 1.0F);
+            monster("mangler", ManglerEntity::new, 1.0F, 1.0F, 0.9F);
     public static final DeferredHolder<EntityType<?>, EntityType<HostEntity>> HOST =
             monster("host", HostEntity::new, 0.9F, 3.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<HostIIEntity>> HOSTII =

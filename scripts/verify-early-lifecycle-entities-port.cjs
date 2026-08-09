@@ -40,7 +40,7 @@ const checks = {
     /ModSounds\.get\("buthol\.boom"\), 0\.4F/],
   mangler: ["ManglerEntity.java", /MAX_HEALTH,\s*17\.0/, /ARMOR,\s*10\.0/,
     /ATTACK_DAMAGE,\s*9\.0/, /MOVEMENT_SPEED,\s*0\.37/, /onClimbable\(\)/,
-    /createAnimatedLeapGoal\(0\.8F,\s*20\)[\s\S]*new LeapAtTargetGoal\(this,\s*0\.4F\)/,
+    /new SkillLeapGoal\(\)[\s\S]*new LeapAtTargetGoal\(this,\s*0\.4F\)/,
     /DASH_COOLDOWN_TICKS\s*=\s*10[\s\S]*MAX_DASH_DISTANCE_SQR\s*=\s*225\.0D/,
     /WallClimberNavigation[\s\S]*setClimbing\(horizontalCollision && canClimbForTarget\(\)\)/,
     /FastMeleeAttackGoal[\s\S]*getTicksUntilNextAttack\(\)[\s\S]*return 6;/,

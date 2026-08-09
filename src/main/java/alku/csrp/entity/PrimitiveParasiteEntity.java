@@ -774,6 +774,11 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         return true;
     }
 
+    protected final void copyDamageAdaptationsTo(PrimitiveParasiteEntity target) {
+        target.damageAdaptations.clear();
+        target.damageAdaptations.putAll(damageAdaptations);
+    }
+
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);

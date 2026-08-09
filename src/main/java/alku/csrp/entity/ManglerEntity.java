@@ -1,21 +1,28 @@
 package alku.csrp.entity;
 
 import alku.csrp.Config;
+import alku.csrp.config.MobsConfig;
+import alku.csrp.effect.EffectStacking;
+import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
+import alku.csrp.world.EvolutionSystem;
+import alku.csrp.world.SrpWorldData;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -27,21 +34,57 @@ import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
 
+/** Original EntityNuuh, including its synchronized skin and combat-state animation routing. */
 public final class ManglerEntity extends PrimitiveParasiteEntity {
     private static final EntityDataAccessor<Byte> CLIMBING =
             SynchedEntityData.defineId(ManglerEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Byte> VARIANT =
+            SynchedEntityData.defineId(ManglerEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Byte> COMBAT_STATUS =
+            SynchedEntityData.defineId(ManglerEntity.class, EntityDataSerializers.BYTE);
+
+    public static final int NORMAL_VARIANT = 0;
+    public static final int VIRAL_VARIANT = 5;
+    public static final int BLEEDING_VARIANT = 6;
+    private static final int STATUS_IDLE = 0;
+    private static final int STATUS_APPROACH = 1;
+    private static final int STATUS_SPRINT = 2;
+    private static final int STATUS_LEAP = 10;
+    private static final int REGENERATION_TAG_DEFAULT = 1;
+    private static final String REGENERATION_USES_TAG = "mangler_regeneration_uses";
+
+    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final RawAnimation LIMB_SWING = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final RawAnimation AGE_STATUS_1 = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_1");
+    private final RawAnimation LIMB_STATUS_1 = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_1");
+    private final RawAnimation LIMB_STATUS_2 = ParasiteAnimations.loop(this,
+            "func_78087_a.limb_swing.get_parasite_status_2");
+    private final RawAnimation LEAP = ParasiteAnimations.loop(this,
+            "func_78087_a.age_in_ticks.get_parasite_status_10");
+
+    private int regenerationUses = REGENERATION_TAG_DEFAULT;
+    private boolean deathConversionHandled;
+
+    public ManglerEntity(EntityType<? extends ManglerEntity> type, Level level) {
+        super(type, level);
+        xpReward = 75;
+    }
+
     @Override
     protected int maxDamageAdaptationHits() {
         return 8;
@@ -71,26 +114,6 @@ public final class ManglerEntity extends PrimitiveParasiteEntity {
     protected float damageAdaptationEffectiveness() {
         return 0.95F;
     }
-    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
-    private final RawAnimation LIMB_SWING = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
-    private final RawAnimation AGE_STATUS_1 = ParasiteAnimations.loop(this,
-            "func_78087_a.age_in_ticks.get_parasite_status_1");
-    private final RawAnimation LIMB_STATUS_1 = ParasiteAnimations.loop(this,
-            "func_78087_a.limb_swing.get_parasite_status_1");
-    private final RawAnimation LIMB_STATUS_2 = ParasiteAnimations.loop(this,
-            "func_78087_a.limb_swing.get_parasite_status_2");
-    private final RawAnimation LEAP = ParasiteAnimations.loop(this,
-            "func_78087_a.age_in_ticks.get_parasite_status_10");
-    private static final int NORMAL = 0;
-    private static final int VIRAL = 1;
-    private static final int BLEEDING = 2;
-
-    private int variant;
-
-    public ManglerEntity(EntityType<? extends ManglerEntity> type, Level level) {
-        super(type, level);
-        xpReward = 75;
-    }
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
@@ -111,6 +134,8 @@ public final class ManglerEntity extends PrimitiveParasiteEntity {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(CLIMBING, (byte) 0);
+        builder.define(VARIANT, (byte) NORMAL_VARIANT);
+        builder.define(COMBAT_STATUS, (byte) STATUS_IDLE);
     }
 
     @Override
@@ -118,7 +143,7 @@ public final class ManglerEntity extends PrimitiveParasiteEntity {
         super.registerGoals();
         goalSelector.addGoal(0, new SwimmingDivingGoal());
         goalSelector.addGoal(1, new EvasiveDashGoal());
-        goalSelector.addGoal(2, createAnimatedLeapGoal(0.8F, 20));
+        goalSelector.addGoal(2, new SkillLeapGoal());
         goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.4F));
         goalSelector.addGoal(4, new FastMeleeAttackGoal());
     }
@@ -134,6 +159,7 @@ public final class ManglerEntity extends PrimitiveParasiteEntity {
         super.tick();
         if (!level().isClientSide) {
             setClimbing(horizontalCollision && canClimbForTarget());
+            tickRegeneration();
         }
     }
 
@@ -155,27 +181,27 @@ public final class ManglerEntity extends PrimitiveParasiteEntity {
         SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
         if (random.nextDouble() < Config.variantSpawnChance()
                 || Config.evolutionPhase(level()) >= Config.alwaysVariantPhase()) {
-            variant = random.nextBoolean() ? VIRAL : BLEEDING;
+            setVariant(random.nextBoolean() ? VIRAL_VARIANT : BLEEDING_VARIANT);
         }
         return data;
     }
 
     @Override
     public boolean doHurtTarget(Entity target) {
+        float healthBefore = target instanceof LivingEntity living
+                ? living.getHealth() + living.getAbsorptionAmount() : 0.0F;
         boolean hurt = super.doHurtTarget(target);
         if (hurt && target instanceof LivingEntity living) {
-            if (variant == VIRAL) {
-                living.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 100, 0), this);
-            }
+            applyMinimumDamage(living, healthBefore);
         }
         return hurt;
     }
 
     @Override
     public void push(Entity entity) {
-        if (!level().isClientSide && variant == VIRAL && entity instanceof LivingEntity living
-                && isValidParasiteTarget(living)) {
-            living.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 100, 0), this);
+        if (!level().isClientSide && getVariant() == VIRAL_VARIANT && entity instanceof LivingEntity living
+                && living != this && !(living instanceof Parasite)) {
+            EffectStacking.apply(living, ModMobEffects.VIRAL, 100, 0);
         }
         super.push(entity);
     }
@@ -202,7 +228,8 @@ public final class ManglerEntity extends PrimitiveParasiteEntity {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return ModSounds.get("nuuh.growl");
+        return getCombatStatus() == STATUS_IDLE
+                ? ModSounds.get("nuuh.growl") : ModSounds.get("mob.silence");
     }
 
     @Override
@@ -218,13 +245,23 @@ public final class ManglerEntity extends PrimitiveParasiteEntity {
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
-        tag.putInt("variant", variant);
+        tag.putByte("variant", (byte) getVariant());
+        tag.putInt(REGENERATION_USES_TAG, regenerationUses);
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        variant = tag.getInt("variant");
+        int storedVariant = tag.getInt("variant");
+        if (storedVariant == 1) {
+            storedVariant = VIRAL_VARIANT;
+        } else if (storedVariant == 2) {
+            storedVariant = BLEEDING_VARIANT;
+        }
+        setVariant(storedVariant == BLEEDING_VARIANT ? BLEEDING_VARIANT
+                : storedVariant == VIRAL_VARIANT ? VIRAL_VARIANT : NORMAL_VARIANT);
+        regenerationUses = Math.max(1, tag.contains(REGENERATION_USES_TAG)
+                ? tag.getInt(REGENERATION_USES_TAG) : REGENERATION_TAG_DEFAULT);
     }
 
     @Override
@@ -235,12 +272,108 @@ public final class ManglerEntity extends PrimitiveParasiteEntity {
                         return state.setAndContinue(LEAP);
                     }
                     boolean moving = ParasiteAnimations.isMoving(this, state.isMoving());
-                    return switch (variant) {
-                        case VIRAL -> state.setAndContinue(moving ? LIMB_STATUS_1 : AGE_STATUS_1);
-                        case BLEEDING -> state.setAndContinue(moving ? LIMB_STATUS_2 : AGE_IN_TICKS);
+                    return switch (getCombatStatus()) {
+                        case STATUS_APPROACH -> state.setAndContinue(moving ? LIMB_STATUS_1 : AGE_STATUS_1);
+                        case STATUS_SPRINT -> state.setAndContinue(moving ? LIMB_STATUS_2 : AGE_IN_TICKS);
+                        case STATUS_LEAP -> state.setAndContinue(LEAP);
                         default -> state.setAndContinue(moving ? LIMB_SWING : AGE_IN_TICKS);
                     };
                 }));
+    }
+
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        boolean hurt = super.hurt(source, amount);
+        if (!level().isClientSide && source.getEntity() instanceof Player player && player.isAlive()) {
+            setLastHurtByMob(player);
+            setTarget(player);
+        }
+        return hurt;
+    }
+
+    @Override
+    public void die(DamageSource source) {
+        if (!level().isClientSide && !deathConversionHandled && level() instanceof ServerLevel serverLevel
+                && !SrpWorldData.get(serverLevel).colonies().isEmpty()) {
+            deathConversionHandled = true;
+            Mob rupter = ModEntities.RUPTER.get().create(serverLevel);
+            if (rupter != null) {
+                rupter.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+                rupter.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
+                        MobSpawnType.MOB_SUMMONED, null);
+                rupter.setCustomName(getCustomName());
+                rupter.setCustomNameVisible(isCustomNameVisible());
+                if (isPersistenceRequired()) {
+                    rupter.setPersistenceRequired();
+                }
+                if (rupter instanceof PrimitiveParasiteEntity parasite) {
+                    copyDamageAdaptationsTo(parasite);
+                }
+                if (isOnFire()) {
+                    rupter.setHealth(rupter.getMaxHealth() * 0.5F);
+                    rupter.setRemainingFireTicks(8 * 20);
+                }
+                if (serverLevel.addFreshEntity(rupter)) {
+                    serverLevel.sendParticles(ParticleTypes.EXPLOSION, getX(), getY() + getBbHeight() * 0.5D,
+                            getZ(), 10, 0.2D, 0.2D, 0.2D, 0.0D);
+                    discard();
+                    return;
+                }
+            }
+        }
+        super.die(source);
+    }
+
+    public int getVariant() {
+        return entityData.get(VARIANT);
+    }
+
+    public int getCombatStatus() {
+        return entityData.get(COMBAT_STATUS);
+    }
+
+    private void setVariant(int value) {
+        entityData.set(VARIANT, (byte) value);
+    }
+
+    private void setCombatStatus(int status) {
+        entityData.set(COMBAT_STATUS, (byte) status);
+    }
+
+    private void tickRegeneration() {
+        if (tickCount % 21 != 10 || isOnFire() || !isAlive() || getParasiteKills() <= 1
+                || getHealth() >= getMaxHealth()) {
+            return;
+        }
+        heal(MobsConfig.manglerRegeneration());
+        if (--regenerationUses <= 0) {
+            consumeParasiteKill();
+            regenerationUses = 3;
+        }
+    }
+
+    private void applyMinimumDamage(LivingEntity target, float healthBefore) {
+        if (!(level() instanceof ServerLevel serverLevel)
+                || !EvolutionSystem.generationProfile(serverLevel).minimumDamage()
+                || target == this || !target.isAlive() || target instanceof Parasite
+                || target instanceof Player player && player.getAbilities().invulnerable) {
+            return;
+        }
+        float dealt = healthBefore - target.getHealth() - target.getAbsorptionAmount();
+        float minimum = MobsConfig.manglerMinimumDamage();
+        if (dealt >= minimum || minimum <= 0.0F) {
+            return;
+        }
+        float remaining = minimum - Math.max(0.0F, dealt);
+        float absorptionDamage = Math.min(target.getAbsorptionAmount(), remaining * 0.5F);
+        if (absorptionDamage > 0.0F) {
+            target.setAbsorptionAmount(target.getAbsorptionAmount() - absorptionDamage);
+        }
+        target.setHealth(Math.max(0.0F, target.getHealth() - (remaining - absorptionDamage)));
+        serverLevel.broadcastEntityEvent(target, (byte) 2);
+        if (target.getHealth() <= 0.0F) {
+            target.die(damageSources().mobAttack(this));
+        }
     }
 
     private void setClimbing(boolean climbing) {
@@ -256,6 +389,101 @@ public final class ManglerEntity extends PrimitiveParasiteEntity {
         @Override
         protected int getTicksUntilNextAttack() {
             return 6;
+        }
+
+        @Override
+        public void tick() {
+            super.tick();
+            LivingEntity target = getTarget();
+            if (target == null) {
+                setCombatStatus(STATUS_IDLE);
+                setSprinting(false);
+                return;
+            }
+            boolean sprinting = level() instanceof ServerLevel serverLevel
+                    && EvolutionSystem.generationProfile(serverLevel).sprinting();
+            int status = sprinting && distanceToSqr(target) > 1.0D ? STATUS_SPRINT : STATUS_APPROACH;
+            setCombatStatus(status);
+            setSprinting(status == STATUS_SPRINT);
+        }
+
+        @Override
+        public void stop() {
+            super.stop();
+            if (getCombatStatus() != STATUS_LEAP) {
+                setCombatStatus(STATUS_IDLE);
+                setSprinting(false);
+            }
+        }
+    }
+
+    private final class SkillLeapGoal extends Goal {
+        private int chargeTicks;
+        private int leapTicks;
+        private boolean leaping;
+
+        private SkillLeapGoal() {
+            setFlags(EnumSet.noneOf(Flag.class));
+        }
+
+        @Override
+        public boolean canUse() {
+            return !leaping && canChargeLeap();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return leaping || canChargeLeap();
+        }
+
+        @Override
+        public void tick() {
+            if (leaping) {
+                leapTicks++;
+                if (leapTicks > 2 && onGround()) {
+                    leaping = false;
+                    chargeTicks = 0;
+                    leapTicks = 0;
+                    setCombatStatus(STATUS_IDLE);
+                    setSprinting(false);
+                }
+                return;
+            }
+            LivingEntity target = getTarget();
+            if (target != null && distanceToSqr(target) >= 25.0D && distanceToSqr(target) < 10_000.0D
+                    && hasLineOfSight(target) && !hasEffect(MobEffects.MOVEMENT_SLOWDOWN)
+                    && ++chargeTicks >= 20 && onGround()) {
+                Vec3 direction = new Vec3(target.getX() - getX(), 0.0D, target.getZ() - getZ());
+                if (direction.lengthSqr() <= 0.001D) {
+                    return;
+                }
+                direction = direction.normalize();
+                Vec3 movement = getDeltaMovement();
+                setDeltaMovement(movement.x + direction.x * 2.0D * 0.9D + movement.x * 0.3D,
+                        0.8D,
+                        movement.z + direction.z * 2.0D * 0.9D + movement.z * 0.3D);
+                hasImpulse = true;
+                navigation.stop();
+                setCombatStatus(STATUS_LEAP);
+                setSprinting(false);
+                startSpecialLeapAnimation(20);
+                leaping = true;
+                leapTicks = 0;
+            }
+        }
+
+        @Override
+        public void stop() {
+            if (!leaping) {
+                chargeTicks = 0;
+            }
+        }
+
+        private boolean canChargeLeap() {
+            LivingEntity target = getTarget();
+            return target != null && getCombatStatus() > STATUS_IDLE && getCombatStatus() < STATUS_LEAP
+                    && level() instanceof ServerLevel serverLevel
+                    && EvolutionSystem.generationProfile(serverLevel).specialMoves();
         }
     }
 
@@ -301,7 +529,8 @@ public final class ManglerEntity extends PrimitiveParasiteEntity {
         @Override
         public boolean canUse() {
             LivingEntity target = getTarget();
-            if (target == null || !onGround()) {
+            if (target == null || !onGround() || getCombatStatus() != STATUS_APPROACH
+                    && getCombatStatus() != STATUS_SPRINT) {
                 cooldown = 0;
                 return false;
             }

@@ -70,6 +70,12 @@ public final class MobsConfig {
     private static final ModConfigSpec.IntValue RUPTER_MANGLER_KILLS = intValue(
             "srparasites:rupter", "rupterManglerKills", 30, 0, 1000,
             "Kills required for a Rupter to become a Mangler.");
+    private static final ModConfigSpec.DoubleValue MANGLER_MINIMUM_DAMAGE = value(
+            "srparasites:mangler", "manglerMinimumDamage", 0.3D, 0.0D, 1024.0D,
+            "Minimum damage applied by a Mangler melee hit after armor reduction.");
+    private static final ModConfigSpec.DoubleValue MANGLER_REGENERATION = value(
+            "srparasites:mangler", "manglerRegeneration", 14.0D, 0.0D, 1024.0D,
+            "Health restored by each Mangler regeneration pulse.");
 
     private static final ModConfigSpec.BooleanValue CARRIER_HEAVY_GRIEFING = booleanValue(
             "srparasites:carrier_heavy", "carrierHeavyGriefing", false,
@@ -432,6 +438,14 @@ public final class MobsConfig {
 
     public static int rupterManglerKills() {
         return RUPTER_MANGLER_KILLS.get();
+    }
+
+    public static float manglerMinimumDamage() {
+        return MANGLER_MINIMUM_DAMAGE.get().floatValue();
+    }
+
+    public static float manglerRegeneration() {
+        return MANGLER_REGENERATION.get().floatValue();
     }
 
     public static int ancientDreadnautMaxY() {

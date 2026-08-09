@@ -881,6 +881,13 @@ for (const action of [
 if (mangler.includes('triggerableAnim("attack"')) {
   failures.push("ManglerEntity: still uses a fabricated attack animation controller");
 }
+if (!mangler.includes("EntityDataAccessor<Byte> VARIANT")
+    || !mangler.includes("EntityDataAccessor<Byte> COMBAT_STATUS")
+    || !mangler.includes("EffectStacking.apply(living, ModMobEffects.VIRAL, 100, 0)")
+    || !mangler.includes("tickRegeneration()")
+    || !mangler.includes("copyDamageAdaptationsTo(parasite)")) {
+  failures.push("ManglerEntity: synchronized skin, combat state, collision virus, regeneration, or conversion state is incomplete");
+}
 
 const earlyLifecycleHost = read("src/main/java/alku/csrp/entity/HostEntity.java");
 if (!earlyLifecycleHost.includes('"func_78087_a.age_in_ticks"') || earlyLifecycleHost.includes('"walk"')) {

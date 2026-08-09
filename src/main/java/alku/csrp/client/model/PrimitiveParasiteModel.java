@@ -7,6 +7,7 @@ import alku.csrp.entity.AssimilatedDragonEntity;
 import alku.csrp.entity.AssimilatedEndermanEntity;
 import alku.csrp.entity.BurrowingVariantEntity;
 import alku.csrp.entity.CarrierEntity;
+import alku.csrp.entity.ManglerEntity;
 import alku.csrp.entity.PreeminentParasiteEntity;
 import alku.csrp.entity.PrimitiveVariantEntity;
 import alku.csrp.entity.PureParasiteEntity;
@@ -62,6 +63,12 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/pri_devourer_heavy.png");
     private static final ResourceLocation YELLOWEYE_HEAVY_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/pri_yelloweye_heavy.png");
+    private static final ResourceLocation MANGLER_VIRAL_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/nuuhv.png");
+    private static final ResourceLocation MANGLER_BLEEDING_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/nuuhb.png");
+    private static final ResourceLocation MANGLER_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/nuuh.png");
     private final ResourceLocation model;
     private final ResourceLocation texture;
     private final ResourceLocation animation;
@@ -86,6 +93,13 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
         }
         if (animatable instanceof AssimilatedEndermanEntity enderman && enderman.isShrimpFed()) {
             return SHRIMP_FED_ENDERMAN_TEXTURE;
+        }
+        if (animatable instanceof ManglerEntity mangler) {
+            return switch (mangler.getVariant()) {
+                case ManglerEntity.VIRAL_VARIANT -> MANGLER_VIRAL_TEXTURE;
+                case ManglerEntity.BLEEDING_VARIANT -> MANGLER_BLEEDING_TEXTURE;
+                default -> MANGLER_TEXTURE;
+            };
         }
         if (animatable instanceof PreeminentParasiteEntity preeminent && preeminent.isCarrierVariant()) {
             return CARRIER_VARIANT_TEXTURE;
