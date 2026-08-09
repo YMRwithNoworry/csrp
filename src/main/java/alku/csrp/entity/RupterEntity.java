@@ -480,7 +480,6 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
         if (!victim.hasEffect(ModMobEffects.COTH)) {
             victim.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, 0, false, false), this);
         }
-        InfectionMechanics.convertKilledHost(victim, this);
         addEffect(new MobEffectInstance(MobEffects.CONFUSION, 80, 0, false, false));
         return super.killedEntity(level, victim);
     }
