@@ -3,6 +3,7 @@ package alku.csrp.entity;
 import alku.csrp.block.SrpWebBlock;
 import alku.csrp.config.MobsConfig;
 import alku.csrp.registry.ModBlocks;
+import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
@@ -250,7 +251,7 @@ public final class ParasiteProjectileEntity extends Entity {
             return;
         }
         if (mode == Mode.ACID || mode == Mode.YELLOWEYE_NADE) {
-            armAcidNade();
+            spawnNade(owner, mode == Mode.YELLOWEYE_NADE ? NadeEntity.Kind.YELLOWEYE : NadeEntity.Kind.ACID);
             return;
         }
         if (mode == Mode.YELLOWEYE_SPINE) {
@@ -373,11 +374,7 @@ public final class ParasiteProjectileEntity extends Entity {
             return;
         }
         if (mode == Mode.ELVIA_NADE) {
-            accelerating = false;
-            acceleration = Vec3.ZERO;
-            setDeltaMovement(Vec3.ZERO);
-            entityData.set(NADE_ARMED, true);
-            entityData.set(NADE_FUSE_PROGRESS, 0);
+            spawnNade(owner, NadeEntity.Kind.ELVIA);
             return;
         }
         if (directHit != null) {
@@ -386,6 +383,16 @@ public final class ParasiteProjectileEntity extends Entity {
         if (mode == Mode.LENCIA_BALL) {
             DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(10.0D));
             level().explode(owner, getX(), getY(), getZ(), 10.0F, Level.ExplosionInteraction.MOB);
+        }
+        discard();
+    }
+
+    private void spawnNade(PrimitiveParasiteEntity owner, NadeEntity.Kind kind) {
+        NadeEntity nade = ModEntities.NADE.get().create(level());
+        if (nade != null) {
+            nade.configure(owner, kind);
+            nade.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+            level().addFreshEntity(nade);
         }
         discard();
     }

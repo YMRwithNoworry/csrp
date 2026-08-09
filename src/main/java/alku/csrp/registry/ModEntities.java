@@ -69,6 +69,7 @@ import alku.csrp.entity.ThrallEntity;
 import alku.csrp.entity.VerminEntity;
 import alku.csrp.entity.VisceraEntity;
 import alku.csrp.entity.MovingFleshEntity;
+import alku.csrp.entity.NadeEntity;
 import alku.csrp.entity.NexusParasiteEntity;
 import alku.csrp.entity.WorkerEntity;
 import alku.csrp.entity.ArchitectEntity;
@@ -550,8 +551,11 @@ public final class ModEntities {
             auxiliary("tendril", LegacyAuxiliaryEntity.Kind.TENDRIL, 1.0F, 1.0F, 4, 3);
     public static final DeferredHolder<EntityType<?>, EntityType<LegacyAuxiliaryEntity>> WAVE =
             auxiliary("wave", LegacyAuxiliaryEntity.Kind.WAVE, 1.5F, 0.2F, 4, 3);
-    public static final DeferredHolder<EntityType<?>, EntityType<LegacyAuxiliaryEntity>> NADE =
-            auxiliary("nade", LegacyAuxiliaryEntity.Kind.NADE, 0.5F, 0.5F, 4, 3);
+    public static final DeferredHolder<EntityType<?>, EntityType<NadeEntity>> NADE =
+            ENTITIES.register("nade", () -> EntityType.Builder
+                    .<NadeEntity>of(NadeEntity::new, MobCategory.MISC)
+                    .sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(3)
+                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "nade").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<HaunterHomingProjectileEntity>> HAUNTER_HOMING =
             ENTITIES.register("homming", () -> EntityType.Builder
                     .<HaunterHomingProjectileEntity>of(HaunterHomingProjectileEntity::new, MobCategory.MISC)

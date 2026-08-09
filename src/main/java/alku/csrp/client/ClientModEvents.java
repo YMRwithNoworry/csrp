@@ -15,6 +15,7 @@ import alku.csrp.client.renderer.DragonEggAssimilationRenderer;
 import alku.csrp.client.renderer.HaunterHomingProjectileRenderer;
 import alku.csrp.client.renderer.MarauderRenderer;
 import alku.csrp.client.renderer.MarauderTendrilRenderer;
+import alku.csrp.client.renderer.NadeRenderer;
 import alku.csrp.client.renderer.MovingFleshRenderer;
 import alku.csrp.client.renderer.NexusParasiteRenderer;
 import alku.csrp.client.renderer.RupterRenderer;
@@ -359,7 +360,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.GORE.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.TENDRIL.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.WAVE.get(), NoopRenderer::new);
-        event.registerEntityRenderer(ModEntities.NADE.get(), NoopRenderer::new);
+        event.registerEntityRenderer(ModEntities.NADE.get(), NadeRenderer::new);
     }
 
     @SubscribeEvent

@@ -19,8 +19,7 @@ public final class LegacyAuxiliaryEntity extends Entity {
         CLOUD_TOXIC,
         GORE,
         TENDRIL,
-        WAVE,
-        NADE
+        WAVE
     }
 
     private final Kind kind;
@@ -32,7 +31,7 @@ public final class LegacyAuxiliaryEntity extends Entity {
         this.lifetime = switch (kind) {
             case SOURCE -> 2400;
             case REMAIN -> 1200;
-            case ORB_BOOM, BOMB, NADE -> 120;
+            case ORB_BOOM, BOMB -> 120;
             default -> 200;
         };
         noPhysics = true;
@@ -51,7 +50,7 @@ public final class LegacyAuxiliaryEntity extends Entity {
             return;
         }
         Vec3 movement = getDeltaMovement();
-        if (kind == Kind.GORE || kind == Kind.WAVE || kind == Kind.NADE) {
+        if (kind == Kind.GORE || kind == Kind.WAVE) {
             setPos(position().add(movement));
             setDeltaMovement(movement.scale(0.96D).add(0.0D, kind == Kind.GORE ? -0.04D : 0.0D, 0.0D));
         }
@@ -69,7 +68,6 @@ public final class LegacyAuxiliaryEntity extends Entity {
             case SOURCE, REMAIN, TENDRIL -> ParticleTypes.END_ROD;
             case CLOUD_TOXIC, GORE -> ParticleTypes.WITCH;
             case WAVE -> ParticleTypes.CLOUD;
-            case NADE -> ParticleTypes.ITEM_SLIME;
         };
         level().addParticle(particle, getX(), getY() + getBbHeight() * 0.5D, getZ(),
                 0.0D, 0.02D, 0.0D);
