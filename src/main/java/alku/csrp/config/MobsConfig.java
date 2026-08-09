@@ -59,6 +59,48 @@ public final class MobsConfig {
             "Adapted Arachnida scary-orb effects: self;seconds;amplifier;effect_id;mob_amplifier_step;mob_duration_step.",
             MobsConfig::validOrbEffect);
 
+    private static final ModConfigSpec.DoubleValue BOLSTER_HEALTH_MULTIPLIER = value(
+            "srparasites:bolster", "primitiveBolsterHealthMultiplier", 1.0D, 0.01D, 100.0D,
+            "Health multiplier for the Primitive Bolster.");
+    private static final ModConfigSpec.DoubleValue BOLSTER_DAMAGE_MULTIPLIER = value(
+            "srparasites:bolster", "primitiveBolsterDamageMultiplier", 1.0D, 0.01D, 100.0D,
+            "Attack damage multiplier for the Primitive Bolster.");
+    private static final ModConfigSpec.DoubleValue BOLSTER_ARMOR_MULTIPLIER = value(
+            "srparasites:bolster", "primitiveBolsterArmorMultiplier", 1.0D, 0.01D, 100.0D,
+            "Armor multiplier for the Primitive Bolster.");
+    private static final ModConfigSpec.DoubleValue BOLSTER_KNOCKBACK_MULTIPLIER = value(
+            "srparasites:bolster", "primitiveBolsterKnockbackResistanceMultiplier",
+            1.0D, 0.01D, 100.0D, "Knockback resistance multiplier for the Primitive Bolster.");
+    private static final ModConfigSpec.IntValue BOLSTER_BUFF_COOLDOWN = intValue(
+            "srparasites:bolster", "primitiveBolsterBuffCooldownSeconds", 30, 0, 100,
+            "Cooldown in seconds between Primitive Bolster area buffs.");
+    private static final ModConfigSpec.IntValue BOLSTER_BUFF_RANGE = intValue(
+            "srparasites:bolster", "primitiveBolsterBuffRange", 16, 0, 100,
+            "Range of the Primitive Bolster area buff.");
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> BOLSTER_EFFECTS = stringList(
+            "srparasites:bolster", "primitiveBolsterEffects",
+            List.of("30;1;minecraft:regeneration"),
+            "Primitive Bolster area effects: seconds;amplifier;effect_id.",
+            MobsConfig::validAreaEffect);
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> BOLSTER_ORB_EFFECTS = stringList(
+            "srparasites:bolster", "primitiveBolsterOrbEffects", List.of(
+                    "0;15;1;minecraft:hunger;0;0",
+                    "2;30;1;minecraft:speed;0;0"),
+            "Primitive Bolster scary-orb effects: self;seconds;amplifier;effect_id;mob_amplifier_step;mob_duration_step.",
+            MobsConfig::validOrbEffect);
+
+    private static final ModConfigSpec.DoubleValue MANDUCATER_HEALTH_MULTIPLIER = value(
+            "srparasites:manducater", "primitiveManducaterHealthMultiplier", 1.0D, 0.01D, 100.0D,
+            "Health multiplier for the Primitive Manducater.");
+    private static final ModConfigSpec.DoubleValue MANDUCATER_DAMAGE_MULTIPLIER = value(
+            "srparasites:manducater", "primitiveManducaterDamageMultiplier", 1.0D, 0.01D, 100.0D,
+            "Attack damage multiplier for the Primitive Manducater.");
+    private static final ModConfigSpec.DoubleValue MANDUCATER_ARMOR_MULTIPLIER = value(
+            "srparasites:manducater", "primitiveManducaterArmorMultiplier", 1.0D, 0.01D, 100.0D,
+            "Armor multiplier for the Primitive Manducater.");
+    private static final ModConfigSpec.DoubleValue MANDUCATER_KNOCKBACK_MULTIPLIER = value(
+            "srparasites:manducater", "primitiveManducaterKnockbackResistanceMultiplier",
+            1.0D, 0.01D, 100.0D, "Knockback resistance multiplier for the Primitive Manducater.");
     private static final ModConfigSpec.DoubleValue MANDUCATER_NEEDED_HEALTH = value(
             "srparasites:manducater", "manducaterNeededHealth", 0.70D, 0.0D, 1.0D,
             "Health ratio needed for a Primitive Manducater to camouflage.");
@@ -68,6 +110,12 @@ public final class MobsConfig {
     private static final ModConfigSpec.DoubleValue MANDUCATER_STEALTH_DAMAGE = value(
             "srparasites:manducater", "manducaterStealthDamageMultiplier", 2.0D, 0.01D, 100.0D,
             "Damage multiplier for a camouflaged Primitive Manducater attack.");
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> MANDUCATER_ORB_EFFECTS = stringList(
+            "srparasites:manducater", "primitiveManducaterOrbEffects", List.of(
+                    "0;15;1;minecraft:hunger;0;0",
+                    "1;20;1;minecraft:invisibility;2;2"),
+            "Primitive Manducater scary-orb effects: self;seconds;amplifier;effect_id;mob_amplifier_step;mob_duration_step.",
+            MobsConfig::validOrbEffect);
     private static final ModConfigSpec.DoubleValue DEVOURER_HEALTH_MULTIPLIER = value(
             "srparasites:devourer", "primitiveDevourerHealthMultiplier", 1.0D, 0.01D, 100.0D,
             "Health multiplier for the Primitive Devourer.");
@@ -298,6 +346,54 @@ public final class MobsConfig {
         return ADAPTED_ARACHNIDA_ORB_EFFECTS.get();
     }
 
+    public static double bolsterHealth() {
+        return 35.0D * BOLSTER_HEALTH_MULTIPLIER.get();
+    }
+
+    public static double bolsterDamage() {
+        return 6.0D * BOLSTER_DAMAGE_MULTIPLIER.get();
+    }
+
+    public static double bolsterArmor() {
+        return 4.0D * BOLSTER_ARMOR_MULTIPLIER.get();
+    }
+
+    public static double bolsterKnockbackResistance() {
+        return Math.min(1.0D, 0.35D * BOLSTER_KNOCKBACK_MULTIPLIER.get());
+    }
+
+    public static int bolsterBuffCooldownTicks() {
+        return BOLSTER_BUFF_COOLDOWN.get() * 20;
+    }
+
+    public static int bolsterBuffRange() {
+        return BOLSTER_BUFF_RANGE.get();
+    }
+
+    public static List<? extends String> bolsterEffects() {
+        return BOLSTER_EFFECTS.get();
+    }
+
+    public static List<? extends String> bolsterOrbEffects() {
+        return BOLSTER_ORB_EFFECTS.get();
+    }
+
+    public static double manducaterHealth() {
+        return 30.0D * MANDUCATER_HEALTH_MULTIPLIER.get();
+    }
+
+    public static double manducaterDamage() {
+        return 12.0D * MANDUCATER_DAMAGE_MULTIPLIER.get();
+    }
+
+    public static double manducaterArmor() {
+        return 4.0D * MANDUCATER_ARMOR_MULTIPLIER.get();
+    }
+
+    public static double manducaterKnockbackResistance() {
+        return Math.min(1.0D, 0.5D * MANDUCATER_KNOCKBACK_MULTIPLIER.get());
+    }
+
     public static double manducaterNeededHealth() {
         return MANDUCATER_NEEDED_HEALTH.get();
     }
@@ -308,6 +404,10 @@ public final class MobsConfig {
 
     public static double manducaterStealthDamageMultiplier() {
         return MANDUCATER_STEALTH_DAMAGE.get();
+    }
+
+    public static List<? extends String> manducaterOrbEffects() {
+        return MANDUCATER_ORB_EFFECTS.get();
     }
 
     public static double devourerHealth() {
@@ -478,6 +578,23 @@ public final class MobsConfig {
             for (int index : new int[] {0, 1, 2, 4, 5}) {
                 Integer.parseInt(parts[index].trim());
             }
+            return true;
+        } catch (NumberFormatException ignored) {
+            return false;
+        }
+    }
+
+    private static boolean validAreaEffect(Object value) {
+        if (!(value instanceof String effect)) {
+            return false;
+        }
+        String[] parts = effect.split(";", -1);
+        if (parts.length != 3 || net.minecraft.resources.ResourceLocation.tryParse(parts[2].trim()) == null) {
+            return false;
+        }
+        try {
+            Integer.parseInt(parts[0].trim());
+            Integer.parseInt(parts[1].trim());
             return true;
         } catch (NumberFormatException ignored) {
             return false;

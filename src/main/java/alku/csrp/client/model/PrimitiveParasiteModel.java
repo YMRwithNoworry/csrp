@@ -26,6 +26,12 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/ada_bolster_virulent.png");
     private static final ResourceLocation BOLSTER_BREACHER_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/ada_bolster_breacher.png");
+    private static final ResourceLocation BOLSTER_VIRULENT_PRIMITIVE_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/banov.png");
+    private static final ResourceLocation BOLSTER_HEAVY_PRIMITIVE_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/banoh.png");
+    private static final ResourceLocation MANDUCATER_HEAVY_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/hullh.png");
     private static final ResourceLocation ARACHNIDA_VIRULENT_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/ada_arachnida_virulent.png");
     private static final ResourceLocation ARACHNIDA_BLEEDING_TEXTURE =
@@ -102,6 +108,17 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
                 case 7 -> REEKER_HEAVY_TEXTURE;
                 default -> texture;
             };
+        }
+        if (animatable instanceof PrimitiveVariantEntity primitive && primitive.isPrimitiveBolster()) {
+            return switch (primitive.getBolsterSkin()) {
+                case 5 -> BOLSTER_VIRULENT_PRIMITIVE_TEXTURE;
+                case 7 -> BOLSTER_HEAVY_PRIMITIVE_TEXTURE;
+                default -> texture;
+            };
+        }
+        if (animatable instanceof PrimitiveVariantEntity primitive && primitive.isPrimitiveManducater()
+                && primitive.getManducaterSkin() == 7) {
+            return MANDUCATER_HEAVY_TEXTURE;
         }
         if (animatable instanceof PrimitiveVariantEntity primitive && primitive.isPrimitiveDevourer()
                 && primitive.getDevourerSkin() == 7) {

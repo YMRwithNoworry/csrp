@@ -11,6 +11,7 @@ import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -85,6 +86,10 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
             PrimitiveVariantEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> MANDUCATER_STATUS = SynchedEntityData.defineId(
             PrimitiveVariantEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> BOLSTER_SKIN = SynchedEntityData.defineId(
+            PrimitiveVariantEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> MANDUCATER_SKIN = SynchedEntityData.defineId(
+            PrimitiveVariantEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> REEKER_SKIN = SynchedEntityData.defineId(
             PrimitiveVariantEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> REEKER_RICARDO_BALD = SynchedEntityData.defineId(
@@ -105,6 +110,11 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
     private static final int DEVOURER_SKIN_HEAVY = 7;
     private static final int YELLOWEYE_SKIN_NORMAL = 0;
     private static final int YELLOWEYE_SKIN_HEAVY = 7;
+    private static final int BOLSTER_SKIN_NORMAL = 0;
+    private static final int BOLSTER_SKIN_VIRULENT = 5;
+    private static final int BOLSTER_SKIN_HEAVY = 7;
+    private static final int MANDUCATER_SKIN_NORMAL = 0;
+    private static final int MANDUCATER_SKIN_HEAVY = 7;
     private static final int REEKER_SKILL_PREP_TICKS = 40;
     private static final int REEKER_WINDUP_TICKS = 20;
     private static final int REEKER_CHARGE_TICKS = 40;
@@ -183,6 +193,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
     private boolean yelloweyeShotFired;
     private int manducaterCamouflageTimer;
     private int manducaterPullTicks;
+    private int manducaterAttackAnimationCooldown;
     private LivingEntity manducaterTarget;
     private int reekerChargePreparationTicks;
 
@@ -225,6 +236,8 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
         builder.define(MANDUCATER_CAMOUFLAGED, false);
         builder.define(MANDUCATER_TARGET_ENTITY, 0);
         builder.define(MANDUCATER_STATUS, 0);
+        builder.define(BOLSTER_SKIN, BOLSTER_SKIN_NORMAL);
+        builder.define(MANDUCATER_SKIN, MANDUCATER_SKIN_NORMAL);
         builder.define(REEKER_SKIN, REEKER_SKIN_NORMAL);
         builder.define(REEKER_RICARDO_BALD, false);
         builder.define(DEVOURER_SKIN, DEVOURER_SKIN_NORMAL);
@@ -253,7 +266,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
                 armor = 4.0D;
                 damage = 6.0D;
                 speed = 0.19D;
-                knockbackResistance = 0.80D;
+                knockbackResistance = 0.35D;
                 followRange = 32.0D;
             }
             case BURROWER -> {
@@ -328,12 +341,18 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
             case ARACHNIDA -> applyConfiguredAttributes(
                     MobsConfig.arachnidaHealth(), MobsConfig.arachnidaArmor(),
                     MobsConfig.arachnidaDamage(), MobsConfig.arachnidaKnockbackResistance());
+            case BOLSTER -> applyConfiguredAttributes(
+                    MobsConfig.bolsterHealth(), MobsConfig.bolsterArmor(),
+                    MobsConfig.bolsterDamage(), MobsConfig.bolsterKnockbackResistance());
             case BURROWER -> applyConfiguredAttributes(
                     MobsConfig.burrowerHealth(), MobsConfig.burrowerArmor(),
                     MobsConfig.burrowerDamage(), MobsConfig.burrowerKnockbackResistance());
             case DEVOURER -> applyConfiguredAttributes(
                     MobsConfig.devourerHealth(), MobsConfig.devourerArmor(),
                     MobsConfig.devourerDamage(), MobsConfig.devourerKnockbackResistance());
+            case MANDUCATER -> applyConfiguredAttributes(
+                    MobsConfig.manducaterHealth(), MobsConfig.manducaterArmor(),
+                    MobsConfig.manducaterDamage(), MobsConfig.manducaterKnockbackResistance());
             case REEKER -> applyReekerAttributes(false);
             case TOZOON -> applyConfiguredAttributes(
                     MobsConfig.tozoonHealth(), MobsConfig.tozoonArmor(),
@@ -363,8 +382,9 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
                 goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.15D, false));
             }
             case BOLSTER -> {
-                goalSelector.addGoal(1, new BolsterSupportGoal());
-                goalSelector.addGoal(2, new MeleeAttackGoal(this, 0.95D, false));
+                goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, false));
+                goalSelector.addGoal(3, new BolsterSupportGoal());
+                goalSelector.addGoal(6, new ReekerRecruitFollowersGoal());
             }
             case BURROWER -> {
                 goalSelector.addGoal(1, createBurrowMovementGoal());
@@ -375,6 +395,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
                 goalSelector.addGoal(6, new DevourerRandomSwimGoal());
             }
             case MANDUCATER -> {
+                goalSelector.addGoal(0, new ManducaterSwimmingDivingGoal());
                 goalSelector.addGoal(2, new ManducaterWaterLeapGoal());
                 goalSelector.addGoal(2, new ManducaterEvadeGoal());
                 goalSelector.addGoal(3, new ManducaterMeleeGoal());
@@ -396,6 +417,11 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
                 goalSelector.addGoal(6, new YelloweyeRandomFlightGoal());
             }
         }
+    }
+
+    @Override
+    protected boolean usesDefaultFloatGoal() {
+        return activeKind() != Kind.MANDUCATER;
     }
 
     @Nullable
@@ -425,6 +451,16 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
                 && (random.nextDouble() < Config.variantSpawnChance()
                 || Config.evolutionPhase(level.getLevel()) >= Config.alwaysVariantPhase())) {
             setYelloweyeSkin(YELLOWEYE_SKIN_HEAVY);
+        }
+        if (!level.isClientSide() && activeKind() == Kind.BOLSTER
+                && (random.nextDouble() < Config.variantSpawnChance()
+                || Config.evolutionPhase(level.getLevel()) >= Config.alwaysVariantPhase())) {
+            setBolsterSkin(random.nextBoolean() ? BOLSTER_SKIN_VIRULENT : BOLSTER_SKIN_HEAVY);
+        }
+        if (!level.isClientSide() && activeKind() == Kind.MANDUCATER
+                && (random.nextDouble() < Config.variantSpawnChance()
+                || Config.evolutionPhase(level.getLevel()) >= Config.alwaysVariantPhase())) {
+            setManducaterSkin(MANDUCATER_SKIN_HEAVY);
         }
         return data;
     }
@@ -463,6 +499,9 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
         }
         if (abilityCooldown > 0) {
             abilityCooldown--;
+        }
+        if (manducaterAttackAnimationCooldown > 0) {
+            manducaterAttackAnimationCooldown--;
         }
         int specialTicks = entityData.get(SPECIAL_ANIMATION_TICKS);
         if (specialTicks > 0) {
@@ -511,7 +550,9 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
 
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
-        if (activeKind() == Kind.REEKER && getAdaptationHitStatus() > 0 && random.nextBoolean()) {
+        Kind activeKind = activeKind();
+        if ((activeKind == Kind.BOLSTER || activeKind == Kind.MANDUCATER || activeKind == Kind.REEKER)
+                && getAdaptationHitStatus() > 0 && random.nextBoolean()) {
             return null;
         }
         return super.getHurtSound(source);
@@ -519,7 +560,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
 
     @Override
     protected void playStepSound(BlockPos pos, BlockState state) {
-        if (activeKind() == Kind.REEKER) {
+        if (activeKind() == Kind.MANDUCATER || activeKind() == Kind.REEKER) {
             playSound(ModSounds.get("monster.step"), 0.15F, 1.0F);
             return;
         }
@@ -546,6 +587,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
             manducaterCamouflageTimer = 0;
         }
         if (activeKind == Kind.MANDUCATER) {
+            manducaterAttackAnimationCooldown = 100;
             entityData.set(MANDUCATER_STATUS, 1);
             if (entityData.get(MANDUCATER_TARGET_ENTITY) == 0) {
                 setManducaterTarget(target);
@@ -555,6 +597,11 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
 
         switch (activeKind) {
             case ARACHNIDA -> target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 80, 0), this);
+            case BOLSTER -> {
+                if (getBolsterSkin() == BOLSTER_SKIN_VIRULENT) {
+                    EffectStacking.apply(target, ModMobEffects.VIRAL, 40, 0);
+                }
+            }
             case DEVOURER -> target.setDeltaMovement(target.getDeltaMovement().add(0.0D, -0.5645D, 0.0D));
             case MANDUCATER -> {
                 if (random.nextFloat() < 0.20F) {
@@ -582,9 +629,15 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
 
     @Override
     public void push(Entity entity) {
+        if (activeKind() == Kind.MANDUCATER && getManducaterTarget() == entity) {
+            return;
+        }
         super.push(entity);
-        if (!level().isClientSide && activeKind() == Kind.REEKER
-                && getReekerSkin() == REEKER_SKIN_VIRULENT
+        boolean virulentBolster = activeKind() == Kind.BOLSTER
+                && getBolsterSkin() == BOLSTER_SKIN_VIRULENT;
+        boolean virulentReeker = activeKind() == Kind.REEKER
+                && getReekerSkin() == REEKER_SKIN_VIRULENT;
+        if (!level().isClientSide && (virulentBolster || virulentReeker)
                 && entity instanceof LivingEntity target && !(target instanceof Parasite)) {
             EffectStacking.apply(target, ModMobEffects.VIRAL, 40, 0);
         }
@@ -593,8 +646,16 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
     @Override
     public boolean applyScaryOrbEffect(LivingEntity target, int nearbyEntities) {
         boolean applied = super.applyScaryOrbEffect(target, nearbyEntities);
-        if (applied && activeKind() == Kind.REEKER) {
-            applyReekerOrbEffects(target, nearbyEntities);
+        if (applied) {
+            switch (activeKind()) {
+                case BOLSTER -> ConfiguredOrbEffects.apply(
+                        this, target, nearbyEntities, MobsConfig.bolsterOrbEffects());
+                case MANDUCATER -> ConfiguredOrbEffects.apply(
+                        this, target, nearbyEntities, MobsConfig.manducaterOrbEffects());
+                case REEKER -> applyReekerOrbEffects(target, nearbyEntities);
+                default -> {
+                }
+            }
         }
         return applied;
     }
@@ -682,6 +743,32 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
 
     public boolean isPrimitiveDevourer() {
         return activeKind() == Kind.DEVOURER;
+    }
+
+    public boolean isPrimitiveBolster() {
+        return activeKind() == Kind.BOLSTER;
+    }
+
+    public boolean isPrimitiveManducater() {
+        return activeKind() == Kind.MANDUCATER;
+    }
+
+    public int getBolsterSkin() {
+        return entityData.get(BOLSTER_SKIN);
+    }
+
+    public int getManducaterSkin() {
+        return entityData.get(MANDUCATER_SKIN);
+    }
+
+    private void setBolsterSkin(int skin) {
+        entityData.set(BOLSTER_SKIN, skin == BOLSTER_SKIN_VIRULENT || skin == BOLSTER_SKIN_HEAVY
+                ? skin : BOLSTER_SKIN_NORMAL);
+    }
+
+    private void setManducaterSkin(int skin) {
+        entityData.set(MANDUCATER_SKIN, skin == MANDUCATER_SKIN_HEAVY
+                ? MANDUCATER_SKIN_HEAVY : MANDUCATER_SKIN_NORMAL);
     }
 
     public int getDevourerSkin() {
@@ -806,6 +893,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
 
     private void tickManducater() {
         tickManducaterCamouflage();
+        updateManducaterStatus();
 
         LivingEntity target = getManducaterTarget();
         if (target == null || !target.isAlive() || getTarget() != target || !hasLineOfSight(target)
@@ -954,8 +1042,8 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
             entityData.set(MANDUCATER_STATUS, 0);
             return;
         }
-        boolean moving = getDeltaMovement().horizontalDistanceSqr() > 0.02D;
-        entityData.set(MANDUCATER_STATUS, moving && distanceToSqr(target) > 64.0D ? 2 : 1);
+        boolean sprinting = distanceToSqr(target) > 64.0D || manducaterAttackAnimationCooldown == 0;
+        entityData.set(MANDUCATER_STATUS, sprinting ? 2 : 1);
     }
 
     @Override
@@ -974,6 +1062,10 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
             tag.putInt("manducater_camouflage_timer", manducaterCamouflageTimer);
             tag.putInt("manducater_pull_ticks", manducaterPullTicks);
             tag.putInt("manducater_status", entityData.get(MANDUCATER_STATUS));
+            tag.putInt("manducater_skin", getManducaterSkin());
+        }
+        if (activeKind() == Kind.BOLSTER) {
+            tag.putInt("bolster_skin", getBolsterSkin());
         }
         if (activeKind() == Kind.REEKER) {
             tag.putInt("reeker_skin", getReekerSkin());
@@ -999,6 +1091,10 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
             entityData.set(MANDUCATER_STATUS, tag.getInt("manducater_status"));
             entityData.set(MANDUCATER_TARGET_ENTITY, 0);
             manducaterTarget = null;
+            setManducaterSkin(tag.getInt("manducater_skin"));
+        }
+        if (activeKind() == Kind.BOLSTER) {
+            setBolsterSkin(tag.getInt("bolster_skin"));
         }
         if (activeKind() == Kind.REEKER) {
             setReekerSkin(tag.getInt("reeker_skin"));
@@ -1517,28 +1613,84 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
     }
 
     private final class BolsterSupportGoal extends Goal {
-        private BolsterSupportGoal() {
-            setFlags(EnumSet.of(Flag.LOOK));
-        }
+        private int buffTimer;
 
         @Override
         public boolean canUse() {
-            return abilityCooldown <= 0 && getTarget() != null;
+            return true;
         }
 
         @Override
         public boolean canContinueToUse() {
-            return false;
+            return true;
         }
 
         @Override
-        public void start() {
-            for (LivingEntity ally : level().getEntitiesOfClass(LivingEntity.class,
-                    getBoundingBox().inflate(16.0D), entity -> entity instanceof Parasite && entity.isAlive())) {
-                ally.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 600, 1), PrimitiveVariantEntity.this);
-                ally.clearFire();
+        public void tick() {
+            buffTimer++;
+            if (buffTimer < 60) {
+                return;
             }
-            abilityCooldown = 600;
+            AABB area = new AABB(blockPosition()).inflate(MobsConfig.bolsterBuffRange());
+            for (Mob ally : level().getEntitiesOfClass(Mob.class, area,
+                    entity -> entity != PrimitiveVariantEntity.this && entity instanceof Parasite && entity.isAlive())) {
+                applyBolsterEffects(ally);
+            }
+            buffTimer -= MobsConfig.bolsterBuffCooldownTicks();
+        }
+    }
+
+    private void applyBolsterEffects(Mob ally) {
+        for (String raw : MobsConfig.bolsterEffects()) {
+            String[] parts = raw.split(";", -1);
+            if (parts.length != 3) {
+                continue;
+            }
+            try {
+                int duration = Math.max(0, Integer.parseInt(parts[0].trim())) * 20;
+                int amplifier = Integer.parseInt(parts[1].trim());
+                net.minecraft.resources.ResourceLocation effectId =
+                        net.minecraft.resources.ResourceLocation.tryParse(parts[2].trim());
+                if (effectId == null) {
+                    continue;
+                }
+                BuiltInRegistries.MOB_EFFECT.getOptional(effectId).ifPresent(effect -> ally.addEffect(
+                        new MobEffectInstance(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect), duration,
+                                amplifier, false, false), this));
+            } catch (NumberFormatException ignored) {
+                // Tolerate stale hand-edited config entries.
+            }
+        }
+    }
+
+    private final class ManducaterSwimmingDivingGoal extends Goal {
+        private static final double DIVE_MOTION = 0.095D;
+
+        private ManducaterSwimmingDivingGoal() {
+            setFlags(EnumSet.of(Flag.JUMP));
+            getNavigation().setCanFloat(true);
+        }
+
+        @Override
+        public boolean canUse() {
+            if (!isInWaterOrBubble() && !isInLava()) {
+                return false;
+            }
+            LivingEntity target = getTarget();
+            if (target != null && (target.isInWaterOrBubble() || target.isInLava())
+                    && distanceToSqr(getX(), target.getY(), getZ()) < 25.0D
+                    && target.getY() - getY() < -1.0D) {
+                setDeltaMovement(getDeltaMovement().add(0.0D, -DIVE_MOTION, 0.0D));
+                return false;
+            }
+            return true;
+        }
+
+        @Override
+        public void tick() {
+            if (random.nextFloat() < 0.8F) {
+                getJumpControl().jump();
+            }
         }
     }
 
@@ -1561,6 +1713,10 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
                 attackCooldown--;
             }
             super.tick();
+            LivingEntity target = getTarget();
+            if (target != null && entityData.get(MANDUCATER_STATUS) == 1) {
+                getNavigation().moveTo(target, 1.0D);
+            }
         }
 
         @Override
@@ -1647,7 +1803,8 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
         @Override
         public boolean canUse() {
             LivingEntity target = getTarget();
-            return evading || target != null && target.isAlive() && onGround()
+            int status = entityData.get(MANDUCATER_STATUS);
+            return evading || target != null && target.isAlive() && status > 0 && status < 3 && onGround()
                     && !hasEffect(MobEffects.MOVEMENT_SLOWDOWN)
                     && distanceToSqr(target) > 64.0D && distanceToSqr(target) < 225.0D
                     && hasLineOfSight(target);

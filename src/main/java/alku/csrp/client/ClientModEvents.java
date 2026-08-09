@@ -101,13 +101,13 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.PRI_ARACHNIDA.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "pri_arachnida", 0.65F));
         event.registerEntityRenderer(ModEntities.PRI_BOLSTER.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "pri_bolster", 0.7F));
+                new PrimitiveParasiteRenderer<>(context, "pri_bolster", 0.5F));
         event.registerEntityRenderer(ModEntities.PRI_BURROWER.get(), context ->
                 new BurrowingParasiteRenderer<>(context, "pri_burrower", 0.5F, 0.8F));
         event.registerEntityRenderer(ModEntities.PRI_DEVOURER.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "pri_devourer", 0.7F));
         event.registerEntityRenderer(ModEntities.PRI_MANDUCATER.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "pri_manducater", 0.75F));
+                new PrimitiveParasiteRenderer<>(context, "pri_manducater", 0.8F));
         event.registerEntityRenderer(ModEntities.PRI_REEKER.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "pri_reeker", 0.65F));
         event.registerEntityRenderer(ModEntities.PRI_TOZOON.get(), context ->
