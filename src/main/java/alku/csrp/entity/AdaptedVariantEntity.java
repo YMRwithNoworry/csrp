@@ -196,7 +196,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     private final Kind kind;
     private final ArachnidaPart arachnidaAbdomen;
     private final ArachnidaPart arachnidaHead;
-    private final PartEntity<?>[] arachnidaParts;
+    private final TendrilPart leftTendrilPart;
+    private final TendrilPart rightTendrilPart;
+    private final PartEntity<?>[] bodyParts;
     private final SummonCapacityTracker summonTracker = new SummonCapacityTracker();
     private int abilityCooldown;
     private int summonerVomitTicks;
@@ -224,11 +226,21 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
                     -1.6F, 1.5F, 1.7F, 1.9F, 2.0F, 0.75F);
             arachnidaHead = new ArachnidaPart(this, "head",
                     1.6F, 1.3F, 1.5F, 0.9F, 0.9F, 1.25F);
-            arachnidaParts = new PartEntity<?>[]{arachnidaAbdomen, arachnidaHead};
+            leftTendrilPart = null;
+            rightTendrilPart = null;
+            bodyParts = new PartEntity<?>[]{arachnidaAbdomen, arachnidaHead};
+        } else if (usesDetachableTendrils(kind)) {
+            arachnidaAbdomen = null;
+            arachnidaHead = null;
+            leftTendrilPart = createTendrilPart(true, kind);
+            rightTendrilPart = createTendrilPart(false, kind);
+            bodyParts = new PartEntity<?>[]{leftTendrilPart, rightTendrilPart};
         } else {
             arachnidaAbdomen = null;
             arachnidaHead = null;
-            arachnidaParts = new PartEntity<?>[0];
+            leftTendrilPart = null;
+            rightTendrilPart = null;
+            bodyParts = new PartEntity<?>[0];
         }
         xpReward = 55;
         if (kind == Kind.BURROWER || kind == Kind.TOZOON) {
@@ -450,11 +462,13 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
                 || Config.evolutionPhase(level.getLevel()) >= Config.alwaysVariantPhase())) {
             setArachnidaSkin(5 + random.nextInt(3));
         }
+        if (!level.isClientSide() && usesDetachableTendrils()) {
+            initializeTendrils();
+        }
         if (!level.isClientSide() && activeKind() == Kind.BOLSTER) {
             if (random.nextFloat() < 0.33F) {
                 setBolsterVariant(BolsterVariant.values()[1 + random.nextInt(3)]);
             }
-            initializeBolsterTendrils();
             residueCooldown = 600 + random.nextInt(601);
         }
         return data;
@@ -540,9 +554,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     public void tick() {
         super.tick();
         Kind activeKind = activeKind();
-        if (activeKind == Kind.ARACHNIDA) {
-            updateArachnidaParts();
-        }
+        updateBodyParts();
         if (isFlying(activeKind)) {
             setNoGravity(true);
         }
@@ -552,6 +564,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
                 spawnSummonerVomitParticles();
             }
             return;
+        }
+        if (usesDetachableTendrils()) {
+            initializeTendrils();
         }
         if (abilityCooldown > 0) abilityCooldown--;
         if (supportCooldown > 0) supportCooldown--;
@@ -634,11 +649,11 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         if (source.is(DamageTypeTags.IS_FIRE)) {
             amount *= 4.0F;
         }
-        if (activeKind() == Kind.BOLSTER && !level().isClientSide) {
+        boolean hurt = super.hurt(source, amount);
+        if (hurt && activeKind() == Kind.BOLSTER && !level().isClientSide) {
             lastBolsterCombatTick = tickCount;
-            damageBolsterTendril(source, amount);
         }
-        return super.hurt(source, amount);
+        return hurt;
     }
 
     @Override
@@ -828,6 +843,10 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         if (activeKind() == Kind.ARACHNIDA) {
             tag.putInt("arachnida_skin", getArachnidaSkin());
         }
+        if (usesDetachableTendrils()) {
+            tag.putFloat("left_tendril", entityData.get(BOLSTER_LEFT_TENDRIL));
+            tag.putFloat("right_tendril", entityData.get(BOLSTER_RIGHT_TENDRIL));
+        }
         if (activeKind() == Kind.BOLSTER) {
             tag.putInt("bolster_variant", entityData.get(BOLSTER_VARIANT));
             tag.putFloat("bolster_left_tendril", entityData.get(BOLSTER_LEFT_TENDRIL));
@@ -874,12 +893,16 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             arachnidaPullingTicks = 0;
             arachnidaCanPull = true;
         }
+        if (usesDetachableTendrils()) {
+            entityData.set(BOLSTER_LEFT_TENDRIL, tag.contains("left_tendril")
+                    ? tag.getFloat("left_tendril")
+                    : tag.contains("bolster_left_tendril") ? tag.getFloat("bolster_left_tendril") : -1.0F);
+            entityData.set(BOLSTER_RIGHT_TENDRIL, tag.contains("right_tendril")
+                    ? tag.getFloat("right_tendril")
+                    : tag.contains("bolster_right_tendril") ? tag.getFloat("bolster_right_tendril") : -1.0F);
+        }
         if (activeKind() == Kind.BOLSTER) {
             entityData.set(BOLSTER_VARIANT, tag.getInt("bolster_variant"));
-            entityData.set(BOLSTER_LEFT_TENDRIL, tag.contains("bolster_left_tendril")
-                    ? tag.getFloat("bolster_left_tendril") : -1.0F);
-            entityData.set(BOLSTER_RIGHT_TENDRIL, tag.contains("bolster_right_tendril")
-                    ? tag.getFloat("bolster_right_tendril") : -1.0F);
             abilityCooldown = tag.getInt("bolster_ability_cooldown");
             supportCooldown = tag.getInt("bolster_support_cooldown");
             secondaryCooldown = tag.getInt("bolster_orb_cooldown");
@@ -938,23 +961,23 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
     @Override
     public boolean isMultipartEntity() {
-        return arachnidaParts != null && arachnidaParts.length > 0;
+        return bodyParts != null && bodyParts.length > 0;
     }
 
     @Override
     public void setId(int id) {
         super.setId(id);
-        if (arachnidaParts == null) {
+        if (bodyParts == null) {
             return;
         }
-        for (int index = 0; index < arachnidaParts.length; index++) {
-            arachnidaParts[index].setId(id + index + 1);
+        for (int index = 0; index < bodyParts.length; index++) {
+            bodyParts[index].setId(id + index + 1);
         }
     }
 
     @Override
     public PartEntity<?>[] getParts() {
-        return arachnidaParts == null ? new PartEntity<?>[0] : arachnidaParts;
+        return bodyParts == null ? new PartEntity<?>[0] : bodyParts;
     }
 
     @Override
@@ -1214,7 +1237,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     }
 
     private void tickBolster(ServerLevel level) {
-        initializeBolsterTendrils();
+        initializeTendrils();
         if (getHealth() < getMaxHealth() && tickCount - lastBolsterCombatTick >= 80 && consumeParasiteKill()) {
             heal(getMaxHealth() * 0.001F);
         }
@@ -1275,8 +1298,8 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         }
     }
 
-    private void initializeBolsterTendrils() {
-        float health = getMaxHealth() * 0.25F;
+    private void initializeTendrils() {
+        float health = getMaxHealth() * 0.4F;
         if (entityData.get(BOLSTER_LEFT_TENDRIL) < 0.0F) {
             entityData.set(BOLSTER_LEFT_TENDRIL, health);
         }
@@ -1285,28 +1308,116 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         }
     }
 
-    private void damageBolsterTendril(DamageSource source, float amount) {
-        Entity attacker = source.getEntity();
-        if (attacker == null || attacker == this || amount <= 0.0F) {
-            return;
+    private boolean hurtTendrilPart(boolean left, DamageSource source, float amount) {
+        if (!hurt(source, amount)) {
+            return false;
         }
-        Vec3 toAttacker = attacker.position().subtract(position());
-        Vec3 right = new Vec3(Math.cos(Math.toRadians(getYRot())), 0.0D,
-                -Math.sin(Math.toRadians(getYRot())));
-        EntityDataAccessor<Float> tendril = toAttacker.dot(right) >= 0.0D
-                ? BOLSTER_RIGHT_TENDRIL : BOLSTER_LEFT_TENDRIL;
+        EntityDataAccessor<Float> tendril = left ? BOLSTER_LEFT_TENDRIL : BOLSTER_RIGHT_TENDRIL;
         float previous = entityData.get(tendril);
         if (previous <= 0.0F) {
-            return;
+            return false;
         }
         float remaining = Math.max(0.0F, previous - amount);
         entityData.set(tendril, remaining);
         if (remaining == 0.0F) {
-            reduceAllResistances(Integer.MAX_VALUE);
-            addEffect(new MobEffectInstance(ModMobEffects.BLEED, 200, 1), this);
-            addEffect(new MobEffectInstance(ModMobEffects.RAGE, 600, 1), this);
+            spawnDetachedTendril(left);
+            reduceAllResistances(Math.max(1, maxDamageAdaptationHits() / 2));
             playSound(ModSounds.get("mob.tendril"), 2.0F, 0.8F);
         }
+        return true;
+    }
+
+    private void spawnDetachedTendril(boolean left) {
+        if (!(level() instanceof ServerLevel serverLevel)) {
+            return;
+        }
+        TendrilEntity tendril = ModEntities.TENDRIL.get().create(serverLevel);
+        if (tendril == null) {
+            return;
+        }
+        double side = left ? 1.0D : -1.0D;
+        double yaw = Math.toRadians(getYRot());
+        double offset = tendrilOffset();
+        tendril.setSkin(tendrilSkin());
+        tendril.moveTo(getX() + side * Math.cos(yaw) * offset,
+                getY() + tendrilHeight(),
+                getZ() + side * Math.sin(yaw) * offset,
+                getYRot(), 0.0F);
+        serverLevel.addFreshEntity(tendril);
+    }
+
+    private boolean usesDetachableTendrils() {
+        return usesDetachableTendrils(activeKind());
+    }
+
+    private static boolean usesDetachableTendrils(Kind kind) {
+        return switch (kind) {
+            case LONGARMS, MANDUCATER, REEKER, SUMMONER, BOLSTER -> true;
+            default -> false;
+        };
+    }
+
+    private TendrilPart createTendrilPart(boolean left, Kind kind) {
+        float width;
+        float height;
+        switch (kind) {
+            case LONGARMS, REEKER -> {
+                width = 0.6F;
+                height = 2.0F;
+            }
+            case MANDUCATER -> {
+                width = 0.6F;
+                height = 1.1F;
+            }
+            case SUMMONER -> {
+                width = 0.6F;
+                height = 1.7F;
+            }
+            case BOLSTER -> {
+                width = 0.8F;
+                height = 1.1F;
+            }
+            default -> throw new IllegalArgumentException("Kind has no tendril body parts: " + kind);
+        }
+        return new TendrilPart(this, left, width, height, (float) tendrilOffset(kind),
+                (float) tendrilHeight(kind));
+    }
+
+    private int tendrilSkin() {
+        return switch (activeKind()) {
+            case LONGARMS -> TendrilEntity.SHYCO;
+            case REEKER -> TendrilEntity.NOGLA;
+            case MANDUCATER, SUMMONER -> TendrilEntity.CANRA;
+            case BOLSTER -> TendrilEntity.BANO;
+            default -> TendrilEntity.SHYCO;
+        };
+    }
+
+    private double tendrilOffset() {
+        return tendrilOffset(activeKind());
+    }
+
+    private static double tendrilOffset(Kind kind) {
+        return switch (kind) {
+            case LONGARMS -> 0.7D;
+            case BOLSTER -> 1.1D;
+            default -> 0.9D;
+        };
+    }
+
+    private double tendrilHeight() {
+        return tendrilHeight(activeKind());
+    }
+
+    private static double tendrilHeight(Kind kind) {
+        return switch (kind) {
+            case LONGARMS -> 1.4D;
+            case REEKER -> 0.9D;
+            case MANDUCATER -> 2.1D;
+            case SUMMONER -> 1.8D;
+            case BOLSTER -> 2.2D;
+            default -> 1.0D;
+        };
     }
 
     public BolsterVariant getBolsterVariant() {
@@ -1318,16 +1429,28 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         return activeKind() == Kind.BOLSTER;
     }
 
+    public Kind getKind() {
+        return activeKind();
+    }
+
     private void setBolsterVariant(BolsterVariant variant) {
         entityData.set(BOLSTER_VARIANT, variant.ordinal());
     }
 
     public boolean isLeftBolsterTendrilAttached() {
-        return entityData.get(BOLSTER_LEFT_TENDRIL) != 0.0F;
+        return isLeftTendrilAttached();
     }
 
     public boolean isRightBolsterTendrilAttached() {
-        return entityData.get(BOLSTER_RIGHT_TENDRIL) != 0.0F;
+        return isRightTendrilAttached();
+    }
+
+    public boolean isLeftTendrilAttached() {
+        return !usesDetachableTendrils() || entityData.get(BOLSTER_LEFT_TENDRIL) != 0.0F;
+    }
+
+    public boolean isRightTendrilAttached() {
+        return !usesDetachableTendrils() || entityData.get(BOLSTER_RIGHT_TENDRIL) != 0.0F;
     }
 
     private BolsterAction getBolsterAction() {
@@ -1358,12 +1481,18 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         setInvisible(false);
     }
 
-    private void updateArachnidaParts() {
+    private void updateBodyParts() {
         if (arachnidaAbdomen != null) {
             arachnidaAbdomen.updatePosition();
         }
         if (arachnidaHead != null) {
             arachnidaHead.updatePosition();
+        }
+        if (leftTendrilPart != null) {
+            leftTendrilPart.updatePosition();
+        }
+        if (rightTendrilPart != null) {
+            rightTendrilPart.updatePosition();
         }
     }
 
@@ -2840,6 +2969,72 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     @Override
     public int pullProjectileMaxAge() {
         return activeKind() == Kind.ARACHNIDA ? 0 : PullingBallOwner.super.pullProjectileMaxAge();
+    }
+
+    private static final class TendrilPart extends PartEntity<AdaptedVariantEntity> {
+        private final boolean left;
+        private final float width;
+        private final float height;
+        private final float offset;
+        private final float yOffset;
+
+        private TendrilPart(AdaptedVariantEntity parent, boolean left, float width, float height,
+                            float offset, float yOffset) {
+            super(parent);
+            this.left = left;
+            this.width = width;
+            this.height = height;
+            this.offset = offset;
+            this.yOffset = yOffset;
+        }
+
+        private void updatePosition() {
+            AdaptedVariantEntity parent = getParent();
+            float yaw = parent.getYRot() * Mth.DEG_TO_RAD;
+            float side = left ? 1.0F : -1.0F;
+            setPos(parent.getX() + side * Mth.cos(yaw) * offset,
+                    parent.getY() + yOffset,
+                    parent.getZ() + side * Mth.sin(yaw) * offset);
+            setYRot(parent.getYRot());
+        }
+
+        @Override
+        protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        }
+
+        @Override
+        protected void readAdditionalSaveData(CompoundTag tag) {
+        }
+
+        @Override
+        protected void addAdditionalSaveData(CompoundTag tag) {
+        }
+
+        @Override
+        public boolean isPickable() {
+            AdaptedVariantEntity parent = getParent();
+            return parent.isAlive() && (left ? parent.isLeftTendrilAttached() : parent.isRightTendrilAttached());
+        }
+
+        @Override
+        public boolean hurt(DamageSource source, float amount) {
+            return getParent().hurtTendrilPart(left, source, amount);
+        }
+
+        @Override
+        public EntityDimensions getDimensions(Pose pose) {
+            return EntityDimensions.scalable(width, height);
+        }
+
+        @Override
+        public boolean shouldBeSaved() {
+            return false;
+        }
+
+        @Override
+        public Component getName() {
+            return Component.literal(left ? "left_tendril" : "right_tendril");
+        }
     }
 
     private static final class ArachnidaPart extends PartEntity<AdaptedVariantEntity> {

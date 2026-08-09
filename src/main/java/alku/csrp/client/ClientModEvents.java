@@ -36,6 +36,7 @@ import alku.csrp.client.screen.RelayTerminalScreen;
 import alku.csrp.client.screen.InfuserFurnaceScreen;
 import alku.csrp.client.renderer.TetheredMarauderizedRenderer;
 import alku.csrp.client.renderer.ParasiticScentRenderer;
+import alku.csrp.client.renderer.TendrilRenderer;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModBlockEntities;
 import alku.csrp.registry.ModItems;
@@ -363,7 +364,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.BOMB.get(), BombRenderer::new);
         event.registerEntityRenderer(ModEntities.CLOUD_TOXIC.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.GORE.get(), NoopRenderer::new);
-        event.registerEntityRenderer(ModEntities.TENDRIL.get(), NoopRenderer::new);
+        event.registerEntityRenderer(ModEntities.TENDRIL.get(), TendrilRenderer::new);
         event.registerEntityRenderer(ModEntities.WAVE.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.NADE.get(), NadeRenderer::new);
     }

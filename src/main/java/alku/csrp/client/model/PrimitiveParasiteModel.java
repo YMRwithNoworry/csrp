@@ -2,10 +2,12 @@ package alku.csrp.client.model;
 
 import alku.csrp.Csrp;
 import alku.csrp.entity.AdaptedVariantEntity;
+import alku.csrp.entity.AssimilatedDragonEntity;
 import alku.csrp.entity.AssimilatedEndermanEntity;
 import alku.csrp.entity.BurrowingVariantEntity;
 import alku.csrp.entity.PreeminentParasiteEntity;
 import alku.csrp.entity.PrimitiveVariantEntity;
+import alku.csrp.entity.PureParasiteEntity;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
@@ -116,9 +118,16 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
     @Override
     public void setCustomAnimations(T animatable, long instanceId, AnimationState<T> animationState) {
         super.setCustomAnimations(animatable, instanceId, animationState);
-        if (animatable instanceof AdaptedVariantEntity adapted && adapted.isAdaptedBolster()) {
-            getBone("jointMLT0").ifPresent(bone -> bone.setHidden(!adapted.isLeftBolsterTendrilAttached()));
-            getBone("jointMRT0").ifPresent(bone -> bone.setHidden(!adapted.isRightBolsterTendrilAttached()));
+        if (animatable instanceof AdaptedVariantEntity adapted) {
+            applyAdaptedTendrilVisibility(adapted);
+        }
+        if (animatable instanceof PureParasiteEntity pure && pure.getKind() == PureParasiteEntity.Kind.VIGILANTE) {
+            setHidden("taclejointUL1", !pure.isLeftVigilanteTendrilAttached());
+            setHidden("taclejointUR1", !pure.isRightVigilanteTendrilAttached());
+        }
+        if (animatable instanceof AssimilatedDragonEntity dragon) {
+            setHidden("jointLW1", !dragon.hasLeftWing());
+            setHidden("jointRW1", !dragon.hasRightWing());
         }
         if (animatable instanceof AssimilatedEndermanEntity enderman) {
             getBone("mouth").ifPresent(bone -> bone.setHidden(enderman.isShrimpFed()));
@@ -168,6 +177,30 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
             setHidden("jointDLA1", !alternatingLimbs);
             setHidden("jointDRA1", !alternatingLimbs);
         }
+    }
+
+    private void applyAdaptedTendrilVisibility(AdaptedVariantEntity entity) {
+        String left;
+        String right;
+        switch (entity.getKind()) {
+            case LONGARMS, MANDUCATER, SUMMONER -> {
+                left = "taclejointL1";
+                right = "taclejointR1";
+            }
+            case REEKER -> {
+                left = "taclejointL";
+                right = "taclejointR";
+            }
+            case BOLSTER -> {
+                left = "jointMLT0";
+                right = "jointMRT0";
+            }
+            default -> {
+                return;
+            }
+        }
+        setHidden(left, !entity.isLeftTendrilAttached());
+        setHidden(right, !entity.isRightTendrilAttached());
     }
 
     private void setHidden(String boneName, boolean hidden) {

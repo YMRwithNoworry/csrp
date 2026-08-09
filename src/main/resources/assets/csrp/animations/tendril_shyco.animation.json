@@ -1,0 +1,20 @@
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "idle": {
+      "loop": true,
+      "animation_length": 10.0,
+      "bones": {
+        "taclejointL2": {
+          "rotation": [0, "((math.sin((((query.anim_time*20)*0.06)*57.29577951308232))*0.2)*57.29577951308232)", 0]
+        },
+        "taclejointL3": {
+          "rotation": [0, "((math.sin(((((query.anim_time*20)*0.07)+8)*57.29577951308232))*0.3)*57.29577951308232)", 0]
+        },
+        "taclejointL4": {
+          "rotation": [0, "((math.sin(((((query.anim_time*20)*0.06)+4)*57.29577951308232))*0.4)*57.29577951308232)", 0]
+        }
+      }
+    }
+  }
+}

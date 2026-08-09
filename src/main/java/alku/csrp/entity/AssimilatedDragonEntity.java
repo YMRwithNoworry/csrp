@@ -245,15 +245,17 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
             }
             case LEFT_WING -> {
                 leftWingHealth -= amount;
-                if (leftWingHealth <= 0.0F) {
+                if (leftWingHealth <= 0.0F && hasLeftWing()) {
                     entityData.set(LEFT_WING_ATTACHED, false);
+                    spawnDetachedWing(leftWingPart, TendrilEntity.DRAGON_LEFT_WING);
                     setFlying(false);
                 }
             }
             case RIGHT_WING -> {
                 rightWingHealth -= amount;
-                if (rightWingHealth <= 0.0F) {
+                if (rightWingHealth <= 0.0F && hasRightWing()) {
                     entityData.set(RIGHT_WING_ATTACHED, false);
+                    spawnDetachedWing(rightWingPart, TendrilEntity.DRAGON_RIGHT_WING);
                     setFlying(false);
                 }
             }
@@ -352,7 +354,15 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
     }
 
     public boolean canFly() {
-        return entityData.get(LEFT_WING_ATTACHED) && entityData.get(RIGHT_WING_ATTACHED);
+        return hasLeftWing() && hasRightWing();
+    }
+
+    public boolean hasLeftWing() {
+        return entityData.get(LEFT_WING_ATTACHED);
+    }
+
+    public boolean hasRightWing() {
+        return entityData.get(RIGHT_WING_ATTACHED);
     }
 
     public int getParasiteStatus() {
@@ -431,6 +441,19 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
         head.moveTo(position.x, position.y, position.z, getYRot(), getXRot());
         head.setTarget(getTarget());
         serverLevel.addFreshEntity(head);
+    }
+
+    private void spawnDetachedWing(DragonBodyPart part, int skin) {
+        if (!(level() instanceof ServerLevel serverLevel)) {
+            return;
+        }
+        TendrilEntity tendril = ModEntities.TENDRIL.get().create(serverLevel);
+        if (tendril == null) {
+            return;
+        }
+        tendril.setSkin(skin);
+        tendril.moveTo(part.getX(), part.getY(), part.getZ(), getYRot(), getXRot());
+        serverLevel.addFreshEntity(tendril);
     }
 
     private void updateBodyParts() {

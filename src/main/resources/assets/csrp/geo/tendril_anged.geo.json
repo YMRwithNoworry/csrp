@@ -1,0 +1,283 @@
+{
+  "format_version": "1.12.0",
+  "minecraft:geometry": [
+    {
+      "description": {
+        "identifier": "geometry.tendril_anged",
+        "texture_width": 64,
+        "texture_height": 35,
+        "visible_bounds_width": 5,
+        "visible_bounds_height": 5,
+        "visible_bounds_offset": [
+          0,
+          2,
+          0
+        ]
+      },
+      "bones": [
+        {
+          "name": "mainbody",
+          "pivot": [
+            0,
+            2,
+            6
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -0.5,
+                1.5,
+                5.5
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "taclejointUL1",
+          "pivot": [
+            0,
+            2,
+            6
+          ],
+          "parent": "mainbody",
+          "rotation": [
+            0,
+            180,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -0.5,
+                1.5,
+                5.5
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                4,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentacle",
+          "pivot": [
+            0,
+            2,
+            6
+          ],
+          "parent": "taclejointUL1",
+          "cubes": [
+            {
+              "origin": [
+                -2,
+                0,
+                6
+              ],
+              "size": [
+                4,
+                4,
+                10
+              ],
+              "uv": [
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "taclejointUL2",
+          "pivot": [
+            0,
+            2,
+            14
+          ],
+          "parent": "tentacle",
+          "cubes": [
+            {
+              "origin": [
+                -0.5,
+                1.5,
+                13.5
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                18,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentacle_1",
+          "pivot": [
+            0,
+            2,
+            15
+          ],
+          "parent": "taclejointUL2",
+          "rotation": [
+            35,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -1.5,
+                0.5,
+                15
+              ],
+              "size": [
+                3,
+                3,
+                12
+              ],
+              "uv": [
+                28,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "taclejointUL3",
+          "pivot": [
+            0,
+            2,
+            25
+          ],
+          "parent": "tentacle_1",
+          "cubes": [
+            {
+              "origin": [
+                -0.5,
+                1.5,
+                24.5
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                22,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentacle_2",
+          "pivot": [
+            0,
+            2,
+            26
+          ],
+          "parent": "taclejointUL3",
+          "rotation": [
+            23,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -1,
+                1,
+                26
+              ],
+              "size": [
+                2,
+                2,
+                14
+              ],
+              "uv": [
+                0,
+                14
+              ]
+            }
+          ]
+        },
+        {
+          "name": "taclejointUL4",
+          "pivot": [
+            0,
+            2,
+            38
+          ],
+          "parent": "tentacle_2",
+          "cubes": [
+            {
+              "origin": [
+                -0.5,
+                1.5,
+                37.5
+              ],
+              "size": [
+                1,
+                1,
+                1
+              ],
+              "uv": [
+                26,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tentacle_3",
+          "pivot": [
+            0,
+            2,
+            39
+          ],
+          "parent": "taclejointUL4",
+          "rotation": [
+            36.999999,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -0.5,
+                1.5,
+                39
+              ],
+              "size": [
+                1,
+                1,
+                16
+              ],
+              "uv": [
+                16,
+                15
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

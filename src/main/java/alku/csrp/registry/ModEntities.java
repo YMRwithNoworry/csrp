@@ -68,6 +68,7 @@ import alku.csrp.entity.SimHumanEntity;
 import alku.csrp.entity.SummonerEntity;
 import alku.csrp.entity.SourceEntity;
 import alku.csrp.entity.ThrallEntity;
+import alku.csrp.entity.TendrilEntity;
 import alku.csrp.entity.ToxicCloudEntity;
 import alku.csrp.entity.VerminEntity;
 import alku.csrp.entity.VisceraEntity;
@@ -565,8 +566,11 @@ public final class ModEntities {
                     .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "cloudtoxic").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<LegacyAuxiliaryEntity>> GORE =
             auxiliary("gore", LegacyAuxiliaryEntity.Kind.GORE, 0.4F, 0.4F, 4, 3);
-    public static final DeferredHolder<EntityType<?>, EntityType<LegacyAuxiliaryEntity>> TENDRIL =
-            auxiliary("tendril", LegacyAuxiliaryEntity.Kind.TENDRIL, 1.0F, 1.0F, 4, 3);
+    public static final DeferredHolder<EntityType<?>, EntityType<TendrilEntity>> TENDRIL =
+            ENTITIES.register("tendril", () -> EntityType.Builder
+                    .<TendrilEntity>of(TendrilEntity::new, MobCategory.MISC)
+                    .sized(1.0F, 1.0F).clientTrackingRange(4).updateInterval(3)
+                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "tendril").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<WaveEntity>> WAVE =
             ENTITIES.register("wave", () -> EntityType.Builder
                     .<WaveEntity>of(WaveEntity::new, MobCategory.MISC)

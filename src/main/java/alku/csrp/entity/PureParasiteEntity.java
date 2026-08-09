@@ -4,8 +4,10 @@ import alku.csrp.Config;
 import alku.csrp.config.MobsConfig;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
+import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -20,6 +22,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
@@ -30,6 +34,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.entity.PartEntity;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.AnimationState;
@@ -48,6 +53,10 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
             PureParasiteEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> VIGILANTE_STATUS = SynchedEntityData.defineId(
             PureParasiteEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Float> VIGILANTE_LEFT_TENDRIL = SynchedEntityData.defineId(
+            PureParasiteEntity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> VIGILANTE_RIGHT_TENDRIL = SynchedEntityData.defineId(
+            PureParasiteEntity.class, EntityDataSerializers.FLOAT);
     private static final int MAX_ADAPTATION_HITS = 8;
     private static final int MAX_LEARNABLE_DAMAGE_SOURCES = 12;
     private static final float ADAPTATION_PER_HIT = 0.125F;
@@ -107,6 +116,9 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
             "func_78087_a.age_in_ticks.get_parasite_status_25");
 
     private final Kind kind;
+    private final VigilanteTendrilPart leftTendrilPart;
+    private final VigilanteTendrilPart rightTendrilPart;
+    private final PartEntity<?>[] bodyParts;
     private int blockBreakCooldown;
     private int supportCooldown;
     private int attackAnimationTicks;
@@ -117,6 +129,15 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
     public PureParasiteEntity(EntityType<? extends PureParasiteEntity> type, Level level, Kind kind) {
         super(type, level);
         this.kind = kind;
+        if (kind == Kind.VIGILANTE) {
+            leftTendrilPart = new VigilanteTendrilPart(this, true);
+            rightTendrilPart = new VigilanteTendrilPart(this, false);
+            bodyParts = new PartEntity<?>[]{leftTendrilPart, rightTendrilPart};
+        } else {
+            leftTendrilPart = null;
+            rightTendrilPart = null;
+            bodyParts = new PartEntity<?>[0];
+        }
         xpReward = 75;
         if (kind.flying) {
             moveControl = new FlyingMoveControl(this, 16, true);
@@ -191,6 +212,8 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         super.defineSynchedData(builder);
         builder.define(WARDEN_CHARGING, false);
         builder.define(VIGILANTE_STATUS, 0);
+        builder.define(VIGILANTE_LEFT_TENDRIL, -1.0F);
+        builder.define(VIGILANTE_RIGHT_TENDRIL, -1.0F);
     }
 
     @Override
@@ -200,8 +223,12 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         if (activeKind.flying) {
             setNoGravity(true);
         }
+        updateVigilanteParts();
         if (level().isClientSide) {
             return;
+        }
+        if (activeKind == Kind.VIGILANTE) {
+            initializeVigilanteTendrils();
         }
         if (blockBreakCooldown > 0) {
             blockBreakCooldown--;
@@ -234,7 +261,8 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         if (source.is(DamageTypeTags.IS_FIRE)) {
             amount *= 4.0F;
         }
-        return super.hurt(source, amount);
+        boolean hurt = super.hurt(source, amount);
+        return hurt;
     }
 
     @Override
@@ -313,6 +341,8 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         super.addAdditionalSaveData(tag);
         if (activeKind() == Kind.VIGILANTE) {
             tag.putInt("VigilanteStatus", entityData.get(VIGILANTE_STATUS));
+            tag.putFloat("VigilanteLeftTendril", entityData.get(VIGILANTE_LEFT_TENDRIL));
+            tag.putFloat("VigilanteRightTendril", entityData.get(VIGILANTE_RIGHT_TENDRIL));
         }
         if (activeKind() == Kind.SEEKER) {
             tag.putInt("SeekerCreationPhase", seekerCreationPhase);
@@ -324,6 +354,10 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         super.readAdditionalSaveData(tag);
         if (activeKind() == Kind.VIGILANTE && tag.contains("VigilanteStatus")) {
             entityData.set(VIGILANTE_STATUS, tag.getInt("VigilanteStatus"));
+            entityData.set(VIGILANTE_LEFT_TENDRIL, tag.contains("VigilanteLeftTendril")
+                    ? tag.getFloat("VigilanteLeftTendril") : -1.0F);
+            entityData.set(VIGILANTE_RIGHT_TENDRIL, tag.contains("VigilanteRightTendril")
+                    ? tag.getFloat("VigilanteRightTendril") : -1.0F);
         }
         if (activeKind() == Kind.SEEKER) {
             seekerCreationPhase = tag.contains("SeekerCreationPhase")
@@ -342,6 +376,88 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
 
     public Kind getKind() {
         return activeKind();
+    }
+
+    @Override
+    public boolean isMultipartEntity() {
+        return bodyParts.length > 0;
+    }
+
+    @Override
+    public void setId(int id) {
+        super.setId(id);
+        for (int index = 0; index < bodyParts.length; index++) {
+            bodyParts[index].setId(id + index + 1);
+        }
+    }
+
+    @Override
+    public PartEntity<?>[] getParts() {
+        return bodyParts;
+    }
+
+    public boolean isLeftVigilanteTendrilAttached() {
+        return activeKind() != Kind.VIGILANTE || entityData.get(VIGILANTE_LEFT_TENDRIL) != 0.0F;
+    }
+
+    public boolean isRightVigilanteTendrilAttached() {
+        return activeKind() != Kind.VIGILANTE || entityData.get(VIGILANTE_RIGHT_TENDRIL) != 0.0F;
+    }
+
+    private void initializeVigilanteTendrils() {
+        float health = getMaxHealth() * 0.4F;
+        if (entityData.get(VIGILANTE_LEFT_TENDRIL) < 0.0F) {
+            entityData.set(VIGILANTE_LEFT_TENDRIL, health);
+        }
+        if (entityData.get(VIGILANTE_RIGHT_TENDRIL) < 0.0F) {
+            entityData.set(VIGILANTE_RIGHT_TENDRIL, health);
+        }
+    }
+
+    private boolean hurtVigilanteTendril(boolean left, DamageSource source, float amount) {
+        if (!hurt(source, amount)) {
+            return false;
+        }
+        EntityDataAccessor<Float> data = left ? VIGILANTE_LEFT_TENDRIL : VIGILANTE_RIGHT_TENDRIL;
+        float previous = entityData.get(data);
+        if (previous <= 0.0F) {
+            return false;
+        }
+        float remaining = Math.max(0.0F, previous - amount);
+        entityData.set(data, remaining);
+        if (remaining == 0.0F) {
+            spawnVigilanteTendril(left);
+            reduceAllResistances(Math.max(1, maxDamageAdaptationHits() / 2));
+            playSound(ModSounds.get("mob.tendril"), 2.0F, 0.8F);
+        }
+        return true;
+    }
+
+    private void spawnVigilanteTendril(boolean left) {
+        if (!(level() instanceof ServerLevel serverLevel)) {
+            return;
+        }
+        TendrilEntity tendril = ModEntities.TENDRIL.get().create(serverLevel);
+        if (tendril == null) {
+            return;
+        }
+        double side = left ? 1.0D : -1.0D;
+        double yaw = Math.toRadians(getYRot());
+        tendril.setSkin(TendrilEntity.ANGED);
+        tendril.moveTo(getX() + side * Math.cos(yaw) * 1.1D,
+                getY() + 2.3D,
+                getZ() + side * Math.sin(yaw) * 1.1D,
+                getYRot(), 0.0F);
+        serverLevel.addFreshEntity(tendril);
+    }
+
+    private void updateVigilanteParts() {
+        if (leftTendrilPart != null) {
+            leftTendrilPart.updatePosition();
+        }
+        if (rightTendrilPart != null) {
+            rightTendrilPart.updatePosition();
+        }
     }
 
     public int getVigilanteStatus() {
@@ -1258,6 +1374,64 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
             if (!state.isAir() && !state.hasBlockEntity() && hardness >= 0.0F && hardness <= 5.0F) {
                 ParasiteBlockInventory.collect((ServerLevel) level(), position, this);
             }
+        }
+    }
+
+    private static final class VigilanteTendrilPart extends PartEntity<PureParasiteEntity> {
+        private final boolean left;
+
+        private VigilanteTendrilPart(PureParasiteEntity parent, boolean left) {
+            super(parent);
+            this.left = left;
+        }
+
+        private void updatePosition() {
+            PureParasiteEntity parent = getParent();
+            float yaw = parent.getYRot() * (float) Math.PI / 180.0F;
+            float side = left ? 1.0F : -1.0F;
+            setPos(parent.getX() + side * (float) Math.cos(yaw) * 1.1F,
+                    parent.getY() + 2.3D,
+                    parent.getZ() + side * (float) Math.sin(yaw) * 1.1F);
+            setYRot(parent.getYRot());
+        }
+
+        @Override
+        protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        }
+
+        @Override
+        protected void readAdditionalSaveData(CompoundTag tag) {
+        }
+
+        @Override
+        protected void addAdditionalSaveData(CompoundTag tag) {
+        }
+
+        @Override
+        public boolean isPickable() {
+            PureParasiteEntity parent = getParent();
+            return parent.isAlive() && (left ? parent.isLeftVigilanteTendrilAttached()
+                    : parent.isRightVigilanteTendrilAttached());
+        }
+
+        @Override
+        public boolean hurt(DamageSource source, float amount) {
+            return getParent().hurtVigilanteTendril(left, source, amount);
+        }
+
+        @Override
+        public EntityDimensions getDimensions(Pose pose) {
+            return EntityDimensions.scalable(0.7F, 0.9F);
+        }
+
+        @Override
+        public boolean shouldBeSaved() {
+            return false;
+        }
+
+        @Override
+        public Component getName() {
+            return Component.literal(left ? "left_tendril" : "right_tendril");
         }
     }
 

@@ -13,8 +13,7 @@ import net.minecraft.world.phys.Vec3;
 public final class LegacyAuxiliaryEntity extends Entity {
     public enum Kind {
         REMAIN,
-        GORE,
-        TENDRIL
+        GORE
     }
 
     private final Kind kind;
@@ -57,7 +56,7 @@ public final class LegacyAuxiliaryEntity extends Entity {
             return;
         }
         ParticleOptions particle = switch (kind) {
-            case REMAIN, TENDRIL -> ParticleTypes.END_ROD;
+            case REMAIN -> ParticleTypes.END_ROD;
             case GORE -> ParticleTypes.WITCH;
         };
         level().addParticle(particle, getX(), getY() + getBbHeight() * 0.5D, getZ(),
