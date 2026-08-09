@@ -55,6 +55,22 @@ public final class MobsConfig {
     private static final ModConfigSpec.DoubleValue PREEMINENT_FOLLOW = followRange(
             "parasitePropertiesPreeminent", "preeminentFollow", 80.0D);
 
+    private static final ModConfigSpec.BooleanValue RUPTER_ANIMAL_ATTACKING = booleanValue(
+            "srparasites:rupter", "rupterPassiveMobAttacking", true,
+            "Whether Rupters may attack passive mobs when evolution phases are disabled.");
+    private static final ModConfigSpec.DoubleValue RUPTER_MINIMUM_DAMAGE = value(
+            "srparasites:rupter", "rupterMinimumDamage", 0.1D, 0.0D, 1024.0D,
+            "Minimum damage applied by a Rupter melee hit after armor reduction.");
+    private static final ModConfigSpec.IntValue RUPTER_TUNNEL_COST = intValue(
+            "srparasites:rupter", "rupterTunnelCost", 5, 0, 100,
+            "Killcount cost of placing a Buglin Tunnel.");
+    private static final ModConfigSpec.IntValue RUPTER_TUNNEL_PHASE = intValue(
+            "srparasites:rupter", "rupterTunnelPhase", 3, 0, 9,
+            "From this creation phase onward, Rupters do not place tunnels.");
+    private static final ModConfigSpec.IntValue RUPTER_MANGLER_KILLS = intValue(
+            "srparasites:rupter", "rupterManglerKills", 30, 0, 1000,
+            "Kills required for a Rupter to become a Mangler.");
+
     private static final ModConfigSpec.BooleanValue CARRIER_HEAVY_GRIEFING = booleanValue(
             "srparasites:carrier_heavy", "carrierHeavyGriefing", false,
             "Whether Heavy Carriers may destroy blocks when exploding.");
@@ -396,6 +412,26 @@ public final class MobsConfig {
 
     public static double adaptedFollowRange() {
         return ADAPTED_FOLLOW.get();
+    }
+
+    public static boolean rupterPassiveMobAttacking() {
+        return RUPTER_ANIMAL_ATTACKING.get();
+    }
+
+    public static float rupterMinimumDamage() {
+        return RUPTER_MINIMUM_DAMAGE.get().floatValue();
+    }
+
+    public static int rupterTunnelCost() {
+        return RUPTER_TUNNEL_COST.get();
+    }
+
+    public static int rupterTunnelPhase() {
+        return RUPTER_TUNNEL_PHASE.get();
+    }
+
+    public static int rupterManglerKills() {
+        return RUPTER_MANGLER_KILLS.get();
     }
 
     public static int ancientDreadnautMaxY() {

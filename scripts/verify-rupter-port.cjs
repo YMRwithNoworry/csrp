@@ -79,12 +79,12 @@ for (const [pattern, description] of [
     [/MobEffects\.(?:SLOWNESS|MOVEMENT_SLOWDOWN).*40,\s*1/s, "Slowness II melee effect is missing"],
     [/ModMobEffects\.COTH.*3600,\s*0/s, "guaranteed melee COTH is missing"],
     [/ToxicCloudEntity\.create/, "lingering COTH cloud is missing"],
-    [/new MobEffectInstance\(ModMobEffects\.COTH,\s*\d+,\s*1\)/,
+    [/new MobEffectInstance\(ModMobEffects\.COTH,\s*\d+,\s*1/s,
         "COTH II cloud effect is missing"],
     [/Config\.evolutionPhase\(level\(\)\)\s*<\s*4/, "legacy phase-4 aggression gate is missing"],
     [/nearby.*Rupter|Rupter.*nearby/is, "lone/pack behavior check is missing"],
     [/TUNNEL_KILL_COST\s*=\s*5/, "Tunnel kill cost 5 is missing"],
-    [/killCount\s*>=\s*30/, "30-kill Mangler evolution is missing"],
+    [/killCount\s*>\s*MobsConfig\.rupterManglerKills\(\)/, "strict Rupter-to-Mangler kill threshold is missing"],
     [/ManglerEvolutionTarget/, "Mangler evolution target is not used"],
     [/DamageTypeTags\.IS_FIRE/, "fire weakness damage tag is missing"],
     [/amount\s*\*\s*4\.0F/, "quadrupled fire damage is missing"]
@@ -96,13 +96,19 @@ expect(entity, /getJumpControl\(\)\.jump\(\)/, "Rupter cannot jump while spinnin
 expect(entity, /BehaviorVariant/, "Rupter behavior variants are missing");
 expect(entity, /BERSERKER\("_bleeding"\)/, "Berserker variant texture is missing");
 expect(entity, /VIRULENT\("_virus"\)/, "Virulent variant texture is missing");
-expect(entity, /0\.165F/, "Berserker/Virulent 16.5% variant weight is missing");
+expect(entity, /Config\.variantSpawnChance\(\)/, "configured special variant chance is missing");
+expect(entity, /Config\.alwaysVariantPhase\(\)/, "always-variant evolution phase is missing");
 expect(entity, /getBehaviorVariant\(\)/, "Rupter behavior variant accessor is missing");
 expect(entity, /BEHAVIOR_VARIANT/, "Synced behavior variant state is missing");
 expect(entity, /behavior_variant/, "Behavior variant NBT persistence is missing");
-expect(entity, /ModMobEffects\.BLEED.*60,\s*0/s, "Berserker Bleed hit effect is missing");
+expect(entity, /tickCount\s*%\s*LEGACY_TICK_INTERVAL\s*==\s*10/, "legacy 21-tick behavior cadence is missing");
+expect(entity, /CREATED_PHASE_NBT_KEY/, "Rupter creation phase persistence is missing");
+expect(entity, /new WallClimberNavigation/, "Rupter climber navigation is missing");
+expect(entity, /getTicksUntilNextAttack\(\)[\s\S]*MUDO_ATTACK_INTERVAL/, "Rupter 10-tick attack interval is missing");
+expect(entity, /causeFallDamage\(float distance[\s\S]*distance >= 60\.0F/, "Rupter fall-damage threshold is missing");
+expect(entity, /ModMobEffects\.BLEED.*100,\s*0/s, "Berserker Bleed hit effect is missing");
 expect(entity, /ModMobEffects\.VIRAL.*80,\s*0/s, "Virulent leap Viral effect is missing");
-expect(entity, /ModMobEffects\.VIRAL.*40,\s*0/s, "Virulent contact Viral effect is missing");
+expect(entity, /ModMobEffects\.VIRAL.*100,\s*0/s, "Virulent contact Viral effect is missing");
 expect(effects, /register\("bleed",\s*BleedMobEffect::new\)/,
         "Bleed effect is not registered");
 expect(effects, /register\("viral",\s*ViralMobEffect::new\)/,

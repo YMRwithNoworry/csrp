@@ -2,6 +2,8 @@ package alku.csrp.entity;
 
 import alku.csrp.Csrp;
 import alku.csrp.Config;
+import alku.csrp.config.MobsConfig;
+import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
@@ -40,9 +42,13 @@ import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.entity.ambient.Bat;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -65,6 +71,8 @@ import java.util.UUID;
 
 public class RupterEntity extends Monster implements GeoEntity, Parasite {
     public static final int TUNNEL_KILL_COST = 5;
+    private static final int LEGACY_TICK_INTERVAL = 21;
+    private static final int MUDO_ATTACK_INTERVAL = 10;
     private static final int OVERHEAT_WARMUP_DURATION = 100;
     private static final int BAT_LEAP_EVALUATION_TIMEOUT = 40;
     private static final String KILL_COUNT_NBT_KEY = "rupter_kill_count";
@@ -74,7 +82,7 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
     private static final String OVERHEAT_WARMUP_NBT_KEY = "rupter_overheat_warmup";
     private static final String FAILED_BAT_LEAPS_NBT_KEY = "rupter_failed_bat_leaps";
     private static final String FAILED_BAT_TARGET_NBT_KEY = "rupter_failed_bat_target";
-    private static final float SPECIAL_VARIANT_CHANCE = 0.165F;
+    private static final String CREATED_PHASE_NBT_KEY = "rupter_created_phase";
     private static final ResourceLocation OVERHEAT_ATTACK_MODIFIER =
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "rupter_overheat_attack");
     private static final ResourceLocation OVERHEAT_SPEED_MODIFIER =
@@ -113,6 +121,7 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
     private int cloudCooldown;
     private int failedBatLeaps;
     private int pendingBatLeapTicks;
+    private int createdPhase = Integer.MIN_VALUE;
     private boolean variantsInitialized;
     private boolean pendingBatLeap;
     private boolean pendingBatLeapAirborne;
@@ -147,6 +156,11 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
     }
 
     @Override
+    protected PathNavigation createNavigation(Level level) {
+        return new WallClimberNavigation(this, level);
+    }
+
+    @Override
     public int getMaxSpawnClusterSize() {
         return 6;
     }
@@ -157,7 +171,7 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
         goalSelector.addGoal(1, new FloatGoal(this));
         goalSelector.addGoal(2, new RupterLeapGoal(this, 0.7F));
         goalSelector.addGoal(3, new CothCloudGoal());
-        goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.3, false));
+        goalSelector.addGoal(4, new FastMeleeAttackGoal());
         goalSelector.addGoal(5, new AvoidEntityGoal<>(this, LivingEntity.class, 8.0F, 1.0, 1.3,
                 this::shouldAvoid));
         goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 1.0));
@@ -171,16 +185,38 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
     private boolean shouldAvoid(LivingEntity entity) {
         return isLoneBeforeAggressivePhase()
                 && !(entity instanceof Parasite)
-                && (entity instanceof Player || entity instanceof Monster);
+                && !(entity instanceof WaterAnimal)
+                && !(entity instanceof Animal)
+                && !(entity instanceof Villager);
     }
 
     private boolean canTargetByPhase(LivingEntity entity) {
-        return entity != this && entity.isAlive() && !(entity instanceof Parasite) && !isLoneBeforeAggressivePhase();
+        if (entity == this || !entity.isAlive() || entity instanceof Parasite) {
+            return false;
+        }
+        if (entity instanceof Player) {
+            return true;
+        }
+        if (!Config.useEvolutionPhases()) {
+            return MobsConfig.rupterPassiveMobAttacking() || !(entity instanceof Animal)
+                    && !(entity instanceof Villager);
+        }
+        int phase = Config.evolutionPhase(level());
+        if (phase < 4) {
+            return false;
+        }
+        if (entity instanceof WaterAnimal) {
+            return false;
+        }
+        return phase >= 9 || !(entity instanceof Monster) && !entity.hasEffect(ModMobEffects.COTH);
     }
 
     private boolean isLoneBeforeAggressivePhase() {
-        // 原模组在阶段 4 前保持游击/感染行为，阶段 4 起才转为正常主动攻击。
-        return Config.evolutionPhase(level()) < 4 && nearbyRupters() == 0;
+        return Config.useEvolutionPhases() && Config.evolutionPhase(level()) < 4 && nearbyRupters() == 0;
+    }
+
+    private int createdPhaseOrCurrent() {
+        return createdPhase == Integer.MIN_VALUE ? Config.evolutionPhase(level()) : createdPhase;
     }
 
     private int nearbyRupters() {
@@ -195,7 +231,7 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
             return;
         }
 
-        setClimbing(horizontalCollision);
+        setClimbing(horizontalCollision && canClimbForTarget());
         tickOverheatWarmup();
         tickBatLeapAttempt();
         if (isOverheatCharging()) {
@@ -213,7 +249,23 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
         LivingEntity target = getTarget();
         entityData.set(COMBAT_STATUS, target != null && target.isAlive());
         performLiquidLeap();
-        tryPlaceTunnel();
+        if (tickCount % LEGACY_TICK_INTERVAL == 10) {
+            tryPlaceTunnel();
+            if (killCount > MobsConfig.rupterManglerKills() && level() instanceof ServerLevel serverLevel) {
+                tryEvolve(serverLevel);
+            }
+        }
+    }
+
+    private boolean canClimbForTarget() {
+        LivingEntity target = getTarget();
+        if (target == null) {
+            return true;
+        }
+        if (!hasLineOfSight(target) && distanceToSqr(target) < 100.0D) {
+            return false;
+        }
+        return target.getY() + 1.0D >= getY();
     }
 
     @Override
@@ -345,9 +397,9 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
     }
 
     private void tryPlaceTunnel() {
-        int phase = Config.evolutionPhase(level());
-        if (phase < -1 || phase >= 3 || killCount < TUNNEL_KILL_COST || getTarget() != null
-                || tickCount % 10 != 0 || random.nextInt(30) != 0) {
+        if (createdPhaseOrCurrent() >= MobsConfig.rupterTunnelPhase()
+                || killCount < MobsConfig.rupterTunnelCost() || getTarget() != null
+                || random.nextInt(30) != 0) {
             return;
         }
 
@@ -355,40 +407,63 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
         BlockState below = level().getBlockState(pos.below());
         if (level().getBlockState(pos).isAir() && below.isFaceSturdy(level(), pos.below(), Direction.UP)) {
             level().setBlockAndUpdate(pos, ModBlocks.TUNNEL.get().defaultBlockState());
-            killCount -= TUNNEL_KILL_COST;
+            killCount -= MobsConfig.rupterTunnelCost();
         }
     }
 
     @Override
     public boolean doHurtTarget(Entity entity) {
+        float healthBefore = entity instanceof LivingEntity living
+                ? living.getHealth() + living.getAbsorptionAmount() : 0.0F;
         boolean hit = super.doHurtTarget(entity);
         if (hit && entity instanceof LivingEntity living) {
-            living.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 1), this);
-            living.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, 0), this);
+            applyMinimumDamage(living, healthBefore);
             if (getBehaviorVariant() == BehaviorVariant.BERSERKER) {
-                living.addEffect(new MobEffectInstance(ModMobEffects.BLEED, 60, 0), this);
+                living.addEffect(new MobEffectInstance(ModMobEffects.BLEED, 100, 0), this);
             } else if (getBehaviorVariant() == BehaviorVariant.VIRULENT) {
-                applyVirulentAttackEffect(living);
+                living.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 100, 0), this);
+            }
+            living.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 1), this);
+            if (!living.hasEffect(ModMobEffects.COTH)) {
+                InfectionMechanics.applyCoth(living, this);
             }
         }
         return hit;
     }
 
-    private void applyVirulentAttackEffect(LivingEntity target) {
-        if (entityData.get(LEAP_ATTACK_TICKS) > 0) {
-            target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 80, 0), this);
-        } else {
-            target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 40, 0), this);
+    private void applyMinimumDamage(LivingEntity target, float healthBefore) {
+        if (target == this || !target.isAlive() || target instanceof Parasite
+                || target instanceof Player player && player.getAbilities().invulnerable) {
+            return;
+        }
+        float dealt = healthBefore - target.getHealth() - target.getAbsorptionAmount();
+        float minimum = MobsConfig.rupterMinimumDamage();
+        if (dealt >= minimum || minimum <= 0.0F) {
+            return;
+        }
+        float remaining = minimum - Math.max(0.0F, dealt);
+        float absorptionDamage = Math.min(target.getAbsorptionAmount(), remaining * 0.5F);
+        if (absorptionDamage > 0.0F) {
+            target.setAbsorptionAmount(target.getAbsorptionAmount() - absorptionDamage);
+        }
+        target.setHealth(Math.max(0.0F, target.getHealth() - (remaining - absorptionDamage)));
+        level().broadcastEntityEvent(target, (byte) 2);
+        if (target.getHealth() <= 0.0F) {
+            target.die(damageSources().mobAttack(this));
         }
     }
 
     @Override
     public void push(Entity entity) {
         if (!level().isClientSide && getBehaviorVariant() == BehaviorVariant.VIRULENT
-                && entity instanceof LivingEntity living && !(living instanceof Parasite)) {
-            living.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 40, 0), this);
+                && entity instanceof LivingEntity living && isValidContactTarget(living)) {
+            living.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 100, 0), this);
         }
         super.push(entity);
+    }
+
+    private boolean isValidContactTarget(LivingEntity living) {
+        return living != this && !(living instanceof Parasite);
     }
 
     @Override
@@ -402,10 +477,12 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
             clearBatLeapTracking();
         }
         killCount++;
-        if (killCount >= 30) {
-            tryEvolve(level);
+        if (!victim.hasEffect(ModMobEffects.COTH)) {
+            victim.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, 0, false, false), this);
         }
-        return true;
+        InfectionMechanics.convertKilledHost(victim, this);
+        addEffect(new MobEffectInstance(MobEffects.CONFUSION, 80, 0, false, false));
+        return super.killedEntity(level, victim);
     }
 
     private void tryEvolve(ServerLevel level) {
@@ -415,8 +492,16 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
                 return;
             }
             mangler.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
-            level.addFreshEntity(mangler);
-            discard();
+            mangler.finalizeSpawn(level, level.getCurrentDifficultyAt(blockPosition()),
+                    MobSpawnType.MOB_SUMMONED, null);
+            mangler.setCustomName(getCustomName());
+            mangler.setCustomNameVisible(isCustomNameVisible());
+            if (isPersistenceRequired()) {
+                mangler.setPersistenceRequired();
+            }
+            if (level.addFreshEntity(mangler)) {
+                discard();
+            }
         });
     }
 
@@ -435,6 +520,11 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
     @Override
     public boolean onClimbable() {
         return isClimbing();
+    }
+
+    @Override
+    public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
+        return distance >= 60.0F && super.causeFallDamage(distance, damageMultiplier, source);
     }
 
     public boolean isClimbing() {
@@ -486,12 +576,9 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
         }
 
         variantsInitialized = true;
-        float specialRoll = random.nextFloat();
-        if (specialRoll < SPECIAL_VARIANT_CHANCE) {
-            setBehaviorVariant(BehaviorVariant.BERSERKER);
-            setTextureVariant(TextureVariant.NORMAL);
-        } else if (specialRoll < SPECIAL_VARIANT_CHANCE * 2.0F) {
-            setBehaviorVariant(BehaviorVariant.VIRULENT);
+        if (random.nextDouble() < Config.variantSpawnChance()
+                || createdPhaseOrCurrent() >= Config.alwaysVariantPhase()) {
+            setBehaviorVariant(random.nextBoolean() ? BehaviorVariant.BERSERKER : BehaviorVariant.VIRULENT);
             setTextureVariant(TextureVariant.NORMAL);
         } else {
             setBehaviorVariant(BehaviorVariant.NORMAL);
@@ -521,6 +608,9 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
                                         MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
         SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
+        if (createdPhase == Integer.MIN_VALUE) {
+            createdPhase = Config.evolutionPhase(level.getLevel());
+        }
         initializeVariants();
         return data;
     }
@@ -529,6 +619,7 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putInt(KILL_COUNT_NBT_KEY, killCount);
+        tag.putInt(CREATED_PHASE_NBT_KEY, createdPhaseOrCurrent());
         tag.putByte(VARIANT_NBT_KEY, (byte) getTextureVariant().ordinal());
         tag.putByte(BEHAVIOR_VARIANT_NBT_KEY, (byte) getBehaviorVariant().ordinal());
         tag.putBoolean(OVERHEATED_NBT_KEY, isOverheated());
@@ -543,6 +634,8 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         killCount = tag.getInt(KILL_COUNT_NBT_KEY);
+        createdPhase = tag.contains(CREATED_PHASE_NBT_KEY)
+                ? tag.getInt(CREATED_PHASE_NBT_KEY) : Config.evolutionPhase(level());
         int variant = tag.getByte(VARIANT_NBT_KEY);
         if (variant >= 0 && variant < TextureVariant.values().length) {
             setTextureVariant(TextureVariant.values()[variant]);
@@ -700,6 +793,17 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
         }
     }
 
+    private final class FastMeleeAttackGoal extends MeleeAttackGoal {
+        private FastMeleeAttackGoal() {
+            super(RupterEntity.this, 1.3D, false);
+        }
+
+        @Override
+        protected int getTicksUntilNextAttack() {
+            return MUDO_ATTACK_INTERVAL;
+        }
+    }
+
     private final class RupterSpinGoal extends Goal {
         private static final int SPIN_CHANCE = 200;
         private int spinTicks;
@@ -747,7 +851,7 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
 
     private final class CothCloudGoal extends Goal {
         @Nullable
-        private Animal passiveTarget;
+        private LivingEntity passiveTarget;
 
         private CothCloudGoal() {
             setFlags(EnumSet.of(Flag.LOOK));
@@ -755,12 +859,19 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
 
         @Override
         public boolean canUse() {
-            if (cloudCooldown > 0 || !isLoneBeforeAggressivePhase() || random.nextInt(reducedTickDelay(20)) != 0) {
+            if (cloudCooldown > 0 || !isLoneBeforeAggressivePhase() || getTarget() != null
+                    || !navigation.isDone() || random.nextInt(reducedTickDelay(20)) != 0) {
                 return false;
             }
 
-            passiveTarget = level().getEntitiesOfClass(Animal.class, getBoundingBox().inflate(10.0),
-                            animal -> animal.isAlive() && !(animal instanceof Parasite))
+            AABB scanArea = getBoundingBox().inflate(12.0D, 3.0D, 12.0D);
+            passiveTarget = level().getEntitiesOfClass(LivingEntity.class, scanArea,
+                            entity -> entity != RupterEntity.this && entity.isAlive()
+                                    && !(entity instanceof Monster)
+                                    && !entity.hasEffect(ModMobEffects.COTH)
+                                    && hasLineOfSight(entity)
+                                    && distanceToSqr(entity) < 81.0D
+                                    && navigation.createPath(entity, 1) != null)
                     .stream()
                     .min(Comparator.comparingDouble(RupterEntity.this::distanceToSqr))
                     .orElse(null);
@@ -775,16 +886,17 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
 
             getLookControl().setLookAt(passiveTarget, 30.0F, 30.0F);
             ToxicCloudEntity cloud = ToxicCloudEntity.create(
-                    level(), passiveTarget.getX(), passiveTarget.getY(), passiveTarget.getZ());
+                    level(), getX(), getY(), getZ());
             cloud.setOwner(RupterEntity.this);
-            cloud.setRadius(2.5F);
-            cloud.setDuration(200);
-            cloud.setWaitTime(0);
-            cloud.setRadiusPerTick(-0.01F);
-            cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 600, 1));
+            cloud.setRadius((float) getBbWidth() * 4.0F);
+            cloud.setRadiusOnUse(-0.5F);
+            cloud.setDuration(1200);
+            cloud.setWaitTime(10);
+            cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
+            cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, 1, false, false));
             level().addFreshEntity(cloud);
-            playSound(ModSounds.RUPTER_CLOUD.get(), 1.0F, 1.0F);
-            cloudCooldown = 200;
+            playSound(ModSounds.RUPTER_CLOUD.get(), 2.0F, 1.0F);
+            cloudCooldown = 20;
         }
     }
 }

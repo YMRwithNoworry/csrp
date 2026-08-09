@@ -125,7 +125,7 @@ public final class ModEntities {
 
     public static final DeferredHolder<EntityType<?>, EntityType<RupterEntity>> RUPTER =
             ENTITIES.register("rupter", () -> EntityType.Builder.of(RupterEntity::new, MobCategory.MONSTER)
-                    .sized(0.85F, 1.0F)
+                    .sized(0.85F, 1.0F).eyeHeight(0.5F)
                     .clientTrackingRange(8)
                     .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "rupter").toString()));
 
