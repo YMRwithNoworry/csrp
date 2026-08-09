@@ -266,20 +266,20 @@ public final class InfectionMechanics {
         host.discard();
     }
 
-    /** Converts every non-parasite mob killed by a parasite, using Moving Flesh as the fallback. */
+    /** Converts a COTH victim on a successful parasite kill-conversion roll. */
     public static boolean convertKilledHost(LivingEntity host, Entity attacker) {
         if (!(attacker instanceof Parasite) || host.level().isClientSide || host instanceof Parasite
-                || host instanceof Player || host.isRemoved()
+                || host instanceof Player || host.isRemoved() || !host.hasEffect(ModMobEffects.COTH)
                 || !(host.level() instanceof ServerLevel serverLevel)) {
             return false;
         }
-
-        Mob converted = createMappedHost(host, serverLevel, false);
-        if (converted == null) {
-            converted = createHijackedHost(host, serverLevel);
+        if (host.getRandom().nextDouble() >= Config.cothConvertAtKillChance()) {
+            return false;
         }
+
+        Mob converted = host.isBaby() ? null : createMappedHost(host, serverLevel, false);
         if (converted == null) {
-            converted = ModEntities.MOVINGFLESH.get().create(serverLevel);
+            converted = createIncompleteForm(host, serverLevel);
         }
         if (converted == null) {
             return false;
@@ -289,11 +289,21 @@ public final class InfectionMechanics {
         return true;
     }
 
+    private static Mob createIncompleteForm(LivingEntity host, ServerLevel level) {
+        double bodyVolume = host.getBbWidth() * host.getBbWidth() * host.getBbHeight();
+        return bodyVolume > 0.517D
+                ? ModEntities.INCOMPLETEFORM_MEDIUM.get().create(level)
+                : ModEntities.INCOMPLETEFORM_SMALL.get().create(level);
+    }
+
     /** A COTH-infected player killed by a parasite leaves an Assimilated Adventurer behind. */
     public static boolean convertKilledPlayer(Player player, Entity attacker) {
         if (!(attacker instanceof Parasite) || !player.hasEffect(ModMobEffects.COTH)
                 || player.level().isClientSide || player.isRemoved()
                 || !(player.level() instanceof ServerLevel serverLevel)) {
+            return false;
+        }
+        if (player.getRandom().nextDouble() >= Config.cothConvertAtKillChance()) {
             return false;
         }
         SimAdventurerEntity converted = ModEntities.SIM_ADVENTURER.get().create(serverLevel);
@@ -337,6 +347,9 @@ public final class InfectionMechanics {
     }
 
     private static Mob createAssimilatedHost(LivingEntity host, ServerLevel level) {
+        if (host.isBaby() || !hasMappedHost(host)) {
+            return createIncompleteForm(host, level);
+        }
         if (SrpWorldData.get(level).evolutionPhase() >= ASSIMILATION_FERAL_PHASE) {
             Mob latePhaseHost = createMappedHost(host, level, true);
             if (latePhaseHost != null) {

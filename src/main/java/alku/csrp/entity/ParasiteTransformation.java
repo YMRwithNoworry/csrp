@@ -183,6 +183,10 @@ public final class ParasiteTransformation {
                 replacement.setPersistenceRequired();
             }
         }
+        if (source instanceof PrimitiveParasiteEntity primitiveSource
+                && replacement instanceof PrimitiveParasiteEntity primitiveReplacement) {
+            primitiveSource.copyDamageAdaptationsTo(primitiveReplacement);
+        }
         if (!level.addFreshEntity(replacement)) {
             return false;
         }

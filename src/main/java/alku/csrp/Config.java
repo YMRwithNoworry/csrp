@@ -84,6 +84,9 @@ public final class Config {
                     "wyrmsofnyrus:creepedbiter;csrp:sim_cow",
                     "wyrmsofnyrus:crawler;csrp:sim_bigspider"),
                     value -> value instanceof String && ((String) value).split(";", -1).length == 2);
+    private static final ModConfigSpec.DoubleValue COTH_CONVERT_AT_KILL_CHANCE = BUILDER
+            .comment("Chance for a parasite kill to convert a victim that has COTH.")
+            .defineInRange("cothConvertAtKillChance", 0.3D, 0.0D, 1.0D);
     private static final ModConfigSpec.IntValue COLONY_EXTRA_HEALTH_POINT = BUILDER
             .defineInRange("colonyExtraHealthPoint", 20, 1, Integer.MAX_VALUE);
     private static final ModConfigSpec.DoubleValue COLONY_EXTRA_HEALTH_VALUE = BUILDER
@@ -479,6 +482,7 @@ public final class Config {
     public static boolean overlastHudRequiresClock() { return OVERLAST_HUD_REQUIRES_CLOCK.get(); }
     public static String overlastHudPosition() { return OVERLAST_HUD_POSITION.get(); }
     public static List<? extends String> cothVictimParasites() { return COTH_VICTIM_PARASITES.get(); }
+    public static double cothConvertAtKillChance() { return COTH_CONVERT_AT_KILL_CHANCE.get(); }
 
     public static int colonyExtraHealthPoint() { return COLONY_EXTRA_HEALTH_POINT.get(); }
     public static double colonyExtraHealthValue() { return COLONY_EXTRA_HEALTH_VALUE.get(); }

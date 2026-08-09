@@ -5,6 +5,7 @@ import alku.csrp.Csrp;
 import alku.csrp.config.GeneralConfig;
 import alku.csrp.config.WorldConfig;
 import alku.csrp.entity.Parasite;
+import alku.csrp.entity.ParasiteTransformation;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModMobEffects;
@@ -22,6 +23,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.EntityStruckByLightningEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingExperienceDropEvent;
 import net.neoforged.neoforge.event.entity.living.FinalizeSpawnEvent;
@@ -120,6 +122,15 @@ public final class EvolutionEvents {
         if (event.getEntity().level() instanceof ServerLevel level
                 && SrpWorldData.get(level).evolutionPhase() >= 6) {
             event.getDrops().clear();
+            event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public static void evolveLightningStruckParasite(EntityStruckByLightningEvent event) {
+        if (event.getEntity() instanceof LivingEntity entity && entity instanceof Parasite
+                && ParasiteTransformation.evolve(entity)) {
+            event.setCanceled(true);
         }
     }
 

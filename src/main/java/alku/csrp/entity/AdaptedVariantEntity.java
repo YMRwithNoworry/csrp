@@ -211,7 +211,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     private boolean cloaked;
     private int residueCooldown;
     private int lastBolsterCombatTick;
-    private boolean bolsterDeathHandled;
+    private boolean deathHandled;
     private int manducaterVomitTicks;
     private int manducaterEvadeCooldown;
     private int reekerPullingCooldown;
@@ -792,36 +792,49 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
     @Override
     public void die(DamageSource source) {
-        if (activeKind() == Kind.ARACHNIDA && level() instanceof ServerLevel serverLevel
-                && !SrpWorldData.get(serverLevel).colonies().isEmpty()) {
-            Mob primitive = ModEntities.PRI_ARACHNIDA.get().create(serverLevel);
-            if (primitive != null) {
-                primitive.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
-                primitive.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                        MobSpawnType.CONVERSION, null);
-                primitive.setCustomName(getCustomName());
-                primitive.setCustomNameVisible(isCustomNameVisible());
-                serverLevel.addFreshEntity(primitive);
-            }
-        }
-        if (activeKind() == Kind.BOLSTER && !bolsterDeathHandled && level() instanceof ServerLevel serverLevel) {
-            bolsterDeathHandled = true;
-            if (random.nextFloat() < 0.20F) {
+        if (!deathHandled && level() instanceof ServerLevel serverLevel) {
+            deathHandled = true;
+            if (activeKind() == Kind.BOLSTER && random.nextFloat() < 0.20F) {
                 createBolsterDeathBurst();
             }
             if (!SrpWorldData.get(serverLevel).colonies().isEmpty()) {
-                Mob primitive = ModEntities.PRI_BOLSTER.get().create(serverLevel);
-                if (primitive != null) {
-                    primitive.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
-                    primitive.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                            MobSpawnType.CONVERSION, null);
-                    primitive.setCustomName(getCustomName());
-                    primitive.setCustomNameVisible(isCustomNameVisible());
-                    serverLevel.addFreshEntity(primitive);
-                }
+                spawnPrimitiveDeathForm(serverLevel);
             }
         }
         super.die(source);
+    }
+
+    private void spawnPrimitiveDeathForm(ServerLevel level) {
+        Mob primitive = switch (activeKind()) {
+            case ARACHNIDA -> ModEntities.PRI_ARACHNIDA.get().create(level);
+            case BOLSTER -> ModEntities.PRI_BOLSTER.get().create(level);
+            case BURROWER -> ModEntities.PRI_BURROWER.get().create(level);
+            case DEVOURER -> ModEntities.PRI_DEVOURER.get().create(level);
+            case LONGARMS -> ModEntities.PRI_LONGARMS.get().create(level);
+            case MANDUCATER -> ModEntities.PRI_MANDUCATER.get().create(level);
+            case REEKER -> ModEntities.PRI_REEKER.get().create(level);
+            case SUMMONER -> ModEntities.PRI_SUMMONER.get().create(level);
+            case TOZOON -> ModEntities.PRI_TOZOON.get().create(level);
+            case VERMIN -> ModEntities.PRI_VERMIN.get().create(level);
+            case VISCERA -> ModEntities.PRI_VISCERA.get().create(level);
+            case YELLOWEYE -> ModEntities.PRI_YELLOWEYE.get().create(level);
+        };
+        if (primitive == null) {
+            return;
+        }
+        primitive.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        primitive.finalizeSpawn(level, level.getCurrentDifficultyAt(blockPosition()),
+                MobSpawnType.CONVERSION, null);
+        primitive.setCustomName(getCustomName());
+        primitive.setCustomNameVisible(isCustomNameVisible());
+        primitive.setTarget(getTarget());
+        if (isPersistenceRequired()) {
+            primitive.setPersistenceRequired();
+        }
+        if (primitive instanceof PrimitiveParasiteEntity primitiveParasite) {
+            copyDamageAdaptationsTo(primitiveParasite);
+        }
+        level.addFreshEntity(primitive);
     }
 
     private void createBolsterDeathBurst() {

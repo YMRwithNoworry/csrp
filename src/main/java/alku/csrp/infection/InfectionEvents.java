@@ -76,6 +76,9 @@ public final class InfectionEvents {
             event.setCanceled(true);
             return;
         }
+        if (attacker instanceof Parasite) {
+            return;
+        }
         MobEffectInstance coth = host.getEffect(ModMobEffects.COTH);
         if (coth != null && coth.getAmplifier() >= InfectionMechanics.COTH_MAX_AMPLIFIER
                 && InfectionMechanics.convertInfectedHost(host)) {
