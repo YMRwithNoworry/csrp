@@ -24,6 +24,32 @@ public final class MobsConfig {
             "parasitePropertiesPure", "pureFollow", 32.0D);
     private static final ModConfigSpec.DoubleValue ANCIENT_FOLLOW = followRange(
             "parasitePropertiesAncient", "ancientFollow", 64.0D);
+    private static final ModConfigSpec.IntValue ANCIENT_MAX_Y = intValue(
+            "srparasites:anc_dreadnaut", "ancientDreadnautMaxY", 256, 1, 320,
+            "Maximum flight height for the Ancient Dreadnaut.");
+    private static final ModConfigSpec.IntValue ANCIENT_MIN_Y = intValue(
+            "srparasites:anc_dreadnaut", "ancientDreadnautMinY", 7, 0, 320,
+            "Minimum flight height for the Ancient Dreadnaut.");
+    private static final ModConfigSpec.IntValue ANCIENT_POD_COOLDOWN = intValue(
+            "srparasites:anc_dreadnaut", "ancientDreadnautPodCooldownSeconds", 12, 1, 256,
+            "Cooldown in seconds between Ancient Dreadnaut drop-pod attacks.");
+    private static final ModConfigSpec.IntValue ANCIENT_POD_NUMBER = intValue(
+            "srparasites:anc_dreadnaut", "ancientDreadnautPodNumber", 5, 1, 256,
+            "Number of drop pods spawned per Ancient Dreadnaut attack.");
+    private static final ModConfigSpec.IntValue ANCIENT_POD_MAX_MOBS = intValue(
+            "srparasites:anc_dreadnaut", "ancientDreadnautPodMaxMobs", 1, 1, 256,
+            "Maximum payload mobs spawned by one Ancient Dreadnaut drop pod.");
+    private static final ModConfigSpec.BooleanValue ANCIENT_POD_GRIEFING = booleanValue(
+            "srparasites:anc_pod", "ancientPodGriefing", false,
+            "Whether Ancient Drop Pods may destroy blocks when mobGriefing is enabled.");
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> ANCIENT_MOB_LIST = stringList(
+            "srparasites:anc_dreadnaut", "ancientDreadnautMobList", List.of(
+                    "csrp:rupter;1", "csrp:rupter;1", "csrp:rupter;1", "csrp:rupter;0.5", "csrp:rupter;0.5",
+                    "csrp:grunt;0.7"),
+            "Ancient Dreadnaut payload table: entity_id;weight.", MobsConfig::validMobEntry);
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> ANCIENT_POD_EFFECTS = stringList(
+            "srparasites:anc_pod", "ancientPodEffects", List.of("10;-2;minecraft:saturation"),
+            "Ancient Drop Pod effects: seconds;amplifier;effect_id.", MobsConfig::validAreaEffect);
     private static final ModConfigSpec.DoubleValue PREEMINENT_FOLLOW = followRange(
             "parasitePropertiesPreeminent", "preeminentFollow", 80.0D);
 
@@ -326,6 +352,38 @@ public final class MobsConfig {
 
     public static double adaptedFollowRange() {
         return ADAPTED_FOLLOW.get();
+    }
+
+    public static int ancientDreadnautMaxY() {
+        return ANCIENT_MAX_Y.get();
+    }
+
+    public static int ancientDreadnautMinY() {
+        return Math.min(ANCIENT_MIN_Y.get(), ANCIENT_MAX_Y.get());
+    }
+
+    public static int ancientDreadnautPodCooldownTicks() {
+        return ANCIENT_POD_COOLDOWN.get() * 20;
+    }
+
+    public static int ancientDreadnautPodNumber() {
+        return ANCIENT_POD_NUMBER.get();
+    }
+
+    public static int ancientDreadnautPodMaxMobs() {
+        return ANCIENT_POD_MAX_MOBS.get();
+    }
+
+    public static boolean ancientPodGriefing() {
+        return ANCIENT_POD_GRIEFING.get();
+    }
+
+    public static List<? extends String> ancientDreadnautMobList() {
+        return ANCIENT_MOB_LIST.get();
+    }
+
+    public static List<? extends String> ancientPodEffects() {
+        return ANCIENT_POD_EFFECTS.get();
     }
 
     public static double arachnidaHealth() {
@@ -635,6 +693,24 @@ public final class MobsConfig {
             Integer.parseInt(parts[0].trim());
             Integer.parseInt(parts[1].trim());
             return true;
+        } catch (NumberFormatException ignored) {
+            return false;
+        }
+    }
+
+    private static boolean validMobEntry(Object value) {
+        if (!(value instanceof String entry)) {
+            return false;
+        }
+        String[] parts = entry.split(";", -1);
+        if (parts.length < 1 || net.minecraft.resources.ResourceLocation.tryParse(parts[0].trim()) == null) {
+            return false;
+        }
+        if (parts.length == 1) {
+            return true;
+        }
+        try {
+            return Double.parseDouble(parts[1].trim()) >= 0.0D;
         } catch (NumberFormatException ignored) {
             return false;
         }

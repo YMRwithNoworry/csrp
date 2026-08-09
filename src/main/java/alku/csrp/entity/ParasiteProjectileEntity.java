@@ -62,7 +62,8 @@ public final class ParasiteProjectileEntity extends Entity {
         ANCIENT_BALL,
         DRAGON_MISSILE,
         SALIVA_EFFECT,
-        BIOMASS_BALL
+        BIOMASS_BALL,
+        HOMING
     }
 
     private static final EntityDataAccessor<Integer> MODE = SynchedEntityData.defineId(
@@ -183,7 +184,7 @@ public final class ParasiteProjectileEntity extends Entity {
         if (level().isClientSide) {
             ParticleOptions particle = switch (mode) {
                 case BOMB, METEOR -> ParticleTypes.FLAME;
-                case LIGHT, WITHER -> ParticleTypes.SOUL_FIRE_FLAME;
+                case LIGHT, HOMING, WITHER -> ParticleTypes.SOUL_FIRE_FLAME;
                 case SPINE, NEEDLE -> ParticleTypes.CRIT;
                 case WEB -> ParticleTypes.WHITE_ASH;
                 case ACID, YELLOWEYE_SPINE, YELLOWEYE_NADE, ALAFHA_BALL, ANGED_BALL,
@@ -206,7 +207,8 @@ public final class ParasiteProjectileEntity extends Entity {
         LivingEntity hit = level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(0.65),
                         target -> canCollideWith(owner, mode, target))
                 .stream().findFirst().orElse(null);
-        if (blockHit.getType() != HitResult.Type.MISS || hit != null || tickCount >= maximumLifetime) {
+        if (mode != Mode.HOMING && blockHit.getType() != HitResult.Type.MISS
+                || hit != null || tickCount >= maximumLifetime) {
             if (mode == Mode.WEB && hit == null && blockHit.getType() == HitResult.Type.BLOCK) {
                 placeWeb(BlockPos.containing(blockHit.getLocation()));
             }
@@ -226,18 +228,24 @@ public final class ParasiteProjectileEntity extends Entity {
     }
 
     private Vec3 steerTowardsHomingTarget(PrimitiveParasiteEntity owner, Vec3 movement, Mode mode) {
-        if (level().isClientSide || mode != Mode.LIGHT || tickCount < 10 || owner == null) {
+        if (level().isClientSide || (mode != Mode.LIGHT && mode != Mode.HOMING)
+                || tickCount < (mode == Mode.HOMING ? 1 : 10) || owner == null) {
             return movement;
         }
         Entity entity = level().getEntity(entityData.get(HOMING_TARGET));
         if (!(entity instanceof LivingEntity target) || !owner.isValidParasiteTarget(target)) {
             return movement;
         }
-        Vec3 direction = target.getEyePosition().subtract(position());
+        Vec3 destination = mode == Mode.HOMING
+                ? new Vec3(target.getX(), target.getY() - target.getBbHeight() * 1.5D, target.getZ())
+                : target.getEyePosition();
+        Vec3 direction = destination.subtract(position());
         if (direction.lengthSqr() < 0.001D) {
             return movement;
         }
-        return movement.scale(0.78D).add(direction.normalize().scale(0.42D));
+        double steering = mode == Mode.HOMING ? 0.075D : 0.42D;
+        double retained = mode == Mode.HOMING ? 1.0D : 0.78D;
+        return movement.scale(retained).add(direction.normalize().scale(steering));
     }
 
     private void impact(PrimitiveParasiteEntity owner, Mode mode, LivingEntity directHit) {
@@ -279,10 +287,13 @@ public final class ParasiteProjectileEntity extends Entity {
                     }
                 }
                 case NEEDLE -> target.addEffect(new MobEffectInstance(ModMobEffects.NEEDLER, 180, 0), owner);
-                case WITHER, ANCIENT_BALL -> target.addEffect(new MobEffectInstance(MobEffects.WITHER, 160, 1), owner);
+                case WITHER -> target.addEffect(new MobEffectInstance(MobEffects.WITHER, 160, 1), owner);
+                case ANCIENT_BALL -> target.addEffect(new MobEffectInstance(MobEffects.WITHER, 60, 0), owner);
                 case LIGHT -> {
                     target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 100, 0), owner);
                     target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 140, 0), owner);
+                }
+                case HOMING -> {
                 }
                 case VOMIT, ALAFHA_BALL, ANGED_BALL, SALIVA_EFFECT -> {
                     target.addEffect(new MobEffectInstance(ModMobEffects.VOMIT, 160, 0), owner);
@@ -316,7 +327,9 @@ public final class ParasiteProjectileEntity extends Entity {
             if (mode == Mode.ALAFHA_BALL && owner instanceof DraconiteEntity) {
                 spawnOrbBoom(owner, 15, 1);
             }
-        } else if (mode == Mode.WITHER || mode == Mode.ANCIENT_BALL || mode == Mode.DRAGON_MISSILE) {
+        } else if (mode == Mode.ANCIENT_BALL) {
+            spawnLingeringAncientCloud(owner);
+        } else if (mode == Mode.WITHER || mode == Mode.DRAGON_MISSILE) {
             spawnLingeringWitherCloud(owner);
         }
         if (level() instanceof ServerLevel serverLevel) {
@@ -583,6 +596,19 @@ public final class ParasiteProjectileEntity extends Entity {
         cloud.setWaitTime(0);
         cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
         cloud.addEffect(new MobEffectInstance(MobEffects.WITHER, 160, 1, false, true));
+        level().addFreshEntity(cloud);
+    }
+
+    private void spawnLingeringAncientCloud(PrimitiveParasiteEntity owner) {
+        ToxicCloudEntity cloud = ToxicCloudEntity.create(level(), getX(), getY(), getZ());
+        cloud.setOwner(owner);
+        cloud.setRadius(1.2F);
+        cloud.setRadiusOnUse(-0.5F);
+        cloud.setWaitTime(5);
+        cloud.setDuration(600);
+        cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
+        cloud.addEffect(new MobEffectInstance(MobEffects.WITHER, 300, 0, false, false));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, 0, false, false));
         level().addFreshEntity(cloud);
     }
 

@@ -1,14 +1,17 @@
 package alku.csrp.entity;
 
-import alku.csrp.registry.ModEntities;
+import alku.csrp.config.MobsConfig;
 import alku.csrp.registry.ModMobEffects;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -48,7 +51,7 @@ public final class AncientPodEntity extends PrimitiveParasiteEntity {
                 .add(Attributes.MAX_HEALTH, 45.0D)
                 .add(Attributes.ARMOR, 5.0D)
                 .add(Attributes.ATTACK_DAMAGE, 0.0D)
-                .add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
+                .add(Attributes.KNOCKBACK_RESISTANCE, 2.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.0D);
     }
 
@@ -121,11 +124,39 @@ public final class AncientPodEntity extends PrimitiveParasiteEntity {
         exploded = true;
         DragonEggAssimilationEntity.assimilateDragonEggs(level, getBoundingBox().inflate(4.0D));
         Level.ExplosionInteraction interaction = level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
+                && MobsConfig.ancientPodGriefing()
                 ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
         level.explode(this, getX(), getY(), getZ(), 4.0F, interaction);
+        applyPodEffects(level);
         spawnLingeringCloud(level);
         spawnContents(level);
         discard();
+    }
+
+    private void applyPodEffects(ServerLevel level) {
+        for (String raw : MobsConfig.ancientPodEffects()) {
+            String[] parts = raw.split(";", -1);
+            if (parts.length != 3) {
+                continue;
+            }
+            try {
+                int duration = Math.max(0, Integer.parseInt(parts[0].trim())) * 20;
+                int amplifier = Integer.parseInt(parts[1].trim());
+                ResourceLocation id = ResourceLocation.tryParse(parts[2].trim());
+                if (id == null) {
+                    continue;
+                }
+                BuiltInRegistries.MOB_EFFECT.getOptional(id).ifPresent(effect -> {
+                    for (var target : level.getEntitiesOfClass(net.minecraft.world.entity.LivingEntity.class,
+                            getBoundingBox().inflate(7.0D), living -> living != this && !(living instanceof Parasite))) {
+                        target.addEffect(new MobEffectInstance(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect),
+                                duration, amplifier, false, false), this);
+                    }
+                });
+            } catch (NumberFormatException ignored) {
+                // Ignore malformed hand-edited entries and continue the explosion.
+            }
+        }
     }
 
     private void spawnLingeringCloud(ServerLevel level) {
@@ -135,16 +166,19 @@ public final class AncientPodEntity extends PrimitiveParasiteEntity {
         cloud.setWaitTime(5);
         cloud.setDuration(600);
         cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
-        cloud.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 300, 0, false, false));
+        cloud.addEffect(new MobEffectInstance(MobEffects.POISON, 300, 0, false, false));
         cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, 0, false, false));
         level.addFreshEntity(cloud);
     }
 
     private void spawnContents(ServerLevel level) {
-        int count = owner == 62 ? 5 : owner == 63 ? 1 : 0;
-        for (int index = 0; index < count; index++) {
-            Mob mob = random.nextBoolean() ? ModEntities.BUGLIN.get().create(level) : ModEntities.RUPTER.get().create(level);
+        int count = owner == 62 ? MobsConfig.ancientDreadnautPodMaxMobs() : owner == 63 ? 1 : 0;
+        int failed = 0;
+        int spawned = 0;
+        while (spawned < count && failed < 5) {
+            Mob mob = createConfiguredMob(level);
             if (mob == null) {
+                failed++;
                 continue;
             }
             double angle = random.nextDouble() * Math.PI * 2.0D;
@@ -153,7 +187,58 @@ public final class AncientPodEntity extends PrimitiveParasiteEntity {
             mob.finalizeSpawn(level, level.getCurrentDifficultyAt(mob.blockPosition()),
                     MobSpawnType.MOB_SUMMONED, null);
             mob.setTarget(getTarget());
-            level.addFreshEntity(mob);
+            if (level.addFreshEntity(mob)) {
+                spawned++;
+            } else {
+                failed++;
+            }
+        }
+    }
+
+    private Mob createConfiguredMob(ServerLevel level) {
+        var entries = MobsConfig.ancientDreadnautMobList();
+        if (entries.isEmpty()) {
+            return null;
+        }
+        double totalWeight = 0.0D;
+        for (String raw : entries) {
+            totalWeight += entryWeight(raw);
+        }
+        if (totalWeight <= 0.0D) {
+            return null;
+        }
+        double roll = random.nextDouble() * totalWeight;
+        for (String raw : entries) {
+            double weight = entryWeight(raw);
+            if ((roll -= weight) > 0.0D) {
+                continue;
+            }
+            String id = raw.split(";", -1)[0].trim();
+            ResourceLocation location = ResourceLocation.tryParse(id);
+            if (location == null) {
+                return null;
+            }
+            if (location.getNamespace().equals("srparasites")) {
+                location = ResourceLocation.fromNamespaceAndPath("csrp", location.getPath());
+            }
+            Entity entity = BuiltInRegistries.ENTITY_TYPE.getOptional(location).map(type -> type.create(level)).orElse(null);
+            return entity instanceof Mob mob ? mob : null;
+        }
+        return null;
+    }
+
+    private static double entryWeight(String raw) {
+        String[] parts = raw.split(";", -1);
+        if (parts.length < 1) {
+            return 0.0D;
+        }
+        if (parts.length == 1) {
+            return 1.0D;
+        }
+        try {
+            return Math.max(0.0D, Double.parseDouble(parts[1].trim()));
+        } catch (NumberFormatException ignored) {
+            return 0.0D;
         }
     }
 }

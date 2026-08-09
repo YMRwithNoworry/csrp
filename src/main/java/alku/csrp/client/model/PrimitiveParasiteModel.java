@@ -2,6 +2,7 @@ package alku.csrp.client.model;
 
 import alku.csrp.Csrp;
 import alku.csrp.entity.AdaptedVariantEntity;
+import alku.csrp.entity.AncientParasiteEntity;
 import alku.csrp.entity.AssimilatedDragonEntity;
 import alku.csrp.entity.AssimilatedEndermanEntity;
 import alku.csrp.entity.BurrowingVariantEntity;
@@ -141,6 +142,13 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
         if (animatable instanceof PureParasiteEntity pure && pure.getKind() == PureParasiteEntity.Kind.VIGILANTE) {
             setHidden("taclejointUL1", !pure.isLeftVigilanteTendrilAttached());
             setHidden("taclejointUR1", !pure.isRightVigilanteTendrilAttached());
+        }
+        if (animatable instanceof AncientParasiteEntity ancient
+                && ancient.getKind() == AncientParasiteEntity.Kind.DREADNAUT) {
+            setHidden("bodytenbaseUR", !ancient.isDreadnautTendrilAttached(1));
+            setHidden("bodytenbaseUL", !ancient.isDreadnautTendrilAttached(2));
+            setHidden("bodytenbaseRA", !ancient.isDreadnautTendrilAttached(3));
+            setHidden("bodytenbaseLA", !ancient.isDreadnautTendrilAttached(4));
         }
         if (animatable instanceof AssimilatedDragonEntity dragon) {
             setHidden("jointLW1", !dragon.hasLeftWing());

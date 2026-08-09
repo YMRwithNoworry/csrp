@@ -1,9 +1,11 @@
 package alku.csrp.entity;
 
+import alku.csrp.config.MobsConfig;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
+import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -17,13 +19,15 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.control.FlyingMoveControl;
+import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.level.GameRules;
@@ -31,6 +35,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.util.Mth;
+import net.neoforged.neoforge.entity.PartEntity;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.AnimationState;
@@ -38,6 +44,7 @@ import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 
 import java.util.EnumSet;
+import java.util.List;
 
 /** Legacy Ancient Dreadnaut and Ancient Overlord boss implementations. */
 public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
@@ -45,6 +52,14 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
             AncientParasiteEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> DREAD_ATTACK_ANIMATION_TICKS = SynchedEntityData.defineId(
             AncientParasiteEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> DREAD_URTEN = SynchedEntityData.defineId(
+            AncientParasiteEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> DREAD_ULTEN = SynchedEntityData.defineId(
+            AncientParasiteEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> DREAD_RATEN = SynchedEntityData.defineId(
+            AncientParasiteEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> DREAD_LATEN = SynchedEntityData.defineId(
+            AncientParasiteEntity.class, EntityDataSerializers.BOOLEAN);
     private static final int MAX_ADAPTATION_HITS = 10;
     private static final int MAX_LEARNABLE_DAMAGE_SOURCES = 5;
     private static final float ADAPTATION_PER_HIT = 0.10F;
@@ -59,9 +74,12 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
 
     private final Kind kind;
     private final ServerBossEvent bossEvent;
+    private final AncientPart[] bodyParts;
     private int blockBreakCooldown;
-    private int nextTendrilThreshold = 4;
-    private boolean deathBurstFired;
+    private boolean health80 = true;
+    private boolean health60 = true;
+    private boolean health40 = true;
+    private boolean health20 = true;
 
     public AncientParasiteEntity(EntityType<? extends AncientParasiteEntity> type, Level level, Kind kind) {
         super(type, level);
@@ -69,8 +87,19 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         xpReward = 5000;
         bossEvent = new ServerBossEvent(getDisplayName(), BossEvent.BossBarColor.RED, BossEvent.BossBarOverlay.PROGRESS);
         if (kind == Kind.DREADNAUT) {
-            moveControl = new FlyingMoveControl(this, 18, true);
+            moveControl = new DreadMoveControl();
             setNoGravity(true);
+            bodyParts = new AncientPart[] {
+                    AncientPart.dreadTendril(this, "urten", 1, true),
+                    AncientPart.dreadTendril(this, "ulten", 2, false),
+                    AncientPart.dreadTendril(this, "raten", 3, true),
+                    AncientPart.dreadTendril(this, "laten", 4, false)
+            };
+        } else {
+            bodyParts = new AncientPart[] {
+                    AncientPart.overlord(this, "head", 1, -3.0F, 0.0F, -1, 2.4F, 7.5F),
+                    AncientPart.overlord(this, "middle", 2, 0.0F, 3.0F, 1, 2.4F, 4.5F)
+            };
         }
     }
 
@@ -80,7 +109,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
                 .add(Attributes.ARMOR, kind.armor)
                 .add(Attributes.ATTACK_DAMAGE, kind.attackDamage)
                 .add(Attributes.MOVEMENT_SPEED, kind.movementSpeed)
-                .add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
+                .add(Attributes.KNOCKBACK_RESISTANCE, 2.0D)
                 .add(Attributes.FOLLOW_RANGE, 64.0D);
         if (kind == Kind.DREADNAUT) {
             attributes.add(Attributes.FLYING_SPEED, 0.30D);
@@ -93,13 +122,14 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         super.registerGoals();
         switch (activeKind()) {
             case DREADNAUT -> {
-                goalSelector.addGoal(1, new DreadVolleyGoal());
-                goalSelector.addGoal(2, new DreadPodGoal());
-                goalSelector.addGoal(3, new DreadFlightGoal());
+                goalSelector.addGoal(2, new DreadRandomFlightGoal());
+                goalSelector.addGoal(4, new DreadPodGoal());
+                goalSelector.addGoal(5, new DreadVolleyGoal());
+                goalSelector.addGoal(6, new DreadFlightGoal());
             }
             case OVERLORD -> {
-                goalSelector.addGoal(1, new OverlordHomingGoal());
-                goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, false));
+                goalSelector.addGoal(2, new OverlordMeleeGoal());
+                goalSelector.addGoal(4, new OverlordHomingGoal());
             }
         }
     }
@@ -109,11 +139,16 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         super.defineSynchedData(builder);
         builder.define(DREAD_DAMAGE_REACTION_TICKS, 0);
         builder.define(DREAD_ATTACK_ANIMATION_TICKS, 0);
+        builder.define(DREAD_URTEN, true);
+        builder.define(DREAD_ULTEN, true);
+        builder.define(DREAD_RATEN, true);
+        builder.define(DREAD_LATEN, true);
     }
 
     @Override
     public void tick() {
         super.tick();
+        updateBodyParts();
         if (activeKind() == Kind.DREADNAUT) {
             setNoGravity(true);
         }
@@ -132,14 +167,14 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
             entityData.set(DREAD_DAMAGE_REACTION_TICKS, entityData.get(DREAD_DAMAGE_REACTION_TICKS) - 1);
         }
         if (activeKind() == Kind.DREADNAUT && onGround()) {
-            getMoveControl().setWantedPosition(getX(), getY() + 8.0D, getZ(), 0.60D);
+            getMoveControl().setWantedPosition(getX(), getY() + 5.0D, getZ(), 0.50D);
         }
         LivingEntity target = getTarget();
         if (target != null && target.isAlive()) {
             breakBlocksTowardsTarget(target);
         }
-        if (activeKind() == Kind.DREADNAUT) {
-            deployTendrilReinforcements();
+        if (activeKind() == Kind.DREADNAUT && target != null && tickCount % 30 == 0) {
+            damageNearbyDreadnautTargets();
         }
     }
 
@@ -152,7 +187,6 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
     @Override
     public void startSeenByPlayer(ServerPlayer player) {
         super.startSeenByPlayer(player);
-        bossEvent.addPlayer(player);
     }
 
     @Override
@@ -166,7 +200,21 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         if (source.is(DamageTypeTags.IS_FIRE)) {
             amount *= 4.0F;
         }
-        return super.hurt(source, amount);
+        boolean hurt = super.hurt(source, amount);
+        if (hurt && source.getEntity() instanceof ServerPlayer player) {
+            bossEvent.addPlayer(player);
+        }
+        if (hurt && activeKind() == Kind.DREADNAUT && !level().isClientSide
+                && !source.is(DamageTypeTags.IS_FALL)) {
+            detachTendrilAtHealthThreshold();
+        }
+        return hurt;
+    }
+
+    @Override
+    public boolean canBeAffected(MobEffectInstance effect) {
+        return (activeKind() != Kind.OVERLORD || !effect.is(MobEffects.POISON))
+                && super.canBeAffected(effect);
     }
 
     @Override
@@ -203,16 +251,28 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
             }
             return hurt;
         }
+        AABB initialArea = center.getBoundingBox().inflate(5.0D, 2.0D, 5.0D);
+        List<LivingEntity> nearby = level().getEntitiesOfClass(LivingEntity.class, initialArea,
+                LivingEntity::isAlive);
+        boolean crowded = nearby.size() > 4;
+        if (crowded) {
+            nearby = level().getEntitiesOfClass(LivingEntity.class,
+                    getBoundingBox().inflate(5.0D, 3.0D, 5.0D), LivingEntity::isAlive);
+        }
+        DragonEggAssimilationEntity.assimilateDragonEggs(level(), initialArea);
         boolean hit = false;
-        DragonEggAssimilationEntity.assimilateDragonEggs(level(),
-                center.getBoundingBox().inflate(4.0D, 2.0D, 4.0D));
-        for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
-                center.getBoundingBox().inflate(4.0D, 2.0D, 4.0D), this::isValidParasiteTarget)) {
-            if (!super.doHurtTarget(target)) {
+        for (LivingEntity target : nearby) {
+            if (target == this || target instanceof Parasite) {
                 continue;
             }
-            hit = true;
-            pushAway(target, 1.10D, 0.85D);
+            boolean damaged = crowded
+                    ? target.hurt(damageSources().mobAttack(this),
+                    (float) getAttributeValue(Attributes.ATTACK_DAMAGE) * 2.0F)
+                    : super.doHurtTarget(target);
+            if (damaged) {
+                hit = true;
+                pushAway(target, crowded ? 2.0D : 1.10D, crowded ? 1.1D : 0.85D);
+            }
         }
         if (hit) {
             entityData.set(DREAD_ATTACK_ANIMATION_TICKS, 10);
@@ -226,27 +286,29 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public void die(DamageSource source) {
-        if (!level().isClientSide && !deathBurstFired && random.nextFloat() < 0.35F) {
-            deathBurstFired = true;
-            triggerAncientDeathBurst();
-        }
-        super.die(source);
-    }
-
-    @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
-        tag.putInt("ancient_tendril_threshold", nextTendrilThreshold);
-        tag.putBoolean("ancient_death_burst", deathBurstFired);
+        tag.putBoolean("urten", entityData.get(DREAD_URTEN));
+        tag.putBoolean("ulten", entityData.get(DREAD_ULTEN));
+        tag.putBoolean("raten", entityData.get(DREAD_RATEN));
+        tag.putBoolean("laten", entityData.get(DREAD_LATEN));
+        tag.putBoolean("healtheight", health80);
+        tag.putBoolean("healthsix", health60);
+        tag.putBoolean("healthfour", health40);
+        tag.putBoolean("healthtwo", health20);
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        nextTendrilThreshold = tag.contains("ancient_tendril_threshold")
-                ? tag.getInt("ancient_tendril_threshold") : 4;
-        deathBurstFired = tag.getBoolean("ancient_death_burst");
+        if (tag.contains("urten")) entityData.set(DREAD_URTEN, tag.getBoolean("urten"));
+        if (tag.contains("ulten")) entityData.set(DREAD_ULTEN, tag.getBoolean("ulten"));
+        if (tag.contains("raten")) entityData.set(DREAD_RATEN, tag.getBoolean("raten"));
+        if (tag.contains("laten")) entityData.set(DREAD_LATEN, tag.getBoolean("laten"));
+        health80 = !tag.contains("healtheight") || tag.getBoolean("healtheight");
+        health60 = !tag.contains("healthsix") || tag.getBoolean("healthsix");
+        health40 = !tag.contains("healthfour") || tag.getBoolean("healthfour");
+        health20 = !tag.contains("healthtwo") || tag.getBoolean("healthtwo");
     }
 
     @Override
@@ -264,6 +326,37 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
 
     public Kind getKind() {
         return activeKind();
+    }
+
+    @Override
+    public boolean isMultipartEntity() {
+        return bodyParts != null && bodyParts.length > 0;
+    }
+
+    @Override
+    public void setId(int id) {
+        super.setId(id);
+        if (bodyParts == null) {
+            return;
+        }
+        for (int index = 0; index < bodyParts.length; index++) {
+            bodyParts[index].setId(id + index + 1);
+        }
+    }
+
+    @Override
+    public PartEntity<?>[] getParts() {
+        return bodyParts == null ? new PartEntity<?>[0] : bodyParts;
+    }
+
+    public boolean isDreadnautTendrilAttached(int partId) {
+        return switch (partId) {
+            case 1 -> entityData.get(DREAD_URTEN);
+            case 2 -> entityData.get(DREAD_ULTEN);
+            case 3 -> entityData.get(DREAD_RATEN);
+            case 4 -> entityData.get(DREAD_LATEN);
+            default -> true;
+        };
     }
 
     private PlayState dreadnautAnimation(AnimationState<AncientParasiteEntity> state) {
@@ -318,80 +411,126 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         level().addFreshEntity(projectile);
     }
 
-    private void deployTendrilReinforcements() {
-        float healthFraction = getHealth() / getMaxHealth();
-        while (nextTendrilThreshold > 0 && healthFraction <= nextTendrilThreshold / 5.0F) {
-            nextTendrilThreshold--;
-            spawnDreadnautReinforcements();
-            entityData.set(DREAD_DAMAGE_REACTION_TICKS, 30);
+    private void fireAncientBall(LivingEntity target) {
+        ParasiteProjectileEntity projectile = ModEntities.createProjectile(level(),
+                ParasiteProjectileEntity.Mode.ANCIENT_BALL);
+        if (projectile == null) {
+            return;
         }
+        Vec3 view = getViewVector(1.0F);
+        Vec3 start = new Vec3(getX() + view.x, getY() + getEyeHeight() - 0.2D, getZ() + view.z);
+        projectile.configureLegacyFireball(this, ParasiteProjectileEntity.Mode.ANCIENT_BALL,
+                start, target.getEyePosition().subtract(start), 15.0F, 0.3D, 200);
+        level().addFreshEntity(projectile);
     }
 
     private void triggerAttackAnimation() {
         entityData.set(DREAD_ATTACK_ANIMATION_TICKS, 10);
     }
 
-    private void spawnDreadnautReinforcements() {
-        if (!(level() instanceof ServerLevel serverLevel)) {
-            return;
-        }
-        for (int index = 0; index < 2; index++) {
-            BuglinEntity buglin = ModEntities.BUGLIN.get().create(serverLevel);
-            if (buglin == null) {
-                continue;
-            }
-            double angle = Math.PI * (index + random.nextDouble());
-            buglin.moveTo(getX() + Math.cos(angle) * 3.0D, getY(), getZ() + Math.sin(angle) * 3.0D,
-                    getYRot(), 0.0F);
-            buglin.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(buglin.blockPosition()),
-                    MobSpawnType.MOB_SUMMONED, null);
-            buglin.setTarget(getTarget());
-            serverLevel.addFreshEntity(buglin);
-            serverLevel.sendParticles(ParticleTypes.SMOKE, buglin.getX(), buglin.getY() + 0.4D, buglin.getZ(),
-                    6, 0.3D, 0.3D, 0.3D, 0.02D);
+    private void updateBodyParts() {
+        for (AncientPart part : bodyParts) {
+            part.updatePosition();
         }
     }
 
-    private void spawnDreadPods(LivingEntity target) {
-        if (!(level() instanceof ServerLevel serverLevel)) {
+    private void detachTendrilAtHealthThreshold() {
+        float health = getHealth();
+        float maximum = getMaxHealth();
+        if (health <= maximum * 0.8F && health80) {
+            health80 = false;
+        } else if (health <= maximum * 0.6F && health60) {
+            health60 = false;
+        } else if (health <= maximum * 0.4F && health40) {
+            health40 = false;
+        } else if (health <= maximum * 0.2F && health20) {
+            health20 = false;
+        } else {
             return;
         }
-        for (int index = 0; index < 5; index++) {
-            float roll = random.nextFloat();
-            Mob minion = roll < 0.666F ? ModEntities.RUPTER.get().create(serverLevel)
-                    : roll < 0.782F ? ModEntities.GRUNT.get().create(serverLevel) : null;
-            if (minion == null) {
+        detachRandomTendril();
+        entityData.set(DREAD_DAMAGE_REACTION_TICKS, 30);
+    }
+
+    private void detachRandomTendril() {
+        int start = random.nextInt(4);
+        for (int offset = 0; offset < 4; offset++) {
+            int partId = (start + offset) % 4 + 1;
+            if (!isDreadnautTendrilAttached(partId)) {
                 continue;
             }
-            double angle = random.nextDouble() * Math.PI * 2.0D;
-            minion.moveTo(target.getX() + Math.cos(angle) * 4.0D, target.getY() + 6.0D,
-                    target.getZ() + Math.sin(angle) * 4.0D, getYRot(), 0.0F);
-            minion.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(minion.blockPosition()),
-                    MobSpawnType.MOB_SUMMONED, null);
-            minion.setTarget(target);
-            minion.addEffect(new MobEffectInstance(ModMobEffects.RAGE, 1200, 1, false, false), this);
-            minion.setDeltaMovement(0.0D, -0.35D, 0.0D);
-            serverLevel.addFreshEntity(minion);
-            serverLevel.sendParticles(ParticleTypes.CAMPFIRE_COSY_SMOKE, minion.getX(), minion.getY(), minion.getZ(),
-                    8, 0.4D, 0.4D, 0.4D, 0.03D);
+            setDreadnautTendrilAttached(partId, false);
+            spawnDetachedTendril(partId);
+            return;
         }
     }
 
-    private void triggerAncientDeathBurst() {
-        DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(5.0D));
-        Level.ExplosionInteraction interaction = level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
-                ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
-        level().explode(this, getX(), getY() + getBbHeight() * 0.5D, getZ(), 5.0F, interaction);
-        ToxicCloudEntity cloud = ToxicCloudEntity.create(level(), getX(), getY(), getZ());
-        cloud.setOwner(this);
-        cloud.setRadius(7.0F);
-        cloud.setDuration(160);
-        cloud.setWaitTime(0);
-        cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 260, 1, false, true));
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 320, 1, false, true));
-        cloud.addEffect(new MobEffectInstance(MobEffects.POISON, 240, 1, false, true));
-        level().addFreshEntity(cloud);
+    private void setDreadnautTendrilAttached(int partId, boolean attached) {
+        switch (partId) {
+            case 1 -> entityData.set(DREAD_URTEN, attached);
+            case 2 -> entityData.set(DREAD_ULTEN, attached);
+            case 3 -> entityData.set(DREAD_RATEN, attached);
+            case 4 -> entityData.set(DREAD_LATEN, attached);
+            default -> {
+            }
+        }
+    }
+
+    private void spawnDetachedTendril(int partId) {
+        if (!(level() instanceof ServerLevel serverLevel)) {
+            return;
+        }
+        DreadnautTentacleEntity tendril = ModEntities.ANC_DREADNAUT_TEN.get().create(serverLevel);
+        if (tendril == null) {
+            return;
+        }
+        AncientPart part = bodyParts[Math.max(0, Math.min(bodyParts.length - 1, partId - 1))];
+        tendril.moveTo(part.getX(), part.getY(), part.getZ(), getYRot(), 0.0F);
+        tendril.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(tendril.blockPosition()),
+                MobSpawnType.MOB_SUMMONED, null);
+        tendril.setTarget(getTarget());
+        tendril.setDeltaMovement(getDeltaMovement().scale(0.5D).add(0.0D, -0.1D, 0.0D));
+        serverLevel.addFreshEntity(tendril);
+    }
+
+    private void damageNearbyDreadnautTargets() {
+        for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
+                getBoundingBox().inflate(3.0D), this::isValidParasiteTarget)) {
+            if (super.doHurtTarget(target)) {
+                pushAway(target, 2.5D, 0.4D);
+            }
+        }
+    }
+
+    private boolean spawnDreadPod(double x, double y, double z, LivingEntity target) {
+        if (!(level() instanceof ServerLevel serverLevel)) {
+            return false;
+        }
+        AncientPodEntity pod = ModEntities.ANC_POD.get().create(serverLevel);
+        if (pod == null) {
+            return false;
+        }
+        double angle = random.nextDouble() * Math.PI * 2.0D;
+        double radius = random.nextDouble() * 10.0D;
+        pod.moveTo(x + Math.cos(angle) * radius, y, z + Math.sin(angle) * radius,
+                random.nextFloat() * 360.0F, 0.0F);
+        pod.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(pod.blockPosition()),
+                MobSpawnType.MOB_SUMMONED, null);
+        pod.setOwner((byte) 62);
+        pod.setTarget(target);
+        pod.setDeltaMovement(0.0D, -0.35D, 0.0D);
+        return serverLevel.addFreshEntity(pod);
+    }
+
+    private int terrainHeight(int x, int z) {
+        return level().getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
+    }
+
+    private double clampFlightY(double desiredY, int x, int z) {
+        double maximum = MobsConfig.ancientDreadnautMaxY();
+        double minimum = Math.min(maximum, Math.max(MobsConfig.ancientDreadnautMinY(), terrainHeight(x, z)
+                + MobsConfig.ancientDreadnautMinY()));
+        return Mth.clamp(desiredY, minimum, maximum);
     }
 
     private Kind activeKind() {
@@ -402,9 +541,8 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private final class DreadVolleyGoal extends Goal {
-        private int cooldown;
+        private int attackTimer;
         private int shots;
-        private int delay;
 
         private DreadVolleyGoal() {
             setFlags(EnumSet.of(Flag.LOOK));
@@ -412,103 +550,162 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
 
         @Override
         public boolean canUse() {
-            if (cooldown > 0) {
-                cooldown--;
-                return false;
-            }
             LivingEntity target = getTarget();
-            return target != null && hasLineOfSight(target) && distanceToSqr(target) <= 4096.0D;
+            return target != null && target.isAlive();
         }
 
         @Override
         public boolean canContinueToUse() {
-            LivingEntity target = getTarget();
-            return target != null && target.isAlive() && shots < 3;
-        }
-
-        @Override
-        public void start() {
-            shots = 0;
-            delay = 0;
-            triggerAttackAnimation();
+            return canUse();
         }
 
         @Override
         public void tick() {
             LivingEntity target = getTarget();
-            if (target == null) {
+            if (target == null || distanceToSqr(target) >= 4225.0D || !hasLineOfSight(target)) {
+                attackTimer = Math.max(0, attackTimer - 1);
                 return;
             }
             getLookControl().setLookAt(target, 30.0F, 30.0F);
-            if (delay > 0) {
-                delay--;
-                return;
+            attackTimer++;
+            if (hasEffect(ModMobEffects.RAGE)) {
+                attackTimer++;
             }
-            fireProjectile(target, ParasiteProjectileEntity.Mode.WITHER, 1.0D, 15.0F, 2.5D, 100);
-            shots++;
-            delay = 8;
+            if (attackTimer == 50) {
+                playSound(ModSounds.get("oronco.shooting"), 4.0F, 1.0F);
+            }
+            if (attackTimer > 60 && attackTimer % 20 == 0) {
+                fireAncientBall(target);
+                playSound(ModSounds.get("oronco.shootingreal"), 2.0F, 1.0F);
+                triggerAttackAnimation();
+                if (++shots >= 3) {
+                    attackTimer = 0;
+                    shots = 0;
+                }
+            }
         }
 
         @Override
         public void stop() {
-            cooldown = 100;
+            attackTimer = 0;
+            shots = 0;
         }
     }
 
     private final class DreadPodGoal extends Goal {
-        private int cooldown;
-        private int chargeTicks;
+        private int attackTimer;
+        private int attackingTicks;
+        private int spawnedPods;
+        private double targetX;
+        private double targetY;
+        private double targetZ;
 
         private DreadPodGoal() {
-            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
         }
 
         @Override
         public boolean canUse() {
-            if (cooldown > 0) {
-                cooldown--;
-                return false;
-            }
             LivingEntity target = getTarget();
-            return target != null && target.onGround() && distanceToSqr(target) <= 4096.0D;
+            return attackingTicks > 0 || target != null && target.isAlive();
         }
 
         @Override
         public boolean canContinueToUse() {
-            return chargeTicks < 30 && getTarget() != null;
-        }
-
-        @Override
-        public void start() {
-            chargeTicks = 0;
-            getNavigation().stop();
-            triggerAttackAnimation();
+            return canUse();
         }
 
         @Override
         public void tick() {
             LivingEntity target = getTarget();
-            if (target == null) {
+            if (attackingTicks > 0) {
+                attackingTicks++;
+                getNavigation().stop();
+                if (attackingTicks == 2) {
+                    playSound(ModSounds.get("ancient.pod"), 5.0F, 1.0F);
+                    triggerAttackAnimation();
+                }
+                if (attackingTicks >= 40 && attackingTicks % 20 == 0
+                        && spawnDreadPod(targetX, targetY, targetZ, target)) {
+                    spawnedPods++;
+                }
+                if (spawnedPods >= MobsConfig.ancientDreadnautPodNumber()) {
+                    attackingTicks = 0;
+                    attackTimer = 0;
+                    spawnedPods = 0;
+                }
+                return;
+            }
+            if (target == null || !target.isAlive()) {
+                attackTimer = 0;
                 return;
             }
             getLookControl().setLookAt(target, 30.0F, 30.0F);
-            if (++chargeTicks == 20) {
-                spawnDreadPods(target);
+            if (hasLineOfSight(target) && distanceToSqr(target) < 2500.0D
+                    && (target.onGround() || random.nextBoolean())) {
+                attackTimer++;
+            } else {
+                attackTimer = 0;
+            }
+            if (attackTimer >= MobsConfig.ancientDreadnautPodCooldownTicks()) {
+                attackingTicks = 1;
+                spawnedPods = 0;
+                targetX = target.getX();
+                targetY = getY() + 25.0D;
+                targetZ = target.getZ();
             }
         }
 
         @Override
         public void stop() {
-            cooldown = 240;
+            if (attackingTicks == 0) {
+                attackTimer = 0;
+                spawnedPods = 0;
+            }
+        }
+    }
+
+    private final class DreadRandomFlightGoal extends Goal {
+        private int nextMoveTick;
+
+        @Override
+        public boolean canUse() {
+            return true;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return true;
+        }
+
+        @Override
+        public void tick() {
+            if (--nextMoveTick > 0) {
+                return;
+            }
+            nextMoveTick = 10 + random.nextInt(20);
+            LivingEntity target = getTarget();
+            double centerX = target == null ? getX() : target.getX();
+            double centerY = target == null ? getY() : target.getY();
+            double centerZ = target == null ? getZ() : target.getZ();
+            double distance = target == null ? 0.0D : distanceToSqr(target);
+            int range = distance > 400.0D ? 10 : distance < 100.0D ? 7 : 14;
+            double x = centerX + random.nextInt(range + 1) - range * 0.5D;
+            double z = centerZ + random.nextInt(range + 1) - range * 0.5D;
+            double desiredY = centerY + (distance < 100.0D ? 4.0D + random.nextInt(7)
+                    : random.nextInt(11) - 5.0D);
+            int blockX = Mth.floor(x);
+            int blockZ = Mth.floor(z);
+            double y = clampFlightY(desiredY, blockX, blockZ);
+            if (level().getBlockState(BlockPos.containing(x, y, z)).isAir()) {
+                getMoveControl().setWantedPosition(x, y, z, distance < 100.0D ? 0.45D : 0.30D);
+            }
         }
     }
 
     private final class DreadFlightGoal extends Goal {
-        private int swoopCooldown;
-        private int swoopTicks;
+        private int unseenTicks;
 
         private DreadFlightGoal() {
-            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
         }
 
         @Override
@@ -529,23 +726,14 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
                 return;
             }
             getLookControl().setLookAt(target, 30.0F, 30.0F);
-            if (swoopTicks > 0) {
-                swoopTicks--;
-                getMoveControl().setWantedPosition(target.getX(), target.getY() + 0.5D, target.getZ(), 1.25D);
+            if (!hasLineOfSight(target) || distanceToSqr(target) >= 4096.0D) {
+                unseenTicks++;
             } else {
-                if (swoopCooldown > 0) {
-                    swoopCooldown--;
-                } else {
-                    swoopTicks = 28;
-                    triggerAttackAnimation();
-                }
-                getMoveControl().setWantedPosition(target.getX(), target.getY() + 8.0D, target.getZ(), 0.85D);
+                unseenTicks = 0;
             }
-            if (swoopTicks > 0 && distanceToSqr(target) <= 16.0D) {
-                doHurtTarget(target);
-                pushAway(target, 1.5D, 1.0D);
-                swoopTicks = 0;
-                swoopCooldown = 80;
+            if (unseenTicks >= 6) {
+                setTarget(null);
+                unseenTicks = 0;
             }
         }
     }
@@ -564,8 +752,8 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
                 return false;
             }
             LivingEntity target = getTarget();
-            return target != null && hasLineOfSight(target) && distanceToSqr(target) >= 36.0D
-                    && distanceToSqr(target) <= 4096.0D;
+            return target != null && hasLineOfSight(target) && distanceToSqr(target) >= 100.0D
+                    && distanceToSqr(target) <= 1600.0D;
         }
 
         @Override
@@ -578,16 +766,155 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
             LivingEntity target = getTarget();
             if (target != null) {
                 getLookControl().setLookAt(target, 30.0F, 30.0F);
-                fireProjectile(target, ParasiteProjectileEntity.Mode.LIGHT, 1.10D, 20.0F, 2.0D, 100);
+                fireProjectile(target, ParasiteProjectileEntity.Mode.HOMING, 0.0D, 15.0F, 2.0D, 200);
                 triggerAttackAnimation();
-                cooldown = 60;
+                cooldown = 80;
             }
+        }
+    }
+
+    private final class OverlordMeleeGoal extends MeleeAttackGoal {
+        private OverlordMeleeGoal() {
+            super(AncientParasiteEntity.this, 1.0D, false);
+        }
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = getTarget();
+            return target != null && distanceToSqr(target) < 100.0D && super.canUse();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            LivingEntity target = getTarget();
+            return target != null && distanceToSqr(target) < 100.0D && super.canContinueToUse();
+        }
+    }
+
+    private final class DreadMoveControl extends MoveControl {
+        private DreadMoveControl() {
+            super(AncientParasiteEntity.this);
+        }
+
+        @Override
+        public void tick() {
+            if (!hasWanted()) {
+                return;
+            }
+            double x = getWantedX() - getX();
+            double y = getWantedY() - getY();
+            double z = getWantedZ() - getZ();
+            double distance = Math.sqrt(x * x + y * y + z * z);
+            if (distance < getBoundingBox().getSize()) {
+                operation = Operation.WAIT;
+                setDeltaMovement(getDeltaMovement().scale(0.5D));
+                return;
+            }
+            Vec3 movement = getDeltaMovement().add(x / distance * 0.05D * getSpeedModifier(),
+                    y / distance * 0.05D * getSpeedModifier(),
+                    z / distance * 0.05D * getSpeedModifier());
+            setDeltaMovement(movement);
+            LivingEntity target = getTarget();
+            double facingX = target == null ? movement.x : target.getX() - getX();
+            double facingZ = target == null ? movement.z : target.getZ() - getZ();
+            setYRot((float) (-Mth.atan2(facingX, facingZ) * Mth.RAD_TO_DEG));
+            yBodyRot = getYRot();
+        }
+    }
+
+    private static final class AncientPart extends PartEntity<AncientParasiteEntity> {
+        private final String name;
+        private final int partId;
+        private final boolean dreadTendril;
+        private final float sideOffset;
+        private final float forwardOffset;
+        private final float yOffset;
+        private final float width;
+        private final float height;
+
+        private AncientPart(AncientParasiteEntity parent, String name, int partId, boolean dreadTendril,
+                            float sideOffset, float forwardOffset, float yOffset, float width, float height) {
+            super(parent);
+            this.name = name;
+            this.partId = partId;
+            this.dreadTendril = dreadTendril;
+            this.sideOffset = sideOffset;
+            this.forwardOffset = forwardOffset;
+            this.yOffset = yOffset;
+            this.width = width;
+            this.height = height;
+        }
+
+        private static AncientPart dreadTendril(AncientParasiteEntity parent, String name,
+                                                 int partId, boolean left) {
+            float side = left ? 2.17F : -2.17F;
+            float forward = partId <= 2 ? 1.4F : -1.4F;
+            return new AncientPart(parent, name, partId, true, side, forward,
+                    1.4F, 0.6F, 2.0F);
+        }
+
+        private static AncientPart overlord(AncientParasiteEntity parent, String name, int partId,
+                                             float offset, float yOffset, int inverted,
+                                             float width, float height) {
+            return new AncientPart(parent, name, partId, false, 0.0F,
+                    offset * inverted, yOffset, width, height);
+        }
+
+        private void updatePosition() {
+            AncientParasiteEntity parent = getParent();
+            float yaw = parent.getYRot() * Mth.DEG_TO_RAD;
+            double forwardX = -Mth.sin(yaw);
+            double forwardZ = Mth.cos(yaw);
+            double sideX = Mth.cos(yaw);
+            double sideZ = Mth.sin(yaw);
+            setPos(parent.getX() + sideX * sideOffset + forwardX * forwardOffset,
+                    parent.getY() + yOffset,
+                    parent.getZ() + sideZ * sideOffset + forwardZ * forwardOffset);
+            setYRot(parent.getYRot());
+        }
+
+        @Override
+        protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        }
+
+        @Override
+        protected void readAdditionalSaveData(CompoundTag tag) {
+        }
+
+        @Override
+        protected void addAdditionalSaveData(CompoundTag tag) {
+        }
+
+        @Override
+        public boolean isPickable() {
+            AncientParasiteEntity parent = getParent();
+            return parent.isAlive() && (!dreadTendril || parent.isDreadnautTendrilAttached(partId));
+        }
+
+        @Override
+        public boolean hurt(DamageSource source, float amount) {
+            return isPickable() && getParent().hurt(source, amount);
+        }
+
+        @Override
+        public EntityDimensions getDimensions(Pose pose) {
+            return EntityDimensions.scalable(width, height);
+        }
+
+        @Override
+        public boolean shouldBeSaved() {
+            return false;
+        }
+
+        @Override
+        public Component getName() {
+            return Component.literal(name);
         }
     }
 
     public enum Kind {
         DREADNAUT(200.0D, 15.0D, 15.0D, 0.30D),
-        OVERLORD(250.0D, 15.0D, 20.0D, 0.25D);
+        OVERLORD(250.0D, 15.0D, 20.0D, 0.23D);
 
         private final double maxHealth;
         private final double armor;

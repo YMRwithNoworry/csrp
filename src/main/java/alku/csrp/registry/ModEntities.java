@@ -626,6 +626,7 @@ public final class ModEntities {
             case ELVIA_BALL -> BALL_TALL.get();
             case LENCIA_BALL -> BALL_MALL.get();
             case LIGHT -> HEBLU_LIGHT.get();
+            case HOMING -> PARASITE_PROJECTILE.get();
             case METEOR -> METEOR.get();
             case ALAFHA_BALL -> SALIVA_BALL.get();
             case ANGED_BALL -> BALL_BALL.get();
