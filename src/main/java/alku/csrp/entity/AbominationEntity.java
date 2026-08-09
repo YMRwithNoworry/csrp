@@ -1,14 +1,16 @@
 package alku.csrp.entity;
 
+import alku.csrp.event.StatusEffectEvents;
 import alku.csrp.registry.ModMobEffects;
-import net.minecraft.core.particles.ParticleTypes;
+import alku.csrp.registry.ModSounds;
+import alku.csrp.world.EvolutionSystem;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -44,7 +46,7 @@ public final class AbominationEntity extends PrimitiveParasiteEntity {
             "func_78087_a.limb_swing.get_parasite_status_2");
 
     private final Kind kind;
-    private int supportCooldown;
+    private int supportCooldown = 10;
 
     public AbominationEntity(EntityType<? extends AbominationEntity> type, Level level, Kind kind) {
         super(type, level);
@@ -58,7 +60,7 @@ public final class AbominationEntity extends PrimitiveParasiteEntity {
                 .add(Attributes.ARMOR, 10.0D)
                 .add(Attributes.ATTACK_DAMAGE, 9.0D)
                 .add(Attributes.MOVEMENT_SPEED, kind.movementSpeed)
-                .add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
+                .add(Attributes.KNOCKBACK_RESISTANCE, 0.6D)
                 .add(Attributes.FOLLOW_RANGE, 32.0D);
     }
 
@@ -80,17 +82,38 @@ public final class AbominationEntity extends PrimitiveParasiteEntity {
         if (level().isClientSide || activeKind() != Kind.BODIES) {
             return;
         }
-        if (supportCooldown > 0) {
-            supportCooldown--;
+        if (--supportCooldown > 0) {
             return;
         }
         applyBodiesSupport();
-        supportCooldown = 200;
+        supportCooldown = 240;
     }
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
         return super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
+    }
+
+    @Override
+    protected int incomingDamageCapDivisor() {
+        return activeKind() == Kind.BODIES && level() instanceof ServerLevel serverLevel
+                && EvolutionSystem.generationProfile(serverLevel).damageCap() ? 4 : 1;
+    }
+
+    @Override
+    protected net.minecraft.sounds.SoundEvent getAmbientSound() {
+        return activeKind() == Kind.BODIES && entityData.get(PARASITE_STATUS) != 0
+                ? null : super.getAmbientSound();
+    }
+
+    @Override
+    protected net.minecraft.sounds.SoundEvent getDeathSound() {
+        return activeKind() == Kind.BODIES ? ModSounds.get("bodies.growl") : null;
+    }
+
+    @Override
+    protected void playStepSound(net.minecraft.core.BlockPos pos, net.minecraft.world.level.block.state.BlockState state) {
+        playSound(ModSounds.get("small.step"), getSoundVolume(), getVoicePitch());
     }
 
     @Override
@@ -140,25 +163,21 @@ public final class AbominationEntity extends PrimitiveParasiteEntity {
     }
 
     private void applyBodiesSupport() {
-        addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 100, 3, false, false), this);
-        for (LivingEntity ally : level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(16.0D),
+        for (LivingEntity ally : level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(20.0D),
                 entity -> entity != this && entity instanceof Parasite)) {
             if (ally instanceof NexusParasiteEntity nexus
                     && nexus.getKind().name().startsWith("ROOTER")) {
                 continue;
             }
-            ally.addEffect(new MobEffectInstance(ModMobEffects.RAGE, 300, 0, false, false), this);
-            ally.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 300, 0, false, false), this);
-        }
-        if (level() instanceof net.minecraft.server.level.ServerLevel serverLevel) {
-            serverLevel.sendParticles(ParticleTypes.COMPOSTER, getX(), getY() + getBbHeight() * 0.5D, getZ(),
-                    16, 1.5D, 1.0D, 1.5D, 0.02D);
+            ally.addEffect(new MobEffectInstance(ModMobEffects.PIVOT, 300, 0, false, false), this);
+            ally.addEffect(new MobEffectInstance(ModMobEffects.PARATE, 300, 0, false, false), this);
+            StatusEffectEvents.linkToRooter(ally, this);
         }
     }
 
     public enum Kind {
-        BODIES(0.211037D, 30),
-        HEAD(0.272037D, 10);
+        BODIES(0.211037D, 24),
+        HEAD(0.272037D, 75);
 
         private final double movementSpeed;
         private final int experience;
@@ -197,7 +216,7 @@ public final class AbominationEntity extends PrimitiveParasiteEntity {
 
         @Override
         protected int getTicksUntilNextAttack() {
-            return 4;
+            return 3;
         }
 
         private void updateParasiteStatus() {

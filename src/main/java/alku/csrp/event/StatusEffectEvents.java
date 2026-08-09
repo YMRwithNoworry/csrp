@@ -2,6 +2,7 @@ package alku.csrp.event;
 
 import alku.csrp.Csrp;
 import alku.csrp.effect.DistortedEnlightenmentMobEffect;
+import alku.csrp.entity.AbominationEntity;
 import alku.csrp.entity.DraconiteEntity;
 import alku.csrp.entity.NexusParasiteEntity;
 import alku.csrp.entity.Parasite;
@@ -31,7 +32,8 @@ import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
-import java.util.Comparator;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 /** Runtime hooks for SRP effects whose behavior crosses entity boundaries. */
 @EventBusSubscriber(modid = Csrp.MODID)
@@ -39,6 +41,7 @@ public final class StatusEffectEvents {
     private static final int MAX_EFFECT_AMPLIFIER = 254;
     private static final ThreadLocal<Boolean> TRANSFERRING_PIVOT_DAMAGE =
             ThreadLocal.withInitial(() -> false);
+    private static final Map<LivingEntity, LivingEntity> ROOTER_OWNERS = new WeakHashMap<>();
 
     private StatusEffectEvents() {
     }
@@ -98,15 +101,17 @@ public final class StatusEffectEvents {
         if (!(victim instanceof Parasite) || pivot == null || TRANSFERRING_PIVOT_DAMAGE.get()) {
             return;
         }
-        NexusParasiteEntity rooter = victim.level().getEntitiesOfClass(NexusParasiteEntity.class,
-                        victim.getBoundingBox().inflate(32.0D), StatusEffectEvents::isRooter)
-                .stream().min(Comparator.comparingDouble(root -> root.distanceToSqr(victim))).orElse(null);
+        LivingEntity rooter = ROOTER_OWNERS.get(victim);
         if (rooter == null) {
             return;
         }
-        float ratio = Math.min(0.95F, 0.2375F + 0.05F * pivot.getAmplifier());
-        float transferred = event.getAmount() * ratio;
-        event.setAmount(Math.max(0.0F, event.getAmount() - transferred));
+        if (!rooter.isAlive()) {
+            ROOTER_OWNERS.remove(victim);
+            victim.removeEffect(ModMobEffects.PIVOT);
+            return;
+        }
+        float transferred = event.getAmount() * (pivot.getAmplifier() + 1) * 0.2375F;
+        event.setAmount(event.getAmount() * 0.05F);
         TRANSFERRING_PIVOT_DAMAGE.set(true);
         try {
             rooter.hurt(event.getSource(), transferred);
@@ -115,8 +120,24 @@ public final class StatusEffectEvents {
         }
     }
 
-    private static boolean isRooter(NexusParasiteEntity entity) {
-        return entity.isAlive() && switch (entity.getKind()) {
+    public static void linkToRooter(LivingEntity parasite, LivingEntity rooter) {
+        if (parasite instanceof Parasite && rooter != parasite) {
+            ROOTER_OWNERS.put(parasite, rooter);
+        }
+    }
+
+    @SubscribeEvent
+    public static void preventRooterPivot(MobEffectEvent.Applicable event) {
+        if (event.getEffectInstance().is(ModMobEffects.PIVOT) && isRooter(event.getEntity())) {
+            event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
+        }
+    }
+
+    private static boolean isRooter(LivingEntity entity) {
+        if (entity instanceof AbominationEntity abomination) {
+            return abomination.getKind() == AbominationEntity.Kind.BODIES;
+        }
+        return entity instanceof NexusParasiteEntity nexus && switch (nexus.getKind()) {
             case ROOTER_SI, ROOTER_SII, ROOTER_SIII, ROOTER_SIV, ROOTERBALL -> true;
             default -> false;
         };

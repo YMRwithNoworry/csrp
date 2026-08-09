@@ -1,6 +1,7 @@
 package alku.csrp.world;
 
 import alku.csrp.Config;
+import alku.csrp.entity.AbominationEntity;
 import alku.csrp.entity.DerivedParasiteEntity;
 import alku.csrp.entity.NexusParasiteEntity;
 import alku.csrp.entity.Parasite;
@@ -233,6 +234,10 @@ public final class EvolutionSystem {
         if (!(entity instanceof Parasite) || entity.hasEffect(ModMobEffects.DEBAR)
                 || entity instanceof DerivedParasiteEntity derived && derived.isShadowClone()) {
             return 0;
+        }
+        if (entity instanceof AbominationEntity abomination
+                && abomination.getKind() == AbominationEntity.Kind.BODIES) {
+            return 3;
         }
         if (entity instanceof NexusParasiteEntity nexus) {
             return switch (nexus.getKind().stage()) {

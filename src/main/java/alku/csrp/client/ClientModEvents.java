@@ -329,8 +329,8 @@ public final class ClientModEvents {
                 new NexusParasiteRenderer(context, "rooterball", 0.7F));
         event.registerEntityRenderer(ModEntities.ABO_BODIES.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "abo_bodies", 1.0F));
-        event.registerEntityRenderer(ModEntities.ABO_HEAD.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "abo_head", 1.0F));
+        // 1.10.7 ships RenderAboHead but never registers it; the live entity is invisible.
+        event.registerEntityRenderer(ModEntities.ABO_HEAD.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.HAUNTER_HOMING.get(), HaunterHomingProjectileRenderer::new);
         event.registerEntityRenderer(ModEntities.PARASITE_PROJECTILE.get(), ParasiteProjectileRenderer::new);
     }

@@ -1,6 +1,7 @@
 package alku.csrp.entity;
 
 import alku.csrp.Csrp;
+import alku.csrp.event.StatusEffectEvents;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModBlocks;
 import alku.csrp.infection.BlockInfestation;
@@ -757,6 +758,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
             }
             ally.addEffect(new MobEffectInstance(ModMobEffects.PIVOT, 300, Math.max(0, stage - 1), false, false), this);
             ally.addEffect(new MobEffectInstance(ModMobEffects.PARATE, 300, Math.max(0, stage - 1), false, false), this);
+            StatusEffectEvents.linkToRooter(ally, this);
         }
         if (level() instanceof ServerLevel serverLevel) {
             serverLevel.sendParticles(ParticleTypes.COMPOSTER, getX(), getY() + getBbHeight() * 0.55D, getZ(),
