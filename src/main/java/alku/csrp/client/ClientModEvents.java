@@ -77,6 +77,7 @@ public final class ClientModEvents {
         event.registerBlockEntityRenderer(ModBlockEntities.TROPHY.get(), TrophyBlockEntityRenderer::new);
         event.registerEntityRenderer(ModEntities.BIOMASS.get(), BiomassRenderer::new);
         event.registerEntityRenderer(ModEntities.SHOCKWAVE.get(), NoopRenderer::new);
+        event.registerEntityRenderer(ModEntities.SHOCKWAVE_LEGACY.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.BUGLIN.get(), BuglinRenderer::new);
         event.registerEntityRenderer(ModEntities.RUPTER.get(), RupterRenderer::new);
         event.registerEntityRenderer(ModEntities.SCENT.get(), ParasiticScentRenderer::new);
@@ -142,6 +143,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.CRUX_INCOMPLETE.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "crux_incomplete", 0.45F));
         event.registerEntityRenderer(ModEntities.SCARY_ORB.get(), ScaryOrbRenderer::new);
+        event.registerEntityRenderer(ModEntities.SCARY_ORB_LEGACY.get(), ScaryOrbRenderer::new);
         event.registerEntityRenderer(ModEntities.VOID_ORB.get(), VoidOrbRenderer::new);
         event.registerEntityRenderer(ModEntities.AIRSCREW.get(), AirscrewRenderer::new);
         event.registerEntityRenderer(ModEntities.HEED.get(), context ->
@@ -151,6 +153,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.THRALL.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "thrall", 0.7F));
         event.registerEntityRenderer(ModEntities.PULLING_BALL.get(), PullingBallRenderer::new);
+        event.registerEntityRenderer(ModEntities.PULLING_BALL_LEGACY.get(), PullingBallRenderer::new);
         event.registerEntityRenderer(ModEntities.LICE.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "lice", 0.35F));
         event.registerEntityRenderer(ModEntities.MANGLER.get(), context ->
@@ -332,6 +335,7 @@ public final class ClientModEvents {
         // 1.10.7 ships RenderAboHead but never registers it; the live entity is invisible.
         event.registerEntityRenderer(ModEntities.ABO_HEAD.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.HAUNTER_HOMING.get(), HaunterHomingProjectileRenderer::new);
+        event.registerEntityRenderer(ModEntities.HAUNTER_HOMING_LEGACY.get(), HaunterHomingProjectileRenderer::new);
         event.registerEntityRenderer(ModEntities.PARASITE_PROJECTILE.get(), ParasiteProjectileRenderer::new);
     }
 

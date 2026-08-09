@@ -85,18 +85,24 @@ public final class ModEntities {
             DeferredRegister.create(Registries.ENTITY_TYPE, Csrp.MODID);
 
     public static final DeferredHolder<EntityType<?>, EntityType<BiomassEntity>> BIOMASS =
-            ENTITIES.register("biomass", () -> EntityType.Builder.of(BiomassEntity::new, MobCategory.MONSTER)
+            ENTITIES.register("biomass", () -> EntityType.Builder.of(BiomassEntity::new, MobCategory.MISC)
                     .sized(0.98F, 0.98F)
-                    .clientTrackingRange(8)
-                    .updateInterval(1)
+                    .clientTrackingRange(4)
+                    .updateInterval(3)
                     .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "biomass").toString()));
 
     public static final DeferredHolder<EntityType<?>, EntityType<ShockwaveEntity>> SHOCKWAVE =
-            ENTITIES.register("shockwave", () -> EntityType.Builder
+            ENTITIES.register("waveshock", () -> EntityType.Builder
                     .<ShockwaveEntity>of(ShockwaveEntity::new, MobCategory.MISC)
                     .sized(3.1F, 0.2F)
-                    .clientTrackingRange(10)
-                    .updateInterval(1)
+                    .clientTrackingRange(4)
+                    .updateInterval(3)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "waveshock").toString()));
+    public static final DeferredHolder<EntityType<?>, EntityType<ShockwaveEntity>> SHOCKWAVE_LEGACY =
+            ENTITIES.register("shockwave", () -> EntityType.Builder
+                    .<ShockwaveEntity>of(ShockwaveEntity::new, MobCategory.MISC)
+                    .sized(3.1F, 0.2F).clientTrackingRange(4).updateInterval(3)
                     .setShouldReceiveVelocityUpdates(true)
                     .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "shockwave").toString()));
 
@@ -453,9 +459,14 @@ public final class ModEntities {
             monster("abo_head", (type, level) -> new AbominationEntity(type, level,
                     AbominationEntity.Kind.HEAD), 1.954F, 2.73F);
     public static final DeferredHolder<EntityType<?>, EntityType<PullingBallEntity>> PULLING_BALL =
+            ENTITIES.register("pullingball", () -> EntityType.Builder
+                    .<PullingBallEntity>of(PullingBallEntity::new, MobCategory.MISC)
+                    .sized(0.3F, 0.3F).clientTrackingRange(4).updateInterval(3)
+                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "pullingball").toString()));
+    public static final DeferredHolder<EntityType<?>, EntityType<PullingBallEntity>> PULLING_BALL_LEGACY =
             ENTITIES.register("pulling_ball", () -> EntityType.Builder
                     .<PullingBallEntity>of(PullingBallEntity::new, MobCategory.MISC)
-                    .sized(0.3F, 0.3F).clientTrackingRange(8).updateInterval(1)
+                    .sized(0.3F, 0.3F).clientTrackingRange(4).updateInterval(3)
                     .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "pulling_ball").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<CruxThrownBlockDamageEntity>> CRUX_BLOCK_DAMAGE =
             ENTITIES.register("crux_block_damage", () -> EntityType.Builder
@@ -468,12 +479,16 @@ public final class ModEntities {
                     .sized(1.2F, 0.9F).clientTrackingRange(0).updateInterval(1)
                     .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "haunter_damage").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<ScaryOrbEntity>> SCARY_ORB =
+            ENTITIES.register("orbscary", () -> EntityType.Builder.<ScaryOrbEntity>of(ScaryOrbEntity::new, MobCategory.MISC)
+                    .sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(3)
+                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "orbscary").toString()));
+    public static final DeferredHolder<EntityType<?>, EntityType<ScaryOrbEntity>> SCARY_ORB_LEGACY =
             ENTITIES.register("scary_orb", () -> EntityType.Builder.<ScaryOrbEntity>of(ScaryOrbEntity::new, MobCategory.MISC)
-                    .sized(0.5F, 0.5F).clientTrackingRange(8).updateInterval(1)
+                    .sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(3)
                     .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "scary_orb").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<VoidOrbEntity>> VOID_ORB =
             ENTITIES.register("orbvoid", () -> EntityType.Builder.<VoidOrbEntity>of(VoidOrbEntity::new, MobCategory.MISC)
-                    .sized(0.5F, 0.5F).clientTrackingRange(64).updateInterval(1)
+                    .sized(0.5F, 0.5F).clientTrackingRange(16).updateInterval(1)
                     .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "orbvoid").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<ParasiticScentEntity>> SCENT =
             ENTITIES.register("scent", () -> EntityType.Builder
@@ -486,9 +501,15 @@ public final class ModEntities {
                     .sized(0.35F, 0.35F).clientTrackingRange(8).updateInterval(1)
                     .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "parasite_projectile").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<HaunterHomingProjectileEntity>> HAUNTER_HOMING =
+            ENTITIES.register("homming", () -> EntityType.Builder
+                    .<HaunterHomingProjectileEntity>of(HaunterHomingProjectileEntity::new, MobCategory.MISC)
+                    .sized(0.3125F, 0.3125F).clientTrackingRange(4).updateInterval(3)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "homming").toString()));
+    public static final DeferredHolder<EntityType<?>, EntityType<HaunterHomingProjectileEntity>> HAUNTER_HOMING_LEGACY =
             ENTITIES.register("haunter_homing", () -> EntityType.Builder
                     .<HaunterHomingProjectileEntity>of(HaunterHomingProjectileEntity::new, MobCategory.MISC)
-                    .sized(0.3125F, 0.3125F).clientTrackingRange(64).updateInterval(3)
+                    .sized(0.3125F, 0.3125F).clientTrackingRange(4).updateInterval(3)
                     .setShouldReceiveVelocityUpdates(true)
                     .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "haunter_homing").toString()));
 
