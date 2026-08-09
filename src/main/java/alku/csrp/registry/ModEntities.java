@@ -66,6 +66,7 @@ import alku.csrp.entity.SimAdventurerEntity;
 import alku.csrp.entity.SimAdventurerHeadEntity;
 import alku.csrp.entity.SimHumanEntity;
 import alku.csrp.entity.SummonerEntity;
+import alku.csrp.entity.SourceEntity;
 import alku.csrp.entity.ThrallEntity;
 import alku.csrp.entity.ToxicCloudEntity;
 import alku.csrp.entity.VerminEntity;
@@ -544,8 +545,11 @@ public final class ModEntities {
                     .<OrbBoomEntity>of(OrbBoomEntity::new, MobCategory.MISC)
                     .sized(0.5F, 0.5F).clientTrackingRange(16).updateInterval(1)
                     .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "orbboom").toString()));
-    public static final DeferredHolder<EntityType<?>, EntityType<LegacyAuxiliaryEntity>> SOURCE =
-            auxiliary("source", LegacyAuxiliaryEntity.Kind.SOURCE, 0.5F, 0.5F, 4, 3);
+    public static final DeferredHolder<EntityType<?>, EntityType<SourceEntity>> SOURCE =
+            ENTITIES.register("source", () -> EntityType.Builder
+                    .<SourceEntity>of(SourceEntity::new, MobCategory.MISC)
+                    .sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(3)
+                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "source").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<LegacyAuxiliaryEntity>> REMAIN =
             auxiliary("remain", LegacyAuxiliaryEntity.Kind.REMAIN, 0.5F, 0.5F, 4, 3);
     public static final DeferredHolder<EntityType<?>, EntityType<BombEntity>> BOMB =

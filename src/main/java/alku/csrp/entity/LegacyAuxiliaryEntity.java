@@ -12,7 +12,6 @@ import net.minecraft.world.phys.Vec3;
 /** Shared carrier for legacy auxiliary ids that are spawned by old saves or commands. */
 public final class LegacyAuxiliaryEntity extends Entity {
     public enum Kind {
-        SOURCE,
         REMAIN,
         GORE,
         TENDRIL
@@ -25,7 +24,6 @@ public final class LegacyAuxiliaryEntity extends Entity {
         super(type, level);
         this.kind = kind;
         this.lifetime = switch (kind) {
-            case SOURCE -> 2400;
             case REMAIN -> 1200;
             default -> 200;
         };
@@ -59,7 +57,7 @@ public final class LegacyAuxiliaryEntity extends Entity {
             return;
         }
         ParticleOptions particle = switch (kind) {
-            case SOURCE, REMAIN, TENDRIL -> ParticleTypes.END_ROD;
+            case REMAIN, TENDRIL -> ParticleTypes.END_ROD;
             case GORE -> ParticleTypes.WITCH;
         };
         level().addParticle(particle, getX(), getY() + getBbHeight() * 0.5D, getZ(),
