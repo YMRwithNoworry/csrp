@@ -313,6 +313,9 @@ public final class ParasiteProjectileEntity extends Entity {
         } else if (mode == Mode.VOMIT || mode == Mode.ALAFHA_BALL || mode == Mode.ANGED_BALL
                 || mode == Mode.SALIVA_EFFECT) {
             spawnLingeringVomitCloud(owner);
+            if (mode == Mode.ALAFHA_BALL && owner instanceof DraconiteEntity) {
+                spawnOrbBoom(owner, 15, 1);
+            }
         } else if (mode == Mode.WITHER || mode == Mode.ANCIENT_BALL || mode == Mode.DRAGON_MISSILE) {
             spawnLingeringWitherCloud(owner);
         }
@@ -323,6 +326,16 @@ public final class ParasiteProjectileEntity extends Entity {
                     getX(), getY(), getZ(), 12, radius * 0.25, radius * 0.25, radius * 0.25, 0.02);
         }
         discard();
+    }
+
+    private void spawnOrbBoom(PrimitiveParasiteEntity owner, int fuse, int waitStart) {
+        OrbBoomEntity orb = ModEntities.ORB_BOOM.get().create(level());
+        if (orb == null) {
+            return;
+        }
+        orb.configure(owner, fuse, waitStart);
+        orb.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        level().addFreshEntity(orb);
     }
 
     private void impactYelloweyeSpine(PrimitiveParasiteEntity owner, LivingEntity directHit) {

@@ -71,6 +71,7 @@ import alku.csrp.entity.VerminEntity;
 import alku.csrp.entity.VisceraEntity;
 import alku.csrp.entity.MovingFleshEntity;
 import alku.csrp.entity.NadeEntity;
+import alku.csrp.entity.OrbBoomEntity;
 import alku.csrp.entity.NexusParasiteEntity;
 import alku.csrp.entity.WorkerEntity;
 import alku.csrp.entity.ArchitectEntity;
@@ -536,8 +537,11 @@ public final class ModEntities {
                     .<AntiInfestedBlockEntity>of(AntiInfestedBlockEntity::new, MobCategory.MISC)
                     .sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(3)
                     .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "antiinfestedblock").toString()));
-    public static final DeferredHolder<EntityType<?>, EntityType<LegacyAuxiliaryEntity>> ORB_BOOM =
-            auxiliary("orbboom", LegacyAuxiliaryEntity.Kind.ORB_BOOM, 0.5F, 0.5F, 16, 1);
+    public static final DeferredHolder<EntityType<?>, EntityType<OrbBoomEntity>> ORB_BOOM =
+            ENTITIES.register("orbboom", () -> EntityType.Builder
+                    .<OrbBoomEntity>of(OrbBoomEntity::new, MobCategory.MISC)
+                    .sized(0.5F, 0.5F).clientTrackingRange(16).updateInterval(1)
+                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "orbboom").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<LegacyAuxiliaryEntity>> SOURCE =
             auxiliary("source", LegacyAuxiliaryEntity.Kind.SOURCE, 0.5F, 0.5F, 4, 3);
     public static final DeferredHolder<EntityType<?>, EntityType<LegacyAuxiliaryEntity>> REMAIN =

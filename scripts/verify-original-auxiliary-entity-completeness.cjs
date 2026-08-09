@@ -10,6 +10,12 @@ const anti = fs.readFileSync(path.join(root,
   "src/main/java/alku/csrp/entity/AntiInfestedBlockEntity.java"), "utf8");
 const toxic = fs.readFileSync(path.join(root,
   "src/main/java/alku/csrp/entity/ToxicCloudEntity.java"), "utf8");
+const orbBoom = fs.readFileSync(path.join(root,
+  "src/main/java/alku/csrp/entity/OrbBoomEntity.java"), "utf8");
+const projectile = fs.readFileSync(path.join(root,
+  "src/main/java/alku/csrp/entity/ParasiteProjectileEntity.java"), "utf8");
+const draconite = fs.readFileSync(path.join(root,
+  "src/main/java/alku/csrp/entity/DraconiteEntity.java"), "utf8");
 const entitySources = fs.readdirSync(path.join(root, "src/main/java/alku/csrp/entity"))
   .filter((file) => file.endsWith(".java"))
   .map((file) => fs.readFileSync(path.join(root, "src/main/java/alku/csrp/entity", file), "utf8"))
@@ -51,6 +57,13 @@ if (!/class ToxicCloudEntity extends AreaEffectCloud/.test(toxic)
 }
 if (/new AreaEffectCloud\(/.test(entitySources)) {
   failures.push("a parasite cloud still bypasses the original cloudtoxic entity type");
+}
+if (!/EntityType<OrbBoomEntity>> ORB_BOOM/.test(entities)
+    || !/entityData\.set\(FUSE, Math\.max\(1, fuse\)\)/.test(orbBoom)
+    || !/entityData\.set\(WAIT_START, Math\.max\(0, waitStart\)\)/.test(orbBoom)
+    || !/spawnOrbBoom\(owner, 15, 1\)/.test(projectile)
+    || !/shootSalivaBall[\s\S]*?Mode\.ALAFHA_BALL/.test(draconite)) {
+  failures.push("Alafha salivaball does not create the original expanding orbboom");
 }
 
 if (failures.length) {

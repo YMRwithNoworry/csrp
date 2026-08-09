@@ -12,7 +12,6 @@ import net.minecraft.world.phys.Vec3;
 /** Shared carrier for legacy auxiliary ids that are spawned by old saves or commands. */
 public final class LegacyAuxiliaryEntity extends Entity {
     public enum Kind {
-        ORB_BOOM,
         SOURCE,
         REMAIN,
         BOMB,
@@ -30,7 +29,7 @@ public final class LegacyAuxiliaryEntity extends Entity {
         this.lifetime = switch (kind) {
             case SOURCE -> 2400;
             case REMAIN -> 1200;
-            case ORB_BOOM, BOMB -> 120;
+            case BOMB -> 120;
             default -> 200;
         };
         noPhysics = true;
@@ -59,11 +58,11 @@ public final class LegacyAuxiliaryEntity extends Entity {
     }
 
     private void spawnClientParticle() {
-        if (tickCount % (kind == Kind.ORB_BOOM ? 2 : 5) != 0) {
+        if (tickCount % 5 != 0) {
             return;
         }
         ParticleOptions particle = switch (kind) {
-            case ORB_BOOM, BOMB -> ParticleTypes.EXPLOSION;
+            case BOMB -> ParticleTypes.EXPLOSION;
             case SOURCE, REMAIN, TENDRIL -> ParticleTypes.END_ROD;
             case GORE -> ParticleTypes.WITCH;
             case WAVE -> ParticleTypes.CLOUD;

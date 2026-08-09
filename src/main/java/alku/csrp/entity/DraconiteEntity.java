@@ -213,7 +213,7 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
     }
 
     private void shootSalivaBall(LivingEntity target) {
-        fireProjectile(ParasiteProjectileEntity.Mode.BOMB, projectileMuzzle(), target.getEyePosition(),
+        fireProjectile(ParasiteProjectileEntity.Mode.ALAFHA_BALL, projectileMuzzle(), target.getEyePosition(),
                 1.20D, 48.0F, 3.5D, 80, null);
         playSound(ModSounds.DRACONITE_FIRE_SHOOT.get(), 2.0F, 1.0F);
     }

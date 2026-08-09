@@ -16,6 +16,7 @@ import alku.csrp.client.renderer.HaunterHomingProjectileRenderer;
 import alku.csrp.client.renderer.MarauderRenderer;
 import alku.csrp.client.renderer.MarauderTendrilRenderer;
 import alku.csrp.client.renderer.NadeRenderer;
+import alku.csrp.client.renderer.OrbBoomRenderer;
 import alku.csrp.client.renderer.MovingFleshRenderer;
 import alku.csrp.client.renderer.NexusParasiteRenderer;
 import alku.csrp.client.renderer.RupterRenderer;
@@ -352,7 +353,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.SALIVA_EFFECT.get(), ParasiteProjectileRenderer::new);
         event.registerEntityRenderer(ModEntities.BIOMASS_BALL.get(), ParasiteProjectileRenderer::new);
         event.registerEntityRenderer(ModEntities.ANTI_INFESTED_BLOCK.get(), NoopRenderer::new);
-        event.registerEntityRenderer(ModEntities.ORB_BOOM.get(), NoopRenderer::new);
+        event.registerEntityRenderer(ModEntities.ORB_BOOM.get(), OrbBoomRenderer::new);
         event.registerEntityRenderer(ModEntities.SOURCE.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.REMAIN.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.BOMB.get(), NoopRenderer::new);
