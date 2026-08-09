@@ -10,6 +10,7 @@ import alku.csrp.client.renderer.AirscrewRenderer;
 import alku.csrp.client.renderer.BurrowingParasiteRenderer;
 import alku.csrp.client.renderer.BuglinRenderer;
 import alku.csrp.client.renderer.BiomassRenderer;
+import alku.csrp.client.renderer.BombRenderer;
 import alku.csrp.client.renderer.DerivedParasiteRenderer;
 import alku.csrp.client.renderer.DragonEggAssimilationRenderer;
 import alku.csrp.client.renderer.HaunterHomingProjectileRenderer;
@@ -72,6 +73,9 @@ public final class ClientModEvents {
     public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(HaunterHomingProjectileRenderer.LAYER,
                 HaunterHomingProjectileRenderer::createBodyLayer);
+        event.registerLayerDefinition(BombRenderer.OMBOO_LAYER, BombRenderer::createOmbooLayer);
+        event.registerLayerDefinition(BombRenderer.HOST_LAYER, BombRenderer::createHostLayer);
+        event.registerLayerDefinition(BombRenderer.JINJO_LAYER, BombRenderer::createJinjoLayer);
     }
 
     @SubscribeEvent
@@ -356,7 +360,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.ORB_BOOM.get(), OrbBoomRenderer::new);
         event.registerEntityRenderer(ModEntities.SOURCE.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.REMAIN.get(), NoopRenderer::new);
-        event.registerEntityRenderer(ModEntities.BOMB.get(), NoopRenderer::new);
+        event.registerEntityRenderer(ModEntities.BOMB.get(), BombRenderer::new);
         event.registerEntityRenderer(ModEntities.CLOUD_TOXIC.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.GORE.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.TENDRIL.get(), NoopRenderer::new);

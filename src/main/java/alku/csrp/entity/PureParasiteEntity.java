@@ -1,6 +1,7 @@
 package alku.csrp.entity;
 
 import alku.csrp.Config;
+import alku.csrp.config.MobsConfig;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.core.BlockPos;
@@ -629,14 +630,14 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private void fireBomb(LivingEntity target) {
-        ParasiteProjectileEntity projectile = ModEntities.createProjectile(level(), ParasiteProjectileEntity.Mode.BOMB);
-        if (projectile == null) {
+        BombEntity bomb = ModEntities.BOMB.get().create(level());
+        if (bomb == null) {
             return;
         }
-        Vec3 start = position().add(0.0D, 0.4D, 0.0D);
-        projectile.configure(this, ParasiteProjectileEntity.Mode.BOMB, start, target.position(),
-                0.50D, 20.0F, 2.5D, 100);
-        level().addFreshEntity(projectile);
+        bomb.configure(this, 80, 1.0F, MobsConfig.ombooBombDamage(), 4, 0,
+                MobsConfig.ombooGriefing());
+        bomb.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        level().addFreshEntity(bomb);
     }
 
     private void spawnBuglins(LivingEntity target, int count) {

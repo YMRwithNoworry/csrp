@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import alku.csrp.Config;
 import alku.csrp.registry.ModEntities;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -57,12 +58,34 @@ public final class VerminEntity extends PrimitiveParasiteEntity {
     }
 
     private void dropGnatBomb() {
-        if (!(level() instanceof ServerLevel serverLevel)) return;
-        GnatEntity gnat = ModEntities.GNAT.get().create(serverLevel, null, blockPosition(), MobSpawnType.MOB_SUMMONED, false, false);
-        if (gnat != null) {
-            gnat.moveTo(getX(), getY() - 0.5, getZ(), getYRot(), 0.0F);
-            gnat.setTarget(getTarget());
-            serverLevel.addFreshEntity(gnat);
+        if (!(level() instanceof ServerLevel serverLevel)) {
+            return;
+        }
+        int gnatCount = 0;
+        for (Entity entity : serverLevel.getAllEntities()) {
+            if (entity instanceof GnatEntity) {
+                gnatCount++;
+            }
+        }
+        if (gnatCount < Config.worldGnatCap()) {
+            GnatEntity gnat = ModEntities.GNAT.get().create(serverLevel, null, blockPosition(),
+                    MobSpawnType.MOB_SUMMONED, false, false);
+            if (gnat != null) {
+                gnat.moveTo(getX(), getY() - 0.5D, getZ(), getYRot(), 0.0F);
+                gnat.setTarget(getTarget());
+                serverLevel.addFreshEntity(gnat);
+            }
+            return;
+        }
+        if (getTarget() == null || getTarget().getY() > getY()) {
+            return;
+        }
+        BombEntity bomb = ModEntities.BOMB.get().create(serverLevel);
+        if (bomb != null) {
+            bomb.configure(this, 60, 0.0F, (float) getAttributeValue(Attributes.ATTACK_DAMAGE),
+                    2, 1, false);
+            bomb.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+            serverLevel.addFreshEntity(bomb);
         }
     }
 

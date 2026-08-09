@@ -176,6 +176,30 @@ public final class MobsConfig {
     private static final ModConfigSpec.IntValue YELLOWEYE_MAX_FLIGHT_HEIGHT = intValue(
             "srparasites:yelloweye", "primitiveYelloweyeFlightHeightLimit", 256, 0, 256,
             "Maximum number of air blocks the Primitive Yelloweye may fly above terrain.");
+    private static final ModConfigSpec.DoubleValue HOST_BOMB_DAMAGE = value(
+            "srparasites:host", "hostBombDamage", 7.0D, 0.0D, 1000.0D,
+            "Damage dealt by a Host bomb before minimum damage.");
+    private static final ModConfigSpec.DoubleValue HERD_BOMB_DAMAGE = value(
+            "srparasites:hostii", "herdBombDamage", 14.0D, 0.0D, 1000.0D,
+            "Damage dealt by a Hostii bomb before minimum damage.");
+    private static final ModConfigSpec.DoubleValue OMBOO_BOMB_DAMAGE = value(
+            "srparasites:bomber_light", "lightBomberBombDamage", 20.0D, 0.0D, 1000.0D,
+            "Damage dealt by a Light Bomber bomb before minimum damage.");
+    private static final ModConfigSpec.BooleanValue OMBOO_GRIEFING = booleanValue(
+            "srparasites:bomber_light", "lightBomberGriefing", true,
+            "Whether Light Bomber explosions may destroy blocks when mobGriefing is enabled.");
+    private static final ModConfigSpec.DoubleValue JINJO_EXPLOSION_MULTIPLIER = value(
+            "srparasites:bomber_heavy", "heavyBomberExplosionMultiplier", 6.0D, 0.0D, 100.0D,
+            "Multiplier applied to Heavy Bomber attack damage by its bomb.");
+    private static final ModConfigSpec.BooleanValue JINJO_GRIEFING = booleanValue(
+            "srparasites:bomber_heavy", "heavyBomberGriefing", true,
+            "Whether Heavy Bomber explosions may destroy blocks when mobGriefing is enabled.");
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> JINJO_MOBS = stringList(
+            "srparasites:bomber_heavy", "heavyBomberMobTable", List.of(
+                    "csrp:overseer", "csrp:vigilante", "csrp:marauder", "csrp:monarch"),
+            "Entity ids available to the spawning Heavy Bomber bomb.",
+            value -> value instanceof String id
+                    && net.minecraft.resources.ResourceLocation.tryParse(id) != null);
 
     public static final ModConfigSpec SPEC = BUILDER.build();
 
@@ -412,6 +436,34 @@ public final class MobsConfig {
 
     public static int yelloweyeMaxFlightHeight() {
         return YELLOWEYE_MAX_FLIGHT_HEIGHT.get();
+    }
+
+    public static float hostBombDamage() {
+        return HOST_BOMB_DAMAGE.get().floatValue();
+    }
+
+    public static float herdBombDamage() {
+        return HERD_BOMB_DAMAGE.get().floatValue();
+    }
+
+    public static float ombooBombDamage() {
+        return OMBOO_BOMB_DAMAGE.get().floatValue();
+    }
+
+    public static boolean ombooGriefing() {
+        return OMBOO_GRIEFING.get();
+    }
+
+    public static float jinjoExplosionMultiplier() {
+        return JINJO_EXPLOSION_MULTIPLIER.get().floatValue();
+    }
+
+    public static boolean jinjoGriefing() {
+        return JINJO_GRIEFING.get();
+    }
+
+    public static List<? extends String> jinjoMobs() {
+        return JINJO_MOBS.get();
     }
 
     private static boolean validOrbEffect(Object value) {

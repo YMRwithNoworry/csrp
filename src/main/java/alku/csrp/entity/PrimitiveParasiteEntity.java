@@ -482,13 +482,17 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     }
 
     public boolean applyPrimitiveMinimumDamage(LivingEntity target) {
+        return applyPrimitiveMinimumDamage(target, 1.0F);
+    }
+
+    public boolean applyPrimitiveMinimumDamage(LivingEntity target, float multiplier) {
         if (!(level() instanceof ServerLevel serverLevel)
                 || !EvolutionSystem.generationProfile(serverLevel).minimumDamage()
                 || target instanceof Parasite || target == this || !target.isAlive()
                 || target instanceof Player player && player.getAbilities().instabuild) {
             return false;
         }
-        float amount = Config.primitiveMinimumDamage();
+        float amount = Config.primitiveMinimumDamage() * Math.max(0.0F, multiplier);
         if (amount <= 0.0F) {
             return false;
         }

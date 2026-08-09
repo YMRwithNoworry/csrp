@@ -29,12 +29,12 @@ public final class MarauderizedSheepEntity extends MarauderizedParasiteEntity {
     }
 
     private void fireNade(LivingEntity target) {
-        ParasiteProjectileEntity projectile = ModEntities.PARASITE_PROJECTILE.get().create(level());
+        ParasiteProjectileEntity projectile = ModEntities.NADE_BALL.get().create(level());
         if (projectile == null) {
             return;
         }
         Vec3 start = getEyePosition().add(getViewVector(1.0F).scale(0.35D));
-        projectile.configure(this, ParasiteProjectileEntity.Mode.BOMB, start, target.getEyePosition(),
+        projectile.configure(this, ParasiteProjectileEntity.Mode.ELVIA_NADE, start, target.getEyePosition(),
                 0.55D, 3.0F, 3.0D, 60);
         level().addFreshEntity(projectile);
         startAttackAnimation();

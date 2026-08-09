@@ -1,6 +1,7 @@
 package alku.csrp.entity;
 
 import alku.csrp.registry.ModEntities;
+import alku.csrp.config.MobsConfig;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -90,7 +91,7 @@ public final class HostEntity extends AbstractHostEntity {
     }
 
     private void performBombAttack(LivingEntity target) {
-        spawnProjectile(ParasiteProjectileEntity.Mode.BOMB, target, 0.75, 12.0F, 4.0, 80);
+        spawnBomb(target, 80, MobsConfig.hostBombDamage(), 4);
     }
 
     @Override

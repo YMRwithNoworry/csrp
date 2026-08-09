@@ -13,6 +13,7 @@ import alku.csrp.entity.AssimilatedEndermanEntity;
 import alku.csrp.entity.AssimilatedHeadEntity;
 import alku.csrp.entity.AssimilatedVariantEntity;
 import alku.csrp.entity.BiomassEntity;
+import alku.csrp.entity.BombEntity;
 import alku.csrp.entity.BuglinEntity;
 import alku.csrp.entity.CarrierFlyingEntity;
 import alku.csrp.entity.CarrierHeavyEntity;
@@ -546,8 +547,12 @@ public final class ModEntities {
             auxiliary("source", LegacyAuxiliaryEntity.Kind.SOURCE, 0.5F, 0.5F, 4, 3);
     public static final DeferredHolder<EntityType<?>, EntityType<LegacyAuxiliaryEntity>> REMAIN =
             auxiliary("remain", LegacyAuxiliaryEntity.Kind.REMAIN, 0.5F, 0.5F, 4, 3);
-    public static final DeferredHolder<EntityType<?>, EntityType<LegacyAuxiliaryEntity>> BOMB =
-            auxiliary("bomb", LegacyAuxiliaryEntity.Kind.BOMB, 0.5F, 0.5F, 4, 3);
+    public static final DeferredHolder<EntityType<?>, EntityType<BombEntity>> BOMB =
+            ENTITIES.register("bomb", () -> EntityType.Builder
+                    .<BombEntity>of(BombEntity::new, MobCategory.MISC)
+                    .sized(0.68F, 0.68F).clientTrackingRange(16).updateInterval(1).fireImmune()
+                    .setShouldReceiveVelocityUpdates(true)
+                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "bomb").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<ToxicCloudEntity>> CLOUD_TOXIC =
             ENTITIES.register("cloudtoxic", () -> EntityType.Builder
                     .<ToxicCloudEntity>of(ToxicCloudEntity::new, MobCategory.MISC)

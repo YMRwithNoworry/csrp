@@ -157,6 +157,23 @@ abstract class AbstractHostEntity extends CrudeParasiteEntity {
         rangedCooldown = rangedInterval;
     }
 
+    protected void spawnBomb(LivingEntity target, int fuse, float damage, int rangeRadius) {
+        BombEntity bomb = ModEntities.BOMB.get().create(level());
+        if (bomb == null) {
+            return;
+        }
+        bomb.configure(this, fuse, 0.0F, damage, rangeRadius, 1, false);
+        double targetY = target.getY() + target.getEyeHeight() - 1.1D;
+        double x = target.getX() + target.getDeltaMovement().x - getX();
+        double y = targetY - getY();
+        double z = target.getZ() + target.getDeltaMovement().z - getZ();
+        double horizontal = Math.sqrt(x * x + z * z);
+        bomb.shoot(new Vec3(x, y + horizontal * 0.2D, z), 0.75F, 8.0F);
+        level().addFreshEntity(bomb);
+        triggerAttackAnimation();
+        rangedCooldown = rangedInterval;
+    }
+
     protected <T extends Mob> void spawnMinions(DeferredHolder<EntityType<?>, EntityType<T>> type,
                                                 Class<T> entityClass, int cap) {
         if (!(level() instanceof ServerLevel serverLevel) || random.nextInt(getTarget() == null ? 400 : 150) != 0) {

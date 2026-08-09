@@ -1,6 +1,7 @@
 package alku.csrp.entity;
 
 import alku.csrp.Config;
+import alku.csrp.config.MobsConfig;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
@@ -731,26 +732,18 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         triggerAttackAnimation();
     }
 
-    private void spawnHeavyPayload(LivingEntity target) {
-        if (!(level() instanceof ServerLevel serverLevel)) {
+    private void dropHeavyBomb(LivingEntity target) {
+        BombEntity bomb = ModEntities.BOMB.get().create(level());
+        if (bomb == null) {
             return;
         }
-        Mob payload = switch (random.nextInt(4)) {
-            case 0 -> ModEntities.OVERSEER.get().create(serverLevel);
-            case 1 -> ModEntities.VIGILANTE.get().create(serverLevel);
-            case 2 -> ModEntities.MARAUDER.get().create(serverLevel);
-            default -> ModEntities.MONARCH.get().create(serverLevel);
-        };
-        if (payload == null) {
-            return;
-        }
-        double angle = random.nextDouble() * Math.PI * 2.0D;
-        payload.moveTo(target.getX() + Math.cos(angle) * 2.5D, target.getY(),
-                target.getZ() + Math.sin(angle) * 2.5D, getYRot(), 0.0F);
-        payload.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(payload.blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
-        payload.setTarget(target);
-        serverLevel.addFreshEntity(payload);
+        boolean spawningBomb = hasLineOfSight(target) || random.nextInt(3) == 0;
+        bomb.configure(this, 80, spawningBomb ? 4.0F : 8.0F,
+                (float) getAttributeValue(Attributes.ATTACK_DAMAGE) * MobsConfig.jinjoExplosionMultiplier(),
+                7, spawningBomb ? 2 : 3, MobsConfig.jinjoGriefing());
+        bomb.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        level().addFreshEntity(bomb);
+        triggerAttackAnimation();
     }
 
     private Kind activeKind() {
@@ -1732,7 +1725,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
                 return false;
             }
             LivingEntity target = getTarget();
-            return target != null && target.onGround() && hasLineOfSight(target) && distanceToSqr(target) <= 2304.0D;
+            return target != null && target.onGround() && distanceToSqr(target) <= 256.0D;
         }
 
         @Override
@@ -1747,8 +1740,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
                 return;
             }
             getLookControl().setLookAt(target, 30.0F, 30.0F);
-            fireProjectile(target, ParasiteProjectileEntity.Mode.BOMB, 0.62D, 55.0F, 5.0D, 120);
-            spawnHeavyPayload(target);
+            dropHeavyBomb(target);
             cooldown = 160;
         }
     }

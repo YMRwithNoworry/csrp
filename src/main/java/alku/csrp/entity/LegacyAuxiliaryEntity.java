@@ -14,7 +14,6 @@ public final class LegacyAuxiliaryEntity extends Entity {
     public enum Kind {
         SOURCE,
         REMAIN,
-        BOMB,
         GORE,
         TENDRIL,
         WAVE
@@ -29,7 +28,6 @@ public final class LegacyAuxiliaryEntity extends Entity {
         this.lifetime = switch (kind) {
             case SOURCE -> 2400;
             case REMAIN -> 1200;
-            case BOMB -> 120;
             default -> 200;
         };
         noPhysics = true;
@@ -62,7 +60,6 @@ public final class LegacyAuxiliaryEntity extends Entity {
             return;
         }
         ParticleOptions particle = switch (kind) {
-            case BOMB -> ParticleTypes.EXPLOSION;
             case SOURCE, REMAIN, TENDRIL -> ParticleTypes.END_ROD;
             case GORE -> ParticleTypes.WITCH;
             case WAVE -> ParticleTypes.CLOUD;

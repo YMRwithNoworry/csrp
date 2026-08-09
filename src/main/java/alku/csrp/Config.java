@@ -25,6 +25,9 @@ public final class Config {
     private static final ModConfigSpec.IntValue SCENT_DEVELOPMENT_LEVEL = BUILDER
             .comment("Minimum creation-phase development level at which a Seeker can create Scent.")
             .defineInRange("scentDevelopmentLevel", 2, 0, 100);
+    private static final ModConfigSpec.IntValue WORLD_GNAT_CAP = BUILDER
+            .comment("Maximum loaded Gnat or Lice count before a Vermin drops a bomb instead.")
+            .defineInRange("worldGnatCap", 20, 0, 50000);
     private static final ModConfigSpec.DoubleValue VARIANT_SPAWN_CHANCE = BUILDER
             .comment("Chance for a parasite with an available variant to spawn as that variant.")
             .defineInRange("variantSpawnChance", 0.33D, 0.0D, 1.0D);
@@ -456,6 +459,7 @@ public final class Config {
     public static boolean scentEnabled() { return SCENT_ENABLED.get(); }
     public static int scentCap() { return SCENT_CAP.get(); }
     public static int scentDevelopmentLevel() { return SCENT_DEVELOPMENT_LEVEL.get(); }
+    public static int worldGnatCap() { return WORLD_GNAT_CAP.get(); }
 
     public static double variantSpawnChance() { return VARIANT_SPAWN_CHANCE.get(); }
     public static int alwaysVariantPhase() { return ALWAYS_VARIANT_PHASE.get(); }

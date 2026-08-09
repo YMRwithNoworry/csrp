@@ -2641,13 +2641,26 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             if (abilityCooldown > 0 || distanceToSqr(target) > 576.0D) {
                 return;
             }
-            int liceCount = level().getEntitiesOfClass(LiceEntity.class, getBoundingBox().inflate(32.0D),
-                    lice -> lice.getTarget() == target).size();
-            if (liceCount >= 8) {
-                fireProjectile(target, ParasiteProjectileEntity.Mode.BOMB, 0.75D, 12.0F, 2.5D, 80);
+            int liceCount = 0;
+            if (level() instanceof ServerLevel serverLevel) {
+                for (Entity entity : serverLevel.getAllEntities()) {
+                    if (entity instanceof LiceEntity) {
+                        liceCount++;
+                    }
+                }
+            }
+            if (liceCount >= Config.worldGnatCap()) {
+                if (target.getY() <= getY()) {
+                    BombEntity bomb = ModEntities.BOMB.get().create(level());
+                    if (bomb != null) {
+                        bomb.configure(AdaptedVariantEntity.this, 60, 0.0F,
+                                (float) getAttributeValue(Attributes.ATTACK_DAMAGE), 2, 1, false);
+                        bomb.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+                        level().addFreshEntity(bomb);
+                    }
+                }
                 abilityCooldown = 80;
             } else {
-                spawnLice();
                 spawnLice();
                 abilityCooldown = 40;
             }
