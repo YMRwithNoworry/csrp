@@ -16,7 +16,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
@@ -275,7 +274,7 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
         level().broadcastEntityEvent(this, FLAME_EVENT);
         playSound(ModSounds.MOB_EXPLOSION.get(), 1.0F, 1.0F);
         hurtNearby(this, 4.0D, (float) getAttributeValue(Attributes.ATTACK_DAMAGE), false);
-        AreaEffectCloud cloud = new AreaEffectCloud(level(), getX(), getY() - 2.0D, getZ());
+        ToxicCloudEntity cloud = ToxicCloudEntity.create(level(), getX(), getY() - 2.0D, getZ());
         cloud.setOwner(this);
         cloud.setRadius(getBbWidth() * 3.5F);
         cloud.setWaitTime(10);

@@ -6,7 +6,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -123,7 +122,7 @@ public final class AssimilatedDragonHeadEntity extends Monster implements GeoEnt
         }
         direction = direction.normalize();
         Vec3 impact = source.add(direction.scale(Math.min(32.0D, Math.sqrt(distanceToSqr(target)))));
-        AreaEffectCloud cloud = new AreaEffectCloud(level(), impact.x, impact.y, impact.z);
+        ToxicCloudEntity cloud = ToxicCloudEntity.create(level(), impact.x, impact.y, impact.z);
         cloud.setOwner(this);
         cloud.setRadius(2.5F);
         cloud.setDuration(80);

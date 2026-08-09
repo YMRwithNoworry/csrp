@@ -17,7 +17,6 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
@@ -375,7 +374,7 @@ public final class SimAdventurerEntity extends Monster implements GeoEntity, Par
         playSound(ModSounds.SIM_ADVENTURER_EXPLODE.get(), 1.0F, 1.0F);
         serverLevel.addFreshEntity(new ItemEntity(serverLevel, getX(), getY() + getBbHeight() * 0.5D, getZ(),
                 new ItemStack(ModItems.ASSIMILATED_FLESH.get())));
-        AreaEffectCloud cloud = new AreaEffectCloud(level(), getX(), getY(), getZ());
+        ToxicCloudEntity cloud = ToxicCloudEntity.create(level(), getX(), getY(), getZ());
         cloud.setOwner(this);
         cloud.setRadius(3.0F);
         cloud.setDuration(200);

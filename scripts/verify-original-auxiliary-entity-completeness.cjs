@@ -8,6 +8,12 @@ const client = fs.readFileSync(path.join(root,
   "src/main/java/alku/csrp/client/ClientModEvents.java"), "utf8");
 const anti = fs.readFileSync(path.join(root,
   "src/main/java/alku/csrp/entity/AntiInfestedBlockEntity.java"), "utf8");
+const toxic = fs.readFileSync(path.join(root,
+  "src/main/java/alku/csrp/entity/ToxicCloudEntity.java"), "utf8");
+const entitySources = fs.readdirSync(path.join(root, "src/main/java/alku/csrp/entity"))
+  .filter((file) => file.endsWith(".java"))
+  .map((file) => fs.readFileSync(path.join(root, "src/main/java/alku/csrp/entity", file), "utf8"))
+  .join("\n");
 const failures = [];
 
 const originalIds = [
@@ -37,6 +43,14 @@ for (const constant of [
 if (!anti.includes("HORIZONTAL_RANGE = 7") || !anti.includes("VERTICAL_RANGE = 5")
     || !anti.includes("InfestedBlock.STAGE, 3") || !anti.includes("scheduleTick(pos, state.getBlock(), 40)")) {
   failures.push("antiinfestedblock does not preserve the original range and delayed neutralization");
+}
+if (!/class ToxicCloudEntity extends AreaEffectCloud/.test(toxic)
+    || !/EntityType<\? extends ToxicCloudEntity>/.test(toxic)
+    || !/EntityType<ToxicCloudEntity>> CLOUD_TOXIC/.test(entities)) {
+  failures.push("cloudtoxic is not a dedicated AreaEffectCloud entity type");
+}
+if (/new AreaEffectCloud\(/.test(entitySources)) {
+  failures.push("a parasite cloud still bypasses the original cloudtoxic entity type");
 }
 
 if (failures.length) {

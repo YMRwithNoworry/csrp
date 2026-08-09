@@ -25,7 +25,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
@@ -812,7 +811,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     private void createBolsterDeathBurst() {
         level().explode(this, getX(), getY() + getBbHeight() * 0.5D, getZ(), 2.5F,
                 Level.ExplosionInteraction.NONE);
-        AreaEffectCloud cloud = new AreaEffectCloud(level(), getX(), getY(), getZ());
+        ToxicCloudEntity cloud = ToxicCloudEntity.create(level(), getX(), getY(), getZ());
         cloud.setOwner(this);
         cloud.setRadius(4.0F);
         cloud.setWaitTime(10);

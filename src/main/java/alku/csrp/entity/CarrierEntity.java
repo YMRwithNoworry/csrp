@@ -9,7 +9,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
@@ -192,7 +191,7 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity {
     }
 
     private void spawnLingeringCloud() {
-        AreaEffectCloud cloud = new AreaEffectCloud(level(), getX(), getY(), getZ());
+        ToxicCloudEntity cloud = ToxicCloudEntity.create(level(), getX(), getY(), getZ());
         float radius = getBbWidth() * 3.5F;
         cloud.setOwner(this);
         cloud.setRadius(radius);

@@ -21,7 +21,6 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -775,7 +774,7 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
             }
 
             getLookControl().setLookAt(passiveTarget, 30.0F, 30.0F);
-            AreaEffectCloud cloud = new AreaEffectCloud(
+            ToxicCloudEntity cloud = ToxicCloudEntity.create(
                     level(), passiveTarget.getX(), passiveTarget.getY(), passiveTarget.getZ());
             cloud.setOwner(RupterEntity.this);
             cloud.setRadius(2.5F);

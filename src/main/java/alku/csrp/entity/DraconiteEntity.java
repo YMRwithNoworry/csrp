@@ -14,7 +14,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -243,7 +242,7 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
         double[] distances = {12.5D, 20.0D, 32.5D};
         for (int index = 0; index < distances.length; index++) {
             Vec3 cloudPos = position().add(direction.scale(distances[index]));
-            AreaEffectCloud cloud = new AreaEffectCloud(level(), cloudPos.x, cloudY, cloudPos.z);
+            ToxicCloudEntity cloud = ToxicCloudEntity.create(level(), cloudPos.x, cloudY, cloudPos.z);
             cloud.setOwner(this);
             cloud.setRadius(3.0F + index);
             cloud.setDuration(100);

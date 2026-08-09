@@ -16,7 +16,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -538,7 +537,7 @@ public final class ParasiteProjectileEntity extends Entity {
     }
 
     private void spawnLingeringCothCloud(PrimitiveParasiteEntity owner) {
-        AreaEffectCloud cloud = new AreaEffectCloud(level(), getX(), getY(), getZ());
+        ToxicCloudEntity cloud = ToxicCloudEntity.create(level(), getX(), getY(), getZ());
         cloud.setOwner(owner);
         cloud.setRadius((float) Math.max(2.0D, radius + 1.0D));
         cloud.setDuration(60);
@@ -549,7 +548,7 @@ public final class ParasiteProjectileEntity extends Entity {
     }
 
     private void spawnLingeringVomitCloud(PrimitiveParasiteEntity owner) {
-        AreaEffectCloud cloud = new AreaEffectCloud(level(), getX(), getY(), getZ());
+        ToxicCloudEntity cloud = ToxicCloudEntity.create(level(), getX(), getY(), getZ());
         cloud.setOwner(owner);
         cloud.setRadius((float) Math.max(2.0D, radius));
         cloud.setDuration(70);
@@ -564,7 +563,7 @@ public final class ParasiteProjectileEntity extends Entity {
     }
 
     private void spawnLingeringWitherCloud(PrimitiveParasiteEntity owner) {
-        AreaEffectCloud cloud = new AreaEffectCloud(level(), getX(), getY(), getZ());
+        ToxicCloudEntity cloud = ToxicCloudEntity.create(level(), getX(), getY(), getZ());
         cloud.setOwner(owner);
         cloud.setRadius((float) Math.max(2.0D, radius + 0.75D));
         cloud.setDuration(100);

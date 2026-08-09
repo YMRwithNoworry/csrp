@@ -16,7 +16,6 @@ public final class LegacyAuxiliaryEntity extends Entity {
         SOURCE,
         REMAIN,
         BOMB,
-        CLOUD_TOXIC,
         GORE,
         TENDRIL,
         WAVE
@@ -66,7 +65,7 @@ public final class LegacyAuxiliaryEntity extends Entity {
         ParticleOptions particle = switch (kind) {
             case ORB_BOOM, BOMB -> ParticleTypes.EXPLOSION;
             case SOURCE, REMAIN, TENDRIL -> ParticleTypes.END_ROD;
-            case CLOUD_TOXIC, GORE -> ParticleTypes.WITCH;
+            case GORE -> ParticleTypes.WITCH;
             case WAVE -> ParticleTypes.CLOUD;
         };
         level().addParticle(particle, getX(), getY() + getBbHeight() * 0.5D, getZ(),

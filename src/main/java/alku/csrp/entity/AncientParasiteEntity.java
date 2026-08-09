@@ -16,7 +16,6 @@ import net.minecraft.world.BossEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -383,7 +382,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         Level.ExplosionInteraction interaction = level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
                 ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
         level().explode(this, getX(), getY() + getBbHeight() * 0.5D, getZ(), 5.0F, interaction);
-        AreaEffectCloud cloud = new AreaEffectCloud(level(), getX(), getY(), getZ());
+        ToxicCloudEntity cloud = ToxicCloudEntity.create(level(), getX(), getY(), getZ());
         cloud.setOwner(this);
         cloud.setRadius(7.0F);
         cloud.setDuration(160);

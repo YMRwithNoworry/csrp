@@ -14,7 +14,6 @@ import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -591,7 +590,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         Level.ExplosionInteraction interaction = level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
                 ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
         level().explode(this, getX(), getY() + getBbHeight() * 0.5D, getZ(), 2.0F, interaction);
-        AreaEffectCloud cloud = new AreaEffectCloud(level(), getX(), getY(), getZ());
+        ToxicCloudEntity cloud = ToxicCloudEntity.create(level(), getX(), getY(), getZ());
         cloud.setOwner(this);
         cloud.setRadius(3.0F);
         cloud.setDuration(80);

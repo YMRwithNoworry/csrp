@@ -15,7 +15,6 @@ import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -467,7 +466,7 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
                 break;
             }
         }
-        AreaEffectCloud cloud = new AreaEffectCloud(level(), impact.x, impact.y, impact.z);
+        ToxicCloudEntity cloud = ToxicCloudEntity.create(level(), impact.x, impact.y, impact.z);
         cloud.setOwner(this);
         cloud.setRadius(3.0F);
         cloud.setDuration(100);

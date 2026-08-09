@@ -66,6 +66,7 @@ import alku.csrp.entity.SimAdventurerHeadEntity;
 import alku.csrp.entity.SimHumanEntity;
 import alku.csrp.entity.SummonerEntity;
 import alku.csrp.entity.ThrallEntity;
+import alku.csrp.entity.ToxicCloudEntity;
 import alku.csrp.entity.VerminEntity;
 import alku.csrp.entity.VisceraEntity;
 import alku.csrp.entity.MovingFleshEntity;
@@ -543,8 +544,11 @@ public final class ModEntities {
             auxiliary("remain", LegacyAuxiliaryEntity.Kind.REMAIN, 0.5F, 0.5F, 4, 3);
     public static final DeferredHolder<EntityType<?>, EntityType<LegacyAuxiliaryEntity>> BOMB =
             auxiliary("bomb", LegacyAuxiliaryEntity.Kind.BOMB, 0.5F, 0.5F, 4, 3);
-    public static final DeferredHolder<EntityType<?>, EntityType<LegacyAuxiliaryEntity>> CLOUD_TOXIC =
-            auxiliary("cloudtoxic", LegacyAuxiliaryEntity.Kind.CLOUD_TOXIC, 0.5F, 0.5F, 4, 3);
+    public static final DeferredHolder<EntityType<?>, EntityType<ToxicCloudEntity>> CLOUD_TOXIC =
+            ENTITIES.register("cloudtoxic", () -> EntityType.Builder
+                    .<ToxicCloudEntity>of(ToxicCloudEntity::new, MobCategory.MISC)
+                    .sized(6.0F, 0.5F).clientTrackingRange(4).updateInterval(3)
+                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "cloudtoxic").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<LegacyAuxiliaryEntity>> GORE =
             auxiliary("gore", LegacyAuxiliaryEntity.Kind.GORE, 0.4F, 0.4F, 4, 3);
     public static final DeferredHolder<EntityType<?>, EntityType<LegacyAuxiliaryEntity>> TENDRIL =

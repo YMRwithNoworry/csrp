@@ -33,7 +33,7 @@ reject(shared, /survivableDamage|setHealth\(Math\.max\(1\.0F/,
   "carrier lethal-damage health clamp is still present");
 expect(shared, /super\.die\(damageSources\(\)\.mobAttack\(this\)\);\s*discard\(\);/,
   "carrier detonation must die and remove itself immediately");
-expect(shared, /AreaEffectCloud/, "carrier lingering cloud is missing");
+expect(shared, /ToxicCloudEntity\.create/, "carrier lingering cloud is missing");
 expect(shared, /ModMobEffects\.COTH/, "carrier COTH cloud effect is missing");
 expect(shared, /ModMobEffects\.VIRAL/, "carrier viral cloud effect is missing");
 expect(shared, /ModMobEffects\.VOMIT, vomitDuration, 0/, "carrier explosion vomit effect is missing");

@@ -8,7 +8,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
@@ -130,7 +129,7 @@ public final class AncientPodEntity extends PrimitiveParasiteEntity {
     }
 
     private void spawnLingeringCloud(ServerLevel level) {
-        AreaEffectCloud cloud = new AreaEffectCloud(level, getX(), getY(), getZ());
+        ToxicCloudEntity cloud = ToxicCloudEntity.create(level, getX(), getY(), getZ());
         cloud.setOwner(this);
         cloud.setRadius(getBbWidth() * 2.0F);
         cloud.setWaitTime(5);

@@ -8,7 +8,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
@@ -54,7 +53,7 @@ final class ParasiteCombatEffects {
     static void spawnVomitCloud(LivingEntity owner, double forwardDistance, float radius,
                                 int cloudDuration, int effectDuration, int severeAmplifier) {
         Vec3 direction = owner.getViewVector(1.0F);
-        AreaEffectCloud cloud = new AreaEffectCloud(owner.level(),
+        ToxicCloudEntity cloud = ToxicCloudEntity.create(owner.level(),
                 owner.getX() + direction.x * forwardDistance, owner.getY(),
                 owner.getZ() + direction.z * forwardDistance);
         cloud.setOwner(owner);

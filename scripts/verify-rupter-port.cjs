@@ -78,7 +78,7 @@ for (const [pattern, description] of [
     [/liquid.*leap|leap.*liquid|isInWaterOrBubble\(\)/is, "small liquid leap is missing"],
     [/MobEffects\.(?:SLOWNESS|MOVEMENT_SLOWDOWN).*40,\s*1/s, "Slowness II melee effect is missing"],
     [/ModMobEffects\.COTH.*3600,\s*0/s, "guaranteed melee COTH is missing"],
-    [/AreaEffectCloud/, "lingering COTH cloud is missing"],
+    [/ToxicCloudEntity\.create/, "lingering COTH cloud is missing"],
     [/new MobEffectInstance\(ModMobEffects\.COTH,\s*\d+,\s*1\)/,
         "COTH II cloud effect is missing"],
     [/Config\.evolutionPhase\(level\(\)\)\s*<\s*4/, "legacy phase-4 aggression gate is missing"],
