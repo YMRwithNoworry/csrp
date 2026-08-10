@@ -47,8 +47,11 @@ public final class EvolutionLureBlock extends Block {
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
             Player player, net.minecraft.world.InteractionHand hand, BlockHitResult hitResult) {
-        if (stack.isEmpty()) {
-            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        if (player.getMainHandItem().isEmpty()) {
+            if (level instanceof ServerLevel serverLevel) {
+                activate(serverLevel, pos, state.getValue(TIER), player);
+            }
+            return ItemInteractionResult.sidedSuccess(level.isClientSide);
         }
         if (!level.isClientSide) {
             player.displayClientMessage(Component.translatable("message.csrp.lure_empty_hand"), true);
