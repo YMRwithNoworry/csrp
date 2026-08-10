@@ -8,6 +8,7 @@ const expect = (condition, message) => {
 
 const block = read("src/main/java/alku/csrp/block/FogBlock.java");
 const particles = read("src/main/java/alku/csrp/client/particle/CoolerFogParticle.java");
+const particleDescription = read("src/main/resources/assets/csrp/particles/fog.json");
 const overlay = read("src/main/java/alku/csrp/client/ParasiteFogOverlayEvents.java");
 const model = read("src/main/resources/assets/csrp/models/block/fog.json");
 const state = read("src/main/resources/assets/csrp/blockstates/fog.json");
@@ -22,6 +23,10 @@ for (const frame of ["fog_intro1", "fog_intro2", "fog_intro3", "fog_intro4", "fo
   "fog1", "fog2", "fog3", "fog4"]) {
   expect(fs.existsSync(`src/main/resources/assets/csrp/textures/particle/fog/${frame}.png`),
     `original parasite fog particle frame ${frame} is missing`);
+  expect(particleDescription.includes(`"csrp:fog/${frame}"`),
+    `particle atlas entry for ${frame} does not match textures/particle/fog/${frame}.png`);
+  expect(!particleDescription.includes(`"csrp:particle/fog/${frame}"`),
+    `particle atlas entry for ${frame} incorrectly repeats the textures/particle prefix`);
 }
 for (const stage of [0, 1, 2]) {
   expect(state.includes(`\"air=${stage}\"`), `fog blockstate is missing original air=${stage} stage`);
@@ -30,8 +35,8 @@ for (const token of ["IntegerProperty.create(\"air\", 0, 2)", "randomTick", "Mod
   "ModSounds.get(\"block.fog\")", "setValue(AIR, 2)", "Blocks.AIR.defaultBlockState()",
   "getBlockSupportShape"])
   expect(block.includes(token), `FogBlock is missing original behavior: ${token}`);
-for (const token of ["lifetime = 144", "quadSize = 10.0F", "frameForAge", "int frameAge = age++",
-  "if (age++ >= lifetime)", "PARTICLE_SHEET_TRANSLUCENT"])
+for (const token of ["lifetime = 144", "quadSize = 10.0F", "frameForAge", "int frameAge = age",
+  "if (++age >= lifetime)", "PARTICLE_SHEET_TRANSLUCENT"])
   expect(particles.includes(token), `CoolerFogParticle is missing original behavior: ${token}`);
 expect(overlay.includes("RenderGuiEvent.Post") && overlay.includes("0.85F")
   && overlay.includes("TextureAtlas.LOCATION_BLOCKS") && overlay.includes("graphics.blit(0, 0, -90"),
