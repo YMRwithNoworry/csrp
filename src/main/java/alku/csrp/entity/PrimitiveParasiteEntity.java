@@ -291,9 +291,11 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
             goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1.0));
         }
         goalSelector.addGoal(8, new RandomLookAroundGoal(this));
-        targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
-        targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,
-                true, false, this::isValidParasiteTarget));
+        if (usesDefaultTargetGoals()) {
+            targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
+            targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,
+                    true, false, this::isValidParasiteTarget));
+        }
     }
 
     protected boolean usesDefaultMovementGoals() {
@@ -301,6 +303,10 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     }
 
     protected boolean usesDefaultFloatGoal() {
+        return true;
+    }
+
+    protected boolean usesDefaultTargetGoals() {
         return true;
     }
 

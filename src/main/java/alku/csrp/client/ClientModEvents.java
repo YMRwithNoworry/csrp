@@ -4,6 +4,7 @@ import alku.csrp.Csrp;
 import alku.csrp.client.particle.AssimilationSplashParticle;
 import alku.csrp.client.particle.BiomassParticle;
 import alku.csrp.client.particle.CoolerFogParticle;
+import alku.csrp.client.particle.GoreCloudParticle;
 import alku.csrp.client.particle.KirinWarningParticle;
 import alku.csrp.celestial.client.AuroraSkyRenderer;
 import alku.csrp.client.renderer.AirscrewRenderer;
@@ -95,7 +96,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.PRI_SUMMONER.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "pri_summoner", 0.7F));
         event.registerEntityRenderer(ModEntities.PRI_VERMIN.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "pri_vermin", 0.65F));
+                new PrimitiveParasiteRenderer<>(context, "pri_vermin", 0.2F));
         event.registerEntityRenderer(ModEntities.PRI_VISCERA.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "pri_viscera", 1.0F));
         event.registerEntityRenderer(ModEntities.PRI_ARACHNIDA.get(), context ->
@@ -133,7 +134,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.ADA_TOZOON.get(), context ->
                 new BurrowingParasiteRenderer<>(context, "ada_tozoon", 0.7F, 1.4F));
         event.registerEntityRenderer(ModEntities.ADA_VERMIN.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "ada_vermin", 0.85F));
+                new PrimitiveParasiteRenderer<>(context, "ada_vermin", 0.2F));
         event.registerEntityRenderer(ModEntities.ADA_VISCERA.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "ada_viscera", 0.75F));
         event.registerEntityRenderer(ModEntities.ADA_YELLOWEYE.get(), context ->
@@ -375,6 +376,7 @@ public final class ClientModEvents {
     public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
         event.registerSpriteSet(ModParticles.KIRIN_WARNING.get(), KirinWarningParticle.Provider::new);
         event.registerSpriteSet(ModParticles.ASSIMILATION_SPLASH.get(), AssimilationSplashParticle.Provider::new);
+        event.registerSpriteSet(ModParticles.GORE_CLOUD.get(), GoreCloudParticle.Provider::new);
         event.registerSpriteSet(ModParticles.BIOMASS.get(), BiomassParticle.Provider::new);
         event.registerSpriteSet(ModParticles.FOG.get(), CoolerFogParticle.Provider::new);
     }

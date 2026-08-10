@@ -38,15 +38,22 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
+import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
 import net.minecraft.world.entity.ai.goal.TryFindWaterGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -116,6 +123,8 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             AdaptedVariantEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> YELLOWEYE_CHARGING = SynchedEntityData.defineId(
             AdaptedVariantEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> VERMIN_COMBAT_STATUS = SynchedEntityData.defineId(
+            AdaptedVariantEntity.class, EntityDataSerializers.INT);
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
     private final RawAnimation RUN = ParasiteAnimations.loop(this,
@@ -247,7 +256,10 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         if (kind == Kind.BURROWER || kind == Kind.TOZOON) {
             setPathfindingMalus(PathType.WATER, -1.0F);
         }
-        if (isFlying(kind)) {
+        if (kind == Kind.VERMIN) {
+            moveControl = new AdaptedVerminMoveControl();
+            setNoGravity(true);
+        } else if (isFlying(kind)) {
             moveControl = new FlyingMoveControl(this, 20, true);
             setNoGravity(true);
         } else if (kind == Kind.DEVOURER) {
@@ -369,11 +381,11 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             }
             case VERMIN -> {
                 health = 70.0D;
-                armor = 24.0D;
+                armor = 15.0D;
                 damage = 30.0D;
                 speed = 0.25D;
-                knockbackResistance = 0.35D;
-                followRange = 40.0D;
+                knockbackResistance = 0.65D;
+                followRange = 32.0D;
             }
             case VISCERA -> {
                 health = 95.0D;
@@ -451,6 +463,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         builder.define(MANDUCATER_STATUS, 0);
         builder.define(MANDUCATER_STILL_ANI, false);
         builder.define(YELLOWEYE_CHARGING, false);
+        builder.define(VERMIN_COMBAT_STATUS, 0);
     }
 
     @Nullable
@@ -490,6 +503,16 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         navigation.setCanOpenDoors(false);
         navigation.setCanFloat(true);
         return navigation;
+    }
+
+    @Override
+    protected boolean usesDefaultMovementGoals() {
+        return activeKind() != Kind.VERMIN;
+    }
+
+    @Override
+    protected boolean usesDefaultTargetGoals() {
+        return activeKind() != Kind.VERMIN;
     }
 
     @Override
@@ -539,7 +562,16 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
                 goalSelector.addGoal(2, new VomitGoal());
                 goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.05D, false));
             }
-            case VERMIN -> goalSelector.addGoal(1, new VerminFlightGoal());
+            case VERMIN -> {
+                registerVerminTargetGoals();
+                if (MobsConfig.yelloweyeMaxFlightHeight() != 256) {
+                    goalSelector.addGoal(3,
+                            new VerminFlightHeightGoal(MobsConfig.yelloweyeMaxFlightHeight()));
+                }
+                goalSelector.addGoal(3, new VerminFlightAttackGoal());
+                goalSelector.addGoal(5, new VerminPayloadGoal());
+                goalSelector.addGoal(7, new VerminRandomFlightGoal());
+            }
             case VISCERA -> {
                 goalSelector.addGoal(1, new SideLeapGoal());
                 goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.25D, false));
@@ -563,6 +595,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             if (activeKind == Kind.SUMMONER && summonerVomitTicks > 0) {
                 summonerVomitTicks--;
                 spawnSummonerVomitParticles();
+            }
+            if (activeKind == Kind.VERMIN && random.nextInt(25) == 0) {
+                VerminParticles.spawnMouthDrips(level(), this);
             }
             return;
         }
@@ -588,6 +623,18 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         }
 
         LivingEntity target = getTarget();
+        if (activeKind == Kind.VERMIN) {
+            if (tickCount % 21 == 10) {
+                if (onGround()) {
+                    moveControl.setWantedPosition(getX(), getY() + 5.0D, getZ(), 0.5D);
+                }
+                if (target != null && (!level().getBlockState(blockPosition().below()).isAir()
+                        || !level().getBlockState(blockPosition().below(2)).isAir())) {
+                    Vec3 movement = getDeltaMovement();
+                    setDeltaMovement(movement.x, 0.5D, movement.z);
+                }
+            }
+        }
         if (target != null && breaksSoftBlocks(activeKind)) {
             breakSoftBlockTowards(target);
         }
@@ -815,7 +862,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             case REEKER -> ModEntities.PRI_REEKER.get().create(level);
             case SUMMONER -> ModEntities.PRI_SUMMONER.get().create(level);
             case TOZOON -> ModEntities.PRI_TOZOON.get().create(level);
-            case VERMIN -> ModEntities.PRI_VERMIN.get().create(level);
+            case VERMIN -> ModEntities.MOVINGFLESH.get().create(level);
             case VISCERA -> ModEntities.PRI_VISCERA.get().create(level);
             case YELLOWEYE -> ModEntities.PRI_YELLOWEYE.get().create(level);
         };
@@ -1006,6 +1053,12 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     @Override
     public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
         return !isFlying(activeKind()) && super.causeFallDamage(distance, damageMultiplier, source);
+    }
+
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return activeKind() == Kind.VERMIN && entityData.get(VERMIN_COMBAT_STATUS) != 0
+                ? null : super.getAmbientSound();
     }
 
     @Override
@@ -1797,11 +1850,38 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         if (lice == null) {
             return;
         }
-        lice.moveTo(getX(), getY() - 0.5D, getZ(), getYRot(), 0.0F);
-        lice.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(lice.blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
-        lice.setTarget(getTarget());
+        lice.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
         serverLevel.addFreshEntity(lice);
+        spawnVerminPayloadParticles(serverLevel);
+    }
+
+    private void spawnVerminPayloadParticles(ServerLevel level) {
+        VerminParticles.sendPayloadBurst(level, this);
+    }
+
+    private void registerVerminTargetGoals() {
+        targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
+        targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Player.class, 0,
+                true, false, this::isValidParasiteTarget));
+        targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Mob.class, 0,
+                true, false, this::isValidVerminBaseMobTarget));
+    }
+
+    private boolean isValidVerminBaseMobTarget(LivingEntity target) {
+        return isValidParasiteTarget(target) && !(target instanceof WaterAnimal)
+                && !(target instanceof Animal) && !(target instanceof Villager);
+    }
+
+    private boolean isValidVerminFlightMobTarget(LivingEntity target) {
+        return isValidParasiteTarget(target) && target instanceof Mob
+                && !(target instanceof Animal) && !(target instanceof Creeper)
+                && !(target instanceof WaterAnimal) && distanceToSqr(target) < 1024.0D
+                && hasLineOfSight(target) && canAttack(target);
+    }
+
+    private boolean isValidVerminPlayerTarget(Player player) {
+        return isValidParasiteTarget(player) && !player.getAbilities().instabuild
+                && !player.isSpectator() && canAttack(player);
     }
 
     private Kind activeKind() {
@@ -2757,15 +2837,67 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         }
     }
 
-    private final class VerminFlightGoal extends Goal {
-        private VerminFlightGoal() {
-            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
-        }
+    private final class VerminPayloadGoal extends Goal {
+        private int checkTicks;
 
         @Override
         public boolean canUse() {
+            checkTicks++;
+            if (checkTicks < 20) {
+                return false;
+            }
+            checkTicks = 0;
             LivingEntity target = getTarget();
-            return target != null && target.isAlive();
+            if (target == null || !target.isAlive()) {
+                return false;
+            }
+            double dx = target.getX() - getX();
+            double dz = target.getZ() - getZ();
+            return dx * dx + dz * dz < 256.0D;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return false;
+        }
+
+        @Override
+        public void start() {
+            if (!(level() instanceof ServerLevel serverLevel)) {
+                return;
+            }
+            int liceCount = 0;
+            for (Entity entity : serverLevel.getAllEntities()) {
+                if (entity instanceof LiceEntity) {
+                    liceCount++;
+                }
+            }
+            if (liceCount < Config.worldGnatCap()) {
+                spawnLice();
+                return;
+            }
+            LivingEntity target = getTarget();
+            if (target == null || target.getY() > getY()) {
+                return;
+            }
+            BombEntity bomb = ModEntities.BOMB.get().create(serverLevel);
+            if (bomb != null) {
+                bomb.configure(AdaptedVariantEntity.this, 60, 0.0F,
+                        (float) getAttributeValue(Attributes.ATTACK_DAMAGE), 2, 1, false);
+                bomb.moveTo(getX(), getY(), getZ(), getYRot(), getXRot() + 20.0F);
+                serverLevel.addFreshEntity(bomb);
+                spawnVerminPayloadParticles(serverLevel);
+            }
+        }
+    }
+
+    private final class VerminFlightAttackGoal extends Goal {
+        private int lostTargetTicks;
+
+        @Override
+        public boolean canUse() {
+            int cycleTick = tickCount % 21;
+            return cycleTick > 0 && cycleTick <= 10;
         }
 
         @Override
@@ -2776,38 +2908,163 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         @Override
         public void tick() {
             LivingEntity target = getTarget();
-            if (target == null) {
+            if (target != null) {
+                validateCurrentTarget(target);
                 return;
             }
-            getLookControl().setLookAt(target, 30.0F, 30.0F);
-            getMoveControl().setWantedPosition(target.getX(), target.getY() + 4.0D, target.getZ(), 1.1D);
-            if (abilityCooldown > 0 || distanceToSqr(target) > 576.0D) {
+
+            entityData.set(VERMIN_COMBAT_STATUS, 0);
+            lostTargetTicks = 0;
+            double followRange = getAttributeValue(Attributes.FOLLOW_RANGE);
+            AABB searchArea = new AABB(blockPosition()).inflate(followRange);
+            for (LivingEntity candidate : level().getEntitiesOfClass(LivingEntity.class, searchArea)) {
+                if (candidate instanceof Player player) {
+                    if (isValidVerminPlayerTarget(player)) {
+                        setTarget(player);
+                        return;
+                    }
+                } else if (isValidVerminFlightMobTarget(candidate)) {
+                    setTarget(candidate);
+                    entityData.set(VERMIN_COMBAT_STATUS, 1);
+                    return;
+                }
+            }
+        }
+
+        private void validateCurrentTarget(LivingEntity target) {
+            if (!isValidParasiteTarget(target)
+                    || target instanceof Player player && (player.getAbilities().instabuild || player.isSpectator())) {
+                clearTarget();
                 return;
             }
-            int liceCount = 0;
-            if (level() instanceof ServerLevel serverLevel) {
-                for (Entity entity : serverLevel.getAllEntities()) {
-                    if (entity instanceof LiceEntity) {
-                        liceCount++;
-                    }
-                }
-            }
-            if (liceCount >= Config.worldGnatCap()) {
-                if (target.getY() <= getY()) {
-                    BombEntity bomb = ModEntities.BOMB.get().create(level());
-                    if (bomb != null) {
-                        bomb.configure(AdaptedVariantEntity.this, 60, 0.0F,
-                                (float) getAttributeValue(Attributes.ATTACK_DAMAGE), 2, 1, false);
-                        bomb.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
-                        level().addFreshEntity(bomb);
-                    }
-                }
-                abilityCooldown = 80;
+            double followRange = getAttributeValue(Attributes.FOLLOW_RANGE);
+            if (!hasLineOfSight(target) || distanceToSqr(target) >= followRange * followRange) {
+                lostTargetTicks++;
             } else {
-                spawnLice();
-                abilityCooldown = 40;
+                lostTargetTicks = 0;
             }
-            triggerAttackAnimation();
+            if (lostTargetTicks >= 6) {
+                clearTarget();
+            }
+        }
+
+        private void clearTarget() {
+            setTarget(null);
+            entityData.set(VERMIN_COMBAT_STATUS, 0);
+            lostTargetTicks = 0;
+            moveControl.setWantedPosition(getX(), getY(), getZ(), 1.0D);
+        }
+    }
+
+    private final class VerminRandomFlightGoal extends Goal {
+        private VerminRandomFlightGoal() {
+            setFlags(EnumSet.of(Flag.MOVE));
+        }
+
+        @Override
+        public boolean canUse() {
+            return !moveControl.hasWanted() && random.nextInt(7) == 0;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return false;
+        }
+
+        @Override
+        public void start() {
+            BlockPos center = blockPosition();
+            double speed = 0.5D;
+            LivingEntity target = getTarget();
+            if (target != null) {
+                double distance = distanceToSqr(target);
+                if (distance > 225.0D || distance < 36.0D) {
+                    center = target.blockPosition();
+                    speed += 0.25D;
+                }
+            }
+            for (int attempt = 0; attempt < 3; attempt++) {
+                BlockPos candidate = center.offset(random.nextInt(15) - 7,
+                        random.nextInt(11) - 5, random.nextInt(15) - 7);
+                if (!level().isEmptyBlock(candidate)) {
+                    continue;
+                }
+                moveControl.setWantedPosition(candidate.getX() + 0.5D, candidate.getY() + 0.5D,
+                        candidate.getZ() + 0.5D, speed);
+                if (target == null) {
+                    getLookControl().setLookAt(candidate.getX() + 0.5D, candidate.getY() + 0.5D,
+                            candidate.getZ() + 0.5D, 180.0F, 20.0F);
+                }
+                break;
+            }
+        }
+    }
+
+    private final class VerminFlightHeightGoal extends Goal {
+        private final int limit;
+
+        private VerminFlightHeightGoal(int limit) {
+            this.limit = limit;
+        }
+
+        @Override
+        public boolean canUse() {
+            return true;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return true;
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = getTarget();
+            if (target != null ? target.getY() + limit > getY() : hasExceededGroundDistance()) {
+                setDeltaMovement(getDeltaMovement().add(0.0D, -0.04D, 0.0D));
+            }
+        }
+
+        private boolean hasExceededGroundDistance() {
+            BlockPos pos = blockPosition().below();
+            for (int count = 1; count <= limit; count++, pos = pos.below()) {
+                if (pos.getY() < level().getMinBuildHeight() || !level().getBlockState(pos).isAir()) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
+    private final class AdaptedVerminMoveControl extends MoveControl {
+        private AdaptedVerminMoveControl() {
+            super(AdaptedVariantEntity.this);
+        }
+
+        @Override
+        public void tick() {
+            if (operation != Operation.MOVE_TO) {
+                return;
+            }
+            double dx = wantedX - getX();
+            double dy = wantedY - getY();
+            double dz = wantedZ - getZ();
+            double distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+            double arrivalRadius = (getBbWidth() * 2.0D + getBbHeight()) / 3.0D;
+            if (distance < arrivalRadius) {
+                operation = Operation.WAIT;
+                setDeltaMovement(getDeltaMovement().scale(0.5D));
+                return;
+            }
+            setDeltaMovement(getDeltaMovement().add(dx / distance * 0.05D * speedModifier,
+                    dy / distance * 0.05D * speedModifier,
+                    dz / distance * 0.05D * speedModifier));
+            LivingEntity target = getTarget();
+            double faceX = target == null ? getDeltaMovement().x : target.getX() - getX();
+            double faceZ = target == null ? getDeltaMovement().z : target.getZ() - getZ();
+            float yaw = -((float) Mth.atan2(faceX, faceZ)) * Mth.RAD_TO_DEG;
+            setYRot(yaw);
+            yBodyRot = yaw;
         }
     }
 

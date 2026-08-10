@@ -134,7 +134,7 @@ public final class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<SummonerEntity>> PRI_SUMMONER =
             monster("pri_summoner", SummonerEntity::new, 1.3F, 2.3F);
     public static final DeferredHolder<EntityType<?>, EntityType<VerminEntity>> PRI_VERMIN =
-            monster("pri_vermin", VerminEntity::new, 1.1F, 1.4F);
+            monster("pri_vermin", VerminEntity::new, 1.1F, 1.4F, 0.7F);
     public static final DeferredHolder<EntityType<?>, EntityType<VisceraEntity>> PRI_VISCERA =
             monster("pri_viscera", VisceraEntity::new, 1.211F, 2.351F, 1.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<PrimitiveVariantEntity>> PRI_ARACHNIDA =
@@ -190,7 +190,7 @@ public final class ModEntities {
                     AdaptedVariantEntity.Kind.TOZOON), 1.321F, 1.2F, 1.0F);
     public static final DeferredHolder<EntityType<?>, EntityType<AdaptedVariantEntity>> ADA_VERMIN =
             monster("ada_vermin", (type, level) -> new AdaptedVariantEntity(type, level,
-                    AdaptedVariantEntity.Kind.VERMIN), 1.511F, 3.655F);
+                    AdaptedVariantEntity.Kind.VERMIN), 1.1F, 1.4F, 0.7F);
     public static final DeferredHolder<EntityType<?>, EntityType<AdaptedVariantEntity>> ADA_VISCERA =
             monster("ada_viscera", (type, level) -> new AdaptedVariantEntity(type, level,
                     AdaptedVariantEntity.Kind.VISCERA), 1.1F, 1.4F);

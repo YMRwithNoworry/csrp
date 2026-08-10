@@ -3,7 +3,6 @@ package alku.csrp.entity;
 import alku.csrp.Config;
 import alku.csrp.config.MobsConfig;
 import alku.csrp.registry.ModEntities;
-import alku.csrp.registry.ModParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -15,17 +14,21 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
@@ -71,9 +74,11 @@ public final class VerminEntity extends PrimitiveParasiteEntity {
 
     @Override protected void registerGoals() {
         super.registerGoals();
+        registerVerminTargetGoals();
         if (MobsConfig.yelloweyeMaxFlightHeight() != 256) {
             goalSelector.addGoal(3, new FlightHeightLimitGoal(MobsConfig.yelloweyeMaxFlightHeight()));
         }
+        goalSelector.addGoal(3, new FlightAttackGoal());
         goalSelector.addGoal(4, new ChargeAttackGoal());
         goalSelector.addGoal(5, new DropPayloadGoal());
         goalSelector.addGoal(7, new RandomFlightGoal());
@@ -84,16 +89,11 @@ public final class VerminEntity extends PrimitiveParasiteEntity {
         setNoGravity(true);
         if (level().isClientSide) {
             if (random.nextInt(25) == 0) {
-                for (int index = 0; index < 4; index++) {
-                    level().addParticle(ModParticles.ASSIMILATION_SPLASH.get(),
-                            getRandomX(0.8D), getRandomY(), getRandomZ(0.8D),
-                            0.0D, -0.1D, 0.0D);
-                }
+                VerminParticles.spawnMouthDrips(level(), this);
             }
             return;
         }
         LivingEntity target = getTarget();
-        entityData.set(COMBAT_STATUS, target != null && target.isAlive() ? 1 : 0);
         if (tickCount % 21 == 10) {
             if (onGround()) {
                 moveControl.setWantedPosition(getX(), getY() + 5.0D, getZ(), 0.5D);
@@ -112,9 +112,8 @@ public final class VerminEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    protected boolean isValidParasiteTarget(LivingEntity target) {
-        return super.isValidParasiteTarget(target) && !(target instanceof Animal)
-                && !(target instanceof WaterAnimal) && !(target instanceof Creeper);
+    protected boolean usesDefaultTargetGoals() {
+        return false;
     }
 
     @Override
@@ -138,8 +137,7 @@ public final class VerminEntity extends PrimitiveParasiteEntity {
             }
         }
         if (gnatCount < Config.worldGnatCap()) {
-            GnatEntity gnat = ModEntities.GNAT.get().create(serverLevel, null, blockPosition(),
-                    MobSpawnType.MOB_SUMMONED, false, false);
+            GnatEntity gnat = ModEntities.GNAT.get().create(serverLevel);
             if (gnat != null) {
                 gnat.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
                 serverLevel.addFreshEntity(gnat);
@@ -161,8 +159,32 @@ public final class VerminEntity extends PrimitiveParasiteEntity {
     }
 
     private void spawnPayloadParticles(ServerLevel level) {
-        level.sendParticles(ModParticles.ASSIMILATION_SPLASH.get(), getX(), getY(), getZ(),
-                8, 0.5D, 0.5D, 0.5D, 0.0D);
+        VerminParticles.sendPayloadBurst(level, this);
+    }
+
+    private void registerVerminTargetGoals() {
+        targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
+        targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Player.class, 0,
+                true, false, this::isValidParasiteTarget));
+        targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Mob.class, 0,
+                true, false, this::isValidBaseMobTarget));
+    }
+
+    private boolean isValidBaseMobTarget(LivingEntity target) {
+        return isValidParasiteTarget(target) && !(target instanceof WaterAnimal)
+                && !(target instanceof Animal) && !(target instanceof Villager);
+    }
+
+    private boolean isValidFlightMobTarget(LivingEntity target) {
+        return isValidParasiteTarget(target) && target instanceof Mob
+                && !(target instanceof Animal) && !(target instanceof Creeper)
+                && !(target instanceof WaterAnimal) && distanceToSqr(target) < 1024.0D
+                && hasLineOfSight(target) && canAttack(target);
+    }
+
+    private boolean isValidPlayerTarget(Player player) {
+        return isValidParasiteTarget(player) && !player.getAbilities().instabuild
+                && !player.isSpectator() && canAttack(player);
     }
 
     @Override public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
@@ -210,6 +232,71 @@ public final class VerminEntity extends PrimitiveParasiteEntity {
         @Override
         public void start() {
             dropGnatBomb();
+        }
+    }
+
+    private final class FlightAttackGoal extends Goal {
+        private int lostTargetTicks;
+
+        @Override
+        public boolean canUse() {
+            int cycleTick = tickCount % 21;
+            return cycleTick > 0 && cycleTick <= 10;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return canUse();
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = getTarget();
+            if (target != null) {
+                validateCurrentTarget(target);
+                return;
+            }
+
+            entityData.set(COMBAT_STATUS, 0);
+            lostTargetTicks = 0;
+            double followRange = getAttributeValue(Attributes.FOLLOW_RANGE);
+            AABB searchArea = new AABB(blockPosition()).inflate(followRange);
+            for (LivingEntity candidate : level().getEntitiesOfClass(LivingEntity.class, searchArea)) {
+                if (candidate instanceof Player player) {
+                    if (isValidPlayerTarget(player)) {
+                        setTarget(player);
+                        return;
+                    }
+                } else if (isValidFlightMobTarget(candidate)) {
+                    setTarget(candidate);
+                    entityData.set(COMBAT_STATUS, 1);
+                    return;
+                }
+            }
+        }
+
+        private void validateCurrentTarget(LivingEntity target) {
+            if (!isValidParasiteTarget(target)
+                    || target instanceof Player player && (player.getAbilities().instabuild || player.isSpectator())) {
+                clearTarget();
+                return;
+            }
+            double followRange = getAttributeValue(Attributes.FOLLOW_RANGE);
+            if (!hasLineOfSight(target) || distanceToSqr(target) >= followRange * followRange) {
+                lostTargetTicks++;
+            } else {
+                lostTargetTicks = 0;
+            }
+            if (lostTargetTicks >= 6) {
+                clearTarget();
+            }
+        }
+
+        private void clearTarget() {
+            setTarget(null);
+            entityData.set(COMBAT_STATUS, 0);
+            lostTargetTicks = 0;
+            moveControl.setWantedPosition(getX(), getY(), getZ(), 1.0D);
         }
     }
 
@@ -368,7 +455,8 @@ public final class VerminEntity extends PrimitiveParasiteEntity {
             double dy = wantedY - getY();
             double dz = wantedZ - getZ();
             double distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
-            if (distance < getBbWidth()) {
+            double arrivalRadius = (getBbWidth() * 2.0D + getBbHeight()) / 3.0D;
+            if (distance < arrivalRadius) {
                 operation = Operation.WAIT;
                 setDeltaMovement(getDeltaMovement().scale(0.5D));
                 return;

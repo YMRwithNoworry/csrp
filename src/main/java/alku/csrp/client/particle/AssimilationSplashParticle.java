@@ -32,10 +32,25 @@ public final class AssimilationSplashParticle extends TextureSheetParticle {
 
     @Override
     public void tick() {
-        super.tick();
-        int remainingTicks = lifetime - age;
-        if (remainingTicks <= 5) {
-            alpha = Math.max(0.0F, remainingTicks / 5.0F);
+        int previousAge = age++;
+        float remainingLifetime = lifetime;
+        xo = x;
+        yo = y;
+        zo = z;
+        yd -= 0.04D;
+        move(xd, yd, zd);
+        xd *= 0.98F;
+        yd *= 0.98F;
+        zd *= 0.98F;
+        if (remainingLifetime - previousAge <= 5.0F && alpha >= 0.0F) {
+            alpha = Math.max(0.0F, alpha - 0.05F);
+        }
+        if (lifetime-- <= 0) {
+            remove();
+        }
+        if (onGround) {
+            xd *= 0.7F;
+            zd *= 0.7F;
         }
     }
 
