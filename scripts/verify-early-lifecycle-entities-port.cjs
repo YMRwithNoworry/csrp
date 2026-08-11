@@ -30,7 +30,7 @@ const checks = {
     /FastMeleeAttackGoal[\s\S]*getTicksUntilNextAttack\(\)[\s\S]*return 6;/,
     /SwimmingDivingGoal[\s\S]*-0\.12D[\s\S]*random\.nextFloat\(\) < 0\.8F/,
     /ModSounds\.get\("buthol\.boom"\)/],
-  lice: ["LiceEntity.java", /MAX_LIFESPAN_TICKS\s*=\s*1200/, /VIRAL_DURATION_TICKS\s*=\s*120/,
+  lice: ["LiceEntity.java", /MAX_LIFESPAN_TICKS\s*=\s*1_200/, /VIRAL_DURATION_TICKS\s*=\s*120/,
     /VIRAL_AMPLIFIER\s*=\s*2/, /FlyingPathNavigation/, /ChargeAttackGoal/,
     /void push\(Entity entity\)[\s\S]*entity == getTarget\(\)/,
     /convertFeralEndermanHost\(target\)[\s\S]*convertGnatHost\(target\)/,

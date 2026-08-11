@@ -71,7 +71,7 @@ const checks = {
   pri_summoner: ["SummonerEntity.java", /BiomassEntity\.spawnFromVomit/, /SUMMON_LIMIT\s*=\s*2/],
   pri_vermin: ["VerminEntity.java", /FlyingPathNavigation/, /dropGnatBomb/],
   pri_viscera: ["VisceraEntity.java", /setClimbing\(horizontalCollision\)/, /ModMobEffects\.VIRAL[\s\S]*ModMobEffects\.BLEED/],
-  gnat: ["GnatEntity.java", /createAnimatedLeapGoal\(0\.4F, 20\)/, /MeleeAttackGoal/]
+  gnat: ["GnatEntity.java", /new SkillLeapGoal\(\)/, /new FastMeleeAttackGoal\(\)/]
 };
 for (const [id, [javaFile, first, second]] of Object.entries(checks)) {
   const java = read(`src/main/java/alku/csrp/entity/${javaFile}`);

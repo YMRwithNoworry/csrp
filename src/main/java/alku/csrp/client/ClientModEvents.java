@@ -140,7 +140,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.ADA_YELLOWEYE.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "ada_yelloweye", 0.8F));
         event.registerEntityRenderer(ModEntities.GNAT.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "gnat", 0.25F));
+                new PrimitiveParasiteRenderer<>(context, "gnat", 0.5F));
         event.registerEntityRenderer(ModEntities.CARRIER_HEAVY.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "carrier_heavy", 0.8F));
         event.registerEntityRenderer(ModEntities.CARRIER_LIGHT.get(), context ->
@@ -165,7 +165,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.PULLING_BALL.get(), PullingBallRenderer::new);
         event.registerEntityRenderer(ModEntities.PULLING_BALL_LEGACY.get(), PullingBallRenderer::new);
         event.registerEntityRenderer(ModEntities.LICE.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "lice", 0.35F));
+                new PrimitiveParasiteRenderer<>(context, "lice", 0.5F));
         event.registerEntityRenderer(ModEntities.MANGLER.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "mangler", 0.5F));
         event.registerEntityRenderer(ModEntities.HOST.get(), context ->
