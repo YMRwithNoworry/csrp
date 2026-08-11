@@ -150,7 +150,7 @@ public final class AncientPodEntity extends PrimitiveParasiteEntity {
                     for (var target : level.getEntitiesOfClass(net.minecraft.world.entity.LivingEntity.class,
                             getBoundingBox().inflate(7.0D), living -> living != this && !(living instanceof Parasite))) {
                         target.addEffect(new MobEffectInstance(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect),
-                                duration, amplifier, false, false), this);
+                                duration, amplifier, false, false, effect == ModMobEffects.COTH.get()), this);
                     }
                 });
             } catch (NumberFormatException ignored) {
@@ -167,7 +167,7 @@ public final class AncientPodEntity extends PrimitiveParasiteEntity {
         cloud.setDuration(600);
         cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
         cloud.addEffect(new MobEffectInstance(MobEffects.POISON, 300, 0, false, false));
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, 0, false, false));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, 0, false, false, true));
         level.addFreshEntity(cloud);
     }
 

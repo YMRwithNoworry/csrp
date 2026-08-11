@@ -1,5 +1,6 @@
 package alku.csrp.effect;
 
+import alku.csrp.registry.ModMobEffects;
 import net.minecraft.core.Holder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -20,8 +21,10 @@ public final class EffectStacking {
             return;
         }
         MobEffectInstance current = entity.getEffect(effect);
+        boolean showIcon = effect.equals(ModMobEffects.COTH);
         if (current == null) {
-            entity.addEffect(new MobEffectInstance(effect, duration, Math.min(amplifier, maxAmplifier), false, false));
+            entity.addEffect(new MobEffectInstance(effect, duration, Math.min(amplifier, maxAmplifier),
+                    false, false, showIcon));
             return;
         }
         int newDuration = current.getDuration() + 40 <= duration
@@ -33,6 +36,6 @@ public final class EffectStacking {
             newAmplifier = current.getAmplifier() + 1;
         }
         newAmplifier = Math.min(newAmplifier, maxAmplifier);
-        entity.addEffect(new MobEffectInstance(effect, newDuration, newAmplifier, false, false));
+        entity.addEffect(new MobEffectInstance(effect, newDuration, newAmplifier, false, false, showIcon));
     }
 }

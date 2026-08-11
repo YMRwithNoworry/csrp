@@ -151,7 +151,7 @@ public final class BombEntity extends Entity {
         cloud.setDuration(60);
         cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
         cloud.addEffect(new MobEffectInstance(MobEffects.POISON, 300, 0));
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, 0, false, false));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, 0, false, false, true));
         cloud.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 3600, 0, false, false));
         level().addFreshEntity(cloud);
     }

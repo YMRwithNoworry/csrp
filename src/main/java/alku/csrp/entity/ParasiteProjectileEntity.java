@@ -608,7 +608,7 @@ public final class ParasiteProjectileEntity extends Entity {
         cloud.setDuration(600);
         cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
         cloud.addEffect(new MobEffectInstance(MobEffects.WITHER, 300, 0, false, false));
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, 0, false, false));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, 0, false, false, true));
         level().addFreshEntity(cloud);
     }
 

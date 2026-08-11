@@ -491,7 +491,8 @@ public final class AssimilatedVariantEntity extends Monster implements GeoEntity
         cloud.setDuration(160);
         cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
         cloud.addEffect(new MobEffectInstance(MobEffects.POISON, 200, 0, false, false));
-        cloud.addEffect(new MobEffectInstance(alku.csrp.registry.ModMobEffects.COTH, 200, 0, false, false));
+        cloud.addEffect(new MobEffectInstance(alku.csrp.registry.ModMobEffects.COTH,
+                200, 0, false, false, true));
         serverLevel.addFreshEntity(cloud);
         serverLevel.addFreshEntity(new ItemEntity(serverLevel, getX(), getY() + getBbHeight() * 0.5D, getZ(),
                 new ItemStack(ModItems.ASSIMILATED_FLESH.get())));

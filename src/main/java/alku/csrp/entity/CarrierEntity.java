@@ -389,7 +389,7 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity {
         cloud.addEffect(new MobEffectInstance(MobEffects.POISON, 300,
                 isVariant() ? variantPoisonAmplifier() : normalPoisonAmplifier()));
         int cloudAmplifier = isVariant() ? 2 : 0;
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, cloudAmplifier, false, false));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, cloudAmplifier, false, false, true));
         cloud.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 3600, cloudAmplifier, false, false));
         level().addFreshEntity(cloud);
     }

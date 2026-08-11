@@ -79,7 +79,7 @@ public final class InfectionMechanics {
         int amplifier = existing == null ? 0 : existing.getAmplifier();
         int duration = existing == null ? durationFloor : Math.max(existing.getDuration(), durationFloor);
         boolean effectChanged = target.addEffect(
-                new MobEffectInstance(ModMobEffects.COTH, duration, amplifier, false, false), source);
+                new MobEffectInstance(ModMobEffects.COTH, duration, amplifier, false, false, true), source);
         if (effectChanged && existing == null && !target.level().isClientSide) {
             playInfectionSound(target);
         }
@@ -97,7 +97,7 @@ public final class InfectionMechanics {
                                        boolean ambient, boolean visible) {
         boolean alreadyInfected = target.hasEffect(ModMobEffects.COTH);
         boolean effectChanged = target.addEffect(
-                new MobEffectInstance(ModMobEffects.COTH, durationTicks, amplifier, ambient, visible), source);
+                new MobEffectInstance(ModMobEffects.COTH, durationTicks, amplifier, ambient, visible, true), source);
         if (effectChanged && !alreadyInfected && !target.level().isClientSide) {
             playInfectionSound(target);
         }
@@ -122,13 +122,13 @@ public final class InfectionMechanics {
         if (Config.disloCothIgnoreAmplifier() && amplifier <= 1 && entity.tickCount % 20 == 0
                 && entity.level() instanceof ServerLevel level
                 && DislodgmentSystem.activeCodeValue(level, 0) > 0) {
-            entity.addEffect(new MobEffectInstance(ModMobEffects.COTH, 6_666, 10, false, false));
+            entity.addEffect(new MobEffectInstance(ModMobEffects.COTH, 6_666, 10, false, false, true));
             effectiveAmplifier = COTH_MAX_AMPLIFIER;
         }
         if (coth.getDuration() > 0 && coth.getDuration() <= COTH_REFRESH_THRESHOLD_TICKS) {
             effectiveAmplifier = Math.min(COTH_MAX_AMPLIFIER, effectiveAmplifier + 1);
             entity.addEffect(new MobEffectInstance(ModMobEffects.COTH, COTH_BASE_DURATION_TICKS,
-                    effectiveAmplifier, false, false));
+                    effectiveAmplifier, false, false, true));
         }
         if (effectiveAmplifier >= 1) {
             spreadCoth(entity);
@@ -205,7 +205,7 @@ public final class InfectionMechanics {
             disguise.setPersistenceRequired();
         }
         disguise.addEffect(new MobEffectInstance(ModMobEffects.COTH, COTH_BASE_DURATION_TICKS,
-                COTH_MAX_AMPLIFIER, false, false));
+                COTH_MAX_AMPLIFIER, false, false, true));
         if (!serverLevel.addFreshEntity(disguise)) {
             return false;
         }

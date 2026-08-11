@@ -282,7 +282,7 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
         cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
         cloud.addEffect(new MobEffectInstance(MobEffects.POISON, 300, 2, false, true));
         cloud.addEffect(new MobEffectInstance(MobEffects.WITHER, 300, 2, false, true));
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, 2, false, false));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, 2, false, false, true));
         level().addFreshEntity(cloud);
     }
 

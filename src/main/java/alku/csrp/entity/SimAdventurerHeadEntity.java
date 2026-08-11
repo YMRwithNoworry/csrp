@@ -273,7 +273,7 @@ public final class SimAdventurerHeadEntity extends Monster implements GeoEntity,
             cloud.setDuration(1200);
             cloud.setWaitTime(10);
             cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
-            cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, 1, false, false));
+            cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, 1, false, false, true));
             level().addFreshEntity(cloud);
             playSound(ModSounds.RUPTER_CLOUD.get(), 1.2F, 1.1F);
             cloudCooldown = 20;

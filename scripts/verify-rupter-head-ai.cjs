@@ -32,7 +32,7 @@ for (const [name, entity] of entities) {
     expect(entity, /shouldRetreatForPackSize\(\)[\s\S]*setTarget\(null\)/,
             `${name}: stale combat targets are not cleared while retreating`);
     expect(entity, /ToxicCloudEntity\.create/, `${name}: COTH cloud creation is missing`);
-    expect(entity, /new MobEffectInstance\(ModMobEffects\.COTH,\s*3600,\s*1,\s*false,\s*false\)/,
+    expect(entity, /new MobEffectInstance\(ModMobEffects\.COTH,\s*3600,\s*1,\s*false,\s*false,\s*true\)/,
             `${name}: COTH II cloud effect is missing`);
     expect(entity, /entity instanceof Animal \|\| entity instanceof WaterAnimal[\s\S]*entity instanceof Villager/,
             `${name}: cloud does not select passive creatures`);

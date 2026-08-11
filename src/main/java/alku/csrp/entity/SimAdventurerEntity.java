@@ -380,7 +380,7 @@ public final class SimAdventurerEntity extends Monster implements GeoEntity, Par
         cloud.setDuration(200);
         cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
         cloud.addEffect(new MobEffectInstance(MobEffects.POISON, 200, 0, false, false));
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 200, 0, false, false));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 200, 0, false, false, true));
         serverLevel.addFreshEntity(cloud);
 
         int count = 3 + random.nextInt(2);

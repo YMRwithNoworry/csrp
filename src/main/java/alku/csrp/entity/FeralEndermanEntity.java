@@ -438,7 +438,7 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
         cloud.setDuration(200);
         cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
         cloud.addEffect(new MobEffectInstance(MobEffects.POISON, 240, 1, false, false));
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 600, 1, false, false));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 600, 1, false, false, true));
         serverLevel.addFreshEntity(cloud);
 
         GnatEntity gnat = ModEntities.GNAT.get().create(serverLevel, null, blockPosition(),
