@@ -24,8 +24,8 @@ const sounds = read("src/main/java/alku/csrp/registry/ModSounds.java");
 const checks = {
   airscrew: ["AirscrewEntity.java", /MAX_PULL_TARGETS\s*=\s*3/, /PULL_DURATION_TICKS\s*=\s*600/,
     /PullingBallEntity/, /FlyingPathNavigation/, /MOVEMENT_SLOWDOWN[\s\S]*DIG_SLOWDOWN/],
-  heed: ["HeedEntity.java", /SIGNAL_COOLDOWN_TICKS\s*=\s*1000/, /RAGE_DURATION_TICKS\s*=\s*1200/,
-    /alertNearbyParasites/, /LeapAtTargetGoal/, /ModMobEffects\.RAGE/],
+  heed: ["HeedEntity.java", /SCENT_COOLDOWN_TICKS\s*=\s*1_000/, /RAGE_DURATION_TICKS\s*=\s*1_200/,
+    /RageSkillGoal/, /WaterLeapGoal/, /HeedHeadPart/],
   dredge: ["DredgeEntity.java", /MAX_PULL_TICKS\s*=\s*200/, /PULL_STRENGTH\s*=\s*0\.13/,
     /MOVEMENT_SLOWDOWN[\s\S]*DIG_SLOWDOWN/, /MobEffects\.WEAKNESS/, /pullTarget/],
   thrall: ["ThrallEntity.java", /MAX_HEALTH,\s*40\.0/, /ATTACK_DAMAGE,\s*13\.0/,

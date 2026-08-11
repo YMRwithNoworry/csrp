@@ -25,6 +25,23 @@ public final class Config {
     private static final ModConfigSpec.IntValue SCENT_DEVELOPMENT_LEVEL = BUILDER
             .comment("Minimum creation-phase development level at which a Seeker can create Scent.")
             .defineInRange("scentDevelopmentLevel", 2, 0, 100);
+    private static final ModConfigSpec.BooleanValue RAGE_ENABLED = BUILDER
+            .comment("Allow parasites to grant the Rage effect.")
+            .define("rageEnabled", true);
+    private static final ModConfigSpec.BooleanValue MOB_ATTACKING_ENABLED = BUILDER
+            .comment("Allow parasites to target non-player mobs.")
+            .define("mobAttackingEnabled", true);
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> MOB_ATTACKING_BLACKLIST = BUILDER
+            .comment("Entity ids or whole namespaces that parasites will not target as mobs.")
+            .defineList("mobAttackingBlacklist", List.of(
+                    "srmonstress", "minecraft:creeper", "minecraft:bat"),
+                    value -> value instanceof String entry && !entry.isBlank());
+    private static final ModConfigSpec.BooleanValue MOB_ATTACKING_BLACKLIST_INVERTED = BUILDER
+            .comment("Treat the mob-attacking blacklist as a whitelist.")
+            .define("mobAttackingBlacklistInverted", false);
+    private static final ModConfigSpec.BooleanValue COLLECTIVE_CONSCIOUSNESS_ENABLED = BUILDER
+            .comment("Allow parasite target acquisition without direct line of sight.")
+            .define("collectiveConsciousnessEnabled", true);
     private static final ModConfigSpec.IntValue WORLD_GNAT_CAP = BUILDER
             .comment("Maximum loaded Gnat or Lice count before a Vermin drops a bomb instead.")
             .defineInRange("worldGnatCap", 20, 0, 50000);
@@ -462,6 +479,11 @@ public final class Config {
     public static boolean scentEnabled() { return SCENT_ENABLED.get(); }
     public static int scentCap() { return SCENT_CAP.get(); }
     public static int scentDevelopmentLevel() { return SCENT_DEVELOPMENT_LEVEL.get(); }
+    public static boolean rageEnabled() { return RAGE_ENABLED.get(); }
+    public static boolean mobAttackingEnabled() { return MOB_ATTACKING_ENABLED.get(); }
+    public static List<? extends String> mobAttackingBlacklist() { return MOB_ATTACKING_BLACKLIST.get(); }
+    public static boolean mobAttackingBlacklistInverted() { return MOB_ATTACKING_BLACKLIST_INVERTED.get(); }
+    public static boolean collectiveConsciousnessEnabled() { return COLLECTIVE_CONSCIOUSNESS_ENABLED.get(); }
     public static int worldGnatCap() { return WORLD_GNAT_CAP.get(); }
 
     public static double variantSpawnChance() { return VARIANT_SPAWN_CHANCE.get(); }
