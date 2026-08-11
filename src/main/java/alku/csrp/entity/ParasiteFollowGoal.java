@@ -62,6 +62,9 @@ final class ParasiteFollowGoal extends Goal {
         if (parasite instanceof HeedEntity) {
             return 31;
         }
+        if (parasite instanceof DredgeEntity) {
+            return 31;
+        }
         if (parasite instanceof PureParasiteEntity || parasite instanceof MarauderEntity
                 || parasite instanceof AbominationEntity) {
             return 51;

@@ -216,7 +216,7 @@ public final class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<HeedEntity>> HEED =
             monster("heed", HeedEntity::new, 0.9F, 1.9F);
     public static final DeferredHolder<EntityType<?>, EntityType<DredgeEntity>> DREDGE =
-            monster("dredge", DredgeEntity::new, 0.8F, 3.4F);
+            monster("dredge", DredgeEntity::new, 0.8F, 3.4F, 1.73F);
     public static final DeferredHolder<EntityType<?>, EntityType<ThrallEntity>> THRALL =
             monster("thrall", ThrallEntity::new, 0.8F, 3.05F);
     public static final DeferredHolder<EntityType<?>, EntityType<LiceEntity>> LICE =
