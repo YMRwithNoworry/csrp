@@ -3,7 +3,9 @@ package alku.csrp.infection;
 import alku.csrp.Config;
 import alku.csrp.Csrp;
 import alku.csrp.entity.FeralEndermanEntity;
+import alku.csrp.entity.FeralParasiteEntity;
 import alku.csrp.entity.Parasite;
+import alku.csrp.entity.RupterEntity;
 import alku.csrp.entity.SimAdventurerEntity;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
@@ -150,7 +152,7 @@ public final class InfectionMechanics {
             return false;
         }
 
-        replaceHost(host, converted, serverLevel);
+        replaceHost(host, converted, serverLevel, true);
         return true;
     }
 
@@ -227,7 +229,7 @@ public final class InfectionMechanics {
             return false;
         }
 
-        replaceHost(host, converted, serverLevel);
+        replaceHost(host, converted, serverLevel, true);
         return true;
     }
 
@@ -241,11 +243,12 @@ public final class InfectionMechanics {
         if (converted == null) {
             return false;
         }
-        replaceHost(host, converted, serverLevel);
+        replaceHost(host, converted, serverLevel, true);
         return true;
     }
 
-    private static void replaceHost(LivingEntity host, Mob converted, ServerLevel serverLevel) {
+    private static void replaceHost(LivingEntity host, Mob converted, ServerLevel serverLevel,
+                                    boolean awardConversionPoints) {
         float healthFraction = host.getMaxHealth() <= 0.0F ? 1.0F : host.getHealth() / host.getMaxHealth();
         boolean assimilatedEnderman = host.getType() == EntityType.ENDERMAN
                 && BuiltInRegistries.ENTITY_TYPE.getKey(converted.getType()).getPath().equals("sim_enderman");
@@ -262,22 +265,31 @@ public final class InfectionMechanics {
         if (assimilatedEnderman) {
             SrpWorldData.get(serverLevel).recordAssimilatedEnderman();
         }
-        EvolutionSystem.addPoints(serverLevel, EvolutionSystem.VALUE_COTH, EvolutionSystem.PointSource.COTH);
+        if (awardConversionPoints) {
+            EvolutionSystem.addPoints(serverLevel, EvolutionSystem.VALUE_COTH, EvolutionSystem.PointSource.COTH);
+        }
         host.discard();
     }
 
     /** Converts a COTH victim on a successful parasite kill-conversion roll. */
     public static boolean convertKilledHost(LivingEntity host, Entity attacker) {
         if (!(attacker instanceof Parasite) || host.level().isClientSide || host instanceof Parasite
-                || host instanceof Player || host.isRemoved() || !host.hasEffect(ModMobEffects.COTH)
+                || host instanceof Player || host.isRemoved()
                 || !(host.level() instanceof ServerLevel serverLevel)) {
             return false;
         }
-        if (host.getRandom().nextDouble() >= Config.cothConvertAtKillChance()) {
+        int phase = SrpWorldData.get(serverLevel).evolutionPhase();
+        boolean guaranteed = attacker instanceof RupterEntity
+                || attacker instanceof FeralParasiteEntity && phase >= ASSIMILATION_FERAL_PHASE;
+        if (!guaranteed && !host.hasEffect(ModMobEffects.COTH)) {
+            return false;
+        }
+        if (!guaranteed && host.getRandom().nextDouble() >= Config.cothConvertAtKillChance()) {
             return false;
         }
 
-        Mob converted = host.isBaby() ? null : createMappedHost(host, serverLevel, false);
+        Mob converted = host.isBaby() ? null : createMappedHost(host, serverLevel,
+                phase >= ASSIMILATION_FERAL_PHASE);
         if (converted == null) {
             converted = createIncompleteForm(host, serverLevel);
         }
@@ -285,7 +297,7 @@ public final class InfectionMechanics {
             return false;
         }
 
-        replaceHost(host, converted, serverLevel);
+        replaceHost(host, converted, serverLevel, false);
         return true;
     }
 
@@ -333,7 +345,6 @@ public final class InfectionMechanics {
             }
         }
         serverLevel.addFreshEntity(converted);
-        EvolutionSystem.addPoints(serverLevel, EvolutionSystem.VALUE_COTH, EvolutionSystem.PointSource.COTH);
         return true;
     }
 

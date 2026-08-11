@@ -2,6 +2,8 @@ package alku.csrp.entity;
 
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
+import alku.csrp.registry.ModMobEffects;
+import alku.csrp.registry.ModSounds;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -10,6 +12,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -17,15 +20,22 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -34,6 +44,9 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
+
+import java.util.Comparator;
+import java.util.EnumSet;
 
 /** Shared walking-head behavior: infect targets and rebuild a body with a medium incomplete form. */
 public final class AssimilatedHeadEntity extends Monster implements GeoEntity, Parasite {
@@ -66,6 +79,7 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
 
     private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
     private final Kind kind;
+    private int cloudCooldown;
 
     public AssimilatedHeadEntity(EntityType<? extends AssimilatedHeadEntity> type, Level level, Kind kind) {
         super(type, level);
@@ -100,6 +114,8 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
     @Override
     protected void registerGoals() {
         goalSelector.addGoal(0, new FloatGoal(this));
+        goalSelector.addGoal(1, new AvoidEntityGoal<>(this, LivingEntity.class, 8.0F, 1.0D, 1.3D,
+                this::shouldAvoid));
         goalSelector.addGoal(2, new LeapAtTargetGoal(this, 0.4F) {
             @Override
             public void start() {
@@ -108,7 +124,8 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
                 setParasiteStatus(10);
             }
         });
-        goalSelector.addGoal(3, new HeadMeleeGoal());
+        goalSelector.addGoal(3, new HeadCothCloudGoal());
+        goalSelector.addGoal(4, new HeadMeleeGoal());
         goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         goalSelector.addGoal(6, new ParasiteFollowGoal(this));
         goalSelector.addGoal(6, new RandomLookAroundGoal(this));
@@ -134,6 +151,12 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
                 spawnPortalParticles();
             }
             return;
+        }
+        if (cloudCooldown > 0) {
+            cloudCooldown--;
+        }
+        if (shouldRetreatForPackSize() && getTarget() != null) {
+            setTarget(null);
         }
         int leapTicks = entityData.get(LEAP_TICKS);
         if (leapTicks > 0) {
@@ -277,7 +300,74 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
     }
 
     private boolean isValidParasiteTarget(LivingEntity target) {
-        return target != this && target.isAlive() && !(target instanceof Parasite);
+        return target != this && target.isAlive() && !(target instanceof Parasite)
+                && !shouldRetreatForPackSize();
+    }
+
+    private boolean shouldAvoid(LivingEntity target) {
+        return shouldRetreatForPackSize()
+                && target != this
+                && !(target instanceof Parasite)
+                && (target instanceof Player || target instanceof Monster);
+    }
+
+    private boolean shouldRetreatForPackSize() {
+        return nearbyParasites() <= 2;
+    }
+
+    private int nearbyParasites() {
+        return level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(8.0D),
+                parasite -> parasite != this && parasite.isAlive() && parasite instanceof Parasite).size();
+    }
+
+    private final class HeadCothCloudGoal extends Goal {
+        private LivingEntity passiveTarget;
+
+        private HeadCothCloudGoal() {
+            setFlags(EnumSet.of(Flag.LOOK));
+        }
+
+        @Override
+        public boolean canUse() {
+            if (cloudCooldown > 0 || !shouldRetreatForPackSize() || getTarget() != null
+                    || !level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(8.0D),
+                    AssimilatedHeadEntity.this::shouldAvoid).isEmpty()
+                    || random.nextInt(reducedTickDelay(20)) != 0) {
+                return false;
+            }
+            AABB scanArea = getBoundingBox().inflate(12.0D, 3.0D, 12.0D);
+            passiveTarget = level().getEntitiesOfClass(LivingEntity.class, scanArea,
+                            entity -> entity != AssimilatedHeadEntity.this && entity.isAlive()
+                                    && (entity instanceof Animal || entity instanceof WaterAnimal
+                                    || entity instanceof Villager)
+                                    && !entity.hasEffect(ModMobEffects.COTH)
+                                    && hasLineOfSight(entity)
+                                    && distanceToSqr(entity) < 81.0D
+                                    && navigation.createPath(entity, 1) != null)
+                    .stream()
+                    .min(Comparator.comparingDouble(AssimilatedHeadEntity.this::distanceToSqr))
+                    .orElse(null);
+            return passiveTarget != null;
+        }
+
+        @Override
+        public void start() {
+            if (passiveTarget == null) {
+                return;
+            }
+            getLookControl().setLookAt(passiveTarget, 30.0F, 30.0F);
+            ToxicCloudEntity cloud = ToxicCloudEntity.create(level(), getX(), getY(), getZ());
+            cloud.setOwner(AssimilatedHeadEntity.this);
+            cloud.setRadius((float) getBbWidth() * 4.0F);
+            cloud.setRadiusOnUse(-0.5F);
+            cloud.setDuration(1200);
+            cloud.setWaitTime(10);
+            cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
+            cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, 1, false, false));
+            level().addFreshEntity(cloud);
+            playSound(ModSounds.RUPTER_CLOUD.get(), 1.2F, 1.1F);
+            cloudCooldown = 20;
+        }
     }
 
     private boolean teleportAwayFromTarget(LivingEntity target) {

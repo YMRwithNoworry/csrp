@@ -183,7 +183,7 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
     }
 
     private boolean shouldAvoid(LivingEntity entity) {
-        return isLoneBeforeAggressivePhase()
+        return shouldRetreatForPackSize()
                 && !(entity instanceof Parasite)
                 && !(entity instanceof WaterAnimal)
                 && !(entity instanceof Animal)
@@ -192,6 +192,9 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
 
     private boolean canTargetByPhase(LivingEntity entity) {
         if (entity == this || !entity.isAlive() || entity instanceof Parasite) {
+            return false;
+        }
+        if (shouldRetreatForPackSize()) {
             return false;
         }
         if (entity instanceof Player) {
@@ -211,17 +214,18 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
         return phase >= 9 || !(entity instanceof Monster) && !entity.hasEffect(ModMobEffects.COTH);
     }
 
-    private boolean isLoneBeforeAggressivePhase() {
-        return Config.useEvolutionPhases() && Config.evolutionPhase(level()) < 4 && nearbyRupters() == 0;
+    private boolean shouldRetreatForPackSize() {
+        return nearbyParasites() <= 2;
     }
 
     private int createdPhaseOrCurrent() {
         return createdPhase == Integer.MIN_VALUE ? Config.evolutionPhase(level()) : createdPhase;
     }
 
-    private int nearbyRupters() {
+    private int nearbyParasites() {
         AABB searchArea = getBoundingBox().inflate(8.0);
-        return level().getEntitiesOfClass(RupterEntity.class, searchArea, rupter -> rupter != this).size();
+        return level().getEntitiesOfClass(LivingEntity.class, searchArea,
+                parasite -> parasite != this && parasite.isAlive() && parasite instanceof Parasite).size();
     }
 
     @Override
@@ -247,6 +251,10 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
             entityData.set(LEAP_ATTACK_TICKS, leapTicks - 1);
         }
         LivingEntity target = getTarget();
+        if (shouldRetreatForPackSize() && target != null) {
+            setTarget(null);
+            target = null;
+        }
         entityData.set(COMBAT_STATUS, target != null && target.isAlive());
         performLiquidLeap();
         if (tickCount % LEGACY_TICK_INTERVAL == 10) {
@@ -858,15 +866,19 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
 
         @Override
         public boolean canUse() {
-            if (cloudCooldown > 0 || !isLoneBeforeAggressivePhase() || getTarget() != null
-                    || !navigation.isDone() || random.nextInt(reducedTickDelay(20)) != 0) {
+            if (cloudCooldown > 0 || !shouldRetreatForPackSize() || getTarget() != null
+                    || !navigation.isDone()
+                    || !level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(8.0D),
+                    RupterEntity.this::shouldAvoid).isEmpty()
+                    || random.nextInt(reducedTickDelay(20)) != 0) {
                 return false;
             }
 
             AABB scanArea = getBoundingBox().inflate(12.0D, 3.0D, 12.0D);
             passiveTarget = level().getEntitiesOfClass(LivingEntity.class, scanArea,
                             entity -> entity != RupterEntity.this && entity.isAlive()
-                                    && !(entity instanceof Monster)
+                                    && (entity instanceof Animal || entity instanceof WaterAnimal
+                                    || entity instanceof Villager)
                                     && !entity.hasEffect(ModMobEffects.COTH)
                                     && hasLineOfSight(entity)
                                     && distanceToSqr(entity) < 81.0D
