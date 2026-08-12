@@ -43,7 +43,7 @@ for (const forbidden of [
 }
 
 const adaptedShockwave = adapted.match(
-  /private final class ShockwaveGoal extends Goal \{([\s\S]*?)\n    }\n\n    private final class CloakGoal/)?.[1] ?? "";
+  /private final class ShockwaveGoal extends Goal \{([\s\S]*?)\r?\n    }\r?\n\r?\n    private final class CloakGoal/)?.[1] ?? "";
 if (!adaptedShockwave) {
   failures.push("Could not isolate Adapted Longarms shockwave goal");
 } else if (/setFlags\(/.test(adaptedShockwave)) {
