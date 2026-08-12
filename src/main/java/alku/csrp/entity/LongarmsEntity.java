@@ -40,8 +40,6 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
     private static final int ATTACK_INTERVAL_TICKS = 10;
     private static final int ATTACK_ANIMATION_COOLDOWN_TICKS = 100;
     private static final int STILL_ANIMATION_DELAY_TICKS = 25;
-    private static final int ATTACKS_BEFORE_REST = 2;
-    private static final int ATTACK_REST_TICKS = 100;
     private static final int SHOCKWAVE_COOLDOWN_TICKS = 100;
     private static final double SHOCKWAVE_MIN_DISTANCE_SQR = 4.0D;
     private static final double SHOCKWAVE_MAX_VERTICAL_DISTANCE = 4.0D;
@@ -51,10 +49,6 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
     private static final float FIRE_DAMAGE_MULTIPLIER = 4.0F;
     private static final float RANDOM_BLOCK_CHANCE = 0.1F;
     private static final float MISSING_HEALTH_DAMAGE_FACTOR = 0.5F;
-    private static final String ATTACKS_SINCE_REST_TAG = "MeleeAttacksSinceRest";
-    private static final String REST_TICKS_TAG = "MeleeRestTicks";
-    private static final EntityDataAccessor<Boolean> MELEE_RESTING = SynchedEntityData.defineId(
-            LongarmsEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> PARASITE_STATUS = SynchedEntityData.defineId(
             LongarmsEntity.class, EntityDataSerializers.INT);
 
@@ -77,8 +71,6 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
             "get_attack_timer.get_parasite_status_2");
     private int shockwaveCooldown = SHOCKWAVE_COOLDOWN_TICKS;
     private int blockBreakCooldown;
-    private int meleeAttacksSinceRest;
-    private int meleeRestTicks;
     private int attackAnimationCooldown;
     private int stillAnimationTicks;
 
@@ -101,14 +93,12 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        builder.define(MELEE_RESTING, false);
         builder.define(PARASITE_STATUS, STATUS_IDLE);
     }
 
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        goalSelector.addGoal(0, new LongarmsRecoveryGoal());
         goalSelector.addGoal(1, new ShockwaveGoal());
         goalSelector.addGoal(2, new LongarmsMeleeGoal());
     }
@@ -120,22 +110,8 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
         } else {
             stillAnimationTicks = 0;
         }
-        boolean wasResting = !level().isClientSide && isRestingAfterMeleeAttacks();
-        if (wasResting) {
-            getNavigation().stop();
-            setAggressive(false);
-        }
         super.tick();
-        if (wasResting) {
-            getNavigation().stop();
-            setAggressive(false);
-            if (--meleeRestTicks <= 0) {
-                meleeRestTicks = 0;
-                entityData.set(MELEE_RESTING, false);
-            }
-        }
-        if (!level().isClientSide && !wasResting && !isRestingAfterMeleeAttacks()
-                && isInWaterOrBubble() && getTarget() != null && tickCount % 20 == 0) {
+        if (!level().isClientSide && isInWaterOrBubble() && getTarget() != null && tickCount % 20 == 0) {
             setDeltaMovement(getDeltaMovement().add(0.0, 0.095, 0.0));
         }
         if (!level().isClientSide) {
@@ -149,7 +125,7 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
             if ((target == null || !target.isAlive()) && getParasiteStatus() != STATUS_SHOCKWAVE) {
                 setParasiteStatus(STATUS_IDLE);
             }
-            if (!wasResting && !isRestingAfterMeleeAttacks() && target != null && target.isAlive()) {
+            if (target != null && target.isAlive()) {
                 breakSoftBlockTowards(target);
                 if (shockwaveCooldown > 0 && isValidShockwaveTarget(target)) {
                     shockwaveCooldown--;
@@ -203,9 +179,6 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
     }
 
     private void performAoeAttack(Entity center) {
-        if (isRestingAfterMeleeAttacks()) {
-            return;
-        }
         triggerAttackAnimation();
         playSound(ModSounds.get("mob.swipe"), 2.0F, 1.0F);
         if (center instanceof LivingEntity primaryTarget && isValidParasiteTarget(primaryTarget)
@@ -274,10 +247,6 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
         playSound(ModSounds.get("mob.swipe"), 2.0F, 1.0F);
     }
 
-    private boolean isRestingAfterMeleeAttacks() {
-        return entityData.get(MELEE_RESTING);
-    }
-
     private int getParasiteStatus() {
         return entityData.get(PARASITE_STATUS);
     }
@@ -299,27 +268,9 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
         triggerAnim("attack_controller", trigger);
     }
 
-    private void stopForMeleeRecovery() {
-        getNavigation().stop();
-        setJumping(false);
-        setAggressive(false);
-    }
-
-    private void recordMeleeAttack() {
-        meleeAttacksSinceRest++;
-        if (meleeAttacksSinceRest < ATTACKS_BEFORE_REST) {
-            return;
-        }
-        meleeAttacksSinceRest = 0;
-        meleeRestTicks = ATTACK_REST_TICKS;
-        entityData.set(MELEE_RESTING, true);
-        stopForMeleeRecovery();
-    }
-
     @Override
     public boolean doHurtTarget(Entity target) {
-        return !isRestingAfterMeleeAttacks() && target instanceof LivingEntity living
-                && hitLongarmsTarget(living, false);
+        return target instanceof LivingEntity living && hitLongarmsTarget(living, false);
     }
 
     @Override
@@ -344,8 +295,6 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
-        tag.putInt(ATTACKS_SINCE_REST_TAG, meleeAttacksSinceRest);
-        tag.putInt(REST_TICKS_TAG, meleeRestTicks);
         tag.putInt("ParasiteStatus", getParasiteStatus());
         tag.putInt("AttackAnimationCooldown", attackAnimationCooldown);
     }
@@ -353,9 +302,6 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        meleeAttacksSinceRest = Math.clamp(tag.getInt(ATTACKS_SINCE_REST_TAG), 0, ATTACKS_BEFORE_REST - 1);
-        meleeRestTicks = Math.max(0, tag.getInt(REST_TICKS_TAG));
-        entityData.set(MELEE_RESTING, meleeRestTicks > 0);
         setParasiteStatus(tag.getInt("ParasiteStatus"));
         attackAnimationCooldown = Math.max(0, tag.getInt("AttackAnimationCooldown"));
     }
@@ -388,7 +334,7 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
         @Override
         public boolean canUse() {
             LivingEntity target = getTarget();
-            return !isRestingAfterMeleeAttacks() && target != null && target.isAlive();
+            return target != null && target.isAlive();
         }
 
         @Override
@@ -407,21 +353,19 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
             if (target == null) return;
             getLookControl().setLookAt(target, 30.0F, 30.0F);
 
-            if (isRestingAfterMeleeAttacks()) {
-                stopForMeleeRecovery();
-                return;
-            }
-
             setAggressive(true);
-            boolean sprinting = distanceToSqr(target) > 64.0D || attackAnimationCooldown == 0;
-            setParasiteStatus(sprinting ? STATUS_SPRINT : STATUS_COMBAT);
-            getNavigation().moveTo(target, sprinting ? 1.3D : 1.0D);
+            if (getParasiteStatus() == STATUS_SHOCKWAVE) {
+                getNavigation().stop();
+            } else {
+                boolean sprinting = distanceToSqr(target) > 64.0D || attackAnimationCooldown == 0;
+                setParasiteStatus(sprinting ? STATUS_SPRINT : STATUS_COMBAT);
+                getNavigation().moveTo(target, sprinting ? 1.3D : 1.0D);
+            }
             if (cooldown > 0) cooldown--;
             if (distanceToSqr(target) <= 8.0D && cooldown == 0) {
                 performAoeAttack(target);
                 cooldown = ATTACK_INTERVAL_TICKS;
                 attackAnimationCooldown = ATTACK_ANIMATION_COOLDOWN_TICKS;
-                recordMeleeAttack();
             }
         }
 
@@ -434,48 +378,15 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
         }
     }
 
-    /** Mirrors the legacy base parasite wait goal by reserving all movement controls during recovery. */
-    private final class LongarmsRecoveryGoal extends Goal {
-        LongarmsRecoveryGoal() {
-            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK, Flag.JUMP));
-        }
-
-        @Override
-        public boolean canUse() {
-            return isRestingAfterMeleeAttacks();
-        }
-
-        @Override
-        public boolean canContinueToUse() {
-            return isRestingAfterMeleeAttacks();
-        }
-
-        @Override
-        public void start() {
-            stopForMeleeRecovery();
-        }
-
-        @Override
-        public void tick() {
-            stopForMeleeRecovery();
-        }
-
-        @Override
-        public void stop() {
-            setAggressive(false);
-        }
-    }
-
     private final class ShockwaveGoal extends Goal {
         private int charge;
-        ShockwaveGoal() { setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK)); }
+        ShockwaveGoal() {
+        }
         @Override public boolean canUse() {
-            return shockwaveCooldown <= 0 && !isRestingAfterMeleeAttacks()
-                    && isValidShockwaveTarget(getTarget());
+            return shockwaveCooldown <= 0 && isValidShockwaveTarget(getTarget());
         }
         @Override public boolean canContinueToUse() {
-            return charge < 80 && !isRestingAfterMeleeAttacks()
-                    && isValidShockwaveTarget(getTarget());
+            return charge < 80 && isValidShockwaveTarget(getTarget());
         }
         @Override public void start() {
             charge = 0;
@@ -488,6 +399,8 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
         @Override public void tick() {
             LivingEntity target = getTarget();
             if (target != null) getLookControl().setLookAt(target, 30.0F, 30.0F);
+            setParasiteStatus(STATUS_SHOCKWAVE);
+            getNavigation().stop();
             charge++;
             if (charge <= 40 && charge % 4 == 0 && level() instanceof ServerLevel serverLevel) {
                 serverLevel.sendParticles(ParticleTypes.FLAME, getX(), getY() + 0.2D, getZ(),

@@ -211,6 +211,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     private final PartEntity<?>[] bodyParts;
     private final SummonCapacityTracker summonTracker = new SummonCapacityTracker();
     private int abilityCooldown;
+    private boolean longarmsShockwaveCharging;
     private int summonerVomitTicks;
     private int supportCooldown;
     private int secondaryCooldown;
@@ -1305,13 +1306,25 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
     /** 适应体近战攻击间隔，匹配原版寄生体的快速攻击节奏。 */
     private static final class FastMeleeAttackGoal extends MeleeAttackGoal {
+        private final PathfinderMob mob;
+
         private FastMeleeAttackGoal(PathfinderMob mob, double speedModifier) {
             super(mob, speedModifier, false);
+            this.mob = mob;
         }
 
         @Override
         protected int getTicksUntilNextAttack() {
             return 4;
+        }
+
+        @Override
+        public void tick() {
+            super.tick();
+            if (mob instanceof AdaptedVariantEntity adapted && adapted.activeKind() == Kind.LONGARMS
+                    && adapted.longarmsShockwaveCharging) {
+                mob.getNavigation().stop();
+            }
         }
     }
 
@@ -2438,7 +2451,6 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         private int chargeTicks;
 
         private ShockwaveGoal() {
-            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
         }
 
         @Override
@@ -2455,6 +2467,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         @Override
         public void start() {
             chargeTicks = 0;
+            longarmsShockwaveCharging = true;
             getNavigation().stop();
             triggerAttackAnimation();
         }
@@ -2462,6 +2475,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         @Override
         public void tick() {
             int currentTick = ++chargeTicks;
+            getNavigation().stop();
             if (level() instanceof ServerLevel serverLevel && currentTick <= 30 && currentTick % 3 == 0) {
                 double radius = 0.8D + currentTick * 0.08D;
                 serverLevel.sendParticles(ParticleTypes.CRIT, getX(), getY() + 0.15D, getZ(),
@@ -2481,6 +2495,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
         @Override
         public void stop() {
+            longarmsShockwaveCharging = false;
             abilityCooldown = 180;
         }
     }
