@@ -175,7 +175,7 @@ public final class ModEntities {
                     AdaptedVariantEntity.Kind.DEVOURER), 0.901F, 3.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<AdaptedVariantEntity>> ADA_LONGARMS =
             monster("ada_longarms", (type, level) -> new AdaptedVariantEntity(type, level,
-                    AdaptedVariantEntity.Kind.LONGARMS), 1.3F, 3.3F);
+                    AdaptedVariantEntity.Kind.LONGARMS), 0.901F, 3.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<AdaptedVariantEntity>> ADA_MANDUCATER =
             monster("ada_manducater", (type, level) -> new AdaptedVariantEntity(type, level,
                     AdaptedVariantEntity.Kind.MANDUCATER), 1.4F, 2.7F);
@@ -193,7 +193,7 @@ public final class ModEntities {
                     AdaptedVariantEntity.Kind.VERMIN), 1.1F, 1.4F, 0.7F);
     public static final DeferredHolder<EntityType<?>, EntityType<AdaptedVariantEntity>> ADA_VISCERA =
             monster("ada_viscera", (type, level) -> new AdaptedVariantEntity(type, level,
-                    AdaptedVariantEntity.Kind.VISCERA), 1.1F, 1.4F);
+                    AdaptedVariantEntity.Kind.VISCERA), 1.511F, 3.655F);
     public static final DeferredHolder<EntityType<?>, EntityType<AdaptedVariantEntity>> ADA_YELLOWEYE =
             monster("ada_yelloweye", (type, level) -> new AdaptedVariantEntity(type, level,
                     AdaptedVariantEntity.Kind.YELLOWEYE), 1.3F, 2.9F);

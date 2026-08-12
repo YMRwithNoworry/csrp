@@ -416,6 +416,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         if (kind == Kind.ARACHNIDA || kind == Kind.BURROWER || kind == Kind.TOZOON) {
             attributes.add(Attributes.STEP_HEIGHT, 1.0D);
         }
+        if (kind == Kind.LONGARMS || kind == Kind.VISCERA) {
+            attributes.add(Attributes.STEP_HEIGHT, 1.0D);
+        }
         if (isFlying(kind)) {
             attributes.add(Attributes.FLYING_SPEED, 0.35D);
         }
@@ -494,6 +497,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             return new WaterBoundPathNavigation(this, level);
         }
         if (isArachnidaType(getType())) {
+            return new WallClimberNavigation(this, level);
+        }
+        if (isAdditionalClimberType(getType())) {
             return new WallClimberNavigation(this, level);
         }
         if (!isFlyingType(getType())) {
@@ -1024,7 +1030,19 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             }
             return horizontalCollision || super.onClimbable();
         }
-        return activeKind() == Kind.LONGARMS && horizontalCollision || super.onClimbable();
+        if (activeKind() == Kind.LONGARMS || activeKind() == Kind.VISCERA) {
+            LivingEntity target = getTarget();
+            if (target != null) {
+                if (!hasLineOfSight(target) && distanceToSqr(target) < 100.0D) {
+                    return super.onClimbable();
+                }
+                if (hasLineOfSight(target) && target.getY() + 1.0D < getY()) {
+                    return super.onClimbable();
+                }
+            }
+            return horizontalCollision || super.onClimbable();
+        }
+        return super.onClimbable();
     }
 
     @Override
@@ -1986,6 +2004,10 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
     private static boolean isArachnidaType(EntityType<?> type) {
         return type == ModEntities.ADA_ARACHNIDA.get();
+    }
+
+    private static boolean isAdditionalClimberType(EntityType<?> type) {
+        return type == ModEntities.ADA_LONGARMS.get() || type == ModEntities.ADA_VISCERA.get();
     }
 
     private boolean performTozoonAoeAttack(Entity target) {
