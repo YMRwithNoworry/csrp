@@ -215,10 +215,21 @@ public final class SimAdventurerHeadEntity extends Monster implements GeoEntity,
     }
 
     private boolean shouldAvoid(LivingEntity target) {
-        return shouldRetreatForPackSize()
+        return shouldFleeInDaylight(target)
+                || shouldRetreatForPackSize()
                 && target != this
                 && !(target instanceof Parasite)
                 && (target instanceof Player || target instanceof Monster);
+    }
+
+    private boolean shouldFleeInDaylight(LivingEntity target) {
+        if (target == this || target instanceof Parasite || !level().isDay()
+                || !level().canSeeSky(blockPosition())) {
+            return false;
+        }
+        AABB nearby = getBoundingBox().inflate(16.0D);
+        return level().getEntitiesOfClass(LivingEntity.class, nearby,
+                entity -> entity != this && entity.isAlive() && entity instanceof Parasite).isEmpty();
     }
 
     private boolean shouldRetreatForPackSize() {

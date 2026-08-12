@@ -844,7 +844,10 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             if (activeKind() == Kind.BOLSTER && random.nextFloat() < 0.20F) {
                 createBolsterDeathBurst();
             }
-            if (!SrpWorldData.get(serverLevel).colonies().isEmpty()) {
+            if (activeKind() == Kind.ARACHNIDA
+                    && !SrpWorldData.get(serverLevel).colonies().isEmpty()) {
+                spawnPrimitiveDeathForm(serverLevel, ModEntities.PRI_ARACHNIDA.get().create(serverLevel));
+            } else if (!SrpWorldData.get(serverLevel).colonies().isEmpty()) {
                 spawnPrimitiveDeathForm(serverLevel);
             }
         }
@@ -853,7 +856,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
     private void spawnPrimitiveDeathForm(ServerLevel level) {
         Mob primitive = switch (activeKind()) {
-            case ARACHNIDA -> ModEntities.PRI_ARACHNIDA.get().create(level);
+            case ARACHNIDA -> null;
             case BOLSTER -> ModEntities.PRI_BOLSTER.get().create(level);
             case BURROWER -> ModEntities.PRI_BURROWER.get().create(level);
             case DEVOURER -> ModEntities.PRI_DEVOURER.get().create(level);
@@ -866,6 +869,10 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             case VISCERA -> ModEntities.PRI_VISCERA.get().create(level);
             case YELLOWEYE -> ModEntities.PRI_YELLOWEYE.get().create(level);
         };
+        spawnPrimitiveDeathForm(level, primitive);
+    }
+
+    private void spawnPrimitiveDeathForm(ServerLevel level, Mob primitive) {
         if (primitive == null) {
             return;
         }
