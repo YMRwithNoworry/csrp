@@ -26,6 +26,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
@@ -38,7 +39,9 @@ public final class InfectionMechanics {
     public static final int COTH_MAX_AMPLIFIER = 2;
     public static final double COTH_SPREAD_RADIUS = 4.0D;
     public static final float COTH_CONVERSION_HEALTH_FRACTION = 0.35F;
+    public static final float ASSIMILATED_UNHIDE_HEALTH_FRACTION = 0.30F;
     private static final String ASSIMILATION_HOST_TAG = "csrp_assimilation_host";
+    private static final String HIDDEN_ASSIMILATED_TAG = "csrp_hidden_assimilated";
     private static final int ASSIMILATION_FERAL_PHASE = 7;
     private static final int ASSIMILATION_DEHIDE_PHASE = 9;
     private static final int ASSIMILATION_NAUSEA_TICKS = 100;
@@ -135,8 +138,13 @@ public final class InfectionMechanics {
         }
         boolean forceAssimilation = entity.level() instanceof ServerLevel serverLevel
                 && SrpWorldData.get(serverLevel).evolutionPhase() >= ASSIMILATION_DEHIDE_PHASE;
+        if (isHiddenAssimilated(entity)) {
+            tickHiddenAssimilated(entity);
+            return;
+        }
         if (effectiveAmplifier >= COTH_MAX_AMPLIFIER
-                && (forceAssimilation || entity.getHealth() <= entity.getMaxHealth() * COTH_CONVERSION_HEALTH_FRACTION)) {
+                && (forceAssimilation || entity.getHealth()
+                <= entity.getMaxHealth() * COTH_CONVERSION_HEALTH_FRACTION)) {
             convertInfectedHost(entity);
         }
     }
@@ -145,6 +153,9 @@ public final class InfectionMechanics {
         if (host.level().isClientSide || host.isRemoved() || !isConvertible(host) || host instanceof Player
                 || !(host.level() instanceof ServerLevel serverLevel)) {
             return false;
+        }
+        if (isHiddenAssimilated(host)) {
+            return revealHiddenAssimilated(host, hiddenAssimilatedThreat(host));
         }
 
         Mob converted = createAssimilatedHost(host, serverLevel);
@@ -180,8 +191,41 @@ public final class InfectionMechanics {
                 && id.getPath().startsWith("sim_") && !id.getPath().endsWith("head");
     }
 
+    public static boolean isHiddenAssimilated(LivingEntity entity) {
+        return entity.getPersistentData().contains(HIDDEN_ASSIMILATED_TAG)
+                && !entity.getPersistentData().getString(HIDDEN_ASSIMILATED_TAG).isBlank();
+    }
+
+    public static void tickHiddenAssimilated(LivingEntity disguise) {
+        if (!isHiddenAssimilated(disguise) || !(disguise.level() instanceof ServerLevel level)) {
+            return;
+        }
+        LivingEntity threat = hiddenAssimilatedThreat(disguise);
+        if (SrpWorldData.get(level).evolutionPhase() >= ASSIMILATION_DEHIDE_PHASE
+                || (threat != null && disguise.getHealth()
+                < disguise.getMaxHealth() * ASSIMILATED_UNHIDE_HEALTH_FRACTION)) {
+            revealHiddenAssimilated(disguise, threat);
+        }
+    }
+
+    /** Restores an idle host-backed Assimilated form before the phase-nine dehiding threshold. */
+    public static boolean tryRestoreAssimilatedDisguise(LivingEntity assimilated) {
+        if (!(assimilated.level() instanceof ServerLevel level)
+                || SrpWorldData.get(level).evolutionPhase() >= ASSIMILATION_DEHIDE_PHASE
+                || !isAssimilatedBody(assimilated)
+                || !assimilated.getPersistentData().contains(ASSIMILATION_HOST_TAG)
+                || (assimilated instanceof Mob mob && mob.getTarget() != null && mob.getTarget().isAlive())) {
+            return false;
+        }
+        return disguiseAssimilated(assimilated, true);
+    }
+
     /** Restores the original host as a COTH-infected disguise. */
     public static boolean disguiseAssimilated(LivingEntity assimilated) {
+        return disguiseAssimilated(assimilated, false);
+    }
+
+    private static boolean disguiseAssimilated(LivingEntity assimilated, boolean automatic) {
         if (assimilated.level().isClientSide || assimilated.isRemoved() || !isAssimilatedBody(assimilated)
                 || !(assimilated.level() instanceof ServerLevel serverLevel)) {
             return false;
@@ -193,7 +237,7 @@ public final class InfectionMechanics {
         }
         Entity created = BuiltInRegistries.ENTITY_TYPE.getOptional(hostId)
                 .map(type -> type.create(serverLevel)).orElse(null);
-        if (!(created instanceof Mob disguise)) {
+        if (!(created instanceof Mob disguise) || (automatic && disguise instanceof Monster)) {
             return false;
         }
         playAssimilationStart(serverLevel, assimilated, ASSIMILATION_RESTORE_NAUSEA_TICKS);
@@ -201,9 +245,14 @@ public final class InfectionMechanics {
                 assimilated.getYRot(), assimilated.getXRot());
         disguise.setCustomName(assimilated.getCustomName());
         disguise.setCustomNameVisible(assimilated.isCustomNameVisible());
+        float healthFraction = assimilated.getMaxHealth() <= 0.0F
+                ? 1.0F : assimilated.getHealth() / assimilated.getMaxHealth();
+        disguise.setHealth(Math.max(1.0F, disguise.getMaxHealth() * Math.max(0.0F, healthFraction)));
         if (assimilated instanceof Mob sourceMob && sourceMob.isPersistenceRequired()) {
             disguise.setPersistenceRequired();
         }
+        disguise.getPersistentData().putString(HIDDEN_ASSIMILATED_TAG,
+                BuiltInRegistries.ENTITY_TYPE.getKey(assimilated.getType()).toString());
         disguise.addEffect(new MobEffectInstance(ModMobEffects.COTH, COTH_BASE_DURATION_TICKS,
                 COTH_MAX_AMPLIFIER, false, false, true));
         if (!serverLevel.addFreshEntity(disguise)) {
@@ -212,6 +261,61 @@ public final class InfectionMechanics {
         playAssimilationCompletion(serverLevel, disguise);
         assimilated.discard();
         return true;
+    }
+
+    /** Recreates the exact Assimilated body saved by a disguise without awarding conversion points. */
+    public static boolean revealHiddenAssimilated(LivingEntity disguise, Entity attacker) {
+        if (disguise.level().isClientSide || disguise.isRemoved() || !isHiddenAssimilated(disguise)
+                || !(disguise.level() instanceof ServerLevel level)) {
+            return false;
+        }
+        ResourceLocation assimilatedId = ResourceLocation.tryParse(
+                disguise.getPersistentData().getString(HIDDEN_ASSIMILATED_TAG));
+        if (assimilatedId == null || !assimilatedId.getNamespace().equals(Csrp.MODID)
+                || !assimilatedId.getPath().startsWith("sim_") || assimilatedId.getPath().endsWith("head")) {
+            return false;
+        }
+        Entity created = BuiltInRegistries.ENTITY_TYPE.getOptional(assimilatedId)
+                .map(type -> type.create(level)).orElse(null);
+        if (!(created instanceof Mob converted)) {
+            return false;
+        }
+        float healthFraction = disguise.getMaxHealth() <= 0.0F
+                ? 1.0F : disguise.getHealth() / disguise.getMaxHealth();
+        converted.moveTo(disguise.getX(), disguise.getY(), disguise.getZ(),
+                disguise.getYRot(), disguise.getXRot());
+        converted.finalizeSpawn(level, level.getCurrentDifficultyAt(disguise.blockPosition()),
+                MobSpawnType.CONVERSION, null);
+        converted.setHealth(Math.max(1.0F, converted.getMaxHealth() * Math.max(0.0F, healthFraction)));
+        converted.setCustomName(disguise.getCustomName());
+        converted.setCustomNameVisible(disguise.isCustomNameVisible());
+        if (disguise instanceof Mob sourceMob && sourceMob.isPersistenceRequired()) {
+            converted.setPersistenceRequired();
+        }
+        converted.getPersistentData().putString(ASSIMILATION_HOST_TAG,
+                BuiltInRegistries.ENTITY_TYPE.getKey(disguise.getType()).toString());
+        if (attacker instanceof LivingEntity livingAttacker && livingAttacker.isAlive()
+                && !(livingAttacker instanceof Parasite)) {
+            converted.setTarget(livingAttacker);
+        }
+        if (!level.addFreshEntity(converted)) {
+            return false;
+        }
+        playAssimilationCompletion(level, converted);
+        disguise.discard();
+        return true;
+    }
+
+    private static LivingEntity hiddenAssimilatedThreat(LivingEntity disguise) {
+        LivingEntity attacker = disguise.getLastHurtByMob();
+        if (attacker != null && attacker.isAlive() && !(attacker instanceof Parasite)) {
+            return attacker;
+        }
+        if (disguise instanceof Mob mob && mob.getTarget() != null && mob.getTarget().isAlive()
+                && !(mob.getTarget() instanceof Parasite)) {
+            return mob.getTarget();
+        }
+        return null;
     }
 
     /** Gnat conversion always prefers a Feral form, then an assimilated or hijacked form. */

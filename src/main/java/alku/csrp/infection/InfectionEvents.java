@@ -26,9 +26,14 @@ public final class InfectionEvents {
 
     @SubscribeEvent
     public static void infectFromParasiteHit(LivingIncomingDamageEvent event) {
+        Entity attacker = event.getSource().getEntity();
+        Entity direct = event.getSource().getDirectEntity();
+        if (InfectionMechanics.isHiddenAssimilated(event.getEntity())
+                && (attacker instanceof Parasite || direct instanceof Parasite)) {
+            event.setCanceled(true);
+            return;
+        }
         if (event.getEntity() instanceof Parasite) {
-            Entity attacker = event.getSource().getEntity();
-            Entity direct = event.getSource().getDirectEntity();
             if (attacker instanceof Parasite || direct instanceof Parasite) {
                 event.setCanceled(true);
                 return;
@@ -38,7 +43,6 @@ public final class InfectionEvents {
                 || event.getEntity() instanceof Parasite) {
             return;
         }
-        Entity attacker = event.getSource().getEntity();
         if (attacker instanceof Parasite && event.getEntity().level() instanceof ServerLevel level) {
             float chance = attacker instanceof FeralEndermanEntity
                     ? FeralEndermanEntity.cothChance()
@@ -52,7 +56,9 @@ public final class InfectionEvents {
     @SubscribeEvent
     public static void preventParasiteTargeting(LivingChangeTargetEvent event) {
         if (event.getEntity() instanceof Parasite
-                && event.getNewAboutToBeSetTarget() instanceof Parasite) {
+                && (event.getNewAboutToBeSetTarget() instanceof Parasite
+                || event.getNewAboutToBeSetTarget() instanceof LivingEntity target
+                && InfectionMechanics.isHiddenAssimilated(target))) {
             event.setCanceled(true);
         }
     }
@@ -64,6 +70,10 @@ public final class InfectionEvents {
             return;
         }
         Entity attacker = event.getSource().getEntity();
+        if (InfectionMechanics.revealHiddenAssimilated(host, attacker)) {
+            event.setCanceled(true);
+            return;
+        }
         if (host instanceof Player player && InfectionMechanics.convertKilledPlayer(player, attacker)) {
             return;
         }

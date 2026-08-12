@@ -250,12 +250,22 @@ public final class EvolutionEvents {
 
     @SubscribeEvent
     public static void applyGenerationModifiers(EntityTickEvent.Post event) {
-        if (!(event.getEntity() instanceof LivingEntity entity) || !(entity instanceof Parasite)
+        if (!(event.getEntity() instanceof LivingEntity entity)
                 || !(entity.level() instanceof ServerLevel level)) {
+            return;
+        }
+        if (entity.tickCount % 20 == 0 && InfectionMechanics.isHiddenAssimilated(entity)) {
+            InfectionMechanics.tickHiddenAssimilated(entity);
+            return;
+        }
+        if (!(entity instanceof Parasite)) {
             return;
         }
         EvolutionSystem.GenerationProfile profile = EvolutionSystem.generationProfile(level);
         updatePhaseTenAttributes(entity, level);
+        if (entity.tickCount % 20 == 0 && InfectionMechanics.tryRestoreAssimilatedDisguise(entity)) {
+            return;
+        }
         if (entity.tickCount % 20 == 0 && entity instanceof Mob mob && mob.getTarget() == null
                 && SrpWorldData.get(level).evolutionPhase() >= 9) {
             double range = Math.max(16.0D, mob.getAttributeValue(Attributes.FOLLOW_RANGE));
