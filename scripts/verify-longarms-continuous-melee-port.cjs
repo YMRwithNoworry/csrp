@@ -49,8 +49,17 @@ if (!adaptedShockwave) {
 } else if (/setFlags\(/.test(adaptedShockwave)) {
   failures.push("Adapted Longarms shockwave still blocks its concurrent melee goal");
 }
-if (!/FastMeleeAttackGoal[\s\S]{0,500}?public void tick\(\)[\s\S]{0,300}?longarmsShockwaveCharging[\s\S]{0,100}?getNavigation\(\)\.stop\(\)/.test(adapted)) {
-  failures.push("Adapted Longarms does not retain melee attacks while holding position for its shockwave");
+if (!/case LONGARMS[\s\S]{0,200}?new ShockwaveGoal\(\)[\s\S]{0,200}?new LongarmsMeleeGoal\(\)/.test(adapted)) {
+  failures.push("Adapted Longarms dedicated continuous melee goal is missing");
+}
+if (!/LongarmsMeleeGoal[\s\S]{0,500}?canContinueToUse\(\)[\s\S]{0,100}?return canUse\(\)/.test(adapted)) {
+  failures.push("Adapted Longarms melee goal does not remain active while its target is alive");
+}
+if (!/LONGARMS_MELEE_RANGE_SQR = 16\.0D[\s\S]*?LONGARMS_ATTACK_INTERVAL_TICKS = 10/.test(adapted)) {
+  failures.push("Adapted Longarms original four-block melee range or ten-tick cadence is missing");
+}
+if (!/LongarmsMeleeGoal[\s\S]{0,1500}?longarmsShockwaveCharging[\s\S]{0,150}?getNavigation\(\)\.stop\(\)[\s\S]{0,800}?distanceToSqr\(target\) <= LONGARMS_MELEE_RANGE_SQR[\s\S]{0,200}?doHurtTarget\(target\)/.test(adapted)) {
+  failures.push("Adapted Longarms does not keep checking its full melee range while charging a shockwave");
 }
 if (!/ShockwaveGoal[\s\S]{0,900}?longarmsShockwaveCharging = true[\s\S]{0,1500}?longarmsShockwaveCharging = false/.test(adapted)) {
   failures.push("Adapted Longarms shockwave charging state is not bounded by the skill goal");

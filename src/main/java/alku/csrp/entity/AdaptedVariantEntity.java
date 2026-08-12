@@ -82,6 +82,8 @@ import javax.annotation.Nullable;
 /** Shared implementation for the legacy adapted parasite tier. */
 public final class AdaptedVariantEntity extends BurrowingVariantEntity
         implements PullingBallOwner, SummonCapacityOwner {
+    private static final double LONGARMS_MELEE_RANGE_SQR = 16.0D;
+    private static final int LONGARMS_ATTACK_INTERVAL_TICKS = 10;
     private static final byte VOMIT_EVENT = 100;
     private static final byte SUMMON_EVENT = 101;
     private static final int SUMMONER_COOLDOWN_TICKS = 160;
@@ -552,7 +554,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             }
             case LONGARMS -> {
                 goalSelector.addGoal(1, new ShockwaveGoal());
-                goalSelector.addGoal(2, new FastMeleeAttackGoal(this, 1.25D));
+                goalSelector.addGoal(2, new LongarmsMeleeGoal());
             }
             case MANDUCATER -> {
                 goalSelector.addGoal(1, new CloakGoal());
@@ -1306,24 +1308,66 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
     /** 适应体近战攻击间隔，匹配原版寄生体的快速攻击节奏。 */
     private static final class FastMeleeAttackGoal extends MeleeAttackGoal {
-        private final PathfinderMob mob;
-
         private FastMeleeAttackGoal(PathfinderMob mob, double speedModifier) {
             super(mob, speedModifier, false);
-            this.mob = mob;
         }
 
         @Override
         protected int getTicksUntilNextAttack() {
             return 4;
         }
+    }
+
+    private final class LongarmsMeleeGoal extends Goal {
+        private int attackCooldown;
+
+        private LongarmsMeleeGoal() {
+            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
+        }
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = getTarget();
+            return target != null && target.isAlive();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return canUse();
+        }
+
+        @Override
+        public void start() {
+            setAggressive(true);
+        }
 
         @Override
         public void tick() {
-            super.tick();
-            if (mob instanceof AdaptedVariantEntity adapted && adapted.activeKind() == Kind.LONGARMS
-                    && adapted.longarmsShockwaveCharging) {
-                mob.getNavigation().stop();
+            LivingEntity target = getTarget();
+            if (target == null) {
+                return;
+            }
+            getLookControl().setLookAt(target, 30.0F, 30.0F);
+            if (longarmsShockwaveCharging) {
+                getNavigation().stop();
+            } else {
+                getNavigation().moveTo(target, 1.25D);
+            }
+            if (attackCooldown > 0) {
+                attackCooldown--;
+            }
+            if (attackCooldown <= 0 && distanceToSqr(target) <= LONGARMS_MELEE_RANGE_SQR
+                    && hasLineOfSight(target)) {
+                doHurtTarget(target);
+                attackCooldown = LONGARMS_ATTACK_INTERVAL_TICKS;
+            }
+        }
+
+        @Override
+        public void stop() {
+            setAggressive(false);
+            if (getTarget() == null || !getTarget().isAlive()) {
+                attackCooldown = 0;
             }
         }
     }
