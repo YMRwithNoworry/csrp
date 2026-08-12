@@ -30,6 +30,8 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -157,7 +159,18 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         if (kind.flying) {
             attributes.add(Attributes.FLYING_SPEED, kind.movementSpeed);
         }
+        if (kind == Kind.MONARCH || kind == Kind.WARDEN) {
+            attributes.add(Attributes.STEP_HEIGHT, 1.0D);
+        }
         return attributes;
+    }
+
+    @Override
+    protected PathNavigation createNavigation(Level level) {
+        if (isClimberType(getType())) {
+            return new WallClimberNavigation(this, level);
+        }
+        return super.createNavigation(level);
     }
 
     @Override
@@ -320,6 +333,18 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
 
     @Override
     public boolean onClimbable() {
+        if (activeKind() == Kind.WARDEN) {
+            LivingEntity target = getTarget();
+            if (target != null) {
+                if (!hasLineOfSight(target) && distanceToSqr(target) < 100.0D) {
+                    return super.onClimbable();
+                }
+                if (hasLineOfSight(target) && target.getY() + 1.0D < getY()) {
+                    return super.onClimbable();
+                }
+            }
+            return horizontalCollision || super.onClimbable();
+        }
         return activeKind().climbs && horizontalCollision || super.onClimbable();
     }
 
@@ -808,6 +833,11 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         if (type == ModEntities.VIGILANTE.get()) return Kind.VIGILANTE;
         if (type == ModEntities.WARDEN.get()) return Kind.WARDEN;
         return Kind.GRUNT;
+    }
+
+    private static boolean isClimberType(EntityType<?> type) {
+        return type == ModEntities.GRUNT.get() || type == ModEntities.MONARCH.get()
+                || type == ModEntities.WARDEN.get();
     }
 
     private final class EvasiveDashGoal extends Goal {
