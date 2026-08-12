@@ -589,17 +589,12 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
 
     private void applyFlyingAura() {
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(3.0D),
-                this::isValidParasiteTarget)) {
-            Vec3 movement = target.getDeltaMovement();
-            Vec3 away = target.position().subtract(position()).multiply(1.0D, 0.0D, 1.0D);
-            if (away.lengthSqr() > 0.0001D) {
-                away = away.normalize().scale(2.5D);
-                double vertical = target.onGround() ? 0.4D : movement.y;
-                target.setDeltaMovement(movement.x * 0.5D + away.x, vertical,
-                        movement.z * 0.5D + away.z);
-                target.hurtMarked = true;
+                target -> target != this && target.isAlive() && !(target instanceof Parasite))) {
+            HaunterDamageEntity damage = ModEntities.HAUNTER_DAMAGE.get().create(level());
+            if (damage != null) {
+                damage.configure(this, target.position(), 2.5F);
+                level().addFreshEntity(damage);
             }
-            doHurtTarget(target);
         }
     }
 
@@ -1322,7 +1317,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
                     this::isHaunterHostile)) {
                 HaunterDamageEntity damage = ModEntities.HAUNTER_DAMAGE.get().create(level());
                 if (damage != null) {
-                    damage.configure(this, target.position());
+                    damage.configure(this, target.position(), 3.0F);
                     level().addFreshEntity(damage);
                 }
             }

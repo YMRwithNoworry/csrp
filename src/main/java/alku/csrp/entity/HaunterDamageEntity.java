@@ -10,12 +10,13 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.UUID;
 
-/** Server-only equivalent of SRP's short-lived EntityDamage hitbox for Pheon crowds. */
+/** Server-only equivalent of SRP's short-lived EntityDamage hitbox. */
 public final class HaunterDamageEntity extends Entity {
     private static final int LIFETIME_TICKS = 10;
-    private static final float KNOCKBACK_STRENGTH = 3.0F;
+    private static final float DEFAULT_KNOCKBACK_STRENGTH = 3.0F;
 
     private UUID ownerId;
+    private float knockbackStrength = DEFAULT_KNOCKBACK_STRENGTH;
 
     public HaunterDamageEntity(EntityType<? extends HaunterDamageEntity> type, Level level) {
         super(type, level);
@@ -23,8 +24,9 @@ public final class HaunterDamageEntity extends Entity {
         setNoGravity(true);
     }
 
-    public void configure(PreeminentParasiteEntity owner, Vec3 position) {
+    public void configure(PreeminentParasiteEntity owner, Vec3 position, float knockbackStrength) {
         ownerId = owner.getUUID();
+        this.knockbackStrength = knockbackStrength;
         setPos(position);
     }
 
@@ -40,7 +42,7 @@ public final class HaunterDamageEntity extends Entity {
                     getBoundingBox().inflate(0.3D, 0.0D, 0.2D));
             for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
                     getBoundingBox().inflate(0.3D, 0.0D, 0.2D), candidate -> isValidTarget(owner, candidate))) {
-                knockBack(owner, target);
+                knockBack(owner, target, knockbackStrength);
                 owner.doHurtTarget(target);
             }
         }
@@ -54,7 +56,7 @@ public final class HaunterDamageEntity extends Entity {
                 && !owner.isAlliedTo(target);
     }
 
-    private static void knockBack(PreeminentParasiteEntity owner, LivingEntity target) {
+    private static void knockBack(PreeminentParasiteEntity owner, LivingEntity target, float knockbackStrength) {
         double xRatio = owner.getX() - target.getX();
         double zRatio = owner.getZ() - target.getZ();
         double horizontalLength = Math.sqrt(xRatio * xRatio + zRatio * zRatio);
@@ -64,10 +66,10 @@ public final class HaunterDamageEntity extends Entity {
         Vec3 motion = target.getDeltaMovement();
         double vertical = motion.y;
         if (target.onGround()) {
-            vertical = Math.min(0.4D, vertical * 0.5D + KNOCKBACK_STRENGTH);
+            vertical = Math.min(0.4D, vertical * 0.5D + knockbackStrength);
         }
-        target.setDeltaMovement(motion.x * 0.5D - xRatio / horizontalLength * KNOCKBACK_STRENGTH,
-                vertical, motion.z * 0.5D - zRatio / horizontalLength * KNOCKBACK_STRENGTH);
+        target.setDeltaMovement(motion.x * 0.5D - xRatio / horizontalLength * knockbackStrength,
+                vertical, motion.z * 0.5D - zRatio / horizontalLength * knockbackStrength);
         target.hurtMarked = true;
     }
 
@@ -88,6 +90,9 @@ public final class HaunterDamageEntity extends Entity {
         if (tag.hasUUID("owner")) {
             ownerId = tag.getUUID("owner");
         }
+        if (tag.contains("knockback_strength")) {
+            knockbackStrength = tag.getFloat("knockback_strength");
+        }
     }
 
     @Override
@@ -95,5 +100,6 @@ public final class HaunterDamageEntity extends Entity {
         if (ownerId != null) {
             tag.putUUID("owner", ownerId);
         }
+        tag.putFloat("knockback_strength", knockbackStrength);
     }
 }
