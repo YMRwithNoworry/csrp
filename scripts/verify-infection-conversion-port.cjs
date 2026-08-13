@@ -28,6 +28,7 @@ const evolution = read("src/main/java/alku/csrp/world/EvolutionSystem.java");
 const evolutionEvents = read("src/main/java/alku/csrp/world/EvolutionEvents.java");
 const killedHost = method(infection, "public static boolean convertKilledHost", "private static Mob createIncompleteForm");
 const killedPlayer = method(infection, "public static boolean convertKilledPlayer", "private static void spreadCoth");
+const replaceHost = method(infection, "private static boolean replaceHost", "/** Converts a COTH victim");
 
 expect(evolution, /VALUE_KILL\s*=\s*1;/, "parasite kills do not award exactly one evolution point");
 expect(evolution, /5_000_000,\s*25_000_000,\s*500_000_000/,
@@ -44,12 +45,20 @@ expect(killedHost, /!guaranteed\s*&&[\s\S]*Config\.cothConvertAtKillChance\(\)/,
         "ordinary parasite kills no longer honor conversion chance");
 expect(killedHost, /createMappedHost\(host, serverLevel,[\s\S]*phase >= ASSIMILATION_FERAL_PHASE\)/,
         "phase 7 kill conversion does not prefer mapped Feral forms");
-expect(killedHost, /replaceHost\(host, converted, serverLevel, false\)/,
-        "kill conversion still awards separate COTH points");
+expect(killedHost, /return replaceHost\(host, converted, serverLevel\);/,
+        "kill conversion does not use the shared successful-assimilation settlement");
+expect(replaceHost,
+        /getEffect\(ModMobEffects\.COTH\)[\s\S]*getAmplifier\(\) >= COTH_MAX_AMPLIFIER/,
+        "assimilation points are not restricted to COTH III hosts");
+expect(replaceHost,
+        /if \(!serverLevel\.addFreshEntity\(converted\)\)[\s\S]*return false;[\s\S]*if \(terminalCothAssimilation\)[\s\S]*VALUE_COTH/,
+        "COTH III points are not awarded only after a successful assimilation");
+expect(evolution, /VALUE_COTH\s*=\s*6;/,
+        "COTH III assimilation does not award the original six additional points");
 expect(infection, /"fer_" \+ targetId\.getPath\(\)\.substring\("sim_"\.length\(\)\)/,
         "sim-to-Feral entity id mapping is missing");
 if (/VALUE_COTH|PointSource\.COTH/.test(killedHost) || /VALUE_COTH|PointSource\.COTH/.test(killedPlayer)) {
-    failures.push("kill conversion still adds six COTH points on top of the one kill point");
+    failures.push("kill-specific conversion paths bypass the shared COTH III settlement");
 }
 
 if (failures.length) {

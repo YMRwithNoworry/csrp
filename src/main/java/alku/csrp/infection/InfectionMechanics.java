@@ -163,8 +163,7 @@ public final class InfectionMechanics {
             return false;
         }
 
-        replaceHost(host, converted, serverLevel, true);
-        return true;
+        return replaceHost(host, converted, serverLevel);
     }
 
     public static boolean canForceAssimilate(LivingEntity host) {
@@ -333,8 +332,7 @@ public final class InfectionMechanics {
             return false;
         }
 
-        replaceHost(host, converted, serverLevel, true);
-        return true;
+        return replaceHost(host, converted, serverLevel);
     }
 
     /** Gnat and Lice kills turn an Enderman directly into its Feral form. */
@@ -347,13 +345,13 @@ public final class InfectionMechanics {
         if (converted == null) {
             return false;
         }
-        replaceHost(host, converted, serverLevel, true);
-        return true;
+        return replaceHost(host, converted, serverLevel);
     }
 
-    private static void replaceHost(LivingEntity host, Mob converted, ServerLevel serverLevel,
-                                    boolean awardConversionPoints) {
+    private static boolean replaceHost(LivingEntity host, Mob converted, ServerLevel serverLevel) {
         float healthFraction = host.getMaxHealth() <= 0.0F ? 1.0F : host.getHealth() / host.getMaxHealth();
+        MobEffectInstance coth = host.getEffect(ModMobEffects.COTH);
+        boolean terminalCothAssimilation = coth != null && coth.getAmplifier() >= COTH_MAX_AMPLIFIER;
         boolean assimilatedEnderman = host.getType() == EntityType.ENDERMAN
                 && BuiltInRegistries.ENTITY_TYPE.getKey(converted.getType()).getPath().equals("sim_enderman");
         converted.moveTo(host.getX(), host.getY(), host.getZ(), host.getYRot(), host.getXRot());
@@ -365,14 +363,17 @@ public final class InfectionMechanics {
             converted.getPersistentData().putString(ASSIMILATION_HOST_TAG,
                     BuiltInRegistries.ENTITY_TYPE.getKey(host.getType()).toString());
         }
-        serverLevel.addFreshEntity(converted);
+        if (!serverLevel.addFreshEntity(converted)) {
+            return false;
+        }
         if (assimilatedEnderman) {
             SrpWorldData.get(serverLevel).recordAssimilatedEnderman();
         }
-        if (awardConversionPoints) {
+        if (terminalCothAssimilation) {
             EvolutionSystem.addPoints(serverLevel, EvolutionSystem.VALUE_COTH, EvolutionSystem.PointSource.COTH);
         }
         host.discard();
+        return true;
     }
 
     /** Converts a COTH victim on a successful parasite kill-conversion roll. */
@@ -401,8 +402,7 @@ public final class InfectionMechanics {
             return false;
         }
 
-        replaceHost(host, converted, serverLevel, false);
-        return true;
+        return replaceHost(host, converted, serverLevel);
     }
 
     private static Mob createIncompleteForm(LivingEntity host, ServerLevel level) {
