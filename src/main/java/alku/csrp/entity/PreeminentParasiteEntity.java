@@ -5,6 +5,7 @@ import alku.csrp.config.MobsConfig;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
+import alku.csrp.world.SrpWorldData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -93,6 +94,10 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
     private static final float ADAPTATION_PER_HIT = 0.20F;
     private static final float ADAPTATION_LEARN_CHANCE = 1.0F;
     private static final float FIRE_SUPPRESSION_CHANCE = 0.30F;
+    private static final int COLONY_WORKER_CYCLE_TICKS = 21;
+    private static final int COLONY_WORKER_CYCLE_OFFSET = 10;
+    private static final double COLONY_WORKER_SEARCH_RANGE = 16.0D;
+    private static final int MAX_NEARBY_COLONY_WORKERS = 4;
     private final RawAnimation IDLE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
     private final RawAnimation WALK = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
     private final RawAnimation FLY = IDLE;
@@ -222,6 +227,12 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         }
         if (activeKind == Kind.CARRIER_COLONY && tickCount == 25) {
             applyCarrierInitialLinks();
+        }
+        if (activeKind == Kind.BOMBER_HEAVY
+                && tickCount % COLONY_WORKER_CYCLE_TICKS == COLONY_WORKER_CYCLE_OFFSET) {
+            if (random.nextInt(7) == 0) {
+                spawnColonyWorker();
+            }
         }
         if (activeKind.flying && !isStealthKind() && onGround()) {
             getMoveControl().setWantedPosition(getX(), getY() + 5.0D, getZ(), 0.50D);
@@ -543,6 +554,30 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
             ally.addEffect(new MobEffectInstance(ModMobEffects.LINK, 6666, 0, false, false), this);
             ally.addEffect(new MobEffectInstance(ModMobEffects.FOSTER, 6666, 0, false, false), this);
         }
+    }
+
+    private void spawnColonyWorker() {
+        if (!(level() instanceof ServerLevel serverLevel)) {
+            return;
+        }
+        AABB searchArea = new AABB(getX(), getY(), getZ(), getX() + 1.0D, getY() + 1.0D,
+                getZ() + 1.0D).inflate(COLONY_WORKER_SEARCH_RANGE);
+        if (serverLevel.getEntitiesOfClass(WorkerEntity.class, searchArea).size()
+                >= MAX_NEARBY_COLONY_WORKERS) {
+            return;
+        }
+        SrpWorldData.ColonyEntry colony = SrpWorldData.get(serverLevel)
+                .nearestColonyInConstructionRange(blockPosition());
+        if (colony == null) {
+            return;
+        }
+        WorkerEntity worker = ModEntities.WORKER.get().create(serverLevel);
+        if (worker == null) {
+            return;
+        }
+        worker.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        worker.setColonyTask(colony.pos(), WorkerEntity.colonyRadius(colony));
+        serverLevel.addFreshEntity(worker);
     }
 
     private PlayState movementAnimation(AnimationState<PreeminentParasiteEntity> state) {

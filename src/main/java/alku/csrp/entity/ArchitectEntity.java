@@ -9,7 +9,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
@@ -20,6 +19,7 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animation.AnimatableManager;
 
@@ -30,6 +30,10 @@ public final class ArchitectEntity extends PrimitiveParasiteEntity {
     private static final int SUPPORT_SUMMON_INTERVAL = 80;
     private static final int MAX_SUMMONED_SUCCORS = 3;
     private static final int MELEE_COOLDOWN = 20;
+    private static final int COLONY_WORKER_CYCLE_TICKS = 21;
+    private static final int COLONY_WORKER_CYCLE_OFFSET = 10;
+    private static final double COLONY_WORKER_SEARCH_RANGE = 16.0D;
+    private static final int MAX_NEARBY_COLONY_WORKERS = 4;
     @Override
     protected int maxDamageAdaptationHits() {
         return 5;
@@ -105,7 +109,8 @@ public final class ArchitectEntity extends PrimitiveParasiteEntity {
         if (onGround()) {
             getMoveControl().setWantedPosition(getX(), getY() + 5.0D, getZ(), 0.5D);
         }
-        if (tickCount % 10 == 0 && random.nextInt(10) == 0 && level() instanceof ServerLevel serverLevel) {
+        if (tickCount % COLONY_WORKER_CYCLE_TICKS == COLONY_WORKER_CYCLE_OFFSET
+                && random.nextInt(10) == 0 && level() instanceof ServerLevel serverLevel) {
             spawnColonyWorker(serverLevel);
         }
         LivingEntity target = getTarget();
@@ -125,7 +130,10 @@ public final class ArchitectEntity extends PrimitiveParasiteEntity {
     }
 
     private void spawnColonyWorker(ServerLevel level) {
-        if (level.getEntitiesOfClass(WorkerEntity.class, getBoundingBox().inflate(16.0D)).size() > 3) {
+        AABB searchArea = new AABB(getX(), getY(), getZ(), getX() + 1.0D, getY() + 1.0D,
+                getZ() + 1.0D).inflate(COLONY_WORKER_SEARCH_RANGE);
+        if (level.getEntitiesOfClass(WorkerEntity.class, searchArea).size()
+                >= MAX_NEARBY_COLONY_WORKERS) {
             return;
         }
         SrpWorldData.ColonyEntry colony = SrpWorldData.get(level).nearestColonyInConstructionRange(blockPosition());
@@ -136,10 +144,8 @@ public final class ArchitectEntity extends PrimitiveParasiteEntity {
         if (worker == null) {
             return;
         }
-        worker.moveTo(getX(), getY(), getZ(), getYRot(), 0.0F);
+        worker.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
         worker.setColonyTask(colony.pos(), WorkerEntity.colonyRadius(colony));
-        worker.finalizeSpawn(level, level.getCurrentDifficultyAt(worker.blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
         level.addFreshEntity(worker);
     }
 
