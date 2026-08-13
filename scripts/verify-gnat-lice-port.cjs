@@ -115,8 +115,8 @@ expect(!charge.includes("performContactAttack("),
   "EntityViin charge bypasses the original push-only contact conversion");
 
 expectPattern(common,
-  /ModEntities\.LICE\.get\(\)[\s\S]*?SpawnPlacementTypes\.NO_RESTRICTIONS/,
-  "EntityViin is not registered with the original unrestricted air spawn placement");
+  /NaturalSpawnTables\.allSpawnTypes\(\)[\s\S]*?AIR_SPAWN_IDS\.contains\(id\)[\s\S]*?IN_AIR/,
+  "EntityViin is not registered with the shared air spawn placement");
 
 expectPattern(particles,
   /PAYLOAD_SPLASH_COUNT = 3[\s\S]*?PAYLOAD_SPRAY_COUNT = 5[\s\S]*?PAYLOAD_CLOUD_COUNT = 5[\s\S]*?LARGE_SPRAY_COUNT = 33[\s\S]*?LARGE_CLOUD_COUNT = 13/,

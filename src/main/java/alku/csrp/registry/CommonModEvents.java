@@ -64,8 +64,14 @@ import alku.csrp.entity.TendrilEntity;
 import alku.csrp.entity.VerminEntity;
 import alku.csrp.entity.VisceraEntity;
 import alku.csrp.entity.WaveEntity;
+import alku.csrp.world.NaturalSpawnTables;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.Holder;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.SpawnPlacementType;
+import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.item.ItemStack;
@@ -81,8 +87,22 @@ import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 
+import java.util.Set;
+
 @EventBusSubscriber(modid = Csrp.MODID)
 public final class CommonModEvents {
+    private static final Set<String> WATER_SPAWN_IDS = Set.of(
+            "sim_squid", "pri_devourer", "ada_devourer");
+    private static final Set<String> AIR_SPAWN_IDS = Set.of(
+            "carrier_flying", "lice", "sim_dragone", "pri_yelloweye", "ada_yelloweye",
+            "pri_vermin", "airscrew", "overseer", "bomber_light", "bomber_heavy", "wraith",
+            "bogle", "architect", "draconite");
+    private static final SpawnPlacementType IN_AIR = (level, pos, type) -> type != null
+            && level.getWorldBorder().isWithinBounds(pos)
+            && level.isEmptyBlock(pos.below())
+            && level.isEmptyBlock(pos)
+            && level.isEmptyBlock(pos.above());
+
     private CommonModEvents() {
     }
 
@@ -296,6 +316,9 @@ public final class CommonModEvents {
 
     @SubscribeEvent
     public static void registerSpawnPlacements(RegisterSpawnPlacementsEvent event) {
+        for (EntityType<?> type : NaturalSpawnTables.allSpawnTypes()) {
+            registerNaturalSpawnPlacement(event, type);
+        }
         event.register(
                 ModEntities.BUGLIN.get(),
                 SpawnPlacementTypes.ON_GROUND,
@@ -338,11 +361,19 @@ public final class CommonModEvents {
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 Monster::checkMonsterSpawnRules,
                 RegisterSpawnPlacementsEvent.Operation.REPLACE);
-        event.register(
-                ModEntities.LICE.get(),
-                SpawnPlacementTypes.NO_RESTRICTIONS,
-                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                Monster::checkMonsterSpawnRules,
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T extends Entity> void registerNaturalSpawnPlacement(
+            RegisterSpawnPlacementsEvent event, EntityType<T> type) {
+        String id = BuiltInRegistries.ENTITY_TYPE.getKey(type).getPath();
+        SpawnPlacementType placement = WATER_SPAWN_IDS.contains(id)
+                ? SpawnPlacementTypes.IN_WATER
+                : AIR_SPAWN_IDS.contains(id) ? IN_AIR : SpawnPlacementTypes.ON_GROUND;
+        SpawnPlacements.SpawnPredicate<T> predicate = (entityType, level, spawnType, pos, random) ->
+                Monster.checkMonsterSpawnRules(
+                        (EntityType<? extends Monster>) entityType, level, spawnType, pos, random);
+        event.register(type, placement, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, predicate,
                 RegisterSpawnPlacementsEvent.Operation.REPLACE);
     }
 

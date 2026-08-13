@@ -15,6 +15,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -32,10 +33,13 @@ import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
 import net.neoforged.neoforge.event.entity.living.MobSpawnEvent;
 import net.neoforged.neoforge.event.entity.player.ItemFishedEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
+import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.level.block.CropGrowEvent;
 import net.neoforged.neoforge.event.level.SleepFinishedTimeEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
+
+import java.util.List;
 
 /** Connects world activity to the original SRP evolution and generation state. */
 @EventBusSubscriber(modid = Csrp.MODID)
@@ -164,6 +168,28 @@ public final class EvolutionEvents {
     }
 
     @SubscribeEvent
+    public static void replaceNaturalSpawnCandidates(LevelEvent.PotentialSpawns event) {
+        if (!(event.getLevel() instanceof ServerLevel level) || event.getMobCategory() != MobCategory.MONSTER) {
+            return;
+        }
+        for (var entry : List.copyOf(event.getSpawnerDataList())) {
+            ResourceLocation id = BuiltInRegistries.ENTITY_TYPE.getKey(entry.type);
+            if (id.getNamespace().equals(Csrp.MODID)) {
+                event.removeSpawnerData(entry);
+            }
+        }
+        if (!GeneralConfig.allowMobs() || !WorldConfig.dimensionAllowsNaturalSpawning(level)) {
+            return;
+        }
+        for (var entry : NaturalSpawnTables.select(level, event.getPos())) {
+            String path = BuiltInRegistries.ENTITY_TYPE.getKey(entry.type).getPath();
+            if (EvolutionSystem.crossDimensionUnlocked(level, path)) {
+                event.addSpawnerData(entry);
+            }
+        }
+    }
+
+    @SubscribeEvent
     public static void gateNaturalSpawns(MobSpawnEvent.PositionCheck event) {
         if (!(event.getLevel() instanceof ServerLevel level)
                 || event.getSpawnType() != MobSpawnType.NATURAL
@@ -194,12 +220,8 @@ public final class EvolutionEvents {
         }
         if (parasite) {
             String path = BuiltInRegistries.ENTITY_TYPE.getKey(event.getEntity().getType()).getPath();
-            if (!EvolutionSystem.canNaturallySpawn(path, phase)
-                    || !EvolutionSystem.crossDimensionUnlocked(level, path)) {
+            if (!NaturalSpawnTables.canSpawnNaturally(level, event.getEntity().blockPosition(), path)) {
                 event.setResult(MobSpawnEvent.PositionCheck.Result.FAIL);
-            } else {
-                // 阶段表是原模组自定义生成器的最终准入规则，也负责覆盖各实体旧的阶段检查。
-                event.setResult(MobSpawnEvent.PositionCheck.Result.SUCCEED);
             }
         }
     }
