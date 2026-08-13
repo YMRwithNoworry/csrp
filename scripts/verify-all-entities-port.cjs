@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const { groups, all } = require("./entity-port-manifest.cjs");
+const { groups, all, behaviorPorts } = require("./entity-port-manifest.cjs");
 
 const root = path.resolve(__dirname, "..");
 const failures = [];
@@ -15,6 +15,14 @@ const read = (file) => {
 
 if (all.length !== 127) failures.push(`manifest contains ${all.length} IDs instead of 127`);
 if (new Set(all).size !== all.length) failures.push("manifest contains duplicate IDs");
+if (behaviorPorts.grunt?.originalClass !== "EntityFlog"
+    || behaviorPorts.grunt?.status !== "audited"
+    || behaviorPorts.grunt?.auditScope !== "entity-specific") {
+  failures.push("grunt: entity-specific behavior audit metadata is missing");
+}
+if (!fs.existsSync(path.join(root, behaviorPorts.grunt?.verifier ?? ""))) {
+  failures.push("grunt: behavior verifier is missing");
+}
 
 const entities = read("src/main/java/alku/csrp/registry/ModEntities.java");
 const items = read("src/main/java/alku/csrp/registry/ModItems.java");

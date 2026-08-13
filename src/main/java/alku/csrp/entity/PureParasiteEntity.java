@@ -2,6 +2,7 @@ package alku.csrp.entity;
 
 import alku.csrp.Config;
 import alku.csrp.config.MobsConfig;
+import alku.csrp.effect.EffectStacking;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
@@ -14,7 +15,9 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -25,6 +28,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
@@ -34,10 +38,12 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.PartEntity;
+import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.AnimationState;
@@ -60,6 +66,8 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
             PureParasiteEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> VIGILANTE_RIGHT_TENDRIL = SynchedEntityData.defineId(
             PureParasiteEntity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Byte> GRUNT_SKIN = SynchedEntityData.defineId(
+            PureParasiteEntity.class, EntityDataSerializers.BYTE);
     private static final int MAX_ADAPTATION_HITS = 8;
     private static final int MAX_LEARNABLE_DAMAGE_SOURCES = 12;
     private static final float ADAPTATION_PER_HIT = 0.125F;
@@ -127,6 +135,9 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
     private int attackAnimationTicks;
     private int scentCooldown = 800;
     private int seekerCreationPhase = -1;
+    private boolean gruntSkillLeapActive;
+    private int gruntSkillLeapTicks;
+    private boolean gruntSkillLeapWasAirborne;
     private boolean deathBurstFired;
 
     public PureParasiteEntity(EntityType<? extends PureParasiteEntity> type, Level level, Kind kind) {
@@ -178,9 +189,11 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         super.registerGoals();
         switch (activeKind()) {
             case GRUNT -> {
-                goalSelector.addGoal(1, createAnimatedLeapGoal(0.65F, 24));
-                goalSelector.addGoal(2, new EvasiveDashGoal(80, 0.70D));
-                goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.25D, false));
+                goalSelector.addGoal(0, new GruntSwimmingDivingGoal());
+                goalSelector.addGoal(0, new GruntSkillLeapGoal());
+                goalSelector.addGoal(2, new GruntWaterLeapGoal());
+                goalSelector.addGoal(2, new GruntEvasiveDashGoal(20, 2, 4, 1.5D, 15));
+                goalSelector.addGoal(3, new GruntAreaMeleeGoal());
             }
             case BOMBER_LIGHT -> {
                 goalSelector.addGoal(1, new LightBomberBombGoal());
@@ -222,12 +235,31 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
+    protected boolean usesDefaultFloatGoal() {
+        return activeKind() != Kind.GRUNT;
+    }
+
+    @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(WARDEN_CHARGING, false);
         builder.define(VIGILANTE_STATUS, 0);
         builder.define(VIGILANTE_LEFT_TENDRIL, -1.0F);
         builder.define(VIGILANTE_RIGHT_TENDRIL, -1.0F);
+        builder.define(GRUNT_SKIN, (byte) 0);
+    }
+
+    @Nullable
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, net.minecraft.world.DifficultyInstance difficulty,
+                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
+        SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
+        if (!level.isClientSide() && activeKind() == Kind.GRUNT
+                && (random.nextDouble() < Config.variantSpawnChance()
+                || Config.evolutionPhase(level.getLevel()) >= Config.alwaysVariantPhase())) {
+            entityData.set(GRUNT_SKIN, (byte) (5 + random.nextInt(3)));
+        }
+        return data;
     }
 
     @Override
@@ -253,6 +285,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         if (attackAnimationTicks > 0) {
             attackAnimationTicks--;
         }
+        tickGruntSkillLeap();
         if (activeKind.flying && onGround()) {
             getMoveControl().setWantedPosition(getX(), getY() + 4.0D, getZ(), 0.55D);
         }
@@ -332,6 +365,35 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
+    public void push(Entity entity) {
+        if (!level().isClientSide && activeKind() == Kind.GRUNT && getGruntSkin() == 5
+                && entity instanceof LivingEntity living && living != this && !(living instanceof Parasite)) {
+            EffectStacking.apply(living, ModMobEffects.VIRAL, 40, 0);
+        }
+        super.push(entity);
+    }
+
+    @Override
+    protected EntityDimensions getDefaultDimensions(Pose pose) {
+        EntityDimensions dimensions = super.getDefaultDimensions(pose);
+        return activeKind() == Kind.GRUNT ? dimensions.withEyeHeight(1.73F) : dimensions;
+    }
+
+    @Override
+    protected void playStepSound(BlockPos pos, BlockState state) {
+        if (activeKind() == Kind.GRUNT) {
+            playSound(SoundEvents.SPIDER_STEP, 0.15F, 1.0F);
+            return;
+        }
+        super.playStepSound(pos, state);
+    }
+
+    @Override
+    protected float adjustBlockBreakHardness(float baseHardness) {
+        return activeKind() == Kind.GRUNT && getGruntSkin() == 7 ? baseHardness * 2.0F : baseHardness;
+    }
+
+    @Override
     public boolean onClimbable() {
         if (activeKind() == Kind.WARDEN) {
             LivingEntity target = getTarget();
@@ -373,6 +435,9 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         if (activeKind() == Kind.SEEKER) {
             tag.putInt("SeekerCreationPhase", seekerCreationPhase);
         }
+        if (activeKind() == Kind.GRUNT) {
+            tag.putByte("GruntSkin", entityData.get(GRUNT_SKIN));
+        }
     }
 
     @Override
@@ -389,6 +454,9 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
             seekerCreationPhase = tag.contains("SeekerCreationPhase")
                     ? tag.getInt("SeekerCreationPhase") : -1;
         }
+        if (activeKind() == Kind.GRUNT) {
+            setGruntSkin(tag.contains("GruntSkin") ? tag.getByte("GruntSkin") : 0);
+        }
     }
 
     @Override
@@ -402,6 +470,14 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
 
     public Kind getKind() {
         return activeKind();
+    }
+
+    public int getGruntSkin() {
+        return activeKind() == Kind.GRUNT ? entityData.get(GRUNT_SKIN) : 0;
+    }
+
+    private void setGruntSkin(int skin) {
+        entityData.set(GRUNT_SKIN, (byte) (skin >= 5 && skin <= 7 ? skin : 0));
     }
 
     @Override
@@ -517,8 +593,13 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
             return state.setAndContinue(FLY);
         }
         if (activeKind() == Kind.GRUNT) {
-            if (!ParasiteAnimations.isMoving(this, state.isMoving())) return state.setAndContinue(IDLE);
-            return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() > 0.02D ? RUN : VIGILANTE_ATTACK_WALK);
+            if (ParasiteAnimations.isAttacking(this)) {
+                return state.setAndContinue(VIGILANTE_ATTACK_WALK);
+            }
+            if (!ParasiteAnimations.isMoving(this, state.isMoving())) {
+                return state.setAndContinue(IDLE);
+            }
+            return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() > 0.02D ? RUN : WALK);
         }
         if (!ParasiteAnimations.isMoving(this, state.isMoving())) {
             return state.setAndContinue(IDLE);
@@ -528,17 +609,22 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
 
     private boolean performAreaMelee(LivingEntity center) {
         double radius = activeKind() == Kind.WARDEN ? 2.6D : 2.0D;
+        boolean gruntAttack = activeKind() == Kind.GRUNT;
+        if (gruntAttack) {
+            playSound(ModSounds.MOB_SWIPE.get(), 2.0F, 1.0F);
+            triggerAttackAnimation();
+        }
         DragonEggAssimilationEntity.assimilateDragonEggs(level(), center.getBoundingBox().inflate(radius));
         boolean hit = false;
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
                 center.getBoundingBox().inflate(radius), this::isValidParasiteTarget)) {
-            if (!super.doHurtTarget(target)) {
+            if (!hasLineOfSight(target) || !super.doHurtTarget(target)) {
                 continue;
             }
             hit = true;
             applyMeleeEffects(target, activeKind());
         }
-        if (hit) {
+        if (hit && !gruntAttack) {
             attackAnimationTicks = 10;
             triggerAttackAnimation();
         }
@@ -547,6 +633,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
 
     private void triggerAttackAnimation() {
         attackAnimationTicks = 10;
+        swing(InteractionHand.MAIN_HAND);
         if (activeKind() == Kind.WARDEN) {
             triggerAnim("attack_controller", "get_attack_timer");
         }
@@ -558,7 +645,11 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         }
         switch (activeKind) {
             case GRUNT -> {
-                // Grunt variants add bleeding or viral effects in the legacy mod; the base form keeps the shared COTH hit.
+                if (getGruntSkin() == 5) {
+                    EffectStacking.apply(target, ModMobEffects.VIRAL, 40, 0);
+                } else if (getGruntSkin() == 6) {
+                    EffectStacking.apply(target, ModMobEffects.BLEED, 40, 0);
+                }
             }
             case MONARCH -> target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 80, 1, false, false), this);
             case VIGILANTE -> pushAway(target, 0.45D, 0.20D);
@@ -575,7 +666,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private void breakBlocksTowardsTarget(LivingEntity target, Kind activeKind) {
-        if (activeKind.blockHardness <= 0.0F || blockBreakCooldown > 0
+        if (activeKind == Kind.GRUNT || activeKind.blockHardness <= 0.0F || blockBreakCooldown > 0
                 || !level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
             return;
         }
@@ -587,10 +678,11 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         horizontal = horizontal.normalize();
         BlockPos origin = BlockPos.containing(getX() + horizontal.x * activeKind.blockRange,
                 getY() + getBbHeight() * 0.5D, getZ() + horizontal.z * activeKind.blockRange);
+        float maximumHardness = adjustBlockBreakHardness(activeKind.blockHardness);
         for (BlockPos candidate : new BlockPos[] {origin, origin.above(), origin.below()}) {
             BlockState state = level().getBlockState(candidate);
             float hardness = state.getDestroySpeed(level(), candidate);
-            if (state.isAir() || state.hasBlockEntity() || hardness < 0.0F || hardness > activeKind.blockHardness) {
+            if (state.isAir() || state.hasBlockEntity() || hardness < 0.0F || hardness > maximumHardness) {
                 continue;
             }
             if (ParasiteBlockInventory.collect((ServerLevel) level(), candidate, this)) {
@@ -835,6 +927,38 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         return Kind.GRUNT;
     }
 
+    private void startGruntSkillLeap(LivingEntity target) {
+        Vec3 offset = target.position().subtract(position());
+        double horizontalLength = offset.horizontalDistance();
+        if (horizontalLength <= 0.001D) {
+            return;
+        }
+        getNavigation().stop();
+        Vec3 movement = getDeltaMovement();
+        setDeltaMovement(movement.x + offset.x / horizontalLength * 3.5D * 0.9D + movement.x * 0.3D,
+                1.1D,
+                movement.z + offset.z / horizontalLength * 3.5D * 0.9D + movement.z * 0.3D);
+        hurtMarked = true;
+        gruntSkillLeapActive = true;
+        gruntSkillLeapWasAirborne = false;
+        gruntSkillLeapTicks = 0;
+        startSpecialLeapAnimation(40);
+    }
+
+    private void tickGruntSkillLeap() {
+        if (!gruntSkillLeapActive || activeKind() != Kind.GRUNT) {
+            return;
+        }
+        gruntSkillLeapTicks++;
+        if (!onGround()) {
+            gruntSkillLeapWasAirborne = true;
+        }
+        if ((gruntSkillLeapWasAirborne && onGround()) || gruntSkillLeapTicks >= 80) {
+            gruntSkillLeapActive = false;
+            gruntSkillLeapTicks = 0;
+        }
+    }
+
     private static boolean isClimberType(EntityType<?> type) {
         return type == ModEntities.GRUNT.get() || type == ModEntities.MONARCH.get()
                 || type == ModEntities.WARDEN.get();
@@ -880,6 +1004,237 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
                 setDeltaMovement(strafe.x, 0.25D, strafe.z);
             }
             cooldown = interval;
+        }
+    }
+
+    private final class GruntEvasiveDashGoal extends Goal {
+        private final int cooldownTicks;
+        private final double minimumDistanceSqr;
+        private final double dashStrength;
+        private final double maximumDistanceSqr;
+        private int cooldown;
+
+        private GruntEvasiveDashGoal(int cooldownTicks, int ignoredDurationTicks, int minimumDistance,
+                                     double dashStrength, int maximumDistance) {
+            this.cooldownTicks = cooldownTicks;
+            this.minimumDistanceSqr = minimumDistance * minimumDistance;
+            this.dashStrength = dashStrength;
+            this.maximumDistanceSqr = maximumDistance * maximumDistance;
+        }
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = getTarget();
+            return target != null && target.isAlive() && onGround();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return canUse();
+        }
+
+        @Override
+        public void stop() {
+            cooldown = 0;
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = getTarget();
+            if (target == null) {
+                return;
+            }
+            double distance = distanceToSqr(target);
+            if (distance > minimumDistanceSqr && distance < maximumDistanceSqr && hasLineOfSight(target)
+                    && cooldown < cooldownTicks) {
+                cooldown++;
+            }
+            if (cooldown < cooldownTicks) {
+                return;
+            }
+            Vec3 towardTarget = target.position().subtract(position());
+            double horizontalLength = towardTarget.horizontalDistance();
+            if (horizontalLength <= 0.001D) {
+                return;
+            }
+            double bonusX = random.nextBoolean() ? dashStrength : 0.0D;
+            double bonusZ = bonusX == 0.0D ? dashStrength : 0.0D;
+            Vec3 movement = getDeltaMovement();
+            setDeltaMovement(movement.x + towardTarget.x / horizontalLength * dashStrength * 0.8D
+                            + movement.x * 0.2D + bonusX,
+                    movement.y,
+                    movement.z + towardTarget.z / horizontalLength * dashStrength * 0.8D
+                            + movement.z * 0.2D + bonusZ);
+            hurtMarked = true;
+            getNavigation().stop();
+            if (level() instanceof ServerLevel serverLevel) {
+                serverLevel.sendParticles(ParticleTypes.ENCHANTED_HIT,
+                        getX(), getY() + getBbHeight() * 0.5D, getZ(),
+                        41, getBbWidth() * 0.5D, getBbHeight() * 0.5D, getBbWidth() * 0.5D, 0.08D);
+            }
+            cooldown = 0;
+        }
+    }
+
+    private final class GruntSwimmingDivingGoal extends Goal {
+        private GruntSwimmingDivingGoal() {
+            setFlags(EnumSet.of(Flag.JUMP));
+        }
+
+        @Override
+        public boolean canUse() {
+            if (!isInWaterOrBubble() && !isInLava()) {
+                return false;
+            }
+            LivingEntity target = getTarget();
+            if (target != null && (target.isInWaterOrBubble() || target.isInLava())
+                    && target.distanceToSqr(getX(), target.getY(), getZ()) < 25.0D
+                    && target.getY() - getY() < -1.0D) {
+                setDeltaMovement(getDeltaMovement().add(0.0D, -0.12D, 0.0D));
+                return false;
+            }
+            return true;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return canUse();
+        }
+
+        @Override
+        public void tick() {
+            if (random.nextFloat() < 0.8F) {
+                getJumpControl().jump();
+            }
+        }
+    }
+
+    private final class GruntWaterLeapGoal extends Goal {
+        private int cooldown;
+
+        private GruntWaterLeapGoal() {
+        }
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = getTarget();
+            if (target == null || !target.isAlive() || (!isInWaterOrBubble() && !isInLava())) {
+                return false;
+            }
+            if (cooldown < 20) {
+                cooldown++;
+                return false;
+            }
+            return onGround();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return false;
+        }
+
+        @Override
+        public void start() {
+            LivingEntity target = getTarget();
+            if (target == null) {
+                return;
+            }
+            Vec3 offset = target.position().subtract(position());
+            double horizontalLength = offset.horizontalDistance();
+            if (horizontalLength > 0.001D) {
+                double heightBonus = Math.max(0.0D, (target.getY() - getY()) * 0.07D);
+                Vec3 movement = getDeltaMovement();
+                setDeltaMovement(movement.x + offset.x / horizontalLength * 1.5D * 0.9D + movement.x * 0.3D,
+                        0.7D + heightBonus,
+                        movement.z + offset.z / horizontalLength * 1.5D * 0.9D + movement.z * 0.3D);
+                hurtMarked = true;
+                startSpecialLeapAnimation(24);
+            }
+            cooldown = 0;
+        }
+    }
+
+    private final class GruntSkillLeapGoal extends Goal {
+        private int chargeTicks;
+
+        private GruntSkillLeapGoal() {
+        }
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = getTarget();
+            return !gruntSkillLeapActive && target != null && target.isAlive();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            LivingEntity target = getTarget();
+            return !gruntSkillLeapActive && target != null && target.isAlive();
+        }
+
+        @Override
+        public void start() {
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = getTarget();
+            if (target == null) {
+                return;
+            }
+            double distance = distanceToSqr(target);
+            if (hasLineOfSight(target) && distance >= 100.0D && distance < 10_000.0D) {
+                chargeTicks++;
+            }
+            if (chargeTicks >= 40 && onGround() && !hasEffect(MobEffects.MOVEMENT_SLOWDOWN)) {
+                chargeTicks = 0;
+                startGruntSkillLeap(target);
+            }
+        }
+    }
+
+    private final class GruntAreaMeleeGoal extends Goal {
+        private int attackCooldown;
+
+        private GruntAreaMeleeGoal() {
+            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
+        }
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = getTarget();
+            return target != null && target.isAlive();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return canUse();
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = getTarget();
+            if (target == null) {
+                return;
+            }
+            getLookControl().setLookAt(target, 30.0F, 30.0F);
+            if (attackCooldown > 0) {
+                attackCooldown--;
+            }
+            if (distanceToSqr(target) <= 9.0D && hasLineOfSight(target)) {
+                getNavigation().stop();
+                if (attackCooldown == 0) {
+                    performAreaMelee(target);
+                    attackCooldown = 20;
+                }
+            } else {
+                getNavigation().moveTo(target, 1.5D);
+            }
+        }
+
+        @Override
+        public void stop() {
+            getNavigation().stop();
         }
     }
 

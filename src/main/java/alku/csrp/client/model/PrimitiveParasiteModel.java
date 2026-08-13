@@ -69,6 +69,12 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/nuuhb.png");
     private static final ResourceLocation MANGLER_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/nuuh.png");
+    private static final ResourceLocation GRUNT_VIRULENT_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/monster/flogv.png");
+    private static final ResourceLocation GRUNT_BLEEDING_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/monster/flogb.png");
+    private static final ResourceLocation GRUNT_HEAVY_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/monster/flogh.png");
     private final ResourceLocation model;
     private final ResourceLocation texture;
     private final ResourceLocation animation;
@@ -99,6 +105,15 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
                 case ManglerEntity.VIRAL_VARIANT -> MANGLER_VIRAL_TEXTURE;
                 case ManglerEntity.BLEEDING_VARIANT -> MANGLER_BLEEDING_TEXTURE;
                 default -> MANGLER_TEXTURE;
+            };
+        }
+        if (animatable instanceof PureParasiteEntity pure
+                && pure.getKind() == PureParasiteEntity.Kind.GRUNT) {
+            return switch (pure.getGruntSkin()) {
+                case 5 -> GRUNT_VIRULENT_TEXTURE;
+                case 6 -> GRUNT_BLEEDING_TEXTURE;
+                case 7 -> GRUNT_HEAVY_TEXTURE;
+                default -> texture;
             };
         }
         if (animatable instanceof PreeminentParasiteEntity preeminent && preeminent.isCarrierVariant()) {

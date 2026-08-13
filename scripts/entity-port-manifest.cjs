@@ -46,4 +46,15 @@ const groups = {
 
 const all = Object.values(groups).flat();
 
-module.exports = { groups, all };
+const behaviorPorts = {
+  grunt: {
+    originalClass: "EntityFlog",
+    originalSource: "com/dhanantry/scapeandrunparasites/entity/monster/pure/EntityFlog.java",
+    implementation: "src/main/java/alku/csrp/entity/PureParasiteEntity.java",
+    verifier: "scripts/verify-grunt-port.cjs",
+    status: "audited",
+    auditScope: "entity-specific"
+  }
+};
+
+module.exports = { groups, all, behaviorPorts };
