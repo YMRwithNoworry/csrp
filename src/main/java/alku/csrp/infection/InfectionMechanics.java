@@ -42,6 +42,7 @@ import net.minecraft.sounds.SoundSource;
 public final class InfectionMechanics {
     public static final int COTH_BASE_DURATION_TICKS = 3_600;
     public static final int COTH_REFRESH_THRESHOLD_TICKS = 200;
+    public static final int COTH_INCOMPLETE_AMPLIFIER = 1;
     public static final int COTH_MAX_AMPLIFIER = 2;
     public static final double COTH_SPREAD_RADIUS = 4.0D;
     public static final float COTH_CONVERSION_HEALTH_FRACTION = 0.35F;
@@ -181,13 +182,14 @@ public final class InfectionMechanics {
         if (Config.disloCothIgnoreAmplifier() && amplifier <= 1 && entity.tickCount % 20 == 0
                 && entity.level() instanceof ServerLevel level
                 && DislodgmentSystem.activeCodeValue(level, 0) > 0) {
-            entity.addEffect(new MobEffectInstance(ModMobEffects.COTH, 6_666, 10, false, false, true));
+            entity.forceAddEffect(new MobEffectInstance(ModMobEffects.COTH, 6_666, 10,
+                    coth.isAmbient(), coth.isVisible(), true), null);
             effectiveAmplifier = COTH_MAX_AMPLIFIER;
-        }
-        if (coth.getDuration() > 0 && coth.getDuration() <= COTH_REFRESH_THRESHOLD_TICKS) {
-            effectiveAmplifier = Math.min(COTH_MAX_AMPLIFIER, effectiveAmplifier + 1);
-            entity.addEffect(new MobEffectInstance(ModMobEffects.COTH, COTH_BASE_DURATION_TICKS,
-                    effectiveAmplifier, false, false, true));
+        } else if (coth.getDuration() > 0 && coth.getDuration() <= COTH_REFRESH_THRESHOLD_TICKS) {
+            int nextAmplifier = Math.max(amplifier,
+                    Math.min(COTH_MAX_AMPLIFIER, effectiveAmplifier + 1));
+            entity.forceAddEffect(new MobEffectInstance(ModMobEffects.COTH, COTH_BASE_DURATION_TICKS,
+                    nextAmplifier, coth.isAmbient(), coth.isVisible(), true), null);
         }
         if (effectiveAmplifier >= 1) {
             spreadCoth(entity);
@@ -198,11 +200,35 @@ public final class InfectionMechanics {
             tickHiddenAssimilated(entity);
             return;
         }
-        if (effectiveAmplifier >= COTH_MAX_AMPLIFIER
-                && (forceAssimilation || entity.getHealth()
-                <= entity.getMaxHealth() * COTH_CONVERSION_HEALTH_FRACTION)) {
+        boolean belowConversionHealth = entity.getHealth()
+                <= entity.getMaxHealth() * COTH_CONVERSION_HEALTH_FRACTION;
+        if (effectiveAmplifier == COTH_INCOMPLETE_AMPLIFIER && belowConversionHealth) {
+            convertIncompleteCothHost(entity);
+        } else if (effectiveAmplifier >= COTH_MAX_AMPLIFIER
+                && (belowConversionHealth || forceAssimilation)) {
             convertInfectedHost(entity);
         }
+    }
+
+    /** COTH II creates an Incomplete Form; COTH III creates the mapped Assimilated form. */
+    public static boolean convertCothHost(LivingEntity host) {
+        MobEffectInstance coth = host.getEffect(ModMobEffects.COTH);
+        if (coth == null || coth.getAmplifier() < COTH_INCOMPLETE_AMPLIFIER) {
+            return false;
+        }
+        if (coth.getAmplifier() >= COTH_MAX_AMPLIFIER) {
+            return convertInfectedHost(host);
+        }
+        return convertIncompleteCothHost(host);
+    }
+
+    private static boolean convertIncompleteCothHost(LivingEntity host) {
+        if (host.level().isClientSide || host.isRemoved() || !isConvertible(host) || host instanceof Player
+                || !(host.level() instanceof ServerLevel serverLevel)) {
+            return false;
+        }
+        Mob converted = createIncompleteForm(host, serverLevel);
+        return converted != null && replaceHost(host, converted, serverLevel);
     }
 
     public static boolean convertInfectedHost(LivingEntity host) {

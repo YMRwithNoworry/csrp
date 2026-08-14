@@ -39,8 +39,8 @@ expect(hit, /attacker instanceof Parasite\s*&&\s*!target\.hasEffect\(ModMobEffec
         "parasite hits can overwrite an existing COTH effect");
 expect(hit, /InfectionMechanics\.cothSpreadChance\(attacker\)/,
         "parasite hits do not use per-tier COTH spread chances");
-expect(hit, /getAmplifier\(\) >= InfectionMechanics\.COTH_MAX_AMPLIFIER[\s\S]*COTH_CONVERSION_HEALTH_FRACTION[\s\S]*convertInfectedHost/,
-        "damage does not immediately trigger eligible COTH III conversion");
+expect(hit, /getAmplifier\(\) >= InfectionMechanics\.COTH_INCOMPLETE_AMPLIFIER[\s\S]*COTH_CONVERSION_HEALTH_FRACTION[\s\S]*convertCothHost/,
+        "damage does not immediately trigger the matching COTH II or III conversion");
 if (/generationProfile/.test(hit)) {
     failures.push("parasite-hit infection still mistakes generation stat scaling for COTH spread chance");
 }

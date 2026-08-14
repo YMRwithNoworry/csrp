@@ -54,10 +54,10 @@ public final class InfectionEvents {
             }
         }
         MobEffectInstance coth = target.getEffect(ModMobEffects.COTH);
-        if (coth != null && coth.getAmplifier() >= InfectionMechanics.COTH_MAX_AMPLIFIER
+        if (coth != null && coth.getAmplifier() >= InfectionMechanics.COTH_INCOMPLETE_AMPLIFIER
                 && target.getHealth() <= target.getMaxHealth()
                 * InfectionMechanics.COTH_CONVERSION_HEALTH_FRACTION) {
-            InfectionMechanics.convertInfectedHost(target);
+            InfectionMechanics.convertCothHost(target);
         }
     }
 
