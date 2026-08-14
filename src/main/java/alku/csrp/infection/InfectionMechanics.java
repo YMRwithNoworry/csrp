@@ -169,6 +169,15 @@ public final class InfectionMechanics {
                 1.0F, 0.9F + target.getRandom().nextFloat() * 0.2F);
     }
 
+    public static boolean isCothImmune(LivingEntity entity) {
+        String entityId = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).toString();
+        boolean listed = Config.cothImmuneEntities().stream()
+                .map(String::trim)
+                .filter(entry -> !entry.isEmpty())
+                .anyMatch(entityId::contains);
+        return listed != Config.cothImmuneListInverted();
+    }
+
     public static void tickCoth(LivingEntity entity, int amplifier) {
         if (entity.level().isClientSide || !isInfectable(entity)) {
             return;
@@ -185,7 +194,8 @@ public final class InfectionMechanics {
             entity.forceAddEffect(new MobEffectInstance(ModMobEffects.COTH, 6_666, 10,
                     coth.isAmbient(), coth.isVisible(), true), null);
             effectiveAmplifier = COTH_MAX_AMPLIFIER;
-        } else if (coth.getDuration() > 0 && coth.getDuration() <= COTH_REFRESH_THRESHOLD_TICKS) {
+        } else if (!isCothImmune(entity) && coth.getDuration() > 0
+                && coth.getDuration() <= COTH_REFRESH_THRESHOLD_TICKS) {
             int nextAmplifier = Math.max(amplifier,
                     Math.min(COTH_MAX_AMPLIFIER, effectiveAmplifier + 1));
             entity.forceAddEffect(new MobEffectInstance(ModMobEffects.COTH, COTH_BASE_DURATION_TICKS,
@@ -202,7 +212,8 @@ public final class InfectionMechanics {
         }
         boolean belowConversionHealth = entity.getHealth()
                 <= entity.getMaxHealth() * COTH_CONVERSION_HEALTH_FRACTION;
-        if (effectiveAmplifier == COTH_INCOMPLETE_AMPLIFIER && belowConversionHealth) {
+        if (effectiveAmplifier == COTH_INCOMPLETE_AMPLIFIER && belowConversionHealth
+                && !isCothImmune(entity)) {
             convertIncompleteCothHost(entity);
         } else if (effectiveAmplifier >= COTH_MAX_AMPLIFIER
                 && (belowConversionHealth || forceAssimilation)) {
@@ -223,7 +234,8 @@ public final class InfectionMechanics {
     }
 
     private static boolean convertIncompleteCothHost(LivingEntity host) {
-        if (host.level().isClientSide || host.isRemoved() || !isConvertible(host) || host instanceof Player
+        if (host.level().isClientSide || host.isRemoved() || !isConvertible(host) || isCothImmune(host)
+                || host instanceof Player
                 || !(host.level() instanceof ServerLevel serverLevel)) {
             return false;
         }

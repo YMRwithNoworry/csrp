@@ -101,6 +101,30 @@ public final class Config {
                     "wyrmsofnyrus:creepedbiter;csrp:sim_cow",
                     "wyrmsofnyrus:crawler;csrp:sim_bigspider"),
                     value -> value instanceof String && ((String) value).split(";", -1).length == 2);
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> COTH_IMMUNE_ENTITIES = BUILDER
+            .comment("Entity ids or whole namespaces whose normal COTH effect cannot advance or create an Incomplete Form.")
+            .defineList("cothImmuneEntities", List.of(
+                    "minecraft:iron_golem",
+                    "minecraft:vex",
+                    "minecraft:creeper",
+                    "minecraft:slime",
+                    "minecraft:blaze",
+                    "minecraft:guardian",
+                    "minecraft:elder_guardian",
+                    "minecraft:stray",
+                    "minecraft:skeleton",
+                    "minecraft:skeleton_horse",
+                    "minecraft:wither_skeleton",
+                    "minecraft:magma_cube",
+                    "minecraft:ghast",
+                    "minecraft:shulker",
+                    "minecraft:snow_golem",
+                    "wyrmsofnyrus",
+                    "srrevenants"),
+                    value -> value instanceof String entry && !entry.isBlank());
+    private static final ModConfigSpec.BooleanValue COTH_IMMUNE_LIST_INVERTED = BUILDER
+            .comment("Treat cothImmuneEntities as a whitelist of entities that are not immune.")
+            .define("cothImmuneListInverted", false);
     private static final ModConfigSpec.DoubleValue COTH_CONVERT_AT_KILL_CHANCE = BUILDER
             .comment("Base chance for a parasite kill to convert a COTH I victim. Higher COTH levels increase it.")
             .defineInRange("cothConvertAtKillChance", 0.3D, 0.0D, 1.0D);
@@ -525,6 +549,8 @@ public final class Config {
     public static boolean overlastHudRequiresClock() { return OVERLAST_HUD_REQUIRES_CLOCK.get(); }
     public static String overlastHudPosition() { return OVERLAST_HUD_POSITION.get(); }
     public static List<? extends String> cothVictimParasites() { return COTH_VICTIM_PARASITES.get(); }
+    public static List<? extends String> cothImmuneEntities() { return COTH_IMMUNE_ENTITIES.get(); }
+    public static boolean cothImmuneListInverted() { return COTH_IMMUNE_LIST_INVERTED.get(); }
     public static double cothConvertAtKillChance() { return COTH_CONVERT_AT_KILL_CHANCE.get(); }
     public static double cothAssimilatedSpreadChance() { return COTH_ASSIMILATED_SPREAD_CHANCE.get(); }
     public static double cothHijackedSpreadChance() { return COTH_HIJACKED_SPREAD_CHANCE.get(); }
