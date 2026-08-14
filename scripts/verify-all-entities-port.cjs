@@ -15,7 +15,11 @@ const read = (file) => {
 
 if (all.length !== 127) failures.push(`manifest contains ${all.length} IDs instead of 127`);
 if (new Set(all).size !== all.length) failures.push("manifest contains duplicate IDs");
-for (const [id, originalClass] of [["grunt", "EntityFlog"], ["bomber_light", "EntityOmboo"]]) {
+for (const [id, originalClass] of [
+  ["grunt", "EntityFlog"],
+  ["bomber_light", "EntityOmboo"],
+  ["monarch", "EntityOrch"]
+]) {
   if (behaviorPorts[id]?.originalClass !== originalClass
       || behaviorPorts[id]?.status !== "audited"
       || behaviorPorts[id]?.auditScope !== "entity-specific") {

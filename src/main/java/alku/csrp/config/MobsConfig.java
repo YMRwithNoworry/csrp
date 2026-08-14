@@ -348,6 +348,14 @@ public final class MobsConfig {
     private static final ModConfigSpec.BooleanValue OMBOO_GRIEFING = booleanValue(
             "srparasites:bomber_light", "lightBomberGriefing", true,
             "Whether Light Bomber explosions may destroy blocks when mobGriefing is enabled.");
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> MONARCH_ORB_EFFECTS = stringList(
+            "srparasites:monarch", "monarchOrbEffects", List.of(
+                    "0;15;3;minecraft:hunger;0;0",
+                    "0;70;3;csrp:needler;0;0",
+                    "0;15;3;minecraft:mining_fatigue;0;0",
+                    "0;15;3;minecraft:wither;0;0"),
+            "Monarch scary-orb effects: self;seconds;amplifier;effect_id;mob_amplifier_step;mob_duration_step.",
+            MobsConfig::validOrbEffect);
     private static final ModConfigSpec.DoubleValue JINJO_EXPLOSION_MULTIPLIER = value(
             "srparasites:bomber_heavy", "heavyBomberExplosionMultiplier", 6.0D, 0.0D, 100.0D,
             "Multiplier applied to Heavy Bomber attack damage by its bomb.");
@@ -790,6 +798,10 @@ public final class MobsConfig {
 
     public static boolean ombooGriefing() {
         return OMBOO_GRIEFING.get();
+    }
+
+    public static List<? extends String> monarchOrbEffects() {
+        return MONARCH_ORB_EFFECTS.get();
     }
 
     public static float jinjoExplosionMultiplier() {

@@ -143,9 +143,9 @@ for (const texture of ["omboo.png", "ombooh.png"]) {
   current(`src/main/resources/assets/csrp/textures/entity/monster/${texture}`);
 }
 
-expect(pure, /entityData\.get\(OMBOO_COMBAT_STATUS\) != 0[\s\S]{0,100}?ModSounds\.get\("mob\.silence"\)/,
+expect(pure, /entityData\.get\(OMBOO_COMBAT_STATUS\) != 0[\s\S]{0,180}?ModSounds\.get\("mob\.silence"\)/,
   "Light Bomber combat ambient silence is missing");
-expect(pure, /activeKind\(\) == Kind\.BOMBER_LIGHT && random\.nextBoolean\(\) && getAdaptationHitStatus\(\) > 0[\s\S]{0,100}?ModSounds\.get\("mob\.silence"\)/,
+expect(pure, /activeKind\(\) == Kind\.BOMBER_LIGHT \|\| activeKind\(\) == Kind\.MONARCH[\s\S]{0,120}?random\.nextBoolean\(\) && getAdaptationHitStatus\(\) > 0[\s\S]{0,100}?ModSounds\.get\("mob\.silence"\)/,
   "Light Bomber adaptive hurt silence is missing");
 expect(pure, /activeKind == Kind\.GRUNT \|\| activeKind == Kind\.BOMBER_LIGHT[\s\S]{0,300}?return;/,
   "Light Bomber still runs the duplicate Pure-tier block-breaking loop");

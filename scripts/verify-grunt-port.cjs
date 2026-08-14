@@ -97,7 +97,7 @@ expect(pure, /getGruntSkin\(\) == 5[\s\S]{0,200}?ModMobEffects\.VIRAL, 40, 0/,
   "virulent Grunt collision effect is missing");
 expect(pure, /case GRUNT[\s\S]{0,250}?getGruntSkin\(\) == 5[\s\S]{0,100}?VIRAL, 40, 0[\s\S]{0,120}?getGruntSkin\(\) == 6[\s\S]{0,100}?BLEED, 40, 0/,
   "Grunt variant melee effects are missing");
-expect(pure, /getGruntSkin\(\) == 7 \? baseHardness \* 2\.0F : baseHardness/,
+expect(pure, /activeKind\(\) == Kind\.GRUNT && getGruntSkin\(\) == 7[\s\S]{0,180}?baseHardness \* 2\.0F/,
   "heavy Grunt hardness multiplier is missing");
 expect(model, /case 5 -> GRUNT_VIRULENT_TEXTURE;[\s\S]*case 6 -> GRUNT_BLEEDING_TEXTURE;[\s\S]*case 7 -> GRUNT_HEAVY_TEXTURE;/,
   "Grunt variant texture selection is missing");
@@ -153,7 +153,8 @@ expect(evadeGoal, /dashStrength \* 0\.8D[\s\S]{0,250}?sendParticles\(ParticleTyp
 if (/dashTicks|durationTicks\s*=/.test(evadeGoal)) {
   failures.push("Grunt evade adds a duration pause that the original runtime never enters");
 }
-expect(pure, /new EvasiveDashGoal\(100, 0\.75D\)/, "Monarch evade behavior was changed by the Grunt port");
+expect(pure, /new MonarchEvasiveDashGoal\(17, 2, 5, 3\.5D, 15\)/,
+  "Monarch evade behavior was changed by the Grunt port");
 expect(pure, /new EvasiveDashGoal\(100, 0\.70D\)/, "Warden evade behavior was changed by the Grunt port");
 
 expect(base, /addBlockBreakProfiles\(profiles, 3\.0F, 20, 1, "grunt"\)/,

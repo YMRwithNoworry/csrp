@@ -62,6 +62,14 @@ const behaviorPorts = {
     verifier: "scripts/verify-bomber-light-port.cjs",
     status: "audited",
     auditScope: "entity-specific"
+  },
+  monarch: {
+    originalClass: "EntityOrch",
+    originalSource: "com/dhanantry/scapeandrunparasites/entity/monster/pure/EntityOrch.java",
+    implementation: "src/main/java/alku/csrp/entity/PureParasiteEntity.java",
+    verifier: "scripts/verify-monarch-port.cjs",
+    status: "audited",
+    auditScope: "entity-specific"
   }
 };
 

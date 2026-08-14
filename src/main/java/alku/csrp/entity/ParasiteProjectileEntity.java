@@ -21,14 +21,18 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.event.EventHooks;
 
 import java.util.UUID;
 
@@ -186,7 +190,7 @@ public final class ParasiteProjectileEntity extends Entity {
                 case BOMB, METEOR -> ParticleTypes.FLAME;
                 case LIGHT, HOMING, WITHER -> ParticleTypes.SOUL_FIRE_FLAME;
                 case SPINE, NEEDLE -> ParticleTypes.CRIT;
-                case WEB -> ParticleTypes.WHITE_ASH;
+                case WEB -> ParticleTypes.POOF;
                 case ACID, YELLOWEYE_SPINE, YELLOWEYE_NADE, ALAFHA_BALL, ANGED_BALL,
                         ANCIENT_BALL, SALIVA_EFFECT, BIOMASS_BALL -> ParticleTypes.ITEM_SLIME;
                 case DRAGON_MISSILE -> ParticleTypes.DRAGON_BREATH;
@@ -207,11 +211,18 @@ public final class ParasiteProjectileEntity extends Entity {
         LivingEntity hit = level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(0.65),
                         target -> canCollideWith(owner, mode, target))
                 .stream().findFirst().orElse(null);
+        if (mode == Mode.WEB) {
+            if (hit != null || blockHit.getType() == HitResult.Type.BLOCK) {
+                impactWeb(hit, blockHit instanceof BlockHitResult blockHitResult ? blockHitResult : null);
+            } else if (tickCount > 60 || tickCount >= maximumLifetime) {
+                scatterWebsAround();
+                discard();
+            }
+            return;
+        }
+
         if (mode != Mode.HOMING && blockHit.getType() != HitResult.Type.MISS
                 || hit != null || tickCount >= maximumLifetime) {
-            if (mode == Mode.WEB && hit == null && blockHit.getType() == HitResult.Type.BLOCK) {
-                placeWeb(BlockPos.containing(blockHit.getLocation()));
-            }
             impact(owner, mode, hit);
         }
     }
@@ -281,10 +292,6 @@ public final class ParasiteProjectileEntity extends Entity {
                     }
                 }
                 case WEB -> {
-                    target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 2), owner);
-                    if (webKind >= 1) {
-                        target.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 0), owner);
-                    }
                 }
                 case NEEDLE -> target.addEffect(new MobEffectInstance(ModMobEffects.NEEDLER, 180, 0), owner);
                 case WITHER -> target.addEffect(new MobEffectInstance(MobEffects.WITHER, 160, 1), owner);
@@ -335,7 +342,7 @@ public final class ParasiteProjectileEntity extends Entity {
         if (level() instanceof ServerLevel serverLevel) {
             serverLevel.sendParticles(mode == Mode.LIGHT || mode == Mode.WITHER ? ParticleTypes.SOUL_FIRE_FLAME
                             : mode == Mode.ACID || mode == Mode.VOMIT ? ParticleTypes.WITCH
-                            : mode == Mode.WEB ? ParticleTypes.WHITE_ASH : ParticleTypes.EXPLOSION,
+                            : mode == Mode.WEB ? ParticleTypes.POOF : ParticleTypes.EXPLOSION,
                     getX(), getY(), getZ(), 12, radius * 0.25, radius * 0.25, radius * 0.25, 0.02);
         }
         discard();
@@ -379,18 +386,49 @@ public final class ParasiteProjectileEntity extends Entity {
         }
     }
 
-    private void placeWeb(BlockPos pos) {
-        if (level().isClientSide || !level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+    private void impactWeb(LivingEntity directHit, BlockHitResult blockHit) {
+        if (level().isClientSide) {
             return;
         }
-        BlockState state = level().getBlockState(pos);
-        if (!state.canBeReplaced()) {
+        boolean griefing = level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
+                && EventHooks.canEntityGrief(level(), this);
+        if (directHit != null) {
+            if (directHit instanceof Player player
+                    && !player.hasEffect(MobEffects.BLINDNESS) && random.nextFloat() < 0.30F) {
+                player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 60, 0, false, true));
+            }
+            placeVanillaWeb(BlockPos.containing(directHit.getX(), directHit.getBoundingBox().minY,
+                    directHit.getZ()), griefing);
+        } else if (blockHit != null) {
+            placeVanillaWeb(blockHit.getBlockPos().relative(blockHit.getDirection()), griefing);
+        }
+        discard();
+    }
+
+    private void placeVanillaWeb(BlockPos pos, boolean griefing) {
+        if (!griefing || !level().isEmptyBlock(pos)) {
             return;
         }
-        SrpWebBlock.Kind kind = SrpWebBlock.Kind.values()[Math.max(0, Math.min(webKind, 2))];
-        level().setBlockAndUpdate(pos, ModBlocks.SRP_WEB.get().defaultBlockState()
-                .setValue(SrpWebBlock.KIND, kind)
-                .setValue(SrpWebBlock.AGE, 0));
+        level().setBlockAndUpdate(pos, Blocks.COBWEB.defaultBlockState());
+    }
+
+    private void scatterWebsAround() {
+        if (level().isClientSide) {
+            return;
+        }
+        int totalWebs = random.nextInt(3) + 1;
+        for (int index = 0; index < totalWebs; index++) {
+            BlockPos pos = BlockPos.containing(getX() + random.nextInt(3) - 1,
+                    getY() + random.nextInt(3) - 1,
+                    getZ() + random.nextInt(3) - 1);
+            if (!level().getBlockState(pos).isAir()) {
+                continue;
+            }
+            SrpWebBlock.Kind kind = SrpWebBlock.Kind.values()[Math.max(0, Math.min(webKind, 2))];
+            level().setBlockAndUpdate(pos, ModBlocks.SRP_WEB.get().defaultBlockState()
+                    .setValue(SrpWebBlock.KIND, kind)
+                    .setValue(SrpWebBlock.AGE, 0));
+        }
     }
 
     private void impactLegacyProjectile(PrimitiveParasiteEntity owner, Mode mode, LivingEntity directHit) {

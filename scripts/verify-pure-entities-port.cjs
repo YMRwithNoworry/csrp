@@ -31,7 +31,7 @@ expect(pure, /ADAPTATION_PER_HIT\s*=\s*0\.125F/, "Pure adaptation reduction is m
 expect(pure, /MAX_LEARNABLE_DAMAGE_SOURCES\s*=\s*12/, "Pure learnable-source cap is missing");
 expect(pure, /DamageTypeTags\.IS_FIRE/, "Pure fire weakness is missing");
 expect(pure, /LightBomberBombGoal/, "Light Bomber bombardment is missing");
-expect(pure, /MonarchWebGoal/, "Monarch web projectile behavior is missing");
+expect(pure, /MonarchWebVolleyGoal/, "Monarch web projectile behavior is missing");
 expect(pure, /OverseerVolleyGoal/, "Overseer rapid volley behavior is missing");
 expect(pure, /OverseerSummonGoal/, "Overseer summoning behavior is missing");
 expect(pure, /SeekerRandomFlightGoal/, "Seeker random-flight behavior is missing");

@@ -52,6 +52,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.PartEntity;
+import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
@@ -77,6 +78,10 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
             PureParasiteEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Byte> GRUNT_SKIN = SynchedEntityData.defineId(
             PureParasiteEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Byte> MONARCH_SKIN = SynchedEntityData.defineId(
+            PureParasiteEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Integer> MONARCH_COMBAT_STATUS = SynchedEntityData.defineId(
+            PureParasiteEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Byte> OMBOO_FLAGS = SynchedEntityData.defineId(
             PureParasiteEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Byte> OMBOO_SKIN = SynchedEntityData.defineId(
@@ -153,6 +158,10 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
     private boolean gruntSkillLeapActive;
     private int gruntSkillLeapTicks;
     private boolean gruntSkillLeapWasAirborne;
+    private boolean monarchSkillLeapActive;
+    private int monarchSkillLeapTicks;
+    private boolean monarchSkillLeapWasAirborne;
+    private boolean monarchWaterLeapActive;
     private boolean deathBurstFired;
 
     public PureParasiteEntity(EntityType<? extends PureParasiteEntity> type, Level level, Kind kind) {
@@ -222,11 +231,12 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
                 goalSelector.addGoal(6, new OmbooRandomFlightGoal());
             }
             case MONARCH -> {
-                goalSelector.addGoal(1, new MonarchWebGoal());
-                goalSelector.addGoal(2, new MonarchLeapGoal());
-                goalSelector.addGoal(3, new MonarchChargeGoal());
-                goalSelector.addGoal(4, new EvasiveDashGoal(100, 0.75D));
-                goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.20D, false));
+                goalSelector.addGoal(0, new MonarchSkillLeapGoal());
+                goalSelector.addGoal(0, new MonarchSwimmingDivingGoal());
+                goalSelector.addGoal(6, new MonarchWebVolleyGoal());
+                goalSelector.addGoal(2, new MonarchWaterLeapGoal());
+                goalSelector.addGoal(3, new MonarchAreaMeleeGoal());
+                goalSelector.addGoal(2, new MonarchEvasiveDashGoal(17, 2, 5, 3.5D, 15));
             }
             case OVERSEER -> {
                 goalSelector.addGoal(1, new OverseerVolleyGoal());
@@ -258,7 +268,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
 
     @Override
     protected boolean usesDefaultFloatGoal() {
-        return activeKind() != Kind.GRUNT;
+        return activeKind() != Kind.GRUNT && activeKind() != Kind.MONARCH;
     }
 
     @Override
@@ -274,6 +284,8 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         builder.define(VIGILANTE_LEFT_TENDRIL, -1.0F);
         builder.define(VIGILANTE_RIGHT_TENDRIL, -1.0F);
         builder.define(GRUNT_SKIN, (byte) 0);
+        builder.define(MONARCH_SKIN, (byte) 0);
+        builder.define(MONARCH_COMBAT_STATUS, 0);
         builder.define(OMBOO_FLAGS, (byte) 0);
         builder.define(OMBOO_SKIN, (byte) 0);
         builder.define(OMBOO_COMBAT_STATUS, 0);
@@ -293,6 +305,13 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
                 && (random.nextDouble() < Config.variantSpawnChance()
                 || Config.evolutionPhase(level.getLevel()) >= Config.alwaysVariantPhase())) {
             setOmbooSkin(7);
+        }
+        if (!level.isClientSide() && activeKind() == Kind.MONARCH
+                && (random.nextDouble() < Config.variantSpawnChance()
+                || Config.evolutionPhase(level.getLevel()) >= Config.alwaysVariantPhase())) {
+            setMonarchSkin(random.nextBoolean() ? 1 : 7);
+            applyMonarchVariantAttributes();
+            setHealth(getMaxHealth());
         }
         return data;
     }
@@ -321,6 +340,9 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
             attackAnimationTicks--;
         }
         tickGruntSkillLeap();
+        if (activeKind == Kind.MONARCH) {
+            updateMonarchCombatStatus();
+        }
         if (activeKind == Kind.BOMBER_LIGHT) {
             tickOmbooFlightEnvironment();
         } else if (activeKind.flying && onGround()) {
@@ -335,7 +357,9 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
             return;
         }
         breakBlocksTowardsTarget(target, activeKind);
-        if (activeKind != Kind.SEEKER && supportCooldown <= 0 && tickCount % 40 == 0) {
+        if (activeKind == Kind.MONARCH && tickCount % 61 == 20) {
+            tryMonarchSummonSupport(target);
+        } else if (activeKind != Kind.SEEKER && supportCooldown <= 0 && tickCount % 40 == 0) {
             trySummonSupport(target);
         }
     }
@@ -411,18 +435,29 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
+    public boolean applyScaryOrbEffect(LivingEntity target, int nearbyEntities) {
+        boolean applied = super.applyScaryOrbEffect(target, nearbyEntities);
+        if (applied && activeKind() == Kind.MONARCH) {
+            ConfiguredOrbEffects.apply(this, target, nearbyEntities, MobsConfig.monarchOrbEffects());
+        }
+        return applied;
+    }
+
+    @Override
     protected EntityDimensions getDefaultDimensions(Pose pose) {
         EntityDimensions dimensions = super.getDefaultDimensions(pose);
         return switch (activeKind()) {
             case GRUNT -> dimensions.withEyeHeight(1.73F);
             case BOMBER_LIGHT -> dimensions.withEyeHeight(2.4F);
+            case MONARCH -> dimensions.withEyeHeight(3.5F);
             default -> dimensions;
         };
     }
 
     @Override
     protected SoundEvent getAmbientSound() {
-        if (activeKind() == Kind.BOMBER_LIGHT && entityData.get(OMBOO_COMBAT_STATUS) != 0) {
+        if ((activeKind() == Kind.BOMBER_LIGHT && entityData.get(OMBOO_COMBAT_STATUS) != 0)
+                || (activeKind() == Kind.MONARCH && entityData.get(MONARCH_COMBAT_STATUS) != 0)) {
             return ModSounds.get("mob.silence");
         }
         return super.getAmbientSound();
@@ -430,7 +465,8 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
 
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
-        if (activeKind() == Kind.BOMBER_LIGHT && random.nextBoolean() && getAdaptationHitStatus() > 0) {
+        if ((activeKind() == Kind.BOMBER_LIGHT || activeKind() == Kind.MONARCH)
+                && random.nextBoolean() && getAdaptationHitStatus() > 0) {
             return ModSounds.get("mob.silence");
         }
         return super.getHurtSound(source);
@@ -442,12 +478,20 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
             playSound(SoundEvents.SPIDER_STEP, 0.15F, 1.0F);
             return;
         }
+        if (activeKind() == Kind.MONARCH) {
+            playSound(ModSounds.HEAVY_MULTIPLE_STEP.get(), 0.15F, 1.0F);
+            return;
+        }
         super.playStepSound(pos, state);
     }
 
     @Override
     protected float adjustBlockBreakHardness(float baseHardness) {
-        return activeKind() == Kind.GRUNT && getGruntSkin() == 7 ? baseHardness * 2.0F : baseHardness;
+        if ((activeKind() == Kind.GRUNT && getGruntSkin() == 7)
+                || (activeKind() == Kind.MONARCH && getMonarchSkin() == 7)) {
+            return baseHardness * 2.0F;
+        }
+        return baseHardness;
     }
 
     @Override
@@ -495,6 +539,9 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         if (activeKind() == Kind.GRUNT) {
             tag.putByte("GruntSkin", entityData.get(GRUNT_SKIN));
         }
+        if (activeKind() == Kind.MONARCH) {
+            tag.putByte("MonarchSkin", entityData.get(MONARCH_SKIN));
+        }
         if (activeKind() == Kind.BOMBER_LIGHT) {
             tag.putByte("OmbooSkin", entityData.get(OMBOO_SKIN));
         }
@@ -516,6 +563,10 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         }
         if (activeKind() == Kind.GRUNT) {
             setGruntSkin(tag.contains("GruntSkin") ? tag.getByte("GruntSkin") : 0);
+        }
+        if (activeKind() == Kind.MONARCH) {
+            setMonarchSkin(tag.contains("MonarchSkin") ? tag.getByte("MonarchSkin") : 0);
+            applyMonarchVariantAttributes();
         }
         if (activeKind() == Kind.BOMBER_LIGHT) {
             setOmbooSkin(tag.contains("OmbooSkin") ? tag.getByte("OmbooSkin") : 0);
@@ -541,6 +592,31 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
 
     private void setGruntSkin(int skin) {
         entityData.set(GRUNT_SKIN, (byte) (skin >= 5 && skin <= 7 ? skin : 0));
+    }
+
+    public int getMonarchSkin() {
+        return activeKind() == Kind.MONARCH ? entityData.get(MONARCH_SKIN) : 0;
+    }
+
+    private void setMonarchSkin(int skin) {
+        entityData.set(MONARCH_SKIN, (byte) (skin == 1 || skin == 7 ? skin : 0));
+    }
+
+    private void applyMonarchVariantAttributes() {
+        if (activeKind() != Kind.MONARCH) {
+            return;
+        }
+        double health = getMonarchSkin() == 1 ? Kind.MONARCH.maxHealth * 0.5D : Kind.MONARCH.maxHealth;
+        double damage = getMonarchSkin() == 1 ? Kind.MONARCH.attackDamage * 1.5D : Kind.MONARCH.attackDamage;
+        if (getAttribute(Attributes.MAX_HEALTH) != null) {
+            getAttribute(Attributes.MAX_HEALTH).setBaseValue(health);
+        }
+        if (getAttribute(Attributes.ATTACK_DAMAGE) != null) {
+            getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(damage);
+        }
+        if (getHealth() > getMaxHealth()) {
+            setHealth(getMaxHealth());
+        }
     }
 
     public int getOmbooSkin() {
@@ -731,7 +807,10 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
                     EffectStacking.apply(target, ModMobEffects.BLEED, 40, 0);
                 }
             }
-            case MONARCH -> target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 80, 1, false, false), this);
+            case MONARCH -> {
+                target.setDeltaMovement(target.getDeltaMovement().add(0.0D, 0.5D, 0.0D));
+                target.hurtMarked = true;
+            }
             case VIGILANTE -> pushAway(target, 0.45D, 0.20D);
             case WARDEN -> pushAway(target, 0.70D, 0.55D);
             default -> {
@@ -801,6 +880,70 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
                 return;
             }
             dispatcher.moveTo(target.getX(), target.getY(), target.getZ(), getYRot(), 0.0F);
+            dispatcher.setDispatchTarget(this);
+            dispatcher.setLifetimeTicks(0);
+            serverLevel.addFreshEntity(dispatcher);
+        }
+    }
+
+    private void updateMonarchCombatStatus() {
+        LivingEntity target = getTarget();
+        int status;
+        if (monarchSkillLeapActive || monarchWaterLeapActive) {
+            status = 10;
+        } else if (target == null || !target.isAlive()) {
+            status = 0;
+        } else {
+            status = distanceToSqr(target) > 64.0D ? 2 : 1;
+        }
+        entityData.set(MONARCH_COMBAT_STATUS, status);
+    }
+
+    private boolean monarchLeapBusy() {
+        return monarchSkillLeapActive || monarchWaterLeapActive;
+    }
+
+    private void tryMonarchSummonSupport(LivingEntity target) {
+        if (!(level() instanceof ServerLevel serverLevel) || hasLineOfSight(target)) {
+            return;
+        }
+        double distance = distanceToSqr(target);
+        boolean primaryBranch = (distance <= 64.0D || random.nextInt(3) != 0) && random.nextInt(10) != 0;
+        MobEffectInstance slowness = target.getEffect(MobEffects.MOVEMENT_SLOWDOWN);
+        if (primaryBranch && slowness != null && slowness.getAmplifier() == 2) {
+            return;
+        }
+
+        boolean spawnSeizer = primaryBranch && random.nextInt(4) == 0;
+        int range = spawnSeizer ? 3 : 5;
+        int minimum = spawnSeizer ? 1 : 3;
+        double offsetX = (random.nextInt(range) + minimum) * (random.nextBoolean() ? 1.0D : -1.0D);
+        double offsetZ = (random.nextInt(range) + minimum) * (random.nextBoolean() ? 1.0D : -1.0D);
+        double spawnX = target.getX() + offsetX;
+        double spawnZ = target.getZ() + offsetZ;
+
+        if (spawnSeizer) {
+            long nearbySeizers = level().getEntitiesOfClass(DeterrentParasiteEntity.class,
+                            target.getBoundingBox().inflate(16.0D), entity -> entity.getKind() == DeterrentParasiteEntity.Kind.SEIZER)
+                    .size();
+            if (nearbySeizers > 10) {
+                return;
+            }
+            DeterrentParasiteEntity seizer = ModEntities.SEIZER.get().create(serverLevel);
+            if (seizer == null) {
+                return;
+            }
+            seizer.moveTo(spawnX, target.getY(), spawnZ, getYRot(), 0.0F);
+            seizer.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(seizer.blockPosition()),
+                    MobSpawnType.MOB_SUMMONED, null);
+            seizer.setTarget(target);
+            serverLevel.addFreshEntity(seizer);
+            return;
+        }
+
+        DeterrentParasiteEntity dispatcher = ModEntities.DISPATCHERTEN.get().create(serverLevel);
+        if (dispatcher != null) {
+            dispatcher.moveTo(spawnX, target.getY(), spawnZ, getYRot(), 0.0F);
             dispatcher.setDispatchTarget(this);
             dispatcher.setLifetimeTicks(0);
             serverLevel.addFreshEntity(dispatcher);
@@ -937,11 +1080,17 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         if (projectile == null) {
             return;
         }
-        Vec3 start = getEyePosition().add(getViewVector(1.0F).scale(0.55D));
-        projectile.configure(this, ParasiteProjectileEntity.Mode.WEB, start,
-                target.getEyePosition(), 0.95D, 8.0F, 1.0D, 80, target);
+        Vec3 look = getViewVector(1.0F);
+        Vec3 start = new Vec3(getX() + look.x, getY() + getEyeHeight() - 0.2D, getZ() + look.z);
+        double accelerationY = target.getBoundingBox().minY + target.getBbHeight() / 3.0D
+                - (1.0D + getY() + getBbHeight() / 2.0D);
+        Vec3 acceleration = new Vec3(target.getX() - (getX() + look.x), accelerationY,
+                target.getZ() - (getZ() + look.z));
+        projectile.configureLegacyFireball(this, ParasiteProjectileEntity.Mode.WEB, start,
+                acceleration, 0.0F, 0.0D, 61);
         projectile.setWebKind(webKind);
         level().addFreshEntity(projectile);
+        playSound(ModSounds.DORPA_RANGE.get(), 2.0F, 1.0F);
     }
 
     private void fireBomb(LivingEntity target) {
@@ -1345,122 +1494,411 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         }
     }
 
-    private final class MonarchWebGoal extends Goal {
-        private int cooldown;
-
-        private MonarchWebGoal() {
-            setFlags(EnumSet.of(Flag.LOOK));
-        }
+    private final class MonarchSkillLeapGoal extends Goal {
+        private int chargeTicks;
 
         @Override
         public boolean canUse() {
-            if (cooldown > 0) {
-                cooldown--;
-                return false;
-            }
             LivingEntity target = getTarget();
-            return target != null && hasLineOfSight(target) && distanceToSqr(target) >= 16.0D
-                    && distanceToSqr(target) <= 400.0D;
+            return monarchSkillLeapActive || target != null && target.isAlive();
         }
 
         @Override
         public boolean canContinueToUse() {
-            return false;
+            return canUse();
         }
 
         @Override
-        public void start() {
+        public void tick() {
+            if (monarchSkillLeapActive) {
+                tickMonarchSkillLeap();
+                return;
+            }
             LivingEntity target = getTarget();
-            if (target != null) {
-                getLookControl().setLookAt(target, 30.0F, 30.0F);
-                fireWebProjectile(target, 1);
-                triggerAttackAnimation();
-                cooldown = 70;
+            if (target == null || monarchWaterLeapActive) {
+                return;
+            }
+            double distance = distanceToSqr(target);
+            if (hasLineOfSight(target) && distance >= 100.0D && distance < 10_000.0D) {
+                chargeTicks++;
+            }
+            if (hasEffect(ModMobEffects.RAGE)) {
+                chargeTicks++;
+            }
+            if (chargeTicks >= 40 && onGround() && !hasEffect(MobEffects.MOVEMENT_SLOWDOWN)) {
+                chargeTicks = 0;
+                startMonarchSkillLeap(target);
             }
         }
     }
 
-    private final class MonarchLeapGoal extends Goal {
-        private int cooldown;
+    private final class MonarchSwimmingDivingGoal extends Goal {
+        private MonarchSwimmingDivingGoal() {
+            setFlags(EnumSet.of(Flag.JUMP));
+        }
 
-        private MonarchLeapGoal() {
+        @Override
+        public boolean canUse() {
+            if (monarchLeapBusy() || !isInWaterOrBubble() && !isInLava()) {
+                return false;
+            }
+            LivingEntity target = getTarget();
+            if (target != null && (target.isInWaterOrBubble() || target.isInLava())
+                    && target.distanceToSqr(getX(), target.getY(), getZ()) < 25.0D
+                    && target.getY() - getY() < -1.0D) {
+                setDeltaMovement(getDeltaMovement().add(0.0D, -0.12D, 0.0D));
+                return false;
+            }
+            return true;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return canUse();
+        }
+
+        @Override
+        public void tick() {
+            if (random.nextFloat() < 0.8F) {
+                getJumpControl().jump();
+            }
+        }
+    }
+
+    private final class MonarchWebVolleyGoal extends Goal {
+        private int attackTimer;
+        private int shots;
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = getTarget();
+            return target != null && target.isAlive();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return canUse();
+        }
+
+        @Override
+        public void stop() {
+            attackTimer = 0;
+            shots = 0;
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = getTarget();
+            if (target == null || monarchLeapBusy()) {
+                attackTimer = 0;
+                shots = 0;
+                return;
+            }
+            if (distanceToSqr(target) < 4225.0D && hasLineOfSight(target)) {
+                attackTimer += hasEffect(ModMobEffects.RAGE) ? 2 : 1;
+                if (attackTimer > 40) {
+                    if (shots < 4) {
+                        if (attackTimer % 15 == 0) {
+                            getLookControl().setLookAt(target, 30.0F, 30.0F);
+                            fireWebProjectile(target, 1);
+                            shots++;
+                        }
+                    } else {
+                        attackTimer = 0;
+                        shots = 0;
+                    }
+                }
+            } else if (attackTimer > 0) {
+                attackTimer--;
+            }
+        }
+    }
+
+    private final class MonarchWaterLeapGoal extends Goal {
+        private int attackTimer;
+        private int attacking;
+        private double targetX;
+        private double targetZ;
+        private float targetY;
+
+        @Override
+        public boolean canUse() {
+            return attacking >= 1 || !monarchSkillLeapActive && (isInWaterOrBubble() || isInLava());
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return canUse();
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = getTarget();
+            if (!monarchSkillLeapActive && target != null && target.isAlive()) {
+                attackTimer += hasEffect(ModMobEffects.RAGE) ? 2 : 1;
+                if (attackTimer >= 20 && attacking == 0) {
+                    attacking = 1;
+                    targetX = target.getX();
+                    targetZ = target.getZ();
+                    targetY = Math.max(0.0F, (float) ((target.getY() - getY()) * 0.07D));
+                }
+            } else if (attackTimer > 0) {
+                attackTimer--;
+            }
+
+            if (attacking < 1) {
+                return;
+            }
+            attacking++;
+            if (attacking == 2 && onGround()) {
+                getNavigation().stop();
+                double x = targetX - getX();
+                double z = targetZ - getZ();
+                double horizontalLength = Math.sqrt(x * x + z * z);
+                if (horizontalLength > 0.001D) {
+                    Vec3 movement = getDeltaMovement();
+                    setDeltaMovement(movement.x + x / horizontalLength * 1.5D * 0.9D + movement.x * 0.3D,
+                            0.7D + targetY,
+                            movement.z + z / horizontalLength * 1.5D * 0.9D + movement.z * 0.3D);
+                    hurtMarked = true;
+                    monarchWaterLeapActive = true;
+                    startSpecialLeapAnimation(24);
+                }
+            }
+            if (monarchWaterLeapActive) {
+                startSpecialLeapAnimation(2);
+            }
+            if (attacking >= 3 && onGround()) {
+                performMonarchLandingAttack(7.0D);
+                attacking = 0;
+                attackTimer = 0;
+                monarchWaterLeapActive = false;
+            } else if (attacking >= 80) {
+                attacking = 0;
+                attackTimer = 0;
+                monarchWaterLeapActive = false;
+            }
+        }
+    }
+
+    private final class MonarchAreaMeleeGoal extends Goal {
+        private int attackCooldown;
+
+        private MonarchAreaMeleeGoal() {
             setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
         }
 
         @Override
         public boolean canUse() {
-            if (cooldown > 0) {
-                cooldown--;
-                return false;
-            }
             LivingEntity target = getTarget();
-            return target != null && onGround() && distanceToSqr(target) >= 25.0D
-                    && distanceToSqr(target) <= 196.0D;
+            return target != null && target.isAlive();
         }
 
         @Override
         public boolean canContinueToUse() {
-            return false;
+            return canUse();
         }
 
         @Override
-        public void start() {
+        public void tick() {
             LivingEntity target = getTarget();
-            if (target == null) {
+            if (target == null || monarchLeapBusy()) {
                 return;
             }
-            leapTowards(target, 0.75D, 0.62D);
-            startSpecialLeapAnimation(30);
-            spawnBuglins(target, 5);
-            triggerAttackAnimation();
-            cooldown = 220;
+            getLookControl().setLookAt(target, 30.0F, 30.0F);
+            attackCooldown--;
+            MobEffectInstance pivot = getEffect(ModMobEffects.PIVOT);
+            if (attackCooldown > 0 && pivot != null) {
+                attackCooldown -= pivot.getAmplifier() * 2;
+            }
+            double distance = distanceToSqr(target);
+            if (distance <= 4.0D && hasLineOfSight(target)) {
+                getNavigation().stop();
+                if (attackCooldown <= 0) {
+                    attackCooldown = 10;
+                    performAreaMelee(target);
+                }
+                return;
+            }
+            getNavigation().moveTo(target, distance > 64.0D ? 1.3D : 1.0D);
+        }
+
+        @Override
+        public void stop() {
+            getNavigation().stop();
         }
     }
 
-    private final class MonarchChargeGoal extends Goal {
+    private final class MonarchEvasiveDashGoal extends Goal {
+        private final int cooldownTicks;
+        private final double minimumDistanceSqr;
+        private final double dashStrength;
+        private final double maximumDistanceSqr;
         private int cooldown;
 
-        private MonarchChargeGoal() {
-            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
+        private MonarchEvasiveDashGoal(int cooldownTicks, int ignoredDurationTicks, int minimumDistance,
+                                       double dashStrength, int maximumDistance) {
+            this.cooldownTicks = cooldownTicks;
+            this.minimumDistanceSqr = minimumDistance * minimumDistance;
+            this.dashStrength = dashStrength;
+            this.maximumDistanceSqr = maximumDistance * maximumDistance;
         }
 
         @Override
         public boolean canUse() {
-            if (cooldown > 0) {
-                cooldown--;
-                return false;
-            }
             LivingEntity target = getTarget();
-            return target != null && onGround() && distanceToSqr(target) >= 9.0D
-                    && distanceToSqr(target) <= 100.0D;
+            return target != null && target.isAlive() && onGround() && !monarchLeapBusy();
         }
 
         @Override
         public boolean canContinueToUse() {
-            return false;
+            return canUse();
         }
 
         @Override
-        public void start() {
+        public void stop() {
+            cooldown = 0;
+        }
+
+        @Override
+        public void tick() {
             LivingEntity target = getTarget();
             if (target == null) {
                 return;
             }
-            leapTowards(target, 1.05D, 0.18D);
-            spawnBuglins(target, 3);
-            triggerAttackAnimation();
-            cooldown = 180;
+            double distance = distanceToSqr(target);
+            if (distance > minimumDistanceSqr && distance < maximumDistanceSqr && hasLineOfSight(target)
+                    && cooldown < cooldownTicks) {
+                cooldown++;
+            }
+            if (cooldown < cooldownTicks) {
+                return;
+            }
+            Vec3 towardTarget = target.position().subtract(position());
+            double horizontalLength = towardTarget.horizontalDistance();
+            if (horizontalLength <= 0.001D) {
+                return;
+            }
+            double bonusX = random.nextBoolean() ? dashStrength : 0.0D;
+            double bonusZ = bonusX == 0.0D ? dashStrength : 0.0D;
+            Vec3 movement = getDeltaMovement();
+            setDeltaMovement(movement.x + towardTarget.x / horizontalLength * dashStrength * 0.8D
+                            + movement.x * 0.2D + bonusX,
+                    movement.y,
+                    movement.z + towardTarget.z / horizontalLength * dashStrength * 0.8D
+                            + movement.z * 0.2D + bonusZ);
+            hurtMarked = true;
+            getNavigation().stop();
+            if (level() instanceof ServerLevel serverLevel) {
+                serverLevel.sendParticles(ParticleTypes.ENCHANTED_HIT,
+                        getX(), getY() + getBbHeight() * 0.5D, getZ(),
+                        41, getBbWidth() * 0.5D, getBbHeight() * 0.5D, getBbWidth() * 0.5D, 0.08D);
+            }
+            cooldown = 0;
         }
     }
 
-    private void leapTowards(LivingEntity target, double horizontalSpeed, double verticalSpeed) {
-        Vec3 direction = target.position().subtract(position());
-        Vec3 horizontal = new Vec3(direction.x, 0.0D, direction.z);
-        if (horizontal.lengthSqr() <= 0.001D) {
+    private void startMonarchSkillLeap(LivingEntity target) {
+        Vec3 offset = target.position().subtract(position());
+        double horizontalLength = offset.horizontalDistance();
+        if (horizontalLength <= 0.001D) {
             return;
         }
-        horizontal = horizontal.normalize().scale(horizontalSpeed);
-        setDeltaMovement(horizontal.x, verticalSpeed, horizontal.z);
+        getNavigation().stop();
+        Vec3 movement = getDeltaMovement();
+        setDeltaMovement(movement.x + offset.x / horizontalLength * 3.5D * 0.9D + movement.x * 0.3D,
+                0.5D,
+                movement.z + offset.z / horizontalLength * 3.5D * 0.9D + movement.z * 0.3D);
+        hurtMarked = true;
+        monarchSkillLeapActive = true;
+        monarchSkillLeapWasAirborne = false;
+        monarchSkillLeapTicks = 2;
+        startSpecialLeapAnimation(40);
+    }
+
+    private void tickMonarchSkillLeap() {
+        monarchSkillLeapTicks++;
+        startSpecialLeapAnimation(2);
+        breakBlocksForMonarchSkill();
+        if (monarchSkillLeapTicks % 5 == 0 && monarchSkillLeapTicks < 40) {
+            spawnMonarchBuglin();
+        }
+        if (!onGround()) {
+            monarchSkillLeapWasAirborne = true;
+        }
+        if ((monarchSkillLeapWasAirborne && onGround())
+                || (!monarchSkillLeapWasAirborne && onGround() && monarchSkillLeapTicks >= 4)) {
+            performMonarchLandingAttack(4.0D);
+            monarchSkillLeapActive = false;
+            monarchSkillLeapWasAirborne = false;
+            monarchSkillLeapTicks = 0;
+            playSound(ModSounds.get("mob.hitground"), 15.0F, 1.0F);
+        } else if (monarchSkillLeapTicks >= 80) {
+            monarchSkillLeapActive = false;
+            monarchSkillLeapWasAirborne = false;
+            monarchSkillLeapTicks = 0;
+        }
+    }
+
+    private void performMonarchLandingAttack(double radius) {
+        AABB area = new AABB(getX(), getY(), getZ(), getX() + 1.0D, getY() + 1.0D, getZ() + 1.0D)
+                .inflate(radius, 2.0D, radius);
+        DragonEggAssimilationEntity.assimilateDragonEggs(level(), area);
+        for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, area,
+                entity -> entity != PureParasiteEntity.this && entity.isAlive() && !(entity instanceof Parasite))) {
+            target.knockback(2.5D, getX() - target.getX(), getZ() - target.getZ());
+            if (super.doHurtTarget(target)) {
+                applyMeleeEffects(target, Kind.MONARCH);
+            }
+        }
+    }
+
+    private void spawnMonarchBuglin() {
+        if (!(level() instanceof ServerLevel serverLevel)) {
+            return;
+        }
+        BuglinEntity buglin = ModEntities.BUGLIN.get().create(serverLevel);
+        if (buglin != null) {
+            buglin.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+            serverLevel.addFreshEntity(buglin);
+        }
+    }
+
+    private void breakBlocksForMonarchSkill() {
+        if (!(level() instanceof ServerLevel serverLevel)
+                || !level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
+                || !EventHooks.canEntityGrief(level(), this)) {
+            return;
+        }
+        int baseX = Mth.floor(getX());
+        int baseY = Mth.floor(getY() + 0.1D);
+        int baseZ = Mth.floor(getZ());
+        int verticalOffset = 0;
+        int horizontalRange = 4;
+        LivingEntity target = getTarget();
+        if (target != null && distanceToSqr(target) < 9.0D) {
+            if (target.getY() - getY() < -1.0D) {
+                verticalOffset = -2;
+            } else if (target.getY() - getY() > 2.0D) {
+                verticalOffset = 1;
+                horizontalRange = 0;
+            }
+        }
+        for (int x = -horizontalRange; x <= horizontalRange; x++) {
+            for (int z = -horizontalRange; z <= horizontalRange; z++) {
+                for (int y = 1 + verticalOffset; y <= 20 + verticalOffset; y++) {
+                    BlockPos pos = new BlockPos(baseX + x, baseY + y, baseZ + z);
+                    BlockState state = serverLevel.getBlockState(pos);
+                    float hardness = state.getDestroySpeed(serverLevel, pos);
+                    if (state.isAir() || hardness < 0.0F || hardness > adjustBlockBreakHardness(5.0F)
+                            || !state.canEntityDestroy(serverLevel, pos, this)
+                            || !EventHooks.onEntityDestroyBlock(this, pos, state)) {
+                        continue;
+                    }
+                    serverLevel.destroyBlock(pos, true, this);
+                }
+            }
+        }
     }
 
     private static final class OmbooMoveControl extends MoveControl {

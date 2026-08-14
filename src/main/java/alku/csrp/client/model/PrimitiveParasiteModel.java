@@ -80,6 +80,12 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/monster/omboo.png");
     private static final ResourceLocation OMBOO_HEAVY_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/monster/ombooh.png");
+    private static final ResourceLocation MONARCH_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/orch.png");
+    private static final ResourceLocation MONARCH_SKIN_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/orchsp1.png");
+    private static final ResourceLocation MONARCH_HEAVY_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/orchh.png");
     private static final String[] OMBOO_PULSE_GROUP_ONE = {"mpop6", "jointp7", "mpop8", "mpop16", "mpop5"};
     private static final String[] OMBOO_PULSE_GROUP_TWO = {"jointp11", "mpop1", "mpop13", "mpop19"};
     private static final String[] OMBOO_PULSE_GROUP_THREE = {"jointp17", "jointp18", "mpop4", "jointp2", "mpop3"};
@@ -128,6 +134,14 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
         if (animatable instanceof PureParasiteEntity pure
                 && pure.getKind() == PureParasiteEntity.Kind.BOMBER_LIGHT) {
             return pure.getOmbooSkin() == 7 ? OMBOO_HEAVY_TEXTURE : OMBOO_TEXTURE;
+        }
+        if (animatable instanceof PureParasiteEntity pure
+                && pure.getKind() == PureParasiteEntity.Kind.MONARCH) {
+            return switch (pure.getMonarchSkin()) {
+                case 1 -> MONARCH_SKIN_TEXTURE;
+                case 7 -> MONARCH_HEAVY_TEXTURE;
+                default -> MONARCH_TEXTURE;
+            };
         }
         if (animatable instanceof PreeminentParasiteEntity preeminent && preeminent.isCarrierVariant()) {
             return CARRIER_VARIANT_TEXTURE;
