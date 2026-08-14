@@ -102,8 +102,29 @@ public final class Config {
                     "wyrmsofnyrus:crawler;csrp:sim_bigspider"),
                     value -> value instanceof String && ((String) value).split(";", -1).length == 2);
     private static final ModConfigSpec.DoubleValue COTH_CONVERT_AT_KILL_CHANCE = BUILDER
-            .comment("Chance for a parasite kill to convert a victim that has COTH.")
+            .comment("Base chance for a parasite kill to convert a COTH I victim. Higher COTH levels increase it.")
             .defineInRange("cothConvertAtKillChance", 0.3D, 0.0D, 1.0D);
+    private static final ModConfigSpec.DoubleValue COTH_ASSIMILATED_SPREAD_CHANCE = BUILDER
+            .comment("Chance for an Assimilated parasite melee hit to infect an uninfected victim with COTH.")
+            .defineInRange("cothAssimilatedSpreadChance", 0.1D, 0.0D, 1.0D);
+    private static final ModConfigSpec.DoubleValue COTH_HIJACKED_SPREAD_CHANCE = BUILDER
+            .comment("Chance for a Hijacked parasite melee hit to infect an uninfected victim with COTH.")
+            .defineInRange("cothHijackedSpreadChance", 0.05D, 0.0D, 1.0D);
+    private static final ModConfigSpec.DoubleValue COTH_FERAL_SPREAD_CHANCE = BUILDER
+            .comment("Chance for a Feral parasite melee hit to infect an uninfected victim with COTH.")
+            .defineInRange("cothFeralSpreadChance", 0.2D, 0.0D, 1.0D);
+    private static final ModConfigSpec.DoubleValue COTH_CRUDE_SPREAD_CHANCE = BUILDER
+            .comment("Chance for a Crude parasite melee hit to infect an uninfected victim with COTH.")
+            .defineInRange("cothCrudeSpreadChance", 0.4D, 0.0D, 1.0D);
+    private static final ModConfigSpec.DoubleValue COTH_PRIMITIVE_SPREAD_CHANCE = BUILDER
+            .comment("Chance for a Primitive parasite melee hit to infect an uninfected victim with COTH.")
+            .defineInRange("cothPrimitiveSpreadChance", 0.5D, 0.0D, 1.0D);
+    private static final ModConfigSpec.DoubleValue COTH_ADAPTED_SPREAD_CHANCE = BUILDER
+            .comment("Chance for an Adapted parasite melee hit to infect an uninfected victim with COTH.")
+            .defineInRange("cothAdaptedSpreadChance", 0.6D, 0.0D, 1.0D);
+    private static final ModConfigSpec.DoubleValue COTH_PURE_SPREAD_CHANCE = BUILDER
+            .comment("Chance for a Pure or Preeminent parasite melee hit to infect an uninfected victim with COTH.")
+            .defineInRange("cothPureSpreadChance", 0.8D, 0.0D, 1.0D);
     private static final ModConfigSpec.IntValue COLONY_EXTRA_HEALTH_POINT = BUILDER
             .defineInRange("colonyExtraHealthPoint", 20, 1, Integer.MAX_VALUE);
     private static final ModConfigSpec.DoubleValue COLONY_EXTRA_HEALTH_VALUE = BUILDER
@@ -505,6 +526,13 @@ public final class Config {
     public static String overlastHudPosition() { return OVERLAST_HUD_POSITION.get(); }
     public static List<? extends String> cothVictimParasites() { return COTH_VICTIM_PARASITES.get(); }
     public static double cothConvertAtKillChance() { return COTH_CONVERT_AT_KILL_CHANCE.get(); }
+    public static double cothAssimilatedSpreadChance() { return COTH_ASSIMILATED_SPREAD_CHANCE.get(); }
+    public static double cothHijackedSpreadChance() { return COTH_HIJACKED_SPREAD_CHANCE.get(); }
+    public static double cothFeralSpreadChance() { return COTH_FERAL_SPREAD_CHANCE.get(); }
+    public static double cothCrudeSpreadChance() { return COTH_CRUDE_SPREAD_CHANCE.get(); }
+    public static double cothPrimitiveSpreadChance() { return COTH_PRIMITIVE_SPREAD_CHANCE.get(); }
+    public static double cothAdaptedSpreadChance() { return COTH_ADAPTED_SPREAD_CHANCE.get(); }
+    public static double cothPureSpreadChance() { return COTH_PURE_SPREAD_CHANCE.get(); }
 
     public static int colonyExtraHealthPoint() { return COLONY_EXTRA_HEALTH_POINT.get(); }
     public static double colonyExtraHealthValue() { return COLONY_EXTRA_HEALTH_VALUE.get(); }

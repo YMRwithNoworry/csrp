@@ -26,7 +26,7 @@ for (const file of files) {
 
 const infection = fs.readFileSync(
     path.join(sourceRoot, "alku", "csrp", "infection", "InfectionMechanics.java"), "utf8");
-if (!/MobEffectInstance\(ModMobEffects\.COTH,[\s\S]*?visible, true\)/.test(infection)) {
+if (!/MobEffectInstance\(ModMobEffects\.COTH,[\s\S]*?(?:visible|mergedVisible), true\)/.test(infection)) {
     failures.push("InfectionMechanics.java: shared COTH helper does not force the status icon visible");
 }
 

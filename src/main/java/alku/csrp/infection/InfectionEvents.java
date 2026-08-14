@@ -2,12 +2,9 @@ package alku.csrp.infection;
 
 import alku.csrp.Csrp;
 import alku.csrp.entity.Parasite;
-import alku.csrp.entity.FeralEndermanEntity;
 import alku.csrp.entity.GnatEntity;
 import alku.csrp.entity.LiceEntity;
 import alku.csrp.registry.ModMobEffects;
-import alku.csrp.world.EvolutionSystem;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -16,6 +13,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 
 /** Connects parasite attacks and terminal COTH stages to infection progression. */
@@ -25,7 +23,7 @@ public final class InfectionEvents {
     }
 
     @SubscribeEvent
-    public static void infectFromParasiteHit(LivingIncomingDamageEvent event) {
+    public static void preventParasiteFriendlyFire(LivingIncomingDamageEvent event) {
         Entity attacker = event.getSource().getEntity();
         Entity direct = event.getSource().getDirectEntity();
         if (InfectionMechanics.isHiddenAssimilated(event.getEntity())
@@ -39,17 +37,27 @@ public final class InfectionEvents {
                 return;
             }
         }
-        if (event.getAmount() <= 0.0F || event.getEntity().level().isClientSide
-                || event.getEntity() instanceof Parasite) {
+    }
+
+    @SubscribeEvent
+    public static void infectFromParasiteHit(LivingDamageEvent.Post event) {
+        LivingEntity target = event.getEntity();
+        if (event.getNewDamage() <= 0.0F || !target.isAlive() || target.level().isClientSide
+                || target instanceof Parasite) {
             return;
         }
-        if (attacker instanceof Parasite && event.getEntity().level() instanceof ServerLevel level) {
-            float chance = attacker instanceof FeralEndermanEntity
-                    ? FeralEndermanEntity.cothChance()
-                    : EvolutionSystem.generationProfile(level).cothChance();
-            if (event.getEntity().getRandom().nextFloat() < chance) {
-                InfectionMechanics.applyCoth(event.getEntity(), attacker);
+        Entity attacker = event.getSource().getEntity();
+        if (attacker instanceof Parasite && !target.hasEffect(ModMobEffects.COTH)) {
+            double chance = InfectionMechanics.cothSpreadChance(attacker);
+            if (target.getRandom().nextDouble() < chance) {
+                InfectionMechanics.applyCoth(target, attacker);
             }
+        }
+        MobEffectInstance coth = target.getEffect(ModMobEffects.COTH);
+        if (coth != null && coth.getAmplifier() >= InfectionMechanics.COTH_MAX_AMPLIFIER
+                && target.getHealth() <= target.getMaxHealth()
+                * InfectionMechanics.COTH_CONVERSION_HEALTH_FRACTION) {
+            InfectionMechanics.convertInfectedHost(target);
         }
     }
 

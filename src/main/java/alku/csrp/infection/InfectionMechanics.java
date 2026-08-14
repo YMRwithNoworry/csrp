@@ -2,9 +2,15 @@ package alku.csrp.infection;
 
 import alku.csrp.Config;
 import alku.csrp.Csrp;
+import alku.csrp.entity.AdaptedVariantEntity;
+import alku.csrp.entity.CrudeParasiteEntity;
 import alku.csrp.entity.FeralEndermanEntity;
 import alku.csrp.entity.FeralParasiteEntity;
+import alku.csrp.entity.HijackedParasiteEntity;
 import alku.csrp.entity.Parasite;
+import alku.csrp.entity.PreeminentParasiteEntity;
+import alku.csrp.entity.PrimitiveParasiteEntity;
+import alku.csrp.entity.PureParasiteEntity;
 import alku.csrp.entity.RupterEntity;
 import alku.csrp.entity.SimAdventurerEntity;
 import alku.csrp.registry.ModEntities;
@@ -77,20 +83,21 @@ public final class InfectionMechanics {
                 && target.getRandom().nextFloat() < CAMOUFLAGE_RESIST_CHANCE) {
             return;
         }
-        int durationFloor = Math.max(COTH_BASE_DURATION_TICKS, minimumDurationTicks);
         MobEffectInstance existing = target.getEffect(ModMobEffects.COTH);
-        int amplifier = existing == null ? 0 : existing.getAmplifier();
-        int duration = existing == null ? durationFloor : Math.max(existing.getDuration(), durationFloor);
+        if (existing != null) {
+            return;
+        }
+        int duration = Math.max(COTH_BASE_DURATION_TICKS, minimumDurationTicks);
         boolean effectChanged = target.addEffect(
-                new MobEffectInstance(ModMobEffects.COTH, duration, amplifier, false, false, true), source);
-        if (effectChanged && existing == null && !target.level().isClientSide) {
+                new MobEffectInstance(ModMobEffects.COTH, duration, 0, false, false, true), source);
+        if (effectChanged && !target.level().isClientSide) {
             playInfectionSound(target);
         }
     }
 
     /**
-     * Applies an exact COTH duration/amplifier for attack and skill paths that do not use
-     * the infection progression floor. The sound is emitted only for a newly infected host.
+     * Merges a requested COTH duration/amplifier without shortening or weakening an existing effect.
+     * The sound is emitted only for a newly infected host.
      */
     public static void applyCothEffect(LivingEntity target, Entity source, int durationTicks, int amplifier) {
         applyCothEffect(target, source, durationTicks, amplifier, false, true);
@@ -98,12 +105,61 @@ public final class InfectionMechanics {
 
     public static void applyCothEffect(LivingEntity target, Entity source, int durationTicks, int amplifier,
                                        boolean ambient, boolean visible) {
-        boolean alreadyInfected = target.hasEffect(ModMobEffects.COTH);
+        MobEffectInstance existing = target.getEffect(ModMobEffects.COTH);
+        boolean alreadyInfected = existing != null;
+        int mergedDuration = existing == null ? durationTicks : Math.max(durationTicks, existing.getDuration());
+        int mergedAmplifier = existing == null ? amplifier : Math.max(amplifier, existing.getAmplifier());
+        boolean mergedAmbient = existing == null ? ambient : ambient && existing.isAmbient();
+        boolean mergedVisible = existing == null ? visible : visible || existing.isVisible();
         boolean effectChanged = target.addEffect(
-                new MobEffectInstance(ModMobEffects.COTH, durationTicks, amplifier, ambient, visible, true), source);
+                new MobEffectInstance(ModMobEffects.COTH, mergedDuration, mergedAmplifier,
+                        mergedAmbient, mergedVisible, true), source);
         if (effectChanged && !alreadyInfected && !target.level().isClientSide) {
             playInfectionSound(target);
         }
+    }
+
+    /** Original per-tier chance for a damaging parasite hit to spread COTH. */
+    public static double cothSpreadChance(Entity attacker) {
+        if (!(attacker instanceof Parasite)) {
+            return 0.0D;
+        }
+        if (attacker instanceof FeralEndermanEntity) {
+            return FeralEndermanEntity.cothChance();
+        }
+        if (attacker instanceof HijackedParasiteEntity) {
+            return Config.cothHijackedSpreadChance();
+        }
+        if (attacker instanceof FeralParasiteEntity) {
+            return Config.cothFeralSpreadChance();
+        }
+        if (attacker instanceof CrudeParasiteEntity) {
+            return Config.cothCrudeSpreadChance();
+        }
+        if (attacker instanceof AdaptedVariantEntity) {
+            return Config.cothAdaptedSpreadChance();
+        }
+        if (attacker instanceof PureParasiteEntity || attacker instanceof PreeminentParasiteEntity) {
+            return Config.cothPureSpreadChance();
+        }
+
+        String path = BuiltInRegistries.ENTITY_TYPE.getKey(attacker.getType()).getPath();
+        if (path.startsWith("sim_")) {
+            return Config.cothAssimilatedSpreadChance();
+        }
+        if (path.startsWith("hi_")) {
+            return Config.cothHijackedSpreadChance();
+        }
+        if (path.startsWith("fer_")) {
+            return Config.cothFeralSpreadChance();
+        }
+        if (path.startsWith("ada_")) {
+            return Config.cothAdaptedSpreadChance();
+        }
+        if (path.startsWith("pri_") || attacker instanceof PrimitiveParasiteEntity) {
+            return Config.cothPrimitiveSpreadChance();
+        }
+        return 0.0D;
     }
 
     private static void playInfectionSound(LivingEntity target) {
@@ -386,10 +442,7 @@ public final class InfectionMechanics {
         int phase = SrpWorldData.get(serverLevel).evolutionPhase();
         boolean guaranteed = attacker instanceof RupterEntity
                 || attacker instanceof FeralParasiteEntity && phase >= ASSIMILATION_FERAL_PHASE;
-        if (!guaranteed && !host.hasEffect(ModMobEffects.COTH)) {
-            return false;
-        }
-        if (!guaranteed && host.getRandom().nextDouble() >= Config.cothConvertAtKillChance()) {
+        if (!guaranteed && !passesCothKillConversion(host)) {
             return false;
         }
 
@@ -414,12 +467,14 @@ public final class InfectionMechanics {
 
     /** A COTH-infected player killed by a parasite leaves an Assimilated Adventurer behind. */
     public static boolean convertKilledPlayer(Player player, Entity attacker) {
-        if (!(attacker instanceof Parasite) || !player.hasEffect(ModMobEffects.COTH)
-                || player.level().isClientSide || player.isRemoved()
+        if (!(attacker instanceof Parasite) || player.level().isClientSide || player.isRemoved()
                 || !(player.level() instanceof ServerLevel serverLevel)) {
             return false;
         }
-        if (player.getRandom().nextDouble() >= Config.cothConvertAtKillChance()) {
+        int phase = SrpWorldData.get(serverLevel).evolutionPhase();
+        boolean guaranteed = attacker instanceof RupterEntity
+                || attacker instanceof FeralParasiteEntity && phase >= ASSIMILATION_FERAL_PHASE;
+        if (!guaranteed && !passesCothKillConversion(player)) {
             return false;
         }
         SimAdventurerEntity converted = ModEntities.SIM_ADVENTURER.get().create(serverLevel);
@@ -450,6 +505,17 @@ public final class InfectionMechanics {
         }
         serverLevel.addFreshEntity(converted);
         return true;
+    }
+
+    private static boolean passesCothKillConversion(LivingEntity host) {
+        MobEffectInstance coth = host.getEffect(ModMobEffects.COTH);
+        if (coth == null) {
+            return false;
+        }
+        int amplifier = Math.min(COTH_MAX_AMPLIFIER, Math.max(0, coth.getAmplifier()));
+        double baseChance = Config.cothConvertAtKillChance();
+        double chance = baseChance + (1.0D - baseChance) * amplifier / COTH_MAX_AMPLIFIER;
+        return host.getRandom().nextDouble() < chance;
     }
 
     private static void spreadCoth(LivingEntity source) {

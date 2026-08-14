@@ -28,6 +28,7 @@ const evolution = read("src/main/java/alku/csrp/world/EvolutionSystem.java");
 const evolutionEvents = read("src/main/java/alku/csrp/world/EvolutionEvents.java");
 const killedHost = method(infection, "public static boolean convertKilledHost", "private static Mob createIncompleteForm");
 const killedPlayer = method(infection, "public static boolean convertKilledPlayer", "private static void spreadCoth");
+const killConversionRoll = method(infection, "private static boolean passesCothKillConversion", "private static void spreadCoth");
 const replaceHost = method(infection, "private static boolean replaceHost", "/** Converts a COTH victim");
 
 expect(evolution, /VALUE_KILL\s*=\s*1;/, "parasite kills do not award exactly one evolution point");
@@ -39,10 +40,17 @@ expect(killedHost, /attacker instanceof RupterEntity/,
         "Rupter kills are not guaranteed host conversions");
 expect(killedHost, /attacker instanceof FeralParasiteEntity\s*&&\s*phase >= ASSIMILATION_FERAL_PHASE/,
         "phase 7 Feral kills are not guaranteed host conversions");
-expect(killedHost, /!guaranteed\s*&&\s*!host\.hasEffect\(ModMobEffects\.COTH\)/,
+expect(killedHost, /!guaranteed\s*&&\s*!passesCothKillConversion\(host\)/,
         "ordinary parasite kills no longer require COTH");
-expect(killedHost, /!guaranteed\s*&&[\s\S]*Config\.cothConvertAtKillChance\(\)/,
-        "ordinary parasite kills no longer honor conversion chance");
+expect(killedPlayer, /!guaranteed\s*&&\s*!passesCothKillConversion\(player\)/,
+        "player parasite-kill conversion does not use the shared COTH roll");
+expect(killConversionRoll, /getEffect\(ModMobEffects\.COTH\)[\s\S]*if \(coth == null\)[\s\S]*return false;/,
+        "ordinary parasite kills no longer require pre-existing COTH");
+expect(killConversionRoll, /Config\.cothConvertAtKillChance\(\)/,
+        "ordinary parasite kills no longer honor the configured base conversion chance");
+expect(killConversionRoll,
+        /\(1\.0D - baseChance\) \* amplifier \/ COTH_MAX_AMPLIFIER/,
+        "COTH level no longer increases parasite-kill conversion chance");
 expect(killedHost, /createMappedHost\(host, serverLevel,[\s\S]*phase >= ASSIMILATION_FERAL_PHASE\)/,
         "phase 7 kill conversion does not prefer mapped Feral forms");
 expect(killedHost, /return replaceHost\(host, converted, serverLevel\);/,
