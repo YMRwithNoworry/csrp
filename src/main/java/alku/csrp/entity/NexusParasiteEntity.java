@@ -1,6 +1,7 @@
 package alku.csrp.entity;
 
 import alku.csrp.Csrp;
+import alku.csrp.block.FogBlock;
 import alku.csrp.event.StatusEffectEvents;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModBlocks;
@@ -72,6 +73,8 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     private static final int STAGE_ONE_MIN_GROWTH = 4_800;
     private static final int STAGE_ONE_GROWTH_VARIANCE = 1_201;
     private static final int TEMPORARY_BECKON_LIFETIME = 300;
+    private static final int DISPATCHER_FOG_MIN_Y_OFFSET = -2;
+    private static final int DISPATCHER_FOG_MAX_Y_OFFSET = 4;
 
     private final Kind kind;
     private final List<String> storedParasiteIds = new ArrayList<>();
@@ -85,6 +88,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     private int colonyPlacementProgress;
     private int temporaryLifetimeTicks = -1;
     private boolean canGrow = true;
+    private boolean dispatcherFogDissipationStarted;
 
     public NexusParasiteEntity(EntityType<? extends NexusParasiteEntity> type, Level level, Kind kind) {
         super(type, level);
@@ -223,6 +227,16 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         }
         if (tickCount % 10 == 0) {
             breakBlocksTowardsTarget(activeKind);
+        }
+    }
+
+    @Override
+    public void die(DamageSource source) {
+        super.die(source);
+        if (!level().isClientSide && isDeadOrDying() && !dispatcherFogDissipationStarted
+                && activeKind() == Kind.DISPATCHER_SIV) {
+            dispatcherFogDissipationStarted = true;
+            dissipateDispatcherFog();
         }
     }
 
@@ -471,11 +485,12 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
             return;
         }
         int count = Math.min(3, 1 + stage);
-        int radius = 5 + stage;
+        int radius = dispatcherFogRadius(stage);
         for (int attempt = 0; attempt < 8 && count > 0; attempt++) {
             BlockPos candidate = blockPosition().offset(
                     random.nextInt(radius * 2 + 1) - radius,
-                    random.nextInt(7) - 2,
+                    random.nextInt(DISPATCHER_FOG_MAX_Y_OFFSET - DISPATCHER_FOG_MIN_Y_OFFSET + 1)
+                            + DISPATCHER_FOG_MIN_Y_OFFSET,
                     random.nextInt(radius * 2 + 1) - radius);
             if (serverLevel.getBlockState(candidate).canBeReplaced()
                     && candidate.getY() > serverLevel.getMinBuildHeight()) {
@@ -484,6 +499,45 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
                 count--;
             }
         }
+    }
+
+    private void dissipateDispatcherFog() {
+        if (!(level() instanceof ServerLevel serverLevel)) {
+            return;
+        }
+        BlockPos origin = blockPosition();
+        int radius = dispatcherFogRadius(activeKind().stage);
+        List<NexusParasiteEntity> otherDispatchers = serverLevel.getEntitiesOfClass(
+                NexusParasiteEntity.class,
+                getBoundingBox().inflate(radius * 2.0D + 1.0D,
+                        DISPATCHER_FOG_MAX_Y_OFFSET - DISPATCHER_FOG_MIN_Y_OFFSET + 1.0D,
+                        radius * 2.0D + 1.0D),
+                entity -> entity != this && entity.isAlive()
+                        && entity.activeKind().family == Family.DISPATCHER);
+        for (BlockPos candidate : BlockPos.betweenClosed(
+                origin.offset(-radius, DISPATCHER_FOG_MIN_Y_OFFSET, -radius),
+                origin.offset(radius, DISPATCHER_FOG_MAX_Y_OFFSET, radius))) {
+            BlockState state = serverLevel.getBlockState(candidate);
+            if (state.is(ModBlocks.FOG.get()) && state.getValue(FogBlock.AIR) != 2
+                    && otherDispatchers.stream().noneMatch(dispatcher ->
+                            isInsideDispatcherFogVolume(dispatcher, candidate))) {
+                serverLevel.setBlock(candidate, state.setValue(FogBlock.AIR, 2), 3);
+            }
+        }
+    }
+
+    private static boolean isInsideDispatcherFogVolume(NexusParasiteEntity dispatcher, BlockPos pos) {
+        BlockPos origin = dispatcher.blockPosition();
+        int radius = dispatcherFogRadius(dispatcher.activeKind().stage);
+        int yOffset = pos.getY() - origin.getY();
+        return Math.abs(pos.getX() - origin.getX()) <= radius
+                && Math.abs(pos.getZ() - origin.getZ()) <= radius
+                && yOffset >= DISPATCHER_FOG_MIN_Y_OFFSET
+                && yOffset <= DISPATCHER_FOG_MAX_Y_OFFSET;
+    }
+
+    private static int dispatcherFogRadius(int stage) {
+        return 5 + stage;
     }
 
     private boolean isStorableDispatcherParasite(Mob candidate) {
