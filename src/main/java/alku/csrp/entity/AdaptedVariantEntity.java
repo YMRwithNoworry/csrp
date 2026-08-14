@@ -22,6 +22,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -133,6 +134,8 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             "func_78087_a.limb_swing.get_parasite_status_2");
     private final RawAnimation LONGARMS_STATUS_1 = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1");
+    private final RawAnimation LONGARMS_ATTACK_STATUS_1 = ParasiteAnimations.play(this,
+            "get_attack_timer.get_parasite_status_1");
     private final RawAnimation AGE_STATUS_1 = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1");
     private final RawAnimation FLY = IDLE;
@@ -769,8 +772,10 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         if (activeKind == Kind.BOLSTER || activeKind == Kind.MANDUCATER || activeKind == Kind.LONGARMS) {
             spawnAttackParticles(target);
         }
-        if (activeKind == Kind.BOLSTER || activeKind == Kind.LONGARMS) {
+        if (activeKind == Kind.BOLSTER) {
             triggerAnim("bolster_attack_controller", "attack");
+        } else if (activeKind == Kind.LONGARMS) {
+            triggerAttackAnimation();
         }
 
         // 更新 Manducater 攻击状态
@@ -1177,6 +1182,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             return state.setAndContinue(target != null && target.isAlive() ? AGE_STATUS_1 : IDLE);
         }
         if (kind == Kind.LONGARMS) {
+            if (ParasiteAnimations.isAttacking(this)) {
+                return state.setAndContinue(LONGARMS_ATTACK_STATUS_1);
+            }
             LivingEntity target = getTarget();
             boolean moving = ParasiteAnimations.isMoving(this, state.isMoving());
             if (!moving) {
@@ -1613,6 +1621,10 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     }
 
     private void triggerAttackAnimation() {
+        if (activeKind() == Kind.LONGARMS) {
+            swing(InteractionHand.MAIN_HAND);
+            return;
+        }
         triggerAnim("bolster_attack_controller", "attack");
     }
 

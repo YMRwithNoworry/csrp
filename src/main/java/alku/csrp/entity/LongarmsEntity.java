@@ -12,6 +12,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -260,12 +261,7 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
     }
 
     private void triggerAttackAnimation() {
-        String trigger = switch (getParasiteStatus()) {
-            case STATUS_COMBAT -> "combat_still_attack";
-            case STATUS_SPRINT -> "sprint_attack";
-            default -> isStillAnimation() ? "still_attack" : "attack";
-        };
-        triggerAnim("attack_controller", trigger);
+        swing(InteractionHand.MAIN_HAND);
     }
 
     @Override
@@ -309,14 +305,16 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
-                .triggerableAnim("attack", ATTACK)
-                .triggerableAnim("still_attack", STILL_ATTACK)
-                .triggerableAnim("combat_still_attack", COMBAT_STILL_ATTACK)
-                .triggerableAnim("sprint_attack", SPRINT_ATTACK));
     }
 
     private PlayState movementAnimation(AnimationState<LongarmsEntity> state) {
+        if (ParasiteAnimations.isAttacking(this)) {
+            return state.setAndContinue(switch (getParasiteStatus()) {
+                case STATUS_COMBAT -> COMBAT_STILL_ATTACK;
+                case STATUS_SPRINT -> SPRINT_ATTACK;
+                default -> isStillAnimation() ? STILL_ATTACK : ATTACK;
+            });
+        }
         boolean moving = ParasiteAnimations.isMoving(this, state.isMoving());
         return switch (getParasiteStatus()) {
             case STATUS_COMBAT -> state.setAndContinue(moving ? COMBAT_WALK : COMBAT_STILL_IDLE);
