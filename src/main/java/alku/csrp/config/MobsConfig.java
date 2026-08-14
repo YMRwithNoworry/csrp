@@ -342,6 +342,9 @@ public final class MobsConfig {
     private static final ModConfigSpec.DoubleValue OMBOO_BOMB_DAMAGE = value(
             "srparasites:bomber_light", "lightBomberBombDamage", 20.0D, 0.0D, 1000.0D,
             "Damage dealt by a Light Bomber bomb before minimum damage.");
+    private static final ModConfigSpec.IntValue OMBOO_MAX_Y = intValue(
+            "srparasites:bomber_light", "lightBomberFlightHeightLimit", 256, 0, 256,
+            "Maximum number of air blocks the Light Bomber may fly above terrain.");
     private static final ModConfigSpec.BooleanValue OMBOO_GRIEFING = booleanValue(
             "srparasites:bomber_light", "lightBomberGriefing", true,
             "Whether Light Bomber explosions may destroy blocks when mobGriefing is enabled.");
@@ -779,6 +782,10 @@ public final class MobsConfig {
 
     public static float ombooBombDamage() {
         return OMBOO_BOMB_DAMAGE.get().floatValue();
+    }
+
+    public static int ombooMaxY() {
+        return OMBOO_MAX_Y.get();
     }
 
     public static boolean ombooGriefing() {

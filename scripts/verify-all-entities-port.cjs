@@ -15,13 +15,15 @@ const read = (file) => {
 
 if (all.length !== 127) failures.push(`manifest contains ${all.length} IDs instead of 127`);
 if (new Set(all).size !== all.length) failures.push("manifest contains duplicate IDs");
-if (behaviorPorts.grunt?.originalClass !== "EntityFlog"
-    || behaviorPorts.grunt?.status !== "audited"
-    || behaviorPorts.grunt?.auditScope !== "entity-specific") {
-  failures.push("grunt: entity-specific behavior audit metadata is missing");
-}
-if (!fs.existsSync(path.join(root, behaviorPorts.grunt?.verifier ?? ""))) {
-  failures.push("grunt: behavior verifier is missing");
+for (const [id, originalClass] of [["grunt", "EntityFlog"], ["bomber_light", "EntityOmboo"]]) {
+  if (behaviorPorts[id]?.originalClass !== originalClass
+      || behaviorPorts[id]?.status !== "audited"
+      || behaviorPorts[id]?.auditScope !== "entity-specific") {
+    failures.push(`${id}: entity-specific behavior audit metadata is missing`);
+  }
+  if (!fs.existsSync(path.join(root, behaviorPorts[id]?.verifier ?? ""))) {
+    failures.push(`${id}: behavior verifier is missing`);
+  }
 }
 
 const entities = read("src/main/java/alku/csrp/registry/ModEntities.java");

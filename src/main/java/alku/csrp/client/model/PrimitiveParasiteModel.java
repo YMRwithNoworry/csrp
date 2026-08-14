@@ -13,6 +13,7 @@ import alku.csrp.entity.PrimitiveVariantEntity;
 import alku.csrp.entity.PureParasiteEntity;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Mob;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animation.AnimationState;
@@ -75,6 +76,14 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/monster/flogb.png");
     private static final ResourceLocation GRUNT_HEAVY_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/monster/flogh.png");
+    private static final ResourceLocation OMBOO_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/monster/omboo.png");
+    private static final ResourceLocation OMBOO_HEAVY_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/monster/ombooh.png");
+    private static final String[] OMBOO_PULSE_GROUP_ONE = {"mpop6", "jointp7", "mpop8", "mpop16", "mpop5"};
+    private static final String[] OMBOO_PULSE_GROUP_TWO = {"jointp11", "mpop1", "mpop13", "mpop19"};
+    private static final String[] OMBOO_PULSE_GROUP_THREE = {"jointp17", "jointp18", "mpop4", "jointp2", "mpop3"};
+    private static final String[] OMBOO_PULSE_GROUP_FOUR = {"mpop9", "mpop12", "jointp15", "mpop10", "mpop14"};
     private final ResourceLocation model;
     private final ResourceLocation texture;
     private final ResourceLocation animation;
@@ -115,6 +124,10 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
                 case 7 -> GRUNT_HEAVY_TEXTURE;
                 default -> texture;
             };
+        }
+        if (animatable instanceof PureParasiteEntity pure
+                && pure.getKind() == PureParasiteEntity.Kind.BOMBER_LIGHT) {
+            return pure.getOmbooSkin() == 7 ? OMBOO_HEAVY_TEXTURE : OMBOO_TEXTURE;
         }
         if (animatable instanceof PreeminentParasiteEntity preeminent && preeminent.isCarrierVariant()) {
             return CARRIER_VARIANT_TEXTURE;
@@ -185,6 +198,10 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
         if (animatable instanceof PureParasiteEntity pure && pure.getKind() == PureParasiteEntity.Kind.VIGILANTE) {
             setHidden("taclejointUL1", !pure.isLeftVigilanteTendrilAttached());
             setHidden("taclejointUR1", !pure.isRightVigilanteTendrilAttached());
+        }
+        if (animatable instanceof PureParasiteEntity pure
+                && pure.getKind() == PureParasiteEntity.Kind.BOMBER_LIGHT) {
+            applyOmbooPulse(pure, animationState.getPartialTick());
         }
         if (animatable instanceof AncientParasiteEntity ancient
                 && ancient.getKind() == AncientParasiteEntity.Kind.DREADNAUT) {
@@ -269,6 +286,24 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
         }
         setHidden(left, !entity.isLeftTendrilAttached());
         setHidden(right, !entity.isRightTendrilAttached());
+    }
+
+    private void applyOmbooPulse(PureParasiteEntity entity, float partialTick) {
+        float ageInTicks = entity.tickCount + partialTick;
+        applyUniformScale(1.0F + Mth.sin(ageInTicks * 0.08F) * 0.05F, OMBOO_PULSE_GROUP_ONE);
+        applyUniformScale(1.0F + Mth.sin(ageInTicks * 0.13F) * 0.06F, OMBOO_PULSE_GROUP_TWO);
+        applyUniformScale(1.0F + Mth.sin(ageInTicks * 0.33F) * 0.02F, OMBOO_PULSE_GROUP_THREE);
+        applyUniformScale(1.0F + Mth.sin(ageInTicks * 0.23F) * 0.04F, OMBOO_PULSE_GROUP_FOUR);
+    }
+
+    private void applyUniformScale(float scale, String[] boneNames) {
+        for (String boneName : boneNames) {
+            getBone(boneName).ifPresent(bone -> {
+                bone.setScaleX(scale);
+                bone.setScaleY(scale);
+                bone.setScaleZ(scale);
+            });
+        }
     }
 
     private void setHidden(String boneName, boolean hidden) {

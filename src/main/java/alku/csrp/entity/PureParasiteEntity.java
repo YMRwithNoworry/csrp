@@ -8,6 +8,7 @@ import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.nbt.CompoundTag;
@@ -15,8 +16,10 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -32,10 +35,16 @@ import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
+import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -68,6 +77,12 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
             PureParasiteEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Byte> GRUNT_SKIN = SynchedEntityData.defineId(
             PureParasiteEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Byte> OMBOO_FLAGS = SynchedEntityData.defineId(
+            PureParasiteEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Byte> OMBOO_SKIN = SynchedEntityData.defineId(
+            PureParasiteEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Integer> OMBOO_COMBAT_STATUS = SynchedEntityData.defineId(
+            PureParasiteEntity.class, EntityDataSerializers.INT);
     private static final int MAX_ADAPTATION_HITS = 8;
     private static final int MAX_LEARNABLE_DAMAGE_SOURCES = 12;
     private static final float ADAPTATION_PER_HIT = 0.125F;
@@ -153,7 +168,10 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
             bodyParts = new PartEntity<?>[0];
         }
         xpReward = 75;
-        if (kind.flying) {
+        if (kind == Kind.BOMBER_LIGHT) {
+            moveControl = new OmbooMoveControl(this);
+            setNoGravity(true);
+        } else if (kind.flying) {
             moveControl = new FlyingMoveControl(this, 16, true);
             setNoGravity(true);
         }
@@ -196,8 +214,12 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
                 goalSelector.addGoal(3, new GruntAreaMeleeGoal());
             }
             case BOMBER_LIGHT -> {
-                goalSelector.addGoal(1, new LightBomberBombGoal());
-                goalSelector.addGoal(3, new FlightPursuitGoal(1.00D));
+                targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
+                goalSelector.addGoal(3, new OmbooFlightTargetGoal());
+                goalSelector.addGoal(4, new OmbooChargeAttackGoal());
+                goalSelector.addGoal(4, new OmbooFlightLimitsGoal());
+                goalSelector.addGoal(5, new LightBomberBombGoal());
+                goalSelector.addGoal(6, new OmbooRandomFlightGoal());
             }
             case MONARCH -> {
                 goalSelector.addGoal(1, new MonarchWebGoal());
@@ -240,6 +262,11 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
+    protected boolean usesDefaultTargetGoals() {
+        return activeKind() != Kind.BOMBER_LIGHT;
+    }
+
+    @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(WARDEN_CHARGING, false);
@@ -247,6 +274,9 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         builder.define(VIGILANTE_LEFT_TENDRIL, -1.0F);
         builder.define(VIGILANTE_RIGHT_TENDRIL, -1.0F);
         builder.define(GRUNT_SKIN, (byte) 0);
+        builder.define(OMBOO_FLAGS, (byte) 0);
+        builder.define(OMBOO_SKIN, (byte) 0);
+        builder.define(OMBOO_COMBAT_STATUS, 0);
     }
 
     @Nullable
@@ -258,6 +288,11 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
                 && (random.nextDouble() < Config.variantSpawnChance()
                 || Config.evolutionPhase(level.getLevel()) >= Config.alwaysVariantPhase())) {
             entityData.set(GRUNT_SKIN, (byte) (5 + random.nextInt(3)));
+        }
+        if (!level.isClientSide() && activeKind() == Kind.BOMBER_LIGHT
+                && (random.nextDouble() < Config.variantSpawnChance()
+                || Config.evolutionPhase(level.getLevel()) >= Config.alwaysVariantPhase())) {
+            setOmbooSkin(7);
         }
         return data;
     }
@@ -286,7 +321,9 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
             attackAnimationTicks--;
         }
         tickGruntSkillLeap();
-        if (activeKind.flying && onGround()) {
+        if (activeKind == Kind.BOMBER_LIGHT) {
+            tickOmbooFlightEnvironment();
+        } else if (activeKind.flying && onGround()) {
             getMoveControl().setWantedPosition(getX(), getY() + 4.0D, getZ(), 0.55D);
         }
         if (activeKind == Kind.SEEKER) {
@@ -376,7 +413,27 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
     @Override
     protected EntityDimensions getDefaultDimensions(Pose pose) {
         EntityDimensions dimensions = super.getDefaultDimensions(pose);
-        return activeKind() == Kind.GRUNT ? dimensions.withEyeHeight(1.73F) : dimensions;
+        return switch (activeKind()) {
+            case GRUNT -> dimensions.withEyeHeight(1.73F);
+            case BOMBER_LIGHT -> dimensions.withEyeHeight(2.4F);
+            default -> dimensions;
+        };
+    }
+
+    @Override
+    protected SoundEvent getAmbientSound() {
+        if (activeKind() == Kind.BOMBER_LIGHT && entityData.get(OMBOO_COMBAT_STATUS) != 0) {
+            return ModSounds.get("mob.silence");
+        }
+        return super.getAmbientSound();
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource source) {
+        if (activeKind() == Kind.BOMBER_LIGHT && random.nextBoolean() && getAdaptationHitStatus() > 0) {
+            return ModSounds.get("mob.silence");
+        }
+        return super.getHurtSound(source);
     }
 
     @Override
@@ -438,6 +495,9 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         if (activeKind() == Kind.GRUNT) {
             tag.putByte("GruntSkin", entityData.get(GRUNT_SKIN));
         }
+        if (activeKind() == Kind.BOMBER_LIGHT) {
+            tag.putByte("OmbooSkin", entityData.get(OMBOO_SKIN));
+        }
     }
 
     @Override
@@ -456,6 +516,9 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         }
         if (activeKind() == Kind.GRUNT) {
             setGruntSkin(tag.contains("GruntSkin") ? tag.getByte("GruntSkin") : 0);
+        }
+        if (activeKind() == Kind.BOMBER_LIGHT) {
+            setOmbooSkin(tag.contains("OmbooSkin") ? tag.getByte("OmbooSkin") : 0);
         }
     }
 
@@ -478,6 +541,23 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
 
     private void setGruntSkin(int skin) {
         entityData.set(GRUNT_SKIN, (byte) (skin >= 5 && skin <= 7 ? skin : 0));
+    }
+
+    public int getOmbooSkin() {
+        return activeKind() == Kind.BOMBER_LIGHT ? entityData.get(OMBOO_SKIN) : 0;
+    }
+
+    private void setOmbooSkin(int skin) {
+        entityData.set(OMBOO_SKIN, (byte) (skin == 7 ? 7 : 0));
+    }
+
+    public boolean isOmbooCharging() {
+        return activeKind() == Kind.BOMBER_LIGHT && (entityData.get(OMBOO_FLAGS) & 1) != 0;
+    }
+
+    private void setOmbooCharging(boolean charging) {
+        byte flags = entityData.get(OMBOO_FLAGS);
+        entityData.set(OMBOO_FLAGS, charging ? (byte) (flags | 1) : (byte) (flags & ~1));
     }
 
     @Override
@@ -666,7 +746,8 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private void breakBlocksTowardsTarget(LivingEntity target, Kind activeKind) {
-        if (activeKind == Kind.GRUNT || activeKind.blockHardness <= 0.0F || blockBreakCooldown > 0
+        if (activeKind == Kind.GRUNT || activeKind == Kind.BOMBER_LIGHT
+                || activeKind.blockHardness <= 0.0F || blockBreakCooldown > 0
                 || !level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
             return;
         }
@@ -872,6 +953,32 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
                 MobsConfig.ombooGriefing());
         bomb.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
         level().addFreshEntity(bomb);
+    }
+
+    private void tickOmbooFlightEnvironment() {
+        if (tickCount % 21 != 10) {
+            return;
+        }
+        if (onGround()) {
+            getMoveControl().setWantedPosition(getX(), getY() + 5.0D, getZ(), 0.5D);
+        }
+        LivingEntity target = getTarget();
+        if (target != null && (!level().getBlockState(blockPosition().below()).isAir()
+                || !level().getBlockState(blockPosition().below(2)).isAir())) {
+            Vec3 movement = getDeltaMovement();
+            setDeltaMovement(movement.x, 0.5D, movement.z);
+        }
+    }
+
+    private boolean hasBlockBelow(int distance) {
+        BlockPos.MutableBlockPos cursor = blockPosition().below().mutable();
+        for (int offset = 1; offset <= distance && cursor.getY() >= level().getMinBuildHeight(); offset++) {
+            if (!level().getBlockState(cursor).isAir()) {
+                return true;
+            }
+            cursor.move(0, -1, 0);
+        }
+        return false;
     }
 
     private void spawnBuglins(LivingEntity target, int count) {
@@ -1356,6 +1463,258 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         setDeltaMovement(horizontal.x, verticalSpeed, horizontal.z);
     }
 
+    private static final class OmbooMoveControl extends MoveControl {
+        private OmbooMoveControl(PureParasiteEntity mob) {
+            super(mob);
+        }
+
+        @Override
+        public void tick() {
+            if (operation != Operation.MOVE_TO) {
+                return;
+            }
+            double x = wantedX - mob.getX();
+            double y = wantedY - mob.getY();
+            double z = wantedZ - mob.getZ();
+            double distance = Math.sqrt(x * x + y * y + z * z);
+            if (distance < mob.getBoundingBox().getSize()) {
+                operation = Operation.WAIT;
+                mob.setDeltaMovement(mob.getDeltaMovement().scale(0.5D));
+                return;
+            }
+            mob.setDeltaMovement(mob.getDeltaMovement().add(
+                    x / distance * 0.05D * speedModifier,
+                    y / distance * 0.05D * speedModifier,
+                    z / distance * 0.05D * speedModifier));
+            LivingEntity target = mob.getTarget();
+            double lookX = target == null ? mob.getDeltaMovement().x : target.getX() - mob.getX();
+            double lookZ = target == null ? mob.getDeltaMovement().z : target.getZ() - mob.getZ();
+            mob.setYRot(-((float) Mth.atan2(lookX, lookZ)) * Mth.RAD_TO_DEG);
+            mob.yBodyRot = mob.getYRot();
+        }
+    }
+
+    private final class OmbooFlightTargetGoal extends Goal {
+        private int lostTargetTicks;
+
+        @Override
+        public boolean canUse() {
+            int cycleTick = tickCount % 21;
+            return cycleTick > 0 && cycleTick <= 10;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return canUse();
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = getTarget();
+            if (target != null) {
+                validateTarget(target);
+                return;
+            }
+            lostTargetTicks = 0;
+            entityData.set(OMBOO_COMBAT_STATUS, 0);
+            double followRange = getAttributeValue(Attributes.FOLLOW_RANGE);
+            AABB searchArea = new AABB(blockPosition()).inflate(followRange);
+            for (LivingEntity candidate : level().getEntitiesOfClass(LivingEntity.class, searchArea)) {
+                if (candidate instanceof Player player) {
+                    if (isValidParasiteTarget(player) && !player.getAbilities().instabuild
+                            && !player.isSpectator() && canAttack(player)) {
+                        setTarget(player);
+                        return;
+                    }
+                } else if (Config.mobAttackingEnabled() && candidate instanceof Mob
+                        && !(candidate instanceof Animal)
+                        && !(candidate instanceof Creeper) && !(candidate instanceof WaterAnimal)
+                        && isAllowedByMobAttackingList(candidate)
+                        && isValidParasiteTarget(candidate) && distanceToSqr(candidate) < 1024.0D
+                        && hasLineOfSight(candidate) && canAttack(candidate)) {
+                    setTarget(candidate);
+                    entityData.set(OMBOO_COMBAT_STATUS, 1);
+                    return;
+                }
+            }
+        }
+
+        private boolean isAllowedByMobAttackingList(LivingEntity candidate) {
+            String id = BuiltInRegistries.ENTITY_TYPE.getKey(candidate.getType()).toString();
+            boolean listed = Config.mobAttackingBlacklist().stream().anyMatch(id::contains);
+            return Config.mobAttackingBlacklistInverted() ? listed : !listed;
+        }
+
+        private void validateTarget(LivingEntity target) {
+            if (!isValidParasiteTarget(target)
+                    || target instanceof Player player
+                    && (player.getAbilities().instabuild || player.isSpectator())) {
+                clearTarget();
+                return;
+            }
+            double followRange = getAttributeValue(Attributes.FOLLOW_RANGE);
+            if (!hasLineOfSight(target) || distanceToSqr(target) >= followRange * followRange) {
+                lostTargetTicks++;
+            } else {
+                lostTargetTicks = 0;
+            }
+            if (lostTargetTicks >= 6) {
+                clearTarget();
+            }
+        }
+
+        private void clearTarget() {
+            setTarget(null);
+            setOmbooCharging(false);
+            entityData.set(OMBOO_COMBAT_STATUS, 0);
+            lostTargetTicks = 0;
+            getMoveControl().setWantedPosition(getX(), getY(), getZ(), 1.0D);
+        }
+    }
+
+    private final class OmbooChargeAttackGoal extends Goal {
+        private OmbooChargeAttackGoal() {
+            setFlags(EnumSet.of(Flag.MOVE));
+        }
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = getTarget();
+            return target != null && target.isAlive() && random.nextInt(7) == 0
+                    && distanceToSqr(target) > 3.0D;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            LivingEntity target = getTarget();
+            return getMoveControl().hasWanted() && isOmbooCharging()
+                    && target != null && target.isAlive();
+        }
+
+        @Override
+        public void start() {
+            LivingEntity target = getTarget();
+            if (target == null) {
+                return;
+            }
+            Vec3 eye = target.getEyePosition();
+            getMoveControl().setWantedPosition(eye.x, eye.y + 10.0D, eye.z, 1.0D);
+            setOmbooCharging(true);
+        }
+
+        @Override
+        public void stop() {
+            setOmbooCharging(false);
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = getTarget();
+            if (target == null || !target.isAlive()) {
+                return;
+            }
+            if (getBoundingBox().intersects(target.getBoundingBox())) {
+                doHurtTarget(target);
+                setOmbooCharging(false);
+            } else if (distanceToSqr(target) < 9.0D) {
+                Vec3 eye = target.getEyePosition();
+                getMoveControl().setWantedPosition(eye.x, eye.y + 10.0D, eye.z, 1.0D);
+            }
+        }
+    }
+
+    private final class OmbooFlightLimitsGoal extends Goal {
+        @Override
+        public boolean canUse() {
+            return true;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return true;
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = getTarget();
+            double verticalAdjustment = 0.0D;
+            int configuredLimit = MobsConfig.ombooMaxY();
+            if (configuredLimit != 256 && shouldPushOmbooDown(configuredLimit, target)) {
+                verticalAdjustment -= 0.04D;
+            }
+            if (shouldPushOmbooDown(20, target)) {
+                verticalAdjustment -= 0.04D;
+            }
+            if (hasBlockBelow(7)) {
+                verticalAdjustment += 0.04D;
+            }
+            if (verticalAdjustment != 0.0D) {
+                setDeltaMovement(getDeltaMovement().add(0.0D, verticalAdjustment, 0.0D));
+            }
+        }
+
+        private boolean shouldPushOmbooDown(int limit, @Nullable LivingEntity target) {
+            return target == null ? !hasBlockBelow(limit) : target.getY() + limit > getY();
+        }
+    }
+
+    private final class OmbooRandomFlightGoal extends Goal {
+        private OmbooRandomFlightGoal() {
+            setFlags(EnumSet.of(Flag.MOVE));
+        }
+
+        @Override
+        public boolean canUse() {
+            return !getMoveControl().hasWanted() && random.nextInt(7) == 0;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return false;
+        }
+
+        @Override
+        public void start() {
+            BlockPos origin = blockPosition();
+            int mode = 1;
+            double speed = 0.2D;
+            LivingEntity target = getTarget();
+            if (target != null) {
+                double distance = distanceToSqr(target);
+                if (distance > 100.0D) {
+                    origin = target.blockPosition();
+                    mode = 2;
+                    speed += 0.1D;
+                } else if (distance < 36.0D) {
+                    origin = target.blockPosition();
+                    mode = 3;
+                    speed += 0.1D;
+                }
+            }
+            for (int attempt = 0; attempt < 3; attempt++) {
+                BlockPos destination = switch (mode) {
+                    case 2 -> origin.offset(random.nextInt(6) - 2,
+                            random.nextInt(7) - 2, random.nextInt(6) - 2);
+                    case 3 -> origin.offset(random.nextInt(4) + 3,
+                            random.nextInt(5) + 4, random.nextInt(4) + 3);
+                    default -> origin.offset(random.nextInt(15) - 7,
+                            random.nextInt(11) - 5, random.nextInt(15) - 7);
+                };
+                if (!level().getBlockState(destination).isAir()) {
+                    continue;
+                }
+                getMoveControl().setWantedPosition(destination.getX() + 0.5D,
+                        destination.getY() + 1.0D, destination.getZ() + 0.5D, speed);
+                if (target == null) {
+                    getLookControl().setLookAt(destination.getX() + 0.5D,
+                            destination.getY() + 1.0D, destination.getZ() + 0.5D,
+                            180.0F, 20.0F);
+                }
+                return;
+            }
+        }
+    }
+
     private final class FlightPursuitGoal extends Goal {
         private final double speed;
         private int contactCooldown;
@@ -1395,21 +1754,26 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private final class LightBomberBombGoal extends Goal {
-        private int cooldown;
-
-        private LightBomberBombGoal() {
-            setFlags(EnumSet.of(Flag.LOOK));
-        }
+        private int checkTicks;
 
         @Override
         public boolean canUse() {
-            if (cooldown > 0) {
-                cooldown--;
+            checkTicks++;
+            if (checkTicks < 15) {
                 return false;
             }
+            checkTicks = 0;
             LivingEntity target = getTarget();
-            return target != null && target.onGround() && hasLineOfSight(target)
-                    && distanceToSqr(target) <= 625.0D;
+            if (target == null) {
+                return false;
+            }
+            if (!target.onGround()) {
+                checkTicks = 7;
+                return false;
+            }
+            double x = target.getX() - getX();
+            double z = target.getZ() - getZ();
+            return x * x + z * z < 25.0D;
         }
 
         @Override
@@ -1421,10 +1785,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         public void start() {
             LivingEntity target = getTarget();
             if (target != null) {
-                getLookControl().setLookAt(target, 30.0F, 30.0F);
                 fireBomb(target);
-                triggerAttackAnimation();
-                cooldown = 80;
             }
         }
     }

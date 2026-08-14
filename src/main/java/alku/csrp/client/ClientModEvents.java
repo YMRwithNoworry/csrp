@@ -280,7 +280,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.GRUNT.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "grunt", 0.5F));
         event.registerEntityRenderer(ModEntities.BOMBER_LIGHT.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "bomber_light", 0.85F));
+                new PrimitiveParasiteRenderer<>(context, "bomber_light", 1.3F));
         event.registerEntityRenderer(ModEntities.MONARCH.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "monarch", 1.1F));
         event.registerEntityRenderer(ModEntities.OVERSEER.get(), context ->

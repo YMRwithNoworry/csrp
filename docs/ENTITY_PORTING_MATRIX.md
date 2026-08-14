@@ -8,6 +8,10 @@ creature that requires them.
 
 Registration/resource baseline: **127 / 127** registered creatures covered.
 
+Entity-specific legacy behavior audited: **2 / 127** (`grunt`, `bomber_light`).
+This count covers each named entity's own legacy class only; inherited and
+shared-system behavior remains outside that audit until separately verified.
+
 | Batch | IDs | Status |
 | --- | --- | --- |
 | Current | `buglin`, `gnat`, `rupter`, four carriers, `crux`, `crux_incomplete`, twelve `pri_*` forms | 21 ported |

@@ -160,7 +160,7 @@ expect(base, /addBlockBreakProfiles\(profiles, 3\.0F, 20, 1, "grunt"\)/,
   "Grunt 3;20;1 block-breaking profile is missing");
 expect(base, /hardness > adjustBlockBreakHardness\(profile\.hardness\(\)\)/,
   "Grunt heavy variant cannot modify the shared block-breaking profile");
-expect(pure, /if \(activeKind == Kind\.GRUNT \|\| activeKind\.blockHardness <= 0\.0F/,
+expect(pure, /if \(activeKind == Kind\.GRUNT \|\| activeKind == Kind\.BOMBER_LIGHT[\s\S]{0,100}?\|\| activeKind\.blockHardness <= 0\.0F/,
   "Grunt still runs the duplicate Pure block-breaking loop");
 
 if (failures.length) {

@@ -54,6 +54,14 @@ const behaviorPorts = {
     verifier: "scripts/verify-grunt-port.cjs",
     status: "audited",
     auditScope: "entity-specific"
+  },
+  bomber_light: {
+    originalClass: "EntityOmboo",
+    originalSource: "com/dhanantry/scapeandrunparasites/entity/monster/pure/EntityOmboo.java",
+    implementation: "src/main/java/alku/csrp/entity/PureParasiteEntity.java",
+    verifier: "scripts/verify-bomber-light-port.cjs",
+    status: "audited",
+    auditScope: "entity-specific"
   }
 };
 
