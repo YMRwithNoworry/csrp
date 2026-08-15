@@ -1186,5 +1186,15 @@
   "advancements.csrp.hunt_season.title": "Hunt season",
   "advancements.csrp.paojiao_wolf.title": "Paojiao Wolf",
   "advancements.csrp.paojiao_wolf.desc": "Name an assimilated wolf Paojiao134",
-  "advancements.csrp.hunt_season.desc": "Kill fifty or more parasites within one day"
+  "advancements.csrp.hunt_season.desc": "Kill fifty or more parasites within one day",
+  "item.csrp.fog_bottle": "Fog Bottle",
+  "block.csrp.deadhead_leaves": "Deadhead Leaves",
+  "block.csrp.infested_button": "Infested Button",
+  "block.csrp.infested_pressure_plate": "Infested Pressure Plate",
+  "block.csrp.infested_ladder": "Infested Ladder",
+  "block.csrp.infested_bookshelf": "Infested Bookshelf",
+  "block.csrp.cooked_flesh_button": "Cooked Flesh Button",
+  "block.csrp.cooked_flesh_pressure_plate": "Cooked Flesh Pressure Plate",
+  "block.csrp.cooked_flesh_ladder": "Cooked Flesh Ladder",
+  "block.csrp.cooked_flesh_bookshelf": "Cooked Flesh Bookshelf"
 }

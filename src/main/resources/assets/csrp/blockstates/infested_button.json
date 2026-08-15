@@ -1,0 +1,1 @@
+{"multipart":[{"when":{"powered":"false"},"apply":{"model":"csrp:block/infested_button"}},{"when":{"powered":"true"},"apply":{"model":"csrp:block/infested_button_pressed"}}]}

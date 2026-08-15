@@ -29,7 +29,7 @@ import net.neoforged.neoforge.event.tick.LevelTickEvent;
 public final class SrpCoreSystems {
     private static final long DAY_TICKS = 24_000L;
     private static final int VECTOR_HEALTH_CAP = 2_000_000_000;
-    private static final int VECTOR_RADIUS_CAP = 2_000_000;
+    private static final int VECTOR_RADIUS_CAP = 200_000;
     private static final int MAX_NODES = 20;
     private static final int NODE_MIN_DISTANCE = 10_000;
     private static final int VECTOR_MIN_DISTANCE = 10_000;
@@ -164,7 +164,7 @@ public final class SrpCoreSystems {
         }
         long adjustedHealth = (long) health * (phase == -1 ? 10 : VECTOR_HEALTH_MULTIPLIER[phaseIndex]);
         data.setVector(pos, (int) Math.min(VECTOR_HEALTH_CAP, adjustedHealth),
-                Math.min(VECTOR_RADIUS_CAP, radius));
+                Math.max(1, Math.min(VECTOR_RADIUS_CAP, radius)));
         return phase == -1 ? 2 : 1;
     }
 

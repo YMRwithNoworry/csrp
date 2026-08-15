@@ -1,0 +1,1 @@
+{"variants":{"facing=east":{"model":"csrp:block/infested_ladder","y":90},"facing=north":{"model":"csrp:block/infested_ladder"},"facing=south":{"model":"csrp:block/infested_ladder","y":180},"facing=west":{"model":"csrp:block/infested_ladder","y":270}}}

@@ -17,7 +17,7 @@ public final class PreyMobEffect extends MobEffect {
 
     @Override
     public boolean applyEffectTick(LivingEntity entity, int amplifier) {
-        if (!(entity.level() instanceof ServerLevel level) || entity.tickCount % 40 != 0) {
+        if (!(entity.level() instanceof ServerLevel level) || entity.tickCount % 80 != 0) {
             return true;
         }
         if (entity instanceof Player player && (player.isCreative() || player.isSpectator())) {

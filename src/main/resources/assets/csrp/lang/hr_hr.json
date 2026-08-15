@@ -1,0 +1,13 @@
+{
+  "itemGroup.csrp": "CSRP",
+  "item.csrp.fog_bottle": "Boca magle",
+  "block.csrp.deadhead_leaves": "Lisce mrtve glave",
+  "block.csrp.infested_button": "Zarazeni gumb",
+  "block.csrp.infested_pressure_plate": "Zarazena potisna ploca",
+  "block.csrp.infested_ladder": "Zarazene ljestve",
+  "block.csrp.infested_bookshelf": "Zarazena polica za knjige",
+  "block.csrp.cooked_flesh_button": "Gumb kuhanog mesa",
+  "block.csrp.cooked_flesh_pressure_plate": "Potisna ploca kuhanog mesa",
+  "block.csrp.cooked_flesh_ladder": "Ljestve kuhanog mesa",
+  "block.csrp.cooked_flesh_bookshelf": "Polica kuhanog mesa"
+}

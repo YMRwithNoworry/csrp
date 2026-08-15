@@ -83,8 +83,7 @@ public final class MobsConfig {
             "Whether Heavy Carriers may destroy blocks when exploding.");
     private static final ModConfigSpec.ConfigValue<List<? extends String>> CARRIER_HEAVY_MOBS = stringList(
             "srparasites:carrier_heavy", "carrierHeavyMobTable", List.of(
-                    "srparasites:rupter;4;1", "srparasites:buglin;5;2", "srparasites:gnat;6;2",
-                    "srparasites:pri_yelloweye;2;1"),
+                    "srparasites:rupter;4;1", "srparasites:buglin;5;2", "srparasites:gnat;6;2"),
             "Heavy Carrier payload table: entity_id;maximum;minimum.", MobsConfig::validSpawnTableEntry);
     private static final ModConfigSpec.BooleanValue CARRIER_LIGHT_GRIEFING = booleanValue(
             "srparasites:carrier_light", "carrierLightGriefing", false,

@@ -8,6 +8,7 @@ import alku.csrp.entity.AssimilatedEndermanEntity;
 import alku.csrp.entity.BurrowingVariantEntity;
 import alku.csrp.entity.CarrierEntity;
 import alku.csrp.entity.ManglerEntity;
+import alku.csrp.entity.MarauderizedCowEntity;
 import alku.csrp.entity.PreeminentParasiteEntity;
 import alku.csrp.entity.PrimitiveVariantEntity;
 import alku.csrp.entity.PureParasiteEntity;
@@ -98,6 +99,8 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/monster/ganro.png");
     private static final ResourceLocation WARDEN_HEAVY_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/monster/ganroh.png");
+    private static final ResourceLocation MARAUDERIZED_COW_RAGE_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/mar_cow_desert.png");
     private static final String[] OMBOO_PULSE_GROUP_ONE = {"mpop6", "jointp7", "mpop8", "mpop16", "mpop5"};
     private static final String[] OMBOO_PULSE_GROUP_TWO = {"jointp11", "mpop1", "mpop13", "mpop19"};
     private static final String[] OMBOO_PULSE_GROUP_THREE = {"jointp17", "jointp18", "mpop4", "jointp2", "mpop3"};
@@ -126,6 +129,9 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
         }
         if (animatable instanceof AssimilatedEndermanEntity enderman && enderman.isShrimpFed()) {
             return SHRIMP_FED_ENDERMAN_TEXTURE;
+        }
+        if (animatable instanceof MarauderizedCowEntity cow && cow.isRageVariant()) {
+            return MARAUDERIZED_COW_RAGE_TEXTURE;
         }
         if (animatable instanceof ManglerEntity mangler) {
             return switch (mangler.getVariant()) {

@@ -1,15 +1,11 @@
 package alku.csrp.block;
 
-import alku.csrp.infection.BlockInfestation;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-/** Legacy infested stairs periodically seed stage-zero infestation. */
+/** Infested stairs; SRP 1.10.8 explicitly disables spread from stair variants. */
 public final class InfestedStairBlock extends StairBlock {
     public static final MapCodec<InfestedStairBlock> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             BlockState.CODEC.fieldOf("base_state").forGetter(block -> block.baseState),
@@ -18,7 +14,7 @@ public final class InfestedStairBlock extends StairBlock {
     private final BlockState baseState;
 
     public InfestedStairBlock(BlockState baseState, Properties properties) {
-        super(baseState, properties.randomTicks());
+        super(baseState, properties);
         this.baseState = baseState;
     }
 
@@ -27,8 +23,4 @@ public final class InfestedStairBlock extends StairBlock {
         return CODEC;
     }
 
-    @Override
-    protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-        BlockInfestation.spread(level, pos, 0, random);
-    }
 }

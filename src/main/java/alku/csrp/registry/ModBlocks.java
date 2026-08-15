@@ -45,10 +45,15 @@ import alku.csrp.block.TunnelBlock;
 import alku.csrp.block.VacuousCystBlock;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.ButtonBlock;
 import net.minecraft.world.level.block.IronBarsBlock;
+import net.minecraft.world.level.block.LadderBlock;
+import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import net.neoforged.neoforge.registries.DeferredBlock;
@@ -134,6 +139,11 @@ public final class ModBlocks {
     public static final DeferredBlock<InfestedBlock> INFESTED_COBBLESTONE = infested("infested_cobblestone", MapColor.COLOR_RED, SoundType.STONE);
     public static final DeferredBlock<InfestedBlock> INFESTED_TRUNK = infested("infestedtrunk", MapColor.COLOR_RED, SoundType.WOOD);
     public static final DeferredBlock<InfestedBlock> INFESTED_PLANKS = infested("infested_planks", MapColor.COLOR_RED, SoundType.WOOD);
+    public static final DeferredBlock<ButtonBlock> INFESTED_BUTTON = woodButton("infested_button");
+    public static final DeferredBlock<PressurePlateBlock> INFESTED_PRESSURE_PLATE = woodPressurePlate(
+            "infested_pressure_plate");
+    public static final DeferredBlock<LadderBlock> INFESTED_LADDER = woodLadder("infested_ladder");
+    public static final DeferredBlock<Block> INFESTED_BOOKSHELF = woodBookshelf("infested_bookshelf");
     public static final DeferredBlock<InfestedBlock> INFESTED_STONE_BRICKS = infested(
             "infested_stone_bricks", 1.5F, 10.0F, MapColor.COLOR_RED, SoundType.ROOTED_DIRT);
     public static final DeferredBlock<InfestedBlock> INFESTED_TERRACOTTA = infested(
@@ -432,6 +442,12 @@ public final class ModBlocks {
             "cooked_flesh_planks", () -> new InfestedBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_RED).strength(2.0F, 5.0F)
                     .requiresCorrectToolForDrops().sound(TUNNEL_SOUND_TYPE)));
+    public static final DeferredBlock<ButtonBlock> COOKED_FLESH_BUTTON = woodButton("cooked_flesh_button");
+    public static final DeferredBlock<PressurePlateBlock> COOKED_FLESH_PRESSURE_PLATE = woodPressurePlate(
+            "cooked_flesh_pressure_plate");
+    public static final DeferredBlock<LadderBlock> COOKED_FLESH_LADDER = woodLadder("cooked_flesh_ladder");
+    public static final DeferredBlock<Block> COOKED_FLESH_BOOKSHELF = woodBookshelf(
+            "cooked_flesh_bookshelf");
     public static final DeferredBlock<InfestedStairBlock> COOKED_FLESH_STAIRS = BLOCKS.register(
             "cooked_flesh_stairs", () -> new InfestedStairBlock(COOKED_FLESH_PLANKS.get().defaultBlockState(),
                     BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
@@ -443,6 +459,13 @@ public final class ModBlocks {
     public static final DeferredBlock<InfestedFenceBlock> COOKED_FLESH_FENCE = BLOCKS.register(
             "cooked_flesh_fence", () -> new InfestedFenceBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_RED).strength(1.5F, 3.0F).sound(TUNNEL_SOUND_TYPE)));
+    public static final DeferredBlock<LeavesBlock> DEADHEAD_LEAVES = BLOCKS.register(
+            "deadhead_leaves", () -> new LeavesBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BROWN)
+                    .strength(0.2F)
+                    .randomTicks()
+                    .noOcclusion()
+                    .sound(SoundType.GRASS)));
 
     private static DeferredBlock<InfestedGlassBlock> tintedGlass(String id) {
         return BLOCKS.register(id, () -> new InfestedGlassBlock(BlockBehaviour.Properties.of()
@@ -458,6 +481,28 @@ public final class ModBlocks {
                 .strength(0.3F)
                 .sound(SoundType.GLASS)
                 .noOcclusion()));
+    }
+
+    private static DeferredBlock<ButtonBlock> woodButton(String id) {
+        return BLOCKS.register(id, () -> new ButtonBlock(
+                BlockSetType.OAK, 30, BlockBehaviour.Properties.of()
+                        .mapColor(MapColor.COLOR_RED).noCollission().strength(0.5F).sound(SoundType.WOOD)));
+    }
+
+    private static DeferredBlock<PressurePlateBlock> woodPressurePlate(String id) {
+        return BLOCKS.register(id, () -> new PressurePlateBlock(
+                BlockSetType.OAK, BlockBehaviour.Properties.of()
+                        .mapColor(MapColor.COLOR_RED).noCollission().strength(0.5F).sound(SoundType.WOOD)));
+    }
+
+    private static DeferredBlock<LadderBlock> woodLadder(String id) {
+        return BLOCKS.register(id, () -> new LadderBlock(BlockBehaviour.Properties.of()
+                .mapColor(MapColor.COLOR_RED).noCollission().strength(0.4F).sound(SoundType.LADDER)));
+    }
+
+    private static DeferredBlock<Block> woodBookshelf(String id) {
+        return BLOCKS.register(id, () -> new Block(BlockBehaviour.Properties.of()
+                .mapColor(MapColor.COLOR_RED).strength(1.5F).sound(SoundType.WOOD)));
     }
 
     private static java.util.Map<String, DeferredBlock<EscaBulbBlock>> registerEscaBulbs() {

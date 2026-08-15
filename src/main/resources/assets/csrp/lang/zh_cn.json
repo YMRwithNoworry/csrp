@@ -1200,5 +1200,15 @@
   "advancements.csrp.hunt_season.title": "狩猎季",
   "advancements.csrp.paojiao_wolf.title": "椒太狼",
   "advancements.csrp.paojiao_wolf.desc": "给同化狼命名为 Paojiao134",
-  "advancements.csrp.hunt_season.desc": "在一天内击杀五十只寄生虫"
+  "advancements.csrp.hunt_season.desc": "在一天内击杀五十只寄生虫",
+  "item.csrp.fog_bottle": "雾瓶",
+  "block.csrp.deadhead_leaves": "枯首树叶",
+  "block.csrp.infested_button": "感染木按钮",
+  "block.csrp.infested_pressure_plate": "感染木压力板",
+  "block.csrp.infested_ladder": "感染木梯",
+  "block.csrp.infested_bookshelf": "感染木书架",
+  "block.csrp.cooked_flesh_button": "熟肉按钮",
+  "block.csrp.cooked_flesh_pressure_plate": "熟肉压力板",
+  "block.csrp.cooked_flesh_ladder": "熟肉梯",
+  "block.csrp.cooked_flesh_bookshelf": "熟肉书架"
 }

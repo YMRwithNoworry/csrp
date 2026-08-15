@@ -1,0 +1,1 @@
+{"type":"minecraft:crafting_shaped","category":"building","pattern":["# #","###","# #"],"key":{"#":{"item":"csrp:infested_planks"}},"result":{"id":"csrp:infested_ladder","count":3}}

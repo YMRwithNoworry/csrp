@@ -7,6 +7,7 @@ import alku.csrp.item.BookOfVengeanceItem;
 import alku.csrp.item.CompendiumItem;
 import alku.csrp.item.DeadBloodFluidItem;
 import alku.csrp.item.FogNullifierItem;
+import alku.csrp.item.FogBottleItem;
 import alku.csrp.item.EvolutionClockItem;
 import alku.csrp.item.EvolutionDeviceItem;
 import alku.csrp.item.EvolutionLureItem;
@@ -344,6 +345,8 @@ public final class ModItems {
     public static final DeferredItem<FogNullifierItem> FOG_NULLIFIER = ITEMS.registerItem(
             "fog_nullifier", properties -> new FogNullifierItem(ModBlocks.FOG_NULLIFIER.get(), properties),
             new Item.Properties());
+    public static final DeferredItem<FogBottleItem> FOG_BOTTLE = ITEMS.registerItem(
+            "fog_bottle", FogBottleItem::new, new Item.Properties().stacksTo(16));
     public static final DeferredItem<BucketItem> DEADBLOOD_BUCKET = ITEMS.registerItem(
             "deadblood_bucket", props -> new BucketItem(ModFluids.DEADBLOOD.get(), props),
             new Item.Properties().stacksTo(1));
@@ -401,6 +404,14 @@ public final class ModItems {
             "cooked_flesh", ModBlocks.COOKED_FLESH);
     public static final DeferredItem<BlockItem> COOKED_FLESH_PLANKS = ITEMS.registerSimpleBlockItem(
             "cooked_flesh_planks", ModBlocks.COOKED_FLESH_PLANKS);
+    public static final DeferredItem<BlockItem> COOKED_FLESH_BUTTON = ITEMS.registerSimpleBlockItem(
+            "cooked_flesh_button", ModBlocks.COOKED_FLESH_BUTTON);
+    public static final DeferredItem<BlockItem> COOKED_FLESH_PRESSURE_PLATE = ITEMS.registerSimpleBlockItem(
+            "cooked_flesh_pressure_plate", ModBlocks.COOKED_FLESH_PRESSURE_PLATE);
+    public static final DeferredItem<BlockItem> COOKED_FLESH_LADDER = ITEMS.registerSimpleBlockItem(
+            "cooked_flesh_ladder", ModBlocks.COOKED_FLESH_LADDER);
+    public static final DeferredItem<BlockItem> COOKED_FLESH_BOOKSHELF = ITEMS.registerSimpleBlockItem(
+            "cooked_flesh_bookshelf", ModBlocks.COOKED_FLESH_BOOKSHELF);
     public static final DeferredItem<BlockItem> COOKED_FLESH_STAIRS = ITEMS.registerSimpleBlockItem(
             "cooked_flesh_stairs", ModBlocks.COOKED_FLESH_STAIRS);
     public static final DeferredItem<BlockItem> COOKED_FLESH_SLAB = ITEMS.registerSimpleBlockItem(
@@ -444,6 +455,14 @@ public final class ModItems {
             "infestedtrunk", ModBlocks.INFESTED_TRUNK);
     public static final DeferredItem<BlockItem> INFESTED_PLANKS = ITEMS.registerSimpleBlockItem(
             "infested_planks", ModBlocks.INFESTED_PLANKS);
+    public static final DeferredItem<BlockItem> INFESTED_BUTTON = ITEMS.registerSimpleBlockItem(
+            "infested_button", ModBlocks.INFESTED_BUTTON);
+    public static final DeferredItem<BlockItem> INFESTED_PRESSURE_PLATE = ITEMS.registerSimpleBlockItem(
+            "infested_pressure_plate", ModBlocks.INFESTED_PRESSURE_PLATE);
+    public static final DeferredItem<BlockItem> INFESTED_LADDER = ITEMS.registerSimpleBlockItem(
+            "infested_ladder", ModBlocks.INFESTED_LADDER);
+    public static final DeferredItem<BlockItem> INFESTED_BOOKSHELF = ITEMS.registerSimpleBlockItem(
+            "infested_bookshelf", ModBlocks.INFESTED_BOOKSHELF);
     public static final DeferredItem<BlockItem> INFESTED_STONE_BRICKS = ITEMS.registerSimpleBlockItem(
             "infested_stone_bricks", ModBlocks.INFESTED_STONE_BRICKS);
     public static final DeferredItem<BlockItem> INFESTED_TERRACOTTA = ITEMS.registerSimpleBlockItem(
@@ -504,6 +523,8 @@ public final class ModItems {
             "infestedrubble_wall", ModBlocks.INFESTED_RUBBLE_WALL);
     public static final DeferredItem<BlockItem> INFESTED_STAIN_WALL = ITEMS.registerSimpleBlockItem(
             "infestedstain_wall", ModBlocks.INFESTED_STAIN_WALL);
+    public static final DeferredItem<BlockItem> DEADHEAD_LEAVES = ITEMS.registerSimpleBlockItem(
+            "deadhead_leaves", ModBlocks.DEADHEAD_LEAVES);
     public static final DeferredItem<BlockItem> BIOMEHEART = ITEMS.registerSimpleBlockItem("biomeheart", ModBlocks.BIOMEHEART);
     public static final DeferredItem<BlockItem> COLONYHEART = ITEMS.registerSimpleBlockItem("colonyheart", ModBlocks.COLONYHEART);
     public static final DeferredItem<BlockItem> PARASITE_STRUCTURE = ITEMS.registerSimpleBlockItem(

@@ -1,1 +1,41 @@
-{"type":"minecraft:entity","pools":[]}
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "csrp:lurecomponent1",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": { "type": "minecraft:uniform", "min": 1, "max": 2 }
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        { "condition": "minecraft:random_chance", "chance": 0.3 }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "csrp:hijacked_drop",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": { "type": "minecraft:uniform", "min": 1, "max": 2 }
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        { "condition": "minecraft:random_chance", "chance": 0.3 }
+      ]
+    }
+  ]
+}

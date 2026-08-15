@@ -176,6 +176,9 @@ public final class AssimilatedVariantEntity extends Monster implements GeoEntity
 
     @Override
     public boolean doHurtTarget(Entity entity) {
+        if (!isAlive() || (kind == Kind.HUMAN && isDeadOrDying())) {
+            return false;
+        }
         LivingEntity livingTarget = entity instanceof LivingEntity living ? living : null;
         float healthBefore = livingTarget == null ? 0.0F : ParasiteCombatEffects.healthWithAbsorption(livingTarget);
         boolean hit = super.doHurtTarget(entity);

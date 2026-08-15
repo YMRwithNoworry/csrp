@@ -689,7 +689,8 @@ public final class SrpWorldData extends SavedData {
         int[] health = tag.getIntArray("vector_health");
         int[] radius = tag.getIntArray("vector_radius");
         for (int i = 0; i < Math.min(positions.length, Math.min(health.length, radius.length)); i++) {
-            output.add(new VectorEntry(BlockPos.of(positions[i]), health[i], radius[i]));
+            output.add(new VectorEntry(BlockPos.of(positions[i]), Math.max(1, health[i]),
+                    Math.max(1, Math.min(200_000, radius[i]))));
         }
     }
 

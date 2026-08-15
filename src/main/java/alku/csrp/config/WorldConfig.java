@@ -15,6 +15,15 @@ public final class WorldConfig {
     private static final ModConfigSpec.IntValue WORLD_MOB_CAP_PLUS_PLAYER = BUILDER
             .comment("Natural parasite cap added for each player in the dimension.")
             .defineInRange("worldMobCapPlusPlayer", 5, 0, 50000);
+    private static final ModConfigSpec.BooleanValue MOB_CLEANER_ENABLED = BUILDER
+            .comment("Remove excess parasites when their count exceeds twice the current natural mob cap.")
+            .define("mobCleanerEnabled", true);
+    private static final ModConfigSpec.IntValue BECKON_INFESTATION_BLOCK_LIMIT = BUILDER
+            .comment("Transformed blocks before Beckon infestation enters its cooldown.")
+            .defineInRange("beckonInfestationBlockLimit", 1000, 0, 8192);
+    private static final ModConfigSpec.IntValue BIOME_INFESTATION_BLOCK_LIMIT = BUILDER
+            .comment("Transformed blocks before biome infestation enters its cooldown.")
+            .defineInRange("biomeInfestationBlockLimit", 2000, 0, 8192);
     private static final ModConfigSpec.BooleanValue DIMENSION_LIST_IS_BLACKLIST = BUILDER
             .comment("When true, listed dimensions deny natural parasite spawning; when false, only listed dimensions allow it.")
             .define("dimensionListIsBlacklist", true);
@@ -31,6 +40,18 @@ public final class WorldConfig {
     public static int naturalMobCap(ServerLevel level) {
         int base = WORLD_SPAWNING_MOB_CAP.get();
         return base == 0 ? 0 : base + level.players().size() * WORLD_MOB_CAP_PLUS_PLAYER.get();
+    }
+
+    public static boolean mobCleanerEnabled() {
+        return MOB_CLEANER_ENABLED.get();
+    }
+
+    public static int beckonInfestationBlockLimit() {
+        return BECKON_INFESTATION_BLOCK_LIMIT.get();
+    }
+
+    public static int biomeInfestationBlockLimit() {
+        return BIOME_INFESTATION_BLOCK_LIMIT.get();
     }
 
     public static boolean dimensionAllowsNaturalSpawning(ServerLevel level) {

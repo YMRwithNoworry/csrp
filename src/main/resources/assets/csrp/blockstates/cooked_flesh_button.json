@@ -1,0 +1,1 @@
+{"multipart":[{"when":{"powered":"false"},"apply":{"model":"csrp:block/cooked_flesh_button"}},{"when":{"powered":"true"},"apply":{"model":"csrp:block/cooked_flesh_button_pressed"}}]}

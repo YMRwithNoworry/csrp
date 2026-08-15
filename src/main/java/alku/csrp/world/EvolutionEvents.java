@@ -39,12 +39,21 @@ import net.neoforged.neoforge.event.level.block.CropGrowEvent;
 import net.neoforged.neoforge.event.level.SleepFinishedTimeEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /** Connects world activity to the original SRP evolution and generation state. */
 @EventBusSubscriber(modid = Csrp.MODID)
 public final class EvolutionEvents {
+    private static final Logger LOGGER = LoggerFactory.getLogger(EvolutionEvents.class);
+    private static final String MOB_CLEANER_WARNING = "SOO MANY PARASITES!!! If you see this logging message, "
+            + "it means an unusual amount of parasites have spawned in the world. This is likely due to a bug "
+            + "or an issue with the mod or an addon you have installed. Excess parasites will be removed as a "
+            + "result, THIS IS INTENDED.";
     private static final double SPRINT_MIN_HORIZONTAL_DISTANCE_SQR = 1.0E-4D;
     private static final ResourceLocation PHASE_TEN_HEALTH =
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "phase_ten_health");
@@ -62,6 +71,32 @@ public final class EvolutionEvents {
                 data.tickGeneration(level, 20);
             }
             data.tickPassivePoints(level);
+            removeExcessParasites(level);
+        }
+    }
+
+    private static void removeExcessParasites(ServerLevel level) {
+        int mobCap = WorldConfig.naturalMobCap(level);
+        if (!WorldConfig.mobCleanerEnabled() || mobCap <= 0) {
+            return;
+        }
+        List<LivingEntity> parasites = new ArrayList<>();
+        for (Entity entity : level.getAllEntities()) {
+            if (entity instanceof LivingEntity living && entity instanceof Parasite) {
+                parasites.add(living);
+            }
+        }
+        int removalThreshold = mobCap * 2;
+        int excess = parasites.size() - removalThreshold;
+        if (excess <= 0) {
+            return;
+        }
+        LOGGER.warn(MOB_CLEANER_WARNING);
+        parasites.sort(Comparator
+                .comparingDouble((LivingEntity entity) -> entity.getBbWidth() * entity.getBbHeight())
+                .thenComparing(Comparator.comparingInt((LivingEntity entity) -> entity.tickCount).reversed()));
+        for (int index = 0; index < excess; index++) {
+            parasites.get(index).discard();
         }
     }
 

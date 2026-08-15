@@ -1,0 +1,13 @@
+{
+  "itemGroup.csrp": "CSRP",
+  "item.csrp.fog_bottle": "안개 병",
+  "block.csrp.deadhead_leaves": "데드헤드 나뭇잎",
+  "block.csrp.infested_button": "감염된 버튼",
+  "block.csrp.infested_pressure_plate": "감염된 압력판",
+  "block.csrp.infested_ladder": "감염된 사다리",
+  "block.csrp.infested_bookshelf": "감염된 책장",
+  "block.csrp.cooked_flesh_button": "익힌 살점 버튼",
+  "block.csrp.cooked_flesh_pressure_plate": "익힌 살점 압력판",
+  "block.csrp.cooked_flesh_ladder": "익힌 살점 사다리",
+  "block.csrp.cooked_flesh_bookshelf": "익힌 살점 책장"
+}
