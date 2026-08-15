@@ -1,0 +1,1 @@
+{"variants":{"facing=east":{"model":"csrp:block/flesh_ladder","y":90},"facing=north":{"model":"csrp:block/flesh_ladder"},"facing=south":{"model":"csrp:block/flesh_ladder","y":180},"facing=west":{"model":"csrp:block/flesh_ladder","y":270}}}

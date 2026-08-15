@@ -11,6 +11,7 @@ import alku.csrp.block.BiomeHeartBlock;
 import alku.csrp.block.ColonyHeartBlock;
 import alku.csrp.block.ColonyStructureBlock;
 import alku.csrp.block.DeadBloodBlock;
+import alku.csrp.block.DeadheadLeavesBlock;
 import alku.csrp.block.DispatcherNidusBlock;
 import alku.csrp.block.DiseasedSpongeBlock;
 import alku.csrp.block.EscaBulbBlock;
@@ -438,16 +439,49 @@ public final class ModBlocks {
     public static final DeferredBlock<InfestedBlock> COOKED_FLESH = BLOCKS.register("cooked_flesh", () ->
             new InfestedBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
                     .strength(2.0F, 5.0F).requiresCorrectToolForDrops().sound(TUNNEL_SOUND_TYPE)));
-    public static final DeferredBlock<InfestedBlock> COOKED_FLESH_PLANKS = BLOCKS.register(
-            "cooked_flesh_planks", () -> new InfestedBlock(BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.COLOR_RED).strength(2.0F, 5.0F)
-                    .requiresCorrectToolForDrops().sound(TUNNEL_SOUND_TYPE)));
+    public static final DeferredBlock<InfestedBlock> COOKED_FLESH_PLANKS = parasiticPlanks(
+            "cooked_flesh_planks", MapColor.COLOR_RED);
     public static final DeferredBlock<ButtonBlock> COOKED_FLESH_BUTTON = woodButton("cooked_flesh_button");
     public static final DeferredBlock<PressurePlateBlock> COOKED_FLESH_PRESSURE_PLATE = woodPressurePlate(
             "cooked_flesh_pressure_plate");
     public static final DeferredBlock<LadderBlock> COOKED_FLESH_LADDER = woodLadder("cooked_flesh_ladder");
     public static final DeferredBlock<Block> COOKED_FLESH_BOOKSHELF = woodBookshelf(
             "cooked_flesh_bookshelf");
+    public static final DeferredBlock<InfestedBlock> FLESH_PLANKS = parasiticPlanks(
+            "flesh_planks", MapColor.COLOR_RED);
+    public static final DeferredBlock<ButtonBlock> FLESH_BUTTON = woodButton("flesh_button");
+    public static final DeferredBlock<PressurePlateBlock> FLESH_PRESSURE_PLATE = woodPressurePlate(
+            "flesh_pressure_plate");
+    public static final DeferredBlock<LadderBlock> FLESH_LADDER = woodLadder("flesh_ladder");
+    public static final DeferredBlock<Block> FLESH_BOOKSHELF = woodBookshelf("flesh_bookshelf");
+    public static final DeferredBlock<InfestedBlock> GOTH_PLANKS = parasiticPlanks(
+            "goth_planks", MapColor.COLOR_PURPLE);
+    public static final DeferredBlock<ButtonBlock> GOTH_BUTTON = woodButton("goth_button");
+    public static final DeferredBlock<PressurePlateBlock> GOTH_PRESSURE_PLATE = woodPressurePlate(
+            "goth_pressure_plate");
+    public static final DeferredBlock<LadderBlock> GOTH_LADDER = woodLadder("goth_ladder");
+    public static final DeferredBlock<Block> GOTH_BOOKSHELF = woodBookshelf("goth_bookshelf");
+    public static final DeferredBlock<InfestedBlock> BRUSEWOOD_PLANKS = parasiticPlanks(
+            "brusewood_planks", MapColor.COLOR_PURPLE);
+    public static final DeferredBlock<ButtonBlock> BRUCEWOOD_BUTTON = woodButton("brucewood_button");
+    public static final DeferredBlock<PressurePlateBlock> BRUSEWOOD_PRESSURE_PLATE = woodPressurePlate(
+            "brusewood_pressure_plate");
+    public static final DeferredBlock<LadderBlock> BRUISEWOOD_LADDER = woodLadder("bruisewood_ladder");
+    public static final DeferredBlock<Block> BRUISEWOOD_BOOKSHELF = woodBookshelf("bruisewood_bookshelf");
+    public static final DeferredBlock<InfestedBlock> CONSUMED_PLANKS = parasiticPlanks(
+            "consumed_planks", MapColor.COLOR_GRAY);
+    public static final DeferredBlock<ButtonBlock> CONSUMED_BUTTON = woodButton("consumed_button");
+    public static final DeferredBlock<PressurePlateBlock> CONSUMED_PRESSURE_PLATE = woodPressurePlate(
+            "consumed_pressure_plate");
+    public static final DeferredBlock<LadderBlock> CONSUMED_LADDER = woodLadder("consumed_ladder");
+    public static final DeferredBlock<Block> CONSUMED_BOOKSHELF = woodBookshelf("consumed_bookshelf");
+    public static final DeferredBlock<InfestedBlock> DEADHEAD_PLANKS = parasiticPlanks(
+            "parasiteplank_deadhead", MapColor.COLOR_BROWN);
+    public static final DeferredBlock<ButtonBlock> DEADHEAD_BUTTON = woodButton("deadhead_button");
+    public static final DeferredBlock<PressurePlateBlock> DEADHEAD_PRESSURE_PLATE = woodPressurePlate(
+            "deadhead_pressure_plate");
+    public static final DeferredBlock<LadderBlock> DEADHEAD_LADDER = woodLadder("deadhead_ladder");
+    public static final DeferredBlock<Block> DEADHEAD_BOOKSHELF = woodBookshelf("deadhead_bookshelf");
     public static final DeferredBlock<InfestedStairBlock> COOKED_FLESH_STAIRS = BLOCKS.register(
             "cooked_flesh_stairs", () -> new InfestedStairBlock(COOKED_FLESH_PLANKS.get().defaultBlockState(),
                     BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
@@ -459,8 +493,8 @@ public final class ModBlocks {
     public static final DeferredBlock<InfestedFenceBlock> COOKED_FLESH_FENCE = BLOCKS.register(
             "cooked_flesh_fence", () -> new InfestedFenceBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_RED).strength(1.5F, 3.0F).sound(TUNNEL_SOUND_TYPE)));
-    public static final DeferredBlock<LeavesBlock> DEADHEAD_LEAVES = BLOCKS.register(
-            "deadhead_leaves", () -> new LeavesBlock(BlockBehaviour.Properties.of()
+    public static final DeferredBlock<DeadheadLeavesBlock> DEADHEAD_LEAVES = BLOCKS.register(
+            "deadhead_leaves", () -> new DeadheadLeavesBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_BROWN)
                     .strength(0.2F)
                     .randomTicks()
@@ -503,6 +537,12 @@ public final class ModBlocks {
     private static DeferredBlock<Block> woodBookshelf(String id) {
         return BLOCKS.register(id, () -> new Block(BlockBehaviour.Properties.of()
                 .mapColor(MapColor.COLOR_RED).strength(1.5F).sound(SoundType.WOOD)));
+    }
+
+    private static DeferredBlock<InfestedBlock> parasiticPlanks(String id, MapColor color) {
+        return BLOCKS.register(id, () -> new InfestedBlock(BlockBehaviour.Properties.of()
+                .mapColor(color).strength(2.0F, 5.0F)
+                .requiresCorrectToolForDrops().sound(TUNNEL_SOUND_TYPE)));
     }
 
     private static java.util.Map<String, DeferredBlock<EscaBulbBlock>> registerEscaBulbs() {

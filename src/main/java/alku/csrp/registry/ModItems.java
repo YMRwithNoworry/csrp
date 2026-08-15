@@ -412,6 +412,56 @@ public final class ModItems {
             "cooked_flesh_ladder", ModBlocks.COOKED_FLESH_LADDER);
     public static final DeferredItem<BlockItem> COOKED_FLESH_BOOKSHELF = ITEMS.registerSimpleBlockItem(
             "cooked_flesh_bookshelf", ModBlocks.COOKED_FLESH_BOOKSHELF);
+    public static final DeferredItem<BlockItem> FLESH_PLANKS = ITEMS.registerSimpleBlockItem(
+            "flesh_planks", ModBlocks.FLESH_PLANKS);
+    public static final DeferredItem<BlockItem> FLESH_BUTTON = ITEMS.registerSimpleBlockItem(
+            "flesh_button", ModBlocks.FLESH_BUTTON);
+    public static final DeferredItem<BlockItem> FLESH_PRESSURE_PLATE = ITEMS.registerSimpleBlockItem(
+            "flesh_pressure_plate", ModBlocks.FLESH_PRESSURE_PLATE);
+    public static final DeferredItem<BlockItem> FLESH_LADDER = ITEMS.registerSimpleBlockItem(
+            "flesh_ladder", ModBlocks.FLESH_LADDER);
+    public static final DeferredItem<BlockItem> FLESH_BOOKSHELF = ITEMS.registerSimpleBlockItem(
+            "flesh_bookshelf", ModBlocks.FLESH_BOOKSHELF);
+    public static final DeferredItem<BlockItem> GOTH_PLANKS = ITEMS.registerSimpleBlockItem(
+            "goth_planks", ModBlocks.GOTH_PLANKS);
+    public static final DeferredItem<BlockItem> GOTH_BUTTON = ITEMS.registerSimpleBlockItem(
+            "goth_button", ModBlocks.GOTH_BUTTON);
+    public static final DeferredItem<BlockItem> GOTH_PRESSURE_PLATE = ITEMS.registerSimpleBlockItem(
+            "goth_pressure_plate", ModBlocks.GOTH_PRESSURE_PLATE);
+    public static final DeferredItem<BlockItem> GOTH_LADDER = ITEMS.registerSimpleBlockItem(
+            "goth_ladder", ModBlocks.GOTH_LADDER);
+    public static final DeferredItem<BlockItem> GOTH_BOOKSHELF = ITEMS.registerSimpleBlockItem(
+            "goth_bookshelf", ModBlocks.GOTH_BOOKSHELF);
+    public static final DeferredItem<BlockItem> BRUSEWOOD_PLANKS = ITEMS.registerSimpleBlockItem(
+            "brusewood_planks", ModBlocks.BRUSEWOOD_PLANKS);
+    public static final DeferredItem<BlockItem> BRUCEWOOD_BUTTON = ITEMS.registerSimpleBlockItem(
+            "brucewood_button", ModBlocks.BRUCEWOOD_BUTTON);
+    public static final DeferredItem<BlockItem> BRUSEWOOD_PRESSURE_PLATE = ITEMS.registerSimpleBlockItem(
+            "brusewood_pressure_plate", ModBlocks.BRUSEWOOD_PRESSURE_PLATE);
+    public static final DeferredItem<BlockItem> BRUISEWOOD_LADDER = ITEMS.registerSimpleBlockItem(
+            "bruisewood_ladder", ModBlocks.BRUISEWOOD_LADDER);
+    public static final DeferredItem<BlockItem> BRUISEWOOD_BOOKSHELF = ITEMS.registerSimpleBlockItem(
+            "bruisewood_bookshelf", ModBlocks.BRUISEWOOD_BOOKSHELF);
+    public static final DeferredItem<BlockItem> CONSUMED_PLANKS = ITEMS.registerSimpleBlockItem(
+            "consumed_planks", ModBlocks.CONSUMED_PLANKS);
+    public static final DeferredItem<BlockItem> CONSUMED_BUTTON = ITEMS.registerSimpleBlockItem(
+            "consumed_button", ModBlocks.CONSUMED_BUTTON);
+    public static final DeferredItem<BlockItem> CONSUMED_PRESSURE_PLATE = ITEMS.registerSimpleBlockItem(
+            "consumed_pressure_plate", ModBlocks.CONSUMED_PRESSURE_PLATE);
+    public static final DeferredItem<BlockItem> CONSUMED_LADDER = ITEMS.registerSimpleBlockItem(
+            "consumed_ladder", ModBlocks.CONSUMED_LADDER);
+    public static final DeferredItem<BlockItem> CONSUMED_BOOKSHELF = ITEMS.registerSimpleBlockItem(
+            "consumed_bookshelf", ModBlocks.CONSUMED_BOOKSHELF);
+    public static final DeferredItem<BlockItem> DEADHEAD_PLANKS = ITEMS.registerSimpleBlockItem(
+            "parasiteplank_deadhead", ModBlocks.DEADHEAD_PLANKS);
+    public static final DeferredItem<BlockItem> DEADHEAD_BUTTON = ITEMS.registerSimpleBlockItem(
+            "deadhead_button", ModBlocks.DEADHEAD_BUTTON);
+    public static final DeferredItem<BlockItem> DEADHEAD_PRESSURE_PLATE = ITEMS.registerSimpleBlockItem(
+            "deadhead_pressure_plate", ModBlocks.DEADHEAD_PRESSURE_PLATE);
+    public static final DeferredItem<BlockItem> DEADHEAD_LADDER = ITEMS.registerSimpleBlockItem(
+            "deadhead_ladder", ModBlocks.DEADHEAD_LADDER);
+    public static final DeferredItem<BlockItem> DEADHEAD_BOOKSHELF = ITEMS.registerSimpleBlockItem(
+            "deadhead_bookshelf", ModBlocks.DEADHEAD_BOOKSHELF);
     public static final DeferredItem<BlockItem> COOKED_FLESH_STAIRS = ITEMS.registerSimpleBlockItem(
             "cooked_flesh_stairs", ModBlocks.COOKED_FLESH_STAIRS);
     public static final DeferredItem<BlockItem> COOKED_FLESH_SLAB = ITEMS.registerSimpleBlockItem(

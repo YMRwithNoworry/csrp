@@ -1,1 +1,6 @@
-{"multipart":[{"apply":{"model":"csrp:block/deadhead_leaves"}}]}
+{
+  "variants": {
+    "snowy=false": {"model":"csrp:block/deadhead_leaves"},
+    "snowy=true": {"model":"csrp:block/deadhead_leaves_snow"}
+  }
+}
