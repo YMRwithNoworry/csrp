@@ -431,6 +431,29 @@ public final class MobsConfig {
     private static final ModConfigSpec.DoubleValue JINJO_EXPLOSION_MULTIPLIER = value(
             "srparasites:bomber_heavy", "heavyBomberExplosionMultiplier", 6.0D, 0.0D, 100.0D,
             "Multiplier applied to Heavy Bomber attack damage by its bomb.");
+    private static final ModConfigSpec.DoubleValue JINJO_HEALTH_MULTIPLIER = value(
+            "srparasites:bomber_heavy", "heavyBomberHealthMultiplier", 1.0D, 0.01D, 100.0D,
+            "Health multiplier for the Heavy Bomber.");
+    private static final ModConfigSpec.DoubleValue JINJO_DAMAGE_MULTIPLIER = value(
+            "srparasites:bomber_heavy", "heavyBomberDamageMultiplier", 1.0D, 0.01D, 100.0D,
+            "Attack damage multiplier for the Heavy Bomber.");
+    private static final ModConfigSpec.DoubleValue JINJO_ARMOR_MULTIPLIER = value(
+            "srparasites:bomber_heavy", "heavyBomberArmorMultiplier", 1.0D, 0.01D, 100.0D,
+            "Armor multiplier for the Heavy Bomber.");
+    private static final ModConfigSpec.DoubleValue JINJO_KNOCKBACK_MULTIPLIER = value(
+            "srparasites:bomber_heavy", "heavyBomberKnockbackResistanceMultiplier", 1.0D, 0.01D, 100.0D,
+            "Knockback-resistance multiplier for the Heavy Bomber.");
+    private static final ModConfigSpec.IntValue JINJO_MAX_Y = intValue(
+            "srparasites:bomber_heavy", "heavyBomberFlightHeightLimit", 256, 0, 256,
+            "Maximum number of air blocks the Heavy Bomber may fly above terrain.");
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> JINJO_ORB_EFFECTS = stringList(
+            "srparasites:bomber_heavy", "heavyBomberOrbEffects", List.of(
+                    "0;15;4;minecraft:hunger;0;0",
+                    "0;120;4;csrp:needler;0;0",
+                    "0;15;4;minecraft:mining_fatigue;0;0",
+                    "0;10;4;minecraft:wither;0;0"),
+            "Heavy Bomber scary-orb effects: self;seconds;amplifier;effect_id;mob_amplifier_step;mob_duration_step.",
+            MobsConfig::validOrbEffect);
     private static final ModConfigSpec.BooleanValue JINJO_GRIEFING = booleanValue(
             "srparasites:bomber_heavy", "heavyBomberGriefing", true,
             "Whether Heavy Bomber explosions may destroy blocks when mobGriefing is enabled.");
@@ -502,6 +525,10 @@ public final class MobsConfig {
 
     public static double pureFollowRange() {
         return PURE_FOLLOW.get();
+    }
+
+    public static double preeminentFollowRange() {
+        return PREEMINENT_FOLLOW.get();
     }
 
     public static double adaptedFollowRange() {
@@ -967,6 +994,30 @@ public final class MobsConfig {
 
     public static float jinjoExplosionMultiplier() {
         return JINJO_EXPLOSION_MULTIPLIER.get().floatValue();
+    }
+
+    public static double jinjoHealth() {
+        return 420.0D * JINJO_HEALTH_MULTIPLIER.get();
+    }
+
+    public static double jinjoArmor() {
+        return 15.5D * JINJO_ARMOR_MULTIPLIER.get();
+    }
+
+    public static double jinjoDamage() {
+        return 33.0D * JINJO_DAMAGE_MULTIPLIER.get();
+    }
+
+    public static double jinjoKnockbackResistance() {
+        return Math.min(1.0D, 0.15D * JINJO_KNOCKBACK_MULTIPLIER.get());
+    }
+
+    public static int jinjoMaxY() {
+        return JINJO_MAX_Y.get();
+    }
+
+    public static List<? extends String> jinjoOrbEffects() {
+        return JINJO_ORB_EFFECTS.get();
     }
 
     public static boolean jinjoGriefing() {

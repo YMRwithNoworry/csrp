@@ -4,6 +4,7 @@ import alku.csrp.Csrp;
 import alku.csrp.entity.AdaptedVariantEntity;
 import alku.csrp.entity.ArchitectEntity;
 import alku.csrp.entity.Parasite;
+import alku.csrp.entity.PreeminentParasiteEntity;
 import alku.csrp.entity.PrimitiveVariantEntity;
 import alku.csrp.entity.PureParasiteEntity;
 import net.minecraft.resources.ResourceLocation;
@@ -55,6 +56,8 @@ public final class OriginalConfigEvents {
             primitive.applyConfiguredAttributes();
         } else if (entity instanceof ArchitectEntity architect) {
             architect.applyConfiguredAttributes();
+        } else if (entity instanceof PreeminentParasiteEntity preeminent) {
+            preeminent.applyConfiguredAttributes();
         } else if (entity instanceof alku.csrp.entity.VisceraEntity viscera) {
             viscera.applyConfiguredAttributes();
         } else if (entity instanceof AdaptedVariantEntity adapted) {

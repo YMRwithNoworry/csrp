@@ -130,21 +130,28 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
                 : new PartEntity<?>[0];
         xpReward = 75;
         if (kind.flying) {
-            moveControl = kind == Kind.BOGLE || kind == Kind.WRAITH
+            moveControl = kind == Kind.BOGLE || kind == Kind.WRAITH || kind == Kind.BOMBER_HEAVY
                     ? new PreeminentFlyingMoveControl(this)
                     : new FlyingMoveControl(this, 18, true);
             setNoGravity(true);
+            noPhysics = true;
         }
     }
 
     public static AttributeSupplier.Builder createAttributes(Kind kind) {
+        double maxHealth = kind == Kind.BOMBER_HEAVY ? MobsConfig.jinjoHealth() : kind.maxHealth;
+        double armor = kind == Kind.BOMBER_HEAVY ? MobsConfig.jinjoArmor() : kind.armor;
+        double attackDamage = kind == Kind.BOMBER_HEAVY ? MobsConfig.jinjoDamage() : kind.attackDamage;
+        double knockbackResistance = kind == Kind.BOMBER_HEAVY
+                ? MobsConfig.jinjoKnockbackResistance() : kind.knockbackResistance;
         AttributeSupplier.Builder attributes = Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, kind.maxHealth)
-                .add(Attributes.ARMOR, kind.armor)
-                .add(Attributes.ATTACK_DAMAGE, kind.attackDamage)
+                .add(Attributes.MAX_HEALTH, maxHealth)
+                .add(Attributes.ARMOR, armor)
+                .add(Attributes.ATTACK_DAMAGE, attackDamage)
                 .add(Attributes.MOVEMENT_SPEED, kind.movementSpeed)
-                .add(Attributes.KNOCKBACK_RESISTANCE, kind.knockbackResistance)
-                .add(Attributes.FOLLOW_RANGE, kind.followRange);
+                .add(Attributes.KNOCKBACK_RESISTANCE, knockbackResistance)
+                .add(Attributes.FOLLOW_RANGE, kind == Kind.BOMBER_HEAVY
+                        ? MobsConfig.preeminentFollowRange() : kind.followRange);
         if (kind.flying) {
             attributes.add(Attributes.FLYING_SPEED, kind.movementSpeed);
         }
@@ -188,8 +195,9 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
                 goalSelector.addGoal(9, new HaunterBlockBreakGoal());
             }
             case BOMBER_HEAVY -> {
-                goalSelector.addGoal(1, new HeavyBomberBombGoal());
-                goalSelector.addGoal(2, new FlightPursuitGoal(0.85D));
+                goalSelector.addGoal(5, new HeavyBomberBombGoal());
+                goalSelector.addGoal(4, new HeavyBomberChargeAttackGoal());
+                goalSelector.addGoal(6, new HeavyBomberRandomFlightGoal());
             }
             case WRAITH -> {
                 goalSelector.addGoal(4, new PreeminentChargeAttackGoal());
@@ -211,6 +219,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         }
         if (activeKind.flying) {
             setNoGravity(true);
+            noPhysics = true;
         }
         if (level().isClientSide) {
             return;
@@ -233,6 +242,11 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
             if (random.nextInt(7) == 0) {
                 spawnColonyWorker();
             }
+        }
+        if (activeKind == Kind.BOMBER_HEAVY && tickCount % 21 == 10
+                && getTarget() != null && (!level().isEmptyBlock(blockPosition().below())
+                || !level().isEmptyBlock(blockPosition().below(2)))) {
+            setDeltaMovement(getDeltaMovement().add(0.0D, 0.5D, 0.0D));
         }
         if (activeKind.flying && !isStealthKind() && onGround()) {
             getMoveControl().setWantedPosition(getX(), getY() + 5.0D, getZ(), 0.50D);
@@ -283,9 +297,14 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
     @Override
     public boolean applyScaryOrbEffect(LivingEntity target, int nearbyEntities) {
         boolean applied = super.applyScaryOrbEffect(target, nearbyEntities);
-        if (!applied || (activeKind() != Kind.CARRIER_COLONY && activeKind() != Kind.HAUNTER)
+        if (!applied || (activeKind() != Kind.CARRIER_COLONY && activeKind() != Kind.HAUNTER
+                && activeKind() != Kind.BOMBER_HEAVY)
                 || target instanceof Parasite) {
             return applied;
+        }
+        if (activeKind() == Kind.BOMBER_HEAVY) {
+            ConfiguredOrbEffects.apply(this, target, nearbyEntities, MobsConfig.jinjoOrbEffects());
+            return true;
         }
         target.addEffect(new MobEffectInstance(MobEffects.HUNGER, 300, 4, false, false), this);
         target.addEffect(new MobEffectInstance(ModMobEffects.NEEDLER, 2400, 4, false, false), this);
@@ -429,6 +448,9 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         if (activeKind() == Kind.HAUNTER) {
             return null;
         }
+        if (activeKind() == Kind.BOMBER_HEAVY && charging) {
+            return ModSounds.get("mob.silence");
+        }
         return activeKind() == Kind.CARRIER_COLONY ? ModSounds.CARRIER_COLONY_LIVING.get()
                 : super.getAmbientSound();
     }
@@ -437,6 +459,10 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
     protected SoundEvent getHurtSound(DamageSource source) {
         if (activeKind() == Kind.HAUNTER) {
             return null;
+        }
+        if (activeKind() == Kind.BOMBER_HEAVY
+                && random.nextBoolean() && getAdaptationHitStatus() > 0) {
+            return ModSounds.get("mob.silence");
         }
         return activeKind() == Kind.CARRIER_COLONY ? ModSounds.CARRIER_COLONY_HURT.get()
                 : super.getHurtSound(source);
@@ -462,6 +488,9 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
 
     @Override
     protected float getSoundVolume() {
+        if (activeKind() == Kind.BOMBER_HEAVY) {
+            return 6.0F;
+        }
         return activeKind() == Kind.CARRIER_COLONY || activeKind() == Kind.HAUNTER
                 ? 5.0F : super.getSoundVolume();
     }
@@ -493,6 +522,19 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
 
     public Kind getKind() {
         return activeKind();
+    }
+
+    public void applyConfiguredAttributes() {
+        if (activeKind() != Kind.BOMBER_HEAVY) {
+            return;
+        }
+        getAttribute(Attributes.MAX_HEALTH).setBaseValue(MobsConfig.jinjoHealth());
+        getAttribute(Attributes.ARMOR).setBaseValue(MobsConfig.jinjoArmor());
+        getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(MobsConfig.jinjoDamage());
+        getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(MobsConfig.jinjoKnockbackResistance());
+        if (getHealth() > getMaxHealth()) {
+            setHealth(getMaxHealth());
+        }
     }
 
     @Override
@@ -638,11 +680,19 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
         if (hasGroundWithin(MINIMUM_FLIGHT_HEIGHT)) {
             verticalAdjustment += 0.04D;
         }
+        int maximumHeight = activeKind() == Kind.BOMBER_HEAVY
+                ? MobsConfig.jinjoMaxY() : MAXIMUM_FLIGHT_HEIGHT;
+        if (activeKind() == Kind.BOMBER_HEAVY && maximumHeight == 256) {
+            if (verticalAdjustment != 0.0D) {
+                setDeltaMovement(getDeltaMovement().add(0.0D, verticalAdjustment, 0.0D));
+            }
+            return;
+        }
         if (target != null) {
-            if (target.getY() + MAXIMUM_FLIGHT_HEIGHT > getY()) {
+            if (target.getY() + maximumHeight > getY()) {
                 verticalAdjustment -= 0.04D;
             }
-        } else if (!hasGroundWithin(MAXIMUM_FLIGHT_HEIGHT)) {
+        } else if (!hasGroundWithin(maximumHeight)) {
             verticalAdjustment -= 0.04D;
         }
         if (verticalAdjustment != 0.0D) {
@@ -1750,12 +1800,20 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
 
         @Override
         public boolean canUse() {
-            if (cooldown > 0) {
-                cooldown--;
+            cooldown++;
+            if (cooldown < 100) {
                 return false;
             }
+            cooldown = 0;
             LivingEntity target = getTarget();
-            return target != null && target.onGround() && distanceToSqr(target) <= 256.0D;
+            if (target == null) {
+                return false;
+            }
+            if (!target.onGround()) {
+                cooldown = 70;
+                return false;
+            }
+            return distanceToSqr(target) < 256.0D;
         }
 
         @Override
@@ -1771,7 +1829,117 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
             }
             getLookControl().setLookAt(target, 30.0F, 30.0F);
             dropHeavyBomb(target);
-            cooldown = 160;
+        }
+    }
+
+    private final class HeavyBomberChargeAttackGoal extends Goal {
+        private HeavyBomberChargeAttackGoal() {
+            setFlags(EnumSet.of(Flag.MOVE));
+        }
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = getTarget();
+            return target != null && target.isAlive() && random.nextInt(5) == 0
+                    && distanceToSqr(target) > 4.0D;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            LivingEntity target = getTarget();
+            return getMoveControl().hasWanted() && charging && target != null && target.isAlive();
+        }
+
+        @Override
+        public void start() {
+            LivingEntity target = getTarget();
+            if (target == null) {
+                return;
+            }
+            Vec3 eye = target.getEyePosition();
+            getMoveControl().setWantedPosition(eye.x, target.getY() + 20.0D, eye.z, 0.2D);
+            charging = true;
+        }
+
+        @Override
+        public void stop() {
+            charging = false;
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = getTarget();
+            if (target == null || !target.isAlive()) {
+                return;
+            }
+            if (getBoundingBox().intersects(target.getBoundingBox())) {
+                doHurtTarget(target);
+                charging = false;
+                return;
+            }
+            Vec3 eye = target.getEyePosition();
+            double speed = distanceToSqr(target) < 9.0D ? 1.0D : 1.1D;
+            double y = distanceToSqr(target) < 9.0D && hasLineOfSight(target)
+                    ? eye.y + 20.0D : target.getY() + 20.0D;
+            getMoveControl().setWantedPosition(eye.x, y, eye.z, speed);
+        }
+    }
+
+    private final class HeavyBomberRandomFlightGoal extends Goal {
+        private HeavyBomberRandomFlightGoal() {
+            setFlags(EnumSet.of(Flag.MOVE));
+        }
+
+        @Override
+        public boolean canUse() {
+            return !getMoveControl().hasWanted() && random.nextInt(7) == 0;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return false;
+        }
+
+        @Override
+        public void tick() {
+            BlockPos origin = blockPosition();
+            int mode = 1;
+            double speed = 0.1D;
+            LivingEntity target = getTarget();
+            if (target != null) {
+                double distance = distanceToSqr(target);
+                if (distance > 100.0D) {
+                    origin = target.blockPosition();
+                    mode = 2;
+                    speed += 0.05D;
+                } else if (distance < 36.0D) {
+                    origin = target.blockPosition();
+                    mode = 3;
+                    speed += 0.05D;
+                }
+            }
+            for (int attempt = 0; attempt < 3; attempt++) {
+                BlockPos candidate;
+                if (mode == 2) {
+                    candidate = origin.offset(random.nextInt(6) - 2, random.nextInt(7) - 2,
+                            random.nextInt(6) - 2);
+                } else if (mode == 3) {
+                    candidate = origin.offset(random.nextInt(4) + 3, random.nextInt(5) + 4,
+                            random.nextInt(4) + 3);
+                } else {
+                    candidate = origin.offset(random.nextInt(15) - 7, random.nextInt(11) - 5,
+                            random.nextInt(15) - 7);
+                }
+                if (level().isEmptyBlock(candidate)) {
+                    getMoveControl().setWantedPosition(candidate.getX() + 0.5D, candidate.getY() + 1.0D,
+                            candidate.getZ() + 0.5D, speed);
+                    if (target == null) {
+                        getLookControl().setLookAt(candidate.getX() + 0.5D, candidate.getY() + 1.0D,
+                                candidate.getZ() + 0.5D, 180.0F, 20.0F);
+                    }
+                    return;
+                }
+            }
         }
     }
 
