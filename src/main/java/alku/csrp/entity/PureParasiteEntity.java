@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import alku.csrp.Csrp;
 import alku.csrp.Config;
 import alku.csrp.config.MobsConfig;
 import alku.csrp.effect.EffectStacking;
@@ -15,6 +16,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -60,14 +62,17 @@ import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Shared port of the original Pure-tier combatants. They retain the legacy
  * fire weakness and adaptive resistance while their enum branches implement
  * the individual melee, flying, summoning, and ranged roles.
  */
-public final class PureParasiteEntity extends PrimitiveParasiteEntity {
+public final class PureParasiteEntity extends PrimitiveParasiteEntity implements SummonCapacityOwner {
     private static final EntityDataAccessor<Boolean> WARDEN_CHARGING = SynchedEntityData.defineId(
             PureParasiteEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> VIGILANTE_STATUS = SynchedEntityData.defineId(
@@ -88,6 +93,10 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
             PureParasiteEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Integer> OMBOO_COMBAT_STATUS = SynchedEntityData.defineId(
             PureParasiteEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Byte> OVERSEER_SKIN = SynchedEntityData.defineId(
+            PureParasiteEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Boolean> OVERSEER_SUMMONING = SynchedEntityData.defineId(
+            PureParasiteEntity.class, EntityDataSerializers.BOOLEAN);
     private static final int MAX_ADAPTATION_HITS = 8;
     private static final int MAX_LEARNABLE_DAMAGE_SOURCES = 12;
     private static final float ADAPTATION_PER_HIT = 0.125F;
@@ -149,7 +158,9 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
     private final Kind kind;
     private final VigilanteTendrilPart leftTendrilPart;
     private final VigilanteTendrilPart rightTendrilPart;
+    private final OverseerHeadPart overseerHeadPart;
     private final PartEntity<?>[] bodyParts;
+    private final SummonCapacityTracker summonTracker = new SummonCapacityTracker();
     private int blockBreakCooldown;
     private int supportCooldown;
     private int attackAnimationTicks;
@@ -170,15 +181,25 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         if (kind == Kind.VIGILANTE) {
             leftTendrilPart = new VigilanteTendrilPart(this, true);
             rightTendrilPart = new VigilanteTendrilPart(this, false);
+            overseerHeadPart = null;
             bodyParts = new PartEntity<?>[]{leftTendrilPart, rightTendrilPart};
+        } else if (kind == Kind.OVERSEER) {
+            leftTendrilPart = null;
+            rightTendrilPart = null;
+            overseerHeadPart = new OverseerHeadPart(this);
+            bodyParts = new PartEntity<?>[]{overseerHeadPart};
         } else {
             leftTendrilPart = null;
             rightTendrilPart = null;
+            overseerHeadPart = null;
             bodyParts = new PartEntity<?>[0];
         }
         xpReward = 75;
         if (kind == Kind.BOMBER_LIGHT) {
             moveControl = new OmbooMoveControl(this);
+            setNoGravity(true);
+        } else if (kind == Kind.OVERSEER) {
+            moveControl = new OverseerMoveControl(this);
             setNoGravity(true);
         } else if (kind.flying) {
             moveControl = new FlyingMoveControl(this, 16, true);
@@ -187,12 +208,17 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     public static AttributeSupplier.Builder createAttributes(Kind kind) {
+        double maxHealth = kind == Kind.OVERSEER ? MobsConfig.overseerHealth() : kind.maxHealth;
+        double armor = kind == Kind.OVERSEER ? MobsConfig.overseerArmor() : kind.armor;
+        double attackDamage = kind == Kind.OVERSEER ? MobsConfig.overseerMeleeDamage() : kind.attackDamage;
+        double knockbackResistance = kind == Kind.OVERSEER
+                ? MobsConfig.overseerKnockbackResistance() : kind.knockbackResistance;
         AttributeSupplier.Builder attributes = Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, kind.maxHealth)
-                .add(Attributes.ARMOR, kind.armor)
-                .add(Attributes.ATTACK_DAMAGE, kind.attackDamage)
+                .add(Attributes.MAX_HEALTH, maxHealth)
+                .add(Attributes.ARMOR, armor)
+                .add(Attributes.ATTACK_DAMAGE, attackDamage)
                 .add(Attributes.MOVEMENT_SPEED, kind.movementSpeed)
-                .add(Attributes.KNOCKBACK_RESISTANCE, kind.knockbackResistance)
+                .add(Attributes.KNOCKBACK_RESISTANCE, knockbackResistance)
                 .add(Attributes.FOLLOW_RANGE, kind.followRange);
         if (kind.flying) {
             attributes.add(Attributes.FLYING_SPEED, kind.movementSpeed);
@@ -240,8 +266,10 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
             }
             case OVERSEER -> {
                 goalSelector.addGoal(1, new OverseerVolleyGoal());
-                goalSelector.addGoal(2, new OverseerSummonGoal());
-                goalSelector.addGoal(3, new FlightPursuitGoal(0.95D));
+                goalSelector.addGoal(2, new OverseerMeleeRushGoal());
+                goalSelector.addGoal(3, new OverseerFlightLimitGoal());
+                goalSelector.addGoal(5, new OverseerSummonGoal());
+                goalSelector.addGoal(6, new OverseerRandomFlightGoal());
             }
             case SEEKER -> {
                 goalSelector.addGoal(3, new FlightPursuitGoal(0.50D));
@@ -289,6 +317,8 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         builder.define(OMBOO_FLAGS, (byte) 0);
         builder.define(OMBOO_SKIN, (byte) 0);
         builder.define(OMBOO_COMBAT_STATUS, 0);
+        builder.define(OVERSEER_SKIN, (byte) 0);
+        builder.define(OVERSEER_SUMMONING, false);
     }
 
     @Nullable
@@ -313,6 +343,11 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
             applyMonarchVariantAttributes();
             setHealth(getMaxHealth());
         }
+        if (!level.isClientSide() && activeKind() == Kind.OVERSEER
+                && (random.nextDouble() < Config.variantSpawnChance()
+                || Config.evolutionPhase(level.getLevel()) >= Config.alwaysVariantPhase())) {
+            setOverseerSkin(7);
+        }
         return data;
     }
 
@@ -323,12 +358,16 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         if (activeKind.flying) {
             setNoGravity(true);
         }
-        updateVigilanteParts();
+        updateBodyParts();
         if (level().isClientSide) {
             return;
         }
         if (activeKind == Kind.VIGILANTE) {
             initializeVigilanteTendrils();
+        }
+        if (activeKind == Kind.OVERSEER && tickCount % 20 == 0
+                && level() instanceof ServerLevel serverLevel) {
+            summonTracker.prune(serverLevel);
         }
         if (blockBreakCooldown > 0) {
             blockBreakCooldown--;
@@ -345,6 +384,8 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         }
         if (activeKind == Kind.BOMBER_LIGHT) {
             tickOmbooFlightEnvironment();
+        } else if (activeKind == Kind.OVERSEER) {
+            tickOverseerFlightEnvironment();
         } else if (activeKind.flying && onGround()) {
             getMoveControl().setWantedPosition(getX(), getY() + 4.0D, getZ(), 0.55D);
         }
@@ -359,7 +400,8 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         breakBlocksTowardsTarget(target, activeKind);
         if (activeKind == Kind.MONARCH && tickCount % 61 == 20) {
             tryMonarchSummonSupport(target);
-        } else if (activeKind != Kind.SEEKER && supportCooldown <= 0 && tickCount % 40 == 0) {
+        } else if (activeKind != Kind.SEEKER && activeKind != Kind.OVERSEER
+                && supportCooldown <= 0 && tickCount % 40 == 0) {
             trySummonSupport(target);
         }
     }
@@ -450,6 +492,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
             case GRUNT -> dimensions.withEyeHeight(1.73F);
             case BOMBER_LIGHT -> dimensions.withEyeHeight(2.4F);
             case MONARCH -> dimensions.withEyeHeight(3.5F);
+            case OVERSEER -> dimensions.withEyeHeight(1.6F);
             default -> dimensions;
         };
     }
@@ -545,6 +588,10 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         if (activeKind() == Kind.BOMBER_LIGHT) {
             tag.putByte("OmbooSkin", entityData.get(OMBOO_SKIN));
         }
+        if (activeKind() == Kind.OVERSEER) {
+            tag.putByte("OverseerSkin", entityData.get(OVERSEER_SKIN));
+            summonTracker.save(tag, "OverseerTrackedSummons");
+        }
     }
 
     @Override
@@ -571,6 +618,11 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         if (activeKind() == Kind.BOMBER_LIGHT) {
             setOmbooSkin(tag.contains("OmbooSkin") ? tag.getByte("OmbooSkin") : 0);
         }
+        if (activeKind() == Kind.OVERSEER) {
+            setOverseerSkin(tag.contains("OverseerSkin") ? tag.getByte("OverseerSkin") : 0);
+            summonTracker.load(tag, "OverseerTrackedSummons");
+            entityData.set(OVERSEER_SUMMONING, false);
+        }
     }
 
     @Override
@@ -584,6 +636,31 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
 
     public Kind getKind() {
         return activeKind();
+    }
+
+    @Override
+    public int getSummonCapacity() {
+        return activeKind() == Kind.OVERSEER ? MobsConfig.overseerTotalActiveMobs() : 0;
+    }
+
+    @Override
+    public int getUsedSummonCapacity() {
+        return summonTracker.usedCapacity();
+    }
+
+    @Override
+    public void reserveTrackedSummon(UUID entityId, int cost) {
+        summonTracker.reserve(entityId, cost);
+    }
+
+    @Override
+    public void replaceTrackedSummon(UUID previousId, UUID replacementId, int cost) {
+        summonTracker.replace(previousId, replacementId, cost);
+    }
+
+    @Override
+    public void releaseTrackedSummon(UUID entityId) {
+        summonTracker.release(entityId);
     }
 
     public int getGruntSkin() {
@@ -636,6 +713,22 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         entityData.set(OMBOO_FLAGS, charging ? (byte) (flags | 1) : (byte) (flags & ~1));
     }
 
+    public int getOverseerSkin() {
+        return activeKind() == Kind.OVERSEER ? entityData.get(OVERSEER_SKIN) : 0;
+    }
+
+    private void setOverseerSkin(int skin) {
+        entityData.set(OVERSEER_SKIN, (byte) (skin == 7 ? 7 : 0));
+    }
+
+    public boolean isOverseerSummoning() {
+        return activeKind() == Kind.OVERSEER && entityData.get(OVERSEER_SUMMONING);
+    }
+
+    private void setOverseerSummoning(boolean summoning) {
+        entityData.set(OVERSEER_SUMMONING, summoning);
+    }
+
     @Override
     public boolean isMultipartEntity() {
         return bodyParts.length > 0;
@@ -652,6 +745,16 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
     @Override
     public PartEntity<?>[] getParts() {
         return bodyParts;
+    }
+
+    @Override
+    public void remove(RemovalReason reason) {
+        for (PartEntity<?> part : bodyParts) {
+            if (!part.isRemoved()) {
+                part.remove(reason);
+            }
+        }
+        super.remove(reason);
     }
 
     public boolean isLeftVigilanteTendrilAttached() {
@@ -709,12 +812,15 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         serverLevel.addFreshEntity(tendril);
     }
 
-    private void updateVigilanteParts() {
+    private void updateBodyParts() {
         if (leftTendrilPart != null) {
             leftTendrilPart.updatePosition();
         }
         if (rightTendrilPart != null) {
             rightTendrilPart.updatePosition();
+        }
+        if (overseerHeadPart != null) {
+            overseerHeadPart.updatePosition();
         }
     }
 
@@ -1119,6 +1225,18 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         }
     }
 
+    private void tickOverseerFlightEnvironment() {
+        if (onGround()) {
+            getMoveControl().setWantedPosition(getX(), getY() + 5.0D, getZ(), 0.5D);
+        }
+        LivingEntity target = getTarget();
+        if (target != null && (!level().getBlockState(blockPosition().below()).isAir()
+                || !level().getBlockState(blockPosition().below(2)).isAir())) {
+            Vec3 movement = getDeltaMovement();
+            setDeltaMovement(movement.x, 0.5D, movement.z);
+        }
+    }
+
     private boolean hasBlockBelow(int distance) {
         BlockPos.MutableBlockPos cursor = blockPosition().below().mutable();
         for (int offset = 1; offset <= distance && cursor.getY() >= level().getMinBuildHeight(); offset++) {
@@ -1149,24 +1267,86 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         }
     }
 
-    private void spawnOverseerMinion(LivingEntity target) {
+    private void fireOverseerProjectile(LivingEntity target) {
+        ParasiteProjectileEntity projectile = ModEntities.createProjectile(level(),
+                ParasiteProjectileEntity.Mode.ALAFHA_BALL);
+        if (projectile == null) {
+            return;
+        }
+        Vec3 look = getViewVector(1.0F);
+        Vec3 start = new Vec3(getX() + look.x, getY() + getEyeHeight() - 0.2D, getZ() + look.z);
+        double accelerationY = target.getBoundingBox().minY + target.getBbHeight() / 2.0D
+                - (0.5D + getY() + getBbHeight() / 2.0D);
+        Vec3 acceleration = new Vec3(target.getX() - (getX() + look.x), accelerationY,
+                target.getZ() - (getZ() + look.z));
+        projectile.configureLegacyFireball(this, ParasiteProjectileEntity.Mode.ALAFHA_BALL, start,
+                acceleration, MobsConfig.overseerProjectileDamage(), 3.0D, 140);
+        playSound(ModSounds.get("alafha.shooting"), 2.0F, 1.0F);
+        level().addFreshEntity(projectile);
+    }
+
+    private boolean launchOverseerBiomass(LivingEntity target) {
         if (!(level() instanceof ServerLevel serverLevel)) {
-            return;
+            return false;
         }
-        Mob minion = random.nextFloat() < 0.66F
-                ? ModEntities.GRUNT.get().create(serverLevel)
-                : ModEntities.RUPTER.get().create(serverLevel);
-        if (minion == null) {
-            return;
+        List<BiomassEntity.SummonOption> options = resolveOverseerSummonOptions();
+        java.util.Optional<BiomassEntity.SummonOption> selected = BiomassEntity.selectSummon(this, this, options);
+        if (selected.isEmpty()) {
+            return false;
         }
-        double angle = random.nextDouble() * Math.PI * 2.0D;
-        minion.moveTo(target.getX() + Math.cos(angle) * 2.0D, target.getY(),
-                target.getZ() + Math.sin(angle) * 2.0D, getYRot(), 0.0F);
-        minion.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(minion.blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
-        minion.setTarget(target);
-        minion.addEffect(new MobEffectInstance(ModMobEffects.RAGE, 1200, 1, false, false), this);
-        serverLevel.addFreshEntity(minion);
+        ParasiteProjectileEntity projectile = ModEntities.createProjectile(level(),
+                ParasiteProjectileEntity.Mode.BIOMASS_BALL);
+        if (projectile == null) {
+            return false;
+        }
+        Vec3 look = getViewVector(1.0F);
+        Vec3 start = new Vec3(getX() + look.x, getY() + getEyeHeight() - 0.2D, getZ() + look.z);
+        double accelerationY = target.getBoundingBox().minY + target.getBbHeight() / 2.0D
+                - (0.5D + getY() + getBbHeight() / 2.0D);
+        Vec3 acceleration = new Vec3(target.getX() - (getX() + look.x), accelerationY,
+                target.getZ() - (getZ() + look.z));
+        BiomassEntity.SummonOption option = selected.get();
+        projectile.configureBiomassBall(this, start, acceleration, option, 4, target);
+        if (!serverLevel.addFreshEntity(projectile)) {
+            return false;
+        }
+        reserveTrackedSummon(projectile.getUUID(), option.cost());
+        serverLevel.sendParticles(ParticleTypes.WITCH, getX(), getY() + getBbHeight() * 0.5D, getZ(),
+                8, 0.45D, 0.45D, 0.45D, 0.04D);
+        return true;
+    }
+
+    private List<BiomassEntity.SummonOption> resolveOverseerSummonOptions() {
+        List<BiomassEntity.SummonOption> options = new ArrayList<>();
+        for (String entry : MobsConfig.overseerSummonMobs()) {
+            String[] parts = entry.split(";", -1);
+            if (parts.length != 3) {
+                continue;
+            }
+            ResourceLocation id = ResourceLocation.tryParse(parts[0].trim());
+            if (id == null) {
+                continue;
+            }
+            if (id.getNamespace().equals("srparasites")) {
+                id = ResourceLocation.fromNamespaceAndPath(Csrp.MODID, id.getPath());
+            }
+            EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.getOptional(id).orElse(null);
+            if (type == null) {
+                continue;
+            }
+            try {
+                double chance = Double.parseDouble(parts[1].trim());
+                int cost = Integer.parseInt(parts[2].trim());
+                options.add(new BiomassEntity.SummonOption(asMobType(type), chance, cost));
+            } catch (NumberFormatException ignored) {
+            }
+        }
+        return options;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static EntityType<? extends Mob> asMobType(EntityType<?> type) {
+        return (EntityType<? extends Mob>) type;
     }
 
     private Kind activeKind() {
@@ -1901,6 +2081,37 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         }
     }
 
+    private static final class OverseerMoveControl extends MoveControl {
+        private OverseerMoveControl(PureParasiteEntity mob) {
+            super(mob);
+        }
+
+        @Override
+        public void tick() {
+            if (operation != Operation.MOVE_TO) {
+                return;
+            }
+            double deltaX = wantedX - mob.getX();
+            double deltaY = wantedY - mob.getY();
+            double deltaZ = wantedZ - mob.getZ();
+            double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
+            if (distance < mob.getBoundingBox().getSize()) {
+                operation = Operation.WAIT;
+                mob.setDeltaMovement(mob.getDeltaMovement().scale(0.5D));
+                return;
+            }
+            mob.setDeltaMovement(mob.getDeltaMovement().add(
+                    deltaX / distance * 0.05D * speedModifier,
+                    deltaY / distance * 0.05D * speedModifier,
+                    deltaZ / distance * 0.05D * speedModifier));
+            LivingEntity target = mob.getTarget();
+            double lookX = target == null ? mob.getDeltaMovement().x : target.getX() - mob.getX();
+            double lookZ = target == null ? mob.getDeltaMovement().z : target.getZ() - mob.getZ();
+            mob.setYRot(-((float) Mth.atan2(lookX, lookZ)) * Mth.RAD_TO_DEG);
+            mob.yBodyRot = mob.getYRot();
+        }
+    }
+
     private static final class OmbooMoveControl extends MoveControl {
         private OmbooMoveControl(PureParasiteEntity mob) {
             super(mob);
@@ -2229,114 +2440,259 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private final class OverseerVolleyGoal extends Goal {
-        private int cooldown;
-        private int warmup;
+        private int attackTimer;
         private int shots;
-        private int shotDelay;
-
-        private OverseerVolleyGoal() {
-            setFlags(EnumSet.of(Flag.LOOK));
-        }
 
         @Override
         public boolean canUse() {
-            if (cooldown > 0) {
-                cooldown--;
-                return false;
-            }
             LivingEntity target = getTarget();
-            return target != null && hasLineOfSight(target) && distanceToSqr(target) <= 1024.0D;
+            return target != null && target.isAlive();
         }
 
         @Override
         public boolean canContinueToUse() {
-            LivingEntity target = getTarget();
-            return target != null && target.isAlive() && shots < 6;
-        }
-
-        @Override
-        public void start() {
-            warmup = 10;
-            shots = 0;
-            shotDelay = 0;
-            getNavigation().stop();
-            triggerAttackAnimation();
+            return canUse();
         }
 
         @Override
         public void tick() {
             LivingEntity target = getTarget();
-            if (target == null) {
+            if (target == null || !target.isAlive() || isOverseerSummoning()) {
+                attackTimer = 0;
+                shots = 0;
                 return;
             }
             getLookControl().setLookAt(target, 30.0F, 30.0F);
-            if (warmup > 0) {
-                warmup--;
-                return;
+            if (distanceToSqr(target) < 4225.0D && hasLineOfSight(target)) {
+                attackTimer++;
+                if (hasEffect(ModMobEffects.RAGE)) {
+                    attackTimer++;
+                }
+                if (attackTimer == 10) {
+                    playSound(ModSounds.get("alafha.shootingpost"), 2.0F, 1.0F);
+                }
+                if (attackTimer > 20) {
+                    if (shots < 4) {
+                        if (attackTimer % 10 == 0) {
+                            fireOverseerProjectile(target);
+                            shots++;
+                        }
+                    } else {
+                        attackTimer = 0;
+                        shots = 0;
+                    }
+                }
+            } else if (attackTimer > 0) {
+                attackTimer--;
             }
-            if (shotDelay > 0) {
-                shotDelay--;
-                return;
-            }
-            fireProjectile(target, ParasiteProjectileEntity.Mode.NEEDLE, 0.90D, 30.0F, 1.6D, 70);
-            shots++;
-            shotDelay = 4;
         }
 
         @Override
         public void stop() {
-            cooldown = 160;
+            attackTimer = 0;
+            shots = 0;
+        }
+    }
+
+    private final class OverseerMeleeRushGoal extends Goal {
+        private int chargeTicks;
+        private int attackCooldown;
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = getTarget();
+            return target != null && target.isAlive();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return canUse();
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = getTarget();
+            if (target == null || !target.isAlive()) {
+                setTarget(null);
+                return;
+            }
+            if (isInWater()) {
+                return;
+            }
+            chargeTicks++;
+            if (chargeTicks < 80) {
+                return;
+            }
+            getLookControl().setLookAt(target, 30.0F, 30.0F);
+            double attackDistance = distanceToSqr(target.getX(), target.getBoundingBox().minY, target.getZ());
+            if (distanceToSqr(target) * 0.85D < 256.0D && hasLineOfSight(target)) {
+                double deltaX = target.getX() - getX();
+                double deltaZ = target.getZ() - getZ();
+                double horizontal = Math.sqrt(deltaX * deltaX + deltaZ * deltaZ);
+                if (horizontal > 0.001D) {
+                    Vec3 movement = getDeltaMovement();
+                    double motionY = target.getY() >= getY() + 4.0D ? 0.52D : -0.2D;
+                    setDeltaMovement(movement.x + deltaX / horizontal * 0.045D + movement.x * 0.045D,
+                            motionY,
+                            movement.z + deltaZ / horizontal * 0.045D + movement.z * 0.045D);
+                }
+                attackCooldown = Math.max(attackCooldown - 1, 0);
+                if (attackDistance <= 20.25D && attackCooldown <= 0) {
+                    attackCooldown = 20;
+                    doHurtTarget(target);
+                }
+                if (chargeTicks > 140) {
+                    chargeTicks = 0;
+                }
+            }
+        }
+    }
+
+    private final class OverseerFlightLimitGoal extends Goal {
+        @Override
+        public boolean canUse() {
+            return MobsConfig.overseerMaxY() != 256;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return canUse();
+        }
+
+        @Override
+        public void tick() {
+            int limit = MobsConfig.overseerMaxY();
+            LivingEntity target = getTarget();
+            boolean pushDown = target == null ? !hasBlockBelow(limit) : target.getY() + limit > getY();
+            if (pushDown) {
+                setDeltaMovement(getDeltaMovement().add(0.0D, -0.04D, 0.0D));
+            }
+        }
+    }
+
+    private final class OverseerRandomFlightGoal extends Goal {
+        private OverseerRandomFlightGoal() {
+            setFlags(EnumSet.of(Flag.MOVE));
+        }
+
+        @Override
+        public boolean canUse() {
+            if (!getMoveControl().hasWanted()) {
+                return true;
+            }
+            double deltaX = getMoveControl().getWantedX() - getX();
+            double deltaY = getMoveControl().getWantedY() - getY();
+            double deltaZ = getMoveControl().getWantedZ() - getZ();
+            double distance = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
+            return distance < 1.0D || distance > 3600.0D;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return false;
+        }
+
+        @Override
+        public void start() {
+            LivingEntity target = getTarget();
+            if (target == null) {
+                getMoveControl().setWantedPosition(
+                        getX() + (random.nextFloat() * 2.0F - 1.0F) * 16.0F,
+                        getY() + (random.nextFloat() * 2.0F - 1.0F) * 16.0F,
+                        getZ() + (random.nextFloat() * 2.0F - 1.0F) * 16.0F, 0.5D);
+                return;
+            }
+
+            BlockPos center = blockPosition();
+            int mode = 1;
+            double speed = 0.11D;
+            double targetDistance = distanceToSqr(target);
+            if (targetDistance > 400.0D) {
+                center = target.blockPosition();
+                mode = 2;
+                speed += 0.11D;
+            } else if (targetDistance < 100.0D) {
+                center = target.blockPosition();
+                mode = 3;
+                speed += 0.11D;
+            }
+
+            for (int attempt = 0; attempt < 3; attempt++) {
+                BlockPos destination = switch (mode) {
+                    case 2 -> center.offset(random.nextInt(6) - 2,
+                            random.nextInt(7) - 2, random.nextInt(6) - 2);
+                    case 3 -> center.offset(random.nextInt(4) + 3,
+                            random.nextInt(5) + 4, random.nextInt(4) + 3);
+                    default -> center.offset(random.nextInt(15) - 7,
+                            random.nextInt(9) - 5, random.nextInt(15) - 7);
+                };
+                if (level().isEmptyBlock(destination)) {
+                    getMoveControl().setWantedPosition(destination.getX() + 0.5D,
+                            destination.getY() + 0.5D, destination.getZ() + 0.5D, speed);
+                    return;
+                }
+            }
         }
     }
 
     private final class OverseerSummonGoal extends Goal {
-        private int cooldown;
+        private int successfulLaunches;
         private int chargeTicks;
-
-        private OverseerSummonGoal() {
-            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
-        }
+        private int castingTicks;
 
         @Override
         public boolean canUse() {
-            if (cooldown > 0) {
-                cooldown--;
-                return false;
-            }
             LivingEntity target = getTarget();
-            return target != null && target.onGround() && distanceToSqr(target) <= 1024.0D;
+            return castingTicks >= 1 || target != null && target.onGround();
         }
 
         @Override
         public boolean canContinueToUse() {
-            return chargeTicks < 60 && getTarget() != null;
-        }
-
-        @Override
-        public void start() {
-            chargeTicks = 0;
-            getNavigation().stop();
-            triggerAttackAnimation();
+            return canUse();
         }
 
         @Override
         public void tick() {
             LivingEntity target = getTarget();
-            if (target == null) {
+            if (castingTicks >= 1) {
+                castingTicks++;
+                setOverseerSummoning(true);
+                getNavigation().stop();
+                if (castingTicks % 20 == 0 && castingTicks >= 40
+                        && getUsedSummonCapacity() < getSummonCapacity()
+                        && successfulLaunches < MobsConfig.overseerSummonLimit()
+                        && target != null && launchOverseerBiomass(target)) {
+                    successfulLaunches++;
+                }
+                if (castingTicks >= 80 || successfulLaunches >= MobsConfig.overseerSummonLimit()) {
+                    castingTicks = 0;
+                    chargeTicks = 0;
+                    successfulLaunches = 0;
+                    setOverseerSummoning(false);
+                }
                 return;
             }
-            getLookControl().setLookAt(target, 30.0F, 30.0F);
-            chargeTicks++;
-            if (chargeTicks % 20 == 0) {
-                spawnOverseerMinion(target);
-                level().addParticle(ParticleTypes.WITCH, getX(), getY() + getBbHeight() * 0.5D, getZ(),
-                        0.0D, 0.05D, 0.0D);
+            setOverseerSummoning(false);
+            if (target == null || !target.isAlive()) {
+                chargeTicks = Math.max(0, chargeTicks - 1);
+                return;
+            }
+            if (hasLineOfSight(target) && distanceToSqr(target) < 256.0D && target.onGround()) {
+                chargeTicks++;
+                if (chargeTicks >= MobsConfig.overseerSummonCooldownTicks()) {
+                    castingTicks = 1;
+                    setOverseerSummoning(true);
+                }
+            } else if (chargeTicks > 0) {
+                chargeTicks--;
             }
         }
 
         @Override
         public void stop() {
-            cooldown = 200;
+            if (castingTicks == 0) {
+                setOverseerSummoning(false);
+            }
         }
     }
 
@@ -2562,6 +2918,59 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         }
     }
 
+    private static final class OverseerHeadPart extends PartEntity<PureParasiteEntity> {
+        private OverseerHeadPart(PureParasiteEntity parent) {
+            super(parent);
+        }
+
+        private void updatePosition() {
+            PureParasiteEntity parent = getParent();
+            float rotation = parent.getYRot() * Mth.DEG_TO_RAD - parent.yBodyRot * 0.01F;
+            float forward = 3.0F * Mth.cos((float) Math.PI / 18.0F);
+            setPos(parent.getX() - Mth.sin(rotation) * forward,
+                    parent.getY(),
+                    parent.getZ() + Mth.cos(rotation) * forward);
+            setYRot(parent.getYRot());
+        }
+
+        @Override
+        protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        }
+
+        @Override
+        protected void readAdditionalSaveData(CompoundTag tag) {
+        }
+
+        @Override
+        protected void addAdditionalSaveData(CompoundTag tag) {
+        }
+
+        @Override
+        public boolean isPickable() {
+            return getParent().isAlive();
+        }
+
+        @Override
+        public boolean hurt(DamageSource source, float amount) {
+            return getParent().hurt(source, amount * 3.0F);
+        }
+
+        @Override
+        public EntityDimensions getDimensions(Pose pose) {
+            return EntityDimensions.scalable(1.2F, 1.2F);
+        }
+
+        @Override
+        public boolean shouldBeSaved() {
+            return false;
+        }
+
+        @Override
+        public Component getName() {
+            return Component.literal("overseer_head");
+        }
+    }
+
     private static final class VigilanteTendrilPart extends PartEntity<PureParasiteEntity> {
         private final boolean left;
 
@@ -2624,7 +3033,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity {
         GRUNT(false, true, 20.0D, 7.0D, 13.0D, 0.274172325D, 0.40D, 32.0D, 3.0F, 1.0D),
         BOMBER_LIGHT(true, false, 75.0D, 20.0D, 25.0D, 0.27D, 0.15D, 32.0D, 5.0F, 2.0D),
         MONARCH(false, true, 75.0D, 10.0D, 25.0D, 0.2775D, 1.0D, 32.0D, 5.0F, 4.0D),
-        OVERSEER(true, false, 80.0D, 20.0D, 45.0D, 0.27D, 0.40D, 32.0D, 5.0F, 2.0D),
+        OVERSEER(true, false, 80.0D, 20.0D, 22.0D, 0.27D, 0.40D, 32.0D, 5.0F, 2.0D),
         SEEKER(true, false, 80.0D, 20.0D, 22.0D, 0.27D, 0.40D, 32.0D, 5.0F, 2.0D),
         VIGILANTE(false, false, 70.0D, 25.0D, 23.0D, 0.20D, 1.0D, 32.0D, 5.0F, 2.0D),
         WARDEN(false, true, 80.0D, 15.0D, 25.0D, 0.27D, 1.0D, 32.0D, 5.0F, 2.0D);

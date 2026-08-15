@@ -25,6 +25,10 @@ public final class ParasiteProjectileRenderer extends EntityRenderer<ParasitePro
             "textures/entity/projectile/spineball.png");
     private static final ResourceLocation YELLOWEYE_NADE_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
             "textures/entity/monster/nade.png");
+    private static final ResourceLocation ALAFHA_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+            "textures/entity/projectile/alafha.png");
+    private static final ResourceLocation BIOMASS_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+            "textures/entity/projectile/biomass.png");
 
     public ParasiteProjectileRenderer(EntityRendererProvider.Context context) {
         super(context);
@@ -140,6 +144,8 @@ public final class ParasiteProjectileRenderer extends EntityRenderer<ParasitePro
             case YELLOWEYE_SPINE -> SPINEBALL_TEXTURE;
             case YELLOWEYE_NADE -> entity.isYelloweyeNadeArmed()
                     ? YELLOWEYE_NADE_TEXTURE : NADE_PROJECTILE_TEXTURE;
+            case ALAFHA_BALL -> ALAFHA_TEXTURE;
+            case BIOMASS_BALL -> BIOMASS_TEXTURE;
             default -> DEFAULT_TEXTURE;
         };
     }

@@ -82,6 +82,27 @@ public final class BiomassEntity extends Monster implements GeoEntity, Parasite 
         if (!(summoner.level() instanceof ServerLevel level) || options.isEmpty()) {
             return false;
         }
+        Optional<SummonOption> selected = selectSummon(summoner, owner, options);
+        if (selected.isEmpty()) {
+            return false;
+        }
+
+        float angle = summoner.getYRot() * Mth.DEG_TO_RAD - summoner.yBodyRot * 0.01F;
+        double distance = 3.0D * Mth.cos((float) Math.PI / 18.0F);
+        Vec3 spawnPosition = summoner.position().add(-Mth.sin(angle) * distance,
+                summoner.getEyeHeight(), Mth.cos(angle) * distance);
+        if (!level.isEmptyBlock(net.minecraft.core.BlockPos.containing(spawnPosition))) {
+            return false;
+        }
+        return spawnBiomass(level, summoner, owner, null, selected.get(), skin,
+                summoner.getTarget(), spawnPosition, summoner.getYRot(), summoner.getXRot());
+    }
+
+    public static Optional<SummonOption> selectSummon(Mob summoner, SummonCapacityOwner owner,
+                                                       List<SummonOption> options) {
+        if (options.isEmpty()) {
+            return Optional.empty();
+        }
         int index = summoner.getRandom().nextInt(options.size());
         int wraps = 0;
         while (true) {
@@ -90,38 +111,55 @@ public final class BiomassEntity extends Monster implements GeoEntity, Parasite 
                 wraps++;
             }
             if (wraps == 2) {
-                return false;
+                return Optional.empty();
             }
             SummonOption option = options.get(index);
             if (summoner.getRandom().nextDouble() > option.chance() || !owner.canReserveSummon(option.cost())) {
                 index++;
                 continue;
             }
-
-            float angle = summoner.getYRot() * Mth.DEG_TO_RAD - summoner.yBodyRot * 0.01F;
-            double distance = 3.0D * Mth.cos((float) Math.PI / 18.0F);
-            Vec3 spawnPosition = summoner.position().add(-Mth.sin(angle) * distance,
-                    summoner.getEyeHeight(), Mth.cos(angle) * distance);
-            if (!level.isEmptyBlock(net.minecraft.core.BlockPos.containing(spawnPosition))) {
-                return false;
-            }
-
-            BiomassEntity biomass = ModEntities.BIOMASS.get().create(level);
-            if (biomass == null) {
-                return false;
-            }
-            biomass.configure(summoner, option.type(), option.cost(), skin, summoner.getTarget());
-            biomass.moveTo(spawnPosition.x, spawnPosition.y, spawnPosition.z,
-                    summoner.getYRot(), summoner.getXRot());
-            if (summoner.isOnFire()) {
-                biomass.igniteForSeconds(8.0F);
-            }
-            if (!level.addFreshEntity(biomass)) {
-                return false;
-            }
-            owner.reserveTrackedSummon(biomass.getUUID(), option.cost());
-            return true;
+            return Optional.of(option);
         }
+    }
+
+    public static boolean spawnFromProjectile(Mob summoner, SummonCapacityOwner owner, UUID reservationId,
+                                              SummonOption option, int skin, LivingEntity target,
+                                              Vec3 position, float yaw, float pitch) {
+        if (!(summoner.level() instanceof ServerLevel level)) {
+            owner.releaseTrackedSummon(reservationId);
+            return false;
+        }
+        return spawnBiomass(level, summoner, owner, reservationId, option, skin, target,
+                position, yaw, pitch);
+    }
+
+    private static boolean spawnBiomass(ServerLevel level, Mob summoner, SummonCapacityOwner owner,
+                                        UUID reservationId, SummonOption option, int skin,
+                                        LivingEntity target, Vec3 position, float yaw, float pitch) {
+        BiomassEntity biomass = ModEntities.BIOMASS.get().create(level);
+        if (biomass == null) {
+            if (reservationId != null) {
+                owner.releaseTrackedSummon(reservationId);
+            }
+            return false;
+        }
+        biomass.configure(summoner, option.type(), option.cost(), skin, target);
+        biomass.moveTo(position.x, position.y, position.z, yaw, pitch);
+        if (summoner.isOnFire()) {
+            biomass.igniteForSeconds(8.0F);
+        }
+        if (!level.addFreshEntity(biomass)) {
+            if (reservationId != null) {
+                owner.releaseTrackedSummon(reservationId);
+            }
+            return false;
+        }
+        if (reservationId == null) {
+            owner.reserveTrackedSummon(biomass.getUUID(), option.cost());
+        } else {
+            owner.replaceTrackedSummon(reservationId, biomass.getUUID(), option.cost());
+        }
+        return true;
     }
 
     private void configure(Mob parent, EntityType<? extends Mob> spawnType, int cost, int skin,

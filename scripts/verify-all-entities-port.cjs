@@ -18,7 +18,8 @@ if (new Set(all).size !== all.length) failures.push("manifest contains duplicate
 for (const [id, originalClass] of [
   ["grunt", "EntityFlog"],
   ["bomber_light", "EntityOmboo"],
-  ["monarch", "EntityOrch"]
+  ["monarch", "EntityOrch"],
+  ["overseer", "EntityAlafha"]
 ]) {
   if (behaviorPorts[id]?.originalClass !== originalClass
       || behaviorPorts[id]?.status !== "audited"

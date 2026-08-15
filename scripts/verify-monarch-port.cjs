@@ -4,7 +4,7 @@ const { behaviorPorts } = require("./entity-port-manifest.cjs");
 
 const root = path.resolve(__dirname, "..");
 const defaultOriginalRoot = "D:\\code\\mod-decompiler-placeholder".replace(
-  "mod-decompiler-placeholder", "\u6a21\u7ec4\u53cd\u7f16\u8bd1\u5668\\decompiled\\SRParasites-1.10.7"
+  "mod-decompiler-placeholder", "\u6a21\u7ec4\u53cd\u7f16\u8bd1\u5668\\decompiled\\[\u9003\u9038\uff1a\u5bc4\u751f\u4f53] SRParasites-1.10.8"
 );
 const originalRoot = path.resolve(process.env.SRP_DECOMPILED_ROOT || defaultOriginalRoot);
 const failures = [];

@@ -70,6 +70,14 @@ const behaviorPorts = {
     verifier: "scripts/verify-monarch-port.cjs",
     status: "audited",
     auditScope: "entity-specific"
+  },
+  overseer: {
+    originalClass: "EntityAlafha",
+    originalSource: "com/dhanantry/scapeandrunparasites/entity/monster/pure/EntityAlafha.java",
+    implementation: "src/main/java/alku/csrp/entity/PureParasiteEntity.java",
+    verifier: "scripts/verify-overseer-port.cjs",
+    status: "audited",
+    auditScope: "entity-specific"
   }
 };
 

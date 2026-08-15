@@ -3,7 +3,7 @@ const path = require("node:path");
 const { behaviorPorts } = require("./entity-port-manifest.cjs");
 
 const root = path.resolve(__dirname, "..");
-const defaultOriginalRoot = "D:\\code\\模组反编译器\\decompiled\\SRParasites-1.10.7";
+const defaultOriginalRoot = "D:\\code\\模组反编译器\\decompiled\\[逃逸：寄生体] SRParasites-1.10.8";
 const originalRoot = path.resolve(process.env.SRP_DECOMPILED_ROOT || defaultOriginalRoot);
 const failures = [];
 

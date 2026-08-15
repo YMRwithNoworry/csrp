@@ -348,6 +348,34 @@ public final class MobsConfig {
     private static final ModConfigSpec.BooleanValue OMBOO_GRIEFING = booleanValue(
             "srparasites:bomber_light", "lightBomberGriefing", true,
             "Whether Light Bomber explosions may destroy blocks when mobGriefing is enabled.");
+    private static final ModConfigSpec.DoubleValue OVERSEER_HEALTH_MULTIPLIER = value(
+            "srparasites:overseer", "overseerHealthMultiplier", 1.0D, 0.01D, 100.0D,
+            "Health multiplier for the Overseer.");
+    private static final ModConfigSpec.DoubleValue OVERSEER_DAMAGE_MULTIPLIER = value(
+            "srparasites:overseer", "overseerDamageMultiplier", 1.0D, 0.01D, 100.0D,
+            "Melee and projectile damage multiplier for the Overseer.");
+    private static final ModConfigSpec.DoubleValue OVERSEER_ARMOR_MULTIPLIER = value(
+            "srparasites:overseer", "overseerArmorMultiplier", 1.0D, 0.01D, 100.0D,
+            "Armor multiplier for the Overseer.");
+    private static final ModConfigSpec.DoubleValue OVERSEER_KNOCKBACK_MULTIPLIER = value(
+            "srparasites:overseer", "overseerKnockbackResistanceMultiplier", 1.0D, 0.01D, 100.0D,
+            "Knockback-resistance multiplier for the Overseer.");
+    private static final ModConfigSpec.IntValue OVERSEER_SUMMON_COOLDOWN = intValue(
+            "srparasites:overseer", "overseerSummoningCooldown", 10, 0, 100,
+            "Legacy Overseer summon charge value; SRP 1.10.8 consumes it directly as ticks.");
+    private static final ModConfigSpec.IntValue OVERSEER_TOTAL_ACTIVE_MOBS = intValue(
+            "srparasites:overseer", "overseerTotalActiveMobs", 6, 0, 100,
+            "Maximum total summon-capacity points controlled by an Overseer.");
+    private static final ModConfigSpec.IntValue OVERSEER_SUMMON_LIMIT = intValue(
+            "srparasites:overseer", "overseerSummonLimit", 6, 0, 10000,
+            "Maximum successful biomass launches in one Overseer summon cast.");
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> OVERSEER_SUMMON_MOBS = stringList(
+            "srparasites:overseer", "overseerMobList", List.of(
+                    "srparasites:rupter;1;1", "srparasites:grunt;0.5;1"),
+            "Overseer summon table: entity_id;chance;capacity_cost.", MobsConfig::validSummonMobEntry);
+    private static final ModConfigSpec.IntValue OVERSEER_MAX_Y = intValue(
+            "srparasites:overseer", "overseerFlightHeightLimit", 256, 0, 256,
+            "Maximum number of air blocks the Overseer may fly above terrain.");
     private static final ModConfigSpec.ConfigValue<List<? extends String>> MONARCH_ORB_EFFECTS = stringList(
             "srparasites:monarch", "monarchOrbEffects", List.of(
                     "0;15;3;minecraft:hunger;0;0",
@@ -800,6 +828,46 @@ public final class MobsConfig {
         return OMBOO_GRIEFING.get();
     }
 
+    public static double overseerHealth() {
+        return 80.0D * OVERSEER_HEALTH_MULTIPLIER.get();
+    }
+
+    public static double overseerArmor() {
+        return 20.0D * OVERSEER_ARMOR_MULTIPLIER.get();
+    }
+
+    public static double overseerMeleeDamage() {
+        return 22.0D * OVERSEER_DAMAGE_MULTIPLIER.get();
+    }
+
+    public static float overseerProjectileDamage() {
+        return (float) (30.0D * OVERSEER_DAMAGE_MULTIPLIER.get());
+    }
+
+    public static double overseerKnockbackResistance() {
+        return 0.4D * OVERSEER_KNOCKBACK_MULTIPLIER.get();
+    }
+
+    public static int overseerSummonCooldownTicks() {
+        return OVERSEER_SUMMON_COOLDOWN.get();
+    }
+
+    public static int overseerTotalActiveMobs() {
+        return OVERSEER_TOTAL_ACTIVE_MOBS.get();
+    }
+
+    public static int overseerSummonLimit() {
+        return OVERSEER_SUMMON_LIMIT.get();
+    }
+
+    public static List<? extends String> overseerSummonMobs() {
+        return OVERSEER_SUMMON_MOBS.get();
+    }
+
+    public static int overseerMaxY() {
+        return OVERSEER_MAX_Y.get();
+    }
+
     public static List<? extends String> monarchOrbEffects() {
         return MONARCH_ORB_EFFECTS.get();
     }
@@ -881,6 +949,23 @@ public final class MobsConfig {
             int maximum = Integer.parseInt(parts[1].trim());
             int minimum = Integer.parseInt(parts[2].trim());
             return minimum >= 0 && maximum >= minimum;
+        } catch (NumberFormatException ignored) {
+            return false;
+        }
+    }
+
+    private static boolean validSummonMobEntry(Object value) {
+        if (!(value instanceof String entry)) {
+            return false;
+        }
+        String[] parts = entry.split(";", -1);
+        if (parts.length != 3 || net.minecraft.resources.ResourceLocation.tryParse(parts[0].trim()) == null) {
+            return false;
+        }
+        try {
+            double chance = Double.parseDouble(parts[1].trim());
+            int capacityCost = Integer.parseInt(parts[2].trim());
+            return chance >= 0.0D && chance <= 1.0D && capacityCost > 0;
         } catch (NumberFormatException ignored) {
             return false;
         }

@@ -2,24 +2,31 @@ package alku.csrp.entity;
 
 import alku.csrp.block.SrpWebBlock;
 import alku.csrp.config.MobsConfig;
+import alku.csrp.effect.EffectStacking;
 import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -96,6 +103,11 @@ public final class ParasiteProjectileEntity extends Entity {
     private int acidNadeFuseTicks;
     private int acidDamageTicks;
     private int webKind;
+    private String biomassSpawnType = "";
+    private int biomassCapacityCost;
+    private int biomassSkin = 4;
+    private UUID biomassTargetId;
+    private boolean biomassReservationHandled;
 
     public ParasiteProjectileEntity(EntityType<? extends ParasiteProjectileEntity> type, Level level) {
         super(type, level);
@@ -152,6 +164,17 @@ public final class ParasiteProjectileEntity extends Entity {
         setDeltaMovement(Vec3.ZERO);
     }
 
+    public void configureBiomassBall(PureParasiteEntity owner, Vec3 start, Vec3 accelerationDirection,
+                                     BiomassEntity.SummonOption option, int skin, LivingEntity target) {
+        configureLegacyFireball(owner, Mode.BIOMASS_BALL, start, accelerationDirection,
+                0.0F, 0.0D, 140);
+        biomassSpawnType = BuiltInRegistries.ENTITY_TYPE.getKey(option.type()).toString();
+        biomassCapacityCost = option.cost();
+        biomassSkin = Mth.clamp(skin, 1, 6);
+        biomassTargetId = target == null ? null : target.getUUID();
+        biomassReservationHandled = false;
+    }
+
     @Override
     public void tick() {
         super.tick();
@@ -162,6 +185,7 @@ public final class ParasiteProjectileEntity extends Entity {
         boolean armedYelloweyeNade = mode == Mode.YELLOWEYE_NADE && entityData.get(ACID_NADE_ARMED);
         if (!level().isClientSide && (owner == null || !owner.isAlive())
                 && !armedNade && !armedAcidNade && !armedYelloweyeNade) {
+            releaseBiomassReservation(owner);
             discard();
             return;
         }
@@ -191,8 +215,9 @@ public final class ParasiteProjectileEntity extends Entity {
                 case LIGHT, HOMING, WITHER -> ParticleTypes.SOUL_FIRE_FLAME;
                 case SPINE, NEEDLE -> ParticleTypes.CRIT;
                 case WEB -> ParticleTypes.POOF;
-                case ACID, YELLOWEYE_SPINE, YELLOWEYE_NADE, ALAFHA_BALL, ANGED_BALL,
-                        ANCIENT_BALL, SALIVA_EFFECT, BIOMASS_BALL -> ParticleTypes.ITEM_SLIME;
+                case ACID, YELLOWEYE_SPINE, YELLOWEYE_NADE, ANGED_BALL,
+                        ANCIENT_BALL, SALIVA_EFFECT -> ParticleTypes.ITEM_SLIME;
+                case ALAFHA_BALL, BIOMASS_BALL -> ParticleTypes.POOF;
                 case DRAGON_MISSILE -> ParticleTypes.DRAGON_BREATH;
                 case VOMIT -> ParticleTypes.WITCH;
                 case LENCIA_BALL, ELVIA_BALL -> ParticleTypes.EXPLOSION;
@@ -221,6 +246,11 @@ public final class ParasiteProjectileEntity extends Entity {
             return;
         }
 
+        if (mode == Mode.BIOMASS_BALL && tickCount >= maximumLifetime) {
+            releaseBiomassReservation(owner);
+            discard();
+            return;
+        }
         if (mode != Mode.HOMING && blockHit.getType() != HitResult.Type.MISS
                 || hit != null || tickCount >= maximumLifetime) {
             impact(owner, mode, hit);
@@ -276,6 +306,14 @@ public final class ParasiteProjectileEntity extends Entity {
             impactYelloweyeSpine(owner, directHit);
             return;
         }
+        if (mode == Mode.ALAFHA_BALL) {
+            impactAlafhaBall(owner);
+            return;
+        }
+        if (mode == Mode.BIOMASS_BALL) {
+            impactBiomassBall(owner);
+            return;
+        }
         if (mode != Mode.WEB) {
             boolean launch = mode == Mode.BOMB || mode == Mode.METEOR || mode == Mode.ACID;
             owner.hurtNearby(this, radius, damage, launch);
@@ -302,7 +340,7 @@ public final class ParasiteProjectileEntity extends Entity {
                 }
                 case HOMING -> {
                 }
-                case VOMIT, ALAFHA_BALL, ANGED_BALL, SALIVA_EFFECT -> {
+                case VOMIT, ANGED_BALL, SALIVA_EFFECT -> {
                     target.addEffect(new MobEffectInstance(ModMobEffects.VOMIT, 160, 0), owner);
                     target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 160, 0), owner);
                     target.addEffect(new MobEffectInstance(ModMobEffects.CORROSION, 160, 0), owner);
@@ -328,12 +366,9 @@ public final class ParasiteProjectileEntity extends Entity {
                 level().explode(owner, getX(), getY(), getZ(), (float) Math.max(1.5D, radius),
                         Level.ExplosionInteraction.MOB);
             }
-        } else if (mode == Mode.VOMIT || mode == Mode.ALAFHA_BALL || mode == Mode.ANGED_BALL
+        } else if (mode == Mode.VOMIT || mode == Mode.ANGED_BALL
                 || mode == Mode.SALIVA_EFFECT) {
             spawnLingeringVomitCloud(owner);
-            if (mode == Mode.ALAFHA_BALL && owner instanceof DraconiteEntity) {
-                spawnOrbBoom(owner, 15, 1);
-            }
         } else if (mode == Mode.ANCIENT_BALL) {
             spawnLingeringAncientCloud(owner);
         } else if (mode == Mode.WITHER || mode == Mode.DRAGON_MISSILE) {
@@ -346,6 +381,68 @@ public final class ParasiteProjectileEntity extends Entity {
                     getX(), getY(), getZ(), 12, radius * 0.25, radius * 0.25, radius * 0.25, 0.02);
         }
         discard();
+    }
+
+    private void impactAlafhaBall(PrimitiveParasiteEntity owner) {
+        double effectRadius = 3.0D;
+        for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
+                getBoundingBox().inflate(effectRadius), target -> !(target instanceof Parasite))) {
+            EffectStacking.apply(target, ModMobEffects.NEEDLER, 300, 0);
+            target.hurt(damageSources().indirectMagic(this, owner), MobsConfig.overseerProjectileDamage());
+            owner.applyPrimitiveMinimumDamage(target);
+        }
+        level().playSound(null, getX(), getY(), getZ(), SoundEvents.GENERIC_EXPLODE.value(),
+                SoundSource.BLOCKS, 4.0F,
+                (1.0F + (random.nextFloat() - random.nextFloat()) * 0.2F) * 0.7F);
+        spawnLingeringAlafhaCloud(owner);
+        if (level() instanceof ServerLevel serverLevel) {
+            serverLevel.sendParticles(ParticleTypes.EXPLOSION, getX(), getY(), getZ(),
+                    12, effectRadius * 0.25D, effectRadius * 0.25D, effectRadius * 0.25D, 0.02D);
+        }
+        discard();
+    }
+
+    private void impactBiomassBall(PrimitiveParasiteEntity owner) {
+        if (!(owner instanceof PureParasiteEntity overseer)) {
+            releaseBiomassReservation(owner);
+            discard();
+            return;
+        }
+        SummonCapacityOwner capacityOwner = overseer;
+        ResourceLocation id = ResourceLocation.tryParse(biomassSpawnType);
+        EntityType<?> rawType = id == null ? null
+                : BuiltInRegistries.ENTITY_TYPE.getOptional(id).orElse(null);
+        if (rawType == null || biomassCapacityCost <= 0) {
+            releaseBiomassReservation(owner);
+            discard();
+            return;
+        }
+        LivingEntity target = null;
+        if (biomassTargetId != null && level() instanceof ServerLevel serverLevel) {
+            Entity resolved = serverLevel.getEntity(biomassTargetId);
+            if (resolved instanceof LivingEntity living && living.isAlive()) {
+                target = living;
+            }
+        }
+        biomassReservationHandled = true;
+        BiomassEntity.spawnFromProjectile(overseer, capacityOwner, getUUID(),
+                new BiomassEntity.SummonOption(asMobType(rawType), 1.0D, biomassCapacityCost),
+                biomassSkin, target, position(), getYRot(), getXRot());
+        discard();
+    }
+
+    @SuppressWarnings("unchecked")
+    private static EntityType<? extends Mob> asMobType(EntityType<?> type) {
+        return (EntityType<? extends Mob>) type;
+    }
+
+    private void releaseBiomassReservation(PrimitiveParasiteEntity owner) {
+        if (biomassReservationHandled || getMode() != Mode.BIOMASS_BALL
+                || !(owner instanceof SummonCapacityOwner capacityOwner)) {
+            return;
+        }
+        biomassReservationHandled = true;
+        capacityOwner.releaseTrackedSummon(getUUID());
     }
 
     private void spawnOrbBoom(PrimitiveParasiteEntity owner, int fuse, int waitStart) {
@@ -626,6 +723,27 @@ public final class ParasiteProjectileEntity extends Entity {
         level().addFreshEntity(cloud);
     }
 
+    private void spawnLingeringAlafhaCloud(PrimitiveParasiteEntity owner) {
+        ToxicCloudEntity cloud = ToxicCloudEntity.create(level(), getX(), getY(), getZ());
+        cloud.setDuration(60);
+        if (owner instanceof DraconiteEntity) {
+            cloud.setOwner(owner);
+            cloud.setRadius(5.0F);
+            cloud.setWaitTime(0);
+            cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
+            cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 300, 0, false, true));
+            level().addFreshEntity(cloud);
+            spawnOrbBoom(owner, 15, 1);
+            return;
+        }
+        cloud.setRadius(2.0F);
+        cloud.setRadiusOnUse(-0.5F);
+        cloud.setWaitTime(30);
+        cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.NEEDLER, 360, 0, false, false));
+        level().addFreshEntity(cloud);
+    }
+
     private void spawnLingeringWitherCloud(PrimitiveParasiteEntity owner) {
         ToxicCloudEntity cloud = ToxicCloudEntity.create(level(), getX(), getY(), getZ());
         cloud.setOwner(owner);
@@ -692,6 +810,11 @@ public final class ParasiteProjectileEntity extends Entity {
         acidNadeFuseTicks = tag.getInt("acid_nade_fuse_ticks");
         acidDamageTicks = tag.getInt("acid_damage_ticks");
         webKind = tag.getInt("web_kind");
+        biomassSpawnType = tag.getString("biomass_spawn_type");
+        biomassCapacityCost = Math.max(0, tag.getInt("biomass_capacity_cost"));
+        biomassSkin = Mth.clamp(tag.contains("biomass_skin") ? tag.getInt("biomass_skin") : 4, 1, 6);
+        biomassTargetId = tag.hasUUID("biomass_target") ? tag.getUUID("biomass_target") : null;
+        biomassReservationHandled = tag.getBoolean("biomass_reservation_handled");
     }
 
     @Override
@@ -719,6 +842,13 @@ public final class ParasiteProjectileEntity extends Entity {
         tag.putInt("acid_nade_fuse_ticks", acidNadeFuseTicks);
         tag.putInt("acid_damage_ticks", acidDamageTicks);
         tag.putInt("web_kind", webKind);
+        tag.putString("biomass_spawn_type", biomassSpawnType);
+        tag.putInt("biomass_capacity_cost", biomassCapacityCost);
+        tag.putInt("biomass_skin", biomassSkin);
+        if (biomassTargetId != null) {
+            tag.putUUID("biomass_target", biomassTargetId);
+        }
+        tag.putBoolean("biomass_reservation_handled", biomassReservationHandled);
     }
 
     public Mode getMode() {

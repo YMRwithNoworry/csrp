@@ -1,14 +1,14 @@
 # Entity Porting Matrix
 
 The authoritative scope is all 127 `CreateEntityMob` registrations in
-`SRPEntities.java` from SRParasites 1.10.7. This includes the eight creatures
+`SRPEntities.java` from SRParasites 1.10.8. This includes the eight creatures
 that are absent from the bestiary index.
 Projectiles, clouds, summons, and transition entities are included with the
 creature that requires them.
 
 Registration/resource baseline: **127 / 127** registered creatures covered.
 
-Entity-specific legacy behavior audited: **3 / 127** (`grunt`, `bomber_light`, `monarch`).
+Entity-specific legacy behavior audited: **4 / 127** (`grunt`, `bomber_light`, `monarch`, `overseer`).
 This count covers each named entity's own legacy class only; inherited and
 shared-system behavior remains outside that audit until separately verified.
 
