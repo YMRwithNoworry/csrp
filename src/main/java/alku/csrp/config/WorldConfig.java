@@ -24,6 +24,12 @@ public final class WorldConfig {
     private static final ModConfigSpec.IntValue BIOME_INFESTATION_BLOCK_LIMIT = BUILDER
             .comment("Transformed blocks before biome infestation enters its cooldown.")
             .defineInRange("biomeInfestationBlockLimit", 2000, 0, 8192);
+    private static final ModConfigSpec.IntValue BECKON_INFESTATION_COOLDOWN = BUILDER
+            .comment("Ticks before the Beckon infestation block counter resets after reaching its limit.")
+            .defineInRange("beckonInfestationCooldown", 300, 0, 1024);
+    private static final ModConfigSpec.IntValue BIOME_INFESTATION_COOLDOWN = BUILDER
+            .comment("Ticks before the biome infestation block counter resets after reaching its limit.")
+            .defineInRange("biomeInfestationCooldown", 300, 0, 1024);
     private static final ModConfigSpec.BooleanValue ENABLE_STAR_WORLD_SHADERS = BUILDER
             .comment("Enable the post-processing shaders used by Cold and Warm Star worlds.")
             .define("enableStarWorldShaders", true);
@@ -61,6 +67,14 @@ public final class WorldConfig {
 
     public static int biomeInfestationBlockLimit() {
         return BIOME_INFESTATION_BLOCK_LIMIT.get();
+    }
+
+    public static int beckonInfestationCooldown() {
+        return BECKON_INFESTATION_COOLDOWN.get();
+    }
+
+    public static int biomeInfestationCooldown() {
+        return BIOME_INFESTATION_COOLDOWN.get();
     }
 
     public static boolean starWorldShadersEnabled() {

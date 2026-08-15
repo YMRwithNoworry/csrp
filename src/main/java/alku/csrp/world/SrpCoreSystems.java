@@ -5,6 +5,7 @@ import alku.csrp.Config;
 import alku.csrp.block.SrpCoreBlock;
 import alku.csrp.entity.ArchitectEntity;
 import alku.csrp.infection.BlockInfestation;
+import alku.csrp.infection.InfestationSpreadLimiter;
 import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModSounds;
@@ -72,7 +73,7 @@ public final class SrpCoreSystems {
         data.setNode(pos, 1, type);
         if (level.setBlock(pos, ModBlocks.BIOMEHEART.get().defaultBlockState()
                 .setValue(SrpCoreBlock.ACTIVE, 1), Block.UPDATE_ALL)) {
-            BlockInfestation.infestAround(level, pos, 1);
+            BlockInfestation.infestAround(level, pos, 1, InfestationSpreadLimiter.Type.BECKON);
             return true;
         }
         data.removeNode(pos);
@@ -94,7 +95,7 @@ public final class SrpCoreSystems {
             return false;
         }
         data.setColony(heart);
-        BlockInfestation.infestAround(level, heart, 1);
+        BlockInfestation.infestAround(level, heart, 1, InfestationSpreadLimiter.Type.BECKON);
         level.playSound(null, heart, ModSounds.get("colony.one"), SoundSource.HOSTILE, 4.0F, 1.0F);
         return true;
     }
@@ -195,7 +196,7 @@ public final class SrpCoreSystems {
             }
             int stage = nodeStage(entry.age());
             updateActiveState(level, entry.pos(), ModBlocks.BIOMEHEART.get(), stage);
-            BlockInfestation.infestAround(level, entry.pos(), stage);
+            BlockInfestation.infestAround(level, entry.pos(), stage, InfestationSpreadLimiter.Type.BECKON);
             ParasiteBiomeGenerator.generateAround(level, entry.pos(), stage);
         }
         for (ColonyEntry entry : new ArrayList<>(data.colonies())) {
@@ -209,7 +210,7 @@ public final class SrpCoreSystems {
             }
             int stage = colonyStage(entry.points());
             updateActiveState(level, entry.pos(), ModBlocks.COLONYHEART.get(), stage);
-            BlockInfestation.infestAround(level, entry.pos(), stage);
+            BlockInfestation.infestAround(level, entry.pos(), stage, InfestationSpreadLimiter.Type.BECKON);
             spawnArchitectIfMissing(level, entry);
         }
     }

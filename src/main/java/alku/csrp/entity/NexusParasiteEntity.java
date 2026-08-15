@@ -6,6 +6,7 @@ import alku.csrp.event.StatusEffectEvents;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModBlocks;
 import alku.csrp.infection.BlockInfestation;
+import alku.csrp.infection.InfestationSpreadLimiter;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModItems;
 import alku.csrp.world.SrpCoreSystems;
@@ -223,7 +224,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         if (activeKind.family == Family.BECKON && tickCount % Math.max(20, 100 - activeKind.stage * 15) == 0
                 && level() instanceof ServerLevel serverLevel) {
             BlockInfestation.infestAround(serverLevel, blockPosition().below(),
-                    Math.max(0, Math.min(3, activeKind.stage - 1)));
+                    Math.max(0, Math.min(3, activeKind.stage - 1)), InfestationSpreadLimiter.Type.BECKON);
         }
         if (tickCount % 10 == 0) {
             breakBlocksTowardsTarget(activeKind);

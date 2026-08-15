@@ -1,5 +1,6 @@
 package alku.csrp.world;
 
+import alku.csrp.infection.InfestationSpreadLimiter;
 import alku.csrp.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -22,7 +23,8 @@ public final class ParasiteBiomeGenerator {
         RandomSource random = level.getRandom();
         int placements = 4 + stage * 3;
         for (int attempt = 0; attempt < placements * 3; attempt++) {
-            if (placements <= 0) {
+            if (placements <= 0 || !InfestationSpreadLimiter.canSpread(level,
+                    InfestationSpreadLimiter.Type.BIOME)) {
                 break;
             }
             BlockPos candidate = center.offset(
@@ -35,10 +37,13 @@ public final class ParasiteBiomeGenerator {
             }
             if (placeVegetation(level, candidate, random)) {
                 placements--;
+                InfestationSpreadLimiter.record(level, InfestationSpreadLimiter.Type.BIOME, 1);
             }
         }
-        if (stage >= 2 && random.nextInt(4) == 0) {
-            placeBloodPool(level, center, random);
+        if (stage >= 2 && random.nextInt(4) == 0
+                && InfestationSpreadLimiter.canSpread(level, InfestationSpreadLimiter.Type.BIOME)) {
+            InfestationSpreadLimiter.record(level, InfestationSpreadLimiter.Type.BIOME,
+                    placeBloodPool(level, center, random));
         }
     }
 
@@ -75,8 +80,9 @@ public final class ParasiteBiomeGenerator {
         return true;
     }
 
-    private static void placeBloodPool(ServerLevel level, BlockPos center, RandomSource random) {
+    private static int placeBloodPool(ServerLevel level, BlockPos center, RandomSource random) {
         int radius = 2 + random.nextInt(2);
+        int placed = 0;
         BlockPos surface = level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 center.offset(random.nextInt(25) - 12, 0, random.nextInt(25) - 12));
         for (int x = -radius; x <= radius; x++) {
@@ -87,9 +93,12 @@ public final class ParasiteBiomeGenerator {
                 BlockPos pos = surface.offset(x, 0, z);
                 if (level.getBlockState(pos).canBeReplaced()
                         && !level.getBlockState(pos.below()).isAir()) {
-                    level.setBlock(pos, ModBlocks.DEAD_BLOOD.get().defaultBlockState(), 3);
+                    if (level.setBlock(pos, ModBlocks.DEAD_BLOOD.get().defaultBlockState(), 3)) {
+                        placed++;
+                    }
                 }
             }
         }
+        return placed;
     }
 }

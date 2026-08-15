@@ -20,15 +20,17 @@ public final class BlockInfestation {
     }
 
     public static int spread(ServerLevel level, BlockPos origin, int stage, RandomSource random) {
-        if (!level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+        if (!level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
+                || !InfestationSpreadLimiter.canSpread(level, InfestationSpreadLimiter.Type.BIOME)) {
             return 0;
         }
         Direction first = Direction.getRandom(random);
-        int converted = convert(level, origin.relative(first), stage) ? 1 : 0;
+        int converted = convertUnchecked(level, origin.relative(first), stage) ? 1 : 0;
         if (converted == 0 && random.nextInt(3) == 0) {
-            converted = convert(level, origin.relative(Direction.getRandom(random)), stage) ? 1 : 0;
+            converted = convertUnchecked(level, origin.relative(Direction.getRandom(random)), stage) ? 1 : 0;
         }
         if (converted > 0) {
+            InfestationSpreadLimiter.record(level, InfestationSpreadLimiter.Type.BIOME, converted);
             EvolutionSystem.addPoints(level, EvolutionSystem.VALUE_BLOCK * converted,
                     EvolutionSystem.PointSource.BLOCK_CONVERSION);
         }
@@ -36,16 +38,23 @@ public final class BlockInfestation {
     }
 
     public static int infestAround(ServerLevel level, BlockPos origin, int stage) {
-        if (!level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+        return infestAround(level, origin, stage, InfestationSpreadLimiter.Type.BIOME);
+    }
+
+    public static int infestAround(ServerLevel level, BlockPos origin, int stage,
+            InfestationSpreadLimiter.Type type) {
+        if (!level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
+                || !InfestationSpreadLimiter.canSpread(level, type)) {
             return 0;
         }
         int converted = 0;
         for (Direction direction : Direction.values()) {
-            if (convert(level, origin.relative(direction), stage)) {
+            if (convertUnchecked(level, origin.relative(direction), stage)) {
                 converted++;
             }
         }
         if (converted > 0) {
+            InfestationSpreadLimiter.record(level, type, converted);
             EvolutionSystem.addPoints(level, EvolutionSystem.VALUE_BLOCK * converted,
                     EvolutionSystem.PointSource.BLOCK_CONVERSION);
         }
@@ -53,6 +62,17 @@ public final class BlockInfestation {
     }
 
     public static boolean convert(ServerLevel level, BlockPos pos, int stage) {
+        if (!InfestationSpreadLimiter.canSpread(level, InfestationSpreadLimiter.Type.BIOME)) {
+            return false;
+        }
+        boolean converted = convertUnchecked(level, pos, stage);
+        if (converted) {
+            InfestationSpreadLimiter.record(level, InfestationSpreadLimiter.Type.BIOME, 1);
+        }
+        return converted;
+    }
+
+    private static boolean convertUnchecked(ServerLevel level, BlockPos pos, int stage) {
         BlockState current = level.getBlockState(pos);
         if (current.getBlock() instanceof InfestedBlock) {
             int currentStage = current.getValue(InfestedBlock.STAGE);
