@@ -62,6 +62,7 @@ import alku.csrp.entity.RupterEntity;
 import alku.csrp.entity.RemainEntity;
 import alku.csrp.entity.ScaryOrbEntity;
 import alku.csrp.entity.ShockwaveEntity;
+import alku.csrp.entity.WardenShockwaveEntity;
 import alku.csrp.entity.VoidOrbEntity;
 import alku.csrp.entity.SimAdventurerEntity;
 import alku.csrp.entity.SimAdventurerHeadEntity;
@@ -116,6 +117,14 @@ public final class ModEntities {
                     .sized(3.1F, 0.2F).clientTrackingRange(4).updateInterval(3)
                     .setShouldReceiveVelocityUpdates(true)
                     .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "shockwave").toString()));
+    public static final DeferredHolder<EntityType<?>, EntityType<WardenShockwaveEntity>> WARDEN_SHOCKWAVE =
+            ENTITIES.register("warden_waveshock", () -> EntityType.Builder
+                    .<WardenShockwaveEntity>of(WardenShockwaveEntity::new, MobCategory.MISC)
+                    .sized(3.1F, 0.2F)
+                    .clientTrackingRange(4)
+                    .updateInterval(3)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "warden_waveshock").toString()));
 
     public static final DeferredHolder<EntityType<?>, EntityType<BuglinEntity>> BUGLIN =
             ENTITIES.register("buglin", () -> EntityType.Builder.of(BuglinEntity::new, MobCategory.MONSTER)

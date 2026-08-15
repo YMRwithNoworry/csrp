@@ -86,6 +86,14 @@ const behaviorPorts = {
     verifier: "scripts/verify-vigilante-port.cjs",
     status: "audited",
     auditScope: "entity-specific"
+  },
+  warden: {
+    originalClass: "EntityGanro",
+    originalSource: "com/dhanantry/scapeandrunparasites/entity/monster/pure/EntityGanro.java",
+    implementation: "src/main/java/alku/csrp/entity/PureParasiteEntity.java",
+    verifier: "scripts/verify-warden-port.cjs",
+    status: "audited",
+    auditScope: "entity-specific"
   }
 };
 

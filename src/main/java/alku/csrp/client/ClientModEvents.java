@@ -88,6 +88,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.BIOMASS.get(), BiomassRenderer::new);
         event.registerEntityRenderer(ModEntities.SHOCKWAVE.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.SHOCKWAVE_LEGACY.get(), NoopRenderer::new);
+        event.registerEntityRenderer(ModEntities.WARDEN_SHOCKWAVE.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.BUGLIN.get(), BuglinRenderer::new);
         event.registerEntityRenderer(ModEntities.RUPTER.get(), RupterRenderer::new);
         event.registerEntityRenderer(ModEntities.SCENT.get(), ParasiticScentRenderer::new);
@@ -289,7 +290,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.VIGILANTE.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "vigilante", 1.2F));
         event.registerEntityRenderer(ModEntities.WARDEN.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "warden", 1.05F));
+                new PrimitiveParasiteRenderer<>(context, "warden", 1.2F));
         event.registerEntityRenderer(ModEntities.BOGLE.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "bogle", 1.3F));
         event.registerEntityRenderer(ModEntities.CARRIER_COLONY.get(), context ->

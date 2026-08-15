@@ -75,6 +75,10 @@ import java.util.UUID;
 public final class PureParasiteEntity extends PrimitiveParasiteEntity implements SummonCapacityOwner {
     private static final EntityDataAccessor<Boolean> WARDEN_CHARGING = SynchedEntityData.defineId(
             PureParasiteEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> WARDEN_STATUS = SynchedEntityData.defineId(
+            PureParasiteEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Byte> WARDEN_SKIN = SynchedEntityData.defineId(
+            PureParasiteEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Integer> VIGILANTE_STATUS = SynchedEntityData.defineId(
             PureParasiteEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Byte> VIGILANTE_SKIN = SynchedEntityData.defineId(
@@ -160,6 +164,8 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
     private final Kind kind;
     private final VigilanteTendrilPart leftTendrilPart;
     private final VigilanteTendrilPart rightTendrilPart;
+    private final WardenTendrilPart wardenLeftTendrilPart;
+    private final WardenTendrilPart wardenRightTendrilPart;
     private final OverseerHeadPart overseerHeadPart;
     private final PartEntity<?>[] bodyParts;
     private final SummonCapacityTracker summonTracker = new SummonCapacityTracker();
@@ -177,6 +183,9 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
     private boolean monarchWaterLeapActive;
     private boolean deathBurstFired;
     private boolean vigilanteMeleeMode = true;
+    private int wardenLeapTicks;
+    private double wardenLeapTargetX;
+    private double wardenLeapTargetZ;
 
     public PureParasiteEntity(EntityType<? extends PureParasiteEntity> type, Level level, Kind kind) {
         super(type, level);
@@ -184,16 +193,29 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
         if (kind == Kind.VIGILANTE) {
             leftTendrilPart = new VigilanteTendrilPart(this, true);
             rightTendrilPart = new VigilanteTendrilPart(this, false);
+            wardenLeftTendrilPart = null;
+            wardenRightTendrilPart = null;
             overseerHeadPart = null;
             bodyParts = new PartEntity<?>[]{leftTendrilPart, rightTendrilPart};
+        } else if (kind == Kind.WARDEN) {
+            leftTendrilPart = null;
+            rightTendrilPart = null;
+            wardenLeftTendrilPart = new WardenTendrilPart(this, true);
+            wardenRightTendrilPart = new WardenTendrilPart(this, false);
+            overseerHeadPart = null;
+            bodyParts = new PartEntity<?>[]{wardenLeftTendrilPart, wardenRightTendrilPart};
         } else if (kind == Kind.OVERSEER) {
             leftTendrilPart = null;
             rightTendrilPart = null;
+            wardenLeftTendrilPart = null;
+            wardenRightTendrilPart = null;
             overseerHeadPart = new OverseerHeadPart(this);
             bodyParts = new PartEntity<?>[]{overseerHeadPart};
         } else {
             leftTendrilPart = null;
             rightTendrilPart = null;
+            wardenLeftTendrilPart = null;
+            wardenRightTendrilPart = null;
             overseerHeadPart = null;
             bodyParts = new PartEntity<?>[0];
         }
@@ -212,14 +234,17 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
 
     public static AttributeSupplier.Builder createAttributes(Kind kind) {
         double maxHealth = kind == Kind.OVERSEER ? MobsConfig.overseerHealth()
-                : kind == Kind.VIGILANTE ? MobsConfig.vigilanteHealth() : kind.maxHealth;
+                : kind == Kind.VIGILANTE ? MobsConfig.vigilanteHealth()
+                : kind == Kind.WARDEN ? MobsConfig.wardenHealth() : kind.maxHealth;
         double armor = kind == Kind.OVERSEER ? MobsConfig.overseerArmor()
-                : kind == Kind.VIGILANTE ? MobsConfig.vigilanteArmor() : kind.armor;
+                : kind == Kind.VIGILANTE ? MobsConfig.vigilanteArmor()
+                : kind == Kind.WARDEN ? MobsConfig.wardenArmor() : kind.armor;
         double attackDamage = kind == Kind.OVERSEER ? MobsConfig.overseerMeleeDamage()
-                : kind == Kind.VIGILANTE ? MobsConfig.vigilanteMeleeDamage() : kind.attackDamage;
+                : kind == Kind.VIGILANTE ? MobsConfig.vigilanteMeleeDamage()
+                : kind == Kind.WARDEN ? MobsConfig.wardenDamage() : kind.attackDamage;
         double knockbackResistance = kind == Kind.OVERSEER ? MobsConfig.overseerKnockbackResistance()
                 : kind == Kind.VIGILANTE ? MobsConfig.vigilanteKnockbackResistance()
-                : kind.knockbackResistance;
+                : kind == Kind.WARDEN ? MobsConfig.wardenKnockbackResistance() : kind.knockbackResistance;
         AttributeSupplier.Builder attributes = Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, maxHealth)
                 .add(Attributes.ARMOR, armor)
@@ -288,11 +313,13 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
                 goalSelector.addGoal(6, new VigilanteRangeSwitchGoal());
             }
             case WARDEN -> {
-                goalSelector.addGoal(1, new WardenShockwaveGoal());
+                goalSelector.addGoal(0, new WardenLeapGoal());
+                goalSelector.addGoal(0, new GruntSwimmingDivingGoal());
+                goalSelector.addGoal(2, new WardenShockwaveGoal());
                 goalSelector.addGoal(2, new WardenChargeGoal());
-                goalSelector.addGoal(3, createAnimatedLeapGoal(0.75F, 30));
-                goalSelector.addGoal(4, new EvasiveDashGoal(100, 0.70D));
-                goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.10D, false));
+                goalSelector.addGoal(2, new GruntWaterLeapGoal());
+                goalSelector.addGoal(2, new GruntEvasiveDashGoal(20, 2, 4, 3.0D, 15));
+                goalSelector.addGoal(3, new WardenAreaMeleeGoal());
             }
         }
     }
@@ -316,6 +343,8 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(WARDEN_CHARGING, false);
+        builder.define(WARDEN_STATUS, 0);
+        builder.define(WARDEN_SKIN, (byte) 0);
         builder.define(VIGILANTE_STATUS, 0);
         builder.define(VIGILANTE_SKIN, (byte) 0);
         builder.define(VIGILANTE_LEFT_TENDRIL, -1.0F);
@@ -361,6 +390,11 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
                 && (random.nextDouble() < Config.variantSpawnChance()
                 || Config.evolutionPhase(level.getLevel()) >= Config.alwaysVariantPhase())) {
             setVigilanteSkin(7);
+        }
+        if (!level.isClientSide() && activeKind() == Kind.WARDEN
+                && (random.nextDouble() < Config.variantSpawnChance()
+                || Config.evolutionPhase(level.getLevel()) >= Config.alwaysVariantPhase())) {
+            setWardenSkin(7);
         }
         return data;
     }
@@ -497,6 +531,8 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
             ConfiguredOrbEffects.apply(this, target, nearbyEntities, MobsConfig.monarchOrbEffects());
         } else if (applied && activeKind() == Kind.VIGILANTE) {
             ConfiguredOrbEffects.apply(this, target, nearbyEntities, MobsConfig.vigilanteOrbEffects());
+        } else if (applied && activeKind() == Kind.WARDEN) {
+            ConfiguredOrbEffects.apply(this, target, nearbyEntities, MobsConfig.wardenOrbEffects());
         }
         return applied;
     }
@@ -510,14 +546,18 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
             case MONARCH -> dimensions.withEyeHeight(3.5F);
             case OVERSEER -> dimensions.withEyeHeight(1.6F);
             case VIGILANTE -> dimensions.withEyeHeight(3.0F);
+            case WARDEN -> dimensions.withEyeHeight(3.5F);
             default -> dimensions;
         };
     }
 
     @Override
     protected SoundEvent getAmbientSound() {
-        if ((activeKind() == Kind.BOMBER_LIGHT && entityData.get(OMBOO_COMBAT_STATUS) != 0)
-                || (activeKind() == Kind.MONARCH && entityData.get(MONARCH_COMBAT_STATUS) != 0)) {
+        if (activeKind() == Kind.BOMBER_LIGHT && entityData.get(OMBOO_COMBAT_STATUS) != 0) {
+            return ModSounds.get("mob.silence");
+        }
+        if ((activeKind() == Kind.MONARCH && entityData.get(MONARCH_COMBAT_STATUS) != 0)
+                || (activeKind() == Kind.WARDEN && getWardenStatus() != 0)) {
             return ModSounds.get("mob.silence");
         }
         return super.getAmbientSound();
@@ -526,7 +566,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
         if ((activeKind() == Kind.BOMBER_LIGHT || activeKind() == Kind.MONARCH
-                || activeKind() == Kind.VIGILANTE)
+                || activeKind() == Kind.VIGILANTE || activeKind() == Kind.WARDEN)
                 && random.nextBoolean() && getAdaptationHitStatus() > 0) {
             return ModSounds.get("mob.silence");
         }
@@ -549,7 +589,8 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
     @Override
     protected float adjustBlockBreakHardness(float baseHardness) {
         if ((activeKind() == Kind.GRUNT && getGruntSkin() == 7)
-                || (activeKind() == Kind.MONARCH && getMonarchSkin() == 7)) {
+                || (activeKind() == Kind.MONARCH && getMonarchSkin() == 7)
+                || (activeKind() == Kind.WARDEN && getWardenSkin() == 7)) {
             return baseHardness * 2.0F;
         }
         return baseHardness;
@@ -611,6 +652,9 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
             tag.putByte("OverseerSkin", entityData.get(OVERSEER_SKIN));
             summonTracker.save(tag, "OverseerTrackedSummons");
         }
+        if (activeKind() == Kind.WARDEN) {
+            tag.putByte("WardenSkin", entityData.get(WARDEN_SKIN));
+        }
     }
 
     @Override
@@ -642,6 +686,11 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
             setOverseerSkin(tag.contains("OverseerSkin") ? tag.getByte("OverseerSkin") : 0);
             summonTracker.load(tag, "OverseerTrackedSummons");
             entityData.set(OVERSEER_SUMMONING, false);
+        }
+        if (activeKind() == Kind.WARDEN) {
+            setWardenSkin(tag.contains("WardenSkin") ? tag.getByte("WardenSkin") : 0);
+            entityData.set(WARDEN_STATUS, 0);
+            entityData.set(WARDEN_CHARGING, false);
         }
     }
 
@@ -718,17 +767,18 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
 
     public void applyConfiguredAttributes() {
         Kind activeKind = activeKind();
-        if (activeKind != Kind.OVERSEER && activeKind != Kind.VIGILANTE) {
+        if (activeKind != Kind.OVERSEER && activeKind != Kind.VIGILANTE && activeKind != Kind.WARDEN) {
             return;
         }
-        double health = activeKind == Kind.OVERSEER
-                ? MobsConfig.overseerHealth() : MobsConfig.vigilanteHealth();
-        double armor = activeKind == Kind.OVERSEER
-                ? MobsConfig.overseerArmor() : MobsConfig.vigilanteArmor();
-        double damage = activeKind == Kind.OVERSEER
-                ? MobsConfig.overseerMeleeDamage() : MobsConfig.vigilanteMeleeDamage();
-        double knockbackResistance = activeKind == Kind.OVERSEER
-                ? MobsConfig.overseerKnockbackResistance() : MobsConfig.vigilanteKnockbackResistance();
+        double health = activeKind == Kind.OVERSEER ? MobsConfig.overseerHealth()
+                : activeKind == Kind.VIGILANTE ? MobsConfig.vigilanteHealth() : MobsConfig.wardenHealth();
+        double armor = activeKind == Kind.OVERSEER ? MobsConfig.overseerArmor()
+                : activeKind == Kind.VIGILANTE ? MobsConfig.vigilanteArmor() : MobsConfig.wardenArmor();
+        double damage = activeKind == Kind.OVERSEER ? MobsConfig.overseerMeleeDamage()
+                : activeKind == Kind.VIGILANTE ? MobsConfig.vigilanteMeleeDamage() : MobsConfig.wardenDamage();
+        double knockbackResistance = activeKind == Kind.OVERSEER ? MobsConfig.overseerKnockbackResistance()
+                : activeKind == Kind.VIGILANTE ? MobsConfig.vigilanteKnockbackResistance()
+                : MobsConfig.wardenKnockbackResistance();
         getAttribute(Attributes.MAX_HEALTH).setBaseValue(health);
         getAttribute(Attributes.ARMOR).setBaseValue(armor);
         getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(damage);
@@ -858,9 +908,22 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
         if (rightTendrilPart != null) {
             rightTendrilPart.updatePosition();
         }
+        if (wardenLeftTendrilPart != null && !wardenLeftTendrilPart.isRemoved()) {
+            wardenLeftTendrilPart.updatePosition();
+        }
+        if (wardenRightTendrilPart != null && !wardenRightTendrilPart.isRemoved()) {
+            wardenRightTendrilPart.updatePosition();
+        }
         if (overseerHeadPart != null) {
             overseerHeadPart.updatePosition();
         }
+    }
+
+    private boolean hurtWardenTendril(DamageSource source, float amount) {
+        if (random.nextBoolean()) {
+            EffectStacking.apply(this, ModMobEffects.BLEED, 80, 0);
+        }
+        return hurt(source, amount * 3.0F);
     }
 
     public int getVigilanteStatus() {
@@ -879,6 +942,22 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
         entityData.set(VIGILANTE_SKIN, (byte) (skin == 7 ? 7 : 0));
     }
 
+    public int getWardenStatus() {
+        return activeKind() == Kind.WARDEN ? entityData.get(WARDEN_STATUS) : 0;
+    }
+
+    private void setWardenStatus(int status) {
+        entityData.set(WARDEN_STATUS, activeKind() == Kind.WARDEN ? status : 0);
+    }
+
+    public int getWardenSkin() {
+        return activeKind() == Kind.WARDEN ? entityData.get(WARDEN_SKIN) : 0;
+    }
+
+    private void setWardenSkin(int skin) {
+        entityData.set(WARDEN_SKIN, (byte) (skin == 7 ? 7 : 0));
+    }
+
     private PlayState movementAnimation(AnimationState<PureParasiteEntity> state) {
         if (isSpecialLeapAnimating()
                 && (activeKind() == Kind.GRUNT || activeKind() == Kind.MONARCH || activeKind() == Kind.WARDEN)) {
@@ -886,6 +965,25 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
         }
         if (activeKind() == Kind.WARDEN && entityData.get(WARDEN_CHARGING)) {
             return state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving()) ? WARDEN_CHARGE_WALK : WARDEN_CHARGE_IDLE);
+        }
+        if (activeKind() == Kind.WARDEN) {
+            int status = getWardenStatus();
+            boolean moving = ParasiteAnimations.isMoving(this, state.isMoving());
+            if (ParasiteAnimations.isAttacking(this)) {
+                return switch (status) {
+                    case 1 -> state.setAndContinue(WARDEN_ATTACK_STATUS_1);
+                    case 3 -> state.setAndContinue(WARDEN_ATTACK_STATUS_3);
+                    case 10 -> state.setAndContinue(WARDEN_ATTACK_STATUS_10);
+                    default -> state.setAndContinue(WARDEN_ATTACK);
+                };
+            }
+            return switch (status) {
+                case 1 -> state.setAndContinue(moving ? WARDEN_LIMB_STATUS_1 : WARDEN_AGE_STATUS_1_STILL);
+                case 2 -> state.setAndContinue(moving ? WARDEN_LIMB_STATUS_2 : WARDEN_AGE_STILL);
+                case 3 -> state.setAndContinue(moving ? WARDEN_LIMB_STATUS_3 : WARDEN_AGE_STATUS_3_STILL);
+                case 10 -> state.setAndContinue(WARDEN_AGE_STATUS_10);
+                default -> state.setAndContinue(moving ? WARDEN_LIMB_STATUS_2 : WARDEN_AGE_STILL);
+            };
         }
         if (activeKind() == Kind.VIGILANTE) {
             int status = entityData.get(VIGILANTE_STATUS);
@@ -917,9 +1015,9 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
     }
 
     private boolean performAreaMelee(LivingEntity center) {
-        double radius = activeKind() == Kind.WARDEN ? 2.6D : 2.0D;
-        boolean gruntAttack = activeKind() == Kind.GRUNT;
-        if (gruntAttack) {
+        double radius = 2.0D;
+        boolean animatedAreaAttack = activeKind() == Kind.GRUNT || activeKind() == Kind.WARDEN;
+        if (animatedAreaAttack) {
             playSound(ModSounds.MOB_SWIPE.get(), 2.0F, 1.0F);
             triggerAttackAnimation();
         }
@@ -933,7 +1031,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
             hit = true;
             applyMeleeEffects(target, activeKind());
         }
-        if (hit && !gruntAttack) {
+        if (hit && !animatedAreaAttack) {
             attackAnimationTicks = 10;
             triggerAttackAnimation();
         }
@@ -965,7 +1063,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
                 target.hurtMarked = true;
             }
             case VIGILANTE -> target.knockback(1.0D, getX() - target.getX(), getZ() - target.getZ());
-            case WARDEN -> pushAway(target, 0.70D, 0.55D);
+            case WARDEN -> maybeLaunchWardenTarget(target);
             default -> {
             }
         }
@@ -975,6 +1073,20 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
         Vec3 direction = target.position().subtract(position());
         double length = Math.max(0.001D, direction.horizontalDistance());
         target.push(direction.x / length * horizontal, vertical, direction.z / length * horizontal);
+    }
+
+    private void maybeLaunchWardenTarget(LivingEntity target) {
+        if (random.nextFloat() >= 0.10F) {
+            return;
+        }
+        Vec3 direction = target.position().subtract(position()).multiply(1.0D, 0.0D, 1.0D);
+        if (direction.horizontalDistanceSqr() < 1.0E-8D) {
+            direction = new Vec3(random.nextDouble() - 0.5D, 0.0D, random.nextDouble() - 0.5D);
+        }
+        direction = direction.normalize();
+        double vertical = target instanceof Player ? 0.525D : 1.05D;
+        target.push(direction.x * 0.4D, vertical, direction.z * 0.4D);
+        target.hurtMarked = true;
     }
 
     private void breakBlocksTowardsTarget(LivingEntity target, Kind activeKind) {
@@ -2891,10 +3003,142 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
         }
     }
 
+    private final class WardenAreaMeleeGoal extends Goal {
+        private int attackCooldown;
+
+        private WardenAreaMeleeGoal() {
+            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
+        }
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = getTarget();
+            return target != null && target.isAlive();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return canUse();
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = getTarget();
+            if (target == null) {
+                return;
+            }
+            getLookControl().setLookAt(target, 30.0F, 30.0F);
+            attackCooldown--;
+            MobEffectInstance pivot = getEffect(ModMobEffects.PIVOT);
+            if (attackCooldown > 0 && pivot != null) {
+                attackCooldown -= pivot.getAmplifier() * 2;
+            }
+            double distance = distanceToSqr(target);
+            if (distance <= 16.0D && hasLineOfSight(target)) {
+                getNavigation().moveTo(target, 0.0D);
+                setWardenStatus(1);
+                if (attackCooldown <= 0) {
+                    attackCooldown = 20;
+                    performAreaMelee(target);
+                }
+                return;
+            }
+            setWardenStatus(2);
+            getNavigation().moveTo(target, distance > 64.0D ? 1.3D : 1.0D);
+        }
+
+        @Override
+        public void stop() {
+            getNavigation().stop();
+            if (getWardenStatus() <= 2) {
+                setWardenStatus(getTarget() == null ? 0 : 2);
+            }
+        }
+    }
+
+    private final class WardenLeapGoal extends Goal {
+        private int activationTicks;
+        private boolean airborne;
+
+        private WardenLeapGoal() {
+            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
+        }
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = getTarget();
+            if (target == null || !target.isAlive() || !onGround()
+                    || hasEffect(MobEffects.MOVEMENT_SLOWDOWN) || getWardenStatus() > 2) {
+                return false;
+            }
+            double distance = distanceToSqr(target);
+            if (distance < 100.0D || distance >= 10000.0D || !hasLineOfSight(target)) {
+                return false;
+            }
+            activationTicks += hasEffect(ModMobEffects.RAGE) ? 2 : 1;
+            return activationTicks >= 80;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return wardenLeapTicks > 0 && wardenLeapTicks < 100;
+        }
+
+        @Override
+        public void start() {
+            LivingEntity target = getTarget();
+            if (target == null) {
+                return;
+            }
+            wardenLeapTargetX = target.getX();
+            wardenLeapTargetZ = target.getZ();
+            Vec3 movement = getDeltaMovement();
+            double dx = wardenLeapTargetX - getX();
+            double dz = wardenLeapTargetZ - getZ();
+            double horizontal = Math.max(0.001D, Math.sqrt(dx * dx + dz * dz));
+            getNavigation().stop();
+            setWardenStatus(10);
+            setDeltaMovement(movement.x + dx / horizontal * 2.5D * 0.9D + movement.x * 0.3D,
+                    1.2D,
+                    movement.z + dz / horizontal * 2.5D * 0.9D + movement.z * 0.3D);
+            hurtMarked = true;
+            airborne = false;
+            wardenLeapTicks = 1;
+            startSpecialLeapAnimation(100);
+        }
+
+        @Override
+        public void tick() {
+            wardenLeapTicks++;
+            startSpecialLeapAnimation(2);
+            if (!onGround()) {
+                airborne = true;
+            }
+            if (airborne && onGround()) {
+                performWardenLandingAttack();
+                playSound(ModSounds.get("mob.hitground"), 15.0F, 1.0F);
+                wardenLeapTicks = 0;
+                setWardenStatus(0);
+            }
+        }
+
+        @Override
+        public void stop() {
+            activationTicks = 0;
+            if (wardenLeapTicks >= 100) {
+                wardenLeapTicks = 0;
+                setWardenStatus(0);
+            }
+        }
+    }
+
     private final class WardenChargeGoal extends Goal {
-        private int cooldown;
+        private int activationTicks;
         private int chargeTicks;
-        private int dashTicks;
+        private double targetX;
+        private double targetY;
+        private double targetZ;
+        private boolean finished;
 
         private WardenChargeGoal() {
             setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
@@ -2902,70 +3146,89 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
 
         @Override
         public boolean canUse() {
-            if (cooldown > 0) {
-                cooldown--;
+            LivingEntity target = getTarget();
+            if (target == null || !target.isAlive()) {
                 return false;
             }
-            LivingEntity target = getTarget();
-            return target != null && onGround() && distanceToSqr(target) >= 25.0D
-                    && distanceToSqr(target) <= 225.0D;
+            double distance = distanceToSqr(target);
+            if (distance < 64.0D || distance >= 1024.0D || !hasLineOfSight(target)) {
+                return false;
+            }
+            activationTicks += hasEffect(ModMobEffects.RAGE) ? 2 : 1;
+            return activationTicks >= 40;
         }
 
         @Override
         public boolean canContinueToUse() {
-            LivingEntity target = getTarget();
-            return target != null && target.isAlive() && dashTicks < 18;
+            return !finished && chargeTicks > 0 && chargeTicks < 200;
         }
 
         @Override
         public void start() {
-            chargeTicks = 0;
-            dashTicks = 0;
+            chargeTicks = 1;
+            finished = false;
             getNavigation().stop();
             entityData.set(WARDEN_CHARGING, true);
+            setWardenStatus(3);
         }
 
         @Override
         public void tick() {
             LivingEntity target = getTarget();
-            if (target == null) {
+            if (target == null || !target.isAlive()) {
+                finished = true;
                 return;
             }
+            chargeTicks++;
             getLookControl().setLookAt(target, 30.0F, 30.0F);
             if (chargeTicks < 20) {
-                chargeTicks++;
+                if (chargeTicks == 2) {
+                    playSound(ModSounds.get("ganro.hurt"), 4.0F,
+                            (random.nextFloat() - random.nextFloat()) * 0.4F + 2.0F);
+                }
+                if (!onGround() || isInWater()
+                        || target.getY() > getY() && target.onGround()) {
+                    finished = true;
+                    setWardenStatus(0);
+                    return;
+                }
                 getNavigation().stop();
-                level().addParticle(ParticleTypes.FLAME, getX(), getY() + getBbHeight() * 0.5D, getZ(),
-                        0.0D, 0.03D, 0.0D);
+                setWardenStatus(3);
+                double distance = Math.max(0.001D, distanceTo(target));
+                targetX = getX() + 15.0D * (target.getX() - getX()) / distance;
+                targetY = getY() + 15.0D * (target.getY() - getY()) / distance;
+                targetZ = getZ() + 15.0D * (target.getZ() - getZ()) / distance;
+                spawnWardenChargeParticles();
                 return;
             }
-            Vec3 direction = target.position().subtract(position());
-            Vec3 horizontal = new Vec3(direction.x, 0.0D, direction.z);
-            if (horizontal.lengthSqr() > 0.001D) {
-                horizontal = horizontal.normalize().scale(1.10D);
-                setDeltaMovement(horizontal.x, 0.12D, horizontal.z);
+            if (chargeTicks == 20) {
+                getNavigation().moveTo(targetX, targetY, targetZ, 3.0D);
             }
-            dashTicks++;
-            DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(1.5D));
-            for (LivingEntity victim : level().getEntitiesOfClass(LivingEntity.class,
-                    getBoundingBox().inflate(1.5D), PureParasiteEntity.this::isValidParasiteTarget)) {
-                if (victim.hurt(damageSources().mobAttack(PureParasiteEntity.this),
-                        (float) getAttributeValue(Attributes.ATTACK_DAMAGE) * 1.25F)) {
-                    pushAway(victim, 1.10D, 0.85D);
-                }
+            damageWardenChargeTargets();
+            if (!onGround()) {
+                Vec3 movement = getDeltaMovement();
+                setDeltaMovement(movement.x * 0.7D, movement.y, movement.z * 0.7D);
+            }
+            if (chargeTicks >= 60 && getX() == xo && getZ() == zo) {
+                finished = true;
+                setWardenStatus(2);
             }
         }
 
         @Override
         public void stop() {
-            cooldown = 220;
+            activationTicks = 0;
+            chargeTicks = 0;
             entityData.set(WARDEN_CHARGING, false);
+            if (getWardenStatus() == 3) {
+                setWardenStatus(0);
+            }
         }
     }
 
     private final class WardenShockwaveGoal extends Goal {
-        private int cooldown;
-        private int chargeTicks;
+        private int activationTicks;
+        private int shockwaveTicks;
 
         private WardenShockwaveGoal() {
             setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
@@ -2973,24 +3236,31 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
 
         @Override
         public boolean canUse() {
-            if (cooldown > 0) {
-                cooldown--;
+            LivingEntity target = getTarget();
+            if (target == null || !target.isAlive()) {
                 return false;
             }
-            LivingEntity target = getTarget();
-            return target != null && onGround() && hasLineOfSight(target) && distanceToSqr(target) >= 36.0D
-                    && distanceToSqr(target) <= 400.0D;
+            int maximumDistance = (int) (getAttributeValue(Attributes.FOLLOW_RANGE) * 0.7D);
+            double distance = distanceToSqr(target);
+            if (distance < 4.0D || distance >= maximumDistance * maximumDistance) {
+                return false;
+            }
+            activationTicks += hasEffect(ModMobEffects.RAGE) ? 2 : 1;
+            return activationTicks >= 40;
         }
 
         @Override
         public boolean canContinueToUse() {
-            return chargeTicks < 40 && getTarget() != null;
+            return shockwaveTicks > 0 && shockwaveTicks <= 80 && getTarget() != null;
         }
 
         @Override
         public void start() {
-            chargeTicks = 0;
+            shockwaveTicks = 1;
+            setWardenStatus(100);
             getNavigation().stop();
+            playSound(ModSounds.get("ganro.hurt"), 4.0F,
+                    (random.nextFloat() - random.nextFloat()) * 0.4F + 2.0F);
         }
 
         @Override
@@ -2999,50 +3269,132 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
             if (target == null) {
                 return;
             }
-            getLookControl().setLookAt(target, 30.0F, 30.0F);
+            shockwaveTicks++;
             getNavigation().stop();
-            chargeTicks++;
-            if (chargeTicks < 20) {
-                level().addParticle(ParticleTypes.FLAME, getX(), getY() + getBbHeight() * 0.5D, getZ(),
-                        0.0D, 0.04D, 0.0D);
-        } else if (chargeTicks == 20) {
-                fireShockwave(target);
+            getLookControl().setLookAt(target, 30.0F, 30.0F);
+            if (shockwaveTicks <= 40) {
+                spawnWardenChargeParticles();
+            }
+            if (shockwaveTicks == 40) {
+                spawnWardenShockwave(target);
                 triggerAttackAnimation();
+                playSound(ModSounds.MOB_SWIPE.get(), 2.0F, 1.0F);
             }
         }
 
         @Override
         public void stop() {
-            cooldown = 240;
+            activationTicks = 0;
+            shockwaveTicks = 0;
+            setWardenStatus(0);
         }
     }
 
-    private void fireShockwave(LivingEntity target) {
-        Vec3 direction = target.position().subtract(position());
-        Vec3 horizontal = new Vec3(direction.x, 0.0D, direction.z);
-        if (horizontal.lengthSqr() <= 0.001D) {
-            return;
-        }
-        horizontal = horizontal.normalize();
-        AABB shockwave = getBoundingBox().expandTowards(horizontal.scale(14.0D)).inflate(1.35D, 1.5D, 1.35D);
-        DragonEggAssimilationEntity.assimilateDragonEggs(level(), shockwave);
-        for (LivingEntity victim : level().getEntitiesOfClass(LivingEntity.class, shockwave,
+    private void performWardenLandingAttack() {
+        AABB area = new AABB(getX(), getY(), getZ(), getX() + 1.0D, getY() + 1.0D, getZ() + 1.0D)
+                .inflate(5.0D, 2.0D, 5.0D);
+        DragonEggAssimilationEntity.assimilateDragonEggs(level(), area);
+        for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, area,
                 this::isValidParasiteTarget)) {
-            if (victim.hurt(damageSources().mobAttack(this),
-                    (float) getAttributeValue(Attributes.ATTACK_DAMAGE) * 0.80F)) {
-                pushAway(victim, 0.80D, 1.15D);
-            }
+            target.knockback(2.5D, getX() - target.getX(), getZ() - target.getZ());
+            hurtWardenSkillTarget(target);
         }
-        if (!level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+    }
+
+    private void damageWardenChargeTargets() {
+        AABB area = getBoundingBox().inflate(2.0D, 0.0D, 2.0D);
+        DragonEggAssimilationEntity.assimilateDragonEggs(level(), area);
+        for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, area,
+                this::isValidParasiteTarget)) {
+            target.knockback(0.5D, getX() - target.getX(), getZ() - target.getZ());
+            hurtWardenSkillTarget(target);
+        }
+    }
+
+    boolean hurtWardenSkillTarget(LivingEntity target) {
+        if (!isValidParasiteTarget(target) || !super.doHurtTarget(target)) {
+            return false;
+        }
+        applyMeleeEffects(target, Kind.WARDEN);
+        return true;
+    }
+
+    private void spawnWardenChargeParticles() {
+        if (level() instanceof ServerLevel serverLevel) {
+            serverLevel.sendParticles(ParticleTypes.FLAME,
+                    getX(), getY() + getBbHeight() * 0.5D, getZ(),
+                    2, getBbWidth() * 0.5D, getBbHeight() * 0.5D, getBbWidth() * 0.5D, 0.03D);
+        }
+    }
+
+    private void spawnWardenShockwave(LivingEntity target) {
+        if (!(level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        for (int step = 1; step <= 12; step++) {
-            BlockPos position = BlockPos.containing(getX() + horizontal.x * step, getY(), getZ() + horizontal.z * step);
-            BlockState state = level().getBlockState(position);
-            float hardness = state.getDestroySpeed(level(), position);
-            if (!state.isAir() && !state.hasBlockEntity() && hardness >= 0.0F && hardness <= 5.0F) {
-                ParasiteBlockInventory.collect((ServerLevel) level(), position, this);
-            }
+        WardenShockwaveEntity shockwave = ModEntities.WARDEN_SHOCKWAVE.get().create(serverLevel);
+        if (shockwave == null) {
+            return;
+        }
+        shockwave.moveTo(getX(), getY(), getZ(), getYRot(), 0.0F);
+        shockwave.configure(this, target);
+        if (serverLevel.noCollision(shockwave, shockwave.getBoundingBox())) {
+            serverLevel.addFreshEntity(shockwave);
+        }
+    }
+
+    private static final class WardenTendrilPart extends PartEntity<PureParasiteEntity> {
+        private final boolean left;
+
+        private WardenTendrilPart(PureParasiteEntity parent, boolean left) {
+            super(parent);
+            this.left = left;
+        }
+
+        private void updatePosition() {
+            PureParasiteEntity parent = getParent();
+            float yaw = parent.getYRot() * Mth.DEG_TO_RAD;
+            float side = left ? 1.0F : -1.0F;
+            setPos(parent.getX() + side * Mth.cos(yaw),
+                    parent.getY() + 3.7D,
+                    parent.getZ() + side * Mth.sin(yaw));
+            setYRot(parent.getYRot());
+        }
+
+        @Override
+        protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        }
+
+        @Override
+        protected void readAdditionalSaveData(CompoundTag tag) {
+        }
+
+        @Override
+        protected void addAdditionalSaveData(CompoundTag tag) {
+        }
+
+        @Override
+        public boolean isPickable() {
+            return getParent().isAlive();
+        }
+
+        @Override
+        public boolean hurt(DamageSource source, float amount) {
+            return getParent().hurtWardenTendril(source, amount);
+        }
+
+        @Override
+        public EntityDimensions getDimensions(Pose pose) {
+            return EntityDimensions.scalable(0.7F, 0.9F);
+        }
+
+        @Override
+        public boolean shouldBeSaved() {
+            return false;
+        }
+
+        @Override
+        public Component getName() {
+            return Component.literal(left ? "warden_left_tendril" : "warden_right_tendril");
         }
     }
 

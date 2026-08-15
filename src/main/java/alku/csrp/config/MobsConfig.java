@@ -399,6 +399,26 @@ public final class MobsConfig {
                     "2;30;3;minecraft:speed;0;0"),
             "Vigilante scary-orb effects: self;seconds;amplifier;effect_id;mob_amplifier_step;mob_duration_step.",
             MobsConfig::validOrbEffect);
+    private static final ModConfigSpec.DoubleValue WARDEN_HEALTH_MULTIPLIER = value(
+            "srparasites:warden", "wardenHealthMultiplier", 1.0D, 0.01D, 100.0D,
+            "Health multiplier for the Warden.");
+    private static final ModConfigSpec.DoubleValue WARDEN_DAMAGE_MULTIPLIER = value(
+            "srparasites:warden", "wardenDamageMultiplier", 1.0D, 0.01D, 100.0D,
+            "Melee and skill damage multiplier for the Warden.");
+    private static final ModConfigSpec.DoubleValue WARDEN_ARMOR_MULTIPLIER = value(
+            "srparasites:warden", "wardenArmorMultiplier", 1.0D, 0.01D, 100.0D,
+            "Armor multiplier for the Warden.");
+    private static final ModConfigSpec.DoubleValue WARDEN_KNOCKBACK_MULTIPLIER = value(
+            "srparasites:warden", "wardenKnockbackResistanceMultiplier", 1.0D, 0.01D, 100.0D,
+            "Knockback-resistance multiplier for the Warden.");
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> WARDEN_ORB_EFFECTS = stringList(
+            "srparasites:warden", "wardenOrbEffects", List.of(
+                    "0;15;3;minecraft:hunger;0;0",
+                    "0;70;3;csrp:needler;0;0",
+                    "0;15;3;minecraft:mining_fatigue;0;0",
+                    "2;30;3;minecraft:absorption;0;0"),
+            "Warden scary-orb effects: self;seconds;amplifier;effect_id;mob_amplifier_step;mob_duration_step.",
+            MobsConfig::validOrbEffect);
     private static final ModConfigSpec.ConfigValue<List<? extends String>> MONARCH_ORB_EFFECTS = stringList(
             "srparasites:monarch", "monarchOrbEffects", List.of(
                     "0;15;3;minecraft:hunger;0;0",
@@ -913,6 +933,26 @@ public final class MobsConfig {
 
     public static List<? extends String> vigilanteOrbEffects() {
         return VIGILANTE_ORB_EFFECTS.get();
+    }
+
+    public static double wardenHealth() {
+        return 80.0D * WARDEN_HEALTH_MULTIPLIER.get();
+    }
+
+    public static double wardenArmor() {
+        return 15.0D * WARDEN_ARMOR_MULTIPLIER.get();
+    }
+
+    public static double wardenDamage() {
+        return 25.0D * WARDEN_DAMAGE_MULTIPLIER.get();
+    }
+
+    public static double wardenKnockbackResistance() {
+        return Math.min(1.0D, WARDEN_KNOCKBACK_MULTIPLIER.get());
+    }
+
+    public static List<? extends String> wardenOrbEffects() {
+        return WARDEN_ORB_EFFECTS.get();
     }
 
     public static List<? extends String> monarchOrbEffects() {

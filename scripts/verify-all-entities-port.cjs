@@ -20,7 +20,8 @@ for (const [id, originalClass] of [
   ["bomber_light", "EntityOmboo"],
   ["monarch", "EntityOrch"],
   ["overseer", "EntityAlafha"],
-  ["vigilante", "EntityAnged"]
+  ["vigilante", "EntityAnged"],
+  ["warden", "EntityGanro"]
 ]) {
   if (behaviorPorts[id]?.originalClass !== originalClass
       || behaviorPorts[id]?.status !== "audited"
