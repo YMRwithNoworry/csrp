@@ -2,6 +2,7 @@ package alku.csrp.compendium.network;
 
 import alku.csrp.Csrp;
 import alku.csrp.celestial.network.CelestialStatePayload;
+import alku.csrp.celestial.network.StarWorldStatePayload;
 import alku.csrp.overlast.network.EvolutionHudPayload;
 import alku.csrp.network.ParasiteDeathFxPayload;
 import alku.csrp.relay.network.RelayReportOpenPayload;
@@ -25,6 +26,8 @@ public final class CompendiumPayloads {
                 CompendiumUnlockPayload::handle);
         registrar.playToClient(CelestialStatePayload.TYPE, CelestialStatePayload.STREAM_CODEC,
                 CelestialStatePayload::handle);
+        registrar.playToClient(StarWorldStatePayload.TYPE, StarWorldStatePayload.STREAM_CODEC,
+                StarWorldStatePayload::handle);
         registrar.playToClient(EvolutionHudPayload.TYPE, EvolutionHudPayload.STREAM_CODEC,
                 EvolutionHudPayload::handle);
         registrar.playToClient(RelayReportOpenPayload.TYPE, RelayReportOpenPayload.STREAM_CODEC,

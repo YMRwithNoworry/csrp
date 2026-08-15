@@ -24,6 +24,15 @@ public final class WorldConfig {
     private static final ModConfigSpec.IntValue BIOME_INFESTATION_BLOCK_LIMIT = BUILDER
             .comment("Transformed blocks before biome infestation enters its cooldown.")
             .defineInRange("biomeInfestationBlockLimit", 2000, 0, 8192);
+    private static final ModConfigSpec.BooleanValue ENABLE_STAR_WORLD_SHADERS = BUILDER
+            .comment("Enable the post-processing shaders used by Cold and Warm Star worlds.")
+            .define("enableStarWorldShaders", true);
+    private static final ModConfigSpec.BooleanValue ENABLE_COLD_STAR_SHADER = BUILDER
+            .comment("Enable the outdoor frozen-fog shader in Cold Star worlds.")
+            .define("enableColdStarShader", true);
+    private static final ModConfigSpec.BooleanValue ENABLE_WARM_STAR_SHADER = BUILDER
+            .comment("Enable the outdoor heat-haze shader in Warm Star worlds.")
+            .define("enableWarmStarShader", true);
     private static final ModConfigSpec.BooleanValue DIMENSION_LIST_IS_BLACKLIST = BUILDER
             .comment("When true, listed dimensions deny natural parasite spawning; when false, only listed dimensions allow it.")
             .define("dimensionListIsBlacklist", true);
@@ -52,6 +61,18 @@ public final class WorldConfig {
 
     public static int biomeInfestationBlockLimit() {
         return BIOME_INFESTATION_BLOCK_LIMIT.get();
+    }
+
+    public static boolean starWorldShadersEnabled() {
+        return ENABLE_STAR_WORLD_SHADERS.get();
+    }
+
+    public static boolean coldStarShaderEnabled() {
+        return ENABLE_COLD_STAR_SHADER.get();
+    }
+
+    public static boolean warmStarShaderEnabled() {
+        return ENABLE_WARM_STAR_SHADER.get();
     }
 
     public static boolean dimensionAllowsNaturalSpawning(ServerLevel level) {

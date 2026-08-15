@@ -18,7 +18,7 @@ import net.minecraft.world.level.saveddata.SavedData;
 
 public final class SrpWorldData extends SavedData {
     private static final String DATA_NAME = "csrp_world_data";
-    private static final int DATA_VERSION = 3;
+    private static final int DATA_VERSION = 4;
     private static final Factory<SrpWorldData> FACTORY = new Factory<>(SrpWorldData::new, SrpWorldData::load);
     private static final int[] DISLODGMENT_PHASE_COOLDOWN_MULTIPLIER = {1, 4, 3, 3, 4, 5, 6, 7, 8, 9, 10};
 
@@ -27,6 +27,7 @@ public final class SrpWorldData extends SavedData {
     private int evolutionPhase = -1;
     private int evolutionPoints = -300;
     private SrpDifficulty difficulty = SrpDifficulty.NORMAL;
+    private SrpStarType starType = SrpStarType.NORMAL;
     private double difficultyPointRemainder;
     private long cooldownEnd;
     private boolean canGain = true;
@@ -71,6 +72,7 @@ public final class SrpWorldData extends SavedData {
         }
         data.evolutionPoints = tag.getInt("evolution_points");
         data.difficulty = SrpDifficulty.byId(tag.getString("srp_difficulty"));
+        data.starType = SrpStarType.byId(tag.getString("star_type"));
         data.difficultyPointRemainder = tag.getDouble("difficulty_point_remainder");
         data.cooldownEnd = tag.getLong("cooldown_end");
         data.canGain = !tag.contains("can_gain") || tag.getBoolean("can_gain");
@@ -105,6 +107,7 @@ public final class SrpWorldData extends SavedData {
         tag.putInt("evolution_phase", evolutionPhase);
         tag.putInt("evolution_points", evolutionPoints);
         tag.putString("srp_difficulty", difficulty.id());
+        tag.putString("star_type", starType.id());
         tag.putDouble("difficulty_point_remainder", difficultyPointRemainder);
         tag.putLong("cooldown_end", cooldownEnd);
         tag.putBoolean("can_gain", canGain);
@@ -155,6 +158,18 @@ public final class SrpWorldData extends SavedData {
         }
         this.difficulty = difficulty;
         difficultyPointRemainder = 0.0D;
+        setDirty();
+    }
+
+    public SrpStarType starType() {
+        return starType;
+    }
+
+    public void setStarType(SrpStarType starType) {
+        if (this.starType == starType) {
+            return;
+        }
+        this.starType = starType;
         setDirty();
     }
 
@@ -632,6 +647,9 @@ public final class SrpWorldData extends SavedData {
         difficulty = level == level.getServer().overworld()
                 ? SrpDifficultySelection.consumeOrDefault()
                 : SrpWorldData.get(level.getServer().overworld()).difficulty();
+        starType = level == level.getServer().overworld()
+                ? SrpStarTypeSelection.consumeOrDefault()
+                : SrpWorldData.get(level.getServer().overworld()).starType();
         difficultyPointRemainder = 0.0D;
         generation = 0;
         generationTicks = 0;
@@ -645,7 +663,9 @@ public final class SrpWorldData extends SavedData {
         if (dataVersion >= DATA_VERSION) {
             return;
         }
-        cooldownEnd = 0L;
+        if (dataVersion < 3) {
+            cooldownEnd = 0L;
+        }
         dataVersion = DATA_VERSION;
         setDirty();
     }

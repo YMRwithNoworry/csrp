@@ -3,6 +3,8 @@ package alku.csrp.client;
 import alku.csrp.Csrp;
 import alku.csrp.world.SrpDifficulty;
 import alku.csrp.world.SrpDifficultySelection;
+import alku.csrp.world.SrpStarType;
+import alku.csrp.world.SrpStarTypeSelection;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -19,6 +21,7 @@ import net.neoforged.neoforge.client.event.ScreenEvent;
 @EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT)
 public final class SrpDifficultyScreenEvents {
     private static final Map<CreateWorldScreen, SrpDifficulty> SELECTIONS = new WeakHashMap<>();
+    private static final Map<CreateWorldScreen, SrpStarType> STAR_SELECTIONS = new WeakHashMap<>();
 
     private SrpDifficultyScreenEvents() {
     }
@@ -43,13 +46,32 @@ public final class SrpDifficultyScreenEvents {
                         });
         updateTooltip(selector, selected);
         event.addListener(selector);
+
+        SrpStarType selectedStar = STAR_SELECTIONS.getOrDefault(screen, SrpStarType.NORMAL);
+        CycleButton<SrpStarType> starSelector = CycleButton.<SrpStarType>builder(
+                        starType -> Component.translatable(starType.translationKey()))
+                .withValues(List.of(SrpStarType.values()))
+                .withInitialValue(selectedStar)
+                .create((screen.width - width) / 2, screen.height - 76, width, 20,
+                        Component.translatable("options.csrp.star_type"),
+                        (button, starType) -> {
+                            STAR_SELECTIONS.put(screen, starType);
+                            updateStarTooltip(button, starType);
+                        });
+        updateStarTooltip(starSelector, selectedStar);
+        event.addListener(starSelector);
     }
 
     public static void stageSelection(CreateWorldScreen screen) {
         SrpDifficultySelection.stage(SELECTIONS.getOrDefault(screen, SrpDifficulty.NORMAL));
+        SrpStarTypeSelection.stage(STAR_SELECTIONS.getOrDefault(screen, SrpStarType.NORMAL));
     }
 
     private static void updateTooltip(CycleButton<SrpDifficulty> button, SrpDifficulty difficulty) {
         button.setTooltip(Tooltip.create(Component.translatable(difficulty.descriptionKey())));
+    }
+
+    private static void updateStarTooltip(CycleButton<SrpStarType> button, SrpStarType starType) {
+        button.setTooltip(Tooltip.create(Component.translatable(starType.descriptionKey())));
     }
 }
