@@ -78,6 +78,14 @@ const behaviorPorts = {
     verifier: "scripts/verify-overseer-port.cjs",
     status: "audited",
     auditScope: "entity-specific"
+  },
+  vigilante: {
+    originalClass: "EntityAnged",
+    originalSource: "com/dhanantry/scapeandrunparasites/entity/monster/pure/EntityAnged.java",
+    implementation: "src/main/java/alku/csrp/entity/PureParasiteEntity.java",
+    verifier: "scripts/verify-vigilante-port.cjs",
+    status: "audited",
+    auditScope: "entity-specific"
   }
 };
 

@@ -261,6 +261,9 @@ public final class ParasiteProjectileEntity extends Entity {
         if (owner == null || target == owner || !target.isAlive()) {
             return false;
         }
+        if (mode == Mode.ANGED_BALL) {
+            return true;
+        }
         return isLegacyProjectile(mode) || owner.isValidParasiteTarget(target);
     }
 
@@ -310,6 +313,10 @@ public final class ParasiteProjectileEntity extends Entity {
             impactAlafhaBall(owner);
             return;
         }
+        if (mode == Mode.ANGED_BALL) {
+            impactAngedBall(owner, directHit);
+            return;
+        }
         if (mode == Mode.BIOMASS_BALL) {
             impactBiomassBall(owner);
             return;
@@ -340,7 +347,7 @@ public final class ParasiteProjectileEntity extends Entity {
                 }
                 case HOMING -> {
                 }
-                case VOMIT, ANGED_BALL, SALIVA_EFFECT -> {
+                case VOMIT, SALIVA_EFFECT -> {
                     target.addEffect(new MobEffectInstance(ModMobEffects.VOMIT, 160, 0), owner);
                     target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 160, 0), owner);
                     target.addEffect(new MobEffectInstance(ModMobEffects.CORROSION, 160, 0), owner);
@@ -366,8 +373,7 @@ public final class ParasiteProjectileEntity extends Entity {
                 level().explode(owner, getX(), getY(), getZ(), (float) Math.max(1.5D, radius),
                         Level.ExplosionInteraction.MOB);
             }
-        } else if (mode == Mode.VOMIT || mode == Mode.ANGED_BALL
-                || mode == Mode.SALIVA_EFFECT) {
+        } else if (mode == Mode.VOMIT || mode == Mode.SALIVA_EFFECT) {
             spawnLingeringVomitCloud(owner);
         } else if (mode == Mode.ANCIENT_BALL) {
             spawnLingeringAncientCloud(owner);
@@ -399,6 +405,29 @@ public final class ParasiteProjectileEntity extends Entity {
             serverLevel.sendParticles(ParticleTypes.EXPLOSION, getX(), getY(), getZ(),
                     12, effectRadius * 0.25D, effectRadius * 0.25D, effectRadius * 0.25D, 0.02D);
         }
+        discard();
+    }
+
+    private void impactAngedBall(PrimitiveParasiteEntity owner, LivingEntity directHit) {
+        if (directHit instanceof Parasite
+                && (!(directHit instanceof DeterrentParasiteEntity deterrent)
+                || deterrent.getKind() != DeterrentParasiteEntity.Kind.SENTRY)) {
+            discard();
+            return;
+        }
+        if (directHit != null) {
+            directHit.hurt(damageSources().indirectMagic(this, owner), MobsConfig.vigilanteRangedDamage());
+            owner.applyPrimitiveMinimumDamage(directHit);
+        }
+        ToxicCloudEntity cloud = ToxicCloudEntity.create(level(), getX(), getY(), getZ());
+        cloud.setRadius(2.5F);
+        cloud.setRadiusOnUse(-0.5F);
+        cloud.setWaitTime(10);
+        cloud.setDuration(100);
+        cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
+        cloud.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 300, 0, false, false));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.CORROSION, 100, 0, false, false));
+        level().addFreshEntity(cloud);
         discard();
     }
 

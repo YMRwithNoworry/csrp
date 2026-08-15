@@ -19,7 +19,8 @@ for (const [id, originalClass] of [
   ["grunt", "EntityFlog"],
   ["bomber_light", "EntityOmboo"],
   ["monarch", "EntityOrch"],
-  ["overseer", "EntityAlafha"]
+  ["overseer", "EntityAlafha"],
+  ["vigilante", "EntityAnged"]
 ]) {
   if (behaviorPorts[id]?.originalClass !== originalClass
       || behaviorPorts[id]?.status !== "audited"

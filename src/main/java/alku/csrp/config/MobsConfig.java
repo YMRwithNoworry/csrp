@@ -376,6 +376,29 @@ public final class MobsConfig {
     private static final ModConfigSpec.IntValue OVERSEER_MAX_Y = intValue(
             "srparasites:overseer", "overseerFlightHeightLimit", 256, 0, 256,
             "Maximum number of air blocks the Overseer may fly above terrain.");
+    private static final ModConfigSpec.DoubleValue VIGILANTE_HEALTH_MULTIPLIER = value(
+            "srparasites:vigilante", "vigilanteHealthMultiplier", 1.0D, 0.01D, 100.0D,
+            "Health multiplier for the Vigilante.");
+    private static final ModConfigSpec.DoubleValue VIGILANTE_DAMAGE_MULTIPLIER = value(
+            "srparasites:vigilante", "vigilanteDamageMultiplier", 1.0D, 0.01D, 100.0D,
+            "Melee damage multiplier for the Vigilante.");
+    private static final ModConfigSpec.DoubleValue VIGILANTE_RANGED_DAMAGE_MULTIPLIER = value(
+            "srparasites:vigilante", "vigilanteRangedDamageMultiplier", 1.0D, 0.01D, 100.0D,
+            "Ranged damage multiplier for the Vigilante.");
+    private static final ModConfigSpec.DoubleValue VIGILANTE_ARMOR_MULTIPLIER = value(
+            "srparasites:vigilante", "vigilanteArmorMultiplier", 1.0D, 0.01D, 100.0D,
+            "Armor multiplier for the Vigilante.");
+    private static final ModConfigSpec.DoubleValue VIGILANTE_KNOCKBACK_MULTIPLIER = value(
+            "srparasites:vigilante", "vigilanteKnockbackResistanceMultiplier", 1.0D, 0.01D, 100.0D,
+            "Knockback-resistance multiplier for the Vigilante.");
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> VIGILANTE_ORB_EFFECTS = stringList(
+            "srparasites:vigilante", "vigilanteOrbEffects", List.of(
+                    "0;15;3;minecraft:hunger;0;0",
+                    "0;70;3;csrp:needler;0;0",
+                    "0;15;3;minecraft:mining_fatigue;0;0",
+                    "2;30;3;minecraft:speed;0;0"),
+            "Vigilante scary-orb effects: self;seconds;amplifier;effect_id;mob_amplifier_step;mob_duration_step.",
+            MobsConfig::validOrbEffect);
     private static final ModConfigSpec.ConfigValue<List<? extends String>> MONARCH_ORB_EFFECTS = stringList(
             "srparasites:monarch", "monarchOrbEffects", List.of(
                     "0;15;3;minecraft:hunger;0;0",
@@ -866,6 +889,30 @@ public final class MobsConfig {
 
     public static int overseerMaxY() {
         return OVERSEER_MAX_Y.get();
+    }
+
+    public static double vigilanteHealth() {
+        return 70.0D * VIGILANTE_HEALTH_MULTIPLIER.get();
+    }
+
+    public static double vigilanteArmor() {
+        return 25.0D * VIGILANTE_ARMOR_MULTIPLIER.get();
+    }
+
+    public static double vigilanteMeleeDamage() {
+        return 23.0D * VIGILANTE_DAMAGE_MULTIPLIER.get();
+    }
+
+    public static float vigilanteRangedDamage() {
+        return (float) (27.0D * VIGILANTE_RANGED_DAMAGE_MULTIPLIER.get());
+    }
+
+    public static double vigilanteKnockbackResistance() {
+        return Math.min(1.0D, VIGILANTE_KNOCKBACK_MULTIPLIER.get());
+    }
+
+    public static List<? extends String> vigilanteOrbEffects() {
+        return VIGILANTE_ORB_EFFECTS.get();
     }
 
     public static List<? extends String> monarchOrbEffects() {

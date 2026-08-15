@@ -287,7 +287,7 @@ public final class ClientModEvents {
                 new PrimitiveParasiteRenderer<>(context, "overseer", 1.3F));
         event.registerEntityRenderer(ModEntities.SEEKER.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.VIGILANTE.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "vigilante", 0.9F));
+                new PrimitiveParasiteRenderer<>(context, "vigilante", 1.2F));
         event.registerEntityRenderer(ModEntities.WARDEN.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "warden", 1.05F));
         event.registerEntityRenderer(ModEntities.BOGLE.get(), context ->

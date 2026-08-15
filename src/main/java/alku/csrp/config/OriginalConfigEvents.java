@@ -4,6 +4,7 @@ import alku.csrp.Csrp;
 import alku.csrp.entity.AdaptedVariantEntity;
 import alku.csrp.entity.Parasite;
 import alku.csrp.entity.PrimitiveVariantEntity;
+import alku.csrp.entity.PureParasiteEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
@@ -55,6 +56,8 @@ public final class OriginalConfigEvents {
             viscera.applyConfiguredAttributes();
         } else if (entity instanceof AdaptedVariantEntity adapted) {
             adapted.applyConfiguredAttributes();
+        } else if (entity instanceof PureParasiteEntity pure) {
+            pure.applyConfiguredAttributes();
         }
     }
 

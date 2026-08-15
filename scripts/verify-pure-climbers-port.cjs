@@ -14,6 +14,7 @@ const registry = read("src/main/java/alku/csrp/registry/ModEntities.java");
 for (const [id, kind, width, height] of [
   ["grunt", "GRUNT", "0\\.7666F", "1\\.95F"],
   ["monarch", "MONARCH", "1\\.901F", "4\\.1F"],
+  ["vigilante", "VIGILANTE", "1\\.6F", "3\\.1F"],
   ["warden", "WARDEN", "0\\.901F", "4\\.2F"]
 ]) {
   expect(registry,
@@ -22,8 +23,8 @@ for (const [id, kind, width, height] of [
 }
 
 expect(entity,
-  /kind == Kind\.MONARCH \|\| kind == Kind\.WARDEN\)[\s\S]{0,80}?Attributes\.STEP_HEIGHT, 1\.0D/,
-  "Monarch and Warden are missing their original one-block step height");
+  /kind == Kind\.MONARCH \|\| kind == Kind\.VIGILANTE \|\| kind == Kind\.WARDEN\)[\s\S]{0,80}?Attributes\.STEP_HEIGHT, 1\.0D/,
+  "Monarch, Vigilante, and Warden are missing their original one-block step height");
 expect(entity,
   /createNavigation\(Level level\)[\s\S]{0,180}?isClimberType\(getType\(\)\)[\s\S]{0,100}?new WallClimberNavigation\(this, level\)/,
   "Pure climbers do not use wall-climber navigation");
@@ -43,4 +44,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log("Grunt, Monarch, and Warden climbing behavior is wired and verified.");
+console.log("Pure step-height and climber behavior is wired and verified.");

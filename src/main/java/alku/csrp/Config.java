@@ -51,6 +51,12 @@ public final class Config {
     private static final ModConfigSpec.IntValue ALWAYS_VARIANT_PHASE = BUILDER
             .comment("From this evolution phase onward, parasites always use an available variant.")
             .defineInRange("alwaysVariantPhase", 11, -1, 11);
+    private static final ModConfigSpec.DoubleValue TENDRIL_HEALTH = BUILDER
+            .comment("Fraction of a parent parasite's maximum health assigned to each detachable tendril.")
+            .defineInRange("tendrilHealth", 0.5D, 0.5D, 100.0D);
+    private static final ModConfigSpec.IntValue PURE_POINT_DAMAGE_CAP = BUILDER
+            .comment("Legacy resistance points removed when a pure parasite body part is destroyed.")
+            .defineInRange("purePointDamageCap", 12, 0, 1000);
     private static final ModConfigSpec.DoubleValue ADAPTATION_CHANCE = BUILDER
             .comment("Chance for a linked parasite outside a colony to share its adaptation on death.")
             .defineInRange("adaptationChance", 0.1D, 0.0D, 1.0D);
@@ -533,6 +539,8 @@ public final class Config {
 
     public static double variantSpawnChance() { return VARIANT_SPAWN_CHANCE.get(); }
     public static int alwaysVariantPhase() { return ALWAYS_VARIANT_PHASE.get(); }
+    public static double tendrilHealth() { return TENDRIL_HEALTH.get(); }
+    public static int purePointDamageCap() { return PURE_POINT_DAMAGE_CAP.get(); }
 
     public static double adaptationChance() {
         return ADAPTATION_CHANCE.get();

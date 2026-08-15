@@ -90,6 +90,10 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/monster/alafha.png");
     private static final ResourceLocation OVERSEER_HEAVY_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/monster/alafhah.png");
+    private static final ResourceLocation VIGILANTE_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/monster/anged.png");
+    private static final ResourceLocation VIGILANTE_HEAVY_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/monster/angedh.png");
     private static final String[] OMBOO_PULSE_GROUP_ONE = {"mpop6", "jointp7", "mpop8", "mpop16", "mpop5"};
     private static final String[] OMBOO_PULSE_GROUP_TWO = {"jointp11", "mpop1", "mpop13", "mpop19"};
     private static final String[] OMBOO_PULSE_GROUP_THREE = {"jointp17", "jointp18", "mpop4", "jointp2", "mpop3"};
@@ -150,6 +154,10 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
         if (animatable instanceof PureParasiteEntity pure
                 && pure.getKind() == PureParasiteEntity.Kind.OVERSEER) {
             return pure.getOverseerSkin() == 7 ? OVERSEER_HEAVY_TEXTURE : OVERSEER_TEXTURE;
+        }
+        if (animatable instanceof PureParasiteEntity pure
+                && pure.getKind() == PureParasiteEntity.Kind.VIGILANTE) {
+            return pure.getVigilanteSkin() == 7 ? VIGILANTE_HEAVY_TEXTURE : VIGILANTE_TEXTURE;
         }
         if (animatable instanceof PreeminentParasiteEntity preeminent && preeminent.isCarrierVariant()) {
             return CARRIER_VARIANT_TEXTURE;

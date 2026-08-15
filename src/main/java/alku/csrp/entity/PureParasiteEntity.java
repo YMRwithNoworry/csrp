@@ -77,6 +77,8 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
             PureParasiteEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> VIGILANTE_STATUS = SynchedEntityData.defineId(
             PureParasiteEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Byte> VIGILANTE_SKIN = SynchedEntityData.defineId(
+            PureParasiteEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Float> VIGILANTE_LEFT_TENDRIL = SynchedEntityData.defineId(
             PureParasiteEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> VIGILANTE_RIGHT_TENDRIL = SynchedEntityData.defineId(
@@ -174,6 +176,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
     private boolean monarchSkillLeapWasAirborne;
     private boolean monarchWaterLeapActive;
     private boolean deathBurstFired;
+    private boolean vigilanteMeleeMode = true;
 
     public PureParasiteEntity(EntityType<? extends PureParasiteEntity> type, Level level, Kind kind) {
         super(type, level);
@@ -208,11 +211,15 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
     }
 
     public static AttributeSupplier.Builder createAttributes(Kind kind) {
-        double maxHealth = kind == Kind.OVERSEER ? MobsConfig.overseerHealth() : kind.maxHealth;
-        double armor = kind == Kind.OVERSEER ? MobsConfig.overseerArmor() : kind.armor;
-        double attackDamage = kind == Kind.OVERSEER ? MobsConfig.overseerMeleeDamage() : kind.attackDamage;
-        double knockbackResistance = kind == Kind.OVERSEER
-                ? MobsConfig.overseerKnockbackResistance() : kind.knockbackResistance;
+        double maxHealth = kind == Kind.OVERSEER ? MobsConfig.overseerHealth()
+                : kind == Kind.VIGILANTE ? MobsConfig.vigilanteHealth() : kind.maxHealth;
+        double armor = kind == Kind.OVERSEER ? MobsConfig.overseerArmor()
+                : kind == Kind.VIGILANTE ? MobsConfig.vigilanteArmor() : kind.armor;
+        double attackDamage = kind == Kind.OVERSEER ? MobsConfig.overseerMeleeDamage()
+                : kind == Kind.VIGILANTE ? MobsConfig.vigilanteMeleeDamage() : kind.attackDamage;
+        double knockbackResistance = kind == Kind.OVERSEER ? MobsConfig.overseerKnockbackResistance()
+                : kind == Kind.VIGILANTE ? MobsConfig.vigilanteKnockbackResistance()
+                : kind.knockbackResistance;
         AttributeSupplier.Builder attributes = Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, maxHealth)
                 .add(Attributes.ARMOR, armor)
@@ -223,7 +230,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
         if (kind.flying) {
             attributes.add(Attributes.FLYING_SPEED, kind.movementSpeed);
         }
-        if (kind == Kind.MONARCH || kind == Kind.WARDEN) {
+        if (kind == Kind.MONARCH || kind == Kind.VIGILANTE || kind == Kind.WARDEN) {
             attributes.add(Attributes.STEP_HEIGHT, 1.0D);
         }
         return attributes;
@@ -276,8 +283,9 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
                 goalSelector.addGoal(6, new SeekerRandomFlightGoal());
             }
             case VIGILANTE -> {
-                goalSelector.addGoal(1, new VigilanteRangedGoal());
-                goalSelector.addGoal(2, new MeleeAttackGoal(this, 0.90D, false));
+                goalSelector.addGoal(2, new VigilanteMeleeGoal());
+                goalSelector.addGoal(4, new VigilanteRangedGoal());
+                goalSelector.addGoal(6, new VigilanteRangeSwitchGoal());
             }
             case WARDEN -> {
                 goalSelector.addGoal(1, new WardenShockwaveGoal());
@@ -309,6 +317,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
         super.defineSynchedData(builder);
         builder.define(WARDEN_CHARGING, false);
         builder.define(VIGILANTE_STATUS, 0);
+        builder.define(VIGILANTE_SKIN, (byte) 0);
         builder.define(VIGILANTE_LEFT_TENDRIL, -1.0F);
         builder.define(VIGILANTE_RIGHT_TENDRIL, -1.0F);
         builder.define(GRUNT_SKIN, (byte) 0);
@@ -347,6 +356,11 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
                 && (random.nextDouble() < Config.variantSpawnChance()
                 || Config.evolutionPhase(level.getLevel()) >= Config.alwaysVariantPhase())) {
             setOverseerSkin(7);
+        }
+        if (!level.isClientSide() && activeKind() == Kind.VIGILANTE
+                && (random.nextDouble() < Config.variantSpawnChance()
+                || Config.evolutionPhase(level.getLevel()) >= Config.alwaysVariantPhase())) {
+            setVigilanteSkin(7);
         }
         return data;
     }
@@ -481,6 +495,8 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
         boolean applied = super.applyScaryOrbEffect(target, nearbyEntities);
         if (applied && activeKind() == Kind.MONARCH) {
             ConfiguredOrbEffects.apply(this, target, nearbyEntities, MobsConfig.monarchOrbEffects());
+        } else if (applied && activeKind() == Kind.VIGILANTE) {
+            ConfiguredOrbEffects.apply(this, target, nearbyEntities, MobsConfig.vigilanteOrbEffects());
         }
         return applied;
     }
@@ -493,6 +509,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
             case BOMBER_LIGHT -> dimensions.withEyeHeight(2.4F);
             case MONARCH -> dimensions.withEyeHeight(3.5F);
             case OVERSEER -> dimensions.withEyeHeight(1.6F);
+            case VIGILANTE -> dimensions.withEyeHeight(3.0F);
             default -> dimensions;
         };
     }
@@ -508,7 +525,8 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
 
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
-        if ((activeKind() == Kind.BOMBER_LIGHT || activeKind() == Kind.MONARCH)
+        if ((activeKind() == Kind.BOMBER_LIGHT || activeKind() == Kind.MONARCH
+                || activeKind() == Kind.VIGILANTE)
                 && random.nextBoolean() && getAdaptationHitStatus() > 0) {
             return ModSounds.get("mob.silence");
         }
@@ -573,6 +591,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
         super.addAdditionalSaveData(tag);
         if (activeKind() == Kind.VIGILANTE) {
             tag.putInt("VigilanteStatus", entityData.get(VIGILANTE_STATUS));
+            tag.putByte("VigilanteSkin", entityData.get(VIGILANTE_SKIN));
             tag.putFloat("VigilanteLeftTendril", entityData.get(VIGILANTE_LEFT_TENDRIL));
             tag.putFloat("VigilanteRightTendril", entityData.get(VIGILANTE_RIGHT_TENDRIL));
         }
@@ -599,6 +618,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
         super.readAdditionalSaveData(tag);
         if (activeKind() == Kind.VIGILANTE && tag.contains("VigilanteStatus")) {
             entityData.set(VIGILANTE_STATUS, tag.getInt("VigilanteStatus"));
+            setVigilanteSkin(tag.contains("VigilanteSkin") ? tag.getByte("VigilanteSkin") : 0);
             entityData.set(VIGILANTE_LEFT_TENDRIL, tag.contains("VigilanteLeftTendril")
                     ? tag.getFloat("VigilanteLeftTendril") : -1.0F);
             entityData.set(VIGILANTE_RIGHT_TENDRIL, tag.contains("VigilanteRightTendril")
@@ -696,6 +716,25 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
         }
     }
 
+    public void applyConfiguredAttributes() {
+        Kind activeKind = activeKind();
+        if (activeKind != Kind.OVERSEER && activeKind != Kind.VIGILANTE) {
+            return;
+        }
+        double health = activeKind == Kind.OVERSEER
+                ? MobsConfig.overseerHealth() : MobsConfig.vigilanteHealth();
+        double armor = activeKind == Kind.OVERSEER
+                ? MobsConfig.overseerArmor() : MobsConfig.vigilanteArmor();
+        double damage = activeKind == Kind.OVERSEER
+                ? MobsConfig.overseerMeleeDamage() : MobsConfig.vigilanteMeleeDamage();
+        double knockbackResistance = activeKind == Kind.OVERSEER
+                ? MobsConfig.overseerKnockbackResistance() : MobsConfig.vigilanteKnockbackResistance();
+        getAttribute(Attributes.MAX_HEALTH).setBaseValue(health);
+        getAttribute(Attributes.ARMOR).setBaseValue(armor);
+        getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(damage);
+        getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(knockbackResistance);
+    }
+
     public int getOmbooSkin() {
         return activeKind() == Kind.BOMBER_LIGHT ? entityData.get(OMBOO_SKIN) : 0;
     }
@@ -766,7 +805,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
     }
 
     private void initializeVigilanteTendrils() {
-        float health = getMaxHealth() * 0.4F;
+        float health = (float) (getMaxHealth() * Config.tendrilHealth());
         if (entityData.get(VIGILANTE_LEFT_TENDRIL) < 0.0F) {
             entityData.set(VIGILANTE_LEFT_TENDRIL, health);
         }
@@ -788,7 +827,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
         entityData.set(data, remaining);
         if (remaining == 0.0F) {
             spawnVigilanteTendril(left);
-            reduceAllResistances(Math.max(1, maxDamageAdaptationHits() / 2));
+            reduceAllResistances(Config.purePointDamageCap() / 2);
             playSound(ModSounds.get("mob.tendril"), 2.0F, 0.8F);
         }
         return true;
@@ -830,6 +869,14 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
 
     public void setVigilanteStatus(int status) {
         entityData.set(VIGILANTE_STATUS, status);
+    }
+
+    public int getVigilanteSkin() {
+        return activeKind() == Kind.VIGILANTE ? entityData.get(VIGILANTE_SKIN) : 0;
+    }
+
+    private void setVigilanteSkin(int skin) {
+        entityData.set(VIGILANTE_SKIN, (byte) (skin == 7 ? 7 : 0));
     }
 
     private PlayState movementAnimation(AnimationState<PureParasiteEntity> state) {
@@ -917,7 +964,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
                 target.setDeltaMovement(target.getDeltaMovement().add(0.0D, 0.5D, 0.0D));
                 target.hurtMarked = true;
             }
-            case VIGILANTE -> pushAway(target, 0.45D, 0.20D);
+            case VIGILANTE -> target.knockback(1.0D, getX() - target.getX(), getZ() - target.getZ());
             case WARDEN -> pushAway(target, 0.70D, 0.55D);
             default -> {
             }
@@ -1178,6 +1225,24 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
         }
         Vec3 start = getEyePosition().add(getViewVector(1.0F).scale(0.55D));
         projectile.configure(this, mode, start, target.getEyePosition(), speed, damage, radius, lifetime, target);
+        level().addFreshEntity(projectile);
+    }
+
+    private void fireVigilanteProjectile(LivingEntity target) {
+        ParasiteProjectileEntity projectile = ModEntities.createProjectile(
+                level(), ParasiteProjectileEntity.Mode.ANGED_BALL);
+        if (projectile == null) {
+            return;
+        }
+        Vec3 look = getViewVector(1.0F);
+        Vec3 start = new Vec3(getX() + look.x, getY() + getEyeHeight() - 0.2D, getZ() + look.z);
+        double accelerationY = target.getBoundingBox().minY + target.getBbHeight() / 4.0D
+                - (1.0D + getY() + getBbHeight() / 2.0D);
+        Vec3 acceleration = new Vec3(target.getX() - (getX() + look.x), accelerationY,
+                target.getZ() - (getZ() + look.z));
+        playSound(ModSounds.EMANA_SHOOTING.get(), 2.0F, 1.0F);
+        projectile.configureLegacyFireball(this, ParasiteProjectileEntity.Mode.ANGED_BALL,
+                start, acceleration, MobsConfig.vigilanteRangedDamage(), 0.0D, Integer.MAX_VALUE);
         level().addFreshEntity(projectile);
     }
 
@@ -2696,70 +2761,133 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
         }
     }
 
-    private final class VigilanteRangedGoal extends Goal {
-        private int cooldown;
-        private int shots;
-        private int shotDelay;
-        private int warmupTicks;
+    private boolean updateVigilanteCombatMode() {
+        LivingEntity target = getTarget();
+        vigilanteMeleeMode = target != null && target.isAlive()
+                && distanceToSqr(target) < 25.0D && hasLineOfSight(target);
+        return vigilanteMeleeMode;
+    }
 
-        private VigilanteRangedGoal() {
-            setFlags(EnumSet.of(Flag.LOOK));
-        }
-
+    private final class VigilanteRangeSwitchGoal extends Goal {
         @Override
         public boolean canUse() {
-            if (cooldown > 0) {
-                cooldown--;
+            if (getTarget() == null) {
+                vigilanteMeleeMode = true;
                 return false;
             }
-            LivingEntity target = getTarget();
-            return target != null && hasLineOfSight(target) && distanceToSqr(target) >= 36.0D
-                    && distanceToSqr(target) <= 1024.0D;
+            return true;
         }
 
         @Override
         public boolean canContinueToUse() {
             LivingEntity target = getTarget();
-            return target != null && target.isAlive() && shots < 3;
+            return target != null && target.isAlive();
+        }
+
+        @Override
+        public void tick() {
+            updateVigilanteCombatMode();
+        }
+
+        @Override
+        public void stop() {
+            vigilanteMeleeMode = true;
+        }
+    }
+
+    private final class VigilanteMeleeGoal extends MeleeAttackGoal {
+        private VigilanteMeleeGoal() {
+            super(PureParasiteEntity.this, 1.5D, false);
+        }
+
+        @Override
+        public boolean canUse() {
+            return updateVigilanteCombatMode() && super.canUse();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return updateVigilanteCombatMode() && super.canContinueToUse();
         }
 
         @Override
         public void start() {
-            shots = 0;
-            shotDelay = 0;
-            warmupTicks = 0;
-            getNavigation().stop();
-            triggerAttackAnimation();
-            entityData.set(VIGILANTE_STATUS, 1);
+            super.start();
+            setVigilanteStatus(2);
+        }
+
+        @Override
+        public void stop() {
+            super.stop();
+            if (getTarget() == null || !vigilanteMeleeMode) {
+                setVigilanteStatus(0);
+            }
+        }
+    }
+
+    private final class VigilanteRangedGoal extends Goal {
+        private int rangedAttackTime = -1;
+        private int seeTime;
+
+        private VigilanteRangedGoal() {
+            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
+        }
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = getTarget();
+            return onGround() && target != null && target.isAlive() && !updateVigilanteCombatMode();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return canUse() || !getNavigation().isDone() && !vigilanteMeleeMode;
+        }
+
+        @Override
+        public void start() {
+            setVigilanteStatus(2);
+        }
+
+        @Override
+        public void stop() {
+            seeTime = 0;
+            setVigilanteStatus(0);
         }
 
         @Override
         public void tick() {
             LivingEntity target = getTarget();
-            if (target == null) {
+            if (target == null || !target.isAlive()) {
                 return;
+            }
+            double distance = distanceToSqr(target);
+            boolean visible = hasLineOfSight(target);
+            if (visible) {
+                seeTime++;
+            } else {
+                seeTime = 0;
+            }
+            double followRange = getAttributeValue(Attributes.FOLLOW_RANGE);
+            double rangedDistance = followRange * 0.5D;
+            double maximumRangedDistance = rangedDistance * rangedDistance;
+            if (tickCount % 21 == 10 && distance > followRange * followRange) {
+                setTarget(null);
+                return;
+            }
+            if (distance <= maximumRangedDistance && seeTime >= 10) {
+                getNavigation().stop();
+            } else {
+                getNavigation().moveTo(target, 1.5D);
             }
             getLookControl().setLookAt(target, 30.0F, 30.0F);
-            if (warmupTicks < 10) {
-                warmupTicks++;
-                return;
+            if (hasEffect(ModMobEffects.RAGE)) {
+                rangedAttackTime--;
             }
-            if (shotDelay > 0) {
-                shotDelay--;
-                return;
+            if (--rangedAttackTime <= 0 && visible && distance <= maximumRangedDistance) {
+                fireVigilanteProjectile(target);
+                rangedAttackTime = 20;
             }
-            fireProjectile(target, ParasiteProjectileEntity.Mode.ACID, 0.80D, 27.0F, 2.25D, 90);
-            shots++;
-            shotDelay = 8;
-            if (shots >= 3) {
-                entityData.set(VIGILANTE_STATUS, 2);
-            }
-        }
-
-        @Override
-        public void stop() {
-            cooldown = 80;
-            entityData.set(VIGILANTE_STATUS, 0);
         }
     }
 
