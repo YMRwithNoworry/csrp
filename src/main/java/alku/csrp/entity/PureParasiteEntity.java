@@ -238,24 +238,12 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
     }
 
     public static AttributeSupplier.Builder createAttributes(Kind kind) {
-        double maxHealth = kind == Kind.OVERSEER || kind == Kind.SEEKER ? MobsConfig.overseerHealth()
-                : kind == Kind.VIGILANTE ? MobsConfig.vigilanteHealth()
-                : kind == Kind.WARDEN ? MobsConfig.wardenHealth() : kind.maxHealth;
-        double armor = kind == Kind.OVERSEER || kind == Kind.SEEKER ? MobsConfig.overseerArmor()
-                : kind == Kind.VIGILANTE ? MobsConfig.vigilanteArmor()
-                : kind == Kind.WARDEN ? MobsConfig.wardenArmor() : kind.armor;
-        double attackDamage = kind == Kind.OVERSEER || kind == Kind.SEEKER ? MobsConfig.overseerMeleeDamage()
-                : kind == Kind.VIGILANTE ? MobsConfig.vigilanteMeleeDamage()
-                : kind == Kind.WARDEN ? MobsConfig.wardenDamage() : kind.attackDamage;
-        double knockbackResistance = kind == Kind.OVERSEER || kind == Kind.SEEKER ? MobsConfig.overseerKnockbackResistance()
-                : kind == Kind.VIGILANTE ? MobsConfig.vigilanteKnockbackResistance()
-                : kind == Kind.WARDEN ? MobsConfig.wardenKnockbackResistance() : kind.knockbackResistance;
         AttributeSupplier.Builder attributes = Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, maxHealth)
-                .add(Attributes.ARMOR, armor)
-                .add(Attributes.ATTACK_DAMAGE, attackDamage)
+                .add(Attributes.MAX_HEALTH, kind.maxHealth)
+                .add(Attributes.ARMOR, kind.armor)
+                .add(Attributes.ATTACK_DAMAGE, kind.attackDamage)
                 .add(Attributes.MOVEMENT_SPEED, kind.movementSpeed)
-                .add(Attributes.KNOCKBACK_RESISTANCE, knockbackResistance)
+                .add(Attributes.KNOCKBACK_RESISTANCE, kind.knockbackResistance)
                 .add(Attributes.FOLLOW_RANGE, kind.followRange);
         if (kind.flying) {
             attributes.add(Attributes.FLYING_SPEED, kind.movementSpeed);

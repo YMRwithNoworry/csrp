@@ -139,19 +139,13 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
     }
 
     public static AttributeSupplier.Builder createAttributes(Kind kind) {
-        double maxHealth = kind == Kind.BOMBER_HEAVY ? MobsConfig.jinjoHealth() : kind.maxHealth;
-        double armor = kind == Kind.BOMBER_HEAVY ? MobsConfig.jinjoArmor() : kind.armor;
-        double attackDamage = kind == Kind.BOMBER_HEAVY ? MobsConfig.jinjoDamage() : kind.attackDamage;
-        double knockbackResistance = kind == Kind.BOMBER_HEAVY
-                ? MobsConfig.jinjoKnockbackResistance() : kind.knockbackResistance;
         AttributeSupplier.Builder attributes = Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, maxHealth)
-                .add(Attributes.ARMOR, armor)
-                .add(Attributes.ATTACK_DAMAGE, attackDamage)
+                .add(Attributes.MAX_HEALTH, kind.maxHealth)
+                .add(Attributes.ARMOR, kind.armor)
+                .add(Attributes.ATTACK_DAMAGE, kind.attackDamage)
                 .add(Attributes.MOVEMENT_SPEED, kind.movementSpeed)
-                .add(Attributes.KNOCKBACK_RESISTANCE, knockbackResistance)
-                .add(Attributes.FOLLOW_RANGE, kind == Kind.BOMBER_HEAVY
-                        ? MobsConfig.preeminentFollowRange() : kind.followRange);
+                .add(Attributes.KNOCKBACK_RESISTANCE, kind.knockbackResistance)
+                .add(Attributes.FOLLOW_RANGE, kind.followRange);
         if (kind.flying) {
             attributes.add(Attributes.FLYING_SPEED, kind.movementSpeed);
         }

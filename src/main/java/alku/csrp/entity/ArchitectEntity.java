@@ -84,13 +84,13 @@ public final class ArchitectEntity extends PrimitiveParasiteEntity {
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, MobsConfig.overseerHealth())
-                .add(Attributes.ARMOR, MobsConfig.overseerArmor())
-                .add(Attributes.ATTACK_DAMAGE, MobsConfig.overseerMeleeDamage())
-                .add(Attributes.KNOCKBACK_RESISTANCE, MobsConfig.overseerKnockbackResistance())
+                .add(Attributes.MAX_HEALTH, 80.0D)
+                .add(Attributes.ARMOR, 20.0D)
+                .add(Attributes.ATTACK_DAMAGE, 22.0D)
+                .add(Attributes.KNOCKBACK_RESISTANCE, 0.40D)
                 .add(Attributes.MOVEMENT_SPEED, 0.30D)
                 .add(Attributes.FLYING_SPEED, 0.30D)
-                .add(Attributes.FOLLOW_RANGE, MobsConfig.pureFollowRange());
+                .add(Attributes.FOLLOW_RANGE, 32.0D);
     }
 
     @Override
