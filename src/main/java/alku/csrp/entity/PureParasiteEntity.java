@@ -226,6 +226,10 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
         } else if (kind == Kind.OVERSEER) {
             moveControl = new OverseerMoveControl(this);
             setNoGravity(true);
+        } else if (kind == Kind.SEEKER) {
+            moveControl = new SeekerMoveControl(this);
+            setNoGravity(true);
+            noPhysics = true;
         } else if (kind.flying) {
             moveControl = new FlyingMoveControl(this, 16, true);
             setNoGravity(true);
@@ -233,16 +237,16 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
     }
 
     public static AttributeSupplier.Builder createAttributes(Kind kind) {
-        double maxHealth = kind == Kind.OVERSEER ? MobsConfig.overseerHealth()
+        double maxHealth = kind == Kind.OVERSEER || kind == Kind.SEEKER ? MobsConfig.overseerHealth()
                 : kind == Kind.VIGILANTE ? MobsConfig.vigilanteHealth()
                 : kind == Kind.WARDEN ? MobsConfig.wardenHealth() : kind.maxHealth;
-        double armor = kind == Kind.OVERSEER ? MobsConfig.overseerArmor()
+        double armor = kind == Kind.OVERSEER || kind == Kind.SEEKER ? MobsConfig.overseerArmor()
                 : kind == Kind.VIGILANTE ? MobsConfig.vigilanteArmor()
                 : kind == Kind.WARDEN ? MobsConfig.wardenArmor() : kind.armor;
-        double attackDamage = kind == Kind.OVERSEER ? MobsConfig.overseerMeleeDamage()
+        double attackDamage = kind == Kind.OVERSEER || kind == Kind.SEEKER ? MobsConfig.overseerMeleeDamage()
                 : kind == Kind.VIGILANTE ? MobsConfig.vigilanteMeleeDamage()
                 : kind == Kind.WARDEN ? MobsConfig.wardenDamage() : kind.attackDamage;
-        double knockbackResistance = kind == Kind.OVERSEER ? MobsConfig.overseerKnockbackResistance()
+        double knockbackResistance = kind == Kind.OVERSEER || kind == Kind.SEEKER ? MobsConfig.overseerKnockbackResistance()
                 : kind == Kind.VIGILANTE ? MobsConfig.vigilanteKnockbackResistance()
                 : kind == Kind.WARDEN ? MobsConfig.wardenKnockbackResistance() : kind.knockbackResistance;
         AttributeSupplier.Builder attributes = Mob.createMobAttributes()
@@ -305,6 +309,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
             }
             case SEEKER -> {
                 goalSelector.addGoal(3, new FlightPursuitGoal(0.50D));
+                goalSelector.addGoal(3, new OverseerFlightLimitGoal());
                 goalSelector.addGoal(6, new SeekerRandomFlightGoal());
             }
             case VIGILANTE -> {
@@ -434,6 +439,8 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
             tickOmbooFlightEnvironment();
         } else if (activeKind == Kind.OVERSEER) {
             tickOverseerFlightEnvironment();
+        } else if (activeKind == Kind.SEEKER && onGround()) {
+            getMoveControl().setWantedPosition(getX(), getY() + 5.0D, getZ(), 0.5D);
         } else if (activeKind.flying && onGround()) {
             getMoveControl().setWantedPosition(getX(), getY() + 4.0D, getZ(), 0.55D);
         }
@@ -491,7 +498,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
     @Override
     protected float damageAdaptationEffectiveness() {
         return switch (activeKind()) {
-            case GRUNT, BOMBER_LIGHT, OVERSEER, WARDEN -> 0.95F;
+            case GRUNT, BOMBER_LIGHT, OVERSEER, SEEKER, WARDEN -> 0.95F;
             default -> 1.0F;
         };
     }
@@ -545,6 +552,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
             case BOMBER_LIGHT -> dimensions.withEyeHeight(2.4F);
             case MONARCH -> dimensions.withEyeHeight(3.5F);
             case OVERSEER -> dimensions.withEyeHeight(1.6F);
+            case SEEKER -> dimensions.withEyeHeight(1.6F);
             case VIGILANTE -> dimensions.withEyeHeight(3.0F);
             case WARDEN -> dimensions.withEyeHeight(3.5F);
             default -> dimensions;
@@ -556,8 +564,10 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
         if (activeKind() == Kind.BOMBER_LIGHT && entityData.get(OMBOO_COMBAT_STATUS) != 0) {
             return ModSounds.get("mob.silence");
         }
-        if ((activeKind() == Kind.MONARCH && entityData.get(MONARCH_COMBAT_STATUS) != 0)
-                || (activeKind() == Kind.WARDEN && getWardenStatus() != 0)) {
+        if (activeKind() == Kind.MONARCH && entityData.get(MONARCH_COMBAT_STATUS) != 0) {
+            return ModSounds.get("mob.silence");
+        }
+        if (activeKind() == Kind.WARDEN && getWardenStatus() != 0) {
             return ModSounds.get("mob.silence");
         }
         return super.getAmbientSound();
@@ -565,12 +575,20 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
 
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
-        if ((activeKind() == Kind.BOMBER_LIGHT || activeKind() == Kind.MONARCH
-                || activeKind() == Kind.VIGILANTE || activeKind() == Kind.WARDEN)
+        if ((activeKind() == Kind.BOMBER_LIGHT || activeKind() == Kind.MONARCH)
+                && random.nextBoolean() && getAdaptationHitStatus() > 0) {
+            return ModSounds.get("mob.silence");
+        }
+        if ((activeKind() == Kind.SEEKER || activeKind() == Kind.VIGILANTE || activeKind() == Kind.WARDEN)
                 && random.nextBoolean() && getAdaptationHitStatus() > 0) {
             return ModSounds.get("mob.silence");
         }
         return super.getHurtSound(source);
+    }
+
+    @Override
+    protected float getSoundVolume() {
+        return activeKind() == Kind.SEEKER ? 2.0F : super.getSoundVolume();
     }
 
     @Override
@@ -767,16 +785,18 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
 
     public void applyConfiguredAttributes() {
         Kind activeKind = activeKind();
-        if (activeKind != Kind.OVERSEER && activeKind != Kind.VIGILANTE && activeKind != Kind.WARDEN) {
+        if (activeKind != Kind.OVERSEER && activeKind != Kind.SEEKER
+                && activeKind != Kind.VIGILANTE && activeKind != Kind.WARDEN) {
             return;
         }
-        double health = activeKind == Kind.OVERSEER ? MobsConfig.overseerHealth()
+        double health = activeKind == Kind.OVERSEER || activeKind == Kind.SEEKER ? MobsConfig.overseerHealth()
                 : activeKind == Kind.VIGILANTE ? MobsConfig.vigilanteHealth() : MobsConfig.wardenHealth();
-        double armor = activeKind == Kind.OVERSEER ? MobsConfig.overseerArmor()
+        double armor = activeKind == Kind.OVERSEER || activeKind == Kind.SEEKER ? MobsConfig.overseerArmor()
                 : activeKind == Kind.VIGILANTE ? MobsConfig.vigilanteArmor() : MobsConfig.wardenArmor();
-        double damage = activeKind == Kind.OVERSEER ? MobsConfig.overseerMeleeDamage()
+        double damage = activeKind == Kind.OVERSEER || activeKind == Kind.SEEKER ? MobsConfig.overseerMeleeDamage()
                 : activeKind == Kind.VIGILANTE ? MobsConfig.vigilanteMeleeDamage() : MobsConfig.wardenDamage();
-        double knockbackResistance = activeKind == Kind.OVERSEER ? MobsConfig.overseerKnockbackResistance()
+        double knockbackResistance = activeKind == Kind.OVERSEER || activeKind == Kind.SEEKER
+                ? MobsConfig.overseerKnockbackResistance()
                 : activeKind == Kind.VIGILANTE ? MobsConfig.vigilanteKnockbackResistance()
                 : MobsConfig.wardenKnockbackResistance();
         getAttribute(Attributes.MAX_HEALTH).setBaseValue(health);
@@ -1015,9 +1035,10 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
     }
 
     private boolean performAreaMelee(LivingEntity center) {
-        double radius = 2.0D;
-        boolean animatedAreaAttack = activeKind() == Kind.GRUNT || activeKind() == Kind.WARDEN;
-        if (animatedAreaAttack) {
+        double radius = activeKind() == Kind.WARDEN ? 2.6D : 2.0D;
+        boolean gruntAttack = activeKind() == Kind.GRUNT;
+        boolean wardenAttack = activeKind() == Kind.WARDEN;
+        if (gruntAttack || wardenAttack) {
             playSound(ModSounds.MOB_SWIPE.get(), 2.0F, 1.0F);
             triggerAttackAnimation();
         }
@@ -1031,7 +1052,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
             hit = true;
             applyMeleeEffects(target, activeKind());
         }
-        if (hit && !animatedAreaAttack) {
+        if (hit && !gruntAttack && !wardenAttack) {
             attackAnimationTicks = 10;
             triggerAttackAnimation();
         }
@@ -2260,6 +2281,37 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
 
     private static final class OverseerMoveControl extends MoveControl {
         private OverseerMoveControl(PureParasiteEntity mob) {
+            super(mob);
+        }
+
+        @Override
+        public void tick() {
+            if (operation != Operation.MOVE_TO) {
+                return;
+            }
+            double deltaX = wantedX - mob.getX();
+            double deltaY = wantedY - mob.getY();
+            double deltaZ = wantedZ - mob.getZ();
+            double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
+            if (distance < mob.getBoundingBox().getSize()) {
+                operation = Operation.WAIT;
+                mob.setDeltaMovement(mob.getDeltaMovement().scale(0.5D));
+                return;
+            }
+            mob.setDeltaMovement(mob.getDeltaMovement().add(
+                    deltaX / distance * 0.05D * speedModifier,
+                    deltaY / distance * 0.05D * speedModifier,
+                    deltaZ / distance * 0.05D * speedModifier));
+            LivingEntity target = mob.getTarget();
+            double lookX = target == null ? mob.getDeltaMovement().x : target.getX() - mob.getX();
+            double lookZ = target == null ? mob.getDeltaMovement().z : target.getZ() - mob.getZ();
+            mob.setYRot(-((float) Mth.atan2(lookX, lookZ)) * Mth.RAD_TO_DEG);
+            mob.yBodyRot = mob.getYRot();
+        }
+    }
+
+    private static final class SeekerMoveControl extends MoveControl {
+        private SeekerMoveControl(PureParasiteEntity mob) {
             super(mob);
         }
 

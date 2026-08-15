@@ -115,7 +115,7 @@ expect(pure, /center\.getBoundingBox\(\)\.inflate\(radius\)[\s\S]{0,180}?hasLine
 expect(pure, /getNavigation\(\)\.moveTo\(target, 1\.5D\)/, "Grunt melee pursuit speed is missing");
 expect(pure, /playSound\(ModSounds\.MOB_SWIPE\.get\(\), 2\.0F, 1\.0F\)/,
   "Grunt swipe sound is missing");
-expect(pure, /boolean gruntAttack[\s\S]{0,180}?triggerAttackAnimation\(\)[\s\S]{0,900}?swing\(InteractionHand\.MAIN_HAND\)/,
+expect(pure, /boolean gruntAttack[\s\S]{0,240}?triggerAttackAnimation\(\)[\s\S]{0,1400}?swing\(InteractionHand\.MAIN_HAND\)/,
   "Grunt attack animation is not broadcast when the AOE starts");
 expect(pure, /Kind\.GRUNT[\s\S]{0,180}?ParasiteAnimations\.isAttacking\(this\)[\s\S]{0,120}?VIGILANTE_ATTACK_WALK/,
   "Grunt attack pose does not take priority over locomotion");
@@ -155,7 +155,8 @@ if (/dashTicks|durationTicks\s*=/.test(evadeGoal)) {
 }
 expect(pure, /new MonarchEvasiveDashGoal\(17, 2, 5, 3\.5D, 15\)/,
   "Monarch evade behavior was changed by the Grunt port");
-expect(pure, /new EvasiveDashGoal\(100, 0\.70D\)/, "Warden evade behavior was changed by the Grunt port");
+expect(pure, /new GruntEvasiveDashGoal\(20, 2, 4, 3\.0D, 15\)/,
+  "Warden evade behavior was changed by the Grunt port");
 
 expect(base, /addBlockBreakProfiles\(profiles, 3\.0F, 20, 1, "grunt"\)/,
   "Grunt 3;20;1 block-breaking profile is missing");

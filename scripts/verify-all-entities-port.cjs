@@ -21,6 +21,7 @@ for (const [id, originalClass] of [
   ["monarch", "EntityOrch"],
   ["overseer", "EntityAlafha"],
   ["vigilante", "EntityAnged"],
+  ["seeker", "EntitySoo"],
   ["warden", "EntityGanro"]
 ]) {
   if (behaviorPorts[id]?.originalClass !== originalClass

@@ -87,6 +87,14 @@ const behaviorPorts = {
     status: "audited",
     auditScope: "entity-specific"
   },
+  seeker: {
+    originalClass: "EntitySoo",
+    originalSource: "com/dhanantry/scapeandrunparasites/entity/monster/pure/EntitySoo.java",
+    implementation: "src/main/java/alku/csrp/entity/PureParasiteEntity.java",
+    verifier: "scripts/verify-seeker-port.cjs",
+    status: "audited",
+    auditScope: "entity-specific"
+  },
   warden: {
     originalClass: "EntityGanro",
     originalSource: "com/dhanantry/scapeandrunparasites/entity/monster/pure/EntityGanro.java",
