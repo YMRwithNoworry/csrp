@@ -49,6 +49,8 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/ada_arachnida_heavy.png");
     private static final ResourceLocation SHRIMP_FED_ENDERMAN_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/sim_enderman_ariral.png");
+    private static final ResourceLocation VARIANT_ENDERMAN_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/sim_enderman_variant.png");
     private static final ResourceLocation REEKER_FRAGILE_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/noglasp1.png");
     private static final ResourceLocation REEKER_VIRULENT_TEXTURE =
@@ -129,6 +131,9 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
         }
         if (animatable instanceof AssimilatedEndermanEntity enderman && enderman.isShrimpFed()) {
             return SHRIMP_FED_ENDERMAN_TEXTURE;
+        }
+        if (animatable instanceof AssimilatedEndermanEntity enderman && enderman.getTextureVariant() == 1) {
+            return VARIANT_ENDERMAN_TEXTURE;
         }
         if (animatable instanceof MarauderizedCowEntity cow && cow.isRageVariant()) {
             return MARAUDERIZED_COW_RAGE_TEXTURE;

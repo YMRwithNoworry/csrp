@@ -27,7 +27,7 @@ import software.bernie.geckolib.animation.RawAnimation;
 import java.util.EnumSet;
 
 /** Original Primitive Viscera (EntityGim) behavior. */
-public final class VisceraEntity extends PrimitiveParasiteEntity {
+public final class VisceraEntity extends PrimitiveParasiteEntity implements ManualVariantProvider {
     private static final EntityDataAccessor<Byte> CLIMBING = SynchedEntityData.defineId(
             VisceraEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Integer> PARASITE_STATUS = SynchedEntityData.defineId(
@@ -173,6 +173,16 @@ public final class VisceraEntity extends PrimitiveParasiteEntity {
 
     public int getSkin() {
         return entityData.get(SKIN);
+    }
+
+    @Override
+    public int getManualVariant() {
+        return entityData.get(SKIN);
+    }
+
+    @Override
+    public void setManualVariant(int variant) {
+        entityData.set(SKIN, Math.clamp(variant, 0, getMaxManualVariants() - 1));
     }
 
     public void setSkin(int skin) {

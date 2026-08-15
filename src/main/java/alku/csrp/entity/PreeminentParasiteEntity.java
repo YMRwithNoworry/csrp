@@ -58,7 +58,7 @@ import java.util.Set;
  * Shared implementation for the legacy preeminent parasites. This tier
  * uses stronger adaptation and delegates its battlefield support to Flams.
  */
-public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
+public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity implements ManualVariantProvider {
     private static final EntityDataAccessor<Boolean> CARRIER_VARIANT =
             SynchedEntityData.defineId(PreeminentParasiteEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> HAUNTER_VARIANT =
@@ -398,6 +398,25 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity {
 
     public boolean isCarrierVariant() {
         return activeKind() == Kind.CARRIER_COLONY && entityData.get(CARRIER_VARIANT);
+    }
+
+    @Override
+    public int getManualVariant() {
+        return switch (activeKind()) {
+            case CARRIER_COLONY -> isCarrierVariant() ? 1 : 0;
+            case HAUNTER -> isHaunterVariant() ? 1 : 0;
+            default -> 0;
+        };
+    }
+
+    @Override
+    public void setManualVariant(int variant) {
+        boolean enabled = variant == 1;
+        if (activeKind() == Kind.CARRIER_COLONY) {
+            setCarrierVariant(enabled);
+        } else if (activeKind() == Kind.HAUNTER) {
+            setHaunterVariant(enabled);
+        }
     }
 
     private void setCarrierVariant(boolean variant) {

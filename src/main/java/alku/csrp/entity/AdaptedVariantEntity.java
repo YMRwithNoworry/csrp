@@ -82,7 +82,7 @@ import javax.annotation.Nullable;
 
 /** Shared implementation for the legacy adapted parasite tier. */
 public final class AdaptedVariantEntity extends BurrowingVariantEntity
-        implements PullingBallOwner, SummonCapacityOwner {
+        implements PullingBallOwner, SummonCapacityOwner, ManualVariantProvider {
     private static final double LONGARMS_MELEE_RANGE_SQR = 16.0D;
     private static final int LONGARMS_ATTACK_INTERVAL_TICKS = 10;
     private static final byte VOMIT_EVENT = 100;
@@ -1588,6 +1588,26 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
     public Kind getKind() {
         return activeKind();
+    }
+
+    @Override
+    public int getManualVariant() {
+        return switch (activeKind()) {
+            case BOLSTER -> entityData.get(BOLSTER_VARIANT);
+            case ARACHNIDA -> entityData.get(ARACHNIDA_SKIN);
+            default -> 0;
+        };
+    }
+
+    @Override
+    public void setManualVariant(int variant) {
+        int skin = Math.clamp(variant, 0, getMaxManualVariants() - 1);
+        switch (activeKind()) {
+            case BOLSTER -> entityData.set(BOLSTER_VARIANT, skin);
+            case ARACHNIDA -> entityData.set(ARACHNIDA_SKIN, skin);
+            default -> {
+            }
+        }
     }
 
     private void setBolsterVariant(BolsterVariant variant) {

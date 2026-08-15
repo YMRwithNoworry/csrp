@@ -37,7 +37,7 @@ import java.util.EnumSet;
 import java.util.List;
 
 /** Shared detonation and toxic-cloud behavior of the original carrier parasites. */
-public abstract class CarrierEntity extends PrimitiveParasiteEntity {
+public abstract class CarrierEntity extends PrimitiveParasiteEntity implements ManualVariantProvider {
     private static final net.minecraft.network.syncher.EntityDataAccessor<Byte> SKIN =
             net.minecraft.network.syncher.SynchedEntityData.defineId(CarrierEntity.class,
                     net.minecraft.network.syncher.EntityDataSerializers.BYTE);
@@ -87,6 +87,20 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity {
 
     public final int getSkin() {
         return entityData.get(SKIN);
+    }
+
+    @Override
+    public final int getManualVariant() {
+        return entityData.get(SKIN);
+    }
+
+    @Override
+    public final void setManualVariant(int variant) {
+        int skin = Math.clamp(variant, 0, getMaxManualVariants() - 1);
+        entityData.set(SKIN, (byte) skin);
+        if (skin == 1) {
+            onVariantActivated();
+        }
     }
 
     public final void setSkin(int skin) {

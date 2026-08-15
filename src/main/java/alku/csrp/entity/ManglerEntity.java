@@ -48,7 +48,7 @@ import software.bernie.geckolib.animation.RawAnimation;
 import java.util.EnumSet;
 
 /** Original EntityNuuh, including its synchronized skin and combat-state animation routing. */
-public final class ManglerEntity extends PrimitiveParasiteEntity {
+public final class ManglerEntity extends PrimitiveParasiteEntity implements ManualVariantProvider {
     private static final EntityDataAccessor<Byte> CLIMBING =
             SynchedEntityData.defineId(ManglerEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Byte> VARIANT =
@@ -326,6 +326,16 @@ public final class ManglerEntity extends PrimitiveParasiteEntity {
 
     public int getVariant() {
         return entityData.get(VARIANT);
+    }
+
+    @Override
+    public int getManualVariant() {
+        return entityData.get(VARIANT);
+    }
+
+    @Override
+    public void setManualVariant(int variant) {
+        entityData.set(VARIANT, (byte) Math.clamp(variant, 0, getMaxManualVariants() - 1));
     }
 
     public int getCombatStatus() {

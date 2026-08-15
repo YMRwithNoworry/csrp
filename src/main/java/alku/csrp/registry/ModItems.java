@@ -41,6 +41,7 @@ import alku.csrp.item.ParasiteEvolutionWandItem;
 import alku.csrp.item.AlveolarFluidItem;
 import alku.csrp.item.AlveoliItem;
 import alku.csrp.item.VenkrolBootsItem;
+import alku.csrp.item.VariantWandItem;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.BlockItem;
@@ -694,6 +695,8 @@ public final class ModItems {
             "levelclock", LevelClockItem::new, new Item.Properties().stacksTo(1));
     public static final DeferredItem<AssimilationWandItem> ITEM_ASSIMILATE = ITEMS.registerItem(
             "itemassimilate", AssimilationWandItem::new, new Item.Properties().stacksTo(1));
+    public static final DeferredItem<VariantWandItem> ITEM_VARIANT = ITEMS.registerItem(
+            "itemvariant", VariantWandItem::new, new Item.Properties().stacksTo(1));
     public static final DeferredItem<ParasiteEvolutionWandItem> ITEM_EVOLVE = ITEMS.registerItem(
             "itemevolve", properties -> new ParasiteEvolutionWandItem(
                     ParasiteEvolutionWandItem.Mode.EVOLUTION, properties), new Item.Properties().stacksTo(1));

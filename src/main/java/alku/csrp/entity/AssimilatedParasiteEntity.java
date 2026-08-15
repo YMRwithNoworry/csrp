@@ -64,7 +64,8 @@ import java.util.EnumSet;
  * no-adaptation, fire-vulnerable progression path rather than inheriting the
  * primitive-parasite damage-adaptation state.
  */
-public final class AssimilatedParasiteEntity extends Monster implements GeoEntity, Parasite, MeltableAssimilated {
+public final class AssimilatedParasiteEntity extends Monster
+        implements GeoEntity, Parasite, MeltableAssimilated, ManualVariantProvider {
     public static final int FERAL_KILL_THRESHOLD = 60;
     private static final int COTH_DURATION_TICKS = 4_800;
     private static final int COTH_AURA_RADIUS = 8;
@@ -491,6 +492,29 @@ public final class AssimilatedParasiteEntity extends Monster implements GeoEntit
 
     public int getSheepTextureVariant() {
         return entityData.get(SHEEP_TEXTURE_VARIANT);
+    }
+
+    @Override
+    public int getManualVariant() {
+        return switch (kind) {
+            case SHEEP -> getSheepTextureVariant();
+            case WOLF -> hasTamedWolfTexture() ? 1 : 0;
+            default -> 0;
+        };
+    }
+
+    @Override
+    public void setManualVariant(int variant) {
+        if (kind == Kind.SHEEP) {
+            setSheepTextureVariant(variant);
+        } else if (kind == Kind.WOLF) {
+            setTamedWolfTexture(variant == 1);
+        }
+    }
+
+    @Override
+    public int getMaxManualVariants() {
+        return kind == Kind.SHEEP ? 3 : kind == Kind.WOLF ? 2 : ManualVariantProvider.super.getMaxManualVariants();
     }
 
     public void setSheepTextureVariant(int variant) {

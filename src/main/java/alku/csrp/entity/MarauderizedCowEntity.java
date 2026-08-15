@@ -25,7 +25,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.EnumSet;
 
 /** Legacy Marauderized cow: its ranged attack leaves a virulent, corrosive vomit cloud. */
-public final class MarauderizedCowEntity extends MarauderizedParasiteEntity {
+public final class MarauderizedCowEntity extends MarauderizedParasiteEntity implements ManualVariantProvider {
     private static final EntityDataAccessor<Boolean> RAGE_VARIANT = SynchedEntityData.defineId(
             MarauderizedCowEntity.class, EntityDataSerializers.BOOLEAN);
     private static final byte VOMIT_EVENT = 100;
@@ -93,6 +93,22 @@ public final class MarauderizedCowEntity extends MarauderizedParasiteEntity {
 
     public boolean isRageVariant() {
         return entityData.get(RAGE_VARIANT);
+    }
+
+    @Override
+    public int getManualVariant() {
+        return isRageVariant() ? 1 : 0;
+    }
+
+    @Override
+    public void setManualVariant(int variant) {
+        setRageVariant(variant == 1);
+        applyVariantAttributes();
+    }
+
+    @Override
+    public int getMaxManualVariants() {
+        return 2;
     }
 
     private void setRageVariant(boolean rageVariant) {

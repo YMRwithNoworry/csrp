@@ -72,7 +72,8 @@ import java.util.UUID;
  * fire weakness and adaptive resistance while their enum branches implement
  * the individual melee, flying, summoning, and ranged roles.
  */
-public final class PureParasiteEntity extends PrimitiveParasiteEntity implements SummonCapacityOwner {
+public final class PureParasiteEntity extends PrimitiveParasiteEntity
+        implements SummonCapacityOwner, ManualVariantProvider {
     private static final EntityDataAccessor<Boolean> WARDEN_CHARGING = SynchedEntityData.defineId(
             PureParasiteEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> WARDEN_STATUS = SynchedEntityData.defineId(
@@ -752,6 +753,37 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity implements
 
     public int getGruntSkin() {
         return activeKind() == Kind.GRUNT ? entityData.get(GRUNT_SKIN) : 0;
+    }
+
+    @Override
+    public int getManualVariant() {
+        return switch (activeKind()) {
+            case GRUNT -> entityData.get(GRUNT_SKIN);
+            case MONARCH -> entityData.get(MONARCH_SKIN);
+            case BOMBER_LIGHT -> entityData.get(OMBOO_SKIN);
+            case OVERSEER -> entityData.get(OVERSEER_SKIN);
+            case VIGILANTE -> entityData.get(VIGILANTE_SKIN);
+            case WARDEN -> entityData.get(WARDEN_SKIN);
+            default -> 0;
+        };
+    }
+
+    @Override
+    public void setManualVariant(int variant) {
+        byte skin = (byte) Math.clamp(variant, 0, getMaxManualVariants() - 1);
+        switch (activeKind()) {
+            case GRUNT -> entityData.set(GRUNT_SKIN, skin);
+            case MONARCH -> {
+                entityData.set(MONARCH_SKIN, skin);
+                applyMonarchVariantAttributes();
+            }
+            case BOMBER_LIGHT -> entityData.set(OMBOO_SKIN, skin);
+            case OVERSEER -> entityData.set(OVERSEER_SKIN, skin);
+            case VIGILANTE -> entityData.set(VIGILANTE_SKIN, skin);
+            case WARDEN -> entityData.set(WARDEN_SKIN, skin);
+            default -> {
+            }
+        }
     }
 
     private void setGruntSkin(int skin) {

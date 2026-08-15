@@ -76,7 +76,7 @@ import java.util.EnumSet;
  * <p>Each registered entity keeps its own type, attributes, model, loot, and
  * combat branch while sharing the common primitive adaptation state.</p>
  */
-public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
+public final class PrimitiveVariantEntity extends BurrowingVariantEntity implements ManualVariantProvider {
     private static final EntityDataAccessor<Integer> REEKER_CHARGE_STATE = SynchedEntityData.defineId(
             PrimitiveVariantEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> SPECIAL_ANIMATION_TICKS = SynchedEntityData.defineId(
@@ -760,6 +760,35 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity {
 
     public int getManducaterSkin() {
         return entityData.get(MANDUCATER_SKIN);
+    }
+
+    @Override
+    public int getManualVariant() {
+        return switch (activeKind()) {
+            case BOLSTER -> entityData.get(BOLSTER_SKIN);
+            case MANDUCATER -> entityData.get(MANDUCATER_SKIN);
+            case REEKER -> entityData.get(REEKER_SKIN);
+            case DEVOURER -> entityData.get(DEVOURER_SKIN);
+            case YELLOWEYE -> entityData.get(YELLOWEYE_SKIN);
+            default -> 0;
+        };
+    }
+
+    @Override
+    public void setManualVariant(int variant) {
+        int skin = Math.clamp(variant, 0, getMaxManualVariants() - 1);
+        switch (activeKind()) {
+            case BOLSTER -> entityData.set(BOLSTER_SKIN, skin);
+            case MANDUCATER -> entityData.set(MANDUCATER_SKIN, skin);
+            case REEKER -> {
+                entityData.set(REEKER_SKIN, skin);
+                applyReekerAttributes(true);
+            }
+            case DEVOURER -> entityData.set(DEVOURER_SKIN, skin);
+            case YELLOWEYE -> entityData.set(YELLOWEYE_SKIN, skin);
+            default -> {
+            }
+        }
     }
 
     private void setBolsterSkin(int skin) {

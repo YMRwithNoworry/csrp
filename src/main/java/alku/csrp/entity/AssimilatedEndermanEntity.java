@@ -56,9 +56,12 @@ import java.util.List;
 import java.util.Map;
 
 /** Legacy assimilated Enderman teleports itself and idle parasite allies around its prey. */
-public final class AssimilatedEndermanEntity extends Monster implements GeoEntity, Parasite {
+public final class AssimilatedEndermanEntity extends Monster
+        implements GeoEntity, Parasite, ManualVariantProvider {
     private static final EntityDataAccessor<Boolean> SHRIMP_FED = SynchedEntityData.defineId(
             AssimilatedEndermanEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> TEXTURE_VARIANT = SynchedEntityData.defineId(
+            AssimilatedEndermanEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> SCREAMING = SynchedEntityData.defineId(
             AssimilatedEndermanEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> CRAWLING = SynchedEntityData.defineId(
@@ -123,6 +126,7 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(SHRIMP_FED, false);
+        builder.define(TEXTURE_VARIANT, 0);
         builder.define(SCREAMING, false);
         builder.define(CRAWLING, false);
         builder.define(PARASITE_STATUS, 0);
@@ -157,6 +161,27 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
 
     public boolean isShrimpFed() {
         return entityData.get(SHRIMP_FED);
+    }
+
+    public int getTextureVariant() {
+        return entityData.get(TEXTURE_VARIANT);
+    }
+
+    @Override
+    public int getManualVariant() {
+        return isShrimpFed() ? 2 : getTextureVariant();
+    }
+
+    @Override
+    public void setManualVariant(int variant) {
+        int skin = Math.clamp(variant, 0, getMaxManualVariants() - 1);
+        setShrimpFed(skin == 2);
+        entityData.set(TEXTURE_VARIANT, skin == 1 ? 1 : 0);
+    }
+
+    @Override
+    public int getMaxManualVariants() {
+        return 3;
     }
 
     private void setShrimpFed(boolean fed) {
@@ -311,6 +336,7 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
         tag.putInt("self_teleport_cooldown", selfTeleportCooldown);
         tag.putInt("ally_teleport_cooldown", allyTeleportCooldown);
         tag.putBoolean("shrimp_fed", isShrimpFed());
+        tag.putInt("texture_variant", getTextureVariant());
         tag.putBoolean("crawling", isCrawling());
         tag.putInt("spot_cooldown", spotCooldown);
     }
@@ -323,6 +349,7 @@ public final class AssimilatedEndermanEntity extends Monster implements GeoEntit
         selfTeleportCooldown = tag.getInt("self_teleport_cooldown");
         allyTeleportCooldown = tag.getInt("ally_teleport_cooldown");
         setShrimpFed(tag.getBoolean("shrimp_fed"));
+        entityData.set(TEXTURE_VARIANT, Math.clamp(tag.getInt("texture_variant"), 0, 1));
         setCrawling(tag.getBoolean("crawling"));
         spotCooldown = tag.getInt("spot_cooldown");
         setParasiteStatus(0);

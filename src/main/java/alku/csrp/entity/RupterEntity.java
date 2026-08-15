@@ -69,7 +69,7 @@ import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.UUID;
 
-public class RupterEntity extends Monster implements GeoEntity, Parasite {
+public class RupterEntity extends Monster implements GeoEntity, Parasite, ManualVariantProvider {
     public static final int TUNNEL_KILL_COST = 5;
     private static final int LEGACY_TICK_INTERVAL = 21;
     private static final int MUDO_ATTACK_INTERVAL = 10;
@@ -563,6 +563,31 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite {
 
     private void setBehaviorVariant(BehaviorVariant variant) {
         entityData.set(BEHAVIOR_VARIANT, (byte) variant.ordinal());
+    }
+
+    @Override
+    public int getManualVariant() {
+        BehaviorVariant behavior = getBehaviorVariant();
+        return behavior == BehaviorVariant.BERSERKER ? 6
+                : behavior == BehaviorVariant.VIRULENT ? 7 : getTextureVariant().ordinal();
+    }
+
+    @Override
+    public void setManualVariant(int variant) {
+        int skin = Math.clamp(variant, 0, getMaxManualVariants() - 1);
+        if (skin < TextureVariant.values().length) {
+            setTextureVariant(TextureVariant.values()[skin]);
+            setBehaviorVariant(BehaviorVariant.NORMAL);
+        } else {
+            setTextureVariant(TextureVariant.NORMAL);
+            setBehaviorVariant(skin == 6 ? BehaviorVariant.BERSERKER : BehaviorVariant.VIRULENT);
+        }
+        variantsInitialized = true;
+    }
+
+    @Override
+    public int getMaxManualVariants() {
+        return 8;
     }
 
     public boolean isOverheated() {
