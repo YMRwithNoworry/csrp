@@ -47,6 +47,14 @@ const groups = {
 const all = Object.values(groups).flat();
 
 const behaviorPorts = {
+  architect: {
+    originalClass: "EntityTenn",
+    originalSource: "com/dhanantry/scapeandrunparasites/entity/monster/pure/preeminent/EntityTenn.java",
+    implementation: "src/main/java/alku/csrp/entity/ArchitectEntity.java",
+    verifier: "scripts/verify-architect-port.cjs",
+    status: "audited",
+    auditScope: "entity-specific"
+  },
   grunt: {
     originalClass: "EntityFlog",
     originalSource: "com/dhanantry/scapeandrunparasites/entity/monster/pure/EntityFlog.java",

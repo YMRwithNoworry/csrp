@@ -310,7 +310,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.WORKER.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "worker", 0.35F));
         event.registerEntityRenderer(ModEntities.ARCHITECT.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "architect", 0.9F));
+                new PrimitiveParasiteRenderer<>(context, "architect", 1.3F));
         event.registerEntityRenderer(ModEntities.ANC_POD.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "anc_pod", 0.6F));
         event.registerEntityRenderer(ModEntities.ANC_DREADNAUT_TEN.get(), context ->

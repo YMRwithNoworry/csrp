@@ -4,6 +4,7 @@ import alku.csrp.Config;
 import alku.csrp.Csrp;
 import alku.csrp.config.GeneralConfig;
 import alku.csrp.config.WorldConfig;
+import alku.csrp.entity.ArchitectEntity;
 import alku.csrp.entity.Parasite;
 import alku.csrp.entity.ParasiteTransformation;
 import alku.csrp.infection.InfectionMechanics;
@@ -219,6 +220,13 @@ public final class EvolutionEvents {
             return;
         }
         if (parasite) {
+            SrpWorldData data = SrpWorldData.get(level);
+            if (event.getEntity() instanceof ArchitectEntity architect && architect.onlySpawnInside()
+                    && data.totalColonyPoints() > 0
+                    && data.nearestColonyInConstructionRange(architect.blockPosition()) == null) {
+                event.setResult(MobSpawnEvent.PositionCheck.Result.FAIL);
+                return;
+            }
             String path = BuiltInRegistries.ENTITY_TYPE.getKey(event.getEntity().getType()).getPath();
             if (!NaturalSpawnTables.canSpawnNaturally(level, event.getEntity().blockPosition(), path)) {
                 event.setResult(MobSpawnEvent.PositionCheck.Result.FAIL);

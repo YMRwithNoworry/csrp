@@ -2,6 +2,7 @@ package alku.csrp.config;
 
 import alku.csrp.Csrp;
 import alku.csrp.entity.AdaptedVariantEntity;
+import alku.csrp.entity.ArchitectEntity;
 import alku.csrp.entity.Parasite;
 import alku.csrp.entity.PrimitiveVariantEntity;
 import alku.csrp.entity.PureParasiteEntity;
@@ -52,6 +53,8 @@ public final class OriginalConfigEvents {
     private static void applyConfiguredMobAttributes(LivingEntity entity) {
         if (entity instanceof PrimitiveVariantEntity primitive) {
             primitive.applyConfiguredAttributes();
+        } else if (entity instanceof ArchitectEntity architect) {
+            architect.applyConfiguredAttributes();
         } else if (entity instanceof alku.csrp.entity.VisceraEntity viscera) {
             viscera.applyConfiguredAttributes();
         } else if (entity instanceof AdaptedVariantEntity adapted) {

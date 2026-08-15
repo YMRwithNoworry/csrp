@@ -2,6 +2,7 @@ package alku.csrp.config;
 
 import alku.csrp.entity.AdaptedVariantEntity;
 import alku.csrp.entity.AncientParasiteEntity;
+import alku.csrp.entity.ArchitectEntity;
 import alku.csrp.entity.AssimilatedParasiteEntity;
 import alku.csrp.entity.MovingFleshEntity;
 import alku.csrp.entity.PreeminentParasiteEntity;
@@ -488,6 +489,7 @@ public final class MobsConfig {
 
     public static double followRange(LivingEntity entity) {
         if (entity instanceof WorkerEntity) return -1.0D;
+        if (entity instanceof ArchitectEntity) return PURE_FOLLOW.get();
         if (entity instanceof MovingFleshEntity) return ADAPTED_FOLLOW.get();
         if (entity instanceof PreeminentParasiteEntity) return PREEMINENT_FOLLOW.get();
         if (entity instanceof AncientParasiteEntity) return ANCIENT_FOLLOW.get();
@@ -496,6 +498,10 @@ public final class MobsConfig {
         if (entity instanceof AssimilatedParasiteEntity) return INFECTED_FOLLOW.get();
         if (entity instanceof PrimitiveParasiteEntity) return PRIMITIVE_FOLLOW.get();
         return -1.0D;
+    }
+
+    public static double pureFollowRange() {
+        return PURE_FOLLOW.get();
     }
 
     public static double adaptedFollowRange() {

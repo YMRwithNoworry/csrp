@@ -8,7 +8,7 @@ creature that requires them.
 
 Registration/resource baseline: **127 / 127** registered creatures covered.
 
-Entity-specific legacy behavior audited: **7 / 127** (`grunt`, `bomber_light`, `monarch`, `overseer`, `seeker`, `vigilante`, `warden`).
+Entity-specific legacy behavior audited: **8 / 127** (`architect`, `grunt`, `bomber_light`, `monarch`, `overseer`, `seeker`, `vigilante`, `warden`).
 This count covers each named entity's own legacy class only; inherited and
 shared-system behavior remains outside that audit until separately verified.
 
