@@ -206,16 +206,26 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite, Manual
         }
         int phase = Config.evolutionPhase(level());
         if (phase < 4) {
-            return false;
+            // Before the phase-four attack unlock, the legacy AI still targets hostile mobs.
+            // Passive mobs are reserved for the COTH cloud propagation behavior below.
+            return Config.mobAttackingEnabled()
+                    && !(entity instanceof WaterAnimal)
+                    && !(entity instanceof Animal)
+                    && !(entity instanceof Villager);
         }
         if (entity instanceof WaterAnimal) {
             return false;
         }
-        return phase >= 9 || !(entity instanceof Monster) && !entity.hasEffect(ModMobEffects.COTH);
+        if (entity instanceof Animal || entity instanceof Villager) {
+            return phase >= 9 || !entity.hasEffect(ModMobEffects.COTH);
+        }
+        return Config.mobAttackingEnabled();
     }
 
     private boolean shouldRetreatForPackSize() {
-        return nearbyParasites() <= 2;
+        // The original EntityAIAvoidOrAttack switches to combat as soon as one
+        // other living parasite is nearby (two parasites total).
+        return nearbyParasites() == 0;
     }
 
     private int createdPhaseOrCurrent() {
@@ -223,9 +233,10 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite, Manual
     }
 
     private int nearbyParasites() {
-        AABB searchArea = getBoundingBox().inflate(8.0);
+        AABB searchArea = getBoundingBox().inflate(10.0D, 2.0D, 10.0D);
         return level().getEntitiesOfClass(LivingEntity.class, searchArea,
-                parasite -> parasite != this && parasite.isAlive() && parasite instanceof Parasite).size();
+                parasite -> parasite != this && parasite.isAlive() && parasite instanceof Parasite
+                        && hasLineOfSight(parasite)).size();
     }
 
     @Override

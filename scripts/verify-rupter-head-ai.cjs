@@ -24,7 +24,10 @@ const entities = [
 ];
 
 for (const [name, entity] of entities) {
-    expect(entity, /nearbyParasites\(\)\s*<=\s*2/, `${name}: two-or-fewer retreat threshold is missing`);
+    const retreatPattern = name === "Rupter"
+        ? /nearbyParasites\(\)\s*==\s*0/
+        : /nearbyParasites\(\)\s*<=\s*2/;
+    expect(entity, retreatPattern, `${name}: retreat threshold is missing`);
     expect(entity, /getEntitiesOfClass\(LivingEntity\.class[\s\S]*instanceof Parasite/,
             `${name}: nearby population does not count all parasite types`);
     expect(entity, /AvoidEntityGoal<>\([\s\S]*this::shouldAvoid/,

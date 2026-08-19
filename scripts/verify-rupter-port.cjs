@@ -81,7 +81,7 @@ for (const [pattern, description] of [
     [/ToxicCloudEntity\.create/, "lingering COTH cloud is missing"],
     [/new MobEffectInstance\(ModMobEffects\.COTH,\s*\d+,\s*1/s,
         "COTH II cloud effect is missing"],
-    [/nearbyParasites\(\)\s*<=\s*2/, "two-or-fewer parasite retreat gate is missing"],
+    [/nearbyParasites\(\)\s*==\s*0/, "single-Rupter retreat gate is missing"],
     [/instanceof Parasite/, "nearby parasite pack check is missing"],
     [/TUNNEL_KILL_COST\s*=\s*5/, "Tunnel kill cost 5 is missing"],
     [/killCount\s*>\s*MobsConfig\.rupterManglerKills\(\)/, "strict Rupter-to-Mangler kill threshold is missing"],
