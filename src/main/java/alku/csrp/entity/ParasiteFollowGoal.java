@@ -5,7 +5,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.level.pathfinder.PathType;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
 
 import java.util.EnumSet;
 import java.util.Map;
@@ -107,15 +107,15 @@ final class ParasiteFollowGoal extends Goal {
     @Override
     public void start() {
         pathRecalculationTicks = 0;
-        previousWaterMalus = follower.getPathfindingMalus(PathType.WATER);
-        follower.setPathfindingMalus(PathType.WATER, 0.0F);
+        previousWaterMalus = follower.getPathfindingMalus(BlockPathTypes.WATER);
+        follower.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
     }
 
     @Override
     public void stop() {
         leader = null;
         follower.getNavigation().stop();
-        follower.setPathfindingMalus(PathType.WATER, previousWaterMalus);
+        follower.setPathfindingMalus(BlockPathTypes.WATER, previousWaterMalus);
     }
 
     @Override

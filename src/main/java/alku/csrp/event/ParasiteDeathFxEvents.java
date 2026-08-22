@@ -1,5 +1,6 @@
 package alku.csrp.event;
 
+import alku.csrp.network.CsrpNetwork;
 import alku.csrp.Csrp;
 import alku.csrp.entity.Parasite;
 import alku.csrp.network.ParasiteDeathFxPayload;
@@ -7,10 +8,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
 @EventBusSubscriber(modid = Csrp.MODID)
 public final class ParasiteDeathFxEvents {
@@ -29,7 +29,7 @@ public final class ParasiteDeathFxEvents {
         ParasiteDeathFxPayload payload = new ParasiteDeathFxPayload(dead.getX(), centerY, dead.getZ(), scale);
         for (ServerPlayer player : level.players()) {
             if (player.distanceToSqr(dead) <= 128.0D * 128.0D) {
-                PacketDistributor.sendToPlayer(player, payload);
+                CsrpNetwork.sendToPlayer(player, payload);
             }
         }
     }

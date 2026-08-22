@@ -1,10 +1,10 @@
 package alku.csrp.entity;
 
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
@@ -23,11 +23,11 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 /** Shared legacy Feral behaviour: fire weakness and kill-fuelled recovery. */
@@ -89,7 +89,7 @@ public class FeralParasiteEntity extends Monster implements GeoEntity, Parasite 
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         super.defineSynchedData(builder);
         builder.define(PARASITE_STATUS, 0);
         builder.define(STILL_ANI, false);
@@ -149,7 +149,7 @@ public class FeralParasiteEntity extends Monster implements GeoEntity, Parasite 
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        amount = ParasiteCombatEffects.damageAfterKillingResistance(source, amount, ModMobEffects.FERAL);
+        amount = ParasiteCombatEffects.damageAfterKillingResistance(source, amount, ModMobEffects.FERAL.get());
         return super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
     }
 

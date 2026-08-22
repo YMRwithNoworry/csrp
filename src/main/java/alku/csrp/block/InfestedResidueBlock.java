@@ -48,7 +48,7 @@ public final class InfestedResidueBlock extends Block {
             return;
         }
         living.setDeltaMovement(living.getDeltaMovement().multiply(0.84D, 1.0D, 0.86D));
-        if (!living.hasEffect(ModMobEffects.COTH) && !living.hasEffect(ModMobEffects.REPEL)) {
+        if (!living.hasEffect(ModMobEffects.COTH.get()) && !living.hasEffect(ModMobEffects.REPEL.get())) {
             InfectionMechanics.applyCoth(living, null);
         }
     }

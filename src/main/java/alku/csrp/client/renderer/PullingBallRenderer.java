@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 
 public final class PullingBallRenderer extends EntityRenderer<PullingBallEntity> {
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Csrp.MODID,
             "textures/entity/pulling_ball.png");
 
     public PullingBallRenderer(EntityRendererProvider.Context context) {

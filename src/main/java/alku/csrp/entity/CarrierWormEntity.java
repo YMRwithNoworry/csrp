@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import net.minecraftforge.common.ForgeMod;
 import alku.csrp.registry.ModSounds;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
@@ -8,8 +9,8 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.pathfinder.PathType;
-import software.bernie.geckolib.animation.AnimatableManager;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import software.bernie.geckolib.core.animation.AnimatableManager;
 
 /** Legacy Worm Carrier (EntityQuac), including its four linked body segments. */
 public final class CarrierWormEntity extends BurrowingVariantEntity {
@@ -17,7 +18,7 @@ public final class CarrierWormEntity extends BurrowingVariantEntity {
 
     public CarrierWormEntity(EntityType<? extends CarrierWormEntity> type, Level level) {
         super(type, level);
-        setPathfindingMalus(PathType.WATER, -1.0F);
+        setPathfindingMalus(BlockPathTypes.WATER, -1.0F);
         xpReward = 30;
     }
 
@@ -27,7 +28,7 @@ public final class CarrierWormEntity extends BurrowingVariantEntity {
                 .add(Attributes.ARMOR, 20.0D)
                 .add(Attributes.ATTACK_DAMAGE, 22.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.33D)
-                .add(Attributes.STEP_HEIGHT, 1.0D)
+                .add(ForgeMod.STEP_HEIGHT_ADDITION.get(), 1.0D)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
                 .add(Attributes.FOLLOW_RANGE, 32.0D);
     }

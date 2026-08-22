@@ -36,7 +36,7 @@ public final class CompendiumLanguage {
     }
 
     private static void load(String language) {
-        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(
+        ResourceLocation id = new ResourceLocation(
                 "csrp", "compendium/lang/" + language + ".lang");
         Minecraft.getInstance().getResourceManager().getResource(id).ifPresent(resource -> {
             try (BufferedReader reader = new BufferedReader(

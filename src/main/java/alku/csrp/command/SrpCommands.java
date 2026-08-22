@@ -34,9 +34,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.EntityType;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.event.RegisterCommandsEvent;
 
 @EventBusSubscriber(modid = Csrp.MODID)
 public final class SrpCommands {
@@ -399,7 +399,7 @@ public final class SrpCommands {
             if (entity instanceof Parasite) {
                 parasites++;
             }
-            if (entity instanceof LivingEntity living && living.hasEffect(alku.csrp.registry.ModMobEffects.COTH)) {
+            if (entity instanceof LivingEntity living && living.hasEffect(alku.csrp.registry.ModMobEffects.COTH.get())) {
                 coth++;
             }
         }

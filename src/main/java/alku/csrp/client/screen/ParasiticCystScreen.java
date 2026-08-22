@@ -9,7 +9,7 @@ import net.minecraft.world.entity.player.Inventory;
 
 public final class ParasiticCystScreen extends AbstractContainerScreen<ParasiticCystMenu> {
     private static final ResourceLocation BACKGROUND =
-            ResourceLocation.withDefaultNamespace("textures/gui/container/generic_54.png");
+            new ResourceLocation("textures/gui/container/generic_54.png");
 
     public ParasiticCystScreen(ParasiticCystMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);

@@ -14,9 +14,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 public final class ScaryOrbRenderer extends EntityRenderer<ScaryOrbEntity> {
-    private static final ResourceLocation CORE_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final ResourceLocation CORE_TEXTURE = new ResourceLocation(Csrp.MODID,
             "textures/entity/orbscary.png");
-    private static final ResourceLocation AURA_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final ResourceLocation AURA_TEXTURE = new ResourceLocation(Csrp.MODID,
             "textures/entity/orbscary_armor.png");
     private static final float ORB_DIAMETER = 2.4F;
     private static final float SPHERE_RADIUS = ORB_DIAMETER * 0.5F;

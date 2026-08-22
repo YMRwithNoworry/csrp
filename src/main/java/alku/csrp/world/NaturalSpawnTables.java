@@ -426,7 +426,7 @@ public final class NaturalSpawnTables {
     }
 
     private static MobSpawnSettings.SpawnerData spawn(String path, int minCount, int maxCount, int weight) {
-        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(Csrp.MODID, path);
+        ResourceLocation id = new ResourceLocation(Csrp.MODID, path);
         EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.getOptional(id)
                 .orElseThrow(() -> new IllegalStateException("Missing natural spawn entity " + id));
         return new MobSpawnSettings.SpawnerData(type, weight, minCount, maxCount);

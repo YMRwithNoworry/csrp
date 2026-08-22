@@ -1,5 +1,7 @@
 package alku.csrp.entity;
 
+import net.minecraftforge.common.ForgeMod;
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.Config;
 import alku.csrp.config.MobsConfig;
 import alku.csrp.effect.EffectStacking;
@@ -17,7 +19,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
@@ -59,18 +60,18 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.pathfinder.PathType;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.entity.PartEntity;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import net.minecraftforge.entity.PartEntity;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.core.animation.RawAnimation;
 
 import java.util.EnumSet;
 import java.util.HashSet;
@@ -260,7 +261,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         }
         xpReward = 55;
         if (kind == Kind.BURROWER || kind == Kind.TOZOON) {
-            setPathfindingMalus(PathType.WATER, -1.0F);
+            setPathfindingMalus(BlockPathTypes.WATER, -1.0F);
         }
         if (kind == Kind.VERMIN) {
             moveControl = new AdaptedVerminMoveControl();
@@ -420,10 +421,10 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
                 .add(Attributes.KNOCKBACK_RESISTANCE, knockbackResistance)
                 .add(Attributes.FOLLOW_RANGE, followRange);
         if (kind == Kind.ARACHNIDA || kind == Kind.BURROWER || kind == Kind.TOZOON) {
-            attributes.add(Attributes.STEP_HEIGHT, 1.0D);
+            attributes.add(ForgeMod.STEP_HEIGHT_ADDITION.get(), 1.0D);
         }
         if (kind == Kind.LONGARMS || kind == Kind.VISCERA) {
-            attributes.add(Attributes.STEP_HEIGHT, 1.0D);
+            attributes.add(ForgeMod.STEP_HEIGHT_ADDITION.get(), 1.0D);
         }
         if (isFlying(kind)) {
             attributes.add(Attributes.FLYING_SPEED, 0.35D);
@@ -454,7 +455,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         super.defineSynchedData(builder);
         builder.define(ARACHNIDA_STATUS, 0);
         builder.define(ARACHNIDA_TARGET, 0);
@@ -764,9 +765,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         if (activeKind == Kind.ARACHNIDA) {
             arachnidaAttackAnimationCooldown = 100;
             if (getArachnidaSkin() == 5) {
-                EffectStacking.apply(target, ModMobEffects.VIRAL, 100, 0);
+                EffectStacking.apply(target, ModMobEffects.VIRAL.get(), 100, 0);
             } else if (getArachnidaSkin() == 6) {
-                EffectStacking.apply(target, ModMobEffects.BLEED, 100, 0);
+                EffectStacking.apply(target, ModMobEffects.BLEED.get(), 100, 0);
             }
         }
         if (activeKind == Kind.BOLSTER || activeKind == Kind.MANDUCATER || activeKind == Kind.LONGARMS) {
@@ -793,7 +794,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             case BOLSTER -> hurtNearby(this, 2.75D, meleeDamage() * 0.75F, true);
             case LONGARMS -> hurtNearby(this, 3.25D, meleeDamage() * 0.80F, true);
             case REEKER -> target.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 1), this);
-            case VISCERA -> target.addEffect(new MobEffectInstance(ModMobEffects.BLEED, 100, 0), this);
+            case VISCERA -> target.addEffect(new MobEffectInstance(ModMobEffects.BLEED.get(), 100, 0), this);
             default -> {
             }
         }
@@ -805,12 +806,12 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         super.doPush(entity);
         if (!level().isClientSide && activeKind() == Kind.ARACHNIDA && getArachnidaSkin() == 5
                 && entity instanceof LivingEntity living && isValidParasiteTarget(living)) {
-            EffectStacking.apply(living, ModMobEffects.VIRAL, 100, 0);
+            EffectStacking.apply(living, ModMobEffects.VIRAL.get(), 100, 0);
         }
         if (!level().isClientSide && activeKind() == Kind.BOLSTER
                 && getBolsterVariant() == BolsterVariant.VIRULENT
                 && entity instanceof LivingEntity living && isValidParasiteTarget(living)) {
-            living.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 100, 0), this);
+            living.addEffect(new MobEffectInstance(ModMobEffects.VIRAL.get(), 100, 0), this);
         }
     }
 
@@ -834,7 +835,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             return true;
         }
         target.addEffect(new MobEffectInstance(MobEffects.HUNGER, 300, 2, false, true), this);
-        target.addEffect(new MobEffectInstance(ModMobEffects.NEEDLER, 500, 2, false, true), this);
+        target.addEffect(new MobEffectInstance(ModMobEffects.NEEDLER.get(), 500, 2, false, true), this);
         if (target instanceof Player player) {
             player.causeFoodExhaustion(5.0F);
             Set<Item> cooledItems = new HashSet<>();
@@ -915,7 +916,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         cloud.setDuration(200);
         cloud.setRadiusPerTick(-0.015F);
         cloud.addEffect(new MobEffectInstance(MobEffects.POISON, 300, 1));
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 1200, 1, false, false, true));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH.get(), 1200, 1, false, false, true));
         level().addFreshEntity(cloud);
     }
 
@@ -1307,8 +1308,8 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
     private void applyBolsterVariantAttack(LivingEntity target) {
         switch (getBolsterVariant()) {
-            case BERSERKER -> target.addEffect(new MobEffectInstance(ModMobEffects.BLEED, 100, 0), this);
-            case VIRULENT -> target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 100, 0), this);
+            case BERSERKER -> target.addEffect(new MobEffectInstance(ModMobEffects.BLEED.get(), 100, 0), this);
+            case VIRULENT -> target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL.get(), 100, 0), this);
             default -> {
             }
         }
@@ -1601,7 +1602,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
     @Override
     public void setManualVariant(int variant) {
-        int skin = Math.clamp(variant, 0, getMaxManualVariants() - 1);
+        int skin = Mth.clamp(variant, 0, getMaxManualVariants() - 1);
         switch (activeKind()) {
             case BOLSTER -> entityData.set(BOLSTER_VARIANT, skin);
             case ARACHNIDA -> entityData.set(ARACHNIDA_SKIN, skin);
@@ -3390,7 +3391,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         }
 
         @Override
-        protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        protected void defineSynchedData() {
         }
 
         @Override
@@ -3457,7 +3458,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         }
 
         @Override
-        protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        protected void defineSynchedData() {
         }
 
         @Override
@@ -3477,7 +3478,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         public boolean hurt(DamageSource source, float amount) {
             AdaptedVariantEntity parent = getParent();
             if (!parent.level().isClientSide && parent.random.nextBoolean()) {
-                EffectStacking.apply(parent, ModMobEffects.BLEED, 80, 0);
+                EffectStacking.apply(parent, ModMobEffects.BLEED.get(), 80, 0);
             }
             return parent.hurt(source, amount * damageVulnerability);
         }

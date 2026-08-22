@@ -13,9 +13,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 
 @EventBusSubscriber(modid = Csrp.MODID)
 public final class OriginalConfigEvents {
@@ -72,11 +72,11 @@ public final class OriginalConfigEvents {
         attribute.removeModifier(id);
         if (multiplier != 1.0D) {
             attribute.addPermanentModifier(new AttributeModifier(id, multiplier - 1.0D,
-                    AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+                    AttributeModifier.Operation.MULTIPLY_TOTAL));
         }
     }
 
     private static ResourceLocation id(String path) {
-        return ResourceLocation.fromNamespaceAndPath(Csrp.MODID, path);
+        return new ResourceLocation(Csrp.MODID, path);
     }
 }

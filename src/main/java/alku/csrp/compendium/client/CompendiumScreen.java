@@ -20,7 +20,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 
 public final class CompendiumScreen extends Screen {
-    private static final ResourceLocation BACKGROUND = ResourceLocation.fromNamespaceAndPath(
+    private static final ResourceLocation BACKGROUND = new ResourceLocation(
             "csrp", "textures/gui/compendium/background.png");
     private static final int PANEL_WIDTH = 332;
     private static final int PANEL_HEIGHT = 212;
@@ -257,7 +257,7 @@ public final class CompendiumScreen extends Screen {
         if (category == Category.BLOCKS) {
             List<ListEntry> result = new ArrayList<>();
             for (String path : CompendiumCatalog.BLOCKS) {
-                ResourceLocation id = ResourceLocation.fromNamespaceAndPath("csrp", path);
+                ResourceLocation id = new ResourceLocation("csrp", path);
                 String nameKey = "tile.srparasites." + path + ".name";
                 String name = CompendiumLanguage.get(nameKey);
                 if (name.equals(nameKey) && BuiltInRegistries.BLOCK.containsKey(id)) {

@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
@@ -8,7 +9,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
@@ -26,9 +26,9 @@ import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.RawAnimation;
 
 import java.util.EnumSet;
 
@@ -124,7 +124,7 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         super.defineSynchedData(builder);
         builder.define(FLYING, false);
         builder.define(PARASITE_STATUS, STATUS_IDLE);
@@ -248,7 +248,7 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
             cloud.setDuration(100);
             cloud.setWaitTime(0);
             cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
-            cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 300, 0, false, true));
+            cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH.get(), 300, 0, false, true));
             level().addFreshEntity(cloud);
         }
     }

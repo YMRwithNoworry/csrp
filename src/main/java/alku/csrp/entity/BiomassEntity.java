@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
@@ -9,7 +10,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
@@ -27,10 +27,10 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.List;
@@ -261,8 +261,8 @@ public final class BiomassEntity extends Monster implements GeoEntity, Parasite 
         if (followRange != null) {
             followRange.setBaseValue(16.0D + (getStage() - 1.0F) * 8.0D);
         }
-        spawned.addEffect(new MobEffectInstance(ModMobEffects.RAGE, 1200, 1, false, false), this);
-        spawned.addEffect(new MobEffectInstance(ModMobEffects.DEBAR, 120000, 1, false, false), this);
+        spawned.addEffect(new MobEffectInstance(ModMobEffects.RAGE.get(), 1200, 1, false, false), this);
+        spawned.addEffect(new MobEffectInstance(ModMobEffects.DEBAR.get(), 120000, 1, false, false), this);
         if (isOnFire()) {
             spawned.setHealth(spawned.getMaxHealth() * 0.5F);
             spawned.igniteForSeconds(8.0F);
@@ -348,7 +348,7 @@ public final class BiomassEntity extends Monster implements GeoEntity, Parasite 
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         super.defineSynchedData(builder);
         builder.define(SKIN, 1);
         builder.define(STAGE, 1.0F);

@@ -11,12 +11,13 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerEvent;
-import net.neoforged.neoforge.event.tick.LevelTickEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.TickEvent.LevelTickEvent;
 
 @EventBusSubscriber(modid = Csrp.MODID)
 public final class CelestialEvents {
@@ -24,7 +25,8 @@ public final class CelestialEvents {
     }
 
     @SubscribeEvent
-    public static void tick(LevelTickEvent.Post event) {
+    public static void tick(LevelTickEvent event) {
+        if (event.phase == TickEvent.Phase.START) {return;}
         if (!(event.getLevel() instanceof ServerLevel level)) return;
         CelestialSystem.tick(level);
         if (level.getGameTime() % 20L != 0L) return;
@@ -43,7 +45,7 @@ public final class CelestialEvents {
         if (!(event.getLevel() instanceof ServerLevel level) || !(event.getEntity() instanceof Parasite)
                 || !(event.getEntity() instanceof LivingEntity living) || !isNight(level)
                 || !CelestialSystem.isActive(level, "twenty_seven")) return;
-        living.addEffect(new MobEffectInstance(ModMobEffects.RAGE, 12000, 1, false, false));
+        living.addEffect(new MobEffectInstance(ModMobEffects.RAGE.get(), 12000, 1, false, false));
     }
 
     @SubscribeEvent

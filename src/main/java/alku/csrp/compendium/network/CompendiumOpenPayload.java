@@ -1,35 +1,25 @@
 package alku.csrp.compendium.network;
 
-import alku.csrp.Csrp;
 import alku.csrp.compendium.client.CompendiumClient;
+import java.util.function.Supplier;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
 
-public record CompendiumOpenPayload(CompoundTag progress) implements CustomPacketPayload {
-    public static final Type<CompendiumOpenPayload> TYPE = new Type<>(
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "compendium_open"));
-    public static final StreamCodec<RegistryFriendlyByteBuf, CompendiumOpenPayload> STREAM_CODEC =
-            StreamCodec.ofMember(CompendiumOpenPayload::encode, CompendiumOpenPayload::decode);
+public record CompendiumOpenPayload(CompoundTag progress) {
 
-    private void encode(RegistryFriendlyByteBuf buffer) {
+    public void encode(FriendlyByteBuf buffer) {
         buffer.writeNbt(progress);
     }
 
-    private static CompendiumOpenPayload decode(RegistryFriendlyByteBuf buffer) {
+    public static CompendiumOpenPayload decode(FriendlyByteBuf buffer) {
         CompoundTag tag = buffer.readNbt();
         return new CompendiumOpenPayload(tag == null ? new CompoundTag() : tag);
     }
 
-    public static void handle(CompendiumOpenPayload payload, IPayloadContext context) {
-        context.enqueueWork(() -> CompendiumClient.open(payload.progress));
+    public static void handle(CompendiumOpenPayload payload, Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> CompendiumClient.open(payload.progress));
+        ctx.get().setPacketHandled(true);
     }
 
-    @Override
-    public Type<? extends CustomPacketPayload> type() {
-        return TYPE;
-    }
 }

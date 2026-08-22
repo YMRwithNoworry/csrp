@@ -7,9 +7,9 @@ import alku.csrp.entity.FeralEndermanEntity;
 import alku.csrp.entity.MarauderizedEndermanEntity;
 import alku.csrp.registry.ModItems;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
 
 /**
  * Removes dropped Eyes of the Beholder when their owner is slain by a

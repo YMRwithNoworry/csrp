@@ -7,7 +7,6 @@ import alku.csrp.registry.ModSounds;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -36,7 +35,7 @@ public final class RemainEntity extends Entity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
     }
 
     @Override
@@ -46,7 +45,7 @@ public final class RemainEntity extends Entity {
             return;
         }
         if (tickCount % 20 == 0
-                && (!level().getBlockState(blockPosition()).is(ModBlocks.INFESTED_REMAINS)
+                && (!level().getBlockState(blockPosition()).is(ModBlocks.INFESTED_REMAINS.get())
                 || parasite == null)) {
             discard();
             return;
@@ -80,7 +79,7 @@ public final class RemainEntity extends Entity {
             return;
         }
         if (id.getNamespace().equals("srparasites")) {
-            id = ResourceLocation.fromNamespaceAndPath("csrp", id.getPath());
+            id = new ResourceLocation("csrp", id.getPath());
         }
         EntityType<?> entityType = BuiltInRegistries.ENTITY_TYPE.getOptional(id).orElse(null);
         Entity created = entityType == null ? null : entityType.create(serverLevel);
@@ -96,7 +95,7 @@ public final class RemainEntity extends Entity {
         rebuilt.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
                 MobSpawnType.MOB_SUMMONED, null);
         rebuilt.setHealth(rebuilt.getMaxHealth() * health);
-        rebuilt.addEffect(new MobEffectInstance(ModMobEffects.DEBAR, 400, 0, false, false), this);
+        rebuilt.addEffect(new MobEffectInstance(ModMobEffects.DEBAR.get(), 400, 0, false, false), this);
         applyLegacySkin(rebuilt);
         serverLevel.playSound(null, blockPosition(), ModSounds.get("summoner.resurrect"),
                 SoundSource.HOSTILE, 1.0F, 1.0F);

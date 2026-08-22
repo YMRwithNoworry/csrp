@@ -17,6 +17,6 @@ public final class ModDamageTypes {
 
     private static ResourceKey<DamageType> key(String id) {
         return ResourceKey.create(Registries.DAMAGE_TYPE,
-                ResourceLocation.fromNamespaceAndPath(Csrp.MODID, id));
+                new ResourceLocation(Csrp.MODID, id));
     }
 }

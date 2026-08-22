@@ -11,6 +11,6 @@ public final class AttributeMobEffect extends MarkerMobEffect {
     public AttributeMobEffect(boolean harmful, int color, Holder<Attribute> attribute,
                               ResourceLocation id, double amount) {
         super(harmful, color);
-        addAttributeModifier(attribute, id, amount, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
+        addAttributeModifier(attribute, id, amount, AttributeModifier.Operation.MULTIPLY_TOTAL);
     }
 }

@@ -21,9 +21,10 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.tick.LevelTickEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.TickEvent.LevelTickEvent;
 
 /** Keeps SRP core blocks, persistent records, and daily vector growth in sync. */
 @EventBusSubscriber(modid = Csrp.MODID)
@@ -53,7 +54,8 @@ public final class SrpCoreSystems {
     }
 
     @SubscribeEvent
-    public static void tick(LevelTickEvent.Post event) {
+    public static void tick(LevelTickEvent event) {
+        if (event.phase == TickEvent.Phase.START) {return;}
         if (!(event.getLevel() instanceof ServerLevel level)) {
             return;
         }
@@ -91,7 +93,7 @@ public final class SrpCoreSystems {
             return false;
         }
         BlockPos heart = ColonyStructureGenerator.generateCore(level, foundation, level.getRandom());
-        if (!level.getBlockState(heart).is(ModBlocks.COLONYHEART)) {
+        if (!level.getBlockState(heart).is(ModBlocks.COLONYHEART.get())) {
             return false;
         }
         data.setColony(heart);
@@ -144,7 +146,7 @@ public final class SrpCoreSystems {
             long x = (long) entry.pos().getX() - pos.getX();
             long z = (long) entry.pos().getZ() - pos.getZ();
             if (x * x + z * z <= radiusSqr
-                    && level.getBlockState(entry.pos()).is(ModBlocks.BIOMEHEART)
+                    && level.getBlockState(entry.pos()).is(ModBlocks.BIOMEHEART.get())
                     && level.getBlockState(entry.pos()).getValue(SrpCoreBlock.ACTIVE) > 0) {
                 return true;
             }

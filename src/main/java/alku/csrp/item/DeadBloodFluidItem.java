@@ -29,7 +29,7 @@ public final class DeadBloodFluidItem extends Item {
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity user) {
         if (!level.isClientSide) {
-            user.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, DURATION_TICKS, 1));
+            user.addEffect(new MobEffectInstance(ModMobEffects.VIRAL.get(), DURATION_TICKS, 1));
         }
         if (user instanceof Player player) {
             if (player.getAbilities().instabuild) {

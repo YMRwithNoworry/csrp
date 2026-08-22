@@ -98,7 +98,7 @@ public final class WaveEntity extends PathfinderMob implements Parasite {
             return;
         }
         float amount = minimumDamage;
-        MobEffectInstance viral = target.getEffect(ModMobEffects.VIRAL);
+        MobEffectInstance viral = target.getEffect(ModMobEffects.VIRAL.get());
         if (viral != null) {
             amount += minimumDamage * (viral.getAmplifier() + 1);
         }

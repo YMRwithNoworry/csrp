@@ -5,16 +5,17 @@ import alku.csrp.registry.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.PostChain;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
-import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.TickEvent.ClientTickEvent;
+import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 
 /** Runs the original breathing distortion after the local player drinks alveolar fluid. */
 @EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT)
 public final class AlveolarFluidClientEvents {
-    private static final ResourceLocation EFFECT = ResourceLocation.fromNamespaceAndPath(
+    private static final ResourceLocation EFFECT = new ResourceLocation(
             Csrp.MODID, "shaders/post/alveolar_breathe.json");
     private static final int EFFECT_DURATION_TICKS = 600;
 
@@ -35,7 +36,8 @@ public final class AlveolarFluidClientEvents {
     }
 
     @SubscribeEvent
-    public static void updateEffect(ClientTickEvent.Post event) {
+    public static void updateEffect(ClientTickEvent event) {
+        if (event.phase == TickEvent.Phase.START) {return;}
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.player == null || ticksRemaining <= 0) {
             unloadEffect(minecraft);

@@ -1,12 +1,12 @@
 package alku.csrp.entity;
 
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.config.MobsConfig;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -64,7 +64,7 @@ public final class NadeEntity extends Entity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         builder.define(KIND, Kind.ELVIA.ordinal());
         builder.define(FUSE_PROGRESS, 0);
     }
@@ -114,7 +114,7 @@ public final class NadeEntity extends Entity {
                     target.invulnerableTime = 0;
                     target.hurt(damageSources().mobAttack(owner), frameDamage);
                     target.addEffect(new MobEffectInstance(MobEffects.POISON, 40, 0), owner);
-                    target.addEffect(new MobEffectInstance(ModMobEffects.CORROSION, 60, 0), owner);
+                    target.addEffect(new MobEffectInstance(ModMobEffects.CORROSION.get(), 60, 0), owner);
                 }
                 case YELLOWEYE -> {
                     target.invulnerableTime = 0;

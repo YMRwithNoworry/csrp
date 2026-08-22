@@ -1,5 +1,6 @@
 package alku.csrp.item;
 
+import alku.csrp.util.NbtData;
 import java.util.List;
 import java.util.function.Supplier;
 import alku.csrp.Config;
@@ -46,7 +47,7 @@ public final class LivingBowItem extends BowItem {
         ItemStack ammo = player.getProjectile(weapon);
         if (ammo.isEmpty()) return;
         int charge = getUseDuration(weapon, user) - timeLeft;
-        charge = net.neoforged.neoforge.event.EventHooks.onArrowLoose(weapon, level, player, charge, true);
+        charge = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(weapon, level, player, charge, true);
         if (charge < 0) return;
         float power = getPowerForTime(charge);
         if (power < 0.1F) return;
@@ -76,8 +77,8 @@ public final class LivingBowItem extends BowItem {
             arrow.setBaseDamage(arrow.getBaseDamage() * multiplier + 1.0D);
         }
         if (projectile instanceof Arrow arrow) {
-            arrow.addEffect(new MobEffectInstance(ModMobEffects.BLEED, 200, 0, false, true));
-            arrow.addEffect(new MobEffectInstance(ModMobEffects.DOD_SMOKE_TRAIL, 200, 0, false, true));
+            arrow.addEffect(new MobEffectInstance(ModMobEffects.BLEED.get(), 200, 0, false, true));
+            arrow.addEffect(new MobEffectInstance(ModMobEffects.DOD_SMOKE_TRAIL.get(), 200, 0, false, true));
         }
     }
 
@@ -88,13 +89,13 @@ public final class LivingBowItem extends BowItem {
         if (!level.isClientSide && sentient && entity instanceof LivingEntity holder
                 && holder.tickCount % 40 == 0 && Config.evolutionPhase(level) >= 2
                 && holder.getRandom().nextInt(10) == 0) {
-            holder.addEffect(new MobEffectInstance(ModMobEffects.PREY, 1200, 0, false, false));
+            holder.addEffect(new MobEffectInstance(ModMobEffects.PREY.get(), 1200, 0, false, false));
         }
     }
 
     public void addDamage(ItemStack stack, float damage, LivingEntity holder) {
         if (holder.level().isClientSide) return;
-        CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> tag.putInt(DAMAGE,
+        NbtData.update(stack, tag -> tag.putInt(DAMAGE,
                 tag.getInt(DAMAGE) + Math.round(damage)));
         CompoundData.evolve(stack, holder, sentient, next, DAMAGE, EVOLUTION_DAMAGE);
     }
@@ -102,7 +103,7 @@ public final class LivingBowItem extends BowItem {
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, context, tooltip, flag);
-        int damage = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag().getInt(DAMAGE);
+        int damage = NbtData.copyTag(stack).getInt(DAMAGE);
         tooltip.add(Component.translatable("tooltip.csrp.living_progress", damage, EVOLUTION_DAMAGE));
     }
 

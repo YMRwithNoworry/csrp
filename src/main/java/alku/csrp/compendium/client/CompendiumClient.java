@@ -47,7 +47,7 @@ public final class CompendiumClient {
         if (minecraft.player == null) {
             return;
         }
-        ResourceLocation id = ResourceLocation.fromNamespaceAndPath("csrp", "compendium.unlock_" + category);
+        ResourceLocation id = new ResourceLocation("csrp", "compendium.unlock_" + category);
         minecraft.player.playSound(SoundEvent.createVariableRangeEvent(id), 0.8F, 1.0F);
     }
 
@@ -57,13 +57,13 @@ public final class CompendiumClient {
         }
         List<CompendiumEntry> loaded = new ArrayList<>();
         Minecraft minecraft = Minecraft.getInstance();
-        ResourceLocation indexId = ResourceLocation.fromNamespaceAndPath("csrp", "compendium/entries/index.json");
+        ResourceLocation indexId = new ResourceLocation("csrp", "compendium/entries/index.json");
         minecraft.getResourceManager().getResource(indexId).ifPresent(resource -> {
             try (InputStreamReader reader = new InputStreamReader(resource.open(), StandardCharsets.UTF_8)) {
                 JsonArray paths = JsonParser.parseReader(reader).getAsJsonObject().getAsJsonArray("mobs");
                 for (var element : paths) {
                     String path = element.getAsString();
-                    ResourceLocation entryId = ResourceLocation.fromNamespaceAndPath(
+                    ResourceLocation entryId = new ResourceLocation(
                             "csrp", "compendium/entries/" + path + ".json");
                     minecraft.getResourceManager().getResource(entryId).ifPresent(entryResource -> {
                         try (InputStreamReader entryReader = new InputStreamReader(
@@ -83,7 +83,7 @@ public final class CompendiumClient {
 
     public static List<String> drops(String path) {
         Set<String> drops = new LinkedHashSet<>();
-        ResourceLocation id = ResourceLocation.fromNamespaceAndPath("csrp", "compendium/drops/" + path + ".json");
+        ResourceLocation id = new ResourceLocation("csrp", "compendium/drops/" + path + ".json");
         Minecraft.getInstance().getResourceManager().getResource(id).ifPresent(resource -> {
             try (InputStreamReader reader = new InputStreamReader(resource.open(), StandardCharsets.UTF_8)) {
                 collectItems(JsonParser.parseReader(reader), drops);

@@ -16,10 +16,11 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.projectile.Snowball;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.ProjectileImpactEvent;
-import net.neoforged.neoforge.event.tick.LevelTickEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.ProjectileImpactEvent;
+import net.minecraftforge.event.TickEvent.LevelTickEvent;
 
 /** Quench impact purification: immediate 15x15 core followed by expanding shells. */
 @EventBusSubscriber(modid = Csrp.MODID)
@@ -36,7 +37,7 @@ public final class QuenchProjectileEvents {
     public static void impact(ProjectileImpactEvent event) {
         if (!(event.getProjectile() instanceof Snowball snowball)
                 || !(snowball.level() instanceof ServerLevel level)
-                || !snowball.getItem().is(ModItems.ITEMTHROW)
+                || !snowball.getItem().is(ModItems.ITEMTHROW.get())
                 || snowball.getPersistentData().getBoolean(IMPACTED_TAG)) {
             return;
         }
@@ -51,7 +52,8 @@ public final class QuenchProjectileEvents {
     }
 
     @SubscribeEvent
-    public static void tick(LevelTickEvent.Post event) {
+    public static void tick(LevelTickEvent event) {
+        if (event.phase == TickEvent.Phase.START) {return;}
         if (!(event.getLevel() instanceof ServerLevel level)) {
             return;
         }

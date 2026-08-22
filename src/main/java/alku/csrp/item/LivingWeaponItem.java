@@ -1,5 +1,6 @@
 package alku.csrp.item;
 
+import alku.csrp.util.NbtData;
 import java.util.List;
 import java.util.function.Supplier;
 import net.minecraft.core.component.DataComponents;
@@ -39,7 +40,7 @@ public class LivingWeaponItem extends SwordItem {
             Supplier<? extends Item> next, Item.Properties properties) {
         super(ModTiers.LIVING, properties.attributes(SwordItem.createAttributes(ModTiers.LIVING, damage - 1.0F, attackSpeed)
                 .withModifierAdded(Attributes.ENTITY_INTERACTION_RANGE,
-                        new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "living_weapon_reach"),
+                        new AttributeModifier(new ResourceLocation(Csrp.MODID, "living_weapon_reach"),
                                 reach, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)));
         this.sentient = sentient;
         this.next = next;
@@ -55,7 +56,7 @@ public class LivingWeaponItem extends SwordItem {
         boolean result = super.hurtEnemy(stack, target, attacker);
         if (result && !target.level().isClientSide) applyWeaponEffect(stack, target, attacker);
         if (result && !target.level().isClientSide && target.isDeadOrDying()) {
-            CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> {
+            NbtData.update(stack, tag -> {
                 tag.putInt(KILLS, tag.getInt(KILLS) + Math.round(target.getMaxHealth()));
             });
         }
@@ -66,10 +67,10 @@ public class LivingWeaponItem extends SwordItem {
         float chance = sentient ? 0.50F : 0.25F;
         int amplifier = sentient ? 1 : 0;
         switch (kind) {
-            case AXE -> applyChance(attacker, target, ModMobEffects.CORROSION, 100, amplifier, chance);
-            case SWORD -> applyChance(attacker, target, ModMobEffects.BLEED, 100, amplifier, chance);
-            case CLEAVER -> applyChance(attacker, target, ModMobEffects.VIRAL, 100, amplifier, chance);
-            case LANCE -> applyChance(attacker, target, ModMobEffects.NEEDLER, 200, amplifier,
+            case AXE -> applyChance(attacker, target, ModMobEffects.CORROSION.get(), 100, amplifier, chance);
+            case SWORD -> applyChance(attacker, target, ModMobEffects.BLEED.get(), 100, amplifier, chance);
+            case CLEAVER -> applyChance(attacker, target, ModMobEffects.VIRAL.get(), 100, amplifier, chance);
+            case LANCE -> applyChance(attacker, target, ModMobEffects.NEEDLER.get(), 200, amplifier,
                     sentient ? 0.25F : 0.10F);
             case SCYTHE -> {
                 if (!(attacker instanceof Player player) || SCYTHE_SWEEP.get()) break;
@@ -116,7 +117,7 @@ public class LivingWeaponItem extends SwordItem {
         if (level.isClientSide || !(entity instanceof LivingEntity holder)) return;
         if (sentient && holder.tickCount % 40 == 0 && Config.evolutionPhase(level) >= 2
                 && holder.getRandom().nextInt(100) == 0) {
-            holder.addEffect(new MobEffectInstance(ModMobEffects.PREY, 1200, 0, false, false));
+            holder.addEffect(new MobEffectInstance(ModMobEffects.PREY.get(), 1200, 0, false, false));
         }
         if (!sentient && holder.tickCount % 80 == 0) evolveIfReady(stack, holder);
     }
@@ -124,7 +125,7 @@ public class LivingWeaponItem extends SwordItem {
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, context, tooltip, flag);
-        int kills = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag().getInt(KILLS);
+        int kills = NbtData.copyTag(stack).getInt(KILLS);
         tooltip.add(Component.translatable("tooltip.csrp.living_progress", kills, EVOLUTION_HEALTH));
     }
 
@@ -132,7 +133,7 @@ public class LivingWeaponItem extends SwordItem {
         if (sentient || next == null || stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
                 .copyTag().getInt(KILLS) <= EVOLUTION_HEALTH) return;
         ItemStack evolved = new ItemStack(next.get());
-        CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> tag.putInt(KILLS, 0));
+        NbtData.update(stack, tag -> tag.putInt(KILLS, 0));
         stack.shrink(1);
         holder.spawnAtLocation(evolved);
         if (holder.level() instanceof ServerLevel serverLevel) {

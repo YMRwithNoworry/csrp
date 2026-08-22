@@ -86,13 +86,13 @@ public final class ParasiteTrapBlock extends Block {
         living.getPersistentData().putLong(cooldownKey, gameTime + kind.cooldownTicks);
         living.hurt(damageSource(serverLevel, kind.damageType), 1.0F);
         if (kind == Kind.BIOMASS) {
-            living.removeEffect(ModMobEffects.CORROSION);
+            living.removeEffect(ModMobEffects.CORROSION.get());
             InfectionMechanics.applyCothEffect(living, null,
                     BIOMASS_COTH_DURATION_TICKS, BIOMASS_COTH_AMPLIFIER, false, true);
         }
-        living.addEffect(new MobEffectInstance(ModMobEffects.CORROSION,
+        living.addEffect(new MobEffectInstance(ModMobEffects.CORROSION.get(),
                 CORROSION_DURATION_TICKS, 0, false, kind == Kind.BIOMASS));
-        EffectStacking.apply(living, ModMobEffects.VIRAL, VIRAL_DURATION_TICKS, VIRAL_AMPLIFIER);
+        EffectStacking.apply(living, ModMobEffects.VIRAL.get(), VIRAL_DURATION_TICKS, VIRAL_AMPLIFIER);
     }
 
     private static boolean isStandingOnTop(BlockPos pos, Entity entity) {

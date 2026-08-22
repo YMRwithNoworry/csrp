@@ -80,17 +80,17 @@ public final class InfectionMechanics {
 
     public static void applyCoth(LivingEntity target, Entity source, int minimumDurationTicks) {
         if (!isInfectable(target)
-                || target.hasEffect(ModMobEffects.CAMOUFLAGE)
+                || target.hasEffect(ModMobEffects.CAMOUFLAGE.get())
                 && target.getRandom().nextFloat() < CAMOUFLAGE_RESIST_CHANCE) {
             return;
         }
-        MobEffectInstance existing = target.getEffect(ModMobEffects.COTH);
+        MobEffectInstance existing = target.getEffect(ModMobEffects.COTH.get());
         if (existing != null) {
             return;
         }
         int duration = Math.max(COTH_BASE_DURATION_TICKS, minimumDurationTicks);
         boolean effectChanged = target.addEffect(
-                new MobEffectInstance(ModMobEffects.COTH, duration, 0, false, false, true), source);
+                new MobEffectInstance(ModMobEffects.COTH.get(), duration, 0, false, false, true), source);
         if (effectChanged && !target.level().isClientSide) {
             playInfectionSound(target);
         }
@@ -106,14 +106,14 @@ public final class InfectionMechanics {
 
     public static void applyCothEffect(LivingEntity target, Entity source, int durationTicks, int amplifier,
                                        boolean ambient, boolean visible) {
-        MobEffectInstance existing = target.getEffect(ModMobEffects.COTH);
+        MobEffectInstance existing = target.getEffect(ModMobEffects.COTH.get());
         boolean alreadyInfected = existing != null;
         int mergedDuration = existing == null ? durationTicks : Math.max(durationTicks, existing.getDuration());
         int mergedAmplifier = existing == null ? amplifier : Math.max(amplifier, existing.getAmplifier());
         boolean mergedAmbient = existing == null ? ambient : ambient && existing.isAmbient();
         boolean mergedVisible = existing == null ? visible : visible || existing.isVisible();
         boolean effectChanged = target.addEffect(
-                new MobEffectInstance(ModMobEffects.COTH, mergedDuration, mergedAmplifier,
+                new MobEffectInstance(ModMobEffects.COTH.get(), mergedDuration, mergedAmplifier,
                         mergedAmbient, mergedVisible, true), source);
         if (effectChanged && !alreadyInfected && !target.level().isClientSide) {
             playInfectionSound(target);
@@ -182,7 +182,7 @@ public final class InfectionMechanics {
         if (entity.level().isClientSide || !isInfectable(entity)) {
             return;
         }
-        MobEffectInstance coth = entity.getEffect(ModMobEffects.COTH);
+        MobEffectInstance coth = entity.getEffect(ModMobEffects.COTH.get());
         if (coth == null) {
             return;
         }
@@ -191,14 +191,14 @@ public final class InfectionMechanics {
         if (Config.disloCothIgnoreAmplifier() && amplifier <= 1 && entity.tickCount % 20 == 0
                 && entity.level() instanceof ServerLevel level
                 && DislodgmentSystem.activeCodeValue(level, 0) > 0) {
-            entity.forceAddEffect(new MobEffectInstance(ModMobEffects.COTH, 6_666, 10,
+            entity.forceAddEffect(new MobEffectInstance(ModMobEffects.COTH.get(), 6_666, 10,
                     coth.isAmbient(), coth.isVisible(), true), null);
             effectiveAmplifier = COTH_MAX_AMPLIFIER;
         } else if (!isCothImmune(entity) && coth.getDuration() > 0
                 && coth.getDuration() <= COTH_REFRESH_THRESHOLD_TICKS) {
             int nextAmplifier = Math.max(amplifier,
                     Math.min(COTH_MAX_AMPLIFIER, effectiveAmplifier + 1));
-            entity.forceAddEffect(new MobEffectInstance(ModMobEffects.COTH, COTH_BASE_DURATION_TICKS,
+            entity.forceAddEffect(new MobEffectInstance(ModMobEffects.COTH.get(), COTH_BASE_DURATION_TICKS,
                     nextAmplifier, coth.isAmbient(), coth.isVisible(), true), null);
         }
         if (effectiveAmplifier >= 1) {
@@ -223,7 +223,7 @@ public final class InfectionMechanics {
 
     /** COTH II creates an Incomplete Form; COTH III creates the mapped Assimilated form. */
     public static boolean convertCothHost(LivingEntity host) {
-        MobEffectInstance coth = host.getEffect(ModMobEffects.COTH);
+        MobEffectInstance coth = host.getEffect(ModMobEffects.COTH.get());
         if (coth == null || coth.getAmplifier() < COTH_INCOMPLETE_AMPLIFIER) {
             return false;
         }
@@ -346,7 +346,7 @@ public final class InfectionMechanics {
         }
         disguise.getPersistentData().putString(HIDDEN_ASSIMILATED_TAG,
                 BuiltInRegistries.ENTITY_TYPE.getKey(assimilated.getType()).toString());
-        disguise.addEffect(new MobEffectInstance(ModMobEffects.COTH, COTH_BASE_DURATION_TICKS,
+        disguise.addEffect(new MobEffectInstance(ModMobEffects.COTH.get(), COTH_BASE_DURATION_TICKS,
                 COTH_MAX_AMPLIFIER, false, false, true));
         if (!serverLevel.addFreshEntity(disguise)) {
             return false;
@@ -444,7 +444,7 @@ public final class InfectionMechanics {
 
     private static boolean replaceHost(LivingEntity host, Mob converted, ServerLevel serverLevel) {
         float healthFraction = host.getMaxHealth() <= 0.0F ? 1.0F : host.getHealth() / host.getMaxHealth();
-        MobEffectInstance coth = host.getEffect(ModMobEffects.COTH);
+        MobEffectInstance coth = host.getEffect(ModMobEffects.COTH.get());
         boolean terminalCothAssimilation = coth != null && coth.getAmplifier() >= COTH_MAX_AMPLIFIER;
         boolean assimilatedEnderman = host.getType() == EntityType.ENDERMAN
                 && BuiltInRegistries.ENTITY_TYPE.getKey(converted.getType()).getPath().equals("sim_enderman");
@@ -546,7 +546,7 @@ public final class InfectionMechanics {
     }
 
     private static boolean passesCothKillConversion(LivingEntity host) {
-        MobEffectInstance coth = host.getEffect(ModMobEffects.COTH);
+        MobEffectInstance coth = host.getEffect(ModMobEffects.COTH.get());
         if (coth == null) {
             return false;
         }
@@ -639,7 +639,7 @@ public final class InfectionMechanics {
                 continue;
             }
             if (preferFeral && targetId.getPath().startsWith("sim_")) {
-                ResourceLocation feralId = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+                ResourceLocation feralId = new ResourceLocation(Csrp.MODID,
                         "fer_" + targetId.getPath().substring("sim_".length()));
                 if (BuiltInRegistries.ENTITY_TYPE.containsKey(feralId)) {
                     targetId = feralId;
@@ -681,7 +681,7 @@ public final class InfectionMechanics {
         if (targetPath == null) {
             return null;
         }
-        ResourceLocation targetId = ResourceLocation.fromNamespaceAndPath(Csrp.MODID, targetPath);
+        ResourceLocation targetId = new ResourceLocation(Csrp.MODID, targetPath);
         Entity entity = BuiltInRegistries.ENTITY_TYPE.getOptional(targetId)
                 .map(type -> type.create(level)).orElse(null);
         return entity instanceof Mob mob ? mob : null;
@@ -698,7 +698,7 @@ public final class InfectionMechanics {
         if (value >= Config.disloCothTiersPure()) {
             pool = PURE;
         }
-        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+        ResourceLocation id = new ResourceLocation(Csrp.MODID,
                 pool[level.getRandom().nextInt(pool.length)]);
         Entity entity = BuiltInRegistries.ENTITY_TYPE.getOptional(id)
                 .map(type -> type.create(level)).orElse(null);
@@ -710,7 +710,7 @@ public final class InfectionMechanics {
     }
 
     private static boolean isConvertible(LivingEntity entity) {
-        return !(entity instanceof Parasite) && !entity.hasEffect(ModMobEffects.REPEL)
+        return !(entity instanceof Parasite) && !entity.hasEffect(ModMobEffects.REPEL.get())
                 && !(entity instanceof Player player && player.getAbilities().invulnerable);
     }
 }

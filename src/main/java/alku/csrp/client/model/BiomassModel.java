@@ -4,20 +4,20 @@ import alku.csrp.Csrp;
 import alku.csrp.entity.BiomassEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import software.bernie.geckolib.animation.AnimationState;
+import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.model.GeoModel;
 
 public final class BiomassModel extends GeoModel<BiomassEntity> {
-    private static final ResourceLocation POD_MODEL = ResourceLocation.fromNamespaceAndPath(
+    private static final ResourceLocation POD_MODEL = new ResourceLocation(
             Csrp.MODID, "geo/biomass_pod.geo.json");
-    private static final ResourceLocation VENKROL_MODEL = ResourceLocation.fromNamespaceAndPath(
+    private static final ResourceLocation VENKROL_MODEL = new ResourceLocation(
             Csrp.MODID, "geo/biomass_venkrol.geo.json");
-    private static final ResourceLocation POD_TEXTURE = ResourceLocation.fromNamespaceAndPath(
+    private static final ResourceLocation POD_TEXTURE = new ResourceLocation(
             Csrp.MODID, "textures/entity/biomass_pod.png");
-    private static final ResourceLocation VENKROL_TEXTURE = ResourceLocation.fromNamespaceAndPath(
+    private static final ResourceLocation VENKROL_TEXTURE = new ResourceLocation(
             Csrp.MODID, "textures/entity/biomass_venkrol.png");
-    private static final ResourceLocation ANIMATION = ResourceLocation.fromNamespaceAndPath(
+    private static final ResourceLocation ANIMATION = new ResourceLocation(
             Csrp.MODID, "animations/biomass.animation.json");
 
     @Override

@@ -6,10 +6,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.entity.Entity;
-import software.bernie.geckolib.animatable.GeoAnimatable;
+import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
-import software.bernie.geckolib.util.Color;
+import software.bernie.geckolib.core.object.Color;
 
 /** Shared SRP renderer gate used by the legacy Braining effect. */
 public class ParasiteGeoRenderer<T extends Entity & GeoAnimatable> extends GeoEntityRenderer<T> {
@@ -24,7 +24,7 @@ public class ParasiteGeoRenderer<T extends Entity & GeoAnimatable> extends GeoEn
 
     protected final boolean isHiddenByBraining() {
         var player = Minecraft.getInstance().player;
-        return player != null && player.hasEffect(ModMobEffects.BRAINING);
+        return player != null && player.hasEffect(ModMobEffects.BRAINING.get());
     }
 
     @Override

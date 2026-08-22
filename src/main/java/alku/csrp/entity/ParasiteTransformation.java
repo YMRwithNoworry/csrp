@@ -162,7 +162,7 @@ public final class ParasiteTransformation {
     }
 
     private static Optional<EntityType<?>> registeredType(String path) {
-        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(Csrp.MODID, path);
+        ResourceLocation id = new ResourceLocation(Csrp.MODID, path);
         return BuiltInRegistries.ENTITY_TYPE.containsKey(id)
                 ? Optional.of(BuiltInRegistries.ENTITY_TYPE.get(id)) : Optional.empty();
     }

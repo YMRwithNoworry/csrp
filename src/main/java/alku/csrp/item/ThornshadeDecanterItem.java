@@ -22,7 +22,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
-import net.minecraft.world.level.Level;
 
 /** Legacy Thornshade Decanter: two useful doses, then delayed self-destruction. */
 public final class ThornshadeDecanterItem extends Item {
@@ -43,7 +42,7 @@ public final class ThornshadeDecanterItem extends Item {
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity user) {
         if (!level.isClientSide) {
-            user.addEffect(new MobEffectInstance(ModMobEffects.THORNSHADE_THORNS,
+            user.addEffect(new MobEffectInstance(ModMobEffects.THORNSHADE_THORNS.get(),
                     EFFECT_DURATION_TICKS, 0, false, true));
         }
         if (!(user instanceof Player player) || !player.getAbilities().instabuild) {
@@ -68,11 +67,11 @@ public final class ThornshadeDecanterItem extends Item {
         serverLevel.sendParticles(ParticleTypes.POOF,
                 player.getX(), player.getY() + 0.5D, player.getZ(),
                 40, 0.5D, 0.5D, 0.5D, 0.05D);
-        level.playSound(null, player.blockPosition(), SoundEvents.GENERIC_EXPLODE.value(),
+        level.playSound(null, player.blockPosition(), SoundEvents.GENERIC_EXPLODE,
                 SoundSource.PLAYERS, 1.2F, 0.8F);
         if (player instanceof ServerPlayer serverPlayer) {
             AdvancementHolder holder = serverPlayer.server.getAdvancements()
-                    .get(ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+                    .get(new ResourceLocation(Csrp.MODID,
                             "beautiful_self_destruction"));
             if (holder != null) {
                 serverPlayer.getAdvancements().award(holder, "triggered");

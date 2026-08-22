@@ -1,5 +1,6 @@
 package alku.csrp.item;
 
+import alku.csrp.util.NbtData;
 import alku.csrp.world.EvolutionSystem;
 import java.util.List;
 import net.minecraft.ChatFormatting;
@@ -55,7 +56,7 @@ public final class LevelClockItem extends Item {
         int current = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
                 .copyTag().getInt(DEVELOPMENT_TAG);
         if (current != development) {
-            CustomData.update(DataComponents.CUSTOM_DATA, stack,
+            NbtData.update(stack,
                     tag -> tag.putInt(DEVELOPMENT_TAG, development));
         }
         return development;

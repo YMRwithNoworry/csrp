@@ -1,5 +1,7 @@
 package alku.csrp.entity;
 
+import net.minecraftforge.common.ForgeMod;
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.Config;
 import alku.csrp.effect.EffectStacking;
 import alku.csrp.registry.ModEntities;
@@ -10,7 +12,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
@@ -33,10 +34,10 @@ import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.entity.PartEntity;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
+import net.minecraftforge.entity.PartEntity;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.RawAnimation;
 
 import java.util.EnumSet;
 
@@ -83,7 +84,7 @@ public final class HeedEntity extends CrudeParasiteEntity {
                 .add(Attributes.MOVEMENT_SPEED, 0.32D)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.7D)
                 .add(Attributes.FOLLOW_RANGE, 32.0D)
-                .add(Attributes.STEP_HEIGHT, 1.0D);
+                .add(ForgeMod.STEP_HEIGHT_ADDITION.get(), 1.0D);
     }
 
     @Override
@@ -127,7 +128,7 @@ public final class HeedEntity extends CrudeParasiteEntity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         super.defineSynchedData(builder);
         builder.define(COMBAT_STATUS, false);
     }
@@ -180,14 +181,14 @@ public final class HeedEntity extends CrudeParasiteEntity {
 
     private boolean hurtHead(DamageSource source, float amount) {
         if (!level().isClientSide && random.nextBoolean()) {
-            EffectStacking.apply(this, ModMobEffects.BLEED, 80, 0);
+            EffectStacking.apply(this, ModMobEffects.BLEED.get(), 80, 0);
         }
         return hurt(source, amount * 3.0F);
     }
 
     @Override
-    public EntityDimensions getDefaultDimensions(Pose pose) {
-        return super.getDefaultDimensions(pose).withEyeHeight(1.5F);
+    public float getEyeHeight() {
+        return 1.5F;
     }
 
     @Override
@@ -402,7 +403,7 @@ public final class HeedEntity extends CrudeParasiteEntity {
             if (distanceToSqr(target) < RAGE_TARGET_RANGE_SQR) {
                 attackTimer++;
             }
-            if (hasEffect(ModMobEffects.RAGE)) {
+            if (hasEffect(ModMobEffects.RAGE.get())) {
                 attackTimer++;
             }
             if (attackTimer < RAGE_SKILL_COOLDOWN_TICKS) {
@@ -413,7 +414,7 @@ public final class HeedEntity extends CrudeParasiteEntity {
                         getBoundingBox().inflate(RAGE_EFFECT_RANGE), candidate ->
                                 candidate != HeedEntity.this && candidate instanceof Parasite
                                         && candidate.isAlive())) {
-                    ally.addEffect(new MobEffectInstance(ModMobEffects.RAGE,
+                    ally.addEffect(new MobEffectInstance(ModMobEffects.RAGE.get(),
                             RAGE_DURATION_TICKS, 0, false, false), HeedEntity.this);
                 }
             }
@@ -457,7 +458,7 @@ public final class HeedEntity extends CrudeParasiteEntity {
         }
 
         @Override
-        protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        protected void defineSynchedData() {
         }
 
         @Override

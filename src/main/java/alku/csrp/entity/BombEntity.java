@@ -1,12 +1,12 @@
 package alku.csrp.entity;
 
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.config.MobsConfig;
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -79,7 +79,7 @@ public final class BombEntity extends Entity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         builder.define(FUSE, 80);
         builder.define(SKIN, (byte) 0);
     }
@@ -115,7 +115,7 @@ public final class BombEntity extends Entity {
                     grief ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE);
         }
 
-        level().playSound(null, getX(), getY(), getZ(), SoundEvents.GENERIC_EXPLODE.value(),
+        level().playSound(null, getX(), getY(), getZ(), SoundEvents.GENERIC_EXPLODE,
                 SoundSource.BLOCKS, 0.5F,
                 (1.0F + (random.nextFloat() - random.nextFloat()) * 0.2F) * 0.7F);
         if (owner != null) {
@@ -127,7 +127,7 @@ public final class BombEntity extends Entity {
                     continue;
                 }
                 target.hurt(damageSources().mobAttack(owner), damage);
-                target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 300, 0), owner);
+                target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL.get(), 300, 0), owner);
                 if (owner.isAlive()) {
                     owner.applyPrimitiveMinimumDamage(target, 3.0F);
                 }
@@ -151,8 +151,8 @@ public final class BombEntity extends Entity {
         cloud.setDuration(60);
         cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
         cloud.addEffect(new MobEffectInstance(MobEffects.POISON, 300, 0));
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, 0, false, false, true));
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 3600, 0, false, false));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH.get(), 3600, 0, false, false, true));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.VIRAL.get(), 3600, 0, false, false));
         level().addFreshEntity(cloud);
     }
 
@@ -169,7 +169,7 @@ public final class BombEntity extends Entity {
             return;
         }
         if (parsed.getNamespace().equals("srparasites")) {
-            parsed = ResourceLocation.fromNamespaceAndPath("csrp", parsed.getPath());
+            parsed = new ResourceLocation("csrp", parsed.getPath());
         }
         EntityType<?> payloadType = BuiltInRegistries.ENTITY_TYPE.getOptional(parsed).orElse(null);
         Entity created = payloadType == null ? null : payloadType.create(serverLevel);

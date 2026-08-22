@@ -10,7 +10,7 @@ public final class PivotMobEffect extends MarkerMobEffect {
     public PivotMobEffect() {
         super(false, 16757187);
         addAttributeModifier(Attributes.ATTACK_SPEED,
-                ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "pivot_attack_speed"),
-                0.1D, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
+                new ResourceLocation(Csrp.MODID, "pivot_attack_speed"),
+                0.1D, AttributeModifier.Operation.MULTIPLY_TOTAL);
     }
 }

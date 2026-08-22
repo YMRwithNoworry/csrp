@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
@@ -7,7 +8,6 @@ import alku.csrp.registry.ModSounds;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
@@ -38,11 +38,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.Comparator;
@@ -181,7 +181,7 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         super.defineSynchedData(builder);
         builder.define(LEAP_TICKS, 0);
         builder.define(PARASITE_STATUS, 0);
@@ -340,7 +340,7 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
                             entity -> entity != AssimilatedHeadEntity.this && entity.isAlive()
                                     && (entity instanceof Animal || entity instanceof WaterAnimal
                                     || entity instanceof Villager)
-                                    && !entity.hasEffect(ModMobEffects.COTH)
+                                    && !entity.hasEffect(ModMobEffects.COTH.get())
                                     && hasLineOfSight(entity)
                                     && distanceToSqr(entity) < 81.0D
                                     && navigation.createPath(entity, 1) != null)
@@ -363,7 +363,7 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
             cloud.setDuration(1200);
             cloud.setWaitTime(10);
             cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
-            cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, 1, false, false, true));
+            cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH.get(), 3600, 1, false, false, true));
             level().addFreshEntity(cloud);
             playSound(ModSounds.RUPTER_CLOUD.get(), 1.2F, 1.1F);
             cloudCooldown = 20;

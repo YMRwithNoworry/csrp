@@ -3,16 +3,16 @@ package alku.csrp.client.model;
 import alku.csrp.Csrp;
 import alku.csrp.entity.MarauderEntity;
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.geckolib.animation.AnimationState;
+import software.bernie.geckolib.core.animation.AnimationState;
 
 /** Legacy Esor model with tendril bones hidden after their matching hitbox breaks. */
 public final class MarauderModel extends ParasiteGeoModel<MarauderEntity> {
-    private static final ResourceLocation MODEL = ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "geo/marauder.geo.json");
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final ResourceLocation MODEL = new ResourceLocation(Csrp.MODID, "geo/marauder.geo.json");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Csrp.MODID,
             "textures/entity/marauder.png");
-    private static final ResourceLocation HARDENED_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final ResourceLocation HARDENED_TEXTURE = new ResourceLocation(Csrp.MODID,
             "textures/entity/marauder_hardened.png");
-    private static final ResourceLocation ANIMATION = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final ResourceLocation ANIMATION = new ResourceLocation(Csrp.MODID,
             "animations/marauder.animation.json");
 
     @Override

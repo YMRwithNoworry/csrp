@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.Config;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModSounds;
@@ -7,7 +8,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
@@ -24,7 +24,7 @@ import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.registries.DeferredHolder;
+import net.minecraftforge.registries.RegistryObject;
 
 import java.util.EnumSet;
 
@@ -68,7 +68,7 @@ abstract class AbstractHostEntity extends CrudeParasiteEntity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         super.defineSynchedData(builder);
         builder.define(BURROWED, false);
         builder.define(BURROW_ANIMATION_TICKS, 0);
@@ -187,7 +187,7 @@ abstract class AbstractHostEntity extends CrudeParasiteEntity {
         rangedCooldown = rangedInterval;
     }
 
-    protected <T extends Mob> void spawnMinions(DeferredHolder<EntityType<?>, EntityType<T>> type,
+    protected <T extends Mob> void spawnMinions(RegistryObject<EntityType<T>> type,
                                                 Class<T> entityClass, int cap) {
         if (!(level() instanceof ServerLevel serverLevel) || random.nextInt(getTarget() == null ? 400 : 150) != 0) {
             return;

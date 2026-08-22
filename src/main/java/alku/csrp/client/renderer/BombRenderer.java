@@ -161,10 +161,10 @@ public final class BombRenderer extends EntityRenderer<BombEntity> {
     }
 
     private static ModelLayerLocation layer(String path) {
-        return new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, path), "main");
+        return new ModelLayerLocation(new ResourceLocation(Csrp.MODID, path), "main");
     }
 
     private static ResourceLocation texture(String file) {
-        return ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/monster/" + file);
+        return new ResourceLocation(Csrp.MODID, "textures/entity/monster/" + file);
     }
 }

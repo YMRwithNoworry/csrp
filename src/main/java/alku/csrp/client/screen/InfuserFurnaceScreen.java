@@ -9,7 +9,7 @@ import net.minecraft.world.entity.player.Inventory;
 
 public final class InfuserFurnaceScreen extends AbstractContainerScreen<InfuserFurnaceMenu> {
     private static final ResourceLocation BACKGROUND =
-            ResourceLocation.withDefaultNamespace("textures/gui/container/furnace.png");
+            new ResourceLocation("textures/gui/container/furnace.png");
 
     public InfuserFurnaceScreen(InfuserFurnaceMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);

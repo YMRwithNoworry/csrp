@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.effect.EffectStacking;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModMobEffects;
@@ -7,7 +8,6 @@ import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
@@ -34,9 +34,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.RawAnimation;
 
 import java.util.EnumSet;
 
@@ -79,7 +79,7 @@ public final class LiceEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         super.defineSynchedData(builder);
         builder.define(FLIGHT_FLAGS, (byte) 0);
     }
@@ -197,7 +197,7 @@ public final class LiceEntity extends PrimitiveParasiteEntity {
         }
         consumed = true;
         VerminParticles.sendContactBursts(serverLevel, this, converted);
-        EffectStacking.apply(target, ModMobEffects.VIRAL, VIRAL_DURATION_TICKS, VIRAL_AMPLIFIER);
+        EffectStacking.apply(target, ModMobEffects.VIRAL.get(), VIRAL_DURATION_TICKS, VIRAL_AMPLIFIER);
         playSound(ModSounds.get("buthol.boom"), 0.4F,
                 (random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F);
         discard();
@@ -213,8 +213,8 @@ public final class LiceEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    protected EntityDimensions getDefaultDimensions(Pose pose) {
-        return super.getDefaultDimensions(pose).withEyeHeight(0.8F);
+    protected float getEyeHeight() {
+        return 0.8F;
     }
 
     @Override

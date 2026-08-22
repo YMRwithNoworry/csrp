@@ -10,16 +10,16 @@ import net.minecraft.resources.ResourceLocation;
 public final class SimHumanModel extends ParasiteGeoModel<SimHumanEntity> {
     @Override
     public ResourceLocation getModelResource(SimHumanEntity animatable) {
-        return ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "geo/sim_human.geo.json");
+        return new ResourceLocation(Csrp.MODID, "geo/sim_human.geo.json");
     }
 
     @Override
     public ResourceLocation getTextureResource(SimHumanEntity animatable) {
-        return ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/sim_human.png");
+        return new ResourceLocation(Csrp.MODID, "textures/entity/sim_human.png");
     }
 
     @Override
     public ResourceLocation getAnimationResource(SimHumanEntity animatable) {
-        return ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "animations/sim_human.animation.json");
+        return new ResourceLocation(Csrp.MODID, "animations/sim_human.animation.json");
     }
 }

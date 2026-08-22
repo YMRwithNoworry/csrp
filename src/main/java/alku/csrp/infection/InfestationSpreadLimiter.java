@@ -6,9 +6,10 @@ import java.util.Map;
 import java.util.WeakHashMap;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.tick.ServerTickEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.TickEvent.ServerTickEvent;
 
 /** Server-wide SRP 1.10.8 counters for Beckon and parasite-biome block conversion. */
 @EventBusSubscriber(modid = Csrp.MODID)
@@ -38,7 +39,8 @@ public final class InfestationSpreadLimiter {
     }
 
     @SubscribeEvent
-    public static void tick(ServerTickEvent.Post event) {
+    public static void tick(ServerTickEvent event) {
+        if (event.phase == TickEvent.Phase.START) {return;}
         Counters counters = COUNTERS.get(event.getServer());
         if (counters == null) {
             return;

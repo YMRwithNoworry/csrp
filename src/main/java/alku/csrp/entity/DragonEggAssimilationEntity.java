@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.Csrp;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModSounds;
@@ -9,7 +10,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -26,7 +26,7 @@ public final class DragonEggAssimilationEntity extends Entity {
     public static final int ANIMATION_DURATION = 100;
     private static final String ADVANCEMENT_CRITERION = "dragon_egg_assimilated";
     private static final ResourceLocation ADVANCEMENT_ID =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "again");
+            new ResourceLocation(Csrp.MODID, "again");
     private static final EntityDataAccessor<Integer> ANIMATION_TICKS = SynchedEntityData.defineId(
             DragonEggAssimilationEntity.class, EntityDataSerializers.INT);
 
@@ -59,7 +59,7 @@ public final class DragonEggAssimilationEntity extends Entity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         builder.define(ANIMATION_TICKS, 0);
     }
 
@@ -104,7 +104,7 @@ public final class DragonEggAssimilationEntity extends Entity {
         }
         level.sendParticles(ParticleTypes.REVERSE_PORTAL, getX(), getY() + 0.8D, getZ(),
                 120, 1.2D, 1.0D, 1.2D, 0.15D);
-        level.playSound(null, blockPosition(), SoundEvents.GENERIC_EXPLODE.value(),
+        level.playSound(null, blockPosition(), SoundEvents.GENERIC_EXPLODE,
                 SoundSource.HOSTILE, 1.8F, 0.65F);
         awardNearbyPlayers(level);
         discard();

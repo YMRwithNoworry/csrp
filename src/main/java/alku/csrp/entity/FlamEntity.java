@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
@@ -9,7 +10,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
@@ -32,12 +32,12 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.event.EventHooks;
+import net.minecraftforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.core.animation.RawAnimation;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -100,7 +100,7 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         super.defineSynchedData(builder);
         builder.define(CHARGING, false);
         builder.define(FINISHING, false);
@@ -282,7 +282,7 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
         cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
         cloud.addEffect(new MobEffectInstance(MobEffects.POISON, 300, 2, false, true));
         cloud.addEffect(new MobEffectInstance(MobEffects.WITHER, 300, 2, false, true));
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, 2, false, false, true));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH.get(), 3600, 2, false, false, true));
         level().addFreshEntity(cloud);
     }
 
@@ -296,7 +296,7 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
 
     private void breakNearbyBlocks() {
         if (!level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
-                || !EventHooks.canEntityGrief(level(), this)) {
+                || !ForgeEventFactory.getMobGriefingEvent(level(), this)) {
             return;
         }
         int baseX = Mth.floor(getX());
@@ -308,7 +308,7 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
                     BlockPos candidate = new BlockPos(baseX + offsetX, baseY + offsetY, baseZ + offsetZ);
                     BlockState state = level().getBlockState(candidate);
                     if (!isBreakable(state, candidate)
-                            || !EventHooks.onEntityDestroyBlock(this, candidate, state)) {
+                            || !ForgeEventFactory.onEntityDestroyBlock(this, candidate, state)) {
                         continue;
                     }
                     ParasiteBlockInventory.collect((ServerLevel) level(), candidate, this);
@@ -361,8 +361,8 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    protected EntityDimensions getDefaultDimensions(Pose pose) {
-        return super.getDefaultDimensions(pose).withEyeHeight(0.5F);
+    protected float getEyeHeight() {
+        return 0.5F;
     }
 
     @Override

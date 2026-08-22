@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModItems;
@@ -8,7 +9,6 @@ import alku.csrp.registry.ModSounds;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
@@ -38,11 +38,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 /**
@@ -105,7 +105,7 @@ public final class AssimilatedVariantEntity extends Monster implements GeoEntity
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         super.defineSynchedData(builder);
         builder.define(ANIMATION_STATUS, 0);
         builder.define(MELTING, false);
@@ -186,7 +186,7 @@ public final class AssimilatedVariantEntity extends Monster implements GeoEntity
             ParasiteCombatEffects.applyFearFromDamage(livingTarget, healthBefore, this);
             InfectionMechanics.applyCoth(livingTarget, this);
             if ((kind == Kind.HUMAN || kind == Kind.VILLAGER) && random.nextFloat() < BLEED_CHANCE) {
-                livingTarget.addEffect(new MobEffectInstance(ModMobEffects.BLEED, 100, 0), this);
+                livingTarget.addEffect(new MobEffectInstance(ModMobEffects.BLEED.get(), 100, 0), this);
             }
             if (kind == Kind.BIGSPIDER && random.nextInt(3) == 0) {
                 livingTarget.addEffect(new MobEffectInstance(MobEffects.POISON, 40, 0), this);
@@ -273,8 +273,8 @@ public final class AssimilatedVariantEntity extends Monster implements GeoEntity
     }
 
     @Override
-    protected EntityDimensions getDefaultDimensions(Pose pose) {
-        EntityDimensions dimensions = super.getDefaultDimensions(pose);
+    protected EntityDimensions getDimensions(Pose pose) {
+        EntityDimensions dimensions = super.getDimensions(pose);
         return isMelting() ? dimensions.scale(1.0F, getMeltHeight() / kind.baseHeight) : dimensions;
     }
 
@@ -494,7 +494,7 @@ public final class AssimilatedVariantEntity extends Monster implements GeoEntity
         cloud.setDuration(160);
         cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
         cloud.addEffect(new MobEffectInstance(MobEffects.POISON, 200, 0, false, false));
-        cloud.addEffect(new MobEffectInstance(alku.csrp.registry.ModMobEffects.COTH,
+        cloud.addEffect(new MobEffectInstance(alku.csrp.registry.ModMobEffects.COTH.get(),
                 200, 0, false, false, true));
         serverLevel.addFreshEntity(cloud);
         serverLevel.addFreshEntity(new ItemEntity(serverLevel, getX(), getY() + getBbHeight() * 0.5D, getZ(),

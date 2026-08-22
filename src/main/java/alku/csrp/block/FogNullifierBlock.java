@@ -104,9 +104,9 @@ public final class FogNullifierBlock extends Block implements EntityBlock {
         if (!(level.getBlockEntity(pos) instanceof FogNullifierBlockEntity nullifier)) {
             return;
         }
-        CustomData data = stack.get(DataComponents.BLOCK_ENTITY_DATA);
-        if (data != null && data.copyTag().contains(FogNullifierBlockEntity.USES_TAG)) {
-            nullifier.setUsesRemaining(data.copyTag().getInt(FogNullifierBlockEntity.USES_TAG));
+        CompoundTag data = BlockItem.getBlockEntityData(stack);
+        if (data != null && data.contains(FogNullifierBlockEntity.USES_TAG)) {
+            nullifier.setUsesRemaining(data.getInt(FogNullifierBlockEntity.USES_TAG));
         }
     }
 

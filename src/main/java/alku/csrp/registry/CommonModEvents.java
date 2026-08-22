@@ -1,5 +1,6 @@
 package alku.csrp.registry;
 
+import net.minecraft.world.item.alchemy.PotionUtils;
 import alku.csrp.Csrp;
 import alku.csrp.entity.AbominationEntity;
 import alku.csrp.entity.AirscrewEntity;
@@ -81,15 +82,15 @@ import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent;
-import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
-import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.event.brewing.RegisterBrewingRecipesEvent;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 
 import java.util.Set;
 
-@EventBusSubscriber(modid = Csrp.MODID)
+@EventBusSubscriber(modid = Csrp.MODID, bus = EventBusSubscriber.Bus.MOD)
 public final class CommonModEvents {
     private static final Set<String> WATER_SPAWN_IDS = Set.of(
             "sim_squid", "pri_devourer", "ada_devourer");
@@ -315,66 +316,66 @@ public final class CommonModEvents {
     }
 
     @SubscribeEvent
-    public static void registerSpawnPlacements(RegisterSpawnPlacementsEvent event) {
+    public static void registerSpawnPlacements(SpawnPlacementRegisterEvent event) {
         for (EntityType<?> type : NaturalSpawnTables.allSpawnTypes()) {
             registerNaturalSpawnPlacement(event, type);
         }
         event.register(
                 ModEntities.BUGLIN.get(),
-                SpawnPlacementTypes.ON_GROUND,
+                SpawnPlacements.Type.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 BuglinEntity::checkBuglinSpawnRules,
-                RegisterSpawnPlacementsEvent.Operation.REPLACE);
+                SpawnPlacementRegisterEvent.Operation.REPLACE);
         event.register(
                 ModEntities.RUPTER.get(),
-                SpawnPlacementTypes.ON_GROUND,
+                SpawnPlacements.Type.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 RupterEntity::checkRupterSpawnRules,
-                RegisterSpawnPlacementsEvent.Operation.REPLACE);
+                SpawnPlacementRegisterEvent.Operation.REPLACE);
         event.register(
                 ModEntities.CARRIER_LIGHT.get(),
-                SpawnPlacementTypes.ON_GROUND,
+                SpawnPlacements.Type.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 CarrierLightEntity::checkCarrierLightSpawnRules,
-                RegisterSpawnPlacementsEvent.Operation.REPLACE);
+                SpawnPlacementRegisterEvent.Operation.REPLACE);
         event.register(
                 ModEntities.KIRIN.get(),
-                SpawnPlacementTypes.ON_GROUND,
+                SpawnPlacements.Type.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 KirinEntity::checkKirinSpawnRules,
-                RegisterSpawnPlacementsEvent.Operation.REPLACE);
+                SpawnPlacementRegisterEvent.Operation.REPLACE);
         event.register(
                 ModEntities.FER_ENDERMAN.get(),
-                SpawnPlacementTypes.ON_GROUND,
+                SpawnPlacements.Type.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 FeralEndermanEntity::checkFeralEndermanSpawnRules,
-                RegisterSpawnPlacementsEvent.Operation.REPLACE);
+                SpawnPlacementRegisterEvent.Operation.REPLACE);
         event.register(
                 ModEntities.ADA_BOLSTER.get(),
-                SpawnPlacementTypes.ON_GROUND,
+                SpawnPlacements.Type.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 Monster::checkMonsterSpawnRules,
-                RegisterSpawnPlacementsEvent.Operation.REPLACE);
+                SpawnPlacementRegisterEvent.Operation.REPLACE);
         event.register(
                 ModEntities.SIM_ADVENTURER.get(),
-                SpawnPlacementTypes.ON_GROUND,
+                SpawnPlacements.Type.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 Monster::checkMonsterSpawnRules,
-                RegisterSpawnPlacementsEvent.Operation.REPLACE);
+                SpawnPlacementRegisterEvent.Operation.REPLACE);
     }
 
     @SuppressWarnings("unchecked")
     private static <T extends Entity> void registerNaturalSpawnPlacement(
-            RegisterSpawnPlacementsEvent event, EntityType<T> type) {
+            SpawnPlacementRegisterEvent event, EntityType<T> type) {
         String id = BuiltInRegistries.ENTITY_TYPE.getKey(type).getPath();
         SpawnPlacementType placement = WATER_SPAWN_IDS.contains(id)
-                ? SpawnPlacementTypes.IN_WATER
-                : AIR_SPAWN_IDS.contains(id) ? IN_AIR : SpawnPlacementTypes.ON_GROUND;
+                ? SpawnPlacements.Type.IN_WATER
+                : AIR_SPAWN_IDS.contains(id) ? IN_AIR : SpawnPlacements.Type.ON_GROUND;
         SpawnPlacements.SpawnPredicate<T> predicate = (entityType, level, spawnType, pos, random) ->
                 Monster.checkMonsterSpawnRules(
                         (EntityType<? extends Monster>) entityType, level, spawnType, pos, random);
         event.register(type, placement, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, predicate,
-                RegisterSpawnPlacementsEvent.Operation.REPLACE);
+                SpawnPlacementRegisterEvent.Operation.REPLACE);
     }
 
     @SubscribeEvent
@@ -388,9 +389,9 @@ public final class CommonModEvents {
     }
 
     private static Ingredient potionIngredient(String potionName) {
-        Holder<Potion> holder = potionName.equals("awkward") ? Potions.AWKWARD : Potions.WATER;
+        Potion potion = potionName.equals("awkward") ? Potions.AWKWARD : Potions.WATER;
         ItemStack stack = new ItemStack(Items.POTION);
-        stack.set(DataComponents.POTION_CONTENTS, new PotionContents(holder));
+        PotionUtils.setPotion(stack, potion);
         return Ingredient.of(stack);
     }
 }

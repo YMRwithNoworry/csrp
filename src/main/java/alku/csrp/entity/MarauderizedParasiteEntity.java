@@ -1,9 +1,9 @@
 package alku.csrp.entity;
 
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -13,10 +13,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.level.Level;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.core.animation.RawAnimation;
 
 /** Common state and original model-function animation routing for Marauderized forms. */
 public abstract class MarauderizedParasiteEntity extends HijackedParasiteEntity {
@@ -79,7 +79,7 @@ public abstract class MarauderizedParasiteEntity extends HijackedParasiteEntity 
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         super.defineSynchedData(builder);
         builder.define(PARASITE_STATUS, 0);
         builder.define(STILL_ANI, false);
@@ -247,7 +247,7 @@ public abstract class MarauderizedParasiteEntity extends HijackedParasiteEntity 
             startAttackAnimation();
         }
         if (hit && entity instanceof LivingEntity target && random.nextFloat() < BLEED_CHANCE) {
-            target.addEffect(new MobEffectInstance(ModMobEffects.BLEED, 100, 0), this);
+            target.addEffect(new MobEffectInstance(ModMobEffects.BLEED.get(), 100, 0), this);
         }
         return hit;
     }

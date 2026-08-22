@@ -10,16 +10,16 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.RenderGuiEvent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.client.event.RenderGuiEvent;
 
 /** Draws the original animated block texture when the camera is inside parasite fog. */
 @EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT)
 public final class ParasiteFogOverlayEvents {
     private static final ResourceLocation FOG_SPRITE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "block/fog");
+            new ResourceLocation(Csrp.MODID, "block/fog");
 
     private ParasiteFogOverlayEvents() {
     }

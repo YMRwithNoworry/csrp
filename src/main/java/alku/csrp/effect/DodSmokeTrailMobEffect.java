@@ -15,10 +15,10 @@ public final class DodSmokeTrailMobEffect extends MarkerMobEffect {
         if (!(entity.level() instanceof ServerLevel level)) {
             return true;
         }
-        var effect = entity.getEffect(alku.csrp.registry.ModMobEffects.DOD_SMOKE_TRAIL);
+        var effect = entity.getEffect(alku.csrp.registry.ModMobEffects.DOD_SMOKE_TRAIL.get());
         int remaining = effect == null ? 0 : effect.getDuration();
         if (entity.onGround() && remaining <= 10) {
-            entity.removeEffect(alku.csrp.registry.ModMobEffects.DOD_SMOKE_TRAIL);
+            entity.removeEffect(alku.csrp.registry.ModMobEffects.DOD_SMOKE_TRAIL.get());
             return true;
         }
         level.sendParticles(ParticleTypes.SMOKE, entity.getX(), entity.getY() + entity.getEyeHeight(),

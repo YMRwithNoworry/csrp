@@ -6,10 +6,10 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.RenderGuiEvent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.client.event.RenderGuiEvent;
 
 /** Original SRP full-screen overlays for its vision-affecting status effects. */
 @EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT)
@@ -39,20 +39,20 @@ public final class StatusEffectOverlayEvents {
         RenderSystem.defaultBlendFunc();
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         try {
-            if (player.hasEffect(ModMobEffects.VIRAL)) {
+            if (player.hasEffect(ModMobEffects.VIRAL.get())) {
                 drawFullScreen(graphics, VIRAL, width, height);
             }
-            if (player.hasEffect(ModMobEffects.BLEED)) {
+            if (player.hasEffect(ModMobEffects.BLEED.get())) {
                 drawFullScreen(graphics, BLEED, width, height);
             }
-            if (player.hasEffect(ModMobEffects.DISTORTED_ENLIGHTENMENT)) {
+            if (player.hasEffect(ModMobEffects.DISTORTED_ENLIGHTENMENT.get())) {
                 float pulse = 0.22F + 0.08F * (float) Math.sin(player.tickCount * 0.2F);
                 RenderSystem.setShaderColor(0.85F, 0.65F, 1.0F, pulse);
                 graphics.blit(DISTORTED, 0, 0, 0.0F, 0.0F,
                         width, height, 32, 32);
                 RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             }
-            if (player.hasEffect(ModMobEffects.VOMIT)) {
+            if (player.hasEffect(ModMobEffects.VOMIT.get())) {
                 int textureHeight = height * 8;
                 graphics.blit(VOMIT, 0, vomitY, 0.0F, 0.0F,
                         width, textureHeight, width, textureHeight);
@@ -74,6 +74,6 @@ public final class StatusEffectOverlayEvents {
     }
 
     private static ResourceLocation texture(String file) {
-        return ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/gui/" + file);
+        return new ResourceLocation(Csrp.MODID, "textures/gui/" + file);
     }
 }

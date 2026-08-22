@@ -40,7 +40,7 @@ public final class EvolutionDeviceItem extends Item {
                         .collect(Collectors.joining(" "));
                 player.sendSystemMessage(Component.translatable("message.csrp.overlast.evo_device.found", nodes));
             }
-            stack.consume(1, player);
+            stack.shrink(1);
         }
         return stack;
     }

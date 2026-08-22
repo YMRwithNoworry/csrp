@@ -1,12 +1,12 @@
 package alku.csrp.world;
 
+import alku.csrp.network.CsrpNetwork;
 import alku.csrp.Csrp;
 import alku.csrp.celestial.network.StarWorldStatePayload;
 import net.minecraft.server.level.ServerPlayer;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.player.PlayerEvent;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 
 @EventBusSubscriber(modid = Csrp.MODID)
 public final class SrpStarWorldEvents {
@@ -29,6 +29,6 @@ public final class SrpStarWorldEvents {
 
     public static void sync(ServerPlayer player) {
         SrpStarType starType = SrpWorldData.get(player.serverLevel().getServer().overworld()).starType();
-        PacketDistributor.sendToPlayer(player, new StarWorldStatePayload(starType));
+        CsrpNetwork.sendToPlayer(player, new StarWorldStatePayload(starType));
     }
 }

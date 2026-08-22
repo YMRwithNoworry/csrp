@@ -1,11 +1,12 @@
 package alku.csrp.item;
 
+import alku.csrp.util.NbtData;
+import alku.csrp.network.CsrpNetwork;
 import alku.csrp.relay.network.RelayReportOpenPayload;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -19,7 +20,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.network.PacketDistributor;
 
 /** A printed, immutable snapshot produced by a Relay Tower scan. */
 public final class RelayReportItem extends Item {
@@ -38,8 +38,8 @@ public final class RelayReportItem extends Item {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (player instanceof ServerPlayer serverPlayer) {
-            CompoundTag data = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
-            PacketDistributor.sendToPlayer(serverPlayer, new RelayReportOpenPayload(type.id, data));
+            CompoundTag data = NbtData.copyTag(stack);
+            CsrpNetwork.sendToPlayer(serverPlayer, new RelayReportOpenPayload(type.id, data));
         }
         return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
     }
@@ -47,7 +47,7 @@ public final class RelayReportItem extends Item {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context,
             List<Component> tooltip, TooltipFlag flag) {
-        CompoundTag data = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
+        CompoundTag data = NbtData.copyTag(stack);
         tooltip.add(Component.translatable("tooltip.csrp.relay_report.read")
                 .withStyle(ChatFormatting.GRAY));
         if (data.contains("PrintDay")) {

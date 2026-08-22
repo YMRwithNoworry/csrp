@@ -4,7 +4,7 @@ import alku.csrp.world.BlockPurification;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -27,10 +27,10 @@ public final class InfestationPurifierBlock extends Block {
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(net.minecraft.world.item.ItemStack stack, BlockState state,
+    protected InteractionResult useItemOn(net.minecraft.world.item.ItemStack stack, BlockState state,
             Level level, BlockPos pos, Player player, net.minecraft.world.InteractionHand hand,
             BlockHitResult hitResult) {
-        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        return InteractionResult.PASS;
     }
 
     private static void purify(ServerLevel level, BlockPos origin) {

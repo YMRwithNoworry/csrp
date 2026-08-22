@@ -6,10 +6,10 @@ import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 
 @EventBusSubscriber(modid = Csrp.MODID)
 public final class RupterKillMilestoneEvents {
@@ -17,7 +17,7 @@ public final class RupterKillMilestoneEvents {
     public static final int RUPTER_KILL_TARGET = 1000;
     private static final String CRITERION = "reached_1000_rupter_kills";
     private static final ResourceLocation ADVANCEMENT_ID =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "cut_roots");
+            new ResourceLocation(Csrp.MODID, "cut_roots");
 
     private RupterKillMilestoneEvents() {
     }

@@ -3,7 +3,7 @@ package alku.csrp.client.model;
 import alku.csrp.Csrp;
 import alku.csrp.entity.NexusParasiteEntity;
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.geckolib.animation.AnimationState;
+import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.cache.object.GeoBone;
 
 public final class NexusParasiteModel extends ParasiteGeoModel<NexusParasiteEntity> {
@@ -12,9 +12,9 @@ public final class NexusParasiteModel extends ParasiteGeoModel<NexusParasiteEnti
     private final ResourceLocation animation;
 
     public NexusParasiteModel(String id) {
-        model = ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "geo/" + id + ".geo.json");
-        texture = ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/" + id + ".png");
-        animation = ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "animations/" + id + ".animation.json");
+        model = new ResourceLocation(Csrp.MODID, "geo/" + id + ".geo.json");
+        texture = new ResourceLocation(Csrp.MODID, "textures/entity/" + id + ".png");
+        animation = new ResourceLocation(Csrp.MODID, "animations/" + id + ".animation.json");
     }
 
     @Override

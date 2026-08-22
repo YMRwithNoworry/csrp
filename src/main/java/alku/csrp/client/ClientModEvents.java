@@ -1,5 +1,6 @@
 package alku.csrp.client;
 
+import alku.csrp.util.NbtData;
 import alku.csrp.Csrp;
 import alku.csrp.client.particle.AssimilationSplashParticle;
 import alku.csrp.client.particle.BiomassParticle;
@@ -58,16 +59,15 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
-import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
-import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
+import net.minecraftforge.client.event.RegisterMenuScreensEvent;
 
-@EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
 public final class ClientModEvents {
     private ClientModEvents() {
     }
@@ -391,18 +391,19 @@ public final class ClientModEvents {
     }
 
     @SubscribeEvent
-    public static void registerReloadListeners(RegisterClientReloadListenersEvent event) {
-        event.registerReloadListener(new SimplePreparableReloadListener<Void>() {
-            @Override
-            protected Void prepare(ResourceManager resourceManager, ProfilerFiller profilerFiller) {
-                return null;
-            }
+    public static void registerReloadListeners(FMLClientSetupEvent event) {
+        event.enqueueWork(() -> Minecraft.getInstance().getResourceManager()
+                .registerReloadListener(new SimplePreparableReloadListener<Void>() {
+                    @Override
+                    protected Void prepare(ResourceManager resourceManager, ProfilerFiller profilerFiller) {
+                        return null;
+                    }
 
-            @Override
-            protected void apply(Void data, ResourceManager resourceManager, ProfilerFiller profilerFiller) {
-                AuroraSkyRenderer.dispose();
-            }
-        });
+                    @Override
+                    protected void apply(Void data, ResourceManager resourceManager, ProfilerFiller profilerFiller) {
+                        AuroraSkyRenderer.dispose();
+                    }
+                }));
     }
 
     @SubscribeEvent
@@ -411,13 +412,13 @@ public final class ClientModEvents {
             registerBowProperties(ModItems.WEAPON_BOW.get());
             registerBowProperties(ModItems.WEAPON_BOW_SENTIENT.get());
             ItemProperties.register(ModItems.PEARL.get(),
-                    ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "pearl_state"),
+                    new ResourceLocation(Csrp.MODID, "pearl_state"),
                     PearlClientEvents::pearlState);
-            ItemProperties.register(ModItems.EVCLOCK.get(), ResourceLocation.withDefaultNamespace("phase"),
+            ItemProperties.register(ModItems.EVCLOCK.get(), new ResourceLocation("phase"),
                     (stack, level, entity, seed) -> stack
                             .getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
                             .copyTag().getInt(alku.csrp.item.EvolutionClockItem.PHASE_TAG));
-            ItemProperties.register(ModItems.LEVELCLOCK.get(), ResourceLocation.withDefaultNamespace("level"),
+            ItemProperties.register(ModItems.LEVELCLOCK.get(), new ResourceLocation("level"),
                     (stack, level, entity, seed) -> stack
                             .getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
                             .copyTag().getInt(alku.csrp.item.LevelClockItem.DEVELOPMENT_TAG));
@@ -428,7 +429,7 @@ public final class ClientModEvents {
     }
 
     private static void registerCompassProperty(net.minecraft.world.item.Item compass) {
-        ItemProperties.register(compass, ResourceLocation.withDefaultNamespace("angle"),
+        ItemProperties.register(compass, new ResourceLocation("angle"),
                 ClientModEvents::compassAngle);
     }
 
@@ -436,7 +437,7 @@ public final class ClientModEvents {
         if (level == null || entity == null) {
             return 0.0F;
         }
-        CompoundTag tag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
+        CompoundTag tag = NbtData.copyTag(stack);
         if (!tag.getBoolean(alku.csrp.item.SrpCompassItem.HAS_TARGET_TAG)
                 || !level.dimension().location().toString()
                         .equals(tag.getString(alku.csrp.item.SrpCompassItem.TARGET_DIMENSION_TAG))) {
@@ -450,10 +451,10 @@ public final class ClientModEvents {
     }
 
     private static void registerBowProperties(net.minecraft.world.item.Item bow) {
-        ItemProperties.register(bow, ResourceLocation.withDefaultNamespace("pulling"),
+        ItemProperties.register(bow, new ResourceLocation("pulling"),
                 (stack, level, entity, seed) -> entity != null && entity.isUsingItem()
                         && entity.getUseItem() == stack ? 1.0F : 0.0F);
-        ItemProperties.register(bow, ResourceLocation.withDefaultNamespace("pull"),
+        ItemProperties.register(bow, new ResourceLocation("pull"),
                 (stack, level, entity, seed) -> entity == null || entity.getUseItem() != stack ? 0.0F
                         : (float) (stack.getUseDuration(entity) - entity.getUseItemRemainingTicks()) / 20.0F);
     }

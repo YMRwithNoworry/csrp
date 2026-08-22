@@ -2,7 +2,7 @@
   "required": true,
   "minVersion": "0.8",
   "package": "alku.csrp.mixin",
-  "compatibilityLevel": "JAVA_21",
+  "compatibilityLevel": "JAVA_17",
   "mixins": [
     "LevelChunkSectionMixin"
   ],
@@ -15,5 +15,6 @@
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "refmap": "csrp.refmap.json"
 }

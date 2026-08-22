@@ -24,16 +24,16 @@ public final class OverlastFoodItem extends Item {
             switch (kind) {
                 case CHOCOLATE_SMOOTHIE -> user.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 2_000, 1));
                 case POLLUTED_HERBAL_BOWL -> {
-                    user.removeEffect(ModMobEffects.COTH);
+                    user.removeEffect(ModMobEffects.COTH.get());
                     user.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 100));
                     user.addEffect(new MobEffectInstance(MobEffects.POISON, 100));
                 }
                 case HERBAL_BOWL -> {
-                    user.removeEffect(ModMobEffects.COTH);
-                    user.removeEffect(ModMobEffects.VIRAL);
+                    user.removeEffect(ModMobEffects.COTH.get());
+                    user.removeEffect(ModMobEffects.VIRAL.get());
                     user.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 100, 1));
                 }
-                case DUMPLING -> user.addEffect(new MobEffectInstance(ModMobEffects.FORTUNATE, 600));
+                case DUMPLING -> user.addEffect(new MobEffectInstance(ModMobEffects.FORTUNATE.get(), 600));
                 default -> {
                 }
             }
@@ -49,11 +49,11 @@ public final class OverlastFoodItem extends Item {
     private static FoodProperties food(Kind kind) {
         FoodProperties.Builder builder = new FoodProperties.Builder();
         return switch (kind) {
-            case CHOCOLATE_SMOOTHIE -> builder.nutrition(4).saturationModifier(0.6F).build();
-            case POLLUTED_HERBAL_BOWL, HERBAL_BOWL -> builder.nutrition(2).saturationModifier(0.3F).build();
-            case MELON_ICE -> builder.nutrition(4).saturationModifier(0.4F).alwaysEdible().build();
-            case ICE_SUCKER -> builder.nutrition(2).saturationModifier(0.2F).build();
-            case DUMPLING -> builder.nutrition(4).saturationModifier(0.2F).alwaysEdible().build();
+            case CHOCOLATE_SMOOTHIE -> builder.nutrition(4).saturation(0.6F).build();
+            case POLLUTED_HERBAL_BOWL, HERBAL_BOWL -> builder.nutrition(2).saturation(0.3F).build();
+            case MELON_ICE -> builder.nutrition(4).saturation(0.4F).alwaysEdible().build();
+            case ICE_SUCKER -> builder.nutrition(2).saturation(0.2F).build();
+            case DUMPLING -> builder.nutrition(4).saturation(0.2F).alwaysEdible().build();
         };
     }
 

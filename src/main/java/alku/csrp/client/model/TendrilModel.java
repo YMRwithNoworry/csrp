@@ -52,6 +52,6 @@ public final class TendrilModel extends ParasiteGeoModel<TendrilEntity> {
     }
 
     private static ResourceLocation resource(String path) {
-        return ResourceLocation.fromNamespaceAndPath(Csrp.MODID, path);
+        return new ResourceLocation(Csrp.MODID, path);
     }
 }

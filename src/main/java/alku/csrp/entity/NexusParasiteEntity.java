@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.Csrp;
 import alku.csrp.block.FogBlock;
 import alku.csrp.event.StatusEffectEvents;
@@ -20,7 +21,6 @@ import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
@@ -44,11 +44,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.core.animation.RawAnimation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,7 +110,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         super.defineSynchedData(builder);
         builder.define(BODY, 0.5F);
         builder.define(PARASITE_STATUS, 0);
@@ -641,7 +641,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         }
         ResourceLocation id = BuiltInRegistries.ENTITY_TYPE.getKey(candidate.getType());
         if (id.getNamespace().equals(Csrp.MODID) && id.getPath().startsWith("pri_")) {
-            ResourceLocation adaptedId = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+            ResourceLocation adaptedId = new ResourceLocation(Csrp.MODID,
                     "ada_" + id.getPath().substring("pri_".length()));
             return BuiltInRegistries.ENTITY_TYPE.containsKey(adaptedId);
         }
@@ -655,7 +655,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         ResourceLocation id = BuiltInRegistries.ENTITY_TYPE.getKey(candidate.getType());
         String path = id.getPath();
         if (id.getNamespace().equals(Csrp.MODID) && path.startsWith("pri_")) {
-            ResourceLocation adaptedId = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+            ResourceLocation adaptedId = new ResourceLocation(Csrp.MODID,
                     "ada_" + path.substring("pri_".length()));
             return BuiltInRegistries.ENTITY_TYPE.containsKey(adaptedId)
                     ? BuiltInRegistries.ENTITY_TYPE.get(adaptedId) : null;
@@ -811,8 +811,8 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
                     && (nexus.activeKind().family == Family.ROOTER || nexus.activeKind().isRooterBall())) {
                 continue;
             }
-            ally.addEffect(new MobEffectInstance(ModMobEffects.PIVOT, 300, Math.max(0, stage - 1), false, false), this);
-            ally.addEffect(new MobEffectInstance(ModMobEffects.PARATE, 300, Math.max(0, stage - 1), false, false), this);
+            ally.addEffect(new MobEffectInstance(ModMobEffects.PIVOT.get(), 300, Math.max(0, stage - 1), false, false), this);
+            ally.addEffect(new MobEffectInstance(ModMobEffects.PARATE.get(), 300, Math.max(0, stage - 1), false, false), this);
             StatusEffectEvents.linkToRooter(ally, this);
         }
         if (level() instanceof ServerLevel serverLevel) {
@@ -824,7 +824,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     private void createStormVortex() {
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
                 getBoundingBox().inflate(10.0D), this::isValidParasiteTarget)) {
-            if (target.getItemBySlot(EquipmentSlot.FEET).is(ModItems.VENKROL_BOOTS)) {
+            if (target.getItemBySlot(EquipmentSlot.FEET).is(ModItems.VENKROL_BOOTS.get())) {
                 continue;
             }
             Vec3 pull = position().subtract(target.position());

@@ -16,12 +16,12 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
-import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
-import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.living.LivingChangeTargetEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 
 /** Restores the original colony-wide spawn bonuses and adaptation exchange. */
 @EventBusSubscriber(modid = Csrp.MODID)
@@ -70,13 +70,13 @@ public final class ColonyEvents {
     @SubscribeEvent
     public static void preventParasiteInfighting(LivingChangeTargetEvent event) {
         if (event.getEntity() instanceof Parasite
-                && event.getNewAboutToBeSetTarget() instanceof Parasite) {
+                && event.getNewTarget() instanceof Parasite) {
             event.setNewAboutToBeSetTarget(null);
         }
     }
 
     @SubscribeEvent
-    public static void capIncomingDamage(LivingIncomingDamageEvent event) {
+    public static void capIncomingDamage(LivingAttackEvent event) {
         Entity sourceEntity = event.getSource().getEntity();
         Entity directEntity = event.getSource().getDirectEntity();
         if (event.getEntity() instanceof Parasite
@@ -136,7 +136,7 @@ public final class ColonyEvents {
     private static void contributePrimitiveAdaptation(PrimitiveParasiteEntity parasite, ServerLevel level) {
         SrpWorldData data = SrpWorldData.get(level);
         boolean inColonyRange = data.nearestColonyInEffectRange(parasite.blockPosition()) != null;
-        MobEffectInstance link = parasite.getEffect(ModMobEffects.LINK);
+        MobEffectInstance link = parasite.getEffect(ModMobEffects.LINK.get());
         boolean linkedChance = link != null
                 && parasite.getRandom().nextDouble() < Config.adaptationChance() * (link.getAmplifier() + 1);
         if (!inColonyRange && !linkedChance) {

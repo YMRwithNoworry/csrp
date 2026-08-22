@@ -32,7 +32,7 @@ public final class AlveolarFluidItem extends Item {
         if (!level.isClientSide) {
             user.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, EFFECT_DURATION_TICKS, 0));
             user.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, EFFECT_DURATION_TICKS, 0));
-            user.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, EFFECT_DURATION_TICKS, 2));
+            user.addEffect(new MobEffectInstance(ModMobEffects.VIRAL.get(), EFFECT_DURATION_TICKS, 2));
         }
         if (user instanceof Player player) {
             if (player.getAbilities().instabuild) {

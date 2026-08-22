@@ -1,5 +1,7 @@
 package alku.csrp.entity;
 
+import net.minecraft.util.Mth;
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.Config;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
@@ -10,7 +12,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -45,10 +46,10 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.HashMap;
@@ -123,7 +124,7 @@ public final class AssimilatedEndermanEntity extends Monster
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         super.defineSynchedData(builder);
         builder.define(SHRIMP_FED, false);
         builder.define(TEXTURE_VARIANT, 0);
@@ -174,7 +175,7 @@ public final class AssimilatedEndermanEntity extends Monster
 
     @Override
     public void setManualVariant(int variant) {
-        int skin = Math.clamp(variant, 0, getMaxManualVariants() - 1);
+        int skin = Mth.clamp(variant, 0, getMaxManualVariants() - 1);
         setShrimpFed(skin == 2);
         entityData.set(TEXTURE_VARIANT, skin == 1 ? 1 : 0);
     }
@@ -197,8 +198,8 @@ public final class AssimilatedEndermanEntity extends Monster
     }
 
     @Override
-    protected EntityDimensions getDefaultDimensions(Pose pose) {
-        return isCrawling() ? EntityDimensions.scalable(0.95F, 1.25F) : super.getDefaultDimensions(pose);
+    protected EntityDimensions getDimensions(Pose pose) {
+        return isCrawling() ? EntityDimensions.scalable(0.95F, 1.25F) : super.getDimensions(pose);
     }
 
     @Override
@@ -349,7 +350,7 @@ public final class AssimilatedEndermanEntity extends Monster
         selfTeleportCooldown = tag.getInt("self_teleport_cooldown");
         allyTeleportCooldown = tag.getInt("ally_teleport_cooldown");
         setShrimpFed(tag.getBoolean("shrimp_fed"));
-        entityData.set(TEXTURE_VARIANT, Math.clamp(tag.getInt("texture_variant"), 0, 1));
+        entityData.set(TEXTURE_VARIANT, Mth.clamp(tag.getInt("texture_variant"), 0, 1));
         setCrawling(tag.getBoolean("crawling"));
         spotCooldown = tag.getInt("spot_cooldown");
         setParasiteStatus(0);

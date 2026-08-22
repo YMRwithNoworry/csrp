@@ -33,7 +33,7 @@ final class ParasiteCombatEffects {
         }
         int level = Math.min(3, 1 + Math.max(0, Mth.floor((dealt - FEAR_DAMAGE_THRESHOLD) / 4.0F)));
         int duration = Mth.clamp(300 + 40 * (level - 1), 200, 500);
-        target.addEffect(new MobEffectInstance(ModMobEffects.FEAR,
+        target.addEffect(new MobEffectInstance(ModMobEffects.FEAR.get(),
                 duration, level - 1, false, true), source);
     }
 
@@ -60,14 +60,14 @@ final class ParasiteCombatEffects {
         cloud.setRadius(radius);
         cloud.setDuration(cloudDuration);
         cloud.setRadiusPerTick(-radius / cloudDuration);
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.VOMIT, effectDuration, 0, false, true));
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, effectDuration,
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.VOMIT.get(), effectDuration, 0, false, true));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.VIRAL.get(), effectDuration,
                 severeAmplifier, false, true));
         cloud.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, effectDuration,
                 severeAmplifier, false, true));
         cloud.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, effectDuration,
                 severeAmplifier, false, true));
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.CORROSION, effectDuration,
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.CORROSION.get(), effectDuration,
                 severeAmplifier, false, true));
         owner.level().addFreshEntity(cloud);
     }

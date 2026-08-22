@@ -1,5 +1,7 @@
 package alku.csrp.entity;
 
+import net.minecraft.util.Mth;
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModSounds;
 import alku.csrp.world.EvolutionSystem;
@@ -8,7 +10,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
@@ -25,11 +26,11 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.core.animation.RawAnimation;
 
 import java.util.EnumSet;
 
@@ -92,7 +93,7 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         super.defineSynchedData(builder);
         builder.define(PARASITE_STATUS, STATUS_IDLE);
     }
@@ -203,7 +204,7 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
         if (getHealth() >= getMaxHealth()) {
             return baseDamage;
         }
-        float healthRatio = Math.clamp(getHealth() / getMaxHealth(), 0.0F, 1.0F);
+        float healthRatio = Mth.clamp(getHealth() / getMaxHealth(), 0.0F, 1.0F);
         return baseDamage + baseDamage * (1.0F - healthRatio * MISSING_HEALTH_DAMAGE_FACTOR);
     }
 

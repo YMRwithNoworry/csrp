@@ -1,5 +1,6 @@
 package alku.csrp.compendium;
 
+import alku.csrp.network.CsrpNetwork;
 import alku.csrp.Csrp;
 import alku.csrp.compendium.network.CompendiumUnlockPayload;
 import alku.csrp.entity.Parasite;
@@ -8,14 +9,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
-import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
-import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.MobEffectEvent;
+import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
 @EventBusSubscriber(modid = Csrp.MODID)
 public final class CompendiumEvents {
@@ -44,7 +44,7 @@ public final class CompendiumEvents {
     }
 
     @SubscribeEvent
-    public static void onDamage(LivingDamageEvent.Post event) {
+    public static void onDamage(LivingDamageEvent event) {
         float amount = event.getNewDamage();
         if (event.getSource().getEntity() instanceof ServerPlayer attacker && event.getEntity() instanceof Parasite) {
             CompendiumSavedData data = CompendiumSavedData.get(attacker.getServer());
@@ -59,7 +59,7 @@ public final class CompendiumEvents {
     }
 
     @SubscribeEvent
-    public static void onPickup(ItemEntityPickupEvent.Post event) {
+    public static void onPickup(EntityItemPickupEvent.Post event) {
         if (!(event.getPlayer() instanceof ServerPlayer player)
                 || !(event.getOriginalStack().getItem() instanceof BlockItem blockItem)) {
             return;
@@ -82,7 +82,7 @@ public final class CompendiumEvents {
         if (!(event.getEntity() instanceof ServerPlayer player)) {
             return;
         }
-        ResourceLocation id = BuiltInRegistries.MOB_EFFECT.getKey(event.getEffectInstance().getEffect().value());
+        ResourceLocation id = BuiltInRegistries.MOB_EFFECT.getKey(event.getEffectInstance().getEffect());
         if (!id.getNamespace().equals(Csrp.MODID)) {
             return;
         }
@@ -116,6 +116,6 @@ public final class CompendiumEvents {
     }
 
     private static void notifyUnlock(ServerPlayer player, String category) {
-        PacketDistributor.sendToPlayer(player, new CompendiumUnlockPayload(category));
+        CsrpNetwork.sendToPlayer(player, new CompendiumUnlockPayload(category));
     }
 }

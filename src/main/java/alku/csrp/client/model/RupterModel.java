@@ -28,6 +28,6 @@ public final class RupterModel extends ParasiteGeoModel<RupterEntity> {
     }
 
     private static ResourceLocation id(String path) {
-        return ResourceLocation.fromNamespaceAndPath(Csrp.MODID, path);
+        return new ResourceLocation(Csrp.MODID, path);
     }
 }

@@ -1,12 +1,12 @@
 package alku.csrp.entity;
 
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.event.StatusEffectEvents;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
 import alku.csrp.world.EvolutionSystem;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
@@ -20,11 +20,11 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.level.Level;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.core.animation.RawAnimation;
 
 /** Legacy Many Bodies and Giant Head close-combat abominations. */
 public final class AbominationEntity extends PrimitiveParasiteEntity {
@@ -65,7 +65,7 @@ public final class AbominationEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         super.defineSynchedData(builder);
         builder.define(PARASITE_STATUS, 0);
     }
@@ -169,8 +169,8 @@ public final class AbominationEntity extends PrimitiveParasiteEntity {
                     && nexus.getKind().name().startsWith("ROOTER")) {
                 continue;
             }
-            ally.addEffect(new MobEffectInstance(ModMobEffects.PIVOT, 300, 0, false, false), this);
-            ally.addEffect(new MobEffectInstance(ModMobEffects.PARATE, 300, 0, false, false), this);
+            ally.addEffect(new MobEffectInstance(ModMobEffects.PIVOT.get(), 300, 0, false, false), this);
+            ally.addEffect(new MobEffectInstance(ModMobEffects.PARATE.get(), 300, 0, false, false), this);
             StatusEffectEvents.linkToRooter(ally, this);
         }
     }

@@ -1,12 +1,12 @@
 package alku.csrp.entity;
 
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.DifficultyInstance;
@@ -43,7 +43,7 @@ public final class MarauderizedCowEntity extends MarauderizedParasiteEntity impl
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         super.defineSynchedData(builder);
         builder.define(RAGE_VARIANT, false);
     }
@@ -79,10 +79,10 @@ public final class MarauderizedCowEntity extends MarauderizedParasiteEntity impl
         if (!level().isClientSide) {
             applyVariantAttributes();
             if (isRageVariant()) {
-                var rage = getEffect(ModMobEffects.RAGE);
+                var rage = getEffect(ModMobEffects.RAGE.get());
                 if (rage == null || rage.getDuration() < 40) {
                     addEffect(new net.minecraft.world.effect.MobEffectInstance(
-                            ModMobEffects.RAGE, 400, 0, false, false), this);
+                            ModMobEffects.RAGE.get(), 400, 0, false, false), this);
                 }
             }
         }
@@ -126,7 +126,7 @@ public final class MarauderizedCowEntity extends MarauderizedParasiteEntity impl
         getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(rageVariant ? 0.26D : 0.20D);
         getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(rageVariant ? 18.75D : 15.0D);
         if (!rageVariant) {
-            removeEffect(ModMobEffects.RAGE);
+            removeEffect(ModMobEffects.RAGE.get());
         }
         setHealth(Math.min(getHealth(), getMaxHealth()));
     }

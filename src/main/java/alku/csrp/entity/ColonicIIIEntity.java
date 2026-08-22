@@ -1,11 +1,11 @@
 package alku.csrp.entity;
 
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;
@@ -17,11 +17,11 @@ import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.level.Level;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.core.animation.RawAnimation;
 
 /**
  * ColonicIII (LeemSIII) - Rooter Stage III Nexus entity.
@@ -55,7 +55,7 @@ public final class ColonicIIIEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         super.defineSynchedData(builder);
         builder.define(RTTS, false);
         builder.define(GROWTH_TIME, 0);
@@ -119,9 +119,9 @@ public final class ColonicIIIEntity extends PrimitiveParasiteEntity {
         for (LivingEntity ally : level().getEntitiesOfClass(LivingEntity.class,
                 getBoundingBox().inflate(range),
                 entity -> entity != this && entity instanceof Parasite)) {
-            ally.addEffect(new MobEffectInstance(ModMobEffects.PIVOT, 300,
+            ally.addEffect(new MobEffectInstance(ModMobEffects.PIVOT.get(), 300,
                     Math.max(0, stage - 1), false, false), this);
-            ally.addEffect(new MobEffectInstance(ModMobEffects.PARATE, 300,
+            ally.addEffect(new MobEffectInstance(ModMobEffects.PARATE.get(), 300,
                     Math.max(0, stage - 1), false, false), this);
         }
 

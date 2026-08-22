@@ -1,5 +1,6 @@
 package alku.csrp.relay;
 
+import alku.csrp.util.NbtData;
 import alku.csrp.entity.Parasite;
 import alku.csrp.item.RelayModuleItem;
 import alku.csrp.registry.ModItems;
@@ -13,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -96,7 +96,7 @@ public final class RelayScanReportFactory {
                 mobs++;
                 if (living instanceof Parasite) {
                     parasites++;
-                } else if (living.hasEffect(ModMobEffects.COTH)) {
+                } else if (living.hasEffect(ModMobEffects.COTH.get())) {
                     coth++;
                 }
             }
@@ -190,7 +190,7 @@ public final class RelayScanReportFactory {
     }
 
     private static ItemStack report(ItemStack stack, CompoundTag data) {
-        CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> tag.merge(data));
+        NbtData.update(stack, tag -> tag.merge(data));
         return stack;
     }
 

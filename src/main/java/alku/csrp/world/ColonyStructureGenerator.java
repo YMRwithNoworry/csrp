@@ -260,8 +260,8 @@ public final class ColonyStructureGenerator {
             return;
         }
         BlockState existing = level.getBlockState(pos);
-        if (!force && (existing.is(ModBlocks.COLONYHEART) || existing.is(ModBlocks.BIOMEHEART)
-                || existing.is(ModBlocks.PARASITE_STRUCTURE))) {
+        if (!force && (existing.is(ModBlocks.COLONYHEART.get()) || existing.is(ModBlocks.BIOMEHEART.get())
+                || existing.is(ModBlocks.PARASITE_STRUCTURE.get()))) {
             return;
         }
         float hardness = existing.getDestroySpeed(level, pos);

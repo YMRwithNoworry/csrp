@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.config.MobsConfig;
 import alku.csrp.registry.ModSounds;
 import alku.csrp.world.EvolutionSystem;
@@ -8,7 +9,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -34,9 +34,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.RawAnimation;
 
 import java.util.Comparator;
 import java.util.EnumSet;
@@ -86,7 +86,7 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         super.defineSynchedData(builder);
         builder.define(MERGE_COUNT, 1);
         builder.define(MERGE_VALUE, (1 + random.nextInt(2)) * 2);
@@ -222,8 +222,8 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
     }
 
     @Override
-    protected EntityDimensions getDefaultDimensions(Pose pose) {
-        EntityDimensions dimensions = super.getDefaultDimensions(pose);
+    protected EntityDimensions getDimensions(Pose pose) {
+        EntityDimensions dimensions = super.getDimensions(pose);
         float growth = getRenderScale(1.0F) - 1.0F;
         return dimensions.scale((BASE_WIDTH + growth) / BASE_WIDTH, (BASE_HEIGHT + growth) / BASE_HEIGHT);
     }
@@ -273,7 +273,7 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
                 state -> ParasiteAnimations.isMoving(this, state.isMoving())
                         ? state.setAndContinue(LIMB)
-                        : software.bernie.geckolib.animation.PlayState.STOP));
+                        : software.bernie.geckolib.core.object.PlayState.STOP));
     }
 
     private void absorb(MovingFleshEntity other) {
@@ -361,7 +361,7 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
             return null;
         }
         if (location.getNamespace().equals("srparasites")) {
-            location = ResourceLocation.fromNamespaceAndPath("csrp", location.getPath());
+            location = new ResourceLocation("csrp", location.getPath());
         }
         EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.getOptional(location).orElse(null);
         if (type == null || !(type.create(serverLevel) instanceof Mob primitive)) {

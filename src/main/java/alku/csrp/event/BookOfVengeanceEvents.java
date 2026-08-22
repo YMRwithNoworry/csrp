@@ -26,11 +26,12 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.bus.api.EventPriority;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
-import net.neoforged.neoforge.event.tick.LevelTickEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.event.TickEvent.LevelTickEvent;
 
 /** Server-authoritative Book of Vengeance attacks and Ricardo drop handling. */
 @EventBusSubscriber(modid = Csrp.MODID)
@@ -77,12 +78,13 @@ public final class BookOfVengeanceEvents {
                 48, 2.4D, 0.7D, 2.4D, 0.12D);
         level.sendParticles(ParticleTypes.POOF, player.getX(), player.getY() + 1.0D, player.getZ(),
                 32, 1.8D, 0.5D, 1.8D, 0.18D);
-        level.playSound(null, player.blockPosition(), SoundEvents.GENERIC_EXPLODE.value(),
+        level.playSound(null, player.blockPosition(), SoundEvents.GENERIC_EXPLODE,
                 SoundSource.PLAYERS, 1.0F, 1.45F);
     }
 
     @SubscribeEvent
-    public static void tick(LevelTickEvent.Post event) {
+    public static void tick(LevelTickEvent event) {
+        if (event.phase == TickEvent.Phase.START) {return;}
         if (!(event.getLevel() instanceof ServerLevel level)) {
             return;
         }
@@ -116,7 +118,7 @@ public final class BookOfVengeanceEvents {
         LivingEntity entity = event.getEntity();
         if (!(entity instanceof PrimitiveVariantEntity reeker) || !reeker.isRicardoVariant()
                 || !(entity.level() instanceof ServerLevel level)
-                || event.getDrops().stream().anyMatch(drop -> drop.getItem().is(ModItems.BOOK_OF_VENGEANCE))) {
+                || event.getDrops().stream().anyMatch(drop -> drop.getItem().is(ModItems.BOOK_OF_VENGEANCE.get()))) {
             return;
         }
         event.getDrops().add(new ItemEntity(level, entity.getX(), entity.getY(), entity.getZ(),
@@ -133,7 +135,7 @@ public final class BookOfVengeanceEvents {
                 }
                 if (chain.phaseTicks >= MARK_DELAY_TICKS) {
                     chain.advance(Phase.FIRST_DASH);
-                    level.playSound(null, player.blockPosition(), SoundEvents.TRIDENT_RIPTIDE_1.value(),
+                    level.playSound(null, player.blockPosition(), SoundEvents.TRIDENT_RIPTIDE_1,
                             SoundSource.PLAYERS, 1.0F, 0.8F);
                 }
             }
@@ -150,7 +152,7 @@ public final class BookOfVengeanceEvents {
                         player.getZ(), 2, 0.1D, 0.1D, 0.1D, 0.01D);
                 if (chain.phaseTicks >= BOUNCE_TICKS) {
                     chain.advance(Phase.SECOND_DASH);
-                    level.playSound(null, player.blockPosition(), SoundEvents.TRIDENT_RIPTIDE_2.value(),
+                    level.playSound(null, player.blockPosition(), SoundEvents.TRIDENT_RIPTIDE_2,
                             SoundSource.PLAYERS, 1.0F, 0.7F);
                 }
             }
@@ -212,11 +214,11 @@ public final class BookOfVengeanceEvents {
         if (target != null && target.isAlive()) {
             target.invulnerableTime = 0;
             target.hurt(vengeanceDamage(level, player), damage);
-            target.addEffect(new MobEffectInstance(ModMobEffects.BLEED, EFFECT_DURATION_TICKS,
+            target.addEffect(new MobEffectInstance(ModMobEffects.BLEED.get(), EFFECT_DURATION_TICKS,
                     0, false, true), player);
-            target.addEffect(new MobEffectInstance(ModMobEffects.DEBAR, EFFECT_DURATION_TICKS,
+            target.addEffect(new MobEffectInstance(ModMobEffects.DEBAR.get(), EFFECT_DURATION_TICKS,
                     0, false, true), player);
-            target.addEffect(new MobEffectInstance(ModMobEffects.DOD_SMOKE_TRAIL,
+            target.addEffect(new MobEffectInstance(ModMobEffects.DOD_SMOKE_TRAIL.get(),
                     EFFECT_DURATION_TICKS, 0, false, true), player);
         }
         if (summonLightning) {

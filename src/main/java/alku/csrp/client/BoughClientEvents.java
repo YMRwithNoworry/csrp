@@ -6,11 +6,11 @@ import alku.csrp.registry.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.util.Mth;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.RenderGuiEvent;
-import net.neoforged.neoforge.client.event.ViewportEvent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.client.event.RenderGuiEvent;
+import net.minecraftforge.client.event.ViewportEvent;
 
 /** Darkening and violent shake shown while the Bough ritual is completing. */
 @EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT)
@@ -46,7 +46,7 @@ public final class BoughClientEvents {
     }
 
     private static boolean isUsingBough(LocalPlayer player) {
-        return player != null && player.isUsingItem() && player.getUseItem().is(ModItems.BOUGH);
+        return player != null && player.isUsingItem() && player.getUseItem().is(ModItems.BOUGH.get());
     }
 
     private static float ritualProgress(LocalPlayer player, float partialTick) {

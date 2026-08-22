@@ -90,6 +90,6 @@ public final class TrophyBlockEntityRenderer implements BlockEntityRenderer<Trop
     }
 
     private static ResourceLocation texture(String name) {
-        return ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/" + name);
+        return new ResourceLocation(Csrp.MODID, "textures/entity/" + name);
     }
 }

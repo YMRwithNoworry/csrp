@@ -189,7 +189,7 @@ public final class EvolutionSystem {
     }
 
     public static int parasiteDeathPenalty(LivingEntity entity) {
-        if (!(entity instanceof Parasite) || entity.hasEffect(ModMobEffects.DEBAR)
+        if (!(entity instanceof Parasite) || entity.hasEffect(ModMobEffects.DEBAR.get())
                 || entity instanceof DerivedParasiteEntity derived && derived.isShadowClone()) {
             return 0;
         }
@@ -257,7 +257,7 @@ public final class EvolutionSystem {
         if (!advanced) {
             for (var rawEntity : level.getAllEntities()) {
                 if (rawEntity instanceof LivingEntity entity && entity instanceof Parasite) {
-                    entity.addEffect(new MobEffectInstance(ModMobEffects.RAGE, 1_200, 1, false, false));
+                    entity.addEffect(new MobEffectInstance(ModMobEffects.RAGE.get(), 1_200, 1, false, false));
                 }
             }
         }

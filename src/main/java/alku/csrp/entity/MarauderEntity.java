@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
@@ -8,7 +9,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
@@ -26,11 +26,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.core.animation.RawAnimation;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
@@ -155,7 +155,7 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         super.defineSynchedData(builder);
         builder.define(CLIMBING, (byte) 0);
         builder.define(LEFT_TENDRIL_HEALTH, 0.0F);
@@ -320,7 +320,7 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
             AABB area = getBoundingBox().inflate(24.0D, 5.0D, 24.0D);
             for (LivingEntity ally : level().getEntitiesOfClass(LivingEntity.class, area,
                     entity -> entity != this && entity instanceof Parasite)) {
-                ally.addEffect(new MobEffectInstance(ModMobEffects.RAGE, 1200, 1, false, false), this);
+                ally.addEffect(new MobEffectInstance(ModMobEffects.RAGE.get(), 1200, 1, false, false), this);
             }
             smashCooldown = SMASH_COOLDOWN_TICKS;
         }

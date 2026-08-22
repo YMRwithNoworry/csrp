@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
@@ -9,7 +10,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
@@ -19,7 +19,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.neoforged.neoforge.entity.PartEntity;
+import net.minecraftforge.entity.PartEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
@@ -33,14 +33,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.util.Mth;
-import net.neoforged.neoforge.event.EventHooks;
+import net.minecraftforge.event.EventHooks;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.EnumSet;
@@ -115,7 +115,7 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         super.defineSynchedData(builder);
         builder.define(PARASITE_STATUS, 0);
         builder.define(FLYING, false);
@@ -181,7 +181,7 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
         LivingEntity target = getTarget();
         if (blockBreakCooldown > 0 || target == null || !target.isAlive() || distanceToSqr(target) > 4096.0D
                 || !level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
-                || !EventHooks.canEntityGrief(level(), this)) {
+                || !ForgeEventFactory.getMobGriefingEvent(level(), this)) {
             return;
         }
         int baseX = Mth.floor(getX());
@@ -196,7 +196,7 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
                     float hardness = state.getDestroySpeed(level(), pos);
                     if (!state.isAir() && hardness >= 0.0F && hardness <= BLOCK_BREAK_HARDNESS
                             && state.canEntityDestroy(level(), pos, this)
-                            && EventHooks.onEntityDestroyBlock(this, pos, state)) {
+                            && ForgeEventFactory.onEntityDestroyBlock(this, pos, state)) {
                         level().destroyBlock(pos, true, this);
                     }
                 }
@@ -330,7 +330,7 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
                 return state.setAndContinue(TAKEOFF);
             }
             if (!moving || isFlying() || status == 3 || status == 10) {
-                return software.bernie.geckolib.animation.PlayState.STOP;
+                return software.bernie.geckolib.core.object.PlayState.STOP;
             }
             return state.setAndContinue(switch (status) {
                 case 1 -> LIMB_STATUS_1;
@@ -485,7 +485,7 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
                 breathArea, this::isValidParasiteTarget)) {
             if (hasLineOfSight(victim)) {
                 victim.hurt(damageSources().indirectMagic(this, this), 20.0F);
-                victim.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 160, 0), this);
+                victim.addEffect(new MobEffectInstance(ModMobEffects.VIRAL.get(), 160, 0), this);
                 break;
             }
         }
@@ -495,7 +495,7 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
         cloud.setDuration(100);
         cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
         cloud.addEffect(new MobEffectInstance(MobEffects.POISON, 160, 0, false, true));
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 300, 0, false, true));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH.get(), 300, 0, false, true));
         level().addFreshEntity(cloud);
         if (level() instanceof ServerLevel serverLevel) {
             serverLevel.sendParticles(ParticleTypes.DRAGON_BREATH, source.x, source.y, source.z,
@@ -524,7 +524,7 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
         }
 
         @Override
-        protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        protected void defineSynchedData() {
         }
 
         @Override

@@ -7,7 +7,6 @@ import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
@@ -291,7 +290,7 @@ public final class ParasiticScentEntity extends Entity {
             followTarget = false;
             return;
         }
-        if (distanceToSqr(target) > 144.0D && target.hasEffect(ModMobEffects.PREY)) {
+        if (distanceToSqr(target) > 144.0D && target.hasEffect(ModMobEffects.PREY.get())) {
             moveTo(target.getX(), target.getY(), target.getZ(), target.getYRot(), target.getXRot());
         }
     }
@@ -684,7 +683,7 @@ public final class ParasiticScentEntity extends Entity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
     }
 
     @Override
@@ -736,7 +735,7 @@ public final class ParasiticScentEntity extends Entity {
 
     private static List<ResourceLocation> ids(String... paths) {
         return java.util.Arrays.stream(paths)
-                .map(path -> ResourceLocation.fromNamespaceAndPath(Csrp.MODID, path))
+                .map(path -> new ResourceLocation(Csrp.MODID, path))
                 .toList();
     }
 }

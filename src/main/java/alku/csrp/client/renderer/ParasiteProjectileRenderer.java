@@ -13,23 +13,23 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 
 public final class ParasiteProjectileRenderer extends EntityRenderer<ParasiteProjectileEntity> {
-    private static final ResourceLocation DEFAULT_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final ResourceLocation DEFAULT_TEXTURE = new ResourceLocation(Csrp.MODID,
             "textures/entity/scary_orb.png");
-    private static final ResourceLocation LENCIA_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final ResourceLocation LENCIA_TEXTURE = new ResourceLocation(Csrp.MODID,
             "textures/entity/projectile/lencia.png");
-    private static final ResourceLocation ELVIA_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final ResourceLocation ELVIA_TEXTURE = new ResourceLocation(Csrp.MODID,
             "textures/entity/projectile/elvia.png");
-    private static final ResourceLocation NADE_PROJECTILE_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final ResourceLocation NADE_PROJECTILE_TEXTURE = new ResourceLocation(Csrp.MODID,
             "textures/entity/projectile/nade.png");
-    private static final ResourceLocation SPINEBALL_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final ResourceLocation SPINEBALL_TEXTURE = new ResourceLocation(Csrp.MODID,
             "textures/entity/projectile/spineball.png");
-    private static final ResourceLocation YELLOWEYE_NADE_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final ResourceLocation YELLOWEYE_NADE_TEXTURE = new ResourceLocation(Csrp.MODID,
             "textures/entity/monster/nade.png");
-    private static final ResourceLocation ALAFHA_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final ResourceLocation ALAFHA_TEXTURE = new ResourceLocation(Csrp.MODID,
             "textures/entity/projectile/alafha.png");
-    private static final ResourceLocation ANGED_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final ResourceLocation ANGED_TEXTURE = new ResourceLocation(Csrp.MODID,
             "textures/entity/projectile/anged.png");
-    private static final ResourceLocation BIOMASS_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final ResourceLocation BIOMASS_TEXTURE = new ResourceLocation(Csrp.MODID,
             "textures/entity/projectile/biomass.png");
 
     public ParasiteProjectileRenderer(EntityRendererProvider.Context context) {

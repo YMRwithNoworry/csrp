@@ -59,7 +59,7 @@ public final class SpottedMobEffect extends MobEffect {
             return true;
         }
         if (entity instanceof Parasite || !hasStrongVector(level, entity.blockPosition())) {
-            entity.removeEffect(ModMobEffects.SPOTTED);
+            entity.removeEffect(ModMobEffects.SPOTTED.get());
             return true;
         }
 
@@ -167,7 +167,7 @@ public final class SpottedMobEffect extends MobEffect {
 
     private static List<ResourceLocation> ids(String... paths) {
         return java.util.Arrays.stream(paths)
-                .map(path -> ResourceLocation.fromNamespaceAndPath(Csrp.MODID, path))
+                .map(path -> new ResourceLocation(Csrp.MODID, path))
                 .toList();
     }
 

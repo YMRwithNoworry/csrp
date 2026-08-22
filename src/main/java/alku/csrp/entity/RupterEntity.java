@@ -1,5 +1,7 @@
 package alku.csrp.entity;
 
+import net.minecraft.util.Mth;
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.Csrp;
 import alku.csrp.Config;
 import alku.csrp.config.MobsConfig;
@@ -13,7 +15,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -57,12 +58,12 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.Comparator;
@@ -84,11 +85,11 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite, Manual
     private static final String FAILED_BAT_TARGET_NBT_KEY = "rupter_failed_bat_target";
     private static final String CREATED_PHASE_NBT_KEY = "rupter_created_phase";
     private static final ResourceLocation OVERHEAT_ATTACK_MODIFIER =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "rupter_overheat_attack");
+            new ResourceLocation(Csrp.MODID, "rupter_overheat_attack");
     private static final ResourceLocation OVERHEAT_SPEED_MODIFIER =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "rupter_overheat_speed");
+            new ResourceLocation(Csrp.MODID, "rupter_overheat_speed");
     private static final ResourceLocation OVERHEAT_JUMP_MODIFIER =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "rupter_overheat_jump");
+            new ResourceLocation(Csrp.MODID, "rupter_overheat_jump");
     private static final EntityDataAccessor<Byte> CLIMBING =
             SynchedEntityData.defineId(RupterEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Byte> TEXTURE_VARIANT =
@@ -217,7 +218,7 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite, Manual
             return false;
         }
         if (entity instanceof Animal || entity instanceof Villager) {
-            return phase >= 9 || !entity.hasEffect(ModMobEffects.COTH);
+            return phase >= 9 || !entity.hasEffect(ModMobEffects.COTH.get());
         }
         return Config.mobAttackingEnabled();
     }
@@ -402,7 +403,7 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite, Manual
         AttributeInstance instance = getAttribute(attribute);
         if (instance != null && instance.getModifier(id) == null) {
             instance.addPermanentModifier(new AttributeModifier(
-                    id, amount, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+                    id, amount, AttributeModifier.Operation.MULTIPLY_TOTAL));
         }
     }
 
@@ -438,12 +439,12 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite, Manual
         if (hit && entity instanceof LivingEntity living) {
             applyMinimumDamage(living, healthBefore);
             if (getBehaviorVariant() == BehaviorVariant.BERSERKER) {
-                living.addEffect(new MobEffectInstance(ModMobEffects.BLEED, 100, 0), this);
+                living.addEffect(new MobEffectInstance(ModMobEffects.BLEED.get(), 100, 0), this);
             } else if (getBehaviorVariant() == BehaviorVariant.VIRULENT) {
-                living.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 100, 0), this);
+                living.addEffect(new MobEffectInstance(ModMobEffects.VIRAL.get(), 100, 0), this);
             }
             living.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 1), this);
-            if (!living.hasEffect(ModMobEffects.COTH)) {
+            if (!living.hasEffect(ModMobEffects.COTH.get())) {
                 InfectionMechanics.applyCoth(living, this);
             }
         }
@@ -476,7 +477,7 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite, Manual
     public void push(Entity entity) {
         if (!level().isClientSide && getBehaviorVariant() == BehaviorVariant.VIRULENT
                 && entity instanceof LivingEntity living && isValidContactTarget(living)) {
-            living.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 100, 0), this);
+            living.addEffect(new MobEffectInstance(ModMobEffects.VIRAL.get(), 100, 0), this);
         }
         super.push(entity);
     }
@@ -496,7 +497,7 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite, Manual
             clearBatLeapTracking();
         }
         killCount++;
-        if (!victim.hasEffect(ModMobEffects.COTH)) {
+        if (!victim.hasEffect(ModMobEffects.COTH.get())) {
             InfectionMechanics.applyCothEffect(victim, this, 3600, 0, false, false);
         }
         addEffect(new MobEffectInstance(MobEffects.CONFUSION, 80, 0, false, false));
@@ -524,7 +525,7 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite, Manual
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         super.defineSynchedData(builder);
         builder.define(CLIMBING, (byte) 0);
         builder.define(TEXTURE_VARIANT, (byte) TextureVariant.NORMAL.ordinal());
@@ -585,7 +586,7 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite, Manual
 
     @Override
     public void setManualVariant(int variant) {
-        int skin = Math.clamp(variant, 0, getMaxManualVariants() - 1);
+        int skin = Mth.clamp(variant, 0, getMaxManualVariants() - 1);
         if (skin < TextureVariant.values().length) {
             setTextureVariant(TextureVariant.values()[skin]);
             setBehaviorVariant(BehaviorVariant.NORMAL);
@@ -915,7 +916,7 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite, Manual
                             entity -> entity != RupterEntity.this && entity.isAlive()
                                     && (entity instanceof Animal || entity instanceof WaterAnimal
                                     || entity instanceof Villager)
-                                    && !entity.hasEffect(ModMobEffects.COTH)
+                                    && !entity.hasEffect(ModMobEffects.COTH.get())
                                     && hasLineOfSight(entity)
                                     && distanceToSqr(entity) < 81.0D
                                     && navigation.createPath(entity, 1) != null)
@@ -940,7 +941,7 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite, Manual
             cloud.setDuration(1200);
             cloud.setWaitTime(10);
             cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
-            cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, 1, false, false, true));
+            cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH.get(), 3600, 1, false, false, true));
             level().addFreshEntity(cloud);
             playSound(ModSounds.RUPTER_CLOUD.get(), 2.0F, 1.0F);
             cloudCooldown = 20;

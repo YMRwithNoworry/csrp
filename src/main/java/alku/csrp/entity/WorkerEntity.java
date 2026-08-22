@@ -19,7 +19,7 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.EnumSet;
 
@@ -167,9 +167,9 @@ public final class WorkerEntity extends PrimitiveParasiteEntity {
     private boolean hasNearbyColonyStructure(BlockPos placement) {
         for (int y = placement.getY() - 30; y <= placement.getY() + 30; y++) {
             BlockPos check = new BlockPos(placement.getX(), y, placement.getZ());
-            if (level().getBlockState(check).is(ModBlocks.PARASITE_STRUCTURE)
-                    || level().getBlockState(check).is(ModBlocks.COLONYHEART)
-                    || level().getBlockState(check).is(ModBlocks.BIOMEHEART)) {
+            if (level().getBlockState(check).is(ModBlocks.PARASITE_STRUCTURE.get())
+                    || level().getBlockState(check).is(ModBlocks.COLONYHEART.get())
+                    || level().getBlockState(check).is(ModBlocks.BIOMEHEART.get())) {
                 return true;
             }
         }

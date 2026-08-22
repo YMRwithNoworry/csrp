@@ -3,9 +3,9 @@ package alku.csrp.world;
 import alku.csrp.Csrp;
 import alku.csrp.entity.Parasite;
 import net.minecraft.server.level.ServerLevel;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
 @EventBusSubscriber(modid = Csrp.MODID)
 public final class ReinforcementEvents {

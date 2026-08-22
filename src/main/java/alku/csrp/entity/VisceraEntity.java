@@ -1,12 +1,14 @@
 package alku.csrp.entity;
 
+import net.minecraftforge.common.ForgeMod;
+import net.minecraft.util.Mth;
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.config.MobsConfig;
 import alku.csrp.effect.EffectStacking;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -20,9 +22,9 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.RawAnimation;
 
 import java.util.EnumSet;
 
@@ -70,7 +72,7 @@ public final class VisceraEntity extends PrimitiveParasiteEntity implements Manu
                 .add(Attributes.MOVEMENT_SPEED, 0.33D)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.7D)
                 .add(Attributes.FOLLOW_RANGE, 24.0D)
-                .add(Attributes.STEP_HEIGHT, 1.0D);
+                .add(ForgeMod.STEP_HEIGHT_ADDITION.get(), 1.0D);
     }
 
     @Override
@@ -110,9 +112,9 @@ public final class VisceraEntity extends PrimitiveParasiteEntity implements Manu
         boolean hit = super.doHurtTarget(entity);
         if (hit && entity instanceof LivingEntity target) {
             if (getSkin() == SKIN_VIRULENT) {
-                EffectStacking.apply(target, ModMobEffects.VIRAL, 40, 0);
+                EffectStacking.apply(target, ModMobEffects.VIRAL.get(), 40, 0);
             } else if (getSkin() == SKIN_BLEEDING) {
-                EffectStacking.apply(target, ModMobEffects.BLEED, 40, 0);
+                EffectStacking.apply(target, ModMobEffects.BLEED.get(), 40, 0);
             }
         }
         return hit;
@@ -123,7 +125,7 @@ public final class VisceraEntity extends PrimitiveParasiteEntity implements Manu
         super.push(entity);
         if (!level().isClientSide && getSkin() == SKIN_VIRULENT
                 && entity instanceof LivingEntity target && !(target instanceof Parasite)) {
-            EffectStacking.apply(target, ModMobEffects.VIRAL, 40, 0);
+            EffectStacking.apply(target, ModMobEffects.VIRAL.get(), 40, 0);
         }
     }
 
@@ -133,7 +135,7 @@ public final class VisceraEntity extends PrimitiveParasiteEntity implements Manu
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         super.defineSynchedData(builder);
         builder.define(CLIMBING, (byte) 0);
         builder.define(PARASITE_STATUS, STATUS_IDLE);
@@ -182,7 +184,7 @@ public final class VisceraEntity extends PrimitiveParasiteEntity implements Manu
 
     @Override
     public void setManualVariant(int variant) {
-        entityData.set(SKIN, Math.clamp(variant, 0, getMaxManualVariants() - 1));
+        entityData.set(SKIN, Mth.clamp(variant, 0, getMaxManualVariants() - 1));
     }
 
     public void setSkin(int skin) {

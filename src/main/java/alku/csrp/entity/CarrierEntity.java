@@ -26,12 +26,12 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.DifficultyInstance;
-import net.neoforged.neoforge.event.EventHooks;
+import net.minecraftforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.RawAnimation;
+import software.bernie.geckolib.core.object.PlayState;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -96,7 +96,7 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity implements M
 
     @Override
     public final void setManualVariant(int variant) {
-        int skin = Math.clamp(variant, 0, getMaxManualVariants() - 1);
+        int skin = Mth.clamp(variant, 0, getMaxManualVariants() - 1);
         entityData.set(SKIN, (byte) skin);
         if (skin == 1) {
             onVariantActivated();
@@ -314,7 +314,7 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity implements M
         detonated = true;
         DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(4.0D));
         Level.ExplosionInteraction interaction = level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
-                        && griefingEnabled() && EventHooks.canEntityGrief(level(), this)
+                        && griefingEnabled() && ForgeEventFactory.getMobGriefingEvent(level(), this)
                 ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
         level().explode(this, getX(), getY(), getZ(), 4.0F, interaction);
         playSound(explosionSound(), explosionVolume(), 1.0F);
@@ -354,7 +354,7 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity implements M
                 continue;
             }
             if (location.getNamespace().equals("srparasites")) {
-                location = ResourceLocation.fromNamespaceAndPath("csrp", location.getPath());
+                location = new ResourceLocation("csrp", location.getPath());
             }
             EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.getOptional(location).orElse(null);
             if (type == null) {
@@ -385,8 +385,8 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity implements M
                 target.hurt(damageSources().mobAttack(this),
                         (float) getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE));
             }
-            target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 400, amplifier), this);
-            target.addEffect(new MobEffectInstance(ModMobEffects.VOMIT, duration, 0,
+            target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL.get(), 400, amplifier), this);
+            target.addEffect(new MobEffectInstance(ModMobEffects.VOMIT.get(), duration, 0,
                     false, true), this);
         }
     }
@@ -403,8 +403,8 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity implements M
         cloud.addEffect(new MobEffectInstance(MobEffects.POISON, 300,
                 isVariant() ? variantPoisonAmplifier() : normalPoisonAmplifier()));
         int cloudAmplifier = isVariant() ? 2 : 0;
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, cloudAmplifier, false, false, true));
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 3600, cloudAmplifier, false, false));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH.get(), 3600, cloudAmplifier, false, false, true));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.VIRAL.get(), 3600, cloudAmplifier, false, false));
         level().addFreshEntity(cloud);
     }
 

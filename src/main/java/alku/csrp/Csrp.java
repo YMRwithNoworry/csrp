@@ -14,6 +14,7 @@ import alku.csrp.registry.ModBlockEntities;
 import alku.csrp.registry.ModArmorMaterials;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModItems;
+import alku.csrp.registry.ModJukeboxSongs;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModMenus;
 import alku.csrp.registry.ModPotions;
@@ -24,13 +25,14 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.ModContainer;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.config.ModConfig;
-import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
+import net.minecraftforge.registries.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
 
 @Mod(Csrp.MODID)
 public final class Csrp {
@@ -38,7 +40,7 @@ public final class Csrp {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> CSRP_TAB =
+    public static final RegistryObject<CreativeModeTab> CSRP_TAB =
             CREATIVE_MODE_TABS.register("csrp_tab", () -> CreativeModeTab.builder()
                     .title(Component.translatable("itemGroup.csrp"))
                     .withTabsBefore(CreativeModeTabs.COMBAT)
@@ -183,7 +185,8 @@ public final class Csrp {
                     })
                     .build());
 
-    public Csrp(IEventBus modEventBus, ModContainer modContainer) {
+    public Csrp() {
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ModBlocks.BLOCKS.register(modEventBus);
         ModFluids.FLUIDS.register(modEventBus);
         ModFluidTypes.FLUID_TYPES.register(modEventBus);
@@ -191,22 +194,27 @@ public final class Csrp {
         ModEntities.ENTITIES.register(modEventBus);
         ModArmorMaterials.MATERIALS.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
-        ModMobEffects.EFFECTS.register(modEventBus);
+        ModMobEffects.EFFECTS.get().register(modEventBus);
         ModMenus.MENUS.register(modEventBus);
         ModPotions.POTIONS.register(modEventBus);
         ModParticles.PARTICLES.register(modEventBus);
         ModRecipeSerializers.RECIPE_SERIALIZERS.register(modEventBus);
         ModSounds.SOUNDS.register(modEventBus);
+        ModJukeboxSongs.JUKEBOX_SONGS.register(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
 
         BuglinEvolutionTarget.registerRupter(ModEntities.RUPTER);
         ManglerEvolutionTarget.registerMangler(ModEntities.MANGLER);
         modEventBus.addListener(this::addCreativeItems);
-        modContainer.registerConfig(ModConfig.Type.COMMON, GeneralConfig.SPEC, "csrp-general.toml");
-        modContainer.registerConfig(ModConfig.Type.COMMON, MobsConfig.SPEC, "csrp-mobs.toml");
-        modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC, "csrp-systems.toml");
-        modContainer.registerConfig(ModConfig.Type.COMMON, WorldConfig.SPEC, "csrp-world.toml");
-        modContainer.registerConfig(ModConfig.Type.COMMON, BlockConversionsConfig.SPEC,
+        net.minecraftforge.fml.ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, GeneralConfig.SPEC,
+                "csrp-general.toml");
+        net.minecraftforge.fml.ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, MobsConfig.SPEC,
+                "csrp-mobs.toml");
+        net.minecraftforge.fml.ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC,
+                "csrp-systems.toml");
+        net.minecraftforge.fml.ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WorldConfig.SPEC,
+                "csrp-world.toml");
+        net.minecraftforge.fml.ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, BlockConversionsConfig.SPEC,
                 "csrp-block-conversions.toml");
     }
 

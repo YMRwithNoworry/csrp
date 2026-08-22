@@ -11,12 +11,13 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.RenderGuiEvent;
-import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.client.event.RenderGuiEvent;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import org.lwjgl.glfw.GLFW;
 
 @EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT)
@@ -42,7 +43,8 @@ public final class EvolutionHudEvents {
     }
 
     @SubscribeEvent
-    public static void clientTick(ClientTickEvent.Post event) {
+    public static void clientTick(ClientTickEvent event) {
+        if (event.phase == TickEvent.Phase.START) {return;}
         while (TOGGLE.consumeClick()) {
             EvolutionHudState.toggle();
         }
@@ -64,7 +66,7 @@ public final class EvolutionHudEvents {
                 : position.startsWith("middle") ? screenHeight / 2 - 30 : 10;
         int progress = progressWidth(state);
         int texturePhase = Math.max(-2, Math.min(8, state.phase()));
-        ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+        ResourceLocation texture = new ResourceLocation(Csrp.MODID,
                 "textures/gui/overlast/evolutionbar" + texturePhase + ".png");
 
         if (progress > 0) {
@@ -121,7 +123,7 @@ public final class EvolutionHudEvents {
         return String.format(Locale.ROOT, "%.1fP", (double) points);
     }
 
-    @EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT)
+    @EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
     public static final class ModEvents {
         private ModEvents() {
         }

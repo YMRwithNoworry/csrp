@@ -22,23 +22,24 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.effect.MobEffects;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
-import net.neoforged.neoforge.event.entity.EntityStruckByLightningEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
-import net.neoforged.neoforge.event.entity.living.LivingExperienceDropEvent;
-import net.neoforged.neoforge.event.entity.living.FinalizeSpawnEvent;
-import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
-import net.neoforged.neoforge.event.entity.living.MobSpawnEvent;
-import net.neoforged.neoforge.event.entity.player.ItemFishedEvent;
-import net.neoforged.neoforge.event.level.BlockEvent;
-import net.neoforged.neoforge.event.level.LevelEvent;
-import net.neoforged.neoforge.event.level.block.CropGrowEvent;
-import net.neoforged.neoforge.event.level.SleepFinishedTimeEvent;
-import net.neoforged.neoforge.event.tick.LevelTickEvent;
-import net.neoforged.neoforge.event.tick.EntityTickEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.EntityStruckByLightningEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingExperienceDropEvent;
+import net.minecraftforge.event.entity.living.FinalizeSpawnEvent;
+import net.minecraftforge.event.entity.living.LivingHealEvent;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.event.entity.living.MobSpawnEvent;
+import net.minecraftforge.event.entity.player.ItemFishedEvent;
+import net.minecraftforge.event.level.BlockEvent;
+import net.minecraftforge.event.level.LevelEvent;
+import net.minecraftforge.event.level.block.CropGrowEvent;
+import net.minecraftforge.event.level.SleepFinishedTimeEvent;
+import net.minecraftforge.event.TickEvent.LevelTickEvent;
+import net.minecraftforge.event.entity.living.LivingTickEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,15 +57,16 @@ public final class EvolutionEvents {
             + "result, THIS IS INTENDED.";
     private static final double SPRINT_MIN_HORIZONTAL_DISTANCE_SQR = 1.0E-4D;
     private static final ResourceLocation PHASE_TEN_HEALTH =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "phase_ten_health");
+            new ResourceLocation(Csrp.MODID, "phase_ten_health");
     private static final ResourceLocation PHASE_TEN_DAMAGE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "phase_ten_damage");
+            new ResourceLocation(Csrp.MODID, "phase_ten_damage");
 
     private EvolutionEvents() {
     }
 
     @SubscribeEvent
-    public static void tickGeneration(LevelTickEvent.Post event) {
+    public static void tickGeneration(LevelTickEvent event) {
+        if (event.phase == TickEvent.Phase.START) {return;}
         if (event.getLevel() instanceof ServerLevel level && level.getGameTime() % 20L == 0L) {
             SrpWorldData data = SrpWorldData.get(level);
             if (Config.generationEnabled()) {
@@ -116,7 +118,7 @@ public final class EvolutionEvents {
         if (attacker instanceof Parasite) {
             int points = EvolutionSystem.VALUE_KILL;
             if (attacker instanceof LivingEntity living) {
-                var pivot = living.getEffect(ModMobEffects.PIVOT);
+                var pivot = living.getEffect(ModMobEffects.PIVOT.get());
                 if (pivot != null) {
                     points *= 2;
                 }
@@ -140,9 +142,9 @@ public final class EvolutionEvents {
         if (!(event.getLevel() instanceof ServerLevel level)) {
             return;
         }
-        int penalty = event.getState().is(ModBlocks.INFESTED_RUBBLE) ? 4
-                : event.getState().is(ModBlocks.INFESTED_TRUNK) ? 3
-                : event.getState().is(ModBlocks.INFESTED_STAIN) ? 2 : 0;
+        int penalty = event.getState().is(ModBlocks.INFESTED_RUBBLE.get()) ? 4
+                : event.getState().is(ModBlocks.INFESTED_TRUNK.get()) ? 3
+                : event.getState().is(ModBlocks.INFESTED_STAIN.get()) ? 2 : 0;
         if (penalty > 0) {
             EvolutionSystem.addPoints(level, -penalty, EvolutionSystem.PointSource.BLOCK_BREAK);
         }
@@ -187,7 +189,7 @@ public final class EvolutionEvents {
     public static void preventCothDrops(LivingDropsEvent event) {
         // COTH carriers killed by players still use their normal loot table.
         if (event.getSource().getEntity() instanceof Parasite
-                && !(event.getEntity() instanceof Parasite) && event.getEntity().hasEffect(ModMobEffects.COTH)
+                && !(event.getEntity() instanceof Parasite) && event.getEntity().hasEffect(ModMobEffects.COTH.get())
                 && event.getEntity().level() instanceof ServerLevel level
                 && SrpWorldData.get(level).evolutionPhase() >= 2) {
             event.getDrops().clear();
@@ -297,12 +299,12 @@ public final class EvolutionEvents {
         if (SrpWorldData.get(level).evolutionPhase() >= 10) {
             if (health != null && health.getModifier(PHASE_TEN_HEALTH) == null) {
                 health.addPermanentModifier(new AttributeModifier(PHASE_TEN_HEALTH, 0.07D,
-                        AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+                        AttributeModifier.Operation.MULTIPLY_TOTAL));
                 entity.setHealth(entity.getMaxHealth());
             }
             if (damage != null && damage.getModifier(PHASE_TEN_DAMAGE) == null) {
                 damage.addPermanentModifier(new AttributeModifier(PHASE_TEN_DAMAGE, 0.07D,
-                        AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+                        AttributeModifier.Operation.MULTIPLY_TOTAL));
             }
             entity.getPersistentData().putBoolean("csrp_phase_ten_attributes", true);
         } else if (entity.getPersistentData().getBoolean("csrp_phase_ten_attributes")) {

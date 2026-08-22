@@ -56,7 +56,7 @@ public final class BiomePurifierBlockEntity extends BlockEntity {
         }
         for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class, area,
                 candidate -> candidate instanceof Parasite)) {
-            entity.addEffect(new MobEffectInstance(ModMobEffects.RAGE, 600, 0));
+            entity.addEffect(new MobEffectInstance(ModMobEffects.RAGE.get(), 600, 0));
         }
         boolean beckonNearby = !level.getEntitiesOfClass(NexusParasiteEntity.class, area,
                 entity -> entity.getKind().name().startsWith("BECKON")).isEmpty();

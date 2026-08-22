@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.config.MobsConfig;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
@@ -8,7 +9,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
@@ -36,12 +36,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.util.Mth;
-import net.neoforged.neoforge.entity.PartEntity;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import net.minecraftforge.entity.PartEntity;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.core.animation.RawAnimation;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -135,7 +135,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         super.defineSynchedData(builder);
         builder.define(DREAD_DAMAGE_REACTION_TICKS, 0);
         builder.define(DREAD_ATTACK_ANIMATION_TICKS, 0);
@@ -568,7 +568,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
             }
             getLookControl().setLookAt(target, 30.0F, 30.0F);
             attackTimer++;
-            if (hasEffect(ModMobEffects.RAGE)) {
+            if (hasEffect(ModMobEffects.RAGE.get())) {
                 attackTimer++;
             }
             if (attackTimer == 50) {
@@ -874,7 +874,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         }
 
         @Override
-        protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        protected void defineSynchedData() {
         }
 
         @Override

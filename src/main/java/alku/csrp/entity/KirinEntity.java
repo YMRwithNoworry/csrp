@@ -1,5 +1,7 @@
 package alku.csrp.entity;
 
+import net.minecraftforge.common.ForgeMod;
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
@@ -12,7 +14,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.sounds.SoundEvent;
@@ -42,9 +43,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.RawAnimation;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -125,7 +126,7 @@ public final class KirinEntity extends DerivedParasiteEntity {
                 .add(Attributes.ARMOR, 30.0D)
                 .add(Attributes.ATTACK_DAMAGE, 155.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.24D)
-                .add(Attributes.STEP_HEIGHT, 1.0D)
+                .add(ForgeMod.STEP_HEIGHT_ADDITION.get(), 1.0D)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
                 .add(Attributes.FOLLOW_RANGE, 80.0D);
     }
@@ -153,7 +154,7 @@ public final class KirinEntity extends DerivedParasiteEntity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         super.defineSynchedData(builder);
         builder.define(BLINK_POS, BlockPos.ZERO);
         builder.define(BLINK_TICKS, 0);
@@ -350,14 +351,14 @@ public final class KirinEntity extends DerivedParasiteEntity {
         target.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, LASER_EFFECT_DURATION_TICKS, 0), this);
         target.addEffect(new MobEffectInstance(MobEffects.HUNGER, LASER_EFFECT_DURATION_TICKS, 1), this);
         target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, LASER_EFFECT_DURATION_TICKS, 1), this);
-        target.addEffect(new MobEffectInstance(ModMobEffects.BLEED, LASER_EFFECT_DURATION_TICKS, 1), this);
-        target.addEffect(new MobEffectInstance(ModMobEffects.EFFECTPOS, LASER_EFFECT_DURATION_TICKS, 0), this);
-        target.addEffect(new MobEffectInstance(ModMobEffects.EFFECTNEG, LASER_EFFECT_DURATION_TICKS, 0), this);
-        target.addEffect(new MobEffectInstance(ModMobEffects.INDEAF, LASER_EFFECT_DURATION_TICKS, 0), this);
-        target.addEffect(new MobEffectInstance(ModMobEffects.OVERHEATING, LASER_EFFECT_DURATION_TICKS, 0), this);
-        target.addEffect(new MobEffectInstance(ModMobEffects.NOVISION, LASER_EFFECT_DURATION_TICKS, 0), this);
-        target.addEffect(new MobEffectInstance(ModMobEffects.BRAINING, LASER_EFFECT_DURATION_TICKS, 0), this);
-        target.addEffect(new MobEffectInstance(ModMobEffects.MUSCLEOUT, LASER_EFFECT_DURATION_TICKS, 0), this);
+        target.addEffect(new MobEffectInstance(ModMobEffects.BLEED.get(), LASER_EFFECT_DURATION_TICKS, 1), this);
+        target.addEffect(new MobEffectInstance(ModMobEffects.EFFECTPOS.get(), LASER_EFFECT_DURATION_TICKS, 0), this);
+        target.addEffect(new MobEffectInstance(ModMobEffects.EFFECTNEG.get(), LASER_EFFECT_DURATION_TICKS, 0), this);
+        target.addEffect(new MobEffectInstance(ModMobEffects.INDEAF.get(), LASER_EFFECT_DURATION_TICKS, 0), this);
+        target.addEffect(new MobEffectInstance(ModMobEffects.OVERHEATING.get(), LASER_EFFECT_DURATION_TICKS, 0), this);
+        target.addEffect(new MobEffectInstance(ModMobEffects.NOVISION.get(), LASER_EFFECT_DURATION_TICKS, 0), this);
+        target.addEffect(new MobEffectInstance(ModMobEffects.BRAINING.get(), LASER_EFFECT_DURATION_TICKS, 0), this);
+        target.addEffect(new MobEffectInstance(ModMobEffects.MUSCLEOUT.get(), LASER_EFFECT_DURATION_TICKS, 0), this);
     }
 
     private void finishLaserSkill() {

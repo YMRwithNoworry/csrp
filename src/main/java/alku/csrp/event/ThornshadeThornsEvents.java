@@ -15,11 +15,11 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
-import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
-import net.neoforged.neoforge.event.tick.EntityTickEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.MobEffectEvent;
+import net.minecraftforge.event.entity.living.LivingTickEvent;
 
 /** Legacy Thornshade Thorns use limit, reflection, self-destruction, and propagation. */
 @EventBusSubscriber(modid = Csrp.MODID)
@@ -31,7 +31,7 @@ public final class ThornshadeThornsEvents {
     private static final String EXPLODED_TAG = "HasExplodedOnce";
     private static final float MAX_ALLOWED_HEALTH = 120.0F;
     private static final ResourceLocation SELF_DESTRUCT_ADVANCEMENT =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "thornshade_self_destruct");
+            new ResourceLocation(Csrp.MODID, "thornshade_self_destruct");
     private static final String SELF_DESTRUCT_CRITERION = "exploded";
 
     private ThornshadeThornsEvents() {
@@ -40,7 +40,7 @@ public final class ThornshadeThornsEvents {
     @SubscribeEvent
     public static void checkApplication(MobEffectEvent.Applicable event) {
         MobEffectInstance incoming = event.getEffectInstance();
-        if (!incoming.is(ModMobEffects.THORNSHADE_THORNS)) {
+        if (!incoming.is(ModMobEffects.THORNSHADE_THORNS.get())) {
             return;
         }
         LivingEntity living = event.getEntity();
@@ -48,7 +48,7 @@ public final class ThornshadeThornsEvents {
             return;
         }
         if (living instanceof Parasite || living.getMaxHealth() > MAX_ALLOWED_HEALTH
-                || living.hasEffect(ModMobEffects.THORNSHADE_THORNS) || isInfinite(incoming)) {
+                || living.hasEffect(ModMobEffects.THORNSHADE_THORNS.get()) || isInfinite(incoming)) {
             event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
             return;
         }
@@ -75,9 +75,9 @@ public final class ThornshadeThornsEvents {
     }
 
     @SubscribeEvent
-    public static void reflectDamage(LivingIncomingDamageEvent event) {
+    public static void reflectDamage(LivingAttackEvent event) {
         LivingEntity target = event.getEntity();
-        MobEffectInstance thorns = target.getEffect(ModMobEffects.THORNSHADE_THORNS);
+        MobEffectInstance thorns = target.getEffect(ModMobEffects.THORNSHADE_THORNS.get());
         Entity source = event.getSource().getEntity();
         if (thorns == null || isInfinite(thorns) || !(source instanceof LivingEntity attacker)
                 || event.getSource().getDirectEntity() != attacker || event.getAmount() <= 0.0F) {
@@ -139,7 +139,7 @@ public final class ThornshadeThornsEvents {
 
         for (LivingEntity other : level.getEntitiesOfClass(LivingEntity.class,
                 center.getBoundingBox().inflate(3.0D), ThornshadeThornsEvents::canReceiveThorns)) {
-            if (other == center || !other.hasEffect(ModMobEffects.THORNSHADE_THORNS)) {
+            if (other == center || !other.hasEffect(ModMobEffects.THORNSHADE_THORNS.get())) {
                 continue;
             }
             CompoundTag data = thornData(other);
@@ -154,10 +154,10 @@ public final class ThornshadeThornsEvents {
                 center.getBoundingBox().inflate(10.0D), ThornshadeThornsEvents::canReceiveThorns)) {
             double distance = other.distanceToSqr(x, y, z);
             if (other == center || distance <= 9.0D || distance > 100.0D
-                    || other.hasEffect(ModMobEffects.THORNSHADE_THORNS)) {
+                    || other.hasEffect(ModMobEffects.THORNSHADE_THORNS.get())) {
                 continue;
             }
-            other.addEffect(new MobEffectInstance(ModMobEffects.THORNSHADE_THORNS,
+            other.addEffect(new MobEffectInstance(ModMobEffects.THORNSHADE_THORNS.get(),
                     600, 0, false, true), center);
         }
         center.invulnerableTime = 0;

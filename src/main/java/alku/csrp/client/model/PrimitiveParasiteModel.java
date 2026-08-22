@@ -17,92 +17,92 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Mob;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animation.AnimationState;
+import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.cache.object.GeoBone;
 
 public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends ParasiteGeoModel<T> {
     private static final ResourceLocation CARRIER_HEAVY_VARIANT_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/ratholone.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/ratholone.png");
     private static final ResourceLocation CARRIER_FLYING_VARIANT_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/butholone.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/butholone.png");
     private static final ResourceLocation CARRIER_VARIANT_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/vestare.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/vestare.png");
     private static final ResourceLocation HAUNTER_VARIANT_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/pheonsp1.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/pheonsp1.png");
     private static final ResourceLocation BOLSTER_BERSERKER_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/ada_bolster_berserker.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/ada_bolster_berserker.png");
     private static final ResourceLocation BOLSTER_VIRULENT_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/ada_bolster_virulent.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/ada_bolster_virulent.png");
     private static final ResourceLocation BOLSTER_BREACHER_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/ada_bolster_breacher.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/ada_bolster_breacher.png");
     private static final ResourceLocation BOLSTER_VIRULENT_PRIMITIVE_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/banov.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/banov.png");
     private static final ResourceLocation BOLSTER_HEAVY_PRIMITIVE_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/banoh.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/banoh.png");
     private static final ResourceLocation MANDUCATER_HEAVY_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/hullh.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/hullh.png");
     private static final ResourceLocation ARACHNIDA_VIRULENT_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/ada_arachnida_virulent.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/ada_arachnida_virulent.png");
     private static final ResourceLocation ARACHNIDA_BLEEDING_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/ada_arachnida_bleeding.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/ada_arachnida_bleeding.png");
     private static final ResourceLocation ARACHNIDA_HEAVY_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/ada_arachnida_heavy.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/ada_arachnida_heavy.png");
     private static final ResourceLocation SHRIMP_FED_ENDERMAN_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/sim_enderman_ariral.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/sim_enderman_ariral.png");
     private static final ResourceLocation VARIANT_ENDERMAN_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/sim_enderman_variant.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/sim_enderman_variant.png");
     private static final ResourceLocation REEKER_FRAGILE_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/noglasp1.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/noglasp1.png");
     private static final ResourceLocation REEKER_VIRULENT_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/noglav.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/noglav.png");
     private static final ResourceLocation REEKER_BERSERKER_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/noglab.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/noglab.png");
     private static final ResourceLocation REEKER_HEAVY_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/noglah.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/noglah.png");
     private static final ResourceLocation REEKER_RICARDO_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/ricardo.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/ricardo.png");
     private static final ResourceLocation REEKER_RICARDO_BALD_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/ricardo_bald.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/ricardo_bald.png");
     private static final ResourceLocation DEVOURER_HEAVY_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/pri_devourer_heavy.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/pri_devourer_heavy.png");
     private static final ResourceLocation YELLOWEYE_HEAVY_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/pri_yelloweye_heavy.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/pri_yelloweye_heavy.png");
     private static final ResourceLocation MANGLER_VIRAL_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/nuuhv.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/nuuhv.png");
     private static final ResourceLocation MANGLER_BLEEDING_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/nuuhb.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/nuuhb.png");
     private static final ResourceLocation MANGLER_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/nuuh.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/nuuh.png");
     private static final ResourceLocation GRUNT_VIRULENT_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/monster/flogv.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/monster/flogv.png");
     private static final ResourceLocation GRUNT_BLEEDING_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/monster/flogb.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/monster/flogb.png");
     private static final ResourceLocation GRUNT_HEAVY_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/monster/flogh.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/monster/flogh.png");
     private static final ResourceLocation OMBOO_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/monster/omboo.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/monster/omboo.png");
     private static final ResourceLocation OMBOO_HEAVY_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/monster/ombooh.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/monster/ombooh.png");
     private static final ResourceLocation MONARCH_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/orch.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/orch.png");
     private static final ResourceLocation MONARCH_SKIN_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/orchsp1.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/orchsp1.png");
     private static final ResourceLocation MONARCH_HEAVY_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/orchh.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/orchh.png");
     private static final ResourceLocation OVERSEER_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/monster/alafha.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/monster/alafha.png");
     private static final ResourceLocation OVERSEER_HEAVY_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/monster/alafhah.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/monster/alafhah.png");
     private static final ResourceLocation VIGILANTE_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/monster/anged.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/monster/anged.png");
     private static final ResourceLocation VIGILANTE_HEAVY_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/monster/angedh.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/monster/angedh.png");
     private static final ResourceLocation WARDEN_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/monster/ganro.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/monster/ganro.png");
     private static final ResourceLocation WARDEN_HEAVY_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/monster/ganroh.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/monster/ganroh.png");
     private static final ResourceLocation MARAUDERIZED_COW_RAGE_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/mar_cow_desert.png");
+            new ResourceLocation(Csrp.MODID, "textures/entity/mar_cow_desert.png");
     private static final String[] OMBOO_PULSE_GROUP_ONE = {"mpop6", "jointp7", "mpop8", "mpop16", "mpop5"};
     private static final String[] OMBOO_PULSE_GROUP_TWO = {"jointp11", "mpop1", "mpop13", "mpop19"};
     private static final String[] OMBOO_PULSE_GROUP_THREE = {"jointp17", "jointp18", "mpop4", "jointp2", "mpop3"};
@@ -112,9 +112,9 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
     private final ResourceLocation animation;
 
     public PrimitiveParasiteModel(String id) {
-        model = ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "geo/" + id + ".geo.json");
-        texture = ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/" + id + ".png");
-        animation = ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "animations/" + id + ".animation.json");
+        model = new ResourceLocation(Csrp.MODID, "geo/" + id + ".geo.json");
+        texture = new ResourceLocation(Csrp.MODID, "textures/entity/" + id + ".png");
+        animation = new ResourceLocation(Csrp.MODID, "animations/" + id + ".animation.json");
     }
 
     @Override public ResourceLocation getModelResource(T animatable) { return model; }

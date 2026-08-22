@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.Config;
 import alku.csrp.config.MobsConfig;
 import alku.csrp.infection.InfectionMechanics;
@@ -18,7 +19,6 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -52,9 +52,9 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.util.Mth;
-import net.neoforged.neoforge.event.EventHooks;
+import net.minecraftforge.event.EventHooks;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.lang.reflect.Method;
@@ -82,7 +82,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     private static final int NEW_DAMAGE_COOLDOWN_TICKS = 20;
     private static final int FIRE_ADAPTATION_BLOCK_TICKS = 10;
     private static final TagKey<DamageType> TACZ_BULLET_DAMAGE = TagKey.create(Registries.DAMAGE_TYPE,
-            ResourceLocation.fromNamespaceAndPath("tacz", "bullets"));
+            new ResourceLocation("tacz", "bullets"));
     private static final Map<Class<?>, Optional<Method>> TACZ_BULLET_GUN_ID_METHODS = new ConcurrentHashMap<>();
     private static final Map<Class<?>, Optional<Method>> TACZ_ITEM_GUN_ID_METHODS = new ConcurrentHashMap<>();
 
@@ -117,7 +117,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         super.defineSynchedData(builder);
         builder.define(ADAPTATION_HIT_STATUS, (byte) 0);
         builder.define(SPECIAL_LEAP_TICKS, 0);
@@ -148,7 +148,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
                 }
             }
         }
-        if (!level().isClientSide && tickCount % 21 == 10 && hasEffect(ModMobEffects.ANTIMALL)) {
+        if (!level().isClientSide && tickCount % 21 == 10 && hasEffect(ModMobEffects.ANTIMALL.get())) {
             reduceAllResistances(1);
         }
         if (!level().isClientSide) {
@@ -174,7 +174,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         if (profile == null || blockBreakCooldown > 0 || target == null || !target.isAlive()
                 || distanceToSqr(target) > 4096.0D
                 || !level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
-                || !EventHooks.canEntityGrief(level(), this)) {
+                || !ForgeEventFactory.getMobGriefingEvent(level(), this)) {
             return;
         }
         int baseX = Mth.floor(getX());
@@ -193,7 +193,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
                     if (state.isAir() || hardness < 0.0F
                             || hardness > adjustBlockBreakHardness(profile.hardness())
                             || !state.canEntityDestroy(level(), pos, this)
-                            || !EventHooks.onEntityDestroyBlock(this, pos, state)) {
+                            || !ForgeEventFactory.onEntityDestroyBlock(this, pos, state)) {
                         continue;
                     }
                     if (level().destroyBlock(pos, true, this)) {
@@ -315,7 +315,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         boolean totalSlaughter = level() instanceof ServerLevel serverLevel
                 && SrpWorldData.get(serverLevel).evolutionPhase() >= 9;
         return target != this && target.isAlive() && !(target instanceof Parasite)
-                && (totalSlaughter || !target.hasEffect(ModMobEffects.THE_SIGN));
+                && (totalSlaughter || !target.hasEffect(ModMobEffects.THE_SIGN.get()));
     }
 
     @Override
@@ -373,21 +373,21 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
 
     private Holder<MobEffect> killingResistanceEffect() {
         if (this instanceof CrudeParasiteEntity) {
-            return ModMobEffects.CRUDE;
+            return ModMobEffects.CRUDE.get();
         }
         if (this instanceof AdaptedVariantEntity) {
-            return ModMobEffects.ADAPTED;
+            return ModMobEffects.ADAPTED.get();
         }
         if (this instanceof PureParasiteEntity || this instanceof MarauderEntity) {
-            return ModMobEffects.PURE;
+            return ModMobEffects.PURE.get();
         }
         if (this instanceof NexusParasiteEntity || this instanceof DeterrentParasiteEntity) {
-            return ModMobEffects.NEXUS;
+            return ModMobEffects.NEXUS.get();
         }
         if (this instanceof PrimitiveVariantEntity || this instanceof LongarmsEntity
                 || this instanceof SummonerEntity || this instanceof VerminEntity
                 || this instanceof VisceraEntity) {
-            return ModMobEffects.PRIMITIVE;
+            return ModMobEffects.PRIMITIVE.get();
         }
         return null;
     }
@@ -428,8 +428,8 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         float cappedDamage = maximumHealth / divisor + maximumHealth % divisor * 0.5F;
         boolean reachedCap = amount >= cappedDamage;
         if (reachedCap) {
-            if (!hasEffect(ModMobEffects.RAGE)) {
-                addEffect(new MobEffectInstance(ModMobEffects.RAGE, 200, 1, false, false), this);
+            if (!hasEffect(ModMobEffects.RAGE.get())) {
+                addEffect(new MobEffectInstance(ModMobEffects.RAGE.get(), 200, 1, false, false), this);
             }
             if (random.nextDouble() < 0.3D && getHealth() > 0.0F) {
                 attackEntityFromEffects(1, 1);
@@ -523,7 +523,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
 
     protected boolean usesDamageAdaptation() {
         return supportsDamageAdaptation() && level() instanceof ServerLevel serverLevel
-                && !hasEffect(ModMobEffects.ANTIMALL)
+                && !hasEffect(ModMobEffects.ANTIMALL.get())
                 && EvolutionSystem.generationProfile(serverLevel).adaptation();
     }
 

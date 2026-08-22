@@ -3,7 +3,7 @@ package alku.csrp.client.model;
 import alku.csrp.Csrp;
 import alku.csrp.entity.BuglinEntity;
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.geckolib.animation.AnimationState;
+import software.bernie.geckolib.core.animation.AnimationState;
 
 public final class BuglinModel extends ParasiteGeoModel<BuglinEntity> {
     private static final ResourceLocation MODEL = id("geo/buglin.geo.json");
@@ -34,6 +34,6 @@ public final class BuglinModel extends ParasiteGeoModel<BuglinEntity> {
     }
 
     private static ResourceLocation id(String path) {
-        return ResourceLocation.fromNamespaceAndPath(Csrp.MODID, path);
+        return new ResourceLocation(Csrp.MODID, path);
     }
 }

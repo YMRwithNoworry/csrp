@@ -8,7 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 public final class AssimilatedParasiteModel extends ParasiteGeoModel<AssimilatedParasiteEntity> {
     @Override
     public ResourceLocation getModelResource(AssimilatedParasiteEntity animatable) {
-        return ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+        return new ResourceLocation(Csrp.MODID,
                 "geo/" + animatable.getKind().name().toLowerCase(java.util.Locale.ROOT).replaceFirst("^", "sim_")
                         + ".geo.json");
     }
@@ -20,7 +20,7 @@ public final class AssimilatedParasiteModel extends ParasiteGeoModel<Assimilated
 
     @Override
     public ResourceLocation getAnimationResource(AssimilatedParasiteEntity animatable) {
-        return ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+        return new ResourceLocation(Csrp.MODID,
                 "animations/" + animatable.getKind().name().toLowerCase(java.util.Locale.ROOT).replaceFirst("^", "sim_")
                         + ".animation.json");
     }

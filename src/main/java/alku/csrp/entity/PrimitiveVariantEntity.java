@@ -1,5 +1,7 @@
 package alku.csrp.entity;
 
+import net.minecraftforge.common.ForgeMod;
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.Config;
 import alku.csrp.Csrp;
 import alku.csrp.config.MobsConfig;
@@ -17,7 +19,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -55,18 +56,18 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.pathfinder.PathType;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.core.animation.RawAnimation;
 
 import java.util.EnumSet;
 
@@ -206,7 +207,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
             xpReward = 1 + random.nextInt(3);
         }
         if (kind == Kind.BURROWER || kind == Kind.TOZOON) {
-            setPathfindingMalus(PathType.WATER, -1.0F);
+            setPathfindingMalus(BlockPathTypes.WATER, -1.0F);
         }
         if (kind == Kind.YELLOWEYE) {
             moveControl = new YelloweyeMoveControl(this);
@@ -230,7 +231,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         super.defineSynchedData(builder);
         builder.define(REEKER_CHARGE_STATE, REEKER_CHARGE_NONE);
         builder.define(SPECIAL_ANIMATION_TICKS, 0);
@@ -332,7 +333,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
             attributes.add(Attributes.FLYING_SPEED, 0.30D);
         }
         if (kind == Kind.BURROWER || kind == Kind.TOZOON) {
-            attributes.add(Attributes.STEP_HEIGHT, 1.0D);
+            attributes.add(ForgeMod.STEP_HEIGHT_ADDITION.get(), 1.0D);
         }
         return attributes;
     }
@@ -519,7 +520,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
         if (activeKind == Kind.REEKER && tickCount % 20 == 0) {
             applyReekerAttributes(true);
             if (isRicardoBald()) {
-                addEffect(new MobEffectInstance(ModMobEffects.RAGE, 1200, 0, false, true), this);
+                addEffect(new MobEffectInstance(ModMobEffects.RAGE.get(), 1200, 0, false, true), this);
             }
         }
     }
@@ -600,7 +601,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
             case ARACHNIDA -> target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 80, 0), this);
             case BOLSTER -> {
                 if (getBolsterSkin() == BOLSTER_SKIN_VIRULENT) {
-                    EffectStacking.apply(target, ModMobEffects.VIRAL, 40, 0);
+                    EffectStacking.apply(target, ModMobEffects.VIRAL.get(), 40, 0);
                 }
             }
             case DEVOURER -> target.setDeltaMovement(target.getDeltaMovement().add(0.0D, -0.5645D, 0.0D));
@@ -612,9 +613,9 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
             case REEKER -> {
                 target.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 0), this);
                 if (getReekerSkin() == REEKER_SKIN_VIRULENT) {
-                    EffectStacking.apply(target, ModMobEffects.VIRAL, 40, 0);
+                    EffectStacking.apply(target, ModMobEffects.VIRAL.get(), 40, 0);
                 } else if (getReekerSkin() == REEKER_SKIN_BERSERKER) {
-                    EffectStacking.apply(target, ModMobEffects.BLEED, 40, 0);
+                    EffectStacking.apply(target, ModMobEffects.BLEED.get(), 40, 0);
                 }
                 launchSlime(target);
                 if (isRicardoVariant() && level() instanceof ServerLevel serverLevel) {
@@ -640,7 +641,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
                 && getReekerSkin() == REEKER_SKIN_VIRULENT;
         if (!level().isClientSide && (virulentBolster || virulentReeker)
                 && entity instanceof LivingEntity target && !(target instanceof Parasite)) {
-            EffectStacking.apply(target, ModMobEffects.VIRAL, 40, 0);
+            EffectStacking.apply(target, ModMobEffects.VIRAL.get(), 40, 0);
         }
     }
 
@@ -674,7 +675,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
         }
         if (!level().isClientSide) {
             setRicardoBald(true);
-            addEffect(new MobEffectInstance(ModMobEffects.RAGE, 1200, 0, false, true), this);
+            addEffect(new MobEffectInstance(ModMobEffects.RAGE.get(), 1200, 0, false, true), this);
             if (player instanceof ServerPlayer serverPlayer) {
                 awardRicardoShearing(serverPlayer);
             }
@@ -776,7 +777,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
 
     @Override
     public void setManualVariant(int variant) {
-        int skin = Math.clamp(variant, 0, getMaxManualVariants() - 1);
+        int skin = Mth.clamp(variant, 0, getMaxManualVariants() - 1);
         switch (activeKind()) {
             case BOLSTER -> entityData.set(BOLSTER_SKIN, skin);
             case MANDUCATER -> entityData.set(MANDUCATER_SKIN, skin);
@@ -915,7 +916,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
 
     private void awardRicardoShearing(ServerPlayer player) {
         AdvancementHolder advancement = player.server.getAdvancements().get(
-                ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "tricked_me"));
+                new ResourceLocation(Csrp.MODID, "tricked_me"));
         if (advancement != null) {
             player.getAdvancements().award(advancement, "sheared_ricardo");
         }
@@ -2111,7 +2112,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
             if (distance < 64.0D || distance >= 1024.0D) {
                 return false;
             }
-            reekerChargePreparationTicks += hasEffect(ModMobEffects.RAGE) ? 2 : 1;
+            reekerChargePreparationTicks += hasEffect(ModMobEffects.RAGE.get()) ? 2 : 1;
             return reekerChargePreparationTicks >= REEKER_SKILL_PREP_TICKS;
         }
 
@@ -2400,7 +2401,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
                 return;
             }
 
-            yelloweyeAttackTimer += hasEffect(ModMobEffects.RAGE) ? 2 : 1;
+            yelloweyeAttackTimer += hasEffect(ModMobEffects.RAGE.get()) ? 2 : 1;
             if (yelloweyeAttackTimer == YELLOWEYE_WARNING_TICK) {
                 rangedShots++;
                 if (rangedShots == 4) {

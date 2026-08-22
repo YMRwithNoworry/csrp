@@ -9,9 +9,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 
 /** Applies the selected per-world SRP difficulty to every parasite instance. */
 @EventBusSubscriber(modid = Csrp.MODID)
@@ -67,7 +67,7 @@ public final class SrpDifficultyEvents {
             return false;
         }
         attribute.addPermanentModifier(new AttributeModifier(id, multiplier - 1.0D,
-                AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+                AttributeModifier.Operation.MULTIPLY_TOTAL));
         return true;
     }
 
@@ -85,6 +85,6 @@ public final class SrpDifficultyEvents {
     }
 
     private static ResourceLocation id(String path) {
-        return ResourceLocation.fromNamespaceAndPath(Csrp.MODID, path);
+        return new ResourceLocation(Csrp.MODID, path);
     }
 }

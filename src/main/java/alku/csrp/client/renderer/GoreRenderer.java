@@ -22,8 +22,8 @@ import net.minecraft.util.Mth;
 /** Original four-size gore model used for assimilated, primitive, adapted and pure payloads. */
 public final class GoreRenderer extends EntityRenderer<GoreEntity> {
     public static final ModelLayerLocation LAYER = new ModelLayerLocation(
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "gore"), "main");
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(
+            new ResourceLocation(Csrp.MODID, "gore"), "main");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(
             Csrp.MODID, "textures/entity/monster/gore.png");
 
     private final ModelPart assimilated;

@@ -5,7 +5,7 @@ import alku.csrp.entity.RupterEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import software.bernie.geckolib.util.Color;
+import software.bernie.geckolib.core.object.Color;
 
 public final class RupterRenderer extends ParasiteGeoRenderer<RupterEntity> {
     public RupterRenderer(EntityRendererProvider.Context context) {

@@ -4,21 +4,21 @@ import alku.csrp.block.InfestedBlock;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.neoforge.common.ModConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.util.List;
 
 public final class BlockConversionsConfig {
-    private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
+    private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
 
-    private static final ModConfigSpec.BooleanValue USE_DEFAULT_CONVERSIONS = BUILDER
+    private static final ForgeConfigSpec.BooleanValue USE_DEFAULT_CONVERSIONS = BUILDER
             .comment("Use CSRP's material and block-tag based infestation conversions.")
             .define("useDefaultConversions", true);
-    private static final ModConfigSpec.ConfigValue<List<? extends String>> CUSTOM_CONVERSIONS = BUILDER
+    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> CUSTOM_CONVERSIONS = BUILDER
             .comment("Exact block conversions formatted as source block id;infected target block id. These override defaults.")
             .defineList("customConversions", List.of(), BlockConversionsConfig::validConversion);
 
-    public static final ModConfigSpec SPEC = BUILDER.build();
+    public static final ForgeConfigSpec SPEC = BUILDER.build();
 
     private BlockConversionsConfig() {
     }
@@ -32,7 +32,7 @@ public final class BlockConversionsConfig {
         for (String entry : CUSTOM_CONVERSIONS.get()) {
             String[] parts = entry.split(";", -1);
             if (sourceId.toString().equals(parts[0])) {
-                return BuiltInRegistries.BLOCK.get(ResourceLocation.parse(parts[1]));
+                return BuiltInRegistries.BLOCK.get(new ResourceLocation(parts[1]));
             }
         }
         return null;

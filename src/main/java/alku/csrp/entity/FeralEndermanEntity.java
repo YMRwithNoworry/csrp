@@ -28,10 +28,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.core.animation.RawAnimation;
 
 import java.util.List;
 
@@ -130,7 +130,7 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
         if (allyTeleportCooldown > 0) {
             allyTeleportCooldown--;
         }
-        if (hasEffect(ModMobEffects.RAGE)) {
+        if (hasEffect(ModMobEffects.RAGE.get())) {
             allyTeleportCooldown = 0;
         }
 
@@ -367,8 +367,8 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
             return amount;
         }
         float cap = getMaxHealth() / DAMAGE_CAP_DIVISOR;
-        if (amount >= cap && !hasEffect(ModMobEffects.RAGE)) {
-            addEffect(new MobEffectInstance(ModMobEffects.RAGE, 140, 1, false, false), this);
+        if (amount >= cap && !hasEffect(ModMobEffects.RAGE.get())) {
+            addEffect(new MobEffectInstance(ModMobEffects.RAGE.get(), 140, 1, false, false), this);
         }
         return Math.min(amount, cap);
     }
@@ -438,7 +438,7 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
         cloud.setDuration(200);
         cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
         cloud.addEffect(new MobEffectInstance(MobEffects.POISON, 240, 1, false, false));
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 600, 1, false, false, true));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH.get(), 600, 1, false, false, true));
         serverLevel.addFreshEntity(cloud);
 
         GnatEntity gnat = ModEntities.GNAT.get().create(serverLevel, null, blockPosition(),

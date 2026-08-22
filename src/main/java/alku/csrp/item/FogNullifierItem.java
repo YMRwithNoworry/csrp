@@ -20,9 +20,9 @@ public final class FogNullifierItem extends BlockItem {
     public void appendHoverText(ItemStack stack, TooltipContext context,
             List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, context, tooltip, flag);
-        CustomData data = stack.get(DataComponents.BLOCK_ENTITY_DATA);
-        int uses = data != null && data.copyTag().contains(FogNullifierBlockEntity.USES_TAG)
-                ? data.copyTag().getInt(FogNullifierBlockEntity.USES_TAG) : FogNullifierBlock.MAX_USES;
+        CompoundTag data = BlockItem.getBlockEntityData(stack);
+        int uses = data != null && data.contains(FogNullifierBlockEntity.USES_TAG)
+                ? data.getInt(FogNullifierBlockEntity.USES_TAG) : FogNullifierBlock.MAX_USES;
         tooltip.add(Component.translatable("tooltip.csrp.fog_nullifier.uses", uses, FogNullifierBlock.MAX_USES)
                 .withStyle(ChatFormatting.GRAY));
     }

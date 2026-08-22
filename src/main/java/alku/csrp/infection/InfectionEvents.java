@@ -9,12 +9,12 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
-import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
-import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingChangeTargetEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 
 /** Connects parasite attacks and terminal COTH stages to infection progression. */
 @EventBusSubscriber(modid = Csrp.MODID)
@@ -23,7 +23,7 @@ public final class InfectionEvents {
     }
 
     @SubscribeEvent
-    public static void preventParasiteFriendlyFire(LivingIncomingDamageEvent event) {
+    public static void preventParasiteFriendlyFire(LivingAttackEvent event) {
         Entity attacker = event.getSource().getEntity();
         Entity direct = event.getSource().getDirectEntity();
         if (InfectionMechanics.isHiddenAssimilated(event.getEntity())
@@ -40,20 +40,20 @@ public final class InfectionEvents {
     }
 
     @SubscribeEvent
-    public static void infectFromParasiteHit(LivingDamageEvent.Post event) {
+    public static void infectFromParasiteHit(LivingDamageEvent event) {
         LivingEntity target = event.getEntity();
         if (event.getNewDamage() <= 0.0F || !target.isAlive() || target.level().isClientSide
                 || target instanceof Parasite) {
             return;
         }
         Entity attacker = event.getSource().getEntity();
-        if (attacker instanceof Parasite && !target.hasEffect(ModMobEffects.COTH)) {
+        if (attacker instanceof Parasite && !target.hasEffect(ModMobEffects.COTH.get())) {
             double chance = InfectionMechanics.cothSpreadChance(attacker);
             if (target.getRandom().nextDouble() < chance) {
                 InfectionMechanics.applyCoth(target, attacker);
             }
         }
-        MobEffectInstance coth = target.getEffect(ModMobEffects.COTH);
+        MobEffectInstance coth = target.getEffect(ModMobEffects.COTH.get());
         if (coth != null && coth.getAmplifier() >= InfectionMechanics.COTH_INCOMPLETE_AMPLIFIER
                 && target.getHealth() <= target.getMaxHealth()
                 * InfectionMechanics.COTH_CONVERSION_HEALTH_FRACTION) {
@@ -64,8 +64,8 @@ public final class InfectionEvents {
     @SubscribeEvent
     public static void preventParasiteTargeting(LivingChangeTargetEvent event) {
         if (event.getEntity() instanceof Parasite
-                && (event.getNewAboutToBeSetTarget() instanceof Parasite
-                || event.getNewAboutToBeSetTarget() instanceof LivingEntity target
+                && (event.getNewTarget() instanceof Parasite
+                || event.getNewTarget() instanceof LivingEntity target
                 && InfectionMechanics.isHiddenAssimilated(target))) {
             event.setCanceled(true);
         }
@@ -97,7 +97,7 @@ public final class InfectionEvents {
         if (attacker instanceof Parasite) {
             return;
         }
-        MobEffectInstance coth = host.getEffect(ModMobEffects.COTH);
+        MobEffectInstance coth = host.getEffect(ModMobEffects.COTH.get());
         if (coth != null && coth.getAmplifier() >= InfectionMechanics.COTH_MAX_AMPLIFIER
                 && InfectionMechanics.convertInfectedHost(host)) {
             event.setCanceled(true);

@@ -24,11 +24,11 @@ import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
 
 public final class PrimitiveParasiteRenderer<T extends Mob & GeoEntity> extends ParasiteGeoRenderer<T> {
-    private static final ResourceLocation YELLOWEYE_GLOW_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final ResourceLocation YELLOWEYE_GLOW_TEXTURE = new ResourceLocation(Csrp.MODID,
             "textures/entity/pri_yelloweye_glow.png");
-    private static final ResourceLocation YELLOWEYE_HEAVY_GLOW_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final ResourceLocation YELLOWEYE_HEAVY_GLOW_TEXTURE = new ResourceLocation(Csrp.MODID,
             "textures/entity/pri_yelloweye_heavy_glow.png");
-    private static final ResourceLocation GUARDIAN_BEAM_TEXTURE = ResourceLocation.withDefaultNamespace(
+    private static final ResourceLocation GUARDIAN_BEAM_TEXTURE = new ResourceLocation(
             "textures/entity/guardian_beam.png");
     private static final RenderType GUARDIAN_BEAM_RENDER_TYPE = RenderType.entityTranslucentEmissive(
             GUARDIAN_BEAM_TEXTURE);

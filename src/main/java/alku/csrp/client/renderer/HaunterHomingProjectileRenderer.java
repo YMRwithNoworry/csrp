@@ -22,8 +22,8 @@ import net.minecraft.util.Mth;
 /** Renderer for the original Pheon homing orb's rotating three-plane model. */
 public final class HaunterHomingProjectileRenderer extends EntityRenderer<HaunterHomingProjectileEntity> {
     public static final ModelLayerLocation LAYER = new ModelLayerLocation(
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "haunter_homing_projectile"), "main");
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+            new ResourceLocation(Csrp.MODID, "haunter_homing_projectile"), "main");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Csrp.MODID,
             "textures/entity/projectile/projectileh.png");
 
     private final ModelPart body;

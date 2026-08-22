@@ -40,7 +40,7 @@ public final class ResidueBloomingBlock extends DirectionalBlock {
     @Override
     protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         BlockPos support = pos.relative(state.getValue(FACING).getOpposite());
-        return level.getBlockState(support).is(ModBlocks.RESIDUE_BLOCK);
+        return level.getBlockState(support).is(ModBlocks.RESIDUE_BLOCK.get());
     }
 
     @Override
@@ -51,7 +51,7 @@ public final class ResidueBloomingBlock extends DirectionalBlock {
         }
         Direction direction = Direction.values()[random.nextInt(Direction.values().length)];
         BlockPos support = pos.relative(direction);
-        if (!level.getBlockState(support).is(ModBlocks.RESIDUE_BLOCK)) {
+        if (!level.getBlockState(support).is(ModBlocks.RESIDUE_BLOCK.get())) {
             return;
         }
         Direction face = Direction.values()[random.nextInt(Direction.values().length)];

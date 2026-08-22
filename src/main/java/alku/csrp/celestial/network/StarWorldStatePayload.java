@@ -1,34 +1,24 @@
 package alku.csrp.celestial.network;
 
-import alku.csrp.Csrp;
 import alku.csrp.celestial.client.StarWorldClientState;
 import alku.csrp.world.SrpStarType;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
+import java.util.function.Supplier;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
 
-public record StarWorldStatePayload(SrpStarType starType) implements CustomPacketPayload {
-    public static final Type<StarWorldStatePayload> TYPE = new Type<>(
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "star_world_state"));
-    public static final StreamCodec<RegistryFriendlyByteBuf, StarWorldStatePayload> STREAM_CODEC =
-            StreamCodec.ofMember(StarWorldStatePayload::encode, StarWorldStatePayload::decode);
+public record StarWorldStatePayload(SrpStarType starType) {
 
-    private void encode(RegistryFriendlyByteBuf buffer) {
+    public void encode(FriendlyByteBuf buffer) {
         buffer.writeVarInt(starType.value());
     }
 
-    private static StarWorldStatePayload decode(RegistryFriendlyByteBuf buffer) {
+    public static StarWorldStatePayload decode(FriendlyByteBuf buffer) {
         return new StarWorldStatePayload(SrpStarType.byValue(buffer.readVarInt()));
     }
 
-    public static void handle(StarWorldStatePayload payload, IPayloadContext context) {
-        context.enqueueWork(() -> StarWorldClientState.update(payload.starType));
+    public static void handle(StarWorldStatePayload payload, Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> StarWorldClientState.update(payload.starType));
+        ctx.get().setPacketHandled(true);
     }
 
-    @Override
-    public Type<? extends CustomPacketPayload> type() {
-        return TYPE;
-    }
 }

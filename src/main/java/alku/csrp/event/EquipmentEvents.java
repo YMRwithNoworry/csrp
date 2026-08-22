@@ -1,5 +1,6 @@
 package alku.csrp.event;
 
+import alku.csrp.util.NbtData;
 import alku.csrp.Csrp;
 import alku.csrp.item.HijackedArmorItem;
 import alku.csrp.item.HijackedHitEffects;
@@ -8,7 +9,6 @@ import alku.csrp.item.LivingBowItem;
 import alku.csrp.effect.EffectStacking;
 import alku.csrp.registry.ModItems;
 import alku.csrp.registry.ModMobEffects;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -18,12 +18,13 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
-import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
-import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
-import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 
 @EventBusSubscriber(modid = Csrp.MODID)
 public final class EquipmentEvents {
@@ -39,13 +40,13 @@ public final class EquipmentEvents {
     }
 
     @SubscribeEvent
-    public static void adaptAndApplySetPenalty(LivingIncomingDamageEvent event) {
+    public static void adaptAndApplySetPenalty(LivingAttackEvent event) {
         LivingEntity entity = event.getEntity();
         if (event.getAmount() <= 0.0F) return;
         if (entity.level().isClientSide) return;
 
         if (entity instanceof Player player && wearsFullHijackedSet(player)) {
-            player.removeEffect(ModMobEffects.BLEED);
+            player.removeEffect(ModMobEffects.BLEED.get());
             if (event.getSource().is(DamageTypeTags.IS_FIRE)) event.setAmount(event.getAmount() * 5.5F);
         }
 
@@ -73,20 +74,20 @@ public final class EquipmentEvents {
             if (!(stack.getItem() instanceof LivingArmorItem armor)) continue;
             String key = "adapt_points_" + damageType;
             String legacyKey = "adapt_" + legacyDamageType;
-            var data = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
+            var data = NbtData.copyTag(stack);
             int points = data.getInt(key);
             if (points == 0 && data.getBoolean(legacyKey)) {
                 points = 1;
                 int migratedPoints = points;
-                CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> tag.putInt(key, migratedPoints));
-                data = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
+                NbtData.update(stack, tag -> tag.putInt(key, migratedPoints));
+                data = NbtData.copyTag(stack);
             }
             boolean canLearn = points > 0 || data.getInt(LivingArmorItem.ADAPT_COUNT) < armor.damageTypeLimit();
             float learningChance = armor.isSentient() ? SENTIENT_LEARNING_CHANCE : LIVING_LEARNING_CHANCE;
             if (canLearn && points < armor.pointLimit() && entity.getRandom().nextFloat() < learningChance) {
                 boolean newType = points == 0;
                 int learned = points + 1;
-                CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> {
+                NbtData.update(stack, tag -> {
                     tag.putInt(key, learned);
                     if (newType) tag.putInt(LivingArmorItem.ADAPT_COUNT,
                             tag.getInt(LivingArmorItem.ADAPT_COUNT) + 1);
@@ -95,7 +96,7 @@ public final class EquipmentEvents {
             }
             float reductionPerPoint = armor.isSentient() ? SENTIENT_POINT_REDUCTION : LIVING_POINT_REDUCTION;
             totalReduction += Math.min(points, armor.pointLimit()) * reductionPerPoint;
-            CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> {
+            NbtData.update(stack, tag -> {
                 int accumulatedDamage = tag.getInt(LivingArmorItem.DAMAGE) + Math.round(incomingDamage);
                 tag.putInt(LivingArmorItem.DAMAGE,
                         Math.min(LivingArmorItem.EVOLUTION_DAMAGE, accumulatedDamage));
@@ -103,11 +104,11 @@ public final class EquipmentEvents {
         }
         event.setAmount(incomingDamage * Math.max(0.0F, 1.0F - totalReduction));
         if (event.getSource().getEntity() instanceof LivingEntity attacker) {
-            EffectStacking.apply(attacker, ModMobEffects.COTH, 400, 2, 2);
+            EffectStacking.apply(attacker, ModMobEffects.COTH.get(), 400, 2, 2);
         }
     }
 
-    private static String adaptationSource(LivingIncomingDamageEvent event) {
+    private static String adaptationSource(LivingAttackEvent event) {
         if (event.getSource().getEntity() instanceof Player player) return "player." + player.getName().getString();
         if (event.getSource().getEntity() instanceof LivingEntity attacker) {
             return BuiltInRegistries.ENTITY_TYPE.getKey(attacker.getType()).toString();
@@ -116,7 +117,7 @@ public final class EquipmentEvents {
     }
 
     @SubscribeEvent
-    public static void recordDamageAndWeaponEffects(LivingDamageEvent.Post event) {
+    public static void recordDamageAndWeaponEffects(LivingDamageEvent event) {
         LivingEntity target = event.getEntity();
         LivingEntity attacker = event.getSource().getEntity() instanceof LivingEntity living ? living : null;
         ItemStack weapon = event.getSource().getWeaponItem();
@@ -149,9 +150,10 @@ public final class EquipmentEvents {
     }
 
     @SubscribeEvent
-    public static void clearBleedForHijackedSet(PlayerTickEvent.Post event) {
+    public static void clearBleedForHijackedSet(PlayerTickEvent event) {
+        if (event.phase == TickEvent.Phase.START) {return;}
         if (!event.getEntity().level().isClientSide && wearsFullHijackedSet(event.getEntity())) {
-            event.getEntity().removeEffect(ModMobEffects.BLEED);
+            event.getEntity().removeEffect(ModMobEffects.BLEED.get());
         }
     }
 
@@ -163,9 +165,9 @@ public final class EquipmentEvents {
     }
 
     private static boolean isHijackedTool(ItemStack stack) {
-        return stack.is(ModItems.HIJACKED_IRON_SWORD) || stack.is(ModItems.HIJACKED_IRON_AXE)
-                || stack.is(ModItems.HIJACKED_IRON_PICKAXE) || stack.is(ModItems.HIJACKED_IRON_SHOVEL)
-                || stack.is(ModItems.HIJACKED_IRON_HOE);
+        return stack.is(ModItems.HIJACKED_IRON_SWORD.get()) || stack.is(ModItems.HIJACKED_IRON_AXE.get())
+                || stack.is(ModItems.HIJACKED_IRON_PICKAXE.get()) || stack.is(ModItems.HIJACKED_IRON_SHOVEL.get())
+                || stack.is(ModItems.HIJACKED_IRON_HOE.get());
     }
 
     private enum InteractionHandSlot {

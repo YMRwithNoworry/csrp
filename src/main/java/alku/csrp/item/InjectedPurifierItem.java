@@ -33,9 +33,9 @@ public final class InjectedPurifierItem extends Item {
             serverLevel.getEntitiesOfClass(LivingEntity.class, user.getBoundingBox().inflate(2.0D),
                             target -> target instanceof Parasite || target instanceof Animal || target instanceof Villager)
                     .stream().min(Comparator.comparingDouble(user::distanceToSqr))
-                    .ifPresent(target -> target.addEffect(new MobEffectInstance(ModMobEffects.PARASITES_PURIFY,
+                    .ifPresent(target -> target.addEffect(new MobEffectInstance(ModMobEffects.PARASITES_PURIFY.get(),
                             target instanceof Parasite ? 600 : target instanceof Villager ? 6_000 : 18_000)));
-            stack.consume(1, player);
+            stack.shrink(1);
         }
         return stack;
     }

@@ -1,10 +1,10 @@
 package alku.csrp.item;
 
+import alku.csrp.util.NbtData;
 import alku.csrp.world.SrpWorldData;
 import java.util.List;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -47,7 +47,7 @@ public final class EvolutionClockItem extends Item {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context,
             List<Component> tooltip, TooltipFlag flag) {
-        var tag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
+        var tag = NbtData.copyTag(stack);
         tooltip.add(Component.translatable("tooltip.csrp.evolution_clock.phase",
                 tag.getInt(PHASE_TAG), tag.getInt(POINTS_TAG)).withStyle(ChatFormatting.RED));
         tooltip.add(Component.translatable("tooltip.csrp.evolution_clock.cooldown",
@@ -58,12 +58,12 @@ public final class EvolutionClockItem extends Item {
         int phase = data.evolutionPhase();
         int points = data.evolutionPoints();
         int cooldown = data.cooldown(level);
-        var current = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
+        var current = NbtData.copyTag(stack);
         if (current.getInt(PHASE_TAG) == phase && current.getInt(POINTS_TAG) == points
                 && current.getInt(COOLDOWN_TAG) == cooldown) {
             return;
         }
-        CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> {
+        NbtData.update(stack, tag -> {
             tag.putInt(PHASE_TAG, phase);
             tag.putInt(POINTS_TAG, points);
             tag.putInt(COOLDOWN_TAG, cooldown);

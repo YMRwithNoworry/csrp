@@ -10,10 +10,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.TickEvent.ClientTickEvent;
 
 /**
  * Applies the Godot "Glitch Double Vision" screen shader
@@ -22,7 +23,7 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
  */
 @EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT)
 public final class InfectedPlantGlitchEvents {
-    private static final ResourceLocation EFFECT = ResourceLocation.fromNamespaceAndPath(
+    private static final ResourceLocation EFFECT = new ResourceLocation(
             Csrp.MODID, "shaders/post/glitch_double_vision.json");
 
     private static PostChain loadedEffect;
@@ -32,7 +33,8 @@ public final class InfectedPlantGlitchEvents {
     }
 
     @SubscribeEvent
-    public static void updateEffect(ClientTickEvent.Post event) {
+    public static void updateEffect(ClientTickEvent event) {
+        if (event.phase == TickEvent.Phase.START) {return;}
         Minecraft minecraft = Minecraft.getInstance();
         boolean shouldRender = isInsideInfectedPlant(minecraft);
 

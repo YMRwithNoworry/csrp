@@ -1,5 +1,7 @@
 package alku.csrp.entity;
 
+import net.minecraftforge.common.ForgeMod;
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.Config;
 import alku.csrp.config.MobsConfig;
 import alku.csrp.registry.ModEntities;
@@ -13,7 +15,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
@@ -41,14 +42,14 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.entity.PartEntity;
-import net.neoforged.neoforge.event.EventHooks;
+import net.minecraftforge.entity.PartEntity;
+import net.minecraftforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.core.animation.RawAnimation;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -150,13 +151,13 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
             attributes.add(Attributes.FLYING_SPEED, kind.movementSpeed);
         }
         if (kind == Kind.CARRIER_COLONY || kind == Kind.HAUNTER) {
-            attributes.add(Attributes.STEP_HEIGHT, 1.0D);
+            attributes.add(ForgeMod.STEP_HEIGHT_ADDITION.get(), 1.0D);
         }
         return attributes;
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         super.defineSynchedData(builder);
         builder.define(CARRIER_VARIANT, false);
         builder.define(HAUNTER_VARIANT, false);
@@ -301,7 +302,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
             return true;
         }
         target.addEffect(new MobEffectInstance(MobEffects.HUNGER, 300, 4, false, false), this);
-        target.addEffect(new MobEffectInstance(ModMobEffects.NEEDLER, 2400, 4, false, false), this);
+        target.addEffect(new MobEffectInstance(ModMobEffects.NEEDLER.get(), 2400, 4, false, false), this);
         target.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 300, 4, false, false), this);
         target.addEffect(new MobEffectInstance(MobEffects.WITHER, 200, 4, false, false), this);
         return true;
@@ -448,12 +449,11 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
     }
 
     @Override
-    protected EntityDimensions getDefaultDimensions(Pose pose) {
-        EntityDimensions dimensions = super.getDefaultDimensions(pose);
+    protected float getEyeHeight() {
         if (activeKind() == Kind.CARRIER_COLONY) {
-            return dimensions.withEyeHeight(1.5F);
+            return 1.5F;
         }
-        return activeKind() == Kind.HAUNTER ? dimensions.withEyeHeight(4.7F) : dimensions;
+        return activeKind() == Kind.HAUNTER ? 4.7F : super.getEyeHeight();
     }
 
     @Override
@@ -598,7 +598,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
 
     private boolean hurtCarrierHead(DamageSource source, float amount) {
         if (random.nextBoolean()) {
-            addEffect(new MobEffectInstance(ModMobEffects.BLEED, 80, 0), this);
+            addEffect(new MobEffectInstance(ModMobEffects.BLEED.get(), 80, 0), this);
         }
         return hurt(source, amount * 3.0F);
     }
@@ -606,8 +606,8 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
     private void applyCarrierInitialLinks() {
         for (LivingEntity ally : level().getEntitiesOfClass(LivingEntity.class,
                 getBoundingBox().inflate(32.0D), entity -> entity instanceof Parasite && entity.isAlive())) {
-            ally.addEffect(new MobEffectInstance(ModMobEffects.LINK, 6666, 0, false, false), this);
-            ally.addEffect(new MobEffectInstance(ModMobEffects.FOSTER, 6666, 0, false, false), this);
+            ally.addEffect(new MobEffectInstance(ModMobEffects.LINK.get(), 6666, 0, false, false), this);
+            ally.addEffect(new MobEffectInstance(ModMobEffects.FOSTER.get(), 6666, 0, false, false), this);
         }
     }
 
@@ -958,7 +958,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
                 }
                 return;
             }
-            attackTimer += hasEffect(ModMobEffects.RAGE) ? 2 : 1;
+            attackTimer += hasEffect(ModMobEffects.RAGE.get()) ? 2 : 1;
             if (attackTimer == warmup - 10) {
                 revealStealth();
                 if (activeKind() == Kind.WRAITH) {
@@ -1272,9 +1272,9 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
                             && entity instanceof Parasite && entity.isAlive())) {
                 ally.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 600, 3, false, false),
                         PreeminentParasiteEntity.this);
-                ally.addEffect(new MobEffectInstance(ModMobEffects.FOSTER, 1200, 2, false, false),
+                ally.addEffect(new MobEffectInstance(ModMobEffects.FOSTER.get(), 1200, 2, false, false),
                         PreeminentParasiteEntity.this);
-                ally.addEffect(new MobEffectInstance(ModMobEffects.LINK, 200, 1, false, false),
+                ally.addEffect(new MobEffectInstance(ModMobEffects.LINK.get(), 200, 1, false, false),
                         PreeminentParasiteEntity.this);
             }
             buffTimer -= CARRIER_BUFF_COOLDOWN_TICKS;
@@ -1316,7 +1316,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
         }
 
         @Override
-        protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        protected void defineSynchedData() {
         }
 
         @Override
@@ -1366,7 +1366,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
         }
 
         @Override
-        protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        protected void defineSynchedData() {
         }
 
         @Override
@@ -1389,7 +1389,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
 
         @Override
         public EntityDimensions getDimensions(Pose pose) {
-            return EntityDimensions.scalable(width, height).withEyeHeight(0.2F);
+            return EntityDimensions.scalable(width, height);
         }
 
         @Override
@@ -1449,7 +1449,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
 
     private void breakHaunterBlocks(LivingEntity target) {
         if (!level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
-                || !EventHooks.canEntityGrief(level(), this)) {
+                || !ForgeEventFactory.getMobGriefingEvent(level(), this)) {
             return;
         }
         int baseY = Mth.floor(getY() + 0.1D);
@@ -1474,7 +1474,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
                             Mth.floor(getZ() + offsetZ));
                     BlockState state = level().getBlockState(candidate);
                     if (!isHaunterBreakable(state, candidate)
-                            || !EventHooks.onEntityDestroyBlock(this, candidate, state)) {
+                            || !ForgeEventFactory.onEntityDestroyBlock(this, candidate, state)) {
                         continue;
                     }
                     ParasiteBlockInventory.collect((ServerLevel) level(), candidate, this);

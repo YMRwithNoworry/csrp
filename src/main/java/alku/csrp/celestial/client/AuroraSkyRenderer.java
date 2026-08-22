@@ -16,10 +16,10 @@ import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.client.event.RenderLevelStageEvent;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.slf4j.Logger;
@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
 public final class AuroraSkyRenderer {
     private static final Logger LOGGER = LoggerFactory.getLogger(AuroraSkyRenderer.class);
     private static final ResourceLocation SHADER_LOCATION =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "aurora_sky");
+            new ResourceLocation(Csrp.MODID, "aurora_sky");
     private static final float RADIUS = 100.0F;
     private static final float BRIGHTNESS = 1.7F;
     private static final float SPEED = 0.12F;

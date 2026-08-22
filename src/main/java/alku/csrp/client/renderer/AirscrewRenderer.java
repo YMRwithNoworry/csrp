@@ -20,7 +20,7 @@ import net.minecraft.world.phys.Vec3;
 
 /** Renders the legacy Guardian-style tether for every creature held by an Airscrew. */
 public final class AirscrewRenderer extends ParasiteGeoRenderer<AirscrewEntity> {
-    private static final ResourceLocation TETHER_TEXTURE = ResourceLocation.fromNamespaceAndPath(
+    private static final ResourceLocation TETHER_TEXTURE = new ResourceLocation(
             Csrp.MODID, "textures/entity/airscrew_tether.png");
     // RenderLeer used a full-bright blended Guardian beam; the emissive translucent pass keeps
     // the line visible over opaque entities and terrain in the 1.21 renderer.

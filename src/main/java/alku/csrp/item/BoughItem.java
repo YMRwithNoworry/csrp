@@ -35,7 +35,7 @@ import net.minecraft.world.level.block.Blocks;
 public final class BoughItem extends Item {
     public static final int USE_DURATION = 40;
     private static final ResourceLocation ADVANCEMENT_ID =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "sepeku");
+            new ResourceLocation(Csrp.MODID, "sepeku");
     private static final String ADVANCEMENT_CRITERION = "sepeku";
 
     public BoughItem(Item.Properties properties) {
@@ -58,7 +58,7 @@ public final class BoughItem extends Item {
     public void onUseTick(Level level, LivingEntity user, ItemStack stack, int remainingUseDuration) {
         if (level instanceof ServerLevel serverLevel) {
             user.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 6, 255, false, false));
-            user.addEffect(new MobEffectInstance(ModMobEffects.RAGE, 6, 0, false, false));
+            user.addEffect(new MobEffectInstance(ModMobEffects.RAGE.get(), 6, 0, false, false));
             user.setDeltaMovement(0.0D, 0.0D, 0.0D);
             serverLevel.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK,
                             Blocks.REDSTONE_BLOCK.defaultBlockState()),
@@ -77,7 +77,7 @@ public final class BoughItem extends Item {
             return stack;
         }
         user.removeEffect(MobEffects.DAMAGE_RESISTANCE);
-        user.removeEffect(ModMobEffects.RAGE);
+        user.removeEffect(ModMobEffects.RAGE.get());
         user.invulnerableTime = 0;
         user.hurt(seppukuDamage(serverLevel), Float.MAX_VALUE);
         if (user instanceof ServerPlayer player && !player.isAlive()) {

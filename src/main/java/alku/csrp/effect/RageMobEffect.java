@@ -11,10 +11,10 @@ public final class RageMobEffect extends MobEffect {
     public RageMobEffect() {
         super(MobEffectCategory.BENEFICIAL, 0xB51F1F);
         addAttributeModifier(Attributes.MOVEMENT_SPEED,
-                ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "rage_speed"), 0.1D,
-                AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
+                new ResourceLocation(Csrp.MODID, "rage_speed"), 0.1D,
+                AttributeModifier.Operation.MULTIPLY_TOTAL);
         addAttributeModifier(Attributes.ATTACK_DAMAGE,
-                ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "rage_damage"), 0.1D,
-                AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
+                new ResourceLocation(Csrp.MODID, "rage_damage"), 0.1D,
+                AttributeModifier.Operation.MULTIPLY_TOTAL);
     }
 }

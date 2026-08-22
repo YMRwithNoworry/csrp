@@ -59,7 +59,7 @@ public final class DispatcherNidusBlock extends Block implements EntityBlock {
             away = away.normalize();
         }
         player.push(away.x * 1.6D, 0.45D, away.z * 1.6D);
-        player.addEffect(new MobEffectInstance(ModMobEffects.DOD_SMOKE_TRAIL, 20, 0));
+        player.addEffect(new MobEffectInstance(ModMobEffects.DOD_SMOKE_TRAIL.get(), 20, 0));
     }
 
     public static boolean tryPlace(ServerLevel level, BlockPos pos) {

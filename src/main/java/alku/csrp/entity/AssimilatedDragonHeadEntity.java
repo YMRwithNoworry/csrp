@@ -23,10 +23,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 /** Detached dragon head retains its fireball attack after the body has been decapitated. */
@@ -106,7 +106,7 @@ public final class AssimilatedDragonHeadEntity extends Monster implements GeoEnt
         controllers.add(new AnimationController<>(this, "movement_controller", 4,
                 state -> ParasiteAnimations.isMoving(this, state.isMoving())
                         ? state.setAndContinue(LIMB)
-                        : software.bernie.geckolib.animation.PlayState.STOP));
+                        : software.bernie.geckolib.core.object.PlayState.STOP));
     }
 
     @Override
@@ -127,8 +127,8 @@ public final class AssimilatedDragonHeadEntity extends Monster implements GeoEnt
         cloud.setRadius(2.5F);
         cloud.setDuration(80);
         cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 240, 0, false, true));
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 120, 0, false, true));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH.get(), 240, 0, false, true));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.VIRAL.get(), 120, 0, false, true));
         level().addFreshEntity(cloud);
         AABB breathArea = getBoundingBox().expandTowards(direction.scale(24.0D)).inflate(1.5D);
         DragonEggAssimilationEntity.assimilateDragonEggs(level(), breathArea);

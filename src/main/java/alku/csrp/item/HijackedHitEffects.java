@@ -15,10 +15,10 @@ public final class HijackedHitEffects {
 
     public static void apply(LivingEntity attacker, LivingEntity target) {
         if (target == null || target.isDeadOrDying()) return;
-        target.addEffect(new MobEffectInstance(ModMobEffects.BLEED, BLEED_TICKS, 0, false, true));
+        target.addEffect(new MobEffectInstance(ModMobEffects.BLEED.get(), BLEED_TICKS, 0, false, true));
         if (target instanceof Parasite) target.hurt(attacker.damageSources().mobAttack(attacker), PARASITE_BONUS_DAMAGE);
         if (target.getHealth() <= target.getMaxHealth() * 0.1F) {
-            target.addEffect(new MobEffectInstance(ModMobEffects.RAGE, RAGE_TICKS, 0, false, true));
+            target.addEffect(new MobEffectInstance(ModMobEffects.RAGE.get(), RAGE_TICKS, 0, false, true));
         }
     }
 }

@@ -1,5 +1,6 @@
 package alku.csrp.celestial.client;
 
+import net.minecraft.util.Mth;
 import alku.csrp.Csrp;
 import alku.csrp.celestial.CelestialCatalog;
 import alku.csrp.celestial.CelestialDefinition;
@@ -16,11 +17,11 @@ import java.util.HashMap;
 import java.util.Map;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
-import net.neoforged.neoforge.client.event.ViewportEvent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.client.event.RenderLevelStageEvent;
+import net.minecraftforge.client.event.ViewportEvent;
 import org.joml.Matrix4f;
 
 @EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT)
@@ -98,7 +99,7 @@ public final class CelestialSkyRenderer {
                 : Minecraft.getInstance().level.getStarBrightness(partialTick);
         float rain = Minecraft.getInstance().level == null ? 0.0F
                 : Minecraft.getInstance().level.getRainLevel(partialTick);
-        float opacity = Math.clamp(definition.baseOpacity() * brightness * (1.0F - rain), 0.0F, 1.0F);
+        float opacity = Mth.clamp(definition.baseOpacity() * brightness * (1.0F - rain), 0.0F, 1.0F);
         if (opacity <= 0.001F) {
             RenderSystem.enableCull();
             RenderSystem.depthMask(true);

@@ -18,11 +18,11 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.core.animation.RawAnimation;
 
 /** Legacy Ancient Drop Pod (EntityDropPod). */
 public final class AncientPodEntity extends PrimitiveParasiteEntity {
@@ -167,7 +167,7 @@ public final class AncientPodEntity extends PrimitiveParasiteEntity {
         cloud.setDuration(600);
         cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
         cloud.addEffect(new MobEffectInstance(MobEffects.POISON, 300, 0, false, false));
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, 0, false, false, true));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH.get(), 3600, 0, false, false, true));
         level.addFreshEntity(cloud);
     }
 
@@ -219,7 +219,7 @@ public final class AncientPodEntity extends PrimitiveParasiteEntity {
                 return null;
             }
             if (location.getNamespace().equals("srparasites")) {
-                location = ResourceLocation.fromNamespaceAndPath("csrp", location.getPath());
+                location = new ResourceLocation("csrp", location.getPath());
             }
             Entity entity = BuiltInRegistries.ENTITY_TYPE.getOptional(location).map(type -> type.create(level)).orElse(null);
             return entity instanceof Mob mob ? mob : null;

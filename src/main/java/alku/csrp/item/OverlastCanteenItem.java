@@ -1,5 +1,6 @@
 package alku.csrp.item;
 
+import alku.csrp.util.NbtData;
 import java.util.List;
 import alku.csrp.registry.ModItems;
 import alku.csrp.registry.ModMobEffects;
@@ -141,8 +142,8 @@ public final class OverlastCanteenItem extends Item {
     }
 
     public static void setState(ItemStack stack, int sips, int durability) {
-        stack.remove(DataComponents.DAMAGE);
-        CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> {
+        stack.setDamageValue(0);
+        NbtData.update(stack, tag -> {
             tag.putInt(SIPS_TAG, Mth.clamp(sips, 0, MAX_SIPS));
             tag.putInt(DURABILITY_TAG, Mth.clamp(durability, 0, MAX_CANTEEN_DURABILITY));
         });
@@ -150,9 +151,9 @@ public final class OverlastCanteenItem extends Item {
 
     private MobEffectInstance createEffect() {
         return switch (dose) {
-            case PURIFY -> new MobEffectInstance(ModMobEffects.PARASITES_PURIFY, 1_800);
-            case INFECT -> new MobEffectInstance(ModMobEffects.PARASITES_INFECT, 1_800);
-            case STRONG_INFECT -> new MobEffectInstance(ModMobEffects.PARASITES_INFECT, 3_600, 1);
+            case PURIFY -> new MobEffectInstance(ModMobEffects.PARASITES_PURIFY.get(), 1_800);
+            case INFECT -> new MobEffectInstance(ModMobEffects.PARASITES_INFECT.get(), 1_800);
+            case STRONG_INFECT -> new MobEffectInstance(ModMobEffects.PARASITES_INFECT.get(), 3_600, 1);
             case EMPTY -> throw new IllegalStateException("Empty canteen has no dose");
         };
     }

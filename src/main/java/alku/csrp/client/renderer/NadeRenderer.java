@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 
 public final class NadeRenderer extends EntityRenderer<NadeEntity> {
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Csrp.MODID,
             "textures/entity/monster/nade.png");
 
     public NadeRenderer(EntityRendererProvider.Context context) {

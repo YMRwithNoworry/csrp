@@ -127,13 +127,13 @@ public final class ThornshadeBlock extends BushBlock implements BonemealableBloc
 
     private static boolean isParasiticSoil(BlockState state) {
         return state.getBlock() instanceof InfestedBlock
-                || state.is(ModBlocks.INFESTED_REMAINS)
-                || state.is(ModBlocks.RESIDUE_BLOCK)
-                || state.is(ModBlocks.RESIDUE_BRICKS)
-                || state.is(ModBlocks.BIOMASS_BLOCK)
-                || state.is(ModBlocks.ALVEOLI)
-                || state.is(ModBlocks.SICK_ALVEOLI)
-                || state.is(ModBlocks.SOLID_ALVEOLI_BLOCK);
+                || state.is(ModBlocks.INFESTED_REMAINS.get())
+                || state.is(ModBlocks.RESIDUE_BLOCK.get())
+                || state.is(ModBlocks.RESIDUE_BRICKS.get())
+                || state.is(ModBlocks.BIOMASS_BLOCK.get())
+                || state.is(ModBlocks.ALVEOLI.get())
+                || state.is(ModBlocks.SICK_ALVEOLI.get())
+                || state.is(ModBlocks.SOLID_ALVEOLI_BLOCK.get());
     }
 
     private static boolean hasParasiticSoil(LevelReader level, BlockPos pos) {

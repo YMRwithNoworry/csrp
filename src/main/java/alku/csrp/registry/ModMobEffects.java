@@ -32,122 +32,122 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraftforge.registries.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
 
 public final class ModMobEffects {
     public static final DeferredRegister<MobEffect> EFFECTS =
             DeferredRegister.create(Registries.MOB_EFFECT, Csrp.MODID);
 
-    public static final DeferredHolder<MobEffect, MobEffect> COTH =
+    public static final RegistryObject<MobEffect> COTH =
             EFFECTS.register("coth", CothMobEffect::new);
 
-    public static final DeferredHolder<MobEffect, MobEffect> BLEED =
+    public static final RegistryObject<MobEffect> BLEED =
             EFFECTS.register("bleed", BleedMobEffect::new);
 
-    public static final DeferredHolder<MobEffect, MobEffect> VIRAL =
+    public static final RegistryObject<MobEffect> VIRAL =
             EFFECTS.register("viral", ViralMobEffect::new);
 
-    public static final DeferredHolder<MobEffect, MobEffect> CORROSION =
+    public static final RegistryObject<MobEffect> CORROSION =
             EFFECTS.register("corrosive", CorrosionMobEffect::new);
 
     /** Original field-name alias used by ported call sites. */
-    public static final DeferredHolder<MobEffect, MobEffect> CORROSIVE =
+    public static final RegistryObject<MobEffect> CORROSIVE =
             CORROSION;
 
     /** Compatibility id for worlds created by early CSRP development builds. */
-    public static final DeferredHolder<MobEffect, MobEffect> CORROSION_LEGACY =
+    public static final RegistryObject<MobEffect> CORROSION_LEGACY =
             EFFECTS.register("corrosion", CorrosionMobEffect::new);
 
-    public static final DeferredHolder<MobEffect, MobEffect> RAGE =
+    public static final RegistryObject<MobEffect> RAGE =
             EFFECTS.register("rage", RageMobEffect::new);
 
-    public static final DeferredHolder<MobEffect, MobEffect> NEEDLER =
+    public static final RegistryObject<MobEffect> NEEDLER =
             EFFECTS.register("needler", NeedlerMobEffect::new);
 
-    public static final DeferredHolder<MobEffect, MobEffect> LINK =
+    public static final RegistryObject<MobEffect> LINK =
             EFFECTS.register("link", LinkMobEffect::new);
 
-    public static final DeferredHolder<MobEffect, MobEffect> FEAR =
+    public static final RegistryObject<MobEffect> FEAR =
             EFFECTS.register("fear", FearMobEffect::new);
 
-    public static final DeferredHolder<MobEffect, MobEffect> FERAL =
+    public static final RegistryObject<MobEffect> FERAL =
             EFFECTS.register("feral", FeralMobEffect::new);
 
-    public static final DeferredHolder<MobEffect, MobEffect> REPEL =
+    public static final RegistryObject<MobEffect> REPEL =
             EFFECTS.register("repel", RepelMobEffect::new);
 
-    public static final DeferredHolder<MobEffect, MobEffect> PRIMITIVE =
+    public static final RegistryObject<MobEffect> PRIMITIVE =
             EFFECTS.register("primitive", () -> new ParasiteKillingMobEffect(9391173));
 
-    public static final DeferredHolder<MobEffect, MobEffect> ADAPTED =
+    public static final RegistryObject<MobEffect> ADAPTED =
             EFFECTS.register("adapted", () -> new ParasiteKillingMobEffect(8345678));
 
-    public static final DeferredHolder<MobEffect, MobEffect> PURE =
+    public static final RegistryObject<MobEffect> PURE =
             EFFECTS.register("pure", () -> new ParasiteKillingMobEffect(894258));
 
-    public static final DeferredHolder<MobEffect, MobEffect> CRUDE =
+    public static final RegistryObject<MobEffect> CRUDE =
             EFFECTS.register("crude", () -> new ParasiteKillingMobEffect(894258));
 
-    public static final DeferredHolder<MobEffect, MobEffect> NEXUS =
+    public static final RegistryObject<MobEffect> NEXUS =
             EFFECTS.register("nexus", () -> new ParasiteKillingMobEffect(4749384));
 
-    public static final DeferredHolder<MobEffect, MobEffect> DOD_SMOKE_TRAIL =
+    public static final RegistryObject<MobEffect> DOD_SMOKE_TRAIL =
             EFFECTS.register("dod_smoke_trail", DodSmokeTrailMobEffect::new);
-    public static final DeferredHolder<MobEffect, MobEffect> THORNSHADE_THORNS =
+    public static final RegistryObject<MobEffect> THORNSHADE_THORNS =
             EFFECTS.register("thornshade_thorns", () -> new MarkerMobEffect(false, 4333438));
-    public static final DeferredHolder<MobEffect, MobEffect> ANTIMALL =
+    public static final RegistryObject<MobEffect> ANTIMALL =
             EFFECTS.register("antimall", () -> new MarkerMobEffect(true, 8938092));
-    public static final DeferredHolder<MobEffect, MobEffect> DISTORTED_ENLIGHTENMENT =
+    public static final RegistryObject<MobEffect> DISTORTED_ENLIGHTENMENT =
             EFFECTS.register("distorted_enlightenment", DistortedEnlightenmentMobEffect::new);
-    public static final DeferredHolder<MobEffect, MobEffect> VOMIT =
+    public static final RegistryObject<MobEffect> VOMIT =
             EFFECTS.register("vomit", () -> new MarkerMobEffect(true, 7498817));
-    public static final DeferredHolder<MobEffect, MobEffect> SENSES =
+    public static final RegistryObject<MobEffect> SENSES =
             EFFECTS.register("senses", () -> new AttributeMobEffect(false, 9346775,
-                    Attributes.FOLLOW_RANGE, ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "senses_follow_range"), 0.1D));
-    public static final DeferredHolder<MobEffect, MobEffect> PREY =
+                    Attributes.FOLLOW_RANGE, new ResourceLocation(Csrp.MODID, "senses_follow_range"), 0.1D));
+    public static final RegistryObject<MobEffect> PREY =
             EFFECTS.register("prey", PreyMobEffect::new);
-    public static final DeferredHolder<MobEffect, MobEffect> DEBAR =
+    public static final RegistryObject<MobEffect> DEBAR =
             EFFECTS.register("debar", () -> new MarkerMobEffect(false, 10359627));
-    public static final DeferredHolder<MobEffect, MobEffect> FOSTER =
+    public static final RegistryObject<MobEffect> FOSTER =
             EFFECTS.register("foster", FosterMobEffect::new);
-    public static final DeferredHolder<MobEffect, MobEffect> PIVOT =
+    public static final RegistryObject<MobEffect> PIVOT =
             EFFECTS.register("pivot", PivotMobEffect::new);
-    public static final DeferredHolder<MobEffect, MobEffect> JUGG =
+    public static final RegistryObject<MobEffect> JUGG =
             EFFECTS.register("jugg", () -> new MarkerMobEffect(false, 12433541));
-    public static final DeferredHolder<MobEffect, MobEffect> PARATE =
+    public static final RegistryObject<MobEffect> PARATE =
             EFFECTS.register("parate", () -> new MarkerMobEffect(false, 11753270));
-    public static final DeferredHolder<MobEffect, MobEffect> SPOTTED =
+    public static final RegistryObject<MobEffect> SPOTTED =
             EFFECTS.register("spotted", SpottedMobEffect::new);
-    public static final DeferredHolder<MobEffect, MobEffect> BRAINING =
+    public static final RegistryObject<MobEffect> BRAINING =
             EFFECTS.register("braining", () -> new MarkerMobEffect(true, 7958149));
-    public static final DeferredHolder<MobEffect, MobEffect> NOVISION =
+    public static final RegistryObject<MobEffect> NOVISION =
             EFFECTS.register("novision", NoVisionMobEffect::new);
-    public static final DeferredHolder<MobEffect, MobEffect> INDEAF =
+    public static final RegistryObject<MobEffect> INDEAF =
             EFFECTS.register("indeaf", IndeafMobEffect::new);
-    public static final DeferredHolder<MobEffect, MobEffect> OVERHEATING =
+    public static final RegistryObject<MobEffect> OVERHEATING =
             EFFECTS.register("overheating", OverheatingMobEffect::new);
-    public static final DeferredHolder<MobEffect, MobEffect> CONTAMINATION =
+    public static final RegistryObject<MobEffect> CONTAMINATION =
             EFFECTS.register("conta", ContaminationMobEffect::new);
-    public static final DeferredHolder<MobEffect, MobEffect> MUSCLEOUT =
+    public static final RegistryObject<MobEffect> MUSCLEOUT =
             EFFECTS.register("muscleout", () -> new MarkerMobEffect(false, 15499138));
-    public static final DeferredHolder<MobEffect, MobEffect> EFFECTPOS =
+    public static final RegistryObject<MobEffect> EFFECTPOS =
             EFFECTS.register("effectpos", EffectPosMobEffect::new);
-    public static final DeferredHolder<MobEffect, MobEffect> EFFECTNEG =
+    public static final RegistryObject<MobEffect> EFFECTNEG =
             EFFECTS.register("effectneg", EffectNegMobEffect::new);
-    public static final DeferredHolder<MobEffect, MobEffect> THE_SIGN =
+    public static final RegistryObject<MobEffect> THE_SIGN =
             EFFECTS.register("the_sign", () -> new MarkerMobEffect(false, 8970751));
-    public static final DeferredHolder<MobEffect, MobEffect> CAMOUFLAGE =
+    public static final RegistryObject<MobEffect> CAMOUFLAGE =
             EFFECTS.register("camouflage", () -> new MarkerMobEffect(false, 0x68865F));
-    public static final DeferredHolder<MobEffect, MobEffect> WATER_PREDATION =
+    public static final RegistryObject<MobEffect> WATER_PREDATION =
             EFFECTS.register("water_predation", () -> new MarkerMobEffect(true, 0x2D7FA7));
-    public static final DeferredHolder<MobEffect, MobEffect> FROSTBITE =
+    public static final RegistryObject<MobEffect> FROSTBITE =
             EFFECTS.register("frostbite", () -> new MarkerMobEffect(true, 0xA8D8EA));
-    public static final DeferredHolder<MobEffect, MobEffect> PARASITES_PURIFY =
+    public static final RegistryObject<MobEffect> PARASITES_PURIFY =
             EFFECTS.register("parasites_purify", () -> new OverlastMobEffect(MobEffectCategory.BENEFICIAL, 0xFFFACD));
-    public static final DeferredHolder<MobEffect, MobEffect> PARASITES_INFECT =
+    public static final RegistryObject<MobEffect> PARASITES_INFECT =
             EFFECTS.register("parasites_infect", () -> new OverlastMobEffect(MobEffectCategory.HARMFUL, 0xC71585));
-    public static final DeferredHolder<MobEffect, MobEffect> FORTUNATE =
+    public static final RegistryObject<MobEffect> FORTUNATE =
             EFFECTS.register("fortunate", () -> new OverlastMobEffect(MobEffectCategory.BENEFICIAL, 0xDC143C));
 
     private ModMobEffects() {

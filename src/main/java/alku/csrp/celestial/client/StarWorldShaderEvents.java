@@ -1,5 +1,6 @@
 package alku.csrp.celestial.client;
 
+import net.minecraft.util.Mth;
 import alku.csrp.Csrp;
 import alku.csrp.config.WorldConfig;
 import alku.csrp.world.SrpStarType;
@@ -12,16 +13,17 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.TickEvent.ClientTickEvent;
 
 @EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT)
 public final class StarWorldShaderEvents {
-    private static final ResourceLocation COLD_SHADER = ResourceLocation.fromNamespaceAndPath(
+    private static final ResourceLocation COLD_SHADER = new ResourceLocation(
             Csrp.MODID, "shaders/post/star_cold.json");
-    private static final ResourceLocation WARM_SHADER = ResourceLocation.fromNamespaceAndPath(
+    private static final ResourceLocation WARM_SHADER = new ResourceLocation(
             Csrp.MODID, "shaders/post/star_warm.json");
 
     private static PostChain loadedEffect;
@@ -35,7 +37,8 @@ public final class StarWorldShaderEvents {
     }
 
     @SubscribeEvent
-    public static void updateShader(ClientTickEvent.Post event) {
+    public static void updateShader(ClientTickEvent event) {
+        if (event.phase == TickEvent.Phase.START) {return;}
         Minecraft minecraft = Minecraft.getInstance();
         ResourceLocation wanted = wantedShader(minecraft);
         if (wanted == null) {
@@ -79,7 +82,7 @@ public final class StarWorldShaderEvents {
         float exposure = minecraft.level.canSeeSky(eye)
                 ? minecraft.level.getBrightness(LightLayer.SKY, eye) / 15.0F : 0.0F;
         loadedEffect.setUniform("SRP_Time", (System.nanoTime() - startedAt) / 1_000_000_000.0F);
-        loadedEffect.setUniform("SRP_Exposure", Math.clamp(exposure, 0.0F, 1.0F));
+        loadedEffect.setUniform("SRP_Exposure", Mth.clamp(exposure, 0.0F, 1.0F));
         loadedEffect.setUniform("SRP_Fade", fade);
         loadedEffect.setUniform("SRP_HandLight", handLight);
     }

@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 
 public final class OrbBoomRenderer extends EntityRenderer<OrbBoomEntity> {
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Csrp.MODID,
             "textures/entity/scary_orb.png");
 
     public OrbBoomRenderer(EntityRendererProvider.Context context) {

@@ -39,26 +39,27 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.neoforged.bus.api.EventPriority;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.PlayLevelSoundEvent;
-import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
-import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
-import net.neoforged.neoforge.event.entity.living.LivingExperienceDropEvent;
-import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
-import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
-import net.neoforged.neoforge.event.entity.living.LivingShieldBlockEvent;
-import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
-import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerContainerEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerXpEvent;
-import net.neoforged.neoforge.event.level.BlockEvent;
-import net.neoforged.neoforge.event.tick.LevelTickEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.client.event.sound.PlayLevelSoundEvent;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
+import net.minecraftforge.event.entity.living.LivingExperienceDropEvent;
+import net.minecraftforge.event.entity.living.LivingHealEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.ShieldBlockEvent;
+import net.minecraftforge.event.entity.living.MobEffectEvent;
+import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
+import net.minecraftforge.event.entity.player.PlayerContainerEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.entity.player.PlayerXpEvent;
+import net.minecraftforge.event.level.BlockEvent;
+import net.minecraftforge.event.TickEvent.LevelTickEvent;
 
 /** Original dislodgment triggers, code state, and code-bound gameplay effects. */
 @EventBusSubscriber(modid = Csrp.MODID)
@@ -89,7 +90,7 @@ public final class DislodgmentSystem {
     }
 
     @SubscribeEvent
-    public static void onItemPickup(ItemEntityPickupEvent.Pre event) {
+    public static void onItemPickup(EntityItemPickupEvent.Pre event) {
         if (event.getPlayer().level() instanceof ServerLevel level) {
             tryTrigger(level, 2, Config.dislodgmentItemPickupTriggerChance(),
                     event.getPlayer().blockPosition(), true);
@@ -151,7 +152,7 @@ public final class DislodgmentSystem {
     }
 
     @SubscribeEvent
-    public static void consumeEquipmentDurability(LivingIncomingDamageEvent event) {
+    public static void consumeEquipmentDurability(LivingAttackEvent event) {
         if (event.isCanceled() || event.getAmount() <= 0.0F
                 || !(event.getEntity().level() instanceof ServerLevel level)
                 || !Config.useDislodgment() || !Config.disloItemDurability()) {
@@ -175,7 +176,7 @@ public final class DislodgmentSystem {
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void preventUnburnedParasiteDamage(LivingIncomingDamageEvent event) {
+    public static void preventUnburnedParasiteDamage(LivingAttackEvent event) {
         if (!(event.getEntity() instanceof Parasite) || event.getEntity().isOnFire()
                 || event.getSource().is(DamageTypes.FELL_OUT_OF_WORLD)
                 || !(event.getEntity().level() instanceof ServerLevel level)
@@ -190,7 +191,7 @@ public final class DislodgmentSystem {
     public static void rejectHarmfulEffects(MobEffectEvent.Applicable event) {
         if (!(event.getEntity() instanceof Parasite)
                 || !(event.getEntity().level() instanceof ServerLevel level)
-                || event.getEffectInstance().getEffect().value().getCategory() != MobEffectCategory.HARMFUL
+                || event.getEffectInstance().getEffect().getCategory() != MobEffectCategory.HARMFUL
                 || !Config.useDislodgment() || !Config.disloParasiteNoPotion()
                 || activeValue(SrpWorldData.get(level), 11) < 1) {
             return;
@@ -204,7 +205,7 @@ public final class DislodgmentSystem {
                 || event.getSound() == null || !Config.useDislodgment()) {
             return;
         }
-        ResourceLocation soundId = BuiltInRegistries.SOUND_EVENT.getKey(event.getSound().value());
+        ResourceLocation soundId = BuiltInRegistries.SOUND_EVENT.getKey(event.getSound());
         String path = soundId.getPath();
         SrpWorldData data = SrpWorldData.get(level);
         if (Config.disloGrowlNoise() && activeValue(data, 15) > 0 && path.endsWith(".growl")
@@ -214,7 +215,7 @@ public final class DislodgmentSystem {
     }
 
     @SubscribeEvent
-    public static void disableShield(LivingShieldBlockEvent event) {
+    public static void disableShield(ShieldBlockEvent event) {
         if (!event.getOriginalBlock() || !(event.getEntity() instanceof Player player)
                 || !(event.getDamageSource().getEntity() instanceof Parasite)
                 || !(player.level() instanceof ServerLevel level)
@@ -231,7 +232,7 @@ public final class DislodgmentSystem {
     }
 
     @SubscribeEvent
-    public static void corruptFoodAfterHit(LivingDamageEvent.Post event) {
+    public static void corruptFoodAfterHit(LivingDamageEvent event) {
         if (event.getNewDamage() <= 0.0F || !(event.getEntity() instanceof Player player)
                 || !(event.getSource().getEntity() instanceof Parasite)
                 || !(player.level() instanceof ServerLevel level)
@@ -270,7 +271,8 @@ public final class DislodgmentSystem {
     }
 
     @SubscribeEvent
-    public static void tickCodes(LevelTickEvent.Post event) {
+    public static void tickCodes(LevelTickEvent event) {
+        if (event.phase == TickEvent.Phase.START) {return;}
         if (!(event.getLevel() instanceof ServerLevel level) || !Config.useDislodgment()) {
             return;
         }
@@ -476,7 +478,7 @@ public final class DislodgmentSystem {
         spawned.moveTo(dead.getX(), dead.getY(), dead.getZ(), dead.getYRot(), dead.getXRot());
         spawned.finalizeSpawn(level, level.getCurrentDifficultyAt(dead.blockPosition()),
                 MobSpawnType.MOB_SUMMONED, null);
-        spawned.addEffect(new MobEffectInstance(ModMobEffects.REPEL, 600, 0, false, false));
+        spawned.addEffect(new MobEffectInstance(ModMobEffects.REPEL.get(), 600, 0, false, false));
         level.addFreshEntity(spawned);
         level.levelEvent(null, 1026, spawned.blockPosition(), 0);
     }
@@ -505,7 +507,7 @@ public final class DislodgmentSystem {
     }
 
     private static boolean corruptOneFood(Player player, ItemStack stack) {
-        if (stack.isEmpty() || stack.get(DataComponents.FOOD) == null) {
+        if (stack.isEmpty() || !stack.isEdible()) {
             return false;
         }
         stack.shrink(1);
@@ -520,7 +522,7 @@ public final class DislodgmentSystem {
         }
         int count = level.getEntitiesOfClass(LivingEntity.class,
                 new AABB(position).inflate(5.0D, 3.0D, 5.0D),
-                entity -> entity.hasEffect(ModMobEffects.COTH)).size();
+                entity -> entity.hasEffect(ModMobEffects.COTH.get())).size();
         return count >= required;
     }
 
@@ -598,14 +600,14 @@ public final class DislodgmentSystem {
     }
 
     private static void applyStackedJugg(LivingEntity target, int duration, LivingEntity source) {
-        MobEffectInstance existing = target.getEffect(ModMobEffects.JUGG);
+        MobEffectInstance existing = target.getEffect(ModMobEffects.JUGG.get());
         if (existing == null) {
-            target.addEffect(new MobEffectInstance(ModMobEffects.JUGG, duration, 1, false, false), source);
+            target.addEffect(new MobEffectInstance(ModMobEffects.JUGG.get(), duration, 1, false, false), source);
             return;
         }
         int newDuration = existing.getDuration() + 40 <= duration ? duration : existing.getDuration() + 10;
         int amplifier = Math.min(255, existing.getAmplifier() + 1);
-        target.addEffect(new MobEffectInstance(ModMobEffects.JUGG, newDuration, amplifier, false, false), source);
+        target.addEffect(new MobEffectInstance(ModMobEffects.JUGG.get(), newDuration, amplifier, false, false), source);
     }
 
     private static void applyDeathAreaCodes(ServerLevel level, LivingEntity dead, SrpWorldData data) {
@@ -646,7 +648,7 @@ public final class DislodgmentSystem {
 
     private static void finishSummonByDeath(ServerLevel level, int accumulatedHealth) {
         LivingEntity target = strongestJuggHolder(level);
-        if (target == null || target.getEffect(ModMobEffects.JUGG).getAmplifier()
+        if (target == null || target.getEffect(ModMobEffects.JUGG.get()).getAmplifier()
                 < Config.disloSummonByDeathKilling()) {
             return;
         }
@@ -667,7 +669,7 @@ public final class DislodgmentSystem {
             if (!(entity instanceof LivingEntity living) || !living.isAlive()) {
                 continue;
             }
-            MobEffectInstance effect = living.getEffect(ModMobEffects.JUGG);
+            MobEffectInstance effect = living.getEffect(ModMobEffects.JUGG.get());
             if (effect != null && effect.getAmplifier() >= amplifier) {
                 amplifier = effect.getAmplifier();
                 strongest = living;
@@ -709,7 +711,7 @@ public final class DislodgmentSystem {
     }
 
     private static ResourceLocation selectSummonPayload(int accumulatedHealth) {
-        ResourceLocation fallback = ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "warden");
+        ResourceLocation fallback = new ResourceLocation(Csrp.MODID, "warden");
         ResourceLocation selected = null;
         int selectedThreshold = Integer.MIN_VALUE;
         for (String entry : Config.disloSummonByDeathMobs()) {
@@ -736,7 +738,7 @@ public final class DislodgmentSystem {
 
     private static ResourceLocation normalizeLegacyId(ResourceLocation id) {
         if (id != null && "srparasites".equals(id.getNamespace())) {
-            return ResourceLocation.fromNamespaceAndPath(Csrp.MODID, id.getPath());
+            return new ResourceLocation(Csrp.MODID, id.getPath());
         }
         return id;
     }

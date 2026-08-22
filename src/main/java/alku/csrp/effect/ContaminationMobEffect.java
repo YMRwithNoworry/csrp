@@ -19,14 +19,14 @@ public final class ContaminationMobEffect extends MarkerMobEffect {
         if (entity.getHealth() > 1.0F) {
             entity.hurt(entity.damageSources().magic(), 1.0F);
         }
-        MobEffectInstance current = entity.getEffect(ModMobEffects.CONTAMINATION);
+        MobEffectInstance current = entity.getEffect(ModMobEffects.CONTAMINATION.get());
         int duration = current == null ? 0 : current.getDuration();
         if (duration <= 0) {
             return true;
         }
         AABB area = entity.getBoundingBox().inflate(4.0D, 3.0D, 4.0D);
         for (LivingEntity nearby : entity.level().getEntitiesOfClass(LivingEntity.class, area)) {
-            EffectStacking.apply(nearby, ModMobEffects.CONTAMINATION, duration, amplifier);
+            EffectStacking.apply(nearby, ModMobEffects.CONTAMINATION.get(), duration, amplifier);
         }
         return true;
     }

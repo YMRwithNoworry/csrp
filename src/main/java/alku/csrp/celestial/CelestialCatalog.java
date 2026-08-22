@@ -60,7 +60,7 @@ public final class CelestialCatalog {
             float extraOpacity, boolean fastStreak, float rotation, boolean animated, int frameCount,
             int frameTime, float yaw, float pitch, CelestialDefinition.OrbitPath path, float yawRange,
             float pitchMin, float pitchMax, float period, boolean oneShot) {
-        return new CelestialDefinition(id, ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+        return new CelestialDefinition(id, new ResourceLocation(Csrp.MODID,
                 "textures/celestial/" + texture), minPhase, maxPhase, chance, followsStars, stationary,
                 size, baseOpacity, extraOpacity, fastStreak, rotation, animated, frameCount, frameTime,
                 yaw, pitch, path, yawRange, pitchMin, pitchMax, period, oneShot);

@@ -152,9 +152,9 @@ public final class ParasiteLootMenu extends AbstractContainerMenu {
             viralAmplifier = 1;
             viralDuration = 100;
         }
-        player.addEffect(new MobEffectInstance(ModMobEffects.CORROSION,
+        player.addEffect(new MobEffectInstance(ModMobEffects.CORROSION.get(),
                 corrosionDuration, corrosionAmplifier, false, false));
-        EffectStacking.apply(player, ModMobEffects.VIRAL, viralDuration, viralAmplifier);
+        EffectStacking.apply(player, ModMobEffects.VIRAL.get(), viralDuration, viralAmplifier);
     }
 
     private void queueParasiteEffects(float fullness) {

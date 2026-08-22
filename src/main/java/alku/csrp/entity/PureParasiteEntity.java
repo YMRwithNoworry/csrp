@@ -1,5 +1,7 @@
 package alku.csrp.entity;
 
+import net.minecraftforge.common.ForgeMod;
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.Csrp;
 import alku.csrp.Config;
 import alku.csrp.config.MobsConfig;
@@ -15,7 +17,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -53,14 +54,14 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.entity.PartEntity;
-import net.neoforged.neoforge.event.EventHooks;
+import net.minecraftforge.entity.PartEntity;
+import net.minecraftforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.core.animation.RawAnimation;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -249,7 +250,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
             attributes.add(Attributes.FLYING_SPEED, kind.movementSpeed);
         }
         if (kind == Kind.MONARCH || kind == Kind.VIGILANTE || kind == Kind.WARDEN) {
-            attributes.add(Attributes.STEP_HEIGHT, 1.0D);
+            attributes.add(ForgeMod.STEP_HEIGHT_ADDITION.get(), 1.0D);
         }
         return attributes;
     }
@@ -334,7 +335,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         super.defineSynchedData(builder);
         builder.define(WARDEN_CHARGING, false);
         builder.define(WARDEN_STATUS, 0);
@@ -515,7 +516,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
     public void push(Entity entity) {
         if (!level().isClientSide && activeKind() == Kind.GRUNT && getGruntSkin() == 5
                 && entity instanceof LivingEntity living && living != this && !(living instanceof Parasite)) {
-            EffectStacking.apply(living, ModMobEffects.VIRAL, 40, 0);
+            EffectStacking.apply(living, ModMobEffects.VIRAL.get(), 40, 0);
         }
         super.push(entity);
     }
@@ -534,17 +535,16 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
     }
 
     @Override
-    protected EntityDimensions getDefaultDimensions(Pose pose) {
-        EntityDimensions dimensions = super.getDefaultDimensions(pose);
+    protected float getEyeHeight() {
         return switch (activeKind()) {
-            case GRUNT -> dimensions.withEyeHeight(1.73F);
-            case BOMBER_LIGHT -> dimensions.withEyeHeight(2.4F);
-            case MONARCH -> dimensions.withEyeHeight(3.5F);
-            case OVERSEER -> dimensions.withEyeHeight(1.6F);
-            case SEEKER -> dimensions.withEyeHeight(1.6F);
-            case VIGILANTE -> dimensions.withEyeHeight(3.0F);
-            case WARDEN -> dimensions.withEyeHeight(3.5F);
-            default -> dimensions;
+            case GRUNT -> 1.73F;
+            case BOMBER_LIGHT -> 2.4F;
+            case MONARCH -> 3.5F;
+            case OVERSEER -> 1.6F;
+            case SEEKER -> 1.6F;
+            case VIGILANTE -> 3.0F;
+            case WARDEN -> 3.5F;
+            default -> super.getEyeHeight();
         };
     }
 
@@ -758,7 +758,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
 
     @Override
     public void setManualVariant(int variant) {
-        byte skin = (byte) Math.clamp(variant, 0, getMaxManualVariants() - 1);
+        byte skin = (byte) Mth.clamp(variant, 0, getMaxManualVariants() - 1);
         switch (activeKind()) {
             case GRUNT -> entityData.set(GRUNT_SKIN, skin);
             case MONARCH -> {
@@ -961,7 +961,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
 
     private boolean hurtWardenTendril(DamageSource source, float amount) {
         if (random.nextBoolean()) {
-            EffectStacking.apply(this, ModMobEffects.BLEED, 80, 0);
+            EffectStacking.apply(this, ModMobEffects.BLEED.get(), 80, 0);
         }
         return hurt(source, amount * 3.0F);
     }
@@ -1094,9 +1094,9 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         switch (activeKind) {
             case GRUNT -> {
                 if (getGruntSkin() == 5) {
-                    EffectStacking.apply(target, ModMobEffects.VIRAL, 40, 0);
+                    EffectStacking.apply(target, ModMobEffects.VIRAL.get(), 40, 0);
                 } else if (getGruntSkin() == 6) {
-                    EffectStacking.apply(target, ModMobEffects.BLEED, 40, 0);
+                    EffectStacking.apply(target, ModMobEffects.BLEED.get(), 40, 0);
                 }
             }
             case MONARCH -> {
@@ -1362,7 +1362,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         cloud.setWaitTime(0);
         cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
         cloud.addEffect(new MobEffectInstance(MobEffects.POISON, 140, 0, false, true));
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 220, 0, false, true));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH.get(), 220, 0, false, true));
         level().addFreshEntity(cloud);
         if (level() instanceof ServerLevel serverLevel) {
             serverLevel.sendParticles(ParticleTypes.EXPLOSION, getX(), getY() + getBbHeight() * 0.5D, getZ(),
@@ -1546,7 +1546,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
                 continue;
             }
             if (id.getNamespace().equals("srparasites")) {
-                id = ResourceLocation.fromNamespaceAndPath(Csrp.MODID, id.getPath());
+                id = new ResourceLocation(Csrp.MODID, id.getPath());
             }
             EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.getOptional(id).orElse(null);
             if (type == null) {
@@ -1920,7 +1920,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
             if (hasLineOfSight(target) && distance >= 100.0D && distance < 10_000.0D) {
                 chargeTicks++;
             }
-            if (hasEffect(ModMobEffects.RAGE)) {
+            if (hasEffect(ModMobEffects.RAGE.get())) {
                 chargeTicks++;
             }
             if (chargeTicks >= 40 && onGround() && !hasEffect(MobEffects.MOVEMENT_SLOWDOWN)) {
@@ -1993,7 +1993,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
                 return;
             }
             if (distanceToSqr(target) < 4225.0D && hasLineOfSight(target)) {
-                attackTimer += hasEffect(ModMobEffects.RAGE) ? 2 : 1;
+                attackTimer += hasEffect(ModMobEffects.RAGE.get()) ? 2 : 1;
                 if (attackTimer > 40) {
                     if (shots < 4) {
                         if (attackTimer % 15 == 0) {
@@ -2033,7 +2033,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         public void tick() {
             LivingEntity target = getTarget();
             if (!monarchSkillLeapActive && target != null && target.isAlive()) {
-                attackTimer += hasEffect(ModMobEffects.RAGE) ? 2 : 1;
+                attackTimer += hasEffect(ModMobEffects.RAGE.get()) ? 2 : 1;
                 if (attackTimer >= 20 && attacking == 0) {
                     attacking = 1;
                     targetX = target.getX();
@@ -2105,7 +2105,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
             }
             getLookControl().setLookAt(target, 30.0F, 30.0F);
             attackCooldown--;
-            MobEffectInstance pivot = getEffect(ModMobEffects.PIVOT);
+            MobEffectInstance pivot = getEffect(ModMobEffects.PIVOT.get());
             if (attackCooldown > 0 && pivot != null) {
                 attackCooldown -= pivot.getAmplifier() * 2;
             }
@@ -2265,7 +2265,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
     private void breakBlocksForMonarchSkill() {
         if (!(level() instanceof ServerLevel serverLevel)
                 || !level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
-                || !EventHooks.canEntityGrief(level(), this)) {
+                || !ForgeEventFactory.getMobGriefingEvent(level(), this)) {
             return;
         }
         int baseX = Mth.floor(getX());
@@ -2290,7 +2290,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
                     float hardness = state.getDestroySpeed(serverLevel, pos);
                     if (state.isAir() || hardness < 0.0F || hardness > adjustBlockBreakHardness(5.0F)
                             || !state.canEntityDestroy(serverLevel, pos, this)
-                            || !EventHooks.onEntityDestroyBlock(this, pos, state)) {
+                            || !ForgeEventFactory.onEntityDestroyBlock(this, pos, state)) {
                         continue;
                     }
                     serverLevel.destroyBlock(pos, true, this);
@@ -2714,7 +2714,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
             getLookControl().setLookAt(target, 30.0F, 30.0F);
             if (distanceToSqr(target) < 4225.0D && hasLineOfSight(target)) {
                 attackTimer++;
-                if (hasEffect(ModMobEffects.RAGE)) {
+                if (hasEffect(ModMobEffects.RAGE.get())) {
                     attackTimer++;
                 }
                 if (attackTimer == 10) {
@@ -3065,7 +3065,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
                 getNavigation().moveTo(target, 1.5D);
             }
             getLookControl().setLookAt(target, 30.0F, 30.0F);
-            if (hasEffect(ModMobEffects.RAGE)) {
+            if (hasEffect(ModMobEffects.RAGE.get())) {
                 rangedAttackTime--;
             }
             if (--rangedAttackTime <= 0 && visible && distance <= maximumRangedDistance) {
@@ -3101,7 +3101,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
             }
             getLookControl().setLookAt(target, 30.0F, 30.0F);
             attackCooldown--;
-            MobEffectInstance pivot = getEffect(ModMobEffects.PIVOT);
+            MobEffectInstance pivot = getEffect(ModMobEffects.PIVOT.get());
             if (attackCooldown > 0 && pivot != null) {
                 attackCooldown -= pivot.getAmplifier() * 2;
             }
@@ -3147,7 +3147,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
             if (distance < 100.0D || distance >= 10000.0D || !hasLineOfSight(target)) {
                 return false;
             }
-            activationTicks += hasEffect(ModMobEffects.RAGE) ? 2 : 1;
+            activationTicks += hasEffect(ModMobEffects.RAGE.get()) ? 2 : 1;
             return activationTicks >= 80;
         }
 
@@ -3226,7 +3226,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
             if (distance < 64.0D || distance >= 1024.0D || !hasLineOfSight(target)) {
                 return false;
             }
-            activationTicks += hasEffect(ModMobEffects.RAGE) ? 2 : 1;
+            activationTicks += hasEffect(ModMobEffects.RAGE.get()) ? 2 : 1;
             return activationTicks >= 40;
         }
 
@@ -3317,7 +3317,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
             if (distance < 4.0D || distance >= maximumDistance * maximumDistance) {
                 return false;
             }
-            activationTicks += hasEffect(ModMobEffects.RAGE) ? 2 : 1;
+            activationTicks += hasEffect(ModMobEffects.RAGE.get()) ? 2 : 1;
             return activationTicks >= 40;
         }
 
@@ -3433,7 +3433,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         }
 
         @Override
-        protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        protected void defineSynchedData() {
         }
 
         @Override
@@ -3486,7 +3486,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         }
 
         @Override
-        protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        protected void defineSynchedData() {
         }
 
         @Override
@@ -3542,7 +3542,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         }
 
         @Override
-        protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        protected void defineSynchedData() {
         }
 
         @Override

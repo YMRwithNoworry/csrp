@@ -21,13 +21,13 @@ public final class NeedlerMobEffect extends MobEffect {
     public boolean applyEffectTick(LivingEntity entity, int amplifier) {
         if (!entity.level().isClientSide && amplifier >= TERMINAL_AMPLIFIER) {
             int remainder = amplifier - TERMINAL_AMPLIFIER;
-            entity.removeEffect(ModMobEffects.NEEDLER);
-            entity.addEffect(new MobEffectInstance(ModMobEffects.NEEDLER, 400, remainder, false, false));
+            entity.removeEffect(ModMobEffects.NEEDLER.get());
+            entity.addEffect(new MobEffectInstance(ModMobEffects.NEEDLER.get(), 400, remainder, false, false));
             if (entity.level() instanceof ServerLevel level) {
                 level.sendParticles(ParticleTypes.EXPLOSION_EMITTER, entity.getX(),
                         entity.getY() + entity.getBbHeight() * 0.5D, entity.getZ(),
                         1, 0.0D, 0.0D, 0.0D, 0.0D);
-                level.playSound(null, entity.blockPosition(), SoundEvents.GENERIC_EXPLODE.value(),
+                level.playSound(null, entity.blockPosition(), SoundEvents.GENERIC_EXPLODE,
                         SoundSource.HOSTILE, 1.0F, 1.0F);
             }
             float damage = Math.min(entity.getMaxHealth() * DAMAGE_FRACTION, MAX_DAMAGE);

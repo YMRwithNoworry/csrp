@@ -1,5 +1,6 @@
 package alku.csrp.item;
 
+import alku.csrp.util.NbtData;
 import java.util.List;
 import java.util.function.Supplier;
 import alku.csrp.Config;
@@ -56,7 +57,7 @@ public final class LivingArmorItem extends ArmorItem {
         if (level.isClientSide || !(entity instanceof LivingEntity holder)) return;
         if (sentient && holder.tickCount % 40 == 0 && Config.evolutionPhase(level) >= 2
                 && holder.getRandom().nextInt(10) == 0) {
-            holder.addEffect(new MobEffectInstance(ModMobEffects.PREY, 1200, 0, false, false));
+            holder.addEffect(new MobEffectInstance(ModMobEffects.PREY.get(), 1200, 0, false, false));
         }
         if (!sentient && holder.tickCount % 80 == 0) evolveIfReady(stack, holder);
     }
@@ -64,7 +65,7 @@ public final class LivingArmorItem extends ArmorItem {
     private void evolveIfReady(ItemStack stack, LivingEntity holder) {
         if (next == null || stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
                 .copyTag().getInt(DAMAGE) < EVOLUTION_DAMAGE) return;
-        CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> tag.putInt(DAMAGE, 0));
+        NbtData.update(stack, tag -> tag.putInt(DAMAGE, 0));
         stack.shrink(1);
         var dropped = holder.spawnAtLocation(new ItemStack(next.get()));
         if (dropped != null) dropped.setUnlimitedLifetime();

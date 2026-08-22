@@ -1,5 +1,7 @@
 package alku.csrp.entity;
 
+import net.minecraft.util.Mth;
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.Config;
 import alku.csrp.config.MobsConfig;
 import alku.csrp.effect.EffectStacking;
@@ -13,7 +15,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
@@ -41,9 +42,9 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.RawAnimation;
 
 import java.util.EnumSet;
 
@@ -131,7 +132,7 @@ public final class ManglerEntity extends PrimitiveParasiteEntity implements Manu
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         super.defineSynchedData(builder);
         builder.define(CLIMBING, (byte) 0);
         builder.define(VARIANT, (byte) NORMAL_VARIANT);
@@ -201,7 +202,7 @@ public final class ManglerEntity extends PrimitiveParasiteEntity implements Manu
     public void push(Entity entity) {
         if (!level().isClientSide && getVariant() == VIRAL_VARIANT && entity instanceof LivingEntity living
                 && living != this && !(living instanceof Parasite)) {
-            EffectStacking.apply(living, ModMobEffects.VIRAL, 100, 0);
+            EffectStacking.apply(living, ModMobEffects.VIRAL.get(), 100, 0);
         }
         super.push(entity);
     }
@@ -335,7 +336,7 @@ public final class ManglerEntity extends PrimitiveParasiteEntity implements Manu
 
     @Override
     public void setManualVariant(int variant) {
-        entityData.set(VARIANT, (byte) Math.clamp(variant, 0, getMaxManualVariants() - 1));
+        entityData.set(VARIANT, (byte) Mth.clamp(variant, 0, getMaxManualVariants() - 1));
     }
 
     public int getCombatStatus() {

@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.block.SrpWebBlock;
 import alku.csrp.config.MobsConfig;
 import alku.csrp.effect.EffectStacking;
@@ -14,7 +15,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -39,7 +39,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.event.EventHooks;
+import net.minecraftforge.event.EventHooks;
 
 import java.util.UUID;
 
@@ -338,29 +338,29 @@ public final class ParasiteProjectileEntity extends Entity {
                 }
                 case WEB -> {
                 }
-                case NEEDLE -> target.addEffect(new MobEffectInstance(ModMobEffects.NEEDLER, 180, 0), owner);
+                case NEEDLE -> target.addEffect(new MobEffectInstance(ModMobEffects.NEEDLER.get(), 180, 0), owner);
                 case WITHER -> target.addEffect(new MobEffectInstance(MobEffects.WITHER, 160, 1), owner);
                 case ANCIENT_BALL -> target.addEffect(new MobEffectInstance(MobEffects.WITHER, 60, 0), owner);
                 case LIGHT -> {
-                    target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 100, 0), owner);
+                    target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL.get(), 100, 0), owner);
                     target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 140, 0), owner);
                 }
                 case HOMING -> {
                 }
                 case VOMIT, SALIVA_EFFECT -> {
-                    target.addEffect(new MobEffectInstance(ModMobEffects.VOMIT, 160, 0), owner);
-                    target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 160, 0), owner);
-                    target.addEffect(new MobEffectInstance(ModMobEffects.CORROSION, 160, 0), owner);
+                    target.addEffect(new MobEffectInstance(ModMobEffects.VOMIT.get(), 160, 0), owner);
+                    target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL.get(), 160, 0), owner);
+                    target.addEffect(new MobEffectInstance(ModMobEffects.CORROSION.get(), 160, 0), owner);
                     target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 160, 1), owner);
                     target.addEffect(new MobEffectInstance(MobEffects.HUNGER, 160, 1), owner);
                 }
                 case DRAGON_MISSILE -> {
-                    target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 200, 1), owner);
+                    target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL.get(), 200, 1), owner);
                     target.addEffect(new MobEffectInstance(MobEffects.POISON, 120, 0), owner);
                 }
                 case BOMB -> {
                     target.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 0), owner);
-                    target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 160, 0), owner);
+                    target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL.get(), 160, 0), owner);
                     target.igniteForSeconds(4.0F);
                 }
                 case METEOR -> target.igniteForSeconds(4.0F);
@@ -393,11 +393,11 @@ public final class ParasiteProjectileEntity extends Entity {
         double effectRadius = 3.0D;
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
                 getBoundingBox().inflate(effectRadius), target -> !(target instanceof Parasite))) {
-            EffectStacking.apply(target, ModMobEffects.NEEDLER, 300, 0);
+            EffectStacking.apply(target, ModMobEffects.NEEDLER.get(), 300, 0);
             target.hurt(damageSources().indirectMagic(this, owner), MobsConfig.overseerProjectileDamage());
             owner.applyPrimitiveMinimumDamage(target);
         }
-        level().playSound(null, getX(), getY(), getZ(), SoundEvents.GENERIC_EXPLODE.value(),
+        level().playSound(null, getX(), getY(), getZ(), SoundEvents.GENERIC_EXPLODE,
                 SoundSource.BLOCKS, 4.0F,
                 (1.0F + (random.nextFloat() - random.nextFloat()) * 0.2F) * 0.7F);
         spawnLingeringAlafhaCloud(owner);
@@ -426,7 +426,7 @@ public final class ParasiteProjectileEntity extends Entity {
         cloud.setDuration(100);
         cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
         cloud.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 300, 0, false, false));
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.CORROSION, 100, 0, false, false));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.CORROSION.get(), 100, 0, false, false));
         level().addFreshEntity(cloud);
         discard();
     }
@@ -517,7 +517,7 @@ public final class ParasiteProjectileEntity extends Entity {
             return;
         }
         boolean griefing = level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
-                && EventHooks.canEntityGrief(level(), this);
+                && ForgeEventFactory.getMobGriefingEvent(level(), this);
         if (directHit != null) {
             if (directHit instanceof Player player
                     && !player.hasEffect(MobEffects.BLINDNESS) && random.nextFloat() < 0.30F) {
@@ -675,7 +675,7 @@ public final class ParasiteProjectileEntity extends Entity {
             target.invulnerableTime = 0;
             target.hurt(damageSources().mobAttack(owner), frameDamage);
             target.addEffect(new MobEffectInstance(MobEffects.POISON, 40, 0), owner);
-            target.addEffect(new MobEffectInstance(ModMobEffects.CORROSION, 60, 0), owner);
+            target.addEffect(new MobEffectInstance(ModMobEffects.CORROSION.get(), 60, 0), owner);
         }
         if (acidDamageTicks >= ACID_NADE_DURATION_TICKS) {
             discard();
@@ -733,7 +733,7 @@ public final class ParasiteProjectileEntity extends Entity {
         cloud.setDuration(60);
         cloud.setWaitTime(0);
         cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 300, 0, false, true));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH.get(), 300, 0, false, true));
         level().addFreshEntity(cloud);
     }
 
@@ -744,9 +744,9 @@ public final class ParasiteProjectileEntity extends Entity {
         cloud.setDuration(70);
         cloud.setWaitTime(0);
         cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.VOMIT, 160, 0, false, true));
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 160, 0, false, true));
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.CORROSION, 160, 0, false, true));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.VOMIT.get(), 160, 0, false, true));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.VIRAL.get(), 160, 0, false, true));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.CORROSION.get(), 160, 0, false, true));
         cloud.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 120, 1, false, true));
         cloud.addEffect(new MobEffectInstance(MobEffects.HUNGER, 120, 1, false, true));
         level().addFreshEntity(cloud);
@@ -760,7 +760,7 @@ public final class ParasiteProjectileEntity extends Entity {
             cloud.setRadius(5.0F);
             cloud.setWaitTime(0);
             cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
-            cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 300, 0, false, true));
+            cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH.get(), 300, 0, false, true));
             level().addFreshEntity(cloud);
             spawnOrbBoom(owner, 15, 1);
             return;
@@ -769,7 +769,7 @@ public final class ParasiteProjectileEntity extends Entity {
         cloud.setRadiusOnUse(-0.5F);
         cloud.setWaitTime(30);
         cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.NEEDLER, 360, 0, false, false));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.NEEDLER.get(), 360, 0, false, false));
         level().addFreshEntity(cloud);
     }
 
@@ -793,7 +793,7 @@ public final class ParasiteProjectileEntity extends Entity {
         cloud.setDuration(600);
         cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
         cloud.addEffect(new MobEffectInstance(MobEffects.WITHER, 300, 0, false, false));
-        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, 0, false, false, true));
+        cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH.get(), 3600, 0, false, false, true));
         level().addFreshEntity(cloud);
     }
 
@@ -806,7 +806,7 @@ public final class ParasiteProjectileEntity extends Entity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         builder.define(MODE, Mode.SPINE.ordinal());
         builder.define(HOMING_TARGET, 0);
         builder.define(NADE_ARMED, false);

@@ -7,9 +7,9 @@ import alku.csrp.registry.ModFluidTypes;
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.tick.EntityTickEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.event.entity.living.LivingTickEvent;
 
 /**
  * Dead Blood contact effects: rapid chip damage with Viral and Corrosion for
@@ -38,8 +38,8 @@ public final class DeadBloodFluidEvents {
             entity.hurt(entity.damageSources().magic(), 0.5F);
         }
         if (time % 20L == 0L) {
-            EffectStacking.apply(entity, ModMobEffects.VIRAL, 100, 0);
-            EffectStacking.apply(entity, ModMobEffects.CORROSION, 100, 0);
+            EffectStacking.apply(entity, ModMobEffects.VIRAL.get(), 100, 0);
+            EffectStacking.apply(entity, ModMobEffects.CORROSION.get(), 100, 0);
         }
     }
 }

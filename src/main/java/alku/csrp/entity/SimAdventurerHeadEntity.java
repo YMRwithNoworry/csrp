@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
@@ -8,7 +9,6 @@ import alku.csrp.world.EvolutionSystem;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.DifficultyInstance;
@@ -42,11 +42,11 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.Comparator;
@@ -261,7 +261,7 @@ public final class SimAdventurerHeadEntity extends Monster implements GeoEntity,
                             entity -> entity != SimAdventurerHeadEntity.this && entity.isAlive()
                                     && (entity instanceof Animal || entity instanceof WaterAnimal
                                     || entity instanceof Villager)
-                                    && !entity.hasEffect(ModMobEffects.COTH)
+                                    && !entity.hasEffect(ModMobEffects.COTH.get())
                                     && hasLineOfSight(entity)
                                     && distanceToSqr(entity) < 81.0D
                                     && navigation.createPath(entity, 1) != null)
@@ -284,7 +284,7 @@ public final class SimAdventurerHeadEntity extends Monster implements GeoEntity,
             cloud.setDuration(1200);
             cloud.setWaitTime(10);
             cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
-            cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, 1, false, false, true));
+            cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH.get(), 3600, 1, false, false, true));
             level().addFreshEntity(cloud);
             playSound(ModSounds.RUPTER_CLOUD.get(), 1.2F, 1.1F);
             cloudCooldown = 20;
@@ -300,7 +300,7 @@ public final class SimAdventurerHeadEntity extends Monster implements GeoEntity,
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         super.defineSynchedData(builder);
         builder.define(LEAP_TICKS, 0);
         builder.define(PARASITE_STATUS, 0);

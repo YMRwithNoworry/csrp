@@ -1,5 +1,7 @@
 package alku.csrp.entity;
 
+import net.minecraft.util.Mth;
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.Csrp;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
@@ -8,7 +10,6 @@ import alku.csrp.registry.ModSounds;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -50,11 +51,11 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.EnumSet;
@@ -291,7 +292,7 @@ public final class AssimilatedParasiteEntity extends Monster
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         super.defineSynchedData(builder);
         builder.define(SHEEP_TEXTURE_VARIANT, 0);
         builder.define(TAMED_WOLF_TEXTURE, false);
@@ -323,8 +324,8 @@ public final class AssimilatedParasiteEntity extends Monster
     }
 
     @Override
-    protected EntityDimensions getDefaultDimensions(net.minecraft.world.entity.Pose pose) {
-        EntityDimensions dimensions = super.getDefaultDimensions(pose);
+    protected EntityDimensions getDimensions(net.minecraft.world.entity.Pose pose) {
+        EntityDimensions dimensions = super.getDimensions(pose);
         if (!isMelting()) {
             return dimensions;
         }
@@ -518,7 +519,7 @@ public final class AssimilatedParasiteEntity extends Monster
     }
 
     public void setSheepTextureVariant(int variant) {
-        entityData.set(SHEEP_TEXTURE_VARIANT, Math.clamp(variant, 0, 2));
+        entityData.set(SHEEP_TEXTURE_VARIANT, Mth.clamp(variant, 0, 2));
     }
 
     public boolean hasTamedWolfTexture() {
@@ -539,7 +540,7 @@ public final class AssimilatedParasiteEntity extends Monster
             case WOLF -> hasTamedWolfTexture() ? "sim_wolf_tamed" : "sim_wolf";
             default -> kind.id;
         };
-        return ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/" + texture + ".png");
+        return new ResourceLocation(Csrp.MODID, "textures/entity/" + texture + ".png");
     }
 
     public float getMeltHeight() {

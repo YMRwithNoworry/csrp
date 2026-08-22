@@ -19,13 +19,13 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
-import software.bernie.geckolib.util.Color;
+import software.bernie.geckolib.core.object.Color;
 
 /** Restores the translucent cosmical shadow pass used by legacy derived parasites. */
 public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> extends ParasiteGeoRenderer<T> {
-    private static final ResourceLocation COSMIC_HACKING_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final ResourceLocation COSMIC_HACKING_TEXTURE = new ResourceLocation(Csrp.MODID,
             "textures/entity/layer/cosmichasking.png");
-    private static final ResourceLocation GUARDIAN_BEAM_TEXTURE = ResourceLocation.withDefaultNamespace(
+    private static final ResourceLocation GUARDIAN_BEAM_TEXTURE = new ResourceLocation(
             "textures/entity/guardian_beam.png");
     private static final RenderType GUARDIAN_BEAM_RENDER_TYPE = RenderType.entityTranslucentEmissive(
             GUARDIAN_BEAM_TEXTURE);
@@ -43,7 +43,7 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
     public DerivedParasiteRenderer(EntityRendererProvider.Context context, String id, String shadowTexture,
             float shadowRadius) {
         super(context, new PrimitiveParasiteModel<>(id));
-        this.shadowTexture = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+        this.shadowTexture = new ResourceLocation(Csrp.MODID,
                 "textures/entity/" + shadowTexture + ".png");
         this.shadowRadius = shadowRadius;
         addRenderLayer(new ShadowLayer<>(this, this.shadowTexture));

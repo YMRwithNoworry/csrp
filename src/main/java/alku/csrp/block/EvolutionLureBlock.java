@@ -13,7 +13,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.player.Player;
@@ -45,18 +45,18 @@ public final class EvolutionLureBlock extends Block {
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
+    protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
             Player player, net.minecraft.world.InteractionHand hand, BlockHitResult hitResult) {
         if (player.getMainHandItem().isEmpty()) {
             if (level instanceof ServerLevel serverLevel) {
                 activate(serverLevel, pos, state.getValue(TIER), player);
             }
-            return ItemInteractionResult.sidedSuccess(level.isClientSide);
+            return InteractionResult.sidedSuccess(level.isClientSide);
         }
         if (!level.isClientSide) {
             player.displayClientMessage(Component.translatable("message.csrp.lure_empty_hand"), true);
         }
-        return ItemInteractionResult.SUCCESS;
+        return InteractionResult.SUCCESS;
     }
 
     private static void activate(ServerLevel level, BlockPos center, Tier tier, Player player) {
@@ -113,7 +113,7 @@ public final class EvolutionLureBlock extends Block {
     }
 
     private static boolean isLure(ServerLevel level, BlockPos pos) {
-        return level.getBlockState(pos).is(ModBlocks.EVOLUTION_LURE);
+        return level.getBlockState(pos).is(ModBlocks.EVOLUTION_LURE.get());
     }
 
     private static void removeCarcass(ServerLevel level, BlockPos center) {

@@ -1,5 +1,6 @@
 package alku.csrp.celestial;
 
+import alku.csrp.network.CsrpNetwork;
 import alku.csrp.celestial.network.CelestialStatePayload;
 import alku.csrp.entity.Parasite;
 import alku.csrp.registry.ModMobEffects;
@@ -20,7 +21,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
-import net.neoforged.neoforge.network.PacketDistributor;
 
 public final class CelestialSystem {
     public static final String DARK_DAYS = "dark_days";
@@ -31,9 +31,9 @@ public final class CelestialSystem {
     private static final String WITNESSED_KEY = "csrpWitnessed";
     private static final int HALF_EVENT_COUNT = 8;
     private static final int ALL_EVENT_COUNT = 16;
-    private static final ResourceLocation COLUMBUS = ResourceLocation.fromNamespaceAndPath(
+    private static final ResourceLocation COLUMBUS = new ResourceLocation(
             alku.csrp.Csrp.MODID, "columbus");
-    private static final ResourceLocation STOLAS = ResourceLocation.fromNamespaceAndPath(
+    private static final ResourceLocation STOLAS = new ResourceLocation(
             alku.csrp.Csrp.MODID, "stolas");
 
     private CelestialSystem() {
@@ -165,7 +165,7 @@ public final class CelestialSystem {
         if (!isActive(level, "twenty_seven")) return;
         for (var entity : level.getAllEntities()) {
             if (entity instanceof Parasite && entity instanceof LivingEntity living && living.isAlive()) {
-                living.addEffect(new MobEffectInstance(ModMobEffects.RAGE, 12000, 1, false, false));
+                living.addEffect(new MobEffectInstance(ModMobEffects.RAGE.get(), 12000, 1, false, false));
             }
         }
     }
@@ -212,7 +212,7 @@ public final class CelestialSystem {
 
     private static void awardDarkDaysSurvivors(ServerLevel level) {
         net.minecraft.advancements.AdvancementHolder holder = level.getServer().getAdvancements()
-                .get(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(
+                .get(net.minecraft.resources.new ResourceLocation(
                         alku.csrp.Csrp.MODID, "dark_days"));
         if (holder == null) {
             return;
@@ -283,13 +283,13 @@ public final class CelestialSystem {
     public static void sync(ServerLevel level) {
         CelestialWorldData data = CelestialWorldData.get(level);
         CelestialStatePayload payload = new CelestialStatePayload(visible(level), data.nightIndex(), level.getGameTime());
-        level.players().forEach(player -> PacketDistributor.sendToPlayer(player, payload));
+        level.players().forEach(player -> CsrpNetwork.sendToPlayer(player, payload));
     }
 
     public static void sync(ServerPlayer player) {
         ServerLevel level = player.serverLevel();
         CelestialWorldData data = CelestialWorldData.get(level);
-        PacketDistributor.sendToPlayer(player,
+        CsrpNetwork.sendToPlayer(player,
                 new CelestialStatePayload(visible(level), data.nightIndex(), level.getGameTime()));
     }
 

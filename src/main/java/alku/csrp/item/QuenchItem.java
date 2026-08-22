@@ -30,7 +30,7 @@ public final class QuenchItem extends Item {
             level.addFreshEntity(projectile);
             level.playSound(null, player.blockPosition(), SoundEvents.SNOWBALL_THROW,
                     SoundSource.PLAYERS, 0.5F, 0.35F + level.random.nextFloat() * 0.15F);
-            stack.consume(1, player);
+            stack.shrink(1);
         }
         return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
     }

@@ -18,10 +18,10 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.AABB;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
 /**
  * Remaining Cognitio achievements: Ricardo shearing, guerilla kills, creeper
@@ -45,8 +45,8 @@ public final class CognitioEvents {
         if (target instanceof AssimilatedParasiteEntity wolf
                 && wolf.getKind() == AssimilatedParasiteEntity.Kind.WOLF
                 && event.getItemStack().is(Items.NAME_TAG)
-                && event.getItemStack().get(DataComponents.CUSTOM_NAME) != null
-                && event.getItemStack().get(DataComponents.CUSTOM_NAME).getString().equals("Paojiao134")
+                && event.getItemStack().getHoverName() != null
+                && event.getItemStack().getHoverName().getString().equals("Paojiao134")
                 && event.getEntity() instanceof ServerPlayer player) {
             award(player, "paojiao_wolf", "named_wolf");
         }
@@ -59,7 +59,7 @@ public final class CognitioEvents {
             return;
         }
         Entity sourceEntity = event.getSource().getEntity();
-        if (victim instanceof Player && victim.hasEffect(ModMobEffects.FEAR)
+        if (victim instanceof Player && victim.hasEffect(ModMobEffects.FEAR.get())
                 && sourceEntity instanceof ServerPlayer killer) {
             award(killer, "guerilla", "killed_fearful_player");
         }
@@ -97,7 +97,7 @@ public final class CognitioEvents {
 
     private static void award(ServerPlayer player, String advancement, String criterion) {
         AdvancementHolder holder = player.server.getAdvancements()
-                .get(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, advancement));
+                .get(new ResourceLocation(Csrp.MODID, advancement));
         if (holder != null) {
             player.getAdvancements().award(holder, criterion);
         }

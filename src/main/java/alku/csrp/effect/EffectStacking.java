@@ -21,7 +21,7 @@ public final class EffectStacking {
             return;
         }
         MobEffectInstance current = entity.getEffect(effect);
-        boolean showIcon = effect.equals(ModMobEffects.COTH);
+        boolean showIcon = effect.equals(ModMobEffects.COTH.get());
         if (current == null) {
             entity.addEffect(new MobEffectInstance(effect, duration, Math.min(amplifier, maxAmplifier),
                     false, false, showIcon));

@@ -4,91 +4,91 @@ import alku.csrp.world.SrpWorldData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.common.ModConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.util.Arrays;
 import java.util.List;
 
 public final class Config {
-    private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
+    private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     private static final List<Integer> DEFAULT_DISLODGMENT_PHASE_CODES = List.of(
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25);
-    private static final ModConfigSpec.IntValue EVOLUTION_PHASE = BUILDER
+    private static final ForgeConfigSpec.IntValue EVOLUTION_PHASE = BUILDER
             .comment("Current parasite evolution phase used by phase-gated spawning and behavior.")
             .defineInRange("evolutionPhase", -1, -2, 10);
-    private static final ModConfigSpec.BooleanValue SCENT_ENABLED = BUILDER
+    private static final ForgeConfigSpec.BooleanValue SCENT_ENABLED = BUILDER
             .comment("Allow parasitic Scent entities to spawn.")
             .define("scentEnabled", true);
-    private static final ModConfigSpec.IntValue SCENT_CAP = BUILDER
+    private static final ForgeConfigSpec.IntValue SCENT_CAP = BUILDER
             .comment("Maximum Scent count checked before a Seeker creates another Scent.")
             .defineInRange("scentCap", 2, 1, 100);
-    private static final ModConfigSpec.IntValue SCENT_DEVELOPMENT_LEVEL = BUILDER
+    private static final ForgeConfigSpec.IntValue SCENT_DEVELOPMENT_LEVEL = BUILDER
             .comment("Minimum creation-phase development level at which a Seeker can create Scent.")
             .defineInRange("scentDevelopmentLevel", 2, 0, 100);
-    private static final ModConfigSpec.BooleanValue RAGE_ENABLED = BUILDER
+    private static final ForgeConfigSpec.BooleanValue RAGE_ENABLED = BUILDER
             .comment("Allow parasites to grant the Rage effect.")
             .define("rageEnabled", true);
-    private static final ModConfigSpec.BooleanValue MOB_ATTACKING_ENABLED = BUILDER
+    private static final ForgeConfigSpec.BooleanValue MOB_ATTACKING_ENABLED = BUILDER
             .comment("Allow parasites to target non-player mobs.")
             .define("mobAttackingEnabled", true);
-    private static final ModConfigSpec.ConfigValue<List<? extends String>> MOB_ATTACKING_BLACKLIST = BUILDER
+    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> MOB_ATTACKING_BLACKLIST = BUILDER
             .comment("Entity ids or whole namespaces that parasites will not target as mobs.")
             .defineList("mobAttackingBlacklist", List.of(
                     "srmonstress", "minecraft:creeper", "minecraft:bat"),
                     value -> value instanceof String entry && !entry.isBlank());
-    private static final ModConfigSpec.BooleanValue MOB_ATTACKING_BLACKLIST_INVERTED = BUILDER
+    private static final ForgeConfigSpec.BooleanValue MOB_ATTACKING_BLACKLIST_INVERTED = BUILDER
             .comment("Treat the mob-attacking blacklist as a whitelist.")
             .define("mobAttackingBlacklistInverted", false);
-    private static final ModConfigSpec.BooleanValue COLLECTIVE_CONSCIOUSNESS_ENABLED = BUILDER
+    private static final ForgeConfigSpec.BooleanValue COLLECTIVE_CONSCIOUSNESS_ENABLED = BUILDER
             .comment("Allow parasite target acquisition without direct line of sight.")
             .define("collectiveConsciousnessEnabled", true);
-    private static final ModConfigSpec.IntValue WORLD_GNAT_CAP = BUILDER
+    private static final ForgeConfigSpec.IntValue WORLD_GNAT_CAP = BUILDER
             .comment("Maximum loaded Gnat or Lice count before a Vermin drops a bomb instead.")
             .defineInRange("worldGnatCap", 20, 0, 50000);
-    private static final ModConfigSpec.DoubleValue VARIANT_SPAWN_CHANCE = BUILDER
+    private static final ForgeConfigSpec.DoubleValue VARIANT_SPAWN_CHANCE = BUILDER
             .comment("Chance for a parasite with an available variant to spawn as that variant.")
             .defineInRange("variantSpawnChance", 0.33D, 0.0D, 1.0D);
-    private static final ModConfigSpec.IntValue ALWAYS_VARIANT_PHASE = BUILDER
+    private static final ForgeConfigSpec.IntValue ALWAYS_VARIANT_PHASE = BUILDER
             .comment("From this evolution phase onward, parasites always use an available variant.")
             .defineInRange("alwaysVariantPhase", 11, -1, 11);
-    private static final ModConfigSpec.DoubleValue TENDRIL_HEALTH = BUILDER
+    private static final ForgeConfigSpec.DoubleValue TENDRIL_HEALTH = BUILDER
             .comment("Fraction of a parent parasite's maximum health assigned to each detachable tendril.")
             .defineInRange("tendrilHealth", 0.5D, 0.5D, 100.0D);
-    private static final ModConfigSpec.IntValue PURE_POINT_DAMAGE_CAP = BUILDER
+    private static final ForgeConfigSpec.IntValue PURE_POINT_DAMAGE_CAP = BUILDER
             .comment("Legacy resistance points removed when a pure parasite body part is destroyed.")
             .defineInRange("purePointDamageCap", 12, 0, 1000);
-    private static final ModConfigSpec.DoubleValue ADAPTATION_CHANCE = BUILDER
+    private static final ForgeConfigSpec.DoubleValue ADAPTATION_CHANCE = BUILDER
             .comment("Chance for a linked parasite outside a colony to share its adaptation on death.")
             .defineInRange("adaptationChance", 0.1D, 0.0D, 1.0D);
-    private static final ModConfigSpec.DoubleValue PARASITE_KILLING_REDUCTION = BUILDER
+    private static final ForgeConfigSpec.DoubleValue PARASITE_KILLING_REDUCTION = BUILDER
             .comment("Damage reduction per level of the matching parasite-killing status effect.")
             .defineInRange("parasiteKillingReduction", 0.15D, 0.0D, 0.95D);
-    private static final ModConfigSpec.DoubleValue KILLCOUNT_PLUS = BUILDER
+    private static final ForgeConfigSpec.DoubleValue KILLCOUNT_PLUS = BUILDER
             .comment("Killcount added every second on HARD or HARDCORE when evolution phases are disabled.")
             .defineInRange("killcountPlus", 0.0D, 0.0D, 1000000.0D);
-    private static final ModConfigSpec.DoubleValue PRIMITIVE_MINIMUM_DAMAGE = BUILDER
+    private static final ForgeConfigSpec.DoubleValue PRIMITIVE_MINIMUM_DAMAGE = BUILDER
             .comment("Armor-bypassing minimum damage dealt by primitive parasite special attacks.")
             .defineInRange("primitiveMinimumDamage", 2.0D, 0.0D, 1000.0D);
-    private static final ModConfigSpec.BooleanValue USE_EVOLUTION_PHASES = BUILDER
+    private static final ForgeConfigSpec.BooleanValue USE_EVOLUTION_PHASES = BUILDER
             .comment("Use SRP evolution phases instead of the legacy difficulty killcount behavior.")
             .define("useEvolutionPhases", true);
-    private static final ModConfigSpec.BooleanValue GENERATION_ENABLED = BUILDER
+    private static final ForgeConfigSpec.BooleanValue GENERATION_ENABLED = BUILDER
             .comment("Use parasite generations. When disabled, parasites retain their full gene abilities.")
             .define("generationEnabled", true);
-    private static final ModConfigSpec.BooleanValue PEARL_DESTROYED_ON_BEHOLDER_KILL = BUILDER
+    private static final ForgeConfigSpec.BooleanValue PEARL_DESTROYED_ON_BEHOLDER_KILL = BUILDER
             .comment("Destroy dropped Eyes of the Beholder when their owner is slain by a beholder.")
             .define("pearlDestroyedOnBeholderKill", true);
-    private static final ModConfigSpec.DoubleValue OVERLAST_NATURAL_EVOLUTION_SCALE = BUILDER
+    private static final ForgeConfigSpec.DoubleValue OVERLAST_NATURAL_EVOLUTION_SCALE = BUILDER
             .comment("OverLast natural evolution points multiplier. Set to 0 to disable.")
             .defineInRange("overlastNaturalEvolutionScale", 1.0D, 0.0D, 10.0D);
-    private static final ModConfigSpec.BooleanValue OVERLAST_HUD_REQUIRES_CLOCK = BUILDER
+    private static final ForgeConfigSpec.BooleanValue OVERLAST_HUD_REQUIRES_CLOCK = BUILDER
             .comment("Only show the OverLast evolution HUD while holding an evolution clock.")
             .define("overlastHudRequiresClock", false);
-    private static final ModConfigSpec.ConfigValue<String> OVERLAST_HUD_POSITION = BUILDER
+    private static final ForgeConfigSpec.ConfigValue<String> OVERLAST_HUD_POSITION = BUILDER
             .comment("OverLast HUD position: top left, top right, middle left, middle right, bottom left, bottom right.")
             .defineInList("overlastHudPosition", "top left", Arrays.asList(
                     "top left", "top right", "middle left", "middle right", "bottom left", "bottom right"));
-    private static final ModConfigSpec.ConfigValue<List<? extends String>> COTH_VICTIM_PARASITES = BUILDER
+    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> COTH_VICTIM_PARASITES = BUILDER
             .comment("Victim entity id to parasite entity id mappings, formatted as victim;parasite.")
             .defineList("cothVictimParasites", List.of(
                     "minecraft:pig;csrp:sim_pig",
@@ -107,7 +107,7 @@ public final class Config {
                     "wyrmsofnyrus:creepedbiter;csrp:sim_cow",
                     "wyrmsofnyrus:crawler;csrp:sim_bigspider"),
                     value -> value instanceof String && ((String) value).split(";", -1).length == 2);
-    private static final ModConfigSpec.ConfigValue<List<? extends String>> COTH_IMMUNE_ENTITIES = BUILDER
+    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> COTH_IMMUNE_ENTITIES = BUILDER
             .comment("Entity ids or whole namespaces whose normal COTH effect cannot advance or create an Incomplete Form.")
             .defineList("cothImmuneEntities", List.of(
                     "minecraft:iron_golem",
@@ -128,391 +128,391 @@ public final class Config {
                     "wyrmsofnyrus",
                     "srrevenants"),
                     value -> value instanceof String entry && !entry.isBlank());
-    private static final ModConfigSpec.BooleanValue COTH_IMMUNE_LIST_INVERTED = BUILDER
+    private static final ForgeConfigSpec.BooleanValue COTH_IMMUNE_LIST_INVERTED = BUILDER
             .comment("Treat cothImmuneEntities as a whitelist of entities that are not immune.")
             .define("cothImmuneListInverted", false);
-    private static final ModConfigSpec.DoubleValue COTH_CONVERT_AT_KILL_CHANCE = BUILDER
+    private static final ForgeConfigSpec.DoubleValue COTH_CONVERT_AT_KILL_CHANCE = BUILDER
             .comment("Base chance for a parasite kill to convert a COTH I victim. Higher COTH levels increase it.")
             .defineInRange("cothConvertAtKillChance", 0.3D, 0.0D, 1.0D);
-    private static final ModConfigSpec.DoubleValue COTH_ASSIMILATED_SPREAD_CHANCE = BUILDER
+    private static final ForgeConfigSpec.DoubleValue COTH_ASSIMILATED_SPREAD_CHANCE = BUILDER
             .comment("Chance for an Assimilated parasite melee hit to infect an uninfected victim with COTH.")
             .defineInRange("cothAssimilatedSpreadChance", 0.1D, 0.0D, 1.0D);
-    private static final ModConfigSpec.DoubleValue COTH_HIJACKED_SPREAD_CHANCE = BUILDER
+    private static final ForgeConfigSpec.DoubleValue COTH_HIJACKED_SPREAD_CHANCE = BUILDER
             .comment("Chance for a Hijacked parasite melee hit to infect an uninfected victim with COTH.")
             .defineInRange("cothHijackedSpreadChance", 0.05D, 0.0D, 1.0D);
-    private static final ModConfigSpec.DoubleValue COTH_FERAL_SPREAD_CHANCE = BUILDER
+    private static final ForgeConfigSpec.DoubleValue COTH_FERAL_SPREAD_CHANCE = BUILDER
             .comment("Chance for a Feral parasite melee hit to infect an uninfected victim with COTH.")
             .defineInRange("cothFeralSpreadChance", 0.2D, 0.0D, 1.0D);
-    private static final ModConfigSpec.DoubleValue COTH_CRUDE_SPREAD_CHANCE = BUILDER
+    private static final ForgeConfigSpec.DoubleValue COTH_CRUDE_SPREAD_CHANCE = BUILDER
             .comment("Chance for a Crude parasite melee hit to infect an uninfected victim with COTH.")
             .defineInRange("cothCrudeSpreadChance", 0.4D, 0.0D, 1.0D);
-    private static final ModConfigSpec.DoubleValue COTH_PRIMITIVE_SPREAD_CHANCE = BUILDER
+    private static final ForgeConfigSpec.DoubleValue COTH_PRIMITIVE_SPREAD_CHANCE = BUILDER
             .comment("Chance for a Primitive parasite melee hit to infect an uninfected victim with COTH.")
             .defineInRange("cothPrimitiveSpreadChance", 0.5D, 0.0D, 1.0D);
-    private static final ModConfigSpec.DoubleValue COTH_ADAPTED_SPREAD_CHANCE = BUILDER
+    private static final ForgeConfigSpec.DoubleValue COTH_ADAPTED_SPREAD_CHANCE = BUILDER
             .comment("Chance for an Adapted parasite melee hit to infect an uninfected victim with COTH.")
             .defineInRange("cothAdaptedSpreadChance", 0.6D, 0.0D, 1.0D);
-    private static final ModConfigSpec.DoubleValue COTH_PURE_SPREAD_CHANCE = BUILDER
+    private static final ForgeConfigSpec.DoubleValue COTH_PURE_SPREAD_CHANCE = BUILDER
             .comment("Chance for a Pure or Preeminent parasite melee hit to infect an uninfected victim with COTH.")
             .defineInRange("cothPureSpreadChance", 0.8D, 0.0D, 1.0D);
-    private static final ModConfigSpec.IntValue COLONY_EXTRA_HEALTH_POINT = BUILDER
+    private static final ForgeConfigSpec.IntValue COLONY_EXTRA_HEALTH_POINT = BUILDER
             .defineInRange("colonyExtraHealthPoint", 20, 1, Integer.MAX_VALUE);
-    private static final ModConfigSpec.DoubleValue COLONY_EXTRA_HEALTH_VALUE = BUILDER
+    private static final ForgeConfigSpec.DoubleValue COLONY_EXTRA_HEALTH_VALUE = BUILDER
             .defineInRange("colonyExtraHealthValue", 0.1D, 0.0D, 100.0D);
-    private static final ModConfigSpec.IntValue COLONY_EXTRA_ARMOR_POINT = BUILDER
+    private static final ForgeConfigSpec.IntValue COLONY_EXTRA_ARMOR_POINT = BUILDER
             .defineInRange("colonyExtraArmorPoint", 20, 1, Integer.MAX_VALUE);
-    private static final ModConfigSpec.DoubleValue COLONY_EXTRA_ARMOR_VALUE = BUILDER
+    private static final ForgeConfigSpec.DoubleValue COLONY_EXTRA_ARMOR_VALUE = BUILDER
             .defineInRange("colonyExtraArmorValue", 0.1D, 0.0D, 100.0D);
-    private static final ModConfigSpec.IntValue COLONY_EXTRA_DAMAGE_POINT = BUILDER
+    private static final ForgeConfigSpec.IntValue COLONY_EXTRA_DAMAGE_POINT = BUILDER
             .defineInRange("colonyExtraDamagePoint", 20, 1, Integer.MAX_VALUE);
-    private static final ModConfigSpec.DoubleValue COLONY_EXTRA_DAMAGE_VALUE = BUILDER
+    private static final ForgeConfigSpec.DoubleValue COLONY_EXTRA_DAMAGE_VALUE = BUILDER
             .defineInRange("colonyExtraDamageValue", 0.1D, 0.0D, 100.0D);
-    private static final ModConfigSpec.IntValue COLONY_EXTRA_KD_POINT = BUILDER
+    private static final ForgeConfigSpec.IntValue COLONY_EXTRA_KD_POINT = BUILDER
             .defineInRange("colonyExtraKDResPoint", 20, 1, Integer.MAX_VALUE);
-    private static final ModConfigSpec.DoubleValue COLONY_EXTRA_KD_VALUE = BUILDER
+    private static final ForgeConfigSpec.DoubleValue COLONY_EXTRA_KD_VALUE = BUILDER
             .defineInRange("colonyExtraKDResValue", 0.1D, 0.0D, 100.0D);
-    private static final ModConfigSpec.IntValue COLONY_DAMAGE_CAP_POINT = BUILDER
+    private static final ForgeConfigSpec.IntValue COLONY_DAMAGE_CAP_POINT = BUILDER
             .defineInRange("colonyDamageCapPoint", 15, 1, Integer.MAX_VALUE);
-    private static final ModConfigSpec.DoubleValue COLONY_DAMAGE_CAP_VALUE = BUILDER
+    private static final ForgeConfigSpec.DoubleValue COLONY_DAMAGE_CAP_VALUE = BUILDER
             .defineInRange("colonyDamageCapValue", 0.5D, 0.0D, 100.0D);
-    private static final ModConfigSpec.IntValue COLONY_POINT_CAP = BUILDER
+    private static final ForgeConfigSpec.IntValue COLONY_POINT_CAP = BUILDER
             .defineInRange("colonyPointCap", 100, 1, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue COLONY_TOTAL_POINT_CAP = BUILDER
+    private static final ForgeConfigSpec.IntValue COLONY_TOTAL_POINT_CAP = BUILDER
             .defineInRange("colonyTotalPointCap", 100000, 1, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue COLONY_MAXIMUM_NUMBER = BUILDER
+    private static final ForgeConfigSpec.IntValue COLONY_MAXIMUM_NUMBER = BUILDER
             .defineInRange("colonyMaximumNumber", 20, 1, 100);
-    private static final ModConfigSpec.IntValue COLONY_MINIMUM_DISTANCE = BUILDER
+    private static final ForgeConfigSpec.IntValue COLONY_MINIMUM_DISTANCE = BUILDER
             .defineInRange("colonyMinimumDistance", 2000, 1, 100000);
-    private static final ModConfigSpec.IntValue COLONY_SPREAD_POINT = BUILDER
+    private static final ForgeConfigSpec.IntValue COLONY_SPREAD_POINT = BUILDER
             .defineInRange("colonySpreadPoint", 2, 1, 10000);
-    private static final ModConfigSpec.IntValue COLONY_SPREAD_VALUE = BUILDER
+    private static final ForgeConfigSpec.IntValue COLONY_SPREAD_VALUE = BUILDER
             .defineInRange("colonySpreadValue", 20, 1, 10000);
-    private static final ModConfigSpec.IntValue COLONY_BASE_RADIUS = BUILDER
+    private static final ForgeConfigSpec.IntValue COLONY_BASE_RADIUS = BUILDER
             .defineInRange("colonyBaseRadius", 120, 1, 10000);
-    private static final ModConfigSpec.IntValue COLONY_EFFECT_SPREAD_POINT = BUILDER
+    private static final ForgeConfigSpec.IntValue COLONY_EFFECT_SPREAD_POINT = BUILDER
             .defineInRange("colonyEffectSpreadPoint", 1, 1, 10000);
-    private static final ModConfigSpec.IntValue COLONY_EFFECT_SPREAD_VALUE = BUILDER
+    private static final ForgeConfigSpec.IntValue COLONY_EFFECT_SPREAD_VALUE = BUILDER
             .defineInRange("colonyEffectSpreadValue", 40, 1, 10000);
-    private static final ModConfigSpec.IntValue COLONY_BASE_EFFECT_RADIUS = BUILDER
+    private static final ForgeConfigSpec.IntValue COLONY_BASE_EFFECT_RADIUS = BUILDER
             .defineInRange("colonyBaseEffectRadius", 300, 1, 10000);
-    private static final ModConfigSpec.BooleanValue USE_DISLODGMENT = BUILDER
+    private static final ForgeConfigSpec.BooleanValue USE_DISLODGMENT = BUILDER
             .comment("Enable the original parasite dislodgment system.")
             .define("useDislodgment", true);
-    private static final ModConfigSpec.DoubleValue DISLODGMENT_DEATH_TRIGGER_CHANCE = BUILDER
+    private static final ForgeConfigSpec.DoubleValue DISLODGMENT_DEATH_TRIGGER_CHANCE = BUILDER
             .comment("Chance for a parasite death to activate an eligible dislodgment code.")
             .defineInRange("dislodgmentDeathTriggerChance", 0.001D, 0.0D, 1.0D);
-    private static final ModConfigSpec.IntValue DISLODGMENT_GLOBAL_COOLDOWN = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLODGMENT_GLOBAL_COOLDOWN = BUILDER
             .comment("Global dislodgment trigger cooldown in ticks.")
             .defineInRange("dislodgmentGlobalCooldown", 200, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLODGMENT_COTH_SPY = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLODGMENT_COTH_SPY = BUILDER
             .comment("Nearby COTH carriers required for player-action dislodgment triggers.")
             .defineInRange("dislodgmentCothSpy", 4, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLODGMENT_PHASE_ONE_CODES =
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLODGMENT_PHASE_ONE_CODES =
             dislodgmentPhaseCodes("dislodgmentPhaseOneCodes");
-    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLODGMENT_PHASE_TWO_CODES =
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLODGMENT_PHASE_TWO_CODES =
             dislodgmentPhaseCodes("dislodgmentPhaseTwoCodes");
-    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLODGMENT_PHASE_THREE_CODES =
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLODGMENT_PHASE_THREE_CODES =
             dislodgmentPhaseCodes("dislodgmentPhaseThreeCodes");
-    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLODGMENT_PHASE_FOUR_CODES =
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLODGMENT_PHASE_FOUR_CODES =
             dislodgmentPhaseCodes("dislodgmentPhaseFourCodes");
-    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLODGMENT_PHASE_FIVE_CODES =
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLODGMENT_PHASE_FIVE_CODES =
             dislodgmentPhaseCodes("dislodgmentPhaseFiveCodes");
-    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLODGMENT_PHASE_SIX_CODES =
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLODGMENT_PHASE_SIX_CODES =
             dislodgmentPhaseCodes("dislodgmentPhaseSixCodes");
-    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLODGMENT_PHASE_SEVEN_CODES =
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLODGMENT_PHASE_SEVEN_CODES =
             dislodgmentPhaseCodes("dislodgmentPhaseSevenCodes");
-    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLODGMENT_PHASE_EIGHT_CODES =
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLODGMENT_PHASE_EIGHT_CODES =
             dislodgmentPhaseCodes("dislodgmentPhaseEightCodes");
-    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLODGMENT_PHASE_NINE_CODES =
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLODGMENT_PHASE_NINE_CODES =
             dislodgmentPhaseCodes("dislodgmentPhaseNineCodes");
-    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLODGMENT_PHASE_TEN_CODES =
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLODGMENT_PHASE_TEN_CODES =
             dislodgmentPhaseCodes("dislodgmentPhaseTenCodes");
-    private static final ModConfigSpec.DoubleValue DISLODGMENT_RIGHT_CLICK_TRIGGER_CHANCE = BUILDER
+    private static final ForgeConfigSpec.DoubleValue DISLODGMENT_RIGHT_CLICK_TRIGGER_CHANCE = BUILDER
             .defineInRange("dislodgmentRightClickTriggerChance", 0.01D, 0.0D, 1.0D);
-    private static final ModConfigSpec.DoubleValue DISLODGMENT_XP_PICKUP_TRIGGER_CHANCE = BUILDER
+    private static final ForgeConfigSpec.DoubleValue DISLODGMENT_XP_PICKUP_TRIGGER_CHANCE = BUILDER
             .defineInRange("dislodgmentXpPickupTriggerChance", 0.03D, 0.0D, 1.0D);
-    private static final ModConfigSpec.DoubleValue DISLODGMENT_ITEM_PICKUP_TRIGGER_CHANCE = BUILDER
+    private static final ForgeConfigSpec.DoubleValue DISLODGMENT_ITEM_PICKUP_TRIGGER_CHANCE = BUILDER
             .defineInRange("dislodgmentItemPickupTriggerChance", 0.03D, 0.0D, 1.0D);
-    private static final ModConfigSpec.DoubleValue DISLODGMENT_HEALING_TRIGGER_CHANCE = BUILDER
+    private static final ForgeConfigSpec.DoubleValue DISLODGMENT_HEALING_TRIGGER_CHANCE = BUILDER
             .defineInRange("dislodgmentHealingTriggerChance", 0.001D, 0.0D, 1.0D);
-    private static final ModConfigSpec.DoubleValue DISLODGMENT_USE_ITEM_TRIGGER_CHANCE = BUILDER
+    private static final ForgeConfigSpec.DoubleValue DISLODGMENT_USE_ITEM_TRIGGER_CHANCE = BUILDER
             .defineInRange("dislodgmentUseItemTriggerChance", 0.01D, 0.0D, 1.0D);
-    private static final ModConfigSpec.DoubleValue DISLODGMENT_MENU_CLOSE_TRIGGER_CHANCE = BUILDER
+    private static final ForgeConfigSpec.DoubleValue DISLODGMENT_MENU_CLOSE_TRIGGER_CHANCE = BUILDER
             .defineInRange("dislodgmentMenuCloseTriggerChance", 0.001D, 0.0D, 1.0D);
-    private static final ModConfigSpec.DoubleValue DISLODGMENT_BLOCK_BREAK_TRIGGER_CHANCE = BUILDER
+    private static final ForgeConfigSpec.DoubleValue DISLODGMENT_BLOCK_BREAK_TRIGGER_CHANCE = BUILDER
             .defineInRange("dislodgmentBlockBreakTriggerChance", 0.1D, 0.0D, 1.0D);
-    private static final ModConfigSpec.DoubleValue DISLODGMENT_NEXUS_ONE_TRIGGER_CHANCE = BUILDER
+    private static final ForgeConfigSpec.DoubleValue DISLODGMENT_NEXUS_ONE_TRIGGER_CHANCE = BUILDER
             .defineInRange("dislodgmentNexusOneTriggerChance", 0.05D, 0.0D, 1.0D);
-    private static final ModConfigSpec.DoubleValue DISLODGMENT_NEXUS_TWO_TRIGGER_CHANCE = BUILDER
+    private static final ForgeConfigSpec.DoubleValue DISLODGMENT_NEXUS_TWO_TRIGGER_CHANCE = BUILDER
             .defineInRange("dislodgmentNexusTwoTriggerChance", 0.06D, 0.0D, 1.0D);
-    private static final ModConfigSpec.DoubleValue DISLODGMENT_NEXUS_THREE_TRIGGER_CHANCE = BUILDER
+    private static final ForgeConfigSpec.DoubleValue DISLODGMENT_NEXUS_THREE_TRIGGER_CHANCE = BUILDER
             .defineInRange("dislodgmentNexusThreeTriggerChance", 0.07D, 0.0D, 1.0D);
-    private static final ModConfigSpec.DoubleValue DISLODGMENT_NEXUS_FOUR_TRIGGER_CHANCE = BUILDER
+    private static final ForgeConfigSpec.DoubleValue DISLODGMENT_NEXUS_FOUR_TRIGGER_CHANCE = BUILDER
             .defineInRange("dislodgmentNexusFourTriggerChance", 0.1D, 0.0D, 1.0D);
-    private static final ModConfigSpec.BooleanValue DISLO_COTH_IGNORE_AMPLIFIER = BUILDER
+    private static final ForgeConfigSpec.BooleanValue DISLO_COTH_IGNORE_AMPLIFIER = BUILDER
             .define("disloCothIgnoreAmplifier", true);
-    private static final ModConfigSpec.IntValue DISLO_COTH_IGNORE_AMPLIFIER_POINT_COST = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_COTH_IGNORE_AMPLIFIER_POINT_COST = BUILDER
             .defineInRange("disloCothIgnoreAmplifierPointCost", 100, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_COTH_IGNORE_AMPLIFIER_DURATION = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_COTH_IGNORE_AMPLIFIER_DURATION = BUILDER
             .defineInRange("disloCothIgnoreAmplifierDuration", 60, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_COTH_IGNORE_AMPLIFIER_COOLDOWN = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_COTH_IGNORE_AMPLIFIER_COOLDOWN = BUILDER
             .defineInRange("disloCothIgnoreAmplifierCooldown", 240, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_COTH_IGNORE_AMPLIFIER_TRIGGERS =
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLO_COTH_IGNORE_AMPLIFIER_TRIGGERS =
             dislodgmentTriggers("disloCothIgnoreAmplifierTriggers", List.of(1, 10, 14, 16));
-    private static final ModConfigSpec.BooleanValue DISLO_COTH_TIERS = BUILDER
+    private static final ForgeConfigSpec.BooleanValue DISLO_COTH_TIERS = BUILDER
             .define("disloCothTiers", true);
-    private static final ModConfigSpec.IntValue DISLO_COTH_TIERS_POINT_COST = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_COTH_TIERS_POINT_COST = BUILDER
             .defineInRange("disloCothTiersPointCost", 200, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_COTH_TIERS_VALUE = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_COTH_TIERS_VALUE = BUILDER
             .defineInRange("disloCothTiersValue", 1, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_COTH_TIERS_DURATION = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_COTH_TIERS_DURATION = BUILDER
             .defineInRange("disloCothTiersDuration", 40, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_COTH_TIERS_COOLDOWN = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_COTH_TIERS_COOLDOWN = BUILDER
             .defineInRange("disloCothTiersCooldown", 240, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_COTH_TIERS_PRIMITIVE = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_COTH_TIERS_PRIMITIVE = BUILDER
             .defineInRange("disloCothTiersPrimitive", 9, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_COTH_TIERS_ADAPTED = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_COTH_TIERS_ADAPTED = BUILDER
             .defineInRange("disloCothTiersAdapted", 15, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_COTH_TIERS_PURE = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_COTH_TIERS_PURE = BUILDER
             .defineInRange("disloCothTiersPure", 21, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_COTH_TIERS_TRIGGERS =
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLO_COTH_TIERS_TRIGGERS =
             dislodgmentTriggers("disloCothTiersTriggers", List.of(12, 13, 14, 15, 16));
-    private static final ModConfigSpec.BooleanValue DISLO_SUMMON_BY_DEATH = BUILDER
+    private static final ForgeConfigSpec.BooleanValue DISLO_SUMMON_BY_DEATH = BUILDER
             .define("disloSummonByDeath", true);
-    private static final ModConfigSpec.IntValue DISLO_SUMMON_BY_DEATH_POINT_COST = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_SUMMON_BY_DEATH_POINT_COST = BUILDER
             .defineInRange("disloSummonByDeathPointCost", 200, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_SUMMON_BY_DEATH_VALUE = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_SUMMON_BY_DEATH_VALUE = BUILDER
             .defineInRange("disloSummonByDeathValue", 1, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_SUMMON_BY_DEATH_DURATION = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_SUMMON_BY_DEATH_DURATION = BUILDER
             .defineInRange("disloSummonByDeathDuration", 60, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_SUMMON_BY_DEATH_COOLDOWN = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_SUMMON_BY_DEATH_COOLDOWN = BUILDER
             .defineInRange("disloSummonByDeathCooldown", 200, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_SUMMON_BY_DEATH_KILLING = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_SUMMON_BY_DEATH_KILLING = BUILDER
             .defineInRange("disloSummonByDeathKilling", 5, 0, 255);
-    private static final ModConfigSpec.ConfigValue<List<? extends String>> DISLO_SUMMON_BY_DEATH_MOBS = BUILDER
+    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> DISLO_SUMMON_BY_DEATH_MOBS = BUILDER
             .comment("Dislodgment 2 payload table formatted as minimum accumulated health;entity id.")
             .defineList("disloSummonByDeathMobs", List.of(
                     "1;csrp:sim_enderman",
                     "50;csrp:fer_enderman",
                     "100;csrp:warden"),
                     value -> value instanceof String && ((String) value).split(";", -1).length == 2);
-    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_SUMMON_BY_DEATH_TRIGGERS =
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLO_SUMMON_BY_DEATH_TRIGGERS =
             dislodgmentTriggers("disloSummonByDeathTriggers", List.of(10, 15, 16));
-    private static final ModConfigSpec.BooleanValue DISLO_POTION_EFFECT = BUILDER
+    private static final ForgeConfigSpec.BooleanValue DISLO_POTION_EFFECT = BUILDER
             .define("disloPotionEffect", true);
-    private static final ModConfigSpec.IntValue DISLO_POTION_EFFECT_POINT_COST = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_POTION_EFFECT_POINT_COST = BUILDER
             .defineInRange("disloPotionEffectPointCost", 200, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_POTION_EFFECT_VALUE = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_POTION_EFFECT_VALUE = BUILDER
             .defineInRange("disloPotionEffectValue", 1, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_POTION_EFFECT_DURATION = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_POTION_EFFECT_DURATION = BUILDER
             .defineInRange("disloPotionEffectDuration", 120, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_POTION_EFFECT_COOLDOWN = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_POTION_EFFECT_COOLDOWN = BUILDER
             .defineInRange("disloPotionEffectCooldown", 300, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.ConfigValue<List<? extends String>> DISLO_POTION_EFFECTS = BUILDER
+    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> DISLO_POTION_EFFECTS = BUILDER
             .defineList("disloPotionEffects", List.of(
                     "minecraft:speed", "minecraft:fire_resistance", "minecraft:invisibility"),
                     value -> value instanceof String && ResourceLocation.tryParse((String) value) != null);
-    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_POTION_EFFECT_TRIGGERS =
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLO_POTION_EFFECT_TRIGGERS =
             dislodgmentTriggers("disloPotionEffectTriggers", List.of(4, 13, 14, 15, 16));
-    private static final ModConfigSpec.BooleanValue DISLO_STATS = BUILDER.define("disloStats", true);
-    private static final ModConfigSpec.IntValue DISLO_STATS_POINT_COST = BUILDER
+    private static final ForgeConfigSpec.BooleanValue DISLO_STATS = BUILDER.define("disloStats", true);
+    private static final ForgeConfigSpec.IntValue DISLO_STATS_POINT_COST = BUILDER
             .defineInRange("disloStatsPointCost", 1000, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_STATS_VALUE = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_STATS_VALUE = BUILDER
             .defineInRange("disloStatsValue", 2, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_STATS_DURATION = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_STATS_DURATION = BUILDER
             .defineInRange("disloStatsDuration", 60, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_STATS_COOLDOWN = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_STATS_COOLDOWN = BUILDER
             .defineInRange("disloStatsCooldown", 300, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_STATS_TRIGGERS =
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLO_STATS_TRIGGERS =
             dislodgmentTriggers("disloStatsTriggers", List.of(14, 15, 17, 18));
-    private static final ModConfigSpec.BooleanValue DISLO_DEATH_RAID = BUILDER.define("disloDeathRaid", true);
-    private static final ModConfigSpec.IntValue DISLO_DEATH_RAID_POINT_COST = BUILDER
+    private static final ForgeConfigSpec.BooleanValue DISLO_DEATH_RAID = BUILDER.define("disloDeathRaid", true);
+    private static final ForgeConfigSpec.IntValue DISLO_DEATH_RAID_POINT_COST = BUILDER
             .defineInRange("disloDeathRaidPointCost", 10, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_DEATH_RAID_VALUE = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_DEATH_RAID_VALUE = BUILDER
             .defineInRange("disloDeathRaidValue", 10, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_DEATH_RAID_DURATION = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_DEATH_RAID_DURATION = BUILDER
             .defineInRange("disloDeathRaidDuration", 10, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_DEATH_RAID_COOLDOWN = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_DEATH_RAID_COOLDOWN = BUILDER
             .defineInRange("disloDeathRaidCooldown", 10, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_DEATH_RAID_TRIGGERS =
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLO_DEATH_RAID_TRIGGERS =
             dislodgmentTriggers("disloDeathRaidTriggers", List.of(0, 1, 2, 3, 4, 5, 10, 11, 12, 13, 14, 15, 16, 17, 18));
-    private static final ModConfigSpec.BooleanValue DISLO_ITEM_DURABILITY = BUILDER.define("disloItemDurability", true);
-    private static final ModConfigSpec.IntValue DISLO_ITEM_DURABILITY_POINT_COST = BUILDER
+    private static final ForgeConfigSpec.BooleanValue DISLO_ITEM_DURABILITY = BUILDER.define("disloItemDurability", true);
+    private static final ForgeConfigSpec.IntValue DISLO_ITEM_DURABILITY_POINT_COST = BUILDER
             .defineInRange("disloItemDurabilityPointCost", 100, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_ITEM_DURABILITY_VALUE = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_ITEM_DURABILITY_VALUE = BUILDER
             .defineInRange("disloItemDurabilityValue", 2, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_ITEM_DURABILITY_DURATION = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_ITEM_DURABILITY_DURATION = BUILDER
             .defineInRange("disloItemDurabilityDuration", 120, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_ITEM_DURABILITY_COOLDOWN = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_ITEM_DURABILITY_COOLDOWN = BUILDER
             .defineInRange("disloItemDurabilityCooldown", 240, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_ITEM_DURABILITY_TRIGGERS =
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLO_ITEM_DURABILITY_TRIGGERS =
             dislodgmentTriggers("disloItemDurabilityTriggers", List.of(4, 12, 13, 16));
-    private static final ModConfigSpec.BooleanValue DISLO_HEALING_DEATH = BUILDER
+    private static final ForgeConfigSpec.BooleanValue DISLO_HEALING_DEATH = BUILDER
             .define("disloHealingDeath", true);
-    private static final ModConfigSpec.IntValue DISLO_HEALING_DEATH_POINT_COST = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_HEALING_DEATH_POINT_COST = BUILDER
             .defineInRange("disloHealingDeathPointCost", 500, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_HEALING_DEATH_VALUE = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_HEALING_DEATH_VALUE = BUILDER
             .defineInRange("disloHealingDeathValue", 100, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_HEALING_DEATH_DURATION = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_HEALING_DEATH_DURATION = BUILDER
             .defineInRange("disloHealingDeathDuration", 40, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_HEALING_DEATH_COOLDOWN = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_HEALING_DEATH_COOLDOWN = BUILDER
             .defineInRange("disloHealingDeathCooldown", 240, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_HEALING_DEATH_TRIGGERS =
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLO_HEALING_DEATH_TRIGGERS =
             dislodgmentTriggers("disloHealingDeathTriggers", List.of(1, 3, 10, 12, 16));
-    private static final ModConfigSpec.BooleanValue DISLO_DAMAGE_DEATH = BUILDER
+    private static final ForgeConfigSpec.BooleanValue DISLO_DAMAGE_DEATH = BUILDER
             .define("disloDamageDeath", true);
-    private static final ModConfigSpec.IntValue DISLO_DAMAGE_DEATH_POINT_COST = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_DAMAGE_DEATH_POINT_COST = BUILDER
             .defineInRange("disloDamageDeathPointCost", 500, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_DAMAGE_DEATH_VALUE = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_DAMAGE_DEATH_VALUE = BUILDER
             .defineInRange("disloDamageDeathValue", 10, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_DAMAGE_DEATH_DURATION = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_DAMAGE_DEATH_DURATION = BUILDER
             .defineInRange("disloDamageDeathDuration", 60, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_DAMAGE_DEATH_COOLDOWN = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_DAMAGE_DEATH_COOLDOWN = BUILDER
             .defineInRange("disloDamageDeathCooldown", 300, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_DAMAGE_DEATH_TRIGGERS =
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLO_DAMAGE_DEATH_TRIGGERS =
             dislodgmentTriggers("disloDamageDeathTriggers", List.of(0, 5, 13, 16));
-    private static final ModConfigSpec.BooleanValue DISLO_FOOD_DEATH = BUILDER
+    private static final ForgeConfigSpec.BooleanValue DISLO_FOOD_DEATH = BUILDER
             .define("disloFoodDeath", true);
-    private static final ModConfigSpec.IntValue DISLO_FOOD_DEATH_POINT_COST = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_FOOD_DEATH_POINT_COST = BUILDER
             .defineInRange("disloFoodDeathPointCost", 500, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_FOOD_DEATH_VALUE = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_FOOD_DEATH_VALUE = BUILDER
             .defineInRange("disloFoodDeathValue", 100, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_FOOD_DEATH_DURATION = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_FOOD_DEATH_DURATION = BUILDER
             .defineInRange("disloFoodDeathDuration", 60, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_FOOD_DEATH_COOLDOWN = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_FOOD_DEATH_COOLDOWN = BUILDER
             .defineInRange("disloFoodDeathCooldown", 240, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_FOOD_DEATH_TRIGGERS =
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLO_FOOD_DEATH_TRIGGERS =
             dislodgmentTriggers("disloFoodDeathTriggers", List.of(3, 12, 13, 16));
-    private static final ModConfigSpec.BooleanValue DISLO_DEATH_HIGH_VERSIONS = BUILDER
+    private static final ForgeConfigSpec.BooleanValue DISLO_DEATH_HIGH_VERSIONS = BUILDER
             .define("disloDeathHighVersions", true);
-    private static final ModConfigSpec.IntValue DISLO_DEATH_HIGH_VERSIONS_POINT_COST = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_DEATH_HIGH_VERSIONS_POINT_COST = BUILDER
             .defineInRange("disloDeathHighVersionsPointCost", 300, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_DEATH_HIGH_VERSIONS_VALUE = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_DEATH_HIGH_VERSIONS_VALUE = BUILDER
             .defineInRange("disloDeathHighVersionsValue", 1, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_DEATH_HIGH_VERSIONS_ADAPTED = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_DEATH_HIGH_VERSIONS_ADAPTED = BUILDER
             .defineInRange("disloDeathHighVersionsAdapted", 12, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_DEATH_HIGH_VERSIONS_PURE = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_DEATH_HIGH_VERSIONS_PURE = BUILDER
             .defineInRange("disloDeathHighVersionsPure", 21, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_DEATH_HIGH_VERSIONS_DURATION = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_DEATH_HIGH_VERSIONS_DURATION = BUILDER
             .defineInRange("disloDeathHighVersionsDuration", 120, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_DEATH_HIGH_VERSIONS_COOLDOWN = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_DEATH_HIGH_VERSIONS_COOLDOWN = BUILDER
             .defineInRange("disloDeathHighVersionsCooldown", 360, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.DoubleValue DISLO_DEATH_HIGH_VERSIONS_CHANCE = BUILDER
+    private static final ForgeConfigSpec.DoubleValue DISLO_DEATH_HIGH_VERSIONS_CHANCE = BUILDER
             .defineInRange("disloDeathHighVersionsChance", 0.5D, 0.0D, 1.0D);
-    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_DEATH_HIGH_VERSIONS_TRIGGERS =
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLO_DEATH_HIGH_VERSIONS_TRIGGERS =
             dislodgmentTriggers("disloDeathHighVersionsTriggers",
                     List.of(0, 1, 2, 3, 4, 5, 10, 11, 12, 13, 14, 15, 16, 17, 18));
-    private static final ModConfigSpec.BooleanValue DISLO_PARASITE_NO_POTION = BUILDER
+    private static final ForgeConfigSpec.BooleanValue DISLO_PARASITE_NO_POTION = BUILDER
             .define("disloParasiteNoPotion", true);
-    private static final ModConfigSpec.IntValue DISLO_PARASITE_NO_POTION_POINT_COST = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_PARASITE_NO_POTION_POINT_COST = BUILDER
             .defineInRange("disloParasiteNoPotionPointCost", 100, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_PARASITE_NO_POTION_DURATION = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_PARASITE_NO_POTION_DURATION = BUILDER
             .defineInRange("disloParasiteNoPotionDuration", 60, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_PARASITE_NO_POTION_COOLDOWN = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_PARASITE_NO_POTION_COOLDOWN = BUILDER
             .defineInRange("disloParasiteNoPotionCooldown", 240, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_PARASITE_NO_POTION_TRIGGERS =
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLO_PARASITE_NO_POTION_TRIGGERS =
             dislodgmentTriggers("disloParasiteNoPotionTriggers", List.of(3, 4, 16));
-    private static final ModConfigSpec.BooleanValue DISLO_HEALTH_DRAINING = BUILDER
+    private static final ForgeConfigSpec.BooleanValue DISLO_HEALTH_DRAINING = BUILDER
             .define("disloHealthDraining", true);
-    private static final ModConfigSpec.IntValue DISLO_HEALTH_DRAINING_POINT_COST = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_HEALTH_DRAINING_POINT_COST = BUILDER
             .defineInRange("disloHealthDrainingPointCost", 50000, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_HEALTH_DRAINING_VALUE = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_HEALTH_DRAINING_VALUE = BUILDER
             .defineInRange("disloHealthDrainingValue", 10, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_HEALTH_DRAINING_DURATION = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_HEALTH_DRAINING_DURATION = BUILDER
             .defineInRange("disloHealthDrainingDuration", 3, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_HEALTH_DRAINING_COOLDOWN = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_HEALTH_DRAINING_COOLDOWN = BUILDER
             .defineInRange("disloHealthDrainingCooldown", 300, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_HEALTH_DRAINING_TRIGGERS =
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLO_HEALTH_DRAINING_TRIGGERS =
             dislodgmentTriggers("disloHealthDrainingTriggers", List.of(14, 15, 17, 18));
-    private static final ModConfigSpec.BooleanValue DISLO_FOOD_DRAINING = BUILDER
+    private static final ForgeConfigSpec.BooleanValue DISLO_FOOD_DRAINING = BUILDER
             .define("disloFoodDraining", true);
-    private static final ModConfigSpec.IntValue DISLO_FOOD_DRAINING_POINT_COST = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_FOOD_DRAINING_POINT_COST = BUILDER
             .defineInRange("disloFoodDrainingPointCost", 500, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_FOOD_DRAINING_VALUE = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_FOOD_DRAINING_VALUE = BUILDER
             .defineInRange("disloFoodDrainingValue", 200, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_FOOD_DRAINING_DURATION = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_FOOD_DRAINING_DURATION = BUILDER
             .defineInRange("disloFoodDrainingDuration", 3, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_FOOD_DRAINING_COOLDOWN = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_FOOD_DRAINING_COOLDOWN = BUILDER
             .defineInRange("disloFoodDrainingCooldown", 300, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_FOOD_DRAINING_TRIGGERS =
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLO_FOOD_DRAINING_TRIGGERS =
             dislodgmentTriggers("disloFoodDrainingTriggers", List.of(12, 13, 14, 15, 17, 18));
-    private static final ModConfigSpec.BooleanValue DISLO_NEXT_PHASE_LIST = BUILDER
+    private static final ForgeConfigSpec.BooleanValue DISLO_NEXT_PHASE_LIST = BUILDER
             .define("disloNextPhaseList", true);
-    private static final ModConfigSpec.IntValue DISLO_NEXT_PHASE_LIST_POINT_COST = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_NEXT_PHASE_LIST_POINT_COST = BUILDER
             .defineInRange("disloNextPhaseListPointCost", 50000, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_NEXT_PHASE_LIST_VALUE = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_NEXT_PHASE_LIST_VALUE = BUILDER
             .defineInRange("disloNextPhaseListValue", 1, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_NEXT_PHASE_LIST_DURATION = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_NEXT_PHASE_LIST_DURATION = BUILDER
             .defineInRange("disloNextPhaseListDuration", 30, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_NEXT_PHASE_LIST_COOLDOWN = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_NEXT_PHASE_LIST_COOLDOWN = BUILDER
             .defineInRange("disloNextPhaseListCooldown", 240, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_NEXT_PHASE_LIST_TRIGGERS =
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLO_NEXT_PHASE_LIST_TRIGGERS =
             dislodgmentTriggers("disloNextPhaseListTriggers", List.of(15, 16, 17, 18));
-    private static final ModConfigSpec.BooleanValue DISLO_GROWL_NOISE = BUILDER
+    private static final ForgeConfigSpec.BooleanValue DISLO_GROWL_NOISE = BUILDER
             .define("disloGrowlNoise", true);
-    private static final ModConfigSpec.IntValue DISLO_GROWL_NOISE_POINT_COST = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_GROWL_NOISE_POINT_COST = BUILDER
             .defineInRange("disloGrowlNoisePointCost", 100, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_GROWL_NOISE_DURATION = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_GROWL_NOISE_DURATION = BUILDER
             .defineInRange("disloGrowlNoiseDuration", 60, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_GROWL_NOISE_COOLDOWN = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_GROWL_NOISE_COOLDOWN = BUILDER
             .defineInRange("disloGrowlNoiseCooldown", 240, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_GROWL_NOISE_TRIGGERS =
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLO_GROWL_NOISE_TRIGGERS =
             dislodgmentTriggers("disloGrowlNoiseTriggers", List.of(0, 4, 10, 11));
-    private static final ModConfigSpec.BooleanValue DISLO_WALK_NOISE = BUILDER
+    private static final ForgeConfigSpec.BooleanValue DISLO_WALK_NOISE = BUILDER
             .define("disloWalkNoise", true);
-    private static final ModConfigSpec.IntValue DISLO_WALK_NOISE_POINT_COST = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_WALK_NOISE_POINT_COST = BUILDER
             .defineInRange("disloWalkNoisePointCost", 100, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_WALK_NOISE_DURATION = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_WALK_NOISE_DURATION = BUILDER
             .defineInRange("disloWalkNoiseDuration", 60, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_WALK_NOISE_COOLDOWN = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_WALK_NOISE_COOLDOWN = BUILDER
             .defineInRange("disloWalkNoiseCooldown", 240, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_WALK_NOISE_TRIGGERS =
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLO_WALK_NOISE_TRIGGERS =
             dislodgmentTriggers("disloWalkNoiseTriggers", List.of(0, 5, 10, 11));
-    private static final ModConfigSpec.BooleanValue DISLO_SHIELD_FOOD = BUILDER
+    private static final ForgeConfigSpec.BooleanValue DISLO_SHIELD_FOOD = BUILDER
             .define("disloShieldFood", true);
-    private static final ModConfigSpec.IntValue DISLO_SHIELD_FOOD_POINT_COST = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_SHIELD_FOOD_POINT_COST = BUILDER
             .defineInRange("disloShieldFoodPointCost", 180, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_SHIELD_FOOD_DURATION = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_SHIELD_FOOD_DURATION = BUILDER
             .defineInRange("disloShieldFoodDuration", 400, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_SHIELD_FOOD_COOLDOWN = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_SHIELD_FOOD_COOLDOWN = BUILDER
             .defineInRange("disloShieldFoodCooldown", 550, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_SHIELD_FOOD_TRIGGERS =
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLO_SHIELD_FOOD_TRIGGERS =
             dislodgmentTriggers("disloShieldFoodTriggers",
                     List.of(0, 1, 2, 3, 4, 5, 10, 11, 12, 13, 14, 15, 16, 17, 18));
-    private static final ModConfigSpec.BooleanValue DISLO_LOOT_XP_CANCEL = BUILDER
+    private static final ForgeConfigSpec.BooleanValue DISLO_LOOT_XP_CANCEL = BUILDER
             .define("disloLootXpCancel", true);
-    private static final ModConfigSpec.IntValue DISLO_LOOT_XP_CANCEL_POINT_COST = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_LOOT_XP_CANCEL_POINT_COST = BUILDER
             .defineInRange("disloLootXpCancelPointCost", 100, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_LOOT_XP_CANCEL_DURATION = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_LOOT_XP_CANCEL_DURATION = BUILDER
             .defineInRange("disloLootXpCancelDuration", 60, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_LOOT_XP_CANCEL_COOLDOWN = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_LOOT_XP_CANCEL_COOLDOWN = BUILDER
             .defineInRange("disloLootXpCancelCooldown", 240, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_LOOT_XP_CANCEL_TRIGGERS =
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLO_LOOT_XP_CANCEL_TRIGGERS =
             dislodgmentTriggers("disloLootXpCancelTriggers", List.of(2, 10, 16));
-    private static final ModConfigSpec.BooleanValue DISLO_BURNING_DEATH = BUILDER
+    private static final ForgeConfigSpec.BooleanValue DISLO_BURNING_DEATH = BUILDER
             .define("disloBurningDeath", true);
-    private static final ModConfigSpec.IntValue DISLO_BURNING_DEATH_POINT_COST = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_BURNING_DEATH_POINT_COST = BUILDER
             .defineInRange("disloBurningDeathPointCost", 50000, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_BURNING_DEATH_DURATION = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_BURNING_DEATH_DURATION = BUILDER
             .defineInRange("disloBurningDeathDuration", 60, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.IntValue DISLO_BURNING_DEATH_COOLDOWN = BUILDER
+    private static final ForgeConfigSpec.IntValue DISLO_BURNING_DEATH_COOLDOWN = BUILDER
             .defineInRange("disloBurningDeathCooldown", 180, 0, Integer.MAX_VALUE);
-    private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_BURNING_DEATH_TRIGGERS =
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLO_BURNING_DEATH_TRIGGERS =
             dislodgmentTriggers("disloBurningDeathTriggers",
                     List.of(0, 1, 2, 3, 4, 5, 10, 11, 12, 13, 14, 15, 16, 17, 18));
 
-    static final ModConfigSpec SPEC = BUILDER.build();
+    static final ForgeConfigSpec SPEC = BUILDER.build();
 
     private Config() {
     }
 
-    private static ModConfigSpec.ConfigValue<List<? extends Integer>> dislodgmentTriggers(
+    private static ForgeConfigSpec.ConfigValue<List<? extends Integer>> dislodgmentTriggers(
             String name, List<Integer> defaults) {
         return BUILDER.defineList(name, defaults,
                 value -> value instanceof Integer trigger && trigger >= 0 && trigger <= 18);
     }
 
-    private static ModConfigSpec.ConfigValue<List<? extends Integer>> dislodgmentPhaseCodes(String name) {
+    private static ForgeConfigSpec.ConfigValue<List<? extends Integer>> dislodgmentPhaseCodes(String name) {
         return BUILDER.defineList(name, DEFAULT_DISLODGMENT_PHASE_CODES,
                 value -> value instanceof Integer code && code >= 0 && code <= 29);
     }

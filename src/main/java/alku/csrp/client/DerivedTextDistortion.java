@@ -12,13 +12,14 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.FormattedCharSink;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.EventPriority;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
-import net.neoforged.neoforge.client.event.ScreenEvent;
-import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.TickEvent.ClientTickEvent;
+import net.minecraftforge.client.event.ScreenEvent;
+import net.minecraftforge.client.event.ItemTooltipEvent;
 
 import java.util.List;
 
@@ -36,15 +37,16 @@ public final class DerivedTextDistortion {
     }
 
     @SubscribeEvent
-    public static void updateState(ClientTickEvent.Post event) {
+    public static void updateState(ClientTickEvent event) {
+        if (event.phase == TickEvent.Phase.START) {return;}
         RENDER_SCOPE_DEPTH.remove();
         Minecraft minecraft = Minecraft.getInstance();
         LocalPlayer player = minecraft.player;
-        if (player == null || minecraft.level == null || player.hasEffect(ModMobEffects.THE_SIGN)) {
+        if (player == null || minecraft.level == null || player.hasEffect(ModMobEffects.THE_SIGN.get())) {
             active = false;
             return;
         }
-        active = player.hasEffect(ModMobEffects.DISTORTED_ENLIGHTENMENT)
+        active = player.hasEffect(ModMobEffects.DISTORTED_ENLIGHTENMENT.get())
                 || !minecraft.level.getEntitiesOfClass(KirinEntity.class,
                         player.getBoundingBox().inflate(RANGE),
                         entity -> entity.isAlive() && entity.distanceToSqr(player) <= RANGE * RANGE).isEmpty()

@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.effect.EffectStacking;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModMobEffects;
@@ -10,7 +11,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -77,14 +77,14 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
             MobEffects.BLINDNESS,
             MobEffects.HUNGER,
             MobEffects.WEAKNESS,
-            ModMobEffects.BLEED,
-            ModMobEffects.EFFECTNEG,
-            ModMobEffects.EFFECTPOS,
-            ModMobEffects.MUSCLEOUT,
-            ModMobEffects.OVERHEATING,
-            ModMobEffects.INDEAF,
-            ModMobEffects.NOVISION,
-            ModMobEffects.BRAINING);
+            ModMobEffects.BLEED.get(),
+            ModMobEffects.EFFECTNEG.get(),
+            ModMobEffects.EFFECTPOS.get(),
+            ModMobEffects.MUSCLEOUT.get(),
+            ModMobEffects.OVERHEATING.get(),
+            ModMobEffects.INDEAF.get(),
+            ModMobEffects.NOVISION.get(),
+            ModMobEffects.BRAINING.get());
 
     private static final EntityDataAccessor<Boolean> SHADOWED = SynchedEntityData.defineId(
             DerivedParasiteEntity.class, EntityDataSerializers.BOOLEAN);
@@ -162,7 +162,7 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    protected void defineSynchedData() {
         super.defineSynchedData(builder);
         builder.define(SHADOWED, true);
         builder.define(SHADOW_CLONE, false);
@@ -630,7 +630,7 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
 
             int removedAmplifierSum = 0;
             for (MobEffectInstance effect : new ArrayList<>(target.getActiveEffects())) {
-                if (effect.getEffect().value().getCategory() == MobEffectCategory.BENEFICIAL
+                if (effect.getEffect().getCategory() == MobEffectCategory.BENEFICIAL
                         && target.removeEffect(effect.getEffect())) {
                     removedAmplifierSum += effect.getAmplifier() + 1;
                 }

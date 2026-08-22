@@ -5,15 +5,16 @@ import alku.csrp.registry.ModMobEffects;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.PostChain;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.TickEvent.ClientTickEvent;
 
 /** Replaces Kirin's opaque no-vision overlay with a readable VHS post effect. */
 @EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT)
 public final class KirinVhsEffectEvents {
-    private static final ResourceLocation EFFECT = ResourceLocation.fromNamespaceAndPath(
+    private static final ResourceLocation EFFECT = new ResourceLocation(
             Csrp.MODID, "shaders/post/kirin_vhs.json");
 
     private static PostChain loadedEffect;
@@ -23,10 +24,11 @@ public final class KirinVhsEffectEvents {
     }
 
     @SubscribeEvent
-    public static void updateEffect(ClientTickEvent.Post event) {
+    public static void updateEffect(ClientTickEvent event) {
+        if (event.phase == TickEvent.Phase.START) {return;}
         Minecraft minecraft = Minecraft.getInstance();
         boolean shouldRender = minecraft.player != null
-                && minecraft.player.hasEffect(ModMobEffects.NOVISION);
+                && minecraft.player.hasEffect(ModMobEffects.NOVISION.get());
 
         if (!shouldRender) {
             unloadEffect(minecraft);

@@ -14,9 +14,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
 public final class ParasiteLootScreen extends AbstractContainerScreen<ParasiteLootMenu> {
-    private static final ResourceLocation BACKGROUND = ResourceLocation.fromNamespaceAndPath(
+    private static final ResourceLocation BACKGROUND = new ResourceLocation(
             Csrp.MODID, "textures/gui/parasite_loot.png");
-    private static final ResourceLocation BUBBLE_TEXTURE = ResourceLocation.fromNamespaceAndPath(
+    private static final ResourceLocation BUBBLE_TEXTURE = new ResourceLocation(
             Csrp.MODID, "textures/gui/blood_bubble.png");
     private static final int MAX_BUBBLES = 28;
     private final List<Bubble> bubbles = new ArrayList<>();

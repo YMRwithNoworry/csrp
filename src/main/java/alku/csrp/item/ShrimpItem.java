@@ -15,7 +15,7 @@ public final class ShrimpItem extends Item {
     public ShrimpItem(Properties properties) {
         super(properties.food(new FoodProperties.Builder()
                 .nutrition(2)
-                .saturationModifier(0.2F)
+                .saturation(0.2F)
                 .build()));
     }
 
