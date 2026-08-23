@@ -90,9 +90,8 @@ dependencies {
     // GeckoLib for animated parasite entities (deobfuscated for the dev runtime)
     implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${geckolib_version}")
 
-    // NOTE: Mixin AP refmap generation doesn't work under FG6 + tsrg2 (tracked as a known issue);
-    // dev runtime resolves mixin targets by official names directly, so the AP is omitted for now.
-    // annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    // Mixin AP is intentionally disabled; legacy targets are compatible at runtime
+    // but are not compatible with ForgeGradle's AP mappings.
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
@@ -186,7 +185,6 @@ tasks.withType(JavaCompile).configureEach {
     if (srg != null) {
         options.compilerArgs << "-AreobfSrgFile=${srg.absolutePath}"
     }
-    options.compilerArgs << '-AoutRefMapFile=csrp.refmap.json'
 }
 
 // Example configuration to allow publishing using the maven-publish plugin

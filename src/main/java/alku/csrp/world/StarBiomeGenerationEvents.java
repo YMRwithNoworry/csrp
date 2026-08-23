@@ -65,7 +65,6 @@ public final class StarBiomeGenerationEvents {
     private static void replaceBiomes(ServerLevel level, ChunkAccess chunk, SrpStarType starType) {
         Registry<Biome> biomes = level.registryAccess().registryOrThrow(Registries.BIOME);
         for (LevelChunkSection section : chunk.getSections()) {
-            BiomeChunkSectionAccessor mutable = (BiomeChunkSectionAccessor) section;
             for (int x = 0; x < 4; x++) {
                 for (int y = 0; y < 4; y++) {
                     for (int z = 0; z < 4; z++) {
@@ -73,7 +72,8 @@ public final class StarBiomeGenerationEvents {
                         ResourceKey<Biome> sourceKey = source.unwrapKey().orElse(Biomes.PLAINS);
                         ResourceKey<Biome> targetKey = starType == SrpStarType.COLD
                                 ? coldTarget(sourceKey) : warmTarget(sourceKey);
-                        mutable.csrp$setBiome(x, y, z, biomes.getHolderOrThrow(targetKey));
+                        BiomeChunkSectionAccessor.setBiome(section, x, y, z,
+                                biomes.getHolderOrThrow(targetKey));
                     }
                 }
             }

@@ -83,12 +83,10 @@ public final class BiomePurifierBlockEntity extends BlockEntity {
                     if (section == null) {
                         continue;
                     }
-                    BiomeChunkSectionAccessor accessor =
-                            (BiomeChunkSectionAccessor) (Object) section;
                     for (int x = 0; x < 4; x++) {
                         for (int y = 0; y < 4; y++) {
                             for (int z = 0; z < 4; z++) {
-                                accessor.csrp$setBiome(x, y, z, plains);
+                                BiomeChunkSectionAccessor.setBiome(section, x, y, z, plains);
                             }
                         }
                     }
