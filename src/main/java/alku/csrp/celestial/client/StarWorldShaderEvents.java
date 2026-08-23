@@ -6,6 +6,8 @@ import alku.csrp.config.WorldConfig;
 import alku.csrp.world.SrpStarType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.PostChain;
+import net.minecraft.client.renderer.PostPass;
+import net.minecraft.client.renderer.EffectInstance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
@@ -18,9 +20,14 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
+import java.lang.reflect.Field;
+import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT)
 public final class StarWorldShaderEvents {
+    private static final Logger LOGGER = LoggerFactory.getLogger(StarWorldShaderEvents.class);
     private static final ResourceLocation COLD_SHADER = new ResourceLocation(
             Csrp.MODID, "shaders/post/star_cold.json");
     private static final ResourceLocation WARM_SHADER = new ResourceLocation(
@@ -32,6 +39,7 @@ public final class StarWorldShaderEvents {
     private static long startedAt;
     private static float fade;
     private static float handLight;
+    private static final Field PASSES_FIELD = findPassesField();
 
     private StarWorldShaderEvents() {
     }
@@ -81,7 +89,10 @@ public final class StarWorldShaderEvents {
         BlockPos eye = BlockPos.containing(minecraft.player.getEyePosition());
         float exposure = minecraft.level.canSeeSky(eye)
                 ? minecraft.level.getBrightness(LightLayer.SKY, eye) / 15.0F : 0.0F;
-        // PostChain uniforms are pass-owned in Forge 1.20.1; keep the effect optional.
+        setUniform("SRP_Time", (System.nanoTime() - startedAt) / 1_000_000_000.0F);
+        setUniform("SRP_Exposure", Mth.clamp(exposure, 0.0F, 1.0F));
+        setUniform("SRP_Fade", fade);
+        setUniform("SRP_HandLight", handLight);
     }
 
     private static ResourceLocation wantedShader(Minecraft minecraft) {
@@ -127,5 +138,38 @@ public final class StarWorldShaderEvents {
         activeShader = null;
         fade = 0.0F;
         handLight = 0.0F;
+    }
+
+    private static Field findPassesField() {
+        // The development runtime exposes official names while the packaged runtime
+        // may retain the SRG field name. Try both forms so uniforms keep working in either environment.
+        for (String fieldName : new String[] {"passes", "f_110009_", "e"}) {
+            try {
+                Field field = PostChain.class.getDeclaredField(fieldName);
+                if (field.trySetAccessible()) {
+                    return field;
+                }
+            } catch (NoSuchFieldException | RuntimeException ignored) {
+                // Try the next mapping form.
+            }
+        }
+        LOGGER.warn("Unable to access PostChain passes; star shader uniforms will stay at defaults");
+        return null;
+    }
+
+    private static void setUniform(String name, float value) {
+        if (loadedEffect == null || PASSES_FIELD == null) {
+            return;
+        }
+        try {
+            @SuppressWarnings("unchecked")
+            List<PostPass> passes = (List<PostPass>) PASSES_FIELD.get(loadedEffect);
+            for (PostPass pass : passes) {
+                EffectInstance effect = pass.getEffect();
+                effect.safeGetUniform(name).set(value);
+            }
+        } catch (ReflectiveOperationException | RuntimeException exception) {
+            LOGGER.debug("Unable to update star shader uniform {}", name, exception);
+        }
     }
 }

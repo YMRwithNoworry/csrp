@@ -51,6 +51,8 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.resources.ReloadableResourceManager;
+import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
 import net.minecraft.util.Mth;
 import net.minecraft.util.profiling.ProfilerFiller;
@@ -393,7 +395,14 @@ public final class ClientModEvents {
 
     @SubscribeEvent
     public static void registerReloadListeners(FMLClientSetupEvent event) {
-        event.enqueueWork(() -> AuroraSkyRenderer.dispose());
+        event.enqueueWork(() -> {
+            AuroraSkyRenderer.dispose();
+            ResourceManager resourceManager = Minecraft.getInstance().getResourceManager();
+            if (resourceManager instanceof ReloadableResourceManager reloadable) {
+                reloadable.registerReloadListener((ResourceManagerReloadListener)
+                        manager -> AuroraSkyRenderer.dispose());
+            }
+        });
     }
 
     @SubscribeEvent
