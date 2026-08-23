@@ -42,6 +42,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.TickEvent.LevelTickEvent;
+import net.minecraftforge.registries.RegistryObject;
 
 @EventBusSubscriber(modid = Csrp.MODID)
 public final class OverlastEvents {
@@ -59,9 +60,9 @@ public final class OverlastEvents {
             Map.entry("sim_sheep", EntityType.SHEEP),
             Map.entry("sim_villager", EntityType.VILLAGER),
             Map.entry("sim_wolf", EntityType.WOLF));
-    private static final List<MobEffect> PURIFIED_EFFECTS = List.of(
-            ModMobEffects.COTH.get(), ModMobEffects.FEAR.get(), ModMobEffects.BLEED.get(),
-            ModMobEffects.CORROSIVE.get(), ModMobEffects.VIRAL.get(), ModMobEffects.REPEL.get());
+    private static final List<RegistryObject<MobEffect>> PURIFIED_EFFECTS = List.of(
+            ModMobEffects.COTH, ModMobEffects.FEAR, ModMobEffects.BLEED,
+            ModMobEffects.CORROSIVE, ModMobEffects.VIRAL, ModMobEffects.REPEL);
 
     private OverlastEvents() {
     }
@@ -95,7 +96,7 @@ public final class OverlastEvents {
         }
         MobEffectInstance purify = living.getEffect(ModMobEffects.PARASITES_PURIFY.get());
         if (purify != null) {
-            PURIFIED_EFFECTS.forEach(living::removeEffect);
+            PURIFIED_EFFECTS.forEach(effect -> living.removeEffect(effect.get()));
             if (living instanceof Parasite && purify.getDuration() <= 40) {
                 restoreHost(level, living);
                 return;
