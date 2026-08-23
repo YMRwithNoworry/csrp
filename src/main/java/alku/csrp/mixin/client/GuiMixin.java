@@ -10,13 +10,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Gui.class)
 public abstract class GuiMixin {
-    @Inject(method = "render", at = @At("HEAD"))
+    // Forge's production runtime exposes the official Gui.render method as m_280421_.
+    // Keep both names so the mixin also works in an unremapped development runtime.
+    @Inject(method = {"render", "m_280421_"}, at = @At("HEAD"), require = 0)
     private void csrp$beginGuiDistortion(GuiGraphics graphics, float deltaTracker,
             CallbackInfo callback) {
         DerivedTextDistortion.beginRenderScope();
     }
 
-    @Inject(method = "render", at = @At("RETURN"))
+    @Inject(method = {"render", "m_280421_"}, at = @At("RETURN"), require = 0)
     private void csrp$endGuiDistortion(GuiGraphics graphics, float deltaTracker,
             CallbackInfo callback) {
         DerivedTextDistortion.endRenderScope();
