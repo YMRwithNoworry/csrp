@@ -19,7 +19,7 @@ import java.util.List;
 @Mixin(ChatComponent.class)
 public abstract class ChatComponentMixin {
     @Final
-    @Shadow(aliases = {"trimmedMessages"})
+    @Shadow
     private List<GuiMessage.Line> f_93761_;
 
     @Inject(method = {"render", "m_280165_"}, at = @At("HEAD"), require = 0)
