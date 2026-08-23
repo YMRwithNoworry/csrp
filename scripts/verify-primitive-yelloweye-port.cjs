@@ -39,7 +39,7 @@ expect(entity, /case 3 -> origin\.offset\(random\.nextInt\(4\) \+ 3, random\.nex
   "Primitive Yelloweye close-range reposition pattern is missing");
 expect(entity, /YELLOWEYE_WARNING_TICK = 70[\s\S]*?YELLOWEYE_FIRE_TICK = 100/,
   "Primitive Yelloweye original projectile timing is missing");
-expect(entity, /yelloweyeAttackTimer \+= hasEffect\(ModMobEffects\.RAGE\) \? 2 : 1/,
+expect(entity, /yelloweyeAttackTimer \+= hasEffect\(ModMobEffects\.RAGE(?:\.get\(\))?\) \? 2 : 1/,
   "Rage does not accelerate Primitive Yelloweye shooting");
 expect(entity, /rangedShots\+\+[\s\S]*?rangedShots == 4[\s\S]*?boolean acid = rangedShots >= 4/,
   "Primitive Yelloweye fourth-shot Nade cycle is missing");
@@ -93,7 +93,7 @@ expect(projectile, /tickYelloweyeNade[\s\S]*?YELLOWEYE_NADE_START_DELAY_TICKS[\s
   "Yelloweye Nade delayed expansion sequence is missing");
 expect(projectile, /tickYelloweyeNade[\s\S]*?target\.invulnerableTime = 0[\s\S]*?damageSources\(\)\.magic\(\)[\s\S]*?applyPrimitiveMinimumDamage[\s\S]*?YELLOWEYE_NADE_DURATION_TICKS/,
   "Yelloweye Nade continuous magic frame damage is missing");
-expect(projectile, /tickAcidNade[\s\S]*?MobEffects\.POISON, 40, 0[\s\S]*?ModMobEffects\.CORROSION, 60, 0/,
+expect(projectile, /tickAcidNade[\s\S]*?MobEffects\.POISON, 40, 0[\s\S]*?ModMobEffects\.CORROSION(?:\.get\(\))?, 60, 0/,
   "legacy ACID behavior regressed while adding the Yelloweye Nade");
 expect(projectileRenderer, /YELLOWEYE_SPINE -> SPINEBALL_TEXTURE/,
   "Yelloweye spineball texture is not rendered");

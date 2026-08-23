@@ -29,7 +29,7 @@ if (!config.includes("primitiveBolsterEffects") || !config.includes("30;1;minecr
 }
 expect(entity, /new ReekerRecruitFollowersGoal\(\)/,
   "Primitive Bolster follower recruitment is missing");
-expect(entity, /BOLSTER_SKIN_VIRULENT[\s\S]*?EffectStacking\.apply\(target, ModMobEffects\.VIRAL, 40, 0\)/,
+expect(entity, /BOLSTER_SKIN_VIRULENT[\s\S]*?EffectStacking\.apply\(target, ModMobEffects\.VIRAL(?:\.get\(\))?, 40, 0\)/,
   "Virulent Primitive Bolster attack/collision effect is missing");
 expect(entity, /BOLSTER_SKIN[\s\S]*?setBolsterSkin\(tag\.getInt\("bolster_skin"\)\)/,
   "Primitive Bolster skin synchronization or persistence is missing");

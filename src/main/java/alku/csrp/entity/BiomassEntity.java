@@ -265,7 +265,7 @@ public final class BiomassEntity extends Monster implements GeoEntity, Parasite 
         spawned.addEffect(new MobEffectInstance(ModMobEffects.DEBAR.get(), 120000, 1, false, false), this);
         if (isOnFire()) {
             spawned.setHealth(spawned.getMaxHealth() * 0.5F);
-            spawned.setSecondsOnFire(1);;
+            spawned.setSecondsOnFire(8);
         }
         LivingEntity target = resolveLiving(level, entityData.get(TARGET));
         if (target != null && target.isAlive()) {

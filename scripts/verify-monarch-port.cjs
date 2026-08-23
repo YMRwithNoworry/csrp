@@ -109,7 +109,7 @@ expect(base, /addBlockBreakProfiles\(profiles, 5\.0F, 20, 4, "monarch"\)/,
 
 expect(pure, /goalSelector\.addGoal\(0, new MonarchSkillLeapGoal\(\)\)[\s\S]{0,400}?new MonarchSwimmingDivingGoal\(\)[\s\S]{0,400}?new MonarchWebVolleyGoal\(\)[\s\S]{0,400}?new MonarchWaterLeapGoal\(\)[\s\S]{0,400}?new MonarchAreaMeleeGoal\(\)[\s\S]{0,400}?new MonarchEvasiveDashGoal\(17, 2, 5, 3\.5D, 15\)/,
   "Monarch goal set or priorities are incomplete");
-expect(pure, /distance >= 100\.0D && distance < 10_000\.0D[\s\S]{0,120}?chargeTicks\+\+[\s\S]{0,180}?hasEffect\(ModMobEffects\.RAGE\)[\s\S]{0,80}?chargeTicks\+\+[\s\S]{0,180}?chargeTicks >= 40/,
+expect(pure, /distance >= 100\.0D && distance < 10_000\.0D[\s\S]{0,120}?chargeTicks\+\+[\s\S]{0,180}?hasEffect\(ModMobEffects\.RAGE(?:\.get\(\))?\)[\s\S]{0,80}?chargeTicks\+\+[\s\S]{0,180}?chargeTicks >= 40/,
   "Monarch skill charge distance, rage acceleration, or cooldown is missing");
 expect(pure, /offset\.x \/ horizontalLength \* 3\.5D \* 0\.9D[\s\S]{0,100}?0\.5D/,
   "Monarch skill leap velocity is missing");

@@ -149,15 +149,15 @@ expect(biomass, /spawnFromProjectile[\s\S]{0,500}?spawnBiomass\(level, summoner,
 expect(biomass, /replaceTrackedSummon\(reservationId, biomass\.getUUID\(\), option\.cost\(\)\)/,
   "Biomass projectile reservation transfer is missing");
 
-expect(projectile, /impactAlafhaBall[\s\S]{0,500}?inflate\(effectRadius\)[\s\S]{0,220}?ModMobEffects\.NEEDLER, 300, 0/,
+expect(projectile, /impactAlafhaBall[\s\S]{0,500}?inflate\(effectRadius\)[\s\S]{0,220}?ModMobEffects\.NEEDLER(?:\.get\(\))?, 300, 0/,
   "Alafha ball does not apply radius-three stacked Needler");
 expect(projectile, /double effectRadius = 3\.0D[\s\S]{0,180}?inflate\(effectRadius\)/,
   "Alafha ball effect radius is not fixed at three blocks");
 expect(projectile, /target\.hurt\(damageSources\(\)\.indirectMagic\(this, owner\), MobsConfig\.overseerProjectileDamage\(\)\)/,
   "Alafha ball damage does not use the configured 30-point projectile damage");
-expect(projectile, /SoundEvents\.GENERIC_EXPLODE\.value\(\)[\s\S]{0,100}?SoundSource\.BLOCKS[\s\S]{0,120}?spawnLingeringAlafhaCloud\(owner\)/,
+expect(projectile, /SoundEvents\.GENERIC_EXPLODE(?:\.value\(\))?[\s\S]{0,100}?SoundSource\.BLOCKS[\s\S]{0,120}?spawnLingeringAlafhaCloud\(owner\)/,
   "Alafha ball impact sound does not match the original block sound channel");
-expect(projectile, /spawnLingeringAlafhaCloud[\s\S]{0,900}?setRadius\(2\.0F\)[\s\S]*setRadiusOnUse\(-0\.5F\)[\s\S]*setWaitTime\(30\)[\s\S]*ModMobEffects\.NEEDLER, 360, 0/,
+expect(projectile, /spawnLingeringAlafhaCloud[\s\S]{0,900}?setRadius\(2\.0F\)[\s\S]*setRadiusOnUse\(-0\.5F\)[\s\S]*setWaitTime\(30\)[\s\S]*ModMobEffects\.NEEDLER(?:\.get\(\))?, 360, 0/,
   "Alafha ball lingering Needler cloud is incomplete");
 expect(projectile, /case ALAFHA_BALL, BIOMASS_BALL -> ParticleTypes\.POOF/,
   "Alafha and biomass projectiles do not use the original POOF flight particles");
@@ -170,7 +170,7 @@ const normalAlafhaCloud = isolate(alafhaCloud, "        cloud.setRadius(2.0F);",
 if (/setOwner\(owner\)/.test(normalAlafhaCloud)) {
   failures.push("normal Alafha lingering cloud should not assign an owner");
 }
-expect(projectile, /owner instanceof DraconiteEntity[\s\S]{0,400}?setRadius\(5\.0F\)[\s\S]*ModMobEffects\.COTH, 300, 0/,
+expect(projectile, /owner instanceof DraconiteEntity[\s\S]{0,400}?setRadius\(5\.0F\)[\s\S]*ModMobEffects\.COTH(?:\.get\(\))?, 300, 0/,
   "Draconite Alafha-ball branch was not preserved");
 expect(config, /"srparasites:rupter;1;1", "srparasites:grunt;0\.5;1"/,
   "Overseer default summon table is missing");

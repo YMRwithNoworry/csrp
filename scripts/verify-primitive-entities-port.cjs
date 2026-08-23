@@ -45,7 +45,7 @@ expect(primitiveVariants, /MANDUCATER_CAMOUFLAGED[\s\S]*MobsConfig\.manducaterNe
   "Primitive Manducater camouflage health gate is missing");
 expect(primitiveVariants, /MobsConfig\.manducaterNeededTime\(\)/,
   "Primitive Manducater camouflage timer is missing");
-expect(primitiveVariants, /MobsConfig\.manducaterStealthDamageMultiplier\(\)[\s\S]*EnchantmentHelper\.modifyDamage/,
+expect(primitiveVariants, /(?:MobsConfig\.manducaterStealthDamageMultiplier\(\)[\s\S]*(?:EnchantmentHelper\.modifyDamage|applyManducaterStealthDamage)|applyManducaterStealthDamage[\s\S]*MobsConfig\.manducaterStealthDamageMultiplier\(\))/,
   "Primitive Manducater camouflage bonus damage is missing");
 expect(primitiveVariants, /MANDUCATER_PULL_MAX_TICKS\s*=\s*200/,
   "Primitive Manducater pull duration is wrong");
@@ -103,9 +103,9 @@ expect(biomass, /HATCH_FUSE_TICKS\s*=\s*80/, "Biomass 80 tick hatch fuse is miss
 expect(biomass, /tickCount\s*>=\s*200/, "Biomass airborne 200 tick fuse fallback is missing");
 expect(biomass, /(?:ModMobEffects\.COTH,\s*200,\s*1|applyCothEffect\(living,\s*this,\s*200,\s*1(?:,\s*false,\s*false)?\))/,
   "Biomass COTH aura duration or amplifier is wrong");
-expect(biomass, /ModMobEffects\.RAGE,\s*1200,\s*1/, "Biomass hatch Rage duration or amplifier is wrong");
-expect(biomass, /ModMobEffects\.DEBAR,\s*120000,\s*1/, "Biomass hatch Debar duration or amplifier is wrong");
-expect(biomass, /igniteForSeconds\(8\.0F\)/, "Biomass fire propagation must use the original eight seconds");
+expect(biomass, /ModMobEffects\.RAGE(?:\.get\(\))?,\s*1200,\s*1/, "Biomass hatch Rage duration or amplifier is wrong");
+expect(biomass, /ModMobEffects\.DEBAR(?:\.get\(\))?,\s*120000,\s*1/, "Biomass hatch Debar duration or amplifier is wrong");
+expect(biomass, /(?:igniteForSeconds\(8\.0F\)|setSecondsOnFire\(8\)|setRemainingFireTicks\(8\s*\*\s*20\))/, "Biomass fire propagation must use the original eight seconds");
 expect(biomass, /attacker instanceof Parasite[\s\S]*direct instanceof Parasite/, "Biomass parasite damage immunity is missing");
 expect(capacity, /putUUID\("entity"/, "Summon capacity UUID persistence is missing");
 expect(capacity, /replace\(UUID previousId, UUID replacementId/, "Summon capacity replacement tracking is missing");

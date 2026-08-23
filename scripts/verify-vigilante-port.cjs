@@ -116,7 +116,7 @@ expect(model, /VIGILANTE_TEXTURE[\s\S]*VIGILANTE_HEAVY_TEXTURE[\s\S]*getVigilant
 expect(client, /PrimitiveParasiteRenderer<>\(context, "vigilante", 1\.2F\)/,
   "Vigilante renderer shadow is not 1.2");
 expect(projectile, /mode == Mode\.ANGED_BALL[\s\S]{0,120}?return true/, "Vigilante projectile parasite collision rule is missing");
-expect(projectile, /impactAngedBall[\s\S]{0,850}?MobsConfig\.vigilanteRangedDamage\(\)[\s\S]{0,500}?MobEffects\.BLINDNESS, 300, 0[\s\S]{0,160}?ModMobEffects\.CORROSION, 100, 0/,
+expect(projectile, /impactAngedBall[\s\S]{0,850}?MobsConfig\.vigilanteRangedDamage\(\)[\s\S]{0,500}?MobEffects\.BLINDNESS, 300, 0[\s\S]{0,160}?ModMobEffects\.CORROSION(?:\.get\(\))?, 100, 0/,
   "Vigilante projectile direct damage or cloud effects are incomplete");
 expect(projectile, /cloud\.setRadius\(2\.5F\)[\s\S]*cloud\.setRadiusOnUse\(-0\.5F\)[\s\S]*cloud\.setWaitTime\(10\)[\s\S]*cloud\.setDuration\(100\)/,
   "Vigilante projectile cloud geometry is incomplete");

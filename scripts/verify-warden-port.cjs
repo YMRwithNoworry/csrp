@@ -145,7 +145,7 @@ const tendril = isolate(pure, "private static final class WardenTendrilPart",
   "private static final class OverseerHeadPart", "Warden tendril part");
 expect(tendril, /parent\.getY\(\) \+ 3\.7D[\s\S]*hurtWardenTendril[\s\S]*scalable\(0\.7F, 0\.9F\)/,
   "Warden tendril position, hitbox, or damage delegation is incomplete");
-expect(pure, /hurtWardenTendril[\s\S]{0,260}?ModMobEffects\.BLEED, 80, 0[\s\S]{0,120}?amount \* 3\.0F/,
+expect(pure, /hurtWardenTendril[\s\S]{0,260}?ModMobEffects\.BLEED(?:\.get\(\))?, 80, 0[\s\S]{0,120}?amount \* 3\.0F/,
   "Warden tendril triple damage or bleeding is missing");
 expect(pure, /WARDEN_SKIN[\s\S]*EntityDataSerializers\.BYTE[\s\S]*tag\.putByte\("WardenSkin"/,
   "Warden skin synchronization or NBT persistence is missing");

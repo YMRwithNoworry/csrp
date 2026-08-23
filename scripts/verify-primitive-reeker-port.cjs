@@ -25,9 +25,9 @@ expect(entity, /REEKER_ATTACK_INTERVAL = 10/,
   "original ten-tick Reeker melee interval is missing");
 expect(entity, /MobEffects\.POISON, 100, 0/,
   "Primitive Reeker attacks do not apply the original poison effect");
-expect(entity, /REEKER_SKIN_VIRULENT[\s\S]*?EffectStacking\.apply\(target, ModMobEffects\.VIRAL, 40, 0\)/,
+expect(entity, /REEKER_SKIN_VIRULENT[\s\S]*?EffectStacking\.apply\(target, ModMobEffects\.VIRAL(?:\.get\(\))?, 40, 0\)/,
   "virulent Reeker effect is missing");
-expect(entity, /REEKER_SKIN_BERSERKER[\s\S]*?EffectStacking\.apply\(target, ModMobEffects\.BLEED, 40, 0\)/,
+expect(entity, /REEKER_SKIN_BERSERKER[\s\S]*?EffectStacking\.apply\(target, ModMobEffects\.BLEED(?:\.get\(\))?, 40, 0\)/,
   "berserker Reeker effect is missing");
 expect(entity, /REEKER_SKIN_FRAGILE[\s\S]*?health \*= 0\.5D;[\s\S]*?damage \*= 1\.5D;/,
   "fragile high-damage Reeker variant is missing");
@@ -51,7 +51,7 @@ expect(entity, /class RicardoDiveBombGoal extends Goal/,
   "Ricardo dive bomb is missing");
 expect(entity, /RICARDO_MAX_HEALTH = 3763\.0D/,
   "Ricardo maximum health is missing");
-expect(entity, /stack\.hurtAndBreak\(1, player,[\s\S]*?EquipmentSlot\.MAINHAND/,
+expect(entity, /(?:stack\.hurtAndBreak\(1, player,[\s\S]*?EquipmentSlot\.MAINHAND|EquipmentSlot slot = hand == InteractionHand\.MAIN_HAND \? EquipmentSlot\.MAINHAND[\s\S]*?stack\.hurtAndBreak\(1, player)/,
   "Ricardo shearing does not damage the shears");
 expect(entity, /tag\.putBoolean\("RicardoBald"/,
   "Ricardo bald state is not persisted");

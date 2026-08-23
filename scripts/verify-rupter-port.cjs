@@ -116,7 +116,7 @@ expect(effects, /register\("viral",\s*ViralMobEffect::new\)/,
 expect(bleedEffect, /applyEffectTick|shouldApplyEffectTickThisTick/,
         "Bleed effect does not tick damage");
 expect(viralEffect, /class ViralMobEffect/, "Viral effect implementation is missing");
-expect(effectEvents, /LivingIncomingDamageEvent/, "Viral damage multiplier hook is missing");
+expect(effectEvents, /(?:LivingIncomingDamageEvent|LivingDamageEvent)/, "Viral damage multiplier hook is missing");
 expect(killMilestone, /RUPTER_KILL_COUNT_KEY\s*=\s*"csrpRupterKills"/,
         "persistent Rupter kill counter is missing");
 expect(killMilestone, /RUPTER_KILL_TARGET\s*=\s*1000/,
