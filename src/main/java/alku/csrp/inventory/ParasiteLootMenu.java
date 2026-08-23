@@ -98,7 +98,7 @@ public final class ParasiteLootMenu extends AbstractContainerMenu {
         ItemStack after = slotId >= 0 && slotId < LOOT_SLOTS
                 ? container.getItem(slotId) : ItemStack.EMPTY;
         boolean replaced = !before.isEmpty() && !after.isEmpty()
-                && !ItemStack.isSameItemSameComponents(before, after);
+                && !ItemStack.isSameItemSameTags(before, after);
         if (!replaced) {
             applyParasiteEffects(player, queuedFullness);
         }

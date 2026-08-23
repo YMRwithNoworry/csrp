@@ -3,7 +3,6 @@ package alku.csrp.celestial;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -13,8 +12,6 @@ import net.minecraft.world.level.saveddata.SavedData;
 
 public final class CelestialWorldData extends SavedData {
     private static final String DATA_NAME = "csrp_celestial_events";
-    private static final Factory<CelestialWorldData> FACTORY =
-            new Factory<>(CelestialWorldData::new, CelestialWorldData::load);
 
     private long nightIndex = Long.MIN_VALUE;
     private final Set<String> active = new LinkedHashSet<>();
@@ -26,10 +23,11 @@ public final class CelestialWorldData extends SavedData {
     private long lastEffectNightIndex = Long.MIN_VALUE;
 
     public static CelestialWorldData get(ServerLevel level) {
-        return level.getDataStorage().computeIfAbsent(FACTORY, DATA_NAME);
+        return level.getDataStorage().computeIfAbsent(CelestialWorldData::load,
+                CelestialWorldData::new, DATA_NAME);
     }
 
-    private static CelestialWorldData load(CompoundTag tag, HolderLookup.Provider registries) {
+    private static CelestialWorldData load(CompoundTag tag) {
         CelestialWorldData data = new CelestialWorldData();
         data.nightIndex = tag.contains("night_index") ? tag.getLong("night_index") : Long.MIN_VALUE;
         readSet(tag, "active", data.active);
@@ -47,7 +45,7 @@ public final class CelestialWorldData extends SavedData {
     }
 
     @Override
-    public CompoundTag save(CompoundTag tag, HolderLookup.Provider registries) {
+    public CompoundTag save(CompoundTag tag) {
         tag.putLong("night_index", nightIndex);
         writeSet(tag, "active", active);
         writeSet(tag, "forced", forced);

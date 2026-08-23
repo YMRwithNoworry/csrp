@@ -86,9 +86,9 @@ public class PriReekerEntity extends PrimitiveParasiteEntity {
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(PARASITE_STATUS, STATUS_NORMAL);
-        builder.define(CHARGE_TICKS, 0);
+        super.defineSynchedData();
+        entityData.define(PARASITE_STATUS, STATUS_NORMAL);
+        entityData.define(CHARGE_TICKS, 0);
     }
 
     @Override

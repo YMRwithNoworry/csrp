@@ -16,26 +16,26 @@ public final class PreyMobEffect extends MobEffect {
     }
 
     @Override
-    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
+    public void applyEffectTick(LivingEntity entity, int amplifier) {
         if (!(entity.level() instanceof ServerLevel level) || entity.tickCount % 80 != 0) {
-            return true;
+            return;
         }
         if (entity instanceof Player player && (player.isCreative() || player.isSpectator())) {
-            return true;
+            return;
         }
         if (level.getEntities(ModEntities.SCENT.get(), scent -> true).size() >= ParasiticScentEntity.SCENT_CAP) {
-            return true;
+            return;
         }
         for (ParasiticScentEntity scent : level.getEntitiesOfClass(ParasiticScentEntity.class,
                 entity.getBoundingBox().inflate(64.0D))) {
             if (scent.getTargetToKill() == entity && scent.getCanFollow()) {
-                return true;
+                return;
             }
         }
 
         ParasiticScentEntity scent = ModEntities.SCENT.get().create(level);
         if (scent == null) {
-            return true;
+            return;
         }
         scent.moveTo(entity.getX(), entity.getY(), entity.getZ(), entity.getYRot(), entity.getXRot());
         scent.setScentState(1);
@@ -46,11 +46,11 @@ public final class PreyMobEffect extends MobEffect {
         scent.setScentReaction(ParasiticScentEntity.scentReaction(phase), false);
         scent.setCanFollow(true);
         level.addFreshEntity(scent);
-        return true;
+        return;
     }
 
     @Override
-    public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
+    public boolean isDurationEffectTick(int duration, int amplifier) {
         return true;
     }
 }

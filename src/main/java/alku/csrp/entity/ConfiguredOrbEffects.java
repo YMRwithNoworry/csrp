@@ -35,15 +35,15 @@ final class ConfiguredOrbEffects {
                         : duration + nearbyEntities / durationStep * 20;
                 BuiltInRegistries.MOB_EFFECT.getOptional(effectId).ifPresent(effect -> {
                     if (recipient == 1) {
-                        EffectStacking.apply(source, BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect),
+                        EffectStacking.apply(source, effect,
                                 scaledDuration, scaledAmplifier);
                     } else if (recipient == 2) {
                         if (target instanceof Parasite) {
-                            EffectStacking.apply(target, BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect),
+                            EffectStacking.apply(target, effect,
                                     scaledDuration, scaledAmplifier);
                         }
                     } else if (!(target instanceof Parasite)) {
-                        EffectStacking.apply(target, BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect),
+                        EffectStacking.apply(target, effect,
                                 scaledDuration, scaledAmplifier);
                     }
                 });

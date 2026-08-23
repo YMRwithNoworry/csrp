@@ -258,7 +258,7 @@ public final class AssimilatedParasiteEntity extends Monster
         }
         head.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
         head.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                MobSpawnType.MOB_SUMMONED, null, null);
         head.setCustomName(getCustomName());
         head.setCustomNameVisible(isCustomNameVisible());
         if (isPersistenceRequired()) {
@@ -293,13 +293,13 @@ public final class AssimilatedParasiteEntity extends Monster
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(SHEEP_TEXTURE_VARIANT, 0);
-        builder.define(TAMED_WOLF_TEXTURE, false);
-        builder.define(MELTING, false);
-        builder.define(MELT_HEIGHT, 0.0F);
-        builder.define(COW_CHARGE_STATE, 0);
-        builder.define(ANIMATION_STATUS, 0);
+        super.defineSynchedData();
+        entityData.define(SHEEP_TEXTURE_VARIANT, 0);
+        entityData.define(TAMED_WOLF_TEXTURE, false);
+        entityData.define(MELTING, false);
+        entityData.define(MELT_HEIGHT, 0.0F);
+        entityData.define(COW_CHARGE_STATE, 0);
+        entityData.define(ANIMATION_STATUS, 0);
     }
 
     @Override
@@ -324,7 +324,7 @@ public final class AssimilatedParasiteEntity extends Monster
     }
 
     @Override
-    protected EntityDimensions getDimensions(net.minecraft.world.entity.Pose pose) {
+    public EntityDimensions getDimensions(net.minecraft.world.entity.Pose pose) {
         EntityDimensions dimensions = super.getDimensions(pose);
         if (!isMelting()) {
             return dimensions;
@@ -343,8 +343,8 @@ public final class AssimilatedParasiteEntity extends Monster
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
-                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
-        SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
+                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData, net.minecraft.nbt.CompoundTag spawnTag) {
+        SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData, spawnTag);
         if (!level.isClientSide()) {
             if (kind == Kind.SHEEP) {
                 rollSheepTextureVariant();

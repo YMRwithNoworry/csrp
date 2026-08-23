@@ -60,9 +60,9 @@ public final class VerminEntity extends PrimitiveParasiteEntity {
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(FLIGHT_FLAGS, (byte) 0);
-        builder.define(COMBAT_STATUS, 0);
+        super.defineSynchedData();
+        entityData.define(FLIGHT_FLAGS, (byte) 0);
+        entityData.define(COMBAT_STATUS, 0);
     }
 
     @Override protected PathNavigation createNavigation(Level level) {

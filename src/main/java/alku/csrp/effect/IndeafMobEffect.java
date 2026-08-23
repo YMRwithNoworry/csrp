@@ -10,7 +10,7 @@ public final class IndeafMobEffect extends MarkerMobEffect {
     }
 
     @Override
-    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
+    public void applyEffectTick(LivingEntity entity, int amplifier) {
         if (!entity.level().isClientSide) {
             var velocity = entity.getDeltaMovement();
             entity.setDeltaMovement(0.0D, velocity.y, 0.0D);
@@ -18,11 +18,11 @@ public final class IndeafMobEffect extends MarkerMobEffect {
                 player.setSprinting(false);
             }
         }
-        return true;
+        return;
     }
 
     @Override
-    public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
+    public boolean isDurationEffectTick(int duration, int amplifier) {
         return true;
     }
 }

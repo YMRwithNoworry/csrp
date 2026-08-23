@@ -42,9 +42,9 @@ public final class OrbBoomEntity extends Entity {
 
     @Override
     protected void defineSynchedData() {
-        builder.define(FUSE, 7);
-        builder.define(WAIT_START, 40);
-        builder.define(PROGRESS, 0);
+        entityData.define(FUSE, 7);
+        entityData.define(WAIT_START, 40);
+        entityData.define(PROGRESS, 0);
     }
 
     @Override

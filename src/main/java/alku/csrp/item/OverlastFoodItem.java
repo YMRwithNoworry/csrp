@@ -42,18 +42,18 @@ public final class OverlastFoodItem extends Item {
     }
 
     @Override
-    public int getUseDuration(ItemStack stack, LivingEntity entity) {
-        return kind == Kind.DUMPLING ? 10 : super.getUseDuration(stack, entity);
+    public int getUseDuration(ItemStack stack) {
+        return kind == Kind.DUMPLING ? 10 : super.getUseDuration(stack);
     }
 
     private static FoodProperties food(Kind kind) {
         FoodProperties.Builder builder = new FoodProperties.Builder();
         return switch (kind) {
-            case CHOCOLATE_SMOOTHIE -> builder.nutrition(4).saturation(0.6F).build();
-            case POLLUTED_HERBAL_BOWL, HERBAL_BOWL -> builder.nutrition(2).saturation(0.3F).build();
-            case MELON_ICE -> builder.nutrition(4).saturation(0.4F).alwaysEdible().build();
-            case ICE_SUCKER -> builder.nutrition(2).saturation(0.2F).build();
-            case DUMPLING -> builder.nutrition(4).saturation(0.2F).alwaysEdible().build();
+            case CHOCOLATE_SMOOTHIE -> builder.nutrition(4).saturationMod(0.6F).build();
+            case POLLUTED_HERBAL_BOWL, HERBAL_BOWL -> builder.nutrition(2).saturationMod(0.3F).build();
+            case MELON_ICE -> builder.nutrition(4).saturationMod(0.4F).alwaysEat().build();
+            case ICE_SUCKER -> builder.nutrition(2).saturationMod(0.2F).build();
+            case DUMPLING -> builder.nutrition(4).saturationMod(0.2F).alwaysEat().build();
         };
     }
 

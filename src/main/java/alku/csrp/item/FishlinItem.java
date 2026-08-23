@@ -10,7 +10,7 @@ import net.minecraft.world.entity.LivingEntity;
 
 public final class FishlinItem extends Item {
     public FishlinItem(Item.Properties properties) {
-        super(properties.food(new FoodProperties.Builder().nutrition(3).saturation(0.2F).alwaysEdible()
+        super(properties.food(new FoodProperties.Builder().nutrition(3).saturationMod(0.2F).alwaysEat()
                 .effect(() -> new MobEffectInstance(ModMobEffects.COTH.get(), 4800, 1, false, false, true), 1.0F).build()));
     }
 

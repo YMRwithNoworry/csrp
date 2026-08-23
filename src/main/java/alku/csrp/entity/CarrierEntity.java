@@ -1,5 +1,7 @@
 package alku.csrp.entity;
 
+import net.minecraftforge.event.ForgeEventFactory;
+
 import alku.csrp.Config;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
@@ -26,7 +28,6 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraftforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.core.animation.AnimationController;
@@ -68,16 +69,17 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity implements M
     }
 
     @Override
-    protected void defineSynchedData(net.minecraft.network.syncher.SynchedEntityData.Builder builder) {
-        super.defineSynchedData(builder);
-        builder.define(SKIN, (byte) 0);
-        builder.define(FUSE_TICKS, -1);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        entityData.define(SKIN, (byte) 0);
+        entityData.define(FUSE_TICKS, -1);
     }
 
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
-                                        MobSpawnType reason, @Nullable SpawnGroupData spawnData) {
-        SpawnGroupData data = super.finalizeSpawn(level, difficulty, reason, spawnData);
+                                        MobSpawnType reason, @Nullable SpawnGroupData spawnData,
+                                        net.minecraft.nbt.CompoundTag spawnTag) {
+        SpawnGroupData data = super.finalizeSpawn(level, difficulty, reason, spawnData, spawnTag);
         if (getSkin() == 0 && (random.nextDouble() < Config.variantSpawnChance()
                 || Config.evolutionPhase(level.getLevel()) >= Config.alwaysVariantPhase())) {
             setSkin(1);
@@ -368,7 +370,7 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity implements M
                 }
                 mob.moveTo(getX(), getY() + getBbHeight() * 0.5D + 0.5D, getZ(), getYRot(), getXRot());
                 mob.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(mob.blockPosition()),
-                        MobSpawnType.MOB_SUMMONED, null);
+                        MobSpawnType.MOB_SUMMONED, null, null);
                 mob.setTarget(getTarget());
                 serverLevel.addFreshEntity(mob);
             }

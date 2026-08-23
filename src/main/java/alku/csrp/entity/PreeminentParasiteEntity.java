@@ -1,5 +1,7 @@
 package alku.csrp.entity;
 
+import net.minecraftforge.event.ForgeEventFactory;
+
 import net.minecraftforge.common.ForgeMod;
 import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.Config;
@@ -43,7 +45,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.entity.PartEntity;
-import net.minecraftforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.core.animation.AnimationController;
@@ -158,9 +159,9 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(CARRIER_VARIANT, false);
-        builder.define(HAUNTER_VARIANT, false);
+        super.defineSynchedData();
+        entityData.define(CARRIER_VARIANT, false);
+        entityData.define(HAUNTER_VARIANT, false);
     }
 
     @Override
@@ -363,7 +364,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
 
     @Override
     public boolean canBeAffected(MobEffectInstance effect) {
-        if (activeKind() == Kind.HAUNTER && effect.is(MobEffects.POISON)) {
+        if (activeKind() == Kind.HAUNTER && effect.getEffect() == MobEffects.POISON) {
             return false;
         }
         return super.canBeAffected(effect);
@@ -377,8 +378,8 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
-                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
-        SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
+                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData, net.minecraft.nbt.CompoundTag spawnTag) {
+        SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData, spawnTag);
         if (random.nextDouble() < Config.variantSpawnChance()
                 || Config.evolutionPhase(level.getLevel()) >= Config.alwaysVariantPhase()) {
             if (activeKind() == Kind.CARRIER_COLONY) {
@@ -449,11 +450,11 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
     }
 
     @Override
-    protected float getEyeHeight() {
+    public float getEyeHeight(net.minecraft.world.entity.Pose pose) {
         if (activeKind() == Kind.CARRIER_COLONY) {
             return 1.5F;
         }
-        return activeKind() == Kind.HAUNTER ? 4.7F : super.getEyeHeight();
+        return activeKind() == Kind.HAUNTER ? 4.7F : super.getEyeHeight(pose);
     }
 
     @Override

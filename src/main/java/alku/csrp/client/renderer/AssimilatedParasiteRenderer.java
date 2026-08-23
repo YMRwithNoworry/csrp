@@ -17,11 +17,11 @@ public final class AssimilatedParasiteRenderer extends ParasiteGeoRenderer<Assim
     @Override
     public void preRender(PoseStack poseStack, AssimilatedParasiteEntity entity, BakedGeoModel model,
                           MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender,
-                          float partialTick, int packedLight, int packedOverlay, int colour) {
+                          float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         if (entity.isMelting()) {
             poseStack.scale(1.0F, entity.getMeltRenderScale(partialTick), 1.0F);
         }
         super.preRender(poseStack, entity, model, bufferSource, buffer, isReRender, partialTick,
-                packedLight, packedOverlay, colour);
+                packedLight, packedOverlay, red, green, blue, alpha);
     }
 }

@@ -36,7 +36,7 @@ public final class EvolutionLureBlock extends Block {
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player,
+public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, net.minecraft.world.InteractionHand hand,
             BlockHitResult hitResult) {
         if (level instanceof ServerLevel serverLevel) {
             activate(serverLevel, pos, state.getValue(TIER), player);
@@ -44,8 +44,7 @@ public final class EvolutionLureBlock extends Block {
         return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
-    @Override
-    protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
+    public InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
             Player player, net.minecraft.world.InteractionHand hand, BlockHitResult hitResult) {
         if (player.getMainHandItem().isEmpty()) {
             if (level instanceof ServerLevel serverLevel) {
@@ -147,11 +146,10 @@ public final class EvolutionLureBlock extends Block {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(TIER);
     }
 
-    @Override
     public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state) {
         return new ItemStack(switch (state.getValue(TIER)) {
             case ONE -> ModItems.EVOLUTION_LURE_ONE.get();

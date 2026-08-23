@@ -80,12 +80,12 @@ public final class VoidOrbRenderer extends EntityRenderer<VoidOrbEntity> {
         float x = Mth.sin(phi) * Mth.cos(theta);
         float y = Mth.cos(phi);
         float z = Mth.sin(phi) * Mth.sin(theta);
-        consumer.addVertex(pose, x * radius, y * radius, z * radius)
-                .setColor((int) (red * 255.0F), (int) (green * 255.0F), (int) (blue * 255.0F), alpha)
-                .setUv(u, v)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(FULL_BRIGHT)
-                .setNormal(pose, x, y, z);
+        consumer.vertex(pose.pose(), x * radius, y * radius, z * radius)
+                .color((int) (red * 255.0F), (int) (green * 255.0F), (int) (blue * 255.0F), alpha)
+                .uv(u, v)
+                .overlayCoords(OverlayTexture.NO_OVERLAY)
+                .uv2(FULL_BRIGHT)
+                .normal(pose.normal(), x, y, z).endVertex();
     }
 
     @Override

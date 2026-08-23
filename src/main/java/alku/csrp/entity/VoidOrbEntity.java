@@ -74,9 +74,9 @@ public final class VoidOrbEntity extends Entity {
 
     @Override
     protected void defineSynchedData() {
-        builder.define(START_TICKS, DEFAULT_START_TICKS);
-        builder.define(FUSE_TICKS, DEFAULT_FUSE_TICKS);
-        builder.define(LIFETIME_TICKS, 0);
+        entityData.define(START_TICKS, DEFAULT_START_TICKS);
+        entityData.define(FUSE_TICKS, DEFAULT_FUSE_TICKS);
+        entityData.define(LIFETIME_TICKS, 0);
     }
 
     @Override

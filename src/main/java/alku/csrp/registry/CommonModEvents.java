@@ -67,24 +67,19 @@ import alku.csrp.entity.VisceraEntity;
 import alku.csrp.entity.WaveEntity;
 import alku.csrp.world.NaturalSpawnTables;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.Holder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.SpawnPlacementType;
 import net.minecraft.world.entity.SpawnPlacements;
-import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
-import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.event.brewing.RegisterBrewingRecipesEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 
@@ -98,12 +93,6 @@ public final class CommonModEvents {
             "carrier_flying", "lice", "sim_dragone", "pri_yelloweye", "ada_yelloweye",
             "pri_vermin", "airscrew", "overseer", "bomber_light", "bomber_heavy", "wraith",
             "bogle", "architect", "draconite");
-    private static final SpawnPlacementType IN_AIR = (level, pos, type) -> type != null
-            && level.getWorldBorder().isWithinBounds(pos)
-            && level.isEmptyBlock(pos.below())
-            && level.isEmptyBlock(pos)
-            && level.isEmptyBlock(pos.above());
-
     private CommonModEvents() {
     }
 
@@ -368,9 +357,9 @@ public final class CommonModEvents {
     private static <T extends Entity> void registerNaturalSpawnPlacement(
             SpawnPlacementRegisterEvent event, EntityType<T> type) {
         String id = BuiltInRegistries.ENTITY_TYPE.getKey(type).getPath();
-        SpawnPlacementType placement = WATER_SPAWN_IDS.contains(id)
+        SpawnPlacements.Type placement = WATER_SPAWN_IDS.contains(id)
                 ? SpawnPlacements.Type.IN_WATER
-                : AIR_SPAWN_IDS.contains(id) ? IN_AIR : SpawnPlacements.Type.ON_GROUND;
+                : AIR_SPAWN_IDS.contains(id) ? SpawnPlacements.Type.NO_RESTRICTIONS : SpawnPlacements.Type.ON_GROUND;
         SpawnPlacements.SpawnPredicate<T> predicate = (entityType, level, spawnType, pos, random) ->
                 Monster.checkMonsterSpawnRules(
                         (EntityType<? extends Monster>) entityType, level, spawnType, pos, random);
@@ -378,20 +367,4 @@ public final class CommonModEvents {
                 SpawnPlacementRegisterEvent.Operation.REPLACE);
     }
 
-    @SubscribeEvent
-    public static void registerBrewing(RegisterBrewingRecipesEvent event) {
-        var builder = event.getBuilder();
-        Ingredient sponge = Ingredient.of(ModItems.DISEASED_SPONGE.get());
-        builder.addRecipe(potionIngredient("water"), sponge,
-                new ItemStack(ModItems.DEADBLOOD_FLUID.get()));
-        builder.addRecipe(potionIngredient("awkward"), sponge,
-                new ItemStack(ModItems.DEADBLOOD_FLUID.get()));
-    }
-
-    private static Ingredient potionIngredient(String potionName) {
-        Potion potion = potionName.equals("awkward") ? Potions.AWKWARD : Potions.WATER;
-        ItemStack stack = new ItemStack(Items.POTION);
-        PotionUtils.setPotion(stack, potion);
-        return Ingredient.of(stack);
-    }
 }

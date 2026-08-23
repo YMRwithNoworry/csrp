@@ -4,7 +4,6 @@ import alku.csrp.registry.ModBlockEntities;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.world.EvolutionSystem;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.MobSpawnType;
@@ -54,7 +53,7 @@ public final class DispatcherNidusBlockEntity extends BlockEntity {
         BlockPos pos = getBlockPos();
         dispatcher.moveTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D,
                 level.getRandom().nextFloat() * 360.0F, 0.0F);
-        dispatcher.finalizeSpawn(level, level.getCurrentDifficultyAt(pos), MobSpawnType.MOB_SUMMONED, null);
+        dispatcher.finalizeSpawn(level, level.getCurrentDifficultyAt(pos), MobSpawnType.MOB_SUMMONED, null, null);
         level.addFreshEntity(dispatcher);
         level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
     }
@@ -76,14 +75,14 @@ public final class DispatcherNidusBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
+    protected void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
         tag.putInt("KillCount", killCount);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
+    public void load(CompoundTag tag) {
+        super.load(tag);
         killCount = tag.getInt("KillCount");
     }
 }

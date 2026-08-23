@@ -3,7 +3,7 @@ package alku.csrp.event;
 import alku.csrp.Csrp;
 import alku.csrp.entity.Parasite;
 import alku.csrp.registry.ModMobEffects;
-import net.minecraft.advancements.AdvancementHolder;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -19,7 +19,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
-import net.minecraftforge.event.entity.living.LivingTickEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 
 /** Legacy Thornshade Thorns use limit, reflection, self-destruction, and propagation. */
 @EventBusSubscriber(modid = Csrp.MODID)
@@ -40,7 +40,7 @@ public final class ThornshadeThornsEvents {
     @SubscribeEvent
     public static void checkApplication(MobEffectEvent.Applicable event) {
         MobEffectInstance incoming = event.getEffectInstance();
-        if (!incoming.is(ModMobEffects.THORNSHADE_THORNS.get())) {
+        if (incoming.getEffect() != ModMobEffects.THORNSHADE_THORNS.get()) {
             return;
         }
         LivingEntity living = event.getEntity();
@@ -49,14 +49,14 @@ public final class ThornshadeThornsEvents {
         }
         if (living instanceof Parasite || living.getMaxHealth() > MAX_ALLOWED_HEALTH
                 || living.hasEffect(ModMobEffects.THORNSHADE_THORNS.get()) || isInfinite(incoming)) {
-            event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
+            event.setResult(MobEffectEvent.Applicable.Result.DENY);
             return;
         }
 
         CompoundTag data = thornData(living);
         int uses = data.getInt(USES_TAG);
         if (uses >= 2) {
-            event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
+            event.setResult(MobEffectEvent.Applicable.Result.DENY);
             if (!data.contains(EXPLODE_DELAY_TAG)) {
                 scheduleExplosion(living, data);
             }
@@ -66,7 +66,7 @@ public final class ThornshadeThornsEvents {
 
         long now = living.level().getGameTime();
         if (data.getLong(COOLDOWN_TAG) > now) {
-            event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
+            event.setResult(MobEffectEvent.Applicable.Result.DENY);
             return;
         }
         data.putInt(USES_TAG, uses + 1);
@@ -89,7 +89,7 @@ public final class ThornshadeThornsEvents {
     }
 
     @SubscribeEvent
-    public static void tickExplosion(EntityTickEvent.Post event) {
+    public static void tickExplosion(LivingEvent.LivingTickEvent event) {
         if (!(event.getEntity() instanceof LivingEntity living)
                 || living.level().isClientSide || !living.isAlive()) {
             return;
@@ -168,7 +168,7 @@ public final class ThornshadeThornsEvents {
         if (!(center instanceof ServerPlayer player)) {
             return;
         }
-        AdvancementHolder advancement = player.server.getAdvancements().get(SELF_DESTRUCT_ADVANCEMENT);
+        Advancement advancement = player.server.getAdvancements().getAdvancement(SELF_DESTRUCT_ADVANCEMENT);
         if (advancement != null) {
             player.getAdvancements().award(advancement, SELF_DESTRUCT_CRITERION);
         }

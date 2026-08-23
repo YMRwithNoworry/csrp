@@ -156,7 +156,7 @@ public final class HaunterHomingProjectileEntity extends Entity {
 
     @Override
     protected void defineSynchedData() {
-        builder.define(TARGET_ID, 0);
+        entityData.define(TARGET_ID, 0);
     }
 
     @Override

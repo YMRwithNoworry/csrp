@@ -149,10 +149,10 @@ public final class DredgeEntity extends CrudeParasiteEntity {
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(TARGET_ENTITY, 0);
-        builder.define(PULLING, false);
-        builder.define(PARASITE_STATUS, STATUS_IDLE);
+        super.defineSynchedData();
+        entityData.define(TARGET_ENTITY, 0);
+        entityData.define(PULLING, false);
+        entityData.define(PARASITE_STATUS, STATUS_IDLE);
     }
 
     @Override
@@ -216,7 +216,7 @@ public final class DredgeEntity extends CrudeParasiteEntity {
         if (distance <= 1.0E-6D) {
             return;
         }
-        double speed = level().getBlockState(blockPosition()).isPathfindable(PathComputationType.LAND)
+        double speed = level().getBlockState(blockPosition()).isPathfindable(level(), blockPosition(), PathComputationType.LAND)
                 ? LIQUID_LEAP_HORIZONTAL_SPEED : 1.0D;
         Vec3 movement = getDeltaMovement();
         setDeltaMovement(movement.x + dx / distance * speed * 0.8D + movement.x * 0.2D,

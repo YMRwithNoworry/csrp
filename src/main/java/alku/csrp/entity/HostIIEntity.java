@@ -88,11 +88,11 @@ public final class HostIIEntity extends AbstractHostEntity {
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(BURIED_TIMER, MAX_BURIED_TIMER);
-        builder.define(MOUTH_OPEN, false);
-        builder.define(ATTACK_TIMER, 0.0F);
-        builder.define(ATTACK_UP, false);
+        super.defineSynchedData();
+        entityData.define(BURIED_TIMER, MAX_BURIED_TIMER);
+        entityData.define(MOUTH_OPEN, false);
+        entityData.define(ATTACK_TIMER, 0.0F);
+        entityData.define(ATTACK_UP, false);
     }
 
     public static AttributeSupplier.Builder createAttributes() {

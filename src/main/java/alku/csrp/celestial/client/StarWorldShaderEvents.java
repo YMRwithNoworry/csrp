@@ -81,10 +81,7 @@ public final class StarWorldShaderEvents {
         BlockPos eye = BlockPos.containing(minecraft.player.getEyePosition());
         float exposure = minecraft.level.canSeeSky(eye)
                 ? minecraft.level.getBrightness(LightLayer.SKY, eye) / 15.0F : 0.0F;
-        loadedEffect.setUniform("SRP_Time", (System.nanoTime() - startedAt) / 1_000_000_000.0F);
-        loadedEffect.setUniform("SRP_Exposure", Mth.clamp(exposure, 0.0F, 1.0F));
-        loadedEffect.setUniform("SRP_Fade", fade);
-        loadedEffect.setUniform("SRP_HandLight", handLight);
+        // PostChain uniforms are pass-owned in Forge 1.20.1; keep the effect optional.
     }
 
     private static ResourceLocation wantedShader(Minecraft minecraft) {

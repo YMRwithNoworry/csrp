@@ -67,9 +67,9 @@ public final class HostEntity extends AbstractHostEntity {
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(BURIED_TIMER, MAX_BURIED_TIMER);
-        builder.define(MOUTH_OPEN, false);
+        super.defineSynchedData();
+        entityData.define(BURIED_TIMER, MAX_BURIED_TIMER);
+        entityData.define(MOUTH_OPEN, false);
     }
 
     @Override

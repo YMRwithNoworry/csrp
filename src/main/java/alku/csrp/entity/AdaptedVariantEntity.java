@@ -456,31 +456,31 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(ARACHNIDA_STATUS, 0);
-        builder.define(ARACHNIDA_TARGET, 0);
-        builder.define(ARACHNIDA_SKIN, 0);
-        builder.define(BOLSTER_VARIANT, BolsterVariant.NORMAL.ordinal());
-        builder.define(BOLSTER_ACTION, BolsterAction.NONE.ordinal());
-        builder.define(BOLSTER_ACTION_TICKS, 0);
-        builder.define(BOLSTER_LEFT_TENDRIL, -1.0F);
-        builder.define(BOLSTER_RIGHT_TENDRIL, -1.0F);
-        builder.define(REEKER_CHARGING, false);
-        builder.define(REEKER_PULLING, 0);
-        builder.define(REEKER_STILL_ANI, false);
-        builder.define(SUMMONER_CASTING, false);
-        builder.define(SUMMONER_STATUS, 0);
-        builder.define(MANDUCATER_STATUS, 0);
-        builder.define(MANDUCATER_STILL_ANI, false);
-        builder.define(YELLOWEYE_CHARGING, false);
-        builder.define(VERMIN_COMBAT_STATUS, 0);
+        super.defineSynchedData();
+        entityData.define(ARACHNIDA_STATUS, 0);
+        entityData.define(ARACHNIDA_TARGET, 0);
+        entityData.define(ARACHNIDA_SKIN, 0);
+        entityData.define(BOLSTER_VARIANT, BolsterVariant.NORMAL.ordinal());
+        entityData.define(BOLSTER_ACTION, BolsterAction.NONE.ordinal());
+        entityData.define(BOLSTER_ACTION_TICKS, 0);
+        entityData.define(BOLSTER_LEFT_TENDRIL, -1.0F);
+        entityData.define(BOLSTER_RIGHT_TENDRIL, -1.0F);
+        entityData.define(REEKER_CHARGING, false);
+        entityData.define(REEKER_PULLING, 0);
+        entityData.define(REEKER_STILL_ANI, false);
+        entityData.define(SUMMONER_CASTING, false);
+        entityData.define(SUMMONER_STATUS, 0);
+        entityData.define(MANDUCATER_STATUS, 0);
+        entityData.define(MANDUCATER_STILL_ANI, false);
+        entityData.define(YELLOWEYE_CHARGING, false);
+        entityData.define(VERMIN_COMBAT_STATUS, 0);
     }
 
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
-                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
-        SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
+                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData, net.minecraft.nbt.CompoundTag spawnTag) {
+        SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData, spawnTag);
         if (!level.isClientSide() && activeKind() == Kind.ARACHNIDA
                 && (random.nextDouble() < Config.variantSpawnChance()
                 || Config.evolutionPhase(level.getLevel()) >= Config.alwaysVariantPhase())) {
@@ -893,7 +893,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         }
         primitive.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
         primitive.finalizeSpawn(level, level.getCurrentDifficultyAt(blockPosition()),
-                MobSpawnType.CONVERSION, null);
+                MobSpawnType.CONVERSION, null, null);
         primitive.setCustomName(getCustomName());
         primitive.setCustomNameVisible(isCustomNameVisible());
         primitive.setTarget(getTarget());

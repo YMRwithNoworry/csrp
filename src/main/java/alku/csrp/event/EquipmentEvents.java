@@ -17,7 +17,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.CustomData;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.event.TickEvent;
@@ -40,7 +39,7 @@ public final class EquipmentEvents {
     }
 
     @SubscribeEvent
-    public static void adaptAndApplySetPenalty(LivingAttackEvent event) {
+    public static void adaptAndApplySetPenalty(LivingDamageEvent event) {
         LivingEntity entity = event.getEntity();
         if (event.getAmount() <= 0.0F) return;
         if (entity.level().isClientSide) return;
@@ -108,7 +107,7 @@ public final class EquipmentEvents {
         }
     }
 
-    private static String adaptationSource(LivingAttackEvent event) {
+    private static String adaptationSource(LivingDamageEvent event) {
         if (event.getSource().getEntity() instanceof Player player) return "player." + player.getName().getString();
         if (event.getSource().getEntity() instanceof LivingEntity attacker) {
             return BuiltInRegistries.ENTITY_TYPE.getKey(attacker.getType()).toString();
@@ -120,8 +119,8 @@ public final class EquipmentEvents {
     public static void recordDamageAndWeaponEffects(LivingDamageEvent event) {
         LivingEntity target = event.getEntity();
         LivingEntity attacker = event.getSource().getEntity() instanceof LivingEntity living ? living : null;
-        ItemStack weapon = event.getSource().getWeaponItem();
-        if (weapon == null) weapon = ItemStack.EMPTY;
+        ItemStack weapon = event.getSource().getDirectEntity() instanceof LivingEntity living
+                ? living.getMainHandItem() : ItemStack.EMPTY;
         if (attacker != null && !weapon.isEmpty() && isHijackedTool(weapon)) {
             HijackedHitEffects.apply(attacker, target);
         }
@@ -129,7 +128,7 @@ public final class EquipmentEvents {
             for (InteractionHandSlot hand : InteractionHandSlot.values()) {
                 ItemStack held = hand.get(attacker);
                 if (held.getItem() instanceof LivingBowItem bow) {
-                    bow.addDamage(held, event.getNewDamage(), attacker);
+                    bow.addDamage(held, event.getAmount(), attacker);
                     break;
                 }
             }
@@ -152,8 +151,8 @@ public final class EquipmentEvents {
     @SubscribeEvent
     public static void clearBleedForHijackedSet(PlayerTickEvent event) {
         if (event.phase == TickEvent.Phase.START) {return;}
-        if (!event.getEntity().level().isClientSide && wearsFullHijackedSet(event.getEntity())) {
-            event.getEntity().removeEffect(ModMobEffects.BLEED.get());
+        if (!event.player.level().isClientSide && wearsFullHijackedSet(event.player)) {
+            event.player.removeEffect(ModMobEffects.BLEED.get());
         }
     }
 

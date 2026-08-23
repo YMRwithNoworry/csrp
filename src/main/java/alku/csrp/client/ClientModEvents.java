@@ -49,7 +49,6 @@ import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.renderer.entity.NoopRenderer;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
@@ -57,7 +56,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.CustomData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -65,7 +63,8 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
-import net.minecraftforge.client.event.RegisterMenuScreensEvent;
+import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.Minecraft;
 
 @EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
 public final class ClientModEvents {
@@ -383,27 +382,18 @@ public final class ClientModEvents {
     }
 
     @SubscribeEvent
-    public static void registerMenuScreens(RegisterMenuScreensEvent event) {
-        event.register(ModMenus.PARASITE_LOOT.get(), ParasiteLootScreen::new);
-        event.register(ModMenus.PARASITIC_CYST.get(), ParasiticCystScreen::new);
-        event.register(ModMenus.INFUSER_FURNACE.get(), InfuserFurnaceScreen::new);
-        event.register(ModMenus.RELAY_TERMINAL.get(), RelayTerminalScreen::new);
+    public static void registerMenuScreens(FMLClientSetupEvent event) {
+        event.enqueueWork(() -> {
+            MenuScreens.register(ModMenus.PARASITE_LOOT.get(), ParasiteLootScreen::new);
+            MenuScreens.register(ModMenus.PARASITIC_CYST.get(), ParasiticCystScreen::new);
+            MenuScreens.register(ModMenus.INFUSER_FURNACE.get(), InfuserFurnaceScreen::new);
+            MenuScreens.register(ModMenus.RELAY_TERMINAL.get(), RelayTerminalScreen::new);
+        });
     }
 
     @SubscribeEvent
     public static void registerReloadListeners(FMLClientSetupEvent event) {
-        event.enqueueWork(() -> Minecraft.getInstance().getResourceManager()
-                .registerReloadListener(new SimplePreparableReloadListener<Void>() {
-                    @Override
-                    protected Void prepare(ResourceManager resourceManager, ProfilerFiller profilerFiller) {
-                        return null;
-                    }
-
-                    @Override
-                    protected void apply(Void data, ResourceManager resourceManager, ProfilerFiller profilerFiller) {
-                        AuroraSkyRenderer.dispose();
-                    }
-                }));
+        event.enqueueWork(() -> AuroraSkyRenderer.dispose());
     }
 
     @SubscribeEvent
@@ -415,17 +405,13 @@ public final class ClientModEvents {
                     new ResourceLocation(Csrp.MODID, "pearl_state"),
                     PearlClientEvents::pearlState);
             ItemProperties.register(ModItems.EVCLOCK.get(), new ResourceLocation("phase"),
-                    (stack, level, entity, seed) -> stack
-                            .getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
-                            .copyTag().getInt(alku.csrp.item.EvolutionClockItem.PHASE_TAG));
+                    (stack, level, entity, seed) -> NbtData.copyTag(stack).getInt(alku.csrp.item.EvolutionClockItem.PHASE_TAG));
             ItemProperties.register(ModItems.LEVELCLOCK.get(), new ResourceLocation("level"),
-                    (stack, level, entity, seed) -> stack
-                            .getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
-                            .copyTag().getInt(alku.csrp.item.LevelClockItem.DEVELOPMENT_TAG));
+                    (stack, level, entity, seed) -> NbtData.copyTag(stack).getInt(alku.csrp.item.LevelClockItem.DEVELOPMENT_TAG));
             registerCompassProperty(ModItems.NODECOMPASS.get());
             registerCompassProperty(ModItems.COLONYCOMPASS.get());
             registerCompassProperty(ModItems.ORIGINCOMPASS.get());
-        });
+            });
     }
 
     private static void registerCompassProperty(net.minecraft.world.item.Item compass) {
@@ -456,6 +442,6 @@ public final class ClientModEvents {
                         && entity.getUseItem() == stack ? 1.0F : 0.0F);
         ItemProperties.register(bow, new ResourceLocation("pull"),
                 (stack, level, entity, seed) -> entity == null || entity.getUseItem() != stack ? 0.0F
-                        : (float) (stack.getUseDuration(entity) - entity.getUseItemRemainingTicks()) / 20.0F);
+                        : (float) (stack.getUseDuration() - entity.getUseItemRemainingTicks()) / 20.0F);
     }
 }

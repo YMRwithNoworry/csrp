@@ -65,8 +65,8 @@ public final class NadeEntity extends Entity {
 
     @Override
     protected void defineSynchedData() {
-        builder.define(KIND, Kind.ELVIA.ordinal());
-        builder.define(FUSE_PROGRESS, 0);
+        entityData.define(KIND, Kind.ELVIA.ordinal());
+        entityData.define(FUSE_PROGRESS, 0);
     }
 
     @Override

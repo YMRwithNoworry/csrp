@@ -11,16 +11,16 @@ public final class NoVisionMobEffect extends MarkerMobEffect {
     }
 
     @Override
-    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
+    public void applyEffectTick(LivingEntity entity, int amplifier) {
         if (!entity.level().isClientSide) {
             entity.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 10,
                     amplifier, false, false, false));
         }
-        return true;
+        return;
     }
 
     @Override
-    public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
+    public boolean isDurationEffectTick(int duration, int amplifier) {
         return true;
     }
 }

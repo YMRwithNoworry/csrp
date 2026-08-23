@@ -136,13 +136,13 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(DREAD_DAMAGE_REACTION_TICKS, 0);
-        builder.define(DREAD_ATTACK_ANIMATION_TICKS, 0);
-        builder.define(DREAD_URTEN, true);
-        builder.define(DREAD_ULTEN, true);
-        builder.define(DREAD_RATEN, true);
-        builder.define(DREAD_LATEN, true);
+        super.defineSynchedData();
+        entityData.define(DREAD_DAMAGE_REACTION_TICKS, 0);
+        entityData.define(DREAD_ATTACK_ANIMATION_TICKS, 0);
+        entityData.define(DREAD_URTEN, true);
+        entityData.define(DREAD_ULTEN, true);
+        entityData.define(DREAD_RATEN, true);
+        entityData.define(DREAD_LATEN, true);
     }
 
     @Override
@@ -213,7 +213,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
 
     @Override
     public boolean canBeAffected(MobEffectInstance effect) {
-        return (activeKind() != Kind.OVERLORD || !effect.is(MobEffects.POISON))
+        return (activeKind() != Kind.OVERLORD || effect.getEffect() != MobEffects.POISON)
                 && super.canBeAffected(effect);
     }
 
@@ -487,7 +487,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         AncientPart part = bodyParts[Math.max(0, Math.min(bodyParts.length - 1, partId - 1))];
         tendril.moveTo(part.getX(), part.getY(), part.getZ(), getYRot(), 0.0F);
         tendril.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(tendril.blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                MobSpawnType.MOB_SUMMONED, null, null);
         tendril.setTarget(getTarget());
         tendril.setDeltaMovement(getDeltaMovement().scale(0.5D).add(0.0D, -0.1D, 0.0D));
         serverLevel.addFreshEntity(tendril);
@@ -515,7 +515,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         pod.moveTo(x + Math.cos(angle) * radius, y, z + Math.sin(angle) * radius,
                 random.nextFloat() * 360.0F, 0.0F);
         pod.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(pod.blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                MobSpawnType.MOB_SUMMONED, null, null);
         pod.setOwner((byte) 62);
         pod.setTarget(target);
         pod.setDeltaMovement(0.0D, -0.35D, 0.0D);

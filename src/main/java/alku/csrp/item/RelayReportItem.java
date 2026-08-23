@@ -18,7 +18,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 
 /** A printed, immutable snapshot produced by a Relay Tower scan. */
@@ -45,7 +44,7 @@ public final class RelayReportItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context,
+    public void appendHoverText(ItemStack stack, Level context,
             List<Component> tooltip, TooltipFlag flag) {
         CompoundTag data = NbtData.copyTag(stack);
         tooltip.add(Component.translatable("tooltip.csrp.relay_report.read")

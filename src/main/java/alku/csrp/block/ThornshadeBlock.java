@@ -3,7 +3,6 @@ package alku.csrp.block;
 import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModItems;
 import alku.csrp.registry.ModSounds;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -27,7 +26,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 /** Thornshade's legacy growth, harvest, snow, and withering states. */
 public final class ThornshadeBlock extends BushBlock implements BonemealableBlock {
-    public static final MapCodec<ThornshadeBlock> CODEC = simpleCodec(ThornshadeBlock::new);
     public static final EnumProperty<Stage> STAGE = EnumProperty.create("stage", Stage.class);
     private static final VoxelShape SEEDLING_SHAPE = Block.box(3.0D, 0.0D, 3.0D, 13.0D, 5.0D, 13.0D);
     private static final VoxelShape GROWING_SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 10.0D, 14.0D);
@@ -39,22 +37,17 @@ public final class ThornshadeBlock extends BushBlock implements BonemealableBloc
     }
 
     @Override
-    protected MapCodec<? extends BushBlock> codec() {
-        return CODEC;
-    }
-
-    @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(STAGE);
     }
 
     @Override
-    protected boolean mayPlaceOn(BlockState state, BlockGetter level, BlockPos pos) {
+public boolean mayPlaceOn(BlockState state, BlockGetter level, BlockPos pos) {
         return state.isFaceSturdy(level, pos, net.minecraft.core.Direction.UP);
     }
 
     @Override
-    protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         Stage current = state.getValue(STAGE);
         boolean snowy = isSnowy(level, pos);
         if (!hasParasiticSoil(level, pos)) {
@@ -73,7 +66,7 @@ public final class ThornshadeBlock extends BushBlock implements BonemealableBloc
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player,
+public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, net.minecraft.world.InteractionHand hand,
             BlockHitResult hitResult) {
         Stage current = state.getValue(STAGE);
         if (current.base() != Stage.STAGE2) {
@@ -90,7 +83,7 @@ public final class ThornshadeBlock extends BushBlock implements BonemealableBloc
     }
 
     @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return switch (state.getValue(STAGE).base()) {
             case STAGE0, DEAD -> SEEDLING_SHAPE;
             case STAGE1 -> GROWING_SHAPE;
@@ -99,7 +92,7 @@ public final class ThornshadeBlock extends BushBlock implements BonemealableBloc
     }
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, boolean clientSide) {
         Stage stage = state.getValue(STAGE).base();
         return hasParasiticSoil(level, pos)
                 && (stage == Stage.STAGE0 || stage == Stage.STAGE1 || stage == Stage.STAGE2_NO_BERRY);

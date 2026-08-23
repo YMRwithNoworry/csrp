@@ -142,7 +142,7 @@ public class BuglinEntity extends Monster implements GeoEntity, Parasite {
             }
             rupter.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
             rupter.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                    MobSpawnType.MOB_SUMMONED, null);
+                    MobSpawnType.MOB_SUMMONED, null, null);
             rupter.setCustomName(getCustomName());
             rupter.setCustomNameVisible(isCustomNameVisible());
             if (isPersistenceRequired()) {

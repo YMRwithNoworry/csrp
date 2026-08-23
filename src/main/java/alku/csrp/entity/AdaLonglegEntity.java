@@ -107,10 +107,10 @@ public class AdaLonglegEntity extends BurrowingVariantEntity implements PullingB
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(ARACHNIDA_STATUS, 0);
-        builder.define(CAN_PULL, false);
-        builder.define(PULLING_TICKS, 0);
+        super.defineSynchedData();
+        entityData.define(ARACHNIDA_STATUS, 0);
+        entityData.define(CAN_PULL, false);
+        entityData.define(PULLING_TICKS, 0);
     }
 
     @Override

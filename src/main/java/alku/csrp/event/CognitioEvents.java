@@ -5,9 +5,8 @@ import alku.csrp.entity.AssimilatedParasiteEntity;
 import alku.csrp.entity.Parasite;
 import alku.csrp.registry.ModMobEffects;
 import java.util.Comparator;
-import net.minecraft.advancements.AdvancementHolder;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -96,8 +95,8 @@ public final class CognitioEvents {
     }
 
     private static void award(ServerPlayer player, String advancement, String criterion) {
-        AdvancementHolder holder = player.server.getAdvancements()
-                .get(new ResourceLocation(Csrp.MODID, advancement));
+        Advancement holder = player.server.getAdvancements()
+                .getAdvancement(new ResourceLocation(Csrp.MODID, advancement));
         if (holder != null) {
             player.getAdvancements().award(holder, criterion);
         }

@@ -6,12 +6,12 @@ import alku.csrp.registry.ModSounds;
 import alku.csrp.world.EvolutionSystem;
 import java.util.List;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
@@ -102,11 +102,60 @@ public final class ParasiticCystBlockEntity extends BaseContainerBlockEntity {
     }
 
     @Override
+    public boolean isEmpty() {
+        return items.stream().allMatch(ItemStack::isEmpty);
+    }
+
+    @Override
+    public void clearContent() {
+        items.clear();
+        items.addAll(NonNullList.withSize(CONTAINER_SIZE, ItemStack.EMPTY));
+        setChanged();
+    }
+
+    @Override
+    public ItemStack getItem(int slot) {
+        return slot >= 0 && slot < items.size() ? items.get(slot) : ItemStack.EMPTY;
+    }
+
+    @Override
+    public void setItem(int slot, ItemStack stack) {
+        if (slot >= 0 && slot < items.size()) {
+            items.set(slot, stack);
+            setChanged();
+        }
+    }
+
+    @Override
+    public ItemStack removeItemNoUpdate(int slot) {
+        if (slot < 0 || slot >= items.size()) return ItemStack.EMPTY;
+        ItemStack stack = items.get(slot);
+        items.set(slot, ItemStack.EMPTY);
+        return stack;
+    }
+
+    @Override
+    public ItemStack removeItem(int slot, int amount) {
+        if (slot < 0 || slot >= items.size() || amount <= 0) return ItemStack.EMPTY;
+        ItemStack result = ContainerHelper.takeItem(items, slot);
+        if (!result.isEmpty() && result.getCount() > amount) {
+            ItemStack remainder = result.split(amount);
+            items.set(slot, result);
+            return remainder;
+        }
+        setChanged();
+        return result;
+    }
+
+    @Override
+    public boolean stillValid(net.minecraft.world.entity.player.Player player) {
+        return Container.stillValidBlockEntity(this, player);
+    }
+
     protected NonNullList<ItemStack> getItems() {
         return items;
     }
 
-    @Override
     protected void setItems(NonNullList<ItemStack> items) {
         this.items = items;
     }
@@ -117,17 +166,17 @@ public final class ParasiticCystBlockEntity extends BaseContainerBlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        ContainerHelper.saveAllItems(tag, items, registries);
+    protected void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
+        ContainerHelper.saveAllItems(tag, items);
         tag.putInt("ConsumeCooldown", consumeCooldown);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
+    public void load(CompoundTag tag) {
+        super.load(tag);
         items = NonNullList.withSize(CONTAINER_SIZE, ItemStack.EMPTY);
-        ContainerHelper.loadAllItems(tag, items, registries);
+        ContainerHelper.loadAllItems(tag, items);
         consumeCooldown = tag.getInt("ConsumeCooldown");
     }
 }

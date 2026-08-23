@@ -87,7 +87,7 @@ final class AssimilatedMeltSystem {
         }
         flesh.moveTo(source.getX(), source.getY(), source.getZ(), source.getYRot(), source.getXRot());
         flesh.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(source.blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                MobSpawnType.MOB_SUMMONED, null, null);
         flesh.setMergeValue(mergeValue);
         flesh.setCustomName(source.getCustomName());
         flesh.setCustomNameVisible(source.isCustomNameVisible());

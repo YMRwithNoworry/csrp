@@ -108,10 +108,10 @@ public final class GnatEntity extends PrimitiveParasiteEntity {
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(CLIMBING, (byte) 0);
-        builder.define(COMBAT_STATUS, false);
-        builder.define(SKILL_LEAPING, false);
+        super.defineSynchedData();
+        entityData.define(CLIMBING, (byte) 0);
+        entityData.define(COMBAT_STATUS, false);
+        entityData.define(SKILL_LEAPING, false);
     }
 
     @Override
@@ -205,13 +205,12 @@ public final class GnatEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    protected float getEyeHeight() {
+    public float getEyeHeight(net.minecraft.world.entity.Pose pose) {
         return 0.8F;
     }
 
-    @Override
     protected Vec3 getPassengerAttachmentPoint(Entity passenger, EntityDimensions dimensions, float partialTick) {
-        return new Vec3(0.0D, dimensions.height() * 0.5D, 0.0D);
+        return new Vec3(0.0D, dimensions.height * 0.5D, 0.0D);
     }
 
     @Override

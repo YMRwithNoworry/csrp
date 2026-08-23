@@ -133,10 +133,10 @@ public final class ManglerEntity extends PrimitiveParasiteEntity implements Manu
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(CLIMBING, (byte) 0);
-        builder.define(VARIANT, (byte) NORMAL_VARIANT);
-        builder.define(COMBAT_STATUS, (byte) STATUS_IDLE);
+        super.defineSynchedData();
+        entityData.define(CLIMBING, (byte) 0);
+        entityData.define(VARIANT, (byte) NORMAL_VARIANT);
+        entityData.define(COMBAT_STATUS, (byte) STATUS_IDLE);
     }
 
     @Override
@@ -178,8 +178,8 @@ public final class ManglerEntity extends PrimitiveParasiteEntity implements Manu
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
-                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
-        SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
+                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData, net.minecraft.nbt.CompoundTag spawnTag) {
+        SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData, spawnTag);
         if (random.nextDouble() < Config.variantSpawnChance()
                 || Config.evolutionPhase(level()) >= Config.alwaysVariantPhase()) {
             setVariant(random.nextBoolean() ? VIRAL_VARIANT : BLEEDING_VARIANT);
@@ -301,7 +301,7 @@ public final class ManglerEntity extends PrimitiveParasiteEntity implements Manu
             if (rupter != null) {
                 rupter.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
                 rupter.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                        MobSpawnType.MOB_SUMMONED, null);
+                        MobSpawnType.MOB_SUMMONED, null, null);
                 rupter.setCustomName(getCustomName());
                 rupter.setCustomNameVisible(isCustomNameVisible());
                 if (isPersistenceRequired()) {

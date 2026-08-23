@@ -45,7 +45,7 @@ public final class RelayTerminalBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player,
+public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, net.minecraft.world.InteractionHand hand,
             BlockHitResult hitResult) {
         if (!(level.getBlockEntity(pos) instanceof RelayTerminalBlockEntity relay)) {
             return InteractionResult.PASS;
@@ -62,8 +62,7 @@ public final class RelayTerminalBlock extends Block implements EntityBlock {
         return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
-    @Override
-    protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
+    public InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
             Player player, net.minecraft.world.InteractionHand hand, BlockHitResult hitResult) {
         return InteractionResult.PASS;
     }

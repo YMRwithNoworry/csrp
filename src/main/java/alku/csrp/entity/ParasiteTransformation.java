@@ -174,7 +174,7 @@ public final class ParasiteTransformation {
         }
         replacement.moveTo(source.getX(), source.getY(), source.getZ(), source.getYRot(), source.getXRot());
         replacement.finalizeSpawn(level, level.getCurrentDifficultyAt(source.blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                MobSpawnType.MOB_SUMMONED, null, null);
         replacement.setCustomName(source.getCustomName());
         replacement.setCustomNameVisible(source.isCustomNameVisible());
         if (source instanceof Mob sourceMob) {

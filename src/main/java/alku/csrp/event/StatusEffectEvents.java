@@ -26,6 +26,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingChangeTargetEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
@@ -51,7 +52,7 @@ public final class StatusEffectEvents {
     public static void stackNeedlerPotency(MobEffectEvent.Added event) {
         MobEffectInstance incoming = event.getEffectInstance();
         MobEffectInstance current = event.getOldEffectInstance();
-        if (current == null || !incoming.is(ModMobEffects.NEEDLER.get())) {
+        if (current == null || incoming.getEffect() != ModMobEffects.NEEDLER.get()) {
             return;
         }
         int amplifier = Math.min(MAX_EFFECT_AMPLIFIER,
@@ -67,7 +68,7 @@ public final class StatusEffectEvents {
     }
 
     @SubscribeEvent
-    public static void modifyEffectDamage(LivingAttackEvent event) {
+    public static void modifyEffectDamage(LivingDamageEvent event) {
         var victim = event.getEntity();
         var attacker = event.getSource().getEntity();
         boolean victimDistorted = victim.hasEffect(ModMobEffects.DISTORTED_ENLIGHTENMENT.get());
@@ -96,7 +97,7 @@ public final class StatusEffectEvents {
         transferPivotDamage(event);
     }
 
-    private static void transferPivotDamage(LivingAttackEvent event) {
+    private static void transferPivotDamage(LivingDamageEvent event) {
         LivingEntity victim = event.getEntity();
         var pivot = victim.getEffect(ModMobEffects.PIVOT.get());
         if (!(victim instanceof Parasite) || pivot == null || TRANSFERRING_PIVOT_DAMAGE.get()) {
@@ -129,8 +130,8 @@ public final class StatusEffectEvents {
 
     @SubscribeEvent
     public static void preventRooterPivot(MobEffectEvent.Applicable event) {
-        if (event.getEffectInstance().is(ModMobEffects.PIVOT.get()) && isRooter(event.getEntity())) {
-            event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
+        if (event.getEffectInstance().getEffect() == ModMobEffects.PIVOT.get() && isRooter(event.getEntity())) {
+            event.setResult(MobEffectEvent.Applicable.Result.DENY);
         }
     }
 
@@ -154,7 +155,7 @@ public final class StatusEffectEvents {
     @SubscribeEvent
     public static void applyTheSign(PlayerTickEvent event) {
         if (event.phase == TickEvent.Phase.START) {return;}
-        Player player = event.getEntity();
+        Player player = event.player;
         if (player.level().isClientSide || !hasSignCharm(player)) {
             return;
         }
@@ -164,7 +165,7 @@ public final class StatusEffectEvents {
     @SubscribeEvent
     public static void applyParasiteBiomeBlindness(PlayerTickEvent event) {
         if (event.phase == TickEvent.Phase.START) {return;}
-        Player player = event.getEntity();
+        Player player = event.player;
         if (!(player.level() instanceof ServerLevel level) || player.tickCount % 20 != 0
                 || !SrpCoreSystems.isInsideParasiteBiome(level, player.blockPosition())) {
             return;
@@ -177,7 +178,7 @@ public final class StatusEffectEvents {
         if (event.getEntity() instanceof Parasite
                 && event.getNewTarget() instanceof Player player
                 && player.hasEffect(ModMobEffects.THE_SIGN.get())) {
-            event.setNewAboutToBeSetTarget(null);
+            event.setNewTarget(null);
         }
     }
 
@@ -188,8 +189,7 @@ public final class StatusEffectEvents {
 
     @SubscribeEvent
     public static void handleEffectRemoval(MobEffectEvent.Remove event) {
-        if (event.getCure() != null
-                && Csrp.MODID.equals(BuiltInRegistries.MOB_EFFECT.getKey(event.getEffect()).getNamespace())) {
+        if (Csrp.MODID.equals(BuiltInRegistries.MOB_EFFECT.getKey(event.getEffect()).getNamespace())) {
             event.setCanceled(true);
             return;
         }
@@ -201,7 +201,7 @@ public final class StatusEffectEvents {
     @SubscribeEvent
     public static void clearGlowOnExpiry(MobEffectEvent.Expired event) {
         if (event.getEffectInstance() != null
-                && event.getEffectInstance().is(ModMobEffects.DISTORTED_ENLIGHTENMENT.get())) {
+                && event.getEffectInstance().getEffect() == ModMobEffects.DISTORTED_ENLIGHTENMENT.get()) {
             DistortedEnlightenmentMobEffect.clearOwnedGlow(event.getEntity());
         }
     }
@@ -249,7 +249,7 @@ public final class StatusEffectEvents {
     }
 
     private static void stealBaseAttribute(LivingEntity attacker, LivingEntity victim,
-            Holder<Attribute> attribute, double multiplier) {
+            Attribute attribute, double multiplier) {
         var own = attacker.getAttribute(attribute);
         var prey = victim.getAttribute(attribute);
         if (own != null && prey != null) {

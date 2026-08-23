@@ -145,15 +145,15 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(SPECIAL_ACTION, SpecialAction.NONE.ordinal());
-        builder.define(SEIZER_TARGET_ID, 0);
-        builder.define(SENTRY_PARASITE_STATUS, 0);
-        builder.define(SENTRY_STILL_ANI, false);
-        builder.define(KYPHOSIS_ATTACK_TIMER, 0.0F);
-        builder.define(KYPHOSIS_BURIED, 0.0F);
-        builder.define(KYPHOSIS_PARASITE_STATUS, 0);
-        builder.define(KYPHOSIS_SKILL_BORDER, 0);
+        super.defineSynchedData();
+        entityData.define(SPECIAL_ACTION, SpecialAction.NONE.ordinal());
+        entityData.define(SEIZER_TARGET_ID, 0);
+        entityData.define(SENTRY_PARASITE_STATUS, 0);
+        entityData.define(SENTRY_STILL_ANI, false);
+        entityData.define(KYPHOSIS_ATTACK_TIMER, 0.0F);
+        entityData.define(KYPHOSIS_BURIED, 0.0F);
+        entityData.define(KYPHOSIS_PARASITE_STATUS, 0);
+        entityData.define(KYPHOSIS_SKILL_BORDER, 0);
     }
 
     @Override
@@ -464,7 +464,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         target.setDeltaMovement(Vec3.ZERO);
         if (isOnFire()) {
             target.setHealth(Math.max(1.0F, target.getMaxHealth() * 0.5F));
-            target.igniteForSeconds(8.0F);
+            target.setSecondsOnFire(1);;
         }
         level().addParticle(ParticleTypes.PORTAL, getX(), getY() + getBbHeight() * 0.5D, getZ(), 0.0D, 0.2D, 0.0D);
         discard();
@@ -484,11 +484,11 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         }
         mob.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
         mob.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(mob.blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                MobSpawnType.MOB_SUMMONED, null, null);
         mob.setTarget(getTarget());
         if (isOnFire()) {
             mob.setHealth(Math.max(1.0F, mob.getMaxHealth() * 0.5F));
-            mob.igniteForSeconds(8.0F);
+            mob.setSecondsOnFire(1);;
         }
         serverLevel.addFreshEntity(mob);
         return true;
@@ -719,7 +719,8 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         }) {
             ItemStack armor = target.getItemBySlot(slot);
             if (!armor.isEmpty() && armor.isDamageableItem()) {
-                armor.hurtAndBreak(Math.max(1, armor.getMaxDamage() * 4 / 100), target, slot);
+                armor.hurtAndBreak(Math.max(1, armor.getMaxDamage() * 4 / 100), target,
+                        broken -> broken.broadcastBreakEvent(slot));
             }
         }
     }
@@ -764,7 +765,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
             }
             minion.moveTo(getX(), getY() + getBbHeight() + 0.5D, getZ(), getYRot(), 0.0F);
             minion.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(minion.blockPosition()),
-                    MobSpawnType.MOB_SUMMONED, null);
+                    MobSpawnType.MOB_SUMMONED, null, null);
             minion.setTarget(getTarget());
             minion.addEffect(new MobEffectInstance(ModMobEffects.RAGE.get(), 1200, 1, false, false), this);
             minion.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 100, 15, false, false), this);

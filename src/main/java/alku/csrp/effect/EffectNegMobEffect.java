@@ -12,22 +12,22 @@ public final class EffectNegMobEffect extends MarkerMobEffect {
     }
 
     @Override
-    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
+    public void applyEffectTick(LivingEntity entity, int amplifier) {
         if (!entity.level().isClientSide && entity.tickCount % 20 == 0) {
             for (MobEffectInstance active : new ArrayList<>(entity.getActiveEffects())) {
                 if (active.getEffect().getCategory() == MobEffectCategory.HARMFUL) {
-                    if (active.getEffect().is(alku.csrp.registry.ModMobEffects.EFFECTNEG.get())) {
+                    if (active.getEffect() == alku.csrp.registry.ModMobEffects.EFFECTNEG.get()) {
                         continue;
                     }
                     EffectStacking.apply(entity, active.getEffect(), 20, amplifier);
                 }
             }
         }
-        return true;
+        return;
     }
 
     @Override
-    public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
+    public boolean isDurationEffectTick(int duration, int amplifier) {
         return true;
     }
 }

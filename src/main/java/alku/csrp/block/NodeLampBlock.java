@@ -33,12 +33,12 @@ public final class NodeLampBlock extends Block {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(POWERED, RANGE_LEVEL);
     }
 
     @Override
-    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
+public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
         super.onPlace(state, level, pos, oldState, isMoving);
         if (!level.isClientSide) {
             updateLamp(level, pos, state);
@@ -47,13 +47,13 @@ public final class NodeLampBlock extends Block {
     }
 
     @Override
-    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         updateLamp(level, pos, state);
         level.scheduleTick(pos, this, 100);
     }
 
     @Override
-    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighbor,
+public void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighbor,
             BlockPos neighborPos, boolean movedByPiston) {
         if (!level.isClientSide) {
             updateLamp(level, pos, state);
@@ -61,17 +61,17 @@ public final class NodeLampBlock extends Block {
     }
 
     @Override
-    protected boolean hasAnalogOutputSignal(BlockState state) {
+public boolean hasAnalogOutputSignal(BlockState state) {
         return true;
     }
 
     @Override
-    protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+    public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
         return state.getValue(RANGE_LEVEL) * 3;
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player,
+public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, net.minecraft.world.InteractionHand hand,
             BlockHitResult hitResult) {
         if (!level.isClientSide) {
             List<Entity> dispatchers = dispatchers(level, pos);

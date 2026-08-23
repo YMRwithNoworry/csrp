@@ -282,7 +282,7 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
                     ally.hurt(damageSources().magic(), 0.5F);
                 }
                 if (isOnFire() && random.nextFloat() < 0.75F) {
-                    ally.igniteForSeconds(8.0F);
+                    ally.setSecondsOnFire(1);;
                 }
                 ally.setTarget(target);
                 allyTeleportCooldown = ALLY_TELEPORT_COOLDOWN_TICKS;
@@ -441,8 +441,9 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
         cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH.get(), 600, 1, false, false, true));
         serverLevel.addFreshEntity(cloud);
 
-        GnatEntity gnat = ModEntities.GNAT.get().create(serverLevel, null, blockPosition(),
-                MobSpawnType.MOB_SUMMONED, false, false);
+        GnatEntity gnat = ModEntities.GNAT.get().create(serverLevel, null, entity -> {
+                entity.moveTo(blockPosition(), getYRot(), getXRot());
+            }, blockPosition(), MobSpawnType.MOB_SUMMONED, false, false);
         if (gnat != null) {
             gnat.moveTo(getX(), getY() + 0.25D, getZ(), random.nextFloat() * 360.0F, 0.0F);
             gnat.setDeltaMovement((random.nextDouble() - 0.5D) * 0.3D, 0.3D,

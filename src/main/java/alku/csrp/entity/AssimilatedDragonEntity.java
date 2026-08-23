@@ -1,5 +1,7 @@
 package alku.csrp.entity;
 
+import net.minecraftforge.event.ForgeEventFactory;
+
 import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
@@ -33,7 +35,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.util.Mth;
-import net.minecraftforge.event.EventHooks;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -116,12 +117,12 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(PARASITE_STATUS, 0);
-        builder.define(FLYING, false);
-        builder.define(HEAD_ATTACHED, true);
-        builder.define(LEFT_WING_ATTACHED, true);
-        builder.define(RIGHT_WING_ATTACHED, true);
+        super.defineSynchedData();
+        entityData.define(PARASITE_STATUS, 0);
+        entityData.define(FLYING, false);
+        entityData.define(HEAD_ATTACHED, true);
+        entityData.define(LEFT_WING_ATTACHED, true);
+        entityData.define(RIGHT_WING_ATTACHED, true);
     }
 
     @Override

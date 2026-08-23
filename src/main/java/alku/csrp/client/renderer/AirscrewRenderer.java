@@ -121,11 +121,11 @@ public final class AirscrewRenderer extends ParasiteGeoRenderer<AirscrewEntity> 
 
     private static void vertex(VertexConsumer consumer, PoseStack.Pose pose, float x, float y, float z,
                                int red, int green, int blue, float u, float v) {
-        consumer.addVertex(pose, x, y, z)
-                .setColor(red, green, blue, 255)
-                .setUv(u, v)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(LightTexture.FULL_BRIGHT)
-                .setNormal(pose, 0.0F, 1.0F, 0.0F);
+        consumer.vertex(pose.pose(), x, y, z)
+                .color(red, green, blue, 255)
+                .uv(u, v)
+                .overlayCoords(OverlayTexture.NO_OVERLAY)
+                .uv2(LightTexture.FULL_BRIGHT)
+                .normal(pose.normal(), 0.0F, 1.0F, 0.0F).endVertex();
     }
 }

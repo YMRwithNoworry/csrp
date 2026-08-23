@@ -1,5 +1,7 @@
 package alku.csrp.entity;
 
+import net.minecraftforge.event.ForgeEventFactory;
+
 import net.minecraftforge.common.ForgeMod;
 import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.Csrp;
@@ -55,7 +57,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.entity.PartEntity;
-import net.minecraftforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.core.animation.AnimationController;
@@ -336,29 +337,29 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(WARDEN_CHARGING, false);
-        builder.define(WARDEN_STATUS, 0);
-        builder.define(WARDEN_SKIN, (byte) 0);
-        builder.define(VIGILANTE_STATUS, 0);
-        builder.define(VIGILANTE_SKIN, (byte) 0);
-        builder.define(VIGILANTE_LEFT_TENDRIL, -1.0F);
-        builder.define(VIGILANTE_RIGHT_TENDRIL, -1.0F);
-        builder.define(GRUNT_SKIN, (byte) 0);
-        builder.define(MONARCH_SKIN, (byte) 0);
-        builder.define(MONARCH_COMBAT_STATUS, 0);
-        builder.define(OMBOO_FLAGS, (byte) 0);
-        builder.define(OMBOO_SKIN, (byte) 0);
-        builder.define(OMBOO_COMBAT_STATUS, 0);
-        builder.define(OVERSEER_SKIN, (byte) 0);
-        builder.define(OVERSEER_SUMMONING, false);
+        super.defineSynchedData();
+        entityData.define(WARDEN_CHARGING, false);
+        entityData.define(WARDEN_STATUS, 0);
+        entityData.define(WARDEN_SKIN, (byte) 0);
+        entityData.define(VIGILANTE_STATUS, 0);
+        entityData.define(VIGILANTE_SKIN, (byte) 0);
+        entityData.define(VIGILANTE_LEFT_TENDRIL, -1.0F);
+        entityData.define(VIGILANTE_RIGHT_TENDRIL, -1.0F);
+        entityData.define(GRUNT_SKIN, (byte) 0);
+        entityData.define(MONARCH_SKIN, (byte) 0);
+        entityData.define(MONARCH_COMBAT_STATUS, 0);
+        entityData.define(OMBOO_FLAGS, (byte) 0);
+        entityData.define(OMBOO_SKIN, (byte) 0);
+        entityData.define(OMBOO_COMBAT_STATUS, 0);
+        entityData.define(OVERSEER_SKIN, (byte) 0);
+        entityData.define(OVERSEER_SUMMONING, false);
     }
 
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, net.minecraft.world.DifficultyInstance difficulty,
-                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
-        SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
+                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData, net.minecraft.nbt.CompoundTag spawnTag) {
+        SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData, spawnTag);
         if (!level.isClientSide() && activeKind() == Kind.GRUNT
                 && (random.nextDouble() < Config.variantSpawnChance()
                 || Config.evolutionPhase(level.getLevel()) >= Config.alwaysVariantPhase())) {
@@ -535,7 +536,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
     }
 
     @Override
-    protected float getEyeHeight() {
+    public float getEyeHeight(net.minecraft.world.entity.Pose pose) {
         return switch (activeKind()) {
             case GRUNT -> 1.73F;
             case BOMBER_LIGHT -> 2.4F;
@@ -544,7 +545,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
             case SEEKER -> 1.6F;
             case VIGILANTE -> 3.0F;
             case WARDEN -> 3.5F;
-            default -> super.getEyeHeight();
+            default -> super.getEyeHeight(pose);
         };
     }
 
@@ -1175,7 +1176,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
             seizer.moveTo(target.getX() + Math.cos(angle) * 3.0D, target.getY(),
                     target.getZ() + Math.sin(angle) * 3.0D, getYRot(), 0.0F);
             seizer.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(seizer.blockPosition()),
-                    MobSpawnType.MOB_SUMMONED, null);
+                    MobSpawnType.MOB_SUMMONED, null, null);
             seizer.setTarget(target);
             serverLevel.addFreshEntity(seizer);
             return;
@@ -1241,7 +1242,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
             }
             seizer.moveTo(spawnX, target.getY(), spawnZ, getYRot(), 0.0F);
             seizer.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(seizer.blockPosition()),
-                    MobSpawnType.MOB_SUMMONED, null);
+                    MobSpawnType.MOB_SUMMONED, null, null);
             seizer.setTarget(target);
             serverLevel.addFreshEntity(seizer);
             return;
@@ -1479,7 +1480,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
             buglin.moveTo(getX() + Math.cos(angle) * 1.5D, getY() + 0.2D,
                     getZ() + Math.sin(angle) * 1.5D, getYRot(), 0.0F);
             buglin.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(buglin.blockPosition()),
-                    MobSpawnType.MOB_SUMMONED, null);
+                    MobSpawnType.MOB_SUMMONED, null, null);
             buglin.setTarget(target);
             serverLevel.addFreshEntity(buglin);
         }

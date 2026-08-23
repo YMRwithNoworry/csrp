@@ -45,7 +45,7 @@ public final class CompendiumEvents {
 
     @SubscribeEvent
     public static void onDamage(LivingDamageEvent event) {
-        float amount = event.getNewDamage();
+        float amount = event.getAmount();
         if (event.getSource().getEntity() instanceof ServerPlayer attacker && event.getEntity() instanceof Parasite) {
             CompendiumSavedData data = CompendiumSavedData.get(attacker.getServer());
             data.progress(attacker.getUUID()).addDamageToParasites(amount);
@@ -59,9 +59,9 @@ public final class CompendiumEvents {
     }
 
     @SubscribeEvent
-    public static void onPickup(EntityItemPickupEvent.Post event) {
-        if (!(event.getPlayer() instanceof ServerPlayer player)
-                || !(event.getOriginalStack().getItem() instanceof BlockItem blockItem)) {
+    public static void onPickup(EntityItemPickupEvent event) {
+        if (!(event.getEntity() instanceof ServerPlayer player)
+                || !(event.getItem().getItem().getItem() instanceof BlockItem blockItem)) {
             return;
         }
         unlockBlock(player, BuiltInRegistries.BLOCK.getKey(blockItem.getBlock()));

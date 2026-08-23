@@ -378,7 +378,7 @@ public final class InfectionMechanics {
         converted.moveTo(disguise.getX(), disguise.getY(), disguise.getZ(),
                 disguise.getYRot(), disguise.getXRot());
         converted.finalizeSpawn(level, level.getCurrentDifficultyAt(disguise.blockPosition()),
-                MobSpawnType.CONVERSION, null);
+                MobSpawnType.CONVERSION, null, null);
         converted.setHealth(Math.max(1.0F, converted.getMaxHealth() * Math.max(0.0F, healthFraction)));
         converted.setCustomName(disguise.getCustomName());
         converted.setCustomNameVisible(disguise.isCustomNameVisible());
@@ -521,7 +521,7 @@ public final class InfectionMechanics {
         }
         converted.moveTo(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
         converted.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(player.blockPosition()),
-                MobSpawnType.CONVERSION, null);
+                MobSpawnType.CONVERSION, null, null);
         converted.setCustomName(player.getName().copy());
         converted.setCustomNameVisible(true);
         converted.setPersistenceRequired();
@@ -591,7 +591,7 @@ public final class InfectionMechanics {
                 && BuiltInRegistries.ENTITY_TYPE.getKey(converted.getType()).getPath().equals("sim_enderman");
         converted.moveTo(host.getX(), host.getY(), host.getZ(), host.getYRot(), host.getXRot());
         converted.finalizeSpawn(level, level.getCurrentDifficultyAt(host.blockPosition()),
-                MobSpawnType.CONVERSION, null);
+                MobSpawnType.CONVERSION, null, null);
         converted.setHealth(converted.getMaxHealth());
         converted.setCustomName(host.getCustomName());
         converted.setCustomNameVisible(host.isCustomNameVisible());

@@ -154,12 +154,12 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
 
     private static void beamVertex(VertexConsumer consumer, PoseStack.Pose pose, float x, float y, float z,
             float u, float v, int red, int green, int blue) {
-        consumer.addVertex(pose, x, y, z)
-                .setColor(red, green, blue, 255)
-                .setUv(u, v)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(LightTexture.FULL_BRIGHT)
-                .setNormal(pose, 0.0F, 1.0F, 0.0F);
+        consumer.vertex(pose.pose(), x, y, z)
+                .color(red, green, blue, 255)
+                .uv(u, v)
+                .overlayCoords(OverlayTexture.NO_OVERLAY)
+                .uv2(LightTexture.FULL_BRIGHT)
+                .normal(pose.normal(), 0.0F, 1.0F, 0.0F).endVertex();
     }
 
     private static final class ShadowLayer<T extends DerivedParasiteEntity> extends GeoRenderLayer<T> {
@@ -185,7 +185,7 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
             poseStack.pushPose();
             poseStack.scale(1.2F, 1.2F, 1.2F);
             getRenderer().reRender(bakedModel, poseStack, bufferSource, entity, shadowRenderType,
-                    bufferSource.getBuffer(shadowRenderType), partialTick, packedLight, packedOverlay, colour);
+                    bufferSource.getBuffer(shadowRenderType), partialTick, packedLight, packedOverlay, 1.0F, 1.0F, 1.0F, 1.0F);
             poseStack.popPose();
         }
     }
@@ -208,7 +208,7 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
                     age * 0.01F, age * 0.01F);
             getRenderer().reRender(bakedModel, poseStack, bufferSource, entity, hackingRenderType,
                     bufferSource.getBuffer(hackingRenderType), partialTick, LightTexture.FULL_BRIGHT,
-                    packedOverlay, 0xFFFF80FF);
+                    packedOverlay, 1.0F, 0.5F, 0.5F, 1.0F);
         }
     }
 
@@ -228,7 +228,7 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
             RenderType glowType = RenderType.entityTranslucentEmissive(texture);
             getRenderer().reRender(bakedModel, poseStack, bufferSource, entity, glowType,
                     bufferSource.getBuffer(glowType), partialTick, LightTexture.FULL_BRIGHT,
-                    packedOverlay, 0x99FF48C4);
+                    packedOverlay, 1.0F, 0.28F, 0.77F, 0.6F);
         }
     }
 }

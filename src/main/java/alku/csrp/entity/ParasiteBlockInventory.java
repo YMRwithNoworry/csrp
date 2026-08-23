@@ -3,7 +3,6 @@ package alku.csrp.entity;
 import java.util.List;
 import alku.csrp.registry.ModEntities;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -47,7 +46,7 @@ public final class ParasiteBlockInventory {
             if (drop.isEmpty() || list.size() >= MAX_STACKS) {
                 continue;
             }
-            list.add(drop.save(level.registryAccess()));
+            list.add(drop.save(new CompoundTag()));
         }
         data.put(TAG, list);
         level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
@@ -82,7 +81,7 @@ public final class ParasiteBlockInventory {
      * inventory.
      */
     public static NonNullList<ItemStack> takeAll(LivingEntity parasite) {
-        HolderLookup.Provider registries = parasite.level().registryAccess();
+        // Item stacks use the legacy 1.20.1 NBT codec.
         CompoundTag data = parasite.getPersistentData();
         ListTag list = data.getList(TAG, CompoundTag.TAG_COMPOUND);
         NonNullList<ItemStack> items = NonNullList.withSize(
@@ -93,7 +92,7 @@ public final class ParasiteBlockInventory {
                 break;
             }
             if (tag instanceof CompoundTag compound) {
-                items.set(slot, ItemStack.parseOptional(registries, compound));
+                items.set(slot, ItemStack.of(compound));
             }
             slot++;
         }

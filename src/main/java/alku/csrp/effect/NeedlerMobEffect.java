@@ -18,7 +18,7 @@ public final class NeedlerMobEffect extends MobEffect {
     public NeedlerMobEffect() { super(MobEffectCategory.HARMFUL, 0xD7B34B); }
 
     @Override
-    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
+    public void applyEffectTick(LivingEntity entity, int amplifier) {
         if (!entity.level().isClientSide && amplifier >= TERMINAL_AMPLIFIER) {
             int remainder = amplifier - TERMINAL_AMPLIFIER;
             entity.removeEffect(ModMobEffects.NEEDLER.get());
@@ -33,11 +33,11 @@ public final class NeedlerMobEffect extends MobEffect {
             float damage = Math.min(entity.getMaxHealth() * DAMAGE_FRACTION, MAX_DAMAGE);
             entity.setHealth(Math.max(1.0F, entity.getHealth() - damage));
         }
-        return true;
+        return;
     }
 
     @Override
-    public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
+    public boolean isDurationEffectTick(int duration, int amplifier) {
         int interval = 25 >> amplifier;
         return amplifier >= TERMINAL_AMPLIFIER && (interval <= 0 || duration % interval == 0);
     }

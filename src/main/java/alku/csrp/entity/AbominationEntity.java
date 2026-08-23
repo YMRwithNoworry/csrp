@@ -66,8 +66,8 @@ public final class AbominationEntity extends PrimitiveParasiteEntity {
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(PARASITE_STATUS, 0);
+        super.defineSynchedData();
+        entityData.define(PARASITE_STATUS, 0);
     }
 
     @Override

@@ -16,7 +16,7 @@ base {
     archivesName = mod_id
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 
@@ -79,8 +79,9 @@ dependencies {
     // GeckoLib for animated parasite entities (deobfuscated for the dev runtime)
     implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${geckolib_version}")
 
-    // Mixin annotation processor to generate the refmap needed for production
-    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    // NOTE: Mixin AP refmap generation doesn't work under FG6 + tsrg2 (tracked as a known issue);
+    // dev runtime resolves mixin targets by official names directly, so the AP is omitted for now.
+    // annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
@@ -123,9 +124,58 @@ jar {
     }
 }
 
+// Convert ForgeGradle's srg<->official tsrg2 into a legacy SRG mapping file for the Mixin AP
+def generateSrgForMixinAp = {
+    def root = new File(project.gradle.gradleUserHomeDir, 'caches/forge_gradle/minecraft_user_repo/de/oceanlabs/mcp/mcp_config')
+    if (!root.exists()) return null
+    File src = null
+    root.eachDir { dir ->
+        if (dir.name.startsWith('1.20.1')) {
+            def candidate = new File(dir, 'srg_to_official_1.20.1.tsrg')
+            if (candidate.exists()) src = candidate
+        }
+    }
+    if (src == null) return null
+    def out = new File(project.buildDir, 'official_to_searge.srg')
+    out.parentFile.mkdirs()
+    if (!out.exists() || out.lastModified() < src.lastModified()) {
+        def currentClass = null
+        src.withReader('UTF-8') { reader ->
+            out.withWriter('UTF-8') { writer ->
+                reader.readLine() // skip tsrg2 header
+                reader.eachLine { line ->
+                    if (line.trim().isEmpty() || line.trim() == 'static') return
+                    if (line.startsWith('\t\t')) return // parameter rows
+                    def t = line.trim().split(/\s+/)
+                    if (line.startsWith('\t')) {
+                        if (currentClass == null) return
+                        if (t.size() >= 3 && t[1].startsWith('(')) {
+                            // tsrg2 method row: searge desc official
+                            writer.writeLine("MD: ${currentClass}/${t[2]} ${currentClass}/${t[0]} ${t[1]} ${t[1]}")
+                        } else if (t.size() >= 2) {
+                            writer.writeLine("FD: ${currentClass}/${t[1]} ${currentClass}/${t[0]}")
+                        }
+                    } else {
+                        // tsrg2 class row: searge official -> CL: official searge
+                        writer.writeLine("CL: ${t[1]} ${t[0]}")
+                        currentClass = t[1]
+                    }
+                }
+            }
+        }
+    }
+    return out
+}
+
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
     options.compilerArgs << '-Xmaxerrs' << '3000'
+    def srg = generateSrgForMixinAp()
+    options.compilerArgs << '-AdefaultObfuscationEnv=searge'
+    if (srg != null) {
+        options.compilerArgs << "-AreobfSrgFile=${srg.absolutePath}"
+    }
+    options.compilerArgs << '-AoutRefMapFile=csrp.refmap.json'
 }
 
 // Example configuration to allow publishing using the maven-publish plugin

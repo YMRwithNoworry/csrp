@@ -111,10 +111,10 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(BODY, 0.5F);
-        builder.define(PARASITE_STATUS, 0);
-        builder.define(FLOOR_TIMER, -1.0F);
+        super.defineSynchedData();
+        entityData.define(BODY, 0.5F);
+        entityData.define(PARASITE_STATUS, 0);
+        entityData.define(FLOOR_TIMER, -1.0F);
     }
 
     public float getBODY() {
@@ -615,7 +615,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
 
         replacement.moveTo(source.getX(), source.getY(), source.getZ(), source.getYRot(), source.getXRot());
         replacement.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(replacement.blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                MobSpawnType.MOB_SUMMONED, null, null);
         replacement.setCustomName(source.getCustomName());
         replacement.setCustomNameVisible(source.isCustomNameVisible());
         if (source instanceof Mob sourceMob) {
@@ -734,7 +734,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
                     continue;
                 }
                 tentacle.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(spawnPos),
-                        MobSpawnType.MOB_SUMMONED, null);
+                        MobSpawnType.MOB_SUMMONED, null, null);
                 tentacle.setDispatchEntity(id);
                 tentacle.setTarget(target);
                 serverLevel.addFreshEntity(tentacle);
@@ -798,7 +798,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
             rooterBall.moveTo(getX() + Math.cos(angle) * distance, getY(),
                     getZ() + Math.sin(angle) * distance, getYRot(), 0.0F);
             rooterBall.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(rooterBall.blockPosition()),
-                    MobSpawnType.MOB_SUMMONED, null);
+                    MobSpawnType.MOB_SUMMONED, null, null);
             serverLevel.addFreshEntity(rooterBall);
         }
     }
@@ -874,7 +874,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         }
         next.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
         next.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(next.blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                MobSpawnType.MOB_SUMMONED, null, null);
         next.setCustomName(getCustomName());
         next.setCustomNameVisible(isCustomNameVisible());
         if (isPersistenceRequired()) {
@@ -896,7 +896,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         spawned.moveTo(target.getX() + Math.cos(angle) * distance, target.getY(),
                 target.getZ() + Math.sin(angle) * distance, getYRot(), 0.0F);
         spawned.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(spawned.blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                MobSpawnType.MOB_SUMMONED, null, null);
         spawned.setTarget(target);
         serverLevel.addFreshEntity(spawned);
         return true;
@@ -919,7 +919,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         spawned.moveTo(target.getX() + Math.cos(angle) * distance, target.getY(),
                 target.getZ() + Math.sin(angle) * distance, getYRot(), 0.0F);
         spawned.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(spawned.blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                MobSpawnType.MOB_SUMMONED, null, null);
         spawned.setTarget(target);
         serverLevel.addFreshEntity(spawned);
         return true;

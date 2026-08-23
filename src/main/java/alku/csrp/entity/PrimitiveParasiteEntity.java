@@ -1,5 +1,7 @@
 package alku.csrp.entity;
 
+import net.minecraftforge.event.ForgeEventFactory;
+
 import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.Config;
 import alku.csrp.config.MobsConfig;
@@ -52,7 +54,6 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.util.Mth;
-import net.minecraftforge.event.EventHooks;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.util.GeckoLibUtil;
@@ -118,9 +119,9 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(ADAPTATION_HIT_STATUS, (byte) 0);
-        builder.define(SPECIAL_LEAP_TICKS, 0);
+        super.defineSynchedData();
+        entityData.define(ADAPTATION_HIT_STATUS, (byte) 0);
+        entityData.define(SPECIAL_LEAP_TICKS, 0);
     }
 
     @Override
@@ -330,7 +331,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
                 || (direct instanceof Parasite && direct != this)) {
             return false;
         }
-        Holder<MobEffect> resistanceEffect = killingResistanceEffect();
+        MobEffect resistanceEffect = killingResistanceEffect();
         if (resistanceEffect != null) {
             amount = ParasiteCombatEffects.damageAfterKillingResistance(source, amount, resistanceEffect);
         }
@@ -371,7 +372,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         return hurt;
     }
 
-    private Holder<MobEffect> killingResistanceEffect() {
+    private MobEffect killingResistanceEffect() {
         if (this instanceof CrudeParasiteEntity) {
             return ModMobEffects.CRUDE.get();
         }
@@ -720,7 +721,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         }
         adaptedFormSpawned = true;
         adapted.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
-        adapted.finalizeSpawn(level, level.getCurrentDifficultyAt(blockPosition()), MobSpawnType.MOB_SUMMONED, null);
+        adapted.finalizeSpawn(level, level.getCurrentDifficultyAt(blockPosition()), MobSpawnType.MOB_SUMMONED, null, null);
         adapted.setCustomName(getCustomName());
         adapted.setCustomNameVisible(isCustomNameVisible());
         if (isPersistenceRequired()) {

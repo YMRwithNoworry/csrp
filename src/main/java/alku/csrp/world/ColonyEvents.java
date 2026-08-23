@@ -22,6 +22,7 @@ import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingChangeTargetEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
 
 /** Restores the original colony-wide spawn bonuses and adaptation exchange. */
 @EventBusSubscriber(modid = Csrp.MODID)
@@ -71,12 +72,12 @@ public final class ColonyEvents {
     public static void preventParasiteInfighting(LivingChangeTargetEvent event) {
         if (event.getEntity() instanceof Parasite
                 && event.getNewTarget() instanceof Parasite) {
-            event.setNewAboutToBeSetTarget(null);
+            event.setNewTarget(null);
         }
     }
 
     @SubscribeEvent
-    public static void capIncomingDamage(LivingAttackEvent event) {
+    public static void capIncomingDamage(LivingDamageEvent event) {
         Entity sourceEntity = event.getSource().getEntity();
         Entity directEntity = event.getSource().getDirectEntity();
         if (event.getEntity() instanceof Parasite
@@ -124,7 +125,7 @@ public final class ColonyEvents {
         }
         adventurer.moveTo(thrall.getX(), thrall.getY(), thrall.getZ(), thrall.getYRot(), thrall.getXRot());
         adventurer.finalizeSpawn(level, level.getCurrentDifficultyAt(thrall.blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                MobSpawnType.MOB_SUMMONED, null, null);
         adventurer.setCustomName(thrall.getCustomName());
         adventurer.setCustomNameVisible(thrall.isCustomNameVisible());
         if (thrall.isPersistenceRequired()) {
@@ -152,7 +153,7 @@ public final class ColonyEvents {
     }
 
     private static void multiplyBaseAttribute(LivingEntity entity,
-            net.minecraft.core.Holder<net.minecraft.world.entity.ai.attributes.Attribute> attribute, double bonus) {
+            net.minecraft.world.entity.ai.attributes.Attribute attribute, double bonus) {
         AttributeInstance instance = entity.getAttribute(attribute);
         if (instance != null) {
             double base = instance.getBaseValue();

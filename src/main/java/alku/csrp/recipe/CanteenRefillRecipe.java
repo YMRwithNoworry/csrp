@@ -1,18 +1,18 @@
 package alku.csrp.recipe;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import alku.csrp.item.OverlastCanteenItem;
 import alku.csrp.registry.ModRecipeSerializers;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
-import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -20,6 +20,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.RecipeMatcher;
 
 public final class CanteenRefillRecipe implements CraftingRecipe {
+    private static final ResourceLocation ID = new ResourceLocation("csrp", "canteen_refill");
     private final String group;
     private final CraftingBookCategory category;
     private final ItemStack result;
@@ -36,20 +37,20 @@ public final class CanteenRefillRecipe implements CraftingRecipe {
     }
 
     @Override
-    public boolean matches(CraftingInput input, Level level) {
-        if (input.ingredientCount() != ingredients.size()) {
+    public boolean matches(CraftingContainer input, Level level) {
+        if (input.getContainerSize() != ingredients.size()) {
             return false;
         }
         boolean ingredientsMatch = !simple
-                ? RecipeMatcher.findMatches(input.items().stream().filter(stack -> !stack.isEmpty()).toList(),
+                ? RecipeMatcher.findMatches(input.getItems().stream().filter(stack -> !stack.isEmpty()).toList(),
                         ingredients) != null
-                : input.size() == 1 && ingredients.size() == 1
+                : input.getContainerSize() == 1 && ingredients.size() == 1
                 ? ingredients.getFirst().test(input.getItem(0))
-                : input.stackedContents().canCraft(this, null);
+                : RecipeMatcher.findMatches(input.getItems(), ingredients) != null;
         if (!ingredientsMatch) {
             return false;
         }
-        for (ItemStack ingredient : input.items()) {
+        for (ItemStack ingredient : input.getItems()) {
             if (ingredient.is(result.getItem())
                     && ingredient.getItem() instanceof OverlastCanteenItem
                     && OverlastCanteenItem.getSips(ingredient) >= OverlastCanteenItem.MAX_SIPS) {
@@ -60,9 +61,9 @@ public final class CanteenRefillRecipe implements CraftingRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingInput input, HolderLookup.Provider registries) {
+    public ItemStack assemble(CraftingContainer input, RegistryAccess registries) {
         ItemStack output = result.copy();
-        for (ItemStack ingredient : input.items()) {
+        for (ItemStack ingredient : input.getItems()) {
             if (ingredient.getItem() instanceof OverlastCanteenItem) {
                 OverlastCanteenItem.setState(output,
                         OverlastCanteenItem.MAX_SIPS,
@@ -79,7 +80,7 @@ public final class CanteenRefillRecipe implements CraftingRecipe {
     }
 
     @Override
-    public ItemStack getResultItem(HolderLookup.Provider registries) {
+    public ItemStack getResultItem(RegistryAccess registries) {
         return result;
     }
 
@@ -103,53 +104,42 @@ public final class CanteenRefillRecipe implements CraftingRecipe {
         return ModRecipeSerializers.CANTEEN_SHAPELESS.get();
     }
 
+    @Override
+    public ResourceLocation getId() { return ID; }
+
     public static final class Serializer implements RecipeSerializer<CanteenRefillRecipe> {
-        private static final MapCodec<CanteenRefillRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-                Codec.STRING.optionalFieldOf("group", "").forGetter(recipe -> recipe.group),
-                CraftingBookCategory.CODEC.fieldOf("category").orElse(CraftingBookCategory.MISC)
-                        .forGetter(recipe -> recipe.category),
-                ItemStack.STRICT_CODEC.fieldOf("result").forGetter(recipe -> recipe.result),
-                Ingredient.CODEC_NONEMPTY.listOf().fieldOf("ingredients").flatXmap(ingredients -> {
-                    Ingredient[] values = ingredients.toArray(Ingredient[]::new);
-                    if (values.length == 0) {
-                        return DataResult.error(() -> "No ingredients for canteen recipe");
-                    }
-                    if (values.length > 9) {
-                        return DataResult.error(() -> "Too many ingredients for canteen recipe");
-                    }
-                    return DataResult.success(NonNullList.of(Ingredient.EMPTY, values));
-                }, DataResult::success).forGetter(recipe -> recipe.ingredients)
-        ).apply(instance, CanteenRefillRecipe::new));
-
-        private static final StreamCodec<RegistryFriendlyByteBuf, CanteenRefillRecipe> STREAM_CODEC = StreamCodec.of(
-                Serializer::toNetwork, Serializer::fromNetwork);
-
         @Override
-        public MapCodec<CanteenRefillRecipe> codec() {
-            return CODEC;
+        public CanteenRefillRecipe fromJson(ResourceLocation id, JsonObject json) {
+            String group = GsonHelper.getAsString(json, "group", "");
+            CraftingBookCategory category = CraftingBookCategory.CODEC.parse(
+                    com.mojang.serialization.JsonOps.INSTANCE, json.get("category"))
+                    .result().orElse(CraftingBookCategory.MISC);
+            JsonArray array = GsonHelper.getAsJsonArray(json, "ingredients");
+            NonNullList<Ingredient> ingredients = NonNullList.withSize(array.size(), Ingredient.EMPTY);
+            for (int i = 0; i < array.size(); i++) ingredients.set(i, Ingredient.fromJson(array.get(i)));
+            return new CanteenRefillRecipe(group, category,
+                    net.minecraft.world.item.crafting.ShapedRecipe.itemStackFromJson(
+                            GsonHelper.getAsJsonObject(json, "result")), ingredients);
         }
 
         @Override
-        public StreamCodec<RegistryFriendlyByteBuf, CanteenRefillRecipe> streamCodec() {
-            return STREAM_CODEC;
-        }
-
-        private static CanteenRefillRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
+        public CanteenRefillRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
             String group = buffer.readUtf();
             CraftingBookCategory category = buffer.readEnum(CraftingBookCategory.class);
             NonNullList<Ingredient> ingredients = NonNullList.withSize(buffer.readVarInt(), Ingredient.EMPTY);
-            ingredients.replaceAll(ingredient -> Ingredient.CONTENTS_STREAM_CODEC.decode(buffer));
-            return new CanteenRefillRecipe(group, category, ItemStack.STREAM_CODEC.decode(buffer), ingredients);
+            ingredients.replaceAll(ingredient -> Ingredient.fromNetwork(buffer));
+            return new CanteenRefillRecipe(group, category, buffer.readItem(), ingredients);
         }
 
-        private static void toNetwork(RegistryFriendlyByteBuf buffer, CanteenRefillRecipe recipe) {
+        @Override
+        public void toNetwork(FriendlyByteBuf buffer, CanteenRefillRecipe recipe) {
             buffer.writeUtf(recipe.group);
             buffer.writeEnum(recipe.category);
             buffer.writeVarInt(recipe.ingredients.size());
             for (Ingredient ingredient : recipe.ingredients) {
-                Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, ingredient);
+                ingredient.toNetwork(buffer);
             }
-            ItemStack.STREAM_CODEC.encode(buffer, recipe.result);
+            buffer.writeItem(recipe.result);
         }
     }
 }

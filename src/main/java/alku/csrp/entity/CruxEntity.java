@@ -79,8 +79,8 @@ public final class CruxEntity extends CrudeParasiteEntity {
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(ANIMATION_STATUS, STATUS_IDLE);
+        super.defineSynchedData();
+        entityData.define(ANIMATION_STATUS, STATUS_IDLE);
     }
 
     @Override

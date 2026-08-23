@@ -72,7 +72,6 @@ public final class CompendiumScreen extends Screen {
         resetModelView();
     }
 
-    @Override
     public void renderBackground(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
     }
 
@@ -141,8 +140,7 @@ public final class CompendiumScreen extends Screen {
         if (entity != null) {
             int scale = previewScale(entity, entry);
             InventoryScreen.renderEntityInInventoryFollowsAngle(graphics,
-                    x + PREVIEW_LEFT, y + PREVIEW_TOP, x + PREVIEW_RIGHT, y + PREVIEW_BOTTOM,
-                    scale, 0.0F, modelYaw, modelPitch, entity);
+                    x + PREVIEW_LEFT, y + PREVIEW_BOTTOM, scale, modelYaw, modelPitch, entity);
         }
         if (kills >= entry.minimumStatKills() && entity != null) {
             double damage = entity.getAttributeValue(Attributes.ATTACK_DAMAGE);
@@ -389,7 +387,6 @@ public final class CompendiumScreen extends Screen {
         return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
     }
 
-    @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
         int left = (width - PANEL_WIDTH) / 2;
         if (mouseX < left + LIST_WIDTH) {

@@ -5,7 +5,7 @@ import alku.csrp.registry.ModMobEffects;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
 
 @EventBusSubscriber(modid = Csrp.MODID)
 public final class ViralDamageEvents {
@@ -13,7 +13,7 @@ public final class ViralDamageEvents {
     }
 
     @SubscribeEvent
-    public static void amplifyIncomingDamage(LivingAttackEvent event) {
+    public static void amplifyIncomingDamage(LivingDamageEvent event) {
         MobEffectInstance viral = event.getEntity().getEffect(ModMobEffects.VIRAL.get());
         if (viral == null || event.getAmount() <= 0.0F) {
             return;

@@ -1,4 +1,5 @@
 package alku.csrp.item;
+import net.minecraft.world.level.Level;
 
 import alku.csrp.entity.ManualVariantProvider;
 import java.util.List;
@@ -31,7 +32,7 @@ public final class VariantWandItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, Level context, List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable("tooltip.csrp.itemvariant",
                 Component.translatable("tooltip.csrp.itemvariant.action").withStyle(ChatFormatting.RED)));
     }

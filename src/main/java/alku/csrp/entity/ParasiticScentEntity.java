@@ -402,7 +402,7 @@ public final class ParasiticScentEntity extends Entity {
         if (!level.noCollision(worm, worm.getBoundingBox().inflate(1.0D, 7.0D, 1.0D))) {
             return false;
         }
-        worm.finalizeSpawn(level, level.getCurrentDifficultyAt(floor), MobSpawnType.MOB_SUMMONED, null);
+        worm.finalizeSpawn(level, level.getCurrentDifficultyAt(floor), MobSpawnType.MOB_SUMMONED, null, null);
         worm.setTarget(target);
         worm.setWormPayload(minimumMobs, maximumMobs);
         worm.setWormPayloadTypes(payloadTypes);

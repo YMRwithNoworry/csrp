@@ -37,7 +37,7 @@ final class ParasiteCombatEffects {
                 duration, level - 1, false, true), source);
     }
 
-    static float damageAfterKillingResistance(DamageSource source, float amount, Holder<MobEffect> effect) {
+    static float damageAfterKillingResistance(DamageSource source, float amount, MobEffect effect) {
         if (!(source.getEntity() instanceof LivingEntity attacker)) {
             return amount;
         }

@@ -18,7 +18,7 @@ public final class InfestationPurifierBlock extends Block {
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player,
+public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, net.minecraft.world.InteractionHand hand,
             BlockHitResult hitResult) {
         if (level instanceof ServerLevel serverLevel) {
             purify(serverLevel, pos);
@@ -26,8 +26,7 @@ public final class InfestationPurifierBlock extends Block {
         return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
-    @Override
-    protected InteractionResult useItemOn(net.minecraft.world.item.ItemStack stack, BlockState state,
+    public InteractionResult useItemOn(net.minecraft.world.item.ItemStack stack, BlockState state,
             Level level, BlockPos pos, Player player, net.minecraft.world.InteractionHand hand,
             BlockHitResult hitResult) {
         return InteractionResult.PASS;

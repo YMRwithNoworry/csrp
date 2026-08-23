@@ -3,7 +3,6 @@ package alku.csrp.item;
 import alku.csrp.util.NbtData;
 import java.util.List;
 import java.util.function.Supplier;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.EntityType;
@@ -16,13 +15,12 @@ import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.item.component.CustomData;
 import alku.csrp.registry.ModTiers;
 import alku.csrp.Csrp;
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import alku.csrp.Config;
@@ -38,10 +36,7 @@ public class LivingWeaponItem extends SwordItem {
 
     public LivingWeaponItem(WeaponKind kind, float damage, float attackSpeed, float reach, boolean sentient,
             Supplier<? extends Item> next, Item.Properties properties) {
-        super(ModTiers.LIVING, properties.attributes(SwordItem.createAttributes(ModTiers.LIVING, damage - 1.0F, attackSpeed)
-                .withModifierAdded(Attributes.ENTITY_INTERACTION_RANGE,
-                        new AttributeModifier(new ResourceLocation(Csrp.MODID, "living_weapon_reach"),
-                                reach, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)));
+        super(ModTiers.LIVING, Math.round(damage - 1.0F), attackSpeed, properties);
         this.sentient = sentient;
         this.next = next;
         this.reach = reach;
@@ -96,11 +91,11 @@ public class LivingWeaponItem extends SwordItem {
     }
 
     private static void applyChance(LivingEntity attacker, LivingEntity target,
-            net.minecraft.core.Holder<net.minecraft.world.effect.MobEffect> effect, int duration,
+            MobEffect effect, int duration,
             int amplifier, float chance) {
         if (attacker.getRandom().nextFloat() < chance) {
             MobEffectInstance current = target.getEffect(effect);
-            if (current == null || effect.value() == ModMobEffects.NEEDLER.get()) {
+            if (current == null || effect == ModMobEffects.NEEDLER.get()) {
                 target.addEffect(new MobEffectInstance(effect, duration, amplifier, false, false));
                 return;
             }
@@ -123,15 +118,14 @@ public class LivingWeaponItem extends SwordItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, Level context, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, context, tooltip, flag);
         int kills = NbtData.copyTag(stack).getInt(KILLS);
         tooltip.add(Component.translatable("tooltip.csrp.living_progress", kills, EVOLUTION_HEALTH));
     }
 
     protected void evolveIfReady(ItemStack stack, LivingEntity holder) {
-        if (sentient || next == null || stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
-                .copyTag().getInt(KILLS) <= EVOLUTION_HEALTH) return;
+        if (sentient || next == null || NbtData.copyTag(stack).getInt(KILLS) <= EVOLUTION_HEALTH) return;
         ItemStack evolved = new ItemStack(next.get());
         NbtData.update(stack, tag -> tag.putInt(KILLS, 0));
         stack.shrink(1);

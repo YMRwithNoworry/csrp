@@ -36,7 +36,7 @@ public final class QuenchItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context,
+    public void appendHoverText(ItemStack stack, Level context,
             List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable("tooltip.csrp.quench")
                 .withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));

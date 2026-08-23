@@ -109,9 +109,9 @@ public final class SimAdventurerEntity extends Monster implements GeoEntity, Par
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(MELTING, false);
-        builder.define(MELT_TICKS, 0);
+        super.defineSynchedData();
+        entityData.define(MELTING, false);
+        entityData.define(MELT_TICKS, 0);
     }
 
     @Override
@@ -231,7 +231,7 @@ public final class SimAdventurerEntity extends Monster implements GeoEntity, Par
     }
 
     @Override
-    protected EntityDimensions getDimensions(Pose pose) {
+    public EntityDimensions getDimensions(Pose pose) {
         EntityDimensions dimensions = super.getDimensions(pose);
         return isMelting() ? dimensions.scale(1.0F, getMeltHeight() / BASE_HEIGHT) : dimensions;
     }
@@ -251,8 +251,8 @@ public final class SimAdventurerEntity extends Monster implements GeoEntity, Par
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
-                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
-        SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
+                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData, net.minecraft.nbt.CompoundTag spawnTag) {
+        SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData, spawnTag);
         if (!level.isClientSide() && getCustomName() == null) {
             setCustomName(Component.literal(PLAYER_IDENTITY_NAMES[random.nextInt(PLAYER_IDENTITY_NAMES.length)]));
             setCustomNameVisible(true);
@@ -313,7 +313,7 @@ public final class SimAdventurerEntity extends Monster implements GeoEntity, Par
             }
             thrall.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
             thrall.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                    MobSpawnType.MOB_SUMMONED, null);
+                    MobSpawnType.MOB_SUMMONED, null, null);
             copyIdentity(thrall);
             thrall.setTarget(getTarget());
             serverLevel.addFreshEntity(thrall);
@@ -363,7 +363,7 @@ public final class SimAdventurerEntity extends Monster implements GeoEntity, Par
         }
         head.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
         head.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                MobSpawnType.MOB_SUMMONED, null, null);
         serverLevel.addFreshEntity(head);
     }
 
@@ -392,7 +392,7 @@ public final class SimAdventurerEntity extends Monster implements GeoEntity, Par
             buglin.moveTo(getX() + (random.nextDouble() - 0.5D), getY(), getZ() + (random.nextDouble() - 0.5D),
                     getYRot(), 0.0F);
             buglin.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                    MobSpawnType.MOB_SUMMONED, null);
+                    MobSpawnType.MOB_SUMMONED, null, null);
             serverLevel.addFreshEntity(buglin);
         }
     }

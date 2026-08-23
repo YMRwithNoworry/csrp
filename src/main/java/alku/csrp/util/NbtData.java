@@ -20,7 +20,8 @@ public final class NbtData {
     }
 
     public static CompoundTag tag(ItemStack stack) {
-        return stack.getTag();
+        CompoundTag tag = stack.getTag();
+        return tag == null ? new CompoundTag() : tag;
     }
 
     public static void set(ItemStack stack, CompoundTag tag) {

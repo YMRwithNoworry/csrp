@@ -134,7 +134,7 @@ public final class ModEntities {
 
     public static final RegistryObject<EntityType<RupterEntity>> RUPTER =
             ENTITIES.register("rupter", () -> EntityType.Builder.of(RupterEntity::new, MobCategory.MONSTER)
-                    .sized(0.85F, 1.0F).eyeHeight(0.5F)
+                    .sized(0.85F, 1.0F)
                     .clientTrackingRange(8)
                     .build(new ResourceLocation(Csrp.MODID, "rupter").toString()));
 
@@ -244,7 +244,7 @@ public final class ModEntities {
             monster("draconite", DraconiteEntity::new, 2.4F, 3.8F);
     public static final RegistryObject<EntityType<KirinEntity>> KIRIN =
             ENTITIES.register("kirin", () -> EntityType.Builder.of(KirinEntity::new, MobCategory.MONSTER)
-                    .sized(2.1271334F, 8.85F).eyeHeight(5.7F).clientTrackingRange(8)
+                    .sized(2.1271334F, 8.85F).clientTrackingRange(8)
                     .build(new ResourceLocation(Csrp.MODID, "kirin").toString()));
     public static final RegistryObject<EntityType<SimAdventurerEntity>> SIM_ADVENTURER =
             monster("sim_adventurer", SimAdventurerEntity::new, 0.6F, 1.95F);
@@ -654,7 +654,7 @@ public final class ModEntities {
     private static <T extends net.minecraft.world.entity.Mob> RegistryObject<EntityType<T>> monster(
             String id, EntityType.EntityFactory<T> factory, float width, float height, float eyeHeight) {
         return ENTITIES.register(id, () -> EntityType.Builder.of(factory, MobCategory.MONSTER)
-                .sized(width, height).eyeHeight(eyeHeight).clientTrackingRange(8)
+                .sized(width, height).clientTrackingRange(8)
                 .build(new ResourceLocation(Csrp.MODID, id).toString()));
     }
 

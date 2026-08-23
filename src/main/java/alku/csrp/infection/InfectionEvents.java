@@ -42,7 +42,7 @@ public final class InfectionEvents {
     @SubscribeEvent
     public static void infectFromParasiteHit(LivingDamageEvent event) {
         LivingEntity target = event.getEntity();
-        if (event.getNewDamage() <= 0.0F || !target.isAlive() || target.level().isClientSide
+        if (event.getAmount() <= 0.0F || !target.isAlive() || target.level().isClientSide
                 || target instanceof Parasite) {
             return;
         }

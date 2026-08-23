@@ -51,7 +51,7 @@ public final class GoreEntity extends Entity {
 
     @Override
     protected void defineSynchedData() {
-        builder.define(SKIN, 0);
+        entityData.define(SKIN, 0);
     }
 
     @Override
@@ -161,7 +161,7 @@ public final class GoreEntity extends Entity {
             }
             int remaining = index < legacyBlockCounts.size() ? legacyBlockCounts.get(index) : 1;
             while (remaining > 0 && slot < cyst.getContainerSize()) {
-                int moved = Math.min(remaining, block.asItem().getDefaultMaxStackSize());
+                int moved = Math.min(remaining, block.asItem().getMaxStackSize());
                 cyst.setItem(slot++, new ItemStack(block, moved));
                 remaining -= moved;
             }
@@ -262,7 +262,7 @@ public final class GoreEntity extends Entity {
         }
         ListTag items = new ListTag();
         for (ItemStack stack : storedItems) {
-            items.add(stack.save(registryAccess()));
+            items.add(stack.save(new CompoundTag()));
         }
         tag.put("Items", items);
 
@@ -289,7 +289,7 @@ public final class GoreEntity extends Entity {
         storedItems.clear();
         for (Tag item : tag.getList("Items", Tag.TAG_COMPOUND)) {
             if (item instanceof CompoundTag compound) {
-                ItemStack stack = ItemStack.parseOptional(registryAccess(), compound);
+                ItemStack stack = ItemStack.of(compound);
                 if (!stack.isEmpty()) {
                     storedItems.add(stack);
                 }

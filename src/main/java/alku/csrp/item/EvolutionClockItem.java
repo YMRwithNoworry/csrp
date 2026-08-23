@@ -13,7 +13,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 
 public final class EvolutionClockItem extends Item {
@@ -45,7 +44,7 @@ public final class EvolutionClockItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context,
+    public void appendHoverText(ItemStack stack, Level context,
             List<Component> tooltip, TooltipFlag flag) {
         var tag = NbtData.copyTag(stack);
         tooltip.add(Component.translatable("tooltip.csrp.evolution_clock.phase",

@@ -173,8 +173,8 @@ public final class SimAdventurerHeadEntity extends Monster implements GeoEntity,
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
-                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
-        return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
+                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData, net.minecraft.nbt.CompoundTag spawnTag) {
+        return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData, spawnTag);
     }
 
     @Override
@@ -301,9 +301,9 @@ public final class SimAdventurerHeadEntity extends Monster implements GeoEntity,
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(LEAP_TICKS, 0);
-        builder.define(PARASITE_STATUS, 0);
+        super.defineSynchedData();
+        entityData.define(LEAP_TICKS, 0);
+        entityData.define(PARASITE_STATUS, 0);
     }
 
     private int getParasiteStatus() {
@@ -352,7 +352,7 @@ public final class SimAdventurerHeadEntity extends Monster implements GeoEntity,
         }
         adventurer.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
         adventurer.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                MobSpawnType.MOB_SUMMONED, null, null);
         copyIdentity(adventurer);
         serverLevel.addFreshEntity(adventurer);
         medium.discard();

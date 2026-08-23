@@ -48,7 +48,7 @@ public final class PrimitiveParasiteRenderer<T extends Mob & GeoEntity> extends 
     @Override
     public void preRender(PoseStack poseStack, T entity, BakedGeoModel model,
                           MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender,
-                          float partialTick, int packedLight, int packedOverlay, int colour) {
+                          float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         if (entity instanceof MeltableAssimilated meltable && meltable.isMelting()) {
             poseStack.scale(1.0F, meltable.getMeltRenderScale(partialTick), 1.0F);
         }
@@ -63,7 +63,7 @@ public final class PrimitiveParasiteRenderer<T extends Mob & GeoEntity> extends 
             poseStack.scale(horizontalScale, verticalScale, horizontalScale);
         }
         super.preRender(poseStack, entity, model, bufferSource, buffer, isReRender, partialTick,
-                packedLight, packedOverlay, colour);
+                packedLight, packedOverlay, red, green, blue, alpha);
     }
 
     @Override
@@ -142,12 +142,12 @@ public final class PrimitiveParasiteRenderer<T extends Mob & GeoEntity> extends 
 
     private static void beamVertex(VertexConsumer consumer, PoseStack.Pose pose, float x, float y, float z,
                                    float u, float v) {
-        consumer.addVertex(pose, x, y, z)
-                .setColor(BEAM_RED, BEAM_GREEN, BEAM_BLUE, 255)
-                .setUv(u, v)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(LightTexture.FULL_BRIGHT)
-                .setNormal(pose, 0.0F, 1.0F, 0.0F);
+        consumer.vertex(pose.pose(), x, y, z)
+                .color(BEAM_RED, BEAM_GREEN, BEAM_BLUE, 255)
+                .uv(u, v)
+                .overlayCoords(OverlayTexture.NO_OVERLAY)
+                .uv2(LightTexture.FULL_BRIGHT)
+                .normal(pose.normal(), 0.0F, 1.0F, 0.0F).endVertex();
     }
 
     private static final class YelloweyeGlowLayer<T extends Mob & GeoEntity> extends GeoRenderLayer<T> {
@@ -167,7 +167,7 @@ public final class PrimitiveParasiteRenderer<T extends Mob & GeoEntity> extends 
             RenderType glowType = RenderType.eyes(texture);
             getRenderer().reRender(bakedModel, poseStack, bufferSource, entity, glowType,
                     bufferSource.getBuffer(glowType), partialTick, LightTexture.FULL_BRIGHT,
-                    packedOverlay, 0xFFFFFFFF);
+                    packedOverlay, 1.0F, 1.0F, 1.0F, 1.0F);
         }
     }
 }

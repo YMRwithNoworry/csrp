@@ -93,7 +93,7 @@ public final class RemainEntity extends Entity {
             return;
         }
         rebuilt.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                MobSpawnType.MOB_SUMMONED, null, null);
         rebuilt.setHealth(rebuilt.getMaxHealth() * health);
         rebuilt.addEffect(new MobEffectInstance(ModMobEffects.DEBAR.get(), 400, 0, false, false), this);
         applyLegacySkin(rebuilt);

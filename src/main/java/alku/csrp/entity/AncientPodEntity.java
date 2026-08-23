@@ -149,7 +149,7 @@ public final class AncientPodEntity extends PrimitiveParasiteEntity {
                 BuiltInRegistries.MOB_EFFECT.getOptional(id).ifPresent(effect -> {
                     for (var target : level.getEntitiesOfClass(net.minecraft.world.entity.LivingEntity.class,
                             getBoundingBox().inflate(7.0D), living -> living != this && !(living instanceof Parasite))) {
-                        target.addEffect(new MobEffectInstance(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect),
+                        target.addEffect(new MobEffectInstance(effect,
                                 duration, amplifier, false, false, effect == ModMobEffects.COTH.get()), this);
                     }
                 });
@@ -185,7 +185,7 @@ public final class AncientPodEntity extends PrimitiveParasiteEntity {
             mob.moveTo(getX() + Math.cos(angle) * 1.5D, getY(), getZ() + Math.sin(angle) * 1.5D,
                     random.nextFloat() * 360.0F, 0.0F);
             mob.finalizeSpawn(level, level.getCurrentDifficultyAt(mob.blockPosition()),
-                    MobSpawnType.MOB_SUMMONED, null);
+                    MobSpawnType.MOB_SUMMONED, null, null);
             mob.setTarget(getTarget());
             if (level.addFreshEntity(mob)) {
                 spawned++;

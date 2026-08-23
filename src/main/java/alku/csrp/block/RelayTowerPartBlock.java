@@ -21,7 +21,7 @@ public final class RelayTowerPartBlock extends Block {
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player,
+public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, net.minecraft.world.InteractionHand hand,
             BlockHitResult hitResult) {
         BlockPos terminalPos = pos.below(terminalOffset);
         if (level.getBlockEntity(terminalPos) instanceof RelayTerminalBlockEntity relay && relay.isFormed()) {
@@ -33,8 +33,7 @@ public final class RelayTowerPartBlock extends Block {
         return InteractionResult.PASS;
     }
 
-    @Override
-    protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
+    public InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
             Player player, net.minecraft.world.InteractionHand hand, BlockHitResult hitResult) {
         return InteractionResult.PASS;
     }

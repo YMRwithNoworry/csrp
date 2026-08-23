@@ -125,12 +125,12 @@ public final class AssimilatedEndermanEntity extends Monster
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(SHRIMP_FED, false);
-        builder.define(TEXTURE_VARIANT, 0);
-        builder.define(SCREAMING, false);
-        builder.define(CRAWLING, false);
-        builder.define(PARASITE_STATUS, 0);
+        super.defineSynchedData();
+        entityData.define(SHRIMP_FED, false);
+        entityData.define(TEXTURE_VARIANT, 0);
+        entityData.define(SCREAMING, false);
+        entityData.define(CRAWLING, false);
+        entityData.define(PARASITE_STATUS, 0);
     }
 
     @Override
@@ -153,8 +153,8 @@ public final class AssimilatedEndermanEntity extends Monster
 
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
-                                        MobSpawnType spawnType, SpawnGroupData spawnGroupData) {
-        SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
+                                        MobSpawnType spawnType, SpawnGroupData spawnGroupData, net.minecraft.nbt.CompoundTag spawnTag) {
+        SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData, spawnTag);
         setCrawling(random.nextDouble() < Config.variantSpawnChance()
                 || Config.evolutionPhase(level.getLevel()) >= Config.alwaysVariantPhase());
         return data;
@@ -198,7 +198,7 @@ public final class AssimilatedEndermanEntity extends Monster
     }
 
     @Override
-    protected EntityDimensions getDimensions(Pose pose) {
+    public EntityDimensions getDimensions(Pose pose) {
         return isCrawling() ? EntityDimensions.scalable(0.95F, 1.25F) : super.getDimensions(pose);
     }
 
@@ -387,7 +387,7 @@ public final class AssimilatedEndermanEntity extends Monster
             return;
         }
         head.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
-        head.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()), MobSpawnType.MOB_SUMMONED, null);
+        head.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()), MobSpawnType.MOB_SUMMONED, null, null);
         serverLevel.addFreshEntity(head);
     }
 
@@ -490,7 +490,7 @@ public final class AssimilatedEndermanEntity extends Monster
                     if (ally != this) {
                         ally.hurt(damageSources().magic(), 2.0F);
                         if (isOnFire() && random.nextFloat() < 0.75F) {
-                            ally.igniteForSeconds(8.0F);
+                            ally.setSecondsOnFire(1);;
                         }
                     }
                     ally.setTarget(target);

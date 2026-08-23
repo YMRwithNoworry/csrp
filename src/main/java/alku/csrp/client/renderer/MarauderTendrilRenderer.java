@@ -19,10 +19,10 @@ public final class MarauderTendrilRenderer extends ParasiteGeoRenderer<MarauderT
     @Override
     public void preRender(PoseStack poseStack, MarauderTendrilEntity entity, BakedGeoModel model,
                           MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender,
-                          float partialTick, int packedLight, int packedOverlay, int colour) {
+                          float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
         super.preRender(poseStack, entity, model, bufferSource, buffer, isReRender, partialTick,
-                packedLight, packedOverlay, colour);
+                packedLight, packedOverlay, red, green, blue, alpha);
     }
 
     @Override

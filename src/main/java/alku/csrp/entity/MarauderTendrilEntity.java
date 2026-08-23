@@ -87,12 +87,12 @@ public final class MarauderTendrilEntity extends Monster implements GeoEntity, P
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(MODE, (byte) Mode.DETACHED.ordinal());
-        builder.define(OWNER_ID, 0);
-        builder.define(TARGET_ID, 0);
-        builder.define(ATTACHED_SIDE, (byte) MarauderEntity.TendrilSide.LEFT.ordinal());
-        builder.define(REMAINING_TICKS, DETACHED_LIFETIME_TICKS);
+        super.defineSynchedData();
+        entityData.define(MODE, (byte) Mode.DETACHED.ordinal());
+        entityData.define(OWNER_ID, 0);
+        entityData.define(TARGET_ID, 0);
+        entityData.define(ATTACHED_SIDE, (byte) MarauderEntity.TendrilSide.LEFT.ordinal());
+        entityData.define(REMAINING_TICKS, DETACHED_LIFETIME_TICKS);
     }
 
     public void attach(MarauderEntity owner, MarauderEntity.TendrilSide side) {

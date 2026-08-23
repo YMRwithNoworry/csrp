@@ -18,10 +18,10 @@ public final class SimAdventurerRenderer extends ParasiteGeoRenderer<SimAdventur
     @Override
     public void preRender(PoseStack poseStack, SimAdventurerEntity entity, BakedGeoModel model,
                           MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender,
-                          float partialTick, int packedLight, int packedOverlay, int colour) {
+                          float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         float scale = entity.getRenderScale(partialTick);
         poseStack.scale(1.0F, scale, 1.0F);
         super.preRender(poseStack, entity, model, bufferSource, buffer, isReRender, partialTick,
-                packedLight, packedOverlay, colour);
+                packedLight, packedOverlay, red, green, blue, alpha);
     }
 }

@@ -182,10 +182,10 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(LEAP_TICKS, 0);
-        builder.define(PARASITE_STATUS, 0);
-        builder.define(SCREAMING, false);
+        super.defineSynchedData();
+        entityData.define(LEAP_TICKS, 0);
+        entityData.define(PARASITE_STATUS, 0);
+        entityData.define(SCREAMING, false);
     }
 
     @Override
@@ -204,7 +204,7 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
             if (body != null) {
                 body.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
                 body.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                        MobSpawnType.MOB_SUMMONED, null);
+                        MobSpawnType.MOB_SUMMONED, null, null);
                 body.setCustomName(getCustomName());
                 body.setCustomNameVisible(isCustomNameVisible());
                 if (isPersistenceRequired()) {

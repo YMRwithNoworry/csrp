@@ -10,9 +10,11 @@ import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
-import net.minecraft.advancements.AdvancementHolder;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ColorParticleOption;
+import net.minecraft.core.particles.DustParticleOptions;
+import org.joml.Vector3f;
+import org.joml.Vector3f;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -232,18 +234,18 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(REEKER_CHARGE_STATE, REEKER_CHARGE_NONE);
-        builder.define(SPECIAL_ANIMATION_TICKS, 0);
-        builder.define(MANDUCATER_CAMOUFLAGED, false);
-        builder.define(MANDUCATER_TARGET_ENTITY, 0);
-        builder.define(MANDUCATER_STATUS, 0);
-        builder.define(BOLSTER_SKIN, BOLSTER_SKIN_NORMAL);
-        builder.define(MANDUCATER_SKIN, MANDUCATER_SKIN_NORMAL);
-        builder.define(REEKER_SKIN, REEKER_SKIN_NORMAL);
-        builder.define(REEKER_RICARDO_BALD, false);
-        builder.define(DEVOURER_SKIN, DEVOURER_SKIN_NORMAL);
-        builder.define(YELLOWEYE_SKIN, YELLOWEYE_SKIN_NORMAL);
+        super.defineSynchedData();
+        entityData.define(REEKER_CHARGE_STATE, REEKER_CHARGE_NONE);
+        entityData.define(SPECIAL_ANIMATION_TICKS, 0);
+        entityData.define(MANDUCATER_CAMOUFLAGED, false);
+        entityData.define(MANDUCATER_TARGET_ENTITY, 0);
+        entityData.define(MANDUCATER_STATUS, 0);
+        entityData.define(BOLSTER_SKIN, BOLSTER_SKIN_NORMAL);
+        entityData.define(MANDUCATER_SKIN, MANDUCATER_SKIN_NORMAL);
+        entityData.define(REEKER_SKIN, REEKER_SKIN_NORMAL);
+        entityData.define(REEKER_RICARDO_BALD, false);
+        entityData.define(DEVOURER_SKIN, DEVOURER_SKIN_NORMAL);
+        entityData.define(YELLOWEYE_SKIN, YELLOWEYE_SKIN_NORMAL);
     }
 
     public static AttributeSupplier.Builder createAttributes(Kind kind) {
@@ -429,8 +431,8 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
-                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
-        SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
+                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData, net.minecraft.nbt.CompoundTag spawnTag) {
+        SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData, spawnTag);
         if (!level.isClientSide() && activeKind() == Kind.REEKER) {
             if (random.nextDouble() < Config.variantSpawnChance()
                     || Config.evolutionPhase(level.getLevel()) >= Config.alwaysVariantPhase()) {
@@ -680,16 +682,15 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
                 awardRicardoShearing(serverPlayer);
             }
             if (!player.getAbilities().instabuild) {
-                stack.hurtAndBreak(1, player,
-                        hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
+                EquipmentSlot slot = hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
+                stack.hurtAndBreak(1, player, broken -> broken.broadcastBreakEvent(slot));
             }
             level().playSound(null, getX(), getY(), getZ(), ParasiteSoundProfiles.hurt(this),
                     SoundSource.HOSTILE, 2.0F, 0.65F);
             level().playSound(null, getX(), getY(), getZ(), ParasiteSoundProfiles.ambient(this),
                     SoundSource.HOSTILE, 2.5F, 0.75F);
             if (level() instanceof ServerLevel serverLevel) {
-                serverLevel.sendParticles(ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT,
-                                1.0F, 0.25F, 0.75F),
+                serverLevel.sendParticles(new DustParticleOptions(new Vector3f(1.0F, 0.25F, 0.75F), 1.0F),
                         getX(), getY() + 1.2D, getZ(), 40, 0.6D, 0.8D, 0.6D, 0.05D);
                 serverLevel.broadcastEntityEvent(this, RICARDO_BURST_EVENT);
             }
@@ -724,8 +725,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
     public void handleEntityEvent(byte id) {
         if (id == RICARDO_BURST_EVENT) {
             for (int i = 0; i < 40; i++) {
-                level().addParticle(ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT,
-                                1.0F, 0.25F, 0.75F),
+                level().addParticle(new DustParticleOptions(new Vector3f(1.0F, 0.25F, 0.75F), 1.0F),
                         getRandomX(1.2D), getRandomY(), getRandomZ(1.2D),
                         random.nextGaussian() * 0.08D, random.nextGaussian() * 0.08D,
                         random.nextGaussian() * 0.08D);
@@ -905,8 +905,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
     }
 
     private void spawnRicardoParticles() {
-        ColorParticleOption color = ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT,
-                1.0F, 0.25F, 0.75F);
+        DustParticleOptions color = new DustParticleOptions(new Vector3f(1.0F, 0.25F, 0.75F), 1.0F);
         for (int i = 0; i < 3; i++) {
             level().addParticle(color, getRandomX(1.6D),
                     getY() + random.nextDouble() * getBbHeight() * 0.9D, getRandomZ(1.6D),
@@ -915,7 +914,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
     }
 
     private void awardRicardoShearing(ServerPlayer player) {
-        AdvancementHolder advancement = player.server.getAdvancements().get(
+        Advancement advancement = player.server.getAdvancements().getAdvancement(
                 new ResourceLocation(Csrp.MODID, "tricked_me"));
         if (advancement != null) {
             player.getAdvancements().award(advancement, "sheared_ricardo");
@@ -985,8 +984,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
         if (!(level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        ColorParticleOption cloud = ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT,
-                127.0F / 255.0F, 0.0F, 0.0F);
+        DustParticleOptions cloud = new DustParticleOptions(new Vector3f(127.0F / 255.0F, 0.0F, 0.0F), 1.0F);
         serverLevel.sendParticles(cloud, getX(), getY() + getBbHeight() * 0.5D, getZ(),
                 11, getBbWidth() * 0.5D, getBbHeight() * 0.5D, getBbWidth() * 0.5D, 0.08D);
     }
@@ -995,9 +993,6 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
         DamageSource source = damageSources().mobAttack(this);
         float damage = (float) getAttributeValue(Attributes.ATTACK_DAMAGE)
                 * (float) MobsConfig.manducaterStealthDamageMultiplier();
-        if (level() instanceof ServerLevel serverLevel) {
-            damage = EnchantmentHelper.modifyDamage(serverLevel, getWeaponItem(), target, source, damage);
-        }
         target.hurt(source, damage);
     }
 
@@ -1686,7 +1681,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
                     continue;
                 }
                 BuiltInRegistries.MOB_EFFECT.getOptional(effectId).ifPresent(effect -> ally.addEffect(
-                        new MobEffectInstance(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect), duration,
+                        new MobEffectInstance(effect, duration,
                                 amplifier, false, false), this));
             } catch (NumberFormatException ignored) {
                 // Tolerate stale hand-edited config entries.
@@ -1750,7 +1745,6 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
             }
         }
 
-        @Override
         protected void checkAndPerformAttack(LivingEntity target) {
             if (attackCooldown <= 0 && mob.isWithinMeleeAttackRange(target)
                     && mob.getSensing().hasLineOfSight(target)) {
@@ -1918,7 +1912,6 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
             super.tick();
         }
 
-        @Override
         protected void checkAndPerformAttack(LivingEntity target) {
             if (attackCooldown <= 0 && mob.isWithinMeleeAttackRange(target)
                     && mob.getSensing().hasLineOfSight(target)) {

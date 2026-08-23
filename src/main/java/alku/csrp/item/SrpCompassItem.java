@@ -17,7 +17,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 
 /** Points to the nearest persistent SRP core record in the current dimension. */
@@ -57,7 +56,7 @@ public final class SrpCompassItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context,
+    public void appendHoverText(ItemStack stack, Level context,
             List<Component> tooltip, TooltipFlag flag) {
         CompoundTag tag = NbtData.copyTag(stack);
         if (!tag.getBoolean(HAS_TARGET_TAG)) {

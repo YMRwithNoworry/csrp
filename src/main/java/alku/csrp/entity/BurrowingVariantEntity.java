@@ -58,12 +58,12 @@ public abstract class BurrowingVariantEntity extends PrimitiveParasiteEntity {
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(BURROW_PHASE, BURROW_NONE);
-        builder.define(BURROW_DEPTH, 0.0F);
-        builder.define(BODY_NUMBER, (byte) 0);
-        builder.define(BODY_TAIL, false);
-        builder.define(BODY_ATTACK_TICKS, 0);
+        super.defineSynchedData();
+        entityData.define(BURROW_PHASE, BURROW_NONE);
+        entityData.define(BURROW_DEPTH, 0.0F);
+        entityData.define(BODY_NUMBER, (byte) 0);
+        entityData.define(BODY_TAIL, false);
+        entityData.define(BODY_ATTACK_TICKS, 0);
     }
 
     @Override
@@ -191,7 +191,7 @@ public abstract class BurrowingVariantEntity extends PrimitiveParasiteEntity {
             segment.setPersistenceRequired();
             segment.moveTo(previous.getX(), previous.getY(), previous.getZ(), previous.getYRot(), 0.0F);
             segment.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(segment.blockPosition()),
-                    net.minecraft.world.entity.MobSpawnType.MOB_SUMMONED, null);
+                    net.minecraft.world.entity.MobSpawnType.MOB_SUMMONED, null, null);
             serverLevel.addFreshEntity(segment);
             previous = segment;
         }

@@ -59,9 +59,9 @@ public final class HiGolemEntity extends HijackedParasiteEntity {
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(CHARGING, false);
-        builder.define(PARASITE_STATUS, 0);
+        super.defineSynchedData();
+        entityData.define(CHARGING, false);
+        entityData.define(PARASITE_STATUS, 0);
     }
 
     @Override

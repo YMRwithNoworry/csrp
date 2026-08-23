@@ -16,7 +16,6 @@ import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -42,7 +41,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.client.event.sound.PlayLevelSoundEvent;
+import net.minecraftforge.event.PlayLevelSoundEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
@@ -90,10 +89,10 @@ public final class DislodgmentSystem {
     }
 
     @SubscribeEvent
-    public static void onItemPickup(EntityItemPickupEvent.Pre event) {
-        if (event.getPlayer().level() instanceof ServerLevel level) {
+    public static void onItemPickup(EntityItemPickupEvent event) {
+        if (event.getEntity().level() instanceof ServerLevel level) {
             tryTrigger(level, 2, Config.dislodgmentItemPickupTriggerChance(),
-                    event.getPlayer().blockPosition(), true);
+                    event.getEntity().blockPosition(), true);
         }
     }
 
@@ -196,7 +195,7 @@ public final class DislodgmentSystem {
                 || activeValue(SrpWorldData.get(level), 11) < 1) {
             return;
         }
-        event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
+        event.setResult(MobEffectEvent.Applicable.Result.DENY);
     }
 
     @SubscribeEvent
@@ -205,7 +204,7 @@ public final class DislodgmentSystem {
                 || event.getSound() == null || !Config.useDislodgment()) {
             return;
         }
-        ResourceLocation soundId = BuiltInRegistries.SOUND_EVENT.getKey(event.getSound());
+        ResourceLocation soundId = BuiltInRegistries.SOUND_EVENT.getKey(event.getSound().value());
         String path = soundId.getPath();
         SrpWorldData data = SrpWorldData.get(level);
         if (Config.disloGrowlNoise() && activeValue(data, 15) > 0 && path.endsWith(".growl")
@@ -216,7 +215,7 @@ public final class DislodgmentSystem {
 
     @SubscribeEvent
     public static void disableShield(ShieldBlockEvent event) {
-        if (!event.getOriginalBlock() || !(event.getEntity() instanceof Player player)
+        if (event.getOriginalBlockedDamage() <= 0.0F || !(event.getEntity() instanceof Player player)
                 || !(event.getDamageSource().getEntity() instanceof Parasite)
                 || !(player.level() instanceof ServerLevel level)
                 || !Config.useDislodgment() || !Config.disloShieldFood()
@@ -228,12 +227,12 @@ public final class DislodgmentSystem {
             player.getCooldowns().addCooldown(shield.getItem(), 100);
         }
         player.stopUsingItem();
-        event.setBlocked(false);
+        event.setBlockedDamage(0.0F);
     }
 
     @SubscribeEvent
     public static void corruptFoodAfterHit(LivingDamageEvent event) {
-        if (event.getNewDamage() <= 0.0F || !(event.getEntity() instanceof Player player)
+        if (event.getAmount() <= 0.0F || !(event.getEntity() instanceof Player player)
                 || !(event.getSource().getEntity() instanceof Parasite)
                 || !(player.level() instanceof ServerLevel level)
                 || player.getAbilities().instabuild || !Config.useDislodgment() || !Config.disloShieldFood()
@@ -273,7 +272,7 @@ public final class DislodgmentSystem {
     @SubscribeEvent
     public static void tickCodes(LevelTickEvent event) {
         if (event.phase == TickEvent.Phase.START) {return;}
-        if (!(event.getLevel() instanceof ServerLevel level) || !Config.useDislodgment()) {
+        if (!(event.level instanceof ServerLevel level) || !Config.useDislodgment()) {
             return;
         }
         SrpWorldData data = SrpWorldData.get(level);
@@ -477,7 +476,7 @@ public final class DislodgmentSystem {
         }
         spawned.moveTo(dead.getX(), dead.getY(), dead.getZ(), dead.getYRot(), dead.getXRot());
         spawned.finalizeSpawn(level, level.getCurrentDifficultyAt(dead.blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                MobSpawnType.MOB_SUMMONED, null, null);
         spawned.addEffect(new MobEffectInstance(ModMobEffects.REPEL.get(), 600, 0, false, false));
         level.addFreshEntity(spawned);
         level.levelEvent(null, 1026, spawned.blockPosition(), 0);
@@ -540,7 +539,7 @@ public final class DislodgmentSystem {
         BuiltInRegistries.MOB_EFFECT.getOptional(effectId).ifPresent(effect -> {
             int duration = (int) Math.min(Integer.MAX_VALUE,
                     Math.max(0L, code.expiresAt() - level.getGameTime()) + 50L);
-            entity.addEffect(new MobEffectInstance(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect),
+            entity.addEffect(new MobEffectInstance(effect,
                     duration, code.value()));
         });
     }
@@ -557,7 +556,7 @@ public final class DislodgmentSystem {
         entity.setHealth(entity.getMaxHealth());
     }
 
-    private static void multiplyBaseAttribute(LivingEntity entity, Holder<Attribute> attribute, double multiplier) {
+    private static void multiplyBaseAttribute(LivingEntity entity, Attribute attribute, double multiplier) {
         AttributeInstance instance = entity.getAttribute(attribute);
         if (instance != null) {
             instance.setBaseValue(instance.getBaseValue() * multiplier);
@@ -567,7 +566,7 @@ public final class DislodgmentSystem {
     private static void damageItem(Player player, EquipmentSlot slot, int amount) {
         ItemStack stack = player.getItemBySlot(slot);
         if (!stack.isEmpty() && stack.isDamageableItem()) {
-            stack.hurtAndBreak(amount, player, slot);
+            stack.hurtAndBreak(amount, player, broken -> broken.broadcastBreakEvent(slot));
         }
     }
 
@@ -692,7 +691,7 @@ public final class DislodgmentSystem {
         worm.setWormPayload(1, 1);
         worm.setWormPayloadTypes(List.of(payload));
         worm.setTarget(target);
-        worm.finalizeSpawn(level, level.getCurrentDifficultyAt(position), MobSpawnType.MOB_SUMMONED, null);
+        worm.finalizeSpawn(level, level.getCurrentDifficultyAt(position), MobSpawnType.MOB_SUMMONED, null, null);
         return level.addFreshEntity(worm);
     }
 

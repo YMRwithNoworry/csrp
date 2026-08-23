@@ -80,8 +80,8 @@ public final class BombEntity extends Entity {
 
     @Override
     protected void defineSynchedData() {
-        builder.define(FUSE, 80);
-        builder.define(SKIN, (byte) 0);
+        entityData.define(FUSE, 80);
+        entityData.define(SKIN, (byte) 0);
     }
 
     @Override
@@ -178,7 +178,7 @@ public final class BombEntity extends Entity {
         }
         payload.moveTo(getX(), getY(), getZ(), getYRot(), 0.0F);
         payload.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(payload.blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                MobSpawnType.MOB_SUMMONED, null, null);
         if (owner != null) {
             payload.setTarget(owner.getTarget());
         }

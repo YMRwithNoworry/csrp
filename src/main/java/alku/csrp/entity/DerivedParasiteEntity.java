@@ -71,7 +71,7 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
     private static final int DERIVED_REGENERATION_USES = 10;
     private static final int DERIVED_ORB_ITEM_COOLDOWN_TICKS = 20 * 20;
     private static final int DERIVED_ORB_EXPERIENCE_STEAL = 340;
-    private static final List<Holder<MobEffect>> NEURAL_NEGATIVE_EFFECTS = List.of(
+    private static final List<MobEffect> NEURAL_NEGATIVE_EFFECTS = List.of(
             MobEffects.DIG_SLOWDOWN,
             MobEffects.CONFUSION,
             MobEffects.BLINDNESS,
@@ -163,13 +163,13 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(SHADOWED, true);
-        builder.define(SHADOW_CLONE, false);
-        builder.define(NEURAL_LINK_ACTIVE, false);
-        builder.define(NEURAL_LINK_TICKS, 0);
+        super.defineSynchedData();
+        entityData.define(SHADOWED, true);
+        entityData.define(SHADOW_CLONE, false);
+        entityData.define(NEURAL_LINK_ACTIVE, false);
+        entityData.define(NEURAL_LINK_TICKS, 0);
         for (EntityDataAccessor<Integer> target : NEURAL_TARGETS) {
-            builder.define(target, 0);
+            entityData.define(target, 0);
         }
     }
 
@@ -398,7 +398,7 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private static void scaleCloneAttribute(DerivedParasiteEntity clone,
-            Holder<net.minecraft.world.entity.ai.attributes.Attribute> attribute, double multiplier) {
+            net.minecraft.world.entity.ai.attributes.Attribute attribute, double multiplier) {
         AttributeInstance instance = clone.getAttribute(attribute);
         if (instance != null) {
             instance.setBaseValue(instance.getBaseValue() * multiplier);
@@ -636,7 +636,7 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
                 }
             }
             healed += getMaxHealth() * NEURAL_HEAL_PER_EFFECT * removedAmplifierSum;
-            Holder<MobEffect> negativeEffect = NEURAL_NEGATIVE_EFFECTS.get(
+            MobEffect negativeEffect = NEURAL_NEGATIVE_EFFECTS.get(
                     random.nextInt(NEURAL_NEGATIVE_EFFECTS.size()));
             EffectStacking.apply(target, negativeEffect, NEURAL_NEGATIVE_EFFECT_DURATION_TICKS, 1);
             level().broadcastEntityEvent(this, SHADOW_HIT_EVENT);

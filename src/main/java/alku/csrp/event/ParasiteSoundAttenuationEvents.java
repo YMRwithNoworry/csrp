@@ -3,9 +3,10 @@ package alku.csrp.event;
 import alku.csrp.Csrp;
 import alku.csrp.entity.Parasite;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.client.event.sound.PlayLevelSoundEvent;
+import net.minecraftforge.event.PlayLevelSoundEvent;
 
 /** Keeps parasite sounds on Minecraft's normal 16-block linear attenuation curve. */
 @EventBusSubscriber(modid = Csrp.MODID)
@@ -25,7 +26,7 @@ public final class ParasiteSoundAttenuationEvents {
     @SubscribeEvent
     public static void attenuateHostileSound(PlayLevelSoundEvent.AtPosition event) {
         if (event.getSource() == SoundSource.HOSTILE && event.getSound() != null
-                && event.getSound().getLocation().getNamespace().equals(Csrp.MODID)) {
+                && BuiltInRegistries.SOUND_EVENT.getKey(event.getSound().value()).getNamespace().equals(Csrp.MODID)) {
             capVolume(event);
         }
     }

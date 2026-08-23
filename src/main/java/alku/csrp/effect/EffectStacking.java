@@ -11,11 +11,11 @@ public final class EffectStacking {
     private EffectStacking() {
     }
 
-    public static void apply(LivingEntity entity, Holder<MobEffect> effect, int duration, int amplifier) {
+    public static void apply(LivingEntity entity, MobEffect effect, int duration, int amplifier) {
         apply(entity, effect, duration, amplifier, 255);
     }
 
-    public static void apply(LivingEntity entity, Holder<MobEffect> effect, int duration, int amplifier,
+    public static void apply(LivingEntity entity, MobEffect effect, int duration, int amplifier,
             int maxAmplifier) {
         if (entity.level().isClientSide || amplifier < -255 || amplifier > 254) {
             return;

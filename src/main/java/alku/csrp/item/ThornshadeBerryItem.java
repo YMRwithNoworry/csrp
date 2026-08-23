@@ -74,7 +74,7 @@ public final class ThornshadeBerryItem extends Item {
     }
 
     @Override
-    public int getUseDuration(ItemStack stack, LivingEntity entity) {
+    public int getUseDuration(ItemStack stack) {
         return 10;
     }
 
@@ -84,7 +84,7 @@ public final class ThornshadeBerryItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context,
+    public void appendHoverText(ItemStack stack, Level context,
             List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable("tooltip.csrp.thornshade_berry")
                 .withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));

@@ -18,9 +18,9 @@ public final class TendrilRenderer extends ParasiteGeoRenderer<TendrilEntity> {
     @Override
     public void preRender(PoseStack poseStack, TendrilEntity entity, BakedGeoModel model,
                           MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender,
-                          float partialTick, int packedLight, int packedOverlay, int colour) {
+                          float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
         super.preRender(poseStack, entity, model, bufferSource, buffer, isReRender, partialTick,
-                packedLight, packedOverlay, colour);
+                packedLight, packedOverlay, red, green, blue, alpha);
     }
 }

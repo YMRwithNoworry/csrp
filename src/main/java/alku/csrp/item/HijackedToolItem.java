@@ -9,7 +9,7 @@ import alku.csrp.registry.ModTiers;
 /** Hijacked sword implementation; the other hijacked tools share its event behavior. */
 public final class HijackedToolItem extends SwordItem {
     public HijackedToolItem(Item.Properties properties) {
-        super(ModTiers.HIJACKED_IRON, properties.attributes(SwordItem.createAttributes(ModTiers.HIJACKED_IRON, 6.5F, -2.4F)));
+        super(ModTiers.HIJACKED_IRON, 6, -2.4F, properties);
     }
 
     @Override

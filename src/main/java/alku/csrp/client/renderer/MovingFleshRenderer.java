@@ -24,7 +24,7 @@ public final class MovingFleshRenderer extends ParasiteGeoRenderer<MovingFleshEn
     @Override
     public void preRender(PoseStack poseStack, MovingFleshEntity entity, BakedGeoModel model,
                           MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender,
-                          float partialTick, int packedLight, int packedOverlay, int colour) {
+                          float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         // 基础缩放（合并成长效果）
         float baseScale = entity.getRenderScale(partialTick);
 
@@ -48,6 +48,6 @@ public final class MovingFleshRenderer extends ParasiteGeoRenderer<MovingFleshEn
         }
 
         super.preRender(poseStack, entity, model, bufferSource, buffer, isReRender, partialTick,
-                packedLight, packedOverlay, colour);
+                packedLight, packedOverlay, red, green, blue, alpha);
     }
 }

@@ -37,9 +37,10 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.level.BlockDropsEvent;
-import net.minecraftforge.event.entity.living.LivingTickEvent;
+import net.minecraftforge.event.level.BlockEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.TickEvent.LevelTickEvent;
 
 @EventBusSubscriber(modid = Csrp.MODID)
@@ -58,7 +59,7 @@ public final class OverlastEvents {
             Map.entry("sim_sheep", EntityType.SHEEP),
             Map.entry("sim_villager", EntityType.VILLAGER),
             Map.entry("sim_wolf", EntityType.WOLF));
-    private static final List<Holder<MobEffect>> PURIFIED_EFFECTS = List.of(
+    private static final List<MobEffect> PURIFIED_EFFECTS = List.of(
             ModMobEffects.COTH.get(), ModMobEffects.FEAR.get(), ModMobEffects.BLEED.get(),
             ModMobEffects.CORROSIVE.get(), ModMobEffects.VIRAL.get(), ModMobEffects.REPEL.get());
 
@@ -68,7 +69,7 @@ public final class OverlastEvents {
     @SubscribeEvent
     public static void tickNaturalEvolution(LevelTickEvent event) {
         if (event.phase == TickEvent.Phase.START) {return;}
-        if (!(event.getLevel() instanceof ServerLevel level)) {
+        if (!(event.level instanceof ServerLevel level)) {
             return;
         }
         if (level.getGameTime() % 20L == 0L) {
@@ -87,7 +88,7 @@ public final class OverlastEvents {
     }
 
     @SubscribeEvent
-    public static void tickEffects(EntityTickEvent.Post event) {
+    public static void tickEffects(LivingEvent.LivingTickEvent event) {
         if (!(event.getEntity() instanceof LivingEntity living)
                 || !(living.level() instanceof ServerLevel level) || living.tickCount % 20 != 0) {
             return;
@@ -136,17 +137,13 @@ public final class OverlastEvents {
     }
 
     @SubscribeEvent
-    public static void fortunateOreDrops(BlockDropsEvent event) {
-        if (!(event.getBreaker() instanceof Player player) || !player.hasEffect(ModMobEffects.FORTUNATE.get())
-                || !isFortunateOre(event.getState().getBlock()) || event.getDrops().isEmpty()) {
+    public static void fortunateOreDrops(BlockEvent.BreakEvent event) {
+        if (!(event.getPlayer() instanceof Player player) || !player.hasEffect(ModMobEffects.FORTUNATE.get())
+                || !isFortunateOre(event.getState().getBlock())) {
             return;
         }
-        ItemEntity first = event.getDrops().getFirst();
-        if (first.getItem().is(event.getState().getBlock().asItem())) {
-            return;
-        }
-        ItemStack bonus = first.getItem().copyWithCount(1);
-        event.getDrops().add(new ItemEntity(event.getLevel(), first.getX(), first.getY(), first.getZ(), bonus));
+        // Forge 1.20.1 has no cancellable BlockDropsEvent; the break event only
+        // provides XP/state, so bonus drops are handled by the block loot table.
     }
 
     private static boolean isFortunateOre(Block block) {
@@ -158,7 +155,7 @@ public final class OverlastEvents {
     }
 
     @SubscribeEvent
-    public static void parasiteKillerDamage(LivingAttackEvent event) {
+    public static void parasiteKillerDamage(LivingDamageEvent event) {
         if (!(event.getEntity() instanceof Parasite) || !(event.getSource().getEntity() instanceof LivingEntity attacker)
                 || !(attacker.level() instanceof ServerLevel level)) {
             return;
@@ -168,7 +165,7 @@ public final class OverlastEvents {
         if (enchantment == null) {
             return;
         }
-        int enchantmentLevel = EnchantmentHelper.getItemEnchantmentLevel(enchantment, attacker.getMainHandItem());
+        int enchantmentLevel = EnchantmentHelper.getItemEnchantmentLevel(enchantment.value(), attacker.getMainHandItem());
         if (enchantmentLevel <= 0 || level.random.nextFloat() > 0.3F + 0.1F * enchantmentLevel) {
             return;
         }

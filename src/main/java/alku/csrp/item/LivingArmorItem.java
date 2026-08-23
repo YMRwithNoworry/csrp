@@ -1,4 +1,6 @@
 package alku.csrp.item;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
 
 import alku.csrp.util.NbtData;
 import java.util.List;
@@ -17,8 +19,6 @@ import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.world.item.component.CustomData;
 
 public final class LivingArmorItem extends ArmorItem {
     public static final String DAMAGE = "srp_damage";
@@ -29,15 +29,7 @@ public final class LivingArmorItem extends ArmorItem {
 
     public LivingArmorItem(ArmorMaterial material, Type type, boolean sentient,
             Supplier<? extends Item> next, Item.Properties properties) {
-        super(net.minecraft.core.Holder.direct(material), type,
-                properties.durability(type.getDurability(1500)));
-        this.sentient = sentient;
-        this.next = next;
-    }
-
-    public LivingArmorItem(net.minecraft.core.Holder<ArmorMaterial> material, Type type, boolean sentient,
-            Supplier<? extends Item> next, Item.Properties properties) {
-        super(material, type, properties.durability(type.getDurability(1500)));
+        super(material, type, properties.durability(1500));
         this.sentient = sentient;
         this.next = next;
     }
@@ -63,8 +55,7 @@ public final class LivingArmorItem extends ArmorItem {
     }
 
     private void evolveIfReady(ItemStack stack, LivingEntity holder) {
-        if (next == null || stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
-                .copyTag().getInt(DAMAGE) < EVOLUTION_DAMAGE) return;
+        if (next == null || NbtData.copyTag(stack).getInt(DAMAGE) < EVOLUTION_DAMAGE) return;
         NbtData.update(stack, tag -> tag.putInt(DAMAGE, 0));
         stack.shrink(1);
         var dropped = holder.spawnAtLocation(new ItemStack(next.get()));
@@ -80,11 +71,11 @@ public final class LivingArmorItem extends ArmorItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, Level context, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, context, tooltip, flag);
-        CustomData data = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
-        tooltip.add(Component.translatable("tooltip.csrp.living_progress", data.copyTag().getInt(DAMAGE), EVOLUTION_DAMAGE));
-        var tag = data.copyTag();
+        CompoundTag data = NbtData.copyTag(stack);
+        tooltip.add(Component.translatable("tooltip.csrp.living_progress", data.getInt(DAMAGE), EVOLUTION_DAMAGE));
+        var tag = data;
         tooltip.add(Component.translatable("tooltip.csrp.adaptation", tag.getInt(ADAPT_COUNT), damageTypeLimit()));
         tag.getAllKeys().stream().filter(key -> key.startsWith("adapt_points_")).sorted().forEach(key -> {
             int points = Math.min(pointLimit(), tag.getInt(key));

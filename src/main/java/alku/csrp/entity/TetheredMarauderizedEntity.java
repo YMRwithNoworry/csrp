@@ -31,8 +31,8 @@ public abstract class TetheredMarauderizedEntity extends MarauderizedParasiteEnt
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(PULL_TARGET, 0);
+        super.defineSynchedData();
+        entityData.define(PULL_TARGET, 0);
     }
 
     @Override

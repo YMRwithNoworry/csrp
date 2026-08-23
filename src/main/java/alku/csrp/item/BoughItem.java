@@ -8,7 +8,7 @@ import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
 import java.util.List;
 import net.minecraft.ChatFormatting;
-import net.minecraft.advancements.AdvancementHolder;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
@@ -46,7 +46,7 @@ public final class BoughItem extends Item {
     public UseAnim getUseAnimation(ItemStack stack) { return UseAnim.BLOCK; }
 
     @Override
-    public int getUseDuration(ItemStack stack, LivingEntity user) { return USE_DURATION; }
+    public int getUseDuration(ItemStack stack) { return USE_DURATION; }
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
@@ -88,7 +88,7 @@ public final class BoughItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context,
+    public void appendHoverText(ItemStack stack, Level context,
             List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable("tooltip.csrp.bough.line1").withStyle(ChatFormatting.YELLOW));
         tooltip.add(Component.translatable("tooltip.csrp.bough.line2")
@@ -111,13 +111,13 @@ public final class BoughItem extends Item {
                     player.getY(), player.getZ() + (level.random.nextDouble() - 0.5D) * 1.5D,
                     level.random.nextFloat() * 360.0F, 0.0F);
             adventurer.finalizeSpawn(level, level.getCurrentDifficultyAt(adventurer.blockPosition()),
-                    MobSpawnType.TRIGGERED, null);
+                    MobSpawnType.TRIGGERED, null, null);
             level.addFreshEntity(adventurer);
         }
     }
 
     private static void awardAdvancement(ServerPlayer player) {
-        AdvancementHolder advancement = player.server.getAdvancements().get(ADVANCEMENT_ID);
+        Advancement advancement = player.server.getAdvancements().getAdvancement(ADVANCEMENT_ID);
         if (advancement != null) {
             player.getAdvancements().award(advancement, ADVANCEMENT_CRITERION);
         }

@@ -90,12 +90,12 @@ public final class AssimilatedWolfEntity extends Monster implements GeoEntity, P
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(PARASITE_STATUS, 0);
-        builder.define(STILL_ANI, false);
-        builder.define(T_HEIGHT, 0.0F);
-        builder.define(SHRIMP_FED, false);
-        builder.define(TAMED_TEXTURE, false);
+        super.defineSynchedData();
+        entityData.define(PARASITE_STATUS, 0);
+        entityData.define(STILL_ANI, false);
+        entityData.define(T_HEIGHT, 0.0F);
+        entityData.define(SHRIMP_FED, false);
+        entityData.define(TAMED_TEXTURE, false);
     }
 
     @Override
@@ -103,8 +103,9 @@ public final class AssimilatedWolfEntity extends Monster implements GeoEntity, P
             net.minecraft.world.level.ServerLevelAccessor level,
             net.minecraft.world.DifficultyInstance difficulty,
             MobSpawnType spawnType,
-            net.minecraft.world.entity.SpawnGroupData spawnGroupData) {
-        net.minecraft.world.entity.SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
+            net.minecraft.world.entity.SpawnGroupData spawnGroupData,
+            net.minecraft.nbt.CompoundTag spawnTag) {
+        net.minecraft.world.entity.SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData, spawnTag);
 
         // 1% 概率生成驯服狼材质变体
         if (random.nextFloat() < 0.01F) {

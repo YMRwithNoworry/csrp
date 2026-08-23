@@ -1,4 +1,5 @@
 package alku.csrp.item;
+import net.minecraft.world.level.Level;
 
 import alku.csrp.entity.Parasite;
 import alku.csrp.entity.ParasiteTransformation;
@@ -42,7 +43,7 @@ public final class ParasiteEvolutionWandItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, Level context, List<Component> tooltip, TooltipFlag flag) {
         String tooltipKey = "tooltip.csrp." + mode.translationKey;
         tooltip.add(Component.translatable(tooltipKey,
                 Component.translatable(tooltipKey + ".action").withStyle(ChatFormatting.RED)));

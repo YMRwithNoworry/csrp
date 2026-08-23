@@ -28,9 +28,9 @@ public final class BurrowingParasiteRenderer<T extends BurrowingVariantEntity> e
     @Override
     public void preRender(PoseStack poseStack, T entity, BakedGeoModel model,
             MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender,
-            float partialTick, int packedLight, int packedOverlay, int colour) {
+            float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         poseStack.translate(0.0D, -entity.getBurrowDepth(partialTick) * sinkDistance, 0.0D);
         super.preRender(poseStack, entity, model, bufferSource, buffer, isReRender, partialTick,
-                packedLight, packedOverlay, colour);
+                packedLight, packedOverlay, red, green, blue, alpha);
     }
 }

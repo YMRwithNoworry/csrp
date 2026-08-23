@@ -93,7 +93,7 @@ public final class TetheredMarauderizedRenderer<T extends TetheredMarauderizedEn
 
     private static void addVertex(PoseStack.Pose pose, VertexConsumer consumer, Vec3 position,
                                   int red, int green, int blue, int alpha) {
-        consumer.addVertex(pose, (float) position.x, (float) position.y, (float) position.z)
-                .setColor(red, green, blue, alpha);
+        consumer.vertex(pose.pose(), (float) position.x, (float) position.y, (float) position.z)
+                .color(red, green, blue, alpha).endVertex();
     }
 }

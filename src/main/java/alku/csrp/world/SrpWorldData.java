@@ -8,7 +8,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -19,7 +18,6 @@ import net.minecraft.world.level.saveddata.SavedData;
 public final class SrpWorldData extends SavedData {
     private static final String DATA_NAME = "csrp_world_data";
     private static final int DATA_VERSION = 4;
-    private static final Factory<SrpWorldData> FACTORY = new Factory<>(SrpWorldData::new, SrpWorldData::load);
     private static final int[] DISLODGMENT_PHASE_COOLDOWN_MULTIPLIER = {1, 4, 3, 3, 4, 5, 6, 7, 8, 9, 10};
 
     private boolean initialized;
@@ -49,7 +47,8 @@ public final class SrpWorldData extends SavedData {
     private final Map<String, Integer> globalAdaptations = new LinkedHashMap<>();
 
     public static SrpWorldData get(ServerLevel level) {
-        SrpWorldData data = level.getDataStorage().computeIfAbsent(FACTORY, DATA_NAME);
+        SrpWorldData data = level.getDataStorage().computeIfAbsent(SrpWorldData::load,
+                SrpWorldData::new, DATA_NAME);
         if (!data.initialized) {
             data.initialize(level);
         }
@@ -63,7 +62,7 @@ public final class SrpWorldData extends SavedData {
         return data;
     }
 
-    private static SrpWorldData load(CompoundTag tag, HolderLookup.Provider registries) {
+    private static SrpWorldData load(CompoundTag tag) {
         SrpWorldData data = new SrpWorldData();
         data.dataVersion = tag.getInt("data_version");
         data.initialized = tag.contains("evolution_phase");
@@ -101,7 +100,7 @@ public final class SrpWorldData extends SavedData {
     }
 
     @Override
-    public CompoundTag save(CompoundTag tag, HolderLookup.Provider registries) {
+    public CompoundTag save(CompoundTag tag) {
         tag.putBoolean("initialized", initialized);
         tag.putInt("data_version", DATA_VERSION);
         tag.putInt("evolution_phase", evolutionPhase);

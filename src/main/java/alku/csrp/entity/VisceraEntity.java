@@ -136,10 +136,10 @@ public final class VisceraEntity extends PrimitiveParasiteEntity implements Manu
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(CLIMBING, (byte) 0);
-        builder.define(PARASITE_STATUS, STATUS_IDLE);
-        builder.define(SKIN, SKIN_NORMAL);
+        super.defineSynchedData();
+        entityData.define(CLIMBING, (byte) 0);
+        entityData.define(PARASITE_STATUS, STATUS_IDLE);
+        entityData.define(SKIN, SKIN_NORMAL);
     }
 
     @Override

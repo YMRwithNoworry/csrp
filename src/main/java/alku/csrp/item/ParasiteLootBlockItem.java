@@ -1,4 +1,5 @@
 package alku.csrp.item;
+import net.minecraft.world.level.Level;
 
 import java.util.List;
 import net.minecraft.ChatFormatting;
@@ -15,7 +16,7 @@ public final class ParasiteLootBlockItem extends BlockItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Item.TooltipContext context,
+    public void appendHoverText(ItemStack stack, Level context,
             List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable("tooltip.csrp.parasite_loot").withStyle(ChatFormatting.GREEN));
     }

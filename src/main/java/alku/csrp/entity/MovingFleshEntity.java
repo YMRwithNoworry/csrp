@@ -87,11 +87,11 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(MERGE_COUNT, 1);
-        builder.define(MERGE_VALUE, (1 + random.nextInt(2)) * 2);
-        builder.define(RENDER_SCALE, 1.0F);
-        builder.define(EVOLUTION_FUSE, 0);
+        super.defineSynchedData();
+        entityData.define(MERGE_COUNT, 1);
+        entityData.define(MERGE_VALUE, (1 + random.nextInt(2)) * 2);
+        entityData.define(RENDER_SCALE, 1.0F);
+        entityData.define(EVOLUTION_FUSE, 0);
     }
 
     @Override
@@ -222,7 +222,7 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
     }
 
     @Override
-    protected EntityDimensions getDimensions(Pose pose) {
+    public EntityDimensions getDimensions(Pose pose) {
         EntityDimensions dimensions = super.getDimensions(pose);
         float growth = getRenderScale(1.0F) - 1.0F;
         return dimensions.scale((BASE_WIDTH + growth) / BASE_WIDTH, (BASE_HEIGHT + growth) / BASE_HEIGHT);
@@ -315,7 +315,7 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
         }
         primitive.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
         primitive.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                MobSpawnType.MOB_SUMMONED, null, null);
         primitive.setHealth(primitive.getMaxHealth() * (float) MobsConfig.mergeSystemMobHealth());
         primitive.setCustomName(getCustomName());
         primitive.setCustomNameVisible(isCustomNameVisible());

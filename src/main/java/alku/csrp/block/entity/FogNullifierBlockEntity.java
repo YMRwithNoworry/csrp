@@ -3,7 +3,6 @@ package alku.csrp.block.entity;
 import alku.csrp.block.FogNullifierBlock;
 import alku.csrp.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -35,14 +34,14 @@ public final class FogNullifierBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
+    protected void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
         tag.putInt(USES_TAG, usesRemaining);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
+    public void load(CompoundTag tag) {
+        super.load(tag);
         usesRemaining = tag.contains(USES_TAG) ? Math.max(0, tag.getInt(USES_TAG)) : FogNullifierBlock.MAX_USES;
     }
 }

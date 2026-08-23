@@ -55,11 +55,53 @@ import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraft.core.registries.Registries;
+import java.util.Collection;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public final class ModItems {
-    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Csrp.MODID);
+    /** 1.20.1-compatible replacement for the 1.21 convenience item register API. */
+    public static final ItemRegister ITEMS = new ItemRegister();
+
+    public static final class ItemRegister {
+        private final DeferredRegister<Item> delegate = DeferredRegister.create(Registries.ITEM, Csrp.MODID);
+
+        public <I extends Item> RegistryObject<I> registerItem(String id, Function<Item.Properties, I> factory,
+                                                                Item.Properties properties) {
+            return delegate.register(id, () -> factory.apply(properties));
+        }
+
+        public <I extends Item> RegistryObject<I> registerItem(String id, Function<Item.Properties, I> factory) {
+            return registerItem(id, factory, new Item.Properties());
+        }
+
+        public RegistryObject<Item> registerSimpleItem(String id, Item.Properties properties) {
+            return delegate.register(id, () -> new Item(properties));
+        }
+
+        public RegistryObject<BlockItem> registerSimpleBlockItem(String id,
+                RegistryObject<? extends Block> block) {
+            return delegate.register(id, () -> new BlockItem(block.get(), new Item.Properties()));
+        }
+
+        public <I extends Item> RegistryObject<I> register(String id, Supplier<? extends I> supplier) {
+            return delegate.register(id, supplier);
+        }
+
+        public void register(IEventBus bus) {
+            delegate.register(bus);
+        }
+
+        public Collection<RegistryObject<? extends Item>> getEntries() {
+            return (Collection) delegate.getEntries();
+        }
+    }
 
     public static final RegistryObject<SpawnEggItem> BUGLIN_SPAWN_EGG = ITEMS.registerItem(
             "buglin_spawn_egg", properties -> new TexturedSpawnEggItem(ModEntities.BUGLIN.get(), 0x8B1E1E, 0xE1B85B, properties),
@@ -649,8 +691,8 @@ public final class ModItems {
     public static final RegistryObject<GreekFireItem> GREEK_FIRE = ITEMS.registerItem("greek_fire",
             GreekFireItem::new, new Item.Properties().durability(4));
     public static final RegistryObject<Item> DISC_THREE = ITEMS.registerItem("discthree",
-            properties -> new Item(properties), new Item.Properties().stacksTo(1).rarity(Rarity.RARE)
-                    .jukeboxPlayable(ModJukeboxSongs.DISC_THREE_KEY));
+            properties -> new net.minecraft.world.item.RecordItem(3, ModSounds.DISC_THREE,
+                    properties.stacksTo(1).rarity(Rarity.RARE), 240));
     public static final RegistryObject<ArmorItem> MOBILITY_HELMET = ITEMS.registerItem("mobility_armor_helmet",
             properties -> new ArmorItem(ModArmorMaterials.MOBILITY, ArmorItem.Type.HELMET, properties),
             new Item.Properties());
@@ -894,17 +936,13 @@ public final class ModItems {
     public static final RegistryObject<HijackedToolItem> HIJACKED_IRON_SWORD = ITEMS.registerItem(
             "hijacked_iron_sword", HijackedToolItem::new, new Item.Properties());
     public static final RegistryObject<AxeItem> HIJACKED_IRON_AXE = ITEMS.registerItem("hijacked_iron_axe",
-            properties -> new AxeItem(ModTiers.HIJACKED_IRON, properties.attributes(
-                    DiggerItem.createAttributes(ModTiers.HIJACKED_IRON, 7.5F, -3.05F))), new Item.Properties());
+            properties -> new AxeItem(ModTiers.HIJACKED_IRON, 7.5F, -3.05F, properties), new Item.Properties());
     public static final RegistryObject<PickaxeItem> HIJACKED_IRON_PICKAXE = ITEMS.registerItem("hijacked_iron_pickaxe",
-            properties -> new PickaxeItem(ModTiers.HIJACKED_IRON, properties.attributes(
-                    DiggerItem.createAttributes(ModTiers.HIJACKED_IRON, 1.0F, -2.8F))), new Item.Properties());
+            properties -> new PickaxeItem(ModTiers.HIJACKED_IRON, 1, -2.8F, properties), new Item.Properties());
     public static final RegistryObject<ShovelItem> HIJACKED_IRON_SHOVEL = ITEMS.registerItem("hijacked_iron_shovel",
-            properties -> new ShovelItem(ModTiers.HIJACKED_IRON, properties.attributes(
-                    DiggerItem.createAttributes(ModTiers.HIJACKED_IRON, 1.5F, -3.0F))), new Item.Properties());
+            properties -> new ShovelItem(ModTiers.HIJACKED_IRON, 1.5F, -3.0F, properties), new Item.Properties());
     public static final RegistryObject<HoeItem> HIJACKED_IRON_HOE = ITEMS.registerItem("hijacked_iron_hoe",
-            properties -> new HoeItem(ModTiers.HIJACKED_IRON, properties.attributes(
-                    DiggerItem.createAttributes(ModTiers.HIJACKED_IRON, -2.5F, -1.0F))), new Item.Properties());
+            properties -> new HoeItem(ModTiers.HIJACKED_IRON, -2, -1.0F, properties), new Item.Properties());
 
     private static RegistryObject<Item> simple(String id) { return simple(id, new Item.Properties()); }
     private static RegistryObject<ParasiteLootBlockItem> parasiteLootBlockItem(String id,
@@ -962,7 +1000,7 @@ public final class ModItems {
 
     private static RegistryObject<HijackedArmorItem> hijackedArmor(String id, ArmorItem.Type type) {
         return ITEMS.registerItem(id, properties -> new HijackedArmorItem(ModArmorMaterials.HIJACKED_IRON,
-                type, properties.durability(type.getDurability(40))), new Item.Properties());
+                type, properties.durability(40)), new Item.Properties());
     }
 
     private ModItems() {

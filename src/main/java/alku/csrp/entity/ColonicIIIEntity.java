@@ -56,9 +56,9 @@ public final class ColonicIIIEntity extends PrimitiveParasiteEntity {
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(RTTS, false);
-        builder.define(GROWTH_TIME, 0);
+        super.defineSynchedData();
+        entityData.define(RTTS, false);
+        entityData.define(GROWTH_TIME, 0);
     }
 
     public boolean getRTTS() {

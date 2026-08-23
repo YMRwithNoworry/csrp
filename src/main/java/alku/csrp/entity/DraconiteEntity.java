@@ -125,13 +125,13 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(FLYING, false);
-        builder.define(PARASITE_STATUS, STATUS_IDLE);
-        builder.define(FIRE_BREATH_TICKS, 0);
-        builder.define(FIRE_BREATH_TARGET, BlockPos.ZERO);
-        builder.define(METEOR_TICKS, 0);
-        builder.define(METEOR_TARGET, BlockPos.ZERO);
+        super.defineSynchedData();
+        entityData.define(FLYING, false);
+        entityData.define(PARASITE_STATUS, STATUS_IDLE);
+        entityData.define(FIRE_BREATH_TICKS, 0);
+        entityData.define(FIRE_BREATH_TARGET, BlockPos.ZERO);
+        entityData.define(METEOR_TICKS, 0);
+        entityData.define(METEOR_TARGET, BlockPos.ZERO);
     }
 
     @Override
@@ -373,7 +373,7 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
     public boolean doHurtTarget(Entity entity) {
         boolean hurt = super.doHurtTarget(entity);
         if (hurt && entity instanceof LivingEntity target) {
-            target.igniteForSeconds(5.0F);
+            target.setSecondsOnFire(1);;
         }
         return hurt;
     }

@@ -94,8 +94,8 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(PARASITE_STATUS, STATUS_IDLE);
+        super.defineSynchedData();
+        entityData.define(PARASITE_STATUS, STATUS_IDLE);
     }
 
     @Override

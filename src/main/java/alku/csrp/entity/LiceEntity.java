@@ -80,8 +80,8 @@ public final class LiceEntity extends PrimitiveParasiteEntity {
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(FLIGHT_FLAGS, (byte) 0);
+        super.defineSynchedData();
+        entityData.define(FLIGHT_FLAGS, (byte) 0);
     }
 
     @Override
@@ -213,13 +213,12 @@ public final class LiceEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    protected float getEyeHeight() {
+    public float getEyeHeight(net.minecraft.world.entity.Pose pose) {
         return 0.8F;
     }
 
-    @Override
     protected Vec3 getPassengerAttachmentPoint(Entity passenger, EntityDimensions dimensions, float partialTick) {
-        return new Vec3(0.0D, dimensions.height() * 0.5D, 0.0D);
+        return new Vec3(0.0D, dimensions.height * 0.5D, 0.0D);
     }
 
     @Override

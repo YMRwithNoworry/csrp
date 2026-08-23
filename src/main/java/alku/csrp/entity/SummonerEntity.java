@@ -127,9 +127,9 @@ public final class SummonerEntity extends PrimitiveParasiteEntity implements Sum
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(SUMMONING, false);
-        builder.define(SUMMON_TICKS, 0);
+        super.defineSynchedData();
+        entityData.define(SUMMONING, false);
+        entityData.define(SUMMON_TICKS, 0);
     }
 
     public boolean isSummoning() {

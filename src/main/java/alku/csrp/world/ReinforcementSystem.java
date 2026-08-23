@@ -67,7 +67,7 @@ public final class ReinforcementSystem {
         }
         beckon.moveTo(spawnPos.getX() + 0.5D, spawnPos.getY(), spawnPos.getZ() + 0.5D,
                 random.nextFloat() * 360.0F, 0.0F);
-        beckon.finalizeSpawn(level, level.getCurrentDifficultyAt(spawnPos), MobSpawnType.MOB_SUMMONED, null);
+        beckon.finalizeSpawn(level, level.getCurrentDifficultyAt(spawnPos), MobSpawnType.MOB_SUMMONED, null, null);
         if (!level.noCollision(beckon)) {
             beckon.discard();
             return false;

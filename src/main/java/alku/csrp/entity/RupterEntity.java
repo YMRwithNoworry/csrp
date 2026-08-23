@@ -399,11 +399,12 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite, Manual
         addPermanentModifier(Attributes.JUMP_STRENGTH, OVERHEAT_JUMP_MODIFIER, 0.5D);
     }
 
-    private void addPermanentModifier(Holder<Attribute> attribute, ResourceLocation id, double amount) {
+    private void addPermanentModifier(Attribute attribute, ResourceLocation id, double amount) {
         AttributeInstance instance = getAttribute(attribute);
-        if (instance != null && instance.getModifier(id) == null) {
+        java.util.UUID uuid = java.util.UUID.nameUUIDFromBytes(id.toString().getBytes(java.nio.charset.StandardCharsets.UTF_8));
+        if (instance != null && instance.getModifier(uuid) == null) {
             instance.addPermanentModifier(new AttributeModifier(
-                    id, amount, AttributeModifier.Operation.MULTIPLY_TOTAL));
+                    uuid, id.toString(), amount, AttributeModifier.Operation.MULTIPLY_TOTAL));
         }
     }
 
@@ -512,7 +513,7 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite, Manual
             }
             mangler.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
             mangler.finalizeSpawn(level, level.getCurrentDifficultyAt(blockPosition()),
-                    MobSpawnType.MOB_SUMMONED, null);
+                    MobSpawnType.MOB_SUMMONED, null, null);
             mangler.setCustomName(getCustomName());
             mangler.setCustomNameVisible(isCustomNameVisible());
             if (isPersistenceRequired()) {
@@ -526,14 +527,14 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite, Manual
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(CLIMBING, (byte) 0);
-        builder.define(TEXTURE_VARIANT, (byte) TextureVariant.NORMAL.ordinal());
-        builder.define(BEHAVIOR_VARIANT, (byte) BehaviorVariant.NORMAL.ordinal());
-        builder.define(OVERHEATED, false);
-        builder.define(OVERHEAT_WARMUP_TICKS, 0);
-        builder.define(LEAP_ATTACK_TICKS, 0);
-        builder.define(COMBAT_STATUS, false);
+        super.defineSynchedData();
+        entityData.define(CLIMBING, (byte) 0);
+        entityData.define(TEXTURE_VARIANT, (byte) TextureVariant.NORMAL.ordinal());
+        entityData.define(BEHAVIOR_VARIANT, (byte) BehaviorVariant.NORMAL.ordinal());
+        entityData.define(OVERHEATED, false);
+        entityData.define(OVERHEAT_WARMUP_TICKS, 0);
+        entityData.define(LEAP_ATTACK_TICKS, 0);
+        entityData.define(COMBAT_STATUS, false);
     }
 
     @Override
@@ -650,8 +651,8 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite, Manual
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
-                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
-        SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
+                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData, net.minecraft.nbt.CompoundTag spawnTag) {
+        SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData, spawnTag);
         if (createdPhase == Integer.MIN_VALUE) {
             createdPhase = Config.evolutionPhase(level.getLevel());
         }

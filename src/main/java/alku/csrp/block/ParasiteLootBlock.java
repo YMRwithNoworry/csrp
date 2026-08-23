@@ -35,7 +35,7 @@ public final class ParasiteLootBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player,
+public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, net.minecraft.world.InteractionHand hand,
             BlockHitResult hitResult) {
         if (!(level.getBlockEntity(pos) instanceof ParasiteLootBlockEntity loot)) {
             return InteractionResult.PASS;
@@ -46,8 +46,7 @@ public final class ParasiteLootBlock extends Block implements EntityBlock {
         return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
-    @Override
-    protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
+    public InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
             Player player, net.minecraft.world.InteractionHand hand, BlockHitResult hitResult) {
         return InteractionResult.PASS;
     }
@@ -55,7 +54,8 @@ public final class ParasiteLootBlock extends Block implements EntityBlock {
     @Override
     public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
         if (!state.is(newState.getBlock()) && level.getBlockEntity(pos) instanceof ParasiteLootBlockEntity loot) {
-            loot.clearContent();
+            loot.removeItemNoUpdate(0);
+            for (int slot = 1; slot < loot.getContainerSize(); slot++) loot.removeItemNoUpdate(slot);
         }
         super.onRemove(state, level, pos, newState, isMoving);
     }

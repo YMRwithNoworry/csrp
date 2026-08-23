@@ -3,7 +3,6 @@ package alku.csrp.block;
 import alku.csrp.entity.BuglinEntity;
 import alku.csrp.entity.Parasite;
 import alku.csrp.registry.ModEntities;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -24,7 +23,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 /** A Rupter-made burrow that periodically releases Buglins. */
 public final class TunnelBlock extends Block {
-    public static final MapCodec<TunnelBlock> CODEC = simpleCodec(TunnelBlock::new);
     private static final VoxelShape SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D);
 
     public TunnelBlock(Properties properties) {
@@ -32,22 +30,17 @@ public final class TunnelBlock extends Block {
     }
 
     @Override
-    protected MapCodec<? extends TunnelBlock> codec() {
-        return CODEC;
-    }
-
-    @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
 
     @Override
-    protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         return Block.canSupportCenter(level, pos.below(), Direction.UP);
     }
 
     @Override
-    protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState,
+public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState,
             LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
         return direction == Direction.DOWN && !state.canSurvive(level, pos)
                 ? Blocks.AIR.defaultBlockState()
@@ -55,7 +48,7 @@ public final class TunnelBlock extends Block {
     }
 
     @Override
-    protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (level.getDifficulty() == Difficulty.PEACEFUL
                 || !level.hasChunksAt(pos.offset(-3, -3, -3), pos.offset(3, 3, 3))) {
             return;

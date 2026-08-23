@@ -11,16 +11,16 @@ public final class DistortedEnlightenmentMobEffect extends MarkerMobEffect {
     }
 
     @Override
-    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
+    public void applyEffectTick(LivingEntity entity, int amplifier) {
         if (!entity.level().isClientSide && !entity.isCurrentlyGlowing()) {
             entity.getPersistentData().putBoolean(OWNED_GLOW_TAG, true);
             entity.setGlowingTag(true);
         }
-        return true;
+        return;
     }
 
     @Override
-    public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
+    public boolean isDurationEffectTick(int duration, int amplifier) {
         return true;
     }
 

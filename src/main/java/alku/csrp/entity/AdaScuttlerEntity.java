@@ -111,8 +111,8 @@ public class AdaScuttlerEntity extends BurrowingVariantEntity implements Pulling
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(ARACHNIDA_STATUS, 0);
+        super.defineSynchedData();
+        entityData.define(ARACHNIDA_STATUS, 0);
     }
 
     @Override

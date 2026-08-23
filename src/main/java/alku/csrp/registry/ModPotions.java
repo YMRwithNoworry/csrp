@@ -60,7 +60,7 @@ public final class ModPotions {
             potion("thornshade_thorns", "thornshade_thorns", ModMobEffects.THORNSHADE_THORNS.get(), 60);
 
     private static RegistryObject<Potion> potion(String id, String name,
-                                                          net.minecraft.core.Holder<net.minecraft.world.effect.MobEffect> effect,
+                                                          net.minecraft.world.effect.MobEffect effect,
                                                           int duration) {
         return POTIONS.register(id, () -> new Potion(name, new MobEffectInstance(effect, duration)));
     }

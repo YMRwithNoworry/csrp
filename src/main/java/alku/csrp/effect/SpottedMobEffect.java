@@ -51,32 +51,32 @@ public final class SpottedMobEffect extends MobEffect {
     }
 
     @Override
-    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
+    public void applyEffectTick(LivingEntity entity, int amplifier) {
         if (!(entity.level() instanceof ServerLevel level) || entity.tickCount % 200 != 0) {
-            return true;
+            return;
         }
         if (entity instanceof Player player && (player.isCreative() || player.isSpectator())) {
-            return true;
+            return;
         }
         if (entity instanceof Parasite || !hasStrongVector(level, entity.blockPosition())) {
             entity.removeEffect(ModMobEffects.SPOTTED.get());
-            return true;
+            return;
         }
 
         Mob nearbyParasite = findNearbyParasite(level, entity);
         if (nearbyParasite == null || countParasites(level) >= PARASITE_CAP) {
-            return true;
+            return;
         }
         Reinforcement reinforcement = reinforcementFor(nearbyParasite);
         if (reinforcement == null) {
-            return true;
+            return;
         }
         spawnWorm(level, entity, reinforcement);
-        return true;
+        return;
     }
 
     @Override
-    public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
+    public boolean isDurationEffectTick(int duration, int amplifier) {
         return true;
     }
 
@@ -143,7 +143,7 @@ public final class SpottedMobEffect extends MobEffect {
         if (!level.noCollision(worm, worm.getBoundingBox().inflate(1.0D, 7.0D, 1.0D))) {
             return;
         }
-        worm.finalizeSpawn(level, level.getCurrentDifficultyAt(floor), MobSpawnType.MOB_SUMMONED, null);
+        worm.finalizeSpawn(level, level.getCurrentDifficultyAt(floor), MobSpawnType.MOB_SUMMONED, null, null);
         worm.setTarget(target);
         worm.setWormPayload(reinforcement.minimum(), reinforcement.maximum());
         worm.setWormPayloadTypes(reinforcement.types());

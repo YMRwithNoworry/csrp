@@ -4,7 +4,6 @@ import alku.csrp.util.NbtData;
 import alku.csrp.world.EvolutionSystem;
 import java.util.List;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -14,7 +13,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 
 /** Displays the server-wide Ubiquitous Development level from zero to four. */
@@ -43,18 +41,16 @@ public final class LevelClockItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context,
+    public void appendHoverText(ItemStack stack, Level context,
             List<Component> tooltip, TooltipFlag flag) {
-        int development = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
-                .copyTag().getInt(DEVELOPMENT_TAG);
+        int development = NbtData.copyTag(stack).getInt(DEVELOPMENT_TAG);
         tooltip.add(Component.translatable("tooltip.csrp.level_clock", development)
                 .withStyle(ChatFormatting.AQUA));
     }
 
     private static int updateLevel(ItemStack stack, ServerLevel level) {
         int development = EvolutionSystem.ubiquitousDevelopment(level.getServer());
-        int current = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
-                .copyTag().getInt(DEVELOPMENT_TAG);
+        int current = NbtData.copyTag(stack).getInt(DEVELOPMENT_TAG);
         if (current != development) {
             NbtData.update(stack,
                     tag -> tag.putInt(DEVELOPMENT_TAG, development));

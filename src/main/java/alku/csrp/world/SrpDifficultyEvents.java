@@ -63,24 +63,26 @@ public final class SrpDifficultyEvents {
     }
 
     private static boolean multiply(AttributeInstance attribute, ResourceLocation id, double multiplier) {
-        if (attribute == null || multiplier == 1.0D || attribute.getModifier(id) != null) {
+        java.util.UUID uuid = java.util.UUID.nameUUIDFromBytes(id.toString().getBytes(java.nio.charset.StandardCharsets.UTF_8));
+        if (attribute == null || multiplier == 1.0D || attribute.getModifier(uuid) != null) {
             return false;
         }
-        attribute.addPermanentModifier(new AttributeModifier(id, multiplier - 1.0D,
+        attribute.addPermanentModifier(new AttributeModifier(uuid, id.toString(), multiplier - 1.0D,
                 AttributeModifier.Operation.MULTIPLY_TOTAL));
         return true;
     }
 
     private static void add(AttributeInstance attribute, ResourceLocation id, double amount) {
-        if (attribute == null || attribute.getModifier(id) != null) {
+        java.util.UUID uuid = java.util.UUID.nameUUIDFromBytes(id.toString().getBytes(java.nio.charset.StandardCharsets.UTF_8));
+        if (attribute == null || attribute.getModifier(uuid) != null) {
             return;
         }
-        attribute.addPermanentModifier(new AttributeModifier(id, amount, AttributeModifier.Operation.ADD_VALUE));
+        attribute.addPermanentModifier(new AttributeModifier(uuid, id.toString(), amount, AttributeModifier.Operation.ADDITION));
     }
 
     private static void remove(AttributeInstance attribute, ResourceLocation id) {
         if (attribute != null) {
-            attribute.removeModifier(id);
+            attribute.removeModifier(java.util.UUID.nameUUIDFromBytes(id.toString().getBytes(java.nio.charset.StandardCharsets.UTF_8)));
         }
     }
 

@@ -29,17 +29,16 @@ import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.EntityStruckByLightningEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingExperienceDropEvent;
-import net.minecraftforge.event.entity.living.FinalizeSpawnEvent;
 import net.minecraftforge.event.entity.living.LivingHealEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.MobSpawnEvent;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.level.LevelEvent;
-import net.minecraftforge.event.level.block.CropGrowEvent;
+import net.minecraftforge.event.level.BlockEvent.CropGrowEvent;
 import net.minecraftforge.event.level.SleepFinishedTimeEvent;
 import net.minecraftforge.event.TickEvent.LevelTickEvent;
-import net.minecraftforge.event.entity.living.LivingTickEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,7 +66,7 @@ public final class EvolutionEvents {
     @SubscribeEvent
     public static void tickGeneration(LevelTickEvent event) {
         if (event.phase == TickEvent.Phase.START) {return;}
-        if (event.getLevel() instanceof ServerLevel level && level.getGameTime() % 20L == 0L) {
+        if (event.level instanceof ServerLevel level && level.getGameTime() % 20L == 0L) {
             SrpWorldData data = SrpWorldData.get(level);
             if (Config.generationEnabled()) {
                 data.tickGeneration(level, 20);
@@ -155,7 +154,7 @@ public final class EvolutionEvents {
         if (event.getLevel() instanceof ServerLevel level
                 && level.random.nextFloat() < EvolutionSystem.cropGrowthBlockChance(
                         SrpWorldData.get(level).evolutionPhase())) {
-            event.setResult(CropGrowEvent.Pre.Result.DO_NOT_GROW);
+            event.setResult(CropGrowEvent.Pre.Result.DENY);
         }
     }
 
@@ -237,7 +236,7 @@ public final class EvolutionEvents {
         int phase = SrpWorldData.get(level).evolutionPhase();
         boolean parasite = event.getEntity() instanceof Parasite;
         if (parasite && (!GeneralConfig.allowMobs() || !WorldConfig.dimensionAllowsNaturalSpawning(level))) {
-            event.setResult(MobSpawnEvent.PositionCheck.Result.FAIL);
+            event.setResult(MobSpawnEvent.PositionCheck.Result.DENY);
             return;
         }
         if (parasite) {
@@ -246,14 +245,14 @@ public final class EvolutionEvents {
                 int count = 0;
                 for (Entity entity : level.getAllEntities()) {
                     if (entity instanceof Parasite && ++count >= cap) {
-                        event.setResult(MobSpawnEvent.PositionCheck.Result.FAIL);
+                        event.setResult(MobSpawnEvent.PositionCheck.Result.DENY);
                         return;
                     }
                 }
             }
         }
         if (parasite && phase == -2 || !parasite && phase >= 10) {
-            event.setResult(MobSpawnEvent.PositionCheck.Result.FAIL);
+            event.setResult(MobSpawnEvent.PositionCheck.Result.DENY);
             return;
         }
         if (parasite) {
@@ -261,18 +260,18 @@ public final class EvolutionEvents {
             if (event.getEntity() instanceof ArchitectEntity architect && architect.onlySpawnInside()
                     && data.totalColonyPoints() > 0
                     && data.nearestColonyInConstructionRange(architect.blockPosition()) == null) {
-                event.setResult(MobSpawnEvent.PositionCheck.Result.FAIL);
+                event.setResult(MobSpawnEvent.PositionCheck.Result.DENY);
                 return;
             }
             String path = BuiltInRegistries.ENTITY_TYPE.getKey(event.getEntity().getType()).getPath();
             if (!NaturalSpawnTables.canSpawnNaturally(level, event.getEntity().blockPosition(), path)) {
-                event.setResult(MobSpawnEvent.PositionCheck.Result.FAIL);
+                event.setResult(MobSpawnEvent.PositionCheck.Result.DENY);
             }
         }
     }
 
     @SubscribeEvent
-    public static void applyCothToNaturalSpawns(FinalizeSpawnEvent event) {
+    public static void applyCothToNaturalSpawns(MobSpawnEvent.FinalizeSpawn event) {
         if (!(event.getLevel() instanceof ServerLevel level) || event.getEntity() instanceof Parasite
                 || event.getSpawnType() != MobSpawnType.NATURAL
                         && event.getSpawnType() != MobSpawnType.CHUNK_GENERATION) {
@@ -297,26 +296,28 @@ public final class EvolutionEvents {
         var health = entity.getAttribute(Attributes.MAX_HEALTH);
         var damage = entity.getAttribute(Attributes.ATTACK_DAMAGE);
         if (SrpWorldData.get(level).evolutionPhase() >= 10) {
-            if (health != null && health.getModifier(PHASE_TEN_HEALTH) == null) {
-                health.addPermanentModifier(new AttributeModifier(PHASE_TEN_HEALTH, 0.07D,
+            java.util.UUID healthUuid = java.util.UUID.nameUUIDFromBytes(PHASE_TEN_HEALTH.toString().getBytes(java.nio.charset.StandardCharsets.UTF_8));
+            java.util.UUID damageUuid = java.util.UUID.nameUUIDFromBytes(PHASE_TEN_DAMAGE.toString().getBytes(java.nio.charset.StandardCharsets.UTF_8));
+            if (health != null && health.getModifier(healthUuid) == null) {
+                health.addPermanentModifier(new AttributeModifier(healthUuid, PHASE_TEN_HEALTH.toString(), 0.07D,
                         AttributeModifier.Operation.MULTIPLY_TOTAL));
                 entity.setHealth(entity.getMaxHealth());
             }
-            if (damage != null && damage.getModifier(PHASE_TEN_DAMAGE) == null) {
-                damage.addPermanentModifier(new AttributeModifier(PHASE_TEN_DAMAGE, 0.07D,
+            if (damage != null && damage.getModifier(damageUuid) == null) {
+                damage.addPermanentModifier(new AttributeModifier(damageUuid, PHASE_TEN_DAMAGE.toString(), 0.07D,
                         AttributeModifier.Operation.MULTIPLY_TOTAL));
             }
             entity.getPersistentData().putBoolean("csrp_phase_ten_attributes", true);
         } else if (entity.getPersistentData().getBoolean("csrp_phase_ten_attributes")) {
-            if (health != null) health.removeModifier(PHASE_TEN_HEALTH);
-            if (damage != null) damage.removeModifier(PHASE_TEN_DAMAGE);
+            if (health != null) health.removeModifier(java.util.UUID.nameUUIDFromBytes(PHASE_TEN_HEALTH.toString().getBytes(java.nio.charset.StandardCharsets.UTF_8)));
+            if (damage != null) damage.removeModifier(java.util.UUID.nameUUIDFromBytes(PHASE_TEN_DAMAGE.toString().getBytes(java.nio.charset.StandardCharsets.UTF_8)));
             entity.setHealth(Math.min(entity.getHealth(), entity.getMaxHealth()));
             entity.getPersistentData().remove("csrp_phase_ten_attributes");
         }
     }
 
     @SubscribeEvent
-    public static void applyGenerationModifiers(EntityTickEvent.Post event) {
+    public static void applyGenerationModifiers(LivingEvent.LivingTickEvent event) {
         if (!(event.getEntity() instanceof LivingEntity entity)
                 || !(entity.level() instanceof ServerLevel level)) {
             return;

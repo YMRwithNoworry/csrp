@@ -42,7 +42,7 @@ public final class ParasiteTrapBlock extends Block {
     }
 
     @Override
-    protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
         if (kind == Kind.BIOMASS || isStandingOnTop(pos, entity)) {
             affect(level, pos, entity);
         }

@@ -11,7 +11,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
-import net.minecraft.advancements.AdvancementHolder;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
@@ -91,7 +91,7 @@ public final class CelestialSystem {
         if (loadWitnessed(player).size() < threshold) {
             return;
         }
-        AdvancementHolder holder = player.server.getAdvancements().get(advancementId);
+        Advancement holder = player.server.getAdvancements().getAdvancement(advancementId);
         if (holder != null) {
             player.getAdvancements().award(holder, criterion);
         }
@@ -211,8 +211,8 @@ public final class CelestialSystem {
     }
 
     private static void awardDarkDaysSurvivors(ServerLevel level) {
-        net.minecraft.advancements.AdvancementHolder holder = level.getServer().getAdvancements()
-                .get(net.minecraft.resources.new ResourceLocation(
+        net.minecraft.advancements.Advancement holder = level.getServer().getAdvancements()
+                .getAdvancement(new ResourceLocation(
                         alku.csrp.Csrp.MODID, "dark_days"));
         if (holder == null) {
             return;

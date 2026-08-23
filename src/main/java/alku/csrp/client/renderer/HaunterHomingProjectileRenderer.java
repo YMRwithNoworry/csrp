@@ -62,7 +62,7 @@ public final class HaunterHomingProjectileRenderer extends EntityRenderer<Haunte
                 OverlayTexture.NO_OVERLAY);
         poseStack.scale(1.5F, 1.5F, 1.5F);
         body.render(poseStack, buffer.getBuffer(RenderType.entityTranslucent(TEXTURE)), packedLight,
-                OverlayTexture.NO_OVERLAY, 0x80FFFFFF);
+                OverlayTexture.NO_OVERLAY);
         poseStack.popPose();
         super.render(entity, entityYaw, partialTick, poseStack, buffer, packedLight);
     }

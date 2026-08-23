@@ -56,7 +56,7 @@ public final class SrpCoreSystems {
     @SubscribeEvent
     public static void tick(LevelTickEvent event) {
         if (event.phase == TickEvent.Phase.START) {return;}
-        if (!(event.getLevel() instanceof ServerLevel level)) {
+        if (!(event.level instanceof ServerLevel level)) {
             return;
         }
         if (level.getGameTime() % 200L == 0L) {
@@ -232,7 +232,7 @@ public final class SrpCoreSystems {
             return;
         }
         architect.finalizeSpawn(level, level.getCurrentDifficultyAt(spawn),
-                MobSpawnType.MOB_SUMMONED, null);
+                MobSpawnType.MOB_SUMMONED, null, null);
         architect.setPersistenceRequired();
         level.addFreshEntity(architect);
     }

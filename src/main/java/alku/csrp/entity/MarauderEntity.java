@@ -156,15 +156,15 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(CLIMBING, (byte) 0);
-        builder.define(LEFT_TENDRIL_HEALTH, 0.0F);
-        builder.define(RIGHT_TENDRIL_HEALTH, 0.0F);
-        builder.define(ATTACK_TICKS, 0);
-        builder.define(SMASH_TICKS, 0);
-        builder.define(PARASITE_STATUS, 0);
-        builder.define(STILL_ANI, false);
-        builder.define(HARDENED_VARIANT, false);
+        super.defineSynchedData();
+        entityData.define(CLIMBING, (byte) 0);
+        entityData.define(LEFT_TENDRIL_HEALTH, 0.0F);
+        entityData.define(RIGHT_TENDRIL_HEALTH, 0.0F);
+        entityData.define(ATTACK_TICKS, 0);
+        entityData.define(SMASH_TICKS, 0);
+        entityData.define(PARASITE_STATUS, 0);
+        entityData.define(STILL_ANI, false);
+        entityData.define(HARDENED_VARIANT, false);
     }
 
     @Override

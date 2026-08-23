@@ -37,8 +37,8 @@ public final class HiSkeletonEntity extends HijackedParasiteEntity {
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(PARASITE_STATUS, 0);
+        super.defineSynchedData();
+        entityData.define(PARASITE_STATUS, 0);
     }
 
     @Override

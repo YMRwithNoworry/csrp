@@ -53,11 +53,11 @@ public class GreekFireItem extends Item {
             return InteractionResult.PASS;
         }
 
-        level.playSound(null, pos, SoundEvents.FIRE_IGNITE, SoundSource.BLOCKS, 1.0F,
+        level.playSound(null, pos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0F,
                 0.9F + level.random.nextFloat() * 0.2F);
         if (player != null && !player.getAbilities().instabuild) {
-            context.getItemInHand().hurtAndBreak(1, player,
-                    context.getHand() == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
+            EquipmentSlot slot = context.getHand() == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
+            context.getItemInHand().hurtAndBreak(1, player, broken -> broken.broadcastBreakEvent(slot));
         }
         return InteractionResult.CONSUME;
     }

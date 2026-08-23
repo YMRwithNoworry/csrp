@@ -18,12 +18,12 @@ public final class ColonyStructureBlock extends Block {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(SrpCoreBlock.ACTIVE);
     }
 
     @Override
-    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
+public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
         super.onPlace(state, level, pos, oldState, movedByPiston);
         if (!level.isClientSide && !oldState.is(this) && state.getValue(SrpCoreBlock.ACTIVE) > 0
                 && state.getValue(SrpCoreBlock.ACTIVE) < 3) {
@@ -32,7 +32,7 @@ public final class ColonyStructureBlock extends Block {
     }
 
     @Override
-    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         int stage = state.getValue(SrpCoreBlock.ACTIVE);
         if (stage <= 0 || stage >= 3) {
             return;

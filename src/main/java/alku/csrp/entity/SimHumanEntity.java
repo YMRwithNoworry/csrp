@@ -103,10 +103,10 @@ public final class SimHumanEntity extends Monster implements GeoEntity, Parasite
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(ANIMATION_STATE, STATE_NORMAL);
-        builder.define(MELTING, false);
-        builder.define(MELT_TICKS, 0);
+        super.defineSynchedData();
+        entityData.define(ANIMATION_STATE, STATE_NORMAL);
+        entityData.define(MELTING, false);
+        entityData.define(MELT_TICKS, 0);
     }
 
     @Override
@@ -317,7 +317,7 @@ public final class SimHumanEntity extends Monster implements GeoEntity, Parasite
     }
 
     @Override
-    protected EntityDimensions getDimensions(Pose pose) {
+    public EntityDimensions getDimensions(Pose pose) {
         EntityDimensions dimensions = super.getDimensions(pose);
         return isMelting() ? dimensions.scale(1.0F, getMeltHeight() / BASE_HEIGHT) : dimensions;
     }
@@ -402,7 +402,7 @@ public final class SimHumanEntity extends Monster implements GeoEntity, Parasite
         }
         host.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
         host.finalizeSpawn(level, level.getCurrentDifficultyAt(blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                MobSpawnType.MOB_SUMMONED, null, null);
         host.setCustomName(getCustomName());
         host.setCustomNameVisible(isCustomNameVisible());
         if (isPersistenceRequired()) {

@@ -4,7 +4,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.Csrp;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModSounds;
-import net.minecraft.advancements.AdvancementHolder;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -60,7 +60,7 @@ public final class DragonEggAssimilationEntity extends Entity {
 
     @Override
     protected void defineSynchedData() {
-        builder.define(ANIMATION_TICKS, 0);
+        entityData.define(ANIMATION_TICKS, 0);
     }
 
     @Override
@@ -99,7 +99,7 @@ public final class DragonEggAssimilationEntity extends Entity {
             dragon.setPos(getX(), getY() + 0.5D, getZ());
             dragon.setYRot(getYRot());
             dragon.finalizeSpawn(level, level.getCurrentDifficultyAt(blockPosition()),
-                    MobSpawnType.TRIGGERED, null);
+                    MobSpawnType.TRIGGERED, null, null);
             level.addFreshEntity(dragon);
         }
         level.sendParticles(ParticleTypes.REVERSE_PORTAL, getX(), getY() + 0.8D, getZ(),
@@ -111,7 +111,7 @@ public final class DragonEggAssimilationEntity extends Entity {
     }
 
     private void awardNearbyPlayers(ServerLevel level) {
-        AdvancementHolder advancement = level.getServer().getAdvancements().get(ADVANCEMENT_ID);
+        Advancement advancement = level.getServer().getAdvancements().getAdvancement(ADVANCEMENT_ID);
         if (advancement == null) {
             return;
         }

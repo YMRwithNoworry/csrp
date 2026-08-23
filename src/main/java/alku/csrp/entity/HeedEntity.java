@@ -129,8 +129,8 @@ public final class HeedEntity extends CrudeParasiteEntity {
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(COMBAT_STATUS, false);
+        super.defineSynchedData();
+        entityData.define(COMBAT_STATUS, false);
     }
 
     @Override
@@ -187,7 +187,7 @@ public final class HeedEntity extends CrudeParasiteEntity {
     }
 
     @Override
-    public float getEyeHeight() {
+    public float getEyeHeight(net.minecraft.world.entity.Pose pose) {
         return 1.5F;
     }
 
@@ -481,7 +481,7 @@ public final class HeedEntity extends CrudeParasiteEntity {
 
         @Override
         public EntityDimensions getDimensions(Pose pose) {
-            return EntityDimensions.scalable(1.8F, 1.8F).withEyeHeight(0.2F);
+            return EntityDimensions.scalable(1.8F, 1.8F);
         }
 
         @Override

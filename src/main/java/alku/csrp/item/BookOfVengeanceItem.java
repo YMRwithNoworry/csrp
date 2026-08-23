@@ -62,7 +62,7 @@ public final class BookOfVengeanceItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context,
+    public void appendHoverText(ItemStack stack, Level context,
             List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable("tooltip.csrp.book_of_vengeance.line1")
                 .withStyle(ChatFormatting.GOLD));

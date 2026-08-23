@@ -18,7 +18,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Mob;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.cache.object.GeoBone;
+import software.bernie.geckolib.core.animatable.model.CoreGeoBone;
 
 public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends ParasiteGeoModel<T> {
     private static final ResourceLocation CARRIER_HEAVY_VARIANT_TEXTURE =
@@ -272,7 +272,7 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
     }
 
     @Override
-    protected boolean shouldDampenMovingRotation(T animatable, GeoBone bone) {
+    protected boolean shouldDampenMovingRotation(T animatable, CoreGeoBone bone) {
         return !(animatable instanceof AssimilatedEndermanEntity && bone.getName().equals("mainbody"));
     }
 

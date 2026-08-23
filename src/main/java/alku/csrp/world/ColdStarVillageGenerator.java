@@ -170,7 +170,7 @@ public final class ColdStarVillageGenerator {
             villager.moveTo(center.getX() + 0.5D + i % 3, center.getY() + 1.0D,
                     center.getZ() + 0.5D + i / 3, 0.0F, 0.0F);
             villager.finalizeSpawn(level, level.getCurrentDifficultyAt(center),
-                    MobSpawnType.STRUCTURE, null);
+                    MobSpawnType.STRUCTURE, null, null);
             level.addFreshEntity(villager);
         }
     }

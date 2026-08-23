@@ -146,7 +146,7 @@ public final class BiomassEntity extends Monster implements GeoEntity, Parasite 
         biomass.configure(summoner, option.type(), option.cost(), skin, target);
         biomass.moveTo(position.x, position.y, position.z, yaw, pitch);
         if (summoner.isOnFire()) {
-            biomass.igniteForSeconds(8.0F);
+            biomass.setSecondsOnFire(1);;
         }
         if (!level.addFreshEntity(biomass)) {
             if (reservationId != null) {
@@ -256,7 +256,7 @@ public final class BiomassEntity extends Monster implements GeoEntity, Parasite 
         float pitch = parent == null ? getXRot() : parent.getXRot();
         spawned.moveTo(getX(), getY(), getZ(), yaw, pitch);
         spawned.finalizeSpawn(level, level.getCurrentDifficultyAt(spawned.blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                MobSpawnType.MOB_SUMMONED, null, null);
         AttributeInstance followRange = spawned.getAttribute(Attributes.FOLLOW_RANGE);
         if (followRange != null) {
             followRange.setBaseValue(16.0D + (getStage() - 1.0F) * 8.0D);
@@ -265,7 +265,7 @@ public final class BiomassEntity extends Monster implements GeoEntity, Parasite 
         spawned.addEffect(new MobEffectInstance(ModMobEffects.DEBAR.get(), 120000, 1, false, false), this);
         if (isOnFire()) {
             spawned.setHealth(spawned.getMaxHealth() * 0.5F);
-            spawned.igniteForSeconds(8.0F);
+            spawned.setSecondsOnFire(1);;
         }
         LivingEntity target = resolveLiving(level, entityData.get(TARGET));
         if (target != null && target.isAlive()) {
@@ -349,15 +349,15 @@ public final class BiomassEntity extends Monster implements GeoEntity, Parasite 
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(SKIN, 1);
-        builder.define(STAGE, 1.0F);
-        builder.define(FUSE, DEFAULT_FUSE_TICKS);
-        builder.define(GROWTH_TICKS, 0);
-        builder.define(CAPACITY_COST, 0);
-        builder.define(SPAWN_TYPE, "");
-        builder.define(PARENT, Optional.empty());
-        builder.define(TARGET, Optional.empty());
+        super.defineSynchedData();
+        entityData.define(SKIN, 1);
+        entityData.define(STAGE, 1.0F);
+        entityData.define(FUSE, DEFAULT_FUSE_TICKS);
+        entityData.define(GROWTH_TICKS, 0);
+        entityData.define(CAPACITY_COST, 0);
+        entityData.define(SPAWN_TYPE, "");
+        entityData.define(PARENT, Optional.empty());
+        entityData.define(TARGET, Optional.empty());
     }
 
     @Override

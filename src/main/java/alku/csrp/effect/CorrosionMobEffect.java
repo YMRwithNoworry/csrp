@@ -9,7 +9,7 @@ public final class CorrosionMobEffect extends MobEffect {
     public CorrosionMobEffect() { super(MobEffectCategory.HARMFUL, 0x6B7A24); }
 
     @Override
-    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
+    public void applyEffectTick(LivingEntity entity, int amplifier) {
         if (!entity.level().isClientSide) {
             for (EquipmentSlot slot : new EquipmentSlot[] {
                     EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET
@@ -20,16 +20,16 @@ public final class CorrosionMobEffect extends MobEffect {
                     int remaining = stack.getMaxDamage() - stack.getDamageValue();
                     int damage = Math.min(3 * (amplifier + 1), remaining - minimumRemaining);
                     if (damage > 0) {
-                        stack.hurtAndBreak(damage, entity, slot);
+                        stack.hurtAndBreak(damage, entity, broken -> broken.broadcastBreakEvent(slot));
                     }
                 }
             }
         }
-        return true;
+        return;
     }
 
     @Override
-    public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
+    public boolean isDurationEffectTick(int duration, int amplifier) {
         return duration % 20 == 0;
     }
 }

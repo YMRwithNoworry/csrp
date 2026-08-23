@@ -39,7 +39,7 @@ public final class AlveoliItem extends Item {
     }
 
     @Override
-    public int getUseDuration(ItemStack stack, LivingEntity entity) {
+    public int getUseDuration(ItemStack stack) {
         return 32;
     }
 
@@ -49,7 +49,7 @@ public final class AlveoliItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context,
+    public void appendHoverText(ItemStack stack, Level context,
             List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable("tooltip.csrp.alveoligrowth")
                 .withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));

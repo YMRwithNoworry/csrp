@@ -1,5 +1,7 @@
 package alku.csrp.entity;
 
+import net.minecraftforge.event.ForgeEventFactory;
+
 import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.block.SrpWebBlock;
 import alku.csrp.config.MobsConfig;
@@ -39,7 +41,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.event.EventHooks;
 
 import java.util.UUID;
 
@@ -361,9 +362,9 @@ public final class ParasiteProjectileEntity extends Entity {
                 case BOMB -> {
                     target.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 0), owner);
                     target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL.get(), 160, 0), owner);
-                    target.igniteForSeconds(4.0F);
+                    target.setSecondsOnFire(1);
                 }
-                case METEOR -> target.igniteForSeconds(4.0F);
+                case METEOR -> target.setSecondsOnFire(1);
             }
         }
         if (mode == Mode.BOMB || mode == Mode.METEOR) {
@@ -507,7 +508,8 @@ public final class ParasiteProjectileEntity extends Entity {
             ItemStack armor = target.getItemBySlot(slot);
             if (!armor.isEmpty() && armor.isDamageableItem()
                     && armor.getMaxDamage() * 0.1D < armor.getMaxDamage() - armor.getDamageValue()) {
-                armor.hurtAndBreak(Math.max(1, (int) (armor.getMaxDamage() * percentage)), target, slot);
+                armor.hurtAndBreak(Math.max(1, (int) (armor.getMaxDamage() * percentage)), target,
+                        broken -> broken.broadcastBreakEvent(slot));
             }
         }
     }
@@ -807,12 +809,12 @@ public final class ParasiteProjectileEntity extends Entity {
 
     @Override
     protected void defineSynchedData() {
-        builder.define(MODE, Mode.SPINE.ordinal());
-        builder.define(HOMING_TARGET, 0);
-        builder.define(NADE_ARMED, false);
-        builder.define(NADE_FUSE_PROGRESS, 0);
-        builder.define(ACID_NADE_ARMED, false);
-        builder.define(ACID_NADE_FUSE_PROGRESS, 0);
+        entityData.define(MODE, Mode.SPINE.ordinal());
+        entityData.define(HOMING_TARGET, 0);
+        entityData.define(NADE_ARMED, false);
+        entityData.define(NADE_FUSE_PROGRESS, 0);
+        entityData.define(ACID_NADE_ARMED, false);
+        entityData.define(ACID_NADE_FUSE_PROGRESS, 0);
     }
 
     @Override

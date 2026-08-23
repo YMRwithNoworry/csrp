@@ -41,7 +41,7 @@ public final class InjectedPurifierItem extends Item {
     }
 
     @Override
-    public int getUseDuration(ItemStack stack, LivingEntity entity) {
+    public int getUseDuration(ItemStack stack) {
         return 20;
     }
 

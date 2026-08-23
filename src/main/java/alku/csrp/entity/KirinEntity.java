@@ -155,12 +155,12 @@ public final class KirinEntity extends DerivedParasiteEntity {
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(BLINK_POS, BlockPos.ZERO);
-        builder.define(BLINK_TICKS, 0);
-        builder.define(VOID_CASTING, false);
-        builder.define(LASER_TICKS, 0);
-        builder.define(LASER_TARGET_ID, 0);
+        super.defineSynchedData();
+        entityData.define(BLINK_POS, BlockPos.ZERO);
+        entityData.define(BLINK_TICKS, 0);
+        entityData.define(VOID_CASTING, false);
+        entityData.define(LASER_TICKS, 0);
+        entityData.define(LASER_TARGET_ID, 0);
     }
 
     @Override
@@ -322,7 +322,7 @@ public final class KirinEntity extends DerivedParasiteEntity {
             target.invulnerableTime = 0;
             target.hurt(damageSources().mobAttack(this), 2.0F);
             target.invulnerableTime = 0;
-            target.igniteForSeconds(5.0F);
+            target.setSecondsOnFire(1);;
         }
 
         entityData.set(LASER_TICKS, ticks - 1);

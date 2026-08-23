@@ -2,7 +2,6 @@ package alku.csrp.block;
 
 import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModItems;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
@@ -25,7 +24,6 @@ import net.minecraft.world.phys.BlockHitResult;
 public final class AlveoliBlock extends Block {
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
     public static final BooleanProperty DEPLETED = BooleanProperty.create("depleted");
-    public static final MapCodec<AlveoliBlock> CODEC = simpleCodec(AlveoliBlock::new);
     private static final int BRONCHIAL_SEARCH_RADIUS = 6;
     private static final int RECOVERY_TICKS = 1_200;
 
@@ -35,24 +33,19 @@ public final class AlveoliBlock extends Block {
     }
 
     @Override
-    protected MapCodec<? extends Block> codec() {
-        return CODEC;
-    }
-
-    @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(ACTIVE, DEPLETED);
     }
 
     @Override
-    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
+public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
         if (!level.isClientSide) {
             updateActiveState(level, pos, state);
         }
     }
 
     @Override
-    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock,
+public void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock,
             BlockPos neighborPos, boolean movedByPiston) {
         if (!level.isClientSide) {
             updateActiveState(level, pos, state);
@@ -60,7 +53,7 @@ public final class AlveoliBlock extends Block {
     }
 
     @Override
-    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (state.getValue(DEPLETED)) {
             level.setBlock(pos, state.setValue(DEPLETED, false)
                     .setValue(ACTIVE, hasBronchialTube(level, pos)), Block.UPDATE_ALL);
@@ -69,8 +62,7 @@ public final class AlveoliBlock extends Block {
         updateActiveState(level, pos, state);
     }
 
-    @Override
-    protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
+    public InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
             Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (!stack.is(Items.GLASS_BOTTLE)) {
             return InteractionResult.PASS;

@@ -192,15 +192,13 @@ public final class Csrp {
         ModFluidTypes.FLUID_TYPES.register(modEventBus);
         ModBlockEntities.BLOCK_ENTITIES.register(modEventBus);
         ModEntities.ENTITIES.register(modEventBus);
-        ModArmorMaterials.MATERIALS.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
-        ModMobEffects.EFFECTS.get().register(modEventBus);
+        ModMobEffects.EFFECTS.register(modEventBus);
         ModMenus.MENUS.register(modEventBus);
         ModPotions.POTIONS.register(modEventBus);
         ModParticles.PARTICLES.register(modEventBus);
         ModRecipeSerializers.RECIPE_SERIALIZERS.register(modEventBus);
         ModSounds.SOUNDS.register(modEventBus);
-        ModJukeboxSongs.JUKEBOX_SONGS.register(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
 
         BuglinEvolutionTarget.registerRupter(ModEntities.RUPTER);

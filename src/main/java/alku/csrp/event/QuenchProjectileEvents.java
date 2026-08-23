@@ -54,7 +54,7 @@ public final class QuenchProjectileEvents {
     @SubscribeEvent
     public static void tick(LevelTickEvent event) {
         if (event.phase == TickEvent.Phase.START) {return;}
-        if (!(event.getLevel() instanceof ServerLevel level)) {
+        if (!(event.level instanceof ServerLevel level)) {
             return;
         }
         List<Pulse> pulses = PULSES.get(level);

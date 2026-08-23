@@ -46,8 +46,7 @@ public final class LivingMaulItem extends LivingWeaponItem {
         return isSentient() ? UseAnim.BOW : UseAnim.NONE;
     }
 
-    @Override
-    public int getUseDuration(ItemStack stack, LivingEntity entity) {
+    public int getUseDuration(ItemStack stack) {
         return isSentient() ? 72000 : 0;
     }
 
@@ -74,7 +73,7 @@ public final class LivingMaulItem extends LivingWeaponItem {
     public void releaseUsing(ItemStack stack, Level level, LivingEntity entity, int timeLeft) {
         if (!isSentient() || !(entity instanceof Player player) || level.isClientSide
                 || player.getCooldowns().isOnCooldown(this)) return;
-        int used = getUseDuration(stack, entity) - timeLeft;
+        int used = getUseDuration(stack) - timeLeft;
         if (used < 6) return;
         float charge = Math.min(1.0F, ((used / 20.0F) * (used / 20.0F) + used / 10.0F) / 3.0F);
         Vec3 look = player.getLookAngle();
@@ -161,8 +160,7 @@ public final class LivingMaulItem extends LivingWeaponItem {
         for (LivingEntity target : level.getEntitiesOfClass(LivingEntity.class,
                 player.getBoundingBox().inflate(4.0D, 1.5D, 4.0D), entity -> validTarget(player, entity))) {
             var source = player.damageSources().playerAttack(player);
-            float damage = EnchantmentHelper.modifyDamage(level, stack, target, source,
-                    (float) player.getAttributeValue(Attributes.ATTACK_DAMAGE)) * 2.0F;
+            float damage = (float) player.getAttributeValue(Attributes.ATTACK_DAMAGE) * 2.0F;
             target.hurt(source, damage);
             Vec3 away = target.position().subtract(player.position()).multiply(1.0D, 0.0D, 1.0D).normalize();
             target.push(away.x * 1.25D, Math.max(0.85D, target.getDeltaMovement().y), away.z * 1.25D);
@@ -183,7 +181,7 @@ public final class LivingMaulItem extends LivingWeaponItem {
         }
         level.playSound(null, player.blockPosition(), ModSounds.get("vengeance.attack.rock"),
                 SoundSource.PLAYERS, 0.9F, 0.9F);
-        stack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
+        stack.hurtAndBreak(1, player, broken -> broken.broadcastBreakEvent(EquipmentSlot.MAINHAND));
         player.getPersistentData().putBoolean(DASH, false);
     }
 }

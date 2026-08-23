@@ -1,4 +1,5 @@
 package alku.csrp.item;
+import net.minecraft.world.level.Level;
 
 import java.util.List;
 import net.minecraft.ChatFormatting;
@@ -21,7 +22,7 @@ public final class RelayModuleItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context,
+    public void appendHoverText(ItemStack stack, Level context,
             List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable("tooltip.csrp." + kind.id)
                 .withStyle(ChatFormatting.GRAY));

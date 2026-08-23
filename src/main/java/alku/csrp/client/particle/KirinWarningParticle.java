@@ -23,13 +23,18 @@ import net.minecraft.util.Mth;
 public final class KirinWarningParticle extends TextureSheetParticle {
     private static final ParticleRenderType ADDITIVE_RENDER_TYPE = new ParticleRenderType() {
         @Override
-        public BufferBuilder begin(Tesselator tesselator, TextureManager textureManager) {
+        public void begin(BufferBuilder buffer, TextureManager textureManager) {
             RenderSystem.depthMask(false);
             RenderSystem.setShader(GameRenderer::getParticleShader);
             RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
             RenderSystem.enableBlend();
             RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
-            return tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
+        }
+
+        @Override
+        public void end(Tesselator tesselator) {
+            RenderSystem.disableBlend();
+            RenderSystem.depthMask(true);
         }
 
         @Override
@@ -73,10 +78,8 @@ public final class KirinWarningParticle extends TextureSheetParticle {
     private static void renderVertex(VertexConsumer consumer, float centerX, float y, float centerZ,
                                      float x, float z, float cosine, float sine, float u, float v,
                                      int light, int alpha) {
-        consumer.addVertex(centerX + x * cosine - z * sine, y, centerZ + x * sine + z * cosine)
-                .setColor(255, 255, 255, alpha)
-                .setUv(u, v)
-                .setLight(light);
+        consumer.vertex(centerX + x * cosine - z * sine, y, centerZ + x * sine + z * cosine)
+                .color(255, 255, 255, alpha).uv(u, v).uv2(light).endVertex();
     }
 
     @Override

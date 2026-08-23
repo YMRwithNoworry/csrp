@@ -41,12 +41,12 @@ public final class OrbBoomRenderer extends EntityRenderer<OrbBoomEntity> {
 
     private static void vertex(VertexConsumer vertices, PoseStack.Pose pose, float x, float y,
                                float u, float v, int packedLight) {
-        vertices.addVertex(pose, x, y, 0.0F)
-                .setColor(255, 255, 255, 210)
-                .setUv(u, v)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(packedLight)
-                .setNormal(pose, 0.0F, 1.0F, 0.0F);
+        vertices.vertex(pose.pose(), x, y, 0.0F)
+                .color(255, 255, 255, 210)
+                .uv(u, v)
+                .overlayCoords(OverlayTexture.NO_OVERLAY)
+                .uv2(packedLight)
+                .normal(pose.normal(), 0.0F, 1.0F, 0.0F).endVertex();
     }
 
     @Override

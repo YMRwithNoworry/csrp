@@ -157,7 +157,7 @@ public final class ScaryOrbEntity extends Entity {
     }
 
     @Override protected void defineSynchedData() {
-        builder.define(BOLSTER_ORB, false);
+        entityData.define(BOLSTER_ORB, false);
     }
 
     @Override protected void readAdditionalSaveData(CompoundTag tag) {

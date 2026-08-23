@@ -16,7 +16,7 @@ public final class ResidueBlock extends Block {
     }
 
     @Override
-    protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (random.nextInt(4) != 0) {
             return;
         }
@@ -33,7 +33,7 @@ public final class ResidueBlock extends Block {
     }
 
     @Override
-    protected void entityInside(BlockState state, net.minecraft.world.level.Level level, BlockPos pos, Entity entity) {
+public void entityInside(BlockState state, net.minecraft.world.level.Level level, BlockPos pos, Entity entity) {
         entity.setDeltaMovement(entity.getDeltaMovement().multiply(0.5D, 1.0D, 0.5D));
     }
 }

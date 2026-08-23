@@ -27,7 +27,7 @@ public class DeadheadLeavesBlock extends LeavesBlock {
     }
 
     @Override
-    protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         super.randomTick(state, level, pos, random);
         BlockState currentState = level.getBlockState(pos);
         if (currentState.is(this)) {
@@ -39,7 +39,7 @@ public class DeadheadLeavesBlock extends LeavesBlock {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<net.minecraft.world.level.block.Block, BlockState> builder) {
+public void createBlockStateDefinition(StateDefinition.Builder<net.minecraft.world.level.block.Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
         builder.add(SNOWY);
     }

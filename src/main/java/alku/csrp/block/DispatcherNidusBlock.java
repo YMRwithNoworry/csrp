@@ -53,8 +53,8 @@ public final class DispatcherNidusBlock extends Block implements EntityBlock {
         Vec3 away = entity.position().subtract(center);
         double length = away.length();
         if (length < 0.001D) {
-            away = new Vec3(entity.getRandom().nextDouble() - 0.5D, 0.0D,
-                    entity.getRandom().nextDouble() - 0.5D).normalize();
+            away = new Vec3(level.random.nextDouble() - 0.5D, 0.0D,
+                    level.random.nextDouble() - 0.5D).normalize();
         } else {
             away = away.normalize();
         }

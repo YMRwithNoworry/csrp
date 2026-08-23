@@ -27,7 +27,7 @@ public final class CelestialEvents {
     @SubscribeEvent
     public static void tick(LevelTickEvent event) {
         if (event.phase == TickEvent.Phase.START) {return;}
-        if (!(event.getLevel() instanceof ServerLevel level)) return;
+        if (!(event.level instanceof ServerLevel level)) return;
         CelestialSystem.tick(level);
         if (level.getGameTime() % 20L != 0L) return;
         for (ServerPlayer player : level.players()) {

@@ -2,7 +2,6 @@ package alku.csrp.block;
 
 import alku.csrp.Csrp;
 import alku.csrp.infection.BlockInfestation;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -16,37 +15,31 @@ import net.minecraft.world.level.block.state.BlockState;
 
 /** Fence variant that spreads infestation while touching infected material. */
 public final class InfestedFenceBlock extends FenceBlock {
-    public static final MapCodec<FenceBlock> CODEC = simpleCodec(InfestedFenceBlock::new);
 
     public InfestedFenceBlock(Properties properties) {
         super(properties.randomTicks());
     }
 
     @Override
-    public MapCodec<FenceBlock> codec() {
-        return CODEC;
-    }
-
-    @Override
-    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
+public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
         super.onPlace(state, level, pos, oldState, movedByPiston);
         scheduleCheck(level, pos, 10);
     }
 
     @Override
-    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock,
+public void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock,
             BlockPos neighborPos, boolean movedByPiston) {
         super.neighborChanged(state, level, pos, neighborBlock, neighborPos, movedByPiston);
         scheduleCheck(level, pos, 10);
     }
 
     @Override
-    protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         tick(state, level, pos, random);
     }
 
     @Override
-    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (touchesInfestation(level, pos)) {
             BlockInfestation.infestAround(level, pos, 1);
             level.scheduleTick(pos, this, 20);

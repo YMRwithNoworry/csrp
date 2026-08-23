@@ -44,15 +44,15 @@ public final class MarauderizedCowEntity extends MarauderizedParasiteEntity impl
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(RAGE_VARIANT, false);
+        super.defineSynchedData();
+        entityData.define(RAGE_VARIANT, false);
     }
 
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
-            MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
-        SpawnGroupData result = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
+            MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData, net.minecraft.nbt.CompoundTag spawnTag) {
+        SpawnGroupData result = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData, spawnTag);
         String biome = level.getBiome(blockPosition()).unwrapKey()
                 .map(key -> key.location().getPath()).orElse("");
         boolean desert = biome.contains("desert") || biome.contains("badlands");

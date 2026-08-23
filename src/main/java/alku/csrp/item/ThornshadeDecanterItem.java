@@ -2,7 +2,7 @@ package alku.csrp.item;
 
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.Csrp;
-import net.minecraft.advancements.AdvancementHolder;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -70,8 +70,8 @@ public final class ThornshadeDecanterItem extends Item {
         level.playSound(null, player.blockPosition(), SoundEvents.GENERIC_EXPLODE,
                 SoundSource.PLAYERS, 1.2F, 0.8F);
         if (player instanceof ServerPlayer serverPlayer) {
-            AdvancementHolder holder = serverPlayer.server.getAdvancements()
-                    .get(new ResourceLocation(Csrp.MODID,
+            Advancement holder = serverPlayer.server.getAdvancements()
+                    .getAdvancement(new ResourceLocation(Csrp.MODID,
                             "beautiful_self_destruction"));
             if (holder != null) {
                 serverPlayer.getAdvancements().award(holder, "triggered");
@@ -80,7 +80,7 @@ public final class ThornshadeDecanterItem extends Item {
     }
 
     @Override
-    public int getUseDuration(ItemStack stack, LivingEntity entity) {
+    public int getUseDuration(ItemStack stack) {
         return 32;
     }
 
@@ -90,7 +90,7 @@ public final class ThornshadeDecanterItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context,
+    public void appendHoverText(ItemStack stack, Level context,
             List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable("tooltip.csrp.thornshade_decanter.line1")
                 .withStyle(ChatFormatting.GRAY));

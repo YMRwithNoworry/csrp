@@ -69,9 +69,9 @@ abstract class AbstractHostEntity extends CrudeParasiteEntity {
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(BURROWED, false);
-        builder.define(BURROW_ANIMATION_TICKS, 0);
+        super.defineSynchedData();
+        entityData.define(BURROWED, false);
+        entityData.define(BURROW_ANIMATION_TICKS, 0);
     }
 
     @Override
@@ -201,7 +201,7 @@ abstract class AbstractHostEntity extends CrudeParasiteEntity {
         }
         minion.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
         minion.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                MobSpawnType.MOB_SUMMONED, null, null);
         minion.setTarget(getTarget());
         serverLevel.addFreshEntity(minion);
     }

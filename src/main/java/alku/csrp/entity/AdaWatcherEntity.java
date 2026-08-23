@@ -114,10 +114,10 @@ public class AdaWatcherEntity extends BurrowingVariantEntity implements PullingB
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(PARASITE_STATUS, 0);
-        builder.define(ATTACK_COOLDOWN_ANI, 0);
-        builder.define(STILL_ANI, false);
+        super.defineSynchedData();
+        entityData.define(PARASITE_STATUS, 0);
+        entityData.define(ATTACK_COOLDOWN_ANI, 0);
+        entityData.define(STILL_ANI, false);
     }
 
     @Override

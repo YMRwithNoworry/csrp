@@ -36,8 +36,8 @@ public final class TrophyBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos,
-            Player player, BlockHitResult hitResult) {
+public InteractionResult use(BlockState state, Level level, BlockPos pos,
+            Player player, net.minecraft.world.InteractionHand hand, BlockHitResult hitResult) {
         if (!level.isClientSide) {
             level.playSound(null, pos, kind == Kind.VOID ? ModSounds.ORB_START.get() : ModSounds.ORB_END.get(),
                     SoundSource.BLOCKS, 1.0F, 1.0F);

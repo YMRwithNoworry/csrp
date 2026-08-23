@@ -110,7 +110,7 @@ public final class DreadnautTentacleEntity extends PrimitiveParasiteEntity {
         buglin.moveTo(getX() + Math.cos(angle) * distance, getY(), getZ() + Math.sin(angle) * distance,
                 random.nextFloat() * 360.0F, 0.0F);
         buglin.finalizeSpawn(level, level.getCurrentDifficultyAt(buglin.blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                MobSpawnType.MOB_SUMMONED, null, null);
         buglin.setTarget(getTarget());
         if (level.addFreshEntity(buglin)) {
             spawnedMobs++;

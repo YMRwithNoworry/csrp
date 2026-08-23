@@ -605,7 +605,7 @@ public final class SrpCommands {
         entity.moveTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D,
                 source.getLevel().getRandom().nextFloat() * 360.0F, 0.0F);
         entity.finalizeSpawn(source.getLevel(), source.getLevel().getCurrentDifficultyAt(pos),
-                MobSpawnType.COMMAND, null);
+                MobSpawnType.COMMAND, null, null);
         source.getLevel().addFreshEntity(entity);
         return success(source, "Summoned Nidus/Nexus at " + format(pos) + " with stage " + stage);
     }

@@ -90,9 +90,9 @@ public class FeralParasiteEntity extends Monster implements GeoEntity, Parasite 
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(PARASITE_STATUS, 0);
-        builder.define(STILL_ANI, false);
+        super.defineSynchedData();
+        entityData.define(PARASITE_STATUS, 0);
+        entityData.define(STILL_ANI, false);
     }
 
     @Override

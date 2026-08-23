@@ -1,5 +1,7 @@
 package alku.csrp.entity;
 
+import net.minecraftforge.event.ForgeEventFactory;
+
 import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
@@ -32,7 +34,6 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.core.animation.AnimationController;
@@ -101,10 +102,10 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(CHARGING, false);
-        builder.define(FINISHING, false);
-        builder.define(ACTIVATION_PROGRESS, 0);
+        super.defineSynchedData();
+        entityData.define(CHARGING, false);
+        entityData.define(FINISHING, false);
+        entityData.define(ACTIVATION_PROGRESS, 0);
     }
 
     @Override
@@ -361,7 +362,7 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    protected float getEyeHeight() {
+    public float getEyeHeight(net.minecraft.world.entity.Pose pose) {
         return 0.5F;
     }
 

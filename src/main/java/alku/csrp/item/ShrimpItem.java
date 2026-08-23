@@ -1,4 +1,5 @@
 package alku.csrp.item;
+import net.minecraft.world.level.Level;
 
 import alku.csrp.registry.ModSounds;
 import net.minecraft.ChatFormatting;
@@ -15,7 +16,7 @@ public final class ShrimpItem extends Item {
     public ShrimpItem(Properties properties) {
         super(properties.food(new FoodProperties.Builder()
                 .nutrition(2)
-                .saturation(0.2F)
+                .saturationMod(0.2F)
                 .build()));
     }
 
@@ -25,7 +26,7 @@ public final class ShrimpItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context,
+    public void appendHoverText(ItemStack stack, Level context,
             List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable("tooltip.csrp.shrimp.delicacy")
                 .withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));

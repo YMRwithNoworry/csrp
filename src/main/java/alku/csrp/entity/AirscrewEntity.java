@@ -82,9 +82,9 @@ public final class AirscrewEntity extends CrudeParasiteEntity implements Pulling
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
+        super.defineSynchedData();
         for (EntityDataAccessor<Integer> targetId : PULL_TARGET_IDS) {
-            builder.define(targetId, 0);
+            entityData.define(targetId, 0);
         }
     }
 

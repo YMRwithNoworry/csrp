@@ -11,7 +11,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public final class ModFluidTypes {
     public static final DeferredRegister<FluidType> FLUID_TYPES =
-            DeferredRegister.create(NeoForgeRegistries.FLUID_TYPES, Csrp.MODID);
+            DeferredRegister.create(ForgeRegistries.Keys.FLUID_TYPES, Csrp.MODID);
 
     public static final RegistryObject<DeadBloodFluidType> DEAD_BLOOD =
             FLUID_TYPES.register("deadblood", () -> new DeadBloodFluidType(
@@ -25,8 +25,8 @@ public final class ModFluidTypes {
                             .canSwim(false)
                             .canDrown(true)
                             .supportsBoating(false)
-                            .sound(ForgeMod.BUCKET_FILL, SoundEvents.BUCKET_FILL)
-                            .sound(ForgeMod.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY)));
+                            .sound(net.minecraftforge.common.SoundActions.BUCKET_FILL, SoundEvents.BUCKET_FILL)
+                            .sound(net.minecraftforge.common.SoundActions.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY)));
 
     private ModFluidTypes() {
     }

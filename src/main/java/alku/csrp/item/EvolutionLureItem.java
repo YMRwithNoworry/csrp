@@ -1,4 +1,5 @@
 package alku.csrp.item;
+import net.minecraft.world.level.Level;
 
 import alku.csrp.block.EvolutionLureBlock;
 import net.minecraft.ChatFormatting;
@@ -28,7 +29,7 @@ public final class EvolutionLureItem extends BlockItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip,
+    public void appendHoverText(ItemStack stack, Level context, List<Component> tooltip,
             TooltipFlag flag) {
         super.appendHoverText(stack, context, tooltip, flag);
         tooltip.add(Component.translatable("tooltip.csrp.evolutionlure", tier.cooldownSeconds())

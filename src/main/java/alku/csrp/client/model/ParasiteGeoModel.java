@@ -5,7 +5,7 @@ import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.core.state.BoneSnapshot;
-import software.bernie.geckolib.cache.object.GeoBone;
+import software.bernie.geckolib.core.animatable.model.CoreGeoBone;
 import software.bernie.geckolib.model.GeoModel;
 
 /** Shared rendering behavior for imported SRP Geo models. */
@@ -27,7 +27,7 @@ public abstract class ParasiteGeoModel<T extends GeoAnimatable> extends GeoModel
 
         // Extracted locomotion clips contain full-strength limb rotation. Keep the model's
         // baked pose intact while reducing only the animated rotation delta.
-        for (GeoBone bone : getAnimationProcessor().getRegisteredBones()) {
+        for (var bone : getAnimationProcessor().getRegisteredBones()) {
             if (!shouldDampenMovingRotation(animatable, bone)) {
                 continue;
             }
@@ -42,7 +42,7 @@ public abstract class ParasiteGeoModel<T extends GeoAnimatable> extends GeoModel
         }
     }
 
-    protected boolean shouldDampenMovingRotation(T animatable, GeoBone bone) {
+    protected boolean shouldDampenMovingRotation(T animatable, CoreGeoBone bone) {
         return true;
     }
 

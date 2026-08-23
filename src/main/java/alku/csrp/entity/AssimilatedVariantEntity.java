@@ -106,10 +106,10 @@ public final class AssimilatedVariantEntity extends Monster implements GeoEntity
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData(builder);
-        builder.define(ANIMATION_STATUS, 0);
-        builder.define(MELTING, false);
-        builder.define(MELT_TICKS, 0);
+        super.defineSynchedData();
+        entityData.define(ANIMATION_STATUS, 0);
+        entityData.define(MELTING, false);
+        entityData.define(MELT_TICKS, 0);
     }
 
     @Override
@@ -273,7 +273,7 @@ public final class AssimilatedVariantEntity extends Monster implements GeoEntity
     }
 
     @Override
-    protected EntityDimensions getDimensions(Pose pose) {
+    public EntityDimensions getDimensions(Pose pose) {
         EntityDimensions dimensions = super.getDimensions(pose);
         return isMelting() ? dimensions.scale(1.0F, getMeltHeight() / kind.baseHeight) : dimensions;
     }
@@ -413,7 +413,7 @@ public final class AssimilatedVariantEntity extends Monster implements GeoEntity
         }
         head.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
         head.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                MobSpawnType.MOB_SUMMONED, null, null);
         head.setCustomName(getCustomName());
         head.setCustomNameVisible(isCustomNameVisible());
         if (isPersistenceRequired()) {
@@ -450,7 +450,7 @@ public final class AssimilatedVariantEntity extends Monster implements GeoEntity
         }
         host.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
         host.finalizeSpawn(level, level.getCurrentDifficultyAt(blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                MobSpawnType.MOB_SUMMONED, null, null);
         host.setCustomName(getCustomName());
         host.setCustomNameVisible(isCustomNameVisible());
         if (isPersistenceRequired()) {

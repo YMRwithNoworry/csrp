@@ -9,7 +9,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.event.entity.living.LivingTickEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 
 /**
  * Dead Blood contact effects: rapid chip damage with Viral and Corrosion for
@@ -21,7 +21,7 @@ public final class DeadBloodFluidEvents {
     }
 
     @SubscribeEvent
-    public static void onEntityTick(EntityTickEvent.Post event) {
+    public static void onEntityTick(LivingEvent.LivingTickEvent event) {
         if (!(event.getEntity() instanceof LivingEntity entity)
                 || entity.level().isClientSide
                 || !entity.isInFluidType(ModFluidTypes.DEAD_BLOOD.get())) {

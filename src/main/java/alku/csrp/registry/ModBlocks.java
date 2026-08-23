@@ -57,12 +57,13 @@ import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.core.registries.Registries;
 import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.common.util.ForgeSoundType;
 
 public final class ModBlocks {
-    public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(Csrp.MODID);
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Registries.BLOCK, Csrp.MODID);
     private static final SoundType FLESH_SOUND_TYPE = new ForgeSoundType(1.5F, 1.0F,
             () -> ModSounds.get("block.flesh.dig"),
             () -> ModSounds.get("block.flesh.step"),
@@ -237,7 +238,7 @@ public final class ModBlocks {
                     .strength(2.0F, 10.0F).requiresCorrectToolForDrops().sound(SoundType.METAL)));
     public static final RegistryObject<InfestationPurifierBlock> INFESTATION_PURIFIER = BLOCKS.register(
             "infestation_purifier", () -> new InfestationPurifierBlock(BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.COLOR_LIGHT_GRAY).strength(5.0F).sound(SoundType.SPONGE)));
+                    .mapColor(MapColor.COLOR_LIGHT_GRAY).strength(5.0F).sound(SoundType.STONE)));
     public static final RegistryObject<EvolutionLureBlock> EVOLUTION_LURE = BLOCKS.register(
             "evolutionlure", () -> new EvolutionLureBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_RED).strength(2.0F, 6.0F).sound(SoundType.STONE)));
@@ -263,7 +264,7 @@ public final class ModBlocks {
                     .instabreak()
                     .noOcclusion()
                     .randomTicks()
-                    .sound(SoundType.COBWEB)
+                    .sound(SoundType.WOOL)
                     .noLootTable()));
     public static final RegistryObject<DispatcherNidusBlock> DISPATCHER_NIDUS = BLOCKS.register(
             "dispatcher_nidus", () -> new DispatcherNidusBlock(BlockBehaviour.Properties.of()
@@ -379,7 +380,7 @@ public final class ModBlocks {
             "diseased_sponge", () -> new DiseasedSpongeBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_RED)
                     .strength(0.6F)
-                    .sound(SoundType.SPONGE)));
+                    .sound(SoundType.STONE)));
     public static final RegistryObject<InfuserFurnaceBlock> INFUSER_FURNACE = BLOCKS.register(
             "infuser_furnace", () -> new InfuserFurnaceBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_LIGHT_GRAY)
@@ -519,14 +520,14 @@ public final class ModBlocks {
 
     private static RegistryObject<ButtonBlock> woodButton(String id) {
         return BLOCKS.register(id, () -> new ButtonBlock(
-                BlockSetType.OAK, 30, BlockBehaviour.Properties.of()
-                        .mapColor(MapColor.COLOR_RED).noCollission().strength(0.5F).sound(SoundType.WOOD)));
+                BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).noCollission().strength(0.5F).sound(SoundType.WOOD),
+                BlockSetType.OAK, 30, false));
     }
 
     private static RegistryObject<PressurePlateBlock> woodPressurePlate(String id) {
         return BLOCKS.register(id, () -> new PressurePlateBlock(
-                BlockSetType.OAK, BlockBehaviour.Properties.of()
-                        .mapColor(MapColor.COLOR_RED).noCollission().strength(0.5F).sound(SoundType.WOOD)));
+                PressurePlateBlock.Sensitivity.EVERYTHING, BlockBehaviour.Properties.of()
+                        .mapColor(MapColor.COLOR_RED).noCollission().strength(0.5F).sound(SoundType.WOOD), BlockSetType.OAK));
     }
 
     private static RegistryObject<LadderBlock> woodLadder(String id) {
@@ -594,7 +595,7 @@ public final class ModBlocks {
     private static RegistryObject<InfestedWallBlock> infestedWall(
             String id, RegistryObject<? extends Block> baseBlock) {
         return BLOCKS.register(id, () -> new InfestedWallBlock(
-                BlockBehaviour.Properties.ofFullCopy(baseBlock.get())));
+                BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.5F, 10.0F)));
     }
 
     private ModBlocks() {

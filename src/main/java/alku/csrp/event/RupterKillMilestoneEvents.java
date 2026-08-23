@@ -2,7 +2,7 @@ package alku.csrp.event;
 
 import alku.csrp.Csrp;
 import alku.csrp.registry.ModEntities;
-import net.minecraft.advancements.AdvancementHolder;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -36,7 +36,7 @@ public final class RupterKillMilestoneEvents {
             return;
         }
 
-        AdvancementHolder advancement = player.server.getAdvancements().get(ADVANCEMENT_ID);
+        Advancement advancement = player.server.getAdvancements().getAdvancement(ADVANCEMENT_ID);
         if (advancement != null) {
             player.getAdvancements().award(advancement, CRITERION);
         }

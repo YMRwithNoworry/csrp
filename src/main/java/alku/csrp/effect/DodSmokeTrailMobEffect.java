@@ -11,23 +11,23 @@ public final class DodSmokeTrailMobEffect extends MarkerMobEffect {
     }
 
     @Override
-    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
+    public void applyEffectTick(LivingEntity entity, int amplifier) {
         if (!(entity.level() instanceof ServerLevel level)) {
-            return true;
+            return;
         }
         var effect = entity.getEffect(alku.csrp.registry.ModMobEffects.DOD_SMOKE_TRAIL.get());
         int remaining = effect == null ? 0 : effect.getDuration();
         if (entity.onGround() && remaining <= 10) {
             entity.removeEffect(alku.csrp.registry.ModMobEffects.DOD_SMOKE_TRAIL.get());
-            return true;
+            return;
         }
         level.sendParticles(ParticleTypes.SMOKE, entity.getX(), entity.getY() + entity.getEyeHeight(),
                 entity.getZ(), 6, 0.15D, 0.15D, 0.15D, 0.02D);
-        return true;
+        return;
     }
 
     @Override
-    public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
+    public boolean isDurationEffectTick(int duration, int amplifier) {
         return true;
     }
 }

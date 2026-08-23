@@ -85,7 +85,7 @@ public final class BookOfVengeanceEvents {
     @SubscribeEvent
     public static void tick(LevelTickEvent event) {
         if (event.phase == TickEvent.Phase.START) {return;}
-        if (!(event.getLevel() instanceof ServerLevel level)) {
+        if (!(event.level instanceof ServerLevel level)) {
             return;
         }
         List<SlamChain> chains = CHAINS.get(level);

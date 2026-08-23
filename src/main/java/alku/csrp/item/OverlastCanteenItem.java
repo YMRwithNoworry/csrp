@@ -1,4 +1,5 @@
 package alku.csrp.item;
+import net.minecraft.nbt.CompoundTag;
 
 import alku.csrp.util.NbtData;
 import java.util.List;
@@ -6,7 +7,6 @@ import alku.csrp.registry.ModItems;
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
@@ -20,8 +20,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
-import net.minecraft.world.item.alchemy.PotionContents;
-import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 
@@ -64,7 +63,7 @@ public final class OverlastCanteenItem extends Item {
 
         if (user instanceof Player player) {
             player.awardStat(Stats.ITEM_USED.get(this));
-            if (player.hasInfiniteMaterials()) {
+            if (player.getAbilities().instabuild) {
                 return stack;
             }
         }
@@ -85,7 +84,7 @@ public final class OverlastCanteenItem extends Item {
     }
 
     @Override
-    public int getUseDuration(ItemStack stack, LivingEntity entity) {
+    public int getUseDuration(ItemStack stack) {
         return dose == Dose.EMPTY ? 0 : 32;
     }
 
@@ -111,11 +110,11 @@ public final class OverlastCanteenItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context,
+    public void appendHoverText(ItemStack stack, Level context,
             List<Component> tooltip, TooltipFlag flag) {
         int sips = getSips(stack);
         if (dose != Dose.EMPTY) {
-            PotionContents.addPotionTooltip(List.of(createEffect()), tooltip::add, 1.0F, context.tickRate());
+            PotionUtils.addPotionTooltip(List.of(createEffect()), tooltip, 1.0F);
         }
         ChatFormatting sipColor = sips >= 5 ? ChatFormatting.GREEN
                 : sips >= 2 ? ChatFormatting.YELLOW : ChatFormatting.RED;
@@ -128,15 +127,15 @@ public final class OverlastCanteenItem extends Item {
         if (!(stack.getItem() instanceof OverlastCanteenItem canteen)) {
             return 0;
         }
-        CustomData data = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
-        int sips = data.contains(SIPS_TAG) ? data.copyTag().getInt(SIPS_TAG)
+        CompoundTag data = NbtData.copyTag(stack);
+        int sips = data.contains(SIPS_TAG) ? data.getInt(SIPS_TAG)
                 : canteen.dose == Dose.EMPTY ? 0 : MAX_SIPS - stack.getDamageValue();
         return Mth.clamp(sips, 0, MAX_SIPS);
     }
 
     public static int getCanteenDurability(ItemStack stack) {
-        CustomData data = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
-        int durability = data.contains(DURABILITY_TAG) ? data.copyTag().getInt(DURABILITY_TAG)
+        CompoundTag data = NbtData.copyTag(stack);
+        int durability = data.contains(DURABILITY_TAG) ? data.getInt(DURABILITY_TAG)
                 : MAX_CANTEEN_DURABILITY - stack.getDamageValue();
         return Mth.clamp(durability, 0, MAX_CANTEEN_DURABILITY);
     }

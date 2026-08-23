@@ -1,7 +1,6 @@
 package alku.csrp.block;
 
 import alku.csrp.registry.ModBlocks;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -14,7 +13,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 
 /** Residue sprouts that attach to exposed residue-block faces. */
 public final class ResidueBloomingBlock extends DirectionalBlock {
-    public static final MapCodec<ResidueBloomingBlock> CODEC = simpleCodec(ResidueBloomingBlock::new);
 
     public ResidueBloomingBlock(Properties properties) {
         super(properties.randomTicks());
@@ -22,12 +20,7 @@ public final class ResidueBloomingBlock extends DirectionalBlock {
     }
 
     @Override
-    protected MapCodec<? extends DirectionalBlock> codec() {
-        return CODEC;
-    }
-
-    @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING);
     }
 
@@ -38,13 +31,13 @@ public final class ResidueBloomingBlock extends DirectionalBlock {
     }
 
     @Override
-    protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         BlockPos support = pos.relative(state.getValue(FACING).getOpposite());
         return level.getBlockState(support).is(ModBlocks.RESIDUE_BLOCK.get());
     }
 
     @Override
-    protected void randomTick(BlockState state, net.minecraft.server.level.ServerLevel level,
+public void randomTick(BlockState state, net.minecraft.server.level.ServerLevel level,
                               BlockPos pos, RandomSource random) {
         if (random.nextInt(8) != 0) {
             return;

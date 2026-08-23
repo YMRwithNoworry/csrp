@@ -69,9 +69,10 @@ public final class OriginalConfigEvents {
 
     private static void applyMultiplier(AttributeInstance attribute, ResourceLocation id, double multiplier) {
         if (attribute == null) return;
-        attribute.removeModifier(id);
+        java.util.UUID uuid = java.util.UUID.nameUUIDFromBytes(id.toString().getBytes(java.nio.charset.StandardCharsets.UTF_8));
+        attribute.removeModifier(uuid);
         if (multiplier != 1.0D) {
-            attribute.addPermanentModifier(new AttributeModifier(id, multiplier - 1.0D,
+            attribute.addPermanentModifier(new AttributeModifier(uuid, id.toString(), multiplier - 1.0D,
                     AttributeModifier.Operation.MULTIPLY_TOTAL));
         }
     }

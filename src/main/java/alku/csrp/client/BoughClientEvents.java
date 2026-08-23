@@ -25,7 +25,7 @@ public final class BoughClientEvents {
         if (!isUsingBough(player)) {
             return;
         }
-        float progress = ritualProgress(player, event.getPartialTick().getGameTimeDeltaPartialTick(false));
+        float progress = ritualProgress(player, event.getPartialTick());
         int alpha = Mth.clamp((int) (progress * 210.0F), 0, 210);
         event.getGuiGraphics().fill(0, 0, minecraft.getWindow().getGuiScaledWidth(),
                 minecraft.getWindow().getGuiScaledHeight(), alpha << 24);

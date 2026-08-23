@@ -12,9 +12,9 @@ public final class ContaminationMobEffect extends MarkerMobEffect {
     }
 
     @Override
-    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
+    public void applyEffectTick(LivingEntity entity, int amplifier) {
         if (entity.level().isClientSide || entity.tickCount % 40 != 0) {
-            return true;
+            return;
         }
         if (entity.getHealth() > 1.0F) {
             entity.hurt(entity.damageSources().magic(), 1.0F);
@@ -22,17 +22,17 @@ public final class ContaminationMobEffect extends MarkerMobEffect {
         MobEffectInstance current = entity.getEffect(ModMobEffects.CONTAMINATION.get());
         int duration = current == null ? 0 : current.getDuration();
         if (duration <= 0) {
-            return true;
+            return;
         }
         AABB area = entity.getBoundingBox().inflate(4.0D, 3.0D, 4.0D);
         for (LivingEntity nearby : entity.level().getEntitiesOfClass(LivingEntity.class, area)) {
             EffectStacking.apply(nearby, ModMobEffects.CONTAMINATION.get(), duration, amplifier);
         }
-        return true;
+        return;
     }
 
     @Override
-    public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
+    public boolean isDurationEffectTick(int duration, int amplifier) {
         int interval = 25 >> amplifier;
         return interval <= 0 || duration % interval == 0;
     }

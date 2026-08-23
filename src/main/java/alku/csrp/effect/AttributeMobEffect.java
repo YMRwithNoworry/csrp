@@ -8,9 +8,9 @@ import net.minecraft.core.Holder;
 
 /** Marker effect with a legacy multiplicative attribute modifier. */
 public final class AttributeMobEffect extends MarkerMobEffect {
-    public AttributeMobEffect(boolean harmful, int color, Holder<Attribute> attribute,
+    public AttributeMobEffect(boolean harmful, int color, Attribute attribute,
                               ResourceLocation id, double amount) {
         super(harmful, color);
-        addAttributeModifier(attribute, id, amount, AttributeModifier.Operation.MULTIPLY_TOTAL);
+        addAttributeModifier(attribute, id.toString(), amount, AttributeModifier.Operation.MULTIPLY_TOTAL);
     }
 }
