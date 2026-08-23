@@ -104,10 +104,10 @@ public final class ModItems {
     }
 
     public static final RegistryObject<SpawnEggItem> BUGLIN_SPAWN_EGG = ITEMS.registerItem(
-            "buglin_spawn_egg", properties -> new TexturedSpawnEggItem(ModEntities.BUGLIN.get(), 0x8B1E1E, 0xE1B85B, properties),
+            "buglin_spawn_egg", properties -> new TexturedSpawnEggItem(ModEntities.BUGLIN, 0x8B1E1E, 0xE1B85B, properties),
             new Item.Properties());
     public static final RegistryObject<SpawnEggItem> RUPTER_SPAWN_EGG = ITEMS.registerItem(
-            "rupter_spawn_egg", properties -> new TexturedSpawnEggItem(ModEntities.RUPTER.get(), 0x6E1717, 0xD8B45B, properties),
+            "rupter_spawn_egg", properties -> new TexturedSpawnEggItem(ModEntities.RUPTER, 0x6E1717, 0xD8B45B, properties),
             new Item.Properties());
     public static final RegistryObject<SpawnEggItem> PRI_LONGARMS_SPAWN_EGG = spawnEgg(
             "pri_longarms_spawn_egg", ModEntities.PRI_LONGARMS, 0x551C1C, 0xC9A17B);
@@ -954,7 +954,7 @@ public final class ModItems {
     private static <T extends net.minecraft.world.entity.Mob> RegistryObject<SpawnEggItem> spawnEgg(String id,
             net.minecraftforge.registries.RegistryObject<net.minecraft.world.entity.EntityType<T>> type, int primary, int secondary) {
         return ITEMS.registerItem(id,
-                properties -> new TexturedSpawnEggItem(type.get(), primary, secondary, properties),
+                properties -> new TexturedSpawnEggItem(type, primary, secondary, properties),
                 new Item.Properties());
     }
     private static RegistryObject<Item> simple(String id, Item.Properties properties) {
