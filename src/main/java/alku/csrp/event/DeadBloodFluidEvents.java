@@ -22,8 +22,8 @@ public final class DeadBloodFluidEvents {
 
     @SubscribeEvent
     public static void onEntityTick(LivingEvent.LivingTickEvent event) {
-        if (!(event.getEntity() instanceof LivingEntity entity)
-                || entity.level().isClientSide
+        LivingEntity entity = event.getEntity();
+        if (entity.level().isClientSide
                 || !entity.isInFluidType(ModFluidTypes.DEAD_BLOOD.get())) {
             return;
         }

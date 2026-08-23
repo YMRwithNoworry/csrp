@@ -490,7 +490,7 @@ public final class KirinEntity extends DerivedParasiteEntity {
             return;
         }
 
-        LivingEntity victim = nearby.getFirst();
+        LivingEntity victim = nearby.get(0);
         float currentHealth = victim.getHealth();
         if (currentHealth <= 0.0F) {
             return;

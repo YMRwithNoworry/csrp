@@ -100,8 +100,8 @@ public final class ColonyEvents {
 
     @SubscribeEvent
     public static void contributeGlobalAdaptation(LivingDeathEvent event) {
-        if (!(event.getEntity() instanceof LivingEntity parasiteEntity)
-                || !(parasiteEntity instanceof Parasite)
+        LivingEntity parasiteEntity = event.getEntity();
+        if (!(parasiteEntity instanceof Parasite)
                 || !(parasiteEntity.level() instanceof ServerLevel level)
                 || parasiteEntity.isOnFire()) {
             return;

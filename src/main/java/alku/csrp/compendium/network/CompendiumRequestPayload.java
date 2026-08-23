@@ -17,7 +17,8 @@ public record CompendiumRequestPayload() {
 
     public static void handle(CompendiumRequestPayload payload, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            if (ctx.get().getSender() instanceof ServerPlayer player) {
+            ServerPlayer player = ctx.get().getSender();
+            if (player != null) {
                 var progress = CompendiumSavedData.get(player.getServer()).progress(player.getUUID());
                 CsrpNetwork.sendToPlayer(player, new CompendiumOpenPayload(progress.save()));
             }

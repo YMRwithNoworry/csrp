@@ -45,7 +45,7 @@ public final class CanteenRefillRecipe implements CraftingRecipe {
                 ? RecipeMatcher.findMatches(input.getItems().stream().filter(stack -> !stack.isEmpty()).toList(),
                         ingredients) != null
                 : input.getContainerSize() == 1 && ingredients.size() == 1
-                ? ingredients.getFirst().test(input.getItem(0))
+                ? ingredients.get(0).test(input.getItem(0))
                 : RecipeMatcher.findMatches(input.getItems(), ingredients) != null;
         if (!ingredientsMatch) {
             return false;

@@ -124,7 +124,7 @@ public final class LivingMaulItem extends LivingWeaponItem {
                 player.getBoundingBox().expandTowards(movement).inflate(1.0D), target -> validTarget(player, target));
         if (!collisions.isEmpty()) {
             slam((ServerLevel) level, player, stack);
-            collisions.getFirst().hurt(player.damageSources().playerAttack(player),
+            collisions.get(0).hurt(player.damageSources().playerAttack(player),
                     (float) player.getAttributeValue(Attributes.ATTACK_DAMAGE) * 2.0F);
             tag.putBoolean(DASH, false);
             clearPending(tag);

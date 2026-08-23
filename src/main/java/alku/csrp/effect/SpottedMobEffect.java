@@ -88,7 +88,7 @@ public final class SpottedMobEffect extends MobEffect {
     private static Mob findNearbyParasite(ServerLevel level, LivingEntity target) {
         AABB search = new AABB(target.blockPosition()).inflate(32.0D, 16.0D, 32.0D);
         List<Mob> parasites = level.getEntitiesOfClass(Mob.class, search, mob -> mob instanceof Parasite);
-        return parasites.isEmpty() ? null : parasites.getFirst();
+        return parasites.isEmpty() ? null : parasites.get(0);
     }
 
     private static int countParasites(ServerLevel level) {

@@ -90,8 +90,8 @@ public final class ThornshadeThornsEvents {
 
     @SubscribeEvent
     public static void tickExplosion(LivingEvent.LivingTickEvent event) {
-        if (!(event.getEntity() instanceof LivingEntity living)
-                || living.level().isClientSide || !living.isAlive()) {
+        LivingEntity living = event.getEntity();
+        if (living.level().isClientSide || !living.isAlive()) {
             return;
         }
         CompoundTag data = thornData(living);

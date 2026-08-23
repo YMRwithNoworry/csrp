@@ -318,8 +318,8 @@ public final class EvolutionEvents {
 
     @SubscribeEvent
     public static void applyGenerationModifiers(LivingEvent.LivingTickEvent event) {
-        if (!(event.getEntity() instanceof LivingEntity entity)
-                || !(entity.level() instanceof ServerLevel level)) {
+        LivingEntity entity = event.getEntity();
+        if (!(entity.level() instanceof ServerLevel level)) {
             return;
         }
         if (entity.tickCount % 20 == 0 && InfectionMechanics.isHiddenAssimilated(entity)) {

@@ -18,6 +18,12 @@ base {
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
+// Minecraft 1.20.1 Forge runs on Java 17. Use the GraalVM 21 compiler while
+// emitting Java 17 bytecode so Mixin-transformed Minecraft classes stay loadable.
+tasks.withType(JavaCompile).configureEach {
+    options.release = 17
+}
+
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 
 minecraft {

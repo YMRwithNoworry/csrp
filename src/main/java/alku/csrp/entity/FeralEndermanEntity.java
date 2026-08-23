@@ -267,7 +267,7 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
         }
         List<Mob> allies = level().getEntitiesOfClass(Mob.class, getBoundingBox().inflate(64.0D),
                 ally -> ally != this && ally.isAlive() && canTeleportAlly(ally));
-        return allies.isEmpty() ? null : allies.getFirst();
+        return allies.isEmpty() ? null : allies.get(0);
     }
 
     private boolean teleportAllyToTarget(LivingEntity target, Mob ally) {

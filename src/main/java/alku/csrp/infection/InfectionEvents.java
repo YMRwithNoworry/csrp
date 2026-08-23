@@ -109,10 +109,9 @@ public final class InfectionEvents {
 
     @SubscribeEvent
     public static void preventParasiteTargeting(LivingChangeTargetEvent event) {
+        LivingEntity target = event.getNewTarget();
         if (event.getEntity() instanceof Parasite
-                && (event.getNewTarget() instanceof Parasite
-                || event.getNewTarget() instanceof LivingEntity target
-                && InfectionMechanics.isHiddenAssimilated(target))) {
+                && (target instanceof Parasite || InfectionMechanics.isHiddenAssimilated(target))) {
             event.setCanceled(true);
         }
     }

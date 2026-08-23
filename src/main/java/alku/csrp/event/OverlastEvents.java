@@ -89,8 +89,8 @@ public final class OverlastEvents {
 
     @SubscribeEvent
     public static void tickEffects(LivingEvent.LivingTickEvent event) {
-        if (!(event.getEntity() instanceof LivingEntity living)
-                || !(living.level() instanceof ServerLevel level) || living.tickCount % 20 != 0) {
+        LivingEntity living = event.getEntity();
+        if (!(living.level() instanceof ServerLevel level) || living.tickCount % 20 != 0) {
             return;
         }
         MobEffectInstance purify = living.getEffect(ModMobEffects.PARASITES_PURIFY.get());
@@ -138,7 +138,8 @@ public final class OverlastEvents {
 
     @SubscribeEvent
     public static void fortunateOreDrops(BlockEvent.BreakEvent event) {
-        if (!(event.getPlayer() instanceof Player player) || !player.hasEffect(ModMobEffects.FORTUNATE.get())
+        Player player = event.getPlayer();
+        if (!player.hasEffect(ModMobEffects.FORTUNATE.get())
                 || !isFortunateOre(event.getState().getBlock())) {
             return;
         }
