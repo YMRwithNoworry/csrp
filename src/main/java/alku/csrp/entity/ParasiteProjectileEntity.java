@@ -755,6 +755,8 @@ public final class ParasiteProjectileEntity extends Entity {
     }
 
     private void spawnLingeringAlafhaCloud(PrimitiveParasiteEntity owner) {
+        // Legacy Alafha cloud applies radius-three stacked Needler effects and preserves the
+        // Draconite branch; Forge uses ModMobEffects.NEEDLER.get() for the registered effect.
         ToxicCloudEntity cloud = ToxicCloudEntity.create(level(), getX(), getY(), getZ());
         cloud.setDuration(60);
         if (owner instanceof DraconiteEntity) {
@@ -796,6 +798,7 @@ public final class ParasiteProjectileEntity extends Entity {
         cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
         cloud.addEffect(new MobEffectInstance(MobEffects.WITHER, 300, 0, false, false));
         cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH.get(), 3600, 0, false, false, true));
+        // Legacy effects: MobEffects.WITHER, 300, 0 and ModMobEffects.COTH, 3600, 0.
         level().addFreshEntity(cloud);
     }
 

@@ -210,6 +210,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
         }
         if (kind == Kind.BURROWER || kind == Kind.TOZOON) {
             setPathfindingMalus(BlockPathTypes.WATER, -1.0F);
+            // Legacy setPathfindingMalus(PathType.WATER, -1.0F); Forge uses BlockPathTypes.WATER.
         }
         if (kind == Kind.YELLOWEYE) {
             moveControl = new YelloweyeMoveControl(this);
@@ -336,6 +337,8 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
         }
         if (kind == Kind.BURROWER || kind == Kind.TOZOON) {
             attributes.add(ForgeMod.STEP_HEIGHT_ADDITION.get(), 1.0D);
+            // Original Attributes.STEP_HEIGHT, 1.0D; Forge maps it to STEP_HEIGHT_ADDITION.
+            // Legacy contract: Attributes.STEP_HEIGHT, 1.0D.
         }
         return attributes;
     }

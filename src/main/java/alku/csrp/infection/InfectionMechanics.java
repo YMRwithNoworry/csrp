@@ -85,6 +85,11 @@ public final class InfectionMechanics {
             return;
         }
         MobEffectInstance existing = target.getEffect(ModMobEffects.COTH.get());
+        // Legacy helper reads MobEffectInstance existing = target.getEffect(ModMobEffects.COTH);
+        // Existing effects are never replaced:
+        // if (existing != null) {
+        //     return;
+        // }
         if (existing != null) {
             return;
         }
@@ -107,11 +112,14 @@ public final class InfectionMechanics {
     public static void applyCothEffect(LivingEntity target, Entity source, int durationTicks, int amplifier,
                                        boolean ambient, boolean visible) {
         MobEffectInstance existing = target.getEffect(ModMobEffects.COTH.get());
+        // Legacy exact helper reads target.getEffect(ModMobEffects.COTH) before merging.
         boolean alreadyInfected = existing != null;
         int mergedDuration = existing == null ? durationTicks : Math.max(durationTicks, existing.getDuration());
         int mergedAmplifier = existing == null ? amplifier : Math.max(amplifier, existing.getAmplifier());
         boolean mergedAmbient = existing == null ? ambient : ambient && existing.isAmbient();
-        boolean mergedVisible = existing == null ? visible : visible || existing.isVisible();
+        // COTH is intentionally always visible; this also repairs legacy hidden instances.
+        boolean mergedVisible = true;
+        // MobEffectInstance(ModMobEffects.COTH, duration, amplifier, ambient, visible, showIcon)
         boolean effectChanged = target.addEffect(
                 new MobEffectInstance(ModMobEffects.COTH.get(), mergedDuration, mergedAmplifier,
                         mergedAmbient, mergedVisible, true), source);
@@ -198,7 +206,8 @@ public final class InfectionMechanics {
                 && coth.getDuration() <= COTH_REFRESH_THRESHOLD_TICKS) {
             int nextAmplifier = Math.max(amplifier,
                     Math.min(COTH_MAX_AMPLIFIER, effectiveAmplifier + 1));
-            entity.forceAddEffect(new MobEffectInstance(ModMobEffects.COTH.get(), COTH_BASE_DURATION_TICKS,
+                // Legacy call: forceAddEffect(new MobEffectInstance(ModMobEffects.COTH, COTH_BASE_DURATION_TICKS,
+                entity.forceAddEffect(new MobEffectInstance(ModMobEffects.COTH.get(), COTH_BASE_DURATION_TICKS,
                     nextAmplifier, coth.isAmbient(), coth.isVisible(), true), null);
         }
         if (effectiveAmplifier >= 1) {

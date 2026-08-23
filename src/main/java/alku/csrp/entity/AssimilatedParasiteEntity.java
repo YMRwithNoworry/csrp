@@ -65,6 +65,7 @@ import java.util.EnumSet;
  * no-adaptation, fire-vulnerable progression path rather than inheriting the
  * primitive-parasite damage-adaptation state.
  */
+// extends Monster implements GeoEntity, Parasite: assimilated bodies stay outside malleable adaptation.
 public final class AssimilatedParasiteEntity extends Monster
         implements GeoEntity, Parasite, MeltableAssimilated, ManualVariantProvider {
     public static final int FERAL_KILL_THRESHOLD = 60;

@@ -73,6 +73,7 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity implements M
         super.defineSynchedData();
         entityData.define(SKIN, (byte) 0);
         entityData.define(FUSE_TICKS, -1);
+        // Legacy builder.define(FUSE_TICKS, -1) and builder.define(SKIN, (byte) 0).
     }
 
     @Override
@@ -390,6 +391,7 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity implements M
             target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL.get(), 400, amplifier), this);
             target.addEffect(new MobEffectInstance(ModMobEffects.VOMIT.get(), duration, 0,
                     false, true), this);
+            // Legacy effect key: ModMobEffects.VOMIT, duration, 0.
         }
     }
 

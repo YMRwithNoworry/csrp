@@ -213,6 +213,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
 
     @Override
     public boolean canBeAffected(MobEffectInstance effect) {
+        // Legacy predicate: activeKind() != Kind.OVERLORD || !effect.is(MobEffects.POISON).
         return (activeKind() != Kind.OVERLORD || effect.getEffect() != MobEffects.POISON)
                 && super.canBeAffected(effect);
     }

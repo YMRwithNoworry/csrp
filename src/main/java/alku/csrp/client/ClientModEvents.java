@@ -29,6 +29,7 @@ import alku.csrp.client.renderer.SimHumanRenderer;
 import alku.csrp.client.renderer.AssimilatedParasiteRenderer;
 import alku.csrp.client.renderer.PrimitiveParasiteRenderer;
 import alku.csrp.client.renderer.PullingBallRenderer;
+import alku.csrp.client.renderer.LegacyBillboardRenderer;
 import alku.csrp.client.renderer.ParasiteProjectileRenderer;
 import alku.csrp.client.renderer.ScaryOrbRenderer;
 import alku.csrp.client.renderer.VoidOrbRenderer;
@@ -362,7 +363,10 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.MISSILE.get(), ParasiteProjectileRenderer::new);
         event.registerEntityRenderer(ModEntities.SALIVA_EFFECT.get(), ParasiteProjectileRenderer::new);
         event.registerEntityRenderer(ModEntities.BIOMASS_BALL.get(), ParasiteProjectileRenderer::new);
-        event.registerEntityRenderer(ModEntities.ANTI_INFESTED_BLOCK.get(), NoopRenderer::new);
+        event.registerEntityRenderer(ModEntities.ANTI_INFESTED_BLOCK.get(), context ->
+                new LegacyBillboardRenderer<>(context,
+                        new ResourceLocation(Csrp.MODID, "textures/entity/projectile/cleaner.png"),
+                        1.0F, 1.0F));
         event.registerEntityRenderer(ModEntities.ORB_BOOM.get(), OrbBoomRenderer::new);
         event.registerEntityRenderer(ModEntities.SOURCE.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.REMAIN.get(), NoopRenderer::new);

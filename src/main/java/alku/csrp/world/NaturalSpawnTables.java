@@ -13,6 +13,8 @@ import java.util.stream.Stream;
 
 /** Original SRP phase and ubiquitous-development natural spawn tables. */
 public final class NaturalSpawnTables {
+    // Legacy SpawnPlacementTypes.IN_AIR is represented by Forge 1.20.1 NO_RESTRICTIONS;
+    // CommonModEvents still enforces the three-block air column predicate.
     private static final double UBIQUITOUS_TABLE_CHANCE = 0.5D;
 
     private static final List<MobSpawnSettings.SpawnerData> PHASE_MINUS_ONE = List.of(

@@ -188,6 +188,7 @@ public final class HeedEntity extends CrudeParasiteEntity {
 
     @Override
     public float getEyeHeight(net.minecraft.world.entity.Pose pose) {
+        // Legacy EntityHeed eye height is 1.5F.
         return 1.5F;
     }
 

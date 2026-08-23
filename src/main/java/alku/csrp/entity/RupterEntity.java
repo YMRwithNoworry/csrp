@@ -943,6 +943,7 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite, Manual
             cloud.setWaitTime(10);
             cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
             cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH.get(), 3600, 1, false, false, true));
+            // Legacy COTH II cloud effect: new MobEffectInstance(ModMobEffects.COTH, 3600, 1, false, false, true).
             level().addFreshEntity(cloud);
             playSound(ModSounds.RUPTER_CLOUD.get(), 2.0F, 1.0F);
             cloudCooldown = 20;

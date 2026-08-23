@@ -57,6 +57,7 @@ public final class TendrilEntity extends Monster implements GeoEntity, Parasite 
     protected void defineSynchedData() {
         super.defineSynchedData();
         entityData.define(SKIN, SHYCO);
+        // Legacy builder.define(SKIN, SHYCO); parasitetype stores the synchronized skin.
     }
 
     @Override

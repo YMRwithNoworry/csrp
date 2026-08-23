@@ -31,6 +31,14 @@ public final class ParasiteProjectileRenderer extends EntityRenderer<ParasitePro
             "textures/entity/projectile/anged.png");
     private static final ResourceLocation BIOMASS_TEXTURE = new ResourceLocation(Csrp.MODID,
             "textures/entity/projectile/biomass.png");
+    private static final ResourceLocation WEB_TEXTURE = new ResourceLocation(Csrp.MODID,
+            "textures/entity/projectile/webball.png");
+    private static final ResourceLocation ANCIENT_TEXTURE = new ResourceLocation(Csrp.MODID,
+            "textures/entity/projectile/ancient.png");
+    private static final ResourceLocation DRAGON_TEXTURE = new ResourceLocation(Csrp.MODID,
+            "textures/entity/projectile/dragone.png");
+    private static final ResourceLocation METEOR_TEXTURE = new ResourceLocation(Csrp.MODID,
+            "textures/entity/projectile/meteor.png");
 
     public ParasiteProjectileRenderer(EntityRendererProvider.Context context) {
         super(context);
@@ -140,6 +148,8 @@ public final class ParasiteProjectileRenderer extends EntityRenderer<ParasitePro
     @Override
     public ResourceLocation getTextureLocation(ParasiteProjectileEntity entity) {
         return switch (entity.getMode()) {
+            case WEB -> WEB_TEXTURE;
+            case SPINE -> SPINEBALL_TEXTURE;
             case LENCIA_BALL -> LENCIA_TEXTURE;
             case ELVIA_BALL -> ELVIA_TEXTURE;
             case ELVIA_NADE, ACID -> NADE_PROJECTILE_TEXTURE;
@@ -148,6 +158,10 @@ public final class ParasiteProjectileRenderer extends EntityRenderer<ParasitePro
                     ? YELLOWEYE_NADE_TEXTURE : NADE_PROJECTILE_TEXTURE;
             case ALAFHA_BALL -> ALAFHA_TEXTURE;
             case ANGED_BALL -> ANGED_TEXTURE;
+            case ANCIENT_BALL -> ANCIENT_TEXTURE;
+            case DRAGON_MISSILE -> DRAGON_TEXTURE;
+            case METEOR -> METEOR_TEXTURE;
+            case SALIVA_EFFECT -> ELVIA_TEXTURE;
             case BIOMASS_BALL -> BIOMASS_TEXTURE;
             default -> DEFAULT_TEXTURE;
         };

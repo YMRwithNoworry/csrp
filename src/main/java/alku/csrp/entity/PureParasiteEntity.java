@@ -252,6 +252,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         }
         if (kind == Kind.MONARCH || kind == Kind.VIGILANTE || kind == Kind.WARDEN) {
             attributes.add(ForgeMod.STEP_HEIGHT_ADDITION.get(), 1.0D);
+            // Original Attributes.STEP_HEIGHT, 1.0D; Forge maps it to STEP_HEIGHT_ADDITION.
         }
         return attributes;
     }
@@ -537,6 +538,8 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
 
     @Override
     public float getEyeHeight(net.minecraft.world.entity.Pose pose) {
+        // Legacy dimensions.withEyeHeight values: Bomber 2.4, Monarch 3.5, Overseer/Seeker 1.6,
+        // Vigilante 3.0, Warden 3.5.
         return switch (activeKind()) {
             case GRUNT -> 1.73F;
             case BOMBER_LIGHT -> 2.4F;

@@ -96,6 +96,7 @@ public final class RemainEntity extends Entity {
                 MobSpawnType.MOB_SUMMONED, null, null);
         rebuilt.setHealth(rebuilt.getMaxHealth() * health);
         rebuilt.addEffect(new MobEffectInstance(ModMobEffects.DEBAR.get(), 400, 0, false, false), this);
+        // Legacy call: ModMobEffects.DEBAR, 400.
         applyLegacySkin(rebuilt);
         serverLevel.playSound(null, blockPosition(), ModSounds.get("summoner.resurrect"),
                 SoundSource.HOSTILE, 1.0F, 1.0F);

@@ -78,6 +78,8 @@ import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
@@ -360,11 +362,26 @@ public final class CommonModEvents {
         SpawnPlacements.Type placement = WATER_SPAWN_IDS.contains(id)
                 ? SpawnPlacements.Type.IN_WATER
                 : AIR_SPAWN_IDS.contains(id) ? SpawnPlacements.Type.NO_RESTRICTIONS : SpawnPlacements.Type.ON_GROUND;
+        // NeoForge names these SpawnPlacementTypes.IN_WATER / IN_AIR / ON_GROUND;
+        // Forge 1.20.1 uses SpawnPlacements.Type and NO_RESTRICTIONS for IN_AIR.
         SpawnPlacements.SpawnPredicate<T> predicate = (entityType, level, spawnType, pos, random) ->
-                Monster.checkMonsterSpawnRules(
+                AIR_SPAWN_IDS.contains(id)
+                        ? isAirColumnSpawnPosition(level, pos)
+                        && Monster.checkMonsterSpawnRules(
+                        (EntityType<? extends Monster>) entityType, level, spawnType, pos, random)
+                        : Monster.checkMonsterSpawnRules(
                         (EntityType<? extends Monster>) entityType, level, spawnType, pos, random);
         event.register(type, placement, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, predicate,
                 SpawnPlacementRegisterEvent.Operation.REPLACE);
+    }
+
+    private static boolean isAirColumnSpawnPosition(ServerLevelAccessor level, BlockPos pos) {
+        // Legacy IN_AIR placement: isWithinBounds(pos), isEmptyBlock(pos.below()),
+        // isEmptyBlock(pos), and isEmptyBlock(pos.above()) are all required.
+        return level.getLevel().getWorldBorder().isWithinBounds(pos)
+                && level.isEmptyBlock(pos.below())
+                && level.isEmptyBlock(pos)
+                && level.isEmptyBlock(pos.above());
     }
 
 }

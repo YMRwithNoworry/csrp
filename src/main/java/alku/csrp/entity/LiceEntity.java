@@ -81,6 +81,7 @@ public final class LiceEntity extends PrimitiveParasiteEntity {
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
+        // Legacy builder.define(FLIGHT_FLAGS, (byte) 0) charging synchronization.
         entityData.define(FLIGHT_FLAGS, (byte) 0);
     }
 
@@ -214,10 +215,12 @@ public final class LiceEntity extends PrimitiveParasiteEntity {
 
     @Override
     public float getEyeHeight(net.minecraft.world.entity.Pose pose) {
+        // EntityType.Builder.withEyeHeight(0.8F) in the legacy API.
         return 0.8F;
     }
 
     protected Vec3 getPassengerAttachmentPoint(Entity passenger, EntityDimensions dimensions, float partialTick) {
+        // EntityDimensions.height() * 0.5D (the legacy mounted offset).
         return new Vec3(0.0D, dimensions.height * 0.5D, 0.0D);
     }
 

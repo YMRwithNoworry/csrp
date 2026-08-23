@@ -99,6 +99,8 @@ public final class ParasiteLootMenu extends AbstractContainerMenu {
                 ? container.getItem(slotId) : ItemStack.EMPTY;
         boolean replaced = !before.isEmpty() && !after.isEmpty()
                 && !ItemStack.isSameItemSameTags(before, after);
+        // Forge 1.20.1 equivalent of NeoForge 1.21 ItemStack.isSameItemSameComponents.
+        // Legacy check: ItemStack.isSameItemSameComponents(before, after).
         if (!replaced) {
             applyParasiteEffects(player, queuedFullness);
         }

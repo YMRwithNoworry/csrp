@@ -54,8 +54,7 @@ public InteractionResult use(BlockState state, Level level, BlockPos pos, Player
     @Override
     public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
         if (!state.is(newState.getBlock()) && level.getBlockEntity(pos) instanceof ParasiteLootBlockEntity loot) {
-            loot.removeItemNoUpdate(0);
-            for (int slot = 1; slot < loot.getContainerSize(); slot++) loot.removeItemNoUpdate(slot);
+            loot.clearContent();
         }
         super.onRemove(state, level, pos, newState, isMoving);
     }

@@ -654,6 +654,7 @@ public final class ModEntities {
     private static <T extends net.minecraft.world.entity.Mob> RegistryObject<EntityType<T>> monster(
             String id, EntityType.EntityFactory<T> factory, float width, float height, float eyeHeight) {
         return ENTITIES.register(id, () -> EntityType.Builder.of(factory, MobCategory.MONSTER)
+                // Forge 1.20.1 has no EntityType.Builder eyeHeight method; entities override getEyeHeight(Pose).
                 .sized(width, height).clientTrackingRange(8)
                 .build(new ResourceLocation(Csrp.MODID, id).toString()));
     }

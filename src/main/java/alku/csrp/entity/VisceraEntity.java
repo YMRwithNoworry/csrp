@@ -73,6 +73,7 @@ public final class VisceraEntity extends PrimitiveParasiteEntity implements Manu
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.7D)
                 .add(Attributes.FOLLOW_RANGE, 24.0D)
                 .add(ForgeMod.STEP_HEIGHT_ADDITION.get(), 1.0D);
+        // Original Attributes.STEP_HEIGHT, 1.0D; Forge maps it to STEP_HEIGHT_ADDITION.
     }
 
     @Override

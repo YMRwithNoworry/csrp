@@ -168,6 +168,7 @@ public final class AncientPodEntity extends PrimitiveParasiteEntity {
         cloud.setRadiusPerTick(-cloud.getRadius() / cloud.getDuration());
         cloud.addEffect(new MobEffectInstance(MobEffects.POISON, 300, 0, false, false));
         cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH.get(), 3600, 0, false, false, true));
+        // Legacy effects: MobEffects.POISON, 300, 0 and ModMobEffects.COTH, 3600, 0.
         level.addFreshEntity(cloud);
     }
 

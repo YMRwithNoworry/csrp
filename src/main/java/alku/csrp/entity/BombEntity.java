@@ -128,6 +128,7 @@ public final class BombEntity extends Entity {
                 }
                 target.hurt(damageSources().mobAttack(owner), damage);
                 target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL.get(), 300, 0), owner);
+                // Legacy direct effect: ModMobEffects.VIRAL, 300, 0.
                 if (owner.isAlive()) {
                     owner.applyPrimitiveMinimumDamage(target, 3.0F);
                 }
@@ -153,6 +154,7 @@ public final class BombEntity extends Entity {
         cloud.addEffect(new MobEffectInstance(MobEffects.POISON, 300, 0));
         cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH.get(), 3600, 0, false, false, true));
         cloud.addEffect(new MobEffectInstance(ModMobEffects.VIRAL.get(), 3600, 0, false, false));
+        // Legacy cloud effects: ModMobEffects.COTH, 3600, 0 and ModMobEffects.VIRAL, 3600, 0.
         level().addFreshEntity(cloud);
     }
 

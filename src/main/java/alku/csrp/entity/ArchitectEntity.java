@@ -150,6 +150,7 @@ public final class ArchitectEntity extends PrimitiveParasiteEntity {
 
     @Override
     public float getEyeHeight(net.minecraft.world.entity.Pose pose) {
+        // Legacy EntityDimensions.withEyeHeight(1.6F).
         return 1.6F;
     }
 

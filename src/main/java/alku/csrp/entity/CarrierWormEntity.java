@@ -19,6 +19,7 @@ public final class CarrierWormEntity extends BurrowingVariantEntity {
     public CarrierWormEntity(EntityType<? extends CarrierWormEntity> type, Level level) {
         super(type, level);
         setPathfindingMalus(BlockPathTypes.WATER, -1.0F);
+        // Legacy setPathfindingMalus(PathType.WATER, -1.0F); Forge uses BlockPathTypes.WATER.
         xpReward = 30;
     }
 
@@ -29,6 +30,7 @@ public final class CarrierWormEntity extends BurrowingVariantEntity {
                 .add(Attributes.ATTACK_DAMAGE, 22.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.33D)
                 .add(ForgeMod.STEP_HEIGHT_ADDITION.get(), 1.0D)
+                // Original Attributes.STEP_HEIGHT, 1.0D; Forge maps it to STEP_HEIGHT_ADDITION.
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
                 .add(Attributes.FOLLOW_RANGE, 32.0D);
     }

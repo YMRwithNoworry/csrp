@@ -11,6 +11,7 @@ import net.minecraft.world.entity.LivingEntity;
 
 public final class FalseAppleItem extends Item {
     public FalseAppleItem(Item.Properties properties) {
+        // Legacy FoodProperties.Builder.saturationModifier(0.3F) maps to Forge's saturationMod.
         super(properties.food(new FoodProperties.Builder().nutrition(4).saturationMod(0.3F).alwaysEat()
                 .effect(() -> new MobEffectInstance(MobEffects.CONFUSION, 200), 1.0F)
                 .effect(() -> new MobEffectInstance(MobEffects.BLINDNESS, 600), 1.0F).build()));

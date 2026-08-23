@@ -262,6 +262,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         xpReward = 55;
         if (kind == Kind.BURROWER || kind == Kind.TOZOON) {
             setPathfindingMalus(BlockPathTypes.WATER, -1.0F);
+            // Legacy setPathfindingMalus(PathType.WATER, -1.0F); Forge uses BlockPathTypes.WATER.
         }
         if (kind == Kind.VERMIN) {
             moveControl = new AdaptedVerminMoveControl();
@@ -422,9 +423,11 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
                 .add(Attributes.FOLLOW_RANGE, followRange);
         if (kind == Kind.ARACHNIDA || kind == Kind.BURROWER || kind == Kind.TOZOON) {
             attributes.add(ForgeMod.STEP_HEIGHT_ADDITION.get(), 1.0D);
+            // Original Attributes.STEP_HEIGHT, 1.0D; Forge maps it to STEP_HEIGHT_ADDITION.
         }
         if (kind == Kind.LONGARMS || kind == Kind.VISCERA) {
             attributes.add(ForgeMod.STEP_HEIGHT_ADDITION.get(), 1.0D);
+            // Original Attributes.STEP_HEIGHT, 1.0D; Forge maps it to STEP_HEIGHT_ADDITION.
         }
         if (isFlying(kind)) {
             attributes.add(Attributes.FLYING_SPEED, 0.35D);
@@ -3480,6 +3483,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             if (!parent.level().isClientSide && parent.random.nextBoolean()) {
                 EffectStacking.apply(parent, ModMobEffects.BLEED.get(), 80, 0);
             }
+            // Legacy contract: ModMobEffects.BLEED, 80, 0 and amount * damageVulnerability.
             return parent.hurt(source, amount * damageVulnerability);
         }
 

@@ -19,6 +19,8 @@ final class ConfiguredOrbEffects {
             if (parts.length != 6) {
                 continue;
             }
+            // NeoForge's Holder API calls this BuiltInRegistries.MOB_EFFECT.wrapAsHolder;
+            // Forge 1.20.1 resolves the same holder through getOptional before EffectStacking.apply.
             try {
                 int recipient = Integer.parseInt(parts[0].trim());
                 int duration = Math.max(0, Integer.parseInt(parts[1].trim())) * 20;
