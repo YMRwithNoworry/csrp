@@ -20,19 +20,19 @@ public abstract class ChatComponentMixin {
     @Final
     private List<GuiMessage.Line> trimmedMessages;
 
-    @Inject(method = "render", at = @At("HEAD"))
+    @Inject(method = {"render", "m_280165_"}, at = @At("HEAD"), require = 0)
     private void csrp$beginChatDistortion(GuiGraphics graphics, int tickCount, int mouseX,
-            int mouseY, boolean focused, CallbackInfo callback) {
+            int mouseY, CallbackInfo callback) {
         DerivedTextDistortion.beginRenderScope();
     }
 
-    @Inject(method = "render", at = @At("RETURN"))
+    @Inject(method = {"render", "m_280165_"}, at = @At("RETURN"), require = 0)
     private void csrp$endChatDistortion(GuiGraphics graphics, int tickCount, int mouseX,
-            int mouseY, boolean focused, CallbackInfo callback) {
+            int mouseY, CallbackInfo callback) {
         DerivedTextDistortion.endRenderScope();
     }
 
-    @Inject(method = "addMessageToDisplayQueue", at = @At("RETURN"))
+    @Inject(method = "addMessageToDisplayQueue", at = @At("RETURN"), require = 0)
     private void csrp$preserveSystemMessages(GuiMessage message, CallbackInfo callback) {
         GuiMessageTag tag = message.tag();
         if (tag != GuiMessageTag.system() && tag != GuiMessageTag.systemSinglePlayer()) {

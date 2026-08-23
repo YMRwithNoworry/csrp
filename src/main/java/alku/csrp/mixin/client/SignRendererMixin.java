@@ -9,12 +9,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(SignRenderer.class)
 public abstract class SignRendererMixin {
-    @Inject(method = "renderSignText", at = @At("HEAD"))
+    @Inject(method = {"renderSignText", "m_278841_"}, at = @At("HEAD"), require = 0)
     private void csrp$beginSignDistortion(CallbackInfo callback) {
         DerivedTextDistortion.beginRenderScope();
     }
 
-    @Inject(method = "renderSignText", at = @At("RETURN"))
+    @Inject(method = {"renderSignText", "m_278841_"}, at = @At("RETURN"), require = 0)
     private void csrp$endSignDistortion(CallbackInfo callback) {
         DerivedTextDistortion.endRenderScope();
     }

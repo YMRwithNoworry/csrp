@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(CreateWorldScreen.class)
 public abstract class CreateWorldScreenMixin {
-    @Inject(method = "onCreate", at = @At("HEAD"))
+    @Inject(method = {"onCreate", "m_100972_"}, at = @At("HEAD"), require = 0)
     private void csrp$stageDifficulty(CallbackInfo callbackInfo) {
         SrpDifficultyScreenEvents.stageSelection((CreateWorldScreen) (Object) this);
     }
