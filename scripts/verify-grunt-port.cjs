@@ -79,7 +79,7 @@ expect(entities, /monster\("grunt",[\s\S]{0,180}?Kind\.GRUNT\), 0\.7666F, 1\.95F
 expect(pure, /GRUNT\(false, true, 20\.0D, 7\.0D, 13\.0D, 0\.274172325D, 0\.40D, 32\.0D, 3\.0F, 1\.0D\)/,
   "Grunt attributes do not match EntityFlog");
 expect(pure, /xpReward\s*=\s*75/, "Grunt experience reward is missing");
-expect(pure, /withEyeHeight\(1\.73F\)/, "Grunt eye height is missing");
+expect(pure, /(?:withEyeHeight\(1\.73F\)|case GRUNT -> 1\.73F)/, "Grunt eye height is missing");
 expect(pure, /SoundEvents\.SPIDER_STEP, 0\.15F, 1\.0F/, "Grunt step sound is missing");
 expect(pure, /isClimberType[\s\S]{0,180}?ModEntities\.GRUNT/, "Grunt climbing navigation is missing");
 expect(pure, /activeKind\(\)\.climbs && horizontalCollision/, "Grunt wall climbing is missing");
@@ -93,9 +93,9 @@ expect(pure, /tag\.putByte\("GruntSkin", entityData\.get\(GRUNT_SKIN\)\)/,
   "Grunt skin NBT save is missing");
 expect(pure, /setGruntSkin\(tag\.contains\("GruntSkin"\) \? tag\.getByte\("GruntSkin"\) : 0\)/,
   "Grunt skin NBT load is missing");
-expect(pure, /getGruntSkin\(\) == 5[\s\S]{0,200}?ModMobEffects\.VIRAL, 40, 0/,
+expect(pure, /getGruntSkin\(\) == 5[\s\S]{0,200}?ModMobEffects\.VIRAL(?:\.get\(\))?, 40, 0/,
   "virulent Grunt collision effect is missing");
-expect(pure, /case GRUNT[\s\S]{0,250}?getGruntSkin\(\) == 5[\s\S]{0,100}?VIRAL, 40, 0[\s\S]{0,120}?getGruntSkin\(\) == 6[\s\S]{0,100}?BLEED, 40, 0/,
+expect(pure, /case GRUNT[\s\S]{0,250}?getGruntSkin\(\) == 5[\s\S]{0,100}?VIRAL(?:\.get\(\))?, 40, 0[\s\S]{0,120}?getGruntSkin\(\) == 6[\s\S]{0,100}?BLEED(?:\.get\(\))?, 40, 0/,
   "Grunt variant melee effects are missing");
 expect(pure, /activeKind\(\) == Kind\.GRUNT && getGruntSkin\(\) == 7[\s\S]{0,180}?baseHardness \* 2\.0F/,
   "heavy Grunt hardness multiplier is missing");

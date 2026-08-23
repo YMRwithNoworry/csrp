@@ -39,7 +39,7 @@ if (fs.existsSync(remainsEvent)) {
 }
 
 const deathFx = read("src/main/java/alku/csrp/event/ParasiteDeathFxEvents.java");
-expect(deathFx, /PacketDistributor\.sendToPlayer\(player, payload\)/,
+expect(deathFx, /(?:PacketDistributor\.sendToPlayer\(player, payload\)|CsrpNetwork\.sendToPlayer\(player, payload\))/,
   "parasite death particles were removed unexpectedly");
 for (const forbidden of ["ParasiteRemainsEntity", "PARASITE_REMAINS", "addFreshEntity"]) {
   if (deathFx.includes(forbidden)) failures.push(`parasite death FX still spawns remains: ${forbidden}`);

@@ -85,7 +85,7 @@ expect(entities, /monster\("vigilante",[\s\S]{0,180}?Kind\.VIGILANTE\), 1\.6F, 3
   "Vigilante dimensions are not 1.6 x 3.1");
 expect(pure, /VIGILANTE\(false, false, 70\.0D, 25\.0D, 23\.0D, 0\.20D, 1\.0D, 32\.0D, 5\.0F, 2\.0D\)/,
   "Vigilante base attributes do not match EntityAnged");
-expect(pure, /case VIGILANTE -> dimensions\.withEyeHeight\(3\.0F\)/,
+expect(pure, /case VIGILANTE -> (?:dimensions\.withEyeHeight\(3\.0F\)|3\.0F)/,
   "Vigilante eye height is not 3.0");
 expect(pure, /new VigilanteMeleeGoal\(\)[\s\S]{0,180}?new VigilanteRangedGoal\(\)[\s\S]{0,180}?new VigilanteRangeSwitchGoal\(\)/,
   "Vigilante goal priorities are incomplete");

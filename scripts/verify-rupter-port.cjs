@@ -44,7 +44,7 @@ expect(entities, /register\("rupter"/, "Rupter entity is not registered");
 expect(entities, /sized\(0\.85F,\s*1\.0F\)/, "legacy Rupter dimensions are missing");
 expect(items, /"rupter_spawn_egg"/, "Rupter spawn egg is not registered");
 expect(items, /"rupter_viscera"/, "Rupter Viscera is not registered");
-expect(blocks, /DeferredBlock<TunnelBlock>\s+TUNNEL\s*=\s*BLOCKS\.register\("tunnel"/,
+expect(blocks, /(?:DeferredBlock|RegistryObject)<TunnelBlock>\s+TUNNEL\s*=\s*BLOCKS\.register\("tunnel"/,
         "functional Tunnel block is not registered");
 expect(blocks, /block\.tunnel\.dig/, "original Tunnel break sound is not wired");
 expect(tunnel, /class TunnelBlock extends Block/, "Tunnel behavior class is missing");

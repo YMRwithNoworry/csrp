@@ -74,7 +74,7 @@ expect(infectionEvents, /revealHiddenAssimilated\(host, attacker\)[\s\S]*event\.
         "lethal damage does not reveal a disguised Assimilated entity before death");
 expect(infectionEvents, /isHiddenAssimilated\(event\.getEntity\(\)\)[\s\S]*attacker instanceof Parasite[\s\S]*event\.setCanceled\(true\)/,
         "parasites can damage an allied disguised Assimilated entity");
-expect(infectionEvents, /getNewAboutToBeSetTarget\(\) instanceof LivingEntity target[\s\S]*isHiddenAssimilated\(target\)/,
+expect(infectionEvents, /(?:getNewAboutToBeSetTarget\(\)|getNewTarget\(\))[\s\S]*isHiddenAssimilated\(target\)/,
         "parasites can target an allied disguised Assimilated entity");
 expect(evolutionEvents, /tickCount % 20 == 0\s*&&\s*InfectionMechanics\.tryRestoreAssimilatedDisguise\(entity\)/,
         "idle Assimilated entities are not periodically offered disguise restoration");

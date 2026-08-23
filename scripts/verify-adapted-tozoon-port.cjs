@@ -20,7 +20,7 @@ expect(entity, /case TOZOON -> \{[\s\S]*?health = 115\.0D[\s\S]*?armor = 24\.0D[
   "Adapted Tozoon attributes do not match EntityWymoAdapted");
 expect(entity, /case BURROWER, TOZOON -> applyConfiguredAttributes\([\s\S]*?MobsConfig\.adaptedTozoonHealth\(\)[\s\S]*?MobsConfig\.adaptedTozoonArmor\(\)[\s\S]*?MobsConfig\.adaptedTozoonDamage\(\)/,
   "Adapted Tozoon config is not applied after entity registration");
-expect(entity, /kind == Kind\.TOZOON[\s\S]*?attributes\.add\(Attributes\.STEP_HEIGHT, 1\.0D\)/,
+expect(entity, /kind == Kind\.TOZOON[\s\S]*?attributes\.add\((?:Attributes\.STEP_HEIGHT|ForgeMod\.STEP_HEIGHT_ADDITION\.get\(\)), 1\.0D\)/,
   "Adapted Tozoon one-block step height is missing");
 expect(entity, /kind == Kind\.TOZOON[\s\S]*?setPathfindingMalus\(PathType\.WATER, -1\.0F\)/,
   "Adapted Tozoon water path malus is wrong");

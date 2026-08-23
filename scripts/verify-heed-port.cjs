@@ -19,7 +19,7 @@ expect(entities, /monster\("heed", HeedEntity::new, 0\.9F, 1\.9F\)/,
 expect(client, /ModEntities\.HEED[\s\S]*?"heed", 0\.8F/,
   "EntityHeed shadow radius is not the original 0.8");
 expect(heed,
-  /MAX_HEALTH, 50\.0D[\s\S]*?ARMOR, 9\.0D[\s\S]*?ATTACK_DAMAGE, 15\.0D[\s\S]*?MOVEMENT_SPEED, 0\.32D[\s\S]*?KNOCKBACK_RESISTANCE, 0\.7D[\s\S]*?FOLLOW_RANGE, 32\.0D[\s\S]*?STEP_HEIGHT, 1\.0D/,
+  /MAX_HEALTH, 50\.0D[\s\S]*?ARMOR, 9\.0D[\s\S]*?ATTACK_DAMAGE, 15\.0D[\s\S]*?MOVEMENT_SPEED, 0\.32D[\s\S]*?KNOCKBACK_RESISTANCE, 0\.7D[\s\S]*?FOLLOW_RANGE, 32\.0D[\s\S]*?(?:STEP_HEIGHT|STEP_HEIGHT_ADDITION).*?1\.0D/,
   "EntityHeed original attributes are missing");
 expect(heed,
   /addGoal\(0, new SwimmingDivingGoal\(\)\)[\s\S]*?addGoal\(2, new WaterLeapGoal\(\)\)[\s\S]*?addGoal\(2, new RageSkillGoal\(\)\)[\s\S]*?addGoal\(3, new HeedMeleeGoal\(\)\)[\s\S]*?addGoal\(6, new RecruitFollowersGoal\(\)\)/,
@@ -49,11 +49,11 @@ expect(heed,
 expect(follow, /parasite instanceof HeedEntity[\s\S]*?return 31;/,
   "EntityHeed does not retain its original command rank 31");
 expect(heed,
-  /amount \* 3\.0F[\s\S]*?PartEntity<HeedEntity>[\s\S]*?scalable\(1\.8F, 1\.8F\)\.withEyeHeight\(0\.2F\)/,
+  /amount \* 3\.0F[\s\S]*?PartEntity<HeedEntity>[\s\S]*?scalable\(1\.8F, 1\.8F\)[\s\S]*?getEyeHeight\([\s\S]*?0\.2F/,
   "EntityHeed vulnerable head dimensions or damage multiplier are wrong");
-expect(heed, /random\.nextBoolean\(\)[\s\S]*?EffectStacking\.apply\(this, ModMobEffects\.BLEED, 80, 0\)/,
+expect(heed, /random\.nextBoolean\(\)[\s\S]*?EffectStacking\.apply\(this, ModMobEffects\.BLEED(?:\.get\(\))?, 80, 0\)/,
   "EntityHeed head hits do not preserve the original Bleed chance");
-expect(heed, /withEyeHeight\(1\.5F\)/,
+expect(heed, /(?:withEyeHeight\(1\.5F\)|getEyeHeight\([\s\S]*?1\.5F)/,
   "EntityHeed eye height is not the original 1.5");
 expect(config,
   /define\("rageEnabled", true\)[\s\S]*?define\("mobAttackingEnabled", true\)[\s\S]*?define\("collectiveConsciousnessEnabled", true\)/,

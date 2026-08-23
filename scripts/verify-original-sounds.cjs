@@ -3,8 +3,12 @@ const fs = require("fs");
 const path = require("path");
 
 const projectRoot = path.resolve(__dirname, "..");
+const defaultSourceAssetsRoot = path.join(projectRoot, ".firecrawl/srp-jar/assets/srparasites");
+const extractedSourceAssetsRoot = path.resolve(
+  "D:/code/模组反编译器/decompiled/[逃逸：寄生体] SRParasites-1.10.8/assets/srparasites",
+);
 const sourceAssetsRoot = path.resolve(process.argv[2] ??
-  path.join(projectRoot, ".firecrawl/srp-jar/assets/srparasites"));
+  (fs.existsSync(defaultSourceAssetsRoot) ? defaultSourceAssetsRoot : extractedSourceAssetsRoot));
 const targetAssetsRoot = path.join(projectRoot, "src/main/resources/assets/csrp");
 const sourceSoundsRoot = path.join(sourceAssetsRoot, "sounds");
 const targetSoundsRoot = path.join(targetAssetsRoot, "sounds");

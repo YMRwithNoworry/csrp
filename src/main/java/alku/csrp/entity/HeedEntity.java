@@ -486,6 +486,11 @@ public final class HeedEntity extends CrudeParasiteEntity {
         }
 
         @Override
+        public float getEyeHeight(Pose pose) {
+            return 0.2F;
+        }
+
+        @Override
         public boolean shouldBeSaved() {
             return false;
         }

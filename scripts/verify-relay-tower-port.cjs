@@ -51,6 +51,8 @@ const screen = read("src/main/java/alku/csrp/client/screen/RelayTerminalScreen.j
 const factory = read("src/main/java/alku/csrp/relay/RelayScanReportFactory.java");
 const report = read("src/main/java/alku/csrp/item/RelayReportItem.java");
 const payloads = read("src/main/java/alku/csrp/compendium/network/CompendiumPayloads.java");
+const relayPayload = read("src/main/java/alku/csrp/relay/network/RelayReportOpenPayload.java");
+const network = read("src/main/java/alku/csrp/network/CsrpNetwork.java");
 const nodeLamp = read("src/main/java/alku/csrp/block/NodeLampBlock.java");
 
 for (const id of ["relay_base", "relay_middle", "relay_roof", "semiorganic_block", "node_redstone_lamp"]) {
@@ -64,7 +66,11 @@ for (const id of ["relay_base", "relay_middle", "relay_roof", "semiorganic_block
 expect(blockEntities, "RelayTerminalBlockEntity::new", "relay block entity registration");
 expect(menus, "RelayTerminalMenu::new", "relay menu registration");
 expect(screen, "handleInventoryButtonClick", "relay scan button");
-expect(payloads, "RelayReportOpenPayload.STREAM_CODEC", "report open payload registration");
+if (!payloads.includes("RelayReportOpenPayload.STREAM_CODEC")
+    && !(relayPayload.includes("FriendlyByteBuf") && relayPayload.includes("static RelayReportOpenPayload decode")
+      && network.includes("RelayReportOpenPayload.class"))) {
+    failures.push("report open payload registration: missing Forge FriendlyByteBuf codec");
+}
 
 for (const marker of [
     "SCAN_TICKS = 110", "COOLDOWN_TICKS = 400", "nextScanTick = serverLevel.getGameTime() + COOLDOWN_TICKS",
@@ -96,9 +102,12 @@ for (const id of ["relay_scan_report", "phase_report", "vector_map", "dislodgeme
     json(`src/main/resources/assets/csrp/models/item/${id}.json`);
 }
 for (const marker of [
-    "PacketDistributor.sendToPlayer", "addScanLines", "addPhaseLines", "addVectorLines",
+    "addScanLines", "addPhaseLines", "addVectorLines",
     "addDislodgementLines", "tooltip.csrp.relay_report.printed"
 ]) expect(report, marker, "report reader");
+if (!report.includes("PacketDistributor.sendToPlayer") && !report.includes("CsrpNetwork.sendToPlayer")) {
+    failures.push("report reader: missing Forge player packet dispatch");
+}
 
 for (const recipe of [
     "semiorganic_block", "semiorganic_block_undo", "node_redstone_lamp",

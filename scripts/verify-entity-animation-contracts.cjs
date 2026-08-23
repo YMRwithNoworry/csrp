@@ -853,7 +853,7 @@ if (draconite.includes('triggerableAnim("attack"') || draconite.includes('Parasi
 }
 
 const heed = read("src/main/java/alku/csrp/entity/HeedEntity.java");
-if (!heed.includes("COMBAT_STATUS") || !heed.includes("builder.define(COMBAT_STATUS, false)")
+if (!heed.includes("COMBAT_STATUS") || !/(?:builder\.define|entityData\.define)\(COMBAT_STATUS, false\)/.test(heed)
     || !heed.includes("entityData.set(COMBAT_STATUS, inCombat)")) {
   failures.push("HeedEntity: original combat status 1 is not synchronized from target state");
 }
@@ -883,7 +883,7 @@ if (mangler.includes('triggerableAnim("attack"')) {
 }
 if (!mangler.includes("EntityDataAccessor<Byte> VARIANT")
     || !mangler.includes("EntityDataAccessor<Byte> COMBAT_STATUS")
-    || !mangler.includes("EffectStacking.apply(living, ModMobEffects.VIRAL, 100, 0)")
+    || !/EffectStacking\.apply\(living, ModMobEffects\.VIRAL(?:\.get\(\))?, 100, 0\)/.test(mangler)
     || !mangler.includes("tickRegeneration()")
     || !mangler.includes("copyDamageAdaptationsTo(parasite)")) {
   failures.push("ManglerEntity: synchronized skin, combat state, collision virus, regeneration, or conversion state is incomplete");

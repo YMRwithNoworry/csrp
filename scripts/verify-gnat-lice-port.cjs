@@ -44,7 +44,7 @@ for (const [name, source] of [["EntityAta", gnat], ["EntityViin", lice]]) {
   expectPattern(source, /withEyeHeight\(0\.8F\)/,
     name + " eye height is not the original 0.8");
   expectPattern(source,
-    /getPassengerAttachmentPoint\(Entity passenger, EntityDimensions dimensions, float partialTick\)[\s\S]*?dimensions\.height\(\) \* 0\.5D/,
+    /getPassengerAttachmentPoint\(Entity passenger, EntityDimensions dimensions, float partialTick\)[\s\S]*?dimensions\.height(?:\(\)|) \* 0\.5D/,
     name + " mounted offset is not half its height");
   expect(!source.includes("super.registerGoals()"),
     name + " still installs generic parasite goals");

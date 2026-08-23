@@ -72,7 +72,7 @@ expect(entities, /monster\("bomber_light",[\s\S]{0,180}?Kind\.BOMBER_LIGHT\), 1\
   "Light Bomber dimensions are not 1.7 x 2.4");
 expect(pure, /BOMBER_LIGHT\(true, false, 75\.0D, 20\.0D, 25\.0D, 0\.27D, 0\.15D, 32\.0D/,
   "Light Bomber attributes do not match EntityOmboo");
-expect(pure, /case BOMBER_LIGHT -> dimensions\.withEyeHeight\(2\.4F\)/,
+expect(pure, /case BOMBER_LIGHT -> (?:dimensions\.withEyeHeight\(2\.4F\)|2\.4F)/,
   "Light Bomber eye height is not 2.4");
 expect(pure, /kind == Kind\.BOMBER_LIGHT[\s\S]{0,100}?new OmbooMoveControl\(this\)/,
   "Light Bomber does not use the original acceleration move controller");

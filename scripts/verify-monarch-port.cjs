@@ -97,7 +97,7 @@ expect(entities, /monster\("monarch",[\s\S]{0,180}?Kind\.MONARCH\), 1\.901F, 4\.
   "Monarch dimensions are not 1.901 x 4.1");
 expect(pure, /MONARCH\(false, true, 75\.0D, 10\.0D, 25\.0D, 0\.2775D, 1\.0D, 32\.0D, 5\.0F, 4\.0D\)/,
   "Monarch attributes do not match EntityOrch");
-expect(pure, /case MONARCH -> dimensions\.withEyeHeight\(3\.5F\)/, "Monarch eye height is missing");
+expect(pure, /case MONARCH -> (?:dimensions\.withEyeHeight\(3\.5F\)|3\.5F)/, "Monarch eye height is missing");
 expect(pure, /isClimberType[\s\S]{0,180}?ModEntities\.MONARCH/,
   "Monarch climbing navigation type is missing");
 expect(pure, /activeKind\(\)\.climbs && horizontalCollision/,

@@ -116,7 +116,7 @@ for (const [source, checks] of [
   [adventurer, [
     /MAX_HEALTH, 15\.0D/, /ARMOR, 5\.0D/, /ATTACK_DAMAGE, 9\.0D/,
     /MELT_KILL_THRESHOLD = 10/, /THRALL_KILL_THRESHOLD = 15/,
-    /MELT_MIN_HEIGHT = 0\.7F/, /MELT_HEIGHT_PER_TICK = 0\.01F/, /getDefaultDimensions\(Pose pose\)/,
+    /MELT_MIN_HEIGHT = 0\.7F/, /MELT_HEIGHT_PER_TICK = 0\.01F/, /(?:getDefaultDimensions|getDimensions)\(Pose pose\)/,
     /COTH_AURA_RADIUS = 3\.0D/, /DamageTypeTags\.IS_FIRE\) \? amount \* 4\.0F/,
     /EquipmentSlot\.CHEST/, /spawnDeathBurst\(\)/, /SIM_ADVENTURER_HEAD/,
     /new ItemStack\(ModItems\.ASSIMILATED_FLESH/, /3 \+ random\.nextInt\(2\)/,
@@ -133,7 +133,7 @@ for (const [source, checks] of [
   ]],
   [flesh, [
     /REQUIRED_MERGES = 4/, /EVOLUTION_DELAY_TICKS = 70/, /AUTO_EVOLUTION_AGE_TICKS = 800/,
-    /BASE_WIDTH = 0\.7F/, /BASE_HEIGHT = 0\.5F/, /getDefaultDimensions\(Pose pose\)/,
+    /BASE_WIDTH = 0\.7F/, /BASE_HEIGHT = 0\.5F/, /(?:getDefaultDimensions|getDimensions)\(Pose pose\)/,
     /REGEN_PER_TICK = 0\.007F/, /EVOLUTION_FUSE_INCREMENT = 2/, /MergeMovingFleshGoal/,
     /DamageTypeTags\.IS_FIRE\) \? amount \* 4\.0F/, /mergeContacts/,
     /getRenderScale\(1\.0F\) >= other\.getRenderScale\(1\.0F\)/,

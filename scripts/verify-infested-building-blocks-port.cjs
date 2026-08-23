@@ -40,7 +40,8 @@ for (const id of ids) {
   if (!blocks.includes(`"${id}"`)) failures.push(`${id}: block registration is missing`);
   if (!items.includes(`"${id}"`)) failures.push(`${id}: block item registration is missing`);
 }
-if (!blocks.includes("DeferredBlock<RotatedPillarBlock> INFESTED_COLUMN")) {
+if (!blocks.includes("DeferredBlock<RotatedPillarBlock> INFESTED_COLUMN")
+    && !blocks.includes("RegistryObject<RotatedPillarBlock> INFESTED_COLUMN")) {
   failures.push("Infested Column is not an axis-aware pillar block");
 }
 for (const expected of [

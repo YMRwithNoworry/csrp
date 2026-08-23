@@ -65,7 +65,7 @@ expect(pure, /kind == Kind\.SEEKER[\s\S]{0,100}?new SeekerMoveControl\(this\)[\s
   "Seeker custom flight physics are missing");
 expect(pure, /Kind\.OVERSEER \|\| kind == Kind\.SEEKER \? MobsConfig\.overseerHealth\(\)/,
   "Seeker health does not use the original Overseer config");
-expect(pure, /case SEEKER -> dimensions\.withEyeHeight\(1\.6F\)/,
+expect(pure, /case SEEKER -> (?:dimensions\.withEyeHeight\(1\.6F\)|1\.6F)/,
   "Seeker eye height is not 1.6");
 expect(pure, /case SEEKER -> \{[\s\S]{0,180}?new FlightPursuitGoal\(0\.50D\)[\s\S]{0,180}?new OverseerFlightLimitGoal\(\)[\s\S]{0,180}?new SeekerRandomFlightGoal\(\)/,
   "Seeker flight, limit, or random-flight goals are incomplete");

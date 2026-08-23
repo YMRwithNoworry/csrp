@@ -49,7 +49,11 @@ for (const hook of [
   "airscrew.getTetherMouthPosition(partialTick)",
   "getPullTargetsForRendering"
 ]) {
-  if (!renderer.includes(hook)) failures.push(`Airscrew tether renderer missing: ${hook}`);
+  if (hook === "setUv(u, v)") {
+    if (!renderer.includes(hook) && !renderer.includes(".uv(u, v)")) {
+      failures.push("Airscrew tether renderer missing: VertexConsumer UV coordinates");
+    }
+  } else if (!renderer.includes(hook)) failures.push(`Airscrew tether renderer missing: ${hook}`);
 }
 
 if (renderer.includes("RenderType.lightning()")) {

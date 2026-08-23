@@ -95,7 +95,7 @@ expect(entities, /monster\("overseer",[\s\S]{0,180}?Kind\.OVERSEER\), 1\.9F, 2\.
   "Overseer dimensions are not 1.9 x 2.6");
 expect(pure, /OVERSEER\(true, false, 80\.0D, 20\.0D, 22\.0D, 0\.27D, 0\.40D/,
   "Overseer base attributes do not match EntityAlafha");
-expect(pure, /case OVERSEER -> dimensions\.withEyeHeight\(1\.6F\)/,
+expect(pure, /case OVERSEER -> (?:dimensions\.withEyeHeight\(1\.6F\)|1\.6F)/,
   "Overseer eye height is not 1.6");
 expect(pure, /new OverseerHeadPart\(this\)[\s\S]{0,100}?bodyParts = new PartEntity<\?>\[\]\{overseerHeadPart\}/,
   "Overseer head part is not installed");

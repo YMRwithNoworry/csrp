@@ -45,7 +45,7 @@ expectPattern(config, /entity instanceof ArchitectEntity\) return PURE_FOLLOW\.g
 expectPattern(originalEvents, /entity instanceof ArchitectEntity architect[\s\S]*?architect\.applyConfiguredAttributes\(\)/,
   "Architect configured attributes are not applied on join");
 expectPattern(spawning,
-  /event\.getEntity\(\) instanceof ArchitectEntity architect[\s\S]*?totalColonyPoints\(\) > 0[\s\S]*?nearestColonyInConstructionRange[\s\S]*?Result\.FAIL/,
+  /event\.getEntity\(\) instanceof ArchitectEntity architect[\s\S]*?totalColonyPoints\(\) > 0[\s\S]*?nearestColonyInConstructionRange[\s\S]*?Result\.(?:FAIL|DENY)/,
   "Architect colony-only natural spawning gate is missing");
 expect(common.includes('"architect"'), "Architect is missing from the air spawn placement set");
 expect(client.includes('"architect", 1.3F'), "Architect renderer shadow radius is not the original 1.3F");

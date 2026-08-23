@@ -97,9 +97,9 @@ expect(entities, /monster\("warden",[\s\S]{0,180}?Kind\.WARDEN\), 0\.901F, 4\.2F
   "Warden dimensions are not 0.901 x 4.2");
 expect(pure, /WARDEN\(false, true, 80\.0D, 15\.0D, 25\.0D, 0\.27D, 1\.0D, 32\.0D, 5\.0F, 2\.0D\)/,
   "Warden base attributes do not match EntityGanro");
-expect(pure, /case WARDEN -> dimensions\.withEyeHeight\(3\.5F\)/,
+expect(pure, /case WARDEN -> (?:dimensions\.withEyeHeight\(3\.5F\)|3\.5F)/,
   "Warden eye height is not 3.5");
-expect(pure, /Kind\.MONARCH \|\| kind == Kind\.VIGILANTE \|\| kind == Kind\.WARDEN[\s\S]{0,80}?Attributes\.STEP_HEIGHT, 1\.0D/,
+expect(pure, /Kind\.MONARCH \|\| kind == Kind\.VIGILANTE \|\| kind == Kind\.WARDEN[\s\S]{0,120}?(?:Attributes\.STEP_HEIGHT|ForgeMod\.STEP_HEIGHT_ADDITION\.get\(\)), 1\.0D/,
   "Warden one-block step height is missing");
 expect(pure, /new WardenLeapGoal\(\)[\s\S]{0,180}?new GruntSwimmingDivingGoal\(\)[\s\S]{0,180}?new WardenShockwaveGoal\(\)[\s\S]{0,180}?new WardenChargeGoal\(\)[\s\S]{0,220}?new GruntEvasiveDashGoal\(20, 2, 4, 3\.0D, 15\)[\s\S]{0,180}?new WardenAreaMeleeGoal\(\)/,
   "Warden skill, swimming, evade, or melee goals are incomplete");

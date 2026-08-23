@@ -18,7 +18,7 @@ expect(registry,
   /"ada_viscera"[\s\S]{0,160}?AdaptedVariantEntity\.Kind\.VISCERA\), 1\.511F, 3\.655F\)/,
   "Adapted Viscera dimensions do not match EntityGimAdapted");
 expect(entity,
-  /kind == Kind\.LONGARMS \|\| kind == Kind\.VISCERA\)[\s\S]{0,80}?Attributes\.STEP_HEIGHT, 1\.0D/,
+  /kind == Kind\.LONGARMS \|\| kind == Kind\.VISCERA\)[\s\S]{0,120}?(?:Attributes\.STEP_HEIGHT|ForgeMod\.STEP_HEIGHT_ADDITION\.get\(\)), 1\.0D/,
   "Adapted Longarms and Viscera are missing their original one-block step height");
 expect(entity,
   /createNavigation\(Level level\)[\s\S]{0,360}?isAdditionalClimberType\(getType\(\)\)[\s\S]{0,100}?new WallClimberNavigation\(this, level\)/,

@@ -23,7 +23,7 @@ for (const [id, kind, width, height] of [
 }
 
 expect(entity,
-  /kind == Kind\.MONARCH \|\| kind == Kind\.VIGILANTE \|\| kind == Kind\.WARDEN\)[\s\S]{0,80}?Attributes\.STEP_HEIGHT, 1\.0D/,
+  /kind == Kind\.MONARCH \|\| kind == Kind\.VIGILANTE \|\| kind == Kind\.WARDEN\)[\s\S]{0,120}?(?:Attributes\.STEP_HEIGHT|ForgeMod\.STEP_HEIGHT_ADDITION\.get\(\)), 1\.0D/,
   "Monarch, Vigilante, and Warden are missing their original one-block step height");
 expect(entity,
   /createNavigation\(Level level\)[\s\S]{0,180}?isClimberType\(getType\(\)\)[\s\S]{0,100}?new WallClimberNavigation\(this, level\)/,

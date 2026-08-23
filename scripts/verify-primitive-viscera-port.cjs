@@ -26,7 +26,7 @@ expect(entities, /monster\("pri_viscera",[\s\S]*?1\.211F, 2\.351F, 1\.5F\)/,
   "Primitive Viscera dimensions or eye height differ from EntityGim");
 expect(entity, /Attributes\.MAX_HEALTH, 45\.0D[\s\S]*?Attributes\.ARMOR, 9\.0D[\s\S]*?Attributes\.ATTACK_DAMAGE, 15\.0D[\s\S]*?Attributes\.MOVEMENT_SPEED, 0\.33D[\s\S]*?Attributes\.KNOCKBACK_RESISTANCE, 0\.7D/,
   "Primitive Viscera default attributes differ from EntityGim");
-expect(entity, /Attributes\.STEP_HEIGHT, 1\.0D/, "Primitive Viscera one-block step height is missing");
+expect(entity, /(?:Attributes\.STEP_HEIGHT|ForgeMod\.STEP_HEIGHT_ADDITION\.get\(\)), 1\.0D/, "Primitive Viscera one-block step height is missing");
 expect(entity, /new WallClimberNavigation\(this, level\)/, "Primitive Viscera wall-climber navigation is missing");
 expect(entity, /usesDefaultFloatGoal\(\)[\s\S]*?return false/, "Primitive Viscera still uses the default FloatGoal");
 
@@ -50,7 +50,7 @@ expect(entity, /private int cooldown = 56/, "Primitive Viscera evade initial coo
 expect(entity, /inflate\(16\.0D, 2\.0D, 16\.0D\)[\s\S]*?commandRank\(candidate\) < 41[\s\S]*?commandRank\(leader\) <= 30/,
   "Primitive Viscera version-2 follower recruitment is missing");
 
-expect(entity, /EntityDataAccessor<Integer> PARASITE_STATUS[\s\S]*?builder\.define\(PARASITE_STATUS, STATUS_IDLE\)/,
+expect(entity, /EntityDataAccessor<Integer> PARASITE_STATUS[\s\S]*?(?:builder\.define|entityData\.define)\(PARASITE_STATUS, STATUS_IDLE\)/,
   "Primitive Viscera combat state is not a synchronized integer");
 expect(entity, /EntityDataAccessor<Integer> SKIN[\s\S]*?setSkin\(tag\.getInt\("viscera_skin"\)\)/,
   "Primitive Viscera skin is not synchronized and persisted");

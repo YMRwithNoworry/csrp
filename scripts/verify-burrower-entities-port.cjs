@@ -57,7 +57,7 @@ if (/case BURROWER -> \{[\s\S]*?ADAPTED_BURROWER_ADDITIONAL_/.test(adapted)) {
 for (const [source, label] of [[primitive, "Primitive"], [adapted, "Adapted"]]) {
   expect(source, /kind == Kind\.BURROWER \|\| kind == Kind\.TOZOON[\s\S]*?setPathfindingMalus\(PathType\.WATER, -1\.0F\)/,
     `${label} Burrower water path malus is missing`);
-  expect(source, /kind == Kind\.BURROWER \|\| kind == Kind\.TOZOON[\s\S]*?attributes\.add\(Attributes\.STEP_HEIGHT, 1\.0D\)/,
+  expect(source, /kind == Kind\.BURROWER \|\| kind == Kind\.TOZOON[\s\S]*?attributes\.add\((?:Attributes\.STEP_HEIGHT|ForgeMod\.STEP_HEIGHT_ADDITION\.get\(\)), 1\.0D\)/,
     `${label} Burrower one-block step height is missing`);
   expect(source, /case BURROWER -> \{[\s\S]*?createBurrowMovementGoal\(\)[\s\S]*?new BurrowerMeleeGoal\(\)/,
     `${label} Burrower goals do not use the original digging and melee behavior`);

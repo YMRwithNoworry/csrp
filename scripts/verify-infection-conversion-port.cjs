@@ -44,7 +44,7 @@ expect(killedHost, /!guaranteed\s*&&\s*!passesCothKillConversion\(host\)/,
         "ordinary parasite kills no longer require COTH");
 expect(killedPlayer, /!guaranteed\s*&&\s*!passesCothKillConversion\(player\)/,
         "player parasite-kill conversion does not use the shared COTH roll");
-expect(killConversionRoll, /getEffect\(ModMobEffects\.COTH\)[\s\S]*if \(coth == null\)[\s\S]*return false;/,
+expect(killConversionRoll, /getEffect\(ModMobEffects\.COTH(?:\.get\(\))?\)[\s\S]*if \(coth == null\)[\s\S]*return false;/,
         "ordinary parasite kills no longer require pre-existing COTH");
 expect(killConversionRoll, /Config\.cothConvertAtKillChance\(\)/,
         "ordinary parasite kills no longer honor the configured base conversion chance");
@@ -56,7 +56,7 @@ expect(killedHost, /createMappedHost\(host, serverLevel,[\s\S]*phase >= ASSIMILA
 expect(killedHost, /return replaceHost\(host, converted, serverLevel\);/,
         "kill conversion does not use the shared successful-assimilation settlement");
 expect(replaceHost,
-        /getEffect\(ModMobEffects\.COTH\)[\s\S]*getAmplifier\(\) >= COTH_MAX_AMPLIFIER/,
+        /getEffect\(ModMobEffects\.COTH(?:\.get\(\))?\)[\s\S]*getAmplifier\(\) >= COTH_MAX_AMPLIFIER/,
         "assimilation points are not restricted to COTH III hosts");
 expect(replaceHost,
         /if \(!serverLevel\.addFreshEntity\(converted\)\)[\s\S]*return false;[\s\S]*if \(terminalCothAssimilation\)[\s\S]*VALUE_COTH/,
