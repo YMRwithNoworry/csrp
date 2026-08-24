@@ -1,6 +1,7 @@
 package alku.csrp.registry;
 
 import java.util.Map;
+import alku.csrp.Csrp;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ArmorItem;
@@ -9,11 +10,11 @@ import net.minecraft.world.item.crafting.Ingredient;
 
 /** Armor materials in Forge 1.20.1 are plain values rather than registry entries. */
 public final class ModArmorMaterials {
-    public static final ArmorMaterial LIVING = material("living", Map.of(
+    public static final ArmorMaterial LIVING = material("livings", Map.of(
             ArmorItem.Type.HELMET, 4, ArmorItem.Type.CHESTPLATE, 10,
             ArmorItem.Type.LEGGINGS, 8, ArmorItem.Type.BOOTS, 4), 15,
             SoundEvents.ARMOR_EQUIP_IRON, 3.0F, 0.0F, true);
-    public static final ArmorMaterial SENTIENT = material("sentient", Map.of(
+    public static final ArmorMaterial SENTIENT = material("sentients", Map.of(
             ArmorItem.Type.HELMET, 5, ArmorItem.Type.CHESTPLATE, 12,
             ArmorItem.Type.LEGGINGS, 12, ArmorItem.Type.BOOTS, 5), 18,
             SoundEvents.ARMOR_EQUIP_NETHERITE, 4.0F, 0.0F, true);
@@ -21,7 +22,7 @@ public final class ModArmorMaterials {
             ArmorItem.Type.HELMET, 4, ArmorItem.Type.CHESTPLATE, 9,
             ArmorItem.Type.LEGGINGS, 7, ArmorItem.Type.BOOTS, 4), 14,
             SoundEvents.ARMOR_EQUIP_IRON, 3.0F, 0.0F, true);
-    public static final ArmorMaterial VENKROL = material("venkrol", Map.of(
+    public static final ArmorMaterial VENKROL = material("venkrol_boot", Map.of(
             ArmorItem.Type.HELMET, 0, ArmorItem.Type.CHESTPLATE, 0,
             ArmorItem.Type.LEGGINGS, 0, ArmorItem.Type.BOOTS, 4), 20,
             SoundEvents.ARMOR_EQUIP_IRON, 3.0F, 0.0F, true);
@@ -44,7 +45,7 @@ public final class ModArmorMaterials {
             @Override public Ingredient getRepairIngredient() {
                 return modRepair ? Ingredient.of(ModItems.BLOODY_IRON_INGOT.get()) : Ingredient.EMPTY;
             }
-            @Override public String getName() { return name; }
+            @Override public String getName() { return Csrp.MODID + ":" + name; }
             @Override public float getToughness() { return toughness; }
             @Override public float getKnockbackResistance() { return knockbackResistance; }
         };

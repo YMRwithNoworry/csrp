@@ -1,6 +1,7 @@
 const crypto = require("crypto");
 const fs = require("fs");
 const path = require("path");
+const { rewriteValue: rewriteAnimationValue } = require("./rewrite-animation-comparison-ternaries.cjs");
 
 const projectRoot = path.resolve(__dirname, "..");
 const sourceRoot = path.resolve(process.argv[2] ??
@@ -73,7 +74,8 @@ for (const entity of exported) {
   readJson(geoSource);
   readJson(animationSource);
   copy(geoSource, path.join(assetsRoot, "geo", `${id}.geo.json`));
-  copy(animationSource, path.join(assetsRoot, "animations", `${id}.animation.json`));
+  fs.writeFileSync(path.join(assetsRoot, "animations", `${id}.animation.json`),
+    `${JSON.stringify(rewriteAnimationValue(readJson(animationSource)))}\n`);
 
   for (const relative of textures) {
     const source = path.join(entityRoot, relative);

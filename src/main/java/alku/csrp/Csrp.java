@@ -13,6 +13,7 @@ import alku.csrp.registry.ModFluidTypes;
 import alku.csrp.registry.ModBlockEntities;
 import alku.csrp.registry.ModArmorMaterials;
 import alku.csrp.registry.ModEntities;
+import alku.csrp.registry.ModEnchantments;
 import alku.csrp.registry.ModItems;
 import alku.csrp.registry.ModJukeboxSongs;
 import alku.csrp.registry.ModMobEffects;
@@ -192,6 +193,7 @@ public final class Csrp {
         ModFluidTypes.FLUID_TYPES.register(modEventBus);
         ModBlockEntities.BLOCK_ENTITIES.register(modEventBus);
         ModEntities.ENTITIES.register(modEventBus);
+        ModEnchantments.ENCHANTMENTS.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
         ModMobEffects.EFFECTS.register(modEventBus);
         ModMenus.MENUS.register(modEventBus);

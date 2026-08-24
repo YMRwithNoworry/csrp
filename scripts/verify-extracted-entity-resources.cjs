@@ -2,6 +2,7 @@ const crypto = require("crypto");
 const fs = require("fs");
 const path = require("path");
 const { isDeepStrictEqual } = require("util");
+const { rewriteValue: rewriteAnimationValue } = require("./rewrite-animation-comparison-ternaries.cjs");
 
 const projectRoot = path.resolve(__dirname, "..");
 const sourceRoot = path.resolve(process.argv[2] ??
@@ -33,12 +34,13 @@ const normalizeJson = (value, key = "") => {
   return Object.fromEntries(Object.entries(value)
     .map(([childKey, child]) => [childKey, normalizeJson(child, childKey)]));
 };
-const sameJson = (source, target, label) => {
+const sameJson = (source, target, label, rewriteAnimation = false) => {
   if (!fs.existsSync(target)) return failures.push(`${label}: target is missing`);
   const sourceJson = parse(source, `${label} extractor source`);
   const targetJson = parse(target, label);
-  if (sourceJson && targetJson
-      && !isDeepStrictEqual(normalizeJson(sourceJson), normalizeJson(targetJson))) {
+  const expectedJson = rewriteAnimation && sourceJson ? rewriteAnimationValue(sourceJson) : sourceJson;
+  if (expectedJson && targetJson
+      && !isDeepStrictEqual(normalizeJson(expectedJson), normalizeJson(targetJson))) {
     failures.push(`${label}: structure differs from extractor output`);
   }
 };
@@ -59,7 +61,7 @@ for (const entity of exported) {
   const targetGeo = path.join(assetsRoot, "geo", `${id}.geo.json`);
   const targetAnimation = path.join(assetsRoot, "animations", `${id}.animation.json`);
   sameJson(sourceGeo, targetGeo, `${id} geometry`);
-  sameJson(sourceAnimation, targetAnimation, `${id} animation`);
+  sameJson(sourceAnimation, targetAnimation, `${id} animation`, true);
 
   const geometry = parse(targetGeo, `${id} geometry`);
   const animations = parse(targetAnimation, `${id} animation`);

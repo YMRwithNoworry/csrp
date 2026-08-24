@@ -7,17 +7,14 @@ import alku.csrp.entity.Parasite;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModItems;
+import alku.csrp.registry.ModEnchantments;
 import alku.csrp.overlast.network.EvolutionHudPayload;
 import alku.csrp.world.EvolutionSystem;
 import alku.csrp.world.SrpWorldData;
 import java.util.List;
 import java.util.Map;
-import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
@@ -29,7 +26,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -46,8 +42,6 @@ import net.minecraftforge.registries.RegistryObject;
 
 @EventBusSubscriber(modid = Csrp.MODID)
 public final class OverlastEvents {
-    public static final ResourceKey<Enchantment> PARASITE_KILLER = ResourceKey.create(
-            Registries.ENCHANTMENT, new ResourceLocation(Csrp.MODID, "parasite_killer"));
     private static final Map<String, EntityType<?>> CURED_FORMS = Map.ofEntries(
             Map.entry("sim_bigspider", EntityType.SPIDER),
             Map.entry("sim_bear", EntityType.POLAR_BEAR),
@@ -162,12 +156,8 @@ public final class OverlastEvents {
                 || !(attacker.level() instanceof ServerLevel level)) {
             return;
         }
-        Holder<Enchantment> enchantment = level.registryAccess().registryOrThrow(Registries.ENCHANTMENT)
-                .getHolder(PARASITE_KILLER).orElse(null);
-        if (enchantment == null) {
-            return;
-        }
-        int enchantmentLevel = EnchantmentHelper.getItemEnchantmentLevel(enchantment.value(), attacker.getMainHandItem());
+        int enchantmentLevel = EnchantmentHelper.getItemEnchantmentLevel(
+                ModEnchantments.PARASITE_KILLER.get(), attacker.getMainHandItem());
         if (enchantmentLevel <= 0 || level.random.nextFloat() > 0.3F + 0.1F * enchantmentLevel) {
             return;
         }
