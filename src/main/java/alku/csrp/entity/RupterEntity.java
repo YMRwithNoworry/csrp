@@ -74,6 +74,12 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite, Manual
     public static final int TUNNEL_KILL_COST = 5;
     private static final int LEGACY_TICK_INTERVAL = 21;
     private static final int MUDO_ATTACK_INTERVAL = 10;
+    private static final int POUNCE_PREPARATION_TICKS = 40;
+    private static final int POUNCE_TIMEOUT_TICKS = 80;
+    private static final double POUNCE_MIN_DISTANCE_SQR = 25.0D;
+    private static final double POUNCE_MAX_DISTANCE_SQR = 10000.0D;
+    private static final double POUNCE_HORIZONTAL_SPEED = 2.5D;
+    private static final double POUNCE_VERTICAL_SPEED = 0.7D;
     private static final int OVERHEAT_WARMUP_DURATION = 100;
     private static final int BAT_LEAP_EVALUATION_TIMEOUT = 40;
     private static final String KILL_COUNT_NBT_KEY = "rupter_kill_count";
@@ -170,7 +176,8 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite, Manual
     protected void registerGoals() {
         goalSelector.addGoal(0, new OverheatStunGoal());
         goalSelector.addGoal(1, new FloatGoal(this));
-        goalSelector.addGoal(2, new RupterLeapGoal(this, 0.7F));
+        goalSelector.addGoal(1, new RupterPounceGoal());
+        goalSelector.addGoal(2, new RupterLeapGoal(this, 0.4F));
         goalSelector.addGoal(3, new CothCloudGoal());
         goalSelector.addGoal(4, new FastMeleeAttackGoal());
         goalSelector.addGoal(5, new AvoidEntityGoal<>(this, LivingEntity.class, 8.0F, 1.0, 1.3,
@@ -225,8 +232,10 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite, Manual
 
     private boolean shouldRetreatForPackSize() {
         // The original EntityAIAvoidOrAttack switches to combat as soon as one
-        // other living parasite is nearby (two parasites total).
-        return nearbyParasites() == 0;
+        // other living parasite is nearby (two parasites total), but this
+        // skirmishing behavior is removed at the phase-four attack unlock.
+        return Config.useEvolutionPhases() && Config.evolutionPhase(level()) < 4
+                && nearbyParasites() == 0;
     }
 
     private int createdPhaseOrCurrent() {
@@ -846,6 +855,88 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite, Manual
         @Override
         protected int getTicksUntilNextAttack() {
             return MUDO_ATTACK_INTERVAL;
+        }
+    }
+
+    private final class RupterPounceGoal extends Goal {
+        private int preparationTicks;
+        private int activeTicks;
+        private boolean launched;
+        private boolean becameAirborne;
+
+        private RupterPounceGoal() {
+            // The legacy skill goal has no mutex flags and charges alongside normal navigation.
+            setFlags(EnumSet.noneOf(Flag.class));
+        }
+
+        @Override
+        public boolean canUse() {
+            return launched || canPreparePounce();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return launched && activeTicks < POUNCE_TIMEOUT_TICKS || canPreparePounce();
+        }
+
+        @Override
+        public void tick() {
+            if (launched) {
+                activeTicks++;
+                if (!onGround()) {
+                    becameAirborne = true;
+                }
+                if (becameAirborne && onGround() || activeTicks >= POUNCE_TIMEOUT_TICKS) {
+                    finishPounce();
+                }
+                return;
+            }
+
+            LivingEntity target = getTarget();
+            if (target == null || !canPreparePounce()) {
+                return;
+            }
+            getLookControl().setLookAt(target, 30.0F, 30.0F);
+            preparationTicks += hasEffect(ModMobEffects.RAGE.get()) ? 2 : 1;
+            if (preparationTicks < POUNCE_PREPARATION_TICKS || !onGround()) {
+                return;
+            }
+
+            double deltaX = target.getX() - getX();
+            double deltaZ = target.getZ() - getZ();
+            double horizontalDistance = Math.sqrt(deltaX * deltaX + deltaZ * deltaZ);
+            if (horizontalDistance < 1.0E-6D) {
+                return;
+            }
+            Vec3 movement = getDeltaMovement();
+            navigation.stop();
+            setDeltaMovement(
+                    movement.x + deltaX / horizontalDistance * POUNCE_HORIZONTAL_SPEED * 0.9D
+                            + movement.x * 0.3D,
+                    POUNCE_VERTICAL_SPEED,
+                    movement.z + deltaZ / horizontalDistance * POUNCE_HORIZONTAL_SPEED * 0.9D
+                            + movement.z * 0.3D);
+            entityData.set(LEAP_ATTACK_TICKS, 30);
+            launched = true;
+            becameAirborne = false;
+            activeTicks = 0;
+        }
+
+        private boolean canPreparePounce() {
+            LivingEntity target = getTarget();
+            if (target == null || !target.isAlive() || isOverheatCharging()
+                    || hasEffect(MobEffects.MOVEMENT_SLOWDOWN) || !hasLineOfSight(target)) {
+                return false;
+            }
+            double distanceSqr = distanceToSqr(target);
+            return distanceSqr >= POUNCE_MIN_DISTANCE_SQR && distanceSqr < POUNCE_MAX_DISTANCE_SQR;
+        }
+
+        private void finishPounce() {
+            preparationTicks = 0;
+            activeTicks = 0;
+            launched = false;
+            becameAirborne = false;
         }
     }
 

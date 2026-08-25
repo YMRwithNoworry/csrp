@@ -25,7 +25,7 @@ const entities = [
 
 for (const [name, entity] of entities) {
     const retreatPattern = name === "Rupter"
-        ? /nearbyParasites\(\)\s*==\s*0/
+        ? /Config\.evolutionPhase\(level\(\)\)\s*<\s*4[\s\S]*nearbyParasites\(\)\s*==\s*0/
         : /nearbyParasites\(\)\s*<=\s*2/;
     expect(entity, retreatPattern, `${name}: retreat threshold is missing`);
     expect(entity, /getEntitiesOfClass\(LivingEntity\.class[\s\S]*instanceof Parasite/,

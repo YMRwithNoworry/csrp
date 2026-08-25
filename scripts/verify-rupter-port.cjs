@@ -74,14 +74,16 @@ for (const [pattern, description] of [
     [/xpReward\s*=\s*5/, "Wiki XP value 5 is missing"],
     [/EntityDataAccessor<Byte>.*CLIMBING/s, "synced climbing state is missing"],
     [/onClimbable\(\)/, "wall climbing override is missing"],
-    [/LeapAtTargetGoal/, "large attack leap is missing"],
+    [/new RupterLeapGoal\(this,\s*0\.4F\)/, "legacy short attack leap is missing"],
+    [/RupterPounceGoal/, "long-range attack pounce is missing"],
     [/liquid.*leap|leap.*liquid|isInWaterOrBubble\(\)/is, "small liquid leap is missing"],
     [/MobEffects\.(?:SLOWNESS|MOVEMENT_SLOWDOWN).*40,\s*1/s, "Slowness II melee effect is missing"],
     [/ModMobEffects\.COTH.*3600,\s*0/s, "guaranteed melee COTH is missing"],
     [/ToxicCloudEntity\.create/, "lingering COTH cloud is missing"],
     [/new MobEffectInstance\(ModMobEffects\.COTH,\s*\d+,\s*1/s,
         "COTH II cloud effect is missing"],
-    [/nearbyParasites\(\)\s*==\s*0/, "single-Rupter retreat gate is missing"],
+    [/Config\.evolutionPhase\(level\(\)\)\s*<\s*4[\s\S]*nearbyParasites\(\)\s*==\s*0/,
+        "phase-gated single-Rupter retreat is missing"],
     [/instanceof Parasite/, "nearby parasite pack check is missing"],
     [/TUNNEL_KILL_COST\s*=\s*5/, "Tunnel kill cost 5 is missing"],
     [/killCount\s*>\s*MobsConfig\.rupterManglerKills\(\)/, "strict Rupter-to-Mangler kill threshold is missing"],
@@ -105,6 +107,13 @@ expect(entity, /tickCount\s*%\s*LEGACY_TICK_INTERVAL\s*==\s*10/, "legacy 21-tick
 expect(entity, /CREATED_PHASE_NBT_KEY/, "Rupter creation phase persistence is missing");
 expect(entity, /new WallClimberNavigation/, "Rupter climber navigation is missing");
 expect(entity, /getTicksUntilNextAttack\(\)[\s\S]*MUDO_ATTACK_INTERVAL/, "Rupter 10-tick attack interval is missing");
+expect(entity, /POUNCE_PREPARATION_TICKS\s*=\s*40/, "Rupter 40-tick pounce preparation is missing");
+expect(entity, /POUNCE_MIN_DISTANCE_SQR\s*=\s*25\.0D/, "Rupter pounce minimum distance is missing");
+expect(entity, /POUNCE_MAX_DISTANCE_SQR\s*=\s*10000\.0D/, "Rupter pounce maximum distance is missing");
+expect(entity, /POUNCE_HORIZONTAL_SPEED\s*=\s*2\.5D/, "Rupter pounce horizontal speed is missing");
+expect(entity, /POUNCE_VERTICAL_SPEED\s*=\s*0\.7D/, "Rupter pounce vertical speed is missing");
+expect(entity, /hasEffect\(ModMobEffects\.RAGE\.get\(\)\)\s*\?\s*2\s*:\s*1/,
+        "Rage does not accelerate Rupter pounce preparation");
 expect(entity, /causeFallDamage\(float distance[\s\S]*distance >= 60\.0F/, "Rupter fall-damage threshold is missing");
 expect(entity, /ModMobEffects\.BLEED.*100,\s*0/s, "Berserker Bleed hit effect is missing");
 expect(entity, /ModMobEffects\.VIRAL.*80,\s*0/s, "Virulent leap Viral effect is missing");
