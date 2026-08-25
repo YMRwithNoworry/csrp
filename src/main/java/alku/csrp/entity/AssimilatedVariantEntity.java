@@ -138,6 +138,8 @@ public final class AssimilatedVariantEntity extends Monster implements GeoEntity
                             && assimilated.kind == Kind.HUMAN));
         }
         goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        goalSelector.addGoal(kind == Kind.HUMAN ? 5 : 6,
+                new ParasiteRecruitFollowersGoal(this, 1, 16));
         goalSelector.addGoal(6, new ParasiteFollowGoal(this));
         goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());

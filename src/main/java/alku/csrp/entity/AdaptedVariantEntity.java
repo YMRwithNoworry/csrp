@@ -534,6 +534,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     @Override
     protected void registerGoals() {
         super.registerGoals();
+        if (recruitsFollowers(activeKind())) {
+            goalSelector.addGoal(6, new ParasiteRecruitFollowersGoal(this, 3, 32));
+        }
         switch (activeKind()) {
             case ARACHNIDA -> {
                 goalSelector.addGoal(2, new ArachnidaPullSkillGoal());
@@ -597,6 +600,13 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
                 goalSelector.addGoal(2, new YelloweyeFlightGoal());
             }
         }
+    }
+
+    private static boolean recruitsFollowers(Kind kind) {
+        return switch (kind) {
+            case ARACHNIDA, BOLSTER, LONGARMS, REEKER, SUMMONER, VISCERA -> true;
+            default -> false;
+        };
     }
 
     @Override

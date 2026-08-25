@@ -138,6 +138,9 @@ public final class AssimilatedParasiteEntity extends Monster
         } else {
             goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         }
+        if (kind != Kind.SQUID) {
+            goalSelector.addGoal(6, new ParasiteRecruitFollowersGoal(this, 1, 16));
+        }
         goalSelector.addGoal(6, new ParasiteFollowGoal(this));
         goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
