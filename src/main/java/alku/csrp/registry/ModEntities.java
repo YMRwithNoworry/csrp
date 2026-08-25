@@ -44,6 +44,7 @@ import alku.csrp.entity.KirinEntity;
 import alku.csrp.entity.LiceEntity;
 import alku.csrp.entity.LongarmsEntity;
 import alku.csrp.entity.ManglerEntity;
+import alku.csrp.entity.MeteorEntity;
 import alku.csrp.entity.MarauderEntity;
 import alku.csrp.entity.MarauderTendrilEntity;
 import alku.csrp.entity.MarauderizedBearEntity;
@@ -532,8 +533,11 @@ public final class ModEntities {
             projectile("ballmall", ParasiteProjectileEntity.Mode.LENCIA_BALL, 0.3F, 0.3F, 4, 3);
     public static final RegistryObject<EntityType<ParasiteProjectileEntity>> HEBLU_LIGHT =
             projectile("heblu_light", ParasiteProjectileEntity.Mode.LIGHT, 0.65F, 0.65F, 4, 3);
-    public static final RegistryObject<EntityType<ParasiteProjectileEntity>> METEOR =
-            projectile("meteor", ParasiteProjectileEntity.Mode.METEOR, 4.5F, 4.5F, 16, 1);
+    public static final RegistryObject<EntityType<MeteorEntity>> METEOR =
+            ENTITIES.register("meteor", () -> EntityType.Builder.<MeteorEntity>of(MeteorEntity::new, MobCategory.MISC)
+                    .sized(4.5F, 4.5F).clientTrackingRange(16).updateInterval(1).fireImmune()
+                    .setShouldReceiveVelocityUpdates(true)
+                    .build(new ResourceLocation(Csrp.MODID, "meteor").toString()));
     public static final RegistryObject<EntityType<ParasiteProjectileEntity>> SALIVA_BALL =
             projectile("salivaball", ParasiteProjectileEntity.Mode.ALAFHA_BALL, 0.3F, 0.3F, 4, 3);
     public static final RegistryObject<EntityType<ParasiteProjectileEntity>> BALL_BALL =
@@ -636,7 +640,7 @@ public final class ModEntities {
             case LENCIA_BALL -> BALL_MALL.get();
             case LIGHT -> HEBLU_LIGHT.get();
             case HOMING -> PARASITE_PROJECTILE.get();
-            case METEOR -> METEOR.get();
+            case METEOR -> PARASITE_PROJECTILE.get();
             case ALAFHA_BALL -> SALIVA_BALL.get();
             case ANGED_BALL -> BALL_BALL.get();
             case ANCIENT_BALL -> ANCIENT_BALL.get();

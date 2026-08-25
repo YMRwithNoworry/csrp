@@ -46,6 +46,40 @@ public final class WorldConfig {
             .comment("Dimension ids used by dimensionListIsBlacklist.")
             .defineList("dimensionList", List.of(), value -> value instanceof String id
                     && ResourceLocation.tryParse(id) != null);
+    private static final ForgeConfigSpec.BooleanValue METEOR_ENABLED = BUILDER
+            .comment("Enable natural Hive Satellite meteor impacts.")
+            .define("meteorEnabled", false);
+    private static final ForgeConfigSpec.IntValue METEOR_CHECK_INTERVAL = BUILDER
+            .comment("Ticks between natural meteor spawn checks.")
+            .defineInRange("meteorCheckInterval", 3600, 1, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.DoubleValue METEOR_CHANCE = BUILDER
+            .comment("Chance that each meteor check spawns a meteor.")
+            .defineInRange("meteorChance", 0.5D, 0.0D, 1.0D);
+    private static final ForgeConfigSpec.IntValue METEOR_DAMAGE_RADIUS = BUILDER
+            .comment("Radius of the distance-scaled main meteor impact damage.")
+            .defineInRange("meteorDamageRadius", 110, 0, 1024);
+    private static final ForgeConfigSpec.IntValue METEOR_MINIMUM_RADIUS = BUILDER
+            .comment("Minimum horizontal spawn and target offset from the selected player.")
+            .defineInRange("meteorMinimumRadius", 80, 0, 4096);
+    private static final ForgeConfigSpec.IntValue METEOR_MAXIMUM_RADIUS = BUILDER
+            .comment("Maximum horizontal spawn and target offset from the selected player.")
+            .defineInRange("meteorMaximumRadius", 120, 1, 4096);
+    private static final ForgeConfigSpec.BooleanValue METEOR_REQUIRES_NO_VECTOR = BUILDER
+            .comment("Prevent natural meteors in dimensions which already contain an infestation vector.")
+            .define("meteorRequiresNoVector", true);
+    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> METEOR_DIMENSION_BLACKLIST = BUILDER
+            .comment("Dimension ids which cannot receive natural meteors.")
+            .defineList("meteorDimensionBlacklist", List.of("minecraft:the_nether"), value -> value instanceof String id
+                    && ResourceLocation.tryParse(id) != null);
+    private static final ForgeConfigSpec.BooleanValue METEOR_CREATES_VECTOR = BUILDER
+            .comment("Create an Emerging Infestation Vector when a main meteor impacts.")
+            .define("meteorCreatesVector", true);
+    private static final ForgeConfigSpec.IntValue METEOR_VECTOR_HEALTH = BUILDER
+            .comment("Initial health of an infestation vector created by a meteor.")
+            .defineInRange("meteorVectorHealth", 350, 1, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.IntValue METEOR_VECTOR_RADIUS = BUILDER
+            .comment("Initial radius of an infestation vector created by a meteor.")
+            .defineInRange("meteorVectorRadius", 200, 1, Integer.MAX_VALUE);
 
     public static final ForgeConfigSpec SPEC = BUILDER.build();
 
@@ -93,5 +127,49 @@ public final class WorldConfig {
         String dimension = level.dimension().location().toString();
         boolean listed = DIMENSION_LIST.get().contains(dimension);
         return DIMENSION_LIST_IS_BLACKLIST.get() != listed;
+    }
+
+    public static boolean meteorsEnabled() {
+        return METEOR_ENABLED.get();
+    }
+
+    public static int meteorCheckInterval() {
+        return METEOR_CHECK_INTERVAL.get();
+    }
+
+    public static double meteorChance() {
+        return METEOR_CHANCE.get();
+    }
+
+    public static int meteorDamageRadius() {
+        return METEOR_DAMAGE_RADIUS.get();
+    }
+
+    public static int meteorMinimumRadius() {
+        return METEOR_MINIMUM_RADIUS.get();
+    }
+
+    public static int meteorMaximumRadius() {
+        return METEOR_MAXIMUM_RADIUS.get();
+    }
+
+    public static boolean meteorRequiresNoVector() {
+        return METEOR_REQUIRES_NO_VECTOR.get();
+    }
+
+    public static boolean dimensionAllowsMeteors(ServerLevel level) {
+        return !METEOR_DIMENSION_BLACKLIST.get().contains(level.dimension().location().toString());
+    }
+
+    public static boolean meteorCreatesVector() {
+        return METEOR_CREATES_VECTOR.get();
+    }
+
+    public static int meteorVectorHealth() {
+        return METEOR_VECTOR_HEALTH.get();
+    }
+
+    public static int meteorVectorRadius() {
+        return METEOR_VECTOR_RADIUS.get();
     }
 }

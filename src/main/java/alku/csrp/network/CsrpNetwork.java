@@ -53,6 +53,9 @@ public final class CsrpNetwork {
         CHANNEL.registerMessage(id++, ParasiteDeathFxPayload.class, ParasiteDeathFxPayload::encode,
                 ParasiteDeathFxPayload::decode, ParasiteDeathFxPayload::handle,
                 Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(id++, MeteorShakePayload.class, MeteorShakePayload::encode,
+                MeteorShakePayload::decode, MeteorShakePayload::handle,
+                Optional.of(NetworkDirection.PLAY_TO_CLIENT));
     }
 
     public static void sendToPlayer(ServerPlayer player, Object message) {

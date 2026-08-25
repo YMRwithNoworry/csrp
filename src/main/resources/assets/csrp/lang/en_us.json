@@ -1238,5 +1238,6 @@
   "block.csrp.deadhead_button": "Deadhead Button",
   "block.csrp.deadhead_pressure_plate": "Deadhead Pressure Plate",
   "block.csrp.deadhead_ladder": "Deadhead Ladder",
-  "block.csrp.deadhead_bookshelf": "Deadhead Bookshelf"
+  "block.csrp.deadhead_bookshelf": "Deadhead Bookshelf",
+  "entity.csrp.meteor": "Hive Satellite"
 }

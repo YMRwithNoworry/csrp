@@ -356,7 +356,8 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.BALL_TALL.get(), ParasiteProjectileRenderer::new);
         event.registerEntityRenderer(ModEntities.BALL_MALL.get(), ParasiteProjectileRenderer::new);
         event.registerEntityRenderer(ModEntities.HEBLU_LIGHT.get(), ParasiteProjectileRenderer::new);
-        event.registerEntityRenderer(ModEntities.METEOR.get(), ParasiteProjectileRenderer::new);
+        event.registerEntityRenderer(ModEntities.METEOR.get(), context -> new LegacyBillboardRenderer<>(context,
+                new ResourceLocation(Csrp.MODID, "textures/entity/projectile/meteor.png"), 4.5F, 4.5F));
         event.registerEntityRenderer(ModEntities.SALIVA_BALL.get(), ParasiteProjectileRenderer::new);
         event.registerEntityRenderer(ModEntities.BALL_BALL.get(), ParasiteProjectileRenderer::new);
         event.registerEntityRenderer(ModEntities.ANCIENT_BALL.get(), ParasiteProjectileRenderer::new);

@@ -1248,5 +1248,6 @@
   "block.csrp.deadhead_button": "枯首木按钮",
   "block.csrp.deadhead_pressure_plate": "枯首木压力板",
   "block.csrp.deadhead_ladder": "枯首木梯",
-  "block.csrp.deadhead_bookshelf": "枯首木书架"
+  "block.csrp.deadhead_bookshelf": "枯首木书架",
+  "entity.csrp.meteor": "寄巢卫星"
 }

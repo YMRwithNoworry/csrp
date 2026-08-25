@@ -7,6 +7,7 @@ import alku.csrp.entity.Parasite;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.world.EvolutionSystem;
 import alku.csrp.world.DislodgmentSystem;
+import alku.csrp.world.MeteorEvents;
 import alku.csrp.world.SrpWorldData;
 import alku.csrp.world.SrpCoreSystems;
 import alku.csrp.world.SrpDifficulty;
@@ -34,6 +35,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -58,6 +60,12 @@ public final class SrpCommands {
         dispatcher.register(dqq());
         dispatcher.register(srHelp());
         dispatcher.register(srSummonNidus());
+        dispatcher.register(srp());
+    }
+
+    private static LiteralArgumentBuilder<CommandSourceStack> srp() {
+        return admin("srp")
+                .then(Commands.literal("spawnmeteor").executes(context -> spawnMeteor(context.getSource())));
     }
 
     private static LiteralArgumentBuilder<CommandSourceStack> srParasites() {
@@ -315,7 +323,8 @@ public final class SrpCommands {
         return admin("srphelp")
                 .executes(context -> success(context.getSource(),
                         "SRP commands: srparasites, srpevolution, srpgeneration, srpudevelopment, srpnodes, "
-                                + "srpcolonies, srpvectors, srpdislodgment, srpdifficulty, dqq, srp_summon_nidus"))
+                                + "srpcolonies, srpvectors, srpdislodgment, srpdifficulty, srp spawnmeteor, dqq, "
+                                + "srp_summon_nidus"))
                 .then(helpTopic("srparasites", "Status, generation and per-dimension data reset"))
                 .then(helpTopic("srpevolution", "Phase, points, lure timer and evolution locks"))
                 .then(helpTopic("srpgeneration", "Parasite generation and generation ticks"))
@@ -325,6 +334,7 @@ public final class SrpCommands {
                 .then(helpTopic("srpvectors", "List, create and remove infestation vectors"))
                 .then(helpTopic("srpdislodgment", "Create, inspect and clear dislodgment codes"))
                 .then(helpTopic("srpdifficulty", "View or change the active SRP difficulty"))
+                .then(helpTopic("spawnmeteor", "Spawn a Hive Satellite meteor over your current position"))
                 .then(helpTopic("dqq", "Toggle EVE mode or query its status"))
                 .then(helpTopic("srp_summon_nidus", "Summon a Beckon nexus stage at a position"));
     }
@@ -608,6 +618,16 @@ public final class SrpCommands {
                 MobSpawnType.COMMAND, null, null);
         source.getLevel().addFreshEntity(entity);
         return success(source, "Summoned Nidus/Nexus at " + format(pos) + " with stage " + stage);
+    }
+
+    private static int spawnMeteor(CommandSourceStack source) {
+        ServerLevel level = source.getLevel();
+        Vec3 target = source.getPosition();
+        Vec3 start = new Vec3(target.x + 80.0D, level.getMaxBuildHeight() - 6.0D, target.z + 80.0D);
+        if (MeteorEvents.spawn(level, start, target) == null) {
+            return failure(source, "Unable to create Hive Satellite meteor");
+        }
+        return success(source, "Hive Satellite meteor spawned above " + format(BlockPos.containing(target)));
     }
 
     private static int success(CommandSourceStack source, String message) {

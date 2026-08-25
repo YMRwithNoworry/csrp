@@ -6493,5 +6493,11 @@
     "sounds": [
       "csrp:mob/crude/flesh/infected_melting"
     ]
+  },
+  "meteor.impact": {
+    "category": "hostile",
+    "sounds": [
+      "csrp:misc/meteor"
+    ]
   }
 }
