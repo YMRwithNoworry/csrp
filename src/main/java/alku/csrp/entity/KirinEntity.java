@@ -477,8 +477,24 @@ public final class KirinEntity extends DerivedParasiteEntity {
     }
 
     private void performBlink() {
+        LivingEntity slashTarget = getTarget();
+        playSound(alku.csrp.registry.ModSounds.KIRIN_PROJECTILE_CHARGE.get(), 1.0F, 1.0F);
+        Vec3 origin = position();
         teleportTo(blinkDestination.getX() + 0.5D, blinkDestination.getY(), blinkDestination.getZ() + 0.5D);
         playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
+        if (level() instanceof ServerLevel serverLevel && slashTarget != null) {
+            Vec3 start = origin.add(0.0D, getBbHeight() * 0.6D, 0.0D);
+            Vec3 toTarget = slashTarget.position().add(0.0D, slashTarget.getBbHeight() * 0.5D, 0.0D)
+                    .subtract(start);
+            float yaw = (float) (Math.toDegrees(Math.atan2(-toTarget.x, toTarget.z)));
+            float pitch = (float) (Math.toDegrees(-Math.atan2(toTarget.y,
+                    Math.sqrt(toTarget.x * toTarget.x + toTarget.z * toTarget.z))));
+            KirinSlashEntity slash = KirinSlashEntity.create(serverLevel, this, start,
+                    yaw, pitch, 14.0F, 6.0F, 2, 3, 30);
+            if (slash != null) {
+                serverLevel.addFreshEntity(slash);
+            }
+        }
         DragonEggAssimilationEntity.assimilateDragonEggs(level(),
                 getBoundingBox().inflate(BLINK_LIFE_STEAL_RADIUS));
         List<LivingEntity> nearby = level().getEntitiesOfClass(LivingEntity.class,

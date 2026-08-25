@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "csrp:block/goth_stem_top",
+    "side": "csrp:block/goth_stem"
+  }
+}

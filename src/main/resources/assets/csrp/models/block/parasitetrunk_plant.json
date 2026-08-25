@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "csrp:block/parasitetrunk_plant_top",
+    "side": "csrp:block/parasitetrunk_plant"
+  }
+}

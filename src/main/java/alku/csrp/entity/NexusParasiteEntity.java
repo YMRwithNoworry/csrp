@@ -226,6 +226,12 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
             BlockInfestation.infestAround(serverLevel, blockPosition().below(),
                     Math.max(0, Math.min(3, activeKind.stage - 1)), InfestationSpreadLimiter.Type.BECKON);
         }
+        // 调度柱随阶段周期性感染脚下方块（原版 EntityAIBlockInfest ~200t 间隔）
+        if (activeKind.family == Family.DISPATCHER && tickCount % 200 == 0
+                && level() instanceof ServerLevel dispatcherLevel) {
+            BlockInfestation.infestAround(dispatcherLevel, blockPosition().below(),
+                    Math.max(1, Math.min(3, activeKind.stage)), InfestationSpreadLimiter.Type.BECKON);
+        }
         if (tickCount % 10 == 0) {
             breakBlocksTowardsTarget(activeKind);
         }
@@ -458,6 +464,19 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
             }
             case ROOTERBALL -> false;
         };
+    }
+
+    /** 是否处于调度柱家族（供消失回收等外部逻辑判断）。 */
+    public boolean isDispatcherFamily() {
+        return activeKind().family == Family.DISPATCHER;
+    }
+
+    /** 原版 storeBefDes：寄生体超距消失时回收入库，调度柱之后可再部署。 */
+    public boolean recallParasite(String entityTypeId) {
+        if (!isDispatcherFamily() || storedParasiteIds.size() >= 12) {
+            return false;
+        }
+        return storedParasiteIds.add(entityTypeId);
     }
 
     private void storeNearbyParasite() {

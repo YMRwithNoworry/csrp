@@ -11,6 +11,7 @@ import alku.csrp.client.renderer.AirscrewRenderer;
 import alku.csrp.client.renderer.BurrowingParasiteRenderer;
 import alku.csrp.client.renderer.BuglinRenderer;
 import alku.csrp.client.renderer.BiomassRenderer;
+import alku.csrp.client.renderer.KirinSlashRenderer;
 import alku.csrp.client.renderer.BombRenderer;
 import alku.csrp.client.renderer.DerivedParasiteRenderer;
 import alku.csrp.client.renderer.DragonEggAssimilationRenderer;
@@ -88,6 +89,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.BIOMASS.get(), BiomassRenderer::new);
         event.registerEntityRenderer(ModEntities.SHOCKWAVE.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.SHOCKWAVE_LEGACY.get(), NoopRenderer::new);
+        event.registerEntityRenderer(ModEntities.KIRIN_SLASH.get(), KirinSlashRenderer::new);
         event.registerEntityRenderer(ModEntities.WARDEN_SHOCKWAVE.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.BUGLIN.get(), BuglinRenderer::new);
         event.registerEntityRenderer(ModEntities.RUPTER.get(), RupterRenderer::new);

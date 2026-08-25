@@ -1,0 +1,28 @@
+{
+  "has_precipitation": false,
+  "temperature": 0.8,
+  "downfall": 0.0,
+  "effects": {
+    "fog_color": 5004867,
+    "sky_color": 3907536,
+    "water_color": 6673344,
+    "water_fog_color": 286310,
+    "grass_color": 8357070,
+    "foliage_color": 8357070,
+    "mood_sound": {
+      "sound": "minecraft:ambient.cave",
+      "tick_delay": 6000,
+      "block_search_extent": 8,
+      "offset": 2.0
+    }
+  },
+  "spawners": {
+    "monster": [
+      { "type": "csrp:buglin", "weight": 90, "minCount": 2, "maxCount": 3 },
+      { "type": "csrp:worm", "weight": 70, "minCount": 1, "maxCount": 2 }
+    ]
+  },
+  "spawn_costs": {},
+  "carvers": {},
+  "features": []
+}

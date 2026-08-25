@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing_north": {
+      "model": "csrp:block/consumed_workbench"
+    },
+    "facing_east": {
+      "model": "csrp:block/consumed_workbench",
+      "y": 90
+    },
+    "facing_south": {
+      "model": "csrp:block/consumed_workbench",
+      "y": 180
+    },
+    "facing_west": {
+      "model": "csrp:block/consumed_workbench",
+      "y": 270
+    }
+  }
+}

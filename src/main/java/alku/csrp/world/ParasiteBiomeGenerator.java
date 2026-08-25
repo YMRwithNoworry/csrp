@@ -3,10 +3,20 @@ package alku.csrp.world;
 import alku.csrp.infection.InfestationSpreadLimiter;
 import alku.csrp.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.levelgen.Heightmap;
+
+import java.util.List;
 
 /**
  * Procedural port of the parasite biome: around an active Biome Heart it
@@ -44,6 +54,45 @@ public final class ParasiteBiomeGenerator {
                 && InfestationSpreadLimiter.canSpread(level, InfestationSpreadLimiter.Type.BIOME)) {
             InfestationSpreadLimiter.record(level, InfestationSpreadLimiter.Type.BIOME,
                     placeBloodPool(level, center, random));
+        }
+        applyParasiteBiome(level, center, stage);
+    }
+
+    /** 原版 4 个寄生群系（Boils/Demen/Harlequinn/Shrouded）：感染成熟后按区块连片替换。 */
+    private static final List<ResourceKey<Biome>> PARASITE_BIOMES = List.of(
+            ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath("csrp", "srp_boils")),
+            ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath("csrp", "srp_demen")),
+            ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath("csrp", "srp_harlequinn")),
+            ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath("csrp", "srp_shrouded")));
+
+    private static void applyParasiteBiome(ServerLevel level, BlockPos center, int stage) {
+        if (stage < 2) {
+            return;
+        }
+        Registry<Biome> registry = level.registryAccess().registryOrThrow(Registries.BIOME);
+        int chunkRadius = (RADIUS + 15) >> 4;
+        for (int offsetX = -chunkRadius; offsetX <= chunkRadius; offsetX++) {
+            for (int offsetZ = -chunkRadius; offsetZ <= chunkRadius; offsetZ++) {
+                int chunkX = (center.getX() >> 4) + offsetX;
+                int chunkZ = (center.getZ() >> 4) + offsetZ;
+                ResourceKey<Biome> key = PARASITE_BIOMES.get(
+                        Math.floorMod(chunkX * 31 + chunkZ, PARASITE_BIOMES.size()));
+                Holder<Biome> biome = registry.getHolderOrThrow(key);
+                LevelChunk chunk = level.getChunk(chunkX, chunkZ);
+                for (LevelChunkSection section : chunk.getSections()) {
+                    if (section == null || section.hasOnlyAir()) {
+                        continue;
+                    }
+                    BiomeChunkSectionAccessor accessor = (BiomeChunkSectionAccessor) section;
+                    for (int x = 0; x < 4; x++) {
+                        for (int y = 0; y < 4; y++) {
+                            for (int z = 0; z < 4; z++) {
+                                accessor.csrp$setBiome(x, y, z, biome);
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 

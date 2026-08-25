@@ -1,0 +1,28 @@
+{
+  "has_precipitation": false,
+  "temperature": 1.5,
+  "downfall": 0.0,
+  "effects": {
+    "fog_color": 4462092,
+    "sky_color": 2303093,
+    "water_color": 6183981,
+    "water_fog_color": 252247,
+    "grass_color": 7171181,
+    "foliage_color": 7171181,
+    "mood_sound": {
+      "sound": "minecraft:ambient.cave",
+      "tick_delay": 6000,
+      "block_search_extent": 8,
+      "offset": 2.0
+    }
+  },
+  "spawners": {
+    "monster": [
+      { "type": "csrp:seizer", "weight": 100, "minCount": 1, "maxCount": 2 },
+      { "type": "csrp:sentry", "weight": 80, "minCount": 1, "maxCount": 2 }
+    ]
+  },
+  "spawn_costs": {},
+  "carvers": {},
+  "features": []
+}

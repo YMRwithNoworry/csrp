@@ -1,0 +1,68 @@
+{
+  "variants": {
+    "bottom,open=false,facing=north": {
+      "model": "csrp:block/consumed_trapdoor_bottom",
+      "y": 0
+    },
+    "bottom,open=false,facing=east": {
+      "model": "csrp:block/consumed_trapdoor_bottom",
+      "y": 90
+    },
+    "bottom,open=false,facing=south": {
+      "model": "csrp:block/consumed_trapdoor_bottom",
+      "y": 180
+    },
+    "bottom,open=false,facing=west": {
+      "model": "csrp:block/consumed_trapdoor_bottom",
+      "y": 270
+    },
+    "bottom,open=true,facing=north": {
+      "model": "csrp:block/consumed_trapdoor_open",
+      "y": 0
+    },
+    "bottom,open=true,facing=east": {
+      "model": "csrp:block/consumed_trapdoor_open",
+      "y": 90
+    },
+    "bottom,open=true,facing=south": {
+      "model": "csrp:block/consumed_trapdoor_open",
+      "y": 180
+    },
+    "bottom,open=true,facing=west": {
+      "model": "csrp:block/consumed_trapdoor_open",
+      "y": 270
+    },
+    "top,open=false,facing=north": {
+      "model": "csrp:block/consumed_trapdoor_top",
+      "y": 0
+    },
+    "top,open=false,facing=east": {
+      "model": "csrp:block/consumed_trapdoor_top",
+      "y": 90
+    },
+    "top,open=false,facing=south": {
+      "model": "csrp:block/consumed_trapdoor_top",
+      "y": 180
+    },
+    "top,open=false,facing=west": {
+      "model": "csrp:block/consumed_trapdoor_top",
+      "y": 270
+    },
+    "top,open=true,facing=north": {
+      "model": "csrp:block/consumed_trapdoor_open",
+      "y": 0
+    },
+    "top,open=true,facing=east": {
+      "model": "csrp:block/consumed_trapdoor_open",
+      "y": 90
+    },
+    "top,open=true,facing=south": {
+      "model": "csrp:block/consumed_trapdoor_open",
+      "y": 180
+    },
+    "top,open=true,facing=west": {
+      "model": "csrp:block/consumed_trapdoor_open",
+      "y": 270
+    }
+  }
+}

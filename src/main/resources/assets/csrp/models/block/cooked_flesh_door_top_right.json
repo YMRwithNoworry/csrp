@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_top_right",
+  "textures": {
+    "top": "csrp:block/cooked_flesh_door_top",
+    "bottom": "csrp:block/cooked_flesh_door_bottom"
+  }
+}

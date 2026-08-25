@@ -33,6 +33,15 @@ public final class ModArmorMaterials {
             "venkrol", () -> material(Map.of(ArmorItem.Type.HELMET, 0, ArmorItem.Type.CHESTPLATE, 0,
                     ArmorItem.Type.LEGGINGS, 0, ArmorItem.Type.BOOTS, 4), 20, SoundEvents.ARMOR_EQUIP_IRON,
                     3.0F, 0.0F, "venkrol_boot"));
+    /** 原版 armor_mobility：防御{头3,胸7,腿6,靴3}、附魔18、韧性1.0；护甲层沿用原版的香草皮革贴图。 */
+    public static final DeferredHolder<ArmorMaterial, ArmorMaterial> MOBILITY = MATERIALS.register(
+            "mobility", () -> new ArmorMaterial(
+                    Map.of(ArmorItem.Type.HELMET, 3, ArmorItem.Type.CHESTPLATE, 7,
+                            ArmorItem.Type.LEGGINGS, 6, ArmorItem.Type.BOOTS, 3), 18,
+                    SoundEvents.ARMOR_EQUIP_LEATHER,
+                    () -> Ingredient.of(),
+                    List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath("minecraft", "leather"))),
+                    1.0F, 0.0F));
 
     private static ArmorMaterial material(Map<ArmorItem.Type, Integer> defense, int enchantmentValue,
             Holder<net.minecraft.sounds.SoundEvent> equipSound, float toughness, float knockbackResistance,

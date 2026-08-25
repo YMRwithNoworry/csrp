@@ -5,6 +5,7 @@ import alku.csrp.block.entity.DispatcherNidusBlockEntity;
 import alku.csrp.block.entity.BiomePurifierBlockEntity;
 import alku.csrp.block.entity.InfuserFurnaceBlockEntity;
 import alku.csrp.block.entity.ParasiticCystBlockEntity;
+import alku.csrp.block.entity.ParasiteCanisterBlockEntity;
 import alku.csrp.block.entity.ParasiteLootBlockEntity;
 import alku.csrp.block.entity.RelayTerminalBlockEntity;
 import alku.csrp.block.entity.FogNullifierBlockEntity;
@@ -44,6 +45,10 @@ public final class ModBlockEntities {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BiomePurifierBlockEntity>> BIOME_PURIFIER =
             BLOCK_ENTITIES.register("biome_purifier", () -> new BlockEntityType<>(
                     BiomePurifierBlockEntity::new, Set.of(ModBlocks.BIOME_PURIFIER.get()), null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ParasiteCanisterBlockEntity>> PARASITE_CANISTER =
+            BLOCK_ENTITIES.register("parasite_canister", () -> new BlockEntityType<>(
+                    ParasiteCanisterBlockEntity::new, Set.of(ModBlocks.CANISTER_ACTIVE.get()), null));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<FogNullifierBlockEntity>> FOG_NULLIFIER =
             BLOCK_ENTITIES.register("fog_nullifier", () -> new BlockEntityType<>(

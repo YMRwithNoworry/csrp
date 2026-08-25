@@ -15,6 +15,7 @@ import alku.csrp.item.EyeOfTheBeholderItem;
 import alku.csrp.block.EvolutionLureBlock;
 import alku.csrp.item.FalseAppleItem;
 import alku.csrp.item.FishlinItem;
+import alku.csrp.item.GreekFireItem;
 import alku.csrp.item.HijackedArmorItem;
 import alku.csrp.item.HijackedToolItem;
 import alku.csrp.item.InfestedBonemealItem;
@@ -646,6 +647,23 @@ public final class ModItems {
     public static final DeferredItem<Item> BLOODY_IRON_INGOT = simple("bloody_iron_ingot");
     public static final DeferredItem<Item> BLOODY_ROD = simple("bloody_rod");
     public static final DeferredItem<Item> BLOODY_BONE = simple("bloody_bone");
+    public static final DeferredItem<GreekFireItem> GREEK_FIRE = ITEMS.registerItem("greek_fire",
+            GreekFireItem::new, new Item.Properties().durability(4));
+    public static final DeferredItem<Item> DISC_THREE = ITEMS.registerItem("discthree",
+            properties -> new Item(properties), new Item.Properties().stacksTo(1).rarity(Rarity.RARE)
+                    .jukeboxPlayable(ModJukeboxSongs.DISC_THREE_KEY));
+    public static final DeferredItem<ArmorItem> MOBILITY_HELMET = ITEMS.registerItem("mobility_armor_helmet",
+            properties -> new ArmorItem(ModArmorMaterials.MOBILITY, ArmorItem.Type.HELMET, properties),
+            new Item.Properties());
+    public static final DeferredItem<ArmorItem> MOBILITY_CHESTPIECE = ITEMS.registerItem("mobility_armor_chestpiece",
+            properties -> new ArmorItem(ModArmorMaterials.MOBILITY, ArmorItem.Type.CHESTPLATE, properties),
+            new Item.Properties());
+    public static final DeferredItem<ArmorItem> MOBILITY_LEGGINGS = ITEMS.registerItem("mobility_armor_leggings",
+            properties -> new ArmorItem(ModArmorMaterials.MOBILITY, ArmorItem.Type.LEGGINGS, properties),
+            new Item.Properties());
+    public static final DeferredItem<ArmorItem> MOBILITY_BOOTS = ITEMS.registerItem("mobility_armor_boots",
+            properties -> new ArmorItem(ModArmorMaterials.MOBILITY, ArmorItem.Type.BOOTS, properties),
+            new Item.Properties());
     public static final DeferredItem<Item> LURECOMPONENT1 = simple("lurecomponent1");
     public static final DeferredItem<Item> LURECOMPONENT2 = simple("lurecomponent2");
     public static final DeferredItem<Item> LURECOMPONENT3 = simple("lurecomponent3");
@@ -948,6 +966,50 @@ public final class ModItems {
         return ITEMS.registerItem(id, properties -> new HijackedArmorItem(ModArmorMaterials.HIJACKED_IRON,
                 type, properties.durability(type.getDurability(40))), new Item.Properties());
     }
+
+    // ==================== 批次2+3：残骸体系与木系建材方块物品 ====================
+public static final DeferredItem<BlockItem> PARASITERUBBLE_BONE = ITEMS.registerSimpleBlockItem("parasiterubble_bone", ModBlocks.PARASITERUBBLE_BONE);
+    public static final DeferredItem<BlockItem> PARASITERUBBLE_FLESH = ITEMS.registerSimpleBlockItem("parasiterubble_flesh", ModBlocks.PARASITERUBBLE_FLESH);
+    public static final DeferredItem<BlockItem> PARASITERUBBLE_STONE = ITEMS.registerSimpleBlockItem("parasiterubble_stone", ModBlocks.PARASITERUBBLE_STONE);
+    public static final DeferredItem<BlockItem> PARASITERUBBLE_WEATHB = ITEMS.registerSimpleBlockItem("parasiterubble_weathb", ModBlocks.PARASITERUBBLE_WEATHB);
+    public static final DeferredItem<BlockItem> PARASITERUBBLE_WEATHBC = ITEMS.registerSimpleBlockItem("parasiterubble_weathbc", ModBlocks.PARASITERUBBLE_WEATHBC);
+    public static final DeferredItem<BlockItem> PARASITERUBBLE_WEATHFS = ITEMS.registerSimpleBlockItem("parasiterubble_weathfs", ModBlocks.PARASITERUBBLE_WEATHFS);
+    public static final DeferredItem<BlockItem> PARASITERUBBLEDENSE = ITEMS.registerSimpleBlockItem("parasiterubbledense", ModBlocks.PARASITERUBBLEDENSE);
+    public static final DeferredItem<BlockItem> PARASITERUBBLEDENSE_BIOME = ITEMS.registerSimpleBlockItem("parasiterubbledense_biome", ModBlocks.PARASITERUBBLEDENSE_BIOME);
+    public static final DeferredItem<BlockItem> PARASITERUBBLEDENSE_COLONY = ITEMS.registerSimpleBlockItem("parasiterubbledense_colony", ModBlocks.PARASITERUBBLEDENSE_COLONY);
+    public static final DeferredItem<BlockItem> PARASITERUBBLEDENSE_HEART = ITEMS.registerSimpleBlockItem("parasiterubbledense_heart", ModBlocks.PARASITERUBBLEDENSE_HEART);
+    public static final DeferredItem<BlockItem> PARASITESTAIN_FLESH = ITEMS.registerSimpleBlockItem("parasitestain_flesh", ModBlocks.PARASITESTAIN_FLESH);
+    public static final DeferredItem<BlockItem> PARASITESTAIN_DIRT = ITEMS.registerSimpleBlockItem("parasitestain_dirt", ModBlocks.PARASITESTAIN_DIRT);
+    public static final DeferredItem<BlockItem> PARASITESTAIN_MUD = ITEMS.registerSimpleBlockItem("parasitestain_mud", ModBlocks.PARASITESTAIN_MUD);
+    public static final DeferredItem<BlockItem> PARASITESTAIN_FEELER = ITEMS.registerSimpleBlockItem("parasitestain_feeler", ModBlocks.PARASITESTAIN_FEELER);
+    public static final DeferredItem<BlockItem> PARASITETRUNK = ITEMS.registerSimpleBlockItem("parasitetrunk", ModBlocks.PARASITETRUNK);
+    public static final DeferredItem<BlockItem> PARASITETRUNK_BALL = ITEMS.registerSimpleBlockItem("parasitetrunk_ball", ModBlocks.PARASITETRUNK_BALL);
+    public static final DeferredItem<BlockItem> PARASITETRUNK_PLANT = ITEMS.registerSimpleBlockItem("parasitetrunk_plant", ModBlocks.PARASITETRUNK_PLANT);
+    public static final DeferredItem<BlockItem> PARASITETHIN_TREEBASE = ITEMS.registerSimpleBlockItem("parasitethin_treebase", ModBlocks.PARASITETHIN_TREEBASE);
+    public static final DeferredItem<BlockItem> PARASITETHIN_TREENESW = ITEMS.registerSimpleBlockItem("parasitethin_treenesw", ModBlocks.PARASITETHIN_TREENESW);
+    public static final DeferredItem<BlockItem> PARASITESAPLING_TREE = ITEMS.registerSimpleBlockItem("parasitesapling_tree", ModBlocks.PARASITESAPLING_TREE);
+    public static final DeferredItem<BlockItem> PARASITESAPLING_TREETHIN = ITEMS.registerSimpleBlockItem("parasitesapling_treethin", ModBlocks.PARASITESAPLING_TREETHIN);
+    public static final DeferredItem<BlockItem> PARASITESAPLING_FLOWERTALL = ITEMS.registerSimpleBlockItem("parasitesapling_flowertall", ModBlocks.PARASITESAPLING_FLOWERTALL);
+    public static final DeferredItem<BlockItem> GOTH_STEM = ITEMS.registerSimpleBlockItem("goth_stem", ModBlocks.GOTH_STEM);
+    public static final DeferredItem<BlockItem> INFESTED_WORKBENCH = ITEMS.registerSimpleBlockItem("infested_workbench", ModBlocks.INFESTED_WORKBENCH);
+    public static final DeferredItem<BlockItem> CONSUMED_WORKBENCH = ITEMS.registerSimpleBlockItem("consumed_workbench", ModBlocks.CONSUMED_WORKBENCH);
+    public static final DeferredItem<BlockItem> GOTH_DOOR = ITEMS.registerSimpleBlockItem("goth_door", ModBlocks.GOTH_DOOR);
+    public static final DeferredItem<BlockItem> BRUSEWOOD_DOOR = ITEMS.registerSimpleBlockItem("brusewood_door", ModBlocks.BRUSEWOOD_DOOR);
+    public static final DeferredItem<BlockItem> CONSUMED_DOOR = ITEMS.registerSimpleBlockItem("consumed_door", ModBlocks.CONSUMED_DOOR);
+    public static final DeferredItem<BlockItem> INFESTED_DOOR = ITEMS.registerSimpleBlockItem("infested_door", ModBlocks.INFESTED_DOOR);
+    public static final DeferredItem<BlockItem> FLESH_DOOR = ITEMS.registerSimpleBlockItem("flesh_door", ModBlocks.FLESH_DOOR);
+    public static final DeferredItem<BlockItem> COOKED_FLESH_DOOR = ITEMS.registerSimpleBlockItem("cooked_flesh_door", ModBlocks.COOKED_FLESH_DOOR);
+    public static final DeferredItem<BlockItem> GOTH_TRAPDOOR = ITEMS.registerSimpleBlockItem("goth_trapdoor", ModBlocks.GOTH_TRAPDOOR);
+    public static final DeferredItem<BlockItem> BRUSEWOOD_TRAPDOOR = ITEMS.registerSimpleBlockItem("brusewood_trapdoor", ModBlocks.BRUSEWOOD_TRAPDOOR);
+    public static final DeferredItem<BlockItem> CONSUMED_TRAPDOOR = ITEMS.registerSimpleBlockItem("consumed_trapdoor", ModBlocks.CONSUMED_TRAPDOOR);
+    public static final DeferredItem<BlockItem> INFESTED_TRAPDOOR = ITEMS.registerSimpleBlockItem("infested_trapdoor", ModBlocks.INFESTED_TRAPDOOR);
+    public static final DeferredItem<BlockItem> FLESH_TRAPDOOR = ITEMS.registerSimpleBlockItem("flesh_trapdoor", ModBlocks.FLESH_TRAPDOOR);
+    public static final DeferredItem<BlockItem> COOKED_FLESH_TRAPDOOR = ITEMS.registerSimpleBlockItem("cooked_flesh_trapdoor", ModBlocks.COOKED_FLESH_TRAPDOOR);
+    public static final DeferredItem<BlockItem> GOTH_FENCE = ITEMS.registerSimpleBlockItem("goth_fence", ModBlocks.GOTH_FENCE);
+    public static final DeferredItem<BlockItem> INFESTED_FENCE = ITEMS.registerSimpleBlockItem("infested_fence", ModBlocks.INFESTED_FENCE);
+    public static final DeferredItem<BlockItem> CONSUMED_FENCE = ITEMS.registerSimpleBlockItem("consumed_fence", ModBlocks.CONSUMED_FENCE);
+    public static final DeferredItem<BlockItem> FLESH_FENCE = ITEMS.registerSimpleBlockItem("flesh_fence", ModBlocks.FLESH_FENCE);
+    public static final DeferredItem<BlockItem> DEADHEAD_FENCE = ITEMS.registerSimpleBlockItem("deadhead_fence", ModBlocks.DEADHEAD_FENCE);
 
     private ModItems() {
     }

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_top_left_open",
+  "textures": {
+    "top": "csrp:block/goth_door_top",
+    "bottom": "csrp:block/goth_door_bottom"
+  }
+}

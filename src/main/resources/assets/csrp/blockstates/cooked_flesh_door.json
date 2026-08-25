@@ -1,0 +1,260 @@
+{
+  "variants": {
+    "lower,facing=east,open=false,hinge=left,powered=false": {
+      "model": "csrp:block/cooked_flesh_door_bottom_left",
+      "y": 90
+    },
+    "lower,facing=south,open=false,hinge=left,powered=false": {
+      "model": "csrp:block/cooked_flesh_door_bottom_left",
+      "y": 180
+    },
+    "lower,facing=west,open=false,hinge=left,powered=false": {
+      "model": "csrp:block/cooked_flesh_door_bottom_left",
+      "y": 270
+    },
+    "lower,facing=north,open=false,hinge=left,powered=false": {
+      "model": "csrp:block/cooked_flesh_door_bottom_left",
+      "y": 0
+    },
+    "lower,facing=east,open=false,hinge=left,powered=true": {
+      "model": "csrp:block/cooked_flesh_door_bottom_left",
+      "y": 90
+    },
+    "lower,facing=south,open=false,hinge=left,powered=true": {
+      "model": "csrp:block/cooked_flesh_door_bottom_left",
+      "y": 180
+    },
+    "lower,facing=west,open=false,hinge=left,powered=true": {
+      "model": "csrp:block/cooked_flesh_door_bottom_left",
+      "y": 270
+    },
+    "lower,facing=north,open=false,hinge=left,powered=true": {
+      "model": "csrp:block/cooked_flesh_door_bottom_left",
+      "y": 0
+    },
+    "lower,facing=east,open=true,hinge=left,powered=false": {
+      "model": "csrp:block/cooked_flesh_door_bottom_left_open",
+      "y": 180
+    },
+    "lower,facing=south,open=true,hinge=left,powered=false": {
+      "model": "csrp:block/cooked_flesh_door_bottom_left_open",
+      "y": 270
+    },
+    "lower,facing=west,open=true,hinge=left,powered=false": {
+      "model": "csrp:block/cooked_flesh_door_bottom_left_open",
+      "y": 360
+    },
+    "lower,facing=north,open=true,hinge=left,powered=false": {
+      "model": "csrp:block/cooked_flesh_door_bottom_left_open",
+      "y": 90
+    },
+    "lower,facing=east,open=true,hinge=left,powered=true": {
+      "model": "csrp:block/cooked_flesh_door_bottom_left_open",
+      "y": 180
+    },
+    "lower,facing=south,open=true,hinge=left,powered=true": {
+      "model": "csrp:block/cooked_flesh_door_bottom_left_open",
+      "y": 270
+    },
+    "lower,facing=west,open=true,hinge=left,powered=true": {
+      "model": "csrp:block/cooked_flesh_door_bottom_left_open",
+      "y": 360
+    },
+    "lower,facing=north,open=true,hinge=left,powered=true": {
+      "model": "csrp:block/cooked_flesh_door_bottom_left_open",
+      "y": 90
+    },
+    "lower,facing=east,open=false,hinge=right,powered=false": {
+      "model": "csrp:block/cooked_flesh_door_bottom_right",
+      "y": 90
+    },
+    "lower,facing=south,open=false,hinge=right,powered=false": {
+      "model": "csrp:block/cooked_flesh_door_bottom_right",
+      "y": 180
+    },
+    "lower,facing=west,open=false,hinge=right,powered=false": {
+      "model": "csrp:block/cooked_flesh_door_bottom_right",
+      "y": 270
+    },
+    "lower,facing=north,open=false,hinge=right,powered=false": {
+      "model": "csrp:block/cooked_flesh_door_bottom_right",
+      "y": 0
+    },
+    "lower,facing=east,open=false,hinge=right,powered=true": {
+      "model": "csrp:block/cooked_flesh_door_bottom_right",
+      "y": 90
+    },
+    "lower,facing=south,open=false,hinge=right,powered=true": {
+      "model": "csrp:block/cooked_flesh_door_bottom_right",
+      "y": 180
+    },
+    "lower,facing=west,open=false,hinge=right,powered=true": {
+      "model": "csrp:block/cooked_flesh_door_bottom_right",
+      "y": 270
+    },
+    "lower,facing=north,open=false,hinge=right,powered=true": {
+      "model": "csrp:block/cooked_flesh_door_bottom_right",
+      "y": 0
+    },
+    "lower,facing=east,open=true,hinge=right,powered=false": {
+      "model": "csrp:block/cooked_flesh_door_bottom_right_open",
+      "y": 0
+    },
+    "lower,facing=south,open=true,hinge=right,powered=false": {
+      "model": "csrp:block/cooked_flesh_door_bottom_right_open",
+      "y": 90
+    },
+    "lower,facing=west,open=true,hinge=right,powered=false": {
+      "model": "csrp:block/cooked_flesh_door_bottom_right_open",
+      "y": 180
+    },
+    "lower,facing=north,open=true,hinge=right,powered=false": {
+      "model": "csrp:block/cooked_flesh_door_bottom_right_open",
+      "y": -90
+    },
+    "lower,facing=east,open=true,hinge=right,powered=true": {
+      "model": "csrp:block/cooked_flesh_door_bottom_right_open",
+      "y": 0
+    },
+    "lower,facing=south,open=true,hinge=right,powered=true": {
+      "model": "csrp:block/cooked_flesh_door_bottom_right_open",
+      "y": 90
+    },
+    "lower,facing=west,open=true,hinge=right,powered=true": {
+      "model": "csrp:block/cooked_flesh_door_bottom_right_open",
+      "y": 180
+    },
+    "lower,facing=north,open=true,hinge=right,powered=true": {
+      "model": "csrp:block/cooked_flesh_door_bottom_right_open",
+      "y": -90
+    },
+    "upper,facing=east,open=false,hinge=left,powered=false": {
+      "model": "csrp:block/cooked_flesh_door_top_left",
+      "y": 90
+    },
+    "upper,facing=south,open=false,hinge=left,powered=false": {
+      "model": "csrp:block/cooked_flesh_door_top_left",
+      "y": 180
+    },
+    "upper,facing=west,open=false,hinge=left,powered=false": {
+      "model": "csrp:block/cooked_flesh_door_top_left",
+      "y": 270
+    },
+    "upper,facing=north,open=false,hinge=left,powered=false": {
+      "model": "csrp:block/cooked_flesh_door_top_left",
+      "y": 0
+    },
+    "upper,facing=east,open=false,hinge=left,powered=true": {
+      "model": "csrp:block/cooked_flesh_door_top_left",
+      "y": 90
+    },
+    "upper,facing=south,open=false,hinge=left,powered=true": {
+      "model": "csrp:block/cooked_flesh_door_top_left",
+      "y": 180
+    },
+    "upper,facing=west,open=false,hinge=left,powered=true": {
+      "model": "csrp:block/cooked_flesh_door_top_left",
+      "y": 270
+    },
+    "upper,facing=north,open=false,hinge=left,powered=true": {
+      "model": "csrp:block/cooked_flesh_door_top_left",
+      "y": 0
+    },
+    "upper,facing=east,open=true,hinge=left,powered=false": {
+      "model": "csrp:block/cooked_flesh_door_top_left_open",
+      "y": 180
+    },
+    "upper,facing=south,open=true,hinge=left,powered=false": {
+      "model": "csrp:block/cooked_flesh_door_top_left_open",
+      "y": 270
+    },
+    "upper,facing=west,open=true,hinge=left,powered=false": {
+      "model": "csrp:block/cooked_flesh_door_top_left_open",
+      "y": 360
+    },
+    "upper,facing=north,open=true,hinge=left,powered=false": {
+      "model": "csrp:block/cooked_flesh_door_top_left_open",
+      "y": 90
+    },
+    "upper,facing=east,open=true,hinge=left,powered=true": {
+      "model": "csrp:block/cooked_flesh_door_top_left_open",
+      "y": 180
+    },
+    "upper,facing=south,open=true,hinge=left,powered=true": {
+      "model": "csrp:block/cooked_flesh_door_top_left_open",
+      "y": 270
+    },
+    "upper,facing=west,open=true,hinge=left,powered=true": {
+      "model": "csrp:block/cooked_flesh_door_top_left_open",
+      "y": 360
+    },
+    "upper,facing=north,open=true,hinge=left,powered=true": {
+      "model": "csrp:block/cooked_flesh_door_top_left_open",
+      "y": 90
+    },
+    "upper,facing=east,open=false,hinge=right,powered=false": {
+      "model": "csrp:block/cooked_flesh_door_top_right",
+      "y": 90
+    },
+    "upper,facing=south,open=false,hinge=right,powered=false": {
+      "model": "csrp:block/cooked_flesh_door_top_right",
+      "y": 180
+    },
+    "upper,facing=west,open=false,hinge=right,powered=false": {
+      "model": "csrp:block/cooked_flesh_door_top_right",
+      "y": 270
+    },
+    "upper,facing=north,open=false,hinge=right,powered=false": {
+      "model": "csrp:block/cooked_flesh_door_top_right",
+      "y": 0
+    },
+    "upper,facing=east,open=false,hinge=right,powered=true": {
+      "model": "csrp:block/cooked_flesh_door_top_right",
+      "y": 90
+    },
+    "upper,facing=south,open=false,hinge=right,powered=true": {
+      "model": "csrp:block/cooked_flesh_door_top_right",
+      "y": 180
+    },
+    "upper,facing=west,open=false,hinge=right,powered=true": {
+      "model": "csrp:block/cooked_flesh_door_top_right",
+      "y": 270
+    },
+    "upper,facing=north,open=false,hinge=right,powered=true": {
+      "model": "csrp:block/cooked_flesh_door_top_right",
+      "y": 0
+    },
+    "upper,facing=east,open=true,hinge=right,powered=false": {
+      "model": "csrp:block/cooked_flesh_door_top_right_open",
+      "y": 0
+    },
+    "upper,facing=south,open=true,hinge=right,powered=false": {
+      "model": "csrp:block/cooked_flesh_door_top_right_open",
+      "y": 90
+    },
+    "upper,facing=west,open=true,hinge=right,powered=false": {
+      "model": "csrp:block/cooked_flesh_door_top_right_open",
+      "y": 180
+    },
+    "upper,facing=north,open=true,hinge=right,powered=false": {
+      "model": "csrp:block/cooked_flesh_door_top_right_open",
+      "y": -90
+    },
+    "upper,facing=east,open=true,hinge=right,powered=true": {
+      "model": "csrp:block/cooked_flesh_door_top_right_open",
+      "y": 0
+    },
+    "upper,facing=south,open=true,hinge=right,powered=true": {
+      "model": "csrp:block/cooked_flesh_door_top_right_open",
+      "y": 90
+    },
+    "upper,facing=west,open=true,hinge=right,powered=true": {
+      "model": "csrp:block/cooked_flesh_door_top_right_open",
+      "y": 180
+    },
+    "upper,facing=north,open=true,hinge=right,powered=true": {
+      "model": "csrp:block/cooked_flesh_door_top_right_open",
+      "y": -90
+    }
+  }
+}

@@ -4,7 +4,8 @@
   "package": "alku.csrp.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "LevelChunkSectionMixin"
+    "LevelChunkSectionMixin",
+    "MobDespawnMixin"
   ],
   "client": [
     "client.ChatComponentMixin",

@@ -76,8 +76,12 @@ public final class BlockInfestation {
         BlockState current = level.getBlockState(pos);
         if (current.getBlock() instanceof InfestedBlock) {
             int currentStage = current.getValue(InfestedBlock.STAGE);
-            return currentStage < stage && level.setBlock(pos,
-                    current.setValue(InfestedBlock.STAGE, Math.min(3, stage)), Block.UPDATE_ALL);
+            if (currentStage < stage && level.setBlock(pos,
+                    current.setValue(InfestedBlock.STAGE, Math.min(3, stage)), Block.UPDATE_ALL)) {
+                InfestationFlora.tryGrow(level, pos, level.random);
+                return true;
+            }
+            return false;
         }
         Block target = BlockConversionsConfig.customTarget(current.getBlock());
         if (target == null && BlockConversionsConfig.useDefaultConversions()) {
@@ -86,8 +90,12 @@ public final class BlockInfestation {
         if (target == null || current.hasBlockEntity() || current.getDestroySpeed(level, pos) < 0.0F) {
             return false;
         }
-        return level.setBlock(pos, target.defaultBlockState().setValue(InfestedBlock.STAGE,
-                Math.max(0, Math.min(3, stage))), Block.UPDATE_ALL);
+        if (level.setBlock(pos, target.defaultBlockState().setValue(InfestedBlock.STAGE,
+                Math.max(0, Math.min(3, stage))), Block.UPDATE_ALL)) {
+            InfestationFlora.tryGrow(level, pos, level.random);
+            return true;
+        }
+        return false;
     }
 
     private static Block convertedBlock(BlockState state) {

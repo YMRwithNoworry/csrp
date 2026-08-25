@@ -2155,6 +2155,33 @@
       "csrp:mob/derived/kirin/death"
     ]
   },
+  "kirin.projectile_charge": {
+    "category": "hostile",
+    "subtitle": "subtitles.kirin.projectile_charge",
+    "sounds": [
+      {
+        "name": "csrp:mob/derived/kirin/kirin_projectile_charge",
+        "volume": 1.0
+      }
+    ]
+  },
+  "kirin.projectile_summon": {
+    "category": "hostile",
+    "subtitle": "subtitles.kirin.projectile_summon",
+    "sounds": [
+      {
+        "name": "csrp:mob/derived/kirin/kirin_projectile_summon",
+        "volume": 0.75
+      }
+    ]
+  },
+  "kirin.projectile_impact": {
+    "category": "hostile",
+    "subtitle": "subtitles.kirin.projectile_impact",
+    "sounds": [
+      "csrp:mob/derived/kirin/kirin_projectile_impact"
+    ]
+  },
   "kirin.growl": {
     "category": "hostile",
     "subtitle": "subtitles.kirin.idle",

@@ -162,6 +162,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         if (level().isClientSide) {
             return;
         }
+        anchorStationaryPosition();
         if (abilityCooldown > 0) {
             abilityCooldown--;
         }
@@ -177,6 +178,20 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         } else if (activeKind() == Kind.KYPHOSIS) {
             tickKyphosis();
         }
+    }
+
+    private static final java.util.Set<Kind> STATIONARY_KINDS = java.util.Set.of(
+            Kind.DISPATCHER_TENTACLE, Kind.SEIZER, Kind.SENTRY, Kind.KYPHOSIS);
+
+    /** 原版 EntityPStationary：每tick回滚水平位移、离地下压，避免柱状触须滑动乱甩。 */
+    private void anchorStationaryPosition() {
+        if (!STATIONARY_KINDS.contains(activeKind())) {
+            return;
+        }
+        Vec3 movement = getDeltaMovement();
+        double vertical = onGround() ? Math.min(movement.y, 0.0D) : movement.y - 0.5D;
+        setDeltaMovement(0.0D, vertical, 0.0D);
+        setPos(xo, getY(), zo);
     }
 
     @Override

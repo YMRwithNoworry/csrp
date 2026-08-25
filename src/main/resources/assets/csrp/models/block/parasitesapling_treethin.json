@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "csrp:block/parasitesapling_treethin"
+  }
+}

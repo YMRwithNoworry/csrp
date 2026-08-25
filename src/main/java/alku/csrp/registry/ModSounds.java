@@ -25,6 +25,10 @@ public final class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> RUPTER_DEATH = register("rupter.death");
     public static final DeferredHolder<SoundEvent, SoundEvent> RUPTER_STEP = register("rupter.step");
     public static final DeferredHolder<SoundEvent, SoundEvent> RUPTER_CLOUD = register("rupter.cloud");
+    public static final DeferredHolder<SoundEvent, SoundEvent> DISC_THREE = register("srparasites.discthree");
+    public static final DeferredHolder<SoundEvent, SoundEvent> KIRIN_PROJECTILE_CHARGE = register("kirin.projectile_charge");
+    public static final DeferredHolder<SoundEvent, SoundEvent> KIRIN_PROJECTILE_SUMMON = register("kirin.projectile_summon");
+    public static final DeferredHolder<SoundEvent, SoundEvent> KIRIN_PROJECTILE_IMPACT = register("kirin.projectile_impact");
     public static final DeferredHolder<SoundEvent, SoundEvent> DREDGE_LIVING = register("done.growl");
     public static final DeferredHolder<SoundEvent, SoundEvent> DREDGE_HURT = register("done.hurt");
     public static final DeferredHolder<SoundEvent, SoundEvent> DREDGE_DEATH = register("done.death");

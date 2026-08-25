@@ -14,6 +14,7 @@ import alku.csrp.registry.ModBlockEntities;
 import alku.csrp.registry.ModArmorMaterials;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModItems;
+import alku.csrp.registry.ModJukeboxSongs;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModMenus;
 import alku.csrp.registry.ModPotions;
@@ -197,6 +198,7 @@ public final class Csrp {
         ModParticles.PARTICLES.register(modEventBus);
         ModRecipeSerializers.RECIPE_SERIALIZERS.register(modEventBus);
         ModSounds.SOUNDS.register(modEventBus);
+        ModJukeboxSongs.JUKEBOX_SONGS.register(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
 
         BuglinEvolutionTarget.registerRupter(ModEntities.RUPTER);

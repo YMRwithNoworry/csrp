@@ -54,7 +54,7 @@ public final class WelcomeMessageEvents {
     private static MutableComponent rainbowNames() {
         String[] names = {
                 "烈焰幽阳(最大的支持者)", "ByteFish", "小真", "HYhachiiy", "therriau",
-                "Roʊfi", "乌鸦", "阿那克萨戈拉斯", "Blue不是高坚果", "单身狗保护协会"
+                "Roʊfi", "乌鸦", "阿那克萨戈拉斯", "Blue不是高坚果", "单身狗保护协会", "ArcticHu"
         };
         MutableComponent result = Component.empty();
         int colorIndex = 0;

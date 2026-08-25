@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing_north": {
+      "model": "csrp:block/infested_workbench"
+    },
+    "facing_east": {
+      "model": "csrp:block/infested_workbench",
+      "y": 90
+    },
+    "facing_south": {
+      "model": "csrp:block/infested_workbench",
+      "y": 180
+    },
+    "facing_west": {
+      "model": "csrp:block/infested_workbench",
+      "y": 270
+    }
+  }
+}
