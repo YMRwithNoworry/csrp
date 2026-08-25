@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import alku.csrp.entity.ai.CircleGroupGoal;
 import net.minecraft.util.Mth;
 import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.infection.InfectionMechanics;
@@ -114,7 +115,10 @@ public final class SimHumanEntity extends Monster implements GeoEntity, Parasite
         goalSelector.addGoal(0, new FloatGoal(this));
         goalSelector.addGoal(1, new LeapAtTargetGoal(this, 0.4F));
         goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, false));
+        goalSelector.addGoal(4, new CircleGroupGoal(this, 1.15D, 8, 4.0D, 10.0D, 16,
+                entity -> entity instanceof SimHumanEntity));
         goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        goalSelector.addGoal(5, new ParasiteRecruitFollowersGoal(this, 1, 16));
         goalSelector.addGoal(6, new ParasiteFollowGoal(this));
         goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
