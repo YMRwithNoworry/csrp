@@ -11,9 +11,9 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -30,8 +30,11 @@ public final class MeteorRenderer extends EntityRenderer<MeteorEntity> {
             new ResourceLocation(Csrp.MODID, "meteor"), "main");
     private static final ResourceLocation TEXTURE = new ResourceLocation(Csrp.MODID,
             "textures/entity/projectile/meteor.png");
-    private static final float MAIN_SCALE = 1.9F;
-    private static final float FRAGMENT_SCALE = 0.6F;
+    private static final float SCALE_WOBBLE = 1.0F + Mth.sin(100.0F) * 0.01F;
+    private static final float MAIN_SCALE_XZ = 0.5F + 1.4F * SCALE_WOBBLE;
+    private static final float MAIN_SCALE_Y = 0.5F + 1.1F / SCALE_WOBBLE;
+    private static final float FRAGMENT_SCALE_XZ = -0.8F + 1.4F * SCALE_WOBBLE;
+    private static final float FRAGMENT_SCALE_Y = -0.8F + 1.1F / SCALE_WOBBLE;
 
     private final ModelPart body;
     private final ModelPart lowerBody;
@@ -46,7 +49,9 @@ public final class MeteorRenderer extends EntityRenderer<MeteorEntity> {
         lobes = new ModelPart[]{
                 rearBody.getChild("rear_lobe_1"), rearBody.getChild("rear_lobe_2"),
                 rearBody.getChild("rear_lobe_3"), rearBody.getChild("rear_lobe_4"),
-                rearBody.getChild("rear_lobe_5"), rearBody.getChild("rear_lobe_6")
+                rearBody.getChild("rear_lobe_5"), rearBody.getChild("rear_lobe_6"),
+                rearBody.getChild("rear_lobe_7"), rearBody.getChild("rear_lobe_8"),
+                rearBody.getChild("rear_lobe_9")
         };
         tendrils.add(findTendril(body.getChild("front_cap"), "front"));
         tendrils.add(findTendril(body.getChild("upper_cap"), "upper"));
@@ -59,7 +64,7 @@ public final class MeteorRenderer extends EntityRenderer<MeteorEntity> {
     public static LayerDefinition createBodyLayer() {
         MeshDefinition mesh = new MeshDefinition();
         PartDefinition body = mesh.getRoot().addOrReplaceChild("body", CubeListBuilder.create(),
-                PartPose.offset(0.0F, 22.0F, 0.0F));
+                PartPose.offset(0.0F, -29.3F, 0.0F));
 
         PartDefinition lowerBody = addBox(body, "lower_body", 0, 0,
                 -25.0F, 0.0F, -25.0F, 50.0F, 25.0F, 50.0F,
@@ -122,6 +127,9 @@ public final class MeteorRenderer extends EntityRenderer<MeteorEntity> {
         addBox(rearBody, "rear_lobe_8", 408, 211,
                 -13.0F, -21.0F, -9.0F, 24.0F, 54.0F, 30.0F,
                 -1.0F, -94.0F, 1.0F, 0.81681406F, -2.19911486F, 0.0F);
+        addBox(rearBody, "rear_lobe_9", 40, 204,
+                -13.0F, -21.0F, -10.0F, 18.0F, 51.0F, 27.0F,
+                33.0F, -24.0F, 19.0F, 0.0F, 0.0F, 0.0F);
 
         PartDefinition frontCap = addBox(body, "front_cap", 200, 0,
                 -11.0F, -15.0F, -5.0F, 22.0F, 25.0F, 30.0F,
@@ -154,11 +162,16 @@ public final class MeteorRenderer extends EntityRenderer<MeteorEntity> {
                 -11.0F, -15.0F, -5.0F, 22.0F, 23.0F, 24.0F,
                 -36.0F, 25.0F, -10.0F, -Mth.PI / 9.0F, Mth.HALF_PI, 0.0F);
 
-        addTendril(frontCap, "front", -6.0F, -5.0F, -4.0F, -2.6179938F, 150, 0);
-        addTendril(upperCap, "upper", 6.0F, -5.0F, 4.0F, Mth.PI / 6.0F, 330, 51);
-        addTendril(sideCap, "side_left", -6.0F, -5.0F, 4.0F, -Mth.PI / 6.0F, 272, 184);
-        addTendril(sideCap, "side_right", 6.0F, -5.0F, 4.0F, Mth.PI / 6.0F, 66, 141);
-        addTendril(lowerCap, "lower", 6.0F, -5.0F, -4.0F, 2.6179938F, 470, 185);
+        addTendril(frontCap, "front", -6.0F, -5.0F, -4.0F, -2.6179938F,
+                new int[][]{{150, 0}, {188, 0}, {536, 0}, {150, 19}, {286, 51}, {274, 0}});
+        addTendril(upperCap, "upper", 6.0F, -5.0F, 4.0F, Mth.PI / 6.0F,
+                new int[][]{{330, 51}, {105, 75}, {128, 78}, {209, 110}, {529, 107}, {234, 114}});
+        addTendril(sideCap, "side_left", -6.0F, -5.0F, 4.0F, -Mth.PI / 6.0F,
+                new int[][]{{272, 184}, {100, 185}, {470, 185}, {470, 185}, {304, 186}, {272, 184}});
+        addTendril(sideCap, "side_right", 6.0F, -5.0F, 4.0F, Mth.PI / 6.0F,
+                new int[][]{{66, 141}, {90, 146}, {528, 154}, {450, 171}, {304, 186}, {272, 184}});
+        addTendril(lowerCap, "lower", 6.0F, -5.0F, -4.0F, 2.6179938F,
+                new int[][]{{272, 184}, {100, 185}, {470, 185}, {470, 185}, {304, 186}, {272, 184}});
         return LayerDefinition.create(mesh, 580, 580);
     }
 
@@ -173,7 +186,7 @@ public final class MeteorRenderer extends EntityRenderer<MeteorEntity> {
     }
 
     private static void addTendril(PartDefinition parent, String name, float x, float y, float z,
-                                    float baseYaw, int textureX, int textureY) {
+                                    float baseYaw, int[][] textures) {
         int[] sizes = {4, 6, 4, 6, 4, 2};
         int[] lengths = {15, 14, 17, 15, 18, 17};
         int[] jointOffsets = {13, 13, 11, 14, 12};
@@ -183,12 +196,8 @@ public final class MeteorRenderer extends EntityRenderer<MeteorEntity> {
                 PartPose.offset(x, y, z));
         for (int index = 0; index < sizes.length; index++) {
             float halfSize = sizes[index] / 2.0F;
-            int segmentTextureX = textureX + index * 18;
-            if (segmentTextureX > 520) {
-                segmentTextureX -= 500;
-            }
             PartDefinition segment = joint.addOrReplaceChild(name + "_segment_" + index,
-                    CubeListBuilder.create().texOffs(segmentTextureX, textureY)
+                    CubeListBuilder.create().texOffs(textures[index][0], textures[index][1])
                             .addBox(-halfSize, -halfSize, index == 0 ? 0.0F : -1.0F,
                                     sizes[index], sizes[index], lengths[index]),
                     PartPose.offsetAndRotation(0.0F, 0.0F, index == 0 ? 0.0F : 1.0F,
@@ -219,15 +228,13 @@ public final class MeteorRenderer extends EntityRenderer<MeteorEntity> {
         float age = entity.tickCount + partialTick;
         animate(age);
         float yaw = Mth.rotLerp(partialTick, entity.yRotO, entity.getYRot());
-        float pitch = Mth.lerp(partialTick, entity.xRotO, entity.getXRot());
-        float scale = entity.isMainMeteor() ? MAIN_SCALE : FRAGMENT_SCALE;
+        float scaleXZ = entity.isMainMeteor() ? MAIN_SCALE_XZ : FRAGMENT_SCALE_XZ;
+        float scaleY = entity.isMainMeteor() ? MAIN_SCALE_Y : FRAGMENT_SCALE_Y;
 
         poseStack.pushPose();
-        poseStack.translate(0.0D, entity.getBbHeight() * 0.5D, 0.0D);
         poseStack.mulPose(Axis.YP.rotationDegrees(180.0F - yaw));
-        poseStack.mulPose(Axis.XP.rotationDegrees(pitch));
-        poseStack.mulPose(Axis.ZP.rotationDegrees(age * (entity.isMainMeteor() ? 0.7F : 2.5F)));
-        poseStack.scale(-scale, -scale, scale);
+        poseStack.scale(-scaleXZ, -scaleY, scaleXZ);
+        poseStack.translate(0.0D, -1.501D, 0.0D);
         body.render(poseStack, buffer.getBuffer(RenderType.entityCutoutNoCull(TEXTURE)),
                 LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
         poseStack.popPose();
@@ -238,21 +245,39 @@ public final class MeteorRenderer extends EntityRenderer<MeteorEntity> {
         float first = Mth.cos(age * 0.21109599F) * 0.5164299F;
         float second = Mth.cos(age * 0.10975879F) * 0.722022F;
         float third = Mth.cos(age * 0.15110986F) * 0.61975884F;
-        float[] movement = {first, second, third};
-        for (int group = 0; group < tendrils.size(); group++) {
-            ModelPart[] joints = tendrils.get(group);
-            for (int index = 0; index < joints.length; index++) {
-                float direction = ((group + index) & 1) == 0 ? 1.0F : -1.0F;
-                joints[index].xRot = movement[(group + index) % movement.length] * direction;
-            }
-        }
+        animateTendril(0, -second, second, -first, third, second, -third);
+        animateTendril(1, first, -second, -third, second, -first, second);
+        animateTendril(2, first, -second, first, -third, first, -second);
+        animateTendril(3, -third, -second, first, -third, second, second);
+        animateTendril(4, third, -first, third, -second, -first, second);
 
-        lowerBody.zRot = Mth.cos(age * 0.15986F) * 0.09214936F;
-        float[] speeds = {0.186F, 0.13986F, 0.143096F, 0.119758785F, 0.13986F, 0.186F};
-        float[] amplitudes = {0.249872F, 0.218872F, 0.1429872F, 0.20872F, 0.21975887F, 0.249872F};
-        for (int index = 0; index < lobes.length; index++) {
-            lobes[index].zRot = Mth.cos(age * speeds[index]) * amplitudes[index];
-        }
+        float bodyFirst = Mth.cos(age * 0.15986F) * 0.18429872F;
+        float bodySecond = Mth.cos(age * 0.186F) * 0.249872F;
+        float bodyThird = Mth.cos(age * 0.13986F) * 0.218872F;
+        float bodyFourth = Mth.cos(age * 0.143096F) * 0.1429872F;
+        float bodyFifth = Mth.cos(age * 0.119758785F) * 0.20872F;
+        float bodySixth = Mth.cos(age * 0.13986F) * 0.21975887F;
+        lowerBody.zRot = bodyFirst * 0.5F;
+        lobes[0].zRot = bodyThird;
+        lobes[1].zRot = bodySecond;
+        lobes[2].zRot = bodySecond;
+        lobes[3].zRot = bodySixth;
+        lobes[4].zRot = bodySixth;
+        lobes[5].zRot = bodyFifth;
+        lobes[6].zRot = bodyFourth;
+        lobes[7].zRot = bodyFifth;
+        lobes[8].zRot = bodyThird;
+    }
+
+    private void animateTendril(int group, float first, float second, float third,
+                                float fourth, float fifth, float sixth) {
+        ModelPart[] joints = tendrils.get(group);
+        joints[0].xRot = first;
+        joints[1].xRot = second;
+        joints[2].xRot = third;
+        joints[3].xRot = fourth;
+        joints[4].xRot = fifth;
+        joints[5].xRot = sixth;
     }
 
     @Override

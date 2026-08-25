@@ -47,7 +47,7 @@ public final class WorldConfig {
             .defineList("dimensionList", List.of(), value -> value instanceof String id
                     && ResourceLocation.tryParse(id) != null);
     private static final ForgeConfigSpec.BooleanValue METEOR_ENABLED = BUILDER
-            .comment("Enable natural Hive Satellite meteor impacts.")
+            .comment("Default Hive Satellite meteor setting for new worlds and dedicated servers.")
             .define("meteorEnabled", false);
     private static final ForgeConfigSpec.IntValue METEOR_CHECK_INTERVAL = BUILDER
             .comment("Ticks between natural meteor spawn checks.")

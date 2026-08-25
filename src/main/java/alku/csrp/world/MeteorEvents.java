@@ -32,30 +32,27 @@ public final class MeteorEvents {
         if (event.phase == TickEvent.Phase.START || !(event.level instanceof ServerLevel level)) {
             return;
         }
-        if (!WorldConfig.meteorsEnabled() || !WorldConfig.dimensionAllowsMeteors(level)) {
+        SrpWorldData data = SrpWorldData.get(level);
+        if (!data.meteorsEnabled() || !WorldConfig.dimensionAllowsMeteors(level)) {
             CHECK_TIMERS.remove(level);
             return;
         }
         int interval = WorldConfig.meteorCheckInterval();
         int elapsed = CHECK_TIMERS.getOrDefault(level, 0) + 1;
-        if (elapsed < interval) {
+        if (elapsed <= interval) {
             CHECK_TIMERS.put(level, elapsed);
             return;
         }
         CHECK_TIMERS.put(level, 0);
-        if (SrpWorldData.get(level).evolutionPhase() < 0
-                || level.getGameTime() < WorldConfig.meteorMinimumWorldTicks()
+        if (level.getGameTime() < WorldConfig.meteorMinimumWorldTicks()
                 || level.random.nextDouble() >= WorldConfig.meteorChance()
-                || WorldConfig.meteorRequiresNoVector() && !SrpWorldData.get(level).vectors().isEmpty()) {
+                || data.evolutionPhase() < 0
+                || WorldConfig.meteorRequiresNoVector() && !data.vectors().isEmpty()) {
             return;
         }
 
         List<ServerPlayer> players = new ArrayList<>();
-        for (ServerPlayer player : level.players()) {
-            if (!player.isSpectator() && player.isAlive()) {
-                players.add(player);
-            }
-        }
+        players.addAll(level.players());
         if (players.isEmpty()) {
             return;
         }
@@ -71,6 +68,9 @@ public final class MeteorEvents {
     }
 
     public static MeteorEntity spawnNear(ServerLevel level, BlockPos center, int radius, int minimumRadius) {
+        if (!SrpWorldData.get(level).meteorsEnabled()) {
+            return null;
+        }
         int minimum = Math.max(WorldConfig.meteorMinimumRadius(), minimumRadius);
         int maximum = Math.min(WorldConfig.meteorMaximumRadius(), radius);
         if (maximum < minimum) {

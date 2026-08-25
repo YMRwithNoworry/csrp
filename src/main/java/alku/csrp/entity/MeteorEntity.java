@@ -5,7 +5,6 @@ import alku.csrp.network.CsrpNetwork;
 import alku.csrp.network.MeteorShakePayload;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModEntities;
-import alku.csrp.registry.ModSounds;
 import alku.csrp.world.MeteorImpactGenerator;
 import alku.csrp.world.SrpWorldData;
 import net.minecraft.core.BlockPos;
@@ -15,19 +14,16 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
-import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-
-import java.util.Optional;
 
 public final class MeteorEntity extends Entity {
     private static final EntityDataAccessor<Boolean> MAIN = SynchedEntityData.defineId(
@@ -79,26 +75,18 @@ public final class MeteorEntity extends Entity {
         }
 
         Vec3 movement = getDeltaMovement();
-        Vec3 start = position();
-        Vec3 end = start.add(movement);
-        HitResult hit = level().clip(new ClipContext(start, end,
-                ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
-        Vec3 entityHit = life >= 25 ? findEntityCollision(start, end) : null;
-        if (entityHit != null && (hit.getType() == HitResult.Type.MISS
-                || start.distanceToSqr(entityHit) < start.distanceToSqr(hit.getLocation()))) {
-            impact(serverLevel, BlockPos.containing(entityHit));
-            return;
-        }
+        HitResult hit = ProjectileUtil.getHitResultOnMoveVector(this,
+                entity -> life >= 25 && entity.isPickable() && !entity.isSpectator());
         if (hit.getType() != HitResult.Type.MISS || life > MAX_LIFETIME
                 || getY() <= level().getMinBuildHeight() + 1) {
-            impact(serverLevel, BlockPos.containing(hit.getType() == HitResult.Type.MISS ? position() : hit.getLocation()));
+            impact(serverLevel);
             return;
         }
 
         move(MoverType.SELF, movement);
+        ProjectileUtil.rotateTowardsMovement(this, 0.2F);
         float drag = isInWater() ? 0.8F : 0.95F;
         setDeltaMovement(movement.add(acceleration).scale(drag));
-        updateRotationFromMovement();
     }
 
     private void spawnFragment(ServerLevel level) {
@@ -117,43 +105,22 @@ public final class MeteorEntity extends Entity {
         level.addFreshEntity(fragment);
     }
 
-    private Vec3 findEntityCollision(Vec3 start, Vec3 end) {
-        AABB swept = getBoundingBox().expandTowards(getDeltaMovement()).inflate(1.0D);
-        Vec3 closest = null;
-        double closestDistance = Double.MAX_VALUE;
-        for (LivingEntity living : level().getEntitiesOfClass(LivingEntity.class, swept,
-                entity -> entity.isAlive() && !entity.isSpectator())) {
-            Optional<Vec3> intersection = living.getBoundingBox().inflate(0.3D).clip(start, end);
-            if (intersection.isPresent()) {
-                double distance = start.distanceToSqr(intersection.get());
-                if (distance < closestDistance) {
-                    closestDistance = distance;
-                    closest = intersection.get();
-                }
-            }
-        }
-        return closest;
-    }
-
-    private void impact(ServerLevel level, BlockPos hitPos) {
+    private void impact(ServerLevel level) {
         impacted = true;
+        BlockPos hitPos = blockPosition();
         BlockPos surface = MeteorImpactGenerator.surface(level, hitPos);
         spawnImpactPulse(level, hitPos, isMainMeteor() ? 40 : 8);
         if (isMainMeteor()) {
-            sendShake(level, surface, 400, 150, 8.0F);
-            damageMainImpact(level, surface);
+            sendShake(level, hitPos, 400, 150, 8.0F);
+            damageMainImpact(level, hitPos);
             MeteorImpactGenerator.generateMain(level, surface, random);
             if (WorldConfig.meteorCreatesVector()) {
-                SrpWorldData.get(level).setVector(surface, WorldConfig.meteorVectorHealth(),
+                SrpWorldData.get(level).setVector(hitPos, WorldConfig.meteorVectorHealth(),
                         WorldConfig.meteorVectorRadius());
             }
         } else {
             MeteorImpactGenerator.generateFragment(level, surface, random);
         }
-        level.playSound(null, surface, ModSounds.METEOR_IMPACT.get(), SoundSource.HOSTILE,
-                isMainMeteor() ? 16.0F : 5.0F, isMainMeteor() ? 0.7F : 1.0F);
-        level.sendParticles(ParticleTypes.EXPLOSION_EMITTER, surface.getX() + 0.5D, surface.getY() + 1.0D,
-                surface.getZ() + 0.5D, isMainMeteor() ? 12 : 3, 2.0D, 1.0D, 2.0D, 0.0D);
         discard();
     }
 
@@ -227,15 +194,6 @@ public final class MeteorEntity extends Entity {
         }
         markHurt();
         return true;
-    }
-
-    private void updateRotationFromMovement() {
-        Vec3 movement = getDeltaMovement();
-        double horizontal = movement.horizontalDistance();
-        if (movement.lengthSqr() > 1.0E-6D) {
-            setYRot((float) (Math.atan2(movement.z, movement.x) * 180.0D / Math.PI) - 90.0F);
-            setXRot((float) (-(Math.atan2(movement.y, horizontal) * 180.0D / Math.PI)));
-        }
     }
 
     @Override

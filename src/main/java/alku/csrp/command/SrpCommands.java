@@ -35,7 +35,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -66,7 +65,6 @@ public final class SrpCommands {
     private static LiteralArgumentBuilder<CommandSourceStack> srp() {
         return admin("srp")
                 .then(Commands.literal("spawnmeteor")
-                        .executes(context -> spawnMeteor(context.getSource()))
                         .then(Commands.argument("x", IntegerArgumentType.integer())
                                 .then(Commands.argument("y", IntegerArgumentType.integer())
                                         .then(Commands.argument("z", IntegerArgumentType.integer())
@@ -345,7 +343,7 @@ public final class SrpCommands {
                 .then(helpTopic("srpvectors", "List, create and remove infestation vectors"))
                 .then(helpTopic("srpdislodgment", "Create, inspect and clear dislodgment codes"))
                 .then(helpTopic("srpdifficulty", "View or change the active SRP difficulty"))
-                .then(helpTopic("spawnmeteor", "Spawn a Hive Satellite meteor over your current position"))
+                .then(helpTopic("spawnmeteor", "Spawn a Hive Satellite meteor near x y z with the given radius"))
                 .then(helpTopic("dqq", "Toggle EVE mode or query its status"))
                 .then(helpTopic("srp_summon_nidus", "Summon a Beckon nexus stage at a position"));
     }
@@ -629,16 +627,6 @@ public final class SrpCommands {
                 MobSpawnType.COMMAND, null, null);
         source.getLevel().addFreshEntity(entity);
         return success(source, "Summoned Nidus/Nexus at " + format(pos) + " with stage " + stage);
-    }
-
-    private static int spawnMeteor(CommandSourceStack source) {
-        ServerLevel level = source.getLevel();
-        Vec3 target = source.getPosition();
-        Vec3 start = new Vec3(target.x + 80.0D, level.getMaxBuildHeight() - 6.0D, target.z + 80.0D);
-        if (MeteorEvents.spawn(level, start, target) == null) {
-            return failure(source, "Unable to create Hive Satellite meteor");
-        }
-        return success(source, "Hive Satellite meteor spawned above " + format(BlockPos.containing(target)));
     }
 
     private static int spawnMeteor(CommandSourceStack source, BlockPos center, int radius) {
