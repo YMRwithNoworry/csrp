@@ -23,6 +23,8 @@ const items = read("src/main/java/alku/csrp/registry/ModItems.java");
 const blocks = read("src/main/java/alku/csrp/registry/ModBlocks.java");
 const tunnel = read("src/main/java/alku/csrp/block/TunnelBlock.java");
 const config = read("src/main/java/alku/csrp/Config.java");
+const mobsConfig = read("src/main/java/alku/csrp/config/MobsConfig.java");
+const infection = read("src/main/java/alku/csrp/infection/InfectionMechanics.java");
 const sounds = read("src/main/java/alku/csrp/registry/ModSounds.java");
 const client = read("src/main/java/alku/csrp/client/ClientModEvents.java");
 const model = read("src/main/java/alku/csrp/client/model/RupterModel.java");
@@ -82,9 +84,11 @@ for (const [pattern, description] of [
     [/ToxicCloudEntity\.create/, "lingering COTH cloud is missing"],
     [/new MobEffectInstance\(ModMobEffects\.COTH,\s*\d+,\s*1/s,
         "COTH II cloud effect is missing"],
-    [/Config\.evolutionPhase\(level\(\)\)\s*<\s*4[\s\S]*nearbyParasites\(\)\s*==\s*0/,
-        "phase-gated single-Rupter retreat is missing"],
-    [/instanceof Parasite/, "nearby parasite pack check is missing"],
+    [/ATTACK_UNLOCK_PHASE\s*=\s*2/, "phase-two Rupter attack unlock is missing"],
+    [/PACK_ATTACK_SIZE\s*=\s*3/, "three-Rupter pack attack threshold is missing"],
+    [/nearbyRupters\(\)\s*\+\s*1\s*<\s*PACK_ATTACK_SIZE/,
+        "phase-gated Rupter pack retreat is missing"],
+    [/getEntitiesOfClass\(RupterEntity\.class/, "nearby Rupter pack check is missing"],
     [/TUNNEL_KILL_COST\s*=\s*5/, "Tunnel kill cost 5 is missing"],
     [/killCount\s*>\s*MobsConfig\.rupterManglerKills\(\)/, "strict Rupter-to-Mangler kill threshold is missing"],
     [/ManglerEvolutionTarget/, "Mangler evolution target is not used"],
@@ -114,7 +118,26 @@ expect(entity, /POUNCE_HORIZONTAL_SPEED\s*=\s*2\.5D/, "Rupter pounce horizontal 
 expect(entity, /POUNCE_VERTICAL_SPEED\s*=\s*0\.7D/, "Rupter pounce vertical speed is missing");
 expect(entity, /hasEffect\(ModMobEffects\.RAGE\.get\(\)\)\s*\?\s*2\s*:\s*1/,
         "Rage does not accelerate Rupter pounce preparation");
-expect(entity, /causeFallDamage\(float distance[\s\S]*distance >= 60\.0F/, "Rupter fall-damage threshold is missing");
+expect(entity, /LETHAL_FALL_DISTANCE\s*=\s*61\.0F/, "Rupter lethal fall distance is missing");
+expect(entity, /causeFallDamage\(float distance[\s\S]*distance > LETHAL_FALL_DISTANCE/,
+        "Rupter fall-damage threshold is missing");
+expect(entity, /isPropagationPhase\(\)[\s\S]*Config\.evolutionPhase\(level\(\)\)\s*<\s*ATTACK_UNLOCK_PHASE/,
+        "Rupter propagation phase gate is missing");
+expect(entity, /CothCloudGoal[\s\S]*navigation\.moveTo\(passiveTarget,\s*1\.0D\)/,
+        "Rupter does not approach passive targets before releasing COTH");
+expect(entity, /distanceToSqr\(passiveTarget\)\s*>=\s*9\.0D/,
+        "Rupter COTH cloud release range is missing");
+expect(entity, /entity instanceof Animal \|\| entity instanceof WaterAnimal \|\| entity instanceof Villager[\s\S]*return false/,
+        "Rupter still actively targets passive creatures");
+expect(entity, /tickCount\s*%\s*LEGACY_TICK_INTERVAL\s*==\s*10[\s\S]*tryPlaceTunnel\(\)/,
+        "Rupter tunnel behavior does not run every 21 ticks");
+expect(entity, /createdPhaseOrCurrent\(\)\s*>=\s*MobsConfig\.rupterTunnelPhase\(\)/,
+        "Rupter tunnel creation-phase gate is missing");
+expect(entity, /random\.nextInt\(30\)\s*!=\s*0/, "Rupter tunnel 3.33 percent chance is missing");
+expect(mobsConfig, /"rupterTunnelCost",\s*5/, "Rupter default tunnel kill cost is not 5");
+expect(mobsConfig, /"rupterTunnelPhase",\s*3/, "Rupter default tunnel cutoff phase is not 3");
+expect(infection, /boolean guaranteed\s*=\s*attacker instanceof RupterEntity/,
+        "Rupter kills do not guarantee direct host conversion");
 expect(entity, /ModMobEffects\.BLEED.*100,\s*0/s, "Berserker Bleed hit effect is missing");
 expect(entity, /ModMobEffects\.VIRAL.*80,\s*0/s, "Virulent leap Viral effect is missing");
 expect(entity, /ModMobEffects\.VIRAL.*100,\s*0/s, "Virulent contact Viral effect is missing");

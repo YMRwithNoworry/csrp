@@ -42,6 +42,7 @@ import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
@@ -74,6 +75,9 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite, Manual
     public static final int TUNNEL_KILL_COST = 5;
     private static final int LEGACY_TICK_INTERVAL = 21;
     private static final int MUDO_ATTACK_INTERVAL = 10;
+    private static final int ATTACK_UNLOCK_PHASE = 2;
+    private static final int PACK_ATTACK_SIZE = 3;
+    private static final float LETHAL_FALL_DISTANCE = 61.0F;
     private static final int POUNCE_PREPARATION_TICKS = 40;
     private static final int POUNCE_TIMEOUT_TICKS = 80;
     private static final double POUNCE_MIN_DISTANCE_SQR = 25.0D;
@@ -186,7 +190,8 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite, Manual
         goalSelector.addGoal(7, new ParasiteFollowGoal(this));
         goalSelector.addGoal(7, new RupterSpinGoal());
         goalSelector.addGoal(8, new RandomLookAroundGoal(this));
-        targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(
+        targetSelector.addGoal(1, new HurtByTargetGoal(this));
+        targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(
                 this, LivingEntity.class, 10, true, false, this::canTargetByPhase));
     }
 
@@ -205,48 +210,37 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite, Manual
         if (shouldRetreatForPackSize()) {
             return false;
         }
-        if (entity instanceof Player) {
-            return true;
-        }
         if (!Config.useEvolutionPhases()) {
-            return MobsConfig.rupterPassiveMobAttacking() || !(entity instanceof Animal)
-                    && !(entity instanceof Villager);
+            if (entity instanceof WaterAnimal) {
+                return false;
+            }
+            if (entity instanceof Animal || entity instanceof Villager) {
+                return MobsConfig.rupterPassiveMobAttacking();
+            }
+            return entity instanceof Player || Config.mobAttackingEnabled();
         }
-        int phase = Config.evolutionPhase(level());
-        if (phase < 4) {
-            // Before the phase-four attack unlock, the legacy AI still targets hostile mobs.
-            // Passive mobs are reserved for the COTH cloud propagation behavior below.
-            return Config.mobAttackingEnabled()
-                    && !(entity instanceof WaterAnimal)
-                    && !(entity instanceof Animal)
-                    && !(entity instanceof Villager);
-        }
-        if (entity instanceof WaterAnimal) {
+        if (entity instanceof Animal || entity instanceof WaterAnimal || entity instanceof Villager) {
             return false;
         }
-        if (entity instanceof Animal || entity instanceof Villager) {
-            return phase >= 9 || !entity.hasEffect(ModMobEffects.COTH.get());
-        }
-        return Config.mobAttackingEnabled();
+        return entity instanceof Player || Config.mobAttackingEnabled();
     }
 
     private boolean shouldRetreatForPackSize() {
-        // The original EntityAIAvoidOrAttack switches to combat as soon as one
-        // other living parasite is nearby (two parasites total), but this
-        // skirmishing behavior is removed at the phase-four attack unlock.
-        return Config.useEvolutionPhases() && Config.evolutionPhase(level()) < 4
-                && nearbyParasites() == 0;
+        return isPropagationPhase() && nearbyRupters() + 1 < PACK_ATTACK_SIZE;
+    }
+
+    private boolean isPropagationPhase() {
+        return Config.useEvolutionPhases() && Config.evolutionPhase(level()) < ATTACK_UNLOCK_PHASE;
     }
 
     private int createdPhaseOrCurrent() {
         return createdPhase == Integer.MIN_VALUE ? Config.evolutionPhase(level()) : createdPhase;
     }
 
-    private int nearbyParasites() {
+    private int nearbyRupters() {
         AABB searchArea = getBoundingBox().inflate(10.0D, 2.0D, 10.0D);
-        return level().getEntitiesOfClass(LivingEntity.class, searchArea,
-                parasite -> parasite != this && parasite.isAlive() && parasite instanceof Parasite
-                        && hasLineOfSight(parasite)).size();
+        return level().getEntitiesOfClass(RupterEntity.class, searchArea,
+                rupter -> rupter != this && rupter.isAlive() && hasLineOfSight(rupter)).size();
     }
 
     @Override
@@ -553,7 +547,7 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite, Manual
 
     @Override
     public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
-        return distance >= 60.0F && super.causeFallDamage(distance, damageMultiplier, source);
+        return distance > LETHAL_FALL_DISTANCE && super.causeFallDamage(distance, damageMultiplier, source);
     }
 
     public boolean isClimbing() {
@@ -990,15 +984,13 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite, Manual
         private LivingEntity passiveTarget;
 
         private CothCloudGoal() {
-            setFlags(EnumSet.of(Flag.LOOK));
+            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
         }
 
         @Override
         public boolean canUse() {
-            if (cloudCooldown > 0 || !shouldRetreatForPackSize() || getTarget() != null
-                    || !navigation.isDone()
-                    || !level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(8.0D),
-                    RupterEntity.this::shouldAvoid).isEmpty()
+            if (cloudCooldown > 0 || !isPropagationPhase() || getTarget() != null
+                    || hasNearbyThreat()
                     || random.nextInt(reducedTickDelay(20)) != 0) {
                 return false;
             }
@@ -1010,7 +1002,6 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite, Manual
                                     || entity instanceof Villager)
                                     && !entity.hasEffect(ModMobEffects.COTH.get())
                                     && hasLineOfSight(entity)
-                                    && distanceToSqr(entity) < 81.0D
                                     && navigation.createPath(entity, 1) != null)
                     .stream()
                     .min(Comparator.comparingDouble(RupterEntity.this::distanceToSqr))
@@ -1025,6 +1016,29 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite, Manual
             }
 
             getLookControl().setLookAt(passiveTarget, 30.0F, 30.0F);
+            navigation.moveTo(passiveTarget, 1.0D);
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return passiveTarget != null && passiveTarget.isAlive() && isPropagationPhase()
+                    && getTarget() == null && !hasNearbyThreat()
+                    && !passiveTarget.hasEffect(ModMobEffects.COTH.get());
+        }
+
+        @Override
+        public void tick() {
+            if (passiveTarget == null) {
+                return;
+            }
+            getLookControl().setLookAt(passiveTarget, 30.0F, 30.0F);
+            if (distanceToSqr(passiveTarget) >= 9.0D || !hasLineOfSight(passiveTarget)) {
+                if (navigation.isDone()) {
+                    navigation.moveTo(passiveTarget, 1.0D);
+                }
+                return;
+            }
+
             ToxicCloudEntity cloud = ToxicCloudEntity.create(
                     level(), getX(), getY(), getZ());
             cloud.setOwner(RupterEntity.this);
@@ -1038,6 +1052,19 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite, Manual
             level().addFreshEntity(cloud);
             playSound(ModSounds.RUPTER_CLOUD.get(), 2.0F, 1.0F);
             cloudCooldown = 20;
+            passiveTarget = null;
+            navigation.stop();
+        }
+
+        @Override
+        public void stop() {
+            passiveTarget = null;
+            navigation.stop();
+        }
+
+        private boolean hasNearbyThreat() {
+            return !level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(8.0D),
+                    RupterEntity.this::shouldAvoid).isEmpty();
         }
     }
 }

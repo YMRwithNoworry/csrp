@@ -25,11 +25,13 @@ const entities = [
 
 for (const [name, entity] of entities) {
     const retreatPattern = name === "Rupter"
-        ? /Config\.evolutionPhase\(level\(\)\)\s*<\s*4[\s\S]*nearbyParasites\(\)\s*==\s*0/
+        ? /ATTACK_UNLOCK_PHASE\s*=\s*2[\s\S]*nearbyRupters\(\)\s*\+\s*1\s*<\s*PACK_ATTACK_SIZE/
         : /nearbyParasites\(\)\s*<=\s*2/;
     expect(entity, retreatPattern, `${name}: retreat threshold is missing`);
-    expect(entity, /getEntitiesOfClass\(LivingEntity\.class[\s\S]*instanceof Parasite/,
-            `${name}: nearby population does not count all parasite types`);
+    const populationPattern = name === "Rupter"
+        ? /getEntitiesOfClass\(RupterEntity\.class/
+        : /getEntitiesOfClass\(LivingEntity\.class[\s\S]*instanceof Parasite/;
+    expect(entity, populationPattern, `${name}: nearby population check is missing`);
     expect(entity, /AvoidEntityGoal<>\([\s\S]*this::shouldAvoid/,
             `${name}: player and hostile retreat goal is missing`);
     expect(entity, /shouldRetreatForPackSize\(\)[\s\S]*setTarget\(null\)/,
