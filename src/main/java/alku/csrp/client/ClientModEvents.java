@@ -16,6 +16,7 @@ import alku.csrp.client.renderer.BombRenderer;
 import alku.csrp.client.renderer.DerivedParasiteRenderer;
 import alku.csrp.client.renderer.DragonEggAssimilationRenderer;
 import alku.csrp.client.renderer.HaunterHomingProjectileRenderer;
+import alku.csrp.client.renderer.KirinSlashRenderer;
 import alku.csrp.client.renderer.GoreRenderer;
 import alku.csrp.client.renderer.MarauderRenderer;
 import alku.csrp.client.renderer.MarauderTendrilRenderer;
@@ -185,6 +186,7 @@ public final class ClientModEvents {
                 new DerivedParasiteRenderer<>(context, "draconite", "draconite_shadow", 1.2F));
         event.registerEntityRenderer(ModEntities.KIRIN.get(), context ->
                 new DerivedParasiteRenderer<>(context, "kirin", "kirin_shadow", 1.1F));
+        event.registerEntityRenderer(ModEntities.KIRIN_SLASH.get(), KirinSlashRenderer::new);
         event.registerEntityRenderer(ModEntities.SIM_ADVENTURER.get(), SimAdventurerRenderer::new);
         event.registerEntityRenderer(ModEntities.SIM_ADVENTURER_HEAD.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "sim_adventurerhead", 0.6F));

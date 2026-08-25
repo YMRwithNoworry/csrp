@@ -41,6 +41,7 @@ import alku.csrp.entity.IncompleteCruxEntity;
 import alku.csrp.entity.IncompleteFormMediumEntity;
 import alku.csrp.entity.IncompleteFormSmallEntity;
 import alku.csrp.entity.KirinEntity;
+import alku.csrp.entity.KirinSlashEntity;
 import alku.csrp.entity.LiceEntity;
 import alku.csrp.entity.LongarmsEntity;
 import alku.csrp.entity.ManglerEntity;
@@ -247,6 +248,11 @@ public final class ModEntities {
             ENTITIES.register("kirin", () -> EntityType.Builder.of(KirinEntity::new, MobCategory.MONSTER)
                     .sized(2.1271334F, 8.85F).clientTrackingRange(8)
                     .build(new ResourceLocation(Csrp.MODID, "kirin").toString()));
+    public static final RegistryObject<EntityType<KirinSlashEntity>> KIRIN_SLASH =
+            ENTITIES.register("kirin_slash", () -> EntityType.Builder
+                    .<KirinSlashEntity>of(KirinSlashEntity::new, MobCategory.MISC)
+                    .sized(0.25F, 0.25F).clientTrackingRange(64).updateInterval(1)
+                    .build(new ResourceLocation(Csrp.MODID, "kirin_slash").toString()));
     public static final RegistryObject<EntityType<SimAdventurerEntity>> SIM_ADVENTURER =
             monster("sim_adventurer", SimAdventurerEntity::new, 0.6F, 1.95F);
     public static final RegistryObject<EntityType<SimAdventurerHeadEntity>> SIM_ADVENTURER_HEAD =

@@ -48,6 +48,8 @@ import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.animation.RawAnimation;
 
 import java.util.EnumSet;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public final class KirinEntity extends DerivedParasiteEntity {
@@ -78,6 +80,9 @@ public final class KirinEntity extends DerivedParasiteEntity {
     private static final int LASER_COOLDOWN_TICKS = 160;
     private static final double LASER_RANGE = 48.0D;
     private static final int LASER_EFFECT_DURATION_TICKS = 7 * 20;
+
+    private static final int JUDGEMENT_CHARGE_TICKS = 200;
+    private static final int JUDGEMENT_COOLDOWN_TICKS = 400;
 
     private static final float BLOCK_BREAK_MAX_HARDNESS = 27.0F;
     private static final int BLOCK_BREAK_COOLDOWN_TICKS = 60;
@@ -113,6 +118,10 @@ public final class KirinEntity extends DerivedParasiteEntity {
     private int floatBob;
     private int noGroundTicks;
     private int blockBreakCooldown;
+    private int judgementChargeTicks;
+    private int judgementCooldownTicks;
+    private boolean judgementQueued;
+    private final List<PendingJudgementSlash> pendingJudgementSlashes = new ArrayList<>();
 
     public KirinEntity(EntityType<? extends KirinEntity> type, Level level) {
         super(type, level);
@@ -181,6 +190,8 @@ public final class KirinEntity extends DerivedParasiteEntity {
         }
 
         EvolutionSystem.GenerationProfile profile = EvolutionSystem.generationProfile((ServerLevel) level());
+        updatePendingJudgementSlashes();
+        tickJudgementSkill();
         tickLaserSkill();
         if (!isLaserCasting()) {
             if (isVoidCasting()) {
@@ -331,6 +342,104 @@ public final class KirinEntity extends DerivedParasiteEntity {
         }
     }
 
+    private void tickJudgementSkill() {
+        if (judgementCooldownTicks > 0) judgementCooldownTicks--;
+        if (judgementCooldownTicks == 0) judgementQueued = false;
+        LivingEntity target = getTarget();
+        if (isShadowClone() || isVoidCasting() || isLaserCasting() || target == null || !target.isAlive()
+                || distanceToSqr(target) > 64.0D * 64.0D || !getSensing().hasLineOfSight(target)) {
+            judgementChargeTicks = 0;
+            judgementQueued = false;
+            return;
+        }
+        if (judgementCooldownTicks > 0) return;
+        if (!judgementQueued && ++judgementChargeTicks >= JUDGEMENT_CHARGE_TICKS) {
+            spawnJudgementSlashes(target);
+            judgementQueued = true;
+            judgementChargeTicks = 0;
+            judgementCooldownTicks = JUDGEMENT_COOLDOWN_TICKS;
+        }
+    }
+
+    private void spawnJudgementSlashes(LivingEntity target) {
+        playSound(ModSounds.KIRIN_LIVING.get(), 4.0F, 0.95F + random.nextFloat() * 0.08F);
+        boolean player = target instanceof net.minecraft.world.entity.player.Player;
+        float damage = player ? 8.0F : 10.0F;
+        for (int index = 0; index < 42; index++) {
+            double angle = random.nextDouble() * Math.PI * 2.0D;
+            double dirX = Math.cos(angle);
+            double dirZ = Math.sin(angle);
+            double beforeTarget = 22.0D + random.nextDouble() * 16.0D;
+            double sideOffset = player ? randomSignedRange(2.4D, 22.0D) : randomSignedRange(0.0D, 8.0D);
+            double verticalOffset = (random.nextDouble() - 0.5D) * (player ? 5.0D : Math.max(1.0D, target.getBbHeight() * 0.8D));
+            float yaw = (float) (Math.atan2(dirX, dirZ) * 180.0D / Math.PI);
+            float pitch = player ? -14.0F + random.nextFloat() * 28.0F : -8.0F + random.nextFloat() * 16.0F;
+            if (random.nextFloat() < (player ? 0.1F : 0.08F)) pitch = -35.0F + random.nextFloat() * 70.0F;
+            pendingJudgementSlashes.add(new PendingJudgementSlash(target.getId(),
+                    60 + index + random.nextInt(5), dirX, dirZ, beforeTarget, sideOffset,
+                    verticalOffset, yaw, pitch, random.nextFloat() * 360.0F,
+                    110.0F + random.nextFloat() * 75.0F, damage, 4 + random.nextInt(8),
+                    55 + random.nextInt(18)));
+        }
+    }
+
+    private void updatePendingJudgementSlashes() {
+        if (pendingJudgementSlashes.isEmpty()) return;
+        Iterator<PendingJudgementSlash> iterator = pendingJudgementSlashes.iterator();
+        while (iterator.hasNext()) {
+            PendingJudgementSlash slash = iterator.next();
+            if (--slash.delay > 0) continue;
+            Entity entity = level().getEntity(slash.targetId);
+            if (entity instanceof LivingEntity target && target.isAlive()) {
+                double cy = target.getBoundingBox().minY + target.getBbHeight() * 0.55D;
+                Vec3 start = new Vec3(target.getX() - slash.dirX * slash.beforeTarget - slash.dirZ * slash.sideOffset,
+                        cy + slash.verticalOffset,
+                        target.getZ() - slash.dirZ * slash.beforeTarget + slash.dirX * slash.sideOffset);
+                KirinSlashEntity entitySlash = ModEntities.KIRIN_SLASH.get().create(level());
+                if (entitySlash != null) {
+                    entitySlash.configure(this, start, slash.yaw, slash.pitch, slash.roll, slash.length,
+                            slash.damage, 0, slash.growTicks, slash.lifeTicks);
+                    level().addFreshEntity(entitySlash);
+                    level().playSound(null, BlockPos.containing(start), ModSounds.KIRIN_BLACK_HOLE.get(),
+                            net.minecraft.sounds.SoundSource.HOSTILE, 0.85F, 0.9F + random.nextFloat() * 0.25F);
+                }
+            }
+            iterator.remove();
+        }
+    }
+
+    private double randomSignedRange(double minimum, double maximum) {
+        double value = minimum + random.nextDouble() * Math.max(0.0D, maximum - minimum);
+        return random.nextBoolean() ? value : -value;
+    }
+
+    private static final class PendingJudgementSlash {
+        private final int targetId;
+        private int delay;
+        private final double dirX, dirZ, beforeTarget, sideOffset, verticalOffset;
+        private final float yaw, pitch, roll, length, damage;
+        private final int growTicks, lifeTicks;
+
+        private PendingJudgementSlash(int targetId, int delay, double dirX, double dirZ, double beforeTarget,
+                                      double sideOffset, double verticalOffset, float yaw, float pitch, float roll,
+                                      float length, float damage, int growTicks, int lifeTicks) {
+            this.targetId = targetId;
+            this.delay = delay;
+            this.dirX = dirX;
+            this.dirZ = dirZ;
+            this.beforeTarget = beforeTarget;
+            this.sideOffset = sideOffset;
+            this.verticalOffset = verticalOffset;
+            this.yaw = yaw;
+            this.pitch = pitch;
+            this.roll = roll;
+            this.length = length;
+            this.damage = damage;
+            this.growTicks = growTicks;
+            this.lifeTicks = lifeTicks;
+        }
+    }
+
     private void tryStartLaserSkill() {
         LivingEntity target = getTarget();
         if (laserCooldown > 0 || isShadowClone() || blinkCharge > 0 || isVoidCasting()
@@ -386,7 +495,7 @@ public final class KirinEntity extends DerivedParasiteEntity {
 
     @Override
     protected boolean hasExclusiveSkill() {
-        return blinkCharge > 0 || isVoidCasting() || isLaserCasting();
+        return blinkCharge > 0 || isVoidCasting() || isLaserCasting() || judgementQueued;
     }
 
     private void updateFloating() {
