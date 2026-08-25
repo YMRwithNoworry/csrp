@@ -80,6 +80,8 @@ for (const [pattern, description] of [
 ]) expect(worldConfig, pattern, description);
 
 for (const [pattern, description] of [
+    [/initialVelocity[\s\S]*scale\(10\.5D\)[\s\S]*setDeltaMovement\(initialVelocity\)/,
+        "main meteor does not launch with the original 10.5 blocks/tick velocity"],
     [/data\.meteorsEnabled\(\)/, "per-world meteor gate is missing"],
     [/elapsed\s*<=\s*interval/, "original meteor check cadence is missing"],
     [/data\.evolutionPhase\(\)\s*<\s*0/, "natural meteor phase gate is missing"],

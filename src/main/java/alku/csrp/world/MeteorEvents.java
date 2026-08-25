@@ -90,8 +90,15 @@ public final class MeteorEvents {
         if (meteor == null) {
             return null;
         }
+        Vec3 direction = target.subtract(start);
         meteor.moveTo(start.x, start.y, start.z, 0.0F, 0.0F);
-        meteor.configure(target.subtract(start), true);
+        meteor.configure(direction, true);
+        // The legacy summon path launches the main meteor at 10.5 blocks/tick;
+        // configure() stores only its continuing acceleration.
+        Vec3 initialVelocity = direction.lengthSqr() < 1.0E-6D
+                ? new Vec3(0.0D, -10.5D, 0.0D)
+                : direction.normalize().scale(10.5D);
+        meteor.setDeltaMovement(initialVelocity);
         level.addFreshEntity(meteor);
         for (ServerPlayer player : level.players()) {
             CsrpNetwork.sendToPlayer(player, new MeteorShakePayload(0, 0.0F, true));
