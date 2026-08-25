@@ -69,6 +69,7 @@ public final class HiGolemEntity extends HijackedParasiteEntity {
         super.registerGoals();
         goalSelector.addGoal(1, new GolemChargeGoal());
         goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.5D, false));
+        goalSelector.addGoal(6, new ParasiteRecruitFollowersGoal(this, 1, 16));
     }
 
     @Override
