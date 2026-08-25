@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import alku.csrp.entity.ai.CircleGroupGoal;
 import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
@@ -131,6 +132,11 @@ public final class AssimilatedVariantEntity extends Monster implements GeoEntity
     protected void registerGoals() {
         goalSelector.addGoal(0, new FloatGoal(this));
         goalSelector.addGoal(2, new MeleeAttackGoal(this, kind == Kind.HORSE ? 1.5D : 1.2D, false));
+        if (kind == Kind.HUMAN) {
+            goalSelector.addGoal(4, new CircleGroupGoal(this, 1.15D, 8, 4.0D, 10.0D, 16,
+                    entity -> entity instanceof AssimilatedVariantEntity assimilated
+                            && assimilated.kind == Kind.HUMAN));
+        }
         goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         goalSelector.addGoal(6, new ParasiteFollowGoal(this));
         goalSelector.addGoal(6, new RandomLookAroundGoal(this));
