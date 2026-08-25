@@ -349,6 +349,7 @@ final class SoundEventCatalog {
             "mes.death",
             "mes.growl",
             "mes.hurt",
+            "meteor.impact",
             "mob.explotion",
             "mob.hitground",
             "mob.shoot",

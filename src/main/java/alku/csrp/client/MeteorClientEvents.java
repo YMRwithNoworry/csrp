@@ -5,6 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ViewportEvent;
+import net.minecraftforge.client.event.RenderGuiEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -14,15 +15,16 @@ public final class MeteorClientEvents {
     private static int shakeTicks;
     private static int totalTicks;
     private static float shakeStrength;
+    private static int darkTicks;
 
     private MeteorClientEvents() {
     }
 
-    public static void startShake(int ticks, float strength) {
-        if (ticks <= 0 || strength <= 0.0F) {
-            return;
+    public static void startEffect(int ticks, float strength, boolean darken) {
+        if (darken) {
+            darkTicks = 40;
         }
-        if (strength >= shakeStrength || ticks > shakeTicks) {
+        if (ticks > 0 && strength > 0.0F && (strength >= shakeStrength || ticks > shakeTicks)) {
             shakeTicks = ticks;
             totalTicks = ticks;
             shakeStrength = strength;
@@ -37,6 +39,23 @@ public final class MeteorClientEvents {
                 shakeStrength = 0.0F;
             }
         }
+        if (event.phase == TickEvent.Phase.END && darkTicks > 0 && !Minecraft.getInstance().isPaused()) {
+            darkTicks--;
+        }
+    }
+
+    @SubscribeEvent
+    public static void darkenScreen(RenderGuiEvent.Post event) {
+        if (darkTicks <= 0) {
+            return;
+        }
+        int elapsed = 40 - darkTicks;
+        float intensity = elapsed < 10 ? elapsed / 10.0F
+                : elapsed < 20 ? 1.0F : Math.max(0.0F, darkTicks / 20.0F);
+        int alpha = Math.min(153, Math.max(0, (int) (153.0F * intensity)));
+        Minecraft minecraft = Minecraft.getInstance();
+        event.getGuiGraphics().fill(0, 0, minecraft.getWindow().getGuiScaledWidth(),
+                minecraft.getWindow().getGuiScaledHeight(), alpha << 24);
     }
 
     @SubscribeEvent

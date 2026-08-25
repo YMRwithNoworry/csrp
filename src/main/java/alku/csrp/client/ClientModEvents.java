@@ -19,6 +19,7 @@ import alku.csrp.client.renderer.HaunterHomingProjectileRenderer;
 import alku.csrp.client.renderer.GoreRenderer;
 import alku.csrp.client.renderer.MarauderRenderer;
 import alku.csrp.client.renderer.MarauderTendrilRenderer;
+import alku.csrp.client.renderer.MeteorRenderer;
 import alku.csrp.client.renderer.NadeRenderer;
 import alku.csrp.client.renderer.OrbBoomRenderer;
 import alku.csrp.client.renderer.MovingFleshRenderer;
@@ -82,6 +83,7 @@ public final class ClientModEvents {
         event.registerLayerDefinition(BombRenderer.HOST_LAYER, BombRenderer::createHostLayer);
         event.registerLayerDefinition(BombRenderer.JINJO_LAYER, BombRenderer::createJinjoLayer);
         event.registerLayerDefinition(GoreRenderer.LAYER, GoreRenderer::createBodyLayer);
+        event.registerLayerDefinition(MeteorRenderer.LAYER, MeteorRenderer::createBodyLayer);
     }
 
     @SubscribeEvent
@@ -356,8 +358,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.BALL_TALL.get(), ParasiteProjectileRenderer::new);
         event.registerEntityRenderer(ModEntities.BALL_MALL.get(), ParasiteProjectileRenderer::new);
         event.registerEntityRenderer(ModEntities.HEBLU_LIGHT.get(), ParasiteProjectileRenderer::new);
-        event.registerEntityRenderer(ModEntities.METEOR.get(), context -> new LegacyBillboardRenderer<>(context,
-                new ResourceLocation(Csrp.MODID, "textures/entity/projectile/meteor.png"), 4.5F, 4.5F));
+        event.registerEntityRenderer(ModEntities.METEOR.get(), MeteorRenderer::new);
         event.registerEntityRenderer(ModEntities.SALIVA_BALL.get(), ParasiteProjectileRenderer::new);
         event.registerEntityRenderer(ModEntities.BALL_BALL.get(), ParasiteProjectileRenderer::new);
         event.registerEntityRenderer(ModEntities.ANCIENT_BALL.get(), ParasiteProjectileRenderer::new);

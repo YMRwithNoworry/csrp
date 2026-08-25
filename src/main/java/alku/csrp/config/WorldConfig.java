@@ -52,6 +52,9 @@ public final class WorldConfig {
     private static final ForgeConfigSpec.IntValue METEOR_CHECK_INTERVAL = BUILDER
             .comment("Ticks between natural meteor spawn checks.")
             .defineInRange("meteorCheckInterval", 3600, 1, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.IntValue METEOR_MINIMUM_WORLD_TICKS = BUILDER
+            .comment("World age in ticks required before natural meteors may spawn.")
+            .defineInRange("meteorMinimumWorldTicks", 0, 0, Integer.MAX_VALUE);
     private static final ForgeConfigSpec.DoubleValue METEOR_CHANCE = BUILDER
             .comment("Chance that each meteor check spawns a meteor.")
             .defineInRange("meteorChance", 0.5D, 0.0D, 1.0D);
@@ -135,6 +138,10 @@ public final class WorldConfig {
 
     public static int meteorCheckInterval() {
         return METEOR_CHECK_INTERVAL.get();
+    }
+
+    public static int meteorMinimumWorldTicks() {
+        return METEOR_MINIMUM_WORLD_TICKS.get();
     }
 
     public static double meteorChance() {

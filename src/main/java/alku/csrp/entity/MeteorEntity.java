@@ -4,6 +4,7 @@ import alku.csrp.config.WorldConfig;
 import alku.csrp.network.CsrpNetwork;
 import alku.csrp.network.MeteorShakePayload;
 import alku.csrp.registry.ModMobEffects;
+import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModSounds;
 import alku.csrp.world.MeteorImpactGenerator;
 import alku.csrp.world.SrpWorldData;
@@ -25,6 +26,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+
+import java.util.Optional;
 
 public final class MeteorEntity extends Entity {
     private static final EntityDataAccessor<Boolean> MAIN = SynchedEntityData.defineId(
@@ -76,8 +79,16 @@ public final class MeteorEntity extends Entity {
         }
 
         Vec3 movement = getDeltaMovement();
-        HitResult hit = level().clip(new ClipContext(position(), position().add(movement),
+        Vec3 start = position();
+        Vec3 end = start.add(movement);
+        HitResult hit = level().clip(new ClipContext(start, end,
                 ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
+        Vec3 entityHit = life >= 25 ? findEntityCollision(start, end) : null;
+        if (entityHit != null && (hit.getType() == HitResult.Type.MISS
+                || start.distanceToSqr(entityHit) < start.distanceToSqr(hit.getLocation()))) {
+            impact(serverLevel, BlockPos.containing(entityHit));
+            return;
+        }
         if (hit.getType() != HitResult.Type.MISS || life > MAX_LIFETIME
                 || getY() <= level().getMinBuildHeight() + 1) {
             impact(serverLevel, BlockPos.containing(hit.getType() == HitResult.Type.MISS ? position() : hit.getLocation()));
@@ -102,13 +113,32 @@ public final class MeteorEntity extends Entity {
                 (random.nextDouble() - 0.5D) * 0.9D);
         fragment.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
         fragment.configure(direction, false);
-        fragment.setDeltaMovement(getDeltaMovement().scale(0.35D));
+        fragment.setDeltaMovement(Vec3.ZERO);
         level.addFreshEntity(fragment);
+    }
+
+    private Vec3 findEntityCollision(Vec3 start, Vec3 end) {
+        AABB swept = getBoundingBox().expandTowards(getDeltaMovement()).inflate(1.0D);
+        Vec3 closest = null;
+        double closestDistance = Double.MAX_VALUE;
+        for (LivingEntity living : level().getEntitiesOfClass(LivingEntity.class, swept,
+                entity -> entity.isAlive() && !entity.isSpectator())) {
+            Optional<Vec3> intersection = living.getBoundingBox().inflate(0.3D).clip(start, end);
+            if (intersection.isPresent()) {
+                double distance = start.distanceToSqr(intersection.get());
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                    closest = intersection.get();
+                }
+            }
+        }
+        return closest;
     }
 
     private void impact(ServerLevel level, BlockPos hitPos) {
         impacted = true;
         BlockPos surface = MeteorImpactGenerator.surface(level, hitPos);
+        spawnImpactPulse(level, hitPos, isMainMeteor() ? 40 : 8);
         if (isMainMeteor()) {
             sendShake(level, surface, 400, 150, 8.0F);
             damageMainImpact(level, surface);
@@ -118,7 +148,6 @@ public final class MeteorEntity extends Entity {
                         WorldConfig.meteorVectorRadius());
             }
         } else {
-            damageFragmentImpact(level, surface);
             MeteorImpactGenerator.generateFragment(level, surface, random);
         }
         level.playSound(null, surface, ModSounds.METEOR_IMPACT.get(), SoundSource.HOSTILE,
@@ -134,9 +163,19 @@ public final class MeteorEntity extends Entity {
             double distanceSqr = player.blockPosition().distSqr(center);
             if (distanceSqr < radiusSqr) {
                 float strength = (float) (1.0D - distanceSqr / radiusSqr) * multiplier;
-                CsrpNetwork.sendToPlayer(player, new MeteorShakePayload(ticks, strength));
+                CsrpNetwork.sendToPlayer(player, new MeteorShakePayload(ticks, strength, false));
             }
         }
+    }
+
+    private void spawnImpactPulse(ServerLevel level, BlockPos center, int fuse) {
+        OrbBoomEntity orb = ModEntities.ORB_BOOM.get().create(level);
+        if (orb == null) {
+            return;
+        }
+        orb.configure(null, fuse, 1);
+        orb.moveTo(center.getX() + 0.5D, center.getY() + 0.5D, center.getZ() + 0.5D);
+        level.addFreshEntity(orb);
     }
 
     private void damageMainImpact(ServerLevel level, BlockPos center) {
@@ -149,7 +188,7 @@ public final class MeteorEntity extends Entity {
             if (distanceSqr < damageRadiusSqr && radius > 0) {
                 float strength = (float) (1.0D - distanceSqr / damageRadiusSqr);
                 living.invulnerableTime = 0;
-                living.hurt(damageSources().magic(), 450.0F * strength);
+                living.hurt(damageSources().fellOutOfWorld(), 450.0F * strength);
             }
             if (distanceSqr < 320000.0D) {
                 living.addEffect(new MobEffectInstance(ModMobEffects.COTH.get(), 1200, 0, false, false));
@@ -157,26 +196,37 @@ public final class MeteorEntity extends Entity {
         }
     }
 
-    private void damageFragmentImpact(ServerLevel level, BlockPos center) {
-        AABB area = new AABB(center).inflate(8.0D);
-        for (LivingEntity living : level.getEntitiesOfClass(LivingEntity.class, area, LivingEntity::isAlive)) {
-            living.invulnerableTime = 0;
-            living.hurt(damageSources().magic(), 10.0F);
-            living.setSecondsOnFire(4);
+    private void spawnTrail() {
+        Vec3 movement = getDeltaMovement();
+        level().addParticle(ParticleTypes.SMOKE, getX(), getY() + 0.5D, getZ(), 0.0D, 0.0D, 0.0D);
+        if (isInWater()) {
+            for (int index = 0; index < 4; index++) {
+                level().addParticle(ParticleTypes.BUBBLE, getX() - movement.x * 0.25D,
+                        getY() - movement.y * 0.25D, getZ() - movement.z * 0.25D,
+                        movement.x, movement.y, movement.z);
+            }
+        }
+        for (int index = 0; index < 5; index++) {
+            double spread = getBbWidth();
+            double x = getX() + (random.nextDouble() - 0.5D) * spread;
+            double y = getY() + (random.nextDouble() - 0.5D) * getBbHeight() * 4.0D + getBbHeight();
+            double z = getZ() + (random.nextDouble() - 0.5D) * spread;
+            double velocityX = -movement.x + random.nextGaussian() * 0.05D;
+            double velocityY = -movement.y + random.nextGaussian() * 0.05D;
+            double velocityZ = -movement.z + random.nextGaussian() * 0.05D;
+            level().addParticle(ParticleTypes.FLAME, x, y, z, velocityX, velocityY, velocityZ);
+            level().addParticle(isMainMeteor() ? ParticleTypes.EXPLOSION_EMITTER : ParticleTypes.EXPLOSION,
+                    x, y, z, velocityX, velocityY, velocityZ);
         }
     }
 
-    private void spawnTrail() {
-        Vec3 movement = getDeltaMovement();
-        int count = isMainMeteor() ? 8 : 4;
-        for (int index = 0; index < count; index++) {
-            double spread = isMainMeteor() ? 2.25D : 0.8D;
-            level().addParticle(index % 3 == 0 ? ParticleTypes.EXPLOSION : ParticleTypes.FLAME,
-                    getX() + (random.nextDouble() - 0.5D) * spread,
-                    getY() + random.nextDouble() * getBbHeight(),
-                    getZ() + (random.nextDouble() - 0.5D) * spread,
-                    -movement.x * 0.15D, -movement.y * 0.15D, -movement.z * 0.15D);
+    @Override
+    public boolean hurt(net.minecraft.world.damagesource.DamageSource source, float amount) {
+        if (isInvulnerableTo(source)) {
+            return false;
         }
+        markHurt();
+        return true;
     }
 
     private void updateRotationFromMovement() {

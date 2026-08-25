@@ -65,7 +65,18 @@ public final class SrpCommands {
 
     private static LiteralArgumentBuilder<CommandSourceStack> srp() {
         return admin("srp")
-                .then(Commands.literal("spawnmeteor").executes(context -> spawnMeteor(context.getSource())));
+                .then(Commands.literal("spawnmeteor")
+                        .executes(context -> spawnMeteor(context.getSource()))
+                        .then(Commands.argument("x", IntegerArgumentType.integer())
+                                .then(Commands.argument("y", IntegerArgumentType.integer())
+                                        .then(Commands.argument("z", IntegerArgumentType.integer())
+                                                .then(Commands.argument("radius", IntegerArgumentType.integer(1))
+                                                        .executes(context -> spawnMeteor(context.getSource(),
+                                                                new BlockPos(
+                                                                        IntegerArgumentType.getInteger(context, "x"),
+                                                                        IntegerArgumentType.getInteger(context, "y"),
+                                                                        IntegerArgumentType.getInteger(context, "z")),
+                                                                IntegerArgumentType.getInteger(context, "radius"))))))));
     }
 
     private static LiteralArgumentBuilder<CommandSourceStack> srParasites() {
@@ -628,6 +639,13 @@ public final class SrpCommands {
             return failure(source, "Unable to create Hive Satellite meteor");
         }
         return success(source, "Hive Satellite meteor spawned above " + format(BlockPos.containing(target)));
+    }
+
+    private static int spawnMeteor(CommandSourceStack source, BlockPos center, int radius) {
+        if (MeteorEvents.spawnNear(source.getLevel(), center, radius, radius) == null) {
+            return failure(source, "Unable to create Hive Satellite meteor");
+        }
+        return success(source, "Hive Satellite meteor spawned near " + format(center));
     }
 
     private static int success(CommandSourceStack source, String message) {

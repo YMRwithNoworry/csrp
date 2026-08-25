@@ -18,8 +18,7 @@ const registrations = [
   ["NADE_BALL", "nadeball", "ELVIA_NADE"],
   ["BALL_TALL", "balltall", "ELVIA_BALL"],
   ["BALL_MALL", "ballmall", "LENCIA_BALL"],
-  ["HEBLU_LIGHT", "heblu_light", "LIGHT"],
-  ["METEOR", "meteor", "METEOR"]
+  ["HEBLU_LIGHT", "heblu_light", "LIGHT"]
 ];
 
 for (const [constant, id, mode] of registrations) {
@@ -32,6 +31,16 @@ for (const [constant, id, mode] of registrations) {
   if (!new RegExp(`ModEntities\\.${constant}\\.get\\(\\)`).test(client)) {
     failures.push(`${constant} has no client renderer`);
   }
+}
+
+if (!/EntityType<MeteorEntity>>\s+METEOR\s*=\s*[\s\S]*?ENTITIES\.register\("meteor"/.test(entities)) {
+  failures.push("METEOR is not registered as the dedicated original meteor entity");
+}
+if (!/case METEOR -> PARASITE_PROJECTILE\.get\(\)/.test(entities)) {
+  failures.push("Draconite's METEOR projectile mode does not retain its generic projectile entity");
+}
+if (!/ModEntities\.METEOR\.get\(\), MeteorRenderer::new/.test(client)) {
+  failures.push("Dedicated meteor entity has no client renderer");
 }
 
 if (!/createProjectile\(Level level, ParasiteProjectileEntity\.Mode mode\)/.test(entities)) {

@@ -14,6 +14,8 @@ import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.UUID;
 
 public final class OrbBoomEntity extends Entity {
@@ -32,7 +34,7 @@ public final class OrbBoomEntity extends Entity {
         setNoGravity(true);
     }
 
-    public void configure(PrimitiveParasiteEntity owner, int fuse, int waitStart) {
+    public void configure(@Nullable PrimitiveParasiteEntity owner, int fuse, int waitStart) {
         ownerId = owner == null ? null : owner.getUUID();
         entityData.set(FUSE, Math.max(1, fuse));
         entityData.set(WAIT_START, Math.max(0, waitStart));
@@ -60,12 +62,15 @@ public final class OrbBoomEntity extends Entity {
         int progress = entityData.get(PROGRESS);
         int fuse = entityData.get(FUSE);
         if (progress < fuse) {
-            entityData.set(PROGRESS, progress + 1);
-            refreshDimensions();
             if (tickCount % 10 == 0) {
                 pulse(false);
             }
+            entityData.set(PROGRESS, progress + 1);
+            refreshDimensions();
             return;
+        }
+        if (ownerId == null && tickCount % 10 == 0) {
+            pulse(false);
         }
         if (burstTicks++ == 0) {
             pulse(true);
@@ -93,7 +98,7 @@ public final class OrbBoomEntity extends Entity {
             }
             return;
         }
-        if (burst) {
+        if (!burst) {
             for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
                     getBoundingBox(), LivingEntity::isAlive)) {
                 target.hurt(damageSources().magic(), 10.0F);

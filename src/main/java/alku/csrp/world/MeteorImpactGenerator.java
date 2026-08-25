@@ -5,9 +5,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.BushBlock;
+import net.minecraft.world.level.block.VineBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
 
 public final class MeteorImpactGenerator {
     private static final int MIN_SAFE_Y_OFFSET = 5;
@@ -25,10 +28,16 @@ public final class MeteorImpactGenerator {
         double yaw = random.nextDouble() * Math.PI * 2.0D;
         double directionX = -Math.sin(yaw);
         double directionZ = Math.cos(yaw);
-        carveTunnel(level, impact.below(3), 10, 30, directionX, -steepness, directionZ);
+        TunnelResult tunnel = carveTunnel(level, impact.below(3), 10, 30,
+                directionX, -steepness, directionZ);
 
         int radius = 40;
         int depth = Math.round(radius * (0.4F + random.nextFloat() * 0.2F));
+        if (tunnel.anyBroken()) {
+            depth = Math.max(depth, impact.getY() - tunnel.lowestY() + 3);
+        }
+        radius = Math.max(radius, (int) (depth * 1.6F));
+        clearVegetation(level, impact, radius * 2, depth);
         carveBowl(level, impact, radius, depth, random);
         scorch(level, impact, radius, random);
         ejecta(level, impact, radius, directionX, directionZ, random);
@@ -37,7 +46,8 @@ public final class MeteorImpactGenerator {
         int bottomY = Math.max(level.getMinBuildHeight() + MIN_SAFE_Y_OFFSET, impact.getY() - depth + 1);
         BlockPos bodyCenter = new BlockPos(impact.getX(), bottomY + 8, impact.getZ());
         meteorBody(level, bodyCenter, random);
-        deadBloodPool(level, new BlockPos(impact.getX(), bottomY, impact.getZ()), Math.max(8, radius / 4));
+        deadBloodPool(level, new BlockPos(impact.getX(), bottomY, impact.getZ()),
+                Math.max(4, radius / 6), 10, 4);
         scheduleNearbyWater(level, impact, radius, depth);
     }
 
@@ -83,10 +93,12 @@ public final class MeteorImpactGenerator {
         }
     }
 
-    private static void carveTunnel(ServerLevel level, BlockPos start, int radius, int length,
-                                    double directionX, double directionY, double directionZ) {
+    private static TunnelResult carveTunnel(ServerLevel level, BlockPos start, int radius, int length,
+                                            double directionX, double directionY, double directionZ) {
         Vec direction = new Vec(directionX, directionY, directionZ).normalize();
         int radiusSqr = radius * radius;
+        boolean anyBroken = false;
+        int lowestY = Integer.MAX_VALUE;
         for (int step = 0; step <= length; step++) {
             BlockPos center = start.offset((int) Math.round(direction.x * step),
                     (int) Math.round(direction.y * step), (int) Math.round(direction.z * step));
@@ -94,8 +106,36 @@ public final class MeteorImpactGenerator {
                 for (int y = -radius; y <= radius; y++) {
                     for (int z = -radius; z <= radius; z++) {
                         if (x * x + y * y + z * z <= radiusSqr) {
-                            clear(level, center.offset(x, y, z));
+                            BlockPos pos = center.offset(x, y, z);
+                            if (clearAndReport(level, pos)) {
+                                anyBroken = true;
+                                lowestY = Math.min(lowestY, pos.getY());
+                            }
                         }
+                    }
+                }
+            }
+        }
+        return new TunnelResult(anyBroken, anyBroken ? lowestY : start.getY());
+    }
+
+    private static void clearVegetation(ServerLevel level, BlockPos center, int radius, int depth) {
+        int radiusSqr = radius * radius;
+        int minimumY = Math.max(level.getMinBuildHeight() + MIN_SAFE_Y_OFFSET,
+                center.getY() - depth - 12);
+        int maximumY = Math.min(level.getMaxBuildHeight() - 1, center.getY() + 50);
+        for (int x = -radius; x <= radius; x++) {
+            for (int z = -radius; z <= radius; z++) {
+                if (x * x + z * z > radiusSqr) {
+                    continue;
+                }
+                for (int y = minimumY; y <= maximumY; y++) {
+                    BlockPos pos = new BlockPos(center.getX() + x, y, center.getZ() + z);
+                    BlockState state = level.getBlockState(pos);
+                    Block block = state.getBlock();
+                    if (state.is(BlockTags.LEAVES) || state.is(BlockTags.LOGS)
+                            || block instanceof BushBlock || block instanceof VineBlock) {
+                        clear(level, pos);
                     }
                 }
             }
@@ -180,16 +220,19 @@ public final class MeteorImpactGenerator {
         }
     }
 
-    private static void deadBloodPool(ServerLevel level, BlockPos center, int radius) {
+    private static void deadBloodPool(ServerLevel level, BlockPos center, int radius,
+                                      int dryCoreRadius, int height) {
         int radiusSqr = radius * radius;
-        int dryCoreSqr = 9;
+        int dryCoreSqr = dryCoreRadius * dryCoreRadius;
         for (int x = -radius; x <= radius; x++) {
             for (int z = -radius; z <= radius; z++) {
                 int distanceSqr = x * x + z * z;
                 if (distanceSqr <= radiusSqr && distanceSqr > dryCoreSqr) {
-                    BlockPos pos = center.offset(x, 0, z);
-                    if (level.getBlockState(pos).isAir()) {
-                        set(level, pos, ModBlocks.DEAD_BLOOD.get().defaultBlockState());
+                    for (int y = 0; y <= height; y++) {
+                        BlockPos pos = center.offset(x, y, z);
+                        if (level.getBlockState(pos).isAir()) {
+                            set(level, pos, ModBlocks.DEAD_BLOOD.get().defaultBlockState());
+                        }
                     }
                 }
             }
@@ -220,14 +263,20 @@ public final class MeteorImpactGenerator {
     }
 
     private static void clear(ServerLevel level, BlockPos pos) {
+        clearAndReport(level, pos);
+    }
+
+    private static boolean clearAndReport(ServerLevel level, BlockPos pos) {
         if (!level.isInWorldBounds(pos) || pos.getY() <= level.getMinBuildHeight() + MIN_SAFE_Y_OFFSET
                 || level.getBlockEntity(pos) != null) {
-            return;
+            return false;
         }
         BlockState existing = level.getBlockState(pos);
         if (!existing.isAir() && existing.getDestroySpeed(level, pos) >= 0.0F) {
             level.setBlock(pos, Blocks.AIR.defaultBlockState(), Block.UPDATE_CLIENTS);
+            return true;
         }
+        return false;
     }
 
     private static void replace(ServerLevel level, BlockPos pos, BlockState state) {
@@ -277,5 +326,8 @@ public final class MeteorImpactGenerator {
             return length < 1.0E-6D ? new Vec(0.0D, -1.0D, 0.0D)
                     : new Vec(x / length, y / length, z / length);
         }
+    }
+
+    private record TunnelResult(boolean anyBroken, int lowestY) {
     }
 }

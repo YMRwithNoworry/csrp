@@ -3,7 +3,10 @@ package alku.csrp.world;
 import alku.csrp.Csrp;
 import alku.csrp.config.WorldConfig;
 import alku.csrp.entity.MeteorEntity;
+import alku.csrp.network.CsrpNetwork;
+import alku.csrp.network.MeteorShakePayload;
 import alku.csrp.registry.ModEntities;
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.phys.Vec3;
@@ -41,6 +44,7 @@ public final class MeteorEvents {
         }
         CHECK_TIMERS.put(level, 0);
         if (SrpWorldData.get(level).evolutionPhase() < 0
+                || level.getGameTime() < WorldConfig.meteorMinimumWorldTicks()
                 || level.random.nextDouble() >= WorldConfig.meteorChance()
                 || WorldConfig.meteorRequiresNoVector() && !SrpWorldData.get(level).vectors().isEmpty()) {
             return;
@@ -55,21 +59,29 @@ public final class MeteorEvents {
         if (players.isEmpty()) {
             return;
         }
-        List<ServerPlayer> exposed = players.stream().filter(player -> level.canSeeSky(player.blockPosition())).toList();
-        List<ServerPlayer> candidates = exposed.isEmpty() ? players : exposed;
-        spawnNear(level, candidates.get(level.random.nextInt(candidates.size())));
+        ServerPlayer selected = players.stream().filter(player -> level.canSeeSky(player.blockPosition()))
+                .findFirst().orElse(players.get(0));
+        int randomRadius = level.random.nextInt(Math.max(1, WorldConfig.meteorMaximumRadius()));
+        spawnNear(level, selected.blockPosition(), randomRadius, WorldConfig.meteorMinimumRadius());
     }
 
     public static MeteorEntity spawnNear(ServerLevel level, ServerPlayer player) {
-        int minimum = WorldConfig.meteorMinimumRadius();
-        int maximum = Math.max(minimum + 1, WorldConfig.meteorMaximumRadius());
+        return spawnNear(level, player.blockPosition(), WorldConfig.meteorMaximumRadius(),
+                WorldConfig.meteorMinimumRadius());
+    }
+
+    public static MeteorEntity spawnNear(ServerLevel level, BlockPos center, int radius, int minimumRadius) {
+        int minimum = Math.max(WorldConfig.meteorMinimumRadius(), minimumRadius);
+        int maximum = Math.min(WorldConfig.meteorMaximumRadius(), radius);
+        if (maximum < minimum) {
+            maximum = minimum + 1;
+        }
         int originX = signedDistance(level, minimum, maximum);
         int originZ = signedDistance(level, minimum, maximum);
         int targetX = signedDistance(level, minimum, maximum);
         int targetZ = signedDistance(level, minimum, maximum);
-        Vec3 start = new Vec3(player.getX() + originX, level.getMaxBuildHeight() - 6.0D,
-                player.getZ() + originZ);
-        Vec3 target = new Vec3(player.getX() + targetX, player.getY(), player.getZ() + targetZ);
+        Vec3 start = new Vec3(center.getX() + originX, level.getMaxBuildHeight(), center.getZ() + originZ);
+        Vec3 target = new Vec3(center.getX() + targetX, center.getY(), center.getZ() + targetZ);
         return spawn(level, start, target);
     }
 
@@ -81,6 +93,9 @@ public final class MeteorEvents {
         meteor.moveTo(start.x, start.y, start.z, 0.0F, 0.0F);
         meteor.configure(target.subtract(start), true);
         level.addFreshEntity(meteor);
+        for (ServerPlayer player : level.players()) {
+            CsrpNetwork.sendToPlayer(player, new MeteorShakePayload(0, 0.0F, true));
+        }
         return meteor;
     }
 
