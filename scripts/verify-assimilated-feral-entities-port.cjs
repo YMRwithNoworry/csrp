@@ -99,6 +99,12 @@ expect(variants, /HOST_SKELETON_KILLS\s*=\s*5[\s\S]*?transformToHost\(level\)/,
   "Assimilated Villager Host conversion is missing");
 expect(simHuman, /HOST_SKELETON_KILLS\s*=\s*5[\s\S]*?transformToHost\(level\)/,
   "Assimilated Human Host conversion is missing");
+expect(simHuman, /OpenDoorGoal\(this, true\)/,
+  "Assimilated Human wooden-door navigation is missing");
+expect(simHuman, /setCanOpenDoors\(true\)[\s\S]*setCanPassDoors\(true\)/,
+  "Assimilated Human door-capable navigation is missing");
+expect(simHuman, /class WaterLeapGoal[\s\S]*COOLDOWN_TICKS = 20[\s\S]*LEAP_MOTION_Y = 0\.7F[\s\S]*JUMP_SPEED = 1\.5D/,
+  "Assimilated Human water/lava leap behavior is missing");
 expect(heads, /IncompleteFormMediumEntity/, "Walking heads must rebuild from medium incomplete forms");
 expect(enderman, /TARGET_GRACE_TICKS\s*=\s*80/, "Assimilated Enderman target grace period is missing");
 expect(enderman, /teleportAllyToTarget/, "Assimilated Enderman ally teleport is missing");

@@ -23,15 +23,19 @@ import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.OpenDoorGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.AbstractSkeleton;
 import net.minecraft.world.level.Level;
+import java.util.EnumSet;
+import net.minecraft.world.entity.ai.goal.Goal;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
@@ -111,10 +115,20 @@ public final class SimHumanEntity extends Monster implements GeoEntity, Parasite
     }
 
     @Override
+    protected PathNavigation createNavigation(Level level) {
+        GroundPathNavigation navigation = new GroundPathNavigation(this, level);
+        navigation.setCanOpenDoors(true);
+        navigation.setCanPassDoors(true);
+        navigation.setCanFloat(true);
+        return navigation;
+    }
+
+    @Override
     protected void registerGoals() {
         goalSelector.addGoal(0, new FloatGoal(this));
-        goalSelector.addGoal(1, new LeapAtTargetGoal(this, 0.4F));
-        goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, false));
+        goalSelector.addGoal(1, new OpenDoorGoal(this, true));
+        goalSelector.addGoal(2, new WaterLeapGoal());
+        goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.0D, false));
         goalSelector.addGoal(4, new CircleGroupGoal(this, 1.15D, 8, 4.0D, 10.0D, 16,
                 entity -> entity instanceof SimHumanEntity));
         goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
@@ -415,6 +429,69 @@ public final class SimHumanEntity extends Monster implements GeoEntity, Parasite
         if (level.addFreshEntity(host)) {
             AssimilatedMeltSystem.sendMeltParticles(level, host);
             discard();
+        }
+    }
+
+    /** Legacy EntityAIWaterLeapAtTargetStatus: leap from water or lava toward the target. */
+    private final class WaterLeapGoal extends Goal {
+        private static final int COOLDOWN_TICKS = 20;
+        private static final float LEAP_MOTION_Y = 0.7F;
+        private static final double JUMP_SPEED = 1.5D;
+        private int attackTimer;
+        private int attacking;
+        private double targetX;
+        private double targetY;
+        private double targetZ;
+
+        private WaterLeapGoal() {
+            setFlags(EnumSet.of(Flag.MOVE, Flag.JUMP));
+        }
+
+        @Override
+        public boolean canUse() {
+            return isInWaterOrBubble() || isInLava() || attacking >= 1;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return canUse();
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = getTarget();
+            if (target != null && target.isAlive() && attacking == 0) {
+                attackTimer++;
+                if (attackTimer >= COOLDOWN_TICKS) {
+                    attacking = 1;
+                    targetX = target.getX();
+                    targetZ = target.getZ();
+                    targetY = Math.max(0.0D, (target.getY() - getY()) * 0.07D);
+                }
+            } else if (target == null || !target.isAlive()) {
+                attackTimer = Math.max(0, attackTimer - 1);
+            }
+
+            if (attacking == 0) {
+                return;
+            }
+            attacking++;
+            if (attacking == 2 && onGround()) {
+                getNavigation().stop();
+                double dx = targetX - getX();
+                double dz = targetZ - getZ();
+                double distance = Math.sqrt(dx * dx + dz * dz);
+                if (distance > 1.0E-4D) {
+                    setDeltaMovement(getDeltaMovement().add(
+                            dx / distance * JUMP_SPEED * 0.9D,
+                            LEAP_MOTION_Y + targetY,
+                            dz / distance * JUMP_SPEED * 0.9D));
+                }
+            }
+            if (attacking >= 3 && onGround()) {
+                attacking = 0;
+                attackTimer = 0;
+            }
         }
     }
 }
