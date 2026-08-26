@@ -138,10 +138,13 @@ reject(loader, /static final Map<String, StructureTemplate>\s+CACHE/,
 expect(blocks, /DEAD_BLOOD[\s\S]*?\.replaceable\(\)/,
         "dead-blood source blocks cannot be replaced directly");
 expect(read("src/main/java/alku/csrp/block/DeadBloodBlock.java"),
-        /canBeReplaced\(BlockState state, BlockPlaceContext context\)[\s\S]*?return true;/,
-        "dead-blood fluid blocks must accept direct block placement");
+  /canBeReplaced\(BlockState state, BlockPlaceContext context\)[\s\S]*?return true;/,
+  "dead-blood fluid blocks must accept direct block placement");
+expect(read("src/main/java/alku/csrp/event/DeadBloodPlacementEvents.java"),
+  /onRightClickBlock[\s\S]*?instanceof BlockItem blockItem[\s\S]*?blockItem\.place\(/,
+  "dead-blood source placement must handle solid block items on the server");
 reject(impact, /addFreshEntity|MobSpawnType|spawnMeteorInhabitants/,
-        "meteor structure incorrectly spawns mobs inside the impact structure");
+  "meteor structure incorrectly spawns mobs inside the impact structure");
 
 for (const [content, pattern, description] of [
     [selection, /AtomicReference<Boolean>[\s\S]*consumeOrDefault/, "create-world meteor selection handoff is missing"],
