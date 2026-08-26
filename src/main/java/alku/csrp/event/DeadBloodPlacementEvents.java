@@ -12,7 +12,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
-/** Allows solid blocks to replace a Dead Blood fluid block when clicked directly. */
+/** Allows solid blocks to be placed against a Dead Blood fluid block when clicked directly. */
 @EventBusSubscriber(modid = Csrp.MODID)
 public final class DeadBloodPlacementEvents {
     private DeadBloodPlacementEvents() {

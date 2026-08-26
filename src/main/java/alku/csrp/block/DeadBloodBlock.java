@@ -25,7 +25,10 @@ public final class DeadBloodBlock extends LiquidBlock {
 
     @Override
     public boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
-        return true;
+        // Keep the fluid cell intact when a solid block is placed against it.
+        // BlockPlaceContext will then target the adjacent cell, matching
+        // vanilla water placement behavior.
+        return false;
     }
 
     public InteractionResult useItemOn(ItemStack stack, BlockState state, Level level,

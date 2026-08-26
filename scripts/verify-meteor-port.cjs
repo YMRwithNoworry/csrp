@@ -135,11 +135,11 @@ for (const [pattern, description] of [
 ]) expect(loader, pattern, description);
 reject(loader, /static final Map<String, StructureTemplate>\s+CACHE/,
         "meteor templates are cached across resource reloads or server registries");
-expect(blocks, /DEAD_BLOOD[\s\S]*?\.replaceable\(\)/,
-        "dead-blood source blocks cannot be replaced directly");
+reject(blocks, /DEAD_BLOOD[\s\S]*?\.replaceable\(\)/,
+        "dead-blood source blocks must remain intact when placing above them");
 expect(read("src/main/java/alku/csrp/block/DeadBloodBlock.java"),
-  /canBeReplaced\(BlockState state, BlockPlaceContext context\)[\s\S]*?return true;/,
-  "dead-blood fluid blocks must accept direct block placement");
+  /canBeReplaced\(BlockState state, BlockPlaceContext context\)[\s\S]*?return false;/,
+  "dead-blood fluid blocks must preserve the source while placing above it");
 expect(read("src/main/java/alku/csrp/event/DeadBloodPlacementEvents.java"),
   /onRightClickBlock[\s\S]*?instanceof BlockItem blockItem[\s\S]*?blockItem\.place\(/,
   "dead-blood source placement must handle solid block items on the server");
