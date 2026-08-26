@@ -36,6 +36,7 @@ const commands = read("src/main/java/alku/csrp/command/SrpCommands.java");
 const entities = read("src/main/java/alku/csrp/registry/ModEntities.java");
 const clientModEvents = read("src/main/java/alku/csrp/client/ClientModEvents.java");
 const renderer = read("src/main/java/alku/csrp/client/renderer/MeteorRenderer.java");
+const blocks = read("src/main/java/alku/csrp/registry/ModBlocks.java");
 
 for (const [pattern, description] of [
     [/MAX_LIFETIME\s*=\s*1200/, "meteor 1200-tick lifetime is missing"],
@@ -134,6 +135,13 @@ for (const [pattern, description] of [
 ]) expect(loader, pattern, description);
 reject(loader, /static final Map<String, StructureTemplate>\s+CACHE/,
         "meteor templates are cached across resource reloads or server registries");
+expect(blocks, /DEAD_BLOOD[\s\S]*?\.replaceable\(\)/,
+        "dead-blood source blocks cannot be replaced directly");
+expect(read("src/main/java/alku/csrp/block/DeadBloodBlock.java"),
+        /canBeReplaced\(BlockState state, BlockPlaceContext context\)[\s\S]*?return true;/,
+        "dead-blood fluid blocks must accept direct block placement");
+reject(impact, /addFreshEntity|MobSpawnType|spawnMeteorInhabitants/,
+        "meteor structure incorrectly spawns mobs inside the impact structure");
 
 for (const [content, pattern, description] of [
     [selection, /AtomicReference<Boolean>[\s\S]*consumeOrDefault/, "create-world meteor selection handoff is missing"],

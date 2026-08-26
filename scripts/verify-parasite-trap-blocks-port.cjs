@@ -65,8 +65,8 @@ const jsonFiles = [
   "src/main/resources/data/csrp/loot_table/blocks/biomass_block.json",
   "src/main/resources/data/csrp/loot_table/blocks/parasitemouth.json",
   "src/main/resources/data/csrp/loot_table/blocks/parasiterubble_stonedebris.json",
-  "src/main/resources/data/csrp/recipe/biomass_block.json",
-  "src/main/resources/data/csrp/recipe/hive_scrap_from_hivestone_debris.json",
+  "src/main/resources/data/csrp/recipes/biomass_block.json",
+  "src/main/resources/data/csrp/recipes/hive_scrap_from_hivestone_debris.json",
   "src/main/resources/data/csrp/tags/item/lure_components.json",
   "src/main/resources/data/csrp/damage_type/biomass.json",
   "src/main/resources/data/csrp/damage_type/parasite_mouth.json",
@@ -76,12 +76,12 @@ const jsonFiles = [
 ];
 for (const file of jsonFiles) parseJson(file);
 
-const recipe = parseJson("src/main/resources/data/csrp/recipe/biomass_block.json");
+const recipe = parseJson("src/main/resources/data/csrp/recipes/biomass_block.json");
 if (recipe?.result?.count !== 4) failures.push("Biomass recipe does not produce four blocks");
 if (recipe?.key?.L?.tag !== "csrp:lure_components") {
   failures.push("Biomass recipe does not accept the lure component tag");
 }
-const smelting = parseJson("src/main/resources/data/csrp/recipe/hive_scrap_from_hivestone_debris.json");
+const smelting = parseJson("src/main/resources/data/csrp/recipes/hive_scrap_from_hivestone_debris.json");
 if (smelting?.experience !== 0.1 || smelting?.result?.id !== "csrp:hive_scrap") {
   failures.push("Hivestone Debris smelting output or experience is incorrect");
 }

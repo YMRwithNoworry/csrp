@@ -84,8 +84,26 @@ const recipeIds = [
     "venkrol_boots", "evclock", "levelclock", "quench", "bough",
     "srp_field_guide"
 ];
+const recipeRoot = "src/main/resources/data/csrp/recipes";
+if (exists("src/main/resources/data/csrp/recipe")) {
+    failures.push("recipes are still stored in the non-loadable data/csrp/recipe directory");
+}
 for (const id of recipeIds) {
-    if (!exists(`src/main/resources/data/csrp/recipe/${id}.json`)) failures.push(`missing recipe: ${id}`);
+    if (!exists(`${recipeRoot}/${id}.json`)) failures.push(`missing recipe: ${id}`);
+}
+for (const [file, item] of Object.entries({
+    waxe: "weapon_axe",
+    wbow: "weapon_bow",
+    wcleaver: "weapon_cleaver",
+    wscythe: "weapon_scythe",
+    wsword: "weapon_sword",
+    weapon_lance: "weapon_lance",
+    weapon_maul: "weapon_maul"
+})) {
+    const recipe = JSON.parse(read(`${recipeRoot}/${file}.json`));
+    if (recipe.result?.id !== `csrp:${item}`) {
+        failures.push(`living weapon recipe ${file} does not produce ${item}`);
+    }
 }
 
 for (const id of requiredIds) {
@@ -104,7 +122,7 @@ const resourceText = [
     ...requiredIds.map((id) => `item.csrp.${id}`)
 ];
 for (const relative of [
-    "src/main/resources/data/csrp/recipe",
+    recipeRoot,
     "src/main/resources/assets/csrp/models/item"
 ]) {
     if (!exists(relative)) continue;

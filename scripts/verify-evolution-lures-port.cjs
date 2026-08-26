@@ -85,7 +85,7 @@ for (let index = 0; index < tiers.length; index++) {
     expect(language, new RegExp(`"item\\.csrp\\.evolutionlure_${tier}"`),
       `${tier}: localized item name is missing`);
   }
-  if (index < 6) parseJson(`src/main/resources/data/csrp/recipe/evolutionlure_${tier}.json`);
+  if (index < 6) parseJson(`src/main/resources/data/csrp/recipes/evolutionlure_${tier}.json`);
 }
 
 const blockstate = parseJson("src/main/resources/assets/csrp/blockstates/evolutionlure.json");

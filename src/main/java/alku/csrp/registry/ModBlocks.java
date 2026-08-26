@@ -363,6 +363,7 @@ public final class ModBlocks {
             "deadblood", () -> new DeadBloodBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_RED)
                     .noCollission()
+                    .replaceable()
                     .strength(100.0F)
                     .noLootTable()));
     public static final RegistryObject<Block> VISCERAL_MUD = BLOCKS.register("visceral_mud", () ->

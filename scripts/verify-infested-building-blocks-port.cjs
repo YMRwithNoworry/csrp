@@ -89,29 +89,29 @@ const recipes = {
   "residue_bricks_from_residue_block.json": ["csrp:residue_bricks", 4]
 };
 for (const [file, [id, count]] of Object.entries(recipes)) {
-  const recipe = parseJson(`src/main/resources/data/csrp/recipe/${file}`);
+  const recipe = parseJson(`src/main/resources/data/csrp/recipes/${file}`);
   if (recipe?.result?.id !== id || recipe?.result?.count !== count) {
     failures.push(`${file}: output must be ${count} ${id}`);
   }
 }
-const cutRecipe = parseJson("src/main/resources/data/csrp/recipe/inf_ss_cut.json");
+const cutRecipe = parseJson("src/main/resources/data/csrp/recipes/inf_ss_cut.json");
 if (cutRecipe?.key?.["#"]?.item !== "csrp:infestedsand") {
   failures.push("inf_ss_cut.json: input must be Infested Sand");
 }
-const chiseledRecipe = parseJson("src/main/resources/data/csrp/recipe/inf_ss_chiseled.json");
+const chiseledRecipe = parseJson("src/main/resources/data/csrp/recipes/inf_ss_chiseled.json");
 if (chiseledRecipe?.key?.["#"]?.item !== "csrp:inf_ss_cut") {
   failures.push("inf_ss_chiseled.json: input must be Chiseled Cut Sandstone");
 }
-const columnRecipe = parseJson("src/main/resources/data/csrp/recipe/infested_column_from_polished.json");
+const columnRecipe = parseJson("src/main/resources/data/csrp/recipes/infested_column_from_polished.json");
 if (columnRecipe?.key?.["#"]?.item !== "csrp:infested_stone_polished") {
   failures.push("infested_column_from_polished.json: input must be Polished Infested Stone");
 }
-const terracottaRecipe = parseJson("src/main/resources/data/csrp/recipe/infested_terracotta_from_clay.json");
+const terracottaRecipe = parseJson("src/main/resources/data/csrp/recipes/infested_terracotta_from_clay.json");
 const terracottaIngredients = terracottaRecipe?.ingredients?.map((ingredient) => ingredient.item) ?? [];
 for (const id of ["minecraft:terracotta", "csrp:infestedstain"]) {
   if (!terracottaIngredients.includes(id)) failures.push(`infested_terracotta_from_clay.json: missing ${id}`);
 }
-const residueRecipe = parseJson("src/main/resources/data/csrp/recipe/residue_bricks_from_residue_block.json");
+const residueRecipe = parseJson("src/main/resources/data/csrp/recipes/residue_bricks_from_residue_block.json");
 if (residueRecipe?.key?.["#"]?.item !== "csrp:residue_block") {
   failures.push("residue_bricks_from_residue_block.json: input must be Residue Block");
 }

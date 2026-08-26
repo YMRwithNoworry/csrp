@@ -85,7 +85,7 @@ for (const kind of kinds) {
     expect(items, `"module_${kind}"`, `${kind} module registry`);
     json(`src/main/resources/assets/csrp/models/item/module_${kind}.json`);
     png(`src/main/resources/assets/csrp/textures/item/module_${kind}.png`);
-    json(`src/main/resources/data/csrp/recipe/module_${kind}.json`);
+    json(`src/main/resources/data/csrp/recipes/module_${kind}.json`);
 }
 for (const marker of [
     "case PHASE", "case VECTORS", "case DISLODGEMENT", "VECTOR_HALF_RANGE = 2_500",
@@ -112,7 +112,7 @@ if (!report.includes("PacketDistributor.sendToPlayer") && !report.includes("Csrp
 for (const recipe of [
     "semiorganic_block", "semiorganic_block_undo", "node_redstone_lamp",
     "relay_base", "relay_middle", "relay_roof"
-]) json(`src/main/resources/data/csrp/recipe/${recipe}.json`);
+]) json(`src/main/resources/data/csrp/recipes/${recipe}.json`);
 for (const texture of [
     "node_redstone_lamp", "semiorganic_block", "relay_bottom_top", "relay_bottom_bottom",
     "relay_bottom_side", "relay_middle_top", "relay_middle_bottom", "relay_middle_side",

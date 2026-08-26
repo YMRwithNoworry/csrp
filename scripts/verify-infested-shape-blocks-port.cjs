@@ -111,7 +111,7 @@ const recipes = [
   ["residue_stairs_from_residue_bricks_mirrored", "residue_bricks", "residue_stairs", 4]
 ];
 for (const [name, input, output, count] of recipes) {
-  const recipe = json(`src/main/resources/data/csrp/recipe/${name}.json`);
+  const recipe = json(`src/main/resources/data/csrp/recipes/${name}.json`);
   if (recipe?.key?.["#"]?.item !== `csrp:${input}`) failures.push(`${name}: incorrect input`);
   if (recipe?.result?.id !== `csrp:${output}` || recipe?.result?.count !== count) {
     failures.push(`${name}: incorrect output`);

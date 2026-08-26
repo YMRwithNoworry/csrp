@@ -177,17 +177,17 @@ const slabRecipeNames = {
   infested_plank_slab: "infested_plank_slab_from_infested_planks"
 };
 for (const [id, input] of slabs) {
-  writeJson(`src/main/resources/data/csrp/recipe/${slabRecipeNames[id]}.json`, shapedRecipe(["###"], input, id, 6));
+  writeJson(`src/main/resources/data/csrp/recipes/${slabRecipeNames[id]}.json`, shapedRecipe(["###"], input, id, 6));
 }
 for (const [id, input] of stairs) {
   const name = id === "residue_stairs" ? "residue_stairs_from_residue_bricks" : id;
-  writeJson(`src/main/resources/data/csrp/recipe/${name}.json`, shapedRecipe(["#  ", "## ", "###"], input, id, 4));
+  writeJson(`src/main/resources/data/csrp/recipes/${name}.json`, shapedRecipe(["#  ", "## ", "###"], input, id, 4));
 }
-writeJson("src/main/resources/data/csrp/recipe/residue_stairs_from_residue_bricks_mirrored.json",
+writeJson("src/main/resources/data/csrp/recipes/residue_stairs_from_residue_bricks_mirrored.json",
   shapedRecipe(["  #", " ##", "###"], "residue_bricks", "residue_stairs", 4));
 for (const [id, input] of walls) {
   const name = id === "residue_wall" ? "residue_wall_from_residue_bricks" : id;
-  writeJson(`src/main/resources/data/csrp/recipe/${name}.json`, shapedRecipe(["###", "###"], input, id, 6));
+  writeJson(`src/main/resources/data/csrp/recipes/${name}.json`, shapedRecipe(["###", "###"], input, id, 6));
 }
 
 const ids = [...slabs, ...stairs, ...walls].map(([id]) => id);
