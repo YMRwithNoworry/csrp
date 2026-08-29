@@ -92,7 +92,7 @@ for (const [id, baseModel, texture] of slabs) {
   writeJson(`src/main/resources/assets/csrp/models/block/${id}.json`, blockModel("slab", textures));
   writeJson(`src/main/resources/assets/csrp/models/block/${id}_top.json`, blockModel("slab_top", textures));
   writeJson(`src/main/resources/assets/csrp/models/item/${id}.json`, { parent: `csrp:block/${id}` });
-  writeJson(`src/main/resources/data/csrp/loot_table/blocks/${id}.json`, slabDrop(id));
+  writeJson(`src/main/resources/data/csrp/loot_tables/blocks/${id}.json`, slabDrop(id));
 }
 
 const rotations = {
@@ -128,7 +128,7 @@ for (const [id, , texture] of stairs) {
   writeJson(`src/main/resources/assets/csrp/models/block/${id}_inner.json`, blockModel("inner_stairs", textures));
   writeJson(`src/main/resources/assets/csrp/models/block/${id}_outer.json`, blockModel("outer_stairs", textures));
   writeJson(`src/main/resources/assets/csrp/models/item/${id}.json`, { parent: `csrp:block/${id}` });
-  writeJson(`src/main/resources/data/csrp/loot_table/blocks/${id}.json`, selfDrop(id));
+  writeJson(`src/main/resources/data/csrp/loot_tables/blocks/${id}.json`, selfDrop(id));
 }
 
 const wallState = (id) => {
@@ -155,7 +155,7 @@ for (const [id, , texture] of walls) {
   writeJson(`src/main/resources/assets/csrp/models/block/${id}_side_tall.json`, blockModel("template_wall_side_tall", wallTexture));
   writeJson(`src/main/resources/assets/csrp/models/block/${id}_inventory.json`, blockModel("wall_inventory", wallTexture));
   writeJson(`src/main/resources/assets/csrp/models/item/${id}.json`, { parent: `csrp:block/${id}_inventory` });
-  writeJson(`src/main/resources/data/csrp/loot_table/blocks/${id}.json`, selfDrop(id));
+  writeJson(`src/main/resources/data/csrp/loot_tables/blocks/${id}.json`, selfDrop(id));
 }
 
 const shapedRecipe = (pattern, input, output, count) => ({
@@ -163,7 +163,7 @@ const shapedRecipe = (pattern, input, output, count) => ({
   category: "building",
   pattern,
   key: { "#": { item: `csrp:${input}` } },
-  result: { id: `csrp:${output}`, count }
+  result: { item: `csrp:${output}`, count }
 });
 const slabRecipeNames = {
   infested_cobblestone_slab: "infested_cobblestone_slab_from_infested_cobblestone",

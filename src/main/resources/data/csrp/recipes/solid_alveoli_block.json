@@ -6,7 +6,7 @@
     { "item": "csrp:alveoli" }
   ],
   "result": {
-    "id": "csrp:solid_alveoli_block",
+    "item": "csrp:solid_alveoli_block",
     "count": 1
   }
 }

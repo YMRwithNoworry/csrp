@@ -78,7 +78,7 @@ for (const id of all) {
   const resources = [
     `assets/csrp/models/item/${id}_spawn_egg.json`,
     `assets/csrp/textures/item/${id}_spawn_egg.png`,
-    `data/csrp/loot_table/entities/${id}.json`
+    `data/csrp/loot_tables/entities/${id}.json`
   ];
   if (!legacyRendererless.has(id)) {
     resources.push(

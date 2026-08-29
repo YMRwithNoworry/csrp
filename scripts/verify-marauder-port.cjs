@@ -60,7 +60,7 @@ const jsonResources = [
   "src/main/resources/assets/csrp/animations/marauder.animation.json",
   "src/main/resources/assets/csrp/animations/marauder_tendril.animation.json",
   "src/main/resources/assets/csrp/models/item/marauder_spawn_egg.json",
-  "src/main/resources/data/csrp/loot_table/entities/marauder.json"
+  "src/main/resources/data/csrp/loot_tables/entities/marauder.json"
 ];
 for (const resource of jsonResources) {
   if (!exists(resource)) {
@@ -141,7 +141,7 @@ for (const sound of ["living1", "living2", "living3", "hurt1", "hurt2", "hurt3",
   }
 }
 
-const loot = JSON.parse(read("src/main/resources/data/csrp/loot_table/entities/marauder.json"));
+const loot = JSON.parse(read("src/main/resources/data/csrp/loot_tables/entities/marauder.json"));
 if (!JSON.stringify(loot).includes("csrp:lurecomponent5") || !JSON.stringify(loot).includes("0.8")) {
   failures.push("Marauder legacy lurecomponent5 80% drop is missing");
 }

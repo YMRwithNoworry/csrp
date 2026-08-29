@@ -5,5 +5,5 @@
     { "item": "minecraft:stick" }, { "item": "minecraft:snowball" },
     { "item": "minecraft:snowball" }, { "item": "minecraft:melon_slice" }
   ],
-  "result": { "count": 1, "id": "csrp:melon_ice" }
+  "result": { "count": 1, "item": "csrp:melon_ice" }
 }

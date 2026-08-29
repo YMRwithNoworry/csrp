@@ -57,7 +57,7 @@ const items = read("src/main/java/alku/csrp/registry/ModItems.java");
 for (const id of ids) {
   if (!blocks.includes(`"${id}"`)) failures.push(`${id}: missing block registration`);
   if (!items.includes(`"${id}"`)) failures.push(`${id}: missing block item registration`);
-  const loot = json(`src/main/resources/data/csrp/loot_table/blocks/${id}.json`);
+  const loot = json(`src/main/resources/data/csrp/loot_tables/blocks/${id}.json`);
   if (loot?.pools?.[0]?.entries?.[0]?.name !== `csrp:${id}`) failures.push(`${id}: incorrect self-drop`);
   const model = json(`src/main/resources/assets/csrp/models/item/${id}.json`);
   const expectedParent = walls.some(([wall]) => wall === id) ? `csrp:block/${id}_inventory` : `csrp:block/${id}`;
@@ -70,7 +70,7 @@ for (const [id, base] of slabs) {
   if (state?.variants?.["type=top"]?.model !== `csrp:block/${id}_top`) failures.push(`${id}: missing top state`);
   if (state?.variants?.["type=double"]?.model !== `csrp:block/${base}`) failures.push(`${id}: incorrect double state`);
   for (const suffix of ["", "_top"]) json(`src/main/resources/assets/csrp/models/block/${id}${suffix}.json`);
-  const loot = json(`src/main/resources/data/csrp/loot_table/blocks/${id}.json`);
+  const loot = json(`src/main/resources/data/csrp/loot_tables/blocks/${id}.json`);
   const countFunction = loot?.pools?.[0]?.entries?.[0]?.functions?.find((entry) => entry.function === "minecraft:set_count");
   if (countFunction?.count !== 2 || countFunction?.conditions?.[0]?.properties?.type !== "double") {
     failures.push(`${id}: double slab must drop two items`);
@@ -113,7 +113,7 @@ const recipes = [
 for (const [name, input, output, count] of recipes) {
   const recipe = json(`src/main/resources/data/csrp/recipes/${name}.json`);
   if (recipe?.key?.["#"]?.item !== `csrp:${input}`) failures.push(`${name}: incorrect input`);
-  if (recipe?.result?.id !== `csrp:${output}` || recipe?.result?.count !== count) {
+  if (recipe?.result?.item !== `csrp:${output}` || recipe?.result?.count !== count) {
     failures.push(`${name}: incorrect output`);
   }
 }

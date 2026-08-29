@@ -124,11 +124,11 @@ for (const id of ["crux", "crux_incomplete"]) {
       if (!bones.has(bone)) failures.push(`${id}/${name} references missing bone ${bone}`);
     }
   }
-  JSON.parse(read(`src/main/resources/data/csrp/loot_table/entities/${id}.json`));
+  JSON.parse(read(`src/main/resources/data/csrp/loot_tables/entities/${id}.json`));
 }
 
-const cruxLoot = read("src/main/resources/data/csrp/loot_table/entities/crux.json");
-const incompleteLoot = read("src/main/resources/data/csrp/loot_table/entities/crux_incomplete.json");
+const cruxLoot = read("src/main/resources/data/csrp/loot_tables/entities/crux.json");
+const incompleteLoot = read("src/main/resources/data/csrp/loot_tables/entities/crux_incomplete.json");
 expect(cruxLoot, /csrp:lurecomponent2/, "Crux corresponding drop is missing");
 expect(incompleteLoot, /csrp:assimilated_flesh/, "Incomplete Crux corresponding drop is missing");
 

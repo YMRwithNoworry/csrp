@@ -5,7 +5,7 @@
     "item": "csrp:infested_lapis_ore"
   },
   "result": {
-    "id": "minecraft:lapis_lazuli",
+    "item": "minecraft:lapis_lazuli",
     "count": 9
   },
   "experience": 0.2,

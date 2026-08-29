@@ -5,5 +5,5 @@
     { "item": "minecraft:snowball" }, { "item": "minecraft:snowball" },
     { "item": "minecraft:snowball" }, { "item": "minecraft:stick" }
   ],
-  "result": { "count": 1, "id": "csrp:ice_sucker" }
+  "result": { "count": 1, "item": "csrp:ice_sucker" }
 }

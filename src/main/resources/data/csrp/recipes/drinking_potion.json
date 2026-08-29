@@ -5,5 +5,5 @@
     { "item": "minecraft:dragon_breath" }, { "item": "minecraft:cyan_stained_glass" },
     { "item": "minecraft:glass" }, { "item": "minecraft:glass" }
   ],
-  "result": { "count": 1, "id": "csrp:drinking_potion" }
+  "result": { "count": 1, "item": "csrp:drinking_potion" }
 }

@@ -76,7 +76,7 @@ for (const [id, entityConstant, itemConstant, textureWidth, textureHeight] of cr
     `src/main/resources/assets/csrp/geo/${id}.geo.json`,
     `src/main/resources/assets/csrp/animations/${id}.animation.json`,
     `src/main/resources/assets/csrp/models/item/${id}_spawn_egg.json`,
-    `src/main/resources/data/csrp/loot_table/entities/${id}.json`
+    `src/main/resources/data/csrp/loot_tables/entities/${id}.json`
   ];
   jsonResources.forEach(parseJson);
   if (!validPng(`src/main/resources/assets/csrp/textures/entity/${id}.png`)) {
@@ -191,7 +191,7 @@ for (const id of [
   if (!soundsJson?.[id]) failures.push(`missing sounds.json entry ${id}`);
 }
 
-const adventurerLoot = parseJson("src/main/resources/data/csrp/loot_table/entities/sim_adventurer.json");
+const adventurerLoot = parseJson("src/main/resources/data/csrp/loot_tables/entities/sim_adventurer.json");
 if (adventurerLoot) {
   const serialized = JSON.stringify(adventurerLoot);
   if (!serialized.includes("csrp:assimilated_flesh") || !serialized.includes("0.4")) {
@@ -202,7 +202,7 @@ if (adventurerLoot) {
   }
 }
 for (const id of ["sim_adventurerhead", "movingflesh"]) {
-  const loot = parseJson(`src/main/resources/data/csrp/loot_table/entities/${id}.json`);
+  const loot = parseJson(`src/main/resources/data/csrp/loot_tables/entities/${id}.json`);
   if (loot && Array.isArray(loot.pools) && loot.pools.length !== 0) {
     failures.push(`${id}: should not gain undocumented loot`);
   }

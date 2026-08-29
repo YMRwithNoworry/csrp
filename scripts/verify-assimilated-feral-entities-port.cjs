@@ -128,7 +128,7 @@ for (const id of ids) {
     `geo/${id}.geo.json`, `animations/${id}.animation.json`, `textures/entity/${id}.png`,
     `models/item/${id}_spawn_egg.json`, `textures/item/${id}_spawn_egg.png`
   ]) read(`src/main/resources/assets/csrp/${resource}`);
-  read(`src/main/resources/data/csrp/loot_table/entities/${id}.json`);
+  read(`src/main/resources/data/csrp/loot_tables/entities/${id}.json`);
 
   const itemModel = read(`src/main/resources/assets/csrp/models/item/${id}_spawn_egg.json`);
   expect(itemModel, new RegExp(`csrp:item/${id}_spawn_egg`), `${id}: custom spawn egg texture is not wired`);
@@ -170,7 +170,7 @@ for (const id of remainingAssimilatedIds) {
     `geo/${id}.geo.json`, `animations/${id}.animation.json`, `textures/entity/${id}.png`,
     `models/item/${id}_spawn_egg.json`, `textures/item/${id}_spawn_egg.png`
   ]) read(`src/main/resources/assets/csrp/${resource}`);
-  read(`src/main/resources/data/csrp/loot_table/entities/${id}.json`);
+  read(`src/main/resources/data/csrp/loot_tables/entities/${id}.json`);
 }
 
 for (const texture of ["sim_sheep_grey.png", "sim_sheep_black.png", "sim_wolf_tamed.png"]) {

@@ -1,1 +1,1 @@
-{"type":"minecraft:crafting_shaped","category":"building","pattern":["###","BBB","###"],"key":{"#":{"item":"csrp:flesh_planks"},"B":{"item":"minecraft:book"}},"result":{"id":"csrp:flesh_bookshelf"}}
+{"type":"minecraft:crafting_shaped","category":"building","pattern":["###","BBB","###"],"key":{"#":{"item":"csrp:flesh_planks"},"B":{"item":"minecraft:book"}},"result":{"item":"csrp:flesh_bookshelf"}}

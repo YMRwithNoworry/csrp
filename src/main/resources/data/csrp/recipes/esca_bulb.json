@@ -7,5 +7,5 @@
     "F": {"tag": "csrp:esca_fish"},
     "S": {"item": "minecraft:sea_lantern"}
   },
-  "result": {"id": "csrp:esca_bulb", "count": 4}
+  "result": {"item": "csrp:esca_bulb", "count": 4}
 }

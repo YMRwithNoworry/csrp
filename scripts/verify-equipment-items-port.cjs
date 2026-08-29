@@ -101,7 +101,7 @@ for (const [file, item] of Object.entries({
     weapon_maul: "weapon_maul"
 })) {
     const recipe = JSON.parse(read(`${recipeRoot}/${file}.json`));
-    if (recipe.result?.id !== `csrp:${item}`) {
+    if (recipe.result?.item !== `csrp:${item}`) {
         failures.push(`living weapon recipe ${file} does not produce ${item}`);
     }
 }

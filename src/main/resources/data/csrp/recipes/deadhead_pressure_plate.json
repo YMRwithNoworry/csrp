@@ -1,1 +1,1 @@
-{"type":"minecraft:crafting_shaped","category":"redstone","pattern":["##"],"key":{"#":{"item":"csrp:parasiteplank_deadhead"}},"result":{"id":"csrp:deadhead_pressure_plate"}}
+{"type":"minecraft:crafting_shaped","category":"redstone","pattern":["##"],"key":{"#":{"item":"csrp:parasiteplank_deadhead"}},"result":{"item":"csrp:deadhead_pressure_plate"}}

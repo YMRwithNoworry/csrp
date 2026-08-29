@@ -1,1 +1,1 @@
-{"type":"minecraft:crafting_shaped","category":"building","pattern":["# #","###","# #"],"key":{"#":{"item":"csrp:brusewood_planks"}},"result":{"id":"csrp:bruisewood_ladder","count":3}}
+{"type":"minecraft:crafting_shaped","category":"building","pattern":["# #","###","# #"],"key":{"#":{"item":"csrp:brusewood_planks"}},"result":{"item":"csrp:bruisewood_ladder","count":3}}

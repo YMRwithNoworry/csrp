@@ -7,5 +7,5 @@
     "L": {"tag": "csrp:lure_components"},
     "B": {"item": "csrp:beckon_drop"}
   },
-  "result": {"id": "csrp:biomass_block", "count": 4}
+  "result": {"item": "csrp:biomass_block", "count": 4}
 }

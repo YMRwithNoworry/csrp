@@ -81,7 +81,7 @@ expect(burrowing, /SIGNAL_INTERVAL_TICKS = 21[\s\S]*?bodySegmentCount\(\) \+ 3\)
   "burrowing duration is not derived from the original body length and 21-tick signal");
 
 for (const relative of [
-  "src/main/resources/data/csrp/loot_table/entities/ada_tozoon.json",
+  "src/main/resources/data/csrp/loot_tables/entities/ada_tozoon.json",
   "src/main/resources/assets/csrp/compendium/drops/ada_tozoon.json"
 ]) {
   const table = parseJson(relative);

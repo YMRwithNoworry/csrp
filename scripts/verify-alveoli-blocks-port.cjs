@@ -36,7 +36,7 @@ for (const id of ids) {
   if (!items.includes(`"${id}"`)) failures.push(`${id}: block item registration is missing`);
   parseJson(`src/main/resources/assets/csrp/blockstates/${id}.json`);
   parseJson(`src/main/resources/assets/csrp/models/item/${id}.json`);
-  const loot = parseJson(`src/main/resources/data/csrp/loot_table/blocks/${id}.json`);
+  const loot = parseJson(`src/main/resources/data/csrp/loot_tables/blocks/${id}.json`);
   if (loot?.pools?.[0]?.entries?.[0]?.name !== `csrp:${id}`) {
     failures.push(`${id}: self-drop loot entry is missing`);
   }
@@ -90,12 +90,12 @@ for (const model of ["alveoli_active", "alveoli_inactive", "alveoli_growth", "si
 
 const unpack = parseJson("src/main/resources/data/csrp/recipes/alveoli_from_solid_alveoli_block.json");
 if (unpack?.ingredients?.[0]?.item !== "csrp:solid_alveoli_block"
-    || unpack?.result?.id !== "csrp:alveoli" || unpack?.result?.count !== 2) {
+    || unpack?.result?.item !== "csrp:alveoli" || unpack?.result?.count !== 2) {
   failures.push("solid alveoli unpacking recipe is incorrect");
 }
 const pack = parseJson("src/main/resources/data/csrp/recipes/solid_alveoli_block.json");
 if (pack?.ingredients?.length !== 2 || pack.ingredients.some((entry) => entry.item !== "csrp:alveoli")
-    || pack?.result?.id !== "csrp:solid_alveoli_block") {
+    || pack?.result?.item !== "csrp:solid_alveoli_block") {
   failures.push("solid alveoli packing recipe is incorrect");
 }
 

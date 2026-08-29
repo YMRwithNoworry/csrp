@@ -113,7 +113,7 @@ const dropSpecs = [
 ];
 for (const spec of dropSpecs) {
   for (const relative of [
-    `src/main/resources/data/csrp/loot_table/entities/${spec.id}.json`,
+    `src/main/resources/data/csrp/loot_tables/entities/${spec.id}.json`,
     `src/main/resources/assets/csrp/compendium/drops/${spec.id}.json`
   ]) {
     const table = parseJson(relative);

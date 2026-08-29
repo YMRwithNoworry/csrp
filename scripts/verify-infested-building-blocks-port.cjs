@@ -76,7 +76,7 @@ for (const id of ids) {
   parseJson(`src/main/resources/assets/csrp/models/block/${id}.json`);
   const itemModel = parseJson(`src/main/resources/assets/csrp/models/item/${id}.json`);
   if (itemModel?.parent !== `csrp:block/${id}`) failures.push(`${id}: item model parent is incorrect`);
-  const loot = parseJson(`src/main/resources/data/csrp/loot_table/blocks/${id}.json`);
+  const loot = parseJson(`src/main/resources/data/csrp/loot_tables/blocks/${id}.json`);
   const entry = loot?.pools?.[0]?.entries?.[0];
   if (entry?.name !== `csrp:${id}`) failures.push(`${id}: self-drop loot entry is missing`);
 }
@@ -90,7 +90,7 @@ const recipes = {
 };
 for (const [file, [id, count]] of Object.entries(recipes)) {
   const recipe = parseJson(`src/main/resources/data/csrp/recipes/${file}`);
-  if (recipe?.result?.id !== id || recipe?.result?.count !== count) {
+  if (recipe?.result?.item !== id || recipe?.result?.count !== count) {
     failures.push(`${file}: output must be ${count} ${id}`);
   }
 }

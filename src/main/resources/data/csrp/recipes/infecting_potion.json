@@ -5,5 +5,5 @@
     { "item": "csrp:drinking_potion" }, { "item": "csrp:lurecomponent2" },
     { "item": "csrp:ada_manducater_drop" }, { "item": "minecraft:rotten_flesh" }
   ],
-  "result": { "count": 1, "id": "csrp:infecting_potion" }
+  "result": { "count": 1, "item": "csrp:infecting_potion" }
 }

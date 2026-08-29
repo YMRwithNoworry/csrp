@@ -112,7 +112,7 @@ for (const asset of [
   if (!fs.existsSync(path.join(root, asset))) failures.push(`missing Yelloweye asset: ${asset}`);
 }
 
-const loot = JSON.parse(read("src/main/resources/data/csrp/loot_table/entities/pri_yelloweye.json"));
+const loot = JSON.parse(read("src/main/resources/data/csrp/loot_tables/entities/pri_yelloweye.json"));
 const expectedLoot = new Map([
   ["csrp:lurecomponent3", 0.6],
   ["csrp:ada_yelloweye_drop", 0.4],

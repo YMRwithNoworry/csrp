@@ -8,5 +8,5 @@
     "S": { "item": "csrp:tissue_spike" },
     "R": { "item": "minecraft:repeater" }
   },
-  "result": { "id": "csrp:relay_roof", "count": 1 }
+  "result": { "item": "csrp:relay_roof", "count": 1 }
 }

@@ -5,5 +5,5 @@
     { "item": "csrp:biomeheart" },
     { "item": "csrp:colonyheart" }
   ],
-  "result": { "count": 1, "id": "csrp:infestation_purifier" }
+  "result": { "count": 1, "item": "csrp:infestation_purifier" }
 }

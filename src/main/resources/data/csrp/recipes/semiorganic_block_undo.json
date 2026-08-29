@@ -2,5 +2,5 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [{ "item": "csrp:semiorganic_block" }],
-  "result": { "id": "csrp:semiorganic_ingot", "count": 9 }
+  "result": { "item": "csrp:semiorganic_ingot", "count": 9 }
 }

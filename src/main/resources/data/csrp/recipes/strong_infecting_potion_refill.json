@@ -5,5 +5,5 @@
     { "item": "csrp:strong_infecting_potion" }, { "item": "csrp:lurecomponent3" },
     { "item": "csrp:ada_manducater_drop" }, { "item": "csrp:lurecomponent6" }
   ],
-  "result": { "count": 1, "id": "csrp:strong_infecting_potion" }
+  "result": { "count": 1, "item": "csrp:strong_infecting_potion" }
 }

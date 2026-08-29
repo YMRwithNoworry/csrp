@@ -5,5 +5,5 @@
     {"item": "minecraft:terracotta"},
     {"item": "csrp:infestedstain"}
   ],
-  "result": {"id": "csrp:infested_terracotta", "count": 2}
+  "result": {"item": "csrp:infested_terracotta", "count": 2}
 }

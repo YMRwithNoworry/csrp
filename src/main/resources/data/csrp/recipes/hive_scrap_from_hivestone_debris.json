@@ -4,5 +4,5 @@
   "cookingtime": 200,
   "experience": 0.1,
   "ingredient": {"item": "csrp:parasiterubble_stonedebris"},
-  "result": {"id": "csrp:hive_scrap"}
+  "result": {"item": "csrp:hive_scrap"}
 }

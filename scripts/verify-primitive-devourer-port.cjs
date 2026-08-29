@@ -100,7 +100,7 @@ if (!fs.existsSync(texturePath)) {
   }
 }
 
-const loot = JSON.parse(read("src/main/resources/data/csrp/loot_table/entities/pri_devourer.json"));
+const loot = JSON.parse(read("src/main/resources/data/csrp/loot_tables/entities/pri_devourer.json"));
 const expectedLoot = new Map([
   ["csrp:ada_devourer_drop", {chance: 0.4, max: 2, player: true}],
   ["csrp:lurecomponent3", {chance: 0.4, max: 2, player: false}],

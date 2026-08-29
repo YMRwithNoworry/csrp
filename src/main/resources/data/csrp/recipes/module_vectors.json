@@ -9,5 +9,5 @@
     "G": { "item": "minecraft:gold_ingot" },
     "L": { "item": "csrp:node_redstone_lamp" }
   },
-  "result": { "id": "csrp:module_vectors", "count": 1 }
+  "result": { "item": "csrp:module_vectors", "count": 1 }
 }

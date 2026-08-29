@@ -11,5 +11,5 @@
     "E": { "item": "csrp:evclock" },
     "C": { "item": "csrp:levelclock" }
   },
-  "result": { "id": "csrp:module_phase", "count": 1 }
+  "result": { "item": "csrp:module_phase", "count": 1 }
 }

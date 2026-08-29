@@ -7,5 +7,5 @@
     "R": { "item": "minecraft:repeater" },
     "O": { "item": "csrp:organ_synth" }
   },
-  "result": { "id": "csrp:relay_middle", "count": 1 }
+  "result": { "item": "csrp:relay_middle", "count": 1 }
 }

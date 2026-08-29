@@ -62,9 +62,9 @@ const jsonFiles = [
   "src/main/resources/assets/csrp/models/item/biomass_block.json",
   "src/main/resources/assets/csrp/models/item/parasitemouth.json",
   "src/main/resources/assets/csrp/models/item/parasiterubble_stonedebris.json",
-  "src/main/resources/data/csrp/loot_table/blocks/biomass_block.json",
-  "src/main/resources/data/csrp/loot_table/blocks/parasitemouth.json",
-  "src/main/resources/data/csrp/loot_table/blocks/parasiterubble_stonedebris.json",
+  "src/main/resources/data/csrp/loot_tables/blocks/biomass_block.json",
+  "src/main/resources/data/csrp/loot_tables/blocks/parasitemouth.json",
+  "src/main/resources/data/csrp/loot_tables/blocks/parasiterubble_stonedebris.json",
   "src/main/resources/data/csrp/recipes/biomass_block.json",
   "src/main/resources/data/csrp/recipes/hive_scrap_from_hivestone_debris.json",
   "src/main/resources/data/csrp/tags/item/lure_components.json",
@@ -82,7 +82,7 @@ if (recipe?.key?.L?.tag !== "csrp:lure_components") {
   failures.push("Biomass recipe does not accept the lure component tag");
 }
 const smelting = parseJson("src/main/resources/data/csrp/recipes/hive_scrap_from_hivestone_debris.json");
-if (smelting?.experience !== 0.1 || smelting?.result?.id !== "csrp:hive_scrap") {
+if (smelting?.experience !== 0.1 || smelting?.result?.item !== "csrp:hive_scrap") {
   failures.push("Hivestone Debris smelting output or experience is incorrect");
 }
 const armorTag = parseJson("src/main/resources/data/minecraft/tags/damage_type/bypasses_armor.json");

@@ -61,7 +61,7 @@ for (const id of ["relay_base", "relay_middle", "relay_roof", "semiorganic_block
     json(`src/main/resources/assets/csrp/blockstates/${id}.json`);
     json(`src/main/resources/assets/csrp/models/block/${id}.json`);
     json(`src/main/resources/assets/csrp/models/item/${id}.json`);
-    json(`src/main/resources/data/csrp/loot_table/blocks/${id}.json`);
+    json(`src/main/resources/data/csrp/loot_tables/blocks/${id}.json`);
 }
 expect(blockEntities, "RelayTerminalBlockEntity::new", "relay block entity registration");
 expect(menus, "RelayTerminalMenu::new", "relay menu registration");

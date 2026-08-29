@@ -5,7 +5,7 @@
     "item": "csrp:infested_emerald_ore"
   },
   "result": {
-    "id": "minecraft:emerald",
+    "item": "minecraft:emerald",
     "count": 2
   },
   "experience": 1.0,

@@ -66,7 +66,7 @@ for (const id of ids) {
     `src/main/resources/assets/csrp/textures/entity/${id}.png`,
     `src/main/resources/assets/csrp/models/item/${id}_spawn_egg.json`,
     `src/main/resources/assets/csrp/textures/item/${id}_spawn_egg.png`,
-    `src/main/resources/data/csrp/loot_table/entities/${id}.json`
+    `src/main/resources/data/csrp/loot_tables/entities/${id}.json`
   ]) read(relative);
 }
 

@@ -6,5 +6,5 @@
     "R": { "item": "csrp:dispatcher_drop" },
     "P": { "item": "minecraft:redstone_lamp" }
   },
-  "result": { "id": "csrp:node_redstone_lamp", "count": 1 }
+  "result": { "item": "csrp:node_redstone_lamp", "count": 1 }
 }

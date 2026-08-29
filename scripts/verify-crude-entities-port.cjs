@@ -45,7 +45,7 @@ for (const [id, [javaFile, ...patterns]] of Object.entries(checks)) {
     `geo/${id}.geo.json`, `animations/${id}.animation.json`, `textures/entity/${id}.png`,
     `models/item/${id}_spawn_egg.json`
   ]) read(`src/main/resources/assets/csrp/${resource}`);
-  read(`src/main/resources/data/csrp/loot_table/entities/${id}.json`);
+  read(`src/main/resources/data/csrp/loot_tables/entities/${id}.json`);
 
   const geometry = JSON.parse(read(`src/main/resources/assets/csrp/geo/${id}.geo.json`));
   const animations = JSON.parse(read(`src/main/resources/assets/csrp/animations/${id}.animation.json`));

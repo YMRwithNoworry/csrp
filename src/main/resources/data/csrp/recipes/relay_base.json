@@ -9,5 +9,5 @@
     "L": { "item": "csrp:node_redstone_lamp" },
     "Z": { "tag": "minecraft:planks" }
   },
-  "result": { "id": "csrp:relay_base", "count": 1 }
+  "result": { "item": "csrp:relay_base", "count": 1 }
 }

@@ -35,7 +35,7 @@ for (const tier of tiers) {
         `src/main/resources/assets/csrp/blockstates/${id}.json`,
         `src/main/resources/assets/csrp/models/block/parasiteloot_${tier}.json`,
         `src/main/resources/assets/csrp/models/item/${id}.json`,
-        `src/main/resources/data/csrp/loot_table/blocks/${id}.json`
+        `src/main/resources/data/csrp/loot_tables/blocks/${id}.json`
     ]) {
         if (!fs.existsSync(path.join(root, relative))) {
             failures.push(`缺少资源 ${relative}`);

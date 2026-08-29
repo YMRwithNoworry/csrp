@@ -3,5 +3,5 @@
   "category": "building",
   "pattern": ["XXX", "XXX", "XXX"],
   "key": { "X": { "item": "csrp:semiorganic_ingot" } },
-  "result": { "id": "csrp:semiorganic_block", "count": 1 }
+  "result": { "item": "csrp:semiorganic_block", "count": 1 }
 }

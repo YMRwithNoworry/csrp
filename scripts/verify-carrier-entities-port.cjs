@@ -85,7 +85,7 @@ for (const [id, [javaFile, behavior]] of Object.entries(carriers)) {
     }
   }
 
-  const loot = read(`src/main/resources/data/csrp/loot_table/entities/${id}.json`);
+  const loot = read(`src/main/resources/data/csrp/loot_tables/entities/${id}.json`);
   expect(loot, /csrp:lurecomponent3/, `${id} common primitive drop is missing`);
 }
 
@@ -129,11 +129,11 @@ for (const resource of [
   "textures/item/carrier_worm_spawn_egg.png",
   "models/item/carrier_worm_spawn_egg.json"
 ]) read(`src/main/resources/assets/csrp/${resource}`);
-expect(read("src/main/resources/data/csrp/loot_table/entities/carrier_worm.json"),
+expect(read("src/main/resources/data/csrp/loot_tables/entities/carrier_worm.json"),
   /"pools"\s*:\s*\[\s*\]/, "carrier_worm original empty loot behavior is missing");
 
 for (const id of ["pri_longarms", "pri_summoner", "pri_vermin", "pri_viscera"]) {
-  const loot = read(`src/main/resources/data/csrp/loot_table/entities/${id}.json`);
+  const loot = read(`src/main/resources/data/csrp/loot_tables/entities/${id}.json`);
   expect(loot, /csrp:lurecomponent3/, `${id} still has an adapted-only drop`);
 }
 

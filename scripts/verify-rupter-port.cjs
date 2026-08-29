@@ -38,7 +38,7 @@ const bleedEffect = read("src/main/java/alku/csrp/effect/BleedMobEffect.java");
 const viralEffect = read("src/main/java/alku/csrp/effect/ViralMobEffect.java");
 const effectEvents = read("src/main/java/alku/csrp/event/ViralDamageEvents.java");
 const biomeModifier = read("src/main/resources/data/csrp/neoforge/biome_modifier/rupter_spawns.json");
-const loot = read("src/main/resources/data/csrp/loot_table/entities/rupter.json");
+const loot = read("src/main/resources/data/csrp/loot_tables/entities/rupter.json");
 const geo = read("src/main/resources/assets/csrp/geo/rupter.geo.json");
 const animations = read("src/main/resources/assets/csrp/animations/rupter.animation.json");
 

@@ -11,7 +11,7 @@
     "C": { "item": "minecraft:cobblestone" }
   },
   "result": {
-    "id": "csrp:evolutionlure_four",
+    "item": "csrp:evolutionlure_four",
     "count": 1
   }
 }

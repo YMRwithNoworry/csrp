@@ -92,7 +92,7 @@ for (const [id, [javaFile, first, second]] of Object.entries(checks)) {
       if (!bones.has(bone)) failures.push(`${id}/${animationName} references missing bone ${bone}`);
     }
   }
-  read(`src/main/resources/data/csrp/loot_table/entities/${id}.json`);
+  read(`src/main/resources/data/csrp/loot_tables/entities/${id}.json`);
 }
 expect(entities, /SCARY_ORB/, "Scary Orb support entity is missing");
 expect(client, /ScaryOrbRenderer/, "Scary Orb renderer is missing");

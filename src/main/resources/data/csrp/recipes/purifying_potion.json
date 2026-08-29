@@ -5,5 +5,5 @@
     { "item": "csrp:drinking_potion" }, { "item": "csrp:lurecomponent2" },
     { "item": "csrp:ada_manducater_drop" }, { "item": "csrp:biomepurifier" }
   ],
-  "result": { "count": 1, "id": "csrp:purifying_potion" }
+  "result": { "count": 1, "item": "csrp:purifying_potion" }
 }

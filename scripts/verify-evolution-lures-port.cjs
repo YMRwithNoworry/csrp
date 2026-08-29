@@ -93,8 +93,8 @@ for (const tier of tiers) {
   if (blockstate && !blockstate.variants?.[`tier=${tier}`]) failures.push(`${tier}: blockstate variant is missing`);
 }
 
-const loot = read("src/main/resources/data/csrp/loot_table/blocks/evolutionlure.json");
-parseJson("src/main/resources/data/csrp/loot_table/blocks/evolutionlure.json");
+const loot = read("src/main/resources/data/csrp/loot_tables/blocks/evolutionlure.json");
+parseJson("src/main/resources/data/csrp/loot_tables/blocks/evolutionlure.json");
 for (const tier of tiers) {
   expect(loot, new RegExp(`"tier": "${tier}"`), `${tier}: loot condition is missing`);
   expect(loot, new RegExp(`"csrp:evolutionlure_${tier}"`), `${tier}: loot item is missing`);

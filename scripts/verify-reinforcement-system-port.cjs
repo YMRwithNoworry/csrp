@@ -63,9 +63,9 @@ for (const relative of [
   "src/main/resources/assets/csrp/models/block/residue_plant_cross_3.json",
   "src/main/resources/assets/csrp/models/item/infestremain.json",
   "src/main/resources/assets/csrp/models/item/residue_block.json",
-  "src/main/resources/data/csrp/loot_table/blocks/infestremain.json",
-  "src/main/resources/data/csrp/loot_table/blocks/residue_block.json",
-  "src/main/resources/data/csrp/loot_table/blocks/residue_plants.json",
+  "src/main/resources/data/csrp/loot_tables/blocks/infestremain.json",
+  "src/main/resources/data/csrp/loot_tables/blocks/residue_block.json",
+  "src/main/resources/data/csrp/loot_tables/blocks/residue_plants.json",
   "src/main/resources/data/csrp/recipes/residue_block_from_infestremain.json"
 ]) parseJson(relative);
 

@@ -5,5 +5,5 @@
     { "item": "csrp:polluted_herbal_bowl" },
     { "item": "minecraft:milk_bucket" }
   ],
-  "result": { "count": 1, "id": "csrp:herbal_bowl" }
+  "result": { "count": 1, "item": "csrp:herbal_bowl" }
 }

@@ -10,5 +10,5 @@
     "O": { "item": "minecraft:coal" },
     "D": { "item": "minecraft:diamond" }
   },
-  "result": { "count": 1, "id": "csrp:evolution_device" }
+  "result": { "count": 1, "item": "csrp:evolution_device" }
 }

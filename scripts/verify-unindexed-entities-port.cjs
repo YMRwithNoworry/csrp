@@ -57,7 +57,7 @@ for (const [source, token, description] of [
 ]) expect(source, token, description);
 
 for (const id of ["carrier_worm", "worker", "architect", "anc_pod", "anc_dreadnaut_ten"]) {
-  const loot = JSON.parse(read(`src/main/resources/data/csrp/loot_table/entities/${id}.json`));
+  const loot = JSON.parse(read(`src/main/resources/data/csrp/loot_tables/entities/${id}.json`));
   if (!Array.isArray(loot.pools) || loot.pools.length !== 0) {
     failures.push(`${id}: original empty loot behavior is not preserved`);
   }

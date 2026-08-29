@@ -1,1 +1,1 @@
-{"type":"minecraft:crafting_shaped","category":"redstone","pattern":["##"],"key":{"#":{"item":"csrp:infested_planks"}},"result":{"id":"csrp:infested_pressure_plate"}}
+{"type":"minecraft:crafting_shaped","category":"redstone","pattern":["##"],"key":{"#":{"item":"csrp:infested_planks"}},"result":{"item":"csrp:infested_pressure_plate"}}

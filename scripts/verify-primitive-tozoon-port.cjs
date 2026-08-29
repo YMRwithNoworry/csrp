@@ -53,7 +53,7 @@ for (const [key, value] of [
 }
 
 for (const relative of [
-  "src/main/resources/data/csrp/loot_table/entities/pri_tozoon.json",
+  "src/main/resources/data/csrp/loot_tables/entities/pri_tozoon.json",
   "src/main/resources/assets/csrp/compendium/drops/pri_tozoon.json"
 ]) {
   const table = parseJson(relative);

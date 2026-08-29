@@ -168,7 +168,7 @@ for (const [relative, expectedHash] of Object.entries(expectedTextures)) {
 }
 
 for (const relative of [
-  "src/main/resources/data/csrp/loot_table/entities/ada_arachnida.json",
+  "src/main/resources/data/csrp/loot_tables/entities/ada_arachnida.json",
   "src/main/resources/assets/csrp/compendium/drops/ada_arachnida.json"
 ]) {
   const table = parseJson(relative);

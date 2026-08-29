@@ -10,5 +10,5 @@
     "W": { "item": "minecraft:wheat" },
     "B": { "item": "minecraft:bowl" }
   },
-  "result": { "count": 1, "id": "csrp:polluted_herbal_bowl" }
+  "result": { "count": 1, "item": "csrp:polluted_herbal_bowl" }
 }

@@ -95,6 +95,14 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         super(type, level);
         this.kind = kind;
         xpReward = kind.experience;
+        // Beckons, Dispatchers and Rooters are world structures represented by
+        // entities. Mark their permanent forms as persistent so Mob's normal
+        // distance based despawn check cannot remove them when players leave
+        // render range. Temporary beckons still expire through their lifetime
+        // counter and rooter balls are intentionally transient.
+        if (!kind.isRooterBall()) {
+            setPersistenceRequired();
+        }
         growthDelayTicks = kind.stage == 0 || kind.stage == 4 ? -1
                 : STAGE_ONE_MIN_GROWTH + random.nextInt(STAGE_ONE_GROWTH_VARIANCE);
     }
