@@ -396,6 +396,12 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
+        // Older worlds were saved without PersistenceRequired. Re-apply the
+        // permanent nexus marker after Mob reads its legacy value so existing
+        // beckons, dispatchers and rooters cannot be distance-despawned.
+        if (!activeKind().isRooterBall()) {
+            setPersistenceRequired();
+        }
         growthTicks = tag.getInt("nexus_growth");
         growthDelayTicks = tag.contains("nexus_growth_delay") ? tag.getInt("nexus_growth_delay")
                 : defaultGrowthDelay();
