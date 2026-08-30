@@ -985,6 +985,7 @@ public static final DeferredItem<BlockItem> PARASITERUBBLE_BONE = ITEMS.register
     public static final DeferredItem<BlockItem> PARASITETRUNK = ITEMS.registerSimpleBlockItem("parasitetrunk", ModBlocks.PARASITETRUNK);
     public static final DeferredItem<BlockItem> PARASITETRUNK_BALL = ITEMS.registerSimpleBlockItem("parasitetrunk_ball", ModBlocks.PARASITETRUNK_BALL);
     public static final DeferredItem<BlockItem> PARASITETRUNK_PLANT = ITEMS.registerSimpleBlockItem("parasitetrunk_plant", ModBlocks.PARASITETRUNK_PLANT);
+    public static final DeferredItem<BlockItem> PARASITETHIN = ITEMS.registerSimpleBlockItem("parasitethin", ModBlocks.PARASITETHIN);
     public static final DeferredItem<BlockItem> PARASITETHIN_TREEBASE = ITEMS.registerSimpleBlockItem("parasitethin_treebase", ModBlocks.PARASITETHIN_TREEBASE);
     public static final DeferredItem<BlockItem> PARASITETHIN_TREENESW = ITEMS.registerSimpleBlockItem("parasitethin_treenesw", ModBlocks.PARASITETHIN_TREENESW);
     public static final DeferredItem<BlockItem> PARASITESAPLING_TREE = ITEMS.registerSimpleBlockItem("parasitesapling_tree", ModBlocks.PARASITESAPLING_TREE);

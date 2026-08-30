@@ -26,6 +26,7 @@ import alku.csrp.block.InfestedResidueBlock;
 import alku.csrp.block.InfestationPurifierBlock;
 import alku.csrp.block.EvolutionLureBlock;
 import alku.csrp.block.ParasiteTrapBlock;
+import alku.csrp.block.ParasiteThinBlock;
 import alku.csrp.block.PestilentialOreBlock;
 import alku.csrp.block.ParasiteLootBlock;
 import alku.csrp.block.AlveoliBlock;
@@ -167,6 +168,11 @@ public final class ModBlocks {
     public static final DeferredBlock<InfestedWallBlock> PARASITERUBBLE_METAL_WALL = infestedWall("parasiterubble_metal_wall", PARASITERUBBLE_METAL);
     public static final DeferredBlock<InfestedWallBlock> PARASITERUBBLEDENSE_BIOME_WALL = infestedWall("parasiterubbledense_biome_wall", PARASITERUBBLEDENSE_BIOME);
     public static final DeferredBlock<InfestedWallBlock> PARASITERUBBLEDENSE_COLONY_WALL = infestedWall("parasiterubbledense_colony_wall", PARASITERUBBLEDENSE_COLONY);
+    public static final DeferredBlock<ParasiteThinBlock> PARASITETHIN = BLOCKS.register("parasitethin", () ->
+            new ParasiteThinBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED)
+                    .strength(2.2F)
+                    .sound(SoundType.WOOD)));
     public static final DeferredBlock<Block> PARASITETHIN_TREEBASE = BLOCKS.register("parasitethin_treebase", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
     public static final DeferredBlock<Block> PARASITETHIN_TREENESW = BLOCKS.register("parasitethin_treenesw", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
     public static final DeferredBlock<Block> PARASITESAPLING_TREE = BLOCKS.register("parasitesapling_tree", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).noCollission().noOcclusion().instabreak().sound(SoundType.GRASS)));
