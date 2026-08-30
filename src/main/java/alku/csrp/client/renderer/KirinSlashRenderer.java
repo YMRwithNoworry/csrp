@@ -33,45 +33,77 @@ public class KirinSlashRenderer extends EntityRenderer<KirinSlashEntity> {
             return;
         }
         float length = Math.max(1.0F, entity.getLength() * growth);
-        float alpha = entity.getRenderAlpha(partialTicks);
+        float hitPopScale = 1.0F;
+        float hitPopWidthScale = 1.0F;
+        float hitPopAlphaBoost = 1.0F;
+        if (entity.isHitPopping()) {
+            float progress = Mth.clamp((entity.getHitPopAge() + partialTicks)
+                    / (float) Math.max(1, entity.getHitPopTicks()), 0.0F, 1.0F);
+            hitPopScale = 1.0F - progress * 0.82F;
+            hitPopWidthScale = 1.0F - progress * 0.92F;
+            float flash = 1.0F - Math.abs(progress - 0.18F) / 0.18F;
+            hitPopAlphaBoost = (1.0F - progress) * (1.0F + Mth.clamp(flash, 0.0F, 1.0F) * 1.8F);
+        }
+        float alpha = entity.getRenderAlpha(partialTicks) * hitPopAlphaBoost
+                * (entity.isFading() ? 0.35F : 1.0F);
+        length *= hitPopScale;
+        if (alpha <= 0.01F || hitPopWidthScale <= 0.02F) {
+            return;
+        }
         VertexConsumer consumer = buffer.getBuffer(RenderType.lightning());
         poseStack.pushPose();
-        poseStack.mulPose(com.mojang.math.Axis.YP.rotationDegrees(-entity.getYaw()));
+        poseStack.mulPose(com.mojang.math.Axis.YP.rotationDegrees(entity.getYaw()));
         poseStack.mulPose(com.mojang.math.Axis.XP.rotationDegrees(entity.getPitch()));
+        poseStack.mulPose(com.mojang.math.Axis.ZP.rotationDegrees(entity.getRoll()));
 
-        for (int blade = 0; blade < 2; blade++) {
-            poseStack.pushPose();
-            poseStack.mulPose(com.mojang.math.Axis.ZP.rotationDegrees(90.0F * blade));
-            Matrix4f matrix = poseStack.last().pose();
-            quad(consumer, matrix,
-                    0.0F, -BLADE_HALF_WIDTH, 0.0F,
-                    length, -BLADE_HALF_WIDTH * 0.35F, 0.0F,
-                    length, BLADE_HALF_WIDTH * 0.35F, 0.0F,
-                    0.0F, BLADE_HALF_WIDTH, 0.0F, alpha);
-            poseStack.popPose();
-        }
+        drawCrossLayer(poseStack, consumer, length, 0.52F * hitPopWidthScale,
+                0.42F, 0.86F, 1.0F, 0.13F * alpha);
+        drawCrossLayer(poseStack, consumer, length, 0.20F * hitPopWidthScale,
+                0.42F, 0.86F, 1.0F, 0.42F * alpha);
+        drawCrossLayer(poseStack, consumer, length, 0.055F * hitPopWidthScale,
+                1.0F, 1.0F, 1.0F, 0.90F * alpha);
         poseStack.popPose();
     }
 
-    private static void quad(VertexConsumer consumer, Matrix4f matrix,
-            float x1, float y1, float z1, float x2, float y2, float z2,
-            float x3, float y3, float z3, float x4, float y4, float z4, float alpha) {
-        vertex(consumer, matrix, x1, y1, z1, 0.35F, alpha);
-        vertex(consumer, matrix, x2, y2, z2, 0.95F, alpha * 0.9F);
-        vertex(consumer, matrix, x3, y3, z3, 1.0F, alpha * 0.9F);
-        vertex(consumer, matrix, x4, y4, z4, 0.35F, alpha);
-        vertex(consumer, matrix, x4, y4, z4, 0.35F, alpha);
-        vertex(consumer, matrix, x3, y3, z3, 1.0F, alpha * 0.9F);
-        vertex(consumer, matrix, x2, y2, z2, 0.95F, alpha * 0.9F);
-        vertex(consumer, matrix, x1, y1, z1, 0.35F, alpha);
+    private static void drawCrossLayer(PoseStack poseStack, VertexConsumer consumer, float length,
+            float width, float red, float green, float blue, float alpha) {
+        for (int blade = 0; blade < 2; blade++) {
+            poseStack.pushPose();
+            poseStack.mulPose(com.mojang.math.Axis.ZP.rotationDegrees(90.0F * blade));
+            drawForwardPlane(poseStack.last().pose(), consumer, width, length, red, green, blue, alpha);
+            poseStack.popPose();
+        }
+    }
+
+    private static void drawForwardPlane(Matrix4f matrix, VertexConsumer consumer, float width, float length,
+            float red, float green, float blue, float alpha) {
+        float halfWidth = width * 0.5F;
+        int segments = 18;
+        for (int index = 0; index < segments; index++) {
+            float t0 = (float) index / segments;
+            float t1 = (float) (index + 1) / segments;
+            float z0 = length * t0;
+            float z1 = length * t1;
+            float a0 = alpha * edgeFade(t0);
+            float a1 = alpha * edgeFade(t1);
+            vertex(consumer, matrix, -halfWidth, 0.0F, z0, red, green, blue, a0);
+            vertex(consumer, matrix, halfWidth, 0.0F, z0, red, green, blue, a0);
+            vertex(consumer, matrix, halfWidth * 0.35F, 0.0F, z1, red, green, blue, a1);
+            vertex(consumer, matrix, -halfWidth * 0.35F, 0.0F, z1, red, green, blue, a1);
+        }
+    }
+
+    private static float edgeFade(float position) {
+        float fade = Mth.clamp(Math.min(position, 1.0F - position) * 2.0F, 0.0F, 1.0F);
+        return fade * fade * (3.0F - 2.0F * fade);
     }
 
     private static void vertex(VertexConsumer consumer, Matrix4f matrix, float x, float y, float z,
-            float brightness, float alpha) {
+            float red, float green, float blue, float alpha) {
         org.joml.Vector3f pos = new org.joml.Vector3f();
         matrix.transformPosition(x, y, z, pos);
         consumer.addVertex(pos.x, pos.y, pos.z)
-                .setColor(brightness, 0.65F + brightness * 0.2F, 1.0F, Mth.clamp(alpha, 0.0F, 1.0F));
+                .setColor(red, green, blue, Mth.clamp(alpha, 0.0F, 1.0F));
     }
 
     @Override

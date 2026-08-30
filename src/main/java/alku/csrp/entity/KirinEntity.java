@@ -8,6 +8,7 @@ import alku.csrp.registry.ModSounds;
 import alku.csrp.world.EvolutionSystem;
 import alku.csrp.world.SrpWorldData;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -47,7 +48,10 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
 
 import java.util.EnumSet;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import org.joml.Vector3f;
 
 public final class KirinEntity extends DerivedParasiteEntity {
     public static final int BLINK_CHARGE_TICKS = 60;
@@ -78,6 +82,14 @@ public final class KirinEntity extends DerivedParasiteEntity {
     private static final double LASER_RANGE = 48.0D;
     private static final int LASER_EFFECT_DURATION_TICKS = 7 * 20;
 
+    /** Original Kirin judgement-cut ("spatial slash") cadence and volley shape. */
+    private static final int JUDGEMENT_CUT_CHARGE_TICKS = 80;
+    private static final int JUDGEMENT_CUT_CAST_TICKS = 80;
+    private static final int JUDGEMENT_CUT_AURA_TICKS = 60;
+    private static final int JUDGEMENT_CUT_AURA_END_TICKS = 24;
+    private static final int JUDGEMENT_CUT_COUNT = 42;
+    private static final double JUDGEMENT_CUT_RANGE = 35.0D;
+
     private static final float BLOCK_BREAK_MAX_HARDNESS = 27.0F;
     private static final int BLOCK_BREAK_COOLDOWN_TICKS = 60;
     private static final int BLOCK_BREAK_RANGE = 3;
@@ -91,6 +103,10 @@ public final class KirinEntity extends DerivedParasiteEntity {
     private static final EntityDataAccessor<Integer> LASER_TICKS = SynchedEntityData.defineId(
             KirinEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> LASER_TARGET_ID = SynchedEntityData.defineId(
+            KirinEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> JUDGEMENT_CUT_CHARGE = SynchedEntityData.defineId(
+            KirinEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> JUDGEMENT_CUT_AURA_END = SynchedEntityData.defineId(
             KirinEntity.class, EntityDataSerializers.INT);
 
     private final RawAnimation idleAnimation = RawAnimation.begin()
@@ -112,6 +128,10 @@ public final class KirinEntity extends DerivedParasiteEntity {
     private int floatBob;
     private int noGroundTicks;
     private int blockBreakCooldown;
+    private int judgementCutCharge;
+    private int judgementCutSkillTicks;
+    private boolean judgementCutQueued;
+    private final List<PendingJudgementCut> pendingJudgementCuts = new ArrayList<>();
 
     public KirinEntity(EntityType<? extends KirinEntity> type, Level level) {
         super(type, level);
@@ -160,6 +180,8 @@ public final class KirinEntity extends DerivedParasiteEntity {
         builder.define(VOID_CASTING, false);
         builder.define(LASER_TICKS, 0);
         builder.define(LASER_TARGET_ID, 0);
+        builder.define(JUDGEMENT_CUT_CHARGE, 0);
+        builder.define(JUDGEMENT_CUT_AURA_END, 0);
     }
 
     @Override
@@ -169,6 +191,9 @@ public final class KirinEntity extends DerivedParasiteEntity {
         if (level().isClientSide) {
             spawnAmbientPortalParticles();
             spawnBlinkWarningParticles();
+            if (isChargingJudgementCut()) {
+                spawnJudgementCutChargeParticles();
+            }
             return;
         }
 
@@ -180,8 +205,13 @@ public final class KirinEntity extends DerivedParasiteEntity {
         }
 
         EvolutionSystem.GenerationProfile profile = EvolutionSystem.generationProfile((ServerLevel) level());
-        tickLaserSkill();
-        if (!isLaserCasting()) {
+        updatePendingJudgementCuts();
+        boolean judgementWasCasting = isJudgementCutCasting();
+        tickJudgementCut();
+        if (!judgementWasCasting && !isJudgementCutCasting()) {
+            tickLaserSkill();
+        }
+        if (!judgementWasCasting && !isJudgementCutCasting() && !isLaserCasting()) {
             if (isVoidCasting()) {
                 tickVoidSkill();
             } else {
@@ -230,6 +260,223 @@ public final class KirinEntity extends DerivedParasiteEntity {
 
         level().addParticle(ModParticles.KIRIN_WARNING.get(), x, y, z, 5.5D, clockwise, 1.0D);
         level().addParticle(ModParticles.KIRIN_WARNING.get(), x, y, z, 6.0D, counterClockwise, 1.0D);
+    }
+
+    /**
+     * Charges and releases Kirin's original judgement-cut volley. The old AI
+     * charged for 80 ticks once a target was within 35 blocks, then held the
+     * casting pose for another 80 ticks while 42 cuts appeared around the
+     * target over the following second.
+     */
+    private void tickJudgementCut() {
+        if (isShadowClone()) {
+            judgementCutCharge = 0;
+            judgementCutSkillTicks = 0;
+            judgementCutQueued = false;
+            pendingJudgementCuts.clear();
+            setJudgementCutChargeTicks(0);
+            setJudgementCutAuraEndTicks(0);
+            return;
+        }
+
+        if (judgementCutSkillTicks > 0) {
+            getNavigation().stop();
+            setDeltaMovement(Vec3.ZERO);
+            LivingEntity target = getTarget();
+            if (target == null || !target.isAlive()) {
+                judgementCutSkillTicks = 0;
+                judgementCutQueued = false;
+                pendingJudgementCuts.clear();
+                setJudgementCutChargeTicks(0);
+                setJudgementCutAuraEndTicks(0);
+                return;
+            }
+            getLookControl().setLookAt(target, 30.0F, 30.0F);
+            judgementCutSkillTicks++;
+            if (judgementCutSkillTicks > JUDGEMENT_CUT_CAST_TICKS) {
+                judgementCutSkillTicks = 0;
+                judgementCutQueued = false;
+                setJudgementCutChargeTicks(0);
+                setJudgementCutAuraEndTicks(0);
+            }
+            tickJudgementCutAura();
+            return;
+        }
+
+        LivingEntity target = getTarget();
+        if (target == null || !target.isAlive() || distanceToSqr(target) > JUDGEMENT_CUT_RANGE * JUDGEMENT_CUT_RANGE
+                || !getSensing().hasLineOfSight(target) || isVoidCasting() || isLaserCasting()
+                || blinkCharge > 0 || super.isUsingDerivedSkill()) {
+            judgementCutCharge = 0;
+            tickJudgementCutAura();
+            return;
+        }
+
+        if (++judgementCutCharge >= JUDGEMENT_CUT_CHARGE_TICKS) {
+            judgementCutCharge = 0;
+            judgementCutSkillTicks = 1;
+            judgementCutQueued = true;
+            spawnJudgementCuts(target);
+        }
+        tickJudgementCutAura();
+    }
+
+    private void tickJudgementCutAura() {
+        int chargeTicks = getJudgementCutChargeTicks();
+        if (chargeTicks > 0) {
+            setJudgementCutChargeTicks(chargeTicks - 1);
+            if (chargeTicks - 1 <= 0) {
+                setJudgementCutAuraEndTicks(JUDGEMENT_CUT_AURA_END_TICKS);
+            }
+        }
+        int auraTicks = getJudgementCutAuraEndTicks();
+        if (auraTicks > 0) {
+            setJudgementCutAuraEndTicks(auraTicks - 1);
+        }
+    }
+
+    public void spawnJudgementCuts(LivingEntity target) {
+        if (!(level() instanceof ServerLevel serverLevel) || target == null || !target.isAlive()) {
+            return;
+        }
+        playSound(ModSounds.KIRIN_PROJECTILE_CHARGE.get(), 4.0F, 0.95F + random.nextFloat() * 0.08F);
+        setJudgementCutChargeTicks(JUDGEMENT_CUT_AURA_TICKS);
+        setJudgementCutAuraEndTicks(0);
+
+        boolean targetIsPlayer = target instanceof net.minecraft.world.entity.player.Player;
+        float damage = targetIsPlayer ? 8.0F : 10.0F;
+        for (int index = 0; index < JUDGEMENT_CUT_COUNT; index++) {
+            double passAngle = random.nextDouble() * Math.PI * 2.0D;
+            double dirX = Math.cos(passAngle);
+            double dirZ = Math.sin(passAngle);
+            double beforeTarget = 22.0D + random.nextDouble() * 16.0D;
+            double sideOffset;
+            double verticalOffset;
+            if (targetIsPlayer) {
+                float closeRoll = random.nextFloat();
+                sideOffset = closeRoll < 0.55F ? getRandomSignedRange(2.4D, 5.2D)
+                        : closeRoll < 0.88F ? getRandomSignedRange(5.5D, 10.0D)
+                        : getRandomSignedRange(10.0D, 22.0D);
+                float heightRoll = random.nextFloat();
+                verticalOffset = heightRoll < 0.62F ? (random.nextDouble() - 0.5D) * 2.2D
+                        : heightRoll < 0.9F ? (random.nextDouble() - 0.5D) * 5.0D
+                        : (random.nextDouble() - 0.5D) * 9.0D;
+            } else {
+                float closeRoll = random.nextFloat();
+                sideOffset = closeRoll < 0.7F ? (random.nextDouble() - 0.5D) * 1.2D
+                        : closeRoll < 0.92F ? (random.nextDouble() - 0.5D) * 3.0D
+                        : getRandomSignedRange(4.0D, 8.0D);
+                float heightRoll = random.nextFloat();
+                verticalOffset = heightRoll < 0.75F
+                        ? (random.nextDouble() - 0.5D) * Math.max(1.0D, target.getBbHeight() * 0.45D)
+                        : heightRoll < 0.94F
+                        ? (random.nextDouble() - 0.5D) * Math.max(2.0D, target.getBbHeight() * 0.8D)
+                        : (random.nextDouble() - 0.5D) * Math.max(3.0D, target.getBbHeight() * 1.2D);
+            }
+
+            float yaw = (float) Math.toDegrees(Math.atan2(dirX, dirZ));
+            float pitch;
+            if (targetIsPlayer) {
+                pitch = random.nextFloat() < 0.1F ? -60.0F + random.nextFloat() * 120.0F
+                        : -14.0F + random.nextFloat() * 28.0F;
+            } else {
+                pitch = random.nextFloat() < 0.08F ? -35.0F + random.nextFloat() * 70.0F
+                        : -8.0F + random.nextFloat() * 16.0F;
+            }
+            float roll = random.nextFloat() * 360.0F;
+            float length = 110.0F + random.nextFloat() * 75.0F;
+            int delay = JUDGEMENT_CUT_AURA_TICKS + index + random.nextInt(5);
+            int grow = 4 + random.nextInt(8);
+            int life = 55 + random.nextInt(18);
+            pendingJudgementCuts.add(new PendingJudgementCut(target.getId(), delay, dirX, dirZ,
+                    beforeTarget, sideOffset, verticalOffset, yaw, pitch, roll, length, damage, grow, life));
+        }
+    }
+
+    private void updatePendingJudgementCuts() {
+        if (pendingJudgementCuts.isEmpty() || !(level() instanceof ServerLevel serverLevel)) {
+            return;
+        }
+        Iterator<PendingJudgementCut> iterator = pendingJudgementCuts.iterator();
+        while (iterator.hasNext()) {
+            PendingJudgementCut pending = iterator.next();
+            pending.delay--;
+            if (pending.delay > 0) {
+                continue;
+            }
+            Entity entity = serverLevel.getEntity(pending.targetId);
+            if (entity instanceof LivingEntity target && target.isAlive()) {
+                double cx = target.getX();
+                double cy = target.getBoundingBox().minY + target.getBbHeight() * 0.55D;
+                double cz = target.getZ();
+                double sideX = -pending.dirZ;
+                double sideZ = pending.dirX;
+                Vec3 start = new Vec3(
+                        cx - pending.dirX * pending.beforeTarget + sideX * pending.sideOffset,
+                        cy + pending.verticalOffset,
+                        cz - pending.dirZ * pending.beforeTarget + sideZ * pending.sideOffset);
+                KirinSlashEntity slash = KirinSlashEntity.create(serverLevel, this, start,
+                        pending.yaw, pending.pitch, pending.roll, pending.length, pending.damage,
+                        0, pending.growTicks, pending.lifeTicks);
+                if (slash != null) {
+                    serverLevel.addFreshEntity(slash);
+                }
+            }
+            iterator.remove();
+        }
+    }
+
+    private double getRandomSignedRange(double min, double max) {
+        double value = min + random.nextDouble() * (max - min);
+        return random.nextBoolean() ? value : -value;
+    }
+
+    public void setJudgementCutChargeTicks(int ticks) {
+        entityData.set(JUDGEMENT_CUT_CHARGE, Math.max(0, ticks));
+    }
+
+    public int getJudgementCutChargeTicks() {
+        return entityData.get(JUDGEMENT_CUT_CHARGE);
+    }
+
+    public void setJudgementCutAuraEndTicks(int ticks) {
+        entityData.set(JUDGEMENT_CUT_AURA_END, Math.max(0, ticks));
+    }
+
+    public int getJudgementCutAuraEndTicks() {
+        return entityData.get(JUDGEMENT_CUT_AURA_END);
+    }
+
+    public boolean isChargingJudgementCut() {
+        return getJudgementCutChargeTicks() > 0 || getJudgementCutAuraEndTicks() > 0;
+    }
+
+    private boolean isJudgementCutCasting() {
+        return judgementCutSkillTicks > 0;
+    }
+
+    private void spawnJudgementCutChargeParticles() {
+        float progress = 1.0F - Mth.clamp(getJudgementCutChargeTicks() / (float) JUDGEMENT_CUT_AURA_TICKS,
+                0.0F, 1.0F);
+        int count = 4 + (int) (progress * 6.0F);
+        DustParticleOptions auraDust = new DustParticleOptions(new Vector3f(0.92F, 0.05F, 0.65F), 1.0F);
+        for (int index = 0; index < count; index++) {
+            double angle = random.nextDouble() * Math.PI * 2.0D;
+            double outerRadius = 12.0D + random.nextDouble() * 8.0D;
+            double innerRadius = 2.0D + random.nextDouble() * 2.0D;
+            double radius = outerRadius + (innerRadius - outerRadius) * progress;
+            level().addParticle(auraDust,
+                    getX() + Math.cos(angle) * radius,
+                    getY() + 0.5D + random.nextDouble() * (getBbHeight() + 3.0D),
+                    getZ() + Math.sin(angle) * radius, 0.92D, 0.05D, 0.65D);
+        }
+        if (random.nextBoolean()) {
+            level().addParticle(auraDust,
+                    getX() + (random.nextDouble() - 0.5D) * getBbWidth() * 1.6D,
+                    getY() + getBbHeight() * 0.58D + (random.nextDouble() - 0.5D) * 1.4D,
+                    getZ() + (random.nextDouble() - 0.5D) * getBbWidth() * 1.6D,
+                    1.0D, 0.08D, 0.75D);
+        }
     }
 
     private void chargeVoidSkill() {
@@ -384,8 +631,13 @@ public final class KirinEntity extends DerivedParasiteEntity {
     }
 
     @Override
+    public boolean isUsingDerivedSkill() {
+        return super.isUsingDerivedSkill() || isJudgementCutCasting();
+    }
+
+    @Override
     protected boolean hasExclusiveSkill() {
-        return blinkCharge > 0 || isVoidCasting() || isLaserCasting();
+        return blinkCharge > 0 || isVoidCasting() || isLaserCasting() || isJudgementCutCasting();
     }
 
     private void updateFloating() {
@@ -486,7 +738,7 @@ public final class KirinEntity extends DerivedParasiteEntity {
             Vec3 start = origin.add(0.0D, getBbHeight() * 0.6D, 0.0D);
             Vec3 toTarget = slashTarget.position().add(0.0D, slashTarget.getBbHeight() * 0.5D, 0.0D)
                     .subtract(start);
-            float yaw = (float) (Math.toDegrees(Math.atan2(-toTarget.x, toTarget.z)));
+            float yaw = (float) (Math.toDegrees(Math.atan2(toTarget.x, toTarget.z)));
             float pitch = (float) (Math.toDegrees(-Math.atan2(toTarget.y,
                     Math.sqrt(toTarget.x * toTarget.x + toTarget.z * toTarget.z))));
             KirinSlashEntity slash = KirinSlashEntity.create(serverLevel, this, start,
@@ -648,6 +900,10 @@ public final class KirinEntity extends DerivedParasiteEntity {
         tag.putInt("kirin_float_bob", floatBob);
         tag.putInt("kirin_no_ground_ticks", noGroundTicks);
         tag.putInt("kirin_block_break_cooldown", blockBreakCooldown);
+        tag.putInt("kirin_judgement_charge", judgementCutCharge);
+        tag.putInt("kirin_judgement_skill_ticks", judgementCutSkillTicks);
+        tag.putInt("kirin_judgement_aura_ticks", getJudgementCutChargeTicks());
+        tag.putInt("kirin_judgement_aura_end_ticks", getJudgementCutAuraEndTicks());
     }
 
     @Override
@@ -668,6 +924,11 @@ public final class KirinEntity extends DerivedParasiteEntity {
         floatBob = tag.getInt("kirin_float_bob");
         noGroundTicks = tag.getInt("kirin_no_ground_ticks");
         blockBreakCooldown = tag.getInt("kirin_block_break_cooldown");
+        judgementCutCharge = tag.getInt("kirin_judgement_charge");
+        judgementCutSkillTicks = tag.getInt("kirin_judgement_skill_ticks");
+        judgementCutQueued = judgementCutSkillTicks > 0;
+        entityData.set(JUDGEMENT_CUT_CHARGE, tag.getInt("kirin_judgement_aura_ticks"));
+        entityData.set(JUDGEMENT_CUT_AURA_END, tag.getInt("kirin_judgement_aura_end_ticks"));
         entityData.set(BLINK_POS, blinkCharge > 0 ? blinkDestination : BlockPos.ZERO);
         entityData.set(BLINK_TICKS, blinkCharge);
         entityData.set(VOID_CASTING, voidSkillCastTicks > 0);
@@ -764,6 +1025,43 @@ public final class KirinEntity extends DerivedParasiteEntity {
                 clearBlinkCharge();
                 blinkCooldown = 40;
             }
+        }
+    }
+
+    private static final class PendingJudgementCut {
+        private final int targetId;
+        private int delay;
+        private final double dirX;
+        private final double dirZ;
+        private final double beforeTarget;
+        private final double sideOffset;
+        private final double verticalOffset;
+        private final float yaw;
+        private final float pitch;
+        private final float roll;
+        private final float length;
+        private final float damage;
+        private final int growTicks;
+        private final int lifeTicks;
+
+        private PendingJudgementCut(int targetId, int delay, double dirX, double dirZ,
+                double beforeTarget, double sideOffset, double verticalOffset,
+                float yaw, float pitch, float roll, float length, float damage,
+                int growTicks, int lifeTicks) {
+            this.targetId = targetId;
+            this.delay = delay;
+            this.dirX = dirX;
+            this.dirZ = dirZ;
+            this.beforeTarget = beforeTarget;
+            this.sideOffset = sideOffset;
+            this.verticalOffset = verticalOffset;
+            this.yaw = yaw;
+            this.pitch = pitch;
+            this.roll = roll;
+            this.length = length;
+            this.damage = damage;
+            this.growTicks = growTicks;
+            this.lifeTicks = lifeTicks;
         }
     }
 
