@@ -670,6 +670,10 @@ public final class ModItems {
     public static final DeferredItem<Item> LURECOMPONENT4 = simple("lurecomponent4");
     public static final DeferredItem<Item> LURECOMPONENT5 = simple("lurecomponent5");
     public static final DeferredItem<Item> LURECOMPONENT6 = simple("lurecomponent6");
+    public static final DeferredItem<Item> LURECOMPONENT7 = simple("lurecomponent7");
+    public static final DeferredItem<Item> LURECOMPONENT8 = simple("lurecomponent8");
+    public static final DeferredItem<Item> LURECOMPONENT9 = simple("lurecomponent9");
+    public static final DeferredItem<Item> LURECOMPONENT10 = simple("lurecomponent10");
     public static final DeferredItem<Item> DRIED_TENDONS = simple("dried_tendons");
     public static final DeferredItem<Item> HARDENED_BONE_HANDLE = simple("hardened_bone_handle");
     public static final DeferredItem<Item> INFECTIOUS_BLADE_FRAGMENT = simple("infectious_blade_fragment");
