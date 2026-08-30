@@ -1,0 +1,15 @@
+{
+  "parent": "csrp:root",
+  "display": {
+    "icon": { "item": "csrp:itemmobspawner_oronco" },
+    "title": { "translate": "advancements.csrp.monument_root.title" },
+    "description": { "translate": "advancements.csrp.monument_root.description" },
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": true
+  },
+  "criteria": {
+    "tick": { "trigger": "minecraft:tick" }
+  }
+}

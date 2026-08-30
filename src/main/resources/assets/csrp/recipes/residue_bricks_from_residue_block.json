@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "csrp:residue_block"
+    }
+  },
+  "result": {
+    "item": "csrp:residue_bricks",
+    "count": 4
+  }
+}

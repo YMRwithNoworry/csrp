@@ -1,0 +1,14 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "csrp:weathered_bricks_slab"
+  },
+  "variants": {
+    "half=bottom,variant=default": {
+      "model": "csrp:weathered_bricks_slab"
+    },
+    "half=top,variant=default": {
+      "model": "csrp:weathered_bricks_slab_top"
+    }
+  }
+}

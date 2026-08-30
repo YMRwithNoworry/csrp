@@ -3,7 +3,7 @@
   "minecraft:geometry": [
     {
       "description": {
-        "identifier": "geometry.srparasites.sim_cow",
+        "identifier": "geometry.csrp.sim_cow",
         "texture_width": 128,
         "texture_height": 43,
         "visible_bounds_width": 16,

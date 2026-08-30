@@ -1,0 +1,23 @@
+{
+  "parent": "csrp:columbus",
+  "display": {
+    "icon": {
+      "item": "csrp:potion_stolas_icon"
+    },
+    "title": {
+      "translate": "advancements.csrp.stolas.title"
+    },
+    "description": {
+      "translate": "advancements.csrp.stolas.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "unlock": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

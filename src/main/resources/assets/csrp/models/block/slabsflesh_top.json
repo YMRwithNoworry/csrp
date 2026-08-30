@@ -1,0 +1,9 @@
+{
+  "parent": "block/upper_slab",
+  "textures": {
+    "particle": "csrp:blocks/parasitestain_flesh",
+    "bottom": "csrp:blocks/parasitestain_flesh",
+    "top": "csrp:blocks/parasitestain_flesh",
+    "side": "csrp:blocks/parasitestain_flesh"
+  }
+}

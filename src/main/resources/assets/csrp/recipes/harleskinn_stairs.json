@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "csrp:harleskinn_block"
+    }
+  },
+  "result": {
+    "item": "csrp:harleskinn_stairs",
+    "count": 4
+  }
+}

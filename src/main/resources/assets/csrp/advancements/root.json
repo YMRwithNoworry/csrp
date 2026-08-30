@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "item": "csrp:roots_icon"
+    },
+    "title": {
+      "translate": "advancements.csrp.root.title"
+    },
+    "description": {
+      "translate": "advancements.csrp.root.description"
+    },
+    "background": "csrp:textures/gui/advancement_wallpaper.png",
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "tick": {
+      "trigger": "minecraft:tick"
+    }
+  }
+}

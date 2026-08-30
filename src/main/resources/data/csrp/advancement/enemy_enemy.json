@@ -1,0 +1,23 @@
+{
+  "parent": "csrp:thornshade_self_destruct",
+  "display": {
+    "icon": {
+      "item": "csrp:enemy_of_enemy_icon"
+    },
+    "title": {
+      "translate": "advancements.csrp.enemy_enemy.title"
+    },
+    "description": {
+      "translate": "advancements.csrp.enemy_enemy.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "creeper_killed_parasite": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

@@ -3,7 +3,7 @@
   "minecraft:geometry": [
     {
       "description": {
-        "identifier": "geometry.srparasites.sim_bigspider",
+        "identifier": "geometry.csrp.sim_bigspider",
         "texture_width": 256,
         "texture_height": 90,
         "visible_bounds_width": 16,

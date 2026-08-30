@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "# #",
+    "###",
+    "# #"
+  ],
+  "key": {
+    "#": {
+      "item": "csrp:infested_planks"
+    }
+  },
+  "result": {
+    "item": "csrp:infested_ladder",
+    "count": 3
+  }
+}

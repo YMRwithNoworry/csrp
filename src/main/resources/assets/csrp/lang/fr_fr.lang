@@ -1,0 +1,2258 @@
+
+##Entities
+
+entity.csrp.scent.name=Scent
+
+entity.csrp.abo_bodies.name=Amalgamation de Corps
+entity.csrp.abo_head.name=Tête Géante
+
+entity.csrp.pri_longarms.name=Longarms Primitif
+entity.csrp.pri_manducater.name=Manducater Primitif
+entity.csrp.pri_summoner.name=Summoner Primitif
+entity.csrp.pri_reeker.name=Reeker Primitif
+entity.csrp.pri_yelloweye.name=Yelloweye Primitif
+entity.csrp.pri_bolster.name=Bolster Primitif
+entity.csrp.pri_arachnida.name=Arachnide Primitif
+entity.csrp.pri_devourer.name=Dévoreur Primitif
+entity.csrp.pri_vermin.name=Vermine Primitive
+entity.csrp.pri_tozoon.name=Ver Primitif
+entity.csrp.pri_burrower.name=Fossoyeur Primitf
+entity.csrp.pri_viscera.name=Viscère Primitive
+entity.csrp.nametag.ricardo=ricardo
+
+# Advancements
+
+advancements.csrp.root.title=Scape and Run: Parasites
+advancements.csrp.root.description=Le début de la fin.
+
+advancements.csrp.brew_fear.title=§bEcstasie
+advancements.csrp.brew_fear.description=Préparer une potion de Peur.
+
+advancements.csrp.guerilla.title=§bGuérilla
+advancements.csrp.guerilla.description=Éliminez un joueur auquel vous avez infligé un effet de Peur.
+
+advancements.csrp.kill_inborn.title=Il est mort trop tôt...
+advancements.csrp.kill_inborn.description=Éliminez n'importe quel parasite Inborn.
+
+advancements.csrp.kill_assimilated.title=Assimilé
+advancements.csrp.kill_assimilated.description=Éliminez n'importe quel parasite Assimilé.
+
+advancements.csrp.beheaded.title=L Corp
+advancements.csrp.beheaded.description=Éliminez n'importe quelle tête de parasite Assimilé.
+
+advancements.csrp.kill_primitive.title=Primitif
+advancements.csrp.kill_primitive.description=Éliminez n'importe quel parasite Primitif.
+
+advancements.csrp.kill_adapted.title=Adapté
+advancements.csrp.kill_adapted.description=Éliminez n'importe quel parasite Adapté.
+
+advancements.csrp.kill_deterrent.title=Déterrent
+advancements.csrp.kill_deterrent.description=Éliminez n'importe quel parasite Déterrent.
+
+advancements.csrp.kill_pure.title=Pur
+advancements.csrp.kill_pure.description=Éliminez n'importe quel parasite Pur.
+
+advancements.csrp.controversial.title=Controversé
+advancements.csrp.controversial.description=Éliminez un Enderman Assimilé.
+
+advancements.csrp.kill_crude.title=Cruel
+advancements.csrp.kill_crude.description=Éliminez n'importe quel parasite Cruel
+
+advancements.csrp.kill_beckon_s1.title=Jardinier
+advancements.csrp.kill_beckon_s1.description=Éliminez un Beckon (Stage I)
+
+advancements.csrp.kill_beckon_s2.title=Sécateur
+advancements.csrp.kill_beckon_s2.description=Éliminez un Beckon (Stage II)
+
+advancements.csrp.kill_beckon_s3.title=Déracineur
+advancements.csrp.kill_beckon_s3.description=Éliminez un Beckon (Stage III)
+
+advancements.csrp.kill_beckon_s4.title=Eradicateur
+advancements.csrp.kill_beckon_s4.description=Éliminez un Beckon (Stage IV)
+
+advancements.csrp.kill_dispatcher_s1.title=ZAYIN Suppression
+advancements.csrp.kill_dispatcher_s1.description=Éliminez un Dispatcher (Stage I)
+
+advancements.csrp.kill_dispatcher_s2.title=TETH Suppression
+advancements.csrp.kill_dispatcher_s2.description=Éliminez un Dispatcher (Stage II)
+
+advancements.csrp.kill_dispatcher_s3.title=HE Suppression
+advancements.csrp.kill_dispatcher_s3.description=Éliminez un Dispatcher (Stage III)
+
+advancements.csrp.kill_dispatcher_s4.title=ALEPH Suppression
+advancements.csrp.kill_dispatcher_s4.description=Éliminez un Dispatcher (Stage IV)
+
+advancements.csrp.fermented_arrogance.title=Arrogance Fermentée
+advancements.csrp.fermented_arrogance.description=Éliminez un Enderman Féroce
+
+advancements.csrp.monument.title=Je suis le monument de tous tes vices
+advancements.csrp.monument.description=Quelque chose a atteint le Stage IV
+
+advancements.csrp.cut_roots.title=Couper le mal par la racine
+advancements.csrp.cut_roots.description=Éliminez 1000 Rupter
+
+advancements.csrp.peacekeeper.title=Pacifique
+advancements.csrp.peacekeeper.description=Obtenez un Purificateur de Biome
+
+advancements.csrp.enemy_enemy.title=L'enemi de mon enemi
+advancements.csrp.enemy_enemy.description=Éliminez un parasite à l'aide d'un Creeper
+
+advancements.csrp.ruin_of_fools.title=Creusez leurs tombes
+advancements.csrp.ruin_of_fools.description=Éliminez tous les parasites primitifs
+
+advancements.csrp.hunt_season.title=La chasse est ouverte
+advancements.csrp.hunt_season.description=Exterminez 50 parasites en un jour
+
+advancements.csrp.qliphoth_overload.title=Surcharge de Mauvaises-ondes
+advancements.csrp.qliphoth_overload.description=Quelque chose a atteint le Stage IV
+
+advancement.csrp.thornshade_self_destruct.title=Magnifique Auto-Destruction
+advancement.csrp.thornshade_self_destruct.desc=Déclenchez l'explosion d'Épines de Thornshade sur vous-même
+
+advancement.csrp.sepeku.title=Seppuku
+advancement.csrp.sepeku.desc=Vous vous êtes sacrifié.
+
+advancement.csrp.hellfire_chemical_warfare.title=Hellfire Chemical Warfare
+advancement.csrp.hellfire_chemical_warfare.desc=Terminate the Draconite and survive its internal furnace.
+advancement.csrp.cosmic_structural_failure.title=Cosmic Structural Failure
+advancement.csrp.cosmic_structural_failure.desc=Put the Kirin out of its perpetual self-destruction.
+
+# Esca Bulbs
+tile.csrp.esca_bulb.name=Ampoule Esca 
+tile.csrp.esca_bulb_white.name=Ampoule Esca (Blache)
+tile.csrp.esca_bulb_orange.name=Ampoule Esca (Orange)
+tile.csrp.esca_bulb_magenta.name=Ampoule Esca (Magenta)
+tile.csrp.esca_bulb_light_blue.name=Ampoule Esca (Bleu clair)
+tile.csrp.esca_bulb_yellow.name=Ampoule Esca (Jaune)
+tile.csrp.esca_bulb_lime.name=Ampoule Esca (Lime)
+tile.csrp.esca_bulb_pink.name=Ampoule Esca (Rose)
+tile.csrp.esca_bulb_gray.name=Ampoule Esca (Grise)
+tile.csrp.esca_bulb_light_gray.name=Ampoule Esca (Gris Clair)
+tile.csrp.esca_bulb_cyan.name=Ampoule Esca (Cyan)
+tile.csrp.esca_bulb_purple.name=Ampoule Esca (Violette)
+tile.csrp.esca_bulb_blue.name=Ampoule Esca (Bleue)
+tile.csrp.esca_bulb_brown.name=Ampoule Esca (Marron)
+tile.csrp.esca_bulb_green.name=Ampoule Esca (Verte)
+tile.csrp.esca_bulb_red.name=Ampoule Esca (Rouge)
+tile.csrp.esca_bulb_black.name=Ampoule Esca (Noire)
+tooltip.esca_bulb=Une odeur de poisson en émane.
+
+tile.csrp.alveoli.name=Alvéole
+tile.csrp.sick_alveoli.name=Alvéole Malade
+tile.csrp.alveoli_growth.name=Pustule Alvéolaire
+tile.csrp.solid_alveoli_block.name=Bloc d'Alvéole Solide
+item.csrp.alveolar_fluid.name=Fluide Alvéolaire 
+item.csrp.deadblood_fluid.name=§2Fluide de Sang Mort
+
+tile.csrp.assimilated_reed.name=Canne à sucre Assimilée
+tile.csrp.infested_leaves.name=Feuilles Infestées
+tile.csrp.infested_leaves_fast.name=Feuilles Infestées (Rapide)
+tile.csrp.infested_planks.name=Planches Infestées
+tile.csrp.infested_stone_bricks.name=Briques en Pierres Infestées
+tile.csrp.residue_bricks.name=Briques de Résidus
+tile.csrp.residue_stairs.name=Escalier en Briques de Résidus
+tile.csrp.residue_wall.name=Mur de Résidus
+tile.csrp.residue_block.name=Bloc de Résidus
+tile.csrp.diseased_sponge.name=éponge Malade
+tile.csrp.residue_plants.name=Fleurs de Résidus
+tile.csrp.infested_column.name=Colone Infestée
+tile.csrp.infested_terracotta.name=Terracotta Infestée
+tile.csrp.infested_stone_polished.name=Pierre Polie Infestée
+tile.csrp.inf_ss.name=Grès Infesté
+tile.csrp.inf_ss_chiseled.name=Grès Ciselé Infesté
+tile.csrp.inf_ss_cut.name=Grès Taillé Infesté
+tile.csrp.ashen_glass.name=Verre Cendré
+tile.csrp.ashen_glass_pane.name=Vitre Cendrée
+tile.csrp.infested_glass_pane.name=Vitre Infestée
+tile.csrp.bloody_glass_pane.name=Vitre Ensanglantée
+tile.csrp.harlequinn_glass_pane.name=Vitre Arlequine
+tile.csrp.shrouded_glass_pane.name=Vitre Enveloppée
+tile.csrp.shrouded_glass.name=Verre Enveloppée
+tile.csrp.harlequinn_glass.name=Verre Arlequin
+tile.csrp.bloody_glass.name=Verre Ensanglanté
+tile.csrp.infested_glass.name=Verre Infesté
+tile.csrp.biomass_block.name=Bloc de Biomasse
+tile.csrp.shade_glass_pane.name=Vitre Grisée
+tile.csrp.sepia_glass_pane.name=Vitre Sépia
+tile.csrp.moody_glass_pane.name=Vitre Sombre
+tile.csrp.shade_glass.name=Verre Grisé
+tile.csrp.sepia_glass.name=Verre Sépia
+tile.csrp.moody_glass.name=Verre Sombre
+
+#Dissipeur de Brume
+tile.csrp.fog_nullifier.name=Dissipeur de Brume
+advancements.csrp.fog_nullifier.title=Dissipeur de Brume
+advancements.csrp.fog_nullifier.description=Obtenez un appareil capable de dissiper la Brume de parasite.
+
+tile.csrp.assimilated_pumpkin.name=Citrouille Assimilée
+tile.csrp.assimilated_jack_o_lantern.name=Citrouille Illuminée Assimilée
+tile.csrp.goth_stem.name=Tige Gothique
+tile.csrp.goth_planks.name=Planches en Bois Gothique
+item.csrp.goth_door.name=Porte en Bois Gothique §l|§r §oWIP
+tile.csrp.brusewood_planks.name=Planches en Bois Écorché
+item.csrp.brusewood_door.name=Porte en Bois Écorché §l|§r §oWIP
+tile.csrp.brusewood_trapdoor.name=Trappe en Bois Écorché §l|§r §oWIP
+tile.csrp.consumed_planks.name=Planches Consumées
+tile.csrp.consumed_workbench.name=Table de Craft Consumée
+item.csrp.consumed_door.name=Porte en Bois Consumé §l|§r §oWIP
+tile.csrp.consumed_trapdoor.name=Trappe en Bois Consumé §l|§r §oWIP
+
+
+entity.csrp.host.name=Hôte
+entity.csrp.hostii.name=Horde
+entity.csrp.crux.name=Crux
+entity.csrp.crux_incomplete.name=Crux Incomplet
+entity.csrp.heed.name=Heed
+entity.csrp.thrall.name=Thrall
+entity.csrp.done.name=Dredge
+entity.csrp.carrier_worm.name=Porteur de Vers
+entity.csrp.airscrew.name=Airscrew
+
+death.attack.csrp.ricardo=%s a été ajouté au Livre de Vengeance
+item.csrp.book_of_vengeance.name=§d§lLe Livre de Vengeance
+item.csrp.book_of_vengeance.vengeance0=§7------------------
+item.csrp.book_of_vengeance.vengeance1=§6Dominez, Assemblez, Jurez de vous venger.
+item.csrp.book_of_vengeance.vengeance3=§dSaignement, Debar, Fumée §8(5s)
+item.csrp.book_of_vengeance.vengeance5=§dInteragir: §7Attaque en chaîne de Vengeance §8(on hit)
+item.csrp.book_of_vengeance.vengeance6=§dAccroupi et interagir: §7Repoussement
+
+death.attack.srp_dod_block=%1$s a été écrasé par un Nid de Dispatcher.
+death.attack.srp_dod_block.player=%1$s a été écrasé par un Nid de Dispatcher en combat%2$s.
+
+entity.csrp.sim_bear.name=Ours Assimilé
+entity.csrp.sim_squid.name=Poulpe Assimilé
+entity.csrp.sim_enderman.name=Enderman Assimilé
+entity.csrp.sim_endermanhead.name=Tête Marchante d'Enderman
+entity.csrp.sim_adventurer.name=Aventurier Assimilé
+entity.csrp.sim_adventurerhead.name=Tête Marchante d'Aventurier
+entity.csrp.sim_bigspider.name=Grande Araignée Assimilée
+entity.csrp.sim_human.name=Humain Assimilé
+entity.csrp.sim_humanhead.name=Tête Marchante d'Humain
+entity.csrp.sim_villager.name=Villageois Assimilé
+entity.csrp.sim_villagerhead.name=Tête Marchante de Villageois
+entity.csrp.sim_cow.name=Vache Assimilée
+entity.csrp.sim_cowhead.name=Tête Marchante de Vache
+entity.csrp.sim_horse.name=Cheval Assimilé
+entity.csrp.sim_horsehead.name=Tête Marchante de Cheval
+entity.csrp.sim_pig.name=Cochon Assimilé
+entity.csrp.sim_pighead.name=Tête Marchante de Cochon
+entity.csrp.sim_sheep.name=Mouton Assimilé
+entity.csrp.sim_sheephead.name=Tête Marchante de Mouton
+entity.csrp.sim_wolf.name=Loup Assimilé
+entity.csrp.sim_wolfhead.name=Tête Marchante de Loup
+entity.csrp.incompleteform_medium.name=Forme Incomplète Moyenne
+entity.csrp.incompleteform_small.name=Petite Forme Incomplète
+entity.csrp.sim_dragone.name=Dragon de l'Ender Assimilé 
+entity.csrp.sim_dragonehead.name=Tête Marchante d'Ender Dragon
+
+entity.csrp.mar_bear.name=Ours Assimara
+entity.csrp.mar_enderman.name=Enderman Assimara
+entity.csrp.mar_human.name=Humain Assimara
+entity.csrp.mar_villager.name=Villageois Assimara
+entity.csrp.mar_cow.name=Vache Assimara
+entity.csrp.mar_sheep.name=Mouton Assimara
+
+entity.csrp.fer_cow.name=Vache Féroce
+entity.csrp.fer_bear.name=Ours Féroce
+entity.csrp.fer_enderman.name=Enderman Féroce
+entity.csrp.fer_human.name=Humain Féroce
+entity.csrp.fer_horse.name=Cheval Féroce
+entity.csrp.fer_sheep.name=Mouton Féroce
+entity.csrp.fer_pig.name=Cochon Féroce
+entity.csrp.fer_villager.name=Villageois Féroce
+entity.csrp.fer_wolf.name=Loup Féroce
+
+entity.csrp.hi_blaze.name=Blaze Manipulé
+entity.csrp.hi_golem.name=Golem Manipulé
+entity.csrp.hi_skeleton.name=Squelette Manipulé
+
+entity.csrp.overseer.name=Overseer
+entity.csrp.bomber_light.name=Bombardier Léger
+entity.csrp.carrier_heavy.name=Carrière Lourde
+entity.csrp.carrier_light.name=Carrière Légère
+entity.csrp.buglin.name=Larve
+entity.csrp.mangler.name=Mangler
+entity.csrp.gnat.name=Gnat
+entity.csrp.lice.name=Lice
+entity.csrp.worker.name=Ouvrier
+entity.csrp.carrier_flying.name=Carrière Volante
+entity.csrp.rupter.name=Rupter
+entity.csrp.beckon_si.name=Beckon Stage I
+entity.csrp.beckon_sii.name=Beckon Stage II
+entity.csrp.beckon_siii.name=Beckon Stage III
+entity.csrp.beckon_siv.name=Beckon Stage IV
+entity.csrp.beckon_sv.name=Beckon Stage V
+entity.csrp.warden.name=Gardien
+entity.csrp.marauder.name=Maraudeur
+entity.csrp.monarch.name=Monarque
+entity.csrp.grunt.name=Grunt
+entity.csrp.sentry.name=Sentinelle
+entity.csrp.kyphosis.name=Kyphosis
+entity.csrp.dispatcherten.name=Tentacule de Dispatcher
+entity.csrp.dispatcher_si.name=Dispatcher Stage I
+entity.csrp.dispatcher_sii.name=Dispatcher Stage II
+entity.csrp.dispatcher_siii.name=Dispatcher Stage III
+entity.csrp.dispatcher_siv.name=Dispatcher Stage IV
+entity.csrp.rooter_si.name=Rooter Stage I
+entity.csrp.rooter_sii.name=Rooter Stage II
+entity.csrp.rooter_siii.name=Rooter Stage III
+entity.csrp.rooter_siv.name=Rooter Stage IV
+entity.csrp.rooterball.name=Kyste de Racines
+entity.csrp.seizer.name=Seizer
+
+entity.csrp.bomber_heavy.name=Bombardier Lourd
+entity.csrp.carrier_colony.name=Colonie de Carrière
+entity.csrp.wraith.name=Spectre
+entity.csrp.bogle.name=Bogle
+entity.csrp.haunter.name=Chasseur
+entity.csrp.succor.name=Succor
+entity.csrp.seeker.name=Pisteur
+entity.csrp.architect.name=Architecte
+entity.csrp.dredge.name=Dredge
+entity.csrp.sim_dragonhead.name=Tête Marchante de Dragon de l'Ender
+
+entity.csrp.draconite.name=§9Draconite
+entity.csrp.kirin.name=§9Kirin
+
+entity.csrp.anc_dreadnaut.name=Cuirassé Ancien
+entity.csrp.anc_overlord.name=Empereur Ancien
+entity.csrp.vigilante.name=Vigilante
+entity.csrp.movingflesh.name=Chair Vivante
+entity.csrp.tendril.name=Tentacule
+entity.csrp.anc_pod.name=Capsule
+entity.csrp.biomass.name=Biomasse
+entity.csrp.gore.name=Gore
+
+entity.csrp.ada_longarms.name=Longarms Adapté
+entity.csrp.ada_summoner.name=Summoner Adapté
+entity.csrp.ada_manducater.name=Manducater Adapté
+entity.csrp.ada_reeker.name=Reeker Adapté
+entity.csrp.ada_yelloweye.name=Yelloweye Adapté
+entity.csrp.ada_bolster.name=Bolster Adapté
+entity.csrp.ada_arachnida.name=Arachnide Adaptée
+entity.csrp.ada_devourer.name=Dévoreur Adapté
+entity.csrp.ada_vermin.name=Vermine Adaptée
+entity.csrp.ada_tozoon.name=Ver Adapté
+entity.csrp.ada_burrower.name=Fossoyeur Adapté
+entity.csrp.ada_viscera.name=Viscère Adaptée
+
+entity.csrp.wave.name=Vague
+entity.csrp.waveshock.name=Vague
+
+entity.csrp.worm.name=Ver
+entity.csrp.anc_dreadnaut_ten.name=Tentacule de Cuirassé Ancien
+
+entity.csrp.remain.name=Restes
+# Creative Tab
+
+itemGroup.SRParasites=Scape and Run: Parasites
+
+# Items
+item.csrp.itemmobspawner_pod.name=Faire apparaître une Capsule
+
+item.csrp.itemmobspawner_abobodies.name=Faire apparaître une Amalgamation de Corps
+item.csrp.itemmobspawner_abohead.name=Faire apparaître un Tête Géante
+
+item.csrp.itemmobspawner_host.name=Faire apparaître un Hôte
+item.csrp.itemmobspawner_hostii.name=Faire apparaître une Horde
+item.csrp.itemmobspawner_heed.name=Faire apparaître un Heed
+item.csrp.itemmobspawner_cruxa.name=Faire apparaître un Crux
+item.csrp.itemmobspawner_mes.name=Faire apparaître un Thrall
+item.csrp.itemmobspawner_done.name=Faire apparaître un Dredge 
+item.csrp.itemmobspawner_quac.name=Faire apparaître un Porteur de Vers
+item.csrp.itemmobspawner_leer.name=Faire apparaître un Airscrew 
+item.csrp.itemmobspawner_cruxb.name=Faire apparaître un Crux Incomplet
+
+item.csrp.itemmobspawner_infbear.name=Générer Ours Assimilé
+item.csrp.itemmobspawner_infsquid.name=Générer Poulpe Assimilé
+item.csrp.itemmobspawner_infenderman.name=Générer Enderman Assimilé
+item.csrp.itemmobspawner_infendermanhead.name=Générer Tête Assimilée (Enderman)
+item.csrp.itemmobspawner_infplayer.name=Générer Aventurier Assimilé
+item.csrp.itemmobspawner_infplayerhead.name=Générer Tête Assimilée (Aventurier)
+item.csrp.itemmobspawner_dorpa.name=Générer Grande Araignée Assimilée
+item.csrp.itemmobspawner_infhuman.name=Générer Humain Assimilé
+item.csrp.itemmobspawner_infhumanhead.name=Générer Tête Assimilée (Humain)
+item.csrp.itemmobspawner_infvillager.name=Générer Villageois Assimilé
+item.csrp.itemmobspawner_infvillagerhead.name=Générer Tête Assimilée (Villageois)
+item.csrp.itemmobspawner_infcow.name=Générer Vache Assimilée
+item.csrp.itemmobspawner_infcowhead.name=Générer Tête Assimilée (Vache)
+item.csrp.itemmobspawner_infpig.name=Générer Cochon Assimilé
+item.csrp.itemmobspawner_infpighead.name=Générer Tête Assimilée (Cochon)
+item.csrp.itemmobspawner_infsheep.name=Générer Mouton Assimilé
+item.csrp.itemmobspawner_infsheephead.name=Générer Tête Assimilée (Mouton)
+item.csrp.itemmobspawner_infwolf.name=Générer Loup Assimilé
+item.csrp.itemmobspawner_infwolfhead.name=Générer Tête Assimilée (Loup)
+item.csrp.itemmobspawner_infhorse.name=Générer Cheval Assimilé
+item.csrp.itemmobspawner_infhorsehead.name=Générer Tête Assimilée (Cheval)
+item.csrp.itemmobspawner_inhoos.name=Générer Forme Incomplète (Petite)
+item.csrp.itemmobspawner_inhoom.name=Générer Forme Incomplète (Moyenne)
+item.csrp.itemmobspawner_infdragone.name=Générer Dragon de l'Ender Assimilé
+item.csrp.itemmobspawner_infdragonehead.name=Générer Tête Assimilée (Dragon de l'Ender)
+
+item.csrp.itemmobspawner_marbear.name=Générer Ours Assimara
+item.csrp.itemmobspawner_marhuman.name=Générer Humain Assimara
+item.csrp.itemmobspawner_marcow.name=Générer Vache Assimara
+item.csrp.itemmobspawner_marsheep.name=Générer Mouton Assimara
+item.csrp.itemmobspawner_marenderman.name=Générer Enderman Assimara
+item.csrp.itemmobspawner_marvillager.name=Générer Villageois Assimara
+
+item.csrp.itemmobspawner_fercow.name=Générer Vache Féroce
+item.csrp.itemmobspawner_ferbear.name=Générer Ours Féroce
+item.csrp.itemmobspawner_ferenderman.name=Générer Enderman Féroce
+item.csrp.itemmobspawner_ferhuman.name=Générer Humain Féroce
+item.csrp.itemmobspawner_ferhorse.name=Générer Cheval Féroce
+item.csrp.itemmobspawner_ferpig.name=Générer Cochon Féroce
+item.csrp.itemmobspawner_fersheep.name=Générer Mouton Féroce
+item.csrp.itemmobspawner_fervillager.name=Générer Villageois Féroce
+item.csrp.itemmobspawner_ferwolf.name=Générer Loup Féroce
+
+item.csrp.itemmobspawner_hiblaze.name=Générer Blaze Détourné
+item.csrp.itemmobspawner_higolem.name=Générer Golem Détourné
+item.csrp.itemmobspawner_hiskeleton.name=Générer Squelette Détourné
+
+item.csrp.itemmobspawner_alafha.name=Générer Overseer
+item.csrp.itemmobspawner_omboo.name=Générer Bombardier Léger
+item.csrp.itemmobspawner_rathol.name=Générer Transitaire Lourd
+item.csrp.itemmobspawner_gothol.name=Générer Transitaire Léger
+item.csrp.itemmobspawner_buthol.name=Générer Transitaire Volant
+item.csrp.itemmobspawner_lodo.name=Générer Buglin
+item.csrp.itemmobspawner_nuuh.name=Générer Mangler
+item.csrp.itemmobspawner_ata.name=Générer Gnat
+item.csrp.itemmobspawner_worker.name=Générer Ouvrier
+item.csrp.itemmobspawner_mudo.name=Générer Rupter
+item.csrp.itemmobspawner_venkrol.name=Générer Beckon Stage I
+item.csrp.itemmobspawner_venkrolsii.name=Générer Beckon Stage II
+item.csrp.itemmobspawner_venkrolsiii.name=Générer Beckon Stage III
+item.csrp.itemmobspawner_venkrolsiv.name=Générer Beckon Stage IV
+item.csrp.itemmobspawner_venkrolsv.name=Générer Beckon Stage V
+item.csrp.itemmobspawner_ganro.name=Générer Gardien
+item.csrp.itemmobspawner_esor.name=Générer Maraudeur
+item.csrp.itemmobspawner_orch.name=Générer Monarque
+item.csrp.itemmobspawner_flog.name=Générer Grunt
+item.csrp.itemmobspawner_unvo.name=Générer Sentinelle
+item.csrp.itemmobspawner_tonro.name=Générer Kyphosis
+item.csrp.itemmobspawner_dod.name=Générer Dispatcher Stage I
+item.csrp.itemmobspawner_dodsii.name=Générer Dispatcher Stage II
+item.csrp.itemmobspawner_dodsiii.name=Générer Dispatcher Stage III
+item.csrp.itemmobspawner_dodsiv.name=Générer Dispatcher Stage IV
+item.csrp.itemmobspawner_leem.name=Générer Rooter Stage I
+item.csrp.itemmobspawner_leemsii.name=Générer Rooter Stage II
+item.csrp.itemmobspawner_leemsiii.name=Générer Rooter Stage III
+item.csrp.itemmobspawner_leemsiv.name=Générer Rooter Stage IV
+item.csrp.itemmobspawner_nak.name=Générer Seizer
+
+item.csrp.itemmobspawner_jinjo.name=Générer Bombardier Lourd
+item.csrp.itemmobspawner_vesta.name=Générer Colony Carrier
+item.csrp.itemmobspawner_elvia.name=Générer Spectre
+item.csrp.itemmobspawner_lencia.name=Générer Bogle
+item.csrp.itemmobspawner_pheon.name=Générer Chasseur
+item.csrp.itemmobspawner_flam.name=Générer Succor
+item.csrp.itemmobspawner_soo.name=Générer Pisteur
+item.csrp.itemmobspawner_tenn.name=Générer Architecte
+
+item.csrp.itemmobspawner_heblu.name=Générer Draconite
+item.csrp.itemmobspawner_kirin.name=Générer Kirin
+
+item.csrp.itemmobspawner_oronco.name=Générer Ancien Dreadnaut
+item.csrp.itemmobspawner_terla.name=Générer Ancien Overlord
+item.csrp.itemmobspawner_anged.name=Générer Vigilante
+item.csrp.itemmobspawner_lesh.name=Générer Chair Mouvante
+
+item.csrp.itemmobspawner_shyco.name=Générer Longarms Primitif
+item.csrp.itemmobspawner_hull.name=Générer Manducater Primitif
+item.csrp.itemmobspawner_canra.name=Générer Summoner Primitif
+item.csrp.itemmobspawner_emana.name=Générer Yelloweye Primitif
+item.csrp.itemmobspawner_nogla.name=Générer Reeker Primitif
+item.csrp.itemmobspawner_bano.name=Générer Bolster Primitif
+item.csrp.itemmobspawner_ranrac.name=Générer Arachnide Primitif
+item.csrp.itemmobspawner_lum.name=Générer Dévoreur Primitif
+item.csrp.itemmobspawner_iki.name=Générer Vermine Primitive
+item.csrp.itemmobspawner_wymo.name=Générer Ver Primitif
+item.csrp.itemmobspawner_gim.name=Générer Viscère Primitive
+item.csrp.itemmobspawner_zaa.name=Générer Fossoyeur Primitif
+
+item.csrp.itemmobspawner_shycoadapted.name=Générer Longarms Adapté
+item.csrp.itemmobspawner_canraadapted.name=Générer Summoner Adapté
+item.csrp.itemmobspawner_noglaadapted.name=Générer Reeker Adapté
+item.csrp.itemmobspawner_hulladapted.name=Générer Manducater Adapté
+item.csrp.itemmobspawner_emanaadapted.name=Générer Yelloweye Adapté
+item.csrp.itemmobspawner_banoadapted.name=Générer Bolster Adapté
+item.csrp.itemmobspawner_ranracadapted.name=Générer Arachnide Adapté
+item.csrp.itemmobspawner_lumadapted.name=Générer Dévoreur Adapté
+item.csrp.itemmobspawner_ikiadapted.name=Générer Vermine Adaptée
+item.csrp.itemmobspawner_wymoadapted.name=Générer Ver Adapté
+item.csrp.itemmobspawner_gimadapted.name=Générer Viscère Adaptée
+item.csrp.itemmobspawner_zaaadapted.name=Générer Fossoyeur Adapté
+
+item.csrp.itemthrow.name=§6Boule d'Acide
+item.csrp.itemtab.name=§dNULL
+item.csrp.itemevolve.name=Bâton d'Évolution
+item.csrp.itemassimilate.name=Bâton d'Assimilation
+item.csrp.itemdevolve.name=Bâton de Dévolution
+item.csrp.itemvariant.name=Bâton de Variante
+item.csrp.evclock.name=§cMontre Ensanglantée
+item.csrp.levelclock.name=§bcMontre de Niveau
+item.csrp.weapon_scythe.name=§eFaux Vivante
+item.csrp.weapon_scythe_sentient.name=§6Grande Faux Consciente
+item.csrp.weapon_bow.name=§eArc Vivant
+item.csrp.weapon_bow_sentient.name=§6Grand Arc Conscient
+item.csrp.weapon_axe.name=§eHache Vivante
+item.csrp.weapon_axe_sentient.name=§6Grande Hache Consciente
+item.csrp.weapon_sword.name=§eÉpée Vivante
+item.csrp.weapon_sword_sentient.name=§6Grande Épée Consciente
+item.csrp.weapon_cleaver.name=§eCouperet Vivant
+item.csrp.weapon_cleaver_sentient.name=§6Couperet Conscient
+item.csrp.weapon_maul.name=§eMarteau Vivant
+item.csrp.weapon_maul_sentient.name=§6Grand Marteau Conscient
+item.csrp.weapon_lance.name=§eLance Vivante
+item.csrp.weapon_lance_sentient.name=§6Grande Lance Consciente
+
+item.csrp.hijacked_iron_sword.name=§cÉpée en Fer Détournée
+item.csrp.hijacked_iron_axe.name=§cHache en Fer Détournée
+item.csrp.hijacked_iron_shovel.name=§cPelle en Fer Détournée
+item.csrp.hijacked_iron_hoe.name=§cHoue en Fer Détournée
+item.csrp.hijacked_iron_pickaxe.name=§cPioche en Fer Détournée
+
+item.csrp.hijacked_iron_sword.desc=§cInflige saignement aux §fcibles. Déchire les parasites. Donne §crage §fà la cible si elle est proche de la mort.
+item.csrp.hijacked_iron_axe.desc=§cInflige saignement aux §fcibles.Déchire les parasites. Donne §crage §fà la cible si elle est proche de la mort.
+item.csrp.hijacked_iron_shovel.desc=§cInflige saignement aux §fcibles. Déchire les parasites. Donne §crage §fà la cible si elle est proche de la mort.
+item.csrp.hijacked_iron_hoe.desc=§cInflige saignement aux §fcibles. Déchire les parasites. Donne §crage §fà la cible si elle est proche de la mort.
+item.csrp.hijacked_iron_pickaxe.desc=§cInflige saignement aux §fcibles. Déchire les parasites. Donne §crage §fà la cible si elle est proche de la mort.
+
+item.csrp.armor_helm.name=§eCasque Vivant
+item.csrp.armor_chest.name=§ePlastron Vivant
+item.csrp.armor_pants.name=§eJambières Vivantes
+item.csrp.armor_boots.name=§eBottes Vivantes
+item.csrp.armor_helm_sentient.name=§6eCasque Conscient
+item.csrp.armor_chest_sentient.name=§6Plastron Conscient
+item.csrp.armor_pants_sentient.name=§6Jambières Conscientes
+item.csrp.armor_boots_sentient.name=§6Bottes Conscientes
+
+####
+item.csrp.bow_upperlimb.name=§6Membre Supérieur de Grand Arc Vivant
+item.csrp.bow_lowerlimb.name=§6Membre Inférieur de Grand Arc Vivant
+item.csrp.bow_string.name=§6Ficelle de Grand Arc Vivant
+item.csrp.bow_grip.name=§6Poignée de Grand Arc Vivant
+item.csrp.bow_core.name=§6Coeur de Grand Arc Vivant
+
+item.csrp.scythe_back.name=§6Dos de Grande Faux Vivante
+item.csrp.scythe_blade.name=§6Lame de Grande Faux Vivante
+item.csrp.scythe_core.name=§6Coeur de Grande Faux Vivante
+item.csrp.scythe_handle.name=§6Poignée de Grande Faux Vivante
+item.csrp.scythe_head.name=§6Tête de Grande Faux Vivante
+####
+
+
+item.csrp.dried_tendons.name=§eTendons Séchés
+item.csrp.hardened_bone_handle.name=§ePoignée Osseuse Solide
+item.csrp.infectious_blade_fragment.name=§eFragment de Lame Infectieuse
+item.csrp.living_core.name=§eCoeur Vivant
+item.csrp.vile_shell.name=§eCoquille Vile
+item.csrp.bone.name=§eOs Étrange
+
+item.csrp.ada_longarms_drop.name=§bFragment d'Armure de Longarms
+item.csrp.ada_summoner_drop.name=§bCoeur de Summoner
+item.csrp.ada_yelloweye_drop.name=§bOs de Yelloweye
+item.csrp.ada_reeker_drop.name=§bGriffe de Reeker
+item.csrp.ada_manducater_drop.name=§bOrbe de Manducater
+item.csrp.ada_bolster_drop.name=§bMorceau de Racine
+item.csrp.ada_arachnida_drop.name=§bGriffe d'Arachnide
+item.csrp.ada_devourer_drop.name=§bTentacule de Dévoreur
+item.csrp.ada_vermin_drop.name=§dMucus Corrosif 
+item.csrp.ada_viscera_drop.name=§dMembrane Mère Coupée
+item.csrp.hijacked_drop.name=§cExcroissance Détournée
+item.csrp.hive_scrap.name=§7Ferraille de Ruche
+item.csrp.bloody_iron_ingot.name=Lingot de Fer Détourné
+item.csrp.semiorganic_ingot.name=Lingot Semi-organique
+tile.csrp.semiorganic_block.name=Bloc Semi-organique
+item.csrp.bloody_rod.name=Bâton de Blaze Détourné
+item.csrp.bloody_bone.name=Os Détourné
+tile.csrp.assimilated_blossom.name=Fleur Assimilée
+tile.csrp.potted_assimilated_blossom.name=Pot de Fleur Assimilé
+tile.csrp.potted_consumed_assimilated_blossom.name=Pot Consumé de Fleur Assimilée
+tile.csrp.consumed_pot.name=Pot de Fleur Consumé
+tile.csrp.infested_pot.name=Pot de Fleur Infesté
+item.csrp.infested_bonemeal.name=Poudre d'Os Infestée
+tile.csrp.infested_cactus.name=Cactus Infesté
+tile.csrp.infested_workbench.name=Table de Craft Infestée
+
+item.csrp.assimilated_flesh.name=Chair Infectée
+item.csrp.beckon_drop.name=§aMembrane de Beckon
+item.csrp.dispatcher_drop.name=§cMembrane de Dispatcher
+
+item.csrp.lurecomponent1.name=§bViscère de Ruptère
+item.csrp.lurecomponent2.name=§bCoeur Malade
+item.csrp.lurecomponent3.name=§bTendon Altéré
+item.csrp.lurecomponent4.name=§bPoumon Toxique
+item.csrp.lurecomponent5.name=§bCerveau Infesté
+item.csrp.lurecomponent6.name=§bColonne Vertébrale Tordue
+item.csrp.lurecomponent7.name=§bComposant de Lure 7
+item.csrp.lurecomponent8.name=§bComposant de Lure 8
+item.csrp.lurecomponent9.name=§bComposant de Lure 9
+item.csrp.lurecomponent10.name=§bComposant de Lure 10
+
+item.csrp.greek_fire.name=Briquet des Enfers
+item.csrp.bough.name=Branche Infectieuse
+tooltip.csrp.bough.line1=Brille d'un radiant éclat réconfortant.
+tooltip.csrp.bough.line2=Utilisé dans le rituel du Seppuku.
+death.attack.sepeku=%1$s a fait le rituel du Seppuku
+
+item.csrp.nodecompass.name=§cBoussole de Coeur de Biome Parasite
+item.csrp.colonycompass.name=§cBoussole de Colonie
+item.csrp.origincompass.name=§cBoussole de Vecteur
+
+##Blocks
+
+tile.csrp.parasitesapling_tree.name=Pousse de Veinwood
+tile.csrp.parasitesapling_treethin.name=Pousse Infâme
+tile.csrp.parasitesapling_flowertall.name=Pousse de Darkwood
+tile.csrp.parasitesapling_consumed.name=Pousse Consumée §l|§r §oWIP
+tile.csrp.parasitesapling_deadhead.name=Pousse Morte §l|§r §oWIP
+tile.csrp.parasitesapling_infested.name=Pousse Infestée §l|§r §oWIP
+
+tile.csrp.parasiteplank_deadhead_wall.name=Muret en Planches de Bois Mort
+tile.csrp.parasiterubble_weathb_wall.name=Muret en Brique Érodée
+tile.csrp.parasiterubbledense_colony_wall.name=Muret en Pierre Compressé de Colonie
+tile.csrp.parasiterubble_weathfs_wall.name=Muret en Brique Érodée Gelée
+tile.csrp.parasiterubbledense_biome_wall.name=Muret en Pierre de Ruche Renforcé
+tile.csrp.parasiterubble_weathbc_wall.name=Muret en Pierre Érodée
+tile.csrp.parasiterubble_bricks_wall.name=Muret en Brique de Ruche
+tile.csrp.parasitecanister_bag_wall.name=Muret en Chair
+tile.csrp.infestedrubble_wall.name=Muret en Pierre Infestée
+tile.csrp.infestedstain_wall.name=Muret en Terre Infestée
+tile.csrp.parasitestain_flesh_wall.name=Muret en Morceau de Chair
+tile.csrp.parasiterubble_metal_wall.name=Muret en Ferraille de Ruche
+
+tile.csrp.infested_plank_wall.name=Muret en Planches Infestées
+tile.csrp.bruisewood_plank_wall.name=Muret en Planches Écorchées
+tile.csrp.polished_infested_stone_wall.name=Muret en Pierre Polie Infestée
+tile.csrp.infested_stone_brick_wall.name=Muret en Brique en Pierre Infestée
+tile.csrp.goth_plank_wall.name=Muret en Planches Gothique
+tile.csrp.infested_sandstone_wall.name=Muret en Grès Infesté
+tile.csrp.consumed_plank_wall.name=Muret en Planches Consumées
+
+tile.csrp.harlequinn_grass.name=Bloc d'Herbe Harlequin
+tile.csrp.harleskinn_block.name=Bloc d'Herbe Harlequin
+tile.csrp.poland_skin_block.name=Bloc de Skin Pologne
+tile.csrp.hair_follicle_block.name=Tube de Bronchies
+tile.csrp.locs_block.name=Bloc de Locs
+tile.csrp.hirsute_hair.name=Cheveux Hirsuite
+tile.csrp.tresses_hair.name=Tresses de Cheveux
+tile.csrp.lipoma_mass.name=Masse de Lipome
+
+# Parasite Barrier Text
+tile.csrp.parasite_barrier.name=Barrière de Chunk pour Parasite §l|§r §oCréatif Uniquement
+msg.csrp.barrier.no_permission=Vous n'avez pas la permission d'interagir avec cette barrière.
+msg.csrp.barrier.radius_set=Rayon de la [Barrière] réglé à %s chunk(s).
+# Parasite Barrier Tooltip lines
+tooltip.csrp.parasite_barrier.creative_only=Créatif Seulement
+tooltip.csrp.parasite_barrier.desc1=Repousse les parasites hors de la barrière.
+tooltip.csrp.parasite_barrier.desc2=Interagir pour changer le rayon en chunk(s).
+
+tile.csrp.parasitebush_tendril.name=Filet Capillaire
+tile.csrp.parasitebush_pop.name=Vésicule Parasitaire
+tile.csrp.parasitebush_bine.name=Boucle de Nerfs
+tile.csrp.parasitebush_eye.name=Oeillière Terminale
+tile.csrp.parasitebush_tooh.name=Petite Incisive
+tile.csrp.parasitebush_frostg.name=Herbe Brûlée par le Froid
+tile.csrp.parasitebush_frostgt.name=Herbe Brûlée par le Froid
+tile.csrp.parasitebush_thorn.name=Thornshade
+tile.csrp.parasitebush_thorndead.name=Thornshade Morte
+tile.csrp.parasitebush_thorndormat.name=Thornshade Dormante
+tile.csrp.parasitebush_thorndormats.name=Thornshade Dormante
+tile.csrp.parasitebush_thorntwo.name=Thornshade
+tile.csrp.parasitebush_thorntwos.name=Thornshade
+tile.csrp.parasitebush_decanter.name=Décanteur
+tile.csrp.parasitebush_decanterempty.name=Décanteur Vide
+tooltip.csrp.thornshade_decanter.line1=Renvoie une partie des dégâts reçus à l'assaillant.
+tooltip.csrp.thornshade_decanter.line2=N'affecte pas les dégâts à distance ou la magie.
+item.csrp.thornshade_decanter.name=§5Décanteur Thornshade
+effect.csrp.thornshade_thorns=§5Épines de Thornshade
+
+tile.csrp.infestedore_co.name=Minerai de Charbon Pestilentiel
+tile.csrp.infestedore_dia.name=Minerai de Diamant Pestilentiel
+tile.csrp.infestedore_eme.name=Minerai d'Émeraude Pestilentiel
+tile.csrp.infestedore_gol.name=Minerai d'Or Pestilentiel
+tile.csrp.infestedore_iro.name=Minerai de Fer Pestilentiel
+tile.csrp.infestedore_lap.name=Minerai de Lapis Lazuli Pestilentiel
+tile.csrp.infestedore_red.name=Minerai de Redstone Pestilentiel
+tile.csrp.infestedore_un.name= Minerai Pestilentiel
+
+# Harleskinn building set
+tile.csrp.harleskinn_stairs.name=Escaliers Harlequin
+tile.csrp.harleskinn_fence.name=Barrière Harlequin
+tile.csrp.infested_fence.name=Barrière Infestée
+tile.csrp.deadhead_fence.name=Barrière en Bois Mort
+tile.csrp.goth_fence.name=Barrière Gothique
+tile.csrp.consumed_fence.name=Barrière en Bois Consumé
+tile.csrp.bruisewood_fence.name=Barrière en Bois Écorché
+tile.csrp.harleskinn_slab.name=Dalle Harlequin
+
+# single slabs
+tile.csrp.infested_cobblestone_slab.name=Dalle en Pierre Infestée
+tile.csrp.infested_plank_slab.name=Dalle en Planche Infestée
+tile.csrp.infested_stone_slab.name=Dalle en Roche Infestée
+tile.csrp.infested_dirt_slab.name=Dalle en Terre Infestée
+tile.csrp.reinforced_hivestone_slab.name=Dalle en Pierre de Ruche Renforcée
+tile.csrp.parasitic_colony_core_slab.name=Dalle en Coeur de Colonie Parasitaire
+tile.csrp.sac_of_flesh_slab.name=Dalle en Chair Enveloppée
+tile.csrp.dead_head_plank_slab.name=Dalle en Plache Morte
+tile.csrp.weathered_bricks_slab.name=Dalle en Brique Érodée
+tile.csrp.parasitic_compressed_colony_stone_slab.name=Dalle en Pierre Compressée de Colonie Parasitaire
+tile.csrp.weathered_cobblestone_slab.name=Dalle en Pierre Érodée
+tile.csrp.frost_weathered_stone_slab.name=Dalle en Roche Gelée Érodée
+tile.csrp.infested_stone_brick_slab.name=Dalle en Brique de Pierre Infestée
+tile.csrp.infested_terracotta_slab.name=Dalle en Terracota Infestée
+tile.csrp.polished_infested_stone_slab.name=Dalle en Pierre Polie Infestée
+tile.csrp.residue_brick_slab.name=Dalle en Brique de Résidus
+tile.csrp.infested_sandstone_slab.name=Dalle en Grès Infesté
+tile.csrp.goth_plank_slab.name=Dalle en Planche de Bois Gothique
+tile.csrp.bruisewood_plank_slab.name=Dalle en Bois Écorché
+tile.csrp.consumed_plank_slab.name=Dalle en Planche Consumée
+tile.csrp.harleskinn_block_slab.name=Dalle en Bloc Harlequin
+tile.csrp.poland_skin_slab.name=Dalle en Skin de Pologne
+tile.csrp.locs_block_slab.name=Dalle en Bloc de Locs
+
+tile.csrp.infested_cobblestone_slab_double.name=Double Dalles en Pierre Infestée
+tile.csrp.infested_stone_slab_double.name=Double Dalles en Roche Infestée
+tile.csrp.infested_dirt_slab_double.name=Double Dalles en Terre Infestée
+tile.csrp.reinforced_hivestone_slab_double.name=Double Dalles en Pierre de Ruche Renforcée
+tile.csrp.parasitic_colony_core_slab_double.name=Double Dalles en Coeur de Colonie Parasitaire
+tile.csrp.sac_of_flesh_slab_double.name=Double Dalles en Chair Enveloppée
+tile.csrp.dead_head_plank_slab_double.name=Double Dalles en Planche Morte
+tile.csrp.weathered_bricks_slab_double.name=Double Dalles en Brique Érodée
+tile.csrp.parasitic_compressed_colony_stone_slab_double.name=Double Dalles en Pierre Compressée de Colonie Parasitaire
+tile.csrp.weathered_cobblestone_slab_double.name=Double Dalles en Pierre Érodée
+tile.csrp.frost_weathered_stone_slab_double.name=Double Dalles en Pierre Gelée Érodée
+tile.csrp.infested_stone_brick_slab_double.name=Double Dalles en Brique de Pierre Infestée
+tile.csrp.infested_terracotta_slab_double.name=Double Dalles en Terracotta Infestée
+tile.csrp.polished_infested_stone_slab_double.name=Double Dalles en Pierre Polie Infestée
+tile.csrp.residue_brick_slab_double.name=Double Dalles en Brique de Résidus
+tile.csrp.infested_sandstone_slab_double.name=Double Dalles en Grès Infesté
+tile.csrp.goth_plank_slab_double.name=Double Dalles en Planche Gothique
+tile.csrp.bruisewood_plank_slab_double.name=Double Dalles en Bois Écorché
+tile.csrp.consumed_plank_slab_double.name=Double Dalles en Planche Consumée
+tile.csrp.harleskinn_block_slab_double.name=Double Dalles en Bloc Harlequin
+tile.csrp.poland_skin_slab_double.name=Double Dalles en Skin de Pologne
+tile.csrp.locs_block_slab_double.name=Double Dalles en Bloc de Locs
+
+tile.csrp.relaycontroller.name=Contrôleur de Relais
+
+tile.csrp.srpweb_one.name=§8Toile Fine
+tile.csrp.srpweb_two.name=§aToile Toxique
+tile.csrp.srpweb_three.name=§8Toile Ternie
+tile.csrp.tunnel.name=Tunnel
+tile.csrp.dispatchern.name=§cNid de Dispatcher
+tile.csrp.biomeheart.name=Coeur de Ruche
+tile.csrp.colonyheart.name=Coeur de Colonie Parasitaire
+tile.csrp.colonyoutpost.name=Avant-Poste de Colonie Parasitaire
+tile.csrp.biomepurifier.name=§bPurificateur de Biome
+tile.csrp.parasitestructure.name=Structure Parasitaire Incomplète de Colonie
+tile.csrp.parasitethin.name=Fine Bûche Parasitaire
+tile.csrp.parasitemouth.name=Bouche
+tile.csrp.parasitetendril.name=Tentacule Parasitaire
+tile.csrp.parasitefog.name=Brume
+
+tile.csrp.parasitestainslabhalf_dirt.name=Dalle en Terre de Ruche
+tile.csrp.parasitestainslabhalf_mud.name=Dalle en Boue Viscérale
+tile.csrp.parasitestainslabhalf_sflesh.name=Dalle en Morceau de Chair
+tile.csrp.parasitestainslabhalf_feeler.name=Dalle en Artère Compressée
+tile.csrp.parasitestainslabhalf_spore.name=Dalle en Réseau de Mycelium
+tile.csrp.parasitestain_spore.name=Réseau de Mycelium
+tile.csrp.parasitestainslabhalf_red.name=Dalle en Contusion
+tile.csrp.parasitestain_red.name=Bloc de Contusion
+tile.csrp.parasitestainslabhalf_sackflesh.name=Dalle en Chair Enveloppée
+tile.csrp.parasitestain_sackflesh.name=Bloc de Chair Enveloppée
+
+tile.csrp.parasiterubbleslabhalf_flesh.name=Dalle en Chair Concentrée
+tile.csrp.parasiterubbleslabhalf_bone.name=Dalle en Os Fortifié
+tile.csrp.parasiterubbleslabhalf_stone.name=Dalle en Pierre de Ruche
+tile.csrp.parasiterubbleslabhalf_stonedebris.name=Dalle en Débris de Pierre de Ruche
+tile.csrp.parasiterubbleslabhalf_wood.name=Dalle en Bois Consumé
+tile.csrp.parasiterubbleslabhalf_bricks.name=Dalle en Brique de Pierre de Ruche
+tile.csrp.parasiterubbleslabhalf_metal.name=Dalle en Ferraille de Ruche
+tile.csrp.parasiterubbleslabhalf_obsidian.name=Dalle en Obsidienne Sanglante
+tile.csrp.parasiterubbleslabhalf_fungus.name=Dalle en Champignon Assimilé
+
+tile.csrp.parasiteloot_common.name=Pustule Bénigne
+tile.csrp.parasiteloot_uncommon.name=Pustule Maligne
+tile.csrp.parasiteloot_rare.name=Masse Métastatique
+
+tile.csrp.goresim_small.name=Restes Assimilés (S)
+tile.csrp.goresim_big.name=Restes Assimilés (L)
+tile.csrp.goresim_flat.name=Restes Assimilés (M)
+tile.csrp.gorepri_small.name=Restes Primitifs (S)
+tile.csrp.gorepri_big.name=Restes Primitifs (L)
+tile.csrp.gorepri_flat.name=Restes Primitifs (M)
+tile.csrp.goreada_small.name=Restes Adaptés (S)
+tile.csrp.goreada_big.name=Restes Adaptés (L)
+tile.csrp.goreada_flat.name=Restes Adaptés (M)
+tile.csrp.gorepur_small.name=Restes Purs (S)
+tile.csrp.gorepur_big.name=Restes Purs (L)
+tile.csrp.gorepur_flat.name=Restes Purs (M)
+tile.csrp.gorefer_small.name=Restes Féroces (S)
+tile.csrp.gorefer_big.name=Restes Féroces (L)
+tile.csrp.gorefer_flat.name=Restes Féroces (M)
+tile.csrp.goremar_small.name=Restes Assimara (S)
+tile.csrp.goremar_big.name=Restes Assimara (L)
+tile.csrp.goremar_flat.name=Restes Assimara (M)
+
+tile.csrp.infestedstain.name=Terre Infestée
+tile.csrp.infestedsand.name=Sable Infesté
+tile.csrp.infestedtrunk.name=Bûche Infestée
+tile.csrp.infestedrubble.name=Pierre Infestée
+tile.csrp.infestremain.name=Résidus Infestés
+
+tile.csrp.infestedbush_infected.name=Épines de Veines Infestées
+tile.csrp.infestedbush_grass1.name=Branches de Veines Infestées
+tile.csrp.infestedbush_flower1.name=Pousse de Veines Infestées
+tile.csrp.infestedbush_spine.name=Buisson de Veines Infestées
+tile.csrp.infestedbush_vine.name=Bobines de Veines Infestées
+tile.csrp.infestedbush_arc.name=Racines de Veines Infestées
+
+tile.csrp.parasitecanister_sac.name=§aPoche Vésicale
+tile.csrp.parasitecanister_cyst.name=Kyste Aspirateur
+tile.csrp.canisteractive.name=Kyste Glouton
+tile.csrp.dermoid_cyst.name=Kyste Dermoïde
+container.dermoid_cyst=Kyste Dermoïde
+container.csrp.parasite_loot=Kyste Parasite
+tile.csrp.parasitecanister_lump.name=Grumeau Grotesque
+tile.csrp.parasitecanister_bag.name=Enveloppe de Chair
+
+tile.csrp.parasitetrunk_ball.name=Bûche de Bois Écorché
+tile.csrp.parasitetrunk_ballstairs.name=Escaliers en Bois Écorché
+tile.csrp.parasitetrunk_tree.name=Bûche de Bois de Veine
+tile.csrp.parasitetrunk_treestairs.name=Escaliers en Bois de Veine
+tile.csrp.parasitetrunk_plant.name=Bûche de Bois Sombre
+tile.csrp.parasitetrunk_plantstairs.name=Escaliers en Bois Sombre
+tile.csrp.parasitetrunk_deadhead.name=Bûche de Bois Mort
+tile.csrp.parasitetrunk_circle.name=Bûche circulaire
+tile.csrp.deadhead_plank_stairs.name=Escaliers en Bois Mort
+tile.csrp.flesh_stairs.name=Escaliers en Planche de Chair
+tile.csrp.cooked_flesh_stairs.name=Escaliers en Chair Cuite
+tile.csrp.flesh_planks.name=Planches de Chair
+tile.csrp.cooked_flesh_planks.name=Planches de Chair Cuite
+tooltip.csrp.parasite_loot=§aPlus il est vide, plus il est dangereux.
+item.csrp.pearl.name=Oeil du Possesseur
+tooltip.csrp.pearl.desc=Brille d'une lueur euphorique autour de son Possesseur. L'Objet disparaîtra si son Possesseur est éliminé.
+
+item.csrp.false_apple.name=Fausse Pomme
+tooltip.csrp.false_apple=§7§o"Aurais-je dû survivre?"
+item.csrp.fishlin.name=Fishlin
+tooltip.csrp.fishlin=§7§oFraîchement pêché.
+item.csrp.alveoligrowth.name=Alvéole
+tooltip.csrp.alveoligrowth=§7§oRespirez aisément.
+
+tile.csrp.bruisewood_plank_stairs.name=Escaliers en Planche de Bois Écorché
+tile.csrp.infested_sandstone_stairs.name=Escaliers en Grès Infestés
+tile.csrp.goth_planks_stairs.name=Escaliers en Planche de Bois Gothiques
+tile.csrp.infested_planks_stairs.name=Escaliers en Planche Infestés
+tile.csrp.frost_weathered_stone_stairs.name=Escaliers en Pierre Gelée Érodée
+tile.csrp.consumed_planks_stairs.name=Escaliers en Planche Consumées
+tile.csrp.infested_stone_bricks_stairs.name=Escaliers en Brique de Pierre Infestée
+tile.csrp.infested_polished_stone_bricks_stairs.name=Escaliers en Brique de Pierre Polie Infestée
+tile.csrp.infested_stone_stairs.name=Escaliers en Pierre Infestée
+tile.csrp.wheathered_bricks_stairs.name=Escaliers en Brique Érodée
+tile.csrp.wheathered_cobblestone_stairs.name=Escaliers en Pierre Érodée
+
+
+tile.csrp.parasiteplank_deadhead.name=Planches Mortes
+tile.csrp.parasiteplank_deadheads.name=Planches Mortes
+
+tile.csrp.parasitestain_dirt.name=Terre de Ruche
+tile.csrp.parasitestain_dirtstairs.name=Escaliers en Terre de Ruche
+tile.csrp.parasitestain_mud.name=Boue Viscérale
+tile.csrp.parasitestain_mudstairs.name=Escaliers en Boue Viscérale
+tile.csrp.parasitestain_flesh.name=Morceau de Chair
+tile.csrp.parasitestain_fleshstairs.name=Escaliers de Chair
+tile.csrp.cooked_flesh_slab.name=Cooked Flesh Plank Slab
+tile.csrp.flesh_slab.name=Dalle en Planche de Chair
+tile.csrp.cooked_flesh.name=Chair Cuite
+tile.csrp.cooked_flesh_fence.name=Barrière en Chair Cuite
+tile.csrp.flesh_fence.name=Barrière en Chair
+tile.csrp.parasitestain_feeler.name=Artères Compressées
+tile.csrp.parasitestain_feelerstairs.name=Escaliers en Artères Compressées
+
+tile.csrp.parasiterubble_slabhalf.name=Dalle en Os Fortifiée
+tile.csrp.parasiterubble_slabdouble.name=Os Fortifié
+tile.csrp.parasiterubble_flesh.name=Morceau de Chair Concentrée
+tile.csrp.parasiterubble_fleshstairs.name=Escaliers en Chair Concentrée
+tile.csrp.parasiterubble_flesh_wall.name=Muret en Chair Concentrée
+tile.csrp.parasiterubble_bone.name=Os Fortifié
+tile.csrp.parasiterubble_boneslabhalf.name=Dalle en Os Fortifié
+tile.csrp.parasiterubble_boneslabdouble.name=Double Dalles en Os Fortifié
+tile.csrp.parasiterubble_bonestairs.name=Escaliers en Os Fortifié
+tile.csrp.parasiterubble_stone.name=Pierre de Ruche
+tile.csrp.parasiterubble_stonestairs.name=Escaliers en Pierre de Ruche
+tile.csrp.parasiterubble_stonedebris.name=Débris de Pierre de Ruche
+tile.csrp.parasiterubble_stonedebrisstairs.name=Escaliers en Débris de Pierre de Ruche
+tile.csrp.parasiterubble_wood.name=Bois Consumé
+tile.csrp.parasiterubble_woodstairs.name=Escaliers en Bois Consumé
+tile.csrp.parasiterubble_bricks.name=Briques de Pierre de Ruche
+tile.csrp.parasiterubble_bricksstairs.name=Escaliers en Brique de Pierre de Ruche
+tile.csrp.parasiterubble_metal.name=Ferraille de Ruche
+tile.csrp.parasiterubble_metalstairs.name=Escaliers en Ferraille de Ruche
+tile.csrp.parasiterubble_obsidian.name=Obsidienne Sanglante
+tile.csrp.parasiterubble_obsidianstairs.name=Escaliers en Obsidienne Sanglante
+tile.csrp.parasiterubble_fungus.name=Champignon Assimilé
+tile.csrp.parasiterubble_fungusstairs.name=Escaliers en Champignon Assimilé
+tile.csrp.parasiterubble_weathb.name=Briques Érodées
+tile.csrp.parasiterubble_weathbs.name=Briques Érodées
+tile.csrp.parasiterubble_weathbc.name=Pierre Érodée
+tile.csrp.parasiterubble_weathbcs.name=Pierre Érodée
+tile.csrp.parasiterubble_weathfs.name=Pierre Gelée Érodée
+tile.csrp.parasiterubble_weathfss.name=Pierre Gelée Érodée
+tile.csrp.infested_cobblestone.name=Pierre Infestée
+
+tile.csrp.parasiterubbledense_wall.name=Pierre de Ruche Compressée
+tile.csrp.parasiterubbledense_wallstairs.name=Escaliers en Pierre de Ruche Compressée
+tile.csrp.parasiterubbledense_biome.name=Pierre de Ruche Renforcée
+tile.csrp.parasiterubbledense_biomestairs.name=Escaliers en Pierre de Ruche Renforcée
+tile.csrp.parasiterubbledense_colony.name=Pierre Parasitaire Compressée de Colonie
+tile.csrp.parasiterubbledense_colonystairs.name=Escaliers en Pierre Parasitaire Compressée de Colonie
+
+tile.csrp.evolutionlure_one.name=Leurre (§4Affaibli§f)
+tile.csrp.evolutionlure_two.name=Leurre (§cFaible§f)
+tile.csrp.evolutionlure_three.name=Leurre (§6Effilé§f)
+tile.csrp.evolutionlure_four.name=Leurre (§eStable§f)
+tile.csrp.evolutionlure_five.name=Leurre (§2Substantiel§f)
+tile.csrp.evolutionlure_six.name=Leurre (§aConcentré§f)
+tile.csrp.evolutionlure_seven.name=Leurre (§bConcentré+§f)
+tile.csrp.evolutionlure_eight.name=Leurre (§dConcentré++§f)
+tile.csrp.evolutionlure_nine.name=Leurre (§5Surchargé§f)
+tile.csrp.evolutionlure_ten.name=Leurre (§9Anormal§f)
+
+tile.csrp.bloodyice.name=Glace Ensanglantée
+tile.csrp.gothshroom.name=Champignon Gothique
+
+tile.csrp.node_redstone_lamp.name=Lampe de Coeur Parasite
+
+tile.csrp.infested_furnace.name=Four Infesté
+tile.csrp.infested_furnace_lit.name=Four Infesté Allumé
+tile.csrp.infuser_furnace.name=Four Infuseur Métallurgique
+container.infuser_furnace=Four Infuseur Métallurgique
+
+
+tile.csrp.relay_base.name=Terminal de Relais §l|§r §o Bas
+tile.csrp.relay_middle.name=Structure de Relais §l|§r §o Milieu
+tile.csrp.relay_roof.name=Antenne de Relais §l|§r §o Haut
+
+
+tile.node_lamp_off.name=Lampe de Coeur Parasite Éteinte
+tile.node_lamp_on.name=Lampe de Coeur Parasite Allumée
+
+# Compendium Block Page
+
+bestiary.blocks.home=Menu
+bestiary.blocks.title=Blocs
+bestiary.blocks.subtitle=Database Physique
+bestiary.blocks.empty=Aucun Bloc notable découvert.
+bestiary.block.csrp.harleskinn_block.desc=Un minerai parasite dense provenant de terrains infestés.
+bestiary.block.csrp.locs_block.desc=Une masse du tissus calcifiés utilisée comme structure d'ancrage.
+bestiary.block.csrp.fog_nullifier.desc=Dissipe la brume parasitaire. Se détruit après la troisième utilisation. Ne peut pas être récupéré.
+bestiary.block.csrp.dispatchern.desc=§cDouloureux au toucher.
+bestiary.block.csrp.assimilated_reed.desc=Les barres sont pleines d'une substance gelifiée.
+bestiary.block.csrp.infested_furnace.desc=Utilisé pour cuire des blocs et objets infestés.
+bestiary.block.csrp.biomass_block.desc=Blesse tout ce qui le touche. Il émane constamment un vapeur verte et de la biomasse s'en échappe. Ne peut pas blesser de parasites.
+bestiary.block.csrp.residue_block.desc=Utilisé dans des recettes de construction. Des fleurs de résidus poussent naturellement sur ce bloc.
+bestiary.block.csrp.sick_alveoli.desc=Une forme affaiblie et infestée du bloc d'Alvéole. Il empoisonne tout ce qui le touche et restera malade jusqu'à ce qu'il entre en contact avec un Tube de Bronchie.
+bestiary.block.csrp.alveoli.desc=Une source primaire de nutriment pour les organes souterrains. Interagissez avec une bouteille vide pour collecter du fluide Alvéolaire, un ingrédient majeur dans la concoction de potion biologique. Elle devient malade si elle est laissée trop loin d'un Tube de Bronchie.
+bestiary.block.csrp.hair_follicle_block.desc=Absorbe les nutriments dans l'air pour les transporter vers les organes souterrains.
+bestiary.block.csrp.parasite_barrier.desc=Repousse tout parasite hors de la barrière. Peut être réglée dans un rayon de 1 à 10 chunks.
+bestiary.block.csrp.assimilated_pumpkin.desc=Peut être portée. Donne ADLR.
+bestiary.block.csrp.esca_bulb.desc=A une texture et une odeur de poisson en décomposition. Empli de Bioluminescence.
+bestiary.block.csrp.node_redstone_lamp.desc=Une lampe fragile comme du verre reliée aux Dispatchers dans un rayon de 250 blocs. Elle s'illumine et émet un signal de restone de comparateur en fonction de la distance avec le Dispatcher le plus proche, faire un clic-droit dessus affiche le tier et la distance du Dispatcher le plus proche. Force = Stage du Dispatcher §l|§r §o Distance = Distance du Dispatcher (1 étant le plus proche. 5 étant le plus loin.)
+bestiary.block.csrp.parasiteloot_common.desc=Trouvé dans les Méga-Structures de Colonies. Blesse les joueurs qui récupèrent les objets qu'il contient. Plus le conteneur est vide, plus il fait de dégâts (indication par une barre de progression).
+bestiary.block.csrp.infestation_purifier.desc=Un bloc exclusif au mode Créatif qui retire l'Infestation par les Beckons en utilisant un diamant. Il est requis qu'aucun Beckon ne soit présent aux alentours.
+bestiary.block.csrp.parasitemouth.desc=Une bouche parasite plantée dans le sol. Tout ce qui marche dessus est mordu, recevant des dégâts perçant l'armure et les effects corrosif et viral. Les Parasites et les joueurs en mode Créatifs ne sont pas affectés.
+bestiary.block.csrp.relay_base.desc=Utilisée dans la construction de la tour Relais. Placée à la base.
+bestiary.block.csrp.relay_middle.desc=Utilisée dans la construction de la tour Relais. Placée au milieu.
+bestiary.block.csrp.relay_roof.desc=Utilisée dans la construction de la tour Relais. Placée sur le dessus.
+bestiary.block.csrp.biomepurifier.desc=Purifie l'Infestation par un Beckon si aucun Beckon n'est proche. Interagir avec le Purificateur retire les biomes parasite si leur node est retirée.
+bestiary.block.csrp.infested_remain.desc=Peuvent être brûlés avec du feu. Utilisés dans la fabrication et la récolte des fleurs de Résidus.
+bestiary.block.csrp.diseased_sponge.desc=Lorsque utilisé avec des bouteilles d'eau, peut servir à concocter du §2Fluide de Sang Mort§7.
+
+
+message.csrp.node_lamp.strength=Puissance du Signal: %s
+message.csrp.node_lamp.distance=Distance du Signal: %s
+
+#Array text
+# Relay scan
+chat.csrp.relay.not_formed=[Relais] Structure non-créée.
+chat.csrp.relay.insert_module=[Relais] Insérez un module pour scanner.
+chat.csrp.relay.no_profile=[Relais] Pas de profil de scan pour le module: %s
+chat.csrp.relay.scan_header=§b[Relais] Scan - %s
+chat.csrp.relay.tier_line=  §7%s: §f%s
+chat.csrp.relay.total_parasites=  §7Parasites (profile): §f%s
+chat.csrp.relay.total_other=  §7Autres entités: §f%s
+chat.csrp.relay.percent=  §7Parasites %% de mobs: §f%s
+chat.csrp.relay.ratio=  §7Parasite:Non-parasite = §f%s
+block.csrp.relay_controller.no_space=§cManque d'espace pour un Relais.§r
+item.csrp.tissue_spike.name=Module de Tissu
+item.csrp.module_base.name=Module de Réceptacle Génique
+item.csrp.organ_synth.name=Module de Synthèse Organique
+gui.csrp.scanner.cooldown=Temps mort de Scan: %ss
+
+
+chat.csrp.relay.scan_started=§aScan initié...§r
+chat.csrp.relay.scan_busy=§cLe Relais est déjà entrain de scanner.§r
+chat.csrp.relay.scan_text=Scanner
+
+
+item.csrp.relay_report.name=§fCompte-rendu du Scan §7(%s)§r
+item.csrp.relay_report.lore.global_loaded=§7Échelle: §eZones chargées (Entièreté de la dimension)§r
+item.csrp.relay_report.lore.tier=§7- §f%s§7: §e%d§r
+item.csrp.relay_report.lore.total_parasites=§7Total de parasites: §c%d§r
+item.csrp.relay_report.lore.total_other=§7Total d'autres entités: §a%d§r
+item.csrp.relay_report.lore.percent=§7Pourcentage de parasites: §e%s§r
+item.csrp.relay_report.lore.ratio=§7Ratio de parasites: §e%s§r
+
+
+# Tier display names (by ID)
+tier.csrp.inborn=Inborn
+tier.csrp.assimilated=Assimilé
+tier.csrp.hijacked=Détourné
+tier.csrp.feral=Féroce
+tier.csrp.crude=Cruel
+tier.csrp.primitive=Primitif
+tier.csrp.adapted=Adapté
+tier.csrp.nexus=Nexus
+tier.csrp.deterrent=Déterrent
+tier.csrp.pure=Pur
+tier.csrp.preeminent=Préeminent
+tier.csrp.ancient=Ancient
+
+# Module profile names (printed in the header)
+profile.csrp.inborn=Inborn
+profile.csrp.assimilated=Assimilaté
+profile.csrp.hijacked=Détourné
+profile.csrp.feral=Féroce
+profile.csrp.crude=Cruel
+profile.csrp.primitive=Primitif
+profile.csrp.adapted=Adapté
+profile.csrp.nexus=Nexus
+profile.csrp.deterrent=Déterrent
+profile.csrp.pure=Pur
+profile.csrp.preeminent=Préeminent
+profile.csrp.ancient=Ancient
+profile.csrp.desmoid=Desmoid
+profile.csrp.eschar=Eschar
+profile.csrp.resistance=Résistance
+profile.csrp.ideal=Idéal
+profile.csrp.origin=Origine
+
+
+# Display names
+tile.relaycontroller.name=§6Contrôleur de Relais
+tile.relay_base.name=§7Terminal de Relais
+tile.relay_middle.name=§7Structure de Relais
+tile.relay_roof.name=§7Antenne de Relais
+
+# Tooltips used by ItemBlockWithTooltip
+tooltip.relaycontroller=§7Contrôle le §6Relais Multibloc. §7Le casser détruit la structure entière. Modèle par Peter
+tooltip.relay_base=§7Partie Inférieure du §6Relais Multibloc. §7Base du Relais.
+tooltip.relay_middle=§7Partie Moyenne du §6Relais Multibloc. §7Connecte la base à l'Antenne.
+tooltip.relay_roof=§7Partie Supérieure du §6Relais Multibloc. §7Tête de l'Antenne utilisée pour scanner de hautes fréquences.
+
+# Module Names
+item.csrp.module_inborn.name=Module Inborn
+item.csrp.module_assimilated.name=Module Assimilé + Assimara
+item.csrp.module_hijacked.name=Module Détourné
+item.csrp.module_feral.name=Module Féroce
+item.csrp.module_crude.name=Module Cruel
+item.csrp.module_primitive.name=Module Primitif
+item.csrp.module_adapted.name=Module Adapté
+item.csrp.module_nexus.name=Module Nexus
+item.csrp.module_deterrent.name=Module Déterrent
+item.csrp.module_pure.name=Module Pur
+item.csrp.module_preeminent.name=Module Préeminent
+item.csrp.module_ancient.name=Module Ancient
+
+item.csrp.module_desmoid.name=Module Desmoid
+item.csrp.module_eschar.name=Module Eschar
+item.csrp.module_resistance.name=Module Résistance
+item.csrp.module_ideal.name=Module Idéal
+item.csrp.module_origin.name=Module d'Origine
+
+tile.csrp.thornshade.name=Thornshade
+item.csrp.thornshade_berry.name=§5Baie de Thornshade
+
+##Fluids
+
+fluid.deadblood=Sang Séché
+
+##Effects
+
+effect.csrp.dod_smoke_trail=Fumée Concussive
+mob_effect.csrp:dod_smoke_trail=Fumée Concussive
+
+mob_effect.csrp:thornshade_thorns=§5Thornshades
+splash_potion.effect.csrp:thornshade_thorns=Potion Éclaboussante de §5Thornshade
+potion.effect.csrp:thornshade_thorns=Potion de §5Thornshade
+lingering_potion.effect.csrp:thornshade_thorns=Potion Persistante de §5Thornshade
+tipped_arrow.effect.csrp:thornshade_thorns=Flèche de §5Thornshade
+
+mob_effect.csrp:coth=§4Appel de la Ruche
+splash_potion.effect.csrp:coth=Potion Éclaboussante de l'§4Appel de la Ruche
+potion.effect.csrp:coth=Potion de l'§4Appel de la Ruche
+lingering_potion.effect.csrp:coth=Potion Persistante de l'§4Appel de la Ruche
+tipped_arrow.effect.csrp:coth=Flèche de l'§4Appel de la Ruche
+
+mob_effect.csrp:fear=§8Peur
+splash_potion.effect.csrp:fear=Potion Éclaboussante de §8Peur
+potion.effect.csrp:fear=Potion de §8Peur
+lingering_potion.effect.csrp:fear=Potion Persistante de §8Peur
+tipped_arrow.effect.csrp:fear=Flèche de §8Peur
+
+mob_effect.csrp:vomit=§7Vomi
+splash_potion.effect.csrp:vomit=Potion Éclaboussante de §7Vomi
+potion.effect.csrp:vomit=Potion de §7Vomi
+lingering_potion.effect.csrp:vomit=Potion Persistante de §7Vomi
+tipped_arrow.effect.csrp:vomit=Flèche de §7Vomi
+
+mob_effect.csrp:jugg=§7Jugg
+splash_potion.effect.csrp:jugg=Potion Éclaboussante de §7Jugg
+potion.effect.csrp:jugg=Potion de §7Jugg
+lingering_potion.effect.csrp:jugg=Potion Persistante de §7Jugg
+tipped_arrow.effect.csrp:jugg=Flèche de §7Jugg
+
+mob_effect.csrp:conta=§7Conta
+splash_potion.effect.csrp:conta=Potion Éclaboussante de §7Conta
+potion.effect.csrp:conta=Potion de §7Conta
+lingering_potion.effect.csrp:conta=Potion Persistante de §7Conta
+tipped_arrow.effect.csrp:conta=Flèche de §7Conta
+
+mob_effect.csrp:antimall=§7Immalléable
+splash_potion.effect.csrp:antimall=Potion Éclaboussante d'§7Immalléable
+potion.effect.csrp:antimall=Potion d'§7Immalléable
+lingering_potion.effect.csrp:antimall=Potion Persistante d'§7Immalléable
+tipped_arrow.effect.csrp:antimall=Flèche d'§7Immalléable
+
+splash_potion.effect.csrp:the_sign=Potion Éclaboussante du §bSigne
+potion.effect.csrp:the_sign=Potion du §bSigne
+lingering_potion.effect.csrp:the_sign=Potion Persistante du §bSigne
+item.csrp.the_sign_charm.name=Le Signe
+tooltip.csrp.the_sign_charm.red=Objet réservé au Mode Créatif
+tooltip.csrp.the_sign_charm.white=Celui qui cherche à naître doit d'abord détruire un monde.
+tooltip.csrp.the_sign_charm.gray=Les Parasites ignorent les joueurs dont l'inventaire est ouvert.
+mob_effect.csrp:the_sign=Le Signe
+effect.csrp.the_sign=Le Signe
+tipped_arrow.effect.csrp:the_sign=Flèche du Signe
+
+mob_effect.csrp:bleed=§4Saignement
+splash_potion.effect.csrp:bleed=Potion Éclaboussante de §4Saignement
+potion.effect.csrp:bleed=Potion de §4Saignement
+lingering_potion.effect.csrp:bleed=Potion Persistante de §4Saignement
+tipped_arrow.effect.csrp:bleed=Flèche de §4Saignement
+
+mob_effect.csrp:corrosive=§6Corrosion
+splash_potion.effect.csrp:corrosive=Potion Éclaboussante de §6Corrosion
+potion.effect.csrp:corrosive=Potion de §6Corrosion
+lingering_potion.effect.csrp:corrosive=Potion Persistante de §6Corrosion
+tipped_arrow.effect.csrp:corrosive=Flèche de §6Corrosion
+
+mob_effect.csrp:viral=§aViral
+splash_potion.effect.csrp:viral=Potion Éclaboussante §aVirale
+potion.effect.csrp:viral=Potion §aVirale
+lingering_potion.effect.csrp:viral=Potion Persistante §aVirale
+tipped_arrow.effect.csrp:viral=Flèche §aVirale
+
+mob_effect.csrp:rage=§cRage
+splash_potion.effect.csrp:rage=Potion Éclaboussante de §cRage
+potion.effect.csrp:rage=Potion de §cRage
+lingering_potion.effect.csrp:rage=Potion Persistante de §cRage
+tipped_arrow.effect.csrp:rage=Flèche de §cRage
+
+mob_effect.csrp:repel=§2Camouflage
+splash_potion.effect.csrp:repel=Potion Éclaboussante de §2Camouflage
+potion.effect.csrp:repel=Potion de §2Camouflage
+lingering_potion.effect.csrp:repel=Potion Persistante de §2Camouflage
+tipped_arrow.effect.csrp:repel=Flèche de §2Camouflage
+
+mob_effect.csrp:senses=§3Sens Accrus
+splash_potion.effect.csrp:senses=Potion Éclaboussante de §3Sens Accrus
+potion.effect.csrp:senses=Potion de §3Sens Accrus
+lingering_potion.effect.csrp:senses=Potion Persistante de §3Sens Accrus
+tipped_arrow.effect.csrp:senses=Flèche de §3Sens Accrus
+
+mob_effect.csrp:debar=§7Debar
+splash_potion.effect.csrp:debar=Potion Éclaboussante de §7Debar
+potion.effect.csrp:debar=Potion de §7Debar
+lingering_potion.effect.csrp:debar=Potion Persistante de §7Debar
+tipped_arrow.effect.csrp:debar=Flèche de §7Debar
+
+mob_effect.csrp:needler=§6Needler
+splash_potion.effect.csrp:needler=Potion Éclaboussante de §6Needler
+potion.effect.csrp:needler=Potion de §6Needler
+lingering_potion.effect.csrp:needler=Potion Persistante de §6Needler
+tipped_arrow.effect.csrp:needler=Flèche de §6Needler
+
+mob_effect.csrp:link=§aLien
+splash_potion.effect.csrp:link=Potion Éclaboussante de §aLien
+potion.effect.csrp:link=Potion de §aLien
+lingering_potion.effect.csrp:link=Potion Persistante de §aLien
+tipped_arrow.effect.csrp:link=Flèche de §aLien
+
+mob_effect.csrp:foster=§eCible
+splash_potion.effect.csrp:foster=Potion Éclaboussante de §eCible
+potion.effect.csrp:foster=Potion de §eCible
+lingering_potion.effect.csrp:foster=Potion Persistante de §eCible
+tipped_arrow.effect.csrp:foster=Flèche de §eCible
+
+mob_effect.csrp:prey=§eExposé
+splash_potion.effect.csrp:prey=Potion Éclaboussante d'§eExposition
+potion.effect.csrp:prey=Potion d'§eExposition
+lingering_potion.effect.csrp:prey=Potion Persistante d'§eExposition
+tipped_arrow.effect.csrp:prey=Flèche d'§eExposition
+
+mob_effect.csrp:pivot=§ePivot
+splash_potion.effect.csrp:pivot=Potion Éclaboussante de §ePivot
+potion.effect.csrp:pivot=Potion de §ePivot
+lingering_potion.effect.csrp:pivot=Potion Persistante de §aPivot
+tipped_arrow.effect.csrp:pivot=Flèche de §ePivot
+
+mob_effect.csrp:parate=§Parate
+splash_potion.effect.csrp:parate=Potion Éclaboussante de §eParate
+potion.effect.csrp:parate=Potion de §eParate
+lingering_potion.effect.csrp:parate=Potion Persistante de §aParate
+tipped_arrow.effect.csrp:parate=Flèche de §eParate
+
+mob_effect.csrp:primitive=§ePrimitif
+splash_potion.effect.csrp:primitive=Potion Éclaboussante de §ePrimitif
+potion.effect.csrp:primitive=Potion de §ePrimitif
+lingering_potion.effect.csrp:primitive=Potion Persistante de §aPrimitif
+tipped_arrow.effect.csrp:primitive=Flèche de §ePrimitif
+
+mob_effect.csrp:adapted=§eAdapté
+splash_potion.effect.csrp:adapted=Potion Éclaboussante d'§eAdapté
+potion.effect.csrp:adapted=Potion d'§eAdapté
+lingering_potion.effect.csrp:adapted=Potion Persistante d'§aAdapté
+tipped_arrow.effect.csrp:adapted=Flèche d'§eAdapté
+
+mob_effect.csrp:pure=§ePur
+splash_potion.effect.csrp:pure=Potion Éclaboussante de §ePur
+potion.effect.csrp:pure=Potion de §ePur
+lingering_potion.effect.csrp:pure=Potion Persistante de §aPur
+tipped_arrow.effect.csrp:pure=Flèche de§ePur
+
+mob_effect.csrp:crude=§eCruel
+splash_potion.effect.csrp:crude=Potion Éclaboussante de §eCruel
+potion.effect.csrp:crude=Potion de §eCruel
+lingering_potion.effect.csrp:crude=Potion Persistante de §aCruel
+tipped_arrow.effect.csrp:crude=Flèche de §eCruel
+
+mob_effect.csrp:feral=§eFéroce
+splash_potion.effect.csrp:feral=Potion Éclaboussante de §eFéroce
+potion.effect.csrp:feral=Potion de §eFéroce
+lingering_potion.effect.csrp:feral=Potion Persistante de §aFéroce
+tipped_arrow.effect.csrp:feral=Flèche de §eFéroce
+
+mob_effect.csrp:nexus=§eNexus
+splash_potion.effect.csrp:nexus=Potion Éclaboussante de §eNexus
+potion.effect.csrp:nexus=Potion de §eNexus
+lingering_potion.effect.csrp:nexus=Potion Persistante de §eNexus
+tipped_arrow.effect.csrp:nexus=Flèche de §eNexus
+
+mob_effect.csrp:muscleout=§eMuscle Out
+splash_potion.effect.csrp:muscleout=Potion Éclaboussante de §eMuscle Out
+potion.effect.csrp:muscleout=Potion de §eMuscle Out
+lingering_potion.effect.csrp:muscleout=Potion Persistante de §eMuscle Out
+tipped_arrow.effect.csrp:muscleout=Flèche de §eMuscle Out
+
+mob_effect.csrp:effectpos=§ePositif
+splash_potion.effect.csrp:effectpos=Potion Éclaboussante de §ePositif
+potion.effect.csrp:effectpos=Potion de §ePositif
+lingering_potion.effect.csrp:effectpos=Potion Persistante de §ePositif
+tipped_arrow.effect.csrp:effectpos=Flèche de §ePositif
+
+mob_effect.csrp:effectneg=§eNégatif
+splash_potion.effect.csrp:effectneg=Potion Éclaboussante de §eNégatif
+potion.effect.csrp:effectneg=Potion de §eNégatif
+lingering_potion.effect.csrp:effectneg=Potion Persistante de §eNégatif
+tipped_arrow.effect.csrp:effectneg=Flèche de §eNégatif
+
+mob_effect.csrp:spotted=§eRepéré
+splash_potion.effect.csrp:spotted=Potion Éclaboussante de §eRepéré
+potion.effect.csrp:spotted=Potion de §eRepéré
+lingering_potion.effect.csrp:spotted=Potion Persistante de §eRepéré
+tipped_arrow.effect.csrp:spotted=Flèche de §eRepéré
+
+mob_effect.csrp:braining=§eBraining
+splash_potion.effect.csrp:braining=Potion Éclaboussante de §eBraining
+potion.effect.csrp:braining=Potion de §eBraining
+lingering_potion.effect.csrp:braining=Potion Persistante de §eBraining
+tipped_arrow.effect.csrp:braining=Flèche de §eBraining
+
+mob_effect.csrp:novision=§eAveuglement
+splash_potion.effect.csrp:novision=Potion Éclaboussante d'§eAveuglement
+potion.effect.csrp:novision=Potion d'§eAveuglement
+lingering_potion.effect.csrp:novision=Potion Persistante d'§eAveuglement
+tipped_arrow.effect.csrp:novision=Flèche d'§eAveuglement
+
+mob_effect.csrp:indeaf=§eConfusion
+splash_potion.effect.csrp:indeaf=Potion Éclaboussante de §eConfusion
+potion.effect.csrp:indeaf=Potion de §eConfusion
+lingering_potion.effect.csrp:indeaf=Potion Persistante de §eConfusion
+tipped_arrow.effect.csrp:indeaf=Flèche de §eConfusion
+
+mob_effect.csrp:overheating=§eSurchauffe
+splash_potion.effect.csrp:overheating=Potion Éclaboussante de §eSurchauffe
+potion.effect.csrp:overheating=Potion de §eSurchauffe
+lingering_potion.effect.csrp:overheating=Potion Persistante de §eSurchauffe
+tipped_arrow.effect.csrp:overheating=Flèche de §eSurchauffe
+
+mob_effect.csrp:contagion=§eContagion
+splash_potion.effect.csrp:contagion=Potion Éclaboussante de §eContagion
+potion.effect.csrp:contagion=Potion de §eContagion
+lingering_potion.effect.csrp:contagion=Potion Persistante de §eContagion
+tipped_arrow.effect.csrp:contagion=Flèche de §eContagion
+
+##extra
+
+message.csrp.lureb=Temps mort de Points Ajouté !
+message.csrp.lurec=Points Réduits !
+message.csrp.fearitem=Vous Paniquez !
+message.csrp.fearblock=Vous Paniquez !
+message.csrp.feargui=Vous Paniquez !
+message.csrp.evolutionsleep=Vous ne pouvez pas dormir actuellement...
+message.csrp.armortooltips1=Niveau d'Adaptation Actuel
+
+tootip.csrp.quench=§fUne chaude substance maléable faite de crème de magma saturée. Sa haute concentration en poudre de Blaze la rend extrêmement §atoxique §fpour la matière parasitique.
+
+tootip.csrp.lurecomp.1=§fDes morceaux d'entrailles d'un §7Rupter§f. Un Composant pour §cLeurre§f.
+tootip.csrp.lurecomp.2=§fUn coeur grossièrement enflé prélevé sur le corps d'un Parasite §4Assimilée§f. Un Composant pour §cLeurre§f.
+tootip.csrp.lurecomp.3=§f§fDes morceaux de muscles développés, récoltés sur un corps de §cParasite Primitif§f et qui sécrète une odeur répugnante. Un Composant pour §cLeurre§f.
+tootip.csrp.lurecomp.4=§fUn poumon bien développé prélevé sur un corps de §6Parasite Adapté§f. Un Composant pour §cLeurre§f.
+tootip.csrp.lurecomp.5=§fUn cerveau bien développé prélevé sur un corps de §eParasite Pur§f. Un Composant pour §cLeurre§f.
+tootip.csrp.lurecomp.6=§fUn objet en forme de colonne vertébrale récolté dans les Sacs suspendus dans le Biome infesté. Un Composant pour §cLeurre§f.
+
+tootip.csrp.item.0=Un composant essentiel dans la Fabrication de §6Relais §fet §fde §6Modules.
+tootip.csrp.item.1=Une petite sphère qui semble émettre de l'énergie, récoltée à partir d'un corps de §6Summoner§f. Un Ingrédient de Fabrication pour des Composants d'§6Armes§f.
+tootip.csrp.item.2=Un os solide récolté sur un corps de Yelloweye. Un Ingrédient de Fabrication pour des Composants d'§6Armes§f.
+tootip.csrp.item.3=Une petit orbe qui semble émettre de l'énergie, récoltée à partir d'un corps de §6Manducater§f. Un Ingrédient de Fabrication pour des Composants d'§6Armes§f.
+tootip.csrp.item.4=Un croc incroyablement acéré récolté sur un corps de §6Reeker§f. Un Ingrédient de Fabrication pour des Composants d'§6Armes.
+tootip.csrp.item.5=Un fragment d'armure léger mais solide récolté sur un corps de §6Longarms§f. Un Ingrédient de Fabrication pour des Composants d'§6Armes§f.
+tootip.csrp.item.6=Un morceau de chair arraché du corps d'une Créature §cAssimilée§f. Un Matériau basique de Fabrication.
+tootip.csrp.item.7=
+
+tootip.csrp.item.8=Un matériau élastique, produit à partir de parties d'un corps de Parasites. Un Composant pour les §6Armes§f.
+tootip.csrp.item.9=Un morceau de Lame, produit à partir de parties d'un corps de Parasites. Un Composant pour les §6Armes§f.
+tootip.csrp.item.10=La Lueur de vie n'a pas encore brillée dans cet objet. Le Coeur qui Alimente toutes les §6Armes§f.
+tootip.csrp.item.11=Une Coquille extrêmement résistante, produite à partir de parties d'un corps de Parasites. Un Composant pour les §6Armes§f.
+tootip.csrp.item.12=Une Poignée particulièrement épaisse, en Os, produite à partir de parties d'un corps de Parasites. Un Composant pour les §6Armes§f.
+tootip.csrp.item.13=Un Os Atypique.
+tootip.csrp.item.14=§8§oUn alliage en fer infusé d'une matière parasitaire durant sa phase de fabrication. L'alliage résultant montre une sensibilité accrue à l'éléctricité et aux signaux émit par les parasites proches. Créé en combinant du Fer, du Sang Mort en bouteille et un carburant.
+
+tootip.csrp.item.20=Un morceau de peau sèche récolté sur un corps de §7Bolster§f.
+tootip.csrp.item.21=Des griffes incroyablement acérées récoltées sur le corps d'un §7Arachnide§f.
+tootip.csrp.item.22=Une tentacule osseuse arrachée d'un §bDévoreur§f.
+tootip.csrp.item.23=Un revêtement pour les §aBeckons§f, décolé de leurs corps.
+tootip.csrp.item.24=Un revêtement pour les §cDispatchers§a, décolé de leurs corps.
+
+tootip.csrp.item.25=Ciblez un Parasite pour une §cÉvolution
+tootip.csrp.item.28=Ciblez une Créature pour une §cAssimilation
+tootip.csrp.item.26=Ciblez un Parasite pour une §cDévolution
+tootip.csrp.item.27=Ciblez un Parasite pour changer sa §cVariante
+tootip.csrp.item.29=§fQu'ils §5subissent §fvotre douleur, renvoyant §5une partie des dégâts reçus. §fSa bénédiction ne marche que §52 fois §fpar vie. Les Totems §5annulent §fles effets futurs.
+tootip.csrp.item.30=Un composant essentiel dans la concoction de §5Décanteurs Thornshade§f.
+tootip.csrp.item.31=Créatif Uniquement, §l|§r §oBrûle toute flore parasite instantanément.
+
+tootip.csrp.item.18=Tout en dégoulinant de sang, l'Horloge tourne vers un terrible Minuit.
+
+tootip.csrp.weaponm.1=§fRésultat de diverses parties du corps de Parasites remodelées pour former une arme. Une lueur de vie brille à l'intérieur.
+tootip.csrp.weaponm.2=§fLa dernière évolution de la Faux Vivante. Elle a gagné une §bConscience§f.
+tootip.csrp.weaponm.3=§fRésultat de diverses parties du corps de Parasites remodelées pour former une arme. Une lueur de vie brille à l'intérieur.
+tootip.csrp.weaponm.4=§fLa dernière évolution de la Hache Vivante. Elle a gagné une §bConscience§f.
+tootip.csrp.weaponm.5=§fRésultat de diverses parties du corps de Parasites remodelées pour former une arme. Une lueur de vie brille à l'intérieur.
+tootip.csrp.weaponm.6=§fLa dernière évolution de l'Épée Vivante. Elle a gagné une §bConscience§f.
+tootip.csrp.weaponm.7=§fRésultat de diverses parties du corps de Parasites remodelées pour former une arme. Une lueur de vie brille à l'intérieur.
+tootip.csrp.weaponm.8=§fLa dernière évolution du Couperet Vivant. Il a gagné une §bConscience§f.
+tootip.csrp.weaponm.9=§fRésultat de diverses parties du corps de Parasites remodelées pour former une arme. Une lueur de vie brille à l'intérieur.
+
+tootip.csrp.weaponm.10=§cEfface §fune grande surface.
+tootip.csrp.weaponm.20=§cDécime §fune grande surface.
+tootip.csrp.weaponm.30=§fRend l'armure progressivement §cinefficace §f.
+tootip.csrp.weaponm.40=§fRend l'armure progressivement §cinefficace §f.
+tootip.csrp.weaponm.50=§fInflige des blessures potentiellement §cmortelles§f.
+tootip.csrp.weaponm.60=§fInflige des blessures potentiellement §cmortelles§f.
+tootip.csrp.weaponm.70=§fDéchaîne des §afrappes§f virulentes.
+tootip.csrp.weaponm.80=§fDéchaîne des §afrappes§f virulentes.
+tootip.csrp.weaponm.90=§cUn meurtre§f n'est pas assez.
+
+tootip.csrp.weaponm.11=
+tootip.csrp.weaponm.110=
+tootip.csrp.weaponm.12=
+tootip.csrp.weaponm.120=
+
+tootip.csrp.weaponm.100=Tu ne peux plus te cacher...
+tootip.csrp.weaponm.200=Tu ne peux plus te cacher...
+tootip.csrp.weaponm.300=Tu ne peux plus te cacher...
+tootip.csrp.weaponm.400=Tu ne peux plus te cacher...
+tootip.csrp.weaponm.500=Tu ne peux plus te cacher...
+tootip.csrp.weaponm.600=Tu ne peux plus te cacher...
+tootip.csrp.weaponm.700=Tu ne peux plus te cacher...
+tootip.csrp.weaponm.800=Tu ne peux plus te cacher...
+
+tootip.csrp.weaponr.1=§fRésultat de diverses parties du corps de Parasites remodelées pour former une §6Arme§f. Une lueur de vie brille à l'intérieur.
+tootip.csrp.weaponr.2=§fL'évolution ultérieure de l'Arc Vivant. Il a gagné une §bConscience§f.
+
+tootip.csrp.weaponr.10=Maintiens ces flèches
+tootip.csrp.weaponr.20=Maintiens ces flèches
+
+tootip.csrp.weaponr.100=Tu ne peux plus te cacher...
+tootip.csrp.weaponr.200=Tu ne peux plus te cacher...
+
+tooltip.tile.csrp.evolutionlure=Mettera en pause l'augmentation des points d'Évolution pendant %s secondes
+
+item.csrp.discone.name=Duality
+item.csrp.disctwo.name=We'll Meet Again
+item.csrp.discthree.name=§bSerenity
+
+item.record.discone.desc=Duality
+item.record.disctwo.desc=We'll Meet Again
+item.record.discthree.desc=§bSerenity
+
+##subtitles
+
+subtitles.carrierdeath=Carrière périt
+subtitles.carrierliving=Carrière bouillonne
+subtitles.carrierhurt=Carrière hurle
+subtitles.devourerliving=Dévoreur Primitif rugit
+subtitles.devourerhurt=Dévoreur Primitif blessé
+subtitles.devourerdeath=Dévoreur Primitif meurt
+subtitles.adabolsterdeath=Bolster Adapté meurt
+subtitles.adabolsterliving=Bolster Adapté gronde
+subtitles.adabolsterhurt=Bolster Adapté hurle
+subtitles.monarchdeath=Monarque sanglote
+subtitles.monarchliving=Monarque fait appel
+subtitles.monarchhurt=Monarque hurle
+subtitles.marauderdeath=Maraudeur périt
+subtitles.marauderliving=Maraudeur gargouille
+subtitles.marauderhurt=Maraudeur hurle
+subtitles.assimhumanliving=Humain Assimilé crie
+subtitles.assimhumanhurt=Humain Assimilé hurle
+subtitles.assimhumandeath=Humain Assimilé meurt
+subtitles.assimpigliving=Couinements déformés
+subtitles.assimpighurt=Cochon Assimilé hurle
+subtitles.assimpigdeath=Cochon Assimilé meurt
+subtitles.assimhorseliving=Hennissements déformés
+subtitles.assimhorsecharge=Cheval Assimilé charge
+subtitles.assimhorsehurt=Cheval Assimilé hurle
+subtitles.assimhorsedeath=Cheval Assimilé meurt
+subtitles.assimspiderliving=Hissements déformés
+subtitles.assimspidersteps=Pas d'Insecte
+subtitles.assimspiderdeath=Grosse Araignée meurt
+subtitles.headliving=Tête crie
+subtitles.headhurt=Tête hurle
+subtitles.headdeath=Tête meurt
+subtitles.verminliving=Vermine crie
+subtitles.verminhurt=Vermine hurle
+subtitles.vermindeath=Vermin périt
+subtitles.buglinliving=Buglin hurle
+subtitles.buglinhurt=Buglin écrasée
+subtitles.buglindeath=Buglin éclatée
+subtitles.rupterliving=Rupter cliquète
+subtitles.rupterhurt=Rupter hurle
+subtitles.rupterdies=Rupter meurt
+subtitles.rupterinfects=Rupter émet l'Appel De la Ruche
+subtitles.wardenliving=Gardien grogne
+subtitles.wardenhurt=Gardien gronde
+subtitles.wardendeath=Gardien meurt
+subtitles.adaarachliving=Araignée Adaptée grogne
+subtitles.adaarachhurt=Araignée Adaptée gronde
+subtitles.adaarachdeath=Araignée Adaptée hisse
+subtitles.assimcowliving=Beuglements déformés
+subtitles.assimcowhurt=Vache Assimilée grogne
+subtitles.assimcowdeath=Vache Assimilée meurt
+subtitles.assimsheepliving=Bêlements déformés
+subtitles.assimsheephurt=Mouton Assimilé bêle
+subtitles.assimsheepdeath=Mouton Assimilé meurt
+subtitles.assimwolfliving=Aboiements étranges
+subtitles.assimwolfhurt=Aboiements déformés
+subtitles.assimwolfdeath=Loup Assimilé meurt
+subtitles.assimbearliving=Grognements déformés
+subtitles.assimbearhurt=Rugissements déformés
+subtitles.assimbeardeath=Ours Assimilé meurt
+subtitles.simmermanliving=Grognements irréels
+subtitles.simmermanhurt=Bruits déformés
+subtitles.simmermanteleports=Bruits corrompus
+subtitles.simmermandeath=Enderman Assimilé meurt
+subtitles.infectedfleshmelt=Chair mouvante fusionne
+subtitles.adasummonerliving=Summoner Adapté crie
+subtitles.adasummonerhurt=Summoner Adapté hurle
+subtitles.adasummonerdeath=Summoner Adapté sanglote
+subtitles.adasummonersummon=Hurlements effroyables
+subtitles.adayelloweyeliving=Yelloweye Adapté grogne
+subtitles.adayelloweyehurt=Yelloweye Adapté hurle
+subtitles.adayelloweyedeath=Yelloweye Adapté meurt
+subtitles.adayelloweyeshoot=Yelloweye Adapté crache
+subtitles.adareekerliving=Reeker Adapté grogne
+subtitles.adareekerhurt=Reeker Adapté gronde
+subtitles.adareekerdeath=Reeker Adapté meurt
+subtitles.adamanduliving=Manducater Adapté hurle
+subtitles.adamanduhurt=Manducater Adapté crie
+subtitles.adamandudeath=Manducater Adapté rugit
+subtitles.vigiliving=Vigilante grogne
+subtitles.vigihurt= Vigilante cliquète
+subtitles.vigideath=Vigilante meurt
+subtitles.bogleliving=Gargarisements
+subtitles.boglehurt=Grognements
+subtitles.bogledeath=Quelque chose meurt
+subtitles.hostliving=Hôte surgit
+subtitles.hosthurt=Hôte hurle
+subtitles.hostdeath=Hôte meurt
+subtitles.hostmerge=Grognements collectifs
+subtitles.adamaducamo=Grognements spectraux
+subtitles.adavomit=Parasite vomit
+subtitles.flesh=Chair gargouille
+subtitles.sentryliving=Sentinelle grogne
+subtitles.sentryhurt=Sentinelle gronde
+subtitles.sentrydeath=Sentinelle meurt
+subtitles.beckonliving=Beckon chuchote
+subtitles.beckonhurt=Beckon grogne
+subtitles.beckondeath=Beckon sanglote
+subtitles.beckonbell=Cloche sonne
+subtitles.mobexplodes=Parasite explose
+subtitles.mobswipe=Parasite se déplace
+subtitles.moblands=Parasite atterit
+subtitles.cysteats=Objet maché
+subtitles.adaptationpart=Parasite s'adapte
+subtitles.adaptationfull=Parasite adapté
+subtitles.biomeheart=§cBattements de coeur
+subtitles.vengeance.chain=Chaines qui claquent
+subtitles.vengeance.paper=Pages qui se tournent
+subtitles.vengeance.impact=Impact
+subtitles.vengeance.whoosh=Sifflement
+subtitles.vengeance.rock=Impact
+subtitles.orb.idle=Orbe bourdonnant
+subtitles.orb.summon=Orbe sifflant
+subtitles.beckonvortex=Vortex grandissant
+subtitles.block.unlocked=Bloc débloqué dans le Guide
+subtitles.item.unlocked=Objet débloqué dans le Guide
+subtitles.celestial.unlocked=Évènement Céleste débloqué dans le Guide
+subtitles.entity.unlocked=Entité débloquée dans le Guide
+subtitles.entity.relaypaper=Compte-rendu entrain d'être imprimé
+subtitles.entity.relayscan=Scan Relais
+item.csrp.srp_field_guide.name=Guide
+lore.csrp.compendium=Guide
+
+bestiary.tier.assimilated=Assimilé
+bestiary.tier.walking_head=Tête_Marchante
+bestiary.tier.inborn=Inborn
+bestiary.tier.hijacked=Détourné
+bestiary.tier.feral=Féroce
+bestiary.tier.crude=Cruel
+bestiary.tier.assimara=Assimara
+bestiary.tier.primitive=Primitif
+bestiary.tier.adapted=Adapté
+bestiary.tier.abomination=Abomination
+bestiary.tier.deterrent=Déterrent
+bestiary.tier.pure=Pur
+bestiary.tier.preeminent=Préeminent
+bestiary.tier.ancient=Ancient
+bestiary.tier.nexus=Nexus
+bestiary.tier.derived=Dérivé
+
+# Generic / GUI
+bestiary.capability_missing_client=Erreur (Client). Tentez de rouvrir le Guide.
+bestiary.no_mobs_unlocked_in_tier=Aucun parasite débloqué dans ce tier.
+bestiary.tier_label=Tier: %s
+bestiary.select_category=Select a category
+bestiary.parasite_tiers=Tiers de Parasites
+bestiary.kills_label=Éliminations
+bestiary.unlock_by_kill=(Éliminez un parasite dans ce Tier pour débloquer des pages.)
+
+
+bestiary.stats=Points de Vie: %s   Dégâts: %s
+
+
+
+gui.csrp.escape_button=DeathLoop Prevention |
+gui.csrp.escape_button_blocks=blocs
+gui.csrp.escape_tooltip=Are you ok? Try a spot nearby.
+
+# Purifier messages
+message.csrp.purifier_use_diamond=Interagir avec un diamant
+message.csrp.purifier_not_over_srp=Ce bloc doit être posé sur un bloc SRP.
+message.csrp.purifier_entities_marked= %s entités marquées avec Brillance.
+message.csrp.purifier_purified=%s blocs purifiés.
+tile.csrp.infestation_purifier.name=Purificateur d'Infestation Créatif
+message.csrp.purifier_started=Purification commencée.
+
+tooltip.csrp.hijacked.fullset_bleed=Armure complète: Immunité au saignement
+tooltip.csrp.hijacked.boots_save=Bottes: Dégâts de chute critiques annulés (2m cooldown)
+tooltip.csrp.hijacked.fire_penalty=Armure complète: Plus de dégâts de feu reçus (x%s)
+tooltip.csrp.hijacked.boots_cd=cooldown de la capacité des bottes: %s
+tooltip.csrp.ready=Prêt
+
+item.csrp.hijacked_iron_boots.name=Bottes en fer Détournées
+item.csrp.hijacked_iron_leggings.name=Jambières en fer Détournées
+item.csrp.hijacked_iron_chestpiece.name=Plastron en fer Détourné
+item.csrp.hijacked_iron_helmet.name=Casque en fer Détourné
+
+item.csrp.venkrol_boots.name=§aBottes Anchor Venkrol 
+tooltip.csrp.item.venkrol_boots.0=Empêche les vortex de vous attirer.
+
+
+# Bestiary Celestial
+
+bestiary.tab.celestial=Céleste
+
+bestiary.celestial.id=ID
+
+bestiary.celestial.title=Évènements Célestes
+bestiary.celestial.home=Menu
+bestiary.celestial.none=Aucun évènement céleste rencontré.
+bestiary.celestial.select_hint=Choisissez un évènement pour voir ses détails.
+bestiary.celestial.missing_desc=(Aucune description.)
+bestiary.celestial.phase=Phase
+bestiary.celestial.chance=Chance
+
+bestiary.celestial.blip.name=Blip
+bestiary.celestial.blip.desc=Une faible lueur dans le ciel que vous avez toujours connue.
+
+bestiary.celestial.pulse.name=Pulse
+bestiary.celestial.pulse.desc=Un lent battement rythmique.
+
+bestiary.celestial.eight.name=Huit
+bestiary.celestial.eight.desc=???
+
+bestiary.celestial.arrow.name=Flèche
+bestiary.celestial.arrow.desc=Un étrange tétraèdre.
+
+bestiary.celestial.twenty_seven.name=Vingt-Sept
+bestiary.celestial.twenty_seven.desc=??? §l|§r §oRage
+
+bestiary.celestial.three.name=Trois
+bestiary.celestial.three.desc=???
+
+bestiary.celestial.eighty_three.name=Quatre-Vingt Trois
+bestiary.celestial.eighty_three.desc=???
+
+bestiary.celestial.four_comet.name=Comète Quatre
+bestiary.celestial.four_comet.desc=???
+
+bestiary.celestial.jupiter.name=Jupiter
+bestiary.celestial.jupiter.desc=Une géante étoile dérivant dans l'obscurité. Elle donne l'impression de vous observer. Si massive que sa gravité affecte les autres planètes.
+
+bestiary.celestial.mars.name=Mars
+bestiary.celestial.mars.desc=Une sphère rougeâtre suspendue dans le ciel. A autrefois été assez chaude pour de l'eau liquide, aujourd'hui seuls restent des cicatrices qui jonchent sa surface.
+
+bestiary.celestial.mercury.name=Mercure
+bestiary.celestial.mercury.desc=Une pale étincelle dans le ciel. Sa température varie violement, brûlant et gelant le même sol en un jour. Elle est trop proche.
+
+bestiary.celestial.neptune.name=Neptune
+bestiary.celestial.neptune.desc=Un point bleu sombre dans la nuit. Ses vents sont les plus violents du système solaire, déchirant sa surface plus vite que le son. Neptune a muté.
+
+bestiary.celestial.pluto.name=Pluton
+bestiary.celestial.pluto.desc=Un petit éclat oublié du coin de l'oeil. Son orbite est instable.
+
+bestiary.celestial.saturn.name=Saturne
+bestiary.celestial.saturn.desc=Une couronne d'anneaux enveloppés autour d'une lourde silhouette. Ses anneaux sont fragiles et temporaires, s'évaporant lentement.
+
+bestiary.celestial.uranus.name=Uranus
+bestiary.celestial.uranus.desc=Une orbe froide et anormalement située dans le système solaire. Ses saisons sont inversées à cause de son axe de rotation modifié.
+
+bestiary.celestial.venus.name=Vénus
+bestiary.celestial.venus.desc=Un brillant nuage de marbre en suffocation. Ses jours durent plus qu'un an sur Terre. Des rats y habitent.
+
+# Bestiary UI
+bestiary.kills=Éliminations
+bestiary.cap_missing_client=Erreur (Client). Tentez de rouvrir le livre.
+bestiary.more_info_at_n=Plus d'Information à %s éliminations (PV/DG).
+bestiary.lore_unlocks_at_n=Description à %s éliminations.
+
+bestiary.tab.parasites=Parasites
+bestiary.tab.blocks=Blocs
+
+bestiary.nav.home=< Menu Principal
+bestiary.nav.tiers=< Tiers
+bestiary.nav.mob_list=< Liste de Parasites
+
+# Bestiary Mob Detail Controls
+bestiary.controls.greenscreen.on=Fond-vert: Oui
+bestiary.controls.greenscreen.off=Fond-vert: Non
+
+bestiary.controls.rotation.on=Rotation: Oui
+bestiary.controls.rotation.off=Rotation: Non
+
+bestiary.controls.run.on=Course: Oui
+bestiary.controls.run.off=Course: Non
+bestiary.tooltip.run_inaccurate=Les Animations ne pourraient pas toujours être correctes.
+bestiary.pose.yaw=Lacet
+bestiary.pose.pitch=Tangage
+bestiary.pose.zoom=Zoom
+bestiary.pose.panx=X
+bestiary.pose.pany=Y
+bestiary.pose.apply=Appliquer
+bestiary.pose.reset=Réinitialiser
+bestiary.pose.title=Pose
+
+
+# Bestiary Potions
+
+bestiary.tab.effects=Effets
+bestiary.effects.title=Effets
+bestiary.effects.home=Menu
+bestiary.effects.none=Aucun Effet Découvert.
+bestiary.effects.select_hint=Choisissez un effet pour voir ses détails.
+bestiary.effects.id=ID
+bestiary.effects.missing_desc=Description manquante.
+
+# Bestiary Potion descriptions
+bestiary.effect.dod_smoke_trail.desc=A constant trail of thick smoke follows the afflicted entity.
+bestiary.effect.bleed.desc=The host suffers continuous internal bleeding. Damage scales with maximum health and worsens while moving.
+bestiary.effect.conta.desc=The host is biologically contaminated, suffering periodic damage and risking spread to nearby entities.
+bestiary.effect.corrosive.desc=Corrosive substances eat away at the host, dealing periodic damage over time.
+bestiary.effect.foster.desc=The host is marked as suitable for parasitic growth, drawing the attention and protection of nearby parasites.
+bestiary.effect.prey.desc=The host is designated as prey, making them more likely to be hunted and targeted by parasites.
+bestiary.effect.needler.desc=Parasitic growths erupt from the host, launching needle-like projectiles that damage nearby entities.
+bestiary.effect.overheating.desc=The host’s body overheats, suffering escalating damage as internal systems begin to fail.
+bestiary.effect.spotted.desc=The host has been marked and is easier for parasites to track and locate.
+bestiary.effect.the_sign.desc=The host bears a mark of significance. Parasites will ignore their presence while the sign persists. The Sign is a a bright red symbol possessed by only a select number of people. Among these individuals, the Sign is considered to be a signifier of traits such as great potential, specialness, and competent leadership.
+bestiary.effect.thornshade_thorns.desc=Barbed growths erupt from the host, damaging those who physically strike them. The host will violently erupt if afflicted with said-affect more than 2 times. Nearby entities afflicted with same affects and will erupt if too close to the host during eruption. Does not break tiles.
+bestiary.effect.coth.desc=An assimilative infection that escalates in stages. It can refresh and intensify, spread to nearby living hosts (unless repelled), and eventually trigger conversion when the host is weakened or progression thresholds are met.
+bestiary.effect.viral.desc=A rapidly mutating infection spreads through the host, dealing periodic damage and risking transmission to nearby living entities. Higher effect levels increase severity and spread potential.
+bestiary.effect.jugg.desc=A dislodgement-bound effect that triggers on death. Depending on active Dislo codes, nearby parasites may be healed, nearby non-parasites may be damaged, and nearby players may suffer exhaustion. Certain deaths also apply a Jugg surge to the killer for a short time, with strength tied to stored dislocation values.
+bestiary.effect.senses.desc=The host’s sensory perception is heightened, increasing detection and follow range.
+bestiary.effect.repel.desc=A repellent mark that protects the host from Call of the Hive infection. While active, it can block assimilation-related behaviors such as conversion/transform triggers and helps prevent nearby spread.
+bestiary.effect.rage.desc=The host enters a violent frenzy, increasing movement speed and attack damage. Both bonuses can be multiplied and scale with effect strength (values are configuration-based).
+bestiary.effect.primitive.desc=Damage dealt to primitive parasite variants is reduced while this effect is active.
+bestiary.effect.adapted.desc=Damage dealt to adapted parasite variants is reduced while this effect is active.
+bestiary.effect.pure.desc=Damage dealt to pure parasite variants is reduced while this effect is active.
+bestiary.effect.crude.desc=Damage dealt to crude parasite variants is reduced while this effect is active.
+bestiary.effect.feral.desc=Damage dealt to feral parasite variants is reduced while this effect is active.
+bestiary.effect.nexus.desc=Damage dealt to nexus-linked parasite entities is reduced while this effect is active.
+bestiary.effect.pivot.desc=While active, kills contribute increased evolution/progression points (scaled by a multiplier and effect strength), and certain parasite events may treat pivot-marked entities as a stronger "signal" when evaluating spawns or stages.
+bestiary.effect.parate.desc=A mutative surge that boosts core combat stats. While active, the host’s maximum health, armor, and attack damage are increased by a percentage of their base values (scaled by effect strength and configuration multiplier).
+bestiary.effect.novision.desc=The host’s vision is smothered by a full-screen impairment and mining fatigue is applied; commonly inflicted while a parasite is latched onto host.
+bestiary.effect.muscleout.desc=Greatly increases the host’s outgoing damage. Attacks are multiplied by a configuration-based factor that scales with effect strength (amplifier + 1).
+bestiary.effect.link.desc=Links the host to a colony network. While active, colony-related reactions (such as adaptation/colony triggers) become more likely, scaling with effect strength. Some colony entities can also propagate Link to nearby parasites, synchronizing them as part of the colony.
+bestiary.effect.fear.desc=A crippling panic response that disrupts control. At higher levels it can randomly prevent using items or interacting with blocks, cancelling item use outright (subject to blacklist/whitelist rules). Fear also amplifies fall damage and can increase damage taken while airborne, scaling with effect strength and configuration.
+bestiary.effect.indeaf.desc=Severs movement control. While active, movement inputs (forward/back/jump) are forcibly disabled and horizontal motion is continually cancelled, effectively rooting the host in place.
+bestiary.effect.effectpos.desc=Diminue les effets positifs. L'hôte subit des dégâts en fonction du nombre d'effets positifs actifs, s'amplifie avec le niveau des effets.
+bestiary.effect.effectneg.desc=Amplifie les effets négatifs. Les effets négatifs de l'hôte sont renforcés, s'amplifie avec le niveau des effets.
+bestiary.effect.debar.desc=Supprime le loot des parasites. Les Parasites affectés par Debar ne génèreront pas leur objet configuré à leur mort (en fonction de la gamerule doMobLoot).
+bestiary.effect.braining.desc=Empêche le joueur de voir les parasites. Les parasites ne sont pas visibles pour le client (Ils existent toujours et agissent normalement), mis à jour à chaque seconde.
+bestiary.effect.antimall.desc=Réduit ou retire la résistance adaptée des parasites malléables.
+
+# Bestiary Systems
+
+bestiary.tab.systems=Systèmes
+bestiary.systems.title=Systèmes
+bestiary.systems.home=Menu
+bestiary.systems.id=ID
+bestiary.systems.none=Aucun système trouvé.
+bestiary.systems.missing_desc=Description manquante.
+
+bestiary.system.reinforcement.name=Renforts
+bestiary.system.reinforcement.desc=Quand un parasite est en difficulté, il peut appeler de l'aide. Un Beckon peut apparaître aux alentours et commencera à faire apparaître des parasites. Les Beckons peuvent pousser et atteindre plusieurs stages, plus leur stage est haut plus les renforts seront puissants et nombreux, résultant à une escalade rapide d'un simple combat. Il est impératif de détruire les Beckons avant qu'ils ne poussent et évoluent.
+
+bestiary.system.merge.name=Fusion
+bestiary.system.merge.desc=Les créatures Assimilées peuvent fusionner pour former de nouveau parasites. Selon les conditions, les parasites générés peuvent varier ou être générés aléatoirement.
+
+bestiary.system.status_effects.name=Effets
+bestiary.system.status_effects.desc=Les parasites peuvent infliger des effets uniques tels que Peur, ADLR, Needler, Saignement et Camouflage. Ces effets interfèrent avec le combat, le mouvement et la survie, se multipliant ou s'intensifiant selon le parasite affronté. Soyez extrêment vigilant lorsque ces effets sont actifs.
+
+bestiary.system.evolution.name=Évolution
+bestiary.system.evolution.desc=The infection progresses through evolution phases as it gains strength. Each phase unlocks more behaviors and mechanics. Certain actions, such as using Lure Blocks, can reduce evolution and slow the outbreak’s growth.
+
+bestiary.system.hives.name=Ruches
+bestiary.system.hives.desc=Les Ruches sont des structures qui organisent et défendent les territoires infestés.
+
+bestiary.system.collective_consciousness.name=Conscience Collective
+bestiary.system.collective_consciousness.desc=Les parasites ne font qu'un. Avec la Conscience Collective active, les parasites proches communiquent ensemble à l'instinct.
+
+bestiary.system.scent.name=Scent
+bestiary.system.scent.desc=Les Parasites réagissent à l'activité du joueur avec le 'scent'. Plus le niveau de scent augmente, plus les attaques de parasites seront fréquentes et aggressives. Des combats imprévus ou le fait de rester trop longtemps dans une zone infestée peuvent déclencher des situations dangereuses.
+
+bestiary.system.ubiquitous_development.name=Dévelopement Omniprésent
+bestiary.system.ubiquitous_development.desc=Au fil de la progression des parasites, des nouveaux systèmes s'activent à travers le monde. Des plus hauts niveaux de dévelopement débloquent de nouvelles mécaniques comme les attaques coordonnées, la fusion, les vagues scent, les structures et des règles d'apparition moins strictes.
+
+bestiary.system.dislodgment.name=Délogement
+bestiary.system.dislodgment.desc=Certaines actions peuvent déranger l'infection résultant en une forte réprime. Dislodgment triggers can activate from interaction, recovery, or parasite activity, escalating responses through multiple tiers of strength.
+
+bestiary.system.generations.name=Générations
+bestiary.system.generations.desc=Un système de difficulté par incréments qui change les systèmes et les statistiques de parasites. Les Parasites se développent avec chaque génération. Chque nouvelle génération requiert un certain niveau d'infestation. Un niveau anormal entraînera une évolution de l'infection plus lente.
+
+bestiary.system.vectors.name=Vecteurs
+bestiary.system.vectors.desc=Les Vecteurs sont des sources d'extension de l'infection. Au fil de leur dévelopement, les Vecteurs commenceront à infester des zones précédement saines.
+
+bestiary.system.colonies.name=Colonies
+bestiary.system.colonies.desc=Les Colonies sont des segments "industriels" de l'infection. Elles renforcent la présence parasitaire dans certaines zones et rendent les zones infestées plus difficiles à attaquer. Des éponges peuvent être utilisées pour reirer le sang mort des structures de Colonies.
+
+bestiary.system.nodes.name=Nodes
+bestiary.system.nodes.desc=Les Nodes sont une infrastructure de prolifération des parasites. Lorsqu'actives, elles soutiennent l'infestation et renforce les parasites proches.
+
+bestiary.system.nests.name=Nids
+bestiary.system.nests.desc=Des parasites Relais spécialisés(Nexus) tels que les Dispatchers peuvent former des nids qui accélèrent l'expansion de la ruche. Ces Nids peuvent rapidement envahir les terrains alentours et les transformer en zones infestées brumeuses. Un Dissipeur de Brume peut être utilisé pour retirer la Brume.
+
+bestiary.system.variants.name=Variantes
+bestiary.system.variants.desc=Les parasites ont une chance d'apparaître avec une variante capable d'infliger viral, saignement ou de faire plus de dégâts aux blocs.
+
+
+srphelp.header.warning=§cWarning: Information may not be up to date.
+srphelp.header.topics=§eSRP Help Topics:
+srphelp.header.topics_inline=§eKnown topics: %s
+srphelp.topic.item= - %s
+srphelp.footer.hint=§7Use §b/srphelp <topic>§7 for details.
+srphelp.error.unknown=§cUnknown help topic: §f%s
+srphelp.topic.header=§6/srphelp %s
+
+# csrp
+srphelp.csrp.setgeneration.usage=§b/csrp setgeneration <0..5>
+srphelp.csrp.setgeneration.desc=Choisissez la génération de parasites dans la dimension.
+srphelp.csrp.getgeneration.usage=§b/csrp getgeneration
+srphelp.csrp.getgeneration.desc=Affichez la génération actuelle de parasites dans la dimension.
+srphelp.csrp.readconfigurationfile.usage=§b/csrp readconfigurationfile
+srphelp.csrp.readconfigurationfile.desc=Rechargez les configs SRP et réinitialisez certains systèmes.
+srphelp.csrp.toggle_dotiledrops.usage=§b/csrp toggle_dotiledrops
+srphelp.csrp.toggle_dotiledrops.desc=Activez/désactivez SRP tile drop behavior.
+srphelp.csrp.toggle_domobevolution.usage=§b/csrp toggle_domobevolution
+srphelp.csrp.toggle_domobevolution.desc=Activez/désactivez l'évolution des parasites.
+srphelp.csrp.resetdatafile.usage=§b/csrp resetdatafile
+srphelp.csrp.resetdatafile.desc=Réinitialisez les données de la dimension.
+srphelp.csrp.parasites.usage=§b/csrp parasites
+srphelp.csrp.parasites.desc=Affichez les parasites actifs.
+
+# srpgeneration
+srphelp.srpgeneration.setgeneration.usage=§b/srpgeneration setgeneration <0..5>
+srphelp.srpgeneration.setgeneration.desc=Choisissez la génération de parasites.
+srphelp.srpgeneration.getgeneration.usage=§b/srpgeneration getgeneration
+srphelp.srpgeneration.getgeneration.desc=Affichez la génération actuelle de parasites.
+
+# srpevolution
+srphelp.srpevolution.getphase.usage=§b/srpevolution getphase
+srphelp.srpevolution.getphase.desc=Donnez la phase d'évolution et son stade.
+srphelp.srpevolution.addpoints.usage=§b/srpevolution addpoints <amount>
+srphelp.srpevolution.addpoints.desc=Ajoutez (ou retirez) des points d'évolution.
+srphelp.srpevolution.setcooldown.usage=§b/srpevolution setcooldown <seconds>
+srphelp.srpevolution.setcooldown.desc=Set the evolution cooldown to an exact value.
+srphelp.srpevolution.addcooldown.usage=§b/srpevolution addcooldown <seconds>
+srphelp.srpevolution.addcooldown.desc=Add seconds to the cooldown timer.
+srphelp.srpevolution.setphase.usage=§b/srpevolution setphase <phase> [generation]
+srphelp.srpevolution.setphase.desc=Force the evolution phase (optionally also set generation).
+srphelp.srpevolution.set_evolutiongaining.usage=§b/srpevolution set_evolutiongaining <true|false>
+srphelp.srpevolution.set_evolutiongaining.desc=Enable or disable evolution point gain over time.
+srphelp.srpevolution.set_evolutionloss.usage=§b/srpevolution set_evolutionloss <true|false>
+srphelp.srpevolution.set_evolutionloss.desc=Enable or disable evolution point loss over time.
+srphelp.srpevolution.evolutionlock_getlist.usage=§b/srpevolution evolutionlock_getlist
+srphelp.srpevolution.evolutionlock_getlist.desc=List all mobs/items currently locked from evolving.
+srphelp.srpevolution.evolutionlock_reset.usage=§b/srpevolution evolutionlock_reset
+srphelp.srpevolution.evolutionlock_reset.desc=Clear all evolution locks.
+srphelp.srpevolution.evolutionlock_unlockall.usage=§b/srpevolution evolutionlock_unlockall
+srphelp.srpevolution.evolutionlock_unlockall.desc=Unlock every evolution lock.
+
+# srpudevelopment
+srphelp.srpudevelopment.getlevel.usage=§b/srpudevelopment getlevel
+srphelp.srpudevelopment.getlevel.desc=Affichez le niveau actuel de Dévelopement Omniprésent.
+srphelp.srpudevelopment.setlevel.usage=§b/srpudevelopment setlevel <level>
+srphelp.srpudevelopment.setlevel.desc=Choisissez le niveau de Dévelopement Omniprésent.
+srphelp.srpudevelopment.viewalldims.usage=§b/srpudevelopment viewalldims
+srphelp.srpudevelopment.viewalldims.desc=Listez la progression des parasites par dimension.
+
+# srpnodes
+srphelp.srpnodes.viewall.usage=§b/srpnodes viewall
+srphelp.srpnodes.viewall.desc=Listez toutes les nodes et leurs points.
+srphelp.srpnodes.setnode.usage=§b/srpnodes setnode <x> <y> <z> <type>
+srphelp.srpnodes.setnode.desc=Placez/enregistez une node à des coordonnées.
+srphelp.srpnodes.removenode.usage=§b/srpnodes removenode <x> <y> <z>
+srphelp.srpnodes.removenode.desc=Retirez une node à des coordonnées.
+srphelp.srpnodes.clearworld.usage=§b/srpnodes clearworld
+srphelp.srpnodes.clearworld.desc=Retirez toutes les nodes du mondes.
+
+# srpcolonies
+srphelp.srpcolonies.viewall.usage=§b/srpcolonies viewall
+srphelp.srpcolonies.viewall.desc=Listez toutes les colonies et leurs coordonnées.
+srphelp.srpcolonies.setcolony.usage=§b/srpcolonies setcolony <x> <y> <z>
+srphelp.srpcolonies.setcolony.desc=Tentez de placer une colonie aux coordonnées.
+srphelp.srpcolonies.removecolony.usage=§b/srpcolonies removecolony <x> <y> <z>
+srphelp.srpcolonies.removecolony.desc=Retirez une colonie aux coordonnées.
+srphelp.srpcolonies.clearworld.usage=§b/srpcolonies clearworld
+srphelp.srpcolonies.clearworld.desc=Retirez toutes les colonies du monde.
+srphelp.srpcolonies.resetglobaladaptation.usage=§b/srpcolonies resetglobaladaptation
+srphelp.srpcolonies.resetglobaladaptation.desc=Réinitialisez les valeurs d'adaptation globales.
+srphelp.srpcolonies.viewallglobaladaptation.usage=§b/srpcolonies viewallglobaladaptation
+srphelp.srpcolonies.viewallglobaladaptation.desc=Affichez les points d'adaptation globaux par type de dégâts.
+
+# srpvectors
+srphelp.srpvectors.viewall.usage=§b/srpvectors viewall
+srphelp.srpvectors.viewall.desc=Listez tous les points d'émérgence du monde.
+srphelp.srpvectors.setvector.usage=§b/srpvectors setvector <x> <y> <z> <health> <radius>
+srphelp.srpvectors.setvector.desc=Créez un point d'émergence aux coordonnées.
+srphelp.srpvectors.removevector.usage=§b/srpvectors removevector <x> <y> <z>
+srphelp.srpvectors.removevector.desc=Retirez un point d'émergence aux coordonnées.
+srphelp.srpvectors.clearworld.usage=§b/srpvectors clearworld
+srphelp.srpvectors.clearworld.desc=Retirez tous les points d'émergence du monde.
+
+# srpdislodgment
+srphelp.srpdislodgment.random_code.usage=§b/srpdislodgment random_code <duration_s>
+srphelp.srpdislodgment.random_code.desc=Générez un code/valeur de délogement aléatoire pour une durée déterminée.
+srphelp.srpdislodgment.set_code.usage=§b/srpdislodgment set_code <code> <value> <duration_s>
+srphelp.srpdislodgment.set_code.desc=Choisissez le code/valeur de délogement.
+srphelp.srpdislodgment.codes_reset.usage=§b/srpdislodgment codes_reset
+srphelp.srpdislodgment.codes_reset.desc=Effacez n'importe quel code/valeur de délogement actif.
+
+# srpguide
+srphelp.srpguide.unlockall.usage=§b/srpguide unlockall
+srphelp.srpguide.unlockall.desc=Débloquez toutes les entrées du Guide dont tous les tiers de parasites.
+srphelp.srpguide.restore.usage=§b/srpguide restore
+srphelp.srpguide.restore.desc=Restorez votre Guide précédent (taken by unlockall).
+srphelp.srpguide.clearall.usage=§b/srpguide clearall
+srphelp.srpguide.clearall.desc=Effacez votre progression du Guide.
+
+# srpguideclear
+srphelp.srpguideclear.self.usage=§b/srpguideclear
+srphelp.srpguideclear.self.desc=Raccourci: pareil que §b/srpguide clearall§r.
+
+# harlequin_here
+srphelp.harlequin_here.convert.usage=§b/harlequin_here [radiusChunks=1]
+srphelp.harlequin_here.convert.desc=Actualisez les chunks et convertissez le biome alentour en biome Harlequin.
+
+# harlequin_convert
+srphelp.harlequin_convert.blotch.usage=§b/harlequin_convert [radius] [sampleChance] [depth] [blotchChance] [blotchMinDiam] [blotchMaxDiam]
+srphelp.harlequin_convert.blotch.desc=Plantez des parcelles circulaires de blocs Harlequin dans un rayon défini.
+
+# harlequin_scatter
+srphelp.harlequin_scatter.ruins.usage=§b/harlequin_scatter <rock|bush|tree|ruin|both|all> [tries=32] [radius=32]
+srphelp.harlequin_scatter.ruins.desc=Éparpissez le bloc Harlequin sur des roches/buissons/arbres/ruines sur des surfaces valides dans le biome.
+
+# conjure
+srphelp.conjure.usage=§b/conjure <entity_id>
+srphelp.conjure.desc=Faire apparaître un entité SRP spécifique (aliases: /conj).
+
+# srpguide command messages
+command.srpguide.usage=/srpguide unlockall §l|§r §oclear §l|§r §oclearall §l|§r §oreset §l|§r §ounlockblocks §l|§r §oclearblocks §l|§r §ounlockcelestial §l|§r §oclearcelestial §l|§r §ounlockeffects §l|§r §ocleareffects
+command.srpguide.players_only=Joueurs seulement.
+command.srpguide.cap_missing=Bestiary capability missing.
+
+command.srpguide.unlockall_ok=Guide: %s mobs débloqués, tous les tiers découverts.
+command.srpguide.unlockblocks_ok=Guide: %s blocs débloqués.
+command.srpguide.unlockcelestial_ok=Guide: %s évènements célestes débloqués.
+
+command.srpguide.unlockeffects_ok=Bestiary: %s effets débloqués.
+command.srpguide.cleareffects_ok=Bestiary: Progression des effets effacée.
+command.srpguide.cleareffects_need_getter=Guide: Impossible de retirer les effets (missing getSeenEffects() or seenEffects NBT key).
+
+
+command.srpguide.clear_restore_ok=Guide restauré à son état pré-unlockall.
+command.srpguide.clear_no_snapshot=No snapshot found. Guide réinitialisé.
+command.srpguide.clearall_ok=Guide réinitialisé.
+
+command.srpguide.clearblocks_ok=Bestiary: Progression du Guide de blocs effacée.
+command.srpguide.clearcelestial_ok=Bestiary: Progression d'évènement céleste effacée.
+command.srpguide.clearcelestial_need_getter=Missing getSeenCelestials() on IBestiaryProgress/BestiaryProgress. Add it to support /srpguide clearcelestial.
+
+srpguide.sounds.on=Sons du Guide: Activé
+srpguide.sounds.off=Sons du Guide: Désactivé
+
+tooltip.module_inborn=Scanne les parasites Inborn proches. §l|§r §o Insérez-le dans un Terminal Relais et appuyez sur Scan.
+tooltip.module_assimilated=Scanne les parasites Assimilés et Assimara proches. §l|§r §o Insérez-le dans un Terminal Relais et appuyez sur Scan.
+tooltip.module_hijacked=Scanne les parasites Détournés proches. §l|§r §o-Insérez le dans un Terminal Relais et appuyez sur Scan.
+tooltip.module_feral=Scanne les parasites Féroces proches. §l|§r §o Insérez-le dans un Terminal Relais et appuyez sur Scan.
+tooltip.module_crude=Scanne les parasites Cruels proches. §l|§r §o Insérez-le dans un Terminal Relais et appuyez sur Scan.
+tooltip.module_primitive=Scanne les parasites Primitifs proches. §l|§r §o Insérez-le dans un Terminal Relais et appuyez sur Scan.
+tooltip.module_adapted=Scanne les parasites Adaptés proches. §l|§r §o Insérez-le dans un Terminal Relais et appuyez sur Scan.
+tooltip.module_nexus=Scanne les parasites Nexus proches. §l|§r §o Insérez-le dans un Terminal Relais et appuyez sur Scan.
+tooltip.module_deterrent=Scanne les parasites Déterrents proches.§l|§r §o Insérez-le dans un Terminal Relais et appuyez sur Scan.
+tooltip.module_pure=Scanne les parasites Purs proches. §l|§r §o Insérez-le dans un Terminal Relais et appuyez sur Scan.
+tooltip.module_preeminent=Scanne les parasites Préeminents proches. §l|§r §o Insérez-le dans un Terminal Relais et appuyez sur Scan.
+tooltip.module_ancient=Scanne les parasites Ancients proches. §l|§r §o Insérez-le dans un Terminal Relais et appuyez sur Scan.
+
+tooltip.module_desmoid=Couvre les tiers Inborn, Assimilé, et Détourné. §l|§r §o Insérez-le dans un Terminal Relais et appuyez sur Scan.
+tooltip.module_eschar=Couvre les tiers Féroce, Cruel, et Primitif. §l|§r §o Insérez-le dans un Terminal Relais et appuyez sur Scan.
+tooltip.module_resistance=Couvre les tiers Adapté, Nexus, et Déterrent. §l|§r §o Insérez-le dans un Terminal Relais et appuyez sur Scan.
+tooltip.module_ideal=Couvre les tiers Pur, Préeminent, et Ancient. §l|§r §o Insérez-le dans un Terminal Relais et appuyez sur Scan.
+tooltip.module_origin=Scanne tous les tiers de parasites. §l|§r §o Insérez-le dans un Terminal Relais et appuyez sur Scan.
+
+#INBORN
+
+lore.csrp.buglin=§l§lÉpithète:§r§r Lodo §l|§r §oFait environ la taille d'un ballon de basket, cette sorte de larve créée à partir d'une masse de chair informe se tortille et se compresse étrangement, souvent au point d'éclater. Elle dégage une forte odeur métallique, et sa substance a un goût aigre et extrêmement acide. Seize petites griffes en forme de crochet, d'environ un pouce de long chacune, tapissent sa face ventrale et lui permettent de ramper sur tout type de terrain ou de s'introduire et de sortir de proies vivantes. Elle ne possède aucun orifice visible, son corps étant scellé tel un catalyseur difforme. Malgré sa flexibilité, le Buglin est fragile sous une pression extrême et éclate instantanément sous le poids d'un Golem de fer. On les trouve souvent entrain d'émerger de tunnels parasites.
+lore.csrp.rupter=§l§lÉpithète:§r§r Mudo §l|§r §oLes Rupters chassent en meute, utilisant leur vitesse et leur supériorité numérique pour briser les formations et harceler les cibles isolées. Ils sont initialement dociles lorsqu'ils sont seuls, bien que ce comportement soit rapidement variable. Leurs muscles et tendons sont repliés en une structure dense, semblable à un tesseract, tandis que leurs organes internes s'étendent dans tout leur corps comme des systèmes racinaires sans structure claire. Ils pèsent à peu près le même poids qu'un boulet de canon et sont capables de longs sauts rapides, ainsi que d'escalader des surfaces abruptes, bien qu'ils n'aient pas l'endurance nécessaire pour se suspendre aussi bien aux plafonds. Leurs vrilles se contractent vers l'extérieur lorsqu'elles sont agitées, s'agrippant et s'enfonçant dans leurs proies. Les Rupters déferlent fréquemment sur certains animaux et les petites créatures, les tuant souvent involontairement. Une matière solide se dissoud dans son estomac et est régurgitée sur ou à l'intérieur de ses victimes sous forme de petites traces indiscernables afin de transmettre efficacement l'ADLR sans grande riposte.Leurs organes peuvent être prélevés, séchés et transformés en un matériau fibreux résistant. Leurs membres peuvent être arrachés du corps, à la manière d'une araignée; on ignore encore si les membres perdus peuvent se régénérer.
+lore.csrp.mangler=§l§lÉpithète:§r§r Nuuh §l|§r §oUne brute au combat rapproché issue de l'évolution des Rupters, évoluée spécifiquement pour chasser des proies plus grandes comme les vaches, les chevaux et les lamas. Il pèse à peu près le même poids qu'un gros chien et est conçu pour l'endurance et la force brute plutôt que pour la vitesse. Bien que plus volumineux, il conserve les capacités d'infection de ses prédécesseurs. L'odeur métallique émanant des Manglers est très forte, souvent perceptible avant même le contact visuel.
+lore.csrp.carrier_flying=§l§lÉpithète:§r§r Buthol §l|§r §oUn vecteur aérien qui propage l'infection dans l'air. Trois excroissances bulbeuses externes pendent sous son corps, chacune contenant un unique composant chimique. Si agité, les composés se mélangent violemment à l'intérieur des excroissances, provoquant un gonflement rapide avant que celles-ci n'éclatent. Au contact de l'air, le mélange libéré se transforme en une substance gazeuse hautement toxique. La créature dégage alors une odeur similaire à celle des déchets chimiques industriels. Sa surface est tapissée de fines épines hypodermiques et de protubérances en forme d'aiguilles qui endommagent les environs lors de la détonation. Le composé résultant fait fondre rapidement la peau exposée. Le feu semble le déstabiliser et partiellement atténuer la réaction.
+lore.csrp.carrier_heavy=§l§lÉpithète:§r§r Rathol §l|§r §oUn vecteur résistant, conçu pour transporter d'importantes quantités de biomasse, de pourriture et de toxines. Son corps est entièrement étanche, ne présente aucun orifice visible et fonctionne  comme un réservoir sous pression pour le stockage de gaz toxiques. Ces spécimens peuvent se former sans matière vivante tout en restant remplis de mélanges chimiques volatils. À l'intérieur de sa structure compartimentée, plusieurs parasites partiellement digérés restent en suspension et mobiles, nageant dans des fluides toxiques. 
+Avant la détonation, l'organisme dissout ses organes internes et ses barrières structurelles, ce qui provoque une accumulation rapide de pression interne avant sa rupture. Il réagit fortement aux vibrations et dégage une odeur comparable à celle de viande cuite avariée conservée dans un récipient chaud. Le feu semble le déstabiliser et partiellement atténuer la réaction.
+lore.csrp.carrier_light=§l§lÉpithète:§r§r Gothol §l|§r §oUn vecteur agile, utilisé pour des frappes et une infection à courte portée.Son corps est composé de centaines de petits compartiments remplis d'une substance volatile chimiquement liée à ses fonctions vitales. Ses organes internes sont densément regroupés, formant un noyau ferme dont la structure rappelle celle du cœur d'une mûre. Malgré son instabilité, cet organisme est capable de maintenir son équilibre de manière autonome et réagit fortement aux vibrations de son environnement. Il dégage une odeur comparable à celle de viande cuite avariée conservée dans un récipient chaud. Sa détonation répand une quantité importante de résidus. Le feu semble le déstabiliser et partiellement atténuer la réaction.
+lore.csrp.gnat=§l§lÉpithète:§r§r Ata §l|§r §oUn petit parasite capable d'utiliser ses tentacules pour percer et se loger dans ses hôtes, détournant et contrôlant toute forme de vie.
+Faibles individuellement, ses tentacules sont exceptionnellement acérées et capables de percer des matériaux denses et des proies résistantes. Une excroissance bulbeuse présente sur son dos se dissout ou se rompt violemment une fois enfouie dans un hôte, accélérant les dommages internes et la prise de contrôle. Il est fortement attiré par l'odeur du sang, au point qu'il peut être délibérément utilisé comme diversion. Cet organisme est dépourvu de toute forme d'ouïe et se fie entièrement à son odorat pour se déplacer. Ces spécimens sont souvent recouverts d'un mucus lisse et lubrifiant, un résidu sécrété par une Vermine.
+lore.csrp.lice=§l§lÉpithète:§r§r Viin §l|§r §oUn parasite extrêmement frénétique capable d'utiliser ses tentacules pour percer et se loger dans ses hôtes, détournant et contrôlant toute forme de vie. Son abdomen est grossièment enflé et recouvert de multiples excroissances bulbeuses qui servent à la fois de nutriments et de charges explosives, lui permettant de forcer l'adhérence et de pénétrer des cibles résistantes. Ses mouvements sont tellement imprévisibles qu'ils en deviennent inefficaces, ce qui rend son suivi ou son élimination difficile. Il est fortement attiré par l'odeur de la sueur et du sang et produit un léger bourdonnement lorsqu'il s'en approche.
+
+#ASSIMILATED
+lore.csrp.sim_adventurer=§lÉpithète:§r Sim §l|§r §o Un aventurier infecté. Se déplace en horde. Les restes du mystérieux récit d'un défunt.
+lore.csrp.sim_bear=§lÉpithète:§r Sim §l|§r §o De la chair et des muscles agglutinés pour former un vrai engin de siège vivant. Gardez vos distances.
+lore.csrp.sim_bigspider=§lÉpithète:§r Dorpa §l|§r §o Une vectrice gonflée traînant derrière elle une toile de pourriture. Elle ne ressemble pas aux autres, n'est-ce pas ?
+lore.csrp.sim_cow=§lÉpithète:§r Sim §l|§r §o Lent, résistant et d'une docilité inquiétante. Son museau frémit encore au son du blé. Capable de charger et de percuter n'importe quelle proie.
+lore.csrp.sim_dragone=§lÉpithète:§r Sim §l|§r §o Une forme volante malformée sachant à encore peine voler. Extrêmement dangereux malgré tout, une forme bien plus létale. Aucune armure ne lui résiste.
+lore.csrp.sim_enderman=§lÉpithète:§r Sim §l|§r §o Un harceleur frénétique. Un distant proche du Wayward Passenger. Ne semble pas dérangé lorsqu'il prend feu et qu'il enflamme d'autres formes. Insaisissable.
+lore.csrp.sim_horse=§lÉpithète:§r Sim §l|§r §o L'un des quatre. Sans l'homme. Rempli à ras bord de fluides putrides hautement toxiques qui détonent violemment. Avec ou sans feu : il explosera à la moindre déchirure ou rupture d'organe.
+lore.csrp.sim_human=§lÉpithète:§r Sim §l|§r §o Les échos d'une personne se font entendre. Ils ne sont pas morts. Ils souffrent. Essentiellement un sac de chair, avec un peu plus d'intelligence.
+lore.csrp.sim_pig=§lÉpithète:§r Sim §l|§r §o Une coque placide, un coeur vorace. Toujours un cochon. Rien que de la biomasse.
+lore.csrp.sim_sheep=§lÉpithète:§r Sim §l|§r §o "Let it cry for our agony and sorrow in our stead."
+lore.csrp.sim_squid=§lÉpithète:§r Sim §l|§r §o Un vecteur silencieux qui parsème les eaux. Les particules de son corps en décomposition se détachent de son corps comme de la neige.
+lore.csrp.sim_villager=§lÉpithète:§r Sim §l|§r §o Marchand d'immondités et de putréfaction, sans les marchandises. Rien que de la biomasse et une enveloppe charnelle, même si elle conserve une once de conscience.
+lore.csrp.sim_wolf=§lÉpithète:§r Sim §l|§r §o Des instincts de meute pervertis. Mords frénétiquement.
+
+#DETACHED HEADS
+lore.csrp.sim_cowhead=§lÉpithète:§r Desim §l|§r §o Un hôte décapité contrôllé telle une marionette par un corps étranger. L'acide de son estomac semble couler de son corps. Cherchera à fusionner avec d'autres formes.
+lore.csrp.sim_dragonhead=§lÉpithète:§r Desim §l|§r §o Une ancienne créature conduite par une insatiable faim. Il est étrangement toujours capable d'utiliser son souffle rancide.
+lore.csrp.sim_endermanhead=§lÉpithète:§r Desim §l|§r §o Constamment il cherche... Trouve. Cours. Agace. Capable d'apporter de plus petites formes en renfort.
+lore.csrp.sim_horsehead=§lÉpithète:§r Desim §l|§r §o Gallope sur des vrilles pourries couvrant sa peau là où furent des pattes. Cherche à se nourrir peut importe le prix qu'il en coûte.
+lore.csrp.sim_humanhead=§lÉpithète:§r Desim §l|§r §o Même sans ses yeux, ses orbites donnent l'impression qu'il vous observe. Cherchera à fusionner avec d'autres formes.
+lore.csrp.sim_pighead=§lÉpithète:§r Desim §l|§r §o Une masse reniflante déformée par des cordons de chair. Encore à peine capable de couiner. Cherchera à fusionner avec d'autres formes.
+lore.csrp.sim_sheephead=§lÉpithète:§r Desim §l|§r §o De la laine associée à de la chair extérieure. Cherchera à fusionner avec d'autres formes.
+lore.csrp.sim_villagerhead=§lÉpithète:§r Desim §l|§r §o Marmonne dans un langage déformé. Cherchera à fusionner avec d'autres formes.
+lore.csrp.sim_wolfhead=§lÉpithète:§r Desim §l|§r §o Inutile de s'en inquiéter. Un charognar qui se nourrit des défunts. Cherchera à fusionner avec d'autres formes.
+
+#FERAL
+lore.csrp.fer_bear=§lÉpithète:§r Fer §l|§r §o Inarrêtable par son insatiable rage, traquant sa proie sans relâche. Comme si un ours assimilé n'était pas déjà assez.
+lore.csrp.fer_cow=§lÉpithète:§r Fer §l|§r §o Un inarrêtable récipient de chair et d'organes en putréfaction, guidé par la famine. Il dévore ses proies avec avidité.
+lore.csrp.fer_enderman=§lÉpithète:§r Fer §l|§r §o Rôde silencieusement, traversant l'espace alentour d'une terrible précision. Peut transporter de plus grandes formes et n'est plus effrayé par l'eau. Sa rage le consume.
+lore.csrp.fer_horse=§lÉpithète:§r Fer §l|§r §o Gallope avec une incroyable allure, piétinant les déchus sur son chemin.
+lore.csrp.fer_human=§lÉpithète:§r Fer §l|§r §o Une forme humaine dépourvue de son humanité.
+lore.csrp.fer_pig=§lÉpithète:§r Fer §l|§r §o Un mangeur avide, la faim le fait couiner de douleur.
+lore.csrp.fer_sheep=§lÉpithète:§r Fer §l|§r §o Une gueule déformée pour déchiqueter.
+lore.csrp.fer_villager=§lÉpithète:§r Fer §l|§r §o Un sens de communauté perverti.
+lore.csrp.fer_wolf=§lÉpithète:§r Fer §l|§r §o Prédateur Alpha; un chasseur impitoyable.
+
+# CRUDE
+lore.csrp.crux=§lÉpithète:§r Cruxa §l|§r §o La chair de la créature se replie sur elle-même. Sa rage éternelle croît avec chaque récolte.
+lore.csrp.crux_incomplete=§lÉpithète:§r Cruxa §l|§r §o Un semblant de machoire. Des restes carbonisés d'un entier passé.
+lore.csrp.heed=§lÉpithète:§r Heed §l|§r §o Un messager pour tous.
+lore.csrp.host=§lÉpithète:§r Host §l|§r §o Une agglomération de corps qui croît.
+lore.csrp.hostii=§lÉpithète:§r Hostii §l|§r §o Ils ne font qu'un.
+lore.csrp.incompleteform_medium=§lÉpithète:§r Inhoo §l|§r §o Malformé, létal.
+lore.csrp.incompleteform_small=§lÉpithète:§r Inhoo §l|§r §o Petite carrure, coupures rapides. Pèse autant qu'un petit chien.
+lore.csrp.thrall=§lÉpithète:§r Mes §l|§r §o La soumission en chair et en os.
+lore.csrp.dredge=§lÉpithète:§r Done §l|§r §o Constitué de chair et de souvenir de batailles passées, il vit pour tuer.
+lore.csrp.airscrew=§lÉpithète:§r Leer §l|§r §o Sa trompe est assez puissante pour soulever un van avec aise.
+
+#ASSIMARA
+lore.csrp.mar_bear=§lÉpithète:§r Mar §l|§r §o Son corps n'a aucun sens. Une colonie de nids d'araignées est logée à l'intérieur.
+lore.csrp.mar_cow=§lÉpithète:§r Mar §l|§r §o Son corps n'a aucun sens. Ces entrailles travaillent sans cesse.
+lore.csrp.mar_enderman=§lÉpithète:§r Mar §l|§r §o Son corps n'a aucun sens. Son corps abominablement déformé le rend méconnaissable.
+lore.csrp.mar_human=§lÉpithète:§r Mar §l|§r §o Son corps n'a aucun sens. Extrêmement agacant.
+lore.csrp.mar_sheep=§lÉpithète:§r Mar §l|§r §o Son corps n'a aucun sens. Un grand vigile.
+lore.csrp.mar_villager=§lÉpithète:§r Mar §l|§r §o Son corps n'a aucun sens. Le visage de l'agonie.
+
+#HIJACKED
+lore.csrp.hi_blaze=§lÉpithète:§r Hi §l|§r §o L'Impossible est arrivé.
+lore.csrp.hi_skeleton=§lÉpithète:§r Hi §l|§r §o Une structure idéale pour un corps étranger.
+lore.csrp.hi_golem=§lÉpithète:§r Hi §l|§r §o De protecteur à oppresseur.
+
+#PRIMITIVE
+lore.csrp.pri_arachnida=§lÉpithète:§r Ranrac §l|§r §o Une abomination à 8 pattes, précurseuse de grandes formes.
+lore.csrp.pri_bolster=§lÉpithète:§r Bano e'Zetmo §l|§r §o Une forme volumineuse, primitive mais résiliente.
+lore.csrp.pri_devourer=§lÉpithète:§r Lum §l|§r §o Guidé par la faim et l'odeur du sang dans l'eau.
+lore.csrp.pri_longarms=§lÉpithète:§r Shyco §l|§r §o Ces bras lui permettent d'atteindre sa cible facilement, il est tout de même loin d'être une forme parfaite.
+lore.csrp.pri_manducater=§lÉpithète:§r Hull §l|§r §o Il grince ses crocs sans cesse. Restez hors de portée.
+lore.csrp.pri_reeker=§lÉpithète:§r Nogla §l|§r §o Sécrète une odeur putride. Charge la tête la première.
+lore.csrp.pri_summoner=§lÉpithète:§r Canra §l|§r §o Appelle des formes inférieures en rafales erratiques. Reconstruit les déchus à partir de leur restes.
+lore.csrp.pri_tozoon=§lÉpithète:§r Wymo §l|§r §o Les tremblements de terre sonnent son arrivée.
+lore.csrp.pri_yelloweye=§lÉpithète:§r Emana §l|§r §o Des noeuds de tendons et d'os. Sa bile toxique est corrosive pour les armures.
+lore.csrp.pri_vermin=§lÉpithète:§r Iki §l|§r §o C'est comme un ballon. Sauf que son contenu n'est pas très joli.
+lore.csrp.pri_burrower=§lÉpithète:§r Zaa §l|§r §o Creuse à l'instinct, formant des nids pour d'autres.
+lore.csrp.pri_viscera=§lÉpithète:§r Gim §l|§r §o De la chair crue douée d'une redoutable mobilité.
+
+#ADAPTED
+lore.csrp.ada_burrower=§lÉpithète:§r Zaa §l|§r §o Un excavateur efficace, il ouvre des passages méthodiquement.
+lore.csrp.ada_viscera=§lÉpithète:§r Gim §l|§r §o Ressemble à un Nautile. Les autres la traite comme leur mère.
+lore.csrp.ada_devourer=§lÉpithète:§r Lum §l|§r §o Un colosse des mers. Rien ne lui résiste.
+lore.csrp.ada_tozoon=§lÉpithète:§r Wymo §l|§r §o Wormy.
+lore.csrp.ada_arachnida=§lÉpithète:§r Ranrac §l|§r §o Une traqueuse rafinée, tisse des toiles et attaque efficacement.
+lore.csrp.ada_bolster=§lÉpithète:§r Bano e'Zetmo §l|§r §o Masse adaptée, connue pour protéger et soutenir d'autres.
+lore.csrp.ada_longarms=§lÉpithète:§r Shyco §l|§r §o Bras allongés avec précision, aucun faux mouvement. Rendez-vous ou non, ça lui est égal.
+lore.csrp.ada_manducater=§lÉpithète:§r Hull §l|§r §o Une forme de machoire perfectionnée pour permettre d'arracher n'importe quel tissu. On ne le voit pas arriver.
+lore.csrp.ada_reeker=§lÉpithète:§r Nogla §l|§r §o Fait pour charger sur de grandes distances. Fuyez ou agonisez lentement.
+lore.csrp.ada_summoner=§lÉpithète:§r Canra §l|§r §o Crée la vie à partir de restes de parasites déchus.
+lore.csrp.ada_yelloweye=§lÉpithète:§r Emana §l|§r §o Hatsune Miku ou Kasane Teto. Sécrète une matière hautement acide.
+lore.csrp.ada_vermin=§lÉpithète:§r Iki §l|§r §o Capable de changer doubler la longueur de son corps et a une machoire capable de transpercer n'importe quelle surface avec aise.
+
+
+#DETERRENT
+lore.csrp.dispatcherten=§lÉpithète:§r DodT §l|§r §o Un messager de la ruche.
+lore.csrp.kyphosis=§lÉpithète:§r Tonro §l|§r §o Masse courbée de tendons utilisés comme bouclier vivant et comme un tambour de guerre.
+lore.csrp.seizer=§lÉpithète:§r Nak §l|§r §o Il attrape et agrippe. Se débattre ne fait que l'énerver davantage.
+lore.csrp.sentry=§lÉpithète:§r Unvo §l|§r §o Leurs projectiles transpercent le métal et les os sans s'arrêter.
+lore.csrp.worm=§lÉpithète:§r Rof §l|§r §o Il est difficile de rencontrer une telle créature. Comment avez-vous fait?
+
+#PURE
+lore.csrp.grunt=§lÉpithète:§r Flog §l|§r §o Rien de gâché, rien d'épargné; Un impitoyable chasseur n'ayant qu'un but.
+lore.csrp.bomber_light=§lÉpithète:§r Omboo §l|§r §o Un corps creux fait de tissus volatiles.
+lore.csrp.marauder=§lÉpithète:§r Esor §l|§r §o Creuse des tranchées parmis les terrains vivants; L'élan est son meilleur atout.
+lore.csrp.monarch=§lÉpithète:§r Orch §l|§r §o Commandes des formes inférieures par l'impulsion seule; la horde lui obéit sans réfléchir.
+lore.csrp.overseer=§lÉpithète:§r Alafha §l|§r §o Un auditeur d'autorité.
+lore.csrp.vigilante=§lÉpithète:§r Anged §l|§r §o Traque les égarés.
+lore.csrp.warden=§lÉpithète:§r Ganro §l|§r §o Un organisme coriace. Gagne du terrain telle une tumeur.
+
+#PREEMINENT
+lore.csrp.bogle=§lÉpithète:§r Lencia §l|§r §o Comment vole-t-il? Après son passage, seuls restent des profonds cratères.
+lore.csrp.carrier_colony=§lÉpithète:§r Vesta §l|§r §o Une agglomération de membres s'agglutinant les uns sur les autres. Il semble diriger et coordonner les unités proches et les faits s'adapter plus rapidement
+lore.csrp.haunter=§lÉpithète:§r Pheon §l|§r §o Sa présence peut être sentie au loin.
+lore.csrp.bomber_heavy=§lÉpithète:§r Jinjo §l|§r §o Façonne les paysages à son envie. Il y a un air de déjà-vu.
+lore.csrp.wraith=§lÉpithète:§r Elvia §l|§r §o Moitié chair et os, moitié cauchemardesque; Aucun n'obstacle ne l'arrête. Tire un virulent projectile.
+lore.csrp.succor=§lÉpithète:§r Flam §l|§r §o Ptit gars.
+
+#ANCIENT
+lore.csrp.anc_dreadnaut=§lÉpithète:§r Oronco §l|§r §o NULL EXISTENCE
+lore.csrp.anc_overlord=§lÉpithète:§r Terla §l|§r §o NULL EXISTENCE
+
+#NEXUS
+lore.csrp.beckon_si=§lÉpithète:§r Venkrol §l|§r §o Structure enracinée qui appelle des parasites pullulant tels des moucherons autour d'une lampe.
+lore.csrp.beckon_sii=§lÉpithète:§r Venkrol §l|§r §o Le grondement de l'appel se renforce; le sol apprend à renvoyer la donne.
+lore.csrp.beckon_siii=§lÉpithète:§r Venkrol §l|§r §o La chambre à coucher du Beckon; l'odeur de fer empèste et l'air est épais comme de la boue.
+lore.csrp.beckon_siv=§lÉpithète:§r Venkrol §l|§r §o Un message nerveux envoyé vers la ruche. Les alentours sont maintenant entièrement envahis.
+lore.csrp.dispatcher_si=§lÉpithète:§r Dod §l|§r §o Le premier dispatcher; alerte, ordonne, contrôle.
+lore.csrp.dispatcher_sii=§lÉpithète:§r Dod §l|§r §o Les passages s'élargissent; le traffic de chair et de messages nerveux vers la ruche ne cesse.
+lore.csrp.dispatcher_siii=§lÉpithète:§r Dod §l|§r §o Les préparatifs seront bientôt terminés et vous allez devoir en subir les conséquences.
+lore.csrp.dispatcher_siv=§lÉpithète:§r Dod §l|§r §o Le sanctuaire à parasites; détruisez le ou observez un continent de chair et de sang converger avec le vôtre.
+lore.csrp.rooter_si=§lÉpithète:§r Leem §l|§r §o Structure enracinée qui subit la douleur des parasites alentours.
+lore.csrp.rooter_sii=§lÉpithète:§r Leem §l|§r §o Structure enracinée qui subit la douleur des parasites alentours.
+lore.csrp.rooter_siii=§lÉpithète:§r Leem §l|§r §o Structure enracinée qui subit la douleur des parasites alentours.
+lore.csrp.rooter_siv=§lÉpithète:§r Leem §l|§r §o Structure enracinée qui subit la douleur des parasites alentours.
+lore.csrp.rooterball=§lÉpithète:§r Leem §l|§r §o Structure enracinée qui subit la douleur des parasites alentours.
+
+#ABOMINATION
+lore.csrp.abo_bodies=§lÉpithète:§r Abo §l|§r §o Conglomération de créatures conscientes fusionées pour une raison inconnues. Ressemble à un siphonophore.
+lore.csrp.abo_head=§lÉpithète:§r Abo §l|§r §o Conglomération de créatures conscientes fusionées pour une raison inconnues. Ressemble à un siphonophore d'une forme de tête.
+
+#DERIVED
+lore.csrp.draconite=§lÉpithète:§r Heblu §l|§r §oIl est perpétuellement recouvert de cendres, brûlant à l'intérieur. Son corps fonctionne comme une véritable forge infernale toxique, faisant circuler une chaleur extrême et des produits corrosifs à travers son corps et l'air environnant.Le processus fait fondre sa propre chair, rompant les points faibles et perforant sa structure de part en part. Des couches de peau se carbonisent, se fissurent et se détachent continuellement, lui donnant un aspect pâle, blanc cendré. Tout porte à croire qu'il s'est formé à partir d'un élément scellé profondément dans la Netherrack, et qu'il n'a été ramené à la vie que très récemment. La croissance fut si violente et si rapide qu'elle se détruisit plus vite que son corps ne put se stabiliser – sa tête se détachant de la base de son cou lors de sa formation, laissant derrière elle une structure émoussée, semblable à une souche. Le bruit de la combustion interne de son corps est comparable à celui d'un train qui voyage à travers les profondeurs de l'enfer.
+lore.csrp.kirin=§lÉpithète:§r Kirin §l|§r §oKirin est en perpétuelle défaillance structurelle. Son corps est constamment sur le point de rompre, ce qui explique son apparence extérieure meurtrie et ensanglantée ainsi que ses mouvements instables. 
+Chacun de ses bras creux est tapissé de larges cavités servant de conduits pour l'excès de chaleur et les rayonnements cosmiques qu'il génère. Sans ces cavités, l'entité imploserait. La contrainte exercée sur sa structure oblige Kirin à muer quotidiennement. Chaque projection qu'il manifeste déstabilise davantage son corps, forçant les couches de tissus endommagés à se détacher et à être remplacées à un rythme alarmant. La créature ne montre aucun signe d'instinct de survie. Elle n'a pas encore totalement rompu. Sinon, je serais mort.
+
+#CREATE WORLD MENU OPTIONS
+gui.csrp.worldsettings.title=Paramètres de Monde SRP
+gui.csrp.worldsettings.open=Paramètres de Monde SRP...
+gui.csrp.worldsettings.subtitle=Placeholder options
+gui.csrp.worldsettings.done=Enregistrer
+
+# Labels
+gui.csrp.worldsettings.difficulty=Préreglage de Difficulté
+gui.csrp.worldsettings.challenge=Configs de Difficulté
+gui.csrp.worldsettings.meteor=Infection par Météorite
+
+# Difficulty options
+gui.csrp.worldsettings.difficulty.normal=§eNormal
+gui.csrp.worldsettings.difficulty.easy=§aFacile
+gui.csrp.worldsettings.difficulty.hard=§4Difficile
+gui.csrp.worldsettings.difficulty.impossible=§4§lImpossible
+
+# Challenge options
+gui.csrp.worldsettings.challenge.c1=Config §a1
+gui.csrp.worldsettings.challenge.c2=Config §e2
+gui.csrp.worldsettings.challenge.c3=Config §43
+gui.csrp.worldsettings.challenge.off=Désactivé
+gui.csrp.worldsettings.tooltip.challenge.off=Aucun autre modificateur de difficulté n'est appliqué.
+
+# Meteor options
+gui.csrp.worldsettings.meteor.on=§aActivée
+gui.csrp.worldsettings.meteor.off=§4Désactivée
+
+# Difficulty tooltips
+gui.csrp.worldsettings.tooltip.difficulty.easy=Mode Facile
+gui.csrp.worldsettings.tooltip.difficulty.normal=Mode Normal
+gui.csrp.worldsettings.tooltip.difficulty.hard=Mode Difficile
+gui.csrp.worldsettings.tooltip.difficulty.impossible=Mode Impossible
+
+# Tooltips
+gui.csrp.worldsettings.tooltip.difficulty=Difficulté de l'Infection
+gui.csrp.worldsettings.tooltip.challenge=Choisissez la configuration de difficulté.
+gui.csrp.worldsettings.tooltip.challenge.c1=This is config 1's config.
+gui.csrp.worldsettings.tooltip.challenge.c2=This is config 2's config.
+gui.csrp.worldsettings.tooltip.challenge.c3=This is config 3's config.
+gui.csrp.worldsettings.tooltip.meteor=Une météore peut s'écraser au jour %s. Tentative chaque %s jour (%s ticks). Chance par tentative: %s%%. §4Une option à haut risque, pour une infestation accélérée.
+
+# config openers
+gui.csrp.worldsettings.config.general=Config Général
+gui.csrp.worldsettings.config.world=Config Monde
+gui.csrp.worldsettings.config.systems=Config Systèmes
+gui.csrp.worldsettings.config.mobs=Config Mobs
+
+# config viewer titles
+gui.csrp.config.title.general=SRP Config: Général
+gui.csrp.config.title.world=SRP Config: Monde
+gui.csrp.config.title.systems=SRP Config: Systèmes
+gui.csrp.config.title.mobs=SRP Config: Mobs
+
+# other config stuff
+gui.csrp.config.apply=Apply
+gui.csrp.config.edit.title=Edit SRP Config Value
+gui.csrp.config.edit.key=%s / %s
+gui.csrp.config.edit.todo=TODO: pwease save these changes back to the config file dhan.
+
+# Viewer subtitle + tooltips
+gui.csrp.config.subtitle.readonly=Read-only view (saving is WIP/TODO)
+gui.csrp.config.search=Search:
+
+# srpevolution errors
+command.srpevolution.prefix=§8[§dSRP§8]§r
+command.srpevolution.error.evolution_disabled=§cLes phases d'Évolution ne sont pas activées§r
+command.srpevolution.error.invalid_argument=§cArgument invalide§r
+command.srpevolution.error.invalid_arg=§cArgument invalide§r
+command.srpevolution.error.invalid_command=§cCommande invalide§r
+command.srpevolution.error.generic=§cIl y a une erreur§r
+
+# srpevolution evolutionloss
+command.srpevolution.evolutionloss.set.true=§7Current §esrpevolutionloss§7 is now §atrue§r
+command.srpevolution.evolutionloss.set.false=§7Current §esrpevolutionloss§7 is now §cfalse§r
+
+# srpevolution evolutiongain
+command.srpevolution.evolutiongaining.set.true=§7Current §esrpevolutiongaining§7 is now §atrue§r
+command.srpevolution.evolutiongaining.set.false=§7Current §esrpevolutiongaining§7 is now §cfalse§r
+
+# srpevolution evolution lock list
+command.srpevolution.evolutionlock.reset=§aLa liste a été réinitialisée§r
+command.srpevolution.evolutionlock.unlockall=§aLa liste est maintenant vide§r
+command.srpevolution.evolutionlock.getlist=§7Liste actuelle: §f%s§r
+
+# srpevolution addpoints
+command.srpevolution.addpoints.error.phase_minus2=§cPhase actuelle §4-2§c, impossible d'ajouter des points§r
+command.srpevolution.addpoints.error.cooldown=§cPhase actuelle en pause, impossible d'ajouter/retirer des points§r
+command.srpevolution.addpoints.error.cannot_gain=§cLa dimension actuelle ne peut pas gagner de points§r
+command.srpevolution.addpoints.error.cannot_lose=§cLa dimension actuelle ne peut pas perdre de points§r
+
+command.srpevolution.addpoints.success.one=§aAjout de §e%d§a point§r
+command.srpevolution.addpoints.success.many=§aAjout de §e%d§a points§r
+
+# srpevolution setcooldown/addcooldown
+command.srpevolution.cooldown.error.negative=§cLa valeur de la pause doit être positive ou §e0§c§r
+command.srpevolution.cooldown.set=§aPause établie à §e%d§a seconde(s)§r
+
+# srpevolution setphase
+command.srpevolution.setphase.error.phase_too_high=§cArgument invalide: phase trop haute§r
+command.srpevolution.setphase.error.phase_too_low=§cArgument invalide: phase trop basse§r
+
+command.srpevolution.setphase.changed_phase=§aChanged Evolution Phase for Parasites to §e%s§r
+
+command.srpevolution.setphase.error.generation_too_high=§cArgument invalide: génération trop haute§r
+command.srpevolution.setphase.error.generation_too_low=§cArgument invalide: génération trop basse§r
+command.srpevolution.setphase.changed_generation=§aGénération actuelle de Parasites changée à §e%s§r
+command.srpevolution.setphase.error.invalid_arg_evo=§cArgument invalide evo§r
+
+# srpevolution getphase
+command.srpevolution.getphase.header=§8§m-----§r §dSRP Evolution§r §8§m-----§r
+
+command.srpevolution.getphase.dimension=§7 -> Dimension: §e%d§r
+command.srpevolution.getphase.phase=§7 -> Phase d'Évolution: §b%d§r
+command.srpevolution.getphase.total_points=§7 -> Total de points: §a%d§r
+command.srpevolution.getphase.points_next=§7 -> Points requis pour la prochaine phase: §a%d§r
+command.srpevolution.getphase.progress=§7 -> Progression: §e%s%%§r
+command.srpevolution.getphase.cooldown=§7 -> Temps mort de Phase: §e%d§7 second(s) remaining§r
+
+command.srpevolution.getphase.gaining=§7 -> srpevolutiongaining: §f%s §8(§7True = peut obtenir des points§8)§r
+command.srpevolution.getphase.loss=§7 -> srpevolutionloss: §f%s §8(§7True = peut perdre des points§8)§r
+
+command.srpevolution.getphase.dislodgement=§7 -> Code de Délogement:§r
+command.srpevolution.getphase.dislodgement.value=§f%s§r
+
+command.srpevolution.getphase.mobcap=§7 -> Parasite Mob Cap: §e%d§r
+command.srpevolution.getphase.generation=§7 -> Génération: §b%d§r
+command.srpevolution.getphase.gen_ticks=§7 -> Ticks requis pour la prochaine Génération: §e%d§r
+command.srpevolution.getphase.udl=§7 -> Niveau de Dévelopement Omniprésent: §d%d§r
+command.srpevolution.getphase.parasite_count=§7 -> Parasite count: §c%d§r
+command.srpevolution.getphase.coth_count=§7 -> Nombre d'entités avec ADLR: §5%d§r
+command.srpevolution.getphase.eivs=§7 -> Points d'Émergence dans le Monde: §6%d§r
+
+command.srpevolution.getphase.footer=§8§m----------------------§r
+command.srpevolution.getphase.all=§8§m-----§r §dSRP Evolution§r §8§m-----§r\n§7 -> Dimension: §e%d§r\n§7 -> Phase d'Évolution: §b%d§r\n§7 -> Total de points: §a%d§r\n§7 -> Points requis pour la prochaine phase: §a%d§r\n§7 -> Progression: §e%s%%§r\n§7 -> Temps mort de Phase: §e%d§7 seconde(s) restante(s)§r\n§7 -> srpevolutiongaining: §f%s §8(§7True = peut obtenir des points§8)§r\n§7 -> srpevolutionloss: §f%s §8(§7True = peut perdre des points§8)§r\n§7 -> Code de Délogement:§r\n§f%s§r\n§7 -> Maximum de Parasites: §e%d§r\n§7 -> Génération: §b%d§r\n§7 -> Ticks requis pour la prochaine Génération: §e%d§r\n§7 -> Niveau de Dévelopement Omniprésent: §d%d§r\n§7 -> Nombre de Parasites: §c%d§r\n§7 -> Nombre d'Entités avec ADLR: §5%d§r\n§7 -> Points d'Émergence dans le Monde: §6%d§r\n§8§m----------------------§r

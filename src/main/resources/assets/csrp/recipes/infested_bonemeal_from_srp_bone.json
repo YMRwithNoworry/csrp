@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "csrp:bone"
+    }
+  ],
+  "result": {
+    "item": "csrp:infested_bonemeal",
+    "count": 8
+  }
+}

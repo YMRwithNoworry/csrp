@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "csrp:harleskinn_block"
+    }
+  },
+  "result": {
+    "item": "csrp:harleskinn_slab",
+    "data": 0,
+    "count": 6
+  }
+}

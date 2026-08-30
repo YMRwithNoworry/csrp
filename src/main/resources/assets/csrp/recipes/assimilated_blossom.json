@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "srp_assimilated_blossom",
+  "ingredients": [
+    {
+      "item": "csrp:infestedbush",
+      "data": 2
+    },
+    {
+      "item": "csrp:infestedbush",
+      "data": 3
+    }
+  ],
+  "result": {
+    "item": "csrp:assimilated_blossom",
+    "count": 1
+  }
+}

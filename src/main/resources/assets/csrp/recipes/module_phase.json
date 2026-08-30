@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XFX",
+    "LMS",
+    "EXC"
+  ],
+  "key": {
+    "X": { "item": "csrp:semiorganic_ingot" },
+    "F": { "item": "csrp:deadblood_fluid" },
+    "L": { "item": "csrp:lurecomponent6" },
+    "M": { "item": "csrp:module_base" },
+    "S": { "item": "csrp:hive_scrap" },
+    "E": { "item": "csrp:evclock" },
+    "C": { "item": "csrp:levelclock" }
+  },
+  "result": {
+    "item": "csrp:module_phase",
+    "count": 1
+  }
+}

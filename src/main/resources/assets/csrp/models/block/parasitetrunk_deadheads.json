@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "particle": "csrp:blocks/parasitetrunk_deadhead_snow",
+    "down": "csrp:blocks/parasitetrunk_deadheads_down",
+    "up": "csrp:blocks/parasite_snow",
+    "east": "csrp:blocks/parasitetrunk_deadheads_snow",
+    "west": "csrp:blocks/parasitetrunk_deadheads_snow",
+    "north": "csrp:blocks/parasitetrunk_deadheads_snow",
+    "south": "csrp:blocks/parasitetrunk_deadheads_snow"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "csrp:infestedstain",
+      "data": 0
+    }
+  },
+  "result": {
+    "item": "csrp:infested_dirt_slab",
+    "data": 0,
+    "count": 6
+  }
+}

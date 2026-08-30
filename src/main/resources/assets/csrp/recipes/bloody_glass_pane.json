@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "csrp:glass_panes",
+  "pattern": [
+    "XXX",
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "csrp:bloody_glass"
+    }
+  },
+  "result": {
+    "item": "csrp:bloody_glass_pane",
+    "count": 16
+  }
+}

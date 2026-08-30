@@ -1,0 +1,21 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "csrp:parasiteplank_deadhead"
+  },
+  "variants": {
+    "variant=deadhead": [
+      {
+        "model": "csrp:parasiteplank_deadhead"
+      }
+    ],
+    "variant=deadheads": [
+      {
+        "model": "csrp:parasiteplank_deadheads"
+      }
+    ],
+    "inventory": [
+      {}
+    ]
+  }
+}

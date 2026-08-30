@@ -1,0 +1,9 @@
+{
+  "parent": "block/half_slab",
+  "textures": {
+    "particle": "csrp:blocks/hivesteel",
+    "bottom": "csrp:blocks/hivesteel",
+    "top": "csrp:blocks/hivesteel",
+    "side": "csrp:blocks/hivesteel"
+  }
+}

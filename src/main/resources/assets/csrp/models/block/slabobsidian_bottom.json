@@ -1,0 +1,9 @@
+{
+  "parent": "block/half_slab",
+  "textures": {
+    "particle": "csrp:blocks/bleeding_obsidian",
+    "bottom": "csrp:blocks/bleeding_obsidian",
+    "top": "csrp:blocks/bleeding_obsidian",
+    "side": "csrp:blocks/bleeding_obsidian"
+  }
+}

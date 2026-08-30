@@ -1,0 +1,25 @@
+{
+  "parent": "csrp:stolas",
+  "display": {
+    "icon": {
+      "item": "csrp:book_of_vengeance"
+    },
+    "title": {
+      "translate": "advancements.csrp.tricked_me_did_you.title",
+      "color": "red",
+      "bold": true
+    },
+    "description": {
+      "translate": "advancements.csrp.tricked_me_did_you.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "unlock": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

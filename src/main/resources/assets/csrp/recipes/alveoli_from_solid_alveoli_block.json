@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "srp_alveoli",
+  "ingredients": [
+    {
+      "item": "csrp:solid_alveoli_block"
+    }
+  ],
+  "result": {
+    "item": "csrp:alveoli",
+    "count": 2
+  }
+}

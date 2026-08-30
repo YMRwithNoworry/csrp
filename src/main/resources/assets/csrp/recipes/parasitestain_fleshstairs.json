@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "csrp:parasitestain",
+      "data": 2
+    }
+  },
+  "result": {
+    "item": "csrp:parasitestain_fleshstairs",
+    "count": 4
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "variants": {
+    "normal": [
+      {
+        "model": "csrp:potted_consumed_assimilated_blossom"
+      }
+    ],
+    "inventory": [
+      {
+        "model": "csrp:potted_consumed_assimilated_blossom"
+      }
+    ]
+  }
+}

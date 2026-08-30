@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X  ",
+    "XX ",
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "csrp:residue_bricks"
+    }
+  },
+  "result": {
+    "item": "csrp:residue_stairs",
+    "count": 4
+  }
+}

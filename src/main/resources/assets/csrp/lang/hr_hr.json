@@ -272,7 +272,7 @@
   "death.attack.biomass": "%1$s was dissolved by biomass",
   "death.attack.parasite_mouth": "%1$s was devoured by a maw",
   "death.attack.sepeku": "%1$s Je počinio Seppuku",
-  "death.attack.srparasites.ricardo": "%s was added to the Book of Vengeance",
+  "death.attack.csrp.ricardo": "%s was added to the Book of Vengeance",
   "effect.csrp.adapted": "Adapted Resistance",
   "effect.csrp.antimall": "§7Immalleable",
   "effect.csrp.bleed": "Bleed",

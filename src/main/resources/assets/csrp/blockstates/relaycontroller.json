@@ -1,0 +1,23 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "csrp:relaycontroller"
+  },
+  "variants": {
+    "normal": {
+      "model": "csrp:relaycontroller"
+    },
+    "facing=north": {
+      "model": "csrp:relaycontroller"
+    },
+    "facing=east": {
+      "model": "csrp:relaycontroller"
+    },
+    "facing=south": {
+      "model": "csrp:relaycontroller"
+    },
+    "facing=west": {
+      "model": "csrp:relaycontroller"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "csrp:cooked_flesh"
+    }
+  ],
+  "result": {
+    "item": "csrp:cooked_flesh_planks",
+    "data": 0,
+    "count": 4
+  }
+}

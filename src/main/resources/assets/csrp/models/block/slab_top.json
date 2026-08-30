@@ -1,0 +1,9 @@
+{
+  "parent": "block/upper_slab",
+  "textures": {
+    "particle": "csrp:blocks/parasiterubble_",
+    "bottom": "csrp:blocks/parasiterubble_",
+    "top": "csrp:blocks/parasiterubble_",
+    "side": "csrp:blocks/parasiterubble_"
+  }
+}

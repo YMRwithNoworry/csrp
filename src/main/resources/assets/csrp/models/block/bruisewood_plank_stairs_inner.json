@@ -1,0 +1,8 @@
+{
+  "parent": "block/inner_stairs",
+  "textures": {
+    "bottom": "csrp:blocks/brucewood_planks",
+    "top": "csrp:blocks/brucewood_planks",
+    "side": "csrp:blocks/brucewood_planks"
+  }
+}

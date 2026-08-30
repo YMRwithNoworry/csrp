@@ -1,0 +1,28 @@
+{
+  "parent": "csrp:secret_root",
+  "display": {
+    "icon": {
+      "item": "csrp:pearl"
+    },
+    "title": {
+      "translate": "advancements.csrp.controversial.title"
+    },
+    "description": {
+      "translate": "advancements.csrp.controversial.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "kill_sim_enderman": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "csrp:sim_enderman"
+        }
+      }
+    }
+  }
+}

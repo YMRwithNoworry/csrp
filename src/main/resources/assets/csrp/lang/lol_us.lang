@@ -1,0 +1,470 @@
+//Entities
+
+entity.csrp.pri_longarms.name=Nasty big arm
+entity.csrp.pri_manducater.name=Nasty Maneater
+entity.csrp.pri_summoner.name=Nasty screech monster
+entity.csrp.pri_reeker.name=Nasty reeek monster
+entity.csrp.pri_yelloweye.name=Nasty egg eye thing
+entity.csrp.pri_bolster.name=Nasty blob
+entity.csrp.pri_arachnida.name=Nasty pull spooder
+entity.csrp.pri_lum.name=big Nasty squid
+
+entity.csrp.host.name=skeleton party!
+entity.csrp.hostii.name=Woohoo! more skeleton party!
+entity.csrp.crux.name=Giant tooth monster
+entity.csrp.heed.name=Many scery hoomanz
+entity.csrp.mes.name=USB cable man
+
+entity.csrp.sim_bear.name=Scery bar
+entity.csrp.sim_enderman.name=Scery teleporer
+entity.csrp.sim_endermanhead.name=Teleporterer head
+entity.csrp.sim_adventurer.name=Scery playur
+entity.csrp.sim_adventurerhead.name=Player hedz
+entity.csrp.sim_bigspider.name=Scery big spaydur
+entity.csrp.sim_human.name=Scery hooman
+entity.csrp.sim_humanhead.name=Screachy head
+entity.csrp.sim_villager.name=Scery vilagur
+entity.csrp.sim_villagerhead.name=Hrrmm headz
+entity.csrp.sim_cow.name=Scery milk-maeker
+entity.csrp.sim_cowhead.name=Bovine brain
+entity.csrp.sim_horse.name=Scery hors
+entity.csrp.sim_horsehead.name=Runnen head
+entity.csrp.sim_pig.name=Scery piggy
+entity.csrp.sim_pighead.name=Oink spydour
+entity.csrp.sim_sheep.name=Scery shep
+entity.csrp.sim_sheephead.name=Spidur head
+entity.csrp.sim_wolf.name=Scery wuf
+entity.csrp.sim_wolfhead.name=Woof head
+entity.csrp.incompleteform_medium.name=Angy man
+entity.csrp.incompleteform_small.name=Smol
+entity.csrp.sim_dragone.name=Scery ender gecko
+entity.csrp.sim_dragonehead.name=Gecko head
+
+entity.csrp.overseer.name=Under da sea
+entity.csrp.bomber_light.name=Flying boom boom
+entity.csrp.carrier_heavy.name=School bus! i dont wanna :(
+entity.csrp.buglin.name=Frien bug
+entity.csrp.mangler.name=Big angy spooder
+entity.csrp.worker.name=Frien spoder
+entity.csrp.carrier_flying.name=Sky sac
+entity.csrp.rupter.name=Angy spoder
+entity.csrp.beckon_si.name=Angwy plant #1
+entity.csrp.beckon_sii.name=Angwy plant #2
+entity.csrp.beckon_siii.name=Angwy plant #3
+entity.csrp.beckon_siv.name=Angwy plant #4
+entity.csrp.beckon_sv.name=Angwy plant #5
+entity.csrp.warden.name=Jomp man
+entity.csrp.marauder.name=Big grumpy
+entity.csrp.monarch.name="want to be king" pawasite >:)
+entity.csrp.grunt.name=Grumpy
+entity.csrp.sentry.name=Armer brekcer plant
+entity.csrp.kyphosis.name=Back painn plant
+entity.csrp.dispatcherten.name=Angrier red plant tentacle
+entity.csrp.dispatcher_si.name=Angrier red plant >:( #1
+entity.csrp.dispatcher_sii.name=Angrier red plant >:( #2
+entity.csrp.dispatcher_siii.name=Angrier red plant >:( #3
+entity.csrp.dispatcher_siv.name=Angrier red plant >:( #4
+entity.csrp.seizer.name=Nose hair
+
+entity.csrp.bomber_heavy.name=Big boom boom
+entity.csrp.carrier_colony.name=Bigg school bus! run for ur livez!
+entity.csrp.wraith.name=Big scewy parasite #1
+entity.csrp.bogle.name=Big scary parasite #2
+entity.csrp.haunter.name=Big scary parasite #3
+entity.csrp.succor.name=Big scawy pet
+
+entity.csrp.anc_dreadnaut.name=OP flying pawasit
+entity.csrp.anc_overlord.name=OP land pawasit
+entity.csrp.vigilante.name=Spit spooder
+entity.csrp.movingflesh.name=Still alive meat
+entity.csrp.tendril.name=Worm
+entity.csrp.anc_pod.name=MEATEOR
+entity.csrp.biomass.name=Bio stuf
+entity.csrp.gore.name=Ewwww flesh
+
+entity.csrp.ada_longarms.name=Big nasty big arm
+entity.csrp.ada_summoner.name=Big nasty screech monster
+entity.csrp.ada_manducater.name=Big nasty maneater
+entity.csrp.ada_reeker.name=Big nasty reeek monster
+entity.csrp.ada_yelloweye.name=Big nasty egg eye thing
+entity.csrp.ada_bolster.name=Big nasty blob
+entity.csrp.ada_arachnida.name=Big nasty pull spooder
+
+entity.csrp.remain.name=Remainz
+//Creative Tab
+
+itemGroup.SRParasites=SR:Parasites
+
+//Items
+item.csrp.itemmobspawner_pod.name=Spon MEATEOR
+
+item.csrp.itemmobspawner_host.name=Spon skeleton party!
+item.csrp.itemmobspawner_hostii.name=Spon woohoo! more skeleton party!
+item.csrp.itemmobspawner_heed.name=Spon many scery hoomanz
+item.csrp.itemmobspawner_cruxa.name=Spon giant tooth monster
+item.csrp.itemmobspawner_thrall.name=Spon USB cable man
+
+item.csrp.itemmobspawner_infbear.name=Spon scery bar
+item.csrp.itemmobspawner_infenderman.name=Spon scery teleporer
+item.csrp.itemmobspawner_infendermanhead.name=Spaw walk headz (teleportererering?)
+item.csrp.itemmobspawner_infplayer.name=Spon scery playur
+item.csrp.itemmobspawner_infplayerhead.name=Spon walk headz(playur)
+item.csrp.itemmobspawner_dorpa.name=Spon scery big spaydur
+item.csrp.itemmobspawner_infhuman.name=Spon scery hooman
+item.csrp.itemmobspawner_infhumanhead.name=Spon wolkin hedz (Hooman)
+item.csrp.itemmobspawner_infvillager.name=Spon scery vilagur
+item.csrp.itemmobspawner_infvillagerhead.name=Spon wolkin hedz (Vilagur)
+item.csrp.itemmobspawner_infcow.name=Spon scery milk-maeker
+item.csrp.itemmobspawner_infcowhead.name=Spon walkin hedz (Milk-Maeker)
+item.csrp.itemmobspawner_infpig.name=Spon scery pic
+item.csrp.itemmobspawner_infpighead.name=Spon wolkin hedz (Piggy)
+item.csrp.itemmobspawner_infsheep.name=Spon scery shep
+item.csrp.itemmobspawner_infsheephead.name=Spon walkin hedz (Sheep)
+item.csrp.itemmobspawner_infwolf.name=Spon scery wuf
+item.csrp.itemmobspawner_infwolfhead.name=Spon wolkin hedz (Wuf)
+item.csrp.itemmobspawner_infhorse.name=Spon scery hors
+item.csrp.itemmobspawner_infhorsehead.name=Spon wolkin hedz (Hors)
+item.csrp.itemmobspawner_inhoos.name=Spon smol
+item.csrp.itemmobspawner_inhoom.name=Spon big smol
+item.csrp.itemmobspawner_infdragone.name=Spon scery ender gecko
+item.csrp.itemmobspawner_infdragonehead.name=Spon wolkin hedz (Endur Dragon)
+
+item.csrp.itemmobspawner_alafha.name=Spon under da sea
+item.csrp.itemmobspawner_omboo.name=Spon flying boom boom
+item.csrp.itemmobspawner_rathol.name=Spon school bus! i dont wanna :(
+item.csrp.itemmobspawner_buthol.name=Spon sky sac
+item.csrp.itemmobspawner_lodo.name=Spon frien bug
+item.csrp.itemmobspawner_nuuh.name=Spawn Spon big angy spooder
+item.csrp.itemmobspawner_worker.name=Spon frien spoder
+item.csrp.itemmobspawner_mudo.name=Spon angy spoder
+item.csrp.itemmobspawner_venkrol.name=Spon angwy plant #1
+item.csrp.itemmobspawner_venkrolsii.name=Spon angwy plant #2
+item.csrp.itemmobspawner_venkrolsiii.name=Spon angwy plant #3
+item.csrp.itemmobspawner_venkrolsiv.name=Spon angwy plant #4
+item.csrp.itemmobspawner_venkrolsv.name=Spon angwy plant #5
+item.csrp.itemmobspawner_ganro.name=Spon jomp man
+item.csrp.itemmobspawner_esor.name=Spon big grumpy
+item.csrp.itemmobspawner_orch.name=Spaw "want to be king" parasite >:)
+item.csrp.itemmobspawner_flog.name=Spon grumpy
+item.csrp.itemmobspawner_unvo.name=Spon armer brekcer plant
+item.csrp.itemmobspawner_tonro.name=Spon back hurt plant
+item.csrp.itemmobspawner_dod.name=Spon angy red plant >:( #1
+item.csrp.itemmobspawner_dodsii.name=Spon angy red plant >:( #2
+item.csrp.itemmobspawner_dodsiii.name=Spon angy red plant >:( #3
+item.csrp.itemmobspawner_dodsiv.name=Spon angy red plant >:( #4
+item.csrp.itemmobspawner_nak.name=Spon nose hair hihi
+
+item.csrp.itemmobspawner_jinjo.name=Spon big boom boom
+item.csrp.itemmobspawner_vesta.name=Spawn Big school bus! Run for ur livez!
+item.csrp.itemmobspawner_elvia.name=Spon Big scewy parasite #1
+item.csrp.itemmobspawner_lencia.name=Spaw big scery parasite #2
+item.csrp.itemmobspawner_pheon.name=Spown big scary parasite #3
+item.csrp.itemmobspawner_flam.name=Spawn big scawy pet
+
+item.csrp.itemmobspawner_oronco.name=Spon OP flying pawasit
+item.csrp.itemmobspawner_terla.name=Spon OP land pawasit
+item.csrp.itemmobspawner_anged.name=Spon spit spiedourr
+item.csrp.itemmobspawner_lesh.name=Spon still alive meat
+
+item.csrp.itemmobspawner_shyco.name=Spon nasty big arm
+item.csrp.itemmobspawner_hull.name=Spon nasty maneater
+item.csrp.itemmobspawner_canra.name=Spon nasty screech monster
+item.csrp.itemmobspawner_emana.name=Spon nasty egg eye thing
+item.csrp.itemmobspawner_nogla.name=Spon nasty reeek monster
+item.csrp.itemmobspawner_bano.name=Spon nasty blob
+item.csrp.itemmobspawner_ranrac.name=Spon nasty pull spooder
+item.csrp.itemmobspawner_lum.name=Spon nasty swimmy
+
+item.csrp.itemmobspawner_shycoadapted.name=Spon big nasty big arm
+item.csrp.itemmobspawner_canraadapted.name=Spon big nasty screech monster
+item.csrp.itemmobspawner_noglaadapted.name=Spon big nasty reeek monster
+item.csrp.itemmobspawner_hulladapted.name=Spon big nasty maneater
+item.csrp.itemmobspawner_emanaadapted.name=Spon big nasty egg eye thing
+item.csrp.itemmobspawner_banoadapted.name=Spon big nasty blob
+item.csrp.itemmobspawner_ranracadapted.name=Spon big nasty pull spooder
+
+item.csrp.itemthrow.name=qfrench yur thirtst
+item.csrp.itemtab.name=No kitty cats here :(
+item.csrp.evclock.name=dirty tiem tellur
+item.csrp.weapon_scythe.name=Livin zythe
+item.csrp.weapon_scythe_sentient.name=Intelleggonn scyt
+item.csrp.weapon_bow.name=Livin big bowz
+item.csrp.weapon_bow_sentient.name=Intelleggonn big bowz
+item.csrp.weapon_axe.name=Livin big aks
+item.csrp.weapon_axe_sentient.name=Intelleggonn big aks
+item.csrp.weapon_sword.name=Livin knife
+item.csrp.weapon_sword_sentient.name=Intelleggonn knife
+item.csrp.weapon_cleaver.name=Livin clever
+item.csrp.weapon_cleaver_sentient.name=Intelleggonn clever
+
+item.csrp.armor_helm.name=Livin hat
+item.csrp.armor_chest.name=Living t-shirt
+item.csrp.armor_pants.name=Living jeans
+item.csrp.armor_boots.name=Living yeezys
+item.csrp.armor_helm_sentient.name=Intelleggonn hat
+item.csrp.armor_chest_sentient.name=Intelleggonn t-shirt
+item.csrp.armor_pants_sentient.name=Intelleggonn jeans
+item.csrp.armor_boots_sentient.name=Intelleggonn yeezys
+
+//////
+item.csrp.bow_upperlimb.name=Livin big bowz head
+item.csrp.bow_lowerlimb.name=Livin big bowz foot
+item.csrp.bow_string.name=Livin big bowz cat toiy
+item.csrp.bow_grip.name=Livin big bowz thigh
+item.csrp.bow_core.name=Livin big bowz middel
+
+item.csrp.scythe_back.name=Livin zythe tail
+item.csrp.scythe_blade.name=Livin zythe sharp bit
+item.csrp.scythe_core.name=Liviin zythe middel
+item.csrp.scythe_handle.name=Livin zythe grabing part
+item.csrp.scythe_head.name=Livin zythe head
+///////
+
+item.csrp.dried_tendons.name=Dried fries
+item.csrp.hardened_bone_handle.name=Hard bone, stil not edibl
+item.csrp.infectious_blade_fragment.name=No no touchy blade
+item.csrp.living_core.name=rip and tear until its done thingy! :D
+item.csrp.vile_shell.name=Hidey place
+item.csrp.bone.name=Not yummy bone
+
+item.csrp.ada_longarms_drop.name=Big arm big aremur
+item.csrp.ada_summoner_drop.name=Screech monster corr
+item.csrp.ada_yelloweye_drop.name=Yelko I bone
+item.csrp.ada_reeker_drop.name=Reeek monster teef
+item.csrp.ada_manducater_drop.name=Orb of dooom
+item.csrp.ada_bolster_drop.name=Blob skin
+item.csrp.ada_arachnida_drop.name=pull spooder finger
+item.csrp.ada_devourer_drop.name=nasty squid tentcl
+
+item.csrp.assimilated_flesh.name=Grosss meat!
+item.csrp.beckon_drop.name=greem plant guts
+item.csrp.beckon_drop.name=Red plant guts
+
+item.csrp.lurecomponent1.name=Anrgy spoder guts
+item.csrp.lurecomponent2.name=angry hert
+item.csrp.lurecomponent3.name=Cool fries
+item.csrp.lurecomponent4.name=Yummy bread!
+item.csrp.lurecomponent5.name=Not Yummy bread!
+item.csrp.lurecomponent6.name=Sensational segmentz
+
+//Blocks
+
+tile.csrp.parasitesapling_tree.name=vein parasid tree
+tile.csrp.parasitesapling_treethin.name=eye parasid tree
+tile.csrp.parasitesapling_flowertall.name=darlk parasid tree
+
+tile.csrp.parasitebush_tendril.name=Parasit net
+tile.csrp.parasitebush_pop.name=Parasit vesicle
+tile.csrp.parasitebush_bine.name=Parasit onionringlet
+
+tile.csrp.srpweb.name=Wormy web
+tile.csrp.tunnel.name=Hole! digz to find rabbit!
+tile.csrp.dispatchern.name=Big red angy plantz living place!
+tile.csrp.biomeheart.name=Worm land hart
+tile.csrp.colonyheart.name=Worm home hart
+tile.csrp.biomepurifier.name=Worm land riemouvr
+tile.csrp.parasitestructure.name=Worm home boken
+tile.csrp.parasitethin.name=Smol log
+tile.csrp.parasitemouth.name=Om nom nom 
+tile.csrp.parasitetendril.name=Worm tenticl
+tile.csrp.parasitefog.name=Nasty cloudd
+
+tile.csrp.gore_sim_small.name=Scery blod goo
+tile.csrp.gore_sim_big.name=Scery blod goo
+tile.csrp.gore_sim_flat.name=Scery blod goo
+tile.csrp.gore_pri_small.name=Nasty blod goo
+tile.csrp.gore_pri_big.name=Nasty blod goo
+tile.csrp.gore_pri_flat.name=Comfy blod goo
+tile.csrp.gore_ada_small.name=Comfy blod goo
+tile.csrp.gore_ada_big.name=Comfy blod goo
+tile.csrp.gore_ada_flat.name=Comfy blod goo
+tile.csrp.gore_pure_small.name=Gooey blod goo
+tile.csrp.gore_pure_big.name=Gooey blod goo
+tile.csrp.gore_pure_flat.name=Gooey blod goo
+
+tile.csrp.infestedstain.name=Infesed dird
+tile.csrp.infestedtrunk.name=Infesed woud
+tile.csrp.infestedrubble.name=Infesed rogk
+tile.csrp.infestremain.name=Infesed ground goobers
+
+tile.csrp.infestedbush_infected.name=Infesed plant
+tile.csrp.infestedbush_grass1.name=Infesed plant
+tile.csrp.infestedbush_flower1.name=Infesed plant
+tile.csrp.infestedbush_spine.name=Infesed plant
+tile.csrp.infestedbush_vine.name=Infesed plant
+tile.csrp.infestedbush_arc.name=Infesed plant
+
+tile.csrp.parasitecanister_sac.name=Parasid sac
+tile.csrp.parasitecanister_cyst.name=Parasid bubble
+tile.csrp.canisteractive.name=Parasid bubble (Open for business)
+tile.csrp.parasitecanister_lump.name=Parasid bump
+tile.csrp.parasitecanister_bag.name=Parasid bag
+
+tile.csrp.parasitetrunk_ball.name=Ouchie log
+tile.csrp.parasitetrunk_tree.name=Ouchie log
+tile.csrp.parasitetrunk_plant.name=Ouchie log
+
+tile.csrp.parasitestain_dirt.name=Parasid dird
+tile.csrp.parasitestain_mud.name=Parasid goobers
+tile.csrp.parasitestain_flesh.name=Parasid nasty meat
+tile.csrp.parasitestain_fleshstairs.name=Parasid meat step
+tile.csrp.parasitestain_feeler.name=Parasid finger
+
+tile.csrp.parasiterubble_slabhalf.name=hard bone
+tile.csrp.parasiterubble_flesh.name=Parasid big flesh
+tile.csrp.parasiterubble_bone.name=hard bone
+tile.csrp.parasiterubble_bonestairs.name=hard bone
+tile.csrp.parasiterubble_stone.name=Parasid rogk
+
+tile.csrp.parasiterubbledense_wall.name=Parasid soulid rok
+tile.csrp.parasiterubbledense_biome.name=Parasid soulid land rock
+tile.csrp.parasiterubbledense_colony.name=Parasid soulid home rok
+
+tile.csrp.evolutionlure_one.name=Worm bait (tiny)
+tile.csrp.evolutionlure_two.name=Worm bait (smol)
+tile.csrp.evolutionlure_three.name=Worm bait (slendrmn)
+tile.csrp.evolutionlure_four.name=Worm bait (heaby)
+tile.csrp.evolutionlure_five.name=Worm bait (agcepdabel)
+tile.csrp.evolutionlure_six.name=Worm bait (hard)
+tile.csrp.evolutionlure_seven.name=Worm bait (exdra hard)
+tile.csrp.evolutionlure_eight.name=Worm bait (ultra supreme legendary mode)
+
+//Effects
+
+mob_effect.csrp:coth=COTH-19
+splash_potion.effect.csrp:coth=Spleshy Poshun ov COTH-19
+potion.effect.csrp:coth=Poshun ov COTH-19
+lingering_potion.effect.csrp:coth=Linnerin Poshun ov COTH-19
+tipped_arrow.effect.csrp:coth=Speshul Shooty Tignh Dat Givez u COTH-19
+
+mob_effect.csrp:fear=Boo!
+splash_potion.effect.csrp:fear=Spleshy Poshun ov Boo!
+potion.effect.csrp:fear=Poshun ov Boo!
+lingering_potion.effect.csrp:fear=Linnerin Poshun ov Boo!
+tipped_arrow.effect.csrp:fear=Speshul Shooty Tignh Dat Makez u Boo!
+
+mob_effect.csrp:antimall=STAY LIK DIZ FOREVA! :D
+splash_potion.effect.csrp:antimall=Spleshy Poshun ov STAY LIK DIZ FOREVA! :D
+potion.effect.csrp:antimall=Poshun ov STAY LIK DIZ FOREVA! :D
+lingering_potion.effect.csrp:antimall=Linnerin Poshun ov STAY LIK DIZ FOREVA! :D
+tipped_arrow.effect.csrp:antimall=Speshul Shooty Tignh Dat Makez u STAY LIK DIZ FOREVA! :D
+
+mob_effect.csrp:bleed=Red water
+splash_potion.effect.csrp:bleed=Spleshy Poshun ov Red water
+potion.effect.csrp:bleed=Poshun ov Red water
+lingering_potion.effect.csrp:bleed=Linnerin Poshun ov Red water
+tipped_arrow.effect.csrp:bleed=Speshul Shooty Tignh Dat Makez u Red water
+
+mob_effect.csrp:corrosive=Desintegraid
+splash_potion.effect.csrp:corrosive=Spleshy Poshun ov Desintegraid
+potion.effect.csrp:corrosive=Potion of Desintegraid
+lingering_potion.effect.csrp:corrosive=Linnerin Poshun ov Desintegraid
+tipped_arrow.effect.csrp:corrosive=Speshul Shooty Tignh Dat Makez u Desintegraid
+
+mob_effect.csrp:viral=Virl
+splash_potion.effect.csrp:viral=Spleshy Poshun ov Virl
+potion.effect.csrp:viral=Poshun ov Virl
+lingering_potion.effect.csrp:viral=Linnerin Poshun ov Virl
+tipped_arrow.effect.csrp:viral=Speshul Shooty Tignh Dat Makez u Virl
+
+mob_effect.csrp:rage=Angy >:(
+splash_potion.effect.csrp:rage=Spleshy Poshun ov Angy >:(
+potion.effect.csrp:rage=Poshun ov Angy >:(
+lingering_potion.effect.csrp:rage=Linnerin Poshun ov Angy >:(
+tipped_arrow.effect.csrp:rage=Speshul Shooty Tignh Dat Makez u Angy >:(
+
+mob_effect.csrp:repel=Hidin
+splash_potion.effect.csrp:repel=Spleshy Poshun ov Hidin
+potion.effect.csrp:repel=Poshun ov Hidin
+lingering_potion.effect.csrp:repel=Linnerin Poshun ov Hidin
+tipped_arrow.effect.csrp:repel=Speshul Shooty Tignh Dat Makez u Hidin
+
+mob_effect.csrp:senses=Kitty kat mode
+splash_potion.effect.csrp:senses=Spleshy Poshun ov Kitty kat mode
+potion.effect.csrp:senses=Poshun ov Kitty kat mode
+lingering_potion.effect.csrp:senses=Linnerin Poshun ov Kitty kat mode
+tipped_arrow.effect.csrp:senses=Speshul Shooty Tignh Dat Makez u turn Kitty kat mode
+
+mob_effect.csrp:debar=No no no!
+splash_potion.effect.csrp:debar=Spleshy Poshun ov No no no!
+potion.effect.csrp:debar=Poshun ov No no no!
+lingering_potion.effect.csrp:debar=Linnerin Poshun ov No no no!
+tipped_arrow.effect.csrp:debar=Speshul Shooty Tignh Dat Makez u go No no no!
+
+mob_effect.csrp:needler=Hur Whar?
+splash_potion.effect.csrp:needler=Spleshy Poshun ov Hur Whar?
+potion.effect.csrp:needler=Poshun ov Hur Whar?
+lingering_potion.effect.csrp:needler=Linnerin Poshun ov Hur Whar?
+tipped_arrow.effect.csrp:needler=Speshul Shooty Tignh Dat Makez u Hur Whar?
+
+//extra
+
+message.csrp.lure=Scary reducd!
+message.csrp.fearitem=PANIK!
+message.csrp.fearblock=PANIK!
+message.csrp.feargui=PANIK!
+message.csrp.evolutionsleep=Im not slepy...
+
+tootip.csrp.lurecomp.1=Piece of anrgy spoder. Worm bait thingz.
+tootip.csrp.lurecomp.2=Yummy! Worm bait thingz.
+tootip.csrp.lurecomp.3=Stronk muscles. Worm bait thingz.
+tootip.csrp.lurecomp.4=Smeels badd. Worm bait thingz.
+tootip.csrp.lurecomp.5=Brainz! Worm bait thingz.
+tootip.csrp.lurecomp.6=Cool spine thingy from —. Worm bait thingz.
+
+tootip.csrp.item.1=Nasty screech monster piecez. Wepon thingz
+tootip.csrp.item.2=Nasty yelko I piecez. Wepon thingz
+tootip.csrp.item.3=Nasty maneater piecez. Wepon thingz
+tootip.csrp.item.4=Nasty reeek monster piecez. Wepon thingz
+tootip.csrp.item.5=Nasty big arm piecez. Wepon thingz
+tootip.csrp.item.6=Rip and Tear until its done. Worm bait thingz, edibl?
+tootip.csrp.item.7=
+tootip.csrp.item.8=Another toy-like thing, me likey. Wepon thingz
+tootip.csrp.item.9=Sharp scratcher. Wepon thingz
+tootip.csrp.item.10=Life weapon thing. Let there be light.
+tootip.csrp.item.11=im hidinz in your shellz. Wepon thingz
+tootip.csrp.item.12=Nod edible no likey. Wepon thingz|
+
+tootip.csrp.item.20=blaah blob piece
+tootip.csrp.item.21=spooder pencils
+tootip.csrp.item.22=squid chew toy
+tootip.csrp.item.23=Green angrys' plant skin thing
+tootip.csrp.item.24=Red angrys plant fur thing
+
+tootip.csrp.item.18=bloody Tick Tock to our doom!
+
+tootip.csrp.weaponm.1=Weponz :D
+tootip.csrp.weaponm.2=Better scery zythe. Smort.
+tootip.csrp.weaponm.3=Weponz :D
+tootip.csrp.weaponm.4=Better scery aks. Smort.
+tootip.csrp.weaponm.5=Weponz :D
+tootip.csrp.weaponm.6=Better scery knife. Smort.
+tootip.csrp.weaponm.7=Weponz :D
+tootip.csrp.weaponm.8=Better scery clever. Smort.
+
+tootip.csrp.weaponm.10=Destroy thing, go big.
+tootip.csrp.weaponm.20=Destroy thing, go bigger.
+tootip.csrp.weaponm.30=No armor for yu.
+tootip.csrp.weaponm.40=No armor for yu.
+tootip.csrp.weaponm.50=Ouch.
+tootip.csrp.weaponm.60=Ouch.
+tootip.csrp.weaponm.70=Kapow.
+tootip.csrp.weaponm.80=Kapow.
+
+tootip.csrp.weaponm.100=You cant hid anymoe...
+tootip.csrp.weaponm.200=You cant hid anymoe...
+tootip.csrp.weaponm.300=You cant hid anymoe...
+tootip.csrp.weaponm.400=You cant hid anymoe...
+tootip.csrp.weaponm.500=You cant hid anymoe...
+tootip.csrp.weaponm.600=You cant hid anymoe...
+tootip.csrp.weaponm.700=You cant hid anymoe...
+tootip.csrp.weaponm.800=You cant hid anymoe...
+
+tootip.csrp.weaponr.1=Weponz :D
+tootip.csrp.weaponr.2=Better scery bowz. Smort.
+
+tootip.csrp.weaponr.10=Keep holdinz these arrowz
+tootip.csrp.weaponr.20=Keep holdinz these arrowz
+
+tootip.csrp.weaponr.100=You cant hid anymoe...
+tootip.csrp.weaponr.200=You cant hid anymoe...

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "csrp:parasiterubble",
+      "data": 13
+    }
+  },
+  "result": {
+    "item": "csrp:parasiterubble",
+    "data": 9,
+    "count": 4
+  }
+}

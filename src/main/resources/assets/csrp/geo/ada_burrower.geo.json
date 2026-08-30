@@ -3,7 +3,7 @@
   "minecraft:geometry": [
     {
       "description": {
-        "identifier": "geometry.srparasites.ada_burrower",
+        "identifier": "geometry.csrp.ada_burrower",
         "texture_width": 256,
         "texture_height": 128,
         "visible_bounds_width": 16,

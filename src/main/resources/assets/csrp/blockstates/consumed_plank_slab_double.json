@@ -1,0 +1,17 @@
+{
+  "forge_marker": 1,
+  "variants": {
+    "variant=default": {
+      "model": "csrp:consumed_plank_slab_double"
+    },
+    "half=bottom,variant=default": {
+      "model": "csrp:consumed_plank_slab_double"
+    },
+    "half=top,variant=default": {
+      "model": "csrp:consumed_plank_slab_double"
+    },
+    "inventory": [
+      {}
+    ]
+  }
+}

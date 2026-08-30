@@ -3,7 +3,7 @@
   "minecraft:geometry": [
     {
       "description": {
-        "identifier": "geometry.srparasites.buglin",
+        "identifier": "geometry.csrp.buglin",
         "texture_width": 64,
         "texture_height": 16,
         "visible_bounds_width": 16,

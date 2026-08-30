@@ -1,0 +1,23 @@
+{
+  "parent": "csrp:enemy_enemy",
+  "display": {
+    "icon": {
+      "item": "csrp:hunt_season_icon"
+    },
+    "title": {
+      "translate": "advancements.csrp.hunt_season.title"
+    },
+    "description": {
+      "translate": "advancements.csrp.hunt_season.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "fifty_in_day": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

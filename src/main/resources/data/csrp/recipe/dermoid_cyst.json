@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XYX",
+    "YZY",
+    "XYX"
+  ],
+  "key": {
+    "X": { "item": "csrp:assimilated_flesh" },
+
+    "Y": {
+      "item": "csrp:parasitestain",
+      "data": 2
+    },
+
+    "Z": {
+      "item": "csrp:parasitecanister",
+      "data": 1
+    }
+  },
+  "result": {
+    "item": "csrp:dermoid_cyst",
+    "count": 1
+  }
+}

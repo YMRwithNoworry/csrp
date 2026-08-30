@@ -1,0 +1,9 @@
+{
+  "parent": "block/cactus",
+  "textures": {
+    "particle": "csrp:blocks/infested_cactus_maw",
+    "side": "csrp:blocks/infested_cactus_maw",
+    "top": "csrp:blocks/infested_cactus_top_maw",
+    "bottom": "csrp:blocks/infested_cactus_bottom"
+  }
+}

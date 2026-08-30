@@ -1,0 +1,9 @@
+{
+  "parent": "block/half_slab",
+  "textures": {
+    "particle": "csrp:blocks/parasitestain_red",
+    "bottom": "csrp:blocks/parasitestain_red",
+    "top": "csrp:blocks/parasitestain_red",
+    "side": "csrp:blocks/parasitestain_red"
+  }
+}

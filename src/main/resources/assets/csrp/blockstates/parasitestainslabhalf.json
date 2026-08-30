@@ -1,0 +1,53 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "csrp:slabbone_bottom"
+  },
+  "variants": {
+    "half=top,variant=dirt": {
+      "model": "csrp:slabdirt_top"
+    },
+    "half=bottom,variant=dirt": {
+      "model": "csrp:slabdirt_bottom"
+    },
+    "half=top,variant=mud": {
+      "model": "csrp:slabmud_top"
+    },
+    "half=bottom,variant=mud": {
+      "model": "csrp:slabmud_bottom"
+    },
+    "half=top,variant=sflesh": {
+      "model": "csrp:slabsflesh_top"
+    },
+    "half=bottom,variant=sflesh": {
+      "model": "csrp:slabsflesh_bottom"
+    },
+    "half=top,variant=feeler": {
+      "model": "csrp:slabfeeler_top"
+    },
+    "half=bottom,variant=feeler": {
+      "model": "csrp:slabfeeler_bottom"
+    },
+    "half=top,variant=spore": {
+      "model": "csrp:slabspore_top"
+    },
+    "half=bottom,variant=spore": {
+      "model": "csrp:slabspore_bottom"
+    },
+    "half=top,variant=red": {
+      "model": "csrp:slabred_top"
+    },
+    "half=bottom,variant=red": {
+      "model": "csrp:slabred_bottom"
+    },
+    "half=top,variant=sackflesh": {
+      "model": "csrp:slabsackflesh_top"
+    },
+    "half=bottom,variant=sackflesh": {
+      "model": "csrp:slabsackflesh_bottom"
+    },
+    "inventory": [
+      {}
+    ]
+  }
+}

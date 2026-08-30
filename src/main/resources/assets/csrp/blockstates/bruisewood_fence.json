@@ -1,0 +1,60 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "csrp:bruisewood_fence_post",
+        "textures": {
+          "texture": "csrp:blocks/bruisewood_fence"
+        }
+      }
+    },
+    {
+      "when": {
+        "north": "true"
+      },
+      "apply": {
+        "model": "csrp:bruisewood_fence_side",
+        "y": 0,
+        "textures": {
+          "texture": "csrp:blocks/bruisewood_fence"
+        }
+      }
+    },
+    {
+      "when": {
+        "south": "true"
+      },
+      "apply": {
+        "model": "csrp:bruisewood_fence_side",
+        "y": 180,
+        "textures": {
+          "texture": "csrp:blocks/bruisewood_fence"
+        }
+      }
+    },
+    {
+      "when": {
+        "east": "true"
+      },
+      "apply": {
+        "model": "csrp:bruisewood_fence_side",
+        "y": 90,
+        "textures": {
+          "texture": "csrp:blocks/bruisewood_fence"
+        }
+      }
+    },
+    {
+      "when": {
+        "west": "true"
+      },
+      "apply": {
+        "model": "csrp:bruisewood_fence_side",
+        "y": 270,
+        "textures": {
+          "texture": "csrp:blocks/bruisewood_fence"
+        }
+      }
+    }
+  ]
+}

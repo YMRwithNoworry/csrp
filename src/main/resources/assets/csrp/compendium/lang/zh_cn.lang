@@ -1,976 +1,976 @@
 
 ##Entities
 
-entity.srparasites.scent.name=循质袭击
+entity.csrp.scent.name=循质袭击
 
-entity.srparasites.abo_bodies.name=缀合多体
-entity.srparasites.abo_head.name=巨型头颅
+entity.csrp.abo_bodies.name=缀合多体
+entity.csrp.abo_head.name=巨型头颅
 
-entity.srparasites.pri_longarms.name=原始长臂兽
-entity.srparasites.pri_manducater.name=原始咀骨兽
-entity.srparasites.pri_summoner.name=原始召唤兽
-entity.srparasites.pri_reeker.name=原始毒腥兽
-entity.srparasites.pri_yelloweye.name=原始黄眸兽
-entity.srparasites.pri_bolster.name=原始协增兽
-entity.srparasites.pri_arachnida.name=原始蛛形兽
-entity.srparasites.pri_devourer.name=原始吞噬兽
-entity.srparasites.pri_vermin.name=原始孕虫兽
-entity.srparasites.pri_tozoon.name=原始潜地兽
-entity.srparasites.pri_burrower.name=原始掘地兽
-entity.srparasites.pri_viscera.name=原始脏腑兽
-entity.srparasites.nametag.ricardo=里卡多
+entity.csrp.pri_longarms.name=原始长臂兽
+entity.csrp.pri_manducater.name=原始咀骨兽
+entity.csrp.pri_summoner.name=原始召唤兽
+entity.csrp.pri_reeker.name=原始毒腥兽
+entity.csrp.pri_yelloweye.name=原始黄眸兽
+entity.csrp.pri_bolster.name=原始协增兽
+entity.csrp.pri_arachnida.name=原始蛛形兽
+entity.csrp.pri_devourer.name=原始吞噬兽
+entity.csrp.pri_vermin.name=原始孕虫兽
+entity.csrp.pri_tozoon.name=原始潜地兽
+entity.csrp.pri_burrower.name=原始掘地兽
+entity.csrp.pri_viscera.name=原始脏腑兽
+entity.csrp.nametag.ricardo=里卡多
 
 # Advancements
 
-advancements.srparasites.root.title=逃逸：寄生体
-advancements.srparasites.root.description=由内向外。
+advancements.csrp.root.title=逃逸：寄生体
+advancements.csrp.root.description=由内向外。
 
-advancements.srparasites.kill_root.title=狩猎。
-advancements.srparasites.kill_root.description=？？？
+advancements.csrp.kill_root.title=狩猎。
+advancements.csrp.kill_root.description=？？？
 
-advancements.srparasites.secret_root.title=认知。
-advancements.srparasites.secret_root.description=？？？
+advancements.csrp.secret_root.title=认知。
+advancements.csrp.secret_root.description=？？？
 
-advancements.srparasites.monument_root.title=丰碑。
-advancements.srparasites.monument_root.description=？？？
+advancements.csrp.monument_root.title=丰碑。
+advancements.csrp.monument_root.description=？？？
 
-advancements.srparasites.firmamentum_root.title=苍穹。
-advancements.srparasites.firmamentum_root.description=？？？
+advancements.csrp.firmamentum_root.title=苍穹。
+advancements.csrp.firmamentum_root.description=？？？
 
-advancements.srparasites.brew_fear.title=§b狂喜
-advancements.srparasites.brew_fear.description=酿制恐惧药水
+advancements.csrp.brew_fear.title=§b狂喜
+advancements.csrp.brew_fear.description=酿制恐惧药水
 
-advancements.srparasites.guerilla.title=§b游击战
-advancements.srparasites.guerilla.description=击杀一位被你施加恐惧效果的玩家
+advancements.csrp.guerilla.title=§b游击战
+advancements.csrp.guerilla.description=击杀一位被你施加恐惧效果的玩家
 
-advancements.srparasites.kill_inborn.title=先天种
-advancements.srparasites.kill_inborn.description=击杀所有先天种寄生体
+advancements.csrp.kill_inborn.title=先天种
+advancements.csrp.kill_inborn.description=击杀所有先天种寄生体
 
-advancements.srparasites.kill_assimilated.title=同化种
-advancements.srparasites.kill_assimilated.description=击杀所有被同化的生物
+advancements.csrp.kill_assimilated.title=同化种
+advancements.csrp.kill_assimilated.description=击杀所有被同化的生物
 
-advancements.srparasites.beheaded.title=脑叶公司
-advancements.srparasites.beheaded.description=击杀所有行走头颅
+advancements.csrp.beheaded.title=脑叶公司
+advancements.csrp.beheaded.description=击杀所有行走头颅
 
-advancements.srparasites.kill_primitive.title=原始种
-advancements.srparasites.kill_primitive.description=击杀所有原始种寄生体
+advancements.csrp.kill_primitive.title=原始种
+advancements.csrp.kill_primitive.description=击杀所有原始种寄生体
 
-advancements.srparasites.kill_adapted.title=适应种
-advancements.srparasites.kill_adapted.description=击杀所有适应种寄生体
+advancements.csrp.kill_adapted.title=适应种
+advancements.csrp.kill_adapted.description=击杀所有适应种寄生体
 
-advancements.srparasites.kill_deterrent.title=威慑种
-advancements.srparasites.kill_deterrent.description=击杀所有威慑种寄生体
+advancements.csrp.kill_deterrent.title=威慑种
+advancements.csrp.kill_deterrent.description=击杀所有威慑种寄生体
 
-advancements.srparasites.kill_pure.title=纯粹种
-advancements.srparasites.kill_pure.description=击杀所有纯粹种寄生体
+advancements.csrp.kill_pure.title=纯粹种
+advancements.csrp.kill_pure.description=击杀所有纯粹种寄生体
 
-advancements.srparasites.controversial.title=争议难免
-advancements.srparasites.controversial.description=击杀一只被同化的末影人
+advancements.csrp.controversial.title=争议难免
+advancements.csrp.controversial.description=击杀一只被同化的末影人
 
-advancements.srparasites.kill_crude.title=粗制种
-advancements.srparasites.kill_crude.description=击杀所有粗制种寄生体
+advancements.csrp.kill_crude.title=粗制种
+advancements.csrp.kill_crude.description=击杀所有粗制种寄生体
 
-advancements.srparasites.kill_beckon_s1.title=园丁
-advancements.srparasites.kill_beckon_s1.description=击杀 I 阶召唤柱
+advancements.csrp.kill_beckon_s1.title=园丁
+advancements.csrp.kill_beckon_s1.description=击杀 I 阶召唤柱
 
-advancements.srparasites.kill_beckon_s2.title=修枝者
-advancements.srparasites.kill_beckon_s2.description=击杀 II 阶召唤柱
+advancements.csrp.kill_beckon_s2.title=修枝者
+advancements.csrp.kill_beckon_s2.description=击杀 II 阶召唤柱
 
-advancements.srparasites.kill_beckon_s3.title=掘根者
-advancements.srparasites.kill_beckon_s3.description=击杀 III 阶召唤柱
+advancements.csrp.kill_beckon_s3.title=掘根者
+advancements.csrp.kill_beckon_s3.description=击杀 III 阶召唤柱
 
-advancements.srparasites.kill_beckon_s4.title=根除者
-advancements.srparasites.kill_beckon_s4.description=击杀 IV 阶召唤柱
+advancements.csrp.kill_beckon_s4.title=根除者
+advancements.csrp.kill_beckon_s4.description=击杀 IV 阶召唤柱
 
-advancements.srparasites.kill_dispatcher_s1.title=镇压 ZAYIN 级
-advancements.srparasites.kill_dispatcher_s1.description=击杀 I 阶调度柱
+advancements.csrp.kill_dispatcher_s1.title=镇压 ZAYIN 级
+advancements.csrp.kill_dispatcher_s1.description=击杀 I 阶调度柱
 
-advancements.srparasites.kill_dispatcher_s2.title=镇压 TETH 级
-advancements.srparasites.kill_dispatcher_s2.description=击杀 II 阶调度柱
+advancements.csrp.kill_dispatcher_s2.title=镇压 TETH 级
+advancements.csrp.kill_dispatcher_s2.description=击杀 II 阶调度柱
 
-advancements.srparasites.kill_dispatcher_s3.title=镇压 HE 级
-advancements.srparasites.kill_dispatcher_s3.description=击杀 III 阶调度柱
+advancements.csrp.kill_dispatcher_s3.title=镇压 HE 级
+advancements.csrp.kill_dispatcher_s3.description=击杀 III 阶调度柱
 
-advancements.srparasites.kill_dispatcher_s4.title=镇压 ALEPH 级
-advancements.srparasites.kill_dispatcher_s4.description=击杀 IV 阶调度柱
+advancements.csrp.kill_dispatcher_s4.title=镇压 ALEPH 级
+advancements.csrp.kill_dispatcher_s4.description=击杀 IV 阶调度柱
 
-advancements.srparasites.fermented_arrogance.title=愈发膨胀的傲慢
-advancements.srparasites.fermented_arrogance.description=击杀一只狂化末影人
+advancements.csrp.fermented_arrogance.title=愈发膨胀的傲慢
+advancements.csrp.fermented_arrogance.description=击杀一只狂化末影人
 
-advancements.srparasites.monument.title=我是你所有罪孽的纪念碑
-advancements.srparasites.monument.description=某个存在达到了 IV 阶
+advancements.csrp.monument.title=我是你所有罪孽的纪念碑
+advancements.csrp.monument.description=某个存在达到了 IV 阶
 
-advancements.srparasites.cut_roots.title=除恶务尽，斩草除根
-advancements.srparasites.cut_roots.description=杀死 1000 只裂兽
+advancements.csrp.cut_roots.title=除恶务尽，斩草除根
+advancements.csrp.cut_roots.description=杀死 1000 只裂兽
 
-advancements.srparasites.peacekeeper.title=和平卫士
-advancements.srparasites.peacekeeper.description=获得一个生物群系净化器
+advancements.csrp.peacekeeper.title=和平卫士
+advancements.csrp.peacekeeper.description=获得一个生物群系净化器
 
-advancements.srparasites.enemy_enemy.title=敌人的敌人
-advancements.srparasites.enemy_enemy.description=让苦力怕击杀一只寄生体
+advancements.csrp.enemy_enemy.title=敌人的敌人
+advancements.csrp.enemy_enemy.description=让苦力怕击杀一只寄生体
 
-advancements.srparasites.ruin_of_fools.title=愚人之殒
-advancements.srparasites.ruin_of_fools.description=击杀所有原始种寄生体
+advancements.csrp.ruin_of_fools.title=愚人之殒
+advancements.csrp.ruin_of_fools.description=击杀所有原始种寄生体
 
-advancements.srparasites.hunt_season.title=猎杀时刻
-advancements.srparasites.hunt_season.description=在一天内杀死 50 只寄生体
+advancements.csrp.hunt_season.title=猎杀时刻
+advancements.csrp.hunt_season.description=在一天内杀死 50 只寄生体
 
-advancements.srparasites.qliphoth_overload.title=逆卡巴拉能量过载
-advancements.srparasites.qliphoth_overload.description=某个存在达到了 IV 阶
+advancements.csrp.qliphoth_overload.title=逆卡巴拉能量过载
+advancements.csrp.qliphoth_overload.description=某个存在达到了 IV 阶
 
-advancement.srparasites.thornshade_self_destruct.title=华丽的自我毁灭
-advancement.srparasites.thornshade_self_destruct.desc=在自己身上触发影棘的爆炸效果。
+advancement.csrp.thornshade_self_destruct.title=华丽的自我毁灭
+advancement.csrp.thornshade_self_destruct.desc=在自己身上触发影棘的爆炸效果。
 
-advancement.srparasites.sepeku.title=切腹自尽
-advancement.srparasites.sepeku.desc=你献出了你的生命。
+advancement.csrp.sepeku.title=切腹自尽
+advancement.csrp.sepeku.desc=你献出了你的生命。
 
-advancement.srparasites.hellfire_chemical_warfare.title=地狱火化学战
-advancement.srparasites.hellfire_chemical_warfare.desc=终结邪狱龙，并从其高温烈焰中存活。
+advancement.csrp.hellfire_chemical_warfare.title=地狱火化学战
+advancement.csrp.hellfire_chemical_warfare.desc=终结邪狱龙，并从其高温烈焰中存活。
 
-advancement.srparasites.cosmic_structural_failure.title=宇宙结构崩坏
-advancement.srparasites.cosmic_structural_failure.desc=让踏虚体摆脱永恒的自毁作用。
+advancement.csrp.cosmic_structural_failure.title=宇宙结构崩坏
+advancement.csrp.cosmic_structural_failure.desc=让踏虚体摆脱永恒的自毁作用。
 
-advancements.srparasites.columbus.title=哥伦布
-advancements.srparasites.columbus.description=发现一半的天象事件。
+advancements.csrp.columbus.title=哥伦布
+advancements.csrp.columbus.description=发现一半的天象事件。
 
-advancements.srparasites.stolas.title=斯托拉斯
-advancements.srparasites.stolas.description=发现所有天象事件。
+advancements.csrp.stolas.title=斯托拉斯
+advancements.csrp.stolas.description=发现所有天象事件。
 
-item.srparasites.shrimp.name=虾
-tooltip.srparasites.shrimp.desc=多元宇宙中最美味的佳肴。
-tooltip.srparasites.shrimp.arrow=在翘曲箭头存在期间，有概率被寄生体掉落。
-tooltip.srparasites.shrimp.ariral=可以喂给被同化的末影人。
+item.csrp.shrimp.name=虾
+tooltip.csrp.shrimp.desc=多元宇宙中最美味的佳肴。
+tooltip.csrp.shrimp.arrow=在翘曲箭头存在期间，有概率被寄生体掉落。
+tooltip.csrp.shrimp.ariral=可以喂给被同化的末影人。
 
 # Esca Bulbs
-tile.srparasites.esca_bulb.name=饵灯
-tile.srparasites.esca_bulb_white.name=饵灯（白）
-tile.srparasites.esca_bulb_orange.name=饵灯（橙）
-tile.srparasites.esca_bulb_magenta.name=饵灯（品红）
-tile.srparasites.esca_bulb_light_blue.name=饵灯（淡蓝）
-tile.srparasites.esca_bulb_yellow.name=饵灯（黄）
-tile.srparasites.esca_bulb_lime.name=饵灯 (绿黄)
-tile.srparasites.esca_bulb_pink.name=饵灯（粉）
-tile.srparasites.esca_bulb_gray.name=饵灯（灰）
-tile.srparasites.esca_bulb_light_gray.name=饵灯（淡灰）
-tile.srparasites.esca_bulb_cyan.name=饵灯（青）
-tile.srparasites.esca_bulb_purple.name=饵灯（紫）
-tile.srparasites.esca_bulb_blue.name=饵灯（蓝）
-tile.srparasites.esca_bulb_brown.name=饵灯（棕）
-tile.srparasites.esca_bulb_green.name=饵灯（绿）
-tile.srparasites.esca_bulb_red.name=饵灯（红）
-tile.srparasites.esca_bulb_black.name=饵灯（黑）
+tile.csrp.esca_bulb.name=饵灯
+tile.csrp.esca_bulb_white.name=饵灯（白）
+tile.csrp.esca_bulb_orange.name=饵灯（橙）
+tile.csrp.esca_bulb_magenta.name=饵灯（品红）
+tile.csrp.esca_bulb_light_blue.name=饵灯（淡蓝）
+tile.csrp.esca_bulb_yellow.name=饵灯（黄）
+tile.csrp.esca_bulb_lime.name=饵灯 (绿黄)
+tile.csrp.esca_bulb_pink.name=饵灯（粉）
+tile.csrp.esca_bulb_gray.name=饵灯（灰）
+tile.csrp.esca_bulb_light_gray.name=饵灯（淡灰）
+tile.csrp.esca_bulb_cyan.name=饵灯（青）
+tile.csrp.esca_bulb_purple.name=饵灯（紫）
+tile.csrp.esca_bulb_blue.name=饵灯（蓝）
+tile.csrp.esca_bulb_brown.name=饵灯（棕）
+tile.csrp.esca_bulb_green.name=饵灯（绿）
+tile.csrp.esca_bulb_red.name=饵灯（红）
+tile.csrp.esca_bulb_black.name=饵灯（黑）
 tooltip.esca_bulb=闻起来有股鱼味。
 
-tile.srparasites.alveoli.name=肺泡簇
-tile.srparasites.sick_alveoli.name=病变肺泡簇
-tile.srparasites.alveoli_growth.name=增生肺泡
-tile.srparasites.solid_alveoli_block.name=肺泡团块
-item.srparasites.alveolar_fluid.name=肺泡液
-item.srparasites.deadblood_fluid.name=§2瓶装死血
+tile.csrp.alveoli.name=肺泡簇
+tile.csrp.sick_alveoli.name=病变肺泡簇
+tile.csrp.alveoli_growth.name=增生肺泡
+tile.csrp.solid_alveoli_block.name=肺泡团块
+item.csrp.alveolar_fluid.name=肺泡液
+item.csrp.deadblood_fluid.name=§2瓶装死血
 
-tile.srparasites.assimilated_reed.name=寄染甘蔗
-tile.srparasites.infested_leaves.name=寄染树叶
-tile.srparasites.infested_leaves_fast.name=寄染树叶（快速）
-tile.srparasites.infested_planks.name=寄染木板
-tile.srparasites.infested_stone_bricks.name=寄染石砖
-tile.srparasites.residue_bricks.name=残渣砖
-tile.srparasites.residue_stairs.name=残渣砖台阶
-tile.srparasites.residue_wall.name=残渣砖墙
-tile.srparasites.residue_block.name=残渣块
-tile.srparasites.diseased_sponge.name=被污染的海绵
-tile.srparasites.residue_plants.name=丛生残渣
-tile.srparasites.infested_column.name=寄染石柱
-tile.srparasites.infested_terracotta.name=寄染陶瓦
-tile.srparasites.infested_stone_polished.name=磨制寄染石头
-tile.srparasites.inf_ss.name=寄染砂岩
-tile.srparasites.inf_ss_chiseled.name=雕纹寄染砂岩
-tile.srparasites.inf_ss_cut.name=切制寄染砂岩
-tile.srparasites.ashen_glass.name=蒙尘玻璃
-tile.srparasites.ashen_glass_pane.name=蒙尘玻璃板
-tile.srparasites.infested_glass_pane.name=寄染玻璃板
-tile.srparasites.bloody_glass_pane.name=血染玻璃板
-tile.srparasites.harlequinn_glass_pane.name=丑鳞玻璃板
-tile.srparasites.shrouded_glass_pane.name=阴蔽玻璃板
-tile.srparasites.shrouded_glass.name=阴蔽玻璃
-tile.srparasites.harlequinn_glass.name=丑鳞玻璃
-tile.srparasites.bloody_glass.name=血染玻璃
-tile.srparasites.infested_glass.name=寄染玻璃
-tile.srparasites.biomass_block.name=生物质块
-tile.srparasites.shade_glass_pane.name=暗影玻璃板
-tile.srparasites.sepia_glass_pane.name=深褐色玻璃板
-tile.srparasites.moody_glass_pane.name=阴郁玻璃板
-tile.srparasites.shade_glass.name=暗影玻璃
-tile.srparasites.sepia_glass.name=深褐色玻璃
-tile.srparasites.moody_glass.name=阴郁玻璃
+tile.csrp.assimilated_reed.name=寄染甘蔗
+tile.csrp.infested_leaves.name=寄染树叶
+tile.csrp.infested_leaves_fast.name=寄染树叶（快速）
+tile.csrp.infested_planks.name=寄染木板
+tile.csrp.infested_stone_bricks.name=寄染石砖
+tile.csrp.residue_bricks.name=残渣砖
+tile.csrp.residue_stairs.name=残渣砖台阶
+tile.csrp.residue_wall.name=残渣砖墙
+tile.csrp.residue_block.name=残渣块
+tile.csrp.diseased_sponge.name=被污染的海绵
+tile.csrp.residue_plants.name=丛生残渣
+tile.csrp.infested_column.name=寄染石柱
+tile.csrp.infested_terracotta.name=寄染陶瓦
+tile.csrp.infested_stone_polished.name=磨制寄染石头
+tile.csrp.inf_ss.name=寄染砂岩
+tile.csrp.inf_ss_chiseled.name=雕纹寄染砂岩
+tile.csrp.inf_ss_cut.name=切制寄染砂岩
+tile.csrp.ashen_glass.name=蒙尘玻璃
+tile.csrp.ashen_glass_pane.name=蒙尘玻璃板
+tile.csrp.infested_glass_pane.name=寄染玻璃板
+tile.csrp.bloody_glass_pane.name=血染玻璃板
+tile.csrp.harlequinn_glass_pane.name=丑鳞玻璃板
+tile.csrp.shrouded_glass_pane.name=阴蔽玻璃板
+tile.csrp.shrouded_glass.name=阴蔽玻璃
+tile.csrp.harlequinn_glass.name=丑鳞玻璃
+tile.csrp.bloody_glass.name=血染玻璃
+tile.csrp.infested_glass.name=寄染玻璃
+tile.csrp.biomass_block.name=生物质块
+tile.csrp.shade_glass_pane.name=暗影玻璃板
+tile.csrp.sepia_glass_pane.name=深褐色玻璃板
+tile.csrp.moody_glass_pane.name=阴郁玻璃板
+tile.csrp.shade_glass.name=暗影玻璃
+tile.csrp.sepia_glass.name=深褐色玻璃
+tile.csrp.moody_glass.name=阴郁玻璃
 
 #Fog Nullifier
-tile.srparasites.fog_nullifier.name=除雾器
-advancements.srparasites.fog_nullifier.title=除雾器
-advancements.srparasites.fog_nullifier.description=获得能够驱散寄生体浓雾的装置。
+tile.csrp.fog_nullifier.name=除雾器
+advancements.csrp.fog_nullifier.title=除雾器
+advancements.csrp.fog_nullifier.description=获得能够驱散寄生体浓雾的装置。
 
-tile.srparasites.assimilated_pumpkin.name=被同化的南瓜
-tile.srparasites.assimilated_jack_o_lantern.name=被同化的南瓜灯
-tile.srparasites.goth_stem.name=怪异菌柄
-tile.srparasites.goth_planks.name=怪异菌板
-item.srparasites.goth_door.name=怪异菌门
-tile.srparasites.brusewood_planks.name=瘢痕木木板
-item.srparasites.brusewood_door.name=瘢痕木门
-tile.srparasites.brusewood_trapdoor.name=瘢痕木活板门
-tile.srparasites.consumed_planks.name=寄腐木板
-tile.srparasites.consumed_workbench.name=寄腐工作台
-item.srparasites.consumed_door.name=寄腐木门
-tile.srparasites.consumed_trapdoor.name=寄腐活板门
+tile.csrp.assimilated_pumpkin.name=被同化的南瓜
+tile.csrp.assimilated_jack_o_lantern.name=被同化的南瓜灯
+tile.csrp.goth_stem.name=怪异菌柄
+tile.csrp.goth_planks.name=怪异菌板
+item.csrp.goth_door.name=怪异菌门
+tile.csrp.brusewood_planks.name=瘢痕木木板
+item.csrp.brusewood_door.name=瘢痕木门
+tile.csrp.brusewood_trapdoor.name=瘢痕木活板门
+tile.csrp.consumed_planks.name=寄腐木板
+tile.csrp.consumed_workbench.name=寄腐工作台
+item.csrp.consumed_door.name=寄腐木门
+tile.csrp.consumed_trapdoor.name=寄腐活板门
 
 
-entity.srparasites.host.name=缠骨柱
-entity.srparasites.hostii.name=缠骷柱
-entity.srparasites.crux.name=烬余兽
-entity.srparasites.crux_incomplete.name=未成形烬余兽
-entity.srparasites.heed.name=警戒兽
-entity.srparasites.thrall.name=寄生奴仆
-entity.srparasites.done.name=溺骨妖
-entity.srparasites.carrier_worm.name=蠕虫载体
-entity.srparasites.airscrew.name=悬牵体
+entity.csrp.host.name=缠骨柱
+entity.csrp.hostii.name=缠骷柱
+entity.csrp.crux.name=烬余兽
+entity.csrp.crux_incomplete.name=未成形烬余兽
+entity.csrp.heed.name=警戒兽
+entity.csrp.thrall.name=寄生奴仆
+entity.csrp.done.name=溺骨妖
+entity.csrp.carrier_worm.name=蠕虫载体
+entity.csrp.airscrew.name=悬牵体
 
-death.attack.srparasites.ricardo=%s被添加到了复仇账簿
-item.srparasites.book_of_vengeance.name=§d§l复仇账簿
-item.srparasites.book_of_vengeance.vengeance0=§7------------------
-item.srparasites.book_of_vengeance.vengeance1=§6统治，集合，誓报此仇。
-item.srparasites.book_of_vengeance.vengeance3=§d流血，抑减，烟雾轨迹 §8（5秒）
-item.srparasites.book_of_vengeance.vengeance5=§d交互：§7复仇猛击锁链 §8（击中时）
-item.srparasites.book_of_vengeance.vengeance6=§d潜行中使用：§7脉冲击退
+death.attack.csrp.ricardo=%s被添加到了复仇账簿
+item.csrp.book_of_vengeance.name=§d§l复仇账簿
+item.csrp.book_of_vengeance.vengeance0=§7------------------
+item.csrp.book_of_vengeance.vengeance1=§6统治，集合，誓报此仇。
+item.csrp.book_of_vengeance.vengeance3=§d流血，抑减，烟雾轨迹 §8（5秒）
+item.csrp.book_of_vengeance.vengeance5=§d交互：§7复仇猛击锁链 §8（击中时）
+item.csrp.book_of_vengeance.vengeance6=§d潜行中使用：§7脉冲击退
 
 death.attack.srp_dod_block=%1$s受到了调度柱胞窝的猛击。
 death.attack.srp_dod_block.player=%1$s在与%2$s战斗时，受到了调度柱胞窝的猛击。
 
-entity.srparasites.sim_bear.name=被同化的熊
-entity.srparasites.sim_squid.name=被同化的鱿鱼
-entity.srparasites.sim_enderman.name=被同化的末影人
-entity.srparasites.sim_endermanhead.name=行走头颅（末影人）
-entity.srparasites.sim_adventurer.name=被同化的冒险者
-entity.srparasites.sim_adventurerhead.name=行走头颅（冒险者）
-entity.srparasites.sim_bigspider.name=被同化的大蜘蛛
-entity.srparasites.sim_human.name=被同化的人类
-entity.srparasites.sim_humanhead.name=行走头颅（人类）
-entity.srparasites.sim_villager.name=被同化的村民
-entity.srparasites.sim_villagerhead.name=行走头颅（村民）
-entity.srparasites.sim_cow.name=被同化的牛
-entity.srparasites.sim_cowhead.name=行走头颅（牛）
-entity.srparasites.sim_horse.name=被同化的马
-entity.srparasites.sim_horsehead.name=行走头颅（马）
-entity.srparasites.sim_pig.name=被同化的猪
-entity.srparasites.sim_pighead.name=行走头颅（猪）
-entity.srparasites.sim_sheep.name=被同化的羊
-entity.srparasites.sim_sheephead.name=行走头颅（羊）
-entity.srparasites.sim_wolf.name=被同化的狼
-entity.srparasites.sim_wolfhead.name=行走头颅（狼）
-entity.srparasites.incompleteform_medium.name=中型未成形寄生体
-entity.srparasites.incompleteform_small.name=小型未成形寄生体
-entity.srparasites.sim_dragone.name=被同化的末影龙
-entity.srparasites.sim_dragonehead.name=行走头颅（末影龙）
+entity.csrp.sim_bear.name=被同化的熊
+entity.csrp.sim_squid.name=被同化的鱿鱼
+entity.csrp.sim_enderman.name=被同化的末影人
+entity.csrp.sim_endermanhead.name=行走头颅（末影人）
+entity.csrp.sim_adventurer.name=被同化的冒险者
+entity.csrp.sim_adventurerhead.name=行走头颅（冒险者）
+entity.csrp.sim_bigspider.name=被同化的大蜘蛛
+entity.csrp.sim_human.name=被同化的人类
+entity.csrp.sim_humanhead.name=行走头颅（人类）
+entity.csrp.sim_villager.name=被同化的村民
+entity.csrp.sim_villagerhead.name=行走头颅（村民）
+entity.csrp.sim_cow.name=被同化的牛
+entity.csrp.sim_cowhead.name=行走头颅（牛）
+entity.csrp.sim_horse.name=被同化的马
+entity.csrp.sim_horsehead.name=行走头颅（马）
+entity.csrp.sim_pig.name=被同化的猪
+entity.csrp.sim_pighead.name=行走头颅（猪）
+entity.csrp.sim_sheep.name=被同化的羊
+entity.csrp.sim_sheephead.name=行走头颅（羊）
+entity.csrp.sim_wolf.name=被同化的狼
+entity.csrp.sim_wolfhead.name=行走头颅（狼）
+entity.csrp.incompleteform_medium.name=中型未成形寄生体
+entity.csrp.incompleteform_small.name=小型未成形寄生体
+entity.csrp.sim_dragone.name=被同化的末影龙
+entity.csrp.sim_dragonehead.name=行走头颅（末影龙）
 
-entity.srparasites.mar_bear.name=诡化熊
-entity.srparasites.mar_enderman.name=诡化末影人
-entity.srparasites.mar_human.name=诡化人类
-entity.srparasites.mar_villager.name=诡化村民
-entity.srparasites.mar_cow.name=诡化牛
-entity.srparasites.mar_sheep.name=诡化羊
+entity.csrp.mar_bear.name=诡化熊
+entity.csrp.mar_enderman.name=诡化末影人
+entity.csrp.mar_human.name=诡化人类
+entity.csrp.mar_villager.name=诡化村民
+entity.csrp.mar_cow.name=诡化牛
+entity.csrp.mar_sheep.name=诡化羊
 
-entity.srparasites.fer_cow.name=狂化牛
-entity.srparasites.fer_bear.name=狂化熊
-entity.srparasites.fer_enderman.name=狂化末影人
-entity.srparasites.fer_human.name=狂化人类
-entity.srparasites.fer_horse.name=狂化马
-entity.srparasites.fer_sheep.name=狂化羊
-entity.srparasites.fer_pig.name=狂化猪
-entity.srparasites.fer_villager.name=狂化村民
-entity.srparasites.fer_wolf.name=狂化狼
+entity.csrp.fer_cow.name=狂化牛
+entity.csrp.fer_bear.name=狂化熊
+entity.csrp.fer_enderman.name=狂化末影人
+entity.csrp.fer_human.name=狂化人类
+entity.csrp.fer_horse.name=狂化马
+entity.csrp.fer_sheep.name=狂化羊
+entity.csrp.fer_pig.name=狂化猪
+entity.csrp.fer_villager.name=狂化村民
+entity.csrp.fer_wolf.name=狂化狼
 
-entity.srparasites.hi_blaze.name=被操纵的烈焰人
-entity.srparasites.hi_golem.name=被操纵的铁傀儡
-entity.srparasites.hi_skeleton.name=被操纵的骷髅
+entity.csrp.hi_blaze.name=被操纵的烈焰人
+entity.csrp.hi_golem.name=被操纵的铁傀儡
+entity.csrp.hi_skeleton.name=被操纵的骷髅
 
-entity.srparasites.overseer.name=监察兽
-entity.srparasites.bomber_light.name=轻型轰炸兽
-entity.srparasites.carrier_heavy.name=重型母体
-entity.srparasites.carrier_light.name=轻型母体
-entity.srparasites.buglin.name=虫灵
-entity.srparasites.mangler.name=凶裂兽
-entity.srparasites.gnat.name=狂疫虫
-entity.srparasites.lice.name=狂疫飞虫
-entity.srparasites.worker.name=工兽
-entity.srparasites.carrier_flying.name=飞行母体
-entity.srparasites.rupter.name=裂兽
-entity.srparasites.beckon_si.name=I 阶召唤柱
-entity.srparasites.beckon_sii.name=II 阶召唤柱
-entity.srparasites.beckon_siii.name=III 阶召唤柱
-entity.srparasites.beckon_siv.name=IV 阶召唤柱
-entity.srparasites.beckon_sv.name=V 阶召唤柱
-entity.srparasites.warden.name=看守兽
-entity.srparasites.marauder.name=掠夺兽
-entity.srparasites.monarch.name=统御兽 
-entity.srparasites.grunt.name=步行兽
-entity.srparasites.sentry.name=哨戒爪
-entity.srparasites.kyphosis.name=曲击柱
-entity.srparasites.dispatcherten.name=调度柱触须
-entity.srparasites.dispatcher_si.name=I 阶调度柱
-entity.srparasites.dispatcher_sii.name=II 阶调度柱
-entity.srparasites.dispatcher_siii.name=III 阶调度柱
-entity.srparasites.dispatcher_siv.name=IV 阶调度柱
-entity.srparasites.rooter_si.name=I 阶支庇柱
-entity.srparasites.rooter_sii.name=II 阶支庇柱
-entity.srparasites.rooter_siii.name=III 阶支庇柱
-entity.srparasites.rooter_siv.name=IV 阶支庇柱
-entity.srparasites.rooterball.name=支庇柱囊块
-entity.srparasites.seizer.name=缠缚触手
+entity.csrp.overseer.name=监察兽
+entity.csrp.bomber_light.name=轻型轰炸兽
+entity.csrp.carrier_heavy.name=重型母体
+entity.csrp.carrier_light.name=轻型母体
+entity.csrp.buglin.name=虫灵
+entity.csrp.mangler.name=凶裂兽
+entity.csrp.gnat.name=狂疫虫
+entity.csrp.lice.name=狂疫飞虫
+entity.csrp.worker.name=工兽
+entity.csrp.carrier_flying.name=飞行母体
+entity.csrp.rupter.name=裂兽
+entity.csrp.beckon_si.name=I 阶召唤柱
+entity.csrp.beckon_sii.name=II 阶召唤柱
+entity.csrp.beckon_siii.name=III 阶召唤柱
+entity.csrp.beckon_siv.name=IV 阶召唤柱
+entity.csrp.beckon_sv.name=V 阶召唤柱
+entity.csrp.warden.name=看守兽
+entity.csrp.marauder.name=掠夺兽
+entity.csrp.monarch.name=统御兽
+entity.csrp.grunt.name=步行兽
+entity.csrp.sentry.name=哨戒爪
+entity.csrp.kyphosis.name=曲击柱
+entity.csrp.dispatcherten.name=调度柱触须
+entity.csrp.dispatcher_si.name=I 阶调度柱
+entity.csrp.dispatcher_sii.name=II 阶调度柱
+entity.csrp.dispatcher_siii.name=III 阶调度柱
+entity.csrp.dispatcher_siv.name=IV 阶调度柱
+entity.csrp.rooter_si.name=I 阶支庇柱
+entity.csrp.rooter_sii.name=II 阶支庇柱
+entity.csrp.rooter_siii.name=III 阶支庇柱
+entity.csrp.rooter_siv.name=IV 阶支庇柱
+entity.csrp.rooterball.name=支庇柱囊块
+entity.csrp.seizer.name=缠缚触手
 
-entity.srparasites.bomber_heavy.name=重型轰炸兽
-entity.srparasites.carrier_colony.name=聚生载体
-entity.srparasites.wraith.name=幽鬼体
-entity.srparasites.bogle.name=怖怪体
-entity.srparasites.haunter.name=逐猎兽
-entity.srparasites.succor.name=援助泡
-entity.srparasites.seeker.name=Seeker
-entity.srparasites.architect.name=构筑体
-entity.srparasites.dredge.name=溺骨妖
-entity.srparasites.sim_dragonhead.name=行走龙头颅
+entity.csrp.bomber_heavy.name=重型轰炸兽
+entity.csrp.carrier_colony.name=聚生载体
+entity.csrp.wraith.name=幽鬼体
+entity.csrp.bogle.name=怖怪体
+entity.csrp.haunter.name=逐猎兽
+entity.csrp.succor.name=援助泡
+entity.csrp.seeker.name=Seeker
+entity.csrp.architect.name=构筑体
+entity.csrp.dredge.name=溺骨妖
+entity.csrp.sim_dragonhead.name=行走龙头颅
 
-entity.srparasites.draconite.name=§9邪狱龙
-entity.srparasites.kirin.name=§9踏虚体
+entity.csrp.draconite.name=§9邪狱龙
+entity.csrp.kirin.name=§9踏虚体
 
-entity.srparasites.anc_dreadnaut.name=远古惧魔
-entity.srparasites.anc_overlord.name=远古君魔
-entity.srparasites.vigilante.name=巡兽
-entity.srparasites.movingflesh.name=活体肉块
-entity.srparasites.tendril.name=寄生体触须
-entity.srparasites.anc_pod.name=空投吊舱
-entity.srparasites.biomass.name=生物质
-entity.srparasites.gore.name=凝固的血
+entity.csrp.anc_dreadnaut.name=远古惧魔
+entity.csrp.anc_overlord.name=远古君魔
+entity.csrp.vigilante.name=巡兽
+entity.csrp.movingflesh.name=活体肉块
+entity.csrp.tendril.name=寄生体触须
+entity.csrp.anc_pod.name=空投吊舱
+entity.csrp.biomass.name=生物质
+entity.csrp.gore.name=凝固的血
 
-entity.srparasites.ada_longarms.name=适应长臂兽
-entity.srparasites.ada_summoner.name=适应召唤兽
-entity.srparasites.ada_manducater.name=适应咀骨兽
-entity.srparasites.ada_reeker.name=适应毒腥兽
-entity.srparasites.ada_yelloweye.name=适应黄眸兽
-entity.srparasites.ada_bolster.name=适应协增兽
-entity.srparasites.ada_arachnida.name=适应蛛形兽
-entity.srparasites.ada_devourer.name=适应吞噬兽
-entity.srparasites.ada_vermin.name=适应孕虫兽
-entity.srparasites.ada_tozoon.name=适应潜地兽
-entity.srparasites.ada_burrower.name=适应掘地兽
-entity.srparasites.ada_viscera.name=适应脏腑兽
+entity.csrp.ada_longarms.name=适应长臂兽
+entity.csrp.ada_summoner.name=适应召唤兽
+entity.csrp.ada_manducater.name=适应咀骨兽
+entity.csrp.ada_reeker.name=适应毒腥兽
+entity.csrp.ada_yelloweye.name=适应黄眸兽
+entity.csrp.ada_bolster.name=适应协增兽
+entity.csrp.ada_arachnida.name=适应蛛形兽
+entity.csrp.ada_devourer.name=适应吞噬兽
+entity.csrp.ada_vermin.name=适应孕虫兽
+entity.csrp.ada_tozoon.name=适应潜地兽
+entity.csrp.ada_burrower.name=适应掘地兽
+entity.csrp.ada_viscera.name=适应脏腑兽
 
-entity.srparasites.wave.name=震荡波
-entity.srparasites.waveshock.name=冲击波
+entity.csrp.wave.name=震荡波
+entity.csrp.waveshock.name=冲击波
 
-entity.srparasites.worm.name=侵袭蠕虫
-entity.srparasites.anc_dreadnaut_ten.name=远古惧魔触须
+entity.csrp.worm.name=侵袭蠕虫
+entity.csrp.anc_dreadnaut_ten.name=远古惧魔触须
 
-entity.srparasites.remain.name=残骸
+entity.csrp.remain.name=残骸
 
-entity.srparasites.meteor.name=寄巢卫星
-entity.srparasites.cloudtoxic.name=毒性药水云
-entity.srparasites.orbscary.name=寄染泡
-entity.srparasites.orbboom.name=爆裂球
-entity.srparasites.orbvoid.name=虚空球
-entity.srparasites.bomb.name=寄生炸弹
+entity.csrp.meteor.name=寄巢卫星
+entity.csrp.cloudtoxic.name=毒性药水云
+entity.csrp.orbscary.name=寄染泡
+entity.csrp.orbboom.name=爆裂球
+entity.csrp.orbvoid.name=虚空球
+entity.csrp.bomb.name=寄生炸弹
 
 # Creative Tab
 
 itemGroup.SRParasites=逃逸：寄生体
 
 # Items
-item.srparasites.itemmobspawner_pod.name=空投吊舱刷怪蛋
+item.csrp.itemmobspawner_pod.name=空投吊舱刷怪蛋
 
-item.srparasites.itemmobspawner_abobodies.name=憎恶缀合多体刷怪蛋
-item.srparasites.itemmobspawner_abohead.name=Spawn Abomination Giant Head
+item.csrp.itemmobspawner_abobodies.name=憎恶缀合多体刷怪蛋
+item.csrp.itemmobspawner_abohead.name=Spawn Abomination Giant Head
 
-item.srparasites.itemmobspawner_host.name=缠骨柱刷怪蛋
-item.srparasites.itemmobspawner_hostii.name=缠骷柱刷怪蛋
-item.srparasites.itemmobspawner_heed.name=警戒兽刷怪蛋
-item.srparasites.itemmobspawner_cruxa.name=烬余兽刷怪蛋
-item.srparasites.itemmobspawner_mes.name=寄生奴仆刷怪蛋
-item.srparasites.itemmobspawner_done.name=溺骨妖刷怪蛋
-item.srparasites.itemmobspawner_quac.name=蠕虫载体刷怪蛋
-item.srparasites.itemmobspawner_leer.name=悬牵体刷怪蛋
-item.srparasites.itemmobspawner_cruxb.name=未成形烬余兽刷怪蛋
+item.csrp.itemmobspawner_host.name=缠骨柱刷怪蛋
+item.csrp.itemmobspawner_hostii.name=缠骷柱刷怪蛋
+item.csrp.itemmobspawner_heed.name=警戒兽刷怪蛋
+item.csrp.itemmobspawner_cruxa.name=烬余兽刷怪蛋
+item.csrp.itemmobspawner_mes.name=寄生奴仆刷怪蛋
+item.csrp.itemmobspawner_done.name=溺骨妖刷怪蛋
+item.csrp.itemmobspawner_quac.name=蠕虫载体刷怪蛋
+item.csrp.itemmobspawner_leer.name=悬牵体刷怪蛋
+item.csrp.itemmobspawner_cruxb.name=未成形烬余兽刷怪蛋
 
-item.srparasites.itemmobspawner_infbear.name=被同化的熊刷怪蛋
-item.srparasites.itemmobspawner_infsquid.name=被同化的鱿鱼刷怪蛋
-item.srparasites.itemmobspawner_infenderman.name=被同化的末影人刷怪蛋 
-item.srparasites.itemmobspawner_infendermanhead.name=行走末影人头颅刷怪蛋
-item.srparasites.itemmobspawner_infplayer.name=被同化的冒险者刷怪蛋
-item.srparasites.itemmobspawner_infplayerhead.name=行走冒险者头颅刷怪蛋
-item.srparasites.itemmobspawner_dorpa.name=被同化的大蜘蛛刷怪蛋
-item.srparasites.itemmobspawner_infhuman.name=被同化的人类刷怪蛋
-item.srparasites.itemmobspawner_infhumanhead.name=行走人类头颅刷怪蛋
-item.srparasites.itemmobspawner_infvillager.name=被同化的村民刷怪蛋
-item.srparasites.itemmobspawner_infvillagerhead.name=行走村民头颅刷怪蛋
-item.srparasites.itemmobspawner_infcow.name=被同化的牛刷怪蛋
-item.srparasites.itemmobspawner_infcowhead.name=行走牛头颅刷怪蛋
-item.srparasites.itemmobspawner_infpig.name=被同化的猪刷怪蛋
-item.srparasites.itemmobspawner_infpighead.name=行走猪头颅刷怪蛋
-item.srparasites.itemmobspawner_infsheep.name=被同化的羊刷怪蛋
-item.srparasites.itemmobspawner_infsheephead.name=行走羊头颅刷怪蛋
-item.srparasites.itemmobspawner_infwolf.name=被同化的狼刷怪蛋
-item.srparasites.itemmobspawner_infwolfhead.name=行走狼头颅刷怪蛋
-item.srparasites.itemmobspawner_infhorse.name=被同化的马刷怪蛋
-item.srparasites.itemmobspawner_infhorsehead.name=行走马头颅刷怪蛋
-item.srparasites.itemmobspawner_inhoos.name=小块未成形寄生体刷怪蛋
-item.srparasites.itemmobspawner_inhoom.name=中块未成形寄生体刷怪蛋
-item.srparasites.itemmobspawner_infdragone.name=被同化的末影龙刷怪蛋
-item.srparasites.itemmobspawner_infdragonehead.name=行走末影龙头颅刷怪蛋
+item.csrp.itemmobspawner_infbear.name=被同化的熊刷怪蛋
+item.csrp.itemmobspawner_infsquid.name=被同化的鱿鱼刷怪蛋
+item.csrp.itemmobspawner_infenderman.name=被同化的末影人刷怪蛋
+item.csrp.itemmobspawner_infendermanhead.name=行走末影人头颅刷怪蛋
+item.csrp.itemmobspawner_infplayer.name=被同化的冒险者刷怪蛋
+item.csrp.itemmobspawner_infplayerhead.name=行走冒险者头颅刷怪蛋
+item.csrp.itemmobspawner_dorpa.name=被同化的大蜘蛛刷怪蛋
+item.csrp.itemmobspawner_infhuman.name=被同化的人类刷怪蛋
+item.csrp.itemmobspawner_infhumanhead.name=行走人类头颅刷怪蛋
+item.csrp.itemmobspawner_infvillager.name=被同化的村民刷怪蛋
+item.csrp.itemmobspawner_infvillagerhead.name=行走村民头颅刷怪蛋
+item.csrp.itemmobspawner_infcow.name=被同化的牛刷怪蛋
+item.csrp.itemmobspawner_infcowhead.name=行走牛头颅刷怪蛋
+item.csrp.itemmobspawner_infpig.name=被同化的猪刷怪蛋
+item.csrp.itemmobspawner_infpighead.name=行走猪头颅刷怪蛋
+item.csrp.itemmobspawner_infsheep.name=被同化的羊刷怪蛋
+item.csrp.itemmobspawner_infsheephead.name=行走羊头颅刷怪蛋
+item.csrp.itemmobspawner_infwolf.name=被同化的狼刷怪蛋
+item.csrp.itemmobspawner_infwolfhead.name=行走狼头颅刷怪蛋
+item.csrp.itemmobspawner_infhorse.name=被同化的马刷怪蛋
+item.csrp.itemmobspawner_infhorsehead.name=行走马头颅刷怪蛋
+item.csrp.itemmobspawner_inhoos.name=小块未成形寄生体刷怪蛋
+item.csrp.itemmobspawner_inhoom.name=中块未成形寄生体刷怪蛋
+item.csrp.itemmobspawner_infdragone.name=被同化的末影龙刷怪蛋
+item.csrp.itemmobspawner_infdragonehead.name=行走末影龙头颅刷怪蛋
 
-item.srparasites.itemmobspawner_marbear.name=诡化熊刷怪蛋
-item.srparasites.itemmobspawner_marhuman.name=诡化人类刷怪蛋
-item.srparasites.itemmobspawner_marcow.name=诡化牛刷怪蛋
-item.srparasites.itemmobspawner_marsheep.name=诡化羊刷怪蛋
-item.srparasites.itemmobspawner_marenderman.name=诡化末影人刷怪蛋
-item.srparasites.itemmobspawner_marvillager.name=诡化村民刷怪蛋
+item.csrp.itemmobspawner_marbear.name=诡化熊刷怪蛋
+item.csrp.itemmobspawner_marhuman.name=诡化人类刷怪蛋
+item.csrp.itemmobspawner_marcow.name=诡化牛刷怪蛋
+item.csrp.itemmobspawner_marsheep.name=诡化羊刷怪蛋
+item.csrp.itemmobspawner_marenderman.name=诡化末影人刷怪蛋
+item.csrp.itemmobspawner_marvillager.name=诡化村民刷怪蛋
 
-item.srparasites.itemmobspawner_fercow.name=狂化牛刷怪蛋
-item.srparasites.itemmobspawner_ferbear.name=狂化熊刷怪蛋
-item.srparasites.itemmobspawner_ferenderman.name=狂化末影人刷怪蛋
-item.srparasites.itemmobspawner_ferhuman.name=狂化人类刷怪蛋
-item.srparasites.itemmobspawner_ferhorse.name=狂化马刷怪蛋
-item.srparasites.itemmobspawner_ferpig.name=狂化猪刷怪蛋
-item.srparasites.itemmobspawner_fersheep.name=狂化羊刷怪蛋
-item.srparasites.itemmobspawner_fervillager.name=狂化村民刷怪蛋
-item.srparasites.itemmobspawner_ferwolf.name=狂化狼刷怪蛋
+item.csrp.itemmobspawner_fercow.name=狂化牛刷怪蛋
+item.csrp.itemmobspawner_ferbear.name=狂化熊刷怪蛋
+item.csrp.itemmobspawner_ferenderman.name=狂化末影人刷怪蛋
+item.csrp.itemmobspawner_ferhuman.name=狂化人类刷怪蛋
+item.csrp.itemmobspawner_ferhorse.name=狂化马刷怪蛋
+item.csrp.itemmobspawner_ferpig.name=狂化猪刷怪蛋
+item.csrp.itemmobspawner_fersheep.name=狂化羊刷怪蛋
+item.csrp.itemmobspawner_fervillager.name=狂化村民刷怪蛋
+item.csrp.itemmobspawner_ferwolf.name=狂化狼刷怪蛋
 
-item.srparasites.itemmobspawner_hiblaze.name=被操纵的烈焰人刷怪蛋
-item.srparasites.itemmobspawner_higolem.name=被操纵的铁傀儡刷怪蛋
-item.srparasites.itemmobspawner_hiskeleton.name=被操纵的骷髅刷怪蛋
+item.csrp.itemmobspawner_hiblaze.name=被操纵的烈焰人刷怪蛋
+item.csrp.itemmobspawner_higolem.name=被操纵的铁傀儡刷怪蛋
+item.csrp.itemmobspawner_hiskeleton.name=被操纵的骷髅刷怪蛋
 
-item.srparasites.itemmobspawner_alafha.name=监察兽刷怪蛋
-item.srparasites.itemmobspawner_omboo.name=轻型轰炸兽刷怪蛋
-item.srparasites.itemmobspawner_rathol.name=重型母体刷怪蛋
-item.srparasites.itemmobspawner_gothol.name=轻型母体刷怪蛋
-item.srparasites.itemmobspawner_buthol.name=飞行母体刷怪蛋
-item.srparasites.itemmobspawner_lodo.name=虫灵刷怪蛋
-item.srparasites.itemmobspawner_nuuh.name=凶裂兽刷怪蛋
-item.srparasites.itemmobspawner_ata.name=狂疫虫刷怪蛋
-item.srparasites.itemmobspawner_worker.name=工兽刷怪蛋
-item.srparasites.itemmobspawner_mudo.name=裂兽刷怪蛋
-item.srparasites.itemmobspawner_venkrol.name=I阶召唤柱刷怪蛋
-item.srparasites.itemmobspawner_venkrolsii.name=II阶召唤柱刷怪蛋
-item.srparasites.itemmobspawner_venkrolsiii.name=III阶召唤柱刷怪蛋
-item.srparasites.itemmobspawner_venkrolsiv.name=IV阶召唤柱刷怪蛋
-item.srparasites.itemmobspawner_venkrolsv.name=V阶召唤柱刷怪蛋
-item.srparasites.itemmobspawner_ganro.name=看守兽刷怪蛋
-item.srparasites.itemmobspawner_esor.name=掠夺兽刷怪蛋
-item.srparasites.itemmobspawner_orch.name=统御兽刷怪蛋 
-item.srparasites.itemmobspawner_flog.name=步行兽刷怪蛋
-item.srparasites.itemmobspawner_unvo.name=哨戒爪刷怪蛋 
-item.srparasites.itemmobspawner_tonro.name=曲击柱刷怪蛋
-item.srparasites.itemmobspawner_dod.name=I阶调度柱刷怪蛋
-item.srparasites.itemmobspawner_dodsii.name=II阶调度柱刷怪蛋
-item.srparasites.itemmobspawner_dodsiii.name=III阶调度柱刷怪蛋
-item.srparasites.itemmobspawner_dodsiv.name=IV阶调度柱刷怪蛋
-item.srparasites.itemmobspawner_leem.name=I阶支庇柱刷怪蛋
-item.srparasites.itemmobspawner_leemsii.name=II阶支庇柱刷怪蛋
-item.srparasites.itemmobspawner_leemsiii.name=III阶支庇柱刷怪蛋
-item.srparasites.itemmobspawner_leemsiv.name=IV阶支庇柱刷怪蛋
-item.srparasites.itemmobspawner_nak.name=缠缚触手刷怪蛋
+item.csrp.itemmobspawner_alafha.name=监察兽刷怪蛋
+item.csrp.itemmobspawner_omboo.name=轻型轰炸兽刷怪蛋
+item.csrp.itemmobspawner_rathol.name=重型母体刷怪蛋
+item.csrp.itemmobspawner_gothol.name=轻型母体刷怪蛋
+item.csrp.itemmobspawner_buthol.name=飞行母体刷怪蛋
+item.csrp.itemmobspawner_lodo.name=虫灵刷怪蛋
+item.csrp.itemmobspawner_nuuh.name=凶裂兽刷怪蛋
+item.csrp.itemmobspawner_ata.name=狂疫虫刷怪蛋
+item.csrp.itemmobspawner_worker.name=工兽刷怪蛋
+item.csrp.itemmobspawner_mudo.name=裂兽刷怪蛋
+item.csrp.itemmobspawner_venkrol.name=I阶召唤柱刷怪蛋
+item.csrp.itemmobspawner_venkrolsii.name=II阶召唤柱刷怪蛋
+item.csrp.itemmobspawner_venkrolsiii.name=III阶召唤柱刷怪蛋
+item.csrp.itemmobspawner_venkrolsiv.name=IV阶召唤柱刷怪蛋
+item.csrp.itemmobspawner_venkrolsv.name=V阶召唤柱刷怪蛋
+item.csrp.itemmobspawner_ganro.name=看守兽刷怪蛋
+item.csrp.itemmobspawner_esor.name=掠夺兽刷怪蛋
+item.csrp.itemmobspawner_orch.name=统御兽刷怪蛋
+item.csrp.itemmobspawner_flog.name=步行兽刷怪蛋
+item.csrp.itemmobspawner_unvo.name=哨戒爪刷怪蛋
+item.csrp.itemmobspawner_tonro.name=曲击柱刷怪蛋
+item.csrp.itemmobspawner_dod.name=I阶调度柱刷怪蛋
+item.csrp.itemmobspawner_dodsii.name=II阶调度柱刷怪蛋
+item.csrp.itemmobspawner_dodsiii.name=III阶调度柱刷怪蛋
+item.csrp.itemmobspawner_dodsiv.name=IV阶调度柱刷怪蛋
+item.csrp.itemmobspawner_leem.name=I阶支庇柱刷怪蛋
+item.csrp.itemmobspawner_leemsii.name=II阶支庇柱刷怪蛋
+item.csrp.itemmobspawner_leemsiii.name=III阶支庇柱刷怪蛋
+item.csrp.itemmobspawner_leemsiv.name=IV阶支庇柱刷怪蛋
+item.csrp.itemmobspawner_nak.name=缠缚触手刷怪蛋
 
-item.srparasites.itemmobspawner_jinjo.name=重型轰炸兽刷怪蛋
-item.srparasites.itemmobspawner_vesta.name=聚生载体刷怪蛋
-item.srparasites.itemmobspawner_elvia.name=幽鬼体刷怪蛋
-item.srparasites.itemmobspawner_lencia.name=怖怪体刷怪蛋
-item.srparasites.itemmobspawner_pheon.name=逐猎兽刷怪蛋
-item.srparasites.itemmobspawner_flam.name=援助泡刷怪蛋
-item.srparasites.itemmobspawner_soo.name=Spawn Seeker
-item.srparasites.itemmobspawner_tenn.name=构筑体刷怪蛋
+item.csrp.itemmobspawner_jinjo.name=重型轰炸兽刷怪蛋
+item.csrp.itemmobspawner_vesta.name=聚生载体刷怪蛋
+item.csrp.itemmobspawner_elvia.name=幽鬼体刷怪蛋
+item.csrp.itemmobspawner_lencia.name=怖怪体刷怪蛋
+item.csrp.itemmobspawner_pheon.name=逐猎兽刷怪蛋
+item.csrp.itemmobspawner_flam.name=援助泡刷怪蛋
+item.csrp.itemmobspawner_soo.name=Spawn Seeker
+item.csrp.itemmobspawner_tenn.name=构筑体刷怪蛋
 
-item.srparasites.itemmobspawner_heblu.name=邪狱龙刷怪蛋
-item.srparasites.itemmobspawner_kirin.name=踏虚体刷怪蛋
+item.csrp.itemmobspawner_heblu.name=邪狱龙刷怪蛋
+item.csrp.itemmobspawner_kirin.name=踏虚体刷怪蛋
 
-item.srparasites.itemmobspawner_oronco.name=远古惧魔刷怪蛋
-item.srparasites.itemmobspawner_terla.name=远古君魔刷怪蛋
-item.srparasites.itemmobspawner_anged.name=巡兽刷怪蛋
-item.srparasites.itemmobspawner_lesh.name=活体肉块刷怪蛋
+item.csrp.itemmobspawner_oronco.name=远古惧魔刷怪蛋
+item.csrp.itemmobspawner_terla.name=远古君魔刷怪蛋
+item.csrp.itemmobspawner_anged.name=巡兽刷怪蛋
+item.csrp.itemmobspawner_lesh.name=活体肉块刷怪蛋
 
-item.srparasites.itemmobspawner_shyco.name=原始长臂兽刷怪蛋
-item.srparasites.itemmobspawner_hull.name=原始咀骨兽刷怪蛋
-item.srparasites.itemmobspawner_canra.name=原始召唤兽刷怪蛋
-item.srparasites.itemmobspawner_emana.name=原始黄眸兽刷怪蛋
-item.srparasites.itemmobspawner_nogla.name=原始毒腥兽刷怪蛋
-item.srparasites.itemmobspawner_bano.name=原始协增兽刷怪蛋
-item.srparasites.itemmobspawner_ranrac.name=原始蛛形兽刷怪蛋
-item.srparasites.itemmobspawner_lum.name=原始吞噬兽刷怪蛋
-item.srparasites.itemmobspawner_iki.name=原始孕虫兽刷怪蛋
-item.srparasites.itemmobspawner_wymo.name=原始潜地兽刷怪蛋 
-item.srparasites.itemmobspawner_gim.name=原始脏腑兽刷怪蛋
-item.srparasites.itemmobspawner_zaa.name=原始掘地兽刷怪蛋
+item.csrp.itemmobspawner_shyco.name=原始长臂兽刷怪蛋
+item.csrp.itemmobspawner_hull.name=原始咀骨兽刷怪蛋
+item.csrp.itemmobspawner_canra.name=原始召唤兽刷怪蛋
+item.csrp.itemmobspawner_emana.name=原始黄眸兽刷怪蛋
+item.csrp.itemmobspawner_nogla.name=原始毒腥兽刷怪蛋
+item.csrp.itemmobspawner_bano.name=原始协增兽刷怪蛋
+item.csrp.itemmobspawner_ranrac.name=原始蛛形兽刷怪蛋
+item.csrp.itemmobspawner_lum.name=原始吞噬兽刷怪蛋
+item.csrp.itemmobspawner_iki.name=原始孕虫兽刷怪蛋
+item.csrp.itemmobspawner_wymo.name=原始潜地兽刷怪蛋
+item.csrp.itemmobspawner_gim.name=原始脏腑兽刷怪蛋
+item.csrp.itemmobspawner_zaa.name=原始掘地兽刷怪蛋
 
-item.srparasites.itemmobspawner_shycoadapted.name=适应长臂兽刷怪蛋
-item.srparasites.itemmobspawner_canraadapted.name=适应召唤兽刷怪蛋
-item.srparasites.itemmobspawner_noglaadapted.name=适应毒腥兽刷怪蛋
-item.srparasites.itemmobspawner_hulladapted.name=适应咀骨兽刷怪蛋
-item.srparasites.itemmobspawner_emanaadapted.name=适应黄眸兽刷怪蛋
-item.srparasites.itemmobspawner_banoadapted.name=适应协增兽刷怪蛋
-item.srparasites.itemmobspawner_ranracadapted.name=适应蛛形兽刷怪蛋
-item.srparasites.itemmobspawner_lumadapted.name=适应吞噬兽刷怪蛋
-item.srparasites.itemmobspawner_ikiadapted.name=适应孕虫兽刷怪蛋
-item.srparasites.itemmobspawner_wymoadapted.name=适应潜地兽刷怪蛋
-item.srparasites.itemmobspawner_gimadapted.name=适应脏腑兽刷怪蛋
-item.srparasites.itemmobspawner_zaaadapted.name=适应掘地兽刷怪蛋
+item.csrp.itemmobspawner_shycoadapted.name=适应长臂兽刷怪蛋
+item.csrp.itemmobspawner_canraadapted.name=适应召唤兽刷怪蛋
+item.csrp.itemmobspawner_noglaadapted.name=适应毒腥兽刷怪蛋
+item.csrp.itemmobspawner_hulladapted.name=适应咀骨兽刷怪蛋
+item.csrp.itemmobspawner_emanaadapted.name=适应黄眸兽刷怪蛋
+item.csrp.itemmobspawner_banoadapted.name=适应协增兽刷怪蛋
+item.csrp.itemmobspawner_ranracadapted.name=适应蛛形兽刷怪蛋
+item.csrp.itemmobspawner_lumadapted.name=适应吞噬兽刷怪蛋
+item.csrp.itemmobspawner_ikiadapted.name=适应孕虫兽刷怪蛋
+item.csrp.itemmobspawner_wymoadapted.name=适应潜地兽刷怪蛋
+item.csrp.itemmobspawner_gimadapted.name=适应脏腑兽刷怪蛋
+item.csrp.itemmobspawner_zaaadapted.name=适应掘地兽刷怪蛋
 
-item.srparasites.itemthrow.name=§6净污熔胶
-item.srparasites.itemtab.name=§d无
-item.srparasites.itemevolve.name=进化之杖
-item.srparasites.itemassimilate.name=同化之杖
-item.srparasites.itemdevolve.name=退化之杖
-item.srparasites.itemvariant.name=变种之杖
-item.srparasites.evclock.name=§c染血的钟
-item.srparasites.levelclock.name=§b泛演化发展等级钟
-item.srparasites.weapon_scythe.name=§e活体镰刀
-item.srparasites.weapon_scythe_sentient.name=§6觉知巨镰
-item.srparasites.weapon_bow.name=§e活体弓
-item.srparasites.weapon_bow_sentient.name=§6觉知巨弓
-item.srparasites.weapon_axe.name=§e活体斧
-item.srparasites.weapon_axe_sentient.name=§6觉知巨斧
-item.srparasites.weapon_sword.name=§e活体剑
-item.srparasites.weapon_sword_sentient.name=§6觉知巨剑
-item.srparasites.weapon_cleaver.name=§e活体劈刀
-item.srparasites.weapon_cleaver_sentient.name=§6觉知巨劈刀
-item.srparasites.weapon_maul.name=§e活体锤
-item.srparasites.weapon_maul_sentient.name=§6觉知巨锤
-item.srparasites.weapon_lance.name=§e活体矛
-item.srparasites.weapon_lance_sentient.name=§6觉知巨矛
+item.csrp.itemthrow.name=§6净污熔胶
+item.csrp.itemtab.name=§d无
+item.csrp.itemevolve.name=进化之杖
+item.csrp.itemassimilate.name=同化之杖
+item.csrp.itemdevolve.name=退化之杖
+item.csrp.itemvariant.name=变种之杖
+item.csrp.evclock.name=§c染血的钟
+item.csrp.levelclock.name=§b泛演化发展等级钟
+item.csrp.weapon_scythe.name=§e活体镰刀
+item.csrp.weapon_scythe_sentient.name=§6觉知巨镰
+item.csrp.weapon_bow.name=§e活体弓
+item.csrp.weapon_bow_sentient.name=§6觉知巨弓
+item.csrp.weapon_axe.name=§e活体斧
+item.csrp.weapon_axe_sentient.name=§6觉知巨斧
+item.csrp.weapon_sword.name=§e活体剑
+item.csrp.weapon_sword_sentient.name=§6觉知巨剑
+item.csrp.weapon_cleaver.name=§e活体劈刀
+item.csrp.weapon_cleaver_sentient.name=§6觉知巨劈刀
+item.csrp.weapon_maul.name=§e活体锤
+item.csrp.weapon_maul_sentient.name=§6觉知巨锤
+item.csrp.weapon_lance.name=§e活体矛
+item.csrp.weapon_lance_sentient.name=§6觉知巨矛
 
-item.srparasites.hijacked_iron_sword.name=§c被操纵的铁剑
-item.srparasites.hijacked_iron_axe.name=§c被操纵的铁斧
-item.srparasites.hijacked_iron_shovel.name=§c被操纵的铁锹
-item.srparasites.hijacked_iron_hoe.name=§c被操纵的铁锄
-item.srparasites.hijacked_iron_pickaxe.name=§c被操纵的铁镐
+item.csrp.hijacked_iron_sword.name=§c被操纵的铁剑
+item.csrp.hijacked_iron_axe.name=§c被操纵的铁斧
+item.csrp.hijacked_iron_shovel.name=§c被操纵的铁锹
+item.csrp.hijacked_iron_hoe.name=§c被操纵的铁锄
+item.csrp.hijacked_iron_pickaxe.name=§c被操纵的铁镐
 
-item.srparasites.hijacked_iron_sword.desc=§f使目标§c流血§f。撕裂寄生体。使濒死目标§c狂怒§f。
-item.srparasites.hijacked_iron_axe.desc=§f使目标§c流血§f。撕裂寄生体。使濒死目标§c狂怒§f。
-item.srparasites.hijacked_iron_shovel.desc=§f使目标§c流血§f。撕裂寄生体。使濒死目标§c狂怒§f。
-item.srparasites.hijacked_iron_hoe.desc=§f使目标§c流血§f。撕裂寄生体。使濒死目标§c狂怒§f。
-item.srparasites.hijacked_iron_pickaxe.desc=§f使目标§c流血§f。撕裂寄生体。使濒死目标§c狂怒§f。
+item.csrp.hijacked_iron_sword.desc=§f使目标§c流血§f。撕裂寄生体。使濒死目标§c狂怒§f。
+item.csrp.hijacked_iron_axe.desc=§f使目标§c流血§f。撕裂寄生体。使濒死目标§c狂怒§f。
+item.csrp.hijacked_iron_shovel.desc=§f使目标§c流血§f。撕裂寄生体。使濒死目标§c狂怒§f。
+item.csrp.hijacked_iron_hoe.desc=§f使目标§c流血§f。撕裂寄生体。使濒死目标§c狂怒§f。
+item.csrp.hijacked_iron_pickaxe.desc=§f使目标§c流血§f。撕裂寄生体。使濒死目标§c狂怒§f。
 
-item.srparasites.armor_helm.name=§e活体头盔
-item.srparasites.armor_chest.name=§e活体胸甲
-item.srparasites.armor_pants.name=§e活体护腿
-item.srparasites.armor_boots.name=§e活体靴子
-item.srparasites.armor_helm_sentient.name=§6觉知头盔
-item.srparasites.armor_chest_sentient.name=§6觉知胸甲
-item.srparasites.armor_pants_sentient.name=§6觉知护腿
-item.srparasites.armor_boots_sentient.name=§6觉知靴子
+item.csrp.armor_helm.name=§e活体头盔
+item.csrp.armor_chest.name=§e活体胸甲
+item.csrp.armor_pants.name=§e活体护腿
+item.csrp.armor_boots.name=§e活体靴子
+item.csrp.armor_helm_sentient.name=§6觉知头盔
+item.csrp.armor_chest_sentient.name=§6觉知胸甲
+item.csrp.armor_pants_sentient.name=§6觉知护腿
+item.csrp.armor_boots_sentient.name=§6觉知靴子
 
 ####
-item.srparasites.bow_upperlimb.name=§6活体巨弓上弓臂
-item.srparasites.bow_lowerlimb.name=§6活体巨弓下弓臂
-item.srparasites.bow_string.name=§6活体巨弓弦
-item.srparasites.bow_grip.name=§6活体巨弓手柄
-item.srparasites.bow_core.name=§6活体巨弓核心
+item.csrp.bow_upperlimb.name=§6活体巨弓上弓臂
+item.csrp.bow_lowerlimb.name=§6活体巨弓下弓臂
+item.csrp.bow_string.name=§6活体巨弓弦
+item.csrp.bow_grip.name=§6活体巨弓手柄
+item.csrp.bow_core.name=§6活体巨弓核心
 
-item.srparasites.scythe_back.name=§6活体镰尾
-item.srparasites.scythe_blade.name=§6活体镰刃
-item.srparasites.scythe_core.name=§6活体镰刀核心
-item.srparasites.scythe_handle.name=§6活体镰刀把手
-item.srparasites.scythe_head.name=§6活体镰刀头
+item.csrp.scythe_back.name=§6活体镰尾
+item.csrp.scythe_blade.name=§6活体镰刃
+item.csrp.scythe_core.name=§6活体镰刀核心
+item.csrp.scythe_handle.name=§6活体镰刀把手
+item.csrp.scythe_head.name=§6活体镰刀头
 ####
 
 
-item.srparasites.dried_tendons.name=§e干燥肌腱
-item.srparasites.hardened_bone_handle.name=§e硬化骨手柄
-item.srparasites.infectious_blade_fragment.name=§e受感染的剑刃碎片
-item.srparasites.living_core.name=§e活体核心
-item.srparasites.vile_shell.name=§e憎恶壳甲
-item.srparasites.bone.name=§e奇怪的骨头
+item.csrp.dried_tendons.name=§e干燥肌腱
+item.csrp.hardened_bone_handle.name=§e硬化骨手柄
+item.csrp.infectious_blade_fragment.name=§e受感染的剑刃碎片
+item.csrp.living_core.name=§e活体核心
+item.csrp.vile_shell.name=§e憎恶壳甲
+item.csrp.bone.name=§e奇怪的骨头
 
-item.srparasites.ada_longarms_drop.name=§b长臂兽盔甲碎片
-item.srparasites.ada_summoner_drop.name=§b召唤兽核心
-item.srparasites.ada_yelloweye_drop.name=§b黄眸兽骨头
-item.srparasites.ada_reeker_drop.name=§b毒腥兽齿
-item.srparasites.ada_manducater_drop.name=§b咀骨兽珠
-item.srparasites.ada_bolster_drop.name=§b协增兽外壳
-item.srparasites.ada_arachnida_drop.name=§b蛛形兽爪
-item.srparasites.ada_devourer_drop.name=§b吞噬兽触须
-item.srparasites.ada_vermin_drop.name=§d腐蚀性黏液
-item.srparasites.ada_viscera_drop.name=§d被剥离的母胎膜
-item.srparasites.hijacked_drop.name=§c劫持种增生物
-item.srparasites.ada_burrower_drop.name=§c幻物
-item.srparasites.hive_scrap.name=§7寄巢碎片
-item.srparasites.bloody_iron_ingot.name=被操纵的铁锭
-item.srparasites.semiorganic_ingot.name=半生物合金锭
-tile.srparasites.semiorganic_block.name=半生物合金块
-item.srparasites.bloody_rod.name=被操纵的烈焰棒
-item.srparasites.bloody_bone.name=被操纵的骨头
-tile.srparasites.assimilated_blossom.name=被同化的花卉
-tile.srparasites.potted_assimilated_blossom.name=被同化的花卉盆栽
-tile.srparasites.potted_consumed_assimilated_blossom.name=被同化的花卉寄腐盆栽
-tile.srparasites.consumed_pot.name=寄腐花盆
-tile.srparasites.infested_pot.name=寄染花盆
-item.srparasites.infested_bonemeal.name=寄染骨粉
-tile.srparasites.infested_cactus.name=寄染仙人掌
-tile.srparasites.infested_workbench.name=寄染工作台
-tile.srparasites.trophy_void_orb.name=踏虚体纪念品
-tile.srparasites.trophy_boom_orb.name=邪狱龙纪念品
+item.csrp.ada_longarms_drop.name=§b长臂兽盔甲碎片
+item.csrp.ada_summoner_drop.name=§b召唤兽核心
+item.csrp.ada_yelloweye_drop.name=§b黄眸兽骨头
+item.csrp.ada_reeker_drop.name=§b毒腥兽齿
+item.csrp.ada_manducater_drop.name=§b咀骨兽珠
+item.csrp.ada_bolster_drop.name=§b协增兽外壳
+item.csrp.ada_arachnida_drop.name=§b蛛形兽爪
+item.csrp.ada_devourer_drop.name=§b吞噬兽触须
+item.csrp.ada_vermin_drop.name=§d腐蚀性黏液
+item.csrp.ada_viscera_drop.name=§d被剥离的母胎膜
+item.csrp.hijacked_drop.name=§c劫持种增生物
+item.csrp.ada_burrower_drop.name=§c幻物
+item.csrp.hive_scrap.name=§7寄巢碎片
+item.csrp.bloody_iron_ingot.name=被操纵的铁锭
+item.csrp.semiorganic_ingot.name=半生物合金锭
+tile.csrp.semiorganic_block.name=半生物合金块
+item.csrp.bloody_rod.name=被操纵的烈焰棒
+item.csrp.bloody_bone.name=被操纵的骨头
+tile.csrp.assimilated_blossom.name=被同化的花卉
+tile.csrp.potted_assimilated_blossom.name=被同化的花卉盆栽
+tile.csrp.potted_consumed_assimilated_blossom.name=被同化的花卉寄腐盆栽
+tile.csrp.consumed_pot.name=寄腐花盆
+tile.csrp.infested_pot.name=寄染花盆
+item.csrp.infested_bonemeal.name=寄染骨粉
+tile.csrp.infested_cactus.name=寄染仙人掌
+tile.csrp.infested_workbench.name=寄染工作台
+tile.csrp.trophy_void_orb.name=踏虚体纪念品
+tile.csrp.trophy_boom_orb.name=邪狱龙纪念品
 
-item.srparasites.assimilated_flesh.name=被同化的肉
-item.srparasites.beckon_drop.name=§a召唤柱的肉膜
-item.srparasites.dispatcher_drop.name=§c调度柱的肉膜
+item.csrp.assimilated_flesh.name=被同化的肉
+item.csrp.beckon_drop.name=§a召唤柱的肉膜
+item.csrp.dispatcher_drop.name=§c调度柱的肉膜
 
-item.srparasites.lurecomponent1.name=§b裂兽内脏
-item.srparasites.lurecomponent2.name=§b染疾心脏
-item.srparasites.lurecomponent3.name=§b被切下的筋腱
-item.srparasites.lurecomponent4.name=§b有毒肺脏
-item.srparasites.lurecomponent5.name=§b带毒大脑
-item.srparasites.lurecomponent6.name=§b扭曲脊疝
-item.srparasites.lurecomponent7.name=§bLure Component 7
-item.srparasites.lurecomponent8.name=§bLure Component 8
-item.srparasites.lurecomponent9.name=§bLure Component 9
-item.srparasites.lurecomponent10.name=§bLure Component 10
+item.csrp.lurecomponent1.name=§b裂兽内脏
+item.csrp.lurecomponent2.name=§b染疾心脏
+item.csrp.lurecomponent3.name=§b被切下的筋腱
+item.csrp.lurecomponent4.name=§b有毒肺脏
+item.csrp.lurecomponent5.name=§b带毒大脑
+item.csrp.lurecomponent6.name=§b扭曲脊疝
+item.csrp.lurecomponent7.name=§bLure Component 7
+item.csrp.lurecomponent8.name=§bLure Component 8
+item.csrp.lurecomponent9.name=§bLure Component 9
+item.csrp.lurecomponent10.name=§bLure Component 10
 
-item.srparasites.greek_fire.name=希腊火
-item.srparasites.bough.name=枝条
-tooltip.srparasites.bough.line1=散发出明亮且温暖的黄色光芒。
-tooltip.srparasites.bough.line2=用于自尽。
+item.csrp.greek_fire.name=希腊火
+item.csrp.bough.name=枝条
+tooltip.csrp.bough.line1=散发出明亮且温暖的黄色光芒。
+tooltip.csrp.bough.line2=用于自尽。
 death.attack.sepeku=%1$s切腹自尽了
 
-item.srparasites.nodecompass.name=§c节点指针
-item.srparasites.colonycompass.name=§c聚生地指针
-item.srparasites.origincompass.name=§c源区指针
+item.csrp.nodecompass.name=§c节点指针
+item.csrp.colonycompass.name=§c聚生地指针
+item.csrp.origincompass.name=§c源区指针
 
 ##Blocks
 
-tile.srparasites.parasitesapling_tree.name=脉木树苗
-tile.srparasites.parasitesapling_treethin.name=诡眼树苗
-tile.srparasites.parasitesapling_flowertall.name=暗木树苗
-tile.srparasites.parasitesapling_consumed.name=寄腐树苗
-tile.srparasites.parasitesapling_deadhead.name=凋败木树苗
-tile.srparasites.parasitesapling_infested.name=寄染树苗
+tile.csrp.parasitesapling_tree.name=脉木树苗
+tile.csrp.parasitesapling_treethin.name=诡眼树苗
+tile.csrp.parasitesapling_flowertall.name=暗木树苗
+tile.csrp.parasitesapling_consumed.name=寄腐树苗
+tile.csrp.parasitesapling_deadhead.name=凋败木树苗
+tile.csrp.parasitesapling_infested.name=寄染树苗
 
-tile.srparasites.parasiteplank_deadhead_wall.name=凋败木墙
-tile.srparasites.parasiterubble_weathb_wall.name=霜蚀砖墙
-tile.srparasites.parasiterubbledense_colony_wall.name=压缩聚生地石墙
-tile.srparasites.parasiterubble_weathfs_wall.name=霜蚀石墙
-tile.srparasites.parasiterubbledense_biome_wall.name=硬化寄巢石墙
-tile.srparasites.parasiterubble_weathbc_wall.name=霜蚀圆石墙
-tile.srparasites.parasiterubble_bricks_wall.name=寄巢砖墙
-tile.srparasites.parasitecanister_bag_wall.name=血肉囊块墙
-tile.srparasites.infestedrubble_wall.name=寄染石墙
-tile.srparasites.infestedstain_wall.name=寄染泥土墙
-tile.srparasites.parasitestain_flesh_wall.name=肉块墙
-tile.srparasites.parasiterubble_metal_wall.name=寄巢矿物块墙
+tile.csrp.parasiteplank_deadhead_wall.name=凋败木墙
+tile.csrp.parasiterubble_weathb_wall.name=霜蚀砖墙
+tile.csrp.parasiterubbledense_colony_wall.name=压缩聚生地石墙
+tile.csrp.parasiterubble_weathfs_wall.name=霜蚀石墙
+tile.csrp.parasiterubbledense_biome_wall.name=硬化寄巢石墙
+tile.csrp.parasiterubble_weathbc_wall.name=霜蚀圆石墙
+tile.csrp.parasiterubble_bricks_wall.name=寄巢砖墙
+tile.csrp.parasitecanister_bag_wall.name=血肉囊块墙
+tile.csrp.infestedrubble_wall.name=寄染石墙
+tile.csrp.infestedstain_wall.name=寄染泥土墙
+tile.csrp.parasitestain_flesh_wall.name=肉块墙
+tile.csrp.parasiterubble_metal_wall.name=寄巢矿物块墙
 
-tile.srparasites.infested_plank_wall.name=寄染木墙
-tile.srparasites.bruisewood_plank_wall.name=瘢痕木墙
-tile.srparasites.polished_infested_stone_wall.name=磨制寄染石头墙
-tile.srparasites.infested_stone_brick_wall.name=寄染石砖墙
-tile.srparasites.goth_plank_wall.name=怪异菌板墙
-tile.srparasites.infested_sandstone_wall.name=寄染砂岩墙
-tile.srparasites.consumed_plank_wall.name=寄腐木墙
+tile.csrp.infested_plank_wall.name=寄染木墙
+tile.csrp.bruisewood_plank_wall.name=瘢痕木墙
+tile.csrp.polished_infested_stone_wall.name=磨制寄染石头墙
+tile.csrp.infested_stone_brick_wall.name=寄染石砖墙
+tile.csrp.goth_plank_wall.name=怪异菌板墙
+tile.csrp.infested_sandstone_wall.name=寄染砂岩墙
+tile.csrp.consumed_plank_wall.name=寄腐木墙
 
-tile.srparasites.harlequinn_grass.name=丑鳞草方块
-tile.srparasites.harleskinn_block.name=丑鳞肤块
-tile.srparasites.poland_skin_block.name=病变肤块
-tile.srparasites.hair_follicle_block.name=支气管
-tile.srparasites.locs_block.name=脏辫块
-tile.srparasites.hirsute_hair.name=粗密毛发
-tile.srparasites.tresses_hair.name=细长毛发
-tile.srparasites.lipoma_mass.name=脂肪瘤
+tile.csrp.harlequinn_grass.name=丑鳞草方块
+tile.csrp.harleskinn_block.name=丑鳞肤块
+tile.csrp.poland_skin_block.name=病变肤块
+tile.csrp.hair_follicle_block.name=支气管
+tile.csrp.locs_block.name=脏辫块
+tile.csrp.hirsute_hair.name=粗密毛发
+tile.csrp.tresses_hair.name=细长毛发
+tile.csrp.lipoma_mass.name=脂肪瘤
 
 # Parasite Barrier Text
-tile.srparasites.parasite_barrier.name=寄生体区块屏障 | 仅创造模式
-msg.srparasites.barrier.no_permission=无权设置此屏障。
-msg.srparasites.barrier.radius_set=[屏障] 半径设置为 %s 个区块。
+tile.csrp.parasite_barrier.name=寄生体区块屏障 | 仅创造模式
+msg.csrp.barrier.no_permission=无权设置此屏障。
+msg.csrp.barrier.radius_set=[屏障] 半径设置为 %s 个区块。
 # Parasite Barrier Tooltip lines
-tooltip.srparasites.parasite_barrier.creative_only=创造专属物品
-tooltip.srparasites.parasite_barrier.desc1=强制驱逐寄生体至屏障外。
-tooltip.srparasites.parasite_barrier.desc2=交互以调整屏障范围。
+tooltip.csrp.parasite_barrier.creative_only=创造专属物品
+tooltip.csrp.parasite_barrier.desc1=强制驱逐寄生体至屏障外。
+tooltip.csrp.parasite_barrier.desc2=交互以调整屏障范围。
 
-tile.srparasites.parasitebush_tendril.name=微管草网
-tile.srparasites.parasitebush_pop.name=寄生囊泡
-tile.srparasites.parasitebush_bine.name=神经蜷枝
-tile.srparasites.parasitebush_eye.name=终端眼球
-tile.srparasites.parasitebush_tooh.name=小块门牙 
-tile.srparasites.parasitebush_frostg.name=霜灼草脉
-tile.srparasites.parasitebush_frostgt.name=霜烬草脉
-tile.srparasites.parasitebush_thorn.name=影荆棘
-tile.srparasites.parasitebush_thorndead.name=枯萎的影荆棘
-tile.srparasites.parasitebush_thorndormat.name=休眠中的影荆棘
-tile.srparasites.parasitebush_thorndormats.name=休眠中的影荆棘
-tile.srparasites.parasitebush_thorntwo.name=影荆棘
-tile.srparasites.parasitebush_thorntwos.name=影荆棘
-tile.srparasites.parasitebush_decanter.name=酒瓶
-tile.srparasites.parasitebush_decanterempty.name=空酒瓶
-tooltip.srparasites.thornshade_decanter.line1=将一部分近战伤害反弹给攻击者。
-tooltip.srparasites.thornshade_decanter.line2=无法作用于远程与魔法伤害。
-item.srparasites.thornshade_decanter.name=§5影棘酒
-effect.srparasites.thornshade_thorns=§5影棘刺
+tile.csrp.parasitebush_tendril.name=微管草网
+tile.csrp.parasitebush_pop.name=寄生囊泡
+tile.csrp.parasitebush_bine.name=神经蜷枝
+tile.csrp.parasitebush_eye.name=终端眼球
+tile.csrp.parasitebush_tooh.name=小块门牙
+tile.csrp.parasitebush_frostg.name=霜灼草脉
+tile.csrp.parasitebush_frostgt.name=霜烬草脉
+tile.csrp.parasitebush_thorn.name=影荆棘
+tile.csrp.parasitebush_thorndead.name=枯萎的影荆棘
+tile.csrp.parasitebush_thorndormat.name=休眠中的影荆棘
+tile.csrp.parasitebush_thorndormats.name=休眠中的影荆棘
+tile.csrp.parasitebush_thorntwo.name=影荆棘
+tile.csrp.parasitebush_thorntwos.name=影荆棘
+tile.csrp.parasitebush_decanter.name=酒瓶
+tile.csrp.parasitebush_decanterempty.name=空酒瓶
+tooltip.csrp.thornshade_decanter.line1=将一部分近战伤害反弹给攻击者。
+tooltip.csrp.thornshade_decanter.line2=无法作用于远程与魔法伤害。
+item.csrp.thornshade_decanter.name=§5影棘酒
+effect.csrp.thornshade_thorns=§5影棘刺
 
-tile.srparasites.infestedore_co.name=寄染煤矿石
-tile.srparasites.infestedore_dia.name=寄染钻石矿石
-tile.srparasites.infestedore_eme.name=寄染绿宝石矿石
-tile.srparasites.infestedore_gol.name=寄染金矿石
-tile.srparasites.infestedore_iro.name=寄染铁矿石
-tile.srparasites.infestedore_lap.name=寄染青金石矿石
-tile.srparasites.infestedore_red.name=寄染红石矿石
-tile.srparasites.infestedore_un.name=寄染矿石
+tile.csrp.infestedore_co.name=寄染煤矿石
+tile.csrp.infestedore_dia.name=寄染钻石矿石
+tile.csrp.infestedore_eme.name=寄染绿宝石矿石
+tile.csrp.infestedore_gol.name=寄染金矿石
+tile.csrp.infestedore_iro.name=寄染铁矿石
+tile.csrp.infestedore_lap.name=寄染青金石矿石
+tile.csrp.infestedore_red.name=寄染红石矿石
+tile.csrp.infestedore_un.name=寄染矿石
 
 # Harleskinn building set
-tile.srparasites.harleskinn_stairs.name=丑鳞肤块楼梯
-tile.srparasites.harleskinn_fence.name=丑鳞肤块栅栏
-tile.srparasites.infested_fence.name=寄染木栅栏
-tile.srparasites.deadhead_fence.name=凋败木栅栏
-tile.srparasites.goth_fence.name=怪异菌栅栏
-tile.srparasites.consumed_fence.name=寄腐木栅栏
-tile.srparasites.bruisewood_fence.name=瘢痕木栅栏
-tile.srparasites.harleskinn_slab.name=丑鳞台阶
+tile.csrp.harleskinn_stairs.name=丑鳞肤块楼梯
+tile.csrp.harleskinn_fence.name=丑鳞肤块栅栏
+tile.csrp.infested_fence.name=寄染木栅栏
+tile.csrp.deadhead_fence.name=凋败木栅栏
+tile.csrp.goth_fence.name=怪异菌栅栏
+tile.csrp.consumed_fence.name=寄腐木栅栏
+tile.csrp.bruisewood_fence.name=瘢痕木栅栏
+tile.csrp.harleskinn_slab.name=丑鳞台阶
 # single slabs
-tile.srparasites.infested_cobblestone_slab.name=寄染圆石台阶
-tile.srparasites.infested_plank_slab.name=寄染木台阶
-tile.srparasites.infested_stone_slab.name=寄染石头台阶
-tile.srparasites.infested_dirt_slab.name=寄染泥土台阶
-tile.srparasites.reinforced_hivestone_slab.name=硬化寄巢石头台阶
-tile.srparasites.parasitic_colony_core_slab.name=聚生地核心台阶
-tile.srparasites.sac_of_flesh_slab.name=血肉囊块台阶
-tile.srparasites.dead_head_plank_slab.name=凋败木台阶
-tile.srparasites.weathered_bricks_slab.name=霜蚀石砖台阶
-tile.srparasites.parasitic_compressed_colony_stone_slab.name=压缩聚生地石头台阶
-tile.srparasites.weathered_cobblestone_slab.name=霜蚀圆石台阶
-tile.srparasites.frost_weathered_stone_slab.name=霜蚀石头台阶
-tile.srparasites.infested_stone_brick_slab.name=寄染石砖台阶
-tile.srparasites.infested_terracotta_slab.name=寄染陶瓦台阶
-tile.srparasites.polished_infested_stone_slab.name=磨制寄染石头台阶
-tile.srparasites.residue_brick_slab.name=残渣砖台阶
-tile.srparasites.infested_sandstone_slab.name=寄染砂岩台阶
-tile.srparasites.goth_plank_slab.name=怪异菌台阶
-tile.srparasites.bruisewood_plank_slab.name=瘢痕木台阶
-tile.srparasites.consumed_plank_slab.name=寄腐木台阶
-tile.srparasites.harleskinn_block_slab.name=丑鳞肤块台阶
-tile.srparasites.poland_skin_slab.name=病变肤块台阶
-tile.srparasites.locs_block_slab.name=脏辫块台阶
+tile.csrp.infested_cobblestone_slab.name=寄染圆石台阶
+tile.csrp.infested_plank_slab.name=寄染木台阶
+tile.csrp.infested_stone_slab.name=寄染石头台阶
+tile.csrp.infested_dirt_slab.name=寄染泥土台阶
+tile.csrp.reinforced_hivestone_slab.name=硬化寄巢石头台阶
+tile.csrp.parasitic_colony_core_slab.name=聚生地核心台阶
+tile.csrp.sac_of_flesh_slab.name=血肉囊块台阶
+tile.csrp.dead_head_plank_slab.name=凋败木台阶
+tile.csrp.weathered_bricks_slab.name=霜蚀石砖台阶
+tile.csrp.parasitic_compressed_colony_stone_slab.name=压缩聚生地石头台阶
+tile.csrp.weathered_cobblestone_slab.name=霜蚀圆石台阶
+tile.csrp.frost_weathered_stone_slab.name=霜蚀石头台阶
+tile.csrp.infested_stone_brick_slab.name=寄染石砖台阶
+tile.csrp.infested_terracotta_slab.name=寄染陶瓦台阶
+tile.csrp.polished_infested_stone_slab.name=磨制寄染石头台阶
+tile.csrp.residue_brick_slab.name=残渣砖台阶
+tile.csrp.infested_sandstone_slab.name=寄染砂岩台阶
+tile.csrp.goth_plank_slab.name=怪异菌台阶
+tile.csrp.bruisewood_plank_slab.name=瘢痕木台阶
+tile.csrp.consumed_plank_slab.name=寄腐木台阶
+tile.csrp.harleskinn_block_slab.name=丑鳞肤块台阶
+tile.csrp.poland_skin_slab.name=病变肤块台阶
+tile.csrp.locs_block_slab.name=脏辫块台阶
 
-tile.srparasites.parasitestainslabdouble.name=寄生体污渍双台阶
-tile.srparasites.infested_cobblestone_slab_double.name=寄染圆石双台阶
-tile.srparasites.infested_stone_slab_double.name=寄染石头双台阶
-tile.srparasites.infested_dirt_slab_double.name=寄染泥土双台阶
-tile.srparasites.reinforced_hivestone_slab_double.name=硬化寄巢石头台阶双台阶
-tile.srparasites.parasitic_colony_core_slab_double.name=聚生地核心双台阶
-tile.srparasites.sac_of_flesh_slab_double.name=肉囊块双台阶
-tile.srparasites.dead_head_plank_slab_double.name=凋败木双台阶
-tile.srparasites.weathered_bricks_slab_double.name=霜蚀石砖双台阶
-tile.srparasites.parasitic_compressed_colony_stone_slab_double.name=压缩聚生地石头双台阶
-tile.srparasites.weathered_cobblestone_slab_double.name=霜蚀圆石双台阶
-tile.srparasites.frost_weathered_stone_slab_double.name=霜蚀石头双台阶
-tile.srparasites.infested_stone_brick_slab_double.name=寄染石砖双台阶
-tile.srparasites.infested_terracotta_slab_double.name=寄染陶瓦双台阶
-tile.srparasites.polished_infested_stone_slab_double.name=磨制寄染石头双台阶
-tile.srparasites.residue_brick_slab_double.name=残渣砖双台阶
-tile.srparasites.infested_sandstone_slab_double.name=寄染砂岩双台阶
-tile.srparasites.goth_plank_slab_double.name=怪异菌双台阶
-tile.srparasites.bruisewood_plank_slab_double.name=瘢痕木双台阶
-tile.srparasites.consumed_plank_slab_double.name=寄腐木双台阶
-tile.srparasites.harleskinn_block_slab_double.name=丑鳞肤块双台阶
-tile.srparasites.poland_skin_slab_double.name=病变肤块双台阶
-tile.srparasites.locs_block_slab_double.name=脏辫块双台阶
+tile.csrp.parasitestainslabdouble.name=寄生体污渍双台阶
+tile.csrp.infested_cobblestone_slab_double.name=寄染圆石双台阶
+tile.csrp.infested_stone_slab_double.name=寄染石头双台阶
+tile.csrp.infested_dirt_slab_double.name=寄染泥土双台阶
+tile.csrp.reinforced_hivestone_slab_double.name=硬化寄巢石头台阶双台阶
+tile.csrp.parasitic_colony_core_slab_double.name=聚生地核心双台阶
+tile.csrp.sac_of_flesh_slab_double.name=肉囊块双台阶
+tile.csrp.dead_head_plank_slab_double.name=凋败木双台阶
+tile.csrp.weathered_bricks_slab_double.name=霜蚀石砖双台阶
+tile.csrp.parasitic_compressed_colony_stone_slab_double.name=压缩聚生地石头双台阶
+tile.csrp.weathered_cobblestone_slab_double.name=霜蚀圆石双台阶
+tile.csrp.frost_weathered_stone_slab_double.name=霜蚀石头双台阶
+tile.csrp.infested_stone_brick_slab_double.name=寄染石砖双台阶
+tile.csrp.infested_terracotta_slab_double.name=寄染陶瓦双台阶
+tile.csrp.polished_infested_stone_slab_double.name=磨制寄染石头双台阶
+tile.csrp.residue_brick_slab_double.name=残渣砖双台阶
+tile.csrp.infested_sandstone_slab_double.name=寄染砂岩双台阶
+tile.csrp.goth_plank_slab_double.name=怪异菌双台阶
+tile.csrp.bruisewood_plank_slab_double.name=瘢痕木双台阶
+tile.csrp.consumed_plank_slab_double.name=寄腐木双台阶
+tile.csrp.harleskinn_block_slab_double.name=丑鳞肤块双台阶
+tile.csrp.poland_skin_slab_double.name=病变肤块双台阶
+tile.csrp.locs_block_slab_double.name=脏辫块双台阶
 
-tile.srparasites.relaycontroller.name=中继塔控制器
+tile.csrp.relaycontroller.name=中继塔控制器
 
-tile.srparasites.srpweb_one.name=§8纤细网膜
-tile.srparasites.srpweb_two.name=§a染毒网膜
-tile.srparasites.srpweb_three.name=§8玷污网膜
-tile.srparasites.tunnel.name=隧道
-tile.srparasites.dispatchern.name=§c调度柱胞窝
-tile.srparasites.biomeheart.name=寄巢核心
-tile.srparasites.colonyheart.name=聚生地核心
-tile.srparasites.colonyoutpost.name=聚生地前哨站
-tile.srparasites.biomepurifier.name=§b生物群系净化器
-tile.srparasites.parasitestructure.name=未成形的聚生地结构
-tile.srparasites.parasitethin.name=纤细寄生原木
-tile.srparasites.parasitemouth.name=咽喉
-tile.srparasites.parasitetendril.name=寄生卷须
-tile.srparasites.parasitefog.name=雾
+tile.csrp.srpweb_one.name=§8纤细网膜
+tile.csrp.srpweb_two.name=§a染毒网膜
+tile.csrp.srpweb_three.name=§8玷污网膜
+tile.csrp.tunnel.name=隧道
+tile.csrp.dispatchern.name=§c调度柱胞窝
+tile.csrp.biomeheart.name=寄巢核心
+tile.csrp.colonyheart.name=聚生地核心
+tile.csrp.colonyoutpost.name=聚生地前哨站
+tile.csrp.biomepurifier.name=§b生物群系净化器
+tile.csrp.parasitestructure.name=未成形的聚生地结构
+tile.csrp.parasitethin.name=纤细寄生原木
+tile.csrp.parasitemouth.name=咽喉
+tile.csrp.parasitetendril.name=寄生卷须
+tile.csrp.parasitefog.name=雾
 
-tile.srparasites.parasitestainslabhalf_dirt.name=寄巢软泥台阶
-tile.srparasites.parasitestainslabhalf_mud.name=内脏软泥台阶
-tile.srparasites.parasitestainslabhalf_sflesh.name=肉块台阶
-tile.srparasites.parasitestainslabhalf_feeler.name=交汇动脉管台阶
-tile.srparasites.parasitestainslabhalf_spore.name=菌丝网络台阶
-tile.srparasites.parasitestain_spore.name=菌丝网络
-tile.srparasites.parasitestainslabhalf_red.name=瘀伤块台阶
-tile.srparasites.parasitestain_red.name=瘀伤块
-tile.srparasites.parasitestainslabhalf_sackflesh.name=肉囊块台阶
-tile.srparasites.parasitestain_sackflesh.name=肉囊块
+tile.csrp.parasitestainslabhalf_dirt.name=寄巢软泥台阶
+tile.csrp.parasitestainslabhalf_mud.name=内脏软泥台阶
+tile.csrp.parasitestainslabhalf_sflesh.name=肉块台阶
+tile.csrp.parasitestainslabhalf_feeler.name=交汇动脉管台阶
+tile.csrp.parasitestainslabhalf_spore.name=菌丝网络台阶
+tile.csrp.parasitestain_spore.name=菌丝网络
+tile.csrp.parasitestainslabhalf_red.name=瘀伤块台阶
+tile.csrp.parasitestain_red.name=瘀伤块
+tile.csrp.parasitestainslabhalf_sackflesh.name=肉囊块台阶
+tile.csrp.parasitestain_sackflesh.name=肉囊块
 
-tile.srparasites.parasiterubbleslabhalf_flesh.name=凝缩肉块台阶
-tile.srparasites.parasiterubbleslabhalf_bone.name=硬实骨块台阶
-tile.srparasites.parasiterubbleslabhalf_stone.name=寄巢石头台阶
-tile.srparasites.parasiterubbleslabhalf_stonedebris.name=破碎的寄巢石头台阶
-tile.srparasites.parasiterubbleslabhalf_wood.name=寄腐原木台阶
-tile.srparasites.parasiterubbleslabhalf_bricks.name=寄巢石砖台阶
-tile.srparasites.parasiterubbleslabhalf_metal.name=寄巢矿物块台阶
-tile.srparasites.parasiterubbleslabhalf_obsidian.name=血纹黑曜石台阶
-tile.srparasites.parasiterubbleslabhalf_fungus.name=被同化的菌体台阶
+tile.csrp.parasiterubbleslabhalf_flesh.name=凝缩肉块台阶
+tile.csrp.parasiterubbleslabhalf_bone.name=硬实骨块台阶
+tile.csrp.parasiterubbleslabhalf_stone.name=寄巢石头台阶
+tile.csrp.parasiterubbleslabhalf_stonedebris.name=破碎的寄巢石头台阶
+tile.csrp.parasiterubbleslabhalf_wood.name=寄腐原木台阶
+tile.csrp.parasiterubbleslabhalf_bricks.name=寄巢石砖台阶
+tile.csrp.parasiterubbleslabhalf_metal.name=寄巢矿物块台阶
+tile.csrp.parasiterubbleslabhalf_obsidian.name=血纹黑曜石台阶
+tile.csrp.parasiterubbleslabhalf_fungus.name=被同化的菌体台阶
 
-tile.srparasites.parasiteloot_common.name=良性增生肿瘤
-tile.srparasites.parasiteloot_uncommon.name=恶性增生肿瘤
-tile.srparasites.parasiteloot_rare.name=转移性肿瘤
+tile.csrp.parasiteloot_common.name=良性增生肿瘤
+tile.csrp.parasiteloot_uncommon.name=恶性增生肿瘤
+tile.csrp.parasiteloot_rare.name=转移性肿瘤
 
-tile.srparasites.goresim_small.name=小型同化种遗骸
-tile.srparasites.goresim_big.name=大型同化种遗骸
-tile.srparasites.goresim_flat.name=中型同化种遗骸
-tile.srparasites.gorepri_small.name=小型原始种遗骸
-tile.srparasites.gorepri_big.name=大型原始种遗骸
-tile.srparasites.gorepri_flat.name=中型原始种遗骸
-tile.srparasites.goreada_small.name=小型适应种遗骸
-tile.srparasites.goreada_big.name=大型适应种遗骸
-tile.srparasites.goreada_flat.name=中型适应种遗骸
-tile.srparasites.gorepur_small.name=小型纯粹种遗骸
-tile.srparasites.gorepur_big.name=大型纯粹种遗骸
-tile.srparasites.gorepur_flat.name=中型纯粹种遗骸
-tile.srparasites.gorefer_small.name小型狂化种遗骸
-tile.srparasites.gorefer_big.name=大型狂化种遗骸
-tile.srparasites.gorefer_flat.name=中型狂化种遗骸
-tile.srparasites.goremar_small.name=小型诡化种遗骸
-tile.srparasites.goremar_big.name=大型诡化种遗骸
-tile.srparasites.goremar_flat.name=中型诡化种遗骸
+tile.csrp.goresim_small.name=小型同化种遗骸
+tile.csrp.goresim_big.name=大型同化种遗骸
+tile.csrp.goresim_flat.name=中型同化种遗骸
+tile.csrp.gorepri_small.name=小型原始种遗骸
+tile.csrp.gorepri_big.name=大型原始种遗骸
+tile.csrp.gorepri_flat.name=中型原始种遗骸
+tile.csrp.goreada_small.name=小型适应种遗骸
+tile.csrp.goreada_big.name=大型适应种遗骸
+tile.csrp.goreada_flat.name=中型适应种遗骸
+tile.csrp.gorepur_small.name=小型纯粹种遗骸
+tile.csrp.gorepur_big.name=大型纯粹种遗骸
+tile.csrp.gorepur_flat.name=中型纯粹种遗骸
+tile.csrp.gorefer_small.name小型狂化种遗骸
+tile.csrp.gorefer_big.name=大型狂化种遗骸
+tile.csrp.gorefer_flat.name=中型狂化种遗骸
+tile.csrp.goremar_small.name=小型诡化种遗骸
+tile.csrp.goremar_big.name=大型诡化种遗骸
+tile.csrp.goremar_flat.name=中型诡化种遗骸
 
-tile.srparasites.infestedstain.name=寄染泥土
-tile.srparasites.infestedsand.name=寄染沙子
-tile.srparasites.infestedtrunk.name=寄染原木
-tile.srparasites.infestedrubble.name=寄染石头
-tile.srparasites.infestremain.name=寄染残渣
+tile.csrp.infestedstain.name=寄染泥土
+tile.csrp.infestedsand.name=寄染沙子
+tile.csrp.infestedtrunk.name=寄染原木
+tile.csrp.infestedrubble.name=寄染石头
+tile.csrp.infestremain.name=寄染残渣
 
-tile.srparasites.infestedbush_infected.name=寄染棘脉
-tile.srparasites.infestedbush_grass1.name=寄染枝桠
-tile.srparasites.infestedbush_flower1.name=寄染脉芽
-tile.srparasites.infestedbush_spine.name=寄染灌木
-tile.srparasites.infestedbush_vine.name=寄染脉圈
-tile.srparasites.infestedbush_arc.name=寄染脉根
+tile.csrp.infestedbush_infected.name=寄染棘脉
+tile.csrp.infestedbush_grass1.name=寄染枝桠
+tile.csrp.infestedbush_flower1.name=寄染脉芽
+tile.csrp.infestedbush_spine.name=寄染灌木
+tile.csrp.infestedbush_vine.name=寄染脉圈
+tile.csrp.infestedbush_arc.name=寄染脉根
 
-tile.srparasites.parasitecanister_sac.name=§a树囊
-tile.srparasites.parasitecanister_cyst.name=空虚囊包
-tile.srparasites.canisteractive.name=纳物囊包
-tile.srparasites.dermoid_cyst.name=储物囊包
+tile.csrp.parasitecanister_sac.name=§a树囊
+tile.csrp.parasitecanister_cyst.name=空虚囊包
+tile.csrp.canisteractive.name=纳物囊包
+tile.csrp.dermoid_cyst.name=储物囊包
 container.dermoid_cyst=储物囊包
-container.srparasites.parasite_loot=寄生体增生容器
-tile.srparasites.parasitecanister_lump.name=肿囊团
-tile.srparasites.parasitecanister_bag.name=血肉囊块
+container.csrp.parasite_loot=寄生体增生容器
+tile.csrp.parasitecanister_lump.name=肿囊团
+tile.csrp.parasitecanister_bag.name=血肉囊块
 
-tile.srparasites.parasitetrunk_ball.name=瘢痕木原木
-tile.srparasites.parasitetrunk_ballstairs.name=瘢痕木楼梯
-tile.srparasites.parasitetrunk_tree.name=脉木原木
-tile.srparasites.parasitetrunk_treestairs.name=脉木楼梯
-tile.srparasites.parasitetrunk_plant.name=暗木原木
-tile.srparasites.parasitetrunk_plantstairs.name=暗木楼梯
-tile.srparasites.parasitetrunk_deadhead.name=凋败木原木
-tile.srparasites.parasitetrunk_circle.name=圆形树干
-tile.srparasites.deadhead_plank_stairs.name=凋败木楼梯
-tile.srparasites.flesh_stairs.name=肉板楼梯
-tile.srparasites.cooked_flesh_stairs.name=熟肉板楼梯
-tile.srparasites.flesh_planks.name=肉板
-tile.srparasites.cooked_flesh_planks.name=熟肉板
-tooltip.srparasites.parasite_loot=§a内部越空，伤害越高。
-item.srparasites.pearl.name=凝视者之眼
-tooltip.srparasites.pearl.desc=仅在凝视者身边才会浮现迷醉的微光。若持有者被凝视者击杀，则该物品消失。
+tile.csrp.parasitetrunk_ball.name=瘢痕木原木
+tile.csrp.parasitetrunk_ballstairs.name=瘢痕木楼梯
+tile.csrp.parasitetrunk_tree.name=脉木原木
+tile.csrp.parasitetrunk_treestairs.name=脉木楼梯
+tile.csrp.parasitetrunk_plant.name=暗木原木
+tile.csrp.parasitetrunk_plantstairs.name=暗木楼梯
+tile.csrp.parasitetrunk_deadhead.name=凋败木原木
+tile.csrp.parasitetrunk_circle.name=圆形树干
+tile.csrp.deadhead_plank_stairs.name=凋败木楼梯
+tile.csrp.flesh_stairs.name=肉板楼梯
+tile.csrp.cooked_flesh_stairs.name=熟肉板楼梯
+tile.csrp.flesh_planks.name=肉板
+tile.csrp.cooked_flesh_planks.name=熟肉板
+tooltip.csrp.parasite_loot=§a内部越空，伤害越高。
+item.csrp.pearl.name=凝视者之眼
+tooltip.csrp.pearl.desc=仅在凝视者身边才会浮现迷醉的微光。若持有者被凝视者击杀，则该物品消失。
 
-item.srparasites.false_apple.name=假苹果
-tooltip.srparasites.false_apple=§7§o“难道幸存下来是一种罪孽吗？”
-item.srparasites.fishlin.name=鱼灵
-tooltip.srparasites.fishlin=§7§o鲜活地扭动着。
-item.srparasites.alveoligrowth.name=肺泡增生物
-tooltip.srparasites.alveoligrowth=§7§o放松呼吸。  
+item.csrp.false_apple.name=假苹果
+tooltip.csrp.false_apple=§7§o“难道幸存下来是一种罪孽吗？”
+item.csrp.fishlin.name=鱼灵
+tooltip.csrp.fishlin=§7§o鲜活地扭动着。
+item.csrp.alveoligrowth.name=肺泡增生物
+tooltip.csrp.alveoligrowth=§7§o放松呼吸。
 
-tile.srparasites.bruisewood_plank_stairs.name=瘢痕木楼梯
-tile.srparasites.infested_sandstone_stairs.name=寄染砂岩楼梯
-tile.srparasites.goth_planks_stairs.name=怪异菌楼梯
-tile.srparasites.infested_planks_stairs.name=寄染木楼梯
-tile.srparasites.frost_weathered_stone_stairs.name=霜蚀石头楼梯
-tile.srparasites.consumed_planks_stairs.name=寄腐木楼梯
-tile.srparasites.infested_stone_bricks_stairs.name=寄染石砖楼梯
-tile.srparasites.infested_polished_stone_bricks_stairs.name=磨制寄染石砖楼梯
-tile.srparasites.infested_stone_stairs.name=寄染石头楼梯
-tile.srparasites.wheathered_bricks_stairs.name=霜蚀石砖楼梯
-tile.srparasites.wheathered_cobblestone_stairs.name=霜蚀圆石楼梯
+tile.csrp.bruisewood_plank_stairs.name=瘢痕木楼梯
+tile.csrp.infested_sandstone_stairs.name=寄染砂岩楼梯
+tile.csrp.goth_planks_stairs.name=怪异菌楼梯
+tile.csrp.infested_planks_stairs.name=寄染木楼梯
+tile.csrp.frost_weathered_stone_stairs.name=霜蚀石头楼梯
+tile.csrp.consumed_planks_stairs.name=寄腐木楼梯
+tile.csrp.infested_stone_bricks_stairs.name=寄染石砖楼梯
+tile.csrp.infested_polished_stone_bricks_stairs.name=磨制寄染石砖楼梯
+tile.csrp.infested_stone_stairs.name=寄染石头楼梯
+tile.csrp.wheathered_bricks_stairs.name=霜蚀石砖楼梯
+tile.csrp.wheathered_cobblestone_stairs.name=霜蚀圆石楼梯
 
 
-tile.srparasites.parasiteplank_deadhead.name=凋败木木板
-tile.srparasites.parasiteplank_deadheads.name=凋败木木板
+tile.csrp.parasiteplank_deadhead.name=凋败木木板
+tile.csrp.parasiteplank_deadheads.name=凋败木木板
 
-tile.srparasites.parasitestain_dirt.name=寄巢软泥
-tile.srparasites.parasitestain_dirtstairs.name=寄巢软泥楼梯
-tile.srparasites.parasitestain_mud.name=内脏烂泥
-tile.srparasites.parasitestain_mudstairs.name=内脏烂泥楼梯
-tile.srparasites.parasitestain_flesh.name=肉块
-tile.srparasites.parasitestain_fleshstairs.name=肉块楼梯
-tile.srparasites.cooked_flesh_slab.name=熟肉板台阶
-tile.srparasites.flesh_slab.name=肉板台阶
-tile.srparasites.cooked_flesh.name=熟肉块
-tile.srparasites.cooked_flesh_fence.name=熟肉块栅栏
-tile.srparasites.flesh_fence.name=肉块栅栏
-tile.srparasites.parasitestain_feeler.name=交汇动脉管
-tile.srparasites.parasitestain_feelerstairs.name=交汇动脉管楼梯
+tile.csrp.parasitestain_dirt.name=寄巢软泥
+tile.csrp.parasitestain_dirtstairs.name=寄巢软泥楼梯
+tile.csrp.parasitestain_mud.name=内脏烂泥
+tile.csrp.parasitestain_mudstairs.name=内脏烂泥楼梯
+tile.csrp.parasitestain_flesh.name=肉块
+tile.csrp.parasitestain_fleshstairs.name=肉块楼梯
+tile.csrp.cooked_flesh_slab.name=熟肉板台阶
+tile.csrp.flesh_slab.name=肉板台阶
+tile.csrp.cooked_flesh.name=熟肉块
+tile.csrp.cooked_flesh_fence.name=熟肉块栅栏
+tile.csrp.flesh_fence.name=肉块栅栏
+tile.csrp.parasitestain_feeler.name=交汇动脉管
+tile.csrp.parasitestain_feelerstairs.name=交汇动脉管楼梯
 
-tile.srparasites.parasiterubble_slabhalf.name=硬实骨块台阶
-tile.srparasites.parasiterubble_slabdouble.name=硬实骨块
-tile.srparasites.parasiterubble_flesh.name=凝缩肉块
-tile.srparasites.parasiterubble_fleshstairs.name=凝缩肉块楼梯
-tile.srparasites.parasiterubble_flesh_wall.name=凝缩肉墙
-tile.srparasites.parasiterubble_bone.name=硬实骨块
-tile.srparasites.parasiterubble_boneslabhalf.name=硬实骨块台阶
-tile.srparasites.parasiterubble_boneslabdouble.name=硬实骨块双台阶
-tile.srparasites.parasiterubble_bonestairs.name=硬实骨块楼梯
-tile.srparasites.parasiterubble_stone.name=寄巢石头
-tile.srparasites.parasiterubble_stonestairs.name=寄巢石头楼梯
-tile.srparasites.parasiterubble_stonedebris.name=破碎的寄巢石头
-tile.srparasites.parasiterubble_stonedebrisstairs.name=破碎的寄巢石头楼梯
-tile.srparasites.parasiterubble_wood.name=寄腐原木
-tile.srparasites.parasiterubble_woodstairs.name=寄腐木楼梯
-tile.srparasites.parasiterubble_bricks.name=寄巢石砖
-tile.srparasites.parasiterubble_bricksstairs.name=寄巢石砖楼梯
-tile.srparasites.parasiterubble_metal.name=寄巢矿物块
-tile.srparasites.parasiterubble_metalstairs.name=寄巢矿物块楼梯
-tile.srparasites.parasiterubble_obsidian.name=血纹黑曜石
-tile.srparasites.parasiterubble_obsidianstairs.name=血纹黑曜石楼梯
-tile.srparasites.parasiterubble_fungus.name=被同化的菌体
-tile.srparasites.parasiterubble_fungusstairs.name=被同化的菌体楼梯
-tile.srparasites.parasiterubble_weathb.name=霜蚀石砖
-tile.srparasites.parasiterubble_weathbs.name=霜蚀石砖
-tile.srparasites.parasiterubble_weathbc.name=霜蚀圆石
-tile.srparasites.parasiterubble_weathbcs.name=霜蚀圆石
-tile.srparasites.parasiterubble_weathfs.name=霜蚀石头
-tile.srparasites.parasiterubble_weathfss.name=霜蚀石头
-tile.srparasites.infested_cobblestone.name=寄染圆石
+tile.csrp.parasiterubble_slabhalf.name=硬实骨块台阶
+tile.csrp.parasiterubble_slabdouble.name=硬实骨块
+tile.csrp.parasiterubble_flesh.name=凝缩肉块
+tile.csrp.parasiterubble_fleshstairs.name=凝缩肉块楼梯
+tile.csrp.parasiterubble_flesh_wall.name=凝缩肉墙
+tile.csrp.parasiterubble_bone.name=硬实骨块
+tile.csrp.parasiterubble_boneslabhalf.name=硬实骨块台阶
+tile.csrp.parasiterubble_boneslabdouble.name=硬实骨块双台阶
+tile.csrp.parasiterubble_bonestairs.name=硬实骨块楼梯
+tile.csrp.parasiterubble_stone.name=寄巢石头
+tile.csrp.parasiterubble_stonestairs.name=寄巢石头楼梯
+tile.csrp.parasiterubble_stonedebris.name=破碎的寄巢石头
+tile.csrp.parasiterubble_stonedebrisstairs.name=破碎的寄巢石头楼梯
+tile.csrp.parasiterubble_wood.name=寄腐原木
+tile.csrp.parasiterubble_woodstairs.name=寄腐木楼梯
+tile.csrp.parasiterubble_bricks.name=寄巢石砖
+tile.csrp.parasiterubble_bricksstairs.name=寄巢石砖楼梯
+tile.csrp.parasiterubble_metal.name=寄巢矿物块
+tile.csrp.parasiterubble_metalstairs.name=寄巢矿物块楼梯
+tile.csrp.parasiterubble_obsidian.name=血纹黑曜石
+tile.csrp.parasiterubble_obsidianstairs.name=血纹黑曜石楼梯
+tile.csrp.parasiterubble_fungus.name=被同化的菌体
+tile.csrp.parasiterubble_fungusstairs.name=被同化的菌体楼梯
+tile.csrp.parasiterubble_weathb.name=霜蚀石砖
+tile.csrp.parasiterubble_weathbs.name=霜蚀石砖
+tile.csrp.parasiterubble_weathbc.name=霜蚀圆石
+tile.csrp.parasiterubble_weathbcs.name=霜蚀圆石
+tile.csrp.parasiterubble_weathfs.name=霜蚀石头
+tile.csrp.parasiterubble_weathfss.name=霜蚀石头
+tile.csrp.infested_cobblestone.name=寄染圆石
 
-tile.srparasites.parasiterubbledense_wall.name=压缩寄巢石头
-tile.srparasites.parasiterubbledense_wallstairs.name=压缩寄巢石头楼梯
-tile.srparasites.parasiterubbledense_biome.name=硬化寄巢石头
-tile.srparasites.parasiterubbledense_biomestairs.name=硬化寄巢石头楼梯
-tile.srparasites.parasiterubbledense_colony.name=压缩聚生地石头
-tile.srparasites.parasiterubbledense_colonystairs.name=压缩聚生地石头楼梯
+tile.csrp.parasiterubbledense_wall.name=压缩寄巢石头
+tile.csrp.parasiterubbledense_wallstairs.name=压缩寄巢石头楼梯
+tile.csrp.parasiterubbledense_biome.name=硬化寄巢石头
+tile.csrp.parasiterubbledense_biomestairs.name=硬化寄巢石头楼梯
+tile.csrp.parasiterubbledense_colony.name=压缩聚生地石头
+tile.csrp.parasiterubbledense_colonystairs.name=压缩聚生地石头楼梯
 
-tile.srparasites.evolutionlure_one.name=诱饵（§4孱弱§f）
-tile.srparasites.evolutionlure_two.name=诱饵（§c微小§f）
-tile.srparasites.evolutionlure_three.name=诱饵（§6纤薄§f）
-tile.srparasites.evolutionlure_four.name=诱饵（§e稳定§f）
-tile.srparasites.evolutionlure_five.name=诱饵（§2足量§f）
-tile.srparasites.evolutionlure_six.name=诱饵（§a压缩§f）
-tile.srparasites.evolutionlure_seven.name=诱饵（§b压缩 +§f）
-tile.srparasites.evolutionlure_eight.name=诱饵（§d压缩 ++§f）
-tile.srparasites.evolutionlure_nine.name=诱饵 （§5过载§f）
-tile.srparasites.evolutionlure_ten.name=诱饵 (§9异常§f)
+tile.csrp.evolutionlure_one.name=诱饵（§4孱弱§f）
+tile.csrp.evolutionlure_two.name=诱饵（§c微小§f）
+tile.csrp.evolutionlure_three.name=诱饵（§6纤薄§f）
+tile.csrp.evolutionlure_four.name=诱饵（§e稳定§f）
+tile.csrp.evolutionlure_five.name=诱饵（§2足量§f）
+tile.csrp.evolutionlure_six.name=诱饵（§a压缩§f）
+tile.csrp.evolutionlure_seven.name=诱饵（§b压缩 +§f）
+tile.csrp.evolutionlure_eight.name=诱饵（§d压缩 ++§f）
+tile.csrp.evolutionlure_nine.name=诱饵 （§5过载§f）
+tile.csrp.evolutionlure_ten.name=诱饵 (§9异常§f)
 
-tile.srparasites.bloodyice.name=血染冰
-tile.srparasites.gothshroom.name=怪异菇
+tile.csrp.bloodyice.name=血染冰
+tile.csrp.gothshroom.name=怪异菇
 
-tile.srparasites.node_redstone_lamp.name=节点灯
+tile.csrp.node_redstone_lamp.name=节点灯
 
-tile.srparasites.infested_furnace.name=寄染熔炉
-tile.srparasites.infested_furnace_lit.name=寄染熔炉
-tile.srparasites.infuser_furnace.name=冶金灌注炉
+tile.csrp.infested_furnace.name=寄染熔炉
+tile.csrp.infested_furnace_lit.name=寄染熔炉
+tile.csrp.infuser_furnace.name=冶金灌注炉
 container.infuser_furnace=冶金灌注炉
 
 
-tile.srparasites.relay_base.name=中继终端 | 底部
-tile.srparasites.relay_middle.name=中继结构 | 中部
-tile.srparasites.relay_roof.name=中继天线 | 顶部
+tile.csrp.relay_base.name=中继终端 | 底部
+tile.csrp.relay_middle.name=中继结构 | 中部
+tile.csrp.relay_roof.name=中继天线 | 顶部
 
 
 tile.node_lamp_off.name=节点灯
@@ -982,112 +982,112 @@ bestiary.blocks.home=首页
 bestiary.blocks.title=方块
 bestiary.blocks.subtitle=实体数据库
 bestiary.blocks.empty=未发现值得注意的样本
-bestiary.block.srparasites.harleskinn_block.desc=从腐化地形中生长出的致密寄生矿物。
-bestiary.block.srparasites.locs_block.desc=用作结构锚点的钙化组织团块。
-bestiary.block.srparasites.fog_nullifier.desc=摧毁相连的雾。使用三次后损毁。无法拾取。
-bestiary.block.srparasites.dispatchern.desc=§c痛。
-bestiary.block.srparasites.assimilated_reed.desc=杆内充满果冻状物质。
-bestiary.block.srparasites.infested_furnace.desc=用于烧炼寄生体相关的方块和物品。
-bestiary.block.srparasites.biomass_block.desc=对任何接触者造成伤害。其表面持续渗出绿色气体并滴落生物质，但寄生体不受其影响。
-bestiary.block.srparasites.residue_block.desc=用于建筑配方。丛生残渣自然生长于此方块上。
-bestiary.block.srparasites.sick_alveoli.desc=肺泡簇的病变弱化形态。接触它的生物会中毒，需将其移至支气管附近方可治愈其疾病。
-bestiary.block.srparasites.alveoli.desc=地下巨型器官获取空气养分的主要来源。对其使用玻璃瓶可收集肺泡液，这是生物酿造的重要原料。若远离支气管过久，它会病变。
-bestiary.block.srparasites.hair_follicle_block.desc=为地下巨型器官输送空气养分。
-bestiary.block.srparasites.parasite_barrier.desc=将所有的 SRP 实体向外排斥。作用半径可在 1 至 10 区块范围内调节。
-bestiary.block.srparasites.assimilated_pumpkin.desc=可以被装备。会施加寄巢之唤效果。
-bestiary.block.srparasites.esca_bulb.desc=闻起来，摸起来都像腐烂的鱼。满载生物荧光物质。
-bestiary.block.srparasites.node_redstone_lamp.desc=一种易碎的玻璃节点，可连接 250 格范围内的调度柱。它会根据距离远近发光并输出比较器信号，右键点击可显示最近调度柱的等级与距离。信号强度 = 调度柱等级 | 距离等级 = 调度柱距离（1 为最近，5 为最远）
-bestiary.block.srparasites.parasiteloot_common.desc=出现于聚生地巨型结构中。从中取走物品时会伤害玩家。容器越空，伤害越高（参考进度条显示）。
-bestiary.block.srparasites.infestation_purifier.desc=仅创造模式可用的方块，使用钻石时能清除范围内的召唤柱侵染。使用前提：附近不得存在召唤柱。
-bestiary.block.srparasites.parasitemouth.desc=一只嵌入地面的肉质寄生口器。任何直接踩踏其上的生物都会遭到撕咬，承受穿甲伤害并被附加腐蚀与病毒效果。寄生体自身及创造模式下的玩家不受影响。
-bestiary.block.srparasites.relay_base.desc=用于中继塔的建造。放置在底部。
-bestiary.block.srparasites.relay_middle.desc=用于中继塔的建造。放置在中部。
-bestiary.block.srparasites.relay_roof.desc=用于中继塔的建造。放置在顶部。
-bestiary.block.srparasites.biomepurifier.desc=若周围无召唤柱存在，静置时可净化召唤柱侵染方块。与净化器交互将在寄生节点被清除后逻辑性地净化寄生群系。
-bestiary.block.srparasites.infested_remain.desc=可用火焰清除。用于合成与采集丛生残渣。
-bestiary.block.srparasites.diseased_sponge.desc=可与水瓶或粗制的药水酿造，制成§2瓶装死血§7。
+bestiary.block.csrp.harleskinn_block.desc=从腐化地形中生长出的致密寄生矿物。
+bestiary.block.csrp.locs_block.desc=用作结构锚点的钙化组织团块。
+bestiary.block.csrp.fog_nullifier.desc=摧毁相连的雾。使用三次后损毁。无法拾取。
+bestiary.block.csrp.dispatchern.desc=§c痛。
+bestiary.block.csrp.assimilated_reed.desc=杆内充满果冻状物质。
+bestiary.block.csrp.infested_furnace.desc=用于烧炼寄生体相关的方块和物品。
+bestiary.block.csrp.biomass_block.desc=对任何接触者造成伤害。其表面持续渗出绿色气体并滴落生物质，但寄生体不受其影响。
+bestiary.block.csrp.residue_block.desc=用于建筑配方。丛生残渣自然生长于此方块上。
+bestiary.block.csrp.sick_alveoli.desc=肺泡簇的病变弱化形态。接触它的生物会中毒，需将其移至支气管附近方可治愈其疾病。
+bestiary.block.csrp.alveoli.desc=地下巨型器官获取空气养分的主要来源。对其使用玻璃瓶可收集肺泡液，这是生物酿造的重要原料。若远离支气管过久，它会病变。
+bestiary.block.csrp.hair_follicle_block.desc=为地下巨型器官输送空气养分。
+bestiary.block.csrp.parasite_barrier.desc=将所有的 SRP 实体向外排斥。作用半径可在 1 至 10 区块范围内调节。
+bestiary.block.csrp.assimilated_pumpkin.desc=可以被装备。会施加寄巢之唤效果。
+bestiary.block.csrp.esca_bulb.desc=闻起来，摸起来都像腐烂的鱼。满载生物荧光物质。
+bestiary.block.csrp.node_redstone_lamp.desc=一种易碎的玻璃节点，可连接 250 格范围内的调度柱。它会根据距离远近发光并输出比较器信号，右键点击可显示最近调度柱的等级与距离。信号强度 = 调度柱等级 | 距离等级 = 调度柱距离（1 为最近，5 为最远）
+bestiary.block.csrp.parasiteloot_common.desc=出现于聚生地巨型结构中。从中取走物品时会伤害玩家。容器越空，伤害越高（参考进度条显示）。
+bestiary.block.csrp.infestation_purifier.desc=仅创造模式可用的方块，使用钻石时能清除范围内的召唤柱侵染。使用前提：附近不得存在召唤柱。
+bestiary.block.csrp.parasitemouth.desc=一只嵌入地面的肉质寄生口器。任何直接踩踏其上的生物都会遭到撕咬，承受穿甲伤害并被附加腐蚀与病毒效果。寄生体自身及创造模式下的玩家不受影响。
+bestiary.block.csrp.relay_base.desc=用于中继塔的建造。放置在底部。
+bestiary.block.csrp.relay_middle.desc=用于中继塔的建造。放置在中部。
+bestiary.block.csrp.relay_roof.desc=用于中继塔的建造。放置在顶部。
+bestiary.block.csrp.biomepurifier.desc=若周围无召唤柱存在，静置时可净化召唤柱侵染方块。与净化器交互将在寄生节点被清除后逻辑性地净化寄生群系。
+bestiary.block.csrp.infested_remain.desc=可用火焰清除。用于合成与采集丛生残渣。
+bestiary.block.csrp.diseased_sponge.desc=可与水瓶或粗制的药水酿造，制成§2瓶装死血§7。
 
 
-message.srparasites.node_lamp.strength=信号强度：%s
-message.srparasites.node_lamp.distance=信号距离：%s
+message.csrp.node_lamp.strength=信号强度：%s
+message.csrp.node_lamp.distance=信号距离：%s
 
 #Array text
 # Relay scan – fixed texts
-chat.srparasites.relay.not_formed=[中继] 结构未成形。
-chat.srparasites.relay.insert_module=[中继] 插入一个模块以扫描。
-chat.srparasites.relay.no_profile=[中继] 没有该模块的扫描资料：%s
-chat.srparasites.relay.scan_header=§b[中继] 扫描 – %s
-chat.srparasites.relay.tier_line=  §7%s: §f%s
-chat.srparasites.relay.total_parasites=  §7寄生体（资料）：§f%s
-chat.srparasites.relay.total_other=  §7其他生物：§f%s
-chat.srparasites.relay.percent=  §7寄生体占总生物百分比：§f%s
-chat.srparasites.relay.ratio=  §7寄生体：非寄生体 = §f%s
-block.srparasites.relay_controller.no_space=§c没有足够的空间来放置中继塔§r
-item.srparasites.tissue_spike.name=组织尖刺模块
-item.srparasites.module_base.name=基因容器模块
-item.srparasites.organ_synth.name=有机合成器模块
-gui.srparasites.scanner.cooldown=扫描冷却：%s秒
+chat.csrp.relay.not_formed=[中继] 结构未成形。
+chat.csrp.relay.insert_module=[中继] 插入一个模块以扫描。
+chat.csrp.relay.no_profile=[中继] 没有该模块的扫描资料：%s
+chat.csrp.relay.scan_header=§b[中继] 扫描 – %s
+chat.csrp.relay.tier_line=  §7%s: §f%s
+chat.csrp.relay.total_parasites=  §7寄生体（资料）：§f%s
+chat.csrp.relay.total_other=  §7其他生物：§f%s
+chat.csrp.relay.percent=  §7寄生体占总生物百分比：§f%s
+chat.csrp.relay.ratio=  §7寄生体：非寄生体 = §f%s
+block.csrp.relay_controller.no_space=§c没有足够的空间来放置中继塔§r
+item.csrp.tissue_spike.name=组织尖刺模块
+item.csrp.module_base.name=基因容器模块
+item.csrp.organ_synth.name=有机合成器模块
+gui.csrp.scanner.cooldown=扫描冷却：%s秒
 
 
-chat.srparasites.relay.scan_started=§a扫描已开始……§r
-chat.srparasites.relay.scan_busy=§c中继塔正在扫描。§r
-chat.srparasites.relay.scan_text=扫描
+chat.csrp.relay.scan_started=§a扫描已开始……§r
+chat.csrp.relay.scan_busy=§c中继塔正在扫描。§r
+chat.csrp.relay.scan_text=扫描
 
 
-item.srparasites.relay_report.name=§f中继塔扫描报告 §7(%s)§r
-item.srparasites.relay_report.lore.global_loaded=§7范围：§e已加载区域（维度范围）§r
-item.srparasites.relay_report.lore.tier=§7- §f%s§7: §e%d§r
-item.srparasites.relay_report.lore.total_parasites=§7寄生体总数：§c%d§r
-item.srparasites.relay_report.lore.total_other=§7其余生物总数：§a%d§r
-item.srparasites.relay_report.lore.percent=§7现存的寄生体：§e%s§r
-item.srparasites.relay_report.lore.ratio=§7寄生体占比：§e%s§r
+item.csrp.relay_report.name=§f中继塔扫描报告 §7(%s)§r
+item.csrp.relay_report.lore.global_loaded=§7范围：§e已加载区域（维度范围）§r
+item.csrp.relay_report.lore.tier=§7- §f%s§7: §e%d§r
+item.csrp.relay_report.lore.total_parasites=§7寄生体总数：§c%d§r
+item.csrp.relay_report.lore.total_other=§7其余生物总数：§a%d§r
+item.csrp.relay_report.lore.percent=§7现存的寄生体：§e%s§r
+item.csrp.relay_report.lore.ratio=§7寄生体占比：§e%s§r
 
 
 # Tier display names (by ID)
-tier.srparasites.inborn=先天种
-tier.srparasites.assimilated=同化种
-tier.srparasites.hijacked=劫持种
-tier.srparasites.feral=狂化种
-tier.srparasites.crude=粗制种
-tier.srparasites.primitive=原始种
-tier.srparasites.adapted=适应种
-tier.srparasites.nexus=连结种
-tier.srparasites.deterrent=威慑种
-tier.srparasites.pure=纯粹种
-tier.srparasites.preeminent=卓越种
-tier.srparasites.ancient=远古种
-tier.srparasites.assimara=诡化种
-tier.srparasites.derived=衍生种
+tier.csrp.inborn=先天种
+tier.csrp.assimilated=同化种
+tier.csrp.hijacked=劫持种
+tier.csrp.feral=狂化种
+tier.csrp.crude=粗制种
+tier.csrp.primitive=原始种
+tier.csrp.adapted=适应种
+tier.csrp.nexus=连结种
+tier.csrp.deterrent=威慑种
+tier.csrp.pure=纯粹种
+tier.csrp.preeminent=卓越种
+tier.csrp.ancient=远古种
+tier.csrp.assimara=诡化种
+tier.csrp.derived=衍生种
 
-item.srparasites.scan_report.name=中继塔扫描报告
-item.srparasites.scan_report.header=中继塔扫描结果：
-item.srparasites.scan_report.tiers=种阶：
-item.srparasites.scan_report.tier_line=- %s: %s
+item.csrp.scan_report.name=中继塔扫描报告
+item.csrp.scan_report.header=中继塔扫描结果：
+item.csrp.scan_report.tiers=种阶：
+item.csrp.scan_report.tier_line=- %s: %s
 
-item.srparasites.scan_report.dimension=维度： %s
-item.srparasites.scan_report.total_mobs=总生物数： %s
-item.srparasites.scan_report.total_parasites=寄生体总数： %s
-item.srparasites.scan_report.percent=现存的寄生体： %s
-item.srparasites.scan_report.ratio=寄生体占比： %s
+item.csrp.scan_report.dimension=维度： %s
+item.csrp.scan_report.total_mobs=总生物数： %s
+item.csrp.scan_report.total_parasites=寄生体总数： %s
+item.csrp.scan_report.percent=现存的寄生体： %s
+item.csrp.scan_report.ratio=寄生体占比： %s
 
 # Module profile names (printed in the header)
-profile.srparasites.inborn=先天
-profile.srparasites.assimilated=同化
-profile.srparasites.hijacked=劫持
-profile.srparasites.feral=狂化
-profile.srparasites.crude=粗制
-profile.srparasites.primitive=原始
-profile.srparasites.adapted=适应
-profile.srparasites.nexus=连结
-profile.srparasites.deterrent=威慑
-profile.srparasites.pure=纯粹
-profile.srparasites.preeminent=卓越
-profile.srparasites.ancient=远古
-profile.srparasites.desmoid=硬韧
-profile.srparasites.eschar=痂结
-profile.srparasites.resistance=抵抗
-profile.srparasites.ideal=理想
-profile.srparasites.origin=起源
+profile.csrp.inborn=先天
+profile.csrp.assimilated=同化
+profile.csrp.hijacked=劫持
+profile.csrp.feral=狂化
+profile.csrp.crude=粗制
+profile.csrp.primitive=原始
+profile.csrp.adapted=适应
+profile.csrp.nexus=连结
+profile.csrp.deterrent=威慑
+profile.csrp.pure=纯粹
+profile.csrp.preeminent=卓越
+profile.csrp.ancient=远古
+profile.csrp.desmoid=硬韧
+profile.csrp.eschar=痂结
+profile.csrp.resistance=抵抗
+profile.csrp.ideal=理想
+profile.csrp.origin=起源
 
 
 # Display names
@@ -1103,32 +1103,32 @@ tooltip.relay_middle=§6中继塔多方块结构§7的中间部件。§7用于�
 tooltip.relay_roof=§6中继塔多方块结构§7的顶部部件。§7用于接收调度柱频率信号的中继塔天线头部。
 
 # Module Names
-item.srparasites.module_inborn.name=先天种模块
-item.srparasites.module_assimilated.name=同化种+诡化种模块
-item.srparasites.module_hijacked.name=劫持种模块
-item.srparasites.module_feral.name=狂化种模块
-item.srparasites.module_crude.name=粗制种模块
-item.srparasites.module_primitive.name=原始种模块
-item.srparasites.module_adapted.name=适应种模块
-item.srparasites.module_nexus.name=连结种模块
-item.srparasites.module_deterrent.name=威慑种模块
-item.srparasites.module_pure.name=纯粹种模块
-item.srparasites.module_preeminent.name=卓越种模块
-item.srparasites.module_ancient.name=远古种模块
+item.csrp.module_inborn.name=先天种模块
+item.csrp.module_assimilated.name=同化种+诡化种模块
+item.csrp.module_hijacked.name=劫持种模块
+item.csrp.module_feral.name=狂化种模块
+item.csrp.module_crude.name=粗制种模块
+item.csrp.module_primitive.name=原始种模块
+item.csrp.module_adapted.name=适应种模块
+item.csrp.module_nexus.name=连结种模块
+item.csrp.module_deterrent.name=威慑种模块
+item.csrp.module_pure.name=纯粹种模块
+item.csrp.module_preeminent.name=卓越种模块
+item.csrp.module_ancient.name=远古种模块
 
-item.srparasites.module_desmoid.name=硬韧模块
-item.srparasites.module_eschar.name=痂结模块
-item.srparasites.module_resistance.name=抵抗模块
-item.srparasites.module_ideal.name=理想模块
-item.srparasites.module_origin.name=起源模块
-item.srparasites.module_vectors.name=源区模块
-item.srparasites.module_assimara.name=诡化种模块
-item.srparasites.module_derived.name=衍生种模块
-item.srparasites.module_phase.name=阶段模块
-item.srparasites.module_dislodgement.name=扰动模块
+item.csrp.module_desmoid.name=硬韧模块
+item.csrp.module_eschar.name=痂结模块
+item.csrp.module_resistance.name=抵抗模块
+item.csrp.module_ideal.name=理想模块
+item.csrp.module_origin.name=起源模块
+item.csrp.module_vectors.name=源区模块
+item.csrp.module_assimara.name=诡化种模块
+item.csrp.module_derived.name=衍生种模块
+item.csrp.module_phase.name=阶段模块
+item.csrp.module_dislodgement.name=扰动模块
 
-tile.srparasites.thornshade.name=影荆棘
-item.srparasites.thornshade_berry.name=影棘果
+tile.csrp.thornshade.name=影荆棘
+item.csrp.thornshade_berry.name=影棘果
 
 ##Fluids
 
@@ -1136,332 +1136,332 @@ fluid.deadblood=死血
 
 ##Effects
 
-effect.srparasites.dod_smoke_trail=冲击性烟雾拖尾
-mob_effect.srparasites:dod_smoke_trail=冲击性烟雾拖尾
+effect.csrp.dod_smoke_trail=冲击性烟雾拖尾
+mob_effect.csrp:dod_smoke_trail=冲击性烟雾拖尾
 
-mob_effect.srparasites:thornshade_thorns=§5影棘刺
-splash_potion.effect.srparasites:thornshade_thorns=喷溅型§5影棘刺§f药水
-potion.effect.srparasites:thornshade_thorns=§5影棘刺§f药水
-lingering_potion.effect.srparasites:thornshade_thorns=滞留型§5影棘刺§f药水
-tipped_arrow.effect.srparasites:thornshade_thorns=§5影棘刺§f之箭
+mob_effect.csrp:thornshade_thorns=§5影棘刺
+splash_potion.effect.csrp:thornshade_thorns=喷溅型§5影棘刺§f药水
+potion.effect.csrp:thornshade_thorns=§5影棘刺§f药水
+lingering_potion.effect.csrp:thornshade_thorns=滞留型§5影棘刺§f药水
+tipped_arrow.effect.csrp:thornshade_thorns=§5影棘刺§f之箭
 
-mob_effect.srparasites:coth=§4寄巢之唤
-splash_potion.effect.srparasites:coth=喷溅型§4寄巢之唤§f药水
-potion.effect.srparasites:coth=§4寄巢之唤§f药水
-lingering_potion.effect.srparasites:coth=滞留型§4寄巢之唤§f药水
-tipped_arrow.effect.srparasites:coth=§4寄巢之唤§f之箭
+mob_effect.csrp:coth=§4寄巢之唤
+splash_potion.effect.csrp:coth=喷溅型§4寄巢之唤§f药水
+potion.effect.csrp:coth=§4寄巢之唤§f药水
+lingering_potion.effect.csrp:coth=滞留型§4寄巢之唤§f药水
+tipped_arrow.effect.csrp:coth=§4寄巢之唤§f之箭
 
-mob_effect.srparasites:fear=§8恐惧
-splash_potion.effect.srparasites:fear=喷溅型§8恐惧§f药水
-potion.effect.srparasites:fear=§8恐惧§f药水
-lingering_potion.effect.srparasites:fear=滞留型§8恐惧§f药水
-tipped_arrow.effect.srparasites:fear=§8恐惧§f之箭
+mob_effect.csrp:fear=§8恐惧
+splash_potion.effect.csrp:fear=喷溅型§8恐惧§f药水
+potion.effect.csrp:fear=§8恐惧§f药水
+lingering_potion.effect.csrp:fear=滞留型§8恐惧§f药水
+tipped_arrow.effect.csrp:fear=§8恐惧§f之箭
 
-mob_effect.srparasites:vomit=§7呕吐物糊脸
-splash_potion.effect.srparasites:vomit=喷溅型§7呕吐物§f药水
-potion.effect.srparasites:vomit=§7呕吐物§f药水
-lingering_potion.effect.srparasites:vomit=滞留型§7呕吐物§f药水
-tipped_arrow.effect.srparasites:vomit=§7呕吐物§f之箭
+mob_effect.csrp:vomit=§7呕吐物糊脸
+splash_potion.effect.csrp:vomit=喷溅型§7呕吐物§f药水
+potion.effect.csrp:vomit=§7呕吐物§f药水
+lingering_potion.effect.csrp:vomit=滞留型§7呕吐物§f药水
+tipped_arrow.effect.csrp:vomit=§7呕吐物§f之箭
 
-mob_effect.srparasites:jugg=§7扰动
-splash_potion.effect.srparasites:jugg=喷溅型§7扰动§f药水
-potion.effect.srparasites:jugg=§7扰动§f药水
-lingering_potion.effect.srparasites:jugg=滞留型§7扰动§f药水
-tipped_arrow.effect.srparasites:jugg=§7扰动§f之箭
+mob_effect.csrp:jugg=§7扰动
+splash_potion.effect.csrp:jugg=喷溅型§7扰动§f药水
+potion.effect.csrp:jugg=§7扰动§f药水
+lingering_potion.effect.csrp:jugg=滞留型§7扰动§f药水
+tipped_arrow.effect.csrp:jugg=§7扰动§f之箭
 
-mob_effect.srparasites:conta=§7疫染
-splash_potion.effect.srparasites:conta=喷溅型§7疫染§f药水
-potion.effect.srparasites:conta=§7疫染§f药水
-lingering_potion.effect.srparasites:conta=滞留型§疫染§f药水
-tipped_arrow.effect.srparasites:conta=§7疫染§f之箭
+mob_effect.csrp:conta=§7疫染
+splash_potion.effect.csrp:conta=喷溅型§7疫染§f药水
+potion.effect.csrp:conta=§7疫染§f药水
+lingering_potion.effect.csrp:conta=滞留型§疫染§f药水
+tipped_arrow.effect.csrp:conta=§7疫染§f之箭
 
-mob_effect.srparasites:antimall=§7无适应性
-splash_potion.effect.srparasites:antimall=喷溅型§7无适应性§f药水
-potion.effect.srparasites:antimall=§7无适应性§f药水
-lingering_potion.effect.srparasites:antimall=滞留型§7无适应性§f药水
-tipped_arrow.effect.srparasites:antimall=§7无适应性§f之箭
+mob_effect.csrp:antimall=§7无适应性
+splash_potion.effect.csrp:antimall=喷溅型§7无适应性§f药水
+potion.effect.csrp:antimall=§7无适应性§f药水
+lingering_potion.effect.csrp:antimall=滞留型§7无适应性§f药水
+tipped_arrow.effect.csrp:antimall=§7无适应性§f之箭
 
-splash_potion.effect.srparasites:the_sign=喷溅型§b印记§f药水
-potion.effect.srparasites:the_sign=§b印记§f药水
-lingering_potion.effect.srparasites:the_sign=滞留型§b印记§f药水
-item.srparasites.the_sign_charm.name=寄巢印记
-tooltip.srparasites.the_sign_charm.red=创造专属物品
-tooltip.srparasites.the_sign_charm.white=欲新生者必先摧毁世界。
-tooltip.srparasites.the_sign_charm.gray=携带时，寄生体将无视玩家。
-mob_effect.srparasites:the_sign=印记
-effect.srparasites.the_sign=印记
-tipped_arrow.effect.srparasites:the_sign=印记§f之箭
+splash_potion.effect.csrp:the_sign=喷溅型§b印记§f药水
+potion.effect.csrp:the_sign=§b印记§f药水
+lingering_potion.effect.csrp:the_sign=滞留型§b印记§f药水
+item.csrp.the_sign_charm.name=寄巢印记
+tooltip.csrp.the_sign_charm.red=创造专属物品
+tooltip.csrp.the_sign_charm.white=欲新生者必先摧毁世界。
+tooltip.csrp.the_sign_charm.gray=携带时，寄生体将无视玩家。
+mob_effect.csrp:the_sign=印记
+effect.csrp.the_sign=印记
+tipped_arrow.effect.csrp:the_sign=印记§f之箭
 
 
-mob_effect.srparasites:bleed=§4流血
-splash_potion.effect.srparasites:bleed=喷溅型§4流血§f药水
-potion.effect.srparasites:bleed=§4流血§f药水
-lingering_potion.effect.srparasites:bleed=滞留型§4流血§f药水
-tipped_arrow.effect.srparasites:bleed=§4流血§f之箭
+mob_effect.csrp:bleed=§4流血
+splash_potion.effect.csrp:bleed=喷溅型§4流血§f药水
+potion.effect.csrp:bleed=§4流血§f药水
+lingering_potion.effect.csrp:bleed=滞留型§4流血§f药水
+tipped_arrow.effect.csrp:bleed=§4流血§f之箭
 
-mob_effect.srparasites:corrosive=§6腐蚀
-splash_potion.effect.srparasites:corrosive=喷溅型§6腐蚀§f药水
-potion.effect.srparasites:corrosive=§6腐蚀§f药水
-lingering_potion.effect.srparasites:corrosive=滞留型§6腐蚀§f药水
-tipped_arrow.effect.srparasites:corrosive=§6腐蚀§f之箭
+mob_effect.csrp:corrosive=§6腐蚀
+splash_potion.effect.csrp:corrosive=喷溅型§6腐蚀§f药水
+potion.effect.csrp:corrosive=§6腐蚀§f药水
+lingering_potion.effect.csrp:corrosive=滞留型§6腐蚀§f药水
+tipped_arrow.effect.csrp:corrosive=§6腐蚀§f之箭
 
-mob_effect.srparasites:viral=§a病毒
-splash_potion.effect.srparasites:viral=喷溅型§a病毒§f药水
-potion.effect.srparasites:viral=§a病毒§f药水
-lingering_potion.effect.srparasites:viral=滞留型§a病毒§f药水
-tipped_arrow.effect.srparasites:viral=§a病毒§f之箭
+mob_effect.csrp:viral=§a病毒
+splash_potion.effect.csrp:viral=喷溅型§a病毒§f药水
+potion.effect.csrp:viral=§a病毒§f药水
+lingering_potion.effect.csrp:viral=滞留型§a病毒§f药水
+tipped_arrow.effect.csrp:viral=§a病毒§f之箭
 
-mob_effect.srparasites:rage=§c狂怒
-splash_potion.effect.srparasites:rage=喷溅型§c狂怒§f药水
-potion.effect.srparasites:rage=§c狂怒§f药水
-lingering_potion.effect.srparasites:rage=滞留型§c狂怒§f药水
-tipped_arrow.effect.srparasites:rage=§c狂怒§f之箭
+mob_effect.csrp:rage=§c狂怒
+splash_potion.effect.csrp:rage=喷溅型§c狂怒§f药水
+potion.effect.csrp:rage=§c狂怒§f药水
+lingering_potion.effect.csrp:rage=滞留型§c狂怒§f药水
+tipped_arrow.effect.csrp:rage=§c狂怒§f之箭
 
-mob_effect.srparasites:repel=§2伪装
-splash_potion.effect.srparasites:repel=喷溅型§2伪装§f药水
-potion.effect.srparasites:repel=§2伪装§f药水
-lingering_potion.effect.srparasites:repel=滞留型§2伪装§f药水
-tipped_arrow.effect.srparasites:repel=§2伪装§f之箭
+mob_effect.csrp:repel=§2伪装
+splash_potion.effect.csrp:repel=喷溅型§2伪装§f药水
+potion.effect.csrp:repel=§2伪装§f药水
+lingering_potion.effect.csrp:repel=滞留型§2伪装§f药水
+tipped_arrow.effect.csrp:repel=§2伪装§f之箭
 
-mob_effect.srparasites:senses=§3感知增强
-splash_potion.effect.srparasites:senses=喷溅型§3感知增强§f药水
-potion.effect.srparasites:senses=§3感知增强§f药水
-lingering_potion.effect.srparasites:senses=滞留型§3感知增强§f药水
-tipped_arrow.effect.srparasites:senses=§3感知增强§f之箭
+mob_effect.csrp:senses=§3感知增强
+splash_potion.effect.csrp:senses=喷溅型§3感知增强§f药水
+potion.effect.csrp:senses=§3感知增强§f药水
+lingering_potion.effect.csrp:senses=滞留型§3感知增强§f药水
+tipped_arrow.effect.csrp:senses=§3感知增强§f之箭
 
-mob_effect.srparasites:debar=§7抑减
-splash_potion.effect.srparasites:debar=喷溅型§7抑减§f药水
-potion.effect.srparasites:debar=§7抑减§f药水
-lingering_potion.effect.srparasites:debar=滞留型§7抑减§f药水
-tipped_arrow.effect.srparasites:debar=§7抑减§f之箭
+mob_effect.csrp:debar=§7抑减
+splash_potion.effect.csrp:debar=喷溅型§7抑减§f药水
+potion.effect.csrp:debar=§7抑减§f药水
+lingering_potion.effect.csrp:debar=滞留型§7抑减§f药水
+tipped_arrow.effect.csrp:debar=§7抑减§f之箭
 
-mob_effect.srparasites:needler=§6穿刺
-splash_potion.effect.srparasites:needler=喷溅型§6穿刺§f药水
-potion.effect.srparasites:needler=§6穿刺§f药水
-lingering_potion.effect.srparasites:needler=滞留型§6穿刺§f药水
-tipped_arrow.effect.srparasites:needler=§6穿刺§f之箭
+mob_effect.csrp:needler=§6穿刺
+splash_potion.effect.csrp:needler=喷溅型§6穿刺§f药水
+potion.effect.csrp:needler=§6穿刺§f药水
+lingering_potion.effect.csrp:needler=滞留型§6穿刺§f药水
+tipped_arrow.effect.csrp:needler=§6穿刺§f之箭
 
-mob_effect.srparasites:link=§a链接
-splash_potion.effect.srparasites:link=喷溅型§a链接§f药水
-potion.effect.srparasites:link=§a链接§f药水
-lingering_potion.effect.srparasites:link=滞留型§a链接§f药水
-tipped_arrow.effect.srparasites:link=§a链接§f之箭
+mob_effect.csrp:link=§a链接
+splash_potion.effect.csrp:link=喷溅型§a链接§f药水
+potion.effect.csrp:link=§a链接§f药水
+lingering_potion.effect.csrp:link=滞留型§a链接§f药水
+tipped_arrow.effect.csrp:link=§a链接§f之箭
 
-mob_effect.srparasites:foster=§e促适应性
-splash_potion.effect.srparasites:foster=喷溅型§e促适应性§f药水
-potion.effect.srparasites:foster=§e促适应性§f药水
-lingering_potion.effect.srparasites:foster=滞留型§e促适应性§f药水
-tipped_arrow.effect.srparasites:foster=§e促适应性§f之箭
+mob_effect.csrp:foster=§e促适应性
+splash_potion.effect.csrp:foster=喷溅型§e促适应性§f药水
+potion.effect.csrp:foster=§e促适应性§f药水
+lingering_potion.effect.csrp:foster=滞留型§e促适应性§f药水
+tipped_arrow.effect.csrp:foster=§e促适应性§f之箭
 
-mob_effect.srparasites:prey=§e受猎
-splash_potion.effect.srparasites:prey=喷溅型§e受猎§f药水
-potion.effect.srparasites:prey=§e受猎§f药水
-lingering_potion.effect.srparasites:prey=滞留型§e受猎§f药水
-tipped_arrow.effect.srparasites:prey=§e受猎§f之箭
+mob_effect.csrp:prey=§e受猎
+splash_potion.effect.csrp:prey=喷溅型§e受猎§f药水
+potion.effect.csrp:prey=§e受猎§f药水
+lingering_potion.effect.csrp:prey=滞留型§e受猎§f药水
+tipped_arrow.effect.csrp:prey=§e受猎§f之箭
 
-mob_effect.srparasites:pivot=§e支护
-splash_potion.effect.srparasites:pivot=喷溅型§e支护§f药水
-potion.effect.srparasites:pivot=§e支护§f药水
-lingering_potion.effect.srparasites:pivot=滞留型§e支护§f药水
-tipped_arrow.effect.srparasites:pivot=§e支护§f之箭
+mob_effect.csrp:pivot=§e支护
+splash_potion.effect.csrp:pivot=喷溅型§e支护§f药水
+potion.effect.csrp:pivot=§e支护§f药水
+lingering_potion.effect.csrp:pivot=滞留型§e支护§f药水
+tipped_arrow.effect.csrp:pivot=§e支护§f之箭
 
-mob_effect.srparasites:parate=§P掠取
-splash_potion.effect.srparasites:parate=喷溅型§e掠取§f药水
-potion.effect.srparasites:parate=§e掠取§f药水
-lingering_potion.effect.srparasites:parate=滞留型§e掠取§f药水
-tipped_arrow.effect.srparasites:parate=§e掠取§f之箭
+mob_effect.csrp:parate=§P掠取
+splash_potion.effect.csrp:parate=喷溅型§e掠取§f药水
+potion.effect.csrp:parate=§e掠取§f药水
+lingering_potion.effect.csrp:parate=滞留型§e掠取§f药水
+tipped_arrow.effect.csrp:parate=§e掠取§f之箭
 
-mob_effect.srparasites:primitive=§e对原始种弱化
-splash_potion.effect.srparasites:primitive=喷溅型§e原始种§f药水
-potion.effect.srparasites:primitive=§e原始种§f药水
-lingering_potion.effect.srparasites:primitive=滞留型§e原始种§f药水
-tipped_arrow.effect.srparasites:primitive=§e原始种§f之箭
+mob_effect.csrp:primitive=§e对原始种弱化
+splash_potion.effect.csrp:primitive=喷溅型§e原始种§f药水
+potion.effect.csrp:primitive=§e原始种§f药水
+lingering_potion.effect.csrp:primitive=滞留型§e原始种§f药水
+tipped_arrow.effect.csrp:primitive=§e原始种§f之箭
 
-mob_effect.srparasites:adapted=§e对适应种弱化
-splash_potion.effect.srparasites:adapted=喷溅型§e适应种§f药水
-potion.effect.srparasites:adapted=§e适应种§f药水
-lingering_potion.effect.srparasites:adapted=滞留型§e适应种§f药水
-tipped_arrow.effect.srparasites:adapted=§e适应种§f之箭
+mob_effect.csrp:adapted=§e对适应种弱化
+splash_potion.effect.csrp:adapted=喷溅型§e适应种§f药水
+potion.effect.csrp:adapted=§e适应种§f药水
+lingering_potion.effect.csrp:adapted=滞留型§e适应种§f药水
+tipped_arrow.effect.csrp:adapted=§e适应种§f之箭
 
-mob_effect.srparasites:pure=§e对纯粹种弱化
-splash_potion.effect.srparasites:pure=喷溅型§e纯粹种§f药水
-potion.effect.srparasites:pure=§e纯粹种§f药水
-lingering_potion.effect.srparasites:pure=滞留型§e纯粹种§f药水
-tipped_arrow.effect.srparasites:pure=§e纯粹种§f之箭
+mob_effect.csrp:pure=§e对纯粹种弱化
+splash_potion.effect.csrp:pure=喷溅型§e纯粹种§f药水
+potion.effect.csrp:pure=§e纯粹种§f药水
+lingering_potion.effect.csrp:pure=滞留型§e纯粹种§f药水
+tipped_arrow.effect.csrp:pure=§e纯粹种§f之箭
 
-mob_effect.srparasites:crude=§e对粗制种弱化
-splash_potion.effect.srparasites:crude=喷溅型§e粗制种§f药水
-potion.effect.srparasites:crude=§e粗制种§f药水
-lingering_potion.effect.srparasites:crude=滞留型§e粗制种§f药水
-tipped_arrow.effect.srparasites:crude=§e粗制种§f之箭
+mob_effect.csrp:crude=§e对粗制种弱化
+splash_potion.effect.csrp:crude=喷溅型§e粗制种§f药水
+potion.effect.csrp:crude=§e粗制种§f药水
+lingering_potion.effect.csrp:crude=滞留型§e粗制种§f药水
+tipped_arrow.effect.csrp:crude=§e粗制种§f之箭
 
-mob_effect.srparasites:feral=§e对狂化种弱化
-splash_potion.effect.srparasites:feral=喷溅型§e狂化种§f药水
-potion.effect.srparasites:feral=§e狂化种§f药水
-lingering_potion.effect.srparasites:feral=滞留型§e狂化种§f药水
-tipped_arrow.effect.srparasites:feral=§e狂化种§f之箭
+mob_effect.csrp:feral=§e对狂化种弱化
+splash_potion.effect.csrp:feral=喷溅型§e狂化种§f药水
+potion.effect.csrp:feral=§e狂化种§f药水
+lingering_potion.effect.csrp:feral=滞留型§e狂化种§f药水
+tipped_arrow.effect.csrp:feral=§e狂化种§f之箭
 
-mob_effect.srparasites:nexus=§e对连结种弱化
-splash_potion.effect.srparasites:nexus=喷溅型§e连结种§f药水
-potion.effect.srparasites:nexus=§e连结种§f药水
-lingering_potion.effect.srparasites:nexus=滞留型§e连结种§f药水
-tipped_arrow.effect.srparasites:nexus=§e连结种§f之箭
+mob_effect.csrp:nexus=§e对连结种弱化
+splash_potion.effect.csrp:nexus=喷溅型§e连结种§f药水
+potion.effect.csrp:nexus=§e连结种§f药水
+lingering_potion.effect.csrp:nexus=滞留型§e连结种§f药水
+tipped_arrow.effect.csrp:nexus=§e连结种§f之箭
 
-mob_effect.srparasites:muscleout=§e肌无力
-splash_potion.effect.srparasites:muscleout=喷溅型§e肌无力§f药水
-potion.effect.srparasites:muscleout=§e肌无力§f药水
-lingering_potion.effect.srparasites:muscleout=滞留型§e肌无力§f药水
-tipped_arrow.effect.srparasites:muscleout=§e肌无力§f之箭
+mob_effect.csrp:muscleout=§e肌无力
+splash_potion.effect.csrp:muscleout=喷溅型§e肌无力§f药水
+potion.effect.csrp:muscleout=§e肌无力§f药水
+lingering_potion.effect.csrp:muscleout=滞留型§e肌无力§f药水
+tipped_arrow.effect.csrp:muscleout=§e肌无力§f之箭
 
-mob_effect.srparasites:effectpos=§e正面效果惩罚
-splash_potion.effect.srparasites:effectpos=喷溅型§e正面效果惩罚§f药水
-potion.effect.srparasites:effectpos=§e正面效果惩罚§f药水
-lingering_potion.effect.srparasites:effectpos=滞留型§e正面效果惩罚§f药水
-tipped_arrow.effect.srparasites:effectpos=§e正面效果惩罚§f之箭
+mob_effect.csrp:effectpos=§e正面效果惩罚
+splash_potion.effect.csrp:effectpos=喷溅型§e正面效果惩罚§f药水
+potion.effect.csrp:effectpos=§e正面效果惩罚§f药水
+lingering_potion.effect.csrp:effectpos=滞留型§e正面效果惩罚§f药水
+tipped_arrow.effect.csrp:effectpos=§e正面效果惩罚§f之箭
 
-mob_effect.srparasites:effectneg=§e负面效果强化
-splash_potion.effect.srparasites:effectneg=喷溅型§e负面效果强化§f药水
-potion.effect.srparasites:effectneg=§e负面效果强化§f药水
-lingering_potion.effect.srparasites:effectneg=滞留型§e负面效果强化§f药水
-tipped_arrow.effect.srparasites:effectneg=§e负面效果强化§f之箭
+mob_effect.csrp:effectneg=§e负面效果强化
+splash_potion.effect.csrp:effectneg=喷溅型§e负面效果强化§f药水
+potion.effect.csrp:effectneg=§e负面效果强化§f药水
+lingering_potion.effect.csrp:effectneg=滞留型§e负面效果强化§f药水
+tipped_arrow.effect.csrp:effectneg=§e负面效果强化§f之箭
 
-mob_effect.srparasites:spotted=§e标记
-splash_potion.effect.srparasites:spotted=喷溅型§e标记§f药水
-potion.effect.srparasites:spotted=§e标记§f药水
-lingering_potion.effect.srparasites:spotted=滞留型§e标记§f药水
-tipped_arrow.effect.srparasites:spotted=§e标记§f之箭
+mob_effect.csrp:spotted=§e标记
+splash_potion.effect.csrp:spotted=喷溅型§e标记§f药水
+potion.effect.csrp:spotted=§e标记§f药水
+lingering_potion.effect.csrp:spotted=滞留型§e标记§f药水
+tipped_arrow.effect.csrp:spotted=§e标记§f之箭
 
-mob_effect.srparasites:braining=§e脑障
-splash_potion.effect.srparasites:braining=喷溅型§e脑障§f药水
-potion.effect.srparasites:braining=§e脑障§f药水
-lingering_potion.effect.srparasites:braining=滞留型§e脑障§f药水
-tipped_arrow.effect.srparasites:braining=§e脑障§f之箭
+mob_effect.csrp:braining=§e脑障
+splash_potion.effect.csrp:braining=喷溅型§e脑障§f药水
+potion.effect.csrp:braining=§e脑障§f药水
+lingering_potion.effect.csrp:braining=滞留型§e脑障§f药水
+tipped_arrow.effect.csrp:braining=§e脑障§f之箭
 
-mob_effect.srparasites:novision=§e致盲
-splash_potion.effect.srparasites:novision=喷溅型§e致盲§f药水
-potion.effect.srparasites:novision=§e致盲§f药水
-lingering_potion.effect.srparasites:novision=滞留型§e致盲§f药水
-tipped_arrow.effect.srparasites:novision=§e致盲§f之箭
+mob_effect.csrp:novision=§e致盲
+splash_potion.effect.csrp:novision=喷溅型§e致盲§f药水
+potion.effect.csrp:novision=§e致盲§f药水
+lingering_potion.effect.csrp:novision=滞留型§e致盲§f药水
+tipped_arrow.effect.csrp:novision=§e致盲§f之箭
 
-mob_effect.srparasites:indeaf=§e失动
-splash_potion.effect.srparasites:indeaf=喷溅型§e失动§f药水
-potion.effect.srparasites:indeaf=喷溅型§e失动§f药水
-lingering_potion.effect.srparasites:indeaf=滞留型§e失动§f药水
-tipped_arrow.effect.srparasites:indeaf=§e失动§f之箭
+mob_effect.csrp:indeaf=§e失动
+splash_potion.effect.csrp:indeaf=喷溅型§e失动§f药水
+potion.effect.csrp:indeaf=喷溅型§e失动§f药水
+lingering_potion.effect.csrp:indeaf=滞留型§e失动§f药水
+tipped_arrow.effect.csrp:indeaf=§e失动§f之箭
 
-mob_effect.srparasites:overheating=§e过热
-splash_potion.effect.srparasites:overheating=喷溅型§e过热§f药水
-potion.effect.srparasites:overheating=§e过热§f药水
-lingering_potion.effect.srparasites:overheating=滞留型§e过热§f药水
-tipped_arrow.effect.srparasites:overheating=§e过热§f之箭
+mob_effect.csrp:overheating=§e过热
+splash_potion.effect.csrp:overheating=喷溅型§e过热§f药水
+potion.effect.csrp:overheating=§e过热§f药水
+lingering_potion.effect.csrp:overheating=滞留型§e过热§f药水
+tipped_arrow.effect.csrp:overheating=§e过热§f之箭
 
-mob_effect.srparasites:contagion=§e疫染
-splash_potion.effect.srparasites:contagion=喷溅型§e疫染§f药水
-potion.effect.srparasites:contagion=§e疫染§f
-lingering_potion.effect.srparasites:contagion=滞留型§e疫染§f药水
-tipped_arrow.effect.srparasites:contagion=§e疫染§f之箭
+mob_effect.csrp:contagion=§e疫染
+splash_potion.effect.csrp:contagion=喷溅型§e疫染§f药水
+potion.effect.csrp:contagion=§e疫染§f
+lingering_potion.effect.csrp:contagion=滞留型§e疫染§f药水
+tipped_arrow.effect.csrp:contagion=§e疫染§f之箭
 
 ##extra
 
-message.srparasites.lureb=已增加点数冷却！
-message.srparasites.lurec=点数减少！
-message.srparasites.fearitem=你正处于恐惧状态！
-message.srparasites.fearblock=你正处于恐惧状态！
-message.srparasites.feargui=你正处于恐惧状态！
-message.srparasites.evolutionsleep=你现在无法入睡……
-message.srparasites.armortooltips1=当前适应
+message.csrp.lureb=已增加点数冷却！
+message.csrp.lurec=点数减少！
+message.csrp.fearitem=你正处于恐惧状态！
+message.csrp.fearblock=你正处于恐惧状态！
+message.csrp.feargui=你正处于恐惧状态！
+message.csrp.evolutionsleep=你现在无法入睡……
+message.csrp.armortooltips1=当前适应
 
-tootip.srparasites.quench=§f这块物体的内部填满了岩浆膏，摸起来暖手且延展性也不赖。由于其内浓缩了大量的烈焰粉，所以用它来§a清理寄生物质§f效果奇佳。
+tootip.csrp.quench=§f这块物体的内部填满了岩浆膏，摸起来暖手且延展性也不赖。由于其内浓缩了大量的烈焰粉，所以用它来§a清理寄生物质§f效果奇佳。
 
-tootip.srparasites.lurecomp.1=§f§7裂兽§f体内的肉块。可用于制作§c诱饵§f。
-tootip.srparasites.lurecomp.2=§f从§4被同化§f的生物身上采集得到的浮肿心脏，看着让人倍感恶心。可用于制作§c诱饵§f。
-tootip.srparasites.lurecomp.3=§f§f从§c原始种§f寄生体身上采集得到的粗壮肌肉，散发着阵阵恶臭。可用于制作§c诱饵§f。
-tootip.srparasites.lurecomp.4=§f从§6适应种§f寄生体身上采集得到的肺，内部构造异常发达。可用于制作§c诱饵§f。
-tootip.srparasites.lurecomp.5=§f从§e纯粹种§f寄生体身上采集得到的脑，内部构造异常发达。可用于制作§c诱饵§f。
-tootip.srparasites.lurecomp.6=§f可在寄生群系中的树囊内找到，外形好似脊柱。可用于制作§c诱饵§f。
+tootip.csrp.lurecomp.1=§f§7裂兽§f体内的肉块。可用于制作§c诱饵§f。
+tootip.csrp.lurecomp.2=§f从§4被同化§f的生物身上采集得到的浮肿心脏，看着让人倍感恶心。可用于制作§c诱饵§f。
+tootip.csrp.lurecomp.3=§f§f从§c原始种§f寄生体身上采集得到的粗壮肌肉，散发着阵阵恶臭。可用于制作§c诱饵§f。
+tootip.csrp.lurecomp.4=§f从§6适应种§f寄生体身上采集得到的肺，内部构造异常发达。可用于制作§c诱饵§f。
+tootip.csrp.lurecomp.5=§f从§e纯粹种§f寄生体身上采集得到的脑，内部构造异常发达。可用于制作§c诱饵§f。
+tootip.csrp.lurecomp.6=§f可在寄生群系中的树囊内找到，外形好似脊柱。可用于制作§c诱饵§f。
 
-tootip.srparasites.item.0=§6中继塔§f与§6模块§f组装中的核心合成部件。
-tootip.srparasites.item.1=一个向外绽出能量的小球，可从§6召唤兽§f身上采集得到。可用于合成§6武器§f。
-tootip.srparasites.item.2=从黄眸兽身上采集得到硬骨。可用于合成§6武器§f。
-tootip.srparasites.item.3=一枚不停向外绽出能量的小球，可从§6咀骨兽§f身上采集得到。可用于合成§6武器§f。
-tootip.srparasites.item.4=从§6毒腥兽§f身上采集得到锐利牙齿。可用于合成§6武器§f。
-tootip.srparasites.item.5=从§6长臂兽§f身上采集得到的盔甲碎片，轻盈却又十分坚韧。可用于合成§6武器§f。
-tootip.srparasites.item.6=从§c被同化§f生物的身上剥下来的血肉。可参与某些合成。
-tootip.srparasites.item.7=
-tootip.srparasites.item.8=用寄生体的某部分躯体产出的一种弹性材料，可用于制作§6武器§f。
-tootip.srparasites.item.9=用寄生体的某部分躯体制成的刀刃，可用于制作§6武器§f。
-tootip.srparasites.item.10=其内的命火已然熄灭。此物可用作各类§6武器§f的能量源。
-tootip.srparasites.item.11=用寄生体的某部分躯体制成的甲壳，坚硬无比。可用于制作§6武器§f。
-tootip.srparasites.item.12=用寄生体的某部分躯体制成的骨头手柄，厚重无比。可用于制作§6武器§f。
-tootip.srparasites.item.13=长得如此奇怪的骨头可不常见。
-tootip.srparasites.item.14=§8§o一种在熔融状态下注入寄生体血淋巴的铁合金。最终形成的合金对与寄生体相关的生物电及异常信号模式展现出高度敏感性。由铁、瓶装死血及燃料来合成制造。
+tootip.csrp.item.0=§6中继塔§f与§6模块§f组装中的核心合成部件。
+tootip.csrp.item.1=一个向外绽出能量的小球，可从§6召唤兽§f身上采集得到。可用于合成§6武器§f。
+tootip.csrp.item.2=从黄眸兽身上采集得到硬骨。可用于合成§6武器§f。
+tootip.csrp.item.3=一枚不停向外绽出能量的小球，可从§6咀骨兽§f身上采集得到。可用于合成§6武器§f。
+tootip.csrp.item.4=从§6毒腥兽§f身上采集得到锐利牙齿。可用于合成§6武器§f。
+tootip.csrp.item.5=从§6长臂兽§f身上采集得到的盔甲碎片，轻盈却又十分坚韧。可用于合成§6武器§f。
+tootip.csrp.item.6=从§c被同化§f生物的身上剥下来的血肉。可参与某些合成。
+tootip.csrp.item.7=
+tootip.csrp.item.8=用寄生体的某部分躯体产出的一种弹性材料，可用于制作§6武器§f。
+tootip.csrp.item.9=用寄生体的某部分躯体制成的刀刃，可用于制作§6武器§f。
+tootip.csrp.item.10=其内的命火已然熄灭。此物可用作各类§6武器§f的能量源。
+tootip.csrp.item.11=用寄生体的某部分躯体制成的甲壳，坚硬无比。可用于制作§6武器§f。
+tootip.csrp.item.12=用寄生体的某部分躯体制成的骨头手柄，厚重无比。可用于制作§6武器§f。
+tootip.csrp.item.13=长得如此奇怪的骨头可不常见。
+tootip.csrp.item.14=§8§o一种在熔融状态下注入寄生体血淋巴的铁合金。最终形成的合金对与寄生体相关的生物电及异常信号模式展现出高度敏感性。由铁、瓶装死血及燃料来合成制造。
 
-tootip.srparasites.item.20=一片干燥的皮肤，可从§7协增兽§f身上采集得到。
-tootip.srparasites.item.21=从§7蛛形兽§f身上采集得来的爪子，锋锐无比。
-tootip.srparasites.item.22=从§b吞噬兽§f身上采集的来的触须，坚硬如骨。
-tootip.srparasites.item.23=§a召唤柱§f的外皮，可从柱身剥出。
-tootip.srparasites.item.24=§c调度柱§f的外皮，可从柱身剥出。
+tootip.csrp.item.20=一片干燥的皮肤，可从§7协增兽§f身上采集得到。
+tootip.csrp.item.21=从§7蛛形兽§f身上采集得来的爪子，锋锐无比。
+tootip.csrp.item.22=从§b吞噬兽§f身上采集的来的触须，坚硬如骨。
+tootip.csrp.item.23=§a召唤柱§f的外皮，可从柱身剥出。
+tootip.csrp.item.24=§c调度柱§f的外皮，可从柱身剥出。
 
-tootip.srparasites.item.25=令指向的寄生体§c进化
-tootip.srparasites.item.28=令指向的生物§c被同化
-tootip.srparasites.item.26=令指向的寄生体§c退化
-tootip.srparasites.item.27=令指向的寄生体§c变为其他变种
-tootip.srparasites.item.29=§f将你§5所受的伤害§f转移给他们，并§5反弹部分近战伤害§f。其效果一生中只能给予§5两次§f。不死图腾会§5阻止§f下一次效果给予。
-tootip.srparasites.item.30=酿造§5影棘酒§f所需的关键材料。
-tootip.srparasites.item.31=创造专属物品 §l|§r §o可瞬间焚尽寄生植株
+tootip.csrp.item.25=令指向的寄生体§c进化
+tootip.csrp.item.28=令指向的生物§c被同化
+tootip.csrp.item.26=令指向的寄生体§c退化
+tootip.csrp.item.27=令指向的寄生体§c变为其他变种
+tootip.csrp.item.29=§f将你§5所受的伤害§f转移给他们，并§5反弹部分近战伤害§f。其效果一生中只能给予§5两次§f。不死图腾会§5阻止§f下一次效果给予。
+tootip.csrp.item.30=酿造§5影棘酒§f所需的关键材料。
+tootip.csrp.item.31=创造专属物品 §l|§r §o可瞬间焚尽寄生植株
 
-tootip.srparasites.item.18=鲜血滴落不息，钟的指针亦随之挪动，那午夜的恐怖时刻终将到来。 
+tootip.csrp.item.18=鲜血滴落不息，钟的指针亦随之挪动，那午夜的恐怖时刻终将到来。
 
-tootip.srparasites.weaponm.1=§f重塑寄生体的各身体部位，最终得到了这把武器。其核心内命火灼灼，光华闪耀。
-tootip.srparasites.weaponm.2=§f悄无声息之间，活体镰刀§b灵智已开§f，完成了进化。
-tootip.srparasites.weaponm.3=§f重塑寄生体的各身体部位，最终得到了这把武器。其核心内命火灼灼，光华闪耀。
-tootip.srparasites.weaponm.4=§f悄无声息之间，活体斧§b灵智已开§f，完成了进化。
-tootip.srparasites.weaponm.5=§f重塑寄生体的各身体部位，最终得到了这把武器。其核心内命火灼灼，光华闪耀。
-tootip.srparasites.weaponm.6=§f悄无声息之间，活体剑§b灵智已开§f，完成了进化。
-tootip.srparasites.weaponm.7=§f重塑寄生体的各身体部位，最终得到了这把武器。其核心内命火灼灼，光华闪耀。
-tootip.srparasites.weaponm.8=悄无声息之间，活体劈刀§f灵智已开§b，完成了进化。
-tootip.srparasites.weaponm.9=§f重塑寄生体的各身体部位，最终得到了这把武器。其核心内命火灼灼，光华闪耀。
+tootip.csrp.weaponm.1=§f重塑寄生体的各身体部位，最终得到了这把武器。其核心内命火灼灼，光华闪耀。
+tootip.csrp.weaponm.2=§f悄无声息之间，活体镰刀§b灵智已开§f，完成了进化。
+tootip.csrp.weaponm.3=§f重塑寄生体的各身体部位，最终得到了这把武器。其核心内命火灼灼，光华闪耀。
+tootip.csrp.weaponm.4=§f悄无声息之间，活体斧§b灵智已开§f，完成了进化。
+tootip.csrp.weaponm.5=§f重塑寄生体的各身体部位，最终得到了这把武器。其核心内命火灼灼，光华闪耀。
+tootip.csrp.weaponm.6=§f悄无声息之间，活体剑§b灵智已开§f，完成了进化。
+tootip.csrp.weaponm.7=§f重塑寄生体的各身体部位，最终得到了这把武器。其核心内命火灼灼，光华闪耀。
+tootip.csrp.weaponm.8=悄无声息之间，活体劈刀§f灵智已开§b，完成了进化。
+tootip.csrp.weaponm.9=§f重塑寄生体的各身体部位，最终得到了这把武器。其核心内命火灼灼，光华闪耀。
 
-tootip.srparasites.weaponm.10=可§c扫荡§f大范围内的敌人。
-tootip.srparasites.weaponm.20=可§c抹除§f大范围内的敌人。
-tootip.srparasites.weaponm.30=§f使盔甲逐渐§c失去保护作用§f。
-tootip.srparasites.weaponm.40=§f使盔甲逐渐§c失去保护作用§f。
-tootip.srparasites.weaponm.50=§f造成§c危及生命§f的损伤。
-tootip.srparasites.weaponm.60=§f造成§c危及生命§f的损伤。
-tootip.srparasites.weaponm.70=§f为敌人送上§a致命§f斩击。
-tootip.srparasites.weaponm.80=§f为敌人送上§a致命§f斩击。
-tootip.srparasites.weaponm.90=§c杀一§f，镇百。
+tootip.csrp.weaponm.10=可§c扫荡§f大范围内的敌人。
+tootip.csrp.weaponm.20=可§c抹除§f大范围内的敌人。
+tootip.csrp.weaponm.30=§f使盔甲逐渐§c失去保护作用§f。
+tootip.csrp.weaponm.40=§f使盔甲逐渐§c失去保护作用§f。
+tootip.csrp.weaponm.50=§f造成§c危及生命§f的损伤。
+tootip.csrp.weaponm.60=§f造成§c危及生命§f的损伤。
+tootip.csrp.weaponm.70=§f为敌人送上§a致命§f斩击。
+tootip.csrp.weaponm.80=§f为敌人送上§a致命§f斩击。
+tootip.csrp.weaponm.90=§c杀一§f，镇百。
 
-tootip.srparasites.weaponm.11=
-tootip.srparasites.weaponm.110=
-tootip.srparasites.weaponm.12=
+tootip.csrp.weaponm.11=
+tootip.csrp.weaponm.110=
+tootip.csrp.weaponm.12=
 
-tootip.srparasites.weaponm.1200=？？？
-tootip.srparasites.weaponm.1000=？？？
+tootip.csrp.weaponm.1200=？？？
+tootip.csrp.weaponm.1000=？？？
 
-tootip.srparasites.weaponm.100=？？？
-tootip.srparasites.weaponm.200=？？？
-tootip.srparasites.weaponm.300=？？？
-tootip.srparasites.weaponm.400=？？？
-tootip.srparasites.weaponm.500=？？？
-tootip.srparasites.weaponm.600=？？？
-tootip.srparasites.weaponm.700=？？？
-tootip.srparasites.weaponm.800=？？？
+tootip.csrp.weaponm.100=？？？
+tootip.csrp.weaponm.200=？？？
+tootip.csrp.weaponm.300=？？？
+tootip.csrp.weaponm.400=？？？
+tootip.csrp.weaponm.500=？？？
+tootip.csrp.weaponm.600=？？？
+tootip.csrp.weaponm.700=？？？
+tootip.csrp.weaponm.800=？？？
 
-tootip.srparasites.weaponr.1=§f重塑寄生体的各身体部位，最终得到了这把§6武器§f。其核心内命火灼灼，光华闪耀。
-tootip.srparasites.weaponr.2=悄无声息之间，活体弓§f灵智已开§b，完成了进化。
+tootip.csrp.weaponr.1=§f重塑寄生体的各身体部位，最终得到了这把§6武器§f。其核心内命火灼灼，光华闪耀。
+tootip.csrp.weaponr.2=悄无声息之间，活体弓§f灵智已开§b，完成了进化。
 
-tootip.srparasites.weaponr.10=凝心蓄力，方能射出致命一箭。
-tootip.srparasites.weaponr.20=凝心蓄力，方能射出致命一箭。
+tootip.csrp.weaponr.10=凝心蓄力，方能射出致命一箭。
+tootip.csrp.weaponr.20=凝心蓄力，方能射出致命一箭。
 
-tootip.srparasites.weaponr.100=？？？
-tootip.srparasites.weaponr.200=？？？
+tootip.csrp.weaponr.100=？？？
+tootip.csrp.weaponr.200=？？？
 
-tooltip.tile.srparasites.evolutionlure=能够抑制演化点数增长，持续时间约 %s 秒。
+tooltip.tile.csrp.evolutionlure=能够抑制演化点数增长，持续时间约 %s 秒。
 
-item.srparasites.discone.name=二元性
-item.srparasites.disctwo.name=终将再会
-item.srparasites.discthree.name=§b静谧
+item.csrp.discone.name=二元性
+item.csrp.disctwo.name=终将再会
+item.csrp.discthree.name=§b静谧
 
 item.record.discone.desc=二元性
 item.record.disctwo.desc=终将再会
@@ -1676,8 +1676,8 @@ subtitles.rof.emerge=侵袭蠕虫：出现
 
 ### COMPENDIUM
 
-item.srparasites.srp_field_guide.name=图鉴
-lore.srparasites.compendium=图鉴
+item.csrp.srp_field_guide.name=图鉴
+lore.csrp.compendium=图鉴
 
 bestiary.tier.assimilated=同化种
 bestiary.tier.walking_head=行走头颅
@@ -1710,31 +1710,31 @@ bestiary.stats=生命值：%s   攻击伤害：%s
 
 
 
-gui.srparasites.escape_button=防死亡循环 |
-gui.srparasites.escape_button_blocks=格
-gui.srparasites.escape_tooltip=你还好吗，要不要换处地方？
+gui.csrp.escape_button=防死亡循环 |
+gui.csrp.escape_button_blocks=格
+gui.csrp.escape_tooltip=你还好吗，要不要换处地方？
 
 # Purifier messages
-message.srparasites.purifier_use_diamond=请使用钻石进行交互
-message.srparasites.purifier_not_over_srp=此物需要放置在 SRP 方块上。
-message.srparasites.purifier_entities_marked=已为 %s 个实体标记发光效果。
-message.srparasites.purifier_purified=净化了 %s 个方块。
-tile.srparasites.infestation_purifier.name=创造模式寄染净化器
-message.srparasites.purifier_started=净化已开始。
+message.csrp.purifier_use_diamond=请使用钻石进行交互
+message.csrp.purifier_not_over_srp=此物需要放置在 SRP 方块上。
+message.csrp.purifier_entities_marked=已为 %s 个实体标记发光效果。
+message.csrp.purifier_purified=净化了 %s 个方块。
+tile.csrp.infestation_purifier.name=创造模式寄染净化器
+message.csrp.purifier_started=净化已开始。
 
-tooltip.srparasites.hijacked.fullset_bleed=全套效果：免疫流血效果
-tooltip.srparasites.hijacked.boots_save=靴子：防止摔落伤害（2分钟冷却）
-tooltip.srparasites.hijacked.fire_penalty=全套效果：承受额外火焰伤害（x%s）
-tooltip.srparasites.hijacked.boots_cd=靴子保护冷却：%s
-tooltip.srparasites.ready=已就绪
+tooltip.csrp.hijacked.fullset_bleed=全套效果：免疫流血效果
+tooltip.csrp.hijacked.boots_save=靴子：防止摔落伤害（2分钟冷却）
+tooltip.csrp.hijacked.fire_penalty=全套效果：承受额外火焰伤害（x%s）
+tooltip.csrp.hijacked.boots_cd=靴子保护冷却：%s
+tooltip.csrp.ready=已就绪
 
-item.srparasites.hijacked_iron_boots.name=被操纵的铁靴子
-item.srparasites.hijacked_iron_leggings.name=被操纵的铁护腿
-item.srparasites.hijacked_iron_chestpiece.name=被操纵的铁胸甲
-item.srparasites.hijacked_iron_helmet.name=被操纵的铁头盔
+item.csrp.hijacked_iron_boots.name=被操纵的铁靴子
+item.csrp.hijacked_iron_leggings.name=被操纵的铁护腿
+item.csrp.hijacked_iron_chestpiece.name=被操纵的铁胸甲
+item.csrp.hijacked_iron_helmet.name=被操纵的铁头盔
 
-item.srparasites.venkrol_boots.name=§a召唤柱锚固靴
-tooltip.srparasites.item.venkrol_boots.0=防止你被卷入龙卷风。
+item.csrp.venkrol_boots.name=§a召唤柱锚固靴
+tooltip.csrp.item.venkrol_boots.0=防止你被卷入龙卷风。
 
 
 # Bestiary Celestial
@@ -1960,21 +1960,21 @@ srphelp.footer.hint=§7使用 §b/srphelp <主题>§7 查看详情。
 srphelp.error.unknown=§c未知帮助主题：§f%s
 srphelp.topic.header=§6/srphelp %s
 
-# srparasites
-srphelp.srparasites.setgeneration.usage=§b/srparasites setgeneration <0..5>
-srphelp.srparasites.setgeneration.desc=强制设置当前维度的演化迭代。
-srphelp.srparasites.getgeneration.usage=§b/srparasites getgeneration
-srphelp.srparasites.getgeneration.desc=显示当前维度的演化迭代。
-srphelp.srparasites.readconfigurationfile.usage=§b/srparasites readconfigurationfile
-srphelp.srparasites.readconfigurationfile.desc=重新加载 SRP 配置并重新初始化部分系统。
-srphelp.srparasites.toggle_dotiledrops.usage=§b/srparasites toggle_dotiledrops
-srphelp.srparasites.toggle_dotiledrops.desc=切换 SRP 方块掉落行为。
-srphelp.srparasites.toggle_domobevolution.usage=§b/srparasites toggle_domobevolution
-srphelp.srparasites.toggle_domobevolution.desc=切换 SRP 生物的演化阶段。
-srphelp.srparasites.resetdatafile.usage=§b/srparasites resetdatafile
-srphelp.srparasites.resetdatafile.desc=重置此维度的 SRP 世界数据。
-srphelp.srparasites.parasites.usage=§b/srparasites parasites
-srphelp.srparasites.parasites.desc=快速输出活跃寄生体实体的摘要。
+# csrp
+srphelp.csrp.setgeneration.usage=§b/csrp setgeneration <0..5>
+srphelp.csrp.setgeneration.desc=强制设置当前维度的演化迭代。
+srphelp.csrp.getgeneration.usage=§b/csrp getgeneration
+srphelp.csrp.getgeneration.desc=显示当前维度的演化迭代。
+srphelp.csrp.readconfigurationfile.usage=§b/csrp readconfigurationfile
+srphelp.csrp.readconfigurationfile.desc=重新加载 SRP 配置并重新初始化部分系统。
+srphelp.csrp.toggle_dotiledrops.usage=§b/csrp toggle_dotiledrops
+srphelp.csrp.toggle_dotiledrops.desc=切换 SRP 方块掉落行为。
+srphelp.csrp.toggle_domobevolution.usage=§b/csrp toggle_domobevolution
+srphelp.csrp.toggle_domobevolution.desc=切换 SRP 生物的演化阶段。
+srphelp.csrp.resetdatafile.usage=§b/csrp resetdatafile
+srphelp.csrp.resetdatafile.desc=重置此维度的 SRP 世界数据。
+srphelp.csrp.parasites.usage=§b/csrp parasites
+srphelp.csrp.parasites.desc=快速输出活跃寄生体实体的摘要。
 
 # srpgeneration
 srphelp.srpgeneration.setgeneration.usage=§b/srpgeneration setgeneration <0..5>
@@ -2116,12 +2116,12 @@ command.srpguide.clearblocks_ok=图鉴：方块进度已清除。
 command.srpguide.clearcelestial_ok=图鉴：天象事件进度已清除。
 command.srpguide.clearcelestial_need_getter=在 IBestiaryProgress/BestiaryProgress 上缺少 getSeenCelestials()。添加它以支持 /srpguide clearcelestial。
 
-commands.srparasites.bestiary_stats.usage=用法：%s
-commands.srparasites.bestiary_stats.player_not_found=未找到玩家：%s
-commands.srparasites.bestiary_stats.console_requires_player=控制台指令必须指定一名玩家。
-commands.srparasites.bestiary_stats.cleared_other=已清除玩家 %s 的图鉴统计数据。
-commands.srparasites.bestiary_stats.cleared_self=您的图鉴统计数据已被清除。
-commands.srparasites.bestiary_stats.cap_missing=玩家 %s 未启用图鉴功能模块。
+commands.csrp.bestiary_stats.usage=用法：%s
+commands.csrp.bestiary_stats.player_not_found=未找到玩家：%s
+commands.csrp.bestiary_stats.console_requires_player=控制台指令必须指定一名玩家。
+commands.csrp.bestiary_stats.cleared_other=已清除玩家 %s 的图鉴统计数据。
+commands.csrp.bestiary_stats.cleared_self=您的图鉴统计数据已被清除。
+commands.csrp.bestiary_stats.cap_missing=玩家 %s 未启用图鉴功能模块。
 
 srpguide.sounds.on=图鉴音效：开
 srpguide.sounds.off=图鉴音效：关
@@ -2153,72 +2153,72 @@ tooltip.module_origin=扫描所有种阶的寄生体。§l|§r §o插入中继�
 
 # dislodgement Module
 tooltip.module_dislodgement=供中继塔控制器使用，用于打印当前的扰动代码。
-item.srparasites.dislodgement_report.name=扰动报告
-tooltip.srparasites.dislodgement_report=通过扫描中继塔中的扰动模块来获取。
+item.csrp.dislodgement_report.name=扰动报告
+tooltip.csrp.dislodgement_report=通过扫描中继塔中的扰动模块来获取。
 
-srparasites.dislodgement.header=扰动代码报告
-srparasites.dislodgement.code=原始代码：
-srparasites.dislodgement.code.value=%s
-srparasites.dislodgement.decoded=解码事件：
-srparasites.dislodgement.line=维度 %s | 事件 %s: %s （级别=%s, 持续时间=%ss）
-srparasites.dislodgement.unknown_format=无法解码：未知代码格式。
-srparasites.dislodgement.truncated=...已截断（条目过多）
+csrp.dislodgement.header=扰动代码报告
+csrp.dislodgement.code=原始代码：
+csrp.dislodgement.code.value=%s
+csrp.dislodgement.decoded=解码事件：
+csrp.dislodgement.line=维度 %s | 事件 %s: %s （级别=%s, 持续时间=%ss）
+csrp.dislodgement.unknown_format=无法解码：未知代码格式。
+csrp.dislodgement.truncated=...已截断（条目过多）
 
-srparasites.dislodgement.event.unknown=未知事件
-srparasites.dislodgement.event.0=寄巢之唤会无视药水等级直接转化生物。
-srparasites.dislodgement.event.1=寄巢之唤会转化生成出更高级的寄生体（1=狂化种, 2=原始种, 3=适应种, 4=纯粹种） 级别： %s
-srparasites.dislodgement.event.2=杀死寄生体会生成特定寄生体。 级别： %s
-srparasites.dislodgement.event.3=寄生体生成时附带药水效果。 药水等级： %s
-srparasites.dislodgement.event.4=寄生体生成时会拥有额外的属性加成 倍率： %s
-srparasites.dislodgement.event.6=寄生体会造成更多耐久损耗。 倍率： %s
-srparasites.dislodgement.event.7=寄生体死亡时：治疗附近的寄生体。 治疗量： %s
-srparasites.dislodgement.event.8=寄生体死亡时：伤害附近的非寄生体生物。 伤害量： %s
-srparasites.dislodgement.event.9=寄生体死亡时：消耗附近玩家的饱食度。 消耗量： %s
-srparasites.dislodgement.event.10=杀死低级寄生体会生成更高级的寄生体。 生物： %s
-srparasites.dislodgement.event.11=寄生体免疫负面效果。
-srparasites.dislodgement.event.12=非寄生体生物会周期性地损失生命值。 伤害： %s
-srparasites.dislodgement.event.13=所有玩家的饱食度会周期性地消耗。 消耗量： %s
-srparasites.dislodgement.event.14=当前演化阶段会使用下一阶段的生物生成列表。 阶段： %s
-srparasites.dislodgement.event.15=寄生体不会发出嚎叫;连结种将不会产生生成音效。
-srparasites.dislodgement.event.16=寄生体不会发出行走音效;连结种将不会产生进化音效。
-srparasites.dislodgement.event.17=盾牌禁用; 食物损毁.
-srparasites.dislodgement.event.18=寄生体不再掉落物品/经验球。
-srparasites.dislodgement.event.19=寄生体的击杀计数会周期性增长。 增长量： %s
-srparasites.dislodgement.event.20=特定寄生体会获得一个新的躯体。
-srparasites.dislodgement.event.21=寄生体只能在其着火时死亡。
-srparasites.dislodgement.event.22=杀死特定种阶寄生体将会受到削弱。 药水等级： %s
-srparasites.dislodgement.event.25=破坏寄生体方块将会生成寄生体（1=同化种，2=狂化种，3=原始种，4=适应种，5=纯粹种）。 级别： %s
+csrp.dislodgement.event.unknown=未知事件
+csrp.dislodgement.event.0=寄巢之唤会无视药水等级直接转化生物。
+csrp.dislodgement.event.1=寄巢之唤会转化生成出更高级的寄生体（1=狂化种, 2=原始种, 3=适应种, 4=纯粹种） 级别： %s
+csrp.dislodgement.event.2=杀死寄生体会生成特定寄生体。 级别： %s
+csrp.dislodgement.event.3=寄生体生成时附带药水效果。 药水等级： %s
+csrp.dislodgement.event.4=寄生体生成时会拥有额外的属性加成 倍率： %s
+csrp.dislodgement.event.6=寄生体会造成更多耐久损耗。 倍率： %s
+csrp.dislodgement.event.7=寄生体死亡时：治疗附近的寄生体。 治疗量： %s
+csrp.dislodgement.event.8=寄生体死亡时：伤害附近的非寄生体生物。 伤害量： %s
+csrp.dislodgement.event.9=寄生体死亡时：消耗附近玩家的饱食度。 消耗量： %s
+csrp.dislodgement.event.10=杀死低级寄生体会生成更高级的寄生体。 生物： %s
+csrp.dislodgement.event.11=寄生体免疫负面效果。
+csrp.dislodgement.event.12=非寄生体生物会周期性地损失生命值。 伤害： %s
+csrp.dislodgement.event.13=所有玩家的饱食度会周期性地消耗。 消耗量： %s
+csrp.dislodgement.event.14=当前演化阶段会使用下一阶段的生物生成列表。 阶段： %s
+csrp.dislodgement.event.15=寄生体不会发出嚎叫;连结种将不会产生生成音效。
+csrp.dislodgement.event.16=寄生体不会发出行走音效;连结种将不会产生进化音效。
+csrp.dislodgement.event.17=盾牌禁用; 食物损毁.
+csrp.dislodgement.event.18=寄生体不再掉落物品/经验球。
+csrp.dislodgement.event.19=寄生体的击杀计数会周期性增长。 增长量： %s
+csrp.dislodgement.event.20=特定寄生体会获得一个新的躯体。
+csrp.dislodgement.event.21=寄生体只能在其着火时死亡。
+csrp.dislodgement.event.22=杀死特定种阶寄生体将会受到削弱。 药水等级： %s
+csrp.dislodgement.event.25=破坏寄生体方块将会生成寄生体（1=同化种，2=狂化种，3=原始种，4=适应种，5=纯粹种）。 级别： %s
 
-gui.srparasites.dislodgement.title=扰动报告
-gui.srparasites.dislodgement.none=未发现扰动条目。
-gui.srparasites.dislodgement.entry.head=维度 %s | 活动 %s | %s
-gui.srparasites.dislodgement.entry.value=级别： %s
+gui.csrp.dislodgement.title=扰动报告
+gui.csrp.dislodgement.none=未发现扰动条目。
+gui.csrp.dislodgement.entry.head=维度 %s | 活动 %s | %s
+gui.csrp.dislodgement.entry.value=级别： %s
 
 # Vector Report paper
-item.srparasites.vector_report.name=源区报告
-item.srparasites.vector_report.lore.header=当前世界中存在的寄生体侵染源区（x, y, z，生命值，范围）：
-item.srparasites.vector_report.lore.none=-> （无）
-item.srparasites.vector_report.lore.line=-> [%s, %s, %s, %s, %s]
-item.srparasites.vector_map.name=源区地图
-gui.srparasites.vector_map.title=源区地图
-gui.srparasites.vector_map.day=天数 %s
-gui.srparasites.vector_map.page=源区 %s/%s
-gui.srparasites.vector_map.vector_coords=源区： X=%s Z=%s  R=%s
-gui.srparasites.vector_map.player_coords=你： X=%s Z=%s
-gui.srparasites.vector_map.range=地图覆盖范围：%sx%s 格
-chat.srparasites.vectors.disabled=寄生体侵染源区已被禁用。
-chat.srparasites.vectors.not_activated=寄生体侵染源区未启用。
-tooltip.srparasites.vector_map=通过扫描中继塔中的源区模块来获取并填充数据。
+item.csrp.vector_report.name=源区报告
+item.csrp.vector_report.lore.header=当前世界中存在的寄生体侵染源区（x, y, z，生命值，范围）：
+item.csrp.vector_report.lore.none=-> （无）
+item.csrp.vector_report.lore.line=-> [%s, %s, %s, %s, %s]
+item.csrp.vector_map.name=源区地图
+gui.csrp.vector_map.title=源区地图
+gui.csrp.vector_map.day=天数 %s
+gui.csrp.vector_map.page=源区 %s/%s
+gui.csrp.vector_map.vector_coords=源区： X=%s Z=%s  R=%s
+gui.csrp.vector_map.player_coords=你： X=%s Z=%s
+gui.csrp.vector_map.range=地图覆盖范围：%sx%s 格
+chat.csrp.vectors.disabled=寄生体侵染源区已被禁用。
+chat.csrp.vectors.not_activated=寄生体侵染源区未启用。
+tooltip.csrp.vector_map=通过扫描中继塔中的源区模块来获取并填充数据。
 
 #VECTOR MAP GUI
-gui.srparasites.vector_map.vectors=源区：
+gui.csrp.vector_map.vectors=源区：
 
-gui.srparasites.vector_map.entry.xyz=%d) 坐标 = "%d, %d, %d"
-gui.srparasites.vector_map.entry.size=   范围大小 = "%d"
-gui.srparasites.vector_map.entry.hp=   生命值 = "%s"
-gui.srparasites.vector_map.legend.line1=红圈 = 侵染源区。
-gui.srparasites.vector_map.legend.line2=超出（%s）扫描距离的侵染源区会显示为黄点。
-gui.srparasites.vector_map.legend.line3=蓝色标记 = 扫描起始地。
+gui.csrp.vector_map.entry.xyz=%d) 坐标 = "%d, %d, %d"
+gui.csrp.vector_map.entry.size=   范围大小 = "%d"
+gui.csrp.vector_map.entry.hp=   生命值 = "%s"
+gui.csrp.vector_map.legend.line1=红圈 = 侵染源区。
+gui.csrp.vector_map.legend.line2=超出（%s）扫描距离的侵染源区会显示为黄点。
+gui.csrp.vector_map.legend.line3=蓝色标记 = 扫描起始地。
 
 #STAT PAGE
 bestiary.tab.stats=统计数据
@@ -2235,263 +2235,263 @@ bestiary.stats.damage_from_parasites=受到寄生体总伤害
 bestiary.stats.deaths_by_parasites=被寄生体击杀总次数
 
 #DISTORTION
-commands.srparasites.guidistortion.usage=commands.srparasites.guidistortion.usage
-commands.srparasites.guidistortion.usage.text=用法：%s
-commands.srparasites.guidistortion.player_not_found=未找到玩家：%s
-commands.srparasites.guidistortion.console_requires_player=控制台指令必须指定玩家。
-commands.srparasites.guidistortion.invalid_argument=参数无效。请使用 on、off、toggle 或 status。
-commands.srparasites.guidistortion.status=玩家 %s 的界面扭曲：%s
-commands.srparasites.guidistortion.set_other=已将玩家 %s 的界面扭曲设为 %s
-commands.srparasites.guidistortion.set_self=你的界面扭曲已设为 %s
-commands.srparasites.guidistortion.state.enabled=已启用
-commands.srparasites.guidistortion.state.disabled=已禁用
-commands.srparasites.guidistortion.set_all=已更新 %s 名在线玩家的界面扭曲状态。
-commands.srparasites.guidistortion.status.detailed=%s：扭曲状态为 %s。创造/旁观模式权限覆盖：%s。当前模式：%s。
-commands.srparasites.guidistortion.creative_override.enabled=允许
-commands.srparasites.guidistortion.creative_override.disabled=禁止
-commands.srparasites.guidistortion.gamemode.creative_or_spectator=创造/旁观模式
-commands.srparasites.guidistortion.gamemode.normal=普通模式
+commands.csrp.guidistortion.usage=commands.csrp.guidistortion.usage
+commands.csrp.guidistortion.usage.text=用法：%s
+commands.csrp.guidistortion.player_not_found=未找到玩家：%s
+commands.csrp.guidistortion.console_requires_player=控制台指令必须指定玩家。
+commands.csrp.guidistortion.invalid_argument=参数无效。请使用 on、off、toggle 或 status。
+commands.csrp.guidistortion.status=玩家 %s 的界面扭曲：%s
+commands.csrp.guidistortion.set_other=已将玩家 %s 的界面扭曲设为 %s
+commands.csrp.guidistortion.set_self=你的界面扭曲已设为 %s
+commands.csrp.guidistortion.state.enabled=已启用
+commands.csrp.guidistortion.state.disabled=已禁用
+commands.csrp.guidistortion.set_all=已更新 %s 名在线玩家的界面扭曲状态。
+commands.csrp.guidistortion.status.detailed=%s：扭曲状态为 %s。创造/旁观模式权限覆盖：%s。当前模式：%s。
+commands.csrp.guidistortion.creative_override.enabled=允许
+commands.csrp.guidistortion.creative_override.disabled=禁止
+commands.csrp.guidistortion.gamemode.creative_or_spectator=创造/旁观模式
+commands.csrp.guidistortion.gamemode.normal=普通模式
 
 #PHASE REPORT
-item.srparasites.phase_report.name=阶段报告
-tooltip.srparasites.phase_report=显示当前扫描的演化报告。
-gui.srparasites.phase_report.no_data=未发现报告数据。
-gui.srparasites.phase_report.no_data_hint=用中继塔扫描这份文件，以生成报告。
-gui.srparasites.phase_report.title=演化阶段报告
-gui.srparasites.phase_report.empty=此报告未发现任何阶段数据。
-gui.srparasites.phase_report.mob_chart=生物名单
-gui.srparasites.phase_report.uninfected_hosts=未感染宿主
-gui.srparasites.phase_report.parasite_entities=寄生体实体
-gui.srparasites.phase_report.infected_hosts=感染宿主
-gui.srparasites.phase_report.point_gain=获得点数
-gui.srparasites.phase_report.point_loss=损失点数
-gui.srparasites.phase_report.enabled=开启
-gui.srparasites.phase_report.disabled=关闭
+item.csrp.phase_report.name=阶段报告
+tooltip.csrp.phase_report=显示当前扫描的演化报告。
+gui.csrp.phase_report.no_data=未发现报告数据。
+gui.csrp.phase_report.no_data_hint=用中继塔扫描这份文件，以生成报告。
+gui.csrp.phase_report.title=演化阶段报告
+gui.csrp.phase_report.empty=此报告未发现任何阶段数据。
+gui.csrp.phase_report.mob_chart=生物名单
+gui.csrp.phase_report.uninfected_hosts=未感染宿主
+gui.csrp.phase_report.parasite_entities=寄生体实体
+gui.csrp.phase_report.infected_hosts=感染宿主
+gui.csrp.phase_report.point_gain=获得点数
+gui.csrp.phase_report.point_loss=损失点数
+gui.csrp.phase_report.enabled=开启
+gui.csrp.phase_report.disabled=关闭
 #INBORN
-lore.srparasites.buglin=§l绰号：§r Lodo §l|§r §o这种蛆虫状团块约篮球大小，由本不该如此弯曲压缩的畸变血肉构成，总是一副随时会爆裂的模样。它散发着刺鼻的金属恶臭，品尝起来则带有酸涩腐蚀感。腹部排列着十六枚约一英寸长的钩爪，使其能在各种地形攀爬，或是强行钻入钻出活体猎物。它没有可见的孔窍，整个躯体如同密封的畸形催化剂。尽管具备柔韧性，虫灵在极端压力下却极为脆弱，在铁傀儡的重压下会瞬间爆裂。常见于寄生体隧道口。
-lore.srparasites.rupter=§l绰号：§r Mudo §l|§r §o裂兽成群结队地活动，利用速度与数量优势冲散阵型，袭扰落单目标。独处时最初呈现温顺状态，但这种行为模式极易改变。其肌肉组织与肌腱折叠成致密的超立方体结构，而内脏则如根系般无规律地蔓生于躯体内。体重与炮弹相当，具备远距离快速跳跃能力，并能攀爬垂直表面，但缺乏倒悬于天花板的灵活性。受刺激时会本能地抽动卷须，缠绕并钻入目标体内。裂兽频繁撕咬牛群及小型生物，常致其意外死亡。固态物在胃中溶解后，会以难以察觉的微量痕迹反刍至受害者体表或体内，以此高效传播寄巢之唤且不易招致反击。其器官可采集、干燥并加工成耐久纤维状材料。肢体断裂方式与蜘蛛相似，能否再生仍属未知。
-lore.srparasites.mangler=§l绰号：§r Nuuh §l|§r §o一种由裂兽变异而来的近距离格斗型生物，专为猎杀牛、马、羊驼等大型猎物而培育。其体重与大型犬相当，以耐力和持续爆发力见长而非速度。虽体型更为庞大，但仍保留了前代的传播特性。裂兽特有的金属气息在其身上显著增强，常在视觉接触前即可察觉。
-lore.srparasites.carrier_flying=§l绰号：§r Buthol §l|§r §o一种在活跃感染区上空盘旋的空中运输体。其三颗外部球状增生组织垂挂于躯体下方，各自储存着独立的化学成分。受刺激时，这些化合物在球囊内被迫混合，引发球体急速膨胀，最终导致躯体向外爆裂。混合物接触空气后会转化为剧毒气体状物质。该生物散发类似工业化学废料的气味。其体表密布细微的皮下穿刺结构与针状突起，引爆时会对周围物质造成损伤。生成的化合物能快速溶解暴露的皮肤。使其陷入火焰可破坏其反应稳定性，实现部分消解。
-lore.srparasites.carrier_heavy=§l绰号：§r Rathol §l|§r §o一种重型运输体，专用于散布高密度的秽物、毒素及伴生寄生体。其躯体完全封闭，无可见孔窍，主要功能相当于贮存毒气的压力容器。部分个体可能形成无生命物质的状态，却仍充满挥发性化学混合物。在其分隔式结构中，数只半消化的寄生体悬浮游移于浆液之中。引爆前，该生物会溶解自身内脏与结构屏障，快速积聚内部压力直至破裂。它对震动反应剧烈，并散发出如同密封于温热容器中变质熟肉的气味。使其陷入火焰可有效破坏其反应稳定性，实现部分消解。
-lore.srparasites.carrier_light=§l绰号：§r Gothol §l|§r §o一种为快速突袭与短程播种而生的敏捷运输体。其躯体由数百个小型腔室构成，内部充满挥发性浆液，该物质与生命机能产生化学绑定。内脏器官高度集中于核心区域，形成类似黑莓果芯般紧实的组织构造。尽管自身具有不稳定性，该生物仍能独立维持平衡，并对周遭震动产生激烈反应。其散发的腐臭味如同密封于温热容器中的变质熟肉。引爆后会产生大面积残留物，使其陷入火焰则可有效破坏其反应稳定性，实现部分消解。
-lore.srparasites.gnat=§l绰号：§r Ata §l|§r §o一种小型寄生体，利用其触须作为旋转钻头钻入宿主体内，从而劫持并操纵有机与无机实体。其个体虽弱，但附肢极为锋利，能够啃穿高密度材质及坚韧猎物。其背部的瘤状增生组织在嵌入宿主后会溶解或剧烈爆裂，加速内部损伤与寄生进程。该生物对血腥味极其敏感，甚至可被人为用作干扰手段。它完全不具备听觉，仅依靠气味导航。标本表面常覆有一层光滑的润滑液状黏液，此为孕虫兽体内分泌时残留的痕迹。
-lore.srparasites.lice=§l绰号：§r Viin §l|§r §o一种极度不稳定的寄生体，其触须可如钻头般旋转，用以钻入宿主体内，进而劫持并操纵有机与无机实体。其腹部异常膨大，表面布满多颗瘤状增生组织，既是能量来源亦是爆炸装置，可强行附着并穿透高抗性目标。移动轨迹毫无规律可言，甚至低效到难以追踪或拍击。该生物对汗液与血腥味极为敏感，靠近时会发出微弱的嗡鸣声。
+lore.csrp.buglin=§l绰号：§r Lodo §l|§r §o这种蛆虫状团块约篮球大小，由本不该如此弯曲压缩的畸变血肉构成，总是一副随时会爆裂的模样。它散发着刺鼻的金属恶臭，品尝起来则带有酸涩腐蚀感。腹部排列着十六枚约一英寸长的钩爪，使其能在各种地形攀爬，或是强行钻入钻出活体猎物。它没有可见的孔窍，整个躯体如同密封的畸形催化剂。尽管具备柔韧性，虫灵在极端压力下却极为脆弱，在铁傀儡的重压下会瞬间爆裂。常见于寄生体隧道口。
+lore.csrp.rupter=§l绰号：§r Mudo §l|§r §o裂兽成群结队地活动，利用速度与数量优势冲散阵型，袭扰落单目标。独处时最初呈现温顺状态，但这种行为模式极易改变。其肌肉组织与肌腱折叠成致密的超立方体结构，而内脏则如根系般无规律地蔓生于躯体内。体重与炮弹相当，具备远距离快速跳跃能力，并能攀爬垂直表面，但缺乏倒悬于天花板的灵活性。受刺激时会本能地抽动卷须，缠绕并钻入目标体内。裂兽频繁撕咬牛群及小型生物，常致其意外死亡。固态物在胃中溶解后，会以难以察觉的微量痕迹反刍至受害者体表或体内，以此高效传播寄巢之唤且不易招致反击。其器官可采集、干燥并加工成耐久纤维状材料。肢体断裂方式与蜘蛛相似，能否再生仍属未知。
+lore.csrp.mangler=§l绰号：§r Nuuh §l|§r §o一种由裂兽变异而来的近距离格斗型生物，专为猎杀牛、马、羊驼等大型猎物而培育。其体重与大型犬相当，以耐力和持续爆发力见长而非速度。虽体型更为庞大，但仍保留了前代的传播特性。裂兽特有的金属气息在其身上显著增强，常在视觉接触前即可察觉。
+lore.csrp.carrier_flying=§l绰号：§r Buthol §l|§r §o一种在活跃感染区上空盘旋的空中运输体。其三颗外部球状增生组织垂挂于躯体下方，各自储存着独立的化学成分。受刺激时，这些化合物在球囊内被迫混合，引发球体急速膨胀，最终导致躯体向外爆裂。混合物接触空气后会转化为剧毒气体状物质。该生物散发类似工业化学废料的气味。其体表密布细微的皮下穿刺结构与针状突起，引爆时会对周围物质造成损伤。生成的化合物能快速溶解暴露的皮肤。使其陷入火焰可破坏其反应稳定性，实现部分消解。
+lore.csrp.carrier_heavy=§l绰号：§r Rathol §l|§r §o一种重型运输体，专用于散布高密度的秽物、毒素及伴生寄生体。其躯体完全封闭，无可见孔窍，主要功能相当于贮存毒气的压力容器。部分个体可能形成无生命物质的状态，却仍充满挥发性化学混合物。在其分隔式结构中，数只半消化的寄生体悬浮游移于浆液之中。引爆前，该生物会溶解自身内脏与结构屏障，快速积聚内部压力直至破裂。它对震动反应剧烈，并散发出如同密封于温热容器中变质熟肉的气味。使其陷入火焰可有效破坏其反应稳定性，实现部分消解。
+lore.csrp.carrier_light=§l绰号：§r Gothol §l|§r §o一种为快速突袭与短程播种而生的敏捷运输体。其躯体由数百个小型腔室构成，内部充满挥发性浆液，该物质与生命机能产生化学绑定。内脏器官高度集中于核心区域，形成类似黑莓果芯般紧实的组织构造。尽管自身具有不稳定性，该生物仍能独立维持平衡，并对周遭震动产生激烈反应。其散发的腐臭味如同密封于温热容器中的变质熟肉。引爆后会产生大面积残留物，使其陷入火焰则可有效破坏其反应稳定性，实现部分消解。
+lore.csrp.gnat=§l绰号：§r Ata §l|§r §o一种小型寄生体，利用其触须作为旋转钻头钻入宿主体内，从而劫持并操纵有机与无机实体。其个体虽弱，但附肢极为锋利，能够啃穿高密度材质及坚韧猎物。其背部的瘤状增生组织在嵌入宿主后会溶解或剧烈爆裂，加速内部损伤与寄生进程。该生物对血腥味极其敏感，甚至可被人为用作干扰手段。它完全不具备听觉，仅依靠气味导航。标本表面常覆有一层光滑的润滑液状黏液，此为孕虫兽体内分泌时残留的痕迹。
+lore.csrp.lice=§l绰号：§r Viin §l|§r §o一种极度不稳定的寄生体，其触须可如钻头般旋转，用以钻入宿主体内，进而劫持并操纵有机与无机实体。其腹部异常膨大，表面布满多颗瘤状增生组织，既是能量来源亦是爆炸装置，可强行附着并穿透高抗性目标。移动轨迹毫无规律可言，甚至低效到难以追踪或拍击。该生物对汗液与血腥味极为敏感，靠近时会发出微弱的嗡鸣声。
 
 #ASSIMILATED
-lore.srparasites.sim_adventurer=§l绰号：§r Sim §l|§r §o一个被感染的游荡者，当附近聚集足够数量时，会群体移动。它们仍会检查容器、门口和营地般的结构，仿佛记忆以碎片的形式残存。偶尔，其中一个会停下来，凝视着熟悉的空间长达数秒，好像在努力回忆自己曾经是什么。它们似乎喜欢被同化的狗。我想，有些事永远不会改变。
-lore.srparasites.sim_bear=§l绰号：§r Sim §l|§r §o它的身体是为力量而非速度而保留下来的。这些样本不会像健康的熊那样摆出威吓姿势或佯装冲锋；一旦被激怒，它们就会全力出击。树木、路障，甚至破损的墙壁，对它来说都只是小麻烦。我曾观察到其中一个个体正在啃噬自己身上的肉，仿佛在缓解某种痒感。
-lore.srparasites.sim_bigspider=§l绰号：§r Dorpa §l|§r §o这只个体分泌出大量网状物，混合着恶臭的有机渗出物。它所经过的路径往往在宿主离开后很久仍残留着污染。它的动作出奇地刻意，仿佛并不急于追逐，而更在意将物质尽可能广泛地散布到地面上。这只个体有明显的脾气，我曾目睹它用腿不停地在猪身上戳出洞来，就像一匹马践踏一堆肉。我只能推测，它这样做是因为猎物太吵；它甚至懒得去感染它。也许那只是用来喂养寄生体的饲料？
-lore.srparasites.sim_cow=§l绰号：§r Sim §l|§r §o它对饲料的存在以及熟悉的饲养声响仍有反应，尽管只是短暂的。一旦受到刺激，它会低下头，以足以撞碎围栏或折断骨头的力量向前猛冲。它身上那种农场饲养时养成的习性与突如其来的暴力之间的反差，令人深感不安。每当太阳升起，它就会不停地哀嚎哭泣。我对此毫无头绪。
-lore.srparasites.sim_dragone=§l绰号：§r Sim §l|§r §o它的身体似乎难以进行飞行，表明其解剖结构已严重受损。即便如此，它在下降和近距离接近时依然极具致命性。它似乎正以距离和飞行来弥补自己日渐衰败的身体。从尸体上回收的护甲往往呈现出撕裂和熔化的纹路，更像是将锡箔浸入酸液中，而非干净的捕食痕迹。它似乎尚未适应自己的身体，这一点可以从它反复将自己的颅骨像流星锤一样猛砸末地黑曜石柱的行为中看出。
-lore.srparasites.sim_enderman=§l绰号：§r Sim §l|§r §o表现出不稳定的传送行为，并且几乎不在意自身的状况。当被点燃时，它并不会如预期般退却，反而可能继续前进，并在此过程中点燃附近的一切。它没有任何自我保护迹象，甚至会将自己投入水中，尽管它自身似乎带有毒性。这表明其疼痛反应要么已经迟钝，要么已变得无关紧要。不过，出于某种原因，它分离出来的头颅个体似乎不受水的影响。
-lore.srparasites.sim_horse=§l绰号：§r Sim §l|§r §o腹部因充满加压的腐烂物质而肿胀，即便是轻微的创伤也很危险。它在受到外力、高温或突然破裂时极易受惊，可能在完全崩溃前就引爆。尽管存在这种不稳定性，它仍能快速拉近距离。我曾见过它在引爆前的瞬间，像一匹活马一样剧烈挣扎并嘶鸣。
-lore.srparasites.sim_human=§l绰号：§r Sim §l|§r §o与大多数被感染的同类相比，这类个体保留着更多可辨认的行为。有些样本会在门口犹豫，循声张望，或在突然遇到高温时退缩，然后才重新发起攻击。这些反应暗示它们的意识尚未被完全抹除。它们很难被长期研究，因为其行动往往既像敌意，也像恐慌。
-lore.srparasites.sim_pig=§l绰号：§r Sim §l|§r §o从远处看，它仍能伪装成一只普通动物，尤其是在静止不动的时候。靠近观察则会发现它不断咀嚼的动作和注意力的突然转移。它在翻找有机垃圾、残骸和受污染的植被时，表现出一视同仁的兴趣。除了那令人印象深刻的智力之外，原本的性情几乎所剩无几。我曾见过它无意识地在泥土里打滚，刨出胡萝卜，但这些胡萝卜只是从它的嘴里掉出来，它似乎并不愿意真正把它们吃下去。
-lore.srparasites.sim_sheep=§l绰号：§r Sim §l|§r §o它的哭声是被感染的牲畜中记录到的最可怕的声音之一。这种叫声听起来像普通的羊叫，但长时间倾听会发现其中带有一种紧张的、湿漉漉的特质，绝非自然之声。当它哭泣时，附近的样本有时会变得更加活跃。这究竟是交流还是单纯的焦躁，仍不得而知。我注意到，它们可以被染成几种特定的颜色。至于为什么会有人想这么做，那我就不知道了。
-lore.srparasites.sim_squid=§l绰号：§r Sim §l|§r §o它在水中游动时带着一种近乎被动的优雅，随着漂流不断脱落腐烂物、碎屑和感染物质。它经常出没的区域会随着时间的推移而明显变得污浊。当靠近时，它几乎不表现出任何急迫感。周围的水流常常将它的碎片带到比本体漂流更远的地方。我分不清哪一端是它的嘴。也许它有两个嘴。
-lore.srparasites.sim_villager=§l绰号：§r Sim §l|§r §o它仍会以与普通村民相同的好奇节奏，将头转向有动静的方向。有些被观察到在门边、工作站点和昔日的聚集处附近徘徊。一旦拉近距离，这种相似便瞬间消失。残存的社会本能已被掏空，转而重塑成一种怪诞的模仿。我曾见过一个个体，它并没有以公开的敌意靠近，尽管它看起来一点也不像村民。六条腿，长长的毛发，还有一张奇怪的“脸”。脖颈后方长着一个高大的、脉动的东西。我曾目睹它将某种奇怪的东西放到附近另一个生物的手中，仿佛在进行某种交换。我觉得它试图在表达什么，但我无法理解它那空洞的声音——至少现在还不能。
-lore.srparasites.sim_wolf=§l绰号：§r Sim §l|§r §o对移动反应迅速，且很少在未先试探距离的情况下发起攻击。即使没有明确的领头者，多个样本也会开始绕圈行为，暗示着旧有的本能以破碎的形式残存下来。也许它是在追自己的尾巴？撕咬动作快速、重复，且往往瞄准低处，朝着脚踝。我曾见过一些样本的脖子上还系着项圈，当有人喊出印在项圈上的它们从前的名字时，它们的反应会变得古怪。
+lore.csrp.sim_adventurer=§l绰号：§r Sim §l|§r §o一个被感染的游荡者，当附近聚集足够数量时，会群体移动。它们仍会检查容器、门口和营地般的结构，仿佛记忆以碎片的形式残存。偶尔，其中一个会停下来，凝视着熟悉的空间长达数秒，好像在努力回忆自己曾经是什么。它们似乎喜欢被同化的狗。我想，有些事永远不会改变。
+lore.csrp.sim_bear=§l绰号：§r Sim §l|§r §o它的身体是为力量而非速度而保留下来的。这些样本不会像健康的熊那样摆出威吓姿势或佯装冲锋；一旦被激怒，它们就会全力出击。树木、路障，甚至破损的墙壁，对它来说都只是小麻烦。我曾观察到其中一个个体正在啃噬自己身上的肉，仿佛在缓解某种痒感。
+lore.csrp.sim_bigspider=§l绰号：§r Dorpa §l|§r §o这只个体分泌出大量网状物，混合着恶臭的有机渗出物。它所经过的路径往往在宿主离开后很久仍残留着污染。它的动作出奇地刻意，仿佛并不急于追逐，而更在意将物质尽可能广泛地散布到地面上。这只个体有明显的脾气，我曾目睹它用腿不停地在猪身上戳出洞来，就像一匹马践踏一堆肉。我只能推测，它这样做是因为猎物太吵；它甚至懒得去感染它。也许那只是用来喂养寄生体的饲料？
+lore.csrp.sim_cow=§l绰号：§r Sim §l|§r §o它对饲料的存在以及熟悉的饲养声响仍有反应，尽管只是短暂的。一旦受到刺激，它会低下头，以足以撞碎围栏或折断骨头的力量向前猛冲。它身上那种农场饲养时养成的习性与突如其来的暴力之间的反差，令人深感不安。每当太阳升起，它就会不停地哀嚎哭泣。我对此毫无头绪。
+lore.csrp.sim_dragone=§l绰号：§r Sim §l|§r §o它的身体似乎难以进行飞行，表明其解剖结构已严重受损。即便如此，它在下降和近距离接近时依然极具致命性。它似乎正以距离和飞行来弥补自己日渐衰败的身体。从尸体上回收的护甲往往呈现出撕裂和熔化的纹路，更像是将锡箔浸入酸液中，而非干净的捕食痕迹。它似乎尚未适应自己的身体，这一点可以从它反复将自己的颅骨像流星锤一样猛砸末地黑曜石柱的行为中看出。
+lore.csrp.sim_enderman=§l绰号：§r Sim §l|§r §o表现出不稳定的传送行为，并且几乎不在意自身的状况。当被点燃时，它并不会如预期般退却，反而可能继续前进，并在此过程中点燃附近的一切。它没有任何自我保护迹象，甚至会将自己投入水中，尽管它自身似乎带有毒性。这表明其疼痛反应要么已经迟钝，要么已变得无关紧要。不过，出于某种原因，它分离出来的头颅个体似乎不受水的影响。
+lore.csrp.sim_horse=§l绰号：§r Sim §l|§r §o腹部因充满加压的腐烂物质而肿胀，即便是轻微的创伤也很危险。它在受到外力、高温或突然破裂时极易受惊，可能在完全崩溃前就引爆。尽管存在这种不稳定性，它仍能快速拉近距离。我曾见过它在引爆前的瞬间，像一匹活马一样剧烈挣扎并嘶鸣。
+lore.csrp.sim_human=§l绰号：§r Sim §l|§r §o与大多数被感染的同类相比，这类个体保留着更多可辨认的行为。有些样本会在门口犹豫，循声张望，或在突然遇到高温时退缩，然后才重新发起攻击。这些反应暗示它们的意识尚未被完全抹除。它们很难被长期研究，因为其行动往往既像敌意，也像恐慌。
+lore.csrp.sim_pig=§l绰号：§r Sim §l|§r §o从远处看，它仍能伪装成一只普通动物，尤其是在静止不动的时候。靠近观察则会发现它不断咀嚼的动作和注意力的突然转移。它在翻找有机垃圾、残骸和受污染的植被时，表现出一视同仁的兴趣。除了那令人印象深刻的智力之外，原本的性情几乎所剩无几。我曾见过它无意识地在泥土里打滚，刨出胡萝卜，但这些胡萝卜只是从它的嘴里掉出来，它似乎并不愿意真正把它们吃下去。
+lore.csrp.sim_sheep=§l绰号：§r Sim §l|§r §o它的哭声是被感染的牲畜中记录到的最可怕的声音之一。这种叫声听起来像普通的羊叫，但长时间倾听会发现其中带有一种紧张的、湿漉漉的特质，绝非自然之声。当它哭泣时，附近的样本有时会变得更加活跃。这究竟是交流还是单纯的焦躁，仍不得而知。我注意到，它们可以被染成几种特定的颜色。至于为什么会有人想这么做，那我就不知道了。
+lore.csrp.sim_squid=§l绰号：§r Sim §l|§r §o它在水中游动时带着一种近乎被动的优雅，随着漂流不断脱落腐烂物、碎屑和感染物质。它经常出没的区域会随着时间的推移而明显变得污浊。当靠近时，它几乎不表现出任何急迫感。周围的水流常常将它的碎片带到比本体漂流更远的地方。我分不清哪一端是它的嘴。也许它有两个嘴。
+lore.csrp.sim_villager=§l绰号：§r Sim §l|§r §o它仍会以与普通村民相同的好奇节奏，将头转向有动静的方向。有些被观察到在门边、工作站点和昔日的聚集处附近徘徊。一旦拉近距离，这种相似便瞬间消失。残存的社会本能已被掏空，转而重塑成一种怪诞的模仿。我曾见过一个个体，它并没有以公开的敌意靠近，尽管它看起来一点也不像村民。六条腿，长长的毛发，还有一张奇怪的“脸”。脖颈后方长着一个高大的、脉动的东西。我曾目睹它将某种奇怪的东西放到附近另一个生物的手中，仿佛在进行某种交换。我觉得它试图在表达什么，但我无法理解它那空洞的声音——至少现在还不能。
+lore.csrp.sim_wolf=§l绰号：§r Sim §l|§r §o对移动反应迅速，且很少在未先试探距离的情况下发起攻击。即使没有明确的领头者，多个样本也会开始绕圈行为，暗示着旧有的本能以破碎的形式残存下来。也许它是在追自己的尾巴？撕咬动作快速、重复，且往往瞄准低处，朝着脚踝。我曾见过一些样本的脖子上还系着项圈，当有人喊出印在项圈上的它们从前的名字时，它们的反应会变得古怪。
 
 #DETACHED HEADS
-lore.srparasites.sim_cowhead=§l绰号：§r Desim §l|§r §o由爬行的肌腱驱动的断头宿主。闻起来像胃酸和牛肉。会试图与任何肉块重组以进行操纵。
-lore.srparasites.sim_dragonhead=§l绰号：§r Desim §l|§r §o由新鲜饥饿驱动的远古骨骼与牙齿。仍然能以某种方式利用它那腐臭的吐息。
-lore.srparasites.sim_endermanhead=§l绰号：§r Desim §l|§r §o仍在看……仍在找。仍在工作。依旧烦人。它只能携带与其大小类似的东西。
-lore.srparasites.sim_horsehead=§l绰号：§r Desim §l|§r §o腐烂的皮肤上覆盖着曾经有腿的触须。会试图与任何肉块重组以进行操纵。
-lore.srparasites.sim_humanhead=§l绰号：§r Desim §l|§r §o它空洞的眼窝足以聚成一种凝视的目光。会试图与任何肉块重组以进行操纵。
-lore.srparasites.sim_pighead=§l绰号：§r Desim §l|§r §o由肉绳拴住的抽动肉块。它仍然会呼噜叫。会试图与任何肉块重组以进行操纵。
-lore.srparasites.sim_sheephead=§l绰号：§r Desim §l|§r §o羊毛与活体的线缆缠结在了一起。会试图与任何肉块重组以进行操纵。
-lore.srparasites.sim_villagerhead=§l绰号：§r Desim §l|§r §o以一种非语言的声音喃喃自语。会试图与任何肉块重组以进行操纵。
-lore.srparasites.sim_wolfhead=§l绰号：§r Desim §l|§r §o思考是可选的。会试图与任何肉块重组以进行操纵。
+lore.csrp.sim_cowhead=§l绰号：§r Desim §l|§r §o由爬行的肌腱驱动的断头宿主。闻起来像胃酸和牛肉。会试图与任何肉块重组以进行操纵。
+lore.csrp.sim_dragonhead=§l绰号：§r Desim §l|§r §o由新鲜饥饿驱动的远古骨骼与牙齿。仍然能以某种方式利用它那腐臭的吐息。
+lore.csrp.sim_endermanhead=§l绰号：§r Desim §l|§r §o仍在看……仍在找。仍在工作。依旧烦人。它只能携带与其大小类似的东西。
+lore.csrp.sim_horsehead=§l绰号：§r Desim §l|§r §o腐烂的皮肤上覆盖着曾经有腿的触须。会试图与任何肉块重组以进行操纵。
+lore.csrp.sim_humanhead=§l绰号：§r Desim §l|§r §o它空洞的眼窝足以聚成一种凝视的目光。会试图与任何肉块重组以进行操纵。
+lore.csrp.sim_pighead=§l绰号：§r Desim §l|§r §o由肉绳拴住的抽动肉块。它仍然会呼噜叫。会试图与任何肉块重组以进行操纵。
+lore.csrp.sim_sheephead=§l绰号：§r Desim §l|§r §o羊毛与活体的线缆缠结在了一起。会试图与任何肉块重组以进行操纵。
+lore.csrp.sim_villagerhead=§l绰号：§r Desim §l|§r §o以一种非语言的声音喃喃自语。会试图与任何肉块重组以进行操纵。
+lore.csrp.sim_wolfhead=§l绰号：§r Desim §l|§r §o思考是可选的。会试图与任何肉块重组以进行操纵。
 
 #FERAL
-lore.srparasites.fer_bear=§l绰号：§r Fer §l|§r §o释放着不可阻挡的狂暴，将猎物彻底撕碎。仿佛一只被转化的熊还远远不够似的。
-lore.srparasites.fer_cow=§l绰号：§r Fer §l|§r §o由血肉与肌肉堆砌而成的笨重躯体，被无尽的饥饿驱使前行。否定一切者。
-lore.srparasites.fer_enderman=§l绰号：§r Fer §l|§r §o静静地潜行，以野性的精准度来扭曲空间。可以运送更大的物体，任何水都无法阻挡它。伴随着永恒的狂怒。
-lore.srparasites.fer_horse=§l绰号：§r Fer §l|§r §o以不顾一切的速度狂奔，将沿途倒地的目标践踏粉碎。
-lore.srparasites.fer_human=§l绰号：§r Fer §l|§r §o人类形态被剥离了理性与皮肤。
-lore.srparasites.fer_pig=§l绰号：§r Fer §l|§r §o丑陋奇异的进食者，因饥饿不断发出尖啸。
-lore.srparasites.fer_sheep=§l绰号：§r Fer §l|§r §o隐藏在绒毛下面的巨口。
-lore.srparasites.fer_villager=§l绰号：§r Fer §l|§r §o社区本能已被扭曲。
-lore.srparasites.fer_wolf=§l绰号：§r Fer §l|§r §o顶级掠食者；无情的猎手。
+lore.csrp.fer_bear=§l绰号：§r Fer §l|§r §o释放着不可阻挡的狂暴，将猎物彻底撕碎。仿佛一只被转化的熊还远远不够似的。
+lore.csrp.fer_cow=§l绰号：§r Fer §l|§r §o由血肉与肌肉堆砌而成的笨重躯体，被无尽的饥饿驱使前行。否定一切者。
+lore.csrp.fer_enderman=§l绰号：§r Fer §l|§r §o静静地潜行，以野性的精准度来扭曲空间。可以运送更大的物体，任何水都无法阻挡它。伴随着永恒的狂怒。
+lore.csrp.fer_horse=§l绰号：§r Fer §l|§r §o以不顾一切的速度狂奔，将沿途倒地的目标践踏粉碎。
+lore.csrp.fer_human=§l绰号：§r Fer §l|§r §o人类形态被剥离了理性与皮肤。
+lore.csrp.fer_pig=§l绰号：§r Fer §l|§r §o丑陋奇异的进食者，因饥饿不断发出尖啸。
+lore.csrp.fer_sheep=§l绰号：§r Fer §l|§r §o隐藏在绒毛下面的巨口。
+lore.csrp.fer_villager=§l绰号：§r Fer §l|§r §o社区本能已被扭曲。
+lore.csrp.fer_wolf=§l绰号：§r Fer §l|§r §o顶级掠食者；无情的猎手。
 
 # CRUDE
-lore.srparasites.crux=§l绰号：§r Cruxa §l|§r §o这个生物的骨架呈现出一种凶蛮且无我的特质，仍在不断地自我拼合。它所留下的每一具尸体，都会加深它的愤怒。我曾目睹它将同伴抛向逃跑的猎物，几乎不在乎冲击是否会将它们砸死。在极大的压力下，它的身体会分泌出一种奇怪的沸腾着的橙色物质；当它被驱使到高速移动时，周身会蒸腾出蒸汽，仿佛整个躯体就要燃烧起来。我无法想象，要维持这样一具躯体持续运动，需要多么巨大的力量。
-lore.srparasites.crux_incomplete=§l绰号：§r Cruxa §l|§r §o一副由牙齿笨拙拼合而成的轮廓。残存的不过是一具烧焦的、尚未成形的骨架，靠着时间和血肉拖延，直到更完整的躯体强行破茧而出。它常常停留在浅溪和河流中给自己降温，仿佛水流能加速修复它那粗糙畸形的、蛹一般的身体。
-lore.srparasites.heed=§l绰号：§r Heed §l|§r §o五头侦察员，承载于蚂蚁般的躯干之上，一张巨口横向裂开在脸上。它自己很少带头行动，而是负责传递信号，并在遇到抵抗之处煽动狩猎。我曾见过它与更小、更匮乏的寄生体进行交哺行为。
-lore.srparasites.host=§l绰号：§r Host §l|§r §o常言道，地震预示着灾祸。它的大部分仍埋藏在地下，唯有那非人的呻吟和上方翻动的地面，才暴露了其余部分的去向。尸体被降解成一种奇异的黑色焦油状物质，这种物质贯穿其躯体，使庞大的身体保持柔韧。每条触手的末端都有一个中空的开口，可用于多种用途，从修补撕裂的血肉到取食倒下的猎物。
-lore.srparasites.hostii=§l绰号：§r Hostii §l|§r §o整群生物在柔软而参差的地面下移动，仿佛它的身体能够顺应受污染土壤中每一道尖锐的裂隙。曾经埋藏于地下的载体，已膨胀成更沉重的集群形态，快速喷射出饱胀的炸弹，每一枚都携带着未知的毒液与疫病。在它穿行而过的声响之下，常常能听到反复的低语，暗示着某种低等的集群智能，尽管其中尚未有任何内容能被理解。
-lore.srparasites.incompleteform_medium=§l绰号：§r Inhoo §l|§r §o半形已具，杀意十足。这种东西，你本以为只会发现它在某具躯体的内壁上抓挠，而不是在没有躯壳的情况下四处游荡。
-lore.srparasites.incompleteform_small=§l绰号：§r Inhoo §l|§r §o身形小巧，切割迅速。双臂轻盈，受冲击时却面相可憎，就像接住了一个装满牙齿的袋子。气味令人作呕，最好尽快处理掉。
-lore.srparasites.thrall=§l绰号：§r Mes §l|§r §o顺从化为血肉之躯。它的身体如同一具被屠宰后又被强行扶正的东西般勉强拼凑在一起，身后甩动着黑色的丝状物，如同断裂的缰绳。它们常常出现在曾经人声鼎沸的地方，对着早已消失的日常之物反复揉捏、焦虑不安。双脚已扭曲成坚硬的蹄状残桩，面孔则收缩成一副融化的表情，损毁得已称不上人类，却仍依稀可辨地试图维持人的模样。。
-lore.srparasites.dredge=§l绰号：§r Done §l|§r §o它施展的是审慎的暴力。在那副异界刽子手般的颅骨之下，它的身体以刻意迂回的步调逼近，从容而精准地试探着肋骨、喉咙和脊柱——仿佛早已知道人类的躯体与精神会在何处率先崩溃。那条尾巴缠绕、勒绞，让猎物窒息，使其在死亡到来之前就因剧烈的失衡感而踉跄崩溃。受害者最终呈现出的状态类似于“§4共济失调性毛细血管扩张症§o§0”，§o但这种过程被加速成了残酷的即时发作。挣扎被刻意拉长，细致得绝非偶然。在这一层级的寄生体中，没有哪一种会如此执着地让猎物在最痛苦的阶段保持清醒。它是以恐慌中的化学物质为食，还是以痛苦中摇落的记忆为食——我尚无法断定。
-lore.srparasites.airscrew=§l绰号：§r Leer §l|§r §o它的喙部力量足以轻松抬起一辆货车。它身体上方的囊袋使其如同悬挂的变质鱿鱼，囊内很可能充满了由其自身组织过量产生的挥发性低密度气体，并在足够的压力下维持，以抵消该生物的体重。下方的口器会喷出湿冷的、令人窒息的高浓度COTH气流。被它网状投射物捕获的猎物会被向上拉拽，并以某种类似于剔骨的手法，在它脱臼般下颚的钩状内面上反复摩擦。我多次目睹两个或更多个体为争夺同一猎物而争斗，它们盲目地用力拉扯，以至于猎物被撕成碎片。那些在捕食中幸存下来的，心智未必能保持完整；被转化后的变体有时会被抛弃，任其坠落而死。
+lore.csrp.crux=§l绰号：§r Cruxa §l|§r §o这个生物的骨架呈现出一种凶蛮且无我的特质，仍在不断地自我拼合。它所留下的每一具尸体，都会加深它的愤怒。我曾目睹它将同伴抛向逃跑的猎物，几乎不在乎冲击是否会将它们砸死。在极大的压力下，它的身体会分泌出一种奇怪的沸腾着的橙色物质；当它被驱使到高速移动时，周身会蒸腾出蒸汽，仿佛整个躯体就要燃烧起来。我无法想象，要维持这样一具躯体持续运动，需要多么巨大的力量。
+lore.csrp.crux_incomplete=§l绰号：§r Cruxa §l|§r §o一副由牙齿笨拙拼合而成的轮廓。残存的不过是一具烧焦的、尚未成形的骨架，靠着时间和血肉拖延，直到更完整的躯体强行破茧而出。它常常停留在浅溪和河流中给自己降温，仿佛水流能加速修复它那粗糙畸形的、蛹一般的身体。
+lore.csrp.heed=§l绰号：§r Heed §l|§r §o五头侦察员，承载于蚂蚁般的躯干之上，一张巨口横向裂开在脸上。它自己很少带头行动，而是负责传递信号，并在遇到抵抗之处煽动狩猎。我曾见过它与更小、更匮乏的寄生体进行交哺行为。
+lore.csrp.host=§l绰号：§r Host §l|§r §o常言道，地震预示着灾祸。它的大部分仍埋藏在地下，唯有那非人的呻吟和上方翻动的地面，才暴露了其余部分的去向。尸体被降解成一种奇异的黑色焦油状物质，这种物质贯穿其躯体，使庞大的身体保持柔韧。每条触手的末端都有一个中空的开口，可用于多种用途，从修补撕裂的血肉到取食倒下的猎物。
+lore.csrp.hostii=§l绰号：§r Hostii §l|§r §o整群生物在柔软而参差的地面下移动，仿佛它的身体能够顺应受污染土壤中每一道尖锐的裂隙。曾经埋藏于地下的载体，已膨胀成更沉重的集群形态，快速喷射出饱胀的炸弹，每一枚都携带着未知的毒液与疫病。在它穿行而过的声响之下，常常能听到反复的低语，暗示着某种低等的集群智能，尽管其中尚未有任何内容能被理解。
+lore.csrp.incompleteform_medium=§l绰号：§r Inhoo §l|§r §o半形已具，杀意十足。这种东西，你本以为只会发现它在某具躯体的内壁上抓挠，而不是在没有躯壳的情况下四处游荡。
+lore.csrp.incompleteform_small=§l绰号：§r Inhoo §l|§r §o身形小巧，切割迅速。双臂轻盈，受冲击时却面相可憎，就像接住了一个装满牙齿的袋子。气味令人作呕，最好尽快处理掉。
+lore.csrp.thrall=§l绰号：§r Mes §l|§r §o顺从化为血肉之躯。它的身体如同一具被屠宰后又被强行扶正的东西般勉强拼凑在一起，身后甩动着黑色的丝状物，如同断裂的缰绳。它们常常出现在曾经人声鼎沸的地方，对着早已消失的日常之物反复揉捏、焦虑不安。双脚已扭曲成坚硬的蹄状残桩，面孔则收缩成一副融化的表情，损毁得已称不上人类，却仍依稀可辨地试图维持人的模样。。
+lore.csrp.dredge=§l绰号：§r Done §l|§r §o它施展的是审慎的暴力。在那副异界刽子手般的颅骨之下，它的身体以刻意迂回的步调逼近，从容而精准地试探着肋骨、喉咙和脊柱——仿佛早已知道人类的躯体与精神会在何处率先崩溃。那条尾巴缠绕、勒绞，让猎物窒息，使其在死亡到来之前就因剧烈的失衡感而踉跄崩溃。受害者最终呈现出的状态类似于“§4共济失调性毛细血管扩张症§o§0”，§o但这种过程被加速成了残酷的即时发作。挣扎被刻意拉长，细致得绝非偶然。在这一层级的寄生体中，没有哪一种会如此执着地让猎物在最痛苦的阶段保持清醒。它是以恐慌中的化学物质为食，还是以痛苦中摇落的记忆为食——我尚无法断定。
+lore.csrp.airscrew=§l绰号：§r Leer §l|§r §o它的喙部力量足以轻松抬起一辆货车。它身体上方的囊袋使其如同悬挂的变质鱿鱼，囊内很可能充满了由其自身组织过量产生的挥发性低密度气体，并在足够的压力下维持，以抵消该生物的体重。下方的口器会喷出湿冷的、令人窒息的高浓度COTH气流。被它网状投射物捕获的猎物会被向上拉拽，并以某种类似于剔骨的手法，在它脱臼般下颚的钩状内面上反复摩擦。我多次目睹两个或更多个体为争夺同一猎物而争斗，它们盲目地用力拉扯，以至于猎物被撕成碎片。那些在捕食中幸存下来的，心智未必能保持完整；被转化后的变体有时会被抛弃，任其坠落而死。
 
 #ASSIMARA
-lore.srparasites.mar_bear=§l绰号：§r Mar §l|§r §o其躯体构造全然违背常理。内部栖息着蜘蛛群。
-lore.srparasites.mar_cow=§l绰号：§r Mar §l|§r §o其躯体构造全然违背常理。其内部腔室永不停歇地运作着。
-lore.srparasites.mar_enderman=§l绰号：§r Mar §l|§r §o其躯体构造全然违背常理。扭曲至面目全非。
-lore.srparasites.mar_human=§l绰号：§r Mar §l|§r §o其躯体构造全然违背常理。恼人的干扰者。
-lore.srparasites.mar_sheep=§l绰号：§r Mar §l|§r §o其躯体构造全然违背常理。高大的守望者。
-lore.srparasites.mar_villager=§l绰号：§r Mar §l|§r §o其躯体构造全然违背常理。遗忘之面。
+lore.csrp.mar_bear=§l绰号：§r Mar §l|§r §o其躯体构造全然违背常理。内部栖息着蜘蛛群。
+lore.csrp.mar_cow=§l绰号：§r Mar §l|§r §o其躯体构造全然违背常理。其内部腔室永不停歇地运作着。
+lore.csrp.mar_enderman=§l绰号：§r Mar §l|§r §o其躯体构造全然违背常理。扭曲至面目全非。
+lore.csrp.mar_human=§l绰号：§r Mar §l|§r §o其躯体构造全然违背常理。恼人的干扰者。
+lore.csrp.mar_sheep=§l绰号：§r Mar §l|§r §o其躯体构造全然违背常理。高大的守望者。
+lore.csrp.mar_villager=§l绰号：§r Mar §l|§r §o其躯体构造全然违背常理。遗忘之面。
 
 #HIJACKED
-lore.srparasites.hi_blaze=§l绰号：§r Hi §l|§r §o不可能之事发生了。
-lore.srparasites.hi_skeleton=§l绰号：§r Hi §l|§r §o用来承载某物的框架。
-lore.srparasites.hi_golem=§l绰号：§r Hi §l|§r §o从保护者到压迫者。
+lore.csrp.hi_blaze=§l绰号：§r Hi §l|§r §o不可能之事发生了。
+lore.csrp.hi_skeleton=§l绰号：§r Hi §l|§r §o用来承载某物的框架。
+lore.csrp.hi_golem=§l绰号：§r Hi §l|§r §o从保护者到压迫者。
 
 #PRIMITIVE
-lore.srparasites.pri_arachnida=§l绰号：§r Ranrac §l|§r §o粗糙的八足恐怖，更高级形态的雏形。
-lore.srparasites.pri_bolster=§l绰号：§r Bano e'Zetmo §l|§r §o体型庞大，原始却坚韧。
-lore.srparasites.pri_devourer=§l绰号：§r Lum §l|§r §o仅受饥饿与水中血腥味的驱使。
-lore.srparasites.pri_longarms=§l绰号：§r Shyco §l|§r §o其攫取肢体的伸展范围很广，虽与后续形态相比仍显笨拙。
-lore.srparasites.pri_manducater=§l绰号：§r Hull §l|§r §o不断摩擦的颚骨。常消失于视线之外。
-lore.srparasites.pri_reeker=§l绰号：§r Nogla §l|§r §o闻起来臭臭的。会不顾一切地迎面冲锋。
-lore.srparasites.pri_summoner=§l绰号：§r Canra §l|§r §o以无规律的方式召唤低阶单位。能用残骸重新缝合被击杀的单位。
-lore.srparasites.pri_tozoon=§l绰号：§r Wymo §l|§r §o地震是其信号。
-lore.srparasites.pri_yelloweye=§l绰号：§r Emana §l|§r §o由筋骨编成的马尾辫。其腐蚀性胆汁是护甲的克星。
-lore.srparasites.pri_vermin=§l绰号：§r Iki §l|§r §o一只气象气球。其内部的东西甚至更糟。
-lore.srparasites.pri_burrower=§l绰号：§r Zaa §l|§r §o本能地挖掘，为同类开凿巢穴。
-lore.srparasites.pri_viscera=§l绰号：§r Gim §l|§r §o原始血肉获得了粗糙的移动能力。
+lore.csrp.pri_arachnida=§l绰号：§r Ranrac §l|§r §o粗糙的八足恐怖，更高级形态的雏形。
+lore.csrp.pri_bolster=§l绰号：§r Bano e'Zetmo §l|§r §o体型庞大，原始却坚韧。
+lore.csrp.pri_devourer=§l绰号：§r Lum §l|§r §o仅受饥饿与水中血腥味的驱使。
+lore.csrp.pri_longarms=§l绰号：§r Shyco §l|§r §o其攫取肢体的伸展范围很广，虽与后续形态相比仍显笨拙。
+lore.csrp.pri_manducater=§l绰号：§r Hull §l|§r §o不断摩擦的颚骨。常消失于视线之外。
+lore.csrp.pri_reeker=§l绰号：§r Nogla §l|§r §o闻起来臭臭的。会不顾一切地迎面冲锋。
+lore.csrp.pri_summoner=§l绰号：§r Canra §l|§r §o以无规律的方式召唤低阶单位。能用残骸重新缝合被击杀的单位。
+lore.csrp.pri_tozoon=§l绰号：§r Wymo §l|§r §o地震是其信号。
+lore.csrp.pri_yelloweye=§l绰号：§r Emana §l|§r §o由筋骨编成的马尾辫。其腐蚀性胆汁是护甲的克星。
+lore.csrp.pri_vermin=§l绰号：§r Iki §l|§r §o一只气象气球。其内部的东西甚至更糟。
+lore.csrp.pri_burrower=§l绰号：§r Zaa §l|§r §o本能地挖掘，为同类开凿巢穴。
+lore.csrp.pri_viscera=§l绰号：§r Gim §l|§r §o原始血肉获得了粗糙的移动能力。
 
 #ADAPTED
-lore.srparasites.ada_burrower=§l绰号：§r Zaa §l|§r §o高效的隧道挖凿机，开辟可控通道。
-lore.srparasites.ada_viscera=§l绰号：§r Gim §l|§r §o很像鹦鹉螺。其它个体像对待妈妈一样对待它。
-lore.srparasites.ada_devourer=§l绰号：§r Lum §l|§r §o掠食中的鱼叉。海洋的祸患。
-lore.srparasites.ada_tozoon=§l绰号：§r Wymo §l|§r §o有虫。
-lore.srparasites.ada_arachnida=§l绰号：§r Ranrac §l|§r §o精炼的猎手，织网并准确地突袭。
-lore.srparasites.ada_bolster=§l绰号：§r Bano e'Zetmo §l|§r §o适应肉盾，旨在保护与支援。
-lore.srparasites.ada_longarms=§l绰号：§r Shyco §l|§r §o肢体以精准度延伸，毫无冗余动作。投降与否对它而言无妨。
-lore.srparasites.ada_manducater=§l绰号：§r Hull §l|§r §o为最大化获取生物组织而优化的颌骨结构。无人能预见其突袭。
-lore.srparasites.ada_reeker=§l绰号：§r Nogla §l|§r §o旨在长途冲锋。要么快速行动，要么慢性死亡。
-lore.srparasites.ada_summoner=§l绰号：§r Canra §l|§r §o能从其它寄生体的残骸中召唤生成。
-lore.srparasites.ada_yelloweye=§l绰号：§r Emana §l|§r §o初音未来或重音Teto。强酸性危害。
-lore.srparasites.ada_vermin=§l绰号：§r Iki §l|§r §o其身躯可延展至两倍宽度，颚部力量足以轻松碾碎钢铁。
+lore.csrp.ada_burrower=§l绰号：§r Zaa §l|§r §o高效的隧道挖凿机，开辟可控通道。
+lore.csrp.ada_viscera=§l绰号：§r Gim §l|§r §o很像鹦鹉螺。其它个体像对待妈妈一样对待它。
+lore.csrp.ada_devourer=§l绰号：§r Lum §l|§r §o掠食中的鱼叉。海洋的祸患。
+lore.csrp.ada_tozoon=§l绰号：§r Wymo §l|§r §o有虫。
+lore.csrp.ada_arachnida=§l绰号：§r Ranrac §l|§r §o精炼的猎手，织网并准确地突袭。
+lore.csrp.ada_bolster=§l绰号：§r Bano e'Zetmo §l|§r §o适应肉盾，旨在保护与支援。
+lore.csrp.ada_longarms=§l绰号：§r Shyco §l|§r §o肢体以精准度延伸，毫无冗余动作。投降与否对它而言无妨。
+lore.csrp.ada_manducater=§l绰号：§r Hull §l|§r §o为最大化获取生物组织而优化的颌骨结构。无人能预见其突袭。
+lore.csrp.ada_reeker=§l绰号：§r Nogla §l|§r §o旨在长途冲锋。要么快速行动，要么慢性死亡。
+lore.csrp.ada_summoner=§l绰号：§r Canra §l|§r §o能从其它寄生体的残骸中召唤生成。
+lore.csrp.ada_yelloweye=§l绰号：§r Emana §l|§r §o初音未来或重音Teto。强酸性危害。
+lore.csrp.ada_vermin=§l绰号：§r Iki §l|§r §o其身躯可延展至两倍宽度，颚部力量足以轻松碾碎钢铁。
 
 
 #DETERRENT
-lore.srparasites.dispatcherten=§l绰号：§r DodT §l|§r §o传递命令的带刺通道。
-lore.srparasites.kyphosis=§l绰号：§r Tonro §l|§r §o盘曲筋腱的佝偻肉块，用作活体盾牌与攻城槌。
-lore.srparasites.seizer=§l绰号：§r Nak §l|§r §o捕捉并压制目标。挣扎只会令其愈发狂怒。
-lore.srparasites.sentry=§l绰号：§r Unvo §l|§r §o其弹射物能熔穿骨头与钢铁。
-lore.srparasites.worm=§l绰号：§r Rof §l|§r §o与这种生物接触极其困难。你是怎么做到的？
+lore.csrp.dispatcherten=§l绰号：§r DodT §l|§r §o传递命令的带刺通道。
+lore.csrp.kyphosis=§l绰号：§r Tonro §l|§r §o盘曲筋腱的佝偻肉块，用作活体盾牌与攻城槌。
+lore.csrp.seizer=§l绰号：§r Nak §l|§r §o捕捉并压制目标。挣扎只会令其愈发狂怒。
+lore.csrp.sentry=§l绰号：§r Unvo §l|§r §o其弹射物能熔穿骨头与钢铁。
+lore.csrp.worm=§l绰号：§r Rof §l|§r §o与这种生物接触极其困难。你是怎么做到的？
 
 #PURE
-lore.srparasites.grunt=§l绰号：§r Flog §l|§r §o毫无冗余，全力以赴；除非一方倒下，否则绝不停止前进。对那些大型生物而言，它只能算个“杂兵”。
-lore.srparasites.bomber_light=§l绰号：§r Omboo §l|§r §o中空躯壳内塞满了易爆组织。
-lore.srparasites.marauder=§l绰号：§r Esor §l|§r §o在活物群中开辟道路的“切割者”；动能是其最青睐的武器。
-lore.srparasites.monarch=§l绰号：§r Orch §l|§r §o仅凭本能就能使役低等寄生体；低等寄群会无条件地服从。
-lore.srparasites.overseer=§l绰号：§r Alafha §l|§r §o权威的审计者。
-lore.srparasites.worker=§o由构筑体派出、用于建设殖民地的被动工具型寄生体。
-lore.srparasites.architect=§o通过工兽建设殖民地的被动飞行工具型寄生体。
-lore.srparasites.vigilante=§l绰号：§r Anged §l|§r §o追捕落单者与混乱者，这活干得不赖嘛，兄弟。
-lore.srparasites.warden=§l绰号：§r Ganro §l|§r §o生物壁垒。如肿瘤般固守其权威与阵地。
+lore.csrp.grunt=§l绰号：§r Flog §l|§r §o毫无冗余，全力以赴；除非一方倒下，否则绝不停止前进。对那些大型生物而言，它只能算个“杂兵”。
+lore.csrp.bomber_light=§l绰号：§r Omboo §l|§r §o中空躯壳内塞满了易爆组织。
+lore.csrp.marauder=§l绰号：§r Esor §l|§r §o在活物群中开辟道路的“切割者”；动能是其最青睐的武器。
+lore.csrp.monarch=§l绰号：§r Orch §l|§r §o仅凭本能就能使役低等寄生体；低等寄群会无条件地服从。
+lore.csrp.overseer=§l绰号：§r Alafha §l|§r §o权威的审计者。
+lore.csrp.worker=§o由构筑体派出、用于建设殖民地的被动工具型寄生体。
+lore.csrp.architect=§o通过工兽建设殖民地的被动飞行工具型寄生体。
+lore.csrp.vigilante=§l绰号：§r Anged §l|§r §o追捕落单者与混乱者，这活干得不赖嘛，兄弟。
+lore.csrp.warden=§l绰号：§r Ganro §l|§r §o生物壁垒。如肿瘤般固守其权威与阵地。
 
 #PREEMINENT
-lore.srparasites.bogle=§l绰号：§r Lencia §l|§r §o它是怎么飞起来的？不管怎样，只留下了深深的弹坑。
-lore.srparasites.carrier_colony=§l绰号：§r Vesta §l|§r §o一座由嘴巴和窟窿组成的“城市”，靠很多条腿行走。它似乎能链接并协调附近单位，促使它们更快地共同适应。
-lore.srparasites.haunter=§l绰号：§r Pheon §l|§r §o未见其形，先闻其迹。
-lore.srparasites.bomber_heavy=§l绰号：§r Jinjo §l|§r §o它一来便是行走的裁决者，所到之处，一切重写。这场景我之前是不是在哪里看到过？
-lore.srparasites.wraith=§l绰号：§r Elvia §l|§r §o半身锚定于血肉，半身沉沦于噩梦；穿墙越壁。发射的弹药让人头疼欲裂。
-lore.srparasites.succor=§l绰号：§r Flam §l|§r §o小家伙。
+lore.csrp.bogle=§l绰号：§r Lencia §l|§r §o它是怎么飞起来的？不管怎样，只留下了深深的弹坑。
+lore.csrp.carrier_colony=§l绰号：§r Vesta §l|§r §o一座由嘴巴和窟窿组成的“城市”，靠很多条腿行走。它似乎能链接并协调附近单位，促使它们更快地共同适应。
+lore.csrp.haunter=§l绰号：§r Pheon §l|§r §o未见其形，先闻其迹。
+lore.csrp.bomber_heavy=§l绰号：§r Jinjo §l|§r §o它一来便是行走的裁决者，所到之处，一切重写。这场景我之前是不是在哪里看到过？
+lore.csrp.wraith=§l绰号：§r Elvia §l|§r §o半身锚定于血肉，半身沉沦于噩梦；穿墙越壁。发射的弹药让人头疼欲裂。
+lore.csrp.succor=§l绰号：§r Flam §l|§r §o小家伙。
 
 #ANCIENT
-lore.srparasites.anc_dreadnaut=§l绰号：§r Oronco §l|§r §oNULL EXISTENCE
-lore.srparasites.anc_overlord=§l绰号：§r Terla §l|§r §oNULL EXISTENCE
+lore.csrp.anc_dreadnaut=§l绰号：§r Oronco §l|§r §oNULL EXISTENCE
+lore.csrp.anc_overlord=§l绰号：§r Terla §l|§r §oNULL EXISTENCE
 
 #NEXUS
-lore.srparasites.beckon_si=§l绰号：§r Venkrol §l|§r §o如同伤口吸引飞蛾一样，该种子结构会吸引寄生体。
-lore.srparasites.beckon_sii=§l绰号：§r Venkrol §l|§r §o召唤之声愈发响亮；大地开始学会了回应。
-lore.srparasites.beckon_siii=§l绰号：§r Venkrol §l|§r §o灯塔兼产房；空气中弥漫着铜锈味，浓稠如泥浆。
-lore.srparasites.beckon_siv=§l绰号：§r Venkrol §l|§r §o寄巢的门户。周边一切皆成入口、出口和虚无。
-lore.srparasites.dispatcher_si=§l绰号：§r Dod §l|§r §o首任调度者；信号、指令，以及其他一切皆井然有序地循环着。
-lore.srparasites.dispatcher_sii=§l绰号：§r Dod §l|§r §o通道拓宽；肢体和信息的交流永不停歇。
-lore.srparasites.dispatcher_siii=§l绰号：§r Dod §l|§r §o后勤已臻完美，援军在你淌尽鲜血前便已抵达。
-lore.srparasites.dispatcher_siv=§l绰号：§r Dod §l|§r §o枢纽与通道；摧毁它，或见证一片活生生的大陆汇聚于此。
-lore.srparasites.rooter_si=§l绰号：§r Leem §l|§r §o代为其它寄生体承受痛苦而种下的结构。
-lore.srparasites.rooter_sii=§l绰号：§r Leem §l|§r §o代为其它寄生体承受痛苦而种下的结构。
-lore.srparasites.rooter_siii=§l绰号：§r Leem §l|§r §o代为其它寄生体承受痛苦而种下的结构。
-lore.srparasites.rooter_siv=§l绰号：§r Leem §l|§r §o代为其它寄生体承受痛苦而种下的结构。
-lore.srparasites.rooterball=§l绰号：§r Leem §l|§r §o代为其它寄生体承受痛苦而种下的结构。
+lore.csrp.beckon_si=§l绰号：§r Venkrol §l|§r §o如同伤口吸引飞蛾一样，该种子结构会吸引寄生体。
+lore.csrp.beckon_sii=§l绰号：§r Venkrol §l|§r §o召唤之声愈发响亮；大地开始学会了回应。
+lore.csrp.beckon_siii=§l绰号：§r Venkrol §l|§r §o灯塔兼产房；空气中弥漫着铜锈味，浓稠如泥浆。
+lore.csrp.beckon_siv=§l绰号：§r Venkrol §l|§r §o寄巢的门户。周边一切皆成入口、出口和虚无。
+lore.csrp.dispatcher_si=§l绰号：§r Dod §l|§r §o首任调度者；信号、指令，以及其他一切皆井然有序地循环着。
+lore.csrp.dispatcher_sii=§l绰号：§r Dod §l|§r §o通道拓宽；肢体和信息的交流永不停歇。
+lore.csrp.dispatcher_siii=§l绰号：§r Dod §l|§r §o后勤已臻完美，援军在你淌尽鲜血前便已抵达。
+lore.csrp.dispatcher_siv=§l绰号：§r Dod §l|§r §o枢纽与通道；摧毁它，或见证一片活生生的大陆汇聚于此。
+lore.csrp.rooter_si=§l绰号：§r Leem §l|§r §o代为其它寄生体承受痛苦而种下的结构。
+lore.csrp.rooter_sii=§l绰号：§r Leem §l|§r §o代为其它寄生体承受痛苦而种下的结构。
+lore.csrp.rooter_siii=§l绰号：§r Leem §l|§r §o代为其它寄生体承受痛苦而种下的结构。
+lore.csrp.rooter_siv=§l绰号：§r Leem §l|§r §o代为其它寄生体承受痛苦而种下的结构。
+lore.csrp.rooterball=§l绰号：§r Leem §l|§r §o代为其它寄生体承受痛苦而种下的结构。
 
 #ABOMINATION
-lore.srparasites.abo_bodies=§l绰号：§r Abo §l|§r §o因未知原因而聚合在一起的知觉生物融合体。类似管水母。
-lore.srparasites.abo_head=§l绰号：§r Abo §l|§r §o因未知原因而聚合在一起的知觉生物融合体。类似管水母，但其形状像一颗头。
+lore.csrp.abo_bodies=§l绰号：§r Abo §l|§r §o因未知原因而聚合在一起的知觉生物融合体。类似管水母。
+lore.csrp.abo_head=§l绰号：§r Abo §l|§r §o因未知原因而聚合在一起的知觉生物融合体。类似管水母，但其形状像一颗头。
 
 #DETERRENT
-lore.srparasites.draconite=§l绰号：§r Heblu §l|§r §o它永远裹着一层灰烬，从内到外不断燃烧。它的胸腔和胃囊就是一座剧毒的地狱熔炉，将炽热与酸性的产物通过它的身体和周围的空气循环。该过程在运作时会不断熔化其自身的血肉，撕裂身体的薄弱点，在躯干上烧出贯穿的孔洞。一层层皮肤不断地烧焦、裂开、剥落，赋予它一种苍白如灰烬的外观。有证据表明，它是由某种深埋于下界岩深处的物质形成，直到最近才被强行重塑出来。其生长过程剧烈且迅猛，以至于脱皮速度快于身体的自稳定——头部在成形时就从颈根撕裂，留下一截钝钝的、残桩似的结构。其核心内部燃烧的声响，仿佛一列货运火车正载着我穿过地狱最幽深的坑洞。
-lore.srparasites.kirin=§l绰号：§r Kirin §l|§r §o踏虚体始终处于一种结构崩坏的恒定状态。其躯体无时无刻不在自我撕裂的边缘，这解释了它为何遍体淤青、血迹斑斑，且行动极不稳定。它那中空的臂状结构布满了巨大的空洞，充当排放口来排放内部产生的多余热量与爆发的宇宙辐射。这些遍布躯体的开口起着通风口或排泄口的作用——若非如此，该实体恐怕早已自我引爆。形态上的重压迫使踏虚体每天都在蜕皮。它每显现一次力量，都会进一步破坏它的身体稳定性，迫使受损组织层以惊人速度脱落并再生。这个生物毫无自我保护的迹象。它尚未彻底崩坏。否则我早已命丧黄泉。
+lore.csrp.draconite=§l绰号：§r Heblu §l|§r §o它永远裹着一层灰烬，从内到外不断燃烧。它的胸腔和胃囊就是一座剧毒的地狱熔炉，将炽热与酸性的产物通过它的身体和周围的空气循环。该过程在运作时会不断熔化其自身的血肉，撕裂身体的薄弱点，在躯干上烧出贯穿的孔洞。一层层皮肤不断地烧焦、裂开、剥落，赋予它一种苍白如灰烬的外观。有证据表明，它是由某种深埋于下界岩深处的物质形成，直到最近才被强行重塑出来。其生长过程剧烈且迅猛，以至于脱皮速度快于身体的自稳定——头部在成形时就从颈根撕裂，留下一截钝钝的、残桩似的结构。其核心内部燃烧的声响，仿佛一列货运火车正载着我穿过地狱最幽深的坑洞。
+lore.csrp.kirin=§l绰号：§r Kirin §l|§r §o踏虚体始终处于一种结构崩坏的恒定状态。其躯体无时无刻不在自我撕裂的边缘，这解释了它为何遍体淤青、血迹斑斑，且行动极不稳定。它那中空的臂状结构布满了巨大的空洞，充当排放口来排放内部产生的多余热量与爆发的宇宙辐射。这些遍布躯体的开口起着通风口或排泄口的作用——若非如此，该实体恐怕早已自我引爆。形态上的重压迫使踏虚体每天都在蜕皮。它每显现一次力量，都会进一步破坏它的身体稳定性，迫使受损组织层以惊人速度脱落并再生。这个生物毫无自我保护的迹象。它尚未彻底崩坏。否则我早已命丧黄泉。
 
 #CREATE WORLD MENU OPTIONS
-gui.srparasites.worldsettings.title=SRP世界设置
-gui.srparasites.worldsettings.open=SRP世界设置……
-gui.srparasites.worldsettings.subtitle=占位符设置
-gui.srparasites.worldsettings.done=完成
+gui.csrp.worldsettings.title=SRP世界设置
+gui.csrp.worldsettings.open=SRP世界设置……
+gui.csrp.worldsettings.subtitle=占位符设置
+gui.csrp.worldsettings.done=完成
 
 # Labels
-gui.srparasites.worldsettings.difficulty=难度预设
-gui.srparasites.worldsettings.challenge=挑战配置
-gui.srparasites.worldsettings.meteor=陨石感染
+gui.csrp.worldsettings.difficulty=难度预设
+gui.csrp.worldsettings.challenge=挑战配置
+gui.csrp.worldsettings.meteor=陨石感染
 
 # Difficulty options
-gui.srparasites.worldsettings.difficulty.normal=§e普通
-gui.srparasites.worldsettings.difficulty.easy=§a简单
-gui.srparasites.worldsettings.difficulty.hard=§4困难
-gui.srparasites.worldsettings.difficulty.impossible=§4§l不可能
+gui.csrp.worldsettings.difficulty.normal=§e普通
+gui.csrp.worldsettings.difficulty.easy=§a简单
+gui.csrp.worldsettings.difficulty.hard=§4困难
+gui.csrp.worldsettings.difficulty.impossible=§4§l不可能
 
 # Vectors Option
-gui.srparasites.worldsettings.vectors=寄生体侵染源区
-gui.srparasites.worldsettings.vectors.enabled=§a开
-gui.srparasites.worldsettings.vectors.disabled=§4关
+gui.csrp.worldsettings.vectors=寄生体侵染源区
+gui.csrp.worldsettings.vectors.enabled=§a开
+gui.csrp.worldsettings.vectors.disabled=§4关
 
-gui.srparasites.worldsettings.tooltip.vectors.enabled=寄生体侵染源区已启用。寄生体的自然生成仅限于源区，这些源区可以随时间扩大。寄生体不能在侵染源区之外自然生成。
-gui.srparasites.worldsettings.tooltip.vectors.disabled=该按钮暂无实际功能（开发中）。新生寄生体侵染源区已禁用，寄生体可在全世界自然生成，不再受侵染源区限制。
+gui.csrp.worldsettings.tooltip.vectors.enabled=寄生体侵染源区已启用。寄生体的自然生成仅限于源区，这些源区可以随时间扩大。寄生体不能在侵染源区之外自然生成。
+gui.csrp.worldsettings.tooltip.vectors.disabled=该按钮暂无实际功能（开发中）。新生寄生体侵染源区已禁用，寄生体可在全世界自然生成，不再受侵染源区限制。
 
 # Challenge options
-gui.srparasites.worldsettings.challenge.c1=配置 §a1
-gui.srparasites.worldsettings.challenge.c2=配置 §e2
-gui.srparasites.worldsettings.challenge.c3=配置 §43
-gui.srparasites.worldsettings.challenge.off=关
-gui.srparasites.worldsettings.tooltip.challenge.off=未应用额外挑战调整。
+gui.csrp.worldsettings.challenge.c1=配置 §a1
+gui.csrp.worldsettings.challenge.c2=配置 §e2
+gui.csrp.worldsettings.challenge.c3=配置 §43
+gui.csrp.worldsettings.challenge.off=关
+gui.csrp.worldsettings.tooltip.challenge.off=未应用额外挑战调整。
 
 # Meteor options
-gui.srparasites.worldsettings.meteor.on=§a开
-gui.srparasites.worldsettings.meteor.off=§4关
+gui.csrp.worldsettings.meteor.on=§a开
+gui.csrp.worldsettings.meteor.off=§4关
 
 # Difficulty tooltips
-gui.srparasites.worldsettings.tooltip.difficulty.easy=这是简单模式。
-gui.srparasites.worldsettings.tooltip.difficulty.normal=这是普通模式。
-gui.srparasites.worldsettings.tooltip.difficulty.hard=这是困难模式。
-gui.srparasites.worldsettings.tooltip.difficulty.impossible=这是不可能模式。
+gui.csrp.worldsettings.tooltip.difficulty.easy=这是简单模式。
+gui.csrp.worldsettings.tooltip.difficulty.normal=这是普通模式。
+gui.csrp.worldsettings.tooltip.difficulty.hard=这是困难模式。
+gui.csrp.worldsettings.tooltip.difficulty.impossible=这是不可能模式。
 
 # Tooltips
-gui.srparasites.worldsettings.tooltip.difficulty=感染难度
-gui.srparasites.worldsettings.tooltip.challenge=选择一个挑战配置。
-gui.srparasites.worldsettings.tooltip.challenge.c1=这是配置 1 的配置。
-gui.srparasites.worldsettings.tooltip.challenge.c2=这是配置 2 的配置。
-gui.srparasites.worldsettings.tooltip.challenge.c3=这是配置 3 的配置。
-gui.srparasites.worldsettings.tooltip.meteor=陨石撞击事件可能在第%s天后发生。每%s天（%s游戏刻）进行一次判定。每次判定的触发概率：%s%%。§4一种高风险、快速的选项。
+gui.csrp.worldsettings.tooltip.difficulty=感染难度
+gui.csrp.worldsettings.tooltip.challenge=选择一个挑战配置。
+gui.csrp.worldsettings.tooltip.challenge.c1=这是配置 1 的配置。
+gui.csrp.worldsettings.tooltip.challenge.c2=这是配置 2 的配置。
+gui.csrp.worldsettings.tooltip.challenge.c3=这是配置 3 的配置。
+gui.csrp.worldsettings.tooltip.meteor=陨石撞击事件可能在第%s天后发生。每%s天（%s游戏刻）进行一次判定。每次判定的触发概率：%s%%。§4一种高风险、快速的选项。
 
 # config openers
-gui.srparasites.worldsettings.config.general=全局配置
-gui.srparasites.worldsettings.config.world=世界配置
-gui.srparasites.worldsettings.config.systems=系统配置
-gui.srparasites.worldsettings.config.mobs=生物配置
+gui.csrp.worldsettings.config.general=全局配置
+gui.csrp.worldsettings.config.world=世界配置
+gui.csrp.worldsettings.config.systems=系统配置
+gui.csrp.worldsettings.config.mobs=生物配置
 
 # config viewer titles
-gui.srparasites.config.title.general=SRP 配置：全局
-gui.srparasites.config.title.world=SRP 配置：世界
-gui.srparasites.config.title.systems=SRP 配置：系统
-gui.srparasites.config.title.mobs=SRP 配置：生物
+gui.csrp.config.title.general=SRP 配置：全局
+gui.csrp.config.title.world=SRP 配置：世界
+gui.csrp.config.title.systems=SRP 配置：系统
+gui.csrp.config.title.mobs=SRP 配置：生物
 
 # other config stuff
-gui.srparasites.config.apply=应用
-gui.srparasites.config.edit.title=编辑 SRP 配置值
-gui.srparasites.config.edit.key=%s / %s
-gui.srparasites.config.edit.todo=TODO: pwease save these changes back to the config file dhan.
+gui.csrp.config.apply=应用
+gui.csrp.config.edit.title=编辑 SRP 配置值
+gui.csrp.config.edit.key=%s / %s
+gui.csrp.config.edit.todo=TODO: pwease save these changes back to the config file dhan.
 
 # Viewer subtitle + tooltips
-gui.srparasites.config.subtitle.readonly=Read-only view (saving is WIP/TODO)
-gui.srparasites.config.search=搜索：
+gui.csrp.config.subtitle.readonly=Read-only view (saving is WIP/TODO)
+gui.csrp.config.search=搜索：
 
 # srpevolution errors
 command.srpevolution.prefix=§8[§dSRP§8]§r

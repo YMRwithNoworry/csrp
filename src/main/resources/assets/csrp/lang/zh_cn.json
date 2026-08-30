@@ -975,7 +975,7 @@
   "tooltip.csrp.bough.line2": "用于自尽。",
   "tooltip.csrp.quench": "内部填满温热的岩浆膏，浓缩的烈焰粉能有效清理寄生物质。",
   "death.attack.sepeku": "%1$s切腹自尽了",
-  "death.attack.srparasites.ricardo": "%s被添加到了复仇账簿",
+  "death.attack.csrp.ricardo": "%s被添加到了复仇账簿",
   "advancements.csrp.sepeku.title": "切腹自尽",
   "advancements.csrp.sepeku.description": "你献出了你的生命。",
   "block.csrp.semiorganic_block": "半生物合金块",

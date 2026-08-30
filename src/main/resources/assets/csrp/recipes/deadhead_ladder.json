@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "# #",
+    "###",
+    "# #"
+  ],
+  "key": {
+    "#": {
+      "item": "csrp:parasiteplank",
+      "data": 0
+    }
+  },
+  "result": {
+    "item": "csrp:deadhead_ladder",
+    "count": 3
+  }
+}

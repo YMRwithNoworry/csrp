@@ -3,7 +3,7 @@
   "minecraft:geometry": [
     {
       "description": {
-        "identifier": "geometry.srparasites.pri_tozoon",
+        "identifier": "geometry.csrp.pri_tozoon",
         "texture_width": 256,
         "texture_height": 128,
         "visible_bounds_width": 16,

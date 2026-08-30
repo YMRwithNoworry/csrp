@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " X ",
+    "YMY",
+    " X "
+  ],
+  "key": {
+    "X": {
+      "item": "csrp:parasitestain",
+      "data": 0
+    },
+    "Y": {
+      "item": "csrp:lurecomponent2"
+    },
+    "M": {
+      "item": "csrp:module_base"
+    }
+  },
+  "result": {
+    "item": "csrp:module_deterrent",
+    "data": 0,
+    "count": 1
+  }
+}

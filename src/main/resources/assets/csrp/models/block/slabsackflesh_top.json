@@ -1,0 +1,9 @@
+{
+  "parent": "block/upper_slab",
+  "textures": {
+    "particle": "csrp:blocks/parasitecanister_sac",
+    "bottom": "csrp:blocks/parasitecanister_sac",
+    "top": "csrp:blocks/parasitecanister_sac",
+    "side": "csrp:blocks/parasitecanister_sac"
+  }
+}

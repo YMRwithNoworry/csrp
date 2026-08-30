@@ -3,7 +3,7 @@
   "minecraft:geometry": [
     {
       "description": {
-        "identifier": "geometry.srparasites.dispatcherten",
+        "identifier": "geometry.csrp.dispatcherten",
         "texture_width": 100,
         "texture_height": 50,
         "visible_bounds_width": 16,

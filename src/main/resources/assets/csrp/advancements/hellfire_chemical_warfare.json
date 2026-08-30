@@ -1,0 +1,28 @@
+{
+  "parent": "csrp:kill_deterrent",
+  "display": {
+    "icon": {
+      "item": "csrp:hellfire_chemical_warfare_icon"
+    },
+    "title": {
+      "translate": "advancement.csrp.hellfire_chemical_warfare.title"
+    },
+    "description": {
+      "translate": "advancement.csrp.hellfire_chemical_warfare.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "kill_draconite": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "csrp:draconite"
+        }
+      }
+    }
+  }
+}

@@ -3,7 +3,7 @@
   "minecraft:geometry": [
     {
       "description": {
-        "identifier": "geometry.srparasites.sim_sheephead",
+        "identifier": "geometry.csrp.sim_sheephead",
         "texture_width": 64,
         "texture_height": 46,
         "visible_bounds_width": 16,

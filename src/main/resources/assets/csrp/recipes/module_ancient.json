@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " Y ",
+    "YMY",
+    " Y "
+  ],
+  "key": {
+    "Y": {
+      "item": "csrp:lurecomponent6"
+    },
+    "M": {
+      "item": "csrp:module_base"
+    }
+  },
+  "result": {
+    "item": "csrp:module_ancient",
+    "data": 0,
+    "count": 1
+  }
+}

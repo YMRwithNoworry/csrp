@@ -1,0 +1,25 @@
+{
+  "variants": {
+    "decay_age=0": {
+      "model": "csrp:infested_leaves"
+    },
+    "decay_age=1": {
+      "model": "csrp:infested_leaves"
+    },
+    "decay_age=2": {
+      "model": "csrp:infested_leaves"
+    },
+    "decay_age=3": {
+      "model": "csrp:infested_leaves"
+    },
+    "decay_age=4": {
+      "model": "csrp:infested_leaves"
+    },
+    "decay_age=5": {
+      "model": "csrp:infested_leaves"
+    },
+    "inventory": {
+      "model": "csrp:infested_leaves"
+    }
+  }
+}

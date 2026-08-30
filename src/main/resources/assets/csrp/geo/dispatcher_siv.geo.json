@@ -3,7 +3,7 @@
   "minecraft:geometry": [
     {
       "description": {
-        "identifier": "geometry.srparasites.dispatcher_siv",
+        "identifier": "geometry.csrp.dispatcher_siv",
         "texture_width": 450,
         "texture_height": 590,
         "visible_bounds_width": 16,

@@ -1,0 +1,14 @@
+{
+  "variants": {
+    "normal": [
+      {
+        "model": "csrp:assimilated_blossom"
+      }
+    ],
+    "inventory": [
+      {
+        "model": "csrp:assimilated_blossom"
+      }
+    ]
+  }
+}

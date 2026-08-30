@@ -272,7 +272,7 @@
   "death.attack.biomass": "%1$s was dissolved by biomass",
   "death.attack.parasite_mouth": "%1$s was devoured by a maw",
   "death.attack.sepeku": "%1$s이(가) 할복을 행했습니다",
-  "death.attack.srparasites.ricardo": "%s이(가) 복수의 서에 기록되었습니다",
+  "death.attack.csrp.ricardo": "%s이(가) 복수의 서에 기록되었습니다",
   "effect.csrp.adapted": "Adapted Resistance",
   "effect.csrp.antimall": "§7형태 고정",
   "effect.csrp.bleed": "Bleed",

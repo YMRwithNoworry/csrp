@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "minecraft:hardened_clay" },
+    { "item": "csrp:infestedstain" }
+  ],
+  "result": {
+    "item": "csrp:infested_terracotta",
+    "count": 2
+  }
+}

@@ -3,7 +3,7 @@
   "minecraft:geometry": [
     {
       "description": {
-        "identifier": "geometry.srparasites.hi_golem",
+        "identifier": "geometry.csrp.hi_golem",
         "texture_width": 128,
         "texture_height": 128,
         "visible_bounds_width": 16,

@@ -1,0 +1,123 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "csrp:infestedore_co"
+  },
+  "variants": {
+    "variant=co": [
+      {
+        "model": "csrp:infestedore_co"
+      },
+      {
+        "model": "csrp:infestedore_co"
+      },
+      {
+        "model": "csrp:infestedore_co"
+      },
+      {
+        "model": "csrp:infestedore_co"
+      }
+    ],
+    "variant=dia": [
+      {
+        "model": "csrp:infestedore_dia"
+      },
+      {
+        "model": "csrp:infestedore_dia"
+      },
+      {
+        "model": "csrp:infestedore_dia"
+      },
+      {
+        "model": "csrp:infestedore_dia"
+      }
+    ],
+    "variant=eme": [
+      {
+        "model": "csrp:infestedore_eme"
+      },
+      {
+        "model": "csrp:infestedore_eme"
+      },
+      {
+        "model": "csrp:infestedore_eme"
+      },
+      {
+        "model": "csrp:infestedore_eme"
+      }
+    ],
+    "variant=gol": [
+      {
+        "model": "csrp:infestedore_gol"
+      },
+      {
+        "model": "csrp:infestedore_gol"
+      },
+      {
+        "model": "csrp:infestedore_gol"
+      },
+      {
+        "model": "csrp:infestedore_gol"
+      }
+    ],
+    "variant=iro": [
+      {
+        "model": "csrp:infestedore_iro"
+      },
+      {
+        "model": "csrp:infestedore_iro"
+      },
+      {
+        "model": "csrp:infestedore_iro"
+      },
+      {
+        "model": "csrp:infestedore_iro"
+      }
+    ],
+    "variant=lap": [
+      {
+        "model": "csrp:infestedore_lap"
+      },
+      {
+        "model": "csrp:infestedore_lap"
+      },
+      {
+        "model": "csrp:infestedore_lap"
+      },
+      {
+        "model": "csrp:infestedore_lap"
+      }
+    ],
+    "variant=red": [
+      {
+        "model": "csrp:infestedore_red"
+      },
+      {
+        "model": "csrp:infestedore_red"
+      },
+      {
+        "model": "csrp:infestedore_red"
+      },
+      {
+        "model": "csrp:infestedore_red"
+      }
+    ],
+    "variant=un": [
+      {
+        "model": "csrp:infestedore_un"
+      },
+      {
+        "model": "csrp:infestedore_un"
+      },
+      {
+        "model": "csrp:infestedore_un"
+      },
+      {
+        "model": "csrp:infestedore_un"
+      }
+    ],
+    "inventory": [
+      {}
+    ]
+  }
+}

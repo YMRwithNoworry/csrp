@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " A ",
+    "CA ",
+    "C  "
+  ],
+  "key": {
+    "A": {
+      "item": "csrp:bone"
+    },
+    "C": {
+      "item": "csrp:assimilated_flesh"
+    }
+  },
+  "result": {
+    "item": "csrp:dried_tendons",
+    "count": 1
+  }
+}

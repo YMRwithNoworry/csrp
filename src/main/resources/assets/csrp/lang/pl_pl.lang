@@ -1,0 +1,674 @@
+//Entities
+
+entity.csrp.pri_longarms.name=Prymitywny długoręki
+entity.csrp.pri_manducater.name=Prymitywny przeżuwacz
+entity.csrp.pri_summoner.name=Prymitywny przywoływacz
+entity.csrp.pri_reeker.name=Prymitywny kwasz
+entity.csrp.pri_yelloweye.name=Prymitywny złotooki
+entity.csrp.pri_bolster.name=Prymitywny bolster
+entity.csrp.pri_arachnida.name=Prymitywna arachnida
+entity.csrp.pri_lum.name=Prymitywny pożeracz
+entity.csrp.pri_vermin.name=Prymitywny szkodnik
+entity.csrp.pri_tozoon.name=Prymitywny tozun
+
+entity.csrp.host.name=Chmara
+entity.csrp.hostii.name=Tabun
+entity.csrp.crux.name=Kruks
+entity.csrp.heed.name=Pacynka
+entity.csrp.thrall.name=Zwolennik
+
+entity.csrp.sim_bear.name=Zasymilowany niedźwiedź polarny
+entity.csrp.sim_squid.name=Zasymilowana kałamarnica
+entity.csrp.sim_enderman.name=Zasymilowany Enderman
+entity.csrp.sim_endermanhead.name=Chodząca głowa
+entity.csrp.sim_adventurer.name=Zasymilowany podróżnik
+entity.csrp.sim_adventurerhead.name=Chodząca głowa
+entity.csrp.sim_bigspider.name=Zasymilowany wielki pająk
+entity.csrp.sim_human.name=Zasymilowany człowiek
+entity.csrp.sim_humanhead.name=Chodząca głowa
+entity.csrp.sim_villager.name=Zasymilowany osadnik
+entity.csrp.sim_villagerhead.name=Chodząca głowa
+entity.csrp.sim_cow.name=Zasymilowana krowa
+entity.csrp.sim_cowhead.name=Chodząca głowa
+entity.csrp.sim_horse.name=Zasymilowany koń
+entity.csrp.sim_horsehead.name=Chodząca głowa
+entity.csrp.sim_pig.name=Zasymilowana świnia
+entity.csrp.sim_pighead.name=Chodząca głowa
+entity.csrp.sim_sheep.name=Zasymilowana owca
+entity.csrp.sim_sheephead.name=Chodząca głowa
+entity.csrp.sim_wolf.name=Zasymilowany wilk
+entity.csrp.sim_wolfhead.name=Chodząca głowa
+entity.csrp.incompleteform_medium.name=Niekompletna forma
+entity.csrp.incompleteform_small.name=Niekompletna forma
+entity.csrp.sim_dragone.name=Zasymilowany smok Endu
+entity.csrp.sim_dragonehead.name=Chodząca głowa
+
+entity.csrp.fer_cow.name=Zdziczała krowa
+entity.csrp.fer_bear.name=Zdziczały niedźwiedź polarny
+entity.csrp.fer_enderman.name=Zdziczały Enderman
+entity.csrp.fer_human.name=Zdziczały człowiek
+entity.csrp.fer_horse.name=Zdziczały koń
+entity.csrp.fer_sheep.name=Zdziczała owca
+entity.csrp.fer_pig.name=Zdziczała świnia
+entity.csrp.fer_villager.name=Zdziczały osadnik
+entity.csrp.fer_wolf.name=Zdziczały wilk
+
+entity.csrp.hi_blaze.name=Przejęty płomyk
+entity.csrp.hi_golem.name=Przejęty żelazny golem
+entity.csrp.hi_skeleton.name=Przejęty szkielet
+
+entity.csrp.overseer.name=Nadzorca
+entity.csrp.bomber_light.name=Lekki bombowiec
+entity.csrp.carrier_heavy.name=Ciężki roznosiciel
+entity.csrp.carrier_light.name=Lekki roznosiciel
+entity.csrp.buglin.name=Buglin
+entity.csrp.mangler.name=Rozrywacz
+entity.csrp.gnat.name=Muszka
+entity.csrp.worker.name=Robotnik
+entity.csrp.carrier_flying.name=Latający roznosiciel
+entity.csrp.rupter.name=Rupter
+entity.csrp.beckon_si.name=Bekon etap I
+entity.csrp.beckon_sii.name=Bekon etap II
+entity.csrp.beckon_siii.name=Bekon etap III
+entity.csrp.beckon_siv.name=Bekon etap IV
+entity.csrp.beckon_sv.name=Bekon etap V
+entity.csrp.warden.name=Opiekun
+entity.csrp.marauder.name=Maruder
+entity.csrp.monarch.name=Monarcha 
+entity.csrp.grunt.name=Chrząk
+entity.csrp.sentry.name=Wartownik
+entity.csrp.kyphosis.name=Kifoza
+entity.csrp.dispatcherten.name=Macka dyspozytora
+entity.csrp.dispatcher_si.name=Dyspozytor etap I
+entity.csrp.dispatcher_sii.name=Dyspozytor etap II
+entity.csrp.dispatcher_siii.name=Dyspozytor etap III
+entity.csrp.dispatcher_siv.name=Dyspozytor etap IV
+entity.csrp.seizer.name=Chwytacz
+
+entity.csrp.bomber_heavy.name=Ciężki bombowiec
+entity.csrp.carrier_colony.name=Nosiciel kolonii
+entity.csrp.wraith.name=Zmora
+entity.csrp.bogle.name=Straszydło
+entity.csrp.haunter.name=Nawiedzacz
+entity.csrp.succor.name=Sukurs
+entity.csrp.seeker.name=Poszukiwacz
+entity.csrp.architect.name=Architekt
+
+entity.csrp.draconite.name=§9Drakonit
+
+entity.csrp.anc_dreadnaut.name=Starożytna groza
+entity.csrp.anc_overlord.name=Starożytny władca
+entity.csrp.vigilante.name=Strażnik
+entity.csrp.movingflesh.name=Ruchome mięso
+entity.csrp.tendril.name=Wić
+entity.csrp.anc_pod.name=Kapsuła
+entity.csrp.biomass.name=Biomasa
+entity.csrp.gore.name=Szczątki
+
+entity.csrp.ada_longarms.name=Przystosowany długoręki
+entity.csrp.ada_summoner.name=Przystosowany przywoływacz
+entity.csrp.ada_manducater.name=Przystosowany przeżuwacz
+entity.csrp.ada_reeker.name=Przystosowany kwasz
+entity.csrp.ada_yelloweye.name=Przystosowany złotooki
+entity.csrp.ada_bolster.name=Przystosowany bolster
+entity.csrp.ada_arachnida.name=Przystosowana arachnida
+
+entity.csrp.wave.name=Fala
+entity.csrp.waveshock.name=Fala
+
+entity.csrp.remain.name=Szczątki
+//Creative Tab
+
+itemGroup.Scape & Run: Parasites=Scape and Run: Parasites
+
+//Items
+item.csrp.itemmobspawner_pod.name=Przywołaj: Kapsuła
+
+item.csrp.itemmobspawner_host.name=Przywołaj: Chmara
+item.csrp.itemmobspawner_hostii.name=Przywołaj: Tabun
+item.csrp.itemmobspawner_heed.name=Przywołaj: Pacynka
+item.csrp.itemmobspawner_cruxa.name=Przywołaj: Kruks
+item.csrp.itemmobspawner_mes.name=Przywołaj: Zwolennik
+
+item.csrp.itemmobspawner_infbear.name=Przywołaj: Zasymilowany niedźwiedź polarny
+"item.csrp.itemmobspawner_infsquid.name=Przywołaj Zasymilowana kałamarnica
+item.csrp.itemmobspawner_infenderman.name=Przywołaj: Zasymilowany Enderman
+item.csrp.itemmobspawner_infendermanhead.name=Przywołaj: Chodzącza głowa (Enderman)
+item.csrp.itemmobspawner_infplayer.name=Przywołaj: Zasymilowany podróżnik
+item.csrp.itemmobspawner_infplayerhead.name=Przywołaj: Chodzącza głowa (Podróżnik)
+item.csrp.itemmobspawner_dorpa.name=Przywołaj: Zasymilowany wielki pająk
+item.csrp.itemmobspawner_infhuman.name=Przywołaj: Zasymilowany człowiek
+item.csrp.itemmobspawner_infhumanhead.name=Przywołaj: Chodząca głowa (Człowiek)
+item.csrp.itemmobspawner_infvillager.name=Przywołaj: Zasymilowany osadnik
+item.csrp.itemmobspawner_infvillagerhead.name=Przywołaj: Chodząca głowa (Osadnik)
+item.csrp.itemmobspawner_infcow.name=Przywołaj: Zasymilowana krowa
+item.csrp.itemmobspawner_infcowhead.name=Przywołaj: Chodząca głowa (Krowa)
+item.csrp.itemmobspawner_infpig.name=Przywołaj: Zasymilowana świnia
+item.csrp.itemmobspawner_infpighead.name=Przywołaj: Chodząca głowa (Świnia)
+item.csrp.itemmobspawner_infsheep.name=Przywołaj: Zasymilowana owca
+item.csrp.itemmobspawner_infsheephead.name=Przywołaj: Chodząca głowa (Owca)
+item.csrp.itemmobspawner_infwolf.name=Przywołaj: Zasymilowany wilk
+item.csrp.itemmobspawner_infwolfhead.name=Przywołaj: Chodząca głowa (Wilk)
+item.csrp.itemmobspawner_infhorse.name=Przywołaj: Zasymilowany koń
+item.csrp.itemmobspawner_infhorsehead.name=Przywołaj: Chodząca głowa (Koń)
+item.csrp.itemmobspawner_inhoos.name=Przywołaj: Niekompletna forma (Mała)
+item.csrp.itemmobspawner_inhoom.name=Przywołaj: Niekompletna forma (Średnia)
+item.csrp.itemmobspawner_infdragone.name=Przywołaj: Zasymilowany smok Endu
+item.csrp.itemmobspawner_infdragonehead.name=Przywołaj: Chodząca głowa (Smok Endu)
+
+item.csrp.itemmobspawner_fercow.name=Przywołaj: Zdziczała krowa
+item.csrp.itemmobspawner_ferbear.name=Przywołaj: Zdziczały niedźwiedź polarny
+item.csrp.itemmobspawner_ferenderman.name=Przywołaj: Zdziczały Enderman
+item.csrp.itemmobspawner_ferhuman.name=Przywołaj: Zdziczały człowiek
+item.csrp.itemmobspawner_ferhorse.name=Przywołaj: Zdziczały koń
+item.csrp.itemmobspawner_ferpig.name=Przywołaj: Zdziczała świnia
+item.csrp.itemmobspawner_fersheep.name=Przywołaj: Zdziczała owca
+item.csrp.itemmobspawner_fervillager.name=Przywołaj: Zdziczały osadnik
+item.csrp.itemmobspawner_ferwolf.name=Przywołaj: Zdziczały wilk
+
+item.csrp.itemmobspawner_hiblaze.name=Przywołaj: Przejęty płomyk
+item.csrp.itemmobspawner_higolem.name=Przywołaj: Przejęty żelazny golem
+item.csrp.itemmobspawner_hiskeleton.name=Przywołaj: Przejęty szkielet
+
+item.csrp.itemmobspawner_alafha.name=Przywołaj: Nadzorca
+item.csrp.itemmobspawner_omboo.name=Przywołaj: Lekki bombowiec
+item.csrp.itemmobspawner_rathol.name=Przywołaj: Ciężki roznosiciel
+item.csrp.itemmobspawner_gothol.name=Przywołaj: Lekki roznosiciel
+item.csrp.itemmobspawner_buthol.name=Przywołaj: Latający roznosiciel
+item.csrp.itemmobspawner_lodo.name=Przywołaj: Buglin
+item.csrp.itemmobspawner_nuuh.name=Przywołaj: Rozrywacz
+item.csrp.itemmobspawner_ata.name=Przywołaj: Muszka
+item.csrp.itemmobspawner_worker.name=Przywołaj: Robotnik
+item.csrp.itemmobspawner_mudo.name=Przywołaj: Rupter
+item.csrp.itemmobspawner_venkrol.name=Przywołaj: Bekon etap I
+item.csrp.itemmobspawner_venkrolsii.name=Przywołaj: Bekon etap II
+item.csrp.itemmobspawner_venkrolsiii.name=Przywołaj: Bekon etap III
+item.csrp.itemmobspawner_venkrolsiv.name=Przywołaj: Bekon etap IV
+item.csrp.itemmobspawner_venkrolsv.name=Przywołaj: Bekon etap V
+item.csrp.itemmobspawner_ganro.name=Przywołaj: Opiekun
+item.csrp.itemmobspawner_esor.name=Przywołaj: Maruder
+item.csrp.itemmobspawner_orch.name=Przywołaj: Monarcha
+item.csrp.itemmobspawner_flog.name=Przywołaj: Chrząk
+item.csrp.itemmobspawner_unvo.name=Przywołaj: Wartownik
+item.csrp.itemmobspawner_tonro.name=Przywołaj: Kifoza
+item.csrp.itemmobspawner_dod.name=Przywołaj: Dyspozytor etap I
+item.csrp.itemmobspawner_dodsii.name=Przywołaj: Dyspozytor etap II
+item.csrp.itemmobspawner_dodsiii.name=Przywołaj: Dyspozytor etap III
+item.csrp.itemmobspawner_dodsiv.name=Przywołaj: Dyspozytor etap IV
+item.csrp.itemmobspawner_nak.name=Przywołaj: Chwytacz
+
+item.csrp.itemmobspawner_jinjo.name=Przywołaj: Ciężki bombowiec
+item.csrp.itemmobspawner_vesta.name=Przywołaj: Nosiciel kolonii
+item.csrp.itemmobspawner_elvia.name=Przywołaj: Zmora
+item.csrp.itemmobspawner_lencia.name=Przywołaj: Straszydło
+item.csrp.itemmobspawner_pheon.name=Przywołaj: Nawiedzacz
+item.csrp.itemmobspawner_flam.name=Przywołaj: Sukurs
+item.csrp.itemmobspawner_soo.name=Przywołaj: Poszukiwacz
+item.csrp.itemmobspawner_tenn.name=Przywołaj: Architekt
+
+item.csrp.itemmobspawner_heblu.name=Przywołaj: Drakonit
+
+item.csrp.itemmobspawner_oronco.name=Przywołaj: Starożytna groza
+item.csrp.itemmobspawner_terla.name=Przywołaj: Starożytny władca
+item.csrp.itemmobspawner_anged.name=Przywołaj: Strażnik
+item.csrp.itemmobspawner_lesh.name=Przywołaj: Ruchome mięso
+
+item.csrp.itemmobspawner_shyco.name=Przywołaj: Prymitywny długoręki
+item.csrp.itemmobspawner_hull.name=Przywołaj: Prymitywny przeżuwacz
+item.csrp.itemmobspawner_canra.name=Przywołaj: Prymitywny przywoływacz
+item.csrp.itemmobspawner_emana.name=Przywołaj: Prymitywny złotooki
+item.csrp.itemmobspawner_nogla.name=Przywołaj: Prymitywny kwasz
+item.csrp.itemmobspawner_bano.name=Przywołaj: Prymitywny bolster
+item.csrp.itemmobspawner_ranrac.name=Przywołaj: Prymitywna arachnida
+item.csrp.itemmobspawner_lum.name=Przywołaj: Primitywny pożeracz
+item.csrp.itemmobspawner_iki.name=Przywołaj: Prymitywny szkodnik
+item.csrp.itemmobspawner_wymo.name=Przywołaj: Prymitywny tozun
+
+item.csrp.itemmobspawner_shycoadapted.name=Przywołaj: Przystosowany długoręki
+item.csrp.itemmobspawner_canraadapted.name=Przywołaj: Przystosowany przywoływacz
+item.csrp.itemmobspawner_noglaadapted.name=Przywołaj: Przystosowany kwasz
+item.csrp.itemmobspawner_hulladapted.name=Przywołaj: Przystosowany przeżuwacz
+item.csrp.itemmobspawner_emanaadapted.name=Przywołaj: Przystosowany złotooki
+item.csrp.itemmobspawner_banoadapted.name=Przywołaj: Przystosowany bolster
+item.csrp.itemmobspawner_ranracadapted.name=Przywołaj: Przystosowana arachnida
+
+item.csrp.itemthrow.name=§6Ugaszenie
+item.csrp.itemtab.name=§dBRAK
+item.csrp.itemevolve.name=Berło ewolucji
+item.csrp.itemassimilate.name=Berło asymilacji
+item.csrp.itemdevolve.name=Berło degeneracji
+item.csrp.itemvariant.name=Berło wariantu
+item.csrp.evclock.name=§cOkrwawiony zegar
+item.csrp.weapon_scythe.name=§eŻywa kosa
+item.csrp.weapon_scythe_sentient.name=§6Świadoma wielka kosa
+item.csrp.weapon_bow.name=§eŻywy łuk
+item.csrp.weapon_bow_sentient.name=§6Świadomy wielki łuk
+item.csrp.weapon_axe.name=§eŻywy topór
+item.csrp.weapon_axe_sentient.name=§6Świadomy wielki topór
+item.csrp.weapon_sword.name=§eŻywy Miecz
+item.csrp.weapon_sword_sentient.name=§6Żywy wielki miecz
+item.csrp.weapon_cleaver.name=§eŻywy tasak
+item.csrp.weapon_cleaver_sentient.name=§6Świadomy wielki tasak
+
+item.csrp.armor_helm.name=§eŻywy hełm
+item.csrp.armor_chest.name=§eŻywy napierśnik
+item.csrp.armor_pants.name=§eŻywe nogawice
+item.csrp.armor_boots.name=§eŻywe buty
+item.csrp.armor_helm_sentient.name=§6Świadomy hełm
+item.csrp.armor_chest_sentient.name=§6Świadomy napierśnik
+item.csrp.armor_pants_sentient.name=§6Świadome nogawice
+item.csrp.armor_boots_sentient.name=§6Świadome buty
+
+//////
+item.csrp.bow_upperlimb.name=§6Górne ramię żywego łuku
+item.csrp.bow_lowerlimb.name=§6Dolne ramię żywego łuku
+item.csrp.bow_string.name=§6Cięciwa żywego łuku
+item.csrp.bow_grip.name=§6Uchwyt żywego łuku
+item.csrp.bow_core.name=§6Rdzeń żywego łuku
+
+item.csrp.scythe_back.name=§6Tył żywej kosy
+item.csrp.scythe_blade.name=§6Ostrze żywej kosy
+item.csrp.scythe_core.name=§6Rdzeń żywej kosy
+item.csrp.scythe_handle.name=§6Uchwyt żywej kosy
+item.csrp.scythe_head.name=§6Głowa żywej kosy
+///////
+
+item.csrp.dried_tendons.name=§eWysuszone ścięgna
+item.csrp.hardened_bone_handle.name=§eUtwardzony uchwyt z kości
+item.csrp.infectious_blade_fragment.name=§eZakaźny fragment ostrza
+item.csrp.living_core.name=§eŻywy rdzeń
+item.csrp.vile_shell.name=§eWstrętna skorupa
+item.csrp.bone.name=§eDziwna kość
+
+
+item.csrp.ada_longarms_drop.name=§bFragment pancerza długorękiego
+item.csrp.ada_summoner_drop.name=§bRdzeń przywoływacza
+item.csrp.ada_yelloweye_drop.name=§bKość złotookiego
+item.csrp.ada_reeker_drop.name=§bKieł kwasza
+item.csrp.ada_manducater_drop.name=§bKula przeżuwacza
+item.csrp.ada_bolster_drop.name=§bŁuska bolstera
+item.csrp.ada_arachnida_drop.name=§bPazur arachnidy
+item.csrp.ada_devourer_drop.name=§bMacka pożeracza
+
+item.csrp.assimilated_flesh.name=Zainfekowane mięso
+item.csrp.beckon_drop.name=§aMembrana bekona
+item.csrp.dispatcher_drop.name=§cMembrana dyspozytora
+
+item.csrp.lurecomponent1.name=§bWnętrzności ruptera
+item.csrp.lurecomponent2.name=§bSchorowane serce
+item.csrp.lurecomponent3.name=§bZmienione ścięgna
+item.csrp.lurecomponent4.name=§bToksyczne płuco
+item.csrp.lurecomponent5.name=§bTrujący mózg
+item.csrp.lurecomponent6.name=§bNiezbędny segment
+item.csrp.nodecompass.name=§cKompas węzłowy
+
+//Blocks
+
+tile.csrp.parasitesapling_tree.name=Sadzonka żyłozy
+tile.csrp.parasitesapling_treethin.name=Sadzonka okotrysku
+tile.csrp.parasitesapling_flowertall.name=Sadzonka ciemnokrzewu
+
+tile.csrp.parasitebush_tendril.name=Kapilarna sieć
+tile.csrp.parasitebush_pop.name=Pasożytniczy pęcherzyk
+tile.csrp.parasitebush_bine.name=Unerwiony kędzior
+tile.csrp.parasitebush_eye.name=Zaślepka terminalna
+tile.csrp.parasitebush_tooh.name=Mały siekacz
+
+tile.csrp.infestedore_co.name=Pasożytnicze ruda węgla
+tile.csrp.infestedore_dia.name=Pasożytnicza ruda diamentu
+tile.csrp.infestedore_eme.name=Pasożytnicza ruda szmaragdu
+tile.csrp.infestedore_gol.name=Pasożytnicza ruda złota
+tile.csrp.infestedore_iro.name=Pasożytnicza ruda żelaza
+tile.csrp.infestedore_lap.name=Pasożytnicza ruda lazurytu
+tile.csrp.infestedore_red.name=Pasożytnicza ruda redstone
+tile.csrp.infestedore_un.name=Pasożytnicza ruda
+
+tile.csrp.srpweb_one.name=§8Cienka Pajęczyna
+tile.csrp.srpweb_two.name=§aToksyczna Pajęczyna
+tile.csrp.srpweb_three.name=§8Zszargana Pajęczyna
+tile.csrp.tunnel.name=Tunel
+tile.csrp.dispatchern.name=Siedlisko dyspozytora
+tile.csrp.biomeheart.name=Rdzeń roju
+tile.csrp.colonyheart.name=Pasożytniczy rdzeń kolonii
+tile.csrp.colonyoutpost.name=Pasożytniczy posterunek kolonii
+tile.csrp.biomepurifier.name=§bOczyszczacz biomu
+tile.csrp.parasitestructure.name=Pasożytnicza niekompletna struktura kolonii
+tile.csrp.parasitethin.name=Pasożytnicze cienkie drewno
+tile.csrp.parasitemouth.name=Paszcza
+tile.csrp.parasitetendril.name=Pasożytnicza wić
+tile.csrp.parasitefog.name=Mgła
+
+tile.csrp.gore_sim_small.name=Szczątki zasymilowanego stwora (Małe)
+tile.csrp.gore_sim_big.name=Szczątki zasymilowanego stwora (Duże)
+tile.csrp.gore_sim_flat.name=Szczątki zasymilowanego stwora (Średnie)
+tile.csrp.gore_pri_small.name=Szczątki prymitywnego stwora (Małe)
+tile.csrp.gore_pri_big.name=Szczątki prymitywnego stwora (Duże)
+tile.csrp.gore_pri_flat.name=Szczątki prymitywnego stwora (Średnie)
+tile.csrp.gore_ada_small.name=Szczątki przystosowanego stwora (Małe)
+tile.csrp.gore_ada_big.name=Szczątki przystosowanego stwora (Duże)
+tile.csrp.gore_ada_flat.name=Szczątki przystosowanego stwora (Średnie)
+tile.csrp.gore_pure_small.name=Szczątki nieskalanego stwora (Małe)
+tile.csrp.gore_pure_big.name=Szczątki nieskalanego stwora (Duże)
+tile.csrp.gore_pure_flat.name=Szczątki nieskalanego stwora (Średnie)
+
+
+tile.csrp.infestedstain.name=Zarażona ziemia
+tile.csrp.infestedtrunk.name=Zarażone drewno
+tile.csrp.infestedrubble.name=Zarażony kamień
+tile.csrp.infestremain.name=Zarażone pozostałości
+
+tile.csrp.infestedbush_infected.name=Zainfekowane ciernie żył
+tile.csrp.infestedbush_grass1.name=Zainfekowane gałęzie żył
+tile.csrp.infestedbush_flower1.name=Zainfekowany pęd żył
+tile.csrp.infestedbush_spine.name=Zainfekowany krzak żył
+tile.csrp.infestedbush_vine.name=Zainfekowane cewki żył
+tile.csrp.infestedbush_arc.name=Zainfekowane korzenie żył
+
+tile.csrp.parasitecanister_sac.name=§aPęcherzowy worek
+tile.csrp.parasitecanister_cyst.name=Bezczynna cysta
+tile.csrp.canisteractive.name=Pochłaniająca cysta
+tile.csrp.parasitecanister_lump.name=Groteskowa grudka
+tile.csrp.parasitecanister_bag.name=Worek mięsa
+
+tile.csrp.parasitetrunk_ball.name=Drewno sinodrzewu
+tile.csrp.parasitetrunk_tree.name=Drewno sinodrzewu
+tile.csrp.parasitetrunk_plant.name=Drewno sinodrzewu
+
+tile.csrp.parasitestain_dirt.name=Ziemia roju
+tile.csrp.parasitestain_mud.name=Trzewne błoto
+tile.csrp.parasitestain_flesh.name=Kawałek mięsa
+tile.csrp.parasitestain_fleshstairs.name=Schody z kawałka mięsa
+tile.csrp.parasitestain_feeler.name=Skondensowane tętnice
+
+tile.csrp.parasiterubble_slabhalf.name=Wzmocniona kość
+tile.csrp.parasiterubble_slabdouble.name=Płyta z wzmocnionej kości
+tile.csrp.parasiterubble_flesh.name=Skondensowany kawałek mięsa
+tile.csrp.parasiterubble_bone.name=Wzmocniona kość
+tile.csrp.parasiterubble_bonestairs.name=Schody z wzmocnionej kości
+tile.csrp.parasiterubble_stone.name=Kamień roju
+tile.csrp.parasiterubble_stonedebris.name=Zgliszcza kamienia roju
+tile.csrp.parasiterubble_wood.name=Skonsumowane drewno
+tile.csrp.parasiterubble_bricks.name=Cegły z kamienia roju
+tile.csrp.parasiterubble_metal.name=Stal roju
+tile.csrp.parasiterubble_obsidian.name=Krwawiący Obsydian
+tile.csrp.parasiterubble_fungus.name=Zasymilowany grzyb
+
+tile.csrp.parasiterubbledense_wall.name=Skondensowany kamień roju
+tile.csrp.parasiterubbledense_biome.name=Wzmocniony kamień roju
+tile.csrp.parasiterubbledense_colony.name=Skondensowany pasożytniczy kamień kolonii
+
+tile.csrp.evolutionlure_one.name=Wabik (§4Nikły§f)
+tile.csrp.evolutionlure_two.name=Wabik (§cOsłabiony§f)
+tile.csrp.evolutionlure_three.name=Wabik (§6Wątły§f)
+tile.csrp.evolutionlure_four.name=Wabik (§eStabilny§f)
+tile.csrp.evolutionlure_five.name=Wabik (§2Istotny§f)
+tile.csrp.evolutionlure_six.name=Wabik (§aStężony§f)
+tile.csrp.evolutionlure_seven.name=Wabik (§bStężony+§f)
+tile.csrp.evolutionlure_eight.name=Wabik (§dStężony++§f)
+
+tile.csrp.bloodyice.name=Krwawy lód
+
+//Fluids
+
+fluid.deadblood=Martwa krew
+
+//Effects
+
+mob_effect.csrp:coth=§4Zew roju
+splash_potion.effect.csrp:coth=Miotana mikstura §4zewu roju
+potion.effect.csrp:coth=Mikstura §4zewu roju
+lingering_potion.effect.csrp:coth=Trwała mikstura §4zewu roju
+tipped_arrow.effect.csrp:coth=Strzała §4zewu roju
+
+mob_effect.csrp:fear=§8Strach
+splash_potion.effect.csrp:fear=Miotana mikstura §8strachu
+potion.effect.csrp:fear=Mikstura §8strachu
+lingering_potion.effect.csrp:fear=Trwała mikstura §8strachu
+tipped_arrow.effect.csrp:fear=Strzała §8strachu
+
+mob_effect.csrp:antimall=§7Niezmienność
+splash_potion.effect.csrp:antimall=Miotana mikstura §7niezmienności
+potion.effect.csrp:antimall=Mikstura §7niezmienności
+lingering_potion.effect.csrp:antimall=Trwała mikstura §7niezmienności
+tipped_arrow.effect.csrp:antimall=Strzała §7niezmienności
+
+mob_effect.csrp:bleed=§4Krwawienie
+splash_potion.effect.csrp:bleed=Miotana mikstura §4krwawienia
+potion.effect.csrp:bleed=Mikstura §4krwawienia
+lingering_potion.effect.csrp:bleed=Trwała mikstura §4krwawienia
+tipped_arrow.effect.csrp:bleed=Strzała §4krwawienia
+
+mob_effect.csrp:corrosive=§6Korozja
+splash_potion.effect.csrp:corrosive=Miotana mikstura §6korozji
+potion.effect.csrp:corrosive=Mikstura §6korozji
+lingering_potion.effect.csrp:corrosive=Trwała mikstura §6korozji
+tipped_arrow.effect.csrp:corrosive=Strzała §6korozji
+
+mob_effect.csrp:viral=§aInfekcja
+splash_potion.effect.csrp:viral=Miotana mikstura §ainfekcji
+potion.effect.csrp:viral=Mikstura §ainfekcji
+lingering_potion.effect.csrp:viral=Trwała mikstura §ainfekcji
+tipped_arrow.effect.csrp:viral=Strzała §ainfekcji
+
+mob_effect.csrp:rage=§cWściekłość
+splash_potion.effect.csrp:rage=Miotana mikstura §cwściekłości
+potion.effect.csrp:rage=Mikstura §cwściekłości
+lingering_potion.effect.csrp:rage=Trwała mikstura §cwściekłości
+tipped_arrow.effect.csrp:rage=Strzała §cwściekłości
+
+mob_effect.csrp:repel=§2Kamuflaż
+splash_potion.effect.csrp:repel=Miotana mikstura §2kamuflażu
+potion.effect.csrp:repel=Mikstura §2kamuflażu
+lingering_potion.effect.csrp:repel=Trwała mikstura §2kamuflażu
+tipped_arrow.effect.csrp:repel=Strzała §2kamuflażu
+
+mob_effect.csrp:senses=§3Wyostrzone zmysły
+splash_potion.effect.csrp:senses=Miotana mikstura wyostrzenia §3zmysłów
+potion.effect.csrp:senses=Mikstura wyostrzenia §3zmysłów
+lingering_potion.effect.csrp:senses=Trwała mikstura wyostrzenia §3zmysłów
+tipped_arrow.effect.csrp:senses=Strzała wyostrzenia §3zmysłów
+
+mob_effect.csrp:debar=§7Wykluczenie
+splash_potion.effect.csrp:debar=Miotana mikstura §7wykluczenia
+potion.effect.csrp:debar=Mikstura §7wykluczenia
+lingering_potion.effect.csrp:debar=Trwała mikstura §7wykluczenia
+tipped_arrow.effect.csrp:debar=Strzała §7wylkuczenia
+
+mob_effect.csrp:needler=§6Podrażnienie
+splash_potion.effect.csrp:needler=Miotana mikstura §6podrażnienia
+potion.effect.csrp:needler=Mikstura §6podrażnienia
+lingering_potion.effect.csrp:needler=Trwała mikstura §6podrażnienia
+tipped_arrow.effect.csrp:needler=Strzała §6podrażnienia
+
+mob_effect.csrp:link=§aŁącze
+splash_potion.effect.csrp:link=Miotana mikstura §ałącza
+potion.effect.csrp:link=Mikstura §ałącza
+lingering_potion.effect.csrp:link=Trwała mikstura §ałącza
+tipped_arrow.effect.csrp:link=Strzała §ałącza
+
+mob_effect.csrp:foster=§ePoparcie
+splash_potion.effect.csrp:foster=Miotana mikstura §epoparcia
+potion.effect.csrp:foster=Mikstura §epoparcia
+lingering_potion.effect.csrp:foster=Trwała mikstura §epoparcia
+tipped_arrow.effect.csrp:foster=Strzała §epoparcia
+
+mob_effect.csrp:prey=§eOfiara
+splash_potion.effect.csrp:prey=Miotana mikstura §eofiary
+potion.effect.csrp:prey=Mikstura §eofiary
+lingering_potion.effect.csrp:prey=Trwała mikstura §eofiary
+tipped_arrow.effect.csrp:prey=Strzała §eofiary
+
+//extra
+
+message.csrp.lureb=Dodano czas odnowienia punktów!
+message.csrp.lure=Punkty zredukowane!
+message.csrp.fearitem=Panikujesz!
+message.csrp.fearblock=Panikujesz!
+message.csrp.feargui=Panikujesz!
+message.csrp.evolutionsleep=Nie możesz teraz spać...
+message.csrp.armortooltips1=Aktualna adaptacja
+
+tootip.csrp.quench=§fCiepła i plastyczna substancja na bazie nasyconej magmowego kremu. Wysokie stężenie proszku płonącego sprawia, że jest on niezwykle §atoksyczny §fdla materii pasożytniczej.
+
+tootip.csrp.lurecomp.1=§fKawałki ciała §7ruptera§f, zebrane z ciała małego pasożyta. Składnik do §cprzynęty§f.
+tootip.csrp.lurecomp.2=§fRażąco spuchnięty organ pobrany od §4zasymilowanego §fstworzenia. Składnik do §cprzynęty§f.
+tootip.csrp.lurecomp.3=§f§fKawałek rozwiniętych mięsni pobranych z ciała §cprymitywnego §fpasożyta, który wydziela okropny zapach. Składnik do §cprzynęty§f.
+tootip.csrp.lurecomp.4=§fAdobrze rozwinięte płuco pobrane z ciała §6przystosowanego §fpasożyta. Składnik do §cprzynęty§f.
+tootip.csrp.lurecomp.5=§fDobrze rozwinięty mózg pobrany z ciała §enieskalanego §fpasożyta. Składnik do §cprzynęty§f.
+tootip.csrp.lurecomp.6=§fObiekt podobny do kręgosłupa zebrany z worków wiszących w biomie. Składnik do §cprzynęty§f.
+
+tootip.csrp.item.1=Mała kula, która wydaje się emitować energię, zebrana z ciała §6przywoływacza§f. Składnik do §6komponentów broni§f.
+tootip.csrp.item.2=Solidna kość zebrana z ciała §6złotookiego§f. Składnik do §6komponentów broni§f.
+tootip.csrp.item.3=Mała kula, która wydaje się emitować energię, zebrana z ciała §6przywoływacza§f. Składnik do §6komponentów broni§f.
+tootip.csrp.item.4=Przerażająco ostry kieł zebrany z ciała §6kwasza§f. Składnik do §6komponentów broni§f.
+tootip.csrp.item.5=Lekki, ale wytrzymały fragment zbroi zebrany z ciała §6długorękiego§f. Składnik do §6komponentów broni§f.
+tootip.csrp.item.6=Kawałek mięsa oderwany od §czasymilowanego §fstworzenia. Podstawowy materiał rzemieślniczy.
+tootip.csrp.item.7=
+tootip.csrp.item.8=Elastyczny materiał wytwarzany z części ciała pasożytów. Składnik do §6broni§f.
+tootip.csrp.item.9=Kawałek ostrza wykonany z części ciała pasożytów. Składnik do §6broni§f.
+tootip.csrp.item.10=Płomień życia jeszcze nie zajaśniał w tym przedmiocie. Rdzeń napędzający wszystkie §6bronie§f.
+tootip.csrp.item.11=Niezwykle odporna skorupa, wykonana z części ciała pasożytów. Składnik do §6broni§f.
+tootip.csrp.item.12=Szczególnie gruby uchwyt, składający się z kości, wytworzonych z części ciała pasożytów. Składnik do §6broni§f.
+tootip.csrp.item.13=Niezwykła kość, której nie widzisz na co dzień.
+
+tootip.csrp.item.20=Suchy kawałek skóry pobrany ze zwłok §7Bolstera§f.
+tootip.csrp.item.21=Przerażająco ostry pazur wyrwany ze zwłok §7arachnidy§f.
+tootip.csrp.item.22=Koścista macka oderwała się od §bpożeracza§f.
+tootip.csrp.item.23=Powłoka §abekona§f, oderwana od ich zwłok.
+tootip.csrp.item.24=Powłoka §cdyspozytora§f, oderwana od ich zwłok.
+
+tootip.csrp.item.25=Przedmiot do §cewolucji§f pasożytów.
+tootip.csrp.item.28=Przedmiot do §casymilacji§f stworzeń.
+tootip.csrp.item.26=Przedmiot do §cdegeneracji§f pasożytów.
+tootip.csrp.item.27=Przedmiot do §czmiany wariantów§f pasożytów.
+
+tootip.csrp.item.18=Ociekając krwią, Zegar tyka w kierunku straszliwej północy. 
+
+tootip.csrp.weaponm.1=§fEfektem przekształcenia różnych części ciała Pasożytów w broń. W nim świeci płomień życia.
+tootip.csrp.weaponm.2=§fUkryta ewolucja żywej kosy. Zyskało §bumysł§f.
+tootip.csrp.weaponm.3=§fEfektem przekształcenia różnych części ciała Pasożytów w broń. W nim świeci płomień życia.
+tootip.csrp.weaponm.4=§fUkryta ewolucja żywego topora. Zyskało §bumysł§f.
+tootip.csrp.weaponm.5=§fEfektem przekształcenia różnych części ciała Pasożytów w broń. W nim świeci płomień życia.
+tootip.csrp.weaponm.6=§fUkryta ewolucja żywego miecza. Zyskało §bumysł§f.
+tootip.csrp.weaponm.7=§fEfektem przekształcenia różnych części ciała Pasożytów w broń. W nim świeci płomień życia.
+tootip.csrp.weaponm.8=§fUkryta ewolucja żywego tasaka. Zyskało §bumysł§f.
+
+tootip.csrp.weaponm.10=§cZgładza duży obszar.
+tootip.csrp.weaponm.20=§cDziesiątkuje duży obszar.
+tootip.csrp.weaponm.30=§fZ czasem czyni zbroję §cbezużyteczną§f.
+tootip.csrp.weaponm.40=§fZ czasem czyni zbroję §cbezużyteczną§f.
+tootip.csrp.weaponm.50=§fZadaje §czagrażające życiu§f obrażenia.
+tootip.csrp.weaponm.60=§fZadaje §czagrażające życiu§f obrażenia.
+tootip.csrp.weaponm.70=§fZadaje §azjadliwe §fataki.
+tootip.csrp.weaponm.80=§fZadaje §azjadliwe §fataki.
+
+tootip.csrp.weaponm.100=Nie możesz się już ukryć...
+tootip.csrp.weaponm.200=Nie możesz się już ukryć...
+tootip.csrp.weaponm.300=Nie możesz się już ukryć...
+tootip.csrp.weaponm.400=Nie możesz się już ukryć...
+tootip.csrp.weaponm.500=Nie możesz się już ukryć...
+tootip.csrp.weaponm.600=Nie możesz się już ukryć...
+tootip.csrp.weaponm.700=Nie możesz się już ukryć...
+tootip.csrp.weaponm.800=Nie możesz się już ukryć...
+
+tootip.csrp.weaponr.1=§fEfektem przekształcenia różnych części ciała pasożytów w §6broń§f. W nim świeci płomień życia.
+tootip.csrp.weaponr.2=§fUkryta ewolucja żywego łuku. Zyskało §bumysł§f.
+
+tootip.csrp.weaponr.10=Trzymaj te strzały
+tootip.csrp.weaponr.20=Trzymaj te strzały
+
+tootip.csrp.weaponr.100=Nie możesz się już ukryć...
+tootip.csrp.weaponr.200=Nie możesz się już ukryć...
+
+//subtitles
+
+subtitles.devourerliving=Prymitywny pożeracz ryczy
+subtitles.devourerhurt=Prymitywny pożeracz cierpi
+subtitles.devourerdeath=Prymitywny pożeracz ginie
+subtitles.assimhumanliving=Zasymilowany człowiek krzyczy
+subtitles.assimhumanhurt=Zasymilowany człowiek wyje
+subtitles.assimhumandeath=Zasymilowany człowiek ginie
+subtitles.assimpigliving=Zasymilowana świnia chrumka
+subtitles.assimpighurt=Zasymilowana świnia kwiczy
+subtitles.assimpigdeath=Zasymilowana świnia ginie
+subtitles.assimhorseliving=Zasymilowany koń rży
+subtitles.assimhorsecharge=Zasymilowany koń szarżuje
+subtitles.assimhorsehurt=Zasymilowany koń wrzeszczy
+subtitles.assimhorsedeath=Zasymilowany koń ginie
+subtitles.assimspiderliving=Zasymilowany wielki pająk syczy
+subtitles.assimspidersteps=Kroki pajęczaka
+subtitles.assimspiderdeath=Zasymilowany wielki pająk ginie
+subtitles.headliving=Głowa krzyczy
+subtitles.headhurt=Głowa wrzeszczy
+subtitles.headdeath=Głowa ginie
+subtitles.buglinliving=Buglin syczy
+subtitles.buglinhurt=Buglin cierpi
+subtitles.buglindeath=Buglin ginie
+subtitles.rupterliving=Rupter klika
+subtitles.rupterhurt=Rupter wrzeszczy
+subtitles.rupterdeath=Rupter ginie
+subtitles.rupterinfects=Rupter rozsiewa Zew Roju
+subtitles.wardenliving=Opiekun warczy
+subtitles.wardenhurt=Opiekun cierpi
+subtitles.wardendeath=Opiekun ginie
+subtitles.adaarachliving=Przystosowana arachnida warczy
+subtitles.adaarachhurt=Przystosowana arachnida wrzeszczy
+subtitles.adaarachdeath=Przystosowana arachnida syczy
+subtitles.assimcowliving=Zasymilowana krowa muczy
+subtitles.assimcowhurt=Zasymilowana krowa chrząka
+subtitles.assimcowdeath=Zasymilowana krowa ginie
+subtitles.assimsheepliving=Zasymilowana owca beczy
+subtitles.assimsheephurt=Zasymilowana owca cierpi
+subtitles.assimsheepdeath=Zasymilowana owca ginie
+subtitles.assimwolfliving=Zasymilowany wilk warczy
+subtitles.assimwolfhurt=Zasymilowany wilk piszczy 
+subtitles.assimwolfdeath=Zasymilowany wilk ginie
+subtitles.assimbearliving=Zasymilowany niedźwiedź polarny pomrukuje
+subtitles.assimbearhurt=Zasymilowany niedźwiedź polarny ryczy
+subtitles.assimbeardeath=Zasymilowany niedźwiedź polarny ginie
+subtitles.simmermanliving=Zasymilowany Enderman burczy
+subtitles.simmermanhurt=Zasymilowany Enderman cierpi
+subtitles.simmermanteleports=Zasymilowany Enderman teleportuje się
+subtitles.simmermandeath=Zasymilowany Enderman wrzeszczy
+subtitles.infectedfleshmelt=Tłuczące się ciało łączy się
+subtitles.adasummonerliving=Przystosowany przywoływacz krzyczy
+subtitles.adasummonerhurt=Przystosowany przywoływacz wrzeszczy
+subtitles.adasummonerdeath=Przystosowany przywoływacz płacze
+subtitles.adasummonersummon=Głośny wrzask
+subtitles.adayelloweyeliving=Przystosowany złotooki warczy
+subtitles.adayelloweyehurt=Przystosowany złotooki ryczy
+subtitles.adayelloweyedeath=Przystosowany złotooki ginie
+subtitles.adayelloweyeshoot=Przystosowany złotooki pluje
+subtitles.adareekerliving=Przystosowany kwasz warczy
+subtitles.adareekerhurt=Przystosowany kwasz chrząka
+subtitles.adareekerdeath=Przystosowany kwasz umiera
+subtitles.adamanduliving=Przystosowany przeżuwacz warczy
+subtitles.adamanduhurt=Przystosowany przeżuwacz krzyczy
+subtitles.adamandudeath=Przystosowany przeżuwacz ryczy
+subtitles.vigiliving=Strażnik warczy
+subtitles.vigihurt=Strażnik trzeszczy
+subtitles.vigideath=Strażnik bąbelkuje
+subtitles.bogleliving=Straszydło bulgocze
+subtitles.boglehurt=Straszydło warczy
+subtitles.bogledeath=Straszydło ginie
+subtitles.hostliving=Chmara wyłania się
+subtitles.hosthurt=Chmara krzyczy
+subtitles.hostdeath=Chmara ginie
+subtitles.hostmerge=Zbiorowe jęki
+subtitles.adamaducamo=Upiorne drwiny
+subtitles.adavomit=Pasożyt wymiotuje
+subtitles.flesh=Mięso się gniecie
+subtitles.sentryliving=Wartownik warczy
+subtitles.sentryhurt=Wartownik syczy
+subtitles.sentrydeath=Wartownik ginie
+subtitles.beckonliving=Bekon szepcze
+subtitles.beckonhurt=Bekon syczy
+subtitles.beckondeath=Bekon płacze
+subtitles.beckonbell=Bicie dzwonu
+subtitles.mobexplodes=Mob eksploduje
+subtitles.mobswipe=Mob atakuje
+subtitles.moblands=Mob ląduje na ziemi
+subtitles.cysteats=Miażdżenie przedmiotu
+subtitles.adaptationpart=Pasożyt przystosowuje się
+subtitles.adaptationfull=Pasożyt się przystosował
+subtitles.biomeheart=§cBicie serca

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XX",
+    "XS",
+    " S"
+  ],
+  "key": {
+    "X": { "item": "csrp:bloody_iron_ingot" },
+    "S": { "item": "minecraft:stick" }
+  },
+  "result": { "item": "csrp:hijacked_iron_axe" }
+}

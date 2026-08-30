@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "csrp:parasiterubble",
+      "data": 5
+    }
+  },
+  "result": {
+    "item": "csrp:parasiterubble_bricksstairs",
+    "count": 4
+  }
+}

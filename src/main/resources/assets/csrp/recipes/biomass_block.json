@@ -1,0 +1,49 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "csrp:biomass",
+  "pattern": [
+    "LL",
+    "LB"
+  ],
+  "key": {
+    "L": [
+      {
+        "item": "csrp:lurecomponent1"
+      },
+      {
+        "item": "csrp:lurecomponent2"
+      },
+      {
+        "item": "csrp:lurecomponent3"
+      },
+      {
+        "item": "csrp:lurecomponent4"
+      },
+      {
+        "item": "csrp:lurecomponent5"
+      },
+      {
+        "item": "csrp:lurecomponent6"
+      },
+      {
+        "item": "csrp:lurecomponent7"
+      },
+      {
+        "item": "csrp:lurecomponent8"
+      },
+      {
+        "item": "csrp:lurecomponent9"
+      },
+      {
+        "item": "csrp:lurecomponent10"
+      }
+    ],
+    "B": {
+      "item": "csrp:beckon_drop"
+    }
+  },
+  "result": {
+    "item": "csrp:biomass_block",
+    "count": 4
+  }
+}

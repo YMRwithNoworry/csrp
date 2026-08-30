@@ -3,7 +3,7 @@
   "minecraft:geometry": [
     {
       "description": {
-        "identifier": "geometry.srparasites.pri_longarms",
+        "identifier": "geometry.csrp.pri_longarms",
         "texture_width": 128,
         "texture_height": 60,
         "visible_bounds_width": 16,

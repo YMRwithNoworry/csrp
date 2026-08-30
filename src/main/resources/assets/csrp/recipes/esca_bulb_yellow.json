@@ -1,0 +1,16 @@
+{
+  "type": "forge:ore_shapeless",
+  "group": "csrp:esca_bulb_dye",
+  "ingredients": [
+    {
+      "item": "csrp:esca_bulb"
+    },
+    {
+      "type": "forge:ore_dict",
+      "ore": "dyeYellow"
+    }
+  ],
+  "result": {
+    "item": "csrp:esca_bulb_yellow"
+  }
+}

@@ -1,8 +1,8 @@
 {
-  "id": "srparasites:architect",
+  "id": "csrp:architect",
   "tier": "PREEMINENT",
-  "name_key": "entity.srparasites.architect.name",
-  "lore_key": "lore.srparasites.architect",
+  "name_key": "entity.csrp.architect.name",
+  "lore_key": "lore.csrp.architect",
   "render_scale": 0.45,
   "minlorekill": 1,
   "minstatkill": 1,

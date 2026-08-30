@@ -1,0 +1,23 @@
+{
+  "parent": "csrp:guerilla",
+  "display": {
+    "icon": {
+      "item": "csrp:self_destruct_icon"
+    },
+    "title": {
+      "translate": "advancement.csrp.thornshade_self_destruct.title"
+    },
+    "description": {
+      "translate": "advancement.csrp.thornshade_self_destruct.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "exploded": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

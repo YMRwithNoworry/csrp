@@ -58,6 +58,7 @@ import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
@@ -117,6 +118,12 @@ public final class ModBlocks {
     public static final DeferredBlock<Block> PARASITERUBBLE_WEATHB = BLOCKS.register("parasiterubble_weathb", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
     public static final DeferredBlock<Block> PARASITERUBBLE_WEATHBC = BLOCKS.register("parasiterubble_weathbc", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
     public static final DeferredBlock<Block> PARASITERUBBLE_WEATHFS = BLOCKS.register("parasiterubble_weathfs", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> PARASITERUBBLE_STONEDEBRIS = BLOCKS.register("parasiterubble_stonedebris", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> PARASITERUBBLE_WOOD = BLOCKS.register("parasiterubble_wood", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.WOOD)));
+    public static final DeferredBlock<Block> PARASITERUBBLE_BRICKS = BLOCKS.register("parasiterubble_bricks", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> PARASITERUBBLE_METAL = BLOCKS.register("parasiterubble_metal", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(3.0F, 8.0F).sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> PARASITERUBBLE_OBSIDIAN = BLOCKS.register("parasiterubble_obsidian", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(5.0F, 1_200.0F).sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> PARASITERUBBLE_FUNGUS = BLOCKS.register("parasiterubble_fungus", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(0.6F).sound(SoundType.FUNGUS)));
     public static final DeferredBlock<Block> PARASITERUBBLEDENSE = BLOCKS.register("parasiterubbledense", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
     public static final DeferredBlock<Block> PARASITERUBBLEDENSE_BIOME = BLOCKS.register("parasiterubbledense_biome", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
     public static final DeferredBlock<Block> PARASITERUBBLEDENSE_COLONY = BLOCKS.register("parasiterubbledense_colony", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
@@ -128,6 +135,38 @@ public final class ModBlocks {
     public static final DeferredBlock<Block> PARASITETRUNK = BLOCKS.register("parasitetrunk", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.WOOD)));
     public static final DeferredBlock<Block> PARASITETRUNK_BALL = BLOCKS.register("parasitetrunk_ball", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.WOOD)));
     public static final DeferredBlock<Block> PARASITETRUNK_PLANT = BLOCKS.register("parasitetrunk_plant", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.WOOD)));
+    public static final DeferredBlock<InfestedStairBlock> PARASITERUBBLE_BONESTAIRS = infestedStairs("parasiterubble_bonestairs", PARASITERUBBLE_BONE);
+    public static final DeferredBlock<InfestedStairBlock> PARASITERUBBLE_FLESHSTAIRS = infestedStairs("parasiterubble_fleshstairs", PARASITERUBBLE_FLESH);
+    public static final DeferredBlock<InfestedStairBlock> PARASITERUBBLE_STONESTAIRS = infestedStairs("parasiterubble_stonestairs", PARASITERUBBLE_STONE);
+    public static final DeferredBlock<InfestedStairBlock> PARASITERUBBLE_STONEDEBRISSTAIRS = infestedStairs("parasiterubble_stonedebrisstairs", PARASITERUBBLE_STONEDEBRIS);
+    public static final DeferredBlock<InfestedStairBlock> PARASITERUBBLE_WOODSTAIRS = infestedStairs("parasiterubble_woodstairs", PARASITERUBBLE_WOOD);
+    public static final DeferredBlock<InfestedStairBlock> PARASITERUBBLE_BRICKSSTAIRS = infestedStairs("parasiterubble_bricksstairs", PARASITERUBBLE_BRICKS);
+    public static final DeferredBlock<InfestedStairBlock> PARASITERUBBLE_METALSTAIRS = infestedStairs("parasiterubble_metalstairs", PARASITERUBBLE_METAL);
+    public static final DeferredBlock<InfestedStairBlock> PARASITERUBBLE_OBSIDIANSTAIRS = infestedStairs("parasiterubble_obsidianstairs", PARASITERUBBLE_OBSIDIAN);
+    public static final DeferredBlock<InfestedStairBlock> PARASITERUBBLE_FUNGUSSTAIRS = infestedStairs("parasiterubble_fungusstairs", PARASITERUBBLE_FUNGUS);
+    public static final DeferredBlock<InfestedStairBlock> PARASITERUBBLEDENSE_WALLSTAIRS = infestedStairs("parasiterubbledense_wallstairs", PARASITERUBBLEDENSE);
+    public static final DeferredBlock<InfestedStairBlock> PARASITERUBBLEDENSE_BIOMESTAIRS = infestedStairs("parasiterubbledense_biomestairs", PARASITERUBBLEDENSE_BIOME);
+    public static final DeferredBlock<InfestedStairBlock> PARASITERUBBLEDENSE_COLONYSTAIRS = infestedStairs("parasiterubbledense_colonystairs", PARASITERUBBLEDENSE_COLONY);
+    public static final DeferredBlock<InfestedStairBlock> PARASITETRUNK_TREESTAIRS = infestedStairs("parasitetrunk_treestairs", PARASITETRUNK);
+    public static final DeferredBlock<InfestedStairBlock> PARASITETRUNK_BALLSTAIRS = infestedStairs("parasitetrunk_ballstairs", PARASITETRUNK_BALL);
+    public static final DeferredBlock<InfestedStairBlock> PARASITETRUNK_PLANTSTAIRS = infestedStairs("parasitetrunk_plantstairs", PARASITETRUNK_PLANT);
+    public static final DeferredBlock<SlabBlock> PARASITERUBBLESLABHALF_BONE = slab("parasiterubbleslabhalf_bone", 1.6F, 6.0F, SoundType.STONE);
+    public static final DeferredBlock<SlabBlock> PARASITERUBBLESLABHALF_FLESH = slab("parasiterubbleslabhalf_flesh", 1.6F, 6.0F, SoundType.STONE);
+    public static final DeferredBlock<SlabBlock> PARASITERUBBLESLABHALF_STONE = slab("parasiterubbleslabhalf_stone", 1.6F, 6.0F, SoundType.STONE);
+    public static final DeferredBlock<SlabBlock> PARASITERUBBLESLABHALF_STONEDEBRIS = slab("parasiterubbleslabhalf_stonedebris", 1.6F, 6.0F, SoundType.STONE);
+    public static final DeferredBlock<SlabBlock> PARASITERUBBLESLABHALF_WOOD = slab("parasiterubbleslabhalf_wood", 1.6F, 6.0F, SoundType.WOOD);
+    public static final DeferredBlock<SlabBlock> PARASITERUBBLESLABHALF_BRICKS = slab("parasiterubbleslabhalf_bricks", 1.6F, 6.0F, SoundType.STONE);
+    public static final DeferredBlock<SlabBlock> PARASITERUBBLESLABHALF_METAL = slab("parasiterubbleslabhalf_metal", 3.0F, 8.0F, SoundType.METAL);
+    public static final DeferredBlock<SlabBlock> PARASITERUBBLESLABHALF_OBSIDIAN = slab("parasiterubbleslabhalf_obsidian", 5.0F, 1_200.0F, SoundType.STONE);
+    public static final DeferredBlock<SlabBlock> PARASITERUBBLESLABHALF_FUNGUS = slab("parasiterubbleslabhalf_fungus", 0.6F, 1.0F, SoundType.FUNGUS);
+    public static final DeferredBlock<InfestedWallBlock> PARASITERUBBLE_FLESH_WALL = infestedWall("parasiterubble_flesh_wall", PARASITERUBBLE_FLESH);
+    public static final DeferredBlock<InfestedWallBlock> PARASITERUBBLE_WEATHB_WALL = infestedWall("parasiterubble_weathb_wall", PARASITERUBBLE_WEATHB);
+    public static final DeferredBlock<InfestedWallBlock> PARASITERUBBLE_WEATHBC_WALL = infestedWall("parasiterubble_weathbc_wall", PARASITERUBBLE_WEATHBC);
+    public static final DeferredBlock<InfestedWallBlock> PARASITERUBBLE_WEATHFS_WALL = infestedWall("parasiterubble_weathfs_wall", PARASITERUBBLE_WEATHFS);
+    public static final DeferredBlock<InfestedWallBlock> PARASITERUBBLE_BRICKS_WALL = infestedWall("parasiterubble_bricks_wall", PARASITERUBBLE_BRICKS);
+    public static final DeferredBlock<InfestedWallBlock> PARASITERUBBLE_METAL_WALL = infestedWall("parasiterubble_metal_wall", PARASITERUBBLE_METAL);
+    public static final DeferredBlock<InfestedWallBlock> PARASITERUBBLEDENSE_BIOME_WALL = infestedWall("parasiterubbledense_biome_wall", PARASITERUBBLEDENSE_BIOME);
+    public static final DeferredBlock<InfestedWallBlock> PARASITERUBBLEDENSE_COLONY_WALL = infestedWall("parasiterubbledense_colony_wall", PARASITERUBBLEDENSE_COLONY);
     public static final DeferredBlock<Block> PARASITETHIN_TREEBASE = BLOCKS.register("parasitethin_treebase", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
     public static final DeferredBlock<Block> PARASITETHIN_TREENESW = BLOCKS.register("parasitethin_treenesw", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
     public static final DeferredBlock<Block> PARASITESAPLING_TREE = BLOCKS.register("parasitesapling_tree", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).noCollission().noOcclusion().instabreak().sound(SoundType.GRASS)));
@@ -184,9 +223,10 @@ public final class ModBlocks {
     public static final DeferredBlock<ParasiteTrapBlock> PARASITE_MOUTH = BLOCKS.register("parasitemouth", () ->
             new ParasiteTrapBlock(ParasiteTrapBlock.Kind.MAW, BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_RED).strength(1.4F).noOcclusion().sound(SoundType.ROOTED_DIRT)));
-    public static final DeferredBlock<Block> HIVESTONE_DEBRIS = BLOCKS.register("parasiterubble_stonedebris", () ->
-            new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY)
-                    .strength(2.3F, 6.0F).requiresCorrectToolForDrops().sound(SoundType.METAL)));
+    /** Compatibility alias for the 1.10.8 hivestone debris id.  The id is
+     * registered once above as {@code parasiterubble_stonedebris}; registering
+     * it a second time causes a duplicate-key failure during mod loading. */
+    public static final DeferredBlock<Block> HIVESTONE_DEBRIS = PARASITERUBBLE_STONEDEBRIS;
     public static final DeferredBlock<ParasiteLootBlock> PARASITE_LOOT_COMMON = parasiteLoot(
             "parasiteloot", ParasiteLootBlock.Tier.COMMON);
     public static final DeferredBlock<ParasiteLootBlock> PARASITE_LOOT_UNCOMMON = parasiteLoot(
@@ -560,6 +600,80 @@ public final class ModBlocks {
                     .randomTicks()
                     .noOcclusion()
                     .sound(SoundType.GRASS)));
+
+    /**
+     * The 1.10.8 jar shipped a number of legacy block ids which are referenced
+     * by world saves and structure templates but were not represented by a
+     * dedicated modern class.  Keep those ids available using the closest
+     * vanilla/infested state shape so old worlds load without missing blocks.
+     */
+    private static final java.util.Map<String, DeferredBlock<? extends Block>> LEGACY_BLOCKS =
+            registerLegacyBlocks();
+
+    private static java.util.Map<String, DeferredBlock<? extends Block>> registerLegacyBlocks() {
+        String[] ids = {
+                "assimilated_blossom", "bloodyice", "bruisewood_fence",
+                "bruisewood_plank_slab", "bruisewood_plank_slab_double", "bruisewood_plank_stairs",
+                "bruisewood_plank_wall", "colonyoutpost", "consumed_plank_slab",
+                "consumed_plank_slab_double", "consumed_plank_wall", "consumed_planks_stairs",
+                "consumed_pot", "cooked_flesh_slab_double", "dead_head_plank_slab",
+                "dead_head_plank_slab_double", "deadhead_plank_stairs", "dermoid_cyst",
+                "dispatchern", "epitome_infestation_warp_diffuser", "flesh_slab", "flesh_slab_double",
+                "flesh_stairs", "frost_weathered_stone_slab", "frost_weathered_stone_slab_double",
+                "frost_weathered_stone_stairs", "goreada", "gorefer", "goremar", "gorepri",
+                "gorepur", "goresim", "goth_plank_slab", "goth_plank_slab_double", "goth_plank_wall",
+                "goth_planks_stairs", "harlequinn_grass", "harleskinn_fence", "harleskinn_slab",
+                "harleskinn_slab_double", "harleskinn_stairs", "hirsute_hair", "infested_cactus",
+                "infested_cobblestone_slab_double", "infested_dirt_slab_double", "infested_furnace",
+                "infested_furnace_lit", "infested_leaves", "infested_leaves_fast",
+                "infested_plank_slab_double", "infested_pot", "infested_sandstone_slab_double",
+                "infested_stone_brick_slab_double", "infested_stone_slab_double",
+                "infested_terracotta_slab_double", "infestedbush", "infestedore", "infestedremain",
+                "infestedrubblestairs", "infestedstainstairs", "infestedtrunkstairs", "lipoma_mass",
+                "locs_block_slab", "locs_block_slab_double", "noderelay", "parasite_barrier",
+                "parasitebush", "parasitecanister", "parasitecanister_bag_wall", "parasitefog",
+                "parasiteplank", "parasiteplank_deadhead_wall", "parasiterubble",
+                "parasiterubbleslabdouble", "parasiterubbleslabhalf", "parasitesapling", "parasitestain",
+                "parasitestain_dirtstairs", "parasitestain_feelerstairs", "parasitestain_flesh_wall",
+                "parasitestain_fleshstairs", "parasitestain_mudstairs", "parasitestainslabdouble",
+                "parasitestainslabhalf", "parasitetendril", "parasitic_colony_core_slab",
+                "parasitic_colony_core_slab_double", "parasitic_compressed_colony_stone_slab",
+                "parasitic_compressed_colony_stone_slab_double", "poland_skin_slab",
+                "poland_skin_slab_double", "polished_infested_stone_slab_double",
+                "potted_assimilated_blossom", "potted_consumed_assimilated_blossom",
+                "reinforced_hivestone_slab", "reinforced_hivestone_slab_double", "relay_controller_dummy",
+                "relaycontroller", "residue_brick_slab_double", "sac_of_flesh_slab",
+                "sac_of_flesh_slab_double", "tresses_hair", "weathered_bricks_slab",
+                "weathered_bricks_slab_double", "weathered_cobblestone_slab",
+                "weathered_cobblestone_slab_double", "wheathered_bricks_stairs",
+                "wheathered_cobblestone_stairs"
+        };
+        java.util.Map<String, DeferredBlock<? extends Block>> result = new java.util.LinkedHashMap<>();
+        for (String id : ids) {
+            DeferredBlock<? extends Block> holder;
+            if (id.endsWith("_stairs") || id.endsWith("stairs")) {
+                holder = BLOCKS.register(id, () -> new InfestedStairBlock(Blocks.STONE.defaultBlockState(),
+                        BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
+                                .strength(1.5F, 10.0F).sound(SoundType.ROOTED_DIRT)));
+            } else if (id.endsWith("_slab") || id.endsWith("_slab_double")
+                    || id.endsWith("slabhalf") || id.endsWith("slabdouble")) {
+                holder = BLOCKS.register(id, () -> new InfestedSlabBlock(BlockBehaviour.Properties.of()
+                        .mapColor(MapColor.COLOR_RED).strength(1.5F, 6.0F)
+                        .sound(SoundType.ROOTED_DIRT)));
+            } else if (id.endsWith("_wall") || id.endsWith("wall")) {
+                holder = BLOCKS.register(id, () -> new InfestedWallBlock(BlockBehaviour.Properties.of()
+                        .mapColor(MapColor.COLOR_RED).strength(1.5F, 6.0F).sound(SoundType.ROOTED_DIRT)));
+            } else if (id.endsWith("_fence") || id.endsWith("fence")) {
+                holder = BLOCKS.register(id, () -> new InfestedFenceBlock(BlockBehaviour.Properties.of()
+                        .mapColor(MapColor.COLOR_RED).strength(2.0F).sound(SoundType.WOOD)));
+            } else {
+                holder = BLOCKS.register(id, () -> new Block(BlockBehaviour.Properties.of()
+                        .mapColor(MapColor.COLOR_RED).strength(1.5F, 6.0F).sound(SoundType.ROOTED_DIRT)));
+            }
+            result.put(id, holder);
+        }
+        return java.util.Map.copyOf(result);
+    }
 
     private static DeferredBlock<InfestedGlassBlock> tintedGlass(String id) {
         return BLOCKS.register(id, () -> new InfestedGlassBlock(BlockBehaviour.Properties.of()

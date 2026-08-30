@@ -3,7 +3,7 @@
   "minecraft:geometry": [
     {
       "description": {
-        "identifier": "geometry.srparasites.crux",
+        "identifier": "geometry.csrp.crux",
         "texture_width": 200,
         "texture_height": 200,
         "visible_bounds_width": 16,

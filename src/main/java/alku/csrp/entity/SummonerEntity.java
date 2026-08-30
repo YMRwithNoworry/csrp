@@ -29,7 +29,8 @@ public final class SummonerEntity extends PrimitiveParasiteEntity implements Sum
     private static final byte VOMIT_EVENT = 100;
     private static final byte SUMMON_EVENT = 101;
     private static final int VOMIT_COOLDOWN_TICKS = 180;
-    private static final int SUMMON_COOLDOWN_TICKS = 200;
+    /** Summoning pillars are intentionally aggressive: one summon every second. */
+    private static final int SUMMON_COOLDOWN_TICKS = 50;
     private static final int TOTAL_SUMMON_CAPACITY = 4;
     private static final int SUMMON_LIMIT = 2;
     private static final EntityDataAccessor<Boolean> SUMMONING = SynchedEntityData.defineId(

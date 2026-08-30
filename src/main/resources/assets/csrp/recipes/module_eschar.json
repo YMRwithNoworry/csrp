@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XYX",
+    "ABC",
+    "XYX"
+  ],
+  "key": {
+    "X": {
+      "item": "minecraft:iron_ingot"
+    },
+    "Y": {
+      "item": "csrp:organ_synth"
+    },
+    "A": {
+      "item": "csrp:module_feral"
+    },
+    "B": {
+      "item": "csrp:module_crude"
+    },
+    "C": {
+      "item": "csrp:module_primitive"
+    }
+  },
+  "result": {
+    "item": "csrp:module_eschar",
+    "data": 0,
+    "count": 1
+  }
+}

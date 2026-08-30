@@ -1,0 +1,6 @@
+{
+  "parent": "block/wall_side",
+  "textures": {
+    "wall": "csrp:blocks/parasiterubble_weathfs"
+  }
+}

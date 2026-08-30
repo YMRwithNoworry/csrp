@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " E ",
+    "AMA",
+    " E "
+  ],
+  "key": {
+    "A": { "item": "csrp:module_assimilated" },
+    "M": { "item": "csrp:hijacked_drop" },
+    "E": { "item": "csrp:fishlin" }
+  },
+  "result": { "item": "csrp:module_assimara" }
+}

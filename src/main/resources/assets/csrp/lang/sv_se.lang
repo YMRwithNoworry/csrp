@@ -1,0 +1,397 @@
+//Entities
+
+entity.csrp.pri_longarms.name=Primitiv Långarm
+entity.csrp.pri_manducater.name=Primitiv Ätare
+entity.csrp.pri_summoner.name=Primitiv Kallare
+entity.csrp.pri_reeker.name=Primitiv Stinkare
+entity.csrp.pri_yelloweye.name=Primitiv Gulöga
+entity.csrp.pri_bolster.name=Primitiv Stödjare
+entity.csrp.pri_arachnida.name=Primitivt Spindeldjur
+entity.csrp.pri_devourer.name=Primitiv Slukare
+
+entity.csrp.host.name=Värd
+entity.csrp.crux.name=Krux
+entity.csrp.heed.name=Betraktare
+
+entity.csrp.sim_bear.name=Assimilerad Björn
+entity.csrp.sim_enderman.name=Assimilerad Enderman
+entity.csrp.sim_adventurer.name=Assimilerad Äventyrare
+entity.csrp.sim_bigspider.name=Assimilerad Stor Spindel
+entity.csrp.sim_human.name=Assimilerad Människa
+entity.csrp.sim_humanhead.name=Vandrande Huvud
+entity.csrp.sim_villager.name=Assimilerad Bybo
+entity.csrp.sim_villagerhead.name=Vandrande Huvud
+entity.csrp.sim_cow.name=Assimilerad Ko
+entity.csrp.sim_cowhead.name=Vandrande Huvud
+entity.csrp.sim_horse.name=Assimilerad Häst
+entity.csrp.sim_horsehead.name=Vandrande Huvud
+entity.csrp.sim_pig.name=Assimilerad Gris
+entity.csrp.sim_pighead.name=Vandrande Huvud
+entity.csrp.sim_sheep.name=Assimilerat Får
+entity.csrp.sim_sheephead.name=Vandrande Huvud
+entity.csrp.sim_wolf.name=Assimilerad Varg
+entity.csrp.sim_wolfhead.name=Vandrande Huvud
+entity.csrp.incompleteform_medium.name=Ofärdig Form
+entity.csrp.incompleteform_small.name=Ofärdig Form
+entity.csrp.sim_dragone.name=Assimilerad Enderdrake
+
+entity.csrp.overseer.name=Överseare
+entity.csrp.bomber_light.name=Lätt Bombare
+entity.csrp.bomber_heavy.name=Tung Bombare
+entity.csrp.carrier_heavy.name=Tung Bärare
+entity.csrp.buglin.name=Krypling
+entity.csrp.worker.name=Arbetare
+entity.csrp.carrier_flying.name=Flygande Bärare
+entity.csrp.rupter.name=Rupter
+entity.csrp.beckon_si.name=Lockare Steg I
+entity.csrp.beckon_sii.name=Lockare Steg II
+entity.csrp.beckon_siii.name=Lockare Steg III
+entity.csrp.beckon_siv.name=Lockare Steg IV
+entity.csrp.beckon_sv.name=Lockare Steg V
+entity.csrp.warden.name=Vakt
+entity.csrp.marauder.name=Marodör
+entity.csrp.grunt.name=Grunt
+entity.csrp.sentry.name=Skjutvakt
+entity.csrp.kyphosis.name=Puckelrygg
+
+entity.csrp.anc_dreadnaut.name=Antik Dreadnaut
+entity.csrp.anc_overlord.name=Antik Överherre
+entity.csrp.vigilante.name=Vigilante
+entity.csrp.movingflesh.name=Förflyttande fläsk
+entity.csrp.tendril.name=Klänge
+entity.csrp.anc_pod.name=Podd
+entity.csrp.biomass.name=Biomassa
+entity.csrp.gore.name=Blod
+
+entity.csrp.ada_longarms.name=Anpassad Långarm
+entity.csrp.ada_summoner.name=Anpassad Kallare
+entity.csrp.ada_manducater.name=Anpassad Ätare
+entity.csrp.ada_reeker.name=Anpassad Stinkare
+entity.csrp.ada_yelloweye.name=Anpassad Gulöga
+entity.csrp.ada_bolster.name=Anpassad Stödjare
+entity.csrp.ada_arachnida.name=Anpassad Spindeldjur
+
+//Creative Tab
+
+itemGroup.SRParasites=SR:Parasiter
+
+//Items
+
+item.csrp.itemmobspawner_host.name=Spawna Värd
+item.csrp.itemmobspawner_heed.name=Spawna Betraktare
+item.csrp.itemmobspawner_cruxa.name=Spawna Krux
+
+item.csrp.itemmobspawner_infbear.name=Spawna Assimilerad Björn
+item.csrp.itemmobspawner_infenderman.name=Spawna Assimilerad Enderman 
+item.csrp.itemmobspawner_infplayer.name=Spawna Assimilerad Äventyrare
+item.csrp.itemmobspawner_dorpa.name=Spawna Assimilerad Stor Spindel
+item.csrp.itemmobspawner_infhuman.name=Spawna Assimilerad Människa
+item.csrp.itemmobspawner_infhumanhead.name=Spawna Vandrande Huvud (Människa)
+item.csrp.itemmobspawner_infvillager.name=Spawna Assimilerad Bybo
+item.csrp.itemmobspawner_infvillagerhead.name=Spawna Vandrande Huvud (Bybo)
+item.csrp.itemmobspawner_infcow.name=Spawna Assimilerad Ko
+item.csrp.itemmobspawner_infcowhead.name=Spawna Vandrande Huvud (Ko)
+item.csrp.itemmobspawner_infpig.name=Spawna Assimilerad Gris
+item.csrp.itemmobspawner_infpighead.name=Spawna Vandrande Huvud (Gris)
+item.csrp.itemmobspawner_infsheep.name=Spawna AssimileraT Får
+item.csrp.itemmobspawner_infsheephead.name=Spawna Vandrande Huvud (Får)
+item.csrp.itemmobspawner_infwolf.name=Spawna Assimilerad Varg
+item.csrp.itemmobspawner_infwolfhead.name=Spawna Vandrande Huvud (Varg)
+item.csrp.itemmobspawner_infhorse.name=Spawna Assimilerad Häst
+item.csrp.itemmobspawner_infhorsehead.name=Spawna Vandrande Huvud (Häst)
+item.csrp.itemmobspawner_inhoos.name=Spawna Ofärdig Form (Liten)
+item.csrp.itemmobspawner_inhoom.name=Spawna Ofärdig Form (Mellanstor)
+item.csrp.itemmobspawner_infdragone.name=Spawna Assimilerad Enderdrake
+
+item.csrp.itemmobspawner_alafha.name=Spawna Överseare
+item.csrp.itemmobspawner_omboo.name=Spawna Lätt Bombare
+item.csrp.itemmobspawner_jinjo.name=Spawna Tung Bombare
+item.csrp.itemmobspawner_rathol.name=Spawna Tung Bärare
+item.csrp.itemmobspawner_buthol.name=Spawna Flygande Bärare
+item.csrp.itemmobspawner_lodo.name=Spawna Krypling
+item.csrp.itemmobspawner_worker.name=Spawna Arbetare
+item.csrp.itemmobspawner_mudo.name=Spawna Rupter
+item.csrp.itemmobspawner_venkrol.name=Spawna Lockare Steg I
+item.csrp.itemmobspawner_venkrolsii.name=Spawna Lockare Steg II
+item.csrp.itemmobspawner_venkrolsiii.name=Spawna Lockare Steg III
+item.csrp.itemmobspawner_venkrolsiv.name=Spawna Lockare Steg IV
+item.csrp.itemmobspawner_venkrolsv.name=Spawna Lockare Steg V
+item.csrp.itemmobspawner_ganro.name=Spawna Vakt
+item.csrp.itemmobspawner_esor.name=Spawna Marodör
+item.csrp.itemmobspawner_flog.name=Spawna Grunt
+item.csrp.itemmobspawner_unvo.name=Spawna Skjutvakt 
+item.csrp.itemmobspawner_tonro.name=Spawna Puckelrygg
+
+item.csrp.itemmobspawner_oronco.name=Spawna Antik Dreadnaut
+item.csrp.itemmobspawner_terla.name=Spawna Antik Överherre
+item.csrp.itemmobspawner_anged.name=Spawna Vigilante
+item.csrp.itemmobspawner_lesh.name=Spawna Förflyttande fläsk
+
+item.csrp.itemmobspawner_shyco.name=Spawna Primitiv Långarm
+item.csrp.itemmobspawner_hull.name=Spawna Primitiv Ätare
+item.csrp.itemmobspawner_canra.name=Spawna Primitiv Kallare
+item.csrp.itemmobspawner_emana.name=Spawna Primitiv Gulöga
+item.csrp.itemmobspawner_nogla.name=Spawna Primitiv Stinkare
+item.csrp.itemmobspawner_bano.name=Spawna Primitiv Stödjare
+item.csrp.itemmobspawner_ranrac.name=Spawna Primitiv Spindeldjur
+item.csrp.itemmobspawner_lum.name=Spawna Primitiv Slukare
+
+item.csrp.itemmobspawner_shycoadapted.name=Spawna Anpassad Långarm
+item.csrp.itemmobspawner_canraadapted.name=Spawna Anpassad Kallare
+item.csrp.itemmobspawner_noglaadapted.name=Spawna Anpassad Stinkare
+item.csrp.itemmobspawner_hulladapted.name=Spawna Anpassad Ätare
+item.csrp.itemmobspawner_emanaadapted.name=Spawna Anpassad Gulöga
+item.csrp.itemmobspawner_banoadapted.name=Spawna Anpassad Stödjare
+item.csrp.itemmobspawner_ranracadapted.name=Spawna Anpassad Spindeldjur
+
+item.csrp.itemthrow.name=
+item.csrp.itemtab.name=NULL
+item.csrp.evclock.name=Smutsig Klocka
+item.csrp.weapon_scythe.name=Levande Lie
+item.csrp.weapon_scythe_sentient.name=Kännande Jättelie
+item.csrp.weapon_bow.name=Levande Bow
+item.csrp.weapon_bow_sentient.name=Kännande Jättepilbåge
+item.csrp.weapon_axe.name=Levande Axe
+item.csrp.weapon_axe_sentient.name=Kännande Jätteyxa
+item.csrp.weapon_sword.name=Levande Svärd
+item.csrp.weapon_sword_sentient.name=Kännande Storsvärd
+item.csrp.weapon_cleaver.name=Levande Klyvare
+item.csrp.weapon_cleaver_sentient.name=Kännande Jätteklyvare
+
+//////
+item.csrp.bow_upperlimb.name=Levande Jättepilbåge Övre Båglem
+item.csrp.bow_lowerlimb.name=Levande Jättepilbåge Nedre Båglem
+item.csrp.bow_string.name=Levande Jättepilbåge Tråd
+item.csrp.bow_grip.name=Levande Jättepilbåge Grepp
+item.csrp.bow_core.name=Levande Jättepilbåge Kärna
+
+item.csrp.scythe_back.name=Levande Lie Rygg
+item.csrp.scythe_blade.name=Levande Lie Blad
+item.csrp.scythe_core.name=Levande Lie Kärna
+item.csrp.scythe_handle.name=Levande Lie Handtag
+item.csrp.scythe_head.name=Levande Lie Huvud
+///////
+
+item.csrp.dried_tendons.name=Torkade Senor
+item.csrp.hardened_bone_handle.name=Förhårdnad Benhandtag
+item.csrp.infectious_blade_fragment.name=Infekterande Bladfragment
+item.csrp.living_core.name=Levande Kärna
+item.csrp.vile_shell.name=Vidrigt skal
+item.csrp.bone.name=Konstigt Ben
+
+
+item.csrp.ada_longarms_drop.name=Långarm Rustningsfragment
+item.csrp.ada_summoner_drop.name=Kallarkärna
+item.csrp.ada_yelloweye_drop.name=Gulögsben
+item.csrp.ada_reeker_drop.name=Stinkares Huggtand
+item.csrp.ada_manducater_drop.name=Ätares Klot
+item.csrp.assimilated_flesh.name=Infekterat Fläsk
+
+item.csrp.lurecomponent1.name=Rupterinälvor
+item.csrp.lurecomponent2.name=Sjukligt Hjärta
+item.csrp.lurecomponent3.name=Förändrade Senor
+item.csrp.lurecomponent4.name=Giftig Lunga
+item.csrp.lurecomponent5.name=Skadlig Hjärna
+item.csrp.lurecomponent6.name=Grundläggande Segment
+
+//Blocks
+
+tile.csrp.parasitesapling_tree.name=Parasitiskt Skott
+tile.csrp.parasitesapling_treethin.name=Parasitiskt Skott
+tile.csrp.parasitesapling_flowertall.name=Parasitiskt Skott
+
+tile.csrp.parasitebush_tendril.name=Parasitiskt Nät
+tile.csrp.parasitebush_pop.name=Parasitiskt Vesiklar
+tile.csrp.parasitebush_bine.name=Parasitisk Buske
+
+tile.csrp.srpweb.name=Nät
+tile.csrp.biomeheart.name=Parasitiskt Landskapskärna
+tile.csrp.colonyheart.name=Parasitisk Kolonikärna
+tile.csrp.biomepurifier.name=Landskapsrenare
+tile.csrp.parasitestructure.name=Parasitisk Koloni Ofärdig Struktur
+tile.csrp.parasitethin.name=Parasitisk Liten Stock
+tile.csrp.parasitemouth.name=Parasitisk Mun
+tile.csrp.parasitetendril.name=Parasitiskt Klänge
+tile.csrp.parasitefog.name=Dimma
+
+tile.csrp.gore_sim_small.name=Assimilerad Kvarlevor
+tile.csrp.gore_sim_big.name=Assimilerad Kvarlevor
+tile.csrp.gore_sim_flat.name=Assimilerad Kvarlevor
+tile.csrp.gore_pri_small.name=Primitiv Kvarlevor
+tile.csrp.gore_pri_big.name=Primitiv Kvarlevor
+tile.csrp.gore_pri_flat.name=Primitiv Kvarlevor
+tile.csrp.gore_ada_small.name=Anpassad Kvarlevor
+tile.csrp.gore_ada_big.name=Anpassad Kvarlevor
+tile.csrp.gore_ada_flat.name=Anpassad Kvarlevor
+tile.csrp.gore_pure_small.name=Ren Kvarlevor
+tile.csrp.gore_pure_big.name=Ren Kvarlevor
+tile.csrp.gore_pure_flat.name=Ren Kvarlevor
+
+tile.csrp.infestedstain.name=Infesterad Jord
+tile.csrp.infestedtrunk.name=Infesterat Trä
+tile.csrp.infestedrubble.name=Infesterad Sten
+tile.csrp.infestremain.name=Infesterat Överskott
+
+tile.csrp.infestedbush_infected.name=Infesterade Vener
+tile.csrp.infestedbush_grass1.name=Infesterade Vener
+tile.csrp.infestedbush_flower1.name=Infesterade Vener
+tile.csrp.infestedbush_spine.name=Infesterade Vener
+tile.csrp.infestedbush_vine.name=Infesterade Vener
+tile.csrp.infestedbush_arc.name=Infesterade Vener
+
+tile.csrp.parasitecanister_sac.name=Parasitisk Säck
+tile.csrp.parasitecanister_cyst.name=Parasitisk cysta
+tile.csrp.canisteractive.name=Parasitisk cysta (Aktiv)
+tile.csrp.parasitecanister_lump.name=Parasitiisk Klump
+tile.csrp.parasitecanister_bag.name=Parasitisk Behållare
+
+tile.csrp.parasitetrunk_ball.name=Parasitisk Stock
+tile.csrp.parasitetrunk_tree.name=Parasitisk Stock
+tile.csrp.parasitetrunk_plant.name=Parasitisk Stock
+
+tile.csrp.parasitestain_dirt.name=Parasitisk Jord
+tile.csrp.parasitestain_mud.name=Parasitisk Lera
+tile.csrp.parasitestain_flesh.name=Parasitiskt fläsk
+tile.csrp.parasitestain_fleshstairs.name=Parasitiska Fläsktrappor
+tile.csrp.parasitestain_feeler.name=Parasitiska Vener
+
+tile.csrp.parasiterubble_slabhalf.name=Parasitisk Platta
+tile.csrp.parasiterubble_flesh.name=Parasitiskt Koncentrerat Fläsk
+tile.csrp.parasiterubble_bone.name=Parasitiiskt Koncentrerat Ben
+tile.csrp.parasiterubble_bonestairs.name=Parasitiiskt Koncentrerat Bentrappor
+tile.csrp.parasiterubble_stone.name=Parasitisk Sten
+
+tile.csrp.parasiterubbledense_wall.name=Parasitiskt Komprimerad Sten
+tile.csrp.parasiterubbledense_biome.name=Parasitiskt landskap Komprimerad Sten
+tile.csrp.parasiterubbledense_colony.name=Parasitiskt Komprimerad Kolonisten
+
+tile.csrp.evolutionlure_one.name=Bete (Försvagat)
+tile.csrp.evolutionlure_two.name=Bete (Svag)
+tile.csrp.evolutionlure_three.name=Bete (Litet)
+tile.csrp.evolutionlure_four.name=Bete (Stabilt)
+tile.csrp.evolutionlure_five.name=Bete (Betydande)
+tile.csrp.evolutionlure_six.name=Bete (Koncentrerad)
+tile.csrp.evolutionlure_seven.name=Bete (Koncentrerad+)
+tile.csrp.evolutionlure_eight.name=Bete (Koncentrerad++)
+
+//Effects
+
+mob_effect.csrp:coth=Svärmens Kallelse
+splash_potion.effect.csrp:coth=Svärmens Kallelse Brygd
+potion.effect.csrp:coth=Kastbar Svärmens Kallelse Brygd
+lingering_potion.effect.csrp:coth=Kvardröjande Svärmens Kallelse Brygd
+tipped_arrow.effect.csrp:coth=Svärmens Kallelse Pil
+
+mob_effect.csrp:fear=Rädsla
+splash_potion.effect.csrp:fear=Kastbar Rädslebrygd
+potion.effect.csrp:fear=Rädslebrygd
+lingering_potion.effect.csrp:fear=Kvardröjande Rädslebrygd
+tipped_arrow.effect.csrp:fear=Rädslepil
+
+mob_effect.csrp:antimall=Oformbar
+splash_potion.effect.csrp:antimall=Kastbar Oformbarhets Brygd
+potion.effect.csrp:antimall=Oformbarhets Brygd
+lingering_potion.effect.csrp:antimall=Kvardröjande Oformbarhets Brygd
+tipped_arrow.effect.csrp:antimall=Oformbarhetspil
+
+mob_effect.csrp:bleed=Blödning
+splash_potion.effect.csrp:bleed=Kastbar Blödningsbrygd
+potion.effect.csrp:bleed=Blödningsbrygd
+lingering_potion.effect.csrp:bleed=Kvardröjande Blödningsbrygd
+tipped_arrow.effect.csrp:bleed=Blödningspil
+
+mob_effect.csrp:corrosive=Korrosion
+splash_potion.effect.csrp:corrosive=Kastbar Korrisionsbrygd
+potion.effect.csrp:corrosive=Korrisionsbrygd
+lingering_potion.effect.csrp:corrosive=Kvardröjande Korrisionsbrygd
+tipped_arrow.effect.csrp:corrosive=Korroderande Pil
+
+mob_effect.csrp:viral=Viral
+splash_potion.effect.csrp:viral=Kastbar Viral Brygd
+potion.effect.csrp:viral=Viral Brygd
+lingering_potion.effect.csrp:viral=Kvardröjande Viral Brygd
+tipped_arrow.effect.csrp:viral=Viral Pil
+
+mob_effect.csrp:rage=Ilska
+splash_potion.effect.csrp:rage=Kastbar Ilskebrygd
+potion.effect.csrp:rage=Ilskebrygd
+lingering_potion.effect.csrp:rage=Kvardröjande Ilskebrygd
+tipped_arrow.effect.csrp:rage=Ilskepil
+
+mob_effect.csrp:repel=Kamouflage
+splash_potion.effect.csrp:repel=Kastbar Kamouflagebrygd
+potion.effect.csrp:repel=Kamouflagebrygd
+lingering_potion.effect.csrp:repel=Kvardröjande Kamouflagebrygd
+tipped_arrow.effect.csrp:repel=Kamouflagepil
+
+mob_effect.csrp:senses=Förbättrat Sinne
+splash_potion.effect.csrp:senses=Kastbar Sinnesförbättringbrygd
+potion.effect.csrp:senses=Sinnesförbättringbrygd
+lingering_potion.effect.csrp:senses=Kvarlevande Sinnesförbättringbrygd
+tipped_arrow.effect.csrp:senses=Sinnesförbättringpil
+
+//extra
+
+message.csrp.lure=Poäng har gått ner!
+message.csrp.fearitem=Du får panik!
+message.csrp.fearblock=Du får panik!
+message.csrp.feargui=Du får panik!
+message.csrp.evolutionsleep=Du kan inte sova just nu...
+
+tootip.csrp.lurecomp.1=Bitar av Rupturens inälvor, plockade från den lilla parasitens kropp. En del av beten.
+tootip.csrp.lurecomp.2=Ett vidrigt svullet hjärta från ett assimilerat djurs kropp. En del av beten.
+tootip.csrp.lurecomp.3=Bitar från utvecklade muskler från en primitiv parasits kropp, det ger ifrån sig en vidrig lukt. En del av beten.
+tootip.csrp.lurecomp.4=En utvecklad lunga taget från en anpassad parasits kropp, det ger ifrån sig en vidrig lukt. En del av beten.
+tootip.csrp.lurecomp.5=En utvecklad hjärna taget från en ren parasits kropp, det ger ifrån sig en vidrig lukt. En del av beten.
+tootip.csrp.lurecomp.6=Ryggradsliknande obejekt taget från säckarna som hänger i det parasitiska landskapet. En del av beten.
+
+tootip.csrp.item.1=Ett litet klot som ger ifrån sig energi, taget från en kallares kropp. En del av komponenter som används till tillverkning av vapen.
+tootip.csrp.item.2=Ett starkt ben taget från en gulögas kropp. En del av komponenter som används till tillverkning av vapen.
+tootip.csrp.item.3=Ett litet klot som ger ifrån sig energi, taget från en ätares kropp. En del av komponenter som används till tillverkning av vapen.
+tootip.csrp.item.4=En otäckt vass huggtand taget från en stinkares kropp. En del av komponenter som används till tillverkning av vapen.
+tootip.csrp.item.5=Ett lätt men också resistant rustningsfragment taget från en långarms kropp. En del av komponenter som används till tillverkning av vapen.
+tootip.csrp.item.6=En bit fläsk taget från en assimilerad varelse. En del av komponenter som används till tillverkning av vapen och några grundläggande saker som också kan användas till föda, i desperata situationer.
+tootip.csrp.item.7=
+tootip.csrp.item.8=Ett elastiskt och organiskt material, tillverkat från parasiters kroppsdelar. En komponent för tillverkning av vapen.
+tootip.csrp.item.9=A piece of a blade, produced from Parasites body parts. A Component for Weapons. En bit av ett blad, tillverkat från parasiters kroppsdelar. En komponent för tillverkning av vapen.
+tootip.csrp.item.10=Livets flamma har inte lyst i detta objekt än. Kärnan som ger kraft till alla vapen.
+tootip.csrp.item.11=Ett mycket resistant skal, tillverkat från parasiters kroppsdelar. En komponent för tillverkning av vapen.
+tootip.csrp.item.12=Ett ovanligt tjockt handtag gjort av ben, tillverkat från parasiters kroppsdelar. En komponent för tillverkning av vapen.
+
+tootip.csrp.item.18=Nedsmutsat av infekterat fläsk, denna klockar räknar nu fram till en mycket läskig midnatt.
+
+tootip.csrp.weaponm.1=Resultatet från olika parasitkroppsdelar formgivet till ett vapen. Livets flamma lyser innuti.
+tootip.csrp.weaponm.2=En evolution av den levande lien. Den har nu blivit medvetande.
+tootip.csrp.weaponm.3=Resultatet från olika parasitkroppsdelar formgivet till ett vapen. Livets flamma lyser innuti.
+tootip.csrp.weaponm.4=En evolution av den levande yxan. Den har nu blivit medvetande.
+tootip.csrp.weaponm.5=Resultatet från olika parasitkroppsdelar formgivet till ett vapen. Livets flamma lyser innuti.
+tootip.csrp.weaponm.6=En evolution av det levande svärdet. Den har nu blivit medvetande.
+tootip.csrp.weaponm.7=Resultatet från olika parasitkroppsdelar formgivet till ett vapen. Livets flamma lyser innuti. 
+tootip.csrp.weaponm.8=En evolution av den levande klyvaren. Den har nu blivit medvetande.
+
+tootip.csrp.weaponm.10=Utplånar en stor yta.
+tootip.csrp.weaponm.20=Utplånar en stor yta.
+tootip.csrp.weaponm.30=Gör rustning oanvändbar efter en stund. 
+tootip.csrp.weaponm.40=Gör rustning oanvändbar efter en stund.
+tootip.csrp.weaponm.50=Ger livsfarliga skador. 
+tootip.csrp.weaponm.60=Ger livsfarliga skador.
+tootip.csrp.weaponm.70=Ger ut viruella slag. 
+tootip.csrp.weaponm.80=Ger ut viruella slag.
+
+tootip.csrp.weaponm.100=Du kan inte gömma dig längre...
+tootip.csrp.weaponm.200=Du kan inte gömma dig längre...
+tootip.csrp.weaponm.300=Du kan inte gömma dig längre...
+tootip.csrp.weaponm.400=Du kan inte gömma dig längre...
+tootip.csrp.weaponm.500=Du kan inte gömma dig längre...
+tootip.csrp.weaponm.600=Du kan inte gömma dig längre...
+tootip.csrp.weaponm.700=Du kan inte gömma dig längre...
+tootip.csrp.weaponm.800=Du kan inte gömma dig längre...
+
+tootip.csrp.weaponr.1=Resultatet från olika parasitkroppsdelar formgivet till ett vapen. Livets flamma lyser innuti.
+tootip.csrp.weaponr.2=En evolution av den levande pilbågen. Den har nu blivit medvetande.
+
+tootip.csrp.weaponr.10=Fortsätt att hålla i pilarna
+tootip.csrp.weaponr.20=Fortsätt att hålla i pilarna
+
+tootip.csrp.weaponr.100=Du kan inte gömma dig längre...
+tootip.csrp.weaponr.200=Du kan inte gömma dig längre...

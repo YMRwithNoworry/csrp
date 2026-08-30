@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CCC",
+    "CCC"
+  ],
+  "key": {
+    "C": {
+      "item": "csrp:parasiteplank",
+      "data": 0
+    }
+  },
+  "result": {
+    "item": "csrp:parasiteplank_deadhead_wall",
+    "count": 6
+  }
+}

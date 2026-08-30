@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "csrp:infested_furnace_lit"
+    },
+    "facing=south": {
+      "model": "csrp:infested_furnace_lit",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "csrp:infested_furnace_lit",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "csrp:infested_furnace_lit",
+      "y": 90
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "parent": "block/upper_slab",
+  "textures": {
+    "particle": "csrp:blocks/parasitestain_mud",
+    "bottom": "csrp:blocks/parasitestain_mud",
+    "top": "csrp:blocks/parasitestain_mud",
+    "side": "csrp:blocks/parasitestain_mud"
+  }
+}

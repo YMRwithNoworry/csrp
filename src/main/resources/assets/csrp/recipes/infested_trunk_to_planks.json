@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "csrp:infestedtrunk"
+    }
+  ],
+  "result": {
+    "item": "csrp:infested_planks",
+    "count": 4
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "parent": "block/half_slab",
+  "textures": {
+    "particle": "csrp:blocks/bricks",
+    "bottom": "csrp:blocks/bricks",
+    "top": "csrp:blocks/bricks",
+    "side": "csrp:blocks/bricks"
+  }
+}

@@ -3,7 +3,7 @@
   "minecraft:geometry": [
     {
       "description": {
-        "identifier": "geometry.srparasites.overseer",
+        "identifier": "geometry.csrp.overseer",
         "texture_width": 256,
         "texture_height": 190,
         "visible_bounds_width": 16,

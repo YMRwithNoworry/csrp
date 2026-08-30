@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " H ",
+    "FSF",
+    " H "
+  ],
+  "key": {
+    "F": {
+      "item": "csrp:assimilated_flesh"
+    },
+    "H": {
+      "item": "minecraft:fish",
+      "data": 32767
+    },
+    "S": {
+      "item": "minecraft:sea_lantern"
+    }
+  },
+  "result": {
+    "item": "csrp:esca_bulb",
+    "count": 4
+  }
+}

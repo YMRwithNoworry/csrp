@@ -1,0 +1,26 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "csrp:parasite_fog"
+  },
+  "variants": {
+    "air=0": [
+      {
+        "model": "csrp:parasite_fog"
+      }
+    ],
+    "air=1": [
+      {
+        "model": "csrp:parasite_fog"
+      }
+    ],
+    "air=2": [
+      {
+        "model": "csrp:parasite_fog"
+      }
+    ],
+    "inventory": [
+      {}
+    ]
+  }
+}

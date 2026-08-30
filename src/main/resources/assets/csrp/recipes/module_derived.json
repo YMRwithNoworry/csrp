@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " N ",
+    "AMA",
+    " B "
+  ],
+  "key": {
+    "A": { "item": "csrp:module_ancient" },
+    "M": { "item": "csrp:false_apple" },
+    "N": { "item": "csrp:trophy_void_orb" },
+    "B": { "item": "csrp:trophy_boom_orb" }
+  },
+  "result": { "item": "csrp:module_derived" }
+}

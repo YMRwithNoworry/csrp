@@ -1,0 +1,21 @@
+
+heavy_one_step_x:
+
+- Adapted Longarms
+- Marauder
+- Draconite
+
+heavy_two_step_x:
+- Ada Reeker
+- Ada Manducator
+- Ada Summoner
+
+
+
+
+
+
+
+
+
+

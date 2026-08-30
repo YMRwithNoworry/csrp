@@ -1,0 +1,16 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "XXX",
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "csrp:consumed_planks"
+    }
+  },
+  "result": {
+    "item": "csrp:consumed_plank_wall",
+    "count": 6
+  }
+}

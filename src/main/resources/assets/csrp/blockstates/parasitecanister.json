@@ -1,0 +1,79 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "csrp:parasitecanister_cyst"
+  },
+  "variants": {
+    "variant=bag": [
+      {
+        "model": "csrp:parasitecanister_bag"
+      },
+      {
+        "model": "csrp:parasitecanister_bag",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitecanister_bag",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitecanister_bag",
+        "y": 270
+      }
+    ],
+    "variant=cyst": [
+      {
+        "model": "csrp:parasitecanister_cyst"
+      },
+      {
+        "model": "csrp:parasitecanister_cyst",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitecanister_cyst",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitecanister_cyst",
+        "y": 270
+      }
+    ],
+    "variant=lump": [
+      {
+        "model": "csrp:parasitecanister_lump"
+      },
+      {
+        "model": "csrp:parasitecanister_lump",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitecanister_lump",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitecanister_lump",
+        "y": 270
+      }
+    ],
+    "variant=sac": [
+      {
+        "model": "csrp:parasitecanister_sac"
+      },
+      {
+        "model": "csrp:parasitecanister_sac",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitecanister_sac",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitecanister_sac",
+        "y": 270
+      }
+    ],
+    "inventory": [
+      {}
+    ]
+  }
+}

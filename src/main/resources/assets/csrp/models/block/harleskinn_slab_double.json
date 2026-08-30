@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "particle": "csrp:blocks/harleskinn_block",
+    "all": "csrp:blocks/harleskinn_block"
+  }
+}

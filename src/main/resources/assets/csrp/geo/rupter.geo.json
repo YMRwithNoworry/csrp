@@ -3,7 +3,7 @@
   "minecraft:geometry": [
     {
       "description": {
-        "identifier": "geometry.srparasites.rupter",
+        "identifier": "geometry.csrp.rupter",
         "texture_width": 64,
         "texture_height": 50,
         "visible_bounds_width": 16,

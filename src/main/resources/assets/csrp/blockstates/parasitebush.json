@@ -1,0 +1,995 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "csrp:parasitebush_tendril"
+  },
+  "variants": {
+    "end=false,node=false,variant=tendril": [
+      {
+        "model": "csrp:parasitebush_tendril"
+      },
+      {
+        "model": "csrp:parasitebush_tendril",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_tendril",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_tendril",
+        "y": 270
+      }
+    ],
+    "end=true,node=false,variant=tendril": [
+      {
+        "model": "csrp:parasitebush_tendril_end"
+      },
+      {
+        "model": "csrp:parasitebush_tendril_end",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_tendril_end",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_tendril_end",
+        "y": 270
+      }
+    ],
+    "end=false,node=true,variant=tendril": [
+      {
+        "model": "csrp:parasitebush_tendril_bottom"
+      },
+      {
+        "model": "csrp:parasitebush_tendril_bottom",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_tendril_bottom",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_tendril_bottom",
+        "y": 270
+      }
+    ],
+    "end=true,node=true,variant=tendril": [
+      {
+        "model": "csrp:parasitebush_tendril_bottom"
+      },
+      {
+        "model": "csrp:parasitebush_tendril_bottom",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_tendril_bottom",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_tendril_bottom",
+        "y": 270
+      }
+    ],
+    "end=false,node=false,variant=bine": [
+      {
+        "model": "csrp:parasitebush_bine"
+      },
+      {
+        "model": "csrp:parasitebush_bine",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_bine",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_bine",
+        "y": 270
+      }
+    ],
+    "end=false,node=true,variant=bine": [
+      {
+        "model": "csrp:parasitebush_bine_top"
+      },
+      {
+        "model": "csrp:parasitebush_bine_top",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_bine_top",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_bine_top",
+        "y": 270
+      }
+    ],
+    "end=true,node=false,variant=bine": [
+      {
+        "model": "csrp:parasitebush_bine_end"
+      },
+      {
+        "model": "csrp:parasitebush_bine_end",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_bine_end",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_bine_end",
+        "y": 270
+      }
+    ],
+    "end=true,node=true,variant=bine": [
+      {
+        "model": "csrp:parasitebush_bine_end"
+      },
+      {
+        "model": "csrp:parasitebush_bine_end",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_bine_end",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_bine_end",
+        "y": 270
+      }
+    ],
+    "end=false,node=false,variant=pop": [
+      {
+        "model": "csrp:parasitebush_pop"
+      },
+      {
+        "model": "csrp:parasitebush_pop",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_pop",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_pop",
+        "y": 270
+      }
+    ],
+    "end=true,node=false,variant=pop": [
+      {
+        "model": "csrp:parasitebush_pop"
+      },
+      {
+        "model": "csrp:parasitebush_pop",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_pop",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_pop",
+        "y": 270
+      }
+    ],
+    "end=false,node=true,variant=pop": [
+      {
+        "model": "csrp:parasitebush_pop"
+      },
+      {
+        "model": "csrp:parasitebush_pop",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_pop",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_pop",
+        "y": 270
+      }
+    ],
+    "end=true,node=true,variant=pop": [
+      {
+        "model": "csrp:parasitebush_pop"
+      },
+      {
+        "model": "csrp:parasitebush_pop",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_pop",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_pop",
+        "y": 270
+      }
+    ],
+    "end=false,node=false,variant=eye": [
+      {
+        "model": "csrp:parasitebush_eye"
+      },
+      {
+        "model": "csrp:parasitebush_eye",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_eye",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_eye",
+        "y": 270
+      }
+    ],
+    "end=true,node=false,variant=eye": [
+      {
+        "model": "csrp:parasitebush_eye"
+      },
+      {
+        "model": "csrp:parasitebush_eye",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_eye",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_eye",
+        "y": 270
+      }
+    ],
+    "end=false,node=true,variant=eye": [
+      {
+        "model": "csrp:parasitebush_eye"
+      },
+      {
+        "model": "csrp:parasitebush_eye",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_eye",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_eye",
+        "y": 270
+      }
+    ],
+    "end=true,node=true,variant=eye": [
+      {
+        "model": "csrp:parasitebush_eye"
+      },
+      {
+        "model": "csrp:parasitebush_eye",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_eye",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_eye",
+        "y": 270
+      }
+    ],
+    "end=false,node=false,variant=tooh": [
+      {
+        "model": "csrp:parasitebush_tooh"
+      },
+      {
+        "model": "csrp:parasitebush_tooh",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_tooh",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_tooh",
+        "y": 270
+      }
+    ],
+    "end=false,node=true,variant=tooh": [
+      {
+        "model": "csrp:parasitebush_tooh_node"
+      },
+      {
+        "model": "csrp:parasitebush_tooh_node",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_tooh_node",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_tooh_node",
+        "y": 270
+      }
+    ],
+    "end=true,node=false,variant=tooh": [
+      {
+        "model": "csrp:parasitebush_tooh"
+      },
+      {
+        "model": "csrp:parasitebush_tooh",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_tooh",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_tooh",
+        "y": 270
+      }
+    ],
+    "end=true,node=true,variant=tooh": [
+      {
+        "model": "csrp:parasitebush_tooh"
+      },
+      {
+        "model": "csrp:parasitebush_tooh",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_tooh",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_tooh",
+        "y": 270
+      }
+    ],
+    "end=false,node=false,variant=frostg": [
+      {
+        "model": "csrp:parasitebush_frostg1"
+      },
+      {
+        "model": "csrp:parasitebush_frostg2"
+      },
+      {
+        "model": "csrp:parasitebush_frostg3"
+      },
+      {
+        "model": "csrp:parasitebush_frostg4"
+      }
+    ],
+    "end=true,node=false,variant=frostg": [
+      {
+        "model": "csrp:parasitebush_frostg1"
+      },
+      {
+        "model": "csrp:parasitebush_frostg2"
+      },
+      {
+        "model": "csrp:parasitebush_frostg3"
+      },
+      {
+        "model": "csrp:parasitebush_frostg4"
+      }
+    ],
+    "end=false,node=true,variant=frostg": [
+      {
+        "model": "csrp:parasitebush_frostg1"
+      },
+      {
+        "model": "csrp:parasitebush_frostg2"
+      },
+      {
+        "model": "csrp:parasitebush_frostg3"
+      },
+      {
+        "model": "csrp:parasitebush_frostg4"
+      }
+    ],
+    "end=true,node=true,variant=frostg": [
+      {
+        "model": "csrp:parasitebush_frostg1"
+      },
+      {
+        "model": "csrp:parasitebush_frostg2"
+      },
+      {
+        "model": "csrp:parasitebush_frostg3"
+      },
+      {
+        "model": "csrp:parasitebush_frostg4"
+      }
+    ],
+    "end=false,node=false,variant=frostgt": [
+      {
+        "model": "csrp:parasitebush_frostgt1"
+      },
+      {
+        "model": "csrp:parasitebush_frostgt2"
+      },
+      {
+        "model": "csrp:parasitebush_frostgt3"
+      }
+    ],
+    "end=true,node=false,variant=frostgt": [
+      {
+        "model": "csrp:parasitebush_frostgt1"
+      },
+      {
+        "model": "csrp:parasitebush_frostgt2"
+      },
+      {
+        "model": "csrp:parasitebush_frostgt3"
+      }
+    ],
+    "end=false,node=true,variant=frostgt": [
+      {
+        "model": "csrp:parasitebush_frostgt1"
+      },
+      {
+        "model": "csrp:parasitebush_frostgt2"
+      },
+      {
+        "model": "csrp:parasitebush_frostgt3"
+      }
+    ],
+    "end=true,node=true,variant=frostgt": [
+      {
+        "model": "csrp:parasitebush_frostgt1"
+      },
+      {
+        "model": "csrp:parasitebush_frostgt2"
+      },
+      {
+        "model": "csrp:parasitebush_frostgt3"
+      }
+    ],
+    "end=false,node=false,variant=thorn": [
+      {
+        "model": "csrp:parasitebush_thorn"
+      },
+      {
+        "model": "csrp:parasitebush_thorn",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_thorn",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_thorn",
+        "y": 270
+      }
+    ],
+    "end=true,node=false,variant=thorn": [
+      {
+        "model": "csrp:parasitebush_thorn"
+      },
+      {
+        "model": "csrp:parasitebush_thorn",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_thorn",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_thorn",
+        "y": 270
+      }
+    ],
+    "end=false,node=true,variant=thorn": [
+      {
+        "model": "csrp:parasitebush_thorn"
+      },
+      {
+        "model": "csrp:parasitebush_thorn",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_thorn",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_thorn",
+        "y": 270
+      }
+    ],
+    "end=true,node=true,variant=thorn": [
+      {
+        "model": "csrp:parasitebush_thorn"
+      },
+      {
+        "model": "csrp:parasitebush_thorn",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_thorn",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_thorn",
+        "y": 270
+      }
+    ],
+    "end=false,node=false,variant=thorndead": [
+      {
+        "model": "csrp:parasitebush_thorndead"
+      },
+      {
+        "model": "csrp:parasitebush_thorndead",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_thorndead",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_thorndead",
+        "y": 270
+      }
+    ],
+    "end=true,node=false,variant=thorndead": [
+      {
+        "model": "csrp:parasitebush_thorndead"
+      },
+      {
+        "model": "csrp:parasitebush_thorndead",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_thorndead",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_thorndead",
+        "y": 270
+      }
+    ],
+    "end=false,node=true,variant=thorndead": [
+      {
+        "model": "csrp:parasitebush_thorndead"
+      },
+      {
+        "model": "csrp:parasitebush_thorndead",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_thorndead",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_thorndead",
+        "y": 270
+      }
+    ],
+    "end=true,node=true,variant=thorndead": [
+      {
+        "model": "csrp:parasitebush_thorndead"
+      },
+      {
+        "model": "csrp:parasitebush_thorndead",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_thorndead",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_thorndead",
+        "y": 270
+      }
+    ],
+    "end=false,node=false,variant=thorndormat": [
+      {
+        "model": "csrp:parasitebush_thorndormat"
+      },
+      {
+        "model": "csrp:parasitebush_thorndormat",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_thorndormat",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_thorndormat",
+        "y": 270
+      }
+    ],
+    "end=true,node=false,variant=thorndormat": [
+      {
+        "model": "csrp:parasitebush_thorndormat"
+      },
+      {
+        "model": "csrp:parasitebush_thorndormat",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_thorndormat",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_thorndormat",
+        "y": 270
+      }
+    ],
+    "end=false,node=true,variant=thorndormat": [
+      {
+        "model": "csrp:parasitebush_thorndormat"
+      },
+      {
+        "model": "csrp:parasitebush_thorndormat",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_thorndormat",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_thorndormat",
+        "y": 270
+      }
+    ],
+    "end=true,node=true,variant=thorndormat": [
+      {
+        "model": "csrp:parasitebush_thorndormat"
+      },
+      {
+        "model": "csrp:parasitebush_thorndormat",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_thorndormat",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_thorndormat",
+        "y": 270
+      }
+    ],
+    "end=false,node=false,variant=thorndormats": [
+      {
+        "model": "csrp:parasitebush_thorndormats"
+      },
+      {
+        "model": "csrp:parasitebush_thorndormats",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_thorndormats",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_thorndormats",
+        "y": 270
+      }
+    ],
+    "end=true,node=false,variant=thorndormats": [
+      {
+        "model": "csrp:parasitebush_thorndormats"
+      },
+      {
+        "model": "csrp:parasitebush_thorndormats",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_thorndormats",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_thorndormats",
+        "y": 270
+      }
+    ],
+    "end=false,node=true,variant=thorndormats": [
+      {
+        "model": "csrp:parasitebush_thorndormats"
+      },
+      {
+        "model": "csrp:parasitebush_thorndormats",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_thorndormats",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_thorndormats",
+        "y": 270
+      }
+    ],
+    "end=true,node=true,variant=thorndormats": [
+      {
+        "model": "csrp:parasitebush_thorndormats"
+      },
+      {
+        "model": "csrp:parasitebush_thorndormats",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_thorndormats",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_thorndormats",
+        "y": 270
+      }
+    ],
+    "end=false,node=false,variant=thorntwo": [
+      {
+        "model": "csrp:parasitebush_thorntwo"
+      },
+      {
+        "model": "csrp:parasitebush_thorntwo",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_thorntwo",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_thorntwo",
+        "y": 270
+      }
+    ],
+    "end=true,node=false,variant=thorntwo": [
+      {
+        "model": "csrp:parasitebush_thorntwo"
+      },
+      {
+        "model": "csrp:parasitebush_thorntwo",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_thorntwo",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_thorntwo",
+        "y": 270
+      }
+    ],
+    "end=false,node=true,variant=thorntwo": [
+      {
+        "model": "csrp:parasitebush_thorntwo"
+      },
+      {
+        "model": "csrp:parasitebush_thorntwo",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_thorntwo",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_thorntwo",
+        "y": 270
+      }
+    ],
+    "end=true,node=true,variant=thorntwo": [
+      {
+        "model": "csrp:parasitebush_thorntwo"
+      },
+      {
+        "model": "csrp:parasitebush_thorntwo",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_thorntwo",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_thorntwo",
+        "y": 270
+      }
+    ],
+    "end=false,node=false,variant=thorntwos": [
+      {
+        "model": "csrp:parasitebush_thorntwos"
+      },
+      {
+        "model": "csrp:parasitebush_thorntwos",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_thorntwos",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_thorntwos",
+        "y": 270
+      }
+    ],
+    "end=true,node=false,variant=thorntwos": [
+      {
+        "model": "csrp:parasitebush_thorntwos"
+      },
+      {
+        "model": "csrp:parasitebush_thorntwos",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_thorntwos",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_thorntwos",
+        "y": 270
+      }
+    ],
+    "end=false,node=true,variant=thorntwos": [
+      {
+        "model": "csrp:parasitebush_thorntwos"
+      },
+      {
+        "model": "csrp:parasitebush_thorntwos",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_thorntwos",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_thorntwos",
+        "y": 270
+      }
+    ],
+    "end=true,node=true,variant=thorntwos": [
+      {
+        "model": "csrp:parasitebush_thorntwos"
+      },
+      {
+        "model": "csrp:parasitebush_thorntwos",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_thorntwos",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_thorntwos",
+        "y": 270
+      }
+    ],
+    "end=false,node=false,variant=decanter": [
+      {
+        "model": "csrp:parasitebush_decanter"
+      },
+      {
+        "model": "csrp:parasitebush_decanter",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_decanter",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_decanter",
+        "y": 270
+      }
+    ],
+    "end=true,node=false,variant=decanter": [
+      {
+        "model": "csrp:parasitebush_decanter"
+      },
+      {
+        "model": "csrp:parasitebush_decanter",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_decanter",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_decanter",
+        "y": 270
+      }
+    ],
+    "end=false,node=true,variant=decanter": [
+      {
+        "model": "csrp:parasitebush_decanter"
+      },
+      {
+        "model": "csrp:parasitebush_decanter",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_decanter",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_decanter",
+        "y": 270
+      }
+    ],
+    "end=true,node=true,variant=decanter": [
+      {
+        "model": "csrp:parasitebush_decanter"
+      },
+      {
+        "model": "csrp:parasitebush_decanter",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_decanter",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_decanter",
+        "y": 270
+      }
+    ],
+    "end=false,node=false,variant=decanterempty": [
+      {
+        "model": "csrp:parasitebush_decanterempty"
+      },
+      {
+        "model": "csrp:parasitebush_decanterempty",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_decanterempty",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_decanterempty",
+        "y": 270
+      }
+    ],
+    "end=true,node=false,variant=decanterempty": [
+      {
+        "model": "csrp:parasitebush_decanterempty"
+      },
+      {
+        "model": "csrp:parasitebush_decanterempty",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_decanterempty",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_decanterempty",
+        "y": 270
+      }
+    ],
+    "end=false,node=true,variant=decanterempty": [
+      {
+        "model": "csrp:parasitebush_decanterempty"
+      },
+      {
+        "model": "csrp:parasitebush_decanterempty",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_decanterempty",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_decanterempty",
+        "y": 270
+      }
+    ],
+    "end=true,node=true,variant=decanterempty": [
+      {
+        "model": "csrp:parasitebush_decanterempty"
+      },
+      {
+        "model": "csrp:parasitebush_decanterempty",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasitebush_decanterempty",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasitebush_decanterempty",
+        "y": 270
+      }
+    ],
+    "inventory": [
+      {}
+    ]
+  }
+}

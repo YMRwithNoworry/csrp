@@ -3,7 +3,7 @@
   "minecraft:geometry": [
     {
       "description": {
-        "identifier": "geometry.srparasites.ada_bolster",
+        "identifier": "geometry.csrp.ada_bolster",
         "texture_width": 502,
         "texture_height": 200,
         "visible_bounds_width": 16,

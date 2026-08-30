@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "YZY",
+    "ZSZ",
+    "YZY"
+  ],
+  "key": {
+    "Y": { "item": "csrp:residue_plants" },
+    "Z": { "item": "csrp:semiorganic_ingot" },
+    "S": { "item": "minecraft:clock" }
+  },
+  "result": {
+    "item": "csrp:levelclock",
+    "count": 1
+  }
+}

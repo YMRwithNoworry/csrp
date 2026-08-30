@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " X ",
+    "XMX",
+    " X "
+  ],
+  "key": {
+    "X": {
+      "item": "csrp:lurecomponent1"
+    },
+    "M": {
+      "item": "csrp:module_base"
+    }
+  },
+  "result": {
+    "item": "csrp:module_inborn",
+    "data": 0,
+    "count": 1
+  }
+}

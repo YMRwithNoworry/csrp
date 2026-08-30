@@ -961,7 +961,7 @@
   "tooltip.csrp.bough.line2": "Used in Seppuku.",
   "tooltip.csrp.quench": "A warm compound whose concentrated blaze powder purifies parasitic matter.",
   "death.attack.sepeku": "%1$s performed Seppuku",
-  "death.attack.srparasites.ricardo": "%1$s was added to the Book of Vengeance",
+  "death.attack.csrp.ricardo": "%1$s was added to the Book of Vengeance",
   "advancements.csrp.sepeku.title": "Seppuku",
   "advancements.csrp.sepeku.description": "You offered your life.",
   "block.csrp.semiorganic_block": "Semi-organic Block",

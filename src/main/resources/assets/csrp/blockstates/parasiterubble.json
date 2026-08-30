@@ -1,0 +1,218 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "csrp:parasiterubble_flesh"
+  },
+  "variants": {
+    "variant=flesh": [
+      {
+        "model": "csrp:parasiterubble_flesh"
+      },
+      {
+        "model": "csrp:parasiterubble_flesh",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasiterubble_flesh",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasiterubble_flesh",
+        "y": 270
+      }
+    ],
+    "variant=bone": [
+      {
+        "model": "csrp:parasiterubble_bone"
+      },
+      {
+        "model": "csrp:parasiterubble_bone",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasiterubble_bone",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasiterubble_bone",
+        "y": 270
+      }
+    ],
+    "variant=stone": [
+      {
+        "model": "csrp:parasiterubble_stone"
+      },
+      {
+        "model": "csrp:parasiterubble_stone",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasiterubble_stone",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasiterubble_stone",
+        "y": 270
+      }
+    ],
+    "variant=fungus": [
+      {
+        "model": "csrp:parasiterubble_fungus"
+      },
+      {
+        "model": "csrp:parasiterubble_fungus",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasiterubble_fungus",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasiterubble_fungus",
+        "y": 270
+      }
+    ],
+    "variant=obsidian": [
+      {
+        "model": "csrp:parasiterubble_obsidian"
+      },
+      {
+        "model": "csrp:parasiterubble_obsidian",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasiterubble_obsidian",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasiterubble_obsidian",
+        "y": 270
+      }
+    ],
+    "variant=bricks": [
+      {
+        "model": "csrp:parasiterubble_bricks"
+      },
+      {
+        "model": "csrp:parasiterubble_bricks",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasiterubble_bricks",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasiterubble_bricks",
+        "y": 270
+      }
+    ],
+    "variant=wood": [
+      {
+        "model": "csrp:parasiterubble_wood"
+      },
+      {
+        "model": "csrp:parasiterubble_wood",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasiterubble_wood",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasiterubble_wood",
+        "y": 270
+      }
+    ],
+    "variant=metal": [
+      {
+        "model": "csrp:parasiterubble_metal"
+      },
+      {
+        "model": "csrp:parasiterubble_metal",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasiterubble_metal",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasiterubble_metal",
+        "y": 270
+      }
+    ],
+    "variant=stonedebris": [
+      {
+        "model": "csrp:parasiterubble_stonedebris"
+      },
+      {
+        "model": "csrp:parasiterubble_stonedebris",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasiterubble_stonedebris",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasiterubble_stonedebris",
+        "y": 270
+      }
+    ],
+    "variant=weathb": [
+      {
+        "model": "csrp:parasiterubble_weathb"
+      }
+    ],
+    "variant=weathbs": [
+      {
+        "model": "csrp:parasiterubble_weathbs"
+      }
+    ],
+    "variant=weathbc": [
+      {
+        "model": "csrp:parasiterubble_weathbc"
+      }
+    ],
+    "variant=weathbcs": [
+      {
+        "model": "csrp:parasiterubble_weathbcs"
+      }
+    ],
+    "variant=weathfs": [
+      {
+        "model": "csrp:parasiterubble_weathfs"
+      },
+      {
+        "model": "csrp:parasiterubble_weathfs",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasiterubble_weathfs",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasiterubble_weathfs",
+        "y": 270
+      }
+    ],
+    "variant=weathfss": [
+      {
+        "model": "csrp:parasiterubble_weathfss"
+      },
+      {
+        "model": "csrp:parasiterubble_weathfss",
+        "y": 90
+      },
+      {
+        "model": "csrp:parasiterubble_weathfss",
+        "y": 180
+      },
+      {
+        "model": "csrp:parasiterubble_weathfss",
+        "y": 270
+      }
+    ],
+    "inventory": [
+      {}
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X  ",
+    "XX ",
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "csrp:flesh_planks"
+    }
+  },
+  "result": {
+    "item": "csrp:flesh_stairs",
+    "data": 0,
+    "count": 4
+  }
+}

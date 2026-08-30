@@ -1,0 +1,6 @@
+{
+  "parent": "block/wall_side_tall",
+  "textures": {
+    "wall": "csrp:blocks/parasiterubble_flesh"
+  }
+}

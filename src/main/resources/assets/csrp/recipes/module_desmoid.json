@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XYX",
+    "ABC",
+    "XYX"
+  ],
+  "key": {
+    "X": {
+      "item": "minecraft:iron_ingot"
+    },
+    "Y": {
+      "item": "csrp:organ_synth"
+    },
+    "A": {
+      "item": "csrp:module_inborn"
+    },
+    "B": {
+      "item": "csrp:module_assimara"
+    },
+    "C": {
+      "item": "csrp:module_hijacked"
+    }
+  },
+  "result": {
+    "item": "csrp:module_desmoid",
+    "data": 0,
+    "count": 1
+  }
+}

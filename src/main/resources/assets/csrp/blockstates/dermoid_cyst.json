@@ -1,0 +1,9 @@
+{
+  "forge_marker": 1,
+  "variants": {
+    "facing=north": { "model": "csrp:dermoid_cyst_north" },
+    "facing=east":  { "model": "csrp:dermoid_cyst_east" },
+    "facing=south": { "model": "csrp:dermoid_cyst_south" },
+    "facing=west":  { "model": "csrp:dermoid_cyst_west" }
+  }
+}

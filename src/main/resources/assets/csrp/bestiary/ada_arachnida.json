@@ -1,0 +1,12 @@
+{
+  "id": "csrp:ada_arachnida",
+  "tier": "ADAPTED",
+  "name_key": "entity.csrp.ada_arachnida.name",
+  "lore_key": "lore.csrp.ada_arachnida",
+  "render_scale": 0.9,
+  "minlorekill": 1,
+  "minstatkill": 1,
+  "stats": {
+    "source": "entity"
+  }
+}

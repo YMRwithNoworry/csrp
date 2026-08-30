@@ -3,7 +3,7 @@
   "minecraft:geometry": [
     {
       "description": {
-        "identifier": "geometry.srparasites.sim_adventurerhead",
+        "identifier": "geometry.csrp.sim_adventurerhead",
         "texture_width": 64,
         "texture_height": 40,
         "visible_bounds_width": 16,

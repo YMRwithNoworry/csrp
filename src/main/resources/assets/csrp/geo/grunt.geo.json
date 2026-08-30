@@ -3,7 +3,7 @@
   "minecraft:geometry": [
     {
       "description": {
-        "identifier": "geometry.srparasites.grunt",
+        "identifier": "geometry.csrp.grunt",
         "texture_width": 100,
         "texture_height": 75,
         "visible_bounds_width": 16,

@@ -1,0 +1,12 @@
+{
+  "id": "csrp:pri_arachnida",
+  "tier": "PRIMITIVE",
+  "name_key": "entity.csrp.pri_arachnida.name",
+  "lore_key": "lore.csrp.pri_arachnida",
+  "render_scale": 0.9,
+  "minlorekill": 1,
+  "minstatkill": 1,
+  "stats": {
+    "source": "entity"
+  }
+}

@@ -1,0 +1,554 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "csrp:infestedbush_infected"
+  },
+  "variants": {
+    "end=false,node=false,variant=infected": [
+      {
+        "model": "csrp:infestedbush_infected"
+      },
+      {
+        "model": "csrp:infestedbush_infected",
+        "y": 90
+      },
+      {
+        "model": "csrp:infestedbush_infected",
+        "y": 180
+      },
+      {
+        "model": "csrp:infestedbush_infected",
+        "y": 270
+      }
+    ],
+    "end=true,node=false,variant=infected": [
+      {
+        "model": "csrp:infestedbush_infected"
+      },
+      {
+        "model": "csrp:infestedbush_infected",
+        "y": 90
+      },
+      {
+        "model": "csrp:infestedbush_infected",
+        "y": 180
+      },
+      {
+        "model": "csrp:infestedbush_infected",
+        "y": 270
+      }
+    ],
+    "end=false,node=true,variant=infected": [
+      {
+        "model": "csrp:infestedbush_infected"
+      },
+      {
+        "model": "csrp:infestedbush_infected",
+        "y": 90
+      },
+      {
+        "model": "csrp:infestedbush_infected",
+        "y": 180
+      },
+      {
+        "model": "csrp:infestedbush_infected",
+        "y": 270
+      }
+    ],
+    "end=true,node=true,variant=infected": [
+      {
+        "model": "csrp:infestedbush_infected"
+      },
+      {
+        "model": "csrp:infestedbush_infected",
+        "y": 90
+      },
+      {
+        "model": "csrp:infestedbush_infected",
+        "y": 180
+      },
+      {
+        "model": "csrp:infestedbush_infected",
+        "y": 270
+      }
+    ],
+    "end=false,node=false,variant=grass1": [
+      {
+        "model": "csrp:infestedbush_grass1"
+      },
+      {
+        "model": "csrp:infestedbush_grass1",
+        "y": 90
+      },
+      {
+        "model": "csrp:infestedbush_grass1",
+        "y": 180
+      },
+      {
+        "model": "csrp:infestedbush_grass1",
+        "y": 270
+      },
+      {
+        "model": "csrp:infestedbush_grass12"
+      },
+      {
+        "model": "csrp:infestedbush_grass12",
+        "y": 90
+      },
+      {
+        "model": "csrp:infestedbush_grass12",
+        "y": 180
+      },
+      {
+        "model": "csrp:infestedbush_grass12",
+        "y": 270
+      }
+    ],
+    "end=true,node=false,variant=grass1": [
+      {
+        "model": "csrp:infestedbush_grass1_node"
+      },
+      {
+        "model": "csrp:infestedbush_grass1_node",
+        "y": 90
+      },
+      {
+        "model": "csrp:infestedbush_grass1_node",
+        "y": 180
+      },
+      {
+        "model": "csrp:infestedbush_grass1_node",
+        "y": 270
+      }
+    ],
+    "end=false,node=true,variant=grass1": [
+      {
+        "model": "csrp:infestedbush_grass1"
+      },
+      {
+        "model": "csrp:infestedbush_grass1",
+        "y": 90
+      },
+      {
+        "model": "csrp:infestedbush_grass1",
+        "y": 180
+      },
+      {
+        "model": "csrp:infestedbush_grass1",
+        "y": 270
+      },
+      {
+        "model": "csrp:infestedbush_grass12"
+      },
+      {
+        "model": "csrp:infestedbush_grass12",
+        "y": 90
+      },
+      {
+        "model": "csrp:infestedbush_grass12",
+        "y": 180
+      },
+      {
+        "model": "csrp:infestedbush_grass12",
+        "y": 270
+      }
+    ],
+    "end=true,node=true,variant=grass1": [
+      {
+        "model": "csrp:infestedbush_grass1"
+      },
+      {
+        "model": "csrp:infestedbush_grass1",
+        "y": 90
+      },
+      {
+        "model": "csrp:infestedbush_grass1",
+        "y": 180
+      },
+      {
+        "model": "csrp:infestedbush_grass1",
+        "y": 270
+      },
+      {
+        "model": "csrp:infestedbush_grass12"
+      },
+      {
+        "model": "csrp:infestedbush_grass12",
+        "y": 90
+      },
+      {
+        "model": "csrp:infestedbush_grass12",
+        "y": 180
+      },
+      {
+        "model": "csrp:infestedbush_grass12",
+        "y": 270
+      }
+    ],
+    "end=false,node=false,variant=flower1": [
+      {
+        "model": "csrp:infestedbush_flower1"
+      },
+      {
+        "model": "csrp:infestedbush_flower1",
+        "y": 90
+      },
+      {
+        "model": "csrp:infestedbush_flower1",
+        "y": 180
+      },
+      {
+        "model": "csrp:infestedbush_flower1",
+        "y": 270
+      }
+    ],
+    "end=true,node=false,variant=flower1": [
+      {
+        "model": "csrp:infestedbush_flower1"
+      },
+      {
+        "model": "csrp:infestedbush_flower1",
+        "y": 90
+      },
+      {
+        "model": "csrp:infestedbush_flower1",
+        "y": 180
+      },
+      {
+        "model": "csrp:infestedbush_flower1",
+        "y": 270
+      }
+    ],
+    "end=false,node=true,variant=flower1": [
+      {
+        "model": "csrp:infestedbush_flower1"
+      },
+      {
+        "model": "csrp:infestedbush_flower1",
+        "y": 90
+      },
+      {
+        "model": "csrp:infestedbush_flower1",
+        "y": 180
+      },
+      {
+        "model": "csrp:infestedbush_flower1",
+        "y": 270
+      }
+    ],
+    "end=true,node=true,variant=flower1": [
+      {
+        "model": "csrp:infestedbush_flower1"
+      },
+      {
+        "model": "csrp:infestedbush_flower1",
+        "y": 90
+      },
+      {
+        "model": "csrp:infestedbush_flower1",
+        "y": 180
+      },
+      {
+        "model": "csrp:infestedbush_flower1",
+        "y": 270
+      }
+    ],
+    "end=false,node=true,variant=spine": [
+      {
+        "model": "csrp:infestedbush_spine_node"
+      },
+      {
+        "model": "csrp:infestedbush_spine_node",
+        "y": 90
+      },
+      {
+        "model": "csrp:infestedbush_spine_node",
+        "y": 180
+      },
+      {
+        "model": "csrp:infestedbush_spine_node",
+        "y": 270
+      },
+      {
+        "model": "csrp:infestedbush_spine2_node"
+      },
+      {
+        "model": "csrp:infestedbush_spine2_node",
+        "y": 90
+      },
+      {
+        "model": "csrp:infestedbush_spine2_node",
+        "y": 180
+      },
+      {
+        "model": "csrp:infestedbush_spine2_node",
+        "y": 270
+      }
+    ],
+    "end=false,node=false,variant=spine": [
+      {
+        "model": "csrp:infestedbush_spine"
+      },
+      {
+        "model": "csrp:infestedbush_spine",
+        "y": 90
+      },
+      {
+        "model": "csrp:infestedbush_spine",
+        "y": 180
+      },
+      {
+        "model": "csrp:infestedbush_spine",
+        "y": 270
+      },
+      {
+        "model": "csrp:infestedbush_spine2"
+      },
+      {
+        "model": "csrp:infestedbush_spine2",
+        "y": 90
+      },
+      {
+        "model": "csrp:infestedbush_spine2",
+        "y": 180
+      },
+      {
+        "model": "csrp:infestedbush_spine2",
+        "y": 270
+      }
+    ],
+    "end=true,node=false,variant=spine": [
+      {
+        "model": "csrp:infestedbush_spine_end"
+      },
+      {
+        "model": "csrp:infestedbush_spine_end",
+        "y": 90
+      },
+      {
+        "model": "csrp:infestedbush_spine_end",
+        "y": 180
+      },
+      {
+        "model": "csrp:infestedbush_spine_end",
+        "y": 270
+      }
+    ],
+    "end=true,node=true,variant=spine": [
+      {
+        "model": "csrp:infestedbush_spine_end_node"
+      },
+      {
+        "model": "csrp:infestedbush_spine_end_node",
+        "y": 90
+      },
+      {
+        "model": "csrp:infestedbush_spine_end_node",
+        "y": 180
+      },
+      {
+        "model": "csrp:infestedbush_spine_end_node",
+        "y": 270
+      }
+    ],
+    "end=false,node=false,variant=vine": [
+      {
+        "model": "csrp:infestedbush_vine"
+      },
+      {
+        "model": "csrp:infestedbush_vine",
+        "y": 90
+      },
+      {
+        "model": "csrp:infestedbush_vine",
+        "y": 180
+      },
+      {
+        "model": "csrp:infestedbush_vine",
+        "y": 270
+      },
+      {
+        "model": "csrp:infestedbush_vine2"
+      },
+      {
+        "model": "csrp:infestedbush_vine2",
+        "y": 90
+      },
+      {
+        "model": "csrp:infestedbush_vine2",
+        "y": 180
+      },
+      {
+        "model": "csrp:infestedbush_vine2",
+        "y": 270
+      }
+    ],
+    "end=true,node=false,variant=vine": [
+      {
+        "model": "csrp:infestedbush_vine"
+      },
+      {
+        "model": "csrp:infestedbush_vine",
+        "y": 90
+      },
+      {
+        "model": "csrp:infestedbush_vine",
+        "y": 180
+      },
+      {
+        "model": "csrp:infestedbush_vine",
+        "y": 270
+      },
+      {
+        "model": "csrp:infestedbush_vine2"
+      },
+      {
+        "model": "csrp:infestedbush_vine2",
+        "y": 90
+      },
+      {
+        "model": "csrp:infestedbush_vine2",
+        "y": 180
+      },
+      {
+        "model": "csrp:infestedbush_vine2",
+        "y": 270
+      }
+    ],
+    "end=false,node=true,variant=vine": [
+      {
+        "model": "csrp:infestedbush_vine"
+      },
+      {
+        "model": "csrp:infestedbush_vine",
+        "y": 90
+      },
+      {
+        "model": "csrp:infestedbush_vine",
+        "y": 180
+      },
+      {
+        "model": "csrp:infestedbush_vine",
+        "y": 270
+      },
+      {
+        "model": "csrp:infestedbush_vine2"
+      },
+      {
+        "model": "csrp:infestedbush_vine2",
+        "y": 90
+      },
+      {
+        "model": "csrp:infestedbush_vine2",
+        "y": 180
+      },
+      {
+        "model": "csrp:infestedbush_vine2",
+        "y": 270
+      }
+    ],
+    "end=true,node=true,variant=vine": [
+      {
+        "model": "csrp:infestedbush_vine"
+      },
+      {
+        "model": "csrp:infestedbush_vine",
+        "y": 90
+      },
+      {
+        "model": "csrp:infestedbush_vine",
+        "y": 180
+      },
+      {
+        "model": "csrp:infestedbush_vine",
+        "y": 270
+      },
+      {
+        "model": "csrp:infestedbush_vine2"
+      },
+      {
+        "model": "csrp:infestedbush_vine2",
+        "y": 90
+      },
+      {
+        "model": "csrp:infestedbush_vine2",
+        "y": 180
+      },
+      {
+        "model": "csrp:infestedbush_vine2",
+        "y": 270
+      }
+    ],
+    "end=false,node=false,variant=arc": [
+      {
+        "model": "csrp:infestedbush_arc"
+      },
+      {
+        "model": "csrp:infestedbush_arc",
+        "y": 90
+      },
+      {
+        "model": "csrp:infestedbush_arc",
+        "y": 180
+      },
+      {
+        "model": "csrp:infestedbush_arc",
+        "y": 270
+      }
+    ],
+    "end=true,node=false,variant=arc": [
+      {
+        "model": "csrp:infestedbush_arc"
+      },
+      {
+        "model": "csrp:infestedbush_arc",
+        "y": 90
+      },
+      {
+        "model": "csrp:infestedbush_arc",
+        "y": 180
+      },
+      {
+        "model": "csrp:infestedbush_arc",
+        "y": 270
+      }
+    ],
+    "end=false,node=true,variant=arc": [
+      {
+        "model": "csrp:infestedbush_arc"
+      },
+      {
+        "model": "csrp:infestedbush_arc",
+        "y": 90
+      },
+      {
+        "model": "csrp:infestedbush_arc",
+        "y": 180
+      },
+      {
+        "model": "csrp:infestedbush_arc",
+        "y": 270
+      }
+    ],
+    "end=true,node=true,variant=arc": [
+      {
+        "model": "csrp:infestedbush_arc"
+      },
+      {
+        "model": "csrp:infestedbush_arc",
+        "y": 90
+      },
+      {
+        "model": "csrp:infestedbush_arc",
+        "y": 180
+      },
+      {
+        "model": "csrp:infestedbush_arc",
+        "y": 270
+      }
+    ],
+    "inventory": [
+      {}
+    ]
+  }
+}

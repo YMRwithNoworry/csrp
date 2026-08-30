@@ -3,7 +3,7 @@
   "minecraft:geometry": [
     {
       "description": {
-        "identifier": "geometry.srparasites.heed",
+        "identifier": "geometry.csrp.heed",
         "texture_width": 250,
         "texture_height": 130,
         "visible_bounds_width": 16,

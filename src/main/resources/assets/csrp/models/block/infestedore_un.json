@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "particle": "csrp:blocks/infestedore_un",
+    "all": "csrp:blocks/infestedore_un"
+  }
+}

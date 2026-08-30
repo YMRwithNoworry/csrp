@@ -3,7 +3,7 @@
   "minecraft:geometry": [
     {
       "description": {
-        "identifier": "geometry.srparasites.anc_dreadnaut_ten",
+        "identifier": "geometry.csrp.anc_dreadnaut_ten",
         "texture_width": 256,
         "texture_height": 85,
         "visible_bounds_width": 16,

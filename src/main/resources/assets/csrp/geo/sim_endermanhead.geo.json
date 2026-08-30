@@ -3,7 +3,7 @@
   "minecraft:geometry": [
     {
       "description": {
-        "identifier": "geometry.srparasites.sim_endermanhead",
+        "identifier": "geometry.csrp.sim_endermanhead",
         "texture_width": 64,
         "texture_height": 45,
         "visible_bounds_width": 16,

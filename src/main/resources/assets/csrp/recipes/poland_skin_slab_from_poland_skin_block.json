@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "csrp:poland_skin_block"
+    }
+  },
+  "result": {
+    "item": "csrp:poland_skin_slab",
+    "data": 0,
+    "count": 6
+  }
+}

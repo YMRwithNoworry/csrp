@@ -3,7 +3,7 @@
   "minecraft:geometry": [
     {
       "description": {
-        "identifier": "geometry.srparasites.monarch",
+        "identifier": "geometry.csrp.monarch",
         "texture_width": 220,
         "texture_height": 170,
         "visible_bounds_width": 16,

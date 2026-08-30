@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "csrp:ada_yelloweye_drop"
+    }
+  ],
+  "result": {
+    "item": "csrp:infested_bonemeal",
+    "count": 4
+  }
+}

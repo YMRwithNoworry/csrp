@@ -1,0 +1,14 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "csrp:bruisewood_plank_slab"
+  },
+  "variants": {
+    "half=bottom,variant=default": {
+      "model": "csrp:bruisewood_plank_slab"
+    },
+    "half=top,variant=default": {
+      "model": "csrp:bruisewood_plank_slab_top"
+    }
+  }
+}

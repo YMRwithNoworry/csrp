@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "minecraft:pumpkin" },
+    { "item": "csrp:infestedstain" }
+  ],
+  "result": {
+    "item": "csrp:assimilated_pumpkin",
+    "count": 1
+  }
+}

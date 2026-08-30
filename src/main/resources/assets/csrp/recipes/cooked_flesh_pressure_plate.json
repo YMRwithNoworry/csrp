@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "csrp:cooked_flesh_planks"
+    }
+  },
+  "result": {
+    "item": "csrp:cooked_flesh_pressure_plate"
+  }
+}

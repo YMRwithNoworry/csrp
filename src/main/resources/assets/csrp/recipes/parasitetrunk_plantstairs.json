@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "csrp:parasitetrunk",
+      "data": 2
+    }
+  },
+  "result": {
+    "item": "csrp:parasitetrunk_plantstairs",
+    "count": 4
+  }
+}

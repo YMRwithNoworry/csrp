@@ -3,7 +3,7 @@
   "minecraft:geometry": [
     {
       "description": {
-        "identifier": "geometry.srparasites.sim_human",
+        "identifier": "geometry.csrp.sim_human",
         "texture_width": 64,
         "texture_height": 55,
         "visible_bounds_width": 16,

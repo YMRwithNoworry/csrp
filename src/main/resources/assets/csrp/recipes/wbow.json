@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CED",
+    "E A",
+    "DA "
+  ],
+  "key": {
+    "A": {
+      "item": "csrp:dried_tendons"
+    },
+    "C": {
+      "item": "csrp:living_core"
+    },
+    "D": {
+      "item": "csrp:vile_shell"
+    },
+    "E": {
+      "item": "csrp:hardened_bone_handle"
+    }
+  },
+  "result": {
+    "item": "csrp:weapon_bow",
+    "count": 1
+  }
+}

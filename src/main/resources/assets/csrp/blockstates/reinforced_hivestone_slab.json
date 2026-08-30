@@ -1,0 +1,14 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "csrp:reinforced_hivestone_slab"
+  },
+  "variants": {
+    "half=bottom,variant=default": {
+      "model": "csrp:reinforced_hivestone_slab"
+    },
+    "half=top,variant=default": {
+      "model": "csrp:reinforced_hivestone_slab_top"
+    }
+  }
+}

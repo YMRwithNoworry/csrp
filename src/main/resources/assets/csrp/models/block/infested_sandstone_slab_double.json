@@ -1,0 +1,9 @@
+{
+  "parent": "block/cube_bottom_top",
+  "textures": {
+    "top": "csrp:blocks/inf_ss_top",
+    "bottom": "csrp:blocks/inf_ss_down",
+    "side": "csrp:blocks/inf_ss",
+    "particle": "csrp:blocks/inf_ss_down"
+  }
+}

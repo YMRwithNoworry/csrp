@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "particle": "csrp:blocks/dodn_down",
+    "down": "csrp:blocks/dodn_down",
+    "up": "csrp:blocks/dodn_up",
+    "east": "csrp:blocks/dodn_side",
+    "west": "csrp:blocks/dodn_side",
+    "north": "csrp:blocks/dodn_side",
+    "south": "csrp:blocks/dodn_side"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "csrp:block/gore_base",
+  "textures": {
+    "texture": "csrp:blocks/parasitegore_ada_small"
+  }
+}

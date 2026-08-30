@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CCC",
+    "CCC"
+  ],
+  "key": {
+    "C": {
+      "item": "csrp:parasiterubble",
+      "data": 6
+    }
+  },
+  "result": {
+    "item": "csrp:parasiterubble_metal_wall",
+    "count": 6
+  }
+}

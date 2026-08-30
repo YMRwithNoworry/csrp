@@ -197,7 +197,9 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
 
         if (activeKind.family == Family.ROOTER && supportCooldown <= 0) {
             applyRooterSupport(activeKind.stage);
-            supportCooldown = 200;
+            // Rooter pillars provide battlefield support on the same accelerated
+            // cadence as their direct summons (one pulse per second).
+            supportCooldown = 50;
         }
         if (activeKind.family == Family.DISPATCHER && tickCount % 40 == 0) {
             storeNearbyParasite();
@@ -1009,18 +1011,20 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     public enum Kind {
-        BECKON_SI(Family.BECKON, 1, 25.0D, 4.0D, 2.5D, 4, 4, 200, 1.0F, 3.0D, 16),
-        BECKON_SII(Family.BECKON, 2, 60.0D, 8.0D, 6.0D, 5, 6, 180, 1.0F, 3.0D, 32),
-        BECKON_SIII(Family.BECKON, 3, 110.0D, 16.0D, 13.0D, 6, 8, 160, 1.0F, 3.0D, 64),
-        BECKON_SIV(Family.BECKON, 4, 220.0D, 25.0D, 20.0D, 8, 12, 160, 5.0F, 18.0D, 220),
-        DISPATCHER_SI(Family.DISPATCHER, 1, 33.0D, 7.0D, 3.0D, 4, 3, 240, 1.0F, 3.0D, 16),
-        DISPATCHER_SII(Family.DISPATCHER, 2, 70.0D, 14.0D, 7.0D, 5, 5, 220, 2.0F, 6.0D, 32),
-        DISPATCHER_SIII(Family.DISPATCHER, 3, 130.0D, 21.0D, 14.0D, 6, 7, 200, 3.0F, 9.0D, 64),
-        DISPATCHER_SIV(Family.DISPATCHER, 4, 250.0D, 28.0D, 22.0D, 8, 9, 180, 5.0F, 18.0D, 220),
-        ROOTER_SI(Family.ROOTER, 1, 40.0D, 7.0D, 2.5D, 4, 3, 240, 0.0F, 0.0D, 16),
-        ROOTER_SII(Family.ROOTER, 2, 80.0D, 14.0D, 6.0D, 5, 5, 220, 2.0F, 6.0D, 32),
-        ROOTER_SIII(Family.ROOTER, 3, 150.0D, 21.0D, 13.0D, 6, 7, 200, 3.0F, 9.0D, 64),
-        ROOTER_SIV(Family.ROOTER, 4, 300.0D, 28.0D, 20.0D, 8, 9, 180, 5.0F, 18.0D, 220),
+        // Summoning pillars cast every 2–3 seconds in the original game.
+        // Use a four-times faster cadence while retaining stage progression.
+        BECKON_SI(Family.BECKON, 1, 25.0D, 4.0D, 2.5D, 4, 4, 50, 1.0F, 3.0D, 16),
+        BECKON_SII(Family.BECKON, 2, 60.0D, 8.0D, 6.0D, 5, 6, 45, 1.0F, 3.0D, 32),
+        BECKON_SIII(Family.BECKON, 3, 110.0D, 16.0D, 13.0D, 6, 8, 40, 1.0F, 3.0D, 64),
+        BECKON_SIV(Family.BECKON, 4, 220.0D, 25.0D, 20.0D, 8, 12, 40, 5.0F, 18.0D, 220),
+        DISPATCHER_SI(Family.DISPATCHER, 1, 33.0D, 7.0D, 3.0D, 4, 3, 60, 1.0F, 3.0D, 16),
+        DISPATCHER_SII(Family.DISPATCHER, 2, 70.0D, 14.0D, 7.0D, 5, 5, 55, 2.0F, 6.0D, 32),
+        DISPATCHER_SIII(Family.DISPATCHER, 3, 130.0D, 21.0D, 14.0D, 6, 7, 50, 3.0F, 9.0D, 64),
+        DISPATCHER_SIV(Family.DISPATCHER, 4, 250.0D, 28.0D, 22.0D, 8, 9, 45, 5.0F, 18.0D, 220),
+        ROOTER_SI(Family.ROOTER, 1, 40.0D, 7.0D, 2.5D, 4, 3, 60, 0.0F, 0.0D, 16),
+        ROOTER_SII(Family.ROOTER, 2, 80.0D, 14.0D, 6.0D, 5, 5, 55, 2.0F, 6.0D, 32),
+        ROOTER_SIII(Family.ROOTER, 3, 150.0D, 21.0D, 13.0D, 6, 7, 50, 3.0F, 9.0D, 64),
+        ROOTER_SIV(Family.ROOTER, 4, 300.0D, 28.0D, 20.0D, 8, 9, 45, 5.0F, 18.0D, 220),
         ROOTERBALL(Family.ROOTERBALL, 0, 20.0D, 10.0D, 0.0D, 0, 0, 0, 0.0F, 0.0D, 0);
 
         private final Family family;

@@ -3,7 +3,7 @@
   "minecraft:geometry": [
     {
       "description": {
-        "identifier": "geometry.srparasites.rooter_siii",
+        "identifier": "geometry.csrp.rooter_siii",
         "texture_width": 256,
         "texture_height": 502,
         "visible_bounds_width": 16,

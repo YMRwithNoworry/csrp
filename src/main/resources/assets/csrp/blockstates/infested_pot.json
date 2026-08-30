@@ -1,0 +1,14 @@
+{
+  "variants": {
+    "normal": [
+      {
+        "model": "csrp:infested_pot"
+      }
+    ],
+    "inventory": [
+      {
+        "model": "csrp:infested_pot"
+      }
+    ]
+  }
+}

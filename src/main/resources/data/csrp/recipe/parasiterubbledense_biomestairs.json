@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "csrp:parasiterubbledense",
+      "data": 1
+    }
+  },
+  "result": {
+    "item": "csrp:parasiterubbledense_biomestairs",
+    "count": 4
+  }
+}

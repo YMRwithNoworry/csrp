@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "particle": "csrp:blocks/parasiteplank_deadhead",
+    "all": "csrp:blocks/parasiteplank_deadhead"
+  }
+}

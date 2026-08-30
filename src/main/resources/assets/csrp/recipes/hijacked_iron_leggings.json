@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "III",
+    "I I",
+    "I I"
+  ],
+  "key": {
+    "I": {
+      "item": "csrp:bloody_iron_ingot"
+    }
+  },
+  "result": {
+    "item": "csrp:hijacked_iron_leggings"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "csrp:parasiteplank",
+      "data": 0
+    }
+  ],
+  "result": {
+    "item": "csrp:deadhead_button",
+    "data": 0
+  }
+}

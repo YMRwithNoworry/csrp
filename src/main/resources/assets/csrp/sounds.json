@@ -2965,7 +2965,7 @@
       "csrp:blockinfest_hit"
     ]
   },
-  "srparasites.phaseone": {
+  "csrp.phaseone": {
     "sounds": [
       {
         "name": "csrp:music/the_call",
@@ -2985,7 +2985,7 @@
       }
     ]
   },
-  "srparasites.phasetwo": {
+  "csrp.phasetwo": {
     "sounds": [
       {
         "name": "csrp:music/the_call",
@@ -3005,7 +3005,7 @@
       }
     ]
   },
-  "srparasites.phasethree": {
+  "csrp.phasethree": {
     "sounds": [
       {
         "name": "csrp:music/the_call",
@@ -3041,7 +3041,7 @@
       }
     ]
   },
-  "srparasites.phasefour": {
+  "csrp.phasefour": {
     "sounds": [
       {
         "name": "csrp:music/the_call",
@@ -3085,7 +3085,7 @@
       }
     ]
   },
-  "srparasites.phasefive": {
+  "csrp.phasefive": {
     "sounds": [
       {
         "name": "csrp:music/the_call",
@@ -3133,7 +3133,7 @@
       }
     ]
   },
-  "srparasites.phasesix": {
+  "csrp.phasesix": {
     "sounds": [
       {
         "name": "csrp:music/the_call",
@@ -3177,7 +3177,7 @@
       }
     ]
   },
-  "srparasites.phaseseven": {
+  "csrp.phaseseven": {
     "sounds": [
       {
         "name": "csrp:music/the_call",
@@ -3221,7 +3221,7 @@
       }
     ]
   },
-  "srparasites.phaseeight": {
+  "csrp.phaseeight": {
     "sounds": [
       {
         "name": "csrp:music/the_call",
@@ -3265,7 +3265,7 @@
       }
     ]
   },
-  "srparasites.phasenine": {
+  "csrp.phasenine": {
     "sounds": [
       {
         "name": "csrp:music/the_call",
@@ -3309,7 +3309,7 @@
       }
     ]
   },
-  "srparasites.phaseten": {
+  "csrp.phaseten": {
     "sounds": [
       {
         "name": "csrp:music/the_call",
@@ -3353,7 +3353,7 @@
       }
     ]
   },
-  "srparasites.biome": {
+  "csrp.biome": {
     "sounds": [
       {
         "name": "csrp:music/tying_veins",
@@ -3389,7 +3389,7 @@
       }
     ]
   },
-  "srparasites.scent": {
+  "csrp.scent": {
     "sounds": [
       {
         "name": "csrp:music/grounded",
@@ -3397,7 +3397,7 @@
       }
     ]
   },
-  "srparasites.discone": {
+  "csrp.discone": {
     "sounds": [
       {
         "name": "csrp:music/well_meet_again",
@@ -3405,7 +3405,7 @@
       }
     ]
   },
-  "srparasites.disctwo": {
+  "csrp.disctwo": {
     "sounds": [
       {
         "name": "csrp:music/well_meet_again",
@@ -3413,7 +3413,7 @@
       }
     ]
   },
-  "srparasites.discthree": {
+  "csrp.discthree": {
     "sounds": [
       {
         "name": "csrp:music/serenity",

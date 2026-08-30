@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "csrp:parasitestain",
+      "data": 1
+    }
+  },
+  "result": {
+    "item": "csrp:parasitestainslabhalf",
+    "data": 1,
+    "count": 6
+  }
+}

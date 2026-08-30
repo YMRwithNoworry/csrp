@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "csrp:blocks/parasite_fog",
+    "down": "csrp:blocks/parasite_fog",
+    "up": "csrp:blocks/parasite_fog",
+    "east": "csrp:blocks/parasite_fog",
+    "west": "csrp:blocks/parasite_fog",
+    "north": "csrp:blocks/parasite_fog",
+    "south": "csrp:blocks/parasite_fog"
+  }
+}

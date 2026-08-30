@@ -3,7 +3,7 @@
   "minecraft:geometry": [
     {
       "description": {
-        "identifier": "geometry.srparasites.mar_human",
+        "identifier": "geometry.csrp.mar_human",
         "texture_width": 128,
         "texture_height": 64,
         "visible_bounds_width": 16,

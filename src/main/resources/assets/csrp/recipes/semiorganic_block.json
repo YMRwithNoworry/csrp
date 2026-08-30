@@ -1,0 +1,17 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "XXX",
+    "XXX",
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "csrp:semiorganic_ingot"
+    }
+  },
+  "result": {
+    "item": "csrp:semiorganic_block",
+    "count": 1
+  }
+}

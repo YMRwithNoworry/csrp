@@ -1,0 +1,18 @@
+{
+  "type": "forge:ore_shaped",
+  "mirrored": true,
+  "pattern": [
+    "X  ",
+    "XX ",
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "csrp:infestedstain"
+    }
+  },
+  "result": {
+    "item": "csrp:parasitestain_dirtstairs",
+    "count": 4
+  }
+}

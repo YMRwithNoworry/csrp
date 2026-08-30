@@ -1,0 +1,26 @@
+{
+  "type": "forge:ore_shaped",
+  "mirrored": true,
+  "pattern": [
+    "YY",
+    "YY"
+  ],
+  "key": {
+    "Y": [
+      {
+        "item": "csrp:ada_yelloweye_drop"
+      },
+      {
+        "item": "csrp:bone"
+      },
+      {
+        "item": "csrp:ada_reeker_drop"
+      }
+    ]
+  },
+  "result": {
+    "item": "csrp:parasiterubble",
+    "data": 1,
+    "count": 4
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " A ",
+    "CA ",
+    "C  "
+  ],
+  "key": {
+    "A": {
+      "item": "csrp:ada_reeker_drop"
+    },
+    "C": {
+      "item": "csrp:assimilated_flesh"
+    }
+  },
+  "result": {
+    "item": "csrp:infectious_blade_fragment",
+    "count": 1
+  }
+}

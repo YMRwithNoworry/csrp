@@ -3,7 +3,7 @@
   "minecraft:geometry": [
     {
       "description": {
-        "identifier": "geometry.srparasites.hostii",
+        "identifier": "geometry.csrp.hostii",
         "texture_width": 300,
         "texture_height": 270,
         "visible_bounds_width": 16,

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CCC",
+    "CCC"
+  ],
+  "key": {
+    "C": {
+      "item": "csrp:parasiterubbledense",
+      "data": 2
+    }
+  },
+  "result": {
+    "item": "csrp:parasiterubbledense_colony_wall",
+    "count": 6
+  }
+}

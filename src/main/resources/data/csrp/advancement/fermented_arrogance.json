@@ -1,0 +1,28 @@
+{
+  "parent": "csrp:brew_fear",
+  "display": {
+    "icon": {
+      "item": "csrp:ada_summoner_drop"
+    },
+    "title": {
+      "translate": "advancements.csrp.fermented_arrogance.title"
+    },
+    "description": {
+      "translate": "advancements.csrp.fermented_arrogance.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "kill_fer_enderman": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "csrp:fer_enderman"
+        }
+      }
+    }
+  }
+}

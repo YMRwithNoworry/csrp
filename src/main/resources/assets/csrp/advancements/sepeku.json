@@ -1,0 +1,23 @@
+{
+  "parent": "csrp:fermented_arrogance",
+  "display": {
+    "icon": {
+      "item": "csrp:bough"
+    },
+    "title": {
+      "translate": "advancement.csrp.sepeku.title"
+    },
+    "description": {
+      "translate": "advancement.csrp.sepeku.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

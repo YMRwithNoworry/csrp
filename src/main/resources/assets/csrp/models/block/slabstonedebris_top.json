@@ -1,0 +1,9 @@
+{
+  "parent": "block/upper_slab",
+  "textures": {
+    "particle": "csrp:blocks/hivestone_debris_side",
+    "bottom": "csrp:blocks/hivestone_debris",
+    "top": "csrp:blocks/hivestone_debris",
+    "side": "csrp:blocks/hivestone_debris_side"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "block/flower_pot",
+  "textures": {
+    "flowerpot": "csrp:blocks/consumed_flower_pot",
+    "dirt": "csrp:blocks/infestedsand"
+  }
+}

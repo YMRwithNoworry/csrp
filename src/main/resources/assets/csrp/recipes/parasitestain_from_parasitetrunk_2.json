@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "csrp:parasitetrunk",
+      "data": 2
+    }
+  ],
+  "result": {
+    "item": "csrp:parasitestain",
+    "data": 2,
+    "count": 4
+  }
+}

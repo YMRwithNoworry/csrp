@@ -1,0 +1,14 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "csrp:locs_block_slab"
+  },
+  "variants": {
+    "half=bottom,variant=default": {
+      "model": "csrp:locs_block_slab"
+    },
+    "half=top,variant=default": {
+      "model": "csrp:locs_block_slab_top"
+    }
+  }
+}

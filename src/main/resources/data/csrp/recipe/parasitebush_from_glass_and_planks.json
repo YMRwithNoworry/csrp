@@ -1,0 +1,29 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    " 2 ",
+    "1 1",
+    "111"
+  ],
+  "key": {
+    "1": {
+      "type": "forge:ore_dict",
+      "ore": "blockGlass"
+    },
+    "2": [
+      {
+        "type": "forge:ore_dict",
+        "ore": "plankWood"
+      },
+      {
+        "item": "csrp:parasiteplank",
+        "data": 0
+      }
+    ]
+  },
+  "result": {
+    "item": "csrp:parasitebush",
+    "data": 10,
+    "count": 1
+  }
+}
