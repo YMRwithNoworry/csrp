@@ -1004,10 +1004,12 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     public enum Kind {
-        BECKON_SI(Family.BECKON, 1, 25.0D, 4.0D, 2.5D, 4, 4, 200, 1.0F, 3.0D, 16),
-        BECKON_SII(Family.BECKON, 2, 60.0D, 8.0D, 6.0D, 5, 6, 180, 1.0F, 3.0D, 32),
-        BECKON_SIII(Family.BECKON, 3, 110.0D, 16.0D, 13.0D, 6, 8, 160, 1.0F, 3.0D, 64),
-        BECKON_SIV(Family.BECKON, 4, 220.0D, 25.0D, 20.0D, 8, 12, 160, 5.0F, 18.0D, 220),
+        // Beckons are the mod's summoning pillars. Their summon intervals are
+        // halved so every stage produces reinforcements at twice the previous rate.
+        BECKON_SI(Family.BECKON, 1, 25.0D, 4.0D, 2.5D, 4, 4, 100, 1.0F, 3.0D, 16),
+        BECKON_SII(Family.BECKON, 2, 60.0D, 8.0D, 6.0D, 5, 6, 90, 1.0F, 3.0D, 32),
+        BECKON_SIII(Family.BECKON, 3, 110.0D, 16.0D, 13.0D, 6, 8, 80, 1.0F, 3.0D, 64),
+        BECKON_SIV(Family.BECKON, 4, 220.0D, 25.0D, 20.0D, 8, 12, 80, 5.0F, 18.0D, 220),
         DISPATCHER_SI(Family.DISPATCHER, 1, 33.0D, 7.0D, 3.0D, 4, 3, 240, 1.0F, 3.0D, 16),
         DISPATCHER_SII(Family.DISPATCHER, 2, 70.0D, 14.0D, 7.0D, 5, 5, 220, 2.0F, 6.0D, 32),
         DISPATCHER_SIII(Family.DISPATCHER, 3, 130.0D, 21.0D, 14.0D, 6, 7, 200, 3.0F, 9.0D, 64),
