@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
 
@@ -18,6 +19,8 @@ import org.joml.Matrix4f;
  */
 public class KirinSlashRenderer extends EntityRenderer<KirinSlashEntity> {
     private static final float BLADE_HALF_WIDTH = 1.1F;
+    private static final float FADE_IN_TICKS = 5.0F;
+    private static final float FADE_OUT_TICKS = 18.0F;
 
     public KirinSlashRenderer(EntityRendererProvider.Context context) {
         super(context);
@@ -28,11 +31,21 @@ public class KirinSlashRenderer extends EntityRenderer<KirinSlashEntity> {
     public void render(KirinSlashEntity entity, float entityYaw, float partialTicks, PoseStack poseStack,
             MultiBufferSource buffer, int packedLight) {
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
+        float visibleAge = entity.tickCount + partialTicks - entity.getDelayTicks();
+        if (visibleAge <= 0.0F) {
+            return;
+        }
         float growth = entity.getGrowth(partialTicks);
         if (growth <= 0.0F) {
             return;
         }
-        float length = Math.max(1.0F, entity.getLength() * growth);
+        float life = Math.max(1.0F, entity.getLife());
+        float fadeIn = Math.min(visibleAge / FADE_IN_TICKS, 1.0F);
+        float fadeOut = 1.0F;
+        if (visibleAge > life - FADE_OUT_TICKS) {
+            fadeOut = 1.0F - Math.min((visibleAge - (life - FADE_OUT_TICKS)) / FADE_OUT_TICKS, 1.0F);
+        }
+        float alpha = Mth.clamp(Math.min(fadeIn, fadeOut), 0.0F, 1.0F);
         float hitPopScale = 1.0F;
         float hitPopWidthScale = 1.0F;
         float hitPopAlphaBoost = 1.0F;
@@ -44,12 +57,14 @@ public class KirinSlashRenderer extends EntityRenderer<KirinSlashEntity> {
             float flash = 1.0F - Math.abs(progress - 0.18F) / 0.18F;
             hitPopAlphaBoost = (1.0F - progress) * (1.0F + Mth.clamp(flash, 0.0F, 1.0F) * 1.8F);
         }
-        float alpha = entity.getRenderAlpha(partialTicks) * hitPopAlphaBoost
-                * (entity.isFading() ? 0.35F : 1.0F);
-        length *= hitPopScale;
-        if (alpha <= 0.01F || hitPopWidthScale <= 0.02F) {
+        alpha *= hitPopAlphaBoost;
+        if (entity.isFading()) {
+            alpha *= 0.35F;
+        }
+        if (alpha <= 0.01F || hitPopScale <= 0.02F || hitPopWidthScale <= 0.02F) {
             return;
         }
+        float length = entity.getLength() * growth * hitPopScale;
         VertexConsumer consumer = buffer.getBuffer(RenderType.lightning());
         poseStack.pushPose();
         poseStack.mulPose(com.mojang.math.Axis.YP.rotationDegrees(entity.getYaw()));
@@ -88,8 +103,8 @@ public class KirinSlashRenderer extends EntityRenderer<KirinSlashEntity> {
             float a1 = alpha * edgeFade(t1);
             vertex(consumer, matrix, -halfWidth, 0.0F, z0, red, green, blue, a0);
             vertex(consumer, matrix, halfWidth, 0.0F, z0, red, green, blue, a0);
-            vertex(consumer, matrix, halfWidth * 0.35F, 0.0F, z1, red, green, blue, a1);
-            vertex(consumer, matrix, -halfWidth * 0.35F, 0.0F, z1, red, green, blue, a1);
+            vertex(consumer, matrix, halfWidth, 0.0F, z1, red, green, blue, a1);
+            vertex(consumer, matrix, -halfWidth, 0.0F, z1, red, green, blue, a1);
         }
     }
 
@@ -114,9 +129,9 @@ public class KirinSlashRenderer extends EntityRenderer<KirinSlashEntity> {
     @Override
     public boolean shouldRender(KirinSlashEntity entity, net.minecraft.client.renderer.culling.Frustum frustum,
             double camX, double camY, double camZ) {
-        Vec3 end = entity.position().add(entity.getSlashDirection().scale(entity.getLength()));
+        Vec3 extent = entity.getSlashDirection().scale(entity.getLength());
+        AABB slashBounds = entity.getBoundingBox().expandTowards(extent).inflate(BLADE_HALF_WIDTH);
         return super.shouldRender(entity, frustum, camX, camY, camZ)
-                || frustum.isVisible(entity.getBoundingBox().expandTowards(
-                        entity.getSlashDirection().scale(entity.getLength())).move(end.subtract(entity.position())));
+                || frustum.isVisible(slashBounds);
     }
 }

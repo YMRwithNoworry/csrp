@@ -945,7 +945,7 @@ public final class KirinEntity extends DerivedParasiteEntity {
             if (isShadowHitFlashing()) {
                 return state.setAndContinue(shakingAnimation);
             }
-            if (isLaserCharging()) {
+            if (isLaserCharging() || isChargingJudgementCut()) {
                 return state.setAndContinue(shakingAnimation);
             }
             if (isShadowed() && getShadowRenderAlpha(0.0F) > 0.0F) {

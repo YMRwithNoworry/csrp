@@ -6,7 +6,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -66,6 +66,8 @@ public class KirinSlashEntity extends Entity {
 
     public KirinSlashEntity(EntityType<? extends KirinSlashEntity> type, Level level) {
         super(type, level);
+        noPhysics = true;
+        noCulling = true;
         setNoGravity(true);
     }
 
@@ -93,7 +95,9 @@ public class KirinSlashEntity extends Entity {
         slash.entityData.set(SYNC_FADING, false);
         slash.entityData.set(SYNC_HIT_POP, false);
         slash.entityData.set(SYNC_HIT_POP_AGE, 0);
-        slash.playSound(ModSounds.KIRIN_PROJECTILE_SUMMON.get(), 0.75F, 1.0F);
+        level.playSound(null, start.x, start.y, start.z,
+                ModSounds.KIRIN_PROJECTILE_SUMMON.get(), SoundSource.HOSTILE,
+                0.85F, 0.9F + slash.random.nextFloat() * 0.25F);
         return slash;
     }
 
@@ -161,7 +165,7 @@ public class KirinSlashEntity extends Entity {
             return;
         }
         if (!hitPop && getVisibleAge() > getLife()) {
-            entityData.set(SYNC_FADING, true);
+            discard();
             return;
         }
         if (!hitPop && getVisibleAge() >= 0) {
@@ -201,9 +205,9 @@ public class KirinSlashEntity extends Entity {
                 victim.hurt(source, damage);
             }
             spawnContactSmoke(victim);
-            victim.playSound(ModSounds.KIRIN_PROJECTILE_IMPACT.get(), 0.9F,
-                    0.9F + random.nextFloat() * 0.2F);
-            victim.playSound(SoundEvents.PLAYER_ATTACK_SWEEP, 0.8F, 1.1F);
+            level().playSound(null, victim.getX(), victim.getY() + victim.getBbHeight() * 0.5D,
+                    victim.getZ(), ModSounds.KIRIN_PROJECTILE_IMPACT.get(), SoundSource.HOSTILE,
+                    0.45F, 0.92F + random.nextFloat() * 0.16F);
             beginHitPop();
             break;
         }
@@ -215,7 +219,6 @@ public class KirinSlashEntity extends Entity {
         }
         float health = Math.max(0.0F, player.getHealth() - amount);
         player.setHealth(health);
-        level().broadcastEntityEvent(player, (byte) 2);
         if (health <= 0.0F) {
             player.die(source);
         }
@@ -306,14 +309,6 @@ public class KirinSlashEntity extends Entity {
 
     public int getHitPopTicks() {
         return HIT_POP_TICKS;
-    }
-
-    /** 渲染用透明度：淡出期随剩余时间衰减。 */
-    public float getRenderAlpha(float partialTicks) {
-        if (!isFading()) {
-            return 1.0F;
-        }
-        return Math.max(0.0F, 1.0F - (fadeAge + partialTicks) / FADE_TICKS);
     }
 
     @Override
