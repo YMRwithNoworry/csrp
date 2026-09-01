@@ -34,10 +34,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -71,7 +71,7 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
             "csrp:parasite_canister_active", "srparasites:biomeheart", "srparasites:colonyheart",
             "srparasites:parasiterubbledense", "srparasites:parasitecanisteractive");
 
-    private final RawAnimation idleAnimation = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation idleAnimation = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks");
     private UUID fatherId;
     private UUID targetId;
@@ -432,8 +432,8 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, state -> {
             if (isFinishing() || !ParasiteAnimations.isMoving(this, state.isMoving())) {
                 return state.setAndContinue(idleAnimation);
             }

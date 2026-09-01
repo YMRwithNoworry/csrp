@@ -37,20 +37,20 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import alku.csrp.animation.CitadelAnimatedEntity;
+import alku.csrp.animation.CitadelAnimationCache;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
+import alku.csrp.animation.CitadelAnimationUtil;
 
 /**
  * Shared implementation for the remaining assimilated bodies.  Their body
  * forms retain the legacy fire weakness, COTH contact damage, head-on-death
  * transition, and explosive remains burst.
  */
-public final class AssimilatedVariantEntity extends Monster implements GeoEntity, Parasite, MeltableAssimilated {
+public final class AssimilatedVariantEntity extends Monster implements CitadelAnimatedEntity, Parasite, MeltableAssimilated {
     private static final EntityDataAccessor<Integer> ANIMATION_STATUS = SynchedEntityData.defineId(
             AssimilatedVariantEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> MELTING = SynchedEntityData.defineId(
@@ -62,26 +62,26 @@ public final class AssimilatedVariantEntity extends Monster implements GeoEntity
     private static final float BLEED_CHANCE = 0.2F;
     private static final int HOST_SKELETON_KILLS = 5;
     private static final int STILL_ANIMATION_DELAY_TICKS = 25;
-    private final RawAnimation AGE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
-    private final RawAnimation LIMB = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
-    private final RawAnimation AGE_STILL = ParasiteAnimations.loop(
+    private final CitadelRawAnimation AGE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final CitadelRawAnimation LIMB = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final CitadelRawAnimation AGE_STILL = ParasiteAnimations.loop(
             this, "func_78087_a.age_in_ticks.get_still_ani_1");
-    private final RawAnimation AGE_STATUS_1 = ParasiteAnimations.loop(
+    private final CitadelRawAnimation AGE_STATUS_1 = ParasiteAnimations.loop(
             this, "func_78087_a.age_in_ticks.get_parasite_status_1");
-    private final RawAnimation LIMB_STATUS_1 = ParasiteAnimations.loop(
+    private final CitadelRawAnimation LIMB_STATUS_1 = ParasiteAnimations.loop(
             this, "func_78087_a.limb_swing.get_parasite_status_1");
-    private final RawAnimation AGE_STATUS_1_STILL = ParasiteAnimations.loop(
+    private final CitadelRawAnimation AGE_STATUS_1_STILL = ParasiteAnimations.loop(
             this, "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1");
-    private final RawAnimation AGE_STATUS_2 = ParasiteAnimations.loop(
+    private final CitadelRawAnimation AGE_STATUS_2 = ParasiteAnimations.loop(
             this, "func_78087_a.age_in_ticks.get_parasite_status_2");
-    private final RawAnimation LIMB_STATUS_2 = ParasiteAnimations.loop(
+    private final CitadelRawAnimation LIMB_STATUS_2 = ParasiteAnimations.loop(
             this, "func_78087_a.limb_swing.get_parasite_status_2");
-    private final RawAnimation AGE_STATUS_2_STILL = ParasiteAnimations.loop(
+    private final CitadelRawAnimation AGE_STATUS_2_STILL = ParasiteAnimations.loop(
             this, "func_78087_a.age_in_ticks.get_parasite_status_2.get_still_ani_1");
-    private final RawAnimation LIMB_STATUS_3 = ParasiteAnimations.loop(
+    private final CitadelRawAnimation LIMB_STATUS_3 = ParasiteAnimations.loop(
             this, "func_78087_a.limb_swing.get_parasite_status_3");
 
-    private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
+    private final CitadelAnimationCache animationCache = CitadelAnimationUtil.createInstanceCache(this);
     private final Kind kind;
     private int parasiteKills;
     private int rangedCooldown;
@@ -301,12 +301,12 @@ public final class AssimilatedVariantEntity extends Monster implements GeoEntity
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "age_controller", 0,
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "age_controller", 0,
                 state -> state.setAndContinue(ageAnimation())));
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, state -> {
             if (!ParasiteAnimations.isMoving(this, state.isMoving())) {
-                return PlayState.STOP;
+                return CitadelPlayState.STOP;
             }
             return state.setAndContinue(limbAnimation());
         }));
@@ -327,7 +327,7 @@ public final class AssimilatedVariantEntity extends Monster implements GeoEntity
                 distanceToSqr(target) <= reach * reach + target.getBbWidth() ? 1 : 2);
     }
 
-    private RawAnimation ageAnimation() {
+    private CitadelRawAnimation ageAnimation() {
         int status = entityData.get(ANIMATION_STATUS);
         boolean still = stillAnimationTicks > STILL_ANIMATION_DELAY_TICKS;
         return switch (kind) {
@@ -348,7 +348,7 @@ public final class AssimilatedVariantEntity extends Monster implements GeoEntity
         };
     }
 
-    private RawAnimation limbAnimation() {
+    private CitadelRawAnimation limbAnimation() {
         int status = entityData.get(ANIMATION_STATUS);
         return switch (status) {
             case 1 -> LIMB_STATUS_1;
@@ -359,7 +359,7 @@ public final class AssimilatedVariantEntity extends Monster implements GeoEntity
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
+    public CitadelAnimationCache getCitadelAnimationCache() {
         return animationCache;
     }
 

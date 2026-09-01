@@ -4,19 +4,19 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelRawAnimation;
 
 /** Resolves the fully-qualified animation names emitted by the SRP extractor. */
 final class ParasiteAnimations {
     private ParasiteAnimations() {
     }
 
-    static RawAnimation loop(Entity entity, String action) {
-        return RawAnimation.begin().thenLoop(animationName(entity, action));
+    static CitadelRawAnimation loop(Entity entity, String action) {
+        return CitadelRawAnimation.begin().thenLoop(animationName(entity, action));
     }
 
-    static RawAnimation play(Entity entity, String action) {
-        return RawAnimation.begin().thenPlay(animationName(entity, action));
+    static CitadelRawAnimation play(Entity entity, String action) {
+        return CitadelRawAnimation.begin().thenPlay(animationName(entity, action));
     }
 
     /** Navigation and velocity can remain active while a mob is blocked; require actual tick displacement. */

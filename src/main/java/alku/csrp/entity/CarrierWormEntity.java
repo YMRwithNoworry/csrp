@@ -9,7 +9,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.PathType;
-import software.bernie.geckolib.animation.AnimatableManager;
+import alku.csrp.animation.CitadelAnimationManager;
 
 /** Legacy Worm Carrier (EntityQuac), including its four linked body segments. */
 public final class CarrierWormEntity extends BurrowingVariantEntity {
@@ -65,7 +65,7 @@ public final class CarrierWormEntity extends BurrowingVariantEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
         // SRP 1.10.7 registers EntityQuac without a renderer.
     }
 }

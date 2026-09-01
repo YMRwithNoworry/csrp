@@ -36,17 +36,17 @@ import net.minecraft.util.Mth;
 import net.neoforged.neoforge.event.EventHooks;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import alku.csrp.animation.CitadelAnimatedEntity;
+import alku.csrp.animation.CitadelAnimationCache;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelRawAnimation;
+import alku.csrp.animation.CitadelAnimationUtil;
 
 import java.util.EnumSet;
 
 /** Assimilated Ender Dragon with removable head and wing durability driving flight and ranged combat. */
-public final class AssimilatedDragonEntity extends Monster implements GeoEntity, Parasite {
+public final class AssimilatedDragonEntity extends Monster implements CitadelAnimatedEntity, Parasite {
     private static final float PART_HEALTH = 52.0F;
     private static final int RANGED_COOLDOWN = 40;
     private static final int BLOCK_BREAK_COOLDOWN = 60;
@@ -54,19 +54,19 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
     private static final float BLOCK_BREAK_HARDNESS = 3.0F;
     private int blockBreakCooldown;
 
-    private final RawAnimation AGE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
-    private final RawAnimation LIMB = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
-    private final RawAnimation AGE_STATUS_1 = ParasiteAnimations.loop(
+    private final CitadelRawAnimation AGE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final CitadelRawAnimation LIMB = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final CitadelRawAnimation AGE_STATUS_1 = ParasiteAnimations.loop(
             this, "func_78087_a.age_in_ticks.get_parasite_status_1");
-    private final RawAnimation LIMB_STATUS_1 = ParasiteAnimations.loop(
+    private final CitadelRawAnimation LIMB_STATUS_1 = ParasiteAnimations.loop(
             this, "func_78087_a.limb_swing.get_parasite_status_1");
-    private final RawAnimation LIMB_STATUS_2 = ParasiteAnimations.loop(
+    private final CitadelRawAnimation LIMB_STATUS_2 = ParasiteAnimations.loop(
             this, "func_78087_a.limb_swing.get_parasite_status_2");
-    private final RawAnimation AGE_STATUS_10 = ParasiteAnimations.loop(
+    private final CitadelRawAnimation AGE_STATUS_10 = ParasiteAnimations.loop(
             this, "func_78087_a.age_in_ticks.get_parasite_status_10");
-    private final RawAnimation AGE_FLYING = ParasiteAnimations.loop(
+    private final CitadelRawAnimation AGE_FLYING = ParasiteAnimations.loop(
             this, "func_78087_a.age_in_ticks.get_flying_state_1");
-    private final RawAnimation TAKEOFF = ParasiteAnimations.play(this, "getaaa.get_flying_state_1");
+    private final CitadelRawAnimation TAKEOFF = ParasiteAnimations.play(this, "getaaa.get_flying_state_1");
     private static final EntityDataAccessor<Integer> PARASITE_STATUS = SynchedEntityData.defineId(
             AssimilatedDragonEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> FLYING = SynchedEntityData.defineId(
@@ -78,7 +78,7 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
     private static final EntityDataAccessor<Boolean> RIGHT_WING_ATTACHED = SynchedEntityData.defineId(
             AssimilatedDragonEntity.class, EntityDataSerializers.BOOLEAN);
 
-    private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
+    private final CitadelAnimationCache animationCache = CitadelAnimationUtil.createInstanceCache(this);
     private final DragonBodyPart headPart;
     private final DragonBodyPart leftWingPart;
     private final DragonBodyPart rightWingPart;
@@ -312,8 +312,8 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "age_controller", 0, state -> {
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "age_controller", 0, state -> {
             int status = getParasiteStatus();
             if (status == 10) {
                 return state.setAndContinue(AGE_STATUS_10);
@@ -323,14 +323,14 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
             }
             return state.setAndContinue(status == 1 ? AGE_STATUS_1 : AGE);
         }));
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, state -> {
             int status = getParasiteStatus();
             boolean moving = ParasiteAnimations.isMoving(this, state.isMoving());
             if (isFlying() && takeoffAnimationTicks > 0) {
                 return state.setAndContinue(TAKEOFF);
             }
             if (!moving || isFlying() || status == 3 || status == 10) {
-                return software.bernie.geckolib.animation.PlayState.STOP;
+                return alku.csrp.animation.CitadelPlayState.STOP;
             }
             return state.setAndContinue(switch (status) {
                 case 1 -> LIMB_STATUS_1;
@@ -341,7 +341,7 @@ public final class AssimilatedDragonEntity extends Monster implements GeoEntity,
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
+    public CitadelAnimationCache getCitadelAnimationCache() {
         return animationCache;
     }
 

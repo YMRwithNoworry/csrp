@@ -1,6 +1,7 @@
 package alku.csrp.client.renderer;
 
 import alku.csrp.Csrp;
+import alku.csrp.animation.CitadelAnimatedEntity;
 import alku.csrp.client.model.PrimitiveParasiteModel;
 import alku.csrp.entity.AdaptedVariantEntity;
 import alku.csrp.entity.CarrierEntity;
@@ -9,21 +10,21 @@ import alku.csrp.entity.PrimitiveVariantEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import com.github.alexthe666.citadel.client.model.AdvancedEntityModel;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.cache.object.BakedGeoModel;
-import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
 
-public final class PrimitiveParasiteRenderer<T extends Mob & GeoEntity> extends ParasiteGeoRenderer<T> {
+public final class PrimitiveParasiteRenderer<T extends Mob & CitadelAnimatedEntity>
+        extends ParasiteGeoRenderer<T> {
     private static final ResourceLocation YELLOWEYE_GLOW_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
             "textures/entity/pri_yelloweye_glow.png");
     private static final ResourceLocation YELLOWEYE_HEAVY_GLOW_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
@@ -41,14 +42,12 @@ public final class PrimitiveParasiteRenderer<T extends Mob & GeoEntity> extends 
         super(context, new PrimitiveParasiteModel<>(id));
         this.shadowRadius = shadowRadius;
         if ("pri_yelloweye".equals(id)) {
-            addRenderLayer(new YelloweyeGlowLayer<>(this));
+            addLayer(new YelloweyeGlowLayer<>(this));
         }
     }
 
     @Override
-    public void preRender(PoseStack poseStack, T entity, BakedGeoModel model,
-                          MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender,
-                          float partialTick, int packedLight, int packedOverlay, int colour) {
+    protected void scale(T entity, PoseStack poseStack, float partialTick) {
         if (entity instanceof MeltableAssimilated meltable && meltable.isMelting()) {
             poseStack.scale(1.0F, meltable.getMeltRenderScale(partialTick), 1.0F);
         }
@@ -62,8 +61,7 @@ public final class PrimitiveParasiteRenderer<T extends Mob & GeoEntity> extends 
             float verticalScale = (1.0F + swell * 0.1F) / pulse;
             poseStack.scale(horizontalScale, verticalScale, horizontalScale);
         }
-        super.preRender(poseStack, entity, model, bufferSource, buffer, isReRender, partialTick,
-                packedLight, packedOverlay, colour);
+        super.scale(entity, poseStack, partialTick);
     }
 
     @Override
@@ -150,24 +148,24 @@ public final class PrimitiveParasiteRenderer<T extends Mob & GeoEntity> extends 
                 .setNormal(pose, 0.0F, 1.0F, 0.0F);
     }
 
-    private static final class YelloweyeGlowLayer<T extends Mob & GeoEntity> extends GeoRenderLayer<T> {
+    private static final class YelloweyeGlowLayer<T extends Mob & CitadelAnimatedEntity>
+            extends RenderLayer<T, AdvancedEntityModel<T>> {
         private YelloweyeGlowLayer(PrimitiveParasiteRenderer<T> renderer) {
             super(renderer);
         }
 
         @Override
-        public void render(PoseStack poseStack, T entity, BakedGeoModel bakedModel, RenderType renderType,
-                           MultiBufferSource bufferSource, VertexConsumer buffer, float partialTick,
-                           int packedLight, int packedOverlay) {
+        public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight,
+                T entity, float limbSwing, float limbSwingAmount, float partialTick,
+                float ageInTicks, float netHeadYaw, float headPitch) {
             if (!(entity instanceof PrimitiveVariantEntity yelloweye) || !yelloweye.isPrimitiveYelloweye()) {
                 return;
             }
             ResourceLocation texture = yelloweye.getYelloweyeSkin() == 7
                     ? YELLOWEYE_HEAVY_GLOW_TEXTURE : YELLOWEYE_GLOW_TEXTURE;
             RenderType glowType = RenderType.eyes(texture);
-            getRenderer().reRender(bakedModel, poseStack, bufferSource, entity, glowType,
-                    bufferSource.getBuffer(glowType), partialTick, LightTexture.FULL_BRIGHT,
-                    packedOverlay, 0xFFFFFFFF);
+            getParentModel().renderToBuffer(poseStack, bufferSource.getBuffer(glowType),
+                    LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 0xFFFFFFFF);
         }
     }
 }

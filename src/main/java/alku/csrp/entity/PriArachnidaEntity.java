@@ -31,16 +31,16 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import alku.csrp.animation.CitadelAnimatedEntity;
+import alku.csrp.animation.CitadelAnimationCache;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelAnimationState;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
+import alku.csrp.animation.CitadelAnimationUtil;
 
-public class PriArachnidaEntity extends Monster implements GeoEntity, Parasite, PullingBallOwner {
+public class PriArachnidaEntity extends Monster implements CitadelAnimatedEntity, Parasite, PullingBallOwner {
     private static final String PARASITE_STATUS_NBT_KEY = "parasite_status";
     private static final String PULL_COOLDOWN_NBT_KEY = "pull_cooldown";
     private static final String PULL_COUNT_NBT_KEY = "pull_count";
@@ -49,14 +49,14 @@ public class PriArachnidaEntity extends Monster implements GeoEntity, Parasite, 
             SynchedEntityData.defineId(PriArachnidaEntity.class, EntityDataSerializers.INT);
 
     // 动画字段
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation ATTACK_PREPARE = ParasiteAnimations.loop(this, "idle.get_parasite_status_1");
-    private final RawAnimation ATTACK = ParasiteAnimations.loop(this, "idle.get_parasite_status_2");
-    private final RawAnimation PULL = ParasiteAnimations.loop(this, "idle.get_parasite_status_3");
-    private final RawAnimation SKILL = ParasiteAnimations.loop(this, "idle.get_parasite_status_11");
+    private final CitadelRawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final CitadelRawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final CitadelRawAnimation ATTACK_PREPARE = ParasiteAnimations.loop(this, "idle.get_parasite_status_1");
+    private final CitadelRawAnimation ATTACK = ParasiteAnimations.loop(this, "idle.get_parasite_status_2");
+    private final CitadelRawAnimation PULL = ParasiteAnimations.loop(this, "idle.get_parasite_status_3");
+    private final CitadelRawAnimation SKILL = ParasiteAnimations.loop(this, "idle.get_parasite_status_11");
 
-    private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
+    private final CitadelAnimationCache animationCache = CitadelAnimationUtil.createInstanceCache(this);
     private int pullCooldown;
     private int pullCount;
 
@@ -293,13 +293,13 @@ public class PriArachnidaEntity extends Monster implements GeoEntity, Parasite, 
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, this::movementAnimation));
+        controllers.add(new CitadelAnimationController<>(this, "attack_controller", 0, state -> CitadelPlayState.STOP)
                 .triggerableAnim("attack", ParasiteAnimations.play(this, "attack")));
     }
 
-    private <T extends PriArachnidaEntity> PlayState movementAnimation(AnimationState<T> state) {
+    private <T extends PriArachnidaEntity> CitadelPlayState movementAnimation(CitadelAnimationState<T> state) {
         int status = getParasiteStatus();
 
         // Status 11: 技能释放动画
@@ -330,7 +330,7 @@ public class PriArachnidaEntity extends Monster implements GeoEntity, Parasite, 
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
+    public CitadelAnimationCache getCitadelAnimationCache() {
         return animationCache;
     }
 }

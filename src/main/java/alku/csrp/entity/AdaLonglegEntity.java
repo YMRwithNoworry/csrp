@@ -23,11 +23,11 @@ import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelAnimationState;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.EnumSet;
 
@@ -44,13 +44,13 @@ public class AdaLonglegEntity extends BurrowingVariantEntity implements PullingB
             AdaLonglegEntity.class, EntityDataSerializers.INT);
 
     // 动画定义
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
-    private final RawAnimation AIMING = ParasiteAnimations.loop(this, "walk.get_parasite_status_1");
-    private final RawAnimation ATTACK_PREP = ParasiteAnimations.loop(this, "walk.get_parasite_status_2");
-    private final RawAnimation PULLING = ParasiteAnimations.loop(this, "idle.get_parasite_status_3");
-    private final RawAnimation SKILL_CAST = ParasiteAnimations.loop(this, "idle.get_parasite_status_11");
+    private final CitadelRawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final CitadelRawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final CitadelRawAnimation RUN = ParasiteAnimations.loop(this, "run");
+    private final CitadelRawAnimation AIMING = ParasiteAnimations.loop(this, "walk.get_parasite_status_1");
+    private final CitadelRawAnimation ATTACK_PREP = ParasiteAnimations.loop(this, "walk.get_parasite_status_2");
+    private final CitadelRawAnimation PULLING = ParasiteAnimations.loop(this, "idle.get_parasite_status_3");
+    private final CitadelRawAnimation SKILL_CAST = ParasiteAnimations.loop(this, "idle.get_parasite_status_11");
 
     private int abilityCooldown;
     private int pullingDuration;
@@ -221,11 +221,11 @@ public class AdaLonglegEntity extends BurrowingVariantEntity implements PullingB
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, this::movementAnimation));
     }
 
-    private PlayState movementAnimation(AnimationState<AdaLonglegEntity> state) {
+    private CitadelPlayState movementAnimation(CitadelAnimationState<AdaLonglegEntity> state) {
         int status = getArachnidaStatus();
 
         // 状态 11: 技能施放动画

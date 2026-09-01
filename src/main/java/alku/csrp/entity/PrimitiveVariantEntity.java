@@ -62,11 +62,11 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelAnimationState;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.EnumSet;
 
@@ -141,47 +141,47 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
     private static final double MANDUCATER_PULL_STRENGTH = 0.13D;
     private static final float MANDUCATER_MINIMUM_DAMAGE = 0.02F;
 
-    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks");
-    private final RawAnimation LIMB_SWING = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation LIMB_SWING = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing");
-    private final RawAnimation AGE_STATUS_1 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation AGE_STATUS_1 = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1");
-    private final RawAnimation LIMB_STATUS_1 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation LIMB_STATUS_1 = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_1");
-    private final RawAnimation LIMB_STATUS_2 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation LIMB_STATUS_2 = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_2");
-    private final RawAnimation LIMB_STATUS_3 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation LIMB_STATUS_3 = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_3");
-    private final RawAnimation AGE_STATUS_3_STILL = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation AGE_STATUS_3_STILL = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_3.get_still_ani_1");
-    private final RawAnimation AGE_STATUS_3 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation AGE_STATUS_3 = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_3");
-    private final RawAnimation AGE_BODY_05 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation AGE_BODY_05 = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_body_number_0_5");
-    private final RawAnimation AGE_BODY_1 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation AGE_BODY_1 = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_body_number_1");
-    private final RawAnimation AGE_DEVOURER_STATUS_1 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation AGE_DEVOURER_STATUS_1 = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1");
-    private final RawAnimation DIG = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation DIG = ParasiteAnimations.loop(this,
             "get_dig_model.get_digging_1");
-    private final RawAnimation DIG_BODY_05 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation DIG_BODY_05 = ParasiteAnimations.loop(this,
             "get_dig_model.get_body_number_0_5.get_digging_1");
-    private final RawAnimation DIG_BODY_NEG_03 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation DIG_BODY_NEG_03 = ParasiteAnimations.loop(this,
             "get_dig_model.get_body_number_neg_0_3.get_digging_1");
-    private final RawAnimation ATTACK_BODY_NEG_03 = ParasiteAnimations.play(this,
+    private final CitadelRawAnimation ATTACK_BODY_NEG_03 = ParasiteAnimations.play(this,
             "get_attack_timer.get_body_number_neg_0_3");
-    private final RawAnimation ATTACK_BODY_1 = ParasiteAnimations.play(this,
+    private final CitadelRawAnimation ATTACK_BODY_1 = ParasiteAnimations.play(this,
             "get_attack_timer.get_body_number_1");
-    private final RawAnimation TOZOON_ATTACK = ParasiteAnimations.play(this,
+    private final CitadelRawAnimation TOZOON_ATTACK = ParasiteAnimations.play(this,
             "get_attack_timer");
-    private final RawAnimation TOZOON_DIG = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation TOZOON_DIG = ParasiteAnimations.loop(this,
             "get_dig_model");
-    private final RawAnimation DIG_BODY_1 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation DIG_BODY_1 = ParasiteAnimations.loop(this,
             "get_dig_model.get_body_number_1.get_digging_1");
-    private final RawAnimation REEKER_WINDUP = AGE_STATUS_3_STILL;
-    private final RawAnimation REEKER_CHARGE = LIMB_STATUS_3;
-    private final RawAnimation[] BODY_ATTACK = {
+    private final CitadelRawAnimation REEKER_WINDUP = AGE_STATUS_3_STILL;
+    private final CitadelRawAnimation REEKER_CHARGE = LIMB_STATUS_3;
+    private final CitadelRawAnimation[] BODY_ATTACK = {
             ATTACK_BODY_NEG_03,
             ATTACK_BODY_1,
             ATTACK_BODY_NEG_03
@@ -1174,15 +1174,15 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, this::movementAnimation));
         if (activeKind() == Kind.TOZOON) {
-            controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
+            controllers.add(new CitadelAnimationController<>(this, "attack_controller", 0, state -> CitadelPlayState.STOP)
                     .triggerableAnim("get_attack_timer", TOZOON_ATTACK));
         }
     }
 
-    private PlayState movementAnimation(AnimationState<PrimitiveVariantEntity> state) {
+    private CitadelPlayState movementAnimation(CitadelAnimationState<PrimitiveVariantEntity> state) {
         if (getBodyNumber() > 0) {
             int body = Math.min(getBodyNumber(), BODY_ATTACK.length - 1);
             Kind activeKind = activeKind();
@@ -1210,7 +1210,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
         boolean moving = ParasiteAnimations.isMoving(this, state.isMoving());
         if (activeKind() == Kind.MANDUCATER) {
             return switch (entityData.get(MANDUCATER_STATUS)) {
-                case 3, 10 -> PlayState.STOP;
+                case 3, 10 -> CitadelPlayState.STOP;
                 case 2 -> state.setAndContinue(LIMB_STATUS_2);
                 case 1 -> state.setAndContinue(moving ? LIMB_STATUS_1 : AGE_STATUS_1);
                 default -> state.setAndContinue(moving ? LIMB_SWING : AGE_IN_TICKS);
@@ -1232,7 +1232,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
         return state.setAndContinue(selectGroundAnimation(moving));
     }
 
-    private RawAnimation selectGroundAnimation(boolean moving) {
+    private CitadelRawAnimation selectGroundAnimation(boolean moving) {
         LivingEntity target = getTarget();
         boolean combat = target != null && target.isAlive();
         if (moving && getDeltaMovement().horizontalDistanceSqr() > 0.02D) {

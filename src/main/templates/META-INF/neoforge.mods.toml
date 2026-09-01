@@ -81,10 +81,10 @@ ordering = "AFTER"
 side = "BOTH"
 
 [[dependencies."${mod_id}"]]
-modId = "geckolib"
+modId = "citadel"
 type = "required"
-reason = "CSRP uses GeckoLib for animated parasite entities."
-versionRange = "[${geckolib_version},)"
+reason = "CSRP uses Citadel to render the original SRParasites Tabula-exported entity models and animations."
+versionRange = "[${citadel_version},)"
 ordering = "AFTER"
 side = "BOTH"
 

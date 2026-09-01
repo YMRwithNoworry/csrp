@@ -34,9 +34,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.EnumSet;
 
@@ -49,7 +49,7 @@ public final class LiceEntity extends PrimitiveParasiteEntity {
     private static final int VIRAL_DURATION_TICKS = 120;
     private static final int VIRAL_AMPLIFIER = 2;
 
-    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks");
 
     private int lifespan;
@@ -238,8 +238,8 @@ public final class LiceEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4,
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4,
                 state -> state.setAndContinue(AGE_IN_TICKS)));
     }
 

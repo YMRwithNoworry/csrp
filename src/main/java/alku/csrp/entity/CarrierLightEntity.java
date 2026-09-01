@@ -14,14 +14,14 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.List;
 
 public final class CarrierLightEntity extends CarrierEntity {
-    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks");
-    private final RawAnimation LIMB_SWING = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation LIMB_SWING = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing");
 
     public CarrierLightEntity(EntityType<? extends CarrierLightEntity> type, Level level) {
@@ -49,12 +49,12 @@ public final class CarrierLightEntity extends CarrierEntity {
     }
 
     @Override
-    protected RawAnimation ageAnimation() {
+    protected CitadelRawAnimation ageAnimation() {
         return AGE_IN_TICKS;
     }
 
     @Override
-    protected RawAnimation limbSwingAnimation() {
+    protected CitadelRawAnimation limbSwingAnimation() {
         return LIMB_SWING;
     }
 

@@ -12,7 +12,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
-import software.bernie.geckolib.animation.AnimatableManager;
+import alku.csrp.animation.CitadelAnimationManager;
 
 /** Legacy Ancient Dreadnaut ground tendril (EntityOroncoTen). */
 public final class DreadnautTentacleEntity extends PrimitiveParasiteEntity {
@@ -71,7 +71,7 @@ public final class DreadnautTentacleEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
     }
 
     @Override

@@ -37,47 +37,47 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import alku.csrp.animation.CitadelAnimatedEntity;
+import alku.csrp.animation.CitadelAnimationCache;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
+import alku.csrp.animation.CitadelAnimationUtil;
 
 import java.util.Comparator;
 import java.util.EnumSet;
 
 /** Shared walking-head behavior: infect targets and rebuild a body with a medium incomplete form. */
-public final class AssimilatedHeadEntity extends Monster implements GeoEntity, Parasite {
+public final class AssimilatedHeadEntity extends Monster implements CitadelAnimatedEntity, Parasite {
     private static final EntityDataAccessor<Integer> LEAP_TICKS = SynchedEntityData.defineId(
             AssimilatedHeadEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> PARASITE_STATUS = SynchedEntityData.defineId(
             AssimilatedHeadEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> SCREAMING = SynchedEntityData.defineId(
             AssimilatedHeadEntity.class, EntityDataSerializers.BOOLEAN);
-    private final RawAnimation FUNC_78087_A_AGE = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation FUNC_78087_A_AGE = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks");
-    private final RawAnimation FUNC_78087_A_MOVEMENT = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation FUNC_78087_A_MOVEMENT = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing");
-    private final RawAnimation FUNC_78087_A_AGE_STATUS_1 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation FUNC_78087_A_AGE_STATUS_1 = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1");
-    private final RawAnimation FUNC_78087_A_MOVEMENT_STATUS_1 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation FUNC_78087_A_MOVEMENT_STATUS_1 = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_1");
-    private final RawAnimation FUNC_78087_A_AGE_STATUS_10 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation FUNC_78087_A_AGE_STATUS_10 = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_10");
-    private final RawAnimation FUNC_78087_A_AGE_SCREAMING = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation FUNC_78087_A_AGE_SCREAMING = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.is_screaming_1");
-    private final RawAnimation FUNC_78087_A_MOVEMENT_SCREAMING = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation FUNC_78087_A_MOVEMENT_SCREAMING = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.is_screaming_1");
-    private final RawAnimation FUNC_78087_A_AGE_STATUS_1_SCREAMING = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation FUNC_78087_A_AGE_STATUS_1_SCREAMING = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1.is_screaming_1");
-    private final RawAnimation FUNC_78087_A_MOVEMENT_STATUS_1_SCREAMING = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation FUNC_78087_A_MOVEMENT_STATUS_1_SCREAMING = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_1.is_screaming_1");
-    private final RawAnimation FUNC_78087_A_AGE_STATUS_10_SCREAMING = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation FUNC_78087_A_AGE_STATUS_10_SCREAMING = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_10.is_screaming_1");
 
-    private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
+    private final CitadelAnimationCache animationCache = CitadelAnimationUtil.createInstanceCache(this);
     private final Kind kind;
     private int cloudCooldown;
 
@@ -250,9 +250,9 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "age_controller", 4, state -> {
-            RawAnimation animation = switch (getParasiteStatus()) {
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "age_controller", 4, state -> {
+            CitadelRawAnimation animation = switch (getParasiteStatus()) {
                 case 1, 2 -> usesStatusOneAgeAnimation()
                         ? isScreaming() ? FUNC_78087_A_AGE_STATUS_1_SCREAMING : FUNC_78087_A_AGE_STATUS_1
                         : FUNC_78087_A_AGE;
@@ -261,12 +261,12 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
             };
             return state.setAndContinue(animation);
         }));
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, state -> {
             if (getParasiteStatus() == 10
                     || !ParasiteAnimations.isMoving(this, state.isMoving())) {
-                return PlayState.STOP;
+                return CitadelPlayState.STOP;
             }
-            RawAnimation animation = getParasiteStatus() == 1 || getParasiteStatus() == 2
+            CitadelRawAnimation animation = getParasiteStatus() == 1 || getParasiteStatus() == 2
                     ? isScreaming() ? FUNC_78087_A_MOVEMENT_STATUS_1_SCREAMING
                     : FUNC_78087_A_MOVEMENT_STATUS_1
                     : isScreaming() ? FUNC_78087_A_MOVEMENT_SCREAMING : FUNC_78087_A_MOVEMENT;
@@ -275,7 +275,7 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
+    public CitadelAnimationCache getCitadelAnimationCache() {
         return animationCache;
     }
 

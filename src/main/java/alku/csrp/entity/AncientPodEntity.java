@@ -18,11 +18,11 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelAnimationState;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
 
 /** Legacy Ancient Drop Pod (EntityDropPod). */
 public final class AncientPodEntity extends PrimitiveParasiteEntity {
@@ -32,9 +32,9 @@ public final class AncientPodEntity extends PrimitiveParasiteEntity {
     }
     private static final int DEFAULT_FUSE = 80;
 
-    private final RawAnimation groundedAnimation = ParasiteAnimations.loop(
+    private final CitadelRawAnimation groundedAnimation = ParasiteAnimations.loop(
             this, "func_78087_a.age_in_ticks");
-    private final RawAnimation airborneAnimation = ParasiteAnimations.loop(
+    private final CitadelRawAnimation airborneAnimation = ParasiteAnimations.loop(
             this, "func_78087_a.age_in_ticks.get_parasite_status_1");
     private byte owner = 62;
     private int fuseTicks = DEFAULT_FUSE;
@@ -93,8 +93,8 @@ public final class AncientPodEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 2, this::movementAnimation));
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 2, this::movementAnimation));
     }
 
     @Override
@@ -115,7 +115,7 @@ public final class AncientPodEntity extends PrimitiveParasiteEntity {
         exploded = tag.getBoolean("pod_exploded");
     }
 
-    private PlayState movementAnimation(AnimationState<AncientPodEntity> state) {
+    private CitadelPlayState movementAnimation(CitadelAnimationState<AncientPodEntity> state) {
         // The legacy pod uses status 1 while falling and returns to its normal pose on landing.
         return state.setAndContinue(onGround() ? groundedAnimation : airborneAnimation);
     }

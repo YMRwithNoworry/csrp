@@ -9,14 +9,14 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.level.Level;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.List;
 
 public final class CarrierHeavyEntity extends CarrierEntity {
-    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks");
-    private final RawAnimation LIMB_SWING = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation LIMB_SWING = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing");
 
     public CarrierHeavyEntity(EntityType<? extends CarrierHeavyEntity> type, Level level) {
@@ -31,12 +31,12 @@ public final class CarrierHeavyEntity extends CarrierEntity {
     }
 
     @Override
-    protected RawAnimation ageAnimation() {
+    protected CitadelRawAnimation ageAnimation() {
         return AGE_IN_TICKS;
     }
 
     @Override
-    protected RawAnimation limbSwingAnimation() {
+    protected CitadelRawAnimation limbSwingAnimation() {
         return LIMB_SWING;
     }
 

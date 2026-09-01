@@ -26,11 +26,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelAnimationState;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
@@ -89,32 +89,32 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
             MarauderEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> HARDENED_VARIANT = SynchedEntityData.defineId(
             MarauderEntity.class, EntityDataSerializers.BOOLEAN);
-    private final RawAnimation ageInTicksAnimation = animation("func_78087_a.age_in_ticks");
-    private final RawAnimation limbSwingAnimation = animation("func_78087_a.limb_swing");
-    private final RawAnimation attackTimerAnimation = animation("get_attack_timer");
-    private final RawAnimation ageStillAnimation = animation("func_78087_a.age_in_ticks.get_still_ani_1");
-    private final RawAnimation attackTimerStillAnimation = animation("get_attack_timer.get_still_ani_1");
-    private final RawAnimation ageStatus1Animation = animation("func_78087_a.age_in_ticks.get_parasite_status_1");
-    private final RawAnimation limbStatus1Animation = animation("func_78087_a.limb_swing.get_parasite_status_1");
-    private final RawAnimation attackTimerStatus1Animation = animation("get_attack_timer.get_parasite_status_1");
-    private final RawAnimation ageStatus1StillAnimation = animation(
+    private final CitadelRawAnimation ageInTicksAnimation = animation("func_78087_a.age_in_ticks");
+    private final CitadelRawAnimation limbSwingAnimation = animation("func_78087_a.limb_swing");
+    private final CitadelRawAnimation attackTimerAnimation = animation("get_attack_timer");
+    private final CitadelRawAnimation ageStillAnimation = animation("func_78087_a.age_in_ticks.get_still_ani_1");
+    private final CitadelRawAnimation attackTimerStillAnimation = animation("get_attack_timer.get_still_ani_1");
+    private final CitadelRawAnimation ageStatus1Animation = animation("func_78087_a.age_in_ticks.get_parasite_status_1");
+    private final CitadelRawAnimation limbStatus1Animation = animation("func_78087_a.limb_swing.get_parasite_status_1");
+    private final CitadelRawAnimation attackTimerStatus1Animation = animation("get_attack_timer.get_parasite_status_1");
+    private final CitadelRawAnimation ageStatus1StillAnimation = animation(
             "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1");
-    private final RawAnimation attackTimerStatus1StillAnimation = animation(
+    private final CitadelRawAnimation attackTimerStatus1StillAnimation = animation(
             "get_attack_timer.get_parasite_status_1.get_still_ani_1");
-    private final RawAnimation ageStatus2Animation = animation("func_78087_a.age_in_ticks.get_parasite_status_2");
-    private final RawAnimation limbStatus2Animation = animation("func_78087_a.limb_swing.get_parasite_status_2");
-    private final RawAnimation attackTimerStatus2Animation = animation("get_attack_timer.get_parasite_status_2");
-    private final RawAnimation ageStatus2StillAnimation = animation(
+    private final CitadelRawAnimation ageStatus2Animation = animation("func_78087_a.age_in_ticks.get_parasite_status_2");
+    private final CitadelRawAnimation limbStatus2Animation = animation("func_78087_a.limb_swing.get_parasite_status_2");
+    private final CitadelRawAnimation attackTimerStatus2Animation = animation("get_attack_timer.get_parasite_status_2");
+    private final CitadelRawAnimation ageStatus2StillAnimation = animation(
             "func_78087_a.age_in_ticks.get_parasite_status_2.get_still_ani_1");
-    private final RawAnimation attackTimerStatus2StillAnimation = animation(
+    private final CitadelRawAnimation attackTimerStatus2StillAnimation = animation(
             "get_attack_timer.get_parasite_status_2.get_still_ani_1");
-    private final RawAnimation ageStatus3Animation = animation("func_78087_a.age_in_ticks.get_parasite_status_3");
-    private final RawAnimation ageStatus4Animation = animation("func_78087_a.age_in_ticks.get_parasite_status_4");
-    private final RawAnimation attackTimerStatus4Animation = animation("get_attack_timer.get_parasite_status_4");
-    private final RawAnimation ageStatus10Animation = animation("func_78087_a.age_in_ticks.get_parasite_status_10");
-    private final RawAnimation attackTimerStatus10Animation = animation("get_attack_timer.get_parasite_status_10");
-    private final RawAnimation ageStatus25Animation = animation("func_78087_a.age_in_ticks.get_parasite_status_25");
-    private final RawAnimation attackTimerStatus25Animation = animation("get_attack_timer.get_parasite_status_25");
+    private final CitadelRawAnimation ageStatus3Animation = animation("func_78087_a.age_in_ticks.get_parasite_status_3");
+    private final CitadelRawAnimation ageStatus4Animation = animation("func_78087_a.age_in_ticks.get_parasite_status_4");
+    private final CitadelRawAnimation attackTimerStatus4Animation = animation("get_attack_timer.get_parasite_status_4");
+    private final CitadelRawAnimation ageStatus10Animation = animation("func_78087_a.age_in_ticks.get_parasite_status_10");
+    private final CitadelRawAnimation attackTimerStatus10Animation = animation("get_attack_timer.get_parasite_status_10");
+    private final CitadelRawAnimation ageStatus25Animation = animation("func_78087_a.age_in_ticks.get_parasite_status_25");
+    private final CitadelRawAnimation attackTimerStatus25Animation = animation("get_attack_timer.get_parasite_status_25");
 
     @Nullable
     private UUID leftTendrilId;
@@ -176,7 +176,7 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
         }
 
         setClimbing(horizontalCollision);
-        updateAnimationState();
+        updateCitadelAnimationState();
         if (entityData.get(ATTACK_TICKS) > 0) {
             entityData.set(ATTACK_TICKS, entityData.get(ATTACK_TICKS) - 1);
         }
@@ -189,7 +189,7 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
         }
     }
 
-    private void updateAnimationState() {
+    private void updateCitadelAnimationState() {
         double dx = getX() - xo;
         double dz = getZ() - zo;
         if (dx * dx + dz * dz <= 1.0E-6D) {
@@ -462,7 +462,7 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
         return Mth.clamp(progress, 0.0F, 1.0F);
     }
 
-    private RawAnimation animation(String action) {
+    private CitadelRawAnimation animation(String action) {
         return ParasiteAnimations.loop(this, action);
     }
 
@@ -584,13 +584,13 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "age_controller", 0, state ->
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "age_controller", 0, state ->
                 state.setAndContinue(ageAnimation())));
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, this::movementAnimation));
     }
 
-    private RawAnimation ageAnimation() {
+    private CitadelRawAnimation ageAnimation() {
         int status = getParasiteStatus();
         boolean still = getStillAni();
         if (getAttackTicks() > 0) {
@@ -615,15 +615,15 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
     }
 
     /** Limb-swing functions only run while the entity actually changes position. */
-    private PlayState movementAnimation(AnimationState<MarauderEntity> state) {
+    private CitadelPlayState movementAnimation(CitadelAnimationState<MarauderEntity> state) {
         if (!ParasiteAnimations.isMoving(this, state.isMoving())) {
-            return PlayState.STOP;
+            return CitadelPlayState.STOP;
         }
         return switch (getParasiteStatus()) {
             case 1 -> state.setAndContinue(limbStatus1Animation);
             case 2 -> state.setAndContinue(limbStatus2Animation);
             case 0 -> state.setAndContinue(limbSwingAnimation);
-            default -> PlayState.STOP;
+            default -> CitadelPlayState.STOP;
         };
     }
 

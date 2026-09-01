@@ -11,10 +11,10 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.level.Level;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
 
 public final class HostEntity extends AbstractHostEntity {
     @Override
@@ -34,26 +34,26 @@ public final class HostEntity extends AbstractHostEntity {
     private static final EntityDataAccessor<Boolean> MOUTH_OPEN =
             SynchedEntityData.defineId(HostEntity.class, EntityDataSerializers.BOOLEAN);
     private static final int HOST_TO_HOSTII_KILLS = 40;
-    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
-    private final RawAnimation BURROW = ParasiteAnimations.loop(this, "get_burrow_timer");
-    private final RawAnimation OPEN_IDLE = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final CitadelRawAnimation BURROW = ParasiteAnimations.loop(this, "get_burrow_timer");
+    private final CitadelRawAnimation OPEN_IDLE = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_open_1");
-    private final RawAnimation OPEN_ATTACK = ParasiteAnimations.play(this,
+    private final CitadelRawAnimation OPEN_ATTACK = ParasiteAnimations.play(this,
             "get_attack_timer.get_open_1");
-    private final RawAnimation OPEN_BURROW = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation OPEN_BURROW = ParasiteAnimations.loop(this,
             "get_burrow_timer.get_open_1");
-    private final RawAnimation BURROWED = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation BURROWED = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_burrowed_1");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "get_attack_timer");
-    private final RawAnimation BURROWED_ATTACK =
+    private final CitadelRawAnimation ATTACK = ParasiteAnimations.play(this, "get_attack_timer");
+    private final CitadelRawAnimation BURROWED_ATTACK =
             ParasiteAnimations.play(this, "get_attack_timer.get_burrowed_1");
-    private final RawAnimation BURROWED_BURROW = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation BURROWED_BURROW = ParasiteAnimations.loop(this,
             "get_burrow_timer.get_burrowed_1");
-    private final RawAnimation BURROWED_OPEN_IDLE = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation BURROWED_OPEN_IDLE = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_burrowed_1.get_open_1");
-    private final RawAnimation BURROWED_OPEN_ATTACK = ParasiteAnimations.play(this,
+    private final CitadelRawAnimation BURROWED_OPEN_ATTACK = ParasiteAnimations.play(this,
             "get_attack_timer.get_burrowed_1.get_open_1");
-    private final RawAnimation BURROWED_OPEN_BURROW = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation BURROWED_OPEN_BURROW = ParasiteAnimations.loop(this,
             "get_burrow_timer.get_burrowed_1.get_open_1");
 
     public HostEntity(EntityType<? extends HostEntity> type, Level level) {
@@ -159,8 +159,8 @@ public final class HostEntity extends AbstractHostEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4,
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4,
                 state -> {
                     if (isBurrowTransitioning()) {
                         if (isBurrowed()) {
@@ -177,8 +177,8 @@ public final class HostEntity extends AbstractHostEntity {
                     }
                     return state.setAndContinue(AGE_IN_TICKS);
                 }));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0,
-                state -> PlayState.STOP)
+        controllers.add(new CitadelAnimationController<>(this, "attack_controller", 0,
+                state -> CitadelPlayState.STOP)
                 .triggerableAnim("attack", ATTACK)
                 .triggerableAnim("open_attack", OPEN_ATTACK)
                 .triggerableAnim("burrowed_attack", BURROWED_ATTACK)

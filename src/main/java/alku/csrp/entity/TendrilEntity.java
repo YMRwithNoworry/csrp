@@ -11,15 +11,15 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import alku.csrp.animation.CitadelAnimatedEntity;
+import alku.csrp.animation.CitadelAnimationCache;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelRawAnimation;
+import alku.csrp.animation.CitadelAnimationUtil;
 
 /** Detached body tendril used by the original multipart parasites. */
-public final class TendrilEntity extends Monster implements GeoEntity, Parasite {
+public final class TendrilEntity extends Monster implements CitadelAnimatedEntity, Parasite {
     public static final int SHYCO = 1;
     public static final int NOGLA = 2;
     public static final int CANRA = 3;
@@ -31,8 +31,8 @@ public final class TendrilEntity extends Monster implements GeoEntity, Parasite 
 
     private static final EntityDataAccessor<Integer> SKIN = SynchedEntityData.defineId(
             TendrilEntity.class, EntityDataSerializers.INT);
-    private final RawAnimation idleAnimation = ParasiteAnimations.loop(this, "idle");
-    private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
+    private final CitadelRawAnimation idleAnimation = ParasiteAnimations.loop(this, "idle");
+    private final CitadelAnimationCache animationCache = CitadelAnimationUtil.createInstanceCache(this);
 
     public TendrilEntity(EntityType<? extends TendrilEntity> type, Level level) {
         super(type, level);
@@ -87,13 +87,13 @@ public final class TendrilEntity extends Monster implements GeoEntity, Parasite 
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "idle_controller", 0,
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "idle_controller", 0,
                 state -> state.setAndContinue(idleAnimation)));
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
+    public CitadelAnimationCache getCitadelAnimationCache() {
         return animationCache;
     }
 }

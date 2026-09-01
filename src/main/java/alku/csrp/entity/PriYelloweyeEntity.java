@@ -25,23 +25,23 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import alku.csrp.animation.CitadelAnimatedEntity;
+import alku.csrp.animation.CitadelAnimationCache;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelAnimationState;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
+import alku.csrp.animation.CitadelAnimationUtil;
 
 import java.util.EnumSet;
 
 public class PriYelloweyeEntity extends PrimitiveParasiteEntity {
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation FLY = ParasiteAnimations.loop(this, "fly");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final CitadelRawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final CitadelRawAnimation FLY = ParasiteAnimations.loop(this, "fly");
+    private final CitadelRawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
 
-    private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
+    private final CitadelAnimationCache animationCache = CitadelAnimationUtil.createInstanceCache(this);
     private int shootCooldown;
     private int shootCount;
 
@@ -136,13 +136,13 @@ public class PriYelloweyeEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, this::movementAnimation));
+        controllers.add(new CitadelAnimationController<>(this, "attack_controller", 0, state -> CitadelPlayState.STOP)
                 .triggerableAnim("attack", ATTACK));
     }
 
-    private <T extends PriYelloweyeEntity> PlayState movementAnimation(AnimationState<T> state) {
+    private <T extends PriYelloweyeEntity> CitadelPlayState movementAnimation(CitadelAnimationState<T> state) {
         if (getDeltaMovement().horizontalDistanceSqr() > 0.001 || !onGround()) {
             return state.setAndContinue(FLY);
         }
@@ -150,7 +150,7 @@ public class PriYelloweyeEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
+    public CitadelAnimationCache getCitadelAnimationCache() {
         return animationCache;
     }
 

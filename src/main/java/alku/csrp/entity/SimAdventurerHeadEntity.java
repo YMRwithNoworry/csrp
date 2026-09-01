@@ -41,32 +41,32 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import alku.csrp.animation.CitadelAnimatedEntity;
+import alku.csrp.animation.CitadelAnimationCache;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
+import alku.csrp.animation.CitadelAnimationUtil;
 
 import java.util.Comparator;
 import java.util.EnumSet;
 
 /** Walking head companion that reforms an Assimilated Adventurer with a Medium Incomplete Form. */
-public final class SimAdventurerHeadEntity extends Monster implements GeoEntity, Parasite {
+public final class SimAdventurerHeadEntity extends Monster implements CitadelAnimatedEntity, Parasite {
     private static final EntityDataAccessor<Integer> LEAP_TICKS = SynchedEntityData.defineId(
             SimAdventurerHeadEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> PARASITE_STATUS = SynchedEntityData.defineId(
             SimAdventurerHeadEntity.class, EntityDataSerializers.INT);
     private static final double COTH_AURA_RADIUS = 3.0D;
     private static final float MINIMUM_DAMAGE = 0.5F;
-    private final RawAnimation MOVEMENT = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
-    private final RawAnimation MOVEMENT_STATUS_1 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation MOVEMENT = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final CitadelRawAnimation MOVEMENT_STATUS_1 = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_1");
-    private final RawAnimation AGE_STATUS_10 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation AGE_STATUS_10 = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_10");
 
-    private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
+    private final CitadelAnimationCache animationCache = CitadelAnimationUtil.createInstanceCache(this);
     private int cloudCooldown;
 
     public SimAdventurerHeadEntity(EntityType<? extends SimAdventurerHeadEntity> type, Level level) {
@@ -193,19 +193,19 @@ public final class SimAdventurerHeadEntity extends Monster implements GeoEntity,
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "age_controller", 4, state ->
-                getParasiteStatus() == 10 ? state.setAndContinue(AGE_STATUS_10) : PlayState.STOP));
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "age_controller", 4, state ->
+                getParasiteStatus() == 10 ? state.setAndContinue(AGE_STATUS_10) : CitadelPlayState.STOP));
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, state -> {
             if (!ParasiteAnimations.isMoving(this, state.isMoving()) || getParasiteStatus() == 10) {
-                return PlayState.STOP;
+                return CitadelPlayState.STOP;
             }
             return state.setAndContinue(getParasiteStatus() == 1 ? MOVEMENT_STATUS_1 : MOVEMENT);
         }));
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
+    public CitadelAnimationCache getCitadelAnimationCache() {
         return animationCache;
     }
 

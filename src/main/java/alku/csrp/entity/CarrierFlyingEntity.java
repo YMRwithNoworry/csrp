@@ -15,13 +15,13 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.level.Level;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.EnumSet;
 import java.util.List;
 
 public final class CarrierFlyingEntity extends CarrierEntity {
-    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks");
 
     public CarrierFlyingEntity(EntityType<? extends CarrierFlyingEntity> type, Level level) {
@@ -83,7 +83,7 @@ public final class CarrierFlyingEntity extends CarrierEntity {
     }
 
     @Override
-    protected RawAnimation ageAnimation() {
+    protected CitadelRawAnimation ageAnimation() {
         return AGE_IN_TICKS;
     }
 

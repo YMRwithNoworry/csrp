@@ -32,7 +32,7 @@ import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animation.AnimatableManager;
+import alku.csrp.animation.CitadelAnimationManager;
 import net.minecraft.util.Mth;
 
 import java.util.EnumSet;
@@ -183,7 +183,7 @@ public final class ArchitectEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
     }
 
     private void spawnColonyWorker(ServerLevel level) {

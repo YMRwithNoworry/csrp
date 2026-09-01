@@ -44,11 +44,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelAnimationState;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,14 +62,14 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     private static final EntityDataAccessor<Float> FLOOR_TIMER = SynchedEntityData.defineId(
             NexusParasiteEntity.class, EntityDataSerializers.FLOAT);
 
-    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
-    private final RawAnimation BECKON_ATTACK_AGE = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final CitadelRawAnimation BECKON_ATTACK_AGE = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1");
-    private final RawAnimation BECKON_BODY = ParasiteAnimations.loop(this, "get_body");
-    private final RawAnimation BECKON_ATTACK_BODY = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation BECKON_BODY = ParasiteAnimations.loop(this, "get_body");
+    private final CitadelRawAnimation BECKON_ATTACK_BODY = ParasiteAnimations.loop(this,
             "get_body.get_parasite_status_1");
-    private final RawAnimation BECKON_FLOOR_TIMER = ParasiteAnimations.loop(this, "get_floor_timer");
-    private final RawAnimation BECKON_ATTACK_FLOOR_TIMER = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation BECKON_FLOOR_TIMER = ParasiteAnimations.loop(this, "get_floor_timer");
+    private final CitadelRawAnimation BECKON_ATTACK_FLOOR_TIMER = ParasiteAnimations.loop(this,
             "get_floor_timer.get_parasite_status_1");
     private static final int STAGE_ONE_MIN_GROWTH = 4_800;
     private static final int STAGE_ONE_GROWTH_VARIANCE = 1_201;
@@ -361,15 +361,15 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
         Kind activeKind = activeKind();
         if (activeKind.isRooterBall()) {
             return;
         }
-        controllers.add(new AnimationController<>(this, "age_controller", 0, this::ageAnimation));
+        controllers.add(new CitadelAnimationController<>(this, "age_controller", 0, this::ageAnimation));
         if (activeKind.family == Family.BECKON && activeKind.stage < 4) {
-            controllers.add(new AnimationController<>(this, "body_controller", 0, this::bodyAnimation));
-            controllers.add(new AnimationController<>(this, "floor_controller", 0, this::floorAnimation));
+            controllers.add(new CitadelAnimationController<>(this, "body_controller", 0, this::bodyAnimation));
+            controllers.add(new CitadelAnimationController<>(this, "floor_controller", 0, this::floorAnimation));
         }
     }
 
@@ -430,17 +430,17 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         return activeKind();
     }
 
-    private PlayState ageAnimation(AnimationState<NexusParasiteEntity> state) {
+    private CitadelPlayState ageAnimation(CitadelAnimationState<NexusParasiteEntity> state) {
         return state.setAndContinue(activeKind().family == Family.BECKON
                 && activeKind().stage < 4 && getParasiteStatus() == 1
                 ? BECKON_ATTACK_AGE : AGE_IN_TICKS);
     }
 
-    private PlayState bodyAnimation(AnimationState<NexusParasiteEntity> state) {
+    private CitadelPlayState bodyAnimation(CitadelAnimationState<NexusParasiteEntity> state) {
         return state.setAndContinue(getParasiteStatus() == 1 ? BECKON_ATTACK_BODY : BECKON_BODY);
     }
 
-    private PlayState floorAnimation(AnimationState<NexusParasiteEntity> state) {
+    private CitadelPlayState floorAnimation(CitadelAnimationState<NexusParasiteEntity> state) {
         return state.setAndContinue(getParasiteStatus() == 1
                 ? BECKON_ATTACK_FLOOR_TIMER : BECKON_FLOOR_TIMER);
     }

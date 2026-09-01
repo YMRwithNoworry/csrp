@@ -44,11 +44,11 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.PartEntity;
 import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelAnimationState;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -98,10 +98,10 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
     private static final int COLONY_WORKER_CYCLE_OFFSET = 10;
     private static final double COLONY_WORKER_SEARCH_RANGE = 16.0D;
     private static final int MAX_NEARBY_COLONY_WORKERS = 4;
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
-    private final RawAnimation FLY = IDLE;
-    private final RawAnimation BOGLE_STATUS_1 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation IDLE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final CitadelRawAnimation WALK = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final CitadelRawAnimation FLY = IDLE;
+    private final CitadelRawAnimation BOGLE_STATUS_1 = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1");
 
     private final Kind kind;
@@ -529,8 +529,8 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, this::movementAnimation));
     }
 
     public Kind getKind() {
@@ -635,7 +635,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
         serverLevel.addFreshEntity(worker);
     }
 
-    private PlayState movementAnimation(AnimationState<PreeminentParasiteEntity> state) {
+    private CitadelPlayState movementAnimation(CitadelAnimationState<PreeminentParasiteEntity> state) {
         if (activeKind() == Kind.BOGLE || activeKind() == Kind.WRAITH) {
             return state.setAndContinue(getTarget() != null && getTarget().isAlive() ? BOGLE_STATUS_1 : FLY);
         }

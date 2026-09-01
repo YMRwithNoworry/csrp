@@ -66,11 +66,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.PartEntity;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelAnimationState;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.EnumSet;
 import java.util.HashSet;
@@ -129,80 +129,80 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             AdaptedVariantEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> VERMIN_COMBAT_STATUS = SynchedEntityData.defineId(
             AdaptedVariantEntity.class, EntityDataSerializers.INT);
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
-    private final RawAnimation RUN = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation IDLE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final CitadelRawAnimation WALK = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final CitadelRawAnimation RUN = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_2");
-    private final RawAnimation LONGARMS_STATUS_1 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation LONGARMS_STATUS_1 = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1");
-    private final RawAnimation LONGARMS_ATTACK_STATUS_1 = ParasiteAnimations.play(this,
+    private final CitadelRawAnimation LONGARMS_ATTACK_STATUS_1 = ParasiteAnimations.play(this,
             "get_attack_timer.get_parasite_status_1");
-    private final RawAnimation AGE_STATUS_1 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation AGE_STATUS_1 = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1");
-    private final RawAnimation FLY = IDLE;
-    private final RawAnimation DIG = ParasiteAnimations.loop(this, "get_dig_model.get_digging_1");
-    private final RawAnimation DIG_BODY_02 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation FLY = IDLE;
+    private final CitadelRawAnimation DIG = ParasiteAnimations.loop(this, "get_dig_model.get_digging_1");
+    private final CitadelRawAnimation DIG_BODY_02 = ParasiteAnimations.loop(this,
             "get_dig_model.get_body_number_0_2.get_digging_1");
-    private final RawAnimation AGE_BODY_02 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation AGE_BODY_02 = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_body_number_0_2");
-    private final RawAnimation BOLSTER_ATTACK = ParasiteAnimations.play(this, "get_attack_timer");
-    private final RawAnimation TOZOON_ATTACK = ParasiteAnimations.loop(this, "get_attack_timer");
-    private final RawAnimation ARACHNIDA_ATTACK_PREP = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation BOLSTER_ATTACK = ParasiteAnimations.play(this, "get_attack_timer");
+    private final CitadelRawAnimation TOZOON_ATTACK = ParasiteAnimations.loop(this, "get_attack_timer");
+    private final CitadelRawAnimation ARACHNIDA_ATTACK_PREP = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_1");
-    private final RawAnimation ARACHNIDA_FAST_MOVE = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation ARACHNIDA_FAST_MOVE = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_2");
-    private final RawAnimation ARACHNIDA_PULLING = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation ARACHNIDA_PULLING = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_3");
-    private final RawAnimation REEKER_CHARGE_IDLE = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation REEKER_CHARGE_IDLE = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_3.get_still_ani_1");
-    private final RawAnimation REEKER_CHARGE_WALK = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation REEKER_CHARGE_WALK = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_3");
-    private final RawAnimation REEKER_PULLING_IDLE = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation REEKER_PULLING_IDLE = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_3");
-    private final RawAnimation REEKER_PULLING_WALK = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation REEKER_PULLING_WALK = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_3");
-    private final RawAnimation REEKER_ALERT = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation REEKER_ALERT = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1");
-    private final RawAnimation REEKER_ATTACK_PREP = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation REEKER_ATTACK_PREP = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_2");
-    private final RawAnimation SUMMONER_CAST = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation SUMMONER_CAST = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_10");
-    private final RawAnimation SUMMONER_ATTACK = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation SUMMONER_ATTACK = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_1");
-    private final RawAnimation SUMMONER_VOMIT = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation SUMMONER_VOMIT = ParasiteAnimations.loop(this,
             "idle.get_parasite_status_100");
-    private final RawAnimation SUMMONER_SPECIAL = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation SUMMONER_SPECIAL = ParasiteAnimations.loop(this,
             "idle.get_parasite_status_25");
-    private final RawAnimation MANDUCATER_ATTACK = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation MANDUCATER_ATTACK = ParasiteAnimations.loop(this,
             "walk.get_parasite_status_1");
-    private final RawAnimation MANDUCATER_SUMMON = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation MANDUCATER_SUMMON = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1");
-    private final RawAnimation MANDUCATER_EVADE = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation MANDUCATER_EVADE = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1");
-    private final RawAnimation YELLOWEYE_CHARGE = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation YELLOWEYE_CHARGE = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1");
-    private final RawAnimation BOLSTER_STATUS_3 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation BOLSTER_STATUS_3 = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_3");
-    private final RawAnimation BOLSTER_STATUS_15 = BOLSTER_STATUS_3;
-    private final RawAnimation BOLSTER_STATUS_25 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation BOLSTER_STATUS_15 = BOLSTER_STATUS_3;
+    private final CitadelRawAnimation BOLSTER_STATUS_25 = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_25");
-    private final RawAnimation BOLSTER_ATTACK_STATUS_15 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation BOLSTER_ATTACK_STATUS_15 = ParasiteAnimations.loop(this,
             "get_attack_timer.get_parasite_status_15");
-    private final RawAnimation BOLSTER_ATTACK_STATUS_25 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation BOLSTER_ATTACK_STATUS_25 = ParasiteAnimations.loop(this,
             "get_attack_timer.get_parasite_status_25");
-    private final RawAnimation[] BODY_IDLE = {
+    private final CitadelRawAnimation[] BODY_IDLE = {
             ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks"),
             ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks.get_body_number_1"),
             ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks.get_body_number_2"),
             ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks.get_body_number_3")
     };
-    private final RawAnimation[] BODY_DIG = {
+    private final CitadelRawAnimation[] BODY_DIG = {
             DIG,
             ParasiteAnimations.loop(this, "get_dig_model.get_body_number_1.get_digging_1"),
             ParasiteAnimations.loop(this, "get_dig_model.get_body_number_2.get_digging_1"),
             ParasiteAnimations.loop(this, "get_dig_model.get_body_number_3.get_digging_1")
     };
-    private final RawAnimation[] BODY_ATTACK = {
+    private final CitadelRawAnimation[] BODY_ATTACK = {
             ParasiteAnimations.loop(this, "get_attack_timer.get_body_number_neg_0_1"),
             ParasiteAnimations.loop(this, "get_attack_timer.get_body_number_1"),
             ParasiteAnimations.loop(this, "get_attack_timer.get_body_number_2"),
@@ -1096,19 +1096,19 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, this::movementAnimation));
         if (activeKind() == Kind.TOZOON) {
-            controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
+            controllers.add(new CitadelAnimationController<>(this, "attack_controller", 0, state -> CitadelPlayState.STOP)
                     .triggerableAnim("get_attack_timer", TOZOON_ATTACK));
         }
-        controllers.add(new AnimationController<>(this, "bolster_overlay_controller", 0,
+        controllers.add(new CitadelAnimationController<>(this, "bolster_overlay_controller", 0,
                 this::bolsterOverlayAnimation));
-        controllers.add(new AnimationController<>(this, "bolster_attack_controller", 0, state -> PlayState.STOP)
+        controllers.add(new CitadelAnimationController<>(this, "bolster_attack_controller", 0, state -> CitadelPlayState.STOP)
                 .triggerableAnim("attack", BOLSTER_ATTACK));
     }
 
-    private PlayState movementAnimation(AnimationState<AdaptedVariantEntity> state) {
+    private CitadelPlayState movementAnimation(CitadelAnimationState<AdaptedVariantEntity> state) {
         Kind kind = activeKind();
         if (kind == Kind.TOZOON && isBodyAttackAnimating()) {
             int body = Math.min(getBodyNumber(), BODY_ATTACK.length - 1);
@@ -1124,14 +1124,14 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         if (kind == Kind.ARACHNIDA) {
             int status = getArachnidaStatus();
             if (status == 10 || status == 11) {
-                return PlayState.STOP;
+                return CitadelPlayState.STOP;
             }
             if (status == 3) {
                 return state.setAndContinue(ARACHNIDA_PULLING);
             }
             boolean moving = ParasiteAnimations.isMoving(this, state.isMoving());
             if (status == 2) {
-                return moving ? state.setAndContinue(ARACHNIDA_FAST_MOVE) : PlayState.STOP;
+                return moving ? state.setAndContinue(ARACHNIDA_FAST_MOVE) : CitadelPlayState.STOP;
             }
             if (status == 1) {
                 return state.setAndContinue(moving ? ARACHNIDA_ATTACK_PREP : AGE_STATUS_1);
@@ -1257,14 +1257,14 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         return state.setAndContinue(getDeltaMovement().horizontalDistanceSqr() > 0.02D ? RUN : WALK);
     }
 
-    private PlayState bolsterOverlayAnimation(AnimationState<AdaptedVariantEntity> state) {
+    private CitadelPlayState bolsterOverlayAnimation(CitadelAnimationState<AdaptedVariantEntity> state) {
         if (activeKind() != Kind.BOLSTER) {
-            return PlayState.STOP;
+            return CitadelPlayState.STOP;
         }
         return switch (getBolsterAction()) {
             case BARRAGE_WINDUP -> state.setAndContinue(BOLSTER_ATTACK_STATUS_25);
             case SUPPORT, VOMIT, ORB -> state.setAndContinue(BOLSTER_ATTACK_STATUS_15);
-            default -> PlayState.STOP;
+            default -> CitadelPlayState.STOP;
         };
     }
 

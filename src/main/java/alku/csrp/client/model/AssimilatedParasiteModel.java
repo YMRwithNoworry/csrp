@@ -1,27 +1,20 @@
 package alku.csrp.client.model;
 
-import alku.csrp.Csrp;
 import alku.csrp.entity.AssimilatedParasiteEntity;
-import net.minecraft.resources.ResourceLocation;
+import java.util.Locale;
+import java.util.Map;
 
-/** Selects the correct assimilated resource set and legacy visual variants. */
-public final class AssimilatedParasiteModel extends ParasiteGeoModel<AssimilatedParasiteEntity> {
-    @Override
-    public ResourceLocation getModelResource(AssimilatedParasiteEntity animatable) {
-        return ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
-                "geo/" + animatable.getKind().name().toLowerCase(java.util.Locale.ROOT).replaceFirst("^", "sim_")
-                        + ".geo.json");
-    }
-
-    @Override
-    public ResourceLocation getTextureResource(AssimilatedParasiteEntity animatable) {
-        return animatable.getTextureResource();
-    }
-
-    @Override
-    public ResourceLocation getAnimationResource(AssimilatedParasiteEntity animatable) {
-        return ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
-                "animations/" + animatable.getKind().name().toLowerCase(java.util.Locale.ROOT).replaceFirst("^", "sim_")
-                        + ".animation.json");
+/** Chooses the original Tabula model matching the registered assimilated animal kind. */
+public final class AssimilatedParasiteModel extends CitadelModelSet<AssimilatedParasiteEntity> {
+    public AssimilatedParasiteModel() {
+        super(Map.of(
+                "sim_bear", new ModelSpec("sim_bear"),
+                "sim_cow", new ModelSpec("sim_cow"),
+                "sim_pig", new ModelSpec("sim_pig"),
+                "sim_sheep", new ModelSpec("sim_sheep"),
+                "sim_wolf", new ModelSpec("sim_wolf"),
+                "sim_squid", new ModelSpec("sim_squid")),
+                entity -> "sim_" + entity.getKind().name().toLowerCase(Locale.ROOT),
+                AssimilatedParasiteEntity::getTextureResource);
     }
 }

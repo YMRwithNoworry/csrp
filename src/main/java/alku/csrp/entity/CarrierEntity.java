@@ -28,10 +28,10 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.DifficultyInstance;
 import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.animation.PlayState;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelRawAnimation;
+import alku.csrp.animation.CitadelPlayState;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -194,21 +194,21 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity implements M
         return true;
     }
 
-    protected abstract RawAnimation ageAnimation();
+    protected abstract CitadelRawAnimation ageAnimation();
 
-    protected RawAnimation limbSwingAnimation() {
+    protected CitadelRawAnimation limbSwingAnimation() {
         return null;
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "age_controller", 0,
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "age_controller", 0,
                 state -> state.setAndContinue(ageAnimation())));
-        RawAnimation limbSwing = limbSwingAnimation();
+        CitadelRawAnimation limbSwing = limbSwingAnimation();
         if (limbSwing != null) {
-            controllers.add(new AnimationController<>(this, "movement_controller", 4, state ->
+            controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, state ->
                     ParasiteAnimations.isMoving(this, state.isMoving())
-                            ? state.setAndContinue(limbSwing) : PlayState.STOP));
+                            ? state.setAndContinue(limbSwing) : CitadelPlayState.STOP));
         }
 
     }

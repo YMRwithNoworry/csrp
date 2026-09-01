@@ -31,15 +31,15 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import alku.csrp.animation.CitadelAnimatedEntity;
+import alku.csrp.animation.CitadelAnimationCache;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelRawAnimation;
+import alku.csrp.animation.CitadelAnimationUtil;
 
 /** Legacy assimilated Wolf with parasitic mutations. */
-public final class AssimilatedWolfEntity extends Monster implements GeoEntity, Parasite {
+public final class AssimilatedWolfEntity extends Monster implements CitadelAnimatedEntity, Parasite {
     // 状态数据
     private static final EntityDataAccessor<Integer> PARASITE_STATUS = SynchedEntityData.defineId(
             AssimilatedWolfEntity.class, EntityDataSerializers.INT);
@@ -59,18 +59,18 @@ public final class AssimilatedWolfEntity extends Monster implements GeoEntity, P
     private static final float MELT_TRANSFORM_THRESHOLD = 0.7F;
 
     // 动画定义 - 状态0和1（正常行走/攻击）
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final CitadelRawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final CitadelRawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final CitadelRawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
 
     // 动画定义 - 状态2（特殊移动模式）
-    private final RawAnimation SPECIAL_IDLE = ParasiteAnimations.loop(this, "idle.get_parasite_status_1");
-    private final RawAnimation SPECIAL_WALK = ParasiteAnimations.loop(this, "walk.get_parasite_status_1");
+    private final CitadelRawAnimation SPECIAL_IDLE = ParasiteAnimations.loop(this, "idle.get_parasite_status_1");
+    private final CitadelRawAnimation SPECIAL_WALK = ParasiteAnimations.loop(this, "walk.get_parasite_status_1");
 
     // 动画定义 - 状态6（融化动画）
-    private final RawAnimation MELTING = ParasiteAnimations.loop(this, "idle.get_parasite_status_6");
+    private final CitadelRawAnimation MELTING = ParasiteAnimations.loop(this, "idle.get_parasite_status_6");
 
-    private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
+    private final CitadelAnimationCache animationCache = CitadelAnimationUtil.createInstanceCache(this);
     private int meltTicks;
     private float currentSize = 1.0F;
 
@@ -311,9 +311,9 @@ public final class AssimilatedWolfEntity extends Monster implements GeoEntity, P
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
         // 主移动控制器
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, state -> {
             int status = getParasiteStatus();
             boolean moving = !getStillAni() && ParasiteAnimations.isMoving(this, state.isMoving());
 
@@ -332,13 +332,13 @@ public final class AssimilatedWolfEntity extends Monster implements GeoEntity, P
         }));
 
         // 攻击控制器
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state ->
-                software.bernie.geckolib.animation.PlayState.STOP)
+        controllers.add(new CitadelAnimationController<>(this, "attack_controller", 0, state ->
+                alku.csrp.animation.CitadelPlayState.STOP)
                 .triggerableAnim("attack", ATTACK));
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
+    public CitadelAnimationCache getCitadelAnimationCache() {
         return animationCache;
     }
 

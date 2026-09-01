@@ -22,18 +22,18 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import alku.csrp.animation.CitadelAnimatedEntity;
+import alku.csrp.animation.CitadelAnimationCache;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelRawAnimation;
+import alku.csrp.animation.CitadelAnimationUtil;
 
 /** Detached dragon head retains its fireball attack after the body has been decapitated. */
-public final class AssimilatedDragonHeadEntity extends Monster implements GeoEntity, Parasite {
-    private final RawAnimation AGE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
-    private final RawAnimation LIMB = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
-    private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
+public final class AssimilatedDragonHeadEntity extends Monster implements CitadelAnimatedEntity, Parasite {
+    private final CitadelRawAnimation AGE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final CitadelRawAnimation LIMB = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final CitadelAnimationCache animationCache = CitadelAnimationUtil.createInstanceCache(this);
     private int fireballCooldown;
 
     public AssimilatedDragonHeadEntity(EntityType<? extends AssimilatedDragonHeadEntity> type, Level level) {
@@ -100,17 +100,17 @@ public final class AssimilatedDragonHeadEntity extends Monster implements GeoEnt
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "age_controller", 0,
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "age_controller", 0,
                 state -> state.setAndContinue(AGE)));
-        controllers.add(new AnimationController<>(this, "movement_controller", 4,
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4,
                 state -> ParasiteAnimations.isMoving(this, state.isMoving())
                         ? state.setAndContinue(LIMB)
-                        : software.bernie.geckolib.animation.PlayState.STOP));
+                        : alku.csrp.animation.CitadelPlayState.STOP));
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
+    public CitadelAnimationCache getCitadelAnimationCache() {
         return animationCache;
     }
 

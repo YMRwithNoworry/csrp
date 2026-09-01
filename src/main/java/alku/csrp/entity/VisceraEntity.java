@@ -20,9 +20,9 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.EnumSet;
 
@@ -46,15 +46,15 @@ public final class VisceraEntity extends PrimitiveParasiteEntity implements Manu
     private static final double MELEE_SPRINT_DISTANCE_SQR = 64.0D;
     private static final int MELEE_ATTACK_INTERVAL = 20;
 
-    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks");
-    private final RawAnimation LIMB_SWING = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation LIMB_SWING = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing");
-    private final RawAnimation COMBAT_AGE = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation COMBAT_AGE = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1");
-    private final RawAnimation COMBAT_LIMB = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation COMBAT_LIMB = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_1");
-    private final RawAnimation SPRINT_LIMB = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation SPRINT_LIMB = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_2");
 
     public VisceraEntity(EntityType<? extends VisceraEntity> type, Level level) {
@@ -206,8 +206,8 @@ public final class VisceraEntity extends PrimitiveParasiteEntity implements Manu
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, state -> {
             boolean moving = ParasiteAnimations.isMoving(this, state.isMoving());
             int status = getParasiteStatus();
             if (!moving) {

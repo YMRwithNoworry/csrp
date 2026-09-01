@@ -26,14 +26,14 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import alku.csrp.animation.CitadelAnimatedEntity;
+import alku.csrp.animation.CitadelAnimationCache;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelAnimationState;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
+import alku.csrp.animation.CitadelAnimationUtil;
 
 /**
  * UntamedPriLasher (原Nogla) - 原始寄生体：鞭笞者
@@ -52,11 +52,11 @@ public class UntamedPriLasherEntity extends PrimitiveParasiteEntity {
             SynchedEntityData.defineId(UntamedPriLasherEntity.class, EntityDataSerializers.INT);
 
     // 动画定义
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation CHARGING = ParasiteAnimations.loop(this, "idle.status_1");
-    private final RawAnimation DASH_PREPARE = ParasiteAnimations.loop(this, "idle.status_2");
-    private final RawAnimation DASHING = ParasiteAnimations.loop(this, "idle.status_3");
+    private final CitadelRawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final CitadelRawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final CitadelRawAnimation CHARGING = ParasiteAnimations.loop(this, "idle.status_1");
+    private final CitadelRawAnimation DASH_PREPARE = ParasiteAnimations.loop(this, "idle.status_2");
+    private final CitadelRawAnimation DASHING = ParasiteAnimations.loop(this, "idle.status_3");
 
     // 冲刺技能参数
     private static final int DASH_CHARGE_TIME = 20; // 1秒蓄力
@@ -336,11 +336,11 @@ public class UntamedPriLasherEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, this::movementAnimation));
     }
 
-    private <T extends UntamedPriLasherEntity> PlayState movementAnimation(AnimationState<T> state) {
+    private <T extends UntamedPriLasherEntity> CitadelPlayState movementAnimation(CitadelAnimationState<T> state) {
         int status = getParasiteStatus();
 
         // Status 3: 冲刺中

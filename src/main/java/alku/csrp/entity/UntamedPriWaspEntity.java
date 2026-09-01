@@ -28,14 +28,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import alku.csrp.animation.CitadelAnimatedEntity;
+import alku.csrp.animation.CitadelAnimationCache;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelAnimationState;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
+import alku.csrp.animation.CitadelAnimationUtil;
 
 /**
  * UntamedPriWasp - 未驯化的原始黄蜂
@@ -45,7 +45,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
  * - 拉拽技能（发射拉拽弹）
  * - 多状态动画系统
  */
-public class UntamedPriWaspEntity extends Monster implements GeoEntity, Parasite, PullingBallOwner {
+public class UntamedPriWaspEntity extends Monster implements CitadelAnimatedEntity, Parasite, PullingBallOwner {
     private static final String PARASITE_STATUS_NBT_KEY = "parasite_status";
     private static final String PULL_COOLDOWN_NBT_KEY = "pull_cooldown";
     private static final String PULL_COUNT_NBT_KEY = "pull_count";
@@ -55,14 +55,14 @@ public class UntamedPriWaspEntity extends Monster implements GeoEntity, Parasite
             SynchedEntityData.defineId(UntamedPriWaspEntity.class, EntityDataSerializers.INT);
 
     // 动画定义 - 根据原版 ModelRanrac 的状态系统
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation ATTACK_PREPARE = ParasiteAnimations.loop(this, "idle.status_1_attack_prepare");
-    private final RawAnimation CHASE = ParasiteAnimations.loop(this, "idle.status_2_chase");
-    private final RawAnimation PULLING_SKILL = ParasiteAnimations.loop(this, "idle.status_3_pulling");
-    private final RawAnimation SKILL_CAST = ParasiteAnimations.loop(this, "idle.status_11_skill_cast");
+    private final CitadelRawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final CitadelRawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final CitadelRawAnimation ATTACK_PREPARE = ParasiteAnimations.loop(this, "idle.status_1_attack_prepare");
+    private final CitadelRawAnimation CHASE = ParasiteAnimations.loop(this, "idle.status_2_chase");
+    private final CitadelRawAnimation PULLING_SKILL = ParasiteAnimations.loop(this, "idle.status_3_pulling");
+    private final CitadelRawAnimation SKILL_CAST = ParasiteAnimations.loop(this, "idle.status_11_skill_cast");
 
-    private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
+    private final CitadelAnimationCache animationCache = CitadelAnimationUtil.createInstanceCache(this);
 
     // 技能系统
     private int pullCooldown;
@@ -343,13 +343,13 @@ public class UntamedPriWaspEntity extends Monster implements GeoEntity, Parasite
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, this::movementAnimation));
+        controllers.add(new CitadelAnimationController<>(this, "attack_controller", 0, state -> CitadelPlayState.STOP)
                 .triggerableAnim("attack", ParasiteAnimations.play(this, "attack")));
     }
 
-    private <T extends UntamedPriWaspEntity> PlayState movementAnimation(AnimationState<T> state) {
+    private <T extends UntamedPriWaspEntity> CitadelPlayState movementAnimation(CitadelAnimationState<T> state) {
         int status = getParasiteStatus();
 
         // Status 11: 技能施放恢复期
@@ -380,7 +380,7 @@ public class UntamedPriWaspEntity extends Monster implements GeoEntity, Parasite
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
+    public CitadelAnimationCache getCitadelAnimationCache() {
         return animationCache;
     }
 

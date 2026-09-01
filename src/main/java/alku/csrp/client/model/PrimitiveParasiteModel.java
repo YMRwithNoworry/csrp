@@ -1,6 +1,7 @@
 package alku.csrp.client.model;
 
 import alku.csrp.Csrp;
+import alku.csrp.animation.CitadelAnimatedEntity;
 import alku.csrp.entity.AdaptedVariantEntity;
 import alku.csrp.entity.AncientParasiteEntity;
 import alku.csrp.entity.AssimilatedDragonEntity;
@@ -16,11 +17,9 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Mob;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.cache.object.GeoBone;
 
-public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends ParasiteGeoModel<T> {
+public final class PrimitiveParasiteModel<T extends Mob & CitadelAnimatedEntity>
+        extends CitadelParasiteModel<T> {
     private static final ResourceLocation CARRIER_HEAVY_VARIANT_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/ratholone.png");
     private static final ResourceLocation CARRIER_FLYING_VARIANT_TEXTURE =
@@ -107,19 +106,15 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
     private static final String[] OMBOO_PULSE_GROUP_TWO = {"jointp11", "mpop1", "mpop13", "mpop19"};
     private static final String[] OMBOO_PULSE_GROUP_THREE = {"jointp17", "jointp18", "mpop4", "jointp2", "mpop3"};
     private static final String[] OMBOO_PULSE_GROUP_FOUR = {"mpop9", "mpop12", "jointp15", "mpop10", "mpop14"};
-    private final ResourceLocation model;
     private final ResourceLocation texture;
-    private final ResourceLocation animation;
 
     public PrimitiveParasiteModel(String id) {
-        model = ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "geo/" + id + ".geo.json");
+        super(id);
         texture = ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/" + id + ".png");
-        animation = ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "animations/" + id + ".animation.json");
     }
 
-    @Override public ResourceLocation getModelResource(T animatable) { return model; }
     @Override
-    public ResourceLocation getTextureResource(T animatable) {
+    public ResourceLocation texture(T animatable) {
         if (animatable instanceof CarrierEntity carrier && carrier.getSkin() == 1) {
             String id = BuiltInRegistries.ENTITY_TYPE.getKey(carrier.getType()).getPath();
             if (id.equals("carrier_heavy")) {
@@ -236,11 +231,9 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
         }
         return texture;
     }
-    @Override public ResourceLocation getAnimationResource(T animatable) { return animation; }
-
     @Override
-    public void setCustomAnimations(T animatable, long instanceId, AnimationState<T> animationState) {
-        super.setCustomAnimations(animatable, instanceId, animationState);
+    protected void customize(T animatable, float limbSwing, float limbSwingAmount,
+            float ageInTicks, float netHeadYaw, float headPitch) {
         if (animatable instanceof AdaptedVariantEntity adapted) {
             applyAdaptedTendrilVisibility(adapted);
         }
@@ -250,7 +243,7 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
         }
         if (animatable instanceof PureParasiteEntity pure
                 && pure.getKind() == PureParasiteEntity.Kind.BOMBER_LIGHT) {
-            applyOmbooPulse(pure, animationState.getPartialTick());
+            applyOmbooPulse(pure, ageInTicks - animatable.tickCount);
         }
         if (animatable instanceof AncientParasiteEntity ancient
                 && ancient.getKind() == AncientParasiteEntity.Kind.DREADNAUT) {
@@ -264,16 +257,11 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
             setHidden("jointRW1", !dragon.hasRightWing());
         }
         if (animatable instanceof AssimilatedEndermanEntity enderman) {
-            getBone("mouth").ifPresent(bone -> bone.setHidden(enderman.isShrimpFed()));
+            getBone("mouth").ifPresent(bone -> bone.showModel = !enderman.isShrimpFed());
         }
         if (animatable instanceof BurrowingVariantEntity burrowing) {
             applyBodySegmentVisibility(burrowing);
         }
-    }
-
-    @Override
-    protected boolean shouldDampenMovingRotation(T animatable, GeoBone bone) {
-        return !(animatable instanceof AssimilatedEndermanEntity && bone.getName().equals("mainbody"));
     }
 
     private void applyBodySegmentVisibility(BurrowingVariantEntity entity) {
@@ -347,15 +335,11 @@ public final class PrimitiveParasiteModel<T extends Mob & GeoEntity> extends Par
 
     private void applyUniformScale(float scale, String[] boneNames) {
         for (String boneName : boneNames) {
-            getBone(boneName).ifPresent(bone -> {
-                bone.setScaleX(scale);
-                bone.setScaleY(scale);
-                bone.setScaleZ(scale);
-            });
+            getBone(boneName).ifPresent(bone -> bone.setScale(scale, scale, scale));
         }
     }
 
     private void setHidden(String boneName, boolean hidden) {
-        getBone(boneName).ifPresent(bone -> bone.setHidden(hidden));
+        getBone(boneName).ifPresent(bone -> bone.showModel = !hidden);
     }
 }

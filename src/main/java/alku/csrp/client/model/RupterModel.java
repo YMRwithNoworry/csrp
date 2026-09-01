@@ -4,30 +4,17 @@ import alku.csrp.Csrp;
 import alku.csrp.entity.RupterEntity;
 import net.minecraft.resources.ResourceLocation;
 
-public final class RupterModel extends ParasiteGeoModel<RupterEntity> {
-    private static final ResourceLocation MODEL = id("geo/rupter.geo.json");
-    private static final ResourceLocation ANIMATIONS = id("animations/rupter.animation.json");
-
-    @Override
-    public ResourceLocation getModelResource(RupterEntity animatable) {
-        return MODEL;
+public final class RupterModel extends CitadelParasiteModel<RupterEntity> {
+    public RupterModel() {
+        super("rupter");
     }
 
     @Override
-    public ResourceLocation getTextureResource(RupterEntity animatable) {
-        RupterEntity.BehaviorVariant behaviorVariant = animatable.getBehaviorVariant();
-        String suffix = behaviorVariant == RupterEntity.BehaviorVariant.NORMAL
-                ? animatable.getTextureVariant().suffix()
-                : behaviorVariant.suffix();
-        return id("textures/entity/rupter" + suffix + ".png");
-    }
-
-    @Override
-    public ResourceLocation getAnimationResource(RupterEntity animatable) {
-        return ANIMATIONS;
-    }
-
-    private static ResourceLocation id(String path) {
-        return ResourceLocation.fromNamespaceAndPath(Csrp.MODID, path);
+    public ResourceLocation texture(RupterEntity entity) {
+        RupterEntity.BehaviorVariant behavior = entity.getBehaviorVariant();
+        String suffix = behavior == RupterEntity.BehaviorVariant.NORMAL
+                ? entity.getTextureVariant().suffix() : behavior.suffix();
+        return ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+                "textures/entity/rupter" + suffix + ".png");
     }
 }

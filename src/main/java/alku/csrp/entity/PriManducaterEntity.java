@@ -29,14 +29,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import alku.csrp.animation.CitadelAnimatedEntity;
+import alku.csrp.animation.CitadelAnimationCache;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelAnimationState;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
+import alku.csrp.animation.CitadelAnimationUtil;
 
 import java.util.EnumSet;
 
@@ -44,7 +44,7 @@ import java.util.EnumSet;
  * PriManducater (EntityHull) - 原始吞噬者
  * 四足寄生体，具有冲刺、拉拽和隐身能力
  */
-public class PriManducaterEntity extends PrimitiveParasiteEntity implements GeoEntity {
+public class PriManducaterEntity extends PrimitiveParasiteEntity implements CitadelAnimatedEntity {
     private static final String PARASITE_STATUS_NBT_KEY = "parasite_status";
     private static final String ATTACK_COOLDOWN_NBT_KEY = "attack_cooldown";
     private static final String PULLING_NBT_KEY = "pulling";
@@ -65,13 +65,13 @@ public class PriManducaterEntity extends PrimitiveParasiteEntity implements GeoE
             SynchedEntityData.defineId(PriManducaterEntity.class, EntityDataSerializers.BOOLEAN);
 
     // 动画定义
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation ATTACK_PREPARE = ParasiteAnimations.loop(this, "idle.get_parasite_status_1");
-    private final RawAnimation SPRINT = ParasiteAnimations.loop(this, "walk.get_parasite_status_2");
-    private final RawAnimation PULL = ParasiteAnimations.loop(this, "walk.get_parasite_status_3");
+    private final CitadelRawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final CitadelRawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final CitadelRawAnimation ATTACK_PREPARE = ParasiteAnimations.loop(this, "idle.get_parasite_status_1");
+    private final CitadelRawAnimation SPRINT = ParasiteAnimations.loop(this, "walk.get_parasite_status_2");
+    private final CitadelRawAnimation PULL = ParasiteAnimations.loop(this, "walk.get_parasite_status_3");
 
-    private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
+    private final CitadelAnimationCache animationCache = CitadelAnimationUtil.createInstanceCache(this);
 
     @Nullable
     private LivingEntity targetedEntity;
@@ -325,16 +325,16 @@ public class PriManducaterEntity extends PrimitiveParasiteEntity implements GeoE
 
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, this::movementAnimation));
+        controllers.add(new CitadelAnimationController<>(this, "attack_controller", 0, state -> CitadelPlayState.STOP)
                 .triggerableAnim("attack", ATTACK_PREPARE));
     }
 
-    private <T extends PriManducaterEntity> PlayState movementAnimation(AnimationState<T> state) {
+    private <T extends PriManducaterEntity> CitadelPlayState movementAnimation(CitadelAnimationState<T> state) {
         // 如果被定身，停止动画
         if (getStillAni()) {
-            return PlayState.STOP;
+            return CitadelPlayState.STOP;
         }
 
         int status = getParasiteStatus();
@@ -363,7 +363,7 @@ public class PriManducaterEntity extends PrimitiveParasiteEntity implements GeoE
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
+    public CitadelAnimationCache getCitadelAnimationCache() {
         return animationCache;
     }
 

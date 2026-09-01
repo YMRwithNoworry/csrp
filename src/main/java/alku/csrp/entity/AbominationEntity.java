@@ -20,11 +20,11 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.level.Level;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelAnimationState;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
 
 /** Legacy Many Bodies and Giant Head close-combat abominations. */
 public final class AbominationEntity extends PrimitiveParasiteEntity {
@@ -35,14 +35,14 @@ public final class AbominationEntity extends PrimitiveParasiteEntity {
     public boolean supportsDamageAdaptation() {
         return false;
     }
-    private final RawAnimation HEAD_IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation HEAD_WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation HEAD_ATTACK = ParasiteAnimations.play(this, "attack");
-    private final RawAnimation BODIES_AGE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
-    private final RawAnimation BODIES_LIMB = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
-    private final RawAnimation BODIES_APPROACH_LIMB = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation HEAD_IDLE = ParasiteAnimations.loop(this, "idle");
+    private final CitadelRawAnimation HEAD_WALK = ParasiteAnimations.loop(this, "walk");
+    private final CitadelRawAnimation HEAD_ATTACK = ParasiteAnimations.play(this, "attack");
+    private final CitadelRawAnimation BODIES_AGE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final CitadelRawAnimation BODIES_LIMB = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final CitadelRawAnimation BODIES_APPROACH_LIMB = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_1");
-    private final RawAnimation BODIES_SPRINT_LIMB = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation BODIES_SPRINT_LIMB = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_2");
 
     private final Kind kind;
@@ -126,16 +126,16 @@ public final class AbominationEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
         if (activeKind() == Kind.BODIES) {
-            controllers.add(new AnimationController<>(this, "age_controller", 0,
+            controllers.add(new CitadelAnimationController<>(this, "age_controller", 0,
                     state -> state.setAndContinue(BODIES_AGE)));
-            controllers.add(new AnimationController<>(this, "movement_controller", 4,
+            controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4,
                     this::bodiesMovementAnimation));
             return;
         }
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, this::headMovementAnimation));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, this::headMovementAnimation));
+        controllers.add(new CitadelAnimationController<>(this, "attack_controller", 0, state -> CitadelPlayState.STOP)
                 .triggerableAnim("attack", HEAD_ATTACK));
     }
 
@@ -147,13 +147,13 @@ public final class AbominationEntity extends PrimitiveParasiteEntity {
         return kind == null ? Kind.HEAD : kind;
     }
 
-    private PlayState headMovementAnimation(AnimationState<AbominationEntity> state) {
+    private CitadelPlayState headMovementAnimation(CitadelAnimationState<AbominationEntity> state) {
         return state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving()) ? HEAD_WALK : HEAD_IDLE);
     }
 
-    private PlayState bodiesMovementAnimation(AnimationState<AbominationEntity> state) {
+    private CitadelPlayState bodiesMovementAnimation(CitadelAnimationState<AbominationEntity> state) {
         if (!ParasiteAnimations.isMoving(this, state.isMoving())) {
-            return PlayState.STOP;
+            return CitadelPlayState.STOP;
         }
         return state.setAndContinue(switch (entityData.get(PARASITE_STATUS)) {
             case 1 -> BODIES_APPROACH_LIMB;

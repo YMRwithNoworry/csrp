@@ -41,9 +41,9 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.EnumSet;
 
@@ -66,15 +66,15 @@ public final class ManglerEntity extends PrimitiveParasiteEntity implements Manu
     private static final int REGENERATION_TAG_DEFAULT = 1;
     private static final String REGENERATION_USES_TAG = "mangler_regeneration_uses";
 
-    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
-    private final RawAnimation LIMB_SWING = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
-    private final RawAnimation AGE_STATUS_1 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final CitadelRawAnimation LIMB_SWING = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final CitadelRawAnimation AGE_STATUS_1 = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1");
-    private final RawAnimation LIMB_STATUS_1 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation LIMB_STATUS_1 = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_1");
-    private final RawAnimation LIMB_STATUS_2 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation LIMB_STATUS_2 = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_2");
-    private final RawAnimation LEAP = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation LEAP = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_10");
 
     private int regenerationUses = REGENERATION_TAG_DEFAULT;
@@ -265,8 +265,8 @@ public final class ManglerEntity extends PrimitiveParasiteEntity implements Manu
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4,
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4,
                 state -> {
                     if (isSpecialLeapAnimating()) {
                         return state.setAndContinue(LEAP);

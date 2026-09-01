@@ -49,13 +49,13 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import alku.csrp.animation.CitadelAnimatedEntity;
+import alku.csrp.animation.CitadelAnimationCache;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
+import alku.csrp.animation.CitadelAnimationUtil;
 
 import java.util.EnumSet;
 
@@ -65,7 +65,7 @@ import java.util.EnumSet;
  * primitive-parasite damage-adaptation state.
  */
 public final class AssimilatedParasiteEntity extends Monster
-        implements GeoEntity, Parasite, MeltableAssimilated, ManualVariantProvider {
+        implements CitadelAnimatedEntity, Parasite, MeltableAssimilated, ManualVariantProvider {
     public static final int FERAL_KILL_THRESHOLD = 60;
     private static final int COTH_DURATION_TICKS = 4_800;
     private static final int COTH_AURA_RADIUS = 8;
@@ -82,26 +82,26 @@ public final class AssimilatedParasiteEntity extends Monster
     private static final EntityDataAccessor<Integer> ANIMATION_STATUS =
             SynchedEntityData.defineId(AssimilatedParasiteEntity.class, EntityDataSerializers.INT);
     private static final int STILL_ANIMATION_DELAY_TICKS = 25;
-    private final RawAnimation AGE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
-    private final RawAnimation LIMB = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
-    private final RawAnimation AGE_STATUS_1 = ParasiteAnimations.loop(
+    private final CitadelRawAnimation AGE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final CitadelRawAnimation LIMB = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final CitadelRawAnimation AGE_STATUS_1 = ParasiteAnimations.loop(
             this, "func_78087_a.age_in_ticks.get_parasite_status_1");
-    private final RawAnimation LIMB_STATUS_1 = ParasiteAnimations.loop(
+    private final CitadelRawAnimation LIMB_STATUS_1 = ParasiteAnimations.loop(
             this, "func_78087_a.limb_swing.get_parasite_status_1");
-    private final RawAnimation LIMB_STATUS_2 = ParasiteAnimations.loop(
+    private final CitadelRawAnimation LIMB_STATUS_2 = ParasiteAnimations.loop(
             this, "func_78087_a.limb_swing.get_parasite_status_2");
-    private final RawAnimation AGE_STATUS_3 = ParasiteAnimations.loop(
+    private final CitadelRawAnimation AGE_STATUS_3 = ParasiteAnimations.loop(
             this, "func_78087_a.age_in_ticks.get_parasite_status_3");
-    private final RawAnimation LIMB_STATUS_3 = ParasiteAnimations.loop(
+    private final CitadelRawAnimation LIMB_STATUS_3 = ParasiteAnimations.loop(
             this, "func_78087_a.limb_swing.get_parasite_status_3");
-    private final RawAnimation AGE_STATUS_3_STILL = ParasiteAnimations.loop(
+    private final CitadelRawAnimation AGE_STATUS_3_STILL = ParasiteAnimations.loop(
             this, "func_78087_a.age_in_ticks.get_parasite_status_3.get_still_ani_1");
-    private final RawAnimation AGE_STATUS_6 = ParasiteAnimations.loop(
+    private final CitadelRawAnimation AGE_STATUS_6 = ParasiteAnimations.loop(
             this, "func_78087_a.age_in_ticks.get_parasite_status_6");
-    private final RawAnimation THIGH_STATUS_6 = ParasiteAnimations.loop(
+    private final CitadelRawAnimation THIGH_STATUS_6 = ParasiteAnimations.loop(
             this, "get_theigh.get_parasite_status_6");
 
-    private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
+    private final CitadelAnimationCache animationCache = CitadelAnimationUtil.createInstanceCache(this);
     private final Kind kind;
     private int parasiteKills;
     private int chargeCooldown;
@@ -401,19 +401,19 @@ public final class AssimilatedParasiteEntity extends Monster
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "age_controller", 0,
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "age_controller", 0,
                 state -> state.setAndContinue(ageAnimation())));
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, state -> {
             if (kind == Kind.SQUID || !ParasiteAnimations.isMoving(this, state.isMoving())) {
-                return PlayState.STOP;
+                return CitadelPlayState.STOP;
             }
-            RawAnimation animation = limbAnimation();
-            return animation == null ? PlayState.STOP : state.setAndContinue(animation);
+            CitadelRawAnimation animation = limbAnimation();
+            return animation == null ? CitadelPlayState.STOP : state.setAndContinue(animation);
         }));
-        controllers.add(new AnimationController<>(this, "melt_height_controller", 0, state ->
+        controllers.add(new CitadelAnimationController<>(this, "melt_height_controller", 0, state ->
                 usesMeltFunction() && getAnimationStatus() == 6
-                        ? state.setAndContinue(THIGH_STATUS_6) : PlayState.STOP));
+                        ? state.setAndContinue(THIGH_STATUS_6) : CitadelPlayState.STOP));
     }
 
     private void updateAnimationStatus() {
@@ -435,7 +435,7 @@ public final class AssimilatedParasiteEntity extends Monster
                 distanceToSqr(target) <= reach * reach + target.getBbWidth() ? 1 : 2);
     }
 
-    private RawAnimation ageAnimation() {
+    private CitadelRawAnimation ageAnimation() {
         int status = getAnimationStatus();
         if (kind == Kind.SQUID) {
             return AGE;
@@ -453,7 +453,7 @@ public final class AssimilatedParasiteEntity extends Monster
     }
 
     @Nullable
-    private RawAnimation limbAnimation() {
+    private CitadelRawAnimation limbAnimation() {
         int status = getAnimationStatus();
         if (status == 6) {
             return null;
@@ -478,7 +478,7 @@ public final class AssimilatedParasiteEntity extends Monster
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
+    public CitadelAnimationCache getCitadelAnimationCache() {
         return animationCache;
     }
 

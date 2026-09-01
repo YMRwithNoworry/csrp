@@ -19,7 +19,7 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import software.bernie.geckolib.animation.AnimatableManager;
+import alku.csrp.animation.CitadelAnimationManager;
 
 import java.util.EnumSet;
 
@@ -91,7 +91,7 @@ public final class WorkerEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
     }
 
     @Override

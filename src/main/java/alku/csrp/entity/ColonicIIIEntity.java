@@ -17,11 +17,11 @@ import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.level.Level;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelAnimationState;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
 
 /**
  * ColonicIII (LeemSIII) - Rooter Stage III Nexus entity.
@@ -33,8 +33,8 @@ public final class ColonicIIIEntity extends PrimitiveParasiteEntity {
     private static final EntityDataAccessor<Integer> GROWTH_TIME = SynchedEntityData.defineId(
             ColonicIIIEntity.class, EntityDataSerializers.INT);
 
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final CitadelRawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final CitadelRawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
 
     private int supportCooldown;
     private int attackFlashTicks;
@@ -168,12 +168,12 @@ public final class ColonicIIIEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
         // Main idle animation with procedural tentacle movements
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, this::idleAnimation));
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, this::idleAnimation));
 
         // Attack animation controller
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
+        controllers.add(new CitadelAnimationController<>(this, "attack_controller", 0, state -> CitadelPlayState.STOP)
                 .triggerableAnim("attack", ATTACK));
     }
 
@@ -182,7 +182,7 @@ public final class ColonicIIIEntity extends PrimitiveParasiteEntity {
      * The procedural animations from the original mod (sine wave oscillations for tentacles,
      * decoration joints, and body parts) are baked into the animation JSON files.
      */
-    private PlayState idleAnimation(AnimationState<ColonicIIIEntity> state) {
+    private CitadelPlayState idleAnimation(CitadelAnimationState<ColonicIIIEntity> state) {
         return state.setAndContinue(IDLE);
     }
 

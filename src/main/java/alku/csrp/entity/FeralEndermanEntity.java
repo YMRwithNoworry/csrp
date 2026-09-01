@@ -28,10 +28,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.List;
 
@@ -46,23 +46,23 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
     private static final float MINIMUM_DAMAGE = 0.75F;
     private static final float COTH_CHANCE = 0.70F;
     private static final float DEATH_BURST_CHANCE = 0.50F;
-    private final RawAnimation ageInTicksAnimation = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
-    private final RawAnimation limbSwingAnimation = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
-    private final RawAnimation screamingAgeAnimation = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation ageInTicksAnimation = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final CitadelRawAnimation limbSwingAnimation = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final CitadelRawAnimation screamingAgeAnimation = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.is_screaming_1");
-    private final RawAnimation screamingLimbAnimation = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation screamingLimbAnimation = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.is_screaming_1");
-    private final RawAnimation stillAgeAnimation = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation stillAgeAnimation = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_still_ani_1");
-    private final RawAnimation screamingStillAgeAnimation = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation screamingStillAgeAnimation = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_still_ani_1.is_screaming_1");
-    private final RawAnimation status2LimbAnimation = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation status2LimbAnimation = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_2");
-    private final RawAnimation screamingStatus2LimbAnimation = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation screamingStatus2LimbAnimation = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_2.is_screaming_1");
-    private final RawAnimation status2StillAgeAnimation = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation status2StillAgeAnimation = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_2.get_still_ani_1");
-    private final RawAnimation screamingStatus2StillAgeAnimation = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation screamingStatus2StillAgeAnimation = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_2.get_still_ani_1.is_screaming_1");
 
     private int targetTicks;
@@ -219,18 +219,18 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "age_controller", 0,
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "age_controller", 0,
                 state -> state.setAndContinue(ageAnimation())));
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, state -> {
             if (!ParasiteAnimations.isMoving(this, state.isMoving())) {
-                return PlayState.STOP;
+                return CitadelPlayState.STOP;
             }
             return state.setAndContinue(limbAnimation());
         }));
     }
 
-    private RawAnimation ageAnimation() {
+    private CitadelRawAnimation ageAnimation() {
         boolean screaming = isAggressive();
         boolean still = getStillAni();
         if (getParasiteStatus() == 2 && still) {
@@ -242,7 +242,7 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
         return screaming ? screamingAgeAnimation : ageInTicksAnimation;
     }
 
-    private RawAnimation limbAnimation() {
+    private CitadelRawAnimation limbAnimation() {
         boolean screaming = isAggressive();
         if (getParasiteStatus() == 2) {
             return screaming ? screamingStatus2LimbAnimation : status2LimbAnimation;

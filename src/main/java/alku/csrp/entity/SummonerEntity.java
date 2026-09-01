@@ -17,9 +17,9 @@ import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -38,17 +38,17 @@ public final class SummonerEntity extends PrimitiveParasiteEntity implements Sum
     private static final EntityDataAccessor<Integer> SUMMON_TICKS = SynchedEntityData.defineId(
             SummonerEntity.class, EntityDataSerializers.INT);
 
-    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks");
-    private final RawAnimation LIMB_SWING = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation LIMB_SWING = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing");
-    private final RawAnimation COMBAT_LIMB = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation COMBAT_LIMB = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_1");
-    private final RawAnimation COMBAT_STILL = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation COMBAT_STILL = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1");
-    private final RawAnimation SPRINT_LIMB = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation SPRINT_LIMB = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_2");
-    private final RawAnimation SUMMON = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation SUMMON = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_10");
 
     private final SummonCapacityTracker summonTracker = new SummonCapacityTracker();
@@ -183,8 +183,8 @@ public final class SummonerEntity extends PrimitiveParasiteEntity implements Sum
         entityData.set(SUMMON_TICKS, 0);
     }
 
-    @Override public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
+    @Override public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, state -> {
             if (isSummoning()) {
                 return state.setAndContinue(SUMMON);
             }

@@ -4,6 +4,7 @@ import alku.csrp.Csrp;
 import alku.csrp.client.model.PrimitiveParasiteModel;
 import alku.csrp.entity.DerivedParasiteEntity;
 import alku.csrp.entity.KirinEntity;
+import com.github.alexthe666.citadel.client.model.AdvancedEntityModel;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -11,15 +12,13 @@ import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.cache.object.BakedGeoModel;
-import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
-import software.bernie.geckolib.util.Color;
 
 /** Restores the translucent cosmical shadow pass used by legacy derived parasites. */
 public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> extends ParasiteGeoRenderer<T> {
@@ -46,9 +45,9 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
         this.shadowTexture = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
                 "textures/entity/" + shadowTexture + ".png");
         this.shadowRadius = shadowRadius;
-        addRenderLayer(new ShadowLayer<>(this, this.shadowTexture));
-        addRenderLayer(new CosmicHackingLayer<>(this));
-        addRenderLayer(new KirinLaserChargeLayer<>(this));
+        addLayer(new ShadowLayer<>(this, this.shadowTexture));
+        addLayer(new CosmicHackingLayer<>(this));
+        addLayer(new KirinLaserChargeLayer<>(this));
     }
 
     @Override
@@ -57,19 +56,13 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
     }
 
     @Override
-    public RenderType getRenderType(T entity, ResourceLocation texture, MultiBufferSource bufferSource,
-            float partialTick) {
+    protected RenderType getRenderType(T entity, boolean bodyVisible, boolean translucent,
+            boolean glowing) {
         // Iris cannot reliably map NeoForge's unlit translucent shader used by the shared model.
         // The normal derived textures are binary-alpha, so keep the body on the vanilla entity
         // cutout path while reserving translucency for the actual shadow clone/effect passes.
         return entity.isShadowClone() ? RenderType.entityTranslucent(shadowTexture)
-                : RenderType.entityCutoutNoCull(texture);
-    }
-
-    @Override
-    public Color getRenderColor(T entity, float partialTick, int packedLight) {
-        return entity.isShadowClone() ? Color.ofRGBA(255, 255, 255, 128)
-                : super.getRenderColor(entity, partialTick, packedLight);
+                : super.getRenderType(entity, bodyVisible, translucent, glowing);
     }
 
     @Override
@@ -103,6 +96,12 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
             PoseStack poseStack, MultiBufferSource bufferSource) {
         renderBeam(parasite, target, partialTick, poseStack, bufferSource,
                 BEAM_RED, BEAM_GREEN, BEAM_BLUE, BEAM_RADIUS);
+    }
+
+    static void renderKirinBeam(DerivedParasiteEntity parasite, LivingEntity target, float partialTick,
+            PoseStack poseStack, MultiBufferSource bufferSource) {
+        renderBeam(parasite, target, partialTick, poseStack, bufferSource,
+                KIRIN_BEAM_RED, KIRIN_BEAM_GREEN, KIRIN_BEAM_BLUE, BEAM_RADIUS * 1.35F);
     }
 
     private static void renderBeam(DerivedParasiteEntity parasite, LivingEntity target, float partialTick,
@@ -162,7 +161,8 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
                 .setNormal(pose, 0.0F, 1.0F, 0.0F);
     }
 
-    private static final class ShadowLayer<T extends DerivedParasiteEntity> extends GeoRenderLayer<T> {
+    private static final class ShadowLayer<T extends DerivedParasiteEntity>
+            extends RenderLayer<T, AdvancedEntityModel<T>> {
         private final ResourceLocation texture;
 
         private ShadowLayer(DerivedParasiteRenderer<T> renderer, ResourceLocation texture) {
@@ -171,9 +171,9 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
         }
 
         @Override
-        public void render(PoseStack poseStack, T entity, BakedGeoModel bakedModel, RenderType renderType,
-                MultiBufferSource bufferSource, VertexConsumer buffer, float partialTick, int packedLight,
-                int packedOverlay) {
+        public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight,
+                T entity, float limbSwing, float limbSwingAmount, float partialTick,
+                float ageInTicks, float netHeadYaw, float headPitch) {
             float alpha = entity.getShadowRenderAlpha(partialTick);
             if (entity.isShadowClone() || !entity.isShadowed() || alpha <= 0.0F) {
                 return;
@@ -184,21 +184,22 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
             int colour = alphaByte << 24 | 0xFFFFFF;
             poseStack.pushPose();
             poseStack.scale(1.2F, 1.2F, 1.2F);
-            getRenderer().reRender(bakedModel, poseStack, bufferSource, entity, shadowRenderType,
-                    bufferSource.getBuffer(shadowRenderType), partialTick, packedLight, packedOverlay, colour);
+            getParentModel().renderToBuffer(poseStack, bufferSource.getBuffer(shadowRenderType),
+                    packedLight, OverlayTexture.NO_OVERLAY, colour);
             poseStack.popPose();
         }
     }
 
-    private static final class CosmicHackingLayer<T extends DerivedParasiteEntity> extends GeoRenderLayer<T> {
+    private static final class CosmicHackingLayer<T extends DerivedParasiteEntity>
+            extends RenderLayer<T, AdvancedEntityModel<T>> {
         private CosmicHackingLayer(DerivedParasiteRenderer<T> renderer) {
             super(renderer);
         }
 
         @Override
-        public void render(PoseStack poseStack, T entity, BakedGeoModel bakedModel, RenderType renderType,
-                MultiBufferSource bufferSource, VertexConsumer buffer, float partialTick, int packedLight,
-                int packedOverlay) {
+        public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight,
+                T entity, float limbSwing, float limbSwingAmount, float partialTick,
+                float ageInTicks, float netHeadYaw, float headPitch) {
             if (!entity.isShadowed() || entity.isShadowClone() || !entity.isNeuralLinkActive()) {
                 return;
             }
@@ -206,29 +207,28 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
             float age = entity.tickCount + partialTick;
             RenderType hackingRenderType = RenderType.energySwirl(COSMIC_HACKING_TEXTURE,
                     age * 0.01F, age * 0.01F);
-            getRenderer().reRender(bakedModel, poseStack, bufferSource, entity, hackingRenderType,
-                    bufferSource.getBuffer(hackingRenderType), partialTick, LightTexture.FULL_BRIGHT,
-                    packedOverlay, 0xFFFF80FF);
+            getParentModel().renderToBuffer(poseStack, bufferSource.getBuffer(hackingRenderType),
+                    LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 0xFFFF80FF);
         }
     }
 
-    private static final class KirinLaserChargeLayer<T extends DerivedParasiteEntity> extends GeoRenderLayer<T> {
+    private static final class KirinLaserChargeLayer<T extends DerivedParasiteEntity>
+            extends RenderLayer<T, AdvancedEntityModel<T>> {
         private KirinLaserChargeLayer(DerivedParasiteRenderer<T> renderer) {
             super(renderer);
         }
 
         @Override
-        public void render(PoseStack poseStack, T entity, BakedGeoModel bakedModel, RenderType renderType,
-                MultiBufferSource bufferSource, VertexConsumer buffer, float partialTick, int packedLight,
-                int packedOverlay) {
+        public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight,
+                T entity, float limbSwing, float limbSwingAmount, float partialTick,
+                float ageInTicks, float netHeadYaw, float headPitch) {
             if (!(entity instanceof KirinEntity kirin) || !kirin.isLaserCharging()) {
                 return;
             }
-            ResourceLocation texture = getRenderer().getTextureLocation(entity);
+            ResourceLocation texture = getTextureLocation(entity);
             RenderType glowType = RenderType.entityTranslucentEmissive(texture);
-            getRenderer().reRender(bakedModel, poseStack, bufferSource, entity, glowType,
-                    bufferSource.getBuffer(glowType), partialTick, LightTexture.FULL_BRIGHT,
-                    packedOverlay, 0x99FF48C4);
+            getParentModel().renderToBuffer(poseStack, bufferSource.getBuffer(glowType),
+                    LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 0x99FF48C4);
         }
     }
 }

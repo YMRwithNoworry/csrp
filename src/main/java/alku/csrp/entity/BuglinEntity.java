@@ -31,24 +31,24 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import alku.csrp.animation.CitadelAnimatedEntity;
+import alku.csrp.animation.CitadelAnimationCache;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
+import alku.csrp.animation.CitadelAnimationUtil;
 
-public class BuglinEntity extends Monster implements GeoEntity, Parasite {
+public class BuglinEntity extends Monster implements CitadelAnimatedEntity, Parasite {
     public static final String GROWTH_NBT_KEY = "ruptergrow";
     public static final int EMERGENCE_TICKS = 50;
 
     private static final String GROWTH_TARGET_NBT_KEY = "ruptergrow_target";
-    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks");
-    private final RawAnimation FLOOR_TIMER = ParasiteAnimations.play(this, "get_floor_timer");
+    private final CitadelRawAnimation FLOOR_TIMER = ParasiteAnimations.play(this, "get_floor_timer");
 
-    private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
+    private final CitadelAnimationCache animationCache = CitadelAnimationUtil.createInstanceCache(this);
     private int growthSeconds;
     private int growthTargetSeconds;
     private int emergenceTicks;
@@ -216,15 +216,15 @@ public class BuglinEntity extends Monster implements GeoEntity, Parasite {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "age_controller", 0,
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "age_controller", 0,
                 state -> state.setAndContinue(AGE_IN_TICKS)));
-        controllers.add(new AnimationController<>(this, "emergence_controller", 0, state -> PlayState.STOP)
+        controllers.add(new CitadelAnimationController<>(this, "emergence_controller", 0, state -> CitadelPlayState.STOP)
                 .triggerableAnim("get_floor_timer", FLOOR_TIMER));
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
+    public CitadelAnimationCache getCitadelAnimationCache() {
         return animationCache;
     }
 }

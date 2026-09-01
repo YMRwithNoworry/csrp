@@ -6,11 +6,11 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.level.Level;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelAnimationState;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
 
 /**
  * Vigile (原模组 EntityAnged) - 具有触手的纯种寄生体
@@ -18,12 +18,12 @@ import software.bernie.geckolib.animation.RawAnimation;
  */
 public final class VigileEntity extends PrimitiveParasiteEntity {
     // 动画定义
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation RUN = ParasiteAnimations.loop(this, "run");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
-    private final RawAnimation RANGED_ATTACK = ParasiteAnimations.play(this, "ranged_attack");
-    private final RawAnimation DEATH = ParasiteAnimations.play(this, "death");
+    private final CitadelRawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final CitadelRawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final CitadelRawAnimation RUN = ParasiteAnimations.loop(this, "run");
+    private final CitadelRawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final CitadelRawAnimation RANGED_ATTACK = ParasiteAnimations.play(this, "ranged_attack");
+    private final CitadelRawAnimation DEATH = ParasiteAnimations.play(this, "death");
 
     public VigileEntity(EntityType<? extends VigileEntity> type, Level level) {
         super(type, level);
@@ -47,27 +47,27 @@ public final class VigileEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
         // 主要移动动画控制器，包含状态切换逻辑
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, this::movementAnimation));
 
         // 攻击动画控制器（触发式）
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
+        controllers.add(new CitadelAnimationController<>(this, "attack_controller", 0, state -> CitadelPlayState.STOP)
                 .triggerableAnim("attack", ATTACK)
                 .triggerableAnim("ranged_attack", RANGED_ATTACK));
 
         // 死亡动画控制器
-        controllers.add(new AnimationController<>(this, "death_controller", 0, this::deathAnimation));
+        controllers.add(new CitadelAnimationController<>(this, "death_controller", 0, this::deathAnimation));
     }
 
     /**
      * 移动动画逻辑
      * 根据实体的移动状态选择合适的动画
      */
-    private PlayState movementAnimation(AnimationState<VigileEntity> state) {
+    private CitadelPlayState movementAnimation(CitadelAnimationState<VigileEntity> state) {
         // 死亡时不播放移动动画
         if (!isAlive()) {
-            return PlayState.STOP;
+            return CitadelPlayState.STOP;
         }
 
         if (!ParasiteAnimations.isMoving(this, state.isMoving())) {
@@ -90,11 +90,11 @@ public final class VigileEntity extends PrimitiveParasiteEntity {
      * 死亡动画逻辑
      * 播放死亡动画（状态25）
      */
-    private PlayState deathAnimation(AnimationState<VigileEntity> state) {
+    private CitadelPlayState deathAnimation(CitadelAnimationState<VigileEntity> state) {
         if (!isAlive()) {
             return state.setAndContinue(DEATH);
         }
-        return PlayState.STOP;
+        return CitadelPlayState.STOP;
     }
 
     /**

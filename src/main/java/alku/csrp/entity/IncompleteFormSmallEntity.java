@@ -19,12 +19,12 @@ import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelRawAnimation;
 
 public class IncompleteFormSmallEntity extends CrudeParasiteEntity {
-    private final RawAnimation AGE_ANIMATION = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final CitadelRawAnimation AGE_ANIMATION = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
 
     public IncompleteFormSmallEntity(EntityType<? extends IncompleteFormSmallEntity> type, Level level) {
         super(type, level);
@@ -77,8 +77,8 @@ public class IncompleteFormSmallEntity extends CrudeParasiteEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "age_controller", 4,
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "age_controller", 4,
                 state -> state.setAndContinue(AGE_ANIMATION)));
     }
 }

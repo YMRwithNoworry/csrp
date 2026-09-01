@@ -34,9 +34,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.Comparator;
 import java.util.EnumSet;
@@ -63,8 +63,8 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
             MovingFleshEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Integer> EVOLUTION_FUSE = SynchedEntityData.defineId(
             MovingFleshEntity.class, EntityDataSerializers.INT);
-    private final RawAnimation AGE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
-    private final RawAnimation LIMB = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final CitadelRawAnimation AGE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final CitadelRawAnimation LIMB = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
 
     private float targetScale = 1.0F;
     private int mergeCooldown;
@@ -267,13 +267,13 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "age_controller", 0,
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "age_controller", 0,
                 state -> state.setAndContinue(AGE)));
-        controllers.add(new AnimationController<>(this, "movement_controller", 4,
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4,
                 state -> ParasiteAnimations.isMoving(this, state.isMoving())
                         ? state.setAndContinue(LIMB)
-                        : software.bernie.geckolib.animation.PlayState.STOP));
+                        : alku.csrp.animation.CitadelPlayState.STOP));
     }
 
     private void absorb(MovingFleshEntity other) {

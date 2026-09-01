@@ -22,16 +22,16 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import alku.csrp.animation.CitadelAnimatedEntity;
+import alku.csrp.animation.CitadelAnimationCache;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
+import alku.csrp.animation.CitadelAnimationUtil;
 
 /** Shared legacy Feral behaviour: fire weakness and kill-fuelled recovery. */
-public class FeralParasiteEntity extends Monster implements GeoEntity, Parasite {
+public class FeralParasiteEntity extends Monster implements CitadelAnimatedEntity, Parasite {
     private static final float REGEN_AMOUNT = 3.0F;
     private static final int REGEN_KILL_INTERVAL = 10;
     private static final EntityDataAccessor<Integer> PARASITE_STATUS = SynchedEntityData.defineId(
@@ -39,22 +39,22 @@ public class FeralParasiteEntity extends Monster implements GeoEntity, Parasite 
     private static final EntityDataAccessor<Boolean> STILL_ANI = SynchedEntityData.defineId(
             FeralParasiteEntity.class, EntityDataSerializers.BOOLEAN);
 
-    private final RawAnimation ageInTicksAnimation = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
-    private final RawAnimation limbSwingAnimation = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
-    private final RawAnimation ageStillAnimation = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation ageInTicksAnimation = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final CitadelRawAnimation limbSwingAnimation = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final CitadelRawAnimation ageStillAnimation = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_still_ani_1");
-    private final RawAnimation ageStatus1Animation = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation ageStatus1Animation = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1");
-    private final RawAnimation limbStatus1Animation = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation limbStatus1Animation = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_1");
-    private final RawAnimation limbStatus2Animation = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation limbStatus2Animation = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_2");
-    private final RawAnimation limbStatus3Animation = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation limbStatus3Animation = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_3");
-    private final RawAnimation ageStatus3StillAnimation = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation ageStatus3StillAnimation = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_3.get_still_ani_1");
 
-    private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
+    private final CitadelAnimationCache animationCache = CitadelAnimationUtil.createInstanceCache(this);
     private final Kind kind;
     private int parasiteKills;
     private int regenUse = REGEN_KILL_INTERVAL;
@@ -98,7 +98,7 @@ public class FeralParasiteEntity extends Monster implements GeoEntity, Parasite 
     @Override
     public void tick() {
         super.tick();
-        updateAnimationState();
+        updateCitadelAnimationState();
         if (level().isClientSide || tickCount % 10 != 0 || isOnFire() || parasiteKills <= 1
                 || getHealth() >= getMaxHealth()) {
             return;
@@ -111,7 +111,7 @@ public class FeralParasiteEntity extends Monster implements GeoEntity, Parasite 
         }
     }
 
-    private void updateAnimationState() {
+    private void updateCitadelAnimationState() {
         if (level().isClientSide) {
             return;
         }
@@ -204,18 +204,18 @@ public class FeralParasiteEntity extends Monster implements GeoEntity, Parasite 
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "age_controller", 0,
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "age_controller", 0,
                 state -> state.setAndContinue(ageAnimation())));
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, state -> {
             if (!ParasiteAnimations.isMoving(this, state.isMoving())) {
-                return PlayState.STOP;
+                return CitadelPlayState.STOP;
             }
             return state.setAndContinue(limbAnimation());
         }));
     }
 
-    private RawAnimation ageAnimation() {
+    private CitadelRawAnimation ageAnimation() {
         int status = getParasiteStatus();
         boolean still = getStillAni();
         if (status == 3 && kind == Kind.COW && still) {
@@ -230,7 +230,7 @@ public class FeralParasiteEntity extends Monster implements GeoEntity, Parasite 
         return ageInTicksAnimation;
     }
 
-    private RawAnimation limbAnimation() {
+    private CitadelRawAnimation limbAnimation() {
         int status = getParasiteStatus();
         if (status == 3 && (kind == Kind.COW || kind == Kind.HORSE)) {
             return limbStatus3Animation;
@@ -245,7 +245,7 @@ public class FeralParasiteEntity extends Monster implements GeoEntity, Parasite 
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
+    public CitadelAnimationCache getCitadelAnimationCache() {
         return animationCache;
     }
 

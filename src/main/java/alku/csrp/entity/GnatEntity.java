@@ -32,9 +32,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.EnumSet;
 
@@ -51,17 +51,17 @@ public final class GnatEntity extends PrimitiveParasiteEntity {
     private static final int VIRAL_DURATION_TICKS = 120;
     private static final int VIRAL_AMPLIFIER = 2;
 
-    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks");
-    private final RawAnimation LIMB_SWING = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation LIMB_SWING = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing");
-    private final RawAnimation COMBAT_AGE = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation COMBAT_AGE = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1");
-    private final RawAnimation COMBAT_LIMB = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation COMBAT_LIMB = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_1");
-    private final RawAnimation SPRINT_LIMB = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation SPRINT_LIMB = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_2");
-    private final RawAnimation LEAP = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation LEAP = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_10");
 
     private boolean consumed;
@@ -235,8 +235,8 @@ public final class GnatEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 3,
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 3,
                 state -> {
                     if (entityData.get(SKILL_LEAPING)) {
                         return state.setAndContinue(LEAP);

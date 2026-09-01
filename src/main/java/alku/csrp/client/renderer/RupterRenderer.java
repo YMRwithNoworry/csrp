@@ -5,19 +5,11 @@ import alku.csrp.entity.RupterEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import software.bernie.geckolib.util.Color;
 
 public final class RupterRenderer extends ParasiteGeoRenderer<RupterEntity> {
     public RupterRenderer(EntityRendererProvider.Context context) {
         super(context, new RupterModel());
         this.shadowRadius = 0.45F;
-    }
-
-    @Override
-    public Color getRenderColor(RupterEntity entity, float partialTick, int packedLight) {
-        return entity.isOverheated()
-                ? Color.ofRGBA(255, 24, 16, 255)
-                : super.getRenderColor(entity, partialTick, packedLight);
     }
 
     @Override

@@ -53,9 +53,9 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.util.Mth;
 import net.neoforged.neoforge.event.EventHooks;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import alku.csrp.animation.CitadelAnimatedEntity;
+import alku.csrp.animation.CitadelAnimationCache;
+import alku.csrp.animation.CitadelAnimationUtil;
 
 import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
@@ -65,7 +65,7 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 /** Shared 1.12 primitive-parasite state: hostile targeting, kills, and repeated-damage adaptation. */
-public abstract class PrimitiveParasiteEntity extends Monster implements GeoEntity, Parasite {
+public abstract class PrimitiveParasiteEntity extends Monster implements CitadelAnimatedEntity, Parasite {
     private static final Map<String, BlockBreakProfile> BLOCK_BREAK_PROFILES = createBlockBreakProfiles();
     private int blockBreakCooldown;
     private static final EntityDataAccessor<Byte> ADAPTATION_HIT_STATUS = SynchedEntityData.defineId(
@@ -86,7 +86,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     private static final Map<Class<?>, Optional<Method>> TACZ_BULLET_GUN_ID_METHODS = new ConcurrentHashMap<>();
     private static final Map<Class<?>, Optional<Method>> TACZ_ITEM_GUN_ID_METHODS = new ConcurrentHashMap<>();
 
-    private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
+    private final CitadelAnimationCache animationCache = CitadelAnimationUtil.createInstanceCache(this);
     private final Map<String, Integer> damageAdaptations = new LinkedHashMap<>();
     private boolean bypassArmorForDamageCap;
     private float lastDamageAdaptationReduction;
@@ -816,7 +816,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
+    public CitadelAnimationCache getCitadelAnimationCache() {
         return animationCache;
     }
 }

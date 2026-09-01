@@ -26,9 +26,9 @@ import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.EnumSet;
 
@@ -56,45 +56,45 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
             SynchedEntityData.defineId(DraconiteEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<BlockPos> METEOR_TARGET =
             SynchedEntityData.defineId(DraconiteEntity.class, EntityDataSerializers.BLOCK_POS);
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
-    private final RawAnimation FLY = RawAnimation.begin()
+    private final CitadelRawAnimation IDLE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final CitadelRawAnimation WALK = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final CitadelRawAnimation FLY = CitadelRawAnimation.begin()
             .thenLoop("animation.draconite.func_78087_a.age_in_ticks.get_flying_state_1");
-    private final RawAnimation CLONE_IDLE = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation CLONE_IDLE = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_clone_c_1");
-    private final RawAnimation CLONE_WALK = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation CLONE_WALK = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_clone_c_1");
-    private final RawAnimation SHAKING_IDLE = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation SHAKING_IDLE = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.shaking_c_1");
-    private final RawAnimation SHAKING_WALK = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation SHAKING_WALK = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.shaking_c_1");
-    private final RawAnimation COMBAT_IDLE = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation COMBAT_IDLE = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1");
-    private final RawAnimation COMBAT_WALK = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation COMBAT_WALK = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_1");
-    private final RawAnimation COMBAT_SHAKING_IDLE = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation COMBAT_SHAKING_IDLE = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1.shaking_c_1");
-    private final RawAnimation COMBAT_SHAKING_WALK = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation COMBAT_SHAKING_WALK = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_1.shaking_c_1");
-    private final RawAnimation CLONE_SHAKING_IDLE = ParasiteAnimations.loop(
+    private final CitadelRawAnimation CLONE_SHAKING_IDLE = ParasiteAnimations.loop(
             this, "func_78087_a.age_in_ticks.get_clone_c_1.shaking_c_1");
-    private final RawAnimation CLONE_SHAKING_WALK = ParasiteAnimations.loop(
+    private final CitadelRawAnimation CLONE_SHAKING_WALK = ParasiteAnimations.loop(
             this, "func_78087_a.limb_swing.get_clone_c_1.shaking_c_1");
-    private final RawAnimation CLONE_COMBAT_IDLE = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation CLONE_COMBAT_IDLE = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_clone_c_1.get_parasite_status_1");
-    private final RawAnimation CLONE_COMBAT_WALK = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation CLONE_COMBAT_WALK = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_clone_c_1.get_parasite_status_1");
-    private final RawAnimation CLONE_COMBAT_SHAKING_IDLE = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation CLONE_COMBAT_SHAKING_IDLE = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_clone_c_1.get_parasite_status_1.shaking_c_1");
-    private final RawAnimation CLONE_COMBAT_SHAKING_WALK = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation CLONE_COMBAT_SHAKING_WALK = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_clone_c_1.get_parasite_status_1.shaking_c_1");
-    private final RawAnimation FLAME_IDLE = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation FLAME_IDLE = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_10");
-    private final RawAnimation FLAME_SHAKING_IDLE = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation FLAME_SHAKING_IDLE = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_10.shaking_c_1");
-    private final RawAnimation CLONE_FLAME_IDLE = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation CLONE_FLAME_IDLE = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_clone_c_1.get_parasite_status_10");
-    private final RawAnimation CLONE_FLAME_SHAKING_IDLE = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation CLONE_FLAME_SHAKING_IDLE = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_clone_c_1.get_parasite_status_10.shaking_c_1");
 
     private int salivaCooldown = 40;
@@ -452,8 +452,8 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, state -> {
             if (isFlying()) {
                 return state.setAndContinue(FLY);
             }

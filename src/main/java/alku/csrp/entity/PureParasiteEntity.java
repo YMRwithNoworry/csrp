@@ -56,11 +56,11 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.PartEntity;
 import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelAnimationState;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -109,57 +109,57 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
     private static final float ADAPTATION_PER_HIT = 0.125F;
     private static final float ADAPTATION_LEARN_CHANCE = 0.95F;
     private static final float FIRE_SUPPRESSION_CHANCE = 0.30F;
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
-    private final RawAnimation RUN = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation IDLE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final CitadelRawAnimation WALK = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final CitadelRawAnimation RUN = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_2");
-    private final RawAnimation FLY = IDLE;
-    private final RawAnimation WARDEN_ATTACK = ParasiteAnimations.play(this, "get_attack_timer");
-    private final RawAnimation WARDEN_AGE_STILL = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation FLY = IDLE;
+    private final CitadelRawAnimation WARDEN_ATTACK = ParasiteAnimations.play(this, "get_attack_timer");
+    private final CitadelRawAnimation WARDEN_AGE_STILL = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_still_ani_1");
-    private final RawAnimation WARDEN_ATTACK_STILL = ParasiteAnimations.play(this,
+    private final CitadelRawAnimation WARDEN_ATTACK_STILL = ParasiteAnimations.play(this,
             "get_attack_timer.get_still_ani_1");
-    private final RawAnimation WARDEN_AGE_STATUS_1 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation WARDEN_AGE_STATUS_1 = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1");
-    private final RawAnimation WARDEN_LIMB_STATUS_1 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation WARDEN_LIMB_STATUS_1 = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_1");
-    private final RawAnimation WARDEN_ATTACK_STATUS_1 = ParasiteAnimations.play(this,
+    private final CitadelRawAnimation WARDEN_ATTACK_STATUS_1 = ParasiteAnimations.play(this,
             "get_attack_timer.get_parasite_status_1");
-    private final RawAnimation WARDEN_AGE_STATUS_1_STILL = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation WARDEN_AGE_STATUS_1_STILL = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1");
-    private final RawAnimation WARDEN_ATTACK_STATUS_1_STILL = ParasiteAnimations.play(this,
+    private final CitadelRawAnimation WARDEN_ATTACK_STATUS_1_STILL = ParasiteAnimations.play(this,
             "get_attack_timer.get_parasite_status_1.get_still_ani_1");
-    private final RawAnimation WARDEN_LIMB_STATUS_2 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation WARDEN_LIMB_STATUS_2 = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_2");
-    private final RawAnimation WARDEN_AGE_STATUS_3 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation WARDEN_AGE_STATUS_3 = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_3");
-    private final RawAnimation WARDEN_LIMB_STATUS_3 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation WARDEN_LIMB_STATUS_3 = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_3");
-    private final RawAnimation WARDEN_ATTACK_STATUS_3 = ParasiteAnimations.play(this,
+    private final CitadelRawAnimation WARDEN_ATTACK_STATUS_3 = ParasiteAnimations.play(this,
             "get_attack_timer.get_parasite_status_3");
-    private final RawAnimation WARDEN_AGE_STATUS_3_STILL = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation WARDEN_AGE_STATUS_3_STILL = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_3.get_still_ani_1");
-    private final RawAnimation WARDEN_ATTACK_STATUS_3_STILL = ParasiteAnimations.play(this,
+    private final CitadelRawAnimation WARDEN_ATTACK_STATUS_3_STILL = ParasiteAnimations.play(this,
             "get_attack_timer.get_parasite_status_3.get_still_ani_1");
-    private final RawAnimation WARDEN_AGE_STATUS_10 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation WARDEN_AGE_STATUS_10 = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_10");
-    private final RawAnimation WARDEN_ATTACK_STATUS_10 = ParasiteAnimations.play(this,
+    private final CitadelRawAnimation WARDEN_ATTACK_STATUS_10 = ParasiteAnimations.play(this,
             "get_attack_timer.get_parasite_status_10");
-    private final RawAnimation WARDEN_CHARGE_IDLE = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation WARDEN_CHARGE_IDLE = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_3");
-    private final RawAnimation WARDEN_CHARGE_WALK = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation WARDEN_CHARGE_WALK = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_3");
-    private final RawAnimation LEAP = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation LEAP = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_10");
-    private final RawAnimation VIGILANTE_ATTACK_IDLE = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation VIGILANTE_ATTACK_IDLE = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1");
-    private final RawAnimation VIGILANTE_ATTACK_WALK = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation VIGILANTE_ATTACK_WALK = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_1");
-    private final RawAnimation VIGILANTE_ATTACK2_IDLE = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation VIGILANTE_ATTACK2_IDLE = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1");
-    private final RawAnimation VIGILANTE_ATTACK2_WALK = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation VIGILANTE_ATTACK2_WALK = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_1");
-    private final RawAnimation VIGILANTE_UNDERGROUND = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation VIGILANTE_UNDERGROUND = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_25");
 
     private final Kind kind;
@@ -702,10 +702,10 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, this::movementAnimation));
         if (activeKind() == Kind.WARDEN) {
-            controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
+            controllers.add(new CitadelAnimationController<>(this, "attack_controller", 0, state -> CitadelPlayState.STOP)
                     .triggerableAnim("get_attack_timer", WARDEN_ATTACK));
         }
     }
@@ -998,7 +998,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         entityData.set(WARDEN_SKIN, (byte) (skin == 7 ? 7 : 0));
     }
 
-    private PlayState movementAnimation(AnimationState<PureParasiteEntity> state) {
+    private CitadelPlayState movementAnimation(CitadelAnimationState<PureParasiteEntity> state) {
         if (isSpecialLeapAnimating()
                 && (activeKind() == Kind.GRUNT || activeKind() == Kind.MONARCH || activeKind() == Kind.WARDEN)) {
             return state.setAndContinue(LEAP);

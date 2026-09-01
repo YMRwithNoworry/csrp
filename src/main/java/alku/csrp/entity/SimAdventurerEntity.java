@@ -42,13 +42,13 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import alku.csrp.animation.CitadelAnimatedEntity;
+import alku.csrp.animation.CitadelAnimationCache;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
+import alku.csrp.animation.CitadelAnimationUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
@@ -58,7 +58,7 @@ import java.util.List;
  * Legacy Assimilated Adventurer. Its transition path is intentionally separate from the
  * generic assimilated-animal class because the original creature melts into Moving Flesh.
  */
-public final class SimAdventurerEntity extends Monster implements GeoEntity, Parasite, MeltableAssimilated {
+public final class SimAdventurerEntity extends Monster implements CitadelAnimatedEntity, Parasite, MeltableAssimilated {
     public static final int MELT_KILL_THRESHOLD = 10;
     public static final int THRALL_KILL_THRESHOLD = 15;
     public static final int MELT_DURATION_TICKS = 127;
@@ -80,15 +80,15 @@ public final class SimAdventurerEntity extends Monster implements GeoEntity, Par
             SimAdventurerEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> MELT_TICKS = SynchedEntityData.defineId(
             SimAdventurerEntity.class, EntityDataSerializers.INT);
-    private final RawAnimation AGE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
-    private final RawAnimation LIMB = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
-    private final RawAnimation HELMET = ParasiteAnimations.loop(this, "helmet_slot");
-    private final RawAnimation AGE_STILL = ParasiteAnimations.loop(
+    private final CitadelRawAnimation AGE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final CitadelRawAnimation LIMB = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final CitadelRawAnimation HELMET = ParasiteAnimations.loop(this, "helmet_slot");
+    private final CitadelRawAnimation AGE_STILL = ParasiteAnimations.loop(
             this, "func_78087_a.age_in_ticks.get_still_ani_1");
-    private final RawAnimation HELMET_STILL = ParasiteAnimations.loop(
+    private final CitadelRawAnimation HELMET_STILL = ParasiteAnimations.loop(
             this, "helmet_slot.get_still_ani_1");
 
-    private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
+    private final CitadelAnimationCache animationCache = CitadelAnimationUtil.createInstanceCache(this);
     private int parasiteKills;
 
     public SimAdventurerEntity(EntityType<? extends SimAdventurerEntity> type, Level level) {
@@ -277,15 +277,15 @@ public final class SimAdventurerEntity extends Monster implements GeoEntity, Par
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "age_controller", 0,
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "age_controller", 0,
                 state -> state.setAndContinue(ageAnimation())));
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, state ->
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, state ->
                 !isMelting() && ParasiteAnimations.isMoving(this, state.isMoving())
-                        ? state.setAndContinue(LIMB) : PlayState.STOP));
+                        ? state.setAndContinue(LIMB) : CitadelPlayState.STOP));
     }
 
-    private RawAnimation ageAnimation() {
+    private CitadelRawAnimation ageAnimation() {
         boolean helmetEquipped = !getItemBySlot(EquipmentSlot.HEAD).isEmpty();
         if (isMelting()) {
             return helmetEquipped ? HELMET_STILL : AGE_STILL;
@@ -294,7 +294,7 @@ public final class SimAdventurerEntity extends Monster implements GeoEntity, Par
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
+    public CitadelAnimationCache getCitadelAnimationCache() {
         return animationCache;
     }
 

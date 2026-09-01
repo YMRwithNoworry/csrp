@@ -31,14 +31,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import alku.csrp.animation.CitadelAnimatedEntity;
+import alku.csrp.animation.CitadelAnimationCache;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelAnimationState;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
+import alku.csrp.animation.CitadelAnimationUtil;
 
 import java.util.EnumSet;
 
@@ -52,7 +52,7 @@ import java.util.EnumSet;
  * - 碰撞检测与击退效果
  * - 攀爬能力
  */
-public class UntamedPriReekerEntity extends Monster implements GeoEntity, Parasite {
+public class UntamedPriReekerEntity extends Monster implements CitadelAnimatedEntity, Parasite {
     // 动画状态常量
     private static final int STATUS_NORMAL = 0;
     private static final int STATUS_ATTACK_PREP = 1;
@@ -77,14 +77,14 @@ public class UntamedPriReekerEntity extends Monster implements GeoEntity, Parasi
             SynchedEntityData.defineId(UntamedPriReekerEntity.class, EntityDataSerializers.INT);
 
     // 动画定义 - 按照原版 ModelRanrac 的动画映射
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation ATTACK_PREP = ParasiteAnimations.loop(this, "idle.get_parasite_status_1");
-    private final RawAnimation CHARGE_RECOVERY = ParasiteAnimations.loop(this, "idle.get_parasite_status_2");
-    private final RawAnimation CHARGING = ParasiteAnimations.loop(this, "idle.get_parasite_status_3");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final CitadelRawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final CitadelRawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final CitadelRawAnimation ATTACK_PREP = ParasiteAnimations.loop(this, "idle.get_parasite_status_1");
+    private final CitadelRawAnimation CHARGE_RECOVERY = ParasiteAnimations.loop(this, "idle.get_parasite_status_2");
+    private final CitadelRawAnimation CHARGING = ParasiteAnimations.loop(this, "idle.get_parasite_status_3");
+    private final CitadelRawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
 
-    private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
+    private final CitadelAnimationCache animationCache = CitadelAnimationUtil.createInstanceCache(this);
 
     // 冲锋技能状态
     private boolean skillCharge = true;
@@ -332,15 +332,15 @@ public class UntamedPriReekerEntity extends Monster implements GeoEntity, Parasi
         playSound(ModSounds.RUPTER_STEP.get(), 0.15F, 1.0F);
     }
 
-    // ==================== GeckoLib 动画系统 ====================
+    // ==================== Citadel 动画系统 ====================
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
         // Movement Controller - 转换时间4 ticks
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, this::movementAnimation));
 
         // Attack Controller - 转换时间0 ticks（立即响应）
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
+        controllers.add(new CitadelAnimationController<>(this, "attack_controller", 0, state -> CitadelPlayState.STOP)
                 .triggerableAnim("attack", ATTACK));
     }
 
@@ -352,7 +352,7 @@ public class UntamedPriReekerEntity extends Monster implements GeoEntity, Parasi
      * 3. 攻击准备 (Status 1)
      * 4. 常规移动 - 根据移动速度切换 IDLE/WALK
      */
-    private <T extends UntamedPriReekerEntity> PlayState movementAnimation(AnimationState<T> state) {
+    private <T extends UntamedPriReekerEntity> CitadelPlayState movementAnimation(CitadelAnimationState<T> state) {
         int status = getParasiteStatus();
 
         // 冲锋恢复动画 - 检测是否停止移动
@@ -383,7 +383,7 @@ public class UntamedPriReekerEntity extends Monster implements GeoEntity, Parasi
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
+    public CitadelAnimationCache getCitadelAnimationCache() {
         return animationCache;
     }
 

@@ -3,11 +3,8 @@ package alku.csrp.client.renderer;
 import alku.csrp.client.model.PrimitiveParasiteModel;
 import alku.csrp.entity.MovingFleshEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.util.Mth;
-import software.bernie.geckolib.cache.object.BakedGeoModel;
 
 /**
  * Applies the accumulated merge scale and evolution flash effects to the Moving Flesh model.
@@ -22,9 +19,7 @@ public final class MovingFleshRenderer extends ParasiteGeoRenderer<MovingFleshEn
     }
 
     @Override
-    public void preRender(PoseStack poseStack, MovingFleshEntity entity, BakedGeoModel model,
-                          MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender,
-                          float partialTick, int packedLight, int packedOverlay, int colour) {
+    protected void scale(MovingFleshEntity entity, PoseStack poseStack, float partialTick) {
         // 基础缩放（合并成长效果）
         float baseScale = entity.getRenderScale(partialTick);
 
@@ -47,7 +42,6 @@ public final class MovingFleshRenderer extends ParasiteGeoRenderer<MovingFleshEn
             poseStack.scale(baseScale, baseScale, baseScale);
         }
 
-        super.preRender(poseStack, entity, model, bufferSource, buffer, isReRender, partialTick,
-                packedLight, packedOverlay, colour);
+        super.scale(entity, poseStack, partialTick);
     }
 }

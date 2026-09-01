@@ -34,9 +34,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.PartEntity;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.EnumSet;
 
@@ -53,13 +53,13 @@ public final class HeedEntity extends CrudeParasiteEntity {
     private static final double RAGE_TARGET_RANGE_SQR = 20.0D * 20.0D;
     private static final double RAGE_EFFECT_RANGE = 1.5D;
     private static final double RECRUIT_RANGE = 16.0D;
-    private static final RawAnimation AGE_IN_TICKS = RawAnimation.begin().thenLoop(
+    private static final CitadelRawAnimation AGE_IN_TICKS = CitadelRawAnimation.begin().thenLoop(
             "animation.heed.func_78087_a.age_in_ticks");
-    private static final RawAnimation LIMB_SWING = RawAnimation.begin().thenLoop(
+    private static final CitadelRawAnimation LIMB_SWING = CitadelRawAnimation.begin().thenLoop(
             "animation.heed.func_78087_a.limb_swing");
-    private static final RawAnimation COMBAT_AGE = RawAnimation.begin().thenLoop(
+    private static final CitadelRawAnimation COMBAT_AGE = CitadelRawAnimation.begin().thenLoop(
             "animation.heed.func_78087_a.age_in_ticks.get_parasite_status_1");
-    private static final RawAnimation COMBAT_LIMB = RawAnimation.begin().thenLoop(
+    private static final CitadelRawAnimation COMBAT_LIMB = CitadelRawAnimation.begin().thenLoop(
             "animation.heed.func_78087_a.limb_swing.get_parasite_status_1");
 
     private final HeedHeadPart headPart;
@@ -234,8 +234,8 @@ public final class HeedEntity extends CrudeParasiteEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4,
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4,
                 state -> {
                     boolean moving = ParasiteAnimations.isMoving(this, state.isMoving());
                     return state.setAndContinue(entityData.get(COMBAT_STATUS)

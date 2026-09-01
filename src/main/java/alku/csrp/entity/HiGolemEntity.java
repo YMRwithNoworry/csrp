@@ -14,10 +14,10 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.EnumSet;
 import java.util.HashSet;
@@ -32,20 +32,20 @@ public final class HiGolemEntity extends HijackedParasiteEntity {
             HiGolemEntity.class, EntityDataSerializers.INT);
 
     // 状态 0 - 普通移动状态
-    private final RawAnimation ageInTicksAnimation = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
-    private final RawAnimation limbSwingAnimation = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final CitadelRawAnimation ageInTicksAnimation = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final CitadelRawAnimation limbSwingAnimation = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
 
     // 状态 1 - 攻击准备状态
-    private final RawAnimation ageStatus1Animation = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks.get_parasite_status_1");
-    private final RawAnimation limbStatus1Animation = ParasiteAnimations.loop(this, "func_78087_a.limb_swing.get_parasite_status_1");
+    private final CitadelRawAnimation ageStatus1Animation = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks.get_parasite_status_1");
+    private final CitadelRawAnimation limbStatus1Animation = ParasiteAnimations.loop(this, "func_78087_a.limb_swing.get_parasite_status_1");
 
     // 状态 2 - 蓄力状态
-    private final RawAnimation ageStatus2Animation = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks.get_parasite_status_2");
-    private final RawAnimation limbStatus2Animation = ParasiteAnimations.loop(this, "func_78087_a.limb_swing.get_parasite_status_2");
+    private final CitadelRawAnimation ageStatus2Animation = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks.get_parasite_status_2");
+    private final CitadelRawAnimation limbStatus2Animation = ParasiteAnimations.loop(this, "func_78087_a.limb_swing.get_parasite_status_2");
 
     // 状态 3 - 冲锋状态
-    private final RawAnimation chargeAgeAnimation = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks.get_parasite_status_3");
-    private final RawAnimation chargeLimbAnimation = ParasiteAnimations.loop(this, "func_78087_a.limb_swing.get_parasite_status_3");
+    private final CitadelRawAnimation chargeAgeAnimation = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks.get_parasite_status_3");
+    private final CitadelRawAnimation chargeLimbAnimation = ParasiteAnimations.loop(this, "func_78087_a.limb_swing.get_parasite_status_3");
 
     private int chargeCooldown;
 
@@ -113,18 +113,18 @@ public final class HiGolemEntity extends HijackedParasiteEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "age_controller", 0,
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "age_controller", 0,
                 state -> state.setAndContinue(ageAnimation())));
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, state -> {
             if (!ParasiteAnimations.isMoving(this, state.isMoving())) {
-                return PlayState.STOP;
+                return CitadelPlayState.STOP;
             }
             return state.setAndContinue(limbAnimation());
         }));
     }
 
-    private RawAnimation ageAnimation() {
+    private CitadelRawAnimation ageAnimation() {
         return switch (getParasiteStatus()) {
             case 1 -> ageStatus1Animation;
             case 2 -> ageStatus2Animation;
@@ -133,7 +133,7 @@ public final class HiGolemEntity extends HijackedParasiteEntity {
         };
     }
 
-    private RawAnimation limbAnimation() {
+    private CitadelRawAnimation limbAnimation() {
         return switch (getParasiteStatus()) {
             case 1 -> limbStatus1Animation;
             case 2 -> limbStatus2Animation;

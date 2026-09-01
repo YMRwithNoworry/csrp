@@ -2,50 +2,34 @@ package alku.csrp.client.model;
 
 import alku.csrp.Csrp;
 import alku.csrp.entity.BiomassEntity;
+import java.util.Map;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.cache.object.GeoBone;
-import software.bernie.geckolib.model.GeoModel;
 
-public final class BiomassModel extends GeoModel<BiomassEntity> {
-    private static final ResourceLocation POD_MODEL = ResourceLocation.fromNamespaceAndPath(
-            Csrp.MODID, "geo/biomass_pod.geo.json");
-    private static final ResourceLocation VENKROL_MODEL = ResourceLocation.fromNamespaceAndPath(
-            Csrp.MODID, "geo/biomass_venkrol.geo.json");
+public final class BiomassModel extends CitadelModelSet<BiomassEntity> {
     private static final ResourceLocation POD_TEXTURE = ResourceLocation.fromNamespaceAndPath(
             Csrp.MODID, "textures/entity/biomass_pod.png");
     private static final ResourceLocation VENKROL_TEXTURE = ResourceLocation.fromNamespaceAndPath(
             Csrp.MODID, "textures/entity/biomass_venkrol.png");
-    private static final ResourceLocation ANIMATION = ResourceLocation.fromNamespaceAndPath(
-            Csrp.MODID, "animations/biomass.animation.json");
 
-    @Override
-    public ResourceLocation getModelResource(BiomassEntity animatable) {
-        return animatable.getSkin() <= 3 ? VENKROL_MODEL : POD_MODEL;
+    public BiomassModel() {
+        super(Map.of(
+                "venkrol", new ModelSpec("biomass_venkrol", "biomass"),
+                "pod", new ModelSpec("biomass_pod", "biomass")),
+                entity -> entity.getSkin() <= 3 ? "venkrol" : "pod",
+                entity -> entity.getSkin() <= 3 ? VENKROL_TEXTURE : POD_TEXTURE);
     }
 
     @Override
-    public ResourceLocation getTextureResource(BiomassEntity animatable) {
-        return animatable.getSkin() <= 3 ? VENKROL_TEXTURE : POD_TEXTURE;
-    }
-
-    @Override
-    public ResourceLocation getAnimationResource(BiomassEntity animatable) {
-        return ANIMATION;
-    }
-
-    @Override
-    public void setCustomAnimations(BiomassEntity animatable, long instanceId,
-                                    AnimationState<BiomassEntity> animationState) {
-        super.setCustomAnimations(animatable, instanceId, animationState);
-        int skin = animatable.getSkin();
-        setVisible("mainbodysi", skin == 1);
-        setVisible("mainbodysii", skin == 2);
-        setVisible("mainbodysiii", skin == 3);
-        setVisible("alafha", skin == 4);
-        setVisible("pri_sum", skin == 5);
-        setVisible("ada_sum", skin == 6);
+    protected void customize(BiomassEntity entity, CitadelParasiteModel<BiomassEntity> model,
+            float ageInTicks) {
+        int skin = entity.getSkin();
+        setVisible(model, "mainbodysi", skin == 1);
+        setVisible(model, "mainbodysii", skin == 2);
+        setVisible(model, "mainbodysiii", skin == 3);
+        setVisible(model, "alafha", skin == 4);
+        setVisible(model, "pri_sum", skin == 5);
+        setVisible(model, "ada_sum", skin == 6);
         String rootName = skin <= 3
                 ? switch (skin) {
                     case 1 -> "mainbodysi";
@@ -57,20 +41,21 @@ public final class BiomassModel extends GeoModel<BiomassEntity> {
                     case 5 -> "pri_sum";
                     default -> "ada_sum";
                 };
-        float partialTick = animationState.getPartialTick();
-        float pulse = 1.4F + Mth.sin((animatable.tickCount + partialTick) * 0.8F) * 0.05F;
-        float width = pulse + animatable.getGrowthWidth(partialTick);
-        float height = pulse + animatable.getGrowthHeight(partialTick);
-        getBone(rootName).ifPresent(root -> applyGrowthScale(root, width, height));
+        float partialTick = ageInTicks - entity.tickCount;
+        float pulse = 1.4F + Mth.sin(ageInTicks * 0.8F) * 0.05F;
+        float width = pulse + entity.getGrowthWidth(partialTick);
+        float height = pulse + entity.getGrowthHeight(partialTick);
+        var root = model.findPart(rootName);
+        if (root != null) {
+            root.setScale(width, height, width);
+        }
     }
 
-    private static void applyGrowthScale(GeoBone root, float width, float height) {
-        root.setScaleX(width);
-        root.setScaleY(height);
-        root.setScaleZ(width);
-    }
-
-    private void setVisible(String boneName, boolean visible) {
-        getBone(boneName).ifPresent(bone -> bone.setHidden(!visible));
+    private static void setVisible(CitadelParasiteModel<BiomassEntity> model,
+            String name, boolean visible) {
+        var part = model.findPart(name);
+        if (part != null) {
+            part.showModel = visible;
+        }
     }
 }

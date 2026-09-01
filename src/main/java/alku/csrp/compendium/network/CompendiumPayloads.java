@@ -5,6 +5,7 @@ import alku.csrp.celestial.network.CelestialStatePayload;
 import alku.csrp.celestial.network.StarWorldStatePayload;
 import alku.csrp.overlast.network.EvolutionHudPayload;
 import alku.csrp.network.ParasiteDeathFxPayload;
+import alku.csrp.network.CitadelAnimationTriggerPayload;
 import alku.csrp.relay.network.RelayReportOpenPayload;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -34,5 +35,7 @@ public final class CompendiumPayloads {
                 RelayReportOpenPayload::handle);
         registrar.playToClient(ParasiteDeathFxPayload.TYPE, ParasiteDeathFxPayload.STREAM_CODEC,
                 ParasiteDeathFxPayload::handle);
+        registrar.playToClient(CitadelAnimationTriggerPayload.TYPE,
+                CitadelAnimationTriggerPayload.STREAM_CODEC, CitadelAnimationTriggerPayload::handle);
     }
 }

@@ -26,18 +26,18 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import alku.csrp.animation.CitadelAnimatedEntity;
+import alku.csrp.animation.CitadelAnimationCache;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelRawAnimation;
+import alku.csrp.animation.CitadelAnimationUtil;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public final class BiomassEntity extends Monster implements GeoEntity, Parasite {
+public final class BiomassEntity extends Monster implements CitadelAnimatedEntity, Parasite {
     public static final int HATCH_FUSE_TICKS = 80;
     private static final int DEFAULT_FUSE_TICKS = 777;
     private static final EntityDataAccessor<Integer> SKIN = SynchedEntityData.defineId(
@@ -57,8 +57,8 @@ public final class BiomassEntity extends Monster implements GeoEntity, Parasite 
     private static final EntityDataAccessor<Optional<UUID>> TARGET = SynchedEntityData.defineId(
             BiomassEntity.class, EntityDataSerializers.OPTIONAL_UUID);
 
-    private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
-    private final RawAnimation idleAnimation = RawAnimation.begin().thenLoop("animation.biomass.idle");
+    private final CitadelAnimationCache animationCache = CitadelAnimationUtil.createInstanceCache(this);
+    private final CitadelRawAnimation idleAnimation = CitadelRawAnimation.begin().thenLoop("animation.biomass.idle");
     private boolean hatchHandled;
 
     public BiomassEntity(EntityType<? extends BiomassEntity> type, Level level) {
@@ -390,13 +390,13 @@ public final class BiomassEntity extends Monster implements GeoEntity, Parasite 
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "idle_controller", 0,
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "idle_controller", 0,
                 state -> state.setAndContinue(idleAnimation)));
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
+    public CitadelAnimationCache getCitadelAnimationCache() {
         return animationCache;
     }
 

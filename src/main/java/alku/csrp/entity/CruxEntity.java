@@ -21,11 +21,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelAnimationState;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.EnumSet;
 
@@ -47,17 +47,17 @@ public final class CruxEntity extends CrudeParasiteEntity {
     private static final byte STATUS_APPROACHING = 1;
     private static final byte STATUS_SPRINTING = 2;
     private static final byte STATUS_THROWING = 3;
-    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks");
-    private final RawAnimation LIMB_SWING = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation LIMB_SWING = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing");
-    private final RawAnimation APPROACH_AGE = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation APPROACH_AGE = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1");
-    private final RawAnimation APPROACH_LIMB = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation APPROACH_LIMB = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_1");
-    private final RawAnimation APPROACH_STILL = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation APPROACH_STILL = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1");
-    private final RawAnimation SPRINT_LIMB = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation SPRINT_LIMB = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_2");
 
     private int attackCooldown;
@@ -148,10 +148,10 @@ public final class CruxEntity extends CrudeParasiteEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
-        AnimationController<CruxEntity> actions = new AnimationController<>(this, "action_controller", 0,
-                state -> PlayState.STOP);
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, this::movementAnimation));
+        CitadelAnimationController<CruxEntity> actions = new CitadelAnimationController<>(this, "action_controller", 0,
+                state -> CitadelPlayState.STOP);
         registerAction(actions, "get_attack_timer_m");
         registerAction(actions, "get_attack_timer_m.get_parasite_status_1");
         registerAction(actions, "get_attack_timer_m.get_parasite_status_1.get_still_ani_1");
@@ -161,7 +161,7 @@ public final class CruxEntity extends CrudeParasiteEntity {
         controllers.add(actions);
     }
 
-    private PlayState movementAnimation(AnimationState<CruxEntity> state) {
+    private CitadelPlayState movementAnimation(CitadelAnimationState<CruxEntity> state) {
         boolean moving = ParasiteAnimations.isMoving(this, state.isMoving());
         return switch (animationStatus()) {
             case STATUS_APPROACHING -> state.setAndContinue(isStillAnimation()
@@ -172,7 +172,7 @@ public final class CruxEntity extends CrudeParasiteEntity {
         };
     }
 
-    private void registerAction(AnimationController<CruxEntity> controller, String functionName) {
+    private void registerAction(CitadelAnimationController<CruxEntity> controller, String functionName) {
         controller.triggerableAnim(functionName, ParasiteAnimations.play(this, functionName));
     }
 

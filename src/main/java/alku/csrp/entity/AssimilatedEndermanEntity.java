@@ -44,12 +44,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import alku.csrp.animation.CitadelAnimatedEntity;
+import alku.csrp.animation.CitadelAnimationCache;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelRawAnimation;
+import alku.csrp.animation.CitadelAnimationUtil;
 
 import java.util.HashMap;
 import java.util.List;
@@ -57,7 +57,7 @@ import java.util.Map;
 
 /** Legacy assimilated Enderman teleports itself and idle parasite allies around its prey. */
 public final class AssimilatedEndermanEntity extends Monster
-        implements GeoEntity, Parasite, ManualVariantProvider {
+        implements CitadelAnimatedEntity, Parasite, ManualVariantProvider {
     private static final EntityDataAccessor<Boolean> SHRIMP_FED = SynchedEntityData.defineId(
             AssimilatedEndermanEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> TEXTURE_VARIANT = SynchedEntityData.defineId(
@@ -98,8 +98,8 @@ public final class AssimilatedEndermanEntity extends Monster
             "func_78087_a.age_in_ticks.get_parasite_status_2.is_crawling_1.is_screaming_1",
             "func_78087_a.limb_swing.get_parasite_status_2.is_crawling_1.is_screaming_1");
 
-    private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
-    private final Map<String, RawAnimation> originalAnimations = createOriginalAnimations();
+    private final CitadelAnimationCache animationCache = CitadelAnimationUtil.createInstanceCache(this);
+    private final Map<String, CitadelRawAnimation> originalAnimations = createOriginalAnimations();
     private int targetTicks;
     private int selfTeleportCooldown;
     private int allyTeleportCooldown;
@@ -391,16 +391,16 @@ public final class AssimilatedEndermanEntity extends Monster
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
         // Crawling rotates the original root model by roughly 90 degrees on X and 180 on Z.
         // The legacy model switched this pose immediately; blending from standing deforms the spawn pose.
-        controllers.add(new AnimationController<>(this, "movement_controller", 0, state ->
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 0, state ->
                 state.setAndContinue(originalAnimations.get(animationFunction(
                         ParasiteAnimations.isMoving(this, state.isMoving()))))));
     }
 
-    private Map<String, RawAnimation> createOriginalAnimations() {
-        Map<String, RawAnimation> animations = new HashMap<>();
+    private Map<String, CitadelRawAnimation> createOriginalAnimations() {
+        Map<String, CitadelRawAnimation> animations = new HashMap<>();
         for (String functionName : ORIGINAL_ANIMATION_FUNCTIONS) {
             animations.put(functionName, ParasiteAnimations.loop(this, functionName));
         }
@@ -438,7 +438,7 @@ public final class AssimilatedEndermanEntity extends Monster
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
+    public CitadelAnimationCache getCitadelAnimationCache() {
         return animationCache;
     }
 

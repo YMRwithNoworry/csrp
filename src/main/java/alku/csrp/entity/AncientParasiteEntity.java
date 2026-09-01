@@ -37,11 +37,11 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.util.Mth;
 import net.neoforged.neoforge.entity.PartEntity;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelAnimationState;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -65,11 +65,11 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
     private static final float ADAPTATION_PER_HIT = 0.10F;
     private static final float ADAPTATION_LEARN_CHANCE = 0.90F;
     private static final float FIRE_SUPPRESSION_CHANCE = 0.10F;
-    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
-    private final RawAnimation LIMB_SWING = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
-    private final RawAnimation DREAD_ATTACK = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final CitadelRawAnimation LIMB_SWING = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final CitadelRawAnimation DREAD_ATTACK = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1");
-    private final RawAnimation DREAD_DAMAGE_REACTION = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation DREAD_DAMAGE_REACTION = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_77");
 
     private final Kind kind;
@@ -312,16 +312,16 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
         if (activeKind() == Kind.DREADNAUT) {
-            controllers.add(new AnimationController<>(this, "state_controller", 0, this::dreadnautAnimation));
+            controllers.add(new CitadelAnimationController<>(this, "state_controller", 0, this::dreadnautAnimation));
             return;
         }
-        controllers.add(new AnimationController<>(this, "age_controller", 0,
+        controllers.add(new CitadelAnimationController<>(this, "age_controller", 0,
                 state -> state.setAndContinue(AGE_IN_TICKS)));
-        controllers.add(new AnimationController<>(this, "movement_controller", 4,
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4,
                 state -> ParasiteAnimations.isMoving(this, state.isMoving())
-                        ? state.setAndContinue(LIMB_SWING) : PlayState.STOP));
+                        ? state.setAndContinue(LIMB_SWING) : CitadelPlayState.STOP));
     }
 
     public Kind getKind() {
@@ -359,7 +359,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         };
     }
 
-    private PlayState dreadnautAnimation(AnimationState<AncientParasiteEntity> state) {
+    private CitadelPlayState dreadnautAnimation(CitadelAnimationState<AncientParasiteEntity> state) {
         if (entityData.get(DREAD_DAMAGE_REACTION_TICKS) > 0) {
             return state.setAndContinue(DREAD_DAMAGE_REACTION);
         }

@@ -30,9 +30,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.EnumSet;
 
@@ -58,21 +58,21 @@ public final class DredgeEntity extends CrudeParasiteEntity {
             DredgeEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> PARASITE_STATUS = SynchedEntityData.defineId(
             DredgeEntity.class, EntityDataSerializers.INT);
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
-    private final RawAnimation STILL_IDLE = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation IDLE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final CitadelRawAnimation WALK = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final CitadelRawAnimation STILL_IDLE = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_still_ani_1");
-    private final RawAnimation COMBAT_IDLE = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation COMBAT_IDLE = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1");
-    private final RawAnimation COMBAT_WALK = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation COMBAT_WALK = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_1");
-    private final RawAnimation COMBAT_STILL_IDLE = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation COMBAT_STILL_IDLE = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1");
-    private final RawAnimation SPRINT_IDLE = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation SPRINT_IDLE = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_2");
-    private final RawAnimation SPRINT_WALK = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation SPRINT_WALK = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_2");
-    private final RawAnimation SPRINT_STILL_IDLE = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation SPRINT_STILL_IDLE = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_2.get_still_ani_1");
 
     private LivingEntity targetedEntity;
@@ -350,8 +350,8 @@ public final class DredgeEntity extends CrudeParasiteEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, state -> {
             boolean moving = ParasiteAnimations.isMoving(this, state.isMoving());
             return switch (getParasiteStatus()) {
                 case STATUS_COMBAT -> state.setAndContinue(isStillAnimation()

@@ -30,18 +30,18 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.AbstractSkeleton;
 import net.minecraft.world.level.Level;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import alku.csrp.animation.CitadelAnimatedEntity;
+import alku.csrp.animation.CitadelAnimationCache;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
+import alku.csrp.animation.CitadelAnimationUtil;
 
 /**
  * Assimilated Human animation states mirror ModelInfHuman.
  */
-public final class SimHumanEntity extends Monster implements GeoEntity, Parasite, MeltableAssimilated {
+public final class SimHumanEntity extends Monster implements CitadelAnimatedEntity, Parasite, MeltableAssimilated {
 
     // 动画状态常量
     public static final int STATE_NORMAL = 0;
@@ -65,22 +65,22 @@ public final class SimHumanEntity extends Monster implements GeoEntity, Parasite
             SimHumanEntity.class, EntityDataSerializers.INT);
 
     private static final int STILL_ANIMATION_DELAY_TICKS = 25;
-    private final RawAnimation AGE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
-    private final RawAnimation LIMB = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
-    private final RawAnimation AGE_STILL = ParasiteAnimations.loop(
+    private final CitadelRawAnimation AGE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final CitadelRawAnimation LIMB = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
+    private final CitadelRawAnimation AGE_STILL = ParasiteAnimations.loop(
             this, "func_78087_a.age_in_ticks.get_still_ani_1");
-    private final RawAnimation AGE_STATUS_1 = ParasiteAnimations.loop(
+    private final CitadelRawAnimation AGE_STATUS_1 = ParasiteAnimations.loop(
             this, "func_78087_a.age_in_ticks.get_parasite_status_1");
-    private final RawAnimation LIMB_STATUS_1 = ParasiteAnimations.loop(
+    private final CitadelRawAnimation LIMB_STATUS_1 = ParasiteAnimations.loop(
             this, "func_78087_a.limb_swing.get_parasite_status_1");
-    private final RawAnimation AGE_STATUS_1_STILL = ParasiteAnimations.loop(
+    private final CitadelRawAnimation AGE_STATUS_1_STILL = ParasiteAnimations.loop(
             this, "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1");
-    private final RawAnimation AGE_STATUS_2 = ParasiteAnimations.loop(
+    private final CitadelRawAnimation AGE_STATUS_2 = ParasiteAnimations.loop(
             this, "func_78087_a.age_in_ticks.get_parasite_status_2");
-    private final RawAnimation LIMB_STATUS_2 = ParasiteAnimations.loop(
+    private final CitadelRawAnimation LIMB_STATUS_2 = ParasiteAnimations.loop(
             this, "func_78087_a.limb_swing.get_parasite_status_2");
 
-    private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
+    private final CitadelAnimationCache animationCache = CitadelAnimationUtil.createInstanceCache(this);
     private int stillAnimationTicks;
     private int parasiteKills;
     private int skeletonKills;
@@ -160,7 +160,7 @@ public final class SimHumanEntity extends Monster implements GeoEntity, Parasite
         }
 
         // 更新动画状态
-        updateAnimationState();
+        updateCitadelAnimationState();
 
         // 定期感染附近生物
         if (tickCount % COTH_AURA_INTERVAL_TICKS == 0) {
@@ -174,7 +174,7 @@ public final class SimHumanEntity extends Monster implements GeoEntity, Parasite
     /**
      * 根据实体当前状态更新动画状态
      */
-    private void updateAnimationState() {
+    private void updateCitadelAnimationState() {
         LivingEntity target = getTarget();
 
         if (target == null || !target.isAlive()) {
@@ -330,12 +330,12 @@ public final class SimHumanEntity extends Monster implements GeoEntity, Parasite
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "age_controller", 0,
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "age_controller", 0,
                 state -> state.setAndContinue(ageAnimation())));
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, state -> {
             if (isMelting() || !ParasiteAnimations.isMoving(this, state.isMoving())) {
-                return PlayState.STOP;
+                return CitadelPlayState.STOP;
             }
             return state.setAndContinue(switch (getAnimationState()) {
                 case STATE_ATTACK -> LIMB_STATUS_1;
@@ -345,7 +345,7 @@ public final class SimHumanEntity extends Monster implements GeoEntity, Parasite
         }));
     }
 
-    private RawAnimation ageAnimation() {
+    private CitadelRawAnimation ageAnimation() {
         boolean still = stillAnimationTicks > STILL_ANIMATION_DELAY_TICKS;
         if (isMelting()) {
             return AGE_STILL;
@@ -358,7 +358,7 @@ public final class SimHumanEntity extends Monster implements GeoEntity, Parasite
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
+    public CitadelAnimationCache getCitadelAnimationCache() {
         return animationCache;
     }
 

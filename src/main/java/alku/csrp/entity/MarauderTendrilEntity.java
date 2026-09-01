@@ -22,12 +22,12 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import alku.csrp.animation.CitadelAnimatedEntity;
+import alku.csrp.animation.CitadelAnimationCache;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelRawAnimation;
+import alku.csrp.animation.CitadelAnimationUtil;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
@@ -37,7 +37,7 @@ import java.util.UUID;
  * instances are invisible collision targets; detached/support modes render the
  * legacy Esor tendril and retain their own short-lived combat behavior.
  */
-public final class MarauderTendrilEntity extends Monster implements GeoEntity, Parasite {
+public final class MarauderTendrilEntity extends Monster implements CitadelAnimatedEntity, Parasite {
     private static final int TELEPORT_LIFETIME_TICKS = 90;
     private static final int TELEPORT_TRIGGER_REMAINING_TICKS = 30;
     private static final int SNARE_LIFETIME_TICKS = 180;
@@ -52,10 +52,10 @@ public final class MarauderTendrilEntity extends Monster implements GeoEntity, P
             MarauderTendrilEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Integer> REMAINING_TICKS = SynchedEntityData.defineId(
             MarauderTendrilEntity.class, EntityDataSerializers.INT);
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final CitadelRawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final CitadelRawAnimation WALK = ParasiteAnimations.loop(this, "walk");
 
-    private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
+    private final CitadelAnimationCache animationCache = CitadelAnimationUtil.createInstanceCache(this);
     @Nullable
     private UUID ownerUuid;
     @Nullable
@@ -328,13 +328,13 @@ public final class MarauderTendrilEntity extends Monster implements GeoEntity, P
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4,
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4,
                 state -> state.setAndContinue(ParasiteAnimations.isMoving(this, state.isMoving()) ? WALK : IDLE)));
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
+    public CitadelAnimationCache getCitadelAnimationCache() {
         return animationCache;
     }
 

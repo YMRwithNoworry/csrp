@@ -30,9 +30,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.EnumSet;
 
@@ -41,7 +41,7 @@ public final class VerminEntity extends PrimitiveParasiteEntity {
             VerminEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Integer> COMBAT_STATUS = SynchedEntityData.defineId(
             VerminEntity.class, EntityDataSerializers.INT);
-    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks");
 
     public VerminEntity(EntityType<? extends VerminEntity> type, Level level) {
@@ -187,8 +187,8 @@ public final class VerminEntity extends PrimitiveParasiteEntity {
                 && !player.isSpectator() && canAttack(player);
     }
 
-    @Override public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "age_controller", 0,
+    @Override public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "age_controller", 0,
                 state -> state.setAndContinue(AGE_IN_TICKS)));
     }
 

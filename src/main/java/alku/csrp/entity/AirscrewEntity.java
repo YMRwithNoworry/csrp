@@ -26,9 +26,9 @@ import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -44,7 +44,7 @@ public final class AirscrewEntity extends CrudeParasiteEntity implements Pulling
     private static final int PULL_DURATION_TICKS = 600;
     private static final int VOLLEY_COOLDOWN_TICKS = 300;
     private static final double PULL_STRENGTH = 0.1;
-    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final CitadelRawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
     private static final EntityDataAccessor<Integer> PULL_TARGET_0 = SynchedEntityData.defineId(
             AirscrewEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> PULL_TARGET_1 = SynchedEntityData.defineId(
@@ -336,8 +336,8 @@ public final class AirscrewEntity extends CrudeParasiteEntity implements Pulling
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4,
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4,
                 state -> state.setAndContinue(AGE_IN_TICKS)));
     }
 

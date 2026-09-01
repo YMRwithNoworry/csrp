@@ -25,11 +25,11 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelAnimationState;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.EnumSet;
 
@@ -53,22 +53,22 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
     private static final EntityDataAccessor<Integer> PARASITE_STATUS = SynchedEntityData.defineId(
             LongarmsEntity.class, EntityDataSerializers.INT);
 
-    private final RawAnimation LIMB_SWING = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation LIMB_SWING = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "get_attack_timer");
-    private final RawAnimation STILL_IDLE = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation ATTACK = ParasiteAnimations.play(this, "get_attack_timer");
+    private final CitadelRawAnimation STILL_IDLE = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_still_ani_1");
-    private final RawAnimation STILL_ATTACK = ParasiteAnimations.play(this,
+    private final CitadelRawAnimation STILL_ATTACK = ParasiteAnimations.play(this,
             "get_attack_timer.get_still_ani_1");
-    private final RawAnimation COMBAT_WALK = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation COMBAT_WALK = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_1");
-    private final RawAnimation COMBAT_STILL_IDLE = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation COMBAT_STILL_IDLE = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1.get_still_ani_1");
-    private final RawAnimation COMBAT_STILL_ATTACK = ParasiteAnimations.play(this,
+    private final CitadelRawAnimation COMBAT_STILL_ATTACK = ParasiteAnimations.play(this,
             "get_attack_timer.get_parasite_status_1.get_still_ani_1");
-    private final RawAnimation SPRINT_WALK = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation SPRINT_WALK = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_2");
-    private final RawAnimation SPRINT_ATTACK = ParasiteAnimations.play(this,
+    private final CitadelRawAnimation SPRINT_ATTACK = ParasiteAnimations.play(this,
             "get_attack_timer.get_parasite_status_2");
     private int shockwaveCooldown = SHOCKWAVE_COOLDOWN_TICKS;
     private int blockBreakCooldown;
@@ -303,11 +303,11 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, this::movementAnimation));
     }
 
-    private PlayState movementAnimation(AnimationState<LongarmsEntity> state) {
+    private CitadelPlayState movementAnimation(CitadelAnimationState<LongarmsEntity> state) {
         if (ParasiteAnimations.isAttacking(this)) {
             return state.setAndContinue(switch (getParasiteStatus()) {
                 case STATUS_COMBAT -> COMBAT_STILL_ATTACK;

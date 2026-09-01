@@ -2,56 +2,31 @@ package alku.csrp.client.model;
 
 import alku.csrp.Csrp;
 import alku.csrp.entity.TendrilEntity;
+import java.util.Map;
 import net.minecraft.resources.ResourceLocation;
 
-public final class TendrilModel extends ParasiteGeoModel<TendrilEntity> {
-    private static final String[] MODEL_IDS = {
-            "tendril_shyco",
-            "tendril_shyco",
-            "tendril_nogla",
-            "tendril_canra",
-            "tendril_bano",
-            "marauder_tendril",
-            "tendril_anged",
-            "tendril_dragonelw",
-            "tendril_dragonerw"
+public final class TendrilModel extends CitadelModelSet<TendrilEntity> {
+    private static final String[] KEYS = {
+            "shyco", "shyco", "nogla", "canra", "bano", "esor", "anged", "dragonelw", "dragonerw"
     };
-    private static final String[] TEXTURE_IDS = {
-            "tendrilshyco.png",
-            "tendrilshyco.png",
-            "tendrilnogla.png",
-            "tendrilcanra.png",
-            "tendrilbano.png",
-            "tendrilesor.png",
-            "tendrilanged.png",
-            "tendrildragonelw.png",
-            "tendrildragonerw.png"
+    private static final String[] TEXTURES = {
+            "tendrilshyco.png", "tendrilshyco.png", "tendrilnogla.png", "tendrilcanra.png",
+            "tendrilbano.png", "tendrilesor.png", "tendrilanged.png",
+            "tendrildragonelw.png", "tendrildragonerw.png"
     };
 
-    @Override
-    public ResourceLocation getModelResource(TendrilEntity animatable) {
-        return resource("geo/" + MODEL_IDS[animatable.getSkin()] + ".geo.json");
-    }
-
-    @Override
-    public ResourceLocation getTextureResource(TendrilEntity animatable) {
-        return resource("textures/entity/monster/" + TEXTURE_IDS[animatable.getSkin()]);
-    }
-
-    @Override
-    public ResourceLocation getAnimationResource(TendrilEntity animatable) {
-        String animation = switch (animatable.getSkin()) {
-            case TendrilEntity.SHYCO -> "tendril_shyco";
-            case TendrilEntity.NOGLA -> "tendril_nogla";
-            case TendrilEntity.BANO -> "tendril_bano";
-            case TendrilEntity.ESOR -> "marauder_tendril";
-            case TendrilEntity.ANGED -> "tendril_anged";
-            default -> "tendril_static";
-        };
-        return resource("animations/" + animation + ".animation.json");
-    }
-
-    private static ResourceLocation resource(String path) {
-        return ResourceLocation.fromNamespaceAndPath(Csrp.MODID, path);
+    public TendrilModel() {
+        super(Map.of(
+                "shyco", new ModelSpec("tendril_shyco"),
+                "nogla", new ModelSpec("tendril_nogla"),
+                "canra", new ModelSpec("tendril_canra", "tendril_static"),
+                "bano", new ModelSpec("tendril_bano"),
+                "esor", new ModelSpec("marauder_tendril"),
+                "anged", new ModelSpec("tendril_anged"),
+                "dragonelw", new ModelSpec("tendril_dragonelw", "tendril_static"),
+                "dragonerw", new ModelSpec("tendril_dragonerw", "tendril_static")),
+                entity -> KEYS[entity.getSkin()],
+                entity -> ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+                        "textures/entity/monster/" + TEXTURES[entity.getSkin()]));
     }
 }

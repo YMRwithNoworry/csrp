@@ -56,20 +56,20 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.util.GeckoLibUtil;
+import alku.csrp.animation.CitadelAnimatedEntity;
+import alku.csrp.animation.CitadelAnimationCache;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelAnimationState;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
+import alku.csrp.animation.CitadelAnimationUtil;
 
 import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.UUID;
 
-public class RupterEntity extends Monster implements GeoEntity, Parasite, ManualVariantProvider {
+public class RupterEntity extends Monster implements CitadelAnimatedEntity, Parasite, ManualVariantProvider {
     public static final int TUNNEL_KILL_COST = 5;
     private static final int LEGACY_TICK_INTERVAL = 21;
     private static final int MUDO_ATTACK_INTERVAL = 10;
@@ -103,20 +103,20 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite, Manual
             SynchedEntityData.defineId(RupterEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> COMBAT_STATUS =
             SynchedEntityData.defineId(RupterEntity.class, EntityDataSerializers.BOOLEAN);
-    private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks");
-    private final RawAnimation LIMB_SWING = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation LIMB_SWING = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing");
-    private final RawAnimation COMBAT_AGE = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation COMBAT_AGE = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1");
-    private final RawAnimation COMBAT_LIMB = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation COMBAT_LIMB = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_1");
-    private final RawAnimation SPRINT_LIMB = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation SPRINT_LIMB = ParasiteAnimations.loop(this,
             "func_78087_a.limb_swing.get_parasite_status_2");
-    private final RawAnimation LEAP = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation LEAP = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_10");
 
-    private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
+    private final CitadelAnimationCache animationCache = CitadelAnimationUtil.createInstanceCache(this);
     private int killCount;
     private int cloudCooldown;
     private int failedBatLeaps;
@@ -726,11 +726,11 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite, Manual
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, this::movementAnimation));
     }
 
-    private <T extends RupterEntity> PlayState movementAnimation(AnimationState<T> state) {
+    private <T extends RupterEntity> CitadelPlayState movementAnimation(CitadelAnimationState<T> state) {
         if (entityData.get(LEAP_ATTACK_TICKS) > 0) {
             return state.setAndContinue(LEAP);
         }
@@ -745,7 +745,7 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite, Manual
     }
 
     @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
+    public CitadelAnimationCache getCitadelAnimationCache() {
         return animationCache;
     }
 

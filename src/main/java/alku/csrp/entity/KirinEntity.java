@@ -43,9 +43,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.EnumSet;
 import java.util.ArrayList;
@@ -109,13 +109,13 @@ public final class KirinEntity extends DerivedParasiteEntity {
     private static final EntityDataAccessor<Integer> JUDGEMENT_CUT_AURA_END = SynchedEntityData.defineId(
             KirinEntity.class, EntityDataSerializers.INT);
 
-    private final RawAnimation idleAnimation = RawAnimation.begin()
+    private final CitadelRawAnimation idleAnimation = CitadelRawAnimation.begin()
             .thenLoop("animation.kirin.func_78087_a.age_in_ticks");
-    private final RawAnimation cloneAnimation = RawAnimation.begin()
+    private final CitadelRawAnimation cloneAnimation = CitadelRawAnimation.begin()
             .thenLoop("animation.kirin.func_78087_a.age_in_ticks.get_clone_c_1");
-    private final RawAnimation cloneShakingAnimation = RawAnimation.begin()
+    private final CitadelRawAnimation cloneShakingAnimation = CitadelRawAnimation.begin()
             .thenLoop("animation.kirin.func_78087_a.age_in_ticks.get_clone_c_1.shaking_c_1");
-    private final RawAnimation shakingAnimation = RawAnimation.begin()
+    private final CitadelRawAnimation shakingAnimation = CitadelRawAnimation.begin()
             .thenLoop("animation.kirin.func_78087_a.age_in_ticks.shaking_c_1");
 
     private int blinkCooldown;
@@ -937,8 +937,8 @@ public final class KirinEntity extends DerivedParasiteEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, state -> {
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, state -> {
             if (isShadowClone()) {
                 return state.setAndContinue(isShadowHitFlashing() ? cloneShakingAnimation : cloneAnimation);
             }

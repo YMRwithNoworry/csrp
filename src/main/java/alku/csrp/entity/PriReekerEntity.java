@@ -30,11 +30,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelAnimationState;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.EnumSet;
 
@@ -58,12 +58,12 @@ public class PriReekerEntity extends PrimitiveParasiteEntity {
             SynchedEntityData.defineId(PriReekerEntity.class, EntityDataSerializers.INT);
 
     // 动画定义
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
-    private final RawAnimation WALK = ParasiteAnimations.loop(this, "walk");
-    private final RawAnimation ATTACK_PREP = ParasiteAnimations.loop(this, "idle.get_parasite_status_1");
-    private final RawAnimation CHARGE_RECOVERY = ParasiteAnimations.loop(this, "idle.get_parasite_status_2");
-    private final RawAnimation CHARGING = ParasiteAnimations.loop(this, "idle.get_parasite_status_3");
-    private final RawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
+    private final CitadelRawAnimation IDLE = ParasiteAnimations.loop(this, "idle");
+    private final CitadelRawAnimation WALK = ParasiteAnimations.loop(this, "walk");
+    private final CitadelRawAnimation ATTACK_PREP = ParasiteAnimations.loop(this, "idle.get_parasite_status_1");
+    private final CitadelRawAnimation CHARGE_RECOVERY = ParasiteAnimations.loop(this, "idle.get_parasite_status_2");
+    private final CitadelRawAnimation CHARGING = ParasiteAnimations.loop(this, "idle.get_parasite_status_3");
+    private final CitadelRawAnimation ATTACK = ParasiteAnimations.play(this, "attack");
 
     private boolean skillCharge = true;
     private Vec3 chargeTarget;
@@ -291,13 +291,13 @@ public class PriReekerEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
-        controllers.add(new AnimationController<>(this, "attack_controller", 0, state -> PlayState.STOP)
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, this::movementAnimation));
+        controllers.add(new CitadelAnimationController<>(this, "attack_controller", 0, state -> CitadelPlayState.STOP)
                 .triggerableAnim("attack", ATTACK));
     }
 
-    private <T extends PriReekerEntity> PlayState movementAnimation(AnimationState<T> state) {
+    private <T extends PriReekerEntity> CitadelPlayState movementAnimation(CitadelAnimationState<T> state) {
         int status = getParasiteStatus();
 
         // 冲锋恢复动画

@@ -35,11 +35,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
+import alku.csrp.animation.CitadelAnimationManager;
+import alku.csrp.animation.CitadelAnimationController;
+import alku.csrp.animation.CitadelAnimationState;
+import alku.csrp.animation.CitadelPlayState;
+import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.EnumSet;
 import java.util.ArrayList;
@@ -73,25 +73,25 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     private static final float ADAPTATION_PER_HIT = 0.16F;
     private static final float ADAPTATION_LEARN_CHANCE = 0.85F;
     private static final float FIRE_SUPPRESSION_CHANCE = 0.50F;
-    private final RawAnimation IDLE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
-    private final RawAnimation FLOOR_TIMER = ParasiteAnimations.loop(this, "get_floor_timer");
-    private final RawAnimation ATTACK_TIMER = ParasiteAnimations.loop(this, "get_attack_timer");
-    private final RawAnimation ATTACK_TIMER_STATUS_3 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation IDLE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
+    private final CitadelRawAnimation FLOOR_TIMER = ParasiteAnimations.loop(this, "get_floor_timer");
+    private final CitadelRawAnimation ATTACK_TIMER = ParasiteAnimations.loop(this, "get_attack_timer");
+    private final CitadelRawAnimation ATTACK_TIMER_STATUS_3 = ParasiteAnimations.loop(this,
             "get_attack_timer.get_parasite_status_3");
-    private final RawAnimation FLOOR_TIMER_STATUS_3 = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation FLOOR_TIMER_STATUS_3 = ParasiteAnimations.loop(this,
             "get_floor_timer.get_parasite_status_3");
-    private final RawAnimation SEIZER_HOLD = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation SEIZER_HOLD = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_targeted_entity_1");
-    private final RawAnimation SEIZER_FLOOR_HOLD = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation SEIZER_FLOOR_HOLD = ParasiteAnimations.loop(this,
             "get_floor_timer.get_targeted_entity_1");
-    private final RawAnimation SENTRY_ATTACK = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation SENTRY_ATTACK = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1");
-    private final RawAnimation SENTRY_FAST_ATTACK = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation SENTRY_FAST_ATTACK = ParasiteAnimations.loop(this,
             "get_floor_timer.get_parasite_status_1");
-    private final RawAnimation SENTRY_SPECIAL = FLOOR_TIMER_STATUS_3;
-    private final RawAnimation KYPHOSIS_BURIED_ANIM = ParasiteAnimations.loop(this,
+    private final CitadelRawAnimation SENTRY_SPECIAL = FLOOR_TIMER_STATUS_3;
+    private final CitadelRawAnimation KYPHOSIS_BURIED_ANIM = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_3");
-    private final RawAnimation KYPHOSIS_SKILL_ANIM = KYPHOSIS_BURIED_ANIM;
+    private final CitadelRawAnimation KYPHOSIS_SKILL_ANIM = KYPHOSIS_BURIED_ANIM;
 
     private final Kind kind;
     private int abilityCooldown;
@@ -333,8 +333,8 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "movement_controller", 4, this::movementAnimation));
+    public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
+        controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, this::movementAnimation));
     }
 
     public void setDispatchTarget(LivingEntity target) {
@@ -414,7 +414,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         return Kind.DISPATCHER_TENTACLE;
     }
 
-    private PlayState movementAnimation(AnimationState<DeterrentParasiteEntity> state) {
+    private CitadelPlayState movementAnimation(CitadelAnimationState<DeterrentParasiteEntity> state) {
         if (activeKind() == Kind.KYPHOSIS) {
             int parasiteStatus = getKyphosisParasiteStatus();
             float buried = getKyphosisBuried();
