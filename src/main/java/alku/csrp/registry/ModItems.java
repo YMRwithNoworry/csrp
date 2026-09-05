@@ -24,6 +24,8 @@ import alku.csrp.item.LivingBowItem;
 import alku.csrp.item.LivingWeaponItem;
 import alku.csrp.item.LivingMaulItem;
 import alku.csrp.item.LevelClockItem;
+import alku.csrp.item.LureComponentItem;
+import alku.csrp.item.LegacyMobSpawnerItem;
 import alku.csrp.item.ModuleComponentItem;
 import alku.csrp.item.QuenchItem;
 import alku.csrp.item.RelayModuleItem;
@@ -58,6 +60,7 @@ import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.item.SpawnEggItem;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import java.util.List;
 
 public final class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Csrp.MODID);
@@ -664,16 +667,16 @@ public final class ModItems {
     public static final DeferredItem<ArmorItem> MOBILITY_BOOTS = ITEMS.registerItem("mobility_armor_boots",
             properties -> new ArmorItem(ModArmorMaterials.MOBILITY, ArmorItem.Type.BOOTS, properties),
             new Item.Properties());
-    public static final DeferredItem<Item> LURECOMPONENT1 = simple("lurecomponent1");
-    public static final DeferredItem<Item> LURECOMPONENT2 = simple("lurecomponent2");
-    public static final DeferredItem<Item> LURECOMPONENT3 = simple("lurecomponent3");
-    public static final DeferredItem<Item> LURECOMPONENT4 = simple("lurecomponent4");
-    public static final DeferredItem<Item> LURECOMPONENT5 = simple("lurecomponent5");
-    public static final DeferredItem<Item> LURECOMPONENT6 = simple("lurecomponent6");
-    public static final DeferredItem<Item> LURECOMPONENT7 = simple("lurecomponent7");
-    public static final DeferredItem<Item> LURECOMPONENT8 = simple("lurecomponent8");
-    public static final DeferredItem<Item> LURECOMPONENT9 = simple("lurecomponent9");
-    public static final DeferredItem<Item> LURECOMPONENT10 = simple("lurecomponent10");
+    public static final DeferredItem<LureComponentItem> LURECOMPONENT1 = lureComponent(1);
+    public static final DeferredItem<LureComponentItem> LURECOMPONENT2 = lureComponent(2);
+    public static final DeferredItem<LureComponentItem> LURECOMPONENT3 = lureComponent(3);
+    public static final DeferredItem<LureComponentItem> LURECOMPONENT4 = lureComponent(4);
+    public static final DeferredItem<LureComponentItem> LURECOMPONENT5 = lureComponent(5);
+    public static final DeferredItem<LureComponentItem> LURECOMPONENT6 = lureComponent(6);
+    public static final DeferredItem<LureComponentItem> LURECOMPONENT7 = lureComponent(7);
+    public static final DeferredItem<LureComponentItem> LURECOMPONENT8 = lureComponent(8);
+    public static final DeferredItem<LureComponentItem> LURECOMPONENT9 = lureComponent(9);
+    public static final DeferredItem<LureComponentItem> LURECOMPONENT10 = lureComponent(10);
     public static final DeferredItem<Item> DRIED_TENDONS = simple("dried_tendons");
     public static final DeferredItem<Item> HARDENED_BONE_HANDLE = simple("hardened_bone_handle");
     public static final DeferredItem<Item> INFECTIOUS_BLADE_FRAGMENT = simple("infectious_blade_fragment");
@@ -888,6 +891,59 @@ public final class ModItems {
     public static final DeferredItem<LivingArmorItem> ARMOR_BOOTS = livingArmor(
             "armor_boots", ArmorItem.Type.BOOTS, false, ARMOR_BOOTS_SENTIENT);
 
+    // 1.10.8 names (without the later weapon_/armor_ prefix).  These are
+    // real aliases rather than plain placeholders so old recipes and commands
+    // retain living-weapon progression and sentient armour behaviour.
+    public static final DeferredItem<LivingWeaponItem> SCYTHE_SENTIENT = livingWeapon(
+            "scythe_sentient", LivingWeaponItem.WeaponKind.SCYTHE, 34.0F, -3.3F, 5.0F, true, null);
+    public static final DeferredItem<LivingWeaponItem> SCYTHE = livingWeapon(
+            "scythe", LivingWeaponItem.WeaponKind.SCYTHE, 17.0F, -3.1F, 4.0F, false, SCYTHE_SENTIENT);
+    public static final DeferredItem<LivingWeaponItem> AXE_SENTIENT = livingWeapon(
+            "axe_sentient", LivingWeaponItem.WeaponKind.AXE, 42.0F, -3.3F, 5.0F, true, null);
+    public static final DeferredItem<LivingWeaponItem> AXE = livingWeapon(
+            "axe", LivingWeaponItem.WeaponKind.AXE, 21.0F, -3.1F, 4.0F, false, AXE_SENTIENT);
+    public static final DeferredItem<LivingWeaponItem> SWORD_SENTIENT = livingWeapon(
+            "sword_sentient", LivingWeaponItem.WeaponKind.SWORD, 38.0F, -3.3F, 6.0F, true, null);
+    public static final DeferredItem<LivingWeaponItem> SWORD = livingWeapon(
+            "sword", LivingWeaponItem.WeaponKind.SWORD, 19.0F, -3.1F, 4.5F, false, SWORD_SENTIENT);
+    public static final DeferredItem<LivingWeaponItem> CLEAVER_SENTIENT = livingWeapon(
+            "cleaver_sentient", LivingWeaponItem.WeaponKind.CLEAVER, 38.0F, -3.3F, 6.0F, true, null);
+    public static final DeferredItem<LivingWeaponItem> CLEAVER = livingWeapon(
+            "cleaver", LivingWeaponItem.WeaponKind.CLEAVER, 19.0F, -3.1F, 4.5F, false, CLEAVER_SENTIENT);
+    public static final DeferredItem<LivingWeaponItem> MAUL_SENTIENT = livingWeapon(
+            "maul_sentient", LivingWeaponItem.WeaponKind.MAUL, 42.0F, -3.3F, 5.0F, true, null);
+    public static final DeferredItem<LivingWeaponItem> MAUL = livingWeapon(
+            "maul", LivingWeaponItem.WeaponKind.MAUL, 21.0F, -3.1F, 4.0F, false, MAUL_SENTIENT);
+    public static final DeferredItem<LivingWeaponItem> LANCE_SENTIENT = livingWeapon(
+            "lance_sentient", LivingWeaponItem.WeaponKind.LANCE, 34.0F, -3.3F, 7.0F, true, null);
+    public static final DeferredItem<LivingWeaponItem> LANCE = livingWeapon(
+            "lance", LivingWeaponItem.WeaponKind.LANCE, 17.0F, -3.1F, 5.0F, false, LANCE_SENTIENT);
+    public static final DeferredItem<LivingBowItem> BOW_SENTIENT = ITEMS.registerItem(
+            "bow_sentient", properties -> new LivingBowItem(true, null, properties), new Item.Properties());
+    public static final DeferredItem<LivingBowItem> BOW = ITEMS.registerItem(
+            "bow", properties -> new LivingBowItem(false, BOW_SENTIENT, properties), new Item.Properties());
+
+    public static final DeferredItem<LivingArmorItem> HELM_SENTIENT = livingArmor(
+            "helm_sentient", ArmorItem.Type.HELMET, true, null);
+    public static final DeferredItem<LivingArmorItem> CHEST_SENTIENT = livingArmor(
+            "chest_sentient", ArmorItem.Type.CHESTPLATE, true, null);
+    public static final DeferredItem<LivingArmorItem> PANTS_SENTIENT = livingArmor(
+            "pants_sentient", ArmorItem.Type.LEGGINGS, true, null);
+    public static final DeferredItem<LivingArmorItem> BOOTS_SENTIENT = livingArmor(
+            "boots_sentient", ArmorItem.Type.BOOTS, true, null);
+    public static final DeferredItem<LivingArmorItem> HELM = livingArmor(
+            "helm", ArmorItem.Type.HELMET, false, HELM_SENTIENT);
+    public static final DeferredItem<LivingArmorItem> CHEST = livingArmor(
+            "chest", ArmorItem.Type.CHESTPLATE, false, CHEST_SENTIENT);
+    public static final DeferredItem<LivingArmorItem> PANTS = livingArmor(
+            "pants", ArmorItem.Type.LEGGINGS, false, PANTS_SENTIENT);
+    public static final DeferredItem<LivingArmorItem> BOOTS = livingArmor(
+            "boots", ArmorItem.Type.BOOTS, false, BOOTS_SENTIENT);
+
+    /** All 1.10.8 ItemMobSpawner ids, retained for old recipes and worlds. */
+    public static final List<DeferredItem<LegacyMobSpawnerItem>> LEGACY_MOB_SPAWNERS =
+            registerLegacyMobSpawners();
+
     public static final DeferredItem<HijackedArmorItem> HIJACKED_IRON_HELMET = hijackedArmor(
             "hijacked_iron_helmet", ArmorItem.Type.HELMET);
     public static final DeferredItem<HijackedArmorItem> HIJACKED_IRON_CHESTPIECE = hijackedArmor(
@@ -927,6 +983,37 @@ public final class ModItems {
     }
     private static DeferredItem<Item> simple(String id, Item.Properties properties) {
         return ITEMS.registerSimpleItem(id, properties);
+    }
+
+    private static DeferredItem<LureComponentItem> lureComponent(int version) {
+        return ITEMS.registerItem("lurecomponent" + version,
+                properties -> new LureComponentItem(version, properties),
+                new Item.Properties().stacksTo(16));
+    }
+
+    private static List<DeferredItem<LegacyMobSpawnerItem>> registerLegacyMobSpawners() {
+        List<String> names = List.of(
+                "dorpa", "infsquid", "infbear", "infhuman", "infhumanhead", "infenderman",
+                "infendermanhead", "infcow", "infcowhead", "infsheep", "infsheephead", "infwolf",
+                "infwolfhead", "infpig", "infpighead", "infvillager", "infvillagerhead", "inhoos",
+                "inhoom", "infhorse", "infhorsehead", "infplayer", "infplayerhead", "infdragone",
+                "infdragonehead", "quac", "leer", "ferbear", "ferhuman", "fercow", "ferenderman",
+                "ferhorse", "ferpig", "fersheep", "fervillager", "ferwolf", "marcow", "marenderman",
+                "marvillager", "marhuman", "marsheep", "marbear", "higolem", "hiblaze", "hiskeleton",
+                "host", "hostii", "heed", "cruxa", "mes", "lesh", "done", "cruxb", "abobodies",
+                "abohead", "shyco", "canra", "nogla", "hull", "emana", "bano", "wymo", "iki", "ranrac",
+                "lum", "gim", "zaa", "shycoadapted", "canraadapted", "noglaadapted", "hulladapted",
+                "emanaadapted", "banoadapted", "wymoadapted", "ikiadapted", "ranracadapted", "lumadapted",
+                "gimadapted", "zaaadapted", "lodo", "mudo", "nuuh", "ata", "rathol", "gothol", "buthol",
+                "venkrol", "venkrolsii", "venkrolsiii", "venkrolsiv", "venkrolsv", "tonro", "unvo", "nak",
+                "dod", "dodsii", "dodsiii", "dodsiv", "leem", "leemsii", "leemsiii", "leemsiv", "alafha",
+                "ganro", "omboo", "esor", "orch", "flog", "anged", "jinjo", "vesta", "pheon", "lencia",
+                "elvia", "heblu", "kirin", "oronco", "terla", "pod");
+        return names.stream()
+                .map(name -> ITEMS.registerItem("itemmobspawner_" + name,
+                        properties -> new LegacyMobSpawnerItem(name, properties),
+                        new Item.Properties().stacksTo(64)))
+                .toList();
     }
 
     private static DeferredItem<EvolutionLureItem> evolutionLure(String id, EvolutionLureBlock.Tier tier) {

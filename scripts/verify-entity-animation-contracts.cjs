@@ -698,7 +698,7 @@ function inheritedControllerSource(className) {
 function registeredTriggers(source) {
   const triggers = new Set();
   for (const block of source.matchAll(/controllers\.add\(([\s\S]*?)\)\);/g)) {
-    const controller = block[1].match(/new AnimationController<>\(this,\s*"([^"]+)"/)?.[1];
+    const controller = block[1].match(/new (?:CitadelAnimationController|AnimationController)<>\(this,\s*"([^"]+)"/)?.[1];
     if (!controller) continue;
     for (const trigger of block[1].matchAll(/\.triggerableAnim\("([^"]+)"/g)) {
       triggers.add(`${controller}\0${trigger[1]}`);
@@ -941,7 +941,8 @@ if (!assimilatedEnderman.includes('"movement_controller", 0')) {
 const primitiveParasiteModel = read("src/main/java/alku/csrp/client/model/PrimitiveParasiteModel.java");
 if (!primitiveParasiteModel.includes("shouldDampenMovingRotation")
     || !primitiveParasiteModel.includes("animatable instanceof AssimilatedEndermanEntity")
-    || !primitiveParasiteModel.includes('bone.getName().equals("mainbody")')) {
+    || !(primitiveParasiteModel.includes('bone.getName().equals("mainbody")')
+      || primitiveParasiteModel.includes('"mainbody".equals(bone.boxName)'))) {
   failures.push("PrimitiveParasiteModel: assimilated Enderman crawling root must keep its full rotation while moving");
 }
 if (!assimilatedEnderman.includes("Config.variantSpawnChance()")

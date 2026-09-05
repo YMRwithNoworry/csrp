@@ -114,19 +114,37 @@ public final class ParasiteLootBlockEntity extends BaseContainerBlockEntity {
         return BuiltInRegistries.ITEM.getKey(stack.getItem()).getNamespace().equals(Csrp.MODID);
     }
 
+    /**
+     * Fills this tumor using the original SRP world-generation rule.
+     *
+     * <p>The 1.10.8 generator rolls every one of the 27 slots independently:
+     * {@code nextInt(2) != 0} means an item is inserted, and the item is chosen
+     * uniformly from the tier's configured list.  In particular, the roll is
+     * not different for common, uncommon, and rare tumors.  Generation is
+     * guarded by {@code lootGenerated}, so opening or loading a generated
+     * tumor never refreshes or rerolls already collected loot.</p>
+     */
     private void generateLootIfNeeded() {
         if (lootGenerated || level == null || level.isClientSide) {
             return;
         }
-        lootGenerated = true;
         if (!(getBlockState().getBlock() instanceof ParasiteLootBlock block)) {
-            setChanged();
             return;
         }
-        List<Item> pool = lootPool(block.tier());
-        RandomSource random = level.getRandom();
+        generateLoot(block.tier(), level.getRandom());
+    }
+
+    /** Populate a newly generated tumor with an explicit world-generation RNG. */
+    public void generateLoot(ParasiteLootBlock.Tier tier, RandomSource random) {
+        if (lootGenerated) {
+            return;
+        }
+        lootGenerated = true;
+        List<Item> pool = lootPool(tier);
+        // This is intentionally a 1/2 roll for every slot, matching placeLoot()
+        // in WorldGenParasiteColonyBase from SRParasites 1.10.8.
         for (int slot = 0; slot < items.size(); slot++) {
-            if (items.get(slot).isEmpty() && random.nextFloat() < block.tier().slotChance()) {
+            if (items.get(slot).isEmpty() && random.nextBoolean()) {
                 items.set(slot, new ItemStack(pool.get(random.nextInt(pool.size()))));
             }
         }

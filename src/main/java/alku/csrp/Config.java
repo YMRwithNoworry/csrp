@@ -501,6 +501,40 @@ public final class Config {
             dislodgmentTriggers("disloBurningDeathTriggers",
                     List.of(0, 1, 2, 3, 4, 5, 10, 11, 12, 13, 14, 15, 16, 17, 18));
 
+    // Original SRPConfigWorld meteor-infection event settings.
+    private static final ModConfigSpec.BooleanValue METEOR_ENABLED = BUILDER
+            .comment("Allow the periodic SRParasites meteor infection world event.")
+            .define("meteorEnabled", false);
+    private static final ModConfigSpec.IntValue METEOR_CHECK_TICKS = BUILDER
+            .comment("Ticks between meteor spawn checks (original default: 3600).")
+            .defineInRange("meteorCheckTicks", 3600, 1, Integer.MAX_VALUE);
+    private static final ModConfigSpec.DoubleValue METEOR_CHANCE = BUILDER
+            .comment("Chance that a meteor check launches a meteor.")
+            .defineInRange("meteorChance", 0.5D, 0.0D, 1.0D);
+    private static final ModConfigSpec.IntValue METEOR_START_TICKS = BUILDER
+            .comment("World age in ticks before periodic meteor infection may begin.")
+            .defineInRange("meteorStartTicks", 0, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue METEOR_DAMAGE_RADIUS = BUILDER
+            .comment("Radius of the root meteor's distance-scaled impact damage.")
+            .defineInRange("meteorDamageRadius", 110, 1, 2048);
+    private static final ModConfigSpec.IntValue METEOR_MAX_RADIUS = BUILDER
+            .comment("Maximum horizontal launch/target offset from the selected player.")
+            .defineInRange("meteorRadius", 120, 2, 2048);
+    private static final ModConfigSpec.IntValue METEOR_MIN_RADIUS = BUILDER
+            .comment("Minimum horizontal launch/target offset from the selected player.")
+            .defineInRange("meteorMinimumRadius", 80, 1, 2047);
+    private static final ModConfigSpec.BooleanValue METEOR_VECTORLESS = BUILDER
+            .comment("Only spawn periodic meteors while the dimension has no infestation vector.")
+            .define("meteorVectorless", true);
+    private static final ModConfigSpec.BooleanValue METEOR_CREATES_VECTOR = BUILDER
+            .comment("Create an Emerging Infestation Vector at a root meteor impact.")
+            .define("meteorCreatesVector", true);
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> METEOR_DIMENSION_BLACKLIST = BUILDER
+            .comment("Dimension ids where periodic meteor infection is disabled.")
+            .defineList("meteorDimensionBlacklist", List.of("minecraft:the_nether"),
+                    value -> value instanceof String entry && ResourceLocation.tryParse(entry) != null);
+
+
     static final ModConfigSpec SPEC = BUILDER.build();
 
     private Config() {
@@ -757,4 +791,16 @@ public final class Config {
             default -> 0;
         };
     }
+
+    public static boolean meteorEnabled() { return METEOR_ENABLED.get(); }
+    public static int meteorCheckTicks() { return METEOR_CHECK_TICKS.get(); }
+    public static double meteorChance() { return METEOR_CHANCE.get(); }
+    public static int meteorStartTicks() { return METEOR_START_TICKS.get(); }
+    public static int meteorDamageRadius() { return METEOR_DAMAGE_RADIUS.get(); }
+    public static int meteorRadius() { return METEOR_MAX_RADIUS.get(); }
+    public static int meteorMinimumRadius() { return METEOR_MIN_RADIUS.get(); }
+    public static boolean meteorVectorless() { return METEOR_VECTORLESS.get(); }
+    public static boolean meteorCreatesVector() { return METEOR_CREATES_VECTOR.get(); }
+    public static List<? extends String> meteorDimensionBlacklist() { return METEOR_DIMENSION_BLACKLIST.get(); }
+
 }

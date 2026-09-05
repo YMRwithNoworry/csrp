@@ -84,10 +84,14 @@ public class CitadelParasiteModel<T extends Mob & CitadelAnimatedEntity> extends
             }
             if (animations.contains(selected.name())) {
                 animations.apply(this, selected.name(), Math.max(0.0F, animationTime),
-                        moving ? MOVING_ROTATION_SCALE : 1.0F);
+                        moving ? MOVING_ROTATION_SCALE : 1.0F, entity);
             }
         }
         customize(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+    }
+
+    protected boolean shouldDampenMovingRotation(Object animatable, AdvancedModelBox bone) {
+        return true;
     }
 
     protected void customize(T entity, float limbSwing, float limbSwingAmount,
