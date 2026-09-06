@@ -70,6 +70,18 @@ public abstract class ModelSRP<T extends Entity> extends AdvancedEntityModel<T> 
     }
 
     @Override
+    public void resetToDefaultPose() {
+        super.resetToDefaultPose();
+        // Citadel restores rotation/position but not legacy Tabula moveY offsets.
+        // Clear them every frame so a prior animation cannot leave the model sunk.
+        for (AdvancedModelBox part : getAllParts()) {
+            part.offsetX = part.defaultOffsetX;
+            part.offsetY = part.defaultOffsetY;
+            part.offsetZ = part.defaultOffsetZ;
+        }
+    }
+
+    @Override
     public final void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks,
                                 float netHeadYaw, float headPitch) {
         resetToDefaultPose();
