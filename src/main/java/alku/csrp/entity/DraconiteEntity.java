@@ -396,7 +396,8 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
         setNoGravity(flying);
     }
 
-    private int getParasiteStatus() {
+    @Override
+    public int getParasiteStatus() {
         return entityData.get(PARASITE_STATUS);
     }
 

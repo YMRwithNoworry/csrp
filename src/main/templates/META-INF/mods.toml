@@ -34,3 +34,10 @@ mandatory = true
 versionRange = "[${geckolib_version},)"
 ordering = "AFTER"
 side = "BOTH"
+
+[[dependencies."${mod_id}"]]
+modId = "citadel"
+mandatory = true
+versionRange = "[${citadel_version},)"
+ordering = "AFTER"
+side = "BOTH"

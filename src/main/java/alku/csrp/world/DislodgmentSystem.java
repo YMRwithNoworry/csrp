@@ -66,6 +66,9 @@ public final class DislodgmentSystem {
     private static final int DEATH_RADIUS = 7;
     private static final int[] PHASE_COST_MULTIPLIER = {0, 1, 3, 6, 8, 10, 13, 17, 20, 25, 30};
     private static final String SPAWN_CODES_APPLIED = "csrp_dislodgment_spawn_codes_applied";
+    /** Prevents a death-area damage code from recursively triggering another death-area cascade. */
+    private static final ThreadLocal<Boolean> APPLYING_DEATH_AREA =
+            ThreadLocal.withInitial(() -> false);
     private static final EquipmentSlot[] ARMOR_SLOTS = {
             EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET
     };
@@ -610,31 +613,45 @@ public final class DislodgmentSystem {
     }
 
     private static void applyDeathAreaCodes(ServerLevel level, LivingEntity dead, SrpWorldData data) {
-        int healing = Config.disloHealingDeath() ? activeValue(data, 7) : 0;
-        if (healing > 0) {
-            for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class,
-                    dead.getBoundingBox().inflate(DEATH_RADIUS), entity -> entity instanceof Parasite)) {
-                entity.heal(healing);
-            }
-            deathBurst(level, dead);
+        // Damage is delivered synchronously. Without this guard, a lethal death-area hit
+        // enters LivingDeathEvent again and can recursively cascade through a dense mob pack
+        // (especially when another infection mod supplies many nearby entities).
+        if (APPLYING_DEATH_AREA.get()) {
+            return;
         }
-
-        int damage = Config.disloDamageDeath() ? activeValue(data, 8) : 0;
-        if (damage > 0) {
-            for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class,
-                    dead.getBoundingBox().inflate(DEATH_RADIUS), entity -> !(entity instanceof Parasite))) {
-                entity.hurt(level.damageSources().mobAttack(dead), damage);
+        APPLYING_DEATH_AREA.set(true);
+        try {
+            int healing = Config.disloHealingDeath() ? activeValue(data, 7) : 0;
+            if (healing > 0) {
+                for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class,
+                        dead.getBoundingBox().inflate(DEATH_RADIUS),
+                        entity -> entity != dead && entity.isAlive() && entity instanceof Parasite)) {
+                    entity.heal(healing);
+                }
+                deathBurst(level, dead);
             }
-            deathBurst(level, dead);
-        }
 
-        int exhaustion = Config.disloFoodDeath() ? activeValue(data, 9) : 0;
-        if (exhaustion > 0) {
-            for (Player player : level.getEntitiesOfClass(Player.class,
-                    dead.getBoundingBox().inflate(DEATH_RADIUS))) {
-                player.causeFoodExhaustion(exhaustion);
+            int damage = Config.disloDamageDeath() ? activeValue(data, 8) : 0;
+            if (damage > 0) {
+                for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class,
+                        dead.getBoundingBox().inflate(DEATH_RADIUS),
+                        entity -> entity != dead && entity.isAlive() && !(entity instanceof Parasite))) {
+                    entity.hurt(level.damageSources().mobAttack(dead), damage);
+                }
+                deathBurst(level, dead);
             }
-            deathBurst(level, dead);
+
+            int exhaustion = Config.disloFoodDeath() ? activeValue(data, 9) : 0;
+            if (exhaustion > 0) {
+                for (Player player : level.getEntitiesOfClass(Player.class,
+                        dead.getBoundingBox().inflate(DEATH_RADIUS),
+                        player -> player != dead && player.isAlive())) {
+                    player.causeFoodExhaustion(exhaustion);
+                }
+                deathBurst(level, dead);
+            }
+        } finally {
+            APPLYING_DEATH_AREA.set(false);
         }
     }
 

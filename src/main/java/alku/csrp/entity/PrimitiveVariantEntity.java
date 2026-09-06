@@ -758,6 +758,21 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
         return activeKind() == Kind.MANDUCATER;
     }
 
+
+    /** Shared Tabula status used by the original primitive Manducater/Reeker models. */
+    @Override
+    public int getParasiteStatus() {
+        return switch (activeKind()) {
+            case MANDUCATER -> entityData.get(MANDUCATER_STATUS);
+            case REEKER -> switch (entityData.get(REEKER_CHARGE_STATE)) {
+                case REEKER_CHARGE_WINDUP -> 1;
+                case REEKER_CHARGING -> 2;
+                default -> 0;
+            };
+            default -> 0;
+        };
+    }
+
     public int getBolsterSkin() {
         return entityData.get(BOLSTER_SKIN);
     }

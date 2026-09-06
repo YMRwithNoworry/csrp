@@ -419,8 +419,16 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
         return entityData.get(LEFT_TENDRIL_HEALTH) > 0.0F;
     }
 
+    public float getLeft() {
+        return entityData.get(LEFT_TENDRIL_HEALTH);
+    }
+
     public boolean isRightTendrilAttached() {
         return entityData.get(RIGHT_TENDRIL_HEALTH) > 0.0F;
+    }
+
+    public float getRight() {
+        return entityData.get(RIGHT_TENDRIL_HEALTH);
     }
 
     public boolean isTendrilAttached(TendrilSide side) {
@@ -433,6 +441,10 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
 
     public int getAttackTicks() {
         return entityData.get(ATTACK_TICKS);
+    }
+
+    public float getAttackTimer() {
+        return getAttackAnimationProgress(0.0F);
     }
 
     public int getParasiteStatus() {

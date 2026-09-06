@@ -249,8 +249,18 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
         playSound(ModSounds.get("mob.swipe"), 2.0F, 1.0F);
     }
 
-    private int getParasiteStatus() {
+    @Override
+    public int getParasiteStatus() {
         return entityData.get(PARASITE_STATUS);
+    }
+
+    @Override
+    public boolean getStillAni() {
+        return isStillAnimation();
+    }
+
+    public float getAttackTimer() {
+        return getAttackAnim(0.0F);
     }
 
     private void setParasiteStatus(int status) {

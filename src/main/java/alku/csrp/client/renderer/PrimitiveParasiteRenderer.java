@@ -1,5 +1,16 @@
 package alku.csrp.client.renderer;
 
+/** Compatibility name for the direct Citadel Tabula renderer. */
+public final class PrimitiveParasiteRenderer<T extends net.minecraft.world.entity.Mob>
+        extends TabulaMobRenderer<T> {
+    public PrimitiveParasiteRenderer(net.minecraft.client.renderer.entity.EntityRendererProvider.Context context,
+                                     String id, float shadowRadius) {
+        super(context, id, shadowRadius);
+    }
+}
+
+/*
+
 import alku.csrp.Csrp;
 import alku.csrp.client.model.PrimitiveParasiteModel;
 import alku.csrp.entity.AdaptedVariantEntity;
@@ -171,3 +182,5 @@ public final class PrimitiveParasiteRenderer<T extends Mob & GeoEntity> extends 
         }
     }
 }
+
+*/

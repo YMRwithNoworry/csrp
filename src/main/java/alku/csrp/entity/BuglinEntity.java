@@ -7,6 +7,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.sounds.SoundEvent;
@@ -44,6 +47,8 @@ public class BuglinEntity extends Monster implements GeoEntity, Parasite {
     public static final int EMERGENCE_TICKS = 50;
 
     private static final String GROWTH_TARGET_NBT_KEY = "ruptergrow_target";
+    private static final EntityDataAccessor<Integer> EMERGENCE_TICKS_DATA = SynchedEntityData.defineId(
+            BuglinEntity.class, EntityDataSerializers.INT);
     private final RawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks");
     private final RawAnimation FLOOR_TIMER = ParasiteAnimations.play(this, "get_floor_timer");
@@ -81,9 +86,22 @@ public class BuglinEntity extends Monster implements GeoEntity, Parasite {
         return 5;
     }
 
+    @Override
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        entityData.define(EMERGENCE_TICKS_DATA, 0);
+    }
+
     public void startBuriedEmergence() {
         emergenceTicks = EMERGENCE_TICKS;
+        entityData.set(EMERGENCE_TICKS_DATA, emergenceTicks);
         emergenceStarted = false;
+    }
+
+    /** Original ModelLodo floor timer: 1 while buried, then falls to zero over 50 ticks. */
+    public float getTabulaFloorTimer() {
+        int ticks = entityData.get(EMERGENCE_TICKS_DATA);
+        return ticks > 0 ? ticks / (float) EMERGENCE_TICKS : -1.0F;
     }
 
     @Override
@@ -124,6 +142,9 @@ public class BuglinEntity extends Monster implements GeoEntity, Parasite {
 
         if (emergenceTicks > 0) {
             emergenceTicks--;
+            if (!level().isClientSide) {
+                entityData.set(EMERGENCE_TICKS_DATA, emergenceTicks);
+            }
             navigation.stop();
             setDeltaMovement(Vec3.ZERO);
             spawnEmergenceParticles();

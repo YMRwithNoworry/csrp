@@ -614,6 +614,17 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite, Manual
         return isOverheated() && getOverheatWarmupTicks() > 0;
     }
 
+    @Override
+    public int getParasiteStatus() {
+        if (entityData.get(LEAP_ATTACK_TICKS) > 0) {
+            return 10;
+        }
+        if (getDeltaMovement().horizontalDistanceSqr() > 0.02D) {
+            return 2;
+        }
+        return entityData.get(COMBAT_STATUS) ? 1 : 0;
+    }
+
     public int getOverheatWarmupTicks() {
         return entityData.get(OVERHEAT_WARMUP_TICKS);
     }

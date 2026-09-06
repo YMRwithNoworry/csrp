@@ -6,6 +6,7 @@ import alku.csrp.Config;
 import alku.csrp.config.MobsConfig;
 import alku.csrp.effect.EffectStacking;
 import alku.csrp.infection.InfectionMechanics;
+import alku.csrp.entity.ai.BlockResidueGoal;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModMobEffects;
@@ -221,11 +222,11 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     private int summonerVomitTicks;
     private int supportCooldown;
     private int secondaryCooldown;
+    private int residueCooldown;
     private int blockBreakCooldown;
     private int rangedShots;
     private int cloakTicks;
     private boolean cloaked;
-    private int residueCooldown;
     private int lastBolsterCombatTick;
     private boolean deathHandled;
     private int manducaterVomitTicks;
@@ -537,6 +538,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         if (recruitsFollowers(activeKind())) {
             goalSelector.addGoal(6, new ParasiteRecruitFollowersGoal(this, 3, 32));
         }
+        if (usesResidueGoal(activeKind())) {
+            goalSelector.addGoal(9, new BlockResidueGoal(this, residueRange(activeKind())));
+        }
         switch (activeKind()) {
             case ARACHNIDA -> {
                 goalSelector.addGoal(2, new ArachnidaPullSkillGoal());
@@ -607,6 +611,17 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             case ARACHNIDA, BOLSTER, LONGARMS, REEKER, SUMMONER, VISCERA -> true;
             default -> false;
         };
+    }
+
+    private static boolean usesResidueGoal(Kind kind) {
+        return switch (kind) {
+            case ARACHNIDA, BOLSTER, LONGARMS, MANDUCATER, REEKER, SUMMONER, VISCERA -> true;
+            default -> false;
+        };
+    }
+
+    private static int residueRange(Kind kind) {
+        return kind == Kind.BOLSTER ? 3 : 2;
     }
 
     @Override
@@ -682,12 +697,28 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
     @Override
     public void handleEntityEvent(byte id) {
-        if (id == VOMIT_EVENT && activeKind() == Kind.SUMMONER) {
+        if (id == 13 && usesResidueGoal(activeKind())) {
+            spawnResidueParticles();
+        } else if (id == VOMIT_EVENT && activeKind() == Kind.SUMMONER) {
             summonerVomitTicks = 40;
         } else if (id == SUMMON_EVENT && activeKind() == Kind.SUMMONER) {
             spawnSummonParticles();
         } else {
             super.handleEntityEvent(id);
+        }
+    }
+
+    /** Client-side equivalent of the legacy GSPLASH residue charge effect. */
+    private void spawnResidueParticles() {
+        for (int index = 0; index <= 10; index++) {
+            double velocityX = random.nextGaussian() * 0.02D;
+            double velocityY = random.nextGaussian() * 0.02D;
+            double velocityZ = random.nextGaussian() * 0.02D;
+            double x = getX() + random.nextFloat() * getBbWidth() * 2.0F - getBbWidth();
+            double y = getY() + 0.5D + random.nextFloat() * getBbHeight();
+            double z = getZ() + random.nextFloat() * getBbWidth() * 2.0F - getBbWidth();
+            level().addParticle(ModParticles.ASSIMILATION_SPLASH.get(), x, y, z,
+                    velocityX, velocityY, velocityZ);
         }
     }
 
@@ -1437,16 +1468,6 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         residueCooldown = 600 + random.nextInt(601);
     }
 
-    private boolean bolsterSpecialMovesEnabled() {
-        return level() instanceof ServerLevel serverLevel
-                && EvolutionSystem.generationProfile(serverLevel).specialMoves();
-    }
-
-    private boolean bolsterOrbEnabled() {
-        return level() instanceof ServerLevel serverLevel
-                && EvolutionSystem.generationProfile(serverLevel).ordinaryOrb();
-    }
-
     private void spreadBolsterResidue() {
         BlockPos origin = blockPosition();
         for (int x = -3; x <= 3; x++) {
@@ -1467,6 +1488,16 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
                 return;
             }
         }
+    }
+
+    private boolean bolsterSpecialMovesEnabled() {
+        return level() instanceof ServerLevel serverLevel
+                && EvolutionSystem.generationProfile(serverLevel).specialMoves();
+    }
+
+    private boolean bolsterOrbEnabled() {
+        return level() instanceof ServerLevel serverLevel
+                && EvolutionSystem.generationProfile(serverLevel).ordinaryOrb();
     }
 
     private void initializeTendrils() {
@@ -1604,6 +1635,18 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         return activeKind();
     }
 
+    /** Shared status bridge for generated Tabula adapted models. */
+    @Override
+    public int getParasiteStatus() {
+        return switch (activeKind()) {
+            case ARACHNIDA -> entityData.get(ARACHNIDA_STATUS);
+            case MANDUCATER -> entityData.get(MANDUCATER_STATUS);
+            case SUMMONER -> entityData.get(SUMMONER_STATUS);
+            case REEKER -> entityData.get(REEKER_PULLING);
+            default -> 0;
+        };
+    }
+
     @Override
     public int getManualVariant() {
         return switch (activeKind()) {
@@ -1613,6 +1656,22 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         };
     }
 
+
+    @Override
+    public boolean getStillAni() {
+        return entityData.get(REEKER_STILL_ANI)
+                || getDeltaMovement().horizontalDistanceSqr() < 1.0E-4D;
+    }
+
+    @Override
+    public boolean getDigging() {
+        return supportsBurrowing() && isBurrowing();
+    }
+
+    @Override
+    public float getDigModel() {
+        return getBurrowDepth(0.0F) * 2.4F;
+    }
     @Override
     public void setManualVariant(int variant) {
         int skin = Mth.clamp(variant, 0, getMaxManualVariants() - 1);
@@ -1821,6 +1880,16 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
     private void setManducaterStatus(int status) {
         entityData.set(MANDUCATER_STATUS, status);
+    }
+
+    /** Synchronizes the legacy residue-casting animation where this variant has one. */
+    public void setResidueActivity(boolean active) {
+        int status = active ? 25 : 0;
+        if (activeKind() == Kind.MANDUCATER) {
+            setManducaterStatus(status);
+        } else if (activeKind() == Kind.SUMMONER) {
+            setSummonerStatus(status);
+        }
     }
 
     public int getSummonerStatus() {

@@ -291,7 +291,8 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
         return kind == Kind.ENDERMAN && entityData.get(SCREAMING);
     }
 
-    private int getParasiteStatus() {
+    @Override
+    public int getParasiteStatus() {
         return entityData.get(PARASITE_STATUS);
     }
 

@@ -13,6 +13,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -33,6 +34,9 @@ public final class ThornshadeThornsEvents {
     private static final ResourceLocation SELF_DESTRUCT_ADVANCEMENT =
             new ResourceLocation(Csrp.MODID, "thornshade_self_destruct");
     private static final String SELF_DESTRUCT_CRITERION = "exploded";
+    /** Prevents reflected damage from recursively reflecting through another entity/mod. */
+    private static final ThreadLocal<Boolean> REFLECTING_DAMAGE =
+            ThreadLocal.withInitial(() -> false);
 
     private ThornshadeThornsEvents() {
     }
@@ -79,13 +83,23 @@ public final class ThornshadeThornsEvents {
         LivingEntity target = event.getEntity();
         MobEffectInstance thorns = target.getEffect(ModMobEffects.THORNSHADE_THORNS.get());
         Entity source = event.getSource().getEntity();
-        if (thorns == null || isInfinite(thorns) || !(source instanceof LivingEntity attacker)
-                || event.getSource().getDirectEntity() != attacker || event.getAmount() <= 0.0F) {
+        if (target.level().isClientSide || thorns == null || isInfinite(thorns)
+                || !(source instanceof LivingEntity attacker)
+                || attacker == target || !attacker.isAlive()
+                || event.getSource().getDirectEntity() != attacker || event.getAmount() <= 0.0F
+                // Never reflect reflected damage. This also prevents an infinite loop when
+                // another mod uses the vanilla THORNS damage type for its own retaliation.
+                || event.getSource().is(DamageTypes.THORNS) || REFLECTING_DAMAGE.get()) {
             return;
         }
         int uses = thornData(target).getInt(USES_TAG);
         float reflected = event.getAmount() * (uses <= 1 ? 0.25F : 0.5F);
-        attacker.hurt(target.damageSources().thorns(target), reflected);
+        REFLECTING_DAMAGE.set(true);
+        try {
+            attacker.hurt(target.damageSources().thorns(target), reflected);
+        } finally {
+            REFLECTING_DAMAGE.set(false);
+        }
     }
 
     @SubscribeEvent

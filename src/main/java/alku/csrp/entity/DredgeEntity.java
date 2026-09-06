@@ -282,7 +282,7 @@ public final class DredgeEntity extends CrudeParasiteEntity {
         return canPull && entityData.get(TARGET_ENTITY) != 0;
     }
 
-    private LivingEntity getTargetedEntity() {
+    public LivingEntity getTargetedEntity() {
         int entityId = entityData.get(TARGET_ENTITY);
         if (entityId == 0 || !canPull) {
             targetedEntity = null;
@@ -307,7 +307,8 @@ public final class DredgeEntity extends CrudeParasiteEntity {
         }
     }
 
-    private int getParasiteStatus() {
+    @Override
+    public int getParasiteStatus() {
         return entityData.get(PARASITE_STATUS);
     }
 

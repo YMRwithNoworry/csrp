@@ -43,6 +43,9 @@ public final class StatusEffectEvents {
     private static final int MAX_EFFECT_AMPLIFIER = 254;
     private static final ThreadLocal<Boolean> TRANSFERRING_PIVOT_DAMAGE =
             ThreadLocal.withInitial(() -> false);
+    /** Guards the Needler merge because forceAddEffect may synchronously fire Added again. */
+    private static final ThreadLocal<Boolean> STACKING_NEEDLER =
+            ThreadLocal.withInitial(() -> false);
     private static final Map<LivingEntity, LivingEntity> ROOTER_OWNERS = new WeakHashMap<>();
 
     private StatusEffectEvents() {
@@ -52,7 +55,8 @@ public final class StatusEffectEvents {
     public static void stackNeedlerPotency(MobEffectEvent.Added event) {
         MobEffectInstance incoming = event.getEffectInstance();
         MobEffectInstance current = event.getOldEffectInstance();
-        if (current == null || incoming.getEffect() != ModMobEffects.NEEDLER.get()) {
+        if (current == null || incoming.getEffect() != ModMobEffects.NEEDLER.get()
+                || STACKING_NEEDLER.get()) {
             return;
         }
         int amplifier = Math.min(MAX_EFFECT_AMPLIFIER,
@@ -64,7 +68,12 @@ public final class StatusEffectEvents {
                 current.showIcon() || incoming.showIcon());
         // Added fires before vanilla merges the incoming instance; replacing the map entry here
         // leaves that later merge attached only to the displaced instance.
-        event.getEntity().forceAddEffect(stacked, event.getEffectSource());
+        STACKING_NEEDLER.set(true);
+        try {
+            event.getEntity().forceAddEffect(stacked, event.getEffectSource());
+        } finally {
+            STACKING_NEEDLER.set(false);
+        }
     }
 
     @SubscribeEvent

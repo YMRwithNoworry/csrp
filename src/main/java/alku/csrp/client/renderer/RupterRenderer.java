@@ -1,23 +1,26 @@
 package alku.csrp.client.renderer;
 
-import alku.csrp.client.model.RupterModel;
+import alku.csrp.Csrp;
+import alku.csrp.client.model.tabula.inborn.ModelMudo;
 import alku.csrp.entity.RupterEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import software.bernie.geckolib.core.object.Color;
+import net.minecraft.resources.ResourceLocation;
 
-public final class RupterRenderer extends ParasiteGeoRenderer<RupterEntity> {
+/** Citadel renderer backed directly by the original ModelMudo Tabula Java model. */
+public final class RupterRenderer extends ParasiteMobRenderer<RupterEntity, ModelMudo> {
     public RupterRenderer(EntityRendererProvider.Context context) {
-        super(context, new RupterModel());
-        this.shadowRadius = 0.45F;
+        super(context, new ModelMudo(), 0.45F);
     }
 
     @Override
-    public Color getRenderColor(RupterEntity entity, float partialTick, int packedLight) {
-        return entity.isOverheated()
-                ? Color.ofRGBA(255, 24, 16, 255)
-                : super.getRenderColor(entity, partialTick, packedLight);
+    public ResourceLocation getTextureLocation(RupterEntity entity) {
+        RupterEntity.BehaviorVariant behaviorVariant = entity.getBehaviorVariant();
+        String suffix = behaviorVariant == RupterEntity.BehaviorVariant.NORMAL
+                ? entity.getTextureVariant().suffix()
+                : behaviorVariant.suffix();
+        return new ResourceLocation(Csrp.MODID, "textures/entity/rupter" + suffix + ".png");
     }
 
     @Override

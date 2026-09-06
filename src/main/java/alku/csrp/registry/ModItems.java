@@ -511,8 +511,16 @@ public final class ModItems {
             "cooked_flesh_slab", ModBlocks.COOKED_FLESH_SLAB);
     public static final RegistryObject<BlockItem> COOKED_FLESH_FENCE = ITEMS.registerSimpleBlockItem(
             "cooked_flesh_fence", ModBlocks.COOKED_FLESH_FENCE);
+    public static final java.util.Map<String, RegistryObject<BlockItem>> LEGACY_BLOCK_ITEMS = registerLegacyBlockItems();
     public static final RegistryObject<EyeOfTheBeholderItem> PEARL = ITEMS.registerItem(
             "pearl", EyeOfTheBeholderItem::new, new Item.Properties());
+
+    private static java.util.Map<String, RegistryObject<BlockItem>> registerLegacyBlockItems() {
+        java.util.Map<String, RegistryObject<BlockItem>> items = new java.util.LinkedHashMap<>();
+        ModBlocks.LEGACY_BLOCKS.forEach((id, block) ->
+                items.put(id, ITEMS.registerSimpleBlockItem(id, block)));
+        return java.util.Map.copyOf(items);
+    }
 
     private static java.util.Map<String, RegistryObject<BlockItem>> registerEscaBulbItems() {
         java.util.Map<String, RegistryObject<BlockItem>> items = new java.util.LinkedHashMap<>();

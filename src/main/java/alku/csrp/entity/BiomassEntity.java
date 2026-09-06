@@ -26,18 +26,12 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.RawAnimation;
-import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public final class BiomassEntity extends Monster implements GeoEntity, Parasite {
+public final class BiomassEntity extends Monster implements Parasite {
     public static final int HATCH_FUSE_TICKS = 80;
     private static final int DEFAULT_FUSE_TICKS = 777;
     private static final EntityDataAccessor<Integer> SKIN = SynchedEntityData.defineId(
@@ -57,8 +51,6 @@ public final class BiomassEntity extends Monster implements GeoEntity, Parasite 
     private static final EntityDataAccessor<Optional<UUID>> TARGET = SynchedEntityData.defineId(
             BiomassEntity.class, EntityDataSerializers.OPTIONAL_UUID);
 
-    private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
-    private final RawAnimation idleAnimation = RawAnimation.begin().thenLoop("animation.biomass.idle");
     private boolean hatchHandled;
 
     public BiomassEntity(EntityType<? extends BiomassEntity> type, Level level) {
@@ -387,17 +379,6 @@ public final class BiomassEntity extends Monster implements GeoEntity, Parasite 
         entityData.set(TARGET, tag.hasUUID("biomass_target")
                 ? Optional.of(tag.getUUID("biomass_target")) : Optional.empty());
         hatchHandled = false;
-    }
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "idle_controller", 0,
-                state -> state.setAndContinue(idleAnimation)));
-    }
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return animationCache;
     }
 
     public record SummonOption(EntityType<? extends Mob> type, double chance, int cost) {

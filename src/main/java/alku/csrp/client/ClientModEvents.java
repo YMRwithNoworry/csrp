@@ -7,11 +7,21 @@ import alku.csrp.client.particle.BiomassParticle;
 import alku.csrp.client.particle.CoolerFogParticle;
 import alku.csrp.client.particle.GoreCloudParticle;
 import alku.csrp.client.particle.KirinWarningParticle;
+import alku.csrp.client.model.tabula.primitive.ModelCanra;
+import alku.csrp.client.model.tabula.primitive.ModelGim;
+import alku.csrp.client.model.tabula.primitive.ModelIki;
+import alku.csrp.client.model.tabula.primitive.ModelRanrac;
+import alku.csrp.client.model.tabula.primitive.ModelShyco;
 import alku.csrp.celestial.client.AuroraSkyRenderer;
 import alku.csrp.client.renderer.AirscrewRenderer;
-import alku.csrp.client.renderer.BurrowingParasiteRenderer;
+import alku.csrp.client.renderer.TabulaBurrowingRenderer;
+import alku.csrp.client.renderer.TabulaAirscrewRenderer;
+import alku.csrp.client.renderer.TabulaMovingFleshRenderer;
+import alku.csrp.client.renderer.TabulaTetheredMarauderizedRenderer;
+import alku.csrp.client.renderer.TabulaMarauderTendrilRenderer;
+import alku.csrp.client.renderer.BolsterRenderer;
 import alku.csrp.client.renderer.BuglinRenderer;
-import alku.csrp.client.renderer.BiomassRenderer;
+import alku.csrp.client.renderer.TabulaBiomassRenderer;
 import alku.csrp.client.renderer.BombRenderer;
 import alku.csrp.client.renderer.DerivedParasiteRenderer;
 import alku.csrp.client.renderer.DragonEggAssimilationRenderer;
@@ -42,7 +52,9 @@ import alku.csrp.client.screen.RelayTerminalScreen;
 import alku.csrp.client.screen.InfuserFurnaceScreen;
 import alku.csrp.client.renderer.TetheredMarauderizedRenderer;
 import alku.csrp.client.renderer.ParasiticScentRenderer;
-import alku.csrp.client.renderer.TendrilRenderer;
+import alku.csrp.client.renderer.TabulaTendrilRenderer;
+import alku.csrp.client.renderer.TabulaParasiteRenderer;
+import alku.csrp.client.renderer.TabulaMobRenderer;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModBlockEntities;
 import alku.csrp.registry.ModItems;
@@ -90,7 +102,7 @@ public final class ClientModEvents {
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(ModBlockEntities.TROPHY.get(), TrophyBlockEntityRenderer::new);
-        event.registerEntityRenderer(ModEntities.BIOMASS.get(), BiomassRenderer::new);
+        event.registerEntityRenderer(ModEntities.BIOMASS.get(), TabulaBiomassRenderer::new);
         event.registerEntityRenderer(ModEntities.SHOCKWAVE.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.SHOCKWAVE_LEGACY.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.WARDEN_SHOCKWAVE.get(), NoopRenderer::new);
@@ -98,19 +110,19 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.RUPTER.get(), RupterRenderer::new);
         event.registerEntityRenderer(ModEntities.SCENT.get(), ParasiticScentRenderer::new);
         event.registerEntityRenderer(ModEntities.PRI_LONGARMS.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "pri_longarms", 0.65F));
+                new TabulaParasiteRenderer<>(context, new ModelShyco(), "pri_longarms", 0.65F));
         event.registerEntityRenderer(ModEntities.PRI_SUMMONER.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "pri_summoner", 0.7F));
+                new TabulaParasiteRenderer<>(context, new ModelCanra(), "pri_summoner", 0.7F));
         event.registerEntityRenderer(ModEntities.PRI_VERMIN.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "pri_vermin", 0.2F));
+                new TabulaParasiteRenderer<>(context, new ModelIki(), "pri_vermin", 0.2F));
         event.registerEntityRenderer(ModEntities.PRI_VISCERA.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "pri_viscera", 1.0F));
+                new TabulaParasiteRenderer<>(context, new ModelGim(), "pri_viscera", 1.0F));
         event.registerEntityRenderer(ModEntities.PRI_ARACHNIDA.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "pri_arachnida", 0.65F));
+                new TabulaParasiteRenderer<>(context, new ModelRanrac(), "pri_arachnida", 0.65F));
         event.registerEntityRenderer(ModEntities.PRI_BOLSTER.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "pri_bolster", 0.5F));
+                new BolsterRenderer(context));
         event.registerEntityRenderer(ModEntities.PRI_BURROWER.get(), context ->
-                new BurrowingParasiteRenderer<>(context, "pri_burrower", 0.5F, 0.8F));
+                new TabulaBurrowingRenderer<>(context, "pri_burrower", 0.5F, 0.8F));
         event.registerEntityRenderer(ModEntities.PRI_DEVOURER.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "pri_devourer", 0.7F));
         event.registerEntityRenderer(ModEntities.PRI_MANDUCATER.get(), context ->
@@ -118,7 +130,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.PRI_REEKER.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "pri_reeker", 0.65F));
         event.registerEntityRenderer(ModEntities.PRI_TOZOON.get(), context ->
-                new BurrowingParasiteRenderer<>(context, "pri_tozoon", 0.65F, 1.4F));
+                new TabulaBurrowingRenderer<>(context, "pri_tozoon", 0.65F, 1.4F));
         event.registerEntityRenderer(ModEntities.PRI_YELLOWEYE.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "pri_yelloweye", 0.5F));
         event.registerEntityRenderer(ModEntities.ADA_ARACHNIDA.get(), context ->
@@ -126,7 +138,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.ADA_BOLSTER.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "ada_bolster", 0.9F));
         event.registerEntityRenderer(ModEntities.ADA_BURROWER.get(), context ->
-                new BurrowingParasiteRenderer<>(context, "ada_burrower", 0.7F, 1.4F));
+                new TabulaBurrowingRenderer<>(context, "ada_burrower", 0.7F, 1.4F));
         event.registerEntityRenderer(ModEntities.ADA_DEVOURER.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "ada_devourer", 0.8F));
         event.registerEntityRenderer(ModEntities.ADA_LONGARMS.get(), context ->
@@ -138,7 +150,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.ADA_SUMMONER.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "ada_summoner", 0.8F));
         event.registerEntityRenderer(ModEntities.ADA_TOZOON.get(), context ->
-                new BurrowingParasiteRenderer<>(context, "ada_tozoon", 0.7F, 1.4F));
+                new TabulaBurrowingRenderer<>(context, "ada_tozoon", 0.7F, 1.4F));
         event.registerEntityRenderer(ModEntities.ADA_VERMIN.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "ada_vermin", 0.2F));
         event.registerEntityRenderer(ModEntities.ADA_VISCERA.get(), context ->
@@ -161,7 +173,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.SCARY_ORB.get(), ScaryOrbRenderer::new);
         event.registerEntityRenderer(ModEntities.SCARY_ORB_LEGACY.get(), ScaryOrbRenderer::new);
         event.registerEntityRenderer(ModEntities.VOID_ORB.get(), VoidOrbRenderer::new);
-        event.registerEntityRenderer(ModEntities.AIRSCREW.get(), AirscrewRenderer::new);
+        event.registerEntityRenderer(ModEntities.AIRSCREW.get(), TabulaAirscrewRenderer::new);
         event.registerEntityRenderer(ModEntities.HEED.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "heed", 0.8F));
         event.registerEntityRenderer(ModEntities.DREDGE.get(), context ->
@@ -183,26 +195,27 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.INCOMPLETEFORM_MEDIUM.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "incompleteform_medium", 0.45F));
         event.registerEntityRenderer(ModEntities.DRACONITE.get(), context ->
-                new DerivedParasiteRenderer<>(context, "draconite", "draconite_shadow", 1.2F));
+                new TabulaMobRenderer<>(context, "draconite", 1.2F));
         event.registerEntityRenderer(ModEntities.KIRIN.get(), context ->
-                new DerivedParasiteRenderer<>(context, "kirin", "kirin_shadow", 1.1F));
+                new TabulaMobRenderer<>(context, "kirin", 1.1F));
         event.registerEntityRenderer(ModEntities.KIRIN_SLASH.get(), KirinSlashRenderer::new);
-        event.registerEntityRenderer(ModEntities.SIM_ADVENTURER.get(), SimAdventurerRenderer::new);
+        event.registerEntityRenderer(ModEntities.SIM_ADVENTURER.get(), context ->
+                new TabulaMobRenderer<>(context, "sim_adventurer", 0.5F));
         event.registerEntityRenderer(ModEntities.SIM_ADVENTURER_HEAD.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "sim_adventurerhead", 0.6F));
-        event.registerEntityRenderer(ModEntities.MOVINGFLESH.get(), MovingFleshRenderer::new);
+        event.registerEntityRenderer(ModEntities.MOVINGFLESH.get(), TabulaMovingFleshRenderer::new);
         event.registerEntityRenderer(ModEntities.SIM_BEAR.get(), context ->
-                new AssimilatedParasiteRenderer(context, 0.65F));
+                new TabulaMobRenderer<>(context, "sim_bear", 0.65F));
         event.registerEntityRenderer(ModEntities.SIM_COW.get(), context ->
-                new AssimilatedParasiteRenderer(context, 0.55F));
+                new TabulaMobRenderer<>(context, "sim_cow", 0.55F));
         event.registerEntityRenderer(ModEntities.SIM_PIG.get(), context ->
-                new AssimilatedParasiteRenderer(context, 0.45F));
+                new TabulaMobRenderer<>(context, "sim_pig", 0.45F));
         event.registerEntityRenderer(ModEntities.SIM_SHEEP.get(), context ->
-                new AssimilatedParasiteRenderer(context, 0.50F));
+                new TabulaMobRenderer<>(context, "sim_sheep", 0.50F));
         event.registerEntityRenderer(ModEntities.SIM_WOLF.get(), context ->
-                new AssimilatedParasiteRenderer(context, 0.40F));
+                new TabulaMobRenderer<>(context, "sim_wolf", 0.40F));
         event.registerEntityRenderer(ModEntities.SIM_SQUID.get(), context ->
-                new AssimilatedParasiteRenderer(context, 0.45F));
+                new TabulaMobRenderer<>(context, "sim_squid", 0.45F));
         event.registerEntityRenderer(ModEntities.SIM_BIGSPIDER.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "sim_bigspider", 1.2F));
         event.registerEntityRenderer(ModEntities.SIM_DRAGONE.get(), context ->
@@ -212,7 +225,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.SIM_DRAGON_HEAD.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "sim_dragonehead", 0.6F));
         event.registerEntityRenderer(ModEntities.SIM_DRAGON_HEAD_COMPAT.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "sim_dragonehead", 0.6F));
+                new PrimitiveParasiteRenderer<>(context, "sim_dragonhead", 0.6F));
         event.registerEntityRenderer(ModEntities.SIM_ENDERMAN.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "sim_enderman", 0.5F));
         event.registerEntityRenderer(ModEntities.SIM_ENDERMAN_HEAD.get(), context ->
@@ -221,7 +234,8 @@ public final class ClientModEvents {
                 new PrimitiveParasiteRenderer<>(context, "sim_horse", 0.75F));
         event.registerEntityRenderer(ModEntities.SIM_HORSE_HEAD.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "sim_horsehead", 0.6F));
-        event.registerEntityRenderer(ModEntities.SIM_HUMAN.get(), SimHumanRenderer::new);
+        event.registerEntityRenderer(ModEntities.SIM_HUMAN.get(), context ->
+                new TabulaMobRenderer<>(context, "sim_human", 0.6F));
         event.registerEntityRenderer(ModEntities.SIM_HUMAN_HEAD.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "sim_humanhead", 0.6F));
         event.registerEntityRenderer(ModEntities.SIM_COW_HEAD.get(), context ->
@@ -261,11 +275,11 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.HI_SKELETON.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "hi_skeleton", 0.5F));
         event.registerEntityRenderer(ModEntities.MAR_BEAR.get(), context ->
-                new TetheredMarauderizedRenderer<>(context, "mar_bear", 0.65F));
+                new TabulaTetheredMarauderizedRenderer<>(context, "mar_bear", 0.65F));
         event.registerEntityRenderer(ModEntities.MAR_COW.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "mar_cow", 0.55F));
         event.registerEntityRenderer(ModEntities.MAR_ENDERMAN.get(), context ->
-                new TetheredMarauderizedRenderer<>(context, "mar_enderman", 0.5F));
+                new TabulaTetheredMarauderizedRenderer<>(context, "mar_enderman", 0.5F));
         event.registerEntityRenderer(ModEntities.MAR_HUMAN.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "mar_human", 0.5F));
         event.registerEntityRenderer(ModEntities.MAR_SHEEP.get(), context ->
@@ -273,7 +287,8 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.MAR_VILLAGER.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "mar_villager", 0.5F));
         event.registerEntityRenderer(ModEntities.MARAUDER.get(), MarauderRenderer::new);
-        event.registerEntityRenderer(ModEntities.MARAUDER_TENDRIL.get(), MarauderTendrilRenderer::new);
+        event.registerEntityRenderer(ModEntities.MARAUDER_TENDRIL.get(), context ->
+                new TabulaMarauderTendrilRenderer(context));
         event.registerEntityRenderer(ModEntities.DISPATCHERTEN.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "dispatcherten", 0.45F));
         event.registerEntityRenderer(ModEntities.KYPHOSIS.get(), context ->
@@ -322,31 +337,31 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.ANC_DREADNAUT_TEN.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "anc_dreadnaut_ten", 0.55F));
         event.registerEntityRenderer(ModEntities.BECKON_SI.get(), context ->
-                new NexusParasiteRenderer(context, "beckon_si", 0.4F));
+                new TabulaMobRenderer<>(context, "beckon_si", 0.4F));
         event.registerEntityRenderer(ModEntities.BECKON_SII.get(), context ->
-                new NexusParasiteRenderer(context, "beckon_sii", 0.5F));
+                new TabulaMobRenderer<>(context, "beckon_sii", 0.5F));
         event.registerEntityRenderer(ModEntities.BECKON_SIII.get(), context ->
-                new NexusParasiteRenderer(context, "beckon_siii", 0.6F));
+                new TabulaMobRenderer<>(context, "beckon_siii", 0.6F));
         event.registerEntityRenderer(ModEntities.BECKON_SIV.get(), context ->
-                new NexusParasiteRenderer(context, "beckon_siv", 0.7F));
+                new TabulaMobRenderer<>(context, "beckon_siv", 0.7F));
         event.registerEntityRenderer(ModEntities.DISPATCHER_SI.get(), context ->
-                new NexusParasiteRenderer(context, "dispatcher_si", 1.0F));
+                new TabulaMobRenderer<>(context, "dispatcher_si", 1.0F));
         event.registerEntityRenderer(ModEntities.DISPATCHER_SII.get(), context ->
-                new NexusParasiteRenderer(context, "dispatcher_sii", 1.1F));
+                new TabulaMobRenderer<>(context, "dispatcher_sii", 1.1F));
         event.registerEntityRenderer(ModEntities.DISPATCHER_SIII.get(), context ->
-                new NexusParasiteRenderer(context, "dispatcher_siii", 1.2F));
+                new TabulaMobRenderer<>(context, "dispatcher_siii", 1.2F));
         event.registerEntityRenderer(ModEntities.DISPATCHER_SIV.get(), context ->
-                new NexusParasiteRenderer(context, "dispatcher_siv", 1.4F));
+                new TabulaMobRenderer<>(context, "dispatcher_siv", 1.4F));
         event.registerEntityRenderer(ModEntities.ROOTER_SI.get(), context ->
-                new NexusParasiteRenderer(context, "rooter_si", 0.8F));
+                new TabulaMobRenderer<>(context, "rooter_si", 0.8F));
         event.registerEntityRenderer(ModEntities.ROOTER_SII.get(), context ->
-                new NexusParasiteRenderer(context, "rooter_sii", 0.9F));
+                new TabulaMobRenderer<>(context, "rooter_sii", 0.9F));
         event.registerEntityRenderer(ModEntities.ROOTER_SIII.get(), context ->
-                new NexusParasiteRenderer(context, "rooter_siii", 1.0F));
+                new TabulaMobRenderer<>(context, "rooter_siii", 1.0F));
         event.registerEntityRenderer(ModEntities.ROOTER_SIV.get(), context ->
-                new NexusParasiteRenderer(context, "rooter_siv", 1.1F));
+                new TabulaMobRenderer<>(context, "rooter_siv", 1.1F));
         event.registerEntityRenderer(ModEntities.ROOTERBALL.get(), context ->
-                new NexusParasiteRenderer(context, "rooterball", 0.7F));
+                new TabulaMobRenderer<>(context, "rooterball", 0.7F));
         event.registerEntityRenderer(ModEntities.ABO_BODIES.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "abo_bodies", 1.0F));
         // 1.10.7 ships RenderAboHead but never registers it; the live entity is invisible.
@@ -377,7 +392,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.BOMB.get(), BombRenderer::new);
         event.registerEntityRenderer(ModEntities.CLOUD_TOXIC.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.GORE.get(), GoreRenderer::new);
-        event.registerEntityRenderer(ModEntities.TENDRIL.get(), TendrilRenderer::new);
+        event.registerEntityRenderer(ModEntities.TENDRIL.get(), TabulaTendrilRenderer::new);
         event.registerEntityRenderer(ModEntities.WAVE.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.NADE.get(), NadeRenderer::new);
     }

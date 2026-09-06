@@ -294,7 +294,7 @@ public final class InfectionMechanics {
     }
 
     public static boolean isHiddenAssimilated(LivingEntity entity) {
-        return entity.getPersistentData().contains(HIDDEN_ASSIMILATED_TAG)
+        return entity != null && entity.getPersistentData().contains(HIDDEN_ASSIMILATED_TAG)
                 && !entity.getPersistentData().getString(HIDDEN_ASSIMILATED_TAG).isBlank();
     }
 

@@ -307,7 +307,8 @@ public final class SimAdventurerHeadEntity extends Monster implements GeoEntity,
         entityData.define(PARASITE_STATUS, 0);
     }
 
-    private int getParasiteStatus() {
+    @Override
+    public int getParasiteStatus() {
         return entityData.get(PARASITE_STATUS);
     }
 

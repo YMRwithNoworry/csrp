@@ -373,6 +373,22 @@ public abstract class BurrowingVariantEntity extends PrimitiveParasiteEntity {
         return previousBurrowDepth + (depth - previousBurrowDepth) * partialTick;
     }
 
+    /** Original Tabula models use a 0..2.4 vertical digging offset. */
+    @Override
+    public float getDigModel() {
+        return entityData.get(BURROW_DEPTH) * 2.4F;
+    }
+
+    @Override
+    public boolean getDigging() {
+        return isBurrowing();
+    }
+
+    @Override
+    public boolean getBodyTail() {
+        return isBodyTail();
+    }
+
     @Override
     public boolean hurt(DamageSource source, float amount) {
         if (source.is(DamageTypes.DROWN)) {

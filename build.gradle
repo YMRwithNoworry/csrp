@@ -10,6 +10,7 @@ group = mod_group_id
 
 repositories {
     maven { url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/" }
+    maven { url = "https://api.modrinth.com/maven" }
 }
 
 base {
@@ -90,6 +91,10 @@ dependencies {
     // GeckoLib for animated parasite entities (deobfuscated for the dev runtime)
     implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${geckolib_version}")
 
+    // Citadel supplies the advanced entity-model and Tabula animation runtime
+    // used while porting the original SRParasites Java models.
+    implementation fg.deobf("maven.modrinth:citadel:${citadel_version}")
+
     // Mixin AP is intentionally disabled; legacy targets are compatible at runtime
     // but are not compatible with ForgeGradle's AP mappings.
 }
@@ -108,7 +113,8 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             mod_version            : mod_version,
             mod_authors            : mod_authors,
             mod_description        : mod_description,
-            geckolib_version       : geckolib_version
+            geckolib_version       : geckolib_version,
+            citadel_version        : citadel_version
     ]
     inputs.properties replaceProperties
     expand replaceProperties

@@ -1,0 +1,320 @@
+package alku.csrp.client.model.tabula.generated;
+
+import alku.csrp.client.model.tabula.ModelSRP;
+import alku.csrp.entity.TabulaAnimationAccess;
+import net.minecraft.world.entity.Mob;
+import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
+import net.minecraft.util.Mth;
+
+/** Direct Citadel port of SRParasites 1.10.8's Tabula-exported {@code ModelSpeCow}. */
+public final class ModelTabula_mar_cow extends ModelSRP<Mob> {
+   public AdvancedModelBox mainbody;
+   public AdvancedModelBox body;
+   public AdvancedModelBox body_1;
+   public AdvancedModelBox JD;
+   public AdvancedModelBox neck;
+   public AdvancedModelBox JD_1;
+   public AdvancedModelBox body_2;
+   public AdvancedModelBox body_3;
+   public AdvancedModelBox JD_2;
+   public AdvancedModelBox JD_3;
+   public AdvancedModelBox body_4;
+   public AdvancedModelBox jointBLL;
+   public AdvancedModelBox leg;
+   public AdvancedModelBox jointBLL1;
+   public AdvancedModelBox leg_1;
+   public AdvancedModelBox leg_2;
+   public AdvancedModelBox jointBRL;
+   public AdvancedModelBox leg_3;
+   public AdvancedModelBox jointBRL1;
+   public AdvancedModelBox leg_4;
+   public AdvancedModelBox leg_5;
+   public AdvancedModelBox body_5;
+   public AdvancedModelBox jointFLL;
+   public AdvancedModelBox leg_6;
+   public AdvancedModelBox jointFLL1;
+   public AdvancedModelBox leg_7;
+   public AdvancedModelBox leg_8;
+   public AdvancedModelBox jointdont;
+   public AdvancedModelBox jointH;
+   public AdvancedModelBox head;
+   public AdvancedModelBox ear;
+   public AdvancedModelBox ear_1;
+   public AdvancedModelBox mouthg;
+   public AdvancedModelBox jointM;
+   public AdvancedModelBox mouth;
+   public AdvancedModelBox jointFRL;
+   public AdvancedModelBox leg_9;
+   public AdvancedModelBox jointFRL1;
+   public AdvancedModelBox leg_10;
+   public AdvancedModelBox leg_11;
+
+   public ModelTabula_mar_cow() {
+      this.texWidth = 128;
+      this.texHeight = 128;
+      this.jointBRL = new AdvancedModelBox(this, 121, 0);
+      this.jointBRL.setRotationPoint(0.0F, 0.0F, 0.0F);
+      this.jointBRL.addBox(-0.5F, -0.5F, -0.5F, 1, 1, 1, 0.0F);
+      this.jointH = new AdvancedModelBox(this, 55, 2);
+      this.jointH.setRotationPoint(0.0F, 0.0F, 0.0F);
+      this.jointH.addBox(0.0F, 0.0F, 0.0F, 1, 1, 1, 0.0F);
+      this.mainbody = new AdvancedModelBox(this, 0, 0);
+      this.mainbody.setRotationPoint(0.0F, 12.1F, 2.0F);
+      this.mainbody.addBox(-0.5F, -0.5F, -0.5F, 1, 1, 1, 0.0F);
+      this.jointFLL1 = new AdvancedModelBox(this, 39, 2);
+      this.jointFLL1.setRotationPoint(0.0F, 5.0F, 0.0F);
+      this.jointFLL1.addBox(-0.5F, -0.5F, -0.5F, 1, 1, 1, 0.0F);
+      this.body_3 = new AdvancedModelBox(this, 46, 25);
+      this.body_3.setRotationPoint(0.0F, 8.2F, -2.0F);
+      this.body_3.addBox(-5.0F, 0.0F, -3.0F, 10, 7, 15, 0.0F);
+      this.JD_3 = new AdvancedModelBox(this, 51, 0);
+      this.JD_3.setRotationPoint(-6.1F, 11.4F, 1.0F);
+      this.JD_3.addBox(-0.5F, -0.5F, -0.5F, 1, 1, 1, 0.0F);
+      this.setRotateAngle(this.JD_3, 0.12566371F, 0.0F, 0.0F);
+      this.leg_6 = new AdvancedModelBox(this, 54, 47);
+      this.leg_6.setRotationPoint(0.0F, 0.0F, 0.0F);
+      this.leg_6.addBox(-3.5F, -1.0F, -2.0F, 7, 7, 6, 0.0F);
+      this.ear_1 = new AdvancedModelBox(this, 123, 8);
+      this.ear_1.setRotationPoint(-1.0F, -1.0F, 0.0F);
+      this.ear_1.addBox(-5.0F, -5.0F, -4.0F, 1, 3, 1, 0.0F);
+      this.setRotateAngle(this.ear_1, -0.08726646F, 0.0F, 0.06981317F);
+      this.leg_10 = new AdvancedModelBox(this, 112, 59);
+      this.leg_10.setRotationPoint(0.0F, 0.0F, 0.0F);
+      this.leg_10.addBox(-1.5F, 0.0F, -1.5F, 3, 6, 3, 0.0F);
+      this.setRotateAngle(this.leg_10, 0.0F, 0.08726646F, 0.0F);
+      this.leg_11 = new AdvancedModelBox(this, 0, 62);
+      this.leg_11.setRotationPoint(0.0F, 6.3F, 0.0F);
+      this.leg_11.addBox(-2.0F, -1.0F, -2.0F, 4, 2, 4, 0.0F);
+      this.neck = new AdvancedModelBox(this, 88, 0);
+      this.neck.setRotationPoint(0.0F, 1.0F, 0.0F);
+      this.neck.addBox(-4.5F, -4.2F, -2.0F, 9, 11, 3, 0.0F);
+      this.ear = new AdvancedModelBox(this, 3, 3);
+      this.ear.setRotationPoint(1.0F, -2.2F, -0.1F);
+      this.ear.addBox(4.0F, -5.0F, -4.0F, 1, 3, 1, 0.0F);
+      this.setRotateAngle(this.ear, 0.08726646F, 0.0F, -0.05235988F);
+      this.leg_9 = new AdvancedModelBox(this, 48, 60);
+      this.leg_9.setRotationPoint(0.0F, 0.0F, 0.0F);
+      this.leg_9.addBox(-3.5F, -1.0F, -2.0F, 7, 7, 6, 0.0F);
+      this.jointBLL1 = new AdvancedModelBox(this, 109, 0);
+      this.jointBLL1.setRotationPoint(0.0F, 5.0F, 0.0F);
+      this.jointBLL1.addBox(-0.5F, -0.5F, -0.5F, 1, 1, 1, 0.0F);
+      this.body_5 = new AdvancedModelBox(this, 24, 47);
+      this.body_5.setRotationPoint(0.0F, -5.0F, 4.0F);
+      this.body_5.addBox(-5.0F, -3.5F, -1.0F, 10, 12, 5, 0.0F);
+      this.setRotateAngle(this.body_5, -0.12566371F, 0.0F, 0.0F);
+      this.jointdont = new AdvancedModelBox(this, 43, 2);
+      this.jointdont.setRotationPoint(0.0F, 0.0F, -1.5F);
+      this.jointdont.addBox(0.0F, 0.0F, 0.0F, 1, 1, 1, 0.0F);
+      this.setRotateAngle(this.jointdont, 0.108210415F, 0.0F, 0.0F);
+      this.mouth = new AdvancedModelBox(this, 0, 55);
+      this.mouth.setRotationPoint(0.0F, 0.0F, 0.0F);
+      this.mouth.addBox(-4.0F, 0.0F, -2.3F, 8, 4, 3, 0.0F);
+      this.setRotateAngle(this.mouth, 0.61784655F, 0.0F, 0.0F);
+      this.leg = new AdvancedModelBox(this, 96, 40);
+      this.leg.setRotationPoint(0.0F, 0.0F, 0.0F);
+      this.leg.addBox(-3.0F, -1.0F, -3.0F, 6, 7, 6, 0.0F);
+      this.jointBLL = new AdvancedModelBox(this, 55, 0);
+      this.jointBLL.setRotationPoint(0.0F, 0.0F, 0.0F);
+      this.jointBLL.addBox(-0.5F, -0.5F, -0.5F, 1, 1, 1, 0.0F);
+      this.leg_5 = new AdvancedModelBox(this, 102, 16);
+      this.leg_5.setRotationPoint(0.0F, 6.3F, 0.0F);
+      this.leg_5.addBox(-2.0F, -1.0F, -2.0F, 4, 2, 4, 0.0F);
+      this.leg_7 = new AdvancedModelBox(this, 46, 25);
+      this.leg_7.setRotationPoint(0.0F, 0.0F, 0.0F);
+      this.leg_7.addBox(-1.5F, 0.0F, -1.5F, 3, 6, 3, 0.0F);
+      this.setRotateAngle(this.leg_7, 0.0F, -0.08726646F, 0.0F);
+      this.head = new AdvancedModelBox(this, 80, 53);
+      this.head.setRotationPoint(0.0F, 1.0F, 0.0F);
+      this.head.addBox(-5.0F, -6.0F, -6.0F, 10, 10, 6, 0.0F);
+      this.setRotateAngle(this.head, -0.10471976F, 0.0F, 0.0F);
+      this.leg_2 = new AdvancedModelBox(this, 108, 10);
+      this.leg_2.setRotationPoint(0.0F, 6.3F, 0.0F);
+      this.leg_2.addBox(-2.0F, -1.0F, -2.0F, 4, 2, 4, 0.0F);
+      this.body_4 = new AdvancedModelBox(this, 81, 25);
+      this.body_4.setRotationPoint(0.0F, 9.0F, 1.0F);
+      this.body_4.addBox(-7.5F, -3.5F, -1.0F, 15, 10, 5, 0.0F);
+      this.leg_4 = new AdvancedModelBox(this, 46, 2);
+      this.leg_4.setRotationPoint(0.0F, 0.0F, 0.0F);
+      this.leg_4.addBox(-1.5F, 0.0F, -1.5F, 3, 6, 3, 0.0F);
+      this.setRotateAngle(this.leg_4, 0.0F, 0.08726646F, 0.0F);
+      this.jointBRL1 = new AdvancedModelBox(this, 3, 1);
+      this.jointBRL1.setRotationPoint(0.0F, 5.0F, 0.0F);
+      this.jointBRL1.addBox(-0.5F, -0.5F, -0.5F, 1, 1, 1, 0.0F);
+      this.jointFRL = new AdvancedModelBox(this, 42, 5);
+      this.jointFRL.setRotationPoint(0.0F, 0.0F, 0.0F);
+      this.jointFRL.addBox(-0.5F, -0.5F, -0.5F, 1, 1, 1, 0.0F);
+      this.jointFRL1 = new AdvancedModelBox(this, 46, 11);
+      this.jointFRL1.setRotationPoint(0.0F, 5.0F, 0.0F);
+      this.jointFRL1.addBox(-0.5F, -0.5F, -0.5F, 1, 1, 1, 0.0F);
+      this.leg_3 = new AdvancedModelBox(this, 0, 42);
+      this.leg_3.setRotationPoint(0.0F, 0.0F, 0.0F);
+      this.leg_3.addBox(-3.0F, -1.0F, -3.0F, 6, 7, 6, 0.0F);
+      this.leg_1 = new AdvancedModelBox(this, 112, 0);
+      this.leg_1.setRotationPoint(0.0F, 0.0F, 0.0F);
+      this.leg_1.addBox(-1.5F, 0.0F, -1.5F, 3, 6, 3, 0.0F);
+      this.setRotateAngle(this.leg_1, 0.0F, -0.08726646F, 0.0F);
+      this.leg_8 = new AdvancedModelBox(this, 74, 47);
+      this.leg_8.setRotationPoint(0.0F, 6.3F, 0.0F);
+      this.leg_8.addBox(-2.0F, -1.0F, -2.0F, 4, 2, 4, 0.0F);
+      this.JD = new AdvancedModelBox(this, 39, 0);
+      this.JD.setRotationPoint(5.2F, 8.7F, 4.7F);
+      this.JD.addBox(-0.5F, -0.5F, -0.5F, 1, 1, 1, 0.0F);
+      this.setRotateAngle(this.JD, 0.29670596F, 0.0F, 0.0F);
+      this.body_2 = new AdvancedModelBox(this, 0, 25);
+      this.body_2.setRotationPoint(0.0F, 0.0F, 8.0F);
+      this.body_2.addBox(-8.0F, -3.5F, -1.0F, 16, 10, 7, 0.0F);
+      this.setRotateAngle(this.body_2, -0.08726646F, 0.0F, 0.0F);
+      this.JD_2 = new AdvancedModelBox(this, 47, 0);
+      this.JD_2.setRotationPoint(6.1F, 11.4F, 1.0F);
+      this.JD_2.addBox(-0.5F, -0.5F, -0.5F, 1, 1, 1, 0.0F);
+      this.setRotateAngle(this.JD_2, 0.12566371F, 0.0F, 0.0F);
+      this.mouthg = new AdvancedModelBox(this, 106, 53);
+      this.mouthg.setRotationPoint(0.0F, 2.0F, -2.7F);
+      this.mouthg.addBox(-2.5F, -0.1F, -1.1F, 5, 3, 3, 0.0F);
+      this.setRotateAngle(this.mouthg, (float) (Math.PI / 20), 0.0F, 0.0F);
+      this.JD_1 = new AdvancedModelBox(this, 43, 0);
+      this.JD_1.setRotationPoint(-5.2F, 8.7F, 4.7F);
+      this.JD_1.addBox(-0.5F, -0.5F, -0.5F, 1, 1, 1, 0.0F);
+      this.setRotateAngle(this.JD_1, 0.29670596F, 0.0F, 0.0F);
+      this.jointM = new AdvancedModelBox(this, 39, 4);
+      this.jointM.setRotationPoint(0.0F, 1.5F, 1.0F);
+      this.jointM.addBox(0.0F, 0.0F, 0.0F, 1, 1, 1, 0.0F);
+      this.jointFLL = new AdvancedModelBox(this, 0, 2);
+      this.jointFLL.setRotationPoint(0.0F, 0.0F, 0.0F);
+      this.jointFLL.addBox(-0.5F, -0.5F, -0.5F, 1, 1, 1, 0.0F);
+      this.body = new AdvancedModelBox(this, 0, 0);
+      this.body.setRotationPoint(0.0F, -10.0F, -11.0F);
+      this.body.addBox(-8.0F, -8.0F, 1.0F, 16, 18, 7, 0.0F);
+      this.setRotateAngle(this.body, -0.29670596F, 0.0F, 0.0F);
+      this.body_1 = new AdvancedModelBox(this, 46, 0);
+      this.body_1.setRotationPoint(0.0F, -4.8F, 8.4F);
+      this.body_1.addBox(-7.0F, -2.0F, -5.0F, 14, 11, 14, 0.0F);
+      this.setRotateAngle(this.body_1, 0.25830874F, 0.0F, 0.0F);
+      this.JD_3.addChild(this.jointBRL);
+      this.jointdont.addChild(this.jointH);
+      this.leg_6.addChild(this.jointFLL1);
+      this.body_1.addChild(this.body_3);
+      this.body_2.addChild(this.JD_3);
+      this.jointFLL.addChild(this.leg_6);
+      this.head.addChild(this.ear_1);
+      this.jointFRL1.addChild(this.leg_10);
+      this.leg_10.addChild(this.leg_11);
+      this.body.addChild(this.neck);
+      this.head.addChild(this.ear);
+      this.jointFRL.addChild(this.leg_9);
+      this.leg.addChild(this.jointBLL1);
+      this.body_4.addChild(this.body_5);
+      this.neck.addChild(this.jointdont);
+      this.jointM.addChild(this.mouth);
+      this.jointBLL.addChild(this.leg);
+      this.JD_2.addChild(this.jointBLL);
+      this.leg_4.addChild(this.leg_5);
+      this.jointFLL1.addChild(this.leg_7);
+      this.jointH.addChild(this.head);
+      this.leg_1.addChild(this.leg_2);
+      this.body_2.addChild(this.body_4);
+      this.jointBRL1.addChild(this.leg_4);
+      this.leg_3.addChild(this.jointBRL1);
+      this.JD_1.addChild(this.jointFRL);
+      this.leg_9.addChild(this.jointFRL1);
+      this.jointBRL.addChild(this.leg_3);
+      this.jointBLL1.addChild(this.leg_1);
+      this.leg_7.addChild(this.leg_8);
+      this.body.addChild(this.JD);
+      this.body_1.addChild(this.body_2);
+      this.body_2.addChild(this.JD_2);
+      this.head.addChild(this.mouthg);
+      this.body.addChild(this.JD_1);
+      this.mouthg.addChild(this.jointM);
+      this.JD.addChild(this.jointFLL);
+      this.mainbody.addChild(this.body);
+      this.body.addChild(this.body_1);
+      this.captureDefaultPose();
+   }
+
+   @Override
+   protected void func_78087_a(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Mob entityIn) {
+      TabulaAnimationAccess parasite = animationAccess(entityIn);
+      this.jointFLL.rotateAngleX = 0.0F;
+      this.jointFRL.rotateAngleX = 0.0F;
+      this.jointBLL.rotateAngleX = 0.0F;
+      this.jointBRL.rotateAngleX = 0.0F;
+      this.mainbody.offsetX = 0.0F;
+      this.mainbody.offsetY = 0.0F;
+      this.mainbody.offsetZ = 0.0F;
+      this.mainbody.rotateAngleX = 0.0F;
+      this.mainbody.rotateAngleZ = 0.0F;
+      this.jointM.rotateAngleX = 0.0F;
+      this.jointH.rotateAngleX = headPitch * 0.016F;
+      this.jointH.rotateAngleY = netHeadYaw * 0.016F;
+      int i = parasite.getParasiteStatus();
+      if (i == 0) {
+         if (!parasite.getStillAni()) {
+            float GS = 2.0F;
+            float GD = 2.0F;
+            this.swingX(this.jointFLL, 0.3F * GS, 1.0F * GD, 1, limbSwing, limbSwingAmount);
+            this.swingX(this.jointFRL, 0.3F * GS, 1.0F * GD, -1, limbSwing, limbSwingAmount);
+            this.swingX(this.jointBLL, 0.3F * GS, 1.0F * GD, -1, limbSwing, limbSwingAmount);
+            this.swingX(this.jointBRL, 0.3F * GS, 1.0F * GD, 1, limbSwing, limbSwingAmount);
+            this.moveY(this.mainbody, 0.6F * GS, 1, limbSwing, limbSwingAmount, 0.05F);
+            this.mainbody.rotateAngleX = 0.0F;
+         }
+
+         float f1 = Mth.cos(ageInTicks * 0.0998F) * 0.0215F;
+         float f23 = Mth.cos(ageInTicks * 0.19112F) * 0.0261F;
+         float f3 = Mth.cos(ageInTicks * 0.27955F) * 0.0262F;
+         float f4 = Mth.cos(ageInTicks * 0.35222F) * 0.0265F;
+         float f22 = Mth.cos(ageInTicks * 0.2F) * 0.1F;
+         this.jointM.rotateAngleX = f22;
+      } else if (i == 1) {
+         if (!parasite.getStillAni()) {
+            float GS = 2.5F;
+            float GD = 2.5F;
+            this.swingX(this.jointFLL, 0.3F * GS, 1.0F * GD, 1, limbSwing, limbSwingAmount);
+            this.swingX(this.jointFRL, 0.3F * GS, 1.0F * GD, -1, limbSwing, limbSwingAmount);
+            this.swingX(this.jointBLL, 0.3F * GS, 1.0F * GD, -1, limbSwing, limbSwingAmount);
+            this.swingX(this.jointBRL, 0.3F * GS, 1.0F * GD, 1, limbSwing, limbSwingAmount);
+            this.moveY(this.mainbody, 0.6F * GS, 1, limbSwing, limbSwingAmount, 0.05F);
+            this.mainbody.rotateAngleX = 0.0F;
+         }
+
+         float f22 = Mth.cos(ageInTicks * 0.5F) * 0.2F;
+         this.jointM.rotateAngleX = f22;
+      } else if (i == 2) {
+         if (!parasite.getStillAni()) {
+            float GS = 1.5F;
+            float GD = 0.3F;
+            this.swingX(this.jointFLL, 0.3F * GS, 3.0F * GD, -1, 0.5F, 0.0F, limbSwing, limbSwingAmount);
+            this.swingX(this.jointFRL, 0.3F * GS, 3.0F * GD, -1, -0.5F, 0.0F, limbSwing, limbSwingAmount);
+            this.swingX(this.jointBLL, 0.3F * GS, 3.5F * GD, 1, -0.5F, 0.4F, limbSwing, limbSwingAmount);
+            this.swingX(this.jointBRL, 0.3F * GS, 3.5F * GD, 1, 0.5F, 0.4F, limbSwing, limbSwingAmount);
+            this.moveY(this.mainbody, 0.3F * GS, -1, limbSwing, limbSwingAmount, 0.08F);
+            this.swingX(this.mainbody, 0.3F * GS, 0.8F * GD, -1, 0.8F, 0.0F, limbSwing, limbSwingAmount);
+         }
+
+         float f22 = Mth.cos(ageInTicks * 0.5F) * 0.2F;
+         this.jointM.rotateAngleX = f22;
+      } else if (i == 3) {
+         if (!parasite.getStillAni()) {
+            float GS = 2.5F;
+            float GD = 0.3F;
+            this.swingX(this.jointFLL, 0.3F * GS, 3.0F * GD, -1, 0.5F, 0.0F, limbSwing, limbSwingAmount);
+            this.swingX(this.jointFRL, 0.3F * GS, 3.0F * GD, -1, -0.5F, 0.0F, limbSwing, limbSwingAmount);
+            this.swingX(this.jointBLL, 0.3F * GS, 3.5F * GD, 1, -0.5F, 0.4F, limbSwing, limbSwingAmount);
+            this.swingX(this.jointBRL, 0.3F * GS, 3.5F * GD, 1, 0.5F, 0.4F, limbSwing, limbSwingAmount);
+            this.moveY(this.mainbody, 0.3F * GS, -1, limbSwing, limbSwingAmount, 0.08F);
+            this.swingX(this.mainbody, 0.3F * GS, 0.8F * GD, -1, 0.8F, 0.0F, limbSwing, limbSwingAmount);
+         } else {
+            float f2 = Mth.cos(ageInTicks * 2.6F) * 0.015F;
+            float f1 = Mth.cos(ageInTicks * 2.27F) * 0.02F;
+            this.mainbody.offsetX = f2;
+            this.mainbody.offsetZ = f1;
+         }
+
+         this.jointM.rotateAngleX = -0.5F;
+         this.jointH.rotateAngleX += 0.6F;
+      }
+
+      this.underground(parasite, ageInTicks, this.mainbody);
+   }
+}

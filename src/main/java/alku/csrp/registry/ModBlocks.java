@@ -47,6 +47,9 @@ import alku.csrp.block.VacuousCystBlock;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ButtonBlock;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.IronBarsBlock;
 import net.minecraft.world.level.block.LadderBlock;
 import net.minecraft.world.level.block.LeavesBlock;
@@ -54,6 +57,9 @@ import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.TrapDoorBlock;
+import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
@@ -501,6 +507,116 @@ public final class ModBlocks {
                     .randomTicks()
                     .noOcclusion()
                     .sound(SoundType.GRASS)));
+
+    /**
+     * Names retained by the 1.12 release which do not have a dedicated modern
+     * implementation yet. Keeping them registered is important for old
+     * structures, recipes and saved block states. The closest vanilla shape
+     * is selected from the id so these blocks remain usable in-game.
+     */
+    public static final java.util.Map<String, RegistryObject<Block>> LEGACY_BLOCKS = registerLegacyBlocks();
+
+    private static java.util.Map<String, RegistryObject<Block>> registerLegacyBlocks() {
+        String[] ids = {
+                "assimilated_blossom", "bloodyice", "canisteractive", "colonyoutpost", "dispatchern",
+                "epitome_infestation_warp_diffuser", "goreada", "gorefer", "goremar", "gorepri", "gorepur", "goresim",
+                "bruisewood_fence", "bruisewood_plank_slab",
+                "bruisewood_plank_slab_double", "bruisewood_plank_stairs", "bruisewood_plank_wall",
+                "brusewood_door", "brusewood_trapdoor", "consumed_door", "consumed_fence",
+                "consumed_plank_slab", "consumed_plank_slab_double", "consumed_plank_wall",
+                "consumed_planks_stairs", "consumed_pot", "consumed_trapdoor", "consumed_workbench",
+                "cooked_flesh_slab_double", "dead_head_plank_slab", "dead_head_plank_slab_double",
+                "deadhead_fence", "deadhead_plank_stairs", "dermoid_cyst", "flesh_fence", "flesh_slab",
+                "flesh_slab_double", "flesh_stairs", "frost_weathered_stone_slab",
+                "frost_weathered_stone_slab_double", "frost_weathered_stone_stairs", "goth_door",
+                "goth_fence", "goth_plank_slab", "goth_plank_slab_double", "goth_plank_wall",
+                "goth_planks_stairs", "goth_stem", "harlequinn_grass", "harleskinn_fence",
+                "harleskinn_slab", "harleskinn_slab_double", "harleskinn_stairs", "hirsute_hair",
+                "infested_cactus", "infested_cobblestone_slab_double", "infested_dirt_slab_double",
+                "infested_fence", "infested_furnace", "infested_furnace_lit", "infested_leaves", "infested_leaves_fast", "infested_plank_slab_double",
+                "infested_pot", "infested_sandstone_slab_double", "infested_stone_brick_slab_double",
+                "infested_stone_slab_double", "infested_terracotta_slab_double", "infested_workbench",
+                "lipoma_mass", "locs_block_slab", "locs_block_slab_double", "node_relay", "parasitebush",
+                "parasitecanister", "parasitecanister_bag_wall", "parasiteplank", "parasiteplank_deadhead_wall",
+                "parasiterubble", "parasiterubble_bone", "parasiterubble_bricks", "parasiterubble_flesh",
+                "parasiterubble_fungus", "parasiterubble_metal", "parasiterubble_obsidian", "parasiterubble_stone",
+                "parasiterubble_wood", "parasitestain_dirt", "parasitestain_flesh", "parasitic_colony_core_slab",
+                "parasiterubble_bricks_wall", "parasiterubble_flesh_wall", "parasiterubble_metal_wall",
+                "parasiterubble_weathb_wall", "parasiterubble_weathbc_wall", "parasiterubble_weathfs_wall",
+                "parasiterubbledense", "parasiterubbledense_biome_wall", "parasiterubbledense_colony_wall",
+                "parasitestain",
+                "parasitic_colony_core_slab_double", "parasitic_compressed_colony_stone_slab",
+                "parasitic_compressed_colony_stone_slab_double", "parasitesapling",
+                "parasitestain_flesh_wall", "parasitethin", "parasitetrunk", "poland_skin_slab", "poland_skin_slab_double",
+                "polished_infested_stone_slab_double", "potted_assimilated_blossom",
+                "potted_consumed_assimilated_blossom", "relay_controller_dummy", "relaycontroller",
+                "reinforced_hivestone_slab", "reinforced_hivestone_slab_double", "residue_brick_slab_double",
+                "sac_of_flesh_slab", "sac_of_flesh_slab_double", "tresses_hair", "weathered_bricks_slab",
+                "weathered_bricks_slab_double", "weathered_cobblestone_slab",
+                "weathered_cobblestone_slab_double", "wheathered_bricks_stairs",
+                "wheathered_cobblestone_stairs", "goth_planks_stairs", "consumed_workbench",
+                "infested_sandstone_stairs", "infested_stone_stairs", "infested_stone_bricks_stairs",
+                "infested_polished_stone_bricks_stairs", "frost_weathered_stone_stairs", "infested_workbench",
+                "infested_cobblestone_slab", "infested_stone_slab", "infested_dirt_slab",
+                "infested_stone_brick_slab", "infested_terracotta_slab", "polished_infested_stone_slab",
+                "residue_brick_slab", "infested_sandstone_slab", "infested_plank_slab", "residue_stairs"
+                , "infestedremain", "infestedrubblestairs", "infestedstainstairs", "infestedtrunkstairs",
+                "parasite_barrier", "parasitefog", "parasiterubble_bonestairs", "parasiterubble_bricksstairs",
+                "parasiterubble_fleshstairs", "parasiterubble_fungusstairs", "parasiterubble_metalstairs",
+                "parasiterubble_obsidianstairs", "parasiterubble_stonedebrisstairs", "parasiterubble_stonestairs",
+                "parasiterubble_woodstairs", "parasiterubbledense_biomestairs", "parasiterubbledense_colonystairs",
+                "parasiterubbledense_wallstairs", "parasiterubbleslabdouble", "parasiterubbleslabhalf",
+                "parasitestain_dirtstairs", "parasitestain_feelerstairs", "parasitestain_fleshstairs",
+                "parasitestain_mudstairs", "parasitestainslabdouble", "parasitestainslabhalf", "parasitetendril",
+                "parasitetrunk_ballstairs", "parasitetrunk_plantstairs", "parasitetrunk_treestairs"
+        };
+        java.util.Map<String, RegistryObject<Block>> result = new java.util.LinkedHashMap<>();
+        for (String id : ids) {
+            if (isAlreadyRegistered(id) || result.containsKey(id)) {
+                continue;
+            }
+            result.put(id, BLOCKS.register(id, () -> legacyBlock(id)));
+        }
+        return java.util.Map.copyOf(result);
+    }
+
+    private static boolean isAlreadyRegistered(String id) {
+        return switch (id) {
+            case "residue_stairs", "infested_sandstone_stairs", "infested_stone_stairs",
+                    "infested_stone_bricks_stairs", "infested_polished_stone_bricks_stairs",
+                    "infested_cobblestone_slab", "infested_stone_slab", "infested_dirt_slab",
+                    "infested_stone_brick_slab", "infested_terracotta_slab", "polished_infested_stone_slab",
+                    "residue_brick_slab", "infested_sandstone_slab", "infested_plank_slab" -> true;
+            default -> false;
+        };
+    }
+
+    private static Block legacyBlock(String id) {
+        BlockBehaviour.Properties properties = BlockBehaviour.Properties.of()
+                .mapColor(MapColor.COLOR_RED).strength(1.5F, 6.0F).sound(SoundType.WOOD);
+        if (id.endsWith("_door")) {
+            return new DoorBlock(properties, BlockSetType.OAK);
+        }
+        if (id.endsWith("_trapdoor")) {
+            return new TrapDoorBlock(properties, BlockSetType.OAK);
+        }
+        if (id.endsWith("_fence")) {
+            return new FenceBlock(properties);
+        }
+        if (id.endsWith("_wall")) {
+            return new WallBlock(properties);
+        }
+        if (id.contains("slab")) {
+            return new SlabBlock(properties);
+        }
+        if (id.contains("stairs")) {
+            return new StairBlock(Blocks.STONE.defaultBlockState(), properties);
+        }
+        if (id.contains("leaves")) {
+            return new LeavesBlock(properties.randomTicks().noOcclusion());
+        }
+        return new Block(properties);
+    }
 
     private static RegistryObject<InfestedGlassBlock> tintedGlass(String id) {
         return BLOCKS.register(id, () -> new InfestedGlassBlock(BlockBehaviour.Properties.of()

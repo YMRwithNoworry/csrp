@@ -11,15 +11,9 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.RawAnimation;
-import software.bernie.geckolib.util.GeckoLibUtil;
 
 /** Detached body tendril used by the original multipart parasites. */
-public final class TendrilEntity extends Monster implements GeoEntity, Parasite {
+public final class TendrilEntity extends Monster implements Parasite {
     public static final int SHYCO = 1;
     public static final int NOGLA = 2;
     public static final int CANRA = 3;
@@ -31,8 +25,6 @@ public final class TendrilEntity extends Monster implements GeoEntity, Parasite 
 
     private static final EntityDataAccessor<Integer> SKIN = SynchedEntityData.defineId(
             TendrilEntity.class, EntityDataSerializers.INT);
-    private final RawAnimation idleAnimation = ParasiteAnimations.loop(this, "idle");
-    private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
 
     public TendrilEntity(EntityType<? extends TendrilEntity> type, Level level) {
         super(type, level);
@@ -85,16 +77,5 @@ public final class TendrilEntity extends Monster implements GeoEntity, Parasite 
         if (tag.contains("parasitetype")) {
             setSkin(tag.getInt("parasitetype"));
         }
-    }
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "idle_controller", 0,
-                state -> state.setAndContinue(idleAnimation)));
-    }
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return animationCache;
     }
 }

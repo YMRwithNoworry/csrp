@@ -75,6 +75,9 @@ public final class Config {
     private static final ForgeConfigSpec.BooleanValue GENERATION_ENABLED = BUILDER
             .comment("Use parasite generations. When disabled, parasites retain their full gene abilities.")
             .define("generationEnabled", true);
+    private static final ForgeConfigSpec.BooleanValue PARASITE_GEN_RESIDUE = BUILDER
+            .comment("Allow adapted parasites to place infested remains while idle.")
+            .define("parasiteGenResidue", true);
     private static final ForgeConfigSpec.BooleanValue PEARL_DESTROYED_ON_BEHOLDER_KILL = BUILDER
             .comment("Destroy dropped Eyes of the Beholder when their owner is slain by a beholder.")
             .define("pearlDestroyedOnBeholderKill", true);
@@ -552,6 +555,7 @@ public final class Config {
     public static float primitiveMinimumDamage() { return PRIMITIVE_MINIMUM_DAMAGE.get().floatValue(); }
     public static boolean useEvolutionPhases() { return USE_EVOLUTION_PHASES.get(); }
     public static boolean generationEnabled() { return GENERATION_ENABLED.get(); }
+    public static boolean parasiteGenResidue() { return PARASITE_GEN_RESIDUE.get(); }
     public static boolean pearlDestroyedOnBeholderKill() { return PEARL_DESTROYED_ON_BEHOLDER_KILL.get(); }
     public static double overlastNaturalEvolutionScale() { return OVERLAST_NATURAL_EVOLUTION_SCALE.get(); }
     public static boolean overlastHudRequiresClock() { return OVERLAST_HUD_REQUIRES_CLOCK.get(); }

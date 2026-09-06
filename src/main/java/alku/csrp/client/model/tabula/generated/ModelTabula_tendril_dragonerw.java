@@ -1,0 +1,96 @@
+package alku.csrp.client.model.tabula.generated;
+
+import alku.csrp.client.model.tabula.ModelSRP;
+import alku.csrp.entity.TabulaAnimationAccess;
+import net.minecraft.world.entity.Mob;
+import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
+import net.minecraft.util.Mth;
+
+/** Direct Citadel port of SRParasites 1.10.8's Tabula-exported {@code ModelTendrilDragonERW}. */
+public final class ModelTabula_tendril_dragonerw extends ModelSRP<Mob> {
+   public AdvancedModelBox mainbody;
+   public AdvancedModelBox jointRW1;
+   public AdvancedModelBox jd;
+   public AdvancedModelBox jointRW1_1;
+   public AdvancedModelBox w;
+   public AdvancedModelBox skin;
+   public AdvancedModelBox jointRW2;
+   public AdvancedModelBox dec;
+   public AdvancedModelBox dec_1;
+   public AdvancedModelBox dec_2;
+   public AdvancedModelBox dec_3;
+   public AdvancedModelBox w_1;
+   public AdvancedModelBox skin_1;
+   public AdvancedModelBox dec_4;
+
+   public ModelTabula_tendril_dragonerw() {
+      this.texWidth = 200;
+      this.texHeight = 150;
+      this.dec_4 = new AdvancedModelBox(this, 0, 16);
+      this.dec_4.setRotationPoint(-51.0F, 0.0F, 0.0F);
+      this.dec_4.addBox(-1.0F, -1.0F, -2.0F, 15, 2, 3, 0.0F);
+      this.setRotateAngle(this.dec_4, 0.0F, (float) Math.PI, 0.0F);
+      this.jointRW2 = new AdvancedModelBox(this, 66, 0);
+      this.jointRW2.setRotationPoint(-60.0F, 0.0F, 0.0F);
+      this.jointRW2.addBox(-0.5F, -0.5F, -0.5F, 1, 1, 1, 0.0F);
+      this.dec_2 = new AdvancedModelBox(this, 68, 0);
+      this.dec_2.setRotationPoint(-21.0F, -4.6F, -1.5F);
+      this.dec_2.addBox(-1.5F, -1.0F, -1.0F, 3, 3, 2, 0.0F);
+      this.setRotateAngle(this.dec_2, (float) (Math.PI / 2), -0.43982297F, 0.0F);
+      this.jd = new AdvancedModelBox(this, 8, 0);
+      this.jd.setRotationPoint(0.0F, 0.0F, 0.0F);
+      this.jd.addBox(-0.5F, -0.5F, -0.5F, 1, 1, 1, 0.0F);
+      this.setRotateAngle(this.jd, 0.0F, 0.24993114F, 0.0F);
+      this.skin_1 = new AdvancedModelBox(this, 16, 84);
+      this.skin_1.setRotationPoint(-56.0F, 0.0F, 0.0F);
+      this.skin_1.addBox(-56.0F, 0.0F, 2.0F, 60, 0, 60, 0.0F);
+      this.setRotateAngle(this.skin_1, 0.0F, 0.0F, (float) -Math.PI);
+      this.jointRW1 = new AdvancedModelBox(this, 4, 0);
+      this.jointRW1.setRotationPoint(0.0F, 0.0F, 0.0F);
+      this.jointRW1.addBox(-0.5F, -0.5F, -0.5F, 1, 1, 1, 0.0F);
+      this.dec_3 = new AdvancedModelBox(this, 164, 0);
+      this.dec_3.setRotationPoint(-13.0F, -4.6F, -1.5F);
+      this.dec_3.addBox(-1.5F, -1.0F, -1.0F, 3, 5, 2, 0.0F);
+      this.setRotateAngle(this.dec_3, (float) (Math.PI / 2), -0.87964594F, 0.0F);
+      this.jointRW1_1 = new AdvancedModelBox(this, 12, 0);
+      this.jointRW1_1.setRotationPoint(0.0F, 0.0F, 0.0F);
+      this.jointRW1_1.addBox(-0.5F, -0.5F, -0.5F, 1, 1, 1, 0.0F);
+      this.mainbody = new AdvancedModelBox(this, 0, 0);
+      this.mainbody.setRotationPoint(28.0F, 23.0F, -20.0F);
+      this.mainbody.addBox(0.0F, 0.0F, 0.0F, 1, 1, 1, 0.0F);
+      this.setRotateAngle(this.mainbody, -0.25132743F, 0.0F, 0.0F);
+      this.dec = new AdvancedModelBox(this, 74, 0);
+      this.dec.setRotationPoint(-26.0F, 0.0F, 0.0F);
+      this.dec.addBox(-1.0F, -1.0F, -2.5F, 35, 4, 5, 0.0F);
+      this.setRotateAngle(this.dec, 0.0F, (float) Math.PI, 0.0F);
+      this.w = new AdvancedModelBox(this, 8, 0);
+      this.w.setRotationPoint(0.0F, 0.0F, 0.0F);
+      this.w.addBox(-25.0F, -4.0F, -4.0F, 25, 8, 8, 0.0F);
+      this.setRotateAngle(this.w, 0.29670596F, 0.0F, 0.08726646F);
+      this.skin = new AdvancedModelBox(this, -52, 23);
+      this.skin.setRotationPoint(0.0F, 0.0F, 2.0F);
+      this.skin.addBox(-60.0F, 0.0F, 0.0F, 60, 0, 58, 0.0F);
+      this.dec_1 = new AdvancedModelBox(this, 154, 0);
+      this.dec_1.setRotationPoint(-19.0F, -1.6F, -4.5F);
+      this.dec_1.addBox(-1.5F, -1.0F, -1.0F, 3, 4, 2, 0.0F);
+      this.setRotateAngle(this.dec_1, 0.0F, 0.0F, -0.43982297F);
+      this.w_1 = new AdvancedModelBox(this, 74, 9);
+      this.w_1.setRotationPoint(0.0F, 0.0F, 0.0F);
+      this.w_1.addBox(-50.0F, -2.0F, -2.0F, 50, 4, 4, 0.0F);
+      this.setRotateAngle(this.w_1, 0.0F, 0.0F, 1.0164797F);
+      this.w_1.addChild(this.dec_4);
+      this.w.addChild(this.jointRW2);
+      this.w.addChild(this.dec_2);
+      this.jointRW1.addChild(this.jd);
+      this.w_1.addChild(this.skin_1);
+      this.mainbody.addChild(this.jointRW1);
+      this.w.addChild(this.dec_3);
+      this.jd.addChild(this.jointRW1_1);
+      this.w.addChild(this.dec);
+      this.jointRW1_1.addChild(this.w);
+      this.w.addChild(this.skin);
+      this.w.addChild(this.dec_1);
+      this.jointRW2.addChild(this.w_1);
+      this.captureDefaultPose();
+   }
+}
