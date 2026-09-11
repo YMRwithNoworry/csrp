@@ -1,8 +1,11 @@
 package alku.csrp.client;
 
 import alku.csrp.Csrp;
+import alku.csrp.Config;
 import alku.csrp.world.SrpDifficulty;
 import alku.csrp.world.SrpDifficultySelection;
+import alku.csrp.world.SrpMeteorMode;
+import alku.csrp.world.SrpMeteorSelection;
 import alku.csrp.world.SrpStarType;
 import alku.csrp.world.SrpStarTypeSelection;
 import java.util.List;
@@ -22,6 +25,7 @@ import net.neoforged.neoforge.client.event.ScreenEvent;
 public final class SrpDifficultyScreenEvents {
     private static final Map<CreateWorldScreen, SrpDifficulty> SELECTIONS = new WeakHashMap<>();
     private static final Map<CreateWorldScreen, SrpStarType> STAR_SELECTIONS = new WeakHashMap<>();
+    private static final Map<CreateWorldScreen, SrpMeteorMode> METEOR_SELECTIONS = new WeakHashMap<>();
 
     private SrpDifficultyScreenEvents() {
     }
@@ -60,11 +64,44 @@ public final class SrpDifficultyScreenEvents {
                         });
         updateStarTooltip(starSelector, selectedStar);
         event.addListener(starSelector);
+
+        // SRP 1.10.8 GuiSRPWorldSettings exposed a "Meteor" on/off cycle button; keep the same
+        // default as the global config so servers that already enable meteors stay enabled.
+        SrpMeteorMode selectedMeteor = METEOR_SELECTIONS.computeIfAbsent(screen,
+                ignored -> SrpMeteorMode.of(defaultMeteorEnabled()));
+        CycleButton<SrpMeteorMode> meteorSelector = CycleButton.<SrpMeteorMode>builder(
+                        mode -> Component.translatable(mode.translationKey()))
+                .withValues(List.of(SrpMeteorMode.values()))
+                .withInitialValue(selectedMeteor)
+                .create((screen.width - width) / 2, screen.height - 100, width, 20,
+                        Component.translatable("options.csrp.meteor"),
+                        (button, mode) -> {
+                            METEOR_SELECTIONS.put(screen, mode);
+                            updateMeteorTooltip(button, mode);
+                        });
+        updateMeteorTooltip(meteorSelector, selectedMeteor);
+        event.addListener(meteorSelector);
     }
 
     public static void stageSelection(CreateWorldScreen screen) {
         SrpDifficultySelection.stage(SELECTIONS.getOrDefault(screen, SrpDifficulty.NORMAL));
         SrpStarTypeSelection.stage(STAR_SELECTIONS.getOrDefault(screen, SrpStarType.NORMAL));
+        SrpMeteorMode meteor = METEOR_SELECTIONS.get(screen);
+        if (meteor != null) {
+            SrpMeteorSelection.stage(meteor);
+        }
+    }
+
+    private static boolean defaultMeteorEnabled() {
+        try {
+            return Config.meteorEnabled();
+        } catch (IllegalStateException | NullPointerException configNotLoaded) {
+            return false;
+        }
+    }
+
+    private static void updateMeteorTooltip(CycleButton<SrpMeteorMode> button, SrpMeteorMode mode) {
+        button.setTooltip(Tooltip.create(Component.translatable(mode.descriptionKey())));
     }
 
     private static void updateTooltip(CycleButton<SrpDifficulty> button, SrpDifficulty difficulty) {

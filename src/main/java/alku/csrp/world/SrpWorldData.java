@@ -28,6 +28,11 @@ public final class SrpWorldData extends SavedData {
     private int evolutionPoints = -300;
     private SrpDifficulty difficulty = SrpDifficulty.NORMAL;
     private SrpStarType starType = SrpStarType.NORMAL;
+    /**
+     * Create-world "meteor infection" choice. {@code null} means the world never
+     * stored one (older saves), so {@link Config#meteorEnabled()} stays authoritative.
+     */
+    private SrpMeteorMode meteorInfection;
     private double difficultyPointRemainder;
     private long cooldownEnd;
     private boolean canGain = true;
@@ -73,6 +78,9 @@ public final class SrpWorldData extends SavedData {
         data.evolutionPoints = tag.getInt("evolution_points");
         data.difficulty = SrpDifficulty.byId(tag.getString("srp_difficulty"));
         data.starType = SrpStarType.byId(tag.getString("star_type"));
+        data.meteorInfection = tag.contains("meteor_infection")
+                ? SrpMeteorMode.byId(tag.getString("meteor_infection"))
+                : null;
         data.difficultyPointRemainder = tag.getDouble("difficulty_point_remainder");
         data.cooldownEnd = tag.getLong("cooldown_end");
         data.canGain = !tag.contains("can_gain") || tag.getBoolean("can_gain");
@@ -108,6 +116,9 @@ public final class SrpWorldData extends SavedData {
         tag.putInt("evolution_points", evolutionPoints);
         tag.putString("srp_difficulty", difficulty.id());
         tag.putString("star_type", starType.id());
+        if (meteorInfection != null) {
+            tag.putString("meteor_infection", meteorInfection.id());
+        }
         tag.putDouble("difficulty_point_remainder", difficultyPointRemainder);
         tag.putLong("cooldown_end", cooldownEnd);
         tag.putBoolean("can_gain", canGain);
@@ -170,6 +181,24 @@ public final class SrpWorldData extends SavedData {
             return;
         }
         this.starType = starType;
+        setDirty();
+    }
+
+    /** @return the create-world choice, or {@code null} when the world follows the config. */
+    public SrpMeteorMode meteorInfection() {
+        return meteorInfection;
+    }
+
+    /** Effective gate for the periodic meteor infection event. */
+    public boolean meteorInfectionEnabled() {
+        return meteorInfection == null ? Config.meteorEnabled() : meteorInfection.enabled();
+    }
+
+    public void setMeteorInfection(SrpMeteorMode mode) {
+        if (meteorInfection == mode) {
+            return;
+        }
+        meteorInfection = mode;
         setDirty();
     }
 
@@ -650,6 +679,9 @@ public final class SrpWorldData extends SavedData {
         starType = level == level.getServer().overworld()
                 ? SrpStarTypeSelection.consumeOrDefault()
                 : SrpWorldData.get(level.getServer().overworld()).starType();
+        meteorInfection = level == level.getServer().overworld()
+                ? SrpMeteorSelection.consume()
+                : SrpWorldData.get(level.getServer().overworld()).meteorInfection;
         difficultyPointRemainder = 0.0D;
         generation = 0;
         generationTicks = 0;

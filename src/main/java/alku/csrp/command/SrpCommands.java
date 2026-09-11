@@ -7,10 +7,12 @@ import alku.csrp.entity.Parasite;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.world.EvolutionSystem;
 import alku.csrp.world.DislodgmentSystem;
+import alku.csrp.world.MeteorInfectionSystem;
 import alku.csrp.world.SrpWorldData;
 import alku.csrp.world.SrpCoreSystems;
 import alku.csrp.world.SrpDifficulty;
 import alku.csrp.world.SrpDifficultyEvents;
+import alku.csrp.world.SrpMeteorMode;
 import alku.csrp.world.SrpWorldData.ColonyEntry;
 import alku.csrp.world.SrpWorldData.DislodgmentCode;
 import alku.csrp.world.SrpWorldData.NodeEntry;
@@ -58,6 +60,61 @@ public final class SrpCommands {
         dispatcher.register(dqq());
         dispatcher.register(srHelp());
         dispatcher.register(srSummonNidus());
+        dispatcher.register(srMeteor());
+    }
+
+    private static LiteralArgumentBuilder<CommandSourceStack> srMeteor() {
+        return admin("srpmeteor")
+                .executes(context -> spawnMeteor(context.getSource()))
+                .then(Commands.literal("at")
+                        .then(Commands.argument("pos", BlockPosArgument.blockPos())
+                                .executes(context -> spawnMeteorAt(context.getSource(),
+                                        BlockPosArgument.getLoadedBlockPos(context, "pos")))))
+                .then(Commands.literal("get")
+                        .executes(context -> showMeteorInfection(context.getSource())))
+                .then(meteorInfectionSet());
+    }
+
+    private static LiteralArgumentBuilder<CommandSourceStack> meteorInfectionSet() {
+        LiteralArgumentBuilder<CommandSourceStack> set = Commands.literal("set");
+        for (SrpMeteorMode mode : SrpMeteorMode.values()) {
+            set.then(Commands.literal(mode.id())
+                    .executes(context -> setMeteorInfection(context.getSource(), mode)));
+        }
+        return set;
+    }
+
+    private static int showMeteorInfection(CommandSourceStack source) {
+        SrpWorldData data = SrpWorldData.get(source.getServer().overworld());
+        SrpMeteorMode mode = data.meteorInfection();
+        return success(source, "Meteor infection: "
+                + (data.meteorInfectionEnabled() ? "on" : "off")
+                + (mode == null ? " (following the global config)" : " (set for this world)"));
+    }
+
+    private static int setMeteorInfection(CommandSourceStack source, SrpMeteorMode mode) {
+        for (ServerLevel level : source.getServer().getAllLevels()) {
+            SrpWorldData.get(level).setMeteorInfection(mode);
+        }
+        return success(source, "Meteor infection " + (mode.enabled() ? "enabled" : "disabled")
+                + " for this world; the periodic meteor event now follows this setting");
+    }
+
+    private static int spawnMeteor(CommandSourceStack source) {
+        return MeteorInfectionSystem.spawnMeteor(source.getLevel())
+                ? success(source, "Hive Satellite launched")
+                : failure(source, "No player available to target");
+    }
+
+    private static int spawnMeteorAt(CommandSourceStack source, BlockPos pos) {
+        ServerLevel level = source.getLevel();
+        net.minecraft.world.phys.Vec3 origin = new net.minecraft.world.phys.Vec3(
+                pos.getX(), level.getMaxBuildHeight(), pos.getZ());
+        net.minecraft.world.phys.Vec3 target = new net.minecraft.world.phys.Vec3(
+                pos.getX(), pos.getY(), pos.getZ());
+        return MeteorInfectionSystem.spawnMeteor(level, origin, target)
+                ? success(source, "Hive Satellite launched at " + pos.toShortString())
+                : failure(source, "Could not launch the meteor");
     }
 
     private static LiteralArgumentBuilder<CommandSourceStack> srParasites() {
@@ -315,7 +372,7 @@ public final class SrpCommands {
         return admin("srphelp")
                 .executes(context -> success(context.getSource(),
                         "SRP commands: srparasites, srpevolution, srpgeneration, srpudevelopment, srpnodes, "
-                                + "srpcolonies, srpvectors, srpdislodgment, srpdifficulty, dqq, srp_summon_nidus"))
+                                + "srpcolonies, srpvectors, srpdislodgment, srpdifficulty, srpmeteor, dqq, srp_summon_nidus"))
                 .then(helpTopic("srparasites", "Status, generation and per-dimension data reset"))
                 .then(helpTopic("srpevolution", "Phase, points, lure timer and evolution locks"))
                 .then(helpTopic("srpgeneration", "Parasite generation and generation ticks"))
@@ -325,6 +382,7 @@ public final class SrpCommands {
                 .then(helpTopic("srpvectors", "List, create and remove infestation vectors"))
                 .then(helpTopic("srpdislodgment", "Create, inspect and clear dislodgment codes"))
                 .then(helpTopic("srpdifficulty", "View or change the active SRP difficulty"))
+                .then(helpTopic("srpmeteor", "Launch a meteor or read/change the meteor infection setting"))
                 .then(helpTopic("dqq", "Toggle EVE mode or query its status"))
                 .then(helpTopic("srp_summon_nidus", "Summon a Beckon nexus stage at a position"));
     }
