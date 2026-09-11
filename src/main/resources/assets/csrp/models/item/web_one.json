@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "parent": "item/generated",
   "textures": {
-    "layer0": "SRParasites:blocks/web_one"
+    "layer0": "csrp:blocks/web_one"
   },
   "display": {
     "thirdperson_righthand": {

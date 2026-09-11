@@ -1,0 +1,33 @@
+{
+  "group": "nocubessrparmory",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "10"
+  ],
+  "key": {
+    "0": [
+      {
+        "item": "csrp:ada_summoner_drop"
+      },
+      {
+        "item": "csrp:ada_reeker_drop"
+      },
+      {
+        "item": "csrp:ada_yelloweye_drop"
+      },
+      {
+        "item": "csrp:ada_manducater_drop"
+      },
+      {
+        "item": "csrp:ada_longarms_drop"
+      }
+    ],
+    "1": {
+      "item": "nocubessrparmory:capsuleempty"
+    }
+  },
+  "result": {
+    "count": 16,
+    "id": "nocubessrparmory:capsulefuel"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "nocubessrparmory:item/mimic_blade_purple"
+  }
+}

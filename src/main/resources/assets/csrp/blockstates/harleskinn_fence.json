@@ -2,7 +2,7 @@
   "multipart": [
     {
       "apply": {
-        "model": "csrp:harleskinn_fence_post",
+        "model": "csrp:block/harleskinn_fence_post",
         "textures": {
           "texture": "csrp:blocks/harleskinn_block"
         }
@@ -13,7 +13,7 @@
         "north": "true"
       },
       "apply": {
-        "model": "csrp:harleskinn_fence_side",
+        "model": "csrp:block/harleskinn_fence_side",
         "y": 0,
         "textures": {
           "texture": "csrp:blocks/harleskinn_block"
@@ -25,7 +25,7 @@
         "south": "true"
       },
       "apply": {
-        "model": "csrp:harleskinn_fence_side",
+        "model": "csrp:block/harleskinn_fence_side",
         "y": 180,
         "textures": {
           "texture": "csrp:blocks/harleskinn_block"
@@ -37,7 +37,7 @@
         "east": "true"
       },
       "apply": {
-        "model": "csrp:harleskinn_fence_side",
+        "model": "csrp:block/harleskinn_fence_side",
         "y": 90,
         "textures": {
           "texture": "csrp:blocks/harleskinn_block"
@@ -49,7 +49,7 @@
         "west": "true"
       },
       "apply": {
-        "model": "csrp:harleskinn_fence_side",
+        "model": "csrp:block/harleskinn_fence_side",
         "y": 270,
         "textures": {
           "texture": "csrp:blocks/harleskinn_block"

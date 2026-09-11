@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "parent": "item/generated",
   "textures": {
-    "layer0": "SRParasites:blocks/parasitesapling_treethin"
+    "layer0": "csrp:blocks/parasitesapling_treethin"
   },
   "display": {
     "thirdperson_righthand": {

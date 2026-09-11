@@ -1,57 +1,57 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "csrp:gore_pure_small"
+    "model": "csrp:block/gore_pure_small"
   },
   "variants": {
     "variant=flat": [
       {
-        "model": "csrp:gore_pure_flat"
+        "model": "csrp:block/gore_pure_flat"
       },
       {
-        "model": "csrp:gore_pure_flat",
+        "model": "csrp:block/gore_pure_flat",
         "y": 90
       },
       {
-        "model": "csrp:gore_pure_flat",
+        "model": "csrp:block/gore_pure_flat",
         "y": 180
       },
       {
-        "model": "csrp:gore_pure_flat",
+        "model": "csrp:block/gore_pure_flat",
         "y": 270
       }
     ],
     "variant=small": [
       {
-        "model": "csrp:gore_pure_small"
+        "model": "csrp:block/gore_pure_small"
       },
       {
-        "model": "csrp:gore_pure_small",
+        "model": "csrp:block/gore_pure_small",
         "y": 90
       },
       {
-        "model": "csrp:gore_pure_small",
+        "model": "csrp:block/gore_pure_small",
         "y": 180
       },
       {
-        "model": "csrp:gore_pure_small",
+        "model": "csrp:block/gore_pure_small",
         "y": 270
       }
     ],
     "variant=big": [
       {
-        "model": "csrp:gore_pure_big"
+        "model": "csrp:block/gore_pure_big"
       },
       {
-        "model": "csrp:gore_pure_big",
+        "model": "csrp:block/gore_pure_big",
         "y": 90
       },
       {
-        "model": "csrp:gore_pure_big",
+        "model": "csrp:block/gore_pure_big",
         "y": 180
       },
       {
-        "model": "csrp:gore_pure_big",
+        "model": "csrp:block/gore_pure_big",
         "y": 270
       }
     ],        

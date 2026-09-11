@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "nocubessrparmory:headbomb"
+    },
+    "title": {
+      "translate": "advancements.advheadbomb.title"
+    },
+    "description": {
+      "translate": "advancements.advheadbomb.descr"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "advheadbomb": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "rewards": {
+    "experience": 1
+  },
+  "parent": "nocubessrparmory:advrupterbomb"
+}

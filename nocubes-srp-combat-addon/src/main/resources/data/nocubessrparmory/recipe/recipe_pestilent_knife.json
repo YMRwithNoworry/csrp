@@ -1,0 +1,24 @@
+{
+  "group": "nocubessrparmory",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "  2",
+    " 4 ",
+    "6  "
+  ],
+  "key": {
+    "2": {
+      "item": "nocubessrparmory:pestilentpart"
+    },
+    "4": {
+      "item": "nocubessrparmory:pestilentpart"
+    },
+    "6": {
+      "item": "nocubessrparmory:infestedtoolrod"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "nocubessrparmory:pestilentknife"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "group": "nocubessrparmory",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " 12",
+    "345",
+    "67 "
+  ],
+  "key": {
+    "1": {
+      "item": "nocubessrparmory:carapacepart"
+    },
+    "2": {
+      "item": "nocubessrparmory:carapacepart"
+    },
+    "3": {
+      "item": "nocubessrparmory:carapacepart"
+    },
+    "4": {
+      "item": "nocubessrparmory:carapacepart"
+    },
+    "5": {
+      "item": "nocubessrparmory:carapacepart"
+    },
+    "6": {
+      "item": "nocubessrparmory:infestedtoolrod"
+    },
+    "7": {
+      "item": "nocubessrparmory:carapacepart"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "nocubessrparmory:carapacebroadsword"
+  }
+}

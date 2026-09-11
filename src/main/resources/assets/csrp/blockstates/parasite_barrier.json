@@ -1,7 +1,7 @@
 {
   "variants": {
     "normal": {
-      "model": "csrp:parasite_barrier"
+      "model": "csrp:block/parasite_barrier"
     }
   }
 }

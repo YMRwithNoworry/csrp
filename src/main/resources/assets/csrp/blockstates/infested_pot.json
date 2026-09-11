@@ -2,12 +2,12 @@
   "variants": {
     "normal": [
       {
-        "model": "csrp:infested_pot"
+        "model": "csrp:block/infested_pot"
       }
     ],
     "inventory": [
       {
-        "model": "csrp:infested_pot"
+        "model": "csrp:block/infested_pot"
       }
     ]
   }

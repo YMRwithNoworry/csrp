@@ -2,13 +2,13 @@
   "forge_marker": 1,
   "variants": {
     "variant=default": {
-      "model": "csrp:sac_of_flesh_slab_double"
+      "model": "csrp:block/sac_of_flesh_slab_double"
     },
     "half=bottom,variant=default": {
-      "model": "csrp:sac_of_flesh_slab_double"
+      "model": "csrp:block/sac_of_flesh_slab_double"
     },
     "half=top,variant=default": {
-      "model": "csrp:sac_of_flesh_slab_double"
+      "model": "csrp:block/sac_of_flesh_slab_double"
     },
     "inventory": [
       {}

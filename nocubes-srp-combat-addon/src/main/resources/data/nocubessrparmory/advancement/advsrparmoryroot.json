@@ -1,0 +1,26 @@
+{
+  "display": {
+    "background": "nocubessrparmory:textures/parasite_advancement_background.png",
+    "icon": {
+      "id": "nocubessrparmory:iconarmorytab"
+    },
+    "title": {
+      "translate": "advancements.advsrparmoryroot.title"
+    },
+    "description": {
+      "translate": "advancements.advsrparmoryroot.descr"
+    },
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "advsrparmoryroot": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "rewards": {
+    "experience": 1
+  }
+}

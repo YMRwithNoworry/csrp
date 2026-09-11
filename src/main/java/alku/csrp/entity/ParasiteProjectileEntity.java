@@ -7,6 +7,7 @@ import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
+import alku.csrp.world.MeteorCrashFeature;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.particles.ParticleOptions;
@@ -108,6 +109,7 @@ public final class ParasiteProjectileEntity extends Entity {
     private int biomassSkin = 4;
     private UUID biomassTargetId;
     private boolean biomassReservationHandled;
+    private boolean rootMeteor;
 
     public ParasiteProjectileEntity(EntityType<? extends ParasiteProjectileEntity> type, Level level) {
         super(type, level);
@@ -139,6 +141,35 @@ public final class ParasiteProjectileEntity extends Entity {
         if (direction.lengthSqr() > 0.001) {
             setDeltaMovement(direction.normalize().scale(speed));
         }
+    }
+
+    /** Periodic world-event meteor: ownerless and always carves a root impact. */
+    public void configureRootMeteor(Vec3 start, Vec3 target, double speed, float damage, double radius,
+                                    int maximumLifetime) {
+        ownerId = null;
+        rootMeteor = true;
+        entityData.set(MODE, Mode.METEOR.ordinal());
+        entityData.set(HOMING_TARGET, 0);
+        this.damage = damage;
+        this.radius = radius;
+        this.maximumLifetime = maximumLifetime;
+        setPos(start);
+        Vec3 direction = target.subtract(start);
+        if (direction.lengthSqr() > 0.001) {
+            setDeltaMovement(direction.normalize().scale(speed));
+        }
+    }
+
+    public boolean isRootMeteor() {
+        return rootMeteor;
+    }
+
+    private void impactMeteor(PrimitiveParasiteEntity owner) {
+        if (level() instanceof ServerLevel serverLevel) {
+            BlockPos hit = BlockPos.containing(getX(), getY(), getZ());
+            MeteorCrashFeature.generate(serverLevel, serverLevel.getRandom(), hit, rootMeteor ? 5 : 1);
+        }
+        discard();
     }
 
     public void configureAccelerating(PrimitiveParasiteEntity owner, Mode mode, Vec3 start, Vec3 accelerationDirection,
@@ -184,7 +215,7 @@ public final class ParasiteProjectileEntity extends Entity {
         boolean armedAcidNade = mode == Mode.ACID && entityData.get(ACID_NADE_ARMED);
         boolean armedYelloweyeNade = mode == Mode.YELLOWEYE_NADE && entityData.get(ACID_NADE_ARMED);
         if (!level().isClientSide && (owner == null || !owner.isAlive())
-                && !armedNade && !armedAcidNade && !armedYelloweyeNade) {
+                && !armedNade && !armedAcidNade && !armedYelloweyeNade && mode != Mode.METEOR) {
             releaseBiomassReservation(owner);
             discard();
             return;
@@ -294,6 +325,10 @@ public final class ParasiteProjectileEntity extends Entity {
 
     private void impact(PrimitiveParasiteEntity owner, Mode mode, LivingEntity directHit) {
         if (owner == null) {
+            if (mode == Mode.METEOR) {
+                impactMeteor(null);
+                return;
+            }
             discard();
             return;
         }
@@ -372,6 +407,10 @@ public final class ParasiteProjectileEntity extends Entity {
             if (mode == Mode.BOMB && level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
                 level().explode(owner, getX(), getY(), getZ(), (float) Math.max(1.5D, radius),
                         Level.ExplosionInteraction.MOB);
+            }
+            if (mode == Mode.METEOR) {
+                impactMeteor(owner);
+                return;
             }
         } else if (mode == Mode.VOMIT || mode == Mode.SALIVA_EFFECT) {
             spawnLingeringVomitCloud(owner);
@@ -844,6 +883,7 @@ public final class ParasiteProjectileEntity extends Entity {
         biomassSkin = Mth.clamp(tag.contains("biomass_skin") ? tag.getInt("biomass_skin") : 4, 1, 6);
         biomassTargetId = tag.hasUUID("biomass_target") ? tag.getUUID("biomass_target") : null;
         biomassReservationHandled = tag.getBoolean("biomass_reservation_handled");
+        rootMeteor = tag.getBoolean("root_meteor");
     }
 
     @Override
@@ -878,6 +918,7 @@ public final class ParasiteProjectileEntity extends Entity {
             tag.putUUID("biomass_target", biomassTargetId);
         }
         tag.putBoolean("biomass_reservation_handled", biomassReservationHandled);
+        tag.putBoolean("root_meteor", rootMeteor);
     }
 
     public Mode getMode() {

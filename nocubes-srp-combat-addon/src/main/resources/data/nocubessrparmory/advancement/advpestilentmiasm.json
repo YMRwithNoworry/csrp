@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "nocubessrparmory:pestilentmiasm"
+    },
+    "title": {
+      "translate": "advancements.advpestilentmiasm.title"
+    },
+    "description": {
+      "translate": "advancements.advpestilentmiasm.descr"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "advpestilentmiasm": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "rewards": {
+    "experience": 1
+  },
+  "parent": "nocubessrparmory:advpestilentshuriken"
+}

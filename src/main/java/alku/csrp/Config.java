@@ -28,6 +28,9 @@ public final class Config {
     private static final ModConfigSpec.BooleanValue RAGE_ENABLED = BUILDER
             .comment("Allow parasites to grant the Rage effect.")
             .define("rageEnabled", true);
+    private static final ModConfigSpec.BooleanValue DERIVED_TEXT_DISTORTION_ENABLED = BUILDER
+            .comment("Show the obfuscated/garbled text effect caused by nearby Kirin and Draconite.")
+            .define("derivedTextDistortionEnabled", false);
     private static final ModConfigSpec.BooleanValue MOB_ATTACKING_ENABLED = BUILDER
             .comment("Allow parasites to target non-player mobs.")
             .define("mobAttackingEnabled", true);
@@ -566,6 +569,7 @@ public final class Config {
     public static int scentDevelopmentLevel() { return SCENT_DEVELOPMENT_LEVEL.get(); }
     public static boolean rageEnabled() { return RAGE_ENABLED.get(); }
     public static boolean mobAttackingEnabled() { return MOB_ATTACKING_ENABLED.get(); }
+    public static boolean derivedTextDistortionEnabled() { return DERIVED_TEXT_DISTORTION_ENABLED.get(); }
     public static List<? extends String> mobAttackingBlacklist() { return MOB_ATTACKING_BLACKLIST.get(); }
     public static boolean mobAttackingBlacklistInverted() { return MOB_ATTACKING_BLACKLIST_INVERTED.get(); }
     public static boolean collectiveConsciousnessEnabled() { return COLLECTIVE_CONSCIOUSNESS_ENABLED.get(); }

@@ -1,0 +1,29 @@
+{
+  "group": "nocubessrparmory",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "0 2",
+    "345"
+  ],
+  "key": {
+    "0": {
+      "item": "nocubessrparmory:carapacepart"
+    },
+    "2": {
+      "item": "nocubessrparmory:carapacepart"
+    },
+    "3": {
+      "item": "nocubessrparmory:carapacepart"
+    },
+    "4": {
+      "item": "nocubessrparmory:twistedarmorhelmet"
+    },
+    "5": {
+      "item": "nocubessrparmory:carapacepart"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "nocubessrparmory:carapacearmorhelmet"
+  }
+}

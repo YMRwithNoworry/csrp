@@ -1,0 +1,33 @@
+{
+  "group": "nocubessrparmory",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "0 2",
+    "345",
+    " 7 "
+  ],
+  "key": {
+    "0": {
+      "item": "nocubessrparmory:livingpart"
+    },
+    "2": {
+      "item": "nocubessrparmory:livingpart"
+    },
+    "3": {
+      "item": "nocubessrparmory:livingpart"
+    },
+    "4": {
+      "item": "csrp:living_core"
+    },
+    "5": {
+      "item": "nocubessrparmory:livingpart"
+    },
+    "7": {
+      "item": "nocubessrparmory:livingpart"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "nocubessrparmory:livingarmorbody"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "group": "nocubessrparmory",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "012"
+  ],
+  "key": {
+    "0": {
+      "item": "nocubessrparmory:dreadnaughtcore"
+    },
+    "1": {
+      "item": "nocubessrparmory:pestilentscythe"
+    },
+    "2": {
+      "item": "nocubessrparmory:dreadnaughtcore"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "nocubessrparmory:evolutionsickle"
+  }
+}

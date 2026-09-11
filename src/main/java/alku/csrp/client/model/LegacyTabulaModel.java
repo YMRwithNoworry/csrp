@@ -7,6 +7,7 @@ import com.github.alexthe666.citadel.client.model.TabulaModel;
 import com.github.alexthe666.citadel.client.model.TabulaModelHandler;
 import com.github.alexthe666.citadel.client.model.basic.BasicModelPart;
 import com.github.alexthe666.citadel.client.model.container.TabulaModelContainer;
+import com.github.alexthe666.citadel.client.model.container.TabulaCubeContainer;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
@@ -81,12 +82,31 @@ public abstract class LegacyTabulaModel<T extends LivingEntity> extends Advanced
             ZipEntry entry;
             while ((entry = archive.getNextEntry()) != null) {
                 if ("model.json".equals(entry.getName())) {
-                    return TabulaModelHandler.INSTANCE.loadTabulaModel(archive);
+                    TabulaModelContainer container = TabulaModelHandler.INSTANCE.loadTabulaModel(archive);
+                    normalizeGroundPlane(container);
+                    return container;
                 }
             }
             throw new IOException("Tabula archive has no model.json: " + location);
         } catch (IOException | RuntimeException exception) {
             throw new IllegalStateException("Unable to load Citadel Tabula model " + location, exception);
+        }
+    }
+
+    /**
+     * The original 1.10.8 Java models already use the vanilla 24-pixel ground plane. The build-time
+     * importer wrapped every model in a synthetic {@code srp_coordinate_root} positioned at y=24,
+     * which shifted all parts down by 24 pixels (1.5 blocks) and made the models render below
+     * their entity position. Resetting the synthetic root to the origin restores the authored
+     * coordinates for every model, ground-walking or hovering.
+     */
+    private static void normalizeGroundPlane(TabulaModelContainer container) {
+        for (TabulaCubeContainer root : container.getCubes()) {
+            if (!"srp_coordinate_root".equals(root.getName())) continue;
+            double[] rootPosition = root.getPosition();
+            if (rootPosition == null || rootPosition.length < 2) return;
+            rootPosition[1] = 0.0D;
+            return;
         }
     }
 }

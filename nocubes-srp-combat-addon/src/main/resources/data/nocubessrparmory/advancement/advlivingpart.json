@@ -1,0 +1,37 @@
+{
+  "display": {
+    "icon": {
+      "id": "nocubessrparmory:livingpart"
+    },
+    "title": {
+      "translate": "advancements.advlivingpart.title"
+    },
+    "description": {
+      "translate": "advancements.advlivingpart.descr"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "advlivingpart": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "id": "nocubessrparmory:livingpart",
+            "count": {
+              "min": 1,
+              "max": 128
+            }
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "experience": 1
+  },
+  "parent": "nocubessrparmory:advsrparmoryroot"
+}

@@ -1,0 +1,29 @@
+{
+  "group": "nocubessrparmory",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "012",
+    "3 5"
+  ],
+  "key": {
+    "0": {
+      "item": "nocubessrparmory:overlordcore"
+    },
+    "1": {
+      "item": "nocubessrparmory:livingarmorlegs"
+    },
+    "2": {
+      "item": "nocubessrparmory:overlordcore"
+    },
+    "3": {
+      "item": "nocubessrparmory:overlordcore"
+    },
+    "5": {
+      "item": "nocubessrparmory:overlordcore"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "nocubessrparmory:adaptivearmorlegs"
+  }
+}

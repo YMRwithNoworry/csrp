@@ -1,0 +1,28 @@
+{
+  "group": "nocubessrparmory",
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "nocubessrparmory:twistedpart"
+    },
+    {
+      "item": "minecraft:spider_eye"
+    },
+    {
+      "item": "nocubessrparmory:twistedpart"
+    },
+    {
+      "item": "nocubessrparmory:twistedpart"
+    },
+    {
+      "item": "minecraft:gunpowder"
+    },
+    {
+      "item": "nocubessrparmory:twistedpart"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "id": "nocubessrparmory:twistedbomb"
+  }
+}

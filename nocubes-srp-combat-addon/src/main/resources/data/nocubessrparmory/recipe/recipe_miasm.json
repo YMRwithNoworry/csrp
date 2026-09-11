@@ -1,0 +1,36 @@
+{
+  "group": "nocubessrparmory",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "012",
+    "3 5",
+    "67 "
+  ],
+  "key": {
+    "0": {
+      "item": "nocubessrparmory:pestilentpart"
+    },
+    "1": {
+      "item": "nocubessrparmory:pestilentpart"
+    },
+    "2": {
+      "item": "nocubessrparmory:infestedtoolrod"
+    },
+    "3": {
+      "item": "nocubessrparmory:pestilentpart"
+    },
+    "5": {
+      "item": "minecraft:string"
+    },
+    "6": {
+      "item": "nocubessrparmory:infestedtoolrod"
+    },
+    "7": {
+      "item": "minecraft:string"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "nocubessrparmory:pestilentmiasm"
+  }
+}

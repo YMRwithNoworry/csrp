@@ -2,12 +2,12 @@
   "variants": {
     "normal": [
       {
-        "model": "csrp:assimilated_blossom"
+        "model": "csrp:block/assimilated_blossom"
       }
     ],
     "inventory": [
       {
-        "model": "csrp:assimilated_blossom"
+        "model": "csrp:block/assimilated_blossom"
       }
     ]
   }

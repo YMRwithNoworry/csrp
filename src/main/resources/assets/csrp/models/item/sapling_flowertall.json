@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "parent": "item/generated",
   "textures": {
-    "layer0": "SRParasites:blocks/parasitesapling_flowertall"
+    "layer0": "csrp:blocks/parasitesapling_flowertall"
   },
   "display": {
     "thirdperson_righthand": {

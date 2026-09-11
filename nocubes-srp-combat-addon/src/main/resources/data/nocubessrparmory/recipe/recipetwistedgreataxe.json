@@ -1,0 +1,39 @@
+{
+  "group": "nocubessrparmory",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "01 ",
+    "345",
+    "678"
+  ],
+  "key": {
+    "0": {
+      "item": "nocubessrparmory:twistedpart"
+    },
+    "1": {
+      "item": "nocubessrparmory:twistedpart"
+    },
+    "3": {
+      "item": "nocubessrparmory:twistedpart"
+    },
+    "4": {
+      "item": "minecraft:stick"
+    },
+    "5": {
+      "item": "nocubessrparmory:twistedpart"
+    },
+    "6": {
+      "item": "minecraft:stick"
+    },
+    "7": {
+      "item": "nocubessrparmory:twistedpart"
+    },
+    "8": {
+      "item": "nocubessrparmory:twistedpart"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "nocubessrparmory:twistedgreataxe"
+  }
+}

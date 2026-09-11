@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "nocubessrparmory:gorehatchet"
+    },
+    "title": {
+      "translate": "advancements.advgorehatchet.title"
+    },
+    "description": {
+      "translate": "advancements.advgorehatchet.descr"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "advgorehatchet": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "rewards": {
+    "experience": 1
+  },
+  "parent": "nocubessrparmory:advgorepart"
+}

@@ -1,7 +1,7 @@
 {
   "variants": {
     "normal": {
-      "model": "csrp:hirsute_hair"
+      "model": "csrp:block/hirsute_hair"
     }
   }
 }

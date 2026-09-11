@@ -1,0 +1,26 @@
+{
+  "group": "nocubessrparmory",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "01",
+    "23"
+  ],
+  "key": {
+    "0": {
+      "item": "minecraft:bone"
+    },
+    "1": {
+      "item": "minecraft:bone"
+    },
+    "2": {
+      "item": "csrp:lurecomponent1"
+    },
+    "3": {
+      "item": "minecraft:string"
+    }
+  },
+  "result": {
+    "count": 2,
+    "id": "nocubessrparmory:twistedpart"
+  }
+}

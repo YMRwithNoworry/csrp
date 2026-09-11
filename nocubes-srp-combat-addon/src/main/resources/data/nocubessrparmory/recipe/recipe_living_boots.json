@@ -1,0 +1,26 @@
+{
+  "group": "nocubessrparmory",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "0 2",
+    "3 5"
+  ],
+  "key": {
+    "0": {
+      "item": "nocubessrparmory:livingpart"
+    },
+    "2": {
+      "item": "nocubessrparmory:livingpart"
+    },
+    "3": {
+      "item": "nocubessrparmory:livingpart"
+    },
+    "5": {
+      "item": "nocubessrparmory:livingpart"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "nocubessrparmory:livingarmorboots"
+  }
+}

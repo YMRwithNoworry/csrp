@@ -1,50 +1,50 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "csrp:slabbone_double"
+    "model": "csrp:block/slabbone_double"
   },
   "variants": {
     "half=top,variant=dirt": {
-      "model": "csrp:slabdirt_double"
+      "model": "csrp:block/slabdirt_double"
     },
     "half=bottom,variant=dirt": {
-      "model": "csrp:slabdirt_double"
+      "model": "csrp:block/slabdirt_double"
     },
     "half=top,variant=mud": {
-      "model": "csrp:slabmud_double"
+      "model": "csrp:block/slabmud_double"
     },
     "half=bottom,variant=mud": {
-      "model": "csrp:slabmud_double"
+      "model": "csrp:block/slabmud_double"
     },
     "half=top,variant=sflesh": {
-      "model": "csrp:slabsflesh_double"
+      "model": "csrp:block/slabsflesh_double"
     },
     "half=bottom,variant=sflesh": {
-      "model": "csrp:slabsflesh_double"
+      "model": "csrp:block/slabsflesh_double"
     },
     "half=top,variant=feeler": {
-      "model": "csrp:slabfeeler_double"
+      "model": "csrp:block/slabfeeler_double"
     },
     "half=bottom,variant=feeler": {
-      "model": "csrp:slabfeeler_double"
+      "model": "csrp:block/slabfeeler_double"
     },
     "half=top,variant=spore": {
-      "model": "csrp:slabspore_double"
+      "model": "csrp:block/slabspore_double"
     },
     "half=bottom,variant=spore": {
-      "model": "csrp:slabspore_double"
+      "model": "csrp:block/slabspore_double"
     },
     "half=top,variant=red": {
-      "model": "csrp:slabred_double"
+      "model": "csrp:block/slabred_double"
     },
     "half=bottom,variant=red": {
-      "model": "csrp:slabred_double"
+      "model": "csrp:block/slabred_double"
     },
     "half=top,variant=sackflesh": {
-      "model": "csrp:slabsackflesh_double"
+      "model": "csrp:block/slabsackflesh_double"
     },
     "half=bottom,variant=sackflesh": {
-      "model": "csrp:slabsackflesh_double"
+      "model": "csrp:block/slabsackflesh_double"
     },
     "inventory": [
       {}

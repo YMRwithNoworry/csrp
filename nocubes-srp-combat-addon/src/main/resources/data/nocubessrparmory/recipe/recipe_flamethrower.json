@@ -1,0 +1,24 @@
+{
+  "group": "nocubessrparmory",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "01"
+  ],
+  "key": {
+    "0": [
+      {
+        "item": "nocubessrparmory:unfinishedflamethrower"
+      },
+      {
+        "item": "nocubessrparmory:plasmatorch"
+      }
+    ],
+    "1": {
+      "item": "nocubessrparmory:flamethrowercore"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "nocubessrparmory:flamethrower"
+  }
+}

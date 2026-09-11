@@ -1,62 +1,62 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "csrp:slabbone_bottom"
+    "model": "csrp:block/slabbone_bottom"
   },
   "variants": {
     "half=top,variant=flesh": {
-      "model": "csrp:slabflesh_top"
+      "model": "csrp:block/slabflesh_top"
     },
     "half=bottom,variant=flesh": {
-      "model": "csrp:slabflesh_bottom"
+      "model": "csrp:block/slabflesh_bottom"
     },
     "half=top,variant=bone": {
-      "model": "csrp:slabbone_top"
+      "model": "csrp:block/slabbone_top"
     },
     "half=bottom,variant=bone": {
-      "model": "csrp:slabbone_bottom"
+      "model": "csrp:block/slabbone_bottom"
     },
     "half=top,variant=stone": {
-      "model": "csrp:slabstone_top"
+      "model": "csrp:block/slabstone_top"
     },
     "half=bottom,variant=stone": {
-      "model": "csrp:slabstone_bottom"
+      "model": "csrp:block/slabstone_bottom"
     },
     "half=top,variant=stonedebris": {
-      "model": "csrp:slabstonedebris_top"
+      "model": "csrp:block/slabstonedebris_top"
     },
     "half=bottom,variant=stonedebris": {
-      "model": "csrp:slabstonedebris_bottom"
+      "model": "csrp:block/slabstonedebris_bottom"
     },
     "half=top,variant=wood": {
-      "model": "csrp:slabwood_top"
+      "model": "csrp:block/slabwood_top"
     },
     "half=bottom,variant=wood": {
-      "model": "csrp:slabwood_bottom"
+      "model": "csrp:block/slabwood_bottom"
     },
     "half=top,variant=bricks": {
-      "model": "csrp:slabbricks_top"
+      "model": "csrp:block/slabbricks_top"
     },
     "half=bottom,variant=bricks": {
-      "model": "csrp:slabbricks_bottom"
+      "model": "csrp:block/slabbricks_bottom"
     },
     "half=top,variant=metal": {
-      "model": "csrp:slabmetal_top"
+      "model": "csrp:block/slabmetal_top"
     },
     "half=bottom,variant=metal": {
-      "model": "csrp:slabmetal_bottom"
+      "model": "csrp:block/slabmetal_bottom"
     },
     "half=top,variant=obsidian": {
-      "model": "csrp:slabobsidian_top"
+      "model": "csrp:block/slabobsidian_top"
     },
     "half=bottom,variant=obsidian": {
-      "model": "csrp:slabobsidian_bottom"
+      "model": "csrp:block/slabobsidian_bottom"
     },
     "half=top,variant=fungus": {
-      "model": "csrp:slabfungus_top"
+      "model": "csrp:block/slabfungus_top"
     },
     "half=bottom,variant=fungus": {
-      "model": "csrp:slabfungus_bottom"
+      "model": "csrp:block/slabfungus_bottom"
     },
     "inventory": [
       {}

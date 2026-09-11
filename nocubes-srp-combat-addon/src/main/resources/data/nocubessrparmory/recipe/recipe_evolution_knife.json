@@ -1,0 +1,19 @@
+{
+  "group": "nocubessrparmory",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "01"
+  ],
+  "key": {
+    "0": {
+      "item": "nocubessrparmory:pestilentknife"
+    },
+    "1": {
+      "item": "nocubessrparmory:dreadnaughtcore"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "nocubessrparmory:evolutionknife"
+  }
+}

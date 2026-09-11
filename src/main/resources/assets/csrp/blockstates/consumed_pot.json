@@ -2,12 +2,12 @@
   "variants": {
     "normal": [
       {
-        "model": "csrp:consumed_pot"
+        "model": "csrp:block/consumed_pot"
       }
     ],
     "inventory": [
       {
-        "model": "csrp:consumed_pot"
+        "model": "csrp:block/consumed_pot"
       }
     ]
   }

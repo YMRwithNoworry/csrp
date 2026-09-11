@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "nocubessrparmory:twistedbow"
+    },
+    "title": {
+      "translate": "advancements.advtwistedbow.title"
+    },
+    "description": {
+      "translate": "advancements.advtwistedbow.descr"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "advtwistedbow": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "rewards": {
+    "experience": 1
+  },
+  "parent": "nocubessrparmory:advtwistedgreataxe"
+}

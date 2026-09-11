@@ -1,0 +1,32 @@
+{
+  "group": "nocubessrparmory",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "01"
+  ],
+  "key": {
+    "0": [
+      {
+        "item": "csrp:ada_reeker_drop"
+      },
+      {
+        "item": "csrp:ada_yelloweye_drop"
+      },
+      {
+        "item": "csrp:ada_longarms_drop"
+      }
+    ],
+    "1": [
+      {
+        "item": "csrp:ada_manducater_drop"
+      },
+      {
+        "item": "csrp:ada_summoner_drop"
+      }
+    ]
+  },
+  "result": {
+    "count": 1,
+    "id": "nocubessrparmory:livingpart"
+  }
+}

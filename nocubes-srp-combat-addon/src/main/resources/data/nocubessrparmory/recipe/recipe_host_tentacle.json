@@ -1,0 +1,32 @@
+{
+  "group": "nocubessrparmory",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " 12",
+    "121",
+    "31 "
+  ],
+  "key": {
+    "1": [
+      {
+        "item": "csrp:ada_reeker_drop"
+      },
+      {
+        "item": "csrp:lurecomponent6"
+      },
+      {
+        "item": "csrp:ada_yelloweye_drop"
+      }
+    ],
+    "2": {
+      "item": "nocubessrparmory:twistedpart"
+    },
+    "3": {
+      "item": "nocubessrparmory:pestilentpart"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "nocubessrparmory:hosttentacle"
+  }
+}

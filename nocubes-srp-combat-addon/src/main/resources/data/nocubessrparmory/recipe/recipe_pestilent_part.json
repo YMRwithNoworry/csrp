@@ -1,0 +1,28 @@
+{
+  "group": "nocubessrparmory",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "01",
+    "2 "
+  ],
+  "key": {
+    "0": [
+      {
+        "item": "csrp:assimilated_flesh"
+      },
+      {
+        "item": "csrp:lurecomponent2"
+      }
+    ],
+    "1": {
+      "item": "minecraft:iron_ingot"
+    },
+    "2": {
+      "item": "minecraft:leather"
+    }
+  },
+  "result": {
+    "count": 2,
+    "id": "nocubessrparmory:pestilentpart"
+  }
+}

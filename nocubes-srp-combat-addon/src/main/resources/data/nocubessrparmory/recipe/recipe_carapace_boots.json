@@ -1,0 +1,22 @@
+{
+  "group": "nocubessrparmory",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "012"
+  ],
+  "key": {
+    "0": {
+      "item": "nocubessrparmory:carapacepart"
+    },
+    "1": {
+      "item": "nocubessrparmory:twistedarmorboots"
+    },
+    "2": {
+      "item": "nocubessrparmory:carapacepart"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "nocubessrparmory:carapacearmorboots"
+  }
+}

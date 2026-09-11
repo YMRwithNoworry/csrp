@@ -1,7 +1,7 @@
 {
   "variants": {
     "normal": {
-      "model": "csrp:harlequinn_grass"
+      "model": "csrp:block/harlequinn_grass"
     }
   }
 }

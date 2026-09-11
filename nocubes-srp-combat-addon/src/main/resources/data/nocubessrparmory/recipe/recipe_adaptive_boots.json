@@ -1,0 +1,22 @@
+{
+  "group": "nocubessrparmory",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "012"
+  ],
+  "key": {
+    "0": {
+      "item": "nocubessrparmory:overlordcore"
+    },
+    "1": {
+      "item": "nocubessrparmory:livingarmorboots"
+    },
+    "2": {
+      "item": "nocubessrparmory:overlordcore"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "nocubessrparmory:adaptivearmorboots"
+  }
+}

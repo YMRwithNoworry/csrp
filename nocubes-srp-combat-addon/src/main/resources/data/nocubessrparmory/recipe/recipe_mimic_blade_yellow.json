@@ -1,0 +1,21 @@
+{
+  "group": "nocubessrparmory",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " 1 ",
+    "121",
+    " 1 "
+  ],
+  "key": {
+    "1": {
+      "item": "csrp:ada_yelloweye_drop"
+    },
+    "2": {
+      "item": "nocubessrparmory:carapacebroadsword"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "nocubessrparmory:mimicbladeyellow"
+  }
+}

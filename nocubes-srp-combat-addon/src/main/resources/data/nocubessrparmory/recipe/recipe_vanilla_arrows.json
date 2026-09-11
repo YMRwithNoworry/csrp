@@ -1,0 +1,32 @@
+{
+  "group": "nocubessrparmory",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "0",
+    "1",
+    "2"
+  ],
+  "key": {
+    "0": [
+      {
+        "item": "csrp:ada_reeker_drop"
+      },
+      {
+        "item": "csrp:bone"
+      },
+      {
+        "item": "csrp:ada_yelloweye_drop"
+      }
+    ],
+    "1": {
+      "item": "minecraft:stick"
+    },
+    "2": {
+      "item": "minecraft:feather"
+    }
+  },
+  "result": {
+    "count": 8,
+    "id": "minecraft:arrow"
+  }
+}

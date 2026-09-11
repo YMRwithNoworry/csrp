@@ -1,0 +1,37 @@
+{
+  "display": {
+    "icon": {
+      "id": "nocubessrparmory:evolutionarmorhelmet"
+    },
+    "title": {
+      "translate": "advancements.advevolutionarmor.title"
+    },
+    "description": {
+      "translate": "advancements.advevolutionarmor.descr"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "advevolutionarmor": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "id": "nocubessrparmory:evolutionarmorhelmet",
+            "count": {
+              "min": 1,
+              "max": 2
+            }
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "experience": 1
+  },
+  "parent": "nocubessrparmory:advlivingpart"
+}

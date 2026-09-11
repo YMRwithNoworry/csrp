@@ -1,7 +1,7 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "particle": "csrp:blocks/parasiterubble_",
-    "all": "csrp:blocks/parasiterubble_"
+    "particle": "csrp:block/parasiterubble_stone",
+    "all": "csrp:block/parasiterubble_stone"
   }
 }

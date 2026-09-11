@@ -1,7 +1,7 @@
 {
   "variants": {
     "normal": {
-      "model": "csrp:lipoma_mass"
+      "model": "csrp:block/lipoma_mass"
     }
   }
 }

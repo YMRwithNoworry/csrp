@@ -1,0 +1,16 @@
+{
+  "group": "nocubessrparmory",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "0"
+  ],
+  "key": {
+    "0": {
+      "item": "nocubessrparmory:pestilentpart"
+    }
+  },
+  "result": {
+    "count": 4,
+    "id": "nocubessrparmory:pestilentshuriken"
+  }
+}

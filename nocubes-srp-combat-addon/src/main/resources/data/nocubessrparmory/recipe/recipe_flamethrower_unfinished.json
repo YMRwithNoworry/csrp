@@ -1,0 +1,30 @@
+{
+  "group": "nocubessrparmory",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "0  ",
+    "345",
+    " 7 "
+  ],
+  "key": {
+    "0": {
+      "item": "nocubessrparmory:flamethrowershaft"
+    },
+    "3": {
+      "item": "nocubessrparmory:flamethrowerigniter"
+    },
+    "4": {
+      "item": "nocubessrparmory:flamethrowermechanism"
+    },
+    "5": {
+      "item": "nocubessrparmory:flamethrowerfueltank"
+    },
+    "7": {
+      "item": "nocubessrparmory:flamethrowergrip"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "nocubessrparmory:unfinishedflamethrower"
+  }
+}

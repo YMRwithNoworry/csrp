@@ -17,6 +17,7 @@ import alku.csrp.client.renderer.BombRenderer;
 import alku.csrp.client.renderer.DerivedParasiteRenderer;
 import alku.csrp.client.renderer.DragonEggAssimilationRenderer;
 import alku.csrp.client.renderer.HaunterHomingProjectileRenderer;
+import alku.csrp.client.renderer.HiveSatelliteRenderer;
 import alku.csrp.client.renderer.GoreRenderer;
 import alku.csrp.client.renderer.MarauderRenderer;
 import alku.csrp.client.renderer.MarauderTendrilRenderer;
@@ -357,6 +358,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.BALL_MALL.get(), ParasiteProjectileRenderer::new);
         event.registerEntityRenderer(ModEntities.HEBLU_LIGHT.get(), ParasiteProjectileRenderer::new);
         event.registerEntityRenderer(ModEntities.METEOR.get(), ParasiteProjectileRenderer::new);
+        event.registerEntityRenderer(ModEntities.HIVE_SATELLITE.get(), HiveSatelliteRenderer::new);
         event.registerEntityRenderer(ModEntities.SALIVA_BALL.get(), ParasiteProjectileRenderer::new);
         event.registerEntityRenderer(ModEntities.BALL_BALL.get(), ParasiteProjectileRenderer::new);
         event.registerEntityRenderer(ModEntities.ANCIENT_BALL.get(), ParasiteProjectileRenderer::new);

@@ -48,6 +48,7 @@ public final class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> DRACONITE_LIVING = register("draconite.living");
     public static final DeferredHolder<SoundEvent, SoundEvent> DRACONITE_DEATH = register("draconite.death");
     public static final DeferredHolder<SoundEvent, SoundEvent> DRACONITE_FIRE_SHOOT = register("draconite.fire_shoot");
+    public static final DeferredHolder<SoundEvent, SoundEvent> METEOR_IMPACT = register("meteor.impact");
 
     // 通用寄生体音效
     public static final DeferredHolder<SoundEvent, SoundEvent> MOB_SHOOT = register("mob.shoot");

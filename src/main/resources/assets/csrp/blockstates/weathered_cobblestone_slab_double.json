@@ -2,13 +2,13 @@
   "forge_marker": 1,
   "variants": {
     "variant=default": {
-      "model": "csrp:weathered_cobblestone_slab_double"
+      "model": "csrp:block/weathered_cobblestone_slab_double"
     },
     "half=bottom,variant=default": {
-      "model": "csrp:weathered_cobblestone_slab_double"
+      "model": "csrp:block/weathered_cobblestone_slab_double"
     },
     "half=top,variant=default": {
-      "model": "csrp:weathered_cobblestone_slab_double"
+      "model": "csrp:block/weathered_cobblestone_slab_double"
     },
     "inventory": [
       {}

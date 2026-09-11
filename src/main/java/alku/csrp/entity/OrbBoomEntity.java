@@ -94,10 +94,13 @@ public final class OrbBoomEntity extends Entity {
             return;
         }
         if (burst) {
-            for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
-                    getBoundingBox(), LivingEntity::isAlive)) {
-                target.hurt(damageSources().magic(), 10.0F);
-            }
+            return;
+        }
+        // 1.10.8 EntityOrbBoom without a father damages every living entity for 10 magic
+        // damage every 10 ticks while the shockwave is expanding.
+        for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
+                getBoundingBox(), LivingEntity::isAlive)) {
+            target.hurt(damageSources().magic(), 10.0F);
         }
     }
 

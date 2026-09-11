@@ -1,0 +1,30 @@
+{
+  "group": "nocubessrparmory",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " 1 ",
+    "345",
+    " 7 "
+  ],
+  "key": {
+    "1": {
+      "item": "nocubessrparmory:twistedpart"
+    },
+    "3": {
+      "item": "nocubessrparmory:twistedpart"
+    },
+    "4": {
+      "item": "minecraft:gunpowder"
+    },
+    "5": {
+      "item": "nocubessrparmory:twistedpart"
+    },
+    "7": {
+      "item": "nocubessrparmory:twistedpart"
+    }
+  },
+  "result": {
+    "count": 4,
+    "id": "nocubessrparmory:twistedbomb"
+  }
+}

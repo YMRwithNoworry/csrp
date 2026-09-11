@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "parent": "item/generated",
   "textures": {
-    "layer0": "SRParasites:blocks/parasitebush_pop"
+    "layer0": "csrp:blocks/parasitebush_pop"
   },
   "display": {
     "thirdperson_righthand": {

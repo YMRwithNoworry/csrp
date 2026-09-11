@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "SRParasites:items/consumed_flower_pot_item"
+    "layer0": "csrp:items/consumed_flower_pot_item"
   }
 }

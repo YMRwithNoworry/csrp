@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "nocubessrparmory:hosttentacle"
+    },
+    "title": {
+      "translate": "advancements.advhosttentacle.title"
+    },
+    "description": {
+      "translate": "advancements.advhosttentacle.descr"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "advhosttentacle": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "rewards": {
+    "experience": 1
+  },
+  "parent": "nocubessrparmory:advhostbomb"
+}

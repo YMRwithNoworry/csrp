@@ -52,6 +52,7 @@ import alku.csrp.entity.MarauderizedEndermanEntity;
 import alku.csrp.entity.MarauderizedHumanEntity;
 import alku.csrp.entity.MarauderizedSheepEntity;
 import alku.csrp.entity.MarauderizedVillagerEntity;
+import alku.csrp.entity.MeteorEntity;
 import alku.csrp.entity.ParasiteProjectileEntity;
 import alku.csrp.entity.ParasiticScentEntity;
 import alku.csrp.entity.PrimitiveVariantEntity;
@@ -539,7 +540,14 @@ public final class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<ParasiteProjectileEntity>> HEBLU_LIGHT =
             projectile("heblu_light", ParasiteProjectileEntity.Mode.LIGHT, 0.65F, 0.65F, 4, 3);
     public static final DeferredHolder<EntityType<?>, EntityType<ParasiteProjectileEntity>> METEOR =
-            projectile("meteor", ParasiteProjectileEntity.Mode.METEOR, 4.5F, 4.5F, 16, 1);
+            projectile("meteor_projectile", ParasiteProjectileEntity.Mode.METEOR, 4.5F, 4.5F, 16, 1);
+    /** 1.10.8 {@code EntityMeteor}: the Hive Satellite used by the meteor infection world event. */
+    public static final DeferredHolder<EntityType<?>, EntityType<MeteorEntity>> HIVE_SATELLITE =
+            ENTITIES.register("meteor", () -> EntityType.Builder
+                    .<MeteorEntity>of(MeteorEntity::new, MobCategory.MISC)
+                    .sized(4.5F, 4.5F).clientTrackingRange(16).updateInterval(1)
+                    .fireImmune()
+                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "meteor").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<ParasiteProjectileEntity>> SALIVA_BALL =
             projectile("salivaball", ParasiteProjectileEntity.Mode.ALAFHA_BALL, 0.3F, 0.3F, 4, 3);
     public static final DeferredHolder<EntityType<?>, EntityType<ParasiteProjectileEntity>> BALL_BALL =

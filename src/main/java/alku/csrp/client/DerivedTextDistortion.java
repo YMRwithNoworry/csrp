@@ -1,6 +1,7 @@
 package alku.csrp.client;
 
 import alku.csrp.Csrp;
+import alku.csrp.Config;
 import alku.csrp.entity.DraconiteEntity;
 import alku.csrp.entity.KirinEntity;
 import alku.csrp.registry.ModMobEffects;
@@ -122,7 +123,7 @@ public final class DerivedTextDistortion {
     }
 
     private static boolean shouldDistort() {
-        return active && RENDER_SCOPE_DEPTH.get() > 0;
+        return Config.derivedTextDistortionEnabled() && active && RENDER_SCOPE_DEPTH.get() > 0;
     }
 
     private static Component distortComponent(String text) {

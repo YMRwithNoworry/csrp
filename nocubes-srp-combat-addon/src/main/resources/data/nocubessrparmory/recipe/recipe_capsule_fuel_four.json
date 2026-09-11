@@ -1,0 +1,30 @@
+{
+  "group": "nocubessrparmory",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "10"
+  ],
+  "key": {
+    "0": [
+      {
+        "item": "minecraft:blaze_rod"
+      },
+      {
+        "item": "csrp:assimilated_flesh"
+      },
+      {
+        "item": "csrp:lurecomponent1"
+      },
+      {
+        "item": "csrp:lurecomponent2"
+      }
+    ],
+    "1": {
+      "item": "nocubessrparmory:capsuleempty"
+    }
+  },
+  "result": {
+    "count": 4,
+    "id": "nocubessrparmory:capsulefuel"
+  }
+}

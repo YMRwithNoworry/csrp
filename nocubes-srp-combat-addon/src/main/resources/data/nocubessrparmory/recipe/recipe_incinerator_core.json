@@ -1,0 +1,42 @@
+{
+  "group": "nocubessrparmory",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "012",
+    "345",
+    "678"
+  ],
+  "key": {
+    "0": {
+      "item": "nocubessrparmory:dreadnaughtcore"
+    },
+    "1": {
+      "item": "nocubessrparmory:carbonsteel"
+    },
+    "2": {
+      "item": "nocubessrparmory:overlordcore"
+    },
+    "3": {
+      "item": "nocubessrparmory:carbonsteel"
+    },
+    "4": {
+      "item": "minecraft:dragon_breath"
+    },
+    "5": {
+      "item": "nocubessrparmory:carbonsteel"
+    },
+    "6": {
+      "item": "nocubessrparmory:overlordcore"
+    },
+    "7": {
+      "item": "nocubessrparmory:carbonsteel"
+    },
+    "8": {
+      "item": "nocubessrparmory:dreadnaughtcore"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "nocubessrparmory:incineratorcore"
+  }
+}

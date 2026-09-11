@@ -1,0 +1,33 @@
+{
+  "group": "nocubessrparmory",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "012",
+    " 45",
+    "6  "
+  ],
+  "key": {
+    "0": {
+      "item": "nocubessrparmory:pestilentpart"
+    },
+    "1": {
+      "item": "nocubessrparmory:pestilentpart"
+    },
+    "2": {
+      "item": "nocubessrparmory:pestilentpart"
+    },
+    "4": {
+      "item": "nocubessrparmory:infestedtoolrod"
+    },
+    "5": {
+      "item": "nocubessrparmory:pestilentpart"
+    },
+    "6": {
+      "item": "nocubessrparmory:infestedtoolrod"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "nocubessrparmory:pestilentscythe"
+  }
+}

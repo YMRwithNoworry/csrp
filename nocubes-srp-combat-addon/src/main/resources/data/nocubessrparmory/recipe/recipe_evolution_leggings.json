@@ -1,0 +1,29 @@
+{
+  "group": "nocubessrparmory",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "012",
+    "3 5"
+  ],
+  "key": {
+    "0": {
+      "item": "nocubessrparmory:dreadnaughtcore"
+    },
+    "1": {
+      "item": "nocubessrparmory:livingarmorlegs"
+    },
+    "2": {
+      "item": "nocubessrparmory:dreadnaughtcore"
+    },
+    "3": {
+      "item": "nocubessrparmory:dreadnaughtcore"
+    },
+    "5": {
+      "item": "nocubessrparmory:dreadnaughtcore"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "nocubessrparmory:evolutionarmorlegs"
+  }
+}

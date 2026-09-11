@@ -1,0 +1,28 @@
+{
+  "group": "nocubessrparmory",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "10"
+  ],
+  "key": {
+    "0": [
+      {
+        "item": "minecraft:coal",
+        "data": 32767
+      },
+      {
+        "item": "minecraft:blaze_powder"
+      },
+      {
+        "item": "minecraft:lava_bucket"
+      }
+    ],
+    "1": {
+      "item": "nocubessrparmory:capsuleempty"
+    }
+  },
+  "result": {
+    "count": 2,
+    "id": "nocubessrparmory:capsulefuel"
+  }
+}

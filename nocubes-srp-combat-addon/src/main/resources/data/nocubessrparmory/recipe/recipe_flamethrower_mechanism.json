@@ -1,0 +1,42 @@
+{
+  "group": "nocubessrparmory",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "012",
+    "345",
+    "678"
+  ],
+  "key": {
+    "0": {
+      "item": "nocubessrparmory:carbonsteel"
+    },
+    "1": {
+      "item": "nocubessrparmory:carbonsteel"
+    },
+    "2": {
+      "item": "nocubessrparmory:carbonsteel"
+    },
+    "3": {
+      "item": "minecraft:redstone"
+    },
+    "4": {
+      "item": "minecraft:repeater"
+    },
+    "5": {
+      "item": "minecraft:redstone"
+    },
+    "6": {
+      "item": "nocubessrparmory:carbonsteel"
+    },
+    "7": {
+      "item": "nocubessrparmory:carbonsteel"
+    },
+    "8": {
+      "item": "nocubessrparmory:carbonsteel"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "nocubessrparmory:flamethrowermechanism"
+  }
+}

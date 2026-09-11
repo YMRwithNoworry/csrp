@@ -1,6 +1,6 @@
 {
   "parent": "block/cross",
   "textures": {
-    "cross": "SRParasites:items/web_one"
+    "cross": "csrp:blocks/web_one"
   }
 }

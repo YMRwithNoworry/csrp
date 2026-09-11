@@ -1,0 +1,29 @@
+{
+  "group": "nocubessrparmory",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " 12",
+    "345"
+  ],
+  "key": {
+    "1": {
+      "item": "nocubessrparmory:carbonsteel"
+    },
+    "2": {
+      "item": "nocubessrparmory:carbonsteel"
+    },
+    "3": {
+      "item": "minecraft:flint_and_steel"
+    },
+    "4": {
+      "item": "nocubessrparmory:carbonsteel"
+    },
+    "5": {
+      "item": "nocubessrparmory:carbonsteel"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "nocubessrparmory:flamethrowerigniter"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "group": "nocubessrparmory",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "012",
+    " 4 ",
+    "6  "
+  ],
+  "key": {
+    "0": {
+      "item": "nocubessrparmory:gorepart"
+    },
+    "1": {
+      "item": "nocubessrparmory:livingpart"
+    },
+    "2": {
+      "item": "nocubessrparmory:livingpart"
+    },
+    "4": {
+      "item": "nocubessrparmory:infestedtoolrod"
+    },
+    "6": {
+      "item": "nocubessrparmory:infestedtoolrod"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "nocubessrparmory:bolsterclaw"
+  }
+}

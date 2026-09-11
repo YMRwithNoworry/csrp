@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "nocubessrparmory:iconanyflamethrower"
+    },
+    "title": {
+      "translate": "advancements.advplasmatorch.title"
+    },
+    "description": {
+      "translate": "advancements.advplasmatorch.descr"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "advplasmatorch": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "rewards": {
+    "experience": 1
+  },
+  "parent": "nocubessrparmory:advunfinishedflamethrower"
+}
