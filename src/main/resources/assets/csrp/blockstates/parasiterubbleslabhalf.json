@@ -1,65 +1,85 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "csrp:block/slabbone_bottom"
-  },
   "variants": {
-    "half=top,variant=flesh": {
-      "model": "csrp:block/slabflesh_top"
-    },
-    "half=bottom,variant=flesh": {
+    "variant=flesh,type=bottom": {
       "model": "csrp:block/slabflesh_bottom"
     },
-    "half=top,variant=bone": {
-      "model": "csrp:block/slabbone_top"
+    "variant=flesh,type=top": {
+      "model": "csrp:block/slabflesh_top"
     },
-    "half=bottom,variant=bone": {
+    "variant=flesh,type=double": {
+      "model": "csrp:block/slabflesh_double"
+    },
+    "variant=bone,type=bottom": {
       "model": "csrp:block/slabbone_bottom"
     },
-    "half=top,variant=stone": {
-      "model": "csrp:block/slabstone_top"
+    "variant=bone,type=top": {
+      "model": "csrp:block/slabbone_top"
     },
-    "half=bottom,variant=stone": {
+    "variant=bone,type=double": {
+      "model": "csrp:block/slabbone_double"
+    },
+    "variant=stone,type=bottom": {
       "model": "csrp:block/slabstone_bottom"
     },
-    "half=top,variant=stonedebris": {
-      "model": "csrp:block/slabstonedebris_top"
+    "variant=stone,type=top": {
+      "model": "csrp:block/slabstone_top"
     },
-    "half=bottom,variant=stonedebris": {
+    "variant=stone,type=double": {
+      "model": "csrp:block/slabstone_double"
+    },
+    "variant=stonedebris,type=bottom": {
       "model": "csrp:block/slabstonedebris_bottom"
     },
-    "half=top,variant=wood": {
-      "model": "csrp:block/slabwood_top"
+    "variant=stonedebris,type=top": {
+      "model": "csrp:block/slabstonedebris_top"
     },
-    "half=bottom,variant=wood": {
+    "variant=stonedebris,type=double": {
+      "model": "csrp:block/slabstonedebris_double"
+    },
+    "variant=wood,type=bottom": {
       "model": "csrp:block/slabwood_bottom"
     },
-    "half=top,variant=bricks": {
-      "model": "csrp:block/slabbricks_top"
+    "variant=wood,type=top": {
+      "model": "csrp:block/slabwood_top"
     },
-    "half=bottom,variant=bricks": {
+    "variant=wood,type=double": {
+      "model": "csrp:block/slabwood_double"
+    },
+    "variant=bricks,type=bottom": {
       "model": "csrp:block/slabbricks_bottom"
     },
-    "half=top,variant=metal": {
-      "model": "csrp:block/slabmetal_top"
+    "variant=bricks,type=top": {
+      "model": "csrp:block/slabbricks_top"
     },
-    "half=bottom,variant=metal": {
+    "variant=bricks,type=double": {
+      "model": "csrp:block/slabbricks_double"
+    },
+    "variant=metal,type=bottom": {
       "model": "csrp:block/slabmetal_bottom"
     },
-    "half=top,variant=obsidian": {
-      "model": "csrp:block/slabobsidian_top"
+    "variant=metal,type=top": {
+      "model": "csrp:block/slabmetal_top"
     },
-    "half=bottom,variant=obsidian": {
+    "variant=metal,type=double": {
+      "model": "csrp:block/slabmetal_double"
+    },
+    "variant=obsidian,type=bottom": {
       "model": "csrp:block/slabobsidian_bottom"
     },
-    "half=top,variant=fungus": {
-      "model": "csrp:block/slabfungus_top"
+    "variant=obsidian,type=top": {
+      "model": "csrp:block/slabobsidian_top"
     },
-    "half=bottom,variant=fungus": {
+    "variant=obsidian,type=double": {
+      "model": "csrp:block/slabobsidian_double"
+    },
+    "variant=fungus,type=bottom": {
       "model": "csrp:block/slabfungus_bottom"
     },
-    "inventory": [
-      {}
-    ]
+    "variant=fungus,type=top": {
+      "model": "csrp:block/slabfungus_top"
+    },
+    "variant=fungus,type=double": {
+      "model": "csrp:block/slabfungus_double"
+    }
   }
 }

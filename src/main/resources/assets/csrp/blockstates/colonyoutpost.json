@@ -1,12 +1,5 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "csrp:block/colonyoutpost"
-  },
   "variants": {
-    "normal": {
-      "model": "csrp:block/colonyoutpost"
-    },
     "active=0": {
       "model": "csrp:block/colonyoutpost"
     },
@@ -18,9 +11,6 @@
     },
     "active=3": {
       "model": "csrp:block/colonyoutpost"
-    },
-    "inventory": [
-      {}
-    ]
+    }
   }
 }

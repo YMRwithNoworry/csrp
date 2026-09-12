@@ -47,6 +47,7 @@ import alku.csrp.block.TunnelBlock;
 import alku.csrp.block.VacuousCystBlock;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.CactusBlock;
 import net.minecraft.world.level.block.CraftingTableBlock;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.FenceBlock;
@@ -60,8 +61,17 @@ import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.DoublePlantBlock;
+import net.minecraft.world.level.block.VineBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.material.MapColor;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -136,9 +146,11 @@ public final class ModBlocks {
     public static final DeferredBlock<Block> PARASITESTAIN_SPORE = BLOCKS.register("parasitestain_spore", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
     public static final DeferredBlock<Block> PARASITESTAIN_RED = BLOCKS.register("parasitestain_red", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
     public static final DeferredBlock<Block> PARASITESTAIN_SACKFLESH = BLOCKS.register("parasitestain_sackflesh", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
-    public static final DeferredBlock<Block> PARASITETRUNK = BLOCKS.register("parasitetrunk", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.WOOD)));
-    public static final DeferredBlock<Block> PARASITETRUNK_BALL = BLOCKS.register("parasitetrunk_ball", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.WOOD)));
-    public static final DeferredBlock<Block> PARASITETRUNK_PLANT = BLOCKS.register("parasitetrunk_plant", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.WOOD)));
+    // RotatedPillarBlock so the `axis` property exists; the blockstates rotate the
+    // trunk models the same way vanilla logs do.
+    public static final DeferredBlock<RotatedPillarBlock> PARASITETRUNK = BLOCKS.register("parasitetrunk", () -> new RotatedPillarBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.WOOD)));
+    public static final DeferredBlock<RotatedPillarBlock> PARASITETRUNK_BALL = BLOCKS.register("parasitetrunk_ball", () -> new RotatedPillarBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.WOOD)));
+    public static final DeferredBlock<RotatedPillarBlock> PARASITETRUNK_PLANT = BLOCKS.register("parasitetrunk_plant", () -> new RotatedPillarBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.WOOD)));
     public static final DeferredBlock<InfestedStairBlock> PARASITERUBBLE_BONESTAIRS = infestedStairs("parasiterubble_bonestairs", PARASITERUBBLE_BONE);
     public static final DeferredBlock<InfestedStairBlock> PARASITERUBBLE_FLESHSTAIRS = infestedStairs("parasiterubble_fleshstairs", PARASITERUBBLE_FLESH);
     public static final DeferredBlock<InfestedStairBlock> PARASITERUBBLE_STONESTAIRS = infestedStairs("parasiterubble_stonestairs", PARASITERUBBLE_STONE);
@@ -181,7 +193,7 @@ public final class ModBlocks {
     public static final DeferredBlock<Block> PARASITESAPLING_TREE = BLOCKS.register("parasitesapling_tree", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).noCollission().noOcclusion().instabreak().sound(SoundType.GRASS)));
     public static final DeferredBlock<Block> PARASITESAPLING_TREETHIN = BLOCKS.register("parasitesapling_treethin", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).noCollission().noOcclusion().instabreak().sound(SoundType.GRASS)));
     public static final DeferredBlock<Block> PARASITESAPLING_FLOWERTALL = BLOCKS.register("parasitesapling_flowertall", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).noCollission().noOcclusion().instabreak().sound(SoundType.GRASS)));
-    public static final DeferredBlock<Block> GOTH_STEM = BLOCKS.register("goth_stem", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.WOOD)));
+    public static final DeferredBlock<RotatedPillarBlock> GOTH_STEM = BLOCKS.register("goth_stem", () -> new RotatedPillarBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.WOOD)));
     public static final DeferredBlock<CraftingTableBlock> INFESTED_WORKBENCH = BLOCKS.register("infested_workbench", () -> new CraftingTableBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(2.5F).sound(SoundType.WOOD)));
     public static final DeferredBlock<CraftingTableBlock> CONSUMED_WORKBENCH = BLOCKS.register("consumed_workbench", () -> new CraftingTableBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(2.5F).sound(SoundType.WOOD)));
 
@@ -616,6 +628,324 @@ public final class ModBlocks {
      * dedicated modern class.  Keep those ids available using the closest
      * vanilla/infested state shape so old worlds load without missing blocks.
      */
+
+    private static final BooleanProperty END = BooleanProperty.create("end");
+    private static final BooleanProperty NODE = BooleanProperty.create("node");
+    private static final BooleanProperty LIT = BooleanProperty.create("lit");
+    private static final IntegerProperty STAGE = IntegerProperty.create("stage", 0, 1);
+    private static final IntegerProperty ACTIVE = IntegerProperty.create("active", 0, 3);
+    private static final DirectionProperty FACING =
+            DirectionProperty.create("facing", net.minecraft.core.Direction.Plane.HORIZONTAL);
+
+    private enum GoreVariant implements net.minecraft.util.StringRepresentable {
+        BIG("big"),
+        FLAT("flat"),
+        SMALL("small");
+
+        private final String name;
+
+        GoreVariant(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String getSerializedName() {
+            return name;
+        }
+    }
+
+    private static final EnumProperty<GoreVariant> GORE_VARIANT =
+            EnumProperty.create("variant", GoreVariant.class);
+
+    private enum OreVariant implements net.minecraft.util.StringRepresentable {
+        CO("co"),
+        DIA("dia"),
+        EME("eme"),
+        GOL("gol"),
+        IRO("iro"),
+        LAP("lap"),
+        RED("red"),
+        UN("un");
+
+        private final String name;
+
+        OreVariant(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String getSerializedName() {
+            return name;
+        }
+    }
+
+    private static final EnumProperty<OreVariant> ORE_VARIANT =
+            EnumProperty.create("variant", OreVariant.class);
+
+    private enum CanisterVariant implements net.minecraft.util.StringRepresentable {
+        BAG("bag"),
+        CYST("cyst"),
+        LUMP("lump"),
+        SAC("sac");
+
+        private final String name;
+
+        CanisterVariant(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String getSerializedName() {
+            return name;
+        }
+    }
+
+    private static final EnumProperty<CanisterVariant> CANISTER_VARIANT =
+            EnumProperty.create("variant", CanisterVariant.class);
+
+    private enum PlankVariant implements net.minecraft.util.StringRepresentable {
+        DEADHEAD("deadhead"),
+        DEADHEADS("deadheads");
+
+        private final String name;
+
+        PlankVariant(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String getSerializedName() {
+            return name;
+        }
+    }
+
+    private static final EnumProperty<PlankVariant> PLANK_VARIANT =
+            EnumProperty.create("variant", PlankVariant.class);
+
+    private enum RubbleVariant implements net.minecraft.util.StringRepresentable {
+        BONE("bone"),
+        BRICKS("bricks"),
+        FLESH("flesh"),
+        FUNGUS("fungus"),
+        METAL("metal"),
+        OBSIDIAN("obsidian"),
+        STONE("stone"),
+        STONEDEBRIS("stonedebris"),
+        WEATHB("weathb"),
+        WEATHBC("weathbc"),
+        WEATHBCS("weathbcs"),
+        WEATHBS("weathbs"),
+        WEATHFS("weathfs"),
+        WEATHFSS("weathfss"),
+        WOOD("wood");
+
+        private final String name;
+
+        RubbleVariant(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String getSerializedName() {
+            return name;
+        }
+    }
+
+    private static final EnumProperty<RubbleVariant> RUBBLE_VARIANT =
+            EnumProperty.create("variant", RubbleVariant.class);
+
+    private enum StainVariant implements net.minecraft.util.StringRepresentable {
+        DIRT("dirt"),
+        FEELER("feeler"),
+        FLESH("flesh"),
+        MUD("mud"),
+        RED("red"),
+        SACKFLESH("sackflesh"),
+        SPORE("spore");
+
+        private final String name;
+
+        StainVariant(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String getSerializedName() {
+            return name;
+        }
+    }
+
+    private static final EnumProperty<StainVariant> STAIN_VARIANT =
+            EnumProperty.create("variant", StainVariant.class);
+
+    private enum BushVariant implements net.minecraft.util.StringRepresentable {
+        ARC("arc"),
+        FLOWER1("flower1"),
+        GRASS1("grass1"),
+        INFECTED("infected"),
+        SPINE("spine"),
+        VINE("vine");
+
+        private final String name;
+
+        BushVariant(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String getSerializedName() {
+            return name;
+        }
+    }
+
+    private static final EnumProperty<BushVariant> BUSH_VARIANT =
+            EnumProperty.create("variant", BushVariant.class);
+
+    private enum ParasiteBushVariant implements net.minecraft.util.StringRepresentable {
+        BINE("bine"),
+        DECANTER("decanter"),
+        DECANTEREMPTY("decanterempty"),
+        EYE("eye"),
+        FROSTG("frostg"),
+        FROSTGT("frostgt"),
+        POP("pop"),
+        TENDRIL("tendril"),
+        THORN("thorn"),
+        THORNDEAD("thorndead"),
+        THORNDORMAT("thorndormat"),
+        THORNDORMATS("thorndormats"),
+        THORNTWO("thorntwo"),
+        THORNTWOS("thorntwos"),
+        TOOH("tooh");
+
+        private final String name;
+
+        ParasiteBushVariant(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String getSerializedName() {
+            return name;
+        }
+    }
+
+    private static final EnumProperty<ParasiteBushVariant> PARASITE_BUSH_VARIANT =
+            EnumProperty.create("variant", ParasiteBushVariant.class);
+
+    private enum SaplingVariant implements net.minecraft.util.StringRepresentable {
+        CONSUMED("consumed"),
+        DEADHEAD("deadhead"),
+        FLOWERTALL("flowertall"),
+        INFESTED("infested"),
+        TREE("tree"),
+        TREETHIN("treethin");
+
+        private final String name;
+
+        SaplingVariant(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String getSerializedName() {
+            return name;
+        }
+    }
+
+    private static final EnumProperty<SaplingVariant> SAPLING_VARIANT =
+            EnumProperty.create("variant", SaplingVariant.class);
+
+    private enum RubbleSlabVariant implements net.minecraft.util.StringRepresentable {
+        BONE("bone"),
+        BRICKS("bricks"),
+        FLESH("flesh"),
+        FUNGUS("fungus"),
+        METAL("metal"),
+        OBSIDIAN("obsidian"),
+        STONE("stone"),
+        STONEDEBRIS("stonedebris"),
+        WOOD("wood");
+
+        private final String name;
+
+        RubbleSlabVariant(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String getSerializedName() {
+            return name;
+        }
+    }
+
+    private static final EnumProperty<RubbleSlabVariant> RUBBLE_SLAB_VARIANT =
+            EnumProperty.create("variant", RubbleSlabVariant.class);
+
+    private enum StainSlabVariant implements net.minecraft.util.StringRepresentable {
+        DIRT("dirt"),
+        FEELER("feeler"),
+        MUD("mud"),
+        RED("red"),
+        SACKFLESH("sackflesh"),
+        SFLESH("sflesh"),
+        SPORE("spore");
+
+        private final String name;
+
+        StainSlabVariant(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String getSerializedName() {
+            return name;
+        }
+    }
+
+    private static final EnumProperty<StainSlabVariant> STAIN_SLAB_VARIANT =
+            EnumProperty.create("variant", StainSlabVariant.class);
+
+    private static final java.util.Map<String, Property<?>[]> LEGACY_STATE_PROPERTIES =
+            legacyStateProperties();
+
+    private static java.util.Map<String, Property<?>[]> legacyStateProperties() {
+        java.util.Map<String, Property<?>[]> properties = new java.util.LinkedHashMap<>();
+        properties.put("goreada", new Property<?>[] {GORE_VARIANT});
+        properties.put("gorefer", new Property<?>[] {GORE_VARIANT});
+        properties.put("goremar", new Property<?>[] {GORE_VARIANT});
+        properties.put("gorepri", new Property<?>[] {GORE_VARIANT});
+        properties.put("gorepur", new Property<?>[] {GORE_VARIANT});
+        properties.put("goresim", new Property<?>[] {GORE_VARIANT});
+        properties.put("infestedore", new Property<?>[] {ORE_VARIANT});
+        properties.put("parasitecanister", new Property<?>[] {CANISTER_VARIANT});
+        properties.put("parasiteplank", new Property<?>[] {PLANK_VARIANT});
+        properties.put("parasiterubble", new Property<?>[] {RUBBLE_VARIANT});
+        properties.put("parasitestain", new Property<?>[] {STAIN_VARIANT});
+        properties.put("infestedbush", new Property<?>[] {END, NODE, BUSH_VARIANT});
+        properties.put("parasitebush", new Property<?>[] {END, NODE, PARASITE_BUSH_VARIANT});
+        properties.put("parasitesapling", new Property<?>[] {STAGE, SAPLING_VARIANT});
+        properties.put("colonyoutpost", new Property<?>[] {ACTIVE});
+        properties.put("dermoid_cyst", new Property<?>[] {FACING});
+        properties.put("relaycontroller", new Property<?>[] {FACING});
+        properties.put("infested_furnace", new Property<?>[] {FACING, LIT});
+        properties.put("infested_furnace_lit", new Property<?>[] {FACING, LIT});
+        return java.util.Map.copyOf(properties);
+    }
+
+    /** Multi-variant legacy slab ids keep their original variant metadata. */
+    private static final java.util.Map<String, EnumProperty<?>> LEGACY_SLAB_VARIANTS =
+            legacySlabVariants();
+
+    private static java.util.Map<String, EnumProperty<?>> legacySlabVariants() {
+        java.util.Map<String, EnumProperty<?>> variants = new java.util.LinkedHashMap<>();
+        variants.put("parasiterubbleslabhalf", RUBBLE_SLAB_VARIANT);
+        variants.put("parasiterubbleslabdouble", RUBBLE_SLAB_VARIANT);
+        variants.put("parasitestainslabhalf", STAIN_SLAB_VARIANT);
+        variants.put("parasitestainslabdouble", STAIN_SLAB_VARIANT);
+        return java.util.Map.copyOf(variants);
+    }
+
     private static final java.util.Map<String, DeferredBlock<? extends Block>> LEGACY_BLOCKS =
             registerLegacyBlocks();
 
@@ -666,23 +996,73 @@ public final class ModBlocks {
                                 .strength(1.5F, 10.0F).sound(SoundType.ROOTED_DIRT)));
             } else if (id.endsWith("_slab") || id.endsWith("_slab_double")
                     || id.endsWith("slabhalf") || id.endsWith("slabdouble")) {
-                holder = BLOCKS.register(id, () -> new InfestedSlabBlock(BlockBehaviour.Properties.of()
-                        .mapColor(MapColor.COLOR_RED).strength(1.5F, 6.0F)
-                        .sound(SoundType.ROOTED_DIRT)));
+                final EnumProperty<?> variant = LEGACY_SLAB_VARIANTS.get(id);
+                holder = variant == null
+                        ? BLOCKS.register(id, () -> new InfestedSlabBlock(legacyProperties()))
+                        : BLOCKS.register(id, () -> new InfestedSlabBlock(legacyProperties()) {
+                            @Override
+                            protected void createBlockStateDefinition(
+                                    StateDefinition.Builder<Block, BlockState> builder) {
+                                super.createBlockStateDefinition(builder);
+                                builder.add(variant);
+                            }
+                        });
             } else if (id.endsWith("_wall") || id.endsWith("wall")) {
                 holder = BLOCKS.register(id, () -> new InfestedWallBlock(BlockBehaviour.Properties.of()
                         .mapColor(MapColor.COLOR_RED).strength(1.5F, 6.0F).sound(SoundType.ROOTED_DIRT)));
             } else if (id.endsWith("_fence") || id.endsWith("fence")) {
                 holder = BLOCKS.register(id, () -> new InfestedFenceBlock(BlockBehaviour.Properties.of()
                         .mapColor(MapColor.COLOR_RED).strength(2.0F).sound(SoundType.WOOD)));
+            } else if (id.equals("infested_cactus")) {
+                holder = BLOCKS.register(id, () -> new CactusBlock(BlockBehaviour.Properties.of()
+                        .mapColor(MapColor.COLOR_RED).randomTicks().strength(0.4F)
+                        .sound(SoundType.WOOL)));
+            } else if (id.equals("parasitetendril")) {
+                holder = BLOCKS.register(id, () -> new VineBlock(BlockBehaviour.Properties.of()
+                        .mapColor(MapColor.COLOR_RED).noCollission().randomTicks()
+                        .strength(0.2F).sound(SoundType.VINE)));
+            } else if (id.equals("tresses_hair")) {
+                holder = BLOCKS.register(id, () -> new DoublePlantBlock(BlockBehaviour.Properties.of()
+                        .mapColor(MapColor.COLOR_RED).noCollission().instabreak().sound(SoundType.GRASS)));
+            } else if (id.equals("parasitefog")) {
+                holder = BLOCKS.register(id, () -> new FogBlock(BlockBehaviour.Properties.of()
+                        .mapColor(MapColor.COLOR_RED).strength(0.2F).randomTicks()
+                        .noOcclusion().sound(SoundType.GRASS)));
+            } else if (LEGACY_STATE_PROPERTIES.containsKey(id)) {
+                holder = BLOCKS.register(id, () -> legacyStateBlock(id));
             } else {
-                holder = BLOCKS.register(id, () -> new Block(BlockBehaviour.Properties.of()
-                        .mapColor(MapColor.COLOR_RED).strength(1.5F, 6.0F).sound(SoundType.ROOTED_DIRT)));
+                holder = BLOCKS.register(id, () -> new Block(legacyProperties()));
             }
             result.put(id, holder);
         }
         return java.util.Map.copyOf(result);
     }
+
+    /** Base properties shared by the compatibility ids. */
+    private static BlockBehaviour.Properties legacyProperties() {
+        return BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
+                .strength(1.5F, 6.0F).sound(SoundType.ROOTED_DIRT);
+    }
+
+    /**
+     * The 1.10.8 jar drove a handful of decorative blocks from block metadata
+     * ({@code variant}, {@code end}, {@code node}, ...).  Old worlds and the
+     * ported structure templates still store those values, so those ids are
+     * rebuilt with matching modern properties instead of silently dropping the
+     * extra state.
+     */
+    private static Block legacyStateBlock(String id) {
+        final Property<?>[] stateProperties = LEGACY_STATE_PROPERTIES.get(id);
+        return new Block(legacyProperties()) {
+            @Override
+            protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+                for (Property<?> property : stateProperties) {
+                    builder.add(property);
+                }
+            }
+        };
+    }
+
 
     private static DeferredBlock<InfestedGlassBlock> tintedGlass(String id) {
         return BLOCKS.register(id, () -> new InfestedGlassBlock(BlockBehaviour.Properties.of()

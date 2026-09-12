@@ -3,11 +3,11 @@
     "type=bottom": {
       "model": "csrp:block/infested_sandstone_slab"
     },
-    "type=double": {
-      "model": "csrp:block/inf_ss"
-    },
     "type=top": {
       "model": "csrp:block/infested_sandstone_slab_top"
+    },
+    "type=double": {
+      "model": "csrp:block/infested_sandstone_slab_double"
     }
   }
 }

@@ -1,8 +1,7 @@
 {
-  "forge_marker": 1,
   "variants": {
-    "normal": {
-      "model": "minecraft:stone"
+    "": {
+      "model": "csrp:block/relaycontroller_dummy"
     }
   }
 }

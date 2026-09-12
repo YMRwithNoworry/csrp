@@ -1,8 +1,4 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "csrp:block/parasitestain_dirt"
-  },
   "variants": {
     "variant=dirt": [
       {
@@ -122,9 +118,6 @@
         "model": "csrp:block/parasitestain_sackflesh",
         "y": 270
       }
-    ],
-    "inventory": [
-      {}
     ]
   }
 }

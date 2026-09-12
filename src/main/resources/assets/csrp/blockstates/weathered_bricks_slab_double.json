@@ -1,17 +1,13 @@
 {
-  "forge_marker": 1,
   "variants": {
-    "variant=default": {
-      "model": "csrp:block/weathered_bricks_slab_double"
+    "type=bottom": {
+      "model": "csrp:block/weathered_bricks_slab"
     },
-    "half=bottom,variant=default": {
-      "model": "csrp:block/weathered_bricks_slab_double"
+    "type=top": {
+      "model": "csrp:block/weathered_bricks_slab_top"
     },
-    "half=top,variant=default": {
+    "type=double": {
       "model": "csrp:block/weathered_bricks_slab_double"
-    },
-    "inventory": [
-      {}
-    ]
+    }
   }
 }

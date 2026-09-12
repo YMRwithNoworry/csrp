@@ -1,14 +1,13 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "csrp:block/parasitic_colony_core_slab"
-  },
   "variants": {
-    "half=bottom,variant=default": {
+    "type=bottom": {
       "model": "csrp:block/parasitic_colony_core_slab"
     },
-    "half=top,variant=default": {
+    "type=top": {
       "model": "csrp:block/parasitic_colony_core_slab_top"
+    },
+    "type=double": {
+      "model": "csrp:block/parasitic_colony_core_slab_double"
     }
   }
 }

@@ -1,8 +1,8 @@
 {
-  "loader": "forge:obj",
+  "loader": "neoforge:obj",
   "model": "csrp:models/block/arraytowerlarge.obj",
   "ambientocclusion": true,
   "textures": {
-    "m_e1bc4043-df86-8f2c-56d5-d671a67f101b": "csrp:blocks/arraytowertexture"
+    "m_54acd2a9-1b93-8c80-6bd1-4d05c195c2a9": "csrp:blocks/arraytowertexture"
   }
 }

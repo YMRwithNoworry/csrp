@@ -1,12 +1,5 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "csrp:block/relaycontroller"
-  },
   "variants": {
-    "normal": {
-      "model": "csrp:block/relaycontroller"
-    },
     "facing=north": {
       "model": "csrp:block/relaycontroller"
     },

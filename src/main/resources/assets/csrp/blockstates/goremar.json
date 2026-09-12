@@ -1,8 +1,4 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "csrp:block/gore_mar_small"
-  },
   "variants": {
     "variant=flat": [
       {
@@ -54,9 +50,6 @@
         "model": "csrp:block/gore_mar_big",
         "y": 270
       }
-    ],         
-    "inventory": [
-      {}
     ]
   }
 }

@@ -1,8 +1,4 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "csrp:block/parasitestain_dirt"
-  },
   "variants": {
     "stage=0,variant=tree": {
       "model": "csrp:block/parasitesapling_tree"
@@ -39,9 +35,6 @@
     },
     "stage=1,variant=infested": {
       "model": "csrp:block/parasitesapling_infested"
-    },
-    "inventory": [
-      {}
-    ]
+    }
   }
 }

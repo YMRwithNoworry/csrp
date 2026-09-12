@@ -1,5 +1,5 @@
 {
-  "parent": "block/half_slab",
+  "parent": "minecraft:block/slab",
   "textures": {
     "particle": "csrp:blocks/bleeding_obsidian",
     "bottom": "csrp:blocks/bleeding_obsidian",

@@ -1,8 +1,4 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "csrp:block/parasitebush_tendril"
-  },
   "variants": {
     "end=false,node=false,variant=tendril": [
       {
@@ -987,9 +983,6 @@
         "model": "csrp:block/parasitebush_decanterempty",
         "y": 270
       }
-    ],
-    "inventory": [
-      {}
     ]
   }
 }

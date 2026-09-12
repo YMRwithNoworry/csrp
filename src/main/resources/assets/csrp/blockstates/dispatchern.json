@@ -1,14 +1,7 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "csrp:block/dodn"
-  },
   "variants": {
-    "normal": {
+    "": {
       "model": "csrp:block/dodn"
-    },
-    "inventory": [
-      {}
-    ]
+    }
   }
 }

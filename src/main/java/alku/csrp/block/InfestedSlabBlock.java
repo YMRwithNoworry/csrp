@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 /** Slab variant that spreads infestation while touching infected material. */
-public final class InfestedSlabBlock extends SlabBlock {
+public class InfestedSlabBlock extends SlabBlock {
     public static final MapCodec<SlabBlock> CODEC = simpleCodec(InfestedSlabBlock::new);
 
     public InfestedSlabBlock(Properties properties) {

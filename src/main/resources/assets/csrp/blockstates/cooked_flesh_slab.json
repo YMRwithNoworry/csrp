@@ -1,1 +1,13 @@
-{"variants":{"type=bottom":{"model":"csrp:block/cooked_flesh_slab"},"type=double":{"model":"csrp:block/cooked_flesh_planks"},"type=top":{"model":"csrp:block/cooked_flesh_slab_top"}}}
+{
+  "variants": {
+    "type=bottom": {
+      "model": "csrp:block/cooked_flesh_slab"
+    },
+    "type=top": {
+      "model": "csrp:block/cooked_flesh_slab_top"
+    },
+    "type=double": {
+      "model": "csrp:block/cooked_flesh_slab_double"
+    }
+  }
+}

@@ -1,14 +1,13 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "csrp:block/harleskinn_slab"
-  },
   "variants": {
-    "half=bottom,variant=default": {
+    "type=bottom": {
       "model": "csrp:block/harleskinn_slab"
     },
-    "half=top,variant=default": {
+    "type=top": {
       "model": "csrp:block/harleskinn_slab_top"
+    },
+    "type=double": {
+      "model": "csrp:block/harleskinn_slab_double"
     }
   }
 }

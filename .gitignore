@@ -16,3 +16,6 @@ codex/
 *.log
 hs_err_pid*
 .firecrawl/
+
+.vanilla-assets/
+.ref*/

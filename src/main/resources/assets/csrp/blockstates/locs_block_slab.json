@@ -1,14 +1,13 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "csrp:block/locs_block_slab"
-  },
   "variants": {
-    "half=bottom,variant=default": {
+    "type=bottom": {
       "model": "csrp:block/locs_block_slab"
     },
-    "half=top,variant=default": {
+    "type=top": {
       "model": "csrp:block/locs_block_slab_top"
+    },
+    "type=double": {
+      "model": "csrp:block/locs_block_slab_double"
     }
   }
 }

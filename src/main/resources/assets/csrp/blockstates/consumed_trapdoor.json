@@ -1,66 +1,56 @@
 {
   "variants": {
-    "bottom,open=false,facing=north": {
-      "model": "csrp:block/consumed_trapdoor_bottom",
-      "y": 0
+    "facing=east,half=bottom,open=false": {
+      "model": "csrp:block/consumed_trapdoor_bottom"
     },
-    "bottom,open=false,facing=east": {
-      "model": "csrp:block/consumed_trapdoor_bottom",
+    "facing=east,half=bottom,open=true": {
+      "model": "csrp:block/consumed_trapdoor_open",
       "y": 90
     },
-    "bottom,open=false,facing=south": {
-      "model": "csrp:block/consumed_trapdoor_bottom",
+    "facing=east,half=top,open=false": {
+      "model": "csrp:block/consumed_trapdoor_top"
+    },
+    "facing=east,half=top,open=true": {
+      "model": "csrp:block/consumed_trapdoor_open",
+      "y": 90
+    },
+    "facing=north,half=bottom,open=false": {
+      "model": "csrp:block/consumed_trapdoor_bottom"
+    },
+    "facing=north,half=bottom,open=true": {
+      "model": "csrp:block/consumed_trapdoor_open"
+    },
+    "facing=north,half=top,open=false": {
+      "model": "csrp:block/consumed_trapdoor_top"
+    },
+    "facing=north,half=top,open=true": {
+      "model": "csrp:block/consumed_trapdoor_open"
+    },
+    "facing=south,half=bottom,open=false": {
+      "model": "csrp:block/consumed_trapdoor_bottom"
+    },
+    "facing=south,half=bottom,open=true": {
+      "model": "csrp:block/consumed_trapdoor_open",
       "y": 180
     },
-    "bottom,open=false,facing=west": {
-      "model": "csrp:block/consumed_trapdoor_bottom",
+    "facing=south,half=top,open=false": {
+      "model": "csrp:block/consumed_trapdoor_top"
+    },
+    "facing=south,half=top,open=true": {
+      "model": "csrp:block/consumed_trapdoor_open",
+      "y": 180
+    },
+    "facing=west,half=bottom,open=false": {
+      "model": "csrp:block/consumed_trapdoor_bottom"
+    },
+    "facing=west,half=bottom,open=true": {
+      "model": "csrp:block/consumed_trapdoor_open",
       "y": 270
     },
-    "bottom,open=true,facing=north": {
-      "model": "csrp:block/consumed_trapdoor_open",
-      "y": 0
+    "facing=west,half=top,open=false": {
+      "model": "csrp:block/consumed_trapdoor_top"
     },
-    "bottom,open=true,facing=east": {
-      "model": "csrp:block/consumed_trapdoor_open",
-      "y": 90
-    },
-    "bottom,open=true,facing=south": {
-      "model": "csrp:block/consumed_trapdoor_open",
-      "y": 180
-    },
-    "bottom,open=true,facing=west": {
-      "model": "csrp:block/consumed_trapdoor_open",
-      "y": 270
-    },
-    "top,open=false,facing=north": {
-      "model": "csrp:block/consumed_trapdoor_top",
-      "y": 0
-    },
-    "top,open=false,facing=east": {
-      "model": "csrp:block/consumed_trapdoor_top",
-      "y": 90
-    },
-    "top,open=false,facing=south": {
-      "model": "csrp:block/consumed_trapdoor_top",
-      "y": 180
-    },
-    "top,open=false,facing=west": {
-      "model": "csrp:block/consumed_trapdoor_top",
-      "y": 270
-    },
-    "top,open=true,facing=north": {
-      "model": "csrp:block/consumed_trapdoor_open",
-      "y": 0
-    },
-    "top,open=true,facing=east": {
-      "model": "csrp:block/consumed_trapdoor_open",
-      "y": 90
-    },
-    "top,open=true,facing=south": {
-      "model": "csrp:block/consumed_trapdoor_open",
-      "y": 180
-    },
-    "top,open=true,facing=west": {
+    "facing=west,half=top,open=true": {
       "model": "csrp:block/consumed_trapdoor_open",
       "y": 270
     }

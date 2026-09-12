@@ -1,8 +1,4 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "csrp:block/parasiterubble_flesh"
-  },
   "variants": {
     "variant=flesh": [
       {
@@ -210,9 +206,6 @@
         "model": "csrp:block/parasiterubble_weathfss",
         "y": 270
       }
-    ],
-    "inventory": [
-      {}
     ]
   }
 }

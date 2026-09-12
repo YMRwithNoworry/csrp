@@ -1,17 +1,13 @@
 {
-  "forge_marker": 1,
   "variants": {
-    "variant=default": {
-      "model": "csrp:block/polished_infested_stone_slab_double"
+    "type=bottom": {
+      "model": "csrp:block/polished_infested_stone_slab"
     },
-    "half=bottom,variant=default": {
-      "model": "csrp:block/polished_infested_stone_slab_double"
+    "type=top": {
+      "model": "csrp:block/polished_infested_stone_slab_top"
     },
-    "half=top,variant=default": {
+    "type=double": {
       "model": "csrp:block/polished_infested_stone_slab_double"
-    },
-    "inventory": [
-      {}
-    ]
+    }
   }
 }

@@ -1,8 +1,4 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "csrp:block/infestedbush_infected"
-  },
   "variants": {
     "end=false,node=false,variant=infected": [
       {
@@ -546,9 +542,6 @@
         "model": "csrp:block/infestedbush_arc",
         "y": 270
       }
-    ],
-    "inventory": [
-      {}
     ]
   }
 }

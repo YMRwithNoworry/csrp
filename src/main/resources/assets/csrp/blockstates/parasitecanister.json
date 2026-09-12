@@ -1,8 +1,4 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "csrp:block/parasitecanister_cyst"
-  },
   "variants": {
     "variant=bag": [
       {
@@ -71,9 +67,6 @@
         "model": "csrp:block/parasitecanister_sac",
         "y": 270
       }
-    ],
-    "inventory": [
-      {}
     ]
   }
 }

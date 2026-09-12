@@ -1,17 +1,13 @@
 {
-  "forge_marker": 1,
   "variants": {
-    "variant=default": {
-      "model": "csrp:block/dead_head_plank_slab_double"
+    "type=bottom": {
+      "model": "csrp:block/dead_head_plank_slab"
     },
-    "half=bottom,variant=default": {
-      "model": "csrp:block/dead_head_plank_slab_double"
+    "type=top": {
+      "model": "csrp:block/dead_head_plank_slab_top"
     },
-    "half=top,variant=default": {
+    "type=double": {
       "model": "csrp:block/dead_head_plank_slab_double"
-    },
-    "inventory": [
-      {}
-    ]
+    }
   }
 }

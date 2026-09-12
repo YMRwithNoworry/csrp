@@ -1,53 +1,67 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "csrp:block/slabbone_double"
-  },
   "variants": {
-    "half=top,variant=dirt": {
+    "variant=dirt,type=bottom": {
       "model": "csrp:block/slabdirt_double"
     },
-    "half=bottom,variant=dirt": {
+    "variant=dirt,type=top": {
       "model": "csrp:block/slabdirt_double"
     },
-    "half=top,variant=mud": {
+    "variant=dirt,type=double": {
+      "model": "csrp:block/slabdirt_double"
+    },
+    "variant=mud,type=bottom": {
       "model": "csrp:block/slabmud_double"
     },
-    "half=bottom,variant=mud": {
+    "variant=mud,type=top": {
       "model": "csrp:block/slabmud_double"
     },
-    "half=top,variant=sflesh": {
+    "variant=mud,type=double": {
+      "model": "csrp:block/slabmud_double"
+    },
+    "variant=sflesh,type=bottom": {
       "model": "csrp:block/slabsflesh_double"
     },
-    "half=bottom,variant=sflesh": {
+    "variant=sflesh,type=top": {
       "model": "csrp:block/slabsflesh_double"
     },
-    "half=top,variant=feeler": {
+    "variant=sflesh,type=double": {
+      "model": "csrp:block/slabsflesh_double"
+    },
+    "variant=feeler,type=bottom": {
       "model": "csrp:block/slabfeeler_double"
     },
-    "half=bottom,variant=feeler": {
+    "variant=feeler,type=top": {
       "model": "csrp:block/slabfeeler_double"
     },
-    "half=top,variant=spore": {
+    "variant=feeler,type=double": {
+      "model": "csrp:block/slabfeeler_double"
+    },
+    "variant=spore,type=bottom": {
       "model": "csrp:block/slabspore_double"
     },
-    "half=bottom,variant=spore": {
+    "variant=spore,type=top": {
       "model": "csrp:block/slabspore_double"
     },
-    "half=top,variant=red": {
+    "variant=spore,type=double": {
+      "model": "csrp:block/slabspore_double"
+    },
+    "variant=red,type=bottom": {
       "model": "csrp:block/slabred_double"
     },
-    "half=bottom,variant=red": {
+    "variant=red,type=top": {
       "model": "csrp:block/slabred_double"
     },
-    "half=top,variant=sackflesh": {
+    "variant=red,type=double": {
+      "model": "csrp:block/slabred_double"
+    },
+    "variant=sackflesh,type=bottom": {
       "model": "csrp:block/slabsackflesh_double"
     },
-    "half=bottom,variant=sackflesh": {
+    "variant=sackflesh,type=top": {
       "model": "csrp:block/slabsackflesh_double"
     },
-    "inventory": [
-      {}
-    ]
+    "variant=sackflesh,type=double": {
+      "model": "csrp:block/slabsackflesh_double"
+    }
   }
 }

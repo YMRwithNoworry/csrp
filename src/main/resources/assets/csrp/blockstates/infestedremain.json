@@ -1,16 +1,7 @@
 {
   "variants": {
-    "source=0,infested_base=false": {
+    "": {
       "model": "csrp:block/infestedremain_base"
-    },
-    "source=0,infested_base=true": {
-      "model": "csrp:block/infestedremain_base_infested"
-    },
-    "source=1,infested_base=false": {
-      "model": "csrp:block/infestedremain_base"
-    },
-    "source=1,infested_base=true": {
-      "model": "csrp:block/infestedremain_base_infested"
     }
   }
 }

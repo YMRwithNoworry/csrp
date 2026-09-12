@@ -1,5 +1,5 @@
 {
-  "parent": "block/half_slab",
+  "parent": "minecraft:block/slab",
   "textures": {
     "particle": "csrp:blocks/parasitestain_dirt",
     "bottom": "csrp:blocks/parasitestain_dirt",
