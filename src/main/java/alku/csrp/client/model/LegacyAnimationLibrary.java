@@ -1,7 +1,7 @@
 package alku.csrp.client.model;
 
 import alku.csrp.Csrp;
-import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
+import alku.csrp.client.model.tabula.LegacyModelBox;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -57,7 +57,7 @@ final class LegacyAnimationLibrary {
                         Math.max(1L, (long) (clip.length() * 1_000_000.0F))) / 1_000_000.0F
                 : Math.min(animationTime, clip.length());
         for (BoneAnimation bone : clip.bones()) {
-            AdvancedModelBox part = model.findPart(bone.name());
+            LegacyModelBox part = model.findPart(bone.name());
             if (part == null) {
                 continue;
             }

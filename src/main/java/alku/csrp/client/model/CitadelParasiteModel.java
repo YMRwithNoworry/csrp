@@ -6,15 +6,16 @@ import alku.csrp.animation.CitadelAnimationController;
 import alku.csrp.animation.CitadelAnimationState;
 import alku.csrp.animation.CitadelPlayState;
 import alku.csrp.animation.CitadelRawAnimation;
+import alku.csrp.client.model.tabula.LegacyModelBox;
 import java.util.List;
 import java.util.Optional;
-import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 
 /** Generic Citadel model executing animation formulae from a Tabula export resource. */
-public class CitadelParasiteModel<T extends Mob & CitadelAnimatedEntity> extends LegacyTabulaModel<T>
-        implements CitadelTextureProvider<T> {
+public class CitadelParasiteModel<T extends Mob & CitadelAnimatedEntity>
+        extends LegacyTabulaModel<LegacyMobRenderState> implements CitadelTextureProvider<T> {
     private static final float MOVING_ROTATION_SCALE = 0.72F;
 
     private final String modelId;
@@ -40,14 +41,15 @@ public class CitadelParasiteModel<T extends Mob & CitadelAnimatedEntity> extends
         return texture;
     }
 
-    protected final Optional<AdvancedModelBox> getBone(String name) {
+    protected final Optional<LegacyModelBox> getBone(String name) {
         return Optional.ofNullable(findPart(name));
     }
 
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
-    protected void animateLegacy(T entity, float limbSwing, float limbSwingAmount,
+    protected void animateLegacy(LivingEntity legacyEntity, float limbSwing, float limbSwingAmount,
             float ageInTicks, float netHeadYaw, float headPitch) {
+        T entity = (T) legacyEntity;
         boolean moving = limbSwingAmount > 0.01F && actualMovement(entity);
         CitadelAnimationCache cache = entity.getCitadelAnimationCache();
         List<CitadelAnimationController<?>> controllers = cache.controllers(entity);
@@ -90,7 +92,7 @@ public class CitadelParasiteModel<T extends Mob & CitadelAnimatedEntity> extends
         customize(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
     }
 
-    protected boolean shouldDampenMovingRotation(Object animatable, AdvancedModelBox bone) {
+    protected boolean shouldDampenMovingRotation(Object animatable, LegacyModelBox bone) {
         return true;
     }
 

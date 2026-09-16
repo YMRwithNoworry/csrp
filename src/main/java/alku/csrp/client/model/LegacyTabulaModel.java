@@ -1,112 +1,76 @@
 package alku.csrp.client.model;
 
 import alku.csrp.Csrp;
-import com.github.alexthe666.citadel.client.model.AdvancedEntityModel;
-import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
-import com.github.alexthe666.citadel.client.model.TabulaModel;
-import com.github.alexthe666.citadel.client.model.TabulaModelHandler;
-import com.github.alexthe666.citadel.client.model.basic.BasicModelPart;
-import com.github.alexthe666.citadel.client.model.container.TabulaModelContainer;
-import com.github.alexthe666.citadel.client.model.container.TabulaCubeContainer;
-import java.io.IOException;
-import java.io.InputStream;
+import alku.csrp.client.model.tabula.LegacyModelBox;
+import alku.csrp.client.model.tabula.TabulaModelLoader;
+import alku.csrp.client.model.tabula.TabulaModelTree;
 import java.util.Collection;
 import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
 
 /**
- * Citadel-backed base for the original SRParasites Tabula models.
+ * Render-state base for the original SRParasites Tabula models.
  *
- * <p>The 1.10.8 source distribution contains the Java files emitted by Tabula,
- * not the editor's project files. The build-time importer converts those
- * exports to Citadel's native {@code .tbl} container format. This class loads
- * that container through {@link TabulaModelHandler} and delegates the model
- * tree to Citadel's {@link TabulaModel}. Composition keeps the public model
- * type generic, which is required by NeoForge's typed renderer API.</p>
+ * <p>26.3 renders {@link EntityModel}s from an {@link net.minecraft.client.renderer.entity.state.EntityRenderState}
+ * instead of a live entity. The mod's 138 Tabula models animate by reading live entity state through
+ * custom entity methods, so {@link LegacyMobRenderState} carries the entity reference back to
+ * {@link #animateLegacy}; the entity-driven animation code is therefore preserved verbatim.</p>
+ *
+ * <p>The model tree is built by the project-local {@code alku.csrp.client.model.tabula} replacement
+ * (which stands in for Citadel's {@code TabulaModel}), and {@link #setupAnim} drives it exactly as
+ * the old Citadel-backed class did.</p>
  */
-public abstract class LegacyTabulaModel<T extends LivingEntity> extends AdvancedEntityModel<T> {
-    private final TabulaModel tabulaModel;
+public abstract class LegacyTabulaModel<S extends LegacyMobRenderState> extends EntityModel<S> {
+    private final TabulaModelTree tree;
 
     protected LegacyTabulaModel(String modelId) {
-        tabulaModel = new TabulaModel(loadContainer(modelId));
-        texWidth = tabulaModel.texWidth;
-        texHeight = tabulaModel.texHeight;
+        this(TabulaModelTree.build(TabulaModelLoader.load(Identifier.fromNamespaceAndPath(
+                Csrp.MODID, "tabula/" + modelId + ".tbl"))));
+    }
+
+    private LegacyTabulaModel(TabulaModelTree tree) {
+        super(tree.root(), RenderTypes::entityCutout);
+        this.tree = tree;
     }
 
     @Override
-    public final void setupAnim(T entity, float limbSwing, float limbSwingAmount,
-            float ageInTicks, float netHeadYaw, float headPitch) {
-        tabulaModel.resetToDefaultPose();
-        animateLegacy(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+    public void setupAnim(S state) {
+        super.setupAnim(state);
+        tree.resetToDefaultPose();
+        if (state.legacyEntity != null) {
+            animateLegacy(state.legacyEntity, state.walkAnimationPos, state.walkAnimationSpeed,
+                    state.ageInTicks, state.yRot, state.xRot);
+        }
+        tree.sync();
     }
 
-    protected abstract void animateLegacy(T entity, float limbSwing, float limbSwingAmount,
+    protected abstract void animateLegacy(LivingEntity entity, float limbSwing, float limbSwingAmount,
             float ageInTicks, float netHeadYaw, float headPitch);
 
-    protected final AdvancedModelBox part(String name) {
-        AdvancedModelBox part = findPart(name);
+    protected final LegacyModelBox part(String name) {
+        LegacyModelBox part = findPart(name);
         if (part == null) {
             throw new IllegalArgumentException("Unknown legacy Tabula part: " + name);
         }
         return part;
     }
 
-    public final AdvancedModelBox findPart(String name) {
-        return tabulaModel.getCube(name);
+    public final LegacyModelBox findPart(String name) {
+        return tree.getBox(name);
     }
 
     public final Collection<String> partNames() {
-        return List.copyOf(tabulaModel.getCubes().keySet());
+        return List.copyOf(tree.boxes().keySet());
     }
 
-    @Override
-    public final Iterable<BasicModelPart> parts() {
-        return tabulaModel.parts();
+    public final Iterable<LegacyModelBox> parts() {
+        return tree.allBoxes();
     }
 
-    @Override
-    public final Iterable<AdvancedModelBox> getAllParts() {
-        return tabulaModel.getAllParts();
-    }
-
-    private static TabulaModelContainer loadContainer(String modelId) {
-        Identifier location = Identifier.fromNamespaceAndPath(
-                Csrp.MODID, "tabula/" + modelId + ".tbl");
-        try (InputStream stream = Minecraft.getInstance().getResourceManager().getResource(location)
-                .orElseThrow(() -> new IOException("Missing Tabula model " + location))
-                .open(); ZipInputStream archive = new ZipInputStream(stream)) {
-            ZipEntry entry;
-            while ((entry = archive.getNextEntry()) != null) {
-                if ("model.json".equals(entry.getName())) {
-                    TabulaModelContainer container = TabulaModelHandler.INSTANCE.loadTabulaModel(archive);
-                    normalizeGroundPlane(container);
-                    return container;
-                }
-            }
-            throw new IOException("Tabula archive has no model.json: " + location);
-        } catch (IOException | RuntimeException exception) {
-            throw new IllegalStateException("Unable to load Citadel Tabula model " + location, exception);
-        }
-    }
-
-    /**
-     * The original 1.10.8 Java models already use the vanilla 24-pixel ground plane. The build-time
-     * importer wrapped every model in a synthetic {@code srp_coordinate_root} positioned at y=24,
-     * which shifted all parts down by 24 pixels (1.5 blocks) and made the models render below
-     * their entity position. Resetting the synthetic root to the origin restores the authored
-     * coordinates for every model, ground-walking or hovering.
-     */
-    private static void normalizeGroundPlane(TabulaModelContainer container) {
-        for (TabulaCubeContainer root : container.getCubes()) {
-            if (!"srp_coordinate_root".equals(root.getName())) continue;
-            double[] rootPosition = root.getPosition();
-            if (rootPosition == null || rootPosition.length < 2) return;
-            rootPosition[1] = 0.0D;
-            return;
-        }
+    public final Iterable<LegacyModelBox> getAllParts() {
+        return tree.allBoxes();
     }
 }
