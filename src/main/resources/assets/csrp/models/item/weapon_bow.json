@@ -4,28 +4,6 @@
   "textures": {
     "layer0": "csrp:item/weapon_bow_standby"
   },
-  "overrides": [
-    {
-      "predicate": {
-        "pulling": 1
-      },
-      "model": "csrp:item/weapon_bow_pulling_0"
-    },
-    {
-      "predicate": {
-        "pulling": 1,
-        "pull": 0.4
-      },
-      "model": "csrp:item/weapon_bow_pulling_1"
-    },
-    {
-      "predicate": {
-        "pulling": 1,
-        "pull": 0.9
-      },
-      "model": "csrp:item/weapon_bow_pulling_2"
-    }
-  ],
   "display": {
     "thirdperson_righthand": {
       "rotation": [

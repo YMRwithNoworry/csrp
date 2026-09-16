@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:range_dispatch",
+  "property": "minecraft:pulling",
+  "entries": [
+    {
+      "threshold": 0.5,
+      "model": {
+        "type": "minecraft:range_dispatch",
+        "property": "minecraft:pull",
+        "entries": [
+          {
+            "threshold": 0.4,
+            "model": {
+              "type": "minecraft:model",
+              "model": "csrp:item/weapon_bow_sentient_pulling_1"
+            }
+          },
+          {
+            "threshold": 0.9,
+            "model": {
+              "type": "minecraft:model",
+              "model": "csrp:item/weapon_bow_sentient_pulling_2"
+            }
+          }
+        ],
+        "fallback": {
+          "type": "minecraft:model",
+          "model": "csrp:item/weapon_bow_sentient_pulling_0"
+        }
+      }
+    }
+  ],
+  "fallback": {
+    "type": "minecraft:model",
+    "model": "csrp:item/weapon_bow_sentient"
+  }
+}
