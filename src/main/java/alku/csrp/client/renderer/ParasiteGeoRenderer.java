@@ -2,9 +2,10 @@ package alku.csrp.client.renderer;
 
 import alku.csrp.animation.CitadelAnimatedEntity;
 import alku.csrp.client.model.CitadelTextureProvider;
+import alku.csrp.client.model.LegacyMobRenderState;
 import alku.csrp.registry.ModMobEffects;
-import com.github.alexthe666.citadel.client.model.AdvancedEntityModel;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -12,16 +13,28 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Mob;
 
 /** Shared Citadel renderer gate and adaptation tint used by SRP parasites. */
-public class ParasiteGeoRenderer<T extends Mob & CitadelAnimatedEntity>
-        extends MobRenderer<T, AdvancedEntityModel<T>> {
-    protected ParasiteGeoRenderer(EntityRendererProvider.Context context, AdvancedEntityModel<T> model) {
+public class ParasiteGeoRenderer<T extends Mob & CitadelAnimatedEntity, M extends EntityModel<LegacyMobRenderState>>
+        extends MobRenderer<T, LegacyMobRenderState, M> {
+    protected ParasiteGeoRenderer(EntityRendererProvider.Context context, M model) {
         super(context, model, 0.5F);
     }
 
     @Override
-    public Identifier getTextureLocation(T entity) {
+    public LegacyMobRenderState createRenderState() {
+        return new LegacyMobRenderState();
+    }
+
+    @Override
+    public void extractRenderState(T entity, LegacyMobRenderState state, float partialTick) {
+        super.extractRenderState(entity, state, partialTick);
+        state.legacyEntity = entity;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Identifier getTextureLocation(LegacyMobRenderState state) {
+        T entity = (T) state.legacyEntity;
         if (model instanceof CitadelTextureProvider<?> provider) {
-            @SuppressWarnings("unchecked")
             CitadelTextureProvider<T> typed = (CitadelTextureProvider<T>) provider;
             return typed.texture(entity);
         }
@@ -29,8 +42,10 @@ public class ParasiteGeoRenderer<T extends Mob & CitadelAnimatedEntity>
     }
 
     @Override
-    public boolean shouldRender(T entity, Frustum frustum, double cameraX, double cameraY, double cameraZ) {
-        return !isHiddenByBraining() && super.shouldRender(entity, frustum, cameraX, cameraY, cameraZ);
+    public boolean shouldRender(T entity, Frustum culler, double cameraX, double cameraY, double cameraZ,
+            float partialTicks) {
+        return !isHiddenByBraining() && super.shouldRender(entity, culler, cameraX, cameraY, cameraZ,
+                partialTicks);
     }
 
     protected final boolean isHiddenByBraining() {

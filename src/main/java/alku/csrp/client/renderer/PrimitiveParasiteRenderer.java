@@ -2,6 +2,7 @@ package alku.csrp.client.renderer;
 
 import alku.csrp.Csrp;
 import alku.csrp.animation.CitadelAnimatedEntity;
+import alku.csrp.client.model.LegacyMobRenderState;
 import alku.csrp.client.model.PrimitiveParasiteModel;
 import alku.csrp.entity.AdaptedVariantEntity;
 import alku.csrp.entity.CarrierEntity;
@@ -10,12 +11,12 @@ import alku.csrp.entity.PrimitiveVariantEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import com.github.alexthe666.citadel.client.model.AdvancedEntityModel;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.rendertype.RenderType;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.LightCoordsUtil;
@@ -25,7 +26,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.phys.Vec3;
 
 public final class PrimitiveParasiteRenderer<T extends Mob & CitadelAnimatedEntity>
-        extends ParasiteGeoRenderer<T> {
+        extends ParasiteGeoRenderer<T, PrimitiveParasiteModel<T>> {
     private static final Identifier YELLOWEYE_GLOW_TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,
             "textures/entity/pri_yelloweye_glow.png");
     private static final Identifier YELLOWEYE_HEAVY_GLOW_TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,
@@ -48,7 +49,10 @@ public final class PrimitiveParasiteRenderer<T extends Mob & CitadelAnimatedEnti
     }
 
     @Override
-    protected void scale(T entity, PoseStack poseStack, float partialTick) {
+    @SuppressWarnings("unchecked")
+    protected void scale(LegacyMobRenderState state, PoseStack poseStack) {
+        T entity = (T) state.legacyEntity;
+        float partialTick = state.partialTick;
         if (entity instanceof MeltableAssimilated meltable && meltable.isMelting()) {
             poseStack.scale(1.0F, meltable.getMeltRenderScale(partialTick), 1.0F);
         }
@@ -62,26 +66,26 @@ public final class PrimitiveParasiteRenderer<T extends Mob & CitadelAnimatedEnti
             float verticalScale = (1.0F + swell * 0.1F) / pulse;
             poseStack.scale(horizontalScale, verticalScale, horizontalScale);
         }
-        super.scale(entity, poseStack, partialTick);
+        super.scale(state, poseStack);
     }
 
     @Override
-    public void render(T entity, float entityYaw, float partialTick, PoseStack poseStack,
-                       MultiBufferSource bufferSource, int packedLight) {
-        super.render(entity, entityYaw, partialTick, poseStack, bufferSource, packedLight);
-        if (!(entity instanceof AdaptedVariantEntity arachnida) || !arachnida.isAdaptedArachnida()
+    public void submit(LegacyMobRenderState state, PoseStack poseStack, SubmitNodeCollector collector,
+                       CameraRenderState cameraState) {
+        super.submit(state, poseStack, collector, cameraState);
+        if (!(state.legacyEntity instanceof AdaptedVariantEntity arachnida) || !arachnida.isAdaptedArachnida()
                 || arachnida.getArachnidaStatus() != 3) {
             return;
         }
         LivingEntity target = arachnida.getArachnidaTetherTarget();
         if (target != null) {
-            renderArachnidaBeam(arachnida, target, partialTick, poseStack, bufferSource);
+            renderArachnidaBeam(arachnida, target, state.partialTick, poseStack, collector);
         }
     }
 
     private static void renderArachnidaBeam(AdaptedVariantEntity arachnida, LivingEntity target,
                                              float partialTick, PoseStack poseStack,
-                                             MultiBufferSource bufferSource) {
+                                             SubmitNodeCollector collector) {
         Vec3 renderOrigin = arachnida.getPosition(partialTick);
         Vec3 start = arachnida.getEyePosition(partialTick).subtract(renderOrigin);
         Vec3 end = target.getPosition(partialTick).add(0.0D, target.getBbHeight() * 0.5D, 0.0D)
@@ -103,14 +107,14 @@ public final class PrimitiveParasiteRenderer<T extends Mob & CitadelAnimatedEnti
 
         poseStack.pushPose();
         poseStack.translate(start.x, start.y, start.z);
-        poseStack.rotate(Axis.YP.rotationDegrees((Mth.HALF_PI - yaw) * Mth.RAD_TO_DEG));
-        poseStack.rotate(Axis.XP.rotationDegrees(pitch * Mth.RAD_TO_DEG));
+        poseStack.rotateDegrees(Axis.YP, (Mth.HALF_PI - yaw) * Mth.RAD_TO_DEG);
+        poseStack.rotateDegrees(Axis.XP, pitch * Mth.RAD_TO_DEG);
 
-        VertexConsumer consumer = bufferSource.getBuffer(GUARDIAN_BEAM_RENDER_TYPE);
-        PoseStack.Pose pose = poseStack.last();
-        renderBeamRibbon(consumer, pose, spin, beamLength, startV, endV);
-        renderBeamRibbon(consumer, pose, spin + Mth.HALF_PI, beamLength, startV, endV);
-        renderBeamCap(consumer, pose, spin, beamLength, (arachnida.tickCount & 1) == 0 ? 0.5F : 0.0F);
+        collector.submitCustomGeometry(poseStack, GUARDIAN_BEAM_RENDER_TYPE, (pose, consumer) -> {
+            renderBeamRibbon(consumer, pose, spin, beamLength, startV, endV);
+            renderBeamRibbon(consumer, pose, spin + Mth.HALF_PI, beamLength, startV, endV);
+            renderBeamCap(consumer, pose, spin, beamLength, (arachnida.tickCount & 1) == 0 ? 0.5F : 0.0F);
+        });
         poseStack.popPose();
     }
 
@@ -150,23 +154,23 @@ public final class PrimitiveParasiteRenderer<T extends Mob & CitadelAnimatedEnti
     }
 
     private static final class YelloweyeGlowLayer<T extends Mob & CitadelAnimatedEntity>
-            extends RenderLayer<T, AdvancedEntityModel<T>> {
+            extends RenderLayer<LegacyMobRenderState, PrimitiveParasiteModel<T>> {
         private YelloweyeGlowLayer(PrimitiveParasiteRenderer<T> renderer) {
             super(renderer);
         }
 
         @Override
-        public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight,
-                T entity, float limbSwing, float limbSwingAmount, float partialTick,
-                float ageInTicks, float netHeadYaw, float headPitch) {
-            if (!(entity instanceof PrimitiveVariantEntity yelloweye) || !yelloweye.isPrimitiveYelloweye()) {
+        public void submit(PoseStack poseStack, SubmitNodeCollector collector, int lightCoords,
+                LegacyMobRenderState state, float yRot, float xRot) {
+            if (!(state.legacyEntity instanceof PrimitiveVariantEntity yelloweye)
+                    || !yelloweye.isPrimitiveYelloweye()) {
                 return;
             }
             Identifier texture = yelloweye.getYelloweyeSkin() == 7
                     ? YELLOWEYE_HEAVY_GLOW_TEXTURE : YELLOWEYE_GLOW_TEXTURE;
             RenderType glowType = RenderTypes.eyes(texture);
-            getParentModel().renderToBuffer(poseStack, bufferSource.getBuffer(glowType),
-                    LightCoordsUtil.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 0xFFFFFFFF);
+            collector.submitModel(getParentModel(), state, poseStack, glowType, LightCoordsUtil.FULL_BRIGHT,
+                    OverlayTexture.NO_OVERLAY, 0xFFFFFFFF, null, state.outlineColor);
         }
     }
 }
