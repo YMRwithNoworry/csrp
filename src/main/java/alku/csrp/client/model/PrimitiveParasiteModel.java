@@ -13,7 +13,7 @@ import alku.csrp.entity.MarauderizedCowEntity;
 import alku.csrp.entity.PreeminentParasiteEntity;
 import alku.csrp.entity.PrimitiveVariantEntity;
 import alku.csrp.entity.PureParasiteEntity;
-import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
+import alku.csrp.client.model.tabula.LegacyModelBox;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
@@ -233,12 +233,12 @@ public final class PrimitiveParasiteModel<T extends Mob & CitadelAnimatedEntity>
         return texture;
     }
     @Override
-    protected boolean shouldDampenMovingRotation(Object animatable, AdvancedModelBox bone) {
+    protected boolean shouldDampenMovingRotation(Object animatable, LegacyModelBox bone) {
         // ModelInfEnderman applies a complete crawling root pose. Damping the
         // root together with limb motion produces a visibly tilted hybrid pose.
         return !(animatable instanceof AssimilatedEndermanEntity enderman
                 && enderman.isCrawling()
-                && "mainbody".equals(bone.boxName));
+                && "mainbody".equals(bone.getName()));
     }
 
     @Override

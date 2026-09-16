@@ -1,51 +1,52 @@
 package alku.csrp.client.model;
 
+import alku.csrp.client.model.tabula.LegacyModelBox;
 import alku.csrp.entity.KirinEntity;
-import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
 
-/** Original 1.10.8 {@code ModelKirin} animation running on Citadel parts. */
-public final class KirinCitadelModel extends LegacyTabulaModel<KirinEntity> {
-    private final AdvancedModelBox mainbody;
-    private final AdvancedModelBox jointURAX;
-    private final AdvancedModelBox jointURAY;
-    private final AdvancedModelBox jointURA1;
-    private final AdvancedModelBox jointURA2;
-    private final AdvancedModelBox jointURA3;
-    private final AdvancedModelBox jointURA4;
-    private final AdvancedModelBox jointULAX;
-    private final AdvancedModelBox jointULAY;
-    private final AdvancedModelBox jointULA1;
-    private final AdvancedModelBox jointULA2;
-    private final AdvancedModelBox jointULA3;
-    private final AdvancedModelBox jointULA4;
-    private final AdvancedModelBox jointMRAX;
-    private final AdvancedModelBox jointMRAY;
-    private final AdvancedModelBox jointMRA1;
-    private final AdvancedModelBox jointMRA2;
-    private final AdvancedModelBox jointMRA3;
-    private final AdvancedModelBox jointMRA4;
-    private final AdvancedModelBox jointMLAX;
-    private final AdvancedModelBox jointMLAY;
-    private final AdvancedModelBox jointMLA1;
-    private final AdvancedModelBox jointMLA2;
-    private final AdvancedModelBox jointMLA3;
-    private final AdvancedModelBox jointMLA4;
-    private final AdvancedModelBox jointDRAX;
-    private final AdvancedModelBox jointDRAY;
-    private final AdvancedModelBox jointDRA1;
-    private final AdvancedModelBox jointDRA2;
-    private final AdvancedModelBox jointDRA3;
-    private final AdvancedModelBox jointDRA4;
-    private final AdvancedModelBox jointDLAX;
-    private final AdvancedModelBox jointDLAY;
-    private final AdvancedModelBox jointDLA1;
-    private final AdvancedModelBox jointDLA2;
-    private final AdvancedModelBox jointDLA3;
-    private final AdvancedModelBox jointDLA4;
-    private final AdvancedModelBox jointH;
-    private final AdvancedModelBox jointLM;
-    private final AdvancedModelBox jointRM;
+/** Original 1.10.8 {@code ModelKirin} animation running on the self-contained Tabula parts. */
+public final class KirinCitadelModel extends LegacyTabulaModel<LegacyMobRenderState> {
+    private final LegacyModelBox mainbody;
+    private final LegacyModelBox jointURAX;
+    private final LegacyModelBox jointURAY;
+    private final LegacyModelBox jointURA1;
+    private final LegacyModelBox jointURA2;
+    private final LegacyModelBox jointURA3;
+    private final LegacyModelBox jointURA4;
+    private final LegacyModelBox jointULAX;
+    private final LegacyModelBox jointULAY;
+    private final LegacyModelBox jointULA1;
+    private final LegacyModelBox jointULA2;
+    private final LegacyModelBox jointULA3;
+    private final LegacyModelBox jointULA4;
+    private final LegacyModelBox jointMRAX;
+    private final LegacyModelBox jointMRAY;
+    private final LegacyModelBox jointMRA1;
+    private final LegacyModelBox jointMRA2;
+    private final LegacyModelBox jointMRA3;
+    private final LegacyModelBox jointMRA4;
+    private final LegacyModelBox jointMLAX;
+    private final LegacyModelBox jointMLAY;
+    private final LegacyModelBox jointMLA1;
+    private final LegacyModelBox jointMLA2;
+    private final LegacyModelBox jointMLA3;
+    private final LegacyModelBox jointMLA4;
+    private final LegacyModelBox jointDRAX;
+    private final LegacyModelBox jointDRAY;
+    private final LegacyModelBox jointDRA1;
+    private final LegacyModelBox jointDRA2;
+    private final LegacyModelBox jointDRA3;
+    private final LegacyModelBox jointDRA4;
+    private final LegacyModelBox jointDLAX;
+    private final LegacyModelBox jointDLAY;
+    private final LegacyModelBox jointDLA1;
+    private final LegacyModelBox jointDLA2;
+    private final LegacyModelBox jointDLA3;
+    private final LegacyModelBox jointDLA4;
+    private final LegacyModelBox jointH;
+    private final LegacyModelBox jointLM;
+    private final LegacyModelBox jointRM;
 
     public KirinCitadelModel() {
         super("kirin");
@@ -92,8 +93,9 @@ public final class KirinCitadelModel extends LegacyTabulaModel<KirinEntity> {
     }
 
     @Override
-    protected void animateLegacy(KirinEntity entity, float limbSwing, float limbSwingAmount,
+    protected void animateLegacy(LivingEntity legacyEntity, float limbSwing, float limbSwingAmount,
             float ageInTicks, float netHeadYaw, float headPitch) {
+        KirinEntity entity = (KirinEntity) legacyEntity;
         float f11 = Mth.cos(ageInTicks * 0.130998F) * 0.107215F;
         float f22 = Mth.cos(ageInTicks * 0.0819112F) * 0.1206261F;
         float f33 = Mth.cos(ageInTicks * 0.0627955F) * 0.09067262F;
