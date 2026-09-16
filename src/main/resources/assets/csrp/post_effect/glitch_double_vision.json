@@ -1,0 +1,43 @@
+{
+  "targets": {
+    "swap": {}
+  },
+  "passes": [
+    {
+      "vertex_shader": "minecraft:core/screenquad",
+      "fragment_shader": "csrp:glitch_double_vision",
+      "inputs": [
+        {
+          "sampler_name": "Diffuse",
+          "target": "minecraft:main"
+        }
+      ],
+      "uniforms": {
+        "GlitchConfig": [
+          { "name": "Time", "type": "float", "value": 0.0 },
+          { "name": "pixelsize", "type": "float", "value": 4.89 },
+          { "name": "vhs_intensity", "type": "float", "value": 5.74 },
+          { "name": "opacity", "type": "float", "value": 0.79 },
+          { "name": "double_vision_split", "type": "float", "value": 0.03 }
+        ]
+      },
+      "output": "swap"
+    },
+    {
+      "vertex_shader": "minecraft:core/screenquad",
+      "fragment_shader": "minecraft:post/blit",
+      "inputs": [
+        {
+          "sampler_name": "In",
+          "target": "swap"
+        }
+      ],
+      "uniforms": {
+        "BlitConfig": [
+          { "name": "ColorModulate", "type": "vec4", "value": [ 1.0, 1.0, 1.0, 1.0 ] }
+        ]
+      },
+      "output": "minecraft:main"
+    }
+  ]
+}

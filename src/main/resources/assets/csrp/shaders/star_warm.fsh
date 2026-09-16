@@ -1,14 +1,17 @@
-#version 150
+#version 330
+#extension GL_ARB_separate_shader_objects : require
 
 uniform sampler2D DiffuseSampler;
-in vec2 texCoord;
 
-out vec4 fragColor;
+layout(std140) uniform StarWarmConfig {
+    float SRP_Time;
+    float SRP_Exposure;
+    float SRP_Fade;
+};
 
-uniform vec2 InSize;
-uniform float SRP_Time;
-uniform float SRP_Exposure;
-uniform float SRP_Fade;
+layout(location = 0) in vec2 texCoord;
+
+layout(location = 0) out vec4 fragColor;
 
 float saturate(float x) {
     return clamp(x, 0.0, 1.0);

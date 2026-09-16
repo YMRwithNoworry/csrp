@@ -1,19 +1,23 @@
-#version 150
+#version 330
+#extension GL_ARB_separate_shader_objects : require
 
 // Port of "Glitch Double Vision" (Godot shader):
 // https://godotshaders.com/shader/glitch-double-vision/
 // Retro pixelated VHS glitch combined with a red/blue anaglyph double vision.
 
 uniform sampler2D DiffuseSampler;
-uniform float Time;
-uniform float pixelsize;
-uniform float vhs_intensity;
-uniform float opacity;
-uniform float double_vision_split;
 
-in vec2 texCoord;
+layout(std140) uniform GlitchConfig {
+    float Time;
+    float pixelsize;
+    float vhs_intensity;
+    float opacity;
+    float double_vision_split;
+};
 
-out vec4 fragColor;
+layout(location = 0) in vec2 texCoord;
+
+layout(location = 0) out vec4 fragColor;
 
 float random(vec2 uv) {
     return fract(sin(dot(uv, vec2(12.9898, 78.233))) * 43758.5453123);

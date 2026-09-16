@@ -1,11 +1,16 @@
-#version 120
+#version 330
+#extension GL_ARB_separate_shader_objects : require
 
 uniform sampler2D DiffuseSampler;
-varying vec2 texCoord;
 
-uniform vec2 InSize;
-uniform float SRP_Time;
-uniform float Darkness;
+layout(std140) uniform DarknessConfig {
+    float SRP_Time;
+    float Darkness;
+};
+
+layout(location = 0) in vec2 texCoord;
+
+layout(location = 0) out vec4 fragColor;
 
 float saturate(float x) {
     return clamp(x, 0.0, 1.0);
@@ -13,7 +18,7 @@ float saturate(float x) {
 
 void main() {
     vec2 uv = texCoord;
-    vec4 scene = texture2D(DiffuseSampler, uv);
+    vec4 scene = texture(DiffuseSampler, uv);
 
     vec2 p = uv * 2.0 - 1.0;
     float r = length(p);
@@ -40,5 +45,5 @@ void main() {
     // subtle cold/dead tint
     color *= vec3(0.82, 0.88, 1.0);
 
-    gl_FragColor = vec4(color, scene.a);
+    fragColor = vec4(color, scene.a);
 }

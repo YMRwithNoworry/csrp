@@ -1,12 +1,20 @@
-#version 150
+#version 330
+#extension GL_ARB_separate_shader_objects : require
 
 uniform sampler2D DiffuseSampler;
-uniform vec2 InSize;
-uniform float Time;
 
-in vec2 texCoord;
+layout(std140) uniform SamplerInfo {
+    vec2 OutSize;
+    vec2 InSize;
+};
 
-out vec4 fragColor;
+layout(std140) uniform BreatheConfig {
+    float Time;
+};
+
+layout(location = 0) in vec2 texCoord;
+
+layout(location = 0) out vec4 fragColor;
 
 float saturate(float value) {
     return clamp(value, 0.0, 1.0);

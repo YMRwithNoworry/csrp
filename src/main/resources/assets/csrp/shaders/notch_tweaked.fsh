@@ -1,10 +1,20 @@
-#version 120
+#version 330
+#extension GL_ARB_separate_shader_objects : require
 
 uniform sampler2D DiffuseSampler;
-varying vec2 texCoord;
 
-uniform vec2 InSize;
-uniform float SRP_Time; // time
+layout(std140) uniform SamplerInfo {
+    vec2 OutSize;
+    vec2 InSize;
+};
+
+layout(std140) uniform NotchConfig {
+    float SRP_Time;
+};
+
+layout(location = 0) in vec2 texCoord;
+
+layout(location = 0) out vec4 fragColor;
 
 float saturate(float x) { return clamp(x, 0.0, 1.0); }
 
@@ -103,11 +113,11 @@ void main() {
     // final uv
     vec2 uv = mix(uvWarped, uvQuant, saturate(stabilize));
 
-    vec4 scene = texture2D(DiffuseSampler, uv);
+    vec4 scene = texture(DiffuseSampler, uv);
 
     // crease
     float crease = streak * mask;
     vec3 outRgb = scene.rgb * (1.0 - crease * 0.09);
 
-    gl_FragColor = vec4(outRgb, 1.0);
+    fragColor = vec4(outRgb, 1.0);
 }
