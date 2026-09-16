@@ -31,18 +31,18 @@ public final class CelestialWorldData extends SavedData {
 
     private static CelestialWorldData load(CompoundTag tag, HolderLookup.Provider registries) {
         CelestialWorldData data = new CelestialWorldData();
-        data.nightIndex = tag.contains("night_index") ? tag.getLong("night_index") : Long.MIN_VALUE;
+        data.nightIndex = tag.contains("night_index") ? tag.getLongOr("night_index", 0L) : Long.MIN_VALUE;
         readSet(tag, "active", data.active);
         readSet(tag, "forced", data.forced);
         data.darkDaysStartTime = tag.contains("dark_days_start_time")
-                ? tag.getLong("dark_days_start_time") : -1;
+                ? tag.getLongOr("dark_days_start_time", 0L) : -1;
         data.darkDaysEndTime = tag.contains("dark_days_end_time")
-                ? tag.getLong("dark_days_end_time") : -1;
-        data.darkDaysEndingSoundPlayed = tag.getBoolean("dark_days_ending_sound_played");
+                ? tag.getLongOr("dark_days_end_time", 0L) : -1;
+        data.darkDaysEndingSoundPlayed = tag.getBooleanOr("dark_days_ending_sound_played", false);
         data.darkDaysLastRollDay = tag.contains("dark_days_last_roll_day")
-                ? tag.getLong("dark_days_last_roll_day") : Long.MIN_VALUE;
+                ? tag.getLongOr("dark_days_last_roll_day", 0L) : Long.MIN_VALUE;
         data.lastEffectNightIndex = tag.contains("last_effect_night_index")
-                ? tag.getLong("last_effect_night_index") : Long.MIN_VALUE;
+                ? tag.getLongOr("last_effect_night_index", 0L) : Long.MIN_VALUE;
         return data;
     }
 
@@ -78,8 +78,8 @@ public final class CelestialWorldData extends SavedData {
     public void changed() { setDirty(); }
 
     private static void readSet(CompoundTag tag, String key, Set<String> target) {
-        ListTag values = tag.getList(key, Tag.TAG_STRING);
-        for (int i = 0; i < values.size(); i++) target.add(values.getString(i));
+        ListTag values = tag.getListOrEmpty(key);
+        for (int i = 0; i < values.size(); i++) target.add(values.getStringOr(i, ""));
     }
 
     private static void writeSet(CompoundTag tag, String key, Set<String> values) {

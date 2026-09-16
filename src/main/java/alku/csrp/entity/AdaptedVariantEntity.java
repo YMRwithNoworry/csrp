@@ -32,7 +32,7 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.PathfinderMob;
@@ -52,10 +52,10 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.entity.animal.fish.WaterAnimal;
 import net.minecraft.world.entity.monster.Creeper;
-import net.minecraft.world.entity.npc.Villager;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.entity.npc.villager.Villager;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
@@ -479,7 +479,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
-                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
+                                        EntitySpawnReason spawnType, @Nullable SpawnGroupData spawnGroupData) {
         SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
         if (!level.isClientSide() && activeKind() == Kind.ARACHNIDA
                 && (random.nextDouble() < Config.variantSpawnChance()
@@ -604,7 +604,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         if (isFlying(activeKind)) {
             setNoGravity(true);
         }
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             if (activeKind == Kind.SUMMONER && summonerVomitTicks > 0) {
                 summonerVomitTicks--;
                 spawnSummonerVomitParticles();
@@ -711,7 +711,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             amount *= 4.0F;
         }
         boolean hurt = super.hurt(source, amount);
-        if (hurt && activeKind() == Kind.BOLSTER && !level().isClientSide) {
+        if (hurt && activeKind() == Kind.BOLSTER && !level().isClientSide()) {
             lastBolsterCombatTick = tickCount;
         }
         return hurt;
@@ -749,7 +749,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         if (activeKind == Kind.MANDUCATER && cloaked) {
             hit = target.hurt(damageSources().mobAttack(this), meleeDamage() * 4.0F);
             if (hit) {
-                target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 4), this);
+                target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 40, 4), this);
                 target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 1), this);
             }
             endCloak();
@@ -804,11 +804,11 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     @Override
     protected void doPush(Entity entity) {
         super.doPush(entity);
-        if (!level().isClientSide && activeKind() == Kind.ARACHNIDA && getArachnidaSkin() == 5
+        if (!level().isClientSide() && activeKind() == Kind.ARACHNIDA && getArachnidaSkin() == 5
                 && entity instanceof LivingEntity living && isValidParasiteTarget(living)) {
             EffectStacking.apply(living, ModMobEffects.VIRAL, 100, 0);
         }
-        if (!level().isClientSide && activeKind() == Kind.BOLSTER
+        if (!level().isClientSide() && activeKind() == Kind.BOLSTER
                 && getBolsterVariant() == BolsterVariant.VIRULENT
                 && entity instanceof LivingEntity living && isValidParasiteTarget(living)) {
             living.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 100, 0), this);
@@ -893,7 +893,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         }
         primitive.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
         primitive.finalizeSpawn(level, level.getCurrentDifficultyAt(blockPosition()),
-                MobSpawnType.CONVERSION, null);
+                EntitySpawnReason.CONVERSION, null);
         primitive.setCustomName(getCustomName());
         primitive.setCustomNameVisible(isCustomNameVisible());
         primitive.setTarget(getTarget());
@@ -970,7 +970,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         if (activeKind() == Kind.ARACHNIDA) {
-            setArachnidaSkin(tag.getInt("arachnida_skin"));
+            setArachnidaSkin(tag.getIntOr("arachnida_skin", 0));
             setArachnidaStatus(0);
             entityData.set(ARACHNIDA_TARGET, 0);
             arachnidaPullingTicks = 0;
@@ -978,47 +978,47 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         }
         if (usesDetachableTendrils()) {
             entityData.set(BOLSTER_LEFT_TENDRIL, tag.contains("left_tendril")
-                    ? tag.getFloat("left_tendril")
-                    : tag.contains("bolster_left_tendril") ? tag.getFloat("bolster_left_tendril") : -1.0F);
+                    ? tag.getFloatOr("left_tendril", 0.0F)
+                    : tag.contains("bolster_left_tendril") ? tag.getFloatOr("bolster_left_tendril", 0.0F) : -1.0F);
             entityData.set(BOLSTER_RIGHT_TENDRIL, tag.contains("right_tendril")
-                    ? tag.getFloat("right_tendril")
-                    : tag.contains("bolster_right_tendril") ? tag.getFloat("bolster_right_tendril") : -1.0F);
+                    ? tag.getFloatOr("right_tendril", 0.0F)
+                    : tag.contains("bolster_right_tendril") ? tag.getFloatOr("bolster_right_tendril", 0.0F) : -1.0F);
         }
         if (activeKind() == Kind.BOLSTER) {
-            entityData.set(BOLSTER_VARIANT, tag.getInt("bolster_variant"));
-            abilityCooldown = tag.getInt("bolster_ability_cooldown");
-            supportCooldown = tag.getInt("bolster_support_cooldown");
-            secondaryCooldown = tag.getInt("bolster_orb_cooldown");
+            entityData.set(BOLSTER_VARIANT, tag.getIntOr("bolster_variant", 0));
+            abilityCooldown = tag.getIntOr("bolster_ability_cooldown", 0);
+            supportCooldown = tag.getIntOr("bolster_support_cooldown", 0);
+            secondaryCooldown = tag.getIntOr("bolster_orb_cooldown", 0);
             residueCooldown = tag.contains("bolster_residue_cooldown")
-                    ? tag.getInt("bolster_residue_cooldown") : 600 + random.nextInt(601);
-            lastBolsterCombatTick = tag.getInt("bolster_last_combat_tick");
+                    ? tag.getIntOr("bolster_residue_cooldown", 0) : 600 + random.nextInt(601);
+            lastBolsterCombatTick = tag.getIntOr("bolster_last_combat_tick", 0);
             setBolsterAction(BolsterAction.NONE, 0);
         }
         if (activeKind() == Kind.MANDUCATER) {
-            entityData.set(MANDUCATER_STATUS, tag.getInt("manducater_status"));
-            entityData.set(MANDUCATER_STILL_ANI, tag.getBoolean("manducater_still_ani"));
-            manducaterVomitTicks = tag.getInt("manducater_vomit_ticks");
-            manducaterEvadeCooldown = tag.getInt("manducater_evade_cooldown");
-            cloaked = tag.getBoolean("manducater_cloaked");
-            cloakTicks = tag.getInt("manducater_cloak_ticks");
-            abilityCooldown = tag.getInt("manducater_ability_cooldown");
-            secondaryCooldown = tag.getInt("manducater_secondary_cooldown");
+            entityData.set(MANDUCATER_STATUS, tag.getIntOr("manducater_status", 0));
+            entityData.set(MANDUCATER_STILL_ANI, tag.getBooleanOr("manducater_still_ani", false));
+            manducaterVomitTicks = tag.getIntOr("manducater_vomit_ticks", 0);
+            manducaterEvadeCooldown = tag.getIntOr("manducater_evade_cooldown", 0);
+            cloaked = tag.getBooleanOr("manducater_cloaked", false);
+            cloakTicks = tag.getIntOr("manducater_cloak_ticks", 0);
+            abilityCooldown = tag.getIntOr("manducater_ability_cooldown", 0);
+            secondaryCooldown = tag.getIntOr("manducater_secondary_cooldown", 0);
             if (cloaked) {
                 setInvisible(true);
             }
         }
         if (activeKind() == Kind.REEKER) {
-            entityData.set(REEKER_CHARGING, tag.getBoolean("reeker_charging"));
-            entityData.set(REEKER_PULLING, tag.getInt("reeker_pulling"));
-            entityData.set(REEKER_STILL_ANI, tag.getBoolean("reeker_still_ani"));
-            reekerPullingCooldown = tag.getInt("reeker_pulling_cooldown");
-            abilityCooldown = tag.getInt("reeker_ability_cooldown");
+            entityData.set(REEKER_CHARGING, tag.getBooleanOr("reeker_charging", false));
+            entityData.set(REEKER_PULLING, tag.getIntOr("reeker_pulling", 0));
+            entityData.set(REEKER_STILL_ANI, tag.getBooleanOr("reeker_still_ani", false));
+            reekerPullingCooldown = tag.getIntOr("reeker_pulling_cooldown", 0);
+            abilityCooldown = tag.getIntOr("reeker_ability_cooldown", 0);
         }
         if (activeKind() == Kind.SUMMONER) {
-            entityData.set(SUMMONER_CASTING, tag.getBoolean("summoner_casting"));
-            entityData.set(SUMMONER_STATUS, tag.getInt("summoner_status"));
-            abilityCooldown = tag.getInt("summoner_ability_cooldown");
-            secondaryCooldown = tag.getInt("summoner_secondary_cooldown");
+            entityData.set(SUMMONER_CASTING, tag.getBooleanOr("summoner_casting", false));
+            entityData.set(SUMMONER_STATUS, tag.getIntOr("summoner_status", 0));
+            abilityCooldown = tag.getIntOr("summoner_ability_cooldown", 0);
+            secondaryCooldown = tag.getIntOr("summoner_secondary_cooldown", 0);
             summonTracker.load(tag, "summoner_tracked_summons");
             entityData.set(SUMMONER_CASTING, false);
             setSummonerStatus(0);
@@ -1277,7 +1277,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     }
 
     private boolean performBolsterSweep(LivingEntity center) {
-        if (level().isClientSide || getBolsterAction().blocksMelee()) {
+        if (level().isClientSide() || getBolsterAction().blocksMelee()) {
             return false;
         }
         lastBolsterCombatTick = tickCount;
@@ -1707,7 +1707,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         getNavigation().stop();
         getLookControl().setLookAt(target, 30.0F, 30.0F);
         target.stopRiding();
-        target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20, 5, false, false), this);
+        target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 20, 5, false, false), this);
         target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 20, 5, false, false), this);
         Vec3 pull = position().subtract(target.position());
         if (pull.lengthSqr() > 0.0D) {
@@ -1776,7 +1776,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     private void tickManducater() {
         if (manducaterVomitTicks > 0) {
             manducaterVomitTicks--;
-            if (level().isClientSide && manducaterVomitTicks > 0) {
+            if (level().isClientSide() && manducaterVomitTicks > 0) {
                 // 客户端呕吐粒子效果
                 for (int i = 0; i < 2; i++) {
                     double offsetX = (random.nextDouble() - 0.5D) * 0.5D;
@@ -1794,7 +1794,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             manducaterEvadeCooldown--;
         }
         // 自动恢复到默认状态
-        if (!level().isClientSide && tickCount % 20 == 0) {
+        if (!level().isClientSide() && tickCount % 20 == 0) {
             int status = getManducaterStatus();
             if (status == 1 || status == 10 || status == 25) {
                 setManducaterStatus(0);
@@ -1831,7 +1831,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     }
 
     private void breakSoftBlockTowards(LivingEntity target) {
-        if (blockBreakCooldown > 0 || !level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+        if (blockBreakCooldown > 0 || !level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)) {
             return;
         }
         Vec3 direction = target.position().subtract(position());
@@ -2800,7 +2800,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
                 if (pull.lengthSqr() > 0.001D) {
                     pull = pull.normalize().scale(0.35D);
                     pullTarget.push(pull.x, 0.08D, pull.z);
-                    pullTarget.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 30, 2),
+                    pullTarget.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 30, 2),
                             AdaptedVariantEntity.this);
                 }
             }
@@ -3149,7 +3149,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         private boolean hasExceededGroundDistance() {
             BlockPos pos = blockPosition().below();
             for (int count = 1; count <= limit; count++, pos = pos.below()) {
-                if (pos.getY() < level().getMinBuildHeight() || !level().getBlockState(pos).isAir()) {
+                if (pos.getY() < level().getMinY() || !level().getBlockState(pos).isAir()) {
                     return false;
                 }
             }
@@ -3332,7 +3332,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             pull = pull.normalize().scale(0.5D);
             target.push(pull.x, 0.15D, pull.z);
         }
-        target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 3), this);
+        target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 60, 3), this);
         target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 60, 1), this);
         playSound(ModSounds.get("attack.throw"), 1.0F, 0.8F + random.nextFloat() * 0.4F);
         return true;
@@ -3477,7 +3477,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         @Override
         public boolean hurt(DamageSource source, float amount) {
             AdaptedVariantEntity parent = getParent();
-            if (!parent.level().isClientSide && parent.random.nextBoolean()) {
+            if (!parent.level().isClientSide() && parent.random.nextBoolean()) {
                 EffectStacking.apply(parent, ModMobEffects.BLEED, 80, 0);
             }
             return parent.hurt(source, amount * damageVulnerability);

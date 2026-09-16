@@ -27,8 +27,8 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.minecraft.world.entity.animal.WaterAnimal;
-import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.animal.fish.WaterAnimal;
+import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -120,7 +120,7 @@ public final class ArchitectEntity extends PrimitiveParasiteEntity {
         super.tick();
         setNoGravity(true);
         noPhysics = true;
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
         if (onGround()) {
@@ -260,7 +260,7 @@ public final class ArchitectEntity extends PrimitiveParasiteEntity {
 
     private boolean hasGroundWithin(int distance) {
         BlockPos cursor = blockPosition().below();
-        for (int offset = 1; offset <= distance && cursor.getY() >= level().getMinBuildHeight(); offset++) {
+        for (int offset = 1; offset <= distance && cursor.getY() >= level().getMinY(); offset++) {
             if (!level().getBlockState(cursor).isAir()) {
                 return true;
             }

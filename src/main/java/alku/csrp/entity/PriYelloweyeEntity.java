@@ -11,7 +11,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
@@ -64,7 +64,7 @@ public class PriYelloweyeEntity extends PrimitiveParasiteEntity {
 
     public static boolean checkPriYelloweyeSpawnRules(EntityType<? extends Monster> type,
                                                        ServerLevelAccessor level,
-                                                       MobSpawnType spawnType,
+                                                       EntitySpawnReason spawnType,
                                                        BlockPos pos,
                                                        RandomSource random) {
         int phase = Config.evolutionPhase(level.getLevel());
@@ -99,7 +99,7 @@ public class PriYelloweyeEntity extends PrimitiveParasiteEntity {
     @Override
     public void tick() {
         super.tick();
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             setNoGravity(true);
 
             // 触地自动上升

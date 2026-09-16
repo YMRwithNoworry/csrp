@@ -53,19 +53,19 @@ public final class SrpCompassItem extends Item {
                         Component.translatable(target.translationKey), found.getX(), found.getY(), found.getZ(), distance));
             }
         }
-        return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
+        return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());
     }
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context,
             List<Component> tooltip, TooltipFlag flag) {
         CompoundTag tag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
-        if (!tag.getBoolean(HAS_TARGET_TAG)) {
+        if (!tag.getBooleanOr(HAS_TARGET_TAG, false)) {
             tooltip.add(Component.translatable("tooltip.csrp.compass.searching",
                     Component.translatable(target.translationKey)).withStyle(ChatFormatting.DARK_GRAY));
             return;
         }
-        BlockPos pos = BlockPos.of(tag.getLong(TARGET_POS_TAG));
+        BlockPos pos = BlockPos.of(tag.getLongOr(TARGET_POS_TAG, 0L));
         tooltip.add(Component.translatable("tooltip.csrp.compass.target",
                 Component.translatable(target.translationKey), pos.getX(), pos.getY(), pos.getZ())
                 .withStyle(ChatFormatting.GRAY));
@@ -82,7 +82,7 @@ public final class SrpCompassItem extends Item {
         CompoundTag current = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
         String dimension = level.dimension().location().toString();
         if (found == null) {
-            if (current.getBoolean(HAS_TARGET_TAG)) {
+            if (current.getBooleanOr(HAS_TARGET_TAG, false)) {
                 CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> {
                     tag.putBoolean(HAS_TARGET_TAG, false);
                     tag.remove(TARGET_POS_TAG);
@@ -91,8 +91,8 @@ public final class SrpCompassItem extends Item {
             }
             return null;
         }
-        if (!current.getBoolean(HAS_TARGET_TAG) || current.getLong(TARGET_POS_TAG) != found.asLong()
-                || !dimension.equals(current.getString(TARGET_DIMENSION_TAG))) {
+        if (!current.getBooleanOr(HAS_TARGET_TAG, false) || current.getLongOr(TARGET_POS_TAG, 0L) != found.asLong()
+                || !dimension.equals(current.getStringOr(TARGET_DIMENSION_TAG, ""))) {
             CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> {
                 tag.putBoolean(HAS_TARGET_TAG, true);
                 tag.putLong(TARGET_POS_TAG, found.asLong());

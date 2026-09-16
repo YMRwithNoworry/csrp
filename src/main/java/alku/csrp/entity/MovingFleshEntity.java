@@ -9,7 +9,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
@@ -19,7 +19,7 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -107,7 +107,7 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
     @Override
     public void tick() {
         super.tick();
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             // 客户端：更新进化闪烁效果
             if (getEvolutionFuse() > 0) {
                 float progress = 1.0F - (getEvolutionFuse() / (float) EVOLUTION_DELAY_TICKS);
@@ -253,17 +253,17 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        entityData.set(MERGE_COUNT, Math.max(1, tag.getInt("merge_count")));
+        entityData.set(MERGE_COUNT, Math.max(1, tag.getIntOr("merge_count", 0)));
         if (tag.contains("merge_value")) {
-            setMergeValue(tag.getInt("merge_value"));
+            setMergeValue(tag.getIntOr("merge_value", 0));
         }
-        entityData.set(RENDER_SCALE, Math.max(1.0F, tag.getFloat("render_scale")));
-        targetScale = Math.max(entityData.get(RENDER_SCALE), tag.getFloat("target_scale"));
-        mergeCooldown = tag.getInt("merge_cooldown");
-        entityData.set(EVOLUTION_FUSE, Math.max(0, tag.getInt("evolution_delay")));
-        mergeContacts = tag.getInt("merge_contacts");
-        mergeContactCooldown = Math.max(0, tag.getInt("merge_contact_cooldown"));
-        evolutionFlashIntensity = tag.getFloat("evolution_flash_intensity");
+        entityData.set(RENDER_SCALE, Math.max(1.0F, tag.getFloatOr("render_scale", 0.0F)));
+        targetScale = Math.max(entityData.get(RENDER_SCALE), tag.getFloatOr("target_scale", 0.0F));
+        mergeCooldown = tag.getIntOr("merge_cooldown", 0);
+        entityData.set(EVOLUTION_FUSE, Math.max(0, tag.getIntOr("evolution_delay", 0)));
+        mergeContacts = tag.getIntOr("merge_contacts", 0);
+        mergeContactCooldown = Math.max(0, tag.getIntOr("merge_contact_cooldown", 0));
+        evolutionFlashIntensity = tag.getFloatOr("evolution_flash_intensity", 0.0F);
     }
 
     @Override
@@ -315,7 +315,7 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
         }
         primitive.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
         primitive.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                EntitySpawnReason.MOB_SUMMONED, null);
         primitive.setHealth(primitive.getMaxHealth() * (float) MobsConfig.mergeSystemMobHealth());
         primitive.setCustomName(getCustomName());
         primitive.setCustomNameVisible(isCustomNameVisible());
@@ -356,12 +356,12 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
         if (selected == null) {
             selected = table.get(random.nextInt(table.size())).split(";", -1)[0].trim();
         }
-        ResourceLocation location = ResourceLocation.tryParse(selected);
+        Identifier location = Identifier.tryParse(selected);
         if (location == null) {
             return null;
         }
         if (location.getNamespace().equals("srparasites")) {
-            location = ResourceLocation.fromNamespaceAndPath("csrp", location.getPath());
+            location = Identifier.fromNamespaceAndPath("csrp", location.getPath());
         }
         EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.getOptional(location).orElse(null);
         if (type == null || !(type.create(serverLevel) instanceof Mob primitive)) {

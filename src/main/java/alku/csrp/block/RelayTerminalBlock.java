@@ -34,7 +34,7 @@ public final class RelayTerminalBlock extends Block implements EntityBlock {
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
             Level level, BlockState state, BlockEntityType<T> type) {
-        if (level.isClientSide) {
+        if (level.isClientSide()) {
             return null;
         }
         return (tickerLevel, pos, tickerState, blockEntity) -> {
@@ -51,15 +51,15 @@ public final class RelayTerminalBlock extends Block implements EntityBlock {
             return InteractionResult.PASS;
         }
         if (!relay.isFormed()) {
-            if (!level.isClientSide) {
+            if (!level.isClientSide()) {
                 player.sendSystemMessage(Component.translatable("message.csrp.relay.not_formed"));
             }
-            return InteractionResult.sidedSuccess(level.isClientSide);
+            return InteractionResult.sidedSuccess(level.isClientSide());
         }
         if (player instanceof ServerPlayer serverPlayer) {
             serverPlayer.openMenu(relay);
         }
-        return InteractionResult.sidedSuccess(level.isClientSide);
+        return InteractionResult.sidedSuccess(level.isClientSide());
     }
 
     @Override

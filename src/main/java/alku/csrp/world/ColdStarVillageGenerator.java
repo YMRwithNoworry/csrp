@@ -5,8 +5,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -64,7 +64,7 @@ public final class ColdStarVillageGenerator {
     }
 
     private static boolean validSite(ServerLevel level, BlockPos center) {
-        if (center.getY() <= level.getMinBuildHeight() + 4) return false;
+        if (center.getY() <= level.getMinY() + 4) return false;
         int min = Integer.MAX_VALUE;
         int max = Integer.MIN_VALUE;
         for (int x = -8; x <= 8; x += 4) {
@@ -82,7 +82,7 @@ public final class ColdStarVillageGenerator {
     }
 
     private static boolean validHouseSite(ServerLevel level, BlockPos center) {
-        return center.getY() > level.getMinBuildHeight() + 4
+        return center.getY() > level.getMinY() + 4
                 && level.getFluidState(center.below()).isEmpty();
     }
 
@@ -170,7 +170,7 @@ public final class ColdStarVillageGenerator {
             villager.moveTo(center.getX() + 0.5D + i % 3, center.getY() + 1.0D,
                     center.getZ() + 0.5D + i / 3, 0.0F, 0.0F);
             villager.finalizeSpawn(level, level.getCurrentDifficultyAt(center),
-                    MobSpawnType.STRUCTURE, null);
+                    EntitySpawnReason.STRUCTURE, null);
             level.addFreshEntity(villager);
         }
     }

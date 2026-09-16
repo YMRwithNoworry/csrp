@@ -17,7 +17,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
@@ -102,7 +102,7 @@ public final class AssimilatedWolfEntity extends Monster implements CitadelAnima
     public net.minecraft.world.entity.SpawnGroupData finalizeSpawn(
             net.minecraft.world.level.ServerLevelAccessor level,
             net.minecraft.world.DifficultyInstance difficulty,
-            MobSpawnType spawnType,
+            EntitySpawnReason spawnType,
             net.minecraft.world.entity.SpawnGroupData spawnGroupData) {
         net.minecraft.world.entity.SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
 
@@ -188,21 +188,21 @@ public final class AssimilatedWolfEntity extends Monster implements CitadelAnima
         if (!stack.is(ModItems.SHRIMP.get()) || isShrimpFed()) {
             return super.mobInteract(player, hand);
         }
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             setShrimpFed(true);
             playSound(ModSounds.get("shrimp.eat"), 1.0F, 1.0F);
             if (!player.getAbilities().instabuild) {
                 stack.shrink(1);
             }
         }
-        return InteractionResult.sidedSuccess(level().isClientSide);
+        return InteractionResult.sidedSuccess(level().isClientSide());
     }
 
     @Override
     public void tick() {
         super.tick();
 
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             spawnMeltParticles();
             return;
         }
@@ -301,13 +301,13 @@ public final class AssimilatedWolfEntity extends Monster implements CitadelAnima
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        setParasiteStatus(tag.getInt("parasite_status"));
-        setStillAni(tag.getBoolean("still_ani"));
-        setTHeight(tag.getFloat("t_height"));
-        setShrimpFed(tag.getBoolean("shrimp_fed"));
-        entityData.set(TAMED_TEXTURE, tag.getBoolean("tamed_texture"));
-        meltTicks = tag.getInt("melt_ticks");
-        currentSize = tag.getFloat("current_size");
+        setParasiteStatus(tag.getIntOr("parasite_status", 0));
+        setStillAni(tag.getBooleanOr("still_ani", false));
+        setTHeight(tag.getFloatOr("t_height", 0.0F));
+        setShrimpFed(tag.getBooleanOr("shrimp_fed", false));
+        entityData.set(TAMED_TEXTURE, tag.getBooleanOr("tamed_texture", false));
+        meltTicks = tag.getIntOr("melt_ticks", 0);
+        currentSize = tag.getFloatOr("current_size", 0.0F);
     }
 
     @Override

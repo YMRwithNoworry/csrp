@@ -3,7 +3,7 @@ package alku.csrp.world;
 import alku.csrp.Csrp;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.biome.MobSpawnSettings;
@@ -426,7 +426,7 @@ public final class NaturalSpawnTables {
     }
 
     private static MobSpawnSettings.SpawnerData spawn(String path, int minCount, int maxCount, int weight) {
-        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(Csrp.MODID, path);
+        Identifier id = Identifier.fromNamespaceAndPath(Csrp.MODID, path);
         EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.getOptional(id)
                 .orElseThrow(() -> new IllegalStateException("Missing natural spawn entity " + id));
         return new MobSpawnSettings.SpawnerData(type, weight, minCount, maxCount);

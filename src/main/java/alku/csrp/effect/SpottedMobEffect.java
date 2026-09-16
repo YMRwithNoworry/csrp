@@ -8,14 +8,14 @@ import alku.csrp.registry.ModMobEffects;
 import alku.csrp.world.SrpWorldData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 
@@ -28,20 +28,20 @@ public final class SpottedMobEffect extends MobEffect {
     private static final int PARASITE_CAP = 40;
     private static final Set<String> PURE_IDS = Set.of(
             "overseer", "vigilante", "warden", "bomber_light", "marauder", "monarch", "grunt");
-    private static final List<ResourceLocation> INFECTED_REINFORCEMENTS = ids(
+    private static final List<Identifier> INFECTED_REINFORCEMENTS = ids(
             "sim_bigspider", "sim_human", "sim_cow", "sim_sheep", "sim_wolf",
             "sim_pig", "sim_villager", "sim_horse", "sim_bear", "sim_enderman");
-    private static final List<ResourceLocation> PRIMITIVE_REINFORCEMENTS = ids(
+    private static final List<Identifier> PRIMITIVE_REINFORCEMENTS = ids(
             "sim_bigspider", "sim_human", "sim_cow", "sim_sheep", "sim_wolf",
             "sim_pig", "sim_villager", "sim_horse", "sim_bear", "sim_enderman",
             "pri_longarms", "pri_manducater", "pri_reeker", "pri_yelloweye", "pri_summoner",
             "pri_bolster", "pri_arachnida", "pri_vermin", "pri_viscera");
-    private static final List<ResourceLocation> ADAPTED_REINFORCEMENTS = ids(
+    private static final List<Identifier> ADAPTED_REINFORCEMENTS = ids(
             "pri_longarms", "pri_manducater", "pri_reeker", "pri_yelloweye", "pri_summoner",
             "pri_bolster", "pri_arachnida", "pri_vermin", "pri_viscera",
             "ada_longarms", "ada_manducater", "ada_reeker", "ada_yelloweye", "ada_summoner",
             "ada_bolster", "ada_arachnida", "ada_vermin", "ada_viscera");
-    private static final List<ResourceLocation> PURE_REINFORCEMENTS = ids(
+    private static final List<Identifier> PURE_REINFORCEMENTS = ids(
             "ada_longarms", "ada_manducater", "ada_reeker", "ada_yelloweye", "ada_summoner",
             "ada_bolster", "ada_arachnida", "ada_vermin", "ada_viscera",
             "overseer", "vigilante", "warden", "bomber_light", "marauder", "monarch", "grunt");
@@ -102,7 +102,7 @@ public final class SpottedMobEffect extends MobEffect {
     }
 
     private static Reinforcement reinforcementFor(Mob parasite) {
-        ResourceLocation id = BuiltInRegistries.ENTITY_TYPE.getKey(parasite.getType());
+        Identifier id = BuiltInRegistries.ENTITY_TYPE.getKey(parasite.getType());
         if (!id.getNamespace().equals(Csrp.MODID)) {
             return null;
         }
@@ -143,7 +143,7 @@ public final class SpottedMobEffect extends MobEffect {
         if (!level.noCollision(worm, worm.getBoundingBox().inflate(1.0D, 7.0D, 1.0D))) {
             return;
         }
-        worm.finalizeSpawn(level, level.getCurrentDifficultyAt(floor), MobSpawnType.MOB_SUMMONED, null);
+        worm.finalizeSpawn(level, level.getCurrentDifficultyAt(floor), EntitySpawnReason.MOB_SUMMONED, null);
         worm.setTarget(target);
         worm.setWormPayload(reinforcement.minimum(), reinforcement.maximum());
         worm.setWormPayloadTypes(reinforcement.types());
@@ -165,12 +165,12 @@ public final class SpottedMobEffect extends MobEffect {
         return null;
     }
 
-    private static List<ResourceLocation> ids(String... paths) {
+    private static List<Identifier> ids(String... paths) {
         return java.util.Arrays.stream(paths)
-                .map(path -> ResourceLocation.fromNamespaceAndPath(Csrp.MODID, path))
+                .map(path -> Identifier.fromNamespaceAndPath(Csrp.MODID, path))
                 .toList();
     }
 
-    private record Reinforcement(List<ResourceLocation> types, int minimum, int maximum) {
+    private record Reinforcement(List<Identifier> types, int minimum, int maximum) {
     }
 }

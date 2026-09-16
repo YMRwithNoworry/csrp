@@ -73,7 +73,7 @@ public final class NadeEntity extends Entity {
     public void tick() {
         super.tick();
         setDeltaMovement(0.0D, 0.0D, 0.0D);
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             spawnClientParticles();
             return;
         }
@@ -164,13 +164,13 @@ public final class NadeEntity extends Entity {
         if (tag.hasUUID("owner")) {
             ownerId = tag.getUUID("owner");
         }
-        entityData.set(KIND, tag.getInt("kind"));
-        entityData.set(FUSE_PROGRESS, tag.getInt("fuse_progress"));
-        startDelayTicks = tag.getInt("start_delay_ticks");
-        fuseTicks = Math.max(1, tag.getInt("fuse_ticks"));
-        durationTicks = Math.max(1, tag.getInt("duration_ticks"));
-        activeTicks = tag.getInt("active_ticks");
-        damageTicks = tag.getInt("damage_ticks");
+        entityData.set(KIND, tag.getIntOr("kind", 0));
+        entityData.set(FUSE_PROGRESS, tag.getIntOr("fuse_progress", 0));
+        startDelayTicks = tag.getIntOr("start_delay_ticks", 0);
+        fuseTicks = Math.max(1, tag.getIntOr("fuse_ticks", 0));
+        durationTicks = Math.max(1, tag.getIntOr("duration_ticks", 0));
+        activeTicks = tag.getIntOr("active_ticks", 0);
+        damageTicks = tag.getIntOr("damage_ticks", 0);
     }
 
     @Override

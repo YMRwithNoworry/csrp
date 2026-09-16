@@ -153,7 +153,7 @@ public class KirinSlashEntity extends Entity {
             return;
         }
 
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
 
@@ -314,16 +314,16 @@ public class KirinSlashEntity extends Entity {
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
         ownerUuid = tag.hasUUID("Owner") ? tag.getUUID("Owner") : null;
-        damage = tag.contains("Damage") ? tag.getFloat("Damage") : 12.0F;
-        startX = tag.contains("StartX") ? tag.getDouble("StartX") : getX();
-        startY = tag.contains("StartY") ? tag.getDouble("StartY") : getY();
-        startZ = tag.contains("StartZ") ? tag.getDouble("StartZ") : getZ();
+        damage = tag.contains("Damage") ? tag.getFloatOr("Damage", 0.0F) : 12.0F;
+        startX = tag.contains("StartX") ? tag.getDoubleOr("StartX", 0.0D) : getX();
+        startY = tag.contains("StartY") ? tag.getDoubleOr("StartY", 0.0D) : getY();
+        startZ = tag.contains("StartZ") ? tag.getDoubleOr("StartZ", 0.0D) : getZ();
         startPositionFixed = true;
-        age = tag.getInt("Age");
-        fadeAge = tag.getInt("FadeAge");
-        hitPop = tag.getBoolean("HitPop");
-        hitPopAge = tag.getInt("HitPopAge");
-        entityData.set(SYNC_ROLL, tag.getFloat("Roll"));
+        age = tag.getIntOr("Age", 0);
+        fadeAge = tag.getIntOr("FadeAge", 0);
+        hitPop = tag.getBooleanOr("HitPop", false);
+        hitPopAge = tag.getIntOr("HitPopAge", 0);
+        entityData.set(SYNC_ROLL, tag.getFloatOr("Roll", 0.0F));
         entityData.set(SYNC_HIT_POP, hitPop);
         entityData.set(SYNC_HIT_POP_AGE, hitPopAge);
     }

@@ -7,13 +7,13 @@ import java.util.Set;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record CelestialStatePayload(Set<String> active, long nightIndex, long gameTime)
         implements CustomPacketPayload {
     public static final Type<CelestialStatePayload> TYPE = new Type<>(
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "celestial_state"));
+            Identifier.fromNamespaceAndPath(Csrp.MODID, "celestial_state"));
     public static final StreamCodec<RegistryFriendlyByteBuf, CelestialStatePayload> STREAM_CODEC =
             StreamCodec.ofMember(CelestialStatePayload::encode, CelestialStatePayload::decode);
 

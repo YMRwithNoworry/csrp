@@ -27,7 +27,7 @@ import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
-import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.entity.animal.fish.WaterAnimal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -117,7 +117,7 @@ public final class GnatEntity extends PrimitiveParasiteEntity {
     @Override
     public void tick() {
         super.tick();
-        if (level().isClientSide || consumed) {
+        if (level().isClientSide() || consumed) {
             return;
         }
 
@@ -142,7 +142,7 @@ public final class GnatEntity extends PrimitiveParasiteEntity {
     }
 
     private boolean performContactAttack(Entity entity) {
-        if (level().isClientSide || consumed || entity != getTarget()
+        if (level().isClientSide() || consumed || entity != getTarget()
                 || !(entity instanceof LivingEntity target)
                 || target instanceof Parasite || !target.isAlive()) {
             return false;
@@ -169,7 +169,7 @@ public final class GnatEntity extends PrimitiveParasiteEntity {
 
     @Override
     protected void tickDeath() {
-        if (!level().isClientSide && !consumed && level() instanceof ServerLevel serverLevel) {
+        if (!level().isClientSide() && !consumed && level() instanceof ServerLevel serverLevel) {
             consumed = true;
             VerminParticles.sendType10Burst(serverLevel, this);
             discard();
@@ -302,7 +302,7 @@ public final class GnatEntity extends PrimitiveParasiteEntity {
             LivingEntity target = getTarget();
             if (armed) {
                 if (target != null && target.isAlive() && onGround()
-                        && !hasEffect(MobEffects.MOVEMENT_SLOWDOWN)) {
+                        && !hasEffect(MobEffects.SLOWNESS)) {
                     launchAt(target);
                 }
                 return;

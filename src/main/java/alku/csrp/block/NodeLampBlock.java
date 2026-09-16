@@ -40,7 +40,7 @@ public final class NodeLampBlock extends Block {
     @Override
     protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
         super.onPlace(state, level, pos, oldState, isMoving);
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             updateLamp(level, pos, state);
             level.scheduleTick(pos, this, 20);
         }
@@ -55,7 +55,7 @@ public final class NodeLampBlock extends Block {
     @Override
     protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighbor,
             BlockPos neighborPos, boolean movedByPiston) {
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             updateLamp(level, pos, state);
         }
     }
@@ -73,7 +73,7 @@ public final class NodeLampBlock extends Block {
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player,
             BlockHitResult hitResult) {
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             List<Entity> dispatchers = dispatchers(level, pos);
             int strength = dispatchers.stream().mapToInt(NodeLampBlock::dispatcherStage).max().orElse(0);
             double nearest = dispatchers.stream().mapToDouble(entity -> entity.distanceToSqr(pos.getCenter()))
@@ -87,7 +87,7 @@ public final class NodeLampBlock extends Block {
             player.sendSystemMessage(Component.translatable("message.csrp.node_lamp.strength", roman(strength)));
             player.sendSystemMessage(Component.translatable("message.csrp.node_lamp.distance", displayedDistance));
         }
-        return InteractionResult.sidedSuccess(level.isClientSide);
+        return InteractionResult.sidedSuccess(level.isClientSide());
     }
 
     private static void updateLamp(Level level, BlockPos pos, BlockState state) {

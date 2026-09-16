@@ -5,13 +5,13 @@ import alku.csrp.overlast.client.EvolutionHudState;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record EvolutionHudPayload(int phase, int points, int currentThreshold, int nextThreshold, boolean visible)
         implements CustomPacketPayload {
     public static final Type<EvolutionHudPayload> TYPE = new Type<>(
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "overlast_evolution_hud"));
+            Identifier.fromNamespaceAndPath(Csrp.MODID, "overlast_evolution_hud"));
     public static final StreamCodec<RegistryFriendlyByteBuf, EvolutionHudPayload> STREAM_CODEC =
             StreamCodec.ofMember(EvolutionHudPayload::encode, EvolutionHudPayload::decode);
 

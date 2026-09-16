@@ -22,7 +22,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -32,8 +32,8 @@ import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.WaterAnimal;
-import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.animal.fish.WaterAnimal;
+import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -157,7 +157,7 @@ public final class ManglerEntity extends PrimitiveParasiteEntity implements Manu
     @Override
     public void tick() {
         super.tick();
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             setClimbing(horizontalCollision && canClimbForTarget());
             tickRegeneration();
         }
@@ -177,7 +177,7 @@ public final class ManglerEntity extends PrimitiveParasiteEntity implements Manu
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
-                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
+                                        EntitySpawnReason spawnType, @Nullable SpawnGroupData spawnGroupData) {
         SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
         if (random.nextDouble() < Config.variantSpawnChance()
                 || Config.evolutionPhase(level()) >= Config.alwaysVariantPhase()) {
@@ -199,7 +199,7 @@ public final class ManglerEntity extends PrimitiveParasiteEntity implements Manu
 
     @Override
     public void push(Entity entity) {
-        if (!level().isClientSide && getVariant() == VIRAL_VARIANT && entity instanceof LivingEntity living
+        if (!level().isClientSide() && getVariant() == VIRAL_VARIANT && entity instanceof LivingEntity living
                 && living != this && !(living instanceof Parasite)) {
             EffectStacking.apply(living, ModMobEffects.VIRAL, 100, 0);
         }
@@ -252,7 +252,7 @@ public final class ManglerEntity extends PrimitiveParasiteEntity implements Manu
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        int storedVariant = tag.getInt("variant");
+        int storedVariant = tag.getIntOr("variant", 0);
         if (storedVariant == 1) {
             storedVariant = VIRAL_VARIANT;
         } else if (storedVariant == 2) {
@@ -261,7 +261,7 @@ public final class ManglerEntity extends PrimitiveParasiteEntity implements Manu
         setVariant(storedVariant == BLEEDING_VARIANT ? BLEEDING_VARIANT
                 : storedVariant == VIRAL_VARIANT ? VIRAL_VARIANT : NORMAL_VARIANT);
         regenerationUses = Math.max(1, tag.contains(REGENERATION_USES_TAG)
-                ? tag.getInt(REGENERATION_USES_TAG) : REGENERATION_TAG_DEFAULT);
+                ? tag.getIntOr(REGENERATION_USES_TAG, 0) : REGENERATION_TAG_DEFAULT);
     }
 
     @Override
@@ -284,7 +284,7 @@ public final class ManglerEntity extends PrimitiveParasiteEntity implements Manu
     @Override
     public boolean hurt(DamageSource source, float amount) {
         boolean hurt = super.hurt(source, amount);
-        if (!level().isClientSide && source.getEntity() instanceof Player player && player.isAlive()) {
+        if (!level().isClientSide() && source.getEntity() instanceof Player player && player.isAlive()) {
             setLastHurtByMob(player);
             setTarget(player);
         }
@@ -293,14 +293,14 @@ public final class ManglerEntity extends PrimitiveParasiteEntity implements Manu
 
     @Override
     public void die(DamageSource source) {
-        if (!level().isClientSide && !deathConversionHandled && level() instanceof ServerLevel serverLevel
+        if (!level().isClientSide() && !deathConversionHandled && level() instanceof ServerLevel serverLevel
                 && !SrpWorldData.get(serverLevel).colonies().isEmpty()) {
             deathConversionHandled = true;
             Mob rupter = ModEntities.RUPTER.get().create(serverLevel);
             if (rupter != null) {
                 rupter.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
                 rupter.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                        MobSpawnType.MOB_SUMMONED, null);
+                        EntitySpawnReason.MOB_SUMMONED, null);
                 rupter.setCustomName(getCustomName());
                 rupter.setCustomNameVisible(isCustomNameVisible());
                 if (isPersistenceRequired()) {
@@ -461,7 +461,7 @@ public final class ManglerEntity extends PrimitiveParasiteEntity implements Manu
             }
             LivingEntity target = getTarget();
             if (target != null && distanceToSqr(target) >= 25.0D && distanceToSqr(target) < 10_000.0D
-                    && hasLineOfSight(target) && !hasEffect(MobEffects.MOVEMENT_SLOWDOWN)
+                    && hasLineOfSight(target) && !hasEffect(MobEffects.SLOWNESS)
                     && ++chargeTicks >= 20 && onGround()) {
                 Vec3 direction = new Vec3(target.getX() - getX(), 0.0D, target.getZ() - getZ());
                 if (direction.lengthSqr() <= 0.001D) {

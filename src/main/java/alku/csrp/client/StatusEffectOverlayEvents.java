@@ -5,7 +5,7 @@ import alku.csrp.registry.ModMobEffects;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -14,10 +14,10 @@ import net.neoforged.neoforge.client.event.RenderGuiEvent;
 /** Original SRP full-screen overlays for its vision-affecting status effects. */
 @EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT)
 public final class StatusEffectOverlayEvents {
-    private static final ResourceLocation VIRAL = texture("screen_viral.png");
-    private static final ResourceLocation BLEED = texture("screen_bleed.png");
-    private static final ResourceLocation VOMIT = texture("screen_vomit.png");
-    private static final ResourceLocation DISTORTED = texture("screen_distorted.png");
+    private static final Identifier VIRAL = texture("screen_viral.png");
+    private static final Identifier BLEED = texture("screen_bleed.png");
+    private static final Identifier VOMIT = texture("screen_vomit.png");
+    private static final Identifier DISTORTED = texture("screen_distorted.png");
     private static int vomitY;
 
     private StatusEffectOverlayEvents() {
@@ -69,11 +69,11 @@ public final class StatusEffectOverlayEvents {
         }
     }
 
-    private static void drawFullScreen(GuiGraphics graphics, ResourceLocation texture, int width, int height) {
+    private static void drawFullScreen(GuiGraphics graphics, Identifier texture, int width, int height) {
         graphics.blit(texture, 0, 0, 0.0F, 0.0F, width, height, width, height);
     }
 
-    private static ResourceLocation texture(String file) {
-        return ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/gui/" + file);
+    private static Identifier texture(String file) {
+        return Identifier.fromNamespaceAndPath(Csrp.MODID, "textures/gui/" + file);
     }
 }

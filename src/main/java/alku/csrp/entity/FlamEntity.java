@@ -28,7 +28,7 @@ import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -160,7 +160,7 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
         super.tick();
         setNoGravity(true);
         fallDistance = 0.0F;
-        if (level().isClientSide || isNoAi() || actionConsumed) {
+        if (level().isClientSide() || isNoAi() || actionConsumed) {
             return;
         }
 
@@ -295,7 +295,7 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
     }
 
     private void breakNearbyBlocks() {
-        if (!level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
+        if (!level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)
                 || !EventHooks.canEntityGrief(level(), this)) {
             return;
         }
@@ -422,13 +422,13 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
         fatherId = tag.hasUUID("flam_father") ? tag.getUUID("flam_father") : null;
         targetId = tag.hasUUID("flam_target") ? tag.getUUID("flam_target") : null;
         targetPosition = tag.contains("flam_target_pos")
-                ? BlockPos.of(tag.getLong("flam_target_pos")) : null;
-        actionType = Mth.clamp(tag.getInt("flam_action"), 0, ACTION_TELEPORT);
-        stationaryTicks = Math.max(0, tag.getInt("flam_stationary"));
-        actionConsumed = tag.getBoolean("flam_consumed");
-        setCharging(tag.getBoolean("flam_charging"));
-        entityData.set(FINISHING, tag.getBoolean("flam_finishing"));
-        setActivationProgress(Math.max(0, tag.getInt("flam_activation")));
+                ? BlockPos.of(tag.getLongOr("flam_target_pos", 0L)) : null;
+        actionType = Mth.clamp(tag.getIntOr("flam_action", 0), 0, ACTION_TELEPORT);
+        stationaryTicks = Math.max(0, tag.getIntOr("flam_stationary", 0));
+        actionConsumed = tag.getBooleanOr("flam_consumed", false);
+        setCharging(tag.getBooleanOr("flam_charging", false));
+        entityData.set(FINISHING, tag.getBooleanOr("flam_finishing", false));
+        setActivationProgress(Math.max(0, tag.getIntOr("flam_activation", 0)));
     }
 
     @Override

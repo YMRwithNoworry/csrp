@@ -106,7 +106,7 @@ public final class AirscrewEntity extends CrudeParasiteEntity implements Pulling
     public void tick() {
         super.tick();
         setNoGravity(true);
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
         if (onGround()) getMoveControl().setWantedPosition(getX(), getY() + 5.0, getZ(), 0.5);
@@ -154,8 +154,8 @@ public final class AirscrewEntity extends CrudeParasiteEntity implements Pulling
                 continue;
             }
             target.stopRiding();
-            target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20, 3, false, false), this);
-            target.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 20, 3, false, false), this);
+            target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 20, 3, false, false), this);
+            target.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE, 20, 3, false, false), this);
             Vec3 direction = position().subtract(target.position());
             if (direction.lengthSqr() > 0.001) {
                 Vec3 pull = direction.normalize().scale(PULL_STRENGTH);
@@ -210,7 +210,7 @@ public final class AirscrewEntity extends CrudeParasiteEntity implements Pulling
     }
 
     private void syncPullTargets() {
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
         int slot = 0;
@@ -326,12 +326,12 @@ public final class AirscrewEntity extends CrudeParasiteEntity implements Pulling
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         pullTargets.clear();
-        for (Tag raw : tag.getList("pull_targets", Tag.TAG_COMPOUND)) {
+        for (Tag raw : tag.getListOrEmpty("pull_targets")) {
             CompoundTag entry = (CompoundTag) raw;
             if (entry.hasUUID("id") && pullTargets.size() < MAX_PULL_TARGETS) pullTargets.add(entry.getUUID("id"));
         }
-        pullTicks = tag.getInt("pull_ticks");
-        volleyCooldown = tag.getInt("volley_cooldown");
+        pullTicks = tag.getIntOr("pull_ticks", 0);
+        volleyCooldown = tag.getIntOr("volley_cooldown", 0);
         syncPullTargets();
     }
 

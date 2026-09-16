@@ -12,7 +12,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -52,7 +52,7 @@ public final class WardenShockwaveEntity extends Entity {
     @Override
     public void tick() {
         super.tick();
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             spawnGroundDebris();
             return;
         }
@@ -118,7 +118,7 @@ public final class WardenShockwaveEntity extends Entity {
 
     private void breakContactBlocks(PureParasiteEntity owner) {
         if (!(level() instanceof ServerLevel serverLevel)
-                || !level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+                || !level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)) {
             return;
         }
         BlockPos center = blockPosition();
@@ -160,9 +160,9 @@ public final class WardenShockwaveEntity extends Entity {
         if (tag.hasUUID(OWNER_TAG)) {
             ownerUuid = tag.getUUID(OWNER_TAG);
         }
-        targetX = tag.getDouble(TARGET_X_TAG);
-        targetY = tag.getDouble(TARGET_Y_TAG);
-        targetZ = tag.getDouble(TARGET_Z_TAG);
+        targetX = tag.getDoubleOr(TARGET_X_TAG, 0.0D);
+        targetY = tag.getDoubleOr(TARGET_Y_TAG, 0.0D);
+        targetZ = tag.getDoubleOr(TARGET_Z_TAG, 0.0D);
         updateMovement();
     }
 

@@ -40,10 +40,10 @@ public final class ParasiteLootBlock extends Block implements EntityBlock {
         if (!(level.getBlockEntity(pos) instanceof ParasiteLootBlockEntity loot)) {
             return InteractionResult.PASS;
         }
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             player.openMenu(loot);
         }
-        return InteractionResult.sidedSuccess(level.isClientSide);
+        return InteractionResult.sidedSuccess(level.isClientSide());
     }
 
     @Override

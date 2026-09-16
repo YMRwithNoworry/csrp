@@ -5,7 +5,7 @@ import alku.csrp.registry.ModMobEffects;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -13,10 +13,10 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import alku.csrp.animation.CitadelAnimationManager;
 import alku.csrp.animation.CitadelAnimationController;
@@ -109,10 +109,10 @@ public final class AncientPodEntity extends PrimitiveParasiteEntity {
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        owner = tag.contains("pod_owner") ? tag.getByte("pod_owner") : 62;
-        fuseTicks = tag.contains("pod_fuse") ? tag.getInt("pod_fuse") : DEFAULT_FUSE;
-        fuseStarted = tag.getBoolean("pod_fuse_started");
-        exploded = tag.getBoolean("pod_exploded");
+        owner = tag.contains("pod_owner") ? tag.getByteOr("pod_owner", (byte)0) : 62;
+        fuseTicks = tag.contains("pod_fuse") ? tag.getIntOr("pod_fuse", 0) : DEFAULT_FUSE;
+        fuseStarted = tag.getBooleanOr("pod_fuse_started", false);
+        exploded = tag.getBooleanOr("pod_exploded", false);
     }
 
     private CitadelPlayState movementAnimation(CitadelAnimationState<AncientPodEntity> state) {
@@ -123,7 +123,7 @@ public final class AncientPodEntity extends PrimitiveParasiteEntity {
     private void explodePod(ServerLevel level) {
         exploded = true;
         DragonEggAssimilationEntity.assimilateDragonEggs(level, getBoundingBox().inflate(4.0D));
-        Level.ExplosionInteraction interaction = level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
+        Level.ExplosionInteraction interaction = level.getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)
                 && MobsConfig.ancientPodGriefing()
                 ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
         level.explode(this, getX(), getY(), getZ(), 4.0F, interaction);
@@ -142,7 +142,7 @@ public final class AncientPodEntity extends PrimitiveParasiteEntity {
             try {
                 int duration = Math.max(0, Integer.parseInt(parts[0].trim())) * 20;
                 int amplifier = Integer.parseInt(parts[1].trim());
-                ResourceLocation id = ResourceLocation.tryParse(parts[2].trim());
+                Identifier id = Identifier.tryParse(parts[2].trim());
                 if (id == null) {
                     continue;
                 }
@@ -185,7 +185,7 @@ public final class AncientPodEntity extends PrimitiveParasiteEntity {
             mob.moveTo(getX() + Math.cos(angle) * 1.5D, getY(), getZ() + Math.sin(angle) * 1.5D,
                     random.nextFloat() * 360.0F, 0.0F);
             mob.finalizeSpawn(level, level.getCurrentDifficultyAt(mob.blockPosition()),
-                    MobSpawnType.MOB_SUMMONED, null);
+                    EntitySpawnReason.MOB_SUMMONED, null);
             mob.setTarget(getTarget());
             if (level.addFreshEntity(mob)) {
                 spawned++;
@@ -214,12 +214,12 @@ public final class AncientPodEntity extends PrimitiveParasiteEntity {
                 continue;
             }
             String id = raw.split(";", -1)[0].trim();
-            ResourceLocation location = ResourceLocation.tryParse(id);
+            Identifier location = Identifier.tryParse(id);
             if (location == null) {
                 return null;
             }
             if (location.getNamespace().equals("srparasites")) {
-                location = ResourceLocation.fromNamespaceAndPath("csrp", location.getPath());
+                location = Identifier.fromNamespaceAndPath("csrp", location.getPath());
             }
             Entity entity = BuiltInRegistries.ENTITY_TYPE.getOptional(location).map(type -> type.create(level)).orElse(null);
             return entity instanceof Mob mob ? mob : null;

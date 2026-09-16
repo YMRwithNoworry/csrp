@@ -8,14 +8,14 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.level.Level;
 
 /** Invisible rebuild counter stored inside a parasite remains block. */
@@ -42,7 +42,7 @@ public final class RemainEntity extends Entity {
     @Override
     public void tick() {
         super.tick();
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
         if (tickCount % 20 == 0
@@ -75,12 +75,12 @@ public final class RemainEntity extends Entity {
             return;
         }
 
-        ResourceLocation id = ResourceLocation.tryParse(parasite);
+        Identifier id = Identifier.tryParse(parasite);
         if (id == null) {
             return;
         }
         if (id.getNamespace().equals("srparasites")) {
-            id = ResourceLocation.fromNamespaceAndPath("csrp", id.getPath());
+            id = Identifier.fromNamespaceAndPath("csrp", id.getPath());
         }
         EntityType<?> entityType = BuiltInRegistries.ENTITY_TYPE.getOptional(id).orElse(null);
         Entity created = entityType == null ? null : entityType.create(serverLevel);
@@ -94,7 +94,7 @@ public final class RemainEntity extends Entity {
             return;
         }
         rebuilt.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                EntitySpawnReason.MOB_SUMMONED, null);
         rebuilt.setHealth(rebuilt.getMaxHealth() * health);
         rebuilt.addEffect(new MobEffectInstance(ModMobEffects.DEBAR, 400, 0, false, false), this);
         applyLegacySkin(rebuilt);
@@ -173,13 +173,13 @@ public final class RemainEntity extends Entity {
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
-        parasite = tag.contains("parasiteparasite") ? tag.getString("parasiteparasite") : null;
-        active = tag.getBoolean("parasiteactive");
-        count = tag.getInt("parasitepoint");
-        plus = tag.getInt("parasiteplus");
-        goal = tag.getInt("parasitegoal");
-        skin = tag.getByte("parasiteskin");
-        health = tag.getFloat("parasitehealth");
+        parasite = tag.contains("parasiteparasite") ? tag.getStringOr("parasiteparasite", "") : null;
+        active = tag.getBooleanOr("parasiteactive", false);
+        count = tag.getIntOr("parasitepoint", 0);
+        plus = tag.getIntOr("parasiteplus", 0);
+        goal = tag.getIntOr("parasitegoal", 0);
+        skin = tag.getByteOr("parasiteskin", (byte)0);
+        health = tag.getFloatOr("parasitehealth", 0.0F);
     }
 
     @Override

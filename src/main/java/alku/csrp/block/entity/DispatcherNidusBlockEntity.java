@@ -7,7 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -30,7 +30,7 @@ public final class DispatcherNidusBlockEntity extends BlockEntity {
     }
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, BlockEntity blockEntity) {
-        if (!(blockEntity instanceof DispatcherNidusBlockEntity nidus) || level.isClientSide) {
+        if (!(blockEntity instanceof DispatcherNidusBlockEntity nidus) || level.isClientSide()) {
             return;
         }
         nidus.tickNidus((ServerLevel) level);
@@ -54,7 +54,7 @@ public final class DispatcherNidusBlockEntity extends BlockEntity {
         BlockPos pos = getBlockPos();
         dispatcher.moveTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D,
                 level.getRandom().nextFloat() * 360.0F, 0.0F);
-        dispatcher.finalizeSpawn(level, level.getCurrentDifficultyAt(pos), MobSpawnType.MOB_SUMMONED, null);
+        dispatcher.finalizeSpawn(level, level.getCurrentDifficultyAt(pos), EntitySpawnReason.MOB_SUMMONED, null);
         level.addFreshEntity(dispatcher);
         level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
     }
@@ -84,6 +84,6 @@ public final class DispatcherNidusBlockEntity extends BlockEntity {
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
-        killCount = tag.getInt("KillCount");
+        killCount = tag.getIntOr("KillCount", 0);
     }
 }

@@ -12,18 +12,18 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 
 /** Renderer for the original Pheon homing orb's rotating three-plane model. */
 public final class HaunterHomingProjectileRenderer extends EntityRenderer<HaunterHomingProjectileEntity> {
     public static final ModelLayerLocation LAYER = new ModelLayerLocation(
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "haunter_homing_projectile"), "main");
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+            Identifier.fromNamespaceAndPath(Csrp.MODID, "haunter_homing_projectile"), "main");
+    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,
             "textures/entity/projectile/projectileh.png");
 
     private final ModelPart body;
@@ -68,7 +68,7 @@ public final class HaunterHomingProjectileRenderer extends EntityRenderer<Haunte
     }
 
     @Override
-    public ResourceLocation getTextureLocation(HaunterHomingProjectileEntity entity) {
+    public Identifier getTextureLocation(HaunterHomingProjectileEntity entity) {
         return TEXTURE;
     }
 }

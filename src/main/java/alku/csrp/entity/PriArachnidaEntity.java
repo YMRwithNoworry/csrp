@@ -17,7 +17,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
@@ -77,7 +77,7 @@ public class PriArachnidaEntity extends Monster implements CitadelAnimatedEntity
 
     public static boolean checkPriArachnidaSpawnRules(EntityType<? extends Monster> type,
                                                        ServerLevelAccessor level,
-                                                       MobSpawnType spawnType,
+                                                       EntitySpawnReason spawnType,
                                                        BlockPos pos,
                                                        RandomSource random) {
         int phase = Config.evolutionPhase(level.getLevel());
@@ -108,7 +108,7 @@ public class PriArachnidaEntity extends Monster implements CitadelAnimatedEntity
     @Override
     public void tick() {
         super.tick();
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             updateParasiteStatus();
             updatePullCooldown();
             handleSkillExecution();
@@ -205,8 +205,8 @@ public class PriArachnidaEntity extends Monster implements CitadelAnimatedEntity
             return false;
         }
         target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 0), this);
-        target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 2), this);
-        target.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 100, 1), this);
+        target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 100, 2), this);
+        target.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE, 100, 1), this);
         Vec3 pull = position().subtract(target.position());
         if (pull.lengthSqr() > 0.001D) {
             pull = pull.normalize().scale(0.55D);
@@ -261,13 +261,13 @@ public class PriArachnidaEntity extends Monster implements CitadelAnimatedEntity
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         if (tag.contains(PARASITE_STATUS_NBT_KEY)) {
-            setParasiteStatus(tag.getInt(PARASITE_STATUS_NBT_KEY));
+            setParasiteStatus(tag.getIntOr(PARASITE_STATUS_NBT_KEY, 0));
         }
         if (tag.contains(PULL_COOLDOWN_NBT_KEY)) {
-            pullCooldown = tag.getInt(PULL_COOLDOWN_NBT_KEY);
+            pullCooldown = tag.getIntOr(PULL_COOLDOWN_NBT_KEY, 0);
         }
         if (tag.contains(PULL_COUNT_NBT_KEY)) {
-            pullCount = tag.getInt(PULL_COUNT_NBT_KEY);
+            pullCount = tag.getIntOr(PULL_COUNT_NBT_KEY, 0);
         }
     }
 

@@ -6,7 +6,7 @@ import com.github.alexthe666.citadel.client.model.basic.BasicModelPart;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Function;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Mob;
 import alku.csrp.animation.CitadelAnimatedEntity;
 
@@ -21,11 +21,11 @@ public class CitadelModelSet<T extends Mob & CitadelAnimatedEntity>
 
     private final Map<String, CitadelParasiteModel<T>> models = new LinkedHashMap<>();
     private final Function<T, String> selector;
-    private final Function<T, ResourceLocation> textureSelector;
+    private final Function<T, Identifier> textureSelector;
     private CitadelParasiteModel<T> active;
 
     public CitadelModelSet(Map<String, ModelSpec> specifications, Function<T, String> selector,
-            Function<T, ResourceLocation> textureSelector) {
+            Function<T, Identifier> textureSelector) {
         this.selector = selector;
         this.textureSelector = textureSelector;
         for (Map.Entry<String, ModelSpec> entry : specifications.entrySet()) {
@@ -51,7 +51,7 @@ public class CitadelModelSet<T extends Mob & CitadelAnimatedEntity>
     }
 
     @Override
-    public ResourceLocation texture(T entity) {
+    public Identifier texture(T entity) {
         return textureSelector.apply(entity);
     }
 

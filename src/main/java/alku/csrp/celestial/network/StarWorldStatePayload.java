@@ -6,12 +6,12 @@ import alku.csrp.world.SrpStarType;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record StarWorldStatePayload(SrpStarType starType) implements CustomPacketPayload {
     public static final Type<StarWorldStatePayload> TYPE = new Type<>(
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "star_world_state"));
+            Identifier.fromNamespaceAndPath(Csrp.MODID, "star_world_state"));
     public static final StreamCodec<RegistryFriendlyByteBuf, StarWorldStatePayload> STREAM_CODEC =
             StreamCodec.ofMember(StarWorldStatePayload::encode, StarWorldStatePayload::decode);
 

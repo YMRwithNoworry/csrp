@@ -2,7 +2,7 @@ package alku.csrp.client.model;
 
 import alku.csrp.Csrp;
 import alku.csrp.entity.RupterEntity;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public final class RupterModel extends CitadelParasiteModel<RupterEntity> {
     public RupterModel() {
@@ -10,11 +10,11 @@ public final class RupterModel extends CitadelParasiteModel<RupterEntity> {
     }
 
     @Override
-    public ResourceLocation texture(RupterEntity entity) {
+    public Identifier texture(RupterEntity entity) {
         RupterEntity.BehaviorVariant behavior = entity.getBehaviorVariant();
         String suffix = behavior == RupterEntity.BehaviorVariant.NORMAL
                 ? entity.getTextureVariant().suffix() : behavior.suffix();
-        return ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+        return Identifier.fromNamespaceAndPath(Csrp.MODID,
                 "textures/entity/rupter" + suffix + ".png");
     }
 }

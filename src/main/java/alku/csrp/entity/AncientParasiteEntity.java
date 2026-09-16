@@ -23,14 +23,14 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -152,7 +152,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         if (activeKind() == Kind.DREADNAUT) {
             setNoGravity(true);
         }
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
         bossEvent.setProgress(Math.max(0.0F, getHealth() / getMaxHealth()));
@@ -204,7 +204,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         if (hurt && source.getEntity() instanceof ServerPlayer player) {
             bossEvent.addPlayer(player);
         }
-        if (hurt && activeKind() == Kind.DREADNAUT && !level().isClientSide
+        if (hurt && activeKind() == Kind.DREADNAUT && !level().isClientSide()
                 && !source.is(DamageTypeTags.IS_FALL)) {
             detachTendrilAtHealthThreshold();
         }
@@ -301,14 +301,14 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        if (tag.contains("urten")) entityData.set(DREAD_URTEN, tag.getBoolean("urten"));
-        if (tag.contains("ulten")) entityData.set(DREAD_ULTEN, tag.getBoolean("ulten"));
-        if (tag.contains("raten")) entityData.set(DREAD_RATEN, tag.getBoolean("raten"));
-        if (tag.contains("laten")) entityData.set(DREAD_LATEN, tag.getBoolean("laten"));
-        health80 = !tag.contains("healtheight") || tag.getBoolean("healtheight");
-        health60 = !tag.contains("healthsix") || tag.getBoolean("healthsix");
-        health40 = !tag.contains("healthfour") || tag.getBoolean("healthfour");
-        health20 = !tag.contains("healthtwo") || tag.getBoolean("healthtwo");
+        if (tag.contains("urten")) entityData.set(DREAD_URTEN, tag.getBooleanOr("urten", false));
+        if (tag.contains("ulten")) entityData.set(DREAD_ULTEN, tag.getBooleanOr("ulten", false));
+        if (tag.contains("raten")) entityData.set(DREAD_RATEN, tag.getBooleanOr("raten", false));
+        if (tag.contains("laten")) entityData.set(DREAD_LATEN, tag.getBooleanOr("laten", false));
+        health80 = !tag.contains("healtheight") || tag.getBooleanOr("healtheight", false);
+        health60 = !tag.contains("healthsix") || tag.getBooleanOr("healthsix", false);
+        health40 = !tag.contains("healthfour") || tag.getBooleanOr("healthfour", false);
+        health20 = !tag.contains("healthtwo") || tag.getBooleanOr("healthtwo", false);
     }
 
     @Override
@@ -376,7 +376,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private void breakBlocksTowardsTarget(LivingEntity target) {
-        if (blockBreakCooldown > 0 || !level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+        if (blockBreakCooldown > 0 || !level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)) {
             return;
         }
         Vec3 direction = target.position().subtract(position());
@@ -487,7 +487,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         AncientPart part = bodyParts[Math.max(0, Math.min(bodyParts.length - 1, partId - 1))];
         tendril.moveTo(part.getX(), part.getY(), part.getZ(), getYRot(), 0.0F);
         tendril.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(tendril.blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                EntitySpawnReason.MOB_SUMMONED, null);
         tendril.setTarget(getTarget());
         tendril.setDeltaMovement(getDeltaMovement().scale(0.5D).add(0.0D, -0.1D, 0.0D));
         serverLevel.addFreshEntity(tendril);
@@ -515,7 +515,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         pod.moveTo(x + Math.cos(angle) * radius, y, z + Math.sin(angle) * radius,
                 random.nextFloat() * 360.0F, 0.0F);
         pod.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(pod.blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                EntitySpawnReason.MOB_SUMMONED, null);
         pod.setOwner((byte) 62);
         pod.setTarget(target);
         pod.setDeltaMovement(0.0D, -0.35D, 0.0D);

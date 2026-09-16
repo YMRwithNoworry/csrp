@@ -9,7 +9,7 @@ import alku.csrp.animation.CitadelRawAnimation;
 import java.util.List;
 import java.util.Optional;
 import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Mob;
 
 /** Generic Citadel model executing animation formulae from a Tabula export resource. */
@@ -18,7 +18,7 @@ public class CitadelParasiteModel<T extends Mob & CitadelAnimatedEntity> extends
     private static final float MOVING_ROTATION_SCALE = 0.72F;
 
     private final String modelId;
-    private final ResourceLocation texture;
+    private final Identifier texture;
     private final LegacyAnimationLibrary animations;
 
     public CitadelParasiteModel(String modelId) {
@@ -28,7 +28,7 @@ public class CitadelParasiteModel<T extends Mob & CitadelAnimatedEntity> extends
     public CitadelParasiteModel(String modelId, String animationId) {
         super(modelId);
         this.modelId = modelId;
-        texture = ResourceLocation.fromNamespaceAndPath("csrp", "textures/entity/" + modelId + ".png");
+        texture = Identifier.fromNamespaceAndPath("csrp", "textures/entity/" + modelId + ".png");
         animations = new LegacyAnimationLibrary(animationId);
     }
 
@@ -36,7 +36,7 @@ public class CitadelParasiteModel<T extends Mob & CitadelAnimatedEntity> extends
         return modelId;
     }
 
-    public ResourceLocation texture(T entity) {
+    public Identifier texture(T entity) {
         return texture;
     }
 

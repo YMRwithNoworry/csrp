@@ -13,7 +13,7 @@ public final class ContaminationMobEffect extends MarkerMobEffect {
 
     @Override
     public boolean applyEffectTick(LivingEntity entity, int amplifier) {
-        if (entity.level().isClientSide || entity.tickCount % 40 != 0) {
+        if (entity.level().isClientSide() || entity.tickCount % 40 != 0) {
             return true;
         }
         if (entity.getHealth() > 1.0F) {

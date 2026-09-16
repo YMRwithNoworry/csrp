@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
 
 /**
@@ -74,7 +74,7 @@ public abstract class LegacyTabulaModel<T extends LivingEntity> extends Advanced
     }
 
     private static TabulaModelContainer loadContainer(String modelId) {
-        ResourceLocation location = ResourceLocation.fromNamespaceAndPath(
+        Identifier location = Identifier.fromNamespaceAndPath(
                 Csrp.MODID, "tabula/" + modelId + ".tbl");
         try (InputStream stream = Minecraft.getInstance().getResourceManager().getResource(location)
                 .orElseThrow(() -> new IOException("Missing Tabula model " + location))

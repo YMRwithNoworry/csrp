@@ -150,7 +150,7 @@ public final class StatusEffectEvents {
     @SubscribeEvent
     public static void applyTheSign(PlayerTickEvent.Post event) {
         Player player = event.getEntity();
-        if (player.level().isClientSide || !hasSignCharm(player)) {
+        if (player.level().isClientSide() || !hasSignCharm(player)) {
             return;
         }
         player.addEffect(new MobEffectInstance(ModMobEffects.THE_SIGN, 40, 0, false, false));
@@ -205,14 +205,14 @@ public final class StatusEffectEvents {
             return;
         }
         Player player = event.getEntity();
-        if (!player.level().isClientSide) {
+        if (!player.level().isClientSide()) {
             target.addEffect(new MobEffectInstance(ModMobEffects.CAMOUFLAGE,
                     duration, 0, false, true), player);
             if (!player.getAbilities().instabuild) {
                 stack.shrink(1);
             }
         }
-        event.setCancellationResult(InteractionResult.sidedSuccess(player.level().isClientSide));
+        event.setCancellationResult(InteractionResult.sidedSuccess(player.level().isClientSide()));
         event.setCanceled(true);
     }
 

@@ -79,14 +79,14 @@ public final class ThornshadeBlock extends BushBlock implements BonemealableBloc
         if (current.base() != Stage.STAGE2) {
             return InteractionResult.PASS;
         }
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             int berries = 1 + level.random.nextInt(2);
             popResource(level, pos, new ItemStack(ModItems.THORNSHADE_BERRY.get(), berries));
             level.setBlock(pos, Stage.STAGE2_NO_BERRY.withSnow(current.snowy()).apply(state), Block.UPDATE_CLIENTS);
             level.playSound(null, pos, ModSounds.MOVING_FLESH_GROW.get(), SoundSource.BLOCKS,
                     0.65F, 0.9F + level.random.nextFloat() * 0.2F);
         }
-        return InteractionResult.sidedSuccess(level.isClientSide);
+        return InteractionResult.sidedSuccess(level.isClientSide());
     }
 
     @Override

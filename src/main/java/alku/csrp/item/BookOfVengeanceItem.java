@@ -39,7 +39,7 @@ public final class BookOfVengeanceItem extends Item {
             BookOfVengeanceEvents.beginSlamChain(serverLevel, serverPlayer, target);
             player.getCooldowns().addCooldown(this, BookOfVengeanceEvents.SLAM_COOLDOWN_TICKS);
         }
-        return InteractionResult.sidedSuccess(player.level().isClientSide);
+        return InteractionResult.sidedSuccess(player.level().isClientSide());
     }
 
     @Override
@@ -49,7 +49,7 @@ public final class BookOfVengeanceItem extends Item {
             return InteractionResultHolder.pass(stack);
         }
         pulse(player, stack);
-        return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
+        return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());
     }
 
     @Override
@@ -80,6 +80,6 @@ public final class BookOfVengeanceItem extends Item {
             BookOfVengeanceEvents.pulse(serverLevel, serverPlayer);
             player.getCooldowns().addCooldown(this, BookOfVengeanceEvents.PULSE_COOLDOWN_TICKS);
         }
-        return InteractionResult.sidedSuccess(player.level().isClientSide);
+        return InteractionResult.sidedSuccess(player.level().isClientSide());
     }
 }

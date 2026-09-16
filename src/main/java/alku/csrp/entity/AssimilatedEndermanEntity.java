@@ -26,7 +26,7 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -152,7 +152,7 @@ public final class AssimilatedEndermanEntity extends Monster
 
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
-                                        MobSpawnType spawnType, SpawnGroupData spawnGroupData) {
+                                        EntitySpawnReason spawnType, SpawnGroupData spawnGroupData) {
         SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
         setCrawling(random.nextDouble() < Config.variantSpawnChance()
                 || Config.evolutionPhase(level.getLevel()) >= Config.alwaysVariantPhase());
@@ -242,14 +242,14 @@ public final class AssimilatedEndermanEntity extends Monster
         if (!stack.is(ModItems.SHRIMP.get()) || isShrimpFed()) {
             return super.mobInteract(player, hand);
         }
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             setShrimpFed(true);
             playSound(ModSounds.get("shrimp.eat"), 1.0F, 1.0F);
             if (!player.getAbilities().instabuild) {
                 stack.shrink(1);
             }
         }
-        return InteractionResult.sidedSuccess(level().isClientSide);
+        return InteractionResult.sidedSuccess(level().isClientSide());
     }
 
     @Override
@@ -260,7 +260,7 @@ public final class AssimilatedEndermanEntity extends Monster
         } else {
             stillAnimationTicks++;
         }
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             spawnPortalParticles();
             return;
         }
@@ -344,20 +344,20 @@ public final class AssimilatedEndermanEntity extends Monster
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        parasiteKills = tag.getInt("parasite_kills");
-        targetTicks = tag.getInt("target_ticks");
-        selfTeleportCooldown = tag.getInt("self_teleport_cooldown");
-        allyTeleportCooldown = tag.getInt("ally_teleport_cooldown");
-        setShrimpFed(tag.getBoolean("shrimp_fed"));
-        entityData.set(TEXTURE_VARIANT, Math.clamp(tag.getInt("texture_variant"), 0, 1));
-        setCrawling(tag.getBoolean("crawling"));
-        spotCooldown = tag.getInt("spot_cooldown");
+        parasiteKills = tag.getIntOr("parasite_kills", 0);
+        targetTicks = tag.getIntOr("target_ticks", 0);
+        selfTeleportCooldown = tag.getIntOr("self_teleport_cooldown", 0);
+        allyTeleportCooldown = tag.getIntOr("ally_teleport_cooldown", 0);
+        setShrimpFed(tag.getBooleanOr("shrimp_fed", false));
+        entityData.set(TEXTURE_VARIANT, Math.clamp(tag.getIntOr("texture_variant", 0), 0, 1));
+        setCrawling(tag.getBooleanOr("crawling", false));
+        spotCooldown = tag.getIntOr("spot_cooldown", 0);
         setParasiteStatus(0);
     }
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (!level().isClientSide && source.getDirectEntity() != null && source.getDirectEntity() != source.getEntity()) {
+        if (!level().isClientSide() && source.getDirectEntity() != null && source.getDirectEntity() != source.getEntity()) {
             for (int attempt = 0; attempt < 64; attempt++) {
                 if (teleportAwayFromTarget(getTarget())) {
                     return true;
@@ -366,7 +366,7 @@ public final class AssimilatedEndermanEntity extends Monster
             return false;
         }
         boolean hurt = super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
-        if (hurt && !level().isClientSide) {
+        if (hurt && !level().isClientSide()) {
             allyTeleportCooldown = 0;
             if (random.nextBoolean()) {
                 teleportAwayFromTarget(getTarget());
@@ -378,7 +378,7 @@ public final class AssimilatedEndermanEntity extends Monster
     @Override
     public void die(DamageSource source) {
         super.die(source);
-        if (level().isClientSide || random.nextFloat() >= 0.5F || !(level() instanceof ServerLevel serverLevel)) {
+        if (level().isClientSide() || random.nextFloat() >= 0.5F || !(level() instanceof ServerLevel serverLevel)) {
             return;
         }
         AssimilatedHeadEntity head = ModEntities.SIM_ENDERMAN_HEAD.get().create(serverLevel);
@@ -386,7 +386,7 @@ public final class AssimilatedEndermanEntity extends Monster
             return;
         }
         head.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
-        head.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()), MobSpawnType.MOB_SUMMONED, null);
+        head.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()), EntitySpawnReason.MOB_SUMMONED, null);
         serverLevel.addFreshEntity(head);
     }
 
@@ -522,7 +522,7 @@ public final class AssimilatedEndermanEntity extends Monster
 
     private boolean teleportEntity(Entity entity, Vec3 requestedPosition) {
         BlockPos blockPos = BlockPos.containing(requestedPosition);
-        while (blockPos.getY() > level().getMinBuildHeight() && !level().getBlockState(blockPos).blocksMotion()) {
+        while (blockPos.getY() > level().getMinY() && !level().getBlockState(blockPos).blocksMotion()) {
             blockPos = blockPos.below();
         }
         if (!level().getBlockState(blockPos).blocksMotion()) {

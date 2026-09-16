@@ -14,7 +14,7 @@ import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
@@ -31,9 +31,9 @@ public final class CelestialSystem {
     private static final String WITNESSED_KEY = "csrpWitnessed";
     private static final int HALF_EVENT_COUNT = 8;
     private static final int ALL_EVENT_COUNT = 16;
-    private static final ResourceLocation COLUMBUS = ResourceLocation.fromNamespaceAndPath(
+    private static final Identifier COLUMBUS = Identifier.fromNamespaceAndPath(
             alku.csrp.Csrp.MODID, "columbus");
-    private static final ResourceLocation STOLAS = ResourceLocation.fromNamespaceAndPath(
+    private static final Identifier STOLAS = Identifier.fromNamespaceAndPath(
             alku.csrp.Csrp.MODID, "stolas");
 
     private CelestialSystem() {
@@ -71,7 +71,7 @@ public final class CelestialSystem {
 
     private static Set<String> loadWitnessed(ServerPlayer player) {
         Set<String> result = new HashSet<>();
-        ListTag list = player.getPersistentData().getList(WITNESSED_KEY, Tag.TAG_STRING);
+        ListTag list = player.getPersistentData().getListOrEmpty(WITNESSED_KEY);
         for (Tag tag : list) {
             result.add(tag.getAsString());
         }
@@ -86,7 +86,7 @@ public final class CelestialSystem {
         player.getPersistentData().put(WITNESSED_KEY, list);
     }
 
-    private static void award(ServerPlayer player, ResourceLocation advancementId,
+    private static void award(ServerPlayer player, Identifier advancementId,
             String criterion, int threshold) {
         if (loadWitnessed(player).size() < threshold) {
             return;
@@ -212,7 +212,7 @@ public final class CelestialSystem {
 
     private static void awardDarkDaysSurvivors(ServerLevel level) {
         net.minecraft.advancements.AdvancementHolder holder = level.getServer().getAdvancements()
-                .get(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(
+                .get(net.minecraft.resources.Identifier.fromNamespaceAndPath(
                         alku.csrp.Csrp.MODID, "dark_days"));
         if (holder == null) {
             return;

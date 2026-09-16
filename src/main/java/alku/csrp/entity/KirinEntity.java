@@ -28,7 +28,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -37,7 +37,7 @@ import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.ClipContext;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -151,7 +151,7 @@ public final class KirinEntity extends DerivedParasiteEntity {
     }
 
     public static boolean checkKirinSpawnRules(EntityType<? extends Monster> type,
-            ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+            ServerLevelAccessor level, EntitySpawnReason spawnType, BlockPos pos, RandomSource random) {
         ServerLevel currentLevel = level.getLevel();
         ServerLevel endLevel = currentLevel.getServer().getLevel(Level.END);
         return endLevel != null
@@ -188,7 +188,7 @@ public final class KirinEntity extends DerivedParasiteEntity {
     public void tick() {
         super.tick();
         setNoGravity(false);
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             spawnAmbientPortalParticles();
             spawnBlinkWarningParticles();
             if (isChargingJudgementCut()) {
@@ -592,8 +592,8 @@ public final class KirinEntity extends DerivedParasiteEntity {
     }
 
     private void applyLaserDebuffs(LivingEntity target) {
-        target.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, LASER_EFFECT_DURATION_TICKS, 1), this);
-        target.addEffect(new MobEffectInstance(MobEffects.CONFUSION, LASER_EFFECT_DURATION_TICKS, 0), this);
+        target.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE, LASER_EFFECT_DURATION_TICKS, 1), this);
+        target.addEffect(new MobEffectInstance(MobEffects.NAUSEA, LASER_EFFECT_DURATION_TICKS, 0), this);
         target.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, LASER_EFFECT_DURATION_TICKS, 0), this);
         target.addEffect(new MobEffectInstance(MobEffects.HUNGER, LASER_EFFECT_DURATION_TICKS, 1), this);
         target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, LASER_EFFECT_DURATION_TICKS, 1), this);
@@ -817,7 +817,7 @@ public final class KirinEntity extends DerivedParasiteEntity {
     private void tryBreakBlocks() {
         LivingEntity target = getTarget();
         if (blockBreakCooldown > 0 || target == null || !target.isAlive()
-                || !level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+                || !level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)) {
             return;
         }
         int verticalOffset = 0;
@@ -910,25 +910,25 @@ public final class KirinEntity extends DerivedParasiteEntity {
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         blinkCooldown = tag.contains("kirin_blink_cooldown")
-                ? tag.getInt("kirin_blink_cooldown") : tag.getInt("blink_cooldown");
+                ? tag.getIntOr("kirin_blink_cooldown", 0) : tag.getIntOr("blink_cooldown", 0);
         blinkCharge = tag.contains("kirin_blink_charge")
-                ? tag.getInt("kirin_blink_charge") : tag.getInt("blink_charge");
+                ? tag.getIntOr("kirin_blink_charge", 0) : tag.getIntOr("blink_charge", 0);
         blinkDestination = tag.contains("kirin_blink_destination")
-                ? BlockPos.of(tag.getLong("kirin_blink_destination"))
-                : new BlockPos(tag.getInt("blink_x"), tag.getInt("blink_y"), tag.getInt("blink_z"));
+                ? BlockPos.of(tag.getLongOr("kirin_blink_destination", 0L))
+                : new BlockPos(tag.getIntOr("blink_x", 0), tag.getIntOr("blink_y", 0), tag.getIntOr("blink_z", 0));
         voidSkillCharge = tag.contains("kirin_void_charge")
-                ? tag.getInt("kirin_void_charge") : Math.max(0, 80 - tag.getInt("void_orb_cooldown"));
-        voidSkillCastTicks = tag.getInt("kirin_void_cast_ticks");
-        voidSkillStage = tag.getInt("kirin_void_stage");
-        laserCooldown = tag.getInt("kirin_laser_cooldown");
-        floatBob = tag.getInt("kirin_float_bob");
-        noGroundTicks = tag.getInt("kirin_no_ground_ticks");
-        blockBreakCooldown = tag.getInt("kirin_block_break_cooldown");
-        judgementCutCharge = tag.getInt("kirin_judgement_charge");
-        judgementCutSkillTicks = tag.getInt("kirin_judgement_skill_ticks");
+                ? tag.getIntOr("kirin_void_charge", 0) : Math.max(0, 80 - tag.getIntOr("void_orb_cooldown", 0));
+        voidSkillCastTicks = tag.getIntOr("kirin_void_cast_ticks", 0);
+        voidSkillStage = tag.getIntOr("kirin_void_stage", 0);
+        laserCooldown = tag.getIntOr("kirin_laser_cooldown", 0);
+        floatBob = tag.getIntOr("kirin_float_bob", 0);
+        noGroundTicks = tag.getIntOr("kirin_no_ground_ticks", 0);
+        blockBreakCooldown = tag.getIntOr("kirin_block_break_cooldown", 0);
+        judgementCutCharge = tag.getIntOr("kirin_judgement_charge", 0);
+        judgementCutSkillTicks = tag.getIntOr("kirin_judgement_skill_ticks", 0);
         judgementCutQueued = judgementCutSkillTicks > 0;
-        entityData.set(JUDGEMENT_CUT_CHARGE, tag.getInt("kirin_judgement_aura_ticks"));
-        entityData.set(JUDGEMENT_CUT_AURA_END, tag.getInt("kirin_judgement_aura_end_ticks"));
+        entityData.set(JUDGEMENT_CUT_CHARGE, tag.getIntOr("kirin_judgement_aura_ticks", 0));
+        entityData.set(JUDGEMENT_CUT_AURA_END, tag.getIntOr("kirin_judgement_aura_end_ticks", 0));
         entityData.set(BLINK_POS, blinkCharge > 0 ? blinkDestination : BlockPos.ZERO);
         entityData.set(BLINK_TICKS, blinkCharge);
         entityData.set(VOID_CASTING, voidSkillCastTicks > 0);

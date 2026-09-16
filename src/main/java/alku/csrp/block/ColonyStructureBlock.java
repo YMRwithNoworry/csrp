@@ -25,7 +25,7 @@ public final class ColonyStructureBlock extends Block {
     @Override
     protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
         super.onPlace(state, level, pos, oldState, movedByPiston);
-        if (!level.isClientSide && !oldState.is(this) && state.getValue(SrpCoreBlock.ACTIVE) > 0
+        if (!level.isClientSide() && !oldState.is(this) && state.getValue(SrpCoreBlock.ACTIVE) > 0
                 && state.getValue(SrpCoreBlock.ACTIVE) < 3) {
             level.scheduleTick(pos, this, 20 + level.getRandom().nextInt(81));
         }

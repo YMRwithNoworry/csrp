@@ -2,13 +2,13 @@ package alku.csrp.client.model;
 
 import alku.csrp.Csrp;
 import alku.csrp.entity.MarauderEntity;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 /** Original Esor model with broken tendrils hidden. */
 public final class MarauderModel extends CitadelParasiteModel<MarauderEntity> {
-    private static final ResourceLocation NORMAL = ResourceLocation.fromNamespaceAndPath(
+    private static final Identifier NORMAL = Identifier.fromNamespaceAndPath(
             Csrp.MODID, "textures/entity/marauder.png");
-    private static final ResourceLocation HARDENED = ResourceLocation.fromNamespaceAndPath(
+    private static final Identifier HARDENED = Identifier.fromNamespaceAndPath(
             Csrp.MODID, "textures/entity/marauder_hardened.png");
 
     public MarauderModel() {
@@ -16,7 +16,7 @@ public final class MarauderModel extends CitadelParasiteModel<MarauderEntity> {
     }
 
     @Override
-    public ResourceLocation texture(MarauderEntity entity) {
+    public Identifier texture(MarauderEntity entity) {
         return entity.isHardenedVariant() ? HARDENED : NORMAL;
     }
 

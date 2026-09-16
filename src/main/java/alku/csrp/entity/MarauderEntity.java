@@ -131,7 +131,7 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
         float tendrilHealth = maxTendrilHealth();
         entityData.set(LEFT_TENDRIL_HEALTH, tendrilHealth);
         entityData.set(RIGHT_TENDRIL_HEALTH, tendrilHealth);
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             initializeVariant();
         }
     }
@@ -170,7 +170,7 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
     @Override
     public void tick() {
         super.tick();
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             spawnSmashParticles();
             return;
         }
@@ -289,7 +289,7 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
     }
 
     private boolean performSweepAttack(LivingEntity center) {
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return false;
         }
         entityData.set(ATTACK_TICKS, ATTACK_ANIMATION_TICKS);
@@ -383,7 +383,7 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
     }
 
     boolean hurtTendril(MarauderTendrilEntity tendril, DamageSource source, float amount) {
-        if (level().isClientSide || !hurt(source, amount)) {
+        if (level().isClientSide() || !hurt(source, amount)) {
             return false;
         }
         TendrilSide side = tendril.getAttachedSide();
@@ -573,11 +573,11 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         entityData.set(LEFT_TENDRIL_HEALTH, tag.contains("marauder_left_tendril")
-                ? tag.getFloat("marauder_left_tendril") : maxTendrilHealth());
+                ? tag.getFloatOr("marauder_left_tendril", 0.0F) : maxTendrilHealth());
         entityData.set(RIGHT_TENDRIL_HEALTH, tag.contains("marauder_right_tendril")
-                ? tag.getFloat("marauder_right_tendril") : maxTendrilHealth());
-        smashCooldown = tag.getInt("marauder_smash_cooldown");
-        entityData.set(HARDENED_VARIANT, tag.getBoolean("marauder_hardened"));
+                ? tag.getFloatOr("marauder_right_tendril", 0.0F) : maxTendrilHealth());
+        smashCooldown = tag.getIntOr("marauder_smash_cooldown", 0);
+        entityData.set(HARDENED_VARIANT, tag.getBooleanOr("marauder_hardened", false));
         leftTendrilId = tag.hasUUID("marauder_left_tendril_id") ? tag.getUUID("marauder_left_tendril_id") : null;
         rightTendrilId = tag.hasUUID("marauder_right_tendril_id") ? tag.getUUID("marauder_right_tendril_id") : null;
         variantInitialized = true;
@@ -717,7 +717,7 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
             smashTicks++;
             entityData.set(SMASH_TICKS, smashTicks);
             if (smashTicks <= SMASH_CHARGE_TICKS) {
-                addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 110, 100, false, false));
+                addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 110, 100, false, false));
                 return;
             }
 

@@ -6,7 +6,7 @@ import alku.csrp.registry.ModSounds;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
@@ -16,13 +16,13 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.entity.animal.fish.WaterAnimal;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.DifficultyInstance;
@@ -76,7 +76,7 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity implements M
 
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
-                                        MobSpawnType reason, @Nullable SpawnGroupData spawnData) {
+                                        EntitySpawnReason reason, @Nullable SpawnGroupData spawnData) {
         SpawnGroupData data = super.finalizeSpawn(level, difficulty, reason, spawnData);
         if (getSkin() == 0 && (random.nextDouble() < Config.variantSpawnChance()
                 || Config.evolutionPhase(level.getLevel()) >= Config.alwaysVariantPhase())) {
@@ -234,7 +234,7 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity implements M
     @Override
     public void tick() {
         super.tick();
-        if (level().isClientSide || detonated || !isAlive()) {
+        if (level().isClientSide() || detonated || !isAlive()) {
             return;
         }
 
@@ -251,7 +251,7 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity implements M
             return;
         }
         deathTime++;
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             startFuse();
             advanceFuse();
         }
@@ -299,10 +299,10 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity implements M
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         if (tag.contains(FUSE_TICKS_TAG, Tag.TAG_INT)) {
-            setFuseTicks(tag.getInt(FUSE_TICKS_TAG));
+            setFuseTicks(tag.getIntOr(FUSE_TICKS_TAG, 0));
         }
         if (tag.contains("carrier_skin", Tag.TAG_BYTE)) {
-            setSkin(tag.getByte("carrier_skin"));
+            setSkin(tag.getByteOr("carrier_skin", (byte)0));
         }
     }
 
@@ -313,7 +313,7 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity implements M
 
         detonated = true;
         DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(4.0D));
-        Level.ExplosionInteraction interaction = level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
+        Level.ExplosionInteraction interaction = level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)
                         && griefingEnabled() && EventHooks.canEntityGrief(level(), this)
                 ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
         level().explode(this, getX(), getY(), getZ(), 4.0F, interaction);
@@ -349,12 +349,12 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity implements M
             if (minimum < 0 || maximum < minimum) {
                 continue;
             }
-            ResourceLocation location = ResourceLocation.tryParse(parts[0].trim());
+            Identifier location = Identifier.tryParse(parts[0].trim());
             if (location == null) {
                 continue;
             }
             if (location.getNamespace().equals("srparasites")) {
-                location = ResourceLocation.fromNamespaceAndPath("csrp", location.getPath());
+                location = Identifier.fromNamespaceAndPath("csrp", location.getPath());
             }
             EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.getOptional(location).orElse(null);
             if (type == null) {
@@ -368,7 +368,7 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity implements M
                 }
                 mob.moveTo(getX(), getY() + getBbHeight() * 0.5D + 0.5D, getZ(), getYRot(), getXRot());
                 mob.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(mob.blockPosition()),
-                        MobSpawnType.MOB_SUMMONED, null);
+                        EntitySpawnReason.MOB_SUMMONED, null);
                 mob.setTarget(getTarget());
                 serverLevel.addFreshEntity(mob);
             }

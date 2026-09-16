@@ -42,7 +42,7 @@ public final class InfectionEvents {
     @SubscribeEvent
     public static void infectFromParasiteHit(LivingDamageEvent.Post event) {
         LivingEntity target = event.getEntity();
-        if (event.getNewDamage() <= 0.0F || !target.isAlive() || target.level().isClientSide
+        if (event.getNewDamage() <= 0.0F || !target.isAlive() || target.level().isClientSide()
                 || target instanceof Parasite) {
             return;
         }
@@ -74,7 +74,7 @@ public final class InfectionEvents {
     @SubscribeEvent
     public static void convertTerminalCothHost(LivingDeathEvent event) {
         LivingEntity host = event.getEntity();
-        if (host.level().isClientSide) {
+        if (host.level().isClientSide()) {
             return;
         }
         Entity attacker = event.getSource().getEntity();

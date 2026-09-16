@@ -10,7 +10,7 @@ import java.util.Set;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
@@ -41,14 +41,14 @@ public final class MeteorImpactUtil {
         int z = pos.getZ();
         int top = Math.min(level.getMaxBuildHeight() - 1,
                 level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z) + 16);
-        for (int y = top; y >= level.getMinBuildHeight(); y--) {
+        for (int y = top; y >= level.getMinY(); y--) {
             BlockState state = level.getBlockState(new BlockPos(x, y, z));
             if ((state.blocksMotion() && !state.is(BlockTags.LEAVES))
                     || state.getFluidState().is(Fluids.WATER)) {
                 return new BlockPos(x, y + 1, z);
             }
         }
-        return new BlockPos(x, level.getMinBuildHeight(), z);
+        return new BlockPos(x, level.getMinY(), z);
     }
 
     public static void tickPendingStructures(ServerLevel level) {
@@ -62,7 +62,7 @@ public final class MeteorImpactUtil {
                 return false;
             }
             StructurePlacer.place(level,
-                    ResourceLocation.fromNamespaceAndPath(Csrp.MODID, pending.name()),
+                    Identifier.fromNamespaceAndPath(Csrp.MODID, pending.name()),
                     pending.origin().offset(pending.offX(), pending.offY(), pending.offZ()),
                     RandomSource.create(pending.seed()));
             return true;

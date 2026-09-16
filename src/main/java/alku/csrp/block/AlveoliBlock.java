@@ -46,7 +46,7 @@ public final class AlveoliBlock extends Block {
 
     @Override
     protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             updateActiveState(level, pos, state);
         }
     }
@@ -54,7 +54,7 @@ public final class AlveoliBlock extends Block {
     @Override
     protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock,
             BlockPos neighborPos, boolean movedByPiston) {
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             updateActiveState(level, pos, state);
         }
     }
@@ -75,7 +75,7 @@ public final class AlveoliBlock extends Block {
         if (!stack.is(Items.GLASS_BOTTLE)) {
             return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             ItemStack filled = ItemUtils.createFilledResult(stack, player,
                     new ItemStack(ModItems.ALVEOLAR_FLUID.get()));
             player.setItemInHand(hand, filled);
@@ -83,7 +83,7 @@ public final class AlveoliBlock extends Block {
             level.setBlock(pos, state.setValue(DEPLETED, true).setValue(ACTIVE, false), Block.UPDATE_ALL);
             level.scheduleTick(pos, this, RECOVERY_TICKS);
         }
-        return ItemInteractionResult.sidedSuccess(level.isClientSide);
+        return ItemInteractionResult.sidedSuccess(level.isClientSide());
     }
 
     private static void updateActiveState(Level level, BlockPos pos, BlockState state) {

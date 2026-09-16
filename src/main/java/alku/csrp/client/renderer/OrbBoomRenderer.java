@@ -6,14 +6,14 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public final class OrbBoomRenderer extends EntityRenderer<OrbBoomEntity> {
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,
             "textures/entity/scary_orb.png");
 
     public OrbBoomRenderer(EntityRendererProvider.Context context) {
@@ -50,7 +50,7 @@ public final class OrbBoomRenderer extends EntityRenderer<OrbBoomEntity> {
     }
 
     @Override
-    public ResourceLocation getTextureLocation(OrbBoomEntity entity) {
+    public Identifier getTextureLocation(OrbBoomEntity entity) {
         return TEXTURE;
     }
 }

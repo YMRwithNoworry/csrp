@@ -16,7 +16,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
@@ -44,7 +44,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 @EventBusSubscriber(modid = Csrp.MODID)
 public final class OverlastEvents {
     public static final ResourceKey<Enchantment> PARASITE_KILLER = ResourceKey.create(
-            Registries.ENCHANTMENT, ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "parasite_killer"));
+            Registries.ENCHANTMENT, Identifier.fromNamespaceAndPath(Csrp.MODID, "parasite_killer"));
     private static final Map<String, EntityType<?>> CURED_FORMS = Map.ofEntries(
             Map.entry("sim_bigspider", EntityType.SPIDER),
             Map.entry("sim_bear", EntityType.POLAR_BEAR),
@@ -114,7 +114,7 @@ public final class OverlastEvents {
         }
         living.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 60, strength == 0 ? 2 : 3, false, false));
         living.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 60, 2, false, false));
-        living.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 60, strength == 0 ? 1 : 2, false, false));
+        living.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 60, strength == 0 ? 1 : 2, false, false));
         living.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 60, 0, false, false));
     }
 

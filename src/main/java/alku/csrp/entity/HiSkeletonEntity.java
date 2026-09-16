@@ -50,10 +50,10 @@ public final class HiSkeletonEntity extends HijackedParasiteEntity {
     @Override
     public void tick() {
         super.tick();
-        if (!level().isClientSide && rangedCooldown > 0) {
+        if (!level().isClientSide() && rangedCooldown > 0) {
             rangedCooldown--;
         }
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             entityData.set(PARASITE_STATUS, getTarget() != null && getTarget().isAlive() ? 2 : 0);
         }
     }

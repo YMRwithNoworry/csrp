@@ -12,7 +12,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
@@ -88,7 +88,7 @@ public class UntamedPriLasherEntity extends PrimitiveParasiteEntity {
 
     public static boolean checkSpawnRules(EntityType<? extends Monster> type,
                                           ServerLevelAccessor level,
-                                          MobSpawnType spawnType,
+                                          EntitySpawnReason spawnType,
                                           BlockPos pos,
                                           RandomSource random) {
         int phase = Config.evolutionPhase(level.getLevel());
@@ -115,7 +115,7 @@ public class UntamedPriLasherEntity extends PrimitiveParasiteEntity {
     @Override
     public void tick() {
         super.tick();
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             updateParasiteStatus();
             updateDashCooldown();
             handleDashSkill();
@@ -294,22 +294,22 @@ public class UntamedPriLasherEntity extends PrimitiveParasiteEntity {
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         if (tag.contains(PARASITE_STATUS_NBT_KEY)) {
-            setParasiteStatus(tag.getInt(PARASITE_STATUS_NBT_KEY));
+            setParasiteStatus(tag.getIntOr(PARASITE_STATUS_NBT_KEY, 0));
         }
         if (tag.contains(DASH_COOLDOWN_NBT_KEY)) {
-            dashCooldown = tag.getInt(DASH_COOLDOWN_NBT_KEY);
+            dashCooldown = tag.getIntOr(DASH_COOLDOWN_NBT_KEY, 0);
         }
         if (tag.contains(DASH_CHARGE_NBT_KEY)) {
-            dashChargeTicks = tag.getInt(DASH_CHARGE_NBT_KEY);
+            dashChargeTicks = tag.getIntOr(DASH_CHARGE_NBT_KEY, 0);
         }
         if (tag.contains(DASH_DURATION_NBT_KEY)) {
-            dashDurationTicks = tag.getInt(DASH_DURATION_NBT_KEY);
+            dashDurationTicks = tag.getIntOr(DASH_DURATION_NBT_KEY, 0);
         }
         if (tag.contains(DASH_TARGET_X_NBT_KEY)) {
             dashTarget = new Vec3(
-                    tag.getDouble(DASH_TARGET_X_NBT_KEY),
-                    tag.getDouble(DASH_TARGET_Y_NBT_KEY),
-                    tag.getDouble(DASH_TARGET_Z_NBT_KEY)
+                    tag.getDoubleOr(DASH_TARGET_X_NBT_KEY, 0.0D),
+                    tag.getDoubleOr(DASH_TARGET_Y_NBT_KEY, 0.0D),
+                    tag.getDoubleOr(DASH_TARGET_Z_NBT_KEY, 0.0D)
             );
         }
     }

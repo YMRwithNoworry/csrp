@@ -16,7 +16,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -150,7 +150,7 @@ public final class SimHumanEntity extends Monster implements CitadelAnimatedEnti
             stillAnimationTicks++;
         }
 
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
         if (isMelting()) {
@@ -208,7 +208,7 @@ public final class SimHumanEntity extends Monster implements CitadelAnimatedEnti
         LivingEntity livingTarget = target instanceof LivingEntity living ? living : null;
         float healthBefore = livingTarget == null ? 0.0F : ParasiteCombatEffects.healthWithAbsorption(livingTarget);
         boolean hit = super.doHurtTarget(target);
-        if (hit && !level().isClientSide) {
+        if (hit && !level().isClientSide()) {
             if (livingTarget != null) {
                 ParasiteCombatEffects.applyFearFromDamage(livingTarget, healthBefore, this);
                 InfectionMechanics.applyCoth(livingTarget, this);
@@ -273,11 +273,11 @@ public final class SimHumanEntity extends Monster implements CitadelAnimatedEnti
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        setAnimationState(tag.getInt("animation_state"));
-        parasiteKills = tag.getInt("parasite_kills");
-        skeletonKills = tag.getInt("skeleton_kills");
-        entityData.set(MELTING, tag.getBoolean("melting"));
-        entityData.set(MELT_TICKS, tag.getInt("melt_ticks"));
+        setAnimationState(tag.getIntOr("animation_state", 0));
+        parasiteKills = tag.getIntOr("parasite_kills", 0);
+        skeletonKills = tag.getIntOr("skeleton_kills", 0);
+        entityData.set(MELTING, tag.getBooleanOr("melting", false));
+        entityData.set(MELT_TICKS, tag.getIntOr("melt_ticks", 0));
     }
 
     @Override
@@ -401,7 +401,7 @@ public final class SimHumanEntity extends Monster implements CitadelAnimatedEnti
         }
         host.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
         host.finalizeSpawn(level, level.getCurrentDifficultyAt(blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                EntitySpawnReason.MOB_SUMMONED, null);
         host.setCustomName(getCustomName());
         host.setCustomNameVisible(isCustomNameVisible());
         if (isPersistenceRequired()) {

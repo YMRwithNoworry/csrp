@@ -7,23 +7,23 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 
 /** Citadel renderer for the original Tabula-exported Kirin model. */
 public final class KirinCitadelRenderer extends MobRenderer<KirinEntity, KirinCitadelModel> {
-    private static final ResourceLocation COSMIC_HACKING_TEXTURE = ResourceLocation.fromNamespaceAndPath(
+    private static final Identifier COSMIC_HACKING_TEXTURE = Identifier.fromNamespaceAndPath(
             Csrp.MODID, "textures/entity/layer/cosmichasking.png");
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(
+    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(
             Csrp.MODID, "textures/entity/kirin.png");
-    private static final ResourceLocation SHADOW_TEXTURE = ResourceLocation.fromNamespaceAndPath(
+    private static final Identifier SHADOW_TEXTURE = Identifier.fromNamespaceAndPath(
             Csrp.MODID, "textures/entity/kirin_shadow.png");
 
     public KirinCitadelRenderer(EntityRendererProvider.Context context) {
@@ -34,7 +34,7 @@ public final class KirinCitadelRenderer extends MobRenderer<KirinEntity, KirinCi
     }
 
     @Override
-    public ResourceLocation getTextureLocation(KirinEntity entity) {
+    public Identifier getTextureLocation(KirinEntity entity) {
         return entity.isShadowClone() ? SHADOW_TEXTURE : TEXTURE;
     }
 

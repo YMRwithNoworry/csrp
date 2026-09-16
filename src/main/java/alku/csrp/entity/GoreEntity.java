@@ -13,7 +13,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
@@ -74,14 +74,14 @@ public final class GoreEntity extends Entity {
         }
         setDeltaMovement(movement);
 
-        if (level().isClientSide && tickCount % 5 == 0 && !onGround()) {
+        if (level().isClientSide() && tickCount % 5 == 0 && !onGround()) {
             spawnTrailParticles();
         }
         if (tickCount >= LIFETIME_TICKS) {
             discard();
             return;
         }
-        if (!level().isClientSide && groundTicks >= 1) {
+        if (!level().isClientSide() && groundTicks >= 1) {
             applyLandingPayload((ServerLevel) level());
             discard();
         }
@@ -148,12 +148,12 @@ public final class GoreEntity extends Entity {
         for (int index = 0; index < legacyBlockNames.size() && slot < cyst.getContainerSize(); index++) {
             String encoded = legacyBlockNames.get(index);
             String name = encoded.contains(";") ? encoded.substring(0, encoded.indexOf(';')) : encoded;
-            ResourceLocation id = ResourceLocation.tryParse(name);
+            Identifier id = Identifier.tryParse(name);
             if (id == null) {
                 continue;
             }
             if (id.getNamespace().equals("srparasites")) {
-                id = ResourceLocation.fromNamespaceAndPath("csrp", id.getPath());
+                id = Identifier.fromNamespaceAndPath("csrp", id.getPath());
             }
             Block block = BuiltInRegistries.BLOCK.getOptional(id).orElse(Blocks.AIR);
             if (block == Blocks.AIR || block.asItem() == net.minecraft.world.item.Items.AIR) {
@@ -283,11 +283,11 @@ public final class GoreEntity extends Entity {
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
-        setSkin(tag.getInt("parasitetype"));
-        goreType = tag.getByte("bloodtype");
-        entityName = tag.contains("entityName") ? tag.getString("entityName") : null;
+        setSkin(tag.getIntOr("parasitetype", 0));
+        goreType = tag.getByteOr("bloodtype", (byte)0);
+        entityName = tag.contains("entityName") ? tag.getStringOr("entityName", "") : null;
         storedItems.clear();
-        for (Tag item : tag.getList("Items", Tag.TAG_COMPOUND)) {
+        for (Tag item : tag.getListOrEmpty("Items")) {
             if (item instanceof CompoundTag compound) {
                 ItemStack stack = ItemStack.parseOptional(registryAccess(), compound);
                 if (!stack.isEmpty()) {
@@ -298,12 +298,12 @@ public final class GoreEntity extends Entity {
 
         legacyBlockNames.clear();
         legacyBlockCounts.clear();
-        ListTag names = tag.getList("srpinvblocksname", Tag.TAG_COMPOUND);
-        ListTag counts = tag.getList("srpinvblocksnumber", Tag.TAG_COMPOUND);
+        ListTag names = tag.getListOrEmpty("srpinvblocksname");
+        ListTag counts = tag.getListOrEmpty("srpinvblocksnumber");
         if (names.size() == counts.size()) {
             for (int index = 0; index < names.size(); index++) {
-                legacyBlockNames.add(names.getCompound(index).getString("block" + index));
-                legacyBlockCounts.add(counts.getCompound(index).getInt("block" + index));
+                legacyBlockNames.add(names.getCompoundOrEmpty(index).getStringOr("block" + index, ""));
+                legacyBlockCounts.add(counts.getCompoundOrEmpty(index).getIntOr("block" + index, 0));
             }
         }
     }

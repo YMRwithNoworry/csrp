@@ -21,7 +21,7 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -150,7 +150,7 @@ public final class AssimilatedVariantEntity extends Monster implements CitadelAn
         } else {
             stillAnimationTicks++;
         }
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
         if (isMelting()) {
@@ -229,11 +229,11 @@ public final class AssimilatedVariantEntity extends Monster implements CitadelAn
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        parasiteKills = tag.getInt("parasite_kills");
-        rangedCooldown = tag.getInt("ranged_cooldown");
-        skeletonKills = tag.getInt("skeleton_kills");
-        entityData.set(MELTING, tag.getBoolean("melting"));
-        entityData.set(MELT_TICKS, tag.getInt("melt_ticks"));
+        parasiteKills = tag.getIntOr("parasite_kills", 0);
+        rangedCooldown = tag.getIntOr("ranged_cooldown", 0);
+        skeletonKills = tag.getIntOr("skeleton_kills", 0);
+        entityData.set(MELTING, tag.getBooleanOr("melting", false));
+        entityData.set(MELT_TICKS, tag.getIntOr("melt_ticks", 0));
     }
 
     @Override
@@ -289,7 +289,7 @@ public final class AssimilatedVariantEntity extends Monster implements CitadelAn
     @Override
     public void die(DamageSource source) {
         super.die(source);
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
         if (kind != Kind.BIGSPIDER && random.nextFloat() < HEAD_SPAWN_CHANCE) {
@@ -390,7 +390,7 @@ public final class AssimilatedVariantEntity extends Monster implements CitadelAn
                 getBoundingBox().expandTowards(direction.normalize().scale(12.0D)).inflate(1.0D),
                 this::isValidParasiteTarget)) {
             if (hasLineOfSight(victim)) {
-                victim.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 120, 1), this);
+                victim.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 120, 1), this);
                 victim.addEffect(new MobEffectInstance(MobEffects.POISON, 80, 0), this);
                 InfectionMechanics.applyCoth(victim, this);
                 break;
@@ -413,7 +413,7 @@ public final class AssimilatedVariantEntity extends Monster implements CitadelAn
         }
         head.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
         head.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                EntitySpawnReason.MOB_SUMMONED, null);
         head.setCustomName(getCustomName());
         head.setCustomNameVisible(isCustomNameVisible());
         if (isPersistenceRequired()) {
@@ -450,7 +450,7 @@ public final class AssimilatedVariantEntity extends Monster implements CitadelAn
         }
         host.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
         host.finalizeSpawn(level, level.getCurrentDifficultyAt(blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                EntitySpawnReason.MOB_SUMMONED, null);
         host.setCustomName(getCustomName());
         host.setCustomNameVisible(isCustomNameVisible());
         if (isPersistenceRequired()) {

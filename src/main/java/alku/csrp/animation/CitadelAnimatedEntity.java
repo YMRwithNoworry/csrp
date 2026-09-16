@@ -23,7 +23,7 @@ public interface CitadelAnimatedEntity {
             return;
         }
         getCitadelAnimationCache().trigger(controller, animation, entity.tickCount);
-        if (!entity.level().isClientSide) {
+        if (!entity.level().isClientSide()) {
             PacketDistributor.sendToPlayersTrackingEntityAndSelf(entity,
                     new CitadelAnimationTriggerPayload(entity.getId(), controller, animation));
         }

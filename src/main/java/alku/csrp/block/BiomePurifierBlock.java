@@ -30,7 +30,7 @@ public final class BiomePurifierBlock extends Block implements EntityBlock {
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state,
             BlockEntityType<T> type) {
-        return level.isClientSide ? null
+        return level.isClientSide() ? null
                 : (level1, pos, state1, blockEntity) ->
                         BiomePurifierBlockEntity.serverTick(level1, pos, state1, blockEntity);
     }
@@ -38,7 +38,7 @@ public final class BiomePurifierBlock extends Block implements EntityBlock {
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos,
             Player player, BlockHitResult hitResult) {
-        if (level.isClientSide) {
+        if (level.isClientSide()) {
             return InteractionResult.SUCCESS;
         }
         if (level.getBlockEntity(pos) instanceof BiomePurifierBlockEntity purifier) {

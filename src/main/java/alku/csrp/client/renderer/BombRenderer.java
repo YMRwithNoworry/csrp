@@ -12,11 +12,11 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 
 /** Renderer for the original Omboo, Host and Jinjo bomb models. */
@@ -24,9 +24,9 @@ public final class BombRenderer extends EntityRenderer<BombEntity> {
     public static final ModelLayerLocation OMBOO_LAYER = layer("bomb_omboo");
     public static final ModelLayerLocation HOST_LAYER = layer("bomb_host");
     public static final ModelLayerLocation JINJO_LAYER = layer("bomb_jinjo");
-    private static final ResourceLocation OMBOO_TEXTURE = texture("bombo.png");
-    private static final ResourceLocation HOST_TEXTURE = texture("bombh.png");
-    private static final ResourceLocation JINJO_TEXTURE = texture("bombj.png");
+    private static final Identifier OMBOO_TEXTURE = texture("bombo.png");
+    private static final Identifier HOST_TEXTURE = texture("bombh.png");
+    private static final Identifier JINJO_TEXTURE = texture("bombj.png");
 
     private final ModelPart omboo;
     private final ModelPart host;
@@ -152,7 +152,7 @@ public final class BombRenderer extends EntityRenderer<BombEntity> {
     }
 
     @Override
-    public ResourceLocation getTextureLocation(BombEntity entity) {
+    public Identifier getTextureLocation(BombEntity entity) {
         return switch (entity.getSkin()) {
             case 1 -> HOST_TEXTURE;
             case 2, 3 -> JINJO_TEXTURE;
@@ -161,10 +161,10 @@ public final class BombRenderer extends EntityRenderer<BombEntity> {
     }
 
     private static ModelLayerLocation layer(String path) {
-        return new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, path), "main");
+        return new ModelLayerLocation(Identifier.fromNamespaceAndPath(Csrp.MODID, path), "main");
     }
 
-    private static ResourceLocation texture(String file) {
-        return ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/monster/" + file);
+    private static Identifier texture(String file) {
+        return Identifier.fromNamespaceAndPath(Csrp.MODID, "textures/entity/monster/" + file);
     }
 }

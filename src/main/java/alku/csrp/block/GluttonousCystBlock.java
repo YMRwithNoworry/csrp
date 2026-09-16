@@ -35,7 +35,7 @@ public final class GluttonousCystBlock extends Block implements EntityBlock {
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state,
             BlockEntityType<T> type) {
-        return level.isClientSide ? null
+        return level.isClientSide() ? null
                 : (level1, pos, state1, blockEntity) ->
                         ParasiticCystBlockEntity.serverTick(level1, pos, state1, blockEntity);
     }
@@ -46,10 +46,10 @@ public final class GluttonousCystBlock extends Block implements EntityBlock {
         if (!(level.getBlockEntity(pos) instanceof ParasiticCystBlockEntity cyst)) {
             return InteractionResult.PASS;
         }
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             player.openMenu(cyst);
         }
-        return InteractionResult.sidedSuccess(level.isClientSide);
+        return InteractionResult.sidedSuccess(level.isClientSide());
     }
 
     @Override

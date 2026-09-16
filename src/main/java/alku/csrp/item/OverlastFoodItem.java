@@ -20,12 +20,12 @@ public final class OverlastFoodItem extends Item {
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity user) {
         ItemStack result = super.finishUsingItem(stack, level, user);
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             switch (kind) {
                 case CHOCOLATE_SMOOTHIE -> user.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 2_000, 1));
                 case POLLUTED_HERBAL_BOWL -> {
                     user.removeEffect(ModMobEffects.COTH);
-                    user.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 100));
+                    user.addEffect(new MobEffectInstance(MobEffects.NAUSEA, 100));
                     user.addEffect(new MobEffectInstance(MobEffects.POISON, 100));
                 }
                 case HERBAL_BOWL -> {

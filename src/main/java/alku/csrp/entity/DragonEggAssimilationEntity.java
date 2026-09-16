@@ -10,14 +10,14 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
@@ -25,8 +25,8 @@ import net.minecraft.world.phys.AABB;
 public final class DragonEggAssimilationEntity extends Entity {
     public static final int ANIMATION_DURATION = 100;
     private static final String ADVANCEMENT_CRITERION = "dragon_egg_assimilated";
-    private static final ResourceLocation ADVANCEMENT_ID =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "again");
+    private static final Identifier ADVANCEMENT_ID =
+            Identifier.fromNamespaceAndPath(Csrp.MODID, "again");
     private static final EntityDataAccessor<Integer> ANIMATION_TICKS = SynchedEntityData.defineId(
             DragonEggAssimilationEntity.class, EntityDataSerializers.INT);
 
@@ -68,7 +68,7 @@ public final class DragonEggAssimilationEntity extends Entity {
         super.tick();
         int ticks = getAnimationTicks() + 1;
         entityData.set(ANIMATION_TICKS, ticks);
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             spawnAssimilationParticles(ticks);
             return;
         }
@@ -99,7 +99,7 @@ public final class DragonEggAssimilationEntity extends Entity {
             dragon.setPos(getX(), getY() + 0.5D, getZ());
             dragon.setYRot(getYRot());
             dragon.finalizeSpawn(level, level.getCurrentDifficultyAt(blockPosition()),
-                    MobSpawnType.TRIGGERED, null);
+                    EntitySpawnReason.TRIGGERED, null);
             level.addFreshEntity(dragon);
         }
         level.sendParticles(ParticleTypes.REVERSE_PORTAL, getX(), getY() + 0.8D, getZ(),
@@ -126,7 +126,7 @@ public final class DragonEggAssimilationEntity extends Entity {
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
-        entityData.set(ANIMATION_TICKS, tag.getInt("animation_ticks"));
+        entityData.set(ANIMATION_TICKS, tag.getIntOr("animation_ticks", 0));
     }
 
     @Override

@@ -50,7 +50,7 @@ public final class MarauderizedHumanEntity extends MarauderizedParasiteEntity {
     @Override
     public void tick() {
         super.tick();
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
         if (mountCooldown > 0) {
@@ -84,7 +84,7 @@ public final class MarauderizedHumanEntity extends MarauderizedParasiteEntity {
 
         victim.push(pushX * 0.13D, 0.0D, pushZ * 0.13D);
         victim.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, false, false), this);
-        victim.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 20, 0, false, false), this);
+        victim.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE, 20, 0, false, false), this);
         victim.addEffect(new MobEffectInstance(MobEffects.HUNGER, 20, 0, false, false), this);
         if (tickCount % 20 == 0) {
             doHurtTarget(victim);

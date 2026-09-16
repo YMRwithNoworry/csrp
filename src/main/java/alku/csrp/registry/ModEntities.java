@@ -87,7 +87,7 @@ import alku.csrp.entity.AncientPodEntity;
 import alku.csrp.entity.AntiInfestedBlockEntity;
 import alku.csrp.entity.DreadnautTentacleEntity;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.Level;
@@ -103,7 +103,7 @@ public final class ModEntities {
                     .sized(0.98F, 0.98F)
                     .clientTrackingRange(4)
                     .updateInterval(3)
-                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "biomass").toString()));
+                    .build(Identifier.fromNamespaceAndPath(Csrp.MODID, "biomass").toString()));
 
     public static final DeferredHolder<EntityType<?>, EntityType<ShockwaveEntity>> SHOCKWAVE =
             ENTITIES.register("waveshock", () -> EntityType.Builder
@@ -112,18 +112,18 @@ public final class ModEntities {
                     .clientTrackingRange(4)
                     .updateInterval(3)
                     .setShouldReceiveVelocityUpdates(true)
-                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "waveshock").toString()));
+                    .build(Identifier.fromNamespaceAndPath(Csrp.MODID, "waveshock").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<ShockwaveEntity>> SHOCKWAVE_LEGACY =
             ENTITIES.register("shockwave", () -> EntityType.Builder
                     .<ShockwaveEntity>of(ShockwaveEntity::new, MobCategory.MISC)
                     .sized(3.1F, 0.2F).clientTrackingRange(4).updateInterval(3)
                     .setShouldReceiveVelocityUpdates(true)
-                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "shockwave").toString()));
+                    .build(Identifier.fromNamespaceAndPath(Csrp.MODID, "shockwave").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<KirinSlashEntity>> KIRIN_SLASH =
             ENTITIES.register("kirin_slash", () -> EntityType.Builder
                     .<KirinSlashEntity>of(KirinSlashEntity::new, MobCategory.MISC)
                     .sized(0.6F, 0.6F).clientTrackingRange(6).updateInterval(2)
-                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "kirin_slash").toString()));
+                    .build(Identifier.fromNamespaceAndPath(Csrp.MODID, "kirin_slash").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<WardenShockwaveEntity>> WARDEN_SHOCKWAVE =
             ENTITIES.register("warden_waveshock", () -> EntityType.Builder
                     .<WardenShockwaveEntity>of(WardenShockwaveEntity::new, MobCategory.MISC)
@@ -131,19 +131,19 @@ public final class ModEntities {
                     .clientTrackingRange(4)
                     .updateInterval(3)
                     .setShouldReceiveVelocityUpdates(true)
-                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "warden_waveshock").toString()));
+                    .build(Identifier.fromNamespaceAndPath(Csrp.MODID, "warden_waveshock").toString()));
 
     public static final DeferredHolder<EntityType<?>, EntityType<BuglinEntity>> BUGLIN =
             ENTITIES.register("buglin", () -> EntityType.Builder.of(BuglinEntity::new, MobCategory.MONSTER)
                     .sized(0.5F, 0.3F)
                     .clientTrackingRange(8)
-                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "buglin").toString()));
+                    .build(Identifier.fromNamespaceAndPath(Csrp.MODID, "buglin").toString()));
 
     public static final DeferredHolder<EntityType<?>, EntityType<RupterEntity>> RUPTER =
             ENTITIES.register("rupter", () -> EntityType.Builder.of(RupterEntity::new, MobCategory.MONSTER)
                     .sized(0.85F, 1.0F).eyeHeight(0.5F)
                     .clientTrackingRange(8)
-                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "rupter").toString()));
+                    .build(Identifier.fromNamespaceAndPath(Csrp.MODID, "rupter").toString()));
 
     public static final DeferredHolder<EntityType<?>, EntityType<LongarmsEntity>> PRI_LONGARMS =
             monster("pri_longarms", LongarmsEntity::new, 1.0F, 3.0F);
@@ -252,7 +252,7 @@ public final class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<KirinEntity>> KIRIN =
             ENTITIES.register("kirin", () -> EntityType.Builder.of(KirinEntity::new, MobCategory.MONSTER)
                     .sized(2.1271334F, 8.85F).eyeHeight(5.7F).clientTrackingRange(8)
-                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "kirin").toString()));
+                    .build(Identifier.fromNamespaceAndPath(Csrp.MODID, "kirin").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<SimAdventurerEntity>> SIM_ADVENTURER =
             monster("sim_adventurer", SimAdventurerEntity::new, 0.6F, 1.95F);
     public static final DeferredHolder<EntityType<?>, EntityType<SimAdventurerHeadEntity>> SIM_ADVENTURER_HEAD =
@@ -286,7 +286,7 @@ public final class ModEntities {
             ENTITIES.register("dragon_egg_assimilation", () -> EntityType.Builder
                     .<DragonEggAssimilationEntity>of(DragonEggAssimilationEntity::new, MobCategory.MISC)
                     .sized(1.0F, 1.0F).clientTrackingRange(10).updateInterval(1)
-                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "dragon_egg_assimilation").toString()));
+                    .build(Identifier.fromNamespaceAndPath(Csrp.MODID, "dragon_egg_assimilation").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<AssimilatedDragonHeadEntity>> SIM_DRAGON_HEAD =
             monster("sim_dragonehead", AssimilatedDragonHeadEntity::new, 1.75F, 1.95F);
     public static final DeferredHolder<EntityType<?>, EntityType<AssimilatedDragonHeadEntity>> SIM_DRAGON_HEAD_COMPAT =
@@ -489,44 +489,44 @@ public final class ModEntities {
             ENTITIES.register("pullingball", () -> EntityType.Builder
                     .<PullingBallEntity>of(PullingBallEntity::new, MobCategory.MISC)
                     .sized(0.3F, 0.3F).clientTrackingRange(4).updateInterval(3)
-                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "pullingball").toString()));
+                    .build(Identifier.fromNamespaceAndPath(Csrp.MODID, "pullingball").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<PullingBallEntity>> PULLING_BALL_LEGACY =
             ENTITIES.register("pulling_ball", () -> EntityType.Builder
                     .<PullingBallEntity>of(PullingBallEntity::new, MobCategory.MISC)
                     .sized(0.3F, 0.3F).clientTrackingRange(4).updateInterval(3)
-                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "pulling_ball").toString()));
+                    .build(Identifier.fromNamespaceAndPath(Csrp.MODID, "pulling_ball").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<CruxThrownBlockDamageEntity>> CRUX_BLOCK_DAMAGE =
             ENTITIES.register("crux_block_damage", () -> EntityType.Builder
                     .<CruxThrownBlockDamageEntity>of(CruxThrownBlockDamageEntity::new, MobCategory.MISC)
                     .sized(0.1F, 0.1F).clientTrackingRange(0).updateInterval(1)
-                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "crux_block_damage").toString()));
+                    .build(Identifier.fromNamespaceAndPath(Csrp.MODID, "crux_block_damage").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<HaunterDamageEntity>> HAUNTER_DAMAGE =
             ENTITIES.register("haunter_damage", () -> EntityType.Builder
                     .<HaunterDamageEntity>of(HaunterDamageEntity::new, MobCategory.MISC)
                     .sized(1.2F, 0.9F).clientTrackingRange(0).updateInterval(1)
-                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "haunter_damage").toString()));
+                    .build(Identifier.fromNamespaceAndPath(Csrp.MODID, "haunter_damage").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<ScaryOrbEntity>> SCARY_ORB =
             ENTITIES.register("orbscary", () -> EntityType.Builder.<ScaryOrbEntity>of(ScaryOrbEntity::new, MobCategory.MISC)
                     .sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(3)
-                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "orbscary").toString()));
+                    .build(Identifier.fromNamespaceAndPath(Csrp.MODID, "orbscary").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<ScaryOrbEntity>> SCARY_ORB_LEGACY =
             ENTITIES.register("scary_orb", () -> EntityType.Builder.<ScaryOrbEntity>of(ScaryOrbEntity::new, MobCategory.MISC)
                     .sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(3)
-                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "scary_orb").toString()));
+                    .build(Identifier.fromNamespaceAndPath(Csrp.MODID, "scary_orb").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<VoidOrbEntity>> VOID_ORB =
             ENTITIES.register("orbvoid", () -> EntityType.Builder.<VoidOrbEntity>of(VoidOrbEntity::new, MobCategory.MISC)
                     .sized(0.5F, 0.5F).clientTrackingRange(16).updateInterval(1)
-                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "orbvoid").toString()));
+                    .build(Identifier.fromNamespaceAndPath(Csrp.MODID, "orbvoid").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<ParasiticScentEntity>> SCENT =
             ENTITIES.register("scent", () -> EntityType.Builder
                     .<ParasiticScentEntity>of(ParasiticScentEntity::new, MobCategory.MISC)
                     .sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(3)
-                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "scent").toString()));
+                    .build(Identifier.fromNamespaceAndPath(Csrp.MODID, "scent").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<ParasiteProjectileEntity>> PARASITE_PROJECTILE =
             ENTITIES.register("parasite_projectile", () -> EntityType.Builder
                     .<ParasiteProjectileEntity>of(ParasiteProjectileEntity::new, MobCategory.MISC)
                     .sized(0.35F, 0.35F).clientTrackingRange(8).updateInterval(1)
-                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "parasite_projectile").toString()));
+                    .build(Identifier.fromNamespaceAndPath(Csrp.MODID, "parasite_projectile").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<ParasiteProjectileEntity>> WEB_BALL =
             projectile("webball", ParasiteProjectileEntity.Mode.WEB, 0.3F, 0.3F, 4, 3);
     public static final DeferredHolder<EntityType<?>, EntityType<ParasiteProjectileEntity>> SPINE_BALL =
@@ -547,7 +547,7 @@ public final class ModEntities {
                     .<MeteorEntity>of(MeteorEntity::new, MobCategory.MISC)
                     .sized(4.5F, 4.5F).clientTrackingRange(16).updateInterval(1)
                     .fireImmune()
-                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "meteor").toString()));
+                    .build(Identifier.fromNamespaceAndPath(Csrp.MODID, "meteor").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<ParasiteProjectileEntity>> SALIVA_BALL =
             projectile("salivaball", ParasiteProjectileEntity.Mode.ALAFHA_BALL, 0.3F, 0.3F, 4, 3);
     public static final DeferredHolder<EntityType<?>, EntityType<ParasiteProjectileEntity>> BALL_BALL =
@@ -564,71 +564,71 @@ public final class ModEntities {
             ENTITIES.register("antiinfestedblock", () -> EntityType.Builder
                     .<AntiInfestedBlockEntity>of(AntiInfestedBlockEntity::new, MobCategory.MISC)
                     .sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(3)
-                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "antiinfestedblock").toString()));
+                    .build(Identifier.fromNamespaceAndPath(Csrp.MODID, "antiinfestedblock").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<OrbBoomEntity>> ORB_BOOM =
             ENTITIES.register("orbboom", () -> EntityType.Builder
                     .<OrbBoomEntity>of(OrbBoomEntity::new, MobCategory.MISC)
                     .sized(0.5F, 0.5F).clientTrackingRange(16).updateInterval(1)
-                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "orbboom").toString()));
+                    .build(Identifier.fromNamespaceAndPath(Csrp.MODID, "orbboom").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<SourceEntity>> SOURCE =
             ENTITIES.register("source", () -> EntityType.Builder
                     .<SourceEntity>of(SourceEntity::new, MobCategory.MISC)
                     .sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(3)
-                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "source").toString()));
+                    .build(Identifier.fromNamespaceAndPath(Csrp.MODID, "source").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<RemainEntity>> REMAIN =
             ENTITIES.register("remain", () -> EntityType.Builder
                     .<RemainEntity>of(RemainEntity::new, MobCategory.MISC)
                     .sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(3)
-                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "remain").toString()));
+                    .build(Identifier.fromNamespaceAndPath(Csrp.MODID, "remain").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<BombEntity>> BOMB =
             ENTITIES.register("bomb", () -> EntityType.Builder
                     .<BombEntity>of(BombEntity::new, MobCategory.MISC)
                     .sized(0.68F, 0.68F).clientTrackingRange(16).updateInterval(1).fireImmune()
                     .setShouldReceiveVelocityUpdates(true)
-                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "bomb").toString()));
+                    .build(Identifier.fromNamespaceAndPath(Csrp.MODID, "bomb").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<ToxicCloudEntity>> CLOUD_TOXIC =
             ENTITIES.register("cloudtoxic", () -> EntityType.Builder
                     .<ToxicCloudEntity>of(ToxicCloudEntity::new, MobCategory.MISC)
                     .sized(6.0F, 0.5F).clientTrackingRange(4).updateInterval(3)
-                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "cloudtoxic").toString()));
+                    .build(Identifier.fromNamespaceAndPath(Csrp.MODID, "cloudtoxic").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<GoreEntity>> GORE =
             ENTITIES.register("gore", () -> EntityType.Builder
                     .<GoreEntity>of(GoreEntity::new, MobCategory.MISC)
                     .sized(0.4F, 0.4F).clientTrackingRange(4).updateInterval(3).fireImmune()
-                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "gore").toString()));
+                    .build(Identifier.fromNamespaceAndPath(Csrp.MODID, "gore").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<TendrilEntity>> TENDRIL =
             ENTITIES.register("tendril", () -> EntityType.Builder
                     .<TendrilEntity>of(TendrilEntity::new, MobCategory.MISC)
                     .sized(1.0F, 1.0F).clientTrackingRange(4).updateInterval(3)
-                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "tendril").toString()));
+                    .build(Identifier.fromNamespaceAndPath(Csrp.MODID, "tendril").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<WaveEntity>> WAVE =
             ENTITIES.register("wave", () -> EntityType.Builder
                     .<WaveEntity>of(WaveEntity::new, MobCategory.MISC)
                     .sized(1.5F, 0.2F).clientTrackingRange(4).updateInterval(3)
-                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "wave").toString()));
+                    .build(Identifier.fromNamespaceAndPath(Csrp.MODID, "wave").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<NadeEntity>> NADE =
             ENTITIES.register("nade", () -> EntityType.Builder
                     .<NadeEntity>of(NadeEntity::new, MobCategory.MISC)
                     .sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(3)
-                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "nade").toString()));
+                    .build(Identifier.fromNamespaceAndPath(Csrp.MODID, "nade").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<HaunterHomingProjectileEntity>> HAUNTER_HOMING =
             ENTITIES.register("homming", () -> EntityType.Builder
                     .<HaunterHomingProjectileEntity>of(HaunterHomingProjectileEntity::new, MobCategory.MISC)
                     .sized(0.3125F, 0.3125F).clientTrackingRange(4).updateInterval(3)
                     .setShouldReceiveVelocityUpdates(true)
-                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "homming").toString()));
+                    .build(Identifier.fromNamespaceAndPath(Csrp.MODID, "homming").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<HaunterHomingProjectileEntity>> HAUNTER_HOMING_LEGACY =
             ENTITIES.register("haunter_homing", () -> EntityType.Builder
                     .<HaunterHomingProjectileEntity>of(HaunterHomingProjectileEntity::new, MobCategory.MISC)
                     .sized(0.3125F, 0.3125F).clientTrackingRange(4).updateInterval(3)
                     .setShouldReceiveVelocityUpdates(true)
-                    .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "haunter_homing").toString()));
+                    .build(Identifier.fromNamespaceAndPath(Csrp.MODID, "haunter_homing").toString()));
 
     private static <T extends net.minecraft.world.entity.Mob> DeferredHolder<EntityType<?>, EntityType<T>> monster(
             String id, EntityType.EntityFactory<T> factory, float width, float height) {
         return ENTITIES.register(id, () -> EntityType.Builder.of(factory, MobCategory.MONSTER)
                 .sized(width, height).clientTrackingRange(8)
-                .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, id).toString()));
+                .build(Identifier.fromNamespaceAndPath(Csrp.MODID, id).toString()));
     }
 
     private static DeferredHolder<EntityType<?>, EntityType<ParasiteProjectileEntity>> projectile(
@@ -638,7 +638,7 @@ public final class ModEntities {
                 .<ParasiteProjectileEntity>of((type, level) -> new ParasiteProjectileEntity(type, level, mode),
                         MobCategory.MISC)
                 .sized(width, height).clientTrackingRange(trackingRange).updateInterval(updateInterval)
-                .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, id).toString()));
+                .build(Identifier.fromNamespaceAndPath(Csrp.MODID, id).toString()));
     }
 
     public static EntityType<ParasiteProjectileEntity> projectileType(ParasiteProjectileEntity.Mode mode) {
@@ -669,7 +669,7 @@ public final class ModEntities {
             String id, EntityType.EntityFactory<T> factory, float width, float height, float eyeHeight) {
         return ENTITIES.register(id, () -> EntityType.Builder.of(factory, MobCategory.MONSTER)
                 .sized(width, height).eyeHeight(eyeHeight).clientTrackingRange(8)
-                .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, id).toString()));
+                .build(Identifier.fromNamespaceAndPath(Csrp.MODID, id).toString()));
     }
 
     private ModEntities() {

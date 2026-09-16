@@ -15,7 +15,7 @@ import alku.csrp.world.SrpWorldData.VectorEntry;
 import java.util.ArrayList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -216,7 +216,7 @@ public final class SrpCoreSystems {
             return;
         }
         architect.finalizeSpawn(level, level.getCurrentDifficultyAt(spawn),
-                MobSpawnType.MOB_SUMMONED, null);
+                EntitySpawnReason.MOB_SUMMONED, null);
         architect.setPersistenceRequired();
         level.addFreshEntity(architect);
     }

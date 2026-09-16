@@ -17,7 +17,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
@@ -30,9 +30,9 @@ import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.entity.animal.fish.WaterAnimal;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -146,7 +146,7 @@ public final class AssimilatedHeadEntity extends Monster implements CitadelAnima
     @Override
     public void tick() {
         super.tick();
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             if (kind == Kind.ENDERMAN) {
                 spawnPortalParticles();
             }
@@ -204,7 +204,7 @@ public final class AssimilatedHeadEntity extends Monster implements CitadelAnima
             if (body != null) {
                 body.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
                 body.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                        MobSpawnType.MOB_SUMMONED, null);
+                        EntitySpawnReason.MOB_SUMMONED, null);
                 body.setCustomName(getCustomName());
                 body.setCustomNameVisible(isCustomNameVisible());
                 if (isPersistenceRequired()) {
@@ -228,7 +228,7 @@ public final class AssimilatedHeadEntity extends Monster implements CitadelAnima
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (kind == Kind.ENDERMAN && !level().isClientSide && source.getDirectEntity() != null
+        if (kind == Kind.ENDERMAN && !level().isClientSide() && source.getDirectEntity() != null
                 && source.getDirectEntity() != source.getEntity()) {
             for (int attempt = 0; attempt < 16; attempt++) {
                 if (teleportAwayFromTarget(getTarget())) {
@@ -238,7 +238,7 @@ public final class AssimilatedHeadEntity extends Monster implements CitadelAnima
             return false;
         }
         boolean hurt = super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
-        if (hurt && kind == Kind.ENDERMAN && !level().isClientSide && random.nextBoolean()) {
+        if (hurt && kind == Kind.ENDERMAN && !level().isClientSide() && random.nextBoolean()) {
             teleportAwayFromTarget(getTarget());
         }
         return hurt;
@@ -378,7 +378,7 @@ public final class AssimilatedHeadEntity extends Monster implements CitadelAnima
                 continue;
             }
             net.minecraft.core.BlockPos blockPos = net.minecraft.core.BlockPos.containing(destination);
-            while (blockPos.getY() > level().getMinBuildHeight() && !level().getBlockState(blockPos).blocksMotion()) {
+            while (blockPos.getY() > level().getMinY() && !level().getBlockState(blockPos).blocksMotion()) {
                 blockPos = blockPos.below();
             }
             if (!level().getBlockState(blockPos).blocksMotion()) {

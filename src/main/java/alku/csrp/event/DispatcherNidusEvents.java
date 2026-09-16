@@ -39,7 +39,7 @@ public final class DispatcherNidusEvents {
     @SubscribeEvent
     public static void onLivingDeath(LivingDeathEvent event) {
         LivingEntity victim = event.getEntity();
-        if (victim.level().isClientSide) {
+        if (victim.level().isClientSide()) {
             return;
         }
         DamageSource source = event.getSource();

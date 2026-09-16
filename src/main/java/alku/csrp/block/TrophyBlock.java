@@ -38,11 +38,11 @@ public final class TrophyBlock extends Block implements EntityBlock {
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos,
             Player player, BlockHitResult hitResult) {
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             level.playSound(null, pos, kind == Kind.VOID ? ModSounds.ORB_START.get() : ModSounds.ORB_END.get(),
                     SoundSource.BLOCKS, 1.0F, 1.0F);
         }
-        return InteractionResult.sidedSuccess(level.isClientSide);
+        return InteractionResult.sidedSuccess(level.isClientSide());
     }
 
     public enum Kind {

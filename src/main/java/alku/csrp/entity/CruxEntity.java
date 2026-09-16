@@ -16,7 +16,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.item.FallingBlockEntity;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -98,7 +98,7 @@ public final class CruxEntity extends CrudeParasiteEntity {
         } else {
             stillAnimationTicks++;
         }
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             if (attackCooldown > 0) {
                 attackCooldown--;
             }
@@ -136,14 +136,14 @@ public final class CruxEntity extends CrudeParasiteEntity {
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         if (tag.contains(DAMAGE_STACKS_TAG, Tag.TAG_INT)) {
-            damageStacks = Math.min(DAMAGE_STACK_CAP, Math.max(0, tag.getInt(DAMAGE_STACKS_TAG)));
+            damageStacks = Math.min(DAMAGE_STACK_CAP, Math.max(0, tag.getIntOr(DAMAGE_STACKS_TAG, 0)));
             AttributeInstance attackDamage = getAttribute(Attributes.ATTACK_DAMAGE);
             if (attackDamage != null) {
                 attackDamage.setBaseValue(BASE_ATTACK_DAMAGE * (1.0 + DAMAGE_GAIN_PER_KILL * damageStacks));
             }
         }
         if (tag.contains("crux_throw_cooldown", Tag.TAG_INT)) {
-            throwCooldown = Math.max(0, tag.getInt("crux_throw_cooldown"));
+            throwCooldown = Math.max(0, tag.getIntOr("crux_throw_cooldown", 0));
         }
     }
 
@@ -214,7 +214,7 @@ public final class CruxEntity extends CrudeParasiteEntity {
     }
 
     private boolean throwBlockAt(LivingEntity target, BlockPos source) {
-        if (level().isClientSide || !level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+        if (level().isClientSide() || !level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)) {
             return false;
         }
 
@@ -346,7 +346,7 @@ public final class CruxEntity extends CrudeParasiteEntity {
             throwSource = null;
             LivingEntity target = getTarget();
             if (target == null || throwCooldown > 0
-                    || !level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+                    || !level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)) {
                 return false;
             }
             double verticalOffset = target.getY() - getY();

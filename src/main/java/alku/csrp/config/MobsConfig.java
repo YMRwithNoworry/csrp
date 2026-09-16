@@ -461,7 +461,7 @@ public final class MobsConfig {
                     "csrp:overseer", "csrp:vigilante", "csrp:marauder", "csrp:monarch"),
             "Entity ids available to the spawning Heavy Bomber bomb.",
             value -> value instanceof String id
-                    && net.minecraft.resources.ResourceLocation.tryParse(id) != null);
+                    && net.minecraft.resources.Identifier.tryParse(id) != null);
 
     public static final ModConfigSpec SPEC = BUILDER.build();
 
@@ -1032,7 +1032,7 @@ public final class MobsConfig {
             return false;
         }
         String[] parts = effect.split(";", -1);
-        if (parts.length != 6 || net.minecraft.resources.ResourceLocation.tryParse(parts[3].trim()) == null) {
+        if (parts.length != 6 || net.minecraft.resources.Identifier.tryParse(parts[3].trim()) == null) {
             return false;
         }
         try {
@@ -1050,7 +1050,7 @@ public final class MobsConfig {
             return false;
         }
         String[] parts = effect.split(";", -1);
-        if (parts.length != 3 || net.minecraft.resources.ResourceLocation.tryParse(parts[2].trim()) == null) {
+        if (parts.length != 3 || net.minecraft.resources.Identifier.tryParse(parts[2].trim()) == null) {
             return false;
         }
         try {
@@ -1067,7 +1067,7 @@ public final class MobsConfig {
             return false;
         }
         String[] parts = entry.split(";", -1);
-        if (parts.length < 1 || net.minecraft.resources.ResourceLocation.tryParse(parts[0].trim()) == null) {
+        if (parts.length < 1 || net.minecraft.resources.Identifier.tryParse(parts[0].trim()) == null) {
             return false;
         }
         if (parts.length == 1) {
@@ -1085,7 +1085,7 @@ public final class MobsConfig {
             return false;
         }
         String[] parts = entry.split(";", -1);
-        if (parts.length != 3 || net.minecraft.resources.ResourceLocation.tryParse(parts[0].trim()) == null) {
+        if (parts.length != 3 || net.minecraft.resources.Identifier.tryParse(parts[0].trim()) == null) {
             return false;
         }
         try {
@@ -1102,7 +1102,7 @@ public final class MobsConfig {
             return false;
         }
         String[] parts = entry.split(";", -1);
-        if (parts.length != 3 || net.minecraft.resources.ResourceLocation.tryParse(parts[0].trim()) == null) {
+        if (parts.length != 3 || net.minecraft.resources.Identifier.tryParse(parts[0].trim()) == null) {
             return false;
         }
         try {
@@ -1119,7 +1119,7 @@ public final class MobsConfig {
             return false;
         }
         String[] parts = entry.split(";", -1);
-        if (parts.length != 2 || net.minecraft.resources.ResourceLocation.tryParse(parts[0].trim()) == null) {
+        if (parts.length != 2 || net.minecraft.resources.Identifier.tryParse(parts[0].trim()) == null) {
             return false;
         }
         try {

@@ -7,7 +7,7 @@ import alku.csrp.entity.Parasite;
 import alku.csrp.entity.PreeminentParasiteEntity;
 import alku.csrp.entity.PrimitiveVariantEntity;
 import alku.csrp.entity.PureParasiteEntity;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -19,10 +19,10 @@ import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 
 @EventBusSubscriber(modid = Csrp.MODID)
 public final class OriginalConfigEvents {
-    private static final ResourceLocation HEALTH_MULTIPLIER = id("global_health_multiplier");
-    private static final ResourceLocation ARMOR_MULTIPLIER = id("global_armor_multiplier");
-    private static final ResourceLocation DAMAGE_MULTIPLIER = id("global_damage_multiplier");
-    private static final ResourceLocation KNOCKBACK_MULTIPLIER = id("global_knockback_resistance_multiplier");
+    private static final Identifier HEALTH_MULTIPLIER = id("global_health_multiplier");
+    private static final Identifier ARMOR_MULTIPLIER = id("global_armor_multiplier");
+    private static final Identifier DAMAGE_MULTIPLIER = id("global_damage_multiplier");
+    private static final Identifier KNOCKBACK_MULTIPLIER = id("global_knockback_resistance_multiplier");
 
     private OriginalConfigEvents() {
     }
@@ -67,7 +67,7 @@ public final class OriginalConfigEvents {
         }
     }
 
-    private static void applyMultiplier(AttributeInstance attribute, ResourceLocation id, double multiplier) {
+    private static void applyMultiplier(AttributeInstance attribute, Identifier id, double multiplier) {
         if (attribute == null) return;
         attribute.removeModifier(id);
         if (multiplier != 1.0D) {
@@ -76,7 +76,7 @@ public final class OriginalConfigEvents {
         }
     }
 
-    private static ResourceLocation id(String path) {
-        return ResourceLocation.fromNamespaceAndPath(Csrp.MODID, path);
+    private static Identifier id(String path) {
+        return Identifier.fromNamespaceAndPath(Csrp.MODID, path);
     }
 }

@@ -20,7 +20,7 @@ public final class AssimilationWandItem extends Item {
 
     @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (!target.level().isClientSide) {
+        if (!target.level().isClientSide()) {
             InfectionMechanics.forceAssimilate(target);
         }
         return super.hurtEnemy(stack, target, attacker);
@@ -32,7 +32,7 @@ public final class AssimilationWandItem extends Item {
         if (hand != InteractionHand.MAIN_HAND || !InfectionMechanics.isAssimilatedBody(target)) {
             return InteractionResult.PASS;
         }
-        if (target.level().isClientSide) {
+        if (target.level().isClientSide()) {
             return InteractionResult.SUCCESS;
         }
         return InfectionMechanics.disguiseAssimilated(target)

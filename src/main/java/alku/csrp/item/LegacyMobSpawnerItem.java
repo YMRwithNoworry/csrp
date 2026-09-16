@@ -10,7 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -55,7 +55,7 @@ public final class LegacyMobSpawnerItem extends Item {
         Level level = context.getLevel();
         ItemStack stack = context.getItemInHand();
         Player player = context.getPlayer();
-        if (level.isClientSide) {
+        if (level.isClientSide()) {
             return InteractionResult.SUCCESS;
         }
         BlockPos spawnPos = context.getClickedPos().relative(context.getClickedFace());
@@ -78,7 +78,7 @@ public final class LegacyMobSpawnerItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        if (level.isClientSide) {
+        if (level.isClientSide()) {
             return InteractionResultHolder.pass(stack);
         }
         HitResult hit = getPlayerPOVHitResult(level, player, ClipContext.Fluid.SOURCE_ONLY);
@@ -108,7 +108,7 @@ public final class LegacyMobSpawnerItem extends Item {
             return null;
         }
         String currentId = currentEntityId(legacyName);
-        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(Csrp.MODID, currentId);
+        Identifier id = Identifier.fromNamespaceAndPath(Csrp.MODID, currentId);
         Optional<EntityType<?>> type = BuiltInRegistries.ENTITY_TYPE.getOptional(id);
         Entity entity = type.orElse(ModEntities.CRUX.get()).create(level);
         if (entity == null) {
@@ -128,7 +128,7 @@ public final class LegacyMobSpawnerItem extends Item {
         if (!itemTag.contains("EntityTag", CompoundTag.TAG_COMPOUND)) {
             return;
         }
-        CompoundTag entityTag = itemTag.getCompound("EntityTag");
+        CompoundTag entityTag = itemTag.getCompoundOrEmpty("EntityTag");
         CompoundTag saved = entity.saveWithoutId(new CompoundTag());
         saved.merge(entityTag);
         java.util.UUID uuid = entity.getUUID();

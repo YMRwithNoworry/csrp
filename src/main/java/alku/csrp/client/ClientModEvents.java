@@ -60,7 +60,7 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -415,16 +415,16 @@ public final class ClientModEvents {
             registerBowProperties(ModItems.WEAPON_BOW.get());
             registerBowProperties(ModItems.WEAPON_BOW_SENTIENT.get());
             ItemProperties.register(ModItems.PEARL.get(),
-                    ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "pearl_state"),
+                    Identifier.fromNamespaceAndPath(Csrp.MODID, "pearl_state"),
                     PearlClientEvents::pearlState);
-            ItemProperties.register(ModItems.EVCLOCK.get(), ResourceLocation.withDefaultNamespace("phase"),
+            ItemProperties.register(ModItems.EVCLOCK.get(), Identifier.withDefaultNamespace("phase"),
                     (stack, level, entity, seed) -> stack
                             .getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
-                            .copyTag().getInt(alku.csrp.item.EvolutionClockItem.PHASE_TAG));
-            ItemProperties.register(ModItems.LEVELCLOCK.get(), ResourceLocation.withDefaultNamespace("level"),
+                            .copyTag().getIntOr(alku.csrp.item.EvolutionClockItem.PHASE_TAG, 0));
+            ItemProperties.register(ModItems.LEVELCLOCK.get(), Identifier.withDefaultNamespace("level"),
                     (stack, level, entity, seed) -> stack
                             .getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
-                            .copyTag().getInt(alku.csrp.item.LevelClockItem.DEVELOPMENT_TAG));
+                            .copyTag().getIntOr(alku.csrp.item.LevelClockItem.DEVELOPMENT_TAG, 0));
             registerCompassProperty(ModItems.NODECOMPASS.get());
             registerCompassProperty(ModItems.COLONYCOMPASS.get());
             registerCompassProperty(ModItems.ORIGINCOMPASS.get());
@@ -432,7 +432,7 @@ public final class ClientModEvents {
     }
 
     private static void registerCompassProperty(net.minecraft.world.item.Item compass) {
-        ItemProperties.register(compass, ResourceLocation.withDefaultNamespace("angle"),
+        ItemProperties.register(compass, Identifier.withDefaultNamespace("angle"),
                 ClientModEvents::compassAngle);
     }
 
@@ -441,12 +441,12 @@ public final class ClientModEvents {
             return 0.0F;
         }
         CompoundTag tag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
-        if (!tag.getBoolean(alku.csrp.item.SrpCompassItem.HAS_TARGET_TAG)
+        if (!tag.getBooleanOr(alku.csrp.item.SrpCompassItem.HAS_TARGET_TAG, false)
                 || !level.dimension().location().toString()
-                        .equals(tag.getString(alku.csrp.item.SrpCompassItem.TARGET_DIMENSION_TAG))) {
+                        .equals(tag.getStringOr(alku.csrp.item.SrpCompassItem.TARGET_DIMENSION_TAG, ""))) {
             return Mth.positiveModulo((level.getGameTime() + seed * 13L) / 100.0F, 1.0F);
         }
-        BlockPos target = BlockPos.of(tag.getLong(alku.csrp.item.SrpCompassItem.TARGET_POS_TAG));
+        BlockPos target = BlockPos.of(tag.getLongOr(alku.csrp.item.SrpCompassItem.TARGET_POS_TAG, 0L));
         double targetAngle = Math.atan2(target.getZ() + 0.5D - entity.getZ(),
                 target.getX() + 0.5D - entity.getX()) / (Math.PI * 2.0D);
         double entityAngle = Mth.positiveModulo(entity.getYRot() / 360.0F, 1.0F);
@@ -454,10 +454,10 @@ public final class ClientModEvents {
     }
 
     private static void registerBowProperties(net.minecraft.world.item.Item bow) {
-        ItemProperties.register(bow, ResourceLocation.withDefaultNamespace("pulling"),
+        ItemProperties.register(bow, Identifier.withDefaultNamespace("pulling"),
                 (stack, level, entity, seed) -> entity != null && entity.isUsingItem()
                         && entity.getUseItem() == stack ? 1.0F : 0.0F);
-        ItemProperties.register(bow, ResourceLocation.withDefaultNamespace("pull"),
+        ItemProperties.register(bow, Identifier.withDefaultNamespace("pull"),
                 (stack, level, entity, seed) -> entity == null || entity.getUseItem() != stack ? 0.0F
                         : (float) (stack.getUseDuration(entity) - entity.getUseItemRemainingTicks()) / 20.0F);
     }

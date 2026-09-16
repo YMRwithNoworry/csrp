@@ -28,7 +28,7 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.entity.animal.fish.WaterAnimal;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -125,7 +125,7 @@ public final class LiceEntity extends PrimitiveParasiteEntity {
     public void tick() {
         super.tick();
         setNoGravity(true);
-        if (level().isClientSide || consumed) {
+        if (level().isClientSide() || consumed) {
             return;
         }
         if (++lifespan > MAX_LIFESPAN_TICKS) {
@@ -147,7 +147,7 @@ public final class LiceEntity extends PrimitiveParasiteEntity {
     }
 
     private boolean performContactAttack(Entity entity) {
-        if (level().isClientSide || consumed || entity != getTarget()
+        if (level().isClientSide() || consumed || entity != getTarget()
                 || !(entity instanceof LivingEntity target)
                 || target instanceof Parasite || !target.isAlive()) {
             return false;
@@ -173,7 +173,7 @@ public final class LiceEntity extends PrimitiveParasiteEntity {
 
     @Override
     protected void tickDeath() {
-        if (!level().isClientSide && !consumed && level() instanceof ServerLevel serverLevel) {
+        if (!level().isClientSide() && !consumed && level() instanceof ServerLevel serverLevel) {
             consumed = true;
             VerminParticles.sendType10Burst(serverLevel, this);
             discard();

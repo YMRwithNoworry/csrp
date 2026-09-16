@@ -14,7 +14,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
@@ -23,7 +23,7 @@ import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.entity.animal.fish.WaterAnimal;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
@@ -70,7 +70,7 @@ public class BuglinEntity extends Monster implements CitadelAnimatedEntity, Para
     }
 
     public static boolean checkBuglinSpawnRules(EntityType<? extends Monster> type, ServerLevelAccessor level,
-                                                 MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+                                                 EntitySpawnReason spawnType, BlockPos pos, RandomSource random) {
         int phase = Config.evolutionPhase(level.getLevel());
         return phase >= 0 && phase <= 2
                 && Monster.checkAnyLightMonsterSpawnRules(type, level, spawnType, pos, random);
@@ -109,7 +109,7 @@ public class BuglinEntity extends Monster implements CitadelAnimatedEntity, Para
     public void tick() {
         super.tick();
 
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             if (!emergenceStarted && emergenceTicks > 0) {
                 emergenceStarted = true;
                 triggerAnim("emergence_controller", "get_floor_timer");
@@ -142,7 +142,7 @@ public class BuglinEntity extends Monster implements CitadelAnimatedEntity, Para
             }
             rupter.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
             rupter.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                    MobSpawnType.MOB_SUMMONED, null);
+                    EntitySpawnReason.MOB_SUMMONED, null);
             rupter.setCustomName(getCustomName());
             rupter.setCustomNameVisible(isCustomNameVisible());
             if (isPersistenceRequired()) {
@@ -174,7 +174,7 @@ public class BuglinEntity extends Monster implements CitadelAnimatedEntity, Para
 
     @Override
     public void push(Entity entity) {
-        if (!level().isClientSide && tickCount % 20 == 0 && entity instanceof LivingEntity living
+        if (!level().isClientSide() && tickCount % 20 == 0 && entity instanceof LivingEntity living
                 && !(living instanceof Parasite)) {
             InfectionMechanics.applyCothEffect(living, null, 100, 0, false, true);
         }
@@ -192,10 +192,10 @@ public class BuglinEntity extends Monster implements CitadelAnimatedEntity, Para
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         if (tag.contains(GROWTH_NBT_KEY)) {
-            growthSeconds = tag.getInt(GROWTH_NBT_KEY);
+            growthSeconds = tag.getIntOr(GROWTH_NBT_KEY, 0);
         }
         if (tag.contains(GROWTH_TARGET_NBT_KEY)) {
-            growthTargetSeconds = tag.getInt(GROWTH_TARGET_NBT_KEY);
+            growthTargetSeconds = tag.getIntOr(GROWTH_TARGET_NBT_KEY, 0);
         }
     }
 

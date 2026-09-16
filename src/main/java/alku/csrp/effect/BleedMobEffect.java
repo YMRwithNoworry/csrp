@@ -11,7 +11,7 @@ public final class BleedMobEffect extends MobEffect {
 
     @Override
     public boolean applyEffectTick(LivingEntity entity, int amplifier) {
-        if (!entity.level().isClientSide) {
+        if (!entity.level().isClientSide()) {
             float damage = entity.getMaxHealth() * 0.06F;
             if (entity.getDeltaMovement().horizontalDistanceSqr() > 1.0E-6D) {
                 damage *= 2.0F;

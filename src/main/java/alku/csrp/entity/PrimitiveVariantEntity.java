@@ -18,7 +18,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -38,7 +38,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -51,7 +51,7 @@ import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
@@ -428,7 +428,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
-                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
+                                        EntitySpawnReason spawnType, @Nullable SpawnGroupData spawnGroupData) {
         SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
         if (!level.isClientSide() && activeKind() == Kind.REEKER) {
             if (random.nextDouble() < Config.variantSpawnChance()
@@ -473,7 +473,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
         if (activeKind == Kind.DEVOURER) {
             boolean inWater = isInWaterOrBubble();
             setNoGravity(inWater);
-            if (!level().isClientSide) {
+            if (!level().isClientSide()) {
                 if (inWater) {
                     setAirSupply(getMaxAirSupply());
                 } else if (getAirSupply() <= -20) {
@@ -484,12 +484,12 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
         }
         if (activeKind == Kind.YELLOWEYE) {
             setNoGravity(true);
-            if (!level().isClientSide) {
+            if (!level().isClientSide()) {
                 tickYelloweyeFlightLimits();
             }
         }
 
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             if (activeKind == Kind.MANDUCATER) {
                 applyManducaterPullMotion();
             }
@@ -597,7 +597,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
         }
 
         switch (activeKind) {
-            case ARACHNIDA -> target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 80, 0), this);
+            case ARACHNIDA -> target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 80, 0), this);
             case BOLSTER -> {
                 if (getBolsterSkin() == BOLSTER_SKIN_VIRULENT) {
                     EffectStacking.apply(target, ModMobEffects.VIRAL, 40, 0);
@@ -638,7 +638,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
                 && getBolsterSkin() == BOLSTER_SKIN_VIRULENT;
         boolean virulentReeker = activeKind() == Kind.REEKER
                 && getReekerSkin() == REEKER_SKIN_VIRULENT;
-        if (!level().isClientSide && (virulentBolster || virulentReeker)
+        if (!level().isClientSide() && (virulentBolster || virulentReeker)
                 && entity instanceof LivingEntity target && !(target instanceof Parasite)) {
             EffectStacking.apply(target, ModMobEffects.VIRAL, 40, 0);
         }
@@ -672,7 +672,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
                 || !stack.is(Items.SHEARS)) {
             return super.mobInteract(player, hand);
         }
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             setRicardoBald(true);
             addEffect(new MobEffectInstance(ModMobEffects.RAGE, 1200, 0, false, true), this);
             if (player instanceof ServerPlayer serverPlayer) {
@@ -693,14 +693,14 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
                 serverLevel.broadcastEntityEvent(this, RICARDO_BURST_EVENT);
             }
         }
-        return InteractionResult.sidedSuccess(level().isClientSide);
+        return InteractionResult.sidedSuccess(level().isClientSide());
     }
 
     @Override
     public void setCustomName(@Nullable Component name) {
         boolean wasRicardo = isRicardoVariant();
         super.setCustomName(name);
-        if (level().isClientSide || activeKind() != Kind.REEKER) {
+        if (level().isClientSide() || activeKind() != Kind.REEKER) {
             return;
         }
         boolean isRicardo = isRicardoVariant();
@@ -866,12 +866,12 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
                 armor = RICARDO_BERSERK_ARMOR;
                 speed = 0.62D;
                 addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 60, 1, false, true), this);
-                addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 60, 2, false, true), this);
+                addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 60, 2, false, true), this);
             } else if (ratio <= 0.25D) {
                 armor = RICARDO_ENRAGED_ARMOR;
                 speed = 0.58D;
                 addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 60, 0, false, true), this);
-                addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 60, 1, false, true), this);
+                addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 60, 1, false, true), this);
                 if (level() instanceof ServerLevel serverLevel) {
                     serverLevel.sendParticles(ParticleTypes.ENCHANTED_HIT,
                             getX(), getY() + 1.2D, getZ(), 12, 0.35D, 0.6D, 0.35D, 0.02D);
@@ -888,7 +888,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
     }
 
     private void launchSlime(LivingEntity target) {
-        if (!(target instanceof Slime) || level().isClientSide || random.nextFloat() >= 0.10F) {
+        if (!(target instanceof Slime) || level().isClientSide() || random.nextFloat() >= 0.10F) {
             return;
         }
         double deltaX = target.getX() - getX();
@@ -915,7 +915,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
 
     private void awardRicardoShearing(ServerPlayer player) {
         AdvancementHolder advancement = player.server.getAdvancements().get(
-                ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "tricked_me"));
+                Identifier.fromNamespaceAndPath(Csrp.MODID, "tricked_me"));
         if (advancement != null) {
             player.getAdvancements().award(advancement, "sheared_ricardo");
         }
@@ -933,8 +933,8 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
             return;
         }
 
-        target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20, 1, false, false), this);
-        target.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 20, 1, false, false), this);
+        target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 20, 1, false, false), this);
+        target.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE, 20, 1, false, false), this);
         getLookControl().setLookAt(target, 30.0F, 30.0F);
         applyManducaterMinimumDamage(target);
         entityData.set(MANDUCATER_STATUS, 3);
@@ -957,7 +957,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
         double healthRatio = getMaxHealth() <= 0.0F ? 0.0D : getHealth() / getMaxHealth();
         if (isManducaterCamouflaged()) {
             addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 25, 0, false, false));
-            addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 25, 2, false, false));
+            addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 25, 2, false, false));
             if (tickCount % 2 == 0) {
                 playSound(ModSounds.get("hull.c"), 0.2F,
                         (random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F);
@@ -973,7 +973,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
             if (manducaterCamouflageTimer > MobsConfig.manducaterNeededTime()) {
                 setManducaterCamouflaged(true);
                 addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 25, 0, false, false));
-                addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 25, 2, false, false));
+                addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 25, 2, false, false));
                 spawnManducaterCamouflageParticles();
                 manducaterCamouflageTimer = 0;
             }
@@ -1115,32 +1115,32 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         if (activeKind() == Kind.MANDUCATER) {
-            setManducaterCamouflaged(tag.getBoolean("manducater_camouflaged"));
-            manducaterCamouflageTimer = tag.getInt("manducater_camouflage_timer");
-            manducaterPullTicks = tag.getInt("manducater_pull_ticks");
-            entityData.set(MANDUCATER_STATUS, tag.getInt("manducater_status"));
+            setManducaterCamouflaged(tag.getBooleanOr("manducater_camouflaged", false));
+            manducaterCamouflageTimer = tag.getIntOr("manducater_camouflage_timer", 0);
+            manducaterPullTicks = tag.getIntOr("manducater_pull_ticks", 0);
+            entityData.set(MANDUCATER_STATUS, tag.getIntOr("manducater_status", 0));
             entityData.set(MANDUCATER_TARGET_ENTITY, 0);
             manducaterTarget = null;
-            setManducaterSkin(tag.getInt("manducater_skin"));
+            setManducaterSkin(tag.getIntOr("manducater_skin", 0));
         }
         if (activeKind() == Kind.BOLSTER) {
-            setBolsterSkin(tag.getInt("bolster_skin"));
+            setBolsterSkin(tag.getIntOr("bolster_skin", 0));
         }
         if (activeKind() == Kind.REEKER) {
-            setReekerSkin(tag.getInt("reeker_skin"));
-            setRicardoBald(tag.getBoolean("RicardoBald"));
-            reekerChargePreparationTicks = Math.max(0, tag.getInt("reeker_charge_preparation"));
+            setReekerSkin(tag.getIntOr("reeker_skin", 0));
+            setRicardoBald(tag.getBooleanOr("RicardoBald", false));
+            reekerChargePreparationTicks = Math.max(0, tag.getIntOr("reeker_charge_preparation", 0));
             entityData.set(REEKER_CHARGE_STATE, REEKER_CHARGE_NONE);
-            if (!level().isClientSide) {
+            if (!level().isClientSide()) {
                 applyReekerAttributes(true);
             }
         }
         if (activeKind() == Kind.DEVOURER) {
-            setDevourerSkin(tag.getInt("devourer_skin"));
+            setDevourerSkin(tag.getIntOr("devourer_skin", 0));
         }
         if (activeKind() == Kind.YELLOWEYE) {
-            setYelloweyeSkin(tag.getInt("yelloweye_skin"));
-            rangedShots = Mth.clamp(tag.getInt("yelloweye_shots"), 0, 3);
+            setYelloweyeSkin(tag.getIntOr("yelloweye_skin", 0));
+            rangedShots = Mth.clamp(tag.getIntOr("yelloweye_shots", 0), 0, 3);
             resetYelloweyeAttack();
         }
     }
@@ -1245,7 +1245,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
     }
 
     private void breakSoftBlockTowards(LivingEntity target) {
-        if (abilityCooldown > 0 || !level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+        if (abilityCooldown > 0 || !level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)) {
             return;
         }
         Vec3 direction = target.position().subtract(position());
@@ -1629,8 +1629,8 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
             }
             getLookControl().setLookAt(target, 30.0F, 30.0F);
             target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 0), PrimitiveVariantEntity.this);
-            target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 80, 1), PrimitiveVariantEntity.this);
-            target.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 80, 1), PrimitiveVariantEntity.this);
+            target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 80, 1), PrimitiveVariantEntity.this);
+            target.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE, 80, 1), PrimitiveVariantEntity.this);
             Vec3 pull = position().subtract(target.position());
             if (pull.lengthSqr() > 0.001D) {
                 pull = pull.normalize().scale(0.45D);
@@ -1679,8 +1679,8 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
             try {
                 int duration = Math.max(0, Integer.parseInt(parts[0].trim())) * 20;
                 int amplifier = Integer.parseInt(parts[1].trim());
-                net.minecraft.resources.ResourceLocation effectId =
-                        net.minecraft.resources.ResourceLocation.tryParse(parts[2].trim());
+                net.minecraft.resources.Identifier effectId =
+                        net.minecraft.resources.Identifier.tryParse(parts[2].trim());
                 if (effectId == null) {
                     continue;
                 }
@@ -1835,7 +1835,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
             LivingEntity target = getTarget();
             int status = entityData.get(MANDUCATER_STATUS);
             return evading || target != null && target.isAlive() && status > 0 && status < 3 && onGround()
-                    && !hasEffect(MobEffects.MOVEMENT_SLOWDOWN)
+                    && !hasEffect(MobEffects.SLOWNESS)
                     && distanceToSqr(target) > 64.0D && distanceToSqr(target) < 225.0D
                     && hasLineOfSight(target);
         }
@@ -1866,7 +1866,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
                 }
                 return;
             }
-            if (target == null || hasEffect(MobEffects.MOVEMENT_SLOWDOWN)) {
+            if (target == null || hasEffect(MobEffects.SLOWNESS)) {
                 return;
             }
 
@@ -2000,7 +2000,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
             LivingEntity target = getTarget();
             return evading || target != null && target.isAlive() && onGround()
                     && entityData.get(REEKER_CHARGE_STATE) == REEKER_CHARGE_NONE
-                    && !hasEffect(MobEffects.MOVEMENT_SLOWDOWN)
+                    && !hasEffect(MobEffects.SLOWNESS)
                     && distanceToSqr(target) > REEKER_EVADE_MIN_DISTANCE_SQR
                     && distanceToSqr(target) < REEKER_EVADE_MAX_DISTANCE_SQR
                     && hasLineOfSight(target);
@@ -2031,7 +2031,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
                 }
                 return;
             }
-            if (target == null || hasEffect(MobEffects.MOVEMENT_SLOWDOWN)) {
+            if (target == null || hasEffect(MobEffects.SLOWNESS)) {
                 return;
             }
             double distanceSqr = distanceToSqr(target);

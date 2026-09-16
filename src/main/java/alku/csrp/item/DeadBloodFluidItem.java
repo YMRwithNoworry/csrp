@@ -10,7 +10,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.level.Level;
 
 /** Bottled parasite hemolymph: Viral II for thirty seconds, then an empty bottle. */
@@ -28,7 +28,7 @@ public final class DeadBloodFluidItem extends Item {
 
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity user) {
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             user.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, DURATION_TICKS, 1));
         }
         if (user instanceof Player player) {
@@ -47,7 +47,7 @@ public final class DeadBloodFluidItem extends Item {
     }
 
     @Override
-    public UseAnim getUseAnimation(ItemStack stack) {
-        return UseAnim.DRINK;
+    public ItemUseAnimation getUseAnimation(ItemStack stack) {
+        return ItemUseAnimation.DRINK;
     }
 }

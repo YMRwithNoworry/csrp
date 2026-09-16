@@ -40,7 +40,7 @@ public final class ParasiticCystBlockEntity extends BaseContainerBlockEntity {
 
     public static void serverTick(Level level, BlockPos pos, BlockState state,
             net.minecraft.world.level.block.entity.BlockEntity blockEntity) {
-        if (!(blockEntity instanceof ParasiticCystBlockEntity cyst) || level.isClientSide) {
+        if (!(blockEntity instanceof ParasiticCystBlockEntity cyst) || level.isClientSide()) {
             return;
         }
         cyst.tickCyst((ServerLevel) level);
@@ -128,6 +128,6 @@ public final class ParasiticCystBlockEntity extends BaseContainerBlockEntity {
         super.loadAdditional(tag, registries);
         items = NonNullList.withSize(CONTAINER_SIZE, ItemStack.EMPTY);
         ContainerHelper.loadAllItems(tag, items, registries);
-        consumeCooldown = tag.getInt("ConsumeCooldown");
+        consumeCooldown = tag.getIntOr("ConsumeCooldown", 0);
     }
 }

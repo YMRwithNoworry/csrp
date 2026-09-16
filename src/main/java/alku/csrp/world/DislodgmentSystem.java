@@ -19,7 +19,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -29,7 +29,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -129,7 +129,7 @@ public final class DislodgmentSystem {
         } else if (event.getState().is(ModBlocks.COLONYHEART.get())) {
             tryTrigger(level, 18, 1.0D, event.getPos(), false);
         } else {
-            ResourceLocation blockId = BuiltInRegistries.BLOCK.getKey(event.getState().getBlock());
+            Identifier blockId = BuiltInRegistries.BLOCK.getKey(event.getState().getBlock());
             if (Csrp.MODID.equals(blockId.getNamespace())) {
                 tryTrigger(level, 11, Config.dislodgmentBlockBreakTriggerChance(), event.getPos(), false);
             }
@@ -141,7 +141,7 @@ public final class DislodgmentSystem {
         if (!(event.getLevel() instanceof ServerLevel level)
                 || !(event.getEntity() instanceof LivingEntity entity)
                 || !(entity instanceof Parasite)
-                || entity.getPersistentData().getBoolean(SPAWN_CODES_APPLIED)) {
+                || entity.getPersistentData().getBooleanOr(SPAWN_CODES_APPLIED, false)) {
             return;
         }
         entity.getPersistentData().putBoolean(SPAWN_CODES_APPLIED, true);
@@ -204,7 +204,7 @@ public final class DislodgmentSystem {
                 || event.getSound() == null || !Config.useDislodgment()) {
             return;
         }
-        ResourceLocation soundId = BuiltInRegistries.SOUND_EVENT.getKey(event.getSound().value());
+        Identifier soundId = BuiltInRegistries.SOUND_EVENT.getKey(event.getSound().value());
         String path = soundId.getPath();
         SrpWorldData data = SrpWorldData.get(level);
         if (Config.disloGrowlNoise() && activeValue(data, 15) > 0 && path.endsWith(".growl")
@@ -460,7 +460,7 @@ public final class DislodgmentSystem {
 
     private static void applyHighVersionDeath(ServerLevel level, LivingEntity dead, SrpWorldData data) {
         int value = Config.disloDeathHighVersions() ? activeValue(data, 10) : 0;
-        ResourceLocation deadId = BuiltInRegistries.ENTITY_TYPE.getKey(dead.getType());
+        Identifier deadId = BuiltInRegistries.ENTITY_TYPE.getKey(dead.getType());
         if (value < 1 || !Csrp.MODID.equals(deadId.getNamespace()) || !deadId.getPath().startsWith("sim_")
                 || level.getRandom().nextDouble() >= Config.disloDeathHighVersionsChance()) {
             return;
@@ -475,7 +475,7 @@ public final class DislodgmentSystem {
         }
         spawned.moveTo(dead.getX(), dead.getY(), dead.getZ(), dead.getYRot(), dead.getXRot());
         spawned.finalizeSpawn(level, level.getCurrentDifficultyAt(dead.blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                EntitySpawnReason.MOB_SUMMONED, null);
         spawned.addEffect(new MobEffectInstance(ModMobEffects.REPEL, 600, 0, false, false));
         level.addFreshEntity(spawned);
         level.levelEvent(null, 1026, spawned.blockPosition(), 0);
@@ -530,7 +530,7 @@ public final class DislodgmentSystem {
         if (!Config.disloPotionEffect() || code == null || code.value() < 1 || effects.isEmpty()) {
             return;
         }
-        ResourceLocation effectId = ResourceLocation.tryParse(
+        Identifier effectId = Identifier.tryParse(
                 effects.get(level.getRandom().nextInt(effects.size())));
         if (effectId == null) {
             return;
@@ -650,7 +650,7 @@ public final class DislodgmentSystem {
                 < Config.disloSummonByDeathKilling()) {
             return;
         }
-        ResourceLocation payload = selectSummonPayload(accumulatedHealth);
+        Identifier payload = selectSummonPayload(accumulatedHealth);
         for (int attempt = 0; attempt < 10; attempt++) {
             BlockPos position = findSpawnFloor(level, target.blockPosition().offset(
                     signedOffset(level), 0, signedOffset(level)));
@@ -677,7 +677,7 @@ public final class DislodgmentSystem {
     }
 
     private static boolean spawnPayloadWorm(ServerLevel level, LivingEntity target, BlockPos position,
-            ResourceLocation payload) {
+            Identifier payload) {
         DeterrentParasiteEntity worm = ModEntities.WORM.get().create(level);
         if (worm == null) {
             return false;
@@ -690,7 +690,7 @@ public final class DislodgmentSystem {
         worm.setWormPayload(1, 1);
         worm.setWormPayloadTypes(List.of(payload));
         worm.setTarget(target);
-        worm.finalizeSpawn(level, level.getCurrentDifficultyAt(position), MobSpawnType.MOB_SUMMONED, null);
+        worm.finalizeSpawn(level, level.getCurrentDifficultyAt(position), EntitySpawnReason.MOB_SUMMONED, null);
         return level.addFreshEntity(worm);
     }
 
@@ -708,9 +708,9 @@ public final class DislodgmentSystem {
         return null;
     }
 
-    private static ResourceLocation selectSummonPayload(int accumulatedHealth) {
-        ResourceLocation fallback = ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "warden");
-        ResourceLocation selected = null;
+    private static Identifier selectSummonPayload(int accumulatedHealth) {
+        Identifier fallback = Identifier.fromNamespaceAndPath(Csrp.MODID, "warden");
+        Identifier selected = null;
         int selectedThreshold = Integer.MIN_VALUE;
         for (String entry : Config.disloSummonByDeathMobs()) {
             String[] parts = entry.split(";", -1);
@@ -719,7 +719,7 @@ public final class DislodgmentSystem {
             }
             try {
                 int threshold = Integer.parseInt(parts[0]);
-                ResourceLocation id = normalizeLegacyId(ResourceLocation.tryParse(parts[1]));
+                Identifier id = normalizeLegacyId(Identifier.tryParse(parts[1]));
                 if (id != null && selected == null) {
                     selected = id;
                 }
@@ -734,9 +734,9 @@ public final class DislodgmentSystem {
         return selected == null ? fallback : selected;
     }
 
-    private static ResourceLocation normalizeLegacyId(ResourceLocation id) {
+    private static Identifier normalizeLegacyId(Identifier id) {
         if (id != null && "srparasites".equals(id.getNamespace())) {
-            return ResourceLocation.fromNamespaceAndPath(Csrp.MODID, id.getPath());
+            return Identifier.fromNamespaceAndPath(Csrp.MODID, id.getPath());
         }
         return id;
     }

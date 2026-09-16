@@ -74,7 +74,7 @@ public final class HiGolemEntity extends HijackedParasiteEntity {
     @Override
     public void tick() {
         super.tick();
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             if (chargeCooldown > 0) {
                 chargeCooldown--;
             }
@@ -152,8 +152,8 @@ public final class HiGolemEntity extends HijackedParasiteEntity {
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        chargeCooldown = tag.getInt("charge_cooldown");
-        setParasiteStatus(tag.getInt("parasite_status"));
+        chargeCooldown = tag.getIntOr("charge_cooldown", 0);
+        setParasiteStatus(tag.getIntOr("parasite_status", 0));
     }
 
     private final class GolemChargeGoal extends Goal {
@@ -229,7 +229,7 @@ public final class HiGolemEntity extends HijackedParasiteEntity {
                     continue;
                 }
                 victim.hurt(damageSources().mobAttack(HiGolemEntity.this), damage);
-                victim.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 80, 2), HiGolemEntity.this);
+                victim.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 80, 2), HiGolemEntity.this);
                 victim.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 80, 1), HiGolemEntity.this);
                 victim.push(direction.x * 0.85D, 0.35D, direction.z * 0.85D);
             }

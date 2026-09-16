@@ -18,13 +18,13 @@ public final class CompendiumItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        if (level.isClientSide) {
+        if (level.isClientSide()) {
             if (player.isShiftKeyDown()) {
                 CompendiumClient.toggleSounds();
             } else {
                 PacketDistributor.sendToServer(new CompendiumRequestPayload());
             }
         }
-        return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
+        return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());
     }
 }

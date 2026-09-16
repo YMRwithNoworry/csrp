@@ -72,8 +72,8 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
     private static final int DERIVED_ORB_ITEM_COOLDOWN_TICKS = 20 * 20;
     private static final int DERIVED_ORB_EXPERIENCE_STEAL = 340;
     private static final List<Holder<MobEffect>> NEURAL_NEGATIVE_EFFECTS = List.of(
-            MobEffects.DIG_SLOWDOWN,
-            MobEffects.CONFUSION,
+            MobEffects.MINING_FATIGUE,
+            MobEffects.NAUSEA,
             MobEffects.BLINDNESS,
             MobEffects.HUNGER,
             MobEffects.WEAKNESS,
@@ -176,7 +176,7 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
     @Override
     public void tick() {
         super.tick();
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             tickShadowRenderAlpha();
             spawnShadowParticles();
             spawnShadowHitParticles();
@@ -202,7 +202,7 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (level().isClientSide || source.is(DamageTypes.FELL_OUT_OF_WORLD)) {
+        if (level().isClientSide() || source.is(DamageTypes.FELL_OUT_OF_WORLD)) {
             return super.hurt(source, amount);
         }
         if (!isShadowed() && !isShadowClone()) {
@@ -706,7 +706,7 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
     public void setShadowed(boolean shadowed) {
         boolean changed = entityData.get(SHADOWED) != shadowed;
         entityData.set(SHADOWED, shadowed);
-        if (changed && shadowed && !level().isClientSide) {
+        if (changed && shadowed && !level().isClientSide()) {
             level().broadcastEntityEvent(this, SHADOW_HIT_EVENT);
         }
     }
@@ -762,20 +762,20 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        setShadowed(!tag.contains("derived_shadowed") || tag.getBoolean("derived_shadowed"));
-        entityData.set(SHADOW_CLONE, tag.getBoolean("derived_shadow_clone"));
-        shadowDamage = tag.getFloat("derived_shadow_damage");
-        shadowDamageTimeout = tag.getInt("derived_shadow_timeout");
-        shadowCloneCooldown = tag.getInt("derived_shadow_cooldown");
-        cloneLifeTicks = tag.getInt("derived_clone_life");
+        setShadowed(!tag.contains("derived_shadowed") || tag.getBooleanOr("derived_shadowed", false));
+        entityData.set(SHADOW_CLONE, tag.getBooleanOr("derived_shadow_clone", false));
+        shadowDamage = tag.getFloatOr("derived_shadow_damage", 0.0F);
+        shadowDamageTimeout = tag.getIntOr("derived_shadow_timeout", 0);
+        shadowCloneCooldown = tag.getIntOr("derived_shadow_cooldown", 0);
+        cloneLifeTicks = tag.getIntOr("derived_clone_life", 0);
         regenerationUses = tag.contains("derived_regeneration_uses")
-                ? Math.max(1, tag.getInt("derived_regeneration_uses")) : DERIVED_REGENERATION_USES;
-        neuralLinkCharge = tag.getInt("derived_neural_charge");
-        neuralLinkCastTicks = tag.getInt("derived_neural_cast");
-        cosmicOrbCharge = tag.getInt("derived_cosmic_orb_charge");
-        cosmicOrbCastTicks = tag.getInt("derived_cosmic_orb_cast");
-        cosmicOrbBurstsRemaining = tag.getInt("derived_cosmic_orb_remaining");
-        cosmicOrbInterval = tag.getInt("derived_cosmic_orb_interval");
+                ? Math.max(1, tag.getIntOr("derived_regeneration_uses", 0)) : DERIVED_REGENERATION_USES;
+        neuralLinkCharge = tag.getIntOr("derived_neural_charge", 0);
+        neuralLinkCastTicks = tag.getIntOr("derived_neural_cast", 0);
+        cosmicOrbCharge = tag.getIntOr("derived_cosmic_orb_charge", 0);
+        cosmicOrbCastTicks = tag.getIntOr("derived_cosmic_orb_cast", 0);
+        cosmicOrbBurstsRemaining = tag.getIntOr("derived_cosmic_orb_remaining", 0);
+        cosmicOrbInterval = tag.getIntOr("derived_cosmic_orb_interval", 0);
         cloneParent = tag.hasUUID("derived_clone_parent") ? tag.getUUID("derived_clone_parent") : null;
         activeClone = tag.hasUUID("derived_active_clone") ? tag.getUUID("derived_active_clone") : null;
         entityData.set(NEURAL_LINK_TICKS,

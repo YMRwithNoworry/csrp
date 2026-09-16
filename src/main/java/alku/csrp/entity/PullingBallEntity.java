@@ -11,7 +11,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.ClipContext;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -38,14 +38,14 @@ public final class PullingBallEntity extends Entity {
         Vec3 end = start.add(getDeltaMovement());
         HitResult hit = level().clip(new ClipContext(start, end, ClipContext.Block.COLLIDER,
                 ClipContext.Fluid.NONE, this));
-        if (!level().isClientSide && hit.getType() == HitResult.Type.BLOCK) {
+        if (!level().isClientSide() && hit.getType() == HitResult.Type.BLOCK) {
             placeWebs(BlockPos.containing(hit.getLocation()));
             discard();
             return;
         }
 
         setPos(end.x, end.y, end.z);
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             level().addParticle(ParticleTypes.POOF, getX(), getY(), getZ(), 0.0, 0.0, 0.0);
             return;
         }
@@ -77,7 +77,7 @@ public final class PullingBallEntity extends Entity {
     }
 
     private void placeWebs(BlockPos center) {
-        if (!level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) return;
+        if (!level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)) return;
         int total = random.nextInt(3) + 1;
         for (int i = 0; i < total; i++) {
             BlockPos pos = center.offset(random.nextInt(3) - 1, random.nextInt(3) - 1, random.nextInt(3) - 1);

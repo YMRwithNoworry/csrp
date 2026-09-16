@@ -12,7 +12,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -53,7 +53,7 @@ public final class LivingArmorItem extends ArmorItem {
     public void inventoryTick(ItemStack stack, net.minecraft.world.level.Level level, Entity entity,
             int slot, boolean selected) {
         super.inventoryTick(stack, level, entity, slot, selected);
-        if (level.isClientSide || !(entity instanceof LivingEntity holder)) return;
+        if (level.isClientSide() || !(entity instanceof LivingEntity holder)) return;
         if (sentient && holder.tickCount % 40 == 0 && Config.evolutionPhase(level) >= 2
                 && holder.getRandom().nextInt(10) == 0) {
             holder.addEffect(new MobEffectInstance(ModMobEffects.PREY, 1200, 0, false, false));
@@ -63,7 +63,7 @@ public final class LivingArmorItem extends ArmorItem {
 
     private void evolveIfReady(ItemStack stack, LivingEntity holder) {
         if (next == null || stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
-                .copyTag().getInt(DAMAGE) < EVOLUTION_DAMAGE) return;
+                .copyTag().getIntOr(DAMAGE, 0) < EVOLUTION_DAMAGE) return;
         CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> tag.putInt(DAMAGE, 0));
         stack.shrink(1);
         var dropped = holder.spawnAtLocation(new ItemStack(next.get()));
@@ -82,11 +82,11 @@ public final class LivingArmorItem extends ArmorItem {
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, context, tooltip, flag);
         CustomData data = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
-        tooltip.add(Component.translatable("tooltip.csrp.living_progress", data.copyTag().getInt(DAMAGE), EVOLUTION_DAMAGE));
+        tooltip.add(Component.translatable("tooltip.csrp.living_progress", data.copyTag().getIntOr(DAMAGE, 0), EVOLUTION_DAMAGE));
         var tag = data.copyTag();
-        tooltip.add(Component.translatable("tooltip.csrp.adaptation", tag.getInt(ADAPT_COUNT), damageTypeLimit()));
+        tooltip.add(Component.translatable("tooltip.csrp.adaptation", tag.getIntOr(ADAPT_COUNT, 0), damageTypeLimit()));
         tag.getAllKeys().stream().filter(key -> key.startsWith("adapt_points_")).sorted().forEach(key -> {
-            int points = Math.min(pointLimit(), tag.getInt(key));
+            int points = Math.min(pointLimit(), tag.getIntOr(key, 0));
             String source = key.substring("adapt_points_".length());
             tooltip.add(Component.translatable("tooltip.csrp.adaptation_entry", source,
                     points, pointLimit(), Math.floor(points * reductionPerPoint() * 10000.0F) / 100.0F));

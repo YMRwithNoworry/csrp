@@ -15,7 +15,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -85,7 +85,7 @@ abstract class AbstractHostEntity extends CrudeParasiteEntity {
     @Override
     public void tick() {
         super.tick();
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
         if (burrowCooldown > 0) {
@@ -201,7 +201,7 @@ abstract class AbstractHostEntity extends CrudeParasiteEntity {
         }
         minion.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
         minion.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                EntitySpawnReason.MOB_SUMMONED, null);
         minion.setTarget(getTarget());
         serverLevel.addFreshEntity(minion);
     }
@@ -255,9 +255,9 @@ abstract class AbstractHostEntity extends CrudeParasiteEntity {
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        setBurrowed(tag.getBoolean("burrowed"));
-        burrowCooldown = tag.getInt("burrow_cooldown");
-        rangedCooldown = tag.getInt("ranged_cooldown");
+        setBurrowed(tag.getBooleanOr("burrowed", false));
+        burrowCooldown = tag.getIntOr("burrow_cooldown", 0);
+        rangedCooldown = tag.getIntOr("ranged_cooldown", 0);
     }
 
     protected abstract void performRangedAttack(LivingEntity target);

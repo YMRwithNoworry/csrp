@@ -1,7 +1,7 @@
 package alku.csrp.effect;
 
 import alku.csrp.Csrp;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
@@ -10,7 +10,7 @@ public final class PivotMobEffect extends MarkerMobEffect {
     public PivotMobEffect() {
         super(false, 16757187);
         addAttributeModifier(Attributes.ATTACK_SPEED,
-                ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "pivot_attack_speed"),
+                Identifier.fromNamespaceAndPath(Csrp.MODID, "pivot_attack_speed"),
                 0.1D, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
     }
 }

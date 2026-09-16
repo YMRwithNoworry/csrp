@@ -26,7 +26,7 @@ public final class DeadBloodBlock extends LiquidBlock {
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level,
             BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (stack.is(Items.GLASS_BOTTLE) && state.getFluidState().isSource()) {
-            if (!level.isClientSide) {
+            if (!level.isClientSide()) {
                 ItemStack filled = new ItemStack(ModItems.DEADBLOOD_FLUID.get());
                 if (player.getAbilities().instabuild) {
                     player.getInventory().add(filled);
@@ -39,7 +39,7 @@ public final class DeadBloodBlock extends LiquidBlock {
                     }
                 }
             }
-            return ItemInteractionResult.sidedSuccess(level.isClientSide);
+            return ItemInteractionResult.sidedSuccess(level.isClientSide());
         }
         return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
     }

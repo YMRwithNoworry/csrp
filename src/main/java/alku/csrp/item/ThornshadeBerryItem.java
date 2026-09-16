@@ -17,7 +17,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 
@@ -39,13 +39,13 @@ public final class ThornshadeBerryItem extends Item {
         if (!level.getBlockState(targetPos).canBeReplaced() || !placed.canSurvive(level, targetPos)) {
             return InteractionResult.PASS;
         }
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             level.setBlock(targetPos, placed, 11);
             if (context.getPlayer() == null || !context.getPlayer().getAbilities().instabuild) {
                 context.getItemInHand().shrink(1);
             }
         }
-        return InteractionResult.sidedSuccess(level.isClientSide);
+        return InteractionResult.sidedSuccess(level.isClientSide());
     }
 
     @Override
@@ -56,7 +56,7 @@ public final class ThornshadeBerryItem extends Item {
 
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity user) {
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             if (user instanceof Player player) {
                 player.getFoodData().eat(2, 0.1F);
             }
@@ -79,8 +79,8 @@ public final class ThornshadeBerryItem extends Item {
     }
 
     @Override
-    public UseAnim getUseAnimation(ItemStack stack) {
-        return UseAnim.EAT;
+    public ItemUseAnimation getUseAnimation(ItemStack stack) {
+        return ItemUseAnimation.EAT;
     }
 
     @Override

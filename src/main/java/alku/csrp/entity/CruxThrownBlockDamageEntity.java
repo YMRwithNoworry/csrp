@@ -38,7 +38,7 @@ public final class CruxThrownBlockDamageEntity extends Entity {
     @Override
     public void tick() {
         super.tick();
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
 
@@ -97,7 +97,7 @@ public final class CruxThrownBlockDamageEntity extends Entity {
         if (tag.hasUUID("follower")) {
             followerId = tag.getUUID("follower");
         }
-        damage = tag.getFloat("damage");
+        damage = tag.getFloatOr("damage", 0.0F);
     }
 
     @Override

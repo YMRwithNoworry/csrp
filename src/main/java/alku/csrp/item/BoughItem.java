@@ -13,7 +13,7 @@ import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
@@ -23,19 +23,19 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 
 public final class BoughItem extends Item {
     public static final int USE_DURATION = 40;
-    private static final ResourceLocation ADVANCEMENT_ID =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "sepeku");
+    private static final Identifier ADVANCEMENT_ID =
+            Identifier.fromNamespaceAndPath(Csrp.MODID, "sepeku");
     private static final String ADVANCEMENT_CRITERION = "sepeku";
 
     public BoughItem(Item.Properties properties) {
@@ -43,7 +43,7 @@ public final class BoughItem extends Item {
     }
 
     @Override
-    public UseAnim getUseAnimation(ItemStack stack) { return UseAnim.BLOCK; }
+    public ItemUseAnimation getUseAnimation(ItemStack stack) { return ItemUseAnimation.BLOCK; }
 
     @Override
     public int getUseDuration(ItemStack stack, LivingEntity user) { return USE_DURATION; }
@@ -57,7 +57,7 @@ public final class BoughItem extends Item {
     @Override
     public void onUseTick(Level level, LivingEntity user, ItemStack stack, int remainingUseDuration) {
         if (level instanceof ServerLevel serverLevel) {
-            user.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 6, 255, false, false));
+            user.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 6, 255, false, false));
             user.addEffect(new MobEffectInstance(ModMobEffects.RAGE, 6, 0, false, false));
             user.setDeltaMovement(0.0D, 0.0D, 0.0D);
             serverLevel.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK,
@@ -76,7 +76,7 @@ public final class BoughItem extends Item {
         if (!(level instanceof ServerLevel serverLevel)) {
             return stack;
         }
-        user.removeEffect(MobEffects.DAMAGE_RESISTANCE);
+        user.removeEffect(MobEffects.RESISTANCE);
         user.removeEffect(ModMobEffects.RAGE);
         user.invulnerableTime = 0;
         user.hurt(seppukuDamage(serverLevel), Float.MAX_VALUE);
@@ -111,7 +111,7 @@ public final class BoughItem extends Item {
                     player.getY(), player.getZ() + (level.random.nextDouble() - 0.5D) * 1.5D,
                     level.random.nextFloat() * 360.0F, 0.0F);
             adventurer.finalizeSpawn(level, level.getCurrentDifficultyAt(adventurer.blockPosition()),
-                    MobSpawnType.TRIGGERED, null);
+                    EntitySpawnReason.TRIGGERED, null);
             level.addFreshEntity(adventurer);
         }
     }

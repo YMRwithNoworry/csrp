@@ -34,7 +34,7 @@ public final class EvolutionClockItem extends Item {
             player.sendSystemMessage(Component.translatable("message.csrp.evolution_clock",
                     data.evolutionPhase(), data.generation(), data.evolutionPoints(), data.cooldown(serverLevel)));
         }
-        return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
+        return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());
     }
 
     @Override
@@ -49,9 +49,9 @@ public final class EvolutionClockItem extends Item {
             List<Component> tooltip, TooltipFlag flag) {
         var tag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
         tooltip.add(Component.translatable("tooltip.csrp.evolution_clock.phase",
-                tag.getInt(PHASE_TAG), tag.getInt(POINTS_TAG)).withStyle(ChatFormatting.RED));
+                tag.getIntOr(PHASE_TAG, 0), tag.getIntOr(POINTS_TAG, 0)).withStyle(ChatFormatting.RED));
         tooltip.add(Component.translatable("tooltip.csrp.evolution_clock.cooldown",
-                tag.getInt(COOLDOWN_TAG)).withStyle(ChatFormatting.GRAY));
+                tag.getIntOr(COOLDOWN_TAG, 0)).withStyle(ChatFormatting.GRAY));
     }
 
     private static void updateClock(ItemStack stack, ServerLevel level, SrpWorldData data) {
@@ -59,8 +59,8 @@ public final class EvolutionClockItem extends Item {
         int points = data.evolutionPoints();
         int cooldown = data.cooldown(level);
         var current = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
-        if (current.getInt(PHASE_TAG) == phase && current.getInt(POINTS_TAG) == points
-                && current.getInt(COOLDOWN_TAG) == cooldown) {
+        if (current.getIntOr(PHASE_TAG, 0) == phase && current.getIntOr(POINTS_TAG, 0) == points
+                && current.getIntOr(COOLDOWN_TAG, 0) == cooldown) {
             return;
         }
         CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> {

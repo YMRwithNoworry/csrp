@@ -13,12 +13,12 @@ import java.util.List;
 import java.util.Map;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 
 /**
@@ -28,7 +28,7 @@ import net.minecraft.util.Mth;
  * tentacle/body animation.
  */
 public final class HiveSatelliteRenderer extends EntityRenderer<MeteorEntity> {
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,
             "textures/entity/projectile/meteor.png");
     private static final float TEXTURE_SIZE = 580.0F;
     private static final float SCALE = 0.0625F;
@@ -231,7 +231,7 @@ public final class HiveSatelliteRenderer extends EntityRenderer<MeteorEntity> {
     }
 
     @Override
-    public ResourceLocation getTextureLocation(MeteorEntity entity) {
+    public Identifier getTextureLocation(MeteorEntity entity) {
         return TEXTURE;
     }
 }

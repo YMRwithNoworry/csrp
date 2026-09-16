@@ -51,7 +51,7 @@ public final class IncompleteCruxEntity extends CrudeParasiteEntity {
     public void tick() {
         super.tick();
 
-        if (level().isClientSide || !isAlive()) {
+        if (level().isClientSide() || !isAlive()) {
             return;
         }
 
@@ -89,13 +89,13 @@ public final class IncompleteCruxEntity extends CrudeParasiteEntity {
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         if (tag.contains("crux_growth_duration", Tag.TAG_INT)) {
-            growthDuration = Math.max(1, tag.getInt("crux_growth_duration"));
+            growthDuration = Math.max(1, tag.getIntOr("crux_growth_duration", 0));
         }
         if (tag.contains("crux_growth_ticks", Tag.TAG_INT)) {
-            growthTicks = Math.max(0, tag.getInt("crux_growth_ticks"));
+            growthTicks = Math.max(0, tag.getIntOr("crux_growth_ticks", 0));
         }
         if (tag.contains("crux_burst_ticks", Tag.TAG_INT)) {
-            burstTicks = tag.getInt("crux_burst_ticks");
+            burstTicks = tag.getIntOr("crux_burst_ticks", 0);
         }
     }
 

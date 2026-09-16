@@ -12,7 +12,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
@@ -80,7 +80,7 @@ public class AdaWatcherEntity extends BurrowingVariantEntity implements PullingB
 
     public static boolean checkAdaWatcherSpawnRules(EntityType<? extends AdaWatcherEntity> type,
                                                      ServerLevelAccessor level,
-                                                     MobSpawnType spawnType,
+                                                     EntitySpawnReason spawnType,
                                                      BlockPos pos,
                                                      RandomSource random) {
         int phase = Config.evolutionPhase(level.getLevel());
@@ -131,7 +131,7 @@ public class AdaWatcherEntity extends BurrowingVariantEntity implements PullingB
     @Override
     public void tick() {
         super.tick();
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             if (abilityCooldown > 0) abilityCooldown--;
             if (entityData.get(ATTACK_COOLDOWN_ANI) > 0) {
                 entityData.set(ATTACK_COOLDOWN_ANI, entityData.get(ATTACK_COOLDOWN_ANI) - 1);
@@ -208,7 +208,7 @@ public class AdaWatcherEntity extends BurrowingVariantEntity implements PullingB
             }
 
             // 施加负面效果
-            pullingTargetEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 30, 2), this);
+            pullingTargetEntity.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 30, 2), this);
             pullingTargetEntity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 30, 1), this);
         }
     }
@@ -250,11 +250,11 @@ public class AdaWatcherEntity extends BurrowingVariantEntity implements PullingB
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        setParasiteStatus(tag.getInt("parasite_status"));
-        setAttackCooldownAni(tag.getInt("attack_cooldown_ani"));
-        setStillAni(tag.getBoolean("still_ani"));
-        pullingTicks = tag.getInt("pulling_ticks");
-        abilityCooldown = tag.getInt("ability_cooldown");
+        setParasiteStatus(tag.getIntOr("parasite_status", 0));
+        setAttackCooldownAni(tag.getIntOr("attack_cooldown_ani", 0));
+        setStillAni(tag.getBooleanOr("still_ani", false));
+        pullingTicks = tag.getIntOr("pulling_ticks", 0);
+        abilityCooldown = tag.getIntOr("ability_cooldown", 0);
     }
 
     @Override
@@ -462,9 +462,9 @@ public class AdaWatcherEntity extends BurrowingVariantEntity implements PullingB
         }
 
         // 施加持续负面效果
-        pullingTargetEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 3), this);
+        pullingTargetEntity.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 100, 3), this);
         pullingTargetEntity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 2), this);
-        pullingTargetEntity.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 100, 2), this);
+        pullingTargetEntity.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE, 100, 2), this);
 
         // 播放技能释放音效
         playSound(ModSounds.get("mob.swipe"), 2.0F, 0.7F + random.nextFloat() * 0.3F);

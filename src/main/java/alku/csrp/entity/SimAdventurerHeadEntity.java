@@ -18,7 +18,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -32,9 +32,9 @@ import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.entity.animal.fish.WaterAnimal;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -110,7 +110,7 @@ public final class SimAdventurerHeadEntity extends Monster implements CitadelAni
     @Override
     public void tick() {
         super.tick();
-        if (!level().isClientSide && entityData.get(LEAP_TICKS) > 0) {
+        if (!level().isClientSide() && entityData.get(LEAP_TICKS) > 0) {
             int remainingTicks = entityData.get(LEAP_TICKS) - 1;
             entityData.set(LEAP_TICKS, remainingTicks);
             if (getParasiteStatus() == 10
@@ -119,13 +119,13 @@ public final class SimAdventurerHeadEntity extends Monster implements CitadelAni
                 setParasiteStatus(0);
             }
         }
-        if (!level().isClientSide && cloudCooldown > 0) {
+        if (!level().isClientSide() && cloudCooldown > 0) {
             cloudCooldown--;
         }
-        if (!level().isClientSide && shouldRetreatForPackSize() && getTarget() != null) {
+        if (!level().isClientSide() && shouldRetreatForPackSize() && getTarget() != null) {
             setTarget(null);
         }
-        if (level().isClientSide || tickCount % 20 != 0) {
+        if (level().isClientSide() || tickCount % 20 != 0) {
             return;
         }
         for (LivingEntity nearby : level().getEntitiesOfClass(LivingEntity.class,
@@ -152,7 +152,7 @@ public final class SimAdventurerHeadEntity extends Monster implements CitadelAni
         float healthBefore = target instanceof LivingEntity living
                 ? ParasiteCombatEffects.healthWithAbsorption(living) : 0.0F;
         boolean hit = super.doHurtTarget(target);
-        if (hit && !level().isClientSide) {
+        if (hit && !level().isClientSide()) {
             if (target instanceof LivingEntity living) {
                 applyMinimumDamage(living, healthBefore);
             }
@@ -173,7 +173,7 @@ public final class SimAdventurerHeadEntity extends Monster implements CitadelAni
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
-                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
+                                        EntitySpawnReason spawnType, @Nullable SpawnGroupData spawnGroupData) {
         return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
     }
 
@@ -352,7 +352,7 @@ public final class SimAdventurerHeadEntity extends Monster implements CitadelAni
         }
         adventurer.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
         adventurer.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                EntitySpawnReason.MOB_SUMMONED, null);
         copyIdentity(adventurer);
         serverLevel.addFreshEntity(adventurer);
         medium.discard();

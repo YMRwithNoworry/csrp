@@ -28,8 +28,8 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.WaterAnimal;
-import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.animal.fish.WaterAnimal;
+import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -179,7 +179,7 @@ public final class HeedEntity extends CrudeParasiteEntity {
     }
 
     private boolean hurtHead(DamageSource source, float amount) {
-        if (!level().isClientSide && random.nextBoolean()) {
+        if (!level().isClientSide() && random.nextBoolean()) {
             EffectStacking.apply(this, ModMobEffects.BLEED, 80, 0);
         }
         return hurt(source, amount * 3.0F);
@@ -230,7 +230,7 @@ public final class HeedEntity extends CrudeParasiteEntity {
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         creationDevelopment = tag.contains("heed_creation_development")
-                ? tag.getInt("heed_creation_development") : -1;
+                ? tag.getIntOr("heed_creation_development", 0) : -1;
     }
 
     @Override

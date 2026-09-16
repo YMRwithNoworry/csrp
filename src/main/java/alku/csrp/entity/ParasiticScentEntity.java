@@ -8,7 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -22,12 +22,12 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.entity.animal.fish.WaterAnimal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.phys.AABB;
@@ -50,7 +50,7 @@ public final class ParasiticScentEntity extends Entity {
     private static final int[] MAX_MOBS = {4, 6, 6, 4, 6, 6, 5, 5, 5};
     private static final int[] MIN_WAVES = {1, 1, 2, 3, 3, 3, 2, 2, 2};
     private static final int[] MAX_WAVES = {2, 3, 4, 6, 4, 4, 5, 5, 5};
-    private static final List<List<ResourceLocation>> LEVEL_MOBS = List.of(
+    private static final List<List<Identifier>> LEVEL_MOBS = List.of(
             ids("rupter"),
             ids("rupter"),
             ids("rupter", "sim_adventurerhead", "sim_endermanhead", "sim_humanhead",
@@ -182,7 +182,7 @@ public final class ParasiticScentEntity extends Entity {
 
     private void selectAndBuffHost(ServerLevel level) {
         List<Mob> parasites = level.getEntitiesOfClass(Mob.class, getBoundingBox().inflate(80.0D),
-                mob -> mob instanceof Parasite && !mob.getPersistentData().getBoolean(SCENT_HOST_TAG));
+                mob -> mob instanceof Parasite && !mob.getPersistentData().getBooleanOr(SCENT_HOST_TAG, false));
         if (parasites.isEmpty()) {
             return;
         }
@@ -393,7 +393,7 @@ public final class ParasiticScentEntity extends Entity {
     }
 
     private boolean spawnWorm(ServerLevel level, LivingEntity target, BlockPos floor,
-                              List<ResourceLocation> payloadTypes) {
+                              List<Identifier> payloadTypes) {
         DeterrentParasiteEntity worm = ModEntities.WORM.get().create(level);
         if (worm == null) {
             return false;
@@ -403,14 +403,14 @@ public final class ParasiticScentEntity extends Entity {
         if (!level.noCollision(worm, worm.getBoundingBox().inflate(1.0D, 7.0D, 1.0D))) {
             return false;
         }
-        worm.finalizeSpawn(level, level.getCurrentDifficultyAt(floor), MobSpawnType.MOB_SUMMONED, null);
+        worm.finalizeSpawn(level, level.getCurrentDifficultyAt(floor), EntitySpawnReason.MOB_SUMMONED, null);
         worm.setTarget(target);
         worm.setWormPayload(minimumMobs, maximumMobs);
         worm.setWormPayloadTypes(payloadTypes);
         return level.addFreshEntity(worm);
     }
 
-    private List<ResourceLocation> mobsForAreaLevel(ServerLevel level) {
+    private List<Identifier> mobsForAreaLevel(ServerLevel level) {
         int highest = scentLevel;
         for (ParasiticScentEntity scent : level.getEntitiesOfClass(ParasiticScentEntity.class,
                 getBoundingBox().inflate(80.0D))) {
@@ -665,7 +665,7 @@ public final class ParasiticScentEntity extends Entity {
 
     @Override
     public void remove(RemovalReason reason) {
-        if (reason.shouldDestroy() && !level().isClientSide) {
+        if (reason.shouldDestroy() && !level().isClientSide()) {
             cleanupHostBuff();
         }
         super.remove(reason);
@@ -689,20 +689,20 @@ public final class ParasiticScentEntity extends Entity {
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
-        phaseOne = !tag.contains("scent_phase_one") || tag.getBoolean("scent_phase_one");
-        scentState = tag.getByte("scent_state");
-        lifeTicks = tag.contains("scent_life") ? tag.getInt("scent_life") : 600;
-        currentLife = tag.getInt("scent_current_life");
-        danger = tag.contains("scent_danger") ? tag.getInt("scent_danger") : 100;
-        activity = tag.getInt("scent_activity");
-        delay = tag.getInt("scent_delay");
-        scentReaction = tag.getByte("scent_reaction");
-        loopLife = tag.contains("scent_loops") ? tag.getInt("scent_loops") : 103;
-        followTarget = tag.getBoolean("scent_following");
-        dieAfterKilling = tag.getBoolean("scent_die_after_killing");
-        hostBuffApplied = tag.getBoolean("scent_host_buff_applied");
+        phaseOne = !tag.contains("scent_phase_one") || tag.getBooleanOr("scent_phase_one", false);
+        scentState = tag.getByteOr("scent_state", (byte)0);
+        lifeTicks = tag.contains("scent_life") ? tag.getIntOr("scent_life", 0) : 600;
+        currentLife = tag.getIntOr("scent_current_life", 0);
+        danger = tag.contains("scent_danger") ? tag.getIntOr("scent_danger", 0) : 100;
+        activity = tag.getIntOr("scent_activity", 0);
+        delay = tag.getIntOr("scent_delay", 0);
+        scentReaction = tag.getByteOr("scent_reaction", (byte)0);
+        loopLife = tag.contains("scent_loops") ? tag.getIntOr("scent_loops", 0) : 103;
+        followTarget = tag.getBooleanOr("scent_following", false);
+        dieAfterKilling = tag.getBooleanOr("scent_die_after_killing", false);
+        hostBuffApplied = tag.getBooleanOr("scent_host_buff_applied", false);
         originalHostMaxHealth = tag.contains("scent_host_original_max")
-                ? tag.getDouble("scent_host_original_max") : -1.0D;
+                ? tag.getDoubleOr("scent_host_original_max", 0.0D) : -1.0D;
         targetId = tag.hasUUID("scent_target") ? tag.getUUID("scent_target") : null;
         hostId = tag.hasUUID("scent_host") ? tag.getUUID("scent_host") : null;
         updateScentLevel();
@@ -727,16 +727,16 @@ public final class ParasiticScentEntity extends Entity {
         if (hostId != null) tag.putUUID("scent_host", hostId);
     }
 
-    private static List<ResourceLocation> tierFourMobs() {
+    private static List<Identifier> tierFourMobs() {
         return ids("sim_adventurer", "sim_enderman", "sim_human", "sim_horse", "sim_villager",
                 "sim_pig", "sim_cow", "sim_wolf", "sim_sheep", "pri_longarms", "pri_manducater",
                 "pri_reeker", "pri_yelloweye", "pri_summoner", "pri_bolster", "pri_arachnida",
                 "pri_vermin", "heed", "crux");
     }
 
-    private static List<ResourceLocation> ids(String... paths) {
+    private static List<Identifier> ids(String... paths) {
         return java.util.Arrays.stream(paths)
-                .map(path -> ResourceLocation.fromNamespaceAndPath(Csrp.MODID, path))
+                .map(path -> Identifier.fromNamespaceAndPath(Csrp.MODID, path))
                 .toList();
     }
 }

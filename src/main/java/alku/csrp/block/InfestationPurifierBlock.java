@@ -23,7 +23,7 @@ public final class InfestationPurifierBlock extends Block {
         if (level instanceof ServerLevel serverLevel) {
             purify(serverLevel, pos);
         }
-        return InteractionResult.sidedSuccess(level.isClientSide);
+        return InteractionResult.sidedSuccess(level.isClientSide());
     }
 
     @Override

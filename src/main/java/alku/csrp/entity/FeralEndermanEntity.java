@@ -20,10 +20,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.AABB;
@@ -76,7 +76,7 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
     }
 
     public static boolean checkFeralEndermanSpawnRules(EntityType<? extends Monster> type,
-            ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+            ServerLevelAccessor level, EntitySpawnReason spawnType, BlockPos pos, RandomSource random) {
         ServerLevel endLevel = level.getLevel();
         if (endLevel.dimension() != Level.END) {
             return false;
@@ -109,7 +109,7 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
             targetTicks = 0;
         } else if (target != previous) {
             targetTicks = 0;
-            if (!level().isClientSide) {
+            if (!level().isClientSide()) {
                 level().playSound(null, target.getX(), target.getY(), target.getZ(),
                         ModSounds.INFECTED_ENDERMAN_PORTAL.get(), getSoundSource(), 0.3F, 1.0F);
             }
@@ -119,7 +119,7 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
     @Override
     public void tick() {
         super.tick();
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             spawnPortalParticles();
             return;
         }
@@ -153,14 +153,14 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
     @Override
     public boolean hurt(DamageSource source, float amount) {
         if (source.is(DamageTypeTags.IS_PROJECTILE)) {
-            Mob ally = level().isClientSide ? null : findTeleportAlly();
-            if (!level().isClientSide && teleportAwayFromTarget(getTarget(), true)) {
+            Mob ally = level().isClientSide() ? null : findTeleportAlly();
+            if (!level().isClientSide() && teleportAwayFromTarget(getTarget(), true)) {
                 teleportAllyToTarget(getTarget(), ally);
             }
             return false;
         }
         boolean damaged = super.hurt(source, cappedDamage(source, amount));
-        if (damaged && isAlive() && !level().isClientSide) {
+        if (damaged && isAlive() && !level().isClientSide()) {
             allyTeleportCooldown = 0;
             if (random.nextFloat() < 0.10F) {
                 placeFeralRemains(blockPosition());
@@ -181,7 +181,7 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
         if (damaged && livingTarget != null) {
             applyMinimumDamage(livingTarget, healthBefore);
         }
-        if (damaged && !level().isClientSide && specialMovesEnabled()
+        if (damaged && !level().isClientSide() && specialMovesEnabled()
                 && teleportCooldown <= 0 && random.nextBoolean()
                 && teleportWithAllyAwayFromTarget(getTarget())) {
             return true;
@@ -209,9 +209,9 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        targetTicks = tag.getInt("target_ticks");
-        teleportCooldown = tag.getInt("teleport_cooldown");
-        allyTeleportCooldown = tag.getInt("ally_teleport_cooldown");
+        targetTicks = tag.getIntOr("target_ticks", 0);
+        teleportCooldown = tag.getIntOr("teleport_cooldown", 0);
+        allyTeleportCooldown = tag.getIntOr("ally_teleport_cooldown", 0);
     }
 
     public static float cothChance() {
@@ -336,7 +336,7 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
 
     private boolean teleportEntity(Entity entity, Vec3 requestedPosition) {
         BlockPos position = BlockPos.containing(requestedPosition);
-        while (position.getY() > level().getMinBuildHeight() && !level().getBlockState(position).blocksMotion()) {
+        while (position.getY() > level().getMinY() && !level().getBlockState(position).blocksMotion()) {
             position = position.below();
         }
         if (!level().getBlockState(position).blocksMotion()) {
@@ -442,7 +442,7 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
         serverLevel.addFreshEntity(cloud);
 
         GnatEntity gnat = ModEntities.GNAT.get().create(serverLevel, null, blockPosition(),
-                MobSpawnType.MOB_SUMMONED, false, false);
+                EntitySpawnReason.MOB_SUMMONED, false, false);
         if (gnat != null) {
             gnat.moveTo(getX(), getY() + 0.25D, getZ(), random.nextFloat() * 360.0F, 0.0F);
             gnat.setDeltaMovement((random.nextDouble() - 0.5D) * 0.3D, 0.3D,
@@ -455,7 +455,7 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
     }
 
     private void placeFeralRemains(BlockPos origin) {
-        if (!level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+        if (!level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)) {
             return;
         }
         for (int offset = 0; offset <= 4; offset++) {

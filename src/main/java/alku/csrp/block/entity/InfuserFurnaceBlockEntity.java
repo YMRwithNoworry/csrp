@@ -79,7 +79,7 @@ public final class InfuserFurnaceBlockEntity extends BaseContainerBlockEntity {
 
     public static void serverTick(Level level, BlockPos pos, BlockState state,
             net.minecraft.world.level.block.entity.BlockEntity blockEntity) {
-        if (!(blockEntity instanceof InfuserFurnaceBlockEntity furnace) || level.isClientSide) {
+        if (!(blockEntity instanceof InfuserFurnaceBlockEntity furnace) || level.isClientSide()) {
             return;
         }
         furnace.tickFurnace();
@@ -206,8 +206,8 @@ public final class InfuserFurnaceBlockEntity extends BaseContainerBlockEntity {
         super.loadAdditional(tag, registries);
         items = NonNullList.withSize(CONTAINER_SIZE, ItemStack.EMPTY);
         ContainerHelper.loadAllItems(tag, items, registries);
-        burnTime = tag.getInt("BurnTime");
-        burnDuration = tag.getInt("BurnDuration");
-        progress = tag.getInt("Progress");
+        burnTime = tag.getIntOr("BurnTime", 0);
+        burnDuration = tag.getIntOr("BurnDuration", 0);
+        progress = tag.getIntOr("Progress", 0);
     }
 }

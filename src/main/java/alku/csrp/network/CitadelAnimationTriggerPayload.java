@@ -5,7 +5,7 @@ import alku.csrp.animation.CitadelAnimatedEntity;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
@@ -13,7 +13,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 public record CitadelAnimationTriggerPayload(int entityId, String controller, String animation)
         implements CustomPacketPayload {
     public static final Type<CitadelAnimationTriggerPayload> TYPE = new Type<>(
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "citadel_animation_trigger"));
+            Identifier.fromNamespaceAndPath(Csrp.MODID, "citadel_animation_trigger"));
     public static final StreamCodec<RegistryFriendlyByteBuf, CitadelAnimationTriggerPayload> STREAM_CODEC =
             StreamCodec.ofMember(CitadelAnimationTriggerPayload::encode,
                     CitadelAnimationTriggerPayload::decode);

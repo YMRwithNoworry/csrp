@@ -12,7 +12,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -20,7 +20,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 
 public final class CompendiumScreen extends Screen {
-    private static final ResourceLocation BACKGROUND = ResourceLocation.fromNamespaceAndPath(
+    private static final Identifier BACKGROUND = Identifier.fromNamespaceAndPath(
             "csrp", "textures/gui/compendium/background.png");
     private static final int PANEL_WIDTH = 332;
     private static final int PANEL_HEIGHT = 212;
@@ -169,7 +169,7 @@ public final class CompendiumScreen extends Screen {
                 false);
         int shown = 0;
         for (String drop : drops) {
-            ResourceLocation id = ResourceLocation.tryParse(drop);
+            Identifier id = Identifier.tryParse(drop);
             if (id == null || !BuiltInRegistries.ITEM.containsKey(id) || shown >= 6) {
                 continue;
             }
@@ -218,7 +218,7 @@ public final class CompendiumScreen extends Screen {
         if (minecraft == null || minecraft.level == null) {
             return null;
         }
-        ResourceLocation id = ResourceLocation.tryParse(entry.entityId());
+        Identifier id = Identifier.tryParse(entry.entityId());
         if (id == null || !BuiltInRegistries.ENTITY_TYPE.containsKey(id)) {
             return null;
         }
@@ -257,7 +257,7 @@ public final class CompendiumScreen extends Screen {
         if (category == Category.BLOCKS) {
             List<ListEntry> result = new ArrayList<>();
             for (String path : CompendiumCatalog.BLOCKS) {
-                ResourceLocation id = ResourceLocation.fromNamespaceAndPath("csrp", path);
+                Identifier id = Identifier.fromNamespaceAndPath("csrp", path);
                 String nameKey = "tile.srparasites." + path + ".name";
                 String name = CompendiumLanguage.get(nameKey);
                 if (name.equals(nameKey) && BuiltInRegistries.BLOCK.containsKey(id)) {
@@ -271,7 +271,7 @@ public final class CompendiumScreen extends Screen {
         if (category == Category.EFFECTS) {
             List<ListEntry> result = new ArrayList<>();
             for (MobEffect effect : BuiltInRegistries.MOB_EFFECT) {
-                ResourceLocation id = BuiltInRegistries.MOB_EFFECT.getKey(effect);
+                Identifier id = BuiltInRegistries.MOB_EFFECT.getKey(effect);
                 if (id.getNamespace().equals("csrp") && !id.getPath().equals("corrosion")) {
                     result.add(new ListEntry(id.toString(), Component.translatable(effect.getDescriptionId()).getString(),
                             progress.effects().contains(id.toString()), 0));

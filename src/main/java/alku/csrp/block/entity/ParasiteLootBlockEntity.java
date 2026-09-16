@@ -90,7 +90,7 @@ public final class ParasiteLootBlockEntity extends BaseContainerBlockEntity {
         super.loadAdditional(tag, registries);
         items = NonNullList.withSize(CONTAINER_SIZE, ItemStack.EMPTY);
         ContainerHelper.loadAllItems(tag, items, registries);
-        lootGenerated = tag.getBoolean("LootGenerated") || !isEmpty();
+        lootGenerated = tag.getBooleanOr("LootGenerated", false) || !isEmpty();
     }
 
     public float fullness() {
@@ -125,7 +125,7 @@ public final class ParasiteLootBlockEntity extends BaseContainerBlockEntity {
      * tumor never refreshes or rerolls already collected loot.</p>
      */
     private void generateLootIfNeeded() {
-        if (lootGenerated || level == null || level.isClientSide) {
+        if (lootGenerated || level == null || level.isClientSide()) {
             return;
         }
         if (!(getBlockState().getBlock() instanceof ParasiteLootBlock block)) {

@@ -2,7 +2,7 @@ package alku.csrp.config;
 
 import alku.csrp.block.InfestedBlock;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
@@ -28,11 +28,11 @@ public final class BlockConversionsConfig {
     }
 
     public static Block customTarget(Block source) {
-        ResourceLocation sourceId = BuiltInRegistries.BLOCK.getKey(source);
+        Identifier sourceId = BuiltInRegistries.BLOCK.getKey(source);
         for (String entry : CUSTOM_CONVERSIONS.get()) {
             String[] parts = entry.split(";", -1);
             if (sourceId.toString().equals(parts[0])) {
-                return BuiltInRegistries.BLOCK.get(ResourceLocation.parse(parts[1]));
+                return BuiltInRegistries.BLOCK.get(Identifier.parse(parts[1]));
             }
         }
         return null;
@@ -42,8 +42,8 @@ public final class BlockConversionsConfig {
         if (!(value instanceof String entry)) return false;
         String[] parts = entry.split(";", -1);
         if (parts.length != 2) return false;
-        ResourceLocation source = ResourceLocation.tryParse(parts[0]);
-        ResourceLocation target = ResourceLocation.tryParse(parts[1]);
+        Identifier source = Identifier.tryParse(parts[0]);
+        Identifier target = Identifier.tryParse(parts[1]);
         return source != null && target != null && BuiltInRegistries.BLOCK.containsKey(source)
                 && BuiltInRegistries.BLOCK.containsKey(target)
                 && BuiltInRegistries.BLOCK.get(target) instanceof InfestedBlock;

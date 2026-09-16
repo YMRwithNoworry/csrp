@@ -30,29 +30,29 @@ public final class InfestedBonemealItem extends BoneMealItem {
         Block block = state.getBlock();
 
         if (block == ModBlocks.INFESTED_REMAINS.get()) {
-            if (!level.isClientSide) {
+            if (!level.isClientSide()) {
                 level.setBlock(pos, ModBlocks.INFESTED_ORE.get().defaultBlockState(), 3);
                 spawnInfectionParticles((ServerLevel) level, pos);
                 consume(context);
             }
-            return InteractionResult.sidedSuccess(level.isClientSide);
+            return InteractionResult.sidedSuccess(level.isClientSide());
         }
 
         if (block instanceof PestilentialOreBlock) {
-            if (!level.isClientSide) {
+            if (!level.isClientSide()) {
                 spawnInfectionParticles((ServerLevel) level, pos);
             }
-            return InteractionResult.sidedSuccess(level.isClientSide);
+            return InteractionResult.sidedSuccess(level.isClientSide());
         }
 
         PestilentialOreBlock.OreKind kind = PestilentialOreBlock.OreKind.forVanilla(block);
         if (kind != null) {
-            if (!level.isClientSide) {
+            if (!level.isClientSide()) {
                 level.setBlock(pos, infestedBlock(kind), 3);
                 spawnInfectionParticles((ServerLevel) level, pos);
                 consume(context);
             }
-            return InteractionResult.sidedSuccess(level.isClientSide);
+            return InteractionResult.sidedSuccess(level.isClientSide());
         }
 
         return super.useOn(context);

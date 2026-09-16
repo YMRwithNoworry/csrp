@@ -15,7 +15,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
@@ -94,7 +94,7 @@ public class PriManducaterEntity extends PrimitiveParasiteEntity implements Cita
 
     public static boolean checkPriManducaterSpawnRules(EntityType<? extends Monster> type,
                                                         ServerLevelAccessor level,
-                                                        MobSpawnType spawnType,
+                                                        EntitySpawnReason spawnType,
                                                         BlockPos pos,
                                                         RandomSource random) {
         int phase = Config.evolutionPhase(level.getLevel());
@@ -137,7 +137,7 @@ public class PriManducaterEntity extends PrimitiveParasiteEntity implements Cita
     public void tick() {
         super.tick();
 
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
 
@@ -215,7 +215,7 @@ public class PriManducaterEntity extends PrimitiveParasiteEntity implements Cita
                 // 持续施加效果
                 if (tickCount % 20 == 0) {
                     targetedEntity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 40, 0), this);
-                    targetedEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 1), this);
+                    targetedEntity.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 40, 1), this);
                 }
             }
         }
@@ -310,16 +310,16 @@ public class PriManducaterEntity extends PrimitiveParasiteEntity implements Cita
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         if (tag.contains(PARASITE_STATUS_NBT_KEY)) {
-            setParasiteStatus(tag.getInt(PARASITE_STATUS_NBT_KEY));
+            setParasiteStatus(tag.getIntOr(PARASITE_STATUS_NBT_KEY, 0));
         }
         if (tag.contains(ATTACK_COOLDOWN_NBT_KEY)) {
-            entityData.set(ATTACK_COOLDOWN, tag.getInt(ATTACK_COOLDOWN_NBT_KEY));
+            entityData.set(ATTACK_COOLDOWN, tag.getIntOr(ATTACK_COOLDOWN_NBT_KEY, 0));
         }
         if (tag.contains(PULLING_NBT_KEY)) {
-            entityData.set(PULLING_COUNTER, tag.getInt(PULLING_NBT_KEY));
+            entityData.set(PULLING_COUNTER, tag.getIntOr(PULLING_NBT_KEY, 0));
         }
         if (tag.contains(STEALTH_TIMER_NBT_KEY)) {
-            stealthTimer = tag.getInt(STEALTH_TIMER_NBT_KEY);
+            stealthTimer = tag.getIntOr(STEALTH_TIMER_NBT_KEY, 0);
         }
     }
 

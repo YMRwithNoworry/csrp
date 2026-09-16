@@ -37,7 +37,7 @@ public final class MarauderizedEndermanEntity extends TetheredMarauderizedEntity
     @Override
     public void tick() {
         super.tick();
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             spawnPortalParticles();
             return;
         }
@@ -56,7 +56,7 @@ public final class MarauderizedEndermanEntity extends TetheredMarauderizedEntity
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (!level().isClientSide && source.is(DamageTypeTags.IS_PROJECTILE)) {
+        if (!level().isClientSide() && source.is(DamageTypeTags.IS_PROJECTILE)) {
             for (int attempt = 0; attempt < 64; attempt++) {
                 if (teleportAwayFromTarget(getTarget())) {
                     return true;
@@ -65,7 +65,7 @@ public final class MarauderizedEndermanEntity extends TetheredMarauderizedEntity
         }
 
         boolean damaged = super.hurt(source, amount);
-        if (damaged && !level().isClientSide && teleportCooldown <= 0 && random.nextInt(4) == 0) {
+        if (damaged && !level().isClientSide() && teleportCooldown <= 0 && random.nextInt(4) == 0) {
             teleportAwayFromTarget(getTarget());
         }
         return damaged;
@@ -76,7 +76,7 @@ public final class MarauderizedEndermanEntity extends TetheredMarauderizedEntity
         boolean damaged = super.doHurtTarget(target);
         if (damaged && target instanceof LivingEntity living) {
             captureTarget(living);
-            if (!level().isClientSide && teleportCooldown <= 0 && random.nextInt(4) == 0) {
+            if (!level().isClientSide() && teleportCooldown <= 0 && random.nextInt(4) == 0) {
                 teleportAwayFromTarget(getTarget());
             }
         }
@@ -139,7 +139,7 @@ public final class MarauderizedEndermanEntity extends TetheredMarauderizedEntity
 
     private boolean tryTeleport(Vec3 requested) {
         BlockPos landing = BlockPos.containing(requested);
-        while (landing.getY() > level().getMinBuildHeight() && !level().getBlockState(landing).blocksMotion()) {
+        while (landing.getY() > level().getMinY() && !level().getBlockState(landing).blocksMotion()) {
             landing = landing.below();
         }
         if (!level().getBlockState(landing).blocksMotion()) {

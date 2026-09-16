@@ -16,7 +16,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -32,7 +32,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -214,7 +214,7 @@ public final class ParasiteProjectileEntity extends Entity {
         boolean armedNade = mode == Mode.ELVIA_NADE && entityData.get(NADE_ARMED);
         boolean armedAcidNade = mode == Mode.ACID && entityData.get(ACID_NADE_ARMED);
         boolean armedYelloweyeNade = mode == Mode.YELLOWEYE_NADE && entityData.get(ACID_NADE_ARMED);
-        if (!level().isClientSide && (owner == null || !owner.isAlive())
+        if (!level().isClientSide() && (owner == null || !owner.isAlive())
                 && !armedNade && !armedAcidNade && !armedYelloweyeNade && mode != Mode.METEOR) {
             releaseBiomassReservation(owner);
             discard();
@@ -240,7 +240,7 @@ public final class ParasiteProjectileEntity extends Entity {
                 ClipContext.Fluid.NONE, this));
         setPos(end.x, end.y, end.z);
 
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             ParticleOptions particle = switch (mode) {
                 case BOMB, METEOR -> ParticleTypes.FLAME;
                 case LIGHT, HOMING, WITHER -> ParticleTypes.SOUL_FIRE_FLAME;
@@ -303,7 +303,7 @@ public final class ParasiteProjectileEntity extends Entity {
     }
 
     private Vec3 steerTowardsHomingTarget(PrimitiveParasiteEntity owner, Vec3 movement, Mode mode) {
-        if (level().isClientSide || (mode != Mode.LIGHT && mode != Mode.HOMING)
+        if (level().isClientSide() || (mode != Mode.LIGHT && mode != Mode.HOMING)
                 || tickCount < (mode == Mode.HOMING ? 1 : 10) || owner == null) {
             return movement;
         }
@@ -364,7 +364,7 @@ public final class ParasiteProjectileEntity extends Entity {
                 getBoundingBox().inflate(radius), owner::isValidParasiteTarget)) {
             switch (mode) {
                 case SPINE -> {
-                    target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 120, 1), owner);
+                    target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 120, 1), owner);
                     target.addEffect(new MobEffectInstance(MobEffects.POISON, 80, 0), owner);
                     if (owner instanceof DeterrentParasiteEntity deterrent
                             && deterrent.getKind() == DeterrentParasiteEntity.Kind.SENTRY) {
@@ -404,7 +404,7 @@ public final class ParasiteProjectileEntity extends Entity {
         if (mode == Mode.BOMB || mode == Mode.METEOR) {
             DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(radius));
             spawnLingeringCothCloud(owner);
-            if (mode == Mode.BOMB && level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+            if (mode == Mode.BOMB && level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)) {
                 level().explode(owner, getX(), getY(), getZ(), (float) Math.max(1.5D, radius),
                         Level.ExplosionInteraction.MOB);
             }
@@ -477,7 +477,7 @@ public final class ParasiteProjectileEntity extends Entity {
             return;
         }
         SummonCapacityOwner capacityOwner = overseer;
-        ResourceLocation id = ResourceLocation.tryParse(biomassSpawnType);
+        Identifier id = Identifier.tryParse(biomassSpawnType);
         EntityType<?> rawType = id == null ? null
                 : BuiltInRegistries.ENTITY_TYPE.getOptional(id).orElse(null);
         if (rawType == null || biomassCapacityCost <= 0) {
@@ -552,10 +552,10 @@ public final class ParasiteProjectileEntity extends Entity {
     }
 
     private void impactWeb(LivingEntity directHit, BlockHitResult blockHit) {
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
-        boolean griefing = level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
+        boolean griefing = level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)
                 && EventHooks.canEntityGrief(level(), this);
         if (directHit != null) {
             if (directHit instanceof Player player
@@ -578,7 +578,7 @@ public final class ParasiteProjectileEntity extends Entity {
     }
 
     private void scatterWebsAround() {
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
         int totalWebs = random.nextInt(3) + 1;
@@ -633,7 +633,7 @@ public final class ParasiteProjectileEntity extends Entity {
 
     private void tickElviaNade(PrimitiveParasiteEntity owner) {
         setDeltaMovement(Vec3.ZERO);
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             for (int index = 0; index < 5; index++) {
                 level().addParticle(ParticleTypes.SMOKE, getRandomX(1.0D), getRandomY(), getRandomZ(1.0D),
                         0.0D, 0.0D, 0.0D);
@@ -683,7 +683,7 @@ public final class ParasiteProjectileEntity extends Entity {
 
     private void tickAcidNade(PrimitiveParasiteEntity owner) {
         setDeltaMovement(Vec3.ZERO);
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             for (int index = 0; index < 4; index++) {
                 level().addParticle(ParticleTypes.ITEM_SLIME, getRandomX(getRenderWidth()),
                         getY() + random.nextDouble() * getRenderHeight(), getRandomZ(getRenderWidth()),
@@ -723,7 +723,7 @@ public final class ParasiteProjectileEntity extends Entity {
 
     private void tickYelloweyeNade(PrimitiveParasiteEntity owner) {
         setDeltaMovement(Vec3.ZERO);
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             for (int index = 0; index < 4; index++) {
                 level().addParticle(ParticleTypes.ITEM_SLIME, getRandomX(getRenderWidth()),
                         getY() + random.nextDouble() * getRenderHeight(), getRandomZ(getRenderWidth()),
@@ -859,31 +859,31 @@ public final class ParasiteProjectileEntity extends Entity {
         if (tag.hasUUID("owner")) {
             ownerId = tag.getUUID("owner");
         }
-        entityData.set(MODE, sanitizeMode(tag.getInt("mode")));
-        entityData.set(HOMING_TARGET, tag.getInt("homing_target"));
-        entityData.set(NADE_ARMED, tag.getBoolean("nade_armed"));
-        entityData.set(NADE_FUSE_PROGRESS, tag.getInt("nade_fuse_progress"));
-        entityData.set(ACID_NADE_ARMED, tag.getBoolean("acid_nade_armed"));
-        entityData.set(ACID_NADE_FUSE_PROGRESS, tag.getInt("acid_nade_fuse_progress"));
-        damage = tag.getFloat("damage");
-        radius = tag.getDouble("radius");
-        maximumLifetime = tag.getInt("maximum_lifetime");
-        acceleration = new Vec3(tag.getDouble("acceleration_x"), tag.getDouble("acceleration_y"),
-                tag.getDouble("acceleration_z"));
-        accelerating = tag.getBoolean("accelerating");
-        nadeIgnitionTicks = tag.getInt("nade_ignition_ticks");
-        nadeFuseTicks = tag.getInt("nade_fuse_ticks");
-        nadeDamageTicks = tag.getInt("nade_damage_ticks");
-        acidNadeTicks = tag.getInt("acid_nade_ticks");
-        acidNadeFuseTicks = tag.getInt("acid_nade_fuse_ticks");
-        acidDamageTicks = tag.getInt("acid_damage_ticks");
-        webKind = tag.getInt("web_kind");
-        biomassSpawnType = tag.getString("biomass_spawn_type");
-        biomassCapacityCost = Math.max(0, tag.getInt("biomass_capacity_cost"));
-        biomassSkin = Mth.clamp(tag.contains("biomass_skin") ? tag.getInt("biomass_skin") : 4, 1, 6);
+        entityData.set(MODE, sanitizeMode(tag.getIntOr("mode", 0)));
+        entityData.set(HOMING_TARGET, tag.getIntOr("homing_target", 0));
+        entityData.set(NADE_ARMED, tag.getBooleanOr("nade_armed", false));
+        entityData.set(NADE_FUSE_PROGRESS, tag.getIntOr("nade_fuse_progress", 0));
+        entityData.set(ACID_NADE_ARMED, tag.getBooleanOr("acid_nade_armed", false));
+        entityData.set(ACID_NADE_FUSE_PROGRESS, tag.getIntOr("acid_nade_fuse_progress", 0));
+        damage = tag.getFloatOr("damage", 0.0F);
+        radius = tag.getDoubleOr("radius", 0.0D);
+        maximumLifetime = tag.getIntOr("maximum_lifetime", 0);
+        acceleration = new Vec3(tag.getDoubleOr("acceleration_x", 0.0D), tag.getDoubleOr("acceleration_y", 0.0D),
+                tag.getDoubleOr("acceleration_z", 0.0D));
+        accelerating = tag.getBooleanOr("accelerating", false);
+        nadeIgnitionTicks = tag.getIntOr("nade_ignition_ticks", 0);
+        nadeFuseTicks = tag.getIntOr("nade_fuse_ticks", 0);
+        nadeDamageTicks = tag.getIntOr("nade_damage_ticks", 0);
+        acidNadeTicks = tag.getIntOr("acid_nade_ticks", 0);
+        acidNadeFuseTicks = tag.getIntOr("acid_nade_fuse_ticks", 0);
+        acidDamageTicks = tag.getIntOr("acid_damage_ticks", 0);
+        webKind = tag.getIntOr("web_kind", 0);
+        biomassSpawnType = tag.getStringOr("biomass_spawn_type", "");
+        biomassCapacityCost = Math.max(0, tag.getIntOr("biomass_capacity_cost", 0));
+        biomassSkin = Mth.clamp(tag.contains("biomass_skin") ? tag.getIntOr("biomass_skin", 0) : 4, 1, 6);
         biomassTargetId = tag.hasUUID("biomass_target") ? tag.getUUID("biomass_target") : null;
-        biomassReservationHandled = tag.getBoolean("biomass_reservation_handled");
-        rootMeteor = tag.getBoolean("root_meteor");
+        biomassReservationHandled = tag.getBooleanOr("biomass_reservation_handled", false);
+        rootMeteor = tag.getBooleanOr("root_meteor", false);
     }
 
     @Override

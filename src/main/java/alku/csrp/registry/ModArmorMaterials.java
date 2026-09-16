@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Map;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -40,7 +40,7 @@ public final class ModArmorMaterials {
                             ArmorItem.Type.LEGGINGS, 6, ArmorItem.Type.BOOTS, 3), 18,
                     SoundEvents.ARMOR_EQUIP_LEATHER,
                     () -> Ingredient.of(),
-                    List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath("minecraft", "leather"))),
+                    List.of(new ArmorMaterial.Layer(Identifier.fromNamespaceAndPath("minecraft", "leather"))),
                     1.0F, 0.0F));
 
     private static ArmorMaterial material(Map<ArmorItem.Type, Integer> defense, int enchantmentValue,
@@ -48,7 +48,7 @@ public final class ModArmorMaterials {
             String layer) {
         return new ArmorMaterial(defense, enchantmentValue, equipSound,
                 () -> Ingredient.of(ModItems.BLOODY_IRON_INGOT.get()),
-                List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, layer))),
+                List.of(new ArmorMaterial.Layer(Identifier.fromNamespaceAndPath(Csrp.MODID, layer))),
                 toughness, knockbackResistance);
     }
 

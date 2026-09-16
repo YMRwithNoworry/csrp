@@ -18,7 +18,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
@@ -56,7 +56,7 @@ public final class OverlastCanteenItem extends Item {
         if (user instanceof ServerPlayer serverPlayer) {
             CriteriaTriggers.CONSUME_ITEM.trigger(serverPlayer, stack);
         }
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             user.addEffect(createEffect());
         }
         user.gameEvent(GameEvent.DRINK);
@@ -89,8 +89,8 @@ public final class OverlastCanteenItem extends Item {
     }
 
     @Override
-    public UseAnim getUseAnimation(ItemStack stack) {
-        return UseAnim.DRINK;
+    public ItemUseAnimation getUseAnimation(ItemStack stack) {
+        return ItemUseAnimation.DRINK;
     }
 
     @Override
@@ -128,14 +128,14 @@ public final class OverlastCanteenItem extends Item {
             return 0;
         }
         CustomData data = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
-        int sips = data.contains(SIPS_TAG) ? data.copyTag().getInt(SIPS_TAG)
+        int sips = data.contains(SIPS_TAG) ? data.copyTag().getIntOr(SIPS_TAG, 0)
                 : canteen.dose == Dose.EMPTY ? 0 : MAX_SIPS - stack.getDamageValue();
         return Mth.clamp(sips, 0, MAX_SIPS);
     }
 
     public static int getCanteenDurability(ItemStack stack) {
         CustomData data = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
-        int durability = data.contains(DURABILITY_TAG) ? data.copyTag().getInt(DURABILITY_TAG)
+        int durability = data.contains(DURABILITY_TAG) ? data.copyTag().getIntOr(DURABILITY_TAG, 0)
                 : MAX_CANTEEN_DURABILITY - stack.getDamageValue();
         return Mth.clamp(durability, 0, MAX_CANTEEN_DURABILITY);
     }

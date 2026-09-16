@@ -9,7 +9,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
@@ -24,7 +24,7 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -159,7 +159,7 @@ public final class AssimilatedParasiteEntity extends Monster
         } else {
             stillAnimationTicks++;
         }
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
 
@@ -241,7 +241,7 @@ public final class AssimilatedParasiteEntity extends Monster
     @Override
     public void die(DamageSource source) {
         super.die(source);
-        if (level().isClientSide || kind == Kind.BEAR || kind == Kind.SQUID || random.nextFloat() >= 0.5F
+        if (level().isClientSide() || kind == Kind.BEAR || kind == Kind.SQUID || random.nextFloat() >= 0.5F
                 || !(level() instanceof ServerLevel serverLevel)) {
             return;
         }
@@ -257,7 +257,7 @@ public final class AssimilatedParasiteEntity extends Monster
         }
         head.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
         head.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                EntitySpawnReason.MOB_SUMMONED, null);
         head.setCustomName(getCustomName());
         head.setCustomNameVisible(isCustomNameVisible());
         if (isPersistenceRequired()) {
@@ -342,7 +342,7 @@ public final class AssimilatedParasiteEntity extends Monster
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
-                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
+                                        EntitySpawnReason spawnType, @Nullable SpawnGroupData spawnGroupData) {
         SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
         if (!level.isClientSide()) {
             if (kind == Kind.SHEEP) {
@@ -369,13 +369,13 @@ public final class AssimilatedParasiteEntity extends Monster
         if (variant < 0) {
             return InteractionResult.PASS;
         }
-        if (!level().isClientSide && variant != getSheepTextureVariant()) {
+        if (!level().isClientSide() && variant != getSheepTextureVariant()) {
             setSheepTextureVariant(variant);
             if (!player.getAbilities().instabuild) {
                 stack.shrink(1);
             }
         }
-        return InteractionResult.sidedSuccess(level().isClientSide);
+        return InteractionResult.sidedSuccess(level().isClientSide());
     }
 
     @Override
@@ -392,12 +392,12 @@ public final class AssimilatedParasiteEntity extends Monster
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        parasiteKills = tag.getInt("parasite_kills");
-        setSheepTextureVariant(tag.getInt("sheep_texture_variant"));
-        setTamedWolfTexture(tag.getBoolean("tamed_wolf_texture"));
-        entityData.set(MELTING, tag.getBoolean("melting"));
-        entityData.set(MELT_HEIGHT, tag.getFloat("melt_height"));
-        meltTicks = tag.getInt("melt_ticks");
+        parasiteKills = tag.getIntOr("parasite_kills", 0);
+        setSheepTextureVariant(tag.getIntOr("sheep_texture_variant", 0));
+        setTamedWolfTexture(tag.getBooleanOr("tamed_wolf_texture", false));
+        entityData.set(MELTING, tag.getBooleanOr("melting", false));
+        entityData.set(MELT_HEIGHT, tag.getFloatOr("melt_height", 0.0F));
+        meltTicks = tag.getIntOr("melt_ticks", 0);
     }
 
     @Override
@@ -529,7 +529,7 @@ public final class AssimilatedParasiteEntity extends Monster
         entityData.set(TAMED_WOLF_TEXTURE, tamed);
     }
 
-    public ResourceLocation getTextureResource() {
+    public Identifier getTextureResource() {
         String texture = switch (kind) {
             case SHEEP -> switch (getSheepTextureVariant()) {
                 case 1 -> "sim_sheep_grey";
@@ -539,7 +539,7 @@ public final class AssimilatedParasiteEntity extends Monster
             case WOLF -> hasTamedWolfTexture() ? "sim_wolf_tamed" : "sim_wolf";
             default -> kind.id;
         };
-        return ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/" + texture + ".png");
+        return Identifier.fromNamespaceAndPath(Csrp.MODID, "textures/entity/" + texture + ".png");
     }
 
     public float getMeltHeight() {

@@ -10,7 +10,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
@@ -19,7 +19,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -181,7 +181,7 @@ public final class BiomassEntity extends Monster implements CitadelAnimatedEntit
     @Override
     public void tick() {
         super.tick();
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             spawnClientParticles();
             return;
         }
@@ -243,7 +243,7 @@ public final class BiomassEntity extends Monster implements CitadelAnimatedEntit
                 11, 0.5D, 0.5D, 0.5D, 0.15D);
 
         Mob parent = resolveMob(level, entityData.get(PARENT));
-        ResourceLocation spawnTypeId = ResourceLocation.tryParse(entityData.get(SPAWN_TYPE));
+        Identifier spawnTypeId = Identifier.tryParse(entityData.get(SPAWN_TYPE));
         Entity created = spawnTypeId == null ? null
                 : BuiltInRegistries.ENTITY_TYPE.getOptional(spawnTypeId).map(type -> type.create(level)).orElse(null);
         if (!(created instanceof Mob spawned)) {
@@ -256,7 +256,7 @@ public final class BiomassEntity extends Monster implements CitadelAnimatedEntit
         float pitch = parent == null ? getXRot() : parent.getXRot();
         spawned.moveTo(getX(), getY(), getZ(), yaw, pitch);
         spawned.finalizeSpawn(level, level.getCurrentDifficultyAt(spawned.blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                EntitySpawnReason.MOB_SUMMONED, null);
         AttributeInstance followRange = spawned.getAttribute(Attributes.FOLLOW_RANGE);
         if (followRange != null) {
             followRange.setBaseValue(16.0D + (getStage() - 1.0F) * 8.0D);
@@ -376,12 +376,12 @@ public final class BiomassEntity extends Monster implements CitadelAnimatedEntit
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        entityData.set(SKIN, Mth.clamp(tag.getInt("biomass_skin"), 1, 6));
-        entityData.set(STAGE, tag.contains("biomass_stage") ? tag.getFloat("biomass_stage") : 1.0F);
-        entityData.set(FUSE, tag.contains("biomass_fuse") ? tag.getInt("biomass_fuse") : DEFAULT_FUSE_TICKS);
-        entityData.set(GROWTH_TICKS, Math.max(0, tag.getInt("biomass_growth_ticks")));
-        entityData.set(CAPACITY_COST, Math.max(0, tag.getInt("biomass_capacity_cost")));
-        entityData.set(SPAWN_TYPE, tag.getString("biomass_spawn_type"));
+        entityData.set(SKIN, Mth.clamp(tag.getIntOr("biomass_skin", 0), 1, 6));
+        entityData.set(STAGE, tag.contains("biomass_stage") ? tag.getFloatOr("biomass_stage", 0.0F) : 1.0F);
+        entityData.set(FUSE, tag.contains("biomass_fuse") ? tag.getIntOr("biomass_fuse", 0) : DEFAULT_FUSE_TICKS);
+        entityData.set(GROWTH_TICKS, Math.max(0, tag.getIntOr("biomass_growth_ticks", 0)));
+        entityData.set(CAPACITY_COST, Math.max(0, tag.getIntOr("biomass_capacity_cost", 0)));
+        entityData.set(SPAWN_TYPE, tag.getStringOr("biomass_spawn_type", ""));
         entityData.set(PARENT, tag.hasUUID("biomass_parent")
                 ? Optional.of(tag.getUUID("biomass_parent")) : Optional.empty());
         entityData.set(TARGET, tag.hasUUID("biomass_target")

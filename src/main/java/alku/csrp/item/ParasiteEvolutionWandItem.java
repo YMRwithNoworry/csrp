@@ -29,7 +29,7 @@ public final class ParasiteEvolutionWandItem extends Item {
         if (hand != InteractionHand.MAIN_HAND || !(target instanceof Parasite)) {
             return InteractionResult.PASS;
         }
-        if (target.level().isClientSide) {
+        if (target.level().isClientSide()) {
             return mode == Mode.DEVOLUTION || ParasiteTransformation.canEvolve(target)
                     ? InteractionResult.SUCCESS : InteractionResult.PASS;
         }

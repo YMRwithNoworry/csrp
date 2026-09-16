@@ -37,7 +37,7 @@ public abstract class TetheredMarauderizedEntity extends MarauderizedParasiteEnt
 
     @Override
     public boolean captureTarget(LivingEntity target) {
-        if (level().isClientSide || target == null || hasPullTarget() || pullCooldown > 0
+        if (level().isClientSide() || target == null || hasPullTarget() || pullCooldown > 0
                 || !isValidPullTarget(target)) {
             return false;
         }
@@ -55,7 +55,7 @@ public abstract class TetheredMarauderizedEntity extends MarauderizedParasiteEnt
     }
 
     protected void tickTether() {
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
         if (pullCooldown > 0) {
@@ -76,8 +76,8 @@ public abstract class TetheredMarauderizedEntity extends MarauderizedParasiteEnt
         }
 
         target.stopRiding();
-        target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20, 1, false, false), this);
-        target.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 20, 1, false, false), this);
+        target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 20, 1, false, false), this);
+        target.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE, 20, 1, false, false), this);
         Vec3 direction = position().subtract(target.position());
         if (direction.lengthSqr() > 0.001D) {
             Vec3 pull = direction.normalize().scale(pullStrength());
@@ -141,7 +141,7 @@ public abstract class TetheredMarauderizedEntity extends MarauderizedParasiteEnt
     }
 
     private void syncPullTarget() {
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             LivingEntity target = resolvePullTarget();
             entityData.set(PULL_TARGET, target == null ? 0 : target.getId());
         }
@@ -161,8 +161,8 @@ public abstract class TetheredMarauderizedEntity extends MarauderizedParasiteEnt
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         pullTargetId = tag.hasUUID("pull_target") ? tag.getUUID("pull_target") : null;
-        pullTicks = tag.getInt("pull_ticks");
-        pullCooldown = tag.getInt("pull_cooldown");
+        pullTicks = tag.getIntOr("pull_ticks", 0);
+        pullCooldown = tag.getIntOr("pull_cooldown", 0);
         syncPullTarget();
     }
 }

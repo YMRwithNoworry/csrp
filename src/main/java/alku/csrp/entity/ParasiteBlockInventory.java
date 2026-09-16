@@ -38,7 +38,7 @@ public final class ParasiteBlockInventory {
             return false;
         }
         CompoundTag data = parasite.getPersistentData();
-        ListTag list = data.getList(TAG, CompoundTag.TAG_COMPOUND);
+        ListTag list = data.getListOrEmpty(TAG);
         if (list.size() >= MAX_STACKS) {
             return false;
         }
@@ -84,7 +84,7 @@ public final class ParasiteBlockInventory {
     public static NonNullList<ItemStack> takeAll(LivingEntity parasite) {
         HolderLookup.Provider registries = parasite.level().registryAccess();
         CompoundTag data = parasite.getPersistentData();
-        ListTag list = data.getList(TAG, CompoundTag.TAG_COMPOUND);
+        ListTag list = data.getListOrEmpty(TAG);
         NonNullList<ItemStack> items = NonNullList.withSize(
                 Math.min(list.size(), MAX_STACKS), ItemStack.EMPTY);
         int slot = 0;

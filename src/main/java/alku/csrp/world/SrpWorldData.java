@@ -70,29 +70,29 @@ public final class SrpWorldData extends SavedData {
 
     private static SrpWorldData load(CompoundTag tag, HolderLookup.Provider registries) {
         SrpWorldData data = new SrpWorldData();
-        data.dataVersion = tag.getInt("data_version");
+        data.dataVersion = tag.getIntOr("data_version", 0);
         data.initialized = tag.contains("evolution_phase");
         if (tag.contains("evolution_phase")) {
-            data.evolutionPhase = tag.getInt("evolution_phase");
+            data.evolutionPhase = tag.getIntOr("evolution_phase", 0);
         }
-        data.evolutionPoints = tag.getInt("evolution_points");
-        data.difficulty = SrpDifficulty.byId(tag.getString("srp_difficulty"));
-        data.starType = SrpStarType.byId(tag.getString("star_type"));
+        data.evolutionPoints = tag.getIntOr("evolution_points", 0);
+        data.difficulty = SrpDifficulty.byId(tag.getStringOr("srp_difficulty", ""));
+        data.starType = SrpStarType.byId(tag.getStringOr("star_type", ""));
         data.meteorInfection = tag.contains("meteor_infection")
-                ? SrpMeteorMode.byId(tag.getString("meteor_infection"))
+                ? SrpMeteorMode.byId(tag.getStringOr("meteor_infection", ""))
                 : null;
-        data.difficultyPointRemainder = tag.getDouble("difficulty_point_remainder");
-        data.cooldownEnd = tag.getLong("cooldown_end");
-        data.canGain = !tag.contains("can_gain") || tag.getBoolean("can_gain");
-        data.canLose = !tag.contains("can_lose") || tag.getBoolean("can_lose");
-        data.generation = tag.getInt("generation");
-        data.generationTicks = tag.getInt("generation_ticks");
-        data.assimilatedEndermen = tag.getInt("assimilated_endermen");
-        data.passivePointRemainder = tag.getDouble("passive_point_remainder");
-        data.ubiquitousDevelopment = tag.getInt("ubiquitous_development");
-        data.eveMode = tag.getBoolean("eve_mode");
-        data.dislodgmentTriggerCooldownEnd = tag.getLong("dislodgment_trigger_cooldown_end");
-        data.reinforcementCooldownEnd = tag.getLong("reinforcement_cooldown_end");
+        data.difficultyPointRemainder = tag.getDoubleOr("difficulty_point_remainder", 0.0D);
+        data.cooldownEnd = tag.getLongOr("cooldown_end", 0L);
+        data.canGain = !tag.contains("can_gain") || tag.getBooleanOr("can_gain", false);
+        data.canLose = !tag.contains("can_lose") || tag.getBooleanOr("can_lose", false);
+        data.generation = tag.getIntOr("generation", 0);
+        data.generationTicks = tag.getIntOr("generation_ticks", 0);
+        data.assimilatedEndermen = tag.getIntOr("assimilated_endermen", 0);
+        data.passivePointRemainder = tag.getDoubleOr("passive_point_remainder", 0.0D);
+        data.ubiquitousDevelopment = tag.getIntOr("ubiquitous_development", 0);
+        data.eveMode = tag.getBooleanOr("eve_mode", false);
+        data.dislodgmentTriggerCooldownEnd = tag.getLongOr("dislodgment_trigger_cooldown_end", 0L);
+        data.reinforcementCooldownEnd = tag.getLongOr("reinforcement_cooldown_end", 0L);
         long[] dislodgmentCooldowns = tag.getLongArray("dislodgment_cooldown_ends");
         System.arraycopy(dislodgmentCooldowns, 0, data.dislodgmentCooldownEnds, 0,
                 Math.min(dislodgmentCooldowns.length, data.dislodgmentCooldownEnds.length));
@@ -773,10 +773,10 @@ public final class SrpWorldData extends SavedData {
     }
 
     private static void readGlobalAdaptations(CompoundTag tag, Map<String, Integer> output) {
-        for (Tag raw : tag.getList("global_adaptations", Tag.TAG_COMPOUND)) {
+        for (Tag raw : tag.getListOrEmpty("global_adaptations")) {
             CompoundTag entry = (CompoundTag) raw;
-            String damage = entry.getString("damage");
-            int points = entry.getInt("points");
+            String damage = entry.getStringOr("damage", "");
+            int points = entry.getIntOr("points", 0);
             if (!damage.isBlank() && points > 0) {
                 output.put(damage, points);
             }

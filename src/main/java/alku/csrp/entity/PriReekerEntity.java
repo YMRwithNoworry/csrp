@@ -108,7 +108,7 @@ public class PriReekerEntity extends PrimitiveParasiteEntity {
     public void tick() {
         super.tick();
 
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             int chargeTicks = entityData.get(CHARGE_TICKS);
             if (chargeTicks > 0) {
                 entityData.set(CHARGE_TICKS, chargeTicks - 1);
@@ -161,7 +161,7 @@ public class PriReekerEntity extends PrimitiveParasiteEntity {
             for (LivingEntity entity : level().getEntitiesOfClass(LivingEntity.class, collisionBox,
                     this::isValidParasiteTarget)) {
                 if (entity.hurt(damageSources().mobAttack(this), CHARGE_DAMAGE)) {
-                    entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, 2), this);
+                    entity.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 60, 2), this);
                     InfectionMechanics.applyCothEffect(entity, this, 3600, 0, false, true);
                     Vec3 knockback = entity.position().subtract(position()).normalize().scale(1.5);
                     entity.setDeltaMovement(entity.getDeltaMovement().add(knockback.x, 0.5, knockback.z));
@@ -233,7 +233,7 @@ public class PriReekerEntity extends PrimitiveParasiteEntity {
         if (hurt) {
             triggerAnim("attack_controller", "attack");
             if (target instanceof LivingEntity living) {
-                living.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 1), this);
+                living.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 40, 1), this);
                 InfectionMechanics.applyCothEffect(living, this, 3600, 0, false, true);
             }
         }
@@ -265,9 +265,9 @@ public class PriReekerEntity extends PrimitiveParasiteEntity {
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        setParasiteStatus(tag.getInt("ParasiteStatus"));
-        entityData.set(CHARGE_TICKS, tag.getInt("ChargeTicks"));
-        skillCharge = tag.getBoolean("SkillCharge");
+        setParasiteStatus(tag.getIntOr("ParasiteStatus", 0));
+        entityData.set(CHARGE_TICKS, tag.getIntOr("ChargeTicks", 0));
+        skillCharge = tag.getBooleanOr("SkillCharge", false);
     }
 
     @Override

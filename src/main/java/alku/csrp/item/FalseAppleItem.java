@@ -12,14 +12,14 @@ import net.minecraft.world.entity.LivingEntity;
 public final class FalseAppleItem extends Item {
     public FalseAppleItem(Item.Properties properties) {
         super(properties.food(new FoodProperties.Builder().nutrition(4).saturationModifier(0.3F).alwaysEdible()
-                .effect(() -> new MobEffectInstance(MobEffects.CONFUSION, 200), 1.0F)
+                .effect(() -> new MobEffectInstance(MobEffects.NAUSEA, 200), 1.0F)
                 .effect(() -> new MobEffectInstance(MobEffects.BLINDNESS, 600), 1.0F).build()));
     }
 
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity user) {
         ItemStack result = super.finishUsingItem(stack, level, user);
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             for (int i = 0; i < 5; i++) {
                 var buglin = ModEntities.BUGLIN.get().create(level);
                 if (buglin != null) {

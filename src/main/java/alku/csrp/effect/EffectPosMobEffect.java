@@ -13,7 +13,7 @@ public final class EffectPosMobEffect extends MarkerMobEffect {
 
     @Override
     public boolean applyEffectTick(LivingEntity entity, int amplifier) {
-        if (!entity.level().isClientSide && entity.tickCount % 20 == 0) {
+        if (!entity.level().isClientSide() && entity.tickCount % 20 == 0) {
             for (MobEffectInstance active : new ArrayList<>(entity.getActiveEffects())) {
                 if (active.getEffect().value().getCategory() != MobEffectCategory.HARMFUL) {
                     entity.hurt(entity.damageSources().magic(), 0.5F * (active.getAmplifier() + 1)

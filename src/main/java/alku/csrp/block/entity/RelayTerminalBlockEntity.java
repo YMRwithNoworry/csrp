@@ -194,12 +194,12 @@ public final class RelayTerminalBlockEntity extends BaseContainerBlockEntity {
         super.loadAdditional(tag, registries);
         items = NonNullList.withSize(CONTAINER_SIZE, ItemStack.EMPTY);
         ContainerHelper.loadAllItems(tag, items, registries);
-        nextScanTick = tag.getLong("NextScanTick");
-        scanTicks = Math.max(0, tag.getInt("ScanTicks"));
+        nextScanTick = tag.getLongOr("NextScanTick", 0L);
+        scanTicks = Math.max(0, tag.getIntOr("ScanTicks", 0));
         scanPlayer = tag.hasUUID("ScanPlayer") ? tag.getUUID("ScanPlayer") : null;
         if (tag.contains("ScanKind")) {
             try {
-                scanKind = RelayModuleItem.Kind.valueOf(tag.getString("ScanKind"));
+                scanKind = RelayModuleItem.Kind.valueOf(tag.getStringOr("ScanKind", ""));
             } catch (IllegalArgumentException ignored) {
                 scanKind = null;
                 scanPlayer = null;

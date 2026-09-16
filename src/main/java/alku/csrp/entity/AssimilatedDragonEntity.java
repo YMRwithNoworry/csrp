@@ -30,7 +30,7 @@ import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.util.Mth;
 import net.neoforged.neoforge.event.EventHooks;
@@ -156,7 +156,7 @@ public final class AssimilatedDragonEntity extends Monster implements CitadelAni
         setNoGravity(isFlying());
         updateBodyParts();
         updateParasiteStatus();
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
         if (rangedCooldown > 0) rangedCooldown--;
@@ -180,7 +180,7 @@ public final class AssimilatedDragonEntity extends Monster implements CitadelAni
         }
         LivingEntity target = getTarget();
         if (blockBreakCooldown > 0 || target == null || !target.isAlive() || distanceToSqr(target) > 4096.0D
-                || !level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
+                || !level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)
                 || !EventHooks.canEntityGrief(level(), this)) {
             return;
         }
@@ -225,7 +225,7 @@ public final class AssimilatedDragonEntity extends Monster implements CitadelAni
     public boolean hurt(DamageSource source, float amount) {
         float applied = source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount;
         boolean hurt = super.hurt(source, applied);
-        if (hurt && !level().isClientSide && random.nextInt(12) == 0 && !isFlying() && canFly()) {
+        if (hurt && !level().isClientSide() && random.nextInt(12) == 0 && !isFlying() && canFly()) {
             setFlying(true);
         }
         return hurt;
@@ -299,13 +299,13 @@ public final class AssimilatedDragonEntity extends Monster implements CitadelAni
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        setParasiteStatus(tag.getInt("parasite_status"));
-        headHealth = tag.getFloat("head_health");
-        leftWingHealth = tag.getFloat("left_wing_health");
-        rightWingHealth = tag.getFloat("right_wing_health");
-        rangedCooldown = tag.getInt("ranged_cooldown");
-        attackStateTimer = tag.getInt("attack_state_timer");
-        breathStateTimer = tag.getInt("breath_state_timer");
+        setParasiteStatus(tag.getIntOr("parasite_status", 0));
+        headHealth = tag.getFloatOr("head_health", 0.0F);
+        leftWingHealth = tag.getFloatOr("left_wing_health", 0.0F);
+        rightWingHealth = tag.getFloatOr("right_wing_health", 0.0F);
+        rangedCooldown = tag.getIntOr("ranged_cooldown", 0);
+        attackStateTimer = tag.getIntOr("attack_state_timer", 0);
+        breathStateTimer = tag.getIntOr("breath_state_timer", 0);
         entityData.set(HEAD_ATTACHED, headHealth > 0.0F);
         entityData.set(LEFT_WING_ATTACHED, leftWingHealth > 0.0F);
         entityData.set(RIGHT_WING_ATTACHED, rightWingHealth > 0.0F);

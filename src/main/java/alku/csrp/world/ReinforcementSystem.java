@@ -8,7 +8,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
@@ -67,7 +67,7 @@ public final class ReinforcementSystem {
         }
         beckon.moveTo(spawnPos.getX() + 0.5D, spawnPos.getY(), spawnPos.getZ() + 0.5D,
                 random.nextFloat() * 360.0F, 0.0F);
-        beckon.finalizeSpawn(level, level.getCurrentDifficultyAt(spawnPos), MobSpawnType.MOB_SUMMONED, null);
+        beckon.finalizeSpawn(level, level.getCurrentDifficultyAt(spawnPos), EntitySpawnReason.MOB_SUMMONED, null);
         if (!level.noCollision(beckon)) {
             beckon.discard();
             return false;

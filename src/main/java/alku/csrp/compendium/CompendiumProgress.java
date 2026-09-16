@@ -19,18 +19,18 @@ public final class CompendiumProgress {
 
     public static CompendiumProgress load(CompoundTag tag) {
         CompendiumProgress progress = new CompendiumProgress();
-        CompoundTag killTag = tag.getCompound("kills");
+        CompoundTag killTag = tag.getCompoundOrEmpty("kills");
         for (String key : killTag.getAllKeys()) {
-            progress.kills.put(key, killTag.getInt(key));
+            progress.kills.put(key, killTag.getIntOr(key, 0));
         }
-        readSet(tag.getCompound("blocks"), progress.blocks);
-        readSet(tag.getCompound("celestials"), progress.celestials);
-        readSet(tag.getCompound("effects"), progress.effects);
-        progress.damageToParasites = tag.getFloat("damage_to_parasites");
-        progress.damageFromParasites = tag.getFloat("damage_from_parasites");
-        progress.deathsByParasites = tag.getInt("deaths_by_parasites");
+        readSet(tag.getCompoundOrEmpty("blocks"), progress.blocks);
+        readSet(tag.getCompoundOrEmpty("celestials"), progress.celestials);
+        readSet(tag.getCompoundOrEmpty("effects"), progress.effects);
+        progress.damageToParasites = tag.getFloatOr("damage_to_parasites", 0.0F);
+        progress.damageFromParasites = tag.getFloatOr("damage_from_parasites", 0.0F);
+        progress.deathsByParasites = tag.getIntOr("deaths_by_parasites", 0);
         if (tag.contains("unlock_snapshot")) {
-            progress.unlockSnapshot = tag.getCompound("unlock_snapshot").copy();
+            progress.unlockSnapshot = tag.getCompoundOrEmpty("unlock_snapshot").copy();
         }
         return progress;
     }

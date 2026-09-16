@@ -20,10 +20,10 @@ public final class CompendiumSavedData extends SavedData {
 
     private static CompendiumSavedData load(CompoundTag tag, HolderLookup.Provider registries) {
         CompendiumSavedData data = new CompendiumSavedData();
-        CompoundTag playersTag = tag.getCompound("players");
+        CompoundTag playersTag = tag.getCompoundOrEmpty("players");
         for (String key : playersTag.getAllKeys()) {
             try {
-                data.players.put(UUID.fromString(key), CompendiumProgress.load(playersTag.getCompound(key)));
+                data.players.put(UUID.fromString(key), CompendiumProgress.load(playersTag.getCompoundOrEmpty(key)));
             } catch (IllegalArgumentException ignored) {
                 // Ignore malformed legacy entries instead of invalidating the whole world save.
             }

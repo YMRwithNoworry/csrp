@@ -41,7 +41,7 @@ public final class EvolutionLureBlock extends Block {
         if (level instanceof ServerLevel serverLevel) {
             activate(serverLevel, pos, state.getValue(TIER), player);
         }
-        return InteractionResult.sidedSuccess(level.isClientSide);
+        return InteractionResult.sidedSuccess(level.isClientSide());
     }
 
     @Override
@@ -51,9 +51,9 @@ public final class EvolutionLureBlock extends Block {
             if (level instanceof ServerLevel serverLevel) {
                 activate(serverLevel, pos, state.getValue(TIER), player);
             }
-            return ItemInteractionResult.sidedSuccess(level.isClientSide);
+            return ItemInteractionResult.sidedSuccess(level.isClientSide());
         }
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             player.displayClientMessage(Component.translatable("message.csrp.lure_empty_hand"), true);
         }
         return ItemInteractionResult.SUCCESS;

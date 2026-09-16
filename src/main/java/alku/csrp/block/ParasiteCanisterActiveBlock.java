@@ -36,7 +36,7 @@ public final class ParasiteCanisterActiveBlock extends Block implements EntityBl
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state,
             BlockEntityType<T> type) {
-        return level.isClientSide ? null
+        return level.isClientSide() ? null
                 : (level1, pos, state1, blockEntity) ->
                         ParasiteCanisterBlockEntity.serverTick(level1, pos, state1, blockEntity);
     }

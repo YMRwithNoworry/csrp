@@ -5,7 +5,7 @@ import alku.csrp.registry.ModBlocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.PostChain;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -22,7 +22,7 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
  */
 @EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT)
 public final class InfectedPlantGlitchEvents {
-    private static final ResourceLocation EFFECT = ResourceLocation.fromNamespaceAndPath(
+    private static final Identifier EFFECT = Identifier.fromNamespaceAndPath(
             Csrp.MODID, "shaders/post/glitch_double_vision.json");
 
     private static PostChain loadedEffect;

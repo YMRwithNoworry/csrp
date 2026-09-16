@@ -28,7 +28,7 @@ public final class RelayTowerPartBlock extends Block {
             if (player instanceof net.minecraft.server.level.ServerPlayer serverPlayer) {
                 serverPlayer.openMenu(relay);
             }
-            return InteractionResult.sidedSuccess(level.isClientSide);
+            return InteractionResult.sidedSuccess(level.isClientSide());
         }
         return InteractionResult.PASS;
     }

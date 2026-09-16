@@ -52,11 +52,11 @@ final class SummonCapacityTracker {
 
     void load(CompoundTag tag, String key) {
         trackedSummons.clear();
-        ListTag summons = tag.getList(key, Tag.TAG_COMPOUND);
+        ListTag summons = tag.getListOrEmpty(key);
         for (Tag value : summons) {
             CompoundTag entry = (CompoundTag) value;
-            if (entry.hasUUID("entity") && entry.getInt("cost") > 0) {
-                trackedSummons.put(entry.getUUID("entity"), entry.getInt("cost"));
+            if (entry.hasUUID("entity") && entry.getIntOr("cost", 0) > 0) {
+                trackedSummons.put(entry.getUUID("entity"), entry.getIntOr("cost", 0));
             }
         }
     }

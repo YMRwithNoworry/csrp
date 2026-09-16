@@ -7,19 +7,19 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 
 /** Renders the animated Void/Boom Orb suspended above its trophy base. */
 public final class TrophyBlockEntityRenderer implements BlockEntityRenderer<TrophyBlockEntity> {
-    private static final ResourceLocation VOID_CORE = texture("orbvoid.png");
-    private static final ResourceLocation VOID_AURA = texture("orbvoid_armor.png");
-    private static final ResourceLocation BOOM_CORE = texture("orbboom.png");
-    private static final ResourceLocation BOOM_AURA = texture("orbboom_armor.png");
+    private static final Identifier VOID_CORE = texture("orbvoid.png");
+    private static final Identifier VOID_AURA = texture("orbvoid_armor.png");
+    private static final Identifier BOOM_CORE = texture("orbboom.png");
+    private static final Identifier BOOM_AURA = texture("orbboom_armor.png");
     private static final float LEGACY_TROPHY_SCALE = 5.0F;
     private static final float LEGACY_SPHERE_RADIUS = 0.317F;
     private static final float LEGACY_AURA_SCALE = 1.12F;
@@ -89,7 +89,7 @@ public final class TrophyBlockEntityRenderer implements BlockEntityRenderer<Trop
                 .setNormal(pose, x, y, z);
     }
 
-    private static ResourceLocation texture(String name) {
-        return ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "textures/entity/" + name);
+    private static Identifier texture(String name) {
+        return Identifier.fromNamespaceAndPath(Csrp.MODID, "textures/entity/" + name);
     }
 }

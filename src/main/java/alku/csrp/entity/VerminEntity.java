@@ -23,9 +23,9 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.entity.animal.fish.WaterAnimal;
 import net.minecraft.world.entity.monster.Creeper;
-import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -87,7 +87,7 @@ public final class VerminEntity extends PrimitiveParasiteEntity {
     @Override public void tick() {
         super.tick();
         setNoGravity(true);
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             if (random.nextInt(25) == 0) {
                 VerminParticles.spawnMouthDrips(level(), this);
             }
@@ -433,7 +433,7 @@ public final class VerminEntity extends PrimitiveParasiteEntity {
         private boolean hasExceededGroundDistance() {
             BlockPos pos = blockPosition().below();
             for (int count = 1; count <= limit; count++, pos = pos.below()) {
-                if (pos.getY() < level().getMinBuildHeight() || !level().getBlockState(pos).isAir()) {
+                if (pos.getY() < level().getMinY() || !level().getBlockState(pos).isAir()) {
                     return false;
                 }
             }

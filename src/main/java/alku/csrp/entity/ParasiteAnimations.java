@@ -1,7 +1,7 @@
 package alku.csrp.entity;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import alku.csrp.animation.CitadelRawAnimation;
@@ -104,7 +104,7 @@ final class ParasiteAnimations {
     }
 
     private static String animationResourceId(Entity entity) {
-        ResourceLocation key = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType());
+        Identifier key = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType());
         String id = key.getPath();
         // The original SRP resource uses the historical "dragone" spelling,
         // while csrp keeps its existing registry ID for save compatibility.

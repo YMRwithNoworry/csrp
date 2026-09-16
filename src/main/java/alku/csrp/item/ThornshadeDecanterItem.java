@@ -4,7 +4,7 @@ import alku.csrp.registry.ModMobEffects;
 import alku.csrp.Csrp;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -21,7 +21,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.level.Level;
 
 /** Legacy Thornshade Decanter: two useful doses, then delayed self-destruction. */
@@ -42,15 +42,15 @@ public final class ThornshadeDecanterItem extends Item {
 
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity user) {
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             user.addEffect(new MobEffectInstance(ModMobEffects.THORNSHADE_THORNS,
                     EFFECT_DURATION_TICKS, 0, false, true));
         }
         if (!(user instanceof Player player) || !player.getAbilities().instabuild) {
             stack.shrink(1);
         }
-        if (!level.isClientSide && user instanceof Player drinker) {
-            int uses = drinker.getPersistentData().getInt(USES_KEY) + 1;
+        if (!level.isClientSide() && user instanceof Player drinker) {
+            int uses = drinker.getPersistentData().getIntOr(USES_KEY, 0) + 1;
             drinker.getPersistentData().putInt(USES_KEY, uses);
             if (uses >= EXPLOSION_USE) {
                 drinker.getPersistentData().putInt(USES_KEY, 0);
@@ -72,7 +72,7 @@ public final class ThornshadeDecanterItem extends Item {
                 SoundSource.PLAYERS, 1.2F, 0.8F);
         if (player instanceof ServerPlayer serverPlayer) {
             AdvancementHolder holder = serverPlayer.server.getAdvancements()
-                    .get(ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+                    .get(Identifier.fromNamespaceAndPath(Csrp.MODID,
                             "beautiful_self_destruction"));
             if (holder != null) {
                 serverPlayer.getAdvancements().award(holder, "triggered");
@@ -86,8 +86,8 @@ public final class ThornshadeDecanterItem extends Item {
     }
 
     @Override
-    public UseAnim getUseAnimation(ItemStack stack) {
-        return UseAnim.DRINK;
+    public ItemUseAnimation getUseAnimation(ItemStack stack) {
+        return ItemUseAnimation.DRINK;
     }
 
     @Override

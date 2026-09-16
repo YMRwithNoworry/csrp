@@ -24,7 +24,7 @@ public final class SickAlveoliBlock extends Block {
 
     @Override
     protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
-        if (!level.isClientSide && entity instanceof LivingEntity living) {
+        if (!level.isClientSide() && entity instanceof LivingEntity living) {
             living.addEffect(new MobEffectInstance(MobEffects.HUNGER, 40, 0));
         }
     }
