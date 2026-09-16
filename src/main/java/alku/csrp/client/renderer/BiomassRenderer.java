@@ -4,7 +4,7 @@ import alku.csrp.client.model.BiomassModel;
 import alku.csrp.entity.BiomassEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 
-public final class BiomassRenderer extends ParasiteGeoRenderer<BiomassEntity> {
+public final class BiomassRenderer extends ParasiteGeoRenderer<BiomassEntity, BiomassModel> {
     public BiomassRenderer(EntityRendererProvider.Context context) {
         super(context, new BiomassModel());
         shadowRadius = 0.5F;
