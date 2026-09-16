@@ -191,4 +191,13 @@ public final class NadeEntity extends Entity {
     public boolean isPickable() {
         return false;
     }
+
+    /**
+     * The 1.10.8 source never overrode {@code Entity#hurt}, so a nade absorbed every hit without
+     * reacting to it. 26.3 made {@code hurtServer} the required hook for that same decision.
+     */
+    @Override
+    public boolean hurtServer(ServerLevel level, net.minecraft.world.damagesource.DamageSource source, float damage) {
+        return false;
+    }
 }
