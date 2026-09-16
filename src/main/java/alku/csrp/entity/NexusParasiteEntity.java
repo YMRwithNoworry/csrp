@@ -399,23 +399,21 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     public void readAdditionalSaveData(ValueInput tag) {
         super.readAdditionalSaveData(tag);
         growthTicks = tag.getIntOr("nexus_growth", 0);
-        growthDelayTicks = tag.contains("nexus_growth_delay") ? tag.getIntOr("nexus_growth_delay", 0)
-                : defaultGrowthDelay();
+        growthDelayTicks = tag.getInt("nexus_growth_delay").orElseGet(this::defaultGrowthDelay);
         summonCooldown = tag.getIntOr("nexus_summon_cooldown", 0);
         bombCooldown = tag.getIntOr("nexus_bomb_cooldown", 0);
         supportCooldown = tag.getIntOr("nexus_support_cooldown", 0);
         blockBreakCooldown = tag.getIntOr("nexus_block_break_cooldown", 0);
         forcedEvolutionCooldown = tag.getIntOr("nexus_forced_evolution_cooldown", 0);
-        temporaryLifetimeTicks = tag.contains("nexus_temporary_lifetime")
-                ? tag.getIntOr("nexus_temporary_lifetime", 0) : -1;
-        canGrow = !tag.contains("nexus_can_grow") || tag.getBooleanOr("nexus_can_grow", false);
-        if (tag.contains("nexus_body")) {
+        temporaryLifetimeTicks = tag.getInt("nexus_temporary_lifetime").orElse(-1);
+        canGrow = tag.getBooleanOr("nexus_can_grow", true);
+        if (tag.read("nexus_body", Codec.FLOAT).isPresent()) {
             entityData.set(BODY, tag.getFloatOr("nexus_body", 0.0F));
         }
-        if (tag.contains("nexus_parasite_status")) {
+        if (tag.getInt("nexus_parasite_status").isPresent()) {
             setParasiteStatus(tag.getIntOr("nexus_parasite_status", 0));
         }
-        if (tag.contains("nexus_floor_timer")) {
+        if (tag.read("nexus_floor_timer", Codec.FLOAT).isPresent()) {
             setFloorTimer(tag.getFloatOr("nexus_floor_timer", 0.0F));
         }
         storedParasiteIds.clear();
