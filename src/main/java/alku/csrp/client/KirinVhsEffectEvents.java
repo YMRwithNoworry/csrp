@@ -14,7 +14,7 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
 @EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT)
 public final class KirinVhsEffectEvents {
     private static final Identifier EFFECT = Identifier.fromNamespaceAndPath(
-            Csrp.MODID, "shaders/post/kirin_vhs.json");
+            Csrp.MODID, "kirin_vhs");
 
     private KirinVhsEffectEvents() {
     }

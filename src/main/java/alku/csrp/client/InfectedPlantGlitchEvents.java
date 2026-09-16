@@ -22,7 +22,7 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
 @EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT)
 public final class InfectedPlantGlitchEvents {
     private static final Identifier EFFECT = Identifier.fromNamespaceAndPath(
-            Csrp.MODID, "shaders/post/glitch_double_vision.json");
+            Csrp.MODID, "glitch_double_vision");
 
     private InfectedPlantGlitchEvents() {
     }
