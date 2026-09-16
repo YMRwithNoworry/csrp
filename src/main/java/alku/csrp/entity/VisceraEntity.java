@@ -106,8 +106,8 @@ public final class VisceraEntity extends PrimitiveParasiteEntity implements Manu
     }
 
     @Override
-    public boolean doHurtTarget(Entity entity) {
-        boolean hit = super.doHurtTarget(entity);
+    public boolean doHurtTarget(net.minecraft.server.level.ServerLevel level, Entity entity) {
+        boolean hit = super.doHurtTarget(level, entity);
         if (hit && entity instanceof LivingEntity target) {
             if (getSkin() == SKIN_VIRULENT) {
                 EffectStacking.apply(target, ModMobEffects.VIRAL, 40, 0);
@@ -141,17 +141,17 @@ public final class VisceraEntity extends PrimitiveParasiteEntity implements Manu
     }
 
     @Override
-    public void addAdditionalSaveData(net.minecraft.nbt.CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putInt("parasite_status", getParasiteStatus());
-        tag.putInt("viscera_skin", getSkin());
+    public void addAdditionalSaveData(net.minecraft.world.level.storage.ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putInt("parasite_status", getParasiteStatus());
+        output.putInt("viscera_skin", getSkin());
     }
 
     @Override
-    public void readAdditionalSaveData(net.minecraft.nbt.CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        setParasiteStatus(tag.getIntOr("parasite_status", 0));
-        setSkin(tag.getIntOr("viscera_skin", 0));
+    public void readAdditionalSaveData(net.minecraft.world.level.storage.ValueInput input) {
+        super.readAdditionalSaveData(input);
+        setParasiteStatus(input.getIntOr("parasite_status", 0));
+        setSkin(input.getIntOr("viscera_skin", 0));
     }
 
     @Override
@@ -228,11 +228,11 @@ public final class VisceraEntity extends PrimitiveParasiteEntity implements Manu
 
         @Override
         public boolean canUse() {
-            if (!isInWaterOrBubble() && !isInLava()) {
+            if (!isInWater() && !isInLava()) {
                 return false;
             }
             LivingEntity target = getTarget();
-            if (target != null && (target.isInWaterOrBubble() || target.isInLava())
+            if (target != null && (target.isInWater() || target.isInLava())
                     && distanceToSqr(getX(), target.getY(), getZ()) < 25.0D
                     && target.getY() - getY() < -1.0D) {
                 setDeltaMovement(getDeltaMovement().add(0.0D, -0.095D, 0.0D));
@@ -258,7 +258,7 @@ public final class VisceraEntity extends PrimitiveParasiteEntity implements Manu
 
         @Override
         public boolean canUse() {
-            return isInWaterOrBubble() || isInLava() || attacking >= 1;
+            return isInWater() || isInLava() || attacking >= 1;
         }
 
         @Override
@@ -352,8 +352,9 @@ public final class VisceraEntity extends PrimitiveParasiteEntity implements Manu
             updateMovementStatus();
             if (isWithinMeleeAttackRange(target) && attackTick <= 0 && getSensing().hasLineOfSight(target)) {
                 attackTick = MELEE_ATTACK_INTERVAL;
-                swing(net.minecraft.world.InteractionHand.MAIN_HAND);
-                doHurtTarget(target);
+                swing(net.minecraft.world.InteractionHand.MAIN_HAND,
+                        net.minecraft.world.item.component.SwingAnimation.DEFAULT);
+                doHurtTarget(getServerLevel(VisceraEntity.this), target);
                 setParasiteStatus(STATUS_WALK);
             }
         }

@@ -5,11 +5,13 @@ import java.util.Set;
 import java.util.UUID;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -17,6 +19,8 @@ import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -42,7 +46,7 @@ public final class ShockwaveEntity extends Entity {
         remainingDistance = horizontal.length();
         if (remainingDistance > 0.001D) {
             setDeltaMovement(horizontal.normalize().scale(MOVEMENT_SPEED));
-            hasImpulse = true;
+            needsSync = true;
         }
     }
 
@@ -100,7 +104,7 @@ public final class ShockwaveEntity extends Entity {
     }
 
     private void breakContactBlocks(LongarmsEntity owner, Vec3 movement) {
-        if (!level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)) {
+        if (!((ServerLevel) level()).getGameRules().get(GameRules.MOB_GRIEFING)) {
             return;
         }
         Vec3 next = position().add(movement);
@@ -135,19 +139,22 @@ public final class ShockwaveEntity extends Entity {
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag tag) {
-        if (tag.hasUUID(OWNER_TAG)) {
-            ownerUuid = tag.getUUID(OWNER_TAG);
-        }
-        remainingDistance = tag.getDoubleOr(REMAINING_DISTANCE_TAG, 0.0D);
+    protected void readAdditionalSaveData(ValueInput input) {
+        input.getIntArray(OWNER_TAG).map(UUIDUtil::uuidFromIntArray).ifPresent(id -> ownerUuid = id);
+        remainingDistance = input.getDoubleOr(REMAINING_DISTANCE_TAG, 0.0D);
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag tag) {
+    protected void addAdditionalSaveData(ValueOutput output) {
         if (ownerUuid != null) {
-            tag.putUUID(OWNER_TAG, ownerUuid);
+            output.putIntArray(OWNER_TAG, UUIDUtil.uuidToIntArray(ownerUuid));
         }
-        tag.putDouble(REMAINING_DISTANCE_TAG, remainingDistance);
+        output.putDouble(REMAINING_DISTANCE_TAG, remainingDistance);
+    }
+
+    @Override
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+        return false;
     }
 
     @Override

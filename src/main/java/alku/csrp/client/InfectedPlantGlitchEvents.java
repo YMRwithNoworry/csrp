@@ -3,7 +3,6 @@ package alku.csrp.client;
 import alku.csrp.Csrp;
 import alku.csrp.registry.ModBlocks;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.PostChain;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
@@ -25,30 +24,25 @@ public final class InfectedPlantGlitchEvents {
     private static final Identifier EFFECT = Identifier.fromNamespaceAndPath(
             Csrp.MODID, "shaders/post/glitch_double_vision.json");
 
-    private static PostChain loadedEffect;
-    private static boolean loadAttempted;
-
     private InfectedPlantGlitchEvents() {
     }
 
     @SubscribeEvent
     public static void updateEffect(ClientTickEvent.Post event) {
         Minecraft minecraft = Minecraft.getInstance();
-        boolean shouldRender = isInsideInfectedPlant(minecraft);
-
-        if (!shouldRender) {
-            unloadEffect(minecraft);
-            loadAttempted = false;
-            return;
-        }
-        if (loadedEffect != null || loadAttempted
-                || minecraft.gameRenderer.currentEffect() != null) {
+        var player = minecraft.player;
+        if (player == null) {
             return;
         }
 
-        loadAttempted = true;
-        minecraft.gameRenderer.loadEffect(EFFECT);
-        loadedEffect = minecraft.gameRenderer.currentEffect();
+        var activePostEffects = player.getActivePostEffects();
+        if (isInsideInfectedPlant(minecraft)) {
+            if (!activePostEffects.contains(EFFECT)) {
+                activePostEffects.add(EFFECT);
+            }
+        } else {
+            activePostEffects.remove(EFFECT);
+        }
     }
 
     private static boolean isInsideInfectedPlant(Minecraft minecraft) {
@@ -86,15 +80,5 @@ public final class InfectedPlantGlitchEvents {
         return block == ModBlocks.RESIDUE_PLANTS.get()
                 || block == ModBlocks.THORNSHADE.get()
                 || block == ModBlocks.ALVEOLI_GROWTH.get();
-    }
-
-    private static void unloadEffect(Minecraft minecraft) {
-        if (loadedEffect == null) {
-            return;
-        }
-        if (minecraft.gameRenderer.currentEffect() == loadedEffect) {
-            minecraft.gameRenderer.shutdownEffect();
-        }
-        loadedEffect = null;
     }
 }

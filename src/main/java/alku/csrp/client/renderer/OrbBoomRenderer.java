@@ -5,38 +5,48 @@ import alku.csrp.entity.OrbBoomEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 
-public final class OrbBoomRenderer extends EntityRenderer<OrbBoomEntity> {
+public final class OrbBoomRenderer extends EntityRenderer<OrbBoomEntity, EntityRenderState> {
     private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,
             "textures/entity/scary_orb.png");
+    private static final RenderType RENDER_TYPE = RenderTypes.entityTranslucent(TEXTURE);
 
     public OrbBoomRenderer(EntityRendererProvider.Context context) {
         super(context);
     }
 
     @Override
-    public void render(OrbBoomEntity entity, float entityYaw, float partialTick, PoseStack poseStack,
-                       MultiBufferSource buffer, int packedLight) {
-        float halfWidth = entity.getBbWidth() * 0.5F;
-        float halfHeight = entity.getBbHeight() * 0.5F;
+    public EntityRenderState createRenderState() {
+        return new EntityRenderState();
+    }
+
+    @Override
+    public void submit(EntityRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector,
+                       CameraRenderState camera) {
+        float halfWidth = state.boundingBoxWidth * 0.5F;
+        float halfHeight = state.boundingBoxHeight * 0.5F;
         poseStack.pushPose();
         poseStack.translate(0.0D, halfHeight, 0.0D);
-        poseStack.mulPose(entityRenderDispatcher.cameraOrientation());
-        poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
-        PoseStack.Pose pose = poseStack.last();
-        VertexConsumer vertices = buffer.getBuffer(RenderType.entityTranslucent(TEXTURE));
-        vertex(vertices, pose, -halfWidth, -halfHeight, 0.0F, 1.0F, packedLight);
-        vertex(vertices, pose, halfWidth, -halfHeight, 1.0F, 1.0F, packedLight);
-        vertex(vertices, pose, halfWidth, halfHeight, 1.0F, 0.0F, packedLight);
-        vertex(vertices, pose, -halfWidth, halfHeight, 0.0F, 0.0F, packedLight);
+        poseStack.rotate(camera.orientation);
+        poseStack.rotateDegrees(Axis.YP, 180.0F);
+        int packedLight = state.lightCoords;
+        submitNodeCollector.submitCustomGeometry(poseStack, RENDER_TYPE, (pose, vertices) -> {
+            vertex(vertices, pose, -halfWidth, -halfHeight, 0.0F, 1.0F, packedLight);
+            vertex(vertices, pose, halfWidth, -halfHeight, 1.0F, 1.0F, packedLight);
+            vertex(vertices, pose, halfWidth, halfHeight, 1.0F, 0.0F, packedLight);
+            vertex(vertices, pose, -halfWidth, halfHeight, 0.0F, 0.0F, packedLight);
+        });
         poseStack.popPose();
-        super.render(entity, entityYaw, partialTick, poseStack, buffer, packedLight);
+        super.submit(state, poseStack, submitNodeCollector, camera);
     }
 
     private static void vertex(VertexConsumer vertices, PoseStack.Pose pose, float x, float y,
@@ -47,10 +57,5 @@ public final class OrbBoomRenderer extends EntityRenderer<OrbBoomEntity> {
                 .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setLight(packedLight)
                 .setNormal(pose, 0.0F, 1.0F, 0.0F);
-    }
-
-    @Override
-    public Identifier getTextureLocation(OrbBoomEntity entity) {
-        return TEXTURE;
     }
 }

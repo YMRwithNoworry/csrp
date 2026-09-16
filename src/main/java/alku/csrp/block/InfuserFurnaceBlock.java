@@ -3,7 +3,6 @@ package alku.csrp.block;
 import alku.csrp.block.entity.InfuserFurnaceBlockEntity;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -44,16 +43,6 @@ public final class InfuserFurnaceBlock extends Block implements EntityBlock {
         if (!level.isClientSide()) {
             player.openMenu(furnace);
         }
-        return InteractionResult.sidedSuccess(level.isClientSide());
-    }
-
-    @Override
-    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState,
-            boolean movedByPiston) {
-        if (!state.is(newState.getBlock())
-                && level.getBlockEntity(pos) instanceof InfuserFurnaceBlockEntity furnace) {
-            Containers.dropContents(level, pos, furnace);
-        }
-        super.onRemove(state, level, pos, newState, movedByPiston);
+        return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.CONSUME;
     }
 }

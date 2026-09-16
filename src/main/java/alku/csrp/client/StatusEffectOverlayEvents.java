@@ -2,10 +2,11 @@ package alku.csrp.client;
 
 import alku.csrp.Csrp;
 import alku.csrp.registry.ModMobEffects;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.ARGB;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -31,46 +32,34 @@ public final class StatusEffectOverlayEvents {
             return;
         }
 
-        GuiGraphics graphics = event.getGuiGraphics();
+        GuiGraphicsExtractor graphics = event.getGuiGraphics();
         int width = graphics.guiWidth();
         int height = graphics.guiHeight();
-        RenderSystem.disableDepthTest();
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        try {
-            if (player.hasEffect(ModMobEffects.VIRAL)) {
-                drawFullScreen(graphics, VIRAL, width, height);
+        if (player.hasEffect(ModMobEffects.VIRAL)) {
+            drawFullScreen(graphics, VIRAL, width, height);
+        }
+        if (player.hasEffect(ModMobEffects.BLEED)) {
+            drawFullScreen(graphics, BLEED, width, height);
+        }
+        if (player.hasEffect(ModMobEffects.DISTORTED_ENLIGHTENMENT)) {
+            float pulse = 0.22F + 0.08F * (float) Math.sin(player.tickCount * 0.2F);
+            graphics.blit(RenderPipelines.GUI_TEXTURED, DISTORTED, 0, 0, 0.0F, 0.0F,
+                    width, height, 32, 32, ARGB.color(pulse, 0xD9A6FF));
+        }
+        if (player.hasEffect(ModMobEffects.VOMIT)) {
+            int textureHeight = height * 8;
+            graphics.blit(RenderPipelines.GUI_TEXTURED, VOMIT, 0, vomitY, 0.0F, 0.0F,
+                    width, textureHeight, width, textureHeight);
+            if (++vomitY >= 0) {
+                vomitY = -height * 7;
             }
-            if (player.hasEffect(ModMobEffects.BLEED)) {
-                drawFullScreen(graphics, BLEED, width, height);
-            }
-            if (player.hasEffect(ModMobEffects.DISTORTED_ENLIGHTENMENT)) {
-                float pulse = 0.22F + 0.08F * (float) Math.sin(player.tickCount * 0.2F);
-                RenderSystem.setShaderColor(0.85F, 0.65F, 1.0F, pulse);
-                graphics.blit(DISTORTED, 0, 0, 0.0F, 0.0F,
-                        width, height, 32, 32);
-                RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-            }
-            if (player.hasEffect(ModMobEffects.VOMIT)) {
-                int textureHeight = height * 8;
-                graphics.blit(VOMIT, 0, vomitY, 0.0F, 0.0F,
-                        width, textureHeight, width, textureHeight);
-                if (++vomitY >= 0) {
-                    vomitY = -height * 7;
-                }
-            } else {
-                vomitY = 0;
-            }
-        } finally {
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-            RenderSystem.disableBlend();
-            RenderSystem.enableDepthTest();
+        } else {
+            vomitY = 0;
         }
     }
 
-    private static void drawFullScreen(GuiGraphics graphics, Identifier texture, int width, int height) {
-        graphics.blit(texture, 0, 0, 0.0F, 0.0F, width, height, width, height);
+    private static void drawFullScreen(GuiGraphicsExtractor graphics, Identifier texture, int width, int height) {
+        graphics.blit(RenderPipelines.GUI_TEXTURED, texture, 0, 0, 0.0F, 0.0F, width, height, width, height);
     }
 
     private static Identifier texture(String file) {

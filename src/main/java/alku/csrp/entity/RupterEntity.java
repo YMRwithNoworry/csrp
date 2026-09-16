@@ -10,6 +10,7 @@ import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -53,6 +54,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -179,7 +182,8 @@ public class RupterEntity extends Monster implements CitadelAnimatedEntity, Para
         goalSelector.addGoal(7, new RupterSpinGoal());
         goalSelector.addGoal(8, new RandomLookAroundGoal(this));
         targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(
-                this, LivingEntity.class, 10, true, false, this::canTargetByPhase));
+                this, LivingEntity.class, 10, true, false,
+                (target, serverLevel) -> canTargetByPhase(target)));
     }
 
     private boolean shouldAvoid(LivingEntity entity) {
@@ -407,7 +411,7 @@ public class RupterEntity extends Monster implements CitadelAnimatedEntity, Para
     }
 
     private void performLiquidLeap() {
-        if (!isInWaterOrBubble() || navigation.isDone() || tickCount % 10 != 0) {
+        if (!isInWater() || navigation.isDone() || tickCount % 10 != 0) {
             return;
         }
 
@@ -431,10 +435,10 @@ public class RupterEntity extends Monster implements CitadelAnimatedEntity, Para
     }
 
     @Override
-    public boolean doHurtTarget(Entity entity) {
+    public boolean doHurtTarget(ServerLevel level, Entity entity) {
         float healthBefore = entity instanceof LivingEntity living
                 ? living.getHealth() + living.getAbsorptionAmount() : 0.0F;
-        boolean hit = super.doHurtTarget(entity);
+        boolean hit = super.doHurtTarget(level, entity);
         if (hit && entity instanceof LivingEntity living) {
             applyMinimumDamage(living, healthBefore);
             if (getBehaviorVariant() == BehaviorVariant.BERSERKER) {
@@ -486,12 +490,12 @@ public class RupterEntity extends Monster implements CitadelAnimatedEntity, Para
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
-        return super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+        return super.hurtServer(level, source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
     }
 
     @Override
-    public boolean killedEntity(ServerLevel level, LivingEntity victim) {
+    public boolean killedEntity(ServerLevel level, LivingEntity victim, DamageSource source) {
         if (victim instanceof Bat) {
             clearBatLeapTracking();
         }
@@ -500,16 +504,16 @@ public class RupterEntity extends Monster implements CitadelAnimatedEntity, Para
             InfectionMechanics.applyCothEffect(victim, this, 3600, 0, false, false);
         }
         addEffect(new MobEffectInstance(MobEffects.NAUSEA, 80, 0, false, false));
-        return super.killedEntity(level, victim);
+        return super.killedEntity(level, victim, source);
     }
 
     private void tryEvolve(ServerLevel level) {
         ManglerEvolutionTarget.manglerType().ifPresent(type -> {
-            Mob mangler = type.create(level);
+            Mob mangler = type.create(level, EntitySpawnReason.MOB_SUMMONED);
             if (mangler == null) {
                 return;
             }
-            mangler.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+            mangler.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
             mangler.finalizeSpawn(level, level.getCurrentDifficultyAt(blockPosition()),
                     EntitySpawnReason.MOB_SUMMONED, null);
             mangler.setCustomName(getCustomName());
@@ -541,7 +545,7 @@ public class RupterEntity extends Monster implements CitadelAnimatedEntity, Para
     }
 
     @Override
-    public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
+    public boolean causeFallDamage(double distance, float damageMultiplier, DamageSource source) {
         return distance >= 60.0F && super.causeFallDamage(distance, damageMultiplier, source);
     }
 
@@ -659,44 +663,44 @@ public class RupterEntity extends Monster implements CitadelAnimatedEntity, Para
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putInt(KILL_COUNT_NBT_KEY, killCount);
-        tag.putInt(CREATED_PHASE_NBT_KEY, createdPhaseOrCurrent());
-        tag.putByte(VARIANT_NBT_KEY, (byte) getTextureVariant().ordinal());
-        tag.putByte(BEHAVIOR_VARIANT_NBT_KEY, (byte) getBehaviorVariant().ordinal());
-        tag.putBoolean(OVERHEATED_NBT_KEY, isOverheated());
-        tag.putInt(OVERHEAT_WARMUP_NBT_KEY, getOverheatWarmupTicks());
-        tag.putInt(FAILED_BAT_LEAPS_NBT_KEY, failedBatLeaps);
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putInt(KILL_COUNT_NBT_KEY, killCount);
+        output.putInt(CREATED_PHASE_NBT_KEY, createdPhaseOrCurrent());
+        output.putInt(VARIANT_NBT_KEY, getTextureVariant().ordinal());
+        output.putInt(BEHAVIOR_VARIANT_NBT_KEY, getBehaviorVariant().ordinal());
+        output.putBoolean(OVERHEATED_NBT_KEY, isOverheated());
+        output.putInt(OVERHEAT_WARMUP_NBT_KEY, getOverheatWarmupTicks());
+        output.putInt(FAILED_BAT_LEAPS_NBT_KEY, failedBatLeaps);
         if (failedBatTarget != null) {
-            tag.putUUID(FAILED_BAT_TARGET_NBT_KEY, failedBatTarget);
+            output.putIntArray(FAILED_BAT_TARGET_NBT_KEY, UUIDUtil.uuidToIntArray(failedBatTarget));
         }
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        killCount = tag.getIntOr(KILL_COUNT_NBT_KEY, 0);
-        createdPhase = tag.contains(CREATED_PHASE_NBT_KEY)
-                ? tag.getIntOr(CREATED_PHASE_NBT_KEY, 0) : Config.evolutionPhase(level());
-        int variant = tag.getByteOr(VARIANT_NBT_KEY, (byte)0);
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        killCount = input.getIntOr(KILL_COUNT_NBT_KEY, 0);
+        createdPhase = input.getInt(CREATED_PHASE_NBT_KEY).isPresent()
+                ? input.getIntOr(CREATED_PHASE_NBT_KEY, 0) : Config.evolutionPhase(level());
+        int variant = input.getIntOr(VARIANT_NBT_KEY, 0);
         if (variant >= 0 && variant < TextureVariant.values().length) {
             setTextureVariant(TextureVariant.values()[variant]);
         }
-        int behaviorVariant = tag.getByteOr(BEHAVIOR_VARIANT_NBT_KEY, (byte)0);
+        int behaviorVariant = input.getIntOr(BEHAVIOR_VARIANT_NBT_KEY, 0);
         if (behaviorVariant >= 0 && behaviorVariant < BehaviorVariant.values().length) {
             setBehaviorVariant(BehaviorVariant.values()[behaviorVariant]);
         }
-        boolean overheated = tag.getBooleanOr(OVERHEATED_NBT_KEY, false);
-        int warmupTicks = overheated ? Math.max(0, tag.getIntOr(OVERHEAT_WARMUP_NBT_KEY, 0)) : 0;
+        boolean overheated = input.getBooleanOr(OVERHEATED_NBT_KEY, false);
+        int warmupTicks = overheated ? Math.max(0, input.getIntOr(OVERHEAT_WARMUP_NBT_KEY, 0)) : 0;
         entityData.set(OVERHEATED, overheated);
         entityData.set(OVERHEAT_WARMUP_TICKS, warmupTicks);
-        failedBatTarget = tag.hasUUID(FAILED_BAT_TARGET_NBT_KEY)
-                ? tag.getUUID(FAILED_BAT_TARGET_NBT_KEY)
-                : null;
+        failedBatTarget = input.getIntArray(FAILED_BAT_TARGET_NBT_KEY)
+                .map(UUIDUtil::uuidFromIntArray)
+                .orElse(null);
         failedBatLeaps = failedBatTarget == null
                 ? 0
-                : Math.min(1, Math.max(0, tag.getIntOr(FAILED_BAT_LEAPS_NBT_KEY, 0)));
+                : Math.min(1, Math.max(0, input.getIntOr(FAILED_BAT_LEAPS_NBT_KEY, 0)));
         clearPendingBatLeap();
         if (overheated && warmupTicks == 0) {
             applyOverheatModifiers();

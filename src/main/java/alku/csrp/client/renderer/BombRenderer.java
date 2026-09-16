@@ -11,16 +11,18 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 
 /** Renderer for the original Omboo, Host and Jinjo bomb models. */
-public final class BombRenderer extends EntityRenderer<BombEntity> {
+public final class BombRenderer extends EntityRenderer<BombEntity, BombRenderer.BombRenderState> {
     public static final ModelLayerLocation OMBOO_LAYER = layer("bomb_omboo");
     public static final ModelLayerLocation HOST_LAYER = layer("bomb_host");
     public static final ModelLayerLocation JINJO_LAYER = layer("bomb_jinjo");
@@ -128,36 +130,52 @@ public final class BombRenderer extends EntityRenderer<BombEntity> {
     }
 
     @Override
-    public void render(BombEntity entity, float entityYaw, float partialTick, PoseStack poseStack,
-                       MultiBufferSource buffer, int packedLight) {
-        float age = entity.tickCount + partialTick;
-        float pulse = 1.2F + Mth.sin(age * 0.8F) * 0.05F;
-        poseStack.pushPose();
-        poseStack.translate(0.0D, 1.5D, 0.0D);
-        poseStack.mulPose(Axis.ZP.rotationDegrees(180.0F));
-        poseStack.scale(pulse, pulse, pulse);
-        model(entity).render(poseStack,
-                buffer.getBuffer(RenderType.entityCutoutNoCull(getTextureLocation(entity))),
-                packedLight, OverlayTexture.NO_OVERLAY);
-        poseStack.popPose();
-        super.render(entity, entityYaw, partialTick, poseStack, buffer, packedLight);
+    public BombRenderState createRenderState() {
+        return new BombRenderState();
     }
 
-    private ModelPart model(BombEntity entity) {
-        return switch (entity.getSkin()) {
+    @Override
+    public void extractRenderState(BombEntity entity, BombRenderState state, float partialTick) {
+        super.extractRenderState(entity, state, partialTick);
+        state.skin = entity.getSkin();
+        state.age = entity.tickCount + partialTick;
+    }
+
+    @Override
+    public void submit(BombRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector,
+                       CameraRenderState camera) {
+        float pulse = 1.2F + Mth.sin(state.age * 0.8F) * 0.05F;
+        poseStack.pushPose();
+        poseStack.translate(0.0D, 1.5D, 0.0D);
+        poseStack.rotateDegrees(Axis.ZP, 180.0F);
+        poseStack.scale(pulse, pulse, pulse);
+        submitNodeCollector.submitModelPart(model(state.skin), poseStack,
+                RenderTypes.entityCutout(texture(state.skin)),
+                state.lightCoords, OverlayTexture.NO_OVERLAY, null);
+        poseStack.popPose();
+        super.submit(state, poseStack, submitNodeCollector, camera);
+    }
+
+    private ModelPart model(int skin) {
+        return switch (skin) {
             case 1 -> host;
             case 2, 3 -> jinjo;
             default -> omboo;
         };
     }
 
-    @Override
-    public Identifier getTextureLocation(BombEntity entity) {
-        return switch (entity.getSkin()) {
+    private Identifier texture(int skin) {
+        return switch (skin) {
             case 1 -> HOST_TEXTURE;
             case 2, 3 -> JINJO_TEXTURE;
             default -> OMBOO_TEXTURE;
         };
+    }
+
+    /** Render state for the bomb skin and animation. */
+    static final class BombRenderState extends EntityRenderState {
+        int skin;
+        float age;
     }
 
     private static ModelLayerLocation layer(String path) {

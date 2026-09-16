@@ -5,20 +5,23 @@ import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModItems;
 import java.util.Map;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.CookingFuel;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ResolvableInt;
 
 /**
  * Metallurgical Infuser Furnace: combines Dead Blood Fluid with Iron Ingots
@@ -79,18 +82,18 @@ public final class InfuserFurnaceBlockEntity extends BaseContainerBlockEntity {
 
     public static void serverTick(Level level, BlockPos pos, BlockState state,
             net.minecraft.world.level.block.entity.BlockEntity blockEntity) {
-        if (!(blockEntity instanceof InfuserFurnaceBlockEntity furnace) || level.isClientSide()) {
+        if (!(blockEntity instanceof InfuserFurnaceBlockEntity furnace) || !(level instanceof ServerLevel serverLevel)) {
             return;
         }
-        furnace.tickFurnace();
+        furnace.tickFurnace(serverLevel);
     }
 
-    private void tickFurnace() {
+    private void tickFurnace(ServerLevel level) {
         if (burnTime > 0) {
             burnTime--;
         }
-        if (canProcess() && burnTime <= 0 && hasFuel()) {
-            consumeFuel();
+        if (canProcess() && burnTime <= 0 && hasFuel(level)) {
+            consumeFuel(level);
         }
         if (canProcess() && burnTime > 0) {
             progress++;
@@ -130,13 +133,13 @@ public final class InfuserFurnaceBlockEntity extends BaseContainerBlockEntity {
         return null;
     }
 
-    private boolean hasFuel() {
-        return fuelBurnTime(items.get(FUEL_SLOT)) > 0;
+    private boolean hasFuel(ServerLevel level) {
+        return fuelBurnTime(level, items.get(FUEL_SLOT)) > 0;
     }
 
-    private void consumeFuel() {
+    private void consumeFuel(ServerLevel level) {
         ItemStack fuel = items.get(FUEL_SLOT);
-        burnDuration = fuelBurnTime(fuel);
+        burnDuration = fuelBurnTime(level, fuel);
         burnTime = burnDuration;
         if (fuel.is(Items.LAVA_BUCKET)) {
             items.set(FUEL_SLOT, new ItemStack(Items.BUCKET));
@@ -145,9 +148,9 @@ public final class InfuserFurnaceBlockEntity extends BaseContainerBlockEntity {
         }
     }
 
-    private static int fuelBurnTime(ItemStack stack) {
-        Map<net.minecraft.world.item.Item, Integer> fuels = AbstractFurnaceBlockEntity.getFuel();
-        return fuels.getOrDefault(stack.getItem(), 0);
+    private int fuelBurnTime(ServerLevel level, ItemStack stack) {
+        return ResolvableInt.getFromItem(stack, DataComponents.COOKING_FUEL, CookingFuel::burnTime,
+                getLootContext(level, stack), 0);
     }
 
     private void process() {
@@ -193,21 +196,21 @@ public final class InfuserFurnaceBlockEntity extends BaseContainerBlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        ContainerHelper.saveAllItems(tag, items, registries);
-        tag.putInt("BurnTime", burnTime);
-        tag.putInt("BurnDuration", burnDuration);
-        tag.putInt("Progress", progress);
+    protected void saveAdditional(ValueOutput output) {
+        super.saveAdditional(output);
+        ContainerHelper.saveAllItems(output, items);
+        output.putInt("BurnTime", burnTime);
+        output.putInt("BurnDuration", burnDuration);
+        output.putInt("Progress", progress);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
+    protected void loadAdditional(ValueInput input) {
+        super.loadAdditional(input);
         items = NonNullList.withSize(CONTAINER_SIZE, ItemStack.EMPTY);
-        ContainerHelper.loadAllItems(tag, items, registries);
-        burnTime = tag.getIntOr("BurnTime", 0);
-        burnDuration = tag.getIntOr("BurnDuration", 0);
-        progress = tag.getIntOr("Progress", 0);
+        ContainerHelper.loadAllItems(input, items);
+        burnTime = input.getIntOr("BurnTime", 0);
+        burnDuration = input.getIntOr("BurnDuration", 0);
+        progress = input.getIntOr("Progress", 0);
     }
 }

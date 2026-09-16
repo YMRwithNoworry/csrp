@@ -16,7 +16,7 @@ public final class ReinforcementEvents {
     public static void onParasiteDeath(LivingDeathEvent event) {
         if (event.getEntity() instanceof Parasite && event.getEntity().level() instanceof ServerLevel level) {
             ReinforcementSystem.tryFromParasiteDeath(level, event.getEntity().blockPosition(),
-                    event.getEntity().getBbWidth(), event.getEntity().getBbHeight(), level.random);
+                    event.getEntity().getBbWidth(), event.getEntity().getBbHeight(), level.getRandom());
         }
     }
 }

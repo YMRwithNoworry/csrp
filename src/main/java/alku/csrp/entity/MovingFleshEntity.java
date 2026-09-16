@@ -31,7 +31,10 @@ import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import alku.csrp.animation.CitadelAnimationManager;
@@ -120,7 +123,7 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
         if (getHealth() > 0.0F && getHealth() < getMaxHealth()) {
             heal(REGEN_PER_TICK);
         }
-        if (isInWaterOrBubble() && tickCount % 10 == 0) {
+        if ((isInWater() || level().getBlockState(blockPosition()).is(Blocks.BUBBLE_COLUMN)) && tickCount % 10 == 0) {
             Vec3 movement = getDeltaMovement();
             setDeltaMovement(movement.x * 1.1D, Math.max(movement.y, 0.15D), movement.z * 1.1D);
         }
@@ -146,7 +149,7 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
     }
 
     @Override
-    public boolean doHurtTarget(Entity target) {
+    public boolean doHurtTarget(ServerLevel level, Entity target) {
         if (!(target instanceof MovingFleshEntity other) || !canMergePartner(other)) {
             return false;
         }
@@ -168,8 +171,8 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
-        return super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+        return super.hurtServer(level, source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
     }
 
     @Override
@@ -237,33 +240,33 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putInt("merge_count", getMergeCount());
-        tag.putInt("merge_value", getMergeValue());
-        tag.putFloat("render_scale", getRenderScale(1.0F));
-        tag.putFloat("target_scale", targetScale);
-        tag.putInt("merge_cooldown", mergeCooldown);
-        tag.putInt("evolution_delay", getEvolutionFuse());
-        tag.putInt("merge_contacts", mergeContacts);
-        tag.putInt("merge_contact_cooldown", mergeContactCooldown);
-        tag.putFloat("evolution_flash_intensity", evolutionFlashIntensity);
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putInt("merge_count", getMergeCount());
+        output.putInt("merge_value", getMergeValue());
+        output.putFloat("render_scale", getRenderScale(1.0F));
+        output.putFloat("target_scale", targetScale);
+        output.putInt("merge_cooldown", mergeCooldown);
+        output.putInt("evolution_delay", getEvolutionFuse());
+        output.putInt("merge_contacts", mergeContacts);
+        output.putInt("merge_contact_cooldown", mergeContactCooldown);
+        output.putFloat("evolution_flash_intensity", evolutionFlashIntensity);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        entityData.set(MERGE_COUNT, Math.max(1, tag.getIntOr("merge_count", 0)));
-        if (tag.contains("merge_value")) {
-            setMergeValue(tag.getIntOr("merge_value", 0));
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        entityData.set(MERGE_COUNT, Math.max(1, input.getIntOr("merge_count", 0)));
+        if (input.getInt("merge_value").isPresent()) {
+            setMergeValue(input.getIntOr("merge_value", 0));
         }
-        entityData.set(RENDER_SCALE, Math.max(1.0F, tag.getFloatOr("render_scale", 0.0F)));
-        targetScale = Math.max(entityData.get(RENDER_SCALE), tag.getFloatOr("target_scale", 0.0F));
-        mergeCooldown = tag.getIntOr("merge_cooldown", 0);
-        entityData.set(EVOLUTION_FUSE, Math.max(0, tag.getIntOr("evolution_delay", 0)));
-        mergeContacts = tag.getIntOr("merge_contacts", 0);
-        mergeContactCooldown = Math.max(0, tag.getIntOr("merge_contact_cooldown", 0));
-        evolutionFlashIntensity = tag.getFloatOr("evolution_flash_intensity", 0.0F);
+        entityData.set(RENDER_SCALE, Math.max(1.0F, input.getFloatOr("render_scale", 0.0F)));
+        targetScale = Math.max(entityData.get(RENDER_SCALE), input.getFloatOr("target_scale", 0.0F));
+        mergeCooldown = input.getIntOr("merge_cooldown", 0);
+        entityData.set(EVOLUTION_FUSE, Math.max(0, input.getIntOr("evolution_delay", 0)));
+        mergeContacts = input.getIntOr("merge_contacts", 0);
+        mergeContactCooldown = Math.max(0, input.getIntOr("merge_contact_cooldown", 0));
+        evolutionFlashIntensity = input.getFloatOr("evolution_flash_intensity", 0.0F);
     }
 
     @Override
@@ -313,7 +316,7 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
         if (primitive == null) {
             return;
         }
-        primitive.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        primitive.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         primitive.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
                 EntitySpawnReason.MOB_SUMMONED, null);
         primitive.setHealth(primitive.getMaxHealth() * (float) MobsConfig.mergeSystemMobHealth());
@@ -364,7 +367,7 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
             location = Identifier.fromNamespaceAndPath("csrp", location.getPath());
         }
         EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.getOptional(location).orElse(null);
-        if (type == null || !(type.create(serverLevel) instanceof Mob primitive)) {
+        if (type == null || !(type.create(serverLevel, EntitySpawnReason.MOB_SUMMONED) instanceof Mob primitive)) {
             return null;
         }
         return primitive;
@@ -400,7 +403,7 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
             }
             getLookControl().setLookAt(target, 30.0F, 30.0F);
             if (distanceToSqr(target) <= ABSORB_DISTANCE_SQR) {
-                doHurtTarget(target);
+                doHurtTarget(getServerLevel(MovingFleshEntity.this), target);
                 if (!isAlive() || !target.isAlive()) {
                     target = null;
                 }

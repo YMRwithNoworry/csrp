@@ -1,11 +1,12 @@
 package alku.csrp.item;
 
-import java.util.List;
+import java.util.function.Consumer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 
 /**
  * Eye of the Beholder: glows near Enderman variants and is lost when its
@@ -17,16 +18,16 @@ public final class EyeOfTheBeholderItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context,
-            List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.translatable("tooltip.csrp.pearl.desc")
+    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display,
+            Consumer<Component> tooltip, TooltipFlag flag) {
+        tooltip.accept(Component.translatable("tooltip.csrp.pearl.desc")
                 .withStyle(ChatFormatting.GRAY));
-        tooltip.add(Component.empty());
-        tooltip.add(Component.translatable("tooltip.csrp.pearl.assimilated")
+        tooltip.accept(Component.empty());
+        tooltip.accept(Component.translatable("tooltip.csrp.pearl.assimilated")
                 .withStyle(ChatFormatting.LIGHT_PURPLE));
-        tooltip.add(Component.translatable("tooltip.csrp.pearl.feral")
+        tooltip.accept(Component.translatable("tooltip.csrp.pearl.feral")
                 .withStyle(ChatFormatting.RED));
-        tooltip.add(Component.translatable("tooltip.csrp.pearl.assimara")
+        tooltip.accept(Component.translatable("tooltip.csrp.pearl.assimara")
                 .withStyle(ChatFormatting.BLUE));
     }
 }

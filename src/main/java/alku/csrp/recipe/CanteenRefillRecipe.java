@@ -6,7 +6,6 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import alku.csrp.item.OverlastCanteenItem;
 import alku.csrp.registry.ModRecipeSerializers;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -15,6 +14,7 @@ import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.PlacementInfo;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.util.RecipeMatcher;
@@ -60,7 +60,7 @@ public final class CanteenRefillRecipe implements CraftingRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingInput input, HolderLookup.Provider registries) {
+    public ItemStack assemble(CraftingInput input) {
         ItemStack output = result.copy();
         for (ItemStack ingredient : input.items()) {
             if (ingredient.getItem() instanceof OverlastCanteenItem) {
@@ -74,22 +74,12 @@ public final class CanteenRefillRecipe implements CraftingRecipe {
     }
 
     @Override
-    public boolean canCraftInDimensions(int width, int height) {
-        return width * height >= ingredients.size();
+    public boolean showNotification() {
+        return true;
     }
 
     @Override
-    public ItemStack getResultItem(HolderLookup.Provider registries) {
-        return result;
-    }
-
-    @Override
-    public NonNullList<Ingredient> getIngredients() {
-        return ingredients;
-    }
-
-    @Override
-    public String getGroup() {
+    public String group() {
         return group;
     }
 
@@ -99,57 +89,54 @@ public final class CanteenRefillRecipe implements CraftingRecipe {
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public PlacementInfo placementInfo() {
+        return PlacementInfo.create(ingredients);
+    }
+
+    @Override
+    public RecipeSerializer<? extends CraftingRecipe> getSerializer() {
         return ModRecipeSerializers.CANTEEN_SHAPELESS.get();
     }
 
-    public static final class Serializer implements RecipeSerializer<CanteenRefillRecipe> {
-        private static final MapCodec<CanteenRefillRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-                Codec.STRING.optionalFieldOf("group", "").forGetter(recipe -> recipe.group),
-                CraftingBookCategory.CODEC.fieldOf("category").orElse(CraftingBookCategory.MISC)
-                        .forGetter(recipe -> recipe.category),
-                ItemStack.STRICT_CODEC.fieldOf("result").forGetter(recipe -> recipe.result),
-                Ingredient.CODEC_NONEMPTY.listOf().fieldOf("ingredients").flatXmap(ingredients -> {
-                    Ingredient[] values = ingredients.toArray(Ingredient[]::new);
-                    if (values.length == 0) {
-                        return DataResult.error(() -> "No ingredients for canteen recipe");
-                    }
-                    if (values.length > 9) {
-                        return DataResult.error(() -> "Too many ingredients for canteen recipe");
-                    }
-                    return DataResult.success(NonNullList.of(Ingredient.EMPTY, values));
-                }, DataResult::success).forGetter(recipe -> recipe.ingredients)
-        ).apply(instance, CanteenRefillRecipe::new));
+    public static final MapCodec<CanteenRefillRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            Codec.STRING.optionalFieldOf("group", "").forGetter(recipe -> recipe.group),
+            CraftingBookCategory.CODEC.fieldOf("category").orElse(CraftingBookCategory.MISC)
+                    .forGetter(recipe -> recipe.category),
+            ItemStack.CODEC.fieldOf("result").forGetter(recipe -> recipe.result),
+            Ingredient.CODEC.listOf().fieldOf("ingredients").flatXmap(ingredients -> {
+                if (ingredients.isEmpty()) {
+                    return DataResult.error(() -> "No ingredients for canteen recipe");
+                }
+                if (ingredients.size() > 9) {
+                    return DataResult.error(() -> "Too many ingredients for canteen recipe");
+                }
+                return DataResult.success(NonNullList.copyOf(ingredients));
+            }, DataResult::success).forGetter(recipe -> recipe.ingredients)
+    ).apply(instance, CanteenRefillRecipe::new));
 
-        private static final StreamCodec<RegistryFriendlyByteBuf, CanteenRefillRecipe> STREAM_CODEC = StreamCodec.of(
-                Serializer::toNetwork, Serializer::fromNetwork);
+    public static final StreamCodec<RegistryFriendlyByteBuf, CanteenRefillRecipe> STREAM_CODEC = StreamCodec.of(
+            CanteenRefillRecipe::toNetwork, CanteenRefillRecipe::fromNetwork);
 
-        @Override
-        public MapCodec<CanteenRefillRecipe> codec() {
-            return CODEC;
+    public static final RecipeSerializer<CanteenRefillRecipe> SERIALIZER = new RecipeSerializer<>(CODEC, STREAM_CODEC);
+
+    private static CanteenRefillRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
+        String group = buffer.readUtf();
+        CraftingBookCategory category = buffer.readEnum(CraftingBookCategory.class);
+        int size = buffer.readVarInt();
+        NonNullList<Ingredient> ingredients = NonNullList.create();
+        for (int i = 0; i < size; i++) {
+            ingredients.add(Ingredient.CONTENTS_STREAM_CODEC.decode(buffer));
         }
+        return new CanteenRefillRecipe(group, category, ItemStack.STREAM_CODEC.decode(buffer), ingredients);
+    }
 
-        @Override
-        public StreamCodec<RegistryFriendlyByteBuf, CanteenRefillRecipe> streamCodec() {
-            return STREAM_CODEC;
+    private static void toNetwork(RegistryFriendlyByteBuf buffer, CanteenRefillRecipe recipe) {
+        buffer.writeUtf(recipe.group);
+        buffer.writeEnum(recipe.category);
+        buffer.writeVarInt(recipe.ingredients.size());
+        for (Ingredient ingredient : recipe.ingredients) {
+            Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, ingredient);
         }
-
-        private static CanteenRefillRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
-            String group = buffer.readUtf();
-            CraftingBookCategory category = buffer.readEnum(CraftingBookCategory.class);
-            NonNullList<Ingredient> ingredients = NonNullList.withSize(buffer.readVarInt(), Ingredient.EMPTY);
-            ingredients.replaceAll(ingredient -> Ingredient.CONTENTS_STREAM_CODEC.decode(buffer));
-            return new CanteenRefillRecipe(group, category, ItemStack.STREAM_CODEC.decode(buffer), ingredients);
-        }
-
-        private static void toNetwork(RegistryFriendlyByteBuf buffer, CanteenRefillRecipe recipe) {
-            buffer.writeUtf(recipe.group);
-            buffer.writeEnum(recipe.category);
-            buffer.writeVarInt(recipe.ingredients.size());
-            for (Ingredient ingredient : recipe.ingredients) {
-                Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, ingredient);
-            }
-            ItemStack.STREAM_CODEC.encode(buffer, recipe.result);
-        }
+        ItemStack.STREAM_CODEC.encode(buffer, recipe.result);
     }
 }

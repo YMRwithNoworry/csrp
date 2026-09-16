@@ -44,7 +44,6 @@ import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
-import net.minecraft.world.entity.ai.goal.TryFindWaterGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
@@ -59,10 +58,13 @@ import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.SwingAnimation;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.PartEntity;
@@ -552,7 +554,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
                 goalSelector.addGoal(2, new TozoonAoeAttackGoal());
             }
             case DEVOURER -> {
-                goalSelector.addGoal(1, new TryFindWaterGoal(this));
+                goalSelector.addGoal(1, new FindWaterGoal(this));
                 goalSelector.addGoal(2, new DevourerMeleeGoal());
                 goalSelector.addGoal(6, new RandomSwimmingGoal(this, 1.0D, 20));
             }
@@ -652,7 +654,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             breakSoftBlockTowards(target);
         }
         if (activeKind == Kind.DEVOURER) {
-            if (!isInWaterOrBubble() && tickCount % 40 == 0) {
+            if (!isInWater() && tickCount % 40 == 0) {
                 hurt(damageSources().drown(), 3.0F);
             }
         }
@@ -702,7 +704,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
         if (activeKind() == Kind.MANDUCATER && cloaked) {
             endCloak();
             abilityCooldown = 140;
@@ -710,8 +712,8 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         if (source.is(DamageTypeTags.IS_FIRE)) {
             amount *= 4.0F;
         }
-        boolean hurt = super.hurt(source, amount);
-        if (hurt && activeKind() == Kind.BOLSTER && !level().isClientSide()) {
+        boolean hurt = super.hurtServer(level, source, amount);
+        if (hurt && activeKind() == Kind.BOLSTER && !level.isClientSide()) {
             lastBolsterCombatTick = tickCount;
         }
         return hurt;
@@ -729,16 +731,16 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     }
 
     @Override
-    public boolean doHurtTarget(Entity entity) {
+    public boolean doHurtTarget(ServerLevel level, Entity entity) {
         Kind activeKind = activeKind();
-        if (activeKind == Kind.DEVOURER && !isInWaterOrBubble()) {
+        if (activeKind == Kind.DEVOURER && !isInWater()) {
             return false;
         }
         if (activeKind == Kind.TOZOON) {
             return performTozoonAoeAttack(entity);
         }
         if (!(entity instanceof LivingEntity target)) {
-            return super.doHurtTarget(entity);
+            return super.doHurtTarget(level, entity);
         }
 
         if (activeKind == Kind.BOLSTER) {
@@ -747,7 +749,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
         boolean hit;
         if (activeKind == Kind.MANDUCATER && cloaked) {
-            hit = target.hurt(damageSources().mobAttack(this), meleeDamage() * 4.0F);
+            hit = target.hurtOrSimulate(damageSources().mobAttack(this), meleeDamage() * 4.0F);
             if (hit) {
                 target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 40, 4), this);
                 target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 1), this);
@@ -755,9 +757,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             endCloak();
             abilityCooldown = 140;
         } else if (activeKind == Kind.LONGARMS) {
-            hit = target.hurt(damageSources().mobAttack(this), meleeDamage());
+            hit = target.hurtOrSimulate(damageSources().mobAttack(this), meleeDamage());
         } else {
-            hit = super.doHurtTarget(entity);
+            hit = super.doHurtTarget(level, entity);
         }
         if (!hit) {
             return false;
@@ -831,7 +833,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             return false;
         }
         if (target instanceof Parasite) {
-            target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 600, 2, false, true), this);
+            target.addEffect(new MobEffectInstance(MobEffects.SPEED, 600, 2, false, true), this);
             return true;
         }
         target.addEffect(new MobEffectInstance(MobEffects.HUNGER, 300, 2, false, true), this);
@@ -839,14 +841,14 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         if (target instanceof Player player) {
             player.causeFoodExhaustion(5.0F);
             Set<Item> cooledItems = new HashSet<>();
-            for (ItemStack stack : player.getInventory().items) {
+            for (ItemStack stack : player.getInventory().getNonEquipmentItems()) {
                 if (!stack.isEmpty() && cooledItems.add(stack.getItem())) {
-                    player.getCooldowns().addCooldown(stack.getItem(), 200);
+                    player.getCooldowns().addCooldown(stack, 200);
                 }
             }
             ItemStack offhand = player.getOffhandItem();
             if (!offhand.isEmpty() && cooledItems.add(offhand.getItem())) {
-                player.getCooldowns().addCooldown(offhand.getItem(), 200);
+                player.getCooldowns().addCooldown(offhand, 200);
             }
         }
         return true;
@@ -861,7 +863,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             }
             if (activeKind() == Kind.ARACHNIDA
                     && !SrpWorldData.get(serverLevel).colonies().isEmpty()) {
-                spawnPrimitiveDeathForm(serverLevel, ModEntities.PRI_ARACHNIDA.get().create(serverLevel));
+                spawnPrimitiveDeathForm(serverLevel, ModEntities.PRI_ARACHNIDA.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED));
             } else if (!SrpWorldData.get(serverLevel).colonies().isEmpty()) {
                 spawnPrimitiveDeathForm(serverLevel);
             }
@@ -872,17 +874,17 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     private void spawnPrimitiveDeathForm(ServerLevel level) {
         Mob primitive = switch (activeKind()) {
             case ARACHNIDA -> null;
-            case BOLSTER -> ModEntities.PRI_BOLSTER.get().create(level);
-            case BURROWER -> ModEntities.PRI_BURROWER.get().create(level);
-            case DEVOURER -> ModEntities.PRI_DEVOURER.get().create(level);
-            case LONGARMS -> ModEntities.PRI_LONGARMS.get().create(level);
-            case MANDUCATER -> ModEntities.PRI_MANDUCATER.get().create(level);
-            case REEKER -> ModEntities.PRI_REEKER.get().create(level);
-            case SUMMONER -> ModEntities.PRI_SUMMONER.get().create(level);
-            case TOZOON -> ModEntities.PRI_TOZOON.get().create(level);
-            case VERMIN -> ModEntities.MOVINGFLESH.get().create(level);
-            case VISCERA -> ModEntities.PRI_VISCERA.get().create(level);
-            case YELLOWEYE -> ModEntities.PRI_YELLOWEYE.get().create(level);
+            case BOLSTER -> ModEntities.PRI_BOLSTER.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+            case BURROWER -> ModEntities.PRI_BURROWER.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+            case DEVOURER -> ModEntities.PRI_DEVOURER.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+            case LONGARMS -> ModEntities.PRI_LONGARMS.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+            case MANDUCATER -> ModEntities.PRI_MANDUCATER.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+            case REEKER -> ModEntities.PRI_REEKER.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+            case SUMMONER -> ModEntities.PRI_SUMMONER.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+            case TOZOON -> ModEntities.PRI_TOZOON.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+            case VERMIN -> ModEntities.MOVINGFLESH.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+            case VISCERA -> ModEntities.PRI_VISCERA.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+            case YELLOWEYE -> ModEntities.PRI_YELLOWEYE.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         };
         spawnPrimitiveDeathForm(level, primitive);
     }
@@ -891,7 +893,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         if (primitive == null) {
             return;
         }
-        primitive.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        primitive.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         primitive.finalizeSpawn(level, level.getCurrentDifficultyAt(blockPosition()),
                 EntitySpawnReason.CONVERSION, null);
         primitive.setCustomName(getCustomName());
@@ -921,105 +923,110 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
         if (activeKind() == Kind.ARACHNIDA) {
-            tag.putInt("arachnida_skin", getArachnidaSkin());
+            output.putInt("arachnida_skin", getArachnidaSkin());
         }
         if (usesDetachableTendrils()) {
-            tag.putFloat("left_tendril", entityData.get(BOLSTER_LEFT_TENDRIL));
-            tag.putFloat("right_tendril", entityData.get(BOLSTER_RIGHT_TENDRIL));
+            output.putFloat("left_tendril", entityData.get(BOLSTER_LEFT_TENDRIL));
+            output.putFloat("right_tendril", entityData.get(BOLSTER_RIGHT_TENDRIL));
         }
         if (activeKind() == Kind.BOLSTER) {
-            tag.putInt("bolster_variant", entityData.get(BOLSTER_VARIANT));
-            tag.putFloat("bolster_left_tendril", entityData.get(BOLSTER_LEFT_TENDRIL));
-            tag.putFloat("bolster_right_tendril", entityData.get(BOLSTER_RIGHT_TENDRIL));
-            tag.putInt("bolster_ability_cooldown", abilityCooldown);
-            tag.putInt("bolster_support_cooldown", supportCooldown);
-            tag.putInt("bolster_orb_cooldown", secondaryCooldown);
-            tag.putInt("bolster_residue_cooldown", residueCooldown);
-            tag.putInt("bolster_last_combat_tick", lastBolsterCombatTick);
+            output.putInt("bolster_variant", entityData.get(BOLSTER_VARIANT));
+            output.putFloat("bolster_left_tendril", entityData.get(BOLSTER_LEFT_TENDRIL));
+            output.putFloat("bolster_right_tendril", entityData.get(BOLSTER_RIGHT_TENDRIL));
+            output.putInt("bolster_ability_cooldown", abilityCooldown);
+            output.putInt("bolster_support_cooldown", supportCooldown);
+            output.putInt("bolster_orb_cooldown", secondaryCooldown);
+            output.putInt("bolster_residue_cooldown", residueCooldown);
+            output.putInt("bolster_last_combat_tick", lastBolsterCombatTick);
         }
         if (activeKind() == Kind.MANDUCATER) {
-            tag.putInt("manducater_status", entityData.get(MANDUCATER_STATUS));
-            tag.putBoolean("manducater_still_ani", entityData.get(MANDUCATER_STILL_ANI));
-            tag.putInt("manducater_vomit_ticks", manducaterVomitTicks);
-            tag.putInt("manducater_evade_cooldown", manducaterEvadeCooldown);
-            tag.putBoolean("manducater_cloaked", cloaked);
-            tag.putInt("manducater_cloak_ticks", cloakTicks);
-            tag.putInt("manducater_ability_cooldown", abilityCooldown);
-            tag.putInt("manducater_secondary_cooldown", secondaryCooldown);
+            output.putInt("manducater_status", entityData.get(MANDUCATER_STATUS));
+            output.putBoolean("manducater_still_ani", entityData.get(MANDUCATER_STILL_ANI));
+            output.putInt("manducater_vomit_ticks", manducaterVomitTicks);
+            output.putInt("manducater_evade_cooldown", manducaterEvadeCooldown);
+            output.putBoolean("manducater_cloaked", cloaked);
+            output.putInt("manducater_cloak_ticks", cloakTicks);
+            output.putInt("manducater_ability_cooldown", abilityCooldown);
+            output.putInt("manducater_secondary_cooldown", secondaryCooldown);
         }
         if (activeKind() == Kind.REEKER) {
-            tag.putBoolean("reeker_charging", entityData.get(REEKER_CHARGING));
-            tag.putInt("reeker_pulling", entityData.get(REEKER_PULLING));
-            tag.putBoolean("reeker_still_ani", entityData.get(REEKER_STILL_ANI));
-            tag.putInt("reeker_pulling_cooldown", reekerPullingCooldown);
-            tag.putInt("reeker_ability_cooldown", abilityCooldown);
+            output.putBoolean("reeker_charging", entityData.get(REEKER_CHARGING));
+            output.putInt("reeker_pulling", entityData.get(REEKER_PULLING));
+            output.putBoolean("reeker_still_ani", entityData.get(REEKER_STILL_ANI));
+            output.putInt("reeker_pulling_cooldown", reekerPullingCooldown);
+            output.putInt("reeker_ability_cooldown", abilityCooldown);
         }
         if (activeKind() == Kind.SUMMONER) {
-            tag.putBoolean("summoner_casting", entityData.get(SUMMONER_CASTING));
-            tag.putInt("summoner_status", entityData.get(SUMMONER_STATUS));
-            tag.putInt("summoner_ability_cooldown", abilityCooldown);
-            tag.putInt("summoner_secondary_cooldown", secondaryCooldown);
-            summonTracker.save(tag, "summoner_tracked_summons");
+            output.putBoolean("summoner_casting", entityData.get(SUMMONER_CASTING));
+            output.putInt("summoner_status", entityData.get(SUMMONER_STATUS));
+            output.putInt("summoner_ability_cooldown", abilityCooldown);
+            output.putInt("summoner_secondary_cooldown", secondaryCooldown);
+            CompoundTag summonTag = new CompoundTag();
+            summonTracker.save(summonTag, "summoner_tracked_summons");
+            output.store("summoner_tracked_summons", CompoundTag.CODEC, summonTag);
         }
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
         if (activeKind() == Kind.ARACHNIDA) {
-            setArachnidaSkin(tag.getIntOr("arachnida_skin", 0));
+            setArachnidaSkin(input.getIntOr("arachnida_skin", 0));
             setArachnidaStatus(0);
             entityData.set(ARACHNIDA_TARGET, 0);
             arachnidaPullingTicks = 0;
             arachnidaCanPull = true;
         }
         if (usesDetachableTendrils()) {
-            entityData.set(BOLSTER_LEFT_TENDRIL, tag.contains("left_tendril")
-                    ? tag.getFloatOr("left_tendril", 0.0F)
-                    : tag.contains("bolster_left_tendril") ? tag.getFloatOr("bolster_left_tendril", 0.0F) : -1.0F);
-            entityData.set(BOLSTER_RIGHT_TENDRIL, tag.contains("right_tendril")
-                    ? tag.getFloatOr("right_tendril", 0.0F)
-                    : tag.contains("bolster_right_tendril") ? tag.getFloatOr("bolster_right_tendril", 0.0F) : -1.0F);
+            entityData.set(BOLSTER_LEFT_TENDRIL, input.keySet().contains("left_tendril")
+                    ? input.getFloatOr("left_tendril", 0.0F)
+                    : input.keySet().contains("bolster_left_tendril")
+                            ? input.getFloatOr("bolster_left_tendril", 0.0F) : -1.0F);
+            entityData.set(BOLSTER_RIGHT_TENDRIL, input.keySet().contains("right_tendril")
+                    ? input.getFloatOr("right_tendril", 0.0F)
+                    : input.keySet().contains("bolster_right_tendril")
+                            ? input.getFloatOr("bolster_right_tendril", 0.0F) : -1.0F);
         }
         if (activeKind() == Kind.BOLSTER) {
-            entityData.set(BOLSTER_VARIANT, tag.getIntOr("bolster_variant", 0));
-            abilityCooldown = tag.getIntOr("bolster_ability_cooldown", 0);
-            supportCooldown = tag.getIntOr("bolster_support_cooldown", 0);
-            secondaryCooldown = tag.getIntOr("bolster_orb_cooldown", 0);
-            residueCooldown = tag.contains("bolster_residue_cooldown")
-                    ? tag.getIntOr("bolster_residue_cooldown", 0) : 600 + random.nextInt(601);
-            lastBolsterCombatTick = tag.getIntOr("bolster_last_combat_tick", 0);
+            entityData.set(BOLSTER_VARIANT, input.getIntOr("bolster_variant", 0));
+            abilityCooldown = input.getIntOr("bolster_ability_cooldown", 0);
+            supportCooldown = input.getIntOr("bolster_support_cooldown", 0);
+            secondaryCooldown = input.getIntOr("bolster_orb_cooldown", 0);
+            residueCooldown = input.keySet().contains("bolster_residue_cooldown")
+                    ? input.getIntOr("bolster_residue_cooldown", 0) : 600 + random.nextInt(601);
+            lastBolsterCombatTick = input.getIntOr("bolster_last_combat_tick", 0);
             setBolsterAction(BolsterAction.NONE, 0);
         }
         if (activeKind() == Kind.MANDUCATER) {
-            entityData.set(MANDUCATER_STATUS, tag.getIntOr("manducater_status", 0));
-            entityData.set(MANDUCATER_STILL_ANI, tag.getBooleanOr("manducater_still_ani", false));
-            manducaterVomitTicks = tag.getIntOr("manducater_vomit_ticks", 0);
-            manducaterEvadeCooldown = tag.getIntOr("manducater_evade_cooldown", 0);
-            cloaked = tag.getBooleanOr("manducater_cloaked", false);
-            cloakTicks = tag.getIntOr("manducater_cloak_ticks", 0);
-            abilityCooldown = tag.getIntOr("manducater_ability_cooldown", 0);
-            secondaryCooldown = tag.getIntOr("manducater_secondary_cooldown", 0);
+            entityData.set(MANDUCATER_STATUS, input.getIntOr("manducater_status", 0));
+            entityData.set(MANDUCATER_STILL_ANI, input.getBooleanOr("manducater_still_ani", false));
+            manducaterVomitTicks = input.getIntOr("manducater_vomit_ticks", 0);
+            manducaterEvadeCooldown = input.getIntOr("manducater_evade_cooldown", 0);
+            cloaked = input.getBooleanOr("manducater_cloaked", false);
+            cloakTicks = input.getIntOr("manducater_cloak_ticks", 0);
+            abilityCooldown = input.getIntOr("manducater_ability_cooldown", 0);
+            secondaryCooldown = input.getIntOr("manducater_secondary_cooldown", 0);
             if (cloaked) {
                 setInvisible(true);
             }
         }
         if (activeKind() == Kind.REEKER) {
-            entityData.set(REEKER_CHARGING, tag.getBooleanOr("reeker_charging", false));
-            entityData.set(REEKER_PULLING, tag.getIntOr("reeker_pulling", 0));
-            entityData.set(REEKER_STILL_ANI, tag.getBooleanOr("reeker_still_ani", false));
-            reekerPullingCooldown = tag.getIntOr("reeker_pulling_cooldown", 0);
-            abilityCooldown = tag.getIntOr("reeker_ability_cooldown", 0);
+            entityData.set(REEKER_CHARGING, input.getBooleanOr("reeker_charging", false));
+            entityData.set(REEKER_PULLING, input.getIntOr("reeker_pulling", 0));
+            entityData.set(REEKER_STILL_ANI, input.getBooleanOr("reeker_still_ani", false));
+            reekerPullingCooldown = input.getIntOr("reeker_pulling_cooldown", 0);
+            abilityCooldown = input.getIntOr("reeker_ability_cooldown", 0);
         }
         if (activeKind() == Kind.SUMMONER) {
-            entityData.set(SUMMONER_CASTING, tag.getBooleanOr("summoner_casting", false));
-            entityData.set(SUMMONER_STATUS, tag.getIntOr("summoner_status", 0));
-            abilityCooldown = tag.getIntOr("summoner_ability_cooldown", 0);
-            secondaryCooldown = tag.getIntOr("summoner_secondary_cooldown", 0);
-            summonTracker.load(tag, "summoner_tracked_summons");
+            entityData.set(SUMMONER_CASTING, input.getBooleanOr("summoner_casting", false));
+            entityData.set(SUMMONER_STATUS, input.getIntOr("summoner_status", 0));
+            abilityCooldown = input.getIntOr("summoner_ability_cooldown", 0);
+            secondaryCooldown = input.getIntOr("summoner_secondary_cooldown", 0);
+            input.read("summoner_tracked_summons", CompoundTag.CODEC)
+                    .ifPresent(summonTag -> summonTracker.load(summonTag, "summoner_tracked_summons"));
             entityData.set(SUMMONER_CASTING, false);
             setSummonerStatus(0);
         }
@@ -1085,7 +1092,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     }
 
     @Override
-    public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
+    public boolean causeFallDamage(double distance, float damageMultiplier, DamageSource source) {
         return !isFlying(activeKind()) && super.causeFallDamage(distance, damageMultiplier, source);
     }
 
@@ -1289,7 +1296,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
                 center.getBoundingBox().inflate(2.0D), this::isValidParasiteTarget)) {
             float healthBefore = target.getHealth();
             // 横扫动画和实际伤害在同一服务器 tick 结算，避免仅播放动画而未造成伤害。
-            boolean targetHit = target.hurt(damageSources().mobAttack(this), meleeDamage());
+            boolean targetHit = target.hurtOrSimulate(damageSources().mobAttack(this), meleeDamage());
             if (targetHit) {
                 applyBolsterMinimumDamage(target, healthBefore);
                 applyBolsterVariantAttack(target);
@@ -1367,7 +1374,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             }
             if (attackCooldown <= 0 && distanceToSqr(target) <= LONGARMS_MELEE_RANGE_SQR
                     && hasLineOfSight(target)) {
-                doHurtTarget(target);
+                doHurtTarget(getServerLevel(AdaptedVariantEntity.this), target);
                 attackCooldown = LONGARMS_ATTACK_INTERVAL_TICKS;
             }
         }
@@ -1388,9 +1395,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         }
         float dealt = Math.max(0.0F, healthBefore - target.getHealth());
         if (dealt < 4.0F) {
-            target.invulnerableTime = 0;
+            target.setInvulnerableTime(0);
             target.hurt(damageSources().fellOutOfWorld(), 4.0F - dealt);
-            target.invulnerableTime = 0;
+            target.setInvulnerableTime(0);
         }
     }
 
@@ -1399,9 +1406,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         if (getHealth() < getMaxHealth() && tickCount - lastBolsterCombatTick >= 80 && consumeParasiteKill()) {
             heal(getMaxHealth() * 0.001F);
         }
-        if (isInWaterOrBubble()) {
+        if (isInWater()) {
             LivingEntity target = getTarget();
-            if (target != null && target.isInWaterOrBubble()) {
+            if (target != null && target.isInWater()) {
                 Vec3 direction = target.getEyePosition().subtract(getEyePosition());
                 if (direction.lengthSqr() > 0.01D) {
                     direction = direction.normalize().scale(0.08D);
@@ -1467,7 +1474,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     }
 
     private boolean hurtTendrilPart(boolean left, DamageSource source, float amount) {
-        if (!hurt(source, amount)) {
+        if (!hurtServer((ServerLevel) level(), source, amount)) {
             return false;
         }
         EntityDataAccessor<Float> tendril = left ? BOLSTER_LEFT_TENDRIL : BOLSTER_RIGHT_TENDRIL;
@@ -1489,7 +1496,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         if (!(level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        TendrilEntity tendril = ModEntities.TENDRIL.get().create(serverLevel);
+        TendrilEntity tendril = ModEntities.TENDRIL.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (tendril == null) {
             return;
         }
@@ -1497,7 +1504,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         double yaw = Math.toRadians(getYRot());
         double offset = tendrilOffset();
         tendril.setSkin(tendrilSkin());
-        tendril.moveTo(getX() + side * Math.cos(yaw) * offset,
+        tendril.snapTo(getX() + side * Math.cos(yaw) * offset,
                 getY() + tendrilHeight(),
                 getZ() + side * Math.sin(yaw) * offset,
                 getYRot(), 0.0F);
@@ -1643,7 +1650,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
     private void triggerAttackAnimation() {
         if (activeKind() == Kind.LONGARMS) {
-            swing(InteractionHand.MAIN_HAND);
+            swing(InteractionHand.MAIN_HAND, SwingAnimation.DEFAULT);
             return;
         }
         triggerAnim("bolster_attack_controller", "attack");
@@ -1712,7 +1719,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         Vec3 pull = position().subtract(target.position());
         if (pull.lengthSqr() > 0.0D) {
             target.setDeltaMovement(target.getDeltaMovement().add(pull.normalize().scale(0.2D)));
-            target.hurtMarked = true;
+            target.syncVelocity = true;
         }
         arachnidaPullingTicks++;
         if (arachnidaPullingTicks > ARACHNIDA_MAX_PULL_TICKS) {
@@ -1723,7 +1730,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     }
 
     private void fireArachnidaPullProjectile(LivingEntity target) {
-        PullingBallEntity projectile = ModEntities.PULLING_BALL.get().create(level());
+        PullingBallEntity projectile = ModEntities.PULLING_BALL.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (projectile == null) {
             return;
         }
@@ -1733,7 +1740,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         if (direction.lengthSqr() <= 0.0D) {
             return;
         }
-        projectile.moveTo(start.x, start.y, start.z, getYRot(), getXRot());
+        projectile.snapTo(start.x, start.y, start.z, getYRot(), getXRot());
         projectile.setOwner(this);
         projectile.setDeltaMovement(direction.normalize().scale(0.1D));
         level().addFreshEntity(projectile);
@@ -1831,7 +1838,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     }
 
     private void breakSoftBlockTowards(LivingEntity target) {
-        if (blockBreakCooldown > 0 || !level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)) {
+        if (blockBreakCooldown > 0 || !((ServerLevel) level()).getGameRules().get(GameRules.MOB_GRIEFING)) {
             return;
         }
         Vec3 direction = target.position().subtract(position());
@@ -1889,15 +1896,15 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
                 continue;
             }
             float healthBefore = target.getHealth();
-            target.invulnerableTime = 0;
-            if (target.hurt(damageSources().mobAttack(this), meleeDamage() * 0.25F)) {
+            target.setInvulnerableTime(0);
+            if (target.hurtOrSimulate(damageSources().mobAttack(this), meleeDamage() * 0.25F)) {
                 applyBolsterMinimumDamage(target, healthBefore);
                 applyBolsterVariantAttack(target);
                 if (random.nextFloat() < 0.50F) {
                     InfectionMechanics.applyCothEffect(target, this, 1200, 0, false, true);
                 }
             }
-            target.invulnerableTime = 0;
+            target.setInvulnerableTime(0);
         }
     }
 
@@ -1961,11 +1968,11 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         if (!(level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        LiceEntity lice = ModEntities.LICE.get().create(serverLevel);
+        LiceEntity lice = ModEntities.LICE.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (lice == null) {
             return;
         }
-        lice.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        lice.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         serverLevel.addFreshEntity(lice);
         spawnVerminPayloadParticles(serverLevel);
     }
@@ -1977,9 +1984,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     private void registerVerminTargetGoals() {
         targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
         targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Player.class, 0,
-                true, false, this::isValidParasiteTarget));
+                true, false, (target, serverLevel) -> this.isValidParasiteTarget(target)));
         targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Mob.class, 0,
-                true, false, this::isValidVerminBaseMobTarget));
+                true, false, (target, serverLevel) -> this.isValidVerminBaseMobTarget(target)));
     }
 
     private boolean isValidVerminBaseMobTarget(LivingEntity target) {
@@ -2115,7 +2122,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         for (LivingEntity nearby : level().getEntitiesOfClass(LivingEntity.class, area,
                 candidate -> candidate.isAlive() && !(candidate instanceof Parasite)
                         && hasLineOfSight(candidate))) {
-            hit |= super.doHurtTarget(nearby);
+            hit |= super.doHurtTarget((ServerLevel) level(), nearby);
         }
         return hit;
     }
@@ -2181,12 +2188,12 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
         @Override
         public boolean canUse() {
-            return isInWaterOrBubble() && super.canUse();
+            return isInWater() && super.canUse();
         }
 
         @Override
         public boolean canContinueToUse() {
-            return isInWaterOrBubble() && super.canContinueToUse();
+            return isInWater() && super.canContinueToUse();
         }
     }
 
@@ -2298,7 +2305,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
         @Override
         public boolean canUse() {
-            return leaping || isInWaterOrBubble();
+            return leaping || isInWater();
         }
 
         @Override
@@ -2339,7 +2346,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
                     setDeltaMovement(motion.x + deltaX / horizontal * 1.35D + motion.x * 0.3D,
                             0.7D + targetYOffset,
                             motion.z + deltaZ / horizontal * 1.35D + motion.z * 0.3D);
-                    hasImpulse = true;
+                    needsSync = true;
                 }
             }
             if (airborneTicks >= 3 && onGround()) {
@@ -2731,7 +2738,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
                 setDeltaMovement(direction.x * 0.88D, getDeltaMovement().y, direction.z * 0.88D);
             }
             if (distanceToSqr(target) <= 9.0D) {
-                doHurtTarget(target);
+                doHurtTarget(getServerLevel(AdaptedVariantEntity.this), target);
                 hurtNearby(AdaptedVariantEntity.this, 3.5D, meleeDamage() * 1.35F, true);
                 chargeTicks = 24;
                 return;
@@ -2818,13 +2825,13 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     }
 
     private void firePullProjectile(LivingEntity target) {
-        PullingBallEntity projectile = ModEntities.PULLING_BALL.get().create(level());
+        PullingBallEntity projectile = ModEntities.PULLING_BALL.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (projectile == null) {
             return;
         }
         Vec3 start = getEyePosition().add(getViewVector(1.0F).scale(0.5D));
         Vec3 direction = target.getEyePosition().subtract(start).normalize().scale(0.8D);
-        projectile.moveTo(start.x, start.y, start.z, getYRot(), getXRot());
+        projectile.snapTo(start.x, start.y, start.z, getYRot(), getXRot());
         projectile.setOwner(this);
         projectile.setDeltaMovement(direction);
         level().addFreshEntity(projectile);
@@ -2854,12 +2861,12 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         @Override
         public boolean canUse() {
             return abilityCooldown <= 0 && getTarget() != null && distanceToSqr(getTarget()) <= 400.0D
-                    && !isInWaterOrBubble();
+                    && !isInWater();
         }
 
         @Override
         public boolean canContinueToUse() {
-            return getTarget() != null && getTarget().isAlive() && !isInWaterOrBubble()
+            return getTarget() != null && getTarget().isAlive() && !isInWater()
                     && successfulSummons < SUMMONER_LIMIT && failedSummons <= 4;
         }
 
@@ -3001,11 +3008,11 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             if (target == null || target.getY() > getY()) {
                 return;
             }
-            BombEntity bomb = ModEntities.BOMB.get().create(serverLevel);
+            BombEntity bomb = ModEntities.BOMB.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
             if (bomb != null) {
                 bomb.configure(AdaptedVariantEntity.this, 60, 0.0F,
                         (float) getAttributeValue(Attributes.ATTACK_DAMAGE), 2, 1, false);
-                bomb.moveTo(getX(), getY(), getZ(), getYRot(), getXRot() + 20.0F);
+                bomb.snapTo(getX(), getY(), getZ(), getYRot(), getXRot() + 20.0F);
                 serverLevel.addFreshEntity(bomb);
                 spawnVerminPayloadParticles(serverLevel);
             }
@@ -3296,7 +3303,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             }
 
             if (secondaryCooldown <= 0 && distSqr <= 4.0D) {
-                doHurtTarget(target);
+                doHurtTarget(getServerLevel(AdaptedVariantEntity.this), target);
                 secondaryCooldown = 20;
             }
         }
@@ -3363,6 +3370,41 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         return activeKind() == Kind.ARACHNIDA ? 0 : PullingBallOwner.super.pullProjectileMaxAge();
     }
 
+    /** Local replacement for the removed vanilla {@code TryFindWaterGoal}. */
+    private static final class FindWaterGoal extends Goal {
+        private final PathfinderMob mob;
+
+        private FindWaterGoal(PathfinderMob mob) {
+            this.mob = mob;
+        }
+
+        @Override
+        public boolean canUse() {
+            return this.mob.onGround()
+                    && !this.mob.level().getFluidState(this.mob.blockPosition()).is(net.minecraft.tags.FluidTags.WATER);
+        }
+
+        @Override
+        public void start() {
+            BlockPos water = null;
+            for (BlockPos candidate : BlockPos.betweenClosed(
+                    Mth.floor(this.mob.getX() - 2.0),
+                    Mth.floor(this.mob.getY() - 2.0),
+                    Mth.floor(this.mob.getZ() - 2.0),
+                    Mth.floor(this.mob.getX() + 2.0),
+                    this.mob.getBlockY(),
+                    Mth.floor(this.mob.getZ() + 2.0))) {
+                if (this.mob.level().getFluidState(candidate).is(net.minecraft.tags.FluidTags.WATER)) {
+                    water = candidate;
+                    break;
+                }
+            }
+            if (water != null) {
+                this.mob.getMoveControl().setWantedPosition(water.getX(), water.getY(), water.getZ(), 1.0D);
+            }
+        }
+    }
+
     private static final class TendrilPart extends PartEntity<AdaptedVariantEntity> {
         private final boolean left;
         private final float width;
@@ -3395,11 +3437,11 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         }
 
         @Override
-        protected void readAdditionalSaveData(CompoundTag tag) {
+        protected void readAdditionalSaveData(ValueInput input) {
         }
 
         @Override
-        protected void addAdditionalSaveData(CompoundTag tag) {
+        protected void addAdditionalSaveData(ValueOutput output) {
         }
 
         @Override
@@ -3409,7 +3451,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         }
 
         @Override
-        public boolean hurt(DamageSource source, float amount) {
+        public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
             return getParent().hurtTendrilPart(left, source, amount);
         }
 
@@ -3462,11 +3504,11 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         }
 
         @Override
-        protected void readAdditionalSaveData(CompoundTag tag) {
+        protected void readAdditionalSaveData(ValueInput input) {
         }
 
         @Override
-        protected void addAdditionalSaveData(CompoundTag tag) {
+        protected void addAdditionalSaveData(ValueOutput output) {
         }
 
         @Override
@@ -3475,12 +3517,12 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         }
 
         @Override
-        public boolean hurt(DamageSource source, float amount) {
+        public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
             AdaptedVariantEntity parent = getParent();
             if (!parent.level().isClientSide() && parent.random.nextBoolean()) {
                 EffectStacking.apply(parent, ModMobEffects.BLEED, 80, 0);
             }
-            return parent.hurt(source, amount * damageVulnerability);
+            return parent.hurtServer(level, source, amount * damageVulnerability);
         }
 
         @Override

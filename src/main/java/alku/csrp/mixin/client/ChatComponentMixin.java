@@ -1,10 +1,9 @@
 package alku.csrp.mixin.client;
 
 import alku.csrp.client.DerivedTextDistortion;
-import net.minecraft.client.GuiMessage;
-import net.minecraft.client.GuiMessageTag;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ChatComponent;
+import net.minecraft.client.multiplayer.chat.GuiMessage;
+import net.minecraft.client.multiplayer.chat.GuiMessageTag;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -16,19 +15,20 @@ import java.util.List;
 
 @Mixin(ChatComponent.class)
 public abstract class ChatComponentMixin {
+    private static final String EXTRACT_RENDER_STATE =
+            "extractRenderState(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Lnet/minecraft/client/gui/Font;IIILnet/minecraft/client/gui/components/ChatComponent$DisplayMode;Z)V";
+
     @Shadow
     @Final
     private List<GuiMessage.Line> trimmedMessages;
 
-    @Inject(method = "render", at = @At("HEAD"))
-    private void csrp$beginChatDistortion(GuiGraphics graphics, int tickCount, int mouseX,
-            int mouseY, boolean focused, CallbackInfo callback) {
+    @Inject(method = EXTRACT_RENDER_STATE, at = @At("HEAD"))
+    private void csrp$beginChatDistortion(CallbackInfo callback) {
         DerivedTextDistortion.beginRenderScope();
     }
 
-    @Inject(method = "render", at = @At("RETURN"))
-    private void csrp$endChatDistortion(GuiGraphics graphics, int tickCount, int mouseX,
-            int mouseY, boolean focused, CallbackInfo callback) {
+    @Inject(method = EXTRACT_RENDER_STATE, at = @At("RETURN"))
+    private void csrp$endChatDistortion(CallbackInfo callback) {
         DerivedTextDistortion.endRenderScope();
     }
 
@@ -43,8 +43,8 @@ public abstract class ChatComponentMixin {
             if (line.addedTime() != message.addedTime() || line.tag() != tag) {
                 break;
             }
-            trimmedMessages.set(index, new GuiMessage.Line(line.addedTime(),
-                    DerivedTextDistortion.bypass(line.content()), line.tag(), line.endOfEntry()));
+            trimmedMessages.set(index, new GuiMessage.Line(line.parent(),
+                    DerivedTextDistortion.bypass(line.content()), line.endOfEntry()));
         }
     }
 }

@@ -38,7 +38,10 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.PartEntity;
@@ -276,11 +279,11 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
         if (!level().isClientSide() && isStealthKind()) {
             revealStealth();
         }
-        return super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
+        return super.hurtServer(level, source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
     }
 
     @Override
@@ -341,8 +344,8 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
     }
 
     @Override
-    public boolean doHurtTarget(Entity entity) {
-        boolean hurt = super.doHurtTarget(entity);
+    public boolean doHurtTarget(ServerLevel level, Entity entity) {
+        boolean hurt = super.doHurtTarget(level, entity);
         if (hurt) {
             attackAnimationTicks = 8;
             triggerAttackAnimation();
@@ -351,7 +354,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
     }
 
     @Override
-    public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
+    public boolean causeFallDamage(double distance, float damageMultiplier, DamageSource source) {
         return false;
     }
 
@@ -509,22 +512,22 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putBoolean("preeminent_carrier_variant", isCarrierVariant());
-        tag.putBoolean("preeminent_haunter_variant", isHaunterVariant());
-        tag.putInt("preeminent_support_cooldown", supportCooldown);
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putBoolean("preeminent_carrier_variant", isCarrierVariant());
+        output.putBoolean("preeminent_haunter_variant", isHaunterVariant());
+        output.putInt("preeminent_support_cooldown", supportCooldown);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
         if (activeKind() == Kind.CARRIER_COLONY) {
-            setCarrierVariant(tag.getBooleanOr("preeminent_carrier_variant", false));
+            setCarrierVariant(input.getBooleanOr("preeminent_carrier_variant", false));
         } else if (activeKind() == Kind.HAUNTER) {
-            setHaunterVariant(tag.getBooleanOr("preeminent_haunter_variant", false));
+            setHaunterVariant(input.getBooleanOr("preeminent_haunter_variant", false));
         }
-        supportCooldown = Mth.clamp(tag.getIntOr("preeminent_support_cooldown", 0),
+        supportCooldown = Mth.clamp(input.getIntOr("preeminent_support_cooldown", 0),
                 FLAM_SUMMON_PHASE - FLAM_SUMMON_SUCCESS_REWIND, FLAM_SUMMON_TIMER_MAX);
     }
 
@@ -600,7 +603,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
         if (random.nextBoolean()) {
             addEffect(new MobEffectInstance(ModMobEffects.BLEED, 80, 0), this);
         }
-        return hurt(source, amount * 3.0F);
+        return hurtOrSimulate(source, amount * 3.0F);
     }
 
     private void applyCarrierInitialLinks() {
@@ -626,11 +629,11 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
         if (colony == null) {
             return;
         }
-        WorkerEntity worker = ModEntities.WORKER.get().create(serverLevel);
+        WorkerEntity worker = ModEntities.WORKER.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (worker == null) {
             return;
         }
-        worker.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        worker.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         worker.setColonyTask(colony.pos(), WorkerEntity.colonyRadius(colony));
         serverLevel.addFreshEntity(worker);
     }
@@ -680,7 +683,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
     private void applyFlyingAura() {
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(3.0D),
                 target -> target != this && target.isAlive() && !(target instanceof Parasite))) {
-            HaunterDamageEntity damage = ModEntities.HAUNTER_DAMAGE.get().create(level());
+            HaunterDamageEntity damage = ModEntities.HAUNTER_DAMAGE.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
             if (damage != null) {
                 damage.configure(this, target.position(), 2.5F);
                 level().addFreshEntity(damage);
@@ -725,7 +728,8 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
     }
 
     private void breakBlocksTowardsTarget(LivingEntity target, Kind activeKind) {
-        if (blockBreakCooldown > 0 || !level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)) {
+        if (blockBreakCooldown > 0 || !(level() instanceof ServerLevel serverLevel)
+                || !serverLevel.getGameRules().get(GameRules.MOB_GRIEFING)) {
             return;
         }
         Vec3 direction = target.position().subtract(position());
@@ -765,7 +769,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
         if (existingFlams >= MAX_SUMMONED_FLAMS) {
             return false;
         }
-        FlamEntity flam = ModEntities.SUCCOR.get().create(serverLevel);
+        FlamEntity flam = ModEntities.SUCCOR.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (flam == null) {
             return false;
         }
@@ -773,7 +777,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
         float spawnDistance = 4.0F * Mth.cos((float) Math.PI / 18.0F);
         Vec3 spawn = position().add(-Mth.sin(heading) * spawnDistance, getEyeHeight(),
                 Mth.cos(heading) * spawnDistance);
-        flam.moveTo(spawn.x, spawn.y, spawn.z, getYRot(), 0.0F);
+        flam.snapTo(spawn.x, spawn.y, spawn.z, getYRot(), 0.0F);
         int actionType = random.nextInt(3) + 1;
         if (actionType == FlamEntity.ACTION_TELEPORT && (distanceToSqr(target) < 100.0D
                 || !target.onGround() || teleportActionReserved)) {
@@ -826,7 +830,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
     }
 
     private void dropHeavyBomb(LivingEntity target) {
-        BombEntity bomb = ModEntities.BOMB.get().create(level());
+        BombEntity bomb = ModEntities.BOMB.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (bomb == null) {
             return;
         }
@@ -834,7 +838,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
         bomb.configure(this, 80, spawningBomb ? 4.0F : 8.0F,
                 (float) getAttributeValue(Attributes.ATTACK_DAMAGE) * MobsConfig.jinjoExplosionMultiplier(),
                 7, spawningBomb ? 2 : 3, MobsConfig.jinjoGriefing());
-        bomb.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        bomb.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         level().addFreshEntity(bomb);
         triggerAttackAnimation();
     }
@@ -913,7 +917,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
             if (contactCooldown > 0) {
                 contactCooldown--;
             } else if (distanceToSqr(target) <= 9.0D) {
-                doHurtTarget(target);
+                doHurtTarget(getServerLevel(PreeminentParasiteEntity.this), target);
                 contactCooldown = 20;
             }
         }
@@ -1044,7 +1048,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
                 return;
             }
             if (getBoundingBox().intersects(target.getBoundingBox())) {
-                doHurtTarget(target);
+                doHurtTarget(getServerLevel(PreeminentParasiteEntity.this), target);
                 charging = false;
                 return;
             }
@@ -1125,11 +1129,11 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
 
         @Override
         public boolean canUse() {
-            if (!isInWaterOrBubble() && !isInLava()) {
+            if (!(isInWater() || level().getBlockState(blockPosition()).is(Blocks.BUBBLE_COLUMN)) && !isInLava()) {
                 return false;
             }
             LivingEntity target = getTarget();
-            if (target != null && (target.isInWaterOrBubble() || target.isInLava())
+            if (target != null && (target.isInWater() || target.level().getBlockState(target.blockPosition()).is(Blocks.BUBBLE_COLUMN) || target.isInLava())
                     && target.distanceToSqr(getX(), target.getY(), getZ()) < 25.0D
                     && target.getY() - getY() < -1.0D) {
                 setDeltaMovement(getDeltaMovement().add(0.0D, -0.15D, 0.0D));
@@ -1160,7 +1164,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
 
         @Override
         public boolean canUse() {
-            return isInWaterOrBubble() || isInLava() || attacking >= 1;
+            return isInWater() || level().getBlockState(blockPosition()).is(Blocks.BUBBLE_COLUMN) || isInLava() || attacking >= 1;
         }
 
         @Override
@@ -1243,7 +1247,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
             double reach = Mth.square(getBbWidth() * 2.0F) + target.getBbWidth();
             if (distance <= reach && attackCooldown <= 0 && hasLineOfSight(target)) {
                 attackCooldown = CARRIER_MELEE_INTERVAL_TICKS;
-                doHurtTarget(target);
+                doHurtTarget(getServerLevel(PreeminentParasiteEntity.this), target);
             }
         }
     }
@@ -1320,11 +1324,11 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
         }
 
         @Override
-        protected void readAdditionalSaveData(CompoundTag tag) {
+        protected void readAdditionalSaveData(ValueInput tag) {
         }
 
         @Override
-        protected void addAdditionalSaveData(CompoundTag tag) {
+        protected void addAdditionalSaveData(ValueOutput tag) {
         }
 
         @Override
@@ -1333,7 +1337,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
         }
 
         @Override
-        public boolean hurt(DamageSource source, float amount) {
+        public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
             return getParent().hurtCarrierHead(source, amount);
         }
 
@@ -1370,11 +1374,11 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
         }
 
         @Override
-        protected void readAdditionalSaveData(CompoundTag tag) {
+        protected void readAdditionalSaveData(ValueInput tag) {
         }
 
         @Override
-        protected void addAdditionalSaveData(CompoundTag tag) {
+        protected void addAdditionalSaveData(ValueOutput tag) {
         }
 
         @Override
@@ -1383,8 +1387,8 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
         }
 
         @Override
-        public boolean hurt(DamageSource source, float amount) {
-            return getParent().hurt(source, amount);
+        public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+            return getParent().hurtOrSimulate(source, amount);
         }
 
         @Override
@@ -1413,7 +1417,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
                     getZ() + 1.0D).inflate(5.0D, 3.0D, 5.0D);
             for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, damageArea,
                     this::isHaunterHostile)) {
-                HaunterDamageEntity damage = ModEntities.HAUNTER_DAMAGE.get().create(level());
+                HaunterDamageEntity damage = ModEntities.HAUNTER_DAMAGE.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
                 if (damage != null) {
                     damage.configure(this, target.position(), 3.0F);
                     level().addFreshEntity(damage);
@@ -1424,7 +1428,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
         boolean attacked = false;
         for (LivingEntity target : nearby) {
             if (isHaunterHostile(target)) {
-                attacked |= doHurtTarget(target);
+                attacked |= doHurtTarget((ServerLevel) level(), target);
             }
         }
         return !nearby.isEmpty() || attacked;
@@ -1435,7 +1439,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
     }
 
     private void fireHaunterHomingProjectile(LivingEntity target) {
-        HaunterHomingProjectileEntity projectile = ModEntities.HAUNTER_HOMING.get().create(level());
+        HaunterHomingProjectileEntity projectile = ModEntities.HAUNTER_HOMING.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (projectile == null) {
             return;
         }
@@ -1448,8 +1452,9 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
     }
 
     private void breakHaunterBlocks(LivingEntity target) {
-        if (!level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)
-                || !EventHooks.canEntityGrief(level(), this)) {
+        if (!(level() instanceof ServerLevel serverLevel)
+                || !serverLevel.getGameRules().get(GameRules.MOB_GRIEFING)
+                || !EventHooks.canEntityGrief(serverLevel, this)) {
             return;
         }
         int baseY = Mth.floor(getY() + 0.1D);
@@ -1502,11 +1507,11 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
 
         @Override
         public boolean canUse() {
-            if (!isInWaterOrBubble() && !isInLava()) {
+            if (!(isInWater() || level().getBlockState(blockPosition()).is(Blocks.BUBBLE_COLUMN)) && !isInLava()) {
                 return false;
             }
             LivingEntity target = getTarget();
-            if (target != null && (target.isInWaterOrBubble() || target.isInLava())
+            if (target != null && (target.isInWater() || target.level().getBlockState(target.blockPosition()).is(Blocks.BUBBLE_COLUMN) || target.isInLava())
                     && target.distanceToSqr(getX(), target.getY(), getZ()) < 25.0D
                     && target.getY() - getY() < -1.0D) {
                 setDeltaMovement(getDeltaMovement().add(0.0D, -0.15D, 0.0D));
@@ -1771,7 +1776,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
                 double bonusZ = bonusX == 0.0D ? 5.0D : 0.0D;
                 setDeltaMovement(movement.x + x / horizontalLength * 4.0D + movement.x * 0.2D + bonusX,
                         movement.y, movement.z + z / horizontalLength * 4.0D + movement.z * 0.2D + bonusZ);
-                hurtMarked = true;
+                syncVelocity = true;
             }
             getNavigation().stop();
             cooldown = 0;
@@ -1886,7 +1891,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
                 return;
             }
             if (getBoundingBox().intersects(target.getBoundingBox())) {
-                doHurtTarget(target);
+                doHurtTarget(getServerLevel(PreeminentParasiteEntity.this), target);
                 charging = false;
                 return;
             }

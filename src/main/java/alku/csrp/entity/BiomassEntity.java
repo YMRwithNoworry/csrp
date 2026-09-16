@@ -6,6 +6,7 @@ import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModParticles;
 import alku.csrp.registry.ModSounds;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -16,6 +17,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityReference;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -25,6 +27,8 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import alku.csrp.animation.CitadelAnimatedEntity;
 import alku.csrp.animation.CitadelAnimationCache;
@@ -52,10 +56,10 @@ public final class BiomassEntity extends Monster implements CitadelAnimatedEntit
             BiomassEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<String> SPAWN_TYPE = SynchedEntityData.defineId(
             BiomassEntity.class, EntityDataSerializers.STRING);
-    private static final EntityDataAccessor<Optional<UUID>> PARENT = SynchedEntityData.defineId(
-            BiomassEntity.class, EntityDataSerializers.OPTIONAL_UUID);
-    private static final EntityDataAccessor<Optional<UUID>> TARGET = SynchedEntityData.defineId(
-            BiomassEntity.class, EntityDataSerializers.OPTIONAL_UUID);
+    private static final EntityDataAccessor<Optional<EntityReference<LivingEntity>>> PARENT = SynchedEntityData.defineId(
+            BiomassEntity.class, EntityDataSerializers.OPTIONAL_LIVING_ENTITY_REFERENCE);
+    private static final EntityDataAccessor<Optional<EntityReference<LivingEntity>>> TARGET = SynchedEntityData.defineId(
+            BiomassEntity.class, EntityDataSerializers.OPTIONAL_LIVING_ENTITY_REFERENCE);
 
     private final CitadelAnimationCache animationCache = CitadelAnimationUtil.createInstanceCache(this);
     private final CitadelRawAnimation idleAnimation = CitadelRawAnimation.begin().thenLoop("animation.biomass.idle");
@@ -136,7 +140,7 @@ public final class BiomassEntity extends Monster implements CitadelAnimatedEntit
     private static boolean spawnBiomass(ServerLevel level, Mob summoner, SummonCapacityOwner owner,
                                         UUID reservationId, SummonOption option, int skin,
                                         LivingEntity target, Vec3 position, float yaw, float pitch) {
-        BiomassEntity biomass = ModEntities.BIOMASS.get().create(level);
+        BiomassEntity biomass = ModEntities.BIOMASS.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (biomass == null) {
             if (reservationId != null) {
                 owner.releaseTrackedSummon(reservationId);
@@ -144,7 +148,7 @@ public final class BiomassEntity extends Monster implements CitadelAnimatedEntit
             return false;
         }
         biomass.configure(summoner, option.type(), option.cost(), skin, target);
-        biomass.moveTo(position.x, position.y, position.z, yaw, pitch);
+        biomass.snapTo(position.x, position.y, position.z, yaw, pitch);
         if (summoner.isOnFire()) {
             biomass.igniteForSeconds(8.0F);
         }
@@ -164,8 +168,10 @@ public final class BiomassEntity extends Monster implements CitadelAnimatedEntit
 
     private void configure(Mob parent, EntityType<? extends Mob> spawnType, int cost, int skin,
                            LivingEntity target) {
-        entityData.set(PARENT, Optional.of(parent.getUUID()));
-        entityData.set(TARGET, target == null ? Optional.empty() : Optional.of(target.getUUID()));
+        entityData.set(PARENT, Optional.of(EntityReference.<LivingEntity>of(parent.getUUID())));
+        entityData.set(TARGET, target == null
+                ? Optional.<EntityReference<LivingEntity>>empty()
+                : Optional.of(EntityReference.<LivingEntity>of(target.getUUID())));
         entityData.set(SPAWN_TYPE, BuiltInRegistries.ENTITY_TYPE.getKey(spawnType).toString());
         entityData.set(CAPACITY_COST, cost);
         entityData.set(SKIN, Mth.clamp(skin, 1, 6));
@@ -245,7 +251,8 @@ public final class BiomassEntity extends Monster implements CitadelAnimatedEntit
         Mob parent = resolveMob(level, entityData.get(PARENT));
         Identifier spawnTypeId = Identifier.tryParse(entityData.get(SPAWN_TYPE));
         Entity created = spawnTypeId == null ? null
-                : BuiltInRegistries.ENTITY_TYPE.getOptional(spawnTypeId).map(type -> type.create(level)).orElse(null);
+                : BuiltInRegistries.ENTITY_TYPE.getOptional(spawnTypeId)
+                        .map(type -> type.create(level, EntitySpawnReason.MOB_SUMMONED)).orElse(null);
         if (!(created instanceof Mob spawned)) {
             releaseReservation(parent);
             discard();
@@ -254,7 +261,7 @@ public final class BiomassEntity extends Monster implements CitadelAnimatedEntit
 
         float yaw = parent == null ? getYRot() : parent.getYRot();
         float pitch = parent == null ? getXRot() : parent.getXRot();
-        spawned.moveTo(getX(), getY(), getZ(), yaw, pitch);
+        spawned.snapTo(getX(), getY(), getZ(), yaw, pitch);
         spawned.finalizeSpawn(level, level.getCurrentDifficultyAt(spawned.blockPosition()),
                 EntitySpawnReason.MOB_SUMMONED, null);
         AttributeInstance followRange = spawned.getAttribute(Attributes.FOLLOW_RANGE);
@@ -288,13 +295,13 @@ public final class BiomassEntity extends Monster implements CitadelAnimatedEntit
         }
     }
 
-    private static Mob resolveMob(ServerLevel level, Optional<UUID> id) {
-        Entity entity = id.map(level::getEntity).orElse(null);
+    private static Mob resolveMob(ServerLevel level, Optional<EntityReference<LivingEntity>> id) {
+        Entity entity = id.map(reference -> level.getEntity(reference.getUUID())).orElse(null);
         return entity instanceof Mob mob ? mob : null;
     }
 
-    private static LivingEntity resolveLiving(ServerLevel level, Optional<UUID> id) {
-        Entity entity = id.map(level::getEntity).orElse(null);
+    private static LivingEntity resolveLiving(ServerLevel level, Optional<EntityReference<LivingEntity>> id) {
+        Entity entity = id.map(reference -> level.getEntity(reference.getUUID())).orElse(null);
         return entity instanceof LivingEntity living ? living : null;
     }
 
@@ -327,18 +334,18 @@ public final class BiomassEntity extends Monster implements CitadelAnimatedEntit
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
         Entity attacker = source.getEntity();
         Entity direct = source.getDirectEntity();
         if ((attacker instanceof Parasite && attacker != this)
                 || (direct instanceof Parasite && direct != this)) {
             return false;
         }
-        return super.hurt(source, amount);
+        return super.hurtServer(level, source, amount);
     }
 
     @Override
-    public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
+    public boolean causeFallDamage(double distance, float damageMultiplier, DamageSource source) {
         return distance >= 18.0F && super.causeFallDamage(distance, damageMultiplier, source);
     }
 
@@ -361,31 +368,33 @@ public final class BiomassEntity extends Monster implements CitadelAnimatedEntit
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putInt("biomass_skin", getSkin());
-        tag.putFloat("biomass_stage", getStage());
-        tag.putInt("biomass_fuse", getFuse());
-        tag.putInt("biomass_growth_ticks", entityData.get(GROWTH_TICKS));
-        tag.putInt("biomass_capacity_cost", entityData.get(CAPACITY_COST));
-        tag.putString("biomass_spawn_type", entityData.get(SPAWN_TYPE));
-        entityData.get(PARENT).ifPresent(id -> tag.putUUID("biomass_parent", id));
-        entityData.get(TARGET).ifPresent(id -> tag.putUUID("biomass_target", id));
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putInt("biomass_skin", getSkin());
+        output.putFloat("biomass_stage", getStage());
+        output.putInt("biomass_fuse", getFuse());
+        output.putInt("biomass_growth_ticks", entityData.get(GROWTH_TICKS));
+        output.putInt("biomass_capacity_cost", entityData.get(CAPACITY_COST));
+        output.putString("biomass_spawn_type", entityData.get(SPAWN_TYPE));
+        entityData.get(PARENT).ifPresent(ref ->
+                output.putIntArray("biomass_parent", UUIDUtil.uuidToIntArray(ref.getUUID())));
+        entityData.get(TARGET).ifPresent(ref ->
+                output.putIntArray("biomass_target", UUIDUtil.uuidToIntArray(ref.getUUID())));
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        entityData.set(SKIN, Mth.clamp(tag.getIntOr("biomass_skin", 0), 1, 6));
-        entityData.set(STAGE, tag.contains("biomass_stage") ? tag.getFloatOr("biomass_stage", 0.0F) : 1.0F);
-        entityData.set(FUSE, tag.contains("biomass_fuse") ? tag.getIntOr("biomass_fuse", 0) : DEFAULT_FUSE_TICKS);
-        entityData.set(GROWTH_TICKS, Math.max(0, tag.getIntOr("biomass_growth_ticks", 0)));
-        entityData.set(CAPACITY_COST, Math.max(0, tag.getIntOr("biomass_capacity_cost", 0)));
-        entityData.set(SPAWN_TYPE, tag.getStringOr("biomass_spawn_type", ""));
-        entityData.set(PARENT, tag.hasUUID("biomass_parent")
-                ? Optional.of(tag.getUUID("biomass_parent")) : Optional.empty());
-        entityData.set(TARGET, tag.hasUUID("biomass_target")
-                ? Optional.of(tag.getUUID("biomass_target")) : Optional.empty());
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        entityData.set(SKIN, Mth.clamp(input.getIntOr("biomass_skin", 0), 1, 6));
+        entityData.set(STAGE, input.getFloatOr("biomass_stage", 1.0F));
+        entityData.set(FUSE, input.getIntOr("biomass_fuse", DEFAULT_FUSE_TICKS));
+        entityData.set(GROWTH_TICKS, Math.max(0, input.getIntOr("biomass_growth_ticks", 0)));
+        entityData.set(CAPACITY_COST, Math.max(0, input.getIntOr("biomass_capacity_cost", 0)));
+        entityData.set(SPAWN_TYPE, input.getStringOr("biomass_spawn_type", ""));
+        entityData.set(PARENT, input.getIntArray("biomass_parent")
+                .map(UUIDUtil::uuidFromIntArray).map(uuid -> EntityReference.<LivingEntity>of(uuid)));
+        entityData.set(TARGET, input.getIntArray("biomass_target")
+                .map(UUIDUtil::uuidFromIntArray).map(uuid -> EntityReference.<LivingEntity>of(uuid)));
         hatchHandled = false;
     }
 

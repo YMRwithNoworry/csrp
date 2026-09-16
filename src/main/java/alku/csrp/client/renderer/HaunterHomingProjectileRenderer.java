@@ -4,6 +4,7 @@ import alku.csrp.Csrp;
 import alku.csrp.entity.HaunterHomingProjectileEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -11,26 +12,29 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 
 /** Renderer for the original Pheon homing orb's rotating three-plane model. */
-public final class HaunterHomingProjectileRenderer extends EntityRenderer<HaunterHomingProjectileEntity> {
+public final class HaunterHomingProjectileRenderer
+        extends EntityRenderer<HaunterHomingProjectileEntity, HaunterHomingProjectileRenderer.State> {
     public static final ModelLayerLocation LAYER = new ModelLayerLocation(
             Identifier.fromNamespaceAndPath(Csrp.MODID, "haunter_homing_projectile"), "main");
     private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,
             "textures/entity/projectile/projectileh.png");
 
-    private final ModelPart body;
+    private final BodyModel model;
 
     public HaunterHomingProjectileRenderer(EntityRendererProvider.Context context) {
         super(context);
-        body = context.bakeLayer(LAYER).getChild("body");
+        model = new BodyModel(context.bakeLayer(LAYER));
         shadowRadius = 0.0F;
     }
 
@@ -45,30 +49,58 @@ public final class HaunterHomingProjectileRenderer extends EntityRenderer<Haunte
     }
 
     @Override
-    public void render(HaunterHomingProjectileEntity entity, float entityYaw, float partialTick,
-                       PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-        float age = entity.tickCount + partialTick;
-        float yaw = Mth.rotLerp(partialTick, entity.yRotO, entity.getYRot());
-        float pitch = Mth.lerp(partialTick, entity.xRotO, entity.getXRot());
-        body.setRotation(pitch * Mth.DEG_TO_RAD, yaw * Mth.DEG_TO_RAD, 0.0F);
-
-        poseStack.pushPose();
-        poseStack.translate(0.0D, 0.15D, 0.0D);
-        poseStack.mulPose(Axis.YP.rotationDegrees(Mth.sin(age * 0.1F) * 180.0F));
-        poseStack.mulPose(Axis.XP.rotationDegrees(Mth.cos(age * 0.1F) * 180.0F));
-        poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.sin(age * 0.15F) * 360.0F));
-        poseStack.scale(-0.5F, -0.5F, 0.5F);
-        body.render(poseStack, buffer.getBuffer(RenderType.entityCutoutNoCull(TEXTURE)), packedLight,
-                OverlayTexture.NO_OVERLAY);
-        poseStack.scale(1.5F, 1.5F, 1.5F);
-        body.render(poseStack, buffer.getBuffer(RenderType.entityTranslucent(TEXTURE)), packedLight,
-                OverlayTexture.NO_OVERLAY, 0x80FFFFFF);
-        poseStack.popPose();
-        super.render(entity, entityYaw, partialTick, poseStack, buffer, packedLight);
+    public State createRenderState() {
+        return new State();
     }
 
     @Override
-    public Identifier getTextureLocation(HaunterHomingProjectileEntity entity) {
-        return TEXTURE;
+    public void extractRenderState(HaunterHomingProjectileEntity entity, State state, float partialTick) {
+        super.extractRenderState(entity, state, partialTick);
+        state.yRot = Mth.rotLerp(partialTick, entity.yRotO, entity.getYRot());
+        state.xRot = Mth.lerp(partialTick, entity.xRotO, entity.getXRot());
+    }
+
+    @Override
+    public void submit(State state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector,
+                       CameraRenderState camera) {
+        float age = state.ageInTicks;
+
+        poseStack.pushPose();
+        poseStack.translate(0.0D, 0.15D, 0.0D);
+        poseStack.rotateDegrees(Axis.YP, Mth.sin(age * 0.1F) * 180.0F);
+        poseStack.rotateDegrees(Axis.XP, Mth.cos(age * 0.1F) * 180.0F);
+        poseStack.rotateDegrees(Axis.ZP, Mth.sin(age * 0.15F) * 360.0F);
+        poseStack.scale(-0.5F, -0.5F, 0.5F);
+        submitNodeCollector.submitModel(model, state, poseStack, RenderTypes.entityCutout(TEXTURE),
+                state.lightCoords, OverlayTexture.NO_OVERLAY, -1, null, state.outlineColor);
+        poseStack.scale(1.5F, 1.5F, 1.5F);
+        submitNodeCollector.order(1).submitModel(model, state, poseStack, RenderTypes.entityTranslucent(TEXTURE),
+                state.lightCoords, OverlayTexture.NO_OVERLAY, 0x80FFFFFF, null, state.outlineColor);
+        poseStack.popPose();
+        super.submit(state, poseStack, submitNodeCollector, camera);
+    }
+
+    /**
+     * Applies the entity yaw/pitch to the body at draw time, since render submissions are
+     * queued and the shared {@link ModelPart} must not be mutated per-submit.
+     */
+    private static final class BodyModel extends EntityModel<State> {
+        private final ModelPart body;
+
+        BodyModel(ModelPart root) {
+            super(root);
+            this.body = root.getChild("body");
+        }
+
+        @Override
+        public void setupAnim(State state) {
+            super.setupAnim(state);
+            this.body.setRotation(state.xRot * Mth.DEG_TO_RAD, state.yRot * Mth.DEG_TO_RAD, 0.0F);
+        }
+    }
+
+    public static final class State extends EntityRenderState {
+        public float yRot;
+        public float xRot;
     }
 }

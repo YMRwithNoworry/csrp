@@ -28,8 +28,10 @@ import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.monster.AbstractSkeleton;
+import net.minecraft.world.entity.monster.skeleton.AbstractSkeleton;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import alku.csrp.animation.CitadelAnimatedEntity;
 import alku.csrp.animation.CitadelAnimationCache;
 import alku.csrp.animation.CitadelAnimationManager;
@@ -118,7 +120,7 @@ public final class SimHumanEntity extends Monster implements CitadelAnimatedEnti
         goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
         targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,
-                true, false, this::isValidParasiteTarget));
+                true, false, (target, level) -> this.isValidParasiteTarget(target)));
     }
 
     @Override
@@ -204,10 +206,10 @@ public final class SimHumanEntity extends Monster implements CitadelAnimatedEnti
     }
 
     @Override
-    public boolean doHurtTarget(Entity target) {
+    public boolean doHurtTarget(ServerLevel level, Entity target) {
         LivingEntity livingTarget = target instanceof LivingEntity living ? living : null;
         float healthBefore = livingTarget == null ? 0.0F : ParasiteCombatEffects.healthWithAbsorption(livingTarget);
-        boolean hit = super.doHurtTarget(target);
+        boolean hit = super.doHurtTarget(level, target);
         if (hit && !level().isClientSide()) {
             if (livingTarget != null) {
                 ParasiteCombatEffects.applyFearFromDamage(livingTarget, healthBefore, this);
@@ -222,15 +224,15 @@ public final class SimHumanEntity extends Monster implements CitadelAnimatedEnti
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
-        return super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+        return super.hurtServer(level, source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
     }
 
     @Override
-    public boolean killedEntity(ServerLevel level, LivingEntity victim) {
+    public boolean killedEntity(ServerLevel level, LivingEntity victim, DamageSource source) {
         if (victim instanceof AbstractSkeleton && ++skeletonKills >= HOST_SKELETON_KILLS) {
             transformToHost(level);
-            return super.killedEntity(level, victim);
+            return super.killedEntity(level, victim, source);
         }
         parasiteKills++;
         if (AssimilatedMeltSystem.tryStartGroup(this, parasiteKills)) {
@@ -238,7 +240,7 @@ public final class SimHumanEntity extends Monster implements CitadelAnimatedEnti
         } else if (parasiteKills > AssimilatedParasiteEntity.FERAL_KILL_THRESHOLD) {
             transformToFeral(level);
         }
-        return super.killedEntity(level, victim);
+        return super.killedEntity(level, victim, source);
     }
 
     /**
@@ -261,23 +263,23 @@ public final class SimHumanEntity extends Monster implements CitadelAnimatedEnti
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putInt("animation_state", getAnimationState());
-        tag.putInt("parasite_kills", parasiteKills);
-        tag.putInt("skeleton_kills", skeletonKills);
-        tag.putBoolean("melting", isMelting());
-        tag.putInt("melt_ticks", entityData.get(MELT_TICKS));
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putInt("animation_state", getAnimationState());
+        output.putInt("parasite_kills", parasiteKills);
+        output.putInt("skeleton_kills", skeletonKills);
+        output.putBoolean("melting", isMelting());
+        output.putInt("melt_ticks", entityData.get(MELT_TICKS));
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        setAnimationState(tag.getIntOr("animation_state", 0));
-        parasiteKills = tag.getIntOr("parasite_kills", 0);
-        skeletonKills = tag.getIntOr("skeleton_kills", 0);
-        entityData.set(MELTING, tag.getBooleanOr("melting", false));
-        entityData.set(MELT_TICKS, tag.getIntOr("melt_ticks", 0));
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        setAnimationState(input.getIntOr("animation_state", 0));
+        parasiteKills = input.getIntOr("parasite_kills", 0);
+        skeletonKills = input.getIntOr("skeleton_kills", 0);
+        entityData.set(MELTING, input.getBooleanOr("melting", false));
+        entityData.set(MELT_TICKS, input.getIntOr("melt_ticks", 0));
     }
 
     @Override
@@ -378,11 +380,11 @@ public final class SimHumanEntity extends Monster implements CitadelAnimatedEnti
     }
 
     private void transformToFeral(ServerLevel level) {
-        FeralParasiteEntity feral = ModEntities.FER_HUMAN.get().create(level);
+        FeralParasiteEntity feral = ModEntities.FER_HUMAN.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (feral == null) {
             return;
         }
-        feral.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        feral.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         feral.setTarget(getTarget());
         feral.setCustomName(getCustomName());
         feral.setCustomNameVisible(isCustomNameVisible());
@@ -395,11 +397,11 @@ public final class SimHumanEntity extends Monster implements CitadelAnimatedEnti
     }
 
     private void transformToHost(ServerLevel level) {
-        HostEntity host = ModEntities.HOST.get().create(level);
+        HostEntity host = ModEntities.HOST.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (host == null) {
             return;
         }
-        host.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        host.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         host.finalizeSpawn(level, level.getCurrentDifficultyAt(blockPosition()),
                 EntitySpawnReason.MOB_SUMMONED, null);
         host.setCustomName(getCustomName());

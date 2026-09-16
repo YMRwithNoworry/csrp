@@ -1,14 +1,18 @@
 package alku.csrp.entity;
 
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
@@ -160,33 +164,38 @@ public final class ScaryOrbEntity extends Entity {
         builder.define(BOLSTER_ORB, false);
     }
 
-    @Override protected void readAdditionalSaveData(CompoundTag tag) {
-        if (tag.hasUUID("owner")) ownerId = tag.getUUID("owner");
-        if (tag.hasUUID("target")) targetId = tag.getUUID("target");
-        activeTicks = tag.getIntOr("active_ticks", 0);
-        travelTicks = tag.getIntOr("travel_ticks", 0);
-        startTicks = tag.contains("start_ticks") ? tag.getIntOr("start_ticks", 0) : DEFAULT_START_TICKS;
-        fuseTicks = tag.contains("fuse_ticks") ? tag.getIntOr("fuse_ticks", 0) : DEFAULT_FUSE_TICKS;
-        launched = tag.getBooleanOr("launched", false);
-        anchored = tag.getBooleanOr("anchored", false);
-        anchorX = tag.getDoubleOr("anchor_x", 0.0D);
-        anchorY = tag.getDoubleOr("anchor_y", 0.0D);
-        anchorZ = tag.getDoubleOr("anchor_z", 0.0D);
-        entityData.set(BOLSTER_ORB, tag.getBooleanOr("bolster_orb", false));
+    @Override protected void readAdditionalSaveData(ValueInput input) {
+        input.read("owner", UUIDUtil.CODEC).ifPresent(uuid -> ownerId = uuid);
+        input.read("target", UUIDUtil.CODEC).ifPresent(uuid -> targetId = uuid);
+        activeTicks = input.getIntOr("active_ticks", 0);
+        travelTicks = input.getIntOr("travel_ticks", 0);
+        startTicks = input.getInt("start_ticks").isPresent() ? input.getIntOr("start_ticks", 0) : DEFAULT_START_TICKS;
+        fuseTicks = input.getInt("fuse_ticks").isPresent() ? input.getIntOr("fuse_ticks", 0) : DEFAULT_FUSE_TICKS;
+        launched = input.getBooleanOr("launched", false);
+        anchored = input.getBooleanOr("anchored", false);
+        anchorX = input.getDoubleOr("anchor_x", 0.0D);
+        anchorY = input.getDoubleOr("anchor_y", 0.0D);
+        anchorZ = input.getDoubleOr("anchor_z", 0.0D);
+        entityData.set(BOLSTER_ORB, input.getBooleanOr("bolster_orb", false));
     }
 
-    @Override protected void addAdditionalSaveData(CompoundTag tag) {
-        if (ownerId != null) tag.putUUID("owner", ownerId);
-        if (targetId != null) tag.putUUID("target", targetId);
-        tag.putInt("active_ticks", activeTicks);
-        tag.putInt("travel_ticks", travelTicks);
-        tag.putInt("start_ticks", startTicks);
-        tag.putInt("fuse_ticks", fuseTicks);
-        tag.putBoolean("launched", launched);
-        tag.putBoolean("anchored", anchored);
-        tag.putDouble("anchor_x", anchorX);
-        tag.putDouble("anchor_y", anchorY);
-        tag.putDouble("anchor_z", anchorZ);
-        tag.putBoolean("bolster_orb", entityData.get(BOLSTER_ORB));
+    @Override protected void addAdditionalSaveData(ValueOutput output) {
+        if (ownerId != null) output.store("owner", UUIDUtil.CODEC, ownerId);
+        if (targetId != null) output.store("target", UUIDUtil.CODEC, targetId);
+        output.putInt("active_ticks", activeTicks);
+        output.putInt("travel_ticks", travelTicks);
+        output.putInt("start_ticks", startTicks);
+        output.putInt("fuse_ticks", fuseTicks);
+        output.putBoolean("launched", launched);
+        output.putBoolean("anchored", anchored);
+        output.putDouble("anchor_x", anchorX);
+        output.putDouble("anchor_y", anchorY);
+        output.putDouble("anchor_z", anchorZ);
+        output.putBoolean("bolster_orb", entityData.get(BOLSTER_ORB));
+    }
+
+    @Override
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+        return false;
     }
 }

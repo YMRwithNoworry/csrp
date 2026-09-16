@@ -24,40 +24,40 @@ public final class ModBlockEntities {
             BLOCK_ENTITIES.register("parasite_loot", () -> new BlockEntityType<>(
                     ParasiteLootBlockEntity::new,
                     Set.of(ModBlocks.PARASITE_LOOT_COMMON.get(), ModBlocks.PARASITE_LOOT_UNCOMMON.get(),
-                            ModBlocks.PARASITE_LOOT_RARE.get()), null));
+                            ModBlocks.PARASITE_LOOT_RARE.get())));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<RelayTerminalBlockEntity>> RELAY_TERMINAL =
             BLOCK_ENTITIES.register("relay_terminal", () -> new BlockEntityType<>(
-                    RelayTerminalBlockEntity::new, Set.of(ModBlocks.RELAY_BASE.get()), null));
+                    RelayTerminalBlockEntity::new, Set.of(ModBlocks.RELAY_BASE.get())));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<DispatcherNidusBlockEntity>> DISPATCHER_NIDUS =
             BLOCK_ENTITIES.register("dispatcher_nidus", () -> new BlockEntityType<>(
-                    DispatcherNidusBlockEntity::new, Set.of(ModBlocks.DISPATCHER_NIDUS.get()), null));
+                    DispatcherNidusBlockEntity::new, Set.of(ModBlocks.DISPATCHER_NIDUS.get())));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ParasiticCystBlockEntity>> PARASITIC_CYST =
             BLOCK_ENTITIES.register("parasitic_cyst", () -> new BlockEntityType<>(
-                    ParasiticCystBlockEntity::new, Set.of(ModBlocks.GLUTTONOUS_CYST.get()), null));
+                    ParasiticCystBlockEntity::new, Set.of(ModBlocks.GLUTTONOUS_CYST.get())));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<InfuserFurnaceBlockEntity>> INFUSER_FURNACE =
             BLOCK_ENTITIES.register("infuser_furnace", () -> new BlockEntityType<>(
-                    InfuserFurnaceBlockEntity::new, Set.of(ModBlocks.INFUSER_FURNACE.get()), null));
+                    InfuserFurnaceBlockEntity::new, Set.of(ModBlocks.INFUSER_FURNACE.get())));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BiomePurifierBlockEntity>> BIOME_PURIFIER =
             BLOCK_ENTITIES.register("biome_purifier", () -> new BlockEntityType<>(
-                    BiomePurifierBlockEntity::new, Set.of(ModBlocks.BIOME_PURIFIER.get()), null));
+                    BiomePurifierBlockEntity::new, Set.of(ModBlocks.BIOME_PURIFIER.get())));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ParasiteCanisterBlockEntity>> PARASITE_CANISTER =
             BLOCK_ENTITIES.register("parasite_canister", () -> new BlockEntityType<>(
-                    ParasiteCanisterBlockEntity::new, Set.of(ModBlocks.CANISTER_ACTIVE.get()), null));
+                    ParasiteCanisterBlockEntity::new, Set.of(ModBlocks.CANISTER_ACTIVE.get())));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<FogNullifierBlockEntity>> FOG_NULLIFIER =
             BLOCK_ENTITIES.register("fog_nullifier", () -> new BlockEntityType<>(
-                    FogNullifierBlockEntity::new, Set.of(ModBlocks.FOG_NULLIFIER.get()), null));
+                    FogNullifierBlockEntity::new, Set.of(ModBlocks.FOG_NULLIFIER.get())));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<TrophyBlockEntity>> TROPHY =
             BLOCK_ENTITIES.register("trophy", () -> new BlockEntityType<>(
                     TrophyBlockEntity::new,
-                    Set.of(ModBlocks.KIRIN_TROPHY.get(), ModBlocks.DRACONITE_TROPHY.get()), null));
+                    Set.of(ModBlocks.KIRIN_TROPHY.get(), ModBlocks.DRACONITE_TROPHY.get())));
 
     private ModBlockEntities() {
     }

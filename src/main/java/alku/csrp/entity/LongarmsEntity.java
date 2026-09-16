@@ -13,9 +13,11 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.item.component.SwingAnimation;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -23,6 +25,8 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import alku.csrp.animation.CitadelAnimationManager;
@@ -112,7 +116,7 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
             stillAnimationTicks = 0;
         }
         super.tick();
-        if (!level().isClientSide() && isInWaterOrBubble() && getTarget() != null && tickCount % 20 == 0) {
+        if (!level().isClientSide() && isInWater() && getTarget() != null && tickCount % 20 == 0) {
             setDeltaMovement(getDeltaMovement().add(0.0, 0.095, 0.0));
         }
         if (!level().isClientSide()) {
@@ -155,7 +159,8 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
     }
 
     private void breakSoftBlockTowards(LivingEntity target) {
-        if (blockBreakCooldown > 0 || !level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)) {
+        if (blockBreakCooldown > 0
+                || !(level() instanceof ServerLevel serverLevel && serverLevel.getGameRules().get(GameRules.MOB_GRIEFING))) {
             return;
         }
         Vec3 horizontal = target.position().subtract(position()).multiply(1.0D, 0.0D, 1.0D);
@@ -184,7 +189,7 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
         playSound(ModSounds.get("mob.swipe"), 2.0F, 1.0F);
         if (center instanceof LivingEntity primaryTarget && isValidParasiteTarget(primaryTarget)
                 && hasLineOfSight(primaryTarget)) {
-            primaryTarget.invulnerableTime = 0;
+            primaryTarget.setInvulnerableTime(0);
             hitLongarmsTarget(primaryTarget, false);
         }
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
@@ -216,12 +221,13 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
             return false;
         }
         if (shockwave) {
-            target.invulnerableTime = 0;
+            target.setInvulnerableTime(0);
         }
-        if (!target.hurt(damageSources().mobAttack(this), currentMeleeDamage())) {
+        if (!target.hurtOrSimulate(damageSources().mobAttack(this), currentMeleeDamage())) {
             return false;
         }
-        target.knockback(0.4D, getX() - target.getX(), getZ() - target.getZ());
+        target.knockback(0.4D, getX() - target.getX(), getZ() - target.getZ(),
+                damageSources().mobAttack(this), currentMeleeDamage());
         if (random.nextFloat() < 0.1F) {
             double x = target.getX() - getX();
             double z = target.getZ() - getZ();
@@ -231,17 +237,17 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
         }
         if (shockwave) {
             target.setDeltaMovement(target.getDeltaMovement().add(0.0D, 0.64645D, 0.0D));
-            target.hurtMarked = true;
+            target.syncVelocity = true;
         }
         return true;
     }
 
     private void spawnShockwave(LivingEntity target) {
-        ShockwaveEntity shockwave = ModEntities.SHOCKWAVE.get().create(level());
+        ShockwaveEntity shockwave = ModEntities.SHOCKWAVE.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (shockwave == null) {
             return;
         }
-        shockwave.moveTo(getX(), getY(), getZ(), getYRot(), 0.0F);
+        shockwave.snapTo(getX(), getY(), getZ(), getYRot(), 0.0F);
         shockwave.configure(this, target);
         level().addFreshEntity(shockwave);
         triggerAttackAnimation();
@@ -261,45 +267,43 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
     }
 
     private void triggerAttackAnimation() {
-        swing(InteractionHand.MAIN_HAND);
+        swing(InteractionHand.MAIN_HAND, SwingAnimation.DEFAULT, false);
     }
 
     @Override
-    public boolean doHurtTarget(Entity target) {
+    public boolean doHurtTarget(ServerLevel level, Entity target) {
         return target instanceof LivingEntity living && hitLongarmsTarget(living, false);
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
-        if (!level().isClientSide() && amount > 0.0F && tickCount > 5
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+        if (amount > 0.0F && tickCount > 5
                 && !source.is(DamageTypeTags.BYPASSES_ARMOR)
                 && random.nextFloat() < RANDOM_BLOCK_CHANCE) {
-            playSound(SoundEvents.SHIELD_BLOCK, 0.7F, 1.15F + random.nextFloat() * 0.15F);
-            if (level() instanceof ServerLevel serverLevel) {
-                serverLevel.sendParticles(ParticleTypes.CRIT, getX(), getY() + getBbHeight() * 0.6D, getZ(),
-                        6, 0.08D, 0.08D, 0.08D, 0.01D);
-            }
+            playSound(SoundEvents.SHIELD_BLOCK.value(), 0.7F, 1.15F + random.nextFloat() * 0.15F);
+            level.sendParticles(ParticleTypes.CRIT, getX(), getY() + getBbHeight() * 0.6D, getZ(),
+                    6, 0.08D, 0.08D, 0.08D, 0.01D);
             if (source.getEntity() instanceof LivingEntity attacker) {
                 setTarget(attacker);
             }
             return false;
         }
-        return super.hurt(source, source.is(DamageTypeTags.IS_FIRE)
+        return super.hurtServer(level, source, source.is(DamageTypeTags.IS_FIRE)
                 ? amount * FIRE_DAMAGE_MULTIPLIER : amount);
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putInt("ParasiteStatus", getParasiteStatus());
-        tag.putInt("AttackAnimationCooldown", attackAnimationCooldown);
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putInt("ParasiteStatus", getParasiteStatus());
+        output.putInt("AttackAnimationCooldown", attackAnimationCooldown);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        setParasiteStatus(tag.getIntOr("ParasiteStatus", 0));
-        attackAnimationCooldown = Math.max(0, tag.getIntOr("AttackAnimationCooldown", 0));
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        setParasiteStatus(input.getIntOr("ParasiteStatus", 0));
+        attackAnimationCooldown = Math.max(0, input.getIntOr("AttackAnimationCooldown", 0));
     }
 
     @Override

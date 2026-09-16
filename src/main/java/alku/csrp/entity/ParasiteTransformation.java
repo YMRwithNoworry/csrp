@@ -163,16 +163,15 @@ public final class ParasiteTransformation {
 
     private static Optional<EntityType<?>> registeredType(String path) {
         Identifier id = Identifier.fromNamespaceAndPath(Csrp.MODID, path);
-        return BuiltInRegistries.ENTITY_TYPE.containsKey(id)
-                ? Optional.of(BuiltInRegistries.ENTITY_TYPE.get(id)) : Optional.empty();
+        return BuiltInRegistries.ENTITY_TYPE.getOptional(id);
     }
 
     private static boolean replace(ServerLevel level, LivingEntity source, EntityType<?> targetType) {
-        Entity created = targetType.create(level);
+        Entity created = targetType.create(level, EntitySpawnReason.MOB_SUMMONED);
         if (!(created instanceof Mob replacement)) {
             return false;
         }
-        replacement.moveTo(source.getX(), source.getY(), source.getZ(), source.getYRot(), source.getXRot());
+        replacement.snapTo(source.getX(), source.getY(), source.getZ(), source.getYRot(), source.getXRot());
         replacement.finalizeSpawn(level, level.getCurrentDifficultyAt(source.blockPosition()),
                 EntitySpawnReason.MOB_SUMMONED, null);
         replacement.setCustomName(source.getCustomName());

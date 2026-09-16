@@ -39,11 +39,11 @@ public final class MeteorImpactUtil {
         level.getChunkAt(pos);
         int x = pos.getX();
         int z = pos.getZ();
-        int top = Math.min(level.getMaxBuildHeight() - 1,
+        int top = Math.min(level.getMaxY(),
                 level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z) + 16);
         for (int y = top; y >= level.getMinY(); y--) {
             BlockState state = level.getBlockState(new BlockPos(x, y, z));
-            if ((state.blocksMotion() && !state.is(BlockTags.LEAVES))
+            if ((state.isSolid() && !state.is(BlockTags.LEAVES))
                     || state.getFluidState().is(Fluids.WATER)) {
                 return new BlockPos(x, y + 1, z);
             }
@@ -304,7 +304,7 @@ public final class MeteorImpactUtil {
         int cz = surface.getZ();
         int r = Math.max(8, (int) (radius * 1.8F) + 12);
         int yMin = Math.max(1, cy - depth - 6);
-        int yMax = Math.min(level.getMaxBuildHeight() - 1, cy + 24);
+        int yMax = Math.min(level.getMaxY(), cy + 24);
 
         for (int x = -r; x <= r; x++) {
             for (int z = -r; z <= r; z++) {

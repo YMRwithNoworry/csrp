@@ -16,7 +16,9 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
@@ -25,6 +27,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
@@ -190,7 +194,7 @@ public final class GoreEntity extends Entity {
     }
 
     private static DustParticleOptions dust(float red, float green, float blue) {
-        return new DustParticleOptions(new Vector3f(red, green, blue), 1.0F);
+        return new DustParticleOptions(ARGB.colorFromFloat(1.0F, red, green, blue), 1.0F);
     }
 
     private void addParticle(DustParticleOptions particle) {
@@ -254,58 +258,55 @@ public final class GoreEntity extends Entity {
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag tag) {
-        tag.putInt("parasitetype", getSkin());
-        tag.putByte("bloodtype", goreType);
+    protected void addAdditionalSaveData(ValueOutput output) {
+        output.putInt("parasitetype", getSkin());
+        output.putByte("bloodtype", goreType);
         if (entityName != null) {
-            tag.putString("entityName", entityName);
+            output.putString("entityName", entityName);
         }
-        ListTag items = new ListTag();
+        ValueOutput.TypedOutputList<ItemStack> items = output.list("Items", ItemStack.CODEC);
         for (ItemStack stack : storedItems) {
-            items.add(stack.save(registryAccess()));
+            items.add(stack.copy());
         }
-        tag.put("Items", items);
 
-        ListTag names = new ListTag();
-        ListTag counts = new ListTag();
+        ValueOutput.ValueOutputList names = output.childrenList("srpinvblocksname");
+        ValueOutput.ValueOutputList counts = output.childrenList("srpinvblocksnumber");
         for (int index = 0; index < legacyBlockNames.size(); index++) {
-            CompoundTag name = new CompoundTag();
-            name.putString("block" + index, legacyBlockNames.get(index));
-            names.add(name);
-            CompoundTag count = new CompoundTag();
-            count.putInt("block" + index,
+            names.addChild().putString("block" + index, legacyBlockNames.get(index));
+            counts.addChild().putInt("block" + index,
                     index < legacyBlockCounts.size() ? legacyBlockCounts.get(index) : 1);
-            counts.add(count);
         }
-        tag.put("srpinvblocksname", names);
-        tag.put("srpinvblocksnumber", counts);
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag tag) {
-        setSkin(tag.getIntOr("parasitetype", 0));
-        goreType = tag.getByteOr("bloodtype", (byte)0);
-        entityName = tag.contains("entityName") ? tag.getStringOr("entityName", "") : null;
+    protected void readAdditionalSaveData(ValueInput input) {
+        setSkin(input.getIntOr("parasitetype", 0));
+        goreType = input.getByteOr("bloodtype", (byte) 0);
+        entityName = input.getString("entityName").orElse(null);
         storedItems.clear();
-        for (Tag item : tag.getListOrEmpty("Items")) {
-            if (item instanceof CompoundTag compound) {
-                ItemStack stack = ItemStack.parseOptional(registryAccess(), compound);
-                if (!stack.isEmpty()) {
-                    storedItems.add(stack);
-                }
+        for (ItemStack stack : input.listOrEmpty("Items", ItemStack.CODEC)) {
+            if (!stack.isEmpty()) {
+                storedItems.add(stack);
             }
         }
 
         legacyBlockNames.clear();
         legacyBlockCounts.clear();
-        ListTag names = tag.getListOrEmpty("srpinvblocksname");
-        ListTag counts = tag.getListOrEmpty("srpinvblocksnumber");
+        List<ValueInput> names = new ArrayList<>();
+        input.childrenListOrEmpty("srpinvblocksname").forEach(names::add);
+        List<ValueInput> counts = new ArrayList<>();
+        input.childrenListOrEmpty("srpinvblocksnumber").forEach(counts::add);
         if (names.size() == counts.size()) {
             for (int index = 0; index < names.size(); index++) {
-                legacyBlockNames.add(names.getCompoundOrEmpty(index).getStringOr("block" + index, ""));
-                legacyBlockCounts.add(counts.getCompoundOrEmpty(index).getIntOr("block" + index, 0));
+                legacyBlockNames.add(names.get(index).getStringOr("block" + index, ""));
+                legacyBlockCounts.add(counts.get(index).getIntOr("block" + index, 0));
             }
         }
+    }
+
+    @Override
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+        return false;
     }
 
     @Override

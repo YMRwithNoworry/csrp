@@ -18,6 +18,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.Pose;
@@ -32,6 +33,8 @@ import net.minecraft.world.entity.animal.fish.WaterAnimal;
 import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.PartEntity;
 import alku.csrp.animation.CitadelAnimationManager;
@@ -107,10 +110,11 @@ public final class HeedEntity extends CrudeParasiteEntity {
 
         targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
         targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Player.class, 0,
-                false, false, this::isValidParasiteTarget));
+                false, false, (target, serverLevel) -> isValidParasiteTarget(target)));
         if (Config.mobAttackingEnabled()) {
             targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Mob.class, 0,
-                    !Config.collectiveConsciousnessEnabled(), false, this::isValidHeedMobTarget));
+                    !Config.collectiveConsciousnessEnabled(), false,
+                    (target, serverLevel) -> isValidHeedMobTarget(target)));
         }
     }
 
@@ -158,11 +162,11 @@ public final class HeedEntity extends CrudeParasiteEntity {
         if (target == null || !target.isAlive()) {
             return;
         }
-        ParasiticScentEntity scent = ModEntities.SCENT.get().create(level);
+        ParasiticScentEntity scent = ModEntities.SCENT.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (scent == null) {
             return;
         }
-        scent.moveTo(target.getX(), target.getY(), target.getZ(), target.getYRot(), target.getXRot());
+        scent.snapTo(target.getX(), target.getY(), target.getZ(), target.getYRot(), target.getXRot());
         scent.setTargetToKill(target, false);
         scent.setDieAfterKilling(true);
         scent.setCanFollow(true);
@@ -178,11 +182,11 @@ public final class HeedEntity extends CrudeParasiteEntity {
         headPart.setYRot(getYRot());
     }
 
-    private boolean hurtHead(DamageSource source, float amount) {
+    private boolean hurtHead(ServerLevel level, DamageSource source, float amount) {
         if (!level().isClientSide() && random.nextBoolean()) {
             EffectStacking.apply(this, ModMobEffects.BLEED, 80, 0);
         }
-        return hurt(source, amount * 3.0F);
+        return hurtServer(level, source, amount * 3.0F);
     }
 
     @Override
@@ -221,16 +225,16 @@ public final class HeedEntity extends CrudeParasiteEntity {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putInt("heed_creation_development", creationDevelopment);
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putInt("heed_creation_development", creationDevelopment);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        creationDevelopment = tag.contains("heed_creation_development")
-                ? tag.getIntOr("heed_creation_development", 0) : -1;
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        creationDevelopment = input.getInt("heed_creation_development").isPresent()
+                ? input.getIntOr("heed_creation_development", 0) : -1;
     }
 
     @Override
@@ -254,11 +258,11 @@ public final class HeedEntity extends CrudeParasiteEntity {
 
         @Override
         public boolean canUse() {
-            if (!isInWaterOrBubble() && !isInLava()) {
+            if (!isInWater() && !isInLava()) {
                 return false;
             }
             LivingEntity target = getTarget();
-            if (target != null && (target.isInWaterOrBubble() || target.isInLava())
+            if (target != null && (target.isInWater() || target.isInLava())
                     && distanceToSqr(getX(), target.getY(), getZ()) < 25.0D
                     && target.getY() - getY() < -1.0D) {
                 setDeltaMovement(getDeltaMovement().add(0.0D, -0.095D, 0.0D));
@@ -284,7 +288,7 @@ public final class HeedEntity extends CrudeParasiteEntity {
 
         @Override
         public boolean canUse() {
-            return isInWaterOrBubble() || isInLava() || attacking >= 1;
+            return isInWater() || isInLava() || attacking >= 1;
         }
 
         @Override
@@ -373,7 +377,7 @@ public final class HeedEntity extends CrudeParasiteEntity {
             getNavigation().moveTo(target, speed);
             if (isWithinMeleeAttackRange(target) && attackTick <= 0 && getSensing().hasLineOfSight(target)) {
                 attackTick = MELEE_ATTACK_INTERVAL_TICKS;
-                doHurtTarget(target);
+                doHurtTarget(getServerLevel(HeedEntity.this), target);
             }
         }
     }
@@ -461,11 +465,11 @@ public final class HeedEntity extends CrudeParasiteEntity {
         }
 
         @Override
-        protected void readAdditionalSaveData(CompoundTag tag) {
+        protected void readAdditionalSaveData(ValueInput input) {
         }
 
         @Override
-        protected void addAdditionalSaveData(CompoundTag tag) {
+        protected void addAdditionalSaveData(ValueOutput output) {
         }
 
         @Override
@@ -474,8 +478,8 @@ public final class HeedEntity extends CrudeParasiteEntity {
         }
 
         @Override
-        public boolean hurt(DamageSource source, float amount) {
-            return getParent().hurtHead(source, amount);
+        public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+            return getParent().hurtHead(level, source, amount);
         }
 
         @Override

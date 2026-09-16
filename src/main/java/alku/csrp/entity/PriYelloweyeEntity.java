@@ -88,7 +88,7 @@ public class PriYelloweyeEntity extends PrimitiveParasiteEntity {
     @Override
     protected void registerGoals() {
         targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,
-                true, false, this::isValidParasiteTarget));
+                true, false, (target, level) -> isValidParasiteTarget(target)));
         targetSelector.addGoal(1, new HurtByTargetGoal(this));
         goalSelector.addGoal(1, new YelloweyeRangedGoal());
         goalSelector.addGoal(1, new FloatingIdleGoal());
@@ -115,7 +115,7 @@ public class PriYelloweyeEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public boolean causeFallDamage(float fallDistance, float damageMultiplier, DamageSource source) {
+    public boolean causeFallDamage(double fallDistance, float damageMultiplier, DamageSource source) {
         return false;
     }
 

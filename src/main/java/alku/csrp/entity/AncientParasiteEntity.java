@@ -9,7 +9,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -33,6 +32,8 @@ import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.util.Mth;
@@ -85,7 +86,8 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         super(type, level);
         this.kind = kind;
         xpReward = 5000;
-        bossEvent = new ServerBossEvent(getDisplayName(), BossEvent.BossBarColor.RED, BossEvent.BossBarOverlay.PROGRESS);
+        bossEvent = new ServerBossEvent(Mth.createInsecureUUID(random), getDisplayName(),
+                BossEvent.BossBarColor.RED, BossEvent.BossBarOverlay.PROGRESS);
         if (kind == Kind.DREADNAUT) {
             moveControl = new DreadMoveControl();
             setNoGravity(true);
@@ -179,8 +181,8 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    protected void customServerAiStep() {
-        super.customServerAiStep();
+    protected void customServerAiStep(ServerLevel level) {
+        super.customServerAiStep(level);
         bossEvent.setProgress(Math.max(0.0F, getHealth() / getMaxHealth()));
     }
 
@@ -196,15 +198,15 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
         if (source.is(DamageTypeTags.IS_FIRE)) {
             amount *= 4.0F;
         }
-        boolean hurt = super.hurt(source, amount);
+        boolean hurt = super.hurtServer(level, source, amount);
         if (hurt && source.getEntity() instanceof ServerPlayer player) {
             bossEvent.addPlayer(player);
         }
-        if (hurt && activeKind() == Kind.DREADNAUT && !level().isClientSide()
+        if (hurt && activeKind() == Kind.DREADNAUT && !level.isClientSide()
                 && !source.is(DamageTypeTags.IS_FALL)) {
             detachTendrilAtHealthThreshold();
         }
@@ -243,9 +245,9 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public boolean doHurtTarget(Entity entity) {
+    public boolean doHurtTarget(ServerLevel level, Entity entity) {
         if (activeKind() != Kind.OVERLORD || !(entity instanceof LivingEntity center)) {
-            boolean hurt = super.doHurtTarget(entity);
+            boolean hurt = super.doHurtTarget(level, entity);
             if (hurt) {
                 entityData.set(DREAD_ATTACK_ANIMATION_TICKS, 8);
             }
@@ -266,9 +268,9 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
                 continue;
             }
             boolean damaged = crowded
-                    ? target.hurt(damageSources().mobAttack(this),
+                    ? target.hurtOrSimulate(damageSources().mobAttack(this),
                     (float) getAttributeValue(Attributes.ATTACK_DAMAGE) * 2.0F)
-                    : super.doHurtTarget(target);
+                    : super.doHurtTarget(level, target);
             if (damaged) {
                 hit = true;
                 pushAway(target, crowded ? 2.0D : 1.10D, crowded ? 1.1D : 0.85D);
@@ -281,34 +283,34 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
+    public boolean causeFallDamage(double distance, float damageMultiplier, DamageSource source) {
         return false;
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putBoolean("urten", entityData.get(DREAD_URTEN));
-        tag.putBoolean("ulten", entityData.get(DREAD_ULTEN));
-        tag.putBoolean("raten", entityData.get(DREAD_RATEN));
-        tag.putBoolean("laten", entityData.get(DREAD_LATEN));
-        tag.putBoolean("healtheight", health80);
-        tag.putBoolean("healthsix", health60);
-        tag.putBoolean("healthfour", health40);
-        tag.putBoolean("healthtwo", health20);
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putBoolean("urten", entityData.get(DREAD_URTEN));
+        output.putBoolean("ulten", entityData.get(DREAD_ULTEN));
+        output.putBoolean("raten", entityData.get(DREAD_RATEN));
+        output.putBoolean("laten", entityData.get(DREAD_LATEN));
+        output.putBoolean("healtheight", health80);
+        output.putBoolean("healthsix", health60);
+        output.putBoolean("healthfour", health40);
+        output.putBoolean("healthtwo", health20);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        if (tag.contains("urten")) entityData.set(DREAD_URTEN, tag.getBooleanOr("urten", false));
-        if (tag.contains("ulten")) entityData.set(DREAD_ULTEN, tag.getBooleanOr("ulten", false));
-        if (tag.contains("raten")) entityData.set(DREAD_RATEN, tag.getBooleanOr("raten", false));
-        if (tag.contains("laten")) entityData.set(DREAD_LATEN, tag.getBooleanOr("laten", false));
-        health80 = !tag.contains("healtheight") || tag.getBooleanOr("healtheight", false);
-        health60 = !tag.contains("healthsix") || tag.getBooleanOr("healthsix", false);
-        health40 = !tag.contains("healthfour") || tag.getBooleanOr("healthfour", false);
-        health20 = !tag.contains("healthtwo") || tag.getBooleanOr("healthtwo", false);
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        entityData.set(DREAD_URTEN, input.getBooleanOr("urten", false));
+        entityData.set(DREAD_ULTEN, input.getBooleanOr("ulten", false));
+        entityData.set(DREAD_RATEN, input.getBooleanOr("raten", false));
+        entityData.set(DREAD_LATEN, input.getBooleanOr("laten", false));
+        health80 = input.getBooleanOr("healtheight", true);
+        health60 = input.getBooleanOr("healthsix", true);
+        health40 = input.getBooleanOr("healthfour", true);
+        health20 = input.getBooleanOr("healthtwo", true);
     }
 
     @Override
@@ -376,7 +378,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private void breakBlocksTowardsTarget(LivingEntity target) {
-        if (blockBreakCooldown > 0 || !level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)) {
+        if (blockBreakCooldown > 0 || !((ServerLevel) level()).getGameRules().get(GameRules.MOB_GRIEFING)) {
             return;
         }
         Vec3 direction = target.position().subtract(position());
@@ -480,12 +482,12 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         if (!(level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        DreadnautTentacleEntity tendril = ModEntities.ANC_DREADNAUT_TEN.get().create(serverLevel);
+        DreadnautTentacleEntity tendril = ModEntities.ANC_DREADNAUT_TEN.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (tendril == null) {
             return;
         }
         AncientPart part = bodyParts[Math.max(0, Math.min(bodyParts.length - 1, partId - 1))];
-        tendril.moveTo(part.getX(), part.getY(), part.getZ(), getYRot(), 0.0F);
+        tendril.snapTo(part.getX(), part.getY(), part.getZ(), getYRot(), 0.0F);
         tendril.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(tendril.blockPosition()),
                 EntitySpawnReason.MOB_SUMMONED, null);
         tendril.setTarget(getTarget());
@@ -496,7 +498,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
     private void damageNearbyDreadnautTargets() {
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
                 getBoundingBox().inflate(3.0D), this::isValidParasiteTarget)) {
-            if (super.doHurtTarget(target)) {
+            if (super.doHurtTarget((ServerLevel) level(), target)) {
                 pushAway(target, 2.5D, 0.4D);
             }
         }
@@ -506,13 +508,13 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         if (!(level() instanceof ServerLevel serverLevel)) {
             return false;
         }
-        AncientPodEntity pod = ModEntities.ANC_POD.get().create(serverLevel);
+        AncientPodEntity pod = ModEntities.ANC_POD.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (pod == null) {
             return false;
         }
         double angle = random.nextDouble() * Math.PI * 2.0D;
         double radius = random.nextDouble() * 10.0D;
-        pod.moveTo(x + Math.cos(angle) * radius, y, z + Math.sin(angle) * radius,
+        pod.snapTo(x + Math.cos(angle) * radius, y, z + Math.sin(angle) * radius,
                 random.nextFloat() * 360.0F, 0.0F);
         pod.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(pod.blockPosition()),
                 EntitySpawnReason.MOB_SUMMONED, null);
@@ -878,11 +880,11 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         }
 
         @Override
-        protected void readAdditionalSaveData(CompoundTag tag) {
+        protected void readAdditionalSaveData(ValueInput input) {
         }
 
         @Override
-        protected void addAdditionalSaveData(CompoundTag tag) {
+        protected void addAdditionalSaveData(ValueOutput output) {
         }
 
         @Override
@@ -892,8 +894,8 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         }
 
         @Override
-        public boolean hurt(DamageSource source, float amount) {
-            return isPickable() && getParent().hurt(source, amount);
+        public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+            return isPickable() && getParent().hurtServer(level, source, amount);
         }
 
         @Override

@@ -9,7 +9,6 @@ import alku.csrp.entity.Parasite;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModItems;
 import net.minecraft.core.Holder;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -172,11 +171,6 @@ public final class StatusEffectEvents {
 
     @SubscribeEvent
     public static void handleEffectRemoval(MobEffectEvent.Remove event) {
-        if (event.getCure() != null
-                && Csrp.MODID.equals(BuiltInRegistries.MOB_EFFECT.getKey(event.getEffect().value()).getNamespace())) {
-            event.setCanceled(true);
-            return;
-        }
         if (event.getEffect().value() == ModMobEffects.DISTORTED_ENLIGHTENMENT.get()) {
             DistortedEnlightenmentMobEffect.clearOwnedGlow(event.getEntity());
         }
@@ -212,7 +206,7 @@ public final class StatusEffectEvents {
                 stack.shrink(1);
             }
         }
-        event.setCancellationResult(InteractionResult.sidedSuccess(player.level().isClientSide()));
+        event.setCancellationResult(player.level().isClientSide() ? InteractionResult.SUCCESS : InteractionResult.CONSUME);
         event.setCanceled(true);
     }
 

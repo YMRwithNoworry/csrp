@@ -12,6 +12,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -122,7 +123,7 @@ public final class VerminEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
+    public boolean causeFallDamage(double distance, float damageMultiplier, DamageSource source) {
         return false;
     }
 
@@ -137,9 +138,9 @@ public final class VerminEntity extends PrimitiveParasiteEntity {
             }
         }
         if (gnatCount < Config.worldGnatCap()) {
-            GnatEntity gnat = ModEntities.GNAT.get().create(serverLevel);
+            GnatEntity gnat = ModEntities.GNAT.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
             if (gnat != null) {
-                gnat.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+                gnat.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
                 serverLevel.addFreshEntity(gnat);
                 spawnPayloadParticles(serverLevel);
             }
@@ -148,11 +149,11 @@ public final class VerminEntity extends PrimitiveParasiteEntity {
         if (getTarget() == null || getTarget().getY() > getY()) {
             return;
         }
-        BombEntity bomb = ModEntities.BOMB.get().create(serverLevel);
+        BombEntity bomb = ModEntities.BOMB.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (bomb != null) {
             bomb.configure(this, 60, 0.0F, (float) getAttributeValue(Attributes.ATTACK_DAMAGE),
                     2, 1, false);
-            bomb.moveTo(getX(), getY(), getZ(), getYRot(), getXRot() + 20.0F);
+            bomb.snapTo(getX(), getY(), getZ(), getYRot(), getXRot() + 20.0F);
             serverLevel.addFreshEntity(bomb);
             spawnPayloadParticles(serverLevel);
         }
@@ -165,9 +166,9 @@ public final class VerminEntity extends PrimitiveParasiteEntity {
     private void registerVerminTargetGoals() {
         targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
         targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Player.class, 0,
-                true, false, this::isValidParasiteTarget));
+                true, false, (target, serverLevel) -> isValidParasiteTarget(target)));
         targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Mob.class, 0,
-                true, false, this::isValidBaseMobTarget));
+                true, false, (target, serverLevel) -> isValidBaseMobTarget(target)));
     }
 
     private boolean isValidBaseMobTarget(LivingEntity target) {
@@ -339,7 +340,7 @@ public final class VerminEntity extends PrimitiveParasiteEntity {
                 return;
             }
             if (getBoundingBox().intersects(target.getBoundingBox())) {
-                doHurtTarget(target);
+                doHurtTarget(getServerLevel(VerminEntity.this), target);
                 setCharging(false);
                 return;
             }

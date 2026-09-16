@@ -2,7 +2,7 @@ package alku.csrp.item;
 
 import alku.csrp.entity.Parasite;
 import alku.csrp.entity.ParasiteTransformation;
-import java.util.List;
+import java.util.function.Consumer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -13,6 +13,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 
 /** Creative-only wand for forcing one step of parasite evolution or devolution. */
 public final class ParasiteEvolutionWandItem extends Item {
@@ -42,9 +43,10 @@ public final class ParasiteEvolutionWandItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display,
+            Consumer<Component> builder, TooltipFlag flag) {
         String tooltipKey = "tooltip.csrp." + mode.translationKey;
-        tooltip.add(Component.translatable(tooltipKey,
+        builder.accept(Component.translatable(tooltipKey,
                 Component.translatable(tooltipKey + ".action").withStyle(ChatFormatting.RED)));
     }
 

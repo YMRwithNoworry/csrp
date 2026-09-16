@@ -11,16 +11,18 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 
 /** Original four-size gore model used for assimilated, primitive, adapted and pure payloads. */
-public final class GoreRenderer extends EntityRenderer<GoreEntity> {
+public final class GoreRenderer extends EntityRenderer<GoreEntity, GoreRenderer.GoreRenderState> {
     public static final ModelLayerLocation LAYER = new ModelLayerLocation(
             Identifier.fromNamespaceAndPath(Csrp.MODID, "gore"), "main");
     private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(
@@ -78,23 +80,33 @@ public final class GoreRenderer extends EntityRenderer<GoreEntity> {
     }
 
     @Override
-    public void render(GoreEntity entity, float entityYaw, float partialTick, PoseStack poseStack,
-                       MultiBufferSource buffer, int packedLight) {
-        poseStack.pushPose();
-        poseStack.translate(0.0D, 1.5D, 0.0D);
-        poseStack.mulPose(Axis.ZP.rotationDegrees(180.0F));
-        ModelPart model = model(entity);
-        if (model != null) {
-            model.render(poseStack,
-                    buffer.getBuffer(RenderType.entityCutoutNoCull(TEXTURE)),
-                    packedLight, OverlayTexture.NO_OVERLAY);
-        }
-        poseStack.popPose();
-        super.render(entity, entityYaw, partialTick, poseStack, buffer, packedLight);
+    public GoreRenderState createRenderState() {
+        return new GoreRenderState();
     }
 
-    private ModelPart model(GoreEntity entity) {
-        return switch (entity.getSkin()) {
+    @Override
+    public void extractRenderState(GoreEntity entity, GoreRenderState state, float partialTick) {
+        super.extractRenderState(entity, state, partialTick);
+        state.skin = entity.getSkin();
+    }
+
+    @Override
+    public void submit(GoreRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector,
+                       CameraRenderState camera) {
+        poseStack.pushPose();
+        poseStack.translate(0.0D, 1.5D, 0.0D);
+        poseStack.rotateDegrees(Axis.ZP, 180.0F);
+        ModelPart model = model(state.skin);
+        if (model != null) {
+            submitNodeCollector.submitModelPart(model, poseStack, RenderTypes.entityCutout(TEXTURE),
+                    state.lightCoords, OverlayTexture.NO_OVERLAY, null);
+        }
+        poseStack.popPose();
+        super.submit(state, poseStack, submitNodeCollector, camera);
+    }
+
+    private ModelPart model(int skin) {
+        return switch (skin) {
             case 1, 10 -> assimilated;
             case 2 -> primitive;
             case 3 -> adapted;
@@ -103,8 +115,8 @@ public final class GoreRenderer extends EntityRenderer<GoreEntity> {
         };
     }
 
-    @Override
-    public Identifier getTextureLocation(GoreEntity entity) {
-        return TEXTURE;
+    /** Per-frame snapshot of the data the geometry submission needs. */
+    public static final class GoreRenderState extends EntityRenderState {
+        public int skin;
     }
 }

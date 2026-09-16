@@ -1,7 +1,6 @@
 package alku.csrp.block;
 
 import alku.csrp.registry.ModBlocks;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -14,16 +13,9 @@ import net.minecraft.world.level.block.state.StateDefinition;
 
 /** Residue sprouts that attach to exposed residue-block faces. */
 public final class ResidueBloomingBlock extends DirectionalBlock {
-    public static final MapCodec<ResidueBloomingBlock> CODEC = simpleCodec(ResidueBloomingBlock::new);
-
     public ResidueBloomingBlock(Properties properties) {
         super(properties.randomTicks());
         registerDefaultState(stateDefinition.any().setValue(FACING, Direction.UP));
-    }
-
-    @Override
-    protected MapCodec<? extends DirectionalBlock> codec() {
-        return CODEC;
     }
 
     @Override

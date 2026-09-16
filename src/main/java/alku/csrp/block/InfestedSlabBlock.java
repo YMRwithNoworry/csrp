@@ -2,7 +2,6 @@ package alku.csrp.block;
 
 import alku.csrp.Csrp;
 import alku.csrp.infection.BlockInfestation;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -13,18 +12,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.redstone.Orientation;
 
 /** Slab variant that spreads infestation while touching infected material. */
 public class InfestedSlabBlock extends SlabBlock {
-    public static final MapCodec<SlabBlock> CODEC = simpleCodec(InfestedSlabBlock::new);
-
     public InfestedSlabBlock(Properties properties) {
         super(properties.randomTicks());
-    }
-
-    @Override
-    public MapCodec<? extends SlabBlock> codec() {
-        return CODEC;
     }
 
     @Override
@@ -35,8 +28,8 @@ public class InfestedSlabBlock extends SlabBlock {
 
     @Override
     protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock,
-            BlockPos neighborPos, boolean movedByPiston) {
-        super.neighborChanged(state, level, pos, neighborBlock, neighborPos, movedByPiston);
+            Orientation orientation, boolean movedByPiston) {
+        super.neighborChanged(state, level, pos, neighborBlock, orientation, movedByPiston);
         scheduleCheck(level, pos, 10);
     }
 

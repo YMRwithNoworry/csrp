@@ -1,27 +1,31 @@
 package alku.csrp.compendium;
 
+import com.mojang.serialization.Codec;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.saveddata.SavedData;
+import net.minecraft.world.level.saveddata.SavedDataType;
 
 public final class CompendiumSavedData extends SavedData {
     private static final String DATA_NAME = "csrp_compendium";
-    private static final Factory<CompendiumSavedData> FACTORY =
-            new Factory<>(CompendiumSavedData::new, CompendiumSavedData::load);
+    private static final Codec<CompendiumSavedData> CODEC =
+            CompoundTag.CODEC.xmap(CompendiumSavedData::load, CompendiumSavedData::save);
+    private static final SavedDataType<CompendiumSavedData> TYPE = new SavedDataType<>(
+            Identifier.fromNamespaceAndPath("csrp", DATA_NAME), CompendiumSavedData::new, CODEC);
     private final Map<UUID, CompendiumProgress> players = new LinkedHashMap<>();
 
     public static CompendiumSavedData get(MinecraftServer server) {
-        return server.overworld().getDataStorage().computeIfAbsent(FACTORY, DATA_NAME);
+        return server.overworld().getDataStorage().computeIfAbsent(TYPE);
     }
 
-    private static CompendiumSavedData load(CompoundTag tag, HolderLookup.Provider registries) {
+    private static CompendiumSavedData load(CompoundTag tag) {
         CompendiumSavedData data = new CompendiumSavedData();
         CompoundTag playersTag = tag.getCompoundOrEmpty("players");
-        for (String key : playersTag.getAllKeys()) {
+        for (String key : playersTag.keySet()) {
             try {
                 data.players.put(UUID.fromString(key), CompendiumProgress.load(playersTag.getCompoundOrEmpty(key)));
             } catch (IllegalArgumentException ignored) {
@@ -31,8 +35,8 @@ public final class CompendiumSavedData extends SavedData {
         return data;
     }
 
-    @Override
-    public CompoundTag save(CompoundTag tag, HolderLookup.Provider registries) {
+    private CompoundTag save() {
+        CompoundTag tag = new CompoundTag();
         CompoundTag playersTag = new CompoundTag();
         players.forEach((uuid, progress) -> playersTag.put(uuid.toString(), progress.save()));
         tag.put("players", playersTag);

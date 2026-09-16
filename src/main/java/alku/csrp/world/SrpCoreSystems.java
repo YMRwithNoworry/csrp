@@ -206,12 +206,12 @@ public final class SrpCoreSystems {
         if (!level.getEntitiesOfClass(ArchitectEntity.class, colonyCoreArea).isEmpty()) {
             return;
         }
-        ArchitectEntity architect = ModEntities.ARCHITECT.get().create(level);
+        ArchitectEntity architect = ModEntities.ARCHITECT.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (architect == null) {
             return;
         }
         BlockPos spawn = colony.pos().above();
-        architect.moveTo(spawn.getX() + 0.5D, spawn.getY(), spawn.getZ() + 0.5D, 0.0F, 0.0F);
+        architect.snapTo(spawn.getX() + 0.5D, spawn.getY(), spawn.getZ() + 0.5D, 0.0F, 0.0F);
         if (!level.noCollision(architect)) {
             return;
         }

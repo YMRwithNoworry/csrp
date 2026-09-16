@@ -109,7 +109,7 @@ public final class SrpCommands {
     private static int spawnMeteorAt(CommandSourceStack source, BlockPos pos) {
         ServerLevel level = source.getLevel();
         net.minecraft.world.phys.Vec3 origin = new net.minecraft.world.phys.Vec3(
-                pos.getX(), level.getMaxBuildHeight(), pos.getZ());
+                pos.getX(), level.getMaxY(), pos.getZ());
         net.minecraft.world.phys.Vec3 target = new net.minecraft.world.phys.Vec3(
                 pos.getX(), pos.getY(), pos.getZ());
         return MeteorInfectionSystem.spawnMeteor(level, origin, target)
@@ -405,7 +405,7 @@ public final class SrpCommands {
     }
 
     private static LiteralArgumentBuilder<CommandSourceStack> admin(String name) {
-        return Commands.literal(name).requires(source -> source.hasPermission(2));
+        return Commands.literal(name).requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS));
     }
 
     private static SrpWorldData data(CommandSourceStack source) {
@@ -434,7 +434,7 @@ public final class SrpCommands {
         CommandSourceStack source = context.getSource();
         ServerLevel level = source.getLevel();
         SrpWorldData data = SrpWorldData.get(level);
-        success(source, "Evolution dimension: " + level.dimension().location());
+        success(source, "Evolution dimension: " + level.dimension().identifier());
         success(source, "Phase: " + data.evolutionPhase() + ", points: " + data.evolutionPoints()
                 + ", cooldown seconds: " + data.cooldown(level));
         int phase = data.evolutionPhase();
@@ -537,7 +537,7 @@ public final class SrpCommands {
         success(source, "Parasite progress by dimension (dimension, phase, points, generation, difficulty):");
         for (ServerLevel level : source.getServer().getAllLevels()) {
             SrpWorldData data = SrpWorldData.get(level);
-            success(source, "[" + level.dimension().location() + ", " + data.evolutionPhase() + ", "
+            success(source, "[" + level.dimension().identifier() + ", " + data.evolutionPhase() + ", "
                     + data.evolutionPoints() + ", " + data.generation() + ", "
                     + data.difficulty().id() + "]");
         }
@@ -593,7 +593,7 @@ public final class SrpCommands {
         if (generation != null) {
             data.setGeneration(generation);
         }
-        return success(context.getSource(), "Changed " + level.dimension().location() + " phase to " + phase
+        return success(context.getSource(), "Changed " + level.dimension().identifier() + " phase to " + phase
                 + (generation == null ? "" : " and generation to " + generation));
     }
 
@@ -656,11 +656,11 @@ public final class SrpCommands {
             case 4 -> ModEntities.BECKON_SIV.get();
             default -> ModEntities.BECKON_SI.get();
         };
-        NexusParasiteEntity entity = type.create(source.getLevel());
+        NexusParasiteEntity entity = type.create(source.getLevel(), EntitySpawnReason.MOB_SUMMONED);
         if (entity == null) {
             return failure(source, "Unable to create Nidus/Nexus entity");
         }
-        entity.moveTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D,
+        entity.snapTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D,
                 source.getLevel().getRandom().nextFloat() * 360.0F, 0.0F);
         entity.finalizeSpawn(source.getLevel(), source.getLevel().getCurrentDifficultyAt(pos),
                 EntitySpawnReason.COMMAND, null);

@@ -19,7 +19,7 @@ final class VerminParticles {
     }
 
     static void spawnMouthDrips(Level level, Entity source) {
-        RandomSource random = level.random;
+        RandomSource random = level.getRandom();
         for (int index = 0; index < AMBIENT_SPLASH_COUNT; index++) {
             Vec3 velocity = sprayVelocity(source, random, 0.2D, 0.0D);
             level.addParticle(ModParticles.ASSIMILATION_SPLASH.get(),
@@ -39,7 +39,7 @@ final class VerminParticles {
         level.sendParticles(ModParticles.ASSIMILATION_SPLASH.get(), x, y + 0.75D, z,
                 PAYLOAD_SPLASH_COUNT, 0.5D, 0.25D, 0.5D, 0.02D);
         for (int index = 0; index < PAYLOAD_SPRAY_COUNT; index++) {
-            Vec3 velocity = sprayVelocity(source, level.random, 1.0D, 4.0D);
+            Vec3 velocity = sprayVelocity(source, level.getRandom(), 1.0D, 4.0D);
             level.sendParticles(ModParticles.ASSIMILATION_SPLASH.get(), x, y + 1.2D, z,
                     0, velocity.x, velocity.y, velocity.z, 1.0D);
         }
@@ -52,7 +52,7 @@ final class VerminParticles {
         double y = source.getY();
         double z = source.getZ();
         for (int index = 0; index < LARGE_SPRAY_COUNT; index++) {
-            Vec3 velocity = sprayVelocity(source, level.random, 1.0D, 4.0D);
+            Vec3 velocity = sprayVelocity(source, level.getRandom(), 1.0D, 4.0D);
             level.sendParticles(ModParticles.ASSIMILATION_SPLASH.get(), x, y + 1.2D, z,
                     0, velocity.x, velocity.y, velocity.z, 1.0D);
         }

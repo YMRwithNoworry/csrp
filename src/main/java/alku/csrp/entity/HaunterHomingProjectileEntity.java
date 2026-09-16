@@ -93,10 +93,11 @@ public final class HaunterHomingProjectileEntity extends Entity {
         for (LivingEntity candidate : level().getEntitiesOfClass(LivingEntity.class, impactArea,
                 this::isValidTarget)) {
             DamageSource source = damageSources().indirectMagic(this, owner == null ? this : owner);
-            if (candidate.hurt(source, DAMAGE)) {
-                discard();
-                return;
+            if (level() instanceof ServerLevel serverLevel) {
+                candidate.hurtServer(serverLevel, source, DAMAGE);
             }
+            discard();
+            return;
         }
         if (tickCount > MAX_LIFETIME_TICKS) {
             discard();
@@ -142,15 +143,11 @@ public final class HaunterHomingProjectileEntity extends Entity {
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
-        if (!level().isClientSide()) {
-            playSound(SoundEvents.SHULKER_BULLET_HURT, 1.0F, 1.0F);
-            if (level() instanceof ServerLevel serverLevel) {
-                serverLevel.sendParticles(ParticleTypes.CRIT, getX(), getY(), getZ(), 15,
-                        0.2D, 0.2D, 0.2D, 0.0D);
-            }
-            discard();
-        }
+    public boolean hurtServer(ServerLevel serverLevel, DamageSource source, float amount) {
+        playSound(SoundEvents.SHULKER_BULLET_HURT, 1.0F, 1.0F);
+        serverLevel.sendParticles(ParticleTypes.CRIT, getX(), getY(), getZ(), 15,
+                0.2D, 0.2D, 0.2D, 0.0D);
+        discard();
         return true;
     }
 
@@ -160,24 +157,16 @@ public final class HaunterHomingProjectileEntity extends Entity {
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag tag) {
-        if (tag.hasUUID("owner")) {
-            ownerId = tag.getUUID("owner");
-        }
-        if (tag.hasUUID("target")) {
-            targetId = tag.getUUID("target");
-        }
-        entityData.set(TARGET_ID, tag.getIntOr("target_id", 0));
+    protected void readAdditionalSaveData(net.minecraft.world.level.storage.ValueInput input) {
+        ownerId = input.read("owner", net.minecraft.core.UUIDUtil.CODEC).orElse(null);
+        targetId = input.read("target", net.minecraft.core.UUIDUtil.CODEC).orElse(null);
+        entityData.set(TARGET_ID, input.getIntOr("target_id", 0));
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag tag) {
-        if (ownerId != null) {
-            tag.putUUID("owner", ownerId);
-        }
-        if (targetId != null) {
-            tag.putUUID("target", targetId);
-        }
-        tag.putInt("target_id", entityData.get(TARGET_ID));
+    protected void addAdditionalSaveData(net.minecraft.world.level.storage.ValueOutput output) {
+        output.storeNullable("owner", net.minecraft.core.UUIDUtil.CODEC, ownerId);
+        output.storeNullable("target", net.minecraft.core.UUIDUtil.CODEC, targetId);
+        output.putInt("target_id", entityData.get(TARGET_ID));
     }
 }

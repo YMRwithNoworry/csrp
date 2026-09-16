@@ -4,7 +4,6 @@ import alku.csrp.registry.ModMobEffects;
 import alku.csrp.world.EvolutionSystem;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -19,6 +18,8 @@ import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 
 /** Invisible, ground-following minimum-damage wave used by Hosts and Kyphosis. */
@@ -131,7 +132,7 @@ public final class WaveEntity extends PathfinderMob implements Parasite {
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
         return false;
     }
 
@@ -141,12 +142,12 @@ public final class WaveEntity extends PathfinderMob implements Parasite {
     }
 
     @Override
-    public boolean doHurtTarget(Entity entity) {
+    public boolean doHurtTarget(ServerLevel level, Entity entity) {
         return false;
     }
 
     @Override
-    public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
+    public boolean causeFallDamage(double distance, float damageMultiplier, DamageSource source) {
         discard();
         return false;
     }
@@ -162,18 +163,18 @@ public final class WaveEntity extends PathfinderMob implements Parasite {
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        minimumDamage = Math.max(0.0F, tag.getFloatOr("minimum_damage", 0.0F));
-        range = tag.getIntOr("range", 0);
-        durationSeconds = Math.max(1, tag.getIntOr("duration_seconds", 0));
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        minimumDamage = Math.max(0.0F, input.getFloatOr("minimum_damage", 0.0F));
+        range = input.getIntOr("range", 0);
+        durationSeconds = Math.max(1, input.getIntOr("duration_seconds", 0));
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putFloat("minimum_damage", minimumDamage);
-        tag.putInt("range", range);
-        tag.putInt("duration_seconds", durationSeconds);
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putFloat("minimum_damage", minimumDamage);
+        output.putInt("range", range);
+        output.putInt("duration_seconds", durationSeconds);
     }
 }

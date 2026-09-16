@@ -1,6 +1,7 @@
 package alku.csrp.entity;
 
 import alku.csrp.registry.ModSounds;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -10,10 +11,13 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -67,13 +71,13 @@ public class KirinSlashEntity extends Entity {
     public KirinSlashEntity(EntityType<? extends KirinSlashEntity> type, Level level) {
         super(type, level);
         noPhysics = true;
-        noCulling = true;
         setNoGravity(true);
     }
 
     public static KirinSlashEntity create(ServerLevel level, LivingEntity owner, Vec3 start,
             float yaw, float pitch, float length, float damage, int delayTicks, int growTicks, int life) {
-        KirinSlashEntity slash = alku.csrp.registry.ModEntities.KIRIN_SLASH.get().create(level);
+        KirinSlashEntity slash = alku.csrp.registry.ModEntities.KIRIN_SLASH.get()
+                .create(level, EntitySpawnReason.MOB_SUMMONED);
         if (slash == null) {
             return null;
         }
@@ -312,36 +316,41 @@ public class KirinSlashEntity extends Entity {
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag tag) {
-        ownerUuid = tag.hasUUID("Owner") ? tag.getUUID("Owner") : null;
-        damage = tag.contains("Damage") ? tag.getFloatOr("Damage", 0.0F) : 12.0F;
-        startX = tag.contains("StartX") ? tag.getDoubleOr("StartX", 0.0D) : getX();
-        startY = tag.contains("StartY") ? tag.getDoubleOr("StartY", 0.0D) : getY();
-        startZ = tag.contains("StartZ") ? tag.getDoubleOr("StartZ", 0.0D) : getZ();
+    protected void readAdditionalSaveData(ValueInput input) {
+        ownerUuid = input.getIntArray("Owner").map(UUIDUtil::uuidFromIntArray).orElse(null);
+        damage = input.getFloatOr("Damage", 12.0F);
+        startX = input.getDoubleOr("StartX", getX());
+        startY = input.getDoubleOr("StartY", getY());
+        startZ = input.getDoubleOr("StartZ", getZ());
         startPositionFixed = true;
-        age = tag.getIntOr("Age", 0);
-        fadeAge = tag.getIntOr("FadeAge", 0);
-        hitPop = tag.getBooleanOr("HitPop", false);
-        hitPopAge = tag.getIntOr("HitPopAge", 0);
-        entityData.set(SYNC_ROLL, tag.getFloatOr("Roll", 0.0F));
+        age = input.getIntOr("Age", 0);
+        fadeAge = input.getIntOr("FadeAge", 0);
+        hitPop = input.getBooleanOr("HitPop", false);
+        hitPopAge = input.getIntOr("HitPopAge", 0);
+        entityData.set(SYNC_ROLL, input.getFloatOr("Roll", 0.0F));
         entityData.set(SYNC_HIT_POP, hitPop);
         entityData.set(SYNC_HIT_POP_AGE, hitPopAge);
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag tag) {
+    protected void addAdditionalSaveData(ValueOutput output) {
         if (ownerUuid != null) {
-            tag.putUUID("Owner", ownerUuid);
+            output.putIntArray("Owner", UUIDUtil.uuidToIntArray(ownerUuid));
         }
-        tag.putFloat("Damage", damage);
-        tag.putDouble("StartX", startX);
-        tag.putDouble("StartY", startY);
-        tag.putDouble("StartZ", startZ);
-        tag.putInt("Age", age);
-        tag.putInt("FadeAge", fadeAge);
-        tag.putBoolean("HitPop", hitPop);
-        tag.putInt("HitPopAge", hitPopAge);
-        tag.putFloat("Roll", getRoll());
+        output.putFloat("Damage", damage);
+        output.putDouble("StartX", startX);
+        output.putDouble("StartY", startY);
+        output.putDouble("StartZ", startZ);
+        output.putInt("Age", age);
+        output.putInt("FadeAge", fadeAge);
+        output.putBoolean("HitPop", hitPop);
+        output.putInt("HitPopAge", hitPopAge);
+        output.putFloat("Roll", getRoll());
+    }
+
+    @Override
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+        return false;
     }
 
     @Override

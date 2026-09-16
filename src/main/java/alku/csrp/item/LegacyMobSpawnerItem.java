@@ -5,16 +5,18 @@ import alku.csrp.config.GeneralConfig;
 import alku.csrp.registry.ModEntities;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -24,8 +26,11 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.TagValueInput;
+import net.minecraft.world.level.storage.TagValueOutput;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 
@@ -76,31 +81,31 @@ public final class LegacyMobSpawnerItem extends Item {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (level.isClientSide()) {
-            return InteractionResultHolder.pass(stack);
+            return InteractionResult.PASS;
         }
         HitResult hit = getPlayerPOVHitResult(level, player, ClipContext.Fluid.SOURCE_ONLY);
         if (!(hit instanceof BlockHitResult blockHit) || hit.getType() != HitResult.Type.BLOCK) {
-            return InteractionResultHolder.pass(stack);
+            return InteractionResult.PASS;
         }
         BlockPos fluidPos = blockHit.getBlockPos();
         if (level.getFluidState(fluidPos).isEmpty()
                 || !player.mayUseItemAt(fluidPos, blockHit.getDirection(), stack)) {
-            return InteractionResultHolder.pass(stack);
+            return InteractionResult.PASS;
         }
         Entity entity = createEntity(level, fluidPos.getX() + 0.5D,
                 fluidPos.getY() + 0.5D, fluidPos.getZ() + 0.5D);
         if (entity == null) {
-            return InteractionResultHolder.pass(stack);
+            return InteractionResult.PASS;
         }
         finishSpawn(level, player, stack, entity);
         if (!level.addFreshEntity(entity)) {
-            return InteractionResultHolder.pass(stack);
+            return InteractionResult.PASS;
         }
         consume(player, stack);
-        return InteractionResultHolder.success(stack);
+        return InteractionResult.SUCCESS.heldItemTransformedTo(stack);
     }
 
     private Entity createEntity(Level level, double x, double y, double z) {
@@ -110,12 +115,12 @@ public final class LegacyMobSpawnerItem extends Item {
         String currentId = currentEntityId(legacyName);
         Identifier id = Identifier.fromNamespaceAndPath(Csrp.MODID, currentId);
         Optional<EntityType<?>> type = BuiltInRegistries.ENTITY_TYPE.getOptional(id);
-        Entity entity = type.orElse(ModEntities.CRUX.get()).create(level);
+        Entity entity = type.orElse(ModEntities.CRUX.get()).create(level, EntitySpawnReason.MOB_SUMMONED);
         if (entity == null) {
             return null;
         }
-        entity.moveTo(x, y + (legacyName.equals("pod") ? 25.0D : 0.0D), z,
-                level.random.nextFloat() * 360.0F, 0.0F);
+        entity.snapTo(x, y + (legacyName.equals("pod") ? 25.0D : 0.0D), z,
+                level.getRandom().nextFloat() * 360.0F, 0.0F);
         return entity;
     }
 
@@ -125,14 +130,16 @@ public final class LegacyMobSpawnerItem extends Item {
         }
         CustomData data = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
         CompoundTag itemTag = data.copyTag();
-        if (!itemTag.contains("EntityTag", CompoundTag.TAG_COMPOUND)) {
+        if (!itemTag.contains("EntityTag")) {
             return;
         }
         CompoundTag entityTag = itemTag.getCompoundOrEmpty("EntityTag");
-        CompoundTag saved = entity.saveWithoutId(new CompoundTag());
+        TagValueOutput output = TagValueOutput.createWithoutContext(ProblemReporter.DISCARDING);
+        entity.saveWithoutId(output);
+        CompoundTag saved = output.buildResult();
         saved.merge(entityTag);
         java.util.UUID uuid = entity.getUUID();
-        entity.load(saved);
+        entity.load(TagValueInput.create(ProblemReporter.DISCARDING, entity.registryAccess(), saved));
         entity.setUUID(uuid);
     }
 
@@ -217,9 +224,9 @@ public final class LegacyMobSpawnerItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context,
-            List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.translatable("item.csrp.itemmobspawner", legacyName)
+    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display,
+            Consumer<Component> tooltip, TooltipFlag flag) {
+        tooltip.accept(Component.translatable("item.csrp.itemmobspawner", legacyName)
                 .withStyle(ChatFormatting.GRAY));
     }
 }

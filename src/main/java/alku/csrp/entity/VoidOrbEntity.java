@@ -1,18 +1,22 @@
 package alku.csrp.entity;
 
 import alku.csrp.registry.ModSounds;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -146,10 +150,10 @@ public final class VoidOrbEntity extends Entity {
                 }
             }
             if (distanceSqr < DAMAGE_DISTANCE_SQR && owner != null) {
-                target.invulnerableTime = 0;
+                target.setInvulnerableTime(0);
                 owner.applyMinimumDamage(target, 14.0F / 10.0F);
                 target.hurt(damageSources().fellOutOfWorld(), 10.0F);
-                target.invulnerableTime = 0;
+                target.setInvulnerableTime(0);
             }
         }
     }
@@ -169,9 +173,9 @@ public final class VoidOrbEntity extends Entity {
         DragonEggAssimilationEntity.assimilateDragonEggs(level(), damageBox);
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, damageBox,
                 target -> canPull(target) && isUncovered(target))) {
-            target.invulnerableTime = 0;
+            target.setInvulnerableTime(0);
             owner.applyMinimumDamage(target, 70.0F);
-            target.invulnerableTime = 0;
+            target.setInvulnerableTime(0);
         }
     }
 
@@ -242,41 +246,41 @@ public final class VoidOrbEntity extends Entity {
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag tag) {
-        if (tag.hasUUID("owner")) {
-            ownerId = tag.getUUID("owner");
-        }
-        followOwner = tag.getBooleanOr("follow_owner", false);
-        ownerOffset = tag.getDoubleOr("owner_offset", 0.0D);
-        anchorX = tag.getDoubleOr("anchor_x", 0.0D);
-        anchorY = tag.getDoubleOr("anchor_y", 0.0D);
-        anchorZ = tag.getDoubleOr("anchor_z", 0.0D);
-        fuseProgress = tag.getIntOr("fuse_progress", 0);
-        collapseTicks = tag.getIntOr("collapse_ticks", 0);
-        entityData.set(START_TICKS, tag.contains("start_ticks")
-                ? tag.getIntOr("start_ticks", 0) : DEFAULT_START_TICKS);
-        entityData.set(FUSE_TICKS, tag.contains("fuse_ticks")
-                ? tag.getIntOr("fuse_ticks", 0) : DEFAULT_FUSE_TICKS);
-        entityData.set(LIFETIME_TICKS, tag.contains("lifetime_ticks")
-                ? tag.getIntOr("lifetime_ticks", 0)
-                : getStartTicks() + fuseProgress + Math.max(0, collapseTicks - 1));
+    protected void readAdditionalSaveData(ValueInput input) {
+        input.getIntArray("owner").map(UUIDUtil::uuidFromIntArray).ifPresent(id -> ownerId = id);
+        followOwner = input.getBooleanOr("follow_owner", false);
+        ownerOffset = input.getDoubleOr("owner_offset", 0.0D);
+        anchorX = input.getDoubleOr("anchor_x", 0.0D);
+        anchorY = input.getDoubleOr("anchor_y", 0.0D);
+        anchorZ = input.getDoubleOr("anchor_z", 0.0D);
+        fuseProgress = input.getIntOr("fuse_progress", 0);
+        collapseTicks = input.getIntOr("collapse_ticks", 0);
+        entityData.set(START_TICKS, input.getIntOr("start_ticks", DEFAULT_START_TICKS));
+        entityData.set(FUSE_TICKS, input.getIntOr("fuse_ticks", DEFAULT_FUSE_TICKS));
+        entityData.set(LIFETIME_TICKS, input.getIntOr("lifetime_ticks",
+                getStartTicks() + fuseProgress + Math.max(0, collapseTicks - 1)));
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag tag) {
+    protected void addAdditionalSaveData(ValueOutput output) {
         if (ownerId != null) {
-            tag.putUUID("owner", ownerId);
+            output.putIntArray("owner", UUIDUtil.uuidToIntArray(ownerId));
         }
-        tag.putBoolean("follow_owner", followOwner);
-        tag.putDouble("owner_offset", ownerOffset);
-        tag.putDouble("anchor_x", anchorX);
-        tag.putDouble("anchor_y", anchorY);
-        tag.putDouble("anchor_z", anchorZ);
-        tag.putInt("fuse_progress", fuseProgress);
-        tag.putInt("collapse_ticks", collapseTicks);
-        tag.putInt("start_ticks", getStartTicks());
-        tag.putInt("fuse_ticks", getFuseTicks());
-        tag.putInt("lifetime_ticks", getLifetimeTicks());
+        output.putBoolean("follow_owner", followOwner);
+        output.putDouble("owner_offset", ownerOffset);
+        output.putDouble("anchor_x", anchorX);
+        output.putDouble("anchor_y", anchorY);
+        output.putDouble("anchor_z", anchorZ);
+        output.putInt("fuse_progress", fuseProgress);
+        output.putInt("collapse_ticks", collapseTicks);
+        output.putInt("start_ticks", getStartTicks());
+        output.putInt("fuse_ticks", getFuseTicks());
+        output.putInt("lifetime_ticks", getLifetimeTicks());
+    }
+
+    @Override
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+        return false;
     }
 
     @Override

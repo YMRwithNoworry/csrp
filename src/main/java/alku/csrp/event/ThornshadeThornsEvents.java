@@ -160,7 +160,7 @@ public final class ThornshadeThornsEvents {
             other.addEffect(new MobEffectInstance(ModMobEffects.THORNSHADE_THORNS,
                     600, 0, false, true), center);
         }
-        center.invulnerableTime = 0;
+        center.setInvulnerableTime(0);
         center.hurt(level.damageSources().magic(), Float.MAX_VALUE);
     }
 
@@ -168,7 +168,7 @@ public final class ThornshadeThornsEvents {
         if (!(center instanceof ServerPlayer player)) {
             return;
         }
-        AdvancementHolder advancement = player.server.getAdvancements().get(SELF_DESTRUCT_ADVANCEMENT);
+        AdvancementHolder advancement = player.level().getServer().getAdvancements().get(SELF_DESTRUCT_ADVANCEMENT);
         if (advancement != null) {
             player.getAdvancements().award(advancement, SELF_DESTRUCT_CRITERION);
         }
@@ -187,8 +187,8 @@ public final class ThornshadeThornsEvents {
 
     private static void spawnRing(ServerLevel level, double x, double y, double z, double radius, int count) {
         for (int index = 0; index < count; index++) {
-            double angle = level.random.nextDouble() * Math.PI * 2.0D;
-            double distance = radius * (0.7D + level.random.nextDouble() * 0.3D);
+            double angle = level.getRandom().nextDouble() * Math.PI * 2.0D;
+            double distance = radius * (0.7D + level.getRandom().nextDouble() * 0.3D);
             double px = x + Math.cos(angle) * distance;
             double pz = z + Math.sin(angle) * distance;
             level.sendParticles(ParticleTypes.WITCH, px, y, pz, 1, 0.0D, 0.1D, 0.0D, 0.05D);

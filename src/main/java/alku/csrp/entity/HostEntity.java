@@ -7,10 +7,13 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import alku.csrp.animation.CitadelAnimationManager;
 import alku.csrp.animation.CitadelAnimationController;
 import alku.csrp.animation.CitadelPlayState;
@@ -134,28 +137,27 @@ public final class HostEntity extends AbstractHostEntity {
         if (kills <= HOST_TO_HOSTII_KILLS) {
             return;
         }
-        HostIIEntity hostII = ModEntities.HOSTII.get().create(level);
+        HostIIEntity hostII = ModEntities.HOSTII.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (hostII == null) {
             return;
         }
-        hostII.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        hostII.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         level.addFreshEntity(hostII);
         discard();
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putFloat("buried_timer", getBuriedTimer());
-        tag.putBoolean("mouth_open", isMouthOpen());
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putFloat("buried_timer", getBuriedTimer());
+        output.putBoolean("mouth_open", isMouthOpen());
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        entityData.set(BURIED_TIMER, tag.contains("buried_timer")
-                ? tag.getFloatOr("buried_timer", 0.0F) : MAX_BURIED_TIMER);
-        entityData.set(MOUTH_OPEN, tag.getBooleanOr("mouth_open", false));
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        entityData.set(BURIED_TIMER, input.getFloatOr("buried_timer", MAX_BURIED_TIMER));
+        entityData.set(MOUTH_OPEN, input.getBooleanOr("mouth_open", false));
     }
 
     @Override

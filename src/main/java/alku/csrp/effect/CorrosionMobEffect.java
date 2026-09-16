@@ -1,5 +1,6 @@
 package alku.csrp.effect;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
@@ -9,8 +10,8 @@ public final class CorrosionMobEffect extends MobEffect {
     public CorrosionMobEffect() { super(MobEffectCategory.HARMFUL, 0x6B7A24); }
 
     @Override
-    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
-        if (!entity.level().isClientSide()) {
+    public boolean applyEffectTick(ServerLevel level, LivingEntity entity, int amplifier) {
+        if (!level.isClientSide()) {
             for (EquipmentSlot slot : new EquipmentSlot[] {
                     EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET
             }) {

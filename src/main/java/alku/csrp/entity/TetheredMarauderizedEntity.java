@@ -1,6 +1,6 @@
 package alku.csrp.entity;
 
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -11,6 +11,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.UUID;
@@ -83,7 +85,7 @@ public abstract class TetheredMarauderizedEntity extends MarauderizedParasiteEnt
             Vec3 pull = direction.normalize().scale(pullStrength());
             target.push(pull.x, pull.y, pull.z);
         }
-        target.hurt(damageSources().mobAttack(this), tetherDamage());
+        target.hurtOrSimulate(damageSources().mobAttack(this), tetherDamage());
         syncPullTarget();
     }
 
@@ -148,19 +150,17 @@ public abstract class TetheredMarauderizedEntity extends MarauderizedParasiteEnt
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
+    public void addAdditionalSaveData(ValueOutput tag) {
         super.addAdditionalSaveData(tag);
-        if (pullTargetId != null) {
-            tag.putUUID("pull_target", pullTargetId);
-        }
+        tag.storeNullable("pull_target", UUIDUtil.CODEC, pullTargetId);
         tag.putInt("pull_ticks", pullTicks);
         tag.putInt("pull_cooldown", pullCooldown);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
+    public void readAdditionalSaveData(ValueInput tag) {
         super.readAdditionalSaveData(tag);
-        pullTargetId = tag.hasUUID("pull_target") ? tag.getUUID("pull_target") : null;
+        pullTargetId = tag.read("pull_target", UUIDUtil.CODEC).orElse(null);
         pullTicks = tag.getIntOr("pull_ticks", 0);
         pullCooldown = tag.getIntOr("pull_cooldown", 0);
         syncPullTarget();

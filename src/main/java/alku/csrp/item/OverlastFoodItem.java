@@ -22,7 +22,7 @@ public final class OverlastFoodItem extends Item {
         ItemStack result = super.finishUsingItem(stack, level, user);
         if (!level.isClientSide()) {
             switch (kind) {
-                case CHOCOLATE_SMOOTHIE -> user.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 2_000, 1));
+                case CHOCOLATE_SMOOTHIE -> user.addEffect(new MobEffectInstance(MobEffects.SPEED, 2_000, 1));
                 case POLLUTED_HERBAL_BOWL -> {
                     user.removeEffect(ModMobEffects.COTH);
                     user.addEffect(new MobEffectInstance(MobEffects.NAUSEA, 100));

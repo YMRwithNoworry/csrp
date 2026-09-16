@@ -8,6 +8,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
@@ -66,7 +67,7 @@ public final class MarauderizedHumanEntity extends MarauderizedParasiteEntity {
     }
 
     @Override
-    public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
+    public boolean causeFallDamage(double distance, float damageMultiplier, DamageSource source) {
         return distance >= 60.0F && super.causeFallDamage(distance, damageMultiplier, source);
     }
 
@@ -87,12 +88,12 @@ public final class MarauderizedHumanEntity extends MarauderizedParasiteEntity {
         victim.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE, 20, 0, false, false), this);
         victim.addEffect(new MobEffectInstance(MobEffects.HUNGER, 20, 0, false, false), this);
         if (tickCount % 20 == 0) {
-            doHurtTarget(victim);
+            doHurtTarget((ServerLevel) level(), victim);
         }
     }
 
     private boolean mountTarget(LivingEntity target) {
-        if (target.isVehicle() || distanceToSqr(target) >= MOUNT_DISTANCE_SQR || !startRiding(target, true)) {
+        if (target.isVehicle() || distanceToSqr(target) >= MOUNT_DISTANCE_SQR || !startRiding(target, true, true)) {
             return false;
         }
         target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 60, 0, false, false), this);
@@ -155,7 +156,6 @@ public final class MarauderizedHumanEntity extends MarauderizedParasiteEntity {
             direction = direction.normalize();
             setDeltaMovement(getDeltaMovement().multiply(0.25D, 0.0D, 0.25D)
                     .add(direction.x * 0.62D, 0.42D, direction.z * 0.62D));
-            hasImpulse = true;
             startAttackAnimation();
             pounceCooldown = 20;
         }

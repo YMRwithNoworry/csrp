@@ -45,18 +45,13 @@ import alku.csrp.item.AlveolarFluidItem;
 import alku.csrp.item.AlveoliItem;
 import alku.csrp.item.VenkrolBootsItem;
 import alku.csrp.item.VariantWandItem;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BoneMealItem;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.DiggerItem;
-import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.item.SpawnEggItem;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -66,11 +61,9 @@ public final class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Csrp.MODID);
 
     public static final DeferredItem<SpawnEggItem> BUGLIN_SPAWN_EGG = ITEMS.registerItem(
-            "buglin_spawn_egg", properties -> new TexturedSpawnEggItem(ModEntities.BUGLIN.get(), 0x8B1E1E, 0xE1B85B, properties),
-            new Item.Properties());
+            "buglin_spawn_egg", properties -> new TexturedSpawnEggItem(ModEntities.BUGLIN.get(), 0x8B1E1E, 0xE1B85B, properties), Item.Properties::new);
     public static final DeferredItem<SpawnEggItem> RUPTER_SPAWN_EGG = ITEMS.registerItem(
-            "rupter_spawn_egg", properties -> new TexturedSpawnEggItem(ModEntities.RUPTER.get(), 0x6E1717, 0xD8B45B, properties),
-            new Item.Properties());
+            "rupter_spawn_egg", properties -> new TexturedSpawnEggItem(ModEntities.RUPTER.get(), 0x6E1717, 0xD8B45B, properties), Item.Properties::new);
     public static final DeferredItem<SpawnEggItem> PRI_LONGARMS_SPAWN_EGG = spawnEgg(
             "pri_longarms_spawn_egg", ModEntities.PRI_LONGARMS, 0x551C1C, 0xC9A17B);
     public static final DeferredItem<SpawnEggItem> PRI_SUMMONER_SPAWN_EGG = spawnEgg(
@@ -348,13 +341,11 @@ public final class ModItems {
             "trophy_boom_orb", ModBlocks.DRACONITE_TROPHY);
     public static final java.util.Map<String, DeferredItem<BlockItem>> ESCA_BULBS = registerEscaBulbItems();
     public static final DeferredItem<FogNullifierItem> FOG_NULLIFIER = ITEMS.registerItem(
-            "fog_nullifier", properties -> new FogNullifierItem(ModBlocks.FOG_NULLIFIER.get(), properties),
-            new Item.Properties());
+            "fog_nullifier", properties -> new FogNullifierItem(ModBlocks.FOG_NULLIFIER.get(), properties), Item.Properties::new);
     public static final DeferredItem<FogBottleItem> FOG_BOTTLE = ITEMS.registerItem(
-            "fog_bottle", FogBottleItem::new, new Item.Properties().stacksTo(16));
+            "fog_bottle", FogBottleItem::new, () -> new Item.Properties().stacksTo(16));
     public static final DeferredItem<BucketItem> DEADBLOOD_BUCKET = ITEMS.registerItem(
-            "deadblood_bucket", props -> new BucketItem(ModFluids.DEADBLOOD.get(), props),
-            new Item.Properties().stacksTo(1));
+            "deadblood_bucket", props -> new BucketItem(ModFluids.DEADBLOOD.get(), props), () -> new Item.Properties().stacksTo(1));
     public static final DeferredItem<BlockItem> VISCERAL_MUD = ITEMS.registerSimpleBlockItem(
             "visceral_mud", ModBlocks.VISCERAL_MUD);
     public static final DeferredItem<BlockItem> BLEEDING_OBSIDIAN = ITEMS.registerSimpleBlockItem(
@@ -474,7 +465,7 @@ public final class ModItems {
     public static final DeferredItem<BlockItem> COOKED_FLESH_FENCE = ITEMS.registerSimpleBlockItem(
             "cooked_flesh_fence", ModBlocks.COOKED_FLESH_FENCE);
     public static final DeferredItem<EyeOfTheBeholderItem> PEARL = ITEMS.registerItem(
-            "pearl", EyeOfTheBeholderItem::new, new Item.Properties());
+            "pearl", EyeOfTheBeholderItem::new, Item.Properties::new);
 
     private static java.util.Map<String, DeferredItem<BlockItem>> registerEscaBulbItems() {
         java.util.Map<String, DeferredItem<BlockItem>> items = new java.util.LinkedHashMap<>();
@@ -651,22 +642,18 @@ public final class ModItems {
     public static final DeferredItem<Item> BLOODY_ROD = simple("bloody_rod");
     public static final DeferredItem<Item> BLOODY_BONE = simple("bloody_bone");
     public static final DeferredItem<GreekFireItem> GREEK_FIRE = ITEMS.registerItem("greek_fire",
-            GreekFireItem::new, new Item.Properties().durability(4));
+            GreekFireItem::new, () -> new Item.Properties().durability(4));
     public static final DeferredItem<Item> DISC_THREE = ITEMS.registerItem("discthree",
-            properties -> new Item(properties), new Item.Properties().stacksTo(1).rarity(Rarity.RARE)
+            properties -> new Item(properties), () -> new Item.Properties().stacksTo(1).rarity(Rarity.RARE)
                     .jukeboxPlayable(ModJukeboxSongs.DISC_THREE_KEY));
-    public static final DeferredItem<ArmorItem> MOBILITY_HELMET = ITEMS.registerItem("mobility_armor_helmet",
-            properties -> new ArmorItem(ModArmorMaterials.MOBILITY, ArmorItem.Type.HELMET, properties),
-            new Item.Properties());
-    public static final DeferredItem<ArmorItem> MOBILITY_CHESTPIECE = ITEMS.registerItem("mobility_armor_chestpiece",
-            properties -> new ArmorItem(ModArmorMaterials.MOBILITY, ArmorItem.Type.CHESTPLATE, properties),
-            new Item.Properties());
-    public static final DeferredItem<ArmorItem> MOBILITY_LEGGINGS = ITEMS.registerItem("mobility_armor_leggings",
-            properties -> new ArmorItem(ModArmorMaterials.MOBILITY, ArmorItem.Type.LEGGINGS, properties),
-            new Item.Properties());
-    public static final DeferredItem<ArmorItem> MOBILITY_BOOTS = ITEMS.registerItem("mobility_armor_boots",
-            properties -> new ArmorItem(ModArmorMaterials.MOBILITY, ArmorItem.Type.BOOTS, properties),
-            new Item.Properties());
+    public static final DeferredItem<Item> MOBILITY_HELMET = ITEMS.registerItem("mobility_armor_helmet",
+            properties -> new Item(properties.humanoidArmor(ModArmorMaterials.MOBILITY, ArmorType.HELMET)), Item.Properties::new);
+    public static final DeferredItem<Item> MOBILITY_CHESTPIECE = ITEMS.registerItem("mobility_armor_chestpiece",
+            properties -> new Item(properties.humanoidArmor(ModArmorMaterials.MOBILITY, ArmorType.CHESTPLATE)), Item.Properties::new);
+    public static final DeferredItem<Item> MOBILITY_LEGGINGS = ITEMS.registerItem("mobility_armor_leggings",
+            properties -> new Item(properties.humanoidArmor(ModArmorMaterials.MOBILITY, ArmorType.LEGGINGS)), Item.Properties::new);
+    public static final DeferredItem<Item> MOBILITY_BOOTS = ITEMS.registerItem("mobility_armor_boots",
+            properties -> new Item(properties.humanoidArmor(ModArmorMaterials.MOBILITY, ArmorType.BOOTS)), Item.Properties::new);
     public static final DeferredItem<LureComponentItem> LURECOMPONENT1 = lureComponent(1);
     public static final DeferredItem<LureComponentItem> LURECOMPONENT2 = lureComponent(2);
     public static final DeferredItem<LureComponentItem> LURECOMPONENT3 = lureComponent(3);
@@ -685,19 +672,19 @@ public final class ModItems {
     public static final DeferredItem<Item> SEMIORGANIC_INGOT = simple("semiorganic_ingot");
 
     public static final DeferredItem<FalseAppleItem> FALSE_APPLE = ITEMS.registerItem(
-            "false_apple", FalseAppleItem::new, new Item.Properties());
+            "false_apple", FalseAppleItem::new, Item.Properties::new);
     public static final DeferredItem<FishlinItem> FISHLIN = ITEMS.registerItem(
-            "fishlin", FishlinItem::new, new Item.Properties());
+            "fishlin", FishlinItem::new, Item.Properties::new);
     public static final DeferredItem<ShrimpItem> SHRIMP = ITEMS.registerItem(
-            "shrimp", ShrimpItem::new, new Item.Properties());
+            "shrimp", ShrimpItem::new, Item.Properties::new);
     public static final DeferredItem<AlveoliItem> ALVEOLIGROWTH = ITEMS.registerItem(
-            "alveoligrowth", AlveoliItem::new, new Item.Properties());
+            "alveoligrowth", AlveoliItem::new, Item.Properties::new);
     public static final DeferredItem<AlveolarFluidItem> ALVEOLAR_FLUID = ITEMS.registerItem(
-            "alveolar_fluid", AlveolarFluidItem::new, new Item.Properties().stacksTo(1));
+            "alveolar_fluid", AlveolarFluidItem::new, () -> new Item.Properties().stacksTo(1));
     public static final DeferredItem<DeadBloodFluidItem> DEADBLOOD_FLUID = ITEMS.registerItem(
-            "deadblood_fluid", DeadBloodFluidItem::new, new Item.Properties());
+            "deadblood_fluid", DeadBloodFluidItem::new, Item.Properties::new);
     public static final DeferredItem<BoneMealItem> INFESTED_BONEMEAL = ITEMS.registerItem(
-            "infested_bonemeal", InfestedBonemealItem::new, new Item.Properties());
+            "infested_bonemeal", InfestedBonemealItem::new, Item.Properties::new);
     public static final DeferredItem<BlockItem> INFESTED_ORE = ITEMS.registerSimpleBlockItem(
             "infested_ore", ModBlocks.INFESTED_ORE);
     public static final DeferredItem<BlockItem> INFESTED_COAL_ORE = ITEMS.registerSimpleBlockItem(
@@ -715,52 +702,48 @@ public final class ModItems {
     public static final DeferredItem<BlockItem> INFESTED_REDSTONE_ORE = ITEMS.registerSimpleBlockItem(
             "infested_redstone_ore", ModBlocks.INFESTED_REDSTONE_ORE);
     public static final DeferredItem<EvolutionClockItem> EVCLOCK = ITEMS.registerItem(
-            "evclock", EvolutionClockItem::new, new Item.Properties().stacksTo(1));
+            "evclock", EvolutionClockItem::new, () -> new Item.Properties().stacksTo(1));
     public static final DeferredItem<LevelClockItem> LEVELCLOCK = ITEMS.registerItem(
-            "levelclock", LevelClockItem::new, new Item.Properties().stacksTo(1));
+            "levelclock", LevelClockItem::new, () -> new Item.Properties().stacksTo(1));
     public static final DeferredItem<AssimilationWandItem> ITEM_ASSIMILATE = ITEMS.registerItem(
-            "itemassimilate", AssimilationWandItem::new, new Item.Properties().stacksTo(1));
+            "itemassimilate", AssimilationWandItem::new, () -> new Item.Properties().stacksTo(1));
     public static final DeferredItem<VariantWandItem> ITEM_VARIANT = ITEMS.registerItem(
-            "itemvariant", VariantWandItem::new, new Item.Properties().stacksTo(1));
+            "itemvariant", VariantWandItem::new, () -> new Item.Properties().stacksTo(1));
     public static final DeferredItem<ParasiteEvolutionWandItem> ITEM_EVOLVE = ITEMS.registerItem(
             "itemevolve", properties -> new ParasiteEvolutionWandItem(
-                    ParasiteEvolutionWandItem.Mode.EVOLUTION, properties), new Item.Properties().stacksTo(1));
+                    ParasiteEvolutionWandItem.Mode.EVOLUTION, properties), () -> new Item.Properties().stacksTo(1));
     public static final DeferredItem<ParasiteEvolutionWandItem> ITEM_DEVOLVE = ITEMS.registerItem(
             "itemdevolve", properties -> new ParasiteEvolutionWandItem(
-                    ParasiteEvolutionWandItem.Mode.DEVOLUTION, properties), new Item.Properties().stacksTo(1));
+                    ParasiteEvolutionWandItem.Mode.DEVOLUTION, properties), () -> new Item.Properties().stacksTo(1));
     public static final DeferredItem<SrpCompassItem> NODECOMPASS = ITEMS.registerItem(
-            "nodecompass", properties -> new SrpCompassItem(SrpCompassItem.Target.NODE, properties),
-            new Item.Properties().stacksTo(1));
+            "nodecompass", properties -> new SrpCompassItem(SrpCompassItem.Target.NODE, properties), () -> new Item.Properties().stacksTo(1));
     public static final DeferredItem<SrpCompassItem> COLONYCOMPASS = ITEMS.registerItem(
-            "colonycompass", properties -> new SrpCompassItem(SrpCompassItem.Target.COLONY, properties),
-            new Item.Properties().stacksTo(1));
+            "colonycompass", properties -> new SrpCompassItem(SrpCompassItem.Target.COLONY, properties), () -> new Item.Properties().stacksTo(1));
     public static final DeferredItem<SrpCompassItem> ORIGINCOMPASS = ITEMS.registerItem(
-            "origincompass", properties -> new SrpCompassItem(SrpCompassItem.Target.ORIGIN, properties),
-            new Item.Properties().stacksTo(1));
+            "origincompass", properties -> new SrpCompassItem(SrpCompassItem.Target.ORIGIN, properties), () -> new Item.Properties().stacksTo(1));
     public static final DeferredItem<CompendiumItem> SRP_FIELD_GUIDE = ITEMS.registerItem(
-            "srp_field_guide", CompendiumItem::new, new Item.Properties().stacksTo(1));
+            "srp_field_guide", CompendiumItem::new, () -> new Item.Properties().stacksTo(1));
     public static final DeferredItem<BookOfVengeanceItem> BOOK_OF_VENGEANCE = ITEMS.registerItem(
-            "book_of_vengeance", BookOfVengeanceItem::new, new Item.Properties().stacksTo(1));
+            "book_of_vengeance", BookOfVengeanceItem::new, () -> new Item.Properties().stacksTo(1));
     public static final DeferredItem<TheSignCharmItem> THE_SIGN_CHARM = ITEMS.registerItem(
-            "the_sign_charm", TheSignCharmItem::new, new Item.Properties().stacksTo(1));
+            "the_sign_charm", TheSignCharmItem::new, () -> new Item.Properties().stacksTo(1));
     public static final DeferredItem<QuenchItem> ITEMTHROW = ITEMS.registerItem(
-            "itemthrow", QuenchItem::new, new Item.Properties().stacksTo(16));
+            "itemthrow", QuenchItem::new, () -> new Item.Properties().stacksTo(16));
     public static final DeferredItem<BoughItem> BOUGH = ITEMS.registerItem(
-            "bough", BoughItem::new, new Item.Properties());
+            "bough", BoughItem::new, Item.Properties::new);
     public static final DeferredItem<ThornshadeBerryItem> THORNSHADE_BERRY = ITEMS.registerItem(
-            "thornshade_berry", ThornshadeBerryItem::new, new Item.Properties());
+            "thornshade_berry", ThornshadeBerryItem::new, Item.Properties::new);
     public static final DeferredItem<ThornshadeDecanterItem> THORNSHADE_DECANTER = ITEMS.registerItem(
-            "thornshade_decanter", ThornshadeDecanterItem::new, new Item.Properties());
+            "thornshade_decanter", ThornshadeDecanterItem::new, Item.Properties::new);
     public static final DeferredItem<VenkrolBootsItem> VENKROL_BOOTS = ITEMS.registerItem("venkrol_boots",
-            properties -> new VenkrolBootsItem(ModArmorMaterials.VENKROL, ArmorItem.Type.BOOTS,
-                    properties.durability(520)),
-            new Item.Properties().rarity(Rarity.RARE));
+            properties -> new VenkrolBootsItem(ModArmorMaterials.VENKROL, ArmorType.BOOTS,
+                    properties.durability(520)), () -> new Item.Properties().rarity(Rarity.RARE));
     public static final DeferredItem<ModuleComponentItem> MODULE_BASE = ITEMS.registerItem(
-            "module_base", ModuleComponentItem::new, new Item.Properties().stacksTo(1));
+            "module_base", ModuleComponentItem::new, () -> new Item.Properties().stacksTo(1));
     public static final DeferredItem<ModuleComponentItem> TISSUE_SPIKE = ITEMS.registerItem(
-            "tissue_spike", ModuleComponentItem::new, new Item.Properties().stacksTo(1));
+            "tissue_spike", ModuleComponentItem::new, () -> new Item.Properties().stacksTo(1));
     public static final DeferredItem<ModuleComponentItem> ORGAN_SYNTH = ITEMS.registerItem(
-            "organ_synth", ModuleComponentItem::new, new Item.Properties().stacksTo(1));
+            "organ_synth", ModuleComponentItem::new, () -> new Item.Properties().stacksTo(1));
     public static final DeferredItem<RelayModuleItem> MODULE_INBORN = module(
             "module_inborn", RelayModuleItem.Kind.INBORN);
     public static final DeferredItem<RelayModuleItem> MODULE_ASSIMILATED = module(
@@ -806,18 +789,14 @@ public final class ModItems {
     public static final DeferredItem<RelayModuleItem> MODULE_DISLODGEMENT = module(
             "module_dislodgement", RelayModuleItem.Kind.DISLODGEMENT);
     public static final DeferredItem<RelayReportItem> RELAY_SCAN_REPORT = ITEMS.registerItem(
-            "relay_scan_report", properties -> new RelayReportItem(RelayReportItem.Type.SCAN, properties),
-            new Item.Properties().stacksTo(1));
+            "relay_scan_report", properties -> new RelayReportItem(RelayReportItem.Type.SCAN, properties), () -> new Item.Properties().stacksTo(1));
     public static final DeferredItem<RelayReportItem> PHASE_REPORT = ITEMS.registerItem(
-            "phase_report", properties -> new RelayReportItem(RelayReportItem.Type.PHASE, properties),
-            new Item.Properties().stacksTo(1));
+            "phase_report", properties -> new RelayReportItem(RelayReportItem.Type.PHASE, properties), () -> new Item.Properties().stacksTo(1));
     public static final DeferredItem<RelayReportItem> VECTOR_MAP = ITEMS.registerItem(
-            "vector_map", properties -> new RelayReportItem(RelayReportItem.Type.VECTOR, properties),
-            new Item.Properties().stacksTo(1));
+            "vector_map", properties -> new RelayReportItem(RelayReportItem.Type.VECTOR, properties), () -> new Item.Properties().stacksTo(1));
     public static final DeferredItem<RelayReportItem> DISLODGEMENT_REPORT = ITEMS.registerItem(
             "dislodgement_report",
-            properties -> new RelayReportItem(RelayReportItem.Type.DISLODGEMENT, properties),
-            new Item.Properties().stacksTo(1));
+            properties -> new RelayReportItem(RelayReportItem.Type.DISLODGEMENT, properties), () -> new Item.Properties().stacksTo(1));
     public static final DeferredItem<BlockItem> INFESTATION_PURIFIER = ITEMS.registerSimpleBlockItem(
             "infestation_purifier", ModBlocks.INFESTATION_PURIFIER);
     public static final DeferredItem<OverlastFoodItem> CHOCOLATE_SMOOTHIE = overlastFood(
@@ -841,9 +820,9 @@ public final class ModItems {
     public static final DeferredItem<OverlastCanteenItem> STRONG_INFECTING_POTION = canteen(
             "strong_infecting_potion", OverlastCanteenItem.Dose.STRONG_INFECT);
     public static final DeferredItem<InjectedPurifierItem> INJECTED_PURIFIER = ITEMS.registerItem(
-            "injected_purifier", InjectedPurifierItem::new, new Item.Properties().stacksTo(6));
+            "injected_purifier", InjectedPurifierItem::new, () -> new Item.Properties().stacksTo(6));
     public static final DeferredItem<EvolutionDeviceItem> EVOLUTION_DEVICE = ITEMS.registerItem(
-            "evolution_device", EvolutionDeviceItem::new, new Item.Properties().stacksTo(1));
+            "evolution_device", EvolutionDeviceItem::new, () -> new Item.Properties().stacksTo(1));
 
     public static final DeferredItem<LivingWeaponItem> WEAPON_SCYTHE_SENTIENT = livingWeapon(
             "weapon_scythe_sentient", LivingWeaponItem.WeaponKind.SCYTHE, 34.0F, -3.3F, 5.0F, true, null);
@@ -870,26 +849,26 @@ public final class ModItems {
     public static final DeferredItem<LivingWeaponItem> WEAPON_LANCE = livingWeapon(
             "weapon_lance", LivingWeaponItem.WeaponKind.LANCE, 17.0F, -3.1F, 5.0F, false, WEAPON_LANCE_SENTIENT);
     public static final DeferredItem<LivingBowItem> WEAPON_BOW_SENTIENT = ITEMS.registerItem(
-            "weapon_bow_sentient", properties -> new LivingBowItem(true, null, properties), new Item.Properties());
+            "weapon_bow_sentient", properties -> new LivingBowItem(true, null, properties), Item.Properties::new);
     public static final DeferredItem<LivingBowItem> WEAPON_BOW = ITEMS.registerItem(
-            "weapon_bow", properties -> new LivingBowItem(false, WEAPON_BOW_SENTIENT, properties), new Item.Properties());
+            "weapon_bow", properties -> new LivingBowItem(false, WEAPON_BOW_SENTIENT, properties), Item.Properties::new);
 
     public static final DeferredItem<LivingArmorItem> ARMOR_HELM_SENTIENT = livingArmor(
-            "armor_helm_sentient", ArmorItem.Type.HELMET, true, null);
+            "armor_helm_sentient", ArmorType.HELMET, true, null);
     public static final DeferredItem<LivingArmorItem> ARMOR_CHEST_SENTIENT = livingArmor(
-            "armor_chest_sentient", ArmorItem.Type.CHESTPLATE, true, null);
+            "armor_chest_sentient", ArmorType.CHESTPLATE, true, null);
     public static final DeferredItem<LivingArmorItem> ARMOR_PANTS_SENTIENT = livingArmor(
-            "armor_pants_sentient", ArmorItem.Type.LEGGINGS, true, null);
+            "armor_pants_sentient", ArmorType.LEGGINGS, true, null);
     public static final DeferredItem<LivingArmorItem> ARMOR_BOOTS_SENTIENT = livingArmor(
-            "armor_boots_sentient", ArmorItem.Type.BOOTS, true, null);
+            "armor_boots_sentient", ArmorType.BOOTS, true, null);
     public static final DeferredItem<LivingArmorItem> ARMOR_HELM = livingArmor(
-            "armor_helm", ArmorItem.Type.HELMET, false, ARMOR_HELM_SENTIENT);
+            "armor_helm", ArmorType.HELMET, false, ARMOR_HELM_SENTIENT);
     public static final DeferredItem<LivingArmorItem> ARMOR_CHEST = livingArmor(
-            "armor_chest", ArmorItem.Type.CHESTPLATE, false, ARMOR_CHEST_SENTIENT);
+            "armor_chest", ArmorType.CHESTPLATE, false, ARMOR_CHEST_SENTIENT);
     public static final DeferredItem<LivingArmorItem> ARMOR_PANTS = livingArmor(
-            "armor_pants", ArmorItem.Type.LEGGINGS, false, ARMOR_PANTS_SENTIENT);
+            "armor_pants", ArmorType.LEGGINGS, false, ARMOR_PANTS_SENTIENT);
     public static final DeferredItem<LivingArmorItem> ARMOR_BOOTS = livingArmor(
-            "armor_boots", ArmorItem.Type.BOOTS, false, ARMOR_BOOTS_SENTIENT);
+            "armor_boots", ArmorType.BOOTS, false, ARMOR_BOOTS_SENTIENT);
 
     // 1.10.8 names (without the later weapon_/armor_ prefix).  These are
     // real aliases rather than plain placeholders so old recipes and commands
@@ -919,76 +898,73 @@ public final class ModItems {
     public static final DeferredItem<LivingWeaponItem> LANCE = livingWeapon(
             "lance", LivingWeaponItem.WeaponKind.LANCE, 17.0F, -3.1F, 5.0F, false, LANCE_SENTIENT);
     public static final DeferredItem<LivingBowItem> BOW_SENTIENT = ITEMS.registerItem(
-            "bow_sentient", properties -> new LivingBowItem(true, null, properties), new Item.Properties());
+            "bow_sentient", properties -> new LivingBowItem(true, null, properties), Item.Properties::new);
     public static final DeferredItem<LivingBowItem> BOW = ITEMS.registerItem(
-            "bow", properties -> new LivingBowItem(false, BOW_SENTIENT, properties), new Item.Properties());
+            "bow", properties -> new LivingBowItem(false, BOW_SENTIENT, properties), Item.Properties::new);
 
     public static final DeferredItem<LivingArmorItem> HELM_SENTIENT = livingArmor(
-            "helm_sentient", ArmorItem.Type.HELMET, true, null);
+            "helm_sentient", ArmorType.HELMET, true, null);
     public static final DeferredItem<LivingArmorItem> CHEST_SENTIENT = livingArmor(
-            "chest_sentient", ArmorItem.Type.CHESTPLATE, true, null);
+            "chest_sentient", ArmorType.CHESTPLATE, true, null);
     public static final DeferredItem<LivingArmorItem> PANTS_SENTIENT = livingArmor(
-            "pants_sentient", ArmorItem.Type.LEGGINGS, true, null);
+            "pants_sentient", ArmorType.LEGGINGS, true, null);
     public static final DeferredItem<LivingArmorItem> BOOTS_SENTIENT = livingArmor(
-            "boots_sentient", ArmorItem.Type.BOOTS, true, null);
+            "boots_sentient", ArmorType.BOOTS, true, null);
     public static final DeferredItem<LivingArmorItem> HELM = livingArmor(
-            "helm", ArmorItem.Type.HELMET, false, HELM_SENTIENT);
+            "helm", ArmorType.HELMET, false, HELM_SENTIENT);
     public static final DeferredItem<LivingArmorItem> CHEST = livingArmor(
-            "chest", ArmorItem.Type.CHESTPLATE, false, CHEST_SENTIENT);
+            "chest", ArmorType.CHESTPLATE, false, CHEST_SENTIENT);
     public static final DeferredItem<LivingArmorItem> PANTS = livingArmor(
-            "pants", ArmorItem.Type.LEGGINGS, false, PANTS_SENTIENT);
+            "pants", ArmorType.LEGGINGS, false, PANTS_SENTIENT);
     public static final DeferredItem<LivingArmorItem> BOOTS = livingArmor(
-            "boots", ArmorItem.Type.BOOTS, false, BOOTS_SENTIENT);
+            "boots", ArmorType.BOOTS, false, BOOTS_SENTIENT);
 
     /** All 1.10.8 ItemMobSpawner ids, retained for old recipes and worlds. */
     public static final List<DeferredItem<LegacyMobSpawnerItem>> LEGACY_MOB_SPAWNERS =
             registerLegacyMobSpawners();
 
     public static final DeferredItem<HijackedArmorItem> HIJACKED_IRON_HELMET = hijackedArmor(
-            "hijacked_iron_helmet", ArmorItem.Type.HELMET);
+            "hijacked_iron_helmet", ArmorType.HELMET);
     public static final DeferredItem<HijackedArmorItem> HIJACKED_IRON_CHESTPIECE = hijackedArmor(
-            "hijacked_iron_chestpiece", ArmorItem.Type.CHESTPLATE);
+            "hijacked_iron_chestpiece", ArmorType.CHESTPLATE);
     public static final DeferredItem<HijackedArmorItem> HIJACKED_IRON_LEGGINGS = hijackedArmor(
-            "hijacked_iron_leggings", ArmorItem.Type.LEGGINGS);
+            "hijacked_iron_leggings", ArmorType.LEGGINGS);
     public static final DeferredItem<HijackedArmorItem> HIJACKED_IRON_BOOTS = hijackedArmor(
-            "hijacked_iron_boots", ArmorItem.Type.BOOTS);
+            "hijacked_iron_boots", ArmorType.BOOTS);
     public static final DeferredItem<HijackedToolItem> HIJACKED_IRON_SWORD = ITEMS.registerItem(
-            "hijacked_iron_sword", HijackedToolItem::new, new Item.Properties());
-    public static final DeferredItem<AxeItem> HIJACKED_IRON_AXE = ITEMS.registerItem("hijacked_iron_axe",
-            properties -> new AxeItem(ModTiers.HIJACKED_IRON, properties.attributes(
-                    DiggerItem.createAttributes(ModTiers.HIJACKED_IRON, 7.5F, -3.05F))), new Item.Properties());
-    public static final DeferredItem<PickaxeItem> HIJACKED_IRON_PICKAXE = ITEMS.registerItem("hijacked_iron_pickaxe",
-            properties -> new PickaxeItem(ModTiers.HIJACKED_IRON, properties.attributes(
-                    DiggerItem.createAttributes(ModTiers.HIJACKED_IRON, 1.0F, -2.8F))), new Item.Properties());
-    public static final DeferredItem<ShovelItem> HIJACKED_IRON_SHOVEL = ITEMS.registerItem("hijacked_iron_shovel",
-            properties -> new ShovelItem(ModTiers.HIJACKED_IRON, properties.attributes(
-                    DiggerItem.createAttributes(ModTiers.HIJACKED_IRON, 1.5F, -3.0F))), new Item.Properties());
-    public static final DeferredItem<HoeItem> HIJACKED_IRON_HOE = ITEMS.registerItem("hijacked_iron_hoe",
-            properties -> new HoeItem(ModTiers.HIJACKED_IRON, properties.attributes(
-                    DiggerItem.createAttributes(ModTiers.HIJACKED_IRON, -2.5F, -1.0F))), new Item.Properties());
+            "hijacked_iron_sword", HijackedToolItem::new, Item.Properties::new);
+    public static final DeferredItem<HijackedToolItem> HIJACKED_IRON_AXE = ITEMS.registerItem("hijacked_iron_axe",
+            properties -> new HijackedToolItem(properties.axe(ModTiers.HIJACKED_IRON, 7.5F, -3.05F)),
+            Item.Properties::new);
+    public static final DeferredItem<HijackedToolItem> HIJACKED_IRON_PICKAXE = ITEMS.registerItem("hijacked_iron_pickaxe",
+            properties -> new HijackedToolItem(properties.pickaxe(ModTiers.HIJACKED_IRON, 1.0F, -2.8F)),
+            Item.Properties::new);
+    public static final DeferredItem<HijackedToolItem> HIJACKED_IRON_SHOVEL = ITEMS.registerItem("hijacked_iron_shovel",
+            properties -> new HijackedToolItem(properties.shovel(ModTiers.HIJACKED_IRON, 1.5F, -3.0F)),
+            Item.Properties::new);
+    public static final DeferredItem<HijackedToolItem> HIJACKED_IRON_HOE = ITEMS.registerItem("hijacked_iron_hoe",
+            properties -> new HijackedToolItem(properties.hoe(ModTiers.HIJACKED_IRON, -2.5F, -1.0F)),
+            Item.Properties::new);
 
     private static DeferredItem<Item> simple(String id) { return simple(id, new Item.Properties()); }
     private static DeferredItem<ParasiteLootBlockItem> parasiteLootBlockItem(String id,
             net.neoforged.neoforge.registries.DeferredBlock<? extends net.minecraft.world.level.block.Block> block) {
-        return ITEMS.registerItem(id, properties -> new ParasiteLootBlockItem(block.get(), properties),
-                new Item.Properties());
+        return ITEMS.registerItem(id, properties -> new ParasiteLootBlockItem(block.get(), properties), Item.Properties::new);
     }
 
     private static <T extends net.minecraft.world.entity.Mob> DeferredItem<SpawnEggItem> spawnEgg(String id,
             net.neoforged.neoforge.registries.DeferredHolder<net.minecraft.world.entity.EntityType<?>,
                     net.minecraft.world.entity.EntityType<T>> type, int primary, int secondary) {
         return ITEMS.registerItem(id,
-                properties -> new TexturedSpawnEggItem(type.get(), primary, secondary, properties),
-                new Item.Properties());
+                properties -> new TexturedSpawnEggItem(type.get(), primary, secondary, properties), Item.Properties::new);
     }
     private static DeferredItem<Item> simple(String id, Item.Properties properties) {
-        return ITEMS.registerSimpleItem(id, properties);
+        return ITEMS.registerItem(id, Item::new, () -> properties);
     }
 
     private static DeferredItem<LureComponentItem> lureComponent(int version) {
         return ITEMS.registerItem("lurecomponent" + version,
-                properties -> new LureComponentItem(version, properties),
-                new Item.Properties().stacksTo(16));
+                properties -> new LureComponentItem(version, properties), () -> new Item.Properties().stacksTo(16));
     }
 
     private static List<DeferredItem<LegacyMobSpawnerItem>> registerLegacyMobSpawners() {
@@ -1011,29 +987,25 @@ public final class ModItems {
                 "elvia", "heblu", "kirin", "oronco", "terla", "pod");
         return names.stream()
                 .map(name -> ITEMS.registerItem("itemmobspawner_" + name,
-                        properties -> new LegacyMobSpawnerItem(name, properties),
-                        new Item.Properties().stacksTo(64)))
+                        properties -> new LegacyMobSpawnerItem(name, properties), () -> new Item.Properties().stacksTo(64)))
                 .toList();
     }
 
     private static DeferredItem<EvolutionLureItem> evolutionLure(String id, EvolutionLureBlock.Tier tier) {
         return ITEMS.registerItem(id, properties -> new EvolutionLureItem(ModBlocks.EVOLUTION_LURE.get(), tier,
-                properties), new Item.Properties());
+                properties), Item.Properties::new);
     }
 
     private static DeferredItem<RelayModuleItem> module(String id, RelayModuleItem.Kind kind) {
-        return ITEMS.registerItem(id, properties -> new RelayModuleItem(kind, properties),
-                new Item.Properties().stacksTo(1));
+        return ITEMS.registerItem(id, properties -> new RelayModuleItem(kind, properties), () -> new Item.Properties().stacksTo(1));
     }
 
     private static DeferredItem<OverlastFoodItem> overlastFood(String id, OverlastFoodItem.Kind kind, int stackSize) {
-        return ITEMS.registerItem(id, properties -> new OverlastFoodItem(kind, properties),
-                new Item.Properties().stacksTo(stackSize));
+        return ITEMS.registerItem(id, properties -> new OverlastFoodItem(kind, properties), () -> new Item.Properties().stacksTo(stackSize));
     }
 
     private static DeferredItem<OverlastCanteenItem> canteen(String id, OverlastCanteenItem.Dose dose) {
-        return ITEMS.registerItem(id, properties -> new OverlastCanteenItem(dose, properties),
-                new Item.Properties().stacksTo(1));
+        return ITEMS.registerItem(id, properties -> new OverlastCanteenItem(dose, properties), () -> new Item.Properties().stacksTo(1));
     }
 
     private static DeferredItem<LivingWeaponItem> livingWeapon(String id, LivingWeaponItem.WeaponKind kind,
@@ -1042,20 +1014,19 @@ public final class ModItems {
         return ITEMS.registerItem(id, properties -> kind == LivingWeaponItem.WeaponKind.MAUL
                 ? new LivingMaulItem(damage, speed, reach, sentient, next == null ? null : next::get, properties)
                 : new LivingWeaponItem(kind, damage, speed, reach, sentient,
-                        next == null ? null : next::get, properties),
-                new Item.Properties().durability(1000));
+                        next == null ? null : next::get, properties), () -> new Item.Properties().durability(1000));
     }
 
-    private static DeferredItem<LivingArmorItem> livingArmor(String id, ArmorItem.Type type,
+    private static DeferredItem<LivingArmorItem> livingArmor(String id, ArmorType type,
             boolean sentient, DeferredItem<? extends Item> next) {
         return ITEMS.registerItem(id, properties -> new LivingArmorItem(
                 sentient ? ModArmorMaterials.SENTIENT : ModArmorMaterials.LIVING, type, sentient,
-                next == null ? null : next::get, properties), new Item.Properties());
+                next == null ? null : next::get, properties), Item.Properties::new);
     }
 
-    private static DeferredItem<HijackedArmorItem> hijackedArmor(String id, ArmorItem.Type type) {
-        return ITEMS.registerItem(id, properties -> new HijackedArmorItem(ModArmorMaterials.HIJACKED_IRON,
-                type, properties.durability(type.getDurability(40))), new Item.Properties());
+    private static DeferredItem<HijackedArmorItem> hijackedArmor(String id, ArmorType type) {
+        return ITEMS.registerItem(id, properties -> new HijackedArmorItem(net.minecraft.core.Holder.direct(ModArmorMaterials.HIJACKED_IRON),
+                type, properties.durability(type.getDurability(40))), Item.Properties::new);
     }
 
     // ==================== 批次2+3：残骸体系与木系建材方块物品 ====================

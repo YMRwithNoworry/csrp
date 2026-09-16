@@ -1,6 +1,5 @@
 package alku.csrp.entity;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerBossEvent;
@@ -10,11 +9,13 @@ import net.minecraft.world.BossEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.Nullable;
 
 /** Original unused Source charge bar entity. Its completed attack is intentionally empty. */
 public final class SourceEntity extends Entity {
-    private final ServerBossEvent bossEvent = new ServerBossEvent(getName(),
+    private final ServerBossEvent bossEvent = new ServerBossEvent(Mth.createInsecureUUID(this.random), getName(),
             BossEvent.BossBarColor.RED, BossEvent.BossBarOverlay.PROGRESS);
     private byte sourceType;
     private float total = 100.0F;
@@ -71,12 +72,12 @@ public final class SourceEntity extends Entity {
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag tag) {
+    protected void readAdditionalSaveData(ValueInput input) {
         // SRP 1.10.7 intentionally does not persist Source progress or type.
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag tag) {
+    protected void addAdditionalSaveData(ValueOutput output) {
         // SRP 1.10.7 intentionally does not persist Source progress or type.
     }
 
@@ -90,6 +91,11 @@ public final class SourceEntity extends Entity {
 
     public float getCharging() {
         return charging;
+    }
+
+    @Override
+    public boolean hurtServer(net.minecraft.server.level.ServerLevel level, net.minecraft.world.damagesource.DamageSource source, float amount) {
+        return false;
     }
 
     @Override

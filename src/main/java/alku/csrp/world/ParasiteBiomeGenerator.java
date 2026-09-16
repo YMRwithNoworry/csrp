@@ -69,7 +69,7 @@ public final class ParasiteBiomeGenerator {
         if (stage < 2) {
             return;
         }
-        Registry<Biome> registry = level.registryAccess().registryOrThrow(Registries.BIOME);
+        Registry<Biome> registry = level.registryAccess().lookupOrThrow(Registries.BIOME);
         int chunkRadius = (RADIUS + 15) >> 4;
         for (int offsetX = -chunkRadius; offsetX <= chunkRadius; offsetX++) {
             for (int offsetZ = -chunkRadius; offsetZ <= chunkRadius; offsetZ++) {
@@ -77,7 +77,7 @@ public final class ParasiteBiomeGenerator {
                 int chunkZ = (center.getZ() >> 4) + offsetZ;
                 ResourceKey<Biome> key = PARASITE_BIOMES.get(
                         Math.floorMod(chunkX * 31 + chunkZ, PARASITE_BIOMES.size()));
-                Holder<Biome> biome = registry.getHolderOrThrow(key);
+                Holder<Biome> biome = registry.getOrThrow(key);
                 LevelChunk chunk = level.getChunk(chunkX, chunkZ);
                 for (LevelChunkSection section : chunk.getSections()) {
                     if (section == null || section.hasOnlyAir()) {

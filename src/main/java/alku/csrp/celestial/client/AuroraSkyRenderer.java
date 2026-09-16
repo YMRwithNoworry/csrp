@@ -70,12 +70,12 @@ public final class AuroraSkyRenderer {
 
     private static boolean isSnowyBiome(Minecraft minecraft) {
         return minecraft.level.getBiome(minecraft.player.blockPosition())
-                .value().getPrecipitationAt(minecraft.player.blockPosition())
+                .value().getPrecipitationAt(minecraft.player.blockPosition(), minecraft.level.getSeaLevel())
                 == Biome.Precipitation.SNOW;
     }
 
     private static boolean isNight(Minecraft minecraft) {
-        long timeOfDay = Math.floorMod(minecraft.level.getDayTime(), 24000L);
+        long timeOfDay = Math.floorMod(minecraft.level.getGameTime(), 24000L);
         return timeOfDay >= 13000L && timeOfDay <= 23000L;
     }
 

@@ -4,6 +4,7 @@ import alku.csrp.registry.ModMobEffects;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -236,13 +237,13 @@ public abstract class MarauderizedParasiteEntity extends HijackedParasiteEntity 
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
-        return super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+        return super.hurtServer(level, source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
     }
 
     @Override
-    public boolean doHurtTarget(Entity entity) {
-        boolean hit = super.doHurtTarget(entity);
+    public boolean doHurtTarget(ServerLevel level, Entity entity) {
+        boolean hit = super.doHurtTarget(level, entity);
         if (hit) {
             startAttackAnimation();
         }

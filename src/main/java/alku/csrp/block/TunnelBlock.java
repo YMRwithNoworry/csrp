@@ -3,7 +3,6 @@ package alku.csrp.block;
 import alku.csrp.entity.BuglinEntity;
 import alku.csrp.entity.Parasite;
 import alku.csrp.registry.ModEntities;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -12,9 +11,8 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Explosion;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -24,16 +22,10 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 /** A Rupter-made burrow that periodically releases Buglins. */
 public final class TunnelBlock extends Block {
-    public static final MapCodec<TunnelBlock> CODEC = simpleCodec(TunnelBlock::new);
     private static final VoxelShape SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D);
 
     public TunnelBlock(Properties properties) {
         super(properties.randomTicks());
-    }
-
-    @Override
-    protected MapCodec<? extends TunnelBlock> codec() {
-        return CODEC;
     }
 
     @Override
@@ -47,11 +39,11 @@ public final class TunnelBlock extends Block {
     }
 
     @Override
-    protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState,
-            LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+    protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos,
+            Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
         return direction == Direction.DOWN && !state.canSurvive(level, pos)
                 ? Blocks.AIR.defaultBlockState()
-                : super.updateShape(state, direction, neighborState, level, pos, neighborPos);
+                : super.updateShape(state, level, ticks, pos, direction, neighborPos, neighborState, random);
     }
 
     @Override
@@ -75,13 +67,12 @@ public final class TunnelBlock extends Block {
     }
 
     @Override
-    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
-        if (!state.is(newState.getBlock()) && level instanceof ServerLevel serverLevel
-                && level.getDifficulty() != Difficulty.PEACEFUL
+    protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean isMoving) {
+        if (level.getDifficulty() != Difficulty.PEACEFUL
                 && level.hasChunksAt(pos.offset(-1, -1, -1), pos.offset(1, 1, 1))) {
-            spawnBuglin(serverLevel, pos, false);
+            spawnBuglin(level, pos, false);
         }
-        super.onRemove(state, level, pos, newState, isMoving);
+        super.affectNeighborsAfterRemoval(state, level, pos, isMoving);
     }
 
     @Override
@@ -90,11 +81,11 @@ public final class TunnelBlock extends Block {
     }
 
     private static void spawnBuglin(ServerLevel level, BlockPos pos, boolean buried) {
-        BuglinEntity buglin = ModEntities.BUGLIN.get().create(level);
+        BuglinEntity buglin = ModEntities.BUGLIN.get().create(level, net.minecraft.world.entity.EntitySpawnReason.MOB_SUMMONED);
         if (buglin == null) {
             return;
         }
-        buglin.moveTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, 0.0F, 0.0F);
+        buglin.snapTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, 0.0F, 0.0F);
         if (buried) {
             buglin.startBuriedEmergence();
         }

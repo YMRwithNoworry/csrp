@@ -1,7 +1,7 @@
 package alku.csrp.entity;
 
 import alku.csrp.registry.ModSounds;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -13,6 +13,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 import java.util.UUID;
 
@@ -130,30 +132,31 @@ public final class OrbBoomEntity extends Entity {
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag tag) {
-        if (tag.hasUUID("owner")) {
-            ownerId = tag.getUUID("owner");
-        }
-        entityData.set(FUSE, Math.max(1, tag.getIntOr("fuse", 0)));
-        entityData.set(WAIT_START, Math.max(0, tag.getIntOr("wait_start", 0)));
-        entityData.set(PROGRESS, Math.max(0, tag.getIntOr("progress", 0)));
-        burstTicks = Math.max(0, tag.getIntOr("burst_ticks", 0));
+    protected void readAdditionalSaveData(ValueInput input) {
+        ownerId = input.read("owner", UUIDUtil.CODEC).orElse(null);
+        entityData.set(FUSE, Math.max(1, input.getIntOr("fuse", 0)));
+        entityData.set(WAIT_START, Math.max(0, input.getIntOr("wait_start", 0)));
+        entityData.set(PROGRESS, Math.max(0, input.getIntOr("progress", 0)));
+        burstTicks = Math.max(0, input.getIntOr("burst_ticks", 0));
         refreshDimensions();
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag tag) {
-        if (ownerId != null) {
-            tag.putUUID("owner", ownerId);
-        }
-        tag.putInt("fuse", entityData.get(FUSE));
-        tag.putInt("wait_start", entityData.get(WAIT_START));
-        tag.putInt("progress", entityData.get(PROGRESS));
-        tag.putInt("burst_ticks", burstTicks);
+    protected void addAdditionalSaveData(ValueOutput output) {
+        output.storeNullable("owner", UUIDUtil.CODEC, ownerId);
+        output.putInt("fuse", entityData.get(FUSE));
+        output.putInt("wait_start", entityData.get(WAIT_START));
+        output.putInt("progress", entityData.get(PROGRESS));
+        output.putInt("burst_ticks", burstTicks);
     }
 
     @Override
     public boolean isPickable() {
+        return false;
+    }
+
+    @Override
+    public boolean hurtServer(ServerLevel level, net.minecraft.world.damagesource.DamageSource source, float amount) {
         return false;
     }
 }

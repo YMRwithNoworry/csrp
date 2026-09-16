@@ -27,6 +27,8 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.Nullable;
 import alku.csrp.animation.CitadelAnimatedEntity;
 import alku.csrp.animation.CitadelAnimationCache;
@@ -108,7 +110,7 @@ public class UntamedPriWaspEntity extends Monster implements CitadelAnimatedEnti
         goalSelector.addGoal(6, new ParasiteFollowGoal(this));
         goalSelector.addGoal(7, new RandomLookAroundGoal(this));
         targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(
-                this, LivingEntity.class, 10, true, false, this::canTargetEntity));
+                this, LivingEntity.class, 10, true, false, (target, lvl) -> canTargetEntity(target)));
     }
 
     private boolean canTargetEntity(LivingEntity entity) {
@@ -254,8 +256,8 @@ public class UntamedPriWaspEntity extends Monster implements CitadelAnimatedEnti
     }
 
     @Override
-    public boolean doHurtTarget(net.minecraft.world.entity.Entity entity) {
-        boolean hit = super.doHurtTarget(entity);
+    public boolean doHurtTarget(ServerLevel level, net.minecraft.world.entity.Entity entity) {
+        boolean hit = super.doHurtTarget(level, entity);
         if (hit) {
             triggerAnim("attack_controller", "attack");
         }
@@ -296,7 +298,7 @@ public class UntamedPriWaspEntity extends Monster implements CitadelAnimatedEnti
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
+    public void addAdditionalSaveData(ValueOutput tag) {
         super.addAdditionalSaveData(tag);
         tag.putInt(PARASITE_STATUS_NBT_KEY, getParasiteStatus());
         tag.putInt(PULL_COOLDOWN_NBT_KEY, pullCooldown);
@@ -305,18 +307,18 @@ public class UntamedPriWaspEntity extends Monster implements CitadelAnimatedEnti
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
+    public void readAdditionalSaveData(ValueInput tag) {
         super.readAdditionalSaveData(tag);
-        if (tag.contains(PARASITE_STATUS_NBT_KEY)) {
+        if (tag.getInt(PARASITE_STATUS_NBT_KEY).isPresent()) {
             setParasiteStatus(tag.getIntOr(PARASITE_STATUS_NBT_KEY, 0));
         }
-        if (tag.contains(PULL_COOLDOWN_NBT_KEY)) {
+        if (tag.getInt(PULL_COOLDOWN_NBT_KEY).isPresent()) {
             pullCooldown = tag.getIntOr(PULL_COOLDOWN_NBT_KEY, 0);
         }
-        if (tag.contains(PULL_COUNT_NBT_KEY)) {
+        if (tag.getInt(PULL_COUNT_NBT_KEY).isPresent()) {
             pullCount = tag.getIntOr(PULL_COUNT_NBT_KEY, 0);
         }
-        if (tag.contains(SKILL_BORDER_NBT_KEY)) {
+        if (tag.getInt(SKILL_BORDER_NBT_KEY).isPresent()) {
             skillBorder = tag.getIntOr(SKILL_BORDER_NBT_KEY, 0);
         }
     }

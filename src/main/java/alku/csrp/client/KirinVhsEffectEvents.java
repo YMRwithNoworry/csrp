@@ -2,8 +2,8 @@ package alku.csrp.client;
 
 import alku.csrp.Csrp;
 import alku.csrp.registry.ModMobEffects;
+import java.util.List;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.PostChain;
 import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -16,39 +16,21 @@ public final class KirinVhsEffectEvents {
     private static final Identifier EFFECT = Identifier.fromNamespaceAndPath(
             Csrp.MODID, "shaders/post/kirin_vhs.json");
 
-    private static PostChain loadedEffect;
-    private static boolean loadAttempted;
-
     private KirinVhsEffectEvents() {
     }
 
     @SubscribeEvent
     public static void updateEffect(ClientTickEvent.Post event) {
         Minecraft minecraft = Minecraft.getInstance();
-        boolean shouldRender = minecraft.player != null
-                && minecraft.player.hasEffect(ModMobEffects.NOVISION);
-
-        if (!shouldRender) {
-            unloadEffect(minecraft);
-            loadAttempted = false;
+        if (minecraft.player == null) {
             return;
         }
-        if (loadedEffect != null || loadAttempted || minecraft.gameRenderer.currentEffect() != null) {
-            return;
+        boolean shouldRender = minecraft.player.hasEffect(ModMobEffects.NOVISION);
+        List<Identifier> active = minecraft.player.getActivePostEffects();
+        if (shouldRender && !active.contains(EFFECT)) {
+            minecraft.player.setActivePostEffects(List.of(EFFECT));
+        } else if (!shouldRender && active.contains(EFFECT)) {
+            minecraft.player.setActivePostEffects(List.of());
         }
-
-        loadAttempted = true;
-        minecraft.gameRenderer.loadEffect(EFFECT);
-        loadedEffect = minecraft.gameRenderer.currentEffect();
-    }
-
-    private static void unloadEffect(Minecraft minecraft) {
-        if (loadedEffect == null) {
-            return;
-        }
-        if (minecraft.gameRenderer.currentEffect() == loadedEffect) {
-            minecraft.gameRenderer.shutdownEffect();
-        }
-        loadedEffect = null;
     }
 }

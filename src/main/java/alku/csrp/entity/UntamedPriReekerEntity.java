@@ -4,7 +4,6 @@ import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -29,6 +28,8 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import alku.csrp.animation.CitadelAnimatedEntity;
@@ -122,7 +123,7 @@ public class UntamedPriReekerEntity extends Monster implements CitadelAnimatedEn
         goalSelector.addGoal(4, new RandomLookAroundGoal(this));
         targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
         targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,
-                true, false, entity -> entity instanceof LivingEntity && !(entity instanceof Parasite)));
+                true, false, (entity, serverLevel) -> entity instanceof LivingEntity && !(entity instanceof Parasite)));
     }
 
     @Override
@@ -185,7 +186,7 @@ public class UntamedPriReekerEntity extends Monster implements CitadelAnimatedEn
             AABB collisionBox = getBoundingBox().inflate(CHARGE_COLLISION_RANGE);
             for (LivingEntity entity : level().getEntitiesOfClass(LivingEntity.class, collisionBox,
                     e -> e instanceof LivingEntity && !(e instanceof Parasite) && e.isAlive())) {
-                if (entity.hurt(damageSources().mobAttack(this), CHARGE_DAMAGE)) {
+                if (entity.hurtOrSimulate(damageSources().mobAttack(this), CHARGE_DAMAGE)) {
                     // 应用效果：缓慢 II (60 ticks) + COTH (3600 ticks)
                     entity.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 60, 2), this);
                     InfectionMechanics.applyCothEffect(entity, this, 3600, 0, false, true);
@@ -267,8 +268,8 @@ public class UntamedPriReekerEntity extends Monster implements CitadelAnimatedEn
     }
 
     @Override
-    public boolean doHurtTarget(Entity target) {
-        boolean hurt = super.doHurtTarget(target);
+    public boolean doHurtTarget(ServerLevel level, Entity target) {
+        boolean hurt = super.doHurtTarget(level, target);
         if (hurt) {
             // 触发攻击动画
             triggerAnim("attack_controller", "attack");
@@ -297,19 +298,19 @@ public class UntamedPriReekerEntity extends Monster implements CitadelAnimatedEn
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putInt("ParasiteStatus", getParasiteStatus());
-        tag.putInt("ChargeTicks", entityData.get(CHARGE_TICKS));
-        tag.putBoolean("SkillCharge", skillCharge);
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putInt("ParasiteStatus", getParasiteStatus());
+        output.putInt("ChargeTicks", entityData.get(CHARGE_TICKS));
+        output.putBoolean("SkillCharge", skillCharge);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        setParasiteStatus(tag.getIntOr("ParasiteStatus", 0));
-        entityData.set(CHARGE_TICKS, tag.getIntOr("ChargeTicks", 0));
-        skillCharge = tag.getBooleanOr("SkillCharge", false);
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        setParasiteStatus(input.getIntOr("ParasiteStatus", 0));
+        entityData.set(CHARGE_TICKS, input.getIntOr("ChargeTicks", 0));
+        skillCharge = input.getBooleanOr("SkillCharge", false);
     }
 
     @Override

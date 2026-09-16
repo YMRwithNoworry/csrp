@@ -23,6 +23,8 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import alku.csrp.animation.CitadelAnimationManager;
 import alku.csrp.animation.CitadelAnimationController;
@@ -190,7 +192,7 @@ public class AdaScuttlerEntity extends BurrowingVariantEntity implements Pulling
     private void executePullingSkill() {
         if (pullingTarget != null && pullingTarget.isAlive()) {
             // 发射拉拽弹丸
-            PullingBallEntity pullingBall = ModEntities.PULLING_BALL.get().create(level());
+            PullingBallEntity pullingBall = ModEntities.PULLING_BALL.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
             if (pullingBall != null) {
                 Vec3 eyePos = getEyePosition();
                 Vec3 targetPos = pullingTarget.getEyePosition();
@@ -219,19 +221,19 @@ public class AdaScuttlerEntity extends BurrowingVariantEntity implements Pulling
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putInt("arachnida_status", getArachnidaStatus());
-        tag.putInt("arachnida_pulling_ticks", pullingTicks);
-        tag.putInt("arachnida_ability_cooldown", abilityCooldown);
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putInt("arachnida_status", getArachnidaStatus());
+        output.putInt("arachnida_pulling_ticks", pullingTicks);
+        output.putInt("arachnida_ability_cooldown", abilityCooldown);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        setArachnidaStatus(tag.getIntOr("arachnida_status", 0));
-        pullingTicks = tag.getIntOr("arachnida_pulling_ticks", 0);
-        abilityCooldown = tag.getIntOr("arachnida_ability_cooldown", 0);
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        setArachnidaStatus(input.getIntOr("arachnida_status", 0));
+        pullingTicks = input.getIntOr("arachnida_pulling_ticks", 0);
+        abilityCooldown = input.getIntOr("arachnida_ability_cooldown", 0);
     }
 
     @Override

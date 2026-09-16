@@ -1,9 +1,10 @@
 package alku.csrp.item;
 
 import java.util.List;
+import java.util.function.Consumer;
 import alku.csrp.registry.ModItems;
 import alku.csrp.registry.ModMobEffects;
-import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.advancements.triggers.CriteriaTriggers;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
@@ -11,7 +12,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -21,6 +22,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 
@@ -38,13 +40,13 @@ public final class OverlastCanteenItem extends Item {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (dose == Dose.EMPTY || getSips(stack) <= 0) {
-            return InteractionResultHolder.pass(stack);
+            return InteractionResult.PASS;
         }
         player.startUsingItem(hand);
-        return InteractionResultHolder.consume(stack);
+        return InteractionResult.CONSUME;
     }
 
     @Override
@@ -110,16 +112,16 @@ public final class OverlastCanteenItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context,
-            List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display,
+            Consumer<Component> tooltip, TooltipFlag flag) {
         int sips = getSips(stack);
         if (dose != Dose.EMPTY) {
-            PotionContents.addPotionTooltip(List.of(createEffect()), tooltip::add, 1.0F, context.tickRate());
+            PotionContents.addPotionTooltip(List.of(createEffect()), tooltip::accept, 1.0F, context.tickRate());
         }
         ChatFormatting sipColor = sips >= 5 ? ChatFormatting.GREEN
                 : sips >= 2 ? ChatFormatting.YELLOW : ChatFormatting.RED;
-        tooltip.add(Component.translatable("tooltip.csrp.canteen.sips", sips).withStyle(sipColor));
-        tooltip.add(Component.translatable("tooltip.csrp.canteen.durability", getCanteenDurability(stack))
+        tooltip.accept(Component.translatable("tooltip.csrp.canteen.sips", sips).withStyle(sipColor));
+        tooltip.accept(Component.translatable("tooltip.csrp.canteen.durability", getCanteenDurability(stack))
                 .withStyle(ChatFormatting.GOLD));
     }
 

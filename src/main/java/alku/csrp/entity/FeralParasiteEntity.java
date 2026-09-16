@@ -22,6 +22,8 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import alku.csrp.animation.CitadelAnimatedEntity;
 import alku.csrp.animation.CitadelAnimationCache;
 import alku.csrp.animation.CitadelAnimationManager;
@@ -85,7 +87,7 @@ public class FeralParasiteEntity extends Monster implements CitadelAnimatedEntit
         goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
         targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,
-                true, false, this::isValidParasiteTarget));
+                true, false, (target, lvl) -> isValidParasiteTarget(target)));
     }
 
     @Override
@@ -148,9 +150,9 @@ public class FeralParasiteEntity extends Monster implements CitadelAnimatedEntit
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
         amount = ParasiteCombatEffects.damageAfterKillingResistance(source, amount, ModMobEffects.FERAL);
-        return super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
+        return super.hurtServer(level, source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
     }
 
     @Override
@@ -169,12 +171,12 @@ public class FeralParasiteEntity extends Monster implements CitadelAnimatedEntit
     }
 
     @Override
-    public boolean doHurtTarget(Entity target) {
+    public boolean doHurtTarget(ServerLevel level, Entity target) {
         if (!(target instanceof LivingEntity livingTarget)) {
-            return super.doHurtTarget(target);
+            return super.doHurtTarget(level, target);
         }
         float healthBefore = ParasiteCombatEffects.healthWithAbsorption(livingTarget);
-        boolean hit = super.doHurtTarget(target);
+        boolean hit = super.doHurtTarget(level, target);
         if (hit) {
             ParasiteCombatEffects.applyFearFromDamage(livingTarget, healthBefore, this);
         }
@@ -182,13 +184,13 @@ public class FeralParasiteEntity extends Monster implements CitadelAnimatedEntit
     }
 
     @Override
-    public boolean killedEntity(ServerLevel level, LivingEntity victim) {
+    public boolean killedEntity(ServerLevel level, LivingEntity victim, DamageSource source) {
         parasiteKills++;
-        return super.killedEntity(level, victim);
+        return super.killedEntity(level, victim, source);
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
+    public void addAdditionalSaveData(ValueOutput tag) {
         super.addAdditionalSaveData(tag);
         tag.putInt("parasite_kills", parasiteKills);
         tag.putInt("regen_use", regenUse);
@@ -196,10 +198,10 @@ public class FeralParasiteEntity extends Monster implements CitadelAnimatedEntit
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
+    public void readAdditionalSaveData(ValueInput tag) {
         super.readAdditionalSaveData(tag);
         parasiteKills = tag.getIntOr("parasite_kills", 0);
-        regenUse = tag.contains("regen_use") ? tag.getIntOr("regen_use", 0) : REGEN_KILL_INTERVAL;
+        regenUse = tag.getInt("regen_use").isPresent() ? tag.getIntOr("regen_use", 0) : REGEN_KILL_INTERVAL;
         stillTicks = tag.getIntOr("still_ticks", 0);
     }
 

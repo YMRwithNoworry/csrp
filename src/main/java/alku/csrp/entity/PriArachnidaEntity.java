@@ -5,7 +5,6 @@ import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -28,6 +27,8 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -98,7 +99,7 @@ public class PriArachnidaEntity extends Monster implements CitadelAnimatedEntity
         goalSelector.addGoal(6, new ParasiteFollowGoal(this));
         goalSelector.addGoal(7, new RandomLookAroundGoal(this));
         targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(
-                this, LivingEntity.class, 10, true, false, this::canTargetEntity));
+                this, LivingEntity.class, 10, true, false, (target, level) -> canTargetEntity(target)));
     }
 
     private boolean canTargetEntity(LivingEntity entity) {
@@ -184,7 +185,7 @@ public class PriArachnidaEntity extends Monster implements CitadelAnimatedEntity
     }
 
     private void executePullSkill(LivingEntity target) {
-        PullingBallEntity projectile = ModEntities.PULLING_BALL.get().create(level());
+        PullingBallEntity projectile = ModEntities.PULLING_BALL.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (projectile == null) {
             return;
         }
@@ -193,7 +194,7 @@ public class PriArachnidaEntity extends Monster implements CitadelAnimatedEntity
         if (direction.lengthSqr() < 0.001D) {
             return;
         }
-        projectile.moveTo(start.x, start.y, start.z, getYRot(), getXRot());
+        projectile.snapTo(start.x, start.y, start.z, getYRot(), getXRot());
         projectile.setOwner(this);
         projectile.setDeltaMovement(direction.normalize().scale(0.8D));
         level().addFreshEntity(projectile);
@@ -227,8 +228,8 @@ public class PriArachnidaEntity extends Monster implements CitadelAnimatedEntity
     }
 
     @Override
-    public boolean doHurtTarget(net.minecraft.world.entity.Entity entity) {
-        boolean hit = super.doHurtTarget(entity);
+    public boolean doHurtTarget(ServerLevel level, net.minecraft.world.entity.Entity entity) {
+        boolean hit = super.doHurtTarget(level, entity);
         if (hit && getParasiteStatus() == 2) {
             triggerAnim("attack_controller", "attack");
         }
@@ -250,7 +251,7 @@ public class PriArachnidaEntity extends Monster implements CitadelAnimatedEntity
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
+    public void addAdditionalSaveData(ValueOutput tag) {
         super.addAdditionalSaveData(tag);
         tag.putInt(PARASITE_STATUS_NBT_KEY, getParasiteStatus());
         tag.putInt(PULL_COOLDOWN_NBT_KEY, pullCooldown);
@@ -258,17 +259,11 @@ public class PriArachnidaEntity extends Monster implements CitadelAnimatedEntity
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
+    public void readAdditionalSaveData(ValueInput tag) {
         super.readAdditionalSaveData(tag);
-        if (tag.contains(PARASITE_STATUS_NBT_KEY)) {
-            setParasiteStatus(tag.getIntOr(PARASITE_STATUS_NBT_KEY, 0));
-        }
-        if (tag.contains(PULL_COOLDOWN_NBT_KEY)) {
-            pullCooldown = tag.getIntOr(PULL_COOLDOWN_NBT_KEY, 0);
-        }
-        if (tag.contains(PULL_COUNT_NBT_KEY)) {
-            pullCount = tag.getIntOr(PULL_COUNT_NBT_KEY, 0);
-        }
+        tag.getInt(PARASITE_STATUS_NBT_KEY).ifPresent(this::setParasiteStatus);
+        tag.getInt(PULL_COOLDOWN_NBT_KEY).ifPresent(value -> pullCooldown = value);
+        tag.getInt(PULL_COUNT_NBT_KEY).ifPresent(value -> pullCount = value);
     }
 
     @Nullable

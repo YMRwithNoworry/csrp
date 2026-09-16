@@ -10,10 +10,12 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
@@ -173,7 +175,7 @@ public final class CompendiumScreen extends Screen {
             if (id == null || !BuiltInRegistries.ITEM.containsKey(id) || shown >= 6) {
                 continue;
             }
-            ItemStack stack = new ItemStack(BuiltInRegistries.ITEM.get(id));
+            ItemStack stack = new ItemStack(BuiltInRegistries.ITEM.get(id).orElseThrow().value());
             graphics.renderItem(stack, x + shown * 19, y + 10);
             if (minecraft != null && mouseInDropSlot(minecraft.mouseHandler.xpos(), minecraft.mouseHandler.ypos(),
                     x + shown * 19, y + 10)) {
@@ -222,7 +224,8 @@ public final class CompendiumScreen extends Screen {
         if (id == null || !BuiltInRegistries.ENTITY_TYPE.containsKey(id)) {
             return null;
         }
-        var entity = BuiltInRegistries.ENTITY_TYPE.get(id).create(minecraft.level);
+        var entity = BuiltInRegistries.ENTITY_TYPE.get(id).orElseThrow().value()
+                .create(minecraft.level, EntitySpawnReason.MOB_SUMMONED);
         previewEntity = entity instanceof LivingEntity living ? living : null;
         return previewEntity;
     }
@@ -261,7 +264,7 @@ public final class CompendiumScreen extends Screen {
                 String nameKey = "tile.srparasites." + path + ".name";
                 String name = CompendiumLanguage.get(nameKey);
                 if (name.equals(nameKey) && BuiltInRegistries.BLOCK.containsKey(id)) {
-                    name = BuiltInRegistries.BLOCK.get(id).getName().getString();
+                    name = BuiltInRegistries.BLOCK.get(id).orElseThrow().value().getName().getString();
                 }
                 result.add(new ListEntry(id.toString(), name.equals(nameKey) ? titleCase(path) : name,
                         progress.blocks().contains(id.toString()), 0));
@@ -360,7 +363,9 @@ public final class CompendiumScreen extends Screen {
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
+        double mouseX = event.x();
+        double mouseY = event.y();
         int left = (width - PANEL_WIDTH) / 2;
         int top = (height - PANEL_HEIGHT) / 2;
         if (mouseX >= left + 3 && mouseX < left + LIST_WIDTH && mouseY >= top + 3
@@ -376,17 +381,17 @@ public final class CompendiumScreen extends Screen {
                 return true;
             }
         }
-        return super.mouseClicked(mouseX, mouseY, button);
+        return super.mouseClicked(event, doubleClick);
     }
 
     @Override
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
-        if (category == Category.PARASITES && button == 0) {
+    public boolean mouseDragged(MouseButtonEvent event, double dragX, double dragY) {
+        if (category == Category.PARASITES && event.button() == 0) {
             modelYaw += (float) dragX * 2.0F;
             modelPitch = Math.max(-45.0F, Math.min(45.0F, modelPitch + (float) dragY * 2.0F));
             return true;
         }
-        return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
+        return super.mouseDragged(event, dragX, dragY);
     }
 
     @Override

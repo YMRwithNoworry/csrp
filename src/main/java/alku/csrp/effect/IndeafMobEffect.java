@@ -1,5 +1,6 @@
 package alku.csrp.effect;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 
@@ -10,7 +11,7 @@ public final class IndeafMobEffect extends MarkerMobEffect {
     }
 
     @Override
-    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
+    public boolean applyEffectTick(ServerLevel level, LivingEntity entity, int amplifier) {
         if (!entity.level().isClientSide()) {
             var velocity = entity.getDeltaMovement();
             entity.setDeltaMovement(0.0D, velocity.y, 0.0D);

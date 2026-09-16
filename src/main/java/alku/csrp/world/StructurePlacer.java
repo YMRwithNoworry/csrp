@@ -29,7 +29,7 @@ public final class StructurePlacer {
     }
 
     public static boolean place(ServerLevel level, Identifier id, BlockPos pos, RandomSource random) {
-        Optional<StructureTemplate> optional = level.getStructureManager().get(id);
+        Optional<StructureTemplate> optional = level.getStructureTemplateManager().get(id);
         if (optional.isEmpty()) {
             reportOnce(id, "template not found; expected it at data/" + id.getNamespace()
                     + "/structure/" + id.getPath() + ".nbt");

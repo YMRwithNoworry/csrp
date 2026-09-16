@@ -1,9 +1,9 @@
 package alku.csrp.entity;
 
+import com.mojang.serialization.Codec;
 import alku.csrp.Config;
 import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -24,6 +24,8 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import alku.csrp.animation.CitadelAnimatedEntity;
@@ -109,7 +111,7 @@ public class UntamedPriLasherEntity extends PrimitiveParasiteEntity {
         goalSelector.addGoal(6, new ParasiteFollowGoal(this));
         goalSelector.addGoal(7, new RandomLookAroundGoal(this));
         targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(
-                this, LivingEntity.class, 10, true, false, this::isValidParasiteTarget));
+                this, LivingEntity.class, 10, true, false, (target, serverLevel) -> this.isValidParasiteTarget(target)));
     }
 
     @Override
@@ -233,7 +235,7 @@ public class UntamedPriLasherEntity extends PrimitiveParasiteEntity {
         if (tickCount % 5 == 0) {
             for (LivingEntity entity : level().getEntitiesOfClass(LivingEntity.class,
                     getBoundingBox().inflate(1.0), this::isValidParasiteTarget)) {
-                if (entity.hurt(damageSources().mobAttack(this), DASH_DAMAGE)) {
+                if (entity.hurtOrSimulate(damageSources().mobAttack(this), DASH_DAMAGE)) {
                     // 击退效果
                     double kx = entity.getX() - getX();
                     double kz = entity.getZ() - getZ();
@@ -277,39 +279,39 @@ public class UntamedPriLasherEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putInt(PARASITE_STATUS_NBT_KEY, getParasiteStatus());
-        tag.putInt(DASH_COOLDOWN_NBT_KEY, dashCooldown);
-        tag.putInt(DASH_CHARGE_NBT_KEY, dashChargeTicks);
-        tag.putInt(DASH_DURATION_NBT_KEY, dashDurationTicks);
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putInt(PARASITE_STATUS_NBT_KEY, getParasiteStatus());
+        output.putInt(DASH_COOLDOWN_NBT_KEY, dashCooldown);
+        output.putInt(DASH_CHARGE_NBT_KEY, dashChargeTicks);
+        output.putInt(DASH_DURATION_NBT_KEY, dashDurationTicks);
         if (dashTarget != null) {
-            tag.putDouble(DASH_TARGET_X_NBT_KEY, dashTarget.x);
-            tag.putDouble(DASH_TARGET_Y_NBT_KEY, dashTarget.y);
-            tag.putDouble(DASH_TARGET_Z_NBT_KEY, dashTarget.z);
+            output.putDouble(DASH_TARGET_X_NBT_KEY, dashTarget.x);
+            output.putDouble(DASH_TARGET_Y_NBT_KEY, dashTarget.y);
+            output.putDouble(DASH_TARGET_Z_NBT_KEY, dashTarget.z);
         }
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        if (tag.contains(PARASITE_STATUS_NBT_KEY)) {
-            setParasiteStatus(tag.getIntOr(PARASITE_STATUS_NBT_KEY, 0));
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        if (input.getInt(PARASITE_STATUS_NBT_KEY).isPresent()) {
+            setParasiteStatus(input.getIntOr(PARASITE_STATUS_NBT_KEY, 0));
         }
-        if (tag.contains(DASH_COOLDOWN_NBT_KEY)) {
-            dashCooldown = tag.getIntOr(DASH_COOLDOWN_NBT_KEY, 0);
+        if (input.getInt(DASH_COOLDOWN_NBT_KEY).isPresent()) {
+            dashCooldown = input.getIntOr(DASH_COOLDOWN_NBT_KEY, 0);
         }
-        if (tag.contains(DASH_CHARGE_NBT_KEY)) {
-            dashChargeTicks = tag.getIntOr(DASH_CHARGE_NBT_KEY, 0);
+        if (input.getInt(DASH_CHARGE_NBT_KEY).isPresent()) {
+            dashChargeTicks = input.getIntOr(DASH_CHARGE_NBT_KEY, 0);
         }
-        if (tag.contains(DASH_DURATION_NBT_KEY)) {
-            dashDurationTicks = tag.getIntOr(DASH_DURATION_NBT_KEY, 0);
+        if (input.getInt(DASH_DURATION_NBT_KEY).isPresent()) {
+            dashDurationTicks = input.getIntOr(DASH_DURATION_NBT_KEY, 0);
         }
-        if (tag.contains(DASH_TARGET_X_NBT_KEY)) {
+        if (input.read(DASH_TARGET_X_NBT_KEY, Codec.DOUBLE).isPresent()) {
             dashTarget = new Vec3(
-                    tag.getDoubleOr(DASH_TARGET_X_NBT_KEY, 0.0D),
-                    tag.getDoubleOr(DASH_TARGET_Y_NBT_KEY, 0.0D),
-                    tag.getDoubleOr(DASH_TARGET_Z_NBT_KEY, 0.0D)
+                    input.getDoubleOr(DASH_TARGET_X_NBT_KEY, 0.0D),
+                    input.getDoubleOr(DASH_TARGET_Y_NBT_KEY, 0.0D),
+                    input.getDoubleOr(DASH_TARGET_Z_NBT_KEY, 0.0D)
             );
         }
     }

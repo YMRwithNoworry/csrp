@@ -11,6 +11,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -108,10 +109,10 @@ public final class ArchitectEntity extends PrimitiveParasiteEntity {
         goalSelector.addGoal(6, new RandomFlightGoal());
         targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
         targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Player.class, 0,
-                false, false, this::isValidPlayerTarget));
+                false, false, (target, serverLevel) -> isValidPlayerTarget(target)));
         if (Config.mobAttackingEnabled()) {
             targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Mob.class, 0,
-                    !Config.collectiveConsciousnessEnabled(), false, this::isValidMobTarget));
+                    !Config.collectiveConsciousnessEnabled(), false, (target, serverLevel) -> isValidMobTarget(target)));
         }
     }
 
@@ -178,7 +179,7 @@ public final class ArchitectEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
+    public boolean causeFallDamage(double distance, float damageMultiplier, DamageSource source) {
         return false;
     }
 
@@ -197,11 +198,11 @@ public final class ArchitectEntity extends PrimitiveParasiteEntity {
         if (colony == null) {
             return;
         }
-        WorkerEntity worker = ModEntities.WORKER.get().create(level);
+        WorkerEntity worker = ModEntities.WORKER.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (worker == null) {
             return;
         }
-        worker.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        worker.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         worker.setColonyTask(colony.pos(), WorkerEntity.colonyRadius(colony));
         level.addFreshEntity(worker);
     }
@@ -216,7 +217,7 @@ public final class ArchitectEntity extends PrimitiveParasiteEntity {
         if (existing >= MobsConfig.overseerTotalActiveMobs()) {
             return;
         }
-        FlamEntity succor = ModEntities.SUCCOR.get().create(level);
+        FlamEntity succor = ModEntities.SUCCOR.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (succor == null) {
             return;
         }
@@ -224,7 +225,7 @@ public final class ArchitectEntity extends PrimitiveParasiteEntity {
         float spawnDistance = 4.0F * Mth.cos((float) Math.PI / 18.0F);
         Vec3 spawn = position().add(-Mth.sin(heading) * spawnDistance, getEyeHeight(),
                 Mth.cos(heading) * spawnDistance);
-        succor.moveTo(spawn.x, spawn.y, spawn.z, getYRot(), 0.0F);
+        succor.snapTo(spawn.x, spawn.y, spawn.z, getYRot(), 0.0F);
         int actionType = random.nextInt(3) + 1;
         boolean teleportReserved = false;
         for (Entity entity : level.getAllEntities()) {
@@ -406,7 +407,7 @@ public final class ArchitectEntity extends PrimitiveParasiteEntity {
             }
             double reach = getBbWidth() * 2.0D + target.getBbWidth();
             if (attackCooldown <= 0 && distanceToSqr(target) <= reach * reach && hasLineOfSight(target)) {
-                doHurtTarget(target);
+                doHurtTarget(getServerLevel(ArchitectEntity.this), target);
                 attackCooldown = MELEE_COOLDOWN;
             }
         }

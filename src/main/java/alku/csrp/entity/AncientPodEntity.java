@@ -4,7 +4,6 @@ import alku.csrp.config.MobsConfig;
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -98,21 +97,21 @@ public final class AncientPodEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putByte("pod_owner", owner);
-        tag.putInt("pod_fuse", fuseTicks);
-        tag.putBoolean("pod_fuse_started", fuseStarted);
-        tag.putBoolean("pod_exploded", exploded);
+    public void addAdditionalSaveData(net.minecraft.world.level.storage.ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putByte("pod_owner", owner);
+        output.putInt("pod_fuse", fuseTicks);
+        output.putBoolean("pod_fuse_started", fuseStarted);
+        output.putBoolean("pod_exploded", exploded);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        owner = tag.contains("pod_owner") ? tag.getByteOr("pod_owner", (byte)0) : 62;
-        fuseTicks = tag.contains("pod_fuse") ? tag.getIntOr("pod_fuse", 0) : DEFAULT_FUSE;
-        fuseStarted = tag.getBooleanOr("pod_fuse_started", false);
-        exploded = tag.getBooleanOr("pod_exploded", false);
+    public void readAdditionalSaveData(net.minecraft.world.level.storage.ValueInput input) {
+        super.readAdditionalSaveData(input);
+        owner = input.getByteOr("pod_owner", (byte)0);
+        fuseTicks = input.getIntOr("pod_fuse", DEFAULT_FUSE);
+        fuseStarted = input.getBooleanOr("pod_fuse_started", false);
+        exploded = input.getBooleanOr("pod_exploded", false);
     }
 
     private CitadelPlayState movementAnimation(CitadelAnimationState<AncientPodEntity> state) {
@@ -123,7 +122,7 @@ public final class AncientPodEntity extends PrimitiveParasiteEntity {
     private void explodePod(ServerLevel level) {
         exploded = true;
         DragonEggAssimilationEntity.assimilateDragonEggs(level, getBoundingBox().inflate(4.0D));
-        Level.ExplosionInteraction interaction = level.getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)
+        Level.ExplosionInteraction interaction = level.getGameRules().getBooleanOr(GameRules.MOB_GRIEFING, false)
                 && MobsConfig.ancientPodGriefing()
                 ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
         level.explode(this, getX(), getY(), getZ(), 4.0F, interaction);
@@ -182,7 +181,7 @@ public final class AncientPodEntity extends PrimitiveParasiteEntity {
                 continue;
             }
             double angle = random.nextDouble() * Math.PI * 2.0D;
-            mob.moveTo(getX() + Math.cos(angle) * 1.5D, getY(), getZ() + Math.sin(angle) * 1.5D,
+            mob.snapTo(getX() + Math.cos(angle) * 1.5D, getY(), getZ() + Math.sin(angle) * 1.5D,
                     random.nextFloat() * 360.0F, 0.0F);
             mob.finalizeSpawn(level, level.getCurrentDifficultyAt(mob.blockPosition()),
                     EntitySpawnReason.MOB_SUMMONED, null);
@@ -221,7 +220,7 @@ public final class AncientPodEntity extends PrimitiveParasiteEntity {
             if (location.getNamespace().equals("srparasites")) {
                 location = Identifier.fromNamespaceAndPath("csrp", location.getPath());
             }
-            Entity entity = BuiltInRegistries.ENTITY_TYPE.getOptional(location).map(type -> type.create(level)).orElse(null);
+            Entity entity = BuiltInRegistries.ENTITY_TYPE.getOptional(location).map(type -> type.create(level, net.minecraft.world.entity.EntitySpawnReason.MOB_SUMMONED)).orElse(null);
             return entity instanceof Mob mob ? mob : null;
         }
         return null;

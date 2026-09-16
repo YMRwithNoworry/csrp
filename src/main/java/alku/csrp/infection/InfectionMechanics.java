@@ -27,7 +27,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.EntitySpawnReason;
@@ -329,12 +329,12 @@ public final class InfectionMechanics {
             return false;
         }
         Entity created = BuiltInRegistries.ENTITY_TYPE.getOptional(hostId)
-                .map(type -> type.create(serverLevel)).orElse(null);
+                .map(type -> type.create(serverLevel, EntitySpawnReason.MOB_SUMMONED)).orElse(null);
         if (!(created instanceof Mob disguise) || (automatic && disguise instanceof Monster)) {
             return false;
         }
         playAssimilationStart(serverLevel, assimilated, ASSIMILATION_RESTORE_NAUSEA_TICKS);
-        disguise.moveTo(assimilated.getX(), assimilated.getY(), assimilated.getZ(),
+        disguise.snapTo(assimilated.getX(), assimilated.getY(), assimilated.getZ(),
                 assimilated.getYRot(), assimilated.getXRot());
         disguise.setCustomName(assimilated.getCustomName());
         disguise.setCustomNameVisible(assimilated.isCustomNameVisible());
@@ -369,13 +369,13 @@ public final class InfectionMechanics {
             return false;
         }
         Entity created = BuiltInRegistries.ENTITY_TYPE.getOptional(assimilatedId)
-                .map(type -> type.create(level)).orElse(null);
+                .map(type -> type.create(level, EntitySpawnReason.MOB_SUMMONED)).orElse(null);
         if (!(created instanceof Mob converted)) {
             return false;
         }
         float healthFraction = disguise.getMaxHealth() <= 0.0F
                 ? 1.0F : disguise.getHealth() / disguise.getMaxHealth();
-        converted.moveTo(disguise.getX(), disguise.getY(), disguise.getZ(),
+        converted.snapTo(disguise.getX(), disguise.getY(), disguise.getZ(),
                 disguise.getYRot(), disguise.getXRot());
         converted.finalizeSpawn(level, level.getCurrentDifficultyAt(disguise.blockPosition()),
                 EntitySpawnReason.CONVERSION, null);
@@ -431,11 +431,12 @@ public final class InfectionMechanics {
 
     /** Gnat and Lice kills turn an Enderman directly into its Feral form. */
     public static boolean convertFeralEndermanHost(LivingEntity host) {
-        if (host.getType() != EntityType.ENDERMAN || host.level().isClientSide() || host.isRemoved()
+        if (host.getType() != EntityTypes.ENDERMAN || host.level().isClientSide() || host.isRemoved()
                 || !(host.level() instanceof ServerLevel serverLevel)) {
             return false;
         }
-        FeralEndermanEntity converted = ModEntities.FER_ENDERMAN.get().create(serverLevel);
+        FeralEndermanEntity converted = ModEntities.FER_ENDERMAN.get().create(serverLevel,
+                EntitySpawnReason.MOB_SUMMONED);
         if (converted == null) {
             return false;
         }
@@ -446,9 +447,9 @@ public final class InfectionMechanics {
         float healthFraction = host.getMaxHealth() <= 0.0F ? 1.0F : host.getHealth() / host.getMaxHealth();
         MobEffectInstance coth = host.getEffect(ModMobEffects.COTH);
         boolean terminalCothAssimilation = coth != null && coth.getAmplifier() >= COTH_MAX_AMPLIFIER;
-        boolean assimilatedEnderman = host.getType() == EntityType.ENDERMAN
+        boolean assimilatedEnderman = host.getType() == EntityTypes.ENDERMAN
                 && BuiltInRegistries.ENTITY_TYPE.getKey(converted.getType()).getPath().equals("sim_enderman");
-        converted.moveTo(host.getX(), host.getY(), host.getZ(), host.getYRot(), host.getXRot());
+        converted.snapTo(host.getX(), host.getY(), host.getZ(), host.getYRot(), host.getXRot());
         converted.setHealth(Math.max(1.0F, converted.getMaxHealth() * Math.max(0.1F, healthFraction)));
         converted.setCustomName(host.getCustomName());
         converted.setCustomNameVisible(host.isCustomNameVisible());
@@ -499,8 +500,8 @@ public final class InfectionMechanics {
     private static Mob createIncompleteForm(LivingEntity host, ServerLevel level) {
         double bodyVolume = host.getBbWidth() * host.getBbWidth() * host.getBbHeight();
         return bodyVolume > 0.517D
-                ? ModEntities.INCOMPLETEFORM_MEDIUM.get().create(level)
-                : ModEntities.INCOMPLETEFORM_SMALL.get().create(level);
+                ? ModEntities.INCOMPLETEFORM_MEDIUM.get().create(level, EntitySpawnReason.MOB_SUMMONED)
+                : ModEntities.INCOMPLETEFORM_SMALL.get().create(level, EntitySpawnReason.MOB_SUMMONED);
     }
 
     /** A COTH-infected player killed by a parasite leaves an Assimilated Adventurer behind. */
@@ -515,17 +516,18 @@ public final class InfectionMechanics {
         if (!guaranteed && !passesCothKillConversion(player)) {
             return false;
         }
-        SimAdventurerEntity converted = ModEntities.SIM_ADVENTURER.get().create(serverLevel);
+        SimAdventurerEntity converted = ModEntities.SIM_ADVENTURER.get().create(serverLevel,
+                EntitySpawnReason.MOB_SUMMONED);
         if (converted == null) {
             return false;
         }
-        converted.moveTo(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
+        converted.snapTo(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
         converted.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(player.blockPosition()),
                 EntitySpawnReason.CONVERSION, null);
         converted.setCustomName(player.getName().copy());
         converted.setCustomNameVisible(true);
         converted.setPersistenceRequired();
-        boolean keepInventory = serverLevel.getGameRules().getBooleanOr(GameRules.RULE_KEEPINVENTORY, false);
+        boolean keepInventory = serverLevel.getGameRules().get(GameRules.KEEP_INVENTORY);
         EquipmentSlot[] inheritedSlots = {
                 EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND,
                 EquipmentSlot.HEAD, EquipmentSlot.LEGS, EquipmentSlot.FEET
@@ -587,9 +589,9 @@ public final class InfectionMechanics {
     }
 
     private static boolean replaceForcedHost(LivingEntity host, Mob converted, ServerLevel level) {
-        boolean assimilatedEnderman = host.getType() == EntityType.ENDERMAN
+        boolean assimilatedEnderman = host.getType() == EntityTypes.ENDERMAN
                 && BuiltInRegistries.ENTITY_TYPE.getKey(converted.getType()).getPath().equals("sim_enderman");
-        converted.moveTo(host.getX(), host.getY(), host.getZ(), host.getYRot(), host.getXRot());
+        converted.snapTo(host.getX(), host.getY(), host.getZ(), host.getYRot(), host.getXRot());
         converted.finalizeSpawn(level, level.getCurrentDifficultyAt(host.blockPosition()),
                 EntitySpawnReason.CONVERSION, null);
         converted.setHealth(converted.getMaxHealth());
@@ -646,7 +648,7 @@ public final class InfectionMechanics {
                 }
             }
             Entity entity = BuiltInRegistries.ENTITY_TYPE.getOptional(targetId)
-                    .map(type -> type.create(level)).orElse(null);
+                    .map(type -> type.create(level, EntitySpawnReason.MOB_SUMMONED)).orElse(null);
             if (entity instanceof Mob mob) {
                 return mob;
             }
@@ -683,7 +685,7 @@ public final class InfectionMechanics {
         }
         Identifier targetId = Identifier.fromNamespaceAndPath(Csrp.MODID, targetPath);
         Entity entity = BuiltInRegistries.ENTITY_TYPE.getOptional(targetId)
-                .map(type -> type.create(level)).orElse(null);
+                .map(type -> type.create(level, EntitySpawnReason.MOB_SUMMONED)).orElse(null);
         return entity instanceof Mob mob ? mob : null;
     }
 
@@ -701,7 +703,7 @@ public final class InfectionMechanics {
         Identifier id = Identifier.fromNamespaceAndPath(Csrp.MODID,
                 pool[level.getRandom().nextInt(pool.length)]);
         Entity entity = BuiltInRegistries.ENTITY_TYPE.getOptional(id)
-                .map(type -> type.create(level)).orElse(null);
+                .map(type -> type.create(level, EntitySpawnReason.MOB_SUMMONED)).orElse(null);
         return entity instanceof Mob mob ? mob : null;
     }
 

@@ -2,6 +2,7 @@ package alku.csrp.entity;
 
 import alku.csrp.config.MobsConfig;
 import alku.csrp.registry.ModMobEffects;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -12,6 +13,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -22,6 +24,8 @@ import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -56,7 +60,7 @@ public final class BombEntity extends Entity {
         this.canGrief = canGrief;
         setSkin(skin);
         if (owner != null) {
-            moveTo(owner.getX(), owner.getY() + owner.getEyeHeight() - 0.1D, owner.getZ(),
+            snapTo(owner.getX(), owner.getY() + owner.getEyeHeight() - 0.1D, owner.getZ(),
                     owner.getYRot(), owner.getXRot());
         }
     }
@@ -110,7 +114,8 @@ public final class BombEntity extends Entity {
     private void explode() {
         PrimitiveParasiteEntity owner = owner();
         if (strength > 0.0F) {
-            boolean grief = canGrief && level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false);
+            boolean grief = canGrief
+                    && ((ServerLevel) level()).getGameRules().get(GameRules.MOB_GRIEFING);
             level().explode(owner == null ? this : owner, getX(), getY(), getZ(), strength,
                     grief ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE);
         }
@@ -172,11 +177,12 @@ public final class BombEntity extends Entity {
             parsed = Identifier.fromNamespaceAndPath("csrp", parsed.getPath());
         }
         EntityType<?> payloadType = BuiltInRegistries.ENTITY_TYPE.getOptional(parsed).orElse(null);
-        Entity created = payloadType == null ? null : payloadType.create(serverLevel);
+        Entity created = payloadType == null ? null
+                : payloadType.create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (!(created instanceof Mob payload)) {
             return;
         }
-        payload.moveTo(getX(), getY(), getZ(), getYRot(), 0.0F);
+        payload.snapTo(getX(), getY(), getZ(), getYRot(), 0.0F);
         payload.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(payload.blockPosition()),
                 EntitySpawnReason.MOB_SUMMONED, null);
         if (owner != null) {
@@ -233,29 +239,32 @@ public final class BombEntity extends Entity {
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag tag) {
-        if (tag.hasUUID("owner")) {
-            ownerId = tag.getUUID("owner");
-        }
-        setFuse(tag.contains("Fuse") ? tag.getShortOr("Fuse", (short)0) : 80);
-        setSkin(tag.getIntOr("parasitetype", 0));
-        strength = tag.contains("stren") ? tag.getFloatOr("stren", 0.0F) : 4.0F;
-        damage = tag.getFloatOr("damage", 0.0F);
-        rangeRadius = Math.max(0, tag.getIntOr("range_radius", 0));
-        canGrief = tag.getBooleanOr("cangrief", false);
+    protected void readAdditionalSaveData(ValueInput input) {
+        input.getIntArray("owner").map(UUIDUtil::uuidFromIntArray).ifPresent(id -> ownerId = id);
+        setFuse(input.getShortOr("Fuse", (short) 80));
+        setSkin(input.getIntOr("parasitetype", 0));
+        strength = input.getFloatOr("stren", 4.0F);
+        damage = input.getFloatOr("damage", 0.0F);
+        rangeRadius = Math.max(0, input.getIntOr("range_radius", 0));
+        canGrief = input.getBooleanOr("cangrief", false);
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag tag) {
+    protected void addAdditionalSaveData(ValueOutput output) {
         if (ownerId != null) {
-            tag.putUUID("owner", ownerId);
+            output.putIntArray("owner", UUIDUtil.uuidToIntArray(ownerId));
         }
-        tag.putShort("Fuse", (short) fuseTicks);
-        tag.putInt("parasitetype", getSkin());
-        tag.putFloat("stren", strength);
-        tag.putFloat("damage", damage);
-        tag.putInt("range_radius", rangeRadius);
-        tag.putBoolean("cangrief", canGrief);
+        output.putShort("Fuse", (short) fuseTicks);
+        output.putInt("parasitetype", getSkin());
+        output.putFloat("stren", strength);
+        output.putFloat("damage", damage);
+        output.putInt("range_radius", rangeRadius);
+        output.putBoolean("cangrief", canGrief);
+    }
+
+    @Override
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+        return false;
     }
 
     @Override

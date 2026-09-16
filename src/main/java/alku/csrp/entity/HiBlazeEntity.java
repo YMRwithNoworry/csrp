@@ -75,7 +75,7 @@ public final class HiBlazeEntity extends HijackedParasiteEntity implements Citad
     }
 
     @Override
-    public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
+    public boolean causeFallDamage(double distance, float damageMultiplier, DamageSource source) {
         return false;
     }
 

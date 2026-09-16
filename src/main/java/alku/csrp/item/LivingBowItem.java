@@ -1,6 +1,7 @@
 package alku.csrp.item;
 
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 import alku.csrp.Config;
 import alku.csrp.registry.ModMobEffects;
@@ -11,16 +12,18 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.entity.projectile.Arrow;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
+import net.minecraft.world.entity.projectile.arrow.Arrow;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import javax.annotation.Nullable;
 
@@ -41,15 +44,15 @@ public final class LivingBowItem extends BowItem {
     public Supplier<? extends Item> next() { return next; }
 
     @Override
-    public void releaseUsing(ItemStack weapon, Level level, LivingEntity user, int timeLeft) {
-        if (!(user instanceof Player player)) return;
+    public boolean releaseUsing(ItemStack weapon, Level level, LivingEntity user, int timeLeft) {
+        if (!(user instanceof Player player)) return false;
         ItemStack ammo = player.getProjectile(weapon);
-        if (ammo.isEmpty()) return;
+        if (ammo.isEmpty()) return false;
         int charge = getUseDuration(weapon, user) - timeLeft;
         charge = net.neoforged.neoforge.event.EventHooks.onArrowLoose(weapon, level, player, charge, true);
-        if (charge < 0) return;
+        if (charge < 0) return false;
         float power = getPowerForTime(charge);
-        if (power < 0.1F) return;
+        if (power < 0.1F) return false;
         List<ItemStack> projectiles = draw(weapon, ammo, player);
         if (level instanceof ServerLevel serverLevel && !projectiles.isEmpty()) {
             DRAW_SECONDS.set(charge / 20.0D);
@@ -64,6 +67,7 @@ public final class LivingBowItem extends BowItem {
                 SoundSource.PLAYERS, 1.0F,
                 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + power * 0.5F);
         player.awardStat(Stats.ITEM_USED.get(this));
+        return true;
     }
 
     @Override
@@ -73,7 +77,7 @@ public final class LivingBowItem extends BowItem {
                 0.0F, velocity, inaccuracy);
         if (projectile instanceof AbstractArrow arrow) {
             double multiplier = Math.min(DRAW_SECONDS.get(), 2.0D);
-            arrow.setBaseDamage(arrow.getBaseDamage() * multiplier + 1.0D);
+            arrow.setBaseDamage(2.0D * multiplier + 1.0D);
         }
         if (projectile instanceof Arrow arrow) {
             arrow.addEffect(new MobEffectInstance(ModMobEffects.BLEED, 200, 0, false, true));
@@ -82,9 +86,9 @@ public final class LivingBowItem extends BowItem {
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, Level level, net.minecraft.world.entity.Entity entity,
-            int slot, boolean selected) {
-        super.inventoryTick(stack, level, entity, slot, selected);
+    public void inventoryTick(ItemStack stack, ServerLevel level, net.minecraft.world.entity.Entity entity,
+            EquipmentSlot slot) {
+        super.inventoryTick(stack, level, entity, slot);
         if (!level.isClientSide() && sentient && entity instanceof LivingEntity holder
                 && holder.tickCount % 40 == 0 && Config.evolutionPhase(level) >= 2
                 && holder.getRandom().nextInt(10) == 0) {
@@ -100,10 +104,11 @@ public final class LivingBowItem extends BowItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
-        super.appendHoverText(stack, context, tooltip, flag);
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay display,
+            Consumer<Component> tooltip, TooltipFlag flag) {
+        super.appendHoverText(stack, context, display, tooltip, flag);
         int damage = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag().getIntOr(DAMAGE, 0);
-        tooltip.add(Component.translatable("tooltip.csrp.living_progress", damage, EVOLUTION_DAMAGE));
+        tooltip.accept(Component.translatable("tooltip.csrp.living_progress", damage, EVOLUTION_DAMAGE));
     }
 
     private static final class CompoundData {
@@ -111,9 +116,10 @@ public final class LivingBowItem extends BowItem {
                 Supplier<? extends Item> next, String key, int threshold) {
             if (sentient || next == null || stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
                     .copyTag().getIntOr(key, 0) < threshold) return;
+            if (!(holder.level() instanceof ServerLevel serverLevel)) return;
             ItemStack evolved = new ItemStack(next.get());
             stack.shrink(1);
-            holder.spawnAtLocation(evolved);
+            holder.spawnAtLocation(serverLevel, evolved);
         }
     }
 }

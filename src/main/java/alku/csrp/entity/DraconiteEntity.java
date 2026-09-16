@@ -5,7 +5,6 @@ import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -25,6 +24,8 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import alku.csrp.animation.CitadelAnimationManager;
 import alku.csrp.animation.CitadelAnimationController;
@@ -370,8 +371,8 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
     }
 
     @Override
-    public boolean doHurtTarget(Entity entity) {
-        boolean hurt = super.doHurtTarget(entity);
+    public boolean doHurtTarget(ServerLevel level, Entity entity) {
+        boolean hurt = super.doHurtTarget(level, entity);
         if (hurt && entity instanceof LivingEntity target) {
             target.igniteForSeconds(5.0F);
         }
@@ -379,8 +380,8 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
-        return super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+        return super.hurtServer(level, source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
     }
 
     public boolean isFlying() {
@@ -415,7 +416,7 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
+    public void addAdditionalSaveData(ValueOutput tag) {
         super.addAdditionalSaveData(tag);
         tag.putBoolean("flying", isFlying());
         tag.putInt("parasite_status", getParasiteStatus());
@@ -430,21 +431,22 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
+    public void readAdditionalSaveData(ValueInput tag) {
         super.readAdditionalSaveData(tag);
         setFlying(tag.getBooleanOr("flying", false));
-        setParasiteStatus(tag.contains("parasite_status")
+        setParasiteStatus(tag.getInt("parasite_status").isPresent()
                 ? tag.getIntOr("parasite_status", 0) : STATUS_IDLE);
-        salivaCooldown = tag.contains("saliva_cooldown") ? tag.getIntOr("saliva_cooldown", 0)
+        salivaCooldown = tag.getInt("saliva_cooldown").isPresent() ? tag.getIntOr("saliva_cooldown", 0)
                 : tag.getIntOr("toxic_cloud_cooldown", 0);
         meteorCooldown = tag.getIntOr("meteor_cooldown", 0);
         lightCooldown = tag.getIntOr("light_cooldown", 0);
         fireBreathCooldown = tag.getIntOr("fire_breath_cooldown", 0);
         fireBreathTicks = tag.getIntOr("fire_breath_ticks", 0);
         meteorRainTicks = tag.getIntOr("meteor_rain_ticks", 0);
-        fireBreathTarget = tag.contains("fire_breath_target")
+        fireBreathTarget = tag.getLong("fire_breath_target").isPresent()
                 ? BlockPos.of(tag.getLongOr("fire_breath_target", 0L)) : BlockPos.ZERO;
-        meteorTarget = tag.contains("meteor_target") ? BlockPos.of(tag.getLongOr("meteor_target", 0L)) : BlockPos.ZERO;
+        meteorTarget = tag.getLong("meteor_target").isPresent()
+                ? BlockPos.of(tag.getLongOr("meteor_target", 0L)) : BlockPos.ZERO;
         entityData.set(FIRE_BREATH_TICKS, fireBreathTicks);
         entityData.set(FIRE_BREATH_TARGET, fireBreathTarget);
         entityData.set(METEOR_TICKS, meteorRainTicks);
@@ -520,7 +522,7 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
             }
             if (attackCooldown > 0) attackCooldown--;
             if (distanceToSqr(target) < 16.0D && attackCooldown <= 0) {
-                doHurtTarget(target);
+                doHurtTarget(getServerLevel(DraconiteEntity.this), target);
                 attackCooldown = 20;
             }
         }

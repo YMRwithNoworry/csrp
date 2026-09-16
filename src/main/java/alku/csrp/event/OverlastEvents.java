@@ -23,7 +23,9 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -46,17 +48,17 @@ public final class OverlastEvents {
     public static final ResourceKey<Enchantment> PARASITE_KILLER = ResourceKey.create(
             Registries.ENCHANTMENT, Identifier.fromNamespaceAndPath(Csrp.MODID, "parasite_killer"));
     private static final Map<String, EntityType<?>> CURED_FORMS = Map.ofEntries(
-            Map.entry("sim_bigspider", EntityType.SPIDER),
-            Map.entry("sim_bear", EntityType.POLAR_BEAR),
-            Map.entry("sim_cow", EntityType.COW),
-            Map.entry("sim_enderman", EntityType.ENDERMAN),
-            Map.entry("sim_horse", EntityType.HORSE),
-            Map.entry("sim_human", EntityType.ZOMBIE),
-            Map.entry("sim_adventurer", EntityType.ZOMBIE),
-            Map.entry("sim_pig", EntityType.PIG),
-            Map.entry("sim_sheep", EntityType.SHEEP),
-            Map.entry("sim_villager", EntityType.VILLAGER),
-            Map.entry("sim_wolf", EntityType.WOLF));
+            Map.entry("sim_bigspider", EntityTypes.SPIDER),
+            Map.entry("sim_bear", EntityTypes.POLAR_BEAR),
+            Map.entry("sim_cow", EntityTypes.COW),
+            Map.entry("sim_enderman", EntityTypes.ENDERMAN),
+            Map.entry("sim_horse", EntityTypes.HORSE),
+            Map.entry("sim_human", EntityTypes.ZOMBIE),
+            Map.entry("sim_adventurer", EntityTypes.ZOMBIE),
+            Map.entry("sim_pig", EntityTypes.PIG),
+            Map.entry("sim_sheep", EntityTypes.SHEEP),
+            Map.entry("sim_villager", EntityTypes.VILLAGER),
+            Map.entry("sim_wolf", EntityTypes.WOLF));
     private static final List<Holder<MobEffect>> PURIFIED_EFFECTS = List.of(
             ModMobEffects.COTH, ModMobEffects.FEAR, ModMobEffects.BLEED,
             ModMobEffects.CORROSIVE, ModMobEffects.VIRAL, ModMobEffects.REPEL);
@@ -112,8 +114,8 @@ public final class OverlastEvents {
         if (!living.hasEffect(ModMobEffects.PARASITES_PURIFY)) {
             InfectionMechanics.applyCothEffect(living, null, 60, strength == 0 ? 1 : 3, false, false);
         }
-        living.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 60, strength == 0 ? 2 : 3, false, false));
-        living.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 60, 2, false, false));
+        living.addEffect(new MobEffectInstance(MobEffects.STRENGTH, 60, strength == 0 ? 2 : 3, false, false));
+        living.addEffect(new MobEffectInstance(MobEffects.SPEED, 60, 2, false, false));
         living.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 60, strength == 0 ? 1 : 2, false, false));
         living.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 60, 0, false, false));
     }
@@ -124,9 +126,9 @@ public final class OverlastEvents {
         if (restoredType == null) {
             return;
         }
-        Entity restored = restoredType.create(level);
+        Entity restored = restoredType.create(level, EntitySpawnReason.CONVERSION);
         if (restored != null) {
-            restored.moveTo(parasite.getX(), parasite.getY(), parasite.getZ(), parasite.getYRot(), parasite.getXRot());
+            restored.snapTo(parasite.getX(), parasite.getY(), parasite.getZ(), parasite.getYRot(), parasite.getXRot());
             level.addFreshEntity(restored);
             parasite.discard();
             level.levelEvent(2001, parasite.blockPosition(), 0);
@@ -161,19 +163,19 @@ public final class OverlastEvents {
                 || !(attacker.level() instanceof ServerLevel level)) {
             return;
         }
-        Holder<Enchantment> enchantment = level.registryAccess().registryOrThrow(Registries.ENCHANTMENT)
-                .getHolder(PARASITE_KILLER).orElse(null);
+        Holder<Enchantment> enchantment = level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT)
+                .get(PARASITE_KILLER).orElse(null);
         if (enchantment == null) {
             return;
         }
         int enchantmentLevel = EnchantmentHelper.getItemEnchantmentLevel(enchantment, attacker.getMainHandItem());
-        if (enchantmentLevel <= 0 || level.random.nextFloat() > 0.3F + 0.1F * enchantmentLevel) {
+        if (enchantmentLevel <= 0 || level.getRandom().nextFloat() > 0.3F + 0.1F * enchantmentLevel) {
             return;
         }
         event.setAmount(event.getAmount() * 1.2F + 1.25F + 0.75F * enchantmentLevel);
         List<MobEffectInstance> effects = List.copyOf(event.getEntity().getActiveEffects());
         if (!effects.isEmpty()) {
-            event.getEntity().removeEffect(effects.get(level.random.nextInt(effects.size())).getEffect());
+            event.getEntity().removeEffect(effects.get(level.getRandom().nextInt(effects.size())).getEffect());
         }
     }
 
@@ -182,10 +184,9 @@ public final class OverlastEvents {
         if (!(event.getEntity() instanceof ServerPlayer player)) {
             return;
         }
-        SrpWorldData data = SrpWorldData.get(player.serverLevel());
+        SrpWorldData data = SrpWorldData.get(player.level());
         int phase = data.evolutionPhase();
-        int minutePoints = 0;
-        if (phase >= 3 && phase <= 7) {
+        int minutePoints = 0;        if (phase >= 3 && phase <= 7) {
             int span = EvolutionSystem.thresholdForPhase(phase + 1) - EvolutionSystem.thresholdForPhase(phase);
             minutePoints = (int) Math.floor((span / 4_000.0D) * Config.overlastNaturalEvolutionScale());
         }
@@ -197,7 +198,7 @@ public final class OverlastEvents {
     }
 
     private static void syncHud(ServerPlayer player) {
-        SrpWorldData data = SrpWorldData.get(player.serverLevel());
+        SrpWorldData data = SrpWorldData.get(player.level());
         int phase = data.evolutionPhase();
         int current = EvolutionSystem.thresholdForPhase(phase);
         int next = phase >= 10 ? EvolutionSystem.thresholdForPhase(10)

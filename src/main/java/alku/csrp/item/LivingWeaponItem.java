@@ -1,21 +1,25 @@
 package alku.csrp.item;
 
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.EntityTypes;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.component.TooltipDisplay;
 import alku.csrp.registry.ModTiers;
 import alku.csrp.Csrp;
 import alku.csrp.registry.ModMobEffects;
@@ -26,7 +30,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import alku.csrp.Config;
 
-public class LivingWeaponItem extends SwordItem {
+public class LivingWeaponItem extends Item {
     public static final String KILLS = "srp_kills";
     private static final int EVOLUTION_HEALTH = 50_000;
     private static final ThreadLocal<Boolean> SCYTHE_SWEEP = ThreadLocal.withInitial(() -> false);
@@ -37,10 +41,17 @@ public class LivingWeaponItem extends SwordItem {
 
     public LivingWeaponItem(WeaponKind kind, float damage, float attackSpeed, float reach, boolean sentient,
             Supplier<? extends Item> next, Item.Properties properties) {
-        super(ModTiers.LIVING, properties.attributes(SwordItem.createAttributes(ModTiers.LIVING, damage - 1.0F, attackSpeed)
-                .withModifierAdded(Attributes.ENTITY_INTERACTION_RANGE,
-                        new AttributeModifier(Identifier.fromNamespaceAndPath(Csrp.MODID, "living_weapon_reach"),
-                                reach, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)));
+        super(properties.sword(ModTiers.LIVING, damage - 1.0F, attackSpeed)
+                .attributes(ItemAttributeModifiers.builder()
+                        .add(Attributes.ATTACK_DAMAGE, new AttributeModifier(Item.BASE_ATTACK_DAMAGE_ID,
+                                damage - 1.0F + ModTiers.LIVING.attackDamageBonus(),
+                                AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+                        .add(Attributes.ATTACK_SPEED, new AttributeModifier(Item.BASE_ATTACK_SPEED_ID,
+                                attackSpeed, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+                        .build()
+                        .withModifierAdded(Attributes.ENTITY_INTERACTION_RANGE,
+                                new AttributeModifier(Identifier.fromNamespaceAndPath(Csrp.MODID, "living_weapon_reach"),
+                                        reach, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)));
         this.sentient = sentient;
         this.next = next;
         this.reach = reach;
@@ -51,15 +62,14 @@ public class LivingWeaponItem extends SwordItem {
     public float getReach() { return reach; }
 
     @Override
-    public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        boolean result = super.hurtEnemy(stack, target, attacker);
-        if (result && !target.level().isClientSide()) applyWeaponEffect(stack, target, attacker);
-        if (result && !target.level().isClientSide() && target.isDeadOrDying()) {
+    public void hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        super.hurtEnemy(stack, target, attacker);
+        if (!target.level().isClientSide()) applyWeaponEffect(stack, target, attacker);
+        if (!target.level().isClientSide() && target.isDeadOrDying()) {
             CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> {
                 tag.putInt(KILLS, tag.getIntOr(KILLS, 0) + Math.round(target.getMaxHealth()));
             });
         }
-        return result;
     }
 
     private void applyWeaponEffect(ItemStack stack, LivingEntity target, LivingEntity attacker) {
@@ -110,10 +120,10 @@ public class LivingWeaponItem extends SwordItem {
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, Level level, net.minecraft.world.entity.Entity entity,
-            int slot, boolean selected) {
-        super.inventoryTick(stack, level, entity, slot, selected);
-        if (level.isClientSide() || !(entity instanceof LivingEntity holder)) return;
+    public void inventoryTick(ItemStack stack, ServerLevel level, net.minecraft.world.entity.Entity entity,
+            EquipmentSlot slot) {
+        super.inventoryTick(stack, level, entity, slot);
+        if (!(entity instanceof LivingEntity holder)) return;
         if (sentient && holder.tickCount % 40 == 0 && Config.evolutionPhase(level) >= 2
                 && holder.getRandom().nextInt(100) == 0) {
             holder.addEffect(new MobEffectInstance(ModMobEffects.PREY, 1200, 0, false, false));
@@ -122,10 +132,11 @@ public class LivingWeaponItem extends SwordItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
-        super.appendHoverText(stack, context, tooltip, flag);
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay display,
+            Consumer<Component> tooltip, TooltipFlag flag) {
+        super.appendHoverText(stack, context, display, tooltip, flag);
         int kills = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag().getIntOr(KILLS, 0);
-        tooltip.add(Component.translatable("tooltip.csrp.living_progress", kills, EVOLUTION_HEALTH));
+        tooltip.accept(Component.translatable("tooltip.csrp.living_progress", kills, EVOLUTION_HEALTH));
     }
 
     protected void evolveIfReady(ItemStack stack, LivingEntity holder) {
@@ -134,11 +145,11 @@ public class LivingWeaponItem extends SwordItem {
         ItemStack evolved = new ItemStack(next.get());
         CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> tag.putInt(KILLS, 0));
         stack.shrink(1);
-        holder.spawnAtLocation(evolved);
         if (holder.level() instanceof ServerLevel serverLevel) {
-            LightningBolt lightning = EntityType.LIGHTNING_BOLT.create(serverLevel);
+            holder.spawnAtLocation(serverLevel, evolved);
+            LightningBolt lightning = EntityTypes.LIGHTNING_BOLT.create(serverLevel, EntitySpawnReason.EVENT);
             if (lightning != null) {
-                lightning.moveTo(holder.position());
+                lightning.snapTo(holder.position());
                 lightning.setVisualOnly(true);
                 serverLevel.addFreshEntity(lightning);
             }

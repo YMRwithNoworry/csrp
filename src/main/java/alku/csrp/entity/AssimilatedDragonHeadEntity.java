@@ -59,8 +59,8 @@ public final class AssimilatedDragonHeadEntity extends Monster implements Citade
         goalSelector.addGoal(6, new ParasiteFollowGoal(this));
         goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         targetSelector.addGoal(1, new HurtByTargetGoal(this));
-        targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, true,
-                target -> target instanceof net.minecraft.world.entity.player.Player));
+        targetSelector.addGoal(2, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, true,
+                (target, level) -> target instanceof net.minecraft.world.entity.player.Player));
     }
 
     @Override
@@ -78,10 +78,10 @@ public final class AssimilatedDragonHeadEntity extends Monster implements Citade
     }
 
     @Override
-    public boolean doHurtTarget(Entity entity) {
+    public boolean doHurtTarget(ServerLevel serverLevel, Entity entity) {
         LivingEntity livingTarget = entity instanceof LivingEntity living ? living : null;
         float healthBefore = livingTarget == null ? 0.0F : ParasiteCombatEffects.healthWithAbsorption(livingTarget);
-        boolean hit = super.doHurtTarget(entity);
+        boolean hit = super.doHurtTarget(serverLevel, entity);
         if (hit && livingTarget != null) {
             ParasiteCombatEffects.applyFearFromDamage(livingTarget, healthBefore, this);
             InfectionMechanics.applyCoth(livingTarget, this);
@@ -90,11 +90,10 @@ public final class AssimilatedDragonHeadEntity extends Monster implements Citade
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
-        return super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
+    public boolean hurtServer(ServerLevel serverLevel, DamageSource source, float amount) {
+        return super.hurtServer(serverLevel, source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
     }
 
-    @Override
     public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
         return super.causeFallDamage(distance, damageMultiplier * 0.3F, source);
     }

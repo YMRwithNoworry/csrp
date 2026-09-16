@@ -1,6 +1,7 @@
 package alku.csrp.world;
 
 import alku.csrp.Config;
+import com.mojang.serialization.Codec;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -8,18 +9,22 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
+import net.minecraft.world.level.saveddata.SavedDataType;
 
 public final class SrpWorldData extends SavedData {
     private static final String DATA_NAME = "csrp_world_data";
     private static final int DATA_VERSION = 4;
-    private static final Factory<SrpWorldData> FACTORY = new Factory<>(SrpWorldData::new, SrpWorldData::load);
+    private static final Codec<SrpWorldData> CODEC =
+            CompoundTag.CODEC.xmap(SrpWorldData::load, SrpWorldData::save);
+    private static final SavedDataType<SrpWorldData> TYPE = new SavedDataType<>(
+            Identifier.fromNamespaceAndPath("csrp", DATA_NAME), SrpWorldData::new, CODEC);
     private static final int[] DISLODGMENT_PHASE_COOLDOWN_MULTIPLIER = {1, 4, 3, 3, 4, 5, 6, 7, 8, 9, 10};
 
     private boolean initialized;
@@ -54,7 +59,7 @@ public final class SrpWorldData extends SavedData {
     private final Map<String, Integer> globalAdaptations = new LinkedHashMap<>();
 
     public static SrpWorldData get(ServerLevel level) {
-        SrpWorldData data = level.getDataStorage().computeIfAbsent(FACTORY, DATA_NAME);
+        SrpWorldData data = level.getDataStorage().computeIfAbsent(TYPE);
         if (!data.initialized) {
             data.initialize(level);
         }
@@ -68,7 +73,7 @@ public final class SrpWorldData extends SavedData {
         return data;
     }
 
-    private static SrpWorldData load(CompoundTag tag, HolderLookup.Provider registries) {
+    private static SrpWorldData load(CompoundTag tag) {
         SrpWorldData data = new SrpWorldData();
         data.dataVersion = tag.getIntOr("data_version", 0);
         data.initialized = tag.contains("evolution_phase");
@@ -93,11 +98,11 @@ public final class SrpWorldData extends SavedData {
         data.eveMode = tag.getBooleanOr("eve_mode", false);
         data.dislodgmentTriggerCooldownEnd = tag.getLongOr("dislodgment_trigger_cooldown_end", 0L);
         data.reinforcementCooldownEnd = tag.getLongOr("reinforcement_cooldown_end", 0L);
-        long[] dislodgmentCooldowns = tag.getLongArray("dislodgment_cooldown_ends");
+        long[] dislodgmentCooldowns = tag.getLongArray("dislodgment_cooldown_ends").orElse(new long[0]);
         System.arraycopy(dislodgmentCooldowns, 0, data.dislodgmentCooldownEnds, 0,
                 Math.min(dislodgmentCooldowns.length, data.dislodgmentCooldownEnds.length));
 
-        for (int id : tag.getIntArray("locked_parasites")) {
+        for (int id : tag.getIntArray("locked_parasites").orElse(new int[0])) {
             data.lockedParasites.add(id);
         }
         readNodes(tag, data.nodes);
@@ -108,36 +113,37 @@ public final class SrpWorldData extends SavedData {
         return data;
     }
 
-    @Override
-    public CompoundTag save(CompoundTag tag, HolderLookup.Provider registries) {
-        tag.putBoolean("initialized", initialized);
+    private static CompoundTag save(SrpWorldData data) {
+        CompoundTag tag = new CompoundTag();
+        tag.putBoolean("initialized", data.initialized);
         tag.putInt("data_version", DATA_VERSION);
-        tag.putInt("evolution_phase", evolutionPhase);
-        tag.putInt("evolution_points", evolutionPoints);
-        tag.putString("srp_difficulty", difficulty.id());
-        tag.putString("star_type", starType.id());
-        if (meteorInfection != null) {
-            tag.putString("meteor_infection", meteorInfection.id());
+        tag.putInt("evolution_phase", data.evolutionPhase);
+        tag.putInt("evolution_points", data.evolutionPoints);
+        tag.putString("srp_difficulty", data.difficulty.id());
+        tag.putString("star_type", data.starType.id());
+        if (data.meteorInfection != null) {
+            tag.putString("meteor_infection", data.meteorInfection.id());
         }
-        tag.putDouble("difficulty_point_remainder", difficultyPointRemainder);
-        tag.putLong("cooldown_end", cooldownEnd);
-        tag.putBoolean("can_gain", canGain);
-        tag.putBoolean("can_lose", canLose);
-        tag.putInt("generation", generation);
-        tag.putInt("generation_ticks", generationTicks);
-        tag.putInt("assimilated_endermen", assimilatedEndermen);
-        tag.putDouble("passive_point_remainder", passivePointRemainder);
-        tag.putInt("ubiquitous_development", ubiquitousDevelopment);
-        tag.putBoolean("eve_mode", eveMode);
-        tag.putLong("dislodgment_trigger_cooldown_end", dislodgmentTriggerCooldownEnd);
-        tag.putLong("reinforcement_cooldown_end", reinforcementCooldownEnd);
-        tag.putLongArray("dislodgment_cooldown_ends", dislodgmentCooldownEnds);
-        tag.putIntArray("locked_parasites", lockedParasites);
-        writeNodes(tag, nodes);
-        writeColonies(tag, colonies);
-        writeVectors(tag, vectors);
-        writeDislodgmentCodes(tag, dislodgmentCodes);
-        writeGlobalAdaptations(tag, globalAdaptations);
+        tag.putDouble("difficulty_point_remainder", data.difficultyPointRemainder);
+        tag.putLong("cooldown_end", data.cooldownEnd);
+        tag.putBoolean("can_gain", data.canGain);
+        tag.putBoolean("can_lose", data.canLose);
+        tag.putInt("generation", data.generation);
+        tag.putInt("generation_ticks", data.generationTicks);
+        tag.putInt("assimilated_endermen", data.assimilatedEndermen);
+        tag.putDouble("passive_point_remainder", data.passivePointRemainder);
+        tag.putInt("ubiquitous_development", data.ubiquitousDevelopment);
+        tag.putBoolean("eve_mode", data.eveMode);
+        tag.putLong("dislodgment_trigger_cooldown_end", data.dislodgmentTriggerCooldownEnd);
+        tag.putLong("reinforcement_cooldown_end", data.reinforcementCooldownEnd);
+        tag.putLongArray("dislodgment_cooldown_ends", data.dislodgmentCooldownEnds);
+        tag.putIntArray("locked_parasites",
+                data.lockedParasites.stream().mapToInt(Integer::intValue).toArray());
+        writeNodes(tag, data.nodes);
+        writeColonies(tag, data.colonies);
+        writeVectors(tag, data.vectors);
+        writeDislodgmentCodes(tag, data.dislodgmentCodes);
+        writeGlobalAdaptations(tag, data.globalAdaptations);
         return tag;
     }
 
@@ -709,9 +715,9 @@ public final class SrpWorldData extends SavedData {
     }
 
     private static void readNodes(CompoundTag tag, List<NodeEntry> output) {
-        long[] positions = tag.getLongArray("node_positions");
-        int[] ages = tag.getIntArray("node_ages");
-        int[] types = tag.getIntArray("node_types");
+        long[] positions = tag.getLongArray("node_positions").orElse(new long[0]);
+        int[] ages = tag.getIntArray("node_ages").orElse(new int[0]);
+        int[] types = tag.getIntArray("node_types").orElse(new int[0]);
         for (int i = 0; i < Math.min(positions.length, Math.min(ages.length, types.length)); i++) {
             output.add(new NodeEntry(BlockPos.of(positions[i]), ages[i], types[i]));
         }
@@ -723,8 +729,8 @@ public final class SrpWorldData extends SavedData {
     }
 
     private static void readColonies(CompoundTag tag, List<ColonyEntry> output) {
-        long[] positions = tag.getLongArray("colony_positions");
-        int[] points = tag.getIntArray("colony_points");
+        long[] positions = tag.getLongArray("colony_positions").orElse(new long[0]);
+        int[] points = tag.getIntArray("colony_points").orElse(new int[0]);
         for (int i = 0; i < Math.min(positions.length, points.length); i++) {
             output.add(new ColonyEntry(BlockPos.of(positions[i]), points[i]));
         }
@@ -737,9 +743,9 @@ public final class SrpWorldData extends SavedData {
     }
 
     private static void readVectors(CompoundTag tag, List<VectorEntry> output) {
-        long[] positions = tag.getLongArray("vector_positions");
-        int[] health = tag.getIntArray("vector_health");
-        int[] radius = tag.getIntArray("vector_radius");
+        long[] positions = tag.getLongArray("vector_positions").orElse(new long[0]);
+        int[] health = tag.getIntArray("vector_health").orElse(new int[0]);
+        int[] radius = tag.getIntArray("vector_radius").orElse(new int[0]);
         for (int i = 0; i < Math.min(positions.length, Math.min(health.length, radius.length)); i++) {
             output.add(new VectorEntry(BlockPos.of(positions[i]), Math.max(1, health[i]),
                     Math.max(1, Math.min(200_000, radius[i]))));
@@ -753,9 +759,9 @@ public final class SrpWorldData extends SavedData {
     }
 
     private static void readDislodgmentCodes(CompoundTag tag, List<DislodgmentCode> output) {
-        int[] codes = tag.getIntArray("dislodgment_ids");
-        int[] values = tag.getIntArray("dislodgment_values");
-        long[] expiry = tag.getLongArray("dislodgment_expiry");
+        int[] codes = tag.getIntArray("dislodgment_ids").orElse(new int[0]);
+        int[] values = tag.getIntArray("dislodgment_values").orElse(new int[0]);
+        long[] expiry = tag.getLongArray("dislodgment_expiry").orElse(new long[0]);
         for (int i = 0; i < Math.min(codes.length, Math.min(values.length, expiry.length)); i++) {
             output.add(new DislodgmentCode(codes[i], values[i], expiry[i]));
         }

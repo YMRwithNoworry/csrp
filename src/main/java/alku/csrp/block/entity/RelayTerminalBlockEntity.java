@@ -8,13 +8,13 @@ import alku.csrp.registry.ModSounds;
 import alku.csrp.relay.RelayScanReportFactory;
 import java.util.UUID;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Prediction;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -22,6 +22,8 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 public final class RelayTerminalBlockEntity extends BaseContainerBlockEntity {
     public static final int CONTAINER_SIZE = 1;
@@ -148,7 +150,7 @@ public final class RelayTerminalBlockEntity extends BaseContainerBlockEntity {
         }
         for (ItemStack report : RelayScanReportFactory.createReports(serverLevel, worldPosition, scanKind)) {
             if (!player.getInventory().add(report)) {
-                player.drop(report, false);
+                player.drop(report, false, Prediction.SERVER_ONLY);
             }
         }
         serverLevel.playSound(null, worldPosition, ModSounds.get("relay.paper.output"),
@@ -176,30 +178,30 @@ public final class RelayTerminalBlockEntity extends BaseContainerBlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        ContainerHelper.saveAllItems(tag, items, registries);
-        tag.putLong("NextScanTick", nextScanTick);
-        tag.putInt("ScanTicks", scanTicks);
+    protected void saveAdditional(ValueOutput output) {
+        super.saveAdditional(output);
+        ContainerHelper.saveAllItems(output, items);
+        output.putLong("NextScanTick", nextScanTick);
+        output.putInt("ScanTicks", scanTicks);
         if (scanPlayer != null) {
-            tag.putUUID("ScanPlayer", scanPlayer);
+            output.store("ScanPlayer", UUIDUtil.CODEC, scanPlayer);
         }
         if (scanKind != null) {
-            tag.putString("ScanKind", scanKind.name());
+            output.putString("ScanKind", scanKind.name());
         }
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
+    protected void loadAdditional(ValueInput input) {
+        super.loadAdditional(input);
         items = NonNullList.withSize(CONTAINER_SIZE, ItemStack.EMPTY);
-        ContainerHelper.loadAllItems(tag, items, registries);
-        nextScanTick = tag.getLongOr("NextScanTick", 0L);
-        scanTicks = Math.max(0, tag.getIntOr("ScanTicks", 0));
-        scanPlayer = tag.hasUUID("ScanPlayer") ? tag.getUUID("ScanPlayer") : null;
-        if (tag.contains("ScanKind")) {
+        ContainerHelper.loadAllItems(input, items);
+        nextScanTick = input.getLongOr("NextScanTick", 0L);
+        scanTicks = Math.max(0, input.getIntOr("ScanTicks", 0));
+        scanPlayer = input.read("ScanPlayer", UUIDUtil.CODEC).orElse(null);
+        if (input.getString("ScanKind").isPresent()) {
             try {
-                scanKind = RelayModuleItem.Kind.valueOf(tag.getStringOr("ScanKind", ""));
+                scanKind = RelayModuleItem.Kind.valueOf(input.getStringOr("ScanKind", ""));
             } catch (IllegalArgumentException ignored) {
                 scanKind = null;
                 scanPlayer = null;

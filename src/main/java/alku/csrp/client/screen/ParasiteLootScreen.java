@@ -2,13 +2,13 @@ package alku.csrp.client.screen;
 
 import alku.csrp.Csrp;
 import alku.csrp.inventory.ParasiteLootMenu;
-import com.mojang.math.Axis;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
@@ -26,26 +26,18 @@ public final class ParasiteLootScreen extends AbstractContainerScreen<ParasiteLo
     private int guiTick;
 
     public ParasiteLootScreen(ParasiteLootMenu menu, Inventory inventory, Component title) {
-        super(menu, inventory, title);
-        imageWidth = 176;
-        imageHeight = 166;
+        super(menu, inventory, title, 176, 166);
     }
 
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-        renderBackground(graphics, mouseX, mouseY, partialTick);
-        super.render(graphics, mouseX, mouseY, partialTick);
-        renderTooltip(graphics, mouseX, mouseY);
+    protected void extractLabels(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
     }
 
     @Override
-    protected void renderLabels(GuiGraphics graphics, int mouseX, int mouseY) {
-    }
-
-    @Override
-    protected void renderBg(GuiGraphics graphics, float partialTick, int mouseX, int mouseY) {
+    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+        super.extractBackground(graphics, mouseX, mouseY, partialTick);
         drawBubbles(graphics);
-        graphics.blit(BACKGROUND, leftPos, topPos, 0, 0,
+        graphics.blit(RenderPipelines.GUI_TEXTURED, BACKGROUND, leftPos, topPos, 0.0F, 0.0F,
                 imageWidth, imageHeight, 256, 256);
 
         float fullness = Math.max(0.0F, Math.min(1.0F, menu.fullnessScaled() / 1_000.0F));
@@ -127,18 +119,16 @@ public final class ParasiteLootScreen extends AbstractContainerScreen<ParasiteLo
         }
     }
 
-    private void drawBubbles(GuiGraphics graphics) {
+    private void drawBubbles(GuiGraphicsExtractor graphics) {
         for (Bubble bubble : bubbles) {
             int size = Math.round(bubble.size);
-            graphics.pose().pushPose();
-            graphics.pose().translate(bubble.x + bubble.size / 2.0F,
-                    bubble.y + bubble.size / 2.0F, -100.0F);
-            graphics.pose().mulPose(Axis.ZP.rotationDegrees(bubble.rotation));
-            graphics.setColor(1.0F, 1.0F, 1.0F, bubble.alpha);
-            graphics.blit(BUBBLE_TEXTURE, -size / 2, -size / 2, size, size,
-                    0.0F, 0.0F, 7, 7, 7, 7);
-            graphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
-            graphics.pose().popPose();
+            int color = ((int) (Math.max(0.0F, Math.min(1.0F, bubble.alpha)) * 255.0F) << 24) | 0xFFFFFF;
+            graphics.pose().pushMatrix();
+            graphics.pose().translate(bubble.x + bubble.size / 2.0F, bubble.y + bubble.size / 2.0F);
+            graphics.pose().rotate((float) Math.toRadians(bubble.rotation));
+            graphics.blit(RenderPipelines.GUI_TEXTURED, BUBBLE_TEXTURE, -size / 2, -size / 2,
+                    0.0F, 0.0F, size, size, 7, 7, 7, 7, color);
+            graphics.pose().popMatrix();
         }
     }
 

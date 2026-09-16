@@ -22,6 +22,7 @@ import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.util.random.Weighted;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
@@ -33,8 +34,8 @@ import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
 import net.neoforged.neoforge.event.entity.living.MobSpawnEvent;
 import net.neoforged.neoforge.event.entity.player.ItemFishedEvent;
-import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
+import net.neoforged.neoforge.event.level.block.BreakBlockEvent;
 import net.neoforged.neoforge.event.level.block.CropGrowEvent;
 import net.neoforged.neoforge.event.level.SleepFinishedTimeEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
@@ -136,7 +137,7 @@ public final class EvolutionEvents {
     }
 
     @SubscribeEvent
-    public static void removeInfestedBlockPoints(BlockEvent.BreakEvent event) {
+    public static void removeInfestedBlockPoints(BreakBlockEvent event) {
         if (!(event.getLevel() instanceof ServerLevel level)) {
             return;
         }
@@ -151,7 +152,7 @@ public final class EvolutionEvents {
     @SubscribeEvent
     public static void slowCropGrowth(CropGrowEvent.Pre event) {
         if (event.getLevel() instanceof ServerLevel level
-                && level.random.nextFloat() < EvolutionSystem.cropGrowthBlockChance(
+                && level.getRandom().nextFloat() < EvolutionSystem.cropGrowthBlockChance(
                         SrpWorldData.get(level).evolutionPhase())) {
             event.setResult(CropGrowEvent.Pre.Result.DO_NOT_GROW);
         }
@@ -209,7 +210,7 @@ public final class EvolutionEvents {
             return;
         }
         for (var entry : List.copyOf(event.getSpawnerDataList())) {
-            Identifier id = BuiltInRegistries.ENTITY_TYPE.getKey(entry.type);
+            Identifier id = BuiltInRegistries.ENTITY_TYPE.getKey(entry.value().type());
             if (id.getNamespace().equals(Csrp.MODID)) {
                 event.removeSpawnerData(entry);
             }
@@ -218,9 +219,9 @@ public final class EvolutionEvents {
             return;
         }
         for (var entry : NaturalSpawnTables.select(level, event.getPos())) {
-            String path = BuiltInRegistries.ENTITY_TYPE.getKey(entry.type).getPath();
+            String path = BuiltInRegistries.ENTITY_TYPE.getKey(entry.type()).getPath();
             if (EvolutionSystem.crossDimensionUnlocked(level, path)) {
-                event.addSpawnerData(entry);
+                event.addSpawnerData(new Weighted<>(entry, 1));
             }
         }
     }
@@ -277,7 +278,7 @@ public final class EvolutionEvents {
             return;
         }
         int phase = SrpWorldData.get(level).evolutionPhase();
-        if (level.random.nextFloat() < EvolutionSystem.phaseCothChance(phase)) {
+        if (level.getRandom().nextFloat() < EvolutionSystem.phaseCothChance(phase)) {
             InfectionMechanics.applyCoth(event.getEntity(), null);
         }
     }

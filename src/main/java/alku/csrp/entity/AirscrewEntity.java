@@ -1,10 +1,8 @@
 package alku.csrp.entity;
 
 import alku.csrp.registry.ModEntities;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -25,6 +23,8 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import alku.csrp.animation.CitadelAnimationManager;
 import alku.csrp.animation.CitadelAnimationController;
@@ -37,6 +37,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import net.minecraft.world.entity.EntitySpawnReason;
 
 public final class AirscrewEntity extends CrudeParasiteEntity implements PullingBallOwner {
     private static final float LEGACY_MOUTH_HEIGHT = 0.5F;
@@ -168,7 +169,7 @@ public final class AirscrewEntity extends CrudeParasiteEntity implements Pulling
                     iterator.remove();
                     continue;
                 }
-                doHurtTarget(target);
+                doHurtTarget((ServerLevel) level(), target);
             }
         }
         syncPullTargets();
@@ -184,20 +185,20 @@ public final class AirscrewEntity extends CrudeParasiteEntity implements Pulling
         float consumedHealth = target.getHealth();
         target.discard();
         Mob incomplete = random.nextBoolean()
-                ? ModEntities.INCOMPLETEFORM_SMALL.get().create(serverLevel)
-                : ModEntities.INCOMPLETEFORM_MEDIUM.get().create(serverLevel);
+                ? ModEntities.INCOMPLETEFORM_SMALL.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED)
+                : ModEntities.INCOMPLETEFORM_MEDIUM.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (incomplete == null) {
             return;
         }
-        incomplete.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        incomplete.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         incomplete.setTarget(getTarget());
         serverLevel.addFreshEntity(incomplete);
         heal(Math.max(1.0F, consumedHealth * 0.2F));
     }
 
     @Override
-    public boolean doHurtTarget(Entity target) {
-        boolean hit = super.doHurtTarget(target);
+    public boolean doHurtTarget(ServerLevel level, Entity target) {
+        boolean hit = super.doHurtTarget(level, target);
         if (hit) {
         }
         return hit;
@@ -293,7 +294,7 @@ public final class AirscrewEntity extends CrudeParasiteEntity implements Pulling
     }
 
     private void shootPullingBall(LivingEntity target) {
-        PullingBallEntity ball = ModEntities.PULLING_BALL.get().create(level());
+        PullingBallEntity ball = ModEntities.PULLING_BALL.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (ball == null) return;
         Vec3 start = getTetherMouthPosition(1.0F).add(getViewVector(1.0F).scale(0.5));
         Vec3 direction = target.getEyePosition().subtract(start).normalize();
@@ -304,34 +305,34 @@ public final class AirscrewEntity extends CrudeParasiteEntity implements Pulling
     }
 
     @Override
-    public boolean causeFallDamage(float distance, float multiplier, DamageSource source) {
+    public boolean causeFallDamage(double distance, float multiplier, DamageSource source) {
         return false;
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        ListTag targets = new ListTag();
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        ValueOutput.ValueOutputList targets = output.childrenList("pull_targets");
         pullTargets.forEach(id -> {
-            CompoundTag entry = new CompoundTag();
-            entry.putUUID("id", id);
-            targets.add(entry);
+            ValueOutput entry = targets.addChild();
+            entry.store("id", UUIDUtil.CODEC, id);
         });
-        tag.put("pull_targets", targets);
-        tag.putInt("pull_ticks", pullTicks);
-        tag.putInt("volley_cooldown", volleyCooldown);
+        output.putInt("pull_ticks", pullTicks);
+        output.putInt("volley_cooldown", volleyCooldown);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
         pullTargets.clear();
-        for (Tag raw : tag.getListOrEmpty("pull_targets")) {
-            CompoundTag entry = (CompoundTag) raw;
-            if (entry.hasUUID("id") && pullTargets.size() < MAX_PULL_TARGETS) pullTargets.add(entry.getUUID("id"));
+        for (ValueInput entry : input.childrenListOrEmpty("pull_targets")) {
+            if (pullTargets.size() >= MAX_PULL_TARGETS) {
+                break;
+            }
+            entry.read("id", UUIDUtil.CODEC).ifPresent(pullTargets::add);
         }
-        pullTicks = tag.getIntOr("pull_ticks", 0);
-        volleyCooldown = tag.getIntOr("volley_cooldown", 0);
+        pullTicks = input.getIntOr("pull_ticks", 0);
+        volleyCooldown = input.getIntOr("volley_cooldown", 0);
         syncPullTargets();
     }
 

@@ -49,6 +49,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gamerules.GameRules;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.util.Mth;
@@ -173,8 +175,9 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
         LivingEntity target = getTarget();
         if (profile == null || blockBreakCooldown > 0 || target == null || !target.isAlive()
                 || distanceToSqr(target) > 4096.0D
-                || !level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)
-                || !EventHooks.canEntityGrief(level(), this)) {
+                || !(level() instanceof ServerLevel serverLevel)
+                || !serverLevel.getGameRules().get(GameRules.MOB_GRIEFING)
+                || !EventHooks.canEntityGrief(serverLevel, this)) {
             return;
         }
         int baseX = Mth.floor(getX());
@@ -295,7 +298,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
         if (usesDefaultTargetGoals()) {
             targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
             targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,
-                    true, false, this::isValidParasiteTarget));
+                    true, false, (target, level) -> isValidParasiteTarget(target)));
         }
     }
 
@@ -319,7 +322,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
         lastDamageAdaptationReduction = 0.0F;
         if (!level().isClientSide()) {
             entityData.set(ADAPTATION_HIT_STATUS, (byte) 0);
@@ -335,10 +338,10 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
             amount = ParasiteCombatEffects.damageAfterKillingResistance(source, amount, resistanceEffect);
         }
         if (!usesDamageAdaptation()) {
-            return hurtWithIncomingDamageCap(source, amount);
+            return hurtWithIncomingDamageCap(level, source, amount);
         }
         if (source.is(DamageTypes.IN_WALL) || source.is(DamageTypes.FELL_OUT_OF_WORLD)) {
-            return hurtWithIncomingDamageCap(source, amount);
+            return hurtWithIncomingDamageCap(level, source, amount);
         }
         if (!level().isClientSide() && (isOnFire() || source.is(DamageTypeTags.IS_FIRE))
                 && random.nextFloat() < fireAdaptationSuppressionChance()) {
@@ -363,7 +366,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
                 * damageAdaptationPerHit() * damageAdaptationEffectiveness());
         float adaptedDamage = amount * (1.0F - reduction);
         lastDamageAdaptationReduction = Math.max(0.0F, amount - adaptedDamage);
-        boolean hurt = hurtWithIncomingDamageCap(source, adaptedDamage);
+        boolean hurt = hurtWithIncomingDamageCap(level, source, adaptedDamage);
         if (hurt && !level().isClientSide() && hitStatus != 0) {
             playSound(hitStatus == 2 ? ModSounds.ADAPTATION_FULL.get() : ModSounds.ADAPTATION_PARTIAL.get(),
                     getSoundVolume(), getVoicePitch());
@@ -393,11 +396,11 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
     }
 
     @Override
-    public boolean doHurtTarget(Entity target) {
-        boolean hit = !(target instanceof Parasite) && super.doHurtTarget(target);
+    public boolean doHurtTarget(ServerLevel level, Entity target) {
+        boolean hit = !(target instanceof Parasite) && super.doHurtTarget(level, target);
         if (hit) {
-            if (!swinging) {
-                swing(InteractionHand.MAIN_HAND);
+            if (!isSwinging()) {
+                swingForAttack(InteractionHand.MAIN_HAND);
             }
             spawnAttackParticles(target);
         }
@@ -419,10 +422,10 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
         return 1;
     }
 
-    private boolean hurtWithIncomingDamageCap(DamageSource source, float amount) {
+    private boolean hurtWithIncomingDamageCap(ServerLevel level, DamageSource source, float amount) {
         int divisor = incomingDamageCapDivisor();
         if (divisor <= 1 || source.is(DamageTypeTags.IS_FIRE) || source.is(DamageTypes.FELL_OUT_OF_WORLD)) {
-            return super.hurt(source, amount);
+            return super.hurtServer(level, source, amount);
         }
         float maximumHealth = getMaxHealth();
         float cappedDamage = maximumHealth / divisor + maximumHealth % divisor * 0.5F;
@@ -439,7 +442,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
         boolean previousBypass = bypassArmorForDamageCap;
         bypassArmorForDamageCap = reachedCap;
         try {
-            return super.hurt(source, Math.min(amount, cappedDamage));
+            return super.hurtServer(level, source, Math.min(amount, cappedDamage));
         } finally {
             bypassArmorForDamageCap = previousBypass;
         }
@@ -702,11 +705,11 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
     }
 
     @Override
-    public boolean killedEntity(ServerLevel level, LivingEntity victim) {
+    public boolean killedEntity(ServerLevel level, LivingEntity victim, DamageSource source) {
         parasiteKills++;
         legacyKillCount = Math.max(legacyKillCount, parasiteKills);
         onParasiteKill(level, victim, parasiteKills);
-        return super.killedEntity(level, victim);
+        return super.killedEntity(level, victim, source);
     }
 
     protected void onParasiteKill(ServerLevel level, LivingEntity victim, int kills) {
@@ -719,7 +722,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
             return;
         }
         adaptedFormSpawned = true;
-        adapted.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        adapted.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         adapted.finalizeSpawn(level, level.getCurrentDifficultyAt(blockPosition()), EntitySpawnReason.MOB_SUMMONED, null);
         adapted.setCustomName(getCustomName());
         adapted.setCustomNameVisible(isCustomNameVisible());
@@ -739,18 +742,18 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
 
     private Mob createAdaptedForm(ServerLevel level) {
         EntityType<?> type = getType();
-        if (type == ModEntities.PRI_LONGARMS.get()) return ModEntities.ADA_LONGARMS.get().create(level);
-        if (type == ModEntities.PRI_SUMMONER.get()) return ModEntities.ADA_SUMMONER.get().create(level);
-        if (type == ModEntities.PRI_VERMIN.get()) return ModEntities.ADA_VERMIN.get().create(level);
-        if (type == ModEntities.PRI_VISCERA.get()) return ModEntities.ADA_VISCERA.get().create(level);
-        if (type == ModEntities.PRI_ARACHNIDA.get()) return ModEntities.ADA_ARACHNIDA.get().create(level);
-        if (type == ModEntities.PRI_BOLSTER.get()) return ModEntities.ADA_BOLSTER.get().create(level);
-        if (type == ModEntities.PRI_BURROWER.get()) return ModEntities.ADA_BURROWER.get().create(level);
-        if (type == ModEntities.PRI_DEVOURER.get()) return ModEntities.ADA_DEVOURER.get().create(level);
-        if (type == ModEntities.PRI_MANDUCATER.get()) return ModEntities.ADA_MANDUCATER.get().create(level);
-        if (type == ModEntities.PRI_REEKER.get()) return ModEntities.ADA_REEKER.get().create(level);
-        if (type == ModEntities.PRI_TOZOON.get()) return ModEntities.ADA_TOZOON.get().create(level);
-        if (type == ModEntities.PRI_YELLOWEYE.get()) return ModEntities.ADA_YELLOWEYE.get().create(level);
+        if (type == ModEntities.PRI_LONGARMS.get()) return ModEntities.ADA_LONGARMS.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+        if (type == ModEntities.PRI_SUMMONER.get()) return ModEntities.ADA_SUMMONER.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+        if (type == ModEntities.PRI_VERMIN.get()) return ModEntities.ADA_VERMIN.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+        if (type == ModEntities.PRI_VISCERA.get()) return ModEntities.ADA_VISCERA.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+        if (type == ModEntities.PRI_ARACHNIDA.get()) return ModEntities.ADA_ARACHNIDA.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+        if (type == ModEntities.PRI_BOLSTER.get()) return ModEntities.ADA_BOLSTER.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+        if (type == ModEntities.PRI_BURROWER.get()) return ModEntities.ADA_BURROWER.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+        if (type == ModEntities.PRI_DEVOURER.get()) return ModEntities.ADA_DEVOURER.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+        if (type == ModEntities.PRI_MANDUCATER.get()) return ModEntities.ADA_MANDUCATER.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+        if (type == ModEntities.PRI_REEKER.get()) return ModEntities.ADA_REEKER.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+        if (type == ModEntities.PRI_TOZOON.get()) return ModEntities.ADA_TOZOON.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+        if (type == ModEntities.PRI_YELLOWEYE.get()) return ModEntities.ADA_YELLOWEYE.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         return null;
     }
 
@@ -758,7 +761,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
         DragonEggAssimilationEntity.assimilateDragonEggs(level(), center.getBoundingBox().inflate(radius));
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
                 center.getBoundingBox().inflate(radius), this::isValidParasiteTarget)) {
-            if (target.hurt(damageSources().mobAttack(this), damage) && launch) {
+            if (target.hurtOrSimulate(damageSources().mobAttack(this), damage) && launch) {
                 double x = target.getX() - getX();
                 double z = target.getZ() - getZ();
                 double length = Math.max(0.001, Math.sqrt(x * x + z * z));
@@ -787,30 +790,27 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putInt(KILLS_TAG, parasiteKills);
-        tag.putDouble(LEGACY_KILLCOUNT_TAG, legacyKillCount);
-        tag.putBoolean(COLONY_SPAWNED_TAG, colonySpawned);
-        ListTag adaptations = new ListTag();
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putInt(KILLS_TAG, parasiteKills);
+        output.putDouble(LEGACY_KILLCOUNT_TAG, legacyKillCount);
+        output.putBoolean(COLONY_SPAWNED_TAG, colonySpawned);
+        ValueOutput.ValueOutputList adaptations = output.childrenList(ADAPTATIONS_TAG);
         damageAdaptations.forEach((id, hits) -> {
-            CompoundTag entry = new CompoundTag();
+            ValueOutput entry = adaptations.addChild();
             entry.putString("id", id);
             entry.putInt("hits", hits);
-            adaptations.add(entry);
         });
-        tag.put(ADAPTATIONS_TAG, adaptations);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        parasiteKills = tag.getIntOr(KILLS_TAG, 0);
-        legacyKillCount = tag.contains(LEGACY_KILLCOUNT_TAG) ? tag.getDoubleOr(LEGACY_KILLCOUNT_TAG, 0.0D) : parasiteKills;
-        colonySpawned = tag.getBooleanOr(COLONY_SPAWNED_TAG, false);
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        parasiteKills = input.getIntOr(KILLS_TAG, 0);
+        legacyKillCount = input.getDoubleOr(LEGACY_KILLCOUNT_TAG, parasiteKills);
+        colonySpawned = input.getBooleanOr(COLONY_SPAWNED_TAG, false);
         damageAdaptations.clear();
-        for (Tag raw : tag.getListOrEmpty(ADAPTATIONS_TAG)) {
-            CompoundTag entry = (CompoundTag) raw;
+        for (ValueInput entry : input.childrenListOrEmpty(ADAPTATIONS_TAG)) {
             damageAdaptations.put(entry.getStringOr("id", ""), entry.getIntOr("hits", 0));
         }
     }

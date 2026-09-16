@@ -31,6 +31,8 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import alku.csrp.animation.CitadelAnimatedEntity;
 import alku.csrp.animation.CitadelAnimationCache;
 import alku.csrp.animation.CitadelAnimationManager;
@@ -179,7 +181,7 @@ public final class AssimilatedWolfEntity extends Monster implements CitadelAnima
         goalSelector.addGoal(7, new RandomLookAroundGoal(this));
         targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
         targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,
-                true, false, this::isValidParasiteTarget));
+                true, false, (target, lvl) -> isValidParasiteTarget(target)));
     }
 
     @Override
@@ -195,7 +197,7 @@ public final class AssimilatedWolfEntity extends Monster implements CitadelAnima
                 stack.shrink(1);
             }
         }
-        return InteractionResult.sidedSuccess(level().isClientSide());
+        return level().isClientSide() ? InteractionResult.SUCCESS : InteractionResult.CONSUME;
     }
 
     @Override
@@ -241,9 +243,9 @@ public final class AssimilatedWolfEntity extends Monster implements CitadelAnima
 
     private void transformToLesh(ServerLevel serverLevel) {
         // 转换为MovingFlesh实体
-        Entity flesh = ModEntities.MOVINGFLESH.get().create(serverLevel);
+        Entity flesh = ModEntities.MOVINGFLESH.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (flesh instanceof LivingEntity living) {
-            living.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+            living.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
             serverLevel.addFreshEntity(living);
         }
         discard();
@@ -272,10 +274,10 @@ public final class AssimilatedWolfEntity extends Monster implements CitadelAnima
     }
 
     @Override
-    public boolean doHurtTarget(Entity entity) {
+    public boolean doHurtTarget(ServerLevel level, Entity entity) {
         LivingEntity livingTarget = entity instanceof LivingEntity living ? living : null;
         float healthBefore = livingTarget == null ? 0.0F : ParasiteCombatEffects.healthWithAbsorption(livingTarget);
-        boolean hit = super.doHurtTarget(entity);
+        boolean hit = super.doHurtTarget(level, entity);
         if (hit) {
             triggerAnim("attack_controller", "attack");
         }
@@ -287,7 +289,7 @@ public final class AssimilatedWolfEntity extends Monster implements CitadelAnima
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
+    public void addAdditionalSaveData(ValueOutput tag) {
         super.addAdditionalSaveData(tag);
         tag.putInt("parasite_status", getParasiteStatus());
         tag.putBoolean("still_ani", getStillAni());
@@ -299,7 +301,7 @@ public final class AssimilatedWolfEntity extends Monster implements CitadelAnima
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
+    public void readAdditionalSaveData(ValueInput tag) {
         super.readAdditionalSaveData(tag);
         setParasiteStatus(tag.getIntOr("parasite_status", 0));
         setStillAni(tag.getBooleanOr("still_ani", false));

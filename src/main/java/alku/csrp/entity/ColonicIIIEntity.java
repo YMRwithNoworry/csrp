@@ -2,7 +2,6 @@ package alku.csrp.entity;
 
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -81,8 +80,8 @@ public final class ColonicIIIEntity extends PrimitiveParasiteEntity {
     protected void registerGoals() {
         goalSelector.addGoal(0, new FloatGoal(this));
         targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
-        targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,
-                true, false, this::isValidParasiteTarget));
+        targetSelector.addGoal(2, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 10,
+                true, false, (target, level) -> isValidParasiteTarget(target)));
     }
 
     @Override
@@ -187,20 +186,20 @@ public final class ColonicIIIEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putBoolean("colonic_rtts", getRTTS());
-        tag.putInt("colonic_growth_time", getGrowthTime());
-        tag.putInt("colonic_support_cooldown", supportCooldown);
-        tag.putInt("colonic_attack_flash", attackFlashTicks);
+    public void addAdditionalSaveData(net.minecraft.world.level.storage.ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putBoolean("colonic_rtts", getRTTS());
+        output.putInt("colonic_growth_time", getGrowthTime());
+        output.putInt("colonic_support_cooldown", supportCooldown);
+        output.putInt("colonic_attack_flash", attackFlashTicks);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        setRTTS(tag.getBooleanOr("colonic_rtts", false));
-        setGrowthTime(tag.getIntOr("colonic_growth_time", 0));
-        supportCooldown = tag.getIntOr("colonic_support_cooldown", 0);
-        attackFlashTicks = tag.getIntOr("colonic_attack_flash", 0);
+    public void readAdditionalSaveData(net.minecraft.world.level.storage.ValueInput input) {
+        super.readAdditionalSaveData(input);
+        setRTTS(input.getBooleanOr("colonic_rtts", false));
+        setGrowthTime(input.getIntOr("colonic_growth_time", 0));
+        supportCooldown = input.getIntOr("colonic_support_cooldown", 0);
+        attackFlashTicks = input.getIntOr("colonic_attack_flash", 0);
     }
 }

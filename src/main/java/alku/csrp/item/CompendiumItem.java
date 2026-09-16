@@ -3,12 +3,12 @@ package alku.csrp.item;
 import alku.csrp.compendium.client.CompendiumClient;
 import alku.csrp.compendium.network.CompendiumRequestPayload;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
 public final class CompendiumItem extends Item {
     public CompendiumItem(Properties properties) {
@@ -16,15 +16,17 @@ public final class CompendiumItem extends Item {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (level.isClientSide()) {
             if (player.isShiftKeyDown()) {
                 CompendiumClient.toggleSounds();
             } else {
-                PacketDistributor.sendToServer(new CompendiumRequestPayload());
+                ClientPacketDistributor.sendToServer(new CompendiumRequestPayload());
             }
         }
-        return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());
+        return level.isClientSide()
+                ? InteractionResult.SUCCESS.heldItemTransformedTo(stack)
+                : InteractionResult.CONSUME.heldItemTransformedTo(stack);
     }
 }

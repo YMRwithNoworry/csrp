@@ -40,6 +40,8 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import alku.csrp.animation.CitadelAnimatedEntity;
@@ -124,7 +126,7 @@ public final class SimAdventurerEntity extends Monster implements CitadelAnimate
         goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
         targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,
-                true, false, this::isValidParasiteTarget));
+                true, false, (target, lvl) -> isValidParasiteTarget(target)));
     }
 
     @Override
@@ -152,21 +154,21 @@ public final class SimAdventurerEntity extends Monster implements CitadelAnimate
     }
 
     @Override
-    public boolean killedEntity(ServerLevel level, LivingEntity victim) {
+    public boolean killedEntity(ServerLevel level, LivingEntity victim, DamageSource source) {
         parasiteKills++;
         tryStartEvolution();
-        return super.killedEntity(level, victim);
+        return super.killedEntity(level, victim, source);
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
-        return super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+        return super.hurtServer(level, source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
     }
 
     @Override
-    protected boolean canReplaceCurrentItem(ItemStack candidate, ItemStack existing) {
+    protected boolean canReplaceCurrentItem(ItemStack candidate, ItemStack existing, EquipmentSlot slot) {
         return getEquipmentSlotForItem(candidate) != EquipmentSlot.CHEST
-                && super.canReplaceCurrentItem(candidate, existing);
+                && super.canReplaceCurrentItem(candidate, existing, slot);
     }
 
     @Override
@@ -185,8 +187,8 @@ public final class SimAdventurerEntity extends Monster implements CitadelAnimate
     }
 
     @Override
-    public boolean doHurtTarget(Entity target) {
-        return super.doHurtTarget(target);
+    public boolean doHurtTarget(ServerLevel level, Entity target) {
+        return super.doHurtTarget(level, target);
     }
 
     @Override
@@ -261,7 +263,7 @@ public final class SimAdventurerEntity extends Monster implements CitadelAnimate
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
+    public void addAdditionalSaveData(ValueOutput tag) {
         super.addAdditionalSaveData(tag);
         tag.putInt("parasite_kills", parasiteKills);
         tag.putBoolean("melting", isMelting());
@@ -269,7 +271,7 @@ public final class SimAdventurerEntity extends Monster implements CitadelAnimate
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
+    public void readAdditionalSaveData(ValueInput tag) {
         super.readAdditionalSaveData(tag);
         parasiteKills = tag.getIntOr("parasite_kills", 0);
         entityData.set(MELTING, tag.getBooleanOr("melting", false));
@@ -307,11 +309,11 @@ public final class SimAdventurerEntity extends Monster implements CitadelAnimate
             return;
         }
         if (parasiteKills >= THRALL_KILL_THRESHOLD) {
-            ThrallEntity thrall = ModEntities.THRALL.get().create(serverLevel);
+            ThrallEntity thrall = ModEntities.THRALL.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
             if (thrall == null) {
                 return;
             }
-            thrall.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+            thrall.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
             thrall.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
                     EntitySpawnReason.MOB_SUMMONED, null);
             copyIdentity(thrall);
@@ -357,11 +359,11 @@ public final class SimAdventurerEntity extends Monster implements CitadelAnimate
         if (!(level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        SimAdventurerHeadEntity head = ModEntities.SIM_ADVENTURER_HEAD.get().create(serverLevel);
+        SimAdventurerHeadEntity head = ModEntities.SIM_ADVENTURER_HEAD.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (head == null) {
             return;
         }
-        head.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        head.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         head.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
                 EntitySpawnReason.MOB_SUMMONED, null);
         serverLevel.addFreshEntity(head);
@@ -385,11 +387,11 @@ public final class SimAdventurerEntity extends Monster implements CitadelAnimate
 
         int count = 3 + random.nextInt(2);
         for (int index = 0; index < count; index++) {
-            BuglinEntity buglin = ModEntities.BUGLIN.get().create(serverLevel);
+            BuglinEntity buglin = ModEntities.BUGLIN.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
             if (buglin == null) {
                 continue;
             }
-            buglin.moveTo(getX() + (random.nextDouble() - 0.5D), getY(), getZ() + (random.nextDouble() - 0.5D),
+            buglin.snapTo(getX() + (random.nextDouble() - 0.5D), getY(), getZ() + (random.nextDouble() - 0.5D),
                     getYRot(), 0.0F);
             buglin.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
                     EntitySpawnReason.MOB_SUMMONED, null);
@@ -433,7 +435,7 @@ public final class SimAdventurerEntity extends Monster implements CitadelAnimate
 
         @Override
         public boolean canUse() {
-            return isInWaterOrBubble() && getTarget() != null && random.nextInt(12) == 0;
+            return isInWater() && getTarget() != null && random.nextInt(12) == 0;
         }
 
         @Override

@@ -3,6 +3,7 @@ package alku.csrp.block;
 import alku.csrp.block.entity.ParasiticCystBlockEntity;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -49,17 +50,12 @@ public final class GluttonousCystBlock extends Block implements EntityBlock {
         if (!level.isClientSide()) {
             player.openMenu(cyst);
         }
-        return InteractionResult.sidedSuccess(level.isClientSide());
+        return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.CONSUME;
     }
 
     @Override
-    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState,
+    protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos,
             boolean movedByPiston) {
-        if (!state.is(newState.getBlock())
-                && level.getBlockEntity(pos) instanceof ParasiticCystBlockEntity cyst) {
-            Containers.dropContents(level, pos, cyst);
-            level.updateNeighbourForOutputSignal(pos, state.getBlock());
-        }
-        super.onRemove(state, level, pos, newState, movedByPiston);
+        Containers.updateNeighboursAfterDestroy(state, level, pos);
     }
 }

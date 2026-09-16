@@ -61,11 +61,11 @@ public final class ReinforcementSystem {
         }
         BlockPos spawnPos = resolveSpawnPos(level, origin);
         EntityType<NexusParasiteEntity> type = reinforcementType(data.totalColonyPoints());
-        NexusParasiteEntity beckon = type.create(level);
+        NexusParasiteEntity beckon = type.create(level, EntitySpawnReason.MOB_SUMMONED);
         if (beckon == null) {
             return false;
         }
-        beckon.moveTo(spawnPos.getX() + 0.5D, spawnPos.getY(), spawnPos.getZ() + 0.5D,
+        beckon.snapTo(spawnPos.getX() + 0.5D, spawnPos.getY(), spawnPos.getZ() + 0.5D,
                 random.nextFloat() * 360.0F, 0.0F);
         beckon.finalizeSpawn(level, level.getCurrentDifficultyAt(spawnPos), EntitySpawnReason.MOB_SUMMONED, null);
         if (!level.noCollision(beckon)) {

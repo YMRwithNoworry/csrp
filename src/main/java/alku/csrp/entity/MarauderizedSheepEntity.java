@@ -1,6 +1,7 @@
 package alku.csrp.entity;
 
 import alku.csrp.registry.ModEntities;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -29,7 +30,7 @@ public final class MarauderizedSheepEntity extends MarauderizedParasiteEntity {
     }
 
     private void fireNade(LivingEntity target) {
-        ParasiteProjectileEntity projectile = ModEntities.NADE_BALL.get().create(level());
+        ParasiteProjectileEntity projectile = ModEntities.NADE_BALL.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (projectile == null) {
             return;
         }

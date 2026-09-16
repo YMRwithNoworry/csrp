@@ -20,8 +20,11 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
@@ -127,14 +130,14 @@ public final class MeteorEntity extends Entity {
             return ProjectileUtil.getHitResultOnMoveVector(this,
                     entity -> entity != this && entity.isAlive());
         }
-        return ProjectileUtil.getEntityHitResult(level(), this, position(),
+        return ProjectileUtil.getEntityHitResult(this, position(),
                 position().add(getDeltaMovement()),
                 getBoundingBox().expandTowards(getDeltaMovement()).inflate(1.0D),
-                entity -> entity != this && entity.isAlive());
+                entity -> entity != this && entity.isAlive(), Double.MAX_VALUE);
     }
 
     private void spawnFragment(ServerLevel serverLevel) {
-        MeteorEntity fragment = ModEntities.HIVE_SATELLITE.get().create(serverLevel);
+        MeteorEntity fragment = ModEntities.HIVE_SATELLITE.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (fragment == null) {
             return;
         }
@@ -179,7 +182,7 @@ public final class MeteorEntity extends Entity {
         }
 
         int orbRadius = isRoot() ? 40 : 8;
-        OrbBoomEntity orb = ModEntities.ORB_BOOM.get().create(serverLevel);
+        OrbBoomEntity orb = ModEntities.ORB_BOOM.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (orb != null) {
             orb.setPos(getX(), getY(), getZ());
             orb.configure(null, orbRadius, 1);
@@ -237,12 +240,12 @@ public final class MeteorEntity extends Entity {
     }
 
     @Override
-    public boolean canBeCollidedWith() {
+    public boolean canBeCollidedWith(Entity other) {
         return false;
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
         return false;
     }
 
@@ -252,29 +255,29 @@ public final class MeteorEntity extends Entity {
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag tag) {
-        setRoot(!tag.contains("bigmet") || tag.getBooleanOr("bigmet", false));
-        if (tag.contains("direction")) {
-            setDeltaMovement(tag.getDoubleOr("direction_x", 0.0D), tag.getDoubleOr("direction_y", 0.0D),
-                    tag.getDoubleOr("direction_z", 0.0D));
+    protected void readAdditionalSaveData(ValueInput input) {
+        setRoot(input.getBooleanOr("bigmet", true));
+        if (input.read("direction", com.mojang.serialization.Codec.PASSTHROUGH).isPresent()) {
+            setDeltaMovement(input.getDoubleOr("direction_x", 0.0D), input.getDoubleOr("direction_y", 0.0D),
+                    input.getDoubleOr("direction_z", 0.0D));
         }
-        if (tag.contains("power")) {
-            acceleration = new Vec3(tag.getDoubleOr("power_x", 0.0D), tag.getDoubleOr("power_y", 0.0D),
-                    tag.getDoubleOr("power_z", 0.0D));
+        if (input.read("power", com.mojang.serialization.Codec.PASSTHROUGH).isPresent()) {
+            acceleration = new Vec3(input.getDoubleOr("power_x", 0.0D), input.getDoubleOr("power_y", 0.0D),
+                    input.getDoubleOr("power_z", 0.0D));
         }
-        ticksInAir = tag.getIntOr("life", 0);
+        ticksInAir = input.getIntOr("life", 0);
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag tag) {
+    protected void addAdditionalSaveData(ValueOutput output) {
         Vec3 motion = getDeltaMovement();
-        tag.putDouble("direction_x", motion.x);
-        tag.putDouble("direction_y", motion.y);
-        tag.putDouble("direction_z", motion.z);
-        tag.putDouble("power_x", acceleration.x);
-        tag.putDouble("power_y", acceleration.y);
-        tag.putDouble("power_z", acceleration.z);
-        tag.putInt("life", ticksInAir);
-        tag.putBoolean("bigmet", isRoot());
+        output.putDouble("direction_x", motion.x);
+        output.putDouble("direction_y", motion.y);
+        output.putDouble("direction_z", motion.z);
+        output.putDouble("power_x", acceleration.x);
+        output.putDouble("power_y", acceleration.y);
+        output.putDouble("power_z", acceleration.z);
+        output.putInt("life", ticksInAir);
+        output.putBoolean("bigmet", isRoot());
     }
 }

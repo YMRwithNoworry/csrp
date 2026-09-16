@@ -20,6 +20,8 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -238,23 +240,23 @@ public class AdaWatcherEntity extends BurrowingVariantEntity implements PullingB
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putInt("parasite_status", getParasiteStatus());
-        tag.putInt("attack_cooldown_ani", getAttackCooldownAni());
-        tag.putBoolean("still_ani", getStillAni());
-        tag.putInt("pulling_ticks", pullingTicks);
-        tag.putInt("ability_cooldown", abilityCooldown);
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putInt("parasite_status", getParasiteStatus());
+        output.putInt("attack_cooldown_ani", getAttackCooldownAni());
+        output.putBoolean("still_ani", getStillAni());
+        output.putInt("pulling_ticks", pullingTicks);
+        output.putInt("ability_cooldown", abilityCooldown);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        setParasiteStatus(tag.getIntOr("parasite_status", 0));
-        setAttackCooldownAni(tag.getIntOr("attack_cooldown_ani", 0));
-        setStillAni(tag.getBooleanOr("still_ani", false));
-        pullingTicks = tag.getIntOr("pulling_ticks", 0);
-        abilityCooldown = tag.getIntOr("ability_cooldown", 0);
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        setParasiteStatus(input.getIntOr("parasite_status", 0));
+        setAttackCooldownAni(input.getIntOr("attack_cooldown_ani", 0));
+        setStillAni(input.getBooleanOr("still_ani", false));
+        pullingTicks = input.getIntOr("pulling_ticks", 0);
+        abilityCooldown = input.getIntOr("ability_cooldown", 0);
     }
 
     @Override
@@ -430,7 +432,7 @@ public class AdaWatcherEntity extends BurrowingVariantEntity implements PullingB
      */
     private void firePullingProjectile(LivingEntity target) {
         // 尝试创建拉拽弹丸实体
-        PullingBallEntity projectile = ModEntities.PULLING_BALL.get().create(level());
+        PullingBallEntity projectile = ModEntities.PULLING_BALL.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (projectile == null) {
             return;
         }
@@ -438,7 +440,7 @@ public class AdaWatcherEntity extends BurrowingVariantEntity implements PullingB
         Vec3 eyePos = getEyePosition();
         Vec3 direction = target.getEyePosition().subtract(eyePos).normalize();
 
-        projectile.moveTo(eyePos.x, eyePos.y, eyePos.z, getYRot(), getXRot());
+        projectile.snapTo(eyePos.x, eyePos.y, eyePos.z, getYRot(), getXRot());
         projectile.setOwner(this);
         // 设置弹丸运动方向和速度
         projectile.setDeltaMovement(direction.scale(1.0D));

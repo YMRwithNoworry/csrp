@@ -1,5 +1,6 @@
 package alku.csrp.effect;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 
 /** Marks its victim with the legacy glow while client hooks distort the GUI. */
@@ -11,7 +12,7 @@ public final class DistortedEnlightenmentMobEffect extends MarkerMobEffect {
     }
 
     @Override
-    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
+    public boolean applyEffectTick(ServerLevel level, LivingEntity entity, int amplifier) {
         if (!entity.level().isClientSide() && !entity.isCurrentlyGlowing()) {
             entity.getPersistentData().putBoolean(OWNED_GLOW_TAG, true);
             entity.setGlowingTag(true);

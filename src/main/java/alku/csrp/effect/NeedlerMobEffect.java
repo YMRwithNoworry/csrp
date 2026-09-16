@@ -18,7 +18,7 @@ public final class NeedlerMobEffect extends MobEffect {
     public NeedlerMobEffect() { super(MobEffectCategory.HARMFUL, 0xD7B34B); }
 
     @Override
-    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
+    public boolean applyEffectTick(ServerLevel serverLevel, LivingEntity entity, int amplifier) {
         if (!entity.level().isClientSide() && amplifier >= TERMINAL_AMPLIFIER) {
             int remainder = amplifier - TERMINAL_AMPLIFIER;
             entity.removeEffect(ModMobEffects.NEEDLER);

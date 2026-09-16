@@ -1,6 +1,7 @@
 package alku.csrp.effect;
 
 import alku.csrp.entity.PrimitiveParasiteEntity;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 
 /** Accelerates every damage-source resistance already learned by a malleable parasite. */
@@ -10,7 +11,7 @@ public final class FosterMobEffect extends MarkerMobEffect {
     }
 
     @Override
-    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
+    public boolean applyEffectTick(ServerLevel level, LivingEntity entity, int amplifier) {
         if (!entity.level().isClientSide() && entity instanceof PrimitiveParasiteEntity parasite) {
             parasite.increaseAllResistances();
         }

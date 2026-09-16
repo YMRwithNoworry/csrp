@@ -3,20 +3,20 @@ package alku.csrp.client.particle;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.RandomSource;
 
 /** The original 18-step intro, loop and outro animation used by parasite fog. */
-public final class CoolerFogParticle extends TextureSheetParticle {
+public final class CoolerFogParticle extends SingleQuadParticle {
     private static final int FRAME_COUNT = 9;
     private final SpriteSet sprites;
     private final double horizontalSpeed;
     private final double verticalSpeed;
 
     private CoolerFogParticle(ClientLevel level, double x, double y, double z, SpriteSet sprites) {
-        super(level, x, y, z);
+        super(level, x, y, z, 0.0D, 0.0D, 0.0D, sprites.first());
         this.sprites = sprites;
         this.horizontalSpeed = random.nextDouble() * 0.01D - random.nextDouble() * 0.01D;
         this.verticalSpeed = random.nextDouble() * 0.005D - random.nextDouble() * 0.005D;
@@ -62,8 +62,8 @@ public final class CoolerFogParticle extends TextureSheetParticle {
     }
 
     @Override
-    public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+    protected SingleQuadParticle.Layer getLayer() {
+        return SingleQuadParticle.Layer.TRANSLUCENT;
     }
 
     public static final class Provider implements ParticleProvider<SimpleParticleType> {
@@ -75,7 +75,8 @@ public final class CoolerFogParticle extends TextureSheetParticle {
 
         @Override
         public Particle createParticle(SimpleParticleType type, ClientLevel level,
-                double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
+                double x, double y, double z, double velocityX, double velocityY, double velocityZ,
+                RandomSource random) {
             return new CoolerFogParticle(level, x, y, z, sprites);
         }
     }

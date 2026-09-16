@@ -11,15 +11,18 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import net.minecraft.advancements.AdvancementHolder;
+import net.minecraft.core.Holder;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.saveddata.WeatherData;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 public final class CelestialSystem {
@@ -73,7 +76,7 @@ public final class CelestialSystem {
         Set<String> result = new HashSet<>();
         ListTag list = player.getPersistentData().getListOrEmpty(WITNESSED_KEY);
         for (Tag tag : list) {
-            result.add(tag.getAsString());
+            result.add(tag.asString().orElse(""));
         }
         return result;
     }
@@ -91,14 +94,14 @@ public final class CelestialSystem {
         if (loadWitnessed(player).size() < threshold) {
             return;
         }
-        AdvancementHolder holder = player.server.getAdvancements().get(advancementId);
+        AdvancementHolder holder = player.level().getServer().getAdvancements().get(advancementId);
         if (holder != null) {
             player.getAdvancements().award(holder, criterion);
         }
     }
 
     private static void rollNight(ServerLevel level, CelestialWorldData data) {
-        long day = level.getDayTime() / 24000L;
+        long day = level.getOverworldClockTime() / 24000L;
         if (data.nightIndex() == day) return;
         data.nightIndex(day);
         data.mutableActive().clear();
@@ -114,8 +117,8 @@ public final class CelestialSystem {
     }
 
     private static void rollDarkDays(ServerLevel level, CelestialWorldData data) {
-        long time = Math.floorMod(level.getDayTime(), 24000L);
-        long day = level.getDayTime() / 24000L;
+        long time = Math.floorMod(level.getOverworldClockTime(), 24000L);
+        long day = level.getOverworldClockTime() / 24000L;
         if (time < 800 || time > 999 || data.darkDaysLastRollDay() == day
                 || isDarkDaysPendingOrActive(data)) return;
         data.darkDaysLastRollDay(day);
@@ -125,12 +128,12 @@ public final class CelestialSystem {
         if (RANDOM.nextFloat() <= definition.chance()) {
             data.mutableActive().clear();
             data.mutableForced().clear();
-            long dayBase = level.getDayTime() - time;
-            long delay = dayBase + 1000L - level.getDayTime();
+            long dayBase = level.getOverworldClockTime() - time;
+            long delay = dayBase + 1000L - level.getOverworldClockTime();
             data.darkDaysStartTime(level.getGameTime() + Math.max(0L, delay));
             data.darkDaysEndTime(-1);
             data.darkDaysEndingSoundPlayed(false);
-            level.setWeatherParameters(6400, 0, false, false);
+            clearWeather(level);
             data.changed();
             play(level, ModSounds.DARK_DAYS_START.get(), 1.0F);
             sync(level);
@@ -158,8 +161,8 @@ public final class CelestialSystem {
     }
 
     private static void applyNightStartEffects(ServerLevel level, CelestialWorldData data) {
-        long time = Math.floorMod(level.getDayTime(), 24000L);
-        long day = level.getDayTime() / 24000L;
+        long time = Math.floorMod(level.getOverworldClockTime(), 24000L);
+        long day = level.getOverworldClockTime() / 24000L;
         if (time < 13000L || time > 23000L || data.lastEffectNightIndex() == day) return;
         data.lastEffectNightIndex(day);
         if (!isActive(level, "twenty_seven")) return;
@@ -178,7 +181,7 @@ public final class CelestialSystem {
         data.darkDaysStartTime(level.getGameTime() + DARK_DAYS_INTRO_DELAY_TICKS);
         data.darkDaysEndTime(-1);
         data.darkDaysEndingSoundPlayed(false);
-        level.setWeatherParameters(6400, 0, false, false);
+        clearWeather(level);
         data.changed();
         play(level, ModSounds.DARK_DAYS_START.get(), 1.0F);
         sync(level);
@@ -287,7 +290,7 @@ public final class CelestialSystem {
     }
 
     public static void sync(ServerPlayer player) {
-        ServerLevel level = player.serverLevel();
+        ServerLevel level = player.level();
         CelestialWorldData data = CelestialWorldData.get(level);
         PacketDistributor.sendToPlayer(player,
                 new CelestialStatePayload(visible(level), data.nightIndex(), level.getGameTime()));
@@ -299,6 +302,18 @@ public final class CelestialSystem {
     }
 
     private static void play(ServerLevel level, net.minecraft.sounds.SoundEvent sound, float volume) {
-        level.players().forEach(player -> player.playNotifySound(sound, SoundSource.AMBIENT, volume, 1.0F));
+        level.players().forEach(player -> player.connection.send(
+                new ClientboundSoundPacket(Holder.direct(sound), SoundSource.AMBIENT,
+                        player.getX(), player.getY(), player.getZ(), volume, 1.0F,
+                        player.getRandom().nextLong())));
+    }
+
+    private static void clearWeather(ServerLevel level) {
+        WeatherData weatherData = level.getWeatherData();
+        weatherData.setClearWeatherTime(6400);
+        weatherData.setRainTime(0);
+        weatherData.setThunderTime(0);
+        weatherData.setRaining(false);
+        weatherData.setThundering(false);
     }
 }

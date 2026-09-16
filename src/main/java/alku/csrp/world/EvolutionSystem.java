@@ -251,7 +251,7 @@ public final class EvolutionSystem {
         for (ServerPlayer player : level.players()) {
             player.sendSystemMessage(message);
             if (advanced && current >= 1) {
-                player.playNotifySound(ModSounds.evolutionPhase(current), SoundSource.MASTER, 1.0F, 1.0F);
+                player.connection.send(new net.minecraft.network.protocol.game.ClientboundSoundPacket(net.minecraft.core.Holder.direct(ModSounds.evolutionPhase(current)), SoundSource.MASTER, player.getX(), player.getY(), player.getZ(), 1.0F, 1.0F, player.getRandom().nextLong()));
             }
         }
         if (!advanced) {

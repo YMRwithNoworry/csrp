@@ -32,7 +32,7 @@ public final class BlockConversionsConfig {
         for (String entry : CUSTOM_CONVERSIONS.get()) {
             String[] parts = entry.split(";", -1);
             if (sourceId.toString().equals(parts[0])) {
-                return BuiltInRegistries.BLOCK.get(Identifier.parse(parts[1]));
+                return BuiltInRegistries.BLOCK.getValue(Identifier.parse(parts[1]));
             }
         }
         return null;
@@ -46,6 +46,6 @@ public final class BlockConversionsConfig {
         Identifier target = Identifier.tryParse(parts[1]);
         return source != null && target != null && BuiltInRegistries.BLOCK.containsKey(source)
                 && BuiltInRegistries.BLOCK.containsKey(target)
-                && BuiltInRegistries.BLOCK.get(target) instanceof InfestedBlock;
+                && BuiltInRegistries.BLOCK.getValue(target) instanceof InfestedBlock;
     }
 }

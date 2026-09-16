@@ -25,6 +25,8 @@ import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.DifficultyInstance;
 import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
@@ -227,8 +229,8 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity implements M
     }
 
     @Override
-    public boolean doHurtTarget(Entity target) {
-        return usesMeleeAttack() || super.doHurtTarget(target);
+    public boolean doHurtTarget(ServerLevel level, Entity target) {
+        return usesMeleeAttack() || super.doHurtTarget(level, target);
     }
 
     @Override
@@ -289,32 +291,30 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity implements M
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putInt(FUSE_TICKS_TAG, getFuseTicks());
-        tag.putByte("carrier_skin", (byte) getSkin());
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putInt(FUSE_TICKS_TAG, getFuseTicks());
+        output.putByte("carrier_skin", (byte) getSkin());
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        if (tag.contains(FUSE_TICKS_TAG, Tag.TAG_INT)) {
-            setFuseTicks(tag.getIntOr(FUSE_TICKS_TAG, 0));
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        if (input.getInt(FUSE_TICKS_TAG).isPresent()) {
+            setFuseTicks(input.getIntOr(FUSE_TICKS_TAG, 0));
         }
-        if (tag.contains("carrier_skin", Tag.TAG_BYTE)) {
-            setSkin(tag.getByteOr("carrier_skin", (byte)0));
-        }
+        setSkin(input.getByteOr("carrier_skin", (byte) getSkin()));
     }
 
     private void detonate() {
-        if (!(level() instanceof ServerLevel) || detonated) {
+        if (!(level() instanceof ServerLevel serverLevel) || detonated) {
             return;
         }
 
         detonated = true;
         DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(4.0D));
-        Level.ExplosionInteraction interaction = level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)
-                        && griefingEnabled() && EventHooks.canEntityGrief(level(), this)
+        Level.ExplosionInteraction interaction = serverLevel.getGameRules().get(GameRules.MOB_GRIEFING)
+                        && griefingEnabled() && EventHooks.canEntityGrief(serverLevel, this)
                 ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
         level().explode(this, getX(), getY(), getZ(), 4.0F, interaction);
         playSound(explosionSound(), explosionVolume(), 1.0F);
@@ -362,11 +362,11 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity implements M
             }
             int count = minimum == maximum ? minimum : minimum + random.nextInt(maximum - minimum + 1);
             for (int index = 0; index < count; index++) {
-                Entity created = type.create(serverLevel);
+                Entity created = type.create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
                 if (!(created instanceof Mob mob)) {
                     continue;
                 }
-                mob.moveTo(getX(), getY() + getBbHeight() * 0.5D + 0.5D, getZ(), getYRot(), getXRot());
+                mob.snapTo(getX(), getY() + getBbHeight() * 0.5D + 0.5D, getZ(), getYRot(), getXRot());
                 mob.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(mob.blockPosition()),
                         EntitySpawnReason.MOB_SUMMONED, null);
                 mob.setTarget(getTarget());

@@ -7,6 +7,7 @@ import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
 import java.util.List;
+import java.util.function.Consumer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -18,7 +19,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -29,6 +30,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.ItemUseAnimation;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 
@@ -49,9 +51,9 @@ public final class BoughItem extends Item {
     public int getUseDuration(ItemStack stack, LivingEntity user) { return USE_DURATION; }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         player.startUsingItem(hand);
-        return InteractionResultHolder.consume(player.getItemInHand(hand));
+        return InteractionResult.CONSUME.heldItemTransformedTo(player.getItemInHand(hand));
     }
 
     @Override
@@ -66,7 +68,7 @@ public final class BoughItem extends Item {
                     8, 0.25D, 0.4D, 0.25D, 0.06D);
             if (remainingUseDuration % 10 == 0) {
                 level.playSound(null, user.blockPosition(), ModSounds.MOVING_FLESH_GROW.get(),
-                        SoundSource.PLAYERS, 0.8F, 0.7F + level.random.nextFloat() * 0.2F);
+                        SoundSource.PLAYERS, 0.8F, 0.7F + level.getRandom().nextFloat() * 0.2F);
             }
         }
     }
@@ -78,7 +80,7 @@ public final class BoughItem extends Item {
         }
         user.removeEffect(MobEffects.RESISTANCE);
         user.removeEffect(ModMobEffects.RAGE);
-        user.invulnerableTime = 0;
+        user.setInvulnerableTime(0);
         user.hurt(seppukuDamage(serverLevel), Float.MAX_VALUE);
         if (user instanceof ServerPlayer player && !player.isAlive()) {
             spawnAssimilatedAdventurers(serverLevel, player);
@@ -88,28 +90,28 @@ public final class BoughItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context,
-            List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.translatable("tooltip.csrp.bough.line1").withStyle(ChatFormatting.YELLOW));
-        tooltip.add(Component.translatable("tooltip.csrp.bough.line2")
+    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display,
+            Consumer<Component> tooltip, TooltipFlag flag) {
+        tooltip.accept(Component.translatable("tooltip.csrp.bough.line1").withStyle(ChatFormatting.YELLOW));
+        tooltip.accept(Component.translatable("tooltip.csrp.bough.line2")
                 .withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
     }
 
     private static DamageSource seppukuDamage(ServerLevel level) {
-        return new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE)
-                .getHolderOrThrow(ModDamageTypes.SEPPEKU));
+        return new DamageSource(level.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE)
+                .getOrThrow(ModDamageTypes.SEPPEKU));
     }
 
     private static void spawnAssimilatedAdventurers(ServerLevel level, ServerPlayer player) {
-        int count = 1 + level.random.nextInt(2);
+        int count = 1 + level.getRandom().nextInt(2);
         for (int index = 0; index < count; index++) {
-            SimAdventurerEntity adventurer = ModEntities.SIM_ADVENTURER.get().create(level);
+            SimAdventurerEntity adventurer = ModEntities.SIM_ADVENTURER.get().create(level, EntitySpawnReason.MOB_SUMMONED);
             if (adventurer == null) {
                 continue;
             }
-            adventurer.moveTo(player.getX() + (level.random.nextDouble() - 0.5D) * 1.5D,
-                    player.getY(), player.getZ() + (level.random.nextDouble() - 0.5D) * 1.5D,
-                    level.random.nextFloat() * 360.0F, 0.0F);
+            adventurer.snapTo(player.getX() + (level.getRandom().nextDouble() - 0.5D) * 1.5D,
+                    player.getY(), player.getZ() + (level.getRandom().nextDouble() - 0.5D) * 1.5D,
+                    level.getRandom().nextFloat() * 360.0F, 0.0F);
             adventurer.finalizeSpawn(level, level.getCurrentDifficultyAt(adventurer.blockPosition()),
                     EntitySpawnReason.TRIGGERED, null);
             level.addFreshEntity(adventurer);
@@ -117,7 +119,7 @@ public final class BoughItem extends Item {
     }
 
     private static void awardAdvancement(ServerPlayer player) {
-        AdvancementHolder advancement = player.server.getAdvancements().get(ADVANCEMENT_ID);
+        AdvancementHolder advancement = player.level().getServer().getAdvancements().get(ADVANCEMENT_ID);
         if (advancement != null) {
             player.getAdvancements().award(advancement, ADVANCEMENT_CRITERION);
         }

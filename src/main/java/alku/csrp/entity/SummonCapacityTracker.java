@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -43,7 +44,7 @@ final class SummonCapacityTracker {
         ListTag summons = new ListTag();
         for (Map.Entry<UUID, Integer> tracked : trackedSummons.entrySet()) {
             CompoundTag entry = new CompoundTag();
-            entry.putUUID("entity", tracked.getKey());
+            entry.putIntArray("entity", UUIDUtil.uuidToIntArray(tracked.getKey()));
             entry.putInt("cost", tracked.getValue());
             summons.add(entry);
         }
@@ -55,8 +56,9 @@ final class SummonCapacityTracker {
         ListTag summons = tag.getListOrEmpty(key);
         for (Tag value : summons) {
             CompoundTag entry = (CompoundTag) value;
-            if (entry.hasUUID("entity") && entry.getIntOr("cost", 0) > 0) {
-                trackedSummons.put(entry.getUUID("entity"), entry.getIntOr("cost", 0));
+            if (entry.getIntArray("entity").isPresent() && entry.getIntOr("cost", 0) > 0) {
+                trackedSummons.put(UUIDUtil.uuidFromIntArray(entry.getIntArray("entity").orElseThrow()),
+                        entry.getIntOr("cost", 0));
             }
         }
     }

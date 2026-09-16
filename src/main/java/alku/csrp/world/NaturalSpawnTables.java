@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 
@@ -307,7 +308,7 @@ public final class NaturalSpawnTables {
                         PHASE_FIVE, PHASE_SIX, PHASE_SEVEN, PHASE_EIGHT, PHASE_NINE, PHASE_TEN,
                         UD_TWO, UD_THREE, UD_FOUR)
                 .flatMap(List::stream)
-                .<EntityType<?>>map(entry -> entry.type)
+                .<EntityType<?>>map(entry -> entry.type())
                 .distinct()
                 .toList();
     }
@@ -351,7 +352,7 @@ public final class NaturalSpawnTables {
     private static boolean usesUbiquitousTable(ServerLevel level) {
         long hash = level.getSeed();
         hash ^= level.getGameTime() * 0x9E3779B97F4A7C15L;
-        hash ^= (long) level.dimension().location().hashCode() * 0xC2B2AE3D27D4EB4FL;
+        hash ^= (long) level.dimension().identifier().hashCode() * 0xC2B2AE3D27D4EB4FL;
         hash ^= hash >>> 33;
         hash *= 0xFF51AFD7ED558CCDL;
         hash ^= hash >>> 33;
@@ -363,7 +364,7 @@ public final class NaturalSpawnTables {
 
     private static boolean contains(List<MobSpawnSettings.SpawnerData> entries, String path) {
         for (MobSpawnSettings.SpawnerData entry : entries) {
-            if (BuiltInRegistries.ENTITY_TYPE.getKey(entry.type).getPath().equals(path)) {
+            if (BuiltInRegistries.ENTITY_TYPE.getKey(entry.type()).getPath().equals(path)) {
                 return true;
             }
         }
@@ -429,6 +430,6 @@ public final class NaturalSpawnTables {
         Identifier id = Identifier.fromNamespaceAndPath(Csrp.MODID, path);
         EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.getOptional(id)
                 .orElseThrow(() -> new IllegalStateException("Missing natural spawn entity " + id));
-        return new MobSpawnSettings.SpawnerData(type, weight, minCount, maxCount);
+        return new MobSpawnSettings.SpawnerData(type, UniformInt.of(minCount, maxCount));
     }
 }

@@ -4,6 +4,7 @@ import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.PowerParticleOption;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.nbt.CompoundTag;
@@ -16,6 +17,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -31,6 +33,8 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gamerules.GameRules;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.util.Mth;
 import net.neoforged.neoforge.event.EventHooks;
@@ -137,7 +141,7 @@ public final class AssimilatedDragonEntity extends Monster implements CitadelAni
         goalSelector.addGoal(6, new ParasiteFollowGoal(this));
         targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
         targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,
-                true, false, this::isValidParasiteTarget));
+                true, false, (target, lvl) -> isValidParasiteTarget(target)));
     }
 
     @Override
@@ -180,8 +184,8 @@ public final class AssimilatedDragonEntity extends Monster implements CitadelAni
         }
         LivingEntity target = getTarget();
         if (blockBreakCooldown > 0 || target == null || !target.isAlive() || distanceToSqr(target) > 4096.0D
-                || !level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)
-                || !EventHooks.canEntityGrief(level(), this)) {
+                || !((ServerLevel) level()).getGameRules().get(GameRules.MOB_GRIEFING)
+                || !EventHooks.canEntityGrief((ServerLevel) level(), this)) {
             return;
         }
         int baseX = Mth.floor(getX());
@@ -206,10 +210,10 @@ public final class AssimilatedDragonEntity extends Monster implements CitadelAni
     }
 
     @Override
-    public boolean doHurtTarget(Entity entity) {
+    public boolean doHurtTarget(ServerLevel level, Entity entity) {
         LivingEntity livingTarget = entity instanceof LivingEntity living ? living : null;
         float healthBefore = livingTarget == null ? 0.0F : ParasiteCombatEffects.healthWithAbsorption(livingTarget);
-        boolean hit = super.doHurtTarget(entity);
+        boolean hit = super.doHurtTarget(level, entity);
         if (hit) {
             setParasiteStatus(1);
             attackStateTimer = 20; // 攻击动画持续约1秒 (20 ticks)
@@ -222,9 +226,9 @@ public final class AssimilatedDragonEntity extends Monster implements CitadelAni
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
         float applied = source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount;
-        boolean hurt = super.hurt(source, applied);
+        boolean hurt = super.hurtServer(level, source, applied);
         if (hurt && !level().isClientSide() && random.nextInt(12) == 0 && !isFlying() && canFly()) {
             setFlying(true);
         }
@@ -233,7 +237,7 @@ public final class AssimilatedDragonEntity extends Monster implements CitadelAni
 
     /** Applies weak-point damage from an external hitbox integration or a targeted gameplay hook. */
     public boolean hurtBodyPart(BodyPart part, DamageSource source, float amount) {
-        if (!hurt(source, amount)) {
+        if (!hurtOrSimulate(source, amount)) {
             return false;
         }
         switch (part) {
@@ -285,7 +289,7 @@ public final class AssimilatedDragonEntity extends Monster implements CitadelAni
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
+    public void addAdditionalSaveData(ValueOutput tag) {
         super.addAdditionalSaveData(tag);
         tag.putInt("parasite_status", getParasiteStatus());
         tag.putFloat("head_health", headHealth);
@@ -297,7 +301,7 @@ public final class AssimilatedDragonEntity extends Monster implements CitadelAni
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
+    public void readAdditionalSaveData(ValueInput tag) {
         super.readAdditionalSaveData(tag);
         setParasiteStatus(tag.getIntOr("parasite_status", 0));
         headHealth = tag.getFloatOr("head_health", 0.0F);
@@ -433,12 +437,12 @@ public final class AssimilatedDragonEntity extends Monster implements CitadelAni
         if (!(level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        AssimilatedDragonHeadEntity head = ModEntities.SIM_DRAGON_HEAD.get().create(serverLevel);
+        AssimilatedDragonHeadEntity head = ModEntities.SIM_DRAGON_HEAD.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (head == null) {
             return;
         }
         Vec3 position = getEyePosition().add(getLookAngle().scale(1.4D));
-        head.moveTo(position.x, position.y, position.z, getYRot(), getXRot());
+        head.snapTo(position.x, position.y, position.z, getYRot(), getXRot());
         head.setTarget(getTarget());
         serverLevel.addFreshEntity(head);
     }
@@ -447,12 +451,12 @@ public final class AssimilatedDragonEntity extends Monster implements CitadelAni
         if (!(level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        TendrilEntity tendril = ModEntities.TENDRIL.get().create(serverLevel);
+        TendrilEntity tendril = ModEntities.TENDRIL.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (tendril == null) {
             return;
         }
         tendril.setSkin(skin);
-        tendril.moveTo(part.getX(), part.getY(), part.getZ(), getYRot(), getXRot());
+        tendril.snapTo(part.getX(), part.getY(), part.getZ(), getYRot(), getXRot());
         serverLevel.addFreshEntity(tendril);
     }
 
@@ -498,7 +502,7 @@ public final class AssimilatedDragonEntity extends Monster implements CitadelAni
         cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 300, 0, false, true));
         level().addFreshEntity(cloud);
         if (level() instanceof ServerLevel serverLevel) {
-            serverLevel.sendParticles(ParticleTypes.DRAGON_BREATH, source.x, source.y, source.z,
+            serverLevel.sendParticles(PowerParticleOption.create(ParticleTypes.DRAGON_BREATH, 1.0F), source.x, source.y, source.z,
                     12, 0.25D, 0.25D, 0.25D, 0.02D);
         }
     }
@@ -528,11 +532,11 @@ public final class AssimilatedDragonEntity extends Monster implements CitadelAni
         }
 
         @Override
-        protected void readAdditionalSaveData(CompoundTag tag) {
+        protected void readAdditionalSaveData(ValueInput tag) {
         }
 
         @Override
-        protected void addAdditionalSaveData(CompoundTag tag) {
+        protected void addAdditionalSaveData(ValueOutput tag) {
         }
 
         @Override
@@ -545,7 +549,7 @@ public final class AssimilatedDragonEntity extends Monster implements CitadelAni
         }
 
         @Override
-        public boolean hurt(DamageSource source, float amount) {
+        public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
             return getParent().hurtBodyPart(part, source, amount);
         }
 
@@ -598,7 +602,7 @@ public final class AssimilatedDragonEntity extends Monster implements CitadelAni
             }
             if (meleeCooldown > 0) meleeCooldown--;
             if (distance < 20.25D && meleeCooldown <= 0) {
-                doHurtTarget(target);
+                doHurtTarget(getServerLevel(AssimilatedDragonEntity.this), target);
                 meleeCooldown = 20;
             }
         }

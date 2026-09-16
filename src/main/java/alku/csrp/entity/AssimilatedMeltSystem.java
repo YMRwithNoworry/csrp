@@ -19,9 +19,9 @@ final class AssimilatedMeltSystem {
     private static final int REQUIRED_NEARBY_ASSIMILATED = 3;
     private static final int MINIMUM_MERGE_PHASE = 1;
     private static final DustParticleOptions MELT_GOLD = new DustParticleOptions(
-            new Vector3f(127.0F / 255.0F, 106.0F / 255.0F, 0.0F), 1.0F);
+            net.minecraft.util.ARGB.colorFromVector3f(new Vector3f(127.0F / 255.0F, 106.0F / 255.0F, 0.0F)), 1.0F);
     private static final DustParticleOptions MELT_RED = new DustParticleOptions(
-            new Vector3f(127.0F / 255.0F, 0.0F, 0.0F), 1.0F);
+            net.minecraft.util.ARGB.colorFromVector3f(new Vector3f(127.0F / 255.0F, 0.0F, 0.0F)), 1.0F);
 
     private AssimilatedMeltSystem() {
     }
@@ -81,11 +81,11 @@ final class AssimilatedMeltSystem {
         if (!(source.level() instanceof ServerLevel serverLevel)) {
             return false;
         }
-        MovingFleshEntity flesh = ModEntities.MOVINGFLESH.get().create(serverLevel);
+        MovingFleshEntity flesh = ModEntities.MOVINGFLESH.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (flesh == null) {
             return false;
         }
-        flesh.moveTo(source.getX(), source.getY(), source.getZ(), source.getYRot(), source.getXRot());
+        flesh.snapTo(source.getX(), source.getY(), source.getZ(), source.getYRot(), source.getXRot());
         flesh.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(source.blockPosition()),
                 EntitySpawnReason.MOB_SUMMONED, null);
         flesh.setMergeValue(mergeValue);

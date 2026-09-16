@@ -316,7 +316,7 @@ public class AdaLonglegEntity extends BurrowingVariantEntity implements PullingB
     }
 
     private void fireWebProjectile(LivingEntity target) {
-        PullingBallEntity projectile = ModEntities.PULLING_BALL.get().create(level());
+        PullingBallEntity projectile = ModEntities.PULLING_BALL.get().create(level(), net.minecraft.world.entity.EntitySpawnReason.MOB_SUMMONED);
         if (projectile == null) {
             return;
         }
@@ -325,7 +325,7 @@ public class AdaLonglegEntity extends BurrowingVariantEntity implements PullingB
         if (direction.lengthSqr() < 0.001D) {
             return;
         }
-        projectile.moveTo(start.x, start.y, start.z, getYRot(), getXRot());
+        projectile.snapTo(start.x, start.y, start.z, getYRot(), getXRot());
         projectile.setOwner(this);
         projectile.setDeltaMovement(direction.normalize().scale(0.8D));
         level().addFreshEntity(projectile);

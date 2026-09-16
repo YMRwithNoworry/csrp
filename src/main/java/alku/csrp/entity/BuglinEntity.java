@@ -6,7 +6,6 @@ import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.sounds.SoundEvent;
@@ -29,6 +28,8 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import alku.csrp.animation.CitadelAnimatedEntity;
@@ -136,11 +137,11 @@ public class BuglinEntity extends Monster implements CitadelAnimatedEntity, Para
         }
 
         BuglinEvolutionTarget.rupterType().ifPresent(type -> {
-            Mob rupter = type.create(serverLevel);
+            Mob rupter = type.create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
             if (rupter == null) {
                 return;
             }
-            rupter.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+            rupter.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
             rupter.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
                     EntitySpawnReason.MOB_SUMMONED, null);
             rupter.setCustomName(getCustomName());
@@ -182,14 +183,14 @@ public class BuglinEntity extends Monster implements CitadelAnimatedEntity, Para
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
+    public void addAdditionalSaveData(ValueOutput tag) {
         super.addAdditionalSaveData(tag);
         tag.putInt(GROWTH_NBT_KEY, growthSeconds);
         tag.putInt(GROWTH_TARGET_NBT_KEY, growthTargetSeconds);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
+    public void readAdditionalSaveData(ValueInput tag) {
         super.readAdditionalSaveData(tag);
         if (tag.contains(GROWTH_NBT_KEY)) {
             growthSeconds = tag.getIntOr(GROWTH_NBT_KEY, 0);

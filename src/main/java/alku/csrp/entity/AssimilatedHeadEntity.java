@@ -35,6 +35,8 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import alku.csrp.animation.CitadelAnimatedEntity;
@@ -131,7 +133,7 @@ public final class AssimilatedHeadEntity extends Monster implements CitadelAnima
         goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         targetSelector.addGoal(1, new HurtByTargetGoal(this));
         targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,
-                true, false, this::isValidParasiteTarget));
+                true, false, (target, level) -> this.isValidParasiteTarget(target)));
     }
 
     @Override
@@ -189,20 +191,20 @@ public final class AssimilatedHeadEntity extends Monster implements CitadelAnima
     }
 
     @Override
-    public boolean doHurtTarget(Entity target) {
-        if (target instanceof IncompleteFormMediumEntity && level() instanceof ServerLevel serverLevel) {
+    public boolean doHurtTarget(ServerLevel serverLevel, Entity target) {
+        if (target instanceof IncompleteFormMediumEntity) {
             Mob body = switch (kind) {
-                case COW -> ModEntities.SIM_COW.get().create(serverLevel);
-                case ENDERMAN -> ModEntities.SIM_ENDERMAN.get().create(serverLevel);
-                case HORSE -> ModEntities.SIM_HORSE.get().create(serverLevel);
-                case HUMAN -> ModEntities.SIM_HUMAN.get().create(serverLevel);
-                case PIG -> ModEntities.SIM_PIG.get().create(serverLevel);
-                case SHEEP -> ModEntities.SIM_SHEEP.get().create(serverLevel);
-                case VILLAGER -> ModEntities.SIM_VILLAGER.get().create(serverLevel);
-                case WOLF -> ModEntities.SIM_WOLF.get().create(serverLevel);
+                case COW -> ModEntities.SIM_COW.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
+                case ENDERMAN -> ModEntities.SIM_ENDERMAN.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
+                case HORSE -> ModEntities.SIM_HORSE.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
+                case HUMAN -> ModEntities.SIM_HUMAN.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
+                case PIG -> ModEntities.SIM_PIG.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
+                case SHEEP -> ModEntities.SIM_SHEEP.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
+                case VILLAGER -> ModEntities.SIM_VILLAGER.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
+                case WOLF -> ModEntities.SIM_WOLF.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
             };
             if (body != null) {
-                body.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+                body.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
                 body.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
                         EntitySpawnReason.MOB_SUMMONED, null);
                 body.setCustomName(getCustomName());
@@ -218,7 +220,7 @@ public final class AssimilatedHeadEntity extends Monster implements CitadelAnima
         }
         LivingEntity livingTarget = target instanceof LivingEntity living ? living : null;
         float healthBefore = livingTarget == null ? 0.0F : ParasiteCombatEffects.healthWithAbsorption(livingTarget);
-        boolean hit = super.doHurtTarget(target);
+        boolean hit = super.doHurtTarget(serverLevel, target);
         if (hit && livingTarget != null) {
             ParasiteCombatEffects.applyFearFromDamage(livingTarget, healthBefore, this);
             InfectionMechanics.applyCoth(livingTarget, this);
@@ -227,7 +229,7 @@ public final class AssimilatedHeadEntity extends Monster implements CitadelAnima
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
         if (kind == Kind.ENDERMAN && !level().isClientSide() && source.getDirectEntity() != null
                 && source.getDirectEntity() != source.getEntity()) {
             for (int attempt = 0; attempt < 16; attempt++) {
@@ -237,7 +239,7 @@ public final class AssimilatedHeadEntity extends Monster implements CitadelAnima
             }
             return false;
         }
-        boolean hurt = super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
+        boolean hurt = super.hurtServer(level, source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
         if (hurt && kind == Kind.ENDERMAN && !level().isClientSide() && random.nextBoolean()) {
             teleportAwayFromTarget(getTarget());
         }
@@ -245,7 +247,7 @@ public final class AssimilatedHeadEntity extends Monster implements CitadelAnima
     }
 
     @Override
-    public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
+    public boolean causeFallDamage(double distance, float damageMultiplier, DamageSource source) {
         return super.causeFallDamage(distance, damageMultiplier * 0.3F, source);
     }
 
@@ -370,6 +372,11 @@ public final class AssimilatedHeadEntity extends Monster implements CitadelAnima
         }
     }
 
+    /** 1.21.1 BlockState.blocksMotion() equivalent (that helper was removed in 26.3). */
+    private static boolean blocksMotion(BlockState state) {
+        return state.isSolid() && !state.is(Blocks.COBWEB) && !state.is(Blocks.BAMBOO_SAPLING);
+    }
+
     private boolean teleportAwayFromTarget(LivingEntity target) {
         for (int attempt = 0; attempt < 8; attempt++) {
             Vec3 destination = position().add((random.nextDouble() - 0.5D) * 32.0D,
@@ -378,10 +385,11 @@ public final class AssimilatedHeadEntity extends Monster implements CitadelAnima
                 continue;
             }
             net.minecraft.core.BlockPos blockPos = net.minecraft.core.BlockPos.containing(destination);
-            while (blockPos.getY() > level().getMinY() && !level().getBlockState(blockPos).blocksMotion()) {
+            while (blockPos.getY() > level().getMinY()
+                    && !blocksMotion(level().getBlockState(blockPos))) {
                 blockPos = blockPos.below();
             }
-            if (!level().getBlockState(blockPos).blocksMotion()) {
+            if (!blocksMotion(level().getBlockState(blockPos))) {
                 continue;
             }
             Vec3 safeDestination = new Vec3(destination.x, blockPos.getY() + 1.0D, destination.z);

@@ -78,7 +78,7 @@ public final class CarrierFlyingEntity extends CarrierEntity {
     }
 
     @Override
-    public boolean causeFallDamage(float fallDistance, float damageMultiplier, DamageSource source) {
+    public boolean causeFallDamage(double fallDistance, float damageMultiplier, DamageSource source) {
         return false;
     }
 
@@ -177,7 +177,7 @@ public final class CarrierFlyingEntity extends CarrierEntity {
             getLookControl().setLookAt(target, 30.0F, 30.0F);
             double distance = distanceToSqr(target);
             if (getBoundingBox().intersects(target.getBoundingBox())) {
-                doHurtTarget(target);
+                doHurtTarget(getServerLevel(CarrierFlyingEntity.this), target);
                 charging = false;
             } else if (distance < 9.0D) {
                 getMoveControl().setWantedPosition(target.getX(),

@@ -118,11 +118,11 @@ public final class ColonyEvents {
                 || SrpWorldData.get(level).colonies().isEmpty()) {
             return;
         }
-        SimAdventurerEntity adventurer = ModEntities.SIM_ADVENTURER.get().create(level);
+        SimAdventurerEntity adventurer = ModEntities.SIM_ADVENTURER.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (adventurer == null) {
             return;
         }
-        adventurer.moveTo(thrall.getX(), thrall.getY(), thrall.getZ(), thrall.getYRot(), thrall.getXRot());
+        adventurer.snapTo(thrall.getX(), thrall.getY(), thrall.getZ(), thrall.getYRot(), thrall.getXRot());
         adventurer.finalizeSpawn(level, level.getCurrentDifficultyAt(thrall.blockPosition()),
                 EntitySpawnReason.MOB_SUMMONED, null);
         adventurer.setCustomName(thrall.getCustomName());

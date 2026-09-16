@@ -1,11 +1,12 @@
 package alku.csrp.item;
 
-import java.util.List;
+import java.util.function.Consumer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 
 /** A typed Relay Tower module. The kind is consumed by relay scan logic. */
 public final class RelayModuleItem extends Item {
@@ -21,11 +22,11 @@ public final class RelayModuleItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context,
-            List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.translatable("tooltip.csrp." + kind.id)
+    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display,
+            Consumer<Component> builder, TooltipFlag flag) {
+        builder.accept(Component.translatable("tooltip.csrp." + kind.id)
                 .withStyle(ChatFormatting.GRAY));
-        tooltip.add(Component.translatable("tooltip.csrp.relay_module_use")
+        builder.accept(Component.translatable("tooltip.csrp.relay_module_use")
                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC));
     }
 

@@ -3,15 +3,14 @@ package alku.csrp.client;
 import alku.csrp.Csrp;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModItems;
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import java.util.HashMap;
 import java.util.Map;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -92,8 +91,7 @@ public final class PearlClientEvents {
     public static void renderHeldPearl(RenderHandEvent event) {
         Minecraft minecraft = Minecraft.getInstance();
         if (!event.getItemStack().is(ModItems.PEARL.get()) || minecraft.player == null
-                || minecraft.level == null
-                || !(event.getMultiBufferSource() instanceof MultiBufferSource.BufferSource buffers)) {
+                || minecraft.level == null) {
             return;
         }
 
@@ -106,87 +104,71 @@ public final class PearlClientEvents {
         float state = pearlState(stack, minecraft.level, minecraft.player, 0);
         float strength = state >= 3.0F ? 2.4F : state >= 2.0F ? 1.65F : state >= 1.0F ? 1.0F : 0.35F;
         PoseStack poseStack = event.getPoseStack();
+        SubmitNodeCollector submitNodeCollector = event.getSubmitNodeCollector();
 
         event.setCanceled(true);
         poseStack.pushPose();
         applyHandTransform(poseStack, arm, event.getEquipProgress(), event.getSwingProgress());
-        renderItem(minecraft, stack, context, !rightHand, poseStack, buffers, event.getPackedLight());
+        renderItem(minecraft, stack, context, poseStack, submitNodeCollector, event.getPackedLight());
         poseStack.popPose();
-        buffers.endBatch();
 
         int tick = minecraft.player.tickCount;
         if (tick != lastTickSeen) {
             lastTickSeen = tick;
             float chance = 0.09F * (0.75F + 0.5F * strength);
-            if (glitchFrames <= 0 && minecraft.level.random.nextFloat() < chance) {
-                glitchFrames = 2 + minecraft.level.random.nextInt(4);
+            if (glitchFrames <= 0 && minecraft.level.getRandom().nextFloat() < chance) {
+                glitchFrames = 2 + minecraft.level.getRandom().nextInt(4);
             }
         }
 
         float time = (minecraft.player.tickCount + event.getPartialTick()) * 0.44F;
-        RenderSystem.enableBlend();
-        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
-        RenderSystem.depthMask(false);
-        RenderSystem.disableDepthTest();
-        try {
-            for (int layer = 0; layer < 2; layer++) {
-                float baseRadius = 0.0075F + layer * 0.0035F;
-                float alpha = 0.4F * (1.0F - layer * 0.2F);
-                for (int sample = 0; sample < 16; sample++) {
-                    float angle = sample / 16.0F * Mth.TWO_PI
-                            + Mth.sin(time * 0.9F + sample * 0.7F) * 0.24F;
-                    float radius = baseRadius
-                            + Mth.sin(time * 1.7F + sample * 1.3F + layer * 0.8F) * 0.0032F;
-                    float jitterX = (Mth.sin(time * 19.0F + sample * 0.73F)
-                            + Mth.cos(time * 31.0F + sample * 0.41F)) * 0.0006F * strength;
-                    float jitterY = (Mth.cos(time * 16.53F + sample * 0.31F)
-                            + Mth.sin(time * 34.72F + sample * 0.27F)) * 0.0006F * strength;
-                    poseStack.pushPose();
-                    poseStack.translate(Mth.cos(angle) * radius + jitterX,
-                            Mth.sin(angle) * radius + jitterY, 0.0F);
-                    applyHandTransform(poseStack, arm, event.getEquipProgress(), event.getSwingProgress());
-                    RenderSystem.setShaderColor(0.85F, 0.95F, 1.0F, alpha);
-                    renderItem(minecraft, stack, context, !rightHand, poseStack, buffers, event.getPackedLight());
-                    poseStack.popPose();
-                    buffers.endBatch();
-                }
+        for (int layer = 0; layer < 2; layer++) {
+            float baseRadius = 0.0075F + layer * 0.0035F;
+            for (int sample = 0; sample < 16; sample++) {
+                float angle = sample / 16.0F * Mth.TWO_PI
+                        + Mth.sin(time * 0.9F + sample * 0.7F) * 0.24F;
+                float radius = baseRadius
+                        + Mth.sin(time * 1.7F + sample * 1.3F + layer * 0.8F) * 0.0032F;
+                float jitterX = (Mth.sin(time * 19.0F + sample * 0.73F)
+                        + Mth.cos(time * 31.0F + sample * 0.41F)) * 0.0006F * strength;
+                float jitterY = (Mth.cos(time * 16.53F + sample * 0.31F)
+                        + Mth.sin(time * 34.72F + sample * 0.27F)) * 0.0006F * strength;
+                poseStack.pushPose();
+                poseStack.translate(Mth.cos(angle) * radius + jitterX,
+                        Mth.sin(angle) * radius + jitterY, 0.0F);
+                applyHandTransform(poseStack, arm, event.getEquipProgress(), event.getSwingProgress());
+                renderItem(minecraft, stack, context, poseStack, submitNodeCollector, event.getPackedLight());
+                poseStack.popPose();
             }
+        }
 
-            if (glitchFrames > 0) {
-                float shake = Mth.sin((minecraft.player.tickCount + event.getPartialTick())
-                        * 27.0F * (0.9F + 0.2F * strength)) * 0.0045F * (0.75F + 0.6F * strength);
-                for (int pass = 0; pass < 7; pass++) {
-                    float spread = 0.016F * (0.6F + 0.6F * strength);
-                    float offsetX = (minecraft.level.random.nextFloat() * 2.0F - 1.0F) * spread + shake;
-                    float offsetY = (minecraft.level.random.nextFloat() * 2.0F - 1.0F) * spread + shake;
-                    float rotation = (minecraft.level.random.nextFloat() * 2.0F - 1.0F)
-                            * 14.0F * (0.75F + 0.4F * strength);
-                    float scale = 1.0F + minecraft.level.random.nextFloat() * 0.09F;
-                    poseStack.pushPose();
-                    poseStack.translate(offsetX, offsetY, 0.0F);
-                    poseStack.mulPose(Axis.ZP.rotationDegrees(rotation));
-                    poseStack.scale(scale, scale, scale);
-                    applyHandTransform(poseStack, arm, event.getEquipProgress(), event.getSwingProgress());
-                    RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.6F);
-                    renderItem(minecraft, stack, context, !rightHand, poseStack, buffers, event.getPackedLight());
-                    poseStack.popPose();
-                    buffers.endBatch();
-                }
-                glitchFrames--;
+        if (glitchFrames > 0) {
+            float shake = Mth.sin((minecraft.player.tickCount + event.getPartialTick())
+                    * 27.0F * (0.9F + 0.2F * strength)) * 0.0045F * (0.75F + 0.6F * strength);
+            for (int pass = 0; pass < 7; pass++) {
+                float spread = 0.016F * (0.6F + 0.6F * strength);
+                float offsetX = (minecraft.level.getRandom().nextFloat() * 2.0F - 1.0F) * spread + shake;
+                float offsetY = (minecraft.level.getRandom().nextFloat() * 2.0F - 1.0F) * spread + shake;
+                float rotation = (minecraft.level.getRandom().nextFloat() * 2.0F - 1.0F)
+                        * 14.0F * (0.75F + 0.4F * strength);
+                float scale = 1.0F + minecraft.level.getRandom().nextFloat() * 0.09F;
+                poseStack.pushPose();
+                poseStack.translate(offsetX, offsetY, 0.0F);
+                poseStack.rotate(Axis.ZP.rotationDegrees(rotation));
+                poseStack.scale(scale, scale, scale);
+                applyHandTransform(poseStack, arm, event.getEquipProgress(), event.getSwingProgress());
+                renderItem(minecraft, stack, context, poseStack, submitNodeCollector, event.getPackedLight());
+                poseStack.popPose();
             }
-        } finally {
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-            RenderSystem.enableDepthTest();
-            RenderSystem.depthMask(true);
-            RenderSystem.defaultBlendFunc();
-            RenderSystem.disableBlend();
+            glitchFrames--;
         }
     }
 
     private static void renderItem(Minecraft minecraft, ItemStack stack, ItemDisplayContext context,
-            boolean leftHand, PoseStack poseStack, MultiBufferSource buffers, int packedLight) {
-        minecraft.getItemRenderer().renderStatic(minecraft.player, stack, context, leftHand, poseStack,
-                buffers, minecraft.level, packedLight, OverlayTexture.NO_OVERLAY, minecraft.player.getId());
+            PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight) {
+        ItemStackRenderState renderState = new ItemStackRenderState();
+        minecraft.getItemModelResolver().updateForLiving(renderState, stack, context, minecraft.player);
+        renderState.submit(poseStack, submitNodeCollector, packedLight, OverlayTexture.NO_OVERLAY, 0);
     }
 
     private static void applyHandTransform(PoseStack poseStack, HumanoidArm arm,
@@ -199,10 +181,10 @@ public final class PearlClientEvents {
         float z = -0.2F * Mth.sin(swingProgress * Mth.PI);
         poseStack.translate(direction * x, y, z);
         poseStack.translate(direction * 0.56F, -0.52F - equipProgress * 0.6F, -0.72F);
-        poseStack.mulPose(Axis.YP.rotationDegrees(direction * (45.0F - swingCurve * 20.0F)));
-        poseStack.mulPose(Axis.ZP.rotationDegrees(direction * swingRoot * -20.0F));
-        poseStack.mulPose(Axis.XP.rotationDegrees(swingRoot * -80.0F));
-        poseStack.mulPose(Axis.YP.rotationDegrees(direction * -45.0F));
+        poseStack.rotate(Axis.YP.rotationDegrees(direction * (45.0F - swingCurve * 20.0F)));
+        poseStack.rotate(Axis.ZP.rotationDegrees(direction * swingRoot * -20.0F));
+        poseStack.rotate(Axis.XP.rotationDegrees(swingRoot * -80.0F));
+        poseStack.rotate(Axis.YP.rotationDegrees(direction * -45.0F));
     }
 
     private static boolean isHoldingPearl(LivingEntity entity) {

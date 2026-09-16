@@ -3,7 +3,6 @@ package alku.csrp.block;
 import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModItems;
 import alku.csrp.registry.ModSounds;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -16,6 +15,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BonemealSource;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.BushBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -27,7 +27,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 /** Thornshade's legacy growth, harvest, snow, and withering states. */
 public final class ThornshadeBlock extends BushBlock implements BonemealableBlock {
-    public static final MapCodec<ThornshadeBlock> CODEC = simpleCodec(ThornshadeBlock::new);
     public static final EnumProperty<Stage> STAGE = EnumProperty.create("stage", Stage.class);
     private static final VoxelShape SEEDLING_SHAPE = Block.box(3.0D, 0.0D, 3.0D, 13.0D, 5.0D, 13.0D);
     private static final VoxelShape GROWING_SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 10.0D, 14.0D);
@@ -36,11 +35,6 @@ public final class ThornshadeBlock extends BushBlock implements BonemealableBloc
     public ThornshadeBlock(Properties properties) {
         super(properties.randomTicks());
         registerDefaultState(stateDefinition.any().setValue(STAGE, Stage.STAGE0));
-    }
-
-    @Override
-    protected MapCodec<? extends BushBlock> codec() {
-        return CODEC;
     }
 
     @Override
@@ -80,13 +74,13 @@ public final class ThornshadeBlock extends BushBlock implements BonemealableBloc
             return InteractionResult.PASS;
         }
         if (!level.isClientSide()) {
-            int berries = 1 + level.random.nextInt(2);
+            int berries = 1 + level.getRandom().nextInt(2);
             popResource(level, pos, new ItemStack(ModItems.THORNSHADE_BERRY.get(), berries));
             level.setBlock(pos, Stage.STAGE2_NO_BERRY.withSnow(current.snowy()).apply(state), Block.UPDATE_CLIENTS);
             level.playSound(null, pos, ModSounds.MOVING_FLESH_GROW.get(), SoundSource.BLOCKS,
-                    0.65F, 0.9F + level.random.nextFloat() * 0.2F);
+                    0.65F, 0.9F + level.getRandom().nextFloat() * 0.2F);
         }
-        return InteractionResult.sidedSuccess(level.isClientSide());
+        return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.CONSUME;
     }
 
     @Override
@@ -99,19 +93,21 @@ public final class ThornshadeBlock extends BushBlock implements BonemealableBloc
     }
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, BonemealSource source) {
         Stage stage = state.getValue(STAGE).base();
         return hasParasiticSoil(level, pos)
                 && (stage == Stage.STAGE0 || stage == Stage.STAGE1 || stage == Stage.STAGE2_NO_BERRY);
     }
 
     @Override
-    public boolean isBonemealSuccess(Level level, RandomSource random, BlockPos pos, BlockState state) {
+    public boolean isBonemealSuccess(Level level, RandomSource random, BlockPos pos, BlockState state,
+            BonemealSource source) {
         return true;
     }
 
     @Override
-    public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
+    public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state,
+            BonemealSource source) {
         Stage current = state.getValue(STAGE);
         Stage next = switch (current.base()) {
             case STAGE0 -> Stage.STAGE1;

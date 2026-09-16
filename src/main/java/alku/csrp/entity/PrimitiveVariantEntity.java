@@ -13,7 +13,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -47,10 +48,11 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
-import net.minecraft.world.entity.monster.Slime;
+import net.minecraft.world.entity.monster.cubemob.Slime;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.SwingAnimation;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -471,7 +473,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
         super.tick();
         Kind activeKind = activeKind();
         if (activeKind == Kind.DEVOURER) {
-            boolean inWater = isInWaterOrBubble();
+            boolean inWater = isInWater();
             setNoGravity(inWater);
             if (!level().isClientSide()) {
                 if (inWater) {
@@ -525,7 +527,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
         if (activeKind() == Kind.MANDUCATER) {
             setManducaterCamouflaged(false);
             manducaterCamouflageTimer = 0;
@@ -533,7 +535,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
         if (source.is(DamageTypeTags.IS_FIRE)) {
             amount *= 4.0F;
         }
-        return super.hurt(source, amount);
+        return super.hurtServer(level, source, amount);
     }
 
     @Override
@@ -569,16 +571,16 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
     }
 
     @Override
-    public boolean doHurtTarget(Entity entity) {
+    public boolean doHurtTarget(ServerLevel level, Entity entity) {
         Kind activeKind = activeKind();
         if (activeKind == Kind.TOZOON) {
             return performTozoonAoeAttack(entity);
         }
-        if (activeKind == Kind.DEVOURER && !isInWaterOrBubble()) {
+        if (activeKind == Kind.DEVOURER && !isInWater()) {
             return false;
         }
         boolean stealthAttack = activeKind == Kind.MANDUCATER && isManducaterCamouflaged();
-        boolean hit = super.doHurtTarget(entity);
+        boolean hit = super.doHurtTarget(level, entity);
         if (!hit || !(entity instanceof LivingEntity target)) {
             return hit;
         }
@@ -693,7 +695,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
                 serverLevel.broadcastEntityEvent(this, RICARDO_BURST_EVENT);
             }
         }
-        return InteractionResult.sidedSuccess(level().isClientSide());
+        return InteractionResult.SUCCESS_SERVER;
     }
 
     @Override
@@ -865,12 +867,12 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
             if (ratio <= 0.10D) {
                 armor = RICARDO_BERSERK_ARMOR;
                 speed = 0.62D;
-                addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 60, 1, false, true), this);
+                addEffect(new MobEffectInstance(MobEffects.STRENGTH, 60, 1, false, true), this);
                 addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 60, 2, false, true), this);
             } else if (ratio <= 0.25D) {
                 armor = RICARDO_ENRAGED_ARMOR;
                 speed = 0.58D;
-                addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 60, 0, false, true), this);
+                addEffect(new MobEffectInstance(MobEffects.STRENGTH, 60, 0, false, true), this);
                 addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 60, 1, false, true), this);
                 if (level() instanceof ServerLevel serverLevel) {
                     serverLevel.sendParticles(ParticleTypes.ENCHANTED_HIT,
@@ -900,7 +902,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
             length = Math.max(1.0E-4D, Math.sqrt(deltaX * deltaX + deltaZ * deltaZ));
         }
         target.push(deltaX / length * 4.75D, 1.2D, deltaZ / length * 4.75D);
-        target.hurtMarked = true;
+        target.syncVelocity = true;
     }
 
     private void spawnRicardoParticles() {
@@ -914,7 +916,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
     }
 
     private void awardRicardoShearing(ServerPlayer player) {
-        AdvancementHolder advancement = player.server.getAdvancements().get(
+        AdvancementHolder advancement = player.level().getServer().getAdvancements().get(
                 Identifier.fromNamespaceAndPath(Csrp.MODID, "tricked_me"));
         if (advancement != null) {
             player.getAdvancements().award(advancement, "sheared_ricardo");
@@ -1085,7 +1087,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
+    public void addAdditionalSaveData(ValueOutput tag) {
         super.addAdditionalSaveData(tag);
         if (activeKind() == Kind.MANDUCATER) {
             tag.putBoolean("manducater_camouflaged", isManducaterCamouflaged());
@@ -1112,7 +1114,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
+    public void readAdditionalSaveData(ValueInput tag) {
         super.readAdditionalSaveData(tag);
         if (activeKind() == Kind.MANDUCATER) {
             setManducaterCamouflaged(tag.getBooleanOr("manducater_camouflaged", false));
@@ -1161,7 +1163,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
     }
 
     @Override
-    public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
+    public boolean causeFallDamage(double distance, float damageMultiplier, DamageSource source) {
         return activeKind() != Kind.YELLOWEYE && super.causeFallDamage(distance, damageMultiplier, source);
     }
 
@@ -1245,7 +1247,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
     }
 
     private void breakSoftBlockTowards(LivingEntity target) {
-        if (abilityCooldown > 0 || !level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)) {
+        if (abilityCooldown > 0 || !((ServerLevel) level()).getGameRules().get(GameRules.MOB_GRIEFING)) {
             return;
         }
         Vec3 direction = target.position().subtract(position());
@@ -1420,10 +1422,12 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
         AABB area = new AABB(target.getX(), target.getY(), target.getZ(),
                 target.getX() + 1.0D, target.getY() + 1.0D, target.getZ() + 1.0D).inflate(1.5D);
         boolean hit = false;
-        for (LivingEntity nearby : level().getEntitiesOfClass(LivingEntity.class, area,
-                candidate -> candidate.isAlive() && !(candidate instanceof Parasite)
-                        && hasLineOfSight(candidate))) {
-            hit |= super.doHurtTarget(nearby);
+        if (level() instanceof ServerLevel serverLevel) {
+            for (LivingEntity nearby : level().getEntitiesOfClass(LivingEntity.class, area,
+                    candidate -> candidate.isAlive() && !(candidate instanceof Parasite)
+                            && hasLineOfSight(candidate))) {
+                hit |= super.doHurtTarget(serverLevel, nearby);
+            }
         }
         return hit;
     }
@@ -1511,7 +1515,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
                 setTarget(null);
                 return;
             }
-            if (!isInWaterOrBubble()) {
+            if (!isInWater()) {
                 return;
             }
             if (attackCooldown > 0) {
@@ -1542,7 +1546,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
             double attackDistance = distanceToSqr(target.getX(), target.getBoundingBox().minY, target.getZ());
             if (attackDistance <= ATTACK_DISTANCE_SQR && attackCooldown <= 0) {
                 attackCooldown = 20;
-                doHurtTarget(target);
+                doHurtTarget(getServerLevel(level()), target);
             }
             if (movementCycle > 140) {
                 movementCycle = 0;
@@ -1703,11 +1707,11 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
 
         @Override
         public boolean canUse() {
-            if (!isInWaterOrBubble() && !isInLava()) {
+            if (!isInWater() && !isInLava()) {
                 return false;
             }
             LivingEntity target = getTarget();
-            if (target != null && (target.isInWaterOrBubble() || target.isInLava())
+            if (target != null && (target.isInWater() || target.isInLava())
                     && distanceToSqr(getX(), target.getY(), getZ()) < 25.0D
                     && target.getY() - getY() < -1.0D) {
                 setDeltaMovement(getDeltaMovement().add(0.0D, -DIVE_MOTION, 0.0D));
@@ -1754,8 +1758,8 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
             if (attackCooldown <= 0 && mob.isWithinMeleeAttackRange(target)
                     && mob.getSensing().hasLineOfSight(target)) {
                 attackCooldown = getAttackInterval();
-                mob.swing(InteractionHand.MAIN_HAND);
-                mob.doHurtTarget(target);
+                mob.swing(InteractionHand.MAIN_HAND, SwingAnimation.DEFAULT);
+                mob.doHurtTarget(getServerLevel(mob), target);
             }
         }
 
@@ -1774,7 +1778,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
 
         @Override
         public boolean canUse() {
-            return isInWaterOrBubble() || attacking >= 1;
+            return isInWater() || attacking >= 1;
         }
 
         @Override
@@ -1922,8 +1926,8 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
             if (attackCooldown <= 0 && mob.isWithinMeleeAttackRange(target)
                     && mob.getSensing().hasLineOfSight(target)) {
                 attackCooldown = getAttackInterval();
-                mob.swing(InteractionHand.MAIN_HAND);
-                mob.doHurtTarget(target);
+                mob.swing(InteractionHand.MAIN_HAND, SwingAnimation.DEFAULT);
+                mob.doHurtTarget(getServerLevel(mob), target);
             }
         }
 
@@ -1942,7 +1946,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
 
         @Override
         public boolean canUse() {
-            return isInWaterOrBubble() || attacking >= 1;
+            return isInWater() || attacking >= 1;
         }
 
         @Override
@@ -2103,7 +2107,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
         @Override
         public boolean canUse() {
             LivingEntity target = getTarget();
-            if (target == null || !target.isAlive() || !onGround() || isInWaterOrBubble()
+            if (target == null || !target.isAlive() || !onGround() || isInWater()
                     || !hasLineOfSight(target)) {
                 return false;
             }
@@ -2147,7 +2151,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
             }
             getLookControl().setLookAt(target, 30.0F, 30.0F);
             if (chargeTicks < REEKER_WINDUP_TICKS) {
-                if (!onGround() || isInWaterOrBubble()
+                if (!onGround() || isInWater()
                         || target.getY() > getY() && target.onGround()) {
                     finished = true;
                     return;
@@ -2181,7 +2185,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
                 double deltaZ = getZ() - victim.getZ();
                 double length = Math.max(0.001D, Math.sqrt(deltaX * deltaX + deltaZ * deltaZ));
                 victim.push(-deltaX / length * 0.5D, 0.4D, -deltaZ / length * 0.5D);
-                doHurtTarget(victim);
+                doHurtTarget(getServerLevel(level()), victim);
             }
             if (!onGround()) {
                 Vec3 motion = getDeltaMovement();
@@ -2328,14 +2332,14 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
             hoverTicks = 0;
             hoverY = getY();
             setDeltaMovement(Vec3.ZERO);
-            hasImpulse = true;
+            needsSync = true;
         }
 
         private void applyDiveVector(Vec3 target, double speed) {
             Vec3 direction = target.subtract(position());
             if (direction.lengthSqr() > 1.0E-4D) {
                 setDeltaMovement(direction.normalize().scale(speed));
-                hasImpulse = true;
+                needsSync = true;
                 getLookControl().setLookAt(target.x, target.y, target.z, 30.0F, 30.0F);
             }
         }
@@ -2349,7 +2353,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
         private void finish(boolean setCooldown) {
             setNoGravity(false);
             setDeltaMovement(Vec3.ZERO);
-            hasImpulse = true;
+            needsSync = true;
             fallDistance = 0.0F;
             phase = DivePhase.IDLE;
             if (setCooldown) {

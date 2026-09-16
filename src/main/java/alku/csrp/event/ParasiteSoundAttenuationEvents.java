@@ -25,7 +25,7 @@ public final class ParasiteSoundAttenuationEvents {
     @SubscribeEvent
     public static void attenuateHostileSound(PlayLevelSoundEvent.AtPosition event) {
         if (event.getSource() == SoundSource.HOSTILE && event.getSound() != null
-                && event.getSound().value().getLocation().getNamespace().equals(Csrp.MODID)) {
+                && event.getSound().value().location().getNamespace().equals(Csrp.MODID)) {
             capVolume(event);
         }
     }

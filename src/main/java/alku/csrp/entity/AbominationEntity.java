@@ -90,8 +90,8 @@ public final class AbominationEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
-        return super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+        return super.hurtServer(level, source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
     }
 
     @Override
@@ -117,8 +117,8 @@ public final class AbominationEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public boolean doHurtTarget(Entity target) {
-        boolean hurt = super.doHurtTarget(target);
+    public boolean doHurtTarget(ServerLevel level, Entity target) {
+        boolean hurt = super.doHurtTarget(level, target);
         if (hurt && activeKind() == Kind.HEAD) {
             triggerAnim("attack_controller", "attack");
         }

@@ -23,7 +23,7 @@ public final class ModJukeboxSongs {
             () -> new JukeboxSong(discThreeSound(), Component.translatable("jukebox_song.csrp.discthree"), 240.0F, 3));
 
     private static Holder<SoundEvent> discThreeSound() {
-        return BuiltInRegistries.SOUND_EVENT.getHolderOrThrow(ResourceKey.create(
+        return BuiltInRegistries.SOUND_EVENT.getOrThrow(ResourceKey.create(
                 BuiltInRegistries.SOUND_EVENT.key(),
                 Identifier.fromNamespaceAndPath(Csrp.MODID, "srparasites.discthree")));
     }

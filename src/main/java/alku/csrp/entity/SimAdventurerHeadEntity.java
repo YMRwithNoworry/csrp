@@ -104,7 +104,7 @@ public final class SimAdventurerHeadEntity extends Monster implements CitadelAni
         goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         targetSelector.addGoal(1, new HurtByTargetGoal(this));
         targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,
-                true, false, this::isValidParasiteTarget));
+                true, false, (target, level) -> isValidParasiteTarget(target)));
     }
 
     @Override
@@ -135,7 +135,7 @@ public final class SimAdventurerHeadEntity extends Monster implements CitadelAni
             }
         }
 
-        if (isInWaterOrBubble() && getTarget() != null) {
+        if (isInWater() && getTarget() != null) {
             Vec3 direction = getTarget().position().subtract(position());
             if (direction.lengthSqr() > 0.001D) {
                 direction = direction.normalize();
@@ -145,13 +145,13 @@ public final class SimAdventurerHeadEntity extends Monster implements CitadelAni
     }
 
     @Override
-    public boolean doHurtTarget(Entity target) {
+    public boolean doHurtTarget(ServerLevel level, Entity target) {
         if (target instanceof IncompleteFormMediumEntity medium) {
             return mergeWith(medium);
         }
         float healthBefore = target instanceof LivingEntity living
                 ? ParasiteCombatEffects.healthWithAbsorption(living) : 0.0F;
-        boolean hit = super.doHurtTarget(target);
+        boolean hit = super.doHurtTarget(level, target);
         if (hit && !level().isClientSide()) {
             if (target instanceof LivingEntity living) {
                 applyMinimumDamage(living, healthBefore);
@@ -161,12 +161,12 @@ public final class SimAdventurerHeadEntity extends Monster implements CitadelAni
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
-        return super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+        return super.hurtServer(level, source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
     }
 
     @Override
-    public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
+    public boolean causeFallDamage(double distance, float damageMultiplier, DamageSource source) {
         return super.causeFallDamage(distance, damageMultiplier * 0.3F, source);
     }
 
@@ -223,7 +223,7 @@ public final class SimAdventurerHeadEntity extends Monster implements CitadelAni
     }
 
     private boolean shouldFleeInDaylight(LivingEntity target) {
-        if (target == this || target instanceof Parasite || !level().isDay()
+        if (target == this || target instanceof Parasite || !level().isBrightOutside()
                 || !level().canSeeSky(blockPosition())) {
             return false;
         }
@@ -346,11 +346,11 @@ public final class SimAdventurerHeadEntity extends Monster implements CitadelAni
         if (!isAlive() || !medium.isAlive() || !(level() instanceof ServerLevel serverLevel)) {
             return false;
         }
-        SimAdventurerEntity adventurer = ModEntities.SIM_ADVENTURER.get().create(serverLevel);
+        SimAdventurerEntity adventurer = ModEntities.SIM_ADVENTURER.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (adventurer == null) {
             return false;
         }
-        adventurer.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        adventurer.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         adventurer.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
                 EntitySpawnReason.MOB_SUMMONED, null);
         copyIdentity(adventurer);

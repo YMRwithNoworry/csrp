@@ -27,7 +27,7 @@ public final class CompendiumEvents {
         if (event.getSource().getEntity() instanceof ServerPlayer killer) {
             Identifier victimId = BuiltInRegistries.ENTITY_TYPE.getKey(event.getEntity().getType());
             if (victimId.getNamespace().equals(Csrp.MODID)) {
-                CompendiumSavedData data = CompendiumSavedData.get(killer.getServer());
+                CompendiumSavedData data = CompendiumSavedData.get(killer.level().getServer());
                 int kills = data.progress(killer.getUUID()).addKill(victimId.toString());
                 data.changed();
                 if (kills == 1) {
@@ -37,7 +37,7 @@ public final class CompendiumEvents {
         }
         if (event.getEntity() instanceof ServerPlayer player
                 && event.getSource().getEntity() instanceof Parasite) {
-            CompendiumSavedData data = CompendiumSavedData.get(player.getServer());
+            CompendiumSavedData data = CompendiumSavedData.get(player.level().getServer());
             data.progress(player.getUUID()).addDeathByParasites();
             data.changed();
         }
@@ -45,14 +45,14 @@ public final class CompendiumEvents {
 
     @SubscribeEvent
     public static void onDamage(LivingDamageEvent.Post event) {
-        float amount = event.getNewDamage();
+        float amount = event.getHealthDamage();
         if (event.getSource().getEntity() instanceof ServerPlayer attacker && event.getEntity() instanceof Parasite) {
-            CompendiumSavedData data = CompendiumSavedData.get(attacker.getServer());
+            CompendiumSavedData data = CompendiumSavedData.get(attacker.level().getServer());
             data.progress(attacker.getUUID()).addDamageToParasites(amount);
             data.changed();
         }
         if (event.getEntity() instanceof ServerPlayer victim && event.getSource().getEntity() instanceof Parasite) {
-            CompendiumSavedData data = CompendiumSavedData.get(victim.getServer());
+            CompendiumSavedData data = CompendiumSavedData.get(victim.level().getServer());
             data.progress(victim.getUUID()).addDamageFromParasites(amount);
             data.changed();
         }
@@ -86,7 +86,7 @@ public final class CompendiumEvents {
         if (!id.getNamespace().equals(Csrp.MODID)) {
             return;
         }
-        CompendiumSavedData data = CompendiumSavedData.get(player.getServer());
+        CompendiumSavedData data = CompendiumSavedData.get(player.level().getServer());
         if (data.progress(player.getUUID()).unlockEffect(id.toString())) {
             data.changed();
             notifyUnlock(player, "effect");
@@ -97,7 +97,7 @@ public final class CompendiumEvents {
         if (!CompendiumCatalog.CELESTIALS.contains(celestial)) {
             return;
         }
-        CompendiumSavedData data = CompendiumSavedData.get(player.getServer());
+        CompendiumSavedData data = CompendiumSavedData.get(player.level().getServer());
         if (data.progress(player.getUUID()).unlockCelestial(celestial)) {
             data.changed();
             notifyUnlock(player, "celestial");
@@ -108,7 +108,7 @@ public final class CompendiumEvents {
         if (!id.getNamespace().equals(Csrp.MODID)) {
             return;
         }
-        CompendiumSavedData data = CompendiumSavedData.get(player.getServer());
+        CompendiumSavedData data = CompendiumSavedData.get(player.level().getServer());
         if (data.progress(player.getUUID()).unlockBlock(id.toString())) {
             data.changed();
             notifyUnlock(player, "block");

@@ -48,7 +48,7 @@ public class IncompleteFormSmallEntity extends CrudeParasiteEntity {
         targetSelector.addGoal(1, new HurtByTargetGoal(this));
         targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Player.class, true));
         targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,
-                true, false, this::isLegacyCrudeTarget));
+                true, false, (target, serverLevel) -> this.isLegacyCrudeTarget(target)));
     }
 
     protected boolean isLegacyCrudeTarget(LivingEntity target) {

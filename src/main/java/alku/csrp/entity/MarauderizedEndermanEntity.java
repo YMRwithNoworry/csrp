@@ -2,6 +2,7 @@ package alku.csrp.entity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -11,6 +12,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.tags.BlockTags;
 
 /** Legacy Marauderized enderman: teleporting ambusher that tethers targets after a melee hit. */
 public final class MarauderizedEndermanEntity extends TetheredMarauderizedEntity {
@@ -55,8 +57,8 @@ public final class MarauderizedEndermanEntity extends TetheredMarauderizedEntity
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
-        if (!level().isClientSide() && source.is(DamageTypeTags.IS_PROJECTILE)) {
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+        if (!level.isClientSide() && source.is(DamageTypeTags.IS_PROJECTILE)) {
             for (int attempt = 0; attempt < 64; attempt++) {
                 if (teleportAwayFromTarget(getTarget())) {
                     return true;
@@ -64,19 +66,19 @@ public final class MarauderizedEndermanEntity extends TetheredMarauderizedEntity
             }
         }
 
-        boolean damaged = super.hurt(source, amount);
-        if (damaged && !level().isClientSide() && teleportCooldown <= 0 && random.nextInt(4) == 0) {
+        boolean damaged = super.hurtServer(level, source, amount);
+        if (damaged && !level.isClientSide() && teleportCooldown <= 0 && random.nextInt(4) == 0) {
             teleportAwayFromTarget(getTarget());
         }
         return damaged;
     }
 
     @Override
-    public boolean doHurtTarget(Entity target) {
-        boolean damaged = super.doHurtTarget(target);
+    public boolean doHurtTarget(ServerLevel level, Entity target) {
+        boolean damaged = super.doHurtTarget(level, target);
         if (damaged && target instanceof LivingEntity living) {
             captureTarget(living);
-            if (!level().isClientSide() && teleportCooldown <= 0 && random.nextInt(4) == 0) {
+            if (!level.isClientSide() && teleportCooldown <= 0 && random.nextInt(4) == 0) {
                 teleportAwayFromTarget(getTarget());
             }
         }
@@ -104,8 +106,8 @@ public final class MarauderizedEndermanEntity extends TetheredMarauderizedEntity
     }
 
     @Override
-    public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
-        return distance >= 60.0F && super.causeFallDamage(distance, damageMultiplier, source);
+    public boolean causeFallDamage(double distance, float damageMultiplier, DamageSource source) {
+        return distance >= 60.0D && super.causeFallDamage(distance, damageMultiplier, source);
     }
 
     private void spawnPortalParticles() {
@@ -139,10 +141,10 @@ public final class MarauderizedEndermanEntity extends TetheredMarauderizedEntity
 
     private boolean tryTeleport(Vec3 requested) {
         BlockPos landing = BlockPos.containing(requested);
-        while (landing.getY() > level().getMinY() && !level().getBlockState(landing).blocksMotion()) {
+        while (landing.getY() > level().getMinY() && !level().getBlockState(landing).is(BlockTags.BLOCKS_MOTION_IN_HEIGHTMAP)) {
             landing = landing.below();
         }
-        if (!level().getBlockState(landing).blocksMotion()) {
+        if (!level().getBlockState(landing).is(BlockTags.BLOCKS_MOTION_IN_HEIGHTMAP)) {
             return false;
         }
 

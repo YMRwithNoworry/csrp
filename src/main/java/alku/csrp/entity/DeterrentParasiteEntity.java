@@ -3,7 +3,9 @@ package alku.csrp.entity;
 import alku.csrp.Config;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
+import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -32,6 +34,8 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -195,12 +199,12 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public boolean doHurtTarget(Entity entity) {
+    public boolean doHurtTarget(ServerLevel level, Entity entity) {
         Kind activeKind = activeKind();
         if (activeKind == Kind.DISPATCHER_TENTACLE || activeKind == Kind.SEIZER || activeKind == Kind.WORM) {
             return false;
         }
-        boolean hit = super.doHurtTarget(entity);
+        boolean hit = super.doHurtTarget(level, entity);
         if (!hit || !(entity instanceof LivingEntity target)) {
             return hit;
         }
@@ -220,15 +224,15 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
         if (activeKind() == Kind.SEIZER && source.getDirectEntity() instanceof ParasiteProjectileEntity) {
             LivingEntity heldTarget = getSeizerTarget();
             if (heldTarget != null) {
-                heldTarget.hurt(source, amount * 2.0F);
+                heldTarget.hurtServer(level, source, amount * 2.0F);
             }
             return false;
         }
-        return super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
+        return super.hurtServer(level, source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
     }
 
     @Override
@@ -265,70 +269,66 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putInt("deterrent_ability_cooldown", abilityCooldown);
-        tag.putInt("deterrent_lifetime", lifetimeTicks);
-        tag.putInt("deterrent_attack_flash", attackFlashTicks);
-        tag.putInt("deterrent_worm_minimum", wormMinimumPayload);
-        tag.putInt("deterrent_worm_maximum", wormMaximumPayload);
-        ListTag payloadTypes = new ListTag();
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putInt("deterrent_ability_cooldown", abilityCooldown);
+        output.putInt("deterrent_lifetime", lifetimeTicks);
+        output.putInt("deterrent_attack_flash", attackFlashTicks);
+        output.putInt("deterrent_worm_minimum", wormMinimumPayload);
+        output.putInt("deterrent_worm_maximum", wormMaximumPayload);
+        ValueOutput.TypedOutputList<String> payloadTypes = output.list("deterrent_worm_types", Codec.STRING);
         for (String type : wormPayloadTypes) {
-            payloadTypes.add(StringTag.valueOf(type));
+            payloadTypes.add(type);
         }
-        tag.put("deterrent_worm_types", payloadTypes);
         if (dispatchTarget != null) {
-            tag.putUUID("deterrent_dispatch_target", dispatchTarget);
+            output.store("deterrent_dispatch_target", UUIDUtil.CODEC, dispatchTarget);
         }
         if (dispatchEntityId != null) {
-            tag.putString("deterrent_dispatch_entity", dispatchEntityId);
+            output.putString("deterrent_dispatch_entity", dispatchEntityId);
         }
         if (seizerTarget != null) {
-            tag.putUUID("deterrent_seizer_target", seizerTarget);
+            output.store("deterrent_seizer_target", UUIDUtil.CODEC, seizerTarget);
         }
         if (activeKind() == Kind.SENTRY) {
-            tag.putInt("sentry_parasite_status", entityData.get(SENTRY_PARASITE_STATUS));
-            tag.putBoolean("sentry_still_ani", entityData.get(SENTRY_STILL_ANI));
+            output.putInt("sentry_parasite_status", entityData.get(SENTRY_PARASITE_STATUS));
+            output.putBoolean("sentry_still_ani", entityData.get(SENTRY_STILL_ANI));
         }
         if (activeKind() == Kind.KYPHOSIS) {
-            tag.putFloat("kyphosis_attack_timer", entityData.get(KYPHOSIS_ATTACK_TIMER));
-            tag.putFloat("kyphosis_buried", entityData.get(KYPHOSIS_BURIED));
-            tag.putInt("kyphosis_parasite_status", entityData.get(KYPHOSIS_PARASITE_STATUS));
-            tag.putInt("kyphosis_skill_border", entityData.get(KYPHOSIS_SKILL_BORDER));
-            tag.putBoolean("kyphosis_attack_up", kyphosisAttackUp);
-            tag.putDouble("kyphosis_buried_target", kyphosisBuriedTarget);
+            output.putFloat("kyphosis_attack_timer", entityData.get(KYPHOSIS_ATTACK_TIMER));
+            output.putFloat("kyphosis_buried", entityData.get(KYPHOSIS_BURIED));
+            output.putInt("kyphosis_parasite_status", entityData.get(KYPHOSIS_PARASITE_STATUS));
+            output.putInt("kyphosis_skill_border", entityData.get(KYPHOSIS_SKILL_BORDER));
+            output.putBoolean("kyphosis_attack_up", kyphosisAttackUp);
+            output.putDouble("kyphosis_buried_target", kyphosisBuriedTarget);
         }
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        abilityCooldown = tag.getIntOr("deterrent_ability_cooldown", 0);
-        lifetimeTicks = tag.getIntOr("deterrent_lifetime", 0);
-        attackFlashTicks = tag.getIntOr("deterrent_attack_flash", 0);
-        wormMinimumPayload = tag.contains("deterrent_worm_minimum") ? tag.getIntOr("deterrent_worm_minimum", 0) : 3;
-        wormMaximumPayload = tag.contains("deterrent_worm_maximum") ? tag.getIntOr("deterrent_worm_maximum", 0) : 3;
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        abilityCooldown = input.getIntOr("deterrent_ability_cooldown", 0);
+        lifetimeTicks = input.getIntOr("deterrent_lifetime", 0);
+        attackFlashTicks = input.getIntOr("deterrent_attack_flash", 0);
+        wormMinimumPayload = input.getIntOr("deterrent_worm_minimum", 3);
+        wormMaximumPayload = input.getIntOr("deterrent_worm_maximum", 3);
         wormPayloadTypes.clear();
-        ListTag payloadTypes = tag.getListOrEmpty("deterrent_worm_types");
-        for (int index = 0; index < payloadTypes.size(); index++) {
-            wormPayloadTypes.add(payloadTypes.getStringOr(index, ""));
+        for (String type : input.listOrEmpty("deterrent_worm_types", Codec.STRING)) {
+            wormPayloadTypes.add(type);
         }
-        dispatchTarget = tag.hasUUID("deterrent_dispatch_target") ? tag.getUUID("deterrent_dispatch_target") : null;
-        dispatchEntityId = tag.contains("deterrent_dispatch_entity")
-                ? tag.getStringOr("deterrent_dispatch_entity", "") : null;
-        seizerTarget = tag.hasUUID("deterrent_seizer_target") ? tag.getUUID("deterrent_seizer_target") : null;
+        dispatchTarget = input.read("deterrent_dispatch_target", UUIDUtil.CODEC).orElse(null);
+        dispatchEntityId = input.getString("deterrent_dispatch_entity").orElse(null);
+        seizerTarget = input.read("deterrent_seizer_target", UUIDUtil.CODEC).orElse(null);
         if (activeKind() == Kind.SENTRY) {
-            entityData.set(SENTRY_PARASITE_STATUS, tag.getIntOr("sentry_parasite_status", 0));
-            entityData.set(SENTRY_STILL_ANI, tag.getBooleanOr("sentry_still_ani", false));
+            entityData.set(SENTRY_PARASITE_STATUS, input.getIntOr("sentry_parasite_status", 0));
+            entityData.set(SENTRY_STILL_ANI, input.getBooleanOr("sentry_still_ani", false));
         }
         if (activeKind() == Kind.KYPHOSIS) {
-            entityData.set(KYPHOSIS_ATTACK_TIMER, tag.getFloatOr("kyphosis_attack_timer", 0.0F));
-            entityData.set(KYPHOSIS_BURIED, tag.getFloatOr("kyphosis_buried", 0.0F));
-            entityData.set(KYPHOSIS_PARASITE_STATUS, tag.getIntOr("kyphosis_parasite_status", 0));
-            entityData.set(KYPHOSIS_SKILL_BORDER, tag.getIntOr("kyphosis_skill_border", 0));
-            kyphosisAttackUp = tag.getBooleanOr("kyphosis_attack_up", false);
-            kyphosisBuriedTarget = tag.contains("kyphosis_buried_target")
-                    ? tag.getDoubleOr("kyphosis_buried_target", 0.0D) : 7.5D;
+            entityData.set(KYPHOSIS_ATTACK_TIMER, input.getFloatOr("kyphosis_attack_timer", 0.0F));
+            entityData.set(KYPHOSIS_BURIED, input.getFloatOr("kyphosis_buried", 0.0F));
+            entityData.set(KYPHOSIS_PARASITE_STATUS, input.getIntOr("kyphosis_parasite_status", 0));
+            entityData.set(KYPHOSIS_SKILL_BORDER, input.getIntOr("kyphosis_skill_border", 0));
+            kyphosisAttackUp = input.getBooleanOr("kyphosis_attack_up", false);
+            kyphosisBuriedTarget = input.getDoubleOr("kyphosis_buried_target", 7.5D);
         }
     }
 
@@ -494,10 +494,10 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
             return false;
         }
         EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.getOptional(entityId).orElse(null);
-        if (type == null || !(type.create(serverLevel) instanceof Mob mob)) {
+        if (type == null || !(type.create(serverLevel, EntitySpawnReason.MOB_SUMMONED) instanceof Mob mob)) {
             return false;
         }
-        mob.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        mob.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         mob.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(mob.blockPosition()),
                 EntitySpawnReason.MOB_SUMMONED, null);
         mob.setTarget(getTarget());
@@ -703,7 +703,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         DragonEggAssimilationEntity.assimilateDragonEggs(level(), center.getBoundingBox().inflate(radius));
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
                 center.getBoundingBox().inflate(radius), this::isValidParasiteTarget)) {
-            if (!target.hurt(damageSources().mobAttack(this), damage)) {
+            if (!target.hurtOrSimulate(damageSources().mobAttack(this), damage)) {
                 continue;
             }
             if (launch) {
@@ -740,7 +740,8 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private void breakBlocksTowardsTarget(float maximumHardness, double range) {
-        if (abilityCooldown > 0 || !level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)) {
+        if (abilityCooldown > 0 || !(level() instanceof ServerLevel serverLevel)
+                || !serverLevel.getGameRules().get(GameRules.MOB_GRIEFING)) {
             return;
         }
         LivingEntity target = getTarget();
@@ -777,7 +778,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
             if (minion == null) {
                 continue;
             }
-            minion.moveTo(getX(), getY() + getBbHeight() + 0.5D, getZ(), getYRot(), 0.0F);
+            minion.snapTo(getX(), getY() + getBbHeight() + 0.5D, getZ(), getYRot(), 0.0F);
             minion.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(minion.blockPosition()),
                     EntitySpawnReason.MOB_SUMMONED, null);
             minion.setTarget(getTarget());
@@ -791,9 +792,9 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     private Mob createWormMinion(ServerLevel level) {
         if (wormPayloadTypes.isEmpty()) {
             return switch (random.nextInt(3)) {
-                case 0 -> ModEntities.PRI_ARACHNIDA.get().create(level);
-                case 1 -> ModEntities.PRI_REEKER.get().create(level);
-                default -> ModEntities.PRI_LONGARMS.get().create(level);
+                case 0 -> ModEntities.PRI_ARACHNIDA.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+                case 1 -> ModEntities.PRI_REEKER.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+                default -> ModEntities.PRI_LONGARMS.get().create(level, EntitySpawnReason.MOB_SUMMONED);
             };
         }
         Identifier id = Identifier.tryParse(wormPayloadTypes.get(random.nextInt(wormPayloadTypes.size())));
@@ -801,7 +802,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
             return null;
         }
         EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.getOptional(id).orElse(null);
-        return type != null && type.create(level) instanceof Mob mob ? mob : null;
+        return type != null && type.create(level, EntitySpawnReason.MOB_SUMMONED) instanceof Mob mob ? mob : null;
     }
 
     private Vec3 wormLaunchVelocity() {
@@ -845,7 +846,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         // 对范围内的敌对实体造成伤害和击退
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, impactArea,
                 this::isValidParasiteTarget)) {
-            if (target.hurt(damageSources().mobAttack(this), 12.0F)) {
+            if (target.hurtOrSimulate(damageSources().mobAttack(this), 12.0F)) {
                 Vec3 push = target.position().subtract(position());
                 if (push.lengthSqr() > 0.001D) {
                     push = push.normalize().scale(0.8D);
@@ -907,13 +908,13 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private void spawnKyphosisWave(LivingEntity target) {
-        WaveEntity wave = ModEntities.WAVE.get().create(level());
+        WaveEntity wave = ModEntities.WAVE.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (wave == null) {
             return;
         }
         double angle = getYRot() * Mth.DEG_TO_RAD;
         double distance = 2.0D * Mth.cos(Mth.PI / 18.0F);
-        wave.moveTo(getX() - Mth.sin((float) angle) * distance, getY(),
+        wave.snapTo(getX() - Mth.sin((float) angle) * distance, getY(),
                 getZ() + Mth.cos((float) angle) * distance, getYRot(), 0.0F);
         if (!level().noCollision(wave)) {
             return;
@@ -1067,7 +1068,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
                 cooldown--;
                 return;
             }
-            doHurtTarget(target);
+            doHurtTarget(getServerLevel(level()), target);
             cooldown = 20;
         }
     }

@@ -2,7 +2,6 @@ package alku.csrp.block;
 
 import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModItems;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
@@ -10,7 +9,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
@@ -20,23 +19,18 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.phys.BlockHitResult;
 
 public final class AlveoliBlock extends Block {
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
     public static final BooleanProperty DEPLETED = BooleanProperty.create("depleted");
-    public static final MapCodec<AlveoliBlock> CODEC = simpleCodec(AlveoliBlock::new);
     private static final int BRONCHIAL_SEARCH_RADIUS = 6;
     private static final int RECOVERY_TICKS = 1_200;
 
     public AlveoliBlock(Properties properties) {
         super(properties);
         registerDefaultState(stateDefinition.any().setValue(ACTIVE, true).setValue(DEPLETED, false));
-    }
-
-    @Override
-    protected MapCodec<? extends Block> codec() {
-        return CODEC;
     }
 
     @Override
@@ -53,7 +47,7 @@ public final class AlveoliBlock extends Block {
 
     @Override
     protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock,
-            BlockPos neighborPos, boolean movedByPiston) {
+            Orientation orientation, boolean movedByPiston) {
         if (!level.isClientSide()) {
             updateActiveState(level, pos, state);
         }
@@ -70,10 +64,10 @@ public final class AlveoliBlock extends Block {
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
+    protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
             Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (!stack.is(Items.GLASS_BOTTLE)) {
-            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return InteractionResult.TRY_WITH_EMPTY_HAND;
         }
         if (!level.isClientSide()) {
             ItemStack filled = ItemUtils.createFilledResult(stack, player,
@@ -83,7 +77,7 @@ public final class AlveoliBlock extends Block {
             level.setBlock(pos, state.setValue(DEPLETED, true).setValue(ACTIVE, false), Block.UPDATE_ALL);
             level.scheduleTick(pos, this, RECOVERY_TICKS);
         }
-        return ItemInteractionResult.sidedSuccess(level.isClientSide());
+        return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.CONSUME;
     }
 
     private static void updateActiveState(Level level, BlockPos pos, BlockState state) {

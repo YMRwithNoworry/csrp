@@ -1,7 +1,7 @@
 package alku.csrp.item;
 
 import alku.csrp.entity.ManualVariantProvider;
-import java.util.List;
+import java.util.function.Consumer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -11,6 +11,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 
 /** Creative tool that advances parasite variants in the same order as SRP 1.10.8. */
 public final class VariantWandItem extends Item {
@@ -31,8 +32,9 @@ public final class VariantWandItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.translatable("tooltip.csrp.itemvariant",
+    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display,
+            Consumer<Component> tooltip, TooltipFlag flag) {
+        tooltip.accept(Component.translatable("tooltip.csrp.itemvariant",
                 Component.translatable("tooltip.csrp.itemvariant.action").withStyle(ChatFormatting.RED)));
     }
 }

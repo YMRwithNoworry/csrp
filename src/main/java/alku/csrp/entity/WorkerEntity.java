@@ -19,6 +19,8 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import alku.csrp.animation.CitadelAnimationManager;
 
 import java.util.EnumSet;
@@ -86,7 +88,7 @@ public final class WorkerEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
+    public boolean causeFallDamage(double distance, float damageMultiplier, DamageSource source) {
         return distance > 50.0F && super.causeFallDamage(distance, damageMultiplier, source);
     }
 
@@ -95,29 +97,29 @@ public final class WorkerEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
         if (colonyOrigin != null) {
-            tag.putLong("parasite_origin", colonyOrigin.asLong());
-            tag.putInt("parasite_build_radius", colonyRadius);
+            output.putLong("parasite_origin", colonyOrigin.asLong());
+            output.putInt("parasite_build_radius", colonyRadius);
         }
-        tag.putInt("parasite_build_cooldown", buildCooldown);
+        output.putInt("parasite_build_cooldown", buildCooldown);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        if (tag.contains("parasite_origin")) {
-            colonyOrigin = BlockPos.of(tag.getLongOr("parasite_origin", 0L));
-            colonyRadius = Math.max(1, tag.getIntOr("parasite_build_radius", 0));
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        if (input.getLong("parasite_origin").isPresent()) {
+            colonyOrigin = BlockPos.of(input.getLongOr("parasite_origin", 0L));
+            colonyRadius = Math.max(1, input.getIntOr("parasite_build_radius", 0));
         }
-        buildCooldown = tag.contains("parasite_build_cooldown")
-                ? Math.max(0, tag.getIntOr("parasite_build_cooldown", 0)) : BUILD_INTERVAL;
+        buildCooldown = input.getInt("parasite_build_cooldown").isPresent()
+                ? Math.max(0, input.getIntOr("parasite_build_cooldown", 0)) : BUILD_INTERVAL;
     }
 
     private boolean placeNextStructure() {
         if (colonyOrigin == null || !(level() instanceof ServerLevel serverLevel)
-                || !serverLevel.getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)) {
+                || !serverLevel.getGameRules().get(GameRules.MOB_GRIEFING)) {
             return false;
         }
         BlockPos current = blockPosition();

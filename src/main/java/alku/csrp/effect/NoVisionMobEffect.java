@@ -1,5 +1,6 @@
 package alku.csrp.effect;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -11,7 +12,7 @@ public final class NoVisionMobEffect extends MarkerMobEffect {
     }
 
     @Override
-    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
+    public boolean applyEffectTick(ServerLevel level, LivingEntity entity, int amplifier) {
         if (!entity.level().isClientSide()) {
             entity.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE, 10,
                     amplifier, false, false, false));

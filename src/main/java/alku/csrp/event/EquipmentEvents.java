@@ -128,7 +128,7 @@ public final class EquipmentEvents {
             for (InteractionHandSlot hand : InteractionHandSlot.values()) {
                 ItemStack held = hand.get(attacker);
                 if (held.getItem() instanceof LivingBowItem bow) {
-                    bow.addDamage(held, event.getNewDamage(), attacker);
+                    bow.addDamage(held, event.getHealthDamage(), attacker);
                     break;
                 }
             }
@@ -140,12 +140,12 @@ public final class EquipmentEvents {
     public static void protectHijackedBoots(LivingFallEvent event) {
         if (!(event.getEntity() instanceof Player player) || event.getDistance() < 6.0F) return;
         ItemStack boots = player.getItemBySlot(EquipmentSlot.FEET);
-        if (!(boots.getItem() instanceof HijackedArmorItem) || player.getCooldowns().isOnCooldown(boots.getItem())) return;
+        if (!(boots.getItem() instanceof HijackedArmorItem) || player.getCooldowns().isOnCooldown(boots)) return;
         event.setCanceled(true);
         player.fallDistance = 0.0F;
         player.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 200, 1));
         player.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 200, 1));
-        player.getCooldowns().addCooldown(boots.getItem(), 2400);
+        player.getCooldowns().addCooldown(boots, 2400);
     }
 
     @SubscribeEvent

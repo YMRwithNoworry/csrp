@@ -2,18 +2,21 @@ package alku.csrp.item;
 
 import alku.csrp.world.SrpWorldData;
 import java.util.List;
+import java.util.function.Consumer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 
 public final class EvolutionClockItem extends Item {
@@ -26,7 +29,7 @@ public final class EvolutionClockItem extends Item {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (level instanceof ServerLevel serverLevel) {
             SrpWorldData data = SrpWorldData.get(serverLevel);
@@ -34,23 +37,25 @@ public final class EvolutionClockItem extends Item {
             player.sendSystemMessage(Component.translatable("message.csrp.evolution_clock",
                     data.evolutionPhase(), data.generation(), data.evolutionPoints(), data.cooldown(serverLevel)));
         }
-        return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());
+        return level.isClientSide()
+                ? InteractionResult.SUCCESS.heldItemTransformedTo(stack)
+                : InteractionResult.CONSUME.heldItemTransformedTo(stack);
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
-        if (level instanceof ServerLevel serverLevel && entity.tickCount % 20 == 0) {
-            updateClock(stack, serverLevel, SrpWorldData.get(serverLevel));
+    public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, EquipmentSlot slot) {
+        if (entity.tickCount % 20 == 0) {
+            updateClock(stack, level, SrpWorldData.get(level));
         }
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context,
-            List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display,
+            Consumer<Component> tooltip, TooltipFlag flag) {
         var tag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
-        tooltip.add(Component.translatable("tooltip.csrp.evolution_clock.phase",
+        tooltip.accept(Component.translatable("tooltip.csrp.evolution_clock.phase",
                 tag.getIntOr(PHASE_TAG, 0), tag.getIntOr(POINTS_TAG, 0)).withStyle(ChatFormatting.RED));
-        tooltip.add(Component.translatable("tooltip.csrp.evolution_clock.cooldown",
+        tooltip.accept(Component.translatable("tooltip.csrp.evolution_clock.cooldown",
                 tag.getIntOr(COOLDOWN_TAG, 0)).withStyle(ChatFormatting.GRAY));
     }
 

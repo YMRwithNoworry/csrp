@@ -4,6 +4,7 @@ import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -31,6 +32,8 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
@@ -113,7 +116,7 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
         goalSelector.addGoal(6, new RandomMoveGoal());
         targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
         targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,
-                true, false, this::isValidParasiteTarget));
+                true, false, (target, serverLevel) -> isValidParasiteTarget(target)));
     }
 
     public void configure(PrimitiveParasiteEntity father, LivingEntity target, int actionType) {
@@ -248,7 +251,7 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
     private void completeTeleportAction(@Nullable PrimitiveParasiteEntity father) {
         if (father != null && targetPosition != null
                 && distanceToSqr(Vec3.atCenterOf(targetPosition)) < 16.0D) {
-            father.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+            father.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
             father.setDeltaMovement(Vec3.ZERO);
             return;
         }
@@ -295,8 +298,9 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
     }
 
     private void breakNearbyBlocks() {
-        if (!level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)
-                || !EventHooks.canEntityGrief(level(), this)) {
+        if (!(level() instanceof ServerLevel serverLevel)
+                || !serverLevel.getGameRules().get(GameRules.MOB_GRIEFING)
+                || !EventHooks.canEntityGrief(serverLevel, this)) {
             return;
         }
         int baseX = Mth.floor(getX());
@@ -306,27 +310,27 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
             for (int offsetZ = -BLOCK_BREAK_RANGE; offsetZ <= BLOCK_BREAK_RANGE; offsetZ++) {
                 for (int offsetY = -1; offsetY <= BLOCK_BREAK_HEIGHT + 1; offsetY++) {
                     BlockPos candidate = new BlockPos(baseX + offsetX, baseY + offsetY, baseZ + offsetZ);
-                    BlockState state = level().getBlockState(candidate);
-                    if (!isBreakable(state, candidate)
+                    BlockState state = serverLevel.getBlockState(candidate);
+                    if (!isBreakable(state, candidate, serverLevel)
                             || !EventHooks.onEntityDestroyBlock(this, candidate, state)) {
                         continue;
                     }
-                    ParasiteBlockInventory.collect((ServerLevel) level(), candidate, this);
+                    ParasiteBlockInventory.collect(serverLevel, candidate, this);
                 }
             }
         }
     }
 
-    private boolean isBreakable(BlockState state, BlockPos pos) {
+    private boolean isBreakable(BlockState state, BlockPos pos, ServerLevel level) {
         if (state.isAir()) {
             return false;
         }
-        float hardness = state.getDestroySpeed(level(), pos);
+        float hardness = state.getDestroySpeed(level, pos);
         if (hardness < 0.0F || hardness > BLOCK_BREAK_HARDNESS) {
             return false;
         }
         String id = BuiltInRegistries.BLOCK.getKey(state.getBlock()).toString();
-        return !BLOCK_BREAK_BLACKLIST.contains(id) && state.canEntityDestroy(level(), pos, this);
+        return !BLOCK_BREAK_BLACKLIST.contains(id) && state.canEntityDestroy(level, pos, this);
     }
 
     @Override
@@ -351,13 +355,13 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public boolean causeFallDamage(float fallDistance, float multiplier, DamageSource source) {
+    public boolean causeFallDamage(double fallDistance, float multiplier, DamageSource source) {
         return false;
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
-        return super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+        return super.hurtServer(level, source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
     }
 
     @Override
@@ -397,38 +401,38 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
         if (fatherId != null) {
-            tag.putUUID("flam_father", fatherId);
+            output.putIntArray("flam_father", UUIDUtil.uuidToIntArray(fatherId));
         }
         if (targetId != null) {
-            tag.putUUID("flam_target", targetId);
+            output.putIntArray("flam_target", UUIDUtil.uuidToIntArray(targetId));
         }
         if (targetPosition != null) {
-            tag.putLong("flam_target_pos", targetPosition.asLong());
+            output.putLong("flam_target_pos", targetPosition.asLong());
         }
-        tag.putInt("flam_action", actionType);
-        tag.putInt("flam_activation", activationProgress);
-        tag.putInt("flam_stationary", stationaryTicks);
-        tag.putBoolean("flam_consumed", actionConsumed);
-        tag.putBoolean("flam_charging", isCharging());
-        tag.putBoolean("flam_finishing", isFinishing());
+        output.putInt("flam_action", actionType);
+        output.putInt("flam_activation", activationProgress);
+        output.putInt("flam_stationary", stationaryTicks);
+        output.putBoolean("flam_consumed", actionConsumed);
+        output.putBoolean("flam_charging", isCharging());
+        output.putBoolean("flam_finishing", isFinishing());
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        fatherId = tag.hasUUID("flam_father") ? tag.getUUID("flam_father") : null;
-        targetId = tag.hasUUID("flam_target") ? tag.getUUID("flam_target") : null;
-        targetPosition = tag.contains("flam_target_pos")
-                ? BlockPos.of(tag.getLongOr("flam_target_pos", 0L)) : null;
-        actionType = Mth.clamp(tag.getIntOr("flam_action", 0), 0, ACTION_TELEPORT);
-        stationaryTicks = Math.max(0, tag.getIntOr("flam_stationary", 0));
-        actionConsumed = tag.getBooleanOr("flam_consumed", false);
-        setCharging(tag.getBooleanOr("flam_charging", false));
-        entityData.set(FINISHING, tag.getBooleanOr("flam_finishing", false));
-        setActivationProgress(Math.max(0, tag.getIntOr("flam_activation", 0)));
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        fatherId = input.getIntArray("flam_father").map(UUIDUtil::uuidFromIntArray).orElse(null);
+        targetId = input.getIntArray("flam_target").map(UUIDUtil::uuidFromIntArray).orElse(null);
+        targetPosition = input.getLong("flam_target_pos")
+                .map(BlockPos::of).orElse(null);
+        actionType = Mth.clamp(input.getIntOr("flam_action", 0), 0, ACTION_TELEPORT);
+        stationaryTicks = Math.max(0, input.getIntOr("flam_stationary", 0));
+        actionConsumed = input.getBooleanOr("flam_consumed", false);
+        setCharging(input.getBooleanOr("flam_charging", false));
+        entityData.set(FINISHING, input.getBooleanOr("flam_finishing", false));
+        setActivationProgress(Math.max(0, input.getIntOr("flam_activation", 0)));
     }
 
     @Override

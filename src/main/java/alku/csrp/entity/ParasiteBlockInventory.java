@@ -7,9 +7,11 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
@@ -43,11 +45,12 @@ public final class ParasiteBlockInventory {
             return false;
         }
         List<ItemStack> drops = Block.getDrops(state, level, pos, null, parasite, ItemStack.EMPTY);
+        var ops = level.registryAccess().createSerializationContext(NbtOps.INSTANCE);
         for (ItemStack drop : drops) {
             if (drop.isEmpty() || list.size() >= MAX_STACKS) {
                 continue;
             }
-            list.add(drop.save(level.registryAccess()));
+            list.add(ItemStack.CODEC.encodeStart(ops, drop).getOrThrow());
         }
         data.put(TAG, list);
         level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
@@ -64,13 +67,13 @@ public final class ParasiteBlockInventory {
         if (items.isEmpty()) {
             return;
         }
-        GoreEntity gore = ModEntities.GORE.get().create(level);
+        GoreEntity gore = ModEntities.GORE.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (gore == null) {
             return;
         }
         gore.setType((byte) 10);
         gore.setStoredItems(items);
-        gore.moveTo(parasite.getX(), parasite.getY() + parasite.getBbHeight() * 0.5D,
+        gore.snapTo(parasite.getX(), parasite.getY() + parasite.getBbHeight() * 0.5D,
                 parasite.getZ(), parasite.getYRot(), parasite.getXRot());
         gore.setMotion(level.getRandom().nextDouble() - 0.5D, 0.75D,
                 level.getRandom().nextDouble() - 0.5D, 0.25D, 0.75D);
@@ -83,6 +86,7 @@ public final class ParasiteBlockInventory {
      */
     public static NonNullList<ItemStack> takeAll(LivingEntity parasite) {
         HolderLookup.Provider registries = parasite.level().registryAccess();
+        var ops = registries.createSerializationContext(NbtOps.INSTANCE);
         CompoundTag data = parasite.getPersistentData();
         ListTag list = data.getListOrEmpty(TAG);
         NonNullList<ItemStack> items = NonNullList.withSize(
@@ -93,7 +97,7 @@ public final class ParasiteBlockInventory {
                 break;
             }
             if (tag instanceof CompoundTag compound) {
-                items.set(slot, ItemStack.parseOptional(registries, compound));
+                items.set(slot, ItemStack.CODEC.parse(ops, compound).result().orElse(ItemStack.EMPTY));
             }
             slot++;
         }

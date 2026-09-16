@@ -27,7 +27,7 @@ public final class ParasiteFogOverlayEvents {
     @SubscribeEvent
     public static void renderFogOverlay(RenderGuiEvent.Post event) {
         Minecraft minecraft = Minecraft.getInstance();
-        if (minecraft.options.hideGui || !isCameraInsideFog(minecraft)) {
+        if (minecraft.gui.hud.isHidden() || !isCameraInsideFog(minecraft)) {
             return;
         }
 

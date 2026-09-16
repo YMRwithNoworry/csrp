@@ -9,10 +9,11 @@ import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
 import alku.csrp.world.MeteorCrashFeature;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.particles.PowerParticleOption;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -21,10 +22,12 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -36,6 +39,8 @@ import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -249,7 +254,7 @@ public final class ParasiteProjectileEntity extends Entity {
                 case ACID, YELLOWEYE_SPINE, YELLOWEYE_NADE, ANGED_BALL,
                         ANCIENT_BALL, SALIVA_EFFECT -> ParticleTypes.ITEM_SLIME;
                 case ALAFHA_BALL, BIOMASS_BALL -> ParticleTypes.POOF;
-                case DRAGON_MISSILE -> ParticleTypes.DRAGON_BREATH;
+                case DRAGON_MISSILE -> PowerParticleOption.create(ParticleTypes.DRAGON_BREATH, 1.0F);
                 case VOMIT -> ParticleTypes.WITCH;
                 case LENCIA_BALL, ELVIA_BALL -> ParticleTypes.EXPLOSION;
                 case ELVIA_NADE -> ParticleTypes.ITEM_SLIME;
@@ -404,7 +409,8 @@ public final class ParasiteProjectileEntity extends Entity {
         if (mode == Mode.BOMB || mode == Mode.METEOR) {
             DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(radius));
             spawnLingeringCothCloud(owner);
-            if (mode == Mode.BOMB && level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)) {
+            if (mode == Mode.BOMB && level() instanceof ServerLevel serverLevel
+                    && serverLevel.getGameRules().get(GameRules.MOB_GRIEFING)) {
                 level().explode(owner, getX(), getY(), getZ(), (float) Math.max(1.5D, radius),
                         Level.ExplosionInteraction.MOB);
             }
@@ -514,12 +520,12 @@ public final class ParasiteProjectileEntity extends Entity {
     }
 
     private void spawnOrbBoom(PrimitiveParasiteEntity owner, int fuse, int waitStart) {
-        OrbBoomEntity orb = ModEntities.ORB_BOOM.get().create(level());
+        OrbBoomEntity orb = ModEntities.ORB_BOOM.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (orb == null) {
             return;
         }
         orb.configure(owner, fuse, waitStart);
-        orb.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        orb.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         level().addFreshEntity(orb);
     }
 
@@ -555,8 +561,9 @@ public final class ParasiteProjectileEntity extends Entity {
         if (level().isClientSide()) {
             return;
         }
-        boolean griefing = level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)
-                && EventHooks.canEntityGrief(level(), this);
+        ServerLevel serverLevel = (ServerLevel) level();
+        boolean griefing = serverLevel.getGameRules().get(GameRules.MOB_GRIEFING)
+                && EventHooks.canEntityGrief(serverLevel, this);
         if (directHit != null) {
             if (directHit instanceof Player player
                     && !player.hasEffect(MobEffects.BLINDNESS) && random.nextFloat() < 0.30F) {
@@ -616,10 +623,10 @@ public final class ParasiteProjectileEntity extends Entity {
     }
 
     private void spawnNade(PrimitiveParasiteEntity owner, NadeEntity.Kind kind) {
-        NadeEntity nade = ModEntities.NADE.get().create(level());
+        NadeEntity nade = ModEntities.NADE.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (nade != null) {
             nade.configure(owner, kind);
-            nade.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+            nade.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
             level().addFreshEntity(nade);
         }
         discard();
@@ -711,7 +718,7 @@ public final class ParasiteProjectileEntity extends Entity {
         float frameDamage = (float) owner.getAttributeValue(Attributes.ATTACK_DAMAGE);
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, damageArea,
                 owner::isValidParasiteTarget)) {
-            target.invulnerableTime = 0;
+            target.setInvulnerableTime(0);
             target.hurt(damageSources().mobAttack(owner), frameDamage);
             target.addEffect(new MobEffectInstance(MobEffects.POISON, 40, 0), owner);
             target.addEffect(new MobEffectInstance(ModMobEffects.CORROSION, 60, 0), owner);
@@ -756,7 +763,7 @@ public final class ParasiteProjectileEntity extends Entity {
         float frameDamage = (float) owner.getAttributeValue(Attributes.ATTACK_DAMAGE);
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, damageArea,
                 owner::isValidParasiteTarget)) {
-            target.invulnerableTime = 0;
+            target.setInvulnerableTime(0);
             target.hurt(damageSources().magic(), frameDamage);
             owner.applyPrimitiveMinimumDamage(target);
         }
@@ -855,10 +862,16 @@ public final class ParasiteProjectileEntity extends Entity {
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag tag) {
-        if (tag.hasUUID("owner")) {
-            ownerId = tag.getUUID("owner");
+    public boolean hurtServer(ServerLevel level, DamageSource source, float damage) {
+        if (!isInvulnerableToBase(source)) {
+            markHurt();
         }
+        return false;
+    }
+
+    @Override
+    protected void readAdditionalSaveData(ValueInput tag) {
+        ownerId = tag.read("owner", UUIDUtil.CODEC).orElse(null);
         entityData.set(MODE, sanitizeMode(tag.getIntOr("mode", 0)));
         entityData.set(HOMING_TARGET, tag.getIntOr("homing_target", 0));
         entityData.set(NADE_ARMED, tag.getBooleanOr("nade_armed", false));
@@ -880,16 +893,16 @@ public final class ParasiteProjectileEntity extends Entity {
         webKind = tag.getIntOr("web_kind", 0);
         biomassSpawnType = tag.getStringOr("biomass_spawn_type", "");
         biomassCapacityCost = Math.max(0, tag.getIntOr("biomass_capacity_cost", 0));
-        biomassSkin = Mth.clamp(tag.contains("biomass_skin") ? tag.getIntOr("biomass_skin", 0) : 4, 1, 6);
-        biomassTargetId = tag.hasUUID("biomass_target") ? tag.getUUID("biomass_target") : null;
+        biomassSkin = Mth.clamp(tag.getIntOr("biomass_skin", 4), 1, 6);
+        biomassTargetId = tag.read("biomass_target", UUIDUtil.CODEC).orElse(null);
         biomassReservationHandled = tag.getBooleanOr("biomass_reservation_handled", false);
         rootMeteor = tag.getBooleanOr("root_meteor", false);
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag tag) {
+    protected void addAdditionalSaveData(ValueOutput tag) {
         if (ownerId != null) {
-            tag.putUUID("owner", ownerId);
+            tag.store("owner", UUIDUtil.CODEC, ownerId);
         }
         tag.putInt("mode", entityData.get(MODE));
         tag.putInt("homing_target", entityData.get(HOMING_TARGET));
@@ -915,7 +928,7 @@ public final class ParasiteProjectileEntity extends Entity {
         tag.putInt("biomass_capacity_cost", biomassCapacityCost);
         tag.putInt("biomass_skin", biomassSkin);
         if (biomassTargetId != null) {
-            tag.putUUID("biomass_target", biomassTargetId);
+            tag.store("biomass_target", UUIDUtil.CODEC, biomassTargetId);
         }
         tag.putBoolean("biomass_reservation_handled", biomassReservationHandled);
         tag.putBoolean("root_meteor", rootMeteor);

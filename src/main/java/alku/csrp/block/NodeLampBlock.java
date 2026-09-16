@@ -1,8 +1,8 @@
 package alku.csrp.block;
 
-import java.util.Comparator;
 import java.util.List;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -18,8 +18,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 
 /** Detects nearby Dispatcher stages and exposes distance through comparator output. */
 public final class NodeLampBlock extends Block {
@@ -54,7 +56,7 @@ public final class NodeLampBlock extends Block {
 
     @Override
     protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighbor,
-            BlockPos neighborPos, boolean movedByPiston) {
+            Orientation orientation, boolean movedByPiston) {
         if (!level.isClientSide()) {
             updateLamp(level, pos, state);
         }
@@ -66,7 +68,7 @@ public final class NodeLampBlock extends Block {
     }
 
     @Override
-    protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+    protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos, Direction direction) {
         return state.getValue(RANGE_LEVEL) * 3;
     }
 
@@ -76,7 +78,7 @@ public final class NodeLampBlock extends Block {
         if (!level.isClientSide()) {
             List<Entity> dispatchers = dispatchers(level, pos);
             int strength = dispatchers.stream().mapToInt(NodeLampBlock::dispatcherStage).max().orElse(0);
-            double nearest = dispatchers.stream().mapToDouble(entity -> entity.distanceToSqr(pos.getCenter()))
+            double nearest = dispatchers.stream().mapToDouble(entity -> entity.distanceToSqr(Vec3.atCenterOf(pos)))
                     .min().orElse(Double.MAX_VALUE);
             int rawRange = rangeLevel(nearest);
             if (!state.getValue(POWERED)) {
@@ -87,13 +89,14 @@ public final class NodeLampBlock extends Block {
             player.sendSystemMessage(Component.translatable("message.csrp.node_lamp.strength", roman(strength)));
             player.sendSystemMessage(Component.translatable("message.csrp.node_lamp.distance", displayedDistance));
         }
-        return InteractionResult.sidedSuccess(level.isClientSide());
+        return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.CONSUME;
     }
 
     private static void updateLamp(Level level, BlockPos pos, BlockState state) {
+        Vec3 center = Vec3.atCenterOf(pos);
         double nearest = dispatchers(level, pos).stream()
-                .min(Comparator.comparingDouble(entity -> entity.distanceToSqr(pos.getCenter())))
-                .map(entity -> entity.distanceToSqr(pos.getCenter())).orElse(Double.MAX_VALUE);
+                .mapToDouble(entity -> entity.distanceToSqr(center))
+                .min().orElse(Double.MAX_VALUE);
         int rangeLevel = rangeLevel(nearest);
         boolean powered = rangeLevel > 0;
         if (powered != state.getValue(POWERED) || rangeLevel != state.getValue(RANGE_LEVEL)) {

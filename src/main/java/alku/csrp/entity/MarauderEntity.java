@@ -4,6 +4,7 @@ import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -16,6 +17,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -23,6 +25,8 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -242,7 +246,7 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
     }
 
     private MarauderTendrilEntity createAttachedTendril(ServerLevel level, TendrilSide side) {
-        MarauderTendrilEntity tendril = ModEntities.MARAUDER_TENDRIL.get().create(level);
+        MarauderTendrilEntity tendril = ModEntities.MARAUDER_TENDRIL.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (tendril == null) {
             throw new IllegalStateException("Marauder tendril entity could not be created");
         }
@@ -275,13 +279,13 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
+    public boolean causeFallDamage(double distance, float damageMultiplier, DamageSource source) {
         return false;
     }
 
     @Override
-    public boolean doHurtTarget(Entity entity) {
-        boolean hurt = super.doHurtTarget(entity);
+    public boolean doHurtTarget(ServerLevel level, Entity entity) {
+        boolean hurt = super.doHurtTarget(level, entity);
         if (hurt) {
             entity.push(0.0D, 0.5D, 0.0D);
         }
@@ -298,7 +302,7 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
         AABB area = center.getBoundingBox().inflate(2.0D);
         DragonEggAssimilationEntity.assimilateDragonEggs(level(), area);
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, area, this::isValidParasiteTarget)) {
-            hit |= doHurtTarget(target);
+            hit |= doHurtTarget((ServerLevel) level(), target);
         }
         return hit;
     }
@@ -344,11 +348,11 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
         if (position == null || !(level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        MarauderTendrilEntity tendril = ModEntities.MARAUDER_TENDRIL.get().create(serverLevel);
+        MarauderTendrilEntity tendril = ModEntities.MARAUDER_TENDRIL.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (tendril == null) {
             return;
         }
-        tendril.moveTo(position.getX() + 0.5D, position.getY(), position.getZ() + 0.5D, getYRot(), 0.0F);
+        tendril.snapTo(position.getX() + 0.5D, position.getY(), position.getZ() + 0.5D, getYRot(), 0.0F);
         tendril.startSupport(this, target, spawnTeleport
                 ? MarauderTendrilEntity.Mode.TELEPORT
                 : MarauderTendrilEntity.Mode.SNARE);
@@ -383,7 +387,7 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
     }
 
     boolean hurtTendril(MarauderTendrilEntity tendril, DamageSource source, float amount) {
-        if (level().isClientSide() || !hurt(source, amount)) {
+        if (level().isClientSide() || !hurtOrSimulate(source, amount)) {
             return false;
         }
         TendrilSide side = tendril.getAttachedSide();
@@ -555,31 +559,31 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
+    public void addAdditionalSaveData(ValueOutput tag) {
         super.addAdditionalSaveData(tag);
         tag.putFloat("marauder_left_tendril", entityData.get(LEFT_TENDRIL_HEALTH));
         tag.putFloat("marauder_right_tendril", entityData.get(RIGHT_TENDRIL_HEALTH));
         tag.putInt("marauder_smash_cooldown", smashCooldown);
         tag.putBoolean("marauder_hardened", isHardenedVariant());
         if (leftTendrilId != null) {
-            tag.putUUID("marauder_left_tendril_id", leftTendrilId);
+            tag.putIntArray("marauder_left_tendril_id", UUIDUtil.uuidToIntArray(leftTendrilId));
         }
         if (rightTendrilId != null) {
-            tag.putUUID("marauder_right_tendril_id", rightTendrilId);
+            tag.putIntArray("marauder_right_tendril_id", UUIDUtil.uuidToIntArray(rightTendrilId));
         }
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
+    public void readAdditionalSaveData(ValueInput tag) {
         super.readAdditionalSaveData(tag);
-        entityData.set(LEFT_TENDRIL_HEALTH, tag.contains("marauder_left_tendril")
-                ? tag.getFloatOr("marauder_left_tendril", 0.0F) : maxTendrilHealth());
-        entityData.set(RIGHT_TENDRIL_HEALTH, tag.contains("marauder_right_tendril")
-                ? tag.getFloatOr("marauder_right_tendril", 0.0F) : maxTendrilHealth());
+        entityData.set(LEFT_TENDRIL_HEALTH, tag.getFloatOr("marauder_left_tendril", maxTendrilHealth()));
+        entityData.set(RIGHT_TENDRIL_HEALTH, tag.getFloatOr("marauder_right_tendril", maxTendrilHealth()));
         smashCooldown = tag.getIntOr("marauder_smash_cooldown", 0);
         entityData.set(HARDENED_VARIANT, tag.getBooleanOr("marauder_hardened", false));
-        leftTendrilId = tag.hasUUID("marauder_left_tendril_id") ? tag.getUUID("marauder_left_tendril_id") : null;
-        rightTendrilId = tag.hasUUID("marauder_right_tendril_id") ? tag.getUUID("marauder_right_tendril_id") : null;
+        leftTendrilId = tag.getIntArray("marauder_left_tendril_id").isPresent()
+                ? UUIDUtil.uuidFromIntArray(tag.getIntArray("marauder_left_tendril_id").orElseThrow()) : null;
+        rightTendrilId = tag.getIntArray("marauder_right_tendril_id").isPresent()
+                ? UUIDUtil.uuidFromIntArray(tag.getIntArray("marauder_right_tendril_id").orElseThrow()) : null;
         variantInitialized = true;
     }
 

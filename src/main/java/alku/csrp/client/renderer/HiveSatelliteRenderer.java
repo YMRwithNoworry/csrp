@@ -11,14 +11,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import net.minecraft.client.renderer.LightTexture;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.util.Mth;
 
 /**
@@ -27,7 +29,8 @@ import net.minecraft.util.Mth;
  * renderer reproduces the vanilla {@code ModelRenderer} transform chain plus the original idle
  * tentacle/body animation.
  */
-public final class HiveSatelliteRenderer extends EntityRenderer<MeteorEntity> {
+public final class HiveSatelliteRenderer
+        extends EntityRenderer<MeteorEntity, HiveSatelliteRenderer.State> {
     private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,
             "textures/entity/projectile/meteor.png");
     private static final float TEXTURE_SIZE = 580.0F;
@@ -51,22 +54,34 @@ public final class HiveSatelliteRenderer extends EntityRenderer<MeteorEntity> {
     }
 
     @Override
-    public boolean shouldRender(MeteorEntity entity, Frustum camera, double camX, double camY, double camZ) {
+    public State createRenderState() {
+        return new State();
+    }
+
+    @Override
+    public void extractRenderState(MeteorEntity entity, State state, float partialTick) {
+        super.extractRenderState(entity, state, partialTick);
+        state.root = entity.isRoot();
+    }
+
+    @Override
+    public boolean shouldRender(MeteorEntity entity, Frustum camera, double camX, double camY, double camZ,
+            float partialTicks) {
         return true;
     }
 
     @Override
-    public void render(MeteorEntity entity, float entityYaw, float partialTick, PoseStack poseStack,
-            MultiBufferSource buffer, int packedLight) {
+    public void submit(State state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector,
+            CameraRenderState camera) {
         Part root = PARTS.get("mainbody");
         if (root == null) {
             return;
         }
-        float age = entity.tickCount + partialTick;
+        float age = state.ageInTicks;
 
         poseStack.pushPose();
         // RenderMeteor.applyRotations: the original renderYawOffset is always 0.
-        poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
+        poseStack.rotateDegrees(Axis.YP, 180.0F);
         // RenderMeteor.prepareScaleCosmical.
         float f = 1.0F;
         float f1 = 1.0F + Mth.sin(f * 100.0F) * f * 0.01F;
@@ -75,16 +90,19 @@ public final class HiveSatelliteRenderer extends EntityRenderer<MeteorEntity> {
         f *= f;
         float f2 = (1.0F + f * 0.4F) * f1;
         float f3 = (1.0F + f * 0.1F) / f1;
-        float plus = entity.isRoot() ? 0.5F : -0.8F;
+        float plus = state.root ? 0.5F : -0.8F;
         poseStack.scale(-1.0F, -1.0F, 1.0F);
         poseStack.scale(plus + f2, plus + f3, plus + f2);
         poseStack.translate(0.0F, -1.501F, 0.0F);
         poseStack.scale(SCALE, SCALE, SCALE);
 
-        VertexConsumer vertices = buffer.getBuffer(RenderType.entityCutoutNoCull(TEXTURE));
-        renderPart(poseStack, vertices, root, age);
+        submitNodeCollector.submitCustomGeometry(poseStack, RenderTypes.entityCutout(TEXTURE), (pose, vertices) -> {
+            PoseStack local = new PoseStack();
+            local.last().set(pose);
+            renderPart(local, vertices, root, age);
+        });
         poseStack.popPose();
-        super.render(entity, entityYaw, partialTick, poseStack, buffer, packedLight);
+        super.submit(state, poseStack, submitNodeCollector, camera);
     }
 
     private void renderPart(PoseStack poseStack, VertexConsumer vertices, Part part, float age) {
@@ -94,13 +112,13 @@ public final class HiveSatelliteRenderer extends EntityRenderer<MeteorEntity> {
         poseStack.translate(part.rpx(), part.rpy(), part.rpz());
         float rx = animatedRotateX(part, age);
         if (part.rz() != 0.0F) {
-            poseStack.mulPose(Axis.ZP.rotation(part.rz()));
+            poseStack.rotate(Axis.ZP, part.rz());
         }
         if (part.ry() != 0.0F) {
-            poseStack.mulPose(Axis.YP.rotation(part.ry()));
+            poseStack.rotate(Axis.YP, part.ry());
         }
         if (rx != 0.0F) {
-            poseStack.mulPose(Axis.XP.rotation(rx));
+            poseStack.rotate(Axis.XP, rx);
         }
         renderBox(poseStack, vertices, part);
         List<Part> children = CHILDREN.get(part.name());
@@ -163,7 +181,7 @@ public final class HiveSatelliteRenderer extends EntityRenderer<MeteorEntity> {
                 .setColor(255, 255, 255, 255)
                 .setUv(u / TEXTURE_SIZE, v / TEXTURE_SIZE)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(LightTexture.FULL_BRIGHT)
+                .setLight(LightCoordsUtil.FULL_BRIGHT)
                 .setNormal(pose, nx, ny, nz);
     }
 
@@ -230,8 +248,7 @@ public final class HiveSatelliteRenderer extends EntityRenderer<MeteorEntity> {
         };
     }
 
-    @Override
-    public Identifier getTextureLocation(MeteorEntity entity) {
-        return TEXTURE;
+    public static final class State extends EntityRenderState {
+        public boolean root;
     }
 }

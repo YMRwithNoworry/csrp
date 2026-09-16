@@ -10,7 +10,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -52,30 +52,34 @@ public final class LivingMaulItem extends LivingWeaponItem {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (isSentient() && player.isShiftKeyDown() && pending(player) && !player.onGround()) {
             player.setDeltaMovement(0.0D, -3.5D, 0.0D);
-            player.hurtMarked = true;
+            player.syncVelocity = true;
             player.fallDistance = 0.0F;
-            return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());
+            return level.isClientSide()
+                    ? InteractionResult.SUCCESS.heldItemTransformedTo(stack)
+                    : InteractionResult.CONSUME.heldItemTransformedTo(stack);
         }
-        if (player.getCooldowns().isOnCooldown(this)) return InteractionResultHolder.pass(stack);
+        if (player.getCooldowns().isOnCooldown(stack)) return InteractionResult.PASS;
         if (isSentient()) {
             player.startUsingItem(hand);
         } else if (!level.isClientSide()) {
             slam((ServerLevel) level, player, stack);
-            player.getCooldowns().addCooldown(this, 200);
+            player.getCooldowns().addCooldown(stack, 200);
         }
-        return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());
+        return level.isClientSide()
+                ? InteractionResult.SUCCESS.heldItemTransformedTo(stack)
+                : InteractionResult.CONSUME.heldItemTransformedTo(stack);
     }
 
     @Override
-    public void releaseUsing(ItemStack stack, Level level, LivingEntity entity, int timeLeft) {
+    public boolean releaseUsing(ItemStack stack, Level level, LivingEntity entity, int timeLeft) {
         if (!isSentient() || !(entity instanceof Player player) || level.isClientSide()
-                || player.getCooldowns().isOnCooldown(this)) return;
+                || player.getCooldowns().isOnCooldown(stack)) return false;
         int used = getUseDuration(stack, entity) - timeLeft;
-        if (used < 6) return;
+        if (used < 6) return false;
         float charge = Math.min(1.0F, ((used / 20.0F) * (used / 20.0F) + used / 10.0F) / 3.0F);
         Vec3 look = player.getLookAngle();
         Vec3 direction = new Vec3(look.x, Math.max(-0.25D, Math.min(0.95D, look.y)), look.z).normalize();
@@ -88,18 +92,19 @@ public final class LivingMaulItem extends LivingWeaponItem {
         tag.putDouble(DASH_Z, direction.z);
         tag.putDouble(DASH_STEP, 16.0D * charge / ticks);
         tag.putBoolean(SLAM_PENDING, false);
-        player.getCooldowns().addCooldown(this, 500);
+        player.getCooldowns().addCooldown(stack, 500);
+        return true;
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean selected) {
-        super.inventoryTick(stack, level, entity, slot, selected);
-        if (!isSentient() || level.isClientSide() || !(entity instanceof Player player)) return;
+    public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, EquipmentSlot slot) {
+        super.inventoryTick(stack, level, entity, slot);
+        if (!isSentient() || !(entity instanceof Player player)) return;
         CompoundTag tag = player.getPersistentData();
         if (tag.getBooleanOr(SLAM_PENDING, false)) {
             player.fallDistance = 0.0F;
             if (player.onGround() || player.isInWater() || player.isInLava()) {
-                slam((ServerLevel) level, player, stack);
+                slam(level, player, stack);
                 clearPending(tag);
             } else if (tag.getIntOr(SLAM_TICKS, 0) <= 0) {
                 clearPending(tag);
@@ -108,7 +113,7 @@ public final class LivingMaulItem extends LivingWeaponItem {
             }
         }
         if (!tag.getBooleanOr(DASH, false)) return;
-        if (!selected || player.getMainHandItem().getItem() != this) {
+        if (slot != EquipmentSlot.MAINHAND || player.getMainHandItem().getItem() != this) {
             armSlam(tag);
             return;
         }
@@ -124,7 +129,7 @@ public final class LivingMaulItem extends LivingWeaponItem {
         List<LivingEntity> collisions = level.getEntitiesOfClass(LivingEntity.class,
                 player.getBoundingBox().expandTowards(movement).inflate(1.0D), target -> validTarget(player, target));
         if (!collisions.isEmpty()) {
-            slam((ServerLevel) level, player, stack);
+            slam(level, player, stack);
             collisions.getFirst().hurt(player.damageSources().playerAttack(player),
                     (float) player.getAttributeValue(Attributes.ATTACK_DAMAGE) * 2.0F);
             tag.putBoolean(DASH, false);
@@ -132,7 +137,7 @@ public final class LivingMaulItem extends LivingWeaponItem {
             return;
         }
         player.setDeltaMovement(movement);
-        player.hurtMarked = true;
+        player.syncVelocity = true;
         player.fallDistance = 0.0F;
         tag.putInt(DASH_TICKS, ticks - 1);
     }

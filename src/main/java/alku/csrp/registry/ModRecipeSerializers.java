@@ -12,7 +12,7 @@ public final class ModRecipeSerializers {
             DeferredRegister.create(Registries.RECIPE_SERIALIZER, Csrp.MODID);
 
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<CanteenRefillRecipe>> CANTEEN_SHAPELESS =
-            RECIPE_SERIALIZERS.register("canteen_shapeless", CanteenRefillRecipe.Serializer::new);
+            RECIPE_SERIALIZERS.register("canteen_shapeless", () -> CanteenRefillRecipe.SERIALIZER);
 
     private ModRecipeSerializers() {
     }

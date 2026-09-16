@@ -40,6 +40,8 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -459,7 +461,8 @@ public final class KirinEntity extends DerivedParasiteEntity {
         float progress = 1.0F - Mth.clamp(getJudgementCutChargeTicks() / (float) JUDGEMENT_CUT_AURA_TICKS,
                 0.0F, 1.0F);
         int count = 4 + (int) (progress * 6.0F);
-        DustParticleOptions auraDust = new DustParticleOptions(new Vector3f(0.92F, 0.05F, 0.65F), 1.0F);
+        DustParticleOptions auraDust = new DustParticleOptions(
+                net.minecraft.util.ARGB.colorFromVector3f(new Vector3f(0.92F, 0.05F, 0.65F)), 1.0F);
         for (int index = 0; index < count; index++) {
             double angle = random.nextDouble() * Math.PI * 2.0D;
             double outerRadius = 12.0D + random.nextDouble() * 8.0D;
@@ -520,12 +523,12 @@ public final class KirinEntity extends DerivedParasiteEntity {
     }
 
     private void summonVoidOrb() {
-        VoidOrbEntity orb = ModEntities.VOID_ORB.get().create(level());
+        VoidOrbEntity orb = ModEntities.VOID_ORB.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (orb == null) {
             return;
         }
         orb.configure(this, VOID_ORB_FUSE_TICKS, VOID_ORB_START_TICKS, true, VOID_ORB_OFFSET);
-        orb.moveTo(getX(), getY() + getBbHeight() + VOID_ORB_OFFSET, getZ());
+        orb.snapTo(getX(), getY() + getBbHeight() + VOID_ORB_OFFSET, getZ());
         level().addFreshEntity(orb);
         playSound(ModSounds.KIRIN_BLACK_HOLE.get(), getSoundVolume() * 2.0F,
                 (random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F);
@@ -565,9 +568,9 @@ public final class KirinEntity extends DerivedParasiteEntity {
             playSound(SoundEvents.GUARDIAN_ATTACK, 2.0F, 0.75F);
         }
         if (ticks <= LASER_FIRE_TICKS && getSensing().hasLineOfSight(target)) {
-            target.invulnerableTime = 0;
-            target.hurt(damageSources().mobAttack(this), 2.0F);
-            target.invulnerableTime = 0;
+            target.setInvulnerableTime(0);
+            target.hurtServer((ServerLevel) level(), damageSources().mobAttack(this), 2.0F);
+            target.setInvulnerableTime(0);
             target.igniteForSeconds(5.0F);
         }
 
@@ -648,7 +651,7 @@ public final class KirinEntity extends DerivedParasiteEntity {
         BlockPos ground = null;
         for (int offset = 0; offset <= FLOAT_GROUND_SCAN; offset++) {
             BlockPos candidate = base.below(offset);
-            if (level().getBlockState(candidate).isSolidRender(level(), candidate)) {
+            if (level().getBlockState(candidate).isSolidRender()) {
                 ground = candidate;
                 break;
             }
@@ -708,7 +711,7 @@ public final class KirinEntity extends DerivedParasiteEntity {
             return false;
         }
         BlockPos below = position.below();
-        return level().getBlockState(below).isSolidRender(level(), below)
+        return level().getBlockState(below).isSolidRender()
                 && level().getBlockState(position).getCollisionShape(level(), position).isEmpty()
                 && level().getBlockState(position.above()).getCollisionShape(level(), position.above()).isEmpty()
                 && level().canSeeSky(position.above());
@@ -795,7 +798,7 @@ public final class KirinEntity extends DerivedParasiteEntity {
         AABB collisionBox = new AABB(position).deflate(0.05D);
         BlockPos below = position.below();
         return level().noCollision(this, collisionBox)
-                && level().getBlockState(below).isSolidRender(level(), below);
+                && level().getBlockState(below).isSolidRender();
     }
 
     private boolean hasBlinkLineOfSight(LivingEntity target, BlockPos destination) {
@@ -817,7 +820,8 @@ public final class KirinEntity extends DerivedParasiteEntity {
     private void tryBreakBlocks() {
         LivingEntity target = getTarget();
         if (blockBreakCooldown > 0 || target == null || !target.isAlive()
-                || !level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)) {
+                || !(level() instanceof ServerLevel serverLevel)
+                || !serverLevel.getGameRules().get(GameRules.MOB_GRIEFING)) {
             return;
         }
         int verticalOffset = 0;
@@ -837,15 +841,15 @@ public final class KirinEntity extends DerivedParasiteEntity {
             for (int zOffset = -activeRange; zOffset <= activeRange; zOffset++) {
                 for (int yOffset = 1 + verticalOffset; yOffset <= height + verticalOffset; yOffset++) {
                     BlockPos candidate = origin.offset(xOffset, yOffset, zOffset);
-                    BlockState state = level().getBlockState(candidate);
-                    float hardness = state.getDestroySpeed(level(), candidate);
+                    BlockState state = serverLevel.getBlockState(candidate);
+                    float hardness = state.getDestroySpeed(serverLevel, candidate);
                     if (state.isAir() || state.hasBlockEntity() || !state.getFluidState().isEmpty()
                             || hardness < 0.0F || hardness > BLOCK_BREAK_MAX_HARDNESS
                             || state.is(ModBlocks.BIOMEHEART.get()) || state.is(ModBlocks.COLONYHEART.get())
                             || state.is(ModBlocks.PARASITE_STRUCTURE.get())) {
                         continue;
                     }
-                    brokeAny |= ParasiteBlockInventory.collect((ServerLevel) level(), candidate, this);
+                    brokeAny |= ParasiteBlockInventory.collect(serverLevel, candidate, this);
                 }
             }
         }
@@ -853,17 +857,17 @@ public final class KirinEntity extends DerivedParasiteEntity {
     }
 
     @Override
-    public boolean doHurtTarget(Entity target) {
-        return super.doHurtTarget(target);
+    public boolean doHurtTarget(ServerLevel level, Entity target) {
+        return super.doHurtTarget(level, target);
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
-        return super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+        return super.hurtServer(level, source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
     }
 
     @Override
-    public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
+    public boolean causeFallDamage(double distance, float damageMultiplier, DamageSource source) {
         return false;
     }
 
@@ -888,47 +892,47 @@ public final class KirinEntity extends DerivedParasiteEntity {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putInt("kirin_blink_cooldown", blinkCooldown);
-        tag.putInt("kirin_blink_charge", blinkCharge);
-        tag.putLong("kirin_blink_destination", blinkDestination.asLong());
-        tag.putInt("kirin_void_charge", voidSkillCharge);
-        tag.putInt("kirin_void_cast_ticks", voidSkillCastTicks);
-        tag.putInt("kirin_void_stage", voidSkillStage);
-        tag.putInt("kirin_laser_cooldown", laserCooldown);
-        tag.putInt("kirin_float_bob", floatBob);
-        tag.putInt("kirin_no_ground_ticks", noGroundTicks);
-        tag.putInt("kirin_block_break_cooldown", blockBreakCooldown);
-        tag.putInt("kirin_judgement_charge", judgementCutCharge);
-        tag.putInt("kirin_judgement_skill_ticks", judgementCutSkillTicks);
-        tag.putInt("kirin_judgement_aura_ticks", getJudgementCutChargeTicks());
-        tag.putInt("kirin_judgement_aura_end_ticks", getJudgementCutAuraEndTicks());
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putInt("kirin_blink_cooldown", blinkCooldown);
+        output.putInt("kirin_blink_charge", blinkCharge);
+        output.putLong("kirin_blink_destination", blinkDestination.asLong());
+        output.putInt("kirin_void_charge", voidSkillCharge);
+        output.putInt("kirin_void_cast_ticks", voidSkillCastTicks);
+        output.putInt("kirin_void_stage", voidSkillStage);
+        output.putInt("kirin_laser_cooldown", laserCooldown);
+        output.putInt("kirin_float_bob", floatBob);
+        output.putInt("kirin_no_ground_ticks", noGroundTicks);
+        output.putInt("kirin_block_break_cooldown", blockBreakCooldown);
+        output.putInt("kirin_judgement_charge", judgementCutCharge);
+        output.putInt("kirin_judgement_skill_ticks", judgementCutSkillTicks);
+        output.putInt("kirin_judgement_aura_ticks", getJudgementCutChargeTicks());
+        output.putInt("kirin_judgement_aura_end_ticks", getJudgementCutAuraEndTicks());
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        blinkCooldown = tag.contains("kirin_blink_cooldown")
-                ? tag.getIntOr("kirin_blink_cooldown", 0) : tag.getIntOr("blink_cooldown", 0);
-        blinkCharge = tag.contains("kirin_blink_charge")
-                ? tag.getIntOr("kirin_blink_charge", 0) : tag.getIntOr("blink_charge", 0);
-        blinkDestination = tag.contains("kirin_blink_destination")
-                ? BlockPos.of(tag.getLongOr("kirin_blink_destination", 0L))
-                : new BlockPos(tag.getIntOr("blink_x", 0), tag.getIntOr("blink_y", 0), tag.getIntOr("blink_z", 0));
-        voidSkillCharge = tag.contains("kirin_void_charge")
-                ? tag.getIntOr("kirin_void_charge", 0) : Math.max(0, 80 - tag.getIntOr("void_orb_cooldown", 0));
-        voidSkillCastTicks = tag.getIntOr("kirin_void_cast_ticks", 0);
-        voidSkillStage = tag.getIntOr("kirin_void_stage", 0);
-        laserCooldown = tag.getIntOr("kirin_laser_cooldown", 0);
-        floatBob = tag.getIntOr("kirin_float_bob", 0);
-        noGroundTicks = tag.getIntOr("kirin_no_ground_ticks", 0);
-        blockBreakCooldown = tag.getIntOr("kirin_block_break_cooldown", 0);
-        judgementCutCharge = tag.getIntOr("kirin_judgement_charge", 0);
-        judgementCutSkillTicks = tag.getIntOr("kirin_judgement_skill_ticks", 0);
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        blinkCooldown = input.getInt("kirin_blink_cooldown").isPresent()
+                ? input.getIntOr("kirin_blink_cooldown", 0) : input.getIntOr("blink_cooldown", 0);
+        blinkCharge = input.getInt("kirin_blink_charge").isPresent()
+                ? input.getIntOr("kirin_blink_charge", 0) : input.getIntOr("blink_charge", 0);
+        blinkDestination = input.getLong("kirin_blink_destination").isPresent()
+                ? BlockPos.of(input.getLongOr("kirin_blink_destination", 0L))
+                : new BlockPos(input.getIntOr("blink_x", 0), input.getIntOr("blink_y", 0), input.getIntOr("blink_z", 0));
+        voidSkillCharge = input.getInt("kirin_void_charge").isPresent()
+                ? input.getIntOr("kirin_void_charge", 0) : Math.max(0, 80 - input.getIntOr("void_orb_cooldown", 0));
+        voidSkillCastTicks = input.getIntOr("kirin_void_cast_ticks", 0);
+        voidSkillStage = input.getIntOr("kirin_void_stage", 0);
+        laserCooldown = input.getIntOr("kirin_laser_cooldown", 0);
+        floatBob = input.getIntOr("kirin_float_bob", 0);
+        noGroundTicks = input.getIntOr("kirin_no_ground_ticks", 0);
+        blockBreakCooldown = input.getIntOr("kirin_block_break_cooldown", 0);
+        judgementCutCharge = input.getIntOr("kirin_judgement_charge", 0);
+        judgementCutSkillTicks = input.getIntOr("kirin_judgement_skill_ticks", 0);
         judgementCutQueued = judgementCutSkillTicks > 0;
-        entityData.set(JUDGEMENT_CUT_CHARGE, tag.getIntOr("kirin_judgement_aura_ticks", 0));
-        entityData.set(JUDGEMENT_CUT_AURA_END, tag.getIntOr("kirin_judgement_aura_end_ticks", 0));
+        entityData.set(JUDGEMENT_CUT_CHARGE, input.getIntOr("kirin_judgement_aura_ticks", 0));
+        entityData.set(JUDGEMENT_CUT_AURA_END, input.getIntOr("kirin_judgement_aura_end_ticks", 0));
         entityData.set(BLINK_POS, blinkCharge > 0 ? blinkDestination : BlockPos.ZERO);
         entityData.set(BLINK_TICKS, blinkCharge);
         entityData.set(VOID_CASTING, voidSkillCastTicks > 0);

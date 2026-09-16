@@ -6,17 +6,19 @@ import alku.csrp.registry.ModParticles;
 import alku.csrp.registry.ModSounds;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 /** Invisible rebuild counter stored inside a parasite remains block. */
 public final class RemainEntity extends Entity {
@@ -33,6 +35,11 @@ public final class RemainEntity extends Entity {
 
     public RemainEntity(EntityType<? extends RemainEntity> type, Level level) {
         super(type, level);
+    }
+
+    @Override
+    public boolean hurtServer(ServerLevel level, DamageSource source, float damage) {
+        return false;
     }
 
     @Override
@@ -83,12 +90,12 @@ public final class RemainEntity extends Entity {
             id = Identifier.fromNamespaceAndPath("csrp", id.getPath());
         }
         EntityType<?> entityType = BuiltInRegistries.ENTITY_TYPE.getOptional(id).orElse(null);
-        Entity created = entityType == null ? null : entityType.create(serverLevel);
+        Entity created = entityType == null ? null : entityType.create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (!(created instanceof Mob rebuilt)) {
             return;
         }
 
-        rebuilt.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        rebuilt.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         if (!serverLevel.noCollision(rebuilt)) {
             rebuilt.discard();
             return;
@@ -172,27 +179,27 @@ public final class RemainEntity extends Entity {
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag tag) {
-        parasite = tag.contains("parasiteparasite") ? tag.getStringOr("parasiteparasite", "") : null;
-        active = tag.getBooleanOr("parasiteactive", false);
-        count = tag.getIntOr("parasitepoint", 0);
-        plus = tag.getIntOr("parasiteplus", 0);
-        goal = tag.getIntOr("parasitegoal", 0);
-        skin = tag.getByteOr("parasiteskin", (byte)0);
-        health = tag.getFloatOr("parasitehealth", 0.0F);
+    protected void readAdditionalSaveData(ValueInput input) {
+        parasite = input.getString("parasiteparasite").orElse(null);
+        active = input.getBooleanOr("parasiteactive", false);
+        count = input.getIntOr("parasitepoint", 0);
+        plus = input.getIntOr("parasiteplus", 0);
+        goal = input.getIntOr("parasitegoal", 0);
+        skin = input.getByteOr("parasiteskin", (byte)0);
+        health = input.getFloatOr("parasitehealth", 0.0F);
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag tag) {
+    protected void addAdditionalSaveData(ValueOutput output) {
         if (parasite != null) {
-            tag.putString("parasiteparasite", parasite);
+            output.putString("parasiteparasite", parasite);
         }
-        tag.putBoolean("parasiteactive", active);
-        tag.putInt("parasitepoint", count);
-        tag.putInt("parasiteplus", plus);
-        tag.putInt("parasitegoal", goal);
-        tag.putByte("parasiteskin", skin);
-        tag.putFloat("parasitehealth", health);
+        output.putBoolean("parasiteactive", active);
+        output.putInt("parasitepoint", count);
+        output.putInt("parasiteplus", plus);
+        output.putInt("parasitegoal", goal);
+        output.putByte("parasiteskin", skin);
+        output.putFloat("parasitehealth", health);
     }
 
     @Override

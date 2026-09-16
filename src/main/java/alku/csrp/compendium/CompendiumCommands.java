@@ -29,7 +29,7 @@ public final class CompendiumCommands {
     }
 
     private static LiteralArgumentBuilder<CommandSourceStack> guideCommand() {
-        return Commands.literal("srpguide").requires(source -> source.hasPermission(2))
+        return Commands.literal("srpguide").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                 .then(Commands.literal("unlockall").executes(context -> unlock(context.getSource(), Unlock.ALL)))
                 .then(Commands.literal("unlockblocks").executes(context -> unlock(context.getSource(), Unlock.BLOCKS)))
                 .then(Commands.literal("unlockcelestial").executes(context -> unlock(context.getSource(), Unlock.CELESTIAL)))
@@ -42,14 +42,14 @@ public final class CompendiumCommands {
     }
 
     private static LiteralArgumentBuilder<CommandSourceStack> clearGuideCommand() {
-        return Commands.literal("srpguideclear").requires(source -> source.hasPermission(2))
+        return Commands.literal("srpguideclear").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                 .executes(context -> clearAll(context.getSource(), self(context.getSource())))
                 .then(Commands.argument("player", EntityArgument.player()).executes(context ->
                         clearAll(context.getSource(), EntityArgument.getPlayer(context, "player"))));
     }
 
     private static LiteralArgumentBuilder<CommandSourceStack> statsCommand(String name, boolean bestiary) {
-        return Commands.literal(name).requires(source -> source.hasPermission(2))
+        return Commands.literal(name).requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                 .then(Commands.literal("clear")
                         .executes(context -> clearStats(context.getSource(), self(context.getSource()), bestiary))
                         .then(Commands.argument("player", EntityArgument.player()).executes(context -> clearStats(

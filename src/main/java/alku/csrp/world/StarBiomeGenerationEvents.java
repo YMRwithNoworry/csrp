@@ -4,7 +4,7 @@ import alku.csrp.Csrp;
 import java.util.Set;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -55,15 +55,15 @@ public final class StarBiomeGenerationEvents {
         if (starType == SrpStarType.WARM) {
             dryWarmStarChunk(chunk);
         } else if (ColdStarVillageGenerator.isVillageChunk(level.getSeed(), chunk.getPos())) {
-            int chunkX = chunk.getPos().x;
-            int chunkZ = chunk.getPos().z;
+            int chunkX = chunk.getPos().x();
+            int chunkZ = chunk.getPos().z();
             level.getServer().execute(() -> ColdStarVillageGenerator.generate(level, chunkX, chunkZ));
         }
-        chunk.setUnsaved(true);
+        chunk.markUnsaved();
     }
 
     private static void replaceBiomes(ServerLevel level, ChunkAccess chunk, SrpStarType starType) {
-        Registry<Biome> biomes = level.registryAccess().registryOrThrow(Registries.BIOME);
+        HolderLookup.RegistryLookup<Biome> biomes = level.registryAccess().lookupOrThrow(Registries.BIOME);
         for (LevelChunkSection section : chunk.getSections()) {
             BiomeChunkSectionAccessor mutable = (BiomeChunkSectionAccessor) section;
             for (int x = 0; x < 4; x++) {
@@ -73,7 +73,7 @@ public final class StarBiomeGenerationEvents {
                         ResourceKey<Biome> sourceKey = source.unwrapKey().orElse(Biomes.PLAINS);
                         ResourceKey<Biome> targetKey = starType == SrpStarType.COLD
                                 ? coldTarget(sourceKey) : warmTarget(sourceKey);
-                        mutable.csrp$setBiome(x, y, z, biomes.getHolderOrThrow(targetKey));
+                        mutable.csrp$setBiome(x, y, z, biomes.getOrThrow(targetKey));
                     }
                 }
             }
@@ -113,7 +113,7 @@ public final class StarBiomeGenerationEvents {
                     pos.set(startX + x, y, startZ + z);
                     var state = chunk.getBlockState(pos);
                     if (state.getFluidState().is(FluidTags.WATER) || state.is(Blocks.ICE)) {
-                        chunk.setBlockState(pos, Blocks.AIR.defaultBlockState(), false);
+                        chunk.setBlockState(pos, Blocks.AIR.defaultBlockState());
                     }
                 }
             }

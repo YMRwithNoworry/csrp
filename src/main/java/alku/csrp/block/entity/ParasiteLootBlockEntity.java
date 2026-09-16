@@ -79,18 +79,18 @@ public final class ParasiteLootBlockEntity extends BaseContainerBlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        ContainerHelper.saveAllItems(tag, items, registries);
-        tag.putBoolean("LootGenerated", lootGenerated);
+    protected void saveAdditional(net.minecraft.world.level.storage.ValueOutput output) {
+        super.saveAdditional(output);
+        ContainerHelper.saveAllItems(output, items);
+        output.putBoolean("LootGenerated", lootGenerated);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
+    protected void loadAdditional(net.minecraft.world.level.storage.ValueInput input) {
+        super.loadAdditional(input);
         items = NonNullList.withSize(CONTAINER_SIZE, ItemStack.EMPTY);
-        ContainerHelper.loadAllItems(tag, items, registries);
-        lootGenerated = tag.getBooleanOr("LootGenerated", false) || !isEmpty();
+        ContainerHelper.loadAllItems(input, items);
+        lootGenerated = input.getBooleanOr("LootGenerated", false) || !isEmpty();
     }
 
     public float fullness() {

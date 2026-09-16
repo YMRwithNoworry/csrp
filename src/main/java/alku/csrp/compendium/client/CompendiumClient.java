@@ -26,16 +26,16 @@ public final class CompendiumClient {
     }
 
     public static void open(CompoundTag tag) {
-        Minecraft.getInstance().setScreen(new CompendiumScreen(CompendiumProgress.load(tag), entries()));
+        Minecraft.getInstance().setScreenAndShow(new CompendiumScreen(CompendiumProgress.load(tag), entries()));
     }
 
     public static void toggleSounds() {
         soundsEnabled = !soundsEnabled;
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.player != null) {
-            minecraft.player.displayClientMessage(Component.translatable(
+            minecraft.gui.hud.setOverlayMessage(Component.translatable(
                     soundsEnabled ? "message.csrp.compendium.sounds_on" : "message.csrp.compendium.sounds_off"),
-                    true);
+                    false);
         }
     }
 

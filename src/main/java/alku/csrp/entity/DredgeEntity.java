@@ -28,6 +28,7 @@ import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.Vec3;
 import alku.csrp.animation.CitadelAnimationManager;
@@ -127,10 +128,11 @@ public final class DredgeEntity extends CrudeParasiteEntity {
         goalSelector.addGoal(6, new RecruitFollowersGoal());
         targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
         targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Player.class, 0,
-                false, false, this::isValidParasiteTarget));
+                false, false, (target, level) -> isValidParasiteTarget(target)));
         if (Config.mobAttackingEnabled()) {
             targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Mob.class, 0,
-                    !Config.collectiveConsciousnessEnabled(), false, this::isValidDredgeMobTarget));
+                    !Config.collectiveConsciousnessEnabled(), false,
+                    (target, level) -> isValidDredgeMobTarget(target)));
         }
     }
 
@@ -156,8 +158,8 @@ public final class DredgeEntity extends CrudeParasiteEntity {
     }
 
     @Override
-    public boolean doHurtTarget(Entity entity) {
-        boolean hit = super.doHurtTarget(entity);
+    public boolean doHurtTarget(ServerLevel level, Entity entity) {
+        boolean hit = super.doHurtTarget(level, entity);
         if (hit && entity instanceof LivingEntity target && !hasTargetedEntity() && canPull) {
             setTargetedEntity(target.getId());
             setParasiteStatus(STATUS_PULLING);
@@ -201,7 +203,8 @@ public final class DredgeEntity extends CrudeParasiteEntity {
 
     private void tickLiquidLeap() {
         LivingEntity target = getTarget();
-        boolean inLiquid = isInWaterOrBubble() || isInLava();
+        boolean inLiquid = isInWater() || level().getBlockState(blockPosition()).is(Blocks.BUBBLE_COLUMN)
+                || isInLava();
         if (tickCount % LIQUID_LEAP_INTERVAL_TICKS == 0 && inLiquid && target != null && target.isAlive()) {
             liquidLeap = Math.min(MAX_LIQUID_LEAPS, liquidLeap + 1);
         }
@@ -374,11 +377,12 @@ public final class DredgeEntity extends CrudeParasiteEntity {
 
         @Override
         public boolean canUse() {
-            if (!isInWaterOrBubble() && !isInLava()) {
+            if (!isInWater() && !level().getBlockState(blockPosition()).is(Blocks.BUBBLE_COLUMN) && !isInLava()) {
                 return false;
             }
             LivingEntity target = getTarget();
-            if (target != null && (target.isInWaterOrBubble() || target.isInLava())
+            if (target != null && (target.isInWater()
+                    || target.level().getBlockState(target.blockPosition()).is(Blocks.BUBBLE_COLUMN) || target.isInLava())
                     && distanceToSqr(getX(), target.getY(), getZ()) < 25.0D
                     && target.getY() - getY() < -1.0D) {
                 setDeltaMovement(getDeltaMovement().add(0.0D, -0.095D, 0.0D));
@@ -434,7 +438,7 @@ public final class DredgeEntity extends CrudeParasiteEntity {
             getNavigation().moveTo(target, speed);
             if (isWithinMeleeAttackRange(target) && attackTick <= 0 && getSensing().hasLineOfSight(target)) {
                 attackTick = MELEE_ATTACK_INTERVAL_TICKS;
-                doHurtTarget(target);
+                doHurtTarget(getServerLevel(DredgeEntity.this), target);
             }
         }
     }

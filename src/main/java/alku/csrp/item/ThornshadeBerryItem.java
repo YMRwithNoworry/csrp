@@ -3,7 +3,7 @@ package alku.csrp.item;
 import alku.csrp.block.ThornshadeBlock;
 import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModSounds;
-import java.util.List;
+import java.util.function.Consumer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -11,13 +11,13 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.ItemUseAnimation;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 
@@ -45,13 +45,13 @@ public final class ThornshadeBerryItem extends Item {
                 context.getItemInHand().shrink(1);
             }
         }
-        return InteractionResult.sidedSuccess(level.isClientSide());
+        return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.CONSUME;
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         player.startUsingItem(hand);
-        return InteractionResultHolder.consume(player.getItemInHand(hand));
+        return InteractionResult.CONSUME.heldItemTransformedTo(player.getItemInHand(hand));
     }
 
     @Override
@@ -60,10 +60,10 @@ public final class ThornshadeBerryItem extends Item {
             if (user instanceof Player player) {
                 player.getFoodData().eat(2, 0.1F);
             }
-            user.invulnerableTime = 0;
+            user.setInvulnerableTime(0);
             user.hurt(level.damageSources().magic(), 4.0F);
-            level.playSound(null, user.blockPosition(), SoundEvents.GENERIC_EAT,
-                    SoundSource.PLAYERS, 1.0F, 0.9F + level.random.nextFloat() * 0.2F);
+            level.playSound(null, user.blockPosition(), SoundEvents.GENERIC_EAT.value(),
+                    SoundSource.PLAYERS, 1.0F, 0.9F + level.getRandom().nextFloat() * 0.2F);
             level.playSound(null, user.blockPosition(), ModSounds.MOVING_FLESH_GROW.get(),
                     SoundSource.PLAYERS, 0.6F, 1.0F);
         }
@@ -84,9 +84,9 @@ public final class ThornshadeBerryItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context,
-            List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.translatable("tooltip.csrp.thornshade_berry")
+    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display,
+            Consumer<Component> builder, TooltipFlag flag) {
+        builder.accept(Component.translatable("tooltip.csrp.thornshade_berry")
                 .withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
     }
 }

@@ -8,7 +8,8 @@ import java.util.Locale;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
@@ -17,7 +18,6 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
-import org.lwjgl.glfw.GLFW;
 
 @EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT)
 public final class EvolutionHudEvents {
@@ -36,7 +36,7 @@ public final class EvolutionHudEvents {
     private static final int PHASE_BADGE_BACKGROUND = 0xFF090008;
 
     public static final KeyMapping TOGGLE = new KeyMapping("key.csrp.overlast_hud",
-            InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_COMMA, "key.categories.csrp");
+            InputConstants.Type.KEYBOARD, InputConstants.KEY_COMMA, KeyMapping.Category.MISC);
 
     private EvolutionHudEvents() {
     }
@@ -51,11 +51,11 @@ public final class EvolutionHudEvents {
     @SubscribeEvent
     public static void render(RenderGuiEvent.Post event) {
         Minecraft minecraft = Minecraft.getInstance();
-        if (!EvolutionHudState.shouldRender() || minecraft.options.hideGui || minecraft.player == null) {
+        if (!EvolutionHudState.shouldRender() || minecraft.gui.hud.isHidden() || minecraft.player == null) {
             return;
         }
         EvolutionHudPayload state = EvolutionHudState.state();
-        GuiGraphics graphics = event.getGuiGraphics();
+        GuiGraphicsExtractor graphics = event.getGuiGraphics();
         int screenWidth = graphics.guiWidth();
         int screenHeight = graphics.guiHeight();
         String position = Config.overlastHudPosition();
@@ -68,10 +68,10 @@ public final class EvolutionHudEvents {
                 "textures/gui/overlast/evolutionbar" + texturePhase + ".png");
 
         if (progress > 0) {
-            graphics.blit(texture, x - BAR_WIDTH - 10, y + 3, BAR_TEXTURE_X, BAR_TEXTURE_Y,
+            graphics.blit(RenderPipelines.GUI_TEXTURED, texture, x - BAR_WIDTH - 10, y + 3, BAR_TEXTURE_X, BAR_TEXTURE_Y,
                     progress, FULL_HEIGHT, TEXTURE_SIZE, TEXTURE_SIZE);
         }
-        graphics.blit(texture, x - FULL_WIDTH, y, 0, 0,
+        graphics.blit(RenderPipelines.GUI_TEXTURED, texture, x - FULL_WIDTH, y, 0, 0,
                 FULL_WIDTH, FULL_HEIGHT, TEXTURE_SIZE, TEXTURE_SIZE);
         drawPhaseBadge(graphics, minecraft.font, state.phase(), x - FULL_WIDTH, y);
 
@@ -83,7 +83,7 @@ public final class EvolutionHudEvents {
                 pointsCenterX, y + 13, pointTextMaxWidth, 0xFFFFFFFF);
     }
 
-    private static void drawPhaseBadge(GuiGraphics graphics, Font font, int phase, int x, int y) {
+    private static void drawPhaseBadge(GuiGraphicsExtractor graphics, Font font, int phase, int x, int y) {
         graphics.fill(x, y, x + PHASE_BADGE_WIDTH, y + PHASE_BADGE_HEIGHT, PHASE_BADGE_BORDER);
         graphics.fill(x + 1, y + 1, x + PHASE_BADGE_WIDTH - 1, y + PHASE_BADGE_HEIGHT - 1,
                 PHASE_BADGE_BACKGROUND);
@@ -91,15 +91,15 @@ public final class EvolutionHudEvents {
                 x + PHASE_BADGE_WIDTH / 2, y + 1, PHASE_TEXT_MAX_WIDTH, 0xFFFFB6E6);
     }
 
-    private static void drawFittedCenteredString(GuiGraphics graphics, Font font, Component text,
+    private static void drawFittedCenteredString(GuiGraphicsExtractor graphics, Font font, Component text,
             int centerX, int y, int maxWidth, int color) {
         int textWidth = Math.max(1, font.width(text));
         float scale = Math.min(1.0F, Math.max(1, maxWidth) / (float) textWidth);
-        graphics.pose().pushPose();
-        graphics.pose().translate(centerX, y, 0.0F);
-        graphics.pose().scale(scale, scale, 1.0F);
-        graphics.drawCenteredString(font, text, 0, 0, color);
-        graphics.pose().popPose();
+        graphics.pose().pushMatrix();
+        graphics.pose().translate(centerX, y);
+        graphics.pose().scale(scale, scale);
+        graphics.centeredText(font, text, 0, 0, color);
+        graphics.pose().popMatrix();
     }
 
     private static int progressWidth(EvolutionHudPayload state) {

@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -40,7 +41,7 @@ public final class MeteorInfectionSystem {
         }
         MeteorImpactUtil.tickPendingStructures(level);
         ResourceKey<Level> dimension = level.dimension();
-        if (Config.meteorDimensionBlacklist().contains(dimension.location().toString())) {
+        if (Config.meteorDimensionBlacklist().contains(dimension.identifier().toString())) {
             return;
         }
         // The create-world "Meteor Infection" toggle wins; worlds created before the option
@@ -56,7 +57,7 @@ public final class MeteorInfectionSystem {
         }
         COUNTERS.put(dimension, 0);
 
-        if (level.random.nextDouble() >= Config.meteorChance()) {
+        if (level.getRandom().nextDouble() >= Config.meteorChance()) {
             return;
         }
         if (level.getGameTime() < Config.meteorStartTicks()) {
@@ -93,7 +94,7 @@ public final class MeteorInfectionSystem {
 
     /** Original {@code ParasiteSummon.spawnMeteor(BlockPos, rad, minRad, World)}. */
     public static boolean spawnMeteorAround(ServerLevel level, BlockPos center) {
-        int rad = level.random.nextInt(Math.max(2, Config.meteorRadius()));
+        int rad = level.getRandom().nextInt(Math.max(2, Config.meteorRadius()));
         int minRad = Config.meteorMinimumRadius();
         if (rad > Config.meteorRadius()) {
             rad = Config.meteorRadius();
@@ -105,9 +106,9 @@ public final class MeteorInfectionSystem {
             rad = minRad + 1;
         }
         int span = Math.max(1, rad - minRad + 1);
-        RandomSource random = level.random;
+        RandomSource random = level.getRandom();
         int originX = signedOffset(random, minRad, span);
-        int originY = level.getMaxBuildHeight();
+        int originY = level.getMaxY() + 1;
         int originZ = signedOffset(random, minRad, span);
         int targetX = signedOffset(random, minRad, span);
         int targetZ = signedOffset(random, minRad, span);
@@ -123,7 +124,7 @@ public final class MeteorInfectionSystem {
         if (direction.lengthSqr() < 1.0E-6D) {
             return false;
         }
-        MeteorEntity meteor = ModEntities.HIVE_SATELLITE.get().create(level);
+        MeteorEntity meteor = ModEntities.HIVE_SATELLITE.get().create(level, EntitySpawnReason.EVENT);
         if (meteor == null) {
             return false;
         }

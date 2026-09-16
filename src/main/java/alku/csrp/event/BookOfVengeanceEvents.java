@@ -20,7 +20,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -64,7 +64,7 @@ public final class BookOfVengeanceEvents {
             Vec3 away = entity.position().subtract(player.position());
             Vec3 horizontal = new Vec3(away.x, 0.0D, away.z);
             if (horizontal.lengthSqr() < 1.0E-4D) {
-                double angle = level.random.nextDouble() * Math.PI * 2.0D;
+                double angle = level.getRandom().nextDouble() * Math.PI * 2.0D;
                 horizontal = new Vec3(Math.cos(angle), 0.0D, Math.sin(angle));
             } else {
                 horizontal = horizontal.normalize();
@@ -179,7 +179,7 @@ public final class BookOfVengeanceEvents {
         Vec3 direction = destination.subtract(player.getEyePosition());
         if (direction.lengthSqr() > 1.0E-4D) {
             player.setDeltaMovement(direction.normalize().scale(speed));
-            player.hurtMarked = true;
+            player.syncVelocity = true;
         }
     }
 
@@ -200,7 +200,7 @@ public final class BookOfVengeanceEvents {
         }
         away = away.normalize();
         player.setDeltaMovement(away.x * 1.05D, 0.78D, away.z * 1.05D);
-        player.hurtMarked = true;
+        player.syncVelocity = true;
     }
 
     private static void slam(ServerLevel level, ServerPlayer player, LivingEntity target,
@@ -210,7 +210,7 @@ public final class BookOfVengeanceEvents {
                 SoundSource.PLAYERS, summonLightning ? 1.25F : 0.9F,
                 summonLightning ? 0.7F : 1.1F);
         if (target != null && target.isAlive()) {
-            target.invulnerableTime = 0;
+            target.setInvulnerableTime(0);
             target.hurt(vengeanceDamage(level, player), damage);
             target.addEffect(new MobEffectInstance(ModMobEffects.BLEED, EFFECT_DURATION_TICKS,
                     0, false, true), player);
@@ -220,9 +220,9 @@ public final class BookOfVengeanceEvents {
                     EFFECT_DURATION_TICKS, 0, false, true), player);
         }
         if (summonLightning) {
-            LightningBolt lightning = EntityType.LIGHTNING_BOLT.create(level);
+            LightningBolt lightning = net.minecraft.world.entity.EntityTypes.LIGHTNING_BOLT.create(level, net.minecraft.world.entity.EntitySpawnReason.MOB_SUMMONED);
             if (lightning != null) {
-                lightning.moveTo(position.x, position.y, position.z);
+                lightning.snapTo(position.x, position.y, position.z);
                 lightning.setCause(player);
                 level.addFreshEntity(lightning);
             }
@@ -230,8 +230,8 @@ public final class BookOfVengeanceEvents {
     }
 
     private static DamageSource vengeanceDamage(ServerLevel level, ServerPlayer player) {
-        return new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE)
-                .getHolderOrThrow(ModDamageTypes.RICARDO), player);
+        return new DamageSource(level.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE)
+                .getOrThrow(ModDamageTypes.RICARDO), player);
     }
 
     private static void sendPurpleMark(ServerLevel level, Vec3 from, Vec3 target) {
@@ -248,7 +248,8 @@ public final class BookOfVengeanceEvents {
     }
 
     private static void sendSlamParticles(ServerLevel level, Vec3 position, boolean finalSlam) {
-        level.sendParticles(ParticleTypes.DRAGON_BREATH, position.x, position.y + 0.4D, position.z,
+        level.sendParticles(net.minecraft.core.particles.PowerParticleOption.create(ParticleTypes.DRAGON_BREATH, 1.0F),
+                position.x, position.y + 0.4D, position.z,
                 finalSlam ? 48 : 28, 1.1D, 0.45D, 1.1D, 0.08D);
         level.sendParticles(ParticleTypes.POOF, position.x, position.y + 0.4D, position.z,
                 finalSlam ? 36 : 20, 0.9D, 0.35D, 0.9D, 0.18D);

@@ -5,15 +5,18 @@ import alku.csrp.entity.ScaryOrbEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 
-public final class ScaryOrbRenderer extends EntityRenderer<ScaryOrbEntity> {
+public final class ScaryOrbRenderer extends EntityRenderer<ScaryOrbEntity, ScaryOrbRenderer.ScaryOrbRenderState> {
     private static final Identifier CORE_TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,
             "textures/entity/orbscary.png");
     private static final Identifier AURA_TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,
@@ -30,32 +33,49 @@ public final class ScaryOrbRenderer extends EntityRenderer<ScaryOrbEntity> {
     }
 
     @Override
-    public void render(ScaryOrbEntity entity, float entityYaw, float partialTick, PoseStack poseStack,
-                       MultiBufferSource bufferSource, int packedLight) {
-        float age = entity.tickCount + partialTick;
+    public ScaryOrbRenderState createRenderState() {
+        return new ScaryOrbRenderState();
+    }
+
+    @Override
+    public void extractRenderState(ScaryOrbEntity entity, ScaryOrbRenderState state, float partialTicks) {
+        super.extractRenderState(entity, state, partialTicks);
+        state.tickCount = entity.tickCount;
+    }
+
+    @Override
+    public void submit(ScaryOrbRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector,
+                       CameraRenderState camera) {
+        float age = state.tickCount + state.partialTick;
         float appear = Mth.clamp(age / 10.0F, 0.25F, 1.0F);
         float pulse = 1.0F + Mth.sin(age * 0.3F) * 0.08F;
 
         poseStack.pushPose();
         poseStack.scale(appear * pulse, appear * pulse, appear * pulse);
         poseStack.mulPose(Axis.YP.rotation(age * 0.05F));
-        renderSphere(poseStack, bufferSource.getBuffer(RenderType.entityTranslucentEmissive(CORE_TEXTURE)),
+        submitSphere(poseStack, submitNodeCollector, RenderTypes.entityTranslucentEmissive(CORE_TEXTURE),
                 SPHERE_RADIUS, 1.0F, 1.0F, 1.0F, 220);
         poseStack.popPose();
 
         poseStack.pushPose();
         poseStack.scale(appear * 1.12F, appear * 1.12F, appear * 1.12F);
         poseStack.mulPose(Axis.YP.rotation(-age * 0.07F));
-        renderSphere(poseStack, bufferSource.getBuffer(RenderType.entityTranslucentEmissive(AURA_TEXTURE)),
+        submitSphere(poseStack, submitNodeCollector, RenderTypes.entityTranslucentEmissive(AURA_TEXTURE),
                 SPHERE_RADIUS, 1.0F, 1.0F, 1.0F, 135);
         poseStack.popPose();
 
-        super.render(entity, entityYaw, partialTick, poseStack, bufferSource, packedLight);
+        super.submit(state, poseStack, submitNodeCollector, camera);
     }
 
-    private static void renderSphere(PoseStack poseStack, VertexConsumer consumer, float radius,
+    private static void submitSphere(PoseStack poseStack, SubmitNodeCollector submitNodeCollector,
+                                     RenderType renderType, float radius,
                                      float red, float green, float blue, int alpha) {
-        PoseStack.Pose pose = poseStack.last();
+        submitNodeCollector.submitCustomGeometry(poseStack, renderType,
+                (pose, consumer) -> renderSphere(pose, consumer, radius, red, green, blue, alpha));
+    }
+
+    private static void renderSphere(PoseStack.Pose pose, VertexConsumer consumer, float radius,
+                                     float red, float green, float blue, int alpha) {
         for (int stack = 0; stack < SPHERE_STACKS; stack++) {
             float v0 = stack / (float) SPHERE_STACKS;
             float v1 = (stack + 1) / (float) SPHERE_STACKS;
@@ -88,8 +108,8 @@ public final class ScaryOrbRenderer extends EntityRenderer<ScaryOrbEntity> {
                 .setNormal(pose, x, y, z);
     }
 
-    @Override
-    public Identifier getTextureLocation(ScaryOrbEntity entity) {
-        return CORE_TEXTURE;
+    /** Per-frame snapshot of the orb animation. */
+    public static final class ScaryOrbRenderState extends EntityRenderState {
+        public float tickCount;
     }
 }

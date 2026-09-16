@@ -33,7 +33,7 @@ final class ParasiteAnimations {
     /** Attack poses take priority over locomotion even when the mob keeps sliding toward its target. */
     static boolean isAttacking(Entity entity) {
         return entity instanceof LivingEntity living
-                && (living.swinging || living.getAttackAnim(1.0F) > 0.0F);
+                && (living.isSwinging() || living.getSwingAnimation(1.0F) > 0.0F);
     }
 
     private static String animationName(Entity entity, String requestedAction) {

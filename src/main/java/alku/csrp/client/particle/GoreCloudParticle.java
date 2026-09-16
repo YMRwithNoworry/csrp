@@ -3,21 +3,21 @@ package alku.csrp.client.particle;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 
-public final class GoreCloudParticle extends TextureSheetParticle {
+public final class GoreCloudParticle extends SingleQuadParticle {
     private final SpriteSet sprites;
     private final float originalSize;
 
     private GoreCloudParticle(ClientLevel level, double x, double y, double z,
                               double velocityX, double velocityY, double velocityZ,
                               SpriteSet sprites) {
-        super(level, x, y, z, 0.0D, 0.0D, 0.0D);
+        super(level, x, y, z, 0.0D, 0.0D, 0.0D, sprites.first());
         this.sprites = sprites;
         xd = xd * 0.1D + velocityX;
         yd = yd * 0.1D + velocityY;
@@ -63,8 +63,8 @@ public final class GoreCloudParticle extends TextureSheetParticle {
     }
 
     @Override
-    public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+    protected SingleQuadParticle.Layer getLayer() {
+        return SingleQuadParticle.Layer.TRANSLUCENT;
     }
 
     public static final class Provider implements ParticleProvider<SimpleParticleType> {
@@ -77,7 +77,8 @@ public final class GoreCloudParticle extends TextureSheetParticle {
         @Override
         public Particle createParticle(SimpleParticleType type, ClientLevel level,
                                        double x, double y, double z,
-                                       double velocityX, double velocityY, double velocityZ) {
+                                       double velocityX, double velocityY, double velocityZ,
+                                       RandomSource random) {
             return new GoreCloudParticle(level, x, y, z,
                     velocityX, velocityY, velocityZ, sprites);
         }

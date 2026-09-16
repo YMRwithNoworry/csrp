@@ -90,7 +90,7 @@ public final class WorldConfig {
     }
 
     public static boolean dimensionAllowsNaturalSpawning(ServerLevel level) {
-        String dimension = level.dimension().location().toString();
+        String dimension = level.dimension().identifier().toString();
         boolean listed = DIMENSION_LIST.get().contains(dimension);
         return DIMENSION_LIST_IS_BLACKLIST.get() != listed;
     }

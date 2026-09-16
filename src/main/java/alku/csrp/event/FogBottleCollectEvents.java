@@ -28,7 +28,7 @@ public final class FogBottleCollectEvents {
     @SubscribeEvent
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
         if (tryCollect(event.getLevel(), event.getEntity(), event.getHand(), event.getPos())) {
-            event.setCancellationResult(InteractionResult.sidedSuccess(event.getLevel().isClientSide()));
+            event.setCancellationResult(event.getLevel().isClientSide() ? InteractionResult.SUCCESS : InteractionResult.CONSUME);
             event.setCanceled(true);
         }
     }
@@ -36,7 +36,7 @@ public final class FogBottleCollectEvents {
     @SubscribeEvent
     public static void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
         if (tryCollect(event.getLevel(), event.getEntity(), event.getHand(), findFogInLook(event.getEntity()))) {
-            event.setCancellationResult(InteractionResult.sidedSuccess(event.getLevel().isClientSide()));
+            event.setCancellationResult(event.getLevel().isClientSide() ? InteractionResult.SUCCESS : InteractionResult.CONSUME);
             event.setCanceled(true);
         }
     }
@@ -61,7 +61,7 @@ public final class FogBottleCollectEvents {
         }
         ItemStack filled = new ItemStack(ModItems.FOG_BOTTLE.get());
         if (!player.getInventory().add(filled)) {
-            player.drop(filled, false);
+            player.drop(filled, false, net.minecraft.util.Prediction.SERVER_ONLY);
         }
         level.playSound(null, fogPos, SoundEvents.BOTTLE_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
         level.setBlock(fogPos, net.minecraft.world.level.block.Blocks.AIR.defaultBlockState(), 3);

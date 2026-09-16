@@ -59,8 +59,8 @@ public final class FogNullifierBlock extends Block implements EntityBlock {
 
     @Override
     public void neighborChanged(BlockState state, Level level, BlockPos pos,
-            Block neighborBlock, BlockPos neighborPos, boolean movedByPiston) {
-        super.neighborChanged(state, level, pos, neighborBlock, neighborPos, movedByPiston);
+            Block neighborBlock, net.minecraft.world.level.redstone.Orientation orientation, boolean movedByPiston) {
+        super.neighborChanged(state, level, pos, neighborBlock, orientation, movedByPiston);
         if (!level.isClientSide()) {
             attemptClear((ServerLevel) level, pos);
         }
@@ -72,7 +72,7 @@ public final class FogNullifierBlock extends Block implements EntityBlock {
         if (!level.isClientSide()) {
             attemptClear((ServerLevel) level, pos);
         }
-        return InteractionResult.sidedSuccess(level.isClientSide());
+        return InteractionResult.SUCCESS_SERVER;
     }
 
     @Override
@@ -85,7 +85,7 @@ public final class FogNullifierBlock extends Block implements EntityBlock {
     }
 
     @Override
-    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state) {
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
         if (level.getBlockEntity(pos) instanceof FogNullifierBlockEntity nullifier) {
             return stackWithUses(nullifier.usesRemaining());
         }
@@ -94,9 +94,11 @@ public final class FogNullifierBlock extends Block implements EntityBlock {
 
     private ItemStack stackWithUses(int uses) {
         ItemStack stack = new ItemStack(this);
-        CompoundTag tag = new CompoundTag();
-        tag.putInt(FogNullifierBlockEntity.USES_TAG, uses);
-        BlockItem.setBlockEntityData(stack, ModBlockEntities.FOG_NULLIFIER.get(), tag);
+        net.minecraft.world.level.storage.TagValueOutput output =
+                net.minecraft.world.level.storage.TagValueOutput.createWithoutContext(
+                        net.minecraft.util.ProblemReporter.DISCARDING);
+        output.putInt(FogNullifierBlockEntity.USES_TAG, uses);
+        BlockItem.setBlockEntityData(stack, ModBlockEntities.FOG_NULLIFIER.get(), output);
         return stack;
     }
 
@@ -104,9 +106,10 @@ public final class FogNullifierBlock extends Block implements EntityBlock {
         if (!(level.getBlockEntity(pos) instanceof FogNullifierBlockEntity nullifier)) {
             return;
         }
-        CustomData data = stack.get(DataComponents.BLOCK_ENTITY_DATA);
-        if (data != null && data.copyTag().contains(FogNullifierBlockEntity.USES_TAG)) {
-            nullifier.setUsesRemaining(data.copyTag().getIntOr(FogNullifierBlockEntity.USES_TAG, 0));
+        net.minecraft.world.item.component.TypedEntityData<net.minecraft.world.level.block.entity.BlockEntityType<?>> data =
+                stack.get(DataComponents.BLOCK_ENTITY_DATA);
+        if (data != null && data.contains(FogNullifierBlockEntity.USES_TAG)) {
+            nullifier.setUsesRemaining(data.getUnsafe().getIntOr(FogNullifierBlockEntity.USES_TAG, 0));
         }
     }
 

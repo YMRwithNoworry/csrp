@@ -57,7 +57,7 @@ import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerContainerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerXpEvent;
-import net.neoforged.neoforge.event.level.BlockEvent;
+import net.neoforged.neoforge.event.level.block.BreakBlockEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 
 /** Original dislodgment triggers, code state, and code-bound gameplay effects. */
@@ -120,7 +120,7 @@ public final class DislodgmentSystem {
     }
 
     @SubscribeEvent
-    public static void onParasiteBlockBroken(BlockEvent.BreakEvent event) {
+    public static void onParasiteBlockBroken(BreakBlockEvent event) {
         if (!(event.getLevel() instanceof ServerLevel level)) {
             return;
         }
@@ -224,7 +224,7 @@ public final class DislodgmentSystem {
         }
         ItemStack shield = player.getUseItem();
         if (!shield.isEmpty()) {
-            player.getCooldowns().addCooldown(shield.getItem(), 100);
+            player.getCooldowns().addCooldown(shield, 100);
         }
         player.stopUsingItem();
         event.setBlocked(false);
@@ -232,19 +232,19 @@ public final class DislodgmentSystem {
 
     @SubscribeEvent
     public static void corruptFoodAfterHit(LivingDamageEvent.Post event) {
-        if (event.getNewDamage() <= 0.0F || !(event.getEntity() instanceof Player player)
+        if (event.getHealthDamage() <= 0.0F || !(event.getEntity() instanceof Player player)
                 || !(event.getSource().getEntity() instanceof Parasite)
                 || !(player.level() instanceof ServerLevel level)
                 || player.getAbilities().instabuild || !Config.useDislodgment() || !Config.disloShieldFood()
                 || activeValue(SrpWorldData.get(level), 17) < 1) {
             return;
         }
-        for (ItemStack stack : player.getInventory().items) {
-            if (corruptOneFood(player, stack)) {
+        for (ItemStack stack : player.getInventory().getNonEquipmentItems()) {
+            if (corruptOneFood(level, player, stack)) {
                 return;
             }
         }
-        corruptOneFood(player, player.getOffhandItem());
+        corruptOneFood(level, player, player.getOffhandItem());
     }
 
     @SubscribeEvent
@@ -469,11 +469,11 @@ public final class DislodgmentSystem {
                 ? pureTypes()
                 : value >= Config.disloDeathHighVersionsAdapted() ? adaptedTypes() : primitiveTypes();
         EntityType<? extends Mob> type = pool.get(level.getRandom().nextInt(pool.size()));
-        Mob spawned = type.create(level);
+        Mob spawned = type.create(level, net.minecraft.world.entity.EntitySpawnReason.MOB_SUMMONED);
         if (spawned == null) {
             return;
         }
-        spawned.moveTo(dead.getX(), dead.getY(), dead.getZ(), dead.getYRot(), dead.getXRot());
+        spawned.snapTo(dead.getX(), dead.getY(), dead.getZ(), dead.getYRot(), dead.getXRot());
         spawned.finalizeSpawn(level, level.getCurrentDifficultyAt(dead.blockPosition()),
                 EntitySpawnReason.MOB_SUMMONED, null);
         spawned.addEffect(new MobEffectInstance(ModMobEffects.REPEL, 600, 0, false, false));
@@ -504,12 +504,12 @@ public final class DislodgmentSystem {
                 ModEntities.CARRIER_HEAVY.get());
     }
 
-    private static boolean corruptOneFood(Player player, ItemStack stack) {
+    private static boolean corruptOneFood(ServerLevel level, Player player, ItemStack stack) {
         if (stack.isEmpty() || stack.get(DataComponents.FOOD) == null) {
             return false;
         }
         stack.shrink(1);
-        player.spawnAtLocation(new ItemStack(ModItems.ASSIMILATED_FLESH.get()));
+        player.spawnAtLocation(level, new ItemStack(ModItems.ASSIMILATED_FLESH.get()));
         return true;
     }
 
@@ -678,11 +678,11 @@ public final class DislodgmentSystem {
 
     private static boolean spawnPayloadWorm(ServerLevel level, LivingEntity target, BlockPos position,
             Identifier payload) {
-        DeterrentParasiteEntity worm = ModEntities.WORM.get().create(level);
+        DeterrentParasiteEntity worm = ModEntities.WORM.get().create(level, net.minecraft.world.entity.EntitySpawnReason.MOB_SUMMONED);
         if (worm == null) {
             return false;
         }
-        worm.moveTo(position.getX() + 0.5D, position.getY(), position.getZ() + 0.5D,
+        worm.snapTo(position.getX() + 0.5D, position.getY(), position.getZ() + 0.5D,
                 level.getRandom().nextFloat() * 360.0F, 0.0F);
         if (!level.noCollision(worm, worm.getBoundingBox().inflate(1.0D, 7.0D, 1.0D))) {
             return false;

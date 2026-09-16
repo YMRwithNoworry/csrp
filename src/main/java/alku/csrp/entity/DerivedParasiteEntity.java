@@ -6,8 +6,8 @@ import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModSounds;
 import alku.csrp.world.EvolutionSystem;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -20,6 +20,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -28,6 +29,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.util.Mth;
 
 import java.util.ArrayList;
@@ -201,12 +204,12 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
-        if (level().isClientSide() || source.is(DamageTypes.FELL_OUT_OF_WORLD)) {
-            return super.hurt(source, amount);
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+        if (source.is(DamageTypes.FELL_OUT_OF_WORLD)) {
+            return super.hurtServer(level, source, amount);
         }
         if (!isShadowed() && !isShadowClone()) {
-            boolean hurt = super.hurt(source, amount);
+            boolean hurt = super.hurtServer(level, source, amount);
             if (hurt) {
                 reflectAdaptedDamage(source);
             }
@@ -216,7 +219,7 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
         if (!isShadowClone() && isShadowProtected()) {
             shadowDamageTimeout = SHADOW_DAMAGE_TIMEOUT_TICKS;
             level().broadcastEntityEvent(this, SHADOW_HIT_EVENT);
-            super.hurt(source, 0.0F);
+            super.hurtServer(level, source, 0.0F);
             return false;
         }
 
@@ -230,16 +233,16 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
             shadowDamage = 0.0F;
         }
         level().broadcastEntityEvent(this, SHADOW_HIT_EVENT);
-        super.hurt(source, 0.0F);
+        super.hurtServer(level, source, 0.0F);
         return false;
     }
 
     @Override
-    public boolean doHurtTarget(Entity target) {
+    public boolean doHurtTarget(ServerLevel level, Entity target) {
         if (target instanceof LivingEntity living && !(target instanceof Parasite)) {
             applyMinimumDamage(living, DERIVED_MINIMUM_DAMAGE);
         }
-        return super.doHurtTarget(target);
+        return super.doHurtTarget(level, target);
     }
 
     @Override
@@ -256,14 +259,14 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
                 player.giveExperiencePoints(-experience);
             }
             Set<Item> cooledItems = new HashSet<>();
-            for (ItemStack stack : player.getInventory().items) {
+            for (ItemStack stack : player.getInventory().getNonEquipmentItems()) {
                 if (!stack.isEmpty() && cooledItems.add(stack.getItem())) {
-                    player.getCooldowns().addCooldown(stack.getItem(), DERIVED_ORB_ITEM_COOLDOWN_TICKS);
+                    player.getCooldowns().addCooldown(stack, DERIVED_ORB_ITEM_COOLDOWN_TICKS);
                 }
             }
             ItemStack offhand = player.getOffhandItem();
             if (!offhand.isEmpty() && cooledItems.add(offhand.getItem())) {
-                player.getCooldowns().addCooldown(offhand.getItem(), DERIVED_ORB_ITEM_COOLDOWN_TICKS);
+                player.getCooldowns().addCooldown(offhand, DERIVED_ORB_ITEM_COOLDOWN_TICKS);
             }
         }
         InfectionMechanics.applyCothEffect(target, this, 1200, 3, false, false);
@@ -377,12 +380,12 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
             return false;
         }
 
-        Entity entity = getType().create(serverLevel);
+        Entity entity = getType().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (!(entity instanceof DerivedParasiteEntity clone)) {
             return false;
         }
 
-        clone.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        clone.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         clone.markAsShadowClone(getUUID());
         clone.setTarget(getTarget());
         scaleCloneAttribute(clone, Attributes.MOVEMENT_SPEED, 1.33D);
@@ -736,7 +739,7 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
+    public void addAdditionalSaveData(ValueOutput tag) {
         super.addAdditionalSaveData(tag);
         tag.putBoolean("derived_shadowed", isShadowed());
         tag.putBoolean("derived_shadow_clone", isShadowClone());
@@ -752,32 +755,32 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
         tag.putInt("derived_cosmic_orb_remaining", cosmicOrbBurstsRemaining);
         tag.putInt("derived_cosmic_orb_interval", cosmicOrbInterval);
         if (cloneParent != null) {
-            tag.putUUID("derived_clone_parent", cloneParent);
+            tag.store("derived_clone_parent", UUIDUtil.CODEC, cloneParent);
         }
         if (activeClone != null) {
-            tag.putUUID("derived_active_clone", activeClone);
+            tag.store("derived_active_clone", UUIDUtil.CODEC, activeClone);
         }
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
+    public void readAdditionalSaveData(ValueInput tag) {
         super.readAdditionalSaveData(tag);
-        setShadowed(!tag.contains("derived_shadowed") || tag.getBooleanOr("derived_shadowed", false));
+        setShadowed(tag.getBooleanOr("derived_shadowed", true));
         entityData.set(SHADOW_CLONE, tag.getBooleanOr("derived_shadow_clone", false));
         shadowDamage = tag.getFloatOr("derived_shadow_damage", 0.0F);
         shadowDamageTimeout = tag.getIntOr("derived_shadow_timeout", 0);
         shadowCloneCooldown = tag.getIntOr("derived_shadow_cooldown", 0);
         cloneLifeTicks = tag.getIntOr("derived_clone_life", 0);
-        regenerationUses = tag.contains("derived_regeneration_uses")
-                ? Math.max(1, tag.getIntOr("derived_regeneration_uses", 0)) : DERIVED_REGENERATION_USES;
+        regenerationUses = tag.getInt("derived_regeneration_uses")
+                .map(uses -> Math.max(1, uses)).orElse(DERIVED_REGENERATION_USES);
         neuralLinkCharge = tag.getIntOr("derived_neural_charge", 0);
         neuralLinkCastTicks = tag.getIntOr("derived_neural_cast", 0);
         cosmicOrbCharge = tag.getIntOr("derived_cosmic_orb_charge", 0);
         cosmicOrbCastTicks = tag.getIntOr("derived_cosmic_orb_cast", 0);
         cosmicOrbBurstsRemaining = tag.getIntOr("derived_cosmic_orb_remaining", 0);
         cosmicOrbInterval = tag.getIntOr("derived_cosmic_orb_interval", 0);
-        cloneParent = tag.hasUUID("derived_clone_parent") ? tag.getUUID("derived_clone_parent") : null;
-        activeClone = tag.hasUUID("derived_active_clone") ? tag.getUUID("derived_active_clone") : null;
+        cloneParent = tag.read("derived_clone_parent", UUIDUtil.CODEC).orElse(null);
+        activeClone = tag.read("derived_active_clone", UUIDUtil.CODEC).orElse(null);
         entityData.set(NEURAL_LINK_TICKS,
                 Math.max(0, NEURAL_LINK_DURATION_TICKS - neuralLinkCastTicks));
         entityData.set(NEURAL_LINK_ACTIVE, false);

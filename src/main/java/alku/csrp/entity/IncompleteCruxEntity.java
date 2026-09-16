@@ -4,6 +4,7 @@ import alku.csrp.registry.ModEntities;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -11,6 +12,8 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import alku.csrp.animation.CitadelAnimationManager;
 import alku.csrp.animation.CitadelAnimationController;
 import alku.csrp.animation.CitadelPlayState;
@@ -78,24 +81,24 @@ public final class IncompleteCruxEntity extends CrudeParasiteEntity {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putInt("crux_growth_duration", growthDuration);
-        tag.putInt("crux_growth_ticks", growthTicks);
-        tag.putInt("crux_burst_ticks", burstTicks);
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putInt("crux_growth_duration", growthDuration);
+        output.putInt("crux_growth_ticks", growthTicks);
+        output.putInt("crux_burst_ticks", burstTicks);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        if (tag.contains("crux_growth_duration", Tag.TAG_INT)) {
-            growthDuration = Math.max(1, tag.getIntOr("crux_growth_duration", 0));
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        if (input.getInt("crux_growth_duration").isPresent()) {
+            growthDuration = Math.max(1, input.getIntOr("crux_growth_duration", 0));
         }
-        if (tag.contains("crux_growth_ticks", Tag.TAG_INT)) {
-            growthTicks = Math.max(0, tag.getIntOr("crux_growth_ticks", 0));
+        if (input.getInt("crux_growth_ticks").isPresent()) {
+            growthTicks = Math.max(0, input.getIntOr("crux_growth_ticks", 0));
         }
-        if (tag.contains("crux_burst_ticks", Tag.TAG_INT)) {
-            burstTicks = tag.getIntOr("crux_burst_ticks", 0);
+        if (input.getInt("crux_burst_ticks").isPresent()) {
+            burstTicks = input.getIntOr("crux_burst_ticks", 0);
         }
     }
 
@@ -115,9 +118,9 @@ public final class IncompleteCruxEntity extends CrudeParasiteEntity {
         if (!(level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        CruxEntity adult = ModEntities.CRUX.get().create(serverLevel);
+        CruxEntity adult = ModEntities.CRUX.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (adult != null) {
-            adult.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+            adult.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
             LivingEntity target = getTarget();
             if (target != null && target.isAlive()) {
                 adult.setTarget(target);

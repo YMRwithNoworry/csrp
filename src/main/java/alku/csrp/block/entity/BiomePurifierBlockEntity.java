@@ -73,7 +73,7 @@ public final class BiomePurifierBlockEntity extends BlockEntity {
 
     public void activate(ServerLevel level) {
         Holder<Biome> plains = level.registryAccess()
-                .registryOrThrow(Registries.BIOME).getHolderOrThrow(Biomes.PLAINS);
+                .lookupOrThrow(Registries.BIOME).getOrThrow(Biomes.PLAINS);
         int centerChunkX = getBlockPos().getX() >> 4;
         int centerChunkZ = getBlockPos().getZ() >> 4;
         for (int chunkX = centerChunkX - 1; chunkX <= centerChunkX + 1; chunkX++) {
@@ -93,7 +93,7 @@ public final class BiomePurifierBlockEntity extends BlockEntity {
                         }
                     }
                 }
-                chunk.setUnsaved(true);
+                chunk.markUnsaved();
             }
         }
         level.sendParticles(net.minecraft.core.particles.ParticleTypes.END_ROD,

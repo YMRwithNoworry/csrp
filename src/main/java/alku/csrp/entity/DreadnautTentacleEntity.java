@@ -12,6 +12,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import alku.csrp.animation.CitadelAnimationManager;
 
 /** Legacy Ancient Dreadnaut ground tendril (EntityOroncoTen). */
@@ -61,7 +63,7 @@ public final class DreadnautTentacleEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
+    public boolean causeFallDamage(double distance, float damageMultiplier, DamageSource source) {
         return false;
     }
 
@@ -75,17 +77,17 @@ public final class DreadnautTentacleEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putInt("tendril_ground_ticks", groundTicks);
-        tag.putInt("tendril_spawned_mobs", spawnedMobs);
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putInt("tendril_ground_ticks", groundTicks);
+        output.putInt("tendril_spawned_mobs", spawnedMobs);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        groundTicks = tag.getIntOr("tendril_ground_ticks", 0);
-        spawnedMobs = tag.getIntOr("tendril_spawned_mobs", 0);
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        groundTicks = input.getIntOr("tendril_ground_ticks", 0);
+        spawnedMobs = input.getIntOr("tendril_spawned_mobs", 0);
     }
 
     private boolean nearbyNonParasitesHaveAdvantage() {
@@ -101,13 +103,13 @@ public final class DreadnautTentacleEntity extends PrimitiveParasiteEntity {
     }
 
     private void spawnBuglin(ServerLevel level) {
-        BuglinEntity buglin = ModEntities.BUGLIN.get().create(level);
+        BuglinEntity buglin = ModEntities.BUGLIN.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (buglin == null) {
             return;
         }
         double angle = random.nextDouble() * Math.PI * 2.0D;
         double distance = 1.0D + random.nextDouble() * 2.0D;
-        buglin.moveTo(getX() + Math.cos(angle) * distance, getY(), getZ() + Math.sin(angle) * distance,
+        buglin.snapTo(getX() + Math.cos(angle) * distance, getY(), getZ() + Math.sin(angle) * distance,
                 random.nextFloat() * 360.0F, 0.0F);
         buglin.finalizeSpawn(level, level.getCurrentDifficultyAt(buglin.blockPosition()),
                 EntitySpawnReason.MOB_SUMMONED, null);

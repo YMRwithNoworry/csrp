@@ -1,6 +1,5 @@
 package alku.csrp.entity;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -43,7 +42,7 @@ public final class HaunterDamageEntity extends Entity {
             for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
                     getBoundingBox().inflate(0.3D, 0.0D, 0.2D), candidate -> isValidTarget(owner, candidate))) {
                 knockBack(owner, target, knockbackStrength);
-                owner.doHurtTarget(target);
+                if (level() instanceof ServerLevel serverLevel) { owner.doHurtTarget(serverLevel, target); }
             }
         }
         if (tickCount > LIFETIME_TICKS) {
@@ -70,7 +69,7 @@ public final class HaunterDamageEntity extends Entity {
         }
         target.setDeltaMovement(motion.x * 0.5D - xRatio / horizontalLength * knockbackStrength,
                 vertical, motion.z * 0.5D - zRatio / horizontalLength * knockbackStrength);
-        target.hurtMarked = true;
+        target.syncVelocity = true;
     }
 
     private PreeminentParasiteEntity owner() {
@@ -82,24 +81,25 @@ public final class HaunterDamageEntity extends Entity {
     }
 
     @Override
+    public boolean hurtServer(ServerLevel level, net.minecraft.world.damagesource.DamageSource source, float amount) {
+        return false;
+    }
+
+    @Override
     protected void defineSynchedData(net.minecraft.network.syncher.SynchedEntityData.Builder builder) {
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag tag) {
-        if (tag.hasUUID("owner")) {
-            ownerId = tag.getUUID("owner");
-        }
-        if (tag.contains("knockback_strength")) {
-            knockbackStrength = tag.getFloatOr("knockback_strength", 0.0F);
+    protected void readAdditionalSaveData(net.minecraft.world.level.storage.ValueInput input) {
+        ownerId = input.read("owner", net.minecraft.core.UUIDUtil.CODEC).orElse(null);
+        if (input.getFloatOr("knockback_strength", 0.0F) != 0.0F) {
+            knockbackStrength = input.getFloatOr("knockback_strength", 0.0F);
         }
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag tag) {
-        if (ownerId != null) {
-            tag.putUUID("owner", ownerId);
-        }
-        tag.putFloat("knockback_strength", knockbackStrength);
+    protected void addAdditionalSaveData(net.minecraft.world.level.storage.ValueOutput output) {
+        output.storeNullable("owner", net.minecraft.core.UUIDUtil.CODEC, ownerId);
+        output.putFloat("knockback_strength", knockbackStrength);
     }
 }

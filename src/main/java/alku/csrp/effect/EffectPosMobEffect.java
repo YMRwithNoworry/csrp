@@ -1,6 +1,7 @@
 package alku.csrp.effect;
 
 import java.util.ArrayList;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -12,7 +13,7 @@ public final class EffectPosMobEffect extends MarkerMobEffect {
     }
 
     @Override
-    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
+    public boolean applyEffectTick(ServerLevel serverLevel, LivingEntity entity, int amplifier) {
         if (!entity.level().isClientSide() && entity.tickCount % 20 == 0) {
             for (MobEffectInstance active : new ArrayList<>(entity.getActiveEffects())) {
                 if (active.getEffect().value().getCategory() != MobEffectCategory.HARMFUL) {

@@ -7,6 +7,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -27,6 +28,8 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import alku.csrp.animation.CitadelAnimatedEntity;
@@ -126,7 +129,7 @@ public class PriManducaterEntity extends PrimitiveParasiteEntity implements Cita
         goalSelector.addGoal(5, new ParasiteFollowGoal(this));
         goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(
-                this, LivingEntity.class, 10, true, false, this::canTargetEntity));
+                this, LivingEntity.class, 10, true, false, (target, level) -> canTargetEntity(target)));
     }
 
     private boolean canTargetEntity(LivingEntity entity) {
@@ -235,8 +238,8 @@ public class PriManducaterEntity extends PrimitiveParasiteEntity implements Cita
     }
 
     @Override
-    public boolean doHurtTarget(Entity entity) {
-        boolean hit = super.doHurtTarget(entity);
+    public boolean doHurtTarget(ServerLevel level, Entity entity) {
+        boolean hit = super.doHurtTarget(level, entity);
 
         if (hit && entity instanceof LivingEntity living) {
             triggerAnim("attack_controller", "attack");
@@ -265,10 +268,10 @@ public class PriManducaterEntity extends PrimitiveParasiteEntity implements Cita
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
         // 受伤取消隐身
         stealthTimer = 0;
-        return super.hurt(source, amount);
+        return super.hurtServer(level, source, amount);
     }
 
     @Override
@@ -298,28 +301,28 @@ public class PriManducaterEntity extends PrimitiveParasiteEntity implements Cita
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putInt(PARASITE_STATUS_NBT_KEY, getParasiteStatus());
-        tag.putInt(ATTACK_COOLDOWN_NBT_KEY, entityData.get(ATTACK_COOLDOWN));
-        tag.putInt(PULLING_NBT_KEY, entityData.get(PULLING_COUNTER));
-        tag.putInt(STEALTH_TIMER_NBT_KEY, stealthTimer);
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putInt(PARASITE_STATUS_NBT_KEY, getParasiteStatus());
+        output.putInt(ATTACK_COOLDOWN_NBT_KEY, entityData.get(ATTACK_COOLDOWN));
+        output.putInt(PULLING_NBT_KEY, entityData.get(PULLING_COUNTER));
+        output.putInt(STEALTH_TIMER_NBT_KEY, stealthTimer);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        if (tag.contains(PARASITE_STATUS_NBT_KEY)) {
-            setParasiteStatus(tag.getIntOr(PARASITE_STATUS_NBT_KEY, 0));
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        if (input.getInt(PARASITE_STATUS_NBT_KEY).isPresent()) {
+            setParasiteStatus(input.getIntOr(PARASITE_STATUS_NBT_KEY, 0));
         }
-        if (tag.contains(ATTACK_COOLDOWN_NBT_KEY)) {
-            entityData.set(ATTACK_COOLDOWN, tag.getIntOr(ATTACK_COOLDOWN_NBT_KEY, 0));
+        if (input.getInt(ATTACK_COOLDOWN_NBT_KEY).isPresent()) {
+            entityData.set(ATTACK_COOLDOWN, input.getIntOr(ATTACK_COOLDOWN_NBT_KEY, 0));
         }
-        if (tag.contains(PULLING_NBT_KEY)) {
-            entityData.set(PULLING_COUNTER, tag.getIntOr(PULLING_NBT_KEY, 0));
+        if (input.getInt(PULLING_NBT_KEY).isPresent()) {
+            entityData.set(PULLING_COUNTER, input.getIntOr(PULLING_NBT_KEY, 0));
         }
-        if (tag.contains(STEALTH_TIMER_NBT_KEY)) {
-            stealthTimer = tag.getIntOr(STEALTH_TIMER_NBT_KEY, 0);
+        if (input.getInt(STEALTH_TIMER_NBT_KEY).isPresent()) {
+            stealthTimer = input.getIntOr(STEALTH_TIMER_NBT_KEY, 0);
         }
     }
 

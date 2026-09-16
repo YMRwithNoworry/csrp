@@ -6,16 +6,22 @@ import alku.csrp.block.entity.TrophyBlockEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
 
 /** Renders the animated Void/Boom Orb suspended above its trophy base. */
-public final class TrophyBlockEntityRenderer implements BlockEntityRenderer<TrophyBlockEntity> {
+public final class TrophyBlockEntityRenderer
+        implements BlockEntityRenderer<TrophyBlockEntity, TrophyBlockEntityRenderer.TrophyRenderState> {
     private static final Identifier VOID_CORE = texture("orbvoid.png");
     private static final Identifier VOID_AURA = texture("orbvoid_armor.png");
     private static final Identifier BOOM_CORE = texture("orbboom.png");
@@ -31,35 +37,52 @@ public final class TrophyBlockEntityRenderer implements BlockEntityRenderer<Trop
     }
 
     @Override
-    public void render(TrophyBlockEntity trophy, float partialTick, PoseStack poseStack,
-            MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
-        if (!(trophy.getBlockState().getBlock() instanceof TrophyBlock block)) {
+    public TrophyRenderState createRenderState() {
+        return new TrophyRenderState();
+    }
+
+    @Override
+    public void extractRenderState(TrophyBlockEntity trophy, TrophyRenderState state, float partialTick,
+            Vec3 cameraPosition, ModelFeatureRenderer.CrumblingOverlay breakProgress) {
+        BlockEntityRenderer.super.extractRenderState(trophy, state, partialTick, cameraPosition, breakProgress);
+        state.valid = trophy.getBlockState().getBlock() instanceof TrophyBlock;
+        state.voidOrb = trophy.getBlockState().getBlock() instanceof TrophyBlock block
+                && block.kind() == TrophyBlock.Kind.VOID;
+        state.age = (trophy.getLevel() == null ? 0L : trophy.getLevel().getGameTime()) + partialTick;
+    }
+
+    @Override
+    public void submit(TrophyRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector,
+            CameraRenderState camera) {
+        if (!state.valid) {
             return;
         }
-        boolean voidOrb = block.kind() == TrophyBlock.Kind.VOID;
-        float age = (trophy.getLevel() == null ? 0L : trophy.getLevel().getGameTime()) + partialTick;
+        float age = state.age;
         float pulse = 1.0F + Mth.sin(age * 0.12F) * 0.05F;
 
         poseStack.pushPose();
         poseStack.translate(0.5D, 1.35D, 0.5D);
-        poseStack.mulPose(Axis.YP.rotation(age * 0.035F));
+        poseStack.rotate(Axis.YP.rotation(age * 0.035F));
         poseStack.scale(LEGACY_TROPHY_SCALE * pulse, LEGACY_TROPHY_SCALE * pulse,
                 LEGACY_TROPHY_SCALE * pulse);
-        renderSphere(poseStack, bufferSource.getBuffer(RenderType.entityTranslucentEmissive(
-                voidOrb ? VOID_CORE : BOOM_CORE)), LEGACY_SPHERE_RADIUS, 235);
+        RenderType coreType = RenderTypes.entityTranslucentEmissive(
+                state.voidOrb ? VOID_CORE : BOOM_CORE);
+        submitNodeCollector.submitCustomGeometry(poseStack, coreType, (pose, consumer) ->
+                renderSphere(pose, consumer, LEGACY_SPHERE_RADIUS, 235));
         poseStack.popPose();
 
         poseStack.pushPose();
         poseStack.translate(0.5D, 1.35D, 0.5D);
-        poseStack.mulPose(Axis.YP.rotation(-age * 0.05F));
+        poseStack.rotate(Axis.YP.rotation(-age * 0.05F));
         poseStack.scale(LEGACY_TROPHY_SCALE, LEGACY_TROPHY_SCALE, LEGACY_TROPHY_SCALE);
-        renderSphere(poseStack, bufferSource.getBuffer(RenderType.entityTranslucentEmissive(
-                voidOrb ? VOID_AURA : BOOM_AURA)), LEGACY_SPHERE_RADIUS * LEGACY_AURA_SCALE, 125);
+        RenderType auraType = RenderTypes.entityTranslucentEmissive(
+                state.voidOrb ? VOID_AURA : BOOM_AURA);
+        submitNodeCollector.submitCustomGeometry(poseStack, auraType, (pose, consumer) ->
+                renderSphere(pose, consumer, LEGACY_SPHERE_RADIUS * LEGACY_AURA_SCALE, 125));
         poseStack.popPose();
     }
 
-    private static void renderSphere(PoseStack poseStack, VertexConsumer consumer, float radius, int alpha) {
-        PoseStack.Pose pose = poseStack.last();
+    private static void renderSphere(PoseStack.Pose pose, VertexConsumer consumer, float radius, int alpha) {
         for (int stack = 0; stack < STACKS; stack++) {
             float v0 = stack / (float) STACKS;
             float v1 = (stack + 1) / (float) STACKS;
@@ -91,5 +114,12 @@ public final class TrophyBlockEntityRenderer implements BlockEntityRenderer<Trop
 
     private static Identifier texture(String name) {
         return Identifier.fromNamespaceAndPath(Csrp.MODID, "textures/entity/" + name);
+    }
+
+    /** Per-frame snapshot of the trophy data needed to submit the orb geometry. */
+    public static final class TrophyRenderState extends BlockEntityRenderState {
+        public boolean valid;
+        public boolean voidOrb;
+        public float age;
     }
 }

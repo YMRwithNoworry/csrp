@@ -44,7 +44,7 @@ public final class ParasiteCanisterBlockEntity extends BlockEntity implements Co
         }
         if (cyst.consumeOne()) {
             EvolutionSystem.addPoints((ServerLevel) level, 2, EvolutionSystem.PointSource.CYST);
-            if (level.random.nextFloat() < 0.5F) {
+            if (level.getRandom().nextFloat() < 0.5F) {
                 ((ServerLevel) level).sendParticles(ParticleTypes.PORTAL,
                         pos.getX() + 0.5D, pos.getY() + 0.4D, pos.getZ() + 0.5D,
                         4, 0.2D, 0.2D, 0.2D, 0.02D);
@@ -150,16 +150,16 @@ public final class ParasiteCanisterBlockEntity extends BlockEntity implements Co
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        ContainerHelper.saveAllItems(tag, items, registries);
-        tag.putInt("Age", age);
+    protected void saveAdditional(net.minecraft.world.level.storage.ValueOutput output) {
+        super.saveAdditional(output);
+        ContainerHelper.saveAllItems(output, items);
+        output.putInt("Age", age);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        ContainerHelper.loadAllItems(tag, items, registries);
-        age = tag.getIntOr("Age", 0);
+    protected void loadAdditional(net.minecraft.world.level.storage.ValueInput input) {
+        super.loadAdditional(input);
+        ContainerHelper.loadAllItems(input, items);
+        age = input.getIntOr("Age", 0);
     }
 }

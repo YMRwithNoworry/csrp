@@ -2,6 +2,7 @@ package alku.csrp.entity;
 
 import alku.csrp.registry.ModEntities;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -47,7 +48,7 @@ public final class MarauderizedBearEntity extends TetheredMarauderizedEntity {
     }
 
     private void shootPullingBall(LivingEntity target) {
-        PullingBallEntity ball = ModEntities.PULLING_BALL.get().create(level());
+        PullingBallEntity ball = ModEntities.PULLING_BALL.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (ball == null) {
             return;
         }

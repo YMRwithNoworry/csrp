@@ -4,14 +4,14 @@ import alku.csrp.registry.ModBlockEntities;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.world.EvolutionSystem;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 
 /**
@@ -47,12 +47,12 @@ public final class DispatcherNidusBlockEntity extends BlockEntity {
             setChanged();
             return;
         }
-        var dispatcher = ModEntities.DISPATCHER_SI.get().create(level);
+        var dispatcher = ModEntities.DISPATCHER_SI.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (dispatcher == null) {
             return;
         }
         BlockPos pos = getBlockPos();
-        dispatcher.moveTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D,
+        dispatcher.snapTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D,
                 level.getRandom().nextFloat() * 360.0F, 0.0F);
         dispatcher.finalizeSpawn(level, level.getCurrentDifficultyAt(pos), EntitySpawnReason.MOB_SUMMONED, null);
         level.addFreshEntity(dispatcher);
@@ -76,14 +76,14 @@ public final class DispatcherNidusBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        tag.putInt("KillCount", killCount);
+    protected void saveAdditional(ValueOutput output) {
+        super.saveAdditional(output);
+        output.putInt("KillCount", killCount);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        killCount = tag.getIntOr("KillCount", 0);
+    protected void loadAdditional(ValueInput input) {
+        super.loadAdditional(input);
+        killCount = input.getIntOr("KillCount", 0);
     }
 }

@@ -4,7 +4,6 @@ import alku.csrp.Config;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -23,6 +22,8 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
@@ -120,7 +121,7 @@ abstract class AbstractHostEntity extends CrudeParasiteEntity {
     }
 
     @Override
-    public boolean doHurtTarget(Entity entity) {
+    public boolean doHurtTarget(ServerLevel level, Entity entity) {
         if (!(entity instanceof LivingEntity)) {
             return false;
         }
@@ -129,7 +130,7 @@ abstract class AbstractHostEntity extends CrudeParasiteEntity {
         DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(attackRadius));
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
                 getBoundingBox().inflate(attackRadius), this::isValidParasiteTarget)) {
-            if (hasLineOfSight(target) && target.hurt(damageSources().mobAttack(this), damage)) {
+            if (hasLineOfSight(target) && target.hurtOrSimulate(damageSources().mobAttack(this), damage)) {
                 hit = true;
             }
         }
@@ -141,13 +142,13 @@ abstract class AbstractHostEntity extends CrudeParasiteEntity {
 
     protected void performShockwave() {
         LivingEntity target = getTarget();
-        WaveEntity wave = ModEntities.WAVE.get().create(level());
+        WaveEntity wave = ModEntities.WAVE.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (target == null || wave == null) {
             return;
         }
         double angle = getYRot() * Mth.DEG_TO_RAD;
         double distance = 3.0D * Mth.cos(Mth.PI / 18.0F);
-        wave.moveTo(getX() - Mth.sin((float) angle) * distance, getY(),
+        wave.snapTo(getX() - Mth.sin((float) angle) * distance, getY(),
                 getZ() + Mth.cos((float) angle) * distance, getYRot(), 0.0F);
         wave.configure(getAttributeValue(Attributes.ATTACK_DAMAGE) * 0.3D,
                 Config.primitiveMinimumDamage(), 1, 60, target);
@@ -171,7 +172,7 @@ abstract class AbstractHostEntity extends CrudeParasiteEntity {
     }
 
     protected void spawnBomb(LivingEntity target, int fuse, float damage, int rangeRadius) {
-        BombEntity bomb = ModEntities.BOMB.get().create(level());
+        BombEntity bomb = ModEntities.BOMB.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (bomb == null) {
             return;
         }
@@ -195,11 +196,11 @@ abstract class AbstractHostEntity extends CrudeParasiteEntity {
         if (serverLevel.getEntitiesOfClass(entityClass, getBoundingBox().inflate(16.0)).size() >= cap) {
             return;
         }
-        T minion = type.get().create(serverLevel);
+        T minion = type.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (minion == null) {
             return;
         }
-        minion.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        minion.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         minion.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
                 EntitySpawnReason.MOB_SUMMONED, null);
         minion.setTarget(getTarget());
@@ -245,19 +246,19 @@ abstract class AbstractHostEntity extends CrudeParasiteEntity {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putBoolean("burrowed", isBurrowed());
-        tag.putInt("burrow_cooldown", burrowCooldown);
-        tag.putInt("ranged_cooldown", rangedCooldown);
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putBoolean("burrowed", isBurrowed());
+        output.putInt("burrow_cooldown", burrowCooldown);
+        output.putInt("ranged_cooldown", rangedCooldown);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        setBurrowed(tag.getBooleanOr("burrowed", false));
-        burrowCooldown = tag.getIntOr("burrow_cooldown", 0);
-        rangedCooldown = tag.getIntOr("ranged_cooldown", 0);
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        setBurrowed(input.getBooleanOr("burrowed", false));
+        burrowCooldown = input.getIntOr("burrow_cooldown", 0);
+        rangedCooldown = input.getIntOr("ranged_cooldown", 0);
     }
 
     protected abstract void performRangedAttack(LivingEntity target);

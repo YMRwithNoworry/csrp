@@ -20,7 +20,7 @@ public final class CompendiumProgress {
     public static CompendiumProgress load(CompoundTag tag) {
         CompendiumProgress progress = new CompendiumProgress();
         CompoundTag killTag = tag.getCompoundOrEmpty("kills");
-        for (String key : killTag.getAllKeys()) {
+        for (String key : killTag.keySet()) {
             progress.kills.put(key, killTag.getIntOr(key, 0));
         }
         readSet(tag.getCompoundOrEmpty("blocks"), progress.blocks);
@@ -191,6 +191,6 @@ public final class CompendiumProgress {
     }
 
     private static void readSet(CompoundTag tag, Set<String> output) {
-        output.addAll(tag.getAllKeys());
+        output.addAll(tag.keySet());
     }
 }

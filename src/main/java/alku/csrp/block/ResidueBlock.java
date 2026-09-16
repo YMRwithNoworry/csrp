@@ -33,7 +33,8 @@ public final class ResidueBlock extends Block {
     }
 
     @Override
-    protected void entityInside(BlockState state, net.minecraft.world.level.Level level, BlockPos pos, Entity entity) {
+    protected void entityInside(BlockState state, net.minecraft.world.level.Level level, BlockPos pos, Entity entity,
+            net.minecraft.world.entity.InsideBlockEffectApplier effectApplier, boolean isPrecise) {
         entity.setDeltaMovement(entity.getDeltaMovement().multiply(0.5D, 1.0D, 0.5D));
     }
 }

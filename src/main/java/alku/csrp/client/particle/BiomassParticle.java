@@ -3,16 +3,16 @@ package alku.csrp.client.particle;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 
-public final class BiomassParticle extends TextureSheetParticle {
+public final class BiomassParticle extends SingleQuadParticle {
     private BiomassParticle(ClientLevel level, double x, double y, double z,
                             double velocityX, double velocityY, double velocityZ, SpriteSet sprites) {
-        super(level, x, y, z, velocityX, velocityY, velocityZ);
+        super(level, x, y, z, velocityX, velocityY, velocityZ, sprites.first());
         xd = velocityX;
         yd = velocityY;
         zd = velocityZ;
@@ -35,16 +35,16 @@ public final class BiomassParticle extends TextureSheetParticle {
     }
 
     @Override
-    protected int getLightColor(float partialTick) {
+    protected int getLightCoords(float partialTick) {
         float progress = Mth.clamp((age + partialTick) / lifetime, 0.0F, 1.0F);
-        int light = super.getLightColor(partialTick);
+        int light = super.getLightCoords(partialTick);
         int block = Math.min(240, (light & 0xFF) + (int) (progress * 240.0F));
         return block | (light >> 16 & 0xFF) << 16;
     }
 
     @Override
-    public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+    protected SingleQuadParticle.Layer getLayer() {
+        return SingleQuadParticle.Layer.TRANSLUCENT;
     }
 
     public static final class Provider implements ParticleProvider<SimpleParticleType> {
@@ -57,7 +57,8 @@ public final class BiomassParticle extends TextureSheetParticle {
         @Override
         public Particle createParticle(SimpleParticleType type, ClientLevel level,
                                        double x, double y, double z,
-                                       double velocityX, double velocityY, double velocityZ) {
+                                       double velocityX, double velocityY, double velocityZ,
+                                       RandomSource random) {
             return new BiomassParticle(level, x, y, z, velocityX, velocityY, velocityZ, sprites);
         }
     }

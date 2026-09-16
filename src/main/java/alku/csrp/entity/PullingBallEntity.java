@@ -3,16 +3,20 @@ package alku.csrp.entity;
 import alku.csrp.block.SrpWebBlock;
 import alku.csrp.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
@@ -77,7 +81,8 @@ public final class PullingBallEntity extends Entity {
     }
 
     private void placeWebs(BlockPos center) {
-        if (!level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)) return;
+        if (!(level() instanceof ServerLevel serverLevel)
+                || !serverLevel.getGameRules().get(GameRules.MOB_GRIEFING)) return;
         int total = random.nextInt(3) + 1;
         for (int i = 0; i < total; i++) {
             BlockPos pos = center.offset(random.nextInt(3) - 1, random.nextInt(3) - 1, random.nextInt(3) - 1);
@@ -94,12 +99,17 @@ public final class PullingBallEntity extends Entity {
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag tag) {
-        ownerId = tag.hasUUID("owner") ? tag.getUUID("owner") : null;
+    protected void readAdditionalSaveData(ValueInput input) {
+        ownerId = input.read("owner", UUIDUtil.CODEC).orElse(null);
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag tag) {
-        if (ownerId != null) tag.putUUID("owner", ownerId);
+    protected void addAdditionalSaveData(ValueOutput output) {
+        if (ownerId != null) output.store("owner", UUIDUtil.CODEC, ownerId);
+    }
+
+    @Override
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+        return false;
     }
 }

@@ -13,8 +13,6 @@ public final class RelayTerminalScreen extends AbstractContainerScreen<RelayTerm
 
     public RelayTerminalScreen(RelayTerminalMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
-        imageWidth = 176;
-        imageHeight = 166;
         inventoryLabelY = 72;
     }
 

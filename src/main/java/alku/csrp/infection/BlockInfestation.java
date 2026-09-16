@@ -20,7 +20,7 @@ public final class BlockInfestation {
     }
 
     public static int spread(ServerLevel level, BlockPos origin, int stage, RandomSource random) {
-        if (!level.getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)
+        if (!level.getGameRules().get(GameRules.MOB_GRIEFING)
                 || !InfestationSpreadLimiter.canSpread(level, InfestationSpreadLimiter.Type.BIOME)) {
             return 0;
         }
@@ -43,7 +43,7 @@ public final class BlockInfestation {
 
     public static int infestAround(ServerLevel level, BlockPos origin, int stage,
             InfestationSpreadLimiter.Type type) {
-        if (!level.getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)
+        if (!level.getGameRules().get(GameRules.MOB_GRIEFING)
                 || !InfestationSpreadLimiter.canSpread(level, type)) {
             return 0;
         }
@@ -78,7 +78,7 @@ public final class BlockInfestation {
             int currentStage = current.getValue(InfestedBlock.STAGE);
             if (currentStage < stage && level.setBlock(pos,
                     current.setValue(InfestedBlock.STAGE, Math.min(3, stage)), Block.UPDATE_ALL)) {
-                InfestationFlora.tryGrow(level, pos, level.random);
+                InfestationFlora.tryGrow(level, pos, level.getRandom());
                 return true;
             }
             return false;
@@ -92,7 +92,7 @@ public final class BlockInfestation {
         }
         if (level.setBlock(pos, target.defaultBlockState().setValue(InfestedBlock.STAGE,
                 Math.max(0, Math.min(3, stage))), Block.UPDATE_ALL)) {
-            InfestationFlora.tryGrow(level, pos, level.random);
+            InfestationFlora.tryGrow(level, pos, level.getRandom());
             return true;
         }
         return false;

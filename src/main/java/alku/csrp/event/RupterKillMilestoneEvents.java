@@ -36,7 +36,7 @@ public final class RupterKillMilestoneEvents {
             return;
         }
 
-        AdvancementHolder advancement = player.server.getAdvancements().get(ADVANCEMENT_ID);
+        AdvancementHolder advancement = player.level().getServer().getAdvancements().get(ADVANCEMENT_ID);
         if (advancement != null) {
             player.getAdvancements().award(advancement, CRITERION);
         }

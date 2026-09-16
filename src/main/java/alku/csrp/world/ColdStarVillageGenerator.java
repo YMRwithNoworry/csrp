@@ -4,7 +4,7 @@ import alku.csrp.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.level.ChunkPos;
@@ -21,14 +21,14 @@ public final class ColdStarVillageGenerator {
     }
 
     public static boolean isVillageChunk(long seed, ChunkPos chunkPos) {
-        int gridX = Math.floorDiv(chunkPos.x, DISTANCE);
-        int gridZ = Math.floorDiv(chunkPos.z, DISTANCE);
+        int gridX = Math.floorDiv(chunkPos.x(), DISTANCE);
+        int gridZ = Math.floorDiv(chunkPos.z(), DISTANCE);
         RandomSource random = RandomSource.create(seed
                 + gridX * 341_873_128_712L + gridZ * 132_897_987_541L + SALT);
         int range = DISTANCE - SEPARATION;
         int candidateX = gridX * DISTANCE + random.nextInt(range);
         int candidateZ = gridZ * DISTANCE + random.nextInt(range);
-        return chunkPos.x == candidateX && chunkPos.z == candidateZ;
+        return chunkPos.x() == candidateX && chunkPos.z() == candidateZ;
     }
 
     public static void generate(ServerLevel level, int chunkX, int chunkZ) {
@@ -44,7 +44,7 @@ public final class ColdStarVillageGenerator {
             return;
         }
 
-        RandomSource random = RandomSource.create(level.getSeed() ^ new ChunkPos(chunkX, chunkZ).toLong());
+        RandomSource random = RandomSource.create(level.getSeed() ^ ChunkPos.pack(chunkX, chunkZ));
         buildWell(level, center);
         int[][] offsets = {{-15, -10}, {13, -9}, {-13, 13}, {14, 12}};
         int houses = 0;
@@ -165,9 +165,9 @@ public final class ColdStarVillageGenerator {
 
     private static void spawnVillagers(ServerLevel level, BlockPos center, int count) {
         for (int i = 0; i < count; i++) {
-            Villager villager = EntityType.VILLAGER.create(level);
+            Villager villager = EntityTypes.VILLAGER.create(level, EntitySpawnReason.MOB_SUMMONED);
             if (villager == null) continue;
-            villager.moveTo(center.getX() + 0.5D + i % 3, center.getY() + 1.0D,
+            villager.snapTo(center.getX() + 0.5D + i % 3, center.getY() + 1.0D,
                     center.getZ() + 0.5D + i / 3, 0.0F, 0.0F);
             villager.finalizeSpawn(level, level.getCurrentDifficultyAt(center),
                     EntitySpawnReason.STRUCTURE, null);

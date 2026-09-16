@@ -35,14 +35,14 @@ public final class InfestedBonemealItem extends BoneMealItem {
                 spawnInfectionParticles((ServerLevel) level, pos);
                 consume(context);
             }
-            return InteractionResult.sidedSuccess(level.isClientSide());
+            return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.CONSUME;
         }
 
         if (block instanceof PestilentialOreBlock) {
             if (!level.isClientSide()) {
                 spawnInfectionParticles((ServerLevel) level, pos);
             }
-            return InteractionResult.sidedSuccess(level.isClientSide());
+            return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.CONSUME;
         }
 
         PestilentialOreBlock.OreKind kind = PestilentialOreBlock.OreKind.forVanilla(block);
@@ -52,7 +52,7 @@ public final class InfestedBonemealItem extends BoneMealItem {
                 spawnInfectionParticles((ServerLevel) level, pos);
                 consume(context);
             }
-            return InteractionResult.sidedSuccess(level.isClientSide());
+            return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.CONSUME;
         }
 
         return super.useOn(context);

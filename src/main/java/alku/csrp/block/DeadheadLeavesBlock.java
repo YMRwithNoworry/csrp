@@ -6,6 +6,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.sounds.AmbientLeavesBlockSoundPlayer;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -16,7 +17,7 @@ public class DeadheadLeavesBlock extends LeavesBlock {
     public static final BooleanProperty SNOWY = BlockStateProperties.SNOWY;
 
     public DeadheadLeavesBlock(BlockBehaviour.Properties properties) {
-        super(properties);
+        super(AmbientLeavesBlockSoundPlayer.noAmbientSound(), properties);
         registerDefaultState(defaultBlockState().setValue(SNOWY, false));
     }
 

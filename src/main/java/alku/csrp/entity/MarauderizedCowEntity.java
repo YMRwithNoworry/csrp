@@ -2,7 +2,6 @@ package alku.csrp.entity;
 
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -19,6 +18,8 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
@@ -54,7 +55,7 @@ public final class MarauderizedCowEntity extends MarauderizedParasiteEntity impl
             EntitySpawnReason spawnType, @Nullable SpawnGroupData spawnGroupData) {
         SpawnGroupData result = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
         String biome = level.getBiome(blockPosition()).unwrapKey()
-                .map(key -> key.location().getPath()).orElse("");
+                .map(key -> key.identifier().getPath()).orElse("");
         boolean desert = biome.contains("desert") || biome.contains("badlands");
         setRageVariant(random.nextDouble() < (desert ? 0.8D : 0.01D));
         applyVariantAttributes();
@@ -132,15 +133,15 @@ public final class MarauderizedCowEntity extends MarauderizedParasiteEntity impl
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putBoolean("rage_variant", isRageVariant());
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putBoolean("rage_variant", isRageVariant());
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        setRageVariant(tag.getBooleanOr("rage_variant", false));
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        setRageVariant(input.getBooleanOr("rage_variant", false));
         applyVariantAttributes();
     }
 
@@ -149,11 +150,11 @@ public final class MarauderizedCowEntity extends MarauderizedParasiteEntity impl
         if (!level().isClientSide() && level() instanceof ServerLevel serverLevel) {
             int count = 3 + random.nextInt(2);
             for (int index = 0; index < count; index++) {
-                BuglinEntity buglin = ModEntities.BUGLIN.get().create(serverLevel);
+                BuglinEntity buglin = ModEntities.BUGLIN.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
                 if (buglin == null) {
                     continue;
                 }
-                buglin.moveTo(getX() + (random.nextDouble() - 0.5D) * 1.5D,
+                buglin.snapTo(getX() + (random.nextDouble() - 0.5D) * 1.5D,
                         getY() + getBbHeight() * 0.5D + 0.5D,
                         getZ() + (random.nextDouble() - 0.5D) * 1.5D, getYRot(), 0.0F);
                 buglin.setTarget(getTarget());

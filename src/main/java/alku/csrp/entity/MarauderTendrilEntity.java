@@ -1,7 +1,7 @@
 package alku.csrp.entity;
 
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -21,6 +21,8 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import alku.csrp.animation.CitadelAnimatedEntity;
 import alku.csrp.animation.CitadelAnimationCache;
@@ -82,7 +84,8 @@ public final class MarauderTendrilEntity extends Monster implements CitadelAnima
         goalSelector.addGoal(6, new ParasiteFollowGoal(this));
         targetSelector.addGoal(1, new HurtByTargetGoal(this));
         targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,
-                true, false, target -> target != this && target.isAlive() && !(target instanceof Parasite)));
+                true, false,
+                (target, serverLevel) -> target != this && target.isAlive() && !(target instanceof Parasite)));
     }
 
     @Override
@@ -215,7 +218,7 @@ public final class MarauderTendrilEntity extends Monster implements CitadelAnima
         MarauderEntity.TendrilSide side = getAttachedSide();
         double x = owner.getX() + side.offsetSign() * Mth.cos(radians) * 0.9D;
         double z = owner.getZ() + side.offsetSign() * Mth.sin(radians) * 0.9D;
-        moveTo(x, owner.getY() + 1.5D, z, owner.getYRot(), 0.0F);
+        snapTo(x, owner.getY() + 1.5D, z, owner.getYRot(), 0.0F);
         setDeltaMovement(Vec3.ZERO);
     }
 
@@ -255,12 +258,12 @@ public final class MarauderTendrilEntity extends Monster implements CitadelAnima
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
         if (isAttached()) {
             MarauderEntity owner = getOwnerMarauder();
             return owner != null && owner.hurtTendril(this, source, amount);
         }
-        return super.hurt(source, amount);
+        return super.hurtServer(level, source, amount);
     }
 
     @Override
@@ -300,29 +303,24 @@ public final class MarauderTendrilEntity extends Monster implements CitadelAnima
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putByte("marauder_tendril_mode", (byte) getMode().ordinal());
-        tag.putByte("marauder_tendril_side", (byte) getAttachedSide().ordinal());
-        tag.putInt("marauder_tendril_remaining", entityData.get(REMAINING_TICKS));
-        if (ownerUuid != null) {
-            tag.putUUID("marauder_tendril_owner", ownerUuid);
-        }
-        if (targetUuid != null) {
-            tag.putUUID("marauder_tendril_target", targetUuid);
-        }
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putByte("marauder_tendril_mode", (byte) getMode().ordinal());
+        output.putByte("marauder_tendril_side", (byte) getAttachedSide().ordinal());
+        output.putInt("marauder_tendril_remaining", entityData.get(REMAINING_TICKS));
+        output.storeNullable("marauder_tendril_owner", UUIDUtil.CODEC, ownerUuid);
+        output.storeNullable("marauder_tendril_target", UUIDUtil.CODEC, targetUuid);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        int mode = tag.getByteOr("marauder_tendril_mode", (byte)0);
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        int mode = input.getByteOr("marauder_tendril_mode", (byte)0);
         setMode(mode >= 0 && mode < Mode.values().length ? Mode.values()[mode] : Mode.DETACHED);
-        entityData.set(ATTACHED_SIDE, tag.getByteOr("marauder_tendril_side", (byte)0));
-        entityData.set(REMAINING_TICKS, tag.contains("marauder_tendril_remaining")
-                ? tag.getIntOr("marauder_tendril_remaining", 0) : DETACHED_LIFETIME_TICKS);
-        ownerUuid = tag.hasUUID("marauder_tendril_owner") ? tag.getUUID("marauder_tendril_owner") : null;
-        targetUuid = tag.hasUUID("marauder_tendril_target") ? tag.getUUID("marauder_tendril_target") : null;
+        entityData.set(ATTACHED_SIDE, input.getByteOr("marauder_tendril_side", (byte)0));
+        entityData.set(REMAINING_TICKS, input.getIntOr("marauder_tendril_remaining", DETACHED_LIFETIME_TICKS));
+        ownerUuid = input.read("marauder_tendril_owner", UUIDUtil.CODEC).orElse(null);
+        targetUuid = input.read("marauder_tendril_target", UUIDUtil.CODEC).orElse(null);
         setNoAi(getMode() != Mode.DETACHED);
         setNoGravity(getMode() != Mode.DETACHED);
     }

@@ -3,9 +3,9 @@ package alku.csrp.entity;
 import java.util.UUID;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -15,6 +15,8 @@ import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -100,7 +102,7 @@ public final class WardenShockwaveEntity extends Entity {
             return;
         }
         setDeltaMovement(direction.normalize().scale(MOVEMENT_SPEED));
-        hasImpulse = true;
+        needsSync = true;
     }
 
     private void damageTargets(PureParasiteEntity owner) {
@@ -111,14 +113,14 @@ public final class WardenShockwaveEntity extends Entity {
             if (owner.hurtWardenSkillTarget(target)) {
                 Vec3 movement = target.getDeltaMovement();
                 target.setDeltaMovement(movement.x, movement.y + 0.64645D, movement.z);
-                target.hurtMarked = true;
+                target.syncVelocity = true;
             }
         }
     }
 
     private void breakContactBlocks(PureParasiteEntity owner) {
         if (!(level() instanceof ServerLevel serverLevel)
-                || !level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)) {
+                || !((ServerLevel) level()).getGameRules().get(GameRules.MOB_GRIEFING)) {
             return;
         }
         BlockPos center = blockPosition();
@@ -156,28 +158,29 @@ public final class WardenShockwaveEntity extends Entity {
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag tag) {
-        if (tag.hasUUID(OWNER_TAG)) {
-            ownerUuid = tag.getUUID(OWNER_TAG);
-        }
-        targetX = tag.getDoubleOr(TARGET_X_TAG, 0.0D);
-        targetY = tag.getDoubleOr(TARGET_Y_TAG, 0.0D);
-        targetZ = tag.getDoubleOr(TARGET_Z_TAG, 0.0D);
+    protected void readAdditionalSaveData(ValueInput input) {
+        ownerUuid = input.read(OWNER_TAG, UUIDUtil.CODEC).orElse(null);
+        targetX = input.getDoubleOr(TARGET_X_TAG, 0.0D);
+        targetY = input.getDoubleOr(TARGET_Y_TAG, 0.0D);
+        targetZ = input.getDoubleOr(TARGET_Z_TAG, 0.0D);
         updateMovement();
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag tag) {
-        if (ownerUuid != null) {
-            tag.putUUID(OWNER_TAG, ownerUuid);
-        }
-        tag.putDouble(TARGET_X_TAG, targetX);
-        tag.putDouble(TARGET_Y_TAG, targetY);
-        tag.putDouble(TARGET_Z_TAG, targetZ);
+    protected void addAdditionalSaveData(ValueOutput output) {
+        output.storeNullable(OWNER_TAG, UUIDUtil.CODEC, ownerUuid);
+        output.putDouble(TARGET_X_TAG, targetX);
+        output.putDouble(TARGET_Y_TAG, targetY);
+        output.putDouble(TARGET_Z_TAG, targetZ);
     }
 
     @Override
     public boolean isPickable() {
+        return false;
+    }
+
+    @Override
+    public boolean hurtServer(ServerLevel level, net.minecraft.world.damagesource.DamageSource source, float amount) {
         return false;
     }
 }

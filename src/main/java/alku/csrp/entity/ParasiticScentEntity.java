@@ -1,11 +1,12 @@
 package alku.csrp.entity;
 
+import com.mojang.serialization.Codec;
 import alku.csrp.Csrp;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.Identifier;
@@ -16,6 +17,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -30,6 +32,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.animal.fish.WaterAnimal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 
 import java.util.List;
@@ -63,8 +67,8 @@ public final class ParasiticScentEntity extends Entity {
                     "sim_wolf", "sim_sheep", "heed"),
             tierFourMobs(), tierFourMobs(), tierFourMobs(), tierFourMobs(), tierFourMobs());
 
-    private final ServerBossEvent bossEvent = new ServerBossEvent(getDisplayName(),
-            BossEvent.BossBarColor.RED, BossEvent.BossBarOverlay.PROGRESS);
+    private final ServerBossEvent bossEvent = new ServerBossEvent(Mth.createInsecureUUID(this.random),
+            getDisplayName(), BossEvent.BossBarColor.RED, BossEvent.BossBarOverlay.PROGRESS);
     private boolean phaseOne = true;
     private byte scentState;
     private int lifeTicks = 600;
@@ -292,7 +296,7 @@ public final class ParasiticScentEntity extends Entity {
             return;
         }
         if (distanceToSqr(target) > 144.0D && target.hasEffect(ModMobEffects.PREY)) {
-            moveTo(target.getX(), target.getY(), target.getZ(), target.getYRot(), target.getXRot());
+            snapTo(target.getX(), target.getY(), target.getZ(), target.getYRot(), target.getXRot());
         }
     }
 
@@ -394,11 +398,11 @@ public final class ParasiticScentEntity extends Entity {
 
     private boolean spawnWorm(ServerLevel level, LivingEntity target, BlockPos floor,
                               List<Identifier> payloadTypes) {
-        DeterrentParasiteEntity worm = ModEntities.WORM.get().create(level);
+        DeterrentParasiteEntity worm = ModEntities.WORM.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (worm == null) {
             return false;
         }
-        worm.moveTo(floor.getX() + 0.5D, floor.getY(), floor.getZ() + 0.5D,
+        worm.snapTo(floor.getX() + 0.5D, floor.getY(), floor.getZ() + 0.5D,
                 random.nextFloat() * 360.0F, 0.0F);
         if (!level.noCollision(worm, worm.getBoundingBox().inflate(1.0D, 7.0D, 1.0D))) {
             return false;
@@ -522,7 +526,7 @@ public final class ParasiticScentEntity extends Entity {
             return;
         }
         for (ServerPlayer player : level.getEntitiesOfClass(ServerPlayer.class, getBoundingBox().inflate(80.0D))) {
-            player.displayClientMessage(Component.translatable(translationKey), true);
+            player.sendSystemMessage(Component.translatable(translationKey), true);
         }
     }
 
@@ -688,43 +692,42 @@ public final class ParasiticScentEntity extends Entity {
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag tag) {
-        phaseOne = !tag.contains("scent_phase_one") || tag.getBooleanOr("scent_phase_one", false);
-        scentState = tag.getByteOr("scent_state", (byte)0);
-        lifeTicks = tag.contains("scent_life") ? tag.getIntOr("scent_life", 0) : 600;
-        currentLife = tag.getIntOr("scent_current_life", 0);
-        danger = tag.contains("scent_danger") ? tag.getIntOr("scent_danger", 0) : 100;
-        activity = tag.getIntOr("scent_activity", 0);
-        delay = tag.getIntOr("scent_delay", 0);
-        scentReaction = tag.getByteOr("scent_reaction", (byte)0);
-        loopLife = tag.contains("scent_loops") ? tag.getIntOr("scent_loops", 0) : 103;
-        followTarget = tag.getBooleanOr("scent_following", false);
-        dieAfterKilling = tag.getBooleanOr("scent_die_after_killing", false);
-        hostBuffApplied = tag.getBooleanOr("scent_host_buff_applied", false);
-        originalHostMaxHealth = tag.contains("scent_host_original_max")
-                ? tag.getDoubleOr("scent_host_original_max", 0.0D) : -1.0D;
-        targetId = tag.hasUUID("scent_target") ? tag.getUUID("scent_target") : null;
-        hostId = tag.hasUUID("scent_host") ? tag.getUUID("scent_host") : null;
+    protected void readAdditionalSaveData(ValueInput input) {
+        phaseOne = input.read("scent_phase_one", Codec.BOOL).orElse(true);
+        scentState = input.getByteOr("scent_state", (byte)0);
+        lifeTicks = input.getInt("scent_life").orElse(600);
+        currentLife = input.getIntOr("scent_current_life", 0);
+        danger = input.getInt("scent_danger").orElse(100);
+        activity = input.getIntOr("scent_activity", 0);
+        delay = input.getIntOr("scent_delay", 0);
+        scentReaction = input.getByteOr("scent_reaction", (byte)0);
+        loopLife = input.getInt("scent_loops").orElse(103);
+        followTarget = input.getBooleanOr("scent_following", false);
+        dieAfterKilling = input.getBooleanOr("scent_die_after_killing", false);
+        hostBuffApplied = input.getBooleanOr("scent_host_buff_applied", false);
+        originalHostMaxHealth = input.read("scent_host_original_max", Codec.DOUBLE).orElse(-1.0D);
+        targetId = input.read("scent_target", UUIDUtil.CODEC).orElse(null);
+        hostId = input.read("scent_host", UUIDUtil.CODEC).orElse(null);
         updateScentLevel();
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag tag) {
-        tag.putBoolean("scent_phase_one", phaseOne);
-        tag.putByte("scent_state", scentState);
-        tag.putInt("scent_life", lifeTicks);
-        tag.putInt("scent_current_life", currentLife);
-        tag.putInt("scent_danger", danger);
-        tag.putInt("scent_activity", activity);
-        tag.putInt("scent_delay", delay);
-        tag.putByte("scent_reaction", scentReaction);
-        tag.putInt("scent_loops", loopLife);
-        tag.putBoolean("scent_following", followTarget);
-        tag.putBoolean("scent_die_after_killing", dieAfterKilling);
-        tag.putBoolean("scent_host_buff_applied", hostBuffApplied);
-        tag.putDouble("scent_host_original_max", originalHostMaxHealth);
-        if (targetId != null) tag.putUUID("scent_target", targetId);
-        if (hostId != null) tag.putUUID("scent_host", hostId);
+    protected void addAdditionalSaveData(ValueOutput output) {
+        output.putBoolean("scent_phase_one", phaseOne);
+        output.putByte("scent_state", scentState);
+        output.putInt("scent_life", lifeTicks);
+        output.putInt("scent_current_life", currentLife);
+        output.putInt("scent_danger", danger);
+        output.putInt("scent_activity", activity);
+        output.putInt("scent_delay", delay);
+        output.putByte("scent_reaction", scentReaction);
+        output.putInt("scent_loops", loopLife);
+        output.putBoolean("scent_following", followTarget);
+        output.putBoolean("scent_die_after_killing", dieAfterKilling);
+        output.putBoolean("scent_host_buff_applied", hostBuffApplied);
+        output.putDouble("scent_host_original_max", originalHostMaxHealth);
+        if (targetId != null) output.store("scent_target", UUIDUtil.CODEC, targetId);
+        if (hostId != null) output.store("scent_host", UUIDUtil.CODEC, hostId);
     }
 
     private static List<Identifier> tierFourMobs() {
@@ -738,5 +741,10 @@ public final class ParasiticScentEntity extends Entity {
         return java.util.Arrays.stream(paths)
                 .map(path -> Identifier.fromNamespaceAndPath(Csrp.MODID, path))
                 .toList();
+    }
+
+    @Override
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+        return false;
     }
 }

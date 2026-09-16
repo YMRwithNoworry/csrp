@@ -39,7 +39,7 @@ public final class StructureTemplateDiagnostics {
 
     @SubscribeEvent
     public static void onServerStarted(ServerStartedEvent event) {
-        if (!Boolean.getBooleanOr(ENABLE_PROPERTY, false)) {
+        if (!Boolean.getBoolean(ENABLE_PROPERTY)) {
             return;
         }
         MinecraftServer server = event.getServer();
@@ -48,12 +48,12 @@ public final class StructureTemplateDiagnostics {
         int checked = 0;
         List<String> unknownBlocks = new ArrayList<>();
 
-        for (Identifier id : level.getStructureManager().listTemplates().toList()) {
+        for (Identifier id : level.getStructureTemplateManager().listTemplates().toList()) {
             if (!id.getNamespace().equals(Csrp.MODID)) {
                 continue;
             }
             checked++;
-            StructureTemplate template = level.getStructureManager().get(id).orElse(null);
+            StructureTemplate template = level.getStructureTemplateManager().get(id).orElse(null);
             if (template == null) {
                 LOGGER.error("CSRPCHECK {} -> template could not be loaded", id);
                 unusable++;

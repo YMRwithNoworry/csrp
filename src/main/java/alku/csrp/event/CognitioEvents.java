@@ -73,7 +73,7 @@ public final class CognitioEvents {
 
     private static void trackHuntSeason(ServerPlayer player) {
         var data = player.getPersistentData();
-        long day = player.level().getDayTime() / 24000L;
+        long day = player.level().getGameTime() / 24000L;
         if (data.getLongOr(HUNT_DAY_KEY, 0L) != day) {
             data.putLong(HUNT_DAY_KEY, day);
             data.putInt(HUNT_COUNT_KEY, 0);
@@ -96,7 +96,7 @@ public final class CognitioEvents {
     }
 
     private static void award(ServerPlayer player, String advancement, String criterion) {
-        AdvancementHolder holder = player.server.getAdvancements()
+        AdvancementHolder holder = player.level().getServer().getAdvancements()
                 .get(Identifier.fromNamespaceAndPath(Csrp.MODID, advancement));
         if (holder != null) {
             player.getAdvancements().award(holder, criterion);

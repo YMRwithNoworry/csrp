@@ -5,6 +5,7 @@ import alku.csrp.registry.ModFluidTypes;
 import alku.csrp.registry.ModFluids;
 import alku.csrp.registry.ModItems;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.RandomSource;
@@ -41,7 +42,7 @@ public abstract class DeadBloodFluid extends FlowingFluid {
     }
 
     @Override
-    protected boolean canConvertToSource(Level level) {
+    protected boolean canConvertToSource(ServerLevel level) {
         return false;
     }
 

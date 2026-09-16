@@ -51,7 +51,7 @@ public final class SpottedMobEffect extends MobEffect {
     }
 
     @Override
-    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
+    public boolean applyEffectTick(ServerLevel serverLevel, LivingEntity entity, int amplifier) {
         if (!(entity.level() instanceof ServerLevel level) || entity.tickCount % 200 != 0) {
             return true;
         }
@@ -123,8 +123,8 @@ public final class SpottedMobEffect extends MobEffect {
     }
 
     private static void spawnWorm(ServerLevel level, LivingEntity target, Reinforcement reinforcement) {
-        double theta = level.random.nextDouble() * Math.PI * 2.0D;
-        double radius = Math.sqrt(level.random.nextDouble()) * 5.0D;
+        double theta = level.getRandom().nextDouble() * Math.PI * 2.0D;
+        double radius = Math.sqrt(level.getRandom().nextDouble()) * 5.0D;
         BlockPos candidate = BlockPos.containing(
                 target.getX() + Math.cos(theta) * radius,
                 target.getY(),
@@ -134,12 +134,12 @@ public final class SpottedMobEffect extends MobEffect {
             return;
         }
 
-        DeterrentParasiteEntity worm = ModEntities.WORM.get().create(level);
+        DeterrentParasiteEntity worm = ModEntities.WORM.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (worm == null) {
             return;
         }
-        worm.moveTo(floor.getX() + 0.5D, floor.getY(), floor.getZ() + 0.5D,
-                level.random.nextFloat() * 360.0F, 0.0F);
+        worm.snapTo(floor.getX() + 0.5D, floor.getY(), floor.getZ() + 0.5D,
+                level.getRandom().nextFloat() * 360.0F, 0.0F);
         if (!level.noCollision(worm, worm.getBoundingBox().inflate(1.0D, 7.0D, 1.0D))) {
             return;
         }

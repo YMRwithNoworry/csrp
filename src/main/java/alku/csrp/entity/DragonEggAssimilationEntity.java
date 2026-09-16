@@ -15,11 +15,14 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 
 public final class DragonEggAssimilationEntity extends Entity {
@@ -46,7 +49,7 @@ public final class DragonEggAssimilationEntity extends Entity {
             if (!serverLevel.hasChunkAt(pos) || !serverLevel.getBlockState(pos).is(Blocks.DRAGON_EGG)) {
                 continue;
             }
-            DragonEggAssimilationEntity animation = ModEntities.DRAGON_EGG_ASSIMILATION.get().create(serverLevel);
+            DragonEggAssimilationEntity animation = ModEntities.DRAGON_EGG_ASSIMILATION.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
             if (animation == null) {
                 continue;
             }
@@ -94,7 +97,7 @@ public final class DragonEggAssimilationEntity extends Entity {
     }
 
     private void finishAssimilation(ServerLevel level) {
-        AssimilatedDragonEntity dragon = ModEntities.SIM_DRAGONE.get().create(level);
+        AssimilatedDragonEntity dragon = ModEntities.SIM_DRAGONE.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (dragon != null) {
             dragon.setPos(getX(), getY() + 0.5D, getZ());
             dragon.setYRot(getYRot());
@@ -125,12 +128,17 @@ public final class DragonEggAssimilationEntity extends Entity {
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag tag) {
-        entityData.set(ANIMATION_TICKS, tag.getIntOr("animation_ticks", 0));
+    protected void readAdditionalSaveData(ValueInput input) {
+        entityData.set(ANIMATION_TICKS, input.getIntOr("animation_ticks", 0));
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag tag) {
-        tag.putInt("animation_ticks", getAnimationTicks());
+    protected void addAdditionalSaveData(ValueOutput output) {
+        output.putInt("animation_ticks", getAnimationTicks());
+    }
+
+    @Override
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+        return false;
     }
 }

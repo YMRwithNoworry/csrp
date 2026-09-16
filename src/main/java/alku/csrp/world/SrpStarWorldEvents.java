@@ -28,7 +28,7 @@ public final class SrpStarWorldEvents {
     }
 
     public static void sync(ServerPlayer player) {
-        SrpStarType starType = SrpWorldData.get(player.serverLevel().getServer().overworld()).starType();
+        SrpStarType starType = SrpWorldData.get(player.level().getServer().overworld()).starType();
         PacketDistributor.sendToPlayer(player, new StarWorldStatePayload(starType));
     }
 }

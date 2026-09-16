@@ -5,13 +5,19 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.Consumable;
+import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.entity.LivingEntity;
 
 public final class FishlinItem extends Item {
     public FishlinItem(Item.Properties properties) {
-        super(properties.food(new FoodProperties.Builder().nutrition(3).saturationModifier(0.2F).alwaysEdible()
-                .effect(() -> new MobEffectInstance(ModMobEffects.COTH, 4800, 1, false, false, true), 1.0F).build()));
+        super(properties.food(
+                new FoodProperties.Builder().nutrition(3).saturationModifier(0.2F).alwaysEdible().build(),
+                Consumable.builder()
+                        .onConsume(new ApplyStatusEffectsConsumeEffect(
+                                new MobEffectInstance(ModMobEffects.COTH, 4800, 1, false, false, true), 1.0F))
+                        .build()));
     }
 
     @Override

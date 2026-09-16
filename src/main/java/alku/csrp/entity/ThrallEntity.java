@@ -2,6 +2,7 @@ package alku.csrp.entity;
 
 import alku.csrp.registry.ModSounds;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -41,12 +42,12 @@ public final class ThrallEntity extends CrudeParasiteEntity {
     }
 
     @Override
-    public boolean doHurtTarget(Entity entity) {
-        boolean hit = super.doHurtTarget(entity);
+    public boolean doHurtTarget(ServerLevel level, Entity entity) {
+        boolean hit = super.doHurtTarget(level, entity);
         if (hit) {
         }
         if (hit && entity instanceof Player target && hasCustomName()
-                && target.getGameProfile().getName().equals(getCustomName().getString())) {
+                && target.getGameProfile().name().equals(getCustomName().getString())) {
             target.hurt(damageSources().mobAttack(this),
                     (float) getAttributeValue(Attributes.ATTACK_DAMAGE) * 0.5F);
         }

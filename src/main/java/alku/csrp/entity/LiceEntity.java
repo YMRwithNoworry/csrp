@@ -100,9 +100,9 @@ public final class LiceEntity extends PrimitiveParasiteEntity {
 
         targetSelector.addGoal(1, new HurtByTargetGoal(this));
         targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Player.class, 0,
-                true, false, this::isValidParasiteTarget));
+                true, false, (target, level) -> isValidParasiteTarget(target)));
         targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Mob.class, 0,
-                true, false, this::isValidBaseMobTarget));
+                true, false, (target, level) -> isValidBaseMobTarget(target)));
     }
 
     private boolean isValidBaseMobTarget(LivingEntity target) {
@@ -134,7 +134,7 @@ public final class LiceEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public boolean doHurtTarget(Entity target) {
+    public boolean doHurtTarget(ServerLevel level, Entity target) {
         return false;
     }
 
@@ -159,7 +159,7 @@ public final class LiceEntity extends PrimitiveParasiteEntity {
         }
         boolean damaged = false;
         if (!converted) {
-            damaged = target.hurt(damageSources().mobAttack(this),
+            damaged = target.hurtOrSimulate(damageSources().mobAttack(this),
                     (float) getAttributeValue(Attributes.ATTACK_DAMAGE));
         }
         contactAndDiscard(target, converted);
@@ -167,7 +167,7 @@ public final class LiceEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
+    public boolean causeFallDamage(double distance, float damageMultiplier, DamageSource source) {
         return false;
     }
 
@@ -346,7 +346,7 @@ public final class LiceEntity extends PrimitiveParasiteEntity {
                 return;
             }
             if (getBoundingBox().intersects(target.getBoundingBox())) {
-                doHurtTarget(target);
+                doHurtTarget(getServerLevel(LiceEntity.this), target);
                 setCharging(false);
             } else if (distanceToSqr(target) < 9.0D) {
                 Vec3 eye = target.getEyePosition();

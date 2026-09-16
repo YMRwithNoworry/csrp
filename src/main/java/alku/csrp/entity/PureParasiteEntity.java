@@ -47,10 +47,13 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.fish.WaterAnimal;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.component.SwingAnimation;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.PartEntity;
@@ -451,11 +454,11 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
         if (source.is(DamageTypeTags.IS_FIRE)) {
             amount *= 4.0F;
         }
-        boolean hurt = super.hurt(source, amount);
+        boolean hurt = super.hurtServer(level, source, amount);
         return hurt;
     }
 
@@ -493,14 +496,14 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
     }
 
     @Override
-    public boolean doHurtTarget(Entity entity) {
+    public boolean doHurtTarget(ServerLevel level, Entity entity) {
         if (!(entity instanceof LivingEntity target)) {
-            return super.doHurtTarget(entity);
+            return super.doHurtTarget(level, entity);
         }
         return switch (activeKind()) {
             case GRUNT, MONARCH, WARDEN -> performAreaMelee(target);
             default -> {
-                boolean hurt = super.doHurtTarget(target);
+                boolean hurt = super.doHurtTarget(level, target);
                 if (hurt) {
                     attackAnimationTicks = 8;
                     triggerAttackAnimation();
@@ -621,7 +624,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
     }
 
     @Override
-    public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
+    public boolean causeFallDamage(double distance, float damageMultiplier, DamageSource source) {
         return false;
     }
 
@@ -635,67 +638,70 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
         if (activeKind() == Kind.VIGILANTE) {
-            tag.putInt("VigilanteStatus", entityData.get(VIGILANTE_STATUS));
-            tag.putByte("VigilanteSkin", entityData.get(VIGILANTE_SKIN));
-            tag.putFloat("VigilanteLeftTendril", entityData.get(VIGILANTE_LEFT_TENDRIL));
-            tag.putFloat("VigilanteRightTendril", entityData.get(VIGILANTE_RIGHT_TENDRIL));
+            output.putInt("VigilanteStatus", entityData.get(VIGILANTE_STATUS));
+            output.putByte("VigilanteSkin", entityData.get(VIGILANTE_SKIN));
+            output.putFloat("VigilanteLeftTendril", entityData.get(VIGILANTE_LEFT_TENDRIL));
+            output.putFloat("VigilanteRightTendril", entityData.get(VIGILANTE_RIGHT_TENDRIL));
         }
         if (activeKind() == Kind.SEEKER) {
-            tag.putInt("SeekerCreationPhase", seekerCreationPhase);
+            output.putInt("SeekerCreationPhase", seekerCreationPhase);
         }
         if (activeKind() == Kind.GRUNT) {
-            tag.putByte("GruntSkin", entityData.get(GRUNT_SKIN));
+            output.putByte("GruntSkin", entityData.get(GRUNT_SKIN));
         }
         if (activeKind() == Kind.MONARCH) {
-            tag.putByte("MonarchSkin", entityData.get(MONARCH_SKIN));
+            output.putByte("MonarchSkin", entityData.get(MONARCH_SKIN));
         }
         if (activeKind() == Kind.BOMBER_LIGHT) {
-            tag.putByte("OmbooSkin", entityData.get(OMBOO_SKIN));
+            output.putByte("OmbooSkin", entityData.get(OMBOO_SKIN));
         }
         if (activeKind() == Kind.OVERSEER) {
-            tag.putByte("OverseerSkin", entityData.get(OVERSEER_SKIN));
-            summonTracker.save(tag, "OverseerTrackedSummons");
+            output.putByte("OverseerSkin", entityData.get(OVERSEER_SKIN));
+            CompoundTag summonData = new CompoundTag();
+            summonTracker.save(summonData, "entries");
+            output.store("OverseerTrackedSummons", CompoundTag.CODEC, summonData);
         }
         if (activeKind() == Kind.WARDEN) {
-            tag.putByte("WardenSkin", entityData.get(WARDEN_SKIN));
+            output.putByte("WardenSkin", entityData.get(WARDEN_SKIN));
         }
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        if (activeKind() == Kind.VIGILANTE && tag.contains("VigilanteStatus")) {
-            entityData.set(VIGILANTE_STATUS, tag.getIntOr("VigilanteStatus", 0));
-            setVigilanteSkin(tag.contains("VigilanteSkin") ? tag.getByteOr("VigilanteSkin", (byte)0) : 0);
-            entityData.set(VIGILANTE_LEFT_TENDRIL, tag.contains("VigilanteLeftTendril")
-                    ? tag.getFloatOr("VigilanteLeftTendril", 0.0F) : -1.0F);
-            entityData.set(VIGILANTE_RIGHT_TENDRIL, tag.contains("VigilanteRightTendril")
-                    ? tag.getFloatOr("VigilanteRightTendril", 0.0F) : -1.0F);
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        if (activeKind() == Kind.VIGILANTE && input.keySet().contains("VigilanteStatus")) {
+            entityData.set(VIGILANTE_STATUS, input.getIntOr("VigilanteStatus", 0));
+            setVigilanteSkin(input.keySet().contains("VigilanteSkin") ? input.getByteOr("VigilanteSkin", (byte)0) : 0);
+            entityData.set(VIGILANTE_LEFT_TENDRIL, input.keySet().contains("VigilanteLeftTendril")
+                    ? input.getFloatOr("VigilanteLeftTendril", 0.0F) : -1.0F);
+            entityData.set(VIGILANTE_RIGHT_TENDRIL, input.keySet().contains("VigilanteRightTendril")
+                    ? input.getFloatOr("VigilanteRightTendril", 0.0F) : -1.0F);
         }
         if (activeKind() == Kind.SEEKER) {
-            seekerCreationPhase = tag.contains("SeekerCreationPhase")
-                    ? tag.getIntOr("SeekerCreationPhase", 0) : -1;
+            seekerCreationPhase = input.keySet().contains("SeekerCreationPhase")
+                    ? input.getIntOr("SeekerCreationPhase", 0) : -1;
         }
         if (activeKind() == Kind.GRUNT) {
-            setGruntSkin(tag.contains("GruntSkin") ? tag.getByteOr("GruntSkin", (byte)0) : 0);
+            setGruntSkin(input.keySet().contains("GruntSkin") ? input.getByteOr("GruntSkin", (byte)0) : 0);
         }
         if (activeKind() == Kind.MONARCH) {
-            setMonarchSkin(tag.contains("MonarchSkin") ? tag.getByteOr("MonarchSkin", (byte)0) : 0);
+            setMonarchSkin(input.keySet().contains("MonarchSkin") ? input.getByteOr("MonarchSkin", (byte)0) : 0);
             applyMonarchVariantAttributes();
         }
         if (activeKind() == Kind.BOMBER_LIGHT) {
-            setOmbooSkin(tag.contains("OmbooSkin") ? tag.getByteOr("OmbooSkin", (byte)0) : 0);
+            setOmbooSkin(input.keySet().contains("OmbooSkin") ? input.getByteOr("OmbooSkin", (byte)0) : 0);
         }
         if (activeKind() == Kind.OVERSEER) {
-            setOverseerSkin(tag.contains("OverseerSkin") ? tag.getByteOr("OverseerSkin", (byte)0) : 0);
-            summonTracker.load(tag, "OverseerTrackedSummons");
+            setOverseerSkin(input.keySet().contains("OverseerSkin") ? input.getByteOr("OverseerSkin", (byte)0) : 0);
+            input.read("OverseerTrackedSummons", CompoundTag.CODEC).ifPresent(summonData ->
+                    summonTracker.load(summonData, "entries"));
             entityData.set(OVERSEER_SUMMONING, false);
         }
         if (activeKind() == Kind.WARDEN) {
-            setWardenSkin(tag.contains("WardenSkin") ? tag.getByteOr("WardenSkin", (byte)0) : 0);
+            setWardenSkin(input.keySet().contains("WardenSkin") ? input.getByteOr("WardenSkin", (byte)0) : 0);
             entityData.set(WARDEN_STATUS, 0);
             entityData.set(WARDEN_CHARGING, false);
         }
@@ -905,7 +911,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
     }
 
     private boolean hurtVigilanteTendril(boolean left, DamageSource source, float amount) {
-        if (!hurt(source, amount)) {
+        if (!hurtOrSimulate(source, amount)) {
             return false;
         }
         EntityDataAccessor<Float> data = left ? VIGILANTE_LEFT_TENDRIL : VIGILANTE_RIGHT_TENDRIL;
@@ -927,14 +933,14 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         if (!(level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        TendrilEntity tendril = ModEntities.TENDRIL.get().create(serverLevel);
+        TendrilEntity tendril = ModEntities.TENDRIL.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (tendril == null) {
             return;
         }
         double side = left ? 1.0D : -1.0D;
         double yaw = Math.toRadians(getYRot());
         tendril.setSkin(TendrilEntity.ANGED);
-        tendril.moveTo(getX() + side * Math.cos(yaw) * 1.1D,
+        tendril.snapTo(getX() + side * Math.cos(yaw) * 1.1D,
                 getY() + 2.3D,
                 getZ() + side * Math.sin(yaw) * 1.1D,
                 getYRot(), 0.0F);
@@ -963,7 +969,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         if (random.nextBoolean()) {
             EffectStacking.apply(this, ModMobEffects.BLEED, 80, 0);
         }
-        return hurt(source, amount * 3.0F);
+        return hurtOrSimulate(source, amount * 3.0F);
     }
 
     public int getVigilanteStatus() {
@@ -1055,6 +1061,9 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
     }
 
     private boolean performAreaMelee(LivingEntity center) {
+        if (!(level() instanceof ServerLevel serverLevel)) {
+            return false;
+        }
         double radius = activeKind() == Kind.WARDEN ? 2.6D : 2.0D;
         boolean gruntAttack = activeKind() == Kind.GRUNT;
         boolean wardenAttack = activeKind() == Kind.WARDEN;
@@ -1066,7 +1075,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         boolean hit = false;
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
                 center.getBoundingBox().inflate(radius), this::isValidParasiteTarget)) {
-            if (!hasLineOfSight(target) || !super.doHurtTarget(target)) {
+            if (!hasLineOfSight(target) || !super.doHurtTarget(serverLevel, target)) {
                 continue;
             }
             hit = true;
@@ -1081,7 +1090,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
 
     private void triggerAttackAnimation() {
         attackAnimationTicks = 10;
-        swing(InteractionHand.MAIN_HAND);
+        swing(InteractionHand.MAIN_HAND, SwingAnimation.DEFAULT, false);
         if (activeKind() == Kind.WARDEN) {
             triggerAnim("attack_controller", "get_attack_timer");
         }
@@ -1101,9 +1110,10 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
             }
             case MONARCH -> {
                 target.setDeltaMovement(target.getDeltaMovement().add(0.0D, 0.5D, 0.0D));
-                target.hurtMarked = true;
+                target.syncVelocity = true;
             }
-            case VIGILANTE -> target.knockback(1.0D, getX() - target.getX(), getZ() - target.getZ());
+            case VIGILANTE -> target.knockback(1.0D, getX() - target.getX(), getZ() - target.getZ(),
+                    damageSources().mobAttack(this), 0.0F);
             case WARDEN -> maybeLaunchWardenTarget(target);
             default -> {
             }
@@ -1127,13 +1137,14 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         direction = direction.normalize();
         double vertical = target instanceof Player ? 0.525D : 1.05D;
         target.push(direction.x * 0.4D, vertical, direction.z * 0.4D);
-        target.hurtMarked = true;
+        target.syncVelocity = true;
     }
 
     private void breakBlocksTowardsTarget(LivingEntity target, Kind activeKind) {
         if (activeKind == Kind.GRUNT || activeKind == Kind.BOMBER_LIGHT
                 || activeKind.blockHardness <= 0.0F || blockBreakCooldown > 0
-                || !level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)) {
+                || !(level() instanceof ServerLevel serverLevel)
+                || !serverLevel.getGameRules().get(GameRules.MOB_GRIEFING)) {
             return;
         }
         Vec3 direction = target.position().subtract(position());
@@ -1167,12 +1178,13 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
                         entity -> entity.getKind() == DeterrentParasiteEntity.Kind.SEIZER)
                 .size();
         if (seizers < 3 && random.nextBoolean()) {
-            DeterrentParasiteEntity seizer = ModEntities.SEIZER.get().create(serverLevel);
+            DeterrentParasiteEntity seizer = ModEntities.SEIZER.get().create(serverLevel,
+                    EntitySpawnReason.MOB_SUMMONED);
             if (seizer == null) {
                 return;
             }
             double angle = random.nextDouble() * Math.PI * 2.0D;
-            seizer.moveTo(target.getX() + Math.cos(angle) * 3.0D, target.getY(),
+            seizer.snapTo(target.getX() + Math.cos(angle) * 3.0D, target.getY(),
                     target.getZ() + Math.sin(angle) * 3.0D, getYRot(), 0.0F);
             seizer.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(seizer.blockPosition()),
                     EntitySpawnReason.MOB_SUMMONED, null);
@@ -1181,11 +1193,12 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
             return;
         }
         if (!hasLineOfSight(target) && distanceToSqr(target) > 64.0D) {
-            DeterrentParasiteEntity dispatcher = ModEntities.DISPATCHERTEN.get().create(serverLevel);
+            DeterrentParasiteEntity dispatcher = ModEntities.DISPATCHERTEN.get().create(serverLevel,
+                    EntitySpawnReason.MOB_SUMMONED);
             if (dispatcher == null) {
                 return;
             }
-            dispatcher.moveTo(target.getX(), target.getY(), target.getZ(), getYRot(), 0.0F);
+            dispatcher.snapTo(target.getX(), target.getY(), target.getZ(), getYRot(), 0.0F);
             dispatcher.setDispatchTarget(this);
             dispatcher.setLifetimeTicks(0);
             serverLevel.addFreshEntity(dispatcher);
@@ -1235,11 +1248,12 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
             if (nearbySeizers > 10) {
                 return;
             }
-            DeterrentParasiteEntity seizer = ModEntities.SEIZER.get().create(serverLevel);
+            DeterrentParasiteEntity seizer = ModEntities.SEIZER.get().create(serverLevel,
+                    EntitySpawnReason.MOB_SUMMONED);
             if (seizer == null) {
                 return;
             }
-            seizer.moveTo(spawnX, target.getY(), spawnZ, getYRot(), 0.0F);
+            seizer.snapTo(spawnX, target.getY(), spawnZ, getYRot(), 0.0F);
             seizer.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(seizer.blockPosition()),
                     EntitySpawnReason.MOB_SUMMONED, null);
             seizer.setTarget(target);
@@ -1247,9 +1261,10 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
             return;
         }
 
-        DeterrentParasiteEntity dispatcher = ModEntities.DISPATCHERTEN.get().create(serverLevel);
+        DeterrentParasiteEntity dispatcher = ModEntities.DISPATCHERTEN.get().create(serverLevel,
+                EntitySpawnReason.MOB_SUMMONED);
         if (dispatcher != null) {
-            dispatcher.moveTo(spawnX, target.getY(), spawnZ, getYRot(), 0.0F);
+            dispatcher.snapTo(spawnX, target.getY(), spawnZ, getYRot(), 0.0F);
             dispatcher.setDispatchTarget(this);
             dispatcher.setLifetimeTicks(0);
             serverLevel.addFreshEntity(dispatcher);
@@ -1273,11 +1288,11 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         if (target == null || !target.isAlive()) {
             return;
         }
-        ParasiticScentEntity scent = ModEntities.SCENT.get().create(serverLevel);
+        ParasiticScentEntity scent = ModEntities.SCENT.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (scent == null) {
             return;
         }
-        scent.moveTo(target.getX(), target.getY(), target.getZ(), target.getYRot(), target.getXRot());
+        scent.snapTo(target.getX(), target.getY(), target.getZ(), target.getYRot(), target.getXRot());
         scent.setTargetToKill(target, false);
         scent.setDieAfterKilling(true);
         scent.setCanFollow(true);
@@ -1352,7 +1367,9 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
 
     private void triggerPureDeathBurst() {
         DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(2.0D));
-        Level.ExplosionInteraction interaction = level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)
+        boolean mobGriefing = level() instanceof ServerLevel serverLevel
+                && serverLevel.getGameRules().get(GameRules.MOB_GRIEFING);
+        Level.ExplosionInteraction interaction = mobGriefing
                 ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
         level().explode(this, getX(), getY() + getBbHeight() * 0.5D, getZ(), 2.0F, interaction);
         ToxicCloudEntity cloud = ToxicCloudEntity.create(level(), getX(), getY(), getZ());
@@ -1418,13 +1435,13 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
     }
 
     private void fireBomb(LivingEntity target) {
-        BombEntity bomb = ModEntities.BOMB.get().create(level());
+        BombEntity bomb = ModEntities.BOMB.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (bomb == null) {
             return;
         }
         bomb.configure(this, 80, 1.0F, MobsConfig.ombooBombDamage(), 4, 0,
                 MobsConfig.ombooGriefing());
-        bomb.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        bomb.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         level().addFreshEntity(bomb);
     }
 
@@ -1471,12 +1488,12 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
             return;
         }
         for (int index = 0; index < count; index++) {
-            BuglinEntity buglin = ModEntities.BUGLIN.get().create(serverLevel);
+            BuglinEntity buglin = ModEntities.BUGLIN.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
             if (buglin == null) {
                 continue;
             }
             double angle = Math.PI * 2.0D * index / Math.max(1, count);
-            buglin.moveTo(getX() + Math.cos(angle) * 1.5D, getY() + 0.2D,
+            buglin.snapTo(getX() + Math.cos(angle) * 1.5D, getY() + 0.2D,
                     getZ() + Math.sin(angle) * 1.5D, getYRot(), 0.0F);
             buglin.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(buglin.blockPosition()),
                     EntitySpawnReason.MOB_SUMMONED, null);
@@ -1592,7 +1609,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         setDeltaMovement(movement.x + offset.x / horizontalLength * 3.5D * 0.9D + movement.x * 0.3D,
                 1.1D,
                 movement.z + offset.z / horizontalLength * 3.5D * 0.9D + movement.z * 0.3D);
-        hurtMarked = true;
+        syncVelocity = true;
         gruntSkillLeapActive = true;
         gruntSkillLeapWasAirborne = false;
         gruntSkillLeapTicks = 0;
@@ -1719,7 +1736,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
                     movement.y,
                     movement.z + towardTarget.z / horizontalLength * dashStrength * 0.8D
                             + movement.z * 0.2D + bonusZ);
-            hurtMarked = true;
+            syncVelocity = true;
             getNavigation().stop();
             if (level() instanceof ServerLevel serverLevel) {
                 serverLevel.sendParticles(ParticleTypes.ENCHANTED_HIT,
@@ -1737,11 +1754,11 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
 
         @Override
         public boolean canUse() {
-            if (!isInWaterOrBubble() && !isInLava()) {
+            if (!isInWater() && !isInLava()) {
                 return false;
             }
             LivingEntity target = getTarget();
-            if (target != null && (target.isInWaterOrBubble() || target.isInLava())
+            if (target != null && (target.isInWater() || target.isInLava())
                     && target.distanceToSqr(getX(), target.getY(), getZ()) < 25.0D
                     && target.getY() - getY() < -1.0D) {
                 setDeltaMovement(getDeltaMovement().add(0.0D, -0.12D, 0.0D));
@@ -1772,7 +1789,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         @Override
         public boolean canUse() {
             LivingEntity target = getTarget();
-            if (target == null || !target.isAlive() || (!isInWaterOrBubble() && !isInLava())) {
+            if (target == null || !target.isAlive() || (!isInWater() && !isInLava())) {
                 return false;
             }
             if (cooldown < 20) {
@@ -1801,7 +1818,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
                 setDeltaMovement(movement.x + offset.x / horizontalLength * 1.5D * 0.9D + movement.x * 0.3D,
                         0.7D + heightBonus,
                         movement.z + offset.z / horizontalLength * 1.5D * 0.9D + movement.z * 0.3D);
-                hurtMarked = true;
+                syncVelocity = true;
                 startSpecialLeapAnimation(24);
             }
             cooldown = 0;
@@ -1937,11 +1954,11 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
 
         @Override
         public boolean canUse() {
-            if (monarchLeapBusy() || !isInWaterOrBubble() && !isInLava()) {
+            if (monarchLeapBusy() || !isInWater() && !isInLava()) {
                 return false;
             }
             LivingEntity target = getTarget();
-            if (target != null && (target.isInWaterOrBubble() || target.isInLava())
+            if (target != null && (target.isInWater() || target.isInLava())
                     && target.distanceToSqr(getX(), target.getY(), getZ()) < 25.0D
                     && target.getY() - getY() < -1.0D) {
                 setDeltaMovement(getDeltaMovement().add(0.0D, -0.12D, 0.0D));
@@ -2021,7 +2038,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
 
         @Override
         public boolean canUse() {
-            return attacking >= 1 || !monarchSkillLeapActive && (isInWaterOrBubble() || isInLava());
+            return attacking >= 1 || !monarchSkillLeapActive && (isInWater() || isInLava());
         }
 
         @Override
@@ -2058,7 +2075,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
                     setDeltaMovement(movement.x + x / horizontalLength * 1.5D * 0.9D + movement.x * 0.3D,
                             0.7D + targetY,
                             movement.z + z / horizontalLength * 1.5D * 0.9D + movement.z * 0.3D);
-                    hurtMarked = true;
+                    syncVelocity = true;
                     monarchWaterLeapActive = true;
                     startSpecialLeapAnimation(24);
                 }
@@ -2185,7 +2202,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
                     movement.y,
                     movement.z + towardTarget.z / horizontalLength * dashStrength * 0.8D
                             + movement.z * 0.2D + bonusZ);
-            hurtMarked = true;
+            syncVelocity = true;
             getNavigation().stop();
             if (level() instanceof ServerLevel serverLevel) {
                 serverLevel.sendParticles(ParticleTypes.ENCHANTED_HIT,
@@ -2207,7 +2224,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         setDeltaMovement(movement.x + offset.x / horizontalLength * 3.5D * 0.9D + movement.x * 0.3D,
                 0.5D,
                 movement.z + offset.z / horizontalLength * 3.5D * 0.9D + movement.z * 0.3D);
-        hurtMarked = true;
+        syncVelocity = true;
         monarchSkillLeapActive = true;
         monarchSkillLeapWasAirborne = false;
         monarchSkillLeapTicks = 2;
@@ -2242,10 +2259,12 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         AABB area = new AABB(getX(), getY(), getZ(), getX() + 1.0D, getY() + 1.0D, getZ() + 1.0D)
                 .inflate(radius, 2.0D, radius);
         DragonEggAssimilationEntity.assimilateDragonEggs(level(), area);
+        ServerLevel serverLevel = level() instanceof ServerLevel sl ? sl : null;
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, area,
                 entity -> entity != PureParasiteEntity.this && entity.isAlive() && !(entity instanceof Parasite))) {
-            target.knockback(2.5D, getX() - target.getX(), getZ() - target.getZ());
-            if (super.doHurtTarget(target)) {
+            target.knockback(2.5D, getX() - target.getX(), getZ() - target.getZ(),
+                    damageSources().mobAttack(this), 0.0F);
+            if (serverLevel != null && super.doHurtTarget(serverLevel, target)) {
                 applyMeleeEffects(target, Kind.MONARCH);
             }
         }
@@ -2255,17 +2274,17 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         if (!(level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        BuglinEntity buglin = ModEntities.BUGLIN.get().create(serverLevel);
+        BuglinEntity buglin = ModEntities.BUGLIN.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (buglin != null) {
-            buglin.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+            buglin.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
             serverLevel.addFreshEntity(buglin);
         }
     }
 
     private void breakBlocksForMonarchSkill() {
         if (!(level() instanceof ServerLevel serverLevel)
-                || !level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)
-                || !EventHooks.canEntityGrief(level(), this)) {
+                || !serverLevel.getGameRules().get(GameRules.MOB_GRIEFING)
+                || !EventHooks.canEntityGrief(serverLevel, this)) {
             return;
         }
         int baseX = Mth.floor(getX());
@@ -2512,7 +2531,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
                 return;
             }
             if (getBoundingBox().intersects(target.getBoundingBox())) {
-                doHurtTarget(target);
+                doHurtTarget(getServerLevel(PureParasiteEntity.this), target);
                 setOmbooCharging(false);
             } else if (distanceToSqr(target) < 9.0D) {
                 Vec3 eye = target.getEyePosition();
@@ -2645,7 +2664,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
             if (contactCooldown > 0) {
                 contactCooldown--;
             } else if (distanceToSqr(target) <= 9.0D) {
-                doHurtTarget(target);
+                doHurtTarget(getServerLevel(PureParasiteEntity.this), target);
                 contactCooldown = 20;
             }
         }
@@ -2788,7 +2807,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
                 attackCooldown = Math.max(attackCooldown - 1, 0);
                 if (attackDistance <= 20.25D && attackCooldown <= 0) {
                     attackCooldown = 20;
-                    doHurtTarget(target);
+                    doHurtTarget(getServerLevel(PureParasiteEntity.this), target);
                 }
                 if (chargeTicks > 140) {
                     chargeTicks = 0;
@@ -3173,7 +3192,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
             setDeltaMovement(movement.x + dx / horizontal * 2.5D * 0.9D + movement.x * 0.3D,
                     1.2D,
                     movement.z + dz / horizontal * 2.5D * 0.9D + movement.z * 0.3D);
-            hurtMarked = true;
+            syncVelocity = true;
             airborne = false;
             wardenLeapTicks = 1;
             startSpecialLeapAnimation(100);
@@ -3368,7 +3387,8 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         DragonEggAssimilationEntity.assimilateDragonEggs(level(), area);
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, area,
                 this::isValidParasiteTarget)) {
-            target.knockback(2.5D, getX() - target.getX(), getZ() - target.getZ());
+            target.knockback(2.5D, getX() - target.getX(), getZ() - target.getZ(),
+                    damageSources().mobAttack(this), 0.0F);
             hurtWardenSkillTarget(target);
         }
     }
@@ -3378,13 +3398,15 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         DragonEggAssimilationEntity.assimilateDragonEggs(level(), area);
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, area,
                 this::isValidParasiteTarget)) {
-            target.knockback(0.5D, getX() - target.getX(), getZ() - target.getZ());
+            target.knockback(0.5D, getX() - target.getX(), getZ() - target.getZ(),
+                    damageSources().mobAttack(this), 0.0F);
             hurtWardenSkillTarget(target);
         }
     }
 
     boolean hurtWardenSkillTarget(LivingEntity target) {
-        if (!isValidParasiteTarget(target) || !super.doHurtTarget(target)) {
+        if (!isValidParasiteTarget(target) || !(level() instanceof ServerLevel serverLevel)
+                || !super.doHurtTarget(serverLevel, target)) {
             return false;
         }
         applyMeleeEffects(target, Kind.WARDEN);
@@ -3403,11 +3425,12 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         if (!(level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        WardenShockwaveEntity shockwave = ModEntities.WARDEN_SHOCKWAVE.get().create(serverLevel);
+        WardenShockwaveEntity shockwave = ModEntities.WARDEN_SHOCKWAVE.get().create(serverLevel,
+                EntitySpawnReason.MOB_SUMMONED);
         if (shockwave == null) {
             return;
         }
-        shockwave.moveTo(getX(), getY(), getZ(), getYRot(), 0.0F);
+        shockwave.snapTo(getX(), getY(), getZ(), getYRot(), 0.0F);
         shockwave.configure(this, target);
         if (serverLevel.noCollision(shockwave, shockwave.getBoundingBox())) {
             serverLevel.addFreshEntity(shockwave);
@@ -3437,11 +3460,11 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         }
 
         @Override
-        protected void readAdditionalSaveData(CompoundTag tag) {
+        protected void readAdditionalSaveData(ValueInput input) {
         }
 
         @Override
-        protected void addAdditionalSaveData(CompoundTag tag) {
+        protected void addAdditionalSaveData(ValueOutput output) {
         }
 
         @Override
@@ -3450,7 +3473,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         }
 
         @Override
-        public boolean hurt(DamageSource source, float amount) {
+        public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
             return getParent().hurtWardenTendril(source, amount);
         }
 
@@ -3490,11 +3513,11 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         }
 
         @Override
-        protected void readAdditionalSaveData(CompoundTag tag) {
+        protected void readAdditionalSaveData(ValueInput input) {
         }
 
         @Override
-        protected void addAdditionalSaveData(CompoundTag tag) {
+        protected void addAdditionalSaveData(ValueOutput output) {
         }
 
         @Override
@@ -3503,8 +3526,8 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         }
 
         @Override
-        public boolean hurt(DamageSource source, float amount) {
-            return getParent().hurt(source, amount * 3.0F);
+        public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+            return getParent().hurtServer(level, source, amount * 3.0F);
         }
 
         @Override
@@ -3546,11 +3569,11 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         }
 
         @Override
-        protected void readAdditionalSaveData(CompoundTag tag) {
+        protected void readAdditionalSaveData(ValueInput input) {
         }
 
         @Override
-        protected void addAdditionalSaveData(CompoundTag tag) {
+        protected void addAdditionalSaveData(ValueOutput output) {
         }
 
         @Override
@@ -3561,7 +3584,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         }
 
         @Override
-        public boolean hurt(DamageSource source, float amount) {
+        public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
             return getParent().hurtVigilanteTendril(left, source, amount);
         }
 
