@@ -2,12 +2,12 @@ package alku.csrp.client;
 
 import alku.csrp.Csrp;
 import alku.csrp.registry.ModBlocks;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
+import net.minecraft.data.AtlasIds;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
@@ -31,22 +31,12 @@ public final class ParasiteFogOverlayEvents {
             return;
         }
 
-        GuiGraphics graphics = event.getGuiGraphics();
+        GuiGraphicsExtractor graphics = event.getGuiGraphics();
         int width = graphics.guiWidth();
         int height = graphics.guiHeight();
-        TextureAtlasSprite sprite = minecraft.getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(FOG_SPRITE);
-        RenderSystem.disableDepthTest();
-        RenderSystem.depthMask(false);
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
-        try {
-            graphics.blit(0, 0, -90, width, height, sprite, 1.0F, 1.0F, 1.0F, 0.85F);
-            graphics.flush();
-        } finally {
-            RenderSystem.disableBlend();
-            RenderSystem.depthMask(true);
-            RenderSystem.enableDepthTest();
-        }
+        TextureAtlasSprite sprite = minecraft.getAtlasManager()
+                .getAtlasOrThrow(AtlasIds.BLOCKS).getSprite(FOG_SPRITE);
+        graphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, 0, 0, width, height, 0xD9FFFFFF);
     }
 
     private static boolean isCameraInsideFog(Minecraft minecraft) {

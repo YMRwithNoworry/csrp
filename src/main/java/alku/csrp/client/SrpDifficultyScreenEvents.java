@@ -39,9 +39,8 @@ public final class SrpDifficultyScreenEvents {
         SrpDifficulty selected = SELECTIONS.getOrDefault(screen, SrpDifficulty.NORMAL);
         int width = Math.min(180, Math.max(120, screen.width - 20));
         CycleButton<SrpDifficulty> selector = CycleButton.<SrpDifficulty>builder(
-                        difficulty -> Component.translatable(difficulty.translationKey()))
+                        difficulty -> Component.translatable(difficulty.translationKey()), selected)
                 .withValues(List.of(SrpDifficulty.values()))
-                .withInitialValue(selected)
                 .create((screen.width - width) / 2, screen.height - 52, width, 20,
                         Component.translatable("options.csrp.difficulty"),
                         (button, difficulty) -> {
@@ -53,9 +52,8 @@ public final class SrpDifficultyScreenEvents {
 
         SrpStarType selectedStar = STAR_SELECTIONS.getOrDefault(screen, SrpStarType.NORMAL);
         CycleButton<SrpStarType> starSelector = CycleButton.<SrpStarType>builder(
-                        starType -> Component.translatable(starType.translationKey()))
+                        starType -> Component.translatable(starType.translationKey()), selectedStar)
                 .withValues(List.of(SrpStarType.values()))
-                .withInitialValue(selectedStar)
                 .create((screen.width - width) / 2, screen.height - 76, width, 20,
                         Component.translatable("options.csrp.star_type"),
                         (button, starType) -> {
@@ -70,9 +68,8 @@ public final class SrpDifficultyScreenEvents {
         SrpMeteorMode selectedMeteor = METEOR_SELECTIONS.computeIfAbsent(screen,
                 ignored -> SrpMeteorMode.of(defaultMeteorEnabled()));
         CycleButton<SrpMeteorMode> meteorSelector = CycleButton.<SrpMeteorMode>builder(
-                        mode -> Component.translatable(mode.translationKey()))
+                        mode -> Component.translatable(mode.translationKey()), selectedMeteor)
                 .withValues(List.of(SrpMeteorMode.values()))
-                .withInitialValue(selectedMeteor)
                 .create((screen.width - width) / 2, screen.height - 100, width, 20,
                         Component.translatable("options.csrp.meteor"),
                         (button, mode) -> {

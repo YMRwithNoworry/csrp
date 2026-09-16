@@ -11,13 +11,14 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.github.alexthe666.citadel.client.model.AdvancedEntityModel;
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -31,7 +32,7 @@ public final class PrimitiveParasiteRenderer<T extends Mob & CitadelAnimatedEnti
             "textures/entity/pri_yelloweye_heavy_glow.png");
     private static final Identifier GUARDIAN_BEAM_TEXTURE = Identifier.withDefaultNamespace(
             "textures/entity/guardian_beam.png");
-    private static final RenderType GUARDIAN_BEAM_RENDER_TYPE = RenderType.entityTranslucentEmissive(
+    private static final RenderType GUARDIAN_BEAM_RENDER_TYPE = RenderTypes.entityTranslucentEmissive(
             GUARDIAN_BEAM_TEXTURE);
     private static final float BEAM_RADIUS = 0.2F;
     private static final int BEAM_RED = 220;
@@ -102,8 +103,8 @@ public final class PrimitiveParasiteRenderer<T extends Mob & CitadelAnimatedEnti
 
         poseStack.pushPose();
         poseStack.translate(start.x, start.y, start.z);
-        poseStack.mulPose(Axis.YP.rotationDegrees((Mth.HALF_PI - yaw) * Mth.RAD_TO_DEG));
-        poseStack.mulPose(Axis.XP.rotationDegrees(pitch * Mth.RAD_TO_DEG));
+        poseStack.rotate(Axis.YP.rotationDegrees((Mth.HALF_PI - yaw) * Mth.RAD_TO_DEG));
+        poseStack.rotate(Axis.XP.rotationDegrees(pitch * Mth.RAD_TO_DEG));
 
         VertexConsumer consumer = bufferSource.getBuffer(GUARDIAN_BEAM_RENDER_TYPE);
         PoseStack.Pose pose = poseStack.last();
@@ -144,7 +145,7 @@ public final class PrimitiveParasiteRenderer<T extends Mob & CitadelAnimatedEnti
                 .setColor(BEAM_RED, BEAM_GREEN, BEAM_BLUE, 255)
                 .setUv(u, v)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(LightTexture.FULL_BRIGHT)
+                .setLight(LightCoordsUtil.FULL_BRIGHT)
                 .setNormal(pose, 0.0F, 1.0F, 0.0F);
     }
 
@@ -163,9 +164,9 @@ public final class PrimitiveParasiteRenderer<T extends Mob & CitadelAnimatedEnti
             }
             Identifier texture = yelloweye.getYelloweyeSkin() == 7
                     ? YELLOWEYE_HEAVY_GLOW_TEXTURE : YELLOWEYE_GLOW_TEXTURE;
-            RenderType glowType = RenderType.eyes(texture);
+            RenderType glowType = RenderTypes.eyes(texture);
             getParentModel().renderToBuffer(poseStack, bufferSource.getBuffer(glowType),
-                    LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 0xFFFFFFFF);
+                    LightCoordsUtil.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 0xFFFFFFFF);
         }
     }
 }

@@ -1,20 +1,25 @@
 package alku.csrp.celestial;
 
+import alku.csrp.Csrp;
+import com.mojang.serialization.Codec;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
+import net.minecraft.world.level.saveddata.SavedDataType;
 
 public final class CelestialWorldData extends SavedData {
     private static final String DATA_NAME = "csrp_celestial_events";
-    private static final Factory<CelestialWorldData> FACTORY =
-            new Factory<>(CelestialWorldData::new, CelestialWorldData::load);
+    private static final Identifier DATA_ID = Identifier.fromNamespaceAndPath(Csrp.MODID, DATA_NAME);
+    private static final Codec<CelestialWorldData> CODEC =
+            CompoundTag.CODEC.xmap(CelestialWorldData::load, CelestialWorldData::save);
+    private static final SavedDataType<CelestialWorldData> TYPE =
+            new SavedDataType<>(DATA_ID, CelestialWorldData::new, CODEC);
 
     private long nightIndex = Long.MIN_VALUE;
     private final Set<String> active = new LinkedHashSet<>();
@@ -26,10 +31,10 @@ public final class CelestialWorldData extends SavedData {
     private long lastEffectNightIndex = Long.MIN_VALUE;
 
     public static CelestialWorldData get(ServerLevel level) {
-        return level.getDataStorage().computeIfAbsent(FACTORY, DATA_NAME);
+        return level.getDataStorage().computeIfAbsent(TYPE);
     }
 
-    private static CelestialWorldData load(CompoundTag tag, HolderLookup.Provider registries) {
+    private static CelestialWorldData load(CompoundTag tag) {
         CelestialWorldData data = new CelestialWorldData();
         data.nightIndex = tag.contains("night_index") ? tag.getLongOr("night_index", 0L) : Long.MIN_VALUE;
         readSet(tag, "active", data.active);
@@ -46,8 +51,8 @@ public final class CelestialWorldData extends SavedData {
         return data;
     }
 
-    @Override
-    public CompoundTag save(CompoundTag tag, HolderLookup.Provider registries) {
+    private CompoundTag save() {
+        CompoundTag tag = new CompoundTag();
         tag.putLong("night_index", nightIndex);
         writeSet(tag, "active", active);
         writeSet(tag, "forced", forced);

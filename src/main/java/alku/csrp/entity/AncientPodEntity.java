@@ -82,7 +82,7 @@ public final class AncientPodEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
+    public boolean causeFallDamage(double distance, float damageMultiplier, DamageSource source) {
         return false;
     }
 
@@ -122,7 +122,7 @@ public final class AncientPodEntity extends PrimitiveParasiteEntity {
     private void explodePod(ServerLevel level) {
         exploded = true;
         DragonEggAssimilationEntity.assimilateDragonEggs(level, getBoundingBox().inflate(4.0D));
-        Level.ExplosionInteraction interaction = level.getGameRules().getBooleanOr(GameRules.MOB_GRIEFING, false)
+        Level.ExplosionInteraction interaction = level.getGameRules().get(GameRules.MOB_GRIEFING)
                 && MobsConfig.ancientPodGriefing()
                 ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
         level.explode(this, getX(), getY(), getZ(), 4.0F, interaction);

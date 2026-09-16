@@ -2,8 +2,8 @@ package alku.csrp.client;
 
 import alku.csrp.Csrp;
 import alku.csrp.registry.ModItems;
+import java.util.List;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.PostChain;
 import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -15,10 +15,10 @@ import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
 @EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT)
 public final class AlveolarFluidClientEvents {
     private static final Identifier EFFECT = Identifier.fromNamespaceAndPath(
-            Csrp.MODID, "shaders/post/alveolar_breathe.json");
+            Csrp.MODID, "alveolar_breathe");
     private static final int EFFECT_DURATION_TICKS = 600;
 
-    private static PostChain loadedEffect;
+    private static boolean effectActive;
     private static int ticksRemaining;
     private static boolean loadAttempted;
 
@@ -45,22 +45,29 @@ public final class AlveolarFluidClientEvents {
         }
 
         ticksRemaining--;
-        if (loadedEffect != null || loadAttempted || minecraft.gameRenderer.currentEffect() != null) {
+        List<Identifier> activeEffects = minecraft.player.getActivePostEffects();
+        if (effectActive) {
+            if (!activeEffects.contains(EFFECT)) {
+                activeEffects.add(EFFECT);
+            }
+            return;
+        }
+        if (loadAttempted || !activeEffects.isEmpty()) {
             return;
         }
 
         loadAttempted = true;
-        minecraft.gameRenderer.loadEffect(EFFECT);
-        loadedEffect = minecraft.gameRenderer.currentEffect();
+        activeEffects.add(EFFECT);
+        effectActive = true;
     }
 
     private static void unloadEffect(Minecraft minecraft) {
-        if (loadedEffect == null) {
+        if (!effectActive) {
             return;
         }
-        if (minecraft.gameRenderer.currentEffect() == loadedEffect) {
-            minecraft.gameRenderer.shutdownEffect();
+        if (minecraft.player != null) {
+            minecraft.player.getActivePostEffects().remove(EFFECT);
         }
-        loadedEffect = null;
+        effectActive = false;
     }
 }

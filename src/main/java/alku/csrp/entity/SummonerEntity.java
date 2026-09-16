@@ -16,6 +16,9 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import alku.csrp.animation.CitadelAnimationManager;
 import alku.csrp.animation.CitadelAnimationController;
@@ -167,20 +170,28 @@ public final class SummonerEntity extends PrimitiveParasiteEntity implements Sum
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putInt("summoner_summon_cooldown", summonCooldown);
-        summonTracker.save(tag, "summoner_tracked_summons");
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putInt("summoner_summon_cooldown", summonCooldown);
+        CompoundTag summonTag = new CompoundTag();
+        summonTracker.save(summonTag, "summoner_tracked_summons");
+        output.store("summoner_tracked_summons", CompoundTag.CODEC, summonTag);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        summonCooldown = tag.contains("summoner_summon_cooldown")
-                ? tag.getIntOr("summoner_summon_cooldown", 0) : SUMMON_COOLDOWN_TICKS;
-        summonTracker.load(tag, "summoner_tracked_summons");
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        summonCooldown = input.getInt("summoner_summon_cooldown").isPresent()
+                ? input.getIntOr("summoner_summon_cooldown", 0) : SUMMON_COOLDOWN_TICKS;
+        input.read("summoner_tracked_summons", CompoundTag.CODEC)
+                .ifPresent(summonData -> summonTracker.load(summonData, "summoner_tracked_summons"));
         entityData.set(SUMMONING, false);
         entityData.set(SUMMON_TICKS, 0);
+    }
+
+    /** Replaces the removed {@code Entity#isInWaterOrBubble()} with the equivalent bubble-column check. */
+    private boolean isInWaterOrBubble() {
+        return isInWater() || level().getBlockState(blockPosition()).is(Blocks.BUBBLE_COLUMN);
     }
 
     @Override public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {

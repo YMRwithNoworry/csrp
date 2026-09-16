@@ -6,13 +6,14 @@ import alku.csrp.entity.AirscrewEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.AABB;
@@ -24,7 +25,7 @@ public final class AirscrewRenderer extends ParasiteGeoRenderer<AirscrewEntity> 
             Csrp.MODID, "textures/entity/airscrew_tether.png");
     // RenderLeer used a full-bright blended Guardian beam; the emissive translucent pass keeps
     // the line visible over opaque entities and terrain in the 1.21 renderer.
-    private static final RenderType TETHER_RENDER_TYPE = RenderType.entityTranslucentEmissive(TETHER_TEXTURE);
+    private static final RenderType TETHER_RENDER_TYPE = RenderTypes.entityTranslucentEmissive(TETHER_TEXTURE);
     private static final int TETHER_SIDES = 8;
     private static final float TETHER_RADIUS = 0.282F;
 
@@ -35,11 +36,11 @@ public final class AirscrewRenderer extends ParasiteGeoRenderer<AirscrewEntity> 
 
     @Override
     public boolean shouldRender(AirscrewEntity airscrew, Frustum frustum, double cameraX, double cameraY,
-                                double cameraZ) {
+                                double cameraZ, float partialTick) {
         if (isHiddenByBraining()) {
             return false;
         }
-        if (super.shouldRender(airscrew, frustum, cameraX, cameraY, cameraZ)) {
+        if (super.shouldRender(airscrew, frustum, cameraX, cameraY, cameraZ, partialTick)) {
             return true;
         }
 
@@ -87,8 +88,8 @@ public final class AirscrewRenderer extends ParasiteGeoRenderer<AirscrewEntity> 
 
         poseStack.pushPose();
         poseStack.translate(0.0D, airscrew.getTetherMouthHeight(), 0.0D);
-        poseStack.mulPose(Axis.YP.rotationDegrees((1.5707964F - yaw) * 57.295776F));
-        poseStack.mulPose(Axis.XP.rotationDegrees(pitch * 57.295776F));
+        poseStack.rotate(Axis.YP.rotationDegrees((1.5707964F - yaw) * 57.295776F));
+        poseStack.rotate(Axis.XP.rotationDegrees(pitch * 57.295776F));
 
         VertexConsumer consumer = bufferSource.getBuffer(TETHER_RENDER_TYPE);
         PoseStack.Pose pose = poseStack.last();
@@ -125,7 +126,7 @@ public final class AirscrewRenderer extends ParasiteGeoRenderer<AirscrewEntity> 
                 .setColor(red, green, blue, 255)
                 .setUv(u, v)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(LightTexture.FULL_BRIGHT)
+                .setLight(LightCoordsUtil.FULL_BRIGHT)
                 .setNormal(pose, 0.0F, 1.0F, 0.0F);
     }
 }

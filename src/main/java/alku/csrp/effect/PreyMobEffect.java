@@ -6,6 +6,7 @@ import alku.csrp.registry.ModEntities;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 
@@ -16,8 +17,8 @@ public final class PreyMobEffect extends MobEffect {
     }
 
     @Override
-    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
-        if (!(entity.level() instanceof ServerLevel level) || entity.tickCount % 80 != 0) {
+    public boolean applyEffectTick(ServerLevel level, LivingEntity entity, int amplifier) {
+        if (entity.tickCount % 80 != 0) {
             return true;
         }
         if (entity instanceof Player player && (player.isCreative() || player.isSpectator())) {
@@ -33,11 +34,11 @@ public final class PreyMobEffect extends MobEffect {
             }
         }
 
-        ParasiticScentEntity scent = ModEntities.SCENT.get().create(level);
+        ParasiticScentEntity scent = ModEntities.SCENT.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (scent == null) {
             return true;
         }
-        scent.moveTo(entity.getX(), entity.getY(), entity.getZ(), entity.getYRot(), entity.getXRot());
+        scent.snapTo(entity.getX(), entity.getY(), entity.getZ(), entity.getYRot(), entity.getXRot());
         scent.setScentState(1);
         scent.setTargetToKill(entity, false);
         scent.setScentLife(ParasiticScentEntity.OBSERVER_LIFE_TICKS);

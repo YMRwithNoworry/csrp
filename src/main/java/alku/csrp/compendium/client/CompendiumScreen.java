@@ -6,11 +6,12 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -75,23 +76,23 @@ public final class CompendiumScreen extends Screen {
     }
 
     @Override
-    public void renderBackground(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
     }
 
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
         int left = (width - PANEL_WIDTH) / 2;
         int top = (height - PANEL_HEIGHT) / 2;
-        graphics.blit(BACKGROUND, left, top, 0.0F, 0.0F, PANEL_WIDTH, PANEL_HEIGHT, PANEL_WIDTH, PANEL_HEIGHT);
+        graphics.blit(RenderPipelines.GUI_TEXTURED, BACKGROUND, left, top, 0.0F, 0.0F, PANEL_WIDTH, PANEL_HEIGHT, PANEL_WIDTH, PANEL_HEIGHT);
         graphics.fill(left + 3, top + 3, left + LIST_WIDTH, top + PANEL_HEIGHT - 3, 0xD029231D);
         graphics.fill(left + LIST_WIDTH + 3, top + 3, left + PANEL_WIDTH - 3, top + PANEL_HEIGHT - 3,
                 0x18FFFFFF);
         renderList(graphics, left, top, mouseX, mouseY);
         renderDetails(graphics, left + LIST_WIDTH + 8, top + 8, mouseX, mouseY);
-        super.render(graphics, mouseX, mouseY, partialTick);
+        super.extractRenderState(graphics, mouseX, mouseY, partialTick);
     }
 
-    private void renderList(GuiGraphics graphics, int left, int top, int mouseX, int mouseY) {
+    private void renderList(GuiGraphicsExtractor graphics, int left, int top, int mouseX, int mouseY) {
         List<ListEntry> entries = currentEntries();
         int visible = (PANEL_HEIGHT - 12) / ROW_HEIGHT;
         scroll = Math.max(0, Math.min(scroll, Math.max(0, entries.size() - visible)));
@@ -103,27 +104,27 @@ public final class CompendiumScreen extends Screen {
                 graphics.fill(left + 5, y - 2, left + LIST_WIDTH - 3, y + 11, 0xFF634938);
             }
             ListEntry entry = entries.get(index);
-            graphics.drawString(font, entry.unlocked ? entry.name : "???", left + 9, y,
+            graphics.text(font, entry.unlocked ? entry.name : "???", left + 9, y,
                     entry.unlocked ? 0xFFF1E4C7 : 0xFF746A5C, false);
         }
         graphics.disableScissor();
     }
 
-    private void renderDetails(GuiGraphics graphics, int x, int y, int mouseX, int mouseY) {
+    private void renderDetails(GuiGraphicsExtractor graphics, int x, int y, int mouseX, int mouseY) {
         List<ListEntry> entries = currentEntries();
         if (entries.isEmpty() || selectedIndex >= entries.size()) {
-            graphics.drawString(font, Component.translatable("screen.csrp.compendium.empty"), x, y, 0xFF4B3A2C,
+            graphics.text(font, Component.translatable("screen.csrp.compendium.empty"), x, y, 0xFF4B3A2C,
                     false);
             return;
         }
         ListEntry selected = entries.get(selectedIndex);
         if (!selected.unlocked) {
-            graphics.drawCenteredString(font, "?", x + 105, y + 80, 0xFF59483A);
-            graphics.drawCenteredString(font, Component.translatable("screen.csrp.compendium.locked"),
+            graphics.centeredText(font, "?", x + 105, y + 80, 0xFF59483A);
+            graphics.centeredText(font, Component.translatable("screen.csrp.compendium.locked"),
                     x + 105, y + 101, 0xFF59483A);
             return;
         }
-        graphics.drawString(font, selected.name, x, y, 0xFF392A20, false);
+        graphics.text(font, selected.name, x, y, 0xFF392A20, false);
         if (category == Category.PARASITES) {
             renderMobDetails(graphics, mobs.get(selected.sourceIndex), x, y + 14, mouseX, mouseY);
         } else if (category == Category.STATS) {
@@ -133,11 +134,11 @@ public final class CompendiumScreen extends Screen {
         }
     }
 
-    private void renderMobDetails(GuiGraphics graphics, CompendiumEntry entry, int x, int y, int mouseX, int mouseY) {
+    private void renderMobDetails(GuiGraphicsExtractor graphics, CompendiumEntry entry, int x, int y, int mouseX, int mouseY) {
         int kills = progress.kills().getOrDefault(entry.entityId(), 0);
-        graphics.drawString(font, Component.translatable("screen.csrp.compendium.tier",
+        graphics.text(font, Component.translatable("screen.csrp.compendium.tier",
                 translatedTier(entry.tier())), x, y, 0xFF654936, false);
-        graphics.drawString(font, Component.translatable("screen.csrp.compendium.kills", kills), x, y + 11,
+        graphics.text(font, Component.translatable("screen.csrp.compendium.kills", kills), x, y + 11,
                 0xFF654936, false);
         LivingEntity entity = preview(entry);
         if (entity != null) {
@@ -148,26 +149,26 @@ public final class CompendiumScreen extends Screen {
         }
         if (kills >= entry.minimumStatKills() && entity != null) {
             double damage = entity.getAttributeValue(Attributes.ATTACK_DAMAGE);
-            graphics.drawString(font, Component.translatable("screen.csrp.compendium.health",
+            graphics.text(font, Component.translatable("screen.csrp.compendium.health",
                     Math.round(entity.getMaxHealth())), x, y + 29, 0xFF49372B, false);
-            graphics.drawString(font, Component.translatable("screen.csrp.compendium.damage",
+            graphics.text(font, Component.translatable("screen.csrp.compendium.damage",
                     String.format("%.1f", damage)), x, y + 40, 0xFF49372B, false);
             renderDrops(graphics, entry, x, y + 53);
         } else {
-            graphics.drawString(font, Component.translatable("screen.csrp.compendium.stats_requirement",
+            graphics.text(font, Component.translatable("screen.csrp.compendium.stats_requirement",
                     entry.minimumStatKills()), x, y + 29, 0xFF785C48, false);
         }
         if (kills >= entry.minimumLoreKills()) {
             renderWrapped(graphics, cleanLore(CompendiumLanguage.get(entry.loreKey())), x, y + 112, 207, 0xFF49372B);
         } else {
-            graphics.drawString(font, Component.translatable("screen.csrp.compendium.lore_requirement",
+            graphics.text(font, Component.translatable("screen.csrp.compendium.lore_requirement",
                     entry.minimumLoreKills()), x, y + 112, 0xFF785C48, false);
         }
     }
 
-    private void renderDrops(GuiGraphics graphics, CompendiumEntry entry, int x, int y) {
+    private void renderDrops(GuiGraphicsExtractor graphics, CompendiumEntry entry, int x, int y) {
         List<String> drops = CompendiumClient.drops(entry.path());
-        graphics.drawString(font, Component.translatable("screen.csrp.compendium.drops"), x, y, 0xFF49372B,
+        graphics.text(font, Component.translatable("screen.csrp.compendium.drops"), x, y, 0xFF49372B,
                 false);
         int shown = 0;
         for (String drop : drops) {
@@ -176,10 +177,10 @@ public final class CompendiumScreen extends Screen {
                 continue;
             }
             ItemStack stack = new ItemStack(BuiltInRegistries.ITEM.get(id).orElseThrow().value());
-            graphics.renderItem(stack, x + shown * 19, y + 10);
+            graphics.item(stack, x + shown * 19, y + 10);
             if (minecraft != null && mouseInDropSlot(minecraft.mouseHandler.xpos(), minecraft.mouseHandler.ypos(),
                     x + shown * 19, y + 10)) {
-                graphics.renderTooltip(font, stack, (int) (minecraft.mouseHandler.xpos() * width / minecraft.getWindow().getScreenWidth()),
+                graphics.setTooltipForNextFrame(font, stack, (int) (minecraft.mouseHandler.xpos() * width / minecraft.getWindow().getScreenWidth()),
                         (int) (minecraft.mouseHandler.ypos() * height / minecraft.getWindow().getScreenHeight()));
             }
             shown++;
@@ -195,7 +196,7 @@ public final class CompendiumScreen extends Screen {
         return scaledX >= x && scaledX < x + 16 && scaledY >= y && scaledY < y + 16;
     }
 
-    private void renderStats(GuiGraphics graphics, int x, int y) {
+    private void renderStats(GuiGraphicsExtractor graphics, int x, int y) {
         int totalKills = progress.kills().values().stream().mapToInt(Integer::intValue).sum();
         List<Component> lines = new ArrayList<>();
         lines.add(Component.translatable("screen.csrp.compendium.total_kills", totalKills));
@@ -208,7 +209,7 @@ public final class CompendiumScreen extends Screen {
         lines.add(Component.translatable("screen.csrp.compendium.damage_from", String.format("%.1f", progress.damageFromParasites())));
         lines.add(Component.translatable("screen.csrp.compendium.deaths", progress.deathsByParasites()));
         for (int index = 0; index < lines.size(); index++) {
-            graphics.drawString(font, lines.get(index), x, y + index * 10, 0xFF49372B, false);
+            graphics.text(font, lines.get(index), x, y + index * 10, 0xFF49372B, false);
         }
     }
 
@@ -334,14 +335,14 @@ public final class CompendiumScreen extends Screen {
         };
     }
 
-    private void renderWrapped(GuiGraphics graphics, String text, int x, int y, int width, int color) {
+    private void renderWrapped(GuiGraphicsExtractor graphics, String text, int x, int y, int width, int color) {
         int line = 0;
         for (String paragraph : text.split("\\|")) {
             for (var sequence : font.split(Component.literal(paragraph.trim()), width)) {
                 if (y + line * 10 > (height + PANEL_HEIGHT) / 2 - 8) {
                     return;
                 }
-                graphics.drawString(font, sequence, x, y + line++ * 10, color, false);
+                graphics.text(font, sequence, x, y + line++ * 10, color, false);
             }
             line++;
         }

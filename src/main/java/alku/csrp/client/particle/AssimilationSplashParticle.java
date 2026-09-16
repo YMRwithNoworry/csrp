@@ -3,16 +3,16 @@ package alku.csrp.client.particle;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.RandomSource;
 
-public final class AssimilationSplashParticle extends TextureSheetParticle {
+public final class AssimilationSplashParticle extends SingleQuadParticle {
     private AssimilationSplashParticle(ClientLevel level, double x, double y, double z,
                                         double velocityX, double velocityY, double velocityZ,
                                         SpriteSet sprites) {
-        super(level, x, y, z, velocityX, velocityY, velocityZ);
+        super(level, x, y, z, velocityX, velocityY, velocityZ, sprites.get(0, 2));
         xd = velocityX;
         yd = velocityY;
         zd = velocityZ;
@@ -55,8 +55,8 @@ public final class AssimilationSplashParticle extends TextureSheetParticle {
     }
 
     @Override
-    public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+    protected SingleQuadParticle.Layer getLayer() {
+        return SingleQuadParticle.Layer.TRANSLUCENT;
     }
 
     public static final class Provider implements ParticleProvider<SimpleParticleType> {
@@ -69,7 +69,8 @@ public final class AssimilationSplashParticle extends TextureSheetParticle {
         @Override
         public Particle createParticle(SimpleParticleType type, ClientLevel level,
                                        double x, double y, double z,
-                                       double velocityX, double velocityY, double velocityZ) {
+                                       double velocityX, double velocityY, double velocityZ,
+                                       RandomSource random) {
             return new AssimilationSplashParticle(level, x, y, z,
                     velocityX, velocityY, velocityZ, sprites);
         }

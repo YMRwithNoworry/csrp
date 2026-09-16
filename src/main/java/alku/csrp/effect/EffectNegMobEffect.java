@@ -12,7 +12,7 @@ public final class EffectNegMobEffect extends MarkerMobEffect {
     }
 
     @Override
-    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
+    public boolean applyEffectTick(net.minecraft.server.level.ServerLevel serverLevel, LivingEntity entity, int amplifier) {
         if (!entity.level().isClientSide() && entity.tickCount % 20 == 0) {
             for (MobEffectInstance active : new ArrayList<>(entity.getActiveEffects())) {
                 if (active.getEffect().value().getCategory() == MobEffectCategory.HARMFUL) {

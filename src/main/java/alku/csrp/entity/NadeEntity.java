@@ -3,7 +3,7 @@ package alku.csrp.entity;
 import alku.csrp.config.MobsConfig;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -15,6 +15,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 
 import java.util.UUID;
@@ -111,13 +113,13 @@ public final class NadeEntity extends Entity {
             switch (getKind()) {
                 case ELVIA -> target.hurt(damageSources().mobAttack(owner), frameDamage);
                 case ACID -> {
-                    target.invulnerableTime = 0;
+                    target.setInvulnerableTime(0);
                     target.hurt(damageSources().mobAttack(owner), frameDamage);
                     target.addEffect(new MobEffectInstance(MobEffects.POISON, 40, 0), owner);
                     target.addEffect(new MobEffectInstance(ModMobEffects.CORROSION, 60, 0), owner);
                 }
                 case YELLOWEYE -> {
-                    target.invulnerableTime = 0;
+                    target.setInvulnerableTime(0);
                     target.hurt(damageSources().magic(), Math.max(frameDamage,
                             (float) MobsConfig.yelloweyeNadeDamage()));
                     owner.applyPrimitiveMinimumDamage(target);
@@ -160,31 +162,29 @@ public final class NadeEntity extends Entity {
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag tag) {
-        if (tag.hasUUID("owner")) {
-            ownerId = tag.getUUID("owner");
-        }
-        entityData.set(KIND, tag.getIntOr("kind", 0));
-        entityData.set(FUSE_PROGRESS, tag.getIntOr("fuse_progress", 0));
-        startDelayTicks = tag.getIntOr("start_delay_ticks", 0);
-        fuseTicks = Math.max(1, tag.getIntOr("fuse_ticks", 0));
-        durationTicks = Math.max(1, tag.getIntOr("duration_ticks", 0));
-        activeTicks = tag.getIntOr("active_ticks", 0);
-        damageTicks = tag.getIntOr("damage_ticks", 0);
+    protected void readAdditionalSaveData(ValueInput input) {
+        input.read("owner", UUIDUtil.CODEC).ifPresent(uuid -> ownerId = uuid);
+        entityData.set(KIND, input.getIntOr("kind", 0));
+        entityData.set(FUSE_PROGRESS, input.getIntOr("fuse_progress", 0));
+        startDelayTicks = input.getIntOr("start_delay_ticks", 0);
+        fuseTicks = Math.max(1, input.getIntOr("fuse_ticks", 0));
+        durationTicks = Math.max(1, input.getIntOr("duration_ticks", 0));
+        activeTicks = input.getIntOr("active_ticks", 0);
+        damageTicks = input.getIntOr("damage_ticks", 0);
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag tag) {
+    protected void addAdditionalSaveData(ValueOutput output) {
         if (ownerId != null) {
-            tag.putUUID("owner", ownerId);
+            output.store("owner", UUIDUtil.CODEC, ownerId);
         }
-        tag.putInt("kind", entityData.get(KIND));
-        tag.putInt("fuse_progress", entityData.get(FUSE_PROGRESS));
-        tag.putInt("start_delay_ticks", startDelayTicks);
-        tag.putInt("fuse_ticks", fuseTicks);
-        tag.putInt("duration_ticks", durationTicks);
-        tag.putInt("active_ticks", activeTicks);
-        tag.putInt("damage_ticks", damageTicks);
+        output.putInt("kind", entityData.get(KIND));
+        output.putInt("fuse_progress", entityData.get(FUSE_PROGRESS));
+        output.putInt("start_delay_ticks", startDelayTicks);
+        output.putInt("fuse_ticks", fuseTicks);
+        output.putInt("duration_ticks", durationTicks);
+        output.putInt("active_ticks", activeTicks);
+        output.putInt("damage_ticks", damageTicks);
     }
 
     @Override

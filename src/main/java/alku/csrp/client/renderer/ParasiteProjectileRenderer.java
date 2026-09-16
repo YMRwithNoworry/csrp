@@ -5,14 +5,19 @@ import alku.csrp.entity.ParasiteProjectileEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.Mth;
 
-public final class ParasiteProjectileRenderer extends EntityRenderer<ParasiteProjectileEntity> {
+public final class ParasiteProjectileRenderer
+        extends EntityRenderer<ParasiteProjectileEntity, ParasiteProjectileRenderer.State> {
     private static final Identifier DEFAULT_TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,
             "textures/entity/scary_orb.png");
     private static final Identifier LENCIA_TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,
@@ -37,53 +42,70 @@ public final class ParasiteProjectileRenderer extends EntityRenderer<ParasitePro
     }
 
     @Override
-    public void render(ParasiteProjectileEntity entity, float entityYaw, float partialTick, PoseStack poseStack,
-                       MultiBufferSource buffer, int packedLight) {
-        if (entity.isYelloweyeNadeArmed()) {
-            renderYelloweyeNade(entity, entityYaw, poseStack, buffer, packedLight);
-            super.render(entity, entityYaw, partialTick, poseStack, buffer, packedLight);
-            return;
-        }
-        if (!entity.shouldRenderAsBillboard()) {
-            super.render(entity, entityYaw, partialTick, poseStack, buffer, packedLight);
-            return;
-        }
-        float halfWidth = entity.getRenderWidth() * 0.5F;
-        float halfHeight = entity.getRenderHeight() * 0.5F;
-        poseStack.pushPose();
-        poseStack.mulPose(entityRenderDispatcher.cameraOrientation());
-        poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
-        PoseStack.Pose pose = poseStack.last();
-        VertexConsumer vertices = buffer.getBuffer(RenderType.entityCutoutNoCull(getTextureLocation(entity)));
-        vertex(vertices, pose, -halfWidth, -halfHeight, 0.0F, 1.0F, packedLight);
-        vertex(vertices, pose, halfWidth, -halfHeight, 1.0F, 1.0F, packedLight);
-        vertex(vertices, pose, halfWidth, halfHeight, 1.0F, 0.0F, packedLight);
-        vertex(vertices, pose, -halfWidth, halfHeight, 0.0F, 0.0F, packedLight);
-        poseStack.popPose();
-        super.render(entity, entityYaw, partialTick, poseStack, buffer, packedLight);
+    public State createRenderState() {
+        return new State();
     }
 
-    private void renderYelloweyeNade(ParasiteProjectileEntity entity, float entityYaw, PoseStack poseStack,
-                                     MultiBufferSource buffer, int packedLight) {
-        float halfWidth = entity.getRenderWidth() * 0.5F;
-        float height = entity.getRenderHeight();
-        poseStack.pushPose();
-        poseStack.mulPose(Axis.YP.rotationDegrees(180.0F - entityYaw));
-        PoseStack.Pose pose = poseStack.last();
-        VertexConsumer vertices = buffer.getBuffer(RenderType.entityCutoutNoCull(YELLOWEYE_NADE_TEXTURE));
+    @Override
+    public void extractRenderState(ParasiteProjectileEntity entity, State state, float partialTick) {
+        super.extractRenderState(entity, state, partialTick);
+        state.yRot = Mth.rotLerp(partialTick, entity.yRotO, entity.getYRot());
+        state.yelloweyeNadeArmed = entity.isYelloweyeNadeArmed();
+        state.billboard = entity.shouldRenderAsBillboard();
+        state.renderWidth = entity.getRenderWidth();
+        state.renderHeight = entity.getRenderHeight();
+        state.texture = getTextureLocation(entity);
+    }
 
-        quad(vertices, pose, -halfWidth, 0.0F, -halfWidth, halfWidth, height, -halfWidth,
-                0.25F, 0.5F, 0.5F, 1.0F, 0.0F, 0.0F, -1.0F, packedLight);
-        quad(vertices, pose, halfWidth, 0.0F, halfWidth, -halfWidth, height, halfWidth,
-                0.75F, 0.5F, 1.0F, 1.0F, 0.0F, 0.0F, 1.0F, packedLight);
-        quadX(vertices, pose, -halfWidth, 0.0F, halfWidth, height,
-                0.0F, 0.5F, 0.25F, 1.0F, -1.0F, 0.0F, 0.0F, packedLight);
-        quadX(vertices, pose, halfWidth, 0.0F, -halfWidth, height,
-                0.5F, 0.5F, 0.75F, 1.0F, 1.0F, 0.0F, 0.0F, packedLight);
-        quadY(vertices, pose, height, -halfWidth, halfWidth,
-                0.25F, 0.0F, 0.5F, 0.5F, 0.0F, 1.0F, 0.0F, packedLight);
-        quadY(vertices, pose, 0.0F, halfWidth, -halfWidth,
-                0.5F, 0.0F, 0.75F, 0.5F, 0.0F, -1.0F, 0.0F, packedLight);
+    @Override
+    public void submit(State state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector,
+                       CameraRenderState camera) {
+        if (state.yelloweyeNadeArmed) {
+            renderYelloweyeNade(state, poseStack, submitNodeCollector);
+            super.submit(state, poseStack, submitNodeCollector, camera);
+            return;
+        }
+        if (!state.billboard) {
+            super.submit(state, poseStack, submitNodeCollector, camera);
+            return;
+        }
+        float halfWidth = state.renderWidth * 0.5F;
+        float halfHeight = state.renderHeight * 0.5F;
+        poseStack.pushPose();
+        poseStack.rotate(camera.orientation);
+        poseStack.rotateDegrees(Axis.YP, 180.0F);
+        RenderType type = RenderTypes.entityCutout(state.texture);
+        submitNodeCollector.submitCustomGeometry(poseStack, type, (pose, vertices) -> {
+            vertex(vertices, pose, -halfWidth, -halfHeight, 0.0F, 1.0F, state.lightCoords);
+            vertex(vertices, pose, halfWidth, -halfHeight, 1.0F, 1.0F, state.lightCoords);
+            vertex(vertices, pose, halfWidth, halfHeight, 1.0F, 0.0F, state.lightCoords);
+            vertex(vertices, pose, -halfWidth, halfHeight, 0.0F, 0.0F, state.lightCoords);
+        });
+        poseStack.popPose();
+        super.submit(state, poseStack, submitNodeCollector, camera);
+    }
+
+    private static void renderYelloweyeNade(State state, PoseStack poseStack,
+                                            SubmitNodeCollector submitNodeCollector) {
+        float halfWidth = state.renderWidth * 0.5F;
+        float height = state.renderHeight;
+        poseStack.pushPose();
+        poseStack.rotateDegrees(Axis.YP, 180.0F - state.yRot);
+        RenderType type = RenderTypes.entityCutout(YELLOWEYE_NADE_TEXTURE);
+        submitNodeCollector.submitCustomGeometry(poseStack, type, (pose, vertices) -> {
+            quad(vertices, pose, -halfWidth, 0.0F, -halfWidth, halfWidth, height, -halfWidth,
+                    0.25F, 0.5F, 0.5F, 1.0F, 0.0F, 0.0F, -1.0F, state.lightCoords);
+            quad(vertices, pose, halfWidth, 0.0F, halfWidth, -halfWidth, height, halfWidth,
+                    0.75F, 0.5F, 1.0F, 1.0F, 0.0F, 0.0F, 1.0F, state.lightCoords);
+            quadX(vertices, pose, -halfWidth, 0.0F, halfWidth, height,
+                    0.0F, 0.5F, 0.25F, 1.0F, -1.0F, 0.0F, 0.0F, state.lightCoords);
+            quadX(vertices, pose, halfWidth, 0.0F, -halfWidth, height,
+                    0.5F, 0.5F, 0.75F, 1.0F, 1.0F, 0.0F, 0.0F, state.lightCoords);
+            quadY(vertices, pose, height, -halfWidth, halfWidth,
+                    0.25F, 0.0F, 0.5F, 0.5F, 0.0F, 1.0F, 0.0F, state.lightCoords);
+            quadY(vertices, pose, 0.0F, halfWidth, -halfWidth,
+                    0.5F, 0.0F, 0.75F, 0.5F, 0.0F, -1.0F, 0.0F, state.lightCoords);
+        });
         poseStack.popPose();
     }
 
@@ -137,8 +159,7 @@ public final class ParasiteProjectileRenderer extends EntityRenderer<ParasitePro
                 .setNormal(pose, 0.0F, 1.0F, 0.0F);
     }
 
-    @Override
-    public Identifier getTextureLocation(ParasiteProjectileEntity entity) {
+    private Identifier getTextureLocation(ParasiteProjectileEntity entity) {
         return switch (entity.getMode()) {
             case LENCIA_BALL -> LENCIA_TEXTURE;
             case ELVIA_BALL -> ELVIA_TEXTURE;
@@ -151,5 +172,15 @@ public final class ParasiteProjectileRenderer extends EntityRenderer<ParasitePro
             case BIOMASS_BALL -> BIOMASS_TEXTURE;
             default -> DEFAULT_TEXTURE;
         };
+    }
+
+    /** Per-frame snapshot of the projectile's billboard state. */
+    public static final class State extends EntityRenderState {
+        public float yRot;
+        public boolean yelloweyeNadeArmed;
+        public boolean billboard;
+        public float renderWidth;
+        public float renderHeight;
+        public Identifier texture;
     }
 }

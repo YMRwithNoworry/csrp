@@ -5,7 +5,7 @@ import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -46,6 +46,9 @@ import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -140,7 +143,7 @@ public final class AssimilatedParasiteEntity extends Monster
         goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
         targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,
-                true, false, this::isValidParasiteTarget));
+                true, false, (target, level) -> isValidParasiteTarget(target)));
     }
 
     @Override
@@ -187,10 +190,10 @@ public final class AssimilatedParasiteEntity extends Monster
     }
 
     @Override
-    public boolean doHurtTarget(Entity entity) {
+    public boolean doHurtTarget(ServerLevel level, Entity entity) {
         LivingEntity livingTarget = entity instanceof LivingEntity living ? living : null;
         float healthBefore = livingTarget == null ? 0.0F : ParasiteCombatEffects.healthWithAbsorption(livingTarget);
-        boolean hit = super.doHurtTarget(entity);
+        boolean hit = super.doHurtTarget(level, entity);
         if (hit && livingTarget != null) {
             ParasiteCombatEffects.applyFearFromDamage(livingTarget, healthBefore, this);
         }
@@ -208,19 +211,19 @@ public final class AssimilatedParasiteEntity extends Monster
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
-        return super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+        return super.hurtServer(level, source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
     }
 
     @Override
-    public boolean killedEntity(ServerLevel level, LivingEntity victim) {
+    public boolean killedEntity(ServerLevel level, LivingEntity victim, DamageSource source) {
         parasiteKills++;
         if (AssimilatedMeltSystem.tryStartGroup(this, parasiteKills)) {
             parasiteKills = 0;
         } else if (parasiteKills > FERAL_KILL_THRESHOLD) {
             transformToFeral(level);
         }
-        return super.killedEntity(level, victim);
+        return super.killedEntity(level, victim, source);
     }
 
     @Override
@@ -246,16 +249,16 @@ public final class AssimilatedParasiteEntity extends Monster
             return;
         }
         AssimilatedHeadEntity head = switch (kind) {
-            case COW -> ModEntities.SIM_COW_HEAD.get().create(serverLevel);
-            case PIG -> ModEntities.SIM_PIG_HEAD.get().create(serverLevel);
-            case SHEEP -> ModEntities.SIM_SHEEP_HEAD.get().create(serverLevel);
-            case WOLF -> ModEntities.SIM_WOLF_HEAD.get().create(serverLevel);
+            case COW -> ModEntities.SIM_COW_HEAD.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
+            case PIG -> ModEntities.SIM_PIG_HEAD.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
+            case SHEEP -> ModEntities.SIM_SHEEP_HEAD.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
+            case WOLF -> ModEntities.SIM_WOLF_HEAD.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
             case BEAR, SQUID -> null;
         };
         if (head == null) {
             return;
         }
-        head.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        head.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         head.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
                 EntitySpawnReason.MOB_SUMMONED, null);
         head.setCustomName(getCustomName());
@@ -268,18 +271,18 @@ public final class AssimilatedParasiteEntity extends Monster
 
     private void transformToFeral(ServerLevel level) {
         FeralParasiteEntity feral = switch (kind) {
-            case BEAR -> ModEntities.FER_BEAR.get().create(level);
-            case COW -> ModEntities.FER_COW.get().create(level);
-            case PIG -> ModEntities.FER_PIG.get().create(level);
-            case SHEEP -> ModEntities.FER_SHEEP.get().create(level);
-            case WOLF -> ModEntities.FER_WOLF.get().create(level);
+            case BEAR -> ModEntities.FER_BEAR.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+            case COW -> ModEntities.FER_COW.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+            case PIG -> ModEntities.FER_PIG.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+            case SHEEP -> ModEntities.FER_SHEEP.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+            case WOLF -> ModEntities.FER_WOLF.get().create(level, EntitySpawnReason.MOB_SUMMONED);
             case SQUID -> null;
         };
         if (feral == null) {
             return;
         }
 
-        feral.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        feral.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         feral.setTarget(getTarget());
         feral.setCustomName(getCustomName());
         feral.setCustomNameVisible(isCustomNameVisible());
@@ -361,11 +364,15 @@ public final class AssimilatedParasiteEntity extends Monster
         }
 
         ItemStack stack = player.getItemInHand(hand);
-        if (!(stack.getItem() instanceof DyeItem dyeItem)) {
+        if (!(stack.getItem() instanceof DyeItem)) {
+            return super.mobInteract(player, hand);
+        }
+        DyeColor dyeColor = stack.get(DataComponents.DYE);
+        if (dyeColor == null) {
             return super.mobInteract(player, hand);
         }
 
-        int variant = sheepVariantForDye(dyeItem.getDyeColor());
+        int variant = sheepVariantForDye(dyeColor);
         if (variant < 0) {
             return InteractionResult.PASS;
         }
@@ -375,29 +382,29 @@ public final class AssimilatedParasiteEntity extends Monster
                 stack.shrink(1);
             }
         }
-        return InteractionResult.sidedSuccess(level().isClientSide());
+        return level().isClientSide() ? InteractionResult.SUCCESS : InteractionResult.CONSUME;
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putInt("parasite_kills", parasiteKills);
-        tag.putInt("sheep_texture_variant", getSheepTextureVariant());
-        tag.putBoolean("tamed_wolf_texture", hasTamedWolfTexture());
-        tag.putBoolean("melting", isMelting());
-        tag.putFloat("melt_height", getMeltHeight());
-        tag.putInt("melt_ticks", meltTicks);
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putInt("parasite_kills", parasiteKills);
+        output.putInt("sheep_texture_variant", getSheepTextureVariant());
+        output.putBoolean("tamed_wolf_texture", hasTamedWolfTexture());
+        output.putBoolean("melting", isMelting());
+        output.putFloat("melt_height", getMeltHeight());
+        output.putInt("melt_ticks", meltTicks);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        parasiteKills = tag.getIntOr("parasite_kills", 0);
-        setSheepTextureVariant(tag.getIntOr("sheep_texture_variant", 0));
-        setTamedWolfTexture(tag.getBooleanOr("tamed_wolf_texture", false));
-        entityData.set(MELTING, tag.getBooleanOr("melting", false));
-        entityData.set(MELT_HEIGHT, tag.getFloatOr("melt_height", 0.0F));
-        meltTicks = tag.getIntOr("melt_ticks", 0);
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        parasiteKills = input.getIntOr("parasite_kills", 0);
+        setSheepTextureVariant(input.getIntOr("sheep_texture_variant", 0));
+        setTamedWolfTexture(input.getBooleanOr("tamed_wolf_texture", false));
+        entityData.set(MELTING, input.getBooleanOr("melting", false));
+        entityData.set(MELT_HEIGHT, input.getFloatOr("melt_height", 0.0F));
+        meltTicks = input.getIntOr("melt_ticks", 0);
     }
 
     @Override
@@ -584,6 +591,11 @@ public final class AssimilatedParasiteEntity extends Monster
         return target != this && target.isAlive() && !(target instanceof Parasite);
     }
 
+    /** Replaces the removed {@code Entity#isInWaterOrBubble()} with the equivalent bubble-column check. */
+    private boolean isInWaterOrBubble() {
+        return isInWater() || level().getBlockState(blockPosition()).is(Blocks.BUBBLE_COLUMN);
+    }
+
     private void infectNearby() {
         for (LivingEntity nearby : level().getEntitiesOfClass(LivingEntity.class,
                 getBoundingBox().inflate(COTH_AURA_RADIUS), this::isValidParasiteTarget)) {
@@ -697,7 +709,7 @@ public final class AssimilatedParasiteEntity extends Monster
                     getBoundingBox().inflate(1.0D, 0.0D, 1.0D));
             for (LivingEntity nearby : level().getEntitiesOfClass(LivingEntity.class,
                     getBoundingBox().inflate(1.0D, 0.0D, 1.0D), AssimilatedParasiteEntity.this::isValidParasiteTarget)) {
-                if (nearby.hurt(damageSources().mobAttack(AssimilatedParasiteEntity.this),
+                if (nearby.hurtOrSimulate(damageSources().mobAttack(AssimilatedParasiteEntity.this),
                         (float) getAttributeValue(Attributes.ATTACK_DAMAGE))) {
                     Vec3 push = nearby.position().subtract(position());
                     if (push.lengthSqr() > 0.001D) {

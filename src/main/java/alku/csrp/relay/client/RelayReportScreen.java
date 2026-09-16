@@ -3,7 +3,7 @@ package alku.csrp.relay.client;
 import alku.csrp.item.RelayReportItem;
 import java.util.ArrayList;
 import java.util.List;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
@@ -43,14 +43,13 @@ public final class RelayReportScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-        renderBackground(graphics, mouseX, mouseY, partialTick);
+    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
         int left = (width - PANEL_WIDTH) / 2;
         int top = (height - PANEL_HEIGHT) / 2;
         graphics.fill(left, top, left + PANEL_WIDTH, top + PANEL_HEIGHT, 0xFF111315);
         graphics.fill(left + 2, top + 2, left + PANEL_WIDTH - 2, top + PANEL_HEIGHT - 2, 0xFFE5DFCF);
         graphics.fill(left + 10, top + 36, left + PANEL_WIDTH - 10, top + PANEL_HEIGHT - 36, 0xFFF2ECDC);
-        graphics.drawCenteredString(font, title, width / 2, top + 14, 0xFF342B2D);
+        graphics.centeredText(font, title, width / 2, top + 14, 0xFF342B2D);
 
         int bodyTop = top + 43;
         int bodyBottom = top + PANEL_HEIGHT - 42;
@@ -58,7 +57,7 @@ public final class RelayReportScreen extends Screen {
         int lineY = bodyTop - scroll * 11;
         for (FormattedCharSequence line : wrappedLines) {
             if (lineY >= bodyTop - 10 && lineY < bodyBottom) {
-                graphics.drawString(font, line, left + 20, lineY, 0xFF3A3132, false);
+                graphics.text(font, line, left + 20, lineY, 0xFF3A3132, false);
             }
             lineY += 11;
         }
@@ -74,7 +73,7 @@ public final class RelayReportScreen extends Screen {
             graphics.fill(left + PANEL_WIDTH - 19, thumbY,
                     left + PANEL_WIDTH - 14, thumbY + thumbHeight, 0xFF6D5C5F);
         }
-        super.render(graphics, mouseX, mouseY, partialTick);
+        super.extractRenderState(graphics, mouseX, mouseY, partialTick);
     }
 
     @Override

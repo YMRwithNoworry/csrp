@@ -42,7 +42,7 @@ public final class TrophyBlock extends Block implements EntityBlock {
             level.playSound(null, pos, kind == Kind.VOID ? ModSounds.ORB_START.get() : ModSounds.ORB_END.get(),
                     SoundSource.BLOCKS, 1.0F, 1.0F);
         }
-        return InteractionResult.sidedSuccess(level.isClientSide());
+        return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.CONSUME;
     }
 
     public enum Kind {

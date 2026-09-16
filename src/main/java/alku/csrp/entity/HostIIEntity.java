@@ -2,7 +2,6 @@ package alku.csrp.entity;
 
 import alku.csrp.registry.ModEntities;
 import alku.csrp.config.MobsConfig;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -10,6 +9,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import alku.csrp.animation.CitadelAnimationManager;
 import alku.csrp.animation.CitadelAnimationController;
 import alku.csrp.animation.CitadelRawAnimation;
@@ -212,21 +213,21 @@ public final class HostIIEntity extends AbstractHostEntity {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putFloat("buried_timer", getBuriedTimer());
-        tag.putBoolean("mouth_open", isMouthOpen());
-        tag.putFloat("attack_timer", getAttackTimer());
-        tag.putBoolean("attack_up", isAttackUp());
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putFloat("buried_timer", getBuriedTimer());
+        output.putBoolean("mouth_open", isMouthOpen());
+        output.putFloat("attack_timer", getAttackTimer());
+        output.putBoolean("attack_up", isAttackUp());
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        entityData.set(BURIED_TIMER, tag.getFloatOr("buried_timer", 0.0F));
-        entityData.set(MOUTH_OPEN, tag.getBooleanOr("mouth_open", false));
-        entityData.set(ATTACK_TIMER, tag.getFloatOr("attack_timer", 0.0F));
-        entityData.set(ATTACK_UP, tag.getBooleanOr("attack_up", false));
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        entityData.set(BURIED_TIMER, input.getFloatOr("buried_timer", 0.0F));
+        entityData.set(MOUTH_OPEN, input.getBooleanOr("mouth_open", false));
+        entityData.set(ATTACK_TIMER, input.getFloatOr("attack_timer", 0.0F));
+        entityData.set(ATTACK_UP, input.getBooleanOr("attack_up", false));
     }
 
     private void summonManglers() {

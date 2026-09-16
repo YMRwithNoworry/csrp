@@ -1,71 +1,49 @@
 package alku.csrp.celestial.client;
 
 import alku.csrp.Csrp;
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.platform.NativeImage;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.MeshData;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexBuffer;
-import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ShaderInstance;
-import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.resources.Identifier;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.biome.Biome;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
-import org.joml.Matrix4f;
+import net.neoforged.neoforge.client.event.SubmitCustomGeometryEvent;
 import org.joml.Vector3f;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Overlays an aurora sky (port of the Godot "Aurora Sky Shader") while the
  * local player is inside a snow-related biome. The aurora is drawn as a large
- * sphere right after the vanilla sky, blended with SRC_ALPHA so the base sky
- * stays intact.
+ * dome over the player, blended with SRC_ALPHA so the base sky stays intact.
+ *
+ * <p>26.3 replaced the immediate-mode shader/vertex-buffer path with the
+ * {@code SubmitNodeCollector} pipeline. The original custom core shader had
+ * runtime uniforms that no longer exist, so this now bakes the colour gradient
+ * into per-vertex colours and submits the dome once per frame.</p>
  */
 @EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT)
 public final class AuroraSkyRenderer {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AuroraSkyRenderer.class);
-    private static final Identifier SHADER_LOCATION =
-            Identifier.fromNamespaceAndPath(Csrp.MODID, "aurora_sky");
     private static final float RADIUS = 100.0F;
     private static final float BRIGHTNESS = 1.7F;
-    private static final float SPEED = 0.12F;
-    private static final float HEIGHT = 42.0F;
-    private static final float SCALE = 0.8F;
     private static final int LATITUDE_SEGMENTS = 24;
     private static final int LONGITUDE_SEGMENTS = 48;
 
-    private static ShaderInstance shader;
-    private static DynamicTexture gradientTexture;
-    private static boolean loadAttempted;
+    private static float[] cachedPositions;
+    private static int[] cachedColors;
 
     private AuroraSkyRenderer() {
     }
 
     @SubscribeEvent
-    public static void render(RenderLevelStageEvent event) {
-        if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_SKY) {
-            return;
-        }
+    public static void render(SubmitCustomGeometryEvent event) {
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.level == null || minecraft.player == null
                 || !isNight(minecraft) || !isSnowyBiome(minecraft)) {
             return;
         }
-        ensureLoaded(minecraft);
-        if (shader == null) {
-            return;
-        }
-        renderAuroraSphere(event, minecraft);
+        renderAuroraSphere(event);
     }
 
     private static boolean isSnowyBiome(Minecraft minecraft) {
@@ -79,29 +57,55 @@ public final class AuroraSkyRenderer {
         return timeOfDay >= 13000L && timeOfDay <= 23000L;
     }
 
-    private static void ensureLoaded(Minecraft minecraft) {
-        if (shader != null || loadAttempted) {
-            return;
+    private static void renderAuroraSphere(SubmitCustomGeometryEvent event) {
+        if (cachedPositions == null) {
+            buildAuroraMesh();
         }
-        loadAttempted = true;
-        try {
-            shader = new ShaderInstance(minecraft.getResourceManager(), SHADER_LOCATION,
-                    DefaultVertexFormat.POSITION);
-            gradientTexture = createGradientTexture();
-            shader.setSampler("ColorGradient", gradientTexture);
-        } catch (Exception exception) {
-            LOGGER.error("Failed to load aurora sky shader", exception);
+        PoseStack poseStack = event.getPoseStack();
+        RenderType renderType = RenderTypes.debugQuads();
+        event.getSubmitNodeCollector().submitCustomGeometry(poseStack, renderType, (pose, buffer) -> {
+            for (int vertex = 0; vertex < cachedColors.length; vertex++) {
+                buffer.addVertex(pose, cachedPositions[vertex * 3], cachedPositions[vertex * 3 + 1],
+                                cachedPositions[vertex * 3 + 2])
+                        .setColor(cachedColors[vertex]);
+            }
+        });
+    }
+
+    private static void buildAuroraMesh() {
+        // Aurora is only visible above the horizon; avoid rasterizing the discarded lower half.
+        int hemisphereSegments = LATITUDE_SEGMENTS / 2;
+        int vertexCount = hemisphereSegments * LONGITUDE_SEGMENTS * 4;
+        cachedPositions = new float[vertexCount * 3];
+        cachedColors = new int[vertexCount];
+        int vertex = 0;
+        for (int lat = 0; lat < hemisphereSegments; lat++) {
+            float theta0 = (float) lat / LATITUDE_SEGMENTS * (float) Math.PI;
+            float theta1 = (float) (lat + 1) / LATITUDE_SEGMENTS * (float) Math.PI;
+            for (int lon = 0; lon < LONGITUDE_SEGMENTS; lon++) {
+                float phi0 = (float) lon / LONGITUDE_SEGMENTS * (float) (Math.PI * 2.0D);
+                float phi1 = (float) (lon + 1) / LONGITUDE_SEGMENTS * (float) (Math.PI * 2.0D);
+                vertex = writeVertex(vertex, direction(theta0, phi0));
+                vertex = writeVertex(vertex, direction(theta0, phi1));
+                vertex = writeVertex(vertex, direction(theta1, phi1));
+                vertex = writeVertex(vertex, direction(theta1, phi0));
+            }
         }
     }
 
-    private static DynamicTexture createGradientTexture() {
-        NativeImage image = new NativeImage(256, 1, true);
-        for (int x = 0; x < 256; x++) {
-            image.setPixelRGBA(x, 0, gradientColor(x / 255.0F));
-        }
-        DynamicTexture texture = new DynamicTexture(image);
-        texture.setFilter(false, true);
-        return texture;
+    private static int writeVertex(int vertex, Vector3f position) {
+        cachedPositions[vertex * 3] = position.x;
+        cachedPositions[vertex * 3 + 1] = position.y;
+        cachedPositions[vertex * 3 + 2] = position.z;
+        cachedColors[vertex] = auroraColor(Mth.clamp(position.y / RADIUS, 0.0F, 1.0F));
+        return vertex + 1;
+    }
+
+    private static int auroraColor(float height) {
+        int rgb = gradientColor(Mth.clamp(height, 0.0F, 1.0F));
+        float intensity = Mth.sin((float) Math.PI * Mth.clamp(height, 0.0F, 1.0F)) * BRIGHTNESS;
+        int alpha = (int) (255.0F * Mth.clamp(intensity, 0.0F, 1.0F));
+        return (alpha << 24) | (rgb & 0x00FFFFFF);
     }
 
     private static int gradientColor(float t) {
@@ -122,97 +126,14 @@ public final class AuroraSkyRenderer {
         return (255 << 24) | (blue << 16) | (green << 8) | red;
     }
 
-    private static VertexBuffer cachedVertexBuffer;
-
-    private static void renderAuroraSphere(RenderLevelStageEvent event, Minecraft minecraft) {
-        PoseStack poseStack = new PoseStack();
-        poseStack.mulPose(event.getModelViewMatrix());
-        Matrix4f matrix = poseStack.last().pose();
-
-        float partialTick = event.getPartialTick().getGameTimeDeltaPartialTick(false);
-        shader.getUniform("AuroraTime").set((minecraft.level.getGameTime() + partialTick) / 20.0F);
-        shader.getUniform("Brightness").set(BRIGHTNESS);
-        shader.getUniform("Speed").set(SPEED);
-        shader.getUniform("Height").set(HEIGHT);
-        shader.getUniform("Scale").set(SCALE);
-
-        try {
-            RenderSystem.depthMask(false);
-            RenderSystem.disableDepthTest();
-            RenderSystem.disableCull();
-            RenderSystem.enableBlend();
-            RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA,
-                    GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-
-            // 使用缓存的 VertexBuffer 以提高性能
-            if (cachedVertexBuffer == null) {
-                cachedVertexBuffer = buildAuroraMesh();
-            }
-
-            cachedVertexBuffer.bind();
-            cachedVertexBuffer.drawWithShader(matrix, event.getProjectionMatrix(), shader);
-            VertexBuffer.unbind();
-        } finally {
-            // 恢复渲染状态，确保不影响后续 GUI 渲染
-            RenderSystem.enableCull();
-            RenderSystem.enableDepthTest();
-            RenderSystem.depthMask(true);
-            RenderSystem.disableBlend();
-            RenderSystem.defaultBlendFunc();
-
-            // 确保颜色状态正确，防止 GUI 透明
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        }
-    }
-
-    private static VertexBuffer buildAuroraMesh() {
-        BufferBuilder buffer = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS,
-                DefaultVertexFormat.POSITION);
-        // Aurora is only visible above the horizon; avoid rasterizing the discarded lower half.
-        int hemisphereSegments = LATITUDE_SEGMENTS / 2;
-        for (int lat = 0; lat < hemisphereSegments; lat++) {
-            float theta0 = (float) lat / LATITUDE_SEGMENTS * (float) Math.PI;
-            float theta1 = (float) (lat + 1) / LATITUDE_SEGMENTS * (float) Math.PI;
-            for (int lon = 0; lon < LONGITUDE_SEGMENTS; lon++) {
-                float phi0 = (float) lon / LONGITUDE_SEGMENTS * (float) (Math.PI * 2.0D);
-                float phi1 = (float) (lon + 1) / LONGITUDE_SEGMENTS * (float) (Math.PI * 2.0D);
-                addVertex(buffer, direction(theta0, phi0));
-                addVertex(buffer, direction(theta0, phi1));
-                addVertex(buffer, direction(theta1, phi1));
-                addVertex(buffer, direction(theta1, phi0));
-            }
-        }
-        MeshData meshData = buffer.buildOrThrow();
-        VertexBuffer vertexBuffer = new VertexBuffer(VertexBuffer.Usage.STATIC);
-        vertexBuffer.bind();
-        vertexBuffer.upload(meshData);
-        VertexBuffer.unbind();
-        return vertexBuffer;
-    }
-
     private static Vector3f direction(float theta, float phi) {
         float sinTheta = (float) Math.sin(theta);
         return new Vector3f(sinTheta * (float) Math.cos(phi), (float) Math.cos(theta),
                 sinTheta * (float) Math.sin(phi)).mul(RADIUS);
     }
 
-    private static void addVertex(BufferBuilder buffer, Vector3f direction) {
-        buffer.addVertex(direction.x, direction.y, direction.z);
-    }
-
     public static void dispose() {
-        if (shader != null) {
-            shader.close();
-            shader = null;
-        }
-        if (gradientTexture != null) {
-            gradientTexture.close();
-            gradientTexture = null;
-        }
-        if (cachedVertexBuffer != null) {
-            cachedVertexBuffer.close();
-            cachedVertexBuffer = null;
-        }
-        loadAttempted = false;
+        cachedPositions = null;
+        cachedColors = null;
     }
 }

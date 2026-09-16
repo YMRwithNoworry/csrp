@@ -8,7 +8,6 @@ import alku.csrp.world.EvolutionSystem;
 import alku.csrp.world.SrpWorldData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.RandomSource;
@@ -26,6 +25,9 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import alku.csrp.animation.CitadelAnimationManager;
@@ -151,7 +153,7 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
         if (source.is(DamageTypeTags.IS_PROJECTILE)) {
             Mob ally = level().isClientSide() ? null : findTeleportAlly();
             if (!level().isClientSide() && teleportAwayFromTarget(getTarget(), true)) {
@@ -159,7 +161,7 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
             }
             return false;
         }
-        boolean damaged = super.hurt(source, cappedDamage(source, amount));
+        boolean damaged = super.hurtServer(level, source, cappedDamage(source, amount));
         if (damaged && isAlive() && !level().isClientSide()) {
             allyTeleportCooldown = 0;
             if (random.nextFloat() < 0.10F) {
@@ -174,10 +176,10 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
     }
 
     @Override
-    public boolean doHurtTarget(Entity target) {
+    public boolean doHurtTarget(ServerLevel level, Entity target) {
         LivingEntity livingTarget = target instanceof LivingEntity living ? living : null;
         float healthBefore = livingTarget == null ? 0.0F : ParasiteCombatEffects.healthWithAbsorption(livingTarget);
-        boolean damaged = super.doHurtTarget(target);
+        boolean damaged = super.doHurtTarget(level, target);
         if (damaged && livingTarget != null) {
             applyMinimumDamage(livingTarget, healthBefore);
         }
@@ -199,19 +201,19 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putInt("target_ticks", targetTicks);
-        tag.putInt("teleport_cooldown", teleportCooldown);
-        tag.putInt("ally_teleport_cooldown", allyTeleportCooldown);
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putInt("target_ticks", targetTicks);
+        output.putInt("teleport_cooldown", teleportCooldown);
+        output.putInt("ally_teleport_cooldown", allyTeleportCooldown);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        targetTicks = tag.getIntOr("target_ticks", 0);
-        teleportCooldown = tag.getIntOr("teleport_cooldown", 0);
-        allyTeleportCooldown = tag.getIntOr("ally_teleport_cooldown", 0);
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        targetTicks = input.getIntOr("target_ticks", 0);
+        teleportCooldown = input.getIntOr("teleport_cooldown", 0);
+        allyTeleportCooldown = input.getIntOr("ally_teleport_cooldown", 0);
     }
 
     public static float cothChance() {
@@ -336,10 +338,10 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
 
     private boolean teleportEntity(Entity entity, Vec3 requestedPosition) {
         BlockPos position = BlockPos.containing(requestedPosition);
-        while (position.getY() > level().getMinY() && !level().getBlockState(position).blocksMotion()) {
+        while (position.getY() > level().getMinY() && !level().getBlockState(position).isSolid()) {
             position = position.below();
         }
-        if (!level().getBlockState(position).blocksMotion()) {
+        if (!level().getBlockState(position).isSolid()) {
             return false;
         }
 
@@ -398,7 +400,7 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
             return;
         }
         Vec3 movement = getDeltaMovement();
-        if (target.isInWaterOrBubble()) {
+        if (target.isInWater() || target.level().getBlockState(target.blockPosition()).is(Blocks.BUBBLE_COLUMN)) {
             Vec3 direction = target.getEyePosition().subtract(getEyePosition());
             if (direction.lengthSqr() > 0.001D) {
                 Vec3 pursuit = direction.normalize().scale(0.14D);
@@ -408,6 +410,11 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
         } else if (tickCount % 20 == 0) {
             setDeltaMovement(movement.x, Math.max(0.28D, movement.y), movement.z);
         }
+    }
+
+    /** Replaces the removed {@code Entity#isInWaterOrBubble()} with the equivalent bubble-column check. */
+    private boolean isInWaterOrBubble() {
+        return isInWater() || level().getBlockState(blockPosition()).is(Blocks.BUBBLE_COLUMN);
     }
 
     private boolean canTeleportAlly(Mob ally) {
@@ -444,7 +451,7 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
         GnatEntity gnat = ModEntities.GNAT.get().create(serverLevel, null, blockPosition(),
                 EntitySpawnReason.MOB_SUMMONED, false, false);
         if (gnat != null) {
-            gnat.moveTo(getX(), getY() + 0.25D, getZ(), random.nextFloat() * 360.0F, 0.0F);
+            gnat.snapTo(getX(), getY() + 0.25D, getZ(), random.nextFloat() * 360.0F, 0.0F);
             gnat.setDeltaMovement((random.nextDouble() - 0.5D) * 0.3D, 0.3D,
                     (random.nextDouble() - 0.5D) * 0.3D);
             serverLevel.addFreshEntity(gnat);
@@ -455,12 +462,13 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
     }
 
     private void placeFeralRemains(BlockPos origin) {
-        if (!level().getGameRules().getBooleanOr(GameRules.RULE_MOBGRIEFING, false)) {
+        if (!(level() instanceof ServerLevel serverLevel)
+                || !serverLevel.getGameRules().get(GameRules.MOB_GRIEFING)) {
             return;
         }
         for (int offset = 0; offset <= 4; offset++) {
             BlockPos candidate = origin.below(offset);
-            if (level().isEmptyBlock(candidate) && level().getBlockState(candidate.below()).blocksMotion()) {
+            if (level().isEmptyBlock(candidate) && level().getBlockState(candidate.below()).isSolid()) {
                 level().setBlock(candidate, ModBlocks.INFESTED_REMAINS.get().defaultBlockState(), 3);
                 return;
             }

@@ -2,7 +2,7 @@ package alku.csrp.item;
 
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -22,16 +22,16 @@ public final class AlveolarFluidItem extends Item {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         player.startUsingItem(hand);
-        return InteractionResultHolder.consume(player.getItemInHand(hand));
+        return InteractionResult.CONSUME.heldItemTransformedTo(player.getItemInHand(hand));
     }
 
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity user) {
         if (!level.isClientSide()) {
             user.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, EFFECT_DURATION_TICKS, 0));
-            user.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, EFFECT_DURATION_TICKS, 0));
+            user.addEffect(new MobEffectInstance(MobEffects.SPEED, EFFECT_DURATION_TICKS, 0));
             user.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, EFFECT_DURATION_TICKS, 2));
         }
         if (user instanceof Player player) {

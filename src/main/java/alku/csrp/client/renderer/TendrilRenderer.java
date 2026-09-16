@@ -14,7 +14,7 @@ public final class TendrilRenderer extends ParasiteGeoRenderer<TendrilEntity> {
 
     @Override
     protected void scale(TendrilEntity entity, PoseStack poseStack, float partialTick) {
-        poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
+        poseStack.rotate(Axis.YP.rotationDegrees(180.0F));
         super.scale(entity, poseStack, partialTick);
     }
 }

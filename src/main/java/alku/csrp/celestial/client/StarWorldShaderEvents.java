@@ -3,15 +3,11 @@ package alku.csrp.celestial.client;
 import alku.csrp.Csrp;
 import alku.csrp.config.WorldConfig;
 import alku.csrp.world.SrpStarType;
+import java.util.List;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.PostChain;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LightLayer;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -20,16 +16,12 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
 @EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT)
 public final class StarWorldShaderEvents {
     private static final Identifier COLD_SHADER = Identifier.fromNamespaceAndPath(
-            Csrp.MODID, "shaders/post/star_cold.json");
+            Csrp.MODID, "star_cold");
     private static final Identifier WARM_SHADER = Identifier.fromNamespaceAndPath(
-            Csrp.MODID, "shaders/post/star_warm.json");
+            Csrp.MODID, "star_warm");
 
-    private static PostChain loadedEffect;
     private static Identifier activeShader;
     private static boolean loadAttempted;
-    private static long startedAt;
-    private static float fade;
-    private static float handLight;
 
     private StarWorldShaderEvents() {
     }
@@ -47,41 +39,24 @@ public final class StarWorldShaderEvents {
             return;
         }
 
+        // 26.3 post effects are requested through the local player's active list; the
+        // shader's former runtime uniforms are now baked into the post-effect config.
+        List<Identifier> activeEffects = minecraft.player.getActivePostEffects();
         if (activeShader != null && !activeShader.equals(wanted)) {
-            unload(minecraft);
+            activeEffects.remove(activeShader);
+            activeShader = null;
             loadAttempted = false;
         }
-        if (loadedEffect == null) {
-            if (loadAttempted || minecraft.gameRenderer.currentEffect() != null) {
+        if (activeShader == null) {
+            if (loadAttempted || !activeEffects.isEmpty()) {
                 return;
             }
             loadAttempted = true;
-            minecraft.gameRenderer.loadEffect(wanted);
-            loadedEffect = minecraft.gameRenderer.currentEffect();
-            if (loadedEffect != null) {
-                activeShader = wanted;
-                startedAt = System.nanoTime();
-                fade = 0.0F;
-            }
-            return;
+            activeEffects.add(wanted);
+            activeShader = wanted;
+        } else if (!activeEffects.contains(activeShader)) {
+            activeEffects.add(activeShader);
         }
-        if (minecraft.gameRenderer.currentEffect() != loadedEffect) {
-            loadedEffect = null;
-            activeShader = null;
-            loadAttempted = false;
-            return;
-        }
-
-        fade = Math.min(1.0F, fade + 0.035F);
-        float targetHandLight = holdingLight(minecraft) ? 1.0F : 0.0F;
-        handLight += (targetHandLight - handLight) * 0.085F;
-        BlockPos eye = BlockPos.containing(minecraft.player.getEyePosition());
-        float exposure = minecraft.level.canSeeSky(eye)
-                ? minecraft.level.getBrightness(LightLayer.SKY, eye) / 15.0F : 0.0F;
-        loadedEffect.setUniform("SRP_Time", (System.nanoTime() - startedAt) / 1_000_000_000.0F);
-        loadedEffect.setUniform("SRP_Exposure", Math.clamp(exposure, 0.0F, 1.0F));
-        loadedEffect.setUniform("SRP_Fade", fade);
-        loadedEffect.setUniform("SRP_HandLight", handLight);
     }
 
     private static Identifier wantedShader(Minecraft minecraft) {
@@ -103,29 +78,10 @@ public final class StarWorldShaderEvents {
         return null;
     }
 
-    private static boolean holdingLight(Minecraft minecraft) {
-        return lightEmission(minecraft.player.getMainHandItem()) > 0
-                || lightEmission(minecraft.player.getOffhandItem()) > 0;
-    }
-
-    private static int lightEmission(ItemStack stack) {
-        if (stack.is(Items.TORCH) || stack.is(Items.SOUL_TORCH) || stack.is(Items.LANTERN)
-                || stack.is(Items.SOUL_LANTERN)) {
-            return 15;
-        }
-        if (stack.getItem() instanceof BlockItem blockItem) {
-            return blockItem.getBlock().defaultBlockState().getLightEmission();
-        }
-        return 0;
-    }
-
     private static void unload(Minecraft minecraft) {
-        if (loadedEffect != null && minecraft.gameRenderer.currentEffect() == loadedEffect) {
-            minecraft.gameRenderer.shutdownEffect();
+        if (activeShader != null && minecraft.player != null) {
+            minecraft.player.getActivePostEffects().remove(activeShader);
         }
-        loadedEffect = null;
         activeShader = null;
-        fade = 0.0F;
-        handLight = 0.0F;
     }
 }

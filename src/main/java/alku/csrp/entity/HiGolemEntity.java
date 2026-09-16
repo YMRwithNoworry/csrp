@@ -1,6 +1,5 @@
 package alku.csrp.entity;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -13,6 +12,8 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import alku.csrp.animation.CitadelAnimationManager;
 import alku.csrp.animation.CitadelAnimationController;
@@ -143,17 +144,17 @@ public final class HiGolemEntity extends HijackedParasiteEntity {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putInt("charge_cooldown", chargeCooldown);
-        tag.putInt("parasite_status", getParasiteStatus());
+    public void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putInt("charge_cooldown", chargeCooldown);
+        output.putInt("parasite_status", getParasiteStatus());
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        chargeCooldown = tag.getIntOr("charge_cooldown", 0);
-        setParasiteStatus(tag.getIntOr("parasite_status", 0));
+    public void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        chargeCooldown = input.getIntOr("charge_cooldown", 0);
+        setParasiteStatus(input.getIntOr("parasite_status", 0));
     }
 
     private final class GolemChargeGoal extends Goal {

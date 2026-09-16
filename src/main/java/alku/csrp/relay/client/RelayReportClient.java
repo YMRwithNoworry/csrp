@@ -9,6 +9,6 @@ public final class RelayReportClient {
     }
 
     public static void open(String type, CompoundTag data) {
-        Minecraft.getInstance().setScreen(new RelayReportScreen(RelayReportItem.Type.byId(type), data));
+        Minecraft.getInstance().gui.setScreen(new RelayReportScreen(RelayReportItem.Type.byId(type), data));
     }
 }

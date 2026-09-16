@@ -1,92 +1,79 @@
 package alku.csrp.client.particle;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
-import com.mojang.blaze3d.vertex.VertexConsumer;
+import alku.csrp.Csrp;
+import com.mojang.renderpearl.api.pipeline.BlendFactor;
+import com.mojang.renderpearl.api.pipeline.BlendFunction;
+import com.mojang.renderpearl.api.pipeline.ColorTargetState;
+import com.mojang.renderpearl.api.pipeline.CompareOp;
+import com.mojang.renderpearl.api.pipeline.DepthStencilState;
+import com.mojang.renderpearl.api.pipeline.RenderPipeline;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.particle.TextureSheetParticle;
-import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.state.level.QuadParticleRenderState;
 import net.minecraft.client.renderer.texture.TextureAtlas;
-import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.resources.Identifier;
+import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
+import org.joml.Quaternionf;
 
-public final class KirinWarningParticle extends TextureSheetParticle {
-    private static final ParticleRenderType ADDITIVE_RENDER_TYPE = new ParticleRenderType() {
-        @Override
-        public BufferBuilder begin(Tesselator tesselator, TextureManager textureManager) {
-            RenderSystem.depthMask(false);
-            RenderSystem.setShader(GameRenderer::getParticleShader);
-            RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
-            RenderSystem.enableBlend();
-            RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
-            return tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
-        }
-
-        @Override
-        public String toString() {
-            return "csrp:kirin_warning_additive";
-        }
-    };
+public final class KirinWarningParticle extends SingleQuadParticle {
+    private static final Identifier ADDITIVE_PIPELINE_ID = Identifier.fromNamespaceAndPath(
+            Csrp.MODID, "pipeline/kirin_warning_additive");
+    private static final RenderPipeline ADDITIVE_PIPELINE = RenderPipeline.builder(RenderPipelines.PARTICLE_SNIPPET)
+            .withLocation(ADDITIVE_PIPELINE_ID)
+            .withColorTargetState(new ColorTargetState(
+                    new BlendFunction(BlendFactor.SRC_ALPHA, BlendFactor.ONE)))
+            .withDepthStencilState(new DepthStencilState(CompareOp.GREATER_THAN_OR_EQUAL, false))
+            .build();
+    private static final SingleQuadParticle.Layer ADDITIVE_LAYER = new SingleQuadParticle.Layer(
+            true, TextureAtlas.LOCATION_PARTICLES, ADDITIVE_PIPELINE, RenderPipelines.OIT_PARTICLE);
 
     private final float sizeBlocks;
     private final float yaw;
 
     private KirinWarningParticle(ClientLevel level, double x, double y, double z,
                                  float sizeBlocks, float yaw, SpriteSet sprites) {
-        super(level, x, y, z);
+        super(level, x, y, z, sprites.first());
         this.sizeBlocks = Math.max(0.0F, sizeBlocks);
         this.yaw = yaw;
         lifetime = 3;
         hasPhysics = false;
         gravity = 0.0F;
         setSize(this.sizeBlocks, this.sizeBlocks);
-        pickSprite(sprites);
+        setSprite(sprites.get(random));
     }
 
     @Override
-    public void render(VertexConsumer consumer, Camera camera, float partialTick) {
-        float x = (float) (Mth.lerp(partialTick, xo, this.x) - camera.getPosition().x);
-        float y = (float) (Mth.lerp(partialTick, yo, this.y) - camera.getPosition().y);
-        float z = (float) (Mth.lerp(partialTick, zo, this.z) - camera.getPosition().z);
+    public void extract(QuadParticleRenderState particleTypeRenderState, Camera camera, float partialTick) {
+        float x = (float) (Mth.lerp(partialTick, xo, this.x) - camera.position().x());
+        float y = (float) (Mth.lerp(partialTick, yo, this.y) - camera.position().y());
+        float z = (float) (Mth.lerp(partialTick, zo, this.z) - camera.position().z());
         float halfSize = sizeBlocks * 0.5F;
-        float cosine = Mth.cos(yaw);
-        float sine = Mth.sin(yaw);
-        int light = getLightColor(partialTick);
-        int alpha = (int) (this.alpha * 255.0F);
+        Quaternionf rotation = new Quaternionf();
+        rotation.rotationYXZ(-yaw, (float) (-Math.PI / 2.0D), 0.0F);
+        int light = getLightCoords(partialTick);
 
-        renderVertex(consumer, x, y, z, -halfSize, -halfSize, cosine, sine, getU0(), getV0(), light, alpha);
-        renderVertex(consumer, x, y, z, -halfSize, halfSize, cosine, sine, getU0(), getV1(), light, alpha);
-        renderVertex(consumer, x, y, z, halfSize, halfSize, cosine, sine, getU1(), getV1(), light, alpha);
-        renderVertex(consumer, x, y, z, halfSize, -halfSize, cosine, sine, getU1(), getV0(), light, alpha);
-    }
-
-    private static void renderVertex(VertexConsumer consumer, float centerX, float y, float centerZ,
-                                     float x, float z, float cosine, float sine, float u, float v,
-                                     int light, int alpha) {
-        consumer.addVertex(centerX + x * cosine - z * sine, y, centerZ + x * sine + z * cosine)
-                .setColor(255, 255, 255, alpha)
-                .setUv(u, v)
-                .setLight(light);
+        particleTypeRenderState.add(ADDITIVE_LAYER, x, y, z,
+                rotation.x, rotation.y, rotation.z, rotation.w,
+                halfSize, getU0(), getU1(), getV0(), getV1(),
+                ARGB.colorFromFloat(this.alpha, 1.0F, 1.0F, 1.0F), light);
     }
 
     @Override
-    protected int getLightColor(float partialTick) {
+    protected int getLightCoords(float partialTick) {
         return 0xF000F0;
     }
 
     @Override
-    public ParticleRenderType getRenderType() {
-        return ADDITIVE_RENDER_TYPE;
+    protected SingleQuadParticle.Layer getLayer() {
+        return ADDITIVE_LAYER;
     }
 
     public static final class Provider implements ParticleProvider<SimpleParticleType> {
@@ -98,7 +85,7 @@ public final class KirinWarningParticle extends TextureSheetParticle {
 
         @Override
         public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z,
-                                       double sizeBlocks, double yaw, double ignored) {
+                                       double sizeBlocks, double yaw, double ignored, RandomSource random) {
             return new KirinWarningParticle(level, x, y, z, (float) sizeBlocks, (float) yaw, sprites);
         }
     }

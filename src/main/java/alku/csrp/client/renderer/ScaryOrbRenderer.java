@@ -52,14 +52,14 @@ public final class ScaryOrbRenderer extends EntityRenderer<ScaryOrbEntity, Scary
 
         poseStack.pushPose();
         poseStack.scale(appear * pulse, appear * pulse, appear * pulse);
-        poseStack.mulPose(Axis.YP.rotation(age * 0.05F));
+        poseStack.rotate(Axis.YP, age * 0.05F);
         submitSphere(poseStack, submitNodeCollector, RenderTypes.entityTranslucentEmissive(CORE_TEXTURE),
                 SPHERE_RADIUS, 1.0F, 1.0F, 1.0F, 220);
         poseStack.popPose();
 
         poseStack.pushPose();
         poseStack.scale(appear * 1.12F, appear * 1.12F, appear * 1.12F);
-        poseStack.mulPose(Axis.YP.rotation(-age * 0.07F));
+        poseStack.rotate(Axis.YP, -age * 0.07F);
         submitSphere(poseStack, submitNodeCollector, RenderTypes.entityTranslucentEmissive(AURA_TEXTURE),
                 SPHERE_RADIUS, 1.0F, 1.0F, 1.0F, 135);
         poseStack.popPose();

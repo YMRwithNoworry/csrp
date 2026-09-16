@@ -16,7 +16,7 @@ public abstract class CrudeParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
-        return distance >= 60.0F && super.causeFallDamage(distance, damageMultiplier, source);
+    public boolean causeFallDamage(double distance, float damageMultiplier, DamageSource source) {
+        return distance >= 60.0D && super.causeFallDamage(distance, damageMultiplier, source);
     }
 }

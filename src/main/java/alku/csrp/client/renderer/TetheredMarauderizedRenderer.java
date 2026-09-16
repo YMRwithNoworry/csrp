@@ -5,7 +5,7 @@ import alku.csrp.entity.TetheredMarauderizedEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
@@ -55,7 +55,7 @@ public final class TetheredMarauderizedRenderer<T extends TetheredMarauderizedEn
         int green = 32 + (int) (pulse * 191.0F);
         int blue = 128 + (int) (pulse * 64.0F);
         PoseStack.Pose pose = poseStack.last();
-        VertexConsumer consumer = bufferSource.getBuffer(RenderType.lightning());
+        VertexConsumer consumer = bufferSource.getBuffer(RenderTypes.lightning());
         Vec3 previous = start;
         for (int segment = 1; segment <= TETHER_SEGMENTS; segment++) {
             float progress = segment / (float) TETHER_SEGMENTS;

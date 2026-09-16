@@ -129,7 +129,7 @@ public final class GnatEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public boolean doHurtTarget(Entity target) {
+    public boolean doHurtTarget(ServerLevel level, Entity target) {
         return false;
     }
 
@@ -163,7 +163,7 @@ public final class GnatEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
-    public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
+    public boolean causeFallDamage(double distance, float damageMultiplier, DamageSource source) {
         return distance >= 60.0F && super.causeFallDamage(distance, damageMultiplier, source);
     }
 

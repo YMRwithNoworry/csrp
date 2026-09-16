@@ -2,7 +2,7 @@ package alku.csrp.client.screen;
 
 import alku.csrp.block.entity.RelayTerminalBlockEntity;
 import alku.csrp.inventory.RelayTerminalMenu;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -30,14 +30,8 @@ public final class RelayTerminalScreen extends AbstractContainerScreen<RelayTerm
     }
 
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-        renderBackground(graphics, mouseX, mouseY, partialTick);
-        super.render(graphics, mouseX, mouseY, partialTick);
-        renderTooltip(graphics, mouseX, mouseY);
-    }
-
-    @Override
-    protected void renderBg(GuiGraphics graphics, float partialTick, int mouseX, int mouseY) {
+    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+        super.extractBackground(graphics, mouseX, mouseY, partialTick);
         graphics.fill(leftPos, topPos, leftPos + imageWidth, topPos + imageHeight, 0xFF17191B);
         graphics.fill(leftPos + 1, topPos + 1, leftPos + imageWidth - 1, topPos + imageHeight - 1,
                 0xFF303438);
@@ -73,9 +67,9 @@ public final class RelayTerminalScreen extends AbstractContainerScreen<RelayTerm
     }
 
     @Override
-    protected void renderLabels(GuiGraphics graphics, int mouseX, int mouseY) {
-        graphics.drawString(font, title, titleLabelX, titleLabelY, 0xFFE4E7E9, false);
-        graphics.drawString(font, playerInventoryTitle, inventoryLabelX, inventoryLabelY,
+    protected void extractLabels(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
+        graphics.text(font, title, titleLabelX, titleLabelY, 0xFFE4E7E9, false);
+        graphics.text(font, playerInventoryTitle, inventoryLabelX, inventoryLabelY,
                 0xFFB9BEC2, false);
         Component status;
         if (!menu.isFormed()) {
@@ -89,7 +83,7 @@ public final class RelayTerminalScreen extends AbstractContainerScreen<RelayTerm
         } else {
             status = Component.translatable("screen.csrp.relay.status.ready");
         }
-        graphics.drawString(font, status, 9, 16, 0xFFB9BEC2, false);
+        graphics.text(font, status, 9, 16, 0xFFB9BEC2, false);
     }
 
     @Override
@@ -105,7 +99,7 @@ public final class RelayTerminalScreen extends AbstractContainerScreen<RelayTerm
         }
     }
 
-    private static void drawSlot(GuiGraphics graphics, int x, int y) {
+    private static void drawSlot(GuiGraphicsExtractor graphics, int x, int y) {
         graphics.fill(x, y, x + 18, y + 18, 0xFF111315);
         graphics.fill(x + 1, y + 1, x + 17, y + 17, 0xFF3B3F43);
     }

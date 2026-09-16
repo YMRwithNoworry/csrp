@@ -8,13 +8,14 @@ import com.github.alexthe666.citadel.client.model.AdvancedEntityModel;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -26,7 +27,7 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
             "textures/entity/layer/cosmichasking.png");
     private static final Identifier GUARDIAN_BEAM_TEXTURE = Identifier.withDefaultNamespace(
             "textures/entity/guardian_beam.png");
-    private static final RenderType GUARDIAN_BEAM_RENDER_TYPE = RenderType.entityTranslucentEmissive(
+    private static final RenderType GUARDIAN_BEAM_RENDER_TYPE = RenderTypes.entityTranslucentEmissive(
             GUARDIAN_BEAM_TEXTURE);
     private static final int BEAM_SIDES = 8;
     private static final float BEAM_RADIUS = 0.282F;
@@ -61,7 +62,7 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
         // Iris cannot reliably map NeoForge's unlit translucent shader used by the shared model.
         // The normal derived textures are binary-alpha, so keep the body on the vanilla entity
         // cutout path while reserving translucency for the actual shadow clone/effect passes.
-        return entity.isShadowClone() ? RenderType.entityTranslucent(shadowTexture)
+        return entity.isShadowClone() ? RenderTypes.entityTranslucent(shadowTexture)
                 : super.getRenderType(entity, bodyVisible, translucent, glowing);
     }
 
@@ -127,8 +128,8 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
 
         poseStack.pushPose();
         poseStack.translate(start.x, start.y, start.z);
-        poseStack.mulPose(Axis.YP.rotationDegrees((Mth.HALF_PI - yaw) * Mth.RAD_TO_DEG));
-        poseStack.mulPose(Axis.XP.rotationDegrees(pitch * Mth.RAD_TO_DEG));
+        poseStack.rotate(Axis.YP.rotationDegrees((Mth.HALF_PI - yaw) * Mth.RAD_TO_DEG));
+        poseStack.rotate(Axis.XP.rotationDegrees(pitch * Mth.RAD_TO_DEG));
 
         VertexConsumer consumer = bufferSource.getBuffer(GUARDIAN_BEAM_RENDER_TYPE);
         PoseStack.Pose pose = poseStack.last();
@@ -157,7 +158,7 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
                 .setColor(red, green, blue, 255)
                 .setUv(u, v)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(LightTexture.FULL_BRIGHT)
+                .setLight(LightCoordsUtil.FULL_BRIGHT)
                 .setNormal(pose, 0.0F, 1.0F, 0.0F);
     }
 
@@ -179,7 +180,7 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
                 return;
             }
 
-            RenderType shadowRenderType = RenderType.entityTranslucent(texture);
+            RenderType shadowRenderType = RenderTypes.entityTranslucent(texture);
             int alphaByte = Math.min(255, Math.max(0, Math.round(alpha * 255.0F)));
             int colour = alphaByte << 24 | 0xFFFFFF;
             poseStack.pushPose();
@@ -205,10 +206,10 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
             }
 
             float age = entity.tickCount + partialTick;
-            RenderType hackingRenderType = RenderType.energySwirl(COSMIC_HACKING_TEXTURE,
+            RenderType hackingRenderType = RenderTypes.energySwirl(COSMIC_HACKING_TEXTURE,
                     age * 0.01F, age * 0.01F);
             getParentModel().renderToBuffer(poseStack, bufferSource.getBuffer(hackingRenderType),
-                    LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 0xFFFF80FF);
+                    LightCoordsUtil.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 0xFFFF80FF);
         }
     }
 
@@ -226,9 +227,9 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
                 return;
             }
             Identifier texture = getTextureLocation(entity);
-            RenderType glowType = RenderType.entityTranslucentEmissive(texture);
+            RenderType glowType = RenderTypes.entityTranslucentEmissive(texture);
             getParentModel().renderToBuffer(poseStack, bufferSource.getBuffer(glowType),
-                    LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 0x99FF48C4);
+                    LightCoordsUtil.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 0x99FF48C4);
         }
     }
 }

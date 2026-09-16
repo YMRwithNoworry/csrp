@@ -5,15 +5,18 @@ import alku.csrp.entity.VoidOrbEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 
-public final class VoidOrbRenderer extends EntityRenderer<VoidOrbEntity> {
+public final class VoidOrbRenderer extends EntityRenderer<VoidOrbEntity, VoidOrbRenderer.State> {
     private static final Identifier CORE_TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,
             "textures/entity/orbvoid.png");
     private static final Identifier AURA_TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,
@@ -30,32 +33,50 @@ public final class VoidOrbRenderer extends EntityRenderer<VoidOrbEntity> {
     }
 
     @Override
-    public void render(VoidOrbEntity entity, float entityYaw, float partialTick, PoseStack poseStack,
-                       MultiBufferSource bufferSource, int packedLight) {
-        float age = entity.tickCount + partialTick;
-        float scale = entity.getRenderScale(partialTick);
+    public State createRenderState() {
+        return new State();
+    }
+
+    @Override
+    public void extractRenderState(VoidOrbEntity entity, State state, float partialTick) {
+        super.extractRenderState(entity, state, partialTick);
+        state.tickCount = entity.tickCount;
+        state.renderScale = entity.getRenderScale(partialTick);
+    }
+
+    @Override
+    public void submit(State state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector,
+                       CameraRenderState camera) {
+        float age = state.tickCount + state.partialTick;
+        float scale = state.renderScale;
         float pulse = 1.0F + Mth.sin(age * 0.35F) * 0.05F;
 
         poseStack.pushPose();
         poseStack.scale(scale * pulse, scale * pulse, scale * pulse);
-        poseStack.mulPose(Axis.YP.rotation(age * 0.07F));
-        renderSphere(poseStack, bufferSource.getBuffer(RenderType.entityTranslucentEmissive(CORE_TEXTURE)),
+        poseStack.rotate(Axis.YP, age * 0.07F);
+        submitSphere(poseStack, submitNodeCollector, RenderTypes.entityTranslucentEmissive(CORE_TEXTURE),
                 SPHERE_RADIUS, 0.88F, 0.95F, 1.0F, 235);
         poseStack.popPose();
 
         poseStack.pushPose();
         poseStack.scale(scale * 1.12F, scale * 1.12F, scale * 1.12F);
-        poseStack.mulPose(Axis.YP.rotation(-age * 0.09F));
-        renderSphere(poseStack, bufferSource.getBuffer(RenderType.entityTranslucentEmissive(AURA_TEXTURE)),
+        poseStack.rotate(Axis.YP, -age * 0.09F);
+        submitSphere(poseStack, submitNodeCollector, RenderTypes.entityTranslucentEmissive(AURA_TEXTURE),
                 SPHERE_RADIUS, 0.55F, 0.70F, 1.0F, 145);
         poseStack.popPose();
 
-        super.render(entity, entityYaw, partialTick, poseStack, bufferSource, packedLight);
+        super.submit(state, poseStack, submitNodeCollector, camera);
     }
 
-    private static void renderSphere(PoseStack poseStack, VertexConsumer consumer, float radius,
+    private static void submitSphere(PoseStack poseStack, SubmitNodeCollector submitNodeCollector,
+                                     RenderType renderType, float radius,
                                      float red, float green, float blue, int alpha) {
-        PoseStack.Pose pose = poseStack.last();
+        submitNodeCollector.submitCustomGeometry(poseStack, renderType,
+                (pose, consumer) -> renderSphere(pose, consumer, radius, red, green, blue, alpha));
+    }
+
+    private static void renderSphere(PoseStack.Pose pose, VertexConsumer consumer, float radius,
+                                     float red, float green, float blue, int alpha) {
         for (int stack = 0; stack < SPHERE_STACKS; stack++) {
             float v0 = stack / (float) SPHERE_STACKS;
             float v1 = (stack + 1) / (float) SPHERE_STACKS;
@@ -88,8 +109,9 @@ public final class VoidOrbRenderer extends EntityRenderer<VoidOrbEntity> {
                 .setNormal(pose, x, y, z);
     }
 
-    @Override
-    public Identifier getTextureLocation(VoidOrbEntity entity) {
-        return CORE_TEXTURE;
+    /** Per-frame snapshot of the orb animation. */
+    public static final class State extends EntityRenderState {
+        public float tickCount;
+        public float renderScale;
     }
 }

@@ -44,10 +44,10 @@ import alku.csrp.client.renderer.ParasiticScentRenderer;
 import alku.csrp.client.renderer.TendrilRenderer;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModBlockEntities;
-import alku.csrp.registry.ModItems;
 import alku.csrp.registry.ModMenus;
 import alku.csrp.registry.ModParticles;
-import net.minecraft.client.renderer.item.ItemProperties;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.client.renderer.item.properties.numeric.RangeSelectItemModelProperty;
 import net.minecraft.client.renderer.entity.NoopRenderer;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
@@ -57,6 +57,7 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
 import net.minecraft.util.Mth;
 import net.minecraft.util.profiling.ProfilerFiller;
+import net.minecraft.world.entity.ItemOwner;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
@@ -64,11 +65,11 @@ import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.AddClientReloadListenersEvent;
+import net.neoforged.neoforge.client.event.RegisterRangeSelectItemModelPropertyEvent;
 
 @EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT)
 public final class ClientModEvents {
@@ -409,31 +410,49 @@ public final class ClientModEvents {
         });
     }
 
+    /**
+     * 26.3 removed {@code net.minecraft.client.renderer.item.ItemProperties}. Range-selected item
+     * model properties are now data-driven: a property type is registered once through
+     * {@link RegisterRangeSelectItemModelPropertyEvent} and the item model definitions under
+     * {@code assets/<namespace>/items/*.json} decide which items use it. The legacy property ids and
+     * value functions are kept, so the pending item model migration can keep referring to
+     * "pearl_state", "phase", "level", "angle", "pulling" and "pull" exactly as the 1.21.1
+     * {@code overrides} predicates did.
+     */
     @SubscribeEvent
-    public static void registerItemProperties(FMLClientSetupEvent event) {
-        event.enqueueWork(() -> {
-            registerBowProperties(ModItems.WEAPON_BOW.get());
-            registerBowProperties(ModItems.WEAPON_BOW_SENTIENT.get());
-            ItemProperties.register(ModItems.PEARL.get(),
-                    Identifier.fromNamespaceAndPath(Csrp.MODID, "pearl_state"),
-                    PearlClientEvents::pearlState);
-            ItemProperties.register(ModItems.EVCLOCK.get(), Identifier.withDefaultNamespace("phase"),
-                    (stack, level, entity, seed) -> stack
-                            .getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
-                            .copyTag().getIntOr(alku.csrp.item.EvolutionClockItem.PHASE_TAG, 0));
-            ItemProperties.register(ModItems.LEVELCLOCK.get(), Identifier.withDefaultNamespace("level"),
-                    (stack, level, entity, seed) -> stack
-                            .getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
-                            .copyTag().getIntOr(alku.csrp.item.LevelClockItem.DEVELOPMENT_TAG, 0));
-            registerCompassProperty(ModItems.NODECOMPASS.get());
-            registerCompassProperty(ModItems.COLONYCOMPASS.get());
-            registerCompassProperty(ModItems.ORIGINCOMPASS.get());
-        });
+    public static void registerItemModelProperties(RegisterRangeSelectItemModelPropertyEvent event) {
+        registerNumericProperty(event, Identifier.fromNamespaceAndPath(Csrp.MODID, "pearl_state"),
+                (stack, level, owner, seed) -> PearlClientEvents.pearlState(stack, level, asLiving(owner), seed));
+        registerNumericProperty(event, Identifier.withDefaultNamespace("phase"),
+                (stack, level, owner, seed) -> stack
+                        .getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
+                        .copyTag().getIntOr(alku.csrp.item.EvolutionClockItem.PHASE_TAG, 0));
+        registerNumericProperty(event, Identifier.withDefaultNamespace("level"),
+                (stack, level, owner, seed) -> stack
+                        .getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
+                        .copyTag().getIntOr(alku.csrp.item.LevelClockItem.DEVELOPMENT_TAG, 0));
+        registerNumericProperty(event, Identifier.withDefaultNamespace("angle"),
+                (stack, level, owner, seed) -> compassAngle(stack, level, asLiving(owner), seed));
+        registerNumericProperty(event, Identifier.withDefaultNamespace("pulling"),
+                (stack, level, owner, seed) -> {
+                    LivingEntity entity = asLiving(owner);
+                    return entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F;
+                });
+        registerNumericProperty(event, Identifier.withDefaultNamespace("pull"),
+                (stack, level, owner, seed) -> {
+                    LivingEntity entity = asLiving(owner);
+                    return entity == null || entity.getUseItem() != stack ? 0.0F
+                            : (float) (stack.getUseDuration(entity) - entity.getUseItemRemainingTicks()) / 20.0F;
+                });
     }
 
-    private static void registerCompassProperty(net.minecraft.world.item.Item compass) {
-        ItemProperties.register(compass, Identifier.withDefaultNamespace("angle"),
-                ClientModEvents::compassAngle);
+    private static void registerNumericProperty(RegisterRangeSelectItemModelPropertyEvent event, Identifier id,
+                                                NumericProperty.Query query) {
+        event.register(id, new NumericProperty(query).type());
+    }
+
+    private static LivingEntity asLiving(ItemOwner owner) {
+        return owner == null ? null : owner.asLivingEntity();
     }
 
     private static float compassAngle(ItemStack stack, ClientLevel level, LivingEntity entity, int seed) {
@@ -442,7 +461,7 @@ public final class ClientModEvents {
         }
         CompoundTag tag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
         if (!tag.getBooleanOr(alku.csrp.item.SrpCompassItem.HAS_TARGET_TAG, false)
-                || !level.dimension().location().toString()
+                || !level.dimension().identifier().toString()
                         .equals(tag.getStringOr(alku.csrp.item.SrpCompassItem.TARGET_DIMENSION_TAG, ""))) {
             return Mth.positiveModulo((level.getGameTime() + seed * 13L) / 100.0F, 1.0F);
         }
@@ -453,12 +472,28 @@ public final class ClientModEvents {
         return Mth.positiveModulo((float) (0.5D - (entityAngle - 0.25D - targetAngle)), 1.0F);
     }
 
-    private static void registerBowProperties(net.minecraft.world.item.Item bow) {
-        ItemProperties.register(bow, Identifier.withDefaultNamespace("pulling"),
-                (stack, level, entity, seed) -> entity != null && entity.isUsingItem()
-                        && entity.getUseItem() == stack ? 1.0F : 0.0F);
-        ItemProperties.register(bow, Identifier.withDefaultNamespace("pull"),
-                (stack, level, entity, seed) -> entity == null || entity.getUseItem() != stack ? 0.0F
-                        : (float) (stack.getUseDuration(entity) - entity.getUseItemRemainingTicks()) / 20.0F);
+    /** Adapter turning a {@code (stack, level, owner, seed)} function into a 26.3 item model property. */
+    private static final class NumericProperty implements RangeSelectItemModelProperty {
+        @FunctionalInterface
+        private interface Query {
+            float get(ItemStack stack, ClientLevel level, ItemOwner owner, int seed);
+        }
+
+        private final Query query;
+        private final MapCodec<NumericProperty> codec = MapCodec.unit(this);
+
+        private NumericProperty(Query query) {
+            this.query = query;
+        }
+
+        @Override
+        public float get(ItemStack stack, ClientLevel level, ItemOwner owner, int seed) {
+            return query.get(stack, level, owner, seed);
+        }
+
+        @Override
+        public MapCodec<NumericProperty> type() {
+            return codec;
+        }
     }
 }

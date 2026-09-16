@@ -20,7 +20,7 @@ public final class CelestialCommands {
     @SubscribeEvent
     public static void register(RegisterCommandsEvent event) {
         LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("srp_celestial")
-                .requires(source -> source.hasPermission(2))
+                .requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                 .then(Commands.literal("list").executes(context -> list(context.getSource())))
                 .then(Commands.literal("clear").executes(context -> clear(context.getSource())))
                 .then(Commands.literal("all").executes(context -> all(context.getSource())))
