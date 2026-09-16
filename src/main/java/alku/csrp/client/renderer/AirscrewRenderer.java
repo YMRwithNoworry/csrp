@@ -1,16 +1,18 @@
 package alku.csrp.client.renderer;
 
 import alku.csrp.Csrp;
+import alku.csrp.client.model.LegacyMobRenderState;
 import alku.csrp.client.model.PrimitiveParasiteModel;
 import alku.csrp.entity.AirscrewEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.rendertype.RenderType;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.LightCoordsUtil;
@@ -20,7 +22,8 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 /** Renders the legacy Guardian-style tether for every creature held by an Airscrew. */
-public final class AirscrewRenderer extends ParasiteGeoRenderer<AirscrewEntity> {
+public final class AirscrewRenderer
+        extends ParasiteGeoRenderer<AirscrewEntity, PrimitiveParasiteModel<AirscrewEntity>> {
     private static final Identifier TETHER_TEXTURE = Identifier.fromNamespaceAndPath(
             Csrp.MODID, "textures/entity/airscrew_tether.png");
     // RenderLeer used a full-bright blended Guardian beam; the emissive translucent pass keeps
@@ -54,17 +57,19 @@ public final class AirscrewRenderer extends ParasiteGeoRenderer<AirscrewEntity> 
     }
 
     @Override
-    public void render(AirscrewEntity airscrew, float entityYaw, float partialTick, PoseStack poseStack,
-                       MultiBufferSource bufferSource, int packedLight) {
-        super.render(airscrew, entityYaw, partialTick, poseStack, bufferSource, packedLight);
+    public void submit(LegacyMobRenderState state, PoseStack poseStack, SubmitNodeCollector collector,
+                       CameraRenderState cameraState) {
+        super.submit(state, poseStack, collector, cameraState);
 
+        AirscrewEntity airscrew = (AirscrewEntity) state.legacyEntity;
+        float partialTick = state.partialTick;
         for (LivingEntity target : airscrew.getPullTargetsForRendering()) {
-            renderTether(airscrew, target, partialTick, poseStack, bufferSource);
+            renderTether(airscrew, target, partialTick, poseStack, collector);
         }
     }
 
     private static void renderTether(AirscrewEntity airscrew, LivingEntity target, float partialTick,
-                                     PoseStack poseStack, MultiBufferSource bufferSource) {
+                                     PoseStack poseStack, SubmitNodeCollector collector) {
         Vec3 start = tetherStart(airscrew, partialTick);
         Vec3 end = tetherEnd(target, partialTick);
         Vec3 direction = end.subtract(start);
@@ -88,27 +93,27 @@ public final class AirscrewRenderer extends ParasiteGeoRenderer<AirscrewEntity> 
 
         poseStack.pushPose();
         poseStack.translate(0.0D, airscrew.getTetherMouthHeight(), 0.0D);
-        poseStack.rotate(Axis.YP.rotationDegrees((1.5707964F - yaw) * 57.295776F));
-        poseStack.rotate(Axis.XP.rotationDegrees(pitch * 57.295776F));
+        poseStack.rotateDegrees(Axis.YP, (1.5707964F - yaw) * 57.295776F);
+        poseStack.rotateDegrees(Axis.XP, pitch * 57.295776F);
 
-        VertexConsumer consumer = bufferSource.getBuffer(TETHER_RENDER_TYPE);
-        PoseStack.Pose pose = poseStack.last();
         float spin = age * -0.075F;
-        for (int side = 0; side < TETHER_SIDES; side++) {
-            float progress = side / (float) TETHER_SIDES;
-            float nextProgress = (side + 1) / (float) TETHER_SIDES;
-            float angle = spin + progress * Mth.TWO_PI;
-            float nextAngle = spin + nextProgress * Mth.TWO_PI;
-            float x = Mth.cos(angle) * TETHER_RADIUS;
-            float z = Mth.sin(angle) * TETHER_RADIUS;
-            float nextX = Mth.cos(nextAngle) * TETHER_RADIUS;
-            float nextZ = Mth.sin(nextAngle) * TETHER_RADIUS;
+        collector.submitCustomGeometry(poseStack, TETHER_RENDER_TYPE, (pose, consumer) -> {
+            for (int side = 0; side < TETHER_SIDES; side++) {
+                float progress = side / (float) TETHER_SIDES;
+                float nextProgress = (side + 1) / (float) TETHER_SIDES;
+                float angle = spin + progress * Mth.TWO_PI;
+                float nextAngle = spin + nextProgress * Mth.TWO_PI;
+                float x = Mth.cos(angle) * TETHER_RADIUS;
+                float z = Mth.sin(angle) * TETHER_RADIUS;
+                float nextX = Mth.cos(nextAngle) * TETHER_RADIUS;
+                float nextZ = Mth.sin(nextAngle) * TETHER_RADIUS;
 
-            vertex(consumer, pose, x, beamLength, z, red, green, blue, progress, endV);
-            vertex(consumer, pose, x, 0.0F, z, red, green, blue, progress, startV);
-            vertex(consumer, pose, nextX, 0.0F, nextZ, red, green, blue, nextProgress, startV);
-            vertex(consumer, pose, nextX, beamLength, nextZ, red, green, blue, nextProgress, endV);
-        }
+                vertex(consumer, pose, x, beamLength, z, red, green, blue, progress, endV);
+                vertex(consumer, pose, x, 0.0F, z, red, green, blue, progress, startV);
+                vertex(consumer, pose, nextX, 0.0F, nextZ, red, green, blue, nextProgress, startV);
+                vertex(consumer, pose, nextX, beamLength, nextZ, red, green, blue, nextProgress, endV);
+            }
+        });
         poseStack.popPose();
     }
 

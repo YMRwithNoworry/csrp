@@ -1,19 +1,21 @@
 package alku.csrp.client.renderer;
 
+import alku.csrp.client.model.LegacyMobRenderState;
 import alku.csrp.client.model.PrimitiveParasiteModel;
 import alku.csrp.entity.TetheredMarauderizedEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 
 /** Draws the animated guardian-style beam used by Marauderized bear and enderman tether attacks. */
 public final class TetheredMarauderizedRenderer<T extends TetheredMarauderizedEntity>
-        extends ParasiteGeoRenderer<T> {
+        extends ParasiteGeoRenderer<T, PrimitiveParasiteModel<T>> {
     private static final int TETHER_SEGMENTS = 24;
     private static final float TETHER_RADIUS = 0.045F;
 
@@ -23,14 +25,17 @@ public final class TetheredMarauderizedRenderer<T extends TetheredMarauderizedEn
     }
 
     @Override
-    public void render(T parasite, float entityYaw, float partialTick, PoseStack poseStack,
-                       MultiBufferSource bufferSource, int packedLight) {
-        super.render(parasite, entityYaw, partialTick, poseStack, bufferSource, packedLight);
+    @SuppressWarnings("unchecked")
+    public void submit(LegacyMobRenderState state, PoseStack poseStack, SubmitNodeCollector collector,
+                       CameraRenderState cameraState) {
+        super.submit(state, poseStack, collector, cameraState);
+        T parasite = (T) state.legacyEntity;
         LivingEntity target = parasite.getPullTargetForRendering();
         if (target == null) {
             return;
         }
 
+        float partialTick = state.partialTick;
         Vec3 renderOrigin = parasite.getPosition(partialTick);
         Vec3 start = parasite.getEyePosition(partialTick).subtract(renderOrigin);
         Vec3 end = target.getPosition(partialTick).add(0.0D, target.getBbHeight() * 0.5D, 0.0D)
@@ -54,16 +59,20 @@ public final class TetheredMarauderizedRenderer<T extends TetheredMarauderizedEn
         int red = 64 + (int) (pulse * 191.0F);
         int green = 32 + (int) (pulse * 191.0F);
         int blue = 128 + (int) (pulse * 64.0F);
-        PoseStack.Pose pose = poseStack.last();
-        VertexConsumer consumer = bufferSource.getBuffer(RenderTypes.lightning());
-        Vec3 previous = start;
-        for (int segment = 1; segment <= TETHER_SEGMENTS; segment++) {
-            float progress = segment / (float) TETHER_SEGMENTS;
-            Vec3 current = tetherPoint(start, end, side, up, age, progress);
-            float radius = TETHER_RADIUS * (0.85F + 0.15F * Mth.sin(age * 0.35F + progress * 14.0F));
-            renderRibbonSegment(pose, consumer, previous, current, side, up, radius, red, green, blue);
-            previous = current;
-        }
+
+        Vec3 ribbonSide = side;
+        Vec3 ribbonUp = up;
+        collector.submitCustomGeometry(poseStack, RenderTypes.lightning(), (pose, consumer) -> {
+            Vec3 previous = start;
+            for (int segment = 1; segment <= TETHER_SEGMENTS; segment++) {
+                float progress = segment / (float) TETHER_SEGMENTS;
+                Vec3 current = tetherPoint(start, end, ribbonSide, ribbonUp, age, progress);
+                float radius = TETHER_RADIUS * (0.85F + 0.15F * Mth.sin(age * 0.35F + progress * 14.0F));
+                renderRibbonSegment(pose, consumer, previous, current, ribbonSide, ribbonUp, radius, red,
+                        green, blue);
+                previous = current;
+            }
+        });
     }
 
     private static Vec3 tetherPoint(Vec3 start, Vec3 end, Vec3 side, Vec3 up, float age, float progress) {

@@ -1,5 +1,6 @@
 package alku.csrp.client.renderer;
 
+import alku.csrp.client.model.LegacyMobRenderState;
 import alku.csrp.client.model.PrimitiveParasiteModel;
 import alku.csrp.entity.MovingFleshEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -12,14 +13,17 @@ import net.minecraft.util.Mth;
  * - 合并后的渐进式缩放增长
  * - 进化前的快速振动和挤压效果（模拟爆炸前的不稳定状态）
  */
-public final class MovingFleshRenderer extends ParasiteGeoRenderer<MovingFleshEntity> {
+public final class MovingFleshRenderer
+        extends ParasiteGeoRenderer<MovingFleshEntity, PrimitiveParasiteModel<MovingFleshEntity>> {
     public MovingFleshRenderer(EntityRendererProvider.Context context) {
         super(context, new PrimitiveParasiteModel<>("movingflesh"));
         shadowRadius = 0.2F;
     }
 
     @Override
-    protected void scale(MovingFleshEntity entity, PoseStack poseStack, float partialTick) {
+    protected void scale(LegacyMobRenderState state, PoseStack poseStack) {
+        MovingFleshEntity entity = (MovingFleshEntity) state.legacyEntity;
+        float partialTick = state.partialTick;
         // 基础缩放（合并成长效果）
         float baseScale = entity.getRenderScale(partialTick);
 
@@ -42,6 +46,6 @@ public final class MovingFleshRenderer extends ParasiteGeoRenderer<MovingFleshEn
             poseStack.scale(baseScale, baseScale, baseScale);
         }
 
-        super.scale(entity, poseStack, partialTick);
+        super.scale(state, poseStack);
     }
 }
