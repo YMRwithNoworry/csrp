@@ -1,25 +1,57 @@
 package alku.csrp.client;
 
 import alku.csrp.Csrp;
-import com.lowdragmc.lowdraglib2.gui.texture.SDFRectTexture;
-import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
-import com.lowdragmc.lowdraglib2.gui.ui.UI;
-import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
-import com.lowdragmc.lowdraglib2.gui.ui.elements.Label;
-import dev.vfyjxf.taffy.style.TaffyPosition;
+import com.mojang.blaze3d.platform.InputConstants;
+import java.util.Map;
+import java.util.WeakHashMap;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ScreenEvent;
-import org.lwjgl.glfw.GLFW;
 
-import java.util.Map;
-import java.util.WeakHashMap;
-
+/**
+ * Draws the CSRP credits overlay in the bottom-left corner of the vanilla title screen.
+ *
+ * <p>The original implementation was built with LDLib2's flexbox widgets (which have no Minecraft
+ * 26.3 build). The overlay is now laid out with plain integer maths and drawn straight through the
+ * vanilla {@link GuiGraphicsExtractor}; the credit text, the panel geometry and the
+ * "collapse once the mouse moves, click to expand" behaviour are unchanged.</p>
+ */
 @EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT)
 public final class CreditsTitleScreenEvents {
+    private static final String EXPANDED_HEADING = "感谢名单";
+    private static final String COLLAPSED_HEADING = "鸣谢";
+    private static final String[] CREDIT_LINES = {
+            "程序：Paojiao134",
+            "动画移植：无聊的保护者",
+    };
+
+    private static final int HEADING_COLOR = 0xFFFFD166;
+    private static final int TEXT_COLOR = 0xFFE8EEF2;
+    private static final int PANEL_BACKGROUND = 0xC0141820;
+    private static final int PANEL_BORDER = 0x6079B8D6;
+
+    // Geometry copied from the LDLib2 layout() tree: the panel is absolutely positioned against
+    // the bottom-left corner and swaps its bounds/padding when it collapses.
+    private static final int PANEL_BOTTOM_MARGIN = 26;
+    private static final int COLLAPSED_LEFT = 0;
+    private static final int EXPANDED_LEFT = 10;
+    private static final int COLLAPSED_WIDTH = 42;
+    private static final int COLLAPSED_HEIGHT = 22;
+    private static final int EXPANDED_WIDTH = 176;
+    private static final int EXPANDED_HEIGHT = 58;
+    private static final int COLLAPSED_PADDING_HORIZONTAL = 6;
+    private static final int COLLAPSED_PADDING_VERTICAL = 5;
+    private static final int EXPANDED_PADDING_HORIZONTAL = 10;
+    private static final int EXPANDED_PADDING_VERTICAL = 7;
+    private static final int EXPANDED_GAP = 3;
+    private static final int HEADING_FONT_SIZE = 11;
+
     private static final Map<Screen, CreditsState> ACTIVE_CREDITS = new WeakHashMap<>();
 
     private CreditsTitleScreenEvents() {
@@ -27,20 +59,9 @@ public final class CreditsTitleScreenEvents {
 
     @SubscribeEvent
     public static void onScreenInit(ScreenEvent.Init.Post event) {
-        if (!(event.getScreen() instanceof TitleScreen titleScreen)) {
-            return;
+        if (event.getScreen() instanceof TitleScreen titleScreen) {
+            ACTIVE_CREDITS.put(titleScreen, new CreditsState());
         }
-
-        CreditsState previous = ACTIVE_CREDITS.remove(titleScreen);
-        if (previous != null) {
-            previous.ui().onRemoved();
-        }
-
-        CreditsState state = createCreditsUI();
-        state.ui().setAllowDebugMode(false);
-        state.ui().setScreenAndInit(titleScreen);
-        event.addListener(state.ui().getWidget());
-        ACTIVE_CREDITS.put(titleScreen, state);
     }
 
     @SubscribeEvent
@@ -48,16 +69,17 @@ public final class CreditsTitleScreenEvents {
         CreditsState state = ACTIVE_CREDITS.get(event.getScreen());
         if (state != null) {
             state.mouseMoved(event.getMouseX(), event.getMouseY());
+            state.render(event.getGuiGraphics(), event.getScreen());
         }
     }
 
     @SubscribeEvent
     public static void onMousePressed(ScreenEvent.MouseButtonPressed.Pre event) {
         CreditsState state = ACTIVE_CREDITS.get(event.getScreen());
-        if (event.getButton() == GLFW.GLFW_MOUSE_BUTTON_LEFT
+        if (event.getButton() == InputConstants.MOUSE_BUTTON_LEFT
                 && state != null
                 && state.isCollapsed()
-                && state.isMouseOver(event.getMouseX(), event.getMouseY())) {
+                && state.isMouseOver(event.getScreen(), event.getMouseX(), event.getMouseY())) {
             state.expand(event.getMouseX(), event.getMouseY());
             event.setCanceled(true);
         }
@@ -65,88 +87,39 @@ public final class CreditsTitleScreenEvents {
 
     @SubscribeEvent
     public static void onScreenClosing(ScreenEvent.Closing event) {
-        CreditsState state = ACTIVE_CREDITS.remove(event.getScreen());
-        if (state != null) {
-            state.ui().onRemoved();
-        }
+        ACTIVE_CREDITS.remove(event.getScreen());
     }
 
-    private static CreditsState createCreditsUI() {
-        UIElement expandedHeading = label("感谢名单", 0xFFFFD166, 11);
-        UIElement collapsedHeading = label("鸣谢", 0xFFFFD166, 9).setDisplay(false);
-        UIElement details = new UIElement()
-                .layout(layout -> layout.widthPercent(100).gapAll(3))
-                .setAllowHitTest(false)
-                .addChildren(
-                        label("程序：Paojiao134", 0xFFE8EEF2, 9),
-                        label("动画移植：无聊的保护者", 0xFFE8EEF2, 9));
-
-        UIElement panel = new UIElement()
-                .style(style -> style.background(
-                        SDFRectTexture.of(0xC0141820)
-                                .setRadius(4)
-                                .setStroke(1)
-                                .setBorderColor(0x6079B8D6)))
-                .setAllowHitTest(false)
-                .addChildren(expandedHeading, collapsedHeading, details);
-
-        UIElement root = new UIElement()
-                .layout(layout -> layout.widthPercent(100).heightPercent(100))
-                .setAllowHitTest(false)
-                .addChild(panel);
-
-        CreditsState state = new CreditsState(
-                ModularUI.of(UI.of(root)), panel, expandedHeading, collapsedHeading, details);
-        state.applyLayout(false);
-        return state;
-    }
-
-    private static UIElement label(String text, int color, float fontSize) {
-        return new Label()
-                .setText(text)
-                .textStyle(style -> style
-                        .adaptiveWidth(true)
-                        .adaptiveHeight(true)
-                        .fontSize(fontSize)
-                        .textColor(color)
-                        .textShadow(true))
-                .setAllowHitTest(false);
-    }
-
+    /** Per-title-screen overlay state; owns the collapse flag and the last mouse position. */
     private static final class CreditsState {
-        private static final int COLLAPSED_WIDTH = 42;
-        private static final int COLLAPSED_HEIGHT = 22;
-        private static final int EXPANDED_WIDTH = 176;
-        private static final int EXPANDED_HEIGHT = 58;
-
-        private final ModularUI ui;
-        private final UIElement panel;
-        private final UIElement expandedHeading;
-        private final UIElement collapsedHeading;
-        private final UIElement details;
         private boolean collapsed;
         private double lastMouseX = Double.NaN;
         private double lastMouseY = Double.NaN;
 
-        private CreditsState(ModularUI ui, UIElement panel, UIElement expandedHeading,
-                             UIElement collapsedHeading, UIElement details) {
-            this.ui = ui;
-            this.panel = panel;
-            this.expandedHeading = expandedHeading;
-            this.collapsedHeading = collapsedHeading;
-            this.details = details;
+        private int panelLeft() {
+            return collapsed ? COLLAPSED_LEFT : EXPANDED_LEFT;
         }
 
-        private ModularUI ui() {
-            return ui;
+        private int panelWidth() {
+            return collapsed ? COLLAPSED_WIDTH : EXPANDED_WIDTH;
+        }
+
+        private int panelHeight() {
+            return collapsed ? COLLAPSED_HEIGHT : EXPANDED_HEIGHT;
+        }
+
+        private int panelTop(Screen screen) {
+            return screen.height - PANEL_BOTTOM_MARGIN - panelHeight();
         }
 
         private boolean isCollapsed() {
             return collapsed;
         }
 
-        private boolean isMouseOver(double mouseX, double mouseY) {
-            return panel.isMouseOver((float) mouseX, (float) mouseY);
+        private boolean isMouseOver(Screen screen, double mouseX, double mouseY) {
+            int x = panelLeft();
+            int y = panelTop(screen);
+            return mouseX >= x && mouseX < x + panelWidth() && mouseY >= y && mouseY < y + panelHeight();
         }
 
         private void mouseMoved(double mouseX, double mouseY) {
@@ -157,32 +130,62 @@ public final class CreditsTitleScreenEvents {
             }
 
             if (!collapsed && (mouseX != lastMouseX || mouseY != lastMouseY)) {
-                applyLayout(true);
+                collapsed = true;
             }
             lastMouseX = mouseX;
             lastMouseY = mouseY;
         }
 
         private void expand(double mouseX, double mouseY) {
-            applyLayout(false);
+            collapsed = false;
             lastMouseX = mouseX;
             lastMouseY = mouseY;
         }
 
-        private void applyLayout(boolean collapsed) {
-            this.collapsed = collapsed;
-            panel.layout(layout -> layout
-                    .positionType(TaffyPosition.ABSOLUTE)
-                    .left(collapsed ? 0 : 10)
-                    .bottom(26)
-                    .width(collapsed ? COLLAPSED_WIDTH : EXPANDED_WIDTH)
-                    .height(collapsed ? COLLAPSED_HEIGHT : EXPANDED_HEIGHT)
-                    .paddingHorizontal(collapsed ? 6 : 10)
-                    .paddingVertical(collapsed ? 5 : 7)
-                    .gapAll(collapsed ? 0 : 3));
-            expandedHeading.setDisplay(!collapsed);
-            collapsedHeading.setDisplay(collapsed);
-            details.setDisplay(!collapsed);
+        private void render(GuiGraphicsExtractor graphics, Screen screen) {
+            Font font = Minecraft.getInstance().font;
+            int x = panelLeft();
+            int y = panelTop(screen);
+            int width = panelWidth();
+            int height = panelHeight();
+
+            graphics.fill(x, y, x + width, y + height, PANEL_BACKGROUND);
+            graphics.outline(x, y, width, height, PANEL_BORDER);
+
+            int textX = x + (collapsed ? COLLAPSED_PADDING_HORIZONTAL : EXPANDED_PADDING_HORIZONTAL);
+            int textY = y + (collapsed ? COLLAPSED_PADDING_VERTICAL : EXPANDED_PADDING_VERTICAL);
+
+            if (collapsed) {
+                graphics.text(font, COLLAPSED_HEADING, textX, textY, HEADING_COLOR);
+                return;
+            }
+
+            textY += drawScaledText(graphics, font, EXPANDED_HEADING, textX, textY, HEADING_COLOR, HEADING_FONT_SIZE)
+                    + EXPANDED_GAP;
+            for (String line : CREDIT_LINES) {
+                graphics.text(font, line, textX, textY, TEXT_COLOR);
+                textY += font.lineHeight + EXPANDED_GAP;
+            }
         }
+    }
+
+    /**
+     * Draws {@code text} with its line height scaled to {@code fontSize}, mirroring the LDLib2 label
+     * sizes (the original heading used 11px while every other label used 9px). Returns the height the
+     * line occupies so the caller can stack the next line below it.
+     */
+    private static int drawScaledText(GuiGraphicsExtractor graphics, Font font, String text,
+                                      int x, int y, int color, int fontSize) {
+        float scale = fontSize / (float) font.lineHeight;
+        if (scale == 1.0F) {
+            graphics.text(font, text, x, y, color);
+        } else {
+            graphics.pose().pushMatrix();
+            graphics.pose().translate((float) x, (float) y);
+            graphics.pose().scale(scale, scale);
+            graphics.text(font, text, 0, 0, color);
+            graphics.pose().popMatrix();
+        }
+        return Math.round(font.lineHeight * scale);
     }
 }
