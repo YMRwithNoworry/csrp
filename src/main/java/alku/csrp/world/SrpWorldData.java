@@ -18,7 +18,7 @@ import net.minecraft.world.level.saveddata.SavedData;
 
 public final class SrpWorldData extends SavedData {
     private static final String DATA_NAME = "csrp_world_data";
-    private static final int DATA_VERSION = 5;
+    private static final int DATA_VERSION = 6;
     private static final int[] DISLODGMENT_PHASE_COOLDOWN_MULTIPLIER = {1, 4, 3, 3, 4, 5, 6, 7, 8, 9, 10};
 
     private boolean initialized;
@@ -28,6 +28,10 @@ public final class SrpWorldData extends SavedData {
     private SrpDifficulty difficulty = SrpDifficulty.NORMAL;
     private SrpStarType starType = SrpStarType.NORMAL;
     private boolean meteorsEnabled;
+    /** 1.10.9 {@code SRPStarWorldData.fracturedTerrain} — only meaningful while the star type is COLD. */
+    private boolean fracturedTerrain = true;
+    /** 1.10.9 {@code SRPStarWorldData.mushroomTrees} — cold-star tree density toggle. */
+    private boolean mushroomTrees = true;
     private double difficultyPointRemainder;
     private long cooldownEnd;
     private boolean canGain = true;
@@ -76,6 +80,9 @@ public final class SrpWorldData extends SavedData {
         data.starType = SrpStarType.byId(tag.getString("star_type"));
         data.meteorsEnabled = tag.contains("meteors_enabled")
                 ? tag.getBoolean("meteors_enabled") : WorldConfig.meteorsEnabled();
+        // Added in data version 6 (1.10.9). Pre-v6 saves get the 1.10.9 defaults, i.e. both enabled.
+        data.fracturedTerrain = !tag.contains("fractured_terrain") || tag.getBoolean("fractured_terrain");
+        data.mushroomTrees = !tag.contains("mushroom_trees") || tag.getBoolean("mushroom_trees");
         data.difficultyPointRemainder = tag.getDouble("difficulty_point_remainder");
         data.cooldownEnd = tag.getLong("cooldown_end");
         data.canGain = !tag.contains("can_gain") || tag.getBoolean("can_gain");
@@ -112,6 +119,8 @@ public final class SrpWorldData extends SavedData {
         tag.putString("srp_difficulty", difficulty.id());
         tag.putString("star_type", starType.id());
         tag.putBoolean("meteors_enabled", meteorsEnabled);
+        tag.putBoolean("fractured_terrain", fracturedTerrain);
+        tag.putBoolean("mushroom_trees", mushroomTrees);
         tag.putDouble("difficulty_point_remainder", difficultyPointRemainder);
         tag.putLong("cooldown_end", cooldownEnd);
         tag.putBoolean("can_gain", canGain);
@@ -178,6 +187,34 @@ public final class SrpWorldData extends SavedData {
             return;
         }
         this.starType = starType;
+        // 1.10.9: fractured terrain only exists under a cold star; switching away clears the flag.
+        if (starType != SrpStarType.COLD) {
+            fracturedTerrain = false;
+        }
+        setDirty();
+    }
+
+    public boolean fracturedTerrainEnabled() {
+        return fracturedTerrain;
+    }
+
+    public void setFracturedTerrainEnabled(boolean enabled) {
+        if (fracturedTerrain == enabled) {
+            return;
+        }
+        fracturedTerrain = enabled;
+        setDirty();
+    }
+
+    public boolean mushroomTreesEnabled() {
+        return mushroomTrees;
+    }
+
+    public void setMushroomTreesEnabled(boolean enabled) {
+        if (mushroomTrees == enabled) {
+            return;
+        }
+        mushroomTrees = enabled;
         setDirty();
     }
 
@@ -637,6 +674,9 @@ public final class SrpWorldData extends SavedData {
         passivePointRemainder = 0.0D;
         ubiquitousDevelopment = 0;
         dislodgmentTriggerCooldownEnd = 0L;
+        // Back to the 1.10.9 creation defaults; fractured terrain stays off unless the star is COLD.
+        fracturedTerrain = starType == SrpStarType.COLD;
+        mushroomTrees = true;
         lockedParasites.clear();
         nodes.clear();
         colonies.clear();
@@ -661,6 +701,19 @@ public final class SrpWorldData extends SavedData {
         meteorsEnabled = level == level.getServer().overworld()
                 ? SrpMeteorSelection.consumeOrDefault(WorldConfig.meteorsEnabled())
                 : SrpWorldData.get(level.getServer().overworld()).meteorsEnabled();
+        // Both selection slots are one-shot, so consume them before mirroring from the overworld.
+        boolean primary = level == level.getServer().overworld();
+        boolean stagedFracturedTerrain = SrpStarWorldSelection.consumeFracturedTerrainOrDefault();
+        boolean stagedMushroomTrees = SrpStarWorldSelection.consumeMushroomTreesOrDefault();
+        fracturedTerrain = primary
+                ? stagedFracturedTerrain
+                : SrpWorldData.get(level.getServer().overworld()).fracturedTerrainEnabled();
+        mushroomTrees = primary
+                ? stagedMushroomTrees
+                : SrpWorldData.get(level.getServer().overworld()).mushroomTreesEnabled();
+        if (starType != SrpStarType.COLD) {
+            fracturedTerrain = false;
+        }
         difficultyPointRemainder = 0.0D;
         generation = 0;
         generationTicks = 0;

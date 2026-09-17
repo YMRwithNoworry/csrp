@@ -512,6 +512,121 @@ public final class ModItems {
     public static final RegistryObject<BlockItem> COOKED_FLESH_FENCE = ITEMS.registerSimpleBlockItem(
             "cooked_flesh_fence", ModBlocks.COOKED_FLESH_FENCE);
     public static final java.util.Map<String, RegistryObject<BlockItem>> LEGACY_BLOCK_ITEMS = registerLegacyBlockItems();
+
+    // ==================== 1.12 木系建材与残骸体系方块物品（忠实实现的 id） ====================
+    public static final RegistryObject<BlockItem> CANISTER_ACTIVE = ITEMS.registerSimpleBlockItem(
+            "canisteractive", ModBlocks.CANISTER_ACTIVE);
+    public static final RegistryObject<BlockItem> PARASITERUBBLE_BONE = ITEMS.registerSimpleBlockItem(
+            "parasiterubble_bone", ModBlocks.PARASITERUBBLE_BONE);
+    public static final RegistryObject<BlockItem> PARASITERUBBLE_FLESH = ITEMS.registerSimpleBlockItem(
+            "parasiterubble_flesh", ModBlocks.PARASITERUBBLE_FLESH);
+    public static final RegistryObject<BlockItem> PARASITERUBBLE_STONE = ITEMS.registerSimpleBlockItem(
+            "parasiterubble_stone", ModBlocks.PARASITERUBBLE_STONE);
+    public static final RegistryObject<BlockItem> PARASITERUBBLE_WEATHB = ITEMS.registerSimpleBlockItem(
+            "parasiterubble_weathb", ModBlocks.PARASITERUBBLE_WEATHB);
+    public static final RegistryObject<BlockItem> PARASITERUBBLE_WEATHBC = ITEMS.registerSimpleBlockItem(
+            "parasiterubble_weathbc", ModBlocks.PARASITERUBBLE_WEATHBC);
+    public static final RegistryObject<BlockItem> PARASITERUBBLE_WEATHFS = ITEMS.registerSimpleBlockItem(
+            "parasiterubble_weathfs", ModBlocks.PARASITERUBBLE_WEATHFS);
+    public static final RegistryObject<BlockItem> PARASITERUBBLE_WOOD = ITEMS.registerSimpleBlockItem(
+            "parasiterubble_wood", ModBlocks.PARASITERUBBLE_WOOD);
+    public static final RegistryObject<BlockItem> PARASITERUBBLE_BRICKS = ITEMS.registerSimpleBlockItem(
+            "parasiterubble_bricks", ModBlocks.PARASITERUBBLE_BRICKS);
+    public static final RegistryObject<BlockItem> PARASITERUBBLE_METAL = ITEMS.registerSimpleBlockItem(
+            "parasiterubble_metal", ModBlocks.PARASITERUBBLE_METAL);
+    public static final RegistryObject<BlockItem> PARASITERUBBLE_OBSIDIAN = ITEMS.registerSimpleBlockItem(
+            "parasiterubble_obsidian", ModBlocks.PARASITERUBBLE_OBSIDIAN);
+    public static final RegistryObject<BlockItem> PARASITERUBBLE_FUNGUS = ITEMS.registerSimpleBlockItem(
+            "parasiterubble_fungus", ModBlocks.PARASITERUBBLE_FUNGUS);
+    public static final RegistryObject<BlockItem> PARASITERUBBLEDENSE = ITEMS.registerSimpleBlockItem(
+            "parasiterubbledense", ModBlocks.PARASITERUBBLEDENSE);
+    public static final RegistryObject<BlockItem> PARASITERUBBLEDENSE_BIOME = ITEMS.registerSimpleBlockItem(
+            "parasiterubbledense_biome", ModBlocks.PARASITERUBBLEDENSE_BIOME);
+    public static final RegistryObject<BlockItem> PARASITERUBBLEDENSE_COLONY = ITEMS.registerSimpleBlockItem(
+            "parasiterubbledense_colony", ModBlocks.PARASITERUBBLEDENSE_COLONY);
+    public static final RegistryObject<BlockItem> PARASITESTAIN_FLESH = ITEMS.registerSimpleBlockItem(
+            "parasitestain_flesh", ModBlocks.PARASITESTAIN_FLESH);
+    public static final RegistryObject<BlockItem> PARASITESTAIN_DIRT = ITEMS.registerSimpleBlockItem(
+            "parasitestain_dirt", ModBlocks.PARASITESTAIN_DIRT);
+    public static final RegistryObject<BlockItem> PARASITETRUNK = ITEMS.registerSimpleBlockItem(
+            "parasitetrunk", ModBlocks.PARASITETRUNK);
+    public static final RegistryObject<BlockItem> PARASITETRUNK_BALL = ITEMS.registerSimpleBlockItem(
+            "parasitetrunk_ball", ModBlocks.PARASITETRUNK_BALL);
+    public static final RegistryObject<BlockItem> PARASITETRUNK_PLANT = ITEMS.registerSimpleBlockItem(
+            "parasitetrunk_plant", ModBlocks.PARASITETRUNK_PLANT);
+    public static final RegistryObject<BlockItem> PARASITETHIN = ITEMS.registerSimpleBlockItem(
+            "parasitethin", ModBlocks.PARASITETHIN);
+    public static final RegistryObject<BlockItem> GOTH_STEM = ITEMS.registerSimpleBlockItem(
+            "goth_stem", ModBlocks.GOTH_STEM);
+    public static final RegistryObject<BlockItem> INFESTED_WORKBENCH = ITEMS.registerSimpleBlockItem(
+            "infested_workbench", ModBlocks.INFESTED_WORKBENCH);
+    public static final RegistryObject<BlockItem> GOTH_DOOR = ITEMS.registerSimpleBlockItem(
+            "goth_door", ModBlocks.GOTH_DOOR);
+    public static final RegistryObject<BlockItem> BRUSEWOOD_DOOR = ITEMS.registerSimpleBlockItem(
+            "brusewood_door", ModBlocks.BRUSEWOOD_DOOR);
+    public static final RegistryObject<BlockItem> CONSUMED_DOOR = ITEMS.registerSimpleBlockItem(
+            "consumed_door", ModBlocks.CONSUMED_DOOR);
+    public static final RegistryObject<BlockItem> BRUSEWOOD_TRAPDOOR = ITEMS.registerSimpleBlockItem(
+            "brusewood_trapdoor", ModBlocks.BRUSEWOOD_TRAPDOOR);
+    public static final RegistryObject<BlockItem> CONSUMED_TRAPDOOR = ITEMS.registerSimpleBlockItem(
+            "consumed_trapdoor", ModBlocks.CONSUMED_TRAPDOOR);
+    public static final RegistryObject<BlockItem> GOTH_FENCE = ITEMS.registerSimpleBlockItem(
+            "goth_fence", ModBlocks.GOTH_FENCE);
+    public static final RegistryObject<BlockItem> INFESTED_FENCE = ITEMS.registerSimpleBlockItem(
+            "infested_fence", ModBlocks.INFESTED_FENCE);
+    public static final RegistryObject<BlockItem> CONSUMED_FENCE = ITEMS.registerSimpleBlockItem(
+            "consumed_fence", ModBlocks.CONSUMED_FENCE);
+    public static final RegistryObject<BlockItem> FLESH_FENCE = ITEMS.registerSimpleBlockItem(
+            "flesh_fence", ModBlocks.FLESH_FENCE);
+    public static final RegistryObject<BlockItem> DEADHEAD_FENCE = ITEMS.registerSimpleBlockItem(
+            "deadhead_fence", ModBlocks.DEADHEAD_FENCE);
+    public static final RegistryObject<BlockItem> PARASITERUBBLE_BONESTAIRS = ITEMS.registerSimpleBlockItem(
+            "parasiterubble_bonestairs", ModBlocks.PARASITERUBBLE_BONESTAIRS);
+    public static final RegistryObject<BlockItem> PARASITERUBBLE_FLESHSTAIRS = ITEMS.registerSimpleBlockItem(
+            "parasiterubble_fleshstairs", ModBlocks.PARASITERUBBLE_FLESHSTAIRS);
+    public static final RegistryObject<BlockItem> PARASITERUBBLE_STONESTAIRS = ITEMS.registerSimpleBlockItem(
+            "parasiterubble_stonestairs", ModBlocks.PARASITERUBBLE_STONESTAIRS);
+    public static final RegistryObject<BlockItem> PARASITERUBBLE_STONEDEBRISSTAIRS = ITEMS.registerSimpleBlockItem(
+            "parasiterubble_stonedebrisstairs", ModBlocks.PARASITERUBBLE_STONEDEBRISSTAIRS);
+    public static final RegistryObject<BlockItem> PARASITERUBBLE_WOODSTAIRS = ITEMS.registerSimpleBlockItem(
+            "parasiterubble_woodstairs", ModBlocks.PARASITERUBBLE_WOODSTAIRS);
+    public static final RegistryObject<BlockItem> PARASITERUBBLE_BRICKSSTAIRS = ITEMS.registerSimpleBlockItem(
+            "parasiterubble_bricksstairs", ModBlocks.PARASITERUBBLE_BRICKSSTAIRS);
+    public static final RegistryObject<BlockItem> PARASITERUBBLE_METALSTAIRS = ITEMS.registerSimpleBlockItem(
+            "parasiterubble_metalstairs", ModBlocks.PARASITERUBBLE_METALSTAIRS);
+    public static final RegistryObject<BlockItem> PARASITERUBBLE_OBSIDIANSTAIRS = ITEMS.registerSimpleBlockItem(
+            "parasiterubble_obsidianstairs", ModBlocks.PARASITERUBBLE_OBSIDIANSTAIRS);
+    public static final RegistryObject<BlockItem> PARASITERUBBLE_FUNGUSSTAIRS = ITEMS.registerSimpleBlockItem(
+            "parasiterubble_fungusstairs", ModBlocks.PARASITERUBBLE_FUNGUSSTAIRS);
+    public static final RegistryObject<BlockItem> PARASITERUBBLEDENSE_WALLSTAIRS = ITEMS.registerSimpleBlockItem(
+            "parasiterubbledense_wallstairs", ModBlocks.PARASITERUBBLEDENSE_WALLSTAIRS);
+    public static final RegistryObject<BlockItem> PARASITERUBBLEDENSE_BIOMESTAIRS = ITEMS.registerSimpleBlockItem(
+            "parasiterubbledense_biomestairs", ModBlocks.PARASITERUBBLEDENSE_BIOMESTAIRS);
+    public static final RegistryObject<BlockItem> PARASITERUBBLEDENSE_COLONYSTAIRS = ITEMS.registerSimpleBlockItem(
+            "parasiterubbledense_colonystairs", ModBlocks.PARASITERUBBLEDENSE_COLONYSTAIRS);
+    public static final RegistryObject<BlockItem> PARASITETRUNK_TREESTAIRS = ITEMS.registerSimpleBlockItem(
+            "parasitetrunk_treestairs", ModBlocks.PARASITETRUNK_TREESTAIRS);
+    public static final RegistryObject<BlockItem> PARASITETRUNK_BALLSTAIRS = ITEMS.registerSimpleBlockItem(
+            "parasitetrunk_ballstairs", ModBlocks.PARASITETRUNK_BALLSTAIRS);
+    public static final RegistryObject<BlockItem> PARASITETRUNK_PLANTSTAIRS = ITEMS.registerSimpleBlockItem(
+            "parasitetrunk_plantstairs", ModBlocks.PARASITETRUNK_PLANTSTAIRS);
+    public static final RegistryObject<BlockItem> PARASITERUBBLE_FLESH_WALL = ITEMS.registerSimpleBlockItem(
+            "parasiterubble_flesh_wall", ModBlocks.PARASITERUBBLE_FLESH_WALL);
+    public static final RegistryObject<BlockItem> PARASITERUBBLE_WEATHB_WALL = ITEMS.registerSimpleBlockItem(
+            "parasiterubble_weathb_wall", ModBlocks.PARASITERUBBLE_WEATHB_WALL);
+    public static final RegistryObject<BlockItem> PARASITERUBBLE_WEATHBC_WALL = ITEMS.registerSimpleBlockItem(
+            "parasiterubble_weathbc_wall", ModBlocks.PARASITERUBBLE_WEATHBC_WALL);
+    public static final RegistryObject<BlockItem> PARASITERUBBLE_WEATHFS_WALL = ITEMS.registerSimpleBlockItem(
+            "parasiterubble_weathfs_wall", ModBlocks.PARASITERUBBLE_WEATHFS_WALL);
+    public static final RegistryObject<BlockItem> PARASITERUBBLE_BRICKS_WALL = ITEMS.registerSimpleBlockItem(
+            "parasiterubble_bricks_wall", ModBlocks.PARASITERUBBLE_BRICKS_WALL);
+    public static final RegistryObject<BlockItem> PARASITERUBBLE_METAL_WALL = ITEMS.registerSimpleBlockItem(
+            "parasiterubble_metal_wall", ModBlocks.PARASITERUBBLE_METAL_WALL);
+    public static final RegistryObject<BlockItem> PARASITERUBBLEDENSE_BIOME_WALL = ITEMS.registerSimpleBlockItem(
+            "parasiterubbledense_biome_wall", ModBlocks.PARASITERUBBLEDENSE_BIOME_WALL);
+    public static final RegistryObject<BlockItem> PARASITERUBBLEDENSE_COLONY_WALL = ITEMS.registerSimpleBlockItem(
+            "parasiterubbledense_colony_wall", ModBlocks.PARASITERUBBLEDENSE_COLONY_WALL);
+
     public static final RegistryObject<EyeOfTheBeholderItem> PEARL = ITEMS.registerItem(
             "pearl", EyeOfTheBeholderItem::new, new Item.Properties());
 
@@ -626,6 +741,15 @@ public final class ModItems {
             "infestedstain_wall", ModBlocks.INFESTED_STAIN_WALL);
     public static final RegistryObject<BlockItem> DEADHEAD_LEAVES = ITEMS.registerSimpleBlockItem(
             "deadhead_leaves", ModBlocks.DEADHEAD_LEAVES);
+    // 1.10.9 新增的 4 个方块物品；snow_covered_grass 与 1.10.9 一致，不注册 BlockItem。
+    public static final RegistryObject<BlockItem> DEADHEAD_GRASS_SHORT = ITEMS.registerSimpleBlockItem(
+            "deadhead_grass_short", ModBlocks.DEADHEAD_GRASS_SHORT);
+    public static final RegistryObject<BlockItem> DEADHEAD_GRASS_TALL = ITEMS.registerSimpleBlockItem(
+            "deadhead_grass_tall", ModBlocks.DEADHEAD_GRASS_TALL);
+    public static final RegistryObject<BlockItem> SNOW_SHORT_GRASS = ITEMS.registerSimpleBlockItem(
+            "snow_short_grass", ModBlocks.SNOW_SHORT_GRASS);
+    public static final RegistryObject<BlockItem> SNOW_TALL_GRASS = ITEMS.registerSimpleBlockItem(
+            "snow_tall_grass", ModBlocks.SNOW_TALL_GRASS);
     public static final RegistryObject<BlockItem> BIOMEHEART = ITEMS.registerSimpleBlockItem("biomeheart", ModBlocks.BIOMEHEART);
     public static final RegistryObject<BlockItem> COLONYHEART = ITEMS.registerSimpleBlockItem("colonyheart", ModBlocks.COLONYHEART);
     public static final RegistryObject<BlockItem> PARASITE_STRUCTURE = ITEMS.registerSimpleBlockItem(

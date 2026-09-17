@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "csrp:block/snow_short_grass"
+      },
+      {
+        "model": "csrp:block/snow_short_grass_1"
+      },
+      {
+        "model": "csrp:block/snow_short_grass_2"
+      },
+      {
+        "model": "csrp:block/snow_short_grass_3"
+      },
+      {
+        "model": "csrp:block/snow_short_grass_4"
+      }
+    ]
+  }
+}

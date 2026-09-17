@@ -6499,5 +6499,14 @@
     "sounds": [
       "csrp:misc/meteor"
     ]
+  },
+  "blizzard_reverse": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "csrp:misc/snow_reversal",
+        "stream": true
+      }
+    ]
   }
 }

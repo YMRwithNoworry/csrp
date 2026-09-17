@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "csrp:blocks/deadhead_grass_short1"
+  }
+}

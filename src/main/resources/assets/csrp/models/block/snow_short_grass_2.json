@@ -1,0 +1,163 @@
+{
+  "ambientocclusion": false,
+  "textures": {
+    "particle": "minecraft:block/snow",
+    "snow": "minecraft:block/snow",
+    "grass": "csrp:blocks/snowy_grass_short"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        2,
+        16
+      ],
+      "faces": {
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#snow",
+          "cullface": "down"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#snow"
+        },
+        "north": {
+          "uv": [
+            0,
+            14,
+            16,
+            16
+          ],
+          "texture": "#snow"
+        },
+        "south": {
+          "uv": [
+            0,
+            14,
+            16,
+            16
+          ],
+          "texture": "#snow"
+        },
+        "west": {
+          "uv": [
+            0,
+            14,
+            16,
+            16
+          ],
+          "texture": "#snow"
+        },
+        "east": {
+          "uv": [
+            0,
+            14,
+            16,
+            16
+          ],
+          "texture": "#snow"
+        }
+      }
+    },
+    {
+      "from": [
+        -3,
+        0,
+        8.99
+      ],
+      "to": [
+        15,
+        16,
+        9.01
+      ],
+      "rotation": {
+        "origin": [
+          6,
+          8.0,
+          9
+        ],
+        "axis": "y",
+        "angle": 45
+      },
+      "shade": false,
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#grass"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#grass"
+        }
+      }
+    },
+    {
+      "from": [
+        -3,
+        0,
+        8.99
+      ],
+      "to": [
+        15,
+        16,
+        9.01
+      ],
+      "rotation": {
+        "origin": [
+          6,
+          8.0,
+          9
+        ],
+        "axis": "y",
+        "angle": -45
+      },
+      "shade": false,
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#grass"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#grass"
+        }
+      }
+    }
+  ]
+}

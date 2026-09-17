@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=upper": {
+      "model": "csrp:block/deadhead_grass_tall_top"
+    },
+    "half=lower": {
+      "model": "csrp:block/deadhead_grass_tall_bottom"
+    }
+  }
+}

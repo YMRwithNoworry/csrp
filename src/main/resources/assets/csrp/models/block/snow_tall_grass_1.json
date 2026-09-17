@@ -1,0 +1,248 @@
+{
+  "ambientocclusion": false,
+  "textures": {
+    "particle": "minecraft:block/snow",
+    "snow": "minecraft:block/snow",
+    "grass_bottom": "csrp:blocks/snowy_double_plant_grass_bottom",
+    "grass_top": "csrp:blocks/snowy_double_plant_grass_top"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        2,
+        16
+      ],
+      "faces": {
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#snow",
+          "cullface": "down"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#snow"
+        },
+        "north": {
+          "uv": [
+            0,
+            14,
+            16,
+            16
+          ],
+          "texture": "#snow"
+        },
+        "south": {
+          "uv": [
+            0,
+            14,
+            16,
+            16
+          ],
+          "texture": "#snow"
+        },
+        "west": {
+          "uv": [
+            0,
+            14,
+            16,
+            16
+          ],
+          "texture": "#snow"
+        },
+        "east": {
+          "uv": [
+            0,
+            14,
+            16,
+            16
+          ],
+          "texture": "#snow"
+        }
+      }
+    },
+    {
+      "from": [
+        1,
+        0,
+        8.99
+      ],
+      "to": [
+        19,
+        16,
+        9.01
+      ],
+      "rotation": {
+        "origin": [
+          10,
+          8.0,
+          9
+        ],
+        "axis": "y",
+        "angle": 45
+      },
+      "shade": false,
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#grass_bottom"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#grass_bottom"
+        }
+      }
+    },
+    {
+      "from": [
+        1,
+        0,
+        8.99
+      ],
+      "to": [
+        19,
+        16,
+        9.01
+      ],
+      "rotation": {
+        "origin": [
+          10,
+          8.0,
+          9
+        ],
+        "axis": "y",
+        "angle": -45
+      },
+      "shade": false,
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#grass_bottom"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#grass_bottom"
+        }
+      }
+    },
+    {
+      "from": [
+        1,
+        16,
+        8.99
+      ],
+      "to": [
+        19,
+        32,
+        9.01
+      ],
+      "rotation": {
+        "origin": [
+          10,
+          24.0,
+          9
+        ],
+        "axis": "y",
+        "angle": 45
+      },
+      "shade": false,
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#grass_top"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#grass_top"
+        }
+      }
+    },
+    {
+      "from": [
+        1,
+        16,
+        8.99
+      ],
+      "to": [
+        19,
+        32,
+        9.01
+      ],
+      "rotation": {
+        "origin": [
+          10,
+          24.0,
+          9
+        ],
+        "axis": "y",
+        "angle": -45
+      },
+      "shade": false,
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#grass_top"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#grass_top"
+        }
+      }
+    }
+  ]
+}

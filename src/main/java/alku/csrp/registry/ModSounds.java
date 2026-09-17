@@ -126,6 +126,13 @@ public final class ModSounds {
     public static final RegistryObject<SoundEvent> DARK_DAYS_START = register("celestial.dark_days_start");
     public static final RegistryObject<SoundEvent> DARK_DAYS_RUMBLE = register("celestial.dark_days_rumble");
     public static final RegistryObject<SoundEvent> DARK_DAYS_ENDING = register("celestial.dark_days_ending");
+    /**
+     * 1.10.9 新增的暴风雪反向切换音效。必须在此显式注册：{@code SoundEventCatalog} 由
+     * {@code scripts/import-original-sounds.cjs} 生成，**不含** {@code blizzard_reverse}，
+     * 而 {@code static { SoundEventCatalog.EVENTS.forEach(ModSounds::register); }} 只覆盖 catalog 内的键。
+     * 对应的 {@code assets/csrp/sounds.json} 条目与 {@code sounds/misc/snow_reversal.ogg} 属片 2/C 阶段。
+     */
+    public static final RegistryObject<SoundEvent> BLIZZARD_REVERSE = register("blizzard_reverse");
     public static final RegistryObject<SoundEvent> METEOR_IMPACT = register("meteor.impact");
     public static final RegistryObject<SoundEvent> LURE_USE = register("lure.use");
     public static final RegistryObject<SoundEvent> CARCASS_USE = register("lure.carcass");

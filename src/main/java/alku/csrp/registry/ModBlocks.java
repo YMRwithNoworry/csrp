@@ -11,7 +11,12 @@ import alku.csrp.block.BiomeHeartBlock;
 import alku.csrp.block.ColonyHeartBlock;
 import alku.csrp.block.ColonyStructureBlock;
 import alku.csrp.block.DeadBloodBlock;
+import alku.csrp.block.DeadheadGrassShortBlock;
+import alku.csrp.block.DeadheadGrassTallBlock;
 import alku.csrp.block.DeadheadLeavesBlock;
+import alku.csrp.block.SnowCoveredGrassBlock;
+import alku.csrp.block.SnowShortGrassBlock;
+import alku.csrp.block.SnowTallGrassBlock;
 import alku.csrp.block.DispatcherNidusBlock;
 import alku.csrp.block.DiseasedSpongeBlock;
 import alku.csrp.block.EscaBulbBlock;
@@ -25,6 +30,8 @@ import alku.csrp.block.RelayTowerPartBlock;
 import alku.csrp.block.InfestedResidueBlock;
 import alku.csrp.block.InfestationPurifierBlock;
 import alku.csrp.block.EvolutionLureBlock;
+import alku.csrp.block.ParasiteCanisterActiveBlock;
+import alku.csrp.block.ParasiteThinBlock;
 import alku.csrp.block.ParasiteTrapBlock;
 import alku.csrp.block.PestilentialOreBlock;
 import alku.csrp.block.ParasiteLootBlock;
@@ -48,6 +55,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ButtonBlock;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CraftingTableBlock;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.IronBarsBlock;
@@ -508,6 +516,214 @@ public final class ModBlocks {
                     .noOcclusion()
                     .sound(SoundType.GRASS)));
 
+    // ==================== 1.10.9 新增方块：死头藤蔓与雪草体系 ====================
+    /** 死头短藤蔓（1.10.9 BlockDeadheadGrassShort）：5 种纹理按坐标哈希固化，可剪切、无掉落。 */
+    public static final RegistryObject<DeadheadGrassShortBlock> DEADHEAD_GRASS_SHORT = BLOCKS.register(
+            "deadhead_grass_short", () -> new DeadheadGrassShortBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BROWN)
+                    .noCollission()
+                    .noOcclusion()
+                    .instabreak()
+                    .sound(SoundType.GRASS)));
+
+    /** 死头高藤蔓（1.10.9 BlockDeadheadGrassTall）：双格，默认上半，放置时补下半。 */
+    public static final RegistryObject<DeadheadGrassTallBlock> DEADHEAD_GRASS_TALL = BLOCKS.register(
+            "deadhead_grass_tall", () -> new DeadheadGrassTallBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BROWN)
+                    .noCollission()
+                    .noOcclusion()
+                    .instabreak()
+                    .sound(SoundType.GRASS)));
+
+    /** 雪短草（1.10.9 BlockSnowGrass tallGrass=false）：放置时把下方草方块换成雪覆盖草。 */
+    public static final RegistryObject<SnowShortGrassBlock> SNOW_SHORT_GRASS = BLOCKS.register(
+            "snow_short_grass", () -> new SnowShortGrassBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BROWN)
+                    .noCollission()
+                    .noOcclusion()
+                    .instabreak()
+                    .sound(SoundType.GRASS)));
+
+    /** 雪高草（1.10.9 BlockSnowGrass tallGrass=true）。 */
+    public static final RegistryObject<SnowTallGrassBlock> SNOW_TALL_GRASS = BLOCKS.register(
+            "snow_tall_grass", () -> new SnowTallGrassBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BROWN)
+                    .noCollission()
+                    .noOcclusion()
+                    .instabreak()
+                    .sound(SoundType.GRASS)));
+
+    /** 雪覆盖草（1.10.9 BlockSnowCoveredGrass）：恒 snowy，上方雪草消失后回落为原版草方块；无 BlockItem。 */
+    public static final RegistryObject<SnowCoveredGrassBlock> SNOW_COVERED_GRASS = BLOCKS.register(
+            "snow_covered_grass", () -> new SnowCoveredGrassBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BROWN)
+                    .strength(0.6F)
+                    .randomTicks()
+                    .sound(SoundType.GRASS)));
+
+    // ==================== 1.12 木系建材与残骸体系：按捐赠分支的忠实实现 ====================
+    /** 活体寄生囊肿（原版 canisteractive）：寄生体超距消失时落下的资源囊肿。 */
+    public static final RegistryObject<ParasiteCanisterActiveBlock> CANISTER_ACTIVE = BLOCKS.register(
+            "canisteractive", () -> new ParasiteCanisterActiveBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED)
+                    .noCollission()
+                    .noOcclusion()
+                    .strength(1.5F)
+                    .sound(SoundType.GRASS)));
+
+    public static final RegistryObject<Block> PARASITERUBBLE_BONE = BLOCKS.register(
+            "parasiterubble_bone", () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
+    public static final RegistryObject<Block> PARASITERUBBLE_FLESH = BLOCKS.register(
+            "parasiterubble_flesh", () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
+    public static final RegistryObject<Block> PARASITERUBBLE_STONE = BLOCKS.register(
+            "parasiterubble_stone", () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
+    public static final RegistryObject<Block> PARASITERUBBLE_WEATHB = BLOCKS.register(
+            "parasiterubble_weathb", () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
+    public static final RegistryObject<Block> PARASITERUBBLE_WEATHBC = BLOCKS.register(
+            "parasiterubble_weathbc", () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
+    public static final RegistryObject<Block> PARASITERUBBLE_WEATHFS = BLOCKS.register(
+            "parasiterubble_weathfs", () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
+    public static final RegistryObject<Block> PARASITERUBBLE_WOOD = BLOCKS.register(
+            "parasiterubble_wood", () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.WOOD)));
+    public static final RegistryObject<Block> PARASITERUBBLE_BRICKS = BLOCKS.register(
+            "parasiterubble_bricks", () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
+    public static final RegistryObject<Block> PARASITERUBBLE_METAL = BLOCKS.register(
+            "parasiterubble_metal", () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(3.0F, 8.0F).sound(SoundType.METAL)));
+    public static final RegistryObject<Block> PARASITERUBBLE_OBSIDIAN = BLOCKS.register(
+            "parasiterubble_obsidian", () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(5.0F, 1_200.0F).sound(SoundType.STONE)));
+    public static final RegistryObject<Block> PARASITERUBBLE_FUNGUS = BLOCKS.register(
+            "parasiterubble_fungus", () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(0.6F).sound(SoundType.FUNGUS)));
+    public static final RegistryObject<Block> PARASITERUBBLEDENSE = BLOCKS.register(
+            "parasiterubbledense", () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
+    public static final RegistryObject<Block> PARASITERUBBLEDENSE_BIOME = BLOCKS.register(
+            "parasiterubbledense_biome", () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
+    public static final RegistryObject<Block> PARASITERUBBLEDENSE_COLONY = BLOCKS.register(
+            "parasiterubbledense_colony", () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
+    public static final RegistryObject<Block> PARASITESTAIN_FLESH = BLOCKS.register(
+            "parasitestain_flesh", () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
+    public static final RegistryObject<Block> PARASITESTAIN_DIRT = BLOCKS.register(
+            "parasitestain_dirt", () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
+    /** RotatedPillarBlock so the `axis` property exists; the blockstates rotate the
+     * trunk models the same way vanilla logs do. */
+    public static final RegistryObject<RotatedPillarBlock> PARASITETRUNK = BLOCKS.register(
+            "parasitetrunk", () -> new RotatedPillarBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.WOOD)));
+    public static final RegistryObject<RotatedPillarBlock> PARASITETRUNK_BALL = BLOCKS.register(
+            "parasitetrunk_ball", () -> new RotatedPillarBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.WOOD)));
+    public static final RegistryObject<RotatedPillarBlock> PARASITETRUNK_PLANT = BLOCKS.register(
+            "parasitetrunk_plant", () -> new RotatedPillarBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.WOOD)));
+    public static final RegistryObject<ParasiteThinBlock> PARASITETHIN = BLOCKS.register(
+            "parasitethin", () -> new ParasiteThinBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(2.2F).sound(SoundType.WOOD)));
+    public static final RegistryObject<RotatedPillarBlock> GOTH_STEM = BLOCKS.register(
+            "goth_stem", () -> new RotatedPillarBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.WOOD)));
+    public static final RegistryObject<CraftingTableBlock> INFESTED_WORKBENCH = BLOCKS.register(
+            "infested_workbench", () -> new CraftingTableBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(2.5F).sound(SoundType.WOOD)));
+    public static final RegistryObject<CraftingTableBlock> CONSUMED_WORKBENCH = BLOCKS.register(
+            "consumed_workbench", () -> new CraftingTableBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(2.5F).sound(SoundType.WOOD)));
+
+    public static final RegistryObject<DoorBlock> GOTH_DOOR = BLOCKS.register("goth_door", () ->
+            new DoorBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
+                    .strength(3.0F).sound(SoundType.WOOD).noOcclusion(), BlockSetType.OAK));
+    public static final RegistryObject<DoorBlock> BRUSEWOOD_DOOR = BLOCKS.register("brusewood_door", () ->
+            new DoorBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
+                    .strength(3.0F).sound(SoundType.WOOD).noOcclusion(), BlockSetType.OAK));
+    public static final RegistryObject<DoorBlock> CONSUMED_DOOR = BLOCKS.register("consumed_door", () ->
+            new DoorBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
+                    .strength(3.0F).sound(SoundType.WOOD).noOcclusion(), BlockSetType.OAK));
+    public static final RegistryObject<TrapDoorBlock> BRUSEWOOD_TRAPDOOR = BLOCKS.register(
+            "brusewood_trapdoor", () -> new TrapDoorBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(3.0F).sound(SoundType.WOOD)
+                    .noOcclusion().isValidSpawn((state, level, pos, type) -> false), BlockSetType.OAK));
+    public static final RegistryObject<TrapDoorBlock> CONSUMED_TRAPDOOR = BLOCKS.register(
+            "consumed_trapdoor", () -> new TrapDoorBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(3.0F).sound(SoundType.WOOD)
+                    .noOcclusion().isValidSpawn((state, level, pos, type) -> false), BlockSetType.OAK));
+    public static final RegistryObject<FenceBlock> GOTH_FENCE = BLOCKS.register("goth_fence", () ->
+            new FenceBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
+                    .strength(2.0F).sound(SoundType.WOOD)));
+    public static final RegistryObject<FenceBlock> INFESTED_FENCE = BLOCKS.register("infested_fence", () ->
+            new FenceBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
+                    .strength(2.0F).sound(SoundType.WOOD)));
+    public static final RegistryObject<FenceBlock> CONSUMED_FENCE = BLOCKS.register("consumed_fence", () ->
+            new FenceBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
+                    .strength(2.0F).sound(SoundType.WOOD)));
+    public static final RegistryObject<FenceBlock> FLESH_FENCE = BLOCKS.register("flesh_fence", () ->
+            new FenceBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
+                    .strength(2.0F).sound(SoundType.WOOD)));
+    public static final RegistryObject<FenceBlock> DEADHEAD_FENCE = BLOCKS.register("deadhead_fence", () ->
+            new FenceBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
+                    .strength(2.0F).sound(SoundType.WOOD)));
+
+    public static final RegistryObject<InfestedStairBlock> PARASITERUBBLE_BONESTAIRS = infestedStairs(
+            "parasiterubble_bonestairs", PARASITERUBBLE_BONE);
+    public static final RegistryObject<InfestedStairBlock> PARASITERUBBLE_FLESHSTAIRS = infestedStairs(
+            "parasiterubble_fleshstairs", PARASITERUBBLE_FLESH);
+    public static final RegistryObject<InfestedStairBlock> PARASITERUBBLE_STONESTAIRS = infestedStairs(
+            "parasiterubble_stonestairs", PARASITERUBBLE_STONE);
+    public static final RegistryObject<InfestedStairBlock> PARASITERUBBLE_STONEDEBRISSTAIRS = infestedStairs(
+            "parasiterubble_stonedebrisstairs", HIVESTONE_DEBRIS);
+    public static final RegistryObject<InfestedStairBlock> PARASITERUBBLE_WOODSTAIRS = infestedStairs(
+            "parasiterubble_woodstairs", PARASITERUBBLE_WOOD);
+    public static final RegistryObject<InfestedStairBlock> PARASITERUBBLE_BRICKSSTAIRS = infestedStairs(
+            "parasiterubble_bricksstairs", PARASITERUBBLE_BRICKS);
+    public static final RegistryObject<InfestedStairBlock> PARASITERUBBLE_METALSTAIRS = infestedStairs(
+            "parasiterubble_metalstairs", PARASITERUBBLE_METAL);
+    public static final RegistryObject<InfestedStairBlock> PARASITERUBBLE_OBSIDIANSTAIRS = infestedStairs(
+            "parasiterubble_obsidianstairs", PARASITERUBBLE_OBSIDIAN);
+    public static final RegistryObject<InfestedStairBlock> PARASITERUBBLE_FUNGUSSTAIRS = infestedStairs(
+            "parasiterubble_fungusstairs", PARASITERUBBLE_FUNGUS);
+    public static final RegistryObject<InfestedStairBlock> PARASITERUBBLEDENSE_WALLSTAIRS = infestedStairs(
+            "parasiterubbledense_wallstairs", PARASITERUBBLEDENSE);
+    public static final RegistryObject<InfestedStairBlock> PARASITERUBBLEDENSE_BIOMESTAIRS = infestedStairs(
+            "parasiterubbledense_biomestairs", PARASITERUBBLEDENSE_BIOME);
+    public static final RegistryObject<InfestedStairBlock> PARASITERUBBLEDENSE_COLONYSTAIRS = infestedStairs(
+            "parasiterubbledense_colonystairs", PARASITERUBBLEDENSE_COLONY);
+    public static final RegistryObject<InfestedStairBlock> PARASITETRUNK_TREESTAIRS = infestedStairs(
+            "parasitetrunk_treestairs", PARASITETRUNK);
+    public static final RegistryObject<InfestedStairBlock> PARASITETRUNK_BALLSTAIRS = infestedStairs(
+            "parasitetrunk_ballstairs", PARASITETRUNK_BALL);
+    public static final RegistryObject<InfestedStairBlock> PARASITETRUNK_PLANTSTAIRS = infestedStairs(
+            "parasitetrunk_plantstairs", PARASITETRUNK_PLANT);
+
+    public static final RegistryObject<InfestedWallBlock> PARASITERUBBLE_FLESH_WALL = copiedWall(
+            "parasiterubble_flesh_wall", PARASITERUBBLE_FLESH);
+    public static final RegistryObject<InfestedWallBlock> PARASITERUBBLE_WEATHB_WALL = copiedWall(
+            "parasiterubble_weathb_wall", PARASITERUBBLE_WEATHB);
+    public static final RegistryObject<InfestedWallBlock> PARASITERUBBLE_WEATHBC_WALL = copiedWall(
+            "parasiterubble_weathbc_wall", PARASITERUBBLE_WEATHBC);
+    public static final RegistryObject<InfestedWallBlock> PARASITERUBBLE_WEATHFS_WALL = copiedWall(
+            "parasiterubble_weathfs_wall", PARASITERUBBLE_WEATHFS);
+    public static final RegistryObject<InfestedWallBlock> PARASITERUBBLE_BRICKS_WALL = copiedWall(
+            "parasiterubble_bricks_wall", PARASITERUBBLE_BRICKS);
+    public static final RegistryObject<InfestedWallBlock> PARASITERUBBLE_METAL_WALL = copiedWall(
+            "parasiterubble_metal_wall", PARASITERUBBLE_METAL);
+    public static final RegistryObject<InfestedWallBlock> PARASITERUBBLEDENSE_BIOME_WALL = copiedWall(
+            "parasiterubbledense_biome_wall", PARASITERUBBLEDENSE_BIOME);
+    public static final RegistryObject<InfestedWallBlock> PARASITERUBBLEDENSE_COLONY_WALL = copiedWall(
+            "parasiterubbledense_colony_wall", PARASITERUBBLEDENSE_COLONY);
+
     /**
      * Names retained by the 1.12 release which do not have a dedicated modern
      * implementation yet. Keeping them registered is important for old
@@ -518,57 +734,42 @@ public final class ModBlocks {
 
     private static java.util.Map<String, RegistryObject<Block>> registerLegacyBlocks() {
         String[] ids = {
-                "assimilated_blossom", "bloodyice", "canisteractive", "colonyoutpost", "dispatchern",
+                "assimilated_blossom", "bloodyice", "colonyoutpost", "dispatchern",
                 "epitome_infestation_warp_diffuser", "goreada", "gorefer", "goremar", "gorepri", "gorepur", "goresim",
                 "bruisewood_fence", "bruisewood_plank_slab",
                 "bruisewood_plank_slab_double", "bruisewood_plank_stairs", "bruisewood_plank_wall",
-                "brusewood_door", "brusewood_trapdoor", "consumed_door", "consumed_fence",
                 "consumed_plank_slab", "consumed_plank_slab_double", "consumed_plank_wall",
-                "consumed_planks_stairs", "consumed_pot", "consumed_trapdoor", "consumed_workbench",
+                "consumed_planks_stairs", "consumed_pot",
                 "cooked_flesh_slab_double", "dead_head_plank_slab", "dead_head_plank_slab_double",
-                "deadhead_fence", "deadhead_plank_stairs", "dermoid_cyst", "flesh_fence", "flesh_slab",
+                "deadhead_plank_stairs", "dermoid_cyst", "flesh_slab",
                 "flesh_slab_double", "flesh_stairs", "frost_weathered_stone_slab",
-                "frost_weathered_stone_slab_double", "frost_weathered_stone_stairs", "goth_door",
-                "goth_fence", "goth_plank_slab", "goth_plank_slab_double", "goth_plank_wall",
-                "goth_planks_stairs", "goth_stem", "harlequinn_grass", "harleskinn_fence",
+                "frost_weathered_stone_slab_double", "frost_weathered_stone_stairs",
+                "goth_plank_slab", "goth_plank_slab_double", "goth_plank_wall",
+                "goth_planks_stairs", "harlequinn_grass", "harleskinn_fence",
                 "harleskinn_slab", "harleskinn_slab_double", "harleskinn_stairs", "hirsute_hair",
                 "infested_cactus", "infested_cobblestone_slab_double", "infested_dirt_slab_double",
-                "infested_fence", "infested_furnace", "infested_furnace_lit", "infested_leaves", "infested_leaves_fast", "infested_plank_slab_double",
+                "infested_furnace", "infested_furnace_lit", "infested_leaves", "infested_leaves_fast", "infested_plank_slab_double",
                 "infested_pot", "infested_sandstone_slab_double", "infested_stone_brick_slab_double",
-                "infested_stone_slab_double", "infested_terracotta_slab_double", "infested_workbench",
+                "infested_stone_slab_double", "infested_terracotta_slab_double",
                 "lipoma_mass", "locs_block_slab", "locs_block_slab_double", "node_relay", "parasitebush",
                 "parasitecanister", "parasitecanister_bag_wall", "parasiteplank", "parasiteplank_deadhead_wall",
-                "parasiterubble", "parasiterubble_bone", "parasiterubble_bricks", "parasiterubble_flesh",
-                "parasiterubble_fungus", "parasiterubble_metal", "parasiterubble_obsidian", "parasiterubble_stone",
-                "parasiterubble_wood", "parasitestain_dirt", "parasitestain_flesh", "parasitic_colony_core_slab",
-                "parasiterubble_bricks_wall", "parasiterubble_flesh_wall", "parasiterubble_metal_wall",
-                "parasiterubble_weathb_wall", "parasiterubble_weathbc_wall", "parasiterubble_weathfs_wall",
-                "parasiterubbledense", "parasiterubbledense_biome_wall", "parasiterubbledense_colony_wall",
-                "parasitestain",
+                "parasiterubble", "parasitestain",
+                "parasitic_colony_core_slab",
                 "parasitic_colony_core_slab_double", "parasitic_compressed_colony_stone_slab",
                 "parasitic_compressed_colony_stone_slab_double", "parasitesapling",
-                "parasitestain_flesh_wall", "parasitethin", "parasitetrunk", "poland_skin_slab", "poland_skin_slab_double",
+                "parasitestain_flesh_wall", "poland_skin_slab", "poland_skin_slab_double",
                 "polished_infested_stone_slab_double", "potted_assimilated_blossom",
                 "potted_consumed_assimilated_blossom", "relay_controller_dummy", "relaycontroller",
                 "reinforced_hivestone_slab", "reinforced_hivestone_slab_double", "residue_brick_slab_double",
                 "sac_of_flesh_slab", "sac_of_flesh_slab_double", "tresses_hair", "weathered_bricks_slab",
                 "weathered_bricks_slab_double", "weathered_cobblestone_slab",
                 "weathered_cobblestone_slab_double", "wheathered_bricks_stairs",
-                "wheathered_cobblestone_stairs", "goth_planks_stairs", "consumed_workbench",
-                "infested_sandstone_stairs", "infested_stone_stairs", "infested_stone_bricks_stairs",
-                "infested_polished_stone_bricks_stairs", "frost_weathered_stone_stairs", "infested_workbench",
-                "infested_cobblestone_slab", "infested_stone_slab", "infested_dirt_slab",
-                "infested_stone_brick_slab", "infested_terracotta_slab", "polished_infested_stone_slab",
-                "residue_brick_slab", "infested_sandstone_slab", "infested_plank_slab", "residue_stairs"
-                , "infestedremain", "infestedrubblestairs", "infestedstainstairs", "infestedtrunkstairs",
-                "parasite_barrier", "parasitefog", "parasiterubble_bonestairs", "parasiterubble_bricksstairs",
-                "parasiterubble_fleshstairs", "parasiterubble_fungusstairs", "parasiterubble_metalstairs",
-                "parasiterubble_obsidianstairs", "parasiterubble_stonedebrisstairs", "parasiterubble_stonestairs",
-                "parasiterubble_woodstairs", "parasiterubbledense_biomestairs", "parasiterubbledense_colonystairs",
-                "parasiterubbledense_wallstairs", "parasiterubbleslabdouble", "parasiterubbleslabhalf",
+                "wheathered_cobblestone_stairs",
+                "infestremain", "infestedrubblestairs", "infestedstainstairs", "infestedtrunkstairs",
+                "parasite_barrier", "parasitefog",
+                "parasiterubbleslabdouble", "parasiterubbleslabhalf",
                 "parasitestain_dirtstairs", "parasitestain_feelerstairs", "parasitestain_fleshstairs",
-                "parasitestain_mudstairs", "parasitestainslabdouble", "parasitestainslabhalf", "parasitetendril",
-                "parasitetrunk_ballstairs", "parasitetrunk_plantstairs", "parasitetrunk_treestairs"
+                "parasitestain_mudstairs", "parasitestainslabdouble", "parasitestainslabhalf", "parasitetendril"
         };
         java.util.Map<String, RegistryObject<Block>> result = new java.util.LinkedHashMap<>();
         for (String id : ids) {
@@ -712,6 +913,13 @@ public final class ModBlocks {
             String id, RegistryObject<? extends Block> baseBlock) {
         return BLOCKS.register(id, () -> new InfestedWallBlock(
                 BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.5F, 10.0F)));
+    }
+
+    /** 残骸墙沿用基底方块的外观与硬度（对应捐赠分支的 {@code Properties.ofFullCopy}）。 */
+    private static RegistryObject<InfestedWallBlock> copiedWall(
+            String id, RegistryObject<? extends Block> baseBlock) {
+        return BLOCKS.register(id, () -> new InfestedWallBlock(
+                BlockBehaviour.Properties.copy(baseBlock.get())));
     }
 
     private ModBlocks() {
