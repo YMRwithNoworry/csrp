@@ -42,7 +42,11 @@ neoForge {
         // The gametest system is also enabled by default for other run configs under the /test command.
         gameTestServer {
             type = "gameTestServer"
+            // No-op on MC 26.3 (the namespaced filter property was removed), kept for compatibility.
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            // MC 26.3's GameTestMainUtil selects tests with --tests <resource selector>; without it the
+            // server runs every registered test (including vanilla minecraft:always_pass).
+            programArguments.addAll '--tests', "${project.mod_id}:*"
         }
 
         data {
