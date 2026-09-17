@@ -3,26 +3,35 @@
   "temperature": 1.5,
   "downfall": 0.0,
   "effects": {
-    "fog_color": 4462092,
-    "sky_color": 2303093,
     "water_color": 6183981,
-    "water_fog_color": 252247,
     "grass_color": 7171181,
-    "foliage_color": 7171181,
-    "mood_sound": {
-      "sound": "minecraft:ambient.cave",
-      "tick_delay": 6000,
-      "block_search_extent": 8,
-      "offset": 2.0
+    "foliage_color": 7171181
+  },
+  "attributes": {
+    "minecraft:visual/fog_color": 4462092,
+    "minecraft:visual/sky_color": 2303093,
+    "minecraft:visual/water_fog_color": 252247,
+    "minecraft:audio/ambient_sounds": {
+      "mood": {
+        "sound": "minecraft:ambient.cave",
+        "tick_delay": 6000,
+        "block_search_extent": 8,
+        "offset": 2.0
+      }
+    },
+    "minecraft:gameplay/natural_mob_spawns": {
+      "modifier": "overlay",
+      "argument": {
+        "spawns_by_category": {
+          "monster": [
+            { "type": "csrp:seizer", "count": { "type": "minecraft:uniform", "min_inclusive": 1, "max_inclusive": 2 }, "weight": 100 },
+            { "type": "csrp:sentry", "count": { "type": "minecraft:uniform", "min_inclusive": 1, "max_inclusive": 2 }, "weight": 80 }
+          ]
+        },
+        "spawn_costs": {}
+      }
     }
   },
-  "spawners": {
-    "monster": [
-      { "type": "csrp:seizer", "weight": 100, "minCount": 1, "maxCount": 2 },
-      { "type": "csrp:sentry", "weight": 80, "minCount": 1, "maxCount": 2 }
-    ]
-  },
-  "spawn_costs": {},
-  "carvers": {},
+  "carvers": [],
   "features": []
 }

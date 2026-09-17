@@ -3,26 +3,35 @@
   "temperature": 0.8,
   "downfall": 0.0,
   "effects": {
-    "fog_color": 5004867,
-    "sky_color": 3907536,
     "water_color": 6673344,
-    "water_fog_color": 286310,
     "grass_color": 8357070,
-    "foliage_color": 8357070,
-    "mood_sound": {
-      "sound": "minecraft:ambient.cave",
-      "tick_delay": 6000,
-      "block_search_extent": 8,
-      "offset": 2.0
+    "foliage_color": 8357070
+  },
+  "attributes": {
+    "minecraft:visual/fog_color": 5004867,
+    "minecraft:visual/sky_color": 3907536,
+    "minecraft:visual/water_fog_color": 286310,
+    "minecraft:audio/ambient_sounds": {
+      "mood": {
+        "sound": "minecraft:ambient.cave",
+        "tick_delay": 6000,
+        "block_search_extent": 8,
+        "offset": 2.0
+      }
+    },
+    "minecraft:gameplay/natural_mob_spawns": {
+      "modifier": "overlay",
+      "argument": {
+        "spawns_by_category": {
+          "monster": [
+            { "type": "csrp:buglin", "count": { "type": "minecraft:uniform", "min_inclusive": 2, "max_inclusive": 3 }, "weight": 90 },
+            { "type": "csrp:worm", "count": { "type": "minecraft:uniform", "min_inclusive": 1, "max_inclusive": 2 }, "weight": 70 }
+          ]
+        },
+        "spawn_costs": {}
+      }
     }
   },
-  "spawners": {
-    "monster": [
-      { "type": "csrp:buglin", "weight": 90, "minCount": 2, "maxCount": 3 },
-      { "type": "csrp:worm", "weight": 70, "minCount": 1, "maxCount": 2 }
-    ]
-  },
-  "spawn_costs": {},
-  "carvers": {},
+  "carvers": [],
   "features": []
 }
