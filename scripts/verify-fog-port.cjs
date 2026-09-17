@@ -36,10 +36,18 @@ for (const token of ["IntegerProperty.create(\"air\", 0, 2)", "randomTick", "Mod
   "getBlockSupportShape"])
   expect(block.includes(token), `FogBlock is missing original behavior: ${token}`);
 for (const token of ["lifetime = 144", "quadSize = 10.0F", "frameForAge", "int frameAge = age",
-  "if (++age >= lifetime)", "PARTICLE_SHEET_TRANSLUCENT"])
+  "if (++age >= lifetime)"])
   expect(particles.includes(token), `CoolerFogParticle is missing original behavior: ${token}`);
-expect(overlay.includes("RenderGuiEvent.Post") && overlay.includes("0.85F")
-  && overlay.includes("TextureAtlas.LOCATION_BLOCKS") && overlay.includes("graphics.blit(0, 0, -90"),
+// 26.3 replaced RenderType.PARTICLE_SHEET_TRANSLUCENT with the SingleQuadParticle sheet enum; the
+// original translucent particle sheet is still the required render layer.
+expect(/protected SingleQuadParticle\.Layer getLayer\(\)[\s\S]{0,80}SingleQuadParticle\.Layer\.TRANSLUCENT/
+  .test(particles),
+  "CoolerFogParticle no longer renders on the original translucent particle sheet");
+// 26.3 blits atlas sprites instead of stitching UVs by hand: the full-screen overlay now goes
+// through blitSprite over the whole GUI at the original 0.85 opacity of the block-atlas fog sprite.
+expect(overlay.includes("RenderGuiEvent.Post") && overlay.includes("0xD9FFFFFF")
+  && overlay.includes("AtlasIds.BLOCKS") && overlay.includes("block/fog")
+  && /graphics\.blitSprite\([\s\S]{0,200}0,\s*0,\s*width,\s*height/.test(overlay),
   "original animated in-fog full-screen overlay is missing");
 const registry = read("src/main/java/alku/csrp/registry/ModBlocks.java");
 expect(registry.includes(".replaceable()") && registry.includes(".forceSolidOff()"),

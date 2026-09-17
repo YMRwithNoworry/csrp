@@ -17,6 +17,7 @@ const attributes = read("src/main/java/alku/csrp/registry/CommonModEvents.java")
 const client = read("src/main/java/alku/csrp/client/ClientModEvents.java");
 const creative = read("src/main/java/alku/csrp/Csrp.java");
 const model = read("src/main/java/alku/csrp/client/model/MarauderModel.java");
+const modelBase = read("src/main/java/alku/csrp/client/model/CitadelParasiteModel.java");
 const tendrilModel = read("src/main/java/alku/csrp/client/model/MarauderTendrilModel.java");
 const english = read("src/main/resources/assets/csrp/lang/en_us.json");
 const chinese = read("src/main/resources/assets/csrp/lang/zh_cn.json");
@@ -28,12 +29,25 @@ for (const [source, hooks] of [
     "EntityDataAccessor<Integer> PARASITE_STATUS", "EntityDataAccessor<Boolean> STILL_ANI", '"age_controller"',
     "if (getAttackTicks() > 0)", "ParasiteAnimations.isMoving(this, state.isMoving())"]],
   [tendril, ["Mode.ATTACHED", "Mode.DETACHED", "Mode.TELEPORT", "Mode.SNARE", "updateAttachedPosition", "tickSnareSupport"]],
-  [model, ["geo/marauder.geo.json", "marauder_hardened.png", "taclejointLA0", "taclejointRA0"]],
-  [tendrilModel, ["geo/marauder_tendril.geo.json", "marauder_tendril.animation.json"]]
+  // The Citadel/Tabula port resolves both the geometry and the animation library from the model id
+  // handed to CitadelParasiteModel, so the resource paths are asserted on that model id and on the
+  // shipped files, and the authored bones are asserted on the geo skeleton the model actually builds.
+  [model, ["super(\"marauder\")", "taclejointLA0", "taclejointRA0",
+    "isLeftTendrilAttached()", "isRightTendrilAttached()"]],
+  [tendrilModel, ["class MarauderTendrilModel extends CitadelParasiteModel<MarauderTendrilEntity>",
+    "super(\"marauder_tendril\")"]]
 ]) {
   for (const hook of hooks) {
     if (!source.includes(hook)) failures.push(`missing behavior or model hook: ${hook}`);
   }
+}
+if (!exists("src/main/resources/assets/csrp/geo/marauder.geo.json")
+    || !exists("src/main/resources/assets/csrp/tabula/marauder.tbl")) {
+  failures.push("missing behavior or model hook: geo/marauder.geo.json");
+}
+if (!exists("src/main/resources/assets/csrp/geo/marauder_tendril.geo.json")
+    || !exists("src/main/resources/assets/csrp/tabula/marauder_tendril.tbl")) {
+  failures.push("missing behavior or model hook: marauder_tendril.animation.json");
 }
 
 for (const [source, hook, description] of [
@@ -83,6 +97,15 @@ for (const bone of ["mainbody", "jointLL", "jointRL", "jointLA1", "jointRA1", "t
 const tendrilGeo = JSON.parse(read("src/main/resources/assets/csrp/geo/marauder_tendril.geo.json"));
 if (tendrilGeo["minecraft:geometry"][0].description.identifier !== "geometry.marauder_tendril") {
   failures.push("Marauder tendril geometry identifier is wrong");
+}
+const tendrilBones = new Set(tendrilGeo["minecraft:geometry"][0].bones.map((bone) => bone.name));
+for (const bone of ["mainbody", "taclejointLA0", "taclejointLA1", "taclejointLA2", "taclejointLA3"]) {
+  if (!tendrilBones.has(bone)) failures.push(`Marauder tendril geometry is missing legacy bone ${bone}`);
+}
+// The Citadel base derives each model's texture from its model id, so the tendril renderer resolves
+// textures/entity/marauder_tendril.png without hard-coding the path itself.
+if (!modelBase.includes('"textures/entity/" + modelId + ".png"')) {
+  failures.push("Citadel model base does not resolve textures/entity/<model id>.png");
 }
 
 const animation = JSON.parse(read("src/main/resources/assets/csrp/animations/marauder.animation.json"));

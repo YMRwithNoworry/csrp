@@ -30,8 +30,20 @@ if (!spawnEggIds.length) failures.push("no registered spawn eggs found");
 if (itemSource.includes("new SpawnEggItem(")) {
   failures.push("spawn eggs must use TexturedSpawnEggItem to avoid vanilla color multiplication");
 }
-if (!/int getColor\(int tintIndex\)[\s\S]*?return 0xFFFFFF;/.test(texturedEggSource)) {
-  failures.push("TexturedSpawnEggItem must return a white tint for custom full-color textures");
+// 26.3 removed the item colour API entirely: SpawnEggItem no longer declares getColor(int), vanilla
+// bakes each egg's colours into its own PNG, and item models only tint when their item definition
+// lists a "tints" array. The contract that used to be "return a white tint" is therefore asserted as
+// its 26.3 equivalent: the egg item must extend SpawnEggItem while carrying the entity data component
+// itself, and every egg model must bind its custom full-colour texture with no tint applied.
+if (!/class TexturedSpawnEggItem extends SpawnEggItem/.test(texturedEggSource)) {
+  failures.push("TexturedSpawnEggItem must extend SpawnEggItem to stay a functional spawn egg");
+}
+if (!/super\(properties\.component\(DataComponents\.ENTITY_DATA,\s*TypedEntityData\.of\(type,\s*new CompoundTag\(\)\)\)\)/
+  .test(texturedEggSource)) {
+  failures.push("TexturedSpawnEggItem must carry the entity data component without any colour channels");
+}
+if (/\btints\b/.test(texturedEggSource) || /getColor\s*\(/.test(texturedEggSource)) {
+  failures.push("TexturedSpawnEggItem must not multiply its custom full-colour texture by a tint");
 }
 
 if (sharedModelText) {
@@ -73,6 +85,9 @@ for (const id of spawnEggIds) {
   }
   if (model.textures?.layer0 !== `csrp:item/${id}`) {
     failures.push(`${id} does not bind its custom layer0 texture`);
+  }
+  if ("tints" in model || "tints" in (model.model ?? {})) {
+    failures.push(`${id} must not tint its custom full-colour texture`);
   }
   const textureFile = path.join(root, texturePath);
   if (!isPng(textureFile)) {

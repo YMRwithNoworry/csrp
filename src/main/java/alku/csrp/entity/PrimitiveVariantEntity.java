@@ -935,8 +935,9 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
             return;
         }
 
-        target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 20, 1, false, false), this);
-        target.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE, 20, 1, false, false), this);
+        // The original EntityGim drag applies the sustained movement/mining debuffs for as long
+        // as it drags a victim, not only for the initial grab.
+        administerManducaterPullDebuffs(target);
         getLookControl().setLookAt(target, 30.0F, 30.0F);
         applyManducaterMinimumDamage(target);
         entityData.set(MANDUCATER_STATUS, 3);
@@ -949,6 +950,15 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
             return;
         }
         applyManducaterPullMotion();
+    }
+
+    /**
+     * Sustained drag debuffs from the original Manducater grab: Slowness II and Mining Fatigue II,
+     * refreshed every tick for 20 ticks so they persist for the whole pull.
+     */
+    private void administerManducaterPullDebuffs(LivingEntity target) {
+        target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 20, 1, false, false), this);
+        target.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE, 20, 1, false, false), this);
     }
 
     private void tickManducaterCamouflage() {

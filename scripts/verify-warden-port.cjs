@@ -147,7 +147,7 @@ expect(tendril, /parent\.getY\(\) \+ 3\.7D[\s\S]*hurtWardenTendril[\s\S]*scalabl
   "Warden tendril position, hitbox, or damage delegation is incomplete");
 expect(pure, /hurtWardenTendril[\s\S]{0,260}?ModMobEffects\.BLEED, 80, 0[\s\S]{0,120}?amount \* 3\.0F/,
   "Warden tendril triple damage or bleeding is missing");
-expect(pure, /WARDEN_SKIN[\s\S]*EntityDataSerializers\.BYTE[\s\S]*tag\.putByte\("WardenSkin"/,
+expect(pure, /WARDEN_SKIN[\s\S]*EntityDataSerializers\.BYTE[\s\S]*output\.putByte\("WardenSkin", entityData\.get\(WARDEN_SKIN\)\)/,
   "Warden skin synchronization or NBT persistence is missing");
 expect(pure, /ConfiguredOrbEffects\.apply\(this, target, nearbyEntities, MobsConfig\.wardenOrbEffects\(\)\)/,
   "Warden scary-orb effects are not applied");

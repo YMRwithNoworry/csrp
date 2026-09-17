@@ -161,7 +161,7 @@ expect(monarchEvade, /distance > minimumDistanceSqr && distance < maximumDistanc
 expect(monarchEvade, /dashStrength \* 0\.8D[\s\S]{0,700}?ParticleTypes\.ENCHANTED_HIT/,
   "Monarch evade impulse or particles are missing");
 
-expect(pure, /MONARCH_SKIN[\s\S]*EntityDataSerializers\.BYTE[\s\S]*tag\.putByte\("MonarchSkin"[\s\S]*setMonarchSkin\(tag\.contains\("MonarchSkin"\)/,
+expect(pure, /MONARCH_SKIN[\s\S]*EntityDataSerializers\.BYTE[\s\S]*output\.putByte\("MonarchSkin", entityData\.get\(MONARCH_SKIN\)\)[\s\S]*setMonarchSkin\(input\.keySet\(\)\.contains\("MonarchSkin"\) \? input\.getByteOr\("MonarchSkin", \(byte\)0\) : 0\)/,
   "Monarch skin synchronization or NBT persistence is missing");
 expect(pure, /setMonarchSkin\(random\.nextBoolean\(\) \? 1 : 7\)/,
   "Monarch fragile/heavy variant selection is missing");

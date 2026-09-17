@@ -941,8 +941,8 @@ if (!assimilatedEnderman.includes('"movement_controller", 0')) {
 const primitiveParasiteModel = read("src/main/java/alku/csrp/client/model/PrimitiveParasiteModel.java");
 if (!primitiveParasiteModel.includes("shouldDampenMovingRotation")
     || !primitiveParasiteModel.includes("animatable instanceof AssimilatedEndermanEntity")
-    || !(primitiveParasiteModel.includes('bone.getName().equals("mainbody")')
-      || primitiveParasiteModel.includes('"mainbody".equals(bone.boxName)'))) {
+    || !(primitiveParasiteModel.includes('"mainbody".equals(bone.getName())')
+      || primitiveParasiteModel.includes('bone.getName().equals("mainbody")'))) {
   failures.push("PrimitiveParasiteModel: assimilated Enderman crawling root must keep its full rotation while moving");
 }
 if (!assimilatedEnderman.includes("Config.variantSpawnChance()")
@@ -1388,13 +1388,14 @@ for (const [file, controller] of triggeredFamilies) {
 
 const animationRouter = read("src/main/java/alku/csrp/entity/ParasiteAnimations.java");
 if (!animationRouter.includes("!animationMoving || isAttacking(entity)")
-    || !animationRouter.includes("living.swinging || living.getAttackAnim(1.0F) > 0.0F")) {
+    || !animationRouter.includes("living.isSwinging() || living.getSwingAnimation(1.0F) > 0.0F")) {
   failures.push("ParasiteAnimations: attack state does not take priority over locomotion");
 }
 
 const primitiveBase = read("src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java");
-if (!primitiveBase.includes("if (!swinging)")
-    || !primitiveBase.includes("swing(InteractionHand.MAIN_HAND)")) {
+if (!primitiveBase.includes("if (!isSwinging())")
+    || !primitiveBase.includes("swingForAttack(InteractionHand.MAIN_HAND)")
+    || !/public boolean doHurtTarget\(ServerLevel level, Entity target\)/.test(primitiveBase)) {
   failures.push("PrimitiveParasiteEntity: successful custom melee hits do not synchronize the attack window");
 }
 

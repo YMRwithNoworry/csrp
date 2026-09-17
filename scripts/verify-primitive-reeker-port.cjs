@@ -43,7 +43,7 @@ expect(entity, /REEKER_SKILL_PREP_TICKS = 40[\s\S]*?REEKER_WINDUP_TICKS = 20[\s\
   "original Reeker charge timing is missing");
 expect(entity, /getNavigation\(\)\.moveTo\(targetX, targetY, targetZ, 2\.5D\)/,
   "original Reeker charge path speed is missing");
-expect(entity, /getBoundingBox\(\)\.inflate\(2\.0D, 0\.0D, 2\.0D\)[\s\S]*?doHurtTarget\(victim\)/,
+expect(entity, /getBoundingBox\(\)\.inflate\(2\.0D, 0\.0D, 2\.0D\)[\s\S]*?doHurtTarget\(getServerLevel\(level\(\)\), victim\)/,
   "Reeker charge does not deal contact damage throughout the charge");
 expect(entity, /REEKER_DIVE_COOLDOWN_TICKS = 1200[\s\S]*?REEKER_DIVE_EXPLOSION = 3\.0F/,
   "Ricardo dive-bomb constants are missing");

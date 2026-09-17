@@ -63,21 +63,36 @@ expect(entity, /triggerAnim\("emergence_controller",\s*"get_floor_timer"\)/,
         "original floor-timer emergence animation trigger is missing");
 expect(tunnel, /randomTick[\s\S]*spawnBuglin\(level,\s*pos,\s*true\)/,
         "Tunnel random ticks do not spawn a buried Buglin");
-expect(tunnel, /onRemove[\s\S]*spawnBuglin\(serverLevel,\s*pos,\s*false\)/,
+expect(tunnel, /affectNeighborsAfterRemoval\(BlockState state,\s*ServerLevel level,\s*BlockPos pos,\s*boolean isMoving\)[\s\S]*spawnBuglin\(level,\s*pos,\s*false\)/,
         "breaking a Tunnel incorrectly buries the released Buglin");
 expect(entity, /BuglinEvolutionTarget\.rupterType\(\)\.ifPresent/, "mature Buglin does not wait for a real Rupter type");
 expect(evolution, /registerRupter/, "Rupter evolution registration contract is missing");
 expect(client, /BuglinRenderer/, "Buglin renderer is not registered");
-expect(model, /geo\/buglin\.geo\.json/, "Buglin geometry is not wired");
-expect(model, /animations\/buglin\.animation\.json/, "Buglin animations are not wired");
-expect(geo, /"identifier"\s*:\s*"geometry\.srparasites\.buglin"/, "Buglin geometry identifier is wrong");
+// The Citadel/Tabula port no longer needs a ModelRenderer resource field: the model id passed to
+// CitadelParasiteModel is what resolves both the Tabula geometry and its animation library.
+expect(model, /super\("buglin"\)/, "Buglin geometry is not wired");
+expect(model, /class BuglinModel extends CitadelParasiteModel<BuglinEntity>/,
+        "Buglin is not rendered through the original Citadel Tabula model");
+expect(model, /getBone\("mainbody"\)\.ifPresent\(bone -> bone\.rotateAngleX = 0\.0F\)/,
+        "Buglin model lost its original mainbody root correction");
+for (const resource of ["tabula/buglin.tbl", "geo/buglin.geo.json", "animations/buglin.animation.json"]) {
+    read(`src/main/resources/assets/csrp/${resource}`);
+}
+// The project registers its own namespace, so the shipped gecko identifier reads
+// geometry.csrp.buglin instead of the extractor's historical geometry.srparasites.buglin.
+expect(geo, /"identifier"\s*:\s*"geometry\.csrp\.buglin"/, "Buglin geometry identifier is wrong");
 for (const animation of ["func_78087_a.age_in_ticks", "get_floor_timer"]) {
     expect(animations, new RegExp(`"animation\\.buglin\\.${animation}"\\s*:`),
             `missing original extracted ${animation} animation`);
+    expect(entity, new RegExp(`"${animation}"`),
+            `original extracted ${animation} animation is not wired into the Buglin controller`);
 }
 expect(biomeModifier, /"weight"\s*:\s*30/, "legacy Buglin spawn weight 30 is missing");
-expect(biomeModifier, /"minCount"\s*:\s*2/, "legacy Buglin minimum group size 2 is missing");
-expect(biomeModifier, /"maxCount"\s*:\s*5/, "legacy Buglin maximum group size 5 is missing");
+// 26.3 biome modifiers express the group size as a minecraft:uniform count range.
+expect(biomeModifier, /"type"\s*:\s*"minecraft:uniform"[\s\S]*?"min_inclusive"\s*:\s*2/,
+        "legacy Buglin minimum group size 2 is missing");
+expect(biomeModifier, /"type"\s*:\s*"minecraft:uniform"[\s\S]*?"max_inclusive"\s*:\s*5/,
+        "legacy Buglin maximum group size 5 is missing");
 for (const sound of ["lodo.growl", "lodo.hurt", "lodo.death", "lodo.mudo", "lodo.emerge"]) {
     expect(sounds, new RegExp(`register\\("${sound.replace(".", "\\.")}"\\)`), `missing ${sound} sound registration`);
 }

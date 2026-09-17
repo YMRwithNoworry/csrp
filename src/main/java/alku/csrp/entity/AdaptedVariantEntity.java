@@ -89,8 +89,8 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     private static final int LONGARMS_ATTACK_INTERVAL_TICKS = 10;
     private static final byte VOMIT_EVENT = 100;
     private static final byte SUMMON_EVENT = 101;
-    /** Keep adapted summoners in step with the accelerated pillar cadence. */
-    private static final int SUMMONER_COOLDOWN_TICKS = 40;
+    /** The original adapted Summoner re-arms its cast only after eight seconds. */
+    private static final int SUMMONER_COOLDOWN_TICKS = 160;
     private static final int SUMMONER_TOTAL_CAPACITY = 6;
     private static final int SUMMONER_LIMIT = 1;
     private static final int ARACHNIDA_SKILL_CHARGE_TICKS = 20;

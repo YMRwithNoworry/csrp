@@ -31,7 +31,7 @@ expect(entity, /new ReekerRecruitFollowersGoal\(\)/,
   "Primitive Bolster follower recruitment is missing");
 expect(entity, /BOLSTER_SKIN_VIRULENT[\s\S]*?EffectStacking\.apply\(target, ModMobEffects\.VIRAL, 40, 0\)/,
   "Virulent Primitive Bolster attack/collision effect is missing");
-expect(entity, /BOLSTER_SKIN[\s\S]*?setBolsterSkin\(tag\.getInt\("bolster_skin"\)\)/,
+expect(entity, /BOLSTER_SKIN[\s\S]*?setBolsterSkin\(tag\.getIntOr\("bolster_skin", 0\)\)/,
   "Primitive Bolster skin synchronization or persistence is missing");
 expect(model, /textures\/entity\/banov\.png[\s\S]*?textures\/entity\/banoh\.png/,
   "Primitive Bolster variant textures are not selected");
@@ -52,11 +52,11 @@ expect(entity, /updateManducaterStatus\(\)[\s\S]*?distanceToSqr\(target\) > 64\.
   "Primitive Manducater sprint/prepare animation state is missing");
 expect(entity, /MANDUCATER_CAMOUFLAGE_CHECK_PERIOD = 21[\s\S]*?MANDUCATER_PULL_MAX_TICKS = 200[\s\S]*?MANDUCATER_PULL_MAX_DISTANCE_SQR = 9\.0D[\s\S]*?MANDUCATER_PULL_STRENGTH = 0\.13D/,
   "Primitive Manducater camouflage and pull constants are missing");
-expect(entity, /MobEffects\.WEAKNESS, 60, 3[\s\S]*?MobEffects\.MOVEMENT_SLOWDOWN, 20, 1[\s\S]*?MobEffects\.DIG_SLOWDOWN, 20, 1/,
+expect(entity, /MobEffects\.WEAKNESS, 60, 3[\s\S]*?MobEffects\.SLOWNESS, 20, 1[\s\S]*?MobEffects\.MINING_FATIGUE, 20, 1/,
   "Primitive Manducater pull effects are incomplete");
 expect(entity, /activeKind\(\) == Kind\.MANDUCATER && getManducaterTarget\(\) == entity/,
   "Primitive Manducater targeted collision suppression is missing");
-expect(entity, /MANDUCATER_SKIN[\s\S]*?setManducaterSkin\(tag\.getInt\("manducater_skin"\)\)/,
+expect(entity, /MANDUCATER_SKIN[\s\S]*?setManducaterSkin\(tag\.getIntOr\("manducater_skin", 0\)\)/,
   "Primitive Manducater skin synchronization or persistence is missing");
 expect(model, /textures\/entity\/hullh\.png[\s\S]*?getManducaterSkin\(\) == 7/,
   "Primitive Manducater heavy texture is not selected");

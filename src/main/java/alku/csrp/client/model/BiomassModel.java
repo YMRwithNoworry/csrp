@@ -1,6 +1,7 @@
 package alku.csrp.client.model;
 
 import alku.csrp.Csrp;
+import alku.csrp.client.model.tabula.LegacyModelBox;
 import alku.csrp.entity.BiomassEntity;
 import java.util.Map;
 import net.minecraft.resources.Identifier;
@@ -47,8 +48,18 @@ public final class BiomassModel extends CitadelModelSet<BiomassEntity> {
         float height = pulse + entity.getGrowthHeight(partialTick);
         var root = model.findPart(rootName);
         if (root != null) {
-            root.setScale(width, height, width);
+            applyGrowthScale(root, width, height);
         }
+    }
+
+    /**
+     * Applies the original biomass growth ticks to the selected per-variant root bone only, so the
+     * rest of the model keeps its authored proportions.
+     */
+    private static void applyGrowthScale(LegacyModelBox root, float width, float height) {
+        root.setScaleX(width);
+        root.setScaleY(height);
+        root.setScaleZ(width);
     }
 
     private static void setVisible(CitadelParasiteModel<BiomassEntity> model,

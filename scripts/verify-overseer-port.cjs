@@ -142,7 +142,7 @@ expect(summonGoal, /distanceToSqr\(target\) < 256\.0D && target\.onGround\(\)/,
 expect(pure, /configureBiomassBall\(this, start, acceleration, option, 4, target\)/,
   "Overseer does not launch skin-4 biomass projectiles");
 expect(pure, /summonTracker\.prune\(serverLevel\)/, "Overseer summon-capacity pruning is missing");
-expect(pure, /summonTracker\.save\(tag, "OverseerTrackedSummons"\)/,
+expect(pure, /CompoundTag summonData = new CompoundTag\(\);[\s\S]{0,120}?summonTracker\.save\(summonData, "entries"\)[\s\S]{0,120}?output\.store\("OverseerTrackedSummons", CompoundTag\.CODEC, summonData\)/,
   "Overseer summon-capacity NBT is missing");
 expect(biomass, /spawnFromProjectile[\s\S]{0,500}?spawnBiomass\(level, summoner, owner, reservationId/,
   "Biomass projectile does not hand off its reservation");

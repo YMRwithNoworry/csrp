@@ -103,9 +103,9 @@ expect(rangedGoal, /fireVigilanteProjectile\(target\)/, "Vigilante does not laun
 expect(pure, /configureLegacyFireball\(this, ParasiteProjectileEntity\.Mode\.ANGED_BALL[\s\S]{0,180}?vigilanteRangedDamage\(\)/,
   "Vigilante projectile payload is not configured");
 expect(pure, /ModSounds\.EMANA_SHOOTING\.get\(\)/, "Vigilante shooting sound is missing");
-expect(pure, /target\.knockback\(1\.0D, getX\(\) - target\.getX\(\), getZ\(\) - target\.getZ\(\)\)/,
+expect(pure, /target\.knockback\(1\.0D, getX\(\) - target\.getX\(\), getZ\(\) - target\.getZ\(\),\s*damageSources\(\)\.mobAttack\(this\), 0\.0F\)/,
   "Vigilante melee knockback does not match EntityAnged");
-expect(pure, /VIGILANTE_SKIN[\s\S]*EntityDataSerializers\.BYTE[\s\S]*tag\.putByte\("VigilanteSkin"/,
+expect(pure, /VIGILANTE_SKIN[\s\S]*EntityDataSerializers\.BYTE[\s\S]*output\.putByte\("VigilanteSkin", entityData\.get\(VIGILANTE_SKIN\)\)/,
   "Vigilante skin synchronization or NBT persistence is missing");
 expect(pure, /Config\.tendrilHealth\(\)[\s\S]*reduceAllResistances\(Config\.purePointDamageCap\(\) \/ 2\)/,
   "Vigilante tendril health or resistance cut configuration is missing");

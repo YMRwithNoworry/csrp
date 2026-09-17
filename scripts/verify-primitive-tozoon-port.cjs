@@ -31,7 +31,7 @@ expect(entity, /protected void bodyPartEffect\(\)[\s\S]*?new AABB\(blockPosition
   "Tozoon body segment AOE is missing");
 expect(entity, /protected double bodyFollowDistance\(\)[\s\S]*?case TOZOON -> 1\.7D/,
   "Tozoon body follow distance is wrong");
-expect(burrowing, /previous\.hurt\(source, amount \* 0\.5F\)/,
+expect(burrowing, /previous\.hurtServer\(serverLevel, source, amount \* 0\.5F\)/,
   "burrowing body damage does not propagate to the predecessor");
 expect(burrowing, /entityData\.get\(BODY_ATTACK_TICKS\) > 0[\s\S]*?entityData\.set\(BODY_ATTACK_TICKS, entityData\.get\(BODY_ATTACK_TICKS\) - 1/,
   "burrowing body attack timers are not ticked independently");

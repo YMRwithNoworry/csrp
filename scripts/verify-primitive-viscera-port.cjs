@@ -52,9 +52,12 @@ expect(entity, /inflate\(16\.0D, 2\.0D, 16\.0D\)[\s\S]*?commandRank\(candidate\)
 
 expect(entity, /EntityDataAccessor<Integer> PARASITE_STATUS[\s\S]*?builder\.define\(PARASITE_STATUS, STATUS_IDLE\)/,
   "Primitive Viscera combat state is not a synchronized integer");
-expect(entity, /EntityDataAccessor<Integer> SKIN[\s\S]*?setSkin\(tag\.getInt\("viscera_skin"\)\)/,
+expect(entity, /EntityDataAccessor<Integer> SKIN[\s\S]*?setSkin\(input\.getIntOr\("viscera_skin", 0\)\)/,
   "Primitive Viscera skin is not synchronized and persisted");
-const attack = entity.match(/public boolean doHurtTarget\(Entity entity\) \{[\s\S]*?\n    \}/)?.[0] ?? "";
+// 26.x moved melee onto doHurtTarget(ServerLevel, Entity); the declared parameter type is the
+// fully-qualified ServerLevel here, so the body anchor accepts either spelling.
+const attack = entity.match(/public boolean doHurtTarget\((?:net\.minecraft\.server\.level\.)?ServerLevel level, Entity entity\) \{[\s\S]*?\r?\n    \}/)?.[0] ?? "";
+if (!attack) failures.push("Primitive Viscera melee doHurtTarget body could not be isolated");
 expect(attack, /getSkin\(\) == SKIN_VIRULENT[\s\S]*?ModMobEffects\.VIRAL/, "Viscera skin 5 Viral attack effect is missing");
 expect(attack, /else if \(getSkin\(\) == SKIN_BLEEDING\)[\s\S]*?ModMobEffects\.BLEED/, "Viscera skin 6 Bleed attack effect is missing");
 if (!/else if \(getSkin\(\) == SKIN_BLEEDING\)/.test(attack)) {

@@ -84,7 +84,7 @@ for (const source of [primitive, adapted]) {
 }
 expectPattern(primitive, /if \(!target\.onGround\(\)\)[\s\S]*?checkTicks = 10/,
   "Primitive Vermin payload goal does not defer airborne targets by ten checks");
-expectPattern(primitive, /ModEntities\.GNAT\.get\(\)\.create\(serverLevel\)/,
+expectPattern(primitive, /ModEntities\.GNAT\.get\(\)\.create\(serverLevel, EntitySpawnReason\.MOB_SUMMONED\)/,
   "Primitive Vermin does not directly construct its original EntityAta payload");
 expect(!primitive.includes("MobSpawnType.MOB_SUMMONED"),
   "Primitive Vermin payload incorrectly runs modern spawn finalization");

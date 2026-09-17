@@ -89,9 +89,9 @@ expect(pure, /usesDefaultFloatGoal\(\)[\s\S]{0,100}?activeKind\(\) != Kind\.GRUN
 expect(pure, /GRUNT_SKIN[\s\S]*EntityDataSerializers\.BYTE/, "Grunt skin is not synchronized");
 expect(pure, /random\.nextDouble\(\) < Config\.variantSpawnChance\(\)[\s\S]{0,180}?5 \+ random\.nextInt\(3\)/,
   "Grunt 5/6/7 natural variant selection is missing");
-expect(pure, /tag\.putByte\("GruntSkin", entityData\.get\(GRUNT_SKIN\)\)/,
+expect(pure, /output\.putByte\("GruntSkin", entityData\.get\(GRUNT_SKIN\)\)/,
   "Grunt skin NBT save is missing");
-expect(pure, /setGruntSkin\(tag\.contains\("GruntSkin"\) \? tag\.getByte\("GruntSkin"\) : 0\)/,
+expect(pure, /setGruntSkin\(input\.keySet\(\)\.contains\("GruntSkin"\) \? input\.getByteOr\("GruntSkin", \(byte\)0\) : 0\)/,
   "Grunt skin NBT load is missing");
 expect(pure, /getGruntSkin\(\) == 5[\s\S]{0,200}?ModMobEffects\.VIRAL, 40, 0/,
   "virulent Grunt collision effect is missing");
@@ -110,19 +110,19 @@ expect(model, /textures\/entity\/monster\/flogv\.png[\s\S]*textures\/entity\/mon
 expect(pure, /new GruntAreaMeleeGoal\(\)/, "Grunt AOE melee goal is missing");
 expect(pure, /distanceToSqr\(target\) <= 9\.0D[\s\S]{0,300}?performAreaMelee\(target\)[\s\S]{0,100}?attackCooldown = 20/,
   "Grunt three-block AOE melee or attack cadence is missing");
-expect(pure, /center\.getBoundingBox\(\)\.inflate\(radius\)[\s\S]{0,180}?hasLineOfSight\(target\) \|\| !super\.doHurtTarget\(target\)/,
+expect(pure, /center\.getBoundingBox\(\)\.inflate\(radius\)[\s\S]{0,180}?hasLineOfSight\(target\) \|\| !super\.doHurtTarget\(serverLevel, target\)/,
   "Grunt AOE melee no longer requires line of sight for every victim");
 expect(pure, /getNavigation\(\)\.moveTo\(target, 1\.5D\)/, "Grunt melee pursuit speed is missing");
 expect(pure, /playSound\(ModSounds\.MOB_SWIPE\.get\(\), 2\.0F, 1\.0F\)/,
   "Grunt swipe sound is missing");
-expect(pure, /boolean gruntAttack[\s\S]{0,240}?triggerAttackAnimation\(\)[\s\S]{0,1400}?swing\(InteractionHand\.MAIN_HAND\)/,
+expect(pure, /boolean gruntAttack[\s\S]{0,240}?triggerAttackAnimation\(\)[\s\S]{0,1400}?swing\(InteractionHand\.MAIN_HAND, SwingAnimation\.DEFAULT, false\)/,
   "Grunt attack animation is not broadcast when the AOE starts");
 expect(pure, /Kind\.GRUNT[\s\S]{0,180}?ParasiteAnimations\.isAttacking\(this\)[\s\S]{0,120}?VIGILANTE_ATTACK_WALK/,
   "Grunt attack pose does not take priority over locomotion");
 
 expect(pure, /goalSelector\.addGoal\(0, new GruntSkillLeapGoal\(\)\)/,
   "Grunt long-range skill does not use the original priority");
-expect(pure, /distance >= 100\.0D && distance < 10_000\.0D[\s\S]{0,100}?chargeTicks\+\+[\s\S]{0,140}?chargeTicks >= 40 && onGround\(\) && !hasEffect\(MobEffects\.MOVEMENT_SLOWDOWN\)/,
+expect(pure, /distance >= 100\.0D && distance < 10_000\.0D[\s\S]{0,100}?chargeTicks\+\+[\s\S]{0,140}?chargeTicks >= 40 && onGround\(\) && !hasEffect\(MobEffects\.SLOWNESS\)/,
   "Grunt skill does not charge for 40 ticks from 10 to 100 blocks before its grounded leap");
 expect(pure, /chargeTicks >= 40[\s\S]{0,140}?chargeTicks = 0;[\s\S]{0,100}?startGruntSkillLeap\(target\)/,
   "Grunt skill charge is not cleared before a completed leap");

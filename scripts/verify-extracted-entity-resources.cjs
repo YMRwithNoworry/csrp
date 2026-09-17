@@ -42,6 +42,44 @@ const sameJson = (source, target, label) => {
     failures.push(`${label}: structure differs from extractor output`);
   }
 };
+// The extractor exports the historical GeckoLib identifiers geometry.srparasites.<id>. This project
+// registers everything under the csrp namespace, so the shipped resources read geometry.csrp.<id>.
+// Only that single identifier string is allowed to differ; every bone, cube and pivot must still be
+// identical to the extractor export, which is why the mismatch is asserted explicitly here and the
+// rest of the document is compared unchanged.
+const identifierNamespace = (identifier) => {
+  const separator = identifier.indexOf(".");
+  return separator < 0 ? identifier : identifier.slice(0, separator);
+};
+const withProjectGeometryNamespace = (entityId, geometry, label) => {
+  const document = structuredClone(geometry);
+  const entries = document?.["minecraft:geometry"];
+  if (!Array.isArray(entries) || !entries.length) {
+    failures.push(`${label}: extractor geometry has no minecraft:geometry entries`);
+    return document;
+  }
+  for (const entry of entries) {
+    const identifier = entry?.description?.identifier;
+    if (typeof identifier !== "string"
+        || identifierNamespace(identifier) !== "geometry"
+        || !identifier.endsWith(`.${entityId}`)) {
+      failures.push(`${label}: extractor geometry identifier is not geometry.<namespace>.${entityId}`);
+      continue;
+    }
+    entry.description.identifier = `geometry.csrp.${entityId}`;
+  }
+  return document;
+};
+const sameGeoJson = (source, target, entityId, label) => {
+  if (!fs.existsSync(target)) return failures.push(`${label}: target is missing`);
+  const sourceJson = parse(source, `${label} extractor source`);
+  const targetJson = parse(target, label);
+  if (!sourceJson || !targetJson) return;
+  const expected = withProjectGeometryNamespace(entityId, sourceJson, label);
+  if (!isDeepStrictEqual(normalizeJson(expected), normalizeJson(targetJson))) {
+    failures.push(`${label}: structure differs from extractor output`);
+  }
+};
 
 const exported = manifest.entities.filter((entity) => entity.status === "approximate");
 const skipped = manifest.entities.filter((entity) => entity.status !== "approximate");
@@ -58,7 +96,7 @@ for (const entity of exported) {
   const sourceAnimation = path.join(sourceEntityRoot, `${id}.animation.json`);
   const targetGeo = path.join(assetsRoot, "geo", `${id}.geo.json`);
   const targetAnimation = path.join(assetsRoot, "animations", `${id}.animation.json`);
-  sameJson(sourceGeo, targetGeo, `${id} geometry`);
+  sameGeoJson(sourceGeo, targetGeo, id, `${id} geometry`);
   sameJson(sourceAnimation, targetAnimation, `${id} animation`);
 
   const geometry = parse(targetGeo, `${id} geometry`);

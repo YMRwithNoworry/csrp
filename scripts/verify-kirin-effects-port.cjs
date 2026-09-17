@@ -42,13 +42,21 @@ expect(kirin, /ModParticles\.KIRIN_WARNING/, "Kirin blink warning is not routed 
 expect(kirin, /JUDGEMENT_CUT_CHARGE_TICKS\s*=\s*80/, "Kirin judgement cut lost its original charge time");
 expect(kirin, /JUDGEMENT_CUT_COUNT\s*=\s*42/, "Kirin judgement cut lost its original volley size");
 expect(kirin, /pendingJudgementCuts/, "Kirin judgement cuts are no longer delayed around their target");
-expect(slash, /noCulling\s*=\s*true/, "Kirin judgement cuts can be incorrectly removed by frustum culling");
+// 26.3 dropped the `noCulling` renderer flag; the slash keeps the same guarantee by widening its own
+// cull bounds with shouldRender so the whole blade survives frustum culling.
+expect(slashRenderer,
+  /shouldRender\(KirinSlashEntity entity,\s*(?:net\.minecraft\.client\.renderer\.culling\.)?Frustum frustum,[\s\S]{0,640}?expandTowards\(extent\)[\s\S]{0,200}?frustum\.isVisible\(/,
+  "Kirin judgement cuts can be incorrectly removed by frustum culling");
 expect(slash, /KIRIN_PROJECTILE_SUMMON/, "Kirin judgement cuts lost their summon sound");
 expect(slash, /KIRIN_PROJECTILE_IMPACT/, "Kirin judgement cuts lost their impact sound");
 expect(slashRenderer, /FADE_IN_TICKS\s*=\s*5\.0F/, "Kirin judgement cuts lost the original fade-in");
 expect(slashRenderer, /FADE_OUT_TICKS\s*=\s*18\.0F/, "Kirin judgement cuts lost the original fade-out");
 expect(slashRenderer, /expandTowards\(extent\)/, "Kirin judgement-cut bounds no longer span the whole blade");
-expect(renderer, /void render\(/, "Void orb renderer still has no render implementation");
+// 26.3 entity renderers submit through `submit(State, PoseStack, SubmitNodeCollector, CameraRenderState)`
+// instead of the removed `render(...)` entry point; the legacy sphere effect itself is unchanged.
+expect(renderer,
+  /public void submit\(State state,\s*PoseStack poseStack,\s*SubmitNodeCollector submitNodeCollector,\s*CameraRenderState camera\)[\s\S]{0,1400}?submitSphere\(/,
+  "Void orb renderer still has no render implementation");
 expect(renderer, /renderSphere/, "Void orb renderer does not render the legacy sphere effect");
 expect(renderer, /orbvoid\.png/, "Void orb renderer does not use the imported legacy core texture");
 expect(renderer, /orbvoid_armor\.png/, "Void orb renderer does not use the imported legacy aura texture");

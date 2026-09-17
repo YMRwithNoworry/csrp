@@ -91,7 +91,7 @@ expect(projectile, /impactYelloweyeSpine[\s\S]*?MobEffects\.POISON[\s\S]*?yellow
   "Yelloweye spine damage, poison, gear damage, or minimum damage is missing");
 expect(projectile, /tickYelloweyeNade[\s\S]*?YELLOWEYE_NADE_START_DELAY_TICKS[\s\S]*?YELLOWEYE_NADE_FUSE_TICKS/,
   "Yelloweye Nade delayed expansion sequence is missing");
-expect(projectile, /tickYelloweyeNade[\s\S]*?target\.invulnerableTime = 0[\s\S]*?damageSources\(\)\.magic\(\)[\s\S]*?applyPrimitiveMinimumDamage[\s\S]*?YELLOWEYE_NADE_DURATION_TICKS/,
+expect(projectile, /private void tickYelloweyeNade\(PrimitiveParasiteEntity owner\) \{[\s\S]*?target\.setInvulnerableTime\(0\);[\s\S]*?target\.hurt\(damageSources\(\)\.magic\(\), frameDamage\);[\s\S]*?owner\.applyPrimitiveMinimumDamage\(target\);[\s\S]*?acidDamageTicks > YELLOWEYE_NADE_DURATION_TICKS/,
   "Yelloweye Nade continuous magic frame damage is missing");
 expect(projectile, /tickAcidNade[\s\S]*?MobEffects\.POISON, 40, 0[\s\S]*?ModMobEffects\.CORROSION, 60, 0/,
   "legacy ACID behavior regressed while adding the Yelloweye Nade");

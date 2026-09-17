@@ -53,7 +53,8 @@ expect(tunnel, /getEntitiesOfClass\(BuglinEntity\.class,\s*tunnelArea\)/,
         "Tunnel local Buglin cap is missing");
 expect(tunnel, /inflate\(16\.0D\)/, "Tunnel parasite population radius is missing");
 expect(tunnel, /parasiteCount\s*<=\s*10/, "Tunnel parasite population cap is missing");
-expect(tunnel, /onRemove\(/, "breaking a Tunnel does not release a Buglin");
+expect(tunnel, /affectNeighborsAfterRemoval\(/,
+        "breaking a Tunnel does not release a Buglin");
 expect(tunnel, /Difficulty\.PEACEFUL/, "Tunnel peaceful-difficulty guard is missing");
 expect(tunnel, /dropFromExplosion[\s\S]*return false/, "Tunnel explosion drops are not disabled");
 expect(modEntry, /output\.accept\(ModItems\.RUPTER_SPAWN_EGG\.get\(\)\)/,
@@ -105,7 +106,8 @@ expect(entity, /tickCount\s*%\s*LEGACY_TICK_INTERVAL\s*==\s*10/, "legacy 21-tick
 expect(entity, /CREATED_PHASE_NBT_KEY/, "Rupter creation phase persistence is missing");
 expect(entity, /new WallClimberNavigation/, "Rupter climber navigation is missing");
 expect(entity, /getTicksUntilNextAttack\(\)[\s\S]*MUDO_ATTACK_INTERVAL/, "Rupter 10-tick attack interval is missing");
-expect(entity, /causeFallDamage\(float distance[\s\S]*distance >= 60\.0F/, "Rupter fall-damage threshold is missing");
+expect(entity, /causeFallDamage\(double distance, float damageMultiplier, DamageSource source\)[\s\S]{0,160}?distance >= 60\.0F/,
+        "Rupter fall-damage threshold is missing");
 expect(entity, /ModMobEffects\.BLEED.*100,\s*0/s, "Berserker Bleed hit effect is missing");
 expect(entity, /ModMobEffects\.VIRAL.*80,\s*0/s, "Virulent leap Viral effect is missing");
 expect(entity, /ModMobEffects\.VIRAL.*100,\s*0/s, "Virulent contact Viral effect is missing");
@@ -134,7 +136,7 @@ expect(config, /defineInRange\("evolutionPhase",\s*-1,\s*-2,\s*10\)/,
 expect(evolution, /registerMangler/, "Mangler evolution registration contract is missing");
 expect(client, /RupterRenderer/, "Rupter renderer is not registered");
 expect(model, /getTextureVariant\(\)/, "Rupter texture variants are not wired");
-expect(geo, /"identifier"\s*:\s*"geometry\.srparasites\.rupter"/,
+expect(geo, /"identifier"\s*:\s*"geometry\.csrp\.rupter"/,
         "Rupter geometry identifier is wrong");
 for (const animation of [
     "func_78087_a.age_in_ticks",
@@ -161,8 +163,11 @@ for (const effect of ["bleed", "viral"]) {
 }
 expect(biomeModifier, /"type"\s*:\s*"neoforge:add_spawns"/, "Rupter biome modifier is missing");
 expect(biomeModifier, /"weight"\s*:\s*30/, "Wiki spawn weight 30 is missing");
-expect(biomeModifier, /"minCount"\s*:\s*3/, "Wiki minimum group size 3 is missing");
-expect(biomeModifier, /"maxCount"\s*:\s*6/, "Wiki maximum group size 6 is missing");
+// 26.3 biome modifiers express the group size as a minecraft:uniform count range.
+expect(biomeModifier, /"type"\s*:\s*"minecraft:uniform"[\s\S]*?"min_inclusive"\s*:\s*3/,
+        "Wiki minimum group size 3 is missing");
+expect(biomeModifier, /"type"\s*:\s*"minecraft:uniform"[\s\S]*?"max_inclusive"\s*:\s*6/,
+        "Wiki maximum group size 6 is missing");
 expect(loot, /"chance"\s*:\s*0\.7/, "Wiki Rupter Viscera drop chance 70% is missing");
 expect(loot, /"min"\s*:\s*1[\s\S]*"max"\s*:\s*2/, "Wiki Rupter Viscera count 1-2 is missing");
 

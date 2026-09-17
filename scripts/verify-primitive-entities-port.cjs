@@ -55,7 +55,7 @@ expect(primitiveVariants, /MANDUCATER_PULL_STRENGTH\s*=\s*0\.13D/,
   "Primitive Manducater pull strength is wrong");
 expect(primitiveVariants, /MobEffects\.WEAKNESS, 60, 3/,
   "Primitive Manducater initial pull Weakness is missing");
-expect(primitiveVariants, /MobEffects\.MOVEMENT_SLOWDOWN, 20, 1[\s\S]*MobEffects\.DIG_SLOWDOWN, 20, 1/,
+expect(primitiveVariants, /MobEffects\.SLOWNESS, 20, 1[\s\S]*MobEffects\.MINING_FATIGUE, 20, 1/,
   "Primitive Manducater sustained pull debuffs are missing");
 expect(primitiveVariants, /new ManducaterEvadeGoal\(\)/,
   "Primitive Manducater original evade behavior is missing");
@@ -107,7 +107,12 @@ expect(biomass, /ModMobEffects\.RAGE,\s*1200,\s*1/, "Biomass hatch Rage duration
 expect(biomass, /ModMobEffects\.DEBAR,\s*120000,\s*1/, "Biomass hatch Debar duration or amplifier is wrong");
 expect(biomass, /igniteForSeconds\(8\.0F\)/, "Biomass fire propagation must use the original eight seconds");
 expect(biomass, /attacker instanceof Parasite[\s\S]*direct instanceof Parasite/, "Biomass parasite damage immunity is missing");
-expect(capacity, /putUUID\("entity"/, "Summon capacity UUID persistence is missing");
+// 26.x removed CompoundTag#putUUID in favour of the UUIDUtil.CODEC round trip, so the tracker's
+// persisted summon ids are asserted on both the write and the read side of that codec pair.
+expect(capacity, /putIntArray\("entity",\s*UUIDUtil\.uuidToIntArray\(/,
+  "Summon capacity UUID persistence is missing");
+expect(capacity, /getIntArray\("entity"\)[\s\S]*?UUIDUtil\.uuidFromIntArray/,
+  "Summon capacity UUID loading is missing");
 expect(capacity, /replace\(UUID previousId, UUID replacementId/, "Summon capacity replacement tracking is missing");
 expect(biomassModel, /applyGrowthScale[\s\S]*setScaleX[\s\S]*setScaleY[\s\S]*setScaleZ/,
   "Biomass growth is not applied to the selected original root bone");

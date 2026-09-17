@@ -75,7 +75,15 @@ expect(entities, /"fer_villager"[\s\S]*?0\.6F, 1\.95F/,
 for (const id of ["fer_horse", "fer_human", "fer_villager"]) {
   expect(client, new RegExp(`"${id}", 0\\.5F`), `${id}: legacy shadow radius is missing`);
 }
-expect(model, /getTextureResource\(AssimilatedParasiteEntity/, "Assimilated dynamic texture model is missing");
+// 26.3 keeps the original per-kind Tabula models but drives them through CitadelModelSet, so the
+// dynamic texture contract is asserted on both ends: the model set must route through
+// AssimilatedParasiteEntity::getTextureResource, and the entity must expose that same Identifier.
+expect(model, /AssimilatedParasiteEntity::getTextureResource/,
+  "Assimilated dynamic texture model is missing");
+const assimilatedEntitySource = read("src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java");
+expect(assimilatedEntitySource,
+  /public Identifier getTextureResource\(\)[\s\S]{0,600}?Identifier\.fromNamespaceAndPath\(Csrp\.MODID,\s*"textures\/entity\/"\s*\+\s*texture\s*\+\s*"\.png"\)/,
+  "Assimilated dynamic texture entity does not resolve its original variant texture");
 expect(variants, /HEAD_SPAWN_CHANCE\s*=\s*0\.5F/, "Remaining assimilated head chance is missing");
 expect(variants, /parasiteKills\s*>\s*AssimilatedParasiteEntity\.FERAL_KILL_THRESHOLD/,
   "Assimilated horse, human, and villager feral transition is missing");
