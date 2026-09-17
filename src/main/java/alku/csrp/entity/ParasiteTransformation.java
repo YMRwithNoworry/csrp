@@ -42,12 +42,16 @@ public final class ParasiteTransformation {
             return false;
         }
         EntityType<?> targetType = devolutionType(source);
-        if (targetType != null && !replace(level, source, targetType)) {
+        if (targetType != null) {
+            return replace(level, source, targetType);
+        }
+        // The original wand deletes parasites that have no devolved form. Beckons,
+        // Dispatchers and Rooters are world structures built out of entities, so a
+        // stage one Nexus survives the wand instead of being removed from the world.
+        if (source instanceof NexusParasiteEntity nexus && nexus.isWorldStructure()) {
             return false;
         }
-        if (targetType == null) {
-            source.discard();
-        }
+        source.discard();
         return true;
     }
 

@@ -1,6 +1,7 @@
 package alku.csrp.world;
 
 import alku.csrp.Csrp;
+import alku.csrp.config.WorldConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -8,7 +9,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 
+import java.util.ArrayList;
+import java.util.IdentityHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 /** Original SRP phase and ubiquitous-development natural spawn tables. */
@@ -16,6 +20,18 @@ public final class NaturalSpawnTables {
     // Legacy SpawnPlacementTypes.IN_AIR is represented by Forge 1.20.1 NO_RESTRICTIONS;
     // CommonModEvents still enforces the three-block air column predicate.
     private static final double UBIQUITOUS_TABLE_CHANCE = 0.5D;
+
+    // The tables below always keep the original SRP 1.10.8 weights so they stay verifiable.
+    // "naturalSpawnWeightMultiplier" is applied to cached copies instead, which keeps this
+    // spawn-query hot path allocation free. Declared before the tables because the spawn
+    // factory fills BASE_GROUPS while the tables initialise.
+    private static final Map<MobSpawnSettings.SpawnerData, SpawnGroup> BASE_GROUPS = new IdentityHashMap<>();
+    private static final Map<List<MobSpawnSettings.SpawnerData>, List<MobSpawnSettings.SpawnerData>> SCALED_TABLES =
+            new IdentityHashMap<>();
+    private static double scaledMultiplier = 1.0D;
+
+    private record SpawnGroup(EntityType<?> type, int weight, int minCount, int maxCount) {
+    }
 
     private static final List<MobSpawnSettings.SpawnerData> PHASE_MINUS_ONE = List.of(
             spawn("rupter", 3, 6, 30),
@@ -289,9 +305,43 @@ public final class NaturalSpawnTables {
         }
         List<MobSpawnSettings.SpawnerData> ubiquitous = ubiquitousEntries(level);
         if (!ubiquitous.isEmpty() && usesUbiquitousTable(level)) {
-            return ubiquitous;
+            return scaledWeights(ubiquitous);
         }
-        return phaseEntries(phase);
+        return scaledWeights(phaseEntries(phase));
+    }
+
+    /** Applies the configured spawn weight multiplier without editing the original tables. */
+    private static List<MobSpawnSettings.SpawnerData> scaledWeights(
+            List<MobSpawnSettings.SpawnerData> entries) {
+        double multiplier = WorldConfig.naturalSpawnWeightMultiplier();
+        if (multiplier == 1.0D || entries.isEmpty()) {
+            return entries;
+        }
+        if (scaledMultiplier != multiplier) {
+            SCALED_TABLES.clear();
+            scaledMultiplier = multiplier;
+        }
+        List<MobSpawnSettings.SpawnerData> scaled = SCALED_TABLES.get(entries);
+        if (scaled != null) {
+            return scaled;
+        }
+        List<MobSpawnSettings.SpawnerData> built = new ArrayList<>(entries.size());
+        for (MobSpawnSettings.SpawnerData entry : entries) {
+            SpawnGroup group = BASE_GROUPS.get(entry);
+            if (group == null) {
+                built.add(entry);
+                continue;
+            }
+            built.add(new MobSpawnSettings.SpawnerData(group.type(),
+                    scaledWeight(group.weight(), multiplier), group.minCount(), group.maxCount()));
+        }
+        scaled = List.copyOf(built);
+        SCALED_TABLES.put(entries, scaled);
+        return scaled;
+    }
+
+    private static int scaledWeight(int weight, double multiplier) {
+        return Math.max(1, (int) Math.round(weight * multiplier));
     }
 
     public static boolean canSpawnAtPhase(String path, int phase) {
@@ -431,6 +481,8 @@ public final class NaturalSpawnTables {
         ResourceLocation id = new ResourceLocation(Csrp.MODID, path);
         EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.getOptional(id)
                 .orElseThrow(() -> new IllegalStateException("Missing natural spawn entity " + id));
-        return new MobSpawnSettings.SpawnerData(type, weight, minCount, maxCount);
+        MobSpawnSettings.SpawnerData entry = new MobSpawnSettings.SpawnerData(type, weight, minCount, maxCount);
+        BASE_GROUPS.put(entry, new SpawnGroup(type, weight, minCount, maxCount));
+        return entry;
     }
 }

@@ -73,8 +73,8 @@ expect(transformation, /path\.startsWith\("fer_"\)[\s\S]*"sim_"/, "Feral -> Assi
 expect(transformation, /BECKON_SI[\s\S]*BECKON_SIV/, "Beckon stage mappings are incomplete");
 expect(transformation, /DISPATCHER_SI[\s\S]*DISPATCHER_SIV/, "Dispatcher stage mappings are incomplete");
 expect(transformation, /ROOTER_SI[\s\S]*ROOTER_SIV/, "Rooter stage mappings are incomplete");
-expect(transformation, /targetType == null[\s\S]*source\.discard\(\)/,
-  "Devolution does not remove parasites without a predecessor");
+expect(transformation, /isWorldStructure\(\)\) \{\s*return false;\s*\}\s*source\.discard\(\)/,
+  "Devolution removes parasites without a predecessor guard for Nexus world structures");
 for (const id of ["PRI_BURROWER", "PRI_DEVOURER", "PRI_TOZOON", "ADA_BURROWER", "ADA_DEVOURER", "ADA_TOZOON"]) {
   expect(transformation, new RegExp(`ModEntities\\.${id}\\.get\\(\\)`), `${id} no-predecessor exception is missing`);
 }

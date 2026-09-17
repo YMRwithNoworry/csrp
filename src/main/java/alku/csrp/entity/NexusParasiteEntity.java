@@ -73,7 +73,6 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
             "get_floor_timer.get_parasite_status_1");
     private static final int STAGE_ONE_MIN_GROWTH = 4_800;
     private static final int STAGE_ONE_GROWTH_VARIANCE = 1_201;
-    private static final int TEMPORARY_BECKON_LIFETIME = 300;
     private static final int DISPATCHER_FOG_MIN_Y_OFFSET = -2;
     private static final int DISPATCHER_FOG_MAX_Y_OFFSET = 4;
 
@@ -87,7 +86,6 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     private int blockBreakCooldown;
     private int forcedEvolutionCooldown;
     private int colonyPlacementProgress;
-    private int temporaryLifetimeTicks = -1;
     private boolean canGrow = true;
     private boolean dispatcherFogDissipationStarted;
 
@@ -98,8 +96,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         // Beckons, Dispatchers and Rooters are world structures represented by
         // entities. Mark their permanent forms as persistent so Mob's normal
         // distance based despawn check cannot remove them when players leave
-        // render range. Temporary beckons still expire through their lifetime
-        // counter and rooter balls are intentionally transient.
+        // render range. Rooter balls are intentionally transient.
         if (!kind.isRooterBall()) {
             setPersistenceRequired();
         }
@@ -187,11 +184,6 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         }
 
         if (activeKind.isRooterBall()) {
-            return;
-        }
-        if (activeKind.family == Family.BECKON && temporaryLifetimeTicks > 0
-                && --temporaryLifetimeTicks <= 0) {
-            discard();
             return;
         }
         if (canGrow && growthDelayTicks > 0 && level() instanceof ServerLevel serverLevel) {
@@ -383,7 +375,6 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         tag.putInt("nexus_support_cooldown", supportCooldown);
         tag.putInt("nexus_block_break_cooldown", blockBreakCooldown);
         tag.putInt("nexus_forced_evolution_cooldown", forcedEvolutionCooldown);
-        tag.putInt("nexus_temporary_lifetime", temporaryLifetimeTicks);
         tag.putBoolean("nexus_can_grow", canGrow);
         tag.putFloat("nexus_body", getBODY());
         tag.putInt("nexus_parasite_status", getParasiteStatus());
@@ -410,8 +401,6 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         supportCooldown = tag.getInt("nexus_support_cooldown");
         blockBreakCooldown = tag.getInt("nexus_block_break_cooldown");
         forcedEvolutionCooldown = tag.getInt("nexus_forced_evolution_cooldown");
-        temporaryLifetimeTicks = tag.contains("nexus_temporary_lifetime")
-                ? tag.getInt("nexus_temporary_lifetime") : -1;
         canGrow = !tag.contains("nexus_can_grow") || tag.getBoolean("nexus_can_grow");
         if (tag.contains("nexus_body")) {
             entityData.set(BODY, tag.getFloat("nexus_body"));
@@ -434,6 +423,24 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
 
     public Kind getKind() {
         return activeKind();
+    }
+
+    /**
+     * Beckons, Dispatchers and Rooters are permanent world structures built out of entities
+     * rather than ordinary mobs. Rooter balls are ammunition and stay transient.
+     */
+    public boolean isWorldStructure() {
+        return !activeKind().isRooterBall();
+    }
+
+    /**
+     * {@code Mob} checks the peaceful difficulty before it checks PersistenceRequired, so a
+     * persistent pillar would still be deleted the moment a world switches to peaceful.
+     * World structures therefore opt out entirely; rooter balls stay ordinary ammunition.
+     */
+    @Override
+    protected boolean shouldDespawnInPeaceful() {
+        return activeKind().isRooterBall();
     }
 
     private PlayState ageAnimation(AnimationState<NexusParasiteEntity> state) {
@@ -904,7 +911,9 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
             return false;
         }
         if (activeKind().family == Family.BECKON && spawned.activeKind().family == Family.BECKON) {
-            spawned.makeTemporaryBeckon();
+            // Beckons summoned by another Beckon stay in the world instead of expiring:
+            // they are only barred from growing, so the mod itself never removes a pillar.
+            spawned.canGrow = false;
         }
         double angle = random.nextDouble() * Math.PI * 2.0D;
         spawned.moveTo(target.getX() + Math.cos(angle) * distance, target.getY(),
@@ -914,11 +923,6 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         spawned.setTarget(target);
         serverLevel.addFreshEntity(spawned);
         return true;
-    }
-
-    private void makeTemporaryBeckon() {
-        temporaryLifetimeTicks = TEMPORARY_BECKON_LIFETIME;
-        canGrow = false;
     }
 
     private boolean spawnMob(EntityType<? extends Mob> type, LivingEntity target, double distance) {

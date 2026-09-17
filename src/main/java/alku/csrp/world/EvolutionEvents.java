@@ -5,6 +5,7 @@ import alku.csrp.Csrp;
 import alku.csrp.config.GeneralConfig;
 import alku.csrp.config.WorldConfig;
 import alku.csrp.entity.ArchitectEntity;
+import alku.csrp.entity.NexusParasiteEntity;
 import alku.csrp.entity.Parasite;
 import alku.csrp.entity.ParasiteTransformation;
 import alku.csrp.infection.InfectionMechanics;
@@ -83,7 +84,8 @@ public final class EvolutionEvents {
         }
         List<LivingEntity> parasites = new ArrayList<>();
         for (Entity entity : level.getAllEntities()) {
-            if (entity instanceof LivingEntity living && entity instanceof Parasite) {
+            if (entity instanceof LivingEntity living && entity instanceof Parasite
+                    && !isNexusWorldStructure(living)) {
                 parasites.add(living);
             }
         }
@@ -99,6 +101,15 @@ public final class EvolutionEvents {
         for (int index = 0; index < excess; index++) {
             parasites.get(index).discard();
         }
+    }
+
+    /**
+     * Beckons, Dispatchers and Rooters are world structures built out of entities rather than
+     * ordinary mobs. The mob cleaner and the natural spawn cap ignore them so that summoning
+     * pillars are never removed from the world - and never block reinforcements either.
+     */
+    private static boolean isNexusWorldStructure(Entity entity) {
+        return entity instanceof NexusParasiteEntity nexus && nexus.isWorldStructure();
     }
 
     @SubscribeEvent
@@ -244,7 +255,10 @@ public final class EvolutionEvents {
             if (cap > 0) {
                 int count = 0;
                 for (Entity entity : level.getAllEntities()) {
-                    if (entity instanceof Parasite && ++count >= cap) {
+                    if (!(entity instanceof Parasite) || isNexusWorldStructure(entity)) {
+                        continue;
+                    }
+                    if (++count >= cap) {
                         event.setResult(MobSpawnEvent.PositionCheck.Result.DENY);
                         return;
                     }
